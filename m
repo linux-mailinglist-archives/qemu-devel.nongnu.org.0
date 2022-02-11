@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C624B1B96
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 02:48:09 +0100 (CET)
-Received: from localhost ([::1]:42246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0B34B1B68
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 02:42:10 +0100 (CET)
+Received: from localhost ([::1]:59048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIL2e-0004Nr-Dh
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 20:48:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38540)
+	id 1nIKwr-0004di-Um
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 20:42:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIKmu-0003xJ-B7
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:31:52 -0500
-Received: from [2607:f8b0:4864:20::42f] (port=40598
- helo=mail-pf1-x42f.google.com)
+ id 1nIKn3-00044E-Hm
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:32:05 -0500
+Received: from [2607:f8b0:4864:20::42a] (port=34732
+ helo=mail-pf1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIKmr-0007Kv-V5
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:31:51 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id a39so12642501pfx.7
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 17:31:48 -0800 (PST)
+ id 1nIKmu-0007LE-0U
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:32:00 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id n23so13528822pfo.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 17:31:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/OhssSczJVbMJGYs6E9M45NQ4kpIeIUWJ7tzrr8g1OM=;
- b=j6htwAEQ9oIw3SBZXNz4nmczvxT0rlu+FL6bCx5i7XwDsfShRWAxDqMWymkJjcezPj
- DYMdjzEA1qc+ttQ7zZyFauQZv4vwlWfWImmko1WyRlX/3ZyerimnfGDi/hVaYBUZJldh
- WJS/AGqdj8QQ9etBmv1ICDjghCu5U0+rYIuo+XP4aYI3cyWhZq1rgvzSyJlTA7JBv+3j
- YKBlqEKrfIJ1Qgcf+gQbbdYCR1zashYHIvMfvrCGwxrN48hHNXgpPy6QDN6yWpp0RbR6
- Gzx7LqLqu0TrUgwqotqSiuPvegCVqD+e6axKeZ48dmKOtUK8bK4JwTXoYzzOmqLt2vUe
- 2UQw==
+ bh=HCvTS/+Prs4N88DmcHEGIADFyIfzc+5Gdyad6hpKQy8=;
+ b=pWMVzgsrOJKr74IepZfcfPEqYfdMlW2y4JeFd/7v2zYL5C5lo1C9RYr3s6mI4R1XFJ
+ AgBDa3D/ALn5L5DyWJn9X6OQ+odl2zZM1MzCYwi8XB0JfPndLxQILXlROzhYZgaAi20W
+ kyMIX48DZ+Dzue9Wz4m7sZmd1asw+5waAf++8znJNUOQFIAGSE0BU3eq5GOQnBwHbqGP
+ gFXFnm3ce4yNMSCkd5WhhUgNmeZCfMkemoVc9oE+q/N43xIEC+5RRG1DVRPukQYTUGH2
+ rKg4Y2M77opnJ444zBKaNHBqFLqJqrvIB9BvASototsJfNFYC2HbLNE7IoeLLppp2AoS
+ stwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/OhssSczJVbMJGYs6E9M45NQ4kpIeIUWJ7tzrr8g1OM=;
- b=idy3U6KuvusvkTyJ+uFv+MKi1KUXvtYAUHgUQ+LN3+TFX1o9i9Xb4/sTaBDNMMX4n2
- gLweUq8AgNS5Sp4QIqfyL6KktPX6RABPcIus2F3zIP8HOJ/f0I92G1pdjocGLvfMRHaS
- Q47j9CQaa6SP7GWqucJzEpUBVxwaHGuNcrY4nGcJ2vK47hzkZxNo3RmkBu9vsZwX7whT
- UvTn1XBUsO7BzqrdpZeWSXzv1GI8NH6O44Z0CzHc/OqaanuZ0nFrdJgG1HXYg7dHPp9t
- ghYhHQT8EhB0kZEdP8A+8J3h+kpywS9kJF5vvQoU9hnLyZQv2TND0yvmgRG5J9oCsxZE
- dOjQ==
-X-Gm-Message-State: AOAM533XvzVhv52OWdwIQYdaF5mHaP3luwZ6WxVPuK1D2Dv1EdtEI5VX
- ZJIPB/au3oBkcTzUJWET9KZMltVcOWHm6kI6
-X-Google-Smtp-Source: ABdhPJzcfB1rWLMgwXAOEDfnYyhwMcNdNad7ozG0Ud4Oy+pfp67VetJ/shGdV00tk9KFQBtYwln+Vw==
-X-Received: by 2002:a62:784a:: with SMTP id t71mr10215347pfc.56.1644543107252; 
- Thu, 10 Feb 2022 17:31:47 -0800 (PST)
+ bh=HCvTS/+Prs4N88DmcHEGIADFyIfzc+5Gdyad6hpKQy8=;
+ b=lm9j4P8Z1sNVMVlrNeeY+HecpL+WPHieUMQzoDXCkQc7n5pbUJMX8wRBM7gq7YPYWn
+ mEgSKfYp9uOODMsRCuMKw0SzAPyeHwbztFJncUDBAJmBEODRCTher/Irn4K33R9+swTT
+ FOZtVOvjf6Vwak/QxoEFQFdTaBYvbyGh0fL55WGgG2ec7WlL35wbjlGrcMUgy/slH3DU
+ bwqcpx3UBKkhoJc83crYCiieSO8z2Zh5ki11D12BmoMciIAEsqN2wNQu6yKZM9th47fh
+ uK+ZCzuPQzsuGX0S+CUrY3oo0F1arlFx8NCWAS5wy7HMWWOuxl3KK/uiXUaxbiHd0QiB
+ xiMw==
+X-Gm-Message-State: AOAM530GSJhZv/8+2szuqZ7k/fdVriqO0owYtERUAFZfpsHU6T0P0UB5
+ wJam5viB3cCqBIMPWYhJhzigxkSkroxufXKC
+X-Google-Smtp-Source: ABdhPJw7nHvSehaFvCrY2POrA/eTL3pko1NzhixrmImCNvVOyNZBMk9IF730k3JzLgIBVOC1ptGpIg==
+X-Received: by 2002:a63:1b0d:: with SMTP id b13mr5268517pgb.50.1644543109887; 
+ Thu, 10 Feb 2022 17:31:49 -0800 (PST)
 Received: from localhost.localdomain ([124.189.222.164])
- by smtp.gmail.com with ESMTPSA id h5sm25738788pfi.111.2022.02.10.17.31.44
+ by smtp.gmail.com with ESMTPSA id h5sm25738788pfi.111.2022.02.10.17.31.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Feb 2022 17:31:46 -0800 (PST)
+ Thu, 10 Feb 2022 17:31:49 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/34] linux-user/include/host/sparc64: Fix host_sigcontext
-Date: Fri, 11 Feb 2022 12:30:30 +1100
-Message-Id: <20220211013059.17994-6-richard.henderson@linaro.org>
+Subject: [PULL 06/34] accel/tcg: Optimize jump cache flush during tlb range
+ flush
+Date: Fri, 11 Feb 2022 12:30:31 +1100
+Message-Id: <20220211013059.17994-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220211013059.17994-1-richard.henderson@linaro.org>
 References: <20220211013059.17994-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -86,59 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Idan Horowitz <idan.horowitz@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sparc64 is unique on linux in *not* passing ucontext_t as
-the third argument to a SA_SIGINFO handler.  It passes the
-old struct sigcontext instead.
+From: Idan Horowitz <idan.horowitz@gmail.com>
 
-Set both pc and npc in host_signal_set_pc.
+When the length of the range is large enough, clearing the whole cache is
+faster than iterating over the (possibly extremely large) set of pages
+contained in the range.
 
-Fixes: 8b5bd461935b ("linux-user/host/sparc: Populate host_signal.h")
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+This mimics the pre-existing similar optimization done on the flush of the
+tlb itself.
+
+Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
+Message-Id: <20220110164754.1066025-1-idan.horowitz@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/include/host/sparc64/host-signal.h | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ accel/tcg/cputlb.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/linux-user/include/host/sparc64/host-signal.h b/linux-user/include/host/sparc64/host-signal.h
-index f8a8a4908d..64957c2bca 100644
---- a/linux-user/include/host/sparc64/host-signal.h
-+++ b/linux-user/include/host/sparc64/host-signal.h
-@@ -11,22 +11,23 @@
- #ifndef SPARC64_HOST_SIGNAL_H
- #define SPARC64_HOST_SIGNAL_H
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 5e0d0eebc3..926d9a9192 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -783,6 +783,15 @@ static void tlb_flush_range_by_mmuidx_async_0(CPUState *cpu,
+     }
+     qemu_spin_unlock(&env_tlb(env)->c.lock);
  
--/* FIXME: the third argument to a SA_SIGINFO handler is *not* ucontext_t. */
--typedef ucontext_t host_sigcontext;
-+/* The third argument to a SA_SIGINFO handler is struct sigcontext.  */
-+typedef struct sigcontext host_sigcontext;
- 
--static inline uintptr_t host_signal_pc(host_sigcontext *uc)
-+static inline uintptr_t host_signal_pc(host_sigcontext *sc)
- {
--    return uc->uc_mcontext.mc_gregs[MC_PC];
-+    return sc->sigc_regs.tpc;
- }
- 
--static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
-+static inline void host_signal_set_pc(host_sigcontext *sc, uintptr_t pc)
- {
--    uc->uc_mcontext.mc_gregs[MC_PC] = pc;
-+    sc->sigc_regs.tpc = pc;
-+    sc->sigc_regs.tnpc = pc + 4;
- }
- 
--static inline void *host_signal_mask(host_sigcontext *uc)
-+static inline void *host_signal_mask(host_sigcontext *sc)
- {
--    return &uc->uc_sigmask;
-+    return &sc->sigc_mask;
- }
- 
- static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
++    /*
++     * If the length is larger than the jump cache size, then it will take
++     * longer to clear each entry individually than it will to clear it all.
++     */
++    if (d.len >= (TARGET_PAGE_SIZE * TB_JMP_CACHE_SIZE)) {
++        cpu_tb_jmp_cache_clear(cpu);
++        return;
++    }
++
+     for (target_ulong i = 0; i < d.len; i += TARGET_PAGE_SIZE) {
+         tb_flush_jmp_cache(cpu, d.addr + i);
+     }
 -- 
 2.25.1
 
