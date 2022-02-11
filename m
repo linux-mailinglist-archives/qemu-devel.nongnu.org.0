@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D014B2A2F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:26:44 +0100 (CET)
-Received: from localhost ([::1]:57898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439A04B2A6C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:32:10 +0100 (CET)
+Received: from localhost ([::1]:34272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIYkt-0003C0-Bu
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:26:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51666)
+	id 1nIYq9-0006h0-3q
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:32:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nIYiE-0001Js-5R
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:23:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50988)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nIYpF-0005mg-8v
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:31:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nIYiA-0000CT-Qj
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:23:57 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nIYpC-0001bg-8K
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:31:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644596627;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1644597069;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LY1s5CB8AR0M2mRctboEX/XRQOMCvE1Vj9tskMIrV/k=;
- b=HJKrOyJIdUYPjyPKZDJA2/d25+W7/BVOziuxTOJv36zQmEXO5N3+MM1uGeyq0vxSfyGEFf
- QHBcbwjNIrjsA9OIePSuM3MeGJYayUpBL8PTPfx9OxiPg9xw1qn0aHlYYCGj88tMwmIfOe
- 5FWUpslFLL7v4XHQPMn5b6PxCutU39o=
+ bh=oLzeFeFp06/yNcUI0+pFGuK5k0sDBlxQDp+mrXVLric=;
+ b=G6Muh/mxZJdWkr9Z7bOTmiRGSAPx+/nEzmdwnenGAYLn2PXQAtkyoNH8eEdTnxmlqar6J8
+ AP8COsZJQ5/vGWk9iXdcp0e+AcVpvPwhVihtEpJ8S7ry9lAZ70yS2r3X2iUaxzKceV6jWM
+ xNL2zoBi7WAOmy8EWMJw7l5BdO0hJvE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-520-oLNzROi_O16r-ta41ZNOHg-1; Fri, 11 Feb 2022 11:23:32 -0500
-X-MC-Unique: oLNzROi_O16r-ta41ZNOHg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-450-3ONlZZzwO9Ohs3rUGgGK2A-1; Fri, 11 Feb 2022 11:31:05 -0500
+X-MC-Unique: 3ONlZZzwO9Ohs3rUGgGK2A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53C328144E3;
- Fri, 11 Feb 2022 16:23:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A85BF5B2BB;
- Fri, 11 Feb 2022 16:23:06 +0000 (UTC)
-Date: Fri, 11 Feb 2022 16:23:03 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 02/11] tests/docker: add NOUSER for alpine image
-Message-ID: <YgaNZyojexpreBWj@redhat.com>
-References: <20220211160309.335014-1-alex.bennee@linaro.org>
- <20220211160309.335014-3-alex.bennee@linaro.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4BC41091DA3;
+ Fri, 11 Feb 2022 16:31:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.189])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE0387CD63;
+ Fri, 11 Feb 2022 16:31:02 +0000 (UTC)
+Date: Fri, 11 Feb 2022 10:31:00 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Fabian Ebner <f.ebner@proxmox.com>
+Subject: Re: [PATCH 0/4] Make qemu-img dd more flexible
+Message-ID: <20220211163100.lhqrztyrr2a4akji@redhat.com>
+References: <20220210133123.347350-1-f.ebner@proxmox.com>
 MIME-Version: 1.0
-In-Reply-To: <20220211160309.335014-3-alex.bennee@linaro.org>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20220210133123.347350-1-f.ebner@proxmox.com>
+User-Agent: NeoMutt/20211029-304-033d7f
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,54 +77,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, f4bug@amsat.org,
- qemu-arm@nongnu.org, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: kwolf@redhat.com, w.bumiller@proxmox.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, aderumier@odiso.com, hreitz@redhat.com,
+ t.lamprecht@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 11, 2022 at 04:03:00PM +0000, Alex Bennée wrote:
-> The alpine image doesn't have a standard useradd binary so disable
-> this convenience feature for it.
-
-Hmm, can you elaborate on the problem here ?
-
-IIUC, the NOUSER env was just about controlling what docker
-flags we added. I didn't know it had a dependancy on stuff
-inside the image ?
-
+On Thu, Feb 10, 2022 at 02:31:19PM +0100, Fabian Ebner wrote:
+> Adds support for reading from stdin and writing to stdout (when raw
+> format is used), as well as overriding the size of the output and
+> input image/stream.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  tests/docker/Makefile.include | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-> index 0ec59b2193..286f0ac5b5 100644
-> --- a/tests/docker/Makefile.include
-> +++ b/tests/docker/Makefile.include
-> @@ -158,6 +158,9 @@ docker-image-debian-native: DOCKER_REGISTRY=
->  docker-image-debian10: NOUSER=1
->  docker-image-debian11: NOUSER=1
->  
-> +# alpine has no adduser
-> +docker-image-alpine: NOUSER=1
-> +
->  #
->  # The build rule for hexagon-cross is special in so far for most of
->  # the time we don't want to build it. While dockers caching does avoid
-> -- 
-> 2.30.2
-> 
+> Additionally, the options -n for skipping output image creation and -l
+> for loading a snapshot are made available like for convert.
 
-Regards,
-Daniel
+Without looking at the series itself, I want to refer back to earlier
+times that someone proposed improving 'qemu-img dd':
+
+https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg00636.html
+https://lists.gnu.org/archive/html/qemu-devel/2018-08/msg02618.html
+
+As well as the observation that when we originally allowed 'qemu-img
+dd' to be added, the end goal was that if 'qemu-img dd' can't operate
+as a thin wrapper around 'qemu-img convert', then 'qemu-img convert'
+needs to be made more powerful first.  Every time we diverge on what
+the two uses can do, rather than keeping dd as a thin wrapper, we add
+to our maintenance burden.
+
+Sadly, there is a lot of technical debt in this area ('qemu-img dd
+skip= count=' is STILL broken, more than 4 years after I first
+proposed a potential patch), where no one has spent the necessary time
+to improve the situation.
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
