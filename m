@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2354B259A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:26:33 +0100 (CET)
-Received: from localhost ([::1]:44744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27EBE4B255E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:13:27 +0100 (CET)
+Received: from localhost ([::1]:45662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIV0S-0002wa-Gf
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:26:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39782)
+	id 1nIUnm-0000Zq-7m
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:13:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUpl-00078x-0M
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:15:29 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2291)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIUjt-00065N-8L
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:09:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUpi-0004Bk-U5
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:15:28 -0500
-Received: from fraeml737-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCBl6b2wz684m4;
- Fri, 11 Feb 2022 20:11:11 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml737-chm.china.huawei.com (10.206.15.218) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:15:25 +0100
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:15:24 +0000
-To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
- <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
- Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
- Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 15/43] qtest/cxl: Introduce initial test for pxb-cxl only.
-Date: Fri, 11 Feb 2022 12:07:19 +0000
-Message-ID: <20220211120747.3074-16-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
-References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nIUjq-0002N7-P1
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:09:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644581361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SKG0HzGJSvFylW9vBIuCGuPp8hRW9aPlUbqtp+ngbj4=;
+ b=MQqZXE1ikGOCgQeRjfmJXqcvorKxutceVyGsUdZDNuftw7dheDjYShM08O4C7m1iqQkKXe
+ i0dUgxTOeAfmoK9bt9Lh0Azv1azZymXj1VhL08hEW+gj11Gg3B6W7q7xiTHYGLkQ0Jbmhk
+ frji/4mfotUD59FmheyfsWgAzMcYHxQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-263-XDCfzJKAN_mAsScQsS9xsw-1; Fri, 11 Feb 2022 07:09:18 -0500
+X-MC-Unique: XDCfzJKAN_mAsScQsS9xsw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AB7B86A8A1;
+ Fri, 11 Feb 2022 12:09:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4304160C5A;
+ Fri, 11 Feb 2022 12:08:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D74A621E6A01; Fri, 11 Feb 2022 13:08:04 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Subject: Re: [PATCH v11 7/8] qmp: add QMP command x-query-virtio-queue-element
+References: <1642678168-20447-1-git-send-email-jonah.palmer@oracle.com>
+ <1642678168-20447-8-git-send-email-jonah.palmer@oracle.com>
+Date: Fri, 11 Feb 2022 13:08:04 +0100
+In-Reply-To: <1642678168-20447-8-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Thu, 20 Jan 2022 06:29:27 -0500")
+Message-ID: <874k558v2z.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml743-chm.china.huawei.com (10.201.108.193) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,72 +80,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-Initial test with just pxb-cxl.  Other tests will be added
-alongside functionality.
+Jonah Palmer <jonah.palmer@oracle.com> writes:
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- tests/qtest/cxl-test.c  | 23 +++++++++++++++++++++++
- tests/qtest/meson.build |  4 ++++
- 2 files changed, 27 insertions(+)
+> From: Laurent Vivier <lvivier@redhat.com>
+>
+> This new command shows the information of a VirtQueue element.
+>
+> [Note: Up until v10 of this patch series, virtio.json had many (15+)
+>  enums defined (e.g. decoded device features, statuses, etc.). In v10
+>  most of these enums were removed and replaced with string literals.
+>  By doing this we get (1) simpler schema, (2) smaller generated code,
+>  and (3) less maintenance burden for when new things are added (e.g.
+>  devices, device features, etc.).]
+>
+> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 
-diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-new file mode 100644
-index 0000000000..1006c8ae4e
---- /dev/null
-+++ b/tests/qtest/cxl-test.c
-@@ -0,0 +1,23 @@
-+/*
-+ * QTest testcase for CXL
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest-single.h"
-+
-+
-+static void cxl_basic_pxb(void)
-+{
-+    qtest_start("-machine q35,cxl=on -device pxb-cxl,bus=pcie.0");
-+    qtest_end();
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    g_test_init(&argc, &argv, NULL);
-+    qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
-+    return g_test_run();
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index f33d84d19b..2ed69fbd13 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -41,6 +41,9 @@ qtests_pci = \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : []) +                  \
-   (config_all_devices.has_key('CONFIG_IVSHMEM_DEVICE') ? ['ivshmem-test'] : [])
- 
-+qtests_cxl = \
-+  (config_all_devices.has_key('CONFIG_CXL') ? ['cxl-test'] : [])
-+
- qtests_i386 = \
-   (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +             \
-   (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +                     \
-@@ -75,6 +78,7 @@ qtests_i386 = \
-    slirp.found() ? ['virtio-net-failover'] : []) +                                          \
-   (unpack_edk2_blobs ? ['bios-tables-test'] : []) +                                         \
-   qtests_pci +                                                                              \
-+  qtests_cxl +                                                                              \
-   ['fdc-test',
-    'ide-test',
-    'hd-geo-test',
--- 
-2.32.0
+[...]
+
+> diff --git a/qapi/virtio.json b/qapi/virtio.json
+> index 44cc05c..bb93d6d 100644
+> --- a/qapi/virtio.json
+> +++ b/qapi/virtio.json
+> @@ -656,3 +656,186 @@
+>    'data': { 'path': 'str', 'queue': 'uint16' },
+>    'returns': 'VirtVhostQueueStatus',
+>    'features': [ 'unstable' ] }
+> +
+> +##
+> +# @VirtioRingDesc:
+> +#
+> +# Information regarding the vring descriptor area
+> +#
+> +# @addr: Guest physical address of the descriptor area
+> +#
+> +# @len: Length of the descriptor area
+> +#
+> +# @flags: List of descriptor flags
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioRingDesc',
+> +  'data': { 'addr': 'uint64',
+> +            'len': 'uint32',
+> +            'flags': [ 'str' ] } }
+> +
+> +##
+> +# @VirtioRingAvail:
+> +#
+> +# Information regarding the avail vring (a.k.a. driver area)
+> +#
+> +# @flags: VRingAvail flags
+> +#
+> +# @idx: VRingAvail index
+> +#
+> +# @ring: VRingAvail ring[] entry at provided index
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioRingAvail',
+> +  'data': { 'flags': 'uint16',
+> +            'idx': 'uint16',
+> +            'ring': 'uint16' } }
+> +
+> +##
+> +# @VirtioRingUsed:
+> +#
+> +# Information regarding the used vring (a.k.a. device area)
+> +#
+> +# @flags: VRingUsed flags
+> +#
+> +# @idx: VRingUsed index
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioRingUsed',
+> +  'data': { 'flags': 'uint16',
+> +            'idx': 'uint16' } }
+> +
+> +##
+> +# @VirtioQueueElement:
+> +#
+> +# Information regarding a VirtQueue's VirtQueueElement including
+> +# descriptor, driver, and device areas
+> +#
+> +# @name: Name of the VirtIODevice that uses this VirtQueue
+> +#
+> +# @index: Index of the element in the queue
+> +#
+> +# @descs: List of descriptors (VirtioRingDesc)
+> +#
+> +# @avail: VRingAvail info
+> +#
+> +# @used: VRingUsed info
+> +#
+> +# Since: 7.0
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioQueueElement',
+> +  'data': { 'name': 'str',
+> +            'index': 'uint32',
+> +            'descs': [ 'VirtioRingDesc' ],
+> +            'avail': 'VirtioRingAvail',
+> +            'used': 'VirtioRingUsed' } }
+> +
+> +##
+> +# @x-query-virtio-queue-element:
+> +#
+> +# Return the information about a VirtQueue's VirtQueueElement
+> +# (default: head of the queue)
+
+I'd put this ...
+
+> +#
+> +# @path: VirtIODevice canonical QOM path
+> +#
+> +# @queue: VirtQueue index to examine
+> +#
+> +# @index: Index of the element in the queue
+
+... here.
+
+> +#
+> +# Features:
+> +# @unstable: This command is meant for debugging.
+> +#
+> +# Returns: VirtioQueueElement information
+> +#
+> +# Since: 7.0
+> +#
+> +# Examples:
+> +#
+> +# 1. Introspect on virtio-net's VirtQueue 0 at index 5
+> +#
+> +# -> { "execute": "x-query-virtio-queue-element",
+> +#      "arguments": { "path": "/machine/peripheral-anon/device[1]/virtio-backend",
+> +#                     "queue": 0,
+> +#                     "index": 5 }
+> +#    }
+> +# <- { "return": {
+> +#            "index": 5,
+> +#            "name": "virtio-net",
+> +#            "descs": [
+> +#               { "flags": ["write"], "len": 1536, "addr": 5257305600 }
+> +#            ],
+> +#            "avail": {
+> +#               "idx": 256,
+> +#               "flags": 0,
+> +#               "ring": 5
+> +#            },
+> +#            "used": {
+> +#               "idx": 13,
+> +#               "flags": 0
+> +#            },
+> +#    }
+> +#
+> +# 2. Introspect on virtio-crypto's VirtQueue 1 at head
+> +#
+> +# -> { "execute": "x-query-virtio-queue-element",
+> +#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend",
+> +#                     "queue": 1 }
+> +#    }
+> +# <- { "return": {
+> +#            "index": 0,
+> +#            "name": "virtio-crypto",
+> +#            "descs": [
+> +#               { "flags": [], "len": 0, "addr": 8080268923184214134 }
+> +#            ],
+> +#            "avail": {
+> +#               "idx": 280,
+> +#               "flags": 0,
+> +#               "ring": 0
+> +#            },
+> +#            "used": {
+> +#               "idx": 280,
+> +#               "flags": 0
+> +#            }
+> +#    }
+> +#
+> +# 3. Introspect on virtio-scsi's VirtQueue 2 at head
+> +#
+> +# -> { "execute": "x-query-virtio-queue-element",
+> +#      "arguments": { "path": "/machine/peripheral-anon/device[2]/virtio-backend",
+> +#                     "queue": 2 }
+> +#    }
+> +# <- { "return": {
+> +#            "index": 19,
+> +#            "name": "virtio-scsi",
+> +#            "descs": [
+> +#               { "flags": ["used", "indirect", "write"], "len": 4099327944,
+> +#                 "addr": 12055409292258155293 }
+> +#            ],
+> +#            "avail": {
+> +#               "idx": 1147,
+> +#               "flags": 0,
+> +#               "ring": 19
+> +#            },
+> +#            "used": {
+> +#               "idx": 280,
+> +#               "flags": 0
+> +#            }
+> +#    }
+> +#
+> +##
+> +
+> +{ 'command': 'x-query-virtio-queue-element',
+> +  'data': { 'path': 'str', 'queue': 'uint16', '*index': 'uint16' },
+> +  'returns': 'VirtioQueueElement',
+> +  'features': [ 'unstable' ] }
+
+Preferably with my doc tweak, QAPI schema
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
