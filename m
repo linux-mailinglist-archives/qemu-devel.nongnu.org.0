@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E544B31A7
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 01:06:43 +0100 (CET)
-Received: from localhost ([::1]:33998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339354B31A9
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 01:06:54 +0100 (CET)
+Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIfw2-0007RJ-Hw
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 19:06:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36148)
+	id 1nIfwD-0007d3-AK
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 19:06:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=03511bb56=alistair.francis@opensource.wdc.com>)
- id 1nIfqe-0004jr-Uz
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 19:01:09 -0500
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:52992)
+ id 1nIfqi-0004ly-RY
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 19:01:12 -0500
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:53000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=03511bb56=alistair.francis@opensource.wdc.com>)
- id 1nIfqZ-00008v-Ex
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 19:01:08 -0500
+ id 1nIfqd-00009V-P8
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 19:01:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1644624063; x=1676160063;
+ t=1644624067; x=1676160067;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BVcJ3H0xI37hYmEcH9RcIT3zwvBrl8Sr1npO+d72CAE=;
- b=IQqx/1TqxK4QPvy7QdfBZSK/sBvhPy8ZMF9twU75VZKjPGVfHmXRrsAt
- S6MR7Yy/jsDoo0qgsChMpeXOwkvu5I3vl4b9exaDWeHSywv/F1DFG40qH
- Ekxfn1wHOhHLwKkcUFVvXOW5Ov0CPE5jAuTKvE5dnf6DdAZ87u1vDURQ4
- UR3brTHYHy9z6ScouLA3hOSjwOrAGNqArF6ptCTldCnEIe4DapY3wHxXr
- BmJTLBJZ4zL11Tr2baeOOv8UKuHSpwpetgykBKo+ZVh7Wqxs/XIwgf/TV
- fJ5r1PivpYFKvcRbnvsPcJusa9VHwoWCP/M6+4qTDrObbAJG7bDmRZu+d A==;
-X-IronPort-AV: E=Sophos;i="5.88,361,1635177600"; d="scan'208";a="304636171"
+ bh=Q6yJDJqIAw6QM8qy0fNUeXdxUdGcovlH4g3TuX9SCc4=;
+ b=UPlpHoMw3d3qYQSksXj/f+1iHUsQKNwKwRcB4E5vXh3ykGxkqUXyzOA+
+ xVnZ816gt7Tv1JeDxskFaGF8kPmm8KPaw/k6D9o5GtFQtdFp0tf6H+TAp
+ yR4S4CYoDV3TK0hwRQ5NXaaK3LWDGm30x8urLQhzfbD30gMyuxX4v5Yd3
+ MDNE4eFkbWbTbYLQW5jEvuVlldLUhCBMsAK93NeD9BfOJyGWczRzpsEqU
+ IHjBYkjwON1HVArru5lAOLUG4+Ele5vnLppBZOhoS3nerbdwD17l1eB17
+ a+ZivQWh7ZriWmZE0v3gLYe3cq0l3289HiEq8aUh44uEtbJ5+ByeunhLc Q==;
+X-IronPort-AV: E=Sophos;i="5.88,361,1635177600"; d="scan'208";a="304636191"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 12 Feb 2022 08:01:01 +0800
-IronPort-SDR: Mgn8nzYGz7ADHUO4hp5MPeOpH6Lp4+qxdj6Nnvbdwhm6JKfgvJ0UfNjaTiaKMS2oT3Uw/qmp/d
- HjZeMxswe2SzFy9BiNvk7pDZNijVTyTue1+qaLwpPMce8cDXucHcCSGaSfjchlnmW5dQAC080u
- 1Xq4HmhxpZ/m/F9Kjr65BgZu+0E3KkPemCTkQHHGYu/RafvvMrvOQoEuzlfETT7TnKHQWzPMHl
- X2/1lzhXUbmtaiopfG8c14RMw3+2JL+4M8qoYYOq12mmibY+ZbI8DXrHL5BkG5i9LaWOcCWckO
- UHgrLrdhuUYN5gtqNxXNnhPY
+ by ob1.hgst.iphmx.com with ESMTP; 12 Feb 2022 08:01:05 +0800
+IronPort-SDR: Yb3AvFoSaeQ/Dqj1EbHAkhynaWF91PTc4hsmd2aBELUQauWiQQiAmYZhShgBLDJxhZbzSODVGj
+ EPBYvvqkZNwsbWaIhtn9MJaqlShu9vRZJ8uOOU04ISUy3WkemT9165UIiF2Pq0/KU3CTrf3NhD
+ j8AgWthu4FwEmDduaqnEcnJDNpaUQs3MRzvVRtKZNliVRmJ5wOleJLypx608EI9KtBybUbbX+u
+ hmDmVlq3zaYxUMgzakoq7qk1k522uNzSwA9uuCfYb/9Prdure/3YdTrg3sPmP3OeEwez1y66hD
+ FwrgJNpuNFqXcpbdic9LkBMN
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 15:33:55 -0800
-IronPort-SDR: /WTYc2/lkq3a384QkOeEVPZpHaA5nkWV3CvR/M2KENjWI747RZ2gewP4uhPJF0gn+M/5cxoKh7
- VNlr4AqhIHXQxmhULu2mDKZ1ckAQ2VzqpIu3e4Bm1bB3vcRf8ruLqXsVcrDZT3zmWBXh6ksB/o
- WizIhyt/xTU7ec1w+as0ItLynJU+hIb2CIjxecAwusJ5/6sHC06lGD+Z6rrlXxccIaZHzEFRM0
- 6lD2NIritZn2TAOY9G42IFhIhM/7k1ZFI/zFIwvrGfLQaSQ+fGlCqd9cKSWA33P3rkIfIIbBwo
- aP8=
+ 11 Feb 2022 15:34:00 -0800
+IronPort-SDR: MtEp0ZAWg1HdELMWcX0qqwuQMJd6bixTd8jVcycITLt9i0XOB+OK2zS0MMzNJUXt2XdylnFJWt
+ NE05UuisxJEjM9SVC2Ykuft0n3sZHjqayu64RYfFUEAx5pqoufa0VWHJZIZoAwNgw6+9QDaN/V
+ kPeI6Iy0K9ySS0kMR3LzwSCKgNMX2i2ypjoG4NfdAigqQKUg0fUkAoZbSWWyzDevSSxtKL2nfX
+ CMdD6AVKJh428QyM7Tj7zMc0/pMV4yR0yOYCcTDKhiYUTzitK5ZTl129nuatGlERb6xDs8OA8V
+ dBw=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 16:01:01 -0800
+ 11 Feb 2022 16:01:05 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JwVxn2WvLz1SVp0
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 16:01:01 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JwVxs4pFmz1SVp0
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 16:01:05 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:content-type
  :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1644624060; x=1647216061; bh=BVcJ3H0
- xI37hYmEcH9RcIT3zwvBrl8Sr1npO+d72CAE=; b=MkcltkOoHF0sH5edrVPFI3f
- TV7MsBzYXVu8YqHdIKpKr3kf9uollNefF+JB3JO8u0+YyedbsaFS68foVEvmdSUI
- lZ61a+1nzizRMKYm27HwtVSsKSYE8VHwKetiH9W9EhTXqbcdWymKgg50dTVGzmeS
- yPDUWxeUYzz13zuRsAD+Ow18ODlVCVbaO8sNZLhTG648QrAi2WC6FCqUgDt0A2C6
- hc+97i8yHED4Q3eLU0KfvODTflW8lQOoAe+lS4XNxRETF+3jSb0R/OzcdrCbYQ5g
- QFFCX3lNkWATXpbQx5tN+1a9U57LmkkkWLMB8jsToOMcJX/uGMSmGGttRPAjjqQ=
+ :subject:to:from; s=dkim; t=1644624065; x=1647216066; bh=Q6yJDJq
+ IAw6QM8qy0fNUeXdxUdGcovlH4g3TuX9SCc4=; b=mkRph85a5otsy58Q0xpDs/t
+ i03Swbhi3WR+wjnF3DMAksJSy7udiy5T5XUFT+uRyGhAlkvuLl3dUcjFnwo+HUgW
+ BOvQpVP8QCboeXTnHOZX+wHe32nZjNzpOojB3JsXso89q5uSluAis0XQGawWHhqL
+ AP+gCeGiIzh8jkDVje/Efrz6Wp9PA+K7w6FUQoxRpRKJKH4tl0R+35NSEPgRPW0e
+ el9IMLD0+TE/UjsSIXNudNc9c1q0QPn0WkulJp5sky9BeBaVnxGMsHGb/ouJSVr/
+ ImkXn+o4S/Svt3nASvLI4z0bLCtP5pXxk1LwogktW8g99vKvpnff35huEUCPgxw=
  =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id KGYGlYflY6Jq for <qemu-devel@nongnu.org>;
- Fri, 11 Feb 2022 16:01:00 -0800 (PST)
+ port 10026) with ESMTP id 9iAVm_RJNU5K for <qemu-devel@nongnu.org>;
+ Fri, 11 Feb 2022 16:01:05 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.165.96])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JwVxh6lPKz1Rwrw;
- Fri, 11 Feb 2022 16:00:56 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JwVxn3dHNz1Rwrw;
+ Fri, 11 Feb 2022 16:01:01 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 01/40] include: hw: remove ibex_plic.h
-Date: Sat, 12 Feb 2022 09:59:52 +1000
-Message-Id: <20220212000031.3946524-2-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Petr Tesarik <ptesarik@suse.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 02/40] Allow setting up to 8 bytes with the generic loader
+Date: Sat, 12 Feb 2022 09:59:53 +1000
+Message-Id: <20220212000031.3946524-3-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220212000031.3946524-1-alistair.francis@opensource.wdc.com>
 References: <20220212000031.3946524-1-alistair.francis@opensource.wdc.com>
@@ -118,100 +118,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+From: Petr Tesarik <ptesarik@suse.com>
 
-This patch removes the left-over/unused `ibex_plic.h` file. Previously
-used by opentitan, which now follows the RISC-V standard and uses the
-SiFivePlicState.
+The documentation for the generic loader says that "the maximum size of
+the data is 8 bytes". However, attempts to set data-len=3D8 trigger the
+following assertion failure:
 
-Fixes: 434e7e021 ("hw/intc: Remove the Ibex PLIC")
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+../hw/core/generic-loader.c:59: generic_loader_reset: Assertion `s->data_=
+len < sizeof(s->data)' failed.
+
+The type of s->data is uint64_t (i.e. 8 bytes long), so I believe this
+assert should use <=3D instead of <.
+
+Fixes: e481a1f63c93 ("generic-loader: Add a generic loader")
+Signed-off-by: Petr Tesarik <ptesarik@suse.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Message-id: 20220121055005.3159846-1-alistair.francis@opensource.wdc.com
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20220120092715.7805-1-ptesarik@suse.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/intc/ibex_plic.h | 67 -------------------------------------
- 1 file changed, 67 deletions(-)
- delete mode 100644 include/hw/intc/ibex_plic.h
+ hw/core/generic-loader.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/intc/ibex_plic.h b/include/hw/intc/ibex_plic.h
-deleted file mode 100644
-index d596436e06..0000000000
---- a/include/hw/intc/ibex_plic.h
-+++ /dev/null
-@@ -1,67 +0,0 @@
--/*
-- * QEMU RISC-V lowRISC Ibex PLIC
-- *
-- * Copyright (c) 2020 Western Digital
-- *
-- * This program is free software; you can redistribute it and/or modify =
-it
-- * under the terms and conditions of the GNU General Public License,
-- * version 2 or later, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope it will be useful, but WITHOU=
-T
-- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-- * more details.
-- *
-- * You should have received a copy of the GNU General Public License alo=
-ng with
-- * this program.  If not, see <http://www.gnu.org/licenses/>.
-- */
--
--#ifndef HW_IBEX_PLIC_H
--#define HW_IBEX_PLIC_H
--
--#include "hw/sysbus.h"
--#include "qom/object.h"
--
--#define TYPE_IBEX_PLIC "ibex-plic"
--OBJECT_DECLARE_SIMPLE_TYPE(IbexPlicState, IBEX_PLIC)
--
--struct IbexPlicState {
--    /*< private >*/
--    SysBusDevice parent_obj;
--
--    /*< public >*/
--    MemoryRegion mmio;
--
--    uint32_t *pending;
--    uint32_t *hidden_pending;
--    uint32_t *claimed;
--    uint32_t *source;
--    uint32_t *priority;
--    uint32_t *enable;
--    uint32_t threshold;
--    uint32_t claim;
--
--    /* config */
--    uint32_t num_cpus;
--    uint32_t num_sources;
--
--    uint32_t pending_base;
--    uint32_t pending_num;
--
--    uint32_t source_base;
--    uint32_t source_num;
--
--    uint32_t priority_base;
--    uint32_t priority_num;
--
--    uint32_t enable_base;
--    uint32_t enable_num;
--
--    uint32_t threshold_base;
--
--    uint32_t claim_base;
--
--    qemu_irq *external_irqs;
--};
--
--#endif /* HW_IBEX_PLIC_H */
+diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
+index 9a24ffb880..504ed7ca72 100644
+--- a/hw/core/generic-loader.c
++++ b/hw/core/generic-loader.c
+@@ -56,7 +56,7 @@ static void generic_loader_reset(void *opaque)
+     }
+=20
+     if (s->data_len) {
+-        assert(s->data_len < sizeof(s->data));
++        assert(s->data_len <=3D sizeof(s->data));
+         dma_memory_write(s->cpu->as, s->addr, &s->data, s->data_len,
+                          MEMTXATTRS_UNSPECIFIED);
+     }
 --=20
 2.34.1
 
