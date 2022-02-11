@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28944B2D0B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 19:37:10 +0100 (CET)
-Received: from localhost ([::1]:52916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6C74B2D0D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 19:37:14 +0100 (CET)
+Received: from localhost ([::1]:53190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIan7-0006bS-CA
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 13:37:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56474)
+	id 1nIanA-0006mJ-8b
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 13:37:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nIakK-0004Eu-Ki; Fri, 11 Feb 2022 13:34:16 -0500
-Received: from [2607:f8b0:4864:20::32d] (port=40720
- helo=mail-ot1-x32d.google.com)
+ id 1nIakL-0004FA-Jv; Fri, 11 Feb 2022 13:34:17 -0500
+Received: from [2607:f8b0:4864:20::22c] (port=38879
+ helo=mail-oi1-x22c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nIakJ-00046J-15; Fri, 11 Feb 2022 13:34:16 -0500
-Received: by mail-ot1-x32d.google.com with SMTP id
- x52-20020a05683040b400b0059ea92202daso6677484ott.7; 
- Fri, 11 Feb 2022 10:34:12 -0800 (PST)
+ id 1nIakJ-00046V-DS; Fri, 11 Feb 2022 13:34:17 -0500
+Received: by mail-oi1-x22c.google.com with SMTP id u13so10526858oie.5;
+ Fri, 11 Feb 2022 10:34:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UAjxn9NTl029pHKX2saYnuROr2lmSx0YzVX/ZQH8miI=;
- b=HI7E5fZBsXgO8ubDtjh3beTA0TC9Sij/E3mKZlD7RbdlE3siiP2P2X1Bk+ftCAS0oz
- r2Aq4ChkrzdXfAVefJ2SXmibHHAJN4nh0xFn8+zHPui4n4H6Ibjw3c6zl7YRPxNO/VQV
- beRXzOdhxW7RP83AGgSK85Taoy+uCYgydGyhlLyqO8aav860gDTigP2CGmHAA7s/TBXa
- U860rIBwKpbo4ncslOnZ6XInQjn7crXnpO8c++yfLc9hN29OA9Ot5eMh9COanZrCEyY4
- SZl1hnpET26b6NX1zQ4uTy0zq1whDxIFEwfF/SEpHgRG8wC/wSF9mTNbAG1Xli1K+ug9
- rl6g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=GpJuGvr7mh5zyLB3hjnj75ImlfXDY9lwn6KVAYwwpKs=;
+ b=KsQElMC5DVO7/TjaYzWTZaqJBZxNjY4xByinJeHNIyOyYl9+TGIq55pCFywykXzsrx
+ qtEN2KE9WYL3RnWhRDwlofoRS0QKXgLrzKnOzaJZ1lB0+UiZsl/oFWvBN1D3Vt9XQ+KM
+ +WrDJziiHPNjxWGKDsPFA+EOMsf1uxDzamNbYkhJD/1sYKfMuuRE2/OTwBmFRqWYPkRg
+ vXNTmpKIAh0aJqAkVKLq77WwP1qRnPXTtsCyuvtitQ0IoGPxPMEly8kScST11qpBjDYX
+ AbA7TFbUV9KQsGb9U1TgojHJMCYwsoo+s+3hOLQxUjniY9UOdenD2Ij3oKmdVNvinsbt
+ StwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UAjxn9NTl029pHKX2saYnuROr2lmSx0YzVX/ZQH8miI=;
- b=m8FN4woI6dwwZyd4vNFNQOmRz3Y46tMTLFTyqgtBE/Mf6FA/PrRLVbEbWOd7kxDa6V
- 6pGHNGA5s6uVU4VzRXvt172AXj7bujWZ/LXiQ6pJGJWXEg4sfzMi7rcQE4md8uJf+N9B
- mVIwVGu72JfC86HBfRoF2MiwHROfGvpitsTDWWnwOIhV19n8WZIyn/kYOBj6irKXZ4uX
- Jf95oqaiIPduQPZli1L9PUXSuDyg0fxnp2e831eAH2App0IGbYpopvMZSUhaVDmRoikZ
- Jqb1TGBgEuD4CxcdoqqLRzi1owipjgQ5/Zv1dlOiKOTNLhlstrzCK3pKbV4hRhyL3fTm
- QzpA==
-X-Gm-Message-State: AOAM531GBGsSHhPGJi/MvE6A5YMqAPm1iACWbkvWsf5DIARgmR3TJtkm
- v5yyde8YM3YacJeWF4WOg3+vt8tdG7Y=
-X-Google-Smtp-Source: ABdhPJxzYkO0G8t5f5jQZ4Zo3b3E8LL0zpvsIbiD3GPFvij9mrjY0lvLlCrcTogVPoPjn7Z5TUrz8w==
-X-Received: by 2002:a05:6830:457:: with SMTP id
- d23mr1083495otc.371.1644604451998; 
- Fri, 11 Feb 2022 10:34:11 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=GpJuGvr7mh5zyLB3hjnj75ImlfXDY9lwn6KVAYwwpKs=;
+ b=5Vk9EBOUikKRF2S7niY7F4KhTBLjk6I+3096AGnKNp+/Et+naIiBVOxFlYz8oUhjTO
+ y5xNzXYigwzNtHAmokbCcwKdgoUOD3ZNSlLuTvQcIsmz3pDUBMVgI90e5erz5bl3fZaI
+ K/177sRpcSmFxqJtV+b4QCAz6dMOm1jXRYDnwiXmymtYe8n/gzdqzaHyu16S25qa3Gn3
+ VAU4bW1NJcWUSFFn4j6+wWZ+4hagQWxAxjY5atO1VNP2loNW+w8xmEiHEEC0o6cb3SSg
+ Yu1WBzJxmJRurWvVaYnuvQqfbqOFxq8M1wY7wsJWN4qynLzuhIo6BcuAitmKAuMdKU0g
+ fjMg==
+X-Gm-Message-State: AOAM533TKcZVkA5Ab1VoV+R4J7855tmGbLKa3wmKR1suW4oaZLp5rdyK
+ exk45fJpOFVHcIe/aUC6T+IOUQ1rJhs=
+X-Google-Smtp-Source: ABdhPJzcX3oEUhaGLaTf/Lp98hSsO3+sVTnEKgrfTM8IPDm5gLhHcKXmhzvoW4C9UTZOwwJgJHxtpQ==
+X-Received: by 2002:a05:6808:148e:: with SMTP id
+ e14mr855318oiw.180.1644604453898; 
+ Fri, 11 Feb 2022 10:34:13 -0800 (PST)
 Received: from rekt.COMFAST ([191.205.140.35])
- by smtp.gmail.com with ESMTPSA id t22sm10008145oiw.2.2022.02.11.10.34.09
+ by smtp.gmail.com with ESMTPSA id t22sm10008145oiw.2.2022.02.11.10.34.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Feb 2022 10:34:11 -0800 (PST)
+ Fri, 11 Feb 2022 10:34:13 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 0/4] PMU-EBB support for PPC64 TCG
-Date: Fri, 11 Feb 2022 15:33:50 -0300
-Message-Id: <20220211183354.563602-1-danielhb413@gmail.com>
+Subject: [PATCH v11 1/4] target/ppc: fix indent of function parameters
+Date: Fri, 11 Feb 2022 15:33:51 -0300
+Message-Id: <20220211183354.563602-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220211183354.563602-1-danielhb413@gmail.com>
+References: <20220211183354.563602-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -89,54 +90,41 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Fix indentation of powerpc_set_excp_state() and ppc_excp_apply_ail()
+parameters.
 
-This new version makes a few modifications to make the EBB support more
-generic.
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ target/ppc/excp_helper.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-A new patch (3) was added to implement PPC_INTERRUPT_EBB and its two
-internal exceptions described by ISA v3.1: POWERPC_EXCP_PERFM_EBB and
-POWERPC_EXCP_EXTERNAL_EBB. When receiving an EBB interrupt we check
-BESCR bits to fire the appropriate exception. They are doing the same
-thing ATM (clear GE and enter the branch with env->nip = SPR_EBBHR).
-PPC_INTERRUPT_EBB will be used for the future XIVE IC EBB lane as well.
-
-Patch 4 (previous 3) contains the helpers used by the PMU to fire the
-PERFM_EBB exception, but now we're checking msr_pr and either throwing
-the exception immediately or queueing it up for later via
-PPC_INTERRUPT_EBB.  This change covers all the race conditions that the
-kernel EBB selftests seems to trigger, and without using ppc_set_irq()
-to handle BQL.
-
-Changes from v10:
-- patch 1:
-  * added David's r-b
-- patch 3 (new):
-  * add PPC_INTERRUPT_EBB, POWERPC_EXCP_PERFM_EBB and
-    POWERPC_EXCP_EXTERNAL_EBB
-- patch 4:
-  * all EBB bits are now being checked in the helper
-  * a new static do_ebb() helper was created to handle the common
-    EBB logic
-  * we're now checking msr_pr and either throwing the exception immediately
-    or queueing it for later using PPC_INTERRUPT_EBB
-  * ppc_set_irq() call was removed
-- v10 link: https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01856.html
-
-
-Daniel Henrique Barboza (4):
-  target/ppc: fix indent of function parameters
-  target/ppc: finalize pre-EBB PMU logic
-  target/ppc: add PPC_INTERRUPT_EBB and EBB exceptions
-  target/ppc: trigger PERFM EBBs from power8-pmu.c
-
- target/ppc/cpu.h         |  5 ++-
- target/ppc/cpu_init.c    |  4 ++
- target/ppc/excp_helper.c | 89 ++++++++++++++++++++++++++++++++++++++--
- target/ppc/helper.h      |  1 +
- target/ppc/power8-pmu.c  | 39 ++++++++++++++++--
- 5 files changed, 129 insertions(+), 9 deletions(-)
-
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index c107953dec..8a49a4ab90 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -265,9 +265,9 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
+  * +--------------------------------------------------------------------+
+  */
+ static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
+-                                      target_ulong msr,
+-                                      target_ulong *new_msr,
+-                                      target_ulong *vector)
++                               target_ulong msr,
++                               target_ulong *new_msr,
++                               target_ulong *vector)
+ {
+ #if defined(TARGET_PPC64)
+     CPUPPCState *env = &cpu->env;
+@@ -362,7 +362,7 @@ static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
+ }
+ 
+ static void powerpc_set_excp_state(PowerPCCPU *cpu,
+-                                          target_ulong vector, target_ulong msr)
++                                   target_ulong vector, target_ulong msr)
+ {
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
 -- 
 2.34.1
 
