@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88E94B29AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:08:23 +0100 (CET)
-Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039E54B29B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 17:08:43 +0100 (CET)
+Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIYT8-00029X-GB
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:08:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45730)
+	id 1nIYTS-00032j-12
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 11:08:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nIYOT-0007NM-CH
+ id 1nIYOT-0007NK-Bn
  for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:03:36 -0500
-Received: from [2a00:1450:4864:20::532] (port=37589
- helo=mail-ed1-x532.google.com)
+Received: from [2a00:1450:4864:20::533] (port=38671
+ helo=mail-ed1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nIYOK-0005Ad-NN
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:03:28 -0500
-Received: by mail-ed1-x532.google.com with SMTP id da4so17151896edb.4
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 08:03:13 -0800 (PST)
+ id 1nIYOK-0005AS-NO
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 11:03:29 -0500
+Received: by mail-ed1-x533.google.com with SMTP id g7so1173183edb.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 08:03:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MqG1bXlPPbXvN4Vb7Log6kjEHeVsV4s59HtXDd3EXzk=;
- b=uVWYSZJxLJ2TbG4crverXeVUT6DvsjX4wPbcjTLSy9H572QLDrAaMTtx4yDk2iAlQ5
- ouYl0JksURpZsndfeFkY4rEzCCL4taZXvDlvQ79Ce2pOa1lyXmO11DycuccQeNMW/zHC
- i2k62Mb8sJTbTOU8MfmhPsFAv89VV7SYuF2HG/OyobVhegGDzuPLIjevnSNnmcrHP3jv
- 90kSb7X7A0zEppu3NfYbwV3PnkIU6PUvHB+Tv/yw5BvChzAI3zp5DmWNvG93raVlRKXQ
- BWycMAxyeLONgc7WQOSoyJtx2pJmN85o70/or9aeju3HMKqkHs26B8FRh7HbJkjIgvpp
- ufzQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=95VUsInsBJkWydqDjFNp5aZcy3HHZ58V16PSGr8vvHk=;
+ b=SWCLT1Rl8lgIhNBXbIwPNtQQyLjdUsyR8/Jk/fFedZuER+FRi/LHW94eot9qVlRFFG
+ BD/rgKChTBgeH4CSD+4jaMY2v3migqWMbYxTpqiGugzhevXtnpD04EgUDoSJCFTw9Cu6
+ Bs4l8fPmYobg4Cucfe5dEpbH+ij9XlJCtbxnvgQ0X+fjvoNh4MtnU62Bkn4nO5txm7lq
+ yy5NDzEPvODUQGmdBArG/UIkiOb4zZKE5cJ5ic4jw/1Y9NKaJ+oVVLVaDcnuaG5bWmzk
+ uy2U+JQksJ/KOOy5r3hTq3gT/mMic+ua4xmMrOM/W+2GBCPeTuahEBoGCZ2+rXqurQU9
+ eGjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MqG1bXlPPbXvN4Vb7Log6kjEHeVsV4s59HtXDd3EXzk=;
- b=vTZL4drTWwWh6v8fKKMva1ly5KyyR+iZurRXzNVjkLt3QU6d9BCpKMfxqYEmPJAgGi
- Xzom5UzpUg/If2AzpcgxHJAM9kwNGzfsfxrNedvci6xTj0lGu7veud1dmY2uCZmDGOKR
- 3UC/P6fIedli9C/BuqZOf9You4bNCLuk31rSI1nGtfUGDvXGSJHUuiWUOAbHQqK+0i4s
- 9lHM0RLAyXQVlwVGd785QybBRpdyqKL/wmx69xbB7yf6yciYvx1U+M34MVF6TA/vrQ9B
- A45blfInVYMA2tks0Le/UZToADjwxqeDLIZ/rKoB5UFOKwnE3LsodNIVlysUF0C5j6YX
- eqdQ==
-X-Gm-Message-State: AOAM5321KzUpD6Ml8kcXsMNU08ogixBi+ovk6vb6fYhIvDGRisoKDrDB
- 80tQBhMOjhQXH+yhD5VgP/3jtA==
-X-Google-Smtp-Source: ABdhPJxRBYW8v53nwK5ZTV/oCmwOFRYbWrPDsvmWTE86U4DZwfT+hLVDit1VoOXdKMYFnrft3vMLtw==
-X-Received: by 2002:a05:6402:3c3:: with SMTP id
- t3mr2686425edw.444.1644595392362; 
- Fri, 11 Feb 2022 08:03:12 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=95VUsInsBJkWydqDjFNp5aZcy3HHZ58V16PSGr8vvHk=;
+ b=IxCpEEqx6O9fUz3XnsnSggts6zbVg6XoQHf/FiMpDOtqNX27+G1FteirlbkFdOVHHv
+ hRXtLxzUYqnJWmyRoOBtGcl3PJbcOGw37Sf6qiB6jL+hFOgSfdFNTUzzfMdreczR0gJ6
+ 53z7wHsTs/QTFAnXIMRX/W9vPAgrl13KLoHNoUWsDwWtM29wpQwnMuY+QTD6mqan84yR
+ CPevNGA+3EFDUXzKlQLhFZ9vjq2rF8ZC+OifPGdDWLf5C3/lXumrS4NR4H5M06j9k7kZ
+ mQSSZUa+V0/Km9uFJ2UyyTdcCzio4b3e6Ve3JG6AWHw+5fLEDZcKWFhjKAp9nL9rrm/n
+ xk8w==
+X-Gm-Message-State: AOAM533oflu9hdfU3RzGYdm2NzSi2R3HmXg3Z6R1xY2K+qh2uSPrM7ex
+ fEdgBAS/lqxhLCIqXqXKR8McQg==
+X-Google-Smtp-Source: ABdhPJyYiLlWUQEppovty2zEjiWr8m1wU8ckUKNxt5uHmkv1Fj5tb4AY7XoXZqjCJPcjNLiW2DgUVg==
+X-Received: by 2002:a05:6402:4c2:: with SMTP id
+ n2mr2555589edw.247.1644595391359; 
+ Fri, 11 Feb 2022 08:03:11 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 5sm22328ejr.200.2022.02.11.08.03.10
+ by smtp.gmail.com with ESMTPSA id f16sm7703389eds.0.2022.02.11.08.03.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 11 Feb 2022 08:03:10 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9A2F21FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id B25611FFB8;
  Fri, 11 Feb 2022 16:03:09 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 00/11] testing/next (docker, lcitool, ci, tcg)
-Date: Fri, 11 Feb 2022 16:02:58 +0000
-Message-Id: <20220211160309.335014-1-alex.bennee@linaro.org>
+Subject: [PATCH  v1 01/11] tests/docker: restore TESTS/IMAGES filtering
+Date: Fri, 11 Feb 2022 16:02:59 +0000
+Message-Id: <20220211160309.335014-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220211160309.335014-1-alex.bennee@linaro.org>
+References: <20220211160309.335014-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,65 +91,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, qemu-arm@nongnu.org,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Beraldo Leal <bleal@redhat.com>, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
  stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This was broken in the re-factor:
 
-This is the current state of my testing/next tree which introduces a
-few different things:
+  e86c9a64f4 ("tests/docker/Makefile.include: add a generic docker-run target")
 
- - some cleanups to IMAGE/TEST filtering
- - use lcitool to generate a new debian-arm64-cross
- - a messy attempt to enable aarch32 gitlab runners
- - some tests to better exercise TCGv_vec code
+Rather than unwind the changes just apply the filters to the total set
+of available images and tests. That way we don't inadvertently build
+images only not to use them later.
 
-All patches could do with some review.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reported-by: Alex Williamson <alex.williamson@redhat.com>
+---
+ tests/docker/Makefile.include | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-Alex Bennée (11):
-  tests/docker: restore TESTS/IMAGES filtering
-  tests/docker: add NOUSER for alpine image
-  tests/lcitool: update to latest version
-  tests/docker: update debian-arm64-cross with lci-tool
-  tests/docker: introduce debian-riscv64-test-cross
-  scripts/ci: add build env rules for aarch32 on aarch64
-  scripts/ci: allow for a secondary runner
-  gitlab: add a new aarch32 custom runner definition
-  tests/tcg: build sha1-vector with O3 and compare
-  tests/tcg: add sha512 test
-  tests/tcg: add vectorised sha512 versions
-
- docs/devel/ci-jobs.rst.inc                    |   7 +
- tests/tcg/multiarch/sha512.c                  | 990 ++++++++++++++++++
- .gitlab-ci.d/container-cross.yml              |  17 +-
- .../custom-runners/ubuntu-20.40-aarch32.yml   |  23 +
- scripts/ci/setup/build-environment.yml        |  25 +
- scripts/ci/setup/gitlab-runner.yml            |  34 +
- tests/docker/Makefile.include                 |  28 +-
- .../dockerfiles/debian-arm64-cross.docker     | 186 +++-
- .../debian-arm64-test-cross.docker            |  13 -
- .../debian-riscv64-test-cross.docker          |  12 +
- tests/docker/dockerfiles/opensuse-leap.docker |   3 +-
- tests/docker/dockerfiles/ubuntu1804.docker    |   3 +-
- tests/docker/dockerfiles/ubuntu2004.docker    |   3 +-
- tests/lcitool/libvirt-ci                      |   2 +-
- tests/lcitool/refresh                         |  11 +
- tests/tcg/aarch64/Makefile.target             |  17 +
- tests/tcg/arm/Makefile.target                 |  17 +
- tests/tcg/configure.sh                        |   4 +-
- tests/tcg/i386/Makefile.target                |   6 +
- tests/tcg/ppc64le/Makefile.target             |   5 +-
- tests/tcg/s390x/Makefile.target               |   9 +
- tests/tcg/x86_64/Makefile.target              |   7 +
- 22 files changed, 1353 insertions(+), 69 deletions(-)
- create mode 100644 tests/tcg/multiarch/sha512.c
- create mode 100644 .gitlab-ci.d/custom-runners/ubuntu-20.40-aarch32.yml
- delete mode 100644 tests/docker/dockerfiles/debian-arm64-test-cross.docker
- create mode 100644 tests/docker/dockerfiles/debian-riscv64-test-cross.docker
-
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index f1a0c5db7a..0ec59b2193 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -8,13 +8,19 @@ COMMA := ,
+ 
+ HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
+ 
++# These variables can be set by the user to limit the set of docker
++# images and tests to a more restricted subset
++TESTS ?= %
++IMAGES ?= %
++
+ DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ # we don't run tests on intermediate images (used as base by another image)
+ DOCKER_PARTIAL_IMAGES := debian10 debian11
+ # we don't directly build virtual images (they are used to build other images)
+ DOCKER_VIRTUAL_IMAGES := debian-bootstrap debian-toolchain empty
+-DOCKER_IMAGES := $(sort $(filter-out $(DOCKER_VIRTUAL_IMAGES), $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
++__IMAGES := $(sort $(filter-out $(DOCKER_VIRTUAL_IMAGES), $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
++DOCKER_IMAGES := $(if $(IMAGES), $(filter $(IMAGES), $(__IMAGES)), $(__IMAGES))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+ # Use a global constant ccache directory to speed up repetitive builds
+ DOCKER_CCACHE_DIR := $$HOME/.cache/qemu-docker-ccache
+@@ -23,16 +29,14 @@ DOCKER_DEFAULT_REGISTRY := registry.gitlab.com/qemu-project/qemu
+ endif
+ DOCKER_REGISTRY := $(if $(REGISTRY),$(REGISTRY),$(DOCKER_DEFAULT_REGISTRY))
+ 
+-DOCKER_TESTS := $(notdir $(shell \
+-	find $(SRC_PATH)/tests/docker/ -name 'test-*' -type f))
++__TESTS := $(notdir $(shell \
++		find $(SRC_PATH)/tests/docker/ -name 'test-*' -type f))
++DOCKER_TESTS := $(if $(TESTS), $(filter $(TESTS), $(__TESTS)), $(__TESTS))
+ 
+ ENGINE := auto
+ 
+ DOCKER_SCRIPT=$(SRC_PATH)/tests/docker/docker.py --engine $(ENGINE)
+ 
+-TESTS ?= %
+-IMAGES ?= %
+-
+ CUR_TIME := $(shell date +%Y-%m-%d-%H.%M.%S.$$$$)
+ DOCKER_SRC_COPY := $(BUILD_DIR)/docker-src.$(CUR_TIME)
+ 
+@@ -274,8 +278,8 @@ endif
+ 	@echo '    TARGET_LIST=a,b,c    Override target list in builds.'
+ 	@echo '    EXTRA_CONFIGURE_OPTS="..."'
+ 	@echo '                         Extra configure options.'
+-	@echo '    IMAGES="a b c ..":   Filters which images to build or run.'
+-	@echo '    TESTS="x y z .."     Filters which tests to run (for docker-test).'
++	@echo '    IMAGES="a b c ..":   Restrict available images to subset.'
++	@echo '    TESTS="x y z .."     Restrict available tests to subset.'
+ 	@echo '    J=[0..9]*            Overrides the -jN parameter for make commands'
+ 	@echo '                         (default is 1)'
+ 	@echo '    DEBUG=1              Stop and drop to shell in the created container'
 -- 
 2.30.2
 
