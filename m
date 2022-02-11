@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86AB4B26A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 14:02:53 +0100 (CET)
-Received: from localhost ([::1]:44748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088424B269C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 14:00:31 +0100 (CET)
+Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIVZc-0001wf-Vz
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 08:02:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41912)
+	id 1nIVXK-0006cU-1K
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 08:00:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUyC-0003dW-Fm
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:24:12 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2308)
+ id 1nIV0B-0005KJ-53
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:26:17 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUy9-0005ib-SB
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:24:12 -0500
-Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCSp0LZSz68BC5;
- Fri, 11 Feb 2022 20:23:22 +0800 (CST)
+ id 1nIV08-0006He-OS
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:26:14 -0500
+Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCR94qnMz682sD;
+ Fri, 11 Feb 2022 20:21:57 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
+ fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:24:08 +0100
+ 15.1.2308.21; Fri, 11 Feb 2022 13:26:10 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:24:07 +0000
+ 15.1.2308.21; Fri, 11 Feb 2022 12:26:10 +0000
 To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
  <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
@@ -40,10 +40,9 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 32/43] mem/cxl_type3: Add read and write functions for
- associated hostmem.
-Date: Fri, 11 Feb 2022 12:07:36 +0000
-Message-ID: <20220211120747.3074-33-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v6 36/43] i386/pc: Enable CXL fixed memory windows
+Date: Fri, 11 Feb 2022 12:07:40 +0000
+Message-ID: <20220211120747.3074-37-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
 References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
@@ -81,130 +80,77 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
 From: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-Once a read or write reaches a CXL type 3 device, the HDM decoders
-on the device are used to establish the Device Physical Address
-which should be accessed.  These functions peform the required maths
-and then directly access the hostmem->mr to fullfil the actual
-operation.  Note that failed writes are silent, but failed reads
-return poison.  Note this is based loosely on:
+Add the CFMWs memory regions to the memorymap and adjust the
+PCI window to avoid hitting the same memory.
 
-https://lore.kernel.org/qemu-devel/20200817161853.593247-6-f4bug@amsat.org/
-[RFC PATCH 0/9] hw/misc: Add support for interleaved memory accesses
-
-Only lightly tested so far.  More complex test cases yet to be written.
-
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 ---
- hw/mem/cxl_type3.c          | 81 +++++++++++++++++++++++++++++++++++++
- include/hw/cxl/cxl_device.h |  5 +++
- 2 files changed, 86 insertions(+)
+ hw/i386/pc.c | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index b1ba4bf0de..064e8c942c 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -161,6 +161,87 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-                      &ct3d->cxl_dstate.device_registers);
- }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 7a18dce529..5ece806d2b 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -816,7 +816,7 @@ void pc_memory_init(PCMachineState *pcms,
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+     X86MachineState *x86ms = X86_MACHINE(pcms);
+-    hwaddr cxl_base;
++    hwaddr cxl_base, cxl_resv_end = 0;
  
-+/* TODO: Support multiple HDM decoders and DPA skip */
-+static bool cxl_type3_dpa(CXLType3Dev *ct3d, hwaddr host_addr, uint64_t *dpa)
-+{
-+    uint32_t *cache_mem = ct3d->cxl_cstate.crb.cache_mem_registers;
-+    uint64_t decoder_base, decoder_size, hpa_offset;
-+    uint32_t hdm0_ctrl;
-+    int ig, iw;
+     assert(machine->ram_size == x86ms->below_4g_mem_size +
+                                 x86ms->above_4g_mem_size);
+@@ -924,6 +924,24 @@ void pc_memory_init(PCMachineState *pcms,
+         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+         memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
+         memory_region_add_subregion(system_memory, cxl_base, mr);
++        cxl_resv_end = cxl_base + cxl_size;
++        if (machine->cxl_devices_state->fixed_windows) {
++            hwaddr cxl_fmw_base;
++            GList *it;
 +
-+    decoder_base = (((uint64_t)cache_mem[R_CXL_HDM_DECODER0_BASE_HI] << 32) |
-+                    cache_mem[R_CXL_HDM_DECODER0_BASE_LO]);
-+    if ((uint64_t)host_addr < decoder_base) {
-+        return false;
-+    }
++            cxl_fmw_base = ROUND_UP(cxl_base + cxl_size, 256 * MiB);
++            for (it = machine->cxl_devices_state->fixed_windows; it; it = it->next) {
++                CXLFixedWindow *fw = it->data;
 +
-+    hpa_offset = (uint64_t)host_addr - decoder_base;
-+
-+    decoder_size = ((uint64_t)cache_mem[R_CXL_HDM_DECODER0_SIZE_HI] << 32) |
-+        cache_mem[R_CXL_HDM_DECODER0_SIZE_LO];
-+    if (hpa_offset >= decoder_size) {
-+        return false;
-+    }
-+
-+    hdm0_ctrl = cache_mem[R_CXL_HDM_DECODER0_CTRL];
-+    iw = FIELD_EX32(hdm0_ctrl, CXL_HDM_DECODER0_CTRL, IW);
-+    ig = FIELD_EX32(hdm0_ctrl, CXL_HDM_DECODER0_CTRL, IG);
-+
-+    *dpa = (MAKE_64BIT_MASK(0, 8 + ig) & hpa_offset) |
-+        ((MAKE_64BIT_MASK(8 + ig + iw, 64 - 8 - ig - iw) & hpa_offset) >> iw);
-+
-+    return true;
-+}
-+
-+MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
-+                           unsigned size, MemTxAttrs attrs)
-+{
-+    CXLType3Dev *ct3d = CT3(d);
-+    uint64_t dpa_offset;
-+    MemoryRegion *mr;
-+
-+    /* TODO support volatile region */
-+    mr = host_memory_backend_get_memory(ct3d->hostmem);
-+    if (!mr) {
-+        return MEMTX_ERROR;
-+    }
-+
-+    if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
-+        return MEMTX_ERROR;
-+    }
-+
-+    if (dpa_offset > int128_get64(mr->size)) {
-+        return MEMTX_ERROR;
-+    }
-+
-+    return memory_region_dispatch_read(mr, dpa_offset, data,
-+                                       size_memop(size), attrs);
-+}
-+
-+MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
-+                            unsigned size, MemTxAttrs attrs)
-+{
-+    CXLType3Dev *ct3d = CT3(d);
-+    uint64_t dpa_offset;
-+    MemoryRegion *mr;
-+
-+    mr = host_memory_backend_get_memory(ct3d->hostmem);
-+    if (!mr) {
-+        return MEMTX_OK;
-+    }
-+
-+    if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
-+        return MEMTX_OK;
-+    }
-+
-+    if (dpa_offset > int128_get64(mr->size)) {
-+        return MEMTX_OK;
-+    }
-+
-+    return memory_region_dispatch_write(mr, dpa_offset, data,
-+                                        size_memop(size), attrs);
-+}
-+
- static void ct3d_reset(DeviceState *dev)
- {
-     CXLType3Dev *ct3d = CT3(dev);
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index 43908f161b..83da5d4e8f 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -264,4 +264,9 @@ struct CXLType3Class {
-                     uint64_t offset);
- };
++                fw->base = cxl_fmw_base;
++                memory_region_init_io(&fw->mr, OBJECT(machine), &cfmws_ops, fw,
++                                      "cxl-fixed-memory-region", fw->size);
++                memory_region_add_subregion(system_memory, fw->base, &fw->mr);
++                e820_add_entry(fw->base, fw->size, E820_RESERVED);
++                cxl_fmw_base += fw->size;
++                cxl_resv_end = cxl_fmw_base;
++            }
++        }
+     }
  
-+MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
-+                           unsigned size, MemTxAttrs attrs);
-+MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
-+                            unsigned size, MemTxAttrs attrs);
+     /* Initialize PC system firmware */
+@@ -953,6 +971,10 @@ void pc_memory_init(PCMachineState *pcms,
+         if (!pcmc->broken_reserved_end) {
+             res_mem_end += memory_region_size(&machine->device_memory->mr);
+         }
 +
- #endif
++        if (machine->cxl_devices_state->is_enabled) {
++            res_mem_end = cxl_resv_end;
++        }
+         *val = cpu_to_le64(ROUND_UP(res_mem_end, 1 * GiB));
+         fw_cfg_add_file(fw_cfg, "etc/reserved-memory-end", val, sizeof(*val));
+     }
+@@ -989,6 +1011,13 @@ uint64_t pc_pci_hole64_start(void)
+     if (ms->cxl_devices_state->host_mr.addr) {
+         hole64_start = ms->cxl_devices_state->host_mr.addr +
+             memory_region_size(&ms->cxl_devices_state->host_mr);
++        if (ms->cxl_devices_state->fixed_windows) {
++            GList *it;
++            for (it = ms->cxl_devices_state->fixed_windows; it; it = it->next) {
++                CXLFixedWindow *fw = it->data;
++                hole64_start = fw->mr.addr + memory_region_size(&fw->mr);
++            }
++        }
+     } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
+         hole64_start = ms->device_memory->base;
+         if (!pcmc->broken_reserved_end) {
 -- 
 2.32.0
 
