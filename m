@@ -2,90 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41B34B31A8
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 01:06:51 +0100 (CET)
-Received: from localhost ([::1]:34188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E544B31A7
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 01:06:43 +0100 (CET)
+Received: from localhost ([::1]:33998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIfwA-0007Y7-LB
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 19:06:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36124)
+	id 1nIfw2-0007RJ-Hw
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 19:06:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=03511bb56=alistair.francis@opensource.wdc.com>)
- id 1nIfqd-0004jh-Oy
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 19:01:08 -0500
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:52990)
+ id 1nIfqe-0004jr-Uz
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 19:01:09 -0500
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:52992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=03511bb56=alistair.francis@opensource.wdc.com>)
- id 1nIfqX-00007w-Rr
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 19:01:07 -0500
+ id 1nIfqZ-00008v-Ex
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 19:01:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1644624061; x=1676160061;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=p7dXbHrQpXaqM2jfjqjlzleGSHWtg37Fr7aFvypxCTI=;
- b=NGX8jlaOr/1jfYIcaNBCmBM0xuQ620+smVxywN7IZYyflBwten8+tAQX
- 93Y2ZDWaPnPdBc6WpdaBAlyeQVzhxspVLtkSgBG6c9npecuu4giBMHlTk
- zmoJGS3vPDLcXu1dWVDdIVwjD3ePrw1rUwJVkLBx76VqsdtHRohVUX2LI
- IIQmwahG5B3g4nKvVxMSVbbqlSIWHzK9+kwksYLjBfLOT0XDAVhT5fpv3
- ta0Eq0GrRK/WhMhB7f9OD+5tUYF79d0Ni0Xi4pSDG2koiE9mL2DaqpKHP
- DybNIFoc9gJQOsqJw3NNBTl54OUgULkmcVpgsHrHV7vdu6g7Ncf3i8dNj A==;
-X-IronPort-AV: E=Sophos;i="5.88,361,1635177600"; d="scan'208";a="304636163"
+ t=1644624063; x=1676160063;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=BVcJ3H0xI37hYmEcH9RcIT3zwvBrl8Sr1npO+d72CAE=;
+ b=IQqx/1TqxK4QPvy7QdfBZSK/sBvhPy8ZMF9twU75VZKjPGVfHmXRrsAt
+ S6MR7Yy/jsDoo0qgsChMpeXOwkvu5I3vl4b9exaDWeHSywv/F1DFG40qH
+ Ekxfn1wHOhHLwKkcUFVvXOW5Ov0CPE5jAuTKvE5dnf6DdAZ87u1vDURQ4
+ UR3brTHYHy9z6ScouLA3hOSjwOrAGNqArF6ptCTldCnEIe4DapY3wHxXr
+ BmJTLBJZ4zL11Tr2baeOOv8UKuHSpwpetgykBKo+ZVh7Wqxs/XIwgf/TV
+ fJ5r1PivpYFKvcRbnvsPcJusa9VHwoWCP/M6+4qTDrObbAJG7bDmRZu+d A==;
+X-IronPort-AV: E=Sophos;i="5.88,361,1635177600"; d="scan'208";a="304636171"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 12 Feb 2022 08:00:56 +0800
-IronPort-SDR: /amTb2UjGYpR9SuOyyr5jGLABsZ9ZrSNxDkjwyH3wuaJzRmfU2dLkDeU5wGEkX072g8GWFyDSV
- 8ZNwuQWNNDPhWyp+7cMzw24RXi/9Wl/67RYYx0N5DbRDxLNBZizK+o9Sbn+7QoqvnaxMc2bjaq
- 0XoUbddPU0sn2RdtaXSWVl5nm/u5v4UoRE8rl5yUx7BHx4DWce8UEccNtXvyT6pwHpk2U2kuo+
- WMNxEFTwh4WVF9fAURmwsdHxFDXwCjYiNyeynxE8Igbp1vXhgM94bfgkbjCaSgW3UCZrG+R6ue
- gXpExGna5wOTMo7mwhC2k7Kn
+ by ob1.hgst.iphmx.com with ESMTP; 12 Feb 2022 08:01:01 +0800
+IronPort-SDR: Mgn8nzYGz7ADHUO4hp5MPeOpH6Lp4+qxdj6Nnvbdwhm6JKfgvJ0UfNjaTiaKMS2oT3Uw/qmp/d
+ HjZeMxswe2SzFy9BiNvk7pDZNijVTyTue1+qaLwpPMce8cDXucHcCSGaSfjchlnmW5dQAC080u
+ 1Xq4HmhxpZ/m/F9Kjr65BgZu+0E3KkPemCTkQHHGYu/RafvvMrvOQoEuzlfETT7TnKHQWzPMHl
+ X2/1lzhXUbmtaiopfG8c14RMw3+2JL+4M8qoYYOq12mmibY+ZbI8DXrHL5BkG5i9LaWOcCWckO
+ UHgrLrdhuUYN5gtqNxXNnhPY
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 15:33:51 -0800
-IronPort-SDR: yoR5Pqtw8WCMMe8S+bxiCTtLo7BoU3OiCx+sRIEl8YnzkOFNQvEIP9cUCpxB+A1n4vdqOiXG6G
- ialRJNnLBWJY5bhHdckufCb+ObbEfvd/qLyPagXKmQDWshN0EiCLRfzmSo5ri4Hhxu1Iw8KGpp
- Q/JJR1T0V2fnm0Bv6+IQrzGr1EXq7KnXGYeYmtrmJPux6gjy73hEwAVGTzrBt1nemIrWsy+dLa
- o1If9psKlBZZV5j8PivLQ3or5ExpjIYifYWmIsS5lGDoUmR6fu8g/vIA0NbhppzwBzK6/Wqwqi
- MMo=
+ 11 Feb 2022 15:33:55 -0800
+IronPort-SDR: /WTYc2/lkq3a384QkOeEVPZpHaA5nkWV3CvR/M2KENjWI747RZ2gewP4uhPJF0gn+M/5cxoKh7
+ VNlr4AqhIHXQxmhULu2mDKZ1ckAQ2VzqpIu3e4Bm1bB3vcRf8ruLqXsVcrDZT3zmWBXh6ksB/o
+ WizIhyt/xTU7ec1w+as0ItLynJU+hIb2CIjxecAwusJ5/6sHC06lGD+Z6rrlXxccIaZHzEFRM0
+ 6lD2NIritZn2TAOY9G42IFhIhM/7k1ZFI/zFIwvrGfLQaSQ+fGlCqd9cKSWA33P3rkIfIIbBwo
+ aP8=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 16:00:56 -0800
+ 11 Feb 2022 16:01:01 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JwVxh4YBdz1SHwl
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 16:00:56 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JwVxn2WvLz1SVp0
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 16:01:01 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
- t=1644624056; x=1647216057; bh=p7dXbHrQpXaqM2jfjqjlzleGSHWtg37F
- r7aFvypxCTI=; b=brJvaE9gjyC3BrJgR70Z5MWUiBG3QpdMLrBEPLYVobTmZ4K1
- goEK/dQiVXJzoq0Q1ZEJr9e7oi3cqE7B5Rpyc3FvPsiZ4Xk0jRfXHcTNCz8nI2Ez
- fdD9lz5VwwAGjAPIYiNqtR51Rmm28njV37UbWgBLWZRPSPIzDSEQtP87ie5ETqt9
- KZXVMBtG3rzMhDoy6kGqvytm3XlDvkN7U4eZBWpuuAMPQvuoOG1JaJ8L8lvKbbJo
- MVwfgtDZahPu00FM976tES0glr0e78j0HP58Ar3IsoA+jVsUi529Qj6A11u4sRei
- 5f4RHzDI/OEKmB9M20gBDDw6yWRBoaYBqdcN5Q==
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1644624060; x=1647216061; bh=BVcJ3H0
+ xI37hYmEcH9RcIT3zwvBrl8Sr1npO+d72CAE=; b=MkcltkOoHF0sH5edrVPFI3f
+ TV7MsBzYXVu8YqHdIKpKr3kf9uollNefF+JB3JO8u0+YyedbsaFS68foVEvmdSUI
+ lZ61a+1nzizRMKYm27HwtVSsKSYE8VHwKetiH9W9EhTXqbcdWymKgg50dTVGzmeS
+ yPDUWxeUYzz13zuRsAD+Ow18ODlVCVbaO8sNZLhTG648QrAi2WC6FCqUgDt0A2C6
+ hc+97i8yHED4Q3eLU0KfvODTflW8lQOoAe+lS4XNxRETF+3jSb0R/OzcdrCbYQ5g
+ QFFCX3lNkWATXpbQx5tN+1a9U57LmkkkWLMB8jsToOMcJX/uGMSmGGttRPAjjqQ=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id IYDFG4deDJcS for <qemu-devel@nongnu.org>;
- Fri, 11 Feb 2022 16:00:56 -0800 (PST)
+ port 10026) with ESMTP id KGYGlYflY6Jq for <qemu-devel@nongnu.org>;
+ Fri, 11 Feb 2022 16:01:00 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.165.96])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JwVxd2y38z1Rwrw;
- Fri, 11 Feb 2022 16:00:52 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JwVxh6lPKz1Rwrw;
+ Fri, 11 Feb 2022 16:00:56 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 00/40] riscv-to-apply queue
-Date: Sat, 12 Feb 2022 09:59:51 +1000
-Message-Id: <20220212000031.3946524-1-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 01/40] include: hw: remove ibex_plic.h
+Date: Sat, 12 Feb 2022 09:59:52 +1000
+Message-Id: <20220212000031.3946524-2-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220212000031.3946524-1-alistair.francis@opensource.wdc.com>
+References: <20220212000031.3946524-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -114,139 +118,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-The following changes since commit 0a301624c2f4ced3331ffd5bce85b4274fe132=
-af:
+This patch removes the left-over/unused `ibex_plic.h` file. Previously
+used by opentitan, which now follows the RISC-V standard and uses the
+SiFivePlicState.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
-20208' into staging (2022-02-08 11:40:08 +0000)
-
-are available in the Git repository at:
-
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220212
-
-for you to fetch changes up to 31d69b66ed89fa0f66d4e5a15e9664c92c3ed8f8:
-
-  docs/system: riscv: Update description of CPU (2022-02-11 18:31:29 +100=
-0)
-
-----------------------------------------------------------------
-Fourth RISC-V PR for QEMU 7.0
-
- * Remove old Ibex PLIC header file
- * Allow writing 8 bytes with generic loader
- * Fixes for RV128
- * Refactor RISC-V CPU configs
- * Initial support for XVentanaCondOps custom extension
- * Fix for vill field in vtype
- * Fix trap cause for RV32 HS-mode CSR access from RV64 HS-mode
- * RISC-V AIA support for virt machine
- * Support for svnapot, svinval and svpbmt extensions
-
-----------------------------------------------------------------
-Anup Patel (23):
-      target/riscv: Fix trap cause for RV32 HS-mode CSR access from RV64 =
-HS-mode
-      target/riscv: Implement SGEIP bit in hip and hie CSRs
-      target/riscv: Implement hgeie and hgeip CSRs
-      target/riscv: Improve delivery of guest external interrupts
-      target/riscv: Allow setting CPU feature from machine/device emulati=
-on
-      target/riscv: Add AIA cpu feature
-      target/riscv: Add defines for AIA CSRs
-      target/riscv: Allow AIA device emulation to set ireg rmw callback
-      target/riscv: Implement AIA local interrupt priorities
-      target/riscv: Implement AIA CSRs for 64 local interrupts on RV32
-      target/riscv: Implement AIA hvictl and hviprioX CSRs
-      target/riscv: Implement AIA interrupt filtering CSRs
-      target/riscv: Implement AIA mtopi, stopi, and vstopi CSRs
-      target/riscv: Implement AIA xiselect and xireg CSRs
-      target/riscv: Implement AIA IMSIC interface CSRs
-      hw/riscv: virt: Use AIA INTC compatible string when available
-      target/riscv: Allow users to force enable AIA CSRs in HART
-      hw/intc: Add RISC-V AIA APLIC device emulation
-      hw/riscv: virt: Add optional AIA APLIC support to virt machine
-      hw/intc: Add RISC-V AIA IMSIC device emulation
-      hw/riscv: virt: Add optional AIA IMSIC support to virt machine
-      docs/system: riscv: Document AIA options for virt machine
-      hw/riscv: virt: Increase maximum number of allowed CPUs
-
-Fr=C3=A9d=C3=A9ric P=C3=A9trot (1):
-      target/riscv: correct "code should not be reached" for x-rv128
-
-Guo Ren (1):
-      target/riscv: Ignore reserved bits in PTE for RV64
-
-LIU Zhiwei (1):
-      target/riscv: Fix vill field write in vtype
-
-Petr Tesarik (1):
-      Allow setting up to 8 bytes with the generic loader
-
-Philipp Tomsich (7):
-      target/riscv: refactor (anonymous struct) RISCVCPU.cfg into 'struct=
- RISCVCPUConfig'
-      target/riscv: riscv_tr_init_disas_context: copy pointer-to-cfg into=
- cfg_ptr
-      target/riscv: access configuration through cfg_ptr in DisasContext
-      target/riscv: access cfg structure through DisasContext
-      target/riscv: iterate over a table of decoders
-      target/riscv: Add XVentanaCondOps custom extension
-      target/riscv: add a MAINTAINERS entry for XVentanaCondOps
-
-Weiwei Li (4):
-      target/riscv: add PTE_A/PTE_D/PTE_U bits check for inner PTE
-      target/riscv: add support for svnapot extension
-      target/riscv: add support for svinval extension
-      target/riscv: add support for svpbmt extension
-
-Wilfred Mallawa (1):
-      include: hw: remove ibex_plic.h
-
-Yu Li (1):
-      docs/system: riscv: Update description of CPU
-
- docs/system/riscv/virt.rst                         |   22 +-
- include/hw/intc/ibex_plic.h                        |   67 -
- include/hw/intc/riscv_aplic.h                      |   79 ++
- include/hw/intc/riscv_imsic.h                      |   68 ++
- include/hw/riscv/virt.h                            |   41 +-
- target/riscv/cpu.h                                 |  169 ++-
- target/riscv/cpu_bits.h                            |  129 ++
- target/riscv/XVentanaCondOps.decode                |   25 +
- target/riscv/insn32.decode                         |    7 +
- hw/core/generic-loader.c                           |    2 +-
- hw/intc/riscv_aplic.c                              |  978 ++++++++++++++=
-+
- hw/intc/riscv_imsic.c                              |  448 +++++++
- hw/riscv/virt.c                                    |  712 +++++++++--
- target/riscv/cpu.c                                 |  113 +-
- target/riscv/cpu_helper.c                          |  377 +++++-
- target/riscv/csr.c                                 | 1282 ++++++++++++++=
-++++--
- target/riscv/gdbstub.c                             |    3 +
- target/riscv/machine.c                             |   24 +-
- target/riscv/translate.c                           |   61 +-
- target/riscv/vector_helper.c                       |    1 +
- target/riscv/insn_trans/trans_rvb.c.inc            |    8 +-
- target/riscv/insn_trans/trans_rvi.c.inc            |    2 +-
- target/riscv/insn_trans/trans_rvv.c.inc            |  146 ++-
- target/riscv/insn_trans/trans_rvzfh.c.inc          |    4 +-
- target/riscv/insn_trans/trans_svinval.c.inc        |   75 ++
- .../riscv/insn_trans/trans_xventanacondops.c.inc   |   39 +
- MAINTAINERS                                        |    7 +
- hw/intc/Kconfig                                    |    6 +
- hw/intc/meson.build                                |    2 +
- hw/riscv/Kconfig                                   |    2 +
- target/riscv/meson.build                           |    1 +
- 31 files changed, 4409 insertions(+), 491 deletions(-)
+Fixes: 434e7e021 ("hw/intc: Remove the Ibex PLIC")
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Message-id: 20220121055005.3159846-1-alistair.francis@opensource.wdc.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ include/hw/intc/ibex_plic.h | 67 -------------------------------------
+ 1 file changed, 67 deletions(-)
  delete mode 100644 include/hw/intc/ibex_plic.h
- create mode 100644 include/hw/intc/riscv_aplic.h
- create mode 100644 include/hw/intc/riscv_imsic.h
- create mode 100644 target/riscv/XVentanaCondOps.decode
- create mode 100644 hw/intc/riscv_aplic.c
- create mode 100644 hw/intc/riscv_imsic.c
- create mode 100644 target/riscv/insn_trans/trans_svinval.c.inc
- create mode 100644 target/riscv/insn_trans/trans_xventanacondops.c.inc
+
+diff --git a/include/hw/intc/ibex_plic.h b/include/hw/intc/ibex_plic.h
+deleted file mode 100644
+index d596436e06..0000000000
+--- a/include/hw/intc/ibex_plic.h
++++ /dev/null
+@@ -1,67 +0,0 @@
+-/*
+- * QEMU RISC-V lowRISC Ibex PLIC
+- *
+- * Copyright (c) 2020 Western Digital
+- *
+- * This program is free software; you can redistribute it and/or modify =
+it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2 or later, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOU=
+T
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
+- * more details.
+- *
+- * You should have received a copy of the GNU General Public License alo=
+ng with
+- * this program.  If not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-#ifndef HW_IBEX_PLIC_H
+-#define HW_IBEX_PLIC_H
+-
+-#include "hw/sysbus.h"
+-#include "qom/object.h"
+-
+-#define TYPE_IBEX_PLIC "ibex-plic"
+-OBJECT_DECLARE_SIMPLE_TYPE(IbexPlicState, IBEX_PLIC)
+-
+-struct IbexPlicState {
+-    /*< private >*/
+-    SysBusDevice parent_obj;
+-
+-    /*< public >*/
+-    MemoryRegion mmio;
+-
+-    uint32_t *pending;
+-    uint32_t *hidden_pending;
+-    uint32_t *claimed;
+-    uint32_t *source;
+-    uint32_t *priority;
+-    uint32_t *enable;
+-    uint32_t threshold;
+-    uint32_t claim;
+-
+-    /* config */
+-    uint32_t num_cpus;
+-    uint32_t num_sources;
+-
+-    uint32_t pending_base;
+-    uint32_t pending_num;
+-
+-    uint32_t source_base;
+-    uint32_t source_num;
+-
+-    uint32_t priority_base;
+-    uint32_t priority_num;
+-
+-    uint32_t enable_base;
+-    uint32_t enable_num;
+-
+-    uint32_t threshold_base;
+-
+-    uint32_t claim_base;
+-
+-    qemu_irq *external_irqs;
+-};
+-
+-#endif /* HW_IBEX_PLIC_H */
+--=20
+2.34.1
+
 
