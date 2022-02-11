@@ -2,70 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9D24B1CAE
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 03:42:39 +0100 (CET)
-Received: from localhost ([::1]:49266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EB74B1CC1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 03:59:43 +0100 (CET)
+Received: from localhost ([::1]:53362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nILtO-0008SG-BG
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 21:42:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55754)
+	id 1nIM9u-000459-A8
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 21:59:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nILsN-0007dd-42; Thu, 10 Feb 2022 21:41:35 -0500
-Received: from smtp21.cstnet.cn ([159.226.251.21]:42460 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nILsJ-0006xj-2G; Thu, 10 Feb 2022 21:41:34 -0500
-Received: from [192.168.0.104] (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowAA3PvrHzAViK+ipAA--.57198S2;
- Fri, 11 Feb 2022 10:41:12 +0800 (CST)
-Subject: Re: [PATCH v3] target/riscv: Enable Zicbo[m,z,p] instructions
-To: Christoph Muellner <cmuellner@linux.com>,
- Atish Patra <atishp@rivosinc.com>, Anup Patel <anup@brainfault.org>,
- =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, Palmer Dabbelt
- <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Richard Henderson <richard.henderson@linaro.org>,
- Weiwei Li <liweiwei@iscas.ac.cn>
-References: <20220210163449.3859905-1-cmuellner@linux.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <2901768a-7aaa-2288-b971-a2b091a4ff51@iscas.ac.cn>
-Date: Fri, 11 Feb 2022 10:41:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20220210163449.3859905-1-cmuellner@linux.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1nIM7w-0003MC-4z
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 21:57:40 -0500
+Received: from esa.hc3962-90.iphmx.com ([216.71.140.77]:46205)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1nIM7t-0001iA-DJ
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 21:57:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
+ t=1644548257; x=1645153057;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=acNkxNkhmZ29lPLEnqF87hg188hH2tZK6D2J6baszFM=;
+ b=s7DyIowrYKsETtnILsn0WwEQGVWg4OMFv3E8cYlhPxQj8aJaO0WRm8jk
+ c5W0SRcH7F2iplfEI1mrAo9XbXqoALFttJhHMaJCqVsxeg9/qhfeYywYT
+ AkaCOtjzWRMrwAxWNe12p5SmrF+EkpwCHVo4bAWmQQ+YRKgU/xknBQ/AI A=;
+Received: from mail-dm6nam12lp2173.outbound.protection.outlook.com (HELO
+ NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.173])
+ by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 02:57:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=az9acZnlLxeyuoqkVkblZ+IXmoO0oTNmxhTyYBq8Qy9jEPdX8EjfudYbcnmXUSbS3YigeQMJ+1xJDQzNKvxGvzD77338Cb3v0kVjDkIKFoppSA2r/2sVeh4VhwitA1szC1CNWpTJYEvqM57QxuQW9gr7fjtG7sWGvxLg6aNf+jH5Q6ZbpXL9/YGSDTRwPC+NqNWX05ixQfZynCnu4YVbh6ntBQnQ4CAldQc+jYPm1IBOT00Do4Df2EwUHlbW/QLFUDgLESoG95Pauta6KDvsoqFkLtPHx2J1nUluOWkghVTOLzXvmkTdLi+0Ay7uLojo67I13sy2NKRXl9unIhglsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=acNkxNkhmZ29lPLEnqF87hg188hH2tZK6D2J6baszFM=;
+ b=FtAfjrdtg66vAd6Pi5xzSMpB3CGuAcsQHVKeyx/Dwf/grq81T3PpJsc3XMSqy4bVbJnYbN8b2OK3YNkv5PxwzUbg9kzbupPSD+a4/w6FnkYJP6L5ZDpb/frNOLqvyVJMrSw+kPphFHr2BJ8RHkbQEGcr2IpzFNEYbw51r0ZaIyEDPIjCeSQAxx0pCqqFm5eFfeHTUU2qYG4wNowGIPPf/qtVcmbGvO5PZ9p7pdOQKv+fgT+ZyXYn2eQ3Q1/X8tScJ1kci/Qh4eDajqJ40th97wcPIDt0wWvXozowgAZIEzzTryWHofybeaxLqkdw9ggqa7eKYVRqPLWo4uFUUVyiMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ (2603:10b6:806:203::12) by BL0PR02MB3649.namprd02.prod.outlook.com
+ (2603:10b6:207:4d::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Fri, 11 Feb
+ 2022 02:57:32 +0000
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::bd2b:92ca:d25e:9d10]) by SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::bd2b:92ca:d25e:9d10%9]) with mapi id 15.20.4951.014; Fri, 11 Feb 2022
+ 02:57:32 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 11/15] target: Use ArchCPU as interface to target CPU
+Thread-Topic: [PATCH 11/15] target: Use ArchCPU as interface to target CPU
+Thread-Index: AQHYHgF2SVTRlM5SbUGKmF4H97ngoayL0hWAgAE1szCAAIeigIAAGeWA
+Date: Fri, 11 Feb 2022 02:57:32 +0000
+Message-ID: <SN4PR0201MB88089AC229C2BEBFE6D37E9BDE309@SN4PR0201MB8808.namprd02.prod.outlook.com>
+References: <20220209215446.58402-1-f4bug@amsat.org>
+ <20220209215446.58402-12-f4bug@amsat.org>
+ <83e91592-af1b-de86-83ce-a3fcf467fdf7@linaro.org>
+ <SN4PR0201MB8808BEEAFCF4A89EDBB2165DDE2F9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+ <048e19d0-0dc7-919e-fd46-3130f1b08111@linaro.org>
+In-Reply-To: <048e19d0-0dc7-919e-fd46-3130f1b08111@linaro.org>
+Accept-Language: en-US
 Content-Language: en-US
-X-CM-TRANSID: qwCowAA3PvrHzAViK+ipAA--.57198S2
-X-Coremail-Antispam: 1UD129KBjvAXoWfGrWrArWUZryUWw1kJF1UZFb_yoW8JryfCo
- WxCr4xAr4fKr13CF9YkwnrXr17Xw409FZ3Jr4q9r1DWFZ7ZryxZr9rtw4rAa1xtr1fKFW8
- Ja97Xa43Aan5W3s3n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjp_UUUYk7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
- j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
- x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8
- JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
- Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
- x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
- 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_WFyU
- JVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
- IYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=quicinc.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c6307064-2d7f-4398-cba2-08d9ed0a3fb6
+x-ms-traffictypediagnostic: BL0PR02MB3649:EE_
+x-microsoft-antispam-prvs: <BL0PR02MB3649B0685170E672BD0065B1DE309@BL0PR02MB3649.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: C4lANchxaSUerRzB9HlGi2bak/WOfZRMrVivUwSonDuicE0iquPTcK35/EYzLjYFnkRpfVYxwT6LdQ4VPvDM1dF1Qy6/4v2JQEZvuqWttuA5cVzcYquQRysbMmztjdWO3j1w+D1nZ2Mtiqe2ddRxrKXoQhSwJleGa9Se36X00r1KUwGfk4UiXzPvDAvIKQYAfh6WMft0MNkFU/83xtQ5COOEdi04/V1NEN17X/Okxed8XZ+DsrR+lp89CVQCh2NbZ4Yamd95OHHSalhM0mrSftKCGq23oORjvwBjXIPZipLD72LsEV6qV3IaEGi9p2h9Ozjez9x2clVHo+Y7syrRKrpfdJCaAfJIU86iYJty5WZGHOPO9jBAWMLdhGpYqewu5nkR5BqN4Vcv9GldYH7QhKkapX+64fKui81HlKGqO38gdzG8ZubTDIMhY4QTnDqtUk+piUzd5hrDk1JHTa95uZvdyPmX80cLdUCEoT4zkDWAscoi8eli6OcSPRYTE1fhzkX8Hyzr9e6+w8OfxXdmU866TxaPR5NCsQ/NzT+IvRia2XczGBK0qmeebEMHzdfCGAJPN+HQFGi/C3NutO/cDThukco5QTLAKvT90hlMqhldGHD02X2vLUM/HrR/qy72+OR4ikhX32Iz4R5Vf6lvpmoxDT+aTSAV1lAREaix+JolqKVtmXQGBA+hh5jIsQkND6DfzJ3oxdclJZBuWM7VCQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(5660300002)(8676002)(86362001)(76116006)(55016003)(508600001)(8936002)(38100700002)(38070700005)(9686003)(52536014)(83380400001)(4326008)(66946007)(33656002)(66446008)(110136005)(66556008)(71200400001)(2906002)(53546011)(122000001)(64756008)(7696005)(66476007)(54906003)(6506007)(316002)(186003)(26005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bU1oWTA4bGFad1k4TGc5R2NmTTNUek5BSk9UblQ5cXNLWkRIOUJXbkVXQVhZ?=
+ =?utf-8?B?T3ZCcVdDSmhFN2NtKzc1Q1lDMlZwWVpTZ3RVSXZNRTVROXZPamduSGpIZ0JH?=
+ =?utf-8?B?MlRWcVBIYmpCeldvU1B4aGgyU25NNW9rc1YwZjBvK2N3MUg3YWVLWlZYNGJB?=
+ =?utf-8?B?ZFdRVDh0VSt5RnhrRWYyaS9UcXZBc0pDUm5PY0V4OVc3eTQ1dm5Ncjl3djBF?=
+ =?utf-8?B?eGtUdU9SVFJqdktJMlhneHpyQTVpT2xOaHh1M2lQOHc3Vm16V2V4S0ExZ2ZL?=
+ =?utf-8?B?dG9kZHhnYS9DUW43WE05KzlmaUpPek1xcDVNTXh3Wk9FanZUVEFBcE1kRjly?=
+ =?utf-8?B?cEZycWM1SFhweGZMZUVhV1Y2cmg1L1VFeWVoZzh6VnQ5MEdiOENQcTlsWk9Z?=
+ =?utf-8?B?V0pRMCtEOVZLUU90NHloOEhyN25yNldrVVp6TWp1ZDJTaE5OS0tVNWw4MWNO?=
+ =?utf-8?B?UkRRRnF6ZXZKeWFKeDFLUlh6UUw3a2JwcHVoNE1aVmo5aTBySEVxSTk4ZXRT?=
+ =?utf-8?B?aGFOd2RwWGJQSlNvZ24yQnErYmRBQlBUMEkrRUFiUElIQTZaN2tTU0hYNU5B?=
+ =?utf-8?B?YVpDRDFYVmUwYlNLT09zbU5FMStRR05Hd2luMnlZVWJUcEdXQUZpa0tvUG1j?=
+ =?utf-8?B?ZTI5RENiNVl4QVNWZFBScHc4ZEcyaFQvNWxtR0xVQitxWHF2TVhtSUg4bDRa?=
+ =?utf-8?B?UEt0emJRb3hqaExJdm1yUFhoVmdKN1JXNVVvRjc1eWtGT3d2OEdCbmVQdkRw?=
+ =?utf-8?B?RzB2NmNBV2g5QXVXSlJlUC9WdnBrQXEwd3J3NHVHZHdrMzE5UnJGT0ZEVjNI?=
+ =?utf-8?B?UmsxTy9SYzc5UTFhYkxhWCtxc003MTJiTUEzZG42cURGTWNmb0IrL0NrSFFu?=
+ =?utf-8?B?UVpvbUN6NlFpTzloNnBybjB4b3VsTzZhK0p3S2N1dERmWUpjelFmcHMrL083?=
+ =?utf-8?B?eFZ6di8zcGErem83ZmxtMUJIdjAzTlBHZVFHT051Slo5L1VheXZWM0swc2xr?=
+ =?utf-8?B?amZ4UzZMdnhCT2k0M3ZQTGJiZXQzOHBUc2xLZ3plWmJEd1poanNET2tJbzR4?=
+ =?utf-8?B?MmF3SUtncUVMVzVxbmVRQjkyQ2Vmei9YYVR5Q1dNMHJKQjQ4V0tlY3Rzbi96?=
+ =?utf-8?B?NTJ4M2RNeGc2c2w0ZzhZNlVBbmhIYXdoYm1TL2JTL0V3anh5TityeUpVcnRN?=
+ =?utf-8?B?QVFmN0VpRUJqMlFvSmFqVzdVQmh5cUxVa21EVXcxN1VBQktIdlJSdzYySHRr?=
+ =?utf-8?B?UVZSM1NycWFZRCtvdUVkWlZYa2Y3L3ZkYWNnOGtDaEZnZDlVZEE1WDRRWkxS?=
+ =?utf-8?B?SWF1UjV5MFRES21mejZFTGNDNmp6emxjK0dTdUFTZ3dRcFA5OFVvRTdtZ0Fo?=
+ =?utf-8?B?THZwVUY0ZUo5U21mZ3hEUmU1eHZLazhkNHNFckZ4aHU4RzQ3c2xzUFFYWFNp?=
+ =?utf-8?B?bjA5N0t4UGdmQ0lOWlExVjBWMm5QMm9xblFzM0NKY0JkbWRrRmxoV245VmhU?=
+ =?utf-8?B?UnJFamROY3dNM0taRzVKU3FLZVRPNUtuNFpTaFpMbkNkcGNBZGtuZXFKZ21q?=
+ =?utf-8?B?S0ZDYlVVNjRLWGlzNlNQSDBzS3dGSTNpdkpsZEExUStKWXdWaXluVFBhYlNY?=
+ =?utf-8?B?anA4VU5yU3lzR3h4dGNxRDZ0bDV0WUExOVlPQ3R4RktwZDhveWdPL28wdUFm?=
+ =?utf-8?B?UUYxY1FqS2ZtOXVxZGR4R3ZWUXE5QldRNmZWR0l5RlNrNW1JYk1aYm1BSlRm?=
+ =?utf-8?B?RDFQNFlNeVE0QUI5bGZjRTk0MXlkYndZZXM5UkQwQkIrTDRNdWNMemFzaVRD?=
+ =?utf-8?B?QkRwVEVMTWNjQjBzTWxsc09xajBMdS9sbWZKdCtTdUxucjRlRTMxRDFZRWpo?=
+ =?utf-8?B?RXFOcHIwOFhmQlVOUy8wU3hkbkc2SWk1U015bnpONFFRSUZ3R0R0ckhWVEFD?=
+ =?utf-8?B?QThyaCs5aWNYVm8zZUhHUG5ScG40ZVlCZ0pZODVNeXYyS3Y0NzhoSFRJaEhO?=
+ =?utf-8?B?YXZYVnFNTnJLVk1ONENHall5cEdBM1ZNeDI2NWx4dm1lWlFHanBhbW1yU0cy?=
+ =?utf-8?B?TmFZVmV2NXRYb0I3cmxPb0JZWUNyRksyUnBudm00WVhkTHFjdE5hcG9Ud3FM?=
+ =?utf-8?B?YlN3U1VsTHhLbHhFZ2FkbUpndG9GY2lLcmEraC8vR0U4NldQYWhBVzcrRDlU?=
+ =?utf-8?Q?p2LjswDBdoASDKTWoVYcvm8=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6307064-2d7f-4398-cba2-08d9ed0a3fb6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2022 02:57:32.2942 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KSfCU6CknwyNoE9XwkZxOYBGcwrVDczSAwuwmsjFb8TvM39PesuiLqf9ZA4Lu2Yq8nwM+DGNDAPVzlyviErN0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB3649
+Received-SPF: pass client-ip=216.71.140.77; envelope-from=tsimpson@quicinc.com;
+ helo=esa.hc3962-90.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,346 +156,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/2/11 上午12:34, Christoph Muellner 写道:
-> The RISC-V base cache management operation ISA extension has been
-> ratified [1]. This patch adds support for the defined instructions.
->
-> The cmo.prefetch instructions are nops for QEMU (no emulation of the memory
-> hierarchy, no illegal instructions, no permission faults, no traps),
-> therefore there's only a comment where they would be decoded.
->
-> The other cbo* instructions are moved into an overlap group to
-> resolve the overlapping pattern with the LQ instruction.
-> The cbo.zero zeros a configurable amount of bytes.
-> Similar to other extensions (e.g. atomic instructions),
-> the trap behavior is limited such, that only the page permissions
-> are checked (ignoring other optional protection mechanisms like
-> PMA or PMP).
->
-> [1] https://wiki.riscv.org/display/TECH/Recently+Ratified+Extensions
->
-> v3:
-> - Enable by default (like zb*)
-> - Rename flags Zicbo* -> zicbo* (like zb*)
-> - Rename ext_zicbo* -> ext_icbo* (like ext_icsr)
-> - Rename trans_zicbo.c.inc -> trans_rvzicbo.c.inc (like all others)
-> - Simplify prefetch instruction support to a single comment
-> - Rebase on top of github-alistair23/riscv-to-apply.next plus the
->    Priv v1.12 series from github-atishp04/priv_1_12_support_v3
->
-> v2:
-> - Fix overlapping instruction encoding with LQ instructions
-> - Drop CSR related changes and rebase on Priv 1.12 patchset
->
-> Co-developed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> Signed-off-by: Christoph Muellner <cmuellner@linux.com>
-> ---
->   target/riscv/cpu.c                          |  3 +
->   target/riscv/cpu.h                          |  3 +
->   target/riscv/helper.h                       |  5 ++
->   target/riscv/insn32.decode                  | 16 +++-
->   target/riscv/insn_trans/trans_rvzicbo.c.inc | 57 +++++++++++++
->   target/riscv/op_helper.c                    | 94 +++++++++++++++++++++
->   target/riscv/translate.c                    |  1 +
->   7 files changed, 178 insertions(+), 1 deletion(-)
->   create mode 100644 target/riscv/insn_trans/trans_rvzicbo.c.inc
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 39ffb883fc..cbd0a34318 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -764,6 +764,9 @@ static Property riscv_cpu_properties[] = {
->       DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->       DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->       DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> +    DEFINE_PROP_BOOL("zicbom", RISCVCPU, cfg.ext_icbom, true),
-> +    DEFINE_PROP_BOOL("zicboz", RISCVCPU, cfg.ext_icboz, true),
-> +    DEFINE_PROP_UINT16("cbozlen", RISCVCPU, cfg.cbozlen, 64),
->       DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->       DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
->       DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index fe80caeec0..7bd2fd26d6 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -368,6 +368,8 @@ struct RISCVCPUConfig {
->       bool ext_counters;
->       bool ext_ifencei;
->       bool ext_icsr;
-> +    bool ext_icbom;
-> +    bool ext_icboz;
->       bool ext_zfh;
->       bool ext_zfhmin;
->       bool ext_zve32f;
-> @@ -382,6 +384,7 @@ struct RISCVCPUConfig {
->       char *vext_spec;
->       uint16_t vlen;
->       uint16_t elen;
-> +    uint16_t cbozlen;
->       bool mmu;
->       bool pmp;
->       bool epmp;
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 72cc2582f4..ef1944da8f 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -92,6 +92,11 @@ DEF_HELPER_FLAGS_2(fcvt_h_l, TCG_CALL_NO_RWG, i64, env, tl)
->   DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
->   DEF_HELPER_FLAGS_1(fclass_h, TCG_CALL_NO_RWG_SE, tl, i64)
->   
-> +/* Cache-block operations */
-> +DEF_HELPER_2(cbo_clean_flush, void, env, tl)
-> +DEF_HELPER_2(cbo_inval, void, env, tl)
-> +DEF_HELPER_2(cbo_zero, void, env, tl)
-> +
->   /* Special functions */
->   DEF_HELPER_2(csrr, tl, env, int)
->   DEF_HELPER_3(csrw, void, env, int, tl)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 5bbedc254c..d5f8329970 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -128,6 +128,7 @@ addi     ............     ..... 000 ..... 0010011 @i
->   slti     ............     ..... 010 ..... 0010011 @i
->   sltiu    ............     ..... 011 ..... 0010011 @i
->   xori     ............     ..... 100 ..... 0010011 @i
-> +# cbo.prefetch_{i,r,m} instructions are ori with rd=x0 and not decoded.
->   ori      ............     ..... 110 ..... 0010011 @i
->   andi     ............     ..... 111 ..... 0010011 @i
->   slli     00000. ......    ..... 001 ..... 0010011 @sh
-> @@ -168,7 +169,20 @@ sraw     0100000 .....  ..... 101 ..... 0111011 @r
->   
->   # *** RV128I Base Instruction Set (in addition to RV64I) ***
->   ldu      ............   ..... 111 ..... 0000011 @i
-> -lq       ............   ..... 010 ..... 0001111 @i
-> +{
-> +  [
-> +    # *** RV32 Zicbom Standard Extension ***
-> +    cbo_clean  0000000 00001 ..... 010 00000 0001111 @sfence_vm
-> +    cbo_flush  0000000 00010 ..... 010 00000 0001111 @sfence_vm
-> +    cbo_inval  0000000 00000 ..... 010 00000 0001111 @sfence_vm
-> +
-> +    # *** RV32 Zicboz Standard Extension ***
-> +    cbo_zero   0000000 00100 ..... 010 00000 0001111 @sfence_vm
-> +  ]
-> +
-> +  # *** RVI128 lq ***
-> +  lq       ............   ..... 010 ..... 0001111 @i
-> +}
->   sq       ............   ..... 100 ..... 0100011 @s
->   addid    ............  .....  000 ..... 1011011 @i
->   sllid    000000 ......  ..... 001 ..... 1011011 @sh6
-> diff --git a/target/riscv/insn_trans/trans_rvzicbo.c.inc b/target/riscv/insn_trans/trans_rvzicbo.c.inc
-> new file mode 100644
-> index 0000000000..35c277261f
-> --- /dev/null
-> +++ b/target/riscv/insn_trans/trans_rvzicbo.c.inc
-> @@ -0,0 +1,57 @@
-> +/*
-> + * RISC-V translation routines for the RISC-V CBO Extension.
-> + *
-> + * Copyright (c) 2021 Philipp Tomsich, philipp.tomsich@vrull.eu
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#define REQUIRE_ZICBOM(ctx) do {		\
-> +    if (!RISCV_CPU(ctx->cs)->cfg.ext_icbom) {	\
-> +        return false;				\
-> +    }						\
-> +} while (0)
-> +
-It's better to use ctx->cfg_ptr->ext_icbom instead.
-> +#define REQUIRE_ZICBOZ(ctx) do {		\
-> +    if (!RISCV_CPU(ctx->cs)->cfg.ext_icboz) {	\
-> +        return false;				\
-> +    }						\
-> +} while (0)
-> +
-> +static bool trans_cbo_clean(DisasContext *ctx, arg_cbo_clean *a)
-> +{
-> +    REQUIRE_ZICBOM(ctx);
-> +    gen_helper_cbo_clean_flush(cpu_env, cpu_gpr[a->rs1]);
-> +    return true;
-> +}
-> +
-> +static bool trans_cbo_flush(DisasContext *ctx, arg_cbo_flush *a)
-> +{
-> +    REQUIRE_ZICBOM(ctx);
-> +    gen_helper_cbo_clean_flush(cpu_env, cpu_gpr[a->rs1]);
-> +    return true;
-> +}
-> +
-> +static bool trans_cbo_inval(DisasContext *ctx, arg_cbo_inval *a)
-> +{
-> +    REQUIRE_ZICBOM(ctx);
-> +    gen_helper_cbo_inval(cpu_env, cpu_gpr[a->rs1]);
-> +    return true;
-> +}
-> +
-> +static bool trans_cbo_zero(DisasContext *ctx, arg_cbo_zero *a)
-> +{
-> +    REQUIRE_ZICBOZ(ctx);
-> +    gen_helper_cbo_zero(cpu_env, cpu_gpr[a->rs1]);
-> +    return true;
-> +}
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index 1a75ba11e6..21762bc2e0 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -3,6 +3,7 @@
->    *
->    * Copyright (c) 2016-2017 Sagar Karandikar, sagark@eecs.berkeley.edu
->    * Copyright (c) 2017-2018 SiFive, Inc.
-> + * Copyright (c) 2022      VRULL GmbH
->    *
->    * This program is free software; you can redistribute it and/or modify it
->    * under the terms and conditions of the GNU General Public License,
-> @@ -114,6 +115,99 @@ target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
->       return int128_getlo(rv);
->   }
->   
-> +
-> +/* helper_zicbo_envcfg
-> + *
-> + * Raise virtual exceptions and illegal instruction exceptions for
-> + * Zicbo[mz] instructions based on the settings of [mhs]envcfg as
-> + * specified in section 2.5.1 of the CMO specification.
-> + */
-> +static void helper_zicbo_envcfg(CPURISCVState *env, target_ulong envbits,
-> +                                uintptr_t ra)
-> +{
-> +#ifndef CONFIG_USER_ONLY
-> +    /* Check for virtual instruction exceptions first, as we don't see
-> +     * VU and VS reflected in env->priv (these are just the translated
-> +     * U and S stated with virtualisation enabled.
-> +     */
-> +    if (riscv_cpu_virt_enabled(env) &&
-> +        (((env->priv < PRV_H) && !get_field(env->henvcfg, envbits)) ||
-> +         ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits)))) {
-> +        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, ra);
-> +    }
-> +
-> +    if (((env->priv < PRV_M) && !get_field(env->menvcfg, envbits)) ||
-> +        ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits))) {
-> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, ra);
-> +    }
-> +#endif
-> +}
-> +
-> +/* helper_zicbom_access
-> + *
-> + * Check access permissions (LOAD, STORE or FETCH as specified in section
-> + * 2.5.2 of the CMO specification) for Zicbom, raising either store
-> + * page-fault (non-virtualised) or store guest-page fault (virtualised).
-> + */
-> +static void helper_zicbom_access(CPURISCVState *env, target_ulong address,
-> +                                 uintptr_t ra)
-> +{
-> +    void* phost;
-> +    int ret = TLB_INVALID_MASK;
-> +    MMUAccessType access_type = MMU_DATA_LOAD;
-> +
-> +    while (ret == TLB_INVALID_MASK && access_type <= MMU_INST_FETCH) {
-> +        ret = probe_access_flags(env, address, access_type++,
-> +                                 cpu_mmu_index(env, false),
-> +                                 true, &phost, ra);
-
-Using probe_access_flags here will make the size of   pmp check for 
-final physical address to be zero.
-
-Maybe it's better to use probe_access with cbozlen as size and address 
-aligned to cbozlen.
-
-
-> +    }
-> +
-> +    if (ret == TLB_INVALID_MASK) {
-> +        uint32_t exc = RISCV_EXCP_STORE_PAGE_FAULT;
-> +
-> +#ifndef CONFIG_USER_ONLY
-> +        /* User-mode emulation does not have virtualisation. */
-> +        if (riscv_cpu_virt_enabled(env)) {
-> +            exc = RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT;
-> +        }
-> +#endif
-> +        riscv_raise_exception(env, exc, ra);
-
-If pmp violation triggers, the exception type should be 
-RISCV_EXCP_STORE_AMO_ACCESS_FAULT.
-
-And It seems that not all exception triggered when virtualisation is 
-enabled is guest page fault(RISCV_EXCP_STORE_GUEST_*_ACCESS_FAULT) .  
-The exception triggered in first stage(G-Stage) is normal page fault.
-
-Regards,
-
-Weiwei Li
-
-> +    }
-> +}
-> +
-> +void helper_cbo_clean_flush(CPURISCVState *env, target_ulong address)
-> +{
-> +    uintptr_t ra = GETPC();
-> +    helper_zicbo_envcfg(env, MENVCFG_CBCFE, ra);
-> +    helper_zicbom_access(env, address, ra);
-> +}
-> +
-> +void helper_cbo_inval(CPURISCVState *env, target_ulong address)
-> +{
-> +    uintptr_t ra = GETPC();
-> +    helper_zicbo_envcfg(env, MENVCFG_CBIE, ra);
-> +    helper_zicbom_access(env, address, ra);
-> +}
-> +
-> +void helper_cbo_zero(CPURISCVState *env, target_ulong address)
-> +{
-> +    uintptr_t ra = GETPC();
-> +    helper_zicbo_envcfg(env, MENVCFG_CBZE, ra);
-> +
-> +    /* Get the size of the cache block for zero instructions. */
-> +    RISCVCPU *cpu = env_archcpu(env);
-> +    uint16_t cbozlen = cpu->cfg.cbozlen;
-> +
-> +    /* Mask off low-bits to align-down to the cache-block. */
-> +    address &= ~(cbozlen - 1);
-> +
-> +    void* mem = probe_access(env, address, cbozlen, MMU_DATA_STORE,
-> +                             cpu_mmu_index(env, false), GETPC());
-> +
-> +    /* Zero the block */
-> +    memset(mem, 0, cbozlen);
-> +}
-> +
->   #ifndef CONFIG_USER_ONLY
->   
->   target_ulong helper_sret(CPURISCVState *env)
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index eaf5a72c81..0ee2ce85ec 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -861,6 +861,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
->   #include "insn_trans/trans_rvv.c.inc"
->   #include "insn_trans/trans_rvb.c.inc"
->   #include "insn_trans/trans_rvzfh.c.inc"
-> +#include "insn_trans/trans_rvzicbo.c.inc"
->   #include "insn_trans/trans_privileged.c.inc"
->   #include "insn_trans/trans_xventanacondops.c.inc"
->   
-
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJpY2hhcmQgSGVuZGVyc29u
+IDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnPg0KPiBTZW50OiBUaHVyc2RheSwgRmVicnVh
+cnkgMTAsIDIwMjIgNzoyMiBQTQ0KPiBUbzogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNp
+bmMuY29tPjsgUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kNCj4gPGY0YnVnQGFtc2F0Lm9yZz47IHFl
+bXUtZGV2ZWxAbm9uZ251Lm9yZw0KPiBDYzogUGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0
+LmNvbT47IFRob21hcyBIdXRoDQo+IDx0aHV0aEByZWRoYXQuY29tPg0KPiBTdWJqZWN0OiBSZTog
+W1BBVENIIDExLzE1XSB0YXJnZXQ6IFVzZSBBcmNoQ1BVIGFzIGludGVyZmFjZSB0byB0YXJnZXQg
+Q1BVDQo+IA0KPiBPbiAyLzExLzIyIDA0OjM1LCBUYXlsb3IgU2ltcHNvbiB3cm90ZToNCj4gPiAt
+I2RlZmluZSBIRVhBR09OX0NQVV9DTEFTUyhrbGFzcykgXA0KPiA+IC0gICAgT0JKRUNUX0NMQVNT
+X0NIRUNLKEhleGFnb25DUFVDbGFzcywgKGtsYXNzKSwNCj4gVFlQRV9IRVhBR09OX0NQVSkNCj4g
+PiAtI2RlZmluZSBIRVhBR09OX0NQVShvYmopIFwNCj4gPiAtICAgIE9CSkVDVF9DSEVDSyhIZXhh
+Z29uQ1BVLCAob2JqKSwgVFlQRV9IRVhBR09OX0NQVSkNCj4gPiAtI2RlZmluZSBIRVhBR09OX0NQ
+VV9HRVRfQ0xBU1Mob2JqKSBcDQo+ID4gLSAgICBPQkpFQ1RfR0VUX0NMQVNTKEhleGFnb25DUFVD
+bGFzcywgKG9iaiksIFRZUEVfSEVYQUdPTl9DUFUpDQo+ID4gK09CSkVDVF9ERUNMQVJFX1RZUEUo
+SGV4YWdvbkNQVSwgSGV4YWdvbkNQVUNsYXNzLA0KPiBIRVhBR09OX0NQVSkNCj4gPg0KPiA+ICAg
+dHlwZWRlZiBzdHJ1Y3QgSGV4YWdvbkNQVUNsYXNzIHsNCj4gPiAgICAgICAvKjwgcHJpdmF0ZSA+
+Ki8NCj4gPg0KICBCdXQgaXQncyBkZWZpbml0ZWx5IGEgc21hbGxlciBjaGFuZ2UgKGFuZCBtYXRj
+aGVzIGFsbCBvZiB0aGUgb3RoZXIgdGFyZ2V0cykuDQo+IA0KPiBJIGRvIHRoaW5rIHRoYXQgdGhl
+IGNvbnZlcnNpb24gdG8gT0JKRUNUX0RFQ0xBUkVfVFlQRSBzaG91bGQgaGFwcGVuIGZpcnN0LA0K
+PiB2aWEgd2hpY2hldmVyIHRyZWUgeW91IGNob29zZS4NCg0KT0ssIEknbGwgc2VuZCBhIHBhdGNo
+LiAgVGhlbiwgc3VibWl0IGEgcHVsbCByZXF1ZXN0IGFsb25nIHdpdGggdGhlIG90aGVyIGNoYW5n
+ZXMgeW91IGp1c3QgbG9va2VkIGF0Lg0KDQpUYXlsb3INCg0K
 
