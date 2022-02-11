@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069E94B1CFF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 04:41:39 +0100 (CET)
-Received: from localhost ([::1]:33896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D504B1D03
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 04:42:53 +0100 (CET)
+Received: from localhost ([::1]:36576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIMoU-0004ku-45
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 22:41:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40286)
+	id 1nIMpg-0006ch-Hc
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 22:42:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIMmv-00044I-AW
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:40:01 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=34535
- helo=mail-pl1-x62a.google.com)
+ id 1nIMoK-00057l-AC
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:41:28 -0500
+Received: from [2607:f8b0:4864:20::632] (port=35626
+ helo=mail-pl1-x632.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIMmt-0002b4-NL
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:40:00 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id 10so3630083plj.1
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 19:39:59 -0800 (PST)
+ id 1nIMoI-0002uO-Hu
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 22:41:28 -0500
+Received: by mail-pl1-x632.google.com with SMTP id y7so3629742plp.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 19:41:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Gg8WGxGYH2LjWYRc4BS8CSASSb3XKuvO5pUyymFwtu4=;
- b=EKEF0bq1cWMGAII3MP0KkdpM2p+HhLv6zIMWyBpsf3SzWBUBGIdmVWjWMBYi7ipdn/
- 0BtylIw9FhmYB46fcoe4yWJde/OxX7QpkzlE92Vmu3FTRDZ8A3c2cBC4ph6hHUO5+N4c
- ILvI3GuCMYONyn70vanLkunYB6+XIH4PfwGA4hpGZ7V4Jd6rDg9gCOUYRRg6jBpMVgnA
- +ByV24mVo6VgnmS1cGpcLVqzPlploUPR6zGdzayKXcm3zLm+crKcAclnVh1KmXtvrV+E
- q+VKRB/T7FG8FPzSwKdfFY8QiS7QogP/rv3EhUcXDWBT0dHLdBf5T2LH7zLoO++8S6gm
- K0xw==
+ bh=6yxVVQwRaxPG0htdm64W7X46JQvDP9bkHkUHM+cd59I=;
+ b=hESSoc6Exmta1gugmgzNfpbeWMDcMk1X5f3QPHqNNKl0VfvlkbQ/CHgpru9QgsvGcr
+ 54ONnL7z6kRgdJgwmedwEoYUAq2oeCVlym7zgj0zF0jYHxSQEP8JEgeJsaZXP7UTtsCv
+ p+/aip2wwlqljycPMCcueqiceWSRWJDyyO7siMa37pjM9pi0A57Cp74ww0mC0xVo/TSn
+ QAyrIKdSkG0FC9zANXCX0BOYKarVowV2ycAyY6VYhtQT2+wSgupzt+RRpbjtsRztOxjw
+ KKoSenQ1SNvPEuoiWiO+Z5IykYTP28eYhIV9foUhX57mT+FuRtbaJsxEiWYgJbmBnQDG
+ SKaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Gg8WGxGYH2LjWYRc4BS8CSASSb3XKuvO5pUyymFwtu4=;
- b=Y2Pghja1iGh0OpRoL37RlwX70VG2Jaz++Y8IadgfQytHgVFYRjZbgRMptRcy7Y3Lkp
- pKp8qH9dzETiCeyf1UuEQUVLiOiWlnMopEiPLsrluQRmTYN5uBKKuIuJoGjuqPlbkedx
- TmtFG/fqoZdhtYGeZAOan3XrLSn8IXB+6su3r65QPelUKR3fYzm5liszRv0Jb4iY1/xu
- zmdb/9ZHXjRNZEEo0bAMq2GxT+9KJ1yN1GbAqrMd3Uq+4rRI9b+awM2luHCetnU1Irn9
- MMko1SuwnCg2/7FTNfRTDeii4Wopuib8KHFgzPQKUKp+xcze6RSFcWGMwiX3USjY6Jih
- mALQ==
-X-Gm-Message-State: AOAM532HQDTcLQ9igN+irhJglMoJokBcpBooL9FAwGN30UEBxwUhYBca
- N3QC3TBrBwlxt6Kx5zF6fr+evA==
-X-Google-Smtp-Source: ABdhPJzrS7xC9dV+G8RNLDfRWIE0yfhJ4F07GpnrENJ+i/XBu1fT/wYsvRSTH0L9Quel706RHodsoQ==
-X-Received: by 2002:a17:902:a505:: with SMTP id
- s5mr10478507plq.157.1644550798129; 
- Thu, 10 Feb 2022 19:39:58 -0800 (PST)
+ bh=6yxVVQwRaxPG0htdm64W7X46JQvDP9bkHkUHM+cd59I=;
+ b=SNMZTxc+AqFk3uUdV8ZlfdTz3GnxtqI/9tn8IhVrH3DMgkPWA0DdLYq+bLqMIerytb
+ 8iyWSDIGyPby4N7t6mgDOmP8SHNyLHijWj+PuZBdaUUJkmkw5XU9D8jwtHA2NjmWN8NB
+ syppryeHn3GPn2qaEd9omk3RLkf8S+LfS+H7zrJ6SGU83CKoJhMyjQpwage6RBHuCxeF
+ FQdEgMi8q+1pLfX9taSKfmYAIrgAX8hD0SneUI3fcYArpvB/TrwEsPURr+FSFYKWzJyQ
+ fhJpi16mUNvgT6PP54ALV9fL1EEtZCf/+ame+rCZ93qC6ciPOzT4FfKfk9XgyARf4HD7
+ lSYQ==
+X-Gm-Message-State: AOAM532NKykQtxggJ2WsxilO2T4OlfuJHsnU3OKODnHQ8eFt7aqB94P9
+ QS0AVmADFOCJ1t/t5SkD25eZww==
+X-Google-Smtp-Source: ABdhPJzWPsvhWCKPz80BQ4/Vpv1e/pCb177b3t8kKj9jIsv6/r6B+6Rg/xa+RZpIpauCUGZIBVMCJw==
+X-Received: by 2002:a17:90b:4d82:: with SMTP id
+ oj2mr644993pjb.79.1644550885210; 
+ Thu, 10 Feb 2022 19:41:25 -0800 (PST)
 Received: from [10.0.0.163] ([124.189.222.164])
- by smtp.gmail.com with ESMTPSA id p21sm25697365pfh.89.2022.02.10.19.39.54
+ by smtp.gmail.com with ESMTPSA id d15sm24484709pfu.127.2022.02.10.19.41.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 19:39:57 -0800 (PST)
-Message-ID: <3c913b30-d61d-10e4-4a83-458a8236d135@linaro.org>
-Date: Fri, 11 Feb 2022 14:39:08 +1100
+ Thu, 10 Feb 2022 19:41:24 -0800 (PST)
+Message-ID: <7695d8fb-466e-f9e0-2770-6a6234551a95@linaro.org>
+Date: Fri, 11 Feb 2022 14:41:18 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 02/37] target/ppc: moved vector even and odd
- multiplication to decodetree
+Subject: Re: [PATCH v3 03/37] target/ppc: Moved vector multiply high and low
+ to decodetree
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
- <20220210123447.3933301-3-matheus.ferst@eldorado.org.br>
+ <20220210123447.3933301-4-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220210123447.3933301-3-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220210123447.3933301-4-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -101,29 +101,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/10/22 23:34, matheus.ferst@eldorado.org.br wrote:
-> +void helper_VMULESD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-> +{
-> +    muls64(&r->VsrD(1), &r->VsrD(0), a->VsrSD(0), b->VsrSD(0));
-> +}
-> +void helper_VMULOSD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-> +{
-> +    muls64(&r->VsrD(1), &r->VsrD(0), a->VsrSD(1), b->VsrSD(1));
-> +}
-> +void helper_VMULEUD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-> +{
-> +    mulu64(&r->VsrD(1), &r->VsrD(0), a->VsrD(0), b->VsrD(0));
-> +}
-> +void helper_VMULOUD(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-> +{
-> +    mulu64(&r->VsrD(1), &r->VsrD(0), a->VsrD(1), b->VsrD(1));
-> +}
-
-These are single tcg calls; there's no particular need to have them out-of-line, except 
-perhaps just to make it easier for your pattern expansion.  But perhaps not important 
-enough to worry about.
+> From: "Lucas Mateus Castro (alqotel)"<lucas.castro@eldorado.org.br>
+> 
+> Moved instructions vmulld, vmulhuw, vmulhsw, vmulhud and vmulhsd to
+> decodetree
+> 
+> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> ---
+>   target/ppc/helper.h                 |  8 ++++----
+>   target/ppc/insn32.decode            |  6 ++++++
+>   target/ppc/int_helper.c             |  8 ++++----
+>   target/ppc/translate/vmx-impl.c.inc | 21 ++++++++++++++++-----
+>   target/ppc/translate/vmx-ops.c.inc  |  5 -----
+>   5 files changed, 30 insertions(+), 18 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
