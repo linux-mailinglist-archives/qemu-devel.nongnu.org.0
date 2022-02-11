@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB094B25DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:35:04 +0100 (CET)
-Received: from localhost ([::1]:36424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B7B4B25ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 13:37:44 +0100 (CET)
+Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIV8h-0000ML-O8
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:35:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40324)
+	id 1nIVBH-0002C7-GC
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 07:37:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUsX-0002av-Mg
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:18:22 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2296)
+ id 1nIUvC-0006nq-Vl
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:21:07 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nIUsL-0004bm-9h
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:18:12 -0500
-Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCFj5KlDz67yK4;
- Fri, 11 Feb 2022 20:13:45 +0800 (CST)
+ id 1nIUvA-0005K0-Uo
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 07:21:06 -0500
+Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JwCKF6mLvz683T0;
+ Fri, 11 Feb 2022 20:16:49 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 13:17:58 +0100
+ fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.21; Fri, 11 Feb 2022 13:21:02 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 11 Feb 2022 12:17:57 +0000
+ 15.1.2308.21; Fri, 11 Feb 2022 12:21:02 +0000
 To: <qemu-devel@nongnu.org>, =?UTF-8?q?Alex=20Benn=C3=A9e?=
  <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
@@ -40,9 +40,10 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v6 20/43] hw/cxl/device: Add some trivial commands
-Date: Fri, 11 Feb 2022 12:07:24 +0000
-Message-ID: <20220211120747.3074-21-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v6 26/43] hw/cxl/component: Add utils for interleave parameter
+ encoding/decoding
+Date: Fri, 11 Feb 2022 12:07:30 +0000
+Message-ID: <20220211120747.3074-27-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
 References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
@@ -78,134 +79,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Ben Widawsky <ben.widawsky@intel.com>
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-GET_FW_INFO and GET_PARTITION_INFO, for this emulation, is equivalent to
-info already returned in the IDENTIFY command. To have a more robust
-implementation, add those.
+Both registers and the CFMWS entries in CDAT use simple encodings
+for the number of interleave ways and the interleave granularity.
+Introduce simple conversion functions to/from the unencoded
+number / size.  So far the iw decode has not been needed so is
+it not implemented.
 
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/cxl/cxl-mailbox-utils.c | 69 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 68 insertions(+), 1 deletion(-)
+ hw/cxl/cxl-component-utils.c   | 34 ++++++++++++++++++++++++++++++++++
+ include/hw/cxl/cxl_component.h |  8 ++++++++
+ 2 files changed, 42 insertions(+)
 
-diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index 808faec114..d022711b2a 100644
---- a/hw/cxl/cxl-mailbox-utils.c
-+++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -44,6 +44,8 @@ enum {
-         #define CLEAR_RECORDS   0x1
-         #define GET_INTERRUPT_POLICY   0x2
-         #define SET_INTERRUPT_POLICY   0x3
-+    FIRMWARE_UPDATE = 0x02,
-+        #define GET_INFO      0x0
-     TIMESTAMP   = 0x03,
-         #define GET           0x0
-         #define SET           0x1
-@@ -52,6 +54,8 @@ enum {
-         #define GET_LOG       0x1
-     IDENTIFY    = 0x40,
-         #define MEMORY_DEVICE 0x0
-+    CCLS        = 0x41,
-+        #define GET_PARTITION_INFO     0x0
- };
+diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+index 07297b3bbe..795dbc7561 100644
+--- a/hw/cxl/cxl-component-utils.c
++++ b/hw/cxl/cxl-component-utils.c
+@@ -9,6 +9,7 @@
  
- /* 8.2.8.4.5.1 Command Return Codes */
-@@ -114,6 +118,39 @@ DEFINE_MAILBOX_HANDLER_NOP(events_clear_records);
- DEFINE_MAILBOX_HANDLER_ZEROED(events_get_interrupt_policy, 4);
- DEFINE_MAILBOX_HANDLER_NOP(events_set_interrupt_policy);
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
++#include "qapi/error.h"
+ #include "hw/pci/pci.h"
+ #include "hw/cxl/cxl.h"
  
-+/* 8.2.9.2.1 */
-+static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
-+                                             CXLDeviceState *cxl_dstate,
-+                                             uint16_t *len)
-+{
-+    struct {
-+        uint8_t slots_supported;
-+        uint8_t slot_info;
-+        uint8_t caps;
-+        uint8_t rsvd[0xd];
-+        char fw_rev1[0x10];
-+        char fw_rev2[0x10];
-+        char fw_rev3[0x10];
-+        char fw_rev4[0x10];
-+    } __attribute__((packed)) *fw_info;
-+    _Static_assert(sizeof(*fw_info) == 0x50, "Bad firmware info size");
-+
-+    if (cxl_dstate->pmem_size < (256 << 20)) {
-+        return CXL_MBOX_INTERNAL_ERROR;
-+    }
-+
-+    fw_info = (void *)cmd->payload;
-+    memset(fw_info, 0, sizeof(*fw_info));
-+
-+    fw_info->slots_supported = 2;
-+    fw_info->slot_info = BIT(0) | BIT(3);
-+    fw_info->caps = 0;
-+    snprintf(fw_info->fw_rev1, 0x10, "BWFW VERSION %02d", 0);
-+
-+    *len = sizeof(*fw_info);
-+    return CXL_MBOX_SUCCESS;
-+}
-+
- /* 8.2.9.3.1 */
- static ret_code cmd_timestamp_get(struct cxl_cmd *cmd,
-                                   CXLDeviceState *cxl_dstate,
-@@ -260,6 +297,33 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
-     return CXL_MBOX_SUCCESS;
+@@ -217,3 +218,36 @@ void cxl_component_create_dvsec(CXLComponentState *cxl, uint16_t length,
+     range_init_nofail(&cxl->dvsecs[type], cxl->dvsec_offset, length);
+     cxl->dvsec_offset += length;
  }
- 
-+static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
-+                                           CXLDeviceState *cxl_dstate,
-+                                           uint16_t *len)
++
++uint8_t cxl_interleave_ways_enc(int iw, Error **errp)
 +{
-+    struct {
-+        uint64_t active_vmem;
-+        uint64_t active_pmem;
-+        uint64_t next_vmem;
-+        uint64_t next_pmem;
-+    } __attribute__((packed)) *part_info = (void *)cmd->payload;
-+    _Static_assert(sizeof(*part_info) == 0x20, "Bad get partition info size");
-+    uint64_t size = cxl_dstate->pmem_size;
-+
-+    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
-+        return CXL_MBOX_INTERNAL_ERROR;
++    switch (iw) {
++    case 1: return 0x0;
++    case 2: return 0x1;
++    case 4: return 0x2;
++    case 8: return 0x3;
++    case 16: return 0x4;
++    case 3: return 0x8;
++    case 6: return 0x9;
++    case 12: return 0xa;
++    default:
++        error_setg(errp, "Interleave ways: %d not supported", iw);
++        return 0;
 +    }
-+
-+    /* PMEM only */
-+    part_info->active_vmem = 0;
-+    part_info->next_vmem = 0;
-+    part_info->active_pmem = size / (256 << 20);
-+    part_info->next_pmem = part_info->active_pmem;
-+
-+    *len = sizeof(*part_info);
-+    return CXL_MBOX_SUCCESS;
 +}
 +
- #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
- #define IMMEDIATE_POLICY_CHANGE (1 << 3)
- #define IMMEDIATE_LOG_CHANGE (1 << 4)
-@@ -273,15 +337,18 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
-         cmd_events_get_interrupt_policy, 0, 0 },
-     [EVENTS][SET_INTERRUPT_POLICY] = { "EVENTS_SET_INTERRUPT_POLICY",
-         cmd_events_set_interrupt_policy, 4, IMMEDIATE_CONFIG_CHANGE },
-+    [FIRMWARE_UPDATE][GET_INFO] = { "FIRMWARE_UPDATE_GET_INFO",
-+        cmd_firmware_update_get_info, 0, 0 },
-     [TIMESTAMP][GET] = { "TIMESTAMP_GET", cmd_timestamp_get, 0, 0 },
-     [TIMESTAMP][SET] = { "TIMESTAMP_SET", cmd_timestamp_set, 8, IMMEDIATE_POLICY_CHANGE },
-     [LOGS][GET_SUPPORTED] = { "LOGS_GET_SUPPORTED", cmd_logs_get_supported, 0, 0 },
-     [LOGS][GET_LOG] = { "LOGS_GET_LOG", cmd_logs_get_log, 0x18, 0 },
-     [IDENTIFY][MEMORY_DEVICE] = { "IDENTIFY_MEMORY_DEVICE",
-         cmd_identify_memory_device, 0, 0 },
-+    [CCLS][GET_PARTITION_INFO] = { "CCLS_GET_PARTITION_INFO",
-+        cmd_ccls_get_partition_info, 0, 0 },
- };
++uint8_t cxl_interleave_granularity_enc(uint64_t gran, Error **errp)
++{
++    switch (gran) {
++    case 256: return 0;
++    case 512: return 1;
++    case 1024: return 2;
++    case 2048: return 3;
++    case 4096: return 4;
++    case 8192: return 5;
++    case 16384: return 6;
++    default:
++        error_setg(errp, "Interleave granularity: %" PRIu64 " invalid", gran);
++        return 0;
++    }
++}
+diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
+index 33aeab9b99..42cd140f75 100644
+--- a/include/hw/cxl/cxl_component.h
++++ b/include/hw/cxl/cxl_component.h
+@@ -193,4 +193,12 @@ void cxl_component_register_init_common(uint32_t *reg_state,
+ void cxl_component_create_dvsec(CXLComponentState *cxl_cstate, uint16_t length,
+                                 uint16_t type, uint8_t rev, uint8_t *body);
  
--
- void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
- {
-     uint16_t ret = CXL_MBOX_SUCCESS;
++uint8_t cxl_interleave_ways_enc(int iw, Error **errp);
++uint8_t cxl_interleave_granularity_enc(uint64_t gran, Error **errp);
++
++static inline hwaddr cxl_decode_ig(int ig)
++{
++    return 1 << (ig + 8);
++}
++
+ #endif
 -- 
 2.32.0
 
