@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266744B1DE8
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 06:31:30 +0100 (CET)
-Received: from localhost ([::1]:59944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3844D4B1DEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 06:31:36 +0100 (CET)
+Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIOWm-0006aR-QG
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 00:31:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59256)
+	id 1nIOWt-0006xX-0Y
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 00:31:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIOUV-0003ve-9I
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 00:29:07 -0500
-Received: from [2607:f8b0:4864:20::434] (port=37466
- helo=mail-pf1-x434.google.com)
+ id 1nIOUd-00043Q-8E
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 00:29:16 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=54062
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIOUT-0007Xv-Lq
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 00:29:06 -0500
-Received: by mail-pf1-x434.google.com with SMTP id y5so14318387pfe.4
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 21:29:04 -0800 (PST)
+ id 1nIOUb-0007a6-3L
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 00:29:14 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id qe15so7133391pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 21:29:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=YNrCVzUUFWxMOG/bWT/1cRIBSFDIKjZU5g18hyG/afw=;
- b=WuuglQ03ZMCGmIYMF7nruA56VBogOIXvSSGxIr2zyw5nnPMRj7uiA0lcOoIMz2eExT
- 6CUE5htvCC1C7S4LPBQf5WKlv0QNpYoVCwXTweDcKOe7rZmCvFcVlmIjUEdGcPyvkOJY
- 5d7C9qVsncYIjA74naIs+BTTQYDu96Oq7GcZ+P2YJ4L0gRDM3kSx/ZmS6JDTUwQh5jcF
- yS3rmQOuTHp/Q395RR2/RjeLuDsb2v5dHGRI8zHda3nTGtByXhXkcK/SFY5bbmgckjLN
- S7FP/kAlMlNB2JD9MtjZnUUj6rEch+nV42wR+gTrUwX+ARW+FbtHKWF2eQZqkOHrO6BP
- we9A==
+ bh=jiGsEPX+XLB260r51WD8PqyV8KIs/lSqEV6JAzaIaCI=;
+ b=YkYdYvHIv0NLUJ86v9K9Ys9ekvkKXwoBTeNc7nLpL7UX8v0Bo9cZpXIiQjrg6gUEP/
+ D5QaFfyw0xuOTOyrVx0+XRcpNDiMV4UIgXr70D6QHPnI4NVhAEv/AgwxCKUznXgWdyXo
+ 1QSJJNPaNW9kAKc/YOzeAJJnfsBuu8uCyKdEks0KV/ZEdIpY8HEgdErecjfZr54TGRrC
+ cXbVlzDXc4+U+is8PjVT+H5pQ6gj9GsrjWwiM350lDFrRWpESRJKP8W1gULzzbYmR2fl
+ WmuRSkXIJCVjHl2CQfRruDrEA2VHGcYwFF/klnpM73iXOHejSeiVsimafau9cXstDmtC
+ Pxmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=YNrCVzUUFWxMOG/bWT/1cRIBSFDIKjZU5g18hyG/afw=;
- b=WLE4hafJNB2tY7HGRmygfYatZE3S7hlZG5QkNPA0wU9fHDQ2/Cm25rPqLdqiBganAB
- lTnxfRfI4oPC4r6HpFf87LCCgZRViC0thmXtYRxHifzuU7nbOEEaKpJ7IES6J26OUGD8
- UjTs9Oh9GtmRhqVu1WKAo/409zebhb8tPRCH+OUH8RPiAfvqgQAEcaAaZfEEs93m1pKE
- izsC7a4UdY3Zz4ddGUPjW2FivSsNnnFDSZ565api8EhMjIPnF3d7p+PburqIiYsYrlsC
- uS+SzuXUt7QRsGqxiAZ14E+ywD3/TKkZXlenX4PWj05/F88PveelEG0CkhoTp94SkiSH
- hDog==
-X-Gm-Message-State: AOAM5310pgSmahf8rjKzYstwRylEXCJ9UpeaJhmgdSk/qOqYOCpzVPd8
- K2jPpW72/uPOYnG7tS/kab+Elg==
-X-Google-Smtp-Source: ABdhPJyXdcl70DcgYUKFCglWim17jfkvvcBz9Q1x2OiwKvFaKEZ6zVUQrP5atZus55qGM0MUZajLlQ==
-X-Received: by 2002:a63:1c42:: with SMTP id c2mr37059pgm.356.1644557343094;
- Thu, 10 Feb 2022 21:29:03 -0800 (PST)
+ bh=jiGsEPX+XLB260r51WD8PqyV8KIs/lSqEV6JAzaIaCI=;
+ b=PkDA3e7d7NiAP07+2wLV50/5EqDNI5VtJskp05n+FDfjQHUAxiTen35n+pTJB1GJgm
+ JnOTFRQvE8yMm4pS9RZk/GWsui6/BmsZx8pL/Mn419ylZHbNam0WWT7cds295iiXugxF
+ eUHohQPABxKtDpVbI26ZLVcyODFLwjxDPKJO+UTM1evvG4Yc28K9FtRgDH2naHtaEqx1
+ pA0BuaViTrBt/g+eSMGVNaPtKxYr+wIr0FLqvKrq1UHkjBOwmTJzkg6Qf7h5UybqqKp4
+ MFBrSqDx/aor2fZzqOlQszlG1f+k9DBXrq7SjY7p9W86tXzR5vCJ2YFLw5fsysJaErAv
+ 5usQ==
+X-Gm-Message-State: AOAM530GnrFCOeeL9WsF8REy3Drzi9MDZe01zAVGbTp6gRDurRQXODKw
+ V4TwB/5xakt2FjFOrlfBiZVwHw==
+X-Google-Smtp-Source: ABdhPJwfEm7vw6A6dridhH1uq3r2c28/wREnlOcevGbafU5/LGKGE5uAB6CcujJ+nTSfxPrLqvkZ+w==
+X-Received: by 2002:a17:903:1210:: with SMTP id
+ l16mr10848607plh.63.1644557351859; 
+ Thu, 10 Feb 2022 21:29:11 -0800 (PST)
 Received: from [10.0.0.163] ([124.189.222.164])
- by smtp.gmail.com with ESMTPSA id q17sm18288976pgh.58.2022.02.10.21.28.59
+ by smtp.gmail.com with ESMTPSA id b2sm18142477pgg.59.2022.02.10.21.29.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 21:29:02 -0800 (PST)
-Message-ID: <59ea114f-199c-518d-a570-19d091d90831@linaro.org>
-Date: Fri, 11 Feb 2022 15:41:20 +1100
+ Thu, 10 Feb 2022 21:29:11 -0800 (PST)
+Message-ID: <89b611db-cfe3-a6dd-1a15-9d6a60ef23dd@linaro.org>
+Date: Fri, 11 Feb 2022 15:51:21 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 10/37] target/ppc: Move Vector Compare Not Equal or
- Zero to decodetree
+Subject: Re: [PATCH v3 11/37] target/ppc: Implement Vector Compare Equal
+ Quadword
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220210123447.3933301-1-matheus.ferst@eldorado.org.br>
- <20220210123447.3933301-11-matheus.ferst@eldorado.org.br>
+ <20220210123447.3933301-12-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220210123447.3933301-11-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220210123447.3933301-12-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,33 +99,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/10/22 23:34, matheus.ferst@eldorado.org.br wrote:
-> +static void gen_vcmpnez_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> 
+> Implement the following PowerISA v3.1 instructions:
+> vcmpequq Vector Compare Equal Quadword
+> 
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> ---
+>   target/ppc/insn32.decode            |  1 +
+>   target/ppc/translate/vmx-impl.c.inc | 43 +++++++++++++++++++++++++++++
+>   2 files changed, 44 insertions(+)
+> 
+> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+> index a0adf18671..39730df32d 100644
+> --- a/target/ppc/insn32.decode
+> +++ b/target/ppc/insn32.decode
+> @@ -382,6 +382,7 @@ VCMPEQUB        000100 ..... ..... ..... . 0000000110   @VC
+>   VCMPEQUH        000100 ..... ..... ..... . 0001000110   @VC
+>   VCMPEQUW        000100 ..... ..... ..... . 0010000110   @VC
+>   VCMPEQUD        000100 ..... ..... ..... . 0011000111   @VC
+> +VCMPEQUQ        000100 ..... ..... ..... . 0111000111   @VC
+>   
+>   VCMPGTSB        000100 ..... ..... ..... . 1100000110   @VC
+>   VCMPGTSH        000100 ..... ..... ..... . 1101000110   @VC
+> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+> index 67059ed9b2..bdb0b4370b 100644
+> --- a/target/ppc/translate/vmx-impl.c.inc
+> +++ b/target/ppc/translate/vmx-impl.c.inc
+> @@ -1112,6 +1112,49 @@ TRANS(VCMPNEZB, do_vcmpnez, MO_8)
+>   TRANS(VCMPNEZH, do_vcmpnez, MO_16)
+>   TRANS(VCMPNEZW, do_vcmpnez, MO_32)
+>   
+> +static bool trans_VCMPEQUQ(DisasContext *ctx, arg_VC *a)
 > +{
-> +    TCGv_vec t0, t1, zero;
+> +    TCGv_i64 t0, t1;
+> +    TCGLabel *l1, *l2;
 > +
-> +    t0 = tcg_temp_new_vec_matching(t);
-> +    t1 = tcg_temp_new_vec_matching(t);
-> +    zero = tcg_constant_vec_matching(t, vece, 0);
+> +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+> +    REQUIRE_VECTOR(ctx);
 > +
-> +    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t0, a, zero);
-> +    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t1, b, zero);
-> +    tcg_gen_cmp_vec(TCG_COND_NE, vece, t, a, b);
+> +    t0 = tcg_temp_new_i64();
+> +    t1 = tcg_temp_new_i64();
+> +    l1 = gen_new_label();
+> +    l2 = gen_new_label();
 > +
-> +    tcg_gen_or_vec(vece, t, t, t0);
-> +    tcg_gen_or_vec(vece, t, t, t1);
+> +    get_avr64(t0, a->vra, true);
+> +    get_avr64(t1, a->vrb, true);
+> +    tcg_gen_brcond_i64(TCG_COND_NE, t0, t1, l1);
 > +
-> +    tcg_gen_shli_vec(vece, t, t, (8 << vece) - 1);
-> +    tcg_gen_sari_vec(vece, t, t, (8 << vece) - 1);
+> +    get_avr64(t0, a->vra, false);
+> +    get_avr64(t1, a->vrb, false);
+> +    tcg_gen_brcond_i64(TCG_COND_NE, t0, t1, l1);
 
-No shifting required, only the cmp.
+It would be much better to not use a branch.
+E.g.
 
-> +static bool do_vcmpnez(DisasContext *ctx, arg_VC *a, int vece)
-> +{
-> +    static const TCGOpcode vecop_list[] = {
-> +        INDEX_op_cmp_vec, INDEX_op_shli_vec, INDEX_op_sari_vec, 0
-> +    };
+     get_avr64(t0, a->vra, true);
+     get_avr64(t1, a->vrb, true);
+     tcg_gen_xor_i64(c0, t0, t1);
 
-Therefore no vecop_list required (cmp itself is mandatory).
+     get_avr64(t0, a->vra, false);
+     get_avr64(t1, a->vrb, false);
+     tcg_gen_xor_i64(c1, t0, t1);
+
+     tcg_gen_or_i64(c0, c0, c1);
+     tcg_gen_setcondi_i64(TCG_COND_EQ, c0, c0, 0);
+     tcg_gen_neg_i64(c0, c0);
+
+     set_avr64(a->vrt, c0, true);
+     set_avr64(a->vrt, c0, false);
+
+     tcg_gen_extrl_i64_i32(crf, c0);
+     tcg_gen_andi_i32(crf, crf, 0xa);
+     tcg_gen_xori_i32(crf, crf, 0x2);
+
 
 r~
 
