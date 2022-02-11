@@ -2,54 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343954B2E60
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 21:24:32 +0100 (CET)
-Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD0A4B2F1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 22:11:11 +0100 (CET)
+Received: from localhost ([::1]:37596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIcT0-0007Sl-NJ
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 15:24:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48000)
+	id 1nIdCA-0001Dy-2f
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 16:11:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nIcR5-0006c9-4R; Fri, 11 Feb 2022 15:22:31 -0500
-Received: from [187.72.171.209] (port=29611 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nIcR2-0002wx-6U; Fri, 11 Feb 2022 15:22:30 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 11 Feb 2022 17:22:20 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 5AE71800145;
- Fri, 11 Feb 2022 17:22:20 -0300 (-03)
-Message-ID: <f92f65c0-8b5b-bdcc-67d4-6202d354048c@eldorado.org.br>
-Date: Fri, 11 Feb 2022 17:22:20 -0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nIdA1-0007zU-OW
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 16:08:58 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=40778
+ helo=mail-pf1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nId9v-0001aJ-7k
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 16:08:56 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id a39so17538999pfx.7
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 13:08:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=KvBmh/CZ/sWwt72gvRM5m4DRUd8nt0syzXPJsN+auJ8=;
+ b=AOs/PwuRLawJZ+D4XIJnBJHG9YUlqHod8Qk4EoWV7iJauIS9PRyz97NrfhB7bp+DhM
+ Xm3NpNN91Fn+touE8m8MgoRGZki4zTtwjl8KHxPSNzUFOaZXr7waVv03OQQTMpMU+Xd3
+ K7K36PYTx3zWdABj1bTrdJ55J1sgRPVgZou0BJR3KDsQnIMXAaMwYFqrk2lTk/M6bUI2
+ 9Xik+e35PGVogtjXB4aG63d2vEaBADbQaoRJeRyAiFfXP9pOZ/Xpzc/l+k1j5ZiBw3jB
+ RmJmY89LJZXLW3ugdk7BvoBRYxX2VWOjs/TLDm0Pv+Oba1uoqIUHbUz9oxqudENw7Jdm
+ f4Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KvBmh/CZ/sWwt72gvRM5m4DRUd8nt0syzXPJsN+auJ8=;
+ b=qGaARRIsFtxqQ0Y8vHI6VY2Rq9RS04sFy3O8i3+waVSQ+ppBciASCSNa+x2OFvrW+J
+ FzLLKeeolo6Hvlxk+d/17LkxpkWXmOU13jMhMhZGR2/kKrPlGSdTVssGunfaW/M5grwq
+ jNUyoCjNzUIamBaSLfIgXQ88GYwJ61DfC1u6lrjPVSjMFaFQzhCbjgrCe6OiiL7JJaPZ
+ XnoyyS35E4n/6O+k9PFzS26GQR+sH8MaPH/rS5QJ1CzkbrPLU0ExWGPP2ttK4EMixlrx
+ ks+n8GHDtdR8mImlpDUcmJtrGTezuxq410GvX4+tQ2aytXdM770/y9oh52qqOeX+GhAU
+ oIUw==
+X-Gm-Message-State: AOAM532H6oQe58kEh7wQVZInDktkOBH9DbH8GaSzXyVCSyJhy/J+u8Pb
+ hZ6PqmZNDqTD8ZU5ffJB4LuqIA==
+X-Google-Smtp-Source: ABdhPJweSddqvOBLG7DbRTZePJO2Msv0n/5fqZ6ytcxNkJw5D9VNmTrBA3RyJLmW4N4g4lQosygGdA==
+X-Received: by 2002:a63:69c1:: with SMTP id e184mr2829747pgc.495.1644613729695; 
+ Fri, 11 Feb 2022 13:08:49 -0800 (PST)
+Received: from [10.0.0.163] ([124.189.222.164])
+ by smtp.gmail.com with ESMTPSA id h10sm29238609pfc.103.2022.02.11.13.08.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Feb 2022 13:08:48 -0800 (PST)
+Message-ID: <f89c70d5-6159-9dd0-0bd2-00efdca12b3c@linaro.org>
+Date: Sat, 12 Feb 2022 08:08:36 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 0/3] tests/tcg/ppc64le: fix the build of TCG tests
- with Clang
+Subject: Re: [PATCH v1 04/11] tests/docker: update debian-arm64-cross with
+ lci-tool
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20220208203145.3844662-1-matheus.ferst@eldorado.org.br>
- <a2159a5a-18a5-8737-0ac9-df1505f73da1@kaod.org>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <a2159a5a-18a5-8737-0ac9-df1505f73da1@kaod.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20220211160309.335014-1-alex.bennee@linaro.org>
+ <20220211160309.335014-5-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220211160309.335014-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 11 Feb 2022 20:22:20.0778 (UTC)
- FILETIME=[126E9CA0:01D81F85]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,70 +93,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miroslav Rezanina <mrezanin@redhat.com>, danielhb413@gmail.com,
- alex.bennee@linaro.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Beraldo Leal <bleal@redhat.com>, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMDkvMDIvMjAyMiAwOTozMSwgQ8OpZHJpYyBMZSBHb2F0ZXIgd3JvdGU6DQo+IEhlbGxv
-IE1hdGhldXMsDQo+IA0KPiBbIEFkZGluZyBNaXJvc2xhdiBdDQo+IA0KPiBPbiAyLzgvMjIg
-MjE6MzEsIG1hdGhldXMuZmVyc3RAZWxkb3JhZG8ub3JnLmJyIHdyb3RlOg0KPj4gRnJvbTog
-TWF0aGV1cyBGZXJzdCA8bWF0aGV1cy5mZXJzdEBlbGRvcmFkby5vcmcuYnI+DQo+Pg0KPj4g
-QmFzZWQtb246IA0KPj4gaHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11
-LWRldmVsLzIwMjItMDEvbXNnMDY1MDYuaHRtbA0KPj4NCj4+IEFzIHRoZSBjb25maWd1cmF0
-aW9uIHNjcmlwdHMgdXNlZCAtbWJpZyBhbmQgLW1saXR0bGUsIGJ1aWxkaW5nIFBQQyB0ZXN0
-cw0KPj4gd2l0aCBDbGFuZyB3YXMgc2lsZW50bHkgc2tpcHBlZC4gV2l0aCB0aGUgcGF0Y2gg
-dG8gZml4IHRoZXNlIG9wdGlvbnNbMV0sDQo+PiAibWFrZSBjaGVjay10Y2ciIGZhaWxzIGJl
-Y2F1c2Ugb2YgYnVpbGQgYW5kIHJ1bnRpbWUgZXJyb3JzLiBUaGlzIHBhdGNoDQo+PiBzZXJp
-ZXMgdHJpZXMgdG8gZml4IHNvbWUgb2YgdGhlc2UgcHJvYmxlbXMuDQo+Pg0KPj4gVGhlIGZp
-cnN0IHBhdGNoIGZpeGVzICJ0ZXN0cy90Y2cvcHBjNjRsZS9tdGZzZi5jIiBieSByZW1vdmlu
-ZyB0aGUNCj4+IEdDQy1vbmx5IGJ1aWx0aW5zIHVzZWQgdG8gZW1pdCBtdGZzZiBhbmQgbWZm
-cy4gV2UgY2FuIGVtaXQgdGhlc2UgaW5zbnMNCj4+IHdpdGggaW5saW5lIGFzbSBpbnN0ZWFk
-Lg0KPj4NCj4+IFRoZSBzZWNvbmQgcGF0Y2ggYWRkcmVzc2VzIGRpZmZlcmVuY2VzIGluIHRo
-ZSBvdXRwdXQgb2YgZmxvYXRfbWFkZHMuYy4NCj4+IFRoZSBfX2J1aWx0aW5fZm1hZiB1c2Vk
-IGluIHRoaXMgdGVzdCBlbWl0cyBmbWFkZHMgd2l0aCBHQ0MgYW5kIHhzbWFkZGFzcA0KPj4g
-d2l0aCBMTFZNLiBUaGUgZmlyc3QgaW5zbiBoYWQgcm91bmRpbmcgZXJyb3JzIGZpeGVkIGlu
-DQo+PiBkMDRjYTg5NWRjN2YgKCJ0YXJnZXQvcHBjOiBBZGQgaGVscGVycyBmb3IgZm1hZGRz
-IGV0IGFsIiksIHdlIGFwcGx5DQo+PiBhIHNpbWlsYXIgZml4IHRvIHhzbWFkZGFzcC4NCj4+
-DQo+PiBUaGVuIHdlIGhhdmUgdGhlIGJ1aWxkIGVycm9ycyBvZiB0ZXN0cy90Y2cvcHBjNjRs
-ZS9iY2RzdWIuYy4gQWNjb3JkaW5nDQo+PiB0byBHQ0MgZG9jc1syXSwgdGhlICctbXBvd2Vy
-OC12ZWN0b3InIGZsYWcgcHJvdmlkZXMgc29tZSBiY2RzdWINCj4+IGJ1aWx0aW5zLCBzbyBp
-dCdkIGJlIHJlYXNvbmFibGUgdG8gYXNzdW1lIHRoYXQgdGhlIHJlc3Qgb2YgdGhlIHRvb2xj
-aGFpbg0KPj4ga25vd3MgYWJvdXQgdGhlIGluc24gaWYgdGhlIGNvbXBpbGVyIGFjY2VwdHMg
-dGhpcyBmbGFnLiBDbGFuZyBzdXBwb3J0cw0KPj4gdGhpcyBmbGFnIHNpbmNlIHZlcnNpb24g
-My42WzNdLCBidXQgdGhlIGluc24gYW5kIGJ1aWx0aW5zIHdlcmUgb25seQ0KPj4gYWRkZWQg
-aW4gTExWTSAxNFs0XS4gSSBjb3VsZG4ndCBmaW5kIGEgZ29vZCBzb2x1dGlvbi4gU2hvdWxk
-IHdlIHdyaXRlIGENCj4+IHRlc3QgdG8gY2hlY2sgZm9yIHRoaXMgaW5zbiBhdCBjb25maWd1
-cmF0aW9uIHRpbWU/IFNob3VsZCB3ZSBkZXRlY3QgdGhlDQo+PiBjb21waWxlciBhdCBidWls
-ZCB0aW1lIGFuZCBlbWl0IHRoZSBpbnNucyB3aXRoICIubG9uZyIgYW5kIGZpeGVkDQo+PiBy
-ZWdpc3RlcnM/DQo+Pg0KPj4gRXZlbiBidWlsZGluZyB3aXRoIENsYW5nIDE0LCB0aGUgdGVz
-dCB3aWxsIGZhaWwgaW4gcnVudGltZSBiZWNhdXNlDQo+PiBMTFZNIGRvZXNuJ3QgbGlrZSAi
-X19pbnQxMjgiIGluIGlubGluZSBhc20uIE5vIGVycm9yIG9yIHdhcm5pbmcgaXMNCj4+IGVt
-aXR0ZWQsIGJ1dCB0aGUgZ2VuZXJhdGVkIGNvZGUgb25seSBsb2FkcyBvbmUgZG91Ymxld29y
-ZCBvZiB0aGUgVlNSLg0KPj4gVGhlIHRoaXJkIHBhdGNoIG9mIHRoaXMgc2VyaWVzIGF2b2lk
-cyB0aGlzIGlzc3VlIGJ5IHVzaW5nIGEgdmVjdG9yDQo+PiB0eXBlIGZvciBWU1IgdmFsdWVz
-Lg0KPj4NCj4+IEZpbmFsbHksIGl0IHNlZW1zIHRoYXQgdGhlIGluc25zIHRlc3RlZCBieQ0K
-Pj4gdGVzdHMvdGNnL3BwYzY0bGUvYnl0ZV9yZXZlcnNlLmMgYXJlIG5vdCB5ZXQgc3VwcG9y
-dGVkIGJ5IExMVk0uIFNpbmNlDQo+PiB0aGUgY29uZmlndXJhdGlvbiBzY3JpcHQgdXNlcyAn
-LW1wb3dlcjEwJyB0byBjaGVjayBmb3IgUE9XRVIxMCBzdXBwb3J0DQo+PiBhbmQgQ2xhbmcg
-ZG9lc24ndCBzdXBwb3J0IHRoaXMgZmxhZywgIm1ha2UgY2hlY2stdGNnIiBkb2Vzbid0IGZh
-aWwuIFdlDQo+PiBzaG91bGQgcHJvYmFibHkgY2hhbmdlIHRoaXMgY2hlY2sgaW4gdGhlIGZ1
-dHVyZSwgYnV0IHNpbmNlIExMVk0gc3VwcG9ydA0KPj4gb2YgUE9XRVIxMCBzZWVtcyBpbmNv
-bXBsZXRlLCBJIGd1ZXNzIHdlIGNhbiBsZWF2ZSBpdCBmb3Igbm93Lg0KPiANCj4gZ2l0bGFi
-IGRpZG4ndCBzcG90IGFueSBpc3N1ZXMgd2l0aCB0aGUgNCBwYXRjaGVzIGFwcGxpZWQuDQoN
-Cg0KQUZBSUNULCBDSSB3b3VsZG4ndCBydW4gaW50byB0aGlzIGtpbmQgb2YgcHJvYmxlbSBi
-ZWNhdXNlIHdlIGRvbid0IGhhdmUgDQpQUEMgcnVubmVycywgYW5kIHRoZSBjcm9zcy1jb21w
-aWxlciBjb250YWluZXJzIHVzZSBHQ0MuDQoNCj4gU2hvdWxkIHdlIG1lcmdlIGFsbCBwYXRj
-aGVzIDoNCj4gDQo+ICDCoCBVc2UgbG9uZyBlbmRpYW4gb3B0aW9ucyBmb3IgcHBjNjQNCj4g
-IMKgIHRlc3RzL3RjZy9wcGM2NGxlOiBVc2UgdmVjdG9yIHR5cGVzIGluc3RlYWQgb2YgX19p
-bnQxMjgNCj4gIMKgIHRhcmdldC9wcGM6IGNoYW5nZSB4c1tuXW1hZGRbYW1dc3AgdG8gdXNl
-IGZsb2F0NjRyMzJfbXVsYWRkDQo+ICDCoCB0ZXN0cy90Y2cvcHBjNjRsZTogdXNlIGlubGlu
-ZSBhc20gaW5zdGVhZCBvZiBfX2J1aWx0aW5fbXRmc2YNCj4gDQo+IGFuZCBzZWUgaG93IHdl
-IGNhbiBhZGRyZXNzIHRoZSBMTFZNIHN1cHBvcnQgZm9yIFAxMCBsYXRlciA/DQo+IA0KDQpU
-aGUgcHJvYmxlbXMgd2l0aCBiY2RzdWIuYyBhcmUgbm90IHJlc29sdmVkIGZvciBDbGFuZyA8
-IDE0LCBidXQgSSBndWVzcyANCml0J3Mgb2sgdG8gbWVyZ2UgYW55d2F5Lg0KDQpUaGFua3Ms
-DQpNYXRoZXVzIEsuIEZlcnN0DQpJbnN0aXR1dG8gZGUgUGVzcXVpc2FzIEVMRE9SQURPIDxo
-dHRwOi8vd3d3LmVsZG9yYWRvLm9yZy5ici8+DQpBbmFsaXN0YSBkZSBTb2Z0d2FyZQ0KQXZp
-c28gTGVnYWwgLSBEaXNjbGFpbWVyIDxodHRwczovL3d3dy5lbGRvcmFkby5vcmcuYnIvZGlz
-Y2xhaW1lci5odG1sPg0K
+On 2/12/22 03:03, Alex Bennée wrote:
+> Using lci-tool update debian-arm64-cross to a Debian 11 based system.
+> As a result we can drop debian-arm64-test-cross just for building
+> tests.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   .gitlab-ci.d/container-cross.yml              |  10 +-
+>   tests/docker/Makefile.include                 |   3 -
+>   .../dockerfiles/debian-arm64-cross.docker     | 186 +++++++++++++++---
+>   .../debian-arm64-test-cross.docker            |  13 --
+>   tests/lcitool/refresh                         |  11 ++
+>   tests/tcg/configure.sh                        |   2 +-
+>   6 files changed, 173 insertions(+), 52 deletions(-)
+>   delete mode 100644 tests/docker/dockerfiles/debian-arm64-test-cross.docker
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
