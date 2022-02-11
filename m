@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D398A4B3072
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 23:29:14 +0100 (CET)
-Received: from localhost ([::1]:36668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 805F64B3077
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 23:32:15 +0100 (CET)
+Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIePh-0000BL-Vw
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 17:29:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42590)
+	id 1nIeSc-0004Ym-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 17:32:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1nIeE7-0008FQ-S5
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 17:17:15 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=37515
- helo=mail-pj1-x1035.google.com)
+ id 1nIeE9-0008Gf-5g
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 17:17:17 -0500
+Received: from [2607:f8b0:4864:20::636] (port=40954
+ helo=mail-pl1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1nIeE4-0003Sc-J0
+ id 1nIeE4-0003Sw-NX
  for qemu-devel@nongnu.org; Fri, 11 Feb 2022 17:17:15 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- v5-20020a17090a4ec500b001b8b702df57so13204440pjl.2
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 14:17:00 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id y17so5741024plg.7
+ for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 14:17:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kC/UzqFRz5NAEDQF8d/94cxeWUB9KRrUESXiQLrGgJ4=;
- b=fpc5gx1NaZF6ia2ROO3y1tdNNFXedP7SYrv/tg4SWdzrV8OLmj7di0ri1jiZZ6Bo4u
- DXRoDViEEgmTAsatY4BTG1tCqlv8z2CAyZNErIqXnR5IScjzrdgtpl+6syMeto4N9yRd
- D2XY+3gZySS7d6KSa4JyFusDx3Q0NEFd4QwJknDuYfT3h0G2cIZhSfxNtxuoVR9XVutl
- QDDTG4Jzzsx8BMKL1i7kuJu8Uf2d4pZoPElE+5aGz/dMNqPzhuDLK2eJ4d9sOAxaNVd0
- LfJUUWWOBLX+GwKlh16FSRc6Z0iWMcQK8uJhWvm+y4q0RXAnx6J3OhYeWG5Y/SxVHObp
- DVbQ==
+ bh=Bad0khSQg4aEeFpR6OgB+Lc91CmrgeIaURNQVgBSxxk=;
+ b=q0rwXGOCXS+5s5QXVG2axc4ZiKJEXtuCjqm3VQrC7r5kz1jhwWlxI/QSxnF9yhIzd/
+ Bo0yVuJzSsgu9zH21B79UIqOgj/cSmqrXSL+VinDaZKbntpXNqSiLH3mlRXRiOF1jbi8
+ z//l4dgGD83Hjqq18BhuupavMKcieNFxyKUR+VNZ0q3w3zsEulV9Fi53o2sByMDCGe36
+ +1+rzmrCVmBmXtqYXhe5UIbsph6RJ5exWG822Bt3cXV+hJJ13I2yiDSqXoSmK/xuQ61u
+ +G78sMcMh+uwdM5JpIddEDe+i83E6piHWRVMoFW8iv8lcFNDOXg6KWxcd2NxATXrP/MN
+ JP+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kC/UzqFRz5NAEDQF8d/94cxeWUB9KRrUESXiQLrGgJ4=;
- b=4iuF/K/DHGy8boVrucXrRyi9uBm+K/HCUshB/ZeXTrobEIa+2b6GU7OMLzOMCoGIXQ
- Mgvj3UrUQMPc1UKkaza6Eg+SzHln5oY4NEnpVvUWS1hjs6VN/qVhNsHihrFsbsUL/cCK
- rxtnHtshM5OFfiqoE/jJW7QxpO/2VE/XIOeTCqvL2nGYFfdWMKnFlx6B+Qz63v8Kw6IG
- UUTomdDY/PHaZtgMzB16ZKoyD79HE+gRVx94QQxHOXuCeSJvVaJ+8z2VAO3yrWkfCGjX
- F1yHlMlNGA2aUHhe6GjCtloi0yEE1vr1wG3MlCG/FHv2JSPhn8AqM8mgpglPf2/nOvjV
- UHDA==
-X-Gm-Message-State: AOAM531SXz5kHXxChRhGVp5NTmxm+CeOnEPUFivCLICeFskMIF4NRwEC
- jeivbL2dQcSeaE1TuZvMcXQ=
-X-Google-Smtp-Source: ABdhPJyhUP2NTzmYvgQyS+a1XREpjwGxItA4b7yvx1VZxXHJJjRw/3l2+zEtf8U03luEKaIbeZQn4w==
-X-Received: by 2002:a17:902:7109:: with SMTP id
- a9mr3700115pll.170.1644617820142; 
- Fri, 11 Feb 2022 14:17:00 -0800 (PST)
+ bh=Bad0khSQg4aEeFpR6OgB+Lc91CmrgeIaURNQVgBSxxk=;
+ b=hHYgtzpWr0Xt5TMTnCF/0W7cYFuv4wSI7EGydkoI/nQzakINxlmmKPlmN5mt7iAoa3
+ wLtA7LWCfoZ84T9A7B+UEo9FgZqmHbb9nQrNKFSYkQPXpVjg60gTNojBVYey+iKyh8sr
+ oRtJV3iz9VGBYh8jJXk0QAABi5Of9onpVTRi/FVK4gL3k8IupQcvId3gmiEtcLtBAWKY
+ /oZfOT/PJqA3CIVeRcS7fM0VfPnH/QHLNnf8GhWb4lSTyGvDOgbw5GkwdZs9qLN9MuMc
+ k2ft3PizsoRo/1ko+pLmhcFJmqvVEyJ/syNF1WX0kThvrX5I8O8CQjxSK9MxKgPbjNW0
+ UvVQ==
+X-Gm-Message-State: AOAM5304o9+7c00sTDJnSWDkGePfeTiZp7GchKEeWGVh2ZJonyVZLkko
+ Ye61s82UTI7wKj9P3jukBp1MaDwA58g=
+X-Google-Smtp-Source: ABdhPJwCZ1z7+/EM3PHNku1+zJ0/nod78EEU1sZAITcIVasSKy7VvkG1Wzkm9FQn9vQc4Boxg9nlPg==
+X-Received: by 2002:a17:902:db11:: with SMTP id
+ m17mr145828plx.103.1644617826144; 
+ Fri, 11 Feb 2022 14:17:06 -0800 (PST)
 Received: from fedora.. ([2405:201:6008:6f15:d26f:133e:cd11:90dd])
- by smtp.googlemail.com with ESMTPSA id j23sm20623576pgb.75.2022.02.11.14.16.53
+ by smtp.googlemail.com with ESMTPSA id j23sm20623576pgb.75.2022.02.11.14.17.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Feb 2022 14:16:59 -0800 (PST)
+ Fri, 11 Feb 2022 14:17:05 -0800 (PST)
 From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 To: kraxel@redhat.com,
 	mst@redhat.com,
 	laurent@vivier.eu
-Subject: [RFC PATCH 22/25] virtio-snd: Add code to device unrealize function
-Date: Sat, 12 Feb 2022 03:43:16 +0530
-Message-Id: <20220211221319.193404-23-chouhan.shreyansh2702@gmail.com>
+Subject: [RFC PATCH 23/25] virtio-snd: Add xfer handler
+Date: Sat, 12 Feb 2022 03:43:17 +0530
+Message-Id: <20220211221319.193404-24-chouhan.shreyansh2702@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
 References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -94,54 +93,112 @@ Cc: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The handler demultiplexes the buffers recieved in the
+tx/rx virtqueue. It uses a helper function for adding these
+buffers, (along with the entire virtqueue element,) to
+their respective streams.
+
 Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 ---
- hw/audio/virtio-snd.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ hw/audio/virtio-snd.c | 71 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 70 insertions(+), 1 deletion(-)
 
 diff --git a/hw/audio/virtio-snd.c b/hw/audio/virtio-snd.c
-index cb83db0e89..7dd89c444b 100644
+index 7dd89c444b..80a34e1207 100644
 --- a/hw/audio/virtio-snd.c
 +++ b/hw/audio/virtio-snd.c
-@@ -1093,8 +1093,38 @@ static void virtio_snd_device_realize(DeviceState *dev, Error **errp)
+@@ -1012,6 +1012,74 @@ static void virtio_snd_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
      }
  }
  
 +/*
-+ * Frees the resources allocated to the device and then frees the device
-+ * itself.
++ * Adds a virtqueue element to a VirtIOSound card stream. Makes the buffer
++ * available to the stream for consumption.
 + *
-+ * @dev: VirtIOSound card device
++ * @s: VirtIOSound card
++ * @stream: stream id
++ * @elem: The tx virtqueue element that contains the I/O message
 + */
- static void virtio_snd_device_unrealize(DeviceState *dev)
- {
-+    VirtIOSound *s = VIRTIO_SOUND(dev);
++static void virtio_snd_pcm_add_buf(VirtIOSound *s, uint32_t stream,
++                                   VirtQueueElement *elem)
++{
++    virtio_snd_log("add_buf called\n");
 +
-+    for (int i = 0; i < s->snd_conf.streams; i++) {
-+        virtio_snd_pcm_stream *st = virtio_snd_pcm_get_stream(s, i);
-+        virtio_snd_pcm_release_impl(st, i);
-+        g_free(s->pcm_params[i]);
-+        s->pcm_params[i] = NULL;
++    virtio_snd_pcm_stream *st = virtio_snd_pcm_get_stream(s, stream);
++    uint32_t buf_size, dir;
++    int i;
++
++    // get the direction opposite to the stream. We need read position if we are
++    // writing because we want to add data to the buffer and not consume it.
++    dir = VIRTIO_SND_D_INPUT ^ VIRTIO_SND_D_OUTPUT ^ st->direction;
++    i = virtio_snd_pcm_get_curr_elem(st, dir);
++
++    if (st->elems[i]) {
++        return;
 +    }
-+    g_free(s->streams);
-+    s->streams = NULL;
-+    g_free(s->pcm_params);
-+    s->pcm_params = NULL;
 +
-+    for (int i = 0; i < s->snd_conf.jacks; i++) {
-+        g_free(s->jacks[i]);
-+        s->jacks[i] = NULL;
++    buf_size = iov_size(elem->out_sg, elem->out_num)
++               - sizeof(virtio_snd_pcm_xfer);
++
++    st->elems[i] = elem;
++    virtio_snd_pcm_update_buf_pos(st, dir, buf_size);
++}
++
++/*
++ * The tx virtqueue handler. Makes the buffers available to their respective
++ * streams for consumption.
++ *
++ * @vdev: VirtIOSound card
++ * @vq: tx virtqueue
++ */
++static void virtio_snd_handle_xfer(VirtIODevice *vdev, VirtQueue *vq)
++{
++    virtio_snd_log("tx/rx queue callback called\n");
++    VirtIOSound *s = VIRTIO_SOUND(vdev);
++    VirtQueueElement *elem;
++    size_t sz;
++    virtio_snd_pcm_xfer hdr;
++
++    for (;;) {
++        elem = virtqueue_pop(vq, sizeof(VirtQueueElement));
++        if (!elem) {
++            break;
++        }
++        if (iov_size(elem->in_sg, elem->in_num) < sizeof(virtio_snd_pcm_status) ||
++            iov_size(elem->out_sg, elem->out_num) < sizeof(virtio_snd_pcm_xfer)) {
++            virtqueue_detach_element(vq, elem, 0);
++            g_free(elem);
++            break;
++        }
++
++        /* get the message hdr object */
++        sz = iov_to_buf(elem->out_sg, elem->out_num, 0, &hdr, sizeof(hdr));
++        assert(sz == sizeof(hdr));
++
++        virtio_snd_pcm_add_buf(s, hdr.stream_id, elem);
 +    }
-+    g_free(s->jacks);
-+    s->jacks = NULL;
++}
 +
-+    virtio_delete_queue(s->ctrl_vq);
-+    virtio_delete_queue(s->tx_vq);
-+    virtio_delete_queue(s->event_vq);
-+    virtio_delete_queue(s->rx_vq);
+ /*
+  * Initializes the VirtIOSound card device. Validates the configuration
+  * passed by the command line. Initializes the virtqueues. Allocates resources
+@@ -1056,6 +1124,8 @@ static void virtio_snd_device_realize(DeviceState *dev, Error **errp)
+     default_params.rate = VIRTIO_SND_PCM_RATE_44100;
+ 
+     s->ctrl_vq = virtio_add_queue(vdev, 64, virtio_snd_handle_ctrl);
++    s->tx_vq = virtio_add_queue(vdev, 64, virtio_snd_handle_xfer);
++    s->rx_vq = virtio_add_queue(vdev, 64, virtio_snd_handle_xfer);
+ 
+     s->streams = g_new0(virtio_snd_pcm_stream *, s->snd_conf.streams);
+     s->pcm_params = g_new0(virtio_snd_pcm_params *, s->snd_conf.streams);
+@@ -1123,7 +1193,6 @@ static void virtio_snd_device_unrealize(DeviceState *dev)
+ 
+     virtio_delete_queue(s->ctrl_vq);
+     virtio_delete_queue(s->tx_vq);
+-    virtio_delete_queue(s->event_vq);
+     virtio_delete_queue(s->rx_vq);
  }
  
- static void virtio_snd_reset(VirtIODevice *vdev)
 -- 
 2.31.1
 
