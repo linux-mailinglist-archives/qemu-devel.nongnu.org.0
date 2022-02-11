@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E104B2B7B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 18:13:29 +0100 (CET)
-Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2AA4B2BD4
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 18:34:31 +0100 (CET)
+Received: from localhost ([::1]:48448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIZU8-0000Uo-Ha
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 12:13:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34698)
+	id 1nIZoT-0006AT-Q9
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 12:34:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nIZSW-0008DU-Oy
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 12:11:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32065)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nIZmQ-0005HP-ED
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 12:32:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nIZST-0007pe-S7
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 12:11:47 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nIZmM-0002V1-OX
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 12:32:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644599504;
+ s=mimecast20190719; t=1644600737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=snKOfOeEfWG8V0v7xp3ZFe3QjScqadvdHG+VwZhOJoY=;
- b=LPBaKMxU/YWBIWfXtZtD+U1Vwqy9T4KHglKv8cp+llK6RFjgndC8UV61mIBrou2E8+2CNZ
- 3o2Gkhb6w3T15yg6U1Mwhx0inM8WsQlsaRwFpN8l/6IXq3XUWAoqmoGV/N8Vxf7EIG6/o9
- JXt53741qTOc20HXwMQLqRGgtaOBURI=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CjEu1mqhBNEeoWuGN67Q6AjOOmeuJ3lBTz8oQNuR7MY=;
+ b=E2sf/1wyLXf8SEDLmbOFplFW02WPm4ett+/XFef2dVyWCx4KBF01BHJaq6gRzko5eh+G9C
+ N090WkSo1RgxUcLbR8aSviIDfTjkZQwqMIVzF64vHhRpjWLmBfg44ePkPR8QCtWOYysRnp
+ ADMetOXJxd1hU1Z/pVH/maURcGEfwao=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-64-eQImakjbM9CMZjGGLanvcA-1; Fri, 11 Feb 2022 12:11:38 -0500
-X-MC-Unique: eQImakjbM9CMZjGGLanvcA-1
-Received: by mail-vs1-f72.google.com with SMTP id
- b4-20020a67f844000000b0030ea275970dso868158vsp.4
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 09:11:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=snKOfOeEfWG8V0v7xp3ZFe3QjScqadvdHG+VwZhOJoY=;
- b=dIYlPVdlqZyUgyw2+ADYskPkzR4VjNByH5Z34+YRDLxBOUds/sl7r7jBA33EJFKJFu
- kD8247PLPO2LfUwJYoX0yul69cztkTmIPcjdvsXmjGoZRLXkeElU0t+5VnMhP7EhEj/z
- jre4QNAqhFpQNQTAvP+SKOIxs43RlshZPZj6mP4WQbpx8EE2aKfv/dlFoGDX1qsX2sSS
- 6JAZVpG7G9uPy1TQ+9UDRNjnMp/u+ngsR4BPxSHzHwgGDTzXmExyrdgqRaMUDkxpbv98
- I3x+AUW31YxTXHIMbOaV9awKRac8pa22Xkie5XXJi8QNfC2pMwaWxccenLLgLgiVrAoo
- 6OWg==
-X-Gm-Message-State: AOAM533McjdxOZ3Y22nuxKJOzA6z+oergZaiM83btjgyLw59D2dwRtni
- P94ykibFlJQF/vpvcbE57DGK3w2hue+1Y+GK5210UZhwkAlUjeHthX5Bg4AD8CDiXN5DZd/JuAm
- WAN8I4HBnooihceT1Yq11KQx/dMBXaqw=
-X-Received: by 2002:a1f:a857:: with SMTP id r84mr784432vke.24.1644599497370;
- Fri, 11 Feb 2022 09:11:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx+VqKCDBrElvNxUQWlU7zFm7ZZT2tmSJ7tZ8n93T9kKm++MjVb2g3L07hvXuEH6u11uS+Npn5V6GgpflW2fO4=
-X-Received: by 2002:a1f:a857:: with SMTP id r84mr784427vke.24.1644599497054;
- Fri, 11 Feb 2022 09:11:37 -0800 (PST)
+ us-mta-584-moshSKV2OYiiy_xLWJwzPA-1; Fri, 11 Feb 2022 12:32:16 -0500
+X-MC-Unique: moshSKV2OYiiy_xLWJwzPA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FC88180E49C;
+ Fri, 11 Feb 2022 17:32:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 98B0C838E9;
+ Fri, 11 Feb 2022 17:32:13 +0000 (UTC)
+Date: Fri, 11 Feb 2022 18:32:11 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2 1/8] tests/qemu-iotests/testrunner: Allow parallel
+ test invocations
+Message-ID: <Ygadm01OjoNHpRi9@redhat.com>
+References: <20220209101530.3442837-1-thuth@redhat.com>
+ <20220209101530.3442837-2-thuth@redhat.com>
+ <YgYsbRc9XNYjUH2L@redhat.com>
+ <362412d7-4676-1733-fef6-825fda8e34a0@redhat.com>
+ <YgaIISPltMU4GWsG@redhat.com>
+ <66487f51-1fdd-3a49-bc6f-b89ab3d2e54c@redhat.com>
 MIME-Version: 1.0
-References: <20220204225230.2114135-1-jsnow@redhat.com>
- <87leyibtqz.fsf@pond.sub.org>
- <CAFn=p-YSAe7Q+usWEv4b7UciYjm5iso9LH-pd-VbDoV196PfvQ@mail.gmail.com>
- <87o83d8vij.fsf@pond.sub.org>
-In-Reply-To: <87o83d8vij.fsf@pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 11 Feb 2022 12:11:26 -0500
-Message-ID: <CAFn=p-ZcCjx5eeVcZm0fnc_bzFoffx_GGnCAgQKngGcOXrFLBw@mail.gmail.com>
-Subject: Re: [PATCH] scripts/qapi: minor delinting
-To: Markus Armbruster <armbru@redhat.com>
+In-Reply-To: <66487f51-1fdd-3a49-bc6f-b89ab3d2e54c@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -90,163 +84,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 11, 2022 at 6:58 AM Markus Armbruster <armbru@redhat.com> wrote:
->
-> John Snow <jsnow@redhat.com> writes:
->
-> > On Thu, Feb 10, 2022 at 10:56 AM Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> John Snow <jsnow@redhat.com> writes:
-> >>
-> >> > Just cleaning up some cobwebs.
-> >> >
-> >> > Signed-off-by: John Snow <jsnow@redhat.com>
-> >> > ---
-> >> >  scripts/qapi/commands.py | 2 +-
-> >> >  scripts/qapi/events.py   | 6 +++---
-> >> >  scripts/qapi/types.py    | 6 +++++-
-> >> >  scripts/qapi/visit.py    | 6 +++++-
-> >> >  4 files changed, 14 insertions(+), 6 deletions(-)
-> >> >
-> >> > diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> >> > index 869d799ed2..38ca38a7b9 100644
-> >> > --- a/scripts/qapi/commands.py
-> >> > +++ b/scripts/qapi/commands.py
-> >> > @@ -25,8 +25,8 @@
-> >> >      QAPIGenC,
-> >> >      QAPISchemaModularCVisitor,
-> >> >      build_params,
-> >> > -    ifcontext,
-> >> >      gen_special_features,
-> >> > +    ifcontext,
-> >> >  )
-> >> >  from .schema import (
-> >> >      QAPISchema,
-> >> > diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-> >> > index 27b44c49f5..8edf43d8da 100644
-> >> > --- a/scripts/qapi/events.py
-> >> > +++ b/scripts/qapi/events.py
-> >> > @@ -109,15 +109,15 @@ def gen_event_send(name: str,
-> >> >          if not boxed:
-> >> >              ret += gen_param_var(arg_type)
-> >> >
-> >> > -    for f in features:
-> >> > -        if f.is_special():
-> >> > +    for feat in features:
-> >> > +        if feat.is_special():
-> >> >              ret += mcgen('''
-> >> >
-> >> >      if (compat_policy.%(feat)s_output == COMPAT_POLICY_OUTPUT_HIDE) {
-> >> >          return;
-> >> >      }
-> >> >  ''',
-> >> > -                         feat=f.name)
-> >> > +                         feat=feat.name)
-> >> >
-> >> >      ret += mcgen('''
-> >> >
-> >>
-> >> Meh.  Expressive variable names are good when there's something useful
-> >> to express.  But what's the added value in such a simple, obvious loop?
-> >>
-> >> Besides:
-> >>
-> >>     $ git-grep 'for . in' scripts/qapi | wc -l
-> >>     42
-> >>     $ git-grep -E 'for [A-Za-z0-9]{2,} in' scripts/qapi | wc -l
-> >>     31
-> >>
-> >> > diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-> >> > index 3013329c24..477d027001 100644
-> >> > --- a/scripts/qapi/types.py
-> >> > +++ b/scripts/qapi/types.py
-> >> > @@ -16,7 +16,11 @@
-> >> >  from typing import List, Optional
-> >> >
-> >> >  from .common import c_enum_const, c_name, mcgen
-> >> > -from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
-> >> > +from .gen import (
-> >> > +    QAPISchemaModularCVisitor,
-> >> > +    gen_special_features,
-> >> > +    ifcontext,
-> >> > +)
-> >> >  from .schema import (
-> >> >      QAPISchema,
-> >> >      QAPISchemaEnumMember,
-> >> > diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-> >> > index e13bbe4292..380fa197f5 100644
-> >> > --- a/scripts/qapi/visit.py
-> >> > +++ b/scripts/qapi/visit.py
-> >> > @@ -21,7 +21,11 @@
-> >> >      indent,
-> >> >      mcgen,
-> >> >  )
-> >> > -from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
-> >> > +from .gen import (
-> >> > +    QAPISchemaModularCVisitor,
-> >> > +    gen_special_features,
-> >> > +    ifcontext,
-> >> > +)
-> >> >  from .schema import (
-> >> >      QAPISchema,
-> >> >      QAPISchemaEnumMember,
-> >>
-> >> Everything else, gladly
-> >> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> >
-> > The problem with whitelisting single-letter variable names is that
-> > it's done on a per-name basis, like allowing "x, y, z" or "i, j, k". I
-> > could whitelist "f", "m", etc but there's no way to whitelist "for f
-> > in features" or "for m im members" ... So admittedly, I just stuck
-> > with the default, even though it's a little annoying. It's what I use
-> > for python/, and I had previously used it for ./scripts/qapi/, so I
-> > was just carrying on.
->
-> There are only 26 single-letter variable names.  Whitelist them all?
->
-> > In general: I like the idea of forbidding single-letter variable names
-> > because I prefer things to be more verbose than terse as a habit. In
-> > practice: yeah, it's hard to strictly defend any one change as
-> > obviously superior. I preferred "for feature in features", which you
-> > did not like because the plural wasn't distinct enough (fair!), so I
-> > started using "for feat in features" as a compromise.
->
-> @feat is a perfectly adequate name.  So is @f as long as the loop is
-> small.  What annoys me here is the churn.
->
-> Sadly, pylint's invalid-name mixes up two things: PEP-8 conventions like
-> "use CamelCase for class names", and its own style rules like "names
-> should be least three characters long".  The former is easy to decide,
-> and welcome help.  The latter is actually a proxy for "use sensible
-> names to make the code easier to read", because pylint isn't smart
-> enough to judge "easy to read".  Fine, leave it to reviewers then!
->
-> > If on third thought you don't like any of this, we can change course,
-> > but then maybe we should also undo the other changes we already
-> > checked in. (At this point, I feel like it's maybe less churn to
-> > continue on the path I have been, but... you're the boss here.)
->
-> I don't think we need to undo.
->
-> Several of the names in scripts/qapi/pylintrc's good-names don't
-> actually occur in the code.
->
-> Could I persuade you to replace it with something like
->
->     good-names-rgxs=^[_a-z][_a-z0-9]?$
->
-> and call it a day?
->
+Am 11.02.2022 um 17:14 hat Hanna Reitz geschrieben:
+> On 11.02.22 17:00, Kevin Wolf wrote:
+> > Am 11.02.2022 um 14:53 hat Thomas Huth geschrieben:
+> > > On 11/02/2022 10.29, Kevin Wolf wrote:
+> > > > Am 09.02.2022 um 11:15 hat Thomas Huth geschrieben:
+> > > > > If multiple tests run in parallel, they must use unique file
+> > > > > names for the test output.
+> > > > > 
+> > > > > Suggested-by: Hanna Reitz <hreitz@redhat.com>
+> > > > > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > > > > ---
+> > > > >    tests/qemu-iotests/testrunner.py | 2 +-
+> > > > >    1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+> > > > > index 0eace147b8..9d20f51bb1 100644
+> > > > > --- a/tests/qemu-iotests/testrunner.py
+> > > > > +++ b/tests/qemu-iotests/testrunner.py
+> > > > > @@ -259,7 +259,7 @@ def do_run_test(self, test: str, mp: bool) -> TestResult:
+> > > > >            """
+> > > > >            f_test = Path(test)
+> > > > > -        f_bad = Path(f_test.name + '.out.bad')
+> > > > > +        f_bad = Path(f'{os.getpid()}-{f_test.name}.out.bad')
+> > > > >            f_notrun = Path(f_test.name + '.notrun')
+> > > > >            f_casenotrun = Path(f_test.name + '.casenotrun')
+> > > > >            f_reference = Path(self.find_reference(test))
+> > > > Hmm... It does make sense, but nobody ever cleans those files up.
+> > > > Currently, the next run of the test will just overwrite the existing
+> > > > file or delete it when the test succeeds. So after running the test
+> > > > suite, you have .out.bad files for every failed test, but not for those
+> > > > that succeeded.
+> > > > 
+> > > > After this change, won't the test directory accumulate tons of .out.bad
+> > > > files over time?
+> > > True ... but we certainly want to keep the file for failed tests for further
+> > > analysis instead of immediately deleting them ... maybe it would be enough
+> > > to encode the image format (qcow2, qed, vmdk, ...) into the output name,
+> > > instead of using the PID, so that "make check SPEED=thorough" works as
+> > > expected here?
+> > It depends on what the supported use case for test suites running in
+> > parallel is. If it's just for testing multiple formats at the same time,
+> > then this would work, yes.
+> > 
+> > I could think of more test runs that you might want to do in parallel,
+> > like different protocols, different image format options, maybe even
+> > different host file system. I'm not sure if all (or any) of these are
+> > relevant, though.
+> > 
+> > Supporting only things that "make check" uses might be a good
+> > compromise.
+> 
+> Personally and originally, I wrote that diff to allow me to actually run the
+> very same test many times in parallel.  If an error occurs only very rarely,
+> then I like running like 24 loops of the same test with exactly the same
+> configuration (just different TEST_DIRs, of course) in parallel.
+> 
+> The fact that the .out.bad files tend to accumulate is why I haven’t sent it
+> upstream so far.  Personally, I like Vladimir’s idea to put them into
+> TEST_DIR, but probably just because this works so well for my usual case
+> where TEST_DIR is on tmpfs and I thus don’t have to clean it up.
 
-I've been growing that good-names list out from python/, so they
-probably appear over in there somewhere. And uh, eh. In the interest
-of just moving on to something more interesting, sure. (I reserve the
-right to change my mind when I attempt to get the CI system protecting
-the type safety of qapi-gen, when we'll need a single configuration
-for everything. We can fight about it then.)
+I think it could actually work fine because if you don't override
+TEST_DIR, it's the same every time, and then you get the old behaviour,
+just with the .out.bad files moved into scratch/.
+
+Kevin
 
 
