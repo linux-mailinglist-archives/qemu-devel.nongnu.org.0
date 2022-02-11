@@ -2,141 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879964B2763
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 14:49:25 +0100 (CET)
-Received: from localhost ([::1]:48310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411D74B2765
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 14:49:37 +0100 (CET)
+Received: from localhost ([::1]:48790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIWIe-0004ja-2T
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 08:49:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51560)
+	id 1nIWIp-00057E-QQ
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 08:49:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nIVbZ-0006pz-41; Fri, 11 Feb 2022 08:04:53 -0500
-Received: from [2a01:111:f400:7e1b::70f] (port=20320
- helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ id 1nIVt6-0000ZF-BT; Fri, 11 Feb 2022 08:23:00 -0500
+Received: from [2a01:111:f400:fe0c::726] (port=41871
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nIVbV-0004j4-TX; Fri, 11 Feb 2022 08:04:52 -0500
+ id 1nIVt3-0008I0-2h; Fri, 11 Feb 2022 08:22:59 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bib0hBOMklEdrAQRvhMvUVdXmsmKYDZRqwDbkjqsKT32pEv0Gf7UJq0WNtHuFOn0JgMcx2ydznkLR26kc4ioQ5CmUau+VP8Tsd9sInRc448mZBV6wVk+1en+GMsDy1BNWRyrg1RYqyDZwPDAXy8HGCkCBgc/Y3wUpLAthEkyX6gxr7tb9jxViPyiIr+ddW6MBUgw93qwjXC8f6dlWlVLExSCGK0/C/ZIcmst2qG9Ptqtxv/rx8ATH5GZiv5IO1DfD1VQJPFRnt4BonJXzCZ0ltlvG9iJIV8T19YK/6OFzGKugdiRjZf1q/msmdmbmq+vV7fBsj6v4LqoXUieZpookA==
+ b=SJE7brtNHzIKqDF1mqvkLEfPHZcZAjdzfImQn7QtxiYfrz66XGmNnXto2xvL980ZxSmrOr1GekvvdQJ3sh1vxkA1Kg53ocTWwou77gns8dKFbLVdsUFkd1b74fSJDnBCWV1x49fl4vLDPxxukZCRhJ3ynbbzk9qzxo22+uwd9d1dhPHmNSuLZEGXPU6piw4RbYwNaUjORixJSUkz901FUO2K16vuJR77ffkf0JPKFEhJHZYLyjeYbReatRQX/wyX6e88U6YA915AHo7aoIku4rhv6ez0ohe/VT5tyb8ssqse25N1MmVpbNx+9F66CNNsicR4QjKCRi/25gPrXAeonw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bi4dPjgWLdcXe5tVXq6rQCdVoC8jw5UdCCVZqcEVBGA=;
- b=EbEmQ+qAmChlOlBRs9Dpru5zYrZtpHfzuJJ/bPq28iD5VqbFo7EujKQa75RzClskLgox/VGnVAYq1uzQFIzvQntM3tkGbSrE+N7hJY+6QWhdDG6Ml7sDDXgCWVvo3iA7F8mMpG4gFSiBfoxgACEMv3aeXod8Uzv6oUyKY32BUgx3pEaOci5kBtcB3lWv5zfE5AZgSY8GVgtU0PKt8n47MkkkSgJiio3tZSPa8EzcsoTsdxzRSMWifsrmRLb/sy8ZwI3Z3x9dMuHQBbFNc8QBIvJgC/+rw3/HaSaVAYsWjwvTf8U5SjsGFFNFxsTZn6P9tEAdPgmdk4N4ea+tmSP/qg==
+ bh=67vtTUc9X2x935hlGjkKgiWVhNV3LVLoqjA5uXMZ1Ls=;
+ b=bJGRz12GZD8thnCIMUtBd6U3Okfkc8nroZR+LfKHPGbc8G3k3CcfCSnYWPzaKOSmfdA0nAGpcoEn/O81sdpowPRQmHi+mx+4FWRPmfuvXpy8rmDwZUaIhHcIBHfHnwwKlO4KUajSe5e18qAvuJaiC37MAHxzV6ZJAuL81DdGArMrLjHB4Y9x0N9yKFjWO3f1MIhjLu30ieVJCiXGFxTrzs670F8/IzhNVGis82KK+rvponOYvJDvJSM22iUt0s6TYJMlFX/l+nxBWse0lLMMf2SVzWZKU4f76hmhmE0skmagLXfI4ZW9Ku6UlDjHfEZBg7g1bBdg9gyeAvvdnlZpgg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bi4dPjgWLdcXe5tVXq6rQCdVoC8jw5UdCCVZqcEVBGA=;
- b=etAoymjeSm+65QvBIYt65fnlmGpBrn0t0He3h16iUS459Vqjs24JTXraMPgA9UadZ5HgTWqifJdqfB7DFsfl2k/dmMxznjHTSU5GpHQkMiA+xGYefZ8s1pUfxk69hU2xG5mSgw60RUoydGIXS7/wt7qIg5DZMPXmL4+rxOSu870=
+ bh=67vtTUc9X2x935hlGjkKgiWVhNV3LVLoqjA5uXMZ1Ls=;
+ b=d9allmc5JcvQWpmQm8VQfPadiCvIvGzTNTCON8HxPBHENfD5in9r36KyxkzZJuH6NBQZUVLCIDMXSBBZVMrnx7CctN4lvL4XKzGFRP9Tr7njZDo/tqxlbICLwOFHKh/N3cRdnZjHAmGSoUzKuhoWQwLZiGDAdUg2nQ7+0WxCALE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM6PR08MB3895.eurprd08.prod.outlook.com (2603:10a6:20b:81::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Fri, 11 Feb
- 2022 13:04:47 +0000
+ by DB7PR08MB3865.eurprd08.prod.outlook.com (2603:10a6:10:74::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Fri, 11 Feb
+ 2022 13:22:50 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714%4]) with mapi id 15.20.4975.011; Fri, 11 Feb 2022
- 13:04:46 +0000
-Message-ID: <101e60ea-b752-887b-8b8e-f73561266357@virtuozzo.com>
-Date: Fri, 11 Feb 2022 16:04:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PULL 0/7] nbd: handle AioContext change correctly
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- richard.henderson@linaro.org, eblake@redhat.com
-References: <20220209140258.364649-1-vsementsov@virtuozzo.com>
- <CAFEAcA-12iJfa7F-zGBb--V3yehi3iV2A6u_BPuEFb-9kjHBVw@mail.gmail.com>
+ 13:22:50 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <CAFEAcA-12iJfa7F-zGBb--V3yehi3iV2A6u_BPuEFb-9kjHBVw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0049.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:48::15) To AM9PR08MB6737.eurprd08.prod.outlook.com
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
+ peter.maydell@linaro.org, vsementsov@virtuozzo.com, eblake@redhat.com
+Subject: [PULL v2 0/7] nbd: handle AioContext change correctly
+Date: Fri, 11 Feb 2022 14:22:33 +0100
+Message-Id: <20220211132240.781958-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM5PR0601CA0048.eurprd06.prod.outlook.com
+ (2603:10a6:203:68::34) To AM9PR08MB6737.eurprd08.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d096d2f5-5dea-4148-7291-08d9ed5f13d1
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3895:EE_
-X-Microsoft-Antispam-PRVS: <AM6PR08MB38955A3FB62FBEB44DDB9A51C1309@AM6PR08MB3895.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 8593211c-23dd-4cc7-d6e9-08d9ed619a4d
+X-MS-TrafficTypeDiagnostic: DB7PR08MB3865:EE_
+X-Microsoft-Antispam-PRVS: <DB7PR08MB3865FC6AC5FC9FCF68350C9CC1309@DB7PR08MB3865.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:83;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OrjIxGty/EhZa244SLXSg/20m3RW07Nm+06jkqNLXbW07I9xf+a2uwraLVwM15RJ50fd43FjqmAHQgtLCuc9KDBISErh+W2879Q0e7rYa9oB07s3rSWminpHvF0eMG6Y4AylKMm53TtrARZtWi2e3Cwpe4nQpeumS3nJLENHbVKP5jt8mjGjNZnX7cqDGSSUa5o0+K2Fr4ZmN+SmYzwPfV0SUxm43Z4PGDel+7dF8tL+1IvBfo5OQ7n8qxBvKRu20oQqxJ0/2i6HSNr0HTYpaTeVmTGHtH53h/O2sgEJFRSZejcRUxqLXEeaEUgfIa5mMmlmntpSteEBi9CRYxyggArG3NA0EnVhpnN3OY0KDZ/2smROQzso4hUCLsvUKjVOm/lg/C3szq06A7H85ITjqiRGKaP21US9WOAsfr1I2XVh5wv5alP/gI4yT/oqiEuaKl0rJeruTHgZCuXkmThk3pX7QJCLRn9/GlUXjRqA28J3GMdePnYJQ1gOcfrv50x5xCVBc36P6meCbDUpVVT67/ZWZOLZWv2+HFk11SKNVlnzVAv90Z54QhXSaIeVxjbONNlOhnFzHC+j465m8eLLRkDuBUcv7Bsdsx9qAyXDKWvbeHVFctQsx9qKKqriEeGxs1QTHgvvM9ArIHOanXH9AR5qea96ZXoVK4h6IjCC5LSyW1Kg6WygS7rYLuUs6UH4CmeKsuUOjwdfd4BGKD9Osy1vrDXIE+7bD5QDCJJJHX8VPUPFP87Ce1liLeVMQsKqyMoDY6TvVWNxMyGweVJaZJNTCdNW1uOq2GEpJuPgZxeFJnNKmyMIzGPL77YTwAZyMRaHdUbmSLysVkjU2J7xhzsoVpFCG49ViPtTBshtl9s=
+X-Microsoft-Antispam-Message-Info: TjvTmcICwosJ/OanIHHw4H5ywo35pDvV2OTL2ULoZl51VJf+lpi/n9Q/UFscs9hQYPcbnnkod9N5+aYJjZWSx3yjV8ov2mJHHyA9apKuWmPQj+EbmEMP3FTBh2bZhemCZcQg33mKr160Z3CiTySs8+6F5D7yTTvwbxhC2eFtaV7MA4KSETWUmVVMrZ4OMO2IGiGL9/zoyEnHTjxhZ6HfJpoawE2EvldgVSzwhPt3tccZYJe4uqSrRaZNYbpit0Hwek8Lt3u4CJrgbmkln8elzDYsUNJJgqbtiMAEDDagOXL49bs0IRWiDCm6/efolgktXNHOEfbwnx2oa/GNb0f+GFyBJO7/fXWfhvatzb1vbixa1o6kRT1aRV1byIjhVahfTxeHMNM79z0ptYTfp8usCn98zszLQiJyZbPXLxtPy4UiDAwLMCszPqEJKV+BQ4XHreGvw7iTET5+g8aQxC962Ep2acYZSCUbcvQtV9jryQnZCl1QfgWGOxgXmPoOl6wZkHkHNuPclGW94VN1Yx/zlXMrLgREE/pvmPWbcZs50SFkZmosz+5OCNgt5dfUJTmjgbupHUhJP+8La+2lWaJkb8si/LNNhbKXWdFMdUX85wlFcLpmcLXPulxxCW33ssHNijUl6iAa7jHM5F97qj+TW4SR0itBFgEVQ/taVxeZMvX4SVFqHfyLgAukBrzeNHkrULIbzWQ4DFL78CH2XD+qt6Jf5jlR1dnOqgGWqta5e2c8++mea1a2zdyuDjKubAR1/pI1UQb/wFKw9qEHoJOh7g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(8676002)(966005)(66946007)(6486002)(508600001)(4326008)(8936002)(66556008)(5660300002)(83380400001)(2906002)(66476007)(31686004)(86362001)(38350700002)(36756003)(6506007)(6512007)(186003)(52116002)(38100700002)(2616005)(26005)(316002)(6916009)(31696002)(43740500002)(45980500001);
+ SFS:(13230001)(4636009)(366004)(316002)(6916009)(2906002)(38100700002)(86362001)(508600001)(38350700002)(966005)(6486002)(36756003)(83380400001)(52116002)(186003)(26005)(5660300002)(6666004)(1076003)(8936002)(4326008)(6506007)(8676002)(66946007)(66556008)(6512007)(2616005)(66476007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VkxMNVJRc1lSamkzSUpETG1CaWZ3ZDlXSm04L1owdVkwd0ZKcUh2Z1k5elJs?=
- =?utf-8?B?ZGRlV3dFQ1BOVWpXMmZHcWlmMUVmd3o0VVlPWkkxS0NKd0FNMytvamFOZGtn?=
- =?utf-8?B?T3lCMHlrQ3dxbDhEMzYwSWNwVXNQWWxXVC85Tzgvdm9hbWtvUk9BRTNheHk0?=
- =?utf-8?B?WW1zZCtJOWNwSkE4aXpic2hyZExpWXNPNmpTeUs1bjdzV2hMU3BNMWJXQmNT?=
- =?utf-8?B?ZzhoVUo0T3dxUGMyUGZyaDJLSEpodi9aNmxvR3JOVzh0b1d2WklWdkJZY3Iy?=
- =?utf-8?B?M2k3ZGpRd010eTNndVpWdmkweDRjQVc0K2FXWHdNa0h6YnNNK2hoOG9tenhr?=
- =?utf-8?B?L200ZHFDOHl3ODhkQXUzSmZxV0NLbnlMbU96L1VXdFpkeHB4bGpVNXovZGJD?=
- =?utf-8?B?cml6dUt5UWVORmQ1bTRvMDNaVHZmYmZaNlhFT3c2aHVqaEVTM09Hd1NtNnlS?=
- =?utf-8?B?RzdCS0hHMHJ1VWlSaC9UaER6bVlQcW16eGZDUWErL2JYNEczU2RqTE01cjVV?=
- =?utf-8?B?c3c5NUF1Q1A0ZHBacGtQMi9Ic1RRYlhNMURIbFZ3SnVKeWZ2UVhjMFRxdlR6?=
- =?utf-8?B?ZHhGemxscE1EVWNRbnVTMVV1MXNkRGFIVktsV05UOGdNN3RoQjY4Mng3YzBU?=
- =?utf-8?B?L0Q5c09xNzBEaG5qUnlYVmRMSjRRMXdWdENEeTBWMzZnRlBGaEVxUGhmQ05T?=
- =?utf-8?B?WnR0UmVQa1J6b3c2bjZHRldvVHBoczE1TkJQZERZOVFWc3N3SnRyKy9GeEZo?=
- =?utf-8?B?MW5rQWNGVExzTEhNLzVDdzZUZGtQeDdzNm9KbnV3eGh1NEc5dmt4S0lRUkZy?=
- =?utf-8?B?VXZ6UlE0bU15UitrdWdONnlDU3hTcm9rejQ0RWFDU251eVFPdGRxeTZ1cXdX?=
- =?utf-8?B?ano3M1JDN05kR3E1Q3dOUm9aRkJiOW5paWJCV1FCalQ2TlcyaFVwdUk4am5H?=
- =?utf-8?B?VUs3VENLU2tpYTljNkNKZjFGaVJNMGhmWVg4ejFZTkFRMFl6UnhGdE1pT25N?=
- =?utf-8?B?Y3ZtUjJFV3BwK1J0Wk84cmJ0QkVCS0ZLYTA5emg3RUFwdXVsS0NsSTFRWjRB?=
- =?utf-8?B?alZjYkd3cWw0Um44R1ZGTHhOekNWOU8rL1YrZkdCS3NOODBXT0cxRzNlaFdi?=
- =?utf-8?B?S3FMb2tJRVpPZWhNM3Rwd1hlaEJzZ0IxeDR2Y2pHNGhEYk82cGRCZUJ3YkpU?=
- =?utf-8?B?VUM4YXJsWGk4M0NzTUluZjNNd09vcFNSUURLR0pEeFV4M2F3dUtXSFUycVdP?=
- =?utf-8?B?SWhMOWxnek0ycHIzOUNUOGlhVVFWS3FLRmp3REZjaEY3b0hXVFFFLzlvVzV2?=
- =?utf-8?B?ZDk4d3UycHQ0TG1JL2sxSjBmNlF5RlJZd1A4bjJiUCt1TlUzSkUxaDFZT1Iw?=
- =?utf-8?B?UDVZTDM5TlFaeGVtcUVVei9ObFc5Yll1bUtDTTJHcEFDUVZ6THFabnRaTlRq?=
- =?utf-8?B?N1M3R3dQYkhOb3V2NU9JOHZ2SU9ocnVuZStobXFOaU8zeTd5TjdUTFJZcnp2?=
- =?utf-8?B?ZHBlNmNuM3E2Z2RSRTluZGRUVWNnYlkrZW5ueWp2MGFSNE9ScXBrN1puVnRB?=
- =?utf-8?B?bnBDQnAvY2YvQ1Q0UkdmZ2ZJVzRPT0JzeFMrZjVtZjYzVzZiSVF6dTVYUDA1?=
- =?utf-8?B?TlFqSDFEY2FKN0RyaXpuZ0Vtemd0NzF1ZlVYNVlXeFlSSHBzYUgzeEttUHlG?=
- =?utf-8?B?c2dyNGdDdm94c2t4RDAxa2lUSjBEelRiYjhnYTFhOFlycjJ4anBSTDlKVEor?=
- =?utf-8?B?UTJHc1dtKzViK3g2SXZ0YzNwaDcrd29rbmlDdWNjVUlJME14NGtid0MxSVIy?=
- =?utf-8?B?OFVtSkxldUdoK2p1aW9IcGNuUWNNdDdNcUhvUEpNVHdKRHJQMUFDZHMwU1pN?=
- =?utf-8?B?WjBvRFZJM2pvL3R2aDU1MTZCRGJpazRwU1p1NlVwbGhML0FOZERNWFZZNVdi?=
- =?utf-8?B?K1pnYy9rRXFTSVA3aHAwZEdidFN0QXdEMTFhWHRpTytEU3NYektwZ2lIMHJ4?=
- =?utf-8?B?L1IyZDBGcG1jTEF1NjI3bWtVM2tSbFBleTZDOTBneFhYZFpqei9oY2RYSXhs?=
- =?utf-8?B?TnVKSVYvWHJoc2FxMDdONjJVMWRkS05vY0hYSy9seVA3Z2RUNUNoOElpbXZO?=
- =?utf-8?B?Z05FbWh4cHp4SXdkaDRlY250NWF2Tkg1cDlIczBUMVJESGp2WDQ4NmV0K245?=
- =?utf-8?B?dVN3L09GQWc5TFhuWndtdkZVVjhtM01QcE5WTEJzNk16ZFdmNUpzQW9WS3Ir?=
- =?utf-8?B?ZjZjSkhmSE1KVmN0bU01Nkg3RHhBPT0=?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3+AB+8I5GHT7AyYbJaB1Qte5xSTeA98JpOnqAGOM3AyyTIanVM9EYfvMhHL5?=
+ =?us-ascii?Q?HU1PZIlWlfZba51B7sBqRbpj5uoCDnlDdrqJ0taHSG7FjvOGSARX+Or8Xm/R?=
+ =?us-ascii?Q?uJBmHJZBEu0H3ZN9ljWDUstpBgcrnzCzcQM22PbeOu5QS0QsFu/E0JKefDiH?=
+ =?us-ascii?Q?VoaiokcAdXICn3btm/sp+FyRt11RB90Bl2fnr5eYHgIPVdFdHp57Et7vPUSe?=
+ =?us-ascii?Q?jO8WtkdjHCi8jQjhaQebNEIdvxBHzTpwvwyEkfQYtrK2Q9xo396nYkvx8+iJ?=
+ =?us-ascii?Q?USqMg+/7ZXylrtFsmbfSt1BCN1EQurdeTsPBWeApUtwKA0LYVXP4UVi/lVdu?=
+ =?us-ascii?Q?8pn7fkN4iIaVwYOGfPCUdtDOyrrUWdoE4TgL/oDsYK/xdkIZVTFu5haPeVED?=
+ =?us-ascii?Q?iFzPuL4i0Xjku+E6EsmpDrTGZThSBW4MMV63dJv/afTe+hCh35rf17qNbENr?=
+ =?us-ascii?Q?lk03RyMazYGlqjquZjOt+dHgGUfUmhz6awLcHYYYRRZUdnq+3noTImQ2BoRX?=
+ =?us-ascii?Q?ujQBJDRiL5KbyD1i+oIMY4iem57dPSC0pwM9LX9XZCSvCaoSGRNnBJj9aAhe?=
+ =?us-ascii?Q?wvuSmrL/3tvRQKbK29vaXGXDxvEoJvieCQkQz5dnxBFF/8Qdtf06LReeMvf7?=
+ =?us-ascii?Q?1EG/YqtnLLqRy89/5H+3SyTHOAN0hfldMg6w4EDRag028whqfb2V3R38ebr0?=
+ =?us-ascii?Q?ZqR/2n3aTMXzePcCdNyTfodtmXObkmuiF1yW9fFEg2wzDcuvy+5FIf1HrejN?=
+ =?us-ascii?Q?ulOVzASaM46K0EEs50iVfAdKttSzNBoT9whgqLUT68wfok8TkZEO8gZ0epMV?=
+ =?us-ascii?Q?5hnntK/omnF3b6Jj81B/nXB9KAK1/GO+qQY/uJ57Evs/KOqLXr3VW5VYEryj?=
+ =?us-ascii?Q?dQiZia3XLL3934yFDl0sJoC5BxZhgDtgN7WkxDNWHCyYxIn+++nZqLu4ufXN?=
+ =?us-ascii?Q?IZorw5baHykWnK9hiAOqi9xNbyN0CFGd/TrN+u+TxccvOrW99OfQWJvbRRMc?=
+ =?us-ascii?Q?ZvXe/D7qAy75rtiy9h8miwgo1KS9y+yErDlYBM58ju+3XkKbcwJfarA7fx2i?=
+ =?us-ascii?Q?XfAmGunkOZ8HUIbW/5E/VUusKeOsirXaAOVG5pa6U67k/Sr3u22xyrLDV2FC?=
+ =?us-ascii?Q?FH6kL3CyScMvoBS/aDQjNRemNDviSlA5+UCnA+KfTsG5PjRq5bcsExumg6gQ?=
+ =?us-ascii?Q?5VpYTgqlAotq41+7tVJC2OqxEn4y1gJMzhS4wK6HgX4oWOMWaWXLpqHa7a5H?=
+ =?us-ascii?Q?7vsp9k3O7vlUgVrGk0L9xp4NTLdVh/y02e8GySZH4DF7x0bzt0/nXRf9fbXL?=
+ =?us-ascii?Q?x8maosp3/j71muEyvVVCRnGJdh1rNyP1kF6unVEmgRM+f68Gglc5Z65CLzjb?=
+ =?us-ascii?Q?FEIFsbWZ5ELZnELl/MhHohZhjKlOixs2V8adCzALoIsq6lwp9l1aMbg6mNxX?=
+ =?us-ascii?Q?l0rwBGLXM0P6zkaUM+ytL1mGzruQETOanAqB67XMixr51/x5ArqjzM/38UuD?=
+ =?us-ascii?Q?wAxZy2Ymw9ilPLHgFOBlajHQYgzAojnkdjobSogJekXQg9lJIWYTJeJqKdvs?=
+ =?us-ascii?Q?RJpBXjZNNHnsV4aw9LaPibDx1V4XCgU6Cjf7gGYNdP1CdB9p0hnGSL1i/3UW?=
+ =?us-ascii?Q?mcSuw/tdcqAtueAN+NifCy/PY/LF1POsSZr5awkL9y84RqCE9A9wXek+eXcN?=
+ =?us-ascii?Q?BrPglw=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d096d2f5-5dea-4148-7291-08d9ed5f13d1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8593211c-23dd-4cc7-d6e9-08d9ed619a4d
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2022 13:04:46.9348 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2022 13:22:50.7288 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pywuc771xrBVIL0w0c31fOvrgZ1aoMkafcZJppwSptB0jFnYtTxPlminfQKJHhkqWr3ZE+7Q0hPxq66JdirYMzYpmm0e4EvAPmj6QTNoW5Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3895
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e1b::70f
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2O9Ct42sF/oEK9+rgjHPlhmDMfyP+hS/oMOm4GY0tOJb5YfPsnayPxYMa8lcjiH7WegdFU98PHU03Eb/GSspnVIxtO7O7IutzlhCuORIFfI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3865
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe0c::726
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7e1b::70f;
+Received-SPF: pass client-ip=2a01:111:f400:fe0c::726;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -152,35 +137,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-11.02.2022 15:52, Peter Maydell wrote:
-> On Wed, 9 Feb 2022 at 14:03, Vladimir Sementsov-Ogievskiy
-> <vsementsov@virtuozzo.com> wrote:
->>
->> The following changes since commit 0a301624c2f4ced3331ffd5bce85b4274fe132af:
->>
->>    Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220208' into staging (2022-02-08 11:40:08 +0000)
->>
->> are available in the Git repository at:
->>
->>    https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-nbd-2022-02-09
->>
->> for you to fetch changes up to 1bd4523c2ded28b7805b971b9d3d746beabd0a94:
->>
->>    iotests/281: Let NBD connection yield in iothread (2022-02-09 14:15:29 +0100)
->>
->> ----------------------------------------------------------------
->> nbd: handle AioContext change correctly
->>
-> 
-> Hi; this pullreq is OK content-wise, but the commits are missing
-> your Signed-off-by: line as the submaintainer/submitter of the
-> pull request. Could you add them and resend, please?
-> 
+The following changes since commit 0a301624c2f4ced3331ffd5bce85b4274fe132af:
 
-Oops, sorry. I thought I'm already an experienced maintainer and don't need to re-read "Submitting a Pull Request" instruction every time. I was wrong:)
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220208' into staging (2022-02-08 11:40:08 +0000)
 
+are available in the Git repository at:
+
+  https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-nbd-2022-02-09-v2
+
+for you to fetch changes up to 8cfbe929e8c26050f0a4580a1606a370a947d4ce:
+
+  iotests/281: Let NBD connection yield in iothread (2022-02-11 14:06:18 +0100)
+
+----------------------------------------------------------------
+nbd: handle AioContext change correctly
+
+v2: add my s-o-b marks to each commit
+
+----------------------------------------------------------------
+
+Hanna Reitz (7):
+  block/nbd: Delete reconnect delay timer when done
+  block/nbd: Delete open timer when done
+  block/nbd: Assert there are no timers when closed
+  iotests.py: Add QemuStorageDaemon class
+  iotests/281: Test lingering timers
+  block/nbd: Move s->ioc on AioContext change
+  iotests/281: Let NBD connection yield in iothread
+
+ block/nbd.c                   |  64 +++++++++++++++++++++
+ tests/qemu-iotests/281        | 101 +++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/281.out    |   4 +-
+ tests/qemu-iotests/iotests.py |  40 ++++++++++++++
+ 4 files changed, 205 insertions(+), 4 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.31.1
+
 
