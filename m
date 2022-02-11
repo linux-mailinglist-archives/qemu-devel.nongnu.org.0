@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B5E4B1AEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 02:08:01 +0100 (CET)
-Received: from localhost ([::1]:60624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D754B1AF2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 02:09:15 +0100 (CET)
+Received: from localhost ([::1]:35718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIKPo-0001bU-A6
-	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 20:08:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60616)
+	id 1nIKQz-0003wI-8Z
+	for lists+qemu-devel@lfdr.de; Thu, 10 Feb 2022 20:09:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIKNA-0000Pp-Ez
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:05:16 -0500
-Received: from [2607:f8b0:4864:20::42f] (port=45747
- helo=mail-pf1-x42f.google.com)
+ id 1nIKOE-000297-6R
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:06:22 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=41718
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nIKN8-000136-Ia
- for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:05:16 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id 9so10505054pfx.12
- for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 17:05:14 -0800 (PST)
+ id 1nIKOC-0001Ei-Fh
+ for qemu-devel@nongnu.org; Thu, 10 Feb 2022 20:06:21 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ r64-20020a17090a43c600b001b8854e682eso7359220pjg.0
+ for <qemu-devel@nongnu.org>; Thu, 10 Feb 2022 17:06:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/BNR2zBnBKpHPdXzD/Ca+IEOG3i7fFmbqOohl4uM1WY=;
- b=nJnCqbhYH6JY1WNkwbA9vrbpZJIBfYu+sSA2atI6P75MQq64GwSt8L8OYJJaEu9flR
- 9IbFRJzatWCa7F1wkl+y7BSLg0Dzi8A+O6FffZJfDRAVTtllGjqGF3oZJrjj2z8CReF5
- BriH+qQ5Wli0tX3JgVIYuiI1FNM3QlL4/9OqgSWkzlIWdPn7NaKRzc3so6nYpt4w67hU
- 6y5TVmjiBfrKnMH/gzhM4K9iIFHMAMkseFWcwc6+zAjaLH5yT4tx1jBVAdfh1b1AJUQc
- Ch2njupQ+Oqp/O1FZdrWJa6rfCh4tkdaggXaroGW+XHQAfyNIGgXARmj3VSnXWW2SdkK
- yEMg==
+ bh=rJ5IYCT0QxUkd+PKTVTUhcPGYTgg4XsPNgoCYpUL9xs=;
+ b=gwRf4szquIr6PLKoedHqIOhrOxghxfqfCdOFFfRtnKdnGRRehZnw6beGWCqzNuit11
+ tS/wYjwwVh4SLDeIb/ICYk2YSk4uIUHMwB7BszoFP57inwXHeMuUMZ/5C04DgSDFbM63
+ hpjr6dliREzYO2MxcuanBjAB2e32hDRw4Yfo7L7j0dWDJCIlmNKlGr3bAqYNqjQ8ZSdO
+ sEiM4goEDysY2c3D7s+DMLkAh15cuEmAlf78kKZ2rs6pQ95eJXX7iEgTGX3vOi+DQlEx
+ d1lH0A/YVHcQQpoR0YopGHAWugeb1jNNRwc2CaH0Z9/mKmgu3tigFYs/KnCaAEvCHf79
+ 9bjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/BNR2zBnBKpHPdXzD/Ca+IEOG3i7fFmbqOohl4uM1WY=;
- b=ZBpH/UBORpn23JUrf7lq9WZbpqi9vGb33o4TCkhRcQ+M/qa6zxL8GUhsX3lx9wefMt
- fTzXLyZOI2lV1tbnfVm3CoIqEXWqN5kZjqhlR/Do0EGw8M/lQm30m7/ZeAr0+MF2e1Qo
- lvu+yaJghtyCObhXZFTLLoefvjvw95C4sTY06eMTAbUms3iX/MD9HTBwhMLA83EJf+ZZ
- 5tHx17aUfLeS2D+P+A0HbZwFyg8JjZ1dmfSHhBkb8shSxEeSpuD1337/FZ1DStGcOoUW
- iAiyAQ311CPwLf5QjMKpRI5wdCmgBIpS4cH4mLfkzm7EfIP2ubvKW/MRhGhQBnNzp5dh
- wAzQ==
-X-Gm-Message-State: AOAM5328kt5Zue2ry97ZCgNzP7PhB2I6lqLF0g7HXZykekA/4R6nJwDp
- V9WBj7jgVYEUU9kK03kAhX8Abvv4C0Tq6i6j
-X-Google-Smtp-Source: ABdhPJxDwQEk519ouJRjZabIiBrR7v59ZjpY8Lt8Z/XUhH+mhUiHvuyvrIFCr6VWo/9LZk/NRuYnrw==
-X-Received: by 2002:a63:2c92:: with SMTP id s140mr8354301pgs.448.1644541513207; 
- Thu, 10 Feb 2022 17:05:13 -0800 (PST)
+ bh=rJ5IYCT0QxUkd+PKTVTUhcPGYTgg4XsPNgoCYpUL9xs=;
+ b=i2YV9e9/UTsnzSA0J/rfW/M1N7HtVaQrqAkgmk+add767XaBf6dfHVL/8mC+BB0rRh
+ 4D4Z3LwNjYBS/ZYrmozHXQ0gEnICfYVCKlCjtIGGiXiNB+J1Dl3f6hRTuvOXntTex4Yc
+ kM07T9ZtHPtAd4Jm+ZxGrpCA6oESE1vU1kbsGeB8PnhHzDlAaL7RUuRBioR8sKbvg7ku
+ MlLAzawImiBoUBSd/uZM2yzC/7IxqQ7uAqj3gR/ae6GpTC8PEfE05puMkZEBoRFyTFp7
+ 0j74NnEVMEkbKvmEOfxhhwagncjs5ED7MWWvzyjGY2CZ2FKarNLsl71BdNtQGUWnc6Zw
+ 6Qbw==
+X-Gm-Message-State: AOAM532iqbN5JFfFMSEj+0eayTkWb1/bE6FcXpP0TeJx+F7nzihkbbVh
+ w4r7e5YAiKCmUCKOkctifKoLc8BsQZ9EJmHG
+X-Google-Smtp-Source: ABdhPJyauDgiZ40SMU7GJIDtUU02vtHT3EqCc7eyBo1M97Rg5e5LqL9w/HKR9u68eYZygUZZr5jpKg==
+X-Received: by 2002:a17:902:e949:: with SMTP id
+ b9mr9943324pll.92.1644541579066; 
+ Thu, 10 Feb 2022 17:06:19 -0800 (PST)
 Received: from [10.0.0.163] ([124.189.222.164])
- by smtp.gmail.com with ESMTPSA id e30sm17573335pge.34.2022.02.10.17.05.10
+ by smtp.gmail.com with ESMTPSA id d12sm17432924pgk.29.2022.02.10.17.06.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Feb 2022 17:05:12 -0800 (PST)
-Message-ID: <67f6a81f-5fb4-ec49-4b92-e26abd41f312@linaro.org>
-Date: Fri, 11 Feb 2022 12:05:07 +1100
+ Thu, 10 Feb 2022 17:06:18 -0800 (PST)
+Message-ID: <5421d68d-386a-fc1e-6bc2-fcd7484c605e@linaro.org>
+Date: Fri, 11 Feb 2022 12:06:12 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 07/12] Hexagon (tests/tcg/hexagon) add floating point
- instructions to usr.c
+Subject: Re: [PATCH v2 08/12] Hexagon (tests/tcg/hexagon) update overflow test
 Content-Language: en-US
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <20220210021556.9217-1-tsimpson@quicinc.com>
- <20220210021556.9217-8-tsimpson@quicinc.com>
+ <20220210021556.9217-9-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220210021556.9217-8-tsimpson@quicinc.com>
+In-Reply-To: <20220210021556.9217-9-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -97,13 +98,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/10/22 13:15, Taylor Simpson wrote:
-> Tests to confirm floating point instructions are properly
-> setting exception bits in USR
+> Add a test that sets USR multiple times in a packet
 > 
 > Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
 > ---
->   tests/tcg/hexagon/usr.c | 339 ++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 339 insertions(+)
+>   tests/tcg/hexagon/overflow.c | 61 +++++++++++++++++++++++++++++++++++-
+>   1 file changed, 60 insertions(+), 1 deletion(-)
 
 Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
