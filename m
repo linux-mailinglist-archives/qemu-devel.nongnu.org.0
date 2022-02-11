@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813124B290B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 16:26:00 +0100 (CET)
-Received: from localhost ([::1]:38584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28854B2914
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Feb 2022 16:28:49 +0100 (CET)
+Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIXo7-0007pS-4x
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 10:25:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53158)
+	id 1nIXqq-0004oK-QA
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 10:28:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nIXI0-0003fD-6g
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 09:52:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35398)
+ id 1nIXI2-0003gW-WC
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 09:52:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nIXHv-0001pt-8Y
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 09:52:47 -0500
+ id 1nIXI0-0001sI-Lz
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 09:52:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644591162;
+ s=mimecast20190719; t=1644591168;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AeK/0hhFoGkyEzePjypx1nGOAe78i2ZPVytEeq3jbDA=;
- b=QnQr6VL7RquOhkURGHMeiXosyfiRb4Hm50pZwqd4BrFu3a6V548rnxGCNuKk8rlJP6i7bZ
- polUwtHxsv7R8As+M2es6a80QZ0M6IOk8MG6SRfqVbdnHvR9p/Jr9ZX1SN5xGvmkLs1oYF
- BUDpIJ0pkb0X6wxnJYeFocqNkBIBk4k=
+ bh=kWRCNrctfNRH2LoFNQMoY2Bsx94t1QDitJXy5XLZ6/Q=;
+ b=SCMmzM+/52pzW3PCaLnQZWpWzV7eJoso7XnLcy70JgGRke5ajX+Bjfi3H+asxxByCSnor5
+ qb/45i7v58Etd3FAX8Em5b5mgx5oy7c7ENG8V7HuCHYV/i7hwiT3TSWUMDD3g3pwH7tMm0
+ Z/LZsSDepYmQoT0DCBWXMjT5ZZCGz/I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-5yAt_e5nP7i-I3p2hijAnw-1; Fri, 11 Feb 2022 09:52:38 -0500
-X-MC-Unique: 5yAt_e5nP7i-I3p2hijAnw-1
+ us-mta-472-Mfj9uQB0OL2aW389gM899w-1; Fri, 11 Feb 2022 09:52:40 -0500
+X-MC-Unique: Mfj9uQB0OL2aW389gM899w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD6808519E1;
- Fri, 11 Feb 2022 14:52:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 019011019622;
+ Fri, 11 Feb 2022 14:52:39 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5AAA17C0E8;
- Fri, 11 Feb 2022 14:52:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C76DF7C0E8;
+ Fri, 11 Feb 2022 14:52:37 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 22/31] include/block/snapshot: global state API + assertions
-Date: Fri, 11 Feb 2022 09:51:44 -0500
-Message-Id: <20220211145153.2861415-23-eesposit@redhat.com>
+Subject: [PATCH v7 23/31] block/copy-before-write.h: global state API +
+ assertions
+Date: Fri, 11 Feb 2022 09:51:45 -0500
+Message-Id: <20220211145153.2861415-24-eesposit@redhat.com>
 In-Reply-To: <20220211145153.2861415-1-eesposit@redhat.com>
 References: <20220211145153.2861415-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -94,161 +95,41 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Snapshots run also under the BQL, so they all are
-in the global state API. The aiocontext lock that they hold
-is currently an overkill and in future could be removed.
+copy-before-write functions always run under BQL.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/snapshot.c         | 28 ++++++++++++++++++++++++++++
- include/block/snapshot.h | 13 +++++++++++--
- migration/savevm.c       |  2 ++
- 3 files changed, 41 insertions(+), 2 deletions(-)
+ block/copy-before-write.c | 2 ++
+ block/copy-before-write.h | 7 +++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/block/snapshot.c b/block/snapshot.c
-index ccacda8bd5..d6f53c3065 100644
---- a/block/snapshot.c
-+++ b/block/snapshot.c
-@@ -57,6 +57,8 @@ int bdrv_snapshot_find(BlockDriverState *bs, QEMUSnapshotInfo *sn_info,
-     QEMUSnapshotInfo *sn_tab, *sn;
-     int nb_sns, i, ret;
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index c30a5ff8de..80b7684dba 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -223,6 +223,7 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
+     QDict *opts;
  
-+    GLOBAL_STATE_CODE();
-+
-     ret = -ENOENT;
-     nb_sns = bdrv_snapshot_list(bs, &sn_tab);
-     if (nb_sns < 0) {
-@@ -105,6 +107,7 @@ bool bdrv_snapshot_find_by_id_and_name(BlockDriverState *bs,
-     bool ret = false;
- 
-     assert(id || name);
+     assert(source->total_sectors == target->total_sectors);
 +    GLOBAL_STATE_CODE();
  
-     nb_sns = bdrv_snapshot_list(bs, &sn_tab);
-     if (nb_sns < 0) {
-@@ -200,6 +203,7 @@ static BlockDriverState *bdrv_snapshot_fallback(BlockDriverState *bs)
- int bdrv_can_snapshot(BlockDriverState *bs)
+     opts = qdict_new();
+     qdict_put_str(opts, "driver", "copy-before-write");
+@@ -245,6 +246,7 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
+ 
+ void bdrv_cbw_drop(BlockDriverState *bs)
  {
-     BlockDriver *drv = bs->drv;
 +    GLOBAL_STATE_CODE();
-     if (!drv || !bdrv_is_inserted(bs) || bdrv_is_read_only(bs)) {
-         return 0;
-     }
-@@ -220,6 +224,9 @@ int bdrv_snapshot_create(BlockDriverState *bs,
- {
-     BlockDriver *drv = bs->drv;
-     BlockDriverState *fallback_bs = bdrv_snapshot_fallback(bs);
-+
-+    GLOBAL_STATE_CODE();
-+
-     if (!drv) {
-         return -ENOMEDIUM;
-     }
-@@ -240,6 +247,8 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-     BdrvChild **fallback_ptr;
-     int ret, open_ret;
- 
-+    GLOBAL_STATE_CODE();
-+
-     if (!drv) {
-         error_setg(errp, "Block driver is closed");
-         return -ENOMEDIUM;
-@@ -348,6 +357,8 @@ int bdrv_snapshot_delete(BlockDriverState *bs,
-     BlockDriverState *fallback_bs = bdrv_snapshot_fallback(bs);
-     int ret;
- 
-+    GLOBAL_STATE_CODE();
-+
-     if (!drv) {
-         error_setg(errp, QERR_DEVICE_HAS_NO_MEDIUM, bdrv_get_device_name(bs));
-         return -ENOMEDIUM;
-@@ -380,6 +391,8 @@ int bdrv_snapshot_list(BlockDriverState *bs,
- {
-     BlockDriver *drv = bs->drv;
-     BlockDriverState *fallback_bs = bdrv_snapshot_fallback(bs);
-+
-+    GLOBAL_STATE_CODE();
-     if (!drv) {
-         return -ENOMEDIUM;
-     }
-@@ -419,6 +432,8 @@ int bdrv_snapshot_load_tmp(BlockDriverState *bs,
- {
-     BlockDriver *drv = bs->drv;
- 
-+    GLOBAL_STATE_CODE();
-+
-     if (!drv) {
-         error_setg(errp, QERR_DEVICE_HAS_NO_MEDIUM, bdrv_get_device_name(bs));
-         return -ENOMEDIUM;
-@@ -447,6 +462,8 @@ int bdrv_snapshot_load_tmp_by_id_or_name(BlockDriverState *bs,
-     int ret;
-     Error *local_err = NULL;
- 
-+    GLOBAL_STATE_CODE();
-+
-     ret = bdrv_snapshot_load_tmp(bs, id_or_name, NULL, &local_err);
-     if (ret == -ENOENT || ret == -EINVAL) {
-         error_free(local_err);
-@@ -515,6 +532,8 @@ bool bdrv_all_can_snapshot(bool has_devices, strList *devices,
-     g_autoptr(GList) bdrvs = NULL;
-     GList *iterbdrvs;
- 
-+    GLOBAL_STATE_CODE();
-+
-     if (bdrv_all_get_snapshot_devices(has_devices, devices, &bdrvs, errp) < 0) {
-         return false;
-     }
-@@ -549,6 +568,8 @@ int bdrv_all_delete_snapshot(const char *name,
-     g_autoptr(GList) bdrvs = NULL;
-     GList *iterbdrvs;
- 
-+    GLOBAL_STATE_CODE();
-+
-     if (bdrv_all_get_snapshot_devices(has_devices, devices, &bdrvs, errp) < 0) {
-         return -1;
-     }
-@@ -588,6 +609,8 @@ int bdrv_all_goto_snapshot(const char *name,
-     g_autoptr(GList) bdrvs = NULL;
-     GList *iterbdrvs;
- 
-+    GLOBAL_STATE_CODE();
-+
-     if (bdrv_all_get_snapshot_devices(has_devices, devices, &bdrvs, errp) < 0) {
-         return -1;
-     }
-@@ -622,6 +645,8 @@ int bdrv_all_has_snapshot(const char *name,
-     g_autoptr(GList) bdrvs = NULL;
-     GList *iterbdrvs;
- 
-+    GLOBAL_STATE_CODE();
-+
-     if (bdrv_all_get_snapshot_devices(has_devices, devices, &bdrvs, errp) < 0) {
-         return -1;
-     }
-@@ -663,6 +688,7 @@ int bdrv_all_create_snapshot(QEMUSnapshotInfo *sn,
- {
-     g_autoptr(GList) bdrvs = NULL;
-     GList *iterbdrvs;
-+    GLOBAL_STATE_CODE();
- 
-     if (bdrv_all_get_snapshot_devices(has_devices, devices, &bdrvs, errp) < 0) {
-         return -1;
-@@ -703,6 +729,8 @@ BlockDriverState *bdrv_all_find_vmstate_bs(const char *vmstate_bs,
-     g_autoptr(GList) bdrvs = NULL;
-     GList *iterbdrvs;
- 
-+    GLOBAL_STATE_CODE();
-+
-     if (bdrv_all_get_snapshot_devices(has_devices, devices, &bdrvs, errp) < 0) {
-         return NULL;
-     }
-diff --git a/include/block/snapshot.h b/include/block/snapshot.h
-index 940345692f..50ff924710 100644
---- a/include/block/snapshot.h
-+++ b/include/block/snapshot.h
-@@ -45,6 +45,13 @@ typedef struct QEMUSnapshotInfo {
-     uint64_t icount; /* record/replay step */
- } QEMUSnapshotInfo;
+     bdrv_drop_filter(bs, &error_abort);
+     bdrv_unref(bs);
+ }
+diff --git a/block/copy-before-write.h b/block/copy-before-write.h
+index 51847e711a..6e72bb25e9 100644
+--- a/block/copy-before-write.h
++++ b/block/copy-before-write.h
+@@ -29,6 +29,13 @@
+ #include "block/block_int.h"
+ #include "block/block-copy.h"
  
 +/*
 + * Global state (GS) API. These functions run under the BQL.
@@ -257,36 +138,9 @@ index 940345692f..50ff924710 100644
 + * the GS API.
 + */
 +
- int bdrv_snapshot_find(BlockDriverState *bs, QEMUSnapshotInfo *sn_info,
-                        const char *name);
- bool bdrv_snapshot_find_by_id_and_name(BlockDriverState *bs,
-@@ -73,9 +80,11 @@ int bdrv_snapshot_load_tmp_by_id_or_name(BlockDriverState *bs,
-                                          Error **errp);
- 
- 
--/* Group operations. All block drivers are involved.
-+/*
-+ * Group operations. All block drivers are involved.
-  * These functions will properly handle dataplane (take aio_context_acquire
-- * when appropriate for appropriate block drivers */
-+ * when appropriate for appropriate block drivers
-+ */
- 
- bool bdrv_all_can_snapshot(bool has_devices, strList *devices,
-                            Error **errp);
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 4842462ca6..456281d16a 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2788,6 +2788,8 @@ bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
-     g_autoptr(GDateTime) now = g_date_time_new_now_local();
-     AioContext *aio_context;
- 
-+    GLOBAL_STATE_CODE();
-+
-     if (migration_is_blocked(errp)) {
-         return false;
-     }
+ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
+                                   BlockDriverState *target,
+                                   const char *filter_node_name,
 -- 
 2.31.1
 
