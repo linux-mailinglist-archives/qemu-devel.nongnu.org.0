@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D464B3628
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 17:00:46 +0100 (CET)
-Received: from localhost ([::1]:49918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BD74B3641
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 17:14:49 +0100 (CET)
+Received: from localhost ([::1]:59824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIupE-0003rj-Ts
-	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 11:00:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50826)
+	id 1nIv2t-0002jm-NW
+	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 11:14:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nIunj-0002Vq-Np
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 10:59:07 -0500
-Received: from [2001:738:2001:2001::2001] (port=36450 helo=zero.eik.bme.hu)
+ id 1nIv1i-0001fL-9X; Sat, 12 Feb 2022 11:13:34 -0500
+Received: from [2001:738:2001:2001::2001] (port=31416 helo=zero.eik.bme.hu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nIunf-0008DR-Tg
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 10:59:07 -0500
+ id 1nIv1e-0004lJ-QH; Sat, 12 Feb 2022 11:13:33 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3DF4A746397;
- Sat, 12 Feb 2022 16:58:47 +0100 (CET)
+ by localhost (Postfix) with SMTP id 1050A74635C;
+ Sat, 12 Feb 2022 17:13:20 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 195F8746361; Sat, 12 Feb 2022 16:58:47 +0100 (CET)
+ id DAF08746324; Sat, 12 Feb 2022 17:13:19 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 17BEB74635C;
- Sat, 12 Feb 2022 16:58:47 +0100 (CET)
-Date: Sat, 12 Feb 2022 16:58:47 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id D8C3E7456E3;
+ Sat, 12 Feb 2022 17:13:19 +0100 (CET)
+Date: Sat, 12 Feb 2022 17:13:19 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH v2 5/5] isa/piix4: Resolve redundant i8259[] attribute
-In-Reply-To: <b8b2fd3e-8b50-9be2-726e-c0a3c73ad83e@eik.bme.hu>
-Message-ID: <b12baff0-b6ff-8b99-72fa-5915c193edff@eik.bme.hu>
+Subject: Re: [PATCH v2 2/5] pci: Always pass own DeviceState to
+ pci_map_irq_fn's
+In-Reply-To: <CAG4p6K7Z=h+LkNhL+Ex3USDS1SEnh-MGvx_FUF5CoKaHOgRm_g@mail.gmail.com>
+Message-ID: <d13634a-b414-7663-42c-6390c5d58a1e@eik.bme.hu>
 References: <20220212113519.69527-1-shentey@gmail.com>
- <20220212113519.69527-6-shentey@gmail.com>
- <9a3e73e-ac7-f79-c84-ca9a8523d0d1@eik.bme.hu>
- <1D2AB604-50DD-48F8-8E92-DE9AEAE0FC90@gmail.com>
- <b8b2fd3e-8b50-9be2-726e-c0a3c73ad83e@eik.bme.hu>
+ <20220212113519.69527-3-shentey@gmail.com>
+ <d6e47199-343e-46c0-d44f-64bc8d6e8385@eik.bme.hu>
+ <CAG4p6K7Z=h+LkNhL+Ex3USDS1SEnh-MGvx_FUF5CoKaHOgRm_g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
+Content-Type: multipart/mixed;
+ boundary="3866299591-1240981976-1644682399=:90120"
+X-Spam-Probability: 9%
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
  (failed)
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
@@ -63,89 +62,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Magnus Damm <magnus.damm@gmail.com>, qemu-devel@nongnu.org,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ "open list:Versatile PB" <qemu-arm@nongnu.org>,
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ "open list:ppc4xx" <qemu-ppc@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 12 Feb 2022, BALATON Zoltan wrote:
-> On Sat, 12 Feb 2022, Bernhard Beschow wrote:
->> Am 12. Februar 2022 14:19:51 MEZ schrieb BALATON Zoltan 
->> <balaton@eik.bme.hu>:
->>> On Sat, 12 Feb 2022, Bernhard Beschow wrote:
->>>> This is a follow-up on patch "malta: Move PCI interrupt handling from
->>>> gt64xxx to piix4" where i8259[] was moved from MaltaState to PIIX4State
->>>> to make the code movement more obvious. However, i8259[] seems redundant
->>>> to *isa, so remove it.
->>> 
->>> Should this be squashed in patch 1 or at least come after it? Or are there
->>> some other changes needed before this patch?
->> 
->> I didn't want to change the patch order since they've been reviewed 
->> already. But yeah, you're right: It makes sense to get this out of the way 
->> early in the patch series. I will do a v3.
->
-> I had another comment in the bottom of this message, not sure you've found 
-> that too, I forgot to put a warning that there are more comments below here.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-I mean at the end of patch 1 not this one, sorry was too quick to send it.
+--3866299591-1240981976-1644682399=:90120
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> Changing the patch order or patches according to review is OK and adding a 
-> new patch between already reviewed ones is OK too then you can keep 
-> Reviewed-by on patches that did not change.
+On Sat, 12 Feb 2022, Bernhard Beschow wrote:
+> Am 12. Februar 2022 14:27:32 MEZ schrieb BALATON Zoltan <balaton@eik.bme.hu>:
+>> On Sat, 12 Feb 2022, Bernhard Beschow wrote:
+>>> Passing own DeviceState rather than just the IRQs allows for resolving
+>>> global variables.
+>>
+>> Do you mean pci_set_irq_fn instead of pci_map_irq_fn in the patch title?
 >
-> Regards,
-> BALATON Zoltan
+> I'm referring to the typedef in pci.h because the patch establishes
+> consistency across the board.
 >
->> Regards,
->> Bernhard
->> 
->>> 
->>> Regards,
->>> BALATON Zoltan
->>> 
->>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>>> ---
->>>> hw/isa/piix4.c | 7 +------
->>>> 1 file changed, 1 insertion(+), 6 deletions(-)
->>>> 
->>>> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
->>>> index a9322851db..692fa8d1f9 100644
->>>> --- a/hw/isa/piix4.c
->>>> +++ b/hw/isa/piix4.c
->>>> @@ -43,7 +43,6 @@ struct PIIX4State {
->>>>     PCIDevice dev;
->>>>     qemu_irq cpu_intr;
->>>>     qemu_irq *isa;
->>>> -    qemu_irq i8259[ISA_NUM_IRQS];
->>>>
->>>>     int32_t pci_irq_levels[PIIX_NUM_PIRQS];
->>>> 
->>>> @@ -73,7 +72,7 @@ static void piix4_set_irq(void *opaque, int irq_num, 
->>>> int level)
->>>>                 pic_level |= s->pci_irq_levels[i];
->>>>             }
->>>>         }
->>>> -        qemu_set_irq(s->i8259[pic_irq], pic_level);
->>>> +        qemu_set_irq(s->isa[pic_irq], pic_level);
->>>>     }
->>>> }
->>>> 
->>>> @@ -323,9 +322,5 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus 
->>>> **isa_bus, I2CBus **smbus)
->>>>
->>>>     pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, 
->>>> PIIX_NUM_PIRQS);
->>>> 
->>>> -    for (int i = 0; i < ISA_NUM_IRQS; i++) {
->>>> -        s->i8259[i] = qdev_get_gpio_in_named(dev, "isa", i);
->>>> -    }
->>>> -
->>>>     return dev;
->>>> }
->>>> 
->> 
->> 
+>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>> hw/isa/piix4.c          | 6 +++---
+>>> hw/pci-host/sh_pci.c    | 6 +++---
+>>> hw/pci-host/versatile.c | 6 +++---
+>>> hw/ppc/ppc440_pcix.c    | 6 +++---
+>>> hw/ppc/ppc4xx_pci.c     | 6 +++---
+>>> 5 files changed, 15 insertions(+), 15 deletions(-)
+>>
+>> You don't seem to change any global function definition that reqires this
+>> change in all these devices so why can't these decide on their own what
+>> their preferred opaque data is for their set irq function and only change
+>> piix4? Am I missing something? I'm not opposed to this change but it seems
+>> to be unnecessary to touch other device implementations for this and may
+>> just make them more complex for no good reason.
 >
+> This patch is a segway into a direction where the type of the opaque parameter
+> of the pci_map_irq_fn typedef could be changed from void* to DeviceState* in
+
+I'm still not quite sure what you mean considering these typedefs in 
+include/hw/pci/pci.h:
+
+typedef void (*pci_set_irq_fn)(void *opaque, int irq_num, int level);
+typedef int (*pci_map_irq_fn)(PCIDevice *pci_dev, int irq_num);
+typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
+
+pci_map_irq_fn already has PCIDevice *, it's pci_set_irq_fn that has void 
+*opaque and is what this patch appears to be changing. Am I looking at the 
+wrong typedefs?
+
+> order to facilitate the more typesafe QOM casting. I see, though, why this is
+> confusing in the context of this patch series. I don't have strong feelings for
+> converting the other devices or not. So I can only change piix4 if desired.
+
+Yes that seems to be an independent cahange so maybe it's better to just 
+change piix4 in this series and then have a separate patch for changing 
+the void *opaque to DeviceState * independent of this series. But I'm not 
+sure that's necessarily a good idea. It may give some more checks but for 
+callbacks used internally by device implementations I think it can be 
+expected that code that registers the callback also knows what its opaque 
+data should be so it does not have to be checked additionally, especially 
+in code that may be called frequently. Although in a similar via-ide 
+callback I could not measure a big penalty the last time I tried but I 
+suspect there still mey be some overhead involving QOM casts (maybe there 
+are just bigger bottle necks in ide emulation so it was masked) so I'm not 
+sure it's worth the added complexity but if others prefer that I'm not 
+that much opposed to it but it's clearer as a separate change anyway.
+
+Regards,
+BALATON Zoltan
+--3866299591-1240981976-1644682399=:90120--
 
