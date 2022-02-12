@@ -2,54 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE21C4B353D
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 14:11:53 +0100 (CET)
-Received: from localhost ([::1]:54540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9C64B35BB
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 15:55:28 +0100 (CET)
+Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIsBs-0007Ky-F5
-	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 08:11:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49674)
+	id 1nIto6-00014R-Mm
+	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 09:55:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangxinxin.wang@huawei.com>)
- id 1nIs8E-0006W4-G8
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 08:08:07 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3083)
+ (Exim 4.90_1) (envelope-from <schoenebeck@crudebyte.com>)
+ id 1nIsDz-0008SL-54; Sat, 12 Feb 2022 08:14:03 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:42101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangxinxin.wang@huawei.com>)
- id 1nIs87-00053t-H0
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 08:08:03 -0500
-Received: from canpemm500006.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JwrNC2yW1zbhWV;
- Sat, 12 Feb 2022 21:06:35 +0800 (CST)
-Received: from localhost (10.174.151.225) by canpemm500006.china.huawei.com
- (7.192.105.130) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Sat, 12 Feb
- 2022 21:07:38 +0800
-To: <qemu-devel@nongnu.org>
-CC: <dgilbert@redhat.com>, <quintela@redhat.com>, <weidong.huang@huawei.com>, 
- Wang Xin <wangxinxin.wang@huawei.com>, Huangyu Zhai <zhaihuanyu@huawei.com>
-Subject: [PATCH] multifd: ensure multifd threads are terminated before cleanup
- params
-Date: Sat, 12 Feb 2022 21:07:35 +0800
-Message-ID: <20220212130735.3236-1-wangxinxin.wang@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
+ (Exim 4.90_1) (envelope-from <schoenebeck@crudebyte.com>)
+ id 1nIsDv-0007He-7j; Sat, 12 Feb 2022 08:14:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=dTPe30bsmnXmUz8v4Ui7RXdqD0wo7g2KMayUkMtjZT0=; b=AlPGsFh8j5LVE7X/7Faq7Ers35
+ s3390I9WF+ouduTnohdYK15GUyWuN/tsVD1cACnC35NH6kpaWyexsX3tP9Y/BQ5BBhrvz6/aeviwP
+ YBk+oFK8hlhv86L3P+kKc2a8SDCvcHeEPYTur5pBFrxmRT/rW5ZgqoSXSxYI0tH5sVCbOFvRloUBX
+ NcQ4ob0sryOjiUcKgv1Y3Ch+i3Sr63feHwERRWcoTtAprHf7PPNWz+xJE1Y/LAS34DVzOjJcbNU+R
+ pi//zlVtgFrQBjfHfmlEYy/IWK3LiPtoJoNAOaDaxwI2sQZi9/qRf7arGV3zm/gZzQ+MXr9824Iu5
+ J6lGdvIZjFD4C3dKuDDkdl7PXtXDELplJO/jEHvdJB+H9KvuXWlozUv1aSmMOvKbvSZfbwies3vD3
+ OXIuj8hSmB2qQ+QknTPcNurJxd1Ru9uZbEWBKkVa53JAcIC7N59DcESVEj3XbVw5P6fARLTo03e8c
+ ua52mx1WCC69xMFxNsBh4KbzMX9h917shgjI/lWWirHL670Xc2dUK0LxYs/3c/w4YIvFWB8Sk+KS2
+ 0QcbWbUIZTDknUtxXuSTqzMwlbBsFsBn08H4dE/ak+DpJHE7ek7pYcXh226l1kQk5NbxT8rE8/KeJ
+ zRMCfthTmJCh41oS/JwhaQEwyas1XGTcNxb1NEJe8=;
+From: Christian Schoenebeck <schoenebeck@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ richard.henderson@linaro.org, eblake@redhat.com
+Subject: Re: [PULL 0/7] nbd: handle AioContext change correctly
+Date: Sat, 12 Feb 2022 14:13:43 +0100
+Message-ID: <54823717.cdBbltbcZa@silver>
+In-Reply-To: <101e60ea-b752-887b-8b8e-f73561266357@virtuozzo.com>
+References: <20220209140258.364649-1-vsementsov@virtuozzo.com>
+ <CAFEAcA-12iJfa7F-zGBb--V3yehi3iV2A6u_BPuEFb-9kjHBVw@mail.gmail.com>
+ <101e60ea-b752-887b-8b8e-f73561266357@virtuozzo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.151.225]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500006.china.huawei.com (7.192.105.130)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangxinxin.wang@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=schoenebeck@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 12 Feb 2022 09:49:47 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,76 +69,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Wang Xin <wangxinxin.wang@huawei.com>
-From:  Wang Xin via <qemu-devel@nongnu.org>
 
-In multifd_save_cleanup(), we terminate all multifd threads and destroy
-the 'p->mutex', while the mutex may still be held by multifd send thread,
-this causes qemu to crash.
+On Freitag, 11. Februar 2022 14:04:44 CET Vladimir Sementsov-Ogievskiy wrote:
+> 11.02.2022 15:52, Peter Maydell wrote:
+> > On Wed, 9 Feb 2022 at 14:03, Vladimir Sementsov-Ogievskiy
+> > 
+> > <vsementsov@virtuozzo.com> wrote:
+> >> The following changes since commit 
+0a301624c2f4ced3331ffd5bce85b4274fe132af:
+> >>    Merge remote-tracking branch
+> >>    'remotes/pmaydell/tags/pull-target-arm-20220208' into staging
+> >>    (2022-02-08 11:40:08 +0000)>> 
+> >> are available in the Git repository at:
+> >>    https://src.openvz.org/scm/~vsementsov/qemu.git
+> >>    tags/pull-nbd-2022-02-09
+> >> 
+> >> for you to fetch changes up to 1bd4523c2ded28b7805b971b9d3d746beabd0a94:
+> >>    iotests/281: Let NBD connection yield in iothread (2022-02-09 14:15:29
+> >>    +0100)>> 
+> >> ----------------------------------------------------------------
+> >> nbd: handle AioContext change correctly
+> > 
+> > Hi; this pullreq is OK content-wise, but the commits are missing
+> > your Signed-off-by: line as the submaintainer/submitter of the
+> > pull request. Could you add them and resend, please?
+> 
+> Oops, sorry. I thought I'm already an experienced maintainer and don't need
+> to re-read "Submitting a Pull Request" instruction every time. I was
+> wrong:)
 
-It's because the multifd_send_thread maybe scheduled out after setting
-'p->running' to false. To reproduce the problem, we put
-'multifd_send_thread' to sleep seconds before unlock 'p->mutex':
+Assuming you are using pwclient to pull patchtes, just add
 
-function multifd_send_thread()
-{
-    ...
-    qemu_mutex_lock(&p->mutex);
-    p->running = false;
-    usleep(5000000);
-    ^^^^^^^^^^^^^^^^
-    qemu_mutex_unlock(&p->mutex);
-    ...
-}
+signoff=on
 
-As the 'p->running' is used to indicate whether the multifd_send/recv thread
-is created, it should be set to false after the thread terminate.
+to your .pwclientrc config file to automatically add your signoff tag to 
+pulled patches. Additionally I would recommend adding:
 
-Signed-off-by: Wang Xin <wangxinxin.wang@huawei.com>
-Signed-off-by: Huangyu Zhai <zhaihuanyu@huawei.com>
+msgid=on
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 76b57a7177..d8fc7d319e 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -526,6 +526,7 @@ void multifd_save_cleanup(void)
- 
-         if (p->running) {
-             qemu_thread_join(&p->thread);
-+            p->running = false;
-         }
-     }
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-@@ -707,10 +708,6 @@ out:
-         qemu_sem_post(&multifd_send_state->channels_ready);
-     }
- 
--    qemu_mutex_lock(&p->mutex);
--    p->running = false;
--    qemu_mutex_unlock(&p->mutex);
--
-     rcu_unregister_thread();
-     trace_multifd_send_thread_end(p->id, p->num_packets, p->total_normal_pages);
- 
-@@ -995,6 +992,7 @@ int multifd_load_cleanup(Error **errp)
-              */
-             qemu_sem_post(&p->sem_sync);
-             qemu_thread_join(&p->thread);
-+            p->running = false;
-         }
-     }
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-@@ -1110,9 +1108,6 @@ static void *multifd_recv_thread(void *opaque)
-         multifd_recv_terminate_threads(local_err);
-         error_free(local_err);
-     }
--    qemu_mutex_lock(&p->mutex);
--    p->running = false;
--    qemu_mutex_unlock(&p->mutex);
- 
-     rcu_unregister_thread();
-     trace_multifd_recv_thread_end(p->id, p->num_packets, p->total_normal_pages);
--- 
-2.26.0.windows.1
+which will add the email message id of each patch, so that people can review 
+the discussions on qemu-devel later on if needed. On Linux kernel side it's 
+now more common to add a Link: tag, which is a bit more convenient as people 
+can just click on it to get to the discussion. Not sure if there is config 
+option for pwclient for that as well.
+
+Best regards,
+Christian Schoenebeck
+
 
 
