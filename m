@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4697F4B368F
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 17:46:32 +0100 (CET)
-Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433524B36C0
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 18:06:28 +0100 (CET)
+Received: from localhost ([::1]:55868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIvXb-0005Xc-2w
-	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 11:46:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60374)
+	id 1nIvqs-0004Mg-DJ
+	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 12:06:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nIvVl-0004pr-Lb
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 11:44:37 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:56204)
+ id 1nIvnL-0000em-7b
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 12:02:47 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:57744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nIvVi-0007X8-8f
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 11:44:37 -0500
+ id 1nIvnH-0003o9-Sy
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 12:02:46 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id CB184746324;
- Sat, 12 Feb 2022 17:44:30 +0100 (CET)
+ by localhost (Postfix) with SMTP id A388074635C;
+ Sat, 12 Feb 2022 18:02:40 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8EE6C745708; Sat, 12 Feb 2022 17:44:30 +0100 (CET)
+ id 81A34745708; Sat, 12 Feb 2022 18:02:40 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 8CF667456E3;
- Sat, 12 Feb 2022 17:44:30 +0100 (CET)
-Date: Sat, 12 Feb 2022 17:44:30 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 809517456E3;
+ Sat, 12 Feb 2022 18:02:40 +0100 (CET)
+Date: Sat, 12 Feb 2022 18:02:40 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH v2 1/5] malta: Move PCI interrupt handling from gt64xxx
- to piix4
-In-Reply-To: <1cc1d1-8159-364b-612f-483db0ca1435@eik.bme.hu>
-Message-ID: <343393f1-6fdd-5d37-9049-90fff2d6df6@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 4/5] isa/piix4: Fix PCI IRQ levels to be preserved in
+ VMState
+In-Reply-To: <CAFEAcA9BBFHH7eqzB_zW-VDZWuXDEkYUb=P1ocPn_UyaZZFZ3w@mail.gmail.com>
+Message-ID: <c389b3a-bde6-9dae-557b-b8db541d1a@eik.bme.hu>
 References: <20220212113519.69527-1-shentey@gmail.com>
- <20220212113519.69527-2-shentey@gmail.com>
- <1cc1d1-8159-364b-612f-483db0ca1435@eik.bme.hu>
+ <20220212113519.69527-5-shentey@gmail.com>
+ <ebb5f8ad-64dc-8349-4d1c-7d8b623d60b2@eik.bme.hu>
+ <CAFEAcA9BBFHH7eqzB_zW-VDZWuXDEkYUb=P1ocPn_UyaZZFZ3w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-354649538-1644684270=:90120"
-X-Spam-Probability: 9%
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
@@ -62,185 +62,82 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>,
  =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-354649538-1644684270=:90120
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Sat, 12 Feb 2022, BALATON Zoltan wrote:
-> On Sat, 12 Feb 2022, Bernhard Beschow wrote:
->> Handling PCI interrupts in piix4 increases cohesion and reduces differences
->> between piix4 and piix3.
->> 
->> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->
-> Sorry for being late in commenting, I've missed the first round. Apologies if 
-> this causes a delay or another version.
->
->> ---
->> hw/isa/piix4.c         | 58 +++++++++++++++++++++++++++++++++++++++
->> hw/mips/gt64xxx_pci.c  | 62 ++++--------------------------------------
->> hw/mips/malta.c        |  6 +---
->> include/hw/mips/mips.h |  2 +-
->> 4 files changed, 65 insertions(+), 63 deletions(-)
->> 
->> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
->> index 0fe7b69bc4..5a86308689 100644
->> --- a/hw/isa/piix4.c
->> +++ b/hw/isa/piix4.c
->> @@ -45,6 +45,7 @@ struct PIIX4State {
->>     PCIDevice dev;
->>     qemu_irq cpu_intr;
->>     qemu_irq *isa;
->> +    qemu_irq i8259[ISA_NUM_IRQS];
+On Sat, 12 Feb 2022, Peter Maydell wrote:
+> On Sat, 12 Feb 2022 at 13:42, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>> By the way the corresponding member in struct PIIXState in
+>> include/hw/southbridge/piix.h has a comment saying:
 >>
->>     RTCState rtc;
->>     /* Reset Control Register */
->> @@ -54,6 +55,30 @@ struct PIIX4State {
->> 
->> OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_PCI_DEVICE)
->> 
->> +static int pci_irq_levels[4];
->> +
->> +static void piix4_set_irq(void *opaque, int irq_num, int level)
->> +{
->> +    int i, pic_irq, pic_level;
->> +    qemu_irq *pic = opaque;
->> +
->> +    pci_irq_levels[irq_num] = level;
->> +
->> +    /* now we change the pic irq level according to the piix irq mappings 
->> */
->> +    /* XXX: optimize */
->> +    pic_irq = piix4_dev->config[PIIX_PIRQCA + irq_num];
->> +    if (pic_irq < 16) {
->> +        /* The pic level is the logical OR of all the PCI irqs mapped to 
->> it. */
->> +        pic_level = 0;
->> +        for (i = 0; i < 4; i++) {
->> +            if (pic_irq == piix4_dev->config[PIIX_PIRQCA + i]) {
->> +                pic_level |= pci_irq_levels[i];
->> +            }
->> +        }
->> +        qemu_set_irq(pic[pic_irq], pic_level);
->> +    }
->> +}
->> +
->> static void piix4_isa_reset(DeviceState *dev)
->> {
->>     PIIX4State *d = PIIX4_PCI_DEVICE(dev);
->> @@ -248,8 +273,34 @@ static void piix4_register_types(void)
->> 
->> type_init(piix4_register_types)
->> 
->> +static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
->> +{
->> +    int slot;
->> +
->> +    slot = PCI_SLOT(pci_dev->devfn);
->> +
->> +    switch (slot) {
->> +    /* PIIX4 USB */
->> +    case 10:
->> +        return 3;
->> +    /* AMD 79C973 Ethernet */
->> +    case 11:
->> +        return 1;
->> +    /* Crystal 4281 Sound */
->> +    case 12:
->> +        return 2;
->> +    /* PCI slot 1 to 4 */
->> +    case 18 ... 21:
->> +        return ((slot - 18) + irq_num) & 0x03;
->> +    /* Unknown device, don't do any translation */
->> +    default:
->> +        return irq_num;
->> +    }
->> +}
->> +
->> DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus 
->> **smbus)
->> {
->> +    PIIX4State *s;
->>     PCIDevice *pci;
->>     DeviceState *dev;
->>     int devfn = PCI_DEVFN(10, 0);
->> @@ -257,6 +308,7 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus 
->> **isa_bus, I2CBus **smbus)
->>     pci = pci_create_simple_multifunction(pci_bus, devfn,  true,
->>                                           TYPE_PIIX4_PCI_DEVICE);
->>     dev = DEVICE(pci);
->> +    s = PIIX4_PCI_DEVICE(pci);
->>     if (isa_bus) {
->>         *isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
->>     }
->> @@ -271,5 +323,11 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus 
->> **isa_bus, I2CBus **smbus)
->>                                NULL, 0, NULL);
->>     }
->> 
->> +    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s->i8259, 4);
->> +
->> +    for (int i = 0; i < ISA_NUM_IRQS; i++) {
-
-Sorry one more nit. This is code movement but are we OK with declaring 
-local variable within for? I thinks coding style advises against this, not 
-sure if checkpatch accepts it or not. This could be cleaned up the next 
-patch together with removing the i8259 field which are simple enough to do 
-in one patch then this one stays as code movement and changes in next 
-patch.
-
->> +        s->i8259[i] = qdev_get_gpio_in_named(dev, "isa", i);
->> +    }
->> +
->>     return dev;
->> }
->> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-[...]
->> diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
->> index 6c9c8805f3..ff88942e63 100644
->> --- a/include/hw/mips/mips.h
->> +++ b/include/hw/mips/mips.h
->> @@ -10,7 +10,7 @@
->> #include "exec/memory.h"
->> 
->> /* gt64xxx.c */
->> -PCIBus *gt64120_register(qemu_irq *pic);
->> +PCIBus *gt64120_register(void);
+>>      /* This member isn't used. Just for save/load compatibility */
+>>      int32_t pci_irq_levels_vmstate[PIIX_NUM_PIRQS];
+>>
+>> and only seems to be filled in piix3_pre_save() but never used. So what's
+>> the point of this then? Maybe piix3 also uses a bitmap to store these
+>> levels instead? There's a uint64_t pic_levels member above the unused
+>> array but I haven't checked the implementation.
 >
-> Now that you don't need to pass anything to it, do you still need this 
-> function? Maybe what it does now could be done in the gt64120 device's 
-> realize functions (there seems to be at least two: gt64120_realize and 
-> gt64120_pci_realize but haven't checked which is more appropriate to put this 
-> init in) or in an init function then you can just create the gt64120 device 
-> in malta.c with qdev_new as is more usual to do in other boards. This 
-> register function looks like the legacy init functions we're trying to get 
-> rid of so this seems to be an opportunity to clean this up. This could be 
-> done in a separate follow up though so may not need to be part of this series 
-> but may be nice to have.
+> I think what has happened here is that originally piix3 used
+> the same implementation piix4 currently does -- where it stores
+> locally the value of the (incoming) PCI IRQ levels, and then when it wants
+> to know the value of the (outgoing) PIC IRQ levels it loops round
+> to effectively OR together all the PCI IRQ levels for those PCI
+> IRQs which are configured to that particular PIC interrupt.
+>
+> Then in commit e735b55a8c11 (in 2011) piix3 was changed to call
+> pci_bus_get_irq_level() to get the value of a PCI IRQ rather than
+> looking at its local cache of that information in the pci_irq_levels[]
+> array. This is the source of the "save/load compatibility" thing --
+> before doing a vmsave piix3_pre_save() fills in that field so that
+> it appears in the outbound data stream and thus a migration from
+> a new QEMU to an old pre-e735b55a8c11 QEMU will still work. (This
+> was important at the time, but could probably be cleaned up now.)
+>
+> The next commit after that one is ab431c283e7055bcd, which
+> is an optimization that fixes the equivalent of the "XXX: optimize"
+> marker in the gt64120_pci_set_irq()/piix4 code -- this does
+> something slightly more complicated involving the pic_levels
+> field, in order to avoid having to do the "loop over all the
+> PCI IRQ levels" whenever it needs to set/reset a PIC interrupt.
+>
+> We could pick up one or both (or none!) of these two changes
+> for the piix4 code. (If we're breaking migration compat anyway
+> we wouldn't need to include the save-load compat part of
+> the first change.)
 
-I meant this comment at the end of patch 1. But maybe this is too much to 
-do in this series as it needs more understanding of the gt64120 
-implementation so unless you already understand it enough to clean this up 
-easily now and it would be too much effort for you, then this is just for 
-the record for possible future clean up. The series is good enough without 
-putting in more stuff but if there's a way to go further then that would 
-be nice.
+I'm not sure I fully get this. Currently (before this series) PIIX4State 
+does not seem to have any fields to store irq state (in hw/isa/piix4.c):
 
-Regards,.
+struct PIIX4State {
+     PCIDevice dev;
+     qemu_irq cpu_intr;
+     qemu_irq *isa;
+
+     RTCState rtc;
+     /* Reset Control Register */
+     MemoryRegion rcr_mem;
+     uint8_t rcr;
+};
+
+Patch 1 in this series introduces that by moving it from MaltaState. Then 
+we could have a patch 2 to clean it up and change to the way piix3 does it 
+and skip introducing the saving of this array into the migration state. It 
+may still break migration but not sure if MaltaState was saved already so 
+this may be already missing from migration anyway and if we do the same as 
+piix3 then maybe we don't need to change the piix4 state either (as this 
+is saved as part of the PCIHost state?) but I don't know much about this 
+so maybe I'm wrong.
+
+In any case PIIX3 and PIIX4 state seem to be different so there's no 
+reason to worry aobut compatibility between them. It's just confusing that 
+there's a common piix.h which defines a PIIXState that looks like it could 
+be common but maybe it's not used by PIIX4 but only by PIIX3 or I've 
+missed something as I've only looked at this briefly.
+
+Regards,
 BALATON Zoltan
-
->> 
->> /* bonito.c */
->> PCIBus *bonito_init(qemu_irq *pic);
->
---3866299591-354649538-1644684270=:90120--
 
