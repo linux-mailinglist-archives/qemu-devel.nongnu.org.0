@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6294B35BC
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 15:56:53 +0100 (CET)
-Received: from localhost ([::1]:58286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6DE4B356C
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 15:13:41 +0100 (CET)
+Received: from localhost ([::1]:33658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nItpU-0003z4-8d
-	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 09:56:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58942)
+	id 1nIt9f-00026i-Oo
+	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 09:13:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfb1998@web.de>) id 1nIt01-0000FS-SA
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 09:03:42 -0500
-Received: from mout.web.de ([212.227.15.14]:57901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfb1998@web.de>) id 1nIt00-0000fF-5N
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 09:03:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1644674530;
- bh=3ukiLpHigg0O1F5pYnnsNgjKBMGsFb5rfF3y1lLfIjo=;
- h=X-UI-Sender-Class:Date:From:To:CC:Subject:In-Reply-To:References;
- b=EAi32Dfde3e2sPBW4xO+SOQyTiDxPPJ3zRz2juRGJp+eW7hoaTeeRwaOKkYArnHe7
- i+z10fUhPZoSXMWXzBnIrvnbwaTp9SonHPr12ZmR6XvXwI8Quke1QMu8WBRFqtgcfW
- L/JE6ENailuveo6rHuCwOOtxlVOgquhULKDj09Vw=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [127.0.0.1] ([87.123.193.69]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MjPQ6-1o2M000JxK-00lGHP; Sat, 12
- Feb 2022 15:02:10 +0100
-Date: Sat, 12 Feb 2022 15:02:07 +0100
-From: BB <dfb1998@web.de>
-To: BALATON Zoltan <balaton@eik.bme.hu>, Bernhard Beschow <shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nIt83-0001LL-2Q
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 09:11:59 -0500
+Received: from [2a00:1450:4864:20::436] (port=37752
+ helo=mail-wr1-x436.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nIt81-0003iQ-AE
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 09:11:58 -0500
+Received: by mail-wr1-x436.google.com with SMTP id w11so19713488wra.4
+ for <qemu-devel@nongnu.org>; Sat, 12 Feb 2022 06:11:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:user-agent:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=cxef1gGstdcQuc1v+AdXvTVIfRPm7fZIBwosAUZmEBg=;
+ b=YCc+9b2SAAVmr0z/mFk54tD5ddcXG8AxUZOVgG/zJEGgNG+NjVBRdGnL6j7BUcxV3g
+ k0BCgE/praU+CVl+7bqzGi5u0k0zkXe9AxBBIXa8JbCKV9SeSFj6T8msPDW8TvKPe+iK
+ hXFWoK4OvSANjZOq2R9j9IqPT89HHkTK9eUfdmbRAfMzqlxLaNdFEbp1hwya+FKOBmJa
+ G0CEbn/sAo020GQEfL9yZ+K65Wk8J25CbVEzlwkh4KZ0Xvnyt5MYGk6NFKy6LxBBNT0Y
+ 8nxz0VSyGJi4CIBQRq4aQ/U0f+ym05XG0uQo83ttV3agXDsLM2ZYegmRsqIhBf3/jsca
+ WhWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:user-agent:in-reply-to
+ :references:message-id:mime-version:content-transfer-encoding;
+ bh=cxef1gGstdcQuc1v+AdXvTVIfRPm7fZIBwosAUZmEBg=;
+ b=XYtFR5vyJJg0gupQqKngsG08dNI3wDGEhQ01ozR2VqIhCTvoUi1Q1tF0gkJhIWe1P+
+ GEA8m4pdvqPR5KVu2yC7Mf99JNj+jdHw5a0f0wmgzR7Z2om6e+/r5yqg8wrIm/RipSuX
+ Yf0j4916GvpcYAZ21GjOylCO0Q+gghy3/yJbrjcBwM2vDHUI+tsNEKoejwjoLU2N0iHy
+ Gpnw0uDf85nJXbZf+P/QHTAOFZ3frVK4V1ffR+6y2vyqV/jW5yU3urWjl8PMU1wQEsxo
+ NSYQSlfwPT71ii7WLdOVY4RtAVmhCqjGestu0tcH7DH86EnBCfNLHU5vt2fNm6mG1Kqu
+ zO7A==
+X-Gm-Message-State: AOAM532zuXkpZ36de3TiCOuzoO7vgDFyUwfaUnL0NNuJ0LYgvVrOXQNO
+ ItD19wNw6RxQqlfs+IfcZq3UOp5shzs=
+X-Google-Smtp-Source: ABdhPJwmJ1GuwPMdv2nIZHn/DYILJjufv37toT9BG2YJT+UZNx9g16oBEKxxadVdV3QFFhYY/NtETQ==
+X-Received: by 2002:a17:906:1d0a:: with SMTP id
+ n10mr5054935ejh.143.1644674761307; 
+ Sat, 12 Feb 2022 06:06:01 -0800 (PST)
+Received: from ?IPv6:::1?
+ (200116b846c2ee0039d293ada42c1ec9.dip.versatel-1u1.de.
+ [2001:16b8:46c2:ee00:39d2:93ad:a42c:1ec9])
+ by smtp.gmail.com with ESMTPSA id cz12sm7335926edb.30.2022.02.12.06.06.00
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 12 Feb 2022 06:06:00 -0800 (PST)
+Date: Sat, 12 Feb 2022 15:05:58 +0100
+From: Bernhard Beschow <shentey@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
 Subject: Re: [PATCH v2 5/5] isa/piix4: Resolve redundant i8259[] attribute
 User-Agent: K-9 Mail for Android
 In-Reply-To: <9a3e73e-ac7-f79-c84-ca9a8523d0d1@eik.bme.hu>
 References: <20220212113519.69527-1-shentey@gmail.com>
  <20220212113519.69527-6-shentey@gmail.com>
  <9a3e73e-ac7-f79-c84-ca9a8523d0d1@eik.bme.hu>
-Message-ID: <5CE499F3-7EC8-46A1-A61B-5D9507A1F5D2@web.de>
+Message-ID: <1D2AB604-50DD-48F8-8E92-DE9AEAE0FC90@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:hZfe1UqtQyWy9nEsrg8JqNwtfLYdliGnQgZZGDB3R7+Kcs+vL91
- GEAvwuKAVI/WJI8iCwqXIb2wOxZzYHR5XlxNiSDKYbFYYZNMu+gQNlFAD7l3TNzS47h3z+U
- YAZQxkKlt4eCO/7o8bghBlO6mECH/s/78Yzd8tPZ0r7C/y0ZvDGEr1A4k+9R7W7R47V4B+r
- /T7Dm5+QUb58j7Tj+jANQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bnJrseslNQg=:S4FLUWa7kwXvkVQMDHwgGX
- rZtrB1fh/DcvWP3v+UYr9T4NcXHeurZU0DUo0blbdk12Owers77F8PRi2KXwjDrkCj7y7E/2V
- xglRbrJc2phL6rWCKvMgfHTPYvBzNL5b50zxtZDnGFX2dBEl6SyFN6T+oY3PsipRtEG9uY5Ay
- POql4KeLpg9XMaN087sp6uUJtsuZWkwkDd3W5mLyEy1ruKvOQADUboUvpqAHSfxC1cZOgHA8+
- XzjrIv2bpAIj+1fQdTIVz3XHrVlS3s+rcrtjxCwC247Oc/C0eNHQIBeiSqLCZ99UgHsdbRuXF
- p02okn2+vPseBhihwlKCfnCnsUlAMYV0Ltee1VvXkB1tCfq86Bqh9epf5qPskx8xXetTQxR2T
- qCZTo3h9N7S0fo8oEFmeFMCeR9h5ndPqcMJ1iYQIU05TqdvO21KkMaN5bGF9OvQzGSZFhp/tc
- A8zIRkBFpVxlBc5CJzrqcz2a/kQKjQglervXoTXo39GdKSDG3FUBu1bu9yH9LUZ27XMkQi1SV
- 9XHpX5CQm1z0FCx9sBDGPADGNYN8ee05eN3RSrMUvzlxyqYioHo/7AExwL9NYYsIAd9W1bN/M
- wymxxeenPxa0xnLBM56RnKSD0eBste6Dh5ykQIQHhB35OddDESnv0R75HmwnvNLAfNWqQSLXA
- S69l4O1jKN3lRjBELxOrPXmGOx5bn9JPHfCfPxqn4R+mY3iRe1ZPYjAPq/p5FiVB69EQc67ZW
- eQbXGETc5n/ctrViUumQaUs3gIQ+4V8myz1DX7MsPMsaSP2gqIZETHVE9DKhde840gNUqhSVo
- cqtG96M7tKBFiysNGKgQbv4I+nf6IlOffnAlprH4pT23/KqINFKotj+5NNdxpal0ubAaYeqkB
- S9SD23X1fyg0L9Ig95zZpvJGwp0Rw8FBQNPLOqYdZWyeUzFj1uX9hnzKgoMuL3JFFXCyF1na7
- xBWPsTTnxmnHzTgmwC9UHn2cmDwyfadB6eCUZtxRdag6zPmALcrcXdu/NN+7MlyyBcS/zh5Wd
- 6jZ1tVxjGXLNGASg8b3LKtzfExHZ1PW94ApQPe/SBzOERZpBIkdf1XLWbC4Ddwmlx1tvkY57/
- H9opoqTIdHV3B4=
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=dfb1998@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 12 Feb 2022 09:49:47 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,10 +97,8 @@ Cc: =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-Am 12=2E Februar 2022 14:19:51 MEZ schrieb BALATON Zoltan <balaton@eik=2Eb=
-me=2Ehu>:
+Am 12=2E Februar 2022 14:19:51 MEZ schrieb BALATON Zoltan <balaton@eik=2Ebm=
+e=2Ehu>:
 >On Sat, 12 Feb 2022, Bernhard Beschow wrote:
 >> This is a follow-up on patch "malta: Move PCI interrupt handling from
 >> gt64xxx to piix4" where i8259[] was moved from MaltaState to PIIX4State
@@ -158,4 +161,5 @@ _PIRQS);
 >>     return dev;
 >> }
 >>
+
 
