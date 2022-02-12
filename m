@@ -2,52 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BD74B3641
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 17:14:49 +0100 (CET)
-Received: from localhost ([::1]:59824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C9F4B3651
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 17:18:46 +0100 (CET)
+Received: from localhost ([::1]:35114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIv2t-0002jm-NW
-	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 11:14:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53968)
+	id 1nIv6j-0005JP-G1
+	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 11:18:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nIv1i-0001fL-9X; Sat, 12 Feb 2022 11:13:34 -0500
-Received: from [2001:738:2001:2001::2001] (port=31416 helo=zero.eik.bme.hu)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nIv1e-0004lJ-QH; Sat, 12 Feb 2022 11:13:33 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1050A74635C;
- Sat, 12 Feb 2022 17:13:20 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id DAF08746324; Sat, 12 Feb 2022 17:13:19 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id D8C3E7456E3;
- Sat, 12 Feb 2022 17:13:19 +0100 (CET)
-Date: Sat, 12 Feb 2022 17:13:19 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH v2 2/5] pci: Always pass own DeviceState to
- pci_map_irq_fn's
-In-Reply-To: <CAG4p6K7Z=h+LkNhL+Ex3USDS1SEnh-MGvx_FUF5CoKaHOgRm_g@mail.gmail.com>
-Message-ID: <d13634a-b414-7663-42c-6390c5d58a1e@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nIv5J-0004CA-24
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 11:17:17 -0500
+Received: from [2a00:1450:4864:20::32a] (port=35531
+ helo=mail-wm1-x32a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nIv5D-0006P9-97
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 11:17:13 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l123-20020a1c2581000000b0037b9d960079so9082187wml.0
+ for <qemu-devel@nongnu.org>; Sat, 12 Feb 2022 08:17:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=KHHFJ/uCa2258VKMSgv9gCe0YKoJ+pqL34OJXCg+0hc=;
+ b=e/AFzahEsRac3JfxrphYwesmXcGU5jgqXR1S3/oajaXUGy2uSqKLWXn8xGlkFYfI2j
+ o6YuLpiiZdiwnaRJ0vThynpopiAXQ/EhqRkZ2RJtYty3Cbce/ahM5YeagWOAI9x7G4jt
+ Jb9+HkaXPZg0ju3YkjtX3IQot0uIQ5WLWkyzrs8oBC9IU9+UiN6mDMKn9Y+3RGAirOU1
+ 1cr/Cm1xNT2hmJAXGoX7mNrnu7UlX4qD1qw1MsSQ7dJz5bmw4vrMryV+4vLHRHwPA+hR
+ DJcY4I7xgBUnt6SO/h4IdfEFZ7OGDMIL7KuYDo6Owctq+4J5vfRj+wFIYhk46S9VVox/
+ A35w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KHHFJ/uCa2258VKMSgv9gCe0YKoJ+pqL34OJXCg+0hc=;
+ b=om1Qf33xbGNGoKi6dU1D83OPYldLqEyrGuW+4Lpm5tr2pehBJVeMSsSWrRj3iqbGY9
+ lB/Ugg4eWLUknnoLASUosm8B63XQOv1AgaTkHWboy7ipaPUkojzilpiq6M9xvHQ2mbkb
+ M5YCT/O2uSDXf/fjWCtA3xK+Znv3U2lzHxMnZ/DzOhp+0ve6+MRmxoRXGmG7ed1q9zlm
+ wycoGHCzCu0bEff7CYg0qGIjw8xeMupkfdwMpkFid6O2MiTmqSzq1eF8MczaG753T0D7
+ ClYUzczYNXKX9aXU+l0BudNBGLfN6TrQGv12IBRRMVF0luaxia7D7LnPmGIj6/xHhIKA
+ JTyA==
+X-Gm-Message-State: AOAM532tjWYXbCu9zhEi7jeDdqDx4uXzpkO1THiYDEfjI8b70FHsa/7e
+ 9gf3EsPGVUIHODz6aRnxFV8QYBTlkkTEglrvquzPaQ==
+X-Google-Smtp-Source: ABdhPJwZA5yQG3Oiy2xxExmgl17T66dACOgRDnZq2GIYHQQc3/NNv4whwuNDS45NPciXW1NQf6s8UMIe3SlFoOwggyI=
+X-Received: by 2002:a05:600c:4f0b:: with SMTP id
+ l11mr4794546wmq.126.1644682627125; 
+ Sat, 12 Feb 2022 08:17:07 -0800 (PST)
+MIME-Version: 1.0
 References: <20220212113519.69527-1-shentey@gmail.com>
  <20220212113519.69527-3-shentey@gmail.com>
  <d6e47199-343e-46c0-d44f-64bc8d6e8385@eik.bme.hu>
- <CAG4p6K7Z=h+LkNhL+Ex3USDS1SEnh-MGvx_FUF5CoKaHOgRm_g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1240981976-1644682399=:90120"
-X-Spam-Probability: 9%
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+In-Reply-To: <d6e47199-343e-46c0-d44f-64bc8d6e8385@eik.bme.hu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 12 Feb 2022 16:16:55 +0000
+Message-ID: <CAFEAcA_Qj4TT0K5hayf5j3m7Ctp=rBVs=FeMKSBELjny7zsZgA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] pci: Always pass own DeviceState to
+ pci_map_irq_fn's
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -62,86 +87,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  Magnus Damm <magnus.damm@gmail.com>, qemu-devel@nongnu.org,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
  "open list:Versatile PB" <qemu-arm@nongnu.org>,
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- "open list:ppc4xx" <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ "open list:ppc4xx" <qemu-ppc@nongnu.org>, Bernhard Beschow <shentey@gmail.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1240981976-1644682399=:90120
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Sat, 12 Feb 2022, Bernhard Beschow wrote:
-> Am 12. Februar 2022 14:27:32 MEZ schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->> On Sat, 12 Feb 2022, Bernhard Beschow wrote:
->>> Passing own DeviceState rather than just the IRQs allows for resolving
->>> global variables.
->>
->> Do you mean pci_set_irq_fn instead of pci_map_irq_fn in the patch title?
+On Sat, 12 Feb 2022 at 13:27, BALATON Zoltan <balaton@eik.bme.hu> wrote:
 >
-> I'm referring to the typedef in pci.h because the patch establishes
-> consistency across the board.
+> On Sat, 12 Feb 2022, Bernhard Beschow wrote:
+> > Passing own DeviceState rather than just the IRQs allows for resolving
+> > global variables.
 >
->>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>> hw/isa/piix4.c          | 6 +++---
->>> hw/pci-host/sh_pci.c    | 6 +++---
->>> hw/pci-host/versatile.c | 6 +++---
->>> hw/ppc/ppc440_pcix.c    | 6 +++---
->>> hw/ppc/ppc4xx_pci.c     | 6 +++---
->>> 5 files changed, 15 insertions(+), 15 deletions(-)
->>
->> You don't seem to change any global function definition that reqires this
->> change in all these devices so why can't these decide on their own what
->> their preferred opaque data is for their set irq function and only change
->> piix4? Am I missing something? I'm not opposed to this change but it seems
->> to be unnecessary to touch other device implementations for this and may
->> just make them more complex for no good reason.
+> Do you mean pci_set_irq_fn instead of pci_map_irq_fn in the patch title?
 >
-> This patch is a segway into a direction where the type of the opaque parameter
-> of the pci_map_irq_fn typedef could be changed from void* to DeviceState* in
+> > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > ---
+> > hw/isa/piix4.c          | 6 +++---
+> > hw/pci-host/sh_pci.c    | 6 +++---
+> > hw/pci-host/versatile.c | 6 +++---
+> > hw/ppc/ppc440_pcix.c    | 6 +++---
+> > hw/ppc/ppc4xx_pci.c     | 6 +++---
+> > 5 files changed, 15 insertions(+), 15 deletions(-)
+>
+> You don't seem to change any global function definition that reqires this
+> change in all these devices so why can't these decide on their own what
+> their preferred opaque data is for their set irq function and only change
+> piix4? Am I missing something?
 
-I'm still not quite sure what you mean considering these typedefs in 
-include/hw/pci/pci.h:
+Yeah, we don't necessarily need to change all these devices,
+but I think this is an area where over time we're shifting from
+an older school of API design that was "we have some basically
+standalone functions that take an arbitrary opaque pointer"
+towards a more object-oriented design, where the opaque pointer
+should probably be the pointer-to-this-object unless there's a good
+reason why it needs to be something else[*], because having a function
+that's part of a device being passed something other than the
+device-instance pointer is a bit unexpected.
 
-typedef void (*pci_set_irq_fn)(void *opaque, int irq_num, int level);
-typedef int (*pci_map_irq_fn)(PCIDevice *pci_dev, int irq_num);
-typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
+In some cases there is a good reason for opaque pointers for
+function callbacks to be something else, because passing in the
+device pointer would make the code noticeably more complicated.
+But in the specific cases here, the only change is that the
+callback functions use "s->somearray[i]" instead of
+"an_argument[i]", which doesn't seem to me like a significant
+complexity change.
 
-pci_map_irq_fn already has PCIDevice *, it's pci_set_irq_fn that has void 
-*opaque and is what this patch appears to be changing. Am I looking at the 
-wrong typedefs?
-
-> order to facilitate the more typesafe QOM casting. I see, though, why this is
-> confusing in the context of this patch series. I don't have strong feelings for
-> converting the other devices or not. So I can only change piix4 if desired.
-
-Yes that seems to be an independent cahange so maybe it's better to just 
-change piix4 in this series and then have a separate patch for changing 
-the void *opaque to DeviceState * independent of this series. But I'm not 
-sure that's necessarily a good idea. It may give some more checks but for 
-callbacks used internally by device implementations I think it can be 
-expected that code that registers the callback also knows what its opaque 
-data should be so it does not have to be checked additionally, especially 
-in code that may be called frequently. Although in a similar via-ide 
-callback I could not measure a big penalty the last time I tried but I 
-suspect there still mey be some overhead involving QOM casts (maybe there 
-are just bigger bottle necks in ide emulation so it was masked) so I'm not 
-sure it's worth the added complexity but if others prefer that I'm not 
-that much opposed to it but it's clearer as a separate change anyway.
-
-Regards,
-BALATON Zoltan
---3866299591-1240981976-1644682399=:90120--
+thanks
+-- PMM
 
