@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF434B3792
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 20:12:28 +0100 (CET)
-Received: from localhost ([::1]:47368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3FA4B379E
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 20:23:35 +0100 (CET)
+Received: from localhost ([::1]:55058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIxoo-0000pQ-KQ
-	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 14:12:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56542)
+	id 1nIxza-0006OR-1P
+	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 14:23:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nIxn6-00007V-D8
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 14:10:40 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:37283)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nIxxC-0005ZO-FL
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 14:21:06 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:37531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nIxn4-00057A-71
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 14:10:39 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nIxxA-0000Wq-8t
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 14:21:06 -0500
 Received: from [192.168.100.1] ([82.142.19.58]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MQeDw-1nggwh3ID0-00NgsF; Sat, 12 Feb 2022 20:10:33 +0100
-Message-ID: <fb85259b-fa43-844f-2051-35cc1055c41a@vivier.eu>
-Date: Sat, 12 Feb 2022 20:10:33 +0100
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M4aEC-1nKce5354I-001gsZ; Sat, 12 Feb 2022 20:20:59 +0100
+Message-ID: <e46f8443-de0d-6078-4e61-28f7b9576413@vivier.eu>
+Date: Sat, 12 Feb 2022 20:20:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
+Subject: Re: [RFC PATCH 14/25] virtio-snd: Add VIRTIO_SND_R_PCM_INFO handler
 Content-Language: fr
 To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>, kraxel@redhat.com,
  mst@redhat.com
 References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
- <20220211221319.193404-13-chouhan.shreyansh2702@gmail.com>
+ <20220211221319.193404-15-chouhan.shreyansh2702@gmail.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [RFC PATCH 12/25] virtio-snd: Add VIRTIO_SND_R_JACK_INFO handler
-In-Reply-To: <20220211221319.193404-13-chouhan.shreyansh2702@gmail.com>
+In-Reply-To: <20220211221319.193404-15-chouhan.shreyansh2702@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:a0MxDgXiIhKUSVyDjASUkxuIyHdMs+efb6y47eW2TBi/lIhuCPr
- zh9NNzDAlGSmm3NiOGWhZQG767JmnfoEOg4pXxrdZVjszrLPTIeOMIYEPlHEBfwJlgVvrPM
- WRz4tp1f7L98rT62uopf1eTWK5WqI1PCuxv7v4oxLI20+nwKMOASQaBoPgukQntslVbts5G
- oCbNePLSCrDvmeWViabLw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IkDsa21s/3s=:D7HH02IyqOHdPiSOKoWCT/
- v0qQ8Bjl2BE5wgVlNg8tMp2moae/dU07lbzdVuDKcJhAJv2AgYN4t58GLshXlQNCHYmX0kTCn
- Ih1nnllhsM30dSuimS8RO4M2Q/E3hIziiHmb5aKZjeB5hC7MIRHlXq7dIudg8gYvSCU3VOM55
- Ed1UgGWnzAymD5Zba7P8/QMvrFHEd4fdHs19uRl5j3HhMJ/ilKbZAOVdjCXYrOPG8VMP0bP94
- xTUfzVnwLXqwyNHw3bA/CuoLQKDwtzw//iLyfn+cJuHkpjdUJfwfCR49x6M1dDBWUAwVpEunD
- Rpe6SvNAQgFuJQOFgaip7AjdFuQH9Bxky5bDIKi4H2dLJRxpwEMzbSLo2Z+aI8H9hG9SF7XuF
- 27LWsdZJGqHww00GS9Fhz9rLV+T4kGUJz1cs6iEkw6Z5x8Kg++B1QJzmyQRFuliA08T2myPeW
- 7zap80Z3SFC8SlBrpr7PRjDN1fXzD8bfaTTfj7HsSJwYMYAS/CIlynsRuJucMSMWQNpnAlMlI
- ms4lvHkXjQV2/9TsIp/9f0eV/AR0RTZ4PgZCyofBZbUJu+uWLlRtpP1T3xdjdD/uWPmKBblsA
- Ln4yHKUHLzMlVAuaqbGOfZz0TFpzua9AJRc5nl9CGd/mWf6gbwU1skpiHJPOrBnGNgPQuJEUv
- mKfQsx7iuVO+PXiryy7hYHG8rWgsI+yogUuYJxf9e1lXBT1x+1DVoJk0kJn1F9uqBa94=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ekfPnrjeNarWg58Odg/w1NeNrS3r8cW5lo6hZ4pItiU/0A9AJfy
+ r7rdQO9bh25OWHpjnSrw9oEDfmiWNlY2zJo/U3fDs26rNXGMYfFUBBgRjOOSpFaweY4xwcg
+ GBHtMoTmna86+zTE+NFuObJPoEBNM5M8O6s9F0anFg8VwiktgeTM1vlXeJRM/4+ejIKq/+D
+ KZROsSuU746jZ1Aqnef0g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xDHjyJAyFIQ=:oE+rkSt+Bpk0+0cRAvygmn
+ HDcGkGOIKqOCRQ5U9j47R0eyWSmM56bPBN7gb7v5qAp5uvmnf/QerMvY1jTI7DIaXh49MEaRz
+ mJ/8iUc7DMJokjCg1UUkcVmbLRTmgGnpey2/SQFPthO6Eki4qMIB239HmkWn8B94+FsdHtzWO
+ P9xkHQK33/mpl38zaXcnergRfOAdHyUaSrSzrFWiVtrQd4g9v4x8hfU8nmwvpBrJUsoKafokY
+ Aapewqu+9U080tFymIzzppbTSUvZC96rpfeZjNofHdP+SUSEdO43tGYvKCTurEJTgeCTsesnw
+ 9yDPtNZ0aVUBvvUvdq1XVTBilVPM738BS3HoCGaEel3shoYKURnLy6Gan/Q7Rrx0vFWuCpbzV
+ ATNiLUMOMPqSoOxFBPqbQ6GkJDv1gTlcV1+IvsFqf+tlAe8nV/Dg0YHonr8h6qqt+noRO8nz3
+ UqK+sQs44gBapRftIyYx6QWtED81nG2IURgCpB5wjz76o4lOwnUvHJJCWAj+YMgYTV+WZl66h
+ OfDDd6vspR+QiZYlGIo7YekK0fyC8F/oLPkgqpLH8ijnf8tWphtKGbp5K6ryc1itttRyIjIZN
+ Vb/k9RMVBfiT35Bh8vZEyDP+qbQgyuSFj2iIKFG1dG2jocuPWQBQhipPo4q2yLoMwzTP5NvQ8
+ MiTkE2oGM6PUBcQ+qqapoDP5N17gwZ5h66o8xRKoAORLtQVr1xXNysWbP3x+vyy2x4lU=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,73 +77,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Le 11/02/2022 à 23:13, Shreyansh Chouhan a écrit :
 > Signed-off-by: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
 > ---
->   hw/audio/virtio-snd.c | 81 +++++++++++++++++++++++++++++++++++++++++--
->   1 file changed, 79 insertions(+), 2 deletions(-)
+>   hw/audio/virtio-snd.c | 88 ++++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 87 insertions(+), 1 deletion(-)
 > 
 > diff --git a/hw/audio/virtio-snd.c b/hw/audio/virtio-snd.c
-> index a87922f91b..c2af26f3cb 100644
+> index aec3e86db2..a53a6be168 100644
 > --- a/hw/audio/virtio-snd.c
 > +++ b/hw/audio/virtio-snd.c
-> @@ -92,6 +92,80 @@ static uint64_t virtio_snd_get_features(VirtIODevice *vdev, uint64_t features,
->   {
->       return vdev->host_features;
+> @@ -188,6 +188,91 @@ static uint32_t virtio_snd_handle_jack_remap(VirtIOSound *s,
+>       return sz;
 >   }
+>   
 > +/*
-> + * Get a specific jack from the VirtIOSound card.
+> + * Get a specific stream from the virtio sound card device.
 > + *
-> + * @s: VirtIOSound card device.
-> + * @id: Jack id
+> + * @s: VirtIOSound card device
+> + * @stream: Stream id
+> + *
+> + * Returns NULL if function fails.
+> + * TODO: Make failure more explicit. Output can be NULL if the stream number
+> + *       is valid but the stream hasn't been allocated yet.
 > + */
-> +static virtio_snd_jack *virtio_snd_get_jack(VirtIOSound *s, uint32_t id)
+> +static virtio_snd_pcm_stream *virtio_snd_pcm_get_stream(VirtIOSound *s,
+> +                                                        uint32_t stream)
 > +{
-> +    if (id >= s->snd_conf.jacks) {
+> +    if (stream >= s->snd_conf.streams) {
+> +        virtio_snd_err("Invalid stream request %d\n", stream);
 > +        return NULL;
 > +    }
-> +    return s->jacks[id];
+> +    return s->streams[stream];
 > +}
 > +
 > +/*
-> + * Handles VIRTIO_SND_R_JACK_INFO.
-> + * The function writes the info structs and response to the virtqueue element.
+> + * Handle the VIRTIO_SND_R_PCM_INFO request.
+> + * The function writes the info structs to the request element.
 > + * Returns the used size in bytes.
 > + *
-> + * @s: VirtIOSound card
+> + * @s: VirtIOSound card device
 > + * @elem: The request element from control queue
 > + */
-> +static uint32_t virtio_snd_handle_jack_info(VirtIOSound *s,
-> +                                            VirtQueueElement *elem)
+> +static uint32_t virtio_snd_handle_pcm_info(VirtIOSound *s,
+> +                                           VirtQueueElement *elem)
 > +{
 > +    virtio_snd_query_info req;
-> +    size_t sz = iov_to_buf(elem->out_sg, elem->out_num, 0, &req, sizeof(req));
+> +    uint32_t sz;
+> +    sz = iov_to_buf(elem->out_sg, elem->out_num, 0, &req, sizeof(req));
 > +    assert(sz == sizeof(virtio_snd_query_info));
 > +
 > +    virtio_snd_hdr resp;
-> +
 > +    if (iov_size(elem->in_sg, elem->in_num) <
-> +        sizeof(virtio_snd_hdr) + req.count * req.size) {
-> +        virtio_snd_err("jack info: buffer too small got: %lu needed: %lu\n",
-> +                       iov_size(elem->in_sg, elem->in_num),
-> +                       sizeof(virtio_snd_hdr) + req.count * req.size);
+> +        sizeof(virtio_snd_hdr) + req.size * req.count) {
+> +        virtio_snd_err("pcm info: buffer too small, got: %lu, needed: %lu\n",
+> +                iov_size(elem->in_sg, elem->in_num),
+> +                sizeof(virtio_snd_pcm_info));
 > +        resp.code = VIRTIO_SND_S_BAD_MSG;
 > +        goto done;
 > +    }
 > +
-> +    virtio_snd_jack_info *jack_info = g_new0(virtio_snd_jack_info, req.count);
-> +    for (int i = req.start_id; i < req.count + req.start_id; i++) {
-> +        virtio_snd_jack *jack = virtio_snd_get_jack(s, i);
-> +        if (!jack) {
-> +            virtio_snd_err("Invalid jack id: %d\n", i);
+> +    virtio_snd_pcm_stream *stream;
+> +    virtio_snd_pcm_info *pcm_info = g_new0(virtio_snd_pcm_info, req.count);
+> +    for (int i = req.start_id; i < req.start_id + req.count; i++) {
+> +        stream = virtio_snd_pcm_get_stream(s, i);
+> +
+> +        if (!stream) {
+> +            virtio_snd_err("Invalid stream id: %d\n", i);
 > +            resp.code = VIRTIO_SND_S_BAD_MSG;
 > +            goto done;
 > +        }
 > +
-> +        jack_info[i - req.start_id].hdr.hda_fn_nid = jack->hda_fn_nid;
-> +        jack_info[i - req.start_id].features = jack->features;
-> +        jack_info[i - req.start_id].hda_reg_defconf = jack->hda_reg_defconf;
-> +        jack_info[i - req.start_id].hda_reg_caps = jack->hda_reg_caps;
-> +        jack_info[i - req.start_id].connected = jack->connected;
-> +        memset(jack_info[i - req.start_id].padding, 0,
-> +               sizeof(jack_info[i - req.start_id].padding));
+> +        pcm_info[i - req.start_id].hdr.hda_fn_nid = stream->hda_fn_nid;
+> +        pcm_info[i - req.start_id].features = stream->features;
+> +        pcm_info[i - req.start_id].formats = stream->formats;
+> +        pcm_info[i - req.start_id].rates = stream->rates;
+> +        pcm_info[i - req.start_id].direction = stream->direction;
+> +        pcm_info[i - req.start_id].channels_min = stream->channels_min;
+> +        pcm_info[i - req.start_id].channels_max = stream->channels_max;
+> +
+> +        memset(&pcm_info[i].padding, 0, sizeof(pcm_info[i].padding));
 > +    }
 > +
 > +    resp.code = VIRTIO_SND_S_OK;
@@ -153,60 +162,42 @@ Le 11/02/2022 à 23:13, Shreyansh Chouhan a écrit :
 > +    assert(sz == sizeof(virtio_snd_hdr));
 > +
 > +    if (resp.code == VIRTIO_SND_S_BAD_MSG) {
-> +        g_free(jack_info);
+> +        g_free(pcm_info);
 > +        return sz;
 > +    }
 > +
 > +    sz = iov_from_buf(elem->in_sg, elem->in_num, sizeof(virtio_snd_hdr),
-> +                      jack_info, sizeof(virtio_snd_jack_info) * req.count);
-> +    assert(sz == req.count * req.size);
-> +    g_free(jack_info);
-> +    return sizeof(virtio_snd_hdr) + sz;
-> +}
->   
->   /* The control queue handler. Pops an element from the control virtqueue,
->    * checks the header and performs the requested action. Finally marks the
-> @@ -102,6 +176,7 @@ static uint64_t virtio_snd_get_features(VirtIODevice *vdev, uint64_t features,
->    */
->   static void virtio_snd_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
->   {
-> +    VirtIOSound *s = VIRTIO_SOUND(vdev);
->       virtio_snd_hdr ctrl;
->   
->       VirtQueueElement *elem = NULL;
-> @@ -131,7 +206,8 @@ static void virtio_snd_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
->               /* error */
->               virtio_snd_err("virtio snd ctrl could not read header\n");
->           } else if (ctrl.code == VIRTIO_SND_R_JACK_INFO) {
-> -            virtio_snd_log("VIRTIO_SND_R_JACK_INFO");
-> +            sz = virtio_snd_handle_jack_info(s, elem);
-> +            goto done;
->           } else if (ctrl.code == VIRTIO_SND_R_JACK_REMAP) {
->               virtio_snd_log("VIRTIO_SND_R_JACK_REMAP");
->           } else if (ctrl.code == VIRTIO_SND_R_PCM_INFO) {
-> @@ -156,8 +232,9 @@ static void virtio_snd_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
->           virtio_snd_hdr resp;
->           resp.code = VIRTIO_SND_S_OK;
->           sz = iov_from_buf(elem->in_sg, elem->in_num, 0, &resp, sizeof(resp));
-> -        virtqueue_push(vq, elem, sz);
->   
-> +done:
-> +        virtqueue_push(vq, elem, sz);
->           virtio_notify(vdev, vq);
->           g_free(iov2);
->           g_free(elem);
+> +                      pcm_info, sizeof(virtio_snd_pcm_info) * req.count);
 
-This patch has a warning:
+Same problem here:
 
+In file included from ../../../Projects/qemu-next/hw/audio/virtio-snd.c:7:
 .../hw/audio/virtio-snd.c: In function 'virtio_snd_handle_ctrl':
-.../include/qemu/iov.h:49:16: error: 'jack_info' may be used uninitialized in this function 
+.../include/qemu/iov.h:49:16: error: 'pcm_info' may be used uninitialized in this function 
 [-Werror=maybe-uninitialized]
     49 |         return iov_from_buf_full(iov, iov_cnt, offset, buf, bytes);
        |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-...hw/audio/virtio-snd.c:135:27: note: 'jack_info' was declared here
-   135 |     virtio_snd_jack_info *jack_info = g_new0(virtio_snd_jack_info, req.count);
-       |                           ^~~~~~~~~
+.../hw/audio/virtio-snd.c:238:26: note: 'pcm_info' was declared here
+   238 |     virtio_snd_pcm_info *pcm_info = g_new0(virtio_snd_pcm_info, req.count);
+       |                          ^~~~~~~~
 
-Thanks,
-Laurent
+> +    assert(sz == req.size * req.count);
+> +    g_free(pcm_info);
+> +    return sizeof(virtio_snd_hdr) + sz;
+> +}
+> +
+>   /* The control queue handler. Pops an element from the control virtqueue,
+>    * checks the header and performs the requested action. Finally marks the
+>    * element as used.
+> @@ -233,7 +318,8 @@ static void virtio_snd_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+>               sz = virtio_snd_handle_jack_remap(s, elem);
+>               goto done;
+>           } else if (ctrl.code == VIRTIO_SND_R_PCM_INFO) {
+> -            virtio_snd_log("VIRTIO_SND_R_PCM_INFO");
+> +            sz = virtio_snd_handle_pcm_info(s, elem);
+> +            goto done;
+>           } else if (ctrl.code == VIRTIO_SND_R_PCM_SET_PARAMS) {
+>               virtio_snd_log("VIRTIO_SND_R_PCM_SET_PARAMS");
+>           } else if (ctrl.code == VIRTIO_SND_R_PCM_PREPARE) {
+
 
