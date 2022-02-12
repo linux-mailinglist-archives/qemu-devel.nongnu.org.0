@@ -2,104 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDFD4B325B
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 02:15:32 +0100 (CET)
-Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D8E4B32EF
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 05:02:39 +0100 (CET)
+Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nIh0d-00025r-HO
-	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 20:15:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37554)
+	id 1nIjcM-0005kz-Dt
+	for lists+qemu-devel@lfdr.de; Fri, 11 Feb 2022 23:02:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=03511bb56=alistair.francis@opensource.wdc.com>)
- id 1nIfte-0000XS-Ka
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 19:04:17 -0500
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:53215)
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1nIjYY-0003QJ-7j
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 22:58:42 -0500
+Received: from mga12.intel.com ([192.55.52.136]:46090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=03511bb56=alistair.francis@opensource.wdc.com>)
- id 1nIftc-0000Wi-F0
- for qemu-devel@nongnu.org; Fri, 11 Feb 2022 19:04:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1644624252; x=1676160252;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=WjghksA9AaM8fmkeuc6B4EowKv9CI+SG17KSr3ovYlo=;
- b=iZyDKoTyEShP1CGM8HzphfeE+I7brahOKb225vzhhRLjgK3pTD6slAnH
- yzM0IUeRD3cxBj1h+mu9Io4Ba7GLwV5DU5/0YKBgyCtDPA+047vNh+50n
- VuENIwet5+9ILnIUem6Hzp7noPqnzeDZzt/H7LVqhbgDDZOO6ecOGGvhb
- XxlJ7uRcVK2Z1y+ievGc3jXS+2d4vAZCDSNdDifrn6KL40QvnGxIosLP2
- 08TFmohKaBnwX+bGZIpM/+wiEwDnxNRr/tYrDev89t73Hm4EFP4flpJdT
- NuiYhkwBLPES3N6iGd+a3COpfkUBrwd32molcS4Jt5eGcalTyg+zwVsPh A==;
-X-IronPort-AV: E=Sophos;i="5.88,361,1635177600"; d="scan'208";a="304636557"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 12 Feb 2022 08:04:11 +0800
-IronPort-SDR: t056egN0YusDtASrlJ1eauTR05PaxXQJv42x6/mOPLq7iQOMrKIEh9MUvTHJafW//CICi+Vd+6
- TGzqjqEijEKr2KFZArk9+Ro9l041umTaZf9uP4YzoRVOCiaAAGyui85zHkOU/jE12qFM5LXa63
- dnADP3pnIgrg8Pxqjs0nl2F+qWpD4Tjo9YFwsb3KyGVkicXX4WBKHzWdRty2aJf62iNO2bYwAF
- eeeoSHqNiwoJmeHFTkkJInZjhqcOMl4B5Q5963Vp6v9ZffdmDbNg00CpEkNTjAkEOdWQPugBGN
- ob5rGeOZDBAhyE1N0gu5f901
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 15:35:56 -0800
-IronPort-SDR: IRckRvVNbUAntaaqDWkak9buN/OgHtx5PWouae4+/tzkaH1OEG/2KLeITey+ZuSjvj9SgvyIgt
- 4IGYKq5ki62jF6ETQHySkGdOQoFgAwOJGnOeEgKeIQKfHyrAtnBVoOyRGrdi/mCbqIx/Jucem7
- ZrEK7lT9qOMirOiZXmV9M25glapndRz/5f8Ut4DkWbMcz/cDVJlZiLCZxARFYxpMZxnNuqYeky
- E2NYfRgIpKHY7Ry+A6HUW4Icvtz9fS9QX1NrFLA3WFZxbbHHDFS6fkwuYoK/o4HkuVfgZ/h1VZ
- GYs=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2022 16:04:11 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JwW1R38sBz1SVp0
- for <qemu-devel@nongnu.org>; Fri, 11 Feb 2022 16:04:11 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1644624251; x=1647216252; bh=WjghksA9AaM8fmkeuc
- 6B4EowKv9CI+SG17KSr3ovYlo=; b=Jdr7bE4WiOigVQbxJBwlw2igX3nOpeX+wh
- yVtPnvQMwoLqNfi18wNMcHCuI8HQryPvp2R3satVqi3v3VIPSnE05ztXUhaRXhJO
- Oj+r2E6t2MUk4diZ1g5G3AmX9pmF6Co4Uvvv66I7CxGA4ApQsgLQ7nXWxBGpM+QY
- LObQS1ZY7bmKH+3en4GzhAehGtG2aIczYcdzpVuF74inNzBRo7OWYfr4RsKdnzhW
- GtWhqbnuQDGL0+6AWqcRd/vrBSLMoyRwSwhaUBOy+6y7/e05yqysykfvGl3cJ2kg
- sN1kBdvEJow966H8uSECTmykjAubPFUHLS3PtinxBP4F6tXWefjQ==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 2FwI8gxSppmJ for <qemu-devel@nongnu.org>;
- Fri, 11 Feb 2022 16:04:11 -0800 (PST)
-Received: from toolbox.wdc.com (unknown [10.225.165.96])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JwW1N0zQWz1SHwl;
- Fri, 11 Feb 2022 16:04:07 -0800 (PST)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Yu Li <liyu.yukiteru@bytedance.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 40/40] docs/system: riscv: Update description of CPU
-Date: Sat, 12 Feb 2022 10:00:31 +1000
-Message-Id: <20220212000031.3946524-41-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220212000031.3946524-1-alistair.francis@opensource.wdc.com>
-References: <20220212000031.3946524-1-alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1nIjYT-0002I2-QM
+ for qemu-devel@nongnu.org; Fri, 11 Feb 2022 22:58:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644638317; x=1676174317;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=8AMkPA76jgjgLTkk0aSGPMrwkwEgtqU7v2fHwOrjDzo=;
+ b=jLeJAx+fyKfEDvAhIU+Akpc35XCOU4Ou60PCb4NZiCIdq279NHhXtAxk
+ 72xz/UO1J8PSHRFtafnKDoQWghnGeHM+kUuu6UiIbMc6PKMoAZJMcCNTA
+ 6nsMOjtb0qqSyiv392Ttf4RAN4R0Ke+gZ6fAfYPZ/KpNTkigBd9w8ebc2
+ +3n45fo4min4mipQx+NRIuY8ToH9+QBI1xkWPGKzTHAsR+9t1C3mHCjwU
+ LbFIsuYodZGHFA3k2EAK+Jz+oBxUDOYqCyGEFNtf4GXxsOiNAEx4ynF6t
+ M7RtFNjG/tKG6SNP2zgaiSA13ht8WdvmAcBhCI9FnsKBQ69bszThy6rf6 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10255"; a="229814893"
+X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="229814893"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 19:58:32 -0800
+X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; d="scan'208";a="542344356"
+Received: from yangweij-mobl.ccr.corp.intel.com (HELO [10.249.168.248])
+ ([10.249.168.248])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 19:58:30 -0800
+Message-ID: <a034b518-7b04-d85d-ea45-d5eeaec95354@intel.com>
+Date: Sat, 12 Feb 2022 11:58:08 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=03511bb56=alistair.francis@opensource.wdc.com;
- helo=esa1.hgst.iphmx.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2] target/i386: Add kvm_get_one_msr helper
+Content-Language: en-US
+To: pbonzini@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org
+References: <20220129230719.111339-1-weijiang.yang@intel.com>
+From: "Yang, Weijiang" <weijiang.yang@intel.com>
+In-Reply-To: <20220129230719.111339-1-weijiang.yang@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.136;
+ envelope-from=weijiang.yang@intel.com; helo=mga12.intel.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,41 +78,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yu Li <liyu.yukiteru@bytedance.com>
+Ping...
 
-Since the hypervisor extension been non experimental and enabled for
-default CPU, the previous command is no longer available and the
-option `x-h=3Dtrue` or `h=3Dtrue` is also no longer required.
+Does this v2 meet the requirement?
 
-Signed-off-by: Yu Li <liyu.yukiteru@bytedance.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <9040401e-8f87-ef4a-d840-6703f08d068c@bytedance.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- docs/system/riscv/virt.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
-index 373645513a..1272b6659e 100644
---- a/docs/system/riscv/virt.rst
-+++ b/docs/system/riscv/virt.rst
-@@ -23,9 +23,9 @@ The ``virt`` machine supports the following devices:
- * 1 generic PCIe host bridge
- * The fw_cfg device that allows a guest to obtain data from QEMU
-=20
--Note that the default CPU is a generic RV32GC/RV64GC. Optional extension=
-s
--can be enabled via command line parameters, e.g.: ``-cpu rv64,x-h=3Dtrue=
-``
--enables the hypervisor extension for RV64.
-+The hypervisor extension has been enabled for the default CPU, so virtua=
-l
-+machines with hypervisor extension can simply be used without explicitly
-+declaring.
-=20
- Hardware configuration information
- ----------------------------------
---=20
-2.34.1
-
+On 1/30/2022 7:07 AM, Yang Weijiang wrote:
+> When try to get one msr from KVM, I found there's no such kind of
+> existing interface while kvm_put_one_msr() is there. So here comes
+> the patch. It'll remove redundant preparation code before finally
+> call KVM_GET_MSRS IOCTL.
+>
+> No functional change intended.
+>
+> v2:
+>   Per Paolo's suggestion, move the helper before uses to eliminate
+>   a forward declaration.
+>
+> base-commit: 48302d4eb628ff0bea4d7e92cbf6b726410eb4c3
+>
+> Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
+> ---
+>   target/i386/kvm/kvm.c | 48 ++++++++++++++++++++++++-------------------
+>   1 file changed, 27 insertions(+), 21 deletions(-)
+>
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index 2c8feb4a6f..627535395a 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -201,32 +201,45 @@ bool kvm_hv_vpindex_settable(void)
+>       return hv_vpindex_settable;
+>   }
+>   
+> -static int kvm_get_tsc(CPUState *cs)
+> +static int kvm_get_one_msr(X86CPU *cpu, int index, uint64_t *value)
+>   {
+> -    X86CPU *cpu = X86_CPU(cs);
+> -    CPUX86State *env = &cpu->env;
+> +    int ret;
+>       struct {
+>           struct kvm_msrs info;
+>           struct kvm_msr_entry entries[1];
+> -    } msr_data = {};
+> +    } msr_data = {
+> +        .info.nmsrs = 1,
+> +        .entries[0].index = index,
+> +    };
+> +
+> +    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, &msr_data);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +    assert(ret == 1);
+> +    *value = msr_data.entries[0].data;
+> +    return ret;
+> +}
+> +
+> +static int kvm_get_tsc(CPUState *cs)
+> +{
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    CPUX86State *env = &cpu->env;
+> +    uint64_t value;
+>       int ret;
+>   
+>       if (env->tsc_valid) {
+>           return 0;
+>       }
+>   
+> -    memset(&msr_data, 0, sizeof(msr_data));
+> -    msr_data.info.nmsrs = 1;
+> -    msr_data.entries[0].index = MSR_IA32_TSC;
+>       env->tsc_valid = !runstate_is_running();
+>   
+> -    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, &msr_data);
+> +    ret = kvm_get_one_msr(cpu, MSR_IA32_TSC, &value);
+>       if (ret < 0) {
+>           return ret;
+>       }
+>   
+> -    assert(ret == 1);
+> -    env->tsc = msr_data.entries[0].data;
+> +    env->tsc = value;
+>       return 0;
+>   }
+>   
+> @@ -1478,21 +1491,14 @@ static int hyperv_init_vcpu(X86CPU *cpu)
+>            * the kernel doesn't support setting vp_index; assert that its value
+>            * is in sync
+>            */
+> -        struct {
+> -            struct kvm_msrs info;
+> -            struct kvm_msr_entry entries[1];
+> -        } msr_data = {
+> -            .info.nmsrs = 1,
+> -            .entries[0].index = HV_X64_MSR_VP_INDEX,
+> -        };
+> -
+> -        ret = kvm_vcpu_ioctl(cs, KVM_GET_MSRS, &msr_data);
+> +        uint64_t value;
+> +
+> +        ret = kvm_get_one_msr(cpu, HV_X64_MSR_VP_INDEX, &value);
+>           if (ret < 0) {
+>               return ret;
+>           }
+> -        assert(ret == 1);
+>   
+> -        if (msr_data.entries[0].data != hyperv_vp_index(CPU(cpu))) {
+> +        if (value != hyperv_vp_index(CPU(cpu))) {
+>               error_report("kernel's vp_index != QEMU's vp_index");
+>               return -ENXIO;
+>           }
 
