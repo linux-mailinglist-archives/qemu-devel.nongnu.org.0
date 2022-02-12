@@ -2,34 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364594B383F
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 22:46:21 +0100 (CET)
-Received: from localhost ([::1]:47072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336F64B3840
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Feb 2022 22:48:09 +0100 (CET)
+Received: from localhost ([::1]:50084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJ0Di-0003uG-Sp
-	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 16:46:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52128)
+	id 1nJ0FU-0005zt-6b
+	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 16:48:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfb1998@web.de>) id 1nJ0CX-00037r-GY
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 16:45:05 -0500
-Received: from mout.web.de ([212.227.15.4]:42439)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfb1998@web.de>) id 1nJ0CV-0002Sv-24
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 16:45:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1644702279;
- bh=O7CiXCxErqeZ2rgUdctRY8pSmbArLOqJjQrcJy7TA+U=;
- h=X-UI-Sender-Class:Date:From:To:CC:Subject:In-Reply-To:References;
- b=qtRimZUJA6zPiyLp5NdUc4+GEJk9D0+zcgjB4d20mMSMH5vXXH0v1bKRONhennNci
- jaSMkvcHHoQN6TJuVFlVPBcJywObhXvPAoGfYoZbyDKP1IsehH56/Z5At0eMgpVGpe
- z6Sfc1oV4IZoTE2R2CHCRrNnbo8SoqFauupnRm1c=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [127.0.0.1] ([87.123.193.69]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N9cLR-1oOZG733rh-015EUa; Sat, 12
- Feb 2022 22:44:38 +0100
-Date: Sat, 12 Feb 2022 22:44:35 +0100
-From: BB <dfb1998@web.de>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nJ0Di-0004kQ-Sr
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 16:46:18 -0500
+Received: from [2a00:1450:4864:20::62e] (port=44564
+ helo=mail-ej1-x62e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nJ0Dh-0002yz-5r
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 16:46:18 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id p14so5519330ejf.11
+ for <qemu-devel@nongnu.org>; Sat, 12 Feb 2022 13:46:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:user-agent:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=bfa+FIKnn2LMtA7QmpPpFSoPkIxAVU8K5q3gGJUXJYo=;
+ b=L/pITnMJs0RCd7ivAQVqs/ZPdEFCcLaMlt/ZNgZ05yM7KzzSM2rDTT04fKhzykaIyy
+ UV7WYUvjLgjrntbERftKlc6r+CiwmsBxt8gyM7ZiSZhfHOLackoXrBn4vMs2+R1hlXdn
+ Fk5VfRdDNh9qmYRCam1fCsbNpP41Gtvc9XAEyWnFlV8HmrrgHvBhpV8kWPRkLOh4ulv7
+ RSgTDGvmtiPDmmeGaAAy3DKCsreVp3XWXC+ITfO9lM9n4Q5JK7JFQbOKYIYSSMXX5WzH
+ RoxuJQdLVAq4e4vFwWr8oe/k2bMvz2ddNLOhBcUmGZKLDSStw19tuG4GD7cQrEiipx6u
+ /36w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:user-agent:in-reply-to
+ :references:message-id:mime-version:content-transfer-encoding;
+ bh=bfa+FIKnn2LMtA7QmpPpFSoPkIxAVU8K5q3gGJUXJYo=;
+ b=7Jvr/lUbXyOMSTyy+nRzyWOLpqr1FLY+tsagDyl7OA8nZRN+7PDW4vJ2pNgB4TICph
+ 0Q3+iK7OOk/1UNWXItGY8/CTYCaZgv8c7zZ8vMPP4c+vL6lQYaGMdlC62PBG3hxbzit4
+ 7Oq5PNISm9rYfNxd1UMAyUCILaG3SIquXC0MZsYGxkPjcUdRtzDn88xNwgLvYXabZnOh
+ yxISl+RoEbPbJ268G3VMu1TgpYIIWEFJ/i/5627BMP4CSIdZvjK/WU9E35ws3MTeTcbS
+ iBZEM6pgY3/vi/g8CZPQ09zw05hhN70DjcCX5y0E3sjfiGkXeZSwrnDcRx5sccJ2MQsR
+ SWNw==
+X-Gm-Message-State: AOAM530+A72zh/dB1ftncikC8vB9HgMsLAg7JKsnVGVBNYt3Az5iy034
+ 06RB1gDCRwpKQl9boUtd4x4=
+X-Google-Smtp-Source: ABdhPJzvb8ngcvxNWJ94oQEEjPxD85ihnoLmFMgEumbLGw1Pl9ugyjmNMmW6bOnjoBUDTJO2LqPfOA==
+X-Received: by 2002:a17:906:748a:: with SMTP id
+ e10mr2823352ejl.107.1644702375163; 
+ Sat, 12 Feb 2022 13:46:15 -0800 (PST)
+Received: from ?IPv6:::1?
+ (200116b846c2ee00259c31142d14c23c.dip.versatel-1u1.de.
+ [2001:16b8:46c2:ee00:259c:3114:2d14:c23c])
+ by smtp.gmail.com with ESMTPSA id p5sm7408748ejr.105.2022.02.12.13.46.14
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 12 Feb 2022 13:46:14 -0800 (PST)
+Date: Sat, 12 Feb 2022 22:46:12 +0100
+From: Bernhard Beschow <shentey@gmail.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  BALATON Zoltan <balaton@eik.bme.hu>
 Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_4/5=5D_isa/piix4=3A_Fix_PCI?=
@@ -42,42 +67,23 @@ References: <20220212113519.69527-1-shentey@gmail.com>
  <CAFEAcA9BBFHH7eqzB_zW-VDZWuXDEkYUb=P1ocPn_UyaZZFZ3w@mail.gmail.com>
  <c389b3a-bde6-9dae-557b-b8db541d1a@eik.bme.hu>
  <CAFEAcA_N6cuszzr+Afn2ed47t5tWTaayYqu3Nx2wuR8jVciP_Q@mail.gmail.com>
-Message-ID: <468417CA-6CD4-40D2-A96B-BACCFF455021@web.de>
+Message-ID: <8DC0ECF7-F539-40B1-B3BA-E95C50658480@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:dlCDjJWHxgPP+SS7O7IzM0xjqDyFsuJ8wdJbeiVyEFUJaM5izhb
- U6Y/RvSFS6QvFRfXbdbMk52+SIEgPzJTMBKWKTs9r4wGfd13yljZweLYkqB5MDsaxfAGWVR
- 2ISYFynuRebpdf1gj7h3yj1FErowO4yao1cHccSEzychk4L1tydHcNlFxMs1oAoM0rOA3GM
- xNJTaPgU3R8Wspru5dfgw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:F2LBuJBb/DM=:nYpEUOjKT1rkv78j8iN92s
- VicsNq6ZuYZBAZp0vF/AtNbh0gfaAtr0fLjn5Sg5Xe9/HGhxWBQIuSnwJEFBrCPBal9ICWOGs
- sWlcfclIwbC7Xufmej/fFZih9VItYOmkbrwXXj1ZJ7QjePYacQb6uDLx10EOlCTQxmpvviD3j
- EIXGZZR0PSIqBvQ+YFsao0xnomoX0amXryZMc+0lexwTc+PZAhnFqWjoL6V7GXYWq3jpQ5T2V
- En5WTOUAgh2ar3WYqdQZruDd0+TONcgvzGlaUclM2TPKzb5ScJ9frJpM+VubSPZ7HmX1WuQ0B
- VbeZ+J2ZuQ+NtDnVLF8lN275rTVUHHMq+zJoDzUDd5B6aelEAyURhJNtnvGOaUyggvQoB0lku
- 625Cy4xnU8Vuq3xbpTXqd+3BWGe1TMvwkuW2G5wy2vP+QclHyQd09suQLKmUFNKiHIoR1NUyv
- 7Dib0/jaXyXDgPUpKHt9JicwdSv9gZMqFnLDmrO81AAgX+3Hm3Yfd0ve0D1FrOf2DidmzwAzU
- 0h/efiN4BGSdJH1Z126RdclyF10PDJS2QA4FDL286QaL9oULq/UDUn3Wn6LlBBMUFa+StqrZ1
- FBTXLpfVGG0sLG6SeYg35BQHl3Ltj1iBHlUKi3PFQewfkVIzWkFSnAALqXp0NuOaSLDmFfy90
- +65t6GlOd50YH+92DgQRmPksSwNfjjn5cmq6znoLVQGBFWqcmI3VFE+JYzwk4YxJX4y4RODRo
- bGg9qKk3lYB6zfYAtLnsaXM6baRtjiRUKVnIIOn7iIBAWFaQvFZiMQ5ifVw3cS41i+qP3fHVt
- Jsw04dQA+cATOU8mGZbIGojXUwwTCkCYupEddWTd7Be6ivC1dkenG6RuqS3HIeeqPvfklCcAB
- VRmOU6XVFSHbVExexAC6VWPbvyBktCRMvDRH1ShUbxd1ySthuRJONeJEDsk7Ig7+vbw9l+4xO
- bxI54tlU8sGpWSMqKQo33g2oSAja9eoGM9a70+OZlbjX3B8z1wEkNvJjiBfbc3vB65Pth39ci
- q3rpJPQqeJSrNPzyrtJ4c4tYBLDW5CROkNjtPyfTWxlErhOD8z8VQAbne0J5SD7c9baU5c6tn
- L/knLj+y+QhJoM=
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=dfb1998@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,16 +97,13 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>,
+ qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
  =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-Am 12=2E Februar 2022 19:30:43 MEZ schrieb Peter Maydell <peter=2Emaydell@=
-linaro=2Eorg>:
+Am 12=2E Februar 2022 19:30:43 MEZ schrieb Peter Maydell <peter=2Emaydell@l=
+inaro=2Eorg>:
 >On Sat, 12 Feb 2022 at 17:02, BALATON Zoltan <balaton@eik=2Ebme=2Ehu> wro=
 te:
 >>
@@ -215,4 +218,5 @@ Regards,
 Bernhard
 >
 >-- PMM
+
 
