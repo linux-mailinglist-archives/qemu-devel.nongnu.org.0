@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA724B3AEF
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Feb 2022 11:44:19 +0100 (CET)
-Received: from localhost ([::1]:60894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40B74B3AF4
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Feb 2022 11:48:32 +0100 (CET)
+Received: from localhost ([::1]:34940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJCMc-000887-5m
-	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 05:44:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59260)
+	id 1nJCQh-0001Sm-RU
+	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 05:48:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJCKI-0007Dn-GX
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 05:41:54 -0500
-Received: from [2a00:1450:4864:20::32a] (port=36483
- helo=mail-wm1-x32a.google.com)
+ id 1nJCOL-0000gK-24
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 05:46:07 -0500
+Received: from [2a00:1450:4864:20::436] (port=43606
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJCKD-0003Br-Sv
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 05:41:53 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- q198-20020a1ca7cf000000b0037bb52545c6so9934387wme.1
- for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 02:41:49 -0800 (PST)
+ id 1nJCOI-0003qR-RE
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 05:46:04 -0500
+Received: by mail-wr1-x436.google.com with SMTP id i14so22347898wrc.10
+ for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 02:46:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4FP1CG2yE20G4+GyIyq6sKPv/mTkPfiLWDdxNi5jwm4=;
- b=XyzuwZ8B+l86K+cu6akfQnhf9Wjc0Y2wwuTpm0zhCj2itW+6KyQKwFtQ0UIIimIbl5
- bAIDmQ6vRwg+S2Z8a9Wza4n99HMPQgMUGMpQ2zst+f/27X1ir0rhedEif3dg1HhLVzYU
- HFGkFoEpRdpCESG+S9COo4YHMl09i659zof7vzAVbtAypGTw/7o54zY2d01+wcWbgoWL
- y+OUavUE/X+VbBd4o//qUgB3A0l8Q8wVKxIlsKw0DwMXr4yWteERWy+mdjwwC90YGYdc
- c/b3vnlCM7HlpavIJJTqaULdNxnI7gUkXMfWItx8HLuHo4I7SAxH50F/1aFLj8X0Ki0K
- 46gQ==
+ :cc; bh=PQcF8Y+i7eV4kkrW2kf6trBLdlKoGxKPY/8Iaq1QQj4=;
+ b=ecFXnrWY3adlMoX/kiqi9gvnmpbdmuDKmYvskGDXFo65y6coRh75wuFfZ0jVKJpeTo
+ Xly8qDiRP2rzciOZEsD5CXU+3bYqfg3dXJBZT29arqtSrAXd0xyhT6b1d+DyW0/w5Njc
+ 1qsPzNoaYLqfVSkhCj7BVQFPJ0W9U0ug6rDn/VieJSBS2vCiihQpvqZeM7Kiw0a4ldhV
+ VsK/3Po+9waC/y+qqk+Hp9zRT0u7s6d/kw0iSyDkF6oNwlwOMGOVI+IMNKRiJOUgudBK
+ veLvX5PS0pxfMqVbFHpbDkb/oFhI+XWf8KOXMIut1esDuAoKOcGaNEz8J+Unb4zskHzP
+ l0MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=4FP1CG2yE20G4+GyIyq6sKPv/mTkPfiLWDdxNi5jwm4=;
- b=WOpXJcK/lEgwh707YjPSje1slVpDAcevvvuNUNrm1irWIMLpI+PjFZ6/szY64Od1g9
- HTvjNbVy+nLzxHg6qHEabRudtBaENNbT9sPdmF1XMEidSkL0IPNi0at2UDnKDETc5E7h
- waD7bN78XJulC9Nxmx3BCjw9ZgdQVBocWFwtTtwQH98PZDR/YbTgUBd+PbVRCMbyj8hQ
- 70mLCaBUWRExKXvaaBObfxJ4yLwOv8TUmPvQQsRJjZXK7f+XfFBrQ4kb+LWLfGDI+0Et
- 8s3ste8qVLyOgP4ldecShQzjZUevB5BN3pzudyUhXtdDsNUknl2rGoz+Sz7qP/eS7FF7
- axeQ==
-X-Gm-Message-State: AOAM532W9k4WVwfu6Ovd5rzOOiN3n76/t+3V8U8ZLbkZaZlRSQoaIA7X
- 4DT+Ev8UX0kZ+nLOC050MsJS82oTCtyPaAEYF4wmaw==
-X-Google-Smtp-Source: ABdhPJyCGZCXJB1YJ/7aOz0AotMViR4hZpu/DNjzrT2loYPOi0v4+e75iWInjYhiFunbtb2FWo8tRvukFsouB8g5Uxg=
-X-Received: by 2002:a1c:544d:: with SMTP id p13mr6991329wmi.37.1644748908169; 
- Sun, 13 Feb 2022 02:41:48 -0800 (PST)
+ bh=PQcF8Y+i7eV4kkrW2kf6trBLdlKoGxKPY/8Iaq1QQj4=;
+ b=L8a6qacpItzMMuONEvkholETdVt50hgHLda1w3N/UBKNnXTnNvYcCTMRHVBx3d2EM9
+ T3RnW7sIeLCibt0LXC2DidguocAUz2OJrLNvorhnQ4xxNg+cOntwj2cg5H9Z5Lfb32gm
+ oGMW9ZLUAMSJmjfEgOcg/0esJshyIasFRII+JYQZuXUh6FbTYAT6zqrD+0mGV9gwfkrK
+ TJkPeu2oXD5ZVjDQTDOeFqohVP6tYBpMFxfzcifdIO7N4E/mLfa/0IgTZoTQCy62g3nF
+ dDk4I45cVe+32mLlJ5fNqhwI6RR/6OXXDOzlSbss52vd0dZliW1OmovTXk43MExmzBek
+ r/ZA==
+X-Gm-Message-State: AOAM532Fca8BAfutYfBJ4daRqn4zWjN42dpNyaV+QjdE0fznJBlDx/Yp
+ Ygpvcj7UeqAfpYEO38BtQmxO/Vg+KPCOdzsyXP6TQg==
+X-Google-Smtp-Source: ABdhPJyNontRdkRP4Jo3hktzFuN0UpoTAZKFoEiu6aBmNtZv1VP2RcJJIIDNzITalzofGnN/carqm1dtedUo76JYQgA=
+X-Received: by 2002:a5d:62c4:: with SMTP id o4mr7463092wrv.319.1644749161346; 
+ Sun, 13 Feb 2022 02:46:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20220211132240.781958-1-vsementsov@virtuozzo.com>
-In-Reply-To: <20220211132240.781958-1-vsementsov@virtuozzo.com>
+References: <20220120123630.267975-1-peter.maydell@linaro.org>
+ <20220120123630.267975-19-peter.maydell@linaro.org>
+ <3f4f5e98-fcb8-bf4d-e464-6ad365af92f8@gmail.com>
+ <87iltjxdz6.wl-maz@kernel.org>
+In-Reply-To: <87iltjxdz6.wl-maz@kernel.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 13 Feb 2022 10:41:37 +0000
-Message-ID: <CAFEAcA-yBhqRVqa78s2EnFX3zP4U-xPtxpHH7eLwkPNizXXhwQ@mail.gmail.com>
-Subject: Re: [PULL v2 0/7] nbd: handle AioContext change correctly
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Date: Sun, 13 Feb 2022 10:45:50 +0000
+Message-ID: <CAFEAcA9yR4=PNCGJk6iMEq0EHejwwt-gQJfvByEk-EN6ER5o_g@mail.gmail.com>
+Subject: Re: [PULL 18/38] hw/arm/virt: Honor highmem setting when computing
+ the memory map
+To: Marc Zyngier <maz@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -81,38 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eblake@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Andrew Jones <drjones@redhat.com>, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ kernel-team@android.com, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Feb 2022 at 13:22, Vladimir Sementsov-Ogievskiy
-<vsementsov@virtuozzo.com> wrote:
+On Sun, 13 Feb 2022 at 10:22, Marc Zyngier <maz@kernel.org> wrote:
 >
-> The following changes since commit 0a301624c2f4ced3331ffd5bce85b4274fe132af:
+> [+ Alex for HVF]
 >
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220208' into staging (2022-02-08 11:40:08 +0000)
+> On Sun, 13 Feb 2022 05:05:33 +0000,
+> Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+> > Hi,
+> > This breaks in a case where highmem is disabled but can have more than
+> > 4 GiB of RAM. M1 (Apple Silicon) actually can have 36-bit PA with HVF,
+> > which is not enough for highmem MMIO but is enough to contain 32 GiB
+> > of RAM.
 >
-> are available in the Git repository at:
+> Funny. The whole point of this series is to make it all work correctly
+> on M1.
 >
->   https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-nbd-2022-02-09-v2
+> > Where the magic number of 4 GiB / 32-bit came from?
 >
-> for you to fetch changes up to 8cfbe929e8c26050f0a4580a1606a370a947d4ce:
+> Not exactly a magic number. From QEMU's docs/system/arm/virt.rst:
 >
->   iotests/281: Let NBD connection yield in iothread (2022-02-11 14:06:18 +0100)
+> <quote>
+> highmem
+>   Set ``on``/``off`` to enable/disable placing devices and RAM in physical
+>   address space above 32 bits. The default is ``on`` for machine types
+>   later than ``virt-2.12``.
+> </quote>
 >
-> ----------------------------------------------------------------
-> nbd: handle AioContext change correctly
->
-> v2: add my s-o-b marks to each commit
->
-> ----------------------------------------------------------------
+> TL;DR: Removing the bogus 'highmem=off' option from your command-line
+> should get you going with large memory spaces, up to the IPA limit.
 
+Yep. I've tested this with hvf, and we now correctly:
+ * refuse to put RAM above 32-bits if you asked for a 32-bit
+   IPA space with highmem=off
+ * use the full 36-bit address space if you don't say highmem=off
+   on an M1
 
-Applied, thanks.
+Note that there is a macos bug where if you don't say highmem=off
+on an M1 Pro then you'll get a macos kernel panic. M1 non-Pro is fine.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
