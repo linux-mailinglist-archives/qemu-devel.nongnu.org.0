@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9744B3901
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Feb 2022 03:49:13 +0100 (CET)
-Received: from localhost ([::1]:41756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AABE4B3947
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Feb 2022 05:00:03 +0100 (CET)
+Received: from localhost ([::1]:51176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJ4wq-0005eb-GL
-	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 21:49:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40990)
+	id 1nJ63N-00079L-RQ
+	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 23:00:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nJ4qk-0004Ja-1H
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 21:42:54 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=33770
- helo=mail-pl1-x62c.google.com)
+ id 1nJ61U-0005iy-Bq; Sat, 12 Feb 2022 22:58:04 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=39758
+ helo=mail-pf1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nJ4qi-0000QG-BO
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 21:42:53 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id l9so6212318plg.0
- for <qemu-devel@nongnu.org>; Sat, 12 Feb 2022 18:42:51 -0800 (PST)
+ id 1nJ61S-0002cL-2f; Sat, 12 Feb 2022 22:58:04 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id m22so4131463pfk.6;
+ Sat, 12 Feb 2022 19:58:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UqQR88Nzla96DoEfOEM1dCa6bJG2cdl9EhvbtrZm9+0=;
- b=N1+iRG77s3tBhYFneEPNHzfud+fWjmDGyXRdg2v5lQyJ1bZnK5GrhOgcsOJvnh6a7L
- AiqwL0O9tJFrfyJ9atEZg6ShFD9nJvU7NTZVlFzIuQIzgOfZYf0iDd7JHVXlfn2YadJO
- 051fDpb49aRxy7nSrzuAxA9uDxupkC48HeMWJ+Sc0EXSl+SpV0W6nPg/RLunuyxnY+cV
- Px1dO4345p6jxHNmvJx9T5H6991AgnVuz0DTFEUsbZoDBSUIhSFph3vq+aPHOsCiQFTf
- NSUHz6tPPwE2giqNLnLuBy7Ea1StQ88qoBvMQAvlin6rDsVoL2Cj91AE2jtPK0KfDpba
- U4nA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hgKkhyGa1MZG+6xTJAHxPgWUd5NWDxfubWdlwv7McIM=;
+ b=NOain2WZKo0UUaeoGAXjeJSPdxoXs4d9np2wGC3boKhJUSsooQtcMosFPYDy4scrBR
+ F8Tr/IEQCouXe2lKM1fuEA1a0fX7bi5AjiXimIc3A7drox1lntoZRmSn0o/fv9WgQsB9
+ 33BaM08X7nrBWuG43a6ZL3uJqNt6L/fjLJ/9xmLADAebFTEgVR1cXWDjlaykiaOlbti6
+ z5XrGzYbWv7sebEna2sDCmYpZU31GeEc40R1EBPSHzPuPHWaP4DcmFEI/OFv8bzqO92e
+ /LWawO1QInloMR5suHGFrSdytiWyHIqIWMjA2yBxPiDPXrVqSc9GBI1CYUF8IS5yQ+ll
+ DePA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UqQR88Nzla96DoEfOEM1dCa6bJG2cdl9EhvbtrZm9+0=;
- b=YyRT0g3Z8HVT3uJDfm1bbv8Pya7T6YCL39ThAXlO5MoFIoYNOk/KBHta5lbCW+a0ZV
- uBchqb9qqkBjD0D9nk4RxD9Rkt2cl/Modstq4MdIionzIp3YQt9P/WBnknVq3Z1fMiso
- 3hgUCCB1nQoGkFKVAKBxia72O5ivrb3oxD8Lp9+3p/WBhLOKJ4F3VAxdNNEjt0Nfx6HC
- Uf/S9rr9ToovICiATZT34dpG2/gsQ1kqhsoz6fmyafApfy98L6U9AMzQ20+QHBzjhm85
- +/4VXYeJ2rYVRaUMBgzCabY/3n00qDtrlQUKeaqzh/sdBHznYXx1j3vT0JOPnDzhBVSW
- fSzw==
-X-Gm-Message-State: AOAM533X6gezrImWcJcL5esnVxef9344exJTGQIeB6Q8DZXUPs0PDmyL
- EKDRrvH/QeB7AzyV1C0ED0iEISk2+E0=
-X-Google-Smtp-Source: ABdhPJxDeSsEvg6AN1sqBPn82f6Fg4d220kug6+sPsyquZXL+GeyILhpJtUy82eiUk8J5BbD3MSwhw==
-X-Received: by 2002:a17:902:f1cb:: with SMTP id
- e11mr8465318plc.48.1644720171076; 
- Sat, 12 Feb 2022 18:42:51 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hgKkhyGa1MZG+6xTJAHxPgWUd5NWDxfubWdlwv7McIM=;
+ b=BDemuM4QEmj3bWzOkUdMzAomyQpCapOXM6KaAllKmy3Q0OR4pD34tOtJviCg7J0dDs
+ ggGWqos9D2Wwlql3e/Gipswm+9NLw1ZcICN16yJqUxc3mAHPLCHirhm4KkMRZXu/TwpK
+ +k1RxQ+8/vEOhldvrWKRrfLQY3z9OVjvmkALrsdMIzIBPJz1TwCZq6vA3PGd1+mrUjeM
+ jfj6BEiEzvJlBXRRLdecKXfHPs3zh1WIP1ha04KTHEjeKdvAhbaGn8/vD6aSxQ3vNcje
+ IBGxSHyvKVn58dlBTmT9avohHFnXy1+T++wRd5OYY0P8twaRtw6hKlav7bp8zGfeaoA/
+ 0sXg==
+X-Gm-Message-State: AOAM533GYuFI7AwoE0ugj4Io4LHyGslU2VGrnZt/CV6e8bnBoBC59Nmq
+ rXSmGXgZGiKMARlxtCZdtXWySRqtBLA=
+X-Google-Smtp-Source: ABdhPJw2G3smK0LBb39I+7ai6hgAuT0MeP2q1eIerdxt5RVKc98MbH5eE7FqeOJCz/he/50AEigR5A==
+X-Received: by 2002:a63:6a87:: with SMTP id f129mr7042808pgc.0.1644724680089; 
+ Sat, 12 Feb 2022 19:58:00 -0800 (PST)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:d85b:35dd:dae2:b7a9])
- by smtp.gmail.com with ESMTPSA id l11sm9128954pjm.23.2022.02.12.18.42.48
+ by smtp.gmail.com with ESMTPSA id u13sm33581348pfg.151.2022.02.12.19.57.58
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 12 Feb 2022 18:42:50 -0800 (PST)
+ Sat, 12 Feb 2022 19:57:59 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH 6/6] Revert "ui: factor out qemu_console_set_display_gl_ctx()"
-Date: Sun, 13 Feb 2022 11:42:22 +0900
-Message-Id: <20220213024222.3548-7-akihiko.odaki@gmail.com>
+Subject: [PATCH v2] target/arm: Support PSCI 1.1 and SMCCC 1.0
+Date: Sun, 13 Feb 2022 12:57:53 +0900
+Message-Id: <20220213035753.34577-1-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20220213024222.3548-1-akihiko.odaki@gmail.com>
-References: <20220213024222.3548-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -88,76 +83,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org, Alexander Graf <agraf@csgraf.de>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 4f4181499170dcf80182745b319607802ea32896.
-This eliminates the situation where a display is registered as a GL
-context provider but not as a listener.
+Support the latest PSCI on TCG and HVF. A 64-bit function called from
+AArch32 now returns NOT_SUPPORTED, which is necessary to adhere to SMC
+Calling Convention 1.0. It is still not compliant with SMCCC 1.3 since
+they do not implement mandatory functions.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- include/ui/console.h |  3 ---
- ui/console.c         | 22 ++++++++--------------
- 2 files changed, 8 insertions(+), 17 deletions(-)
+ hw/arm/boot.c           | 12 +++++++++---
+ target/arm/cpu.c        |  5 +++--
+ target/arm/hvf/hvf.c    | 27 ++++++++++++++++++++++++++-
+ target/arm/kvm-consts.h |  8 ++++++--
+ target/arm/kvm64.c      |  2 +-
+ target/arm/psci.c       | 35 ++++++++++++++++++++++++++++++++---
+ 6 files changed, 77 insertions(+), 12 deletions(-)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index 58722312534..760dde770d1 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -409,9 +409,6 @@ void graphic_hw_gl_block(QemuConsole *con, bool block);
- 
- void qemu_console_early_init(void);
- 
--void qemu_console_set_display_gl_ctx(QemuConsole *con,
--                                     DisplayChangeListener *dcl);
--
- QemuConsole *qemu_console_lookup_by_index(unsigned int index);
- QemuConsole *qemu_console_lookup_by_device(DeviceState *dev, uint32_t head);
- QemuConsole *qemu_console_lookup_by_device_name(const char *device_id,
-diff --git a/ui/console.c b/ui/console.c
-index f3d72655bb6..dce2ed3e1de 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1458,19 +1458,6 @@ static bool dpy_compatible_with(QemuConsole *con,
-     return true;
- }
- 
--void qemu_console_set_display_gl_ctx(QemuConsole *con,
--                                     DisplayChangeListener *dcl)
--{
--    /* display has opengl support */
--    assert(dcl->con);
--    if (dcl->con->gl) {
--        fprintf(stderr, "can't register two opengl displays (%s, %s)\n",
--                dcl->ops->dpy_name, dcl->con->gl->ops->dpy_name);
--        exit(1);
--    }
--    dcl->con->gl = dcl;
--}
--
- void register_displaychangelistener(DisplayChangeListener *dcl)
- {
-     static const char nodev[] =
-@@ -1481,7 +1468,14 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
-     assert(!dcl->ds);
- 
-     if (dcl->ops->dpy_gl_ctx_create) {
--        qemu_console_set_display_gl_ctx(dcl->con, dcl);
-+        /* display has opengl support */
-+        assert(dcl->con);
-+        if (dcl->con->gl) {
-+            error_report("can't register two opengl displays (%s, %s)\n",
-+                         dcl->ops->dpy_name, dcl->con->gl->ops->dpy_name);
-+            exit(1);
-+        }
-+        dcl->con->gl = dcl;
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index b1e95978f26..0eeef94ceb5 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -488,9 +488,15 @@ static void fdt_add_psci_node(void *fdt)
      }
  
-     if (dcl->con) {
+     qemu_fdt_add_subnode(fdt, "/psci");
+-    if (armcpu->psci_version == 2) {
+-        const char comp[] = "arm,psci-0.2\0arm,psci";
+-        qemu_fdt_setprop(fdt, "/psci", "compatible", comp, sizeof(comp));
++    if (armcpu->psci_version == QEMU_PSCI_VERSION_0_2 ||
++        armcpu->psci_version == QEMU_PSCI_VERSION_1_1) {
++        if (armcpu->psci_version == QEMU_PSCI_VERSION_0_2) {
++            const char comp[] = "arm,psci-0.2\0arm,psci";
++            qemu_fdt_setprop(fdt, "/psci", "compatible", comp, sizeof(comp));
++        } else {
++            const char comp[] = "arm,psci-1.0\0arm,psci-0.2\0arm,psci";
++            qemu_fdt_setprop(fdt, "/psci", "compatible", comp, sizeof(comp));
++        }
+ 
+         cpu_off_fn = QEMU_PSCI_0_2_FN_CPU_OFF;
+         if (arm_feature(&armcpu->env, ARM_FEATURE_AARCH64)) {
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 5a9c02a2561..307a83a7bb6 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1110,11 +1110,12 @@ static void arm_cpu_initfn(Object *obj)
+      * picky DTB consumer will also provide a helpful error message.
+      */
+     cpu->dtb_compatible = "qemu,unknown";
+-    cpu->psci_version = 1; /* By default assume PSCI v0.1 */
++    cpu->psci_version = QEMU_PSCI_VERSION_0_1; /* By default assume PSCI v0.1 */
+     cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
+ 
+     if (tcg_enabled() || hvf_enabled()) {
+-        cpu->psci_version = 2; /* TCG and HVF implement PSCI 0.2 */
++        /* TCG and HVF implement PSCI 1.1 */
++        cpu->psci_version = QEMU_PSCI_VERSION_1_1;
+     }
+ }
+ 
+diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+index 0dc96560d34..1701fb8bbdb 100644
+--- a/target/arm/hvf/hvf.c
++++ b/target/arm/hvf/hvf.c
+@@ -653,7 +653,7 @@ static bool hvf_handle_psci_call(CPUState *cpu)
+ 
+     switch (param[0]) {
+     case QEMU_PSCI_0_2_FN_PSCI_VERSION:
+-        ret = QEMU_PSCI_0_2_RET_VERSION_0_2;
++        ret = QEMU_PSCI_VERSION_1_1;
+         break;
+     case QEMU_PSCI_0_2_FN_MIGRATE_INFO_TYPE:
+         ret = QEMU_PSCI_0_2_RET_TOS_MIGRATION_NOT_REQUIRED; /* No trusted OS */
+@@ -721,6 +721,31 @@ static bool hvf_handle_psci_call(CPUState *cpu)
+     case QEMU_PSCI_0_2_FN_MIGRATE:
+         ret = QEMU_PSCI_RET_NOT_SUPPORTED;
+         break;
++    case QEMU_PSCI_1_0_FN_PSCI_FEATURES:
++        switch (param[1]) {
++        case QEMU_PSCI_0_2_FN_PSCI_VERSION:
++        case QEMU_PSCI_0_2_FN_MIGRATE_INFO_TYPE:
++        case QEMU_PSCI_0_2_FN_AFFINITY_INFO:
++        case QEMU_PSCI_0_2_FN64_AFFINITY_INFO:
++        case QEMU_PSCI_0_2_FN_SYSTEM_RESET:
++        case QEMU_PSCI_0_2_FN_SYSTEM_OFF:
++        case QEMU_PSCI_0_1_FN_CPU_ON:
++        case QEMU_PSCI_0_2_FN_CPU_ON:
++        case QEMU_PSCI_0_2_FN64_CPU_ON:
++        case QEMU_PSCI_0_1_FN_CPU_OFF:
++        case QEMU_PSCI_0_2_FN_CPU_OFF:
++        case QEMU_PSCI_0_1_FN_CPU_SUSPEND:
++        case QEMU_PSCI_0_2_FN_CPU_SUSPEND:
++        case QEMU_PSCI_0_2_FN64_CPU_SUSPEND:
++        case QEMU_PSCI_1_0_FN_PSCI_FEATURES:
++            ret = 0;
++            break;
++        case QEMU_PSCI_0_1_FN_MIGRATE:
++        case QEMU_PSCI_0_2_FN_MIGRATE:
++        default:
++            ret = QEMU_PSCI_RET_NOT_SUPPORTED;
++        }
++        break;
+     default:
+         return false;
+     }
+diff --git a/target/arm/kvm-consts.h b/target/arm/kvm-consts.h
+index 580f1c1fee0..ee877aa3a5c 100644
+--- a/target/arm/kvm-consts.h
++++ b/target/arm/kvm-consts.h
+@@ -77,6 +77,8 @@ MISMATCH_CHECK(QEMU_PSCI_0_1_FN_MIGRATE, KVM_PSCI_FN_MIGRATE);
+ #define QEMU_PSCI_0_2_FN64_AFFINITY_INFO QEMU_PSCI_0_2_FN64(4)
+ #define QEMU_PSCI_0_2_FN64_MIGRATE QEMU_PSCI_0_2_FN64(5)
+ 
++#define QEMU_PSCI_1_0_FN_PSCI_FEATURES QEMU_PSCI_0_2_FN(10)
++
+ MISMATCH_CHECK(QEMU_PSCI_0_2_FN_CPU_SUSPEND, PSCI_0_2_FN_CPU_SUSPEND);
+ MISMATCH_CHECK(QEMU_PSCI_0_2_FN_CPU_OFF, PSCI_0_2_FN_CPU_OFF);
+ MISMATCH_CHECK(QEMU_PSCI_0_2_FN_CPU_ON, PSCI_0_2_FN_CPU_ON);
+@@ -84,14 +86,16 @@ MISMATCH_CHECK(QEMU_PSCI_0_2_FN_MIGRATE, PSCI_0_2_FN_MIGRATE);
+ MISMATCH_CHECK(QEMU_PSCI_0_2_FN64_CPU_SUSPEND, PSCI_0_2_FN64_CPU_SUSPEND);
+ MISMATCH_CHECK(QEMU_PSCI_0_2_FN64_CPU_ON, PSCI_0_2_FN64_CPU_ON);
+ MISMATCH_CHECK(QEMU_PSCI_0_2_FN64_MIGRATE, PSCI_0_2_FN64_MIGRATE);
++MISMATCH_CHECK(QEMU_PSCI_1_0_FN_PSCI_FEATURES, PSCI_1_0_FN_PSCI_FEATURES);
+ 
+ /* PSCI v0.2 return values used by TCG emulation of PSCI */
+ 
+ /* No Trusted OS migration to worry about when offlining CPUs */
+ #define QEMU_PSCI_0_2_RET_TOS_MIGRATION_NOT_REQUIRED        2
+ 
+-/* We implement version 0.2 only */
+-#define QEMU_PSCI_0_2_RET_VERSION_0_2                       2
++#define QEMU_PSCI_VERSION_0_1                     0x00001
++#define QEMU_PSCI_VERSION_0_2                     0x00002
++#define QEMU_PSCI_VERSION_1_1                     0x10001
+ 
+ MISMATCH_CHECK(QEMU_PSCI_0_2_RET_TOS_MIGRATION_NOT_REQUIRED, PSCI_0_2_TOS_MP);
+ MISMATCH_CHECK(QEMU_PSCI_0_2_RET_VERSION_0_2,
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 71c3ca69717..64d48bfb19d 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -864,7 +864,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_POWER_OFF;
+     }
+     if (kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PSCI_0_2)) {
+-        cpu->psci_version = 2;
++        cpu->psci_version = QEMU_PSCI_VERSION_0_2;
+         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_PSCI_0_2;
+     }
+     if (!arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+diff --git a/target/arm/psci.c b/target/arm/psci.c
+index b279c0b9a45..6c1239bb968 100644
+--- a/target/arm/psci.c
++++ b/target/arm/psci.c
+@@ -57,7 +57,7 @@ void arm_handle_psci_call(ARMCPU *cpu)
+ {
+     /*
+      * This function partially implements the logic for dispatching Power State
+-     * Coordination Interface (PSCI) calls (as described in ARM DEN 0022B.b),
++     * Coordination Interface (PSCI) calls (as described in ARM DEN 0022D.b),
+      * to the extent required for bringing up and taking down secondary cores,
+      * and for handling reset and poweroff requests.
+      * Additional information about the calling convention used is available in
+@@ -80,7 +80,7 @@ void arm_handle_psci_call(ARMCPU *cpu)
+     }
+ 
+     if ((param[0] & QEMU_PSCI_0_2_64BIT) && !is_a64(env)) {
+-        ret = QEMU_PSCI_RET_INVALID_PARAMS;
++        ret = QEMU_PSCI_RET_NOT_SUPPORTED;
+         goto err;
+     }
+ 
+@@ -89,7 +89,7 @@ void arm_handle_psci_call(ARMCPU *cpu)
+         ARMCPU *target_cpu;
+ 
+     case QEMU_PSCI_0_2_FN_PSCI_VERSION:
+-        ret = QEMU_PSCI_0_2_RET_VERSION_0_2;
++        ret = QEMU_PSCI_VERSION_1_1;
+         break;
+     case QEMU_PSCI_0_2_FN_MIGRATE_INFO_TYPE:
+         ret = QEMU_PSCI_0_2_RET_TOS_MIGRATION_NOT_REQUIRED; /* No trusted OS */
+@@ -170,6 +170,35 @@ void arm_handle_psci_call(ARMCPU *cpu)
+         }
+         helper_wfi(env, 4);
+         break;
++    case QEMU_PSCI_1_0_FN_PSCI_FEATURES:
++        switch (param[1]) {
++        case QEMU_PSCI_0_2_FN_PSCI_VERSION:
++        case QEMU_PSCI_0_2_FN_MIGRATE_INFO_TYPE:
++        case QEMU_PSCI_0_2_FN_AFFINITY_INFO:
++        case QEMU_PSCI_0_2_FN64_AFFINITY_INFO:
++        case QEMU_PSCI_0_2_FN_SYSTEM_RESET:
++        case QEMU_PSCI_0_2_FN_SYSTEM_OFF:
++        case QEMU_PSCI_0_1_FN_CPU_ON:
++        case QEMU_PSCI_0_2_FN_CPU_ON:
++        case QEMU_PSCI_0_2_FN64_CPU_ON:
++        case QEMU_PSCI_0_1_FN_CPU_OFF:
++        case QEMU_PSCI_0_2_FN_CPU_OFF:
++        case QEMU_PSCI_0_1_FN_CPU_SUSPEND:
++        case QEMU_PSCI_0_2_FN_CPU_SUSPEND:
++        case QEMU_PSCI_0_2_FN64_CPU_SUSPEND:
++        case QEMU_PSCI_1_0_FN_PSCI_FEATURES:
++            if (!(param[1] & QEMU_PSCI_0_2_64BIT) || is_a64(env)) {
++                ret = 0;
++                break;
++            }
++            /* fallthrough */
++        case QEMU_PSCI_0_1_FN_MIGRATE:
++        case QEMU_PSCI_0_2_FN_MIGRATE:
++        default:
++            ret = QEMU_PSCI_RET_NOT_SUPPORTED;
++            break;
++        }
++        break;
+     case QEMU_PSCI_0_1_FN_MIGRATE:
+     case QEMU_PSCI_0_2_FN_MIGRATE:
+     default:
 -- 
 2.32.0 (Apple Git-132)
 
