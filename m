@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAE14B38E4
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Feb 2022 03:15:02 +0100 (CET)
-Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E06744B38E6
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Feb 2022 03:17:39 +0100 (CET)
+Received: from localhost ([::1]:45420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJ4Pl-0002H2-6j
-	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 21:15:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36886)
+	id 1nJ4SI-0004Ro-Te
+	for lists+qemu-devel@lfdr.de; Sat, 12 Feb 2022 21:17:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nJ4OP-00010G-RD
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 21:13:39 -0500
-Received: from [2607:f8b0:4864:20::429] (port=44717
- helo=mail-pf1-x429.google.com)
+ id 1nJ4PF-00025K-7f
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 21:14:29 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=54902
+ helo=mail-pj1-x1034.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nJ4OO-0006VZ-1N
- for qemu-devel@nongnu.org; Sat, 12 Feb 2022 21:13:37 -0500
-Received: by mail-pf1-x429.google.com with SMTP id f6so2104734pfj.11
- for <qemu-devel@nongnu.org>; Sat, 12 Feb 2022 18:13:35 -0800 (PST)
+ id 1nJ4PA-0006al-Lv
+ for qemu-devel@nongnu.org; Sat, 12 Feb 2022 21:14:28 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id on2so11382054pjb.4
+ for <qemu-devel@nongnu.org>; Sat, 12 Feb 2022 18:14:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Fi3L4ZCH4mJv1HY5cRlpx5LkGHuldjUhGsSf3YMeVVk=;
- b=MtovVxEjQZRkSZjywjgOfdj5jeYpxYqT0TPx/Kz1ZydD23sZCES60WunU/I1OtIjG7
- Lircqu8o3zkhqNPATIE/R6lkfTQtLI+dqLkbl+rWNifIMOBo08EJY4Ps7vlP0Oz3pjM1
- 3PGjA26yvO1om0pE8ZhhqgTMZpRUdFLKRu8s3JTvtHGOp+UyFFq4Yw8cWZBsyI7zUm7e
- 1a8pFQ+NB5hmEPgj0U4cHdNLFyjBvxQSnjKlJJz2Cbg36GtPO9dkQnZTgK/HjDFfcZev
- SWweNAkXmAbLh3/KHSYXmvRUNAj9rww4Wedfi/mfOytQCLZ2yVZhK+XLbFtRNcSjMNz1
- rqgw==
+ bh=q/viGaiOoymucBYk+yXeoaR5L1iZHye3bs6g199blJE=;
+ b=NfC+iQKNOsJAH2JXqxWLXZSq9YcfGJUjOgD+vxbDZsHmo1dqw3CWzSwDbdNfXhh0vc
+ hMaryoIDHRLKUoctQAHvQBTfdfKlGuQ95T0d1wD/quRLwxdgPJsuXS+A/NrPtDSM/WEV
+ sqNhNUUXCIF4VR5MqU0MKgN8TZz77+gAxS4q+wwD9ISNOnHpjPs46Wu7eAkYMFzDw2/h
+ eYByokYRXMUhVXiWeOWivKgMQQjcTNli1IQPHaYizjoiiFImrdWW8KwsQ8ItNhWOzXp8
+ fPTEv4Q8HlRgsEljbKpavh2djBq9h2AA5TFHOVK89q7d8qa9ST528qisADDoxlCN8b+/
+ L0Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Fi3L4ZCH4mJv1HY5cRlpx5LkGHuldjUhGsSf3YMeVVk=;
- b=BQIMg6OTiHyuRskV7/71a6cStjsxjeme1IgQr+oDbfi9sAIlOT3Q0U28JHoL2iDgSk
- DXwB24RSVqijI7yOhEQQoGrwP7GiYc8K7QLTZRYpdt3/SMuH0swvXGQu6s1C3MWhZYJv
- xGFlnULPjQP9Om4RGjS7ao4xr6Ljsw8imBSoSLX+mkWD7U6nLMzp7zFsBnWgr3neMATl
- ekrZLTtJ3pBopyzXoBoD9H8xkn66+PONdjcPOlhizZ7OLFNK328xevIpgsqn0+wefKMe
- EYOiJ6o/qmRVxhPWf98pUBM11Y2b27wqjw5R28a7i4z8IhBXfOXqU9xnDf98j3crn78K
- yaKw==
-X-Gm-Message-State: AOAM5301H+EtCxjeYC53yqH4FiFb3vf2/6gx6wIkA66XeRbTj501nfqW
- LG/WqEKyiu/yS0e0t+FkyLwdXgTMSVc=
-X-Google-Smtp-Source: ABdhPJwPyf4Q80DXVS4RWE7zh7gGa0LDbdxPeo7Af3/XV83VkWhhPBdrkl+2scvKTVwYpTliKaF10w==
-X-Received: by 2002:a63:af08:: with SMTP id w8mr6806700pge.1.1644718414539;
- Sat, 12 Feb 2022 18:13:34 -0800 (PST)
+ bh=q/viGaiOoymucBYk+yXeoaR5L1iZHye3bs6g199blJE=;
+ b=kACN2OmwdMxhJtlLwi8lM4j91WVvA75DH7h755a1Hl2frN+o5xsO2jujiCVOACbkiz
+ TfaDUIz0k2SXWjO0J20jmuZNxFE00zo0Ba4YiizbGfSifuP29LK4p1seErDayLfBeLA9
+ ihphp1Ip+UO3REszG7CnjuXdsAyx/nLfA8+Fcz/H6UU35JXl8KsZ6qRlxusROLC4K3W3
+ Mspp7DpqS1bPp/2MN618UoUUG4OSwLjGpUe1Gc42ZPai6u0ZBMHX580IxnhVZeE26fNi
+ LFlYRN9t6NtFO64xEIPsDlHF2dD3YdtkRoiEDdEmHvy22H1Tp14cLnkfO+GSCRkoqU93
+ YYTw==
+X-Gm-Message-State: AOAM531lW/7zAWvsfmMsk5CkORhZTNJmYB8J1JJr2GbJOxdqbijgqda3
+ ta866kMbsbqpsgUODoAoI80o3lY38h8=
+X-Google-Smtp-Source: ABdhPJx5LPfdot7EH6rbtbvX6zcz4T4PHE32S2B4UF7EbsUTBJERVYVbhdwf/0w9tPIAeTLzX/vY2w==
+X-Received: by 2002:a17:90a:8904:: with SMTP id
+ u4mr7643983pjn.137.1644718463168; 
+ Sat, 12 Feb 2022 18:14:23 -0800 (PST)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:d85b:35dd:dae2:b7a9])
- by smtp.gmail.com with ESMTPSA id h4sm31563571pfv.166.2022.02.12.18.13.33
+ by smtp.gmail.com with ESMTPSA id lk11sm225337pjb.31.2022.02.12.18.14.21
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 12 Feb 2022 18:13:34 -0800 (PST)
+ Sat, 12 Feb 2022 18:14:22 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH] ui/cocoa: Fix the leak of qemu_console_get_label
-Date: Sun, 13 Feb 2022 11:13:29 +0900
-Message-Id: <20220213021329.2066-1-akihiko.odaki@gmail.com>
+Subject: [PATCH] ui/cocoa: Do not alert even without block devices
+Date: Sun, 13 Feb 2022 11:14:18 +0900
+Message-Id: <20220213021418.2155-1-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,25 +93,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- ui/cocoa.m | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ ui/cocoa.m | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/ui/cocoa.m b/ui/cocoa.m
-index ac18e14ce01..fdf52a7c2f7 100644
+index ac18e14ce01..271a2676026 100644
 --- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -1680,7 +1680,10 @@ static void create_initial_menus(void)
- /* Returns a name for a given console */
- static NSString * getConsoleName(QemuConsole * console)
- {
--    return [NSString stringWithFormat: @"%s", qemu_console_get_label(console)];
-+    char *label = qemu_console_get_label(console);
-+    NSString *nslabel = [NSString stringWithUTF8String:label];
-+    g_free(label);
-+    return nslabel;
- }
+@@ -1715,11 +1715,6 @@ static void addRemovableDevicesMenuItems(void)
  
- /* Add an entry to the View menu for each console */
+     currentDevice = qmp_query_block(NULL);
+     pointerToFree = currentDevice;
+-    if(currentDevice == NULL) {
+-        NSBeep();
+-        QEMU_Alert(@"Failed to query for block devices!");
+-        return;
+-    }
+ 
+     menu = [[[NSApp mainMenu] itemWithTitle:@"Machine"] submenu];
+ 
 -- 
 2.32.0 (Apple Git-132)
 
