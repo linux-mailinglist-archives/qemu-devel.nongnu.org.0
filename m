@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB364B3A08
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Feb 2022 08:51:59 +0100 (CET)
-Received: from localhost ([::1]:53164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F67D4B3ACD
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Feb 2022 11:27:30 +0100 (CET)
+Received: from localhost ([::1]:51444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJ9fq-0005CA-6b
-	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 02:51:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53032)
+	id 1nJC6K-0000Wp-VA
+	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 05:27:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nJ9dA-0004LC-75
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 02:49:12 -0500
-Received: from [2a00:1450:4864:20::42f] (port=45637
- helo=mail-wr1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nJ9d7-0006H8-UB
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 02:49:11 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id p9so1473545wra.12
- for <qemu-devel@nongnu.org>; Sat, 12 Feb 2022 23:49:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=4bmTh9GZj9o68Addo7kF7vLn5VgQlbeyVUoUC223w0U=;
- b=F/+5eIAS4INXlnCCuyyPUlhwrOg1dEoILRjNDlcAWVyGdSYm4s0aaCP+o8FbYGt6Pn
- xwkStTQ9QFITdPV6tZmMVa3gVsl6Fr6EvDyvZETsTlF0QfAhLK4NZkR+Vx2uhZfxAWKJ
- 4ayxHcQhFL0byYCsMkEjrgxsyK4wzWUlKcm2H1NP0eKhwRUKxrDwiCt+SQSWml9AWGac
- qiklC5VfC6DxCz1kF/RgvwylA4gI9s2OdvEhlncK+5hcyUG3oiqS7Su/Rw5sNE9uLYPI
- 5EyM9j8k8IMahO7CuodS72kXYYJV9qROgXKy0KTaNAOSs/4sC3zE39Q++mh/UzXTLLF+
- hJTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4bmTh9GZj9o68Addo7kF7vLn5VgQlbeyVUoUC223w0U=;
- b=QGlLJIcawcit4IP5XfmF9kza2r0rvMAUf3EPh+KO/YA1mKVuhELhxwC73Duo14nGO3
- b/vRvcNiDwlow1gfvFetqRGq7VcrtnPW2sV3SfwT6DTtHd8LifAori+AorrwDd1wr5uy
- sjdd3/xbo+fatcdJntagmSR7wUSQ6JF2ng69cQF84fnxP0VQUyI/KboqNbHYBPZxbfej
- 2CdGM7LqD6vJkvNJGNmA3iMt6ixpgnBOypK29cxBqPZTwJRecAwRoX1gTSJ0vkuDwxUr
- BZCv4gwmXvpj7yYfjoNtawIQRkQXo2qw4wbfbD7k0/gCnM6hsuIadD+eT75wV4ObA0Y2
- feiw==
-X-Gm-Message-State: AOAM533uGrLZ3FD5A8IGLiyU2vwu8tdHNYPWvg257x/N8pxLnTJluFRt
- sf/f1aBKUJxdkum6j7mCMdvDujVqtkA=
-X-Google-Smtp-Source: ABdhPJyRFAlY7n3Wd4RowVmDUtqgeuH1n8CBsae/vinFdQevzizWaoHsw1U4AsrQvB3PmaSzqLZTng==
-X-Received: by 2002:a5d:64e5:: with SMTP id g5mr7213323wri.541.1644738546237; 
- Sat, 12 Feb 2022 23:49:06 -0800 (PST)
-Received: from jondnuc ([2a0d:6fc2:4af1:7d00:5e41:a6ea:ffaa:548c])
- by smtp.gmail.com with ESMTPSA id u25sm8069828wmm.15.2022.02.12.23.49.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Feb 2022 23:49:05 -0800 (PST)
-Date: Sun, 13 Feb 2022 09:49:04 +0200
-From: Jon Doron <arilou@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 0/4] HyperV: Synthetic Debugging device
-Message-ID: <Ygi38JDSYmh0ALZ9@jondnuc>
-References: <20220204100723.406121-1-arilou@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220204100723.406121-1-arilou@gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=arilou@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1nJC27-0008Fs-M1
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 05:23:07 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:58834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1nJC25-0005ZN-35
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 05:23:07 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 80B6F60E9D;
+ Sun, 13 Feb 2022 10:22:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7ED5C004E1;
+ Sun, 13 Feb 2022 10:22:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644747775;
+ bh=qVPXummkbgn66HB7C9DZJnL9F7+cvb3dt9lBQTxDi7w=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=B1TFU1LLS2aenZT4B3QimSep5+igrgjdm3tdaUlIhoobOPGQ321QimM+Peq1u5L10
+ xEz6c4p4lMaqOXm0pGnGgZN4oCJm2MG1e2thS9CWjMzulWd4gOTlBbsfPC9+6TONdH
+ PCqpnQUjetA86kwKcykmLVs3ZqBDzTPOoQgiOO/A41G0m/Qqccsnm57tHAihqyYhny
+ O12/tTzM0Chd2pOrs3pxYWt/TpJuiPS+cYTmkDSL17+CilthH25PXL8a2AfEZj/86r
+ ZB1AgLoKpEotiH0XqCmcpCdrjyocLWf4MpBNkUUEvizkujNhqBR0VdIuwM4tOd+jgH
+ E6+bcGju4Y60A==
+Received: from sofa.misterjones.org ([185.219.108.64]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1nJC1t-007THY-Ko; Sun, 13 Feb 2022 10:22:53 +0000
+Date: Sun, 13 Feb 2022 10:22:53 +0000
+Message-ID: <87iltjxdz6.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PULL 18/38] hw/arm/virt: Honor highmem setting when computing
+ the memory map
+In-Reply-To: <3f4f5e98-fcb8-bf4d-e464-6ad365af92f8@gmail.com>
+References: <20220120123630.267975-1-peter.maydell@linaro.org>
+ <20220120123630.267975-19-peter.maydell@linaro.org>
+ <3f4f5e98-fcb8-bf4d-e464-6ad365af92f8@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: akihiko.odaki@gmail.com, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org, drjones@redhat.com, eric.auger@redhat.com,
+ kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, kernel-team@android.com,
+ agraf@csgraf.de
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=maz@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,75 +84,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, vkuznets@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, kernel-team@android.com,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/02/2022, Jon Doron wrote:
+[+ Alex for HVF]
 
-Ping
+On Sun, 13 Feb 2022 05:05:33 +0000,
+Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+> 
+> On 2022/01/20 21:36, Peter Maydell wrote:
+> > From: Marc Zyngier <maz@kernel.org>
+> > 
+> > Even when the VM is configured with highmem=off, the highest_gpa
+> > field includes devices that are above the 4GiB limit.
+> > Similarily, nothing seem to check that the memory is within
+> > the limit set by the highmem=off option.
+> > 
+> > This leads to failures in virt_kvm_type() on systems that have
+> > a crippled IPA range, as the reported IPA space is larger than
+> > what it should be.
+> > 
+> > Instead, honor the user-specified limit to only use the devices
+> > at the lowest end of the spectrum, and fail if we have memory
+> > crossing the 4GiB limit.
+> > 
+> > Reviewed-by: Andrew Jones <drjones@redhat.com>
+> > Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > Message-id: 20220114140741.1358263-4-maz@kernel.org
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> >   hw/arm/virt.c | 10 +++++++---
+> >   1 file changed, 7 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index 62bdce1eb4b..3b839ba78ba 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -1670,7 +1670,7 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+> >   static void virt_set_memmap(VirtMachineState *vms)
+> >   {
+> >       MachineState *ms = MACHINE(vms);
+> > -    hwaddr base, device_memory_base, device_memory_size;
+> > +    hwaddr base, device_memory_base, device_memory_size, memtop;
+> >       int i;
+> >         vms->memmap = extended_memmap;
+> > @@ -1697,7 +1697,11 @@ static void virt_set_memmap(VirtMachineState *vms)
+> >       device_memory_size = ms->maxram_size - ms->ram_size + ms->ram_slots * GiB;
+> >         /* Base address of the high IO region */
+> > -    base = device_memory_base + ROUND_UP(device_memory_size, GiB);
+> > +    memtop = base = device_memory_base + ROUND_UP(device_memory_size, GiB);
+> > +    if (!vms->highmem && memtop > 4 * GiB) {
+> > +        error_report("highmem=off, but memory crosses the 4GiB limit\n");
+> > +        exit(EXIT_FAILURE);
+> > +    }
+> >       if (base < device_memory_base) {
+> >           error_report("maxmem/slots too huge");
+> >           exit(EXIT_FAILURE);
+> > @@ -1714,7 +1718,7 @@ static void virt_set_memmap(VirtMachineState *vms)
+> >           vms->memmap[i].size = size;
+> >           base += size;
+> >       }
+> > -    vms->highest_gpa = base - 1;
+> > +    vms->highest_gpa = (vms->highmem ? base : memtop) - 1;
+> >       if (device_memory_size > 0) {
+> >           ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
+> >           ms->device_memory->base = device_memory_base;
+> 
+> Hi,
+> This breaks in a case where highmem is disabled but can have more than
+> 4 GiB of RAM. M1 (Apple Silicon) actually can have 36-bit PA with HVF,
+> which is not enough for highmem MMIO but is enough to contain 32 GiB
+> of RAM.
 
->This patchset adds support for the synthetic debugging device.
->
->HyperV supports a special transport layer for the kernel debugger when
->running in HyperV.
->
->This patchset add supports for this device so you could have a setup
->fast windows kernel debugging.
->
->At this point of time, DHCP is not implmeneted so to set this up few
->things need to be noted.
->
->The scenario I used to test is having 2 VMs in the same virtual network
->i.e a Debugger VM with the NIC:
->-nic tap,model=virtio,mac=02:ca:01:01:01:01,script=/etc/qemu-ifup
->And it's IP is going to be static 192.168.53.12
->And the VM we want to debug, to which we need to have the englightments
->and vmbus configured:
-> -cpu host,hv-relaxed,hv_spinlocks=0x1fff,hv_time,+vmx,invtsc,hv-vapic,hv-vpindex,hv-synic,hv-syndbg \
-> -device vmbus-bridge \
-> -device hv-syndbg,host_ip=192.168.53.12,host_port=50000,use_hcalls=false \
-> -nic tap,model=virtio,mac=02:ca:01:01:01:02,script=/etc/qemu-ifup \
->
->Then in the debuggee VM we would setup the kernel debugging in the
->following way:
->
->If the VM is older than Win8:
->* Copy the proper platform kdvm.dll (make sure it's called kdvm.dll even if platform is 32bit)
->bcdedit /set {GUID} dbgtransport kdvm.dll
->bcdedit /set {GUID} loadoptions host_ip="1.2.3.4",host_port="50000",nodhcp
->bcdedit /set {GUID} debug on
->bcdedit /set {GUID} halbreakpoint on
->
->Win8 and late:
->bcdedit /dbgsettings net hostip:7.7.7.7 port:50000 nodhcp
->
->This is all the setup that is required to get the synthetic debugger
->configured correctly.
->
->Jon Doron (4):
->  hyperv: SControl is optional to enable SynIc
->  hyperv: Add definitions for syndbg
->  hyperv: Add support to process syndbg commands
->  hw: hyperv: Initial commit for Synthetic Debugging device
->
-> docs/hyperv.txt                  |  15 +
-> hw/hyperv/Kconfig                |   5 +
-> hw/hyperv/hyperv.c               | 475 +++++++++++++++++++++++++------
-> hw/hyperv/meson.build            |   1 +
-> hw/hyperv/syndbg.c               | 407 ++++++++++++++++++++++++++
-> include/hw/hyperv/hyperv-proto.h |  52 ++++
-> include/hw/hyperv/hyperv.h       |  60 ++++
-> target/i386/cpu.c                |   2 +
-> target/i386/cpu.h                |   7 +
-> target/i386/kvm/hyperv-proto.h   |  37 +++
-> target/i386/kvm/hyperv-stub.c    |   6 +
-> target/i386/kvm/hyperv.c         |  52 +++-
-> target/i386/kvm/kvm.c            |  76 ++++-
-> 13 files changed, 1105 insertions(+), 90 deletions(-)
-> create mode 100644 hw/hyperv/syndbg.c
->
->-- 
->2.34.1
->
+Funny. The whole point of this series is to make it all work correctly
+on M1.
+
+> Where the magic number of 4 GiB / 32-bit came from?
+
+Not exactly a magic number. From QEMU's docs/system/arm/virt.rst:
+
+<quote>
+highmem
+  Set ``on``/``off`` to enable/disable placing devices and RAM in physical
+  address space above 32 bits. The default is ``on`` for machine types
+  later than ``virt-2.12``.
+</quote>
+
+TL;DR: Removing the bogus 'highmem=off' option from your command-line
+should get you going with large memory spaces, up to the IPA limit.
+
+The fact that you could run with 32GB of RAM while mandating that the
+guest IPA space was limited to 32bit was nothing but a bug, further
+"exploited" by HVF to allow disabling the highhmem devices which are
+out of reach given the HW limitations (see [1] for details on the
+discussion, specially around patch 3).
+
+This is now fixed, and has been extended to work with any IPA size
+(including 36bit machines such as M1).
+
+> I also don't quite understand what failures virt_kvm_type() had.
+
+QEMU works by first computing the memory map and passing the required
+IPA limit to KVM as part of the VM type. By failing to take into
+account the initial limit requirements to the IPA space (either via a
+command-line option such as 'highmem', or by using the value provided
+by KVM itself), QEMU would try to create a VM that cannot run on the
+HW, and KVM would simply return an error.
+
+All of this is documented as part of the KVM/arm64 API [2]. And with
+this fixed, QEMU is able to correctly drive KVM on M1.
+
+	M.
+
+[1] https://lore.kernel.org/all/20210822144441.1290891-1-maz@kernel.org
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/virt/kvm/api.rst#n138
+
+-- 
+Without deviation from the norm, progress is not possible.
 
