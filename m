@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1974B5D86
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 23:17:29 +0100 (CET)
-Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAAA14B5D8A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 23:19:24 +0100 (CET)
+Received: from localhost ([::1]:38266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJjey-0003w4-39
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 17:17:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37280)
+	id 1nJjgp-0007Nl-IW
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 17:19:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJjcP-0002aD-4Q; Mon, 14 Feb 2022 17:14:49 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=53907
- helo=mail-pj1-x1035.google.com)
+ id 1nJjfP-0006Xi-OQ
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 17:17:55 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=40749
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJjcM-0005jH-3z; Mon, 14 Feb 2022 17:14:48 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id qe15so15799448pjb.3;
- Mon, 14 Feb 2022 14:14:45 -0800 (PST)
+ id 1nJjfO-0006Q8-6h
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 17:17:55 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ n19-20020a17090ade9300b001b9892a7bf9so634596pjv.5
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 14:17:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cFdcSty7VoVDb7EduO4tbI6EzqzKILqqMKStMsiCKZQ=;
- b=Ck2tGWNOIwySXQhinn312IkcO0TfvYDp3ItUj3zSTsuKjHmGc2KmMgSMBehav+h8QC
- ecn/TyeDnWU2kNlgMXZcMdU18RL5sEOxRsxULbtzX9dCckIySRQqL/cUeN+uqYudNp/q
- Bi61BQPzGQLXMeV0pHGK0t/aK/Kvhe+bdMZKeGiKDI1enojZio8Pg0Gqfa28oU54FZkO
- 8xZjFuRgpibBjnnJPgV6pvb5Pf2XueHTYbbuEm27glrgKVBxLbQC07IOa+KcDHIHUVx5
- vnJZB3gPE0XrcuV9R/3a7XKSd9qGHKddW+sNmbbhTP1+Etq0cG2OQH6niHDkQSZHjVJx
- BCqg==
+ bh=1L4RvUcl9FXqQlfq+klQKHkHt6w1Cz+XfwkM3BIIDX8=;
+ b=neNLpd/BXwuouJfgNP6bBNUDUejNqdhTQt+M3ttJO5gxcrJeQ8qZet/ONPlU1q3RD7
+ n7074G84Cnh5r4uh5ftSRt5BE8ChpFmpRJ53iH1PeNlYp69pwxWK2xG7dlY4beNfvdu6
+ VDVR0Q/ZxTY4emhwXOfYfR23jJ//n/x4VDCpnb/dh+1eViA5/JXuc1QfACRgm/7tqeTu
+ ucoHL44z3vsMwoxfgSMX7frfJcrvXeUvCoBVHqAhqcGQqmphUDuHUfk6ddWT7t85fWh8
+ wpNtDnbHyVJOwK/KEtvEUE9NN4aiT8RBgTbrBUwgAAFjL2dtcqRxc+CV85NgeK7cF93V
+ BbKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cFdcSty7VoVDb7EduO4tbI6EzqzKILqqMKStMsiCKZQ=;
- b=Y9keyC4Ipa0N6Cd8VKD7D3amkfBwuiVTl8h30Hc09DlvreyqD9ljEXpWeINrby7od5
- h9zfwEj6Ba6cetZYRFrQVe0eKH9/hiLSY4Le8V74a2+reaUm/xaR3Iz5X89D/WvHz3Th
- 7H8fKIuQ6BYIX8oXRsd2e/JhynvktCYtm9TThoDwIzr1gsddFE4aJ40ntmwSSiNbBYZQ
- eqjRAs6Ys/2lHSEIcbUJGcnbBPem7oLmZpBBZKBMrjJzZz/zylqe/k49jR+B2GlH8HBr
- A317bGJ1HmXBeCDu2jESfmeCD0AeT3/HzBl4r+9aZ/0lNtQIJBXC7J9NO2xocYJKKAiR
- or+w==
-X-Gm-Message-State: AOAM533jb/RJ2TOgARurk8C/8/zVaxCspnDENJ3Bi82jv46rER5FUuD3
- 18CRLFKGG3HT+RYCxCwPDgY=
-X-Google-Smtp-Source: ABdhPJwyhtpJZQpTXrji6NwcLYY2/nTK4PQCu1pX+cNZIH4Bcw7sGhJbrRgWRgLxMZ40SU7TmqN1CA==
-X-Received: by 2002:a17:902:7788:: with SMTP id
- o8mr1043457pll.27.1644876883849; 
- Mon, 14 Feb 2022 14:14:43 -0800 (PST)
+ bh=1L4RvUcl9FXqQlfq+klQKHkHt6w1Cz+XfwkM3BIIDX8=;
+ b=ruukgI+B5AkDQjLL5lJkE+cOmvnp+pWK0b+Dy5ubleVcwt9CCDBPOtrdpGgARVGLTy
+ N4cj2ZHOMiCzZg97h9Lq20nEpj4Ed2mtEF1T8iwl+YTX9dFU71CQ5QOMccVj0t6NEQRJ
+ AV7J8jjxM1HnTxFoOVzHtoNMYM29hy0yReyN+3oZqKF1q/txz7gkLk0kHTLjCp+ILqB1
+ 5pld7heI6ni+Azl1JL9vyzKpsHKzHYcFevV5SUrbrWoUiQhsQDvLA24phdo1AGYSLPGT
+ DAUlckSyhC+njXa6orfTe9yyewLMu82xfhkgECDgX6iRAGPcItu5CsbSqJqABTkpw2gc
+ ILGw==
+X-Gm-Message-State: AOAM530U4jQCcGWsJkx0p7myoJiWHNWlzlnY/Qnh4T2mzGwWdg7C4aDg
+ KXjmRTBKx8oTy0dxbBZdw+e8YgeOW8g=
+X-Google-Smtp-Source: ABdhPJwbbP2Gc22g/sRDcXaGWTqVzkMai3NGOEE5+Abc2L+GUPX1p+Q7Dlu1CaY5R97QjJs2URwlkw==
+X-Received: by 2002:a17:903:31d7:: with SMTP id
+ v23mr978181ple.138.1644877072362; 
+ Mon, 14 Feb 2022 14:17:52 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id h18sm37024415pfh.51.2022.02.14.14.14.41
+ by smtp.gmail.com with ESMTPSA id s9sm3810184pjk.1.2022.02.14.14.17.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Feb 2022 14:14:43 -0800 (PST)
-Message-ID: <11af7e55-560e-a46f-e923-c9baebd461be@amsat.org>
-Date: Mon, 14 Feb 2022 23:14:39 +0100
+ Mon, 14 Feb 2022 14:17:51 -0800 (PST)
+Message-ID: <2dd3c8ad-1b9c-c983-9790-769cf3027f24@amsat.org>
+Date: Mon, 14 Feb 2022 23:17:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 1/1] vdpa: Make ncs autofree
+Subject: Re: [PATCH 1/3] ui/console: fix crash when using gl context with
+ non-gl listeners
 Content-Language: en-US
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220214193415.1606752-1-eperezma@redhat.com>
- <20220214193415.1606752-2-eperezma@redhat.com>
-In-Reply-To: <20220214193415.1606752-2-eperezma@redhat.com>
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, akihiko.odaki@gmail.com
+References: <20220214201337.1814787-1-marcandre.lureau@redhat.com>
+ <20220214201337.1814787-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20220214201337.1814787-2-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -99,13 +102,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 14/2/22 20:34, Eugenio Pérez wrote:
-> Simplifying memory management.
+On 14/2/22 21:13, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> The commit 7cc712e98 ("ui: dispatch GL events to all listener")
+> mechanically replaced the dpy_gl calls with a dispatch loop, using the
+> same pre-conditions. However, it didn't take into account that all
+> listeners do not have to implement the GL callbacks.
+> 
+> Add the missing pre-conditions before calling the callbacks.
+> 
+> Fix crash when running a GL-enabled VM with "-device virtio-gpu-gl-pci
+> -display egl-headless -vnc :0".
+> 
+> Fixes: 7cc712e98 ("ui: dispatch GL events to all listener")
+> Reported-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   net/vhost-vdpa.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+>   ui/console.c | 22 +++++++++++++++-------
+>   1 file changed, 15 insertions(+), 7 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
