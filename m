@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00B94B4FCB
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 13:13:40 +0100 (CET)
-Received: from localhost ([::1]:37624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7F04B4FDA
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 13:18:21 +0100 (CET)
+Received: from localhost ([::1]:45400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJaEd-00017B-PO
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 07:13:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40464)
+	id 1nJaJ9-0006bj-RG
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 07:18:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nJa6E-0000Sg-B8
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 07:04:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52263)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nJa6A-0006WO-N2
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 07:04:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644840282;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RGY7xOM77hLNjQ0SrJw0p7sPspRAoR6c5q6RYc3SgTs=;
- b=BHAU/am0uJPi3w7CnHmDbhurWBhAksYDHuAlDMjxqSy1Bj8gxEDNFknym8tlyEChdEtQEs
- AtWopfcLKRPh82Ot2knE/0APoVL20o5m9FTu+ZLaQjYxFrthMppxCITld1DDD7ALs4s21o
- uQcb029Z+DUckA9IUsG1wgpa89gxqQo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-enBHkFNZMmmsJtQz80LvuQ-1; Mon, 14 Feb 2022 07:04:39 -0500
-X-MC-Unique: enBHkFNZMmmsJtQz80LvuQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C6221853026;
- Mon, 14 Feb 2022 12:04:33 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 100E37B9D6;
- Mon, 14 Feb 2022 12:03:57 +0000 (UTC)
-Date: Mon, 14 Feb 2022 13:03:55 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 1/6] block/io.c: fix bdrv_child_cb_drained_begin
- invocations from a coroutine
-Message-ID: <YgpFK/315s9bHC8Z@redhat.com>
-References: <20220208153655.1251658-1-eesposit@redhat.com>
- <20220208153655.1251658-2-eesposit@redhat.com>
- <YgZOdni4B7/mIQQ6@redhat.com>
- <eb868668-e07e-00fb-b550-0ce7394febe6@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nJa7z-0002ol-RA
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 07:06:48 -0500
+Received: from [2a00:1450:4864:20::42d] (port=36857
+ helo=mail-wr1-x42d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nJa7x-00076X-K6
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 07:06:46 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id o24so23803142wro.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 04:06:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=azt2nmqs0lliqJO9yIuQVGbXdtbCvIn643r8kD/0Q6o=;
+ b=o/IOTOTc4Qu6buxr+ykKtJ8mLbckkX5+6YPUORPZTZhRsYzo3ZUYPuTuMyfBWeFzfU
+ y7xz2EIoMXa6KcCWAMXPWukz1e3SaspM+CT5DMe/BOpjS1JYvDuQxq99tOAwJgoyCE8W
+ Sx6F70SxYpSC+FjnxDUJDUzPGaFV3hfA/zUagaUiRIgh5XUjuKU2M0OiphjsGgl1EWCk
+ BNDyou8RssElSE17BU3rPrmeCoTF0o5udgEmASkSbnifJXebnMyH5thK2HEKMxtiOTmP
+ mPst82Vwo5Kqeo/gVLS38oM2Y/sPzUnTvf8l3ZXXhjKPxNM52Zx0CMcE2ggNmUWV/Drx
+ Axpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=azt2nmqs0lliqJO9yIuQVGbXdtbCvIn643r8kD/0Q6o=;
+ b=vK4ktAunR2LClBT5Vt4tWqapAhqfzmktVOD+VyhC++xYAky26/I2pSl7Zyetr/Us+v
+ eSwE1z6c39MHMigdTQhIwXpMMxGN5ptkHcf27Qfxy/q/uXxRTt9RvB/AbAfAE1n/oeo5
+ ZUmIMTPfeVkSCgN532vdWjwRz6EKVS4D+16/w/j/kTUsUkx//TdmClBEVJTmAOoShNw3
+ pDCt7LDAeKbBgx8+nS3XwxmidEoMoh88YyFSk5dBD/vBJtbS4wBeLI1FxVKhRsGUU3Bz
+ rsk4C8w14kGLHJK74aBgDlb1EVtswYMJopMjDWu1Pp8qaMdVnVrJ/oKLse00U9P4w6iS
+ KlQA==
+X-Gm-Message-State: AOAM532CNSYB8dmokWV1GlAawSoEsmQbItXQCFEZq/IymhyMKcPIZPVG
+ pYEbxP2QNNhz+9Otgjwz0dw0Sl5gHi0qOJdwUM3bmA==
+X-Google-Smtp-Source: ABdhPJxfZqmMSldTB5Ueb4TQX/Ikjl8lNc1Jq49KEbuCR3zLfXmCkkc6FzSoV+Qsfkr9ZON+wXNkmhSY2bsy+ZBlcEk=
+X-Received: by 2002:a5d:6d8d:: with SMTP id l13mr10765091wrs.295.1644840402837; 
+ Mon, 14 Feb 2022 04:06:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <eb868668-e07e-00fb-b550-0ce7394febe6@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220120113545.55820-1-ilg@livius.net>
+ <8A1E1B8F-ADA0-4966-A4E9-C0A08EB0A327@livius.net>
+ <D6833D18-344A-473E-AC4D-89A64F8AA0EC@livius.net>
+ <CAFEAcA91q2t9sVvaW6h3BwFMExgyCdVsb3TozH52EM70aPJt4w@mail.gmail.com>
+ <46F93823-E819-4B8B-ACD3-D8A80245BC9E@livius.net>
+In-Reply-To: <46F93823-E819-4B8B-ACD3-D8A80245BC9E@livius.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Feb 2022 12:06:31 +0000
+Message-ID: <CAFEAcA9YxQFug5vuHwi5koHUDZiBfMVHUr8yfby9r5D0b6hM=Q@mail.gmail.com>
+Subject: Re: [PATCH] Add --with-branding-prefix and QEMU_BRANDING_PREFIX
+To: Liviu Ionescu <ilg@livius.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.785, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,101 +84,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.02.2022 um 11:27 hat Emanuele Giuseppe Esposito geschrieben:
-> 
-> 
-> On 11/02/2022 12:54, Kevin Wolf wrote:
-> > Am 08.02.2022 um 16:36 hat Emanuele Giuseppe Esposito geschrieben:
-> >> Using bdrv_do_drained_begin_quiesce() in bdrv_child_cb_drained_begin()
-> >> is not a good idea: the callback might be called when running
-> >> a drain in a coroutine, and bdrv_drained_begin_poll() does not
-> >> handle that case, resulting in assertion failure.
-> > 
-> > I remembered that we talked about this only recently on IRC, but it
-> > didn't make any sense to me again when I read this commit message. So I
-> > think we need --verbose.
-> > 
-> > The .drained_begin callback was always meant to run outside of coroutine
-> > context, so the unexpected part isn't that it calls a function that
-> > can't run in coroutine context, but that it is already called itself in
-> > coroutine context.
-> > 
-> > The problematic path is bdrv_replace_child_noperm() which then calls
-> > bdrv_parent_drained_begin_single(poll=true). Polling in coroutine
-> > context is dangerous, it can cause deadlocks because the caller of the
-> > coroutine can't make progress. So I believe this call is already wrong
-> > in coroutine context.
-> 
-> Ok, you added this assertion in dcf94a23, but at that time there was no
-> bdrv_parent_drained_begin_single, and the polling was only done in
-> bdrv_do_drained_begin. So I think that to keep the same logic, the
-> assertion should be moved in bdrv_parent_drained_begin_single()? And
-> even more specifically, only if the poll flag is true.
+On Mon, 14 Feb 2022 at 11:54, Liviu Ionescu <ilg@livius.net> wrote:
+> Would you agree on a multi step approach, first a minimal patch that would solve my use case, then, if there will be others needing it, a more elaborate solution?
+>
+> For example I don't mind having to pass a preprocessor definition to my build; so how about something like:
+>
+>
+> ```c
+> static void version(void)
+> {
+> +#if defined(QEMU_BRANDING_PREFIX)
+> +    printf("%s ", QEMU_BRANDING_PREFIX);
+> +#endif
+>     printf("QEMU emulator version " QEMU_FULL_VERSION "\n"
+>            QEMU_COPYRIGHT "\n");
+> }
+> ```
 
-I wouldn't necessarily say move, but copying it there makes sense to me.
-In order to keep the interface constraints simple, I would assert it
-independent of the poll parameter.
+Either we want the feature upstream, or we don't. If we do, then
+we want the whole thing including the configure option. If we don't,
+then we don't want any of it, and that includes not having this kind
+of ifdef.
 
-> I triggered this by adding additional drains in the callers of
-> bdrv_replace_child_noperm(), and I think some test (probably unit test)
-> was failing because of either the drained_begin callback itself called
-> by the drain, or as you suggested the callbacks called by
-> bdrv_parent_drained_begin_single from bdrv_replace_child_noperm.
-> 
-> Anyways, I think that in addition to the fix in this patch, we should
-> also fix bdrv_parent_drained_begin_single(poll=true) in
-> bdrv_replace_child_noperm, with something similar to what is done in
-> bdrv_co_yield_to_drain? ie if we are in coroutine, schedule a BH that
-> runs the same logic but in the main loop, but then somehow wait that it
-> finishes before continuing?
-> Even though at that point we would have a coroutine waiting for the main
-> loop, which I don't think it's something we want.
+So far you haven't really described a use case that --with-pkgversion
+wouldn't satisfy. You say:
 
-Coroutines are waiting for the main loop all the time, why would this be
-a problem?
+> Seeing the branded greeting in a console log is a visual confirmation
+> that the test script used the desired version, and not another version
+> picked up by mistake when using an incorrect PATH.
 
-Yes, I think a mechanism similar to bdrv_co_yield_to_drain() is needed
-if we want to allow callers to be in coroutine context.
+but the "v6.2.0-1-xpack-arm" pkgversion suffix works for this
+purpose too.
 
-And once we have this mechanism, it's actually not in addition to this
-patch, but instead of it, because this patch isn't needed any more when
-we know that we can't be in coroutine context.
-
-> Alternatively, we would forbid polling in coroutines at all. And the
-> only place I can see that is using the drain in coroutine is mirror
-> (see below).
-
-Well, my point is that it is already forbidden because it can deadlock.
-Code that polls in coroutine context anyway is probably buggy, unless it
-can guarantee very specific circumstances that make a deadlock
-impossible.
-
-Maybe we can actually assert this in AIO_WAIT_WHILE().
-
-> Additional question: I also noticed that there is a bdrv_drained_begin()
-> call in mirror.c in the JobDriver run() callback. How can this even
-> work? If a parent uses bdrv_child_cb_drained_begin (which should not be
-> so rare) it will crash because of the assertion.
-
-bdrv_co_yield_to_drain() lets this code run in the main loop.
-
-> Further additional question: actually I don't understand also the
-> polling logic of mirror (mirror_drained_poll), as if we are draining in
-> the coroutine with in_drain = true I think we can have a deadlock if
-> in_flight>0?
-
-You mean for a drain issued by the mirror job itself? The in-flight
-requests are still processed by the polling loop, so eventually
-in_flight should become 0.
-
-Kevin
-
+thanks
+-- PMM
 
