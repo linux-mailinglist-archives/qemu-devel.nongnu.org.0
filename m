@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF034B5A3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:54:57 +0100 (CET)
-Received: from localhost ([::1]:36586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFA94B5A47
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:58:29 +0100 (CET)
+Received: from localhost ([::1]:47874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgUz-0002U8-0k
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:54:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40384)
+	id 1nJgYO-0001yE-44
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:58:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg9v-0000H6-FY
+ id 1nJg9v-0000Go-FA
  for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:33:13 -0500
-Received: from [2607:f8b0:4864:20::102a] (port=53968
- helo=mail-pj1-x102a.google.com)
+Received: from [2607:f8b0:4864:20::102b] (port=37703
+ helo=mail-pj1-x102b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg9t-0002dd-AC
+ id 1nJg9t-0002dp-AH
  for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:33:10 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id qe15so15383137pjb.3
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:32:59 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ v5-20020a17090a4ec500b001b8b702df57so19727984pjl.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:33:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ACXjZ42irWmc9J5XdgnnEwe1NZp3Dgve5RNkDpLdHCY=;
- b=PblDwE3slQoeiz5HfWqRRYWk3nCLJnhFYNUYJAA7L/vVA/gsGrfpRh29LuDFZgKu7Y
- F5gy1rAUxWWu9mFPixEP4jlNfVpkBnkN44FM5dSHsmHtX2rUQVkV/ZAgpAgWYHOcaIn0
- +/4FSFGgdNvyhVy//tZd0xISD1Q074u54Dl6YcISjl0Kv2MgH1K5yuuIjrBk0Xii0Ep0
- j6TIb7W3066bbbI/v59n6YKmpjkdUw3u7D5BWZTjBLeVE1xMIt3G1vScNWXpR/RhEyTw
- ftp+mOWhZohMuLJnRNK0v48I83iQFDHHsZkvIx9kh4ElJULT0vmWT9ukaFaF+lOqOJRL
- ZUfg==
+ bh=e8DQWHfKGeT/pxGHQ+jFVIO6FZ9E+wxAU1QxxX34iiM=;
+ b=JRa/93PRH+4QkioDUHXID9HJ+aOolfb7Xxd1W8GU7EtAZ8zLGVQLgCkPvSwRcTHkXH
+ zrfRu2Fz6agipxylbS+8LMY6b0cqKCeQM3XC6ufoERwql+MHhBX4K7yLANEF5fVGafbB
+ nROCRrtD2Aco8JX339PN0OtTPM/mkLhOH4+We3plNJndTp+XZh/X3PVTcbGehYw+30wP
+ jQS9FRJvbchZPbti5c/fhMREbNUimonF/l/up1AM5kRFpMyzO8bS+hpfOK4DnUAYZy9U
+ CxvIAAaBy8F2B70Apa9a9ZShwVhe75AqBiTDxaKc1yypupcZmirfDh659QQ8Nie9ks8/
+ B4aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ACXjZ42irWmc9J5XdgnnEwe1NZp3Dgve5RNkDpLdHCY=;
- b=jEYdR6D59zMZtHEPQAEAHTzv6wifNnWbrUHP0bBnpjsewLkqOVhkq1ao/6+HRN0Mp3
- 51ill9uId7zJ33lWGl4WUFeHpJOAKL9+TVUwPnSSIRk/ORRmGi3VL3doV5e00U/mwkYO
- L3P9CcS8Rge429W58AL4aRGvS6lG8g73FlLMyiTvRFMrQsyysEJzM24iuO5EK5NZH3Kc
- wESokvq6cKajscVr35xx8D2fTaaHBRIqnZQQwK7TrjBY0Kk8Pe+iWch3lej0X7HKDeAN
- 8ntC4l+Nn5cTdiEXWkOgQ1vyF/cEyf4isOJkF0AOr4IpNP2Rl9sDMX9NO3qalYdmIeZl
- AdqA==
-X-Gm-Message-State: AOAM533HO40mpowAA8kTfQYeSONaBjzzbRmW3R669J+IhVPAOTi5dMXF
- drszT8a4MviketZRn0dmDE2t/ri/ErE=
-X-Google-Smtp-Source: ABdhPJwYLNjxadYakAQl2S0+FoTRZbETouC9TKq4SyAeJGDsf+jvGqNB0qwcUEkIDsHuN1WCE86D8Q==
-X-Received: by 2002:a17:902:f712:: with SMTP id
- h18mr204319plo.24.1644863578419; 
- Mon, 14 Feb 2022 10:32:58 -0800 (PST)
+ bh=e8DQWHfKGeT/pxGHQ+jFVIO6FZ9E+wxAU1QxxX34iiM=;
+ b=sQfiXXZoXEDDC12Et6I1MXfnVgrwc1pQzTX/T7R27QOro3EyAVwvFAy84f2puivMf0
+ j4l0i54XE1Et9+DVZ1h3KF8CHvFrgsYKo/Ld5aDfrLAX5aiKnF+8dpi6yPAQjh/pm9rC
+ tu0iArlGJrI6Rn3YOIkBSHuUneahwpwJ4EqW0YGDwwgwwLwMT5aT7YMqqXwpai4GcjIy
+ HhCTcO+aMo9J43Xb2huPZYs5dIR+yL8VaWZ+0lBLCb7gTCaMdLAAgjjbfPPAnpQO4ov6
+ ufmbSFALh+UvcNkLDX3LJzx5dBsiT2kLMwCNa8y7DuZT7uGs9EkCpUCri8HxLplX8Wnh
+ HvUg==
+X-Gm-Message-State: AOAM533HTHlAGYkRh6tHSE0CKAnu/z4eeG32dQXfL4JrCgW9Ovp97A/k
+ hIGwi4XWrm8BLwE5N664j5tM2t5Y7fM=
+X-Google-Smtp-Source: ABdhPJwxPdH7x1B82t2jUHAUleQ2Zkr1GPDSxqlI2BlBmRr26Mis3clN1cSVXoVsMhaYS37ZcJ3vow==
+X-Received: by 2002:a17:90a:1c4:: with SMTP id 4mr1089715pjd.109.1644863586806; 
+ Mon, 14 Feb 2022 10:33:06 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id a3sm14413129pjq.43.2022.02.14.10.32.56
+ by smtp.gmail.com with ESMTPSA id u17sm28431699pfi.163.2022.02.14.10.33.04
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:32:58 -0800 (PST)
+ Mon, 14 Feb 2022 10:33:06 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 08/14] Hexagon (target/hexagon) convert to
- OBJECT_DECLARE_TYPE
-Date: Mon, 14 Feb 2022 19:31:38 +0100
-Message-Id: <20220214183144.27402-9-f4bug@amsat.org>
+Subject: [PATCH v2 09/14] target: Include missing 'cpu.h'
+Date: Mon, 14 Feb 2022 19:31:39 +0100
+Message-Id: <20220214183144.27402-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220214183144.27402-1-f4bug@amsat.org>
 References: <20220214183144.27402-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -99,52 +98,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Taylor Simpson <tsimpson@quicinc.com>
+These target-specific files use the target-specific CPU state
+but lack to include "cpu.h"; i.e.:
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+    ../target/riscv/pmp.h:61:23: error: unknown type name 'CPURISCVState'
+    void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
+                          ^
+    ../target/nios2/mmu.h:43:18: error: unknown type name 'CPUNios2State'
+    void mmu_flip_um(CPUNios2State *env, unsigned int um);
+                     ^
+    ../target/microblaze/mmu.h:88:19: error: unknown type name 'CPUMBState'; did you mean 'CPUState'?
+    uint32_t mmu_read(CPUMBState *env, bool ea, uint32_t rn);
+                      ^~~~~~~~~~
+                      CPUState
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220211033034.21107-1-tsimpson@quicinc.com>
-[PMD: Add missing "qom/object.h" include]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/hexagon/cpu.h | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ target/microblaze/mmu.h | 2 ++
+ target/mips/internal.h  | 1 +
+ target/nios2/mmu.h      | 2 ++
+ target/riscv/pmp.h      | 2 ++
+ 4 files changed, 7 insertions(+)
 
-diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
-index 58a0d3870b..096aa2deb6 100644
---- a/target/hexagon/cpu.h
-+++ b/target/hexagon/cpu.h
-@@ -1,5 +1,5 @@
+diff --git a/target/microblaze/mmu.h b/target/microblaze/mmu.h
+index b6b4b9ad60..1068bd2d52 100644
+--- a/target/microblaze/mmu.h
++++ b/target/microblaze/mmu.h
+@@ -20,6 +20,8 @@
+ #ifndef TARGET_MICROBLAZE_MMU_H
+ #define TARGET_MICROBLAZE_MMU_H
+ 
++#include "cpu.h"
++
+ #define MMU_R_PID    0
+ #define MMU_R_ZPR    1
+ #define MMU_R_TLBX   2
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index daddb05fd4..f705d6bfa6 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -12,6 +12,7 @@
+ #ifdef CONFIG_TCG
+ #include "tcg/tcg-internal.h"
+ #endif
++#include "cpu.h"
+ 
  /*
-- *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
-+ *  Copyright(c) 2019-2022 Qualcomm Innovation Center, Inc. All Rights Reserved.
-  *
-  *  This program is free software; you can redistribute it and/or modify
-  *  it under the terms of the GNU General Public License as published by
-@@ -26,6 +26,7 @@ typedef struct CPUHexagonState CPUHexagonState;
- #include "exec/cpu-defs.h"
- #include "hex_regs.h"
- #include "mmvec/mmvec.h"
-+#include "qom/object.h"
+  * MMU types, the first four entries have the same layout as the
+diff --git a/target/nios2/mmu.h b/target/nios2/mmu.h
+index 4f46fbb82e..d36b8cc86a 100644
+--- a/target/nios2/mmu.h
++++ b/target/nios2/mmu.h
+@@ -21,6 +21,8 @@
+ #ifndef NIOS2_MMU_H
+ #define NIOS2_MMU_H
  
- #define NUM_PREGS 4
- #define TOTAL_PER_THREAD_REGS 64
-@@ -131,12 +132,7 @@ struct CPUHexagonState {
-     VTCMStoreLog vtcm_log;
- };
++#include "cpu.h"
++
+ typedef struct Nios2TLBEntry {
+     target_ulong tag;
+     target_ulong data;
+diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+index a9a0b363a7..fcb6b7c467 100644
+--- a/target/riscv/pmp.h
++++ b/target/riscv/pmp.h
+@@ -22,6 +22,8 @@
+ #ifndef RISCV_PMP_H
+ #define RISCV_PMP_H
  
--#define HEXAGON_CPU_CLASS(klass) \
--    OBJECT_CLASS_CHECK(HexagonCPUClass, (klass), TYPE_HEXAGON_CPU)
--#define HEXAGON_CPU(obj) \
--    OBJECT_CHECK(HexagonCPU, (obj), TYPE_HEXAGON_CPU)
--#define HEXAGON_CPU_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(HexagonCPUClass, (obj), TYPE_HEXAGON_CPU)
-+OBJECT_DECLARE_TYPE(HexagonCPU, HexagonCPUClass, HEXAGON_CPU)
- 
- typedef struct HexagonCPUClass {
-     /*< private >*/
++#include "cpu.h"
++
+ typedef enum {
+     PMP_READ  = 1 << 0,
+     PMP_WRITE = 1 << 1,
 -- 
 2.34.1
 
