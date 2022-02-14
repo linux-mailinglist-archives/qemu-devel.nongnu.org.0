@@ -2,52 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA864B4093
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 05:03:44 +0100 (CET)
-Received: from localhost ([::1]:60406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F44A4B409C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 05:07:48 +0100 (CET)
+Received: from localhost ([::1]:41700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJSaV-0001aF-J4
-	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 23:03:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60038)
+	id 1nJSeR-00085r-5d
+	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 23:07:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJSX3-00050R-TY
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 23:00:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28402)
+ id 1nJSXV-000648-Cj
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 23:00:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJSX1-00005p-EY
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 23:00:09 -0500
+ id 1nJSXS-00007z-2v
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 23:00:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644811206;
+ s=mimecast20190719; t=1644811233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4ZjETI0DzEsDhzHP0NzMBDAdXRZ+d3sy3JrYB8A/ryk=;
- b=XRigp/CMKSK2bXFuZts3G/PkFXWcCOLP9eTYoYp+m0C3XVEfG+ceC1ZSguh9bvlCYxfPbH
- 2LypD9LnQgdGnTkyP69rZ4LAWjqkN8HMGhVsNyLZPA2u3aARV/LzL2h3NE1xw9QE1xx1qW
- oNyyEHZ5VGUP6TEy4NLfxcx2envrTk0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s7NMRE3w8ty9ut2y4SuafqvYGwlifTworSCgY/qoCsQ=;
+ b=LTvEbjnnCmYQOlIfqZZT4QrIfco5YOaMKQ0uDlyr0J6VFFbBiTUVAERy9mLvmSc5xXRTUA
+ mTMqV/mDgxD4KKsqroxg3zs3lcG5wKrcKlX4ZjWbs1HOuYJ5AWwHhHMssHRJ1I+QXK3Sij
+ 8/jI3ihOorwY1az9WOWlg8BpKRMDOpE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-xF-2AgLuPjmYz7YKmk7QDA-1; Sun, 13 Feb 2022 23:00:03 -0500
-X-MC-Unique: xF-2AgLuPjmYz7YKmk7QDA-1
+ us-mta-183-3bB517YPOgaj972VRHvBEw-1; Sun, 13 Feb 2022 23:00:32 -0500
+X-MC-Unique: 3bB517YPOgaj972VRHvBEw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4D452F49;
- Mon, 14 Feb 2022 04:00:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA045802924;
+ Mon, 14 Feb 2022 04:00:30 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-241.pek2.redhat.com
  [10.72.13.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 398E8610A6;
- Mon, 14 Feb 2022 04:00:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45B4A610A6;
+ Mon, 14 Feb 2022 04:00:03 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 0/8] Net patches
-Date: Mon, 14 Feb 2022 11:59:49 +0800
-Message-Id: <20220214035957.71339-1-jasowang@redhat.com>
+Subject: [PULL 1/8] hw/net/vmxnet3: Log guest-triggerable errors using
+ LOG_GUEST_ERROR
+Date: Mon, 14 Feb 2022 11:59:50 +0800
+Message-Id: <20220214035957.71339-2-jasowang@redhat.com>
+In-Reply-To: <20220214035957.71339-1-jasowang@redhat.com>
+References: <20220214035957.71339-1-jasowang@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -77,53 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Dike <dike199774@qq.com>, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Duhao <504224090@qq.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 48033ad678ae2def43bf0d543a2c4c3d2a93feaf:
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  Merge remote-tracking branch 'remotes/vsementsov/tags/pull-nbd-2022-02-09-v2' into staging (2022-02-12 22:04:07 +0000)
+The "Interrupt Cause" register (VMXNET3_REG_ICR) is read-only.
+Write accesses are ignored. Log them with as LOG_GUEST_ERROR
+instead of aborting:
 
-are available in the git repository at:
+  [R +0.239743] writeq 0xe0002031 0x46291a5a55460800
+  ERROR:hw/net/vmxnet3.c:1819:vmxnet3_io_bar1_write: code should not be reached
+  Thread 1 "qemu-system-i38" received signal SIGABRT, Aborted.
+  (gdb) bt
+  #3  0x74c397d3 in __GI_abort () at abort.c:79
+  #4  0x76d3cd4c in g_assertion_message (domain=<optimized out>, file=<optimized out>, line=<optimized out>, func=<optimized out>, message=<optimized out>) at ../glib/gtestutils.c:3223
+  #5  0x76d9d45f in g_assertion_message_expr
+      (domain=0x0, file=0x59fc2e53 "hw/net/vmxnet3.c", line=1819, func=0x59fc11e0 <__func__.vmxnet3_io_bar1_write> "vmxnet3_io_bar1_write", expr=<optimized out>)
+      at ../glib/gtestutils.c:3249
+  #6  0x57e80a3a in vmxnet3_io_bar1_write (opaque=0x62814100, addr=56, val=70, size=4) at hw/net/vmxnet3.c:1819
+  #7  0x58c2d894 in memory_region_write_accessor (mr=0x62816b90, addr=56, value=0x7fff9450, size=4, shift=0, mask=4294967295, attrs=...) at softmmu/memory.c:492
+  #8  0x58c2d1d2 in access_with_adjusted_size (addr=56, value=0x7fff9450, size=1, access_size_min=4, access_size_max=4, access_fn=
+      0x58c2d290 <memory_region_write_accessor>, mr=0x62816b90, attrs=...) at softmmu/memory.c:554
+  #9  0x58c2bae7 in memory_region_dispatch_write (mr=0x62816b90, addr=56, data=70, op=MO_8, attrs=...) at softmmu/memory.c:1504
+  #10 0x58bfd034 in flatview_write_continue (fv=0x606000181700, addr=0xe0002038, attrs=..., ptr=0x7fffb9e0, len=1, addr1=56, l=1, mr=0x62816b90)
+      at softmmu/physmem.c:2782
+  #11 0x58beba00 in flatview_write (fv=0x606000181700, addr=0xe0002031, attrs=..., buf=0x7fffb9e0, len=8) at softmmu/physmem.c:2822
+  #12 0x58beb589 in address_space_write (as=0x608000015f20, addr=0xe0002031, attrs=..., buf=0x7fffb9e0, len=8) at softmmu/physmem.c:2914
 
-  https://github.com/jasowang/qemu.git tags/net-pull-request
+Reported-by: Dike <dike199774@qq.com>
+Reported-by: Duhao <504224090@qq.com>
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=2032932
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/net/vmxnet3.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to 9d6267b240c114d1a3cd314a08fd6e1339d34b83:
-
-  net/eth: Don't consider ESP to be an IPv6 option header (2022-02-14 11:50:44 +0800)
-
-----------------------------------------------------------------
-
-----------------------------------------------------------------
-Nick Hudson (1):
-      hw/net: e1000e: Clear ICR on read when using non MSI-X interrupts
-
-Peter Foley (2):
-      net/tap: Set return code on failure
-      net: Fix uninitialized data usage
-
-Philippe Mathieu-Daudé (1):
-      hw/net/vmxnet3: Log guest-triggerable errors using LOG_GUEST_ERROR
-
-Rao Lei (1):
-      net/filter: Optimize filter_send to coroutine
-
-Thomas Jansen (1):
-      net/eth: Don't consider ESP to be an IPv6 option header
-
-Zhang Chen (2):
-      net/colo-compare.c: Optimize compare order for performance
-      net/colo-compare.c: Update the default value comments
-
- hw/net/e1000e_core.c |  5 ++++
- hw/net/trace-events  |  1 +
- hw/net/vmxnet3.c     |  4 +++-
- net/colo-compare.c   | 28 +++++++++++-----------
- net/eth.c            |  1 -
- net/filter-mirror.c  | 66 +++++++++++++++++++++++++++++++++++++++++-----------
- net/tap-linux.c      |  1 +
- net/tap.c            |  1 +
- 8 files changed, 78 insertions(+), 29 deletions(-)
+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+index f65af4e..0b7acf7 100644
+--- a/hw/net/vmxnet3.c
++++ b/hw/net/vmxnet3.c
+@@ -1816,7 +1816,9 @@ vmxnet3_io_bar1_write(void *opaque,
+     case VMXNET3_REG_ICR:
+         VMW_CBPRN("Write BAR1 [VMXNET3_REG_ICR] = %" PRIx64 ", size %d",
+                   val, size);
+-        g_assert_not_reached();
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: write to read-only register VMXNET3_REG_ICR\n",
++                      TYPE_VMXNET3);
+         break;
+ 
+     /* Event Cause Register */
+-- 
+2.7.4
 
 
