@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017344B5837
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 18:12:54 +0100 (CET)
-Received: from localhost ([::1]:49750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF96E4B583C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 18:14:17 +0100 (CET)
+Received: from localhost ([::1]:51296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJeuC-0000Ej-Hm
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 12:12:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48488)
+	id 1nJevX-0001IE-Dy
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 12:14:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJerd-0007aZ-Ta
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 12:10:14 -0500
-Received: from [2a00:1450:4864:20::434] (port=38808
- helo=mail-wr1-x434.google.com)
+ id 1nJesk-0008K7-OQ
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 12:11:25 -0500
+Received: from [2a00:1450:4864:20::430] (port=34440
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJerc-0006Ep-8f
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 12:10:13 -0500
-Received: by mail-wr1-x434.google.com with SMTP id d27so24179885wrb.5
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 09:10:11 -0800 (PST)
+ id 1nJesR-0006Io-Oj
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 12:11:04 -0500
+Received: by mail-wr1-x430.google.com with SMTP id s10so14443462wrb.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 09:11:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=9WsPvfugCztFZpN0/fyrcZhPKkr0h5vTtNyfBrfdCo4=;
- b=JgA+mARw3AjtEl6h6RlAMZqbmHoSyZRMlOO0vU9gDCqCGcs+uxa1VWjbolyqRZ8WTL
- SjkGbHARiLbbzYVJhvOljC45cHgIt7Pgx/4JhEGDOaX8Oxa9dvEj884x5FcFuoGJCVTo
- A7Nar50Aqgc685chbqiKMKyqRbSbaLcktqH++ogv3GI4KnC5wn80xQFDHQ+cwdkVvDEz
- YvJ9Z0izzgWhuyN44EU2LwNe56joCXObe44vLRHlOsHflUyP1sJYB337T8wVEba/+Otj
- tZTRqe9nB8XOvUptTx3pSipRYTL0wqnJLhJmP8hpVXoyHLPaDlXrnToFX8MUtl7S3nr7
- aEPw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=B0h8V7q6luBRp2i4ssAUSnHEM5HDTfXqECkAOXhmWBw=;
+ b=mJQ8CWVNh3J3RO1Dy3T4XRfXO0D7+YELSLnX6zjQAc/9LoMol9uBJagnMj0v/4Wouj
+ 5E6Hsb2BR/4gMe6YIiHaDD3+kh1OCtNbdxaPI+CfgHcP3UIMRJ3iNrg38uu4YtapFH8n
+ fQy7IIvjzkf8FbNeg32rLkXFh7vTFDEM4B4cyyAgD/EprjKC6wfn6hyNo458jF3fBfsA
+ AVUG++vtT1er5wdDxykrAfPDHxrd1uT5zR76dyrhs1wFb9dBiPyTJTNBo2yJiS86/J4V
+ rmd5Egif+uKgMjWzOrwYjmq10wLTIl+R4OOXrC1UJZR8I7FMJI5mxGouf6zVSwFfRsps
+ cwkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=9WsPvfugCztFZpN0/fyrcZhPKkr0h5vTtNyfBrfdCo4=;
- b=EXIG3hsjkBwwF6TpHOTyU4scRbr/HjZXodjf4HI9waz4yyOZn0twv2jcnuRefOd4YX
- uViXU5yIGMksqJL5ANWmjyQ+jnbHwJZeLAU7JRiMFbJxBaZoRJstOGZrtlHVXRxf8bt9
- Nf/Q2KuxZUbFBoIiMtZ6dAoUtQULhnkyWfqbcUITj4lF5oX/qQ380cvW9RUx8iQu61bq
- z+rY0mQrH/YY7Dvf8r2gtGuYEvySDUihsFa57iFT/Fsp6u5HqQTTyVUcLUTHesaxKvrT
- 5UWWtb4oM1SbDtq8P8CjspmlG6qzC8kOQLJAp4Y/3ll2jbKBvVk11tawoN6lHsOoF1kN
- GjEA==
-X-Gm-Message-State: AOAM533NyCm0NQagdkw5V/O7lqBIzWsWvHNq235l9JlHNeqk7y3Knut3
- 9joFqfMDmsy8CNiASFcr40QND8j3oSwoN+HfbAUxKYL6QZT8VA==
-X-Google-Smtp-Source: ABdhPJzRZ60aoDxLnKyMrP0k3qevlxsLFbuE+BrJVyTyo53OYQLNXyx5myFx2Tw2RGScJbZP16J1rQnkWDoUzhNbN+k=
-X-Received: by 2002:a5d:498d:: with SMTP id r13mr10082wrq.172.1644858609877;
- Mon, 14 Feb 2022 09:10:09 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=B0h8V7q6luBRp2i4ssAUSnHEM5HDTfXqECkAOXhmWBw=;
+ b=i8R7eqTnj70HpzAkFWPdVCos5FpMSVBbYb69GYWH5CW2n+cjhEDhbhalhjYjBhXBiC
+ Hs4uyMEMrK81m9OlKlxYU+/hF+FhFVmqYeOsGOQfEFuhqRVeGjGnrQqajV2nA/Pgr9GJ
+ 3b5PYMHePdIRv7lQiYoWcgVTuD0vLOBgZjc9EQP+7CJ1AplCTHPvJvBHHuY0v1EU+M60
+ LvpG3SdjL9ZGTzED3P8ONEYL5D9GryfJcDOZ1sWmB1VJ6KTOD235kb82Qbqji5Yeecr/
+ e4lAsCI6Ho50nTnaZ/nOit5SAN+R3/tQZU0KlcdiVf1v1WbowlFIevLGB0dF/Sb2fiVM
+ IjNw==
+X-Gm-Message-State: AOAM533qc+R3UsPlwVE1spghtadcvMwdqYeMsmakK19SlCl9Wg67TaZ6
+ 2UpKz6UNr+eknyMMiZRJ/OsOwsjjAsrkFLQ7gPS1LfkV0zM=
+X-Google-Smtp-Source: ABdhPJyo9EIFyC5TEhnARGMaEgw73r2lb1i1wxaqqIDtGqaaltSRnFUI+chvxR5HwPwbPqT6yOhL0V91QkBomB34b9w=
+X-Received: by 2002:a5d:6d8d:: with SMTP id l13mr454225wrs.295.1644858661704; 
+ Mon, 14 Feb 2022 09:11:01 -0800 (PST)
 MIME-Version: 1.0
+References: <CAFEAcA_3C6JoHE288PUFMciO7e2OWK=z-a2168-b2r64H0QCPw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_3C6JoHE288PUFMciO7e2OWK=z-a2168-b2r64H0QCPw@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Feb 2022 17:09:59 +0000
-Message-ID: <CAFEAcA_3C6JoHE288PUFMciO7e2OWK=z-a2168-b2r64H0QCPw@mail.gmail.com>
-Subject: proposed release schedule for QEMU 7.0
+Date: Mon, 14 Feb 2022 17:10:50 +0000
+Message-ID: <CAFEAcA90J0=rVFjF4NobFgGcTxAbkxHkhovUnsfN08Zo4d-gyg@mail.gmail.com>
+Subject: Re: proposed release schedule for QEMU 7.0
 To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -80,30 +83,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here's my suggestion for release schedule dates for 7.0:
+On Mon, 14 Feb 2022 at 17:09, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Here's my suggestion for release schedule dates for 7.0:
+>
+> 2021-12-14 Beginning of development phase
+> 2022-03-08 Soft feature freeze. Only bug fixes after this point.
+>            All feature changes must be already in a sub maintainer
+>            tree and all pull requests from submaintainers must have
+>            been sent to the list by this date.
+> 2022-03-15 Hard feature freeze. Tag rc0
+> 2022-03-22 Tag rc1
+> 2022-03-29 Tag rc2
+> 2022-04-05 Tag rc3
+> 2022-04-12 Release; or tag rc4 if needed
+> 2022-04-19 Release if we needed an rc4
+>
+> Any opinions/suggested tweaks?
+>
+> Easter this year is April 15-18th, which is slightly awkwardly
+> between the theoretical release day and the more probable
+> release-if-we-tag-rc4 day. But we can't really bring it forward
+> as softfreeze is already only 2 weeks from now...
 
-2021-12-14 Beginning of development phase
-2022-03-08 Soft feature freeze. Only bug fixes after this point.
-           All feature changes must be already in a sub maintainer
-           tree and all pull requests from submaintainers must have
-           been sent to the list by this date.
-2022-03-15 Hard feature freeze. Tag rc0
-2022-03-22 Tag rc1
-2022-03-29 Tag rc2
-2022-04-05 Tag rc3
-2022-04-12 Release; or tag rc4 if needed
-2022-04-19 Release if we needed an rc4
+Three weeks; I miscounted!
 
-Any opinions/suggested tweaks?
-
-Easter this year is April 15-18th, which is slightly awkwardly
-between the theoretical release day and the more probable
-release-if-we-tag-rc4 day. But we can't really bring it forward
-as softfreeze is already only 2 weeks from now... We could
-move everything later by a week if we wanted more time before
-softfreeze, at the cost of having Easter fall in a probably
-more active part of the release cycle.
-
-thanks
 -- PMM
 
