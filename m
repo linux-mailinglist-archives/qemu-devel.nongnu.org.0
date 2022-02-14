@@ -2,76 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27584B53C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:52:38 +0100 (CET)
-Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5BC4B538A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:41:29 +0100 (CET)
+Received: from localhost ([::1]:45704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJciS-0006Nm-EB
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:52:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44416)
+	id 1nJcXe-0002cp-I4
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:41:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nJc4H-0008I0-Uy
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:11:07 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=38431
- helo=mail-pj1-x1032.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nJc4F-0004ss-Ic
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:11:05 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- h14-20020a17090a130e00b001b88991a305so18976065pja.3
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 06:11:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PdZPgVs5vPBvparmcotK7oV7z3Yf94yHSi1g5mgwvgQ=;
- b=NFgMfI8iL9RjntLuL4L3Et/g8KAn+nqwhLCO1e8b0pgIBU78F7OsD10QzjnlCQpWBh
- sw9AGwM8pNao9geY2Zc5GRwBVH2y34nJ8kRKWumfvIwDW4Is7FYQpMC9VIkkxSjZpJfb
- ljXq4sZEP2Ih9CqtXe1zXOANirwykegokz4kZHbRAGgkATUmBsB5cNtDLbEWaL0ie0Yd
- 9M186tDOqQg24kxlmlExINAPEHRLwVamX2Pr2ERFZtkbxHegWrpkuUSJh2MQ11k7Imuf
- eDUQ8bf1VCcDPyj9qamrCz/la6MV4GTP3Qll7qg+CiNq64n3Den7HWLyun+jGhgKUmyz
- EGKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PdZPgVs5vPBvparmcotK7oV7z3Yf94yHSi1g5mgwvgQ=;
- b=RNW5HD3CksTWb5HI6zqT6DS7nkSfqmPuwSoFTV019zRZi/WqSg9eDQMRC8UGKdlKt5
- LnIX7tALpmUcebd3gbMOvC5MRHIN0GdzER8Fad9dcmBazU08bU91zKhP2y23R4pduz5x
- YlG3pwS45u0hMLHiKo1xxPW9CY1Zsk2c/mc3WhqGglI+HwJ2qU4bj5fO/y6Acsj1fpik
- KtcDMCdfv5n0ML4H+2Df2SJUHu4sEeMsAfP3K5ZKAEbx2DvmP7JminWIgbQoE8+MZbWd
- /bSgn5bIQ5y2/zMUuBsYRtoDTW31LfVoVWfgKM0DhhvoTZUC1mw/FXHXM35wtVjxiexr
- 2rnA==
-X-Gm-Message-State: AOAM5321EtsDAPEJq0T9s35VVCQCgE1o8+d3nEKnRd5rojnooQhNbToB
- 78q/6M3GOBP63mRRDOv/a0bgkOWhVXKF/XM62ZI=
-X-Google-Smtp-Source: ABdhPJyZWYTkytm3GyM5hxpfoZooN/ycNQDscnLEgRToQfqjyCdFcZ9A9bXyTUGoDAhyNuh4cp0wjFoyZZ5gtAD1x1s=
-X-Received: by 2002:a17:902:d64f:: with SMTP id
- y15mr14104486plh.145.1644847861164; 
- Mon, 14 Feb 2022 06:11:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nJc5r-0001e6-2D; Mon, 14 Feb 2022 09:12:43 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2032)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nJc5o-00056h-Ts; Mon, 14 Feb 2022 09:12:42 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21ECrlu7031221; 
+ Mon, 14 Feb 2022 14:12:05 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e785t3me1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Feb 2022 14:12:05 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21ECjj7D015273;
+ Mon, 14 Feb 2022 14:12:04 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e785t3mcu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Feb 2022 14:12:04 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21EE7nZx029039;
+ Mon, 14 Feb 2022 14:12:02 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma03ams.nl.ibm.com with ESMTP id 3e64h9p6c4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Feb 2022 14:12:02 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21EEC0je39846298
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Feb 2022 14:12:00 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CC276AE05A;
+ Mon, 14 Feb 2022 14:11:59 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8A28AAE057;
+ Mon, 14 Feb 2022 14:11:59 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon, 14 Feb 2022 14:11:59 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.60.190])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id C4BC32201DE;
+ Mon, 14 Feb 2022 15:11:58 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] ppc/spapr: Advertise StoreEOI for POWER10 compat guests
+Date: Mon, 14 Feb 2022 15:11:57 +0100
+Message-Id: <20220214141157.3800212-1-clg@kaod.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
- <87zgmtd0ov.fsf@linaro.org>
-In-Reply-To: <87zgmtd0ov.fsf@linaro.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 14 Feb 2022 14:10:49 +0000
-Message-ID: <CAJSP0QULu-2pppavMHnUn2=Lo8j3b3wteXUiQfkiF49OjHjGMQ@mail.gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=stefanha@gmail.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: SZoJbD9UP5xZHoR0gzrck4K1hg6-9op4
+X-Proofpoint-ORIG-GUID: mMMc6ivUYCX_fCWEqnrxxz0UyxMi0OLi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-14_06,2022-02-14_03,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=783
+ malwarescore=0 adultscore=0 lowpriorityscore=0 clxscore=1034
+ impostorscore=0 priorityscore=1501 bulkscore=0 suspectscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202140086
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,101 +99,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sergio Lopez <slp@redhat.com>, kvm <kvm@vger.kernel.org>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, "Florescu,
- Andreea" <fandree@amazon.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Alex Agache <aagch@amazon.com>,
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Feb 2022 at 13:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Stefan Hajnoczi <stefanha@gmail.com> writes:
->
-> > Dear QEMU, KVM, and rust-vmm communities,
-> > QEMU will apply for Google Summer of Code 2022
-> > (https://summerofcode.withgoogle.com/) and has been accepted into
-> > Outreachy May-August 2022 (https://www.outreachy.org/). You can now
-> > submit internship project ideas for QEMU, KVM, and rust-vmm!
-> >
-> > If you have experience contributing to QEMU, KVM, or rust-vmm you can
-> > be a mentor. It's a great way to give back and you get to work with
-> > people who are just starting out in open source.
-> >
-> > Please reply to this email by February 21st with your project ideas.
-> >
-> > Good project ideas are suitable for remote work by a competent
-> > programmer who is not yet familiar with the codebase. In
-> > addition, they are:
-> > - Well-defined - the scope is clear
-> > - Self-contained - there are few dependencies
-> > - Uncontroversial - they are acceptable to the community
-> > - Incremental - they produce deliverables along the way
-> >
-> > Feel free to post ideas even if you are unable to mentor the project.
-> > It doesn't hurt to share the idea!
-> >
-> > I will review project ideas and keep you up-to-date on QEMU's
-> > acceptance into GSoC.
-> >
-> > Internship program details:
-> > - Paid, remote work open source internships
-> > - GSoC projects are 175 or 350 hours, Outreachy projects are 30
-> > hrs/week for 12 weeks
-> > - Mentored by volunteers from QEMU, KVM, and rust-vmm
-> > - Mentors typically spend at least 5 hours per week during the coding p=
-eriod
-> >
-> > Changes since last year: GSoC now has 175 or 350 hour project sizes
-> > instead of 12 week full-time projects. GSoC will accept applicants who
-> > are not students, before it was limited to students.
->
-> I'm certainly up for mentoring new devices for vhost-device (rust-vmm
-> vhost-user backends). Since we've become a code owner we're trying to
-> clear the backlog (virto-vsock and virtio-block) but there are plenty of
-> others that could be done. Of particular interest to me are:
->
->   - virtio-rpmb (we have a working C implementation I wrote)
+When an interrupt has been handled, the OS notifies the interrupt
+controller with a EOI sequence. On a POWER9 and POWER10 systems using
+the XIVE interrupt controller, this can be done with a load or a store
+operation on the ESB interrupt management page of the interrupt. The
+StoreEOI operation has less latency and improves interrupt handling
+performance but it was deactivated during the POWER9 DD2.0 timeframe
+because of ordering issues. POWER9 systems use the LoadEOI instead.
+POWER10 compat guests should have fixed the issue with
+Load-after-Store ordering and StoreEOI can be activated for them
+again.
 
-Yes, it would be good to have an implementation. I mentioned this
-device in my FOSDEM 22 talk about what's coming in VIRTIO 1.2:
-https://vmsplice.net/~stefan/stefanha-fosdem-2022.pdf
+To maintain performance, this ordering is only enforced for the
+XIVE_ESB_SET_PQ_10 load operation. This operation can be used to
+disable temporarily an interrupt source. If StoreEOI is active, a
+source could be left enabled if the load and store operations come
+out of order.
 
->   - virtio-snd (in flight virtio spec)
+Add a check in our XIVE emulation model for Load-after-Store when
+StoreEOI is active. It should catch unreliable sequences. Other load
+operations should be fine without it.
 
-There are QEMU patches in development by Shreyansh Chouhan although
-that doesn't rule out a rust-vmm crate.
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ include/hw/ppc/spapr_xive.h |  1 +
+ include/hw/ppc/xive.h       |  8 ++++++++
+ hw/intc/spapr_xive.c        | 15 +++++++++++++++
+ hw/intc/spapr_xive_kvm.c    | 15 +++++++++++++++
+ hw/intc/xive.c              |  6 ++++++
+ hw/ppc/spapr_hcall.c        |  7 +++++++
+ 6 files changed, 52 insertions(+)
 
->   - virtio-video (again we have a working C version against v3)
+diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+index b282960ad90d..9c247d8bf57d 100644
+--- a/include/hw/ppc/spapr_xive.h
++++ b/include/hw/ppc/spapr_xive.h
+@@ -73,6 +73,7 @@ void spapr_xive_map_mmio(SpaprXive *xive);
+=20
+ int spapr_xive_end_to_target(uint8_t end_blk, uint32_t end_idx,
+                              uint32_t *out_server, uint8_t *out_prio);
++void spapr_xive_enable_store_eoi(SpaprXive *xive, bool enable);
+=20
+ /*
+  * KVM XIVE device helpers
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 126e4e2c3a17..133f308c2792 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -285,6 +285,14 @@ uint8_t xive_esb_set(uint8_t *pq, uint8_t value);
+ #define XIVE_ESB_SET_PQ_10      0xe00 /* Load */
+ #define XIVE_ESB_SET_PQ_11      0xf00 /* Load */
+=20
++/*
++ * Load-after-store ordering
++ *
++ * Adding this offset to the load address will enforce
++ * load-after-store ordering. This is required to use with StoreEOI.
++ */
++#define XIVE_ESB_LD_ST_MO       0x40 /* Load-after-store ordering */
++
+ uint8_t xive_source_esb_get(XiveSource *xsrc, uint32_t srcno);
+ uint8_t xive_source_esb_set(XiveSource *xsrc, uint32_t srcno, uint8_t pq=
+);
+=20
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index dc641cc604bf..0b8a246ad594 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -25,6 +25,7 @@
+ #include "hw/ppc/xive_regs.h"
+ #include "hw/qdev-properties.h"
+ #include "trace.h"
++#include "cpu-models.h"
+=20
+ /*
+  * XIVE Virtualization Controller BAR and Thread Managment BAR that we
+@@ -1854,3 +1855,17 @@ void spapr_xive_hcall_init(SpaprMachineState *spap=
+r)
+     spapr_register_hypercall(H_INT_SYNC, h_int_sync);
+     spapr_register_hypercall(H_INT_RESET, h_int_reset);
+ }
++
++/*
++ * Advertise StoreEOI for a P10 compat guest. OS is required to
++ * enforce load-after-store ordering.
++ */
++void spapr_xive_enable_store_eoi(SpaprXive *xive, bool enable)
++{
++    if (enable) {
++        xive->source.esb_flags |=3D XIVE_SRC_STORE_EOI;
++    } else {
++        xive->source.esb_flags &=3D ~XIVE_SRC_STORE_EOI;
++    }
++
++}
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index 61fe7bd2d322..bd023407bd7f 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -296,6 +296,21 @@ static uint64_t xive_esb_rw(XiveSource *xsrc, int sr=
+cno, uint32_t offset,
+=20
+ static uint8_t xive_esb_read(XiveSource *xsrc, int srcno, uint32_t offse=
+t)
+ {
++    /*
++     * The XIVE_ESB_SET_PQ_10 load operation is used to disable
++     * temporarily an interrupt source. If StoreEOI is active, a
++     * source could be left enabled if the load and store operations
++     * come out of order.
++     *
++     * As we don't know the characteristics of the host source
++     * interrupts (StoreEOI or not), enforce the load-after-store
++     * ordering always. The performance penalty will be very small for
++     * QEMU.
++     */
++    if (offset =3D=3D XIVE_ESB_SET_PQ_10) {
++        offset |=3D XIVE_ESB_LD_ST_MO;
++    }
++
+     return xive_esb_rw(xsrc, srcno, offset, 0, 0) & 0x3;
+ }
+=20
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index b8e4c7294d59..d62881873b1b 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1024,6 +1024,12 @@ static uint64_t xive_source_esb_read(void *opaque,=
+ hwaddr addr, unsigned size)
+     case XIVE_ESB_SET_PQ_01 ... XIVE_ESB_SET_PQ_01 + 0x0FF:
+     case XIVE_ESB_SET_PQ_10 ... XIVE_ESB_SET_PQ_10 + 0x0FF:
+     case XIVE_ESB_SET_PQ_11 ... XIVE_ESB_SET_PQ_11 + 0x0FF:
++        if (offset =3D=3D XIVE_ESB_SET_PQ_10 &&
++            xsrc->esb_flags & XIVE_SRC_STORE_EOI) {
++            qemu_log_mask(LOG_GUEST_ERROR, "XIVE: load-after-store order=
+ing "
++                          "not enforced with Store EOI active for IRQ %d=
+\n",
++                          srcno);
++        }
+         ret =3D xive_source_esb_set(xsrc, srcno, (offset >> 8) & 0x3);
+         break;
+     default:
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 8ffb13ada08e..6b888c963ac4 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1210,11 +1210,18 @@ target_ulong do_client_architecture_support(Power=
+PCCPU *cpu,
+      * otherwise terminate the boot.
+      */
+     if (guest_xive) {
++        bool enable;
++
+         if (!spapr->irq->xive) {
+             error_report(
+ "Guest requested unavailable interrupt mode (XIVE), try the ic-mode=3Dxi=
+ve or ic-mode=3Ddual machine property");
+             exit(EXIT_FAILURE);
+         }
++
++        /* Advertise StoreEOI for a P10 compat guest. */
++        enable =3D ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_10, 0,
++                                  cpu->compat_pvr);
++        spapr_xive_enable_store_eoi(spapr->xive, enable);
+     } else {
+         if (!spapr->irq->xics) {
+             error_report(
+--=20
+2.34.1
 
-Want to pick one device and write a project description for it?
-
-> With my other hat on there are numerous TCG plugin projects that could
-> be done. Adding basic plugins is fairly straight forward but it would be
-> interesting to look at what is required to do a more involved plugin
-> like panda-re's taint analysis (following ptrs as they move through the
-> system). This will likely need some additional features exposed from the
-> plugin interface to achieve.
->
-> With that in mind there is also the idea of a central registry for
-> register values which is a prerequisite for expanding access to TCG
-> plugins but could also bring various quality of life improvements to
-> other areas. I've written that up on a page:
->
->   https://wiki.qemu.org/Internships/ProjectIdeas/CentralRegisterRegistry
-
-Thanks for posting that! Can you add links to the -d cpu, gdbstub, and
-hmp/qmp register code? The idea is a little fuzzy in my mind, maybe
-you could include a sketch of the API to give readers an idea of what
-the project should deliver?
-
-Stefan
 
