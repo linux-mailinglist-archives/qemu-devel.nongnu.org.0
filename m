@@ -2,86 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41C24B50A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 13:51:36 +0100 (CET)
-Received: from localhost ([::1]:53406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E6B4B5194
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 14:24:52 +0100 (CET)
+Received: from localhost ([::1]:38230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJapK-0006t0-Dp
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 07:51:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47338)
+	id 1nJbLX-00033d-8s
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 08:24:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nJaVY-0005x3-Hl; Mon, 14 Feb 2022 07:31:08 -0500
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:42809)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nJaVS-0003cD-N8; Mon, 14 Feb 2022 07:31:08 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 9DC4B2B001F7;
- Mon, 14 Feb 2022 07:30:52 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 14 Feb 2022 07:30:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=ve2SfB3UkUezGa
- hVn/I7IICi2La7Cy9FjBuUTdUOUbM=; b=ql0SvqkSFthOATQGiCvd16P2Riq7Tc
- yuQtm54D75iJ0ABT7eHiBOcrA5oYVcTrhR698JaVVfJVec/Q6PiSZYHEvgoXCvcY
- dA2BjF7BKuEHwE6FobNyucbkbs8+OnX3ntg+/ldkHzVYCnGABJ/LbORtxZx9ovjU
- BPFAGCTAX7S9sJIXC+Uwn3gK8F5KtXF608al7OY/mCRA2GTQPzmOaFm1JZr6aof2
- d8/6XrwWAfvMEW9mA4JkXhyHSzp0Vw6hq25jTqIMhvXS1OOBKuNiYx1p4hREdQj5
- rcYD1AjJdCP8Vyetex9k3nVu53RJlIYJAT9TrpYxBcLyTR7pHR7Qvjeg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ve2SfB
- 3UkUezGahVn/I7IICi2La7Cy9FjBuUTdUOUbM=; b=dp2BxOlli+cS/GzOwQD5xe
- MiVPOiDwfKsycTOXR0r0S8cDpJYJmODHKoBjJBQcTbTB1ykzysBrq1eATqSq7ZB5
- 3kBiTRoiLtcudnkwnzFxdJxtKxuPOmeECBTnK4y39TsQe4Vz+3ISC8yynrwq4KHL
- J1pKMukfUZA7MkzuaD/phC7hdWc0bKmL66+LiV5mIeQojMtu/aotY15lcbfsHfkG
- Gzmg3RFgphGzXfPCTFn34sNMh57ck0jqVBMVgF2D2G2VCmIlmOoh//a060PKjgcO
- NAaHXwj8Ou6b40p4dfI6jYP/tWJILGx0AePsbXNz8Ci8V6jS6mdgju7iRyQI+5gw
- ==
-X-ME-Sender: <xms:e0sKYs9rsw6dvKQoyMX1JtcEGsqGviEMdVJFdtFAhY8N8lfB6PUjqw>
- <xme:e0sKYkv9CqKDuhrliI_8sOuORFZo7pVY-pltxUVfy9QB9ySFuDRxU-xQngbJPANSo
- ZyBTbSCch4B6G2FkVk>
-X-ME-Received: <xmr:e0sKYiCTw2Aj0YFuQeZ2x5IJkSY-jGhHTqJxUfKgMNlkbqRnlyw1L7KHA9Ozrb_g7mi2sMkhSwalzQRpoyrSaw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjedvgdefiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:fEsKYsfQ14-mVQlbe8bcaem0DmmcNqJR93jlCmyUqciOTSjDY38Obg>
- <xmx:fEsKYhNzLmo6qfPZfTmW_qpLZn3qQV1PlkQ1LMlKU3dUg6mt6Z7ukg>
- <xmx:fEsKYmmtlAHXe_gPO_QnaSUX9ri_gYw56MpBZmVcKGd6_BDdZDSi6Q>
- <xmx:fEsKYkqxrozHrBKdrELwY4WuJUcVjIAtAkgpOKIJWN-O_L51MqIOBdpcKUQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Feb 2022 07:30:50 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>,
-	qemu-devel@nongnu.org
-Subject: [PATCH 5/6] hw/nvme: add pi tuple size helper
-Date: Mon, 14 Feb 2022 13:30:28 +0100
-Message-Id: <20220214123029.106404-6-its@irrelevant.dk>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220214123029.106404-1-its@irrelevant.dk>
-References: <20220214123029.106404-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nJabq-0004lE-Cz
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 07:37:39 -0500
+Received: from [2a00:1450:4864:20::32b] (port=55013
+ helo=mail-wm1-x32b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nJaBe-0008Ev-1B
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 07:10:36 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id c192so9511572wma.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 04:10:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7jGirUhK5lEECykxqa7W+lVWmlognC3un0SqZDa0plk=;
+ b=CH2/8OphbJZR9V99aqdITwuf5+lCbAfGHeiCyr+6dvrbNTf/AOU5Oh7spwrW+Cfmvj
+ gRUuVkoGvIVW3mUjNs2wF7Qa5vUOmbZpZrQ3F1SKwJlyP9dGh43aY987coEQQoj3gukr
+ U4xgFXVML84gPXVMwj7fjpUksY2AxdqvVFu8Lshp/kqM9X4ogC7O3WZAnDALqgJn1bFC
+ WcLXIH80/BA3tJLC+MWA8K4pIv/hJRDmj+qc7Ezhnva4mxu99OUkfYrHr7DD5SoeF/Qp
+ OOibrDWaAj1UgvGFD4vOuzE+hpKqlGS82NsYzmKOx7dqaI+d8SbRhk4h1rIwemZ2mm0b
+ BnQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7jGirUhK5lEECykxqa7W+lVWmlognC3un0SqZDa0plk=;
+ b=sTk0MN81Ho7P2ZhOSwK6rtcG5iNAnqarkZhGNE28aYhOmSSKgtlyCv2zjEavRmPmHQ
+ gjx8rpyZhM181hBiQmdetG7feqwvfbMliTIC1df7FnFEI6qR2NKb3lpz+Gf0CqSezN2V
+ UWLcaeTAJ/sd/nBje6TduOq4sc+knexQ4CP/R80e0yhFVqE0eUWNEsymzC5uwFri4PNB
+ DxiSIzSWsf4Xtetaik/UzwH4LAR+5Ppzeb0FpshCZCzbZeQbJFtmxO3QedKml9lMQftD
+ d6OfxXVgPIOvj6/Ys6AuXCozHKOhaDdD/4/Tdk/K2k5Iqi9FnLBqV2Yc+fTOAfwI0Xmp
+ D/HA==
+X-Gm-Message-State: AOAM530GTc9TodeqBUx8jYvlJzj8vmHMTYp4rOwLv4RLzGF2ARkr2SmI
+ 3E65gv2vGCXh7Kl4gVCKInw=
+X-Google-Smtp-Source: ABdhPJw3H/210ismMdsEE4xqIhyUobNbAuQCHyQRrh1HB+UY9eruGe6vr12w7y5A4nqUzndbPu9bSQ==
+X-Received: by 2002:a05:600c:4e11:: with SMTP id
+ b17mr3339870wmq.31.1644840631655; 
+ Mon, 14 Feb 2022 04:10:31 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id f9sm9274190wry.27.2022.02.14.04.10.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 04:10:31 -0800 (PST)
+Message-ID: <ccacb932-0d51-10c4-081c-ab1a8ad95f4a@amsat.org>
+Date: Mon, 14 Feb 2022 13:10:30 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH v4 01/13] lcitool: refresh
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-devel@nongnu.org
+Cc: Cameron Esfahani <dirty@apple.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Will Cohen <wwcohen@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Li Zhang <lizhang@suse.de>
+References: <20220211163434.58423-1-f4bug@amsat.org>
+ <20220211163434.58423-2-f4bug@amsat.org>
+ <d1bfb5c5-8b7b-849d-d0a4-cab3ebe07057@gmail.com>
+In-Reply-To: <d1bfb5c5-8b7b-849d-d0a4-cab3ebe07057@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.17; envelope-from=its@irrelevant.dk;
- helo=wnew3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.785, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,180 +100,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Naveen Nagar <naveen.n1@samsung.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On 12/2/22 16:14, Akihiko Odaki wrote:
+> On 2022/02/12 1:34, Philippe Mathieu-Daudé via wrote:
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   tests/docker/dockerfiles/ubuntu1804.docker | 2 --
+>>   tests/docker/dockerfiles/ubuntu2004.docker | 2 --
+>>   2 files changed, 4 deletions(-)
 
-A subsequent patch will introduce a new tuple size; so add a helper and
-use that instead of sizeof() and magic numbers.
+>> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker 
+>> b/tests/docker/dockerfiles/ubuntu2004.docker
+>> index 87513125b8..159e7f60c9 100644
+>> --- a/tests/docker/dockerfiles/ubuntu2004.docker
+>> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
+>> @@ -66,7 +66,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+>>               libpam0g-dev \
+>>               libpcre2-dev \
+>>               libpixman-1-dev \
+>> -            libpmem-dev \
+>>               libpng-dev \
+>>               libpulse-dev \
+>>               librbd-dev \
+>> @@ -91,7 +90,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+>>               libvdeplug-dev \
+>>               libvirglrenderer-dev \
+>>               libvte-2.91-dev \
+>> -            libxen-dev \
+>>               libzstd-dev \
+>>               llvm \
+>>               locales \
+> 
+> This can't be applied to master.
+> 
+> % git am ~/mbox.txt
+> Applying: lcitool: refresh
+> error: patch failed: tests/docker/dockerfiles/ubuntu1804.docker:89
+> error: tests/docker/dockerfiles/ubuntu1804.docker: patch does not apply
+> error: patch failed: tests/docker/dockerfiles/ubuntu2004.docker:91
+> error: tests/docker/dockerfiles/ubuntu2004.docker: patch does not apply
+> Patch failed at 0001 lcitool: refresh
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 14 ++++++++------
- hw/nvme/dif.c  | 16 ++++++++--------
- hw/nvme/dif.h  |  5 +++++
- 3 files changed, 21 insertions(+), 14 deletions(-)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 52ab3450b975..f1683960b87e 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1068,7 +1068,8 @@ static uint16_t nvme_map_data(NvmeCtrl *n, uint32_t nlb, NvmeRequest *req)
-     size_t len = nvme_l2b(ns, nlb);
-     uint16_t status;
- 
--    if (nvme_ns_ext(ns) && !(pi && pract && ns->lbaf.ms == 8)) {
-+    if (nvme_ns_ext(ns) &&
-+        !(pi && pract && ns->lbaf.ms == nvme_pi_tuple_size(ns))) {
-         NvmeSg sg;
- 
-         len += nvme_m2b(ns, nlb);
-@@ -1247,7 +1248,8 @@ uint16_t nvme_bounce_data(NvmeCtrl *n, void *ptr, uint32_t len,
-     bool pi = !!NVME_ID_NS_DPS_TYPE(ns->id_ns.dps);
-     bool pract = !!(le16_to_cpu(rw->control) & NVME_RW_PRINFO_PRACT);
- 
--    if (nvme_ns_ext(ns) && !(pi && pract && ns->lbaf.ms == 8)) {
-+    if (nvme_ns_ext(ns) &&
-+        !(pi && pract && ns->lbaf.ms == nvme_pi_tuple_size(ns))) {
-         return nvme_tx_interleaved(n, &req->sg, ptr, len, ns->lbasz,
-                                    ns->lbaf.ms, 0, dir);
-     }
-@@ -2184,7 +2186,7 @@ static void nvme_compare_mdata_cb(void *opaque, int ret)
-          * tuple.
-          */
-         if (!(ns->id_ns.dps & NVME_ID_NS_DPS_FIRST_EIGHT)) {
--            pil = ns->lbaf.ms - sizeof(NvmeDifTuple);
-+            pil = ns->lbaf.ms - nvme_pi_tuple_size(ns);
-         }
- 
-         for (bufp = buf; mbufp < end; bufp += ns->lbaf.ms, mbufp += ns->lbaf.ms) {
-@@ -3167,7 +3169,7 @@ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
-         if (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps)) {
-             bool pract = prinfo & NVME_PRINFO_PRACT;
- 
--            if (pract && ns->lbaf.ms == 8) {
-+            if (pract && ns->lbaf.ms == nvme_pi_tuple_size(ns)) {
-                 mapped_size = data_size;
-             }
-         }
-@@ -3244,7 +3246,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-         if (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps)) {
-             bool pract = prinfo & NVME_PRINFO_PRACT;
- 
--            if (pract && ns->lbaf.ms == 8) {
-+            if (pract && ns->lbaf.ms == nvme_pi_tuple_size(ns)) {
-                 mapped_size -= nvme_m2b(ns, nlb);
-             }
-         }
-@@ -5553,7 +5555,7 @@ static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
-         return NVME_INVALID_FORMAT | NVME_DNR;
-     }
- 
--    if (pi && (ns->id_ns.lbaf[lbaf].ms < sizeof(NvmeDifTuple))) {
-+    if (pi && (ns->id_ns.lbaf[lbaf].ms < nvme_pi_tuple_size(ns))) {
-         return NVME_INVALID_FORMAT | NVME_DNR;
-     }
- 
-diff --git a/hw/nvme/dif.c b/hw/nvme/dif.c
-index cd0cea2b5ebd..891385f33f20 100644
---- a/hw/nvme/dif.c
-+++ b/hw/nvme/dif.c
-@@ -48,7 +48,7 @@ void nvme_dif_pract_generate_dif(NvmeNamespace *ns, uint8_t *buf, size_t len,
-     int16_t pil = 0;
- 
-     if (!(ns->id_ns.dps & NVME_ID_NS_DPS_FIRST_EIGHT)) {
--        pil = ns->lbaf.ms - sizeof(NvmeDifTuple);
-+        pil = ns->lbaf.ms - nvme_pi_tuple_size(ns);
-     }
- 
-     trace_pci_nvme_dif_pract_generate_dif(len, ns->lbasz, ns->lbasz + pil,
-@@ -145,7 +145,7 @@ uint16_t nvme_dif_check(NvmeNamespace *ns, uint8_t *buf, size_t len,
-     }
- 
-     if (!(ns->id_ns.dps & NVME_ID_NS_DPS_FIRST_EIGHT)) {
--        pil = ns->lbaf.ms - sizeof(NvmeDifTuple);
-+        pil = ns->lbaf.ms - nvme_pi_tuple_size(ns);
-     }
- 
-     trace_pci_nvme_dif_check(prinfo, ns->lbasz + pil);
-@@ -184,7 +184,7 @@ uint16_t nvme_dif_mangle_mdata(NvmeNamespace *ns, uint8_t *mbuf, size_t mlen,
- 
- 
-     if (!(ns->id_ns.dps & NVME_ID_NS_DPS_FIRST_EIGHT)) {
--        pil = ns->lbaf.ms - sizeof(NvmeDifTuple);
-+        pil = ns->lbaf.ms - nvme_pi_tuple_size(ns);
-     }
- 
-     do {
-@@ -210,7 +210,7 @@ uint16_t nvme_dif_mangle_mdata(NvmeNamespace *ns, uint8_t *mbuf, size_t mlen,
-             end = mbufp + mlen;
- 
-             for (; mbufp < end; mbufp += ns->lbaf.ms) {
--                memset(mbufp + pil, 0xff, sizeof(NvmeDifTuple));
-+                memset(mbufp + pil, 0xff, nvme_pi_tuple_size(ns));
-             }
-         }
- 
-@@ -284,7 +284,7 @@ static void nvme_dif_rw_check_cb(void *opaque, int ret)
-         goto out;
-     }
- 
--    if (prinfo & NVME_PRINFO_PRACT && ns->lbaf.ms == 8) {
-+    if (prinfo & NVME_PRINFO_PRACT && ns->lbaf.ms == nvme_pi_tuple_size(ns)) {
-         goto out;
-     }
- 
-@@ -388,7 +388,7 @@ uint16_t nvme_dif_rw(NvmeCtrl *n, NvmeRequest *req)
- 
-         if (pract) {
-             uint8_t *mbuf, *end;
--            int16_t pil = ns->lbaf.ms - sizeof(NvmeDifTuple);
-+            int16_t pil = ns->lbaf.ms - nvme_pi_tuple_size(ns);
- 
-             status = nvme_check_prinfo(ns, prinfo, slba, reftag);
-             if (status) {
-@@ -428,7 +428,7 @@ uint16_t nvme_dif_rw(NvmeCtrl *n, NvmeRequest *req)
-         return NVME_NO_COMPLETE;
-     }
- 
--    if (nvme_ns_ext(ns) && !(pract && ns->lbaf.ms == 8)) {
-+    if (nvme_ns_ext(ns) && !(pract && ns->lbaf.ms == nvme_pi_tuple_size(ns))) {
-         mapped_len += mlen;
-     }
- 
-@@ -462,7 +462,7 @@ uint16_t nvme_dif_rw(NvmeCtrl *n, NvmeRequest *req)
-     qemu_iovec_init(&ctx->mdata.iov, 1);
-     qemu_iovec_add(&ctx->mdata.iov, ctx->mdata.bounce, mlen);
- 
--    if (!(pract && ns->lbaf.ms == 8)) {
-+    if (!(pract && ns->lbaf.ms == nvme_pi_tuple_size(ns))) {
-         status = nvme_bounce_mdata(n, ctx->mdata.bounce, ctx->mdata.iov.size,
-                                    NVME_TX_DIRECTION_TO_DEVICE, req);
-         if (status) {
-diff --git a/hw/nvme/dif.h b/hw/nvme/dif.h
-index e36fea30e71e..ab6dbb09463e 100644
---- a/hw/nvme/dif.h
-+++ b/hw/nvme/dif.h
-@@ -37,6 +37,11 @@ static const uint16_t t10_dif_crc_table[256] = {
-     0xF0D8, 0x7B6F, 0x6C01, 0xE7B6, 0x42DD, 0xC96A, 0xDE04, 0x55B3
- };
- 
-+static inline size_t nvme_pi_tuple_size(NvmeNamespace *ns)
-+{
-+    return sizeof(NvmeDifTuple);
-+}
-+
- uint16_t nvme_check_prinfo(NvmeNamespace *ns, uint8_t prinfo, uint64_t slba,
-                            uint32_t reftag);
- uint16_t nvme_dif_mangle_mdata(NvmeNamespace *ns, uint8_t *mbuf, size_t mlen,
--- 
-2.35.1
+This was based on the testing/next tree which is now merged,
+so this should now applies directly.
 
 
