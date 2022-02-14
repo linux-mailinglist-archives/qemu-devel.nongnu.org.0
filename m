@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478624B4285
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 08:09:12 +0100 (CET)
-Received: from localhost ([::1]:33474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC804B429A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 08:14:47 +0100 (CET)
+Received: from localhost ([::1]:36796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJVTy-0001Fn-Sh
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 02:09:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43154)
+	id 1nJVZO-0003iR-7v
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 02:14:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJVQi-0007vH-2n
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:05:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46349)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nJVWR-0002f2-CX
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:11:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJVQb-0001Bz-U4
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:05:46 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nJVWO-0002fp-4f
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:11:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644822312;
+ s=mimecast20190719; t=1644822698;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/OjylwBtZO/mHLv7d4+yohIDfGfzzYELvgsdZgj0Prk=;
- b=UPQIJDJ3kHBUccuwW7uqlNI/MkHtspcTGVh5D3QOfqjDD0hpQ648L1L8ncSMGcXqhS66bu
- LJRRDdC+cwqh3rjllYKGhv8SxSeq6FeF1WWhi7hOU0rDVtCMy8oKWcYQ9V06MErASvK4Lt
- ov/FwS7NVdaoTisaSYaukINpBwiltek=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5//e4K4mgU3g8+NZl+6kzGrvE+Xni9sFEdvh5YsZSgI=;
+ b=X33J3ktzVsrEqVOv8eDqgo8N0+LkGHQMj6z117leaRHRbhoYyPGQOBjGXUq3e9CrW8x2Iq
+ jzM+HBjaeeJjBhg6aEklgFk78b4DdV9tUcdAZ7WKawOGbq1VX3s4fnHsRop3DmJKe1s4Bn
+ BTFAPnVUx96D1n/GDkfbnm7LUawlGdw=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-173-UQqjV83qMn2uVYiyRVtcxw-1; Mon, 14 Feb 2022 02:05:05 -0500
-X-MC-Unique: UQqjV83qMn2uVYiyRVtcxw-1
-Received: by mail-pf1-f198.google.com with SMTP id
- t24-20020aa79398000000b004e025989ac7so11080066pfe.18
- for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 23:05:05 -0800 (PST)
+ us-mta-396-2W3Yu_3ePWOyrsq_4QKsRg-1; Mon, 14 Feb 2022 02:11:34 -0500
+X-MC-Unique: 2W3Yu_3ePWOyrsq_4QKsRg-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ y19-20020a2e9793000000b0023f158d6cc0so5375416lji.10
+ for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 23:11:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/OjylwBtZO/mHLv7d4+yohIDfGfzzYELvgsdZgj0Prk=;
- b=Hzq+CnPu5IZmeSaTSz8svDpOIokyaQnf6H20Tl6zhCX2Cza+WUMvyfUylhu4Koig6W
- 6ax5fOIYZY2quUCxIyqQ6IzmPoY63hJt/nU4KMlzkd6AlOptetPsicXduQ666M7FZiyI
- x8f1K43KFayZ6xd8dlFEUCnR8UCo3YE1hSQihZY0eeMNPjzjTZan38uG/ra0VwoQzKih
- o5KqC7hOruIR5PwATOhQv384HYRyj9G4Snsh2fmP8D5xpeAYW8s9rT+YAwWOVRZrLvva
- 43d+L5Ojz8NSkPuUGatSBvoJ1AIR2DNIDfccPT8LVhg+iSq0Xbt11URUUe5uaklmlqsv
- Iedw==
-X-Gm-Message-State: AOAM530BLa6JWCjffCMNUSF6cfQWGB1AkQdg8GzwGvJ6Uhr2nsXa7UU0
- xFTeU2M98g+93AHz3697fpst9915UkKHTrgQTxIM4zTHLVg6lekL4GIoiAtAfW3NufcJHPo0Xhb
- HcMk4az+ZnMGqNB4=
-X-Received: by 2002:a17:902:7892:: with SMTP id
- q18mr12619338pll.128.1644822304135; 
- Sun, 13 Feb 2022 23:05:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxkAWYysd/SeQsTa/qwTznU5ixKi8p5DYBrxLkCd55a0qwMP8i/ow2M5sXTksVSafleM+gbrg==
-X-Received: by 2002:a17:902:7892:: with SMTP id
- q18mr12619319pll.128.1644822303862; 
- Sun, 13 Feb 2022 23:05:03 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.137])
- by smtp.gmail.com with ESMTPSA id q4sm35652747pfj.113.2022.02.13.23.05.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Feb 2022 23:05:03 -0800 (PST)
-Date: Mon, 14 Feb 2022 15:04:57 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH] intel_iommu: support snoop control
-Message-ID: <Ygn/GYWIXqzkTNp/@xz-m1.local>
-References: <20220214060346.72455-1-jasowang@redhat.com>
- <Ygn3I3T2DH3SHFXj@xz-m1.local>
- <CACGkMEvr+EDokjH6b3kMac-Zf_n+6KY5+L105Gh4QLquWZUX+Q@mail.gmail.com>
- <CACGkMEswB4HA0jnHS7KAM3qH=_kWUi8KE0TBK-hPqC+a3y6xFw@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5//e4K4mgU3g8+NZl+6kzGrvE+Xni9sFEdvh5YsZSgI=;
+ b=4wTemX2TeWJwV5+a4O5ysUVfcS/2NVdWHriikYNgcZHZpOvwTi5VmOmYfK2rYkCjIU
+ zYiYBuFBJhsErbBDwj+t657CZdsIJ/nxBzVCE62yujYx0/dtwqLQ4lFbMhlYSFcneYwh
+ L+X2WK/iYeCJrODeUfy8EAKxbtJ5aLl2lIGaEQQZSyAkD9JQzcjmjRFDGEmwclbI0kB0
+ aTGsN3aNiwvUbS0dFjon1JU7e80PLC60331Suh0v6VIJ/bNz3JAmp7o+c8lT2BY0sh5v
+ eM4M57xChdUeTd50oBncsqmaxVqEb+F7OtM1q9Nak5/CSgxANe1FmdhLCw287LkH94Hx
+ p3Mw==
+X-Gm-Message-State: AOAM532+2AD1CO23OPFKEGXkFmDQGU9KN1MpXNxZeRzXIX+z4iTHyqpk
+ OYe/AoyFRascWTl++2Ia0XZVFQEEdd9cntGQ/5BAoryDP75ZqWTl+7PdidXbt085UXYai6xLNSp
+ UXxIxYGvInHXFMKsP8sZLFZjg7R2MXD4=
+X-Received: by 2002:a05:6512:2342:: with SMTP id
+ p2mr6130997lfu.348.1644822692936; 
+ Sun, 13 Feb 2022 23:11:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwyYX4EV0IPlJLhqf1/sIinuK+GaIKxwcNo+DeQDQqzCQken0irQ++50m+rtF4hqOLZJVZB/oBw6230zP+VdFY=
+X-Received: by 2002:a05:6512:2342:: with SMTP id
+ p2mr6130966lfu.348.1644822692666; 
+ Sun, 13 Feb 2022 23:11:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEswB4HA0jnHS7KAM3qH=_kWUi8KE0TBK-hPqC+a3y6xFw@mail.gmail.com>
+References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+In-Reply-To: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 14 Feb 2022 15:11:20 +0800
+Message-ID: <CACGkMEvtENvpubmZY3UKptD-T=c9+JJV1kRm-ZPhP08xOJv2fQ@mail.gmail.com>
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
+To: Stefan Hajnoczi <stefanha@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,19 +91,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
+Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, kvm <kvm@vger.kernel.org>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, John Snow <jsnow@redhat.com>,
+ Hannes Reinecke <hare@suse.de>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, "Florescu,
+ Andreea" <fandree@amazon.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Alex Agache <aagch@amazon.com>,
+ Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 14, 2022 at 02:40:20PM +0800, Jason Wang wrote:
-> Or we can do tricks like checking IOMMU_NOTIFIER_DEVIOTLB_UNMAP and
-> assume it's vhost.
-> 
-> But I'm not sure it's worth it.
+On Fri, Jan 28, 2022 at 11:47 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> Dear QEMU, KVM, and rust-vmm communities,
+> QEMU will apply for Google Summer of Code 2022
+> (https://summerofcode.withgoogle.com/) and has been accepted into
+> Outreachy May-August 2022 (https://www.outreachy.org/). You can now
+> submit internship project ideas for QEMU, KVM, and rust-vmm!
+>
+> If you have experience contributing to QEMU, KVM, or rust-vmm you can
+> be a mentor. It's a great way to give back and you get to work with
+> people who are just starting out in open source.
+>
+> Please reply to this email by February 21st with your project ideas.
+>
+> Good project ideas are suitable for remote work by a competent
+> programmer who is not yet familiar with the codebase. In
+> addition, they are:
+> - Well-defined - the scope is clear
+> - Self-contained - there are few dependencies
+> - Uncontroversial - they are acceptable to the community
+> - Incremental - they produce deliverables along the way
+>
+> Feel free to post ideas even if you are unable to mentor the project.
+> It doesn't hurt to share the idea!
 
-If not any use, then probably not at all. :-)
+Implementing the VIRTIO_F_IN_ORDER feature for both Qemu and kernel
+(vhost/virtio drivers) would be an interesting idea.
 
--- 
-Peter Xu
+It satisfies all the points above since it's supported by virtio spec.
+
+(Unfortunately, I won't have time in the mentoring)
+
+Thanks
+
+>
+> I will review project ideas and keep you up-to-date on QEMU's
+> acceptance into GSoC.
+>
+> Internship program details:
+> - Paid, remote work open source internships
+> - GSoC projects are 175 or 350 hours, Outreachy projects are 30
+> hrs/week for 12 weeks
+> - Mentored by volunteers from QEMU, KVM, and rust-vmm
+> - Mentors typically spend at least 5 hours per week during the coding period
+>
+> Changes since last year: GSoC now has 175 or 350 hour project sizes
+> instead of 12 week full-time projects. GSoC will accept applicants who
+> are not students, before it was limited to students.
+>
+> For more background on QEMU internships, check out this video:
+> https://www.youtube.com/watch?v=xNVCX7YMUL8
+>
+> Please let me know if you have any questions!
+>
+> Stefan
+>
 
 
