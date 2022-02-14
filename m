@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5874B5113
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 14:06:24 +0100 (CET)
-Received: from localhost ([::1]:41286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533B04B5192
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 14:23:58 +0100 (CET)
+Received: from localhost ([::1]:36046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJb3f-00023T-FT
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 08:06:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47422)
+	id 1nJbKe-0001TR-Sx
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 08:23:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJaVg-00068v-DF; Mon, 14 Feb 2022 07:31:16 -0500
-Received: from [2a00:1450:4864:20::42b] (port=35796
- helo=mail-wr1-x42b.google.com)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nJaVs-0006Oh-Us; Mon, 14 Feb 2022 07:31:30 -0500
+Received: from [2607:f8b0:4864:20::631] (port=41888
+ helo=mail-pl1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJaVe-0003gn-JX; Mon, 14 Feb 2022 07:31:16 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id v12so26622520wrv.2;
- Mon, 14 Feb 2022 04:31:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nJaVo-0003l8-I4; Mon, 14 Feb 2022 07:31:26 -0500
+Received: by mail-pl1-x631.google.com with SMTP id j4so10389353plj.8;
+ Mon, 14 Feb 2022 04:31:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=tCuL7YOLIzrzWbSSPFf7tbDl4R3BYcsUxO1Bo/PTgVI=;
- b=L7YUQUu6liiBvQUfNKWhp8PX0UTU83qjGKqVsorwwwcjHbBz0s86pvEe0n6mRl09tY
- UVJYQi+kvLLOhOdMzGwwXmnWXXrk7fPgqNSscavbDBaalHzb4xNIf+aQgqxdYMI22ayo
- IvqFTq/3H8N+qF9ViHduk3S391OsnHn2INdoEOYYk+coF3q5uJIw1gmD8xiwps7O+p5G
- 9vd7600P0fKp1hBPh8M/iJcY06VtFEpQPYT9hxmNf2nN1bCEB4dUicprrELiFjd6ykRr
- mZymNd02lQnu1VcTONNPRb8z6ZyW9wqud+OjWJdhCdzS9HjKjYbPaCXVHiJ2c3wrUB8m
- nLfg==
+ bh=J7KDr0f1WPj6Sr0ChfXIOnaAVzbzIjHruaSr1U0p5EE=;
+ b=ln6Ravd/nRtxVdiVS5md2fJwV/yxNCZIl7wcAiwU2i1uOKSjvQZstjDi+MzbxddH0i
+ ON/yOr2xGp3Q+ReixmOXQt5AnftOQOGWcOmcEr/iqu7wahWAONeENIl+F7+ujIE3dDa2
+ CIj3lSJSzMoHcC1KI+dmt8prUSfSV1looliyGT6Vav7DReYPeFmA6VQqOCFURejfDlGv
+ B4YW63XearR8+oeIoxClrBmV2UjeSvy/bpu+FR9CeiELRaOexgJ7YHyd6u9UeAoXKJM3
+ Z1/A2Dqlk02xDyH8diRLM0lXoqVjtjQ5WwL0Dy75Umy6ryuVhVlLz4KGAFg1sNChMs5u
+ NN7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=tCuL7YOLIzrzWbSSPFf7tbDl4R3BYcsUxO1Bo/PTgVI=;
- b=6TOUTF01QikaslEzK/kL4/NsG1EVOwcSGqyMVcjllJ9uJKGRL9eJahaBZlxLntGXF5
- Fm2j6pnNag7cb1ILLJGRjvFKVndS7ZxX2Mw8WTfD8KQNAHJuiZzO9oUy3u8y1GnLplCd
- BeOoIK5j/cL8RcZcXt6UHBbWiAYKnkbzyPDBEK+n/G1WI/clohiQEJdYdSnqE38DKctm
- vtx8u/gzaLIJNKX91zOELPIGwLWw1zOSaD1hIVnhlh9qCblAMgOBOWy0SaQeaUErBhrD
- 7aKoSxT/fR8zqYttcejdsS6i2amH/uhDg/tmUG9VEiBnRFnrrDmsypv8Mp74y4QJzKgs
- lRew==
-X-Gm-Message-State: AOAM532EnQL1inm1nQfjpalSBxlKkLspZgEnhxelZrr+1dOyMKNa6pXG
- 4A9/41b/Q3bUmFiI/RJAFR4=
-X-Google-Smtp-Source: ABdhPJyXce8ElDwaFIVPMT4d7uUrfmLnBXTSKvMowd18HFTT4Vd96O2DdwnWLAwP9l/+OdUnhg6qhQ==
-X-Received: by 2002:a05:6000:154a:: with SMTP id
- 10mr2047997wry.162.1644841872654; 
- Mon, 14 Feb 2022 04:31:12 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id y10sm11675635wmi.47.2022.02.14.04.31.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Feb 2022 04:31:12 -0800 (PST)
-Message-ID: <2ba4330a-849a-3197-1c8d-3f1d655921b1@amsat.org>
-Date: Mon, 14 Feb 2022 13:31:11 +0100
+ bh=J7KDr0f1WPj6Sr0ChfXIOnaAVzbzIjHruaSr1U0p5EE=;
+ b=hoya5CeCKAQjGj5p19FlevJj/a8UVIecmeh0tBe8XAxw3UOkuvVI+RUY6uBmKZnX6Z
+ jckK4tWztF043bYfIK+yfRGYHVm6VNrWnytt+jvLVWBAJPOKbB+Qzm4Y4WmRs62dCMQO
+ OmFVGY9lnEL8Hgffi3qsb7jgqyIJVPw4i/dgDmT2jL53H2QPhZ0aBIvymVoin08Sb5QW
+ D9VP0ODygEyLrGPyb+3IrhAgttwNUdHQ5c825guv3X4Hz1LN/oNxioIVwiCqbb8dL3MC
+ XCFFPKXPL+FCmzEs5d4ny4OaTQBqLkyxTUMZD268qIEhdJ8WxQQ0ZjrOq6CxJtA1LVxa
+ cf1g==
+X-Gm-Message-State: AOAM530xoGIoccH+odW9p28GN21s/iovESWxnZMbqt1fQLZFkpj18dst
+ YbTcXdDsqh29Mt+d4sUpHu1osA1PA7s=
+X-Google-Smtp-Source: ABdhPJyr4tgkwNmnQcvLhETqEBiuzGwWgOXcc6cii2pz/BVBouzAlKPDj4LBcuYq4swEMSrrm7WJ4Q==
+X-Received: by 2002:a17:90a:e7c3:: with SMTP id
+ kb3mr6592446pjb.202.1644841882760; 
+ Mon, 14 Feb 2022 04:31:22 -0800 (PST)
+Received: from bobo.ibm.com (27-33-251-132.static.tpgi.com.au. [27.33.251.132])
+ by smtp.gmail.com with ESMTPSA id pc10sm2087395pjb.4.2022.02.14.04.31.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Feb 2022 04:31:22 -0800 (PST)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH] spapr: prevent hdec timer being set up under virtual
+ hypervisor
+Date: Mon, 14 Feb 2022 22:31:16 +1000
+Message-Id: <20220214123116.1546406-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH] ui/cocoa: Do not alert even without block devices
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20220213021418.2155-1-akihiko.odaki@gmail.com>
-In-Reply-To: <20220213021418.2155-1-akihiko.odaki@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=npiggin@gmail.com; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -94,41 +84,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 13/2/22 03:14, Akihiko Odaki wrote:
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
->   ui/cocoa.m | 5 -----
->   1 file changed, 5 deletions(-)
-> 
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index ac18e14ce01..271a2676026 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -1715,11 +1715,6 @@ static void addRemovableDevicesMenuItems(void)
->   
->       currentDevice = qmp_query_block(NULL);
->       pointerToFree = currentDevice;
-> -    if(currentDevice == NULL) {
-> -        NSBeep();
-> -        QEMU_Alert(@"Failed to query for block devices!");
-> -        return;
-> -    }
->   
->       menu = [[[NSApp mainMenu] itemWithTitle:@"Machine"] submenu];
->   
+The spapr virtual hypervisor does not require the hdecr timer.
+Remove it.
 
-Cc'ing qemu-block@ and Markus (QMP).
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+---
+ hw/ppc/ppc.c            | 2 +-
+ hw/ppc/spapr_cpu_core.c | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-I always wondered the point of this annoying warning but never
-found out.
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 462c87dba8..a7c262db93 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -1072,7 +1072,7 @@ clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, uint32_t freq)
+     }
+     /* Create new timer */
+     tb_env->decr_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_decr_cb, cpu);
+-    if (env->has_hv_mode) {
++    if (env->has_hv_mode && !cpu->vhyp) {
+         tb_env->hdecr_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_hdecr_cb,
+                                                 cpu);
+     } else {
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index a781e97f8d..ed84713960 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -261,12 +261,12 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+         return false;
+     }
+ 
+-    /* Set time-base frequency to 512 MHz */
+-    cpu_ppc_tb_init(env, SPAPR_TIMEBASE_FREQ);
+-
+     cpu_ppc_set_vhyp(cpu, PPC_VIRTUAL_HYPERVISOR(spapr));
+     kvmppc_set_papr(cpu);
+ 
++    /* Set time-base frequency to 512 MHz. vhyp must be set first. */
++    cpu_ppc_tb_init(env, SPAPR_TIMEBASE_FREQ);
++
+     if (spapr_irq_cpu_intc_create(spapr, cpu, errp) < 0) {
+         qdev_unrealize(DEVICE(cpu));
+         return false;
+-- 
+2.23.0
 
-Is this menu updated when removable blkdev are hot-plugged from
-the monitor or QMP?
-
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
