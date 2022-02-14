@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476464B53CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:56:27 +0100 (CET)
-Received: from localhost ([::1]:41696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27584B53C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:52:38 +0100 (CET)
+Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJcm9-0002F5-Qu
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:56:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43676)
+	id 1nJciS-0006Nm-EB
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:52:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nJc2b-00062B-8o
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:09:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nJc2V-00041B-N1
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:09:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644847755;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rnovYNLuam5Ib5LMd+a9Lw9q0nFEYo0NKf7e7EOTamc=;
- b=VWClf75vXDXgYPzocu5BRI0g7AdukU9Am+xpyEQfPFS8GVvamIxcSrTZU8iWU31n6mTApz
- 21tnGmx45++aO7kEQWfNHBNZQfJRDZmtU8clc6Jqubb00ZttvAMa9bluDPE5dMOyYorRDB
- XZUdRXN40OILA0lFAmkp4ycm+AUO6Nc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-452-LlSp0lmQPAeq96AOwwfaHg-1; Mon, 14 Feb 2022 09:09:11 -0500
-X-MC-Unique: LlSp0lmQPAeq96AOwwfaHg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B587802924;
- Mon, 14 Feb 2022 14:09:10 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 005FE70D5F;
- Mon, 14 Feb 2022 14:09:08 +0000 (UTC)
-Date: Mon, 14 Feb 2022 15:09:07 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [RFC] thread-pool: Add option to fix the pool size
-Message-ID: <Ygpig768ziKoGRKa@redhat.com>
-References: <20220202175234.656711-1-nsaenzju@redhat.com>
- <Yfu0E5LwZ/x0EZrl@stefanha-x1.localdomain>
- <Yfu08bAJKnRC3eFD@redhat.com>
- <Yfvkf1cBPGc4TR49@stefanha-x1.localdomain>
- <YgZJaTtoHN8hzrvk@redhat.com>
- <YgoqdtB9I3HrB1su@stefanha-x1.localdomain>
- <Ygo/LimCnA7BDshE@redhat.com>
- <YgpU082hsgXjxOye@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nJc4H-0008I0-Uy
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:11:07 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=38431
+ helo=mail-pj1-x1032.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nJc4F-0004ss-Ic
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:11:05 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ h14-20020a17090a130e00b001b88991a305so18976065pja.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 06:11:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PdZPgVs5vPBvparmcotK7oV7z3Yf94yHSi1g5mgwvgQ=;
+ b=NFgMfI8iL9RjntLuL4L3Et/g8KAn+nqwhLCO1e8b0pgIBU78F7OsD10QzjnlCQpWBh
+ sw9AGwM8pNao9geY2Zc5GRwBVH2y34nJ8kRKWumfvIwDW4Is7FYQpMC9VIkkxSjZpJfb
+ ljXq4sZEP2Ih9CqtXe1zXOANirwykegokz4kZHbRAGgkATUmBsB5cNtDLbEWaL0ie0Yd
+ 9M186tDOqQg24kxlmlExINAPEHRLwVamX2Pr2ERFZtkbxHegWrpkuUSJh2MQ11k7Imuf
+ eDUQ8bf1VCcDPyj9qamrCz/la6MV4GTP3Qll7qg+CiNq64n3Den7HWLyun+jGhgKUmyz
+ EGKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PdZPgVs5vPBvparmcotK7oV7z3Yf94yHSi1g5mgwvgQ=;
+ b=RNW5HD3CksTWb5HI6zqT6DS7nkSfqmPuwSoFTV019zRZi/WqSg9eDQMRC8UGKdlKt5
+ LnIX7tALpmUcebd3gbMOvC5MRHIN0GdzER8Fad9dcmBazU08bU91zKhP2y23R4pduz5x
+ YlG3pwS45u0hMLHiKo1xxPW9CY1Zsk2c/mc3WhqGglI+HwJ2qU4bj5fO/y6Acsj1fpik
+ KtcDMCdfv5n0ML4H+2Df2SJUHu4sEeMsAfP3K5ZKAEbx2DvmP7JminWIgbQoE8+MZbWd
+ /bSgn5bIQ5y2/zMUuBsYRtoDTW31LfVoVWfgKM0DhhvoTZUC1mw/FXHXM35wtVjxiexr
+ 2rnA==
+X-Gm-Message-State: AOAM5321EtsDAPEJq0T9s35VVCQCgE1o8+d3nEKnRd5rojnooQhNbToB
+ 78q/6M3GOBP63mRRDOv/a0bgkOWhVXKF/XM62ZI=
+X-Google-Smtp-Source: ABdhPJyZWYTkytm3GyM5hxpfoZooN/ycNQDscnLEgRToQfqjyCdFcZ9A9bXyTUGoDAhyNuh4cp0wjFoyZZ5gtAD1x1s=
+X-Received: by 2002:a17:902:d64f:: with SMTP id
+ y15mr14104486plh.145.1644847861164; 
+ Mon, 14 Feb 2022 06:11:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0WimVM3U5QPPWlxD"
-Content-Disposition: inline
-In-Reply-To: <YgpU082hsgXjxOye@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+ <87zgmtd0ov.fsf@linaro.org>
+In-Reply-To: <87zgmtd0ov.fsf@linaro.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 14 Feb 2022 14:10:49 +0000
+Message-ID: <CAJSP0QULu-2pppavMHnUn2=Lo8j3b3wteXUiQfkiF49OjHjGMQ@mail.gmail.com>
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=stefanha@gmail.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,121 +85,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, mtosatti@redhat.com, qemu-devel@nongnu.org,
- hreitz@redhat.com, pbonzini@redhat.com,
- Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, kvm <kvm@vger.kernel.org>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, "Florescu,
+ Andreea" <fandree@amazon.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Alex Agache <aagch@amazon.com>,
+ Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 14 Feb 2022 at 13:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Stefan Hajnoczi <stefanha@gmail.com> writes:
+>
+> > Dear QEMU, KVM, and rust-vmm communities,
+> > QEMU will apply for Google Summer of Code 2022
+> > (https://summerofcode.withgoogle.com/) and has been accepted into
+> > Outreachy May-August 2022 (https://www.outreachy.org/). You can now
+> > submit internship project ideas for QEMU, KVM, and rust-vmm!
+> >
+> > If you have experience contributing to QEMU, KVM, or rust-vmm you can
+> > be a mentor. It's a great way to give back and you get to work with
+> > people who are just starting out in open source.
+> >
+> > Please reply to this email by February 21st with your project ideas.
+> >
+> > Good project ideas are suitable for remote work by a competent
+> > programmer who is not yet familiar with the codebase. In
+> > addition, they are:
+> > - Well-defined - the scope is clear
+> > - Self-contained - there are few dependencies
+> > - Uncontroversial - they are acceptable to the community
+> > - Incremental - they produce deliverables along the way
+> >
+> > Feel free to post ideas even if you are unable to mentor the project.
+> > It doesn't hurt to share the idea!
+> >
+> > I will review project ideas and keep you up-to-date on QEMU's
+> > acceptance into GSoC.
+> >
+> > Internship program details:
+> > - Paid, remote work open source internships
+> > - GSoC projects are 175 or 350 hours, Outreachy projects are 30
+> > hrs/week for 12 weeks
+> > - Mentored by volunteers from QEMU, KVM, and rust-vmm
+> > - Mentors typically spend at least 5 hours per week during the coding p=
+eriod
+> >
+> > Changes since last year: GSoC now has 175 or 350 hour project sizes
+> > instead of 12 week full-time projects. GSoC will accept applicants who
+> > are not students, before it was limited to students.
+>
+> I'm certainly up for mentoring new devices for vhost-device (rust-vmm
+> vhost-user backends). Since we've become a code owner we're trying to
+> clear the backlog (virto-vsock and virtio-block) but there are plenty of
+> others that could be done. Of particular interest to me are:
+>
+>   - virtio-rpmb (we have a working C implementation I wrote)
 
---0WimVM3U5QPPWlxD
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, it would be good to have an implementation. I mentioned this
+device in my FOSDEM 22 talk about what's coming in VIRTIO 1.2:
+https://vmsplice.net/~stefan/stefanha-fosdem-2022.pdf
 
-Am 14.02.2022 um 14:10 hat Stefan Hajnoczi geschrieben:
-> On Mon, Feb 14, 2022 at 12:38:22PM +0100, Kevin Wolf wrote:
-> > Am 14.02.2022 um 11:09 hat Stefan Hajnoczi geschrieben:
-> > > On Fri, Feb 11, 2022 at 12:32:57PM +0100, Kevin Wolf wrote:
-> > > > Am 03.02.2022 um 15:19 hat Stefan Hajnoczi geschrieben:
-> > > > > On Thu, Feb 03, 2022 at 10:56:49AM +0000, Daniel P. Berrang=E9 wr=
-ote:
-> > > > > > On Thu, Feb 03, 2022 at 10:53:07AM +0000, Stefan Hajnoczi wrote:
-> > > > > > > On Wed, Feb 02, 2022 at 06:52:34PM +0100, Nicolas Saenz Julie=
-nne wrote:
-> > > > > 1. A global default value that all new AioContext take. The QEMU =
-main
-> > > > >    loop's qemu_aio_context will use this and all IOThread AioCont=
-ext
-> > > > >    will use it (unless they have been overridden).
-> > > > >=20
-> > > > >    I would define it on --machine because that's the "global" obj=
-ect for
-> > > > >    a guest, but that's not very satisfying.
-> > > >=20
-> > > > Semantically, -machine is about the virtual hardware where as iothr=
-eads
-> > > > are about the backend, so I agree it's not a good fit.
-> > > >=20
-> > > > For the main thread, you may want to configure all the same options=
- that
-> > > > you can configure for an iothread. So to me that sounds like we wou=
-ld
-> > > > want to allow using an iothread object for the main thread, too.
-> > > >=20
-> > > > That would still require us to tell QEMU which iothread object shou=
-ld be
-> > > > used for the main thread, though.
-> > >=20
-> > > Making the main loop thread an IOThread is an interesting direction b=
-ut
-> > > not an easy change to make.
-> > >=20
-> > > The main loop thread has a custom event loop that is not interchangea=
-ble
-> > > with the IOThread event loop:
-> > > - The main loop has a poll notifier interface for libslirp fd monitor=
-ing
-> > >   integration.
-> > > - The main loop is a GLib event loop but manually polls to get
-> > >   nanosecond resolution timers.
-> > > - The main loop has icount integration.
-> > > - The main loop has the special iohandler AioContext
-> > >=20
-> > > The IOThread event loop runs an optimized AioContext event loop inste=
-ad.
-> > > It falls back to regular g_main_loop_run() if there is a GSource user.
-> > >=20
-> > > It would definitely be nice to unify the main loop with IOThread and
-> > > then use --object iothread,... to configure main loop parameters.
-> > >=20
-> > > I'm not sure if requiring that of Nicolas is fair though. The event
-> > > loops in QEMU are complex and changes are likely to introduce subtle
-> > > bugs or performance regressions.
-> >=20
-> > I'm not suggesting actually running the iothread event loop instead,
-> > merely using the properties of an object to configure the main thread as
-> > the external user interface.
-> > Whether this uses the same main loop code as today or is moved to the
-> > regular iothread event loop is an implementation detail that can be
-> > changed later.
-> >=20
-> > Or we could maybe use a different object type like 'mainthread' and
-> > share the properties using QOM inheritance.
->=20
-> That seems cleaner than trying faking an IOThread to me since I don't
-> see a concrete plan to unify the two event loops.
->=20
-> The main loop code is in util/main-loop.c. Maybe call it --object
-> main-loop? Attempting to instantiate more than one main-loop object
-> should fail.
+>   - virtio-snd (in flight virtio spec)
 
-Sounds good. And if you don't create one explicitly, we'll just
-internally create a default main-loop object.
+There are QEMU patches in development by Shreyansh Chouhan although
+that doesn't rule out a rust-vmm crate.
 
-Kevin
+>   - virtio-video (again we have a working C version against v3)
 
---0WimVM3U5QPPWlxD
-Content-Type: application/pgp-signature; name="signature.asc"
+Want to pick one device and write a project description for it?
 
------BEGIN PGP SIGNATURE-----
+> With my other hat on there are numerous TCG plugin projects that could
+> be done. Adding basic plugins is fairly straight forward but it would be
+> interesting to look at what is required to do a more involved plugin
+> like panda-re's taint analysis (following ptrs as they move through the
+> system). This will likely need some additional features exposed from the
+> plugin interface to achieve.
+>
+> With that in mind there is also the idea of a central registry for
+> register values which is a prerequisite for expanding access to TCG
+> plugins but could also bring various quality of life improvements to
+> other areas. I've written that up on a page:
+>
+>   https://wiki.qemu.org/Internships/ProjectIdeas/CentralRegisterRegistry
 
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmIKYoMACgkQfwmycsiP
-L9a6MA/9GF7WH5kTtA4vcR5KJUwemxkZ7auXR26QiOZfW5X5Vholg4CU9VJqEGJh
-TzHqc9jLWy1+GUNjQ1fFzbz3pjX8GQMbqQGIqCj0FZtqGWKKZxbwgOkfZFQQGwD7
-IE5D8NQjDjFnT1EwsE19mHjBKiXiQxlVRZmNkCnpCWVH8Z6tEkpP1SZCGG1z5UqJ
-Ztuj0gjH/eIED9CBPrAJOJadkRx5N9UPGA0sCRRBOZTr5DH61trQYZdmTWpwKbxm
-MHrOu8jwz5ZBjV3UarDi7tRI8nQVWD0/4tfmw2/QN9Wsf8HvjU7Qid7cyFCLtfIO
-qEG3yvil/POrJ1thDFKAkPK5TfisSRKtakEuaROWY2BgQWocqcQ3/kAd3LIMr6Zn
-1A9tyJWl31C6mJfVXgxQNXHAbh5InKtUezHQCsbLWb9ihTI2usgTtUQQBs+IR9na
-oqYSa9ceyWoYoY3LHcXCgt5FcmmFsSiDn2jyeI/6bmcstCnC805dNJqY5vRBR4LQ
-qtaOUhrkbafxfUBNiBTztM7MbgL9lcdyYussMD7aLt758GJazNJfDYcx1Sg4dL1I
-2R9OQDh/yEM8rP+boaLUSAk9lVEjQw0XD6ZONxeIYA/b5HY6gQx06yvF+bsouAVl
-e6pbrzI1YbtAHeKhG7Hq4nlb4NWw24JLvKpfMYKxiX9RkCxpcOE=
-=S+Tw
------END PGP SIGNATURE-----
+Thanks for posting that! Can you add links to the -d cpu, gdbstub, and
+hmp/qmp register code? The idea is a little fuzzy in my mind, maybe
+you could include a sketch of the API to give readers an idea of what
+the project should deliver?
 
---0WimVM3U5QPPWlxD--
-
+Stefan
 
