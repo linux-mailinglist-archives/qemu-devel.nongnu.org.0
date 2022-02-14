@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DDB54B5A41
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:56:29 +0100 (CET)
-Received: from localhost ([::1]:40642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C044B5A40
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:56:04 +0100 (CET)
+Received: from localhost ([::1]:39294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgWS-0005RT-6g
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:56:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40304)
+	id 1nJgW3-0004Uq-8d
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:56:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg9N-0008HK-7N
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:38 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=43739
- helo=mail-pj1-x1031.google.com)
+ id 1nJg9U-0008Lv-Fu
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:44 -0500
+Received: from [2607:f8b0:4864:20::42b] (port=44029
+ helo=mail-pf1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg9K-0002c1-Pf
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:36 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- t14-20020a17090a3e4e00b001b8f6032d96so16670952pjm.2
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:32:34 -0800 (PST)
+ id 1nJg9T-0002cp-6q
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:44 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id d187so30678950pfa.10
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:32:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fYBWsAd0Vw+iWZTweg8E9H7Amn45LT5MAw5LsRvoW5U=;
- b=LwxL8ccYSehC8oc692MjxFbvHWi5Q34EVgRp54CdZKXspHGGrLuI+jxlbGlFmFqIj1
- hjsyf/k3oWUfjAReOngGf5XWpE6JzdamMyGpEJaXEOTFrlwSm3EhNxtkBNII1cJA+P1d
- ibaGLUdXmbVOO4qax69vGBLaceVZpXqM4tBBZ3om1iJn4JD824YS001YzGeR+whR2VEW
- OmquQ+4YLCiNZECbaTwNGnTHoy6spAsXQjzGwEn9F5RK2IPL1MXVrcG12lpshQT6fwbD
- 48sjJCVUHdK+3D0NmGn47d+6y/2ZXUZj2NwXEDina1xJoYMSgdqiBAzIGx8EhzJTCHUO
- CMWg==
+ bh=cwzAoSrGJ3x/bKluviqLTkKJTgNhXDXBL+z+UP/egkI=;
+ b=RzhBYHKGNCwe2SfEK7yTXNGhPeLI1Nf7K80wtqFeZZz/dMiESExoExtpWqcAIBSSgA
+ uvs1iBZKd6cC/GNfJn0kOTUyOd0oO7LIWnTysLs3fDbHGDruHx6Rw+5NyDlnWW8jEv43
+ f7+HBNtQ3V7siXqQ2O749AXf0enx8VEWalzyoK8xf+UWTHx/nC3JRhYM5LNzIqa82iEH
+ 74kB606ed2iLnexSwTXA6DupAzkARLdjd7SXxogTcmt1P6xFoati0k8+hKfQS3XtPXAu
+ g/tOUVr2XxwGnaHbqYDDWcPHf5MNbJK0SdF/UV70sz6E/3WuZAGh0p50+NXW64aO/DSb
+ +7BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fYBWsAd0Vw+iWZTweg8E9H7Amn45LT5MAw5LsRvoW5U=;
- b=GGrc3ekQL27nvgmT9b3Sp2oWBvHHi5NKWNDkAEAXLQcsoxuLoT6m7xArDSAluVngZ6
- w+U6ORv28G7brk19luXBo/H2U8VX2twJoN67NY8bykK8aRCHMkmOsgXxISR6aip/Nt0s
- vsUrnZtzcxp6ULY37hCEAcCJcFW38QRAG3cRUPEITkC0SU2CZSJ7jFE0Zae49ZC54Ykv
- 4XdrRbN3CQGPXk14Hm9EFExOHsdJzKocTsU91xogkxTLRl9lJzRViqlpUOnMf+qtfv2V
- /FAYTf8fWmZB6xZ01vdjyzkhyQuRI/czafQ3NiEDr+9BG8Jh8pNAs6R8z9anD3v1ZyFo
- zFPA==
-X-Gm-Message-State: AOAM5331Syy9eDU4tWo6wJT2Mxs4Xf99dSLpMLQpecCFvsadTI39Mq+Y
- l0cXUEpsd5HRojaTo6L++XdSSA87Kuc=
-X-Google-Smtp-Source: ABdhPJxzjRCEKhiRuf5M+M3H5bHGcmdJkBEZUkctzObfDEpSV6FwgMVbRjMKifpL5alBGrlo36dUOg==
-X-Received: by 2002:a17:902:b583:: with SMTP id a3mr287008pls.77.1644863553394; 
- Mon, 14 Feb 2022 10:32:33 -0800 (PST)
+ bh=cwzAoSrGJ3x/bKluviqLTkKJTgNhXDXBL+z+UP/egkI=;
+ b=vC3gPW9FlBbq07SeuVvIuxVT0HaC8DvdGVlyNRnzoq3xiSvmxCHU64EcVnDD4QlXGl
+ sYfNpPpnOHE060oMdhkpGJehoWoJCLiSDnZ4MOdKlZ97K8lHq2amXyQS1AK1La1SNixG
+ O+Ow4Wabf3Yck3pfpBWnkGrLQZUagbRZnfGvKNqbQWF8fgvj+QTzn5hSWwuEPzb62Wf3
+ Pyek+3L4QoX8Kzcb78IjnN+yksoKnO80lEpVaxhQcAuyi2CZ22irQTWA/CKwjJEDL5Xx
+ 5IKWLuiVucjLex56OZyNS0LJ+r8nsAq25ejHNycM/6DB4ORBhQ/jSkM/aCptIFVFgq6P
+ /thQ==
+X-Gm-Message-State: AOAM533CGv7/xHP0pWwcE4OQ/2weqnWktEvG30HaJFWfDIxgE/8QWhGA
+ DZ3jCmPOB+TIDS3Tc8A5ZM4cBR4+Nz4=
+X-Google-Smtp-Source: ABdhPJxhKE3ZWHDvAoVdu2IbMTxoEButGwazhPoDo/yc1oGZ2jW2VSPRpGRT5tQis+mnD0pTP8t0mg==
+X-Received: by 2002:a05:6a00:2310:: with SMTP id
+ h16mr152697pfh.80.1644863561810; 
+ Mon, 14 Feb 2022 10:32:41 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id 16sm38110303pfl.99.2022.02.14.10.32.30
+ by smtp.gmail.com with ESMTPSA id u37sm281270pga.2.2022.02.14.10.32.39
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:32:33 -0800 (PST)
+ Mon, 14 Feb 2022 10:32:41 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 05/14] cpu: Add missing 'exec/exec-all.h' and
- 'qemu/accel.h' headers
-Date: Mon, 14 Feb 2022 19:31:35 +0100
-Message-Id: <20220214183144.27402-6-f4bug@amsat.org>
+Subject: [PATCH v2 06/14] target/i386/cpu: Ensure accelerators set CPU
+ addressble physical bits
+Date: Mon, 14 Feb 2022 19:31:36 +0100
+Message-Id: <20220214183144.27402-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220214183144.27402-1-f4bug@amsat.org>
 References: <20220214183144.27402-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -99,32 +99,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-cpu.c requires "exec/exec-all.h" to call tlb_flush() and
-"qemu/accel.h" to call accel_cpu_realizefn().
+The only accelerator allowed to use zero as default value is TCG.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/i386/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/cpu.c b/cpu.c
-index d5d4cbf8cb..d564886149 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -35,10 +35,12 @@
- #include "sysemu/tcg.h"
- #include "sysemu/kvm.h"
- #include "sysemu/replay.h"
-+#include "exec/exec-all.h"
- #include "exec/translate-all.h"
- #include "exec/log.h"
- #include "hw/core/accel-cpu.h"
- #include "trace/trace-root.h"
-+#include "qemu/accel.h"
- 
- uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index aa9e636800..16523a78d9 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6384,6 +6384,7 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+          * In this case, the default is the value used by TCG (40).
+          */
+         if (cpu->phys_bits == 0) {
++            assert(tcg_enabled());
+             cpu->phys_bits = TCG_PHYS_ADDR_BITS;
+         }
+     } else {
 -- 
 2.34.1
 
