@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCD94B4F9C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 13:06:37 +0100 (CET)
-Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC174B4F82
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 13:01:33 +0100 (CET)
+Received: from localhost ([::1]:48692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJa7o-0000Gz-B9
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 07:06:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37568)
+	id 1nJa2u-0004pV-EJ
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 07:01:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nJZwZ-0000LB-81
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:54:59 -0500
-Received: from [2a00:1450:4864:20::62d] (port=35646
- helo=mail-ej1-x62d.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nJZz9-0002as-Tb; Mon, 14 Feb 2022 06:57:41 -0500
+Received: from [2a00:1450:4864:20::52a] (port=45969
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nJZwX-0004jM-JQ
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:54:58 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id qk11so16488233ejb.2
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 03:54:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20210112.gappssmtp.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=1KM4shW25H0d6A4dfVMHlVjIamPNSg5NqGTtZDFuqVg=;
- b=U6iBGBRrcl66fdzxqKjqyWKpdvvf9sUGT/tsDXlqd/KzcoQ8kdyGQSoS0M4JvIjXev
- b8r9ZU5vtpuJmONm1H8ONyX+vKj9lASrAjZ5flEKJR77hTeeFi5yAWkj6E6IUU2fHetB
- /AzBzS1nE6jvzDg1YMxzxFNK1cIA3jkrdS6fxFZSaVRQw0yBK6DB99c/DOtp+NHsHLH7
- yqW+Muv+cTHvqVnbGlFsnyHpBlxn5bbk4lTVhUxyNVsXOtdP9h2Pv9vo3g2uhXfA16NK
- skDgPsHOqE+IGMMD5YyIXovqsC5I4vMpXQ5yosDav3lyWP5pMIvV7G81iHtn6yh14E9o
- w27Q==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nJZz4-0005Io-Fs; Mon, 14 Feb 2022 06:57:36 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id z13so8342507edc.12;
+ Mon, 14 Feb 2022 03:57:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ix0btO0hnrVOIbdED12Zi1ApfQ+7H8aqRBiJEv99u8Y=;
+ b=TNoNuFmM/w/cKTVybq9pF3IwzNtisl7q++34xb9BZyeW60XVo5dZ68YFIi+eLTVbJ8
+ k82HzqQEf4HCJletqD2qKUulAQr+AzgHBrUE2tfd3cw7myylSW43MYmyX//kGhIwWmU1
+ AeG15jD8KlzTLi9PsFl4xAU4wDZXrs73w0ydAMfRq/BpuvF5Q4DmzuGAM9CTv/lr8E3Y
+ PQk/Xt0p0x9bpfvccvDXj34BsyFAXMsMoLFSanEUWKdlOkANlf3vK8ZSuF3B0uccmHcs
+ d2+otRVzcjEaiVg4v4lSlPnVwr0BpAmyBA+iSLt0CwR6unfpNyOWVzt55ZBeZiXN0yg9
+ rWnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=1KM4shW25H0d6A4dfVMHlVjIamPNSg5NqGTtZDFuqVg=;
- b=wwhn+OL3lRl4HdIuQsZ+QYRCLab0qFJ4X7PEUHvx0O7IOrkgSyXmaxfrFwBE6/U8T7
- b0JhL6at9UTBzL74vmr5Bd1EbJtAjjOLtUZ3tWvFlXhzEGB3usloKwaPKuf3iFkyzVAz
- 8vXJTdNUFJ3RAWvs6ScdsyjLXBvTDAtfvR3dliwh/J5I6Fz1Jty+CdesXjHegu2Qgvwc
- +iJXpshKIN5K4y2hpCtr0hsxJULlGVXctg24xPvWRry9tUB+YQ2AjtEPu1TfoI0wAxYE
- 3NWXAlYCxzj560PL+6vc3MhiH0eBkTSiu69aPOrNJEBHG6vRihVdjNNm8kBq2xfWrZNi
- OrQQ==
-X-Gm-Message-State: AOAM533YAw8kHbYJHRx2B/4PUIe10U8lg8X4UiqiPZ4lAvYGLvadA2ye
- 5j5wqNxksq8tLkFyiRe4NmMDGg==
-X-Google-Smtp-Source: ABdhPJzEyOlUlB6iOUpPFgqinC9Df6q7rfcPQwvE2VhkPblPuX+C7TKMDYXq2UqBcBsXDfW1EdcT+A==
-X-Received: by 2002:a17:906:74c2:: with SMTP id
- z2mr11163377ejl.156.1644839691951; 
- Mon, 14 Feb 2022 03:54:51 -0800 (PST)
-Received: from smtpclient.apple ([188.25.251.197])
- by smtp.gmail.com with ESMTPSA id o3sm10128195edt.67.2022.02.14.03.54.51
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 14 Feb 2022 03:54:51 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
-Subject: Re: [PATCH] Add --with-branding-prefix and QEMU_BRANDING_PREFIX
-From: Liviu Ionescu <ilg@livius.net>
-In-Reply-To: <CAFEAcA91q2t9sVvaW6h3BwFMExgyCdVsb3TozH52EM70aPJt4w@mail.gmail.com>
-Date: Mon, 14 Feb 2022 13:54:50 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <46F93823-E819-4B8B-ACD3-D8A80245BC9E@livius.net>
-References: <20220120113545.55820-1-ilg@livius.net>
- <8A1E1B8F-ADA0-4966-A4E9-C0A08EB0A327@livius.net>
- <D6833D18-344A-473E-AC4D-89A64F8AA0EC@livius.net>
- <CAFEAcA91q2t9sVvaW6h3BwFMExgyCdVsb3TozH52EM70aPJt4w@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-Mailer: Apple Mail (2.3693.40.0.1.81)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ix0btO0hnrVOIbdED12Zi1ApfQ+7H8aqRBiJEv99u8Y=;
+ b=pqqcnCV6SANSXvoYGGxlOB5vpN9t9VcUPRQYiJqJDC+maWBJnDUhLZqkLKlolLtfrD
+ ANnwPr+/9vbKlCsBEHlFbym0UsWb8vLm3eWKgJs+n3iDzE2oEPT/vHOboCtumzEMGvl6
+ 5/GD0zKGQhytYTrFb2QGHTQjn3lftfAUif2EFBY09fVCA3mPdI2zqC2EcSi5/vxeLp8J
+ IZX1+BWq/OW5MJT8nh2lsY9FHyGLZ4V7qV59EA5HLfK8PR6YTR3F89XBVdJdhA4s3hWN
+ f+SBWWvwSYaZID+D7SBtxzJ6du7reCyrcTv45Ah5den4wxoCbPJ2MR3LxGt4rqDoGNiB
+ JRTw==
+X-Gm-Message-State: AOAM533OYTYduoTo7UMURoJ69/V69wXeCuHdZGsPClZqQ6ts5it+ji7i
+ Sdriee5Iz4uh7pyjysWPlZA=
+X-Google-Smtp-Source: ABdhPJy7PrZTLLlgwRRptYlxRAAozB2VCF5S9mtW0De48ZitYKfbTPdH8RoG5htsn7aKzyzPQ/F59Q==
+X-Received: by 2002:a50:cccb:: with SMTP id b11mr15144980edj.57.1644839852288; 
+ Mon, 14 Feb 2022 03:57:32 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id v19sm4149777edc.29.2022.02.14.03.57.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 03:57:31 -0800 (PST)
+Message-ID: <352ec3bc-d596-55e4-4ab4-ac4cd12f47ed@redhat.com>
+Date: Mon, 14 Feb 2022 12:57:30 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/6] block/io.c: fix bdrv_child_cb_drained_begin
+ invocations from a coroutine
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20220208153655.1251658-1-eesposit@redhat.com>
+ <20220208153655.1251658-2-eesposit@redhat.com> <YgZOdni4B7/mIQQ6@redhat.com>
+ <eb868668-e07e-00fb-b550-0ce7394febe6@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <eb868668-e07e-00fb-b550-0ce7394febe6@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::62d;
- envelope-from=ilg@livius.net; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
 X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.785, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.785, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,75 +95,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/14/22 11:27, Emanuele Giuseppe Esposito wrote:
+> Anyways, I think that in addition to the fix in this patch, we should
+> also fix bdrv_parent_drained_begin_single(poll=true) in
+> bdrv_replace_child_noperm, with something similar to what is done in
+> bdrv_co_yield_to_drain? ie if we are in coroutine, schedule a BH that
+> runs the same logic but in the main loop, but then somehow wait that it
+> finishes before continuing?
+> 
+> Alternatively, we would forbid polling in coroutines at all. And the
+> only place I can see that is using the drain in coroutine is mirror (see
+> below).
 
+I think you should first of all see what breaks if you forbid 
+bdrv_replace_child_noperm() from coroutine context.
 
-> On 8 Feb 2022, at 21:58, Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->=20
-> I've cc'd some people who might have an opinion on whether this
-> something we want to add upstream. ...
+Drain in coroutines does not poll, it gets out of the coroutine through 
+a bottom half before polling.  So if bdrv_replace_child_noperm() doesn't 
+require it, polling in coroutines can still be forbidden.
 
-Well, given the comments received, it is obvious that we have different =
-use cases, and, in my opinion, a one-size-fits-all approach cannot be =
-expected to satisfy all of them. :-(
+This patch is correct nevertheless.
 
-
-Since QEMU is now a hard dependency in all my projects (for running unit =
-tests), I had to commit myself on continuing to maintain the xPack QEMU =
-binary distribution used by these tests.
-
-Thus my desire to minimise maintenance during updates, for example by =
-keeping as little things as possible in a local fork.
-
-
-So, if the Linux maintainers do not find a compelling reason for adding =
-`--with-branding-prefix` and are concerned that this might break their =
-distributions (which it will not, since they will not use this option), =
-what would be an acceptable solution to allow more flexibility in the =
-main QEMU greeting message? Personally I use only qemu-system-arm and =
-qemu-system-riscv, so we are talking only about a change in `vl.c`; I do =
-not use the other tools, so not having them updated is not a concern.
-
-
-Would you agree on a multi step approach, first a minimal patch that =
-would solve my use case, then, if there will be others needing it, a =
-more elaborate solution?
-
-For example I don't mind having to pass a preprocessor definition to my =
-build; so how about something like:
-
-
-```c
-static void version(void)
-{
-+#if defined(QEMU_BRANDING_PREFIX)
-+    printf("%s ", QEMU_BRANDING_PREFIX);
-+#endif
-    printf("QEMU emulator version " QEMU_FULL_VERSION "\n"
-           QEMU_COPYRIGHT "\n");
-}
-```
-
-
-This would harm no existing distributions, and would add no maintenance =
-efforts for none of you, but would save me some recurrent maintenance =
-efforts with each release.
-
-
-Would this be fine with you?
-
-
-
-Regards,
-
-Liviu
-
-
-
+Paolo
 
