@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E99B4B44B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:46:53 +0100 (CET)
-Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CC54B4538
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 10:10:48 +0100 (CET)
+Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJX0S-0001bC-4L
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:46:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48316)
+	id 1nJXNc-0005np-R2
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 04:10:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nJWut-0008DK-1V
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:41:04 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:41889
+ id 1nJXJ1-00038p-Px
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 04:06:00 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:58623
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nJWuq-0005EV-2i
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:41:02 -0500
-HMM_SOURCE_IP: 172.18.0.48:40818.2006315065
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nJXIz-0001YO-7P
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 04:05:59 -0500
+HMM_SOURCE_IP: 172.18.0.188:57572.1955717887
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id A9B37280137;
- Mon, 14 Feb 2022 16:40:33 +0800 (CST)
+Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id 5EBE72800D8;
+ Mon, 14 Feb 2022 17:05:41 +0800 (CST)
 X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 7fbdb136936c4a3c8b239635bb055cb8 for
- peterx@redhat.com; Mon, 14 Feb 2022 16:40:41 CST
-X-Transaction-ID: 7fbdb136936c4a3c8b239635bb055cb8
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id eecb867586384a0aa769e875390ec8dc for
+ peterx@redhat.com; Mon, 14 Feb 2022 17:05:47 CST
+X-Transaction-ID: eecb867586384a0aa769e875390ec8dc
 X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
+X-Receive-IP: 172.18.0.188
 X-MEDUSA-Status: 0
-Message-ID: <7ea51695-9590-bd9b-1d7d-49e8e5571f88@chinatelecom.cn>
-Date: Mon, 14 Feb 2022 16:40:31 +0800
+Message-ID: <b9c33974-7c1d-5efd-5667-cd705775e501@chinatelecom.cn>
+Date: Mon, 14 Feb 2022 17:05:38 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH v14 3/7] migration/dirtyrate: Refactor dirty page rate
- calculation
+Subject: Re: [PATCH v14 6/7] softmmu/dirtylimit: Implement virtual CPU throttle
 To: Peter Xu <peterx@redhat.com>
 References: <cover.1644509582.git.huangy81@chinatelecom.cn>
- <5984c1faf2de00df1a4add819fdab5cbe4014746.1644509582.git.huangy81@chinatelecom.cn>
- <YgoLa4B7Eq8OOJq7@xz-m1.local>
+ <ad0a6e05b5bec2c2c8dd3a7663e39e3cf9af71a3.1644509582.git.huangy81@chinatelecom.cn>
+ <YgoQxbzrNleQT9TH@xz-m1.local>
 From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <YgoLa4B7Eq8OOJq7@xz-m1.local>
+In-Reply-To: <YgoQxbzrNleQT9TH@xz-m1.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.227;
+Received-SPF: pass client-ip=42.123.76.222;
  envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -79,98 +78,154 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-在 2022/2/14 15:57, Peter Xu 写道:
-> Mostly good, one trivial nit below:
+在 2022/2/14 16:20, Peter Xu 写道:
+> On Fri, Feb 11, 2022 at 12:17:40AM +0800, huangy81@chinatelecom.cn wrote:
+>> @@ -2964,8 +2971,13 @@ int kvm_cpu_exec(CPUState *cpu)
+>>                */
+>>               trace_kvm_dirty_ring_full(cpu->cpu_index);
+>>               qemu_mutex_lock_iothread();
+>> -            kvm_dirty_ring_reap(kvm_state, NULL);
+>> +            if (dirtylimit_in_service()) {
+>> +                kvm_dirty_ring_reap(kvm_state, cpu);
+>> +            } else {
+>> +                kvm_dirty_ring_reap(kvm_state, NULL);
+>> +            }
 > 
-> On Fri, Feb 11, 2022 at 12:17:37AM +0800, huangy81@chinatelecom.cn wrote:
->> +int64_t vcpu_calculate_dirtyrate(int64_t calc_time_ms,
->> +                                 int64_t init_time_ms,
->> +                                 VcpuStat *stat,
->> +                                 unsigned int flag,
->> +                                 bool one_shot)
+> Could you add some comment here on why the cpu pointer is conditionally passed
+> into the reaping routine?  Even if we know it now, it's not immediately obvious
+> to all the readers.
+Sure.
+> 
+> [...]
+> 
+>> +struct {
+>> +    VcpuDirtyLimitState *states;
+>> +    /* Max cpus number configured by user */
+>> +    int max_cpus;
+>> +    /* Number of vcpu under dirtylimit */
+>> +    int limited_nvcpu;
+>> +    /* Function to implement throttle set up */
+>> +    DirtyLimitFunc setup;
+> 
+> "setup" normally is used only at startup of something, but not per interval.
+> Perhaps "process" or "adjust"?  Same across other "setup" namings across the
+> patch.
+Ok, 'adjust' is fine.
+> 
+> Again, I'd rather call the function directly..
+Um, maybe using the function pointer is more extensible.
+
+[...]
+static void *vcpu_dirty_rate_stat_thread(void *opaque)
+{
+     rcu_register_thread();
+
+     /* start log sync */
+     global_dirty_log_change(GLOBAL_DIRTY_LIMIT, true);
+
+     while (qatomic_read(&vcpu_dirty_rate_stat->running)) {
+         vcpu_dirty_rate_stat_collect();
+         if (dirtylimit_in_service() &&
+             dirtylimit_state->setup) {
+             dirtylimit_state->setup();
+         }
+     }
+
+     /* stop log sync */
+     global_dirty_log_change(GLOBAL_DIRTY_LIMIT, false);
+
+     rcu_unregister_thread();
+     return NULL;
+}
+[...]
+
+Function pointer makes the 'dirtyrate-stat' logic and 'dirtylimit' logic 
+kind of decoupled.
+
+But i'm ok if you insist because it's just about how to call the 
+'dirtylimit' and doesn't affect the whole logic.
+
+> 
+> [...]
+> 
+>> +static void dirtylimit_adjust_throttle(CPUState *cpu)
 >> +{
->> +    DirtyPageRecord *records;
->> +    int64_t duration;
->> +    int64_t dirtyrate;
->> +    int i = 0;
->> +    unsigned int gen_id;
+>> +    uint64_t quota = 0;
+>> +    uint64_t current = 0;
+>> +    int cpu_index = cpu->cpu_index;
 >> +
->> +retry:
->> +    cpu_list_lock();
->> +    gen_id = cpu_list_generation_id_get();
->> +    records = vcpu_dirty_stat_alloc(stat);
->> +    vcpu_dirty_stat_collect(stat, records, true);
->> +    cpu_list_unlock();
+>> +    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
+>> +    current = vcpu_dirty_rate_get(cpu_index);
 >> +
->> +    duration = dirty_stat_wait(calc_time_ms, init_time_ms);
+>> +    if (current == 0) {
+>> +        cpu->throttle_us_per_full = 0;
+>> +        goto end;
 > 
-> Is it a must to pass in init_time_ms rather than always sleep in
-> dirty_stat_wait()?  Could we simply drop it?
+> Can be dropped?
 > 
-Indeed, the parameter 'init_time_ms' seems kind of weird :(, we 
-introduce 'init_time_ms' just becasue the calculate_dirtyrate_dirty_ring 
-will call the function, see the following block:
-
-
-  static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
-  {
--    CPUState *cpu;
--    int64_t msec = 0;
-      int64_t start_time;
-+    int64_t duration;
-      uint64_t dirtyrate = 0;
-      uint64_t dirtyrate_sum = 0;
--    DirtyPageRecord *dirty_pages;
--    int nvcpu = 0;
-      int i = 0;
-
--    CPU_FOREACH(cpu) {
--        nvcpu++;
--    }
--
--    dirty_pages = malloc(sizeof(*dirty_pages) * nvcpu);
--
--    DirtyStat.dirty_ring.nvcpu = nvcpu;
--    DirtyStat.dirty_ring.rates = malloc(sizeof(DirtyRateVcpu) * nvcpu);
--
--    dirtyrate_global_dirty_log_start();
--
--    CPU_FOREACH(cpu) {
--        record_dirtypages(dirty_pages, cpu, true);
--    }
-+    /* start log sync */
-+    global_dirty_log_change(GLOBAL_DIRTY_DIRTY_RATE, true);
-
-      start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-      DirtyStat.start_time = start_time / 1000;
-
-The reason why we introduce the 'init_time_ms' is wanting to store the
-start_time info and display.
-
-Dropping this parameter is fine from my point view if we ignore the 
-duration error result from the delay between caller and callee of
-'vcpu_calculate_dirtyrate’
-
--    msec = config.sample_period_seconds * 1000;
--    msec = set_sample_page_period(msec, start_time);
--    DirtyStat.calc_time = msec / 1000;
-+    /* calculate vcpu dirtyrate */
-+    duration = vcpu_calculate_dirtyrate(config.sample_period_seconds * 
-1000,
-+                                        start_time,
-+                                        &DirtyStat.dirty_ring,
-+                                        GLOBAL_DIRTY_DIRTY_RATE,
-+                                        true);
-
--    dirtyrate_global_dirty_log_stop();
--
--    CPU_FOREACH(cpu) {
--        record_dirtypages(dirty_pages, cpu, false);
--    }
-+    DirtyStat.calc_time = duration / 1000;
-
-
-
+>> +    } else if (dirtylimit_done(quota, current)) {
+>> +        goto end;
+> 
+> Same here.  Dropping it wholely and:
+> 
+>         } else if (!dirtylimit_done(quota, current)) {
+>             dirtylimit_set_throttle(cpu, quota, current);
+>         }
+> 
+> Would work?
+> 
+>> +    } else {
+>> +        dirtylimit_set_throttle(cpu, quota, current);
+>> +    }
+>> +end:
+> 
+> Can be dropped?
+> 
+>> +    trace_dirtylimit_adjust_throttle(cpu_index,
+>> +                                     quota, current,
+>> +                                     cpu->throttle_us_per_full);
+>> +    return;
+>> +}
+>> +
+>> +void dirtylimit_setup(void)
+>> +{
+>> +    CPUState *cpu;
+>> +
+>> +    if (!qatomic_read(&dirtylimit_quit)) {
+>> +        dirtylimit_state_lock();
+>> +
+>> +        if (!dirtylimit_in_service()) {
+>> +            dirtylimit_state_unlock();
+> 
+> Need to return?
+> 
+>> +        }
+>> +
+>> +        CPU_FOREACH(cpu) {
+>> +            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
+>> +                continue;
+>> +            }
+>> +            dirtylimit_adjust_throttle(cpu);
+>> +        }
+>> +        dirtylimit_state_unlock();
+>> +    }
+>> +}
+> 
+> [...]
+> 
+>> +void dirtylimit_set_vcpu(int cpu_index,
+>> +                         uint64_t quota,
+>> +                         bool enable)
+>> +{
+>> +    dirtylimit_vcpu_set_quota(cpu_index, quota, enable);
+>> +    trace_dirtylimit_set_vcpu(cpu_index, quota);
+>> +}
+> 
+> This helper is not "help"ful..  How about wrapping the trace into
+> dirtylimit_vcpu_set_quota, then drop it?
+> 
+> Thanks,
+> 
 
 -- 
 Best regard
