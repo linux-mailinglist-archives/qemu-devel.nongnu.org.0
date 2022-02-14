@@ -2,63 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23AF34B58AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 18:36:55 +0100 (CET)
-Received: from localhost ([::1]:40702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156894B58C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 18:43:00 +0100 (CET)
+Received: from localhost ([::1]:45570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJfHS-0005tb-8z
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 12:36:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55082)
+	id 1nJfNK-0001C6-5y
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 12:42:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nJfFf-0004WJ-KP
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 12:35:03 -0500
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:58309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nJfFc-0001YO-EU
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 12:35:03 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id A29B321D3B;
- Mon, 14 Feb 2022 17:34:57 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 14 Feb
- 2022 18:34:57 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001548e683a-8d49-498f-ab4f-565a02215322,
- C2C7607E88AF4BE64101885B1C15C3F55EEC8FC9) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <d1e2f0c2-ddfa-b0d3-2b45-bcb34687cd73@kaod.org>
-Date: Mon, 14 Feb 2022 18:34:49 +0100
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nJfK2-0007fX-IH; Mon, 14 Feb 2022 12:39:34 -0500
+Received: from [2a00:1450:4864:20::631] (port=45907
+ helo=mail-ej1-x631.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nJfK0-0002Ig-VB; Mon, 14 Feb 2022 12:39:34 -0500
+Received: by mail-ej1-x631.google.com with SMTP id lw4so8204523ejb.12;
+ Mon, 14 Feb 2022 09:39:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=cTGx+UHqI107Hfmh8Cke/VfLm7hPmNzKjC76bs9CTpQ=;
+ b=kMfOaDTO2zxXEMNtJ0Ud19E5iZaqFq/4kS5Lsrp+WUm2oER+OkBuE76wta+UAgxKC3
+ vvJ17vHtWaF1GxD9MBmMHO4RoknMEwUPRwxNuWX5/UOAwn0S+5qDPHljxbjNgqNgZbHn
+ 9nEnNAsEHDbQcFP4VsOrf1dfxVQIVFP8S04EUaxWJeuGvbGJ9ECRR4KVvIJnRVhwBwRD
+ QFgBUit6b5KQzX5mjZL61Gvu0ZKnO+RCNNZJvD6SXuTnuJ08q7AlyEIKcdos6FUhau2P
+ OkKMD9LRrUIBx1urRJs2EPcoZxoz8Hw3dTq+kmyeNoQwFBeDW+7TX5KaHyapFqCMgkJX
+ Plyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=cTGx+UHqI107Hfmh8Cke/VfLm7hPmNzKjC76bs9CTpQ=;
+ b=GrDzsxILYS8Z6SeiHxdi45UFbojR8eCtpBjoHsD/2BpFD25p6TA11u/WsNqdmIzSKI
+ uJ8cXwglo3XAACqeq5qk7RTfocml2YmIjqL2CHcqRdc7XnyOeJOEuAX3uWD2nfYrJOdJ
+ tqiUUTO+W+eZHJRI6dCp64ZOxt/Q0xJcSr9BX2yBHSWSVhWd72L3jOigwNU4tfqxHK84
+ UuwtGGhQmgCTh5GJBaDqMD39jvDSzTu+Jtwn64MD3A2dmVGodEFX9kriDnt7xA67DM3C
+ 5X0sEh0lBlZm4CUkeH31TysGtLTVlF4JtfmI31NE3XGhnskFITxKcICWZ//ygmpb9aab
+ Y1eA==
+X-Gm-Message-State: AOAM533GPLpyWh9yvxdkVTirCXffZB1QkMmWWphjYeAxIStm1eEWkbSj
+ Pnled0wG1PB6AdD3GjLm6Yo=
+X-Google-Smtp-Source: ABdhPJx/O6WaqCwZUIoWUyKpfbE6elgutUK5bBEjVPa4xLzFEM2mVwTXTFX01JovmeyHBWnkc2dTnQ==
+X-Received: by 2002:a17:906:73d2:: with SMTP id
+ n18mr558869ejl.674.1644860370296; 
+ Mon, 14 Feb 2022 09:39:30 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id b4sm1891682ejv.108.2022.02.14.09.39.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 09:39:29 -0800 (PST)
+Message-ID: <90640916-992b-6851-1a17-317c48369133@redhat.com>
+Date: Mon, 14 Feb 2022 18:39:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v11 3/4] target/ppc: add PPC_INTERRUPT_EBB and EBB
- exceptions
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 5/6] test-bdrv-drain.c: remove test_detach_by_parent_cb()
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220211183354.563602-1-danielhb413@gmail.com>
- <20220211183354.563602-4-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220211183354.563602-4-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 5ce84ec8-7b04-46e3-8ef9-ec51543243d5
-X-Ovh-Tracer-Id: 10574733401383406560
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrjedvgdelkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20220208153655.1251658-1-eesposit@redhat.com>
+ <20220208153655.1251658-6-eesposit@redhat.com> <YgaDBkblIA6wu82p@redhat.com>
+ <db25869b-fbf2-f5ca-b2f8-4fe4f3c0a040@redhat.com>
+ <Ygp1FJyh8v0SRxZq@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Ygp1FJyh8v0SRxZq@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,143 +95,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/22 19:33, Daniel Henrique Barboza wrote:
-> PPC_INTERRUPT_EBB is a new interrupt that will be used to deliver EBB
-> exceptions that had to be postponed because the thread wasn't in problem
-> state at the time the event-based branch was supposed to occur.
+On 2/14/22 16:28, Kevin Wolf wrote:
+> The BlockBackend could safely return false from blk_root_drained_poll()
+> while requests are still in their callbacks (if they do anything that
+> touches a node, they would increase in_flight again), it just doesn't do
+> it yet. It's only blk_drain(_all)() that would still have to wait for
+> those.
+
+That would be very subtle, especially it's not clear to me why this 
+wouldn't be "a drain completing while the callback hasn't actually 
+completed yet".  The drain referred to in the commit message of 
+46aaf2a56 could *not* use blk_drain, because it is not coroutine 
+friendly; it must use bdrv_drained_begin.
+
+>> My answer is respectively 1) it's correct, many coroutines do inc_in_flight
+>> before creation and dec_in_flight at the end, we're just saying that it's
+>> _always_  the case for callback-based operations; 2) no, it's not unexpected
+>> and therefore the test is the incorrect one.
+> My question isn't really only about the test, though. If it is now
+> forbidden to call bdrv_replace_child_noperm() in a callback, how do we
+> verify that the test is the only incorrect one rather than just the
+> obvious one?
 > 
-> ISA 3.1 also defines two EBB exceptions: Performance Monitor EBB
-> exception and External EBB exception. They are being added as
-> POWERPC_EXCP_PERFM_EBB and POWERPC_EXCP_EXTERNAL_EBB.
-> 
-> PPC_INTERRUPT_EBB will check BESCR bits to see the EBB type that
-> occurred and trigger the appropriate exception. Both exceptions are
-> doing the same thing in this first implementation: clear BESCR_GE and
-> enter the branch with env->nip retrieved from SPR_EBBHR.
-> 
-> The checks being done by the interrupt code are msr_pr and BESCR_GE
-> states. All other checks (EBB facility check, BESCR_PME bit, specific
-> bits related to the event type) must be done beforehand.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> And is it better to throw away the test and find and fix all other
+> places that are using something that is now forbidden, or wouldn't it be
+> better to actually allow bdrv_replace_child_noperm() in callbacks?
 
-It looks correct.
+The question is would you ever need bdrv_replace_child_noperm() in 
+callbacks?  The AIO functions are called from any iothread and so are 
+the callbacks.  We do have a usecase (in block/mirror.c) for 
+bdrv_drained_begin from a coroutine; do we have a usecase for calling 
+global-state functions from a callback, in such a way that:
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+1) going through a bottom half would not be possible
 
-Next step is to modify the POWER9 input pins and these routines :
-
-   xive_tctx_realize()
-   xive_tctx_output()
-   power9_set_irq()
-
-to add an EBB "wire" between the IC and the CPU.
+2) it's only needed in the special case of a BlockBackend homed in the 
+main event loop (because otherwise you'd have to go through a bottom 
+half, and we have excluded that already)?
 
 Thanks,
 
-C.
-
-
-> ---
->   target/ppc/cpu.h         |  5 ++++-
->   target/ppc/cpu_init.c    |  4 ++++
->   target/ppc/excp_helper.c | 33 +++++++++++++++++++++++++++++++++
->   3 files changed, 41 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index dcd83b503c..3962c8f6f4 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -129,8 +129,10 @@ enum {
->       /* ISA 3.00 additions */
->       POWERPC_EXCP_HVIRT    = 101,
->       POWERPC_EXCP_SYSCALL_VECTORED = 102, /* scv exception                     */
-> +    POWERPC_EXCP_PERFM_EBB = 103,    /* Performance Monitor EBB Exception    */
-> +    POWERPC_EXCP_EXTERNAL_EBB = 104, /* External EBB Exception               */
->       /* EOL                                                                   */
-> -    POWERPC_EXCP_NB       = 103,
-> +    POWERPC_EXCP_NB       = 105,
->       /* QEMU exceptions: special cases we want to stop translation            */
->       POWERPC_EXCP_SYSCALL_USER = 0x203, /* System call in user mode only      */
->   };
-> @@ -2453,6 +2455,7 @@ enum {
->       PPC_INTERRUPT_HMI,            /* Hypervisor Maintenance interrupt    */
->       PPC_INTERRUPT_HDOORBELL,      /* Hypervisor Doorbell interrupt        */
->       PPC_INTERRUPT_HVIRT,          /* Hypervisor virtualization interrupt  */
-> +    PPC_INTERRUPT_EBB,            /* Event-based Branch exception         */
->   };
->   
->   /* Processor Compatibility mask (PCR) */
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index bf60529d37..136d8ca8b5 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -2336,6 +2336,10 @@ static void init_excp_POWER8(CPUPPCState *env)
->       env->excp_vectors[POWERPC_EXCP_FU]       = 0x00000F60;
->       env->excp_vectors[POWERPC_EXCP_HV_FU]    = 0x00000F80;
->       env->excp_vectors[POWERPC_EXCP_SDOOR_HV] = 0x00000E80;
-> +
-> +    /* Userland exceptions without vector value in PowerISA v3.1 */
-> +    env->excp_vectors[POWERPC_EXCP_PERFM_EBB] = 0x0;
-> +    env->excp_vectors[POWERPC_EXCP_EXTERNAL_EBB] = 0x0;
->   #endif
->   }
->   
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 8a49a4ab90..ad40a0f8e6 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -990,6 +990,21 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
->           new_msr |= (target_ulong)MSR_HVB;
->           new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
->           break;
-> +    case POWERPC_EXCP_PERFM_EBB:        /* Performance Monitor EBB Exception  */
-> +    case POWERPC_EXCP_EXTERNAL_EBB:     /* External EBB Exception             */
-> +        env->spr[SPR_BESCR] &= ~BESCR_GE;
-> +
-> +        /*
-> +         * Save NIP for rfebb insn in SPR_EBBRR. Next nip is
-> +         * stored in the EBB Handler SPR_EBBHR.
-> +         */
-> +        env->spr[SPR_EBBRR] = env->nip;
-> +        powerpc_set_excp_state(cpu, env->spr[SPR_EBBHR], env->msr);
-> +
-> +        /*
-> +         * This exception is handled in userspace. No need to proceed.
-> +         */
-> +        return;
->       case POWERPC_EXCP_THERM:     /* Thermal interrupt                        */
->       case POWERPC_EXCP_PERFM:     /* Embedded performance monitor interrupt   */
->       case POWERPC_EXCP_VPUA:      /* Vector assist exception                  */
-> @@ -1681,6 +1696,24 @@ static void ppc_hw_interrupt(CPUPPCState *env)
->               powerpc_excp(cpu, POWERPC_EXCP_THERM);
->               return;
->           }
-> +        /* EBB exception */
-> +        if (env->pending_interrupts & (1 << PPC_INTERRUPT_EBB)) {
-> +            /*
-> +             * EBB exception must be taken in problem state and
-> +             * with BESCR_GE set.
-> +             */
-> +            if (msr_pr == 1 && env->spr[SPR_BESCR] & BESCR_GE) {
-> +                env->pending_interrupts &= ~(1 << PPC_INTERRUPT_EBB);
-> +
-> +                if (env->spr[SPR_BESCR] & BESCR_PMEO) {
-> +                    powerpc_excp(cpu, POWERPC_EXCP_PERFM_EBB);
-> +                } else if (env->spr[SPR_BESCR] & BESCR_EEO) {
-> +                    powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL_EBB);
-> +                }
-> +
-> +                return;
-> +            }
-> +        }
->       }
->   
->       if (env->resume_as_sreset) {
-> 
-
+Paolo
 
