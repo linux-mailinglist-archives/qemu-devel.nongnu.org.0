@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135274B536D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:36:17 +0100 (CET)
-Received: from localhost ([::1]:36542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2974B52E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:13:07 +0100 (CET)
+Received: from localhost ([::1]:47982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJcSd-0004vJ-MT
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:36:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35814)
+	id 1nJc6E-00005h-Bd
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:13:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nJbci-0001Tb-SF
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:42:41 -0500
-Received: from [2a00:1450:4864:20::42e] (port=43538
- helo=mail-wr1-x42e.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nJbDz-0005sT-OH; Mon, 14 Feb 2022 08:17:07 -0500
+Received: from [2607:f8b0:4864:20::c2b] (port=41589
+ helo=mail-oo1-xc2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nJbcc-0006na-7n
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:42:36 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id i14so26871167wrc.10
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 05:42:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=pnQHgkexYs4YcfYqLfNWqtHK/S9Aw9KOlNDzfmwnM7o=;
- b=ztfWeddK85MC+RcmRlDHTVeozBymz58K/e9i7O6tsPCZjGBdoPMMjwzfpVXT3XWDB8
- V5D3kNFfr2J/cGW+TFdNj5h5JDaZkMzOxTbAur+wCIWlwePrT3/64C5/fP/XqN+n8y+w
- OmyAX9pLsHNo13ffPFJ2hSvpiunVbfm3/7mdv8V3LX0iVbqugdvFubaDX2hBvBN2ekRs
- 0MAoi1BKh73Y5mFchhbDxpaLV0sHEn5htV7w380DmCozI5poIdtiuTegNQUunqkn5TKq
- 1B+k/vruTy7lTjqU3MgKsNRGRloxjWsKLNEUKrroDpp0G3kMETMvIBUcPRHTl3E8UMsT
- vdwg==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nJbDy-0002xQ-AC; Mon, 14 Feb 2022 08:17:03 -0500
+Received: by mail-oo1-xc2b.google.com with SMTP id
+ q145-20020a4a3397000000b002e85c7234b1so19245808ooq.8; 
+ Mon, 14 Feb 2022 05:16:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=MCGCvqD1nLou3fCKluYhjdM9d4psib4efrijEU50msI=;
+ b=qhI7qdKAbSTqJcOyd0D6CiILZvnvQHdGKolpUFDC05vO2FjFZdx+bxFm7o9uCyQU5U
+ HSdZmc96qMHNXuhqSFqT4AVvzBSptJfhCOJfb/sSsA7JOJg0Se/QwoTvOPvVkzjSPiaj
+ FbCRTy7eZqt54cJ/gdmwOUk0ysDGU8z3g10h4JhmvjjVXjPzpLAho/y7OHSWTDeOljJx
+ 4qnp5N10kjOSIwut5r1acZcVva9LgiwIiVGTTuZbZU21QvLi4nXsK3OCHgoU6HbFHXp4
+ nOA9UirsCY1T3hw7XTgk3pJ6dFwjyrMMrx1K92X6mCZ7U/wgVDlYkETy8NhmRxn0qt1o
+ zQMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=pnQHgkexYs4YcfYqLfNWqtHK/S9Aw9KOlNDzfmwnM7o=;
- b=rCOqFu6g/MYDT0yBpi0jsmyEW/oZtbN6ycQzkIispAWy47zS18BH22mIrBpbLRk1IU
- 4Pp74AlymWbZYXVOmp5NMPOf1kXWp4caikBgPWaftLIXuV8OlUUJYOgx9PQcW9HHaPvn
- 6mZe4+q62pdiv+M7YDI5A9nhQGcWwWb9tS0y407lOvmCQ2W1iv4hfu5dIME1Wfs4YRP2
- 8cSVDHPb6RmEiIFQzvkcEzGP1zB3iv7IdWvRbC744rCQEypetn4c2ye203MDDjrBJg6T
- 6fpMHwe3Guw8r2rG37y5RqZmMq9/oCku3dWjVyMbk+MSOhQUxLBSSDXCxyc91fVuYuVj
- n6+Q==
-X-Gm-Message-State: AOAM533rf9MDKtNgkR0EnB/VWzBV8hUTiFVresaI9dwXb/6BPrYJe/Ph
- eK11iaDlS0M2aWLVSAwfBsOFag==
-X-Google-Smtp-Source: ABdhPJwUK+KknkkGx/YCKtD3Oo46jjY1c/E1ME6NWB+I1c8iEAayzVzlePJarG8lE9RSSL4GcBfuPQ==
-X-Received: by 2002:adf:ce87:: with SMTP id r7mr10964358wrn.397.1644846146257; 
- Mon, 14 Feb 2022 05:42:26 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b2sm4376184wri.35.2022.02.14.05.42.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 05:42:25 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5882620329;
- Mon, 14 Feb 2022 13:42:24 +0000 (GMT)
-References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
-User-agent: mu4e 1.7.7; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
-Date: Mon, 14 Feb 2022 13:16:36 +0000
-In-reply-to: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
-Message-ID: <87zgmtd0ov.fsf@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=MCGCvqD1nLou3fCKluYhjdM9d4psib4efrijEU50msI=;
+ b=50FYH9Bj2GFpagGDkYAFOXjuNjCnqaIxsxXJ4J3NZpbpSBoUuR/2eYkGWnK3Qm5fHS
+ emIlyxp9rhWXwV3FraRU4MpZnwTefsueK5Nt7n1a64YkQKcjjXz0FP/8jEpsj2fjA3NT
+ 0DVo0dkxRQ6aAWK2ZwDJdbNzvPGSxjx65YHhwRAEaaaphBixg4W6iXUY1lOJ+f+hw1yR
+ yh9uMpWPScnxBc2rvKsIbQl7yAnpoJqpp1qWOPqdre1AJ9Zrj7OZRCF73L2ADOYBiQdq
+ bY6Rtvx7NTPfY1zTuxsfVtT3QzWQmaNkoLHUW+QkvOwyBGNyuvi4piq1HrrmWm1jDFLq
+ JVdg==
+X-Gm-Message-State: AOAM533tKRW66+tnSBlUa3aK1wZW38+edGKMn5at67pA8XpRyNJLny94
+ 9pWP9AZoIDKAeimDl9Oji5A=
+X-Google-Smtp-Source: ABdhPJw8h41KlTui9tQMvGibvJQBzJHWvNUcw1Cq2yStvoYnwwbnWGWxqbpZFnyuooS3IXQAEdUvtQ==
+X-Received: by 2002:a05:6870:339a:: with SMTP id
+ w26mr1414620oae.134.1644844616859; 
+ Mon, 14 Feb 2022 05:16:56 -0800 (PST)
+Received: from ?IPV6:2804:431:c7c6:367f:eb9c:8725:6b7f:76b3?
+ ([2804:431:c7c6:367f:eb9c:8725:6b7f:76b3])
+ by smtp.gmail.com with ESMTPSA id o13sm747284oiw.17.2022.02.14.05.16.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 05:16:56 -0800 (PST)
+Message-ID: <6145d2c0-ea7b-6c74-c4ef-54ba080cdbca@gmail.com>
+Date: Mon, 14 Feb 2022 10:16:54 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] spapr: prevent hdec timer being set up under virtual
+ hypervisor
+Content-Language: en-US
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+References: <20220214123116.1546406-1-npiggin@gmail.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220214123116.1546406-1-npiggin@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2b.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,83 +93,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sergio Lopez <slp@redhat.com>, kvm <kvm@vger.kernel.org>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, "Florescu,
- Andreea" <fandree@amazon.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- hreitz@redhat.com, Alex Agache <aagch@amazon.com>,
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Stefan Hajnoczi <stefanha@gmail.com> writes:
 
-> Dear QEMU, KVM, and rust-vmm communities,
-> QEMU will apply for Google Summer of Code 2022
-> (https://summerofcode.withgoogle.com/) and has been accepted into
-> Outreachy May-August 2022 (https://www.outreachy.org/). You can now
-> submit internship project ideas for QEMU, KVM, and rust-vmm!
->
-> If you have experience contributing to QEMU, KVM, or rust-vmm you can
-> be a mentor. It's a great way to give back and you get to work with
-> people who are just starting out in open source.
->
-> Please reply to this email by February 21st with your project ideas.
->
-> Good project ideas are suitable for remote work by a competent
-> programmer who is not yet familiar with the codebase. In
-> addition, they are:
-> - Well-defined - the scope is clear
-> - Self-contained - there are few dependencies
-> - Uncontroversial - they are acceptable to the community
-> - Incremental - they produce deliverables along the way
->
-> Feel free to post ideas even if you are unable to mentor the project.
-> It doesn't hurt to share the idea!
->
-> I will review project ideas and keep you up-to-date on QEMU's
-> acceptance into GSoC.
->
-> Internship program details:
-> - Paid, remote work open source internships
-> - GSoC projects are 175 or 350 hours, Outreachy projects are 30
-> hrs/week for 12 weeks
-> - Mentored by volunteers from QEMU, KVM, and rust-vmm
-> - Mentors typically spend at least 5 hours per week during the coding per=
-iod
->
-> Changes since last year: GSoC now has 175 or 350 hour project sizes
-> instead of 12 week full-time projects. GSoC will accept applicants who
-> are not students, before it was limited to students.
+On 2/14/22 09:31, Nicholas Piggin wrote:
+> The spapr virtual hypervisor does not require the hdecr timer.
+> Remove it.
+> 
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> ---
 
-I'm certainly up for mentoring new devices for vhost-device (rust-vmm
-vhost-user backends). Since we've become a code owner we're trying to
-clear the backlog (virto-vsock and virtio-block) but there are plenty of
-others that could be done. Of particular interest to me are:
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-  - virtio-rpmb (we have a working C implementation I wrote)
-  - virtio-snd (in flight virtio spec)
-  - virtio-video (again we have a working C version against v3)
-=20=20
-With my other hat on there are numerous TCG plugin projects that could
-be done. Adding basic plugins is fairly straight forward but it would be
-interesting to look at what is required to do a more involved plugin
-like panda-re's taint analysis (following ptrs as they move through the
-system). This will likely need some additional features exposed from the
-plugin interface to achieve.
-
-With that in mind there is also the idea of a central registry for
-register values which is a prerequisite for expanding access to TCG
-plugins but could also bring various quality of life improvements to
-other areas. I've written that up on a page:
-
-  https://wiki.qemu.org/Internships/ProjectIdeas/CentralRegisterRegistry
-
---=20
-Alex Benn=C3=A9e
+>   hw/ppc/ppc.c            | 2 +-
+>   hw/ppc/spapr_cpu_core.c | 6 +++---
+>   2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+> index 462c87dba8..a7c262db93 100644
+> --- a/hw/ppc/ppc.c
+> +++ b/hw/ppc/ppc.c
+> @@ -1072,7 +1072,7 @@ clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, uint32_t freq)
+>       }
+>       /* Create new timer */
+>       tb_env->decr_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_decr_cb, cpu);
+> -    if (env->has_hv_mode) {
+> +    if (env->has_hv_mode && !cpu->vhyp) {
+>           tb_env->hdecr_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_hdecr_cb,
+>                                                   cpu);
+>       } else {
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index a781e97f8d..ed84713960 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -261,12 +261,12 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>           return false;
+>       }
+>   
+> -    /* Set time-base frequency to 512 MHz */
+> -    cpu_ppc_tb_init(env, SPAPR_TIMEBASE_FREQ);
+> -
+>       cpu_ppc_set_vhyp(cpu, PPC_VIRTUAL_HYPERVISOR(spapr));
+>       kvmppc_set_papr(cpu);
+>   
+> +    /* Set time-base frequency to 512 MHz. vhyp must be set first. */
+> +    cpu_ppc_tb_init(env, SPAPR_TIMEBASE_FREQ);
+> +
+>       if (spapr_irq_cpu_intc_create(spapr, cpu, errp) < 0) {
+>           qdev_unrealize(DEVICE(cpu));
+>           return false;
 
