@@ -2,101 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A0C4B404D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 04:29:18 +0100 (CET)
-Received: from localhost ([::1]:52320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953154B4054
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 04:35:38 +0100 (CET)
+Received: from localhost ([::1]:58094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJS3B-00016q-9j
-	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 22:29:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55732)
+	id 1nJS9J-00058W-5m
+	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 22:35:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nJS2H-0000Dp-66
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:28:21 -0500
-Received: from ma1-aaemail-dr-lapp02.apple.com ([17.171.2.68]:38132)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nJS84-0004TS-Qk
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:34:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nJS2E-0002vb-ME
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:28:20 -0500
-Received: from pps.filterd (ma1-aaemail-dr-lapp02.apple.com [127.0.0.1])
- by ma1-aaemail-dr-lapp02.apple.com (8.16.0.42/8.16.0.42) with SMTP id
- 21E3DtRL053880; Sun, 13 Feb 2022 19:28:06 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
- h=from : message-id :
- content-type : mime-version : subject : date : in-reply-to : cc : to :
- references; s=20180706; bh=rZ/ghvmHlUyb+zHLA6RvSABb6sGdXO/bZxzr/myJwiY=;
- b=qGdWu/jUDjOjEWC8qx7FktNbl2d8CbOh+VYJEtAoUNi7F+ylWbZWq+gob4ZvB9NbwP/3
- 49cyGx8giveakzFLcyRO3EyHJAm/GF/2UXnzATCu7I4z9c8LRsAKmAbXReI0Zgxeoxmr
- mweIBErO30oIBf5ZiHYkR8W3c3tfxWOQk61oLFhjWDsD2apr/SgwFRNoJiwq9fTCyn0a
- N0S1HFtvkN50SMKBxRAuD1sIiB1mbFAVuDxXuP1nCextWI1ZfhSKBkHxLP94XbHzmud3
- f7IOhTA2TdgRez5AWRHymrbn+K5QGZNSjGisT7bXz7nLVc9zzSu5EhuoQlCvBm7ayQJz ww== 
-Received: from rn-mailsvcp-mta-lapp04.rno.apple.com
- (rn-mailsvcp-mta-lapp04.rno.apple.com [10.225.203.152])
- by ma1-aaemail-dr-lapp02.apple.com with ESMTP id 3e6aex1g5c-5
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Sun, 13 Feb 2022 19:28:06 -0800
-Received: from rn-mailsvcp-mmp-lapp02.rno.apple.com
- (rn-mailsvcp-mmp-lapp02.rno.apple.com [17.179.253.15])
- by rn-mailsvcp-mta-lapp04.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) with ESMTPS id <0R7900IZQYYUMSA0@rn-mailsvcp-mta-lapp04.rno.apple.com>; 
- Sun, 13 Feb 2022 19:28:06 -0800 (PST)
-Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp02.rno.apple.com by
- rn-mailsvcp-mmp-lapp02.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) id <0R7900U00YYQBX00@rn-mailsvcp-mmp-lapp02.rno.apple.com>; Sun,
- 13 Feb 2022 19:28:06 -0800 (PST)
-X-Va-A: 
-X-Va-T-CD: a4993044822e62ac2b1465e3850df6e0
-X-Va-E-CD: 41a1522e228337b98c8164712077f4a5
-X-Va-R-CD: 23f0c9f98d43c78a7da597b3c3549874
-X-Va-CD: 0
-X-Va-ID: 6b70cd29-999a-47bf-a82b-1d20b2fe1f11
-X-V-A: 
-X-V-T-CD: a4993044822e62ac2b1465e3850df6e0
-X-V-E-CD: 41a1522e228337b98c8164712077f4a5
-X-V-R-CD: 23f0c9f98d43c78a7da597b3c3549874
-X-V-CD: 0
-X-V-ID: 95079ae8-b599-4dae-83a9-9ef52b8addb8
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
- definitions=2022-02-14_01:2022-02-11,
- 2022-02-14 signatures=0
-Received: from smtpclient.apple ([17.234.2.16])
- by rn-mailsvcp-mmp-lapp02.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021))
- with ESMTPSA id <0R79008JHYWU7H20@rn-mailsvcp-mmp-lapp02.rno.apple.com>; Sun,
- 13 Feb 2022 19:27:50 -0800 (PST)
-From: Cameron Esfahani <dirty@apple.com>
-Message-id: <325F9502-C325-474B-8C4F-03F32512A644@apple.com>
-Content-type: multipart/alternative;
- boundary="Apple-Mail=_D04F0D81-A8E3-449D-8542-DF3D7C32E531"
-MIME-version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
-Subject: Re: [PATCH v4 09/13] block/file-posix: Remove a deprecation warning on
- macOS 12
-Date: Sun, 13 Feb 2022 19:27:50 -0800
-In-reply-to: <20220211163434.58423-10-f4bug@amsat.org>
-Cc: Cameron Esfahani via <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Will Cohen <wwcohen@gmail.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Li Zhang <lizhang@suse.de>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-References: <20220211163434.58423-1-f4bug@amsat.org>
- <20220211163434.58423-10-f4bug@amsat.org>
-X-Mailer: Apple Mail (2.3693.60.0.1.1)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
- definitions=2022-02-14_01:2022-02-11,
- 2022-02-14 signatures=0
-Received-SPF: pass client-ip=17.171.2.68; envelope-from=dirty@apple.com;
- helo=ma1-aaemail-dr-lapp02.apple.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nJS81-0003js-GJ
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:34:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644809655;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hDFJArXgLo4PsPDePCF2YhhtHYp0pwwbwrgjVaZDQu8=;
+ b=h9tLehz3AjOg6fYFFEpNX6o2HXv7HXTN3bkCEYVKFDbyLkcLF9s+svoJt6o1Yd4SVbCWCz
+ hNlKfD+AoOVZdPwpp3ittsmNdUQeHnmn1BNZ4dCgyppSuaVuf7yEvzy9RoTWxxR76MrZbD
+ evdiT/thDv4enMyuSO9xj6abZVhMA8k=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-237-lHxSMW0hNaSJns3UTJ2SeQ-1; Sun, 13 Feb 2022 22:34:14 -0500
+X-MC-Unique: lHxSMW0hNaSJns3UTJ2SeQ-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ s10-20020a17090a948a00b001b96be201f6so5812915pjo.4
+ for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 19:34:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hDFJArXgLo4PsPDePCF2YhhtHYp0pwwbwrgjVaZDQu8=;
+ b=e+qdJJNDoXyy9TZmY0D2b5pQHLxTRQY8jKLjXA+77iFCOVeEqcyzezAVgmJZnT/Gwl
+ 85xbE7jQrwGt3xYo+w79WpQKAJVCq3sBmVpeiFT5agcWE0S9tYwx+Aaof7iR6F0iY1l0
+ l9YD0JcCnJDp8xULctu56atIIvmTGHJqMaOj5sCamjRSrHQlyHOZflwbYa3YgaNqPc7V
+ FcCMqhUQddROHnhtOhGWBerTN66ngCBCVLc8w5mfkEuqF76kTNPqAzewb7bmaUMNwfrS
+ woe9dm5RczS2VpbEp4Zvb48h+xSk4XWfXBkYiOohQQKWVM5h8iPStaI8khCsvnhvviv4
+ LODg==
+X-Gm-Message-State: AOAM531GxQrlaSqCAsNogJTZ+lLB2KDj668mBrBWyYKMgHPfWa4q/PmS
+ VwMIJKWEQNmzhk3B+DTLpOwh6foD5mr/DUwQ5XEm/NrOYXmFRU48sLppny1NjwVYe0gpLLT2Oxi
+ pasj1oMjsfAHAPU0=
+X-Received: by 2002:a17:90b:1e06:: with SMTP id
+ pg6mr3385289pjb.171.1644809653696; 
+ Sun, 13 Feb 2022 19:34:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyRLLNQOJHHTNKSXn/WwjRGgnKGapXIdI90Rn/fcKRw72gDnLBcrZw0B/cGHu5FoJmuyBuTKQ==
+X-Received: by 2002:a17:90b:1e06:: with SMTP id
+ pg6mr3385265pjb.171.1644809653423; 
+ Sun, 13 Feb 2022 19:34:13 -0800 (PST)
+Received: from [10.72.13.241] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id t1sm24598016pgj.43.2022.02.13.19.34.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 13 Feb 2022 19:34:12 -0800 (PST)
+Message-ID: <e58eeed9-d6ea-a8e1-6a8d-29138b413291@redhat.com>
+Date: Mon, 14 Feb 2022 11:33:50 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.0
+Subject: Re: [PATCH v2] hw/net: e1000e: Clear ICR on read when using non MSI-X
+ interrupts
+To: Nick Hudson <skrll@netbsd.org>
+References: <20220212094418.93056-1-skrll@netbsd.org>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220212094418.93056-1-skrll@netbsd.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,176 +102,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Apple-Mail=_D04F0D81-A8E3-449D-8542-DF3D7C32E531
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+在 2022/2/12 下午5:44, Nick Hudson 写道:
+> In section 7.4.3 of the 82574 datasheet it states that
+>
+>      "In systems that do not support MSI-X, reading the ICR
+>       register clears it's bits..."
+>
+> Some OSes rely on this.
+>
+> Signed-off-by: Nick Hudson <skrll@netbsd.org>
 
-Reviewed by: Cameron Esfahani <dirty@apple.com <mailto:dirty@apple.com>>
 
-> On Feb 11, 2022, at 8:34 AM, Philippe Mathieu-Daud=C3=A9 via =
-<qemu-devel@nongnu.org> wrote:
->=20
-> When building on macOS 12 we get:
->=20
->  block/file-posix.c:3335:18: warning: 'IOMasterPort' is deprecated: =
-first deprecated in macOS 12.0 [-Wdeprecated-declarations]
->      kernResult =3D IOMasterPort( MACH_PORT_NULL, &masterPort );
->                   ^~~~~~~~~~~~
->                   IOMainPort
->=20
-> Replace by IOMainPort, redefining it to IOMasterPort if not available.
->=20
-> Suggested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Applied.
+
+Thanks
+
+
 > ---
-> block/file-posix.c | 14 ++++++++++----
-> 1 file changed, 10 insertions(+), 4 deletions(-)
->=20
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 1f1756e192..13393ad296 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -3319,17 +3319,23 @@ BlockDriver bdrv_file =3D {
-> #if defined(__APPLE__) && defined(__MACH__)
-> static kern_return_t GetBSDPath(io_iterator_t mediaIterator, char =
-*bsdPath,
->                                 CFIndex maxPathSize, int flags);
+>   hw/net/e1000e_core.c | 5 +++++
+>   hw/net/trace-events  | 1 +
+>   2 files changed, 6 insertions(+)
+>
+> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> index 8ae6fb7e14..2c51089a82 100644
+> --- a/hw/net/e1000e_core.c
+> +++ b/hw/net/e1000e_core.c
+> @@ -2607,6 +2607,11 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
+>           core->mac[ICR] = 0;
+>       }
+>   
+> +    if (!msix_enabled(core->owner)) {
+> +        trace_e1000e_irq_icr_clear_nonmsix_icr_read();
+> +        core->mac[ICR] = 0;
+> +    }
 > +
-> +#if !defined(MAC_OS_VERSION_12_0) \
-> +    || (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_12_0)
-> +#define IOMainPort IOMasterPort
-> +#endif
-> +
-> static char *FindEjectableOpticalMedia(io_iterator_t *mediaIterator)
-> {
->     kern_return_t kernResult =3D KERN_FAILURE;
-> -    mach_port_t     masterPort;
-> +    mach_port_t mainPort;
->     CFMutableDictionaryRef  classesToMatch;
->     const char *matching_array[] =3D {kIODVDMediaClass, =
-kIOCDMediaClass};
->     char *mediaType =3D NULL;
->=20
-> -    kernResult =3D IOMasterPort( MACH_PORT_NULL, &masterPort );
-> +    kernResult =3D IOMainPort(MACH_PORT_NULL, &mainPort);
->     if ( KERN_SUCCESS !=3D kernResult ) {
-> -        printf( "IOMasterPort returned %d\n", kernResult );
-> +        printf("IOMainPort returned %d\n", kernResult);
->     }
->=20
->     int index;
-> @@ -3342,7 +3348,7 @@ static char =
-*FindEjectableOpticalMedia(io_iterator_t *mediaIterator)
->         }
->         CFDictionarySetValue(classesToMatch, =
-CFSTR(kIOMediaEjectableKey),
->                              kCFBooleanTrue);
-> -        kernResult =3D IOServiceGetMatchingServices(masterPort, =
-classesToMatch,
-> +        kernResult =3D IOServiceGetMatchingServices(mainPort, =
-classesToMatch,
->                                                   mediaIterator);
->         if (kernResult !=3D KERN_SUCCESS) {
->             error_report("Note: IOServiceGetMatchingServices returned =
-%d",
-> --=20
-> 2.34.1
->=20
->=20
+>       if ((core->mac[ICR] & E1000_ICR_ASSERTED) &&
+>           (core->mac[CTRL_EXT] & E1000_CTRL_EXT_IAME)) {
+>           trace_e1000e_irq_icr_clear_iame();
+> diff --git a/hw/net/trace-events b/hw/net/trace-events
+> index 643338f610..4c0ec3fda1 100644
+> --- a/hw/net/trace-events
+> +++ b/hw/net/trace-events
+> @@ -221,6 +221,7 @@ e1000e_irq_write_ics(uint32_t val) "Adding ICR bits 0x%x"
+>   e1000e_irq_icr_process_iame(void) "Clearing IMS bits due to IAME"
+>   e1000e_irq_read_ics(uint32_t ics) "Current ICS: 0x%x"
+>   e1000e_irq_read_ims(uint32_t ims) "Current IMS: 0x%x"
+> +e1000e_irq_icr_clear_nonmsix_icr_read(void) "Clearing ICR on read due to non MSI-X int"
+>   e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
+>   e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
+>   e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
 
-
---Apple-Mail=_D04F0D81-A8E3-449D-8542-DF3D7C32E531
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" =
-class=3D"">Reviewed by: Cameron Esfahani &lt;<a =
-href=3D"mailto:dirty@apple.com" class=3D"">dirty@apple.com</a>&gt;<br =
-class=3D""><div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Feb 11, 2022, at 8:34 AM, Philippe Mathieu-Daud=C3=A9 via =
-&lt;<a href=3D"mailto:qemu-devel@nongnu.org" =
-class=3D"">qemu-devel@nongnu.org</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div class=3D"">When =
-building on macOS 12 we get:<br class=3D""><br class=3D""> =
-&nbsp;block/file-posix.c:3335:18: warning: 'IOMasterPort' is deprecated: =
-first deprecated in macOS 12.0 [-Wdeprecated-declarations]<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kernResult =3D IOMasterPort( =
-MACH_PORT_NULL, &amp;masterPort );<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^~~~~~~~~~~~<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IOMainPort<br class=3D""><br =
-class=3D"">Replace by IOMainPort, redefining it to IOMasterPort if not =
-available.<br class=3D""><br class=3D"">Suggested-by: Akihiko Odaki =
-&lt;<a href=3D"mailto:akihiko.odaki@gmail.com" =
-class=3D"">akihiko.odaki@gmail.com</a>&gt;<br class=3D"">Signed-off-by: =
-Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org" =
-class=3D"">f4bug@amsat.org</a>&gt;<br class=3D"">---<br class=3D""> =
-block/file-posix.c | 14 ++++++++++----<br class=3D""> 1 file changed, 10 =
-insertions(+), 4 deletions(-)<br class=3D""><br class=3D"">diff --git =
-a/block/file-posix.c b/block/file-posix.c<br class=3D"">index =
-1f1756e192..13393ad296 100644<br class=3D"">--- a/block/file-posix.c<br =
-class=3D"">+++ b/block/file-posix.c<br class=3D"">@@ -3319,17 +3319,23 =
-@@ BlockDriver bdrv_file =3D {<br class=3D""> #if defined(__APPLE__) =
-&amp;&amp; defined(__MACH__)<br class=3D""> static kern_return_t =
-GetBSDPath(io_iterator_t mediaIterator, char *bsdPath,<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CFIndex maxPathSize, int =
-flags);<br class=3D"">+<br class=3D"">+#if !defined(MAC_OS_VERSION_12_0) =
-\<br class=3D"">+ &nbsp;&nbsp;&nbsp;|| (MAC_OS_X_VERSION_MIN_REQUIRED =
-&lt; MAC_OS_VERSION_12_0)<br class=3D"">+#define IOMainPort =
-IOMasterPort<br class=3D"">+#endif<br class=3D"">+<br class=3D""> static =
-char *FindEjectableOpticalMedia(io_iterator_t *mediaIterator)<br =
-class=3D""> {<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;kern_return_t =
-kernResult =3D KERN_FAILURE;<br class=3D"">- =
-&nbsp;&nbsp;&nbsp;mach_port_t &nbsp;&nbsp;&nbsp;&nbsp;masterPort;<br =
-class=3D"">+ &nbsp;&nbsp;&nbsp;mach_port_t mainPort;<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;CFMutableDictionaryRef &nbsp;classesToMatch;<br =
-class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;const char *matching_array[] =3D =
-{kIODVDMediaClass, kIOCDMediaClass};<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;char *mediaType =3D NULL;<br class=3D""><br =
-class=3D"">- &nbsp;&nbsp;&nbsp;kernResult =3D IOMasterPort( =
-MACH_PORT_NULL, &amp;masterPort );<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;kernResult =3D IOMainPort(MACH_PORT_NULL, =
-&amp;mainPort);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;if ( KERN_SUCCESS =
-!=3D kernResult ) {<br class=3D"">- =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf( "IOMasterPort returned =
-%d\n", kernResult );<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("IOMainPort returned =
-%d\n", kernResult);<br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;}<br =
-class=3D""><br class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;int index;<br =
-class=3D"">@@ -3342,7 +3348,7 @@ static char =
-*FindEjectableOpticalMedia(io_iterator_t *mediaIterator)<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CFDictionarySetValue(class=
-esToMatch, CFSTR(kIOMediaEjectableKey),<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;kCFBooleanTrue);<br class=3D"">- =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kernResult =3D =
-IOServiceGetMatchingServices(masterPort, classesToMatch,<br class=3D"">+ =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kernResult =3D =
-IOServiceGetMatchingServices(mainPort, classesToMatch,<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;mediaIterator);<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (kernResult !=3D =
-KERN_SUCCESS) {<br class=3D""> =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;er=
-ror_report("Note: IOServiceGetMatchingServices returned %d",<br =
-class=3D"">-- <br class=3D"">2.34.1<br class=3D""><br class=3D""><br =
-class=3D""></div></div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_D04F0D81-A8E3-449D-8542-DF3D7C32E531--
 
