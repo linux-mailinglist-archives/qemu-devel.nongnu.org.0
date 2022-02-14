@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646154B43E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:19:27 +0100 (CET)
-Received: from localhost ([::1]:48172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55AC44B43A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:16:42 +0100 (CET)
+Received: from localhost ([::1]:44238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJWZy-00081V-6t
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:19:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35526)
+	id 1nJWXJ-0005B1-2H
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:16:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWFF-00078k-AZ
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:58:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52122)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWGr-0000Gj-G3
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:59:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWFC-0005CU-Bh
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:57:59 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWGq-0005Xb-2b
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:59:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644825476;
+ s=mimecast20190719; t=1644825579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AwXON1X0D9kBxlbB7465m54c6mNVz7gxsIB9Tw53CCU=;
- b=YKpOH7y0fSGN8GWAFt9Ky62Q69wKkRYoIsby5C7tixPlxnqukmXNolExckzw3Dr/u2QCVT
- n4vK2XKDrSnu+nk5EfsD7T3BS0rU5UqULAuP53id922T2fcPRr1di7xvnIZMeuq3aGi7rN
- yqa5FzfWfqotFfXHJjjqZzuD6zuPZyc=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pmvBwVYMimXr1yId2LZx11ELWr7lIYXXmX7TpGnuM48=;
+ b=eUwGmD5jDlfIeiXiaPSYRmJpriwC8Dqg+V++dYnx+lLXsEnH6kszRe7PIA7D2JVkvS0Bq2
+ 3nfCB3uKDJhpSq6dWIEOHW7etjeFCeCNHVPNZ9rQMR2dCtkhd5NUF47zYSI2ImqTGMXTKb
+ LDZdo9TwhKNXr3q2xxb0hQw8s0v93Pg=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-303-RHhWUp7uMnqCJucyIa1ULQ-1; Mon, 14 Feb 2022 02:57:55 -0500
-X-MC-Unique: RHhWUp7uMnqCJucyIa1ULQ-1
-Received: by mail-pf1-f197.google.com with SMTP id
- t134-20020a62788c000000b004e1367caccaso458595pfc.14
- for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 23:57:55 -0800 (PST)
+ us-mta-12-YhgUVem0PS2Qfvr01-wGVA-1; Mon, 14 Feb 2022 02:59:38 -0500
+X-MC-Unique: YhgUVem0PS2Qfvr01-wGVA-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ md16-20020a17090b23d000b001b8bd5e35e2so10457047pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 23:59:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=AwXON1X0D9kBxlbB7465m54c6mNVz7gxsIB9Tw53CCU=;
- b=o0NgAIL551BI/JyzK5LNXoJJ6Vm9xBbKCnNbMFdxYViDpZjNI6+8eMQJT7rcp10L4D
- cwvraIsocD3jMeGBqDW9DKUJhK5hWLH+gGeehcAzTfE3mAWvzlFgwMJ5OXT8AnMNRWfk
- rVxarCxbDn7N+oOetfNAptxT+IzboWKJGNxZoefCgc++IPEzWiG1MdsLzWKP4so9D5CC
- vrNeUyAqDCsJj9oaJV+yd7EahPDPJOzkr8lGCXI02oF1B1Z9qCMbXGXFen27Rvb0KmG2
- a0qiB9AkcmUkbRkj5tc26n46vYIN7v2xPb9EOVtODfQA2a5X7Sk/XTNUhnMON4lUtt3A
- mcAQ==
-X-Gm-Message-State: AOAM5304ZrOuNdbhSa7y/u2YGsT6cdieyedn+kXGnf68+pRGITyROGTs
- OgsgSCDo81qO3vtcCbC1U/ttJyrZ3kU212md45IJnkmWQmqrcFxR6LbKXhndtu4SHCt/2z3sfZm
- H8PVBayjs5wxWRog=
-X-Received: by 2002:a17:90b:3e86:: with SMTP id
- rj6mr7543999pjb.226.1644825474446; 
- Sun, 13 Feb 2022 23:57:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwB++2lJTl8ob62s2cHL0ArXitJ8v2CuA4jNEpLgDaOK6mgxFTzzyvGjCimnmhQz0V9y04c1w==
-X-Received: by 2002:a17:90b:3e86:: with SMTP id
- rj6mr7543983pjb.226.1644825474253; 
- Sun, 13 Feb 2022 23:57:54 -0800 (PST)
+ bh=pmvBwVYMimXr1yId2LZx11ELWr7lIYXXmX7TpGnuM48=;
+ b=15nd/k/aVDR6ni+JBpmAavRl0/+Jn17pSnSEbU1u8wGWk67U6IlphwyS86b++g4vJc
+ 0uZoKFw6m+1CZSzfYJvQUbIk/oWhoksUS73SkKe++JqgnRv2gYwcpdr4NAf+iO2KOhPP
+ 5ngtXi32QIgD7UCpMt/qkG+JsfM4SPb4h2C/vxKdqz5I0CVF489BN6Ywh85rXqPvjQNq
+ CD+UZwCBClgPZBfE0YpMNBx2oxmqve5Me6B8rW4iEUQEIuYe5u5vvKji2v42Fmpj9urc
+ G2Yp7R569A3GVsjH4q2+PC7XQAyeHAjPr0BIEB7U034/p52k+nSQXp2B8fUkcLsTQ9rX
+ R52w==
+X-Gm-Message-State: AOAM533Xp34K2VdEdFoLNccqiFrDJX5O0VbTT1/kbfyCpott3gDmCFIB
+ jblJskvwHYIxvxzKJdhe7P2SEiH5y8NsyhjIz8MePUccT1Y38VVv36D6ijXDS17uDfKACfMFp7D
+ eDQdPKazR7D5QCM8=
+X-Received: by 2002:a17:902:700b:: with SMTP id
+ y11mr13073737plk.38.1644825576916; 
+ Sun, 13 Feb 2022 23:59:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwiPkptXTSZjI3D1x8ua7iJOqHIX5sOKMpLyTh7gs35Y69gYTOv2YU84urZzBZkh82Sfdcyiw==
+X-Received: by 2002:a17:902:700b:: with SMTP id
+ y11mr13073721plk.38.1644825576677; 
+ Sun, 13 Feb 2022 23:59:36 -0800 (PST)
 Received: from xz-m1.local ([94.177.118.137])
- by smtp.gmail.com with ESMTPSA id l2sm36232463pfc.183.2022.02.13.23.57.49
+ by smtp.gmail.com with ESMTPSA id g8sm35677086pfc.193.2022.02.13.23.59.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Feb 2022 23:57:53 -0800 (PST)
-Date: Mon, 14 Feb 2022 15:57:46 +0800
+ Sun, 13 Feb 2022 23:59:36 -0800 (PST)
+Date: Mon, 14 Feb 2022 15:59:28 +0800
 From: Peter Xu <peterx@redhat.com>
 To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v14 1/7] accel/kvm/kvm-all: Refactor per-vcpu dirty ring
- reaping
-Message-ID: <YgoLemzQzYPzqO4S@xz-m1.local>
+Subject: Re: [PATCH v14 2/7] cpus: Introduce cpu_list_generation_id
+Message-ID: <YgoL4MTdrVeOSV2u@xz-m1.local>
 References: <cover.1644509582.git.huangy81@chinatelecom.cn>
- <5ed8d9ce7dd1ffaf413a6b225ddb0c851a3a35f9.1644509582.git.huangy81@chinatelecom.cn>
+ <f38e0fba747bcbe534fb6669c989a9455eef1f46.1644509582.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <5ed8d9ce7dd1ffaf413a6b225ddb0c851a3a35f9.1644509582.git.huangy81@chinatelecom.cn>
+In-Reply-To: <f38e0fba747bcbe534fb6669c989a9455eef1f46.1644509582.git.huangy81@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +77,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -109,15 +108,21 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 11, 2022 at 12:17:35AM +0800, huangy81@chinatelecom.cn wrote:
+On Fri, Feb 11, 2022 at 12:17:36AM +0800, huangy81@chinatelecom.cn wrote:
 > From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > 
-> Add a non-required argument 'CPUState' to kvm_dirty_ring_reap so
-> that it can cover single vcpu dirty-ring-reaping scenario.
+> Introduce cpu_list_generation_id to track cpu list generation so
+> that cpu hotplug/unplug can be detected during measurement of
+> dirty page rate.
+
+Could you add a short paragraph on showing how the gen_id should be used?
+
 > 
 > Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
+
+Thanks,
 
 -- 
 Peter Xu
