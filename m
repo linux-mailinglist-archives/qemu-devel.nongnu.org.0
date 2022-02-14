@@ -2,90 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63CC64B43FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:21:25 +0100 (CET)
-Received: from localhost ([::1]:50298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71CD4B44C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:47:09 +0100 (CET)
+Received: from localhost ([::1]:45044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJWbs-00013O-Dm
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:21:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37528)
+	id 1nJX0j-0000Z0-6E
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:47:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWJQ-0000j1-F0
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:02:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39819)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nJWPE-000381-FP; Mon, 14 Feb 2022 03:08:20 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:48335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWJO-0006HP-MB
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:02:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644825738;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=paZPg5mrfwCdIur7MNOA/9h999yP2PvKkBwcZKQOyho=;
- b=UHj9+HsUWmBNngrY2UU0749sz3oZXrLlQH0WH2bb8x15ZUMKnCy+/rD4t0Zn6+Uqaqgwr6
- NyYoaeQNUJsRSn1LAFtNPvAZapjANswp/qHMd117Z68XOHR2ir0/lLXDgIppkYuYY3RuYD
- sncuomNOIwfaX8xy4k7jaKtrhYVV7Qk=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-ZUvqWhjRM4OpXBzW_fuxYQ-1; Mon, 14 Feb 2022 03:02:16 -0500
-X-MC-Unique: ZUvqWhjRM4OpXBzW_fuxYQ-1
-Received: by mail-pf1-f198.google.com with SMTP id
- d5-20020a623605000000b004e01ccd08abso11201249pfa.10
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 00:02:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=paZPg5mrfwCdIur7MNOA/9h999yP2PvKkBwcZKQOyho=;
- b=pZ9stohleqNbyGzljMFOhzetipPPi8cpedmsREu1nWhB3eOc9xHaCZCJzfqpL+B+vB
- BEDTi5KHiWmzYr980FiEbFW49QE23H7DaC4frg1TmfBtWpIM83f7rGtnwk2XHN2JjU0V
- Q4F8Q+UM2heLDQSRtNbrAk62J+zaAaYoRm4GTZ9t5QlFvQql8GkpG/W7RyLaxV7f35jc
- otjUEC1BeOQUVVCArelhPAC5QCXSh3AwsMuRqVona81koT94bi7lZK1iIFHgej0DveZE
- JSCGFJGMPu01bJnbkduh+w71ZzLPj/TLTxt21lQ47y1Qp2FBzEhYk0bRdOiSGI3oDtaq
- Bvcw==
-X-Gm-Message-State: AOAM530z7i2SgZvZK9d7hWNKSZqHBp3DpOgB/qF53SIvK8mqjvQLhp6Y
- H3/PPm6CqjslV3O8xpeNtArKV97DSaG+6XMCvfXuRNM2ijqcSJ0chVFqfe9q+m7g94P2R8rQJp1
- jv9lzL3ChuNY0aHY=
-X-Received: by 2002:a05:6a00:134b:: with SMTP id
- k11mr13380786pfu.33.1644825735326; 
- Mon, 14 Feb 2022 00:02:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJweT/J0fF0hhqQ3FfucpRhyvAW9XMa70zsgCR4Yhq223rxpcegHRMlnw2q4vGSzV7vtk0D5Zw==
-X-Received: by 2002:a05:6a00:134b:: with SMTP id
- k11mr13380764pfu.33.1644825735082; 
- Mon, 14 Feb 2022 00:02:15 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.137])
- by smtp.gmail.com with ESMTPSA id l22sm36959894pfc.191.2022.02.14.00.02.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 00:02:14 -0800 (PST)
-Date: Mon, 14 Feb 2022 16:02:07 +0800
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v14 5/7] accel/kvm/kvm-all: Introduce kvm_dirty_ring_size
- function
-Message-ID: <YgoMf7Z6pum3ysgX@xz-m1.local>
-References: <cover.1644509582.git.huangy81@chinatelecom.cn>
- <c941eaaef19350366e5d7dc41c445b6f97503b1a.1644509582.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nJWPA-0007W7-KA; Mon, 14 Feb 2022 03:08:20 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 891F02B0015C;
+ Mon, 14 Feb 2022 03:08:06 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 14 Feb 2022 03:08:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm2; bh=U82tQUJaEAKSbaFRjRzV9MwHOY0dC1
+ pv3FnDs3W6wVk=; b=mXjyzOEzr2qi1m/X5mWHXdOYrW5NR/CUj9fwq5+SL7K+qR
+ u41Jv1rMQMMplK35+F0JVz3ORY4vn5tgGLTnbAgYW5oTNHKKJqrlp7BL85c/kYc1
+ WAX/+2apLCotDRjdQeSFJghUT48PjUvZbhhV6BZ8PXr1TdTjv2+LEPyhzxfUs37o
+ 6KpX5TA/drSWpUVVF2Ai004shnRwPeM4IabGLsimsNYbzkyMWGaYgWOOtmrp8LHO
+ cOcWQbDQLFPNr+5b9Cl6x2DYgLcfjS3jmqWlWV7TYUf0ZDCqR+SkNNN1E8ChW3RD
+ fDCXBhBo4PCnNrOi0+Br4a23w3f8keL6Jkk2zoWA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=U82tQU
+ JaEAKSbaFRjRzV9MwHOY0dC1pv3FnDs3W6wVk=; b=IhBlwkWcw1FvzpQ9wcgdG/
+ 5TEPLkVQLgnvzZKooUhPvfzTSN6Fm+V39Q0jO9teh8rHQo//hv/+8F4iM+G+DPTe
+ S+Lbcxid2uIOQGls8ra0nb8etlwbASqO2jgP6IUkFYwT+MfemmFaYhdJ4REw2MIw
+ BBkNJs7TqP2kfnrte6Z1cmh2MnJGg8KlAx7u873SUStPpAz6zHKkyZdMVKxxIgko
+ zbFWXgzQupYXH73uhss7P69mVS90yY7Ia0KtN5W7nT2FkGYeb4+5gVOdpqfVGvjy
+ ejYD5vUrKGXGMzwCvJPqzxYlrmzhsYxukwjSCRFLhGo0bzbIDEQxI/cnOdL8PB1w
+ ==
+X-ME-Sender: <xms:5A0KYkzSzxPsscCjm2bcbhZRrplHolFz4ylEGLPu9aKKr8kJ8XjI9A>
+ <xme:5A0KYoTucjRkw17SByL6t-NcxWn9v1XIiRfOlA57YffLblmkWU9m-2qK5h7dUsWRy
+ C06YSiIlQMswPpeY5s>
+X-ME-Received: <xmr:5A0KYmV-Sug4qS7-TF-bOHjLw6qW0wqhHyrnorRztU6jwmI47PumZue08iHmpBFs3t7Wk9vQQx1ymFf6wm4gmA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjedugdduudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffogggtgfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepvdfhueejueejkedvudeftdetvddtgffhteelgeeluddvveetuefhfeekfeeuhefg
+ necuffhomhgrihhnpehinhhfrhgruggvrggurdhorhhgnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgu
+ kh
+X-ME-Proxy: <xmx:5A0KYij7RTWCHZZ6ABtjlos0l1GmRQHwS0L46qpE_AvNTm5ihbewjw>
+ <xmx:5A0KYmCklQMAFy57MZPOIGvqkyoaHnNXAIpi984e2Mrktw6PBWERTg>
+ <xmx:5A0KYjLZy0GVL-L3b3Qq815J_fB-AORUHOAG9zPJ2_PBpLMCl8e20A>
+ <xmx:5g0KYus18P2GhVaLhoZuGi7B47Io8LlFONcCe6tf6UCCFnqdlmGeZ5bkkC8>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 14 Feb 2022 03:08:02 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/6] hw/nvme updates
+Date: Mon, 14 Feb 2022 09:07:55 +0100
+Message-Id: <20220214080801.13627-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <c941eaaef19350366e5d7dc41c445b6f97503b1a.1644509582.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
+ helo=wnew4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,27 +94,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Klaus Jensen <its@irrelevant.dk>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 11, 2022 at 12:17:39AM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> Introduce kvm_dirty_ring_size util function to help calculate
-> dirty ring ful time.
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Acked-by: Peter Xu <peterx@redhat.com>
-
--- 
-Peter Xu
-
+Hi Peter,=0D
+=0D
+The following changes since commit 48033ad678ae2def43bf0d543a2c4c3d2a93feaf=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/vsementsov/tags/pull-nbd-2022-02-09=
+-v2' into staging (2022-02-12 22:04:07 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request=0D
+=0D
+for you to fetch changes up to e321b4cdc2dd0b5e806ecf759138be7f83774142:=0D
+=0D
+  hw/nvme: add support for zoned random write area (2022-02-14 08:58:29 +01=
+00)=0D
+=0D
+----------------------------------------------------------------=0D
+hw/nvme updates=0D
+=0D
+  - fix CVE-2021-3929=0D
+  - add zone random write area support=0D
+  - misc cleanups from Philippe=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Klaus Jensen (4):=0D
+  hw/nvme: fix CVE-2021-3929=0D
+  hw/nvme: add struct for zone management send=0D
+  hw/nvme: add ozcs enum=0D
+  hw/nvme: add support for zoned random write area=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/nvme/ctrl: Have nvme_addr_write() take const buffer=0D
+  hw/nvme/ctrl: Pass buffers as 'void *' types=0D
+=0D
+ hw/nvme/ctrl.c       | 215 ++++++++++++++++++++++++++++++++++++-------=0D
+ hw/nvme/ns.c         |  61 +++++++++++-=0D
+ hw/nvme/nvme.h       |  14 ++-=0D
+ hw/nvme/trace-events |   1 +=0D
+ include/block/nvme.h |  40 +++++++-=0D
+ 5 files changed, 296 insertions(+), 35 deletions(-)=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
 
