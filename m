@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00544B4409
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:24:43 +0100 (CET)
-Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63CC64B43FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:21:25 +0100 (CET)
+Received: from localhost ([::1]:50298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJWf4-00040k-PD
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:24:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37266)
+	id 1nJWbs-00013O-Dm
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:21:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWJ7-0000b3-UJ
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:02:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38479)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWJQ-0000j1-F0
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:02:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWJ3-0005zP-KC
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:01:59 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWJO-0006HP-MB
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:02:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644825691;
+ s=mimecast20190719; t=1644825738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R+sGPhioMqYnuOVtiMi72S0QiVgmtVQmsaKGZBGLCO8=;
- b=UBoTV9dRp52apFmvIa5TWXH4Ktio/FsFXmZQZGVei+J3QhcPA5yDOquugg5qtOaM+4bYmH
- TUMuB1k7rYmJuS398G3SwPSVa/KNuQ4uxZ22VJipa9N0zVHtLBQU9xPgHbdHQEK5UNKEPP
- CtauCmM/whEoAtlNzuu/iYFgIguNurA=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=paZPg5mrfwCdIur7MNOA/9h999yP2PvKkBwcZKQOyho=;
+ b=UHj9+HsUWmBNngrY2UU0749sz3oZXrLlQH0WH2bb8x15ZUMKnCy+/rD4t0Zn6+Uqaqgwr6
+ NyYoaeQNUJsRSn1LAFtNPvAZapjANswp/qHMd117Z68XOHR2ir0/lLXDgIppkYuYY3RuYD
+ sncuomNOIwfaX8xy4k7jaKtrhYVV7Qk=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-lUljvR1cONaqyzdoseICtg-1; Mon, 14 Feb 2022 03:01:28 -0500
-X-MC-Unique: lUljvR1cONaqyzdoseICtg-1
-Received: by mail-pj1-f72.google.com with SMTP id
- hi22-20020a17090b30d600b001b8b33cf0efso11669112pjb.1
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 00:01:28 -0800 (PST)
+ us-mta-393-ZUvqWhjRM4OpXBzW_fuxYQ-1; Mon, 14 Feb 2022 03:02:16 -0500
+X-MC-Unique: ZUvqWhjRM4OpXBzW_fuxYQ-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ d5-20020a623605000000b004e01ccd08abso11201249pfa.10
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 00:02:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=R+sGPhioMqYnuOVtiMi72S0QiVgmtVQmsaKGZBGLCO8=;
- b=nKTxmnLC+Sj9tpvIYs9HfEKBHIlZZZNQXSMw8IUaC241rLVwQXj84tcnVYMm2NRDoe
- n/+1U2rivAPAUgwMLtZx60xbbb7ijeVDKHzVgZRstSQEeHR6M4Ux1p7cRhi8/Yv7lU3l
- jWCwRPhyhoca6K1U4WMofHIxDSyhauQSaXmPj00gpze7iVjK98JuivtYmHTtIuU+hmJd
- CeyhqXdcpo5A3SFfbs96OKoLbZWXdOnKHuU3PwBE/c4eEORxXqHD9klXckQhPCJIq59y
- WVffqbMxEZyt36cZbUIag6Nii5jNmCmGhNAR8EgJHjfsAxTnrn77y1R0Wu4pA2jaJYnc
- U2rQ==
-X-Gm-Message-State: AOAM533/n8oVX1er2h2YIo3lCzPzS8jlRoGmWayy4lO9D5Wjj+Sb5Zix
- 7LYHFhQHPqtKubUaaijNoO2L7kPqwneb6D8BtN6GzP5JHDUmUbqD1FQudNFcNALSG5XA95J70Ih
- OHYD3xXSPqaCCLGw=
-X-Received: by 2002:a17:90a:d512:: with SMTP id
- t18mr13131260pju.49.1644825687675; 
- Mon, 14 Feb 2022 00:01:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwqmjzmcI+T8HZChSo4oxQbsEZFap1F2/ZaXfX3qTfYzS250hSVTyQtW15MbVJB4Ky9wXtz4g==
-X-Received: by 2002:a17:90a:d512:: with SMTP id
- t18mr13131231pju.49.1644825687440; 
- Mon, 14 Feb 2022 00:01:27 -0800 (PST)
+ bh=paZPg5mrfwCdIur7MNOA/9h999yP2PvKkBwcZKQOyho=;
+ b=pZ9stohleqNbyGzljMFOhzetipPPi8cpedmsREu1nWhB3eOc9xHaCZCJzfqpL+B+vB
+ BEDTi5KHiWmzYr980FiEbFW49QE23H7DaC4frg1TmfBtWpIM83f7rGtnwk2XHN2JjU0V
+ Q4F8Q+UM2heLDQSRtNbrAk62J+zaAaYoRm4GTZ9t5QlFvQql8GkpG/W7RyLaxV7f35jc
+ otjUEC1BeOQUVVCArelhPAC5QCXSh3AwsMuRqVona81koT94bi7lZK1iIFHgej0DveZE
+ JSCGFJGMPu01bJnbkduh+w71ZzLPj/TLTxt21lQ47y1Qp2FBzEhYk0bRdOiSGI3oDtaq
+ Bvcw==
+X-Gm-Message-State: AOAM530z7i2SgZvZK9d7hWNKSZqHBp3DpOgB/qF53SIvK8mqjvQLhp6Y
+ H3/PPm6CqjslV3O8xpeNtArKV97DSaG+6XMCvfXuRNM2ijqcSJ0chVFqfe9q+m7g94P2R8rQJp1
+ jv9lzL3ChuNY0aHY=
+X-Received: by 2002:a05:6a00:134b:: with SMTP id
+ k11mr13380786pfu.33.1644825735326; 
+ Mon, 14 Feb 2022 00:02:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJweT/J0fF0hhqQ3FfucpRhyvAW9XMa70zsgCR4Yhq223rxpcegHRMlnw2q4vGSzV7vtk0D5Zw==
+X-Received: by 2002:a05:6a00:134b:: with SMTP id
+ k11mr13380764pfu.33.1644825735082; 
+ Mon, 14 Feb 2022 00:02:15 -0800 (PST)
 Received: from xz-m1.local ([94.177.118.137])
- by smtp.gmail.com with ESMTPSA id oo7sm14014908pjb.33.2022.02.14.00.01.22
+ by smtp.gmail.com with ESMTPSA id l22sm36959894pfc.191.2022.02.14.00.02.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 00:01:27 -0800 (PST)
-Date: Mon, 14 Feb 2022 16:01:19 +0800
+ Mon, 14 Feb 2022 00:02:14 -0800 (PST)
+Date: Mon, 14 Feb 2022 16:02:07 +0800
 From: Peter Xu <peterx@redhat.com>
 To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v14 4/7] softmmu/dirtylimit: Implement vCPU dirtyrate
- calculation periodically
-Message-ID: <YgoMT99pOemrdZcD@xz-m1.local>
+Subject: Re: [PATCH v14 5/7] accel/kvm/kvm-all: Introduce kvm_dirty_ring_size
+ function
+Message-ID: <YgoMf7Z6pum3ysgX@xz-m1.local>
 References: <cover.1644509582.git.huangy81@chinatelecom.cn>
- <bb6b75b8d47b4e8aaf00736e070005a2c383a0e0.1644509582.git.huangy81@chinatelecom.cn>
+ <c941eaaef19350366e5d7dc41c445b6f97503b1a.1644509582.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <bb6b75b8d47b4e8aaf00736e070005a2c383a0e0.1644509582.git.huangy81@chinatelecom.cn>
+In-Reply-To: <c941eaaef19350366e5d7dc41c445b6f97503b1a.1644509582.git.huangy81@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -109,22 +109,15 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 11, 2022 at 12:17:38AM +0800, huangy81@chinatelecom.cn wrote:
+On Fri, Feb 11, 2022 at 12:17:39AM +0800, huangy81@chinatelecom.cn wrote:
 > From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > 
-> Introduce the third method GLOBAL_DIRTY_LIMIT of dirty
-> tracking for calculate dirtyrate periodly for dirty page
-> rate limit.
-> 
-> Add dirtylimit.c to implement dirtyrate calculation periodly,
-> which will be used for dirty page rate limit.
-> 
-> Add dirtylimit.h to export util functions for dirty page rate
-> limit implementation.
+> Introduce kvm_dirty_ring_size util function to help calculate
+> dirty ring ful time.
 > 
 > Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Acked-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
