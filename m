@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD884B5A6D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:08:39 +0100 (CET)
-Received: from localhost ([::1]:42868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1B94B5A74
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:15:13 +0100 (CET)
+Received: from localhost ([::1]:51634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgiD-0000yX-Qg
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:08:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45314)
+	id 1nJgoZ-00076N-MC
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:15:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgWj-00006d-PZ; Mon, 14 Feb 2022 13:56:45 -0500
-Received: from [2607:f8b0:4864:20::42a] (port=41777
- helo=mail-pf1-x42a.google.com)
+ id 1nJgWu-0000gG-8Z; Mon, 14 Feb 2022 13:56:56 -0500
+Received: from [2607:f8b0:4864:20::102c] (port=40921
+ helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgWi-0006MR-9Y; Mon, 14 Feb 2022 13:56:45 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id c10so5218538pfv.8;
- Mon, 14 Feb 2022 10:56:43 -0800 (PST)
+ id 1nJgWs-0006O6-Fc; Mon, 14 Feb 2022 13:56:55 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ n19-20020a17090ade9300b001b9892a7bf9so26077pjv.5; 
+ Mon, 14 Feb 2022 10:56:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Nu4DUrbIWXAn4pHgWXMlADFVEGOdcq7Po3cgGBBjqHs=;
- b=WN9LTkgMPtLDK1/kr7k/EjCOikKvkFG6wyPDu8Z0tOkn73QQE5y8JxPthZK8xcW9Wn
- WXVL8MC2RYRC5rPpudQGcd9tftgDPC2eAP3HLZ9rjPEfxCsMYmgp5R9mJzi89/cZl/yg
- 7NjieC8q9u1Wdbq1S0qwtcrQJ581fFPXEbbGhoopxyiMt6gK4esYm1tFrIfU2gJe0UQZ
- SmqOnGKFfeujBxcPMaPJt9gdGeVl6L7gkCCHX6yUzTF2BJMjFe2cfZEB7vpRRc9Er6lf
- 57P23X9eElhADQwSz9+xprL4Ju0kKdI3G790KuWnobZzzTvHHWnfVtQqWujyCCZd4mQp
- Phew==
+ bh=3zqaK9s5/raZ8zuTcIzPJOQG8kwceFqw1+s0bbIn7Ok=;
+ b=UTJWDWRRF3oSPyZUlxw64Y4d1yltuHqbB1jDVEZlihBxm+Kjs4+pmBrVWguZl9dzmI
+ /wkZOQqs/7ZYyj+/6OJqmeUymIdYDaNo8wPGpttKsek5p1/oCGxM+lspjLtj4T3CqjOs
+ F//rqP6DD9YeAKFcCLGG7wm4zW1dlzayKBV9PgaXCLbJBWtla5B2ZBavxo03LPzhl6CM
+ szFq1BOEPqgNvxy3nuHF35cXueMV2hYykbeCqxpdGILWege0iJgUKLL6W9jaPeCI7cA9
+ OuaCYdRmXfs+2qA8/TqqndhmnZzhdZmX4haBKpnOhJT1h1Wgi+vFxQbdcPVI2URXNinq
+ IiPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Nu4DUrbIWXAn4pHgWXMlADFVEGOdcq7Po3cgGBBjqHs=;
- b=viapL9BdXQRLiaVkS+HRc/LJHHdWk8P9bSTlZeuNCQpLFQVEbQELLjzTG6fg7m/CiH
- 1QRfSXVaj0FengsUiX6G03U9mgRP4Aet6FrY8iFLkCTnKaeIKipU2iUInsyyakfnXlYZ
- VrWDQXglAH/oofSvkp33ZYVuo7U2jr8CNizKkDrBxF8LHV4la2FyvkMsqEnArrqX2hdM
- Mmg/aAf5zRbcp3VOqVyAC8c5Vk3LPu4Hmflh7L+EIWjcGD8O/wbPG14PmuZldBCv3JLr
- 3Is2YXsfWgv45GsZDIsfO9PPzcnSHwyA5IOpyhusI/BoHp8CiodKNavUZZuUxywvlwY+
- l9fA==
-X-Gm-Message-State: AOAM532uxHDq0IacncwmY222I14JVKpxY5B+LGKoe+bIFWYGhOL/dk6l
- /GFg0tAA155gd15wpYe1pT5FKasgXcw=
-X-Google-Smtp-Source: ABdhPJzGw0FVSlgztDJueOnV+E1lqcvvttKcW/UmDZBBS56sB3jQ0l4gLc5gPUibKleqX40D6Z08iQ==
-X-Received: by 2002:a62:1ec7:: with SMTP id e190mr51268pfe.66.1644865002624;
- Mon, 14 Feb 2022 10:56:42 -0800 (PST)
+ bh=3zqaK9s5/raZ8zuTcIzPJOQG8kwceFqw1+s0bbIn7Ok=;
+ b=Gm1Mnka5GpNWRgoadH17e3ait0fySoMQQschsFpKsJBRNr9n4b7k293QuDrgZFB6Fp
+ CmlhgroQ3HTpVVVNiObkrAe7wJLyFZZPip65ff4nXz/zfT0GdbkE5IRcSobrtoU8rug5
+ XhwxU/rqm9lViiKYpCHAWfWHGWAhFs+wLAbbv8CIpiQfgpy/u57x0SlysvLIoXsLVA6U
+ Fzyp8vPBYtvAtpMVJ+w2KdnxyAtk0xvFH3AXynVrAXcV157mJFnL4khuBwFCSq3+zqKr
+ HEcZFY5h5h6c+ymwwdMGv+81+Bt6ycLYUFnT+KOWjKhOLeRVndiopQJUz5/UUhDrvuGw
+ 6DeQ==
+X-Gm-Message-State: AOAM530SVlFo5pjm1iwFTmagMpTeu+PP7e2S+V2LbNS2hCcwtkmvWFzp
+ VI4UOPv7ZxplPGkWFgAOCrlEexggh9g=
+X-Google-Smtp-Source: ABdhPJwa6B1FoIHqzrjHYy9cHa0vGxrLKTbriCVPKnYM0pmb9oTPWhkYcdCPOYPHEeaNi25rvPwNZA==
+X-Received: by 2002:a17:90a:5b07:: with SMTP id o7mr17100pji.246.1644865012727; 
+ Mon, 14 Feb 2022 10:56:52 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id 13sm36456481pfm.161.2022.02.14.10.56.38
+ by smtp.gmail.com with ESMTPSA id s37sm40747885pfg.144.2022.02.14.10.56.48
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:56:42 -0800 (PST)
+ Mon, 14 Feb 2022 10:56:52 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Thomas Huth <thuth@redhat.com>,
@@ -59,21 +60,21 @@ Cc: qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
  Will Cohen <wwcohen@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
  Li Zhang <lizhang@suse.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v5 03/16] tests/fp/berkeley-testfloat-3: Ignore ignored
- #pragma directives
-Date: Mon, 14 Feb 2022 19:55:52 +0100
-Message-Id: <20220214185605.28087-4-f4bug@amsat.org>
+Subject: [PATCH v5 04/16] hvf: Use standard CR0 and CR4 register definitions
+Date: Mon, 14 Feb 2022 19:55:53 +0100
+Message-Id: <20220214185605.28087-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220214185605.28087-1-f4bug@amsat.org>
 References: <20220214185605.28087-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -100,38 +101,176 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Since we already use -Wno-unknown-pragmas, we can also use
--Wno-ignored-pragmas. This silences hundred of warnings using
-clang 13 on macOS Monterey:
+From: Cameron Esfahani <dirty@apple.com>
 
-  [409/771] Compiling C object tests/fp/libtestfloat.a.p/berkeley-testfloat-3_source_test_az_f128_rx.c.o
-  ../tests/fp/berkeley-testfloat-3/source/test_az_f128_rx.c:49:14: warning: '#pragma FENV_ACCESS' is not supported on this target - ignored [-Wignored-pragmas]
-  #pragma STDC FENV_ACCESS ON
-               ^
-  1 warning generated.
+No need to have our own definitions of these registers.
 
-Having:
-
-  $ cc -v
-  Apple clang version 13.0.0 (clang-1300.0.29.30)
-
+Signed-off-by: Cameron Esfahani <dirty@apple.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/fp/meson.build | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/hvf/vmx.h      | 17 +++++++++--------
+ target/i386/hvf/x86.c      |  6 +++---
+ target/i386/hvf/x86.h      | 34 ----------------------------------
+ target/i386/hvf/x86_mmu.c  |  2 +-
+ target/i386/hvf/x86_task.c |  3 ++-
+ 5 files changed, 15 insertions(+), 47 deletions(-)
 
-diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-index 59776a00a7..5192264a08 100644
---- a/tests/fp/meson.build
-+++ b/tests/fp/meson.build
-@@ -30,6 +30,7 @@ tfcflags = [
-   '-Wno-implicit-fallthrough',
-   '-Wno-strict-prototypes',
-   '-Wno-unknown-pragmas',
-+  '-Wno-ignored-pragmas',
-   '-Wno-uninitialized',
-   '-Wno-missing-prototypes',
-   '-Wno-return-type',
+diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
+index 6df87116f6..29b7deed3c 100644
+--- a/target/i386/hvf/vmx.h
++++ b/target/i386/hvf/vmx.h
+@@ -124,10 +124,11 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+     uint64_t efer = rvmcs(vcpu, VMCS_GUEST_IA32_EFER);
+     uint64_t old_cr0 = rvmcs(vcpu, VMCS_GUEST_CR0);
+     uint64_t changed_cr0 = old_cr0 ^ cr0;
+-    uint64_t mask = CR0_PG | CR0_CD | CR0_NW | CR0_NE | CR0_ET;
++    uint64_t mask = CR0_PG_MASK | CR0_CD_MASK | CR0_NW_MASK |
++                    CR0_NE_MASK | CR0_ET_MASK;
+     uint64_t entry_ctls;
+ 
+-    if ((cr0 & CR0_PG) && (rvmcs(vcpu, VMCS_GUEST_CR4) & CR4_PAE) &&
++    if ((cr0 & CR0_PG_MASK) && (rvmcs(vcpu, VMCS_GUEST_CR4) & CR4_PAE_MASK) &&
+         !(efer & MSR_EFER_LME)) {
+         address_space_read(&address_space_memory,
+                            rvmcs(vcpu, VMCS_GUEST_CR3) & ~0x1f,
+@@ -142,8 +143,8 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+     wvmcs(vcpu, VMCS_CR0_SHADOW, cr0);
+ 
+     if (efer & MSR_EFER_LME) {
+-        if (changed_cr0 & CR0_PG) {
+-            if (cr0 & CR0_PG) {
++        if (changed_cr0 & CR0_PG_MASK) {
++            if (cr0 & CR0_PG_MASK) {
+                 enter_long_mode(vcpu, cr0, efer);
+             } else {
+                 exit_long_mode(vcpu, cr0, efer);
+@@ -155,8 +156,8 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+     }
+ 
+     /* Filter new CR0 after we are finished examining it above. */
+-    cr0 = (cr0 & ~(mask & ~CR0_PG));
+-    wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE | CR0_ET);
++    cr0 = (cr0 & ~(mask & ~CR0_PG_MASK));
++    wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE_MASK | CR0_ET_MASK);
+ 
+     hv_vcpu_invalidate_tlb(vcpu);
+     hv_vcpu_flush(vcpu);
+@@ -164,11 +165,11 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+ 
+ static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
+ {
+-    uint64_t guest_cr4 = cr4 | CR4_VMXE;
++    uint64_t guest_cr4 = cr4 | CR4_VMXE_MASK;
+ 
+     wvmcs(vcpu, VMCS_GUEST_CR4, guest_cr4);
+     wvmcs(vcpu, VMCS_CR4_SHADOW, cr4);
+-    wvmcs(vcpu, VMCS_CR4_MASK, CR4_VMXE);
++    wvmcs(vcpu, VMCS_CR4_MASK, CR4_VMXE_MASK);
+ 
+     hv_vcpu_invalidate_tlb(vcpu);
+     hv_vcpu_flush(vcpu);
+diff --git a/target/i386/hvf/x86.c b/target/i386/hvf/x86.c
+index 2898bb70a8..91a3fe002c 100644
+--- a/target/i386/hvf/x86.c
++++ b/target/i386/hvf/x86.c
+@@ -119,7 +119,7 @@ bool x86_read_call_gate(struct CPUState *cpu, struct x86_call_gate *idt_desc,
+ bool x86_is_protected(struct CPUState *cpu)
+ {
+     uint64_t cr0 = rvmcs(cpu->hvf->fd, VMCS_GUEST_CR0);
+-    return cr0 & CR0_PE;
++    return cr0 & CR0_PE_MASK;
+ }
+ 
+ bool x86_is_real(struct CPUState *cpu)
+@@ -150,13 +150,13 @@ bool x86_is_long64_mode(struct CPUState *cpu)
+ bool x86_is_paging_mode(struct CPUState *cpu)
+ {
+     uint64_t cr0 = rvmcs(cpu->hvf->fd, VMCS_GUEST_CR0);
+-    return cr0 & CR0_PG;
++    return cr0 & CR0_PG_MASK;
+ }
+ 
+ bool x86_is_pae_enabled(struct CPUState *cpu)
+ {
+     uint64_t cr4 = rvmcs(cpu->hvf->fd, VMCS_GUEST_CR4);
+-    return cr4 & CR4_PAE;
++    return cr4 & CR4_PAE_MASK;
+ }
+ 
+ target_ulong linear_addr(struct CPUState *cpu, target_ulong addr, X86Seg seg)
+diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
+index 782664c2ea..947b98da41 100644
+--- a/target/i386/hvf/x86.h
++++ b/target/i386/hvf/x86.h
+@@ -42,40 +42,6 @@ typedef struct x86_register {
+     };
+ } __attribute__ ((__packed__)) x86_register;
+ 
+-typedef enum x86_reg_cr0 {
+-    CR0_PE =            (1L << 0),
+-    CR0_MP =            (1L << 1),
+-    CR0_EM =            (1L << 2),
+-    CR0_TS =            (1L << 3),
+-    CR0_ET =            (1L << 4),
+-    CR0_NE =            (1L << 5),
+-    CR0_WP =            (1L << 16),
+-    CR0_AM =            (1L << 18),
+-    CR0_NW =            (1L << 29),
+-    CR0_CD =            (1L << 30),
+-    CR0_PG =            (1L << 31),
+-} x86_reg_cr0;
+-
+-typedef enum x86_reg_cr4 {
+-    CR4_VME =            (1L << 0),
+-    CR4_PVI =            (1L << 1),
+-    CR4_TSD =            (1L << 2),
+-    CR4_DE  =            (1L << 3),
+-    CR4_PSE =            (1L << 4),
+-    CR4_PAE =            (1L << 5),
+-    CR4_MSE =            (1L << 6),
+-    CR4_PGE =            (1L << 7),
+-    CR4_PCE =            (1L << 8),
+-    CR4_OSFXSR =         (1L << 9),
+-    CR4_OSXMMEXCPT =     (1L << 10),
+-    CR4_VMXE =           (1L << 13),
+-    CR4_SMXE =           (1L << 14),
+-    CR4_FSGSBASE =       (1L << 16),
+-    CR4_PCIDE =          (1L << 17),
+-    CR4_OSXSAVE =        (1L << 18),
+-    CR4_SMEP =           (1L << 20),
+-} x86_reg_cr4;
+-
+ /* 16 bit Task State Segment */
+ typedef struct x86_tss_segment16 {
+     uint16_t link;
+diff --git a/target/i386/hvf/x86_mmu.c b/target/i386/hvf/x86_mmu.c
+index e9ed0f5aa1..df0b91cd42 100644
+--- a/target/i386/hvf/x86_mmu.c
++++ b/target/i386/hvf/x86_mmu.c
+@@ -129,7 +129,7 @@ static bool test_pt_entry(struct CPUState *cpu, struct gpt_translation *pt,
+ 
+     uint32_t cr0 = rvmcs(cpu->hvf->fd, VMCS_GUEST_CR0);
+     /* check protection */
+-    if (cr0 & CR0_WP) {
++    if (cr0 & CR0_WP_MASK) {
+         if (pt->write_access && !pte_write_access(pte)) {
+             return false;
+         }
+diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
+index 422156128b..e1301599e9 100644
+--- a/target/i386/hvf/x86_task.c
++++ b/target/i386/hvf/x86_task.c
+@@ -174,7 +174,8 @@ void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel, int rea
+         //ret = task_switch_16(cpu, tss_sel, old_tss_sel, old_tss_base, &next_tss_desc);
+         VM_PANIC("task_switch_16");
+ 
+-    macvm_set_cr0(cpu->hvf->fd, rvmcs(cpu->hvf->fd, VMCS_GUEST_CR0) | CR0_TS);
++    macvm_set_cr0(cpu->hvf->fd, rvmcs(cpu->hvf->fd, VMCS_GUEST_CR0) |
++                                CR0_TS_MASK);
+     x86_segment_descriptor_to_vmx(cpu, tss_sel, &next_tss_desc, &vmx_seg);
+     vmx_write_segment_descriptor(cpu, &vmx_seg, R_TR);
+ 
 -- 
 2.34.1
 
