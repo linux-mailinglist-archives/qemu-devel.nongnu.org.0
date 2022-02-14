@@ -2,87 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156894B58C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 18:43:00 +0100 (CET)
-Received: from localhost ([::1]:45570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A604B58F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 18:44:57 +0100 (CET)
+Received: from localhost ([::1]:46996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJfNK-0001C6-5y
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 12:42:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55924)
+	id 1nJfPD-0002As-Uw
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 12:44:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJfK2-0007fX-IH; Mon, 14 Feb 2022 12:39:34 -0500
-Received: from [2a00:1450:4864:20::631] (port=45907
- helo=mail-ej1-x631.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJfK0-0002Ig-VB; Mon, 14 Feb 2022 12:39:34 -0500
-Received: by mail-ej1-x631.google.com with SMTP id lw4so8204523ejb.12;
- Mon, 14 Feb 2022 09:39:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=cTGx+UHqI107Hfmh8Cke/VfLm7hPmNzKjC76bs9CTpQ=;
- b=kMfOaDTO2zxXEMNtJ0Ud19E5iZaqFq/4kS5Lsrp+WUm2oER+OkBuE76wta+UAgxKC3
- vvJ17vHtWaF1GxD9MBmMHO4RoknMEwUPRwxNuWX5/UOAwn0S+5qDPHljxbjNgqNgZbHn
- 9nEnNAsEHDbQcFP4VsOrf1dfxVQIVFP8S04EUaxWJeuGvbGJ9ECRR4KVvIJnRVhwBwRD
- QFgBUit6b5KQzX5mjZL61Gvu0ZKnO+RCNNZJvD6SXuTnuJ08q7AlyEIKcdos6FUhau2P
- OkKMD9LRrUIBx1urRJs2EPcoZxoz8Hw3dTq+kmyeNoQwFBeDW+7TX5KaHyapFqCMgkJX
- Plyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=cTGx+UHqI107Hfmh8Cke/VfLm7hPmNzKjC76bs9CTpQ=;
- b=GrDzsxILYS8Z6SeiHxdi45UFbojR8eCtpBjoHsD/2BpFD25p6TA11u/WsNqdmIzSKI
- uJ8cXwglo3XAACqeq5qk7RTfocml2YmIjqL2CHcqRdc7XnyOeJOEuAX3uWD2nfYrJOdJ
- tqiUUTO+W+eZHJRI6dCp64ZOxt/Q0xJcSr9BX2yBHSWSVhWd72L3jOigwNU4tfqxHK84
- UuwtGGhQmgCTh5GJBaDqMD39jvDSzTu+Jtwn64MD3A2dmVGodEFX9kriDnt7xA67DM3C
- 5X0sEh0lBlZm4CUkeH31TysGtLTVlF4JtfmI31NE3XGhnskFITxKcICWZ//ygmpb9aab
- Y1eA==
-X-Gm-Message-State: AOAM533GPLpyWh9yvxdkVTirCXffZB1QkMmWWphjYeAxIStm1eEWkbSj
- Pnled0wG1PB6AdD3GjLm6Yo=
-X-Google-Smtp-Source: ABdhPJx/O6WaqCwZUIoWUyKpfbE6elgutUK5bBEjVPa4xLzFEM2mVwTXTFX01JovmeyHBWnkc2dTnQ==
-X-Received: by 2002:a17:906:73d2:: with SMTP id
- n18mr558869ejl.674.1644860370296; 
- Mon, 14 Feb 2022 09:39:30 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id b4sm1891682ejv.108.2022.02.14.09.39.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Feb 2022 09:39:29 -0800 (PST)
-Message-ID: <90640916-992b-6851-1a17-317c48369133@redhat.com>
-Date: Mon, 14 Feb 2022 18:39:28 +0100
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nJfL4-000094-MH
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 12:40:40 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:40387)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nJfL1-0002f7-EO
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 12:40:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=UaL7G3ifBj7Nsxmpxjlku4H9ImmsjXKcceZ9h+SRz6k=; b=uVSLKovYXKXPOQM+CwN7vLohgn
+ bMiz0kXgR/ckpXdWiVExayY0UejP5HUBIX46AIxxqLg99aUhL58Llv0mP2HMChw6byq0VpNO+wTPI
+ Ayk2q9flzgvMLvsPqJv6IQISrF/qRcejBS6Nl02Kogm+XOWbJrK+4GsJmoE2nwmNs5nSVhVWvR1Fc
+ hTlCY2GzLt73zZk90LvsU4fvzdEv8CRAzjd1ALwHLiji+GySu2n0RVTEUlL/WlzuZEbj+cKgqoNpB
+ E5xH/kWKpVDtIKhmMl4pvA4cI/Wh6Mz7ZygF4Gbe+5tV3P6u/3TifDIXiyMGqZYgRMnqd3qBfLKPs
+ DcViJn6j9fqjZi/y4joP81B5nIOiaXCiK1t4aWO89pg2/FOc5VijXyc0/f70ziJvPjLL2ZdwjjqaS
+ AusI5OICpOs77ecFrMBOmdibPe+oUW0rUXlwGY8p3Tmv//svCukESw+P2wzfzN0e4e8fWaZrz0Ho2
+ Zp0BXoTVAwsqmV/fIJnMRu6kpZNf8WT0g+bZz1Sdyvxv4UjrluuzFHRlsNSRaDF+VT8g+GMEAkPi7
+ l/r0TxnLH/3mKtgQYQh7Y3cbnjrF9lHbY3IAOSKuyw8EpoxEISnkSbDivp46X3/K5xnDY2B8/2Wzt
+ w9nKNK5oz7a+A2wbv508oCjT050g9PJyvnBP6v1ZI=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Vitaly Chikunov <vt@altlinux.org>, Peter Maydell <peter.maydell@linaro.org>,
+ "Dmitry V . Levin" <ldv@altlinux.org>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PULL 0/5] 9p queue 2022-02-10
+Date: Mon, 14 Feb 2022 18:40:31 +0100
+Message-ID: <1862027.zFXIqjshya@silver>
+In-Reply-To: <20220214144351.dp57o6jyfvliwkos@altlinux.org>
+References: <cover.1644492115.git.qemu_oss@crudebyte.com>
+ <2442070.WHyy189egQ@silver> <20220214144351.dp57o6jyfvliwkos@altlinux.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 5/6] test-bdrv-drain.c: remove test_detach_by_parent_cb()
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20220208153655.1251658-1-eesposit@redhat.com>
- <20220208153655.1251658-6-eesposit@redhat.com> <YgaDBkblIA6wu82p@redhat.com>
- <db25869b-fbf2-f5ca-b2f8-4fe4f3c0a040@redhat.com>
- <Ygp1FJyh8v0SRxZq@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Ygp1FJyh8v0SRxZq@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,53 +66,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/14/22 16:28, Kevin Wolf wrote:
-> The BlockBackend could safely return false from blk_root_drained_poll()
-> while requests are still in their callbacks (if they do anything that
-> touches a node, they would increase in_flight again), it just doesn't do
-> it yet. It's only blk_drain(_all)() that would still have to wait for
-> those.
-
-That would be very subtle, especially it's not clear to me why this 
-wouldn't be "a drain completing while the callback hasn't actually 
-completed yet".  The drain referred to in the commit message of 
-46aaf2a56 could *not* use blk_drain, because it is not coroutine 
-friendly; it must use bdrv_drained_begin.
-
->> My answer is respectively 1) it's correct, many coroutines do inc_in_flight
->> before creation and dec_in_flight at the end, we're just saying that it's
->> _always_  the case for callback-based operations; 2) no, it's not unexpected
->> and therefore the test is the incorrect one.
-> My question isn't really only about the test, though. If it is now
-> forbidden to call bdrv_replace_child_noperm() in a callback, how do we
-> verify that the test is the only incorrect one rather than just the
-> obvious one?
+On Montag, 14. Februar 2022 15:43:51 CET Vitaly Chikunov wrote:
+> Christian,
 > 
-> And is it better to throw away the test and find and fix all other
-> places that are using something that is now forbidden, or wouldn't it be
-> better to actually allow bdrv_replace_child_noperm() in callbacks?
+> On Mon, Feb 14, 2022 at 12:44:48PM +0100, Christian Schoenebeck wrote:
+> > On Montag, 14. Februar 2022 11:36:53 CET Greg Kurz wrote:
+> > > The synth backend should be fixed to honor d_reclen, or
+> > > at least to allocate with g_new0().
+> > 
+> > Yes, I overlooked that this is not initialized with zero already.
+> > 
+> > With g_new0() d_reclen would be zero and qemu_dirent_dup() would then
+> > fallback
+> > to the portable branch (as I assumed it already would):
+> Perhaps, this additional change should be added (I only found two instances
+> of V9fsSynthOpenState allocation):
+> 
+> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> --- a/hw/9pfs/9p-synth.c
+> +++ b/hw/9pfs/9p-synth.c
+> @@ -182,7 +182,7 @@ static int synth_opendir(FsContext *ctx,
+>      V9fsSynthOpenState *synth_open;
+>      V9fsSynthNode *node = *(V9fsSynthNode **)fs_path->data;
+> 
+> -    synth_open = g_malloc(sizeof(*synth_open));
+> +    synth_open = g_malloc0(sizeof(*synth_open));
+>      synth_open->node = node;
+>      node->open_count++;
+>      fs->private = synth_open;
+> @@ -266,7 +266,7 @@ static int synth_open(FsContext *ctx, V9fsPath *fs_path,
+> V9fsSynthOpenState *synth_open;
+>      V9fsSynthNode *node = *(V9fsSynthNode **)fs_path->data;
+> 
+> -    synth_open = g_malloc(sizeof(*synth_open));
+> +    synth_open = g_malloc0(sizeof(*synth_open));
+>      synth_open->node = node;
+>      node->open_count++;
+>      fs->private = synth_open;
 
-The question is would you ever need bdrv_replace_child_noperm() in 
-callbacks?  The AIO functions are called from any iothread and so are 
-the callbacks.  We do have a usecase (in block/mirror.c) for 
-bdrv_drained_begin from a coroutine; do we have a usecase for calling 
-global-state functions from a callback, in such a way that:
+Either
 
-1) going through a bottom half would not be possible
+   /*
+    * Add NAME_MAX to ensure there is enough space for 'dent' member, because
+    * some systems have d_name size of just 1, which would cause a buffer
+    * overrun.
+    */
+	synth_open = g_malloc0(sizeof(*synth_open) + NAME_MAX);
 
-2) it's only needed in the special case of a BlockBackend homed in the 
-main event loop (because otherwise you'd have to go through a bottom 
-half, and we have excluded that already)?
+Or more simple by adjusting struct V9fsSynthOpenState:
 
-Thanks,
+index 036d7e4a5b..eeb246f377 100644
+--- a/hw/9pfs/9p-synth.h
++++ b/hw/9pfs/9p-synth.h
+@@ -41,6 +41,11 @@ typedef struct V9fsSynthOpenState {
+     off_t offset;
+     V9fsSynthNode *node;
+     struct dirent dent;
++    /*
++     * Ensure there is enough space for 'dent' above, some systems have a
++     * d_name size of just 1, which would cause a buffer overrun.
++     */
++    char dent_trailing_space[NAME_MAX];
+ } V9fsSynthOpenState;
+ 
+ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mode,
 
-Paolo
+and of course still replacing g_malloc() by g_malloc0().
+
+> > Additionally I would add NAME_MAX to the V9fsSynthOpenState allocation
+> > size, because it is known that some systems define dirent as flex-array
+> > (zero d_name size).
+> 
+> (To be precise) not just zero, but 1 byte. Also, to remind, for some
+> filesystems, such as CIFS, actual d_name size could be longer than NAME_MAX.
+> Because of that struct dirent cannot be allocated statically or with simple
+> sizeof.
+
+Yes, but the dir names in the synth driver are just short hard coded names
+anyway, there is no access to a real filesystem going on in the synth driver. 
+
+> > I know Greg would not favour this solution (using g_new0), but it's the
+> > most minimalistic and most portable solution. So I would favour it for
+> > now.
+> Why g_new0 and not just g_malloc0? This is smallest code change, which seems
+> appropriate for a bug fix.
+
+Both are fine with me in this case.
+
+> 
+> Thanks,
+> 
+> > A cleaner solution on the long-term would be turning V9fsSynthOpenState's
+> > 'dent' member into a pointer and adding a new function to osdep like:
+> > 
+> > struct dirent *
+> > qemu_dirent_new(const char* name) {
+> > 
+> >     ...
+> > 
+> > }
+> > 
+> > But I would like to postpone that qemu_dirent_new() solution, e.g. because
+> > I guess some people would probably not like qemu_dirent_new() to have in
+> > osdep, as it is probably not a general purpose function, and I am not
+> > keen putting qemu_dirent_new() into a different location than
+> > qemu_dirent_dup(), because it would raise the danger that system
+> > dependent code might deviate in future.
+> > 
+> > Best regards,
+> > Christian Schoenebeck
+
+
 
