@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC7A4B4216
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 07:47:40 +0100 (CET)
-Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211C44B42B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 08:19:29 +0100 (CET)
+Received: from localhost ([::1]:40858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJV98-0001b6-ON
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 01:47:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39434)
+	id 1nJVdv-0006Zc-RC
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 02:19:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJV2T-0008UK-58
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 01:40:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45969)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nJVZI-0004Wj-4W
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:14:40 -0500
+Received: from mga12.intel.com ([192.55.52.136]:31031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJV2Q-0005x6-Qr
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 01:40:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644820842;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=He06U6JoDX5LCKOEYpU+zY4doC8X5mVAD+a9nrInnyo=;
- b=O+DQNrIbP796KVsMfNCLMUVWxRrAckKtYUpeK4DrZlNMO1Tpu9NrKwFFifkc84iG1hb/X5
- 2Gb7gzoaafNkLnXmhpDBfZmQI22sqBMEliZgFyNS4EXucJGNe5JARjAA1K7vYIGXXQqIPg
- GXV3Zu2PmG/LjCw+9TSlvU1ebdJOMDQ=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-316-odmvh1SVOxSkIVhbeZC53g-1; Mon, 14 Feb 2022 01:40:33 -0500
-X-MC-Unique: odmvh1SVOxSkIVhbeZC53g-1
-Received: by mail-lj1-f200.google.com with SMTP id
- by12-20020a05651c1a0c00b00244bf726482so691185ljb.0
- for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 22:40:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=He06U6JoDX5LCKOEYpU+zY4doC8X5mVAD+a9nrInnyo=;
- b=V4s07Grn177/krraUgkuzneftr+3o63Z9TqBLjgu63NjEi3YiCfTa5wyufnhygaCLp
- cZWlohNLcjUpxEnPiIZrdVG6TkYpZWQ14R6sS7s1gI9uei15NoPprjGizRjuK9Vgx7GE
- bTFj/rl9tpRF59xq7px99c/KcmKAK1QIZzx8UbTJB1IRZt1EJ4AYuCkHZi62uL8ATGHL
- sqRZyaXOxeNcwkYE86nyA5X+4OWoOppSXrYj7rJNI0AyiGh9j8JjEFdQJ8Xi2TrOci8e
- Pp4nFPd9v/3expm37hJjXgS2jYgnM+lWtNc+SJy6sZWJWOCfOHbKPR0ngcaMzC4Fg9eM
- QJFg==
-X-Gm-Message-State: AOAM533KbGdac1qKLZ7wZn3e/fYvrXDmCJUI2fgM+p/ajcbHb+jh5nfa
- eyC5/JHdtvYeTjzNX7nsCz96LqDd1qHg5BwlAfzzhKohFpgO7R+zdP9iDFFG0r6LmD1cix1EY9n
- 6hdG0YWVbwJCtFQk24R3x7xVaiWVCh04=
-X-Received: by 2002:a2e:bf22:: with SMTP id c34mr8482609ljr.369.1644820831975; 
- Sun, 13 Feb 2022 22:40:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyHhGIENDMuoDJJkyCZrB7peZpIXyt5OFtvh4fjulVa6g3tnGMJRMRAJUw7kCY/S6LCK9VprbQvSHjhQYaSnYQ=
-X-Received: by 2002:a2e:bf22:: with SMTP id c34mr8482596ljr.369.1644820831710; 
- Sun, 13 Feb 2022 22:40:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nJVZF-0003CG-Cg
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:14:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644822877; x=1676358877;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=WnPst2BEmjMQ6aCqVhwPvcM66mgtbjC+v4nnO/FV64s=;
+ b=K4c2UQEU4dGbR0X9y6j7y32W8n1Z8J2sq9vXphYyhgO7P8YlZxr7kCYt
+ 1wxu8kbYQ42MOHYRh+wK6opeI8oyuGHbGuagwXNbXaJC+ihstk5X3kuEB
+ hF7mYyraPffWwVEMZ01eHgX81OL77a8UwnjJMs3CD1VCnQDG7EBOBSqMO
+ D/kcZi68EFVUuiBPxAgaDyZD/acNeSxpFqeWC0yg9zTQ7MtgEpq4fZsHv
+ v3rXdaivda0LyChVIN33S2JtKYQ6WOXSnhLl4bRmY8+76hWIfiDL/hb/e
+ kMQbOJ3IyRv3e88rnuTFzuLr3bzcAqSXJoPObED6Nm9+rsLU543ZTtKmC w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="229994128"
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="229994128"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2022 23:14:34 -0800
+X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; d="scan'208";a="543259913"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.145.56])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 13 Feb 2022 23:14:31 -0800
+Date: Mon, 14 Feb 2022 14:58:57 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v4 4/4] hw/i386/sgx: Attach SGX-EPC objects to machine
+Message-ID: <20220214065857.GA5015@yangzhon-Virtual>
+References: <20220205124526.500158-1-f4bug@amsat.org>
+ <20220205124526.500158-5-f4bug@amsat.org>
+ <20220207093752.7503b6cb@redhat.com>
 MIME-Version: 1.0
-References: <20220214060346.72455-1-jasowang@redhat.com>
- <Ygn3I3T2DH3SHFXj@xz-m1.local>
- <CACGkMEvr+EDokjH6b3kMac-Zf_n+6KY5+L105Gh4QLquWZUX+Q@mail.gmail.com>
-In-Reply-To: <CACGkMEvr+EDokjH6b3kMac-Zf_n+6KY5+L105Gh4QLquWZUX+Q@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 14 Feb 2022 14:40:20 +0800
-Message-ID: <CACGkMEswB4HA0jnHS7KAM3qH=_kWUi8KE0TBK-hPqC+a3y6xFw@mail.gmail.com>
-Subject: Re: [PATCH] intel_iommu: support snoop control
-To: Peter Xu <peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220207093752.7503b6cb@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=yang.zhong@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,87 +76,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>
+Cc: yang.zhong@intel.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 14, 2022 at 2:35 PM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Mon, Feb 14, 2022 at 2:31 PM Peter Xu <peterx@redhat.com> wrote:
-> >
-> > On Mon, Feb 14, 2022 at 02:03:46PM +0800, Jason Wang wrote:
-> > > SC is required for some kernel features like vhost-vDPA. So this patch
-> > > implements basic SC feature. The idea is pretty simple, for software
-> > > emulated DMA it would be always coherent. In this case we can simple
-> > > advertise ECAP_SC bit. For VFIO and vhost, thing will be more much
-> > > complicated, so this patch simply fail the IOMMU notifier
-> > > registration.
-> >
-> > Could we spell out which vhost branch won't work?
->
-> For vhost, it should work but the problem is that we need to introduce
-> more logics to demonstrate the notifier ability (e.g a dedicated
-> notifier flag for cc).
+On Mon, Feb 07, 2022 at 09:37:52AM +0100, Igor Mammedov wrote:
+> On Sat,  5 Feb 2022 13:45:26 +0100
+> Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+> 
+> > Previously SGX-EPC objects were exposed in the QOM tree at a path
+> > 
+> >   /machine/unattached/device[nn]
+> > 
+> > where the 'nn' varies depending on what devices were already created.
+> > 
+> > With this change the SGX-EPC objects are now at
+> > 
+> >   /machine/sgx-epc[nn]
+> > 
+> > where the 'nn' of the first SGX-EPC object is always zero.
+> 
+> yet again, why it's necessary?
 
-Or we can do tricks like checking IOMMU_NOTIFIER_DEVIOTLB_UNMAP and
-assume it's vhost.
 
-But I'm not sure it's worth it.
+  Igor, Sorry for delay feedback because of Chinese New Year holiday.
 
-Thanks
+  This series patches are to fix below issues I reported before,
+  https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg05670.html
 
->
-> > How about also mention what
-> > this patch is used for (perhaps for some pure vdpa tests on fully emulated)?
->
-> That's fine, the main use case so far is to test vDPA in L1 guest.
->
-> >
-> > >
-> > > In the future, we may want to have a dedicated notifiers flag or
-> > > similar mechanism to demonstrate the coherency so VFIO could advertise
-> > > that if it has VFIO_DMA_CC_IOMMU, for vhost kernel backend we don't
-> > > need that since it's a software backend.
-> > >
-> > > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > > ---
-> > >  hw/i386/intel_iommu.c          | 14 +++++++++++++-
-> > >  hw/i386/intel_iommu_internal.h |  1 +
-> > >  include/hw/i386/intel_iommu.h  |  1 +
-> > >  3 files changed, 15 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > > index 5b865ac08c..5fa8e361b8 100644
-> > > --- a/hw/i386/intel_iommu.c
-> > > +++ b/hw/i386/intel_iommu.c
-> > > @@ -3022,6 +3022,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
-> > >      VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
-> > >      IntelIOMMUState *s = vtd_as->iommu_state;
-> > >
-> > > +    /* TODO: add support for VFIO and vhost users */
-> > > +    if (s->snoop_control) {
-> > > +        error_setg_errno(errp, -ENOTSUP,
-> > > +                         "Snoop Control with vhost or VFIO is not supported");
-> > > +        return -ENOTSUP;
-> > > +    }
-> >
-> > IIUC this will also fail things like e.g. vhost-kernel but afaiu that can be
-> > fully emulated too.  That's expected, am I right?
->
-> Yes, I try to make the patch as simple as possible, so VFIO or any
-> kind of vhost won't work.
->
-> Thanks
->
-> >
-> > Thanks,
-> >
-> > > +
-> > >      /* Update per-address-space notifier flags */
-> > >      vtd_as->notifier_flags = new;
-> >
-> > --
-> > Peter Xu
-> >
+  Since the /machine/unattached/device[0] is used by vcpu and Libvirt
+  use this interface to get unavailable-features list. But in the SGX
+  VM, the device[0] will be occupied by virtual sgx epc device, Libvirt
+  can't get unavailable-features from this device[0].
 
+  Although patch 2 in this series already fixed "unavailable-features" issue,
+  this patch can move sgx virtual device from /machine/unattached/device[nn]
+  to /machine/sgx-epc[nn], which seems more clear. Thanks!
+
+  Yang
+  
+
+> 
+> > 
+> > Reported-by: Yang Zhong <yang.zhong@intel.com>
+> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > ---
+> >  hw/i386/sgx.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+> > index a2b318dd938..3ab2217ca43 100644
+> > --- a/hw/i386/sgx.c
+> > +++ b/hw/i386/sgx.c
+> > @@ -304,6 +304,8 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+> >      for (list = x86ms->sgx_epc_list; list; list = list->next) {
+> >          obj = object_new("sgx-epc");
+> >  
+> > +        object_property_add_child(OBJECT(pcms), "sgx-epc[*]", OBJECT(obj));
+> > +
+> >          /* set the memdev link with memory backend */
+> >          object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
+> >                                &error_fatal);
 
