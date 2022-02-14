@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52154B5AE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 21:16:46 +0100 (CET)
-Received: from localhost ([::1]:58020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BE54B5AE7
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 21:16:52 +0100 (CET)
+Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJhm9-0002tW-Fx
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 15:16:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40402)
+	id 1nJhmE-00033J-TQ
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 15:16:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nJhjg-0000is-Cx
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 15:14:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33880)
+ id 1nJhjl-0000nL-4N
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 15:14:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nJhjc-0003j4-Tt
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 15:14:10 -0500
+ id 1nJhji-0003m9-UF
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 15:14:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644869647;
+ s=mimecast20190719; t=1644869654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+72i9z7e73MgY074con63qdOaJdfDGS5Fa4BUnZPh50=;
- b=D4evfPyKNSit0dBHzZuqifSGcLEcICasnxGDVhIctj7tnbi1s8vuO6Lc2Y4rDUajQBlBJn
- aOXx++4PLaHiGaM/Z5zcMufJ75ZjpFOMYcidBlj+7MAMF5G5i36yuy/Q6In8P1sxOj3usa
- 1NdtHyqi6O3dagm6JrmjmlSwN09yTl8=
+ bh=Xd1wCtHOUdWyn1wICNVybJ+lJ9wf6hUnyrfwpvgaL18=;
+ b=BIR3AvpW8zo/5a+//OEyxrm5/VHcpmtD4EvZY4diNLP53rRXrAVmFyu3i1XRo+7RQXwwrX
+ sWikQs34Y7aW+yhv5DOcj9blM4LN4/C5dKzlLUF7kDdwgqzwB5KeLpBGMjj05laBl3Ovug
+ pzkp+L7fnb/q2Zb+XwZMwsrpNv6hQmY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-iPNfmxf4OyueKduob9C3jA-1; Mon, 14 Feb 2022 15:14:06 -0500
-X-MC-Unique: iPNfmxf4OyueKduob9C3jA-1
+ us-mta-562-mLFonyTJPvCwhuaI34Jotg-1; Mon, 14 Feb 2022 15:14:11 -0500
+X-MC-Unique: mLFonyTJPvCwhuaI34Jotg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F26281DFAA;
- Mon, 14 Feb 2022 20:14:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FB0C83DD20;
+ Mon, 14 Feb 2022 20:14:10 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E842345C93;
- Mon, 14 Feb 2022 20:14:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2BEA045CA3;
+ Mon, 14 Feb 2022 20:14:08 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] ui/console: fix crash when using gl context with non-gl
- listeners
-Date: Tue, 15 Feb 2022 00:13:35 +0400
-Message-Id: <20220214201337.1814787-2-marcandre.lureau@redhat.com>
+Subject: [PATCH 2/3] ui/console: fix texture leak when calling
+ surface_gl_create_texture()
+Date: Tue, 15 Feb 2022 00:13:36 +0400
+Message-Id: <20220214201337.1814787-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20220214201337.1814787-1-marcandre.lureau@redhat.com>
 References: <20220214201337.1814787-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -88,77 +88,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The commit 7cc712e98 ("ui: dispatch GL events to all listener")
-mechanically replaced the dpy_gl calls with a dispatch loop, using the
-same pre-conditions. However, it didn't take into account that all
-listeners do not have to implement the GL callbacks.
+Make surface_gl_create_texture() idempotent: if the surface is already
+bound to a texture, do not create a new one.
 
-Add the missing pre-conditions before calling the callbacks.
+This fixes texture leaks when there are multiple DBus listeners, for
+example.
 
-Fix crash when running a GL-enabled VM with "-device virtio-gpu-gl-pci
--display egl-headless -vnc :0".
-
-Fixes: 7cc712e98 ("ui: dispatch GL events to all listener")
 Reported-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/console.c | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ ui/console-gl.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/ui/console.c b/ui/console.c
-index 40eebb6d2cc2..79a01afd1ea7 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1860,7 +1860,9 @@ void dpy_gl_scanout_disable(QemuConsole *con)
-         con->scanout.kind = SCANOUT_NONE;
-     }
-     QLIST_FOREACH(dcl, &s->listeners, next) {
--        dcl->ops->dpy_gl_scanout_disable(dcl);
-+        if (dcl->ops->dpy_gl_scanout_disable) {
-+            dcl->ops->dpy_gl_scanout_disable(dcl);
-+        }
-     }
- }
+diff --git a/ui/console-gl.c b/ui/console-gl.c
+index 7c9894a51d99..8e3c9a3c8c01 100644
+--- a/ui/console-gl.c
++++ b/ui/console-gl.c
+@@ -49,6 +49,10 @@ void surface_gl_create_texture(QemuGLShader *gls,
+     assert(gls);
+     assert(QEMU_IS_ALIGNED(surface_stride(surface), surface_bytes_per_pixel(surface)));
  
-@@ -1881,10 +1883,12 @@ void dpy_gl_scanout_texture(QemuConsole *con,
-         x, y, width, height
-     };
-     QLIST_FOREACH(dcl, &s->listeners, next) {
--        dcl->ops->dpy_gl_scanout_texture(dcl, backing_id,
--                                         backing_y_0_top,
--                                         backing_width, backing_height,
--                                         x, y, width, height);
-+        if (dcl->ops->dpy_gl_scanout_texture) {
-+            dcl->ops->dpy_gl_scanout_texture(dcl, backing_id,
-+                                             backing_y_0_top,
-+                                             backing_width, backing_height,
-+                                             x, y, width, height);
-+        }
-     }
- }
- 
-@@ -1897,7 +1901,9 @@ void dpy_gl_scanout_dmabuf(QemuConsole *con,
-     con->scanout.kind = SCANOUT_DMABUF;
-     con->scanout.dmabuf = dmabuf;
-     QLIST_FOREACH(dcl, &s->listeners, next) {
--        dcl->ops->dpy_gl_scanout_dmabuf(dcl, dmabuf);
-+        if (dcl->ops->dpy_gl_scanout_dmabuf) {
-+            dcl->ops->dpy_gl_scanout_dmabuf(dcl, dmabuf);
-+        }
-     }
- }
- 
-@@ -1951,7 +1957,9 @@ void dpy_gl_update(QemuConsole *con,
- 
-     graphic_hw_gl_block(con, true);
-     QLIST_FOREACH(dcl, &s->listeners, next) {
--        dcl->ops->dpy_gl_update(dcl, x, y, w, h);
-+        if (dcl->ops->dpy_gl_update) {
-+            dcl->ops->dpy_gl_update(dcl, x, y, w, h);
-+        }
-     }
-     graphic_hw_gl_block(con, false);
- }
++    if (surface->texture) {
++        return;
++    }
++
+     switch (surface->format) {
+     case PIXMAN_BE_b8g8r8x8:
+     case PIXMAN_BE_b8g8r8a8:
 -- 
 2.34.1.428.gdcc0cd074f0c
 
