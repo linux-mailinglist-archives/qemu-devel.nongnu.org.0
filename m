@@ -2,147 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474D24B5520
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:47:07 +0100 (CET)
-Received: from localhost ([::1]:48218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599184B54C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:28:59 +0100 (CET)
+Received: from localhost ([::1]:36912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJdZC-000617-13
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:47:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35100)
+	id 1nJdHe-0004SN-G4
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:28:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1nJcsa-0001Q1-CX
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 10:03:04 -0500
-Received: from de-smtp-delivery-102.mimecast.com ([194.104.111.102]:30852)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nJctU-0001td-H0
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 10:04:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1nJcsX-0007kG-D3
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 10:03:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1644850977;
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nJctB-0007sV-4Z
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 10:03:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644851016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=UIox7dkw3kSLbAPAwaqHJJZcACHo1M82BL2Dud1K1n4=;
- b=KJsv23xI6afBbp5Nl7qmqbmPnlC/Kg5RKnEBmy6cqQmQ00VubhDGjVf9kLlYO4pDxgtADB
- 0RUptty7Eu5EUJclGFn0VXGAWedDlCEeLWRdl/F7W0wvY3c0Pt6boFeqRPSPcMrbemin0P
- pWMPhadiBipVOqt4zY1CCEtWnAzNKAw=
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-db3eur04lp2059.outbound.protection.outlook.com [104.47.12.59]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- de-mta-26-qdJexCgBN8eI4Ui_ZKo7ag-1; Mon, 14 Feb 2022 16:02:56 +0100
-X-MC-Unique: qdJexCgBN8eI4Ui_ZKo7ag-1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ELWah6MMQO05hJg4BPah9Vzzwb4Mr1gW1V36pAXONDKqGL7kP/GMyWLljz0/vsrZ7j2Y5c3mJhjJESov1z7SYL7M6vtIeLYCqYTQSEuPkJIPOo7pmPi+jttF2NNYVrZaLBPxdWtvPSV+lnLELkjK289roeK6+NRbfql05gud6jmspv5GWrU6H0q3EOXCwWvgNIwkHlMW9ZyxY7A9tAdRhFvZuSGRjmy5i+HTYf2RZN3jgUjzuaM3HejeAJWK3my7SCvkWiiU6CSyxiARrMKacGd+PRorz2ordHwkj5v0yU7tKPAVa8XliDrJk+Akn54IKRio6I5CJFwtRfeASuQxNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UIox7dkw3kSLbAPAwaqHJJZcACHo1M82BL2Dud1K1n4=;
- b=ZOABoM9oti8ypj0hBANedlglXHOIuT24uxPKz9W17FWtZwpoqsSaZ8hRtcJJTEmrVBmhSuc1KhiFXp0PqRPlOczN5qPazH5n8+xvGWA+TVZ5E7EnqTC2u4Xfhlo/GIkkzUDXdctxo2laYIQ5UMgIiHZaUGLoUSo8VX36WGyNmsPPOgQgNELxyDH4x5D1nCGIKfYXoHk4e1yE9G9FSl/1vtd1WqDJFSd8MWFJ/P9sd5/rdmjjr9lHlNj0/v/Uc7E8KPpXVkhhsSrnrPhi4QLtXr8KJd1YbQh5dHeOhnzDq5BOYvwvPVyTUtjITPGt72lEXgpoVVeVXJ+6zjuYmDhjIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from AM0PR04MB5826.eurprd04.prod.outlook.com (2603:10a6:208:134::22)
- by AM0PR04MB6435.eurprd04.prod.outlook.com (2603:10a6:208:176::30)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.19; Mon, 14 Feb
- 2022 15:02:54 +0000
-Received: from AM0PR04MB5826.eurprd04.prod.outlook.com
- ([fe80::ccff:6c4a:d6fc:3b74]) by AM0PR04MB5826.eurprd04.prod.outlook.com
- ([fe80::ccff:6c4a:d6fc:3b74%7]) with mapi id 15.20.4975.018; Mon, 14 Feb 2022
- 15:02:54 +0000
-From: Dario Faggioli <dfaggioli@suse.com>
-To: "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
-CC: "sstabellini@kernel.org" <sstabellini@kernel.org>,
- "marmarek@invisiblethingslab.com" <marmarek@invisiblethingslab.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "anthony.perard@citrix.com"
- <anthony.perard@citrix.com>
-Subject: SecureBoot and PCI passthrough with kernel lockdown in place (on Xen)
-Thread-Topic: SecureBoot and PCI passthrough with kernel lockdown in place (on
- Xen)
-Thread-Index: AQHYIbPxFY5Kj3bRXE6t4z/dbeVrRw==
-Date: Mon, 14 Feb 2022 15:02:53 +0000
-Message-ID: <8daad0f6c623a57bc0b047fc2388e8b698135624.camel@suse.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.42.4 (by Flathub.org)) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=suse.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5409a396-1777-485a-04c6-08d9efcb13db
-x-ms-traffictypediagnostic: AM0PR04MB6435:EE_
-x-microsoft-antispam-prvs: <AM0PR04MB6435DCEA2D691C8CA4A27B19C5339@AM0PR04MB6435.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IgTYsvdWuAncSEEELugARCzz9/oLkxNzCo4JsB/TAsvTGgWgqk+qUw+wa2mZwVSjuWDCxYmJjULHpTt7mkGkEaawxZ8gOeKZ1p1xOYqwQswU5qhZMNrDmFOPpzuhfjb4duJoInPU9LY6yLkqVC5bVqZspYtoeYXYuS6jPqhemlOwtfaIQBDaxlsNhLiuKQjmeWUiK5MEPuzE/2XymQJ9KCS8/oeKKO0flTBEiLN+UTUx0sifO+O7iuibwGFHIgjg+M2IIsSNN3VvG81okqFpxjuGknuEUZmT3Jsl00Xc6F+jm16PGSy3FwF+NrShkYmFbFwWm1Ph7Amv/kfOpHMzFKsWtDqKYj0FYipneY5Ge7oz5zvzJ/M5OrORTg720cZN1D/H7/86bpdY1n2xdRlzYtF2o3epUDhIe9bUyIO2DAD8FR8Z4fHks9PQ75xRe+kUaRIGmgDbi41KeIXOTN1fBOlaE/ZUYjT3rO0yRN1rrEb9eJAxdtJHOfubzdrRlnu3COhBdPIUSDoPofeiADN3gDkZ1TZ+PEk8+uw1PaLLmM4/Za+utZzgS0l9NNLjAreNJ9dY8LOBqKXydbvXU3ysK3QgsyUIjEthZ++Cp1juwfY7XOh5LnYbafJzCGWggYgC46cFcSrthJscKeSZ8Uk9y+mO3X74JwvRb2Zo5p4NNQipLvCzyUpL9CsuXXCuRcSu2uby/eNSSuaMk4RBow7vczUHj/9FKZpL3pl9NdAipgIq7y6VW7vmmW8dlmWKJB19fOgul1WxuM4SFIquDLhsXyJcZv1Cu0lDMzzTRIS4pI4H55uVCGggWWARTuj6czN+5XnHBR4WfSWkhmllS3UzIw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR04MB5826.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(83380400001)(316002)(6512007)(91956017)(38070700005)(86362001)(54906003)(66946007)(64756008)(122000001)(66476007)(66556008)(66446008)(6506007)(8936002)(71200400001)(8676002)(4326008)(36756003)(6916009)(38100700002)(966005)(76116006)(26005)(5660300002)(2616005)(508600001)(99936003)(2906002)(186003)(6486002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aDJwSUZUU2dXelBBdDBDaGhOYi9DMTlUaTVPVG1vV3IvdndpZWl2MzFKLys2?=
- =?utf-8?B?WmhyZ05oME1RRG9vT3FSMFVRUG5EdkNmU3lhY0h0N1NqcUluK29OV0N2N1R1?=
- =?utf-8?B?aTZZMG1iVnVZdjVJcDU0S0ROMnlScndEY0xqdFA3ZjVXTHdyUEdSRlVwR3Jk?=
- =?utf-8?B?VUdyazk2c3o1blM5eVBaaGxuTHUraklrL24xOVlhbDAvVEdIWlVGR0Y3VEYv?=
- =?utf-8?B?eHZNa09KZzkwTHZSZ1ZDN0JZb0lLNGZaMG9LTUlnRUNwN0Q4VER0ZTFEZUFS?=
- =?utf-8?B?cU5IUEVYa1hQUHFTTm02L3FpaUluZGN0NktZRE05VEY0UWlsek53b2d3dVFD?=
- =?utf-8?B?N2dvU1pXVERQWm9MQTl6aXJ2S0E2RmlGQ3BCUlF2dnpGVnBWR2p4alIreTB6?=
- =?utf-8?B?eUd3L0RtODJoT0UzVXp4SjJDYmRDaysyMVRRUm1SbXhRNTZOaklaSE85Q2tE?=
- =?utf-8?B?S1liSDE3ekVIbzQ5azJUeTlqMWJkQmt1a1JqSjFBSVpDa1JDTmpxQjFJcm5y?=
- =?utf-8?B?dXROQUxmdi9PdU9LQS9kN3Q1Uk55SUpkREhUK24zbERzY3JXSnZDRDJGMGZr?=
- =?utf-8?B?YlBlMmYyVVRPQjV2RTA3OFg3U0hoRFFBZVI4UFFXRjg2YUJwRWk0UjlHNXBW?=
- =?utf-8?B?bzRsSFpoZEJKbmlYSERGVmJTdGc3cWRXcUljQWlCN2tBTVkyOW1pekk3eFlw?=
- =?utf-8?B?MHBBcU1LNVRmbDZJZDdJWXlidk9MbTIxZzVqNlZtSWNVNVhwa3RUSmRLYlBX?=
- =?utf-8?B?MG1wRHpkWGhnRlNNY0xKTFgvNTNCQlZTbVBlVGFPek9yZjNjYllmK24yRHZj?=
- =?utf-8?B?WVhmN3VHaCtnL0JPZDNKK29QZWViU1NDRHRjZXNRaEVwd0Y1ZXJnR2Q4QjBK?=
- =?utf-8?B?ZVc0MEtTUzFMVkdFczk1TVJBSzNwSDFQaU1VNEFlZTZUbVI4ay9UcEp3WnBw?=
- =?utf-8?B?bncvT3BWcW1KMDYxR1gxalEvcU83NDlEQ29NbytvbjRSVDMxSENRbWNORjFS?=
- =?utf-8?B?am1qLzRvL016UWdOYUJoa3NiclVqU0VLVjlnbWg4NXNPOFFsZ0UvdTJvWmZD?=
- =?utf-8?B?ZmtsYlBxbldLU1IrY3dSYTFmTWh6RlJMTlVMQVUvWWpoeEMrR2NXc043aTJm?=
- =?utf-8?B?ZlRNRVRKdU82aTkrK2ZkbXU1SDRvZk5aa0FmRHhReFFNL3FHTHZ6MS8rSlJm?=
- =?utf-8?B?WmpORzVlZDNoZXdST2ZwWjk5blFrSVBTOWd1ekRLQkc3dkJQclRsUXBoVS92?=
- =?utf-8?B?U0dnMHZLdlR0M1F4TkYvTXRpdnM3SUsySmU3YkZTNUw1WDNQNzdwSWVGSTFW?=
- =?utf-8?B?NGViTERQME4rQ29XNWpNZjRGbklKMnl5ZEN2YkY0ckIrQXlwbDZ0UGVYdjlQ?=
- =?utf-8?B?UlBVbVZMVFh1NzI2Y0NRbmxuWUwzQmoySlgrZmMyR2FoWHlOZFhWbTZsRXlQ?=
- =?utf-8?B?bnE4NDcvbEV4TGhyeHd4bVZ2VXpFbU1uYm8yd3lYcnZVcmNwQUVGVy9JaUI3?=
- =?utf-8?B?UnVTcSt1RVROc1l4bnlhcXdCTFJDakdBdHVZT2tmUzR3YlNaTzg5S1BXOW13?=
- =?utf-8?B?SFQwUjdyQytxWmJWc2hJRkluN1dtUmpHbWcwRyt4Y0RwWWJ3eitRZHhnOS83?=
- =?utf-8?B?cVpoRnFma3FhaXg1WUVUZXNiOCt1SlY3WVd2VUx4bG9zOVFCaVcxTlZQWHJL?=
- =?utf-8?B?ek5nVnVvNS82UjQ2akZkNVdFNmxYUGdCUWw5cnRMeVFHMEFDVzA5a3VYOVY3?=
- =?utf-8?B?cUtSMzg5bFFKT05YNXdaZUVKa0xpT0d4SVJaWGYwTjh1cE0weUwvaXM3Mnda?=
- =?utf-8?B?a0dwSGVSWkFxUTBwTklCdDRyNU1tcVRJREFFZmgxWG1NOEJOMDd6R21hNG1B?=
- =?utf-8?B?N0Z2eDlpY0pSdVN0NGRhRjErSTExc1EyMzQvYXFKaVFsVzFRWFdFQmNDei9X?=
- =?utf-8?B?aFU2ckRaZmJleERib1hNOXY1L1p6VDdQdDdVcXowVHlPd3FOOGZPY3dEMC9W?=
- =?utf-8?B?YStkaWlmN1k5QTdzczJiM1JIOWVKanhJY3NvY1RXcUJDTVozZ1grcXd6eWtL?=
- =?utf-8?B?MlZUbWZPSnJVeHA1ekVzZi9ENjdXSDdmWW4zL3YvZzd5V0hTZzYzbENpOFdU?=
- =?utf-8?B?bWI5bk84WXB2VkN6NjVXaXhwVzltMkFBNEU4d21IcFNRU3FOSFV0cnZIbi8z?=
- =?utf-8?Q?WWc1yflUz8mJ6Yhqu7tdv84=3D?=
-Content-Type: multipart/signed; micalg="pgp-sha256";
- protocol="application/pgp-signature"; boundary="=-o0+UXT5YZwxmdHu4aySw"
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w8bLoOcm/BnpVQ1UZ86lpP1bL/JbPzWi75mpbMgogmE=;
+ b=cqAeiJ9cKbMPJ2WsP5EgeRXUl9IW4CtOj2zmQnCL+lsaKfZTMQ5Gr9I1OTW7z2Ted24zSB
+ uFizUBcrNbNlhgUkSyIYMSkxoMIApPgMwJSo/WuJs0azt28SZ66mGSxvmvZgKg3dXuhyWS
+ jzJSsNl8lE8fNFhBO+sW2YF/OXnBHhs=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-krejFXf5PZqAqNoDlTOaZQ-1; Mon, 14 Feb 2022 10:03:35 -0500
+X-MC-Unique: krejFXf5PZqAqNoDlTOaZQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ z8-20020a05640240c800b0041003c827edso8772018edb.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 07:03:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=w8bLoOcm/BnpVQ1UZ86lpP1bL/JbPzWi75mpbMgogmE=;
+ b=a4qgqs6ZLuAc14likvDKC6zHzaCDz1EiCpZfXs2Sen1k/QkL27esWPszrhcPKYAyqO
+ ew0DszcXwcAfiraYbuBuy4j0zPYolWcpXnZhSLc+VrjWRE4TsxHtQcVr5apddcYfTfkj
+ Nx+kppB9N+tsyJqUHduzPuBhHDtTFWH8NCMrgGz68bO1/nUwS+bH4M5x9bxtid1QP/ty
+ 8WT7G2UT2+T1JMGmdH/4SHX5HcAttP7p5IN+z9zmzD7DyQkSirH+H4p7UN+8IzRxo0Dx
+ 4IWMyAbKXVORsDbgskyreP96EWaj/RXsnM8GKgRLsD7Xv6oEuvtNX5vwRithWTgiMpFe
+ CXow==
+X-Gm-Message-State: AOAM533IoXFwPkKvDgo3h0x1ctGciynAHDd4cz8bciWiOdnfvg00OIvK
+ v1UVfoUwR4ESxISt57gUADhesa4AEjLhzR+iyunwXgP+D1kiokiw2h+lGmvK1ALmQlyKIh13yJv
+ Kb4tRQRuIFB2XaJs=
+X-Received: by 2002:a17:907:a41f:: with SMTP id
+ sg31mr11614433ejc.645.1644851009928; 
+ Mon, 14 Feb 2022 07:03:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxX1Nh1VmI1qAnLG2s5FKvuH4TddUu0lyDJlrJ6D614dWLSPj55uo1uaaAZ37eb2W1NJW1dPw==
+X-Received: by 2002:a17:907:a41f:: with SMTP id
+ sg31mr11614217ejc.645.1644851007140; 
+ Mon, 14 Feb 2022 07:03:27 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id s10sm2978559ejm.0.2022.02.14.07.03.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Feb 2022 07:03:26 -0800 (PST)
+Date: Mon, 14 Feb 2022 16:03:25 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH RFCv2 3/4] i386/pc: warn if phys-bits is too low
+Message-ID: <20220214160325.62b6436d@redhat.com>
+In-Reply-To: <20220207202422.31582-4-joao.m.martins@oracle.com>
+References: <20220207202422.31582-1-joao.m.martins@oracle.com>
+ <20220207202422.31582-4-joao.m.martins@oracle.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB5826.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5409a396-1777-485a-04c6-08d9efcb13db
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2022 15:02:53.9218 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: c9fkIKhhkbRIvl+q8guT5FYD5LcOp0+dKlHgkRWTbuJdLeOa4d+osEfmp1+QVGzsuknxSUGUcdFUM12Bz/NRqw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6435
-Received-SPF: pass client-ip=194.104.111.102; envelope-from=dfaggioli@suse.com;
- helo=de-smtp-delivery-102.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -156,117 +99,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-o0+UXT5YZwxmdHu4aySw
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon,  7 Feb 2022 20:24:21 +0000
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-Hello,
+> Default phys-bits on Qemu is TCG_PHYS_BITS (40) which is enough
+> to address 1Tb (0xff ffff ffff). On AMD platforms, if a
+> ram-above-4g relocation happens and the CPU wasn't configured
+> with a big enough phys-bits, warn the user. There isn't a
+> catastrophic failure exactly, the guest will still boot, but
+> most likely won't be able to use more than ~4G of RAM.
 
-We have run into an issue when trying to use PCI passthrough for a Xen
-VM running on an host where dom0 kernel is 5.14.21 (but we think it
-could be any kernel > 5.4) and SecureBoot is enabled.
+how 'unable to use" would manifest?
+It might be better to prevent QEMU startup with broken setup (CLI)
+rather then letting guest run and trying to figure out what's
+going wrong when users start to complain. 
 
-The error we get, when (for instance) trying to attach a device to an
-(HVM) VM, on such system is:
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>  hw/i386/pc.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index b060aedd38f3..f8712eb8427e 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -842,6 +842,7 @@ static void relocate_4g(MachineState *machine, PCMachineState *pcms)
+>      X86MachineState *x86ms = X86_MACHINE(pcms);
+>      ram_addr_t device_mem_size = 0;
+>      uint32_t eax, vendor[3];
+> +    hwaddr maxphysaddr;
+>  
+>      host_cpuid(0x0, 0, &eax, &vendor[0], &vendor[2], &vendor[1]);
+>      if (!IS_AMD_VENDOR(vendor)) {
+> @@ -858,6 +859,12 @@ static void relocate_4g(MachineState *machine, PCMachineState *pcms)
+>          return;
+>      }
+>  
+> +    maxphysaddr = ((hwaddr)1 << X86_CPU(first_cpu)->phys_bits) - 1;
+> +    if (maxphysaddr < AMD_ABOVE_1TB_START)
+> +        warn_report("Relocated RAM above 4G to start at %lu "
+> +                    "phys-bits too low (%u)",
+> +                    AMD_ABOVE_1TB_START, X86_CPU(first_cpu)->phys_bits);
 
-# xl pci-attach 2-fv-sles15sp4beta2 0000:58:03.0=20
-libxl: error: libxl_qmp.c:1838:qmp_ev_parse_error_messages: Domain 12:Faile=
-d to initialize 12/15, type =3D 0x1, rc: -1
-libxl: error: libxl_pci.c:1777:device_pci_add_done: Domain 12:libxl__device=
-_pci_add failed for PCI device 0:58:3.0 (rc -28)
-libxl: error: libxl_device.c:1420:device_addrm_aocomplete: unable to add de=
-vice
+perhaps this hunk belongs to the end of pc_memory_init(),
+it's not HT fixup specific at all?
 
-QEMU, is telling us the following:
+Also I'm not sure but there are host_phys_bits/host_phys_bits_limit properties,
+perhaps they need to be checked/verified as well
 
-[00:04.0] xen_pt_msix_init: Error: Can't open /dev/mem: Operation not permi=
-tted
-[00:04.0] xen_pt_msix_size_init: Error: Internal error: Invalid xen_pt_msix=
-_init.
-
-And the kernel reports this:
-
-Jan 27 16:20:53 narvi-sr860v2-bps-sles15sp4b2 kernel: Lockdown: qemu-system=
--i38: /dev/mem,kmem,port is restricted; see man kernel_lockdown.7
-
-So, it's related to lockdown. Which AFAIUI it's consistent with the
-fact that the problem only shows up when SecureBoot is enabled, as
-that's implies lockdown. It's also consistent with the fact that we
-don't seem to have any problems doing the same with a 5.3.x dom0
-kernel... As there's no lockdown there!
-
-Some digging revealed that QEMU tries to open /dev/mem in
-xen_pt_msix_init():
-
-    fd =3D open("/dev/mem", O_RDWR);
-    ...
-    msix->phys_iomem_base =3D
-            mmap(NULL,
-                 total_entries * PCI_MSIX_ENTRY_SIZE + msix->table_offset_a=
-djust,
-                 PROT_READ,
-                 MAP_SHARED | MAP_LOCKED,
-                 fd,
-                 msix->table_base + table_off - msix->table_offset_adjust);
-    close(fd);
-
-This comes from commit:
-
-commit 3854ca577dad92c4fe97b4a6ebce360e25407af7
-Author: Jiang Yunhong <yunhong.jiang@intel.com>
-Date:   Thu Jun 21 15:42:35 2012 +0000
-
-    Introduce Xen PCI Passthrough, MSI
-   =20
-    A more complete history can be found here:
-    git://xenbits.xensource.com/qemu-xen-unstable.git
-   =20
-    Signed-off-by: Jiang Yunhong <yunhong.jiang@intel.com>
-    Signed-off-by: Shan Haitao <haitao.shan@intel.com>
-    Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-    Acked-by: Stefano Stabellini <stefano.stabellini@eu.citrix.com>
-
-Now, the questions:
-- is this (i.e., PCI-Passthrough with a locked-down dom0 kernel)=C2=A0
-  working=C2=A0for=C2=A0anyone? I've Cc-ed Marek, because I think I've read=
- that=C2=A0
-  QubesOS that it does on QubesOS, but I'm not sure if the situation=C2=A0
-  is=C2=A0the=C2=A0same...
-- if it's working, how?
-
-Thanks and Regards
---=20
-Dario Faggioli, Ph.D
-http://about.me/dario.faggioli
-Virtualization Software Engineer
-SUSE Labs, SUSE https://www.suse.com/
--------------------------------------------------------------------
-<<This happens because _I_ choose it to happen!>> (Raistlin Majere)
-
---=-o0+UXT5YZwxmdHu4aySw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEES5ssOj3Vhr0WPnOLFkJ4iaW4c+4FAmIKbx0ACgkQFkJ4iaW4
-c+4xDQ/+Lh9dkdFd5qg1dtn5INAZFK+0azmUPs/RVBrl1hrLRNlWZ80BvgLBDBIc
-D8dhgC8m1ZW53XVLfETnlBWSut2EMNbwxMN2f8qL4PmrdCJiFcMVZcojzLTNfvqW
-5KMQeB0VN4Up8ul/Ad7ESpjMBcKKgahOg1YwkAr8F2oNbH1pIIYq+FAwu+mVAlD+
-WYsP/TfEkBbb0Pv8TxfJq/ai0AyNgVH0Ww/TfXRN6PGCg7LAWzIMtwDDaNy7JZk0
-HQFVG7Qdxr8IVzKULcb166eCh62y5HRXcRGLijGgUCny/yHuZpA7CIp+uzSwqAoU
-cBOttrh41TC8WdE7P6tMWWgWvqF+W5x+6EFpQKjxHOgT3ybYIvn5FvRxvP6Xa/TM
-Nf9bJPXP8q4EDAshzUGlAvnVigZflN3L4OjtqlXcEsWXo9bRCtLpJNac5Mp3jn9s
-pGL9r+y9hH8cvFeCvfoEecvu1kVnIeilyoiVSvO3Z6YRyAdci187tpTnOCa24ADr
-awq5vq1FpKLI7zpIlWJ++2oK5yxo6wfEuxo/WSNGM00w2a/mqjFaZpFJbkZjn0rf
-/CffPzmeDKnXR97Bcz1ghVCS5BsvVyuE6d3DbHa0uLvLIhR31uBsT/cw9edwEUTu
-HIt+nQxbd8cr58MHJeIn8VdAXH9TfDAGaqNW/x73JcEKIH6/ANI=
-=J9gk
------END PGP SIGNATURE-----
-
---=-o0+UXT5YZwxmdHu4aySw--
+>      x86ms->above_4g_mem_start = AMD_ABOVE_1TB_START;
+>  }
+>  
 
 
