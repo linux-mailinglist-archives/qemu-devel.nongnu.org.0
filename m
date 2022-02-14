@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4084D4B5A3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:50:27 +0100 (CET)
-Received: from localhost ([::1]:33606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DDB54B5A41
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:56:29 +0100 (CET)
+Received: from localhost ([::1]:40642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgQb-0000GP-UW
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:50:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40254)
+	id 1nJgWS-0005RT-6g
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:56:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg9H-00086m-Sm
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:31 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=33459
- helo=mail-pl1-x62c.google.com)
+ id 1nJg9N-0008HK-7N
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:38 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=43739
+ helo=mail-pj1-x1031.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg9D-0002b9-OJ
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:28 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id l9so9616205plg.0
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:32:26 -0800 (PST)
+ id 1nJg9K-0002c1-Pf
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:36 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ t14-20020a17090a3e4e00b001b8f6032d96so16670952pjm.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:32:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aNzApqEkzW+75FX1gSqkKeS+X5vqpG5E4mcrukO7clU=;
- b=kMV9OHx6GC9DgspqX9veMZb/3ZiRya07o+rW/ZrGIfmT0fT89XdOLPqk/r1CmyNEac
- kYLf1JlxNd1EuzxR/zH7TVmqlNe8mGdN/C2Hwfrkm+ofpkH98ycucFxmAASjE9vTkCUc
- GVPgdi3wl788npKtxKVoxOIOSfzVWZFYl5oV/FacXBUjcRSrS93nYegls/E84endS9/+
- d0mol55Cl9f7O/hv+pEi8BEMAq4TC3emauqo2N9YFmB09z9jPxe6vR0Is7JA3xzxRlno
- 3CHQbEzDeirQE6rLMEuIhqsDXozn2aic1F13Z8aRBKwEjWb5ncc9+8CoKyWkxJZAmvpc
- lxjw==
+ bh=fYBWsAd0Vw+iWZTweg8E9H7Amn45LT5MAw5LsRvoW5U=;
+ b=LwxL8ccYSehC8oc692MjxFbvHWi5Q34EVgRp54CdZKXspHGGrLuI+jxlbGlFmFqIj1
+ hjsyf/k3oWUfjAReOngGf5XWpE6JzdamMyGpEJaXEOTFrlwSm3EhNxtkBNII1cJA+P1d
+ ibaGLUdXmbVOO4qax69vGBLaceVZpXqM4tBBZ3om1iJn4JD824YS001YzGeR+whR2VEW
+ OmquQ+4YLCiNZECbaTwNGnTHoy6spAsXQjzGwEn9F5RK2IPL1MXVrcG12lpshQT6fwbD
+ 48sjJCVUHdK+3D0NmGn47d+6y/2ZXUZj2NwXEDina1xJoYMSgdqiBAzIGx8EhzJTCHUO
+ CMWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=aNzApqEkzW+75FX1gSqkKeS+X5vqpG5E4mcrukO7clU=;
- b=R+TtFaUoPrP+0HTQJq/lmksenfT4/QfoYZayauM54EmgvFoyuixBQGnEiCGSxEWnQ3
- R5XNeTIC5/MojTnwDL2N7Sy/KAX3XxNR1cVOfzGhsqdS759DmdjkIi0iPmizMp5tXyCS
- 4SXYX+pedptCDDFhRaFueKc1RZL2hggP5spaHKD/3+QIi/XB9+opG4TmDof6jFf16uoo
- RBxDroopElPIlnJyOUYkmTcDqxESuMtifB5EuqN3ZpHSwEJYJIrNhMN0beNZ5mzLNJtz
- pi64YWR4t0QB4wH08Sg6QETRnc1va0OmadOamLATyJuNkT5EaltxOfrwIXAgBdaZpOMc
- yCbA==
-X-Gm-Message-State: AOAM5336CREjmUiAJ8NnEFeMBGW9DuCsbBnoa++YvnOwFCeQ6t+SWUFN
- IHMk1r7SamtbL5jyFj39kAqvFoXPv30=
-X-Google-Smtp-Source: ABdhPJxhQSoXk2ktbV5YASNFgSurPKtPsEmEomc8I46HOx4pmLtEKZ3MFY0+9EfcHHMV/ZghFARJPw==
-X-Received: by 2002:a17:902:f291:: with SMTP id
- k17mr295058plc.45.1644863545037; 
- Mon, 14 Feb 2022 10:32:25 -0800 (PST)
+ bh=fYBWsAd0Vw+iWZTweg8E9H7Amn45LT5MAw5LsRvoW5U=;
+ b=GGrc3ekQL27nvgmT9b3Sp2oWBvHHi5NKWNDkAEAXLQcsoxuLoT6m7xArDSAluVngZ6
+ w+U6ORv28G7brk19luXBo/H2U8VX2twJoN67NY8bykK8aRCHMkmOsgXxISR6aip/Nt0s
+ vsUrnZtzcxp6ULY37hCEAcCJcFW38QRAG3cRUPEITkC0SU2CZSJ7jFE0Zae49ZC54Ykv
+ 4XdrRbN3CQGPXk14Hm9EFExOHsdJzKocTsU91xogkxTLRl9lJzRViqlpUOnMf+qtfv2V
+ /FAYTf8fWmZB6xZ01vdjyzkhyQuRI/czafQ3NiEDr+9BG8Jh8pNAs6R8z9anD3v1ZyFo
+ zFPA==
+X-Gm-Message-State: AOAM5331Syy9eDU4tWo6wJT2Mxs4Xf99dSLpMLQpecCFvsadTI39Mq+Y
+ l0cXUEpsd5HRojaTo6L++XdSSA87Kuc=
+X-Google-Smtp-Source: ABdhPJxzjRCEKhiRuf5M+M3H5bHGcmdJkBEZUkctzObfDEpSV6FwgMVbRjMKifpL5alBGrlo36dUOg==
+X-Received: by 2002:a17:902:b583:: with SMTP id a3mr287008pls.77.1644863553394; 
+ Mon, 14 Feb 2022 10:32:33 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id nu15sm5971005pjb.28.2022.02.14.10.32.22
+ by smtp.gmail.com with ESMTPSA id 16sm38110303pfl.99.2022.02.14.10.32.30
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:32:24 -0800 (PST)
+ Mon, 14 Feb 2022 10:32:33 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 04/14] exec/cpu_ldst: Include 'cpu.h' to get target_ulong
- definition
-Date: Mon, 14 Feb 2022 19:31:34 +0100
-Message-Id: <20220214183144.27402-5-f4bug@amsat.org>
+Subject: [PATCH v2 05/14] cpu: Add missing 'exec/exec-all.h' and
+ 'qemu/accel.h' headers
+Date: Mon, 14 Feb 2022 19:31:35 +0100
+Message-Id: <20220214183144.27402-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220214183144.27402-1-f4bug@amsat.org>
 References: <20220214183144.27402-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -99,24 +99,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
+cpu.c requires "exec/exec-all.h" to call tlb_flush() and
+"qemu/accel.h" to call accel_cpu_realizefn().
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/exec/cpu_ldst.h | 1 +
- 1 file changed, 1 insertion(+)
+ cpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index da987fe8ad..6adacf8928 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -64,6 +64,7 @@
+diff --git a/cpu.c b/cpu.c
+index d5d4cbf8cb..d564886149 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -35,10 +35,12 @@
+ #include "sysemu/tcg.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/replay.h"
++#include "exec/exec-all.h"
+ #include "exec/translate-all.h"
+ #include "exec/log.h"
+ #include "hw/core/accel-cpu.h"
+ #include "trace/trace-root.h"
++#include "qemu/accel.h"
  
- #include "exec/memopidx.h"
- #include "qemu/int128.h"
-+#include "cpu.h"
- 
- #if defined(CONFIG_USER_ONLY)
- /* sparc32plus has 64bit long but 32bit space address
+ uintptr_t qemu_host_page_size;
+ intptr_t qemu_host_page_mask;
 -- 
 2.34.1
 
