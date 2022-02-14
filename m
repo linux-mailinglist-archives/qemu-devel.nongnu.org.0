@@ -2,73 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7FF4B522E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 14:53:43 +0100 (CET)
-Received: from localhost ([::1]:47390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5E14B5284
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 14:59:00 +0100 (CET)
+Received: from localhost ([::1]:56290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJbnS-0004vs-P7
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 08:53:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57228)
+	id 1nJbsY-0002fu-MY
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 08:58:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nJb89-0000ek-Fg
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:11:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23751)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nJbBf-00044l-PQ; Mon, 14 Feb 2022 08:14:39 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16582
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nJb87-0001sF-9r
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:11:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644844258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XjMyxa2leq9VT5T10oj/ie4UeqIsbShLHXvIkCHkzyc=;
- b=gnijqVtp1I9sSYjMW0mL8LRYCz0d1wIzCeM9nl2bVJjZpKaWMGhAvOdfe23XX14Pd6PrQH
- S4aSAJJ8Wraoc5082LsdVPgvHP2eUIzqRmt8fiLdMhgvijKY3CfBvlAKLEOeXfrxPIJF42
- 828Q2/1G5AYlmGULXaxGm5B4skXz6F8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-25-QXDzjZNVMaesaVyE6j8PSw-1; Mon, 14 Feb 2022 08:10:55 -0500
-X-MC-Unique: QXDzjZNVMaesaVyE6j8PSw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35FC21091DA0;
- Mon, 14 Feb 2022 13:10:54 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 87ACA70D5A;
- Mon, 14 Feb 2022 13:10:44 +0000 (UTC)
-Date: Mon, 14 Feb 2022 13:10:43 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [RFC] thread-pool: Add option to fix the pool size
-Message-ID: <YgpU082hsgXjxOye@stefanha-x1.localdomain>
-References: <20220202175234.656711-1-nsaenzju@redhat.com>
- <Yfu0E5LwZ/x0EZrl@stefanha-x1.localdomain>
- <Yfu08bAJKnRC3eFD@redhat.com>
- <Yfvkf1cBPGc4TR49@stefanha-x1.localdomain>
- <YgZJaTtoHN8hzrvk@redhat.com>
- <YgoqdtB9I3HrB1su@stefanha-x1.localdomain>
- <Ygo/LimCnA7BDshE@redhat.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nJbBP-0002NK-Qy; Mon, 14 Feb 2022 08:14:36 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21EBlTJW008081; 
+ Mon, 14 Feb 2022 13:14:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=tpH+4kA8ExNiqYaES5bqHAN4DrOVA8peMg82J9RHxBk=;
+ b=PmAamj6XFzTYqNLaM2dcjeJGxj+LYWf2z0jHox0t8pXcaFr0eN0r1bbBfgFpLFQzjfd2
+ vmVWamq8f0IUDbXXKh2XZULxpe4PrhU/YIqjtgjZnaKVRU4F23c6Jorl5fnAAtbdvf4G
+ 0Keq6kEi7ng2IPCHK4PPJfc8WXPWfEakLlorlKNlpwilQG9Rf1bIayBDBL0J51HsCYER
+ lPGUDHEKjyWEsbXwtbdWL3Ruvii6ki7HzL7QESby8pzOch3YhhE8E3ehQ7+S5wjZ2Hbq
+ BXa0ZPDvniK8/ZMy8sFOxd8cpp88G9+Hrw+kGO4KKrIwaL6pN2GCIP4HJwiy7wDBq7Yr ZQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e7d0jnm6t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Feb 2022 13:14:03 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21ECNUAt001404;
+ Mon, 14 Feb 2022 13:14:03 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e7d0jnm6h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Feb 2022 13:14:03 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21EDDj7Z022891;
+ Mon, 14 Feb 2022 13:14:02 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma01dal.us.ibm.com with ESMTP id 3e64haybxc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Feb 2022 13:14:02 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21EDDxuo31785238
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Feb 2022 13:13:59 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8291778068;
+ Mon, 14 Feb 2022 13:13:59 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B7A2E78060;
+ Mon, 14 Feb 2022 13:13:58 +0000 (GMT)
+Received: from localhost (unknown [9.211.47.159])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Mon, 14 Feb 2022 13:13:58 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+Subject: Re: [PATCH 2/2] target/ppc/kvm: Use KVM_CAP_PPC_AIL_MODE_3 to
+ determine cap-ail-mode-3 support
+In-Reply-To: <20220214111749.1542196-2-npiggin@gmail.com>
+References: <20220214111749.1542196-1-npiggin@gmail.com>
+ <20220214111749.1542196-2-npiggin@gmail.com>
+Date: Mon, 14 Feb 2022 10:13:56 -0300
+Message-ID: <87sfsllhez.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="O6PTXZDRfOZSx34e"
-Content-Disposition: inline
-In-Reply-To: <Ygo/LimCnA7BDshE@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: UdCywbvQ2dj_PcL6WO_A6fEnNtq_5Q6E
+X-Proofpoint-GUID: _kOCLnNDPEZm3RKvQlfmj3AIKB1FFEYe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-14_06,2022-02-14_03,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ malwarescore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=999
+ adultscore=0 spamscore=0 clxscore=1015 bulkscore=0 priorityscore=1501
+ mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202140074
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,106 +109,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, mtosatti@redhat.com, qemu-devel@nongnu.org,
- hreitz@redhat.com, pbonzini@redhat.com,
- Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Cc: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Nicholas Piggin <npiggin@gmail.com> writes:
 
---O6PTXZDRfOZSx34e
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Use KVM_CAP_PPC_AIL_MODE_3 to determine cap-ail-mode-3 support for KVM
+> guests. Keep the fallback heuristic for KVM hosts that pre-date this
+> CAP.
+>
+> This is only proposed the KVM CAP has not yet been allocated. I will
+> ask to merge the new KVM cap when there are no objections on the QEMU
+> side.
+>
+> not-yet-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> ---
+>  hw/ppc/spapr_caps.c       |  2 +-
+>  linux-headers/linux/kvm.h |  1 +
+>  target/ppc/kvm.c          | 18 +++++++++++++++++-
+>  target/ppc/kvm_ppc.h      |  4 ++--
+>  4 files changed, 21 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 5fd4a53c33..5cc80776d0 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -619,7 +619,7 @@ static void cap_ail_mode_3_apply(SpaprMachineState *spapr,
+>      ERRP_GUARD();
+>  
+>      if (kvm_enabled()) {
+> -        if (!kvmppc_supports_ail_3()) {
+> +        if (!kvmppc_has_cap_ail_3()) {
+>              error_setg(errp, "KVM implementation does not support cap-ail-mode-3");
+>              error_append_hint(errp, "Try appending -machine cap-ail-mode-3=off\n");
+>              return;
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index 02c5e7b7bb..d91f578200 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -1130,6 +1130,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_BINARY_STATS_FD 203
+>  #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
+>  #define KVM_CAP_ARM_MTE 205
+> +#define KVM_CAP_PPC_AIL_MODE_3 210
+>  
+>  #ifdef KVM_CAP_IRQ_ROUTING
+>  
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 128bc530d4..d0d0bdaac4 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -90,6 +90,7 @@ static int cap_ppc_nested_kvm_hv;
+>  static int cap_large_decr;
+>  static int cap_fwnmi;
+>  static int cap_rpt_invalidate;
+> +static int cap_ail_mode_3;
+>  
+>  static uint32_t debug_inst_opcode;
+>  
+> @@ -154,6 +155,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>      }
+>  
+>      cap_rpt_invalidate = kvm_vm_check_extension(s, KVM_CAP_PPC_RPT_INVALIDATE);
+> +    cap_ail_mode_3 = kvm_vm_check_extension(s, KVM_CAP_PPC_AIL_MODE_3);
+>      kvm_ppc_register_host_cpu_type();
+>  
+>      return 0;
+> @@ -2563,10 +2565,24 @@ int kvmppc_has_cap_rpt_invalidate(void)
+>      return cap_rpt_invalidate;
+>  }
+>  
+> -int kvmppc_supports_ail_3(void)
+> +int kvmppc_has_cap_ail_3(void)
+>  {
+>      PowerPCCPUClass *pcc = kvm_ppc_get_host_cpu_class();
+>  
+> +    if (cap_ail_mode_3) {
+> +        return 1;
+> +    }
+> +
+> +    if (kvm_ioctl(kvm_state, KVM_CHECK_EXTENSION, KVM_CAP_PPC_AIL_MODE_3) == 0) {
+> +        return 0;
+> +    }
 
-On Mon, Feb 14, 2022 at 12:38:22PM +0100, Kevin Wolf wrote:
-> Am 14.02.2022 um 11:09 hat Stefan Hajnoczi geschrieben:
-> > On Fri, Feb 11, 2022 at 12:32:57PM +0100, Kevin Wolf wrote:
-> > > Am 03.02.2022 um 15:19 hat Stefan Hajnoczi geschrieben:
-> > > > On Thu, Feb 03, 2022 at 10:56:49AM +0000, Daniel P. Berrang=E9 wrot=
-e:
-> > > > > On Thu, Feb 03, 2022 at 10:53:07AM +0000, Stefan Hajnoczi wrote:
-> > > > > > On Wed, Feb 02, 2022 at 06:52:34PM +0100, Nicolas Saenz Julienn=
-e wrote:
-> > > > 1. A global default value that all new AioContext take. The QEMU ma=
-in
-> > > >    loop's qemu_aio_context will use this and all IOThread AioContext
-> > > >    will use it (unless they have been overridden).
-> > > >=20
-> > > >    I would define it on --machine because that's the "global" objec=
-t for
-> > > >    a guest, but that's not very satisfying.
-> > >=20
-> > > Semantically, -machine is about the virtual hardware where as iothrea=
-ds
-> > > are about the backend, so I agree it's not a good fit.
-> > >=20
-> > > For the main thread, you may want to configure all the same options t=
-hat
-> > > you can configure for an iothread. So to me that sounds like we would
-> > > want to allow using an iothread object for the main thread, too.
-> > >=20
-> > > That would still require us to tell QEMU which iothread object should=
- be
-> > > used for the main thread, though.
-> >=20
-> > Making the main loop thread an IOThread is an interesting direction but
-> > not an easy change to make.
-> >=20
-> > The main loop thread has a custom event loop that is not interchangeable
-> > with the IOThread event loop:
-> > - The main loop has a poll notifier interface for libslirp fd monitoring
-> >   integration.
-> > - The main loop is a GLib event loop but manually polls to get
-> >   nanosecond resolution timers.
-> > - The main loop has icount integration.
-> > - The main loop has the special iohandler AioContext
-> >=20
-> > The IOThread event loop runs an optimized AioContext event loop instead.
-> > It falls back to regular g_main_loop_run() if there is a GSource user.
-> >=20
-> > It would definitely be nice to unify the main loop with IOThread and
-> > then use --object iothread,... to configure main loop parameters.
-> >=20
-> > I'm not sure if requiring that of Nicolas is fair though. The event
-> > loops in QEMU are complex and changes are likely to introduce subtle
-> > bugs or performance regressions.
->=20
-> I'm not suggesting actually running the iothread event loop instead,
-> merely using the properties of an object to configure the main thread as
-> the external user interface.
-> Whether this uses the same main loop code as today or is moved to the
-> regular iothread event loop is an implementation detail that can be
-> changed later.
->=20
-> Or we could maybe use a different object type like 'mainthread' and
-> share the properties using QOM inheritance.
+This is not needed here it seems.
 
-That seems cleaner than trying faking an IOThread to me since I don't
-see a concrete plan to unify the two event loops.
-
-The main loop code is in util/main-loop.c. Maybe call it --object
-main-loop? Attempting to instantiate more than one main-loop object
-should fail.
-
-Stefan
-
---O6PTXZDRfOZSx34e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIKVNMACgkQnKSrs4Gr
-c8jNPAgAjnH0DyjVawfoh9YKwwktNo7298UkLXZiUho7qR50Jop0nelfcwraxdxx
-BvQLvzfQ+SGv2YLygyNm1+VpCHrL8/LyFmzetURC0AWikcdXE8qeXYQ0Z8fQP0OO
-y63q7oZgUlrczpp8d+ZoIVokXJqHR6cyCASSyLnwkEy+vtEXkGmIaUi0aqIJywHJ
-wlrmDJfpHUAD55zrO9h8dm5YQckFKf+xahR0IxVafghi3Yz2uKkjiJElTX1OlSgI
-pQMiVI6HV84wwgAmesbeO93XCJFeZ+vDYGjOshPe01Z4Qmpim7Db9fv6JgiQNiWz
-pvYWtYQqRNQsycI4DZhT+IbPWLOZNw==
-=/hcg
------END PGP SIGNATURE-----
-
---O6PTXZDRfOZSx34e--
-
+> +
+> +    /*
+> +     * For KVM hosts that pre-date this cap, special-case the test because
+> +     * the performance cost for disabling the feature unconditionally is
+> +     * prohibitive.
+> +     */
+> +
+>      /*
+>       * KVM PR only supports AIL-0
+>       */
+> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> index d9d1c54955..efafa67b83 100644
+> --- a/target/ppc/kvm_ppc.h
+> +++ b/target/ppc/kvm_ppc.h
+> @@ -73,7 +73,7 @@ int kvmppc_set_cap_nested_kvm_hv(int enable);
+>  int kvmppc_get_cap_large_decr(void);
+>  int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
+>  int kvmppc_has_cap_rpt_invalidate(void);
+> -int kvmppc_supports_ail_3(void);
+> +int kvmppc_has_cap_ail_3(void);
+>  int kvmppc_enable_hwrng(void);
+>  int kvmppc_put_books_sregs(PowerPCCPU *cpu);
+>  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
+> @@ -394,7 +394,7 @@ static inline int kvmppc_has_cap_rpt_invalidate(void)
+>      return false;
+>  }
+>  
+> -static inline int kvmppc_supports_ail_3(void)
+> +static inline int kvmppc_has_cap_ail_3(void)
+>  {
+>      return false;
+>  }
 
