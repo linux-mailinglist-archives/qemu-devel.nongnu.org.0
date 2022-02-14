@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB024B5452
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:16:12 +0100 (CET)
-Received: from localhost ([::1]:41718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135AE4B5562
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:54:39 +0100 (CET)
+Received: from localhost ([::1]:37968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJd5H-00052x-Fh
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:16:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53420)
+	id 1nJdgU-0001le-6P
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:54:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nJcaz-0000oH-U7
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:44:56 -0500
-Received: from mga18.intel.com ([134.134.136.126]:30012)
+ id 1nJcc7-0001Nc-R7
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:46:05 -0500
+Received: from mga07.intel.com ([134.134.136.100]:49211)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nJcaw-0002a0-Ek
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:44:53 -0500
+ id 1nJcc2-00032U-Ts
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:46:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1644849890; x=1676385890;
+ t=1644849959; x=1676385959;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=b6enna1CGmcskeKJ3rJtDcnqF28Vym9nEbJa2yqEgD0=;
- b=MC/lGwGxte299ScqBiWKi7qmF9oetePOB6b8gMrS7SQwEg5f6eVdiIxs
- iGeR5gzGIdrmPL3hi57MyDHgIQS7DM4ZtIqj4z76fkidG40NJ/YL+9Ktx
- QtbNLPWA9JhoKRjjlkjCmCoc9BPrky5Mc3S0D+xLdOhN2LKN3ZTajWsFY
- SQEDyYV6V/nGTRzay6DxOpG38D7yH6X2+N3GHwHFDfw6/wznC1+4wrVTJ
- gbEEmvojjNxPc1Ek8LEYRWd/70uuptWu8HnoHRIWC2iDiTKzeCY3TdT8s
- o5GmwD60SoTcIzKZgp+Ql5U7UD4zyar5kYsZzRyinjRme6Ek/sB148vHL w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="233649416"
-X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="233649416"
+ bh=rKIalvL37eSEIbZqBJ+m6HLUZJT6wzOwp1CDnCSCPUI=;
+ b=mSf0eYfRMfcpiBMgbb44plqpj6QX+24b6MW42znYobjjFzBw/HaPcGwI
+ Qsqj0g0sdkAaqi1AGTmoYxK8Q3p64bQW+1GndfrUk+7SSPNm1G6OBuToG
+ bZh41nz/gQNVP3rThFN74THImEYuPT4A5/0YDTqtVyq/7y/WuSu9OHJ6q
+ Au0VIt9X5pbc+z3+gC1kZHILSamrqO1QN+MDK2sFDcFD8svWa9DgQI7Gv
+ JYDZnirRWC4mJOJvQDpRMNzsiQjKwBjtBR4G5xx78ZMdrAoN5zWlgs+9d
+ 1xUZGKLJ7Yk2bF54FXPYYJjDuzfnvy4KRGI9d0s5VvN8piMFehMQ29Jip w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="313379029"
+X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="313379029"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 06:44:46 -0800
-X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="528212754"
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2022 06:45:43 -0800
+X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; d="scan'208";a="528213124"
 Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.255.31.126])
  ([10.255.31.126])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2022 06:44:45 -0800
-Message-ID: <59095b07-ae17-48d0-8650-fa0207a08a29@intel.com>
-Date: Mon, 14 Feb 2022 22:44:43 +0800
+ 14 Feb 2022 06:45:33 -0800
+Message-ID: <636186c2-941e-bf15-6f32-642d2d04bb74@intel.com>
+Date: Mon, 14 Feb 2022 22:45:32 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.5.1
-Subject: Re: [PATCH] trace: Split address space and slot id in
- trace_kvm_set_user_memory()
+Subject: Re: [PATCH v1 0/2] i386: Make PIT and PIC the property of common x86
+ base machine type
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <20220104023540.1433331-1-xiaoyao.li@intel.com>
+To: Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220111073528.1771552-1-xiaoyao.li@intel.com>
 From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220104023540.1433331-1-xiaoyao.li@intel.com>
+In-Reply-To: <20220111073528.1771552-1-xiaoyao.li@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=xiaoyao.li@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=xiaoyao.li@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  HK_RANDOM_ENVFROM=1, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,46 +84,29 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kindly ping.
+ping.
 
-On 1/4/2022 10:35 AM, Xiaoyao Li wrote:
-> The upper 16 bits of kvm_userspace_memory_region::slot are
-> address space id. Parse it separately in trace_kvm_set_user_memory().
+On 1/11/2022 3:35 PM, Xiaoyao Li wrote:
+> For PIT, it's straightforward to merge microvm::pit and
+> pc_machine::pit_enabled into x86ms::pit
 > 
-> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> ---
->   accel/kvm/kvm-all.c    | 5 +++--
->   accel/kvm/trace-events | 2 +-
->   2 files changed, 4 insertions(+), 3 deletions(-)
+> For PIC, move microvm::pic to x86ms:pic, which gives PC machine the
+> ability to dis-/en-able PIC and it's the preparation for future TDX
+> support.
 > 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index 0e66ebb49717..6b9fd943494b 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -379,8 +379,9 @@ static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, boo
->       ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
->       slot->old_flags = mem.flags;
->   err:
-> -    trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
-> -                              mem.memory_size, mem.userspace_addr, ret);
-> +    trace_kvm_set_user_memory(mem.slot >> 16, (uint16_t)mem.slot, mem.flags,
-> +                              mem.guest_phys_addr, mem.memory_size,
-> +                              mem.userspace_addr, ret);
->       if (ret < 0) {
->           error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
->                        " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
-> diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
-> index 399aaeb0ec75..14ebfa1b991c 100644
-> --- a/accel/kvm/trace-events
-> +++ b/accel/kvm/trace-events
-> @@ -15,7 +15,7 @@ kvm_irqchip_update_msi_route(int virq) "Updating MSI route virq=%d"
->   kvm_irqchip_release_virq(int virq) "virq %d"
->   kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%" PRIx64 " val=0x%x assign: %d size: %d match: %d"
->   kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%x val=0x%x assign: %d size: %d match: %d"
-> -kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
-> +kvm_set_user_memory(uint16_t as, uint16_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "AddrSpace#%d Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
->   kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"PRId32" start 0x%"PRIx64" size 0x%"PRIx32
->   kvm_resample_fd_notify(int gsi) "gsi %d"
->   kvm_dirty_ring_full(int id) "vcpu %d"
+> Xiaoyao Li (2):
+>    hw/i386: Make pit a property of common x86 base machine type
+>    hw/i386: Make pic a property of common x86 base machine type
+> 
+>   hw/i386/microvm.c         | 54 ++-------------------------------------
+>   hw/i386/pc.c              | 24 +++--------------
+>   hw/i386/pc_piix.c         |  4 ++-
+>   hw/i386/pc_q35.c          |  4 ++-
+>   hw/i386/x86.c             | 50 ++++++++++++++++++++++++++++++++++++
+>   include/hw/i386/microvm.h |  4 ---
+>   include/hw/i386/pc.h      |  2 --
+>   include/hw/i386/x86.h     |  4 +++
+>   8 files changed, 65 insertions(+), 81 deletions(-)
+> 
 
 
