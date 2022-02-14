@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 025E54B5A00
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:36:04 +0100 (CET)
-Received: from localhost ([::1]:51652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24AE4B5A32
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:47:46 +0100 (CET)
+Received: from localhost ([::1]:60326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgCg-0001IB-JH
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:36:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40042)
+	id 1nJgO1-0007bS-2t
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:47:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg8g-000781-GC
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:31:54 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=45957
- helo=mail-pf1-x42d.google.com)
+ id 1nJg8o-0007Oi-BV
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:02 -0500
+Received: from [2607:f8b0:4864:20::631] (port=44971
+ helo=mail-pl1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg8e-0002Wp-K5
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:31:54 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id p10so10063540pfo.12
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:31:52 -0800 (PST)
+ id 1nJg8m-0002Xo-N5
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:01 -0500
+Received: by mail-pl1-x631.google.com with SMTP id y18so11201611plb.11
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:32:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+4xj+MlI8zGDNVRed5Q9OOMgGp7L5eqIeyqcmelIMpA=;
- b=hKtANDbVFAyamZ2Gga3IzG/fLYLTdwMpfjXgys+3kmMpZtWHiobqTeIk85qyh/xyG5
- yoOxy0ghkWylo0t8JwrCrE6MtBW1/YERx69xC+PQqs186FNIbn9U/b4acELZiqGDRVmj
- HMMMG0CHX032oaY9lrg7HxbCOEuA5S9ppcSxavwLG2SoaYc5mWE1cEnj7JtY1UWslAXZ
- GghIl1VwSU3PxUu4ZhKRrNpYjLay9l44LswJYuIZp60Y/HaZ+XVLx29ZiLSEk0PmqItN
- deW+1PkbVtR+X23lr5qtkyaZxFPJ7+FRwDn+yk7azHvt5r/5fbnzTdZiM2tZFtqTQJ6X
- VYwQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TE0drlB6/eltvA1kfU2gkRbJ1jChXTeQTSUe7QJMmf4=;
+ b=Q0EehcpG55lh8lCuIGhyGQgqyumM8EqYc1w0/fH8//hez6affkzULU6T2C4yWTYzQw
+ CcNGelEOsFSuJQXlZ0oYVrXv96LP4bq3iDsd/qXspv1MJIewCcOrBaFfx8lEijMgDd0Y
+ 4PDeOaGj7FBsV0m8/dfO4JVcsWRvEUkuUQH+rI5F2aGKldiyR7PTbdfBedcwu/9ppg6n
+ w2TYEhy4ldUcJh5XNeXv17l5BRjsmtSYmtHOdmMsFhTZ3H+tgFjIKmtInabmpI/+LhFe
+ TvSMNMVEgLIPvfZYK4EF+tkToJIyO+Lhj/CdC7KGPJaV9YbU4OCbePvfhdktBP2qOnD2
+ 00oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=+4xj+MlI8zGDNVRed5Q9OOMgGp7L5eqIeyqcmelIMpA=;
- b=BmS7puX5kZQItX1L3+CoMrJUqqwOF8USssxbyzCuL77jiH2R6IS+neJV1zwqksGezs
- gpIYAnc86V70blK/FMJnN9f1WJWHOg5V6PvGSRXFzTwrVUAzAqdKFLUcA5o13D9DhFq/
- GOUzpKEngG8UQCFIT/DQEwQsKBq9+C9RIx/OiMTBGxesn3G1pwBQVB7GVDsHQ8ubBiVu
- aLRdgP4DseZXBtTL9UtHnQfmvlHYVGaV9pay6rbd2gvkn+Y0yK969GavcMZJf35Z7BX3
- 27tT5YgmG0rT5B2FW5SrwPXl2mewk3OztzAAVjcy4+F8E81R+nS8XbCLEC6IhuyQp8Pe
- IYRA==
-X-Gm-Message-State: AOAM5308D7GRkokvgma3n+lLnsggW+yy00KXbwaaY7u9pyNvejWbl4qC
- 8jUvzaCTYWn4LG8FKWG46UuVkq7BCiE=
-X-Google-Smtp-Source: ABdhPJwe4FR92wkKt11vWQDg7ULr0j1RIbmeNRiSDXWqJTkvAbyHLObXqt6Cyq0ZPebDUYE9zSG4QQ==
-X-Received: by 2002:a63:1f19:: with SMTP id f25mr277446pgf.324.1644863510857; 
- Mon, 14 Feb 2022 10:31:50 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=TE0drlB6/eltvA1kfU2gkRbJ1jChXTeQTSUe7QJMmf4=;
+ b=nmmsRI21qWETc57oc23WNeyN/5iG2Pv4gaYddhvgXorbmrdYn+wQ9gb2RTnR/mxB9f
+ MkgIvrEnPoTsiX8qew2Z8tIZfnbhow+CiJoYhrcm761JppBzbj6cDrFi1G6QVM6fB1iI
+ WwjOD6JvQGuambb0Yf+YxQV9T09GdWHlovWF8V7bb8Fu8MAo37IZeuirG1564kRVsz8G
+ 9suNOORUDNRS0cllie1zNl+6pz8yKHrltcvK8imEZC4XdLOBGkzBweU9749NSKSO36Rc
+ 7ppCTSVF9IE5d2usdxtdqi71ofpo2zgEJyoZWjIn+cpSyfoBzLt2uruwe4uS6J++Z19y
+ q+CQ==
+X-Gm-Message-State: AOAM531DjTNlXMRXk7cSuG8j35/9YeDTwFXV1haPZYM7EEkQvrxgfjG7
+ I1OjjIRGazpWE+kKgtMMgnF6kUCUlQI=
+X-Google-Smtp-Source: ABdhPJxZaREpKSYVAtJBXp6UKVL+dB2rdHFHHGMAxPaIiMnEkisevFRZPQNLPcVVxexCG/yi+N/gHw==
+X-Received: by 2002:a17:90a:c7d2:: with SMTP id
+ gf18mr1072124pjb.189.1644863519213; 
+ Mon, 14 Feb 2022 10:31:59 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id p2sm25137941pfo.125.2022.02.14.10.31.48
+ by smtp.gmail.com with ESMTPSA id j8sm39227191pfc.48.2022.02.14.10.31.56
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:31:50 -0800 (PST)
+ Mon, 14 Feb 2022 10:31:58 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 00/14] target: Use ArchCPU & CPUArchState as abstract
- interface to target CPU
-Date: Mon, 14 Feb 2022 19:31:30 +0100
-Message-Id: <20220214183144.27402-1-f4bug@amsat.org>
+Subject: [PATCH v2 01/14] meson: Display libfdt as disabled when system
+ emulation is disabled
+Date: Mon, 14 Feb 2022 19:31:31 +0100
+Message-Id: <20220214183144.27402-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220214183144.27402-1-f4bug@amsat.org>
+References: <20220214183144.27402-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -96,93 +99,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Missing review: 10, 13, 14
+When configuring QEMU with --disable-system, meson keeps showing
+libfdt as "auto". Mark it as disabled instead.
 
-Since v1:
-- Include Hexagon OBJECT_DECLARE_TYPE() patch
-- Add missing includes to Hexagon
-- Introduce OBJECT_DECLARE_CPU_TYPE() macro
-- Use OBJECT_DECLARE_CPU_TYPE()
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ meson.build | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Kind of respin of the "exec: Move translation declarations to
-'translate-all.h'" series, but without modifying translate-all.h :)
-(same same but different).
-
-Based-on: <20220207082756.82600-1-f4bug@amsat.org>
-"exec: Remove 'qemu/log.h' from 'exec-all.h'"
-
-Philippe Mathieu-Daudé (13):
-  meson: Display libfdt as disabled when system emulation is disabled
-  hw/m68k/mcf: Add missing 'exec/hwaddr.h' header
-  hw/tricore: Remove unused and incorrect header
-  exec/cpu_ldst: Include 'cpu.h' to get target_ulong definition
-  cpu: Add missing 'exec/exec-all.h' and 'qemu/accel.h' headers
-  target/i386/cpu: Ensure accelerators set CPU addressble physical bits
-  target/i386/tcg/sysemu: Include missing 'exec/exec-all.h' header
-  target: Include missing 'cpu.h'
-  target/hexagon: Add missing 'hw/core/cpu.h' include
-  target: Use forward declared type instead of structure type
-  target: Use CPUArchState as interface to target-specific CPU state
-  target: Introduce and use OBJECT_DECLARE_CPU_TYPE() macro
-  target: Use ArchCPU as interface to target CPU
-
-Taylor Simpson (1):
-  Hexagon (target/hexagon) convert to OBJECT_DECLARE_TYPE
-
- cpu.c                                |  2 ++
- include/exec/cpu_ldst.h              |  1 +
- include/exec/poison.h                |  2 --
- include/hw/core/cpu.h                | 20 +++++++++++++++++++-
- include/hw/m68k/mcf.h                |  1 +
- include/hw/tricore/triboard.h        |  1 -
- include/qemu/typedefs.h              |  2 ++
- meson.build                          |  4 +++-
- target/alpha/cpu-qom.h               |  3 +--
- target/alpha/cpu.h                   | 11 +++--------
- target/arm/cpu-qom.h                 |  3 +--
- target/arm/cpu.h                     |  7 ++-----
- target/arm/hvf_arm.h                 |  2 +-
- target/avr/cpu-qom.h                 |  3 +--
- target/avr/cpu.h                     | 13 ++++---------
- target/cris/cpu-qom.h                |  3 +--
- target/cris/cpu.h                    |  7 ++-----
- target/hexagon/cpu.h                 | 23 ++++++++---------------
- target/hppa/cpu-qom.h                |  3 +--
- target/hppa/cpu.h                    | 12 +++---------
- target/i386/cpu-qom.h                |  3 +--
- target/i386/cpu.c                    |  1 +
- target/i386/cpu.h                    |  7 ++-----
- target/i386/tcg/sysemu/excp_helper.c |  1 +
- target/i386/tcg/sysemu/misc_helper.c |  1 +
- target/m68k/cpu-qom.h                |  3 +--
- target/m68k/cpu.h                    |  7 ++-----
- target/microblaze/cpu-qom.h          |  3 +--
- target/microblaze/cpu.h              |  9 +++------
- target/microblaze/mmu.h              |  2 ++
- target/mips/cpu-qom.h                |  3 +--
- target/mips/cpu.h                    | 10 +++-------
- target/mips/internal.h               | 15 ++++++++-------
- target/nios2/cpu.h                   |  9 ++++-----
- target/nios2/mmu.h                   |  2 ++
- target/openrisc/cpu.h                | 17 +++++------------
- target/ppc/cpu-qom.h                 |  5 ++---
- target/ppc/cpu.h                     |  7 ++-----
- target/riscv/cpu.h                   | 11 ++++-------
- target/riscv/pmp.h                   |  2 ++
- target/rx/cpu-qom.h                  |  5 +----
- target/rx/cpu.h                      |  6 ++----
- target/s390x/cpu-qom.h               |  7 +++----
- target/s390x/cpu.h                   |  7 ++-----
- target/sh4/cpu-qom.h                 |  3 +--
- target/sh4/cpu.h                     |  7 ++-----
- target/sparc/cpu-qom.h               |  3 +--
- target/sparc/cpu.h                   |  9 +++------
- target/tricore/cpu-qom.h             |  3 +--
- target/tricore/cpu.h                 | 10 +++-------
- target/xtensa/cpu-qom.h              |  3 +--
- target/xtensa/cpu.h                  | 13 +++++--------
- 52 files changed, 129 insertions(+), 188 deletions(-)
-
+diff --git a/meson.build b/meson.build
+index df25e7a5e7..9460875693 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2266,8 +2266,8 @@ if get_option('cfi') and slirp_opt == 'system'
+ endif
+ 
+ fdt = not_found
+-fdt_opt = get_option('fdt')
+ if have_system
++  fdt_opt = get_option('fdt')
+   if fdt_opt in ['enabled', 'auto', 'system']
+     have_internal = fs.exists(meson.current_source_dir() / 'dtc/libfdt/Makefile.libfdt')
+     fdt = cc.find_library('fdt', kwargs: static_kwargs,
+@@ -2310,6 +2310,8 @@ if have_system
+     fdt = declare_dependency(link_with: libfdt,
+                              include_directories: fdt_inc)
+   endif
++else
++  fdt_opt = 'disabled'
+ endif
+ if not fdt.found() and fdt_required.length() > 0
+   error('fdt not available but required by targets ' + ', '.join(fdt_required))
 -- 
 2.34.1
 
