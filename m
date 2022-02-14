@@ -2,101 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5E14B5284
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 14:59:00 +0100 (CET)
-Received: from localhost ([::1]:56290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BE74B51B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 14:35:20 +0100 (CET)
+Received: from localhost ([::1]:48234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJbsY-0002fu-MY
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 08:58:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58208)
+	id 1nJbVe-0001od-Rj
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 08:35:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nJbBf-00044l-PQ; Mon, 14 Feb 2022 08:14:39 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16582
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nJbBP-0002NK-Qy; Mon, 14 Feb 2022 08:14:36 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21EBlTJW008081; 
- Mon, 14 Feb 2022 13:14:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=tpH+4kA8ExNiqYaES5bqHAN4DrOVA8peMg82J9RHxBk=;
- b=PmAamj6XFzTYqNLaM2dcjeJGxj+LYWf2z0jHox0t8pXcaFr0eN0r1bbBfgFpLFQzjfd2
- vmVWamq8f0IUDbXXKh2XZULxpe4PrhU/YIqjtgjZnaKVRU4F23c6Jorl5fnAAtbdvf4G
- 0Keq6kEi7ng2IPCHK4PPJfc8WXPWfEakLlorlKNlpwilQG9Rf1bIayBDBL0J51HsCYER
- lPGUDHEKjyWEsbXwtbdWL3Ruvii6ki7HzL7QESby8pzOch3YhhE8E3ehQ7+S5wjZ2Hbq
- BXa0ZPDvniK8/ZMy8sFOxd8cpp88G9+Hrw+kGO4KKrIwaL6pN2GCIP4HJwiy7wDBq7Yr ZQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e7d0jnm6t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 13:14:03 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21ECNUAt001404;
- Mon, 14 Feb 2022 13:14:03 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e7d0jnm6h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 13:14:03 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21EDDj7Z022891;
- Mon, 14 Feb 2022 13:14:02 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma01dal.us.ibm.com with ESMTP id 3e64haybxc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 13:14:02 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21EDDxuo31785238
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Feb 2022 13:13:59 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8291778068;
- Mon, 14 Feb 2022 13:13:59 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B7A2E78060;
- Mon, 14 Feb 2022 13:13:58 +0000 (GMT)
-Received: from localhost (unknown [9.211.47.159])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon, 14 Feb 2022 13:13:58 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
-Subject: Re: [PATCH 2/2] target/ppc/kvm: Use KVM_CAP_PPC_AIL_MODE_3 to
- determine cap-ail-mode-3 support
-In-Reply-To: <20220214111749.1542196-2-npiggin@gmail.com>
-References: <20220214111749.1542196-1-npiggin@gmail.com>
- <20220214111749.1542196-2-npiggin@gmail.com>
-Date: Mon, 14 Feb 2022 10:13:56 -0300
-Message-ID: <87sfsllhez.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nJbCh-0004nb-4B
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:15:43 -0500
+Received: from [2607:f8b0:4864:20::230] (port=41915
+ helo=mail-oi1-x230.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nJbCf-0002sM-3x
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:15:42 -0500
+Received: by mail-oi1-x230.google.com with SMTP id ay7so17283088oib.8
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 05:15:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TdIBjaKyMzZbcKYuWOo/hRYglNBU2Hw/aysBL3DO65Q=;
+ b=TPtFbOrsJPtQX/RYdHFa0yVEwXpK+nO2giUAzc12Bk6zP9m8T9galr3bUTV6BdJiTh
+ PVSye0EjoZ4hsqOnWq6otKfQO23r2Fsx/FZVLLIqe1lA3lD8EyfR3iw+cpmyS7FNSyxz
+ jhrTE+HSu0bDbc5Xdgp8SehcFQXBbdVemkwhXQB7MGZCli1brmnXuknZAHTNEvmd01e2
+ NFdCqMTc++MuoDEj8sEyiGHoPMRQnaA1Jmz/apzMyYLHKxnNxQnGTnurVdVIVzT48LtG
+ 0S/8p6eqSZGfBhFyE88hbGhsijZDIWxLlbDFIF5Z96gNsFCRKroqQgTJgxU36UrYdl6R
+ FS4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TdIBjaKyMzZbcKYuWOo/hRYglNBU2Hw/aysBL3DO65Q=;
+ b=mSWM/xDIZgL2bj2IA1RZbYcfu/0Wy4QKzC/1GSC1e+bvbu7BORa6gaE5lKUqFRkIRG
+ pxtF3jaBGTdINLjphb6ufqr7gJDvSAQUZOYUMpt/le2oLnFDqv0RiLw6q7/tHg88bjjy
+ 0zoD865wbuh0gMqpmViNkUdU2M4LxuiwLumXFWpDB6g0CZKCuetK6zfvEELpx4z5iFW7
+ 7HBv9ZHy4VJYd/9GZKgyYFIYeDR8wcdI24Zua+jFeT26+UJlselyT2dnWmIc0C5aE8Hx
+ GpxzTwDPlRhBGpePFNHBuFlGIc8nKwwQqMSkthNVA2VxMoJwVrmQof/oBAQl6nUnBeV2
+ q9xg==
+X-Gm-Message-State: AOAM531UmDeXHJKPyekp5WlfqVLkvH5r6ZAzBCNI8uG1vsN3NS3karZf
+ qlOXg95q+w7IDc4hXf0vAG9+cJVmNBOgCG6zUsw=
+X-Google-Smtp-Source: ABdhPJz9i+VLRrNVWTVpp8sXh5P95WTHkjpPSuVr8xxwm6bxiW5dxtM3M8v225GGg7djLfwYm910wg0l2+zfWtSuWJs=
+X-Received: by 2002:a05:6808:1283:: with SMTP id
+ a3mr5483831oiw.57.1644844539822; 
+ Mon, 14 Feb 2022 05:15:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: UdCywbvQ2dj_PcL6WO_A6fEnNtq_5Q6E
-X-Proofpoint-GUID: _kOCLnNDPEZm3RKvQlfmj3AIKB1FFEYe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-14_06,2022-02-14_03,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- malwarescore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=999
- adultscore=0 spamscore=0 clxscore=1015 bulkscore=0 priorityscore=1501
- mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202140074
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220213024222.3548-1-akihiko.odaki@gmail.com>
+ <CAJ+F1C+3NyD+8Z8XGLBDLDGMfXh+MG+SOB_OY=ZXyLRHHNDTfg@mail.gmail.com>
+In-Reply-To: <CAJ+F1C+3NyD+8Z8XGLBDLDGMfXh+MG+SOB_OY=ZXyLRHHNDTfg@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Mon, 14 Feb 2022 22:15:28 +0900
+Message-ID: <CAMVc7JXcUNNnD75f3VO5Vy+MyUfKQhBkM-xHqrXMDUGoh4ALKA@mail.gmail.com>
+Subject: Re: [PATCH 0/6] ui/dbus: Share one listener for a console
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-oi1-x230.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,125 +84,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nicholas Piggin <npiggin@gmail.com> writes:
-
-> Use KVM_CAP_PPC_AIL_MODE_3 to determine cap-ail-mode-3 support for KVM
-> guests. Keep the fallback heuristic for KVM hosts that pre-date this
-> CAP.
+On Mon, Feb 14, 2022 at 9:07 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
 >
-> This is only proposed the KVM CAP has not yet been allocated. I will
-> ask to merge the new KVM cap when there are no objections on the QEMU
-> side.
+> Hi Akihiko
 >
-> not-yet-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> ---
->  hw/ppc/spapr_caps.c       |  2 +-
->  linux-headers/linux/kvm.h |  1 +
->  target/ppc/kvm.c          | 18 +++++++++++++++++-
->  target/ppc/kvm_ppc.h      |  4 ++--
->  4 files changed, 21 insertions(+), 4 deletions(-)
+> On Sun, Feb 13, 2022 at 6:44 AM Akihiko Odaki <akihiko.odaki@gmail.com> w=
+rote:
+>>
+>> ui/dbus required to have multiple DisplayChangeListeners (possibly with =
+OpenGL)
+>> for a console but that caused several problems:
+>> - It broke egl-headless, an unusual display which implements OpenGL rend=
+ering
+>>   for non-OpenGL displays. The code to support multiple DisplayChangeLis=
+teners
+>>   does not consider the case where non-OpenGL displays listens OpenGL co=
+nsoles.
 >
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 5fd4a53c33..5cc80776d0 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -619,7 +619,7 @@ static void cap_ail_mode_3_apply(SpaprMachineState *spapr,
->      ERRP_GUARD();
->  
->      if (kvm_enabled()) {
-> -        if (!kvmppc_supports_ail_3()) {
-> +        if (!kvmppc_has_cap_ail_3()) {
->              error_setg(errp, "KVM implementation does not support cap-ail-mode-3");
->              error_append_hint(errp, "Try appending -machine cap-ail-mode-3=off\n");
->              return;
-> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-> index 02c5e7b7bb..d91f578200 100644
-> --- a/linux-headers/linux/kvm.h
-> +++ b/linux-headers/linux/kvm.h
-> @@ -1130,6 +1130,7 @@ struct kvm_ppc_resize_hpt {
->  #define KVM_CAP_BINARY_STATS_FD 203
->  #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
->  #define KVM_CAP_ARM_MTE 205
-> +#define KVM_CAP_PPC_AIL_MODE_3 210
->  
->  #ifdef KVM_CAP_IRQ_ROUTING
->  
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 128bc530d4..d0d0bdaac4 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -90,6 +90,7 @@ static int cap_ppc_nested_kvm_hv;
->  static int cap_large_decr;
->  static int cap_fwnmi;
->  static int cap_rpt_invalidate;
-> +static int cap_ail_mode_3;
->  
->  static uint32_t debug_inst_opcode;
->  
-> @@ -154,6 +155,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->      }
->  
->      cap_rpt_invalidate = kvm_vm_check_extension(s, KVM_CAP_PPC_RPT_INVALIDATE);
-> +    cap_ail_mode_3 = kvm_vm_check_extension(s, KVM_CAP_PPC_AIL_MODE_3);
->      kvm_ppc_register_host_cpu_type();
->  
->      return 0;
-> @@ -2563,10 +2565,24 @@ int kvmppc_has_cap_rpt_invalidate(void)
->      return cap_rpt_invalidate;
->  }
->  
-> -int kvmppc_supports_ail_3(void)
-> +int kvmppc_has_cap_ail_3(void)
->  {
->      PowerPCCPUClass *pcc = kvm_ppc_get_host_cpu_class();
->  
-> +    if (cap_ail_mode_3) {
-> +        return 1;
-> +    }
-> +
-> +    if (kvm_ioctl(kvm_state, KVM_CHECK_EXTENSION, KVM_CAP_PPC_AIL_MODE_3) == 0) {
-> +        return 0;
-> +    }
+>
+> Can you provide instructions on what broke? Even better write a test, ple=
+ase.
 
-This is not needed here it seems.
+The following command segfaults. Adding a test would be nice, but it
+would need a binary which uses OpenGL.
+qemu-system-x86_64 -device virtio-gpu-gl-pci -display egl-headless
+-vnc :0 -m 8G -cdrom Fedora-Workstation-Live-x86_64-34-1.2.iso -accel
+kvm
 
-> +
-> +    /*
-> +     * For KVM hosts that pre-date this cap, special-case the test because
-> +     * the performance cost for disabling the feature unconditionally is
-> +     * prohibitive.
-> +     */
-> +
->      /*
->       * KVM PR only supports AIL-0
->       */
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index d9d1c54955..efafa67b83 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -73,7 +73,7 @@ int kvmppc_set_cap_nested_kvm_hv(int enable);
->  int kvmppc_get_cap_large_decr(void);
->  int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
->  int kvmppc_has_cap_rpt_invalidate(void);
-> -int kvmppc_supports_ail_3(void);
-> +int kvmppc_has_cap_ail_3(void);
->  int kvmppc_enable_hwrng(void);
->  int kvmppc_put_books_sregs(PowerPCCPU *cpu);
->  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
-> @@ -394,7 +394,7 @@ static inline int kvmppc_has_cap_rpt_invalidate(void)
->      return false;
->  }
->  
-> -static inline int kvmppc_supports_ail_3(void)
-> +static inline int kvmppc_has_cap_ail_3(void)
->  {
->      return false;
->  }
+>
+> "make check-avocado AVOCADO_TESTS=3Dtests/avocado/virtio-gpu.py", which c=
+overs egl-headless usage, works.
+>
+>>
+>> - Multiple OpenGL DisplayChangeListeners of dbus shares one DisplaySurfa=
+ce and
+>>   modifies its texture field, causing OpenGL texture leak and use-after-=
+free.
+>
+>
+> Again, please provide instructions. I have regularly run -display dbus wi=
+th multiple clients and qemu compiled with sanitizers. I don't see any leak=
+ or use after free.
+
+I doubt sanitizers can find this because it is an OpenGL texture. You
+may add a probe around surface_gl_create_texture and
+surface_gl_destroy_texture.
+
+>
+>>
+>> - Introduced extra code to check the compatibility of OpenGL context pro=
+viders
+>>   and OpenGL texture renderers where those are often inherently tightly =
+coupled
+>>   since they must share the same hardware.
+>
+>
+> So code checks are meant to prevent misusage. They might be too limited o=
+r broken in some ways, but reverting is likely going to introduce other reg=
+ressions I was trying to fix.
+
+The misuse will not occur because DisplayChangeListeners will be
+merged with OpenGL context providers.
+
+>
+>> - Needed extra work to broadcast the same change to multiple dbus listen=
+ers.
+>>
+>
+> Compared to what?
+
+Compared to sharing one DisplayChangeListener for multiple dbus listeners.
+
+>
+>>
+>> This series solve them by implementing the change broadcast in ui/dbus, =
+which
+>> knows exactly what is needed. Changes for the common code to support mul=
+tiple
+>> OpenGL DisplayChangeListeners were reverted to fix egl-headless and redu=
+ce
+>> the code size.
+>
+>
+> Thanks a lot for your work, I am going to take a look at your approach. B=
+ut please help us understand better what the problem actually is, by giving=
+ examples & tests to avoid future regressions and document the expected beh=
+aviour.
+
+The thing is really complicated and I may miss details so please feel
+free to ask questions or provide suggestions.
+
+Regards,
+Akihiko Odaki
+
+
+>
+>>
+>> Akihiko Odaki (6):
+>>   ui/dbus: Share one listener for a console
+>>   Revert "console: save current scanout details"
+>>   Revert "ui: split the GL context in a different object"
+>>   Revert "ui: dispatch GL events to all listeners"
+>>   Revert "ui: associate GL context outside of display listener
+>>     registration"
+>>   Revert "ui: factor out qemu_console_set_display_gl_ctx()"
+>>
+>>  include/ui/console.h       |  60 +-----
+>>  include/ui/egl-context.h   |   6 +-
+>>  include/ui/gtk.h           |  11 +-
+>>  include/ui/sdl2.h          |   7 +-
+>>  include/ui/spice-display.h |   1 -
+>>  ui/console.c               | 258 +++++++----------------
+>>  ui/dbus-console.c          | 109 ++--------
+>>  ui/dbus-listener.c         | 417 +++++++++++++++++++++++++++----------
+>>  ui/dbus.c                  |  22 --
+>>  ui/dbus.h                  |  36 +++-
+>>  ui/egl-context.c           |   6 +-
+>>  ui/egl-headless.c          |  20 +-
+>>  ui/gtk-egl.c               |  10 +-
+>>  ui/gtk-gl-area.c           |   8 +-
+>>  ui/gtk.c                   |  25 +--
+>>  ui/sdl2-gl.c               |  10 +-
+>>  ui/sdl2.c                  |  14 +-
+>>  ui/spice-display.c         |  19 +-
+>>  18 files changed, 498 insertions(+), 541 deletions(-)
+>>
+>> --
+>> 2.32.0 (Apple Git-132)
+>>
+>>
+>
+>
+> --
+> Marc-Andr=C3=A9 Lureau
 
