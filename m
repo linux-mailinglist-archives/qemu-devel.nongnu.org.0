@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0A04B45A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 10:27:03 +0100 (CET)
-Received: from localhost ([::1]:46156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A984B45A8
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 10:27:58 +0100 (CET)
+Received: from localhost ([::1]:48802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJXdN-0004Qm-On
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 04:27:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58574)
+	id 1nJXeH-0006Gm-B1
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 04:27:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nJXZg-0003Bl-9U
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 04:23:12 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:56478
+ id 1nJXbU-0004As-Ti
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 04:25:04 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:56870
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nJXZd-0004pQ-Q2
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 04:23:12 -0500
-HMM_SOURCE_IP: 172.18.0.48:58916.1587662925
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nJXbS-00052A-RF
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 04:25:04 -0500
+HMM_SOURCE_IP: 172.18.0.188:36768.1713644080
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 4A5DB280142;
- Mon, 14 Feb 2022 17:22:39 +0800 (CST)
+Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id 50C842800FE;
+ Mon, 14 Feb 2022 17:24:58 +0800 (CST)
 X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id a3f5fac9771a49eaa058944d7969aa1f for
- peterx@redhat.com; Mon, 14 Feb 2022 17:23:02 CST
-X-Transaction-ID: a3f5fac9771a49eaa058944d7969aa1f
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id 0f64289039394573941f67f153bbb300 for
+ peterx@redhat.com; Mon, 14 Feb 2022 17:25:01 CST
+X-Transaction-ID: 0f64289039394573941f67f153bbb300
 X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
+X-Receive-IP: 172.18.0.188
 X-MEDUSA-Status: 0
-Message-ID: <6653e941-d082-2672-576f-c6d066ccfd40@chinatelecom.cn>
-Date: Mon, 14 Feb 2022 17:22:38 +0800
+Message-ID: <723740d8-cf5c-b22b-da6e-28eeec75ac78@chinatelecom.cn>
+Date: Mon, 14 Feb 2022 17:24:57 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH v14 6/7] softmmu/dirtylimit: Implement virtual CPU throttle
+Subject: Re: [PATCH v14 7/7] softmmu/dirtylimit: Implement dirty page rate
+ limit
 To: Peter Xu <peterx@redhat.com>
 References: <cover.1644509582.git.huangy81@chinatelecom.cn>
- <ad0a6e05b5bec2c2c8dd3a7663e39e3cf9af71a3.1644509582.git.huangy81@chinatelecom.cn>
- <YgoQxbzrNleQT9TH@xz-m1.local>
+ <32a65f0fbb691aa66094fc9162bff4daa6d7771d.1644509582.git.huangy81@chinatelecom.cn>
+ <YgoSEDGhvGlMMRBE@xz-m1.local>
 From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <YgoQxbzrNleQT9TH@xz-m1.local>
+In-Reply-To: <YgoSEDGhvGlMMRBE@xz-m1.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=42.123.76.228;
@@ -78,123 +79,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-在 2022/2/14 16:20, Peter Xu 写道:
-> On Fri, Feb 11, 2022 at 12:17:40AM +0800, huangy81@chinatelecom.cn wrote:
->> @@ -2964,8 +2971,13 @@ int kvm_cpu_exec(CPUState *cpu)
->>                */
->>               trace_kvm_dirty_ring_full(cpu->cpu_index);
->>               qemu_mutex_lock_iothread();
->> -            kvm_dirty_ring_reap(kvm_state, NULL);
->> +            if (dirtylimit_in_service()) {
->> +                kvm_dirty_ring_reap(kvm_state, cpu);
->> +            } else {
->> +                kvm_dirty_ring_reap(kvm_state, NULL);
->> +            }
-> 
-> Could you add some comment here on why the cpu pointer is conditionally passed
-> into the reaping routine?  Even if we know it now, it's not immediately obvious
-> to all the readers.
-> 
-> [...]
-> 
->> +struct {
->> +    VcpuDirtyLimitState *states;
->> +    /* Max cpus number configured by user */
->> +    int max_cpus;
->> +    /* Number of vcpu under dirtylimit */
->> +    int limited_nvcpu;
->> +    /* Function to implement throttle set up */
->> +    DirtyLimitFunc setup;
-> 
-> "setup" normally is used only at startup of something, but not per interval.
-> Perhaps "process" or "adjust"?  Same across other "setup" namings across the
-> patch.
-> 
-> Again, I'd rather call the function directly..
-> 
-> [...]
-> 
->> +static void dirtylimit_adjust_throttle(CPUState *cpu)
+在 2022/2/14 16:25, Peter Xu 写道:
+> On Fri, Feb 11, 2022 at 12:17:41AM +0800, huangy81@chinatelecom.cn wrote:
+>> +static struct DirtyLimitInfoList *dirtylimit_query_all(void)
 >> +{
->> +    uint64_t quota = 0;
->> +    uint64_t current = 0;
->> +    int cpu_index = cpu->cpu_index;
+>> +    int i, index;
+>> +    DirtyLimitInfo *info = NULL;
+>> +    DirtyLimitInfoList *head = NULL, **tail = &head;
 >> +
->> +    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
->> +    current = vcpu_dirty_rate_get(cpu_index);
+>> +    dirtylimit_state_lock();
 >> +
->> +    if (current == 0) {
->> +        cpu->throttle_us_per_full = 0;
->> +        goto end;
+>> +    if (!dirtylimit_in_service()) {
 > 
-> Can be dropped?
-Ok, i'll move this block into dirtylimit_set_throttle.
+> Need to unlock?
+Yes, i'll fix it next version.
 > 
->> +    } else if (dirtylimit_done(quota, current)) {
->> +        goto end;
-> 
-> Same here.  Dropping it wholely and:
-> 
->         } else if (!dirtylimit_done(quota, current)) {
->             dirtylimit_set_throttle(cpu, quota, current);
->         }
-> 
-> Would work?
-Yes.
-> 
->> +    } else {
->> +        dirtylimit_set_throttle(cpu, quota, current);
+>> +        return NULL;
 >> +    }
->> +end:
-> 
-> Can be dropped?Ok
-> 
->> +    trace_dirtylimit_adjust_throttle(cpu_index,
->> +                                     quota, current,
->> +                                     cpu->throttle_us_per_full);
->> +    return;
->> +}
 >> +
->> +void dirtylimit_setup(void)
->> +{
->> +    CPUState *cpu;
->> +
->> +    if (!qatomic_read(&dirtylimit_quit)) {
->> +        dirtylimit_state_lock();
->> +
->> +        if (!dirtylimit_in_service()) {
->> +            dirtylimit_state_unlock();
-> 
-> Need to return?
-My fault. :(
-> 
+>> +    for (i = 0; i < dirtylimit_state->max_cpus; i++) {
+>> +        index = dirtylimit_state->states[i].cpu_index;
+>> +        if (dirtylimit_vcpu_get_state(index)->enabled) {
+>> +            info = dirtylimit_query_vcpu(index);
+>> +            QAPI_LIST_APPEND(tail, info);
 >> +        }
->> +
->> +        CPU_FOREACH(cpu) {
->> +            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
->> +                continue;
->> +            }
->> +            dirtylimit_adjust_throttle(cpu);
->> +        }
->> +        dirtylimit_state_unlock();
 >> +    }
+>> +
+>> +    dirtylimit_state_unlock();
+>> +
+>> +    return head;
 >> +}
-> 
-> [...]
-> 
->> +void dirtylimit_set_vcpu(int cpu_index,
->> +                         uint64_t quota,
->> +                         bool enable)
->> +{
->> +    dirtylimit_vcpu_set_quota(cpu_index, quota, enable);
->> +    trace_dirtylimit_set_vcpu(cpu_index, quota);
->> +}
-> 
-> This helper is not "help"ful..  How about wrapping the trace into
-> dirtylimit_vcpu_set_quota, then drop it?
-> 
-Ok.
-> Thanks,
 > 
 
 -- 
