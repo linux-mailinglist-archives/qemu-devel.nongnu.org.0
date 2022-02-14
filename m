@@ -2,79 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8D94B4DFF
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 12:24:02 +0100 (CET)
-Received: from localhost ([::1]:44386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D964B4E5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 12:34:09 +0100 (CET)
+Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJZSb-0006eH-Gx
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 06:24:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57276)
+	id 1nJZcO-000333-5s
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 06:34:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nJZN2-00037J-JK; Mon, 14 Feb 2022 06:18:17 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=56042
- helo=mail-pj1-x1030.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nJZMz-0007DR-8M; Mon, 14 Feb 2022 06:18:15 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id om7so14200497pjb.5;
- Mon, 14 Feb 2022 03:18:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dz1hgT/pGU5Wt693fA80/XHMv18aIW+uTP4FdCJZ22A=;
- b=cgU9qI3DRnk+mpOZpR6R5+oLRsxMrkPx9wWjN29p95Ha0nR6XEfIDPG4nqw3AL561B
- 1Oq0zS0zwZP3Wc1rHEOUeX3emUB/tyxHXyOLkwMbGR9FOfLRa/Yh0KkdOs2KW+iVdPFB
- DuitySxXYqfvnslfnjGYAavexpnzssikUFjcTwwYKUqlY68aDHW/wbD4t5MmMA86/oZ9
- 8GQs3eLbkQZo/zO8Pj79rFHDYKHD5mT+XbwjVi6LDp2bsfURzEwhxC3uCDysxX2SNzUK
- rFbq7qQViY8gB35sqKbHnilyr4r0zQ1+mZswjr7cs3mtMmv02YqicW9aSMltKOCi0Ctf
- hubg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nJZYh-0001rK-4Y
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:30:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20015)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nJZYd-00015P-0h
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:30:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644838213;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8RTbklJt9LZsD5nqMKmI5wgJTUpHyJ7e61rtTyG4Sg0=;
+ b=UKXGWFxGEyG35NuRCD3jQF4J+z/G3cNqEu6WSmYMQ6c/WZlZDygWNqeZ7PGoIvDmArHBgv
+ biSa/nixRi9gDqAMtFfmjtAUpHswhwHnahUXyaNDDu3/viXlW289fnJMger6sMaE5/OO8L
+ 9uvjYgevD5zEYe5E7ZwmXuZU3j/vos4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-75-KBxqyX0oNpWGStt_GyEHZQ-1; Mon, 14 Feb 2022 06:30:07 -0500
+X-MC-Unique: KBxqyX0oNpWGStt_GyEHZQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q8-20020adfb188000000b001e33a8cdbf4so6783737wra.16
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 03:30:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dz1hgT/pGU5Wt693fA80/XHMv18aIW+uTP4FdCJZ22A=;
- b=vdDDcw3M5LZrzTEPBwQRIvNZv2Y8GWtLosZKD9OjwbLo1uLEFULHo/ZwoKgFu+akUH
- ZJzU/GJBEJ9f492RP6tsF1Y5oAldprGS15wvMhxiwhXVTRkI6p28pNtaAvYlXGjFr5Sb
- XTN09awdZm34StW3ejKKiCGRxpNtUvrfPF8NrOjV0cqs/egWDsNtEHW+hBBO/heyL4/9
- +4v4/L6egPze6AKdAXEJtcQQJ4D/OmYYAb48Cb4RyDKsqjUhtma2jS97z5ETxoQmgHg3
- F06d/p0z997mB5Wrgan5RNLijG3loT1/fkl4vjssXWg8x/mJlZzSn+gEQIvm/p3lcEad
- hS1g==
-X-Gm-Message-State: AOAM533uPDfZHCO+vOxPd3UBuSkjeju1VNqYjOJ2EFMfYaJC88G3PeTn
- BIU1tK74jeX184BBHwGawh9gCoj3tyY=
-X-Google-Smtp-Source: ABdhPJw0yWPVko0lEslQaM8JK4adqYHCZP4AyldD5rib8f5q9J8KxKh+SRciOVDqcnhoN8qirY5w8Q==
-X-Received: by 2002:a17:902:6502:: with SMTP id
- b2mr13558144plk.43.1644837490575; 
- Mon, 14 Feb 2022 03:18:10 -0800 (PST)
-Received: from bobo.ozlabs.ibm.com (27-33-251-132.static.tpgi.com.au.
- [27.33.251.132])
- by smtp.gmail.com with ESMTPSA id ch19sm13920361pjb.19.2022.02.14.03.18.07
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=8RTbklJt9LZsD5nqMKmI5wgJTUpHyJ7e61rtTyG4Sg0=;
+ b=6+dCMijrsq50ylaP4+qAIvp8mS/TO/pSu+12DGp5hHPKV9Mur4QnwvwXesfwm+G4Fb
+ 28bUb6YItghmKBjA/JmPqB6OiEsqjYkPSbk+sKFE1gdr+Qtmbfgayr5aryaSDRbz9jLb
+ SHr0mR5Ykk/V8bqv4iXj7eQhE+P3J700ZLVD2O32UrXk7gUTkYHW4xwfZvUMxenzNxHl
+ tpi5MoNh5hZXpnjLvEiAjZx4MZs1W8GYJr3i7g4YVKb+trHydwNTBbgPHWRWH6dGeVEy
+ qzYyoV1AMjJYEbZ8JPGVXSe+ywyUoXO1gTXArih9Sy/o5mqohYlBlXDT0NE7iBRnHp/+
+ J01A==
+X-Gm-Message-State: AOAM53116r3o1q+zlO8fg7+aYhMUBc4xTWnyZ2kWwOZOBh/s6j5lSZPq
+ yGltUcxNQcFDCSE5pQRIUY13kwc8HhMwUw0MNndnODdCjj9J4plmUlAj/5/jxbWFNYT60ULsmDW
+ iJUXtbtKiGUKUaL4=
+X-Received: by 2002:a05:600c:a47:: with SMTP id
+ c7mr10618747wmq.25.1644838206359; 
+ Mon, 14 Feb 2022 03:30:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxIvlOjXKtQNuLf7wGFBPWSsWvtVBnWT0sRlwjdR5JjSAjakjpJkkqMKEk/jqKMnG3asPZSRQ==
+X-Received: by 2002:a05:600c:a47:: with SMTP id
+ c7mr10618729wmq.25.1644838206179; 
+ Mon, 14 Feb 2022 03:30:06 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id f7sm22750239wrz.40.2022.02.14.03.30.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 03:18:10 -0800 (PST)
-From: Nicholas Piggin <npiggin@gmail.com>
-To: qemu-ppc@nongnu.org
-Subject: [PATCH 2/2] target/ppc/kvm: Use KVM_CAP_PPC_AIL_MODE_3 to determine
- cap-ail-mode-3 support
-Date: Mon, 14 Feb 2022 21:17:49 +1000
-Message-Id: <20220214111749.1542196-2-npiggin@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20220214111749.1542196-1-npiggin@gmail.com>
-References: <20220214111749.1542196-1-npiggin@gmail.com>
+ Mon, 14 Feb 2022 03:30:05 -0800 (PST)
+Date: Mon, 14 Feb 2022 11:30:03 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Subject: Re: [PATCH v2] Deprecate C virtiofsd
+Message-ID: <Ygo9O7oWsImstSJu@work-vm>
+References: <20220210174714.19843-1-dgilbert@redhat.com>
+ <20220210204404.GA22879@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.785, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220210204404.GA22879@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,123 +99,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: berrange@redhat.com, slp@redhat.com, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use KVM_CAP_PPC_AIL_MODE_3 to determine cap-ail-mode-3 support for KVM
-guests. Keep the fallback heuristic for KVM hosts that pre-date this
-CAP.
+* Richard W.M. Jones (rjones@redhat.com) wrote:
+> On Thu, Feb 10, 2022 at 05:47:14PM +0000, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > There's a nice new Rust implementation out there; recommend people
+> > do new work on that.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  docs/about/deprecated.rst | 17 +++++++++++++++++
+> >  1 file changed, 17 insertions(+)
+> > 
+> > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> > index 47a594a3b6..3c73d22729 100644
+> > --- a/docs/about/deprecated.rst
+> > +++ b/docs/about/deprecated.rst
+> > @@ -454,3 +454,20 @@ nanoMIPS ISA
+> >  
+> >  The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
+> >  As it is hard to generate binaries for it, declare it deprecated.
+> > +
+> > +Tools
+> > +-----
+> > +
+> > +virtiofsd
+> > +'''''''''
+> > +
+> > +There is a new Rust implementation of ``virtiofsd`` at
+> > +``https://gitlab.com/virtio-fs/virtiofsd``;
+> > +since this is now marked stable, new development should be done on that
+> > +rather than the existing C version in the QEMU tree.
+> > +The C version will still accept fixes and patches that
+> > +are already in development for the moment, but will eventually
+> > +be deleted from this tree.
+> > +New deployments should use the Rust version, and existing systems
+> > +should consider moving to it.  The command line and feature set
+> > +is very close and moving should be simple.
+> 
+> I'm not qualified to say if the Rust impl is complete enough
+> to replace the C version, so I won't add a reviewed tag.
 
-This is only proposed the KVM CAP has not yet been allocated. I will
-ask to merge the new KVM cap when there are no objections on the QEMU
-side.
+We believe it is a complete replacement at this point, with compatible
+command line.
 
-not-yet-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
----
- hw/ppc/spapr_caps.c       |  2 +-
- linux-headers/linux/kvm.h |  1 +
- target/ppc/kvm.c          | 18 +++++++++++++++++-
- target/ppc/kvm_ppc.h      |  4 ++--
- 4 files changed, 21 insertions(+), 4 deletions(-)
+Dave
 
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 5fd4a53c33..5cc80776d0 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -619,7 +619,7 @@ static void cap_ail_mode_3_apply(SpaprMachineState *spapr,
-     ERRP_GUARD();
- 
-     if (kvm_enabled()) {
--        if (!kvmppc_supports_ail_3()) {
-+        if (!kvmppc_has_cap_ail_3()) {
-             error_setg(errp, "KVM implementation does not support cap-ail-mode-3");
-             error_append_hint(errp, "Try appending -machine cap-ail-mode-3=off\n");
-             return;
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 02c5e7b7bb..d91f578200 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1130,6 +1130,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_BINARY_STATS_FD 203
- #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
- #define KVM_CAP_ARM_MTE 205
-+#define KVM_CAP_PPC_AIL_MODE_3 210
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 128bc530d4..d0d0bdaac4 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -90,6 +90,7 @@ static int cap_ppc_nested_kvm_hv;
- static int cap_large_decr;
- static int cap_fwnmi;
- static int cap_rpt_invalidate;
-+static int cap_ail_mode_3;
- 
- static uint32_t debug_inst_opcode;
- 
-@@ -154,6 +155,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     }
- 
-     cap_rpt_invalidate = kvm_vm_check_extension(s, KVM_CAP_PPC_RPT_INVALIDATE);
-+    cap_ail_mode_3 = kvm_vm_check_extension(s, KVM_CAP_PPC_AIL_MODE_3);
-     kvm_ppc_register_host_cpu_type();
- 
-     return 0;
-@@ -2563,10 +2565,24 @@ int kvmppc_has_cap_rpt_invalidate(void)
-     return cap_rpt_invalidate;
- }
- 
--int kvmppc_supports_ail_3(void)
-+int kvmppc_has_cap_ail_3(void)
- {
-     PowerPCCPUClass *pcc = kvm_ppc_get_host_cpu_class();
- 
-+    if (cap_ail_mode_3) {
-+        return 1;
-+    }
-+
-+    if (kvm_ioctl(kvm_state, KVM_CHECK_EXTENSION, KVM_CAP_PPC_AIL_MODE_3) == 0) {
-+        return 0;
-+    }
-+
-+    /*
-+     * For KVM hosts that pre-date this cap, special-case the test because
-+     * the performance cost for disabling the feature unconditionally is
-+     * prohibitive.
-+     */
-+
-     /*
-      * KVM PR only supports AIL-0
-      */
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index d9d1c54955..efafa67b83 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -73,7 +73,7 @@ int kvmppc_set_cap_nested_kvm_hv(int enable);
- int kvmppc_get_cap_large_decr(void);
- int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
- int kvmppc_has_cap_rpt_invalidate(void);
--int kvmppc_supports_ail_3(void);
-+int kvmppc_has_cap_ail_3(void);
- int kvmppc_enable_hwrng(void);
- int kvmppc_put_books_sregs(PowerPCCPU *cpu);
- PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
-@@ -394,7 +394,7 @@ static inline int kvmppc_has_cap_rpt_invalidate(void)
-     return false;
- }
- 
--static inline int kvmppc_supports_ail_3(void)
-+static inline int kvmppc_has_cap_ail_3(void)
- {
-     return false;
- }
+> However I want to say that from the point of view of downstream
+> packagers of qemu -- especially Fedora -- it would be helpful if we
+> could direct both upstream development effort and downstream packaging
+> into just the one virtiofsd.  So I agree in principle with this.
+> 
+> Rich.
+> 
+> -- 
+> Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+> Read my programming and virtualization blog: http://rwmj.wordpress.com
+> virt-p2v converts physical machines to virtual machines.  Boot with a
+> live CD or over the network (PXE) and turn machines into KVM guests.
+> http://libguestfs.org/virt-v2v
+> 
 -- 
-2.23.0
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
