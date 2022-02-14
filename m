@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CC44B540F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:01:43 +0100 (CET)
-Received: from localhost ([::1]:47422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF4B4B546F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:19:12 +0100 (CET)
+Received: from localhost ([::1]:48528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJcrG-0006Ff-Qi
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:01:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50242)
+	id 1nJd8A-0001MH-Rr
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:19:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nJcQ7-0003RA-1G
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:33:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26149)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nJbm1-0004D7-HO
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:52:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nJcQ1-0000GQ-GS
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:33:37 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nJblz-0000km-3I
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:52:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644849211;
+ s=mimecast20190719; t=1644846730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fvelzeTAhlm0m1l9rIhG5MR6CGvm+V44/cqNJbKaaSI=;
- b=OiE0YbYX4qICkR7ODWXFLo8HaXt7v5JS9qS4GASgdtfqIXjB79eAPCQrgWlUfPU45wsoxL
- kl/20blnrpPhhkIcyWVM9GZ79pA8lPFhWSEq5w1K61bSu5Aj5bfjQfH5aA5sSTdiETnm9M
- FFFp38evYMAfKoNiRLdVl9vunrkQ9sM=
+ bh=w2fk+GeY3EqxJ2Pzt1S00aVR0RcOy8yQ02RH42j/80k=;
+ b=hAFASGdKL1WF3VIIZZvFQrBiSmDLj3dckGcZ3t2eUBaTRoowgiEWVu5zBR/z+skr8oAjEm
+ FO/qxN0AdcDsaSach3I/+CTACFqe6ILrMaR6P5/hOckP7i3J4cuGRETv56VnBoOhtMdkL1
+ /e/mR1gllvoFVlaItm3SlwPtCGvL6xM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-qTWnyKIpOSS3rnwz8jpc0Q-1; Mon, 14 Feb 2022 09:33:29 -0500
-X-MC-Unique: qTWnyKIpOSS3rnwz8jpc0Q-1
+ us-mta-516-iMG53Bz8Or6y4A21PpwuuA-1; Mon, 14 Feb 2022 08:52:09 -0500
+X-MC-Unique: iMG53Bz8Or6y4A21PpwuuA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 633062F45;
- Mon, 14 Feb 2022 14:33:28 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4ACD9101E59D;
- Mon, 14 Feb 2022 14:32:23 +0000 (UTC)
-Date: Mon, 14 Feb 2022 14:32:21 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Subject: Re: [RFC 3/8] ioregionfd: introduce memory API functions
-Message-ID: <Ygpn9ckg7qiupEwn@stefanha-x1.localdomain>
-References: <cover.1644302411.git.elena.ufimtseva@oracle.com>
- <f0ca2f5797d938425d34517d7c0d9d97fdc0f52f.1644302411.git.elena.ufimtseva@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 826551091DA2;
+ Mon, 14 Feb 2022 13:52:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C8021091ED0;
+ Mon, 14 Feb 2022 13:52:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 30B8C21E65E6; Mon, 14 Feb 2022 14:52:01 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2] scripts/qapi: minor delinting
+References: <20220211183650.2946895-1-jsnow@redhat.com>
+Date: Mon, 14 Feb 2022 14:52:01 +0100
+In-Reply-To: <20220211183650.2946895-1-jsnow@redhat.com> (John Snow's message
+ of "Fri, 11 Feb 2022 13:36:50 -0500")
+Message-ID: <87r185imim.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="J2r1clOaD9CzhuPS"
-Content-Disposition: inline
-In-Reply-To: <f0ca2f5797d938425d34517d7c0d9d97fdc0f52f.1644302411.git.elena.ufimtseva@oracle.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -76,70 +79,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, john.g.johnson@oracle.com, cohuck@redhat.com,
- jag.raman@oracle.com, john.levon@nutanix.com, eblake@redhat.com,
- david@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com, armbru@redhat.com,
- mst@redhat.com, berrange@redhat.com, pbonzini@redhat.com, philmd@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+John Snow <jsnow@redhat.com> writes:
 
---J2r1clOaD9CzhuPS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Feb 07, 2022 at 11:22:17PM -0800, Elena Ufimtseva wrote:
-> @@ -2434,6 +2569,42 @@ void memory_region_clear_flush_coalesced(MemoryReg=
-ion *mr)
-> =20
->  static bool userspace_eventfd_warning;
-> =20
-> +void memory_region_add_ioregionfd(MemoryRegion *mr,
-> +                                  hwaddr addr,
-> +                                  unsigned size,
-> +                                  uint64_t data,
-
-uint64_t data is vague and can be confused with ioeventfd's match data
-field. QEMU tends to use void *opaque, but following the ioregionfd
-kernel API's naming would be fine too: uint64_t user_data.
-
-> +                                  int fd,
-> +                                  bool pio)
-> +{
-> +    MemoryRegionIoregionfd mriofd =3D {
-> +        .addr.start =3D int128_make64(addr),
-> +        .addr.size =3D int128_make64(size),
-> +        .data =3D data,
-> +        .fd =3D fd,
-> +    };
-> +    unsigned i;
+> Get isort and pylint tools passing again.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/commands.py |  2 +-
+>  scripts/qapi/pylintrc    | 15 +++++----------
+>  scripts/qapi/types.py    |  6 +++++-
+>  scripts/qapi/visit.py    |  6 +++++-
+>  4 files changed, 16 insertions(+), 13 deletions(-)
+>
+> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+> index 869d799ed22..38ca38a7b9d 100644
+> --- a/scripts/qapi/commands.py
+> +++ b/scripts/qapi/commands.py
+> @@ -25,8 +25,8 @@
+>      QAPIGenC,
+>      QAPISchemaModularCVisitor,
+>      build_params,
+> -    ifcontext,
+>      gen_special_features,
+> +    ifcontext,
+>  )
+>  from .schema import (
+>      QAPISchema,
+> diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+> index b259531a726..1fed2e69620 100644
+> --- a/scripts/qapi/pylintrc
+> +++ b/scripts/qapi/pylintrc
+> @@ -34,16 +34,11 @@ disable=fixme,
+>  
+>  [BASIC]
+>  
+> -# Good variable names which should always be accepted, separated by a comma.
+> -good-names=i,
+> -           j,
+> -           k,
+> -           ex,
+> -           Run,
+> -           _,
+> -           fp,  # fp = open(...)
+> -           fd,  # fd = os.open(...)
+> -           ch,
+> +# Good variable names regexes, separated by a comma. If names match any regex,
+> +# they will always be accepted
 > +
-> +    if (kvm_enabled() && !kvm_ioregionfds_enabled()) {
-> +        error_report("KVM does not support KVM_CAP_IOREGIONFD");
-> +    }
+> +# Allow just about anything, as per Markus's preference.
 
-Is this a fatal error?
+Does it still flag PEP-8 violations like all lower case class names?
 
-QEMU should have a userspace ioregionfd implementation for
-compatibility. That allows ioregionfd to be tested without running in
-KVM mode. (This is how ioeventfd support works in QEMU.)
+If yes, "just about any length" is more precise.
 
---J2r1clOaD9CzhuPS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIKZ/UACgkQnKSrs4Gr
-c8gc7wgApVwJiBRXrTkMA4JSqvkeViib+6q75WJXEUA3mysxmWe8jGMVeuF9SDdD
-dpBn/ho1W8RiQELOrpDmWMzshKM3I3OCvFiMoK96pZIdQ5JfXtSfMF/duD8WBA5Y
-FisFdZE2ixVouSxhDkCUvZM81lj71qT7sISayKHTW+cEZ7kqBAmhsC5aHSP2IVDl
-eB2PpFXY7iwSIu/EhxLeMA0vw/hSt876+7139Idbjo/NxQ9sOakBtFqVooUcJDwp
-nzZ8/bE1JjLt1RxOMxvfWluJMjvnAyo4x6GitU+xNt9/3ncC3cNzsOkzP7+yJ+0c
-uf//t7S5q15O7hVGAxWrsswoI4KVPA==
-=n4Ci
------END PGP SIGNATURE-----
-
---J2r1clOaD9CzhuPS--
+> +good-names-rgxs=^[_a-z][_a-z0-9]?$
+>  
+>  [VARIABLES]
+>  
+> diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+> index 3013329c248..477d0270013 100644
+> --- a/scripts/qapi/types.py
+> +++ b/scripts/qapi/types.py
+> @@ -16,7 +16,11 @@
+>  from typing import List, Optional
+>  
+>  from .common import c_enum_const, c_name, mcgen
+> -from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
+> +from .gen import (
+> +    QAPISchemaModularCVisitor,
+> +    gen_special_features,
+> +    ifcontext,
+> +)
+>  from .schema import (
+>      QAPISchema,
+>      QAPISchemaEnumMember,
+> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+> index e13bbe42925..380fa197f58 100644
+> --- a/scripts/qapi/visit.py
+> +++ b/scripts/qapi/visit.py
+> @@ -21,7 +21,11 @@
+>      indent,
+>      mcgen,
+>  )
+> -from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
+> +from .gen import (
+> +    QAPISchemaModularCVisitor,
+> +    gen_special_features,
+> +    ifcontext,
+> +)
+>  from .schema import (
+>      QAPISchema,
+>      QAPISchemaEnumMember,
 
 
