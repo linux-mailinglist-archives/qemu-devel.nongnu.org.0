@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B54C4B4099
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 05:07:19 +0100 (CET)
-Received: from localhost ([::1]:40480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DEC4B408B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 05:00:49 +0100 (CET)
+Received: from localhost ([::1]:52360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJSdy-0007Ip-6E
-	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 23:07:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59800)
+	id 1nJSXh-0004TT-0u
+	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 23:00:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJSV6-0001e3-8e
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:58:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23175)
+ id 1nJSV7-0001iU-QU
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:58:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJSV4-0008D4-8z
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:58:07 -0500
+ id 1nJSV6-0008DH-CH
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:58:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644811085;
+ s=mimecast20190719; t=1644811087;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jswC9tvg907BAhaXpYTiCgPgzp1FUAjLnihpQmKgDE4=;
- b=fRGyrEoa+H5T4oVSseEEwRCeTuxWiP6evgtBnxcU+I58zPxMUrdz2tn2tbKwli0SnNX6zw
- vMGW4FKhOIDagM89r5z2ChALZ/z7I8QigDw7Eo/f7//Vn/VNrO9zjPosmrbx2YuZWtZ0up
- /zUpE1WYbBkggkqE6GXtW/mbXRBj+us=
+ bh=4pvcpMOdyIpU2/HLohXRkv/O5c7K/nslfR0KgL2T+M8=;
+ b=IFd6eHzsvHSi1s4NK9K9/NkPsID4DepnOncaAccbuhf/MyxrLuSlQTG2rzelSTjc0kM8Hq
+ 8d/dP3An9hfjs6hnHbz+evjYm1B4EzVKumImtPsy5jSb5DvMTRI9mXYs/YtpBn4ssut696
+ lUFDQXJtew0yADP5SWE4Xg1LWKbJ+Lg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-IRtaNsnnM4Gj5vgC3P6uog-1; Sun, 13 Feb 2022 22:58:02 -0500
-X-MC-Unique: IRtaNsnnM4Gj5vgC3P6uog-1
+ us-mta-518-7uihj8qTPh-EohlW4GxjVg-1; Sun, 13 Feb 2022 22:58:04 -0500
+X-MC-Unique: 7uihj8qTPh-EohlW4GxjVg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B3161091DA0;
- Mon, 14 Feb 2022 03:58:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 919EF2F26;
+ Mon, 14 Feb 2022 03:58:03 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-241.pek2.redhat.com
  [10.72.13.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 71A095DB8B;
- Mon, 14 Feb 2022 03:57:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 018975DB8B;
+ Mon, 14 Feb 2022 03:58:01 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PATCH 4/8] net/colo-compare.c: Optimize compare order for performance
-Date: Mon, 14 Feb 2022 11:57:37 +0800
-Message-Id: <20220214035741.70990-4-jasowang@redhat.com>
+Subject: [PATCH 5/8] net/colo-compare.c: Update the default value comments
+Date: Mon, 14 Feb 2022 11:57:38 +0800
+Message-Id: <20220214035741.70990-5-jasowang@redhat.com>
 In-Reply-To: <20220214035741.70990-1-jasowang@redhat.com>
 References: <20220214035741.70990-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -81,130 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, leirao <lei.rao@intel.com>,
- Jason Wang <jasowang@redhat.com>
+Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-COLO-compare use the glib function g_queue_find_custom to dump
-another VM's networking packet to compare. But this function always
-start find from the queue->head(here is the newest packet), It will
-reduce the success rate of comparison. So this patch reversed
-the order of the queues for performance.
+Make the comments consistent with the REGULAR_PACKET_CHECK_MS.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reported-by: leirao <lei.rao@intel.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/colo-compare.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ net/colo-compare.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index b966e7e514..216de5a12b 100644
+index 216de5a12b..62554b5b3c 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -197,7 +197,7 @@ static void colo_compare_inconsistency_notify(CompareState *s)
- /* Use restricted to colo_insert_packet() */
- static gint seq_sorter(Packet *a, Packet *b, gpointer data)
- {
--    return a->tcp_seq - b->tcp_seq;
-+    return b->tcp_seq - a->tcp_seq;
- }
- 
- static void fill_pkt_tcp_info(void *data, uint32_t *max_ack)
-@@ -421,13 +421,13 @@ pri:
-     if (g_queue_is_empty(&conn->primary_list)) {
-         return;
+@@ -1267,7 +1267,7 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
      }
--    ppkt = g_queue_pop_head(&conn->primary_list);
-+    ppkt = g_queue_pop_tail(&conn->primary_list);
- sec:
-     if (g_queue_is_empty(&conn->secondary_list)) {
--        g_queue_push_head(&conn->primary_list, ppkt);
-+        g_queue_push_tail(&conn->primary_list, ppkt);
-         return;
+ 
+     if (!s->expired_scan_cycle) {
+-        /* Set default value to 3000 MS */
++        /* Set default value to 1000 MS */
+         s->expired_scan_cycle = REGULAR_PACKET_CHECK_MS;
      }
--    spkt = g_queue_pop_head(&conn->secondary_list);
-+    spkt = g_queue_pop_tail(&conn->secondary_list);
  
-     if (ppkt->tcp_seq == ppkt->seq_end) {
-         colo_release_primary_pkt(s, ppkt);
-@@ -458,7 +458,7 @@ sec:
-             }
-         }
-         if (!ppkt) {
--            g_queue_push_head(&conn->secondary_list, spkt);
-+            g_queue_push_tail(&conn->secondary_list, spkt);
-             goto pri;
-         }
-     }
-@@ -477,7 +477,7 @@ sec:
-         if (mark == COLO_COMPARE_FREE_PRIMARY) {
-             conn->compare_seq = ppkt->seq_end;
-             colo_release_primary_pkt(s, ppkt);
--            g_queue_push_head(&conn->secondary_list, spkt);
-+            g_queue_push_tail(&conn->secondary_list, spkt);
-             goto pri;
-         } else if (mark == COLO_COMPARE_FREE_SECONDARY) {
-             conn->compare_seq = spkt->seq_end;
-@@ -490,8 +490,8 @@ sec:
-             goto pri;
-         }
-     } else {
--        g_queue_push_head(&conn->primary_list, ppkt);
--        g_queue_push_head(&conn->secondary_list, spkt);
-+        g_queue_push_tail(&conn->primary_list, ppkt);
-+        g_queue_push_tail(&conn->secondary_list, spkt);
- 
- #ifdef DEBUG_COLO_PACKETS
-         qemu_hexdump(stderr, "colo-compare ppkt", ppkt->data, ppkt->size);
-@@ -673,7 +673,7 @@ static void colo_compare_packet(CompareState *s, Connection *conn,
- 
-     while (!g_queue_is_empty(&conn->primary_list) &&
-            !g_queue_is_empty(&conn->secondary_list)) {
--        pkt = g_queue_pop_head(&conn->primary_list);
-+        pkt = g_queue_pop_tail(&conn->primary_list);
-         result = g_queue_find_custom(&conn->secondary_list,
-                  pkt, (GCompareFunc)HandlePacket);
- 
-@@ -689,7 +689,7 @@ static void colo_compare_packet(CompareState *s, Connection *conn,
-              * timeout, it will trigger a checkpoint request.
-              */
-             trace_colo_compare_main("packet different");
--            g_queue_push_head(&conn->primary_list, pkt);
-+            g_queue_push_tail(&conn->primary_list, pkt);
- 
-             colo_compare_inconsistency_notify(s);
-             break;
-@@ -819,7 +819,7 @@ static int compare_chr_send(CompareState *s,
-         entry->buf = g_malloc(size);
-         memcpy(entry->buf, buf, size);
-     }
--    g_queue_push_head(&sendco->send_list, entry);
-+    g_queue_push_tail(&sendco->send_list, entry);
- 
-     if (sendco->done) {
-         sendco->co = qemu_coroutine_create(_compare_chr_send, sendco);
-@@ -1347,7 +1347,7 @@ static void colo_flush_packets(void *opaque, void *user_data)
-     Packet *pkt = NULL;
- 
-     while (!g_queue_is_empty(&conn->primary_list)) {
--        pkt = g_queue_pop_head(&conn->primary_list);
-+        pkt = g_queue_pop_tail(&conn->primary_list);
-         compare_chr_send(s,
-                          pkt->data,
-                          pkt->size,
-@@ -1357,7 +1357,7 @@ static void colo_flush_packets(void *opaque, void *user_data)
-         packet_destroy_partial(pkt, NULL);
-     }
-     while (!g_queue_is_empty(&conn->secondary_list)) {
--        pkt = g_queue_pop_head(&conn->secondary_list);
-+        pkt = g_queue_pop_tail(&conn->secondary_list);
-         packet_destroy(pkt, NULL);
-     }
- }
 -- 
 2.32.0 (Apple Git-132)
 
