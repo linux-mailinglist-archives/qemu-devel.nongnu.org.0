@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFFF34B5A4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:00:11 +0100 (CET)
-Received: from localhost ([::1]:53622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 033A74B5A46
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:57:37 +0100 (CET)
+Received: from localhost ([::1]:45184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJga2-0005vG-VL
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:00:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40668)
+	id 1nJgXX-00007P-SY
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:57:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgAt-0000m4-8w
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:34:11 -0500
-Received: from [2607:f8b0:4864:20::429] (port=34342
- helo=mail-pf1-x429.google.com)
+ id 1nJgAr-0000jJ-4H
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:34:09 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=39435
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgAk-0002hL-8z
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:34:10 -0500
-Received: by mail-pf1-x429.google.com with SMTP id g1so10916513pfv.1
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:33:45 -0800 (PST)
+ id 1nJgAj-0002hV-UF
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:34:08 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ v13-20020a17090ac90d00b001b87bc106bdso19677231pjt.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:33:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Zi+J3o8IiZgvIcd2F/jWR5nnOdLqjEDy8EOSvOaIZfA=;
- b=j4FiomccX1VysbCWl/OzwN0S0iowdguZzx0Zhirk+HQ5RDPcmN4u8ey9VnWRd0d8Se
- Vt4V3lOUjmPxgviGBShsLT4cZTWE11+xGrP9LqylpyxZCK431R2yW0wgYOwc2w10IDiA
- xb1w6YOlonRxRe8XCAGYI0+uMgq/8LkCPxxps0GwqUDhsNdF2dfGim3ghC6u/WRBr7qj
- eJZ141qVSnfRYMq22iTWtjuF5dB0oH0jWRQ9rG3nQNqm34ij9Y7yqts0x6d3ALtkxyoZ
- dJ32IkjSum0HHIGubw7iXNeMDAAuyW2fgokIY06vhICyWzYev6c2ranva/DmKGXqrhDV
- jkgg==
+ bh=NWB4//dxBY+Ll8+QrnZ0CwtnQW94DDn04zgPvteE1Yk=;
+ b=d5DsOJwtm0t7fprNdAp5s+/f9aWY5yU6YwIytIVOYnQ659EPODfpCjQ8mWZtheY8jo
+ t9rBIGA5rdjQ+GhK8alcPFDWbz0tBYgYbKmKjTXkq9oVk6QpO4pjdB5So/pJhteP+Tij
+ SoMrpqjIlolfQKDFGtV4R5ke7QnZpLUyv1eBm07010GeNl29PUAP2+O1tTqvcmC4XJZb
+ /UG79aBhciI8CjvGwmIVKhr94N9tckkfGaOWBEFptGDw0TXnLtBImeVm2upOmfdbALmO
+ OCK2ZOW3NOEcU0ycp8l8ENSwsllbfmfpX5KTor2c5nxL1F/Od3arxvyxJNCzLHu+A2PG
+ TORA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Zi+J3o8IiZgvIcd2F/jWR5nnOdLqjEDy8EOSvOaIZfA=;
- b=HCftY+YA4UKj/deYInI7twsSIuZdwiWmm1jiwSh9meCcMjqaUStLhDfWnP85qweoTl
- /AccbWLvoN5NH31eMhmtaxhkH7HacbZICwpznYr//GGHrfdgsyOu7MwDg5jhIWJ7eqJL
- noLTFyowXHTqG/5Biz2j2X1dieM6K8LmKcp8n9L0fkzen0LNEXgPEpa/eaTHdriTGq+O
- Bdz7I5F2V3zIrmCS7a3PyArkWqkt3ngv8kZ5l0Lvys1zhvmBt0n9FZ/qWNSx5TylFTUM
- /+hNERybAubZC4fCFbuagO+swGKAZNqD9QumSQFBsB1eoeE73bnJe/5gruK3FZXr2UDG
- tGAA==
-X-Gm-Message-State: AOAM533qkm3rSe3kOOoyV7D2V7s8QnrWeTUfE9DXwaDzDs/WeHRfr1l7
- JFXuGC8cGKphQa4zpnDrEpXJyY6G0mw=
-X-Google-Smtp-Source: ABdhPJwBok7EQ64Rnhspd2EKHC/EJ1vWTkYVk36JUfpp6Q8a7+MACSOMY3MDi86jR/el45vZes3wbQ==
-X-Received: by 2002:a63:1655:: with SMTP id 21mr302848pgw.156.1644863624498;
- Mon, 14 Feb 2022 10:33:44 -0800 (PST)
+ bh=NWB4//dxBY+Ll8+QrnZ0CwtnQW94DDn04zgPvteE1Yk=;
+ b=lmI4r9Jhbz+w3dltpoWM06kkQXTPYL4QGPV5XEn8e8bmR/t9/R7Pg0P5RiECau8GGW
+ 8Jg6hOyN+hg0Xu4xFmDmv8WpXtQh41yQ8tpxPT9NOxIaWHLndd4IKjTGR79rRx597q6V
+ 4wlmBHdat9Lo8rNruqRSZrtQMM1shpXNMgEClEBpAzjk93WVWxxrNKUcaayG2FeycZPw
+ Y3xByxrRIAVRPHdNkvtZugmQJIS2JHff9iYneTbeebDUUTWRRKoAMIrfIvff0v7W2pb5
+ n+HaY5NUbMVO2uTczesk8Dnj/aQkSPUF52U5mXcU7neM3W4diYZBTwFcLPhE8fBkw5Ig
+ Yo4g==
+X-Gm-Message-State: AOAM531TshgynRP9c1PHMOcsA9A3gzHJLooHTNH0AbCktS3HgJdulZAB
+ WXdWXPG8DBKzG451iyWbpC7AYsLpIJQ=
+X-Google-Smtp-Source: ABdhPJyRI2Kjkysx01P4st0Mhu2/kLS93KmPIvRTMn6bcxtQ9mZEsZyXdBeC4YV2xzqq8X4I3iCo6g==
+X-Received: by 2002:a17:902:c14a:: with SMTP id 10mr72960plj.159.1644863632802; 
+ Mon, 14 Feb 2022 10:33:52 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id j8sm39230076pfc.48.2022.02.14.10.33.42
+ by smtp.gmail.com with ESMTPSA id b21sm15721579pji.22.2022.02.14.10.33.50
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:33:44 -0800 (PST)
+ Mon, 14 Feb 2022 10:33:52 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 13/14] target: Introduce and use OBJECT_DECLARE_CPU_TYPE()
- macro
-Date: Mon, 14 Feb 2022 19:31:43 +0100
-Message-Id: <20220214183144.27402-14-f4bug@amsat.org>
+Subject: [PATCH v2 14/14] target: Use ArchCPU as interface to target CPU
+Date: Mon, 14 Feb 2022 19:31:44 +0100
+Message-Id: <20220214183144.27402-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220214183144.27402-1-f4bug@amsat.org>
 References: <20220214183144.27402-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -98,623 +98,323 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Replace the boilerplate code to declare CPU QOM types
-and macros, and forward-declare the CPU instance type.
+ArchCPU is our interface with target-specific code. Use it as
+a forward-declared opaque pointer (abstract type), having its
+structure defined by each target.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/core/cpu.h       | 18 ++++++++++++++++++
- target/alpha/cpu-qom.h      |  3 +--
- target/alpha/cpu.h          |  2 --
- target/arm/cpu-qom.h        |  3 +--
- target/arm/cpu.h            |  2 --
- target/avr/cpu-qom.h        |  3 +--
- target/avr/cpu.h            |  6 ++----
- target/cris/cpu-qom.h       |  3 +--
- target/cris/cpu.h           |  2 --
- target/hexagon/cpu.h        |  6 +++---
- target/hppa/cpu-qom.h       |  3 +--
- target/hppa/cpu.h           |  2 --
- target/i386/cpu-qom.h       |  3 +--
- target/i386/cpu.h           |  2 --
- target/m68k/cpu-qom.h       |  3 +--
- target/m68k/cpu.h           |  2 --
- target/microblaze/cpu-qom.h |  3 +--
- target/microblaze/cpu.h     |  2 --
- target/mips/cpu-qom.h       |  3 +--
- target/mips/cpu.h           |  2 --
- target/nios2/cpu.h          |  3 +--
- target/openrisc/cpu.h       |  8 +-------
- target/ppc/cpu-qom.h        |  3 +--
- target/ppc/cpu.h            |  2 --
- target/riscv/cpu.h          |  4 +---
- target/rx/cpu-qom.h         |  3 +--
- target/rx/cpu.h             |  2 --
- target/s390x/cpu-qom.h      |  3 +--
- target/s390x/cpu.h          |  2 --
- target/sh4/cpu-qom.h        |  3 +--
- target/sh4/cpu.h            |  2 --
- target/sparc/cpu-qom.h      |  3 +--
- target/sparc/cpu.h          |  2 --
- target/tricore/cpu-qom.h    |  3 +--
- target/tricore/cpu.h        |  2 --
- target/xtensa/cpu-qom.h     |  3 +--
- target/xtensa/cpu.h         |  2 --
- 37 files changed, 42 insertions(+), 81 deletions(-)
+ include/hw/core/cpu.h   | 4 ++--
+ include/qemu/typedefs.h | 1 +
+ target/alpha/cpu.h      | 2 +-
+ target/arm/cpu.h        | 2 +-
+ target/avr/cpu.h        | 2 +-
+ target/cris/cpu.h       | 2 +-
+ target/hexagon/cpu.h    | 2 +-
+ target/hppa/cpu.h       | 2 +-
+ target/i386/cpu.h       | 2 +-
+ target/m68k/cpu.h       | 2 +-
+ target/microblaze/cpu.h | 2 +-
+ target/mips/cpu.h       | 2 +-
+ target/nios2/cpu.h      | 2 +-
+ target/openrisc/cpu.h   | 2 +-
+ target/ppc/cpu.h        | 2 +-
+ target/riscv/cpu.h      | 2 +-
+ target/rx/cpu.h         | 2 +-
+ target/s390x/cpu.h      | 2 +-
+ target/sh4/cpu.h        | 2 +-
+ target/sparc/cpu.h      | 2 +-
+ target/tricore/cpu.h    | 2 +-
+ target/xtensa/cpu.h     | 2 +-
+ 22 files changed, 23 insertions(+), 22 deletions(-)
 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index c9d41e4ece..2a0893b1dc 100644
+index 2a0893b1dc..0efc6153ed 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -55,6 +55,24 @@ typedef struct CPUClass CPUClass;
- DECLARE_CLASS_CHECKERS(CPUClass, CPU,
-                        TYPE_CPU)
+@@ -70,8 +70,8 @@ DECLARE_CLASS_CHECKERS(CPUClass, CPU,
+  * The object struct and class struct need to be declared manually.
+  */
+ #define OBJECT_DECLARE_CPU_TYPE(CpuInstanceType, CpuClassType, CPU_MODULE_OBJ_NAME) \
+-    OBJECT_DECLARE_TYPE(CpuInstanceType, CpuClassType, CPU_MODULE_OBJ_NAME); \
+-    typedef CpuInstanceType ArchCPU;
++    typedef struct ArchCPU CpuInstanceType; \
++    OBJECT_DECLARE_TYPE(ArchCPU, CpuClassType, CPU_MODULE_OBJ_NAME);
  
-+/**
-+ * OBJECT_DECLARE_CPU_TYPE:
-+ * @CpuInstanceType: instance struct name
-+ * @CpuClassType: class struct name
-+ * @CPU_MODULE_OBJ_NAME: the CPU name in uppercase with underscore separators
-+ *
-+ * This macro is typically used in "cpu-qom.h" header file, and will:
-+ *
-+ *   - create the typedefs for the CPU object and class structs
-+ *   - register the type for use with g_autoptr
-+ *   - provide three standard type cast functions
-+ *
-+ * The object struct and class struct need to be declared manually.
-+ */
-+#define OBJECT_DECLARE_CPU_TYPE(CpuInstanceType, CpuClassType, CPU_MODULE_OBJ_NAME) \
-+    OBJECT_DECLARE_TYPE(CpuInstanceType, CpuClassType, CPU_MODULE_OBJ_NAME); \
-+    typedef CpuInstanceType ArchCPU;
-+
  typedef enum MMUAccessType {
      MMU_DATA_LOAD  = 0,
-     MMU_DATA_STORE = 1,
-diff --git a/target/alpha/cpu-qom.h b/target/alpha/cpu-qom.h
-index 7bb9173c57..1f200724b6 100644
---- a/target/alpha/cpu-qom.h
-+++ b/target/alpha/cpu-qom.h
-@@ -25,8 +25,7 @@
- 
- #define TYPE_ALPHA_CPU "alpha-cpu"
- 
--OBJECT_DECLARE_TYPE(AlphaCPU, AlphaCPUClass,
--                    ALPHA_CPU)
-+OBJECT_DECLARE_CPU_TYPE(AlphaCPU, AlphaCPUClass, ALPHA_CPU)
- 
- /**
-  * AlphaCPUClass:
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index c6f692b0dd..c564f54c11 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -26,6 +26,7 @@ typedef struct AddressSpace AddressSpace;
+ typedef struct AioContext AioContext;
+ typedef struct Aml Aml;
+ typedef struct AnnounceTimer AnnounceTimer;
++typedef struct ArchCPU ArchCPU;
+ typedef struct BdrvDirtyBitmap BdrvDirtyBitmap;
+ typedef struct BdrvDirtyBitmapIter BdrvDirtyBitmapIter;
+ typedef struct BlockBackend BlockBackend;
 diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-index cfd17fd265..84430aff42 100644
+index 84430aff42..58f00b7814 100644
 --- a/target/alpha/cpu.h
 +++ b/target/alpha/cpu.h
-@@ -283,8 +283,6 @@ int alpha_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- 
- #define cpu_list alpha_cpu_list
- 
--typedef AlphaCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- enum {
-diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
-index a22bd506d0..64c44cef2d 100644
---- a/target/arm/cpu-qom.h
-+++ b/target/arm/cpu-qom.h
-@@ -27,8 +27,7 @@ struct arm_boot_info;
- 
- #define TYPE_ARM_CPU "arm-cpu"
- 
--OBJECT_DECLARE_TYPE(ARMCPU, ARMCPUClass,
--                    ARM_CPU)
-+OBJECT_DECLARE_CPU_TYPE(ARMCPU, ARMCPUClass, ARM_CPU)
- 
- #define TYPE_ARM_MAX_CPU "max-" TYPE_ARM_CPU
- 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a95a070647..a137c564c4 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3410,8 +3410,6 @@ static inline bool arm_cpu_data_is_big_endian(CPUARMState *env)
-     }
- }
- 
--typedef ARMCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- /*
-diff --git a/target/avr/cpu-qom.h b/target/avr/cpu-qom.h
-index 14e5b3ce72..32a1c762e6 100644
---- a/target/avr/cpu-qom.h
-+++ b/target/avr/cpu-qom.h
-@@ -26,8 +26,7 @@
- 
- #define TYPE_AVR_CPU "avr-cpu"
- 
--OBJECT_DECLARE_TYPE(AVRCPU, AVRCPUClass,
--                    AVR_CPU)
-+OBJECT_DECLARE_CPU_TYPE(AVRCPU, AVRCPUClass, AVR_CPU)
- 
- /**
-  *  AVRCPUClass:
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index e4a990556b..a833799fc1 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -143,14 +143,14 @@ typedef struct CPUArchState {
+@@ -257,7 +257,7 @@ typedef struct CPUArchState {
   *
-  *  A AVR CPU.
+  * An Alpha CPU.
   */
--typedef struct AVRCPU {
-+struct AVRCPU {
+-struct AlphaCPU {
++struct ArchCPU {
      /*< private >*/
      CPUState parent_obj;
      /*< public >*/
- 
-     CPUNegativeOffsetState neg;
-     CPUAVRState env;
--} AVRCPU;
-+};
- 
- extern const struct VMStateDescription vms_avr_cpu;
- 
-@@ -245,8 +245,6 @@ bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                       MMUAccessType access_type, int mmu_idx,
-                       bool probe, uintptr_t retaddr);
- 
--typedef AVRCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- #endif /* !defined (QEMU_AVR_CPU_H) */
-diff --git a/target/cris/cpu-qom.h b/target/cris/cpu-qom.h
-index 2596edc7e3..71e8af0e70 100644
---- a/target/cris/cpu-qom.h
-+++ b/target/cris/cpu-qom.h
-@@ -25,8 +25,7 @@
- 
- #define TYPE_CRIS_CPU "cris-cpu"
- 
--OBJECT_DECLARE_TYPE(CRISCPU, CRISCPUClass,
--                    CRIS_CPU)
-+OBJECT_DECLARE_CPU_TYPE(CRISCPU, CRISCPUClass, CRIS_CPU)
- 
- /**
-  * CRISCPUClass:
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index a137c564c4..a4bbca1812 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -774,7 +774,7 @@ typedef struct ARMISARegisters ARMISARegisters;
+  *
+  * An ARM CPU core.
+  */
+-struct ARMCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
+diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+index a833799fc1..55497f851d 100644
+--- a/target/avr/cpu.h
++++ b/target/avr/cpu.h
+@@ -143,7 +143,7 @@ typedef struct CPUArchState {
+  *
+  *  A AVR CPU.
+  */
+-struct AVRCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/cris/cpu.h b/target/cris/cpu.h
-index 763d4f882e..af7121bba0 100644
+index af7121bba0..e6776f25b1 100644
 --- a/target/cris/cpu.h
 +++ b/target/cris/cpu.h
-@@ -265,8 +265,6 @@ static inline int cpu_mmu_index (CPUCRISState *env, bool ifetch)
- #define SFR_RW_MM_TLB_LO   env->pregs[PR_SRS]][5
- #define SFR_RW_MM_TLB_HI   env->pregs[PR_SRS]][6
- 
--typedef CRISCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- static inline void cpu_get_tb_cpu_state(CPUCRISState *env, target_ulong *pc,
+@@ -173,7 +173,7 @@ typedef struct CPUArchState {
+  *
+  * A CRIS CPU.
+  */
+-struct CRISCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
-index a65bd935c3..8db0aa542d 100644
+index 8db0aa542d..2a65a57bab 100644
 --- a/target/hexagon/cpu.h
 +++ b/target/hexagon/cpu.h
-@@ -130,7 +130,7 @@ typedef struct CPUArchState {
-     VTCMStoreLog vtcm_log;
- } CPUHexagonState;
- 
--OBJECT_DECLARE_TYPE(HexagonCPU, HexagonCPUClass, HEXAGON_CPU)
-+OBJECT_DECLARE_CPU_TYPE(HexagonCPU, HexagonCPUClass, HEXAGON_CPU)
- 
- typedef struct HexagonCPUClass {
-     /*< private >*/
 @@ -140,7 +140,7 @@ typedef struct HexagonCPUClass {
      DeviceReset parent_reset;
  } HexagonCPUClass;
  
--typedef struct HexagonCPU {
-+struct HexagonCPU {
+-struct HexagonCPU {
++struct ArchCPU {
      /*< private >*/
      CPUState parent_obj;
      /*< public >*/
-@@ -149,7 +149,7 @@ typedef struct HexagonCPU {
- 
-     bool lldb_compat;
-     target_ulong lldb_stack_adjust;
--} HexagonCPU;
-+};
- 
- #include "cpu_bits.h"
- 
-diff --git a/target/hppa/cpu-qom.h b/target/hppa/cpu-qom.h
-index d424f88370..b96e0318c7 100644
---- a/target/hppa/cpu-qom.h
-+++ b/target/hppa/cpu-qom.h
-@@ -25,8 +25,7 @@
- 
- #define TYPE_HPPA_CPU "hppa-cpu"
- 
--OBJECT_DECLARE_TYPE(HPPACPU, HPPACPUClass,
--                    HPPA_CPU)
-+OBJECT_DECLARE_CPU_TYPE(HPPACPU, HPPACPUClass, HPPA_CPU)
- 
- /**
-  * HPPACPUClass:
 diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
-index d36e5c170c..73a3f32389 100644
+index 73a3f32389..4cc936b6bf 100644
 --- a/target/hppa/cpu.h
 +++ b/target/hppa/cpu.h
-@@ -223,8 +223,6 @@ struct HPPACPU {
-     QEMUTimer *alarm_timer;
- };
- 
--typedef HPPACPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- static inline int cpu_mmu_index(CPUHPPAState *env, bool ifetch)
-diff --git a/target/i386/cpu-qom.h b/target/i386/cpu-qom.h
-index f9923cee04..c557a522e1 100644
---- a/target/i386/cpu-qom.h
-+++ b/target/i386/cpu-qom.h
-@@ -30,8 +30,7 @@
- #define TYPE_X86_CPU "i386-cpu"
- #endif
- 
--OBJECT_DECLARE_TYPE(X86CPU, X86CPUClass,
--                    X86_CPU)
-+OBJECT_DECLARE_CPU_TYPE(X86CPU, X86CPUClass, X86_CPU)
- 
- typedef struct X86CPUModel X86CPUModel;
- 
+@@ -213,7 +213,7 @@ typedef struct CPUArchState {
+  *
+  * An HPPA CPU.
+  */
+-struct HPPACPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 31ae748570..f3b951df0d 100644
+index f3b951df0d..b5d1ff5956 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -2072,8 +2072,6 @@ static inline int cpu_mmu_index_kernel(CPUX86State *env)
- #define CC_SRC2 (env->cc_src2)
- #define CC_OP   (env->cc_op)
- 
--typedef X86CPU ArchCPU;
--
- #include "exec/cpu-all.h"
- #include "svm.h"
- 
-diff --git a/target/m68k/cpu-qom.h b/target/m68k/cpu-qom.h
-index 1ceb160ecb..cd9687192c 100644
---- a/target/m68k/cpu-qom.h
-+++ b/target/m68k/cpu-qom.h
-@@ -25,8 +25,7 @@
- 
- #define TYPE_M68K_CPU "m68k-cpu"
- 
--OBJECT_DECLARE_TYPE(M68kCPU, M68kCPUClass,
--                    M68K_CPU)
-+OBJECT_DECLARE_CPU_TYPE(M68kCPU, M68kCPUClass, M68K_CPU)
- 
- /*
-  * M68kCPUClass:
+@@ -1705,7 +1705,7 @@ struct kvm_msrs;
+  *
+  * An x86 CPU.
+  */
+-struct X86CPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 0245398230..76a7cc70b4 100644
+index 76a7cc70b4..872e8ce637 100644
 --- a/target/m68k/cpu.h
 +++ b/target/m68k/cpu.h
-@@ -574,8 +574,6 @@ void m68k_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
-                                  int mmu_idx, MemTxAttrs attrs,
-                                  MemTxResult response, uintptr_t retaddr);
- 
--typedef M68kCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- /* TB flags */
-diff --git a/target/microblaze/cpu-qom.h b/target/microblaze/cpu-qom.h
-index e520eefb12..255b39a45d 100644
---- a/target/microblaze/cpu-qom.h
-+++ b/target/microblaze/cpu-qom.h
-@@ -25,8 +25,7 @@
- 
- #define TYPE_MICROBLAZE_CPU "microblaze-cpu"
- 
--OBJECT_DECLARE_TYPE(MicroBlazeCPU, MicroBlazeCPUClass,
--                    MICROBLAZE_CPU)
-+OBJECT_DECLARE_CPU_TYPE(MicroBlazeCPU, MicroBlazeCPUClass, MICROBLAZE_CPU)
- 
- /**
-  * MicroBlazeCPUClass:
+@@ -156,7 +156,7 @@ typedef struct CPUArchState {
+  *
+  * A Motorola 68k CPU.
+  */
+-struct M68kCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index acfd35d3f7..6e4e90a41e 100644
+index 6e4e90a41e..0a0ce71b6a 100644
 --- a/target/microblaze/cpu.h
 +++ b/target/microblaze/cpu.h
-@@ -394,8 +394,6 @@ void mb_tcg_init(void);
- #define MMU_USER_IDX    2
- /* See NB_MMU_MODES further up the file.  */
+@@ -339,7 +339,7 @@ typedef struct {
+  *
+  * A MicroBlaze CPU.
+  */
+-struct MicroBlazeCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
  
--typedef MicroBlazeCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- /* Ensure there is no overlap between the two masks. */
-diff --git a/target/mips/cpu-qom.h b/target/mips/cpu-qom.h
-index dda0c911fa..e28b529607 100644
---- a/target/mips/cpu-qom.h
-+++ b/target/mips/cpu-qom.h
-@@ -29,8 +29,7 @@
- #define TYPE_MIPS_CPU "mips-cpu"
- #endif
- 
--OBJECT_DECLARE_TYPE(MIPSCPU, MIPSCPUClass,
--                    MIPS_CPU)
-+OBJECT_DECLARE_CPU_TYPE(MIPSCPU, MIPSCPUClass, MIPS_CPU)
- 
- /**
-  * MIPSCPUClass:
 diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index d4f5d7099a..c361408cc8 100644
+index c361408cc8..09e98f64de 100644
 --- a/target/mips/cpu.h
 +++ b/target/mips/cpu.h
-@@ -1217,8 +1217,6 @@ static inline int cpu_mmu_index(CPUMIPSState *env, bool ifetch)
-     return hflags_mmu_index(env->hflags);
- }
- 
--typedef MIPSCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- /* Exceptions */
+@@ -1171,7 +1171,7 @@ typedef struct CPUArchState {
+  *
+  * A MIPS CPU.
+  */
+-struct MIPSCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 629b9e2301..94c581a98f 100644
+index 94c581a98f..eedcf3c27d 100644
 --- a/target/nios2/cpu.h
 +++ b/target/nios2/cpu.h
-@@ -32,8 +32,7 @@ typedef struct CPUArchState CPUNios2State;
- 
- #define TYPE_NIOS2_CPU "nios2-cpu"
- 
--OBJECT_DECLARE_TYPE(Nios2CPU, Nios2CPUClass,
--                    NIOS2_CPU)
-+OBJECT_DECLARE_CPU_TYPE(Nios2CPU, Nios2CPUClass, NIOS2_CPU)
- 
- /**
-  * Nios2CPUClass:
+@@ -170,7 +170,7 @@ struct CPUArchState {
+  *
+  * A Nios2 CPU.
+  */
+-struct Nios2CPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index a218e49f0e..bcd28802e4 100644
+index bcd28802e4..bdf29d2dc4 100644
 --- a/target/openrisc/cpu.h
 +++ b/target/openrisc/cpu.h
-@@ -24,13 +24,9 @@
- #include "hw/core/cpu.h"
- #include "qom/object.h"
- 
--/* cpu_openrisc_map_address_* in CPUOpenRISCTLBContext need this decl.  */
--struct OpenRISCCPU;
--
- #define TYPE_OPENRISC_CPU "or1k-cpu"
- 
--OBJECT_DECLARE_TYPE(OpenRISCCPU, OpenRISCCPUClass,
--                    OPENRISC_CPU)
-+OBJECT_DECLARE_CPU_TYPE(OpenRISCCPU, OpenRISCCPUClass, OPENRISC_CPU)
- 
- /**
-  * OpenRISCCPUClass:
-@@ -348,8 +344,6 @@ void cpu_openrisc_count_stop(OpenRISCCPU *cpu);
- #define OPENRISC_CPU_TYPE_NAME(model) model OPENRISC_CPU_TYPE_SUFFIX
- #define CPU_RESOLVING_TYPE TYPE_OPENRISC_CPU
- 
--typedef OpenRISCCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- #define TB_FLAGS_SM    SR_SM
-diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
-index 78b19a5cdb..ad7e3c3db9 100644
---- a/target/ppc/cpu-qom.h
-+++ b/target/ppc/cpu-qom.h
-@@ -29,8 +29,7 @@
- #define TYPE_POWERPC_CPU "powerpc-cpu"
- #endif
- 
--OBJECT_DECLARE_TYPE(PowerPCCPU, PowerPCCPUClass,
--                    POWERPC_CPU)
-+OBJECT_DECLARE_CPU_TYPE(PowerPCCPU, PowerPCCPUClass, POWERPC_CPU)
- 
- typedef struct CPUArchState CPUPPCState;
- typedef struct ppc_tb_t ppc_tb_t;
+@@ -297,7 +297,7 @@ typedef struct CPUArchState {
+  *
+  * A OpenRISC CPU.
+  */
+-struct OpenRISCCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 4c3ab4fa9c..8a879f0e5e 100644
+index 8a879f0e5e..04c9c6113b 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -1467,8 +1467,6 @@ void ppc_compat_add_property(Object *obj, const char *name,
-                              uint32_t *compat_pvr, const char *basedesc);
- #endif /* defined(TARGET_PPC64) */
- 
--typedef PowerPCCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- /*****************************************************************************/
+@@ -1273,7 +1273,7 @@ typedef struct PPCVirtualHypervisorClass PPCVirtualHypervisorClass;
+  *
+  * A PowerPC CPU.
+  */
+-struct PowerPCCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 79144ddc24..421d18ad0b 100644
+index 421d18ad0b..dffc01ee6d 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -285,8 +285,7 @@ struct CPUArchState {
-     uint64_t kvm_timer_frequency;
- };
- 
--OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
--                    RISCV_CPU)
-+OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
- 
- /**
-  * RISCVCPUClass:
-@@ -430,7 +429,6 @@ void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
- #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
- #define TB_FLAGS_MSTATUS_VS MSTATUS_VS
- 
--typedef RISCVCPU ArchCPU;
- #include "exec/cpu-all.h"
- 
- FIELD(TB_FLAGS, MEM_IDX, 0, 3)
-diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
-index f918c46b00..4533759d96 100644
---- a/target/rx/cpu-qom.h
-+++ b/target/rx/cpu-qom.h
-@@ -26,8 +26,7 @@
- 
- #define TYPE_RX62N_CPU RX_CPU_TYPE_NAME("rx62n")
- 
--OBJECT_DECLARE_TYPE(RXCPU, RXCPUClass,
--                    RX_CPU)
-+OBJECT_DECLARE_CPU_TYPE(RXCPU, RXCPUClass, RX_CPU)
- 
- /*
-  * RXCPUClass:
+@@ -308,7 +308,7 @@ struct RISCVCPUClass {
+  *
+  * A RISCV CPU.
+  */
+-struct RISCVCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-index 0f3d9d5bd9..f81bf5b592 100644
+index f81bf5b592..b4abd90ccd 100644
 --- a/target/rx/cpu.h
 +++ b/target/rx/cpu.h
-@@ -114,8 +114,6 @@ struct RXCPU {
-     CPURXState env;
- };
- 
--typedef RXCPU ArchCPU;
--
- #define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
- #define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
- #define CPU_RESOLVING_TYPE TYPE_RX_CPU
-diff --git a/target/s390x/cpu-qom.h b/target/s390x/cpu-qom.h
-index 04d5b3012c..00cae2b131 100644
---- a/target/s390x/cpu-qom.h
-+++ b/target/s390x/cpu-qom.h
-@@ -25,8 +25,7 @@
- 
- #define TYPE_S390_CPU "s390x-cpu"
- 
--OBJECT_DECLARE_TYPE(S390CPU, S390CPUClass,
--                    S390_CPU)
-+OBJECT_DECLARE_CPU_TYPE(S390CPU, S390CPUClass, S390_CPU)
- 
- typedef struct S390CPUModel S390CPUModel;
- typedef struct S390CPUDef S390CPUDef;
+@@ -105,7 +105,7 @@ typedef struct CPUArchState {
+  *
+  * A RX CPU
+  */
+-struct RXCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index b668c1b0c7..bdf3f7d4fe 100644
+index bdf3f7d4fe..c49c8466e7 100644
 --- a/target/s390x/cpu.h
 +++ b/target/s390x/cpu.h
-@@ -840,8 +840,6 @@ uint64_t s390_cpu_get_psw_mask(CPUS390XState *env);
- /* outside of target/s390x/ */
- S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
- 
--typedef S390CPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- #endif
-diff --git a/target/sh4/cpu-qom.h b/target/sh4/cpu-qom.h
-index 8903b4b9c7..d4192d1090 100644
---- a/target/sh4/cpu-qom.h
-+++ b/target/sh4/cpu-qom.h
-@@ -29,8 +29,7 @@
- #define TYPE_SH7751R_CPU SUPERH_CPU_TYPE_NAME("sh7751r")
- #define TYPE_SH7785_CPU  SUPERH_CPU_TYPE_NAME("sh7785")
- 
--OBJECT_DECLARE_TYPE(SuperHCPU, SuperHCPUClass,
--                    SUPERH_CPU)
-+OBJECT_DECLARE_CPU_TYPE(SuperHCPU, SuperHCPUClass, SUPERH_CPU)
- 
- /**
-  * SuperHCPUClass:
+@@ -163,7 +163,7 @@ static inline uint64_t *get_freg(CPUS390XState *cs, int nr)
+  *
+  * An S/390 CPU.
+  */
+-struct S390CPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index 9a89d2d038..dd477ba577 100644
+index dd477ba577..c72a30edfd 100644
 --- a/target/sh4/cpu.h
 +++ b/target/sh4/cpu.h
-@@ -264,8 +264,6 @@ static inline int cpu_mmu_index (CPUSH4State *env, bool ifetch)
-     }
- }
- 
--typedef SuperHCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- /* MMU control register */
-diff --git a/target/sparc/cpu-qom.h b/target/sparc/cpu-qom.h
-index f33949aaee..86ed37d933 100644
---- a/target/sparc/cpu-qom.h
-+++ b/target/sparc/cpu-qom.h
-@@ -29,8 +29,7 @@
- #define TYPE_SPARC_CPU "sparc-cpu"
- #endif
- 
--OBJECT_DECLARE_TYPE(SPARCCPU, SPARCCPUClass,
--                    SPARC_CPU)
-+OBJECT_DECLARE_CPU_TYPE(SPARCCPU, SPARCCPUClass, SPARC_CPU)
- 
- typedef struct sparc_def_t sparc_def_t;
- /**
+@@ -195,7 +195,7 @@ typedef struct CPUArchState {
+  *
+  * A SuperH CPU.
+  */
+-struct SuperHCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index 938efb72bf..2a7fd47da3 100644
+index 2a7fd47da3..abb38db674 100644
 --- a/target/sparc/cpu.h
 +++ b/target/sparc/cpu.h
-@@ -743,8 +743,6 @@ static inline int cpu_pil_allowed(CPUSPARCState *env1, int pil)
- #endif
- }
- 
--typedef SPARCCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- #ifdef TARGET_SPARC64
-diff --git a/target/tricore/cpu-qom.h b/target/tricore/cpu-qom.h
-index 59bfd01bbc..ee24e9fa76 100644
---- a/target/tricore/cpu-qom.h
-+++ b/target/tricore/cpu-qom.h
-@@ -24,8 +24,7 @@
- 
- #define TYPE_TRICORE_CPU "tricore-cpu"
- 
--OBJECT_DECLARE_TYPE(TriCoreCPU, TriCoreCPUClass,
--                    TRICORE_CPU)
-+OBJECT_DECLARE_CPU_TYPE(TriCoreCPU, TriCoreCPUClass, TRICORE_CPU)
- 
- struct TriCoreCPUClass {
+@@ -556,7 +556,7 @@ struct CPUArchState {
+  *
+  * A SPARC CPU.
+  */
+-struct SPARCCPU {
++struct ArchCPU {
      /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
-index 398d5076be..cd1954aa9e 100644
+index cd1954aa9e..108d6b8288 100644
 --- a/target/tricore/cpu.h
 +++ b/target/tricore/cpu.h
-@@ -368,8 +368,6 @@ static inline int cpu_mmu_index(CPUTriCoreState *env, bool ifetch)
-     return 0;
- }
- 
--typedef TriCoreCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- void cpu_state_reset(CPUTriCoreState *s);
-diff --git a/target/xtensa/cpu-qom.h b/target/xtensa/cpu-qom.h
-index 41d9859673..4fc35ee49b 100644
---- a/target/xtensa/cpu-qom.h
-+++ b/target/xtensa/cpu-qom.h
-@@ -34,8 +34,7 @@
- 
- #define TYPE_XTENSA_CPU "xtensa-cpu"
- 
--OBJECT_DECLARE_TYPE(XtensaCPU, XtensaCPUClass,
--                    XTENSA_CPU)
-+OBJECT_DECLARE_CPU_TYPE(XtensaCPU, XtensaCPUClass, XTENSA_CPU)
- 
- typedef struct XtensaConfig XtensaConfig;
- 
+@@ -196,7 +196,7 @@ typedef struct CPUArchState {
+  *
+  * A TriCore CPU.
+  */
+-struct TriCoreCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 4496325970..a361ab8785 100644
+index a361ab8785..4515f682aa 100644
 --- a/target/xtensa/cpu.h
 +++ b/target/xtensa/cpu.h
-@@ -722,8 +722,6 @@ static inline int cpu_mmu_index(CPUXtensaState *env, bool ifetch)
- #define XTENSA_CSBASE_LBEG_OFF_MASK 0x00ff0000
- #define XTENSA_CSBASE_LBEG_OFF_SHIFT 16
- 
--typedef XtensaCPU ArchCPU;
--
- #include "exec/cpu-all.h"
- 
- static inline void cpu_get_tb_cpu_state(CPUXtensaState *env, target_ulong *pc,
+@@ -553,7 +553,7 @@ struct CPUArchState {
+  *
+  * An Xtensa CPU.
+  */
+-struct XtensaCPU {
++struct ArchCPU {
+     /*< private >*/
+     CPUState parent_obj;
+     /*< public >*/
 -- 
 2.34.1
 
