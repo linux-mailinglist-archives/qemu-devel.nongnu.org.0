@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B7194B53D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:57:22 +0100 (CET)
-Received: from localhost ([::1]:43152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED434B53B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:49:37 +0100 (CET)
+Received: from localhost ([::1]:59982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJcn2-0003Al-Ho
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:57:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45178)
+	id 1nJcfX-0003w2-Fc
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:49:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJc6a-0003Ls-5V
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:13:30 -0500
-Received: from [2607:f8b0:4864:20::102c] (port=52002
- helo=mail-pj1-x102c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJc6Y-0005Hx-Ac
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:13:27 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id y9so14690138pjf.1
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 06:13:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=IHZw2NbsTOllQQr+WFDECfmcdwGjfsvAlTYrot4L37o=;
- b=S4hITY6W+Xngk8d4Xf6x9fCreNZ+co9PqqKL8lWOslB4SoedUgfGnS7mJ7hJUcL4pA
- jVkK5Oq32HahB4jIdJUzm6w21aYN0wn8bmkYCVpirV4kQrhniTNTpgrWJg6dOUCJl5p1
- XONLqLt3oauACgp7VM3Rz4c03FOu1bWX10Po63eoQDujVELo3rxKsCQ9soTmWaZFqaIm
- CmM0m3SyOO7KMKBDTQUjOi4yDiDJaqK7gYX0OfxSTjD2jRf78wVw/gqVvGxWhvfbuwDK
- KPRx4smPKcR56V0jej9N+lcMmvjO6MvJ41MDNxqceU1FRwZzpsSOnNL3TrMUySz/plyv
- GV3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IHZw2NbsTOllQQr+WFDECfmcdwGjfsvAlTYrot4L37o=;
- b=G8aW3zxdQdSd2zERSAhnTAGp+N7+iOj9ZOm1nkE8CC7LJVbacfWGtYEz2RN8PNQ3ae
- D6gaR9w6dQc2fSyT9nUGnVaAPFhhG3xcrAyLsBx4rlEFT6KHisFvz0owY54KNngybJYL
- vfv8BQrqnqNaJdeNqF+VAT125VH6xUXvuCrtjQe2cuBKzAifczspf19BKU5X2hxVpdec
- g41E6zVtxlDXVqVjAKnoHRWTw5A+dUZEDgrv+dRruDhFJHgasREBJjeapYq+vCDix/IM
- tCJ+znFJpiF0CZXo92g7jz10AVkgYPMYu0URnIu/EKfmP38kvyPR07sVykFH26T6ME9f
- FPPQ==
-X-Gm-Message-State: AOAM530CphefZyMVY9o29d9FJq0q0yKamgjPmIlq9rALA11tFMHhKwXy
- T4zbd9JKZPJAQCmh2Adsi2Ul7GQNpYFYPQ==
-X-Google-Smtp-Source: ABdhPJyggusg7PuolYAH4vUknvcoBCN5d00OH+j5VnH6QZp0wWDQ4oPxQBwBdM+YbuAKg5q+GtAVmQ==
-X-Received: by 2002:a17:90a:4f:: with SMTP id
- 15mr14790405pjb.218.1644848004808; 
- Mon, 14 Feb 2022 06:13:24 -0800 (PST)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.127.101])
- by smtp.googlemail.com with ESMTPSA id hk3sm9808340pjb.12.2022.02.14.06.13.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 06:13:24 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH v3 2/3] hw/smbios: fix table memory corruption with large
- memory vms
-Date: Mon, 14 Feb 2022 19:42:35 +0530
-Message-Id: <20220214141237.47946-3-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220214141237.47946-1-ani@anisinha.ca>
-References: <20220214141237.47946-1-ani@anisinha.ca>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nJc8a-00046f-Aw
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:15:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38177)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nJc8M-0005Oa-56
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:15:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644848085;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SSHipU3AaFRUKs39V+LvB5jh+gOg6xaAudxMhmggmxA=;
+ b=aPLgnE7J2fHZMFm2O+swyTqB6tUIT4rs61CNZTP0G3FxFh69XmSbECudYSqntZhqbIGJMR
+ z8RiS24OxF2wXIiIAw9CpMCNUA4mZ9/bSsyYVLkM+48N0R1Es/5VjhuE//gp/UO5qo/tQe
+ lOjGLvFko5Esr4QjOlcid5pC5eIr7TE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-16-zie4vREnNn-EdxVLmacPIA-1; Mon, 14 Feb 2022 09:14:43 -0500
+X-MC-Unique: zie4vREnNn-EdxVLmacPIA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0F061091DA1;
+ Mon, 14 Feb 2022 14:14:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E52287D3CD;
+ Mon, 14 Feb 2022 14:14:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 711FE21E65E6; Mon, 14 Feb 2022 15:14:37 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: Adding a handshake to qemu-guest-agent
+References: <CAFn=p-anWO3dpvcECpW6J1ExJLw01DhXvTYtC5FUi5p7kQ2tig@mail.gmail.com>
+ <87pmnwqzq7.fsf@pond.sub.org>
+ <CAFn=p-YVdQDbzUsQm97=FyuZN_m3jCsFzjTpguRPjtH3PezTMg@mail.gmail.com>
+ <87zgmze0im.fsf@pond.sub.org>
+ <CAFn=p-b-gfeDgFfivtJ6tOixyydRb1kS8rS+H41RjiVZ-3Sgsw@mail.gmail.com>
+Date: Mon, 14 Feb 2022 15:14:37 +0100
+In-Reply-To: <CAFn=p-b-gfeDgFfivtJ6tOixyydRb1kS8rS+H41RjiVZ-3Sgsw@mail.gmail.com>
+ (John Snow's message of "Fri, 11 Feb 2022 14:38:20 -0500")
+Message-ID: <87czjpilgy.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::102c;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,97 +83,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current smbios table implementation splits the main memory in 16 GiB
-(DIMM like) chunks. With the current smbios table assignment code, we can have
-only 512 such chunks before the 16 bit handle numbers in the header for tables
-17 and 19 conflict. A guest with more than 8 TiB of memory will hit this
-limitation and would fail with the following assertion in isa-debugcon:
+Cc: the qemu-ga maintainer
 
-ASSERT_EFI_ERROR (Status = Already started)
-ASSERT /builddir/build/BUILD/edk2-ca407c7246bf/OvmfPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.c(125): !EFI_ERROR (Status)
+John Snow <jsnow@redhat.com> writes:
 
-This change adds an additional offset between tables 17 and 19 handle numbers
-when configuring VMs larger than 8 TiB of memory. The value of the offset is
-calculated to be equal to the additional space required to be reserved
-in order to accomodate more DIMM entries without the table handles colliding.
-In normal cases where the VM memory is smaller or equal to 8 TiB, this offset
-value is 0. Hence in this case, no additional handle numbers are reserved and
-table handle values remain as before.
+> [Moving our discussion upstream, because it stopped being brief and simple.]
 
-As table handles are altered for large memory VMs, this change can break
-migration in those cases. However, in those situations, qemu crashes anyway
-without this fix and hence we do not preserve the old bug by introducing
-compat knobs/machine types.
+Motivation: qemu-ga doesn't do capability negotiation as specified in
+docs/interop/qmp-spec.txt.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2023977
+Reminder: qmp-spec.txt specifies the server shall send a greeting
+containing the capabilities on offer.  The client shall send a
+qmp_capabilities command before any other command.
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- hw/smbios/smbios.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+We can't just fix qemu-ga to comply, because it would break existing
+clients.
 
-changelog:
-v3: reworded the commit log and comment in code.
+We could document its behavior in qmp-spec.txt.  Easy enough, but also
+kind of sad.
 
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 56b412ce35..44c53797a4 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -799,12 +799,13 @@ static void smbios_build_type_17_table(unsigned instance, uint64_t size)
-     SMBIOS_BUILD_TABLE_POST;
- }
- 
--static void smbios_build_type_19_table(unsigned instance,
-+static void smbios_build_type_19_table(unsigned instance, unsigned offset,
-                                        uint64_t start, uint64_t size)
- {
-     uint64_t end, start_kb, end_kb;
- 
--    SMBIOS_BUILD_TABLE_PRE(19, T19_BASE + instance, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(19, T19_BASE + offset + instance,
-+                           true); /* required */
- 
-     end = start + size - 1;
-     assert(end > start);
-@@ -996,7 +997,7 @@ void smbios_get_tables(MachineState *ms,
-                        uint8_t **anchor, size_t *anchor_len,
-                        Error **errp)
- {
--    unsigned i, dimm_cnt;
-+    unsigned i, dimm_cnt, offset;
- 
-     if (smbios_legacy) {
-         *tables = *anchor = NULL;
-@@ -1026,6 +1027,16 @@ void smbios_get_tables(MachineState *ms,
- 
-         dimm_cnt = QEMU_ALIGN_UP(current_machine->ram_size, MAX_DIMM_SZ) / MAX_DIMM_SZ;
- 
-+        /*
-+         * The offset determines if we need to keep additional space betweeen
-+         * table 17 and table 19 header handle numbers so that they do
-+         * not overlap. For example, for a VM with larger than 8 TB guest
-+         * memory and DIMM like chunks of 16 GiB, the default space between
-+         * the two tables (T19_BASE - T17_BASE = 512) is not enough.
-+         */
-+        offset = (dimm_cnt > (T19_BASE - T17_BASE)) ? \
-+                 dimm_cnt - (T19_BASE - T17_BASE) : 0;
-+
-         smbios_build_type_16_table(dimm_cnt);
- 
-         for (i = 0; i < dimm_cnt; i++) {
-@@ -1033,7 +1044,7 @@ void smbios_get_tables(MachineState *ms,
-         }
- 
-         for (i = 0; i < mem_array_size; i++) {
--            smbios_build_type_19_table(i, mem_array[i].address,
-+            smbios_build_type_19_table(i, offset, mem_array[i].address,
-                                        mem_array[i].length);
-         }
- 
--- 
-2.25.1
+Is there a way to add capability negotiation to qemu-ga without breaking
+existing clients?  We obviously have to make it optional.
+
+The obvious idea "make qmp_capabilities optional" doesn't work, because
+the client needs to receive the greeting before sending
+qmp_capabilities, to learn what capabilities are on offer.
+
+This leads to...
+
+> What about something like this:
+>
+> Add a new "request-negotiation" command to qemu-guest-agent 7.0.0.
+>
+> [Modern client to unknown server]
+> 1. A modern client connects to a server of unknown version, and
+> without waiting, issues the "request-negotiation" command.
+> 2. An old server will reply with CommandNotFound. We are done negotiating.
+> 3. A modern server will reply with the greeting in the traditional
+> format, but as a reply object (to preserve "execute" semantics.)
+> 4. The modern client will now issue qmp-capabilities as normal.
+> 5. The server replies with success or failure as normal.
+> 6. Connection is fully established.
+>
+> [Old client to unknown server]
+> 1. An old client connects to an unknown version server.
+> 2. A command is issued some time later.
+>   2a. The server is old, the command worked as anticipated.
+>   2b. The server is new, the command fails with CommandNotFound and
+> urges the use of 'request-negotiation'.
+
+A new server could accept the command, too.  This way, negotiation
+remains optional, unlike in "normal" QMP.  Old clients don't negotiate,
+and get default capabilities.
+
+> Compatibility matrix summary:
+> Old client on old server: Works just fine, as always.
+> Old client on new server: Will fail; the new server requires the
+> negotiation step to be performed. This is a tractable problem.
+> POSSIBLY we need to send some kind of "warning event" for two versions
+> before making it genuinely mandatory. Also tractable.
+
+With optional negotiation, this works fine, too.
+
+> New client on old server: Works, albeit with a single failed execute
+> command now in the log file.
+> New client on new server: Works, though handshaking is now permanently
+> a little chattier than with any other QMP server.
+>
+> ***The QMP spec will need to be updated*** to state: the asynchronous
+> greeting is mandatory on all QMP implementations, EXCEPT for the
+> qemu-guest-agent, which for historical reasons, uses an alternate
+> handshaking process, ...
+>
+> Compatibility concerns:
+> - We must never remove the 'request-negotiation' command from QGA,
+> forever-and-ever, unless we also make a new error class for
+> "NegotiationRequired" that's distinct from "CommandNotFound", but
+> that's more divergence. Supporting the negotiation request command
+> forever-and-ever is probably fine.
+
+Yup.
+
+> - QGA is now officially on a different flavor of QMP protocol. You
+> still need to know in advance if you are connecting to QGA or anything
+> else. That's still a little sad, but maybe that's just simply an
+> impossible goal.
+>
+> Bonus:
+> - If an execution ID is used when sending "request-negotiation", we
+> know that the server is at least version 4.0.0 if it responds to us
+> using that ID. A modern client can then easily distinguish between
+> pre-4.0, post-4.0 and post-7.0 servers. It's a useful probe.
+
+Mike, thoughts?
 
 
