@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13824B5A75
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:15:23 +0100 (CET)
-Received: from localhost ([::1]:52280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE904B5A94
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:37:04 +0100 (CET)
+Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgok-0007aR-L7
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:15:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45522)
+	id 1nJh9g-00036U-J2
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:37:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgXY-0002DY-Ag; Mon, 14 Feb 2022 13:57:36 -0500
-Received: from [2607:f8b0:4864:20::435] (port=36677
- helo=mail-pf1-x435.google.com)
+ id 1nJgXm-0002QH-Ot; Mon, 14 Feb 2022 13:57:51 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=45747
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgXV-0006S6-Tb; Mon, 14 Feb 2022 13:57:36 -0500
-Received: by mail-pf1-x435.google.com with SMTP id z16so8926288pfh.3;
- Mon, 14 Feb 2022 10:57:33 -0800 (PST)
+ id 1nJgXk-0006Sa-O4; Mon, 14 Feb 2022 13:57:49 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ q11-20020a17090a304b00b001b94d25eaecso43302pjl.4; 
+ Mon, 14 Feb 2022 10:57:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d7T27EMFPVzp3B0TQwoZYMCEX+PxVB/NfGOmyTZ7TJw=;
- b=ZU/7/zN41RPTMvo06OtyQweAwSGVUFHci8URSBolro/hfPQiT1o65hY4p+Yq/H/mv4
- K9T1011zpimskQfWbosFOBIrpXvNY169Y2i6kI+O4a3EY8skbSQI6cE3SNKomqKqlj1M
- SUkGbEH9hJ6yG7poQ+osxC4GwRKzZROo2Z+MPuufyNXwbkIzgEPtwnNFhYZmoRhf5w1e
- kIblDHJ9766RZ3wPjyS7MW0qc0UVRgqrgrmy8GRUQ+QKOZyaN8NvM3v77kBXvTkhfguJ
- hBstUVD0efmbYLB15+1p1xN2GzOPwxVTiiowDNyW8FR02zuSdN45QhcXPjIgLxxPljfh
- tDSw==
+ bh=jlmSMkeCwUd8E6YT5e8ACCLaTL1+jSNfQP2Uet5vd1k=;
+ b=nEetAl/VgRr0Mak0q73c3UUAn/OEwr/Owp1XwhMXIZAMhaF2EjhfGlFTUSvgTeqMoQ
+ czeVu6wmbIvh0h+XETv51/LK6p9TcgP+vwrV3D1GffXkZe/MVp78C708ahF8dunUXtXp
+ GVmaRbkM9r2pObDi/BKu5LSBvLkp9fCKnLRs9WDxgrf+euC2Hk2gAiAz9cqJZZaJ4wRa
+ aML2MfY/WtyG+e3uKItg3zy7EJnPuwpOm3UKO1VTsbmhJzimzrCSbkKDOujVKYTJ90Rd
+ biT/G9/suShMGAYsc8yYZu1aut9YMqqRhgQXcc/j2ftWZj7mP7Zbb4gxYm63PLaiuD6b
+ TCDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=d7T27EMFPVzp3B0TQwoZYMCEX+PxVB/NfGOmyTZ7TJw=;
- b=Lm2lQPVA4NtKLCJEEwbrWYkppJrA3wQLEjdvLiptHt4Gvgm14Nw11RDoj5kdfdyBGN
- 0iBls32si1ij/+6B0luAQRs1XnKxOd38fBx+Ekiuna/CKKnjixGsx7j5CXN9R4y2m2Eh
- QCNBrxeAdmLDIWie4RwxHhrXnPIIWWdiNs2R9K7IF/XCDJ3U1bq6Hf28VZoTmzaNuwr7
- FPYpuUAzbZXplBfSqIE6yTXwnampaNsyAElZJsaMJHHQ4lPzI4w07npHkT5Wae/+Mi7k
- aLxGXXuxNBMJ5nxEkff28DD4oK2a2bwWTc3GPq68mKk9hTls/aJ8WiBjez+6iVvgTXaE
- W0XA==
-X-Gm-Message-State: AOAM5333PSgzuRA89eFJdlRMjLSBlFxhmIcNQrSwp6qOK8cVEcgxouui
- aHjYjQ22smY8VF91fprSNN5e+TvF6Ik=
-X-Google-Smtp-Source: ABdhPJzdPjm0wNPApNaPX6Mj06L09J/dg8jX1/+KZJ8JlJ8nr/Hgzzn58hbGyGsWPbQscpHziIqUbA==
-X-Received: by 2002:aa7:8d83:: with SMTP id i3mr274753pfr.14.1644865051970;
- Mon, 14 Feb 2022 10:57:31 -0800 (PST)
+ bh=jlmSMkeCwUd8E6YT5e8ACCLaTL1+jSNfQP2Uet5vd1k=;
+ b=ndSKPDxGHl91zE5Ky9E4s/awEFliB26Li1MLxXBilyJ2sVb4w7sRjtE6fyaXmy2e1I
+ 2G+m4JEsRfyOh+Gr3PGvlcy6sFb5LKrdXcEMg3OCJCxktz+qOWyvzWi/iDUCZFil0HgL
+ /oKFFnkiX0NVcDjUi6JasE1JPqelZp2fUKsQXO3AYOVtv2ZGiLsWjuzsOYpJZuyiKzyy
+ eHiRvao8pM27vFt7gaPrLrB0Dd1o6EO2ZPG6IR3A+wUxfT9BWRYVtLlrnaR/KMO82ixV
+ yZL7vzeVrZlBlGwTk4E7/Ng2saj3NLN1nRSro9wAnwBxz9sVbBUHf+4uxMrPeLHsm5kQ
+ YQRA==
+X-Gm-Message-State: AOAM531w9PxXfyxH4+DBEOGVfcOLUUXZzf0Kh7odv31PAjlSGmyrCoJe
+ 73G764BpOlCoBieNtAiOtXGr1uu9CGs=
+X-Google-Smtp-Source: ABdhPJyjpz84Twmr4qAWMetLWXd+TYlsJqN2GV5jOLzW4wYoPa6mOqgeDzuEvPxTcOCA+eg0CBUqAw==
+X-Received: by 2002:a17:90b:38d2:: with SMTP id
+ nn18mr3951003pjb.167.1644865061924; 
+ Mon, 14 Feb 2022 10:57:41 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id v9sm37690693pfu.60.2022.02.14.10.57.28
+ by smtp.gmail.com with ESMTPSA id s6sm5363923pfk.86.2022.02.14.10.57.38
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:57:31 -0800 (PST)
+ Mon, 14 Feb 2022 10:57:41 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Thomas Huth <thuth@redhat.com>,
@@ -60,19 +62,20 @@ Cc: qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
  Will Cohen <wwcohen@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
  Li Zhang <lizhang@suse.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v5 08/16] hvf: Remove deprecated hv_vcpu_flush() calls
-Date: Mon, 14 Feb 2022 19:55:57 +0100
-Message-Id: <20220214185605.28087-9-f4bug@amsat.org>
+Subject: [PATCH v5 09/16] block/file-posix: Remove a deprecation warning on
+ macOS 12
+Date: Mon, 14 Feb 2022 19:55:58 +0100
+Message-Id: <20220214185605.28087-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220214185605.28087-1-f4bug@amsat.org>
 References: <20220214185605.28087-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -99,76 +102,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-When building on macOS 11 [*], we get:
+When building on macOS 12 we get:
 
-  In file included from ../target/i386/hvf/hvf.c:59:
-  ../target/i386/hvf/vmx.h:174:5: error: 'hv_vcpu_flush' is deprecated: first deprecated in macOS 11.0 - This API has no effect and always returns HV_UNSUPPORTED [-Werror,-Wdeprecated-declarations]
-      hv_vcpu_flush(vcpu);
-      ^
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Hypervisor.framework/Headers/hv.h:364:20: note: 'hv_vcpu_flush' has been explicitly marked deprecated here
-  extern hv_return_t hv_vcpu_flush(hv_vcpuid_t vcpu)
-                     ^
+  block/file-posix.c:3335:18: warning: 'IOMasterPort' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
+      kernResult = IOMasterPort( MACH_PORT_NULL, &masterPort );
+                   ^~~~~~~~~~~~
+                   IOMainPort
 
-Since this call "has no effect", simply remove it ¯\_(ツ)_/¯
+Replace by IOMainPort, redefining it to IOMasterPort if not available.
 
-Not very useful deprecation doc:
-https://developer.apple.com/documentation/hypervisor/1441386-hv_vcpu_flush
-
-[*] Also 10.15 (Catalina):
-    https://lore.kernel.org/qemu-devel/Yd3DmSqZ1SiJwd7P@roolebo.dev/
-
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Suggested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed by: Cameron Esfahani <dirty@apple.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/hvf/vmx.h      | 2 --
- target/i386/hvf/x86_task.c | 1 -
- target/i386/hvf/x86hvf.c   | 2 --
- 3 files changed, 5 deletions(-)
+ block/file-posix.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
-index 29b7deed3c..573ddc33c0 100644
---- a/target/i386/hvf/vmx.h
-+++ b/target/i386/hvf/vmx.h
-@@ -160,7 +160,6 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
-     wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE_MASK | CR0_ET_MASK);
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 1f1756e192..13393ad296 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -3319,17 +3319,23 @@ BlockDriver bdrv_file = {
+ #if defined(__APPLE__) && defined(__MACH__)
+ static kern_return_t GetBSDPath(io_iterator_t mediaIterator, char *bsdPath,
+                                 CFIndex maxPathSize, int flags);
++
++#if !defined(MAC_OS_VERSION_12_0) \
++    || (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_12_0)
++#define IOMainPort IOMasterPort
++#endif
++
+ static char *FindEjectableOpticalMedia(io_iterator_t *mediaIterator)
+ {
+     kern_return_t kernResult = KERN_FAILURE;
+-    mach_port_t     masterPort;
++    mach_port_t mainPort;
+     CFMutableDictionaryRef  classesToMatch;
+     const char *matching_array[] = {kIODVDMediaClass, kIOCDMediaClass};
+     char *mediaType = NULL;
  
-     hv_vcpu_invalidate_tlb(vcpu);
--    hv_vcpu_flush(vcpu);
- }
+-    kernResult = IOMasterPort( MACH_PORT_NULL, &masterPort );
++    kernResult = IOMainPort(MACH_PORT_NULL, &mainPort);
+     if ( KERN_SUCCESS != kernResult ) {
+-        printf( "IOMasterPort returned %d\n", kernResult );
++        printf("IOMainPort returned %d\n", kernResult);
+     }
  
- static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
-@@ -172,7 +171,6 @@ static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
-     wvmcs(vcpu, VMCS_CR4_MASK, CR4_VMXE_MASK);
- 
-     hv_vcpu_invalidate_tlb(vcpu);
--    hv_vcpu_flush(vcpu);
- }
- 
- static inline void macvm_set_rip(CPUState *cpu, uint64_t rip)
-diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
-index e1301599e9..d24daf6a41 100644
---- a/target/i386/hvf/x86_task.c
-+++ b/target/i386/hvf/x86_task.c
-@@ -182,5 +182,4 @@ void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel, int rea
-     store_regs(cpu);
- 
-     hv_vcpu_invalidate_tlb(cpu->hvf->fd);
--    hv_vcpu_flush(cpu->hvf->fd);
- }
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index cff59f3144..a338c207b7 100644
---- a/target/i386/hvf/x86hvf.c
-+++ b/target/i386/hvf/x86hvf.c
-@@ -125,8 +125,6 @@ static void hvf_put_segments(CPUState *cpu_state)
- 
-     hvf_set_segment(cpu_state, &seg, &env->ldt, false);
-     vmx_write_segment_descriptor(cpu_state, &seg, R_LDTR);
--    
--    hv_vcpu_flush(cpu_state->hvf->fd);
- }
-     
- void hvf_put_msrs(CPUState *cpu_state)
+     int index;
+@@ -3342,7 +3348,7 @@ static char *FindEjectableOpticalMedia(io_iterator_t *mediaIterator)
+         }
+         CFDictionarySetValue(classesToMatch, CFSTR(kIOMediaEjectableKey),
+                              kCFBooleanTrue);
+-        kernResult = IOServiceGetMatchingServices(masterPort, classesToMatch,
++        kernResult = IOServiceGetMatchingServices(mainPort, classesToMatch,
+                                                   mediaIterator);
+         if (kernResult != KERN_SUCCESS) {
+             error_report("Note: IOServiceGetMatchingServices returned %d",
 -- 
 2.34.1
 
