@@ -2,93 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8890D4B4D92
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 12:16:05 +0100 (CET)
-Received: from localhost ([::1]:36404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF554B4D93
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 12:16:14 +0100 (CET)
+Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJZKu-0000wE-Mf
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 06:16:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54898)
+	id 1nJZL3-0001NK-OF
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 06:16:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nJZHI-000785-NC
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:12:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31051)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nJZIX-0007dG-9E
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:13:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nJZH4-0006BN-Ay
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:12:10 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nJZIT-0006Kt-Us
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:13:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644837124;
+ s=mimecast20190719; t=1644837213;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2X5B3PQmCR7xAYCbogoJsDybAYmZVBqgMfdfwdVr09M=;
- b=M34umTA1pmKoTsRtih9Ng8E4foR59h6BuoRwpQGBZ23ZT/0mSfoDDeXcPGXK/itxQth1pI
- XhMSxlhQhgrMXCHEuqUh38q1CAO7GQLPyUFqQ0bvHFr4Zf3TaBCYh8CYzFCNpI4VdN5Ptw
- irwr17B29i5wR/pBO5+teRQvbVEvw68=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bM71P164Gri/XvmsVp0SEwX0x6zfUJM6DpirOO2YbPY=;
+ b=YuQOG2p4j4leSXuEO4+IUSXv3oscR8L6vFBzL55W/g2fHKwkdRb0ZlW9zW0fyxvSHPUira
+ K1nZL4g6wB5TUdnpSUHCOVqh856LGfY8RkJgk9QRgVNo/RLy2ScCXWnvDGZJuuAov3EY1X
+ tmedlKq6EcH559FXJk0dhPGa2LWrZSE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-R87SPlO2Nrieg-Keo8573A-1; Mon, 14 Feb 2022 06:11:58 -0500
-X-MC-Unique: R87SPlO2Nrieg-Keo8573A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- h29-20020adfa4dd000000b001e498f51244so6664218wrb.14
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 03:11:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2X5B3PQmCR7xAYCbogoJsDybAYmZVBqgMfdfwdVr09M=;
- b=Mj1MO+GnftLN4v30D1YM4igiO0Dpus45Rr7QVdnrnlM56oHIeFU/fK9ckblDaGOusH
- Sw5z0qHxJX4ZCcrCHNYgt0jf0Z4FhkgLHT3XUk0p4t9nwptzNUlce2rw3RzzWiybJ0SQ
- 9qhf7HdHLsKpJ4k5vcY5YVN24OvXmE8SskQ8q9yh9GAw2nG4kaCz1z0eQBdDT9s7OtLG
- /Z1aDTmJLCg5zUa2pCKPgnnAr648Mt3ZdRJ+X9ksayyFcGiw1LUxE1MsV8OYqG+PVsnf
- PHBI4GK2w49OKqkIR3TAaJaCh5K+W0a0LaVNSXzW0lFHamXDGGkPZZoiM3KgUFn6AuHW
- vYBw==
-X-Gm-Message-State: AOAM533Mk2QEmxoroY6pIDeTdkSgebNYQrBwa6ZX+X02Zubp39D9cVDz
- a+XioMM/Ta/1APU4hre+I7YRnn4WAeNLdVVi4OUPu9kNJcahEo4GgQWbh8fLGFkXwVLhbALG9O/
- oZYGLkTGC0p/luxg=
-X-Received: by 2002:adf:fecc:: with SMTP id q12mr2540996wrs.201.1644837116823; 
- Mon, 14 Feb 2022 03:11:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyqAuHNQlqh/nTJY7UiPhofyL6l8+tEUlZvvUgC+oEeaKaCpzcHDaJQhH1Kzi1pI2vBiEiTDw==
-X-Received: by 2002:adf:fecc:: with SMTP id q12mr2540973wrs.201.1644837116521; 
- Mon, 14 Feb 2022 03:11:56 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id c8sm14086131wmq.39.2022.02.14.03.11.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Feb 2022 03:11:56 -0800 (PST)
-Message-ID: <1bbfea98-584d-ed5a-568e-bc7b43122456@redhat.com>
-Date: Mon, 14 Feb 2022 12:11:55 +0100
+ us-mta-443-4oc3n9iYMEi6VVhCL6w3zg-1; Mon, 14 Feb 2022 06:13:31 -0500
+X-MC-Unique: 4oc3n9iYMEi6VVhCL6w3zg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6C341006AA0
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 11:13:30 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 303435E4BB;
+ Mon, 14 Feb 2022 11:12:59 +0000 (UTC)
+Date: Mon, 14 Feb 2022 11:12:58 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2] Deprecate C virtiofsd
+Message-ID: <Ygo5Ouzpvg0Jdvvo@stefanha-x1.localdomain>
+References: <20220210174714.19843-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 5/6] test-bdrv-drain.c: remove test_detach_by_parent_cb()
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20220208153655.1251658-1-eesposit@redhat.com>
- <20220208153655.1251658-6-eesposit@redhat.com> <YgaDBkblIA6wu82p@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YgaDBkblIA6wu82p@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hzr9mwc4r5yZwhgQ"
+Content-Disposition: inline
+In-Reply-To: <20220210174714.19843-1-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,141 +75,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: virtio-fs@redhat.com, berrange@redhat.com, slp@redhat.com,
+ qemu-devel@nongnu.org, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--hzr9mwc4r5yZwhgQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/02/2022 16:38, Kevin Wolf wrote:
-> Am 08.02.2022 um 16:36 hat Emanuele Giuseppe Esposito geschrieben:
->> This test uses a callback of an I/O function (blk_aio_preadv)
->> to modify the graph, using bdrv_attach_child.
->> This is simply not allowed anymore. I/O cannot change the graph.
-> 
-> The callback of an I/O function isn't I/O, though. It is code _after_
-> the I/O has completed. If this doesn't work any more, it feels like this
-> is a bug.
-> 
-> I think it becomes a bit more obvious when you translate the AIO into
-> the equivalent coroutine function:
-> 
->     void coroutine_fn foo(...)
->     {
->         GLOBAL_STATE_CODE();
-> 
->         blk_co_preadv(...);
->         detach_by_parent_aio_cb(...);
->     }
-> 
-> This is obviously correct code that must work. Calling an I/O function
-> from a GS function is allowed, and of course the GS function may
-> continue to do GS stuff after the I/O function returned.
-> 
-> (Actually, I'm not sure if it really works when blk is not in the main
-> AioContext, but your API split patches claim that it does, so let's
-> assume for the moment that this is already true :-))
+On Thu, Feb 10, 2022 at 05:47:14PM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> There's a nice new Rust implementation out there; recommend people
+> do new work on that.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  docs/about/deprecated.rst | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 
-Uhmm why does my split claims that it is? all blk_aio_* are IO_CODE.
-Also, as you said, if blk is not in the main loop, the callback is not
-GS either.
+Thanks, applied to my block tree:
+https://gitlab.com/stefanha/qemu/commits/block
 
-> 
->> Before "block/io.c: make bdrv_do_drained_begin_quiesce static
->> and introduce bdrv_drained_begin_no_poll", the test would simply
->> be at risk of failure, because if bdrv_replace_child_noperm()
->> (called to modify the graph) would call a drain,
->> then one callback of .drained_begin() is bdrv_do_drained_begin_quiesce,
->> that specifically asserts that we are not in a coroutine.
->>
->> Now that we fixed the behavior, the drain will invoke a bh in the
->> main loop, so we don't have such problem. However, this test is still
->> illegal and fails because we forbid graph changes from I/O paths.
->>
->> Once we add the required subtree_drains to protect
->> bdrv_replace_child_noperm(), the key problem in this test is in:
-> 
-> Probably a question for a different patch, but why is a subtree drain
-> required instead of just a normal node drain? It feels like a bigger
-> hammer than what is needed for replacing a single child.
-> 
->> acb = blk_aio_preadv(blk, 0, &qiov, 0, detach_by_parent_aio_cb, NULL);
->> /* Drain and check the expected result */
->> bdrv_subtree_drained_begin(parent_b);
->>
->> because the detach_by_parent_aio_cb calls detach_indirect_bh(), that
->> modifies the graph and is invoked during bdrv_subtree_drained_begin().
->> The call stack is the following:
->> 1. blk_aio_preadv() creates a coroutine, increments in_flight counter
->> and enters the coroutine running blk_aio_read_entry()
->> 2. blk_aio_read_entry() performs the read and then schedules a bh to
->>    complete (blk_aio_complete)
->> 3. at this point, subtree_drained_begin() kicks in and waits for all
->>    in_flight requests, polling
->> 4. polling allows the bh to be scheduled, so blk_aio_complete runs
->> 5. blk_aio_complete *first* invokes the callback
->>    (detach_by_parent_aio_cb) and then decrements the in_flight counter
->> 6. Here we have the problem: detach_by_parent_aio_cb modifies the graph,
->>    so both bdrv_unref_child() and bdrv_attach_child() will have
->>    subtree_drains inside. And this causes a deadlock, because the
->>    nested drain will wait for in_flight counter to go to zero, which
->>    is only happening once the drain itself finishes.
-> 
-> So the problem has nothing to do with detach_by_parent_aio_cb() being
-> an I/O function in the sense of locking rules (which it isn't), but with
-> calling a drain operation while having the in_flight counter increased.
-> 
-> In other words, an AIO callback like detach_by_parent_aio_cb() must
-> never call drain - and it doesn't before your changes to
-> bdrv_replace_child_noperm() break it. How confident are we that this
-> only breaks tests and not real code?
-I am not sure. From a quick look, the AIO callback is really used pretty
-much everywhere. Maybe we should really find a way to asseert
-GLOBAL_STATE_CODE and friends?
+Stefan
 
-> 
-> Part of the problem is probably that drain is serving two slightly
-> different purposes inside the block layer (just make sure that nothing
-> touches the node any more) and callers outside of the block layer (make
-> sure that everything has completed and no more callbacks will be
-> called). This bug sits exactly in the difference between those two
-> concepts - we're waiting for more than we would have to wait for, and it
-> causes a deadlock in this combination.
-> 
-> I guess it could be fixed if BlockBackend accounted for requests that
-> are already completed, but their callback hasn't yet. blk_drain() would
-> then have to wait for those requests, but blk_root_drained_poll()
-> wouldn't because these requests don't affect the root node any more.
-> 
->> Different story is test_detach_by_driver_cb(): in this case,
->> detach_by_parent_aio_cb() does not call detach_indirect_bh(),
->> but it is instead called as a bh running in the main loop by
->> detach_by_driver_cb_drained_begin(), the callback for
->> .drained_begin().
->>
->> This test was added in 231281ab42 and part of the series
->> "Drain fixes and cleanups, part 3"
->> https://lists.nongnu.org/archive/html/qemu-block/2018-05/msg01132.html
->> but as explained above I believe that it is not valid anymore, and
->> can be discarded.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> 
-> I feel throwing tests away just because they don't pass any more is a
-> bit too simple. :-)
+--hzr9mwc4r5yZwhgQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Well if the test is doing something it is not supposed to do, why not :)
+-----BEGIN PGP SIGNATURE-----
 
-And anyways this was obviously discussed in IRC with Paolo and somebody
-else, can't remember who.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIKOToACgkQnKSrs4Gr
+c8hX5Af/RDI3Rqj6L5eyb+Ks56++lhhcC1yy85mDGrcy6ETmoDhFD74j3ElfYEY5
+jc48AY9P9qX+N56RAaAuK9nOreJZBJxYuSsfffs/1IhVPRvY030Fq1i3yG0ZOMMo
+5WXVmui8NwZROQ3beLzQYjkxklrGQVnkSGeycjNad8WZVtuzkq8taNBuIDj8r/Wn
+UowjkBOEchcMqg8qtoL3Il5cwgl4d9G73Ly2U/uMOdjxAAuagBexa3/tKx8Kftbt
+2WFfWuYBh0imPhOfk6gcZmhSBgRfvzogabZ7A0vGdTyM95AoXWNPY8/1mdQvTJbB
+9IEbvPQ7J48BTpCRJcr1OvdDSa7Xpg==
+=xAso
+-----END PGP SIGNATURE-----
 
-Emanuele
-> 
-> Kevin
-> 
+--hzr9mwc4r5yZwhgQ--
 
 
