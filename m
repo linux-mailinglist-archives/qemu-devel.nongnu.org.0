@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50984B5A14
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:42:05 +0100 (CET)
-Received: from localhost ([::1]:56110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4084D4B5A3C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:50:27 +0100 (CET)
+Received: from localhost ([::1]:33606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgIW-0004Oo-En
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:42:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40210)
+	id 1nJgQb-0000GP-UW
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:50:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg96-0007t6-FY
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:20 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=45863
- helo=mail-pj1-x102f.google.com)
+ id 1nJg9H-00086m-Sm
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:31 -0500
+Received: from [2607:f8b0:4864:20::62c] (port=33459
+ helo=mail-pl1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg93-0002ah-L5
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:19 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- q11-20020a17090a304b00b001b94d25eaecso12159747pjl.4
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:32:17 -0800 (PST)
+ id 1nJg9D-0002b9-OJ
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:28 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id l9so9616205plg.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:32:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0ctiKF0Jyyq27/q5gHsjXea8lL0vP843emSfi1B3548=;
- b=TfJI8JOxVZGw+Cjg8GbI36yZhMV2CI4g7UpKplsWJU01a8JKPoDtusGrFCB04zm+21
- Wsaw6v0Fkl8AQNKh2EuCAsNqNheeCNsMdCdWuUBknQ7u2MTe8sTZfxcuwc2riR1oxM+9
- 8JYrwvm68Unl2QvrpN0f/zDqpKEsDxiblMZ4aGxyfBa/qhQM07wUzBUdAAzqKl7YniHl
- goNxvyUXM8t5fiOloPCCGmZ3jMHvGkWGFFC6oDD5syKHLAnpob7DNm4e0j1RalnPjF4j
- SysU59ArqMAp4WvkSj+eq2/ygKBRcB2aHcsATIWSPQ/s/v1aO6Ws0ogQLqhNlw7aFu/V
- l8yA==
+ bh=aNzApqEkzW+75FX1gSqkKeS+X5vqpG5E4mcrukO7clU=;
+ b=kMV9OHx6GC9DgspqX9veMZb/3ZiRya07o+rW/ZrGIfmT0fT89XdOLPqk/r1CmyNEac
+ kYLf1JlxNd1EuzxR/zH7TVmqlNe8mGdN/C2Hwfrkm+ofpkH98ycucFxmAASjE9vTkCUc
+ GVPgdi3wl788npKtxKVoxOIOSfzVWZFYl5oV/FacXBUjcRSrS93nYegls/E84endS9/+
+ d0mol55Cl9f7O/hv+pEi8BEMAq4TC3emauqo2N9YFmB09z9jPxe6vR0Is7JA3xzxRlno
+ 3CHQbEzDeirQE6rLMEuIhqsDXozn2aic1F13Z8aRBKwEjWb5ncc9+8CoKyWkxJZAmvpc
+ lxjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0ctiKF0Jyyq27/q5gHsjXea8lL0vP843emSfi1B3548=;
- b=TJdNmHIEK0hYZeQVKleQN/Yc1Ih4T4PrI41JJ/Ic16LSjFNBw3N1nTbRl1r8qo5wGl
- uwdLxi7WYJzqnw+OtdCacXcP2U6zoSiQ90SuLIOZfKtBhPehy52Wlu7rG35HVblvtKy0
- wUnkvmn5SOZwamelPpsZ1MTFl9k7/4/9RW0LlUJ+Tncx7li/sHaaKwcAOyXxhOx+vYIn
- yE2KbDWasSR4px5rH4QjkNS6DfzvfBZtXacP/mKqcssIcDdbFVB+8CT1rsWdZW6e0Kr/
- wTqRgI5EEuDD2+gg1heqNcUK9/UilPa3cNxPhRPYeehTveVhzdB4vntfJXQnSQqvSR/H
- n2Ew==
-X-Gm-Message-State: AOAM533VAho5ngOxlqHuUU80GSSPf1S/+6bhQl4RPm9djlVyJWIC87e4
- cdq+ZsZl4X024/BWRi8TH6yMxIYX7xw=
-X-Google-Smtp-Source: ABdhPJyhza6wbVX19NKutzSHIvVYEgUDe4d4owy/MYVTO6H/fGyUkS91Hrz2vwIORaCgwz2Exno7gQ==
-X-Received: by 2002:a17:902:d2d2:: with SMTP id n18mr81343plc.88.1644863536266; 
- Mon, 14 Feb 2022 10:32:16 -0800 (PST)
+ bh=aNzApqEkzW+75FX1gSqkKeS+X5vqpG5E4mcrukO7clU=;
+ b=R+TtFaUoPrP+0HTQJq/lmksenfT4/QfoYZayauM54EmgvFoyuixBQGnEiCGSxEWnQ3
+ R5XNeTIC5/MojTnwDL2N7Sy/KAX3XxNR1cVOfzGhsqdS759DmdjkIi0iPmizMp5tXyCS
+ 4SXYX+pedptCDDFhRaFueKc1RZL2hggP5spaHKD/3+QIi/XB9+opG4TmDof6jFf16uoo
+ RBxDroopElPIlnJyOUYkmTcDqxESuMtifB5EuqN3ZpHSwEJYJIrNhMN0beNZ5mzLNJtz
+ pi64YWR4t0QB4wH08Sg6QETRnc1va0OmadOamLATyJuNkT5EaltxOfrwIXAgBdaZpOMc
+ yCbA==
+X-Gm-Message-State: AOAM5336CREjmUiAJ8NnEFeMBGW9DuCsbBnoa++YvnOwFCeQ6t+SWUFN
+ IHMk1r7SamtbL5jyFj39kAqvFoXPv30=
+X-Google-Smtp-Source: ABdhPJxhQSoXk2ktbV5YASNFgSurPKtPsEmEomc8I46HOx4pmLtEKZ3MFY0+9EfcHHMV/ZghFARJPw==
+X-Received: by 2002:a17:902:f291:: with SMTP id
+ k17mr295058plc.45.1644863545037; 
+ Mon, 14 Feb 2022 10:32:25 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id c17sm39512938pfv.68.2022.02.14.10.32.13
+ by smtp.gmail.com with ESMTPSA id nu15sm5971005pjb.28.2022.02.14.10.32.22
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:32:15 -0800 (PST)
+ Mon, 14 Feb 2022 10:32:24 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 03/14] hw/tricore: Remove unused and incorrect header
-Date: Mon, 14 Feb 2022 19:31:33 +0100
-Message-Id: <20220214183144.27402-4-f4bug@amsat.org>
+Subject: [PATCH v2 04/14] exec/cpu_ldst: Include 'cpu.h' to get target_ulong
+ definition
+Date: Mon, 14 Feb 2022 19:31:34 +0100
+Message-Id: <20220214183144.27402-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220214183144.27402-1-f4bug@amsat.org>
 References: <20220214183144.27402-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -98,27 +99,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-TriCore boards certainly don't need the ARM loader API :)
-
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/tricore/triboard.h | 1 -
- 1 file changed, 1 deletion(-)
+ include/exec/cpu_ldst.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/tricore/triboard.h b/include/hw/tricore/triboard.h
-index f3844be447..094c8bd563 100644
---- a/include/hw/tricore/triboard.h
-+++ b/include/hw/tricore/triboard.h
-@@ -21,7 +21,6 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "hw/boards.h"
--#include "hw/arm/boot.h"
- #include "sysemu/sysemu.h"
- #include "exec/address-spaces.h"
- #include "qom/object.h"
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index da987fe8ad..6adacf8928 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -64,6 +64,7 @@
+ 
+ #include "exec/memopidx.h"
+ #include "qemu/int128.h"
++#include "cpu.h"
+ 
+ #if defined(CONFIG_USER_ONLY)
+ /* sparc32plus has 64bit long but 32bit space address
 -- 
 2.34.1
 
