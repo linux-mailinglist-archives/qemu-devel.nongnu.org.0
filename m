@@ -2,85 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D2F44B4422
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:31:56 +0100 (CET)
-Received: from localhost ([::1]:33470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E99B4B44B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:46:53 +0100 (CET)
+Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJWm3-0000f4-2R
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:31:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44086)
+	id 1nJX0S-0001bC-4L
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:46:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWgO-0006vl-RH
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:26:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWgN-0002gs-Dr
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:26:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644827162;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GRn1oyDGFx6bNvOgv+ye5sNAly2OuEfqYA/+Cl1ogc4=;
- b=gdfSJjo/yJDDY8qz1zxbNDrpjKdRTu5ZK0XErwzyHzXpbuWOku7hNgTkBW5UUrOjIFw1ZV
- 4ruS9AI0qjzWDn4jL2H6IMaaRimR3ONS1styLAZ2f2kvfDoX172KDDwpP7b3r2rF32k9UP
- ep/pvbExi0/34bffT/RaSezTHfbR064=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-103-hyeXoVkBNjCGj4kUdqwNMA-1; Mon, 14 Feb 2022 03:26:01 -0500
-X-MC-Unique: hyeXoVkBNjCGj4kUdqwNMA-1
-Received: by mail-pj1-f70.google.com with SMTP id
- j23-20020a17090a7e9700b001b8626c9170so13689231pjl.1
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 00:26:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=GRn1oyDGFx6bNvOgv+ye5sNAly2OuEfqYA/+Cl1ogc4=;
- b=k1YEWwK+KEFXBHRrtpmg0WfrhVJXMcLtdu+Mkm5StyxOLbCqo4W5JWGiQ0la3QHUl0
- w0YqKUpgOO7a/8/sW3Z5IFUl3hXqbuSGtZ900J3IaHTUtSlDD0YjiUIqGty4643IJ6w6
- JRSQdlVjNOhlthg3s62SKyL5ALJAZ+ju1q3UESa38y2PmcMcUI2ZCNp7z21se5DU9m+b
- sxOiK7oLBN2BdJcA/G5lCgEBRjomZ6veM4afxoJyBq9sQhw8hHmlqcu7WoP++p7hwE3J
- sFIRtrHLHfPc8slgEE6tyZEDV2FuG7pC3ivfd0r/9eclLpwpJAzdGpED8r/AFMzQuMuG
- d0FA==
-X-Gm-Message-State: AOAM533S3EKNwW5LwNeCFlDS15oso1/KMlbSSf1L1EbmRq7A/DlVsihd
- mHVxhMnyZsDrZeZZ+t1yIyQhEYVvpZ7gOyObcdqSeSkq38RzH1QIqdD1ZXCliraARqE1j72q8+W
- W3yUxLGDkdRxkQG4=
-X-Received: by 2002:a63:156:: with SMTP id 83mr10833382pgb.36.1644827160070;
- Mon, 14 Feb 2022 00:26:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz8c0EhE4UwMIu5yu03oexfGSBk5mhcdQ1F+W9JD1OUfgVRnP0BSGlCjWuo3yXvHcC1K3eUXg==
-X-Received: by 2002:a63:156:: with SMTP id 83mr10833364pgb.36.1644827159818;
- Mon, 14 Feb 2022 00:25:59 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.137])
- by smtp.gmail.com with ESMTPSA id b16sm4608156pfv.192.2022.02.14.00.25.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 00:25:59 -0800 (PST)
-Date: Mon, 14 Feb 2022 16:25:52 +0800
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v14 7/7] softmmu/dirtylimit: Implement dirty page rate
- limit
-Message-ID: <YgoSEDGhvGlMMRBE@xz-m1.local>
-References: <cover.1644509582.git.huangy81@chinatelecom.cn>
- <32a65f0fbb691aa66094fc9162bff4daa6d7771d.1644509582.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1nJWut-0008DK-1V
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:41:04 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:41889
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nJWuq-0005EV-2i
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:41:02 -0500
+HMM_SOURCE_IP: 172.18.0.48:40818.2006315065
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id A9B37280137;
+ Mon, 14 Feb 2022 16:40:33 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 7fbdb136936c4a3c8b239635bb055cb8 for
+ peterx@redhat.com; Mon, 14 Feb 2022 16:40:41 CST
+X-Transaction-ID: 7fbdb136936c4a3c8b239635bb055cb8
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Message-ID: <7ea51695-9590-bd9b-1d7d-49e8e5571f88@chinatelecom.cn>
+Date: Mon, 14 Feb 2022 16:40:31 +0800
 MIME-Version: 1.0
-In-Reply-To: <32a65f0fbb691aa66094fc9162bff4daa6d7771d.1644509582.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v14 3/7] migration/dirtyrate: Refactor dirty page rate
+ calculation
+To: Peter Xu <peterx@redhat.com>
+References: <cover.1644509582.git.huangy81@chinatelecom.cn>
+ <5984c1faf2de00df1a4add819fdab5cbe4014746.1644509582.git.huangy81@chinatelecom.cn>
+ <YgoLa4B7Eq8OOJq7@xz-m1.local>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <YgoLa4B7Eq8OOJq7@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.227;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,41 +72,108 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 11, 2022 at 12:17:41AM +0800, huangy81@chinatelecom.cn wrote:
-> +static struct DirtyLimitInfoList *dirtylimit_query_all(void)
-> +{
-> +    int i, index;
-> +    DirtyLimitInfo *info = NULL;
-> +    DirtyLimitInfoList *head = NULL, **tail = &head;
-> +
-> +    dirtylimit_state_lock();
-> +
-> +    if (!dirtylimit_in_service()) {
 
-Need to unlock?
 
-> +        return NULL;
-> +    }
-> +
-> +    for (i = 0; i < dirtylimit_state->max_cpus; i++) {
-> +        index = dirtylimit_state->states[i].cpu_index;
-> +        if (dirtylimit_vcpu_get_state(index)->enabled) {
-> +            info = dirtylimit_query_vcpu(index);
-> +            QAPI_LIST_APPEND(tail, info);
-> +        }
-> +    }
-> +
-> +    dirtylimit_state_unlock();
-> +
-> +    return head;
-> +}
+在 2022/2/14 15:57, Peter Xu 写道:
+> Mostly good, one trivial nit below:
+> 
+> On Fri, Feb 11, 2022 at 12:17:37AM +0800, huangy81@chinatelecom.cn wrote:
+>> +int64_t vcpu_calculate_dirtyrate(int64_t calc_time_ms,
+>> +                                 int64_t init_time_ms,
+>> +                                 VcpuStat *stat,
+>> +                                 unsigned int flag,
+>> +                                 bool one_shot)
+>> +{
+>> +    DirtyPageRecord *records;
+>> +    int64_t duration;
+>> +    int64_t dirtyrate;
+>> +    int i = 0;
+>> +    unsigned int gen_id;
+>> +
+>> +retry:
+>> +    cpu_list_lock();
+>> +    gen_id = cpu_list_generation_id_get();
+>> +    records = vcpu_dirty_stat_alloc(stat);
+>> +    vcpu_dirty_stat_collect(stat, records, true);
+>> +    cpu_list_unlock();
+>> +
+>> +    duration = dirty_stat_wait(calc_time_ms, init_time_ms);
+> 
+> Is it a must to pass in init_time_ms rather than always sleep in
+> dirty_stat_wait()?  Could we simply drop it?
+> 
+Indeed, the parameter 'init_time_ms' seems kind of weird :(, we 
+introduce 'init_time_ms' just becasue the calculate_dirtyrate_dirty_ring 
+will call the function, see the following block:
+
+
+  static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
+  {
+-    CPUState *cpu;
+-    int64_t msec = 0;
+      int64_t start_time;
++    int64_t duration;
+      uint64_t dirtyrate = 0;
+      uint64_t dirtyrate_sum = 0;
+-    DirtyPageRecord *dirty_pages;
+-    int nvcpu = 0;
+      int i = 0;
+
+-    CPU_FOREACH(cpu) {
+-        nvcpu++;
+-    }
+-
+-    dirty_pages = malloc(sizeof(*dirty_pages) * nvcpu);
+-
+-    DirtyStat.dirty_ring.nvcpu = nvcpu;
+-    DirtyStat.dirty_ring.rates = malloc(sizeof(DirtyRateVcpu) * nvcpu);
+-
+-    dirtyrate_global_dirty_log_start();
+-
+-    CPU_FOREACH(cpu) {
+-        record_dirtypages(dirty_pages, cpu, true);
+-    }
++    /* start log sync */
++    global_dirty_log_change(GLOBAL_DIRTY_DIRTY_RATE, true);
+
+      start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+      DirtyStat.start_time = start_time / 1000;
+
+The reason why we introduce the 'init_time_ms' is wanting to store the
+start_time info and display.
+
+Dropping this parameter is fine from my point view if we ignore the 
+duration error result from the delay between caller and callee of
+'vcpu_calculate_dirtyrate’
+
+-    msec = config.sample_period_seconds * 1000;
+-    msec = set_sample_page_period(msec, start_time);
+-    DirtyStat.calc_time = msec / 1000;
++    /* calculate vcpu dirtyrate */
++    duration = vcpu_calculate_dirtyrate(config.sample_period_seconds * 
+1000,
++                                        start_time,
++                                        &DirtyStat.dirty_ring,
++                                        GLOBAL_DIRTY_DIRTY_RATE,
++                                        true);
+
+-    dirtyrate_global_dirty_log_stop();
+-
+-    CPU_FOREACH(cpu) {
+-        record_dirtypages(dirty_pages, cpu, false);
+-    }
++    DirtyStat.calc_time = duration / 1000;
+
+
+
 
 -- 
-Peter Xu
+Best regard
 
+Hyman Huang(黄勇)
 
