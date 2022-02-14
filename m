@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D234B4EE4
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 12:40:30 +0100 (CET)
-Received: from localhost ([::1]:53660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF7D74B4F26
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 12:48:05 +0100 (CET)
+Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJZiX-0005Fh-MX
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 06:40:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34454)
+	id 1nJZps-0007TT-U3
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 06:48:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nJZgv-0004Q8-4I
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:38:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28231)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nJZgt-0002M1-If
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:38:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644838726;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2NIQ/Gu+cOrnkgcuu6YkIdxFZujafle+mEe5M5lG72o=;
- b=DE2z5aUMNsv6f/RiidwbWXmD/Px1ZNrX4jdsK0oRb4FN1JsoXPC9dMuiCdE45wUuRaNAD9
- k5eVR4e6mG/rOHxWDN99WeVD3jyrbNt0ivIM/XebuYJhjJAIhABah7SDDJ1wsX/ZpwoZEx
- cj1HN2VA8g9eYgoHUb/MvbVvYE7ILIU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-qv1gGjXPMv2XO3neuNIp-w-1; Mon, 14 Feb 2022 06:38:43 -0500
-X-MC-Unique: qv1gGjXPMv2XO3neuNIp-w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20A041091DA2;
- Mon, 14 Feb 2022 11:38:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD963108647A;
- Mon, 14 Feb 2022 11:38:23 +0000 (UTC)
-Date: Mon, 14 Feb 2022 12:38:22 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [RFC] thread-pool: Add option to fix the pool size
-Message-ID: <Ygo/LimCnA7BDshE@redhat.com>
-References: <20220202175234.656711-1-nsaenzju@redhat.com>
- <Yfu0E5LwZ/x0EZrl@stefanha-x1.localdomain>
- <Yfu08bAJKnRC3eFD@redhat.com>
- <Yfvkf1cBPGc4TR49@stefanha-x1.localdomain>
- <YgZJaTtoHN8hzrvk@redhat.com>
- <YgoqdtB9I3HrB1su@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nJZl1-0006NS-7u; Mon, 14 Feb 2022 06:43:04 -0500
+Received: from [2a00:1450:4864:20::62b] (port=36551
+ helo=mail-ej1-x62b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nJZkz-00033D-Hs; Mon, 14 Feb 2022 06:43:02 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id jg20so11866139ejc.3;
+ Mon, 14 Feb 2022 03:42:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IXD0x/H06a8pgpN9KeTj2LGU8oMsaApqIvsXoxV18ig=;
+ b=HTmMfeZ8clctkkhLfcs8bK31UVwPFMTS2jTRtaS5aOIAaf0eAenN+3wSesKF0n3B6i
+ TCxrIFFVH9G1PWfID/LJQF2cMZBOdtgGi9IGuqhBVkRGJIZ+QI3460E2DsOS5V0oMFVn
+ loJWaIzAJcuTmeTqLHxMJUaUm7uoDeDzFkrjYvpyxF69RXoA2CEwyzlKZZT7y5PEuaaf
+ POxIYzI2cZSa/Dnfkw2zzv/bT1U76oQ9jQRfmHgAQVnlmKoiedr01TYKNDXoNDlwajvc
+ hC/CK4bteLBfF9Xo8sVY2YW/XRSQAJfmrFU/DTtkLndQ6QkqXFj1s3KD55rAEuVSZMXB
+ T1oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IXD0x/H06a8pgpN9KeTj2LGU8oMsaApqIvsXoxV18ig=;
+ b=DFNkWrLo7iE3eIDVT55SpR33cafL4LHH8Jz8kfCqI6vD34f/JcqfApWTqC+d+lNZZP
+ 5+S9oLYQ20jBs18FqXAoCvCVJwkZa6J6DcDhZvAAzMJweF+2WtUobUz8OO0m1aZDhbNq
+ xtoJanTWX3PkgjZ/uzmlwwI+MyY1E1W2IGIrZ1ynq04OwO3Mn39u6FASPLkxe+M6s32I
+ fnbglnSpRJg+cjqEUZANhfcut2AD4cUU7wfdC1lCv71m6YKudRHI3ucLwA1bit4kGt3c
+ N/FT/aPucdlMeJpjXmlBDzXorilLC9PC+cr1vwx0i9LBiNGh82sXHnezl27s/Ke8ey0j
+ NAww==
+X-Gm-Message-State: AOAM533wrqaVOlGfwYDDg7AQHp+cYKpSzGHxB6X5YaA7bz9Trb6Q3c92
+ 84KufAitXBWXSn5Uuy/briM=
+X-Google-Smtp-Source: ABdhPJxhzaAY1NZGnZjk9JB+2EXGPm+hrSenog35U5osaJOzeiprc0tBY+QODXuxxpK4U85AGnarxw==
+X-Received: by 2002:a17:907:7f94:: with SMTP id
+ qk20mr11437556ejc.328.1644838977201; 
+ Mon, 14 Feb 2022 03:42:57 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id m7sm14144187edb.16.2022.02.14.03.42.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 03:42:56 -0800 (PST)
+Message-ID: <db25869b-fbf2-f5ca-b2f8-4fe4f3c0a040@redhat.com>
+Date: Mon, 14 Feb 2022 12:42:55 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+nrueTLIhly9M0iX"
-Content-Disposition: inline
-In-Reply-To: <YgoqdtB9I3HrB1su@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 5/6] test-bdrv-drain.c: remove test_detach_by_parent_cb()
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+References: <20220208153655.1251658-1-eesposit@redhat.com>
+ <20220208153655.1251658-6-eesposit@redhat.com> <YgaDBkblIA6wu82p@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YgaDBkblIA6wu82p@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.785, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,98 +94,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, mtosatti@redhat.com, qemu-devel@nongnu.org,
- hreitz@redhat.com, pbonzini@redhat.com,
- Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/11/22 16:38, Kevin Wolf wrote:
+> The callback of an I/O function isn't I/O, though. It is code_after_
+> the I/O has completed. If this doesn't work any more, it feels like this
+> is a bug.
 
---+nrueTLIhly9M0iX
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The issue is that the I/O has *not* completed yet.  blk_aio_preadv(..., 
+cb, opaque) is not equivalent to
 
-Am 14.02.2022 um 11:09 hat Stefan Hajnoczi geschrieben:
-> On Fri, Feb 11, 2022 at 12:32:57PM +0100, Kevin Wolf wrote:
-> > Am 03.02.2022 um 15:19 hat Stefan Hajnoczi geschrieben:
-> > > On Thu, Feb 03, 2022 at 10:56:49AM +0000, Daniel P. Berrang=E9 wrote:
-> > > > On Thu, Feb 03, 2022 at 10:53:07AM +0000, Stefan Hajnoczi wrote:
-> > > > > On Wed, Feb 02, 2022 at 06:52:34PM +0100, Nicolas Saenz Julienne =
-wrote:
-> > > 1. A global default value that all new AioContext take. The QEMU main
-> > >    loop's qemu_aio_context will use this and all IOThread AioContext
-> > >    will use it (unless they have been overridden).
-> > >=20
-> > >    I would define it on --machine because that's the "global" object =
-for
-> > >    a guest, but that's not very satisfying.
-> >=20
-> > Semantically, -machine is about the virtual hardware where as iothreads
-> > are about the backend, so I agree it's not a good fit.
-> >=20
-> > For the main thread, you may want to configure all the same options that
-> > you can configure for an iothread. So to me that sounds like we would
-> > want to allow using an iothread object for the main thread, too.
-> >=20
-> > That would still require us to tell QEMU which iothread object should be
-> > used for the main thread, though.
->=20
-> Making the main loop thread an IOThread is an interesting direction but
-> not an easy change to make.
->=20
-> The main loop thread has a custom event loop that is not interchangeable
-> with the IOThread event loop:
-> - The main loop has a poll notifier interface for libslirp fd monitoring
->   integration.
-> - The main loop is a GLib event loop but manually polls to get
->   nanosecond resolution timers.
-> - The main loop has icount integration.
-> - The main loop has the special iohandler AioContext
->=20
-> The IOThread event loop runs an optimized AioContext event loop instead.
-> It falls back to regular g_main_loop_run() if there is a GSource user.
->=20
-> It would definitely be nice to unify the main loop with IOThread and
-> then use --object iothread,... to configure main loop parameters.
->=20
-> I'm not sure if requiring that of Nicolas is fair though. The event
-> loops in QEMU are complex and changes are likely to introduce subtle
-> bugs or performance regressions.
+	ret = blk_co_preadv(...);
+	cb(ret, opaque);
 
-I'm not suggesting actually running the iothread event loop instead,
-merely using the properties of an object to configure the main thread as
-the external user interface.
-Whether this uses the same main loop code as today or is moved to the
-regular iothread event loop is an implementation detail that can be
-changed later.
+but rather to
 
-Or we could maybe use a different object type like 'mainthread' and
-share the properties using QOM inheritance.
+	blk_inc_in_flight(blk);
+	ret = blk_co_preadv(...);
+	cb(ret, opaque);
+	blk_dec_in_flight(blk);
 
-Kevin
+Your own commit message (yeah I know we've all been through that :)) 
+explains why, and notes that it is now invalid to drain in a callback:
 
---+nrueTLIhly9M0iX
-Content-Type: application/pgp-signature; name="signature.asc"
+     commit 46aaf2a566e364a62315219255099cbf1c9b990d
+     Author: Kevin Wolf <kwolf@redhat.com>
+     Date:   Thu Sep 6 17:47:22 2018 +0200
 
------BEGIN PGP SIGNATURE-----
+     block-backend: Decrease in_flight only after callback
 
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmIKPy0ACgkQfwmycsiP
-L9agGQ/+JxQQGbN0KfhZpkaG7h+vmeqzjqOBey2C/oKzwuio2SRZgEDOnKWGOxcN
-LcaUL89JRD95to37UpdmCX2Ug3eQu/vs3feQi0R7dYOL2UJEaRzCDuvuWAYJSofR
-xx2YLPdES4kqdq+4kKDGvqYBHD/T82MAlzrnhGgXGfklI04kQP1ycCj1OP6huw7K
-u4n2rvtDZk3Jk+hnRAae31LcgI14vwgimVrVb+x9q++rh0S/bsVhWbszuUoVpgBP
-xBUFfuc02lfh8OiocWWLyAFZ1pzFWBxSdJcUwhKzkw/GvMKyFsSe8A92KE9FPca1
-NJm8lWl7fMYDDDpbATv+egrJneGXkl6s7vlI4jR9juj1LJlVN+NyQHIqRWrj+olf
-8Omkqtm9w6EbgIl+t9zmSL2PowSRo7T25p7tIxGt7nn5cO/vjzFCre0HvCJCoUKH
-AZxOsxE5q/YBttk7RxMd4TsrWC+xWF3x9teCw2Zr8IXySaSwDwbgaFcG8c9e9quE
-2R68r8DwlrYESDRWytat5uO/sqUv4scndhTuKIn/WYya40KetKSsjHJZD2onbep+
-uTW81TcSRyRzwY2JxSYX9egjL6DwNjkXQLAcZ8OZWf/S0OUI69PmEYuWUdS4y4Mo
-Kz8Y/eP0MV1Du2hfEDVYvYE+J5VTjk5ivDJ1MdEb1K5az0LqQ+M=
-=uE9K
------END PGP SIGNATURE-----
+     Request callbacks can do pretty much anything, including operations
+     that will yield from the coroutine (such as draining the backend).
+     In that case, a decreased in_flight would be visible to other code
+     and could lead to a drain completing while the callback hasn't
+     actually completed yet.
 
---+nrueTLIhly9M0iX--
+     Note that reordering these operations forbids calling drain directly
+     inside an AIO callback.
 
+So the questions are:
+
+1) is the above commit wrong though well-intentioned?
+
+2) is it unexpected that bdrv_replace_child_noperm() drains (thus 
+becoming invalid from the callback, albeit valid through a bottom half)?
+
+
+My answer is respectively 1) it's correct, many coroutines do 
+inc_in_flight before creation and dec_in_flight at the end, we're just 
+saying that it's _always_ the case for callback-based operations; 2) no, 
+it's not unexpected and therefore the test is the incorrect one.
+
+Paolo
 
