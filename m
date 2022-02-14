@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24AE4B5A32
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:47:46 +0100 (CET)
-Received: from localhost ([::1]:60326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2954B5A02
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:37:16 +0100 (CET)
+Received: from localhost ([::1]:53184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgO1-0007bS-2t
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:47:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40102)
+	id 1nJgDr-0002IF-Rr
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:37:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg8o-0007Oi-BV
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:02 -0500
-Received: from [2607:f8b0:4864:20::631] (port=44971
- helo=mail-pl1-x631.google.com)
+ id 1nJg8y-0007lm-Cs
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:12 -0500
+Received: from [2607:f8b0:4864:20::435] (port=44031
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg8m-0002Xo-N5
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:01 -0500
-Received: by mail-pl1-x631.google.com with SMTP id y18so11201611plb.11
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:32:00 -0800 (PST)
+ id 1nJg8v-0002Zq-IU
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:32:12 -0500
+Received: by mail-pf1-x435.google.com with SMTP id d187so30676290pfa.10
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:32:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TE0drlB6/eltvA1kfU2gkRbJ1jChXTeQTSUe7QJMmf4=;
- b=Q0EehcpG55lh8lCuIGhyGQgqyumM8EqYc1w0/fH8//hez6affkzULU6T2C4yWTYzQw
- CcNGelEOsFSuJQXlZ0oYVrXv96LP4bq3iDsd/qXspv1MJIewCcOrBaFfx8lEijMgDd0Y
- 4PDeOaGj7FBsV0m8/dfO4JVcsWRvEUkuUQH+rI5F2aGKldiyR7PTbdfBedcwu/9ppg6n
- w2TYEhy4ldUcJh5XNeXv17l5BRjsmtSYmtHOdmMsFhTZ3H+tgFjIKmtInabmpI/+LhFe
- TvSMNMVEgLIPvfZYK4EF+tkToJIyO+Lhj/CdC7KGPJaV9YbU4OCbePvfhdktBP2qOnD2
- 00oA==
+ bh=b2fgRI3IoLww342OIA82wOdyRdznLW7Fl+mebf4aKXY=;
+ b=TTaUfI9wu02PKwTLFEP478guQ49UOtNPjLi7AwIKqHlsZlUwTXvDBt6QCNXpGuiMTM
+ aYU34wE5y3cVsix38qS4mgwmUNMmtsIcbaShEPjBD8tWq/81K/qdxNAuhdetSAqvp0OO
+ hiYwkZnx7BEiX5tBXGl8G3tHbq/M2aH/0esCKGbnjneKItcVlaymE3rLY+/0ZVBC7ylu
+ 9OnQ+2BrvoJCXHS558ogHnhU6XudcwlD73j7Jz+b8H6rQNvJF4xvTecy1Fbp3wv7xB25
+ GbFNmCbp5+zBIQWo32KrfOAGw/K9qu9i1CuwJ+i+cHXZY928hmFS+rTJoqrGICZx4N5s
+ +GKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TE0drlB6/eltvA1kfU2gkRbJ1jChXTeQTSUe7QJMmf4=;
- b=nmmsRI21qWETc57oc23WNeyN/5iG2Pv4gaYddhvgXorbmrdYn+wQ9gb2RTnR/mxB9f
- MkgIvrEnPoTsiX8qew2Z8tIZfnbhow+CiJoYhrcm761JppBzbj6cDrFi1G6QVM6fB1iI
- WwjOD6JvQGuambb0Yf+YxQV9T09GdWHlovWF8V7bb8Fu8MAo37IZeuirG1564kRVsz8G
- 9suNOORUDNRS0cllie1zNl+6pz8yKHrltcvK8imEZC4XdLOBGkzBweU9749NSKSO36Rc
- 7ppCTSVF9IE5d2usdxtdqi71ofpo2zgEJyoZWjIn+cpSyfoBzLt2uruwe4uS6J++Z19y
- q+CQ==
-X-Gm-Message-State: AOAM531DjTNlXMRXk7cSuG8j35/9YeDTwFXV1haPZYM7EEkQvrxgfjG7
- I1OjjIRGazpWE+kKgtMMgnF6kUCUlQI=
-X-Google-Smtp-Source: ABdhPJxZaREpKSYVAtJBXp6UKVL+dB2rdHFHHGMAxPaIiMnEkisevFRZPQNLPcVVxexCG/yi+N/gHw==
-X-Received: by 2002:a17:90a:c7d2:: with SMTP id
- gf18mr1072124pjb.189.1644863519213; 
- Mon, 14 Feb 2022 10:31:59 -0800 (PST)
+ bh=b2fgRI3IoLww342OIA82wOdyRdznLW7Fl+mebf4aKXY=;
+ b=s8R1NWIIb/nJl+BS/OcfQSQUBlN9cY2UINGhV77PZ+meNJ6r4wn85xpK99daZSxSaW
+ tz4S1XJixHgbR9WuTZCVcbg3zzzjPX5zFPDojYupB0RazPoaQpl0KyutQLnVlSSAJOsW
+ i0GxsO3jb2Yq8ZOCIQ6PK8Es1q8eHVbLoIFcQq8TeFRQsT4vZJZjsPDJbFOWn5YF5oWA
+ yk8pxtsDHjR2QIYNmc9M69j6sqjcpjcd//+brnQms8KIaAkCtAYPDTHCjnEgdGdQFEnL
+ e/MpGyumBU8udckHnkcWl/JkpxL5WMTNCrq0mwgPmxyd3h0H07YrtuP1Qp+sDgVt1ulP
+ sSUQ==
+X-Gm-Message-State: AOAM531ggK9jkaDaPM0LiMuUHyugjdIb9vdS25nt0k24FBGKcrBGQi9r
+ lC0mbGbvad9OzGNjwhcB1kkXAkACrJA=
+X-Google-Smtp-Source: ABdhPJywVTR29SWH/IB4rfBJhMTAFl6PXUKLhzxk9np7hhPBgKRmhkJ3PxtKqhGBn7dC0IT6hqha5g==
+X-Received: by 2002:a63:6ece:: with SMTP id j197mr285286pgc.420.1644863527957; 
+ Mon, 14 Feb 2022 10:32:07 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id j8sm39227191pfc.48.2022.02.14.10.31.56
+ by smtp.gmail.com with ESMTPSA id l12sm14591295pjq.57.2022.02.14.10.32.05
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:31:58 -0800 (PST)
+ Mon, 14 Feb 2022 10:32:07 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 01/14] meson: Display libfdt as disabled when system
- emulation is disabled
-Date: Mon, 14 Feb 2022 19:31:31 +0100
-Message-Id: <20220214183144.27402-2-f4bug@amsat.org>
+Subject: [PATCH v2 02/14] hw/m68k/mcf: Add missing 'exec/hwaddr.h' header
+Date: Mon, 14 Feb 2022 19:31:32 +0100
+Message-Id: <20220214183144.27402-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220214183144.27402-1-f4bug@amsat.org>
 References: <20220214183144.27402-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x435.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -99,38 +97,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-When configuring QEMU with --disable-system, meson keeps showing
-libfdt as "auto". Mark it as disabled instead.
+hwaddr type is defined in "exec/hwaddr.h".
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- meson.build | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/hw/m68k/mcf.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meson.build b/meson.build
-index df25e7a5e7..9460875693 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2266,8 +2266,8 @@ if get_option('cfi') and slirp_opt == 'system'
- endif
+diff --git a/include/hw/m68k/mcf.h b/include/hw/m68k/mcf.h
+index decf17ce42..8cbd587bbf 100644
+--- a/include/hw/m68k/mcf.h
++++ b/include/hw/m68k/mcf.h
+@@ -2,6 +2,7 @@
+ #define HW_MCF_H
+ /* Motorola ColdFire device prototypes.  */
  
- fdt = not_found
--fdt_opt = get_option('fdt')
- if have_system
-+  fdt_opt = get_option('fdt')
-   if fdt_opt in ['enabled', 'auto', 'system']
-     have_internal = fs.exists(meson.current_source_dir() / 'dtc/libfdt/Makefile.libfdt')
-     fdt = cc.find_library('fdt', kwargs: static_kwargs,
-@@ -2310,6 +2310,8 @@ if have_system
-     fdt = declare_dependency(link_with: libfdt,
-                              include_directories: fdt_inc)
-   endif
-+else
-+  fdt_opt = 'disabled'
- endif
- if not fdt.found() and fdt_required.length() > 0
-   error('fdt not available but required by targets ' + ', '.join(fdt_required))
++#include "exec/hwaddr.h"
+ #include "target/m68k/cpu-qom.h"
+ 
+ /* mcf_uart.c */
 -- 
 2.34.1
 
