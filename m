@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB1B4B5423
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:04:34 +0100 (CET)
-Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF7B4B5445
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:12:51 +0100 (CET)
+Received: from localhost ([::1]:32826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJcu1-0008L7-19
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:04:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45200)
+	id 1nJd22-0007W1-3A
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:12:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJc6i-0003O0-6Y
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:13:38 -0500
-Received: from [2607:f8b0:4864:20::433] (port=45887
- helo=mail-pf1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJc6g-0005IV-Px
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:13:35 -0500
-Received: by mail-pf1-x433.google.com with SMTP id p10so8784644pfo.12
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 06:13:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=+khw6U6y+8T0a5P4YmrSF4T8TdATIQD/T3tJuNMPB/Q=;
- b=wJyqgUHPK38DzRyOQzc932BTccRSdo0igozOpcjCxaLPEgydZHp8NZTigU2TNAPnRS
- 7oysWee3AbTX/sZtkgIWIlqoDScLaVMsA25X7y3Al7pvVW1GAXjm0dcc4mvyE7FfSVJk
- 4+PelnJXvTyeILyxpgSvqqog80QwOnas34/4y3G9q4LT52Sgn+1OQf/i8RUv8wuTtI/e
- 49zlRITDQj8oDEq3HO4tLhtVmHZhWbJpGiqAvRyxnmjleKElxC6ABCoz97JMvwifweLv
- 7hQeIntftF9I1XVuM9MhDr+LGOtIKQYI44A9CVEi7FaSE0WtoX/SiLYMMhSbBULEuV4p
- LitQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+khw6U6y+8T0a5P4YmrSF4T8TdATIQD/T3tJuNMPB/Q=;
- b=s1EDNL7oUTnethLU6yVQvWwVDsKhVsfovAGFEn2EghjgE3OsawdmEAvnwRylSpEqIW
- YihdWd972ghK6G7poQUtxJinmtxQsqYF89lvCnyqqbfkOLfRgKQ+eERjP8qj7zspFe1B
- XoJhfS2VapSCNRc5dZv/FeX2qLUq1ZA0fAqlBhfhq1zoNFisxkDst76jHr/A9ppSpuXL
- GvU808x9T/stvh9wVfDgmYGakjuh41bYENGUCrOIqw7+Dbu413u4qzNBoprEK65Tp+BP
- 1IS7Ml9IEzes7IrSoGqCzEiHLTZHlyPxS86E6dMYc2NaREl7tYgJVF8XZ4Axmc6xckFS
- +ZZQ==
-X-Gm-Message-State: AOAM5324Rk7HF5wcxcox2y7ta8pFLKnV/EgoXX9P+8hUv/nyNuBqozWe
- +csRyBarHonaTePDTtjFg3qhQrsC+eoDCw==
-X-Google-Smtp-Source: ABdhPJxyESkUxvhTi1Z3qc6MhXGJKj0urMaSU/AjPORDPc4iMepGtczdFDdFAeX8Dzon7e/z5exXoA==
-X-Received: by 2002:a63:5226:: with SMTP id g38mr12047023pgb.620.1644848013026; 
- Mon, 14 Feb 2022 06:13:33 -0800 (PST)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.127.101])
- by smtp.googlemail.com with ESMTPSA id hk3sm9808340pjb.12.2022.02.14.06.13.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 06:13:32 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH v3 3/3] hw/smbios: add assertion to ensure handles of tables
- 19 and 32 do not collide
-Date: Mon, 14 Feb 2022 19:42:36 +0530
-Message-Id: <20220214141237.47946-4-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220214141237.47946-1-ani@anisinha.ca>
-References: <20220214141237.47946-1-ani@anisinha.ca>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nJcAx-0007au-06
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:17:59 -0500
+Received: from [187.72.171.209] (port=38209 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>) id 1nJcAt-00067Q-Mh
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:17:58 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 14 Feb 2022 11:17:46 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 7C65C800059;
+ Mon, 14 Feb 2022 11:17:45 -0300 (-03)
+Message-ID: <f8164a77-80d1-86fa-7fc9-6089d6b4f34b@eldorado.org.br>
+Date: Mon, 14 Feb 2022 11:17:45 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::433;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x433.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 11/11] tests/tcg: add vectorised sha512 versions
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20220211160309.335014-1-alex.bennee@linaro.org>
+ <20220211160309.335014-12-alex.bennee@linaro.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220211160309.335014-12-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 14 Feb 2022 14:17:46.0037 (UTC)
+ FILETIME=[A34F4650:01D821AD]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.635, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,42 +62,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>, qemu-arm@nongnu.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since change b3cddba9c14b034 ("hw/smbios: fix table memory corruption with large memory vms")
-we reserve additional space between handle numbers of tables 17 and 19 for
-large VMs. This may cause table 19 to collide with table 32 in their handle
-numbers for those large VMs. This change adds an assertion to ensure numbers
-do not collide. If they do, qemu crashes with useful debug information for
-taking additional steps.
-
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- hw/smbios/smbios.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-changelog:
-v3: reworded the commit log and comment in code.
-
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 44c53797a4..1f8d5c252f 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -1048,6 +1048,12 @@ void smbios_get_tables(MachineState *ms,
-                                        mem_array[i].length);
-         }
- 
-+        /*
-+         * make sure 16 bit handle numbers in the headers of tables 19
-+         * and 32 do not overlap.
-+         */
-+        assert((mem_array_size + offset) < (T32_BASE - T19_BASE));
-+
-         smbios_build_type_32_table();
-         smbios_build_type_38_table();
-         smbios_build_type_41_table(errp);
--- 
-2.25.1
-
+T24gMTEvMDIvMjAyMiAxMzowMywgQWxleCBCZW5uw6llIHdyb3RlOg0KPiBUaGlzIGJ1aWxk
+cyB2ZWN0b3Jpc2VkIHZlcnNpb25zIG9mIHNoYTUxMiB0byBleGVyY2lzZSB0aGUgdmVjdG9y
+IGNvZGU6DQo+IA0KPiAgICAtIGFhcmNoNjQgKEFkdlNpbWQpDQo+ICAgIC0gaTM4NiAoU1NF
+KQ0KPiAgICAtIHMzOTB4IChNVlgpDQo+ICAgIC0gcHBjNjQgKHZlY3RvcikNCj4gDQo+IFNp
+Z25lZC1vZmYtYnk6IEFsZXggQmVubsOpZSA8YWxleC5iZW5uZWVAbGluYXJvLm9yZz4NCj4g
+UmV2aWV3ZWQtYnk6IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5h
+cm8ub3JnPg0KPiBNZXNzYWdlLUlkOiA8MjAyMjAyMDIxOTEyNDIuNjUyNjA3LTUtYWxleC5i
+ZW5uZWVAbGluYXJvLm9yZz4NCj4gDQo+IC0tLQ0KPiB2Mg0KPiAgICAtIHVzZSAtbXNzZTQu
+MSAtTzMgaW5zdGVhZCBvZiAtcGVudGl1bTQgZm9yIGkzODYgYnVpbGQNCj4gLS0tDQo+ICAg
+dGVzdHMvdGNnL211bHRpYXJjaC9zaGE1MTIuYyAgICAgIHwgMiArLQ0KPiAgIHRlc3RzL3Rj
+Zy9hYXJjaDY0L01ha2VmaWxlLnRhcmdldCB8IDcgKysrKysrKw0KPiAgIHRlc3RzL3RjZy9h
+cm0vTWFrZWZpbGUudGFyZ2V0ICAgICB8IDggKysrKysrKysNCj4gICB0ZXN0cy90Y2cvaTM4
+Ni9NYWtlZmlsZS50YXJnZXQgICAgfCA2ICsrKysrKw0KPiAgIHRlc3RzL3RjZy9wcGM2NGxl
+L01ha2VmaWxlLnRhcmdldCB8IDUgKysrKy0NCj4gICB0ZXN0cy90Y2cvczM5MHgvTWFrZWZp
+bGUudGFyZ2V0ICAgfCA5ICsrKysrKysrKw0KPiAgIHRlc3RzL3RjZy94ODZfNjQvTWFrZWZp
+bGUudGFyZ2V0ICB8IDcgKysrKysrKw0KPiAgIDcgZmlsZXMgY2hhbmdlZCwgNDIgaW5zZXJ0
+aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQoNCjxzbmlwPg0KDQo+IGRpZmYgLS1naXQg
+YS90ZXN0cy90Y2cvcHBjNjRsZS9NYWtlZmlsZS50YXJnZXQgYi90ZXN0cy90Y2cvcHBjNjRs
+ZS9NYWtlZmlsZS50YXJnZXQNCj4gaW5kZXggNDgwZmYwODk4ZC4uNGYxZDAzZGZjZiAxMDA2
+NDQNCj4gLS0tIGEvdGVzdHMvdGNnL3BwYzY0bGUvTWFrZWZpbGUudGFyZ2V0DQo+ICsrKyBi
+L3Rlc3RzL3RjZy9wcGM2NGxlL01ha2VmaWxlLnRhcmdldA0KPiBAQCAtNSwxMCArNSwxMyBA
+QA0KPiAgIFZQQVRIICs9ICQoU1JDX1BBVEgpL3Rlc3RzL3RjZy9wcGM2NGxlDQo+IA0KPiAg
+IGlmbmVxICgkKERPQ0tFUl9JTUFHRSkkKENST1NTX0NDX0hBU19QT1dFUjhfVkVDVE9SKSwp
+DQo+IC1QUEM2NExFX1RFU1RTPWJjZHN1YiBub25fc2lnbmFsbGluZ194c2N2DQo+ICtQUEM2
+NExFX1RFU1RTPWJjZHN1YiBub25fc2lnbmFsbGluZ194c2N2IHNoYTUxMi12ZWN0b3INCj4g
+ICBlbmRpZg0KPiAgICQoUFBDNjRMRV9URVNUUyk6IENGTEFHUyArPSAtbXBvd2VyOC12ZWN0
+b3INCj4gDQoNClNpbmNlIHRoaXMgdGVzdCBkb2VzIG5vdCB0YXJnZXQgYSBzcGVjaWZpYyBp
+bnN0cnVjdGlvbiwgbWF5YmUgaXQgc2hvdWxkIA0KdXNlIC1tdnN4Ly1tYWx0aXZlYyB0byBh
+bGxvdyB0aGUgY29tcGlsZXIgdG8gdXNlIG5ld2VyIGluc3RydWN0aW9ucy4NCg0KPiArc2hh
+NTEyLXZlY3Rvcjogc2hhNTEyLmMNCj4gKyAgICAgICAkKENDKSAkKENGTEFHUykgJChFWFRS
+QV9DRkxBR1MpICQ8IC1vICRAICQoTERGTEFHUykNCj4gKw0KDQpDYW4gd2UgaGF2ZSB0aGlz
+IHRlc3QgZm9yIGJpZy1lbmRpYW4gdG9vPw0KDQpUaGFua3MsDQpNYXRoZXVzIEsuIEZlcnN0
+DQpJbnN0aXR1dG8gZGUgUGVzcXVpc2FzIEVMRE9SQURPIDxodHRwOi8vd3d3LmVsZG9yYWRv
+Lm9yZy5ici8+DQpBbmFsaXN0YSBkZSBTb2Z0d2FyZQ0KQXZpc28gTGVnYWwgLSBEaXNjbGFp
+bWVyIDxodHRwczovL3d3dy5lbGRvcmFkby5vcmcuYnIvZGlzY2xhaW1lci5odG1sPg0K
 
