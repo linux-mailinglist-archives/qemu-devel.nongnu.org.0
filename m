@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2FA4B5A58
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:04:16 +0100 (CET)
-Received: from localhost ([::1]:35154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CF84B5A8A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:27:19 +0100 (CET)
+Received: from localhost ([::1]:43192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgdz-00048I-JP
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:04:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45232)
+	id 1nJh0I-00041a-6C
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:27:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgWG-00071J-24; Mon, 14 Feb 2022 13:56:16 -0500
-Received: from [2607:f8b0:4864:20::632] (port=38907
- helo=mail-pl1-x632.google.com)
+ id 1nJgWP-0007Q4-Ss; Mon, 14 Feb 2022 13:56:25 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=33631
+ helo=mail-pj1-x102a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgWE-0006Gv-Im; Mon, 14 Feb 2022 13:56:15 -0500
-Received: by mail-pl1-x632.google.com with SMTP id c3so11269991pls.5;
- Mon, 14 Feb 2022 10:56:13 -0800 (PST)
+ id 1nJgWO-0006LO-1I; Mon, 14 Feb 2022 13:56:25 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ k60-20020a17090a4cc200b001b932781f3eso479975pjh.0; 
+ Mon, 14 Feb 2022 10:56:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6lYVMhHkGyHdpl2al9uSJC6KWVpBlEYf58S6UTyDs9Y=;
- b=PSQuL+dOz3ZMhkE06MAXZdeeAE4PUugNku/HPks5Lw5XMG1qQYcR4V0lScifUVPhQU
- Y0+QMyJ7x56/B8pO0HUjsQqg4U2325miKBYtZad+9dFA2y1CRmFOZdMxi+SLZwNwfxwj
- pDEKvEK9gbDyKKppyEQ2TqzaMqV1Wzlw2De2zKxivwbjsWAcW6DRPtJ1YLdOhdNqAmLF
- wQQ0TXTOHGlDmLKkgXQ4N2iGDfLEl6hHk0Yy33q2gVZJOrwbEanOq8stE3UrDjErw7GG
- gMtZzu+Z7QazNTwkE6ml3tfsmwZVhIcAA8xktlIJ77FxuzOlq1W71CF1dAUD52QiQ1uP
- Le6Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=DZ6HMC/awLS1AtcPS+4P+ISmJMCsR4IlAO4kOPlAwl4=;
+ b=eHzKQ+feS0A49NHVJNYlZlUsT/OQmng7kKIAFCGSmHFdkeQmNdhJ94A8eUb9sGF3s1
+ NGC443/+irQ2Ixvur3U3I/wEt98higUfDDRsJaJoxWI3rVZOTumX3KN91Y0Of/1lFmN2
+ RDxPSQvardMU5Kus9CAUc54paoTS2uyG3STSi9tbyqXY+KbVNjFpLNAfW/f2uKMIBMoK
+ 39CN4eyaneXC4rsV40VqeA93rHpDnP/yiU55U7542voPTBFtC5G1Meij/BVmPq+il2Ds
+ 3ME14lHkVzLeykMmH/kCgmYa/i/ntzklHwpca6CzFksoKn+/rENJ4QS5pRCs50Gv+sEC
+ UG4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=6lYVMhHkGyHdpl2al9uSJC6KWVpBlEYf58S6UTyDs9Y=;
- b=tbY8m1CWTPQuLmtfFXJV8/sp8brrZCBiHxjBxIH6MBtZJU1mfVxlxENiMbKIEeqVOo
- Asn1n5vA3qB8z9ZC6Gqni4dPOJQDOgXXDNb+KCUEObEZTiM8oJfVTJZQRCBRGej8uUrF
- YWIS14+0c2joOVDEus0GyBTYMKd9pzv2miz4AjCUajheFNyPBzmJR3RbRx5WNktt4H3Z
- GwK3YOMliTADzcVkuDrpL2LeTw58196JEuGqclpAC7Mvjh3dhI9gHgG9S7Uxhr86FB+W
- Nk1Ajj+C3SHvwszmxru6ooOrsnP+eWmmX084Kf/DgXF9e/hKpKNyLC3EtRfMR+jGoKoz
- MRDA==
-X-Gm-Message-State: AOAM531ym2mtvRaO8Cj8L7Z8b7z5SPVO5Biag3TxmN6aRJgNHH/yP41W
- GJSbc5sTzWuJVK40YSQrnib6aDWBjco=
-X-Google-Smtp-Source: ABdhPJw4pwtghnwIrxEmvf7nZ00YuTQCp3l4Svuv5bg5hjVvlk221hTUYsdkS0s8FL9HI19i2rEoHA==
-X-Received: by 2002:a17:90b:4d81:: with SMTP id oj1mr32869pjb.96.1644864972662; 
- Mon, 14 Feb 2022 10:56:12 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=DZ6HMC/awLS1AtcPS+4P+ISmJMCsR4IlAO4kOPlAwl4=;
+ b=WC+P8tsNDngXqA4ehHBbPxsTsFE0IEIXuIgiSlrSFEs2FMpOcfE1maaCiWVU2529/s
+ LQMSl3XtlLpd7snu6wgPhwVGhT5dDD8+YW1W56zJtv/h46gL/GWvsBeGUkEQ/6NdT9rQ
+ KEbonwS9cK7TC1SPbRw2FhhxGw4rquMB/BbZ45yFdi8Er39O9FpW5u4yqRhj3AJmvURO
+ vDEUmykQqi31Jqw5ZXskt0RMulhmUYJ/uM+vZalf7CjyK+TH4IphxOgodUt4jwbXfwng
+ LDaMyIjO6681C8wz34M0i0ZCoX7ooxfBio8ApDkkET8c+afSrms5VX+8NCMbSxM6WdNl
+ +ymA==
+X-Gm-Message-State: AOAM5308Xto8BB/q/fJG/BXAdHIjUN8Wsa5h/o7iUIkaS5rQwv4LQHkW
+ re1LCFG1Yhm0aXPmOutAgGiC9bBkCm8=
+X-Google-Smtp-Source: ABdhPJyqYJLhi5HxTgyDEi6mgH3h0THD35OEdxGapJTmzKYZtMM0jiSsQ4IIFEHycXnSVeDpMipiAg==
+X-Received: by 2002:a17:903:1105:: with SMTP id
+ n5mr267607plh.108.1644864982342; 
+ Mon, 14 Feb 2022 10:56:22 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id o7sm35212202pfk.184.2022.02.14.10.56.08
+ by smtp.gmail.com with ESMTPSA id j185sm35388065pfd.85.2022.02.14.10.56.18
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:56:12 -0800 (PST)
+ Mon, 14 Feb 2022 10:56:22 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Thomas Huth <thuth@redhat.com>,
@@ -60,17 +62,19 @@ Cc: qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
  Will Cohen <wwcohen@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
  Li Zhang <lizhang@suse.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v5 00/16] host: Support macOS 12
-Date: Mon, 14 Feb 2022 19:55:49 +0100
-Message-Id: <20220214185605.28087-1-f4bug@amsat.org>
+Subject: [PATCH v5 01/16] MAINTAINERS: Add Akihiko Odaki to macOS-relateds
+Date: Mon, 14 Feb 2022 19:55:50 +0100
+Message-Id: <20220214185605.28087-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220214185605.28087-1-f4bug@amsat.org>
+References: <20220214185605.28087-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -97,80 +101,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Few patches to be able to build QEMU on macOS 12 (Monterey).
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-This basically consists of adapting deprecated APIs.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220213021215.1974-1-akihiko.odaki@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-CI job added to avoid bitrotting.
-
-Since v4:
-- Use MAC_OS_X_VERSION_MIN_REQUIRED definition (Akihiko)
-- Include patches from Akihiko
-
-Since v3:
-- Fix --enable-modules
-- Ignore #pragma on softfloat3 tests
-- Addressed Akihiko Odaki comments
-- Include Cameron Esfahani patches
-
-Since v2:
-- Addressed Akihiko Odaki comments:
-  . use __is_identifier(),
-  . remove cocoa setAllowedFileTypes()
-- Addressed Daniel Berrangé comment:
-  . rebased on testing/next, update libvirt-ci/lcitool
-
-Based on Alex's testing/next
-
-Akihiko Odaki (3):
-  MAINTAINERS: Add Akihiko Odaki to macOS-relateds
-  ui/cocoa: Add Services menu
-  ui/cocoa: Do not alert even without block devices
-
-Cameron Esfahani (3):
-  hvf: Use standard CR0 and CR4 register definitions
-  hvf: Fix OOB write in RDTSCP instruction decode
-  hvf: Enable RDTSCP support
-
-Philippe Mathieu-Daudé (10):
-  configure: Allow passing extra Objective C compiler flags
-  tests/fp/berkeley-testfloat-3: Ignore ignored #pragma directives
-  hvf: Make hvf_get_segments() / hvf_put_segments() local
-  hvf: Remove deprecated hv_vcpu_flush() calls
-  block/file-posix: Remove a deprecation warning on macOS 12
-  audio/coreaudio: Remove a deprecation warning on macOS 12
-  audio/dbus: Fix building with modules on macOS
-  ui/cocoa: Remove allowedFileTypes restriction in SavePanel
-  lcitool: refresh
-  gitlab-ci: Support macOS 12 via cirrus-run
-
- .gitlab-ci.d/cirrus.yml                    | 16 ++++++++++
- .gitlab-ci.d/cirrus/macos-12.vars          | 16 ++++++++++
- MAINTAINERS                                |  2 ++
- audio/coreaudio.c                          | 17 +++++++----
- audio/meson.build                          |  2 +-
- block/file-posix.c                         | 14 ++++++---
- configure                                  |  8 +++++
- meson.build                                |  5 ++++
- target/i386/hvf/hvf.c                      | 26 +++++++++++------
- target/i386/hvf/vmcs.h                     |  3 +-
- target/i386/hvf/vmx.h                      | 19 ++++++------
- target/i386/hvf/x86.c                      |  6 ++--
- target/i386/hvf/x86.h                      | 34 ----------------------
- target/i386/hvf/x86_cpuid.c                |  7 +++--
- target/i386/hvf/x86_decode.c               | 11 +++++--
- target/i386/hvf/x86_mmu.c                  |  2 +-
- target/i386/hvf/x86_task.c                 |  4 +--
- target/i386/hvf/x86hvf.c                   | 14 ++++++---
- target/i386/hvf/x86hvf.h                   |  3 +-
- tests/docker/dockerfiles/ubuntu1804.docker |  2 --
- tests/docker/dockerfiles/ubuntu2004.docker |  2 --
- tests/fp/meson.build                       |  1 +
- tests/lcitool/refresh                      |  1 +
- ui/cocoa.m                                 | 15 +++-------
- 24 files changed, 133 insertions(+), 97 deletions(-)
- create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b0b845f445..ce6f4f9228 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2406,6 +2406,7 @@ F: audio/alsaaudio.c
+ Core Audio framework backend
+ M: Gerd Hoffmann <kraxel@redhat.com>
+ R: Christian Schoenebeck <qemu_oss@crudebyte.com>
++R: Akihiko Odaki <akihiko.odaki@gmail.com>
+ S: Odd Fixes
+ F: audio/coreaudio.c
+ 
+@@ -2658,6 +2659,7 @@ F: util/drm.c
+ 
+ Cocoa graphics
+ M: Peter Maydell <peter.maydell@linaro.org>
++R: Akihiko Odaki <akihiko.odaki@gmail.com>
+ S: Odd Fixes
+ F: ui/cocoa.m
+ 
 -- 
 2.34.1
 
