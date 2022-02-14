@@ -2,147 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4AE64B4F83
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 13:01:43 +0100 (CET)
-Received: from localhost ([::1]:48528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FCD94B4F9C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 13:06:37 +0100 (CET)
+Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJa34-0004i2-ON
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 07:01:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37482)
+	id 1nJa7o-0000Gz-B9
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 07:06:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
- id 1nJZwG-0008MS-Ok; Mon, 14 Feb 2022 06:54:40 -0500
-Received: from corp-ob09.yahoo-corp.jp ([182.22.125.216]:55572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
- id 1nJZwE-0004ia-CI; Mon, 14 Feb 2022 06:54:40 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01lp2176.outbound.protection.outlook.com [104.47.23.176])
- by corp-ob09.yahoo-corp.jp (Postfix) with ESMTPS id 362EC19FB18D;
- Mon, 14 Feb 2022 20:54:35 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo-corp.jp;
- s=default; t=1644839675;
- bh=B3xc23CcuSaIIjuOYuVaudL1O+JeIL9LiH4QHCrovrY=;
- h=From:To:CC:Subject:Date:References:In-Reply-To;
- b=oCIgxGWIvabvJeFKNj5ZqeGLn6wL7JEbhDc1GuqRLt/ge+rXb03XY7x2CEl5eCCVC
- r4mcMQ85ijIG5e30P5chzg28L6QGDs4Gh57bu19SSkSqdNQpEifIe5gbgAlr+xWneX
- 9OLbaFO2XAfDDAa+V1JMeFV07NfhUG2kszO7/CZ4=
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ddua3v9x7cYT96iweApMZV3JIURattBH+kaZtVqVbXPluoRiVZ4WBUZxfAf9Y9wBUfgXxgJARiFRhCsk3NR3Zqenm6/F5AfmxEiVpY+1ZhPHiiCrv/OFIiFNjCU+8kpjJZXS4r1TVfWjVowX7KWoYjYcf+g/VgdutXZTW8hTNXGKtwNNwowL2bxAXJpZtyPpLdHih3zLyTRRXMpDIKkPUZb47vqfHw/xI79vfD930s77OQbp5+FgmhsjyU7qtJDChTD/HEMlkJ/xSLxjWG2n1c/Uvh7MOco1UB3K0O+6LaEepmkxDkkLazhpRmMKV3ZsC8bt+c8Mx844j6e8+10A2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B3xc23CcuSaIIjuOYuVaudL1O+JeIL9LiH4QHCrovrY=;
- b=ctxsdE/iYXLAWg63hO0UiYytRXAgNliesKq+4VKwtNHTn2iZut5pDY8ozrANppSq4J8P4bo/LMz6HeaVb9QkO7WDT9iW+Gu5+nXm7he3HbOyYL0Ocwgq6oc/J1WEVHxMgTy75RCtt4ry8QI0tKIDk+nBGC3d3MvAfVGgPZlUAJt6DRmbxJHtZQuKiEh2zlSlk9k/5W7FyioVWRPNLu8bn69YhN2UKJQ7hPTz2Ol9l2lxhhYyJDRGb8wueRClyPCGiNl5FWSewIA5jNGesA5JTXkv0CoZY5QEsfSXngSXiq/keuE0TbZclZIABFXuz1xA4ksdIr7eQVsCl2yjblM8dQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nJZwZ-0000LB-81
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:54:59 -0500
+Received: from [2a00:1450:4864:20::62d] (port=35646
+ helo=mail-ej1-x62d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1nJZwX-0004jM-JQ
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 06:54:58 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id qk11so16488233ejb.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 03:54:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=yjcorp.onmicrosoft.com; s=selector1-yjcorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B3xc23CcuSaIIjuOYuVaudL1O+JeIL9LiH4QHCrovrY=;
- b=k5PZHqm1C2kPIwg8JQTRDJUruVsYJaC6foQab0R1Rc4u8cflXsSbCk3IUPPJVtNBrHuqbs2tKcbTx0wgjiPPamfcTDgjBCKDoF7OmLbGq4s7bQvcbADgua0oZgN27fv0Dk8uUr2CA3mB4kAE648QpGuO+XJCYxQZGScMq9ll9Lw=
-Received: from TYCPR01MB8357.jpnprd01.prod.outlook.com (2603:1096:400:15f::12)
- by OSZPR01MB6889.jpnprd01.prod.outlook.com (2603:1096:604:132::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.14; Mon, 14 Feb
- 2022 11:54:34 +0000
-Received: from TYCPR01MB8357.jpnprd01.prod.outlook.com
- ([fe80::a591:fabe:54bc:fb40]) by TYCPR01MB8357.jpnprd01.prod.outlook.com
- ([fe80::a591:fabe:54bc:fb40%3]) with mapi id 15.20.4975.015; Mon, 14 Feb 2022
- 11:54:34 +0000
-From: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v3 1/1] util: adjust coroutine pool size to virtio block
- queue
-Thread-Topic: [PATCH v3 1/1] util: adjust coroutine pool size to virtio block
- queue
-Thread-Index: AQHYFCIpg29gxgiVdkueC3VtimNJGayTCqqQ
-Date: Mon, 14 Feb 2022 11:54:34 +0000
-Message-ID: <TYCPR01MB8357459CED4A917E0F6CA53F80339@TYCPR01MB8357.jpnprd01.prod.outlook.com>
-References: <20220128083616.6083-1-hnarukaw@yahoo-corp.jp>
- <20220128083616.6083-2-hnarukaw@yahoo-corp.jp>
-In-Reply-To: <20220128083616.6083-2-hnarukaw@yahoo-corp.jp>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=yahoo-corp.jp;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9b9c46e9-38dd-4a21-659b-08d9efb0c4d6
-x-ms-traffictypediagnostic: OSZPR01MB6889:EE_
-x-microsoft-antispam-prvs: <OSZPR01MB688915CE8798C2716DC9AB7A80339@OSZPR01MB6889.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2000;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JQcqdzdTxE/gLU1Vvgh/fVYvitbDmwvS3xNSp20MI0PfhUQihJXcX3deQPhsf8JPa0C0wzOuxoyuPiHLdTzMjEoYGO9Rdh39E09yRZjg2o5j3LzblMMbteOZi403NApLvCUBMvtzu8Nhw/jG5QuE5iPEnHEW8DLnOJFhKDKx9clHZRJkmsYLGUKsUuNd2dXCu1tTutB3I0qe6dg9f5IrRnGPbzXUuPADGPUUsNF0wW6Nn112G6AjpGwGSDba2zA/YcBsODTXw06QOespyuKjvNGeVSwDdWK8rXwofVq1Dwwb+yZLBDBf03mP9CQ9o24dYyCxfzf4QSjeZmhkg6KGIBhzWLCvU82ixF0p12W/HgdXmKmavP6tm7tsQwp/xIJjXt99YPh0mlRSSbDch86EYHGEuy74ATBgHxy9wcIPI4X9gp7Unb4kEBrIvXLBoPaC1/s4Im20EMPZ3tew8P8eI6pDcq3euxZg8k554xiTwzb1fUjKIbxAPA/wLfkJwisbDj5WATUS0TlB9mEARJt+i7mhl3lhwAKuodpES2H+7y3VdlI0fOEWoJLEl+54AaEhcy0gySYIezp7lgGJogyuH636F9bEBPoKoMIh4NWzeII9NM8iIyfwNnLKkkdiaE78L636k2veG6jiW+iO2rHDZTAFtJH7a+ybslwhwAQt2Ab/xEOT+eR+eukzaNFDFCo+RGH011k+alnc1FeNxw8KK5x75N5Ce9wYdoiDt+KTCkqYMKk07YUkrzrlgB3ngbZmFGNuiyp19kgSgKehzR/JjaWaGiQ3EqMQZtFc3h7Xla0=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCPR01MB8357.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(66446008)(64756008)(55016003)(82960400001)(6916009)(316002)(66556008)(66476007)(38100700002)(5660300002)(966005)(54906003)(4326008)(8676002)(38070700005)(86362001)(85182001)(33656002)(122000001)(508600001)(71200400001)(26005)(107886003)(76116006)(2906002)(8936002)(66946007)(52536014)(7696005)(9686003)(83380400001)(186003)(6506007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-2022-jp?B?Y3pZaGhHcUF4cExmWkhTWDFBQ0RPSG1Danh0WjhGVFR5KzAzajZ1VHhk?=
- =?iso-2022-jp?B?M09hTjFuQ21JUjN3ZU1PYi9TdDFHNmNWUGZGcHdscHNEQUx2RjVON1pw?=
- =?iso-2022-jp?B?aitSSnJudlJ1MTBoSlB5NWk5MmxCRENqejhma28yOFN4RlJSRkxhZlZv?=
- =?iso-2022-jp?B?SFZqWThNUGhvVEZYcVMrckxUN2JPQVJTdFozcWtNOWgrN3M3a0ZBT0Zl?=
- =?iso-2022-jp?B?ZCthQW9NQ1NGYlBqZ1gxM1Jmb2RpakdiSVhwT0ZzUi9oUEdzeXlsTW5U?=
- =?iso-2022-jp?B?cU1od01WUkJoZjFleEh2a2lHSUhBTGlsY1U5a1U1dGhoQ0M0N0xNSWNu?=
- =?iso-2022-jp?B?eTlnVmNDNk1TNHVqK3R1UEVLRW11dW1EK1U0TTM3dDc2bGl5K1c0a0hw?=
- =?iso-2022-jp?B?VzM2VVNLMVJuNDBDelpBWGhTUUx1Z2JXVGxrbUZnV081eW5haXlBZVc3?=
- =?iso-2022-jp?B?ZTBKMUwvUy9JQnNhaVFHcGd3OTJTRGFMdzhDRW9HTzZIQ3c0ZDRjOG5F?=
- =?iso-2022-jp?B?RWxHREpnWFpGUkp0U0JXN3AyRVV1WENFdE40RUV5SkpPVTlCcFJOR2Fj?=
- =?iso-2022-jp?B?UHpzSXM3SDdMbTZjZFY1QVFoWDVKZnpFRHBpNTRiR0lOcUx1VGRwYXlt?=
- =?iso-2022-jp?B?enl2RXJhQ2V3Z2NCMWJjZ0JsZStiS3JDZnplVFVnZ2JyazZ0Unp6ZDJt?=
- =?iso-2022-jp?B?MDhZakZ0bVhacjQ2c0gzb01hNUQwN1hnd3h4ZmFYMGdxcUxsTGhlQmVq?=
- =?iso-2022-jp?B?ZUJ1Q205UkhCaFJva200Y3FkZXpObUd3TUpzYVJod3QzdkFNZUlxZmlB?=
- =?iso-2022-jp?B?bjAvSjVIOUx3YjNNVlNiYXFvQmM3ckV5Q2c0TTBwN2x3VHZoSGUzZzA5?=
- =?iso-2022-jp?B?OExJTkRzWWdDSWFsQU1HM2tsZmJIdUJGakNURHhpWGUvcEdJcXBWa05v?=
- =?iso-2022-jp?B?b21HSEgxQ0FWb0RneXNwamN1Mjd0d1hOdjZHdHhCdVFNeENQL0ZQS3Rw?=
- =?iso-2022-jp?B?eHZCRW5pRHFER2JraUI4K3h3MzlXSUw1Zm1wSDVnSUpTZWVUMjlKSU1M?=
- =?iso-2022-jp?B?dU10bC9ub1BCQjNsT1VZU2VScG94Q1hEbEVaTU9BOWVsMUJrNFRDMUJ6?=
- =?iso-2022-jp?B?d3JHVUFvZVYzWWNaUXdXdC85OVh6eWZqb1NXSFZ0YjloaWh3N2tudXZD?=
- =?iso-2022-jp?B?YXdRRFNtcXh1MWtLTUl1b25BR3pJWkxrcDFia1BCbnBVMVowc2hNc0pw?=
- =?iso-2022-jp?B?NnZza3Z2cnhqNDM0TnRvSzZqeUVWMXJITjFEMTM5YlNCK0F1L3ljNUhT?=
- =?iso-2022-jp?B?cVhFMURPMjdabitmUnpBcWlyMW9kekVwYm53dWg3NmZKQUZpUGRxMWo1?=
- =?iso-2022-jp?B?REhOMGMza1dVSk9qWHZLOGNDY2l0Rm1jcWY1ZWl4ODdVV3VxYy91V3NT?=
- =?iso-2022-jp?B?Sk1xZ0N6bnNRWVJZVi80UnU1TjlUUVdkc21mVjQ3OUVJakRJQ3JVK0x3?=
- =?iso-2022-jp?B?YVJHOU9UaFJGWHFRZmd1cHlmQ01MYStoWFRjOTdZTlFGNHZPeEFDUFhO?=
- =?iso-2022-jp?B?aHpyVmZiYmFpbmZSSU5SR1VuZTZ4cy8yeXdJcWZrQlZ2WGw5TUlzdEEx?=
- =?iso-2022-jp?B?RlpidnNCaVJrZjhVRkRvOXJ3eU11Rm5Od2g1MFZTcllvU3JkNVdHRHZo?=
- =?iso-2022-jp?B?bytjSWRVb1FzRllacW5FcS9rK1FzWjBvYnpKQng3VlRocVVUQm5JQ0s0?=
- =?iso-2022-jp?B?WEowN1puUDVDcDBBUkRUWHVRdjhlaThWc2IwWUlBSUg0MndQS1pUZE0y?=
- =?iso-2022-jp?B?b1NNWUdiMlYzMlJGeDQ1ekE3Zk81ejZsVnRCemRZamlwNGloUERYaW1v?=
- =?iso-2022-jp?B?Q0JvZmhUZGFvcTFsd2ZuZXQvaFg3b3RSQkIrOGN3SWZxSHBjOThseWta?=
- =?iso-2022-jp?B?MlIxSmZVMnlJNzFLWHBIQVR6RTZSRER4bkg4d0lpcUFuZjFvbk5nYlEv?=
- =?iso-2022-jp?B?aDI0K3VVUCt0T0FSY3RNOTllQ0JaM1ZwbHRHMFFDUlRmRkE4WGJRaWFQ?=
- =?iso-2022-jp?B?MTJqSXpYcSt6UnNLRkQxbUN6WXppaFY3UjdveGQ2R2k3cm5nd3BNUnBD?=
- =?iso-2022-jp?B?SHQ0bnF2MHRVUGRGeWJHMWkra3NTK3hhSHZVLzNOUlpXMEJZbm8rRzd4?=
- =?iso-2022-jp?B?aUJtQ3NjUzlLNWZmNlh6M21zbmxPdHN0RXRBbGRlUDdJQlpFaVlQcnVL?=
- =?iso-2022-jp?B?Wnc1eXl6ZmZPeGZVbkF5REhvWUhSbmRkS1JrUVVMZkFhMHZJUlpBVm9E?=
- =?iso-2022-jp?B?MkpPNjBCZ0d1OTBmNjJzRkpUeHkyRjlOeGc9PQ==?=
-Content-Type: text/plain; charset="iso-2022-jp"
+ d=livius-net.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=1KM4shW25H0d6A4dfVMHlVjIamPNSg5NqGTtZDFuqVg=;
+ b=U6iBGBRrcl66fdzxqKjqyWKpdvvf9sUGT/tsDXlqd/KzcoQ8kdyGQSoS0M4JvIjXev
+ b8r9ZU5vtpuJmONm1H8ONyX+vKj9lASrAjZ5flEKJR77hTeeFi5yAWkj6E6IUU2fHetB
+ /AzBzS1nE6jvzDg1YMxzxFNK1cIA3jkrdS6fxFZSaVRQw0yBK6DB99c/DOtp+NHsHLH7
+ yqW+Muv+cTHvqVnbGlFsnyHpBlxn5bbk4lTVhUxyNVsXOtdP9h2Pv9vo3g2uhXfA16NK
+ skDgPsHOqE+IGMMD5YyIXovqsC5I4vMpXQ5yosDav3lyWP5pMIvV7G81iHtn6yh14E9o
+ w27Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=1KM4shW25H0d6A4dfVMHlVjIamPNSg5NqGTtZDFuqVg=;
+ b=wwhn+OL3lRl4HdIuQsZ+QYRCLab0qFJ4X7PEUHvx0O7IOrkgSyXmaxfrFwBE6/U8T7
+ b0JhL6at9UTBzL74vmr5Bd1EbJtAjjOLtUZ3tWvFlXhzEGB3usloKwaPKuf3iFkyzVAz
+ 8vXJTdNUFJ3RAWvs6ScdsyjLXBvTDAtfvR3dliwh/J5I6Fz1Jty+CdesXjHegu2Qgvwc
+ +iJXpshKIN5K4y2hpCtr0hsxJULlGVXctg24xPvWRry9tUB+YQ2AjtEPu1TfoI0wAxYE
+ 3NWXAlYCxzj560PL+6vc3MhiH0eBkTSiu69aPOrNJEBHG6vRihVdjNNm8kBq2xfWrZNi
+ OrQQ==
+X-Gm-Message-State: AOAM533YAw8kHbYJHRx2B/4PUIe10U8lg8X4UiqiPZ4lAvYGLvadA2ye
+ 5j5wqNxksq8tLkFyiRe4NmMDGg==
+X-Google-Smtp-Source: ABdhPJzEyOlUlB6iOUpPFgqinC9Df6q7rfcPQwvE2VhkPblPuX+C7TKMDYXq2UqBcBsXDfW1EdcT+A==
+X-Received: by 2002:a17:906:74c2:: with SMTP id
+ z2mr11163377ejl.156.1644839691951; 
+ Mon, 14 Feb 2022 03:54:51 -0800 (PST)
+Received: from smtpclient.apple ([188.25.251.197])
+ by smtp.gmail.com with ESMTPSA id o3sm10128195edt.67.2022.02.14.03.54.51
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 14 Feb 2022 03:54:51 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
+Subject: Re: [PATCH] Add --with-branding-prefix and QEMU_BRANDING_PREFIX
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <CAFEAcA91q2t9sVvaW6h3BwFMExgyCdVsb3TozH52EM70aPJt4w@mail.gmail.com>
+Date: Mon, 14 Feb 2022 13:54:50 +0200
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: yahoo-corp.jp
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB8357.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b9c46e9-38dd-4a21-659b-08d9efb0c4d6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Feb 2022 11:54:34.4834 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a208d369-cd4e-4f87-b119-98eaf31df2c3
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QxRwZlAlp5biXuIcpDjAe3/K7JDeeAdN9w6Jlyp1X1vupLBgInqa21XDR2xHYsvFD6wp54mRrc3zTYwKoZJncg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6889
-Received-SPF: pass client-ip=182.22.125.216;
- envelope-from=hnarukaw@yahoo-corp.jp; helo=corp-ob09.yahoo-corp.jp
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Message-Id: <46F93823-E819-4B8B-ACD3-D8A80245BC9E@livius.net>
+References: <20220120113545.55820-1-ilg@livius.net>
+ <8A1E1B8F-ADA0-4966-A4E9-C0A08EB0A327@livius.net>
+ <D6833D18-344A-473E-AC4D-89A64F8AA0EC@livius.net>
+ <CAFEAcA91q2t9sVvaW6h3BwFMExgyCdVsb3TozH52EM70aPJt4w@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-Mailer: Apple Mail (2.3693.40.0.1.81)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::62d;
+ envelope-from=ilg@livius.net; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.785, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -155,56 +90,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "mst@redhat.com" <mst@redhat.com>, "f4bug@amsat.org" <f4bug@amsat.org>,
- "hreitz@redhat.com" <hreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>, Akira Oiwa <aoiwa@yahoo-corp.jp>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Coroutine pool size was 64 from long ago, and the basis was organized in =
-the
-> commit message in c740ad92.
 
-Sorry, I noticed that commit ID mentioning here was incorrect.
-The correct one is 4d68e86b.
 
-https://gitlab.com/qemu-project/qemu/-/commit/4d68e86bb10159099da0798f74e75=
-12955f15eec
+> On 8 Feb 2022, at 21:58, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>=20
+> I've cc'd some people who might have an opinion on whether this
+> something we want to add upstream. ...
 
-I have resent this patch as v4 with exactly the same code as v3, just chang=
-ing this commit message.
+Well, given the comments received, it is obvious that we have different =
+use cases, and, in my opinion, a one-size-fits-all approach cannot be =
+expected to satisfy all of them. :-(
 
->=20
-> At that time, virtio-blk queue-size and num-queue were not configuable, a=
-nd
-> equivalent values were 128 and 1.
->=20
-> Coroutine pool size 64 was fine then.
->=20
-> Later queue-size and num-queue got configuable, and default values were
-> increased.
->=20
-> Coroutine pool with size 64 exhausts frequently with random disk IO in ne=
-w size,
-> and slows down.
->=20
-> This commit adjusts coroutine pool size adaptively with new values.
->=20
-> This commit adds 64 by default, but now coroutine is not only for block d=
-evices,
->=20
-> and is not too much burdon comparing with new default.
->=20
-> pool size of 128 * vCPUs.
->=20
-> Signed-off-by: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
-> ---
->  hw/block/virtio-blk.c    |  5 +++++
->  include/qemu/coroutine.h | 10 ++++++++++
->  util/qemu-coroutine.c    | 20 ++++++++++++++++----
->  3 files changed, 31 insertions(+), 4 deletions(-)
->=20
+
+Since QEMU is now a hard dependency in all my projects (for running unit =
+tests), I had to commit myself on continuing to maintain the xPack QEMU =
+binary distribution used by these tests.
+
+Thus my desire to minimise maintenance during updates, for example by =
+keeping as little things as possible in a local fork.
+
+
+So, if the Linux maintainers do not find a compelling reason for adding =
+`--with-branding-prefix` and are concerned that this might break their =
+distributions (which it will not, since they will not use this option), =
+what would be an acceptable solution to allow more flexibility in the =
+main QEMU greeting message? Personally I use only qemu-system-arm and =
+qemu-system-riscv, so we are talking only about a change in `vl.c`; I do =
+not use the other tools, so not having them updated is not a concern.
+
+
+Would you agree on a multi step approach, first a minimal patch that =
+would solve my use case, then, if there will be others needing it, a =
+more elaborate solution?
+
+For example I don't mind having to pass a preprocessor definition to my =
+build; so how about something like:
+
+
+```c
+static void version(void)
+{
++#if defined(QEMU_BRANDING_PREFIX)
++    printf("%s ", QEMU_BRANDING_PREFIX);
++#endif
+    printf("QEMU emulator version " QEMU_FULL_VERSION "\n"
+           QEMU_COPYRIGHT "\n");
+}
+```
+
+
+This would harm no existing distributions, and would add no maintenance =
+efforts for none of you, but would save me some recurrent maintenance =
+efforts with each release.
+
+
+Would this be fine with you?
+
+
+
+Regards,
+
+Liviu
+
+
 
 
