@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1AD4B408C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 05:01:36 +0100 (CET)
-Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4270B4B4097
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 05:04:14 +0100 (CET)
+Received: from localhost ([::1]:33014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJSYR-0004iI-Gf
-	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 23:01:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59842)
+	id 1nJSaz-00029e-Cr
+	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 23:04:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJSVC-0001uO-Uy
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:58:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44160)
+ id 1nJSVF-00024R-PD
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:58:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJSVB-0008Dg-Cf
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:58:14 -0500
+ id 1nJSVE-0008Dz-1L
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:58:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644811092;
+ s=mimecast20190719; t=1644811095;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=19jVFjmoMn/fQKpqT/w5xtZ5txLPD6BW0ehLZ75oRpA=;
- b=B/jW40LMBKkmgfV2aWt+U2zg6sef9rSBU9aBBtyJ+K9/2b61OcK9qfeRNe/TuUwkTJDswP
- MGFGPaUbcWR1Nf9LT5afdxNKNbwddUyowyOwBEWuI7DHbQYdiJ1SWXtHeT9It70sfjiRsU
- EQPUbj6zLegEEL7YZN3XHQsCShpJCmg=
+ bh=wQpLZ2QkOYtAJ8AmiNv/VQWFHBhdsPuE6aFYHLgAT54=;
+ b=G8svqjpADa7MX/TCJ1aXStgGeoWMfKMxEwNOiaDwuwZf3CwrCf6D17nidphFLvzOZ7/bfs
+ C+UhJ5NEUYBeFIF8sEd/HuB6RX7WMEHtPY9qj0B+Y3u9HWtvDh7SaBiJGfQ3bbqwDUu7b2
+ ubGKqCl47T2jgGDlbrtM+hx8YEmt3g4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-119-3De7JfXgNwOSubtjFW4FDw-1; Sun, 13 Feb 2022 22:58:09 -0500
-X-MC-Unique: 3De7JfXgNwOSubtjFW4FDw-1
+ us-mta-630-2rsMBLGiPyuZPV7bNa0LhQ-1; Sun, 13 Feb 2022 22:58:11 -0500
+X-MC-Unique: 2rsMBLGiPyuZPV7bNa0LhQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91A522F46;
- Mon, 14 Feb 2022 03:58:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE58E814245;
+ Mon, 14 Feb 2022 03:58:10 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-241.pek2.redhat.com
  [10.72.13.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F11035DB8B;
- Mon, 14 Feb 2022 03:58:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 189EB5DB8B;
+ Mon, 14 Feb 2022 03:58:08 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PATCH 7/8] hw/net: e1000e: Clear ICR on read when using non MSI-X
- interrupts
-Date: Mon, 14 Feb 2022 11:57:40 +0800
-Message-Id: <20220214035741.70990-7-jasowang@redhat.com>
+Subject: [PATCH 8/8] net/eth: Don't consider ESP to be an IPv6 option header
+Date: Mon, 14 Feb 2022 11:57:41 +0800
+Message-Id: <20220214035741.70990-8-jasowang@redhat.com>
 In-Reply-To: <20220214035741.70990-1-jasowang@redhat.com>
 References: <20220214035741.70990-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,54 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nick Hudson <skrll@netbsd.org>, Jason Wang <jasowang@redhat.com>
+Cc: Thomas Jansen <mithi@mithi.net>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nick Hudson <skrll@netbsd.org>
+From: Thomas Jansen <mithi@mithi.net>
 
-In section 7.4.3 of the 82574 datasheet it states that
+The IPv6 option headers all have in common that they start with some
+common fields, in particular the type of the next header followed by the
+extention header length. This is used to traverse the list of the
+options. The ESP header does not follow that format, which can break the
+IPv6 option header traversal code in eth_parse_ipv6_hdr().
 
-    "In systems that do not support MSI-X, reading the ICR
-     register clears it's bits..."
+The effect of that is that network interfaces such as vmxnet3 that use
+the following call chain
+  eth_is_ip6_extension_header_type
+  eth_parse_ipv6_hdr
+  net_tx_pkt_parse_headers
+  net_tx_pkt_parse
+  vmxnet3_process_tx_queue
+to send packets from the VM out to the host will drop packets of the
+following structure:
+  Ethernet-Header(IPv6-Header(ESP(encrypted data)))
 
-Some OSes rely on this.
+Note that not all types of network interfaces use the net_tx_pkt_parse
+function though, leading to inconsistent behavior regarding sending
+those packets. The e1000 network interface for example does not suffer
+from this limitation.
 
-Signed-off-by: Nick Hudson <skrll@netbsd.org>
+By not considering ESP to be an IPv6 header we can allow sending those
+packets out to the host on all types of network interfaces.
+
+Fixes: 75020a702151 ("Common definitions for VMWARE devices")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/149
+Buglink: https://bugs.launchpad.net/qemu/+bug/1758091
+Signed-off-by: Thomas Jansen <mithi@mithi.net>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000e_core.c | 5 +++++
- hw/net/trace-events  | 1 +
- 2 files changed, 6 insertions(+)
+ net/eth.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 8ae6fb7e14..2c51089a82 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -2607,6 +2607,11 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
-         core->mac[ICR] = 0;
-     }
- 
-+    if (!msix_enabled(core->owner)) {
-+        trace_e1000e_irq_icr_clear_nonmsix_icr_read();
-+        core->mac[ICR] = 0;
-+    }
-+
-     if ((core->mac[ICR] & E1000_ICR_ASSERTED) &&
-         (core->mac[CTRL_EXT] & E1000_CTRL_EXT_IAME)) {
-         trace_e1000e_irq_icr_clear_iame();
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index 643338f610..4c0ec3fda1 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -221,6 +221,7 @@ e1000e_irq_write_ics(uint32_t val) "Adding ICR bits 0x%x"
- e1000e_irq_icr_process_iame(void) "Clearing IMS bits due to IAME"
- e1000e_irq_read_ics(uint32_t ics) "Current ICS: 0x%x"
- e1000e_irq_read_ims(uint32_t ims) "Current IMS: 0x%x"
-+e1000e_irq_icr_clear_nonmsix_icr_read(void) "Clearing ICR on read due to non MSI-X int"
- e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
- e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
- e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
+diff --git a/net/eth.c b/net/eth.c
+index fe876d1a55..f074b2f9f3 100644
+--- a/net/eth.c
++++ b/net/eth.c
+@@ -389,7 +389,6 @@ eth_is_ip6_extension_header_type(uint8_t hdr_type)
+     case IP6_HOP_BY_HOP:
+     case IP6_ROUTING:
+     case IP6_FRAGMENT:
+-    case IP6_ESP:
+     case IP6_AUTHENTICATION:
+     case IP6_DESTINATON:
+     case IP6_MOBILITY:
 -- 
 2.32.0 (Apple Git-132)
 
