@@ -2,57 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CC54B4538
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 10:10:48 +0100 (CET)
-Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE81F4B4544
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 10:12:28 +0100 (CET)
+Received: from localhost ([::1]:38218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJXNc-0005np-R2
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 04:10:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54208)
+	id 1nJXPG-0006z7-U2
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 04:12:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nJXJ1-00038p-Px
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 04:06:00 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:58623
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nJXIz-0001YO-7P
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 04:05:59 -0500
-HMM_SOURCE_IP: 172.18.0.188:57572.1955717887
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 5EBE72800D8;
- Mon, 14 Feb 2022 17:05:41 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id eecb867586384a0aa769e875390ec8dc for
- peterx@redhat.com; Mon, 14 Feb 2022 17:05:47 CST
-X-Transaction-ID: eecb867586384a0aa769e875390ec8dc
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-Message-ID: <b9c33974-7c1d-5efd-5667-cd705775e501@chinatelecom.cn>
-Date: Mon, 14 Feb 2022 17:05:38 +0800
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nJXLi-0005GE-GK; Mon, 14 Feb 2022 04:08:46 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nJXLd-00025k-A1; Mon, 14 Feb 2022 04:08:43 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21E7grJN008425; 
+ Mon, 14 Feb 2022 09:08:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=kx0CwPNGPCDxPNR/VauLS8lzm5WLTTLK5PVN4vxbIlI=;
+ b=ankDhf8FSfghL1kOPfOaW9Kf8Q7go6fCumGmaXBFRBso7aaKG2EoRDLDMjY5e1C63ETs
+ DzflOWRZvFzASV8B89MOTBS5HDguziB05AO+AoP0Ll+qwJkciugJ/fkf8Kjujkhtem1+
+ L623VyKKjxmkepEyFe2WVx8RnNUxZGG5XvbCKwUb2vfcI4bx+sGdkbdlSiEpuHQ4YiqY
+ yRWH18YTUzU3J4yi3ZaZjNYE69Y3zbUilksW8JeESE75SB58Fi2I4b5hPacYP6OPPo+u
+ xqncJwXtrLXnUmPZiYKCJ6yhvXyXpl65loGr36/vq67qyucC3hAHdeu8W56VLpBv6i+h Hw== 
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e78m0c3ey-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Feb 2022 09:08:37 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21E97SXt025895;
+ Mon, 14 Feb 2022 09:08:35 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3e64h9k7rf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Feb 2022 09:08:35 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21E98Xwq39125474
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Feb 2022 09:08:33 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2A03442057;
+ Mon, 14 Feb 2022 09:08:33 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DB4E642052;
+ Mon, 14 Feb 2022 09:08:32 +0000 (GMT)
+Received: from [9.171.14.134] (unknown [9.171.14.134])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 14 Feb 2022 09:08:32 +0000 (GMT)
+Message-ID: <878f0f4b-dbca-8d9e-34f9-b17e09d932f0@linux.ibm.com>
+Date: Mon, 14 Feb 2022 10:08:32 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v14 6/7] softmmu/dirtylimit: Implement virtual CPU throttle
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1644509582.git.huangy81@chinatelecom.cn>
- <ad0a6e05b5bec2c2c8dd3a7663e39e3cf9af71a3.1644509582.git.huangy81@chinatelecom.cn>
- <YgoQxbzrNleQT9TH@xz-m1.local>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <YgoQxbzrNleQT9TH@xz-m1.local>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: qemu iotest 161 and make check
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu block <qemu-block@nongnu.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>
+References: <36201311-39e2-0b94-1b06-74a2df988553@linux.ibm.com>
+ <45589fd7-bf18-8950-34f5-86a90b99c8c1@virtuozzo.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <45589fd7-bf18-8950-34f5-86a90b99c8c1@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.222;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: rrJ735fII7q5WUudQaVapQvi2cTHZHhj
+X-Proofpoint-ORIG-GUID: rrJ735fII7q5WUudQaVapQvi2cTHZHhj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-14_01,2022-02-14_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015
+ mlxscore=0 phishscore=0 impostorscore=0 malwarescore=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=935 bulkscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202140055
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H5=-1,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,169 +107,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-在 2022/2/14 16:20, Peter Xu 写道:
-> On Fri, Feb 11, 2022 at 12:17:40AM +0800, huangy81@chinatelecom.cn wrote:
->> @@ -2964,8 +2971,13 @@ int kvm_cpu_exec(CPUState *cpu)
->>                */
->>               trace_kvm_dirty_ring_full(cpu->cpu_index);
->>               qemu_mutex_lock_iothread();
->> -            kvm_dirty_ring_reap(kvm_state, NULL);
->> +            if (dirtylimit_in_service()) {
->> +                kvm_dirty_ring_reap(kvm_state, cpu);
->> +            } else {
->> +                kvm_dirty_ring_reap(kvm_state, NULL);
->> +            }
+Am 10.02.22 um 15:47 schrieb Vladimir Sementsov-Ogievskiy:
+> 10.02.2022 10:57, Christian Borntraeger wrote:
+>> Hello,
+>>
+>> I do see spurious failures of 161 in our CI, but only when I use
+>> make check with parallelism (-j).
+>> I have not yet figured out which other testcase could interfere
+>>
+>> @@ -34,6 +34,8 @@
+>>   *** Commit and then change an option on the backing file
+>>
+>>   Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=1048576
+>> +qemu-img: TEST_DIR/t.IMGFMT.base: Failed to get "write" lock
+>> +Is another process using the image [TEST_DIR/t.IMGFMT.base]?
+>>   Formatting 'TEST_DIR/t.IMGFMT.int', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
+>>   Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.int backing_fmt=IMGFMT
+>>   { 'execute': 'qmp_capabilities' }
+>>
+>>
+>> any ideas?
+>>
 > 
-> Could you add some comment here on why the cpu pointer is conditionally passed
-> into the reaping routine?  Even if we know it now, it's not immediately obvious
-> to all the readers.
-Sure.
-> 
-> [...]
-> 
->> +struct {
->> +    VcpuDirtyLimitState *states;
->> +    /* Max cpus number configured by user */
->> +    int max_cpus;
->> +    /* Number of vcpu under dirtylimit */
->> +    int limited_nvcpu;
->> +    /* Function to implement throttle set up */
->> +    DirtyLimitFunc setup;
-> 
-> "setup" normally is used only at startup of something, but not per interval.
-> Perhaps "process" or "adjust"?  Same across other "setup" namings across the
-> patch.
-Ok, 'adjust' is fine.
-> 
-> Again, I'd rather call the function directly..
-Um, maybe using the function pointer is more extensible.
+> Hmm, interesting.. Is it always 161 and always exactly this diff?
 
-[...]
-static void *vcpu_dirty_rate_stat_thread(void *opaque)
-{
-     rcu_register_thread();
-
-     /* start log sync */
-     global_dirty_log_change(GLOBAL_DIRTY_LIMIT, true);
-
-     while (qatomic_read(&vcpu_dirty_rate_stat->running)) {
-         vcpu_dirty_rate_stat_collect();
-         if (dirtylimit_in_service() &&
-             dirtylimit_state->setup) {
-             dirtylimit_state->setup();
-         }
-     }
-
-     /* stop log sync */
-     global_dirty_log_change(GLOBAL_DIRTY_LIMIT, false);
-
-     rcu_unregister_thread();
-     return NULL;
-}
-[...]
-
-Function pointer makes the 'dirtyrate-stat' logic and 'dirtylimit' logic 
-kind of decoupled.
-
-But i'm ok if you insist because it's just about how to call the 
-'dirtylimit' and doesn't affect the whole logic.
-
-> 
-> [...]
-> 
->> +static void dirtylimit_adjust_throttle(CPUState *cpu)
->> +{
->> +    uint64_t quota = 0;
->> +    uint64_t current = 0;
->> +    int cpu_index = cpu->cpu_index;
->> +
->> +    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
->> +    current = vcpu_dirty_rate_get(cpu_index);
->> +
->> +    if (current == 0) {
->> +        cpu->throttle_us_per_full = 0;
->> +        goto end;
-> 
-> Can be dropped?
-> 
->> +    } else if (dirtylimit_done(quota, current)) {
->> +        goto end;
-> 
-> Same here.  Dropping it wholely and:
-> 
->         } else if (!dirtylimit_done(quota, current)) {
->             dirtylimit_set_throttle(cpu, quota, current);
->         }
-> 
-> Would work?
-> 
->> +    } else {
->> +        dirtylimit_set_throttle(cpu, quota, current);
->> +    }
->> +end:
-> 
-> Can be dropped?
-> 
->> +    trace_dirtylimit_adjust_throttle(cpu_index,
->> +                                     quota, current,
->> +                                     cpu->throttle_us_per_full);
->> +    return;
->> +}
->> +
->> +void dirtylimit_setup(void)
->> +{
->> +    CPUState *cpu;
->> +
->> +    if (!qatomic_read(&dirtylimit_quit)) {
->> +        dirtylimit_state_lock();
->> +
->> +        if (!dirtylimit_in_service()) {
->> +            dirtylimit_state_unlock();
-> 
-> Need to return?
-> 
->> +        }
->> +
->> +        CPU_FOREACH(cpu) {
->> +            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
->> +                continue;
->> +            }
->> +            dirtylimit_adjust_throttle(cpu);
->> +        }
->> +        dirtylimit_state_unlock();
->> +    }
->> +}
-> 
-> [...]
-> 
->> +void dirtylimit_set_vcpu(int cpu_index,
->> +                         uint64_t quota,
->> +                         bool enable)
->> +{
->> +    dirtylimit_vcpu_set_quota(cpu_index, quota, enable);
->> +    trace_dirtylimit_set_vcpu(cpu_index, quota);
->> +}
-> 
-> This helper is not "help"ful..  How about wrapping the trace into
-> dirtylimit_vcpu_set_quota, then drop it?
-> 
-> Thanks,
-> 
-
--- 
-Best regard
-
-Hyman Huang(黄勇)
+Seems to be always this diff.
 
