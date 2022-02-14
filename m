@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A73E4B5A7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:17:43 +0100 (CET)
-Received: from localhost ([::1]:55052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820D04B5A83
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:22:02 +0100 (CET)
+Received: from localhost ([::1]:35168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgr0-00014r-B6
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:17:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45824)
+	id 1nJgvB-0006wf-Kf
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:22:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgYo-0004rr-3U; Mon, 14 Feb 2022 13:58:54 -0500
-Received: from [2607:f8b0:4864:20::635] (port=38407
- helo=mail-pl1-x635.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgYm-0006Y9-AX; Mon, 14 Feb 2022 13:58:53 -0500
-Received: by mail-pl1-x635.google.com with SMTP id c3so11274699pls.5;
- Mon, 14 Feb 2022 10:58:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=E5r1qohF89gVBikHeedld13Y+J8tlxW9bOOdQOVxRyA=;
- b=NayNXSwQUbYHMwrD/M+X4aMwBecAvWS4Xnnk8a9yoYDPKgRDwE4hLS4V63HjlTRxeV
- wzBkhMc7jcVOIafGUB49s7itxeptly+6B6KlPX+Qw0zerQHIfCxw+hpsges6MB3vRUr8
- FdM/dLwAYc3ZXMoQDF8Y3jB531eJSBR1kjR9aOXYsmbwmDRpV2UjJ0nz86ikXaorUZte
- fpRl377g3tpdd7bGvt9rv5B7vpdzzA31wGYyleDBxojbG7lP6lA5hUYPvLrfQ8tikgtq
- +cQcauHAh5AY4aq7sjv+FmZaKkGXSC2Mb5LRZyziKglkvw3Eyuc7qUQqp920DBjOIYNv
- uSlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=E5r1qohF89gVBikHeedld13Y+J8tlxW9bOOdQOVxRyA=;
- b=qhx/0euKE/RfhTlgOElDLL9uvPKG5uAyHcAovoxii8XxE+jo9BwKi4wWaEvzDGbimO
- TwxmZTRBfCB7VSbMStM5Q/CLDKrozXc1NfSCvprm/Lizcn6Vc3Pcwq5w9ibn19HBt57F
- ysGTpYFKT+qLUqozUFbrZab+dO4KfNFC5dSAn7Gggr84zxoubaz3NHO6+4HqFlexxnkc
- HoHGI20dWNzUpqu6o4uKkPQkJsMjGamw3KMnN+4w5bZTscZ00wvFftiUV9H6IHS0lzi9
- 83FrHjy+EVxTMT/3J6xe+kMWh/Td5FfepHVPad8CTwUH45M8QpxGuVt5WQHpDWkNmKUN
- /THA==
-X-Gm-Message-State: AOAM532RTax41NwH5EqBMpfV3u5vUA0gY9q8voLY9T0jx4mP0BQsr6wr
- XlIiTeAEYLGutDyw0UDjhrZRuRrVUVQ=
-X-Google-Smtp-Source: ABdhPJwslQIcDPut9ZuSv2BDRTyxcXkX5MoLRI8WF/a/r7SUbXVFyeVBhKGfxLWl0cnmkS4urtqGQw==
-X-Received: by 2002:a17:902:e80c:: with SMTP id
- u12mr364482plg.159.1644865130596; 
- Mon, 14 Feb 2022 10:58:50 -0800 (PST)
-Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id l17sm36847331pfu.61.2022.02.14.10.58.46
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:58:50 -0800 (PST)
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Will Cohen <wwcohen@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
- Li Zhang <lizhang@suse.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v5 16/16] gitlab-ci: Support macOS 12 via cirrus-run
-Date: Mon, 14 Feb 2022 19:56:05 +0100
-Message-Id: <20220214185605.28087-17-f4bug@amsat.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220214185605.28087-1-f4bug@amsat.org>
-References: <20220214185605.28087-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJgZa-0007G9-6D
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:59:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39089)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJgZW-0006ch-Vu
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:59:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644865177;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uGNA7OYItwLFiZvcnhvP1CKvO08YTVnNTazQyahLXks=;
+ b=iASSxMbUsoGF6X8kS0lAwIQFwKcMutnBg5OUIGo44JDkZpiC/zc0y8LWXRITjA8ARNWRdO
+ PpkGUeGsJo/swlpx9oRIqShuaKD4sp9RrLMh35a+RbOWTraO/Nevav/XZthKOzs0gmnIDu
+ fCt/3QUPZfBE4U2PGwaR5WqQ5DS4+/s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-74-Y8BmqLNoN9Kx0i9wiy3_uQ-1; Mon, 14 Feb 2022 13:56:55 -0500
+X-MC-Unique: Y8BmqLNoN9Kx0i9wiy3_uQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7336F814246;
+ Mon, 14 Feb 2022 18:56:39 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.32.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D3E477CA7;
+ Mon, 14 Feb 2022 18:56:08 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 2FF36220CE9; Mon, 14 Feb 2022 13:56:08 -0500 (EST)
+Date: Mon, 14 Feb 2022 13:56:08 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v5 3/3] virtiofsd: Add support for FUSE_SYNCFS request
+ without announce_submounts
+Message-ID: <YgqlyP5M7NF/bMoj@redhat.com>
+References: <20220214135820.43897-1-groug@kaod.org>
+ <20220214135820.43897-4-groug@kaod.org>
+ <YgqfCtcjhApw5Fyw@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <YgqfCtcjhApw5Fyw@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,104 +81,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: virtio-fs@redhat.com,
+ Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Add support for macOS 12 build on Cirrus-CI, similarly to commit
-0e103a65ba1 ("gitlab: support for ... macOS 11 via cirrus-run"),
-but with the following differences:
- - Enable modules (configure --enable-modules)
- - Do not run softfloat3 tests (make check-softfloat)
- - Run Aarch64 qtests instead of x86_64 ones
+On Mon, Feb 14, 2022 at 01:27:22PM -0500, Vivek Goyal wrote:
+> On Mon, Feb 14, 2022 at 02:58:20PM +0100, Greg Kurz wrote:
+> > This adds the missing bits to support FUSE_SYNCFS in the case submounts
+> > aren't announced to the client.
+> > 
+> > Iterate over all inodes and call syncfs() on the ones marked as submounts.
+> > Since syncfs() can block for an indefinite time, we cannot call it with
+> > lo->mutex held as it would prevent the server to process other requests.
+> > This is thus broken down in two steps. First build a list of submounts
+> > with lo->mutex held, drop the mutex and finally process the list. A
+> > reference is taken on the inodes to ensure they don't go away when
+> > lo->mutex is dropped.
+> > 
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 38 ++++++++++++++++++++++++++++++--
+> >  1 file changed, 36 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > index e94c4e6f8635..7ce944bfe2a0 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -3400,8 +3400,42 @@ static void lo_syncfs(fuse_req_t req, fuse_ino_t ino)
+> >          err = lo_do_syncfs(lo, inode);
+> >          lo_inode_put(lo, &inode);
+> >      } else {
+> > -        /* Requires the sever to track submounts. Not implemented yet */
+> > -        err = ENOSYS;
+> > +        g_autoptr(GSList) submount_list = NULL;
+> > +        GSList *elem;
+> > +        GHashTableIter iter;
+> > +        gpointer key, value;
+> > +
+> > +        pthread_mutex_lock(&lo->mutex);
+> > +
+> > +        g_hash_table_iter_init(&iter, lo->inodes);
+> > +        while (g_hash_table_iter_next(&iter, &key, &value)) {
+> 
+> Going through all the inodes sounds very inefficient. If there are large
+> number of inodes (say 1 million or more), and if frequent syncfs requests
+> are coming this can consume lot of cpu cycles.
+> 
+> Given C virtiofsd is slowly going away, so I don't want to be too
+> particular about it. But, I would have thought to put submount
+> inodes into another list or hash map (using mount id as key) and just
+> traverse through that list instead. Given number of submounts should
+> be small, it should be pretty quick to walk through that list.
+> 
+> > +            struct lo_inode *inode = value;
+> > +
+> > +            if (inode->is_submount) {
+> > +                g_atomic_int_inc(&inode->refcount);
+> > +                submount_list = g_slist_prepend(submount_list, inode);
+> > +            }
+> > +        }
+> > +
+> > +        pthread_mutex_unlock(&lo->mutex);
+> > +
+> > +        /* The root inode is always present and not tracked in the hash table */
+> > +        err = lo_do_syncfs(lo, &lo->root);
+> > +
+> > +        for (elem = submount_list; elem; elem = g_slist_next(elem)) {
+> > +            struct lo_inode *inode = elem->data;
+> > +            int r;
+> > +
+> > +            r = lo_do_syncfs(lo, inode);
+> > +            if (r) {
+> > +                /*
+> > +                 * Try to sync as much as possible. Only one error can be
+> > +                 * reported to the client though, arbitrarily the last one.
+> > +                 */
+> > +                err = r;
+> > +            }
+> > +            lo_inode_put(lo, &inode);
+> > +        }
+> 
+> One more minor nit. What happens if virtiofsd is processing syncfs list
+> and then somebody hard reboots qemu and mounts virtiofs again. That
+> will trigger FUSE_INIT and will call lo_destroy() first.
+> 
+> fuse_lowlevel.c
+> 
+> fuse_session_process_buf_int()
+> {
+>             fuse_log(FUSE_LOG_DEBUG, "%s: reinit\n", __func__);
+>             se->got_destroy = 1;
+>             se->got_init = 0;
+>             if (se->op.destroy) {
+>                 se->op.destroy(se->userdata);
+>             }
+> }
+> 
+> IIUC, there is no synchronization with this path. If we are running with
+> thread pool enabled, it could very well happen that one thread is still
+> doing syncfs while other thread is executing do_init(). That sounds
+> like little bit of a problem. It will be good if there is a way
+> to either abort syncfs() or do_destroy() waits for all the previous
+> syncfs() to finish.
+> 
+> Greg, if you like, you could break down this work in two patch series.
+> First patch series just issues syncfs() on inode id sent with FUSE_SYNCFS.
+> That's easy fix and can get merged now.
 
-Generate the vars file by calling 'make lcitool-refresh'.
+Actually I think even single "syncfs" will have synchronization issue
+with do_init() upon hard reboot if we drop lo->mutex during syncfs().
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .gitlab-ci.d/cirrus.yml           | 16 ++++++++++++++++
- .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++
- audio/coreaudio.c                 |  2 +-
- tests/lcitool/refresh             |  1 +
- 4 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
+Vivek
 
-diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-index b96b22e269..be1dce5d4e 100644
---- a/.gitlab-ci.d/cirrus.yml
-+++ b/.gitlab-ci.d/cirrus.yml
-@@ -87,6 +87,22 @@ x64-macos-11-base-build:
-     PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
-     TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
- 
-+x64-macos-12-base-build:
-+  extends: .cirrus_build_job
-+  variables:
-+    NAME: macos-12
-+    CIRRUS_VM_INSTANCE_TYPE: osx_instance
-+    CIRRUS_VM_IMAGE_SELECTOR: image
-+    CIRRUS_VM_IMAGE_NAME: monterey-base
-+    CIRRUS_VM_CPUS: 12
-+    CIRRUS_VM_RAM: 24G
-+    UPDATE_COMMAND: brew update
-+    INSTALL_COMMAND: brew install
-+    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
-+    PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
-+    CONFIGURE_ARGS: --enable-modules
-+    TEST_TARGETS: check-unit check-block check-qapi-schema check-qtest-aarch64
-+
- 
- # The following jobs run VM-based tests via KVM on a Linux-based Cirrus-CI job
- .cirrus_kvm_job:
-diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/macos-12.vars
-new file mode 100644
-index 0000000000..a793258c64
---- /dev/null
-+++ b/.gitlab-ci.d/cirrus/macos-12.vars
-@@ -0,0 +1,16 @@
-+# THIS FILE WAS AUTO-GENERATED
-+#
-+#  $ lcitool variables macos-12 qemu
-+#
-+# https://gitlab.com/libvirt/libvirt-ci
-+
-+CCACHE='/usr/local/bin/ccache'
-+CPAN_PKGS='Test::Harness'
-+CROSS_PKGS=''
-+MAKE='/usr/local/bin/gmake'
-+NINJA='/usr/local/bin/ninja'
-+PACKAGING_COMMAND='brew'
-+PIP3='/usr/local/bin/pip3'
-+PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
-+PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme virtualenv'
-+PYTHON='/usr/local/bin/python3'
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index 5b3aeaced0..1faef7fa7a 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -45,7 +45,7 @@ typedef struct coreaudioVoiceOut {
- } coreaudioVoiceOut;
- 
- #if !defined(MAC_OS_VERSION_12_0) \
--    || (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
-+    || (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_12_0)
- #define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
- #endif
- 
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 4ab90a310a..a714e2851d 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -89,6 +89,7 @@ try:
-    generate_cirrus("freebsd-12")
-    generate_cirrus("freebsd-13")
-    generate_cirrus("macos-11")
-+   generate_cirrus("macos-12")
- 
-    sys.exit(0)
- except Exception as ex:
--- 
-2.34.1
+> 
+> And second patch series take care of above issues and will be little bit
+> more work.
+> 
+> Thanks
+> Vivek
 
 
