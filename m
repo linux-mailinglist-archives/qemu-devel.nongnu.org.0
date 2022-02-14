@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6AB4B5DF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 23:56:45 +0100 (CET)
-Received: from localhost ([::1]:51288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886904B5E08
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 00:04:48 +0100 (CET)
+Received: from localhost ([::1]:55228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJkGy-0001QI-Hn
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 17:56:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45518)
+	id 1nJkOl-00043F-3Y
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 18:04:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nJkFF-0000aH-PP; Mon, 14 Feb 2022 17:54:57 -0500
-Received: from [2607:f8b0:4864:20::62d] (port=42532
- helo=mail-pl1-x62d.google.com)
+ id 1nJkJn-0002QU-T3; Mon, 14 Feb 2022 17:59:39 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=51110
+ helo=mail-pj1-x1034.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nJkFE-0003e0-4y; Mon, 14 Feb 2022 17:54:57 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id z17so11657697plb.9;
- Mon, 14 Feb 2022 14:54:55 -0800 (PST)
+ id 1nJkJm-0004J3-E7; Mon, 14 Feb 2022 17:59:39 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id m7so15936617pjk.0;
+ Mon, 14 Feb 2022 14:59:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:subject:to:cc:references:in-reply-to:mime-version
  :message-id:content-transfer-encoding;
- bh=09Yfvog3+34dbrGhsqY5UV7pIpfc0o5g0YMFMrZFX7o=;
- b=oJX5u8tUKtyo99tyEX9KzRRldzLJ3AeAC9aWe4LmzMEQ0HP+mWD6+7Q3T5YTVQ+1Kj
- QZpLWDucvKvc81UzfOX+qjmiMESkU22LdEMrvcBfT8OlS384b0SKqk6UFNPaZhzlN+tH
- wCzhQLRf7llkp/l/t69rfirrZvMJsW+lwbpUwURlkU1iE9HlrcaNbaBPCGdMXkdy8zH8
- O3ZwgLost4V2gYBmN/YAuOTYqBZlUYue9f0iF7Z4TXtx8M9LiJvfSF8muWJuCQFKt530
- VMh82IwifDc5xLF29I+zNj5fV9oYmAm/ZoidDcOtxmbxkvm2p4ntDIf3qMQxHDNvfnm4
- Z6Iw==
+ bh=djMmvAoZwZkTZLWwBpa3BcEG4u4pA82NqDZZ42rURNE=;
+ b=M7zcwExzb1rK+L/HYTmRm02SwMqpbzvdlVp00TOZ25kZK0v89bF1+h53guBQJ6E8HK
+ LzcbieVtYAd4WroEqDJqXz2X2TFVYO/IuG3wtuTOAcHOUMAAsZGptgIzkICwc/qk7WBP
+ hG/ZloYsOnaTxBKvxjynZpsTR/BxIyW9l2dHEISujhc5v8S536h5WAQRoeYuOxiibiDt
+ GynXQCcKuFpLaVk71bM6rUzbAo9/lL5PrLU3mrmcEPxv+MoAAI35KdObevQFv5LrEglC
+ n6q3G3dKonhQKizIL8M51ihOm+SdALR81qFY+8Hr8slP9Y5AEJFaepLi59I0NSkvw9XM
+ 2bxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
  :mime-version:message-id:content-transfer-encoding;
- bh=09Yfvog3+34dbrGhsqY5UV7pIpfc0o5g0YMFMrZFX7o=;
- b=qMfzE3E3TXOfbbD+for3BwslpWytJcFL425JkO2FDrE+aWL1YHQwboMLOJeGRzynqL
- A6q9DcRVhux1b8rmmAFnpNMwtS6GamFlpEMwbuIYcSrhDT0d/VdbActejcQVDG20gA89
- THkNhu7wRHBHWn7WpAgFXyhFzu94qvsZmnR9q1AtkPS9XnFANcPs3eWtdBIkoxFpMPx0
- UkQ0nNfTjSIZrK8GKxQRKLPPlBGg3RI/KpEkfUvYFRnSL/mvOjogNCWtushqQWTI6Vvv
- dL1s6M4P2Oxn1bY0/7fJJoyNCRPJOKjzsqRE9N1902Zt0x/wS28exUOhR9uVoHxwIm3/
- thHA==
-X-Gm-Message-State: AOAM531ESxaSqClaZ2I3hXYV0fZeFzBGzVyKrm6l+5P5hatqbfGruPzM
- ADEky6I9u6gHQv8iIMPHpDY=
-X-Google-Smtp-Source: ABdhPJyOk7dnRy1Ij9SX//fF0JAxno40Wo6JFgfSj7jhst5KaK0nC6uNroqcwqmRGpScfjm2dXvmng==
-X-Received: by 2002:a17:90b:3b8f:b0:1b8:fe9e:b929 with SMTP id
- pc15-20020a17090b3b8f00b001b8fe9eb929mr981131pjb.165.1644879294296; 
- Mon, 14 Feb 2022 14:54:54 -0800 (PST)
+ bh=djMmvAoZwZkTZLWwBpa3BcEG4u4pA82NqDZZ42rURNE=;
+ b=fXDgYyOcFoo4syQmMnbFz7a/Vunhd8RMya0JVGSsXfNxhvBrgQTrY4fk93LkolnRWE
+ iw5+sxTkTORfUMjk+9n0rBu1CbdMyyFiXl+smGcaGjYNYtMJIhVe2z0UrIAQaRE9MD3v
+ zeYXGZuBw6QkYx0l3gGAjRvveEGWU0qAg59NXKdwKGP0+qz63Qzd8JLX627Q36Dm4VWL
+ fEUeVJwxdeLJ+DUMbepP8fKQ6mDbJzEs92urlarZFW0FcrnzWk1pJBdvN2oqV/qpNFEJ
+ rcYlk7agbF0r2MY8De3wB1FnOi8Hci5y0Emd3EAZK/wVoPBFbPkGy/oO0MeFHyRdxUK1
+ 6qwQ==
+X-Gm-Message-State: AOAM531uLVFlNMBdS428fMMQ5kLyhy97cFTGVnMzA2giWcnQYoNJQIf7
+ aYAl1mGAjeuzj6diu4OswZyadafWoR0=
+X-Google-Smtp-Source: ABdhPJzgKDEM5hJC6e3hOWhudFpJa9qb5g8iHpN/hVyO8uD6M94+MtJGLr1kJXh+r/8M21RcQUz3KA==
+X-Received: by 2002:a17:90a:e2cb:: with SMTP id
+ fr11mr1047910pjb.64.1644879575730; 
+ Mon, 14 Feb 2022 14:59:35 -0800 (PST)
 Received: from localhost (27-33-251-132.static.tpgi.com.au. [27.33.251.132])
- by smtp.gmail.com with ESMTPSA id mw8sm5373870pjb.8.2022.02.14.14.54.53
+ by smtp.gmail.com with ESMTPSA id t15sm514141pgc.49.2022.02.14.14.59.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 14:54:53 -0800 (PST)
-Date: Tue, 15 Feb 2022 08:54:48 +1000
+ Mon, 14 Feb 2022 14:59:35 -0800 (PST)
+Date: Tue, 15 Feb 2022 08:59:30 +1000
 From: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH 2/2] target/ppc/kvm: Use KVM_CAP_PPC_AIL_MODE_3 to
- determine cap-ail-mode-3 support
-To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-ppc@nongnu.org
-References: <20220214111749.1542196-1-npiggin@gmail.com>
- <20220214111749.1542196-2-npiggin@gmail.com> <87sfsllhez.fsf@linux.ibm.com>
-In-Reply-To: <87sfsllhez.fsf@linux.ibm.com>
+Subject: Re: [PATCH] spapr: prevent hdec timer being set up under virtual
+ hypervisor
+To: =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>, Fabiano Rosas
+ <farosas@linux.ibm.com>, qemu-ppc@nongnu.org
+References: <20220214123116.1546406-1-npiggin@gmail.com>
+ <87mtitlgk2.fsf@linux.ibm.com>
+ <9494ba98-1d7c-8641-285b-c7fee3ec38d1@kaod.org>
+In-Reply-To: <9494ba98-1d7c-8641-285b-c7fee3ec38d1@kaod.org>
 MIME-Version: 1.0
-Message-Id: <1644878889.dc8nyl60bz.astroid@bobo.none>
+Message-Id: <1644879343.e91wwp3hqb.astroid@bobo.none>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=npiggin@gmail.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,107 +89,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Excerpts from Fabiano Rosas's message of February 14, 2022 11:13 pm:
-> Nicholas Piggin <npiggin@gmail.com> writes:
->=20
->> Use KVM_CAP_PPC_AIL_MODE_3 to determine cap-ail-mode-3 support for KVM
->> guests. Keep the fallback heuristic for KVM hosts that pre-date this
->> CAP.
->>
->> This is only proposed the KVM CAP has not yet been allocated. I will
->> ask to merge the new KVM cap when there are no objections on the QEMU
->> side.
->>
->> not-yet-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
->> ---
->>  hw/ppc/spapr_caps.c       |  2 +-
->>  linux-headers/linux/kvm.h |  1 +
->>  target/ppc/kvm.c          | 18 +++++++++++++++++-
->>  target/ppc/kvm_ppc.h      |  4 ++--
->>  4 files changed, 21 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
->> index 5fd4a53c33..5cc80776d0 100644
->> --- a/hw/ppc/spapr_caps.c
->> +++ b/hw/ppc/spapr_caps.c
->> @@ -619,7 +619,7 @@ static void cap_ail_mode_3_apply(SpaprMachineState *=
-spapr,
->>      ERRP_GUARD();
->> =20
->>      if (kvm_enabled()) {
->> -        if (!kvmppc_supports_ail_3()) {
->> +        if (!kvmppc_has_cap_ail_3()) {
->>              error_setg(errp, "KVM implementation does not support cap-a=
-il-mode-3");
->>              error_append_hint(errp, "Try appending -machine cap-ail-mod=
-e-3=3Doff\n");
->>              return;
->> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
->> index 02c5e7b7bb..d91f578200 100644
->> --- a/linux-headers/linux/kvm.h
->> +++ b/linux-headers/linux/kvm.h
->> @@ -1130,6 +1130,7 @@ struct kvm_ppc_resize_hpt {
->>  #define KVM_CAP_BINARY_STATS_FD 203
->>  #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
->>  #define KVM_CAP_ARM_MTE 205
->> +#define KVM_CAP_PPC_AIL_MODE_3 210
->> =20
->>  #ifdef KVM_CAP_IRQ_ROUTING
->> =20
->> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
->> index 128bc530d4..d0d0bdaac4 100644
->> --- a/target/ppc/kvm.c
->> +++ b/target/ppc/kvm.c
->> @@ -90,6 +90,7 @@ static int cap_ppc_nested_kvm_hv;
->>  static int cap_large_decr;
->>  static int cap_fwnmi;
->>  static int cap_rpt_invalidate;
->> +static int cap_ail_mode_3;
->> =20
->>  static uint32_t debug_inst_opcode;
->> =20
->> @@ -154,6 +155,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>      }
->> =20
->>      cap_rpt_invalidate =3D kvm_vm_check_extension(s, KVM_CAP_PPC_RPT_IN=
-VALIDATE);
->> +    cap_ail_mode_3 =3D kvm_vm_check_extension(s, KVM_CAP_PPC_AIL_MODE_3=
-);
->>      kvm_ppc_register_host_cpu_type();
->> =20
->>      return 0;
->> @@ -2563,10 +2565,24 @@ int kvmppc_has_cap_rpt_invalidate(void)
->>      return cap_rpt_invalidate;
->>  }
->> =20
->> -int kvmppc_supports_ail_3(void)
->> +int kvmppc_has_cap_ail_3(void)
->>  {
->>      PowerPCCPUClass *pcc =3D kvm_ppc_get_host_cpu_class();
->> =20
->> +    if (cap_ail_mode_3) {
->> +        return 1;
->> +    }
->> +
->> +    if (kvm_ioctl(kvm_state, KVM_CHECK_EXTENSION, KVM_CAP_PPC_AIL_MODE_=
-3) =3D=3D 0) {
->> +        return 0;
->> +    }
->=20
-> This is not needed here it seems.
+Excerpts from C=C3=A9dric Le Goater's message of February 15, 2022 4:05 am:
+> On 2/14/22 14:32, Fabiano Rosas wrote:
+>> Nicholas Piggin <npiggin@gmail.com> writes:
+>>=20
+>>> The spapr virtual hypervisor does not require the hdecr timer.
+>>=20
+>> Why is that? Is this not needed for an emulated powernv running KVM
+>> guests?
 
-This is to test whether the capability is recognised by the HV.=20
-kvm_vm_check_extension() treats ioctl error as 0 capability but we want=20
-to do this extra heuristic.
+Yeah, powernv does not use the virtual hypervisor, that's just for
+pseries.
 
-I'm not sure if there's a better standard way to do this.
+> It is now also running in the QEMU pseries machine (L0) when a
+> nested is running. That's part of the implementation Nick did for
+> the KVM-on-pseries-in-QEMU-TCG.
+>=20
+> But isn't that redundant with the cpu_ppc_hdecr_init() and
+> cpu_ppc_hdecr_exit() from the RFC ? and shouldn't that be
+> created only once, when the first nested is started or when
+> the machine is if cap-nested-hv=3Don ?
+
+For now I create the timer for a vcpu while it is in H_ENTER_NESTED
+and destroy it when the hcall returns.
 
 Thanks,
 Nick
+
+>=20
+>>> Remove it.
+>>>
+>>> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+>>> ---
+>>>   hw/ppc/ppc.c            | 2 +-
+>>>   hw/ppc/spapr_cpu_core.c | 6 +++---
+>>>   2 files changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+>>> index 462c87dba8..a7c262db93 100644
+>>> --- a/hw/ppc/ppc.c
+>>> +++ b/hw/ppc/ppc.c
+>>> @@ -1072,7 +1072,7 @@ clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, u=
+int32_t freq)
+>>>       }
+>>>       /* Create new timer */
+>>>       tb_env->decr_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_=
+decr_cb, cpu);
+>>> -    if (env->has_hv_mode) {
+>>> +    if (env->has_hv_mode && !cpu->vhyp) {
+>=20
+> hmm, Can we have (env->has_hv_mode && cpu->vhyp) ?  this is confusing :/
+>=20
+> Thanks,
+>=20
+> C.
+>=20
+>=20
+>>>           tb_env->hdecr_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu=
+_ppc_hdecr_cb,
+>>>                                                   cpu);
+>>>       } else {
+>>> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+>>> index a781e97f8d..ed84713960 100644
+>>> --- a/hw/ppc/spapr_cpu_core.c
+>>> +++ b/hw/ppc/spapr_cpu_core.c
+>>> @@ -261,12 +261,12 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, S=
+paprMachineState *spapr,
+>>>           return false;
+>>>       }
+>>>  =20
+>>> -    /* Set time-base frequency to 512 MHz */
+>>> -    cpu_ppc_tb_init(env, SPAPR_TIMEBASE_FREQ);
+>>> -
+>>>       cpu_ppc_set_vhyp(cpu, PPC_VIRTUAL_HYPERVISOR(spapr));
+>>>       kvmppc_set_papr(cpu);
+>>>  =20
+>>> +    /* Set time-base frequency to 512 MHz. vhyp must be set first. */
+>>> +    cpu_ppc_tb_init(env, SPAPR_TIMEBASE_FREQ);
+>>> +
+>>>       if (spapr_irq_cpu_intc_create(spapr, cpu, errp) < 0) {
+>>>           qdev_unrealize(DEVICE(cpu));
+>>>           return false;
+>>=20
+>=20
+>=20
 
