@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6684B435C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:13:14 +0100 (CET)
-Received: from localhost ([::1]:42042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646154B43E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:19:27 +0100 (CET)
+Received: from localhost ([::1]:48172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJWTw-0003T7-D5
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:13:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35478)
+	id 1nJWZy-00081V-6t
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:19:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWF1-0006s8-JG
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:57:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29547)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWFF-00078k-AZ
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:58:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWEx-00059T-BV
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:57:46 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWFC-0005CU-Bh
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 02:57:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644825462;
+ s=mimecast20190719; t=1644825476;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tlNehD9KZAOgW/SS2Ujm2hs4Zcpr2/G5irmlf+JKz5s=;
- b=UgJGYkJ1C1GE4vQ/JwaK1p0a77GyllNICoRJFKv/Xhm1HHasgnNUVdMxDgIUW1P70oQCyC
- ZQKIiGF5fUmDPWS2i5fXf+wxmQybru6OM/ysNmpJuCj2J4w1+wlhbe1qOPsNcRjfHEBRD+
- QWgb+n/cps409whZIcv3f4GCz1sGjsw=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AwXON1X0D9kBxlbB7465m54c6mNVz7gxsIB9Tw53CCU=;
+ b=YKpOH7y0fSGN8GWAFt9Ky62Q69wKkRYoIsby5C7tixPlxnqukmXNolExckzw3Dr/u2QCVT
+ n4vK2XKDrSnu+nk5EfsD7T3BS0rU5UqULAuP53id922T2fcPRr1di7xvnIZMeuq3aGi7rN
+ yqa5FzfWfqotFfXHJjjqZzuD6zuPZyc=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-423-aiZEy0HgNNmaEUYIhmQ7ug-1; Mon, 14 Feb 2022 02:57:40 -0500
-X-MC-Unique: aiZEy0HgNNmaEUYIhmQ7ug-1
-Received: by mail-pj1-f72.google.com with SMTP id
- s10-20020a17090a948a00b001b96be201f6so6325090pjo.4
- for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 23:57:40 -0800 (PST)
+ us-mta-303-RHhWUp7uMnqCJucyIa1ULQ-1; Mon, 14 Feb 2022 02:57:55 -0500
+X-MC-Unique: RHhWUp7uMnqCJucyIa1ULQ-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ t134-20020a62788c000000b004e1367caccaso458595pfc.14
+ for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 23:57:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=tlNehD9KZAOgW/SS2Ujm2hs4Zcpr2/G5irmlf+JKz5s=;
- b=F7ZqpLAn7GWimBDxDJWSzwHJKZhPOKPztvSc/0V/QmJjeh0+yYTt8N3Gi+hiIE60Gd
- CGQTwQAxwkzCxg+7hL3H9e4IfWQM3RMHyvB4ZEuBGMJHg97YYaEcPzbwcnCkDv0RilFK
- MUub7OcHNPvJR0AntZREYyU1v/ZYx/bGHA7Fd+O5IS/3x1Z+85ZMt9lI7gQbu/S2qr+9
- r0F1rApsAf4aWSF3GNT8/hCOFa/78UH3IarZn06Rtn75Lg64/6IxPikF86km05myYYsI
- P3yAh8V50GWFz9H1nj0znUm1stOHMfhOTKL77AfkKKtNNLdtb6Fyw9KhlHRVa8oF3VS7
- epLw==
-X-Gm-Message-State: AOAM5314sz61bLlBvQLgN+pF8a4DEfGms+TIHWfbgcwpCfccLKSzaJf9
- buHIatWCExgiX3652yMH/9up+78bGZNPGXpXYDNFXyxGRnv4osETjN+bZ7mrJELWc2Ctbeq5jjY
- T+5b0mu56tr3VSTY=
-X-Received: by 2002:a05:6a00:894:: with SMTP id
- q20mr13006072pfj.79.1644825459869; 
- Sun, 13 Feb 2022 23:57:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJymDxwUqXurPgHk5nWyic6/s/k5mnugH/PGpJDJ0KzZoVyUjzhaIXcRTBdzX7FwCA/Ctibo8Q==
-X-Received: by 2002:a05:6a00:894:: with SMTP id
- q20mr13006053pfj.79.1644825459545; 
- Sun, 13 Feb 2022 23:57:39 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=AwXON1X0D9kBxlbB7465m54c6mNVz7gxsIB9Tw53CCU=;
+ b=o0NgAIL551BI/JyzK5LNXoJJ6Vm9xBbKCnNbMFdxYViDpZjNI6+8eMQJT7rcp10L4D
+ cwvraIsocD3jMeGBqDW9DKUJhK5hWLH+gGeehcAzTfE3mAWvzlFgwMJ5OXT8AnMNRWfk
+ rVxarCxbDn7N+oOetfNAptxT+IzboWKJGNxZoefCgc++IPEzWiG1MdsLzWKP4so9D5CC
+ vrNeUyAqDCsJj9oaJV+yd7EahPDPJOzkr8lGCXI02oF1B1Z9qCMbXGXFen27Rvb0KmG2
+ a0qiB9AkcmUkbRkj5tc26n46vYIN7v2xPb9EOVtODfQA2a5X7Sk/XTNUhnMON4lUtt3A
+ mcAQ==
+X-Gm-Message-State: AOAM5304ZrOuNdbhSa7y/u2YGsT6cdieyedn+kXGnf68+pRGITyROGTs
+ OgsgSCDo81qO3vtcCbC1U/ttJyrZ3kU212md45IJnkmWQmqrcFxR6LbKXhndtu4SHCt/2z3sfZm
+ H8PVBayjs5wxWRog=
+X-Received: by 2002:a17:90b:3e86:: with SMTP id
+ rj6mr7543999pjb.226.1644825474446; 
+ Sun, 13 Feb 2022 23:57:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwB++2lJTl8ob62s2cHL0ArXitJ8v2CuA4jNEpLgDaOK6mgxFTzzyvGjCimnmhQz0V9y04c1w==
+X-Received: by 2002:a17:90b:3e86:: with SMTP id
+ rj6mr7543983pjb.226.1644825474253; 
+ Sun, 13 Feb 2022 23:57:54 -0800 (PST)
 Received: from xz-m1.local ([94.177.118.137])
- by smtp.gmail.com with ESMTPSA id k16sm35803947pfu.140.2022.02.13.23.57.34
+ by smtp.gmail.com with ESMTPSA id l2sm36232463pfc.183.2022.02.13.23.57.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Feb 2022 23:57:39 -0800 (PST)
-Date: Mon, 14 Feb 2022 15:57:31 +0800
+ Sun, 13 Feb 2022 23:57:53 -0800 (PST)
+Date: Mon, 14 Feb 2022 15:57:46 +0800
 From: Peter Xu <peterx@redhat.com>
 To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v14 3/7] migration/dirtyrate: Refactor dirty page rate
- calculation
-Message-ID: <YgoLa4B7Eq8OOJq7@xz-m1.local>
+Subject: Re: [PATCH v14 1/7] accel/kvm/kvm-all: Refactor per-vcpu dirty ring
+ reaping
+Message-ID: <YgoLemzQzYPzqO4S@xz-m1.local>
 References: <cover.1644509582.git.huangy81@chinatelecom.cn>
- <5984c1faf2de00df1a4add819fdab5cbe4014746.1644509582.git.huangy81@chinatelecom.cn>
+ <5ed8d9ce7dd1ffaf413a6b225ddb0c851a3a35f9.1644509582.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <5984c1faf2de00df1a4add819fdab5cbe4014746.1644509582.git.huangy81@chinatelecom.cn>
+In-Reply-To: <5ed8d9ce7dd1ffaf413a6b225ddb0c851a3a35f9.1644509582.git.huangy81@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -106,32 +109,15 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mostly good, one trivial nit below:
+On Fri, Feb 11, 2022 at 12:17:35AM +0800, huangy81@chinatelecom.cn wrote:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+> Add a non-required argument 'CPUState' to kvm_dirty_ring_reap so
+> that it can cover single vcpu dirty-ring-reaping scenario.
+> 
+> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-On Fri, Feb 11, 2022 at 12:17:37AM +0800, huangy81@chinatelecom.cn wrote:
-> +int64_t vcpu_calculate_dirtyrate(int64_t calc_time_ms,
-> +                                 int64_t init_time_ms,
-> +                                 VcpuStat *stat,
-> +                                 unsigned int flag,
-> +                                 bool one_shot)
-> +{
-> +    DirtyPageRecord *records;
-> +    int64_t duration;
-> +    int64_t dirtyrate;
-> +    int i = 0;
-> +    unsigned int gen_id;
-> +
-> +retry:
-> +    cpu_list_lock();
-> +    gen_id = cpu_list_generation_id_get();
-> +    records = vcpu_dirty_stat_alloc(stat);
-> +    vcpu_dirty_stat_collect(stat, records, true);
-> +    cpu_list_unlock();
-> +
-> +    duration = dirty_stat_wait(calc_time_ms, init_time_ms);
-
-Is it a must to pass in init_time_ms rather than always sleep in
-dirty_stat_wait()?  Could we simply drop it?
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
