@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7DC4B555C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:52:10 +0100 (CET)
-Received: from localhost ([::1]:59934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE544B5563
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:54:51 +0100 (CET)
+Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJde5-0005ve-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:52:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44800)
+	id 1nJdgf-0002K1-Ts
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:54:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marmarek@invisiblethingslab.com>)
- id 1nJdMK-0004tg-A8
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 10:33:49 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:49495)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nJdTv-0007yZ-Te
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 10:41:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marmarek@invisiblethingslab.com>)
- id 1nJdMG-0004xH-KK
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 10:33:46 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 3CAEB5C0246;
- Mon, 14 Feb 2022 10:33:36 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 14 Feb 2022 10:33:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=00sLYhy43u8dz4gqS
- AWPW2aSUeo4T6PTO9jyxileyR0=; b=gb1ZmJiaNxYX0944bJb8svuvXxfY9BQyP
- dFjM1sdJ2rbYdL3XlsdxXseXkcNsv7xnHX2zxAj9cwbcQaJi+drjlS1Bqo815R1V
- hcullekRjRX165X+IM3FyQrGJyzqRqABPH+Dog8+a/rvTOlOAFJ0Qbg5jzy+a89I
- PzputjVfcdEV0sF5wMeiW6flxKabD3RmkvYRJ8LEYR+AuAe6N3u2dQkZ1gylIPIm
- oVv2pe3ATlvu8XJFp1kzidaMV6c4jVa077aY3Ro1Le9plamrhSf8zMlohVPU4srQ
- E2grvB88H1J0TP5L3tMqGS5OtCvsahB1kKqG+G/SNUNToGRfOWQqA==
-X-ME-Sender: <xms:T3YKYnzkjdrjCrcuRrEsfCWbwERlMRpPzJWvdLf2Veepv_w4SiEYuw>
- <xme:T3YKYvTM9_ujfvDkeT6uama7kmWmcfK4SqG-isJo7Fy7CT-_LQLhCpWHFqo4AI8lj
- S3bQIDvE6iUzw>
-X-ME-Received: <xmr:T3YKYhXU9WoZ40K0bOiduG2JULfVACtJucTExDU7EdYY5PibxZxru7CtDchanzB5nl1eBjv39pkq37yf0pjJD1UIbqc80UAmhQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjedvgdejfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepfdhmrghrmhgr
- rhgvkhesihhnvhhishhisghlvghthhhinhhgshhlrggsrdgtohhmfdcuoehmrghrmhgrrh
- gvkhesihhnvhhishhisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgv
- rhhnpeehveetfefhfedvtdeuuedvtddtvdeijeeuueejffduvefgvdekledtleduveffve
- enucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptden
- ucfrrghrrghmpehmrghilhhfrhhomhepmhgrrhhmrghrvghksehinhhvihhsihgslhgvth
- hhihhnghhslhgrsgdrtghomh
-X-ME-Proxy: <xmx:UHYKYhiXdWXiI1i8X5qZLUxNJcAkB1kuYO578uY2OXoKDq2NVq9xcw>
- <xmx:UHYKYpCpNC97lcFFYwwmnO7IUeR4x2RuQtM7Rv1q7i7q6wZjWB7jPA>
- <xmx:UHYKYqIuahvsFO1d-MBElvmePwZHKXbZp-h67HZphKzHYXXDCBe-ig>
- <xmx:UHYKYoMGubzvHxGXuaPZTr-yfTnrwAGTTlt5RXsQXnNegzQewzkglg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Feb 2022 10:33:34 -0500 (EST)
-Date: Mon, 14 Feb 2022 16:33:31 +0100
-From: "marmarek@invisiblethingslab.com" <marmarek@invisiblethingslab.com>
-To: Andrew Cooper <Andrew.Cooper3@citrix.com>
-Subject: Re: SecureBoot and PCI passthrough with kernel lockdown in place (on
- Xen)
-Message-ID: <Ygp2SxuxDTznDqyt@mail-itl>
-References: <8daad0f6c623a57bc0b047fc2388e8b698135624.camel@suse.com>
- <55436ceb-3c6b-beff-5cac-eb83cb1bc44d@citrix.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nJdTq-0006Xv-9j
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 10:41:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644853291;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hsd/w+NjQuZtehgLFP9X8LWPcfZjYs5YTnQs2xyX7i4=;
+ b=dhpW+O+s2wdE0jAx1x8s4ImB57aIZRfUId3SQU9KRkioR/jYxxJy6RvNsaVFd+o/4aSSfC
+ Nq29mwP4JrwgA3Jga8CSUDShPlphtcaNDVH3xjHzM+LvuN6ILJDg6DU/Z1JdodcMGV7IzM
+ tUqmAJWHkTF+OvJhvZX56yll8CdONcU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-TQWMZPM2OMuUr6jBS0v2sg-1; Mon, 14 Feb 2022 10:41:30 -0500
+X-MC-Unique: TQWMZPM2OMuUr6jBS0v2sg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ g5-20020a056402090500b0040f28e1da47so10521409edz.8
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 07:41:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=hsd/w+NjQuZtehgLFP9X8LWPcfZjYs5YTnQs2xyX7i4=;
+ b=btD3n76JwAr9OCjasDDWVxFruIH2Irls0ZT7VJw7EosrxM0GSSWWgmD3M58i64IjLv
+ I9RzoWaUh+Gq83vrDNIPmui9G32AG3br4mgDSUbS88+EHP19N/qbRVj+rxIn1iDrXP4G
+ UCx1of+zwnK5IF1jWplFGNp4VLjEkJaw+PkJBxhNRGlxb5nJeJySpJUWnNUvSYTGCzoq
+ 2630z9oNb6rHo3efqkZ0Ge7JJnqRNWgBB4sXsCgtzVQ1XRAkMRtnHGDDemPLZ4KRHEpw
+ WsK+oreD/M+WCiAImq009CbpXT1dBI8mn9glPPPq3Lg18QH8IPA5NgWj2nxyobxR+FeC
+ DaIg==
+X-Gm-Message-State: AOAM5333hlfyqaCEXKCyuCHvsTUngNPXPjd5uDRHROjM3FAdw7UX2ZvE
+ +cv7Wp/Sy3vWwu6KeSPRgYLhHtyoMan57lm5AMKcV5yp4TebRSGkX4QF2eGO/SmNBd4w6Ft592J
+ fiSRskr52v3JU8QE=
+X-Received: by 2002:a17:906:dc8c:: with SMTP id
+ cs12mr113455ejc.215.1644853289397; 
+ Mon, 14 Feb 2022 07:41:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzYLnLTXZO/YtZJMlYyWVSVsGoTLs6N8i7NlIrnUxolaOqhWOkF6lxdVilXeD+uxCgvg6TR8A==
+X-Received: by 2002:a17:906:dc8c:: with SMTP id
+ cs12mr113424ejc.215.1644853289060; 
+ Mon, 14 Feb 2022 07:41:29 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id i18sm7189174ejy.190.2022.02.14.07.41.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Feb 2022 07:41:28 -0800 (PST)
+Date: Mon, 14 Feb 2022 16:41:27 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH RFCv2 3/4] i386/pc: warn if phys-bits is too low
+Message-ID: <20220214164127.49a08ce1@redhat.com>
+In-Reply-To: <f627c202-5281-affb-c439-ea394c3ab70a@oracle.com>
+References: <20220207202422.31582-1-joao.m.martins@oracle.com>
+ <20220207202422.31582-4-joao.m.martins@oracle.com>
+ <20220214160325.62b6436d@redhat.com>
+ <f627c202-5281-affb-c439-ea394c3ab70a@oracle.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EoIB2nOmOXhg9dJ9"
-Content-Disposition: inline
-In-Reply-To: <55436ceb-3c6b-beff-5cac-eb83cb1bc44d@citrix.com>
-Received-SPF: none client-ip=66.111.4.25;
- envelope-from=marmarek@invisiblethingslab.com;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,125 +101,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- "sstabellini@kernel.org" <sstabellini@kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Dario Faggioli <dfaggioli@suse.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 14 Feb 2022 15:18:43 +0000
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
---EoIB2nOmOXhg9dJ9
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Feb 2022 16:33:31 +0100
-From: "marmarek@invisiblethingslab.com" <marmarek@invisiblethingslab.com>
-To: Andrew Cooper <Andrew.Cooper3@citrix.com>
-Cc: Dario Faggioli <dfaggioli@suse.com>,
-	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-	"sstabellini@kernel.org" <sstabellini@kernel.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	Anthony Perard <anthony.perard@citrix.com>
-Subject: Re: SecureBoot and PCI passthrough with kernel lockdown in place (on
- Xen)
+> On 2/14/22 15:03, Igor Mammedov wrote:
+> > On Mon,  7 Feb 2022 20:24:21 +0000
+> > Joao Martins <joao.m.martins@oracle.com> wrote:
+> >   
+> >> Default phys-bits on Qemu is TCG_PHYS_BITS (40) which is enough
+> >> to address 1Tb (0xff ffff ffff). On AMD platforms, if a
+> >> ram-above-4g relocation happens and the CPU wasn't configured
+> >> with a big enough phys-bits, warn the user. There isn't a
+> >> catastrophic failure exactly, the guest will still boot, but
+> >> most likely won't be able to use more than ~4G of RAM.  
+> > 
+> > how 'unable to use" would manifest?
+> > It might be better to prevent QEMU startup with broken setup (CLI)
+> > rather then letting guest run and trying to figure out what's
+> > going wrong when users start to complain. 
+> >   
+> Sounds better to be conservative here.
+> 
+> I will change from warn_report() to error_report()
+> and exit.
+> 
+> >>
+> >> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> >> ---
+> >>  hw/i386/pc.c | 7 +++++++
+> >>  1 file changed, 7 insertions(+)
+> >>
+> >> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> >> index b060aedd38f3..f8712eb8427e 100644
+> >> --- a/hw/i386/pc.c
+> >> +++ b/hw/i386/pc.c
+> >> @@ -842,6 +842,7 @@ static void relocate_4g(MachineState *machine, PCMachineState *pcms)
+> >>      X86MachineState *x86ms = X86_MACHINE(pcms);
+> >>      ram_addr_t device_mem_size = 0;
+> >>      uint32_t eax, vendor[3];
+> >> +    hwaddr maxphysaddr;
+> >>  
+> >>      host_cpuid(0x0, 0, &eax, &vendor[0], &vendor[2], &vendor[1]);
+> >>      if (!IS_AMD_VENDOR(vendor)) {
+> >> @@ -858,6 +859,12 @@ static void relocate_4g(MachineState *machine, PCMachineState *pcms)
+> >>          return;
+> >>      }
+> >>  
+> >> +    maxphysaddr = ((hwaddr)1 << X86_CPU(first_cpu)->phys_bits) - 1;
+> >> +    if (maxphysaddr < AMD_ABOVE_1TB_START)
+> >> +        warn_report("Relocated RAM above 4G to start at %lu "
+> >> +                    "phys-bits too low (%u)",
+> >> +                    AMD_ABOVE_1TB_START, X86_CPU(first_cpu)->phys_bits);  
+> > 
+> > perhaps this hunk belongs to the end of pc_memory_init(),
+> > it's not HT fixup specific at all?
+> >   
+> It is HT fixup related. Because we are relocating the whole above-4g-ram,
+> on what used to be enough with just 40 phys bits (default).
 
-On Mon, Feb 14, 2022 at 03:25:31PM +0000, Andrew Cooper wrote:
-> On 14/02/2022 15:02, Dario Faggioli wrote:
-> > Hello,
-> >
-> > We have run into an issue when trying to use PCI passthrough for a Xen
-> > VM running on an host where dom0 kernel is 5.14.21 (but we think it
-> > could be any kernel > 5.4) and SecureBoot is enabled.
->=20
-> Back up a bit...
->=20
-> Xen doesn't support SecureBoot and there's a massive pile of work to
-> make it function, let alone work in a way that MSFT aren't liable to
-> revoke your cert on 0 notice.
->=20
-> >
-> > The error we get, when (for instance) trying to attach a device to an
-> > (HVM) VM, on such system is:
-> >
-> > # xl pci-attach 2-fv-sles15sp4beta2 0000:58:03.0=20
-> > libxl: error: libxl_qmp.c:1838:qmp_ev_parse_error_messages: Domain 12:F=
-ailed to initialize 12/15, type =3D 0x1, rc: -1
-> > libxl: error: libxl_pci.c:1777:device_pci_add_done: Domain 12:libxl__de=
-vice_pci_add failed for PCI device 0:58:3.0 (rc -28)
-> > libxl: error: libxl_device.c:1420:device_addrm_aocomplete: unable to ad=
-d device
-> >
-> > QEMU, is telling us the following:
-> >
-> > [00:04.0] xen_pt_msix_init: Error: Can't open /dev/mem: Operation not p=
-ermitted
-> > [00:04.0] xen_pt_msix_size_init: Error: Internal error: Invalid xen_pt_=
-msix_init.
-> >
-> > And the kernel reports this:
-> >
-> > Jan 27 16:20:53 narvi-sr860v2-bps-sles15sp4b2 kernel: Lockdown: qemu-sy=
-stem-i38: /dev/mem,kmem,port is restricted; see man kernel_lockdown.7
-> >
-> > So, it's related to lockdown. Which AFAIUI it's consistent with the
-> > fact that the problem only shows up when SecureBoot is enabled, as
-> > that's implies lockdown. It's also consistent with the fact that we
-> > don't seem to have any problems doing the same with a 5.3.x dom0
-> > kernel... As there's no lockdown there!
-> >
-> > Some digging revealed that QEMU tries to open /dev/mem in
-> > xen_pt_msix_init():
-> >
-> >     fd =3D open("/dev/mem", O_RDWR);
-> >     ...
-> >     msix->phys_iomem_base =3D
-> >             mmap(NULL,
-> >                  total_entries * PCI_MSIX_ENTRY_SIZE + msix->table_offs=
-et_adjust,
-> >                  PROT_READ,
-> >                  MAP_SHARED | MAP_LOCKED,
-> >                  fd,
-> >                  msix->table_base + table_off - msix->table_offset_adju=
-st);
-> >     close(fd);
->=20
-> Yes.=C2=A0 Use of /dev/mem is not permitted in lockdown mode.=C2=A0 This =
-wants
-> reworking into something which is lockdown compatible.
+what if user starts QEMU with amount of RAM that won't fit into
+configured phys bits (whether it's default one or one that comes from host)
+and not on AMD host at that so no relocation happens but we still have
+broken configuration. What matters here is the end address that might
+be used by guest (pci64_bit hole end) is reachable.
 
-FWIW, Qubes has PCI passthrough working with qemu in stubdomain, which
-works without access to /dev/mem in dom0. We do this, by disabling
-MSI-X, including the above piece of code...
+That's why I suggested to make it generic check instead of AMD specific one. 
+ 
+> > Also I'm not sure but there are host_phys_bits/host_phys_bits_limit properties,
+> > perhaps they need to be checked/verified as well  
+> 
+> When booted with +host-phys-bits and/or with a host-phys-bits-limit=X, the @phys_bits
+> value will be either set to host, and ultimately bound to a maximum of
+> host_phys_bits_limit (if at all set).
+> 
+> So essentially the selected phys_bits that we're checking above is the only thing
+> we need to care about IIUC.
+> 
 
-https://github.com/QubesOS/qubes-vmm-xen-stubdom-linux/blob/master/qemu/pat=
-ches/0005-Disable-MSI-X-caps.patch
-
-> The real elephant in the room is that privcmd is not remotely safe to
-> use in a SecureBoot environment, because it lets any root userspace
-> trivially escalate privilege into the dom0 kernel, bypassing the
-> specific protection that SecureBoot is trying to achieve.
-
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
-
---EoIB2nOmOXhg9dJ9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmIKdkwACgkQ24/THMrX
-1yzstwf9H9i1rJxKtby/dgBVYKyTYh9FFqy1q2Q+1hr/wYSrp7eg7+n+9CEPfSBn
-Kys4MVk8LlUkl7XRXmJdPlV9A0jLJfjmZn/7P0OGBvBNWrOiUdU51P9ju9zL0zu4
-nEKnJj2QwcAI8DjKksY9KQyK+ZS2ep2mzvKPWv4Sn0RtBiZOcF+t7i8mLlGKKrlz
-KLf7jLIOLwHuFIGmu2fRloVW67rrCKdYZh8ZpVUImxdBtP/WMAoQHnJC0yyT0vJ3
-ddbRJxF6FF0wz4vAzBpEJQpPHjCig7zOfeMJPCQbT9SU20UA6aIlZzr6FSsINfHK
-OxL4DTusKg6S8McvgBSGAku5aGPDkw==
-=cqqn
------END PGP SIGNATURE-----
-
---EoIB2nOmOXhg9dJ9--
 
