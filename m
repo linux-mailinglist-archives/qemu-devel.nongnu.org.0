@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFA94B5A47
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 19:58:29 +0100 (CET)
-Received: from localhost ([::1]:47874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CBF4B5A4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:01:28 +0100 (CET)
+Received: from localhost ([::1]:56234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgYO-0001yE-44
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 13:58:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40382)
+	id 1nJgbH-0007fz-5t
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:01:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg9v-0000Go-FA
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:33:13 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=37703
- helo=mail-pj1-x102b.google.com)
+ id 1nJgA3-0000MZ-9m
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:33:19 -0500
+Received: from [2607:f8b0:4864:20::42f] (port=33467
+ helo=mail-pf1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJg9t-0002dp-AH
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:33:10 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- v5-20020a17090a4ec500b001b8b702df57so19727984pjl.2
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:33:07 -0800 (PST)
+ id 1nJgA0-0002fi-KY
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:33:18 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id d17so2593556pfl.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 10:33:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e8DQWHfKGeT/pxGHQ+jFVIO6FZ9E+wxAU1QxxX34iiM=;
- b=JRa/93PRH+4QkioDUHXID9HJ+aOolfb7Xxd1W8GU7EtAZ8zLGVQLgCkPvSwRcTHkXH
- zrfRu2Fz6agipxylbS+8LMY6b0cqKCeQM3XC6ufoERwql+MHhBX4K7yLANEF5fVGafbB
- nROCRrtD2Aco8JX339PN0OtTPM/mkLhOH4+We3plNJndTp+XZh/X3PVTcbGehYw+30wP
- jQS9FRJvbchZPbti5c/fhMREbNUimonF/l/up1AM5kRFpMyzO8bS+hpfOK4DnUAYZy9U
- CxvIAAaBy8F2B70Apa9a9ZShwVhe75AqBiTDxaKc1yypupcZmirfDh659QQ8Nie9ks8/
- B4aA==
+ bh=YCTydAvkyRrCoOcBwj79cf3QGE1FFr/8PN/joDrL08g=;
+ b=bsA9dQMuK6C2LftnXyOlfdayGd5OEGX71dhK1kkLFQjUgsbEQmXNR4Kxt89T2ktkVP
+ PdT5KV4AHTJoL1LMsah/QdHb1IS89vVp0i2lKSE2P2aLMbe1ifcOv0vtBu6D0jWlv+kJ
+ 8Wv+fx9Lv/RuQ/ivY5qJrzk+LXU/90HGupqAvGeDlRxPhu7MADC7L4RW0Rc1BOWE4W2k
+ zF0Nh7YoqWQqcgRifVZ0tfgiHiPHjAzWJ7NBZQBSOWQYDdLng9qN+LRRDEOZJgw/XPtY
+ S2dZMyA1K9B2q0trPEz4ybEMoBRlA+2fY/+1Du/qwegt+6chTV45Rds9YRWy1SqM+UFD
+ 5X5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=e8DQWHfKGeT/pxGHQ+jFVIO6FZ9E+wxAU1QxxX34iiM=;
- b=sQfiXXZoXEDDC12Et6I1MXfnVgrwc1pQzTX/T7R27QOro3EyAVwvFAy84f2puivMf0
- j4l0i54XE1Et9+DVZ1h3KF8CHvFrgsYKo/Ld5aDfrLAX5aiKnF+8dpi6yPAQjh/pm9rC
- tu0iArlGJrI6Rn3YOIkBSHuUneahwpwJ4EqW0YGDwwgwwLwMT5aT7YMqqXwpai4GcjIy
- HhCTcO+aMo9J43Xb2huPZYs5dIR+yL8VaWZ+0lBLCb7gTCaMdLAAgjjbfPPAnpQO4ov6
- ufmbSFALh+UvcNkLDX3LJzx5dBsiT2kLMwCNa8y7DuZT7uGs9EkCpUCri8HxLplX8Wnh
- HvUg==
-X-Gm-Message-State: AOAM533HTHlAGYkRh6tHSE0CKAnu/z4eeG32dQXfL4JrCgW9Ovp97A/k
- hIGwi4XWrm8BLwE5N664j5tM2t5Y7fM=
-X-Google-Smtp-Source: ABdhPJwxPdH7x1B82t2jUHAUleQ2Zkr1GPDSxqlI2BlBmRr26Mis3clN1cSVXoVsMhaYS37ZcJ3vow==
-X-Received: by 2002:a17:90a:1c4:: with SMTP id 4mr1089715pjd.109.1644863586806; 
- Mon, 14 Feb 2022 10:33:06 -0800 (PST)
+ bh=YCTydAvkyRrCoOcBwj79cf3QGE1FFr/8PN/joDrL08g=;
+ b=QwnG6aGvYrFAw3+xOhSin+1Xk8Gzw9on6dFfjGIDftFd6oznOrmGo9SskxM5jjZxrw
+ D5hZTddUa5kquJOasi8wi3SayE5mWFrlOdQkXQxmuI8SWwva5Yar3coKTxcmGhkGPpH7
+ 2HT5m/NCJz9msDqm0GXYRE8pvL1mP+6qbV20ULpBnICqdwRyj0TcXFRPHmM5cdjOQOZB
+ TrQhPuRKargEefWgdJHEnhyN8++oq2wUm3PjjjKS215jf5oX/B2aXQdZBqI1G9vTx3JR
+ JOkDD64SimSoxaGL31WNmtq6ceM0NpgzynI0Qijl74v0ip1bxU2fCClCcgLtEiqXI0dd
+ 4v4w==
+X-Gm-Message-State: AOAM53289pKanLw71U3LUyFxbKWrmIMm0Jv2f0iVGfnx51lXb+F4qrCn
+ 71ElZVe0hW5/LM19yCkmk5uTt/RvOCc=
+X-Google-Smtp-Source: ABdhPJy/NTmPWQnIec1gTWipejXQZTR4lwkNanzJp2C40diFqJp6k9MKB2rKwsQSiDm2i8YNCm703g==
+X-Received: by 2002:a63:9307:: with SMTP id b7mr286328pge.616.1644863595208;
+ Mon, 14 Feb 2022 10:33:15 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id u17sm28431699pfi.163.2022.02.14.10.33.04
+ by smtp.gmail.com with ESMTPSA id my4sm3143308pjb.13.2022.02.14.10.33.12
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:33:06 -0800 (PST)
+ Mon, 14 Feb 2022 10:33:14 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 09/14] target: Include missing 'cpu.h'
-Date: Mon, 14 Feb 2022 19:31:39 +0100
-Message-Id: <20220214183144.27402-10-f4bug@amsat.org>
+Subject: [PATCH v2 10/14] target/hexagon: Add missing 'hw/core/cpu.h' include
+Date: Mon, 14 Feb 2022 19:31:40 +0100
+Message-Id: <20220214183144.27402-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220214183144.27402-1-f4bug@amsat.org>
 References: <20220214183144.27402-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -98,80 +97,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-These target-specific files use the target-specific CPU state
-but lack to include "cpu.h"; i.e.:
+HexagonCPU field parent_class is of type CPUClass, which
+is declared in "hw/core/cpu.h".
 
-    ../target/riscv/pmp.h:61:23: error: unknown type name 'CPURISCVState'
-    void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
-                          ^
-    ../target/nios2/mmu.h:43:18: error: unknown type name 'CPUNios2State'
-    void mmu_flip_um(CPUNios2State *env, unsigned int um);
-                     ^
-    ../target/microblaze/mmu.h:88:19: error: unknown type name 'CPUMBState'; did you mean 'CPUState'?
-    uint32_t mmu_read(CPUMBState *env, bool ea, uint32_t rn);
-                      ^~~~~~~~~~
-                      CPUState
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/microblaze/mmu.h | 2 ++
- target/mips/internal.h  | 1 +
- target/nios2/mmu.h      | 2 ++
- target/riscv/pmp.h      | 2 ++
- 4 files changed, 7 insertions(+)
+ target/hexagon/cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/microblaze/mmu.h b/target/microblaze/mmu.h
-index b6b4b9ad60..1068bd2d52 100644
---- a/target/microblaze/mmu.h
-+++ b/target/microblaze/mmu.h
-@@ -20,6 +20,8 @@
- #ifndef TARGET_MICROBLAZE_MMU_H
- #define TARGET_MICROBLAZE_MMU_H
+diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
+index 096aa2deb6..76cd1d5021 100644
+--- a/target/hexagon/cpu.h
++++ b/target/hexagon/cpu.h
+@@ -27,6 +27,7 @@ typedef struct CPUHexagonState CPUHexagonState;
+ #include "hex_regs.h"
+ #include "mmvec/mmvec.h"
+ #include "qom/object.h"
++#include "hw/core/cpu.h"
  
-+#include "cpu.h"
-+
- #define MMU_R_PID    0
- #define MMU_R_ZPR    1
- #define MMU_R_TLBX   2
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index daddb05fd4..f705d6bfa6 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -12,6 +12,7 @@
- #ifdef CONFIG_TCG
- #include "tcg/tcg-internal.h"
- #endif
-+#include "cpu.h"
- 
- /*
-  * MMU types, the first four entries have the same layout as the
-diff --git a/target/nios2/mmu.h b/target/nios2/mmu.h
-index 4f46fbb82e..d36b8cc86a 100644
---- a/target/nios2/mmu.h
-+++ b/target/nios2/mmu.h
-@@ -21,6 +21,8 @@
- #ifndef NIOS2_MMU_H
- #define NIOS2_MMU_H
- 
-+#include "cpu.h"
-+
- typedef struct Nios2TLBEntry {
-     target_ulong tag;
-     target_ulong data;
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index a9a0b363a7..fcb6b7c467 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -22,6 +22,8 @@
- #ifndef RISCV_PMP_H
- #define RISCV_PMP_H
- 
-+#include "cpu.h"
-+
- typedef enum {
-     PMP_READ  = 1 << 0,
-     PMP_WRITE = 1 << 1,
+ #define NUM_PREGS 4
+ #define TOTAL_PER_THREAD_REGS 64
 -- 
 2.34.1
 
