@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D7F4B3D73
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Feb 2022 21:34:50 +0100 (CET)
-Received: from localhost ([::1]:57468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B634B401F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 04:12:35 +0100 (CET)
+Received: from localhost ([::1]:44492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJLa5-0008OS-MF
-	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 15:34:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57316)
+	id 1nJRmz-0003cl-Qm
+	for lists+qemu-devel@lfdr.de; Sun, 13 Feb 2022 22:12:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJLYm-0007fP-8N
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 15:33:28 -0500
-Received: from [2a00:1450:4864:20::433] (port=44015
- helo=mail-wr1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJLYi-0001SS-DJ
- for qemu-devel@nongnu.org; Sun, 13 Feb 2022 15:33:26 -0500
-Received: by mail-wr1-x433.google.com with SMTP id i14so23740374wrc.10
- for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 12:33:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=W/GYqVnumJs3YluWknjaUBQ5KALhJCWb+RSTrL8Y3fg=;
- b=r1DtLhIEZqpLflADOAOcDTBeHvz31Xlqoi0rlMc9uXqcX/Kd8hEEZfcNL57FyK+Yfu
- ISn1NHwBKP3kIIF/j5WzX/AOxczoOE7vFjKvyFXpG7gevYsDUV2PqQeXteP1CcTxpTmt
- deFkeby1ngXIYIBlEubPAiZB5qZ7Vd/SHksdZV29Bj5TUIZp1EgJHE/1fW7p7yp6W6sH
- n6P67KtSMZZKptPN6IzP/9HSVYAcVYoMTHDVNj6HgzY1Yxvbsy9QpN4r0cKl28LOMTLb
- DYeKJU1PUE/UZiKcsWRzIOf7GBsVbYwxKFWuejYq4u/0RvRB5ZNA/06m1PA62DYofFjq
- POqw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nJRki-00028w-2Q
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:10:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21167)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nJRkd-00085O-Qo
+ for qemu-devel@nongnu.org; Sun, 13 Feb 2022 22:10:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644808206;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GgktKMqLPN0bb1K8KRW6e3QInjo7NN5WhSyFmI1GTew=;
+ b=LdiQEfQ8ZmVdqPbpDBDGzssi8M2RLhogPBZ4RgJmHNL65yxNF+OGs+ipiBS6GTekz7FLvG
+ yMNIRU1M+5aRUGwdutRLVH/vrGeNNJJQmW3lNeb7FWLiXe+LF5V3gWfKFPvYHMY9svuD5l
+ bdOt1cEPtPmkhHBcfRdnaS9HIZwcn/o=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-384-9-Rpfh0bM3qhiCRsHpudSw-1; Sun, 13 Feb 2022 22:10:04 -0500
+X-MC-Unique: 9-Rpfh0bM3qhiCRsHpudSw-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ t25-20020a056512209900b004419802fb8aso4619372lfr.19
+ for <qemu-devel@nongnu.org>; Sun, 13 Feb 2022 19:10:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=W/GYqVnumJs3YluWknjaUBQ5KALhJCWb+RSTrL8Y3fg=;
- b=XjLIm3T81iTE83yMez3cSFQS6lsAVoBZlrizNJf60pAB+UcNuCT/MKuxP2au3PzP55
- Ogl1XkkQ8d9qEWwiWzBWSgRcslwdcZYThsSz47ynK5XHWSYWr0uXXCP2LsRX0Qk31kbA
- suQkI3d9TKo0mH4xlZLoRk/zEy2i7UdrHCDo6wOrFjKvlQhRiNGHP3BXY3ngu/a5XwxV
- OeQDapVstC284yUZEZyDFHVbFfgAaR2Y8l4WqPB0AEzA1wehp+qUz5+ZcDSgVuSAu8AA
- aGdA+h4aa3voc1zsMdv3cXHZ3UagiyNiZ68ybxOqRaDjPE+a0316Bm2K6IjLoqKbX1eQ
- cXKw==
-X-Gm-Message-State: AOAM531XwHM1PdezRHOa8izBtzNKx9bEjvobHvoVTcqi0QiAKlWd5Zuq
- zkCt1Sn7PjakfYdGJqI5Fq+I1hiS8FwsiYT94vGfLw==
-X-Google-Smtp-Source: ABdhPJxDdEALsFmhByyYjq4XwAu4LnEh4ksXvzQm1TvxSLoxyKk1rWpn61IqYSrBiqdZbTG5Ufbl92PWWdKBqGLy6V4=
-X-Received: by 2002:a5d:4ac7:: with SMTP id y7mr9091323wrs.521.1644784401936; 
- Sun, 13 Feb 2022 12:33:21 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=GgktKMqLPN0bb1K8KRW6e3QInjo7NN5WhSyFmI1GTew=;
+ b=IqIcCj1Jb+SMEpWzYMm7Le0qmxn9yrN0iZhd6shGyaCBpmy/h1utoUQUToLNR/ZkU5
+ o8twtEncOlfcgM1ZhbjrShZGpU+9uDw5zJ/DTqZmM7U+lJN4QNFF/+xrilNuFLXC6y70
+ MI5DU4KBVsctA2uYhsk6hQ1+JV5RR3TNDUo2FVniHW/N+4zhoXrBegHi+p53K38Utg8w
+ tuSNrD3oJlWTKNJCk8t/l+gbM29paw3yczqiuDcoVvAy86PCx7zUxwq8BqVWWnvFdxRF
+ OQz+QB00sFd/Fz0BXuI7wrAC3VfMrFirok2WVuj63ivrbtKIU+car9KBiTRQdo+4GC6r
+ jDdA==
+X-Gm-Message-State: AOAM530tva4sGvwZXmFzTA1+R+j8r9gEsWwpuU4BvCYBm5WaJRwP91Lo
+ 3eSHpRhehEYJ5YfYXVsjWYBRbHSQO15SZahgdUw4tETvnZlg3UPJP0vkRGiOEAwP6SHdomz8+1Y
+ IjRNP1edPmYNAFhQ10qXwCoiSo1GDw+A=
+X-Received: by 2002:a2e:a80c:: with SMTP id l12mr8033720ljq.107.1644808203444; 
+ Sun, 13 Feb 2022 19:10:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxzGoLt8EXckk6z89RSxwLhRt+EGeqcct+4vhXAjAL4doldJue3413jGpUMWmShs+syJvbvYRuV8invA72wv5I=
+X-Received: by 2002:a2e:a80c:: with SMTP id l12mr8033709ljq.107.1644808203228; 
+ Sun, 13 Feb 2022 19:10:03 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1644492115.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1644492115.git.qemu_oss@crudebyte.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 13 Feb 2022 20:33:10 +0000
-Message-ID: <CAFEAcA-VRNzxOwMX4nPPm0vQba1ufL5yVwW5P1j9S2u7_fbW-w@mail.gmail.com>
-Subject: Re: [PULL 0/5] 9p queue 2022-02-10
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20220211170259.1388734-1-lvivier@redhat.com>
+In-Reply-To: <20220211170259.1388734-1-lvivier@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 14 Feb 2022 11:09:52 +0800
+Message-ID: <CACGkMEt6CTS-L60t3YtyzDL626jmHcRTCaGOq6dHwBeg-Gir1w@mail.gmail.com>
+Subject: Re: [PATCH] hw/virtio: vdpa: Fix leak of host-notifier memory-region
+To: Laurent Vivier <lvivier@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.785, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,214 +89,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Feb 2022 at 11:33, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
+On Sat, Feb 12, 2022 at 1:03 AM Laurent Vivier <lvivier@redhat.com> wrote:
 >
-> The following changes since commit 0a301624c2f4ced3331ffd5bce85b4274fe132=
-af:
+> If call virtio_queue_set_host_notifier_mr fails, should free
+> host-notifier memory-region.
 >
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
-20208' into staging (2022-02-08 11:40:08 +0000)
+> This problem can trigger a coredump with some vDPA drivers (mlx5,
+> but not with the vdpasim), if we unplug the virtio-net card from
+> the guest after a stop/start.
 >
-> are available in the Git repository at:
+> The same fix has been done for vhost-user:
+>   1f89d3b91e3e ("hw/virtio: Fix leak of host-notifier memory-region")
 >
->   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220210
->
-> for you to fetch changes up to de19c79dad6a2cad54ae04ce754d47c07bf9bc93:
->
->   9pfs: Fix segfault in do_readdir_many caused by struct dirent overread =
-(2022-02-10 11:56:01 +0100)
->
-> ----------------------------------------------------------------
-> 9pfs: fixes and cleanup
->
-> * Fifth patch fixes a 9pfs server crash that happened on some systems due
->   to incorrect (system dependant) handling of struct dirent size.
->
-> * Tests: Second patch fixes a test error that happened on some systems du=
-e
->   mkdir() being called twice for creating the test directory for the 9p
->   'local' tests.
->
-> * Tests: Third patch fixes a memory leak.
->
-> * Tests: The remaining two patches are code cleanup.
->
-> ----------------------------------------------------------------
+> Fixes: d0416d487bd5 ("vhost-vdpa: map virtqueue notification area if possible")
+> Cc: jasowang@redhat.com
+> Resolves: https://bugzilla.redhat.com/2027208
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 
-Hi; this fails CI for the build-oss-fuzz job, which finds
-a heap-buffer-overflow:
-https://gitlab.com/qemu-project/qemu/-/jobs/2087610013
+Cc: qemu-stable@nongnu.org
+Acked-by: Jason Wang <jasowang@redhat.com>
 
-8/152 qemu:qtest+qtest-i386 / qtest-i386/qos-test ERROR 66.74s killed
-by signal 6 SIGABRT
->>> QTEST_QEMU_BINARY=3D./qemu-system-i386 QTEST_QEMU_STORAGE_DAEMON_BINARY=
-=3D./storage-daemon/qemu-storage-daemon MALLOC_PERTURB_=3D120 G_TEST_DBUS_D=
-AEMON=3D/builds/qemu-project/qemu/tests/dbus-vmstate-daemon.sh QTEST_QEMU_I=
-MG=3D./qemu-img /builds/qemu-project/qemu/build-oss-fuzz/tests/qtest/qos-te=
-st --tap -k
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95
-Listing only the last 100 lines from a long log.
-For details see https://github.com/google/sanitizers/issues/189
-=3D=3D7270=3D=3DWARNING: ASan doesn't fully support makecontext/swapcontext
-functions and may produce false positives in some cases!
-=3D=3D7270=3D=3DWARNING: ASan is ignoring requested __asan_handle_no_return=
-:
-stack type: default top: 0x7ffc79fb0000; bottom 0x7ff908ffd000; size:
-0x000370fb3000 (14780411904)
-False positive error reports may follow
-For details see https://github.com/google/sanitizers/issues/189
-=3D=3D7276=3D=3DWARNING: ASan doesn't fully support makecontext/swapcontext
-functions and may produce false positives in some cases!
-=3D=3D7276=3D=3DWARNING: ASan is ignoring requested __asan_handle_no_return=
-:
-stack type: default top: 0x7fff7e4a8000; bottom 0x7fd6363fd000; size:
-0x0029480ab000 (177302319104)
-False positive error reports may follow
-For details see https://github.com/google/sanitizers/issues/189
-=3D=3D7282=3D=3DWARNING: ASan doesn't fully support makecontext/swapcontext
-functions and may produce false positives in some cases!
-=3D=3D7282=3D=3DWARNING: ASan is ignoring requested __asan_handle_no_return=
-:
-stack type: default top: 0x7ffee6e7f000; bottom 0x7f32fb5fd000; size:
-0x00cbeb882000 (875829927936)
-False positive error reports may follow
-For details see https://github.com/google/sanitizers/issues/189
-=3D=3D7288=3D=3DWARNING: ASan doesn't fully support makecontext/swapcontext
-functions and may produce false positives in some cases!
-=3D=3D7288=3D=3DWARNING: ASan is ignoring requested __asan_handle_no_return=
-:
-stack type: default top: 0x7ffc6118e000; bottom 0x7f6391cfd000; size:
-0x0098cf491000 (656312700928)
-False positive error reports may follow
-For details see https://github.com/google/sanitizers/issues/189
-=3D=3D7294=3D=3DWARNING: ASan doesn't fully support makecontext/swapcontext
-functions and may produce false positives in some cases!
-=3D=3D7294=3D=3DWARNING: ASan is ignoring requested __asan_handle_no_return=
-:
-stack type: default top: 0x7ffef665d000; bottom 0x7f69dc8fd000; size:
-0x009519d60000 (640383582208)
-False positive error reports may follow
-For details see https://github.com/google/sanitizers/issues/189
-=3D=3D7300=3D=3DWARNING: ASan doesn't fully support makecontext/swapcontext
-functions and may produce false positives in some cases!
-=3D=3D7300=3D=3DWARNING: ASan is ignoring requested __asan_handle_no_return=
-:
-stack type: default top: 0x7ffe33db0000; bottom 0x7f01421fd000; size:
-0x00fcf1bb3000 (1086387335168)
-False positive error reports may follow
-For details see https://github.com/google/sanitizers/issues/189
-=3D=3D7306=3D=3DWARNING: ASan doesn't fully support makecontext/swapcontext
-functions and may produce false positives in some cases!
-=3D=3D7306=3D=3DWARNING: ASan is ignoring requested __asan_handle_no_return=
-:
-stack type: default top: 0x7ffebd618000; bottom 0x7ff1179fd000; size:
-0x000da5c1b000 (58615508992)
-False positive error reports may follow
-For details see https://github.com/google/sanitizers/issues/189
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=3D=3D7306=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address
-0x612000030768 at pc 0x562351066c74 bp 0x7ff1078c3a90 sp
-0x7ff1078c3240
-READ of size 48830 at 0x612000030768 thread T4
-#0 0x562351066c73 in __interceptor_memcpy.part.0 asan_interceptors.cpp.o
-#1 0x7ff1290d443f in g_memdup (/lib64/libglib-2.0.so.0+0x6e43f)
-#2 0x56235134537a in do_readdir_many
-/builds/qemu-project/qemu/build-oss-fuzz/../hw/9pfs/codir.c:146:19
-#3 0x56235134537a in v9fs_co_readdir_many
-/builds/qemu-project/qemu/build-oss-fuzz/../hw/9pfs/codir.c:225:5
-#4 0x56235132d626 in v9fs_do_readdir
-/builds/qemu-project/qemu/build-oss-fuzz/../hw/9pfs/9p.c:2430:13
-#5 0x56235132d626 in v9fs_readdir
-/builds/qemu-project/qemu/build-oss-fuzz/../hw/9pfs/9p.c:2543:13
-#6 0x56235257101e in coroutine_trampoline
-/builds/qemu-project/qemu/build-oss-fuzz/../util/coroutine-ucontext.c:173:9
-#7 0x7ff126e0e84f (/lib64/libc.so.6+0x5784f)
-0x612000030768 is located 0 bytes to the right of 296-byte region
-[0x612000030640,0x612000030768)
-allocated by thread T4 here:
-#0 0x5623510a4e47 in malloc
-(/builds/qemu-project/qemu/build-oss-fuzz/qemu-system-i386+0x1146e47)
-#1 0x7ff1290c03d8 in g_malloc (/lib64/libglib-2.0.so.0+0x5a3d8)
-#2 0x56235131e659 in synth_opendir
-/builds/qemu-project/qemu/build-oss-fuzz/../hw/9pfs/9p-synth.c:185:18
-#3 0x5623513462f5 in v9fs_co_opendir
-/builds/qemu-project/qemu/build-oss-fuzz/../hw/9pfs/codir.c:321:5
-#4 0x5623513257d7 in v9fs_open
-/builds/qemu-project/qemu/build-oss-fuzz/../hw/9pfs/9p.c:1959:15
-#5 0x56235257101e in coroutine_trampoline
-/builds/qemu-project/qemu/build-oss-fuzz/../util/coroutine-ucontext.c:173:9
-#6 0x7ff126e0e84f (/lib64/libc.so.6+0x5784f)
-Thread T4 created by T0 here:
-#0 0x562351015926 in pthread_create
-(/builds/qemu-project/qemu/build-oss-fuzz/qemu-system-i386+0x10b7926)
-#1 0x5623525351ea in qemu_thread_create
-/builds/qemu-project/qemu/build-oss-fuzz/../util/qemu-thread-posix.c:596:11
-#2 0x5623525a4588 in do_spawn_thread
-/builds/qemu-project/qemu/build-oss-fuzz/../util/thread-pool.c:134:5
-#3 0x5623525a4588 in spawn_thread_bh_fn
-/builds/qemu-project/qemu/build-oss-fuzz/../util/thread-pool.c:142:5
-#4 0x562352569814 in aio_bh_call
-/builds/qemu-project/qemu/build-oss-fuzz/../util/async.c:141:5
-#5 0x562352569814 in aio_bh_poll
-/builds/qemu-project/qemu/build-oss-fuzz/../util/async.c:169:13
-#6 0x5623525248cc in aio_dispatch
-/builds/qemu-project/qemu/build-oss-fuzz/../util/aio-posix.c:415:5
-#7 0x56235256c34c in aio_ctx_dispatch
-/builds/qemu-project/qemu/build-oss-fuzz/../util/async.c:311:5
-#8 0x7ff1290bb05e in g_main_context_dispatch (/lib64/libglib-2.0.so.0+0x550=
-5e)
-SUMMARY: AddressSanitizer: heap-buffer-overflow
-asan_interceptors.cpp.o in __interceptor_memcpy.part.0
-Shadow bytes around the buggy address:
-0x0c247fffe090: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd
-0x0c247fffe0a0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
-0x0c247fffe0b0: fd fd fd fd fd fd fd fd fd fd fd fd fd fa fa fa
-0x0c247fffe0c0: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
-0x0c247fffe0d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-=3D>0x0c247fffe0e0: 00 00 00 00 00 00 00 00 00 00 00 00 00[fa]fa fa
-0x0c247fffe0f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-0x0c247fffe100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-0x0c247fffe110: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-0x0c247fffe120: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-0x0c247fffe130: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-Shadow byte legend (one shadow byte represents 8 application bytes):
-Addressable: 00
-Partially addressable: 01 02 03 04 05 06 07
-Heap left redzone: fa
-Freed heap region: fd
-Stack left redzone: f1
-Stack mid redzone: f2
-Stack right redzone: f3
-Stack after return: f5
-Stack use after scope: f8
-Global redzone: f9
-Global init order: f6
-Poisoned by user: f7
-Container overflow: fc
-Array cookie: ac
-Intra object redzone: bb
-ASan internal: fe
-Left alloca redzone: ca
-Right alloca redzone: cb
-=3D=3D7306=3D=3DABORTING
+> ---
+>  hw/virtio/vhost-vdpa.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 04ea43704f5d..11f696468dc1 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -431,6 +431,7 @@ static int vhost_vdpa_host_notifier_init(struct vhost_dev *dev, int queue_index)
+>      g_free(name);
+>
+>      if (virtio_queue_set_host_notifier_mr(vdev, queue_index, &n->mr, true)) {
+> +        object_unparent(OBJECT(&n->mr));
+>          munmap(addr, page_size);
+>          goto err;
+>      }
+> --
+> 2.34.1
+>
 
-
-thanks
--- PMM
 
