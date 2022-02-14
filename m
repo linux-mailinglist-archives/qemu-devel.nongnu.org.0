@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E464B5A6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:08:48 +0100 (CET)
-Received: from localhost ([::1]:43334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899944B5A6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:09:40 +0100 (CET)
+Received: from localhost ([::1]:44612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgiM-0001H4-S0
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:08:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45428)
+	id 1nJgjD-0002A2-KR
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:09:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgXF-0001QN-GL; Mon, 14 Feb 2022 13:57:17 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=41725
- helo=mail-pl1-x62a.google.com)
+ id 1nJgXN-0001u5-UX; Mon, 14 Feb 2022 13:57:26 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=36623
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJgXD-0006QY-Mu; Mon, 14 Feb 2022 13:57:17 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id j4so11259933plj.8;
- Mon, 14 Feb 2022 10:57:13 -0800 (PST)
+ id 1nJgXM-0006R2-17; Mon, 14 Feb 2022 13:57:25 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ c5-20020a17090a1d0500b001b904a7046dso65664pjd.1; 
+ Mon, 14 Feb 2022 10:57:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XUpXSgEfdHti7BNle9BRd8vJ4VdWvb4m7Pa200NuX4M=;
- b=QwZyK+1mE9BKBE5RiGTBlO5Mf9LRhWDzTSJVaGoYq6vqTbbDXUo8t8WrnjcwV/jwfg
- /AfsWVOR78lQpaMre8vwE9v596HboqTIo5GVkMLk1PXXu9VmNU5rEEf6iuaUyAXxS+PF
- EWov24XiqlRxFLYkbPBrX2Sf9toRNT7QIg3EyijsmXviGdUyRhzjEvabSxWsfuiIIHz/
- 7UmcksbnFKe9ViEaY2xrqafdBfGqY/z9USeMJFGc6t2O6ACDy/rTWNX18dMF+bc5Q74H
- vweiC3+nEYTb0iakOf5HaQQxqa7g2iqJuRQGPIrIU5ivZIxT1bKxHal40UYraJcfHWxw
- fKxg==
+ bh=/ycHa0Cp/S2K1hnOLMDePUWT2anHQ+aB3cRrtgPqv7k=;
+ b=Wv0JUPvQtwm8legk2tznRlqa7uT/TvHeJffZRHzGDcE06XXVnFRXxB5b2lpQ88GNlY
+ BwpsNjiD2RjW5EGgb7/+dfpS6l8NZkwGolIRxmb+58PJm12xXqegQBY5PYsAmAvRH7kL
+ 5iY31r3rnoi1SnWgrzvt/bRO1HS9jCsQmBDNWCp8d1arthAGY3vl+xQ6E0YLN08rrhL/
+ OAP7ypjFaUTk+7Xra6GqIYFycwvJcrSxBNaKEWzCQ806uVTIQ7Itg/uL2t6ha2YJbarS
+ aL/DK6kx6LqQMXG5Bzr6M2xgtheT5Yq+IJsfOiglnlVcWuHEf4fyOY16uO+sxFofp/it
+ 48eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XUpXSgEfdHti7BNle9BRd8vJ4VdWvb4m7Pa200NuX4M=;
- b=CNYWWZacGPK+1UFklKQWdFcASyACKfvYYSMByNDu8VVkXsRi68mSG77CpLLoqXnRTY
- fVi79UcOWiz2KJHrzszeR+SPx7DgTwRYRqGKVv2UDqewYd7zNs0yuPzsePdsLx2K2KMJ
- cBLeRbxQcd1pcFz1ji9MMmcsb23HxqEMyqVfuNOzNxrStFHG4tOeDK5Nc7f+dqWhqqV6
- xRECcGjBJUTaYtLBu99/4p04T9HmDFQCi2IvpwXex8iwO6ODTVsiXCKKI5I4xPoyxlYs
- PaOmeWvlm7IJ0bYjtEcmbG+CtTHs8PGdBg4LuCm/z9tmgJ2ky24tfYO7xa2DUTbIYZ8v
- +e4w==
-X-Gm-Message-State: AOAM532EAyocU2UhpKw2//W5OFGekEM4m2XBFEUhe8laAoZZQBdWjKZp
- ezg3vLDZtd0neS+B8GR6mGKXxg/ZPg4=
-X-Google-Smtp-Source: ABdhPJy6HURQooqEMuauTbr2ERFg1XFbkfBdAX6VqJ54JUWG21YbWQX4x+k20QpOvVBNGTwTjpFxhg==
-X-Received: by 2002:a17:902:d510:: with SMTP id
- b16mr158430plg.152.1644865032559; 
- Mon, 14 Feb 2022 10:57:12 -0800 (PST)
+ bh=/ycHa0Cp/S2K1hnOLMDePUWT2anHQ+aB3cRrtgPqv7k=;
+ b=rJQdMygqIZQ0PXnD9tcWNOrFCQmSnvziug46K1EuttTDvNyLBQaoNEIpvFIDac373a
+ lbqQBi05WD5cjAfm2uU6WHNwsulcPqjN3jY4MRD3RO+G+CLkxgwNOcGC6AMeghwrRhoK
+ 6zD/p2TbXaAcLwf5mHQK575kM/Kq84zfpTRBk6ey/vwOEa9k/WqnHeHF1KoAp1QNOP0C
+ vaiBw15KAWBD5rpiXE0azVRmZlH+jGRWeAS8Y4Cm3jDY5uFlIwn8Juj/vZIICV1U0+NJ
+ rCKOJn/Hqahl7oJ3QWcJv9Hh5kPdkb89D0Hyns8hQlJabE48YQNFY23LEQqCU+mZpkwQ
+ 9log==
+X-Gm-Message-State: AOAM530Sc0DGPljMeXmMR1jJs5G/f+ngjXRwLsr3vP1zg5eq21DPPTgk
+ yZApr+tgVE82XuMg8jsHJRHh6s9uOF0=
+X-Google-Smtp-Source: ABdhPJyyZq445715Oaqo3dY5DBJPzhIUz8PScRMCycSbaClP24bIFZ3MbshuBslorwSOoFOF4pvM8Q==
+X-Received: by 2002:a17:90a:1c5:: with SMTP id 5mr33451pjd.106.1644865042272; 
+ Mon, 14 Feb 2022 10:57:22 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id g22sm38618962pfc.177.2022.02.14.10.57.08
+ by smtp.gmail.com with ESMTPSA id w4sm282752pgs.28.2022.02.14.10.57.18
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 10:57:12 -0800 (PST)
+ Mon, 14 Feb 2022 10:57:21 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Thomas Huth <thuth@redhat.com>,
@@ -61,19 +61,20 @@ Cc: qemu-block@nongnu.org, Cameron Esfahani <dirty@apple.com>,
  Will Cohen <wwcohen@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
  Li Zhang <lizhang@suse.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v5 06/16] hvf: Enable RDTSCP support
-Date: Mon, 14 Feb 2022 19:55:55 +0100
-Message-Id: <20220214185605.28087-7-f4bug@amsat.org>
+Subject: [PATCH v5 07/16] hvf: Make hvf_get_segments() / hvf_put_segments()
+ local
+Date: Mon, 14 Feb 2022 19:55:56 +0100
+Message-Id: <20220214185605.28087-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220214185605.28087-1-f4bug@amsat.org>
 References: <20220214185605.28087-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -100,119 +101,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Cameron Esfahani <dirty@apple.com>
+Both hvf_get_segments/hvf_put_segments() functions are only
+used within x86hvf.c: do not declare them as public API.
 
-Pass through RDPID and RDTSCP support in CPUID if host supports it.
-Correctly detect if CPU_BASED_TSC_OFFSET and CPU_BASED2_RDTSCP would
-be supported in primary and secondary processor-based VM-execution
-controls.  Enable RDTSCP in secondary processor controls if RDTSCP
-support is indicated in CPUID.
-
-Signed-off-by: Cameron Esfahani <dirty@apple.com>
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/hvf/hvf.c       | 26 +++++++++++++++++---------
- target/i386/hvf/vmcs.h      |  3 ++-
- target/i386/hvf/x86_cpuid.c |  7 ++++---
- 3 files changed, 23 insertions(+), 13 deletions(-)
+ target/i386/hvf/x86hvf.c | 4 ++--
+ target/i386/hvf/x86hvf.h | 2 --
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 4ba6e82fab..4712fe66d4 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -221,6 +221,7 @@ int hvf_arch_init_vcpu(CPUState *cpu)
+diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
+index a805c125d9..cff59f3144 100644
+--- a/target/i386/hvf/x86hvf.c
++++ b/target/i386/hvf/x86hvf.c
+@@ -83,7 +83,7 @@ void hvf_put_xsave(CPUState *cpu_state)
+     }
+ }
+ 
+-void hvf_put_segments(CPUState *cpu_state)
++static void hvf_put_segments(CPUState *cpu_state)
  {
-     X86CPU *x86cpu = X86_CPU(cpu);
-     CPUX86State *env = &x86cpu->env;
-+    uint64_t reqCap;
+     CPUX86State *env = &X86_CPU(cpu_state)->env;
+     struct vmx_segment seg;
+@@ -166,7 +166,7 @@ void hvf_get_xsave(CPUState *cpu_state)
+     x86_cpu_xrstor_all_areas(X86_CPU(cpu_state), xsave, xsave_len);
+ }
  
-     init_emu();
-     init_decoder();
-@@ -257,19 +258,26 @@ int hvf_arch_init_vcpu(CPUState *cpu)
-     /* set VMCS control fields */
-     wvmcs(cpu->hvf->fd, VMCS_PIN_BASED_CTLS,
-           cap2ctrl(hvf_state->hvf_caps->vmx_cap_pinbased,
--          VMCS_PIN_BASED_CTLS_EXTINT |
--          VMCS_PIN_BASED_CTLS_NMI |
--          VMCS_PIN_BASED_CTLS_VNMI));
-+                   VMCS_PIN_BASED_CTLS_EXTINT |
-+                   VMCS_PIN_BASED_CTLS_NMI |
-+                   VMCS_PIN_BASED_CTLS_VNMI));
-     wvmcs(cpu->hvf->fd, VMCS_PRI_PROC_BASED_CTLS,
-           cap2ctrl(hvf_state->hvf_caps->vmx_cap_procbased,
--          VMCS_PRI_PROC_BASED_CTLS_HLT |
--          VMCS_PRI_PROC_BASED_CTLS_MWAIT |
--          VMCS_PRI_PROC_BASED_CTLS_TSC_OFFSET |
--          VMCS_PRI_PROC_BASED_CTLS_TPR_SHADOW) |
-+                   VMCS_PRI_PROC_BASED_CTLS_HLT |
-+                   VMCS_PRI_PROC_BASED_CTLS_MWAIT |
-+                   VMCS_PRI_PROC_BASED_CTLS_TSC_OFFSET |
-+                   VMCS_PRI_PROC_BASED_CTLS_TPR_SHADOW) |
-           VMCS_PRI_PROC_BASED_CTLS_SEC_CONTROL);
-+
-+    reqCap = VMCS_PRI_PROC_BASED2_CTLS_APIC_ACCESSES;
-+
-+    /* Is RDTSCP support in CPUID?  If so, enable it in the VMCS. */
-+    if (hvf_get_supported_cpuid(0x80000001, 0, R_EDX) & CPUID_EXT2_RDTSCP) {
-+        reqCap |= VMCS_PRI_PROC_BASED2_CTLS_RDTSCP;
-+    }
-+
-     wvmcs(cpu->hvf->fd, VMCS_SEC_PROC_BASED_CTLS,
--          cap2ctrl(hvf_state->hvf_caps->vmx_cap_procbased2,
--                   VMCS_PRI_PROC_BASED2_CTLS_APIC_ACCESSES));
-+          cap2ctrl(hvf_state->hvf_caps->vmx_cap_procbased2, reqCap));
+-void hvf_get_segments(CPUState *cpu_state)
++static void hvf_get_segments(CPUState *cpu_state)
+ {
+     CPUX86State *env = &X86_CPU(cpu_state)->env;
  
-     wvmcs(cpu->hvf->fd, VMCS_ENTRY_CTLS, cap2ctrl(hvf_state->hvf_caps->vmx_cap_entry,
-           0));
-diff --git a/target/i386/hvf/vmcs.h b/target/i386/hvf/vmcs.h
-index 42de7ebc3a..bb4c764557 100644
---- a/target/i386/hvf/vmcs.h
-+++ b/target/i386/hvf/vmcs.h
-@@ -354,7 +354,7 @@
- #define VMCS_PRI_PROC_BASED_CTLS_TSC_OFFSET (1 << 3)
- #define VMCS_PRI_PROC_BASED_CTLS_HLT (1 << 7)
- #define VMCS_PRI_PROC_BASED_CTLS_MWAIT         (1 << 10)
--#define VMCS_PRI_PROC_BASED_CTLS_TSC           (1 << 12)
-+#define VMCS_PRI_PROC_BASED_CTLS_RDTSC         (1 << 12)
- #define VMCS_PRI_PROC_BASED_CTLS_CR8_LOAD      (1 << 19)
- #define VMCS_PRI_PROC_BASED_CTLS_CR8_STORE     (1 << 20)
- #define VMCS_PRI_PROC_BASED_CTLS_TPR_SHADOW    (1 << 21)
-@@ -362,6 +362,7 @@
- #define VMCS_PRI_PROC_BASED_CTLS_SEC_CONTROL   (1 << 31)
- 
- #define VMCS_PRI_PROC_BASED2_CTLS_APIC_ACCESSES (1 << 0)
-+#define VMCS_PRI_PROC_BASED2_CTLS_RDTSCP        (1 << 3)
- #define VMCS_PRI_PROC_BASED2_CTLS_X2APIC        (1 << 4)
- 
- enum task_switch_reason {
-diff --git a/target/i386/hvf/x86_cpuid.c b/target/i386/hvf/x86_cpuid.c
-index 32b0d131df..b11ddaa349 100644
---- a/target/i386/hvf/x86_cpuid.c
-+++ b/target/i386/hvf/x86_cpuid.c
-@@ -96,7 +96,8 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                 ebx &= ~CPUID_7_0_EBX_INVPCID;
-             }
- 
--            ecx &= CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_AVX512_VPOPCNTDQ;
-+            ecx &= CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_AVX512_VPOPCNTDQ |
-+                   CPUID_7_0_ECX_RDPID;
-             edx &= CPUID_7_0_EDX_AVX512_4VNNIW | CPUID_7_0_EDX_AVX512_4FMAPS;
-         } else {
-             ebx = 0;
-@@ -133,11 +134,11 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                 CPUID_FXSR | CPUID_EXT2_FXSR | CPUID_EXT2_PDPE1GB | CPUID_EXT2_3DNOWEXT |
-                 CPUID_EXT2_3DNOW | CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX;
-         hv_vmx_read_capability(HV_VMX_CAP_PROCBASED2, &cap);
--        if (!(cap & CPU_BASED2_RDTSCP)) {
-+        if (!(cap2ctrl(cap, CPU_BASED2_RDTSCP) & CPU_BASED2_RDTSCP)) {
-             edx &= ~CPUID_EXT2_RDTSCP;
-         }
-         hv_vmx_read_capability(HV_VMX_CAP_PROCBASED, &cap);
--        if (!(cap & CPU_BASED_TSC_OFFSET)) {
-+        if (!(cap2ctrl(cap, CPU_BASED_TSC_OFFSET) & CPU_BASED_TSC_OFFSET)) {
-             edx &= ~CPUID_EXT2_RDTSCP;
-         }
-         ecx &= CPUID_EXT3_LAHF_LM | CPUID_EXT3_CMP_LEG | CPUID_EXT3_CR8LEG |
+diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
+index ef472a32f9..427cdc1c13 100644
+--- a/target/i386/hvf/x86hvf.h
++++ b/target/i386/hvf/x86hvf.h
+@@ -27,11 +27,9 @@ void hvf_set_segment(struct CPUState *cpu, struct vmx_segment *vmx_seg,
+                      SegmentCache *qseg, bool is_tr);
+ void hvf_get_segment(SegmentCache *qseg, struct vmx_segment *vmx_seg);
+ void hvf_put_xsave(CPUState *cpu_state);
+-void hvf_put_segments(CPUState *cpu_state);
+ void hvf_put_msrs(CPUState *cpu_state);
+ void hvf_get_xsave(CPUState *cpu_state);
+ void hvf_get_msrs(CPUState *cpu_state);
+ void vmx_clear_int_window_exiting(CPUState *cpu);
+-void hvf_get_segments(CPUState *cpu_state);
+ void vmx_update_tpr(CPUState *cpu);
+ #endif
 -- 
 2.34.1
 
