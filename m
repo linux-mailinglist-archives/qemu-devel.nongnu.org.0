@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1F64B541B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:02:36 +0100 (CET)
-Received: from localhost ([::1]:49026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AAF84B5441
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:11:28 +0100 (CET)
+Received: from localhost ([::1]:57948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJcs7-0007LQ-I1
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:02:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44382)
+	id 1nJd0h-0005HO-8R
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:11:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJc4C-0008Dr-V7
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:11:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27258)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJc4B-0004sZ-61
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:11:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644847858;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=51bgZRSb0TUWc6UkTP6ISX4nqbOpq31oUqGUK3QGTEg=;
- b=ip13dgPrSuR4T2JFLiFcBGSqdzVaJLUwhbxVeo1k+voU2uEHNtmqoXv2Bbgv/6UyUKE6gN
- Jg0IHOpvAnC+lemPwe5fr98R4CLRAEJdNFZkATgpA6Jk6agKbNklY+hfKGaZRZTMJImdWK
- 0wjq6riMtGF5IMkvr4ljz/MKh/uh6Mk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-49-Ffzz6XWmNVuNBNeHE3R6aQ-1; Mon, 14 Feb 2022 09:10:57 -0500
-X-MC-Unique: Ffzz6XWmNVuNBNeHE3R6aQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05CF7814245
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 14:10:56 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.32.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D1892A184;
- Mon, 14 Feb 2022 14:10:33 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id ACF37220CE9; Mon, 14 Feb 2022 09:10:32 -0500 (EST)
-Date: Mon, 14 Feb 2022 09:10:32 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v6 10/10] virtiofsd: Add an option to enable/disable
- security label
-Message-ID: <Ygpi2OTJxX8Xnqwz@redhat.com>
-References: <20220208204813.682906-1-vgoyal@redhat.com>
- <20220208204813.682906-11-vgoyal@redhat.com>
- <YgpZ9m6p54h4LEZh@work-vm>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJc6V-0003Gt-P7
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:13:23 -0500
+Received: from [2607:f8b0:4864:20::42a] (port=42756
+ helo=mail-pf1-x42a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJc6U-0005Gp-1O
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:13:23 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id i6so27527973pfc.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 06:13:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=bHSDtq9nX65sHhUSEmWXPKE+bo44P0ZIROyPp3M0lPU=;
+ b=Y+B0CYJ1ToWPVCbDHLmF3+TUZk0r/e9ER7tqak0kYHzp9wODux1RynM/9Ba9ijcMRl
+ jllBeDC24wnOpxhzPj+asniFpBN+USWvqk1xuCUNItYrjPVajP6/DEyJTj+0uHnEq+bU
+ Hc6UcqYpwY5Y1SFF6q4NBPdTziBC2ZUq54obreySekDDKdS7LayIk6MAM3xXagnJ/4K9
+ cDDBvAlAM055D8Pn6IRFzVuAavtAKvAn2aWJbE9a6Uby/+0yHooZz7/G4i7XY3/SQNfZ
+ L1yKEpg/1lIHg/QQWT9lAJsMX1GtFWTQApZyGkwuKENyQCG2RR3uWA0growJ0ryWxDkY
+ hhjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=bHSDtq9nX65sHhUSEmWXPKE+bo44P0ZIROyPp3M0lPU=;
+ b=v1L3UD8RNv8HncWUu8nBJX/+kshmjILoP02xNKG+eY+gn1PXkcl1yVgtTBbGToSevD
+ zNAb36ptKzult1COaJQ7aLcjzTOxaloz+xuHIP1rtq0SAI3SJ6DD2GIK9oo342rOEXIK
+ AS9fvgj9K9URYEzCjfk1nBifxDRu+nGMfH8NlN1l/6lTspCv6Kc7ndM3RPyDI98raKCl
+ ftLNdQVRDN+V5kCrf5OTXsjbR57JQnKW3C/4J2GekWaKHm36gUPpznA/FMnaSWloo3gQ
+ uXemXUXE8JVNTN+0VESME9q+SV+hWYk2nAAKs/We3E+FMe4h+7VxW+B+UAa3lnGs8jOo
+ JLCw==
+X-Gm-Message-State: AOAM533S3JN6np0d1sSMz8LLeP7wWfyi3SOHze8t6I38+bW1KOluIvGr
+ N7i4HEX6lQwQQkOwV+eevzVchJ3U4L3psA==
+X-Google-Smtp-Source: ABdhPJy3y0uu7VcOJ965MhVfbym8GETW4Ec+4z9RIyTCyqH7io/87iumExSljhcQyz8684A1HVZI4Q==
+X-Received: by 2002:a63:5166:: with SMTP id r38mr11929291pgl.99.1644848000354; 
+ Mon, 14 Feb 2022 06:13:20 -0800 (PST)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.127.101])
+ by smtp.googlemail.com with ESMTPSA id hk3sm9808340pjb.12.2022.02.14.06.13.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Feb 2022 06:13:19 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PATCH v3 1/3] hw/smbios: code cleanup - use macro definitions for
+ table header handles
+Date: Mon, 14 Feb 2022 19:42:34 +0530
+Message-Id: <20220214141237.47946-2-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220214141237.47946-1-ani@anisinha.ca>
+References: <20220214141237.47946-1-ani@anisinha.ca>
 MIME-Version: 1.0
-In-Reply-To: <YgpZ9m6p54h4LEZh@work-vm>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,160 +86,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 14, 2022 at 01:32:38PM +0000, Dr. David Alan Gilbert wrote:
-> * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > Provide an option "-o security_label/no_security_label" to enable/disable
-> > security label functionality. By default these are turned off.
-> > 
-> > If enabled, server will indicate to client that it is capable of handling
-> > one security label during file creation. Typically this is expected to
-> > be a SELinux label. File server will set this label on the file. It will
-> > try to set it atomically wherever possible. But its not possible in
-> > all the cases.
-> > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> OK, but you have missed some of the docs typos I mentined in the last
-> review; they can be cleared up any time.
+This is a minor cleanup. Using macro definitions makes the code more
+readable. It is at once clear which tables use which handle numbers in their
+header. It also makes it easy to calculate the gaps between the numbers and
+update them if needed.
 
-Hi David,
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ hw/smbios/smbios.c | 38 ++++++++++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 12 deletions(-)
 
-I could not find any comments in V5 w.r.t doc typos. I am not sure which
-email I have missed.
-
-Anyway, will be nice if I can take care of these typos in a follow up
-patch and these patches can be merged.
-
-Thanks
-Vivek
-> 
-> > ---
-> >  docs/tools/virtiofsd.rst         | 32 ++++++++++++++++++++++++++++++++
-> >  tools/virtiofsd/helper.c         |  1 +
-> >  tools/virtiofsd/passthrough_ll.c | 15 +++++++++++++++
-> >  3 files changed, 48 insertions(+)
-> > 
-> > diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-> > index 07ac0be551..0c0560203c 100644
-> > --- a/docs/tools/virtiofsd.rst
-> > +++ b/docs/tools/virtiofsd.rst
-> > @@ -104,6 +104,13 @@ Options
-> >    * posix_acl|no_posix_acl -
-> >      Enable/disable posix acl support.  Posix ACLs are disabled by default.
-> >  
-> > +  * security_label|no_security_label -
-> > +    Enable/disable security label support. Security labels are disabled by
-> > +    default. This will allow client to send a MAC label of file during
-> > +    file creation. Typically this is expected to be SELinux security
-> > +    label. Server will try to set that label on newly created file
-> > +    atomically wherever possible.
-> > +
-> >  .. option:: --socket-path=PATH
-> >  
-> >    Listen on vhost-user UNIX domain socket at PATH.
-> > @@ -348,6 +355,31 @@ client arguments or lists returned from the host.  This stops
-> >  the client seeing any 'security.' attributes on the server and
-> >  stops it setting any.
-> >  
-> > +SELinux support
-> > +---------------
-> > +One can enable support for SELinux by running virtiofsd with option
-> > +"-o security_label". But this will try to save guest's security context
-> > +in xattr security.selinux on host and it might fail if host's SELinux
-> > +policy does not permit virtiofsd to do this operation.
-> > +
-> > +Hence, it is preferred to remap guest's "security.selinux" xattr to say
-> > +"trusted.virtiofs.security.selinux" on host.
-> > +
-> > +"-o xattrmap=:map:security.selinux:trusted.virtiofs.:"
-> > +
-> > +This will make sure that guest and host's SELinux xattrs on same file
-> > +remain separate and not interfere with each other. And will allow both
-> > +host and guest to implement their own separate SELinux policies.
-> > +
-> > +Setting trusted xattr on host requires CAP_SYS_ADMIN. So one will need
-> > +add this capability to daemon.
-> > +
-> > +"-o modcaps=+sys_admin"
-> > +
-> > +Giving CAP_SYS_ADMIN increases the risk on system. Now virtiofsd is more
-> > +powerful and if gets compromised, it can do lot of damage to host system.
-> > +So keep this trade-off in my mind while making a decision.
-> > +
-> >  Examples
-> >  --------
-> >  
-> > diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-> > index a8295d975a..e226fc590f 100644
-> > --- a/tools/virtiofsd/helper.c
-> > +++ b/tools/virtiofsd/helper.c
-> > @@ -187,6 +187,7 @@ void fuse_cmdline_help(void)
-> >             "                               default: no_allow_direct_io\n"
-> >             "    -o announce_submounts      Announce sub-mount points to the guest\n"
-> >             "    -o posix_acl/no_posix_acl  Enable/Disable posix_acl. (default: disabled)\n"
-> > +           "    -o security_label/no_security_label  Enable/Disable security label. (default: disabled)\n"
-> >             );
-> >  }
-> >  
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > index d49128a58d..f3ec6aafe5 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -181,6 +181,7 @@ struct lo_data {
-> >      int user_posix_acl, posix_acl;
-> >      /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
-> >      bool use_fscreate;
-> > +    int user_security_label;
-> >  };
-> >  
-> >  static const struct fuse_opt lo_opts[] = {
-> > @@ -215,6 +216,8 @@ static const struct fuse_opt lo_opts[] = {
-> >      { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
-> >      { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
-> >      { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
-> > +    { "security_label", offsetof(struct lo_data, user_security_label), 1 },
-> > +    { "no_security_label", offsetof(struct lo_data, user_security_label), 0 },
-> >      FUSE_OPT_END
-> >  };
-> >  static bool use_syslog = false;
-> > @@ -808,6 +811,17 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-> >          fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
-> >          conn->want &= ~FUSE_CAP_POSIX_ACL;
-> >      }
-> > +
-> > +    if (lo->user_security_label == 1) {
-> > +        if (!(conn->capable & FUSE_CAP_SECURITY_CTX)) {
-> > +            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable security label."
-> > +                     " kernel does not support FUSE_SECURITY_CTX capability.\n");
-> > +        }
-> > +        conn->want |= FUSE_CAP_SECURITY_CTX;
-> > +    } else {
-> > +        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling security label\n");
-> > +        conn->want &= ~FUSE_CAP_SECURITY_CTX;
-> > +    }
-> >  }
-> >  
-> >  static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-> > @@ -4279,6 +4293,7 @@ int main(int argc, char *argv[])
-> >          .proc_self_task = -1,
-> >          .user_killpriv_v2 = -1,
-> >          .user_posix_acl = -1,
-> > +        .user_security_label = -1,
-> >      };
-> >      struct lo_map_elem *root_elem;
-> >      struct lo_map_elem *reserve_elem;
-> > -- 
-> > 2.34.1
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 6013df1698..56b412ce35 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -549,9 +549,23 @@ bool smbios_skip_table(uint8_t type, bool required_table)
+     return true;
+ }
+ 
++#define T0_BASE 0x000
++#define T1_BASE 0x100
++#define T2_BASE 0x200
++#define T3_BASE 0x300
++#define T4_BASE 0x400
++#define T11_BASE 0xe00
++
++#define T16_BASE 0x1000
++#define T17_BASE 0x1100
++#define T19_BASE 0x1300
++#define T32_BASE 0x2000
++#define T41_BASE 0x2900
++#define T127_BASE 0x7F00
++
+ static void smbios_build_type_0_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(0, 0x000, false); /* optional, leave up to BIOS */
++    SMBIOS_BUILD_TABLE_PRE(0, T0_BASE, false); /* optional, leave up to BIOS */
+ 
+     SMBIOS_TABLE_SET_STR(0, vendor_str, type0.vendor);
+     SMBIOS_TABLE_SET_STR(0, bios_version_str, type0.version);
+@@ -599,7 +613,7 @@ static void smbios_encode_uuid(struct smbios_uuid *uuid, QemuUUID *in)
+ 
+ static void smbios_build_type_1_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(1, 0x100, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(1, T1_BASE, true); /* required */
+ 
+     SMBIOS_TABLE_SET_STR(1, manufacturer_str, type1.manufacturer);
+     SMBIOS_TABLE_SET_STR(1, product_name_str, type1.product);
+@@ -619,7 +633,7 @@ static void smbios_build_type_1_table(void)
+ 
+ static void smbios_build_type_2_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(2, 0x200, false); /* optional */
++    SMBIOS_BUILD_TABLE_PRE(2, T2_BASE, false); /* optional */
+ 
+     SMBIOS_TABLE_SET_STR(2, manufacturer_str, type2.manufacturer);
+     SMBIOS_TABLE_SET_STR(2, product_str, type2.product);
+@@ -637,7 +651,7 @@ static void smbios_build_type_2_table(void)
+ 
+ static void smbios_build_type_3_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(3, 0x300, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(3, T3_BASE, true); /* required */
+ 
+     SMBIOS_TABLE_SET_STR(3, manufacturer_str, type3.manufacturer);
+     t->type = 0x01; /* Other */
+@@ -662,7 +676,7 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+ {
+     char sock_str[128];
+ 
+-    SMBIOS_BUILD_TABLE_PRE(4, 0x400 + instance, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(4, T4_BASE + instance, true); /* required */
+ 
+     snprintf(sock_str, sizeof(sock_str), "%s%2x", type4.sock_pfx, instance);
+     SMBIOS_TABLE_SET_STR(4, socket_designation_str, sock_str);
+@@ -702,7 +716,7 @@ static void smbios_build_type_11_table(void)
+         return;
+     }
+ 
+-    SMBIOS_BUILD_TABLE_PRE(11, 0xe00, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(11, T11_BASE, true); /* required */
+ 
+     snprintf(count_str, sizeof(count_str), "%zu", type11.nvalues);
+     t->count = type11.nvalues;
+@@ -722,7 +736,7 @@ static void smbios_build_type_16_table(unsigned dimm_cnt)
+ {
+     uint64_t size_kb;
+ 
+-    SMBIOS_BUILD_TABLE_PRE(16, 0x1000, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(16, T16_BASE, true); /* required */
+ 
+     t->location = 0x01; /* Other */
+     t->use = 0x03; /* System memory */
+@@ -749,7 +763,7 @@ static void smbios_build_type_17_table(unsigned instance, uint64_t size)
+     char loc_str[128];
+     uint64_t size_mb;
+ 
+-    SMBIOS_BUILD_TABLE_PRE(17, 0x1100 + instance, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(17, T17_BASE + instance, true); /* required */
+ 
+     t->physical_memory_array_handle = cpu_to_le16(0x1000); /* Type 16 above */
+     t->memory_error_information_handle = cpu_to_le16(0xFFFE); /* Not provided */
+@@ -790,7 +804,7 @@ static void smbios_build_type_19_table(unsigned instance,
+ {
+     uint64_t end, start_kb, end_kb;
+ 
+-    SMBIOS_BUILD_TABLE_PRE(19, 0x1300 + instance, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(19, T19_BASE + instance, true); /* required */
+ 
+     end = start + size - 1;
+     assert(end > start);
+@@ -814,7 +828,7 @@ static void smbios_build_type_19_table(unsigned instance,
+ 
+ static void smbios_build_type_32_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(32, 0x2000, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(32, T32_BASE, true); /* required */
+ 
+     memset(t->reserved, 0, 6);
+     t->boot_status = 0; /* No errors detected */
+@@ -828,7 +842,7 @@ static void smbios_build_type_41_table(Error **errp)
+     struct type41_instance *t41;
+ 
+     QTAILQ_FOREACH(t41, &type41, next) {
+-        SMBIOS_BUILD_TABLE_PRE(41, 0x2900 + instance, true);
++        SMBIOS_BUILD_TABLE_PRE(41, T41_BASE + instance, true);
+ 
+         SMBIOS_TABLE_SET_STR(41, reference_designation_str, t41->designation);
+         t->device_type = t41->kind;
+@@ -871,7 +885,7 @@ static void smbios_build_type_41_table(Error **errp)
+ 
+ static void smbios_build_type_127_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(127, 0x7F00, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(127, T127_BASE, true); /* required */
+     SMBIOS_BUILD_TABLE_POST;
+ }
+ 
+-- 
+2.25.1
 
 
