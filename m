@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6284B5A93
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:36:12 +0100 (CET)
-Received: from localhost ([::1]:52970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B765A4B5A9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:41:15 +0100 (CET)
+Received: from localhost ([::1]:33594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJh8s-0002eL-Os
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:36:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48706)
+	id 1nJhDm-0000N6-S3
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:41:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJgkE-0005O9-V3
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 14:10:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34743)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nJgqH-0002dP-Pz
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 14:16:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJgkB-0000FX-BH
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 14:10:41 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nJgqF-0001CQ-7a
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 14:16:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644865837;
+ s=mimecast20190719; t=1644866211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0WUM/CCUdfYouZ94DL+YAjzWgXEsU70fK2CSfJvAKfc=;
- b=aPfJzO+TyOtgRYXtsV5m62g7yIfUqxY7DEiqZTku2VnO9Qh6XFIlI0HNUj7Spn7so4hsiw
- tj5WYcu3OTkUnSdrN3Rn4Bqz8y0PnX8wSgpwt6rIl/N0T1BuaquVeJxMpJBjPH8Bpn4cha
- sbSqRu+r1Ct0QR436kqb7KLkDpbUWfM=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EA0ih5+YeQTwCGrtsY+w4048+MWK30Xu1O3/y6llUVY=;
+ b=jHoloUTigKpHnhpNMeAq/AYRLXOBQFiU9ZLllTgpd3GrDurZgbomSAkmqQpAgAr0yZPeQB
+ uPqlqXg5Ws/LLJlLJouFPLjmmA3rsCuhtuCPRh44HLrAOIbzPnTfdAZBQoE7Tcy08jQxBm
+ Bsx5ZrtFmVaqEZLDHDLcbpRGi+mDLto=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-540-Qo1pYZhRNmSaSXzVEZ4R9g-1; Mon, 14 Feb 2022 14:10:32 -0500
-X-MC-Unique: Qo1pYZhRNmSaSXzVEZ4R9g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-460-mk7fq_aoOWWrCGaEomdgPg-1; Mon, 14 Feb 2022 14:16:46 -0500
+X-MC-Unique: mk7fq_aoOWWrCGaEomdgPg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CDC581424A;
- Mon, 14 Feb 2022 19:10:31 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.32.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3CA7D45D6F;
- Mon, 14 Feb 2022 19:09:48 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id C00EA220CE9; Mon, 14 Feb 2022 14:09:47 -0500 (EST)
-Date: Mon, 14 Feb 2022 14:09:47 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v5 3/3] virtiofsd: Add support for FUSE_SYNCFS request
- without announce_submounts
-Message-ID: <Ygqo+24vo1z7rSvk@redhat.com>
-References: <20220214135820.43897-1-groug@kaod.org>
- <20220214135820.43897-4-groug@kaod.org>
- <YgqfCtcjhApw5Fyw@redhat.com> <YgqlyP5M7NF/bMoj@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 498082F25;
+ Mon, 14 Feb 2022 19:16:45 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.195.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E0375C22B;
+ Mon, 14 Feb 2022 19:16:37 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/9] Net Control VQ support in vDPA SVQ
+Date: Mon, 14 Feb 2022 20:16:26 +0100
+Message-Id: <20220214191635.1604932-1-eperezma@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YgqlyP5M7NF/bMoj@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,149 +76,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com,
- Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Eli Cohen <eli@mellanox.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 14, 2022 at 01:56:08PM -0500, Vivek Goyal wrote:
-> On Mon, Feb 14, 2022 at 01:27:22PM -0500, Vivek Goyal wrote:
-> > On Mon, Feb 14, 2022 at 02:58:20PM +0100, Greg Kurz wrote:
-> > > This adds the missing bits to support FUSE_SYNCFS in the case submounts
-> > > aren't announced to the client.
-> > > 
-> > > Iterate over all inodes and call syncfs() on the ones marked as submounts.
-> > > Since syncfs() can block for an indefinite time, we cannot call it with
-> > > lo->mutex held as it would prevent the server to process other requests.
-> > > This is thus broken down in two steps. First build a list of submounts
-> > > with lo->mutex held, drop the mutex and finally process the list. A
-> > > reference is taken on the inodes to ensure they don't go away when
-> > > lo->mutex is dropped.
-> > > 
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > ---
-> > >  tools/virtiofsd/passthrough_ll.c | 38 ++++++++++++++++++++++++++++++--
-> > >  1 file changed, 36 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > > index e94c4e6f8635..7ce944bfe2a0 100644
-> > > --- a/tools/virtiofsd/passthrough_ll.c
-> > > +++ b/tools/virtiofsd/passthrough_ll.c
-> > > @@ -3400,8 +3400,42 @@ static void lo_syncfs(fuse_req_t req, fuse_ino_t ino)
-> > >          err = lo_do_syncfs(lo, inode);
-> > >          lo_inode_put(lo, &inode);
-> > >      } else {
-> > > -        /* Requires the sever to track submounts. Not implemented yet */
-> > > -        err = ENOSYS;
-> > > +        g_autoptr(GSList) submount_list = NULL;
-> > > +        GSList *elem;
-> > > +        GHashTableIter iter;
-> > > +        gpointer key, value;
-> > > +
-> > > +        pthread_mutex_lock(&lo->mutex);
-> > > +
-> > > +        g_hash_table_iter_init(&iter, lo->inodes);
-> > > +        while (g_hash_table_iter_next(&iter, &key, &value)) {
-> > 
-> > Going through all the inodes sounds very inefficient. If there are large
-> > number of inodes (say 1 million or more), and if frequent syncfs requests
-> > are coming this can consume lot of cpu cycles.
-> > 
-> > Given C virtiofsd is slowly going away, so I don't want to be too
-> > particular about it. But, I would have thought to put submount
-> > inodes into another list or hash map (using mount id as key) and just
-> > traverse through that list instead. Given number of submounts should
-> > be small, it should be pretty quick to walk through that list.
-> > 
-> > > +            struct lo_inode *inode = value;
-> > > +
-> > > +            if (inode->is_submount) {
-> > > +                g_atomic_int_inc(&inode->refcount);
-> > > +                submount_list = g_slist_prepend(submount_list, inode);
-> > > +            }
-> > > +        }
-> > > +
-> > > +        pthread_mutex_unlock(&lo->mutex);
-> > > +
-> > > +        /* The root inode is always present and not tracked in the hash table */
-> > > +        err = lo_do_syncfs(lo, &lo->root);
-> > > +
-> > > +        for (elem = submount_list; elem; elem = g_slist_next(elem)) {
-> > > +            struct lo_inode *inode = elem->data;
-> > > +            int r;
-> > > +
-> > > +            r = lo_do_syncfs(lo, inode);
-> > > +            if (r) {
-> > > +                /*
-> > > +                 * Try to sync as much as possible. Only one error can be
-> > > +                 * reported to the client though, arbitrarily the last one.
-> > > +                 */
-> > > +                err = r;
-> > > +            }
-> > > +            lo_inode_put(lo, &inode);
-> > > +        }
-> > 
-> > One more minor nit. What happens if virtiofsd is processing syncfs list
-> > and then somebody hard reboots qemu and mounts virtiofs again. That
-> > will trigger FUSE_INIT and will call lo_destroy() first.
-> > 
-> > fuse_lowlevel.c
-> > 
-> > fuse_session_process_buf_int()
-> > {
-> >             fuse_log(FUSE_LOG_DEBUG, "%s: reinit\n", __func__);
-> >             se->got_destroy = 1;
-> >             se->got_init = 0;
-> >             if (se->op.destroy) {
-> >                 se->op.destroy(se->userdata);
-> >             }
-> > }
-> > 
-> > IIUC, there is no synchronization with this path. If we are running with
-> > thread pool enabled, it could very well happen that one thread is still
-> > doing syncfs while other thread is executing do_init(). That sounds
-> > like little bit of a problem. It will be good if there is a way
-> > to either abort syncfs() or do_destroy() waits for all the previous
-> > syncfs() to finish.
-> > 
-> > Greg, if you like, you could break down this work in two patch series.
-> > First patch series just issues syncfs() on inode id sent with FUSE_SYNCFS.
-> > That's easy fix and can get merged now.
-> 
-> Actually I think even single "syncfs" will have synchronization issue
-> with do_init() upon hard reboot if we drop lo->mutex during syncfs().
-
-Actually, we have similar issues with ->fsync(). We take lo->mutex,
-and then take a reference on inode. Call fsync() on this. Now it is
-possible that guest hard reboots, triggers, FUSE_INIT and lo_destroy()
-is called. It will take lo->mutex and drop its referene on inode.
-
-So it looks like in extreme case a new connection can start looking
-up inodes which we still have old inodes in hash table because
-some thread is blocked doing operation and has not dropped its
-reference.
-
-David, do I understand it right?
-
-We probably need to have a notion of keeping track of number of requests
-which are in progress. And lo_destroy() should wait till number of
-requests in progress come to zero. This will be equivalent of draining
-the queues operation in virtiofs kernel driver.
-
-Anyway, given we already have the issue w.r.t lo_destroy(), and C code
-is going away, I will be fine even if you don't fix races with FUSE_INIT.
-
-Vivek
-> 
-> Vivek
-> 
-> > 
-> > And second patch series take care of above issues and will be little bit
-> > more work.
-> > 
-> > Thanks
-> > Vivek
+Control virtqueue is used by networking device for accepting various=0D
+commands from the driver. It's a must to support multiqueue and other=0D
+configurations.=0D
+=0D
+Shadow VirtQueue (SVQ) [1] already makes possible migration of virtqueue=0D
+states, effectively intercepting them so qemu can track what regions of mem=
+ory=0D
+are dirty because device action and needs migration. However, this does not=
+=0D
+solve networking device state seen by the driver because CVQ messages, like=
+=0D
+changes on MAC addresses from the driver.=0D
+=0D
+To solve that, this series uses SVQ infraestructure proposed at SVQ [1] to=
+=0D
+intercept networking control messages used by the device. This way, qemu is=
+=0D
+able to update VirtIONet device model and to migrate it. This series needs =
+to=0D
+be applied on top of [1].=0D
+=0D
+Ideally, only the control VQ would be shadowed for all the run of qemu and =
+the=0D
+rest of virtqueues would be passthrough unless it's migration time. However=
+,=0D
+this requires the vDPA device to support address translations from more tha=
+n=0D
+one address space, something that is not possible at the moment with the=0D
+current vhost-vDPA API. The API change has been proposed at [2], but use of=
+ it=0D
+is left for future series.=0D
+=0D
+Sending this as a RFC so some details like error control is still not 100%=
+=0D
+tested. Comments are welcomed on every aspect of the patch.=0D
+=0D
+[1] https://lore.kernel.org/qemu-devel/20220121202733.404989-1-eperezma@red=
+hat.com/=0D
+[2] https://lkml.org/lkml/2020/9/23/1243=0D
+=0D
+Eugenio P=C3=A9rez (9):=0D
+  virtio-net: Expose ctrl virtqueue logic=0D
+  vdpa: Extract get geatures part from vhost_vdpa_get_max_queue_pairs=0D
+  virtio: Make virtqueue_alloc_element non-static=0D
+  vhost: Add SVQElement=0D
+  vhost: Add custom used buffer callback=0D
+  vdpa: Add map/unmap operation callback to SVQ=0D
+  vhost: Add vhost_svq_inject=0D
+  vhost: Add vhost_svq_start_op=0D
+  vdpa: control virtqueue support on shadow virtqueue=0D
+=0D
+ hw/virtio/vhost-shadow-virtqueue.h |  25 +++-=0D
+ include/hw/virtio/vhost-vdpa.h     |   2 +=0D
+ include/hw/virtio/virtio-net.h     |   3 +=0D
+ include/hw/virtio/virtio.h         |   1 +=0D
+ hw/net/virtio-net.c                |  83 ++++++-----=0D
+ hw/virtio/vhost-shadow-virtqueue.c | 217 +++++++++++++++++++++++------=0D
+ hw/virtio/vhost-vdpa.c             |  22 ++-=0D
+ hw/virtio/virtio.c                 |   2 +-=0D
+ net/vhost-vdpa.c                   | 140 +++++++++++++++++--=0D
+ 9 files changed, 405 insertions(+), 90 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
 
