@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820D04B5A83
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:22:02 +0100 (CET)
-Received: from localhost ([::1]:35168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6284B5A93
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 20:36:12 +0100 (CET)
+Received: from localhost ([::1]:52970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJgvB-0006wf-Kf
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:22:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46036)
+	id 1nJh8s-0002eL-Os
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 14:36:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJgZa-0007G9-6D
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:59:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39089)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJgkE-0005O9-V3
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 14:10:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJgZW-0006ch-Vu
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 13:59:41 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJgkB-0000FX-BH
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 14:10:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644865177;
+ s=mimecast20190719; t=1644865837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=uGNA7OYItwLFiZvcnhvP1CKvO08YTVnNTazQyahLXks=;
- b=iASSxMbUsoGF6X8kS0lAwIQFwKcMutnBg5OUIGo44JDkZpiC/zc0y8LWXRITjA8ARNWRdO
- PpkGUeGsJo/swlpx9oRIqShuaKD4sp9RrLMh35a+RbOWTraO/Nevav/XZthKOzs0gmnIDu
- fCt/3QUPZfBE4U2PGwaR5WqQ5DS4+/s=
+ bh=0WUM/CCUdfYouZ94DL+YAjzWgXEsU70fK2CSfJvAKfc=;
+ b=aPfJzO+TyOtgRYXtsV5m62g7yIfUqxY7DEiqZTku2VnO9Qh6XFIlI0HNUj7Spn7so4hsiw
+ tj5WYcu3OTkUnSdrN3Rn4Bqz8y0PnX8wSgpwt6rIl/N0T1BuaquVeJxMpJBjPH8Bpn4cha
+ sbSqRu+r1Ct0QR436kqb7KLkDpbUWfM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-74-Y8BmqLNoN9Kx0i9wiy3_uQ-1; Mon, 14 Feb 2022 13:56:55 -0500
-X-MC-Unique: Y8BmqLNoN9Kx0i9wiy3_uQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-540-Qo1pYZhRNmSaSXzVEZ4R9g-1; Mon, 14 Feb 2022 14:10:32 -0500
+X-MC-Unique: Qo1pYZhRNmSaSXzVEZ4R9g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7336F814246;
- Mon, 14 Feb 2022 18:56:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CDC581424A;
+ Mon, 14 Feb 2022 19:10:31 +0000 (UTC)
 Received: from horse.redhat.com (unknown [10.22.32.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D3E477CA7;
- Mon, 14 Feb 2022 18:56:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3CA7D45D6F;
+ Mon, 14 Feb 2022 19:09:48 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 2FF36220CE9; Mon, 14 Feb 2022 13:56:08 -0500 (EST)
-Date: Mon, 14 Feb 2022 13:56:08 -0500
+ id C00EA220CE9; Mon, 14 Feb 2022 14:09:47 -0500 (EST)
+Date: Mon, 14 Feb 2022 14:09:47 -0500
 From: Vivek Goyal <vgoyal@redhat.com>
 To: Greg Kurz <groug@kaod.org>
 Subject: Re: [PATCH v5 3/3] virtiofsd: Add support for FUSE_SYNCFS request
  without announce_submounts
-Message-ID: <YgqlyP5M7NF/bMoj@redhat.com>
+Message-ID: <Ygqo+24vo1z7rSvk@redhat.com>
 References: <20220214135820.43897-1-groug@kaod.org>
  <20220214135820.43897-4-groug@kaod.org>
- <YgqfCtcjhApw5Fyw@redhat.com>
+ <YgqfCtcjhApw5Fyw@redhat.com> <YgqlyP5M7NF/bMoj@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YgqfCtcjhApw5Fyw@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <YgqlyP5M7NF/bMoj@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,119 +88,142 @@ Cc: virtio-fs@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 14, 2022 at 01:27:22PM -0500, Vivek Goyal wrote:
-> On Mon, Feb 14, 2022 at 02:58:20PM +0100, Greg Kurz wrote:
-> > This adds the missing bits to support FUSE_SYNCFS in the case submounts
-> > aren't announced to the client.
+On Mon, Feb 14, 2022 at 01:56:08PM -0500, Vivek Goyal wrote:
+> On Mon, Feb 14, 2022 at 01:27:22PM -0500, Vivek Goyal wrote:
+> > On Mon, Feb 14, 2022 at 02:58:20PM +0100, Greg Kurz wrote:
+> > > This adds the missing bits to support FUSE_SYNCFS in the case submounts
+> > > aren't announced to the client.
+> > > 
+> > > Iterate over all inodes and call syncfs() on the ones marked as submounts.
+> > > Since syncfs() can block for an indefinite time, we cannot call it with
+> > > lo->mutex held as it would prevent the server to process other requests.
+> > > This is thus broken down in two steps. First build a list of submounts
+> > > with lo->mutex held, drop the mutex and finally process the list. A
+> > > reference is taken on the inodes to ensure they don't go away when
+> > > lo->mutex is dropped.
+> > > 
+> > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > > ---
+> > >  tools/virtiofsd/passthrough_ll.c | 38 ++++++++++++++++++++++++++++++--
+> > >  1 file changed, 36 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > > index e94c4e6f8635..7ce944bfe2a0 100644
+> > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > @@ -3400,8 +3400,42 @@ static void lo_syncfs(fuse_req_t req, fuse_ino_t ino)
+> > >          err = lo_do_syncfs(lo, inode);
+> > >          lo_inode_put(lo, &inode);
+> > >      } else {
+> > > -        /* Requires the sever to track submounts. Not implemented yet */
+> > > -        err = ENOSYS;
+> > > +        g_autoptr(GSList) submount_list = NULL;
+> > > +        GSList *elem;
+> > > +        GHashTableIter iter;
+> > > +        gpointer key, value;
+> > > +
+> > > +        pthread_mutex_lock(&lo->mutex);
+> > > +
+> > > +        g_hash_table_iter_init(&iter, lo->inodes);
+> > > +        while (g_hash_table_iter_next(&iter, &key, &value)) {
 > > 
-> > Iterate over all inodes and call syncfs() on the ones marked as submounts.
-> > Since syncfs() can block for an indefinite time, we cannot call it with
-> > lo->mutex held as it would prevent the server to process other requests.
-> > This is thus broken down in two steps. First build a list of submounts
-> > with lo->mutex held, drop the mutex and finally process the list. A
-> > reference is taken on the inodes to ensure they don't go away when
-> > lo->mutex is dropped.
+> > Going through all the inodes sounds very inefficient. If there are large
+> > number of inodes (say 1 million or more), and if frequent syncfs requests
+> > are coming this can consume lot of cpu cycles.
 > > 
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >  tools/virtiofsd/passthrough_ll.c | 38 ++++++++++++++++++++++++++++++--
-> >  1 file changed, 36 insertions(+), 2 deletions(-)
+> > Given C virtiofsd is slowly going away, so I don't want to be too
+> > particular about it. But, I would have thought to put submount
+> > inodes into another list or hash map (using mount id as key) and just
+> > traverse through that list instead. Given number of submounts should
+> > be small, it should be pretty quick to walk through that list.
 > > 
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > index e94c4e6f8635..7ce944bfe2a0 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -3400,8 +3400,42 @@ static void lo_syncfs(fuse_req_t req, fuse_ino_t ino)
-> >          err = lo_do_syncfs(lo, inode);
-> >          lo_inode_put(lo, &inode);
-> >      } else {
-> > -        /* Requires the sever to track submounts. Not implemented yet */
-> > -        err = ENOSYS;
-> > +        g_autoptr(GSList) submount_list = NULL;
-> > +        GSList *elem;
-> > +        GHashTableIter iter;
-> > +        gpointer key, value;
-> > +
-> > +        pthread_mutex_lock(&lo->mutex);
-> > +
-> > +        g_hash_table_iter_init(&iter, lo->inodes);
-> > +        while (g_hash_table_iter_next(&iter, &key, &value)) {
+> > > +            struct lo_inode *inode = value;
+> > > +
+> > > +            if (inode->is_submount) {
+> > > +                g_atomic_int_inc(&inode->refcount);
+> > > +                submount_list = g_slist_prepend(submount_list, inode);
+> > > +            }
+> > > +        }
+> > > +
+> > > +        pthread_mutex_unlock(&lo->mutex);
+> > > +
+> > > +        /* The root inode is always present and not tracked in the hash table */
+> > > +        err = lo_do_syncfs(lo, &lo->root);
+> > > +
+> > > +        for (elem = submount_list; elem; elem = g_slist_next(elem)) {
+> > > +            struct lo_inode *inode = elem->data;
+> > > +            int r;
+> > > +
+> > > +            r = lo_do_syncfs(lo, inode);
+> > > +            if (r) {
+> > > +                /*
+> > > +                 * Try to sync as much as possible. Only one error can be
+> > > +                 * reported to the client though, arbitrarily the last one.
+> > > +                 */
+> > > +                err = r;
+> > > +            }
+> > > +            lo_inode_put(lo, &inode);
+> > > +        }
+> > 
+> > One more minor nit. What happens if virtiofsd is processing syncfs list
+> > and then somebody hard reboots qemu and mounts virtiofs again. That
+> > will trigger FUSE_INIT and will call lo_destroy() first.
+> > 
+> > fuse_lowlevel.c
+> > 
+> > fuse_session_process_buf_int()
+> > {
+> >             fuse_log(FUSE_LOG_DEBUG, "%s: reinit\n", __func__);
+> >             se->got_destroy = 1;
+> >             se->got_init = 0;
+> >             if (se->op.destroy) {
+> >                 se->op.destroy(se->userdata);
+> >             }
+> > }
+> > 
+> > IIUC, there is no synchronization with this path. If we are running with
+> > thread pool enabled, it could very well happen that one thread is still
+> > doing syncfs while other thread is executing do_init(). That sounds
+> > like little bit of a problem. It will be good if there is a way
+> > to either abort syncfs() or do_destroy() waits for all the previous
+> > syncfs() to finish.
+> > 
+> > Greg, if you like, you could break down this work in two patch series.
+> > First patch series just issues syncfs() on inode id sent with FUSE_SYNCFS.
+> > That's easy fix and can get merged now.
 > 
-> Going through all the inodes sounds very inefficient. If there are large
-> number of inodes (say 1 million or more), and if frequent syncfs requests
-> are coming this can consume lot of cpu cycles.
-> 
-> Given C virtiofsd is slowly going away, so I don't want to be too
-> particular about it. But, I would have thought to put submount
-> inodes into another list or hash map (using mount id as key) and just
-> traverse through that list instead. Given number of submounts should
-> be small, it should be pretty quick to walk through that list.
-> 
-> > +            struct lo_inode *inode = value;
-> > +
-> > +            if (inode->is_submount) {
-> > +                g_atomic_int_inc(&inode->refcount);
-> > +                submount_list = g_slist_prepend(submount_list, inode);
-> > +            }
-> > +        }
-> > +
-> > +        pthread_mutex_unlock(&lo->mutex);
-> > +
-> > +        /* The root inode is always present and not tracked in the hash table */
-> > +        err = lo_do_syncfs(lo, &lo->root);
-> > +
-> > +        for (elem = submount_list; elem; elem = g_slist_next(elem)) {
-> > +            struct lo_inode *inode = elem->data;
-> > +            int r;
-> > +
-> > +            r = lo_do_syncfs(lo, inode);
-> > +            if (r) {
-> > +                /*
-> > +                 * Try to sync as much as possible. Only one error can be
-> > +                 * reported to the client though, arbitrarily the last one.
-> > +                 */
-> > +                err = r;
-> > +            }
-> > +            lo_inode_put(lo, &inode);
-> > +        }
-> 
-> One more minor nit. What happens if virtiofsd is processing syncfs list
-> and then somebody hard reboots qemu and mounts virtiofs again. That
-> will trigger FUSE_INIT and will call lo_destroy() first.
-> 
-> fuse_lowlevel.c
-> 
-> fuse_session_process_buf_int()
-> {
->             fuse_log(FUSE_LOG_DEBUG, "%s: reinit\n", __func__);
->             se->got_destroy = 1;
->             se->got_init = 0;
->             if (se->op.destroy) {
->                 se->op.destroy(se->userdata);
->             }
-> }
-> 
-> IIUC, there is no synchronization with this path. If we are running with
-> thread pool enabled, it could very well happen that one thread is still
-> doing syncfs while other thread is executing do_init(). That sounds
-> like little bit of a problem. It will be good if there is a way
-> to either abort syncfs() or do_destroy() waits for all the previous
-> syncfs() to finish.
-> 
-> Greg, if you like, you could break down this work in two patch series.
-> First patch series just issues syncfs() on inode id sent with FUSE_SYNCFS.
-> That's easy fix and can get merged now.
+> Actually I think even single "syncfs" will have synchronization issue
+> with do_init() upon hard reboot if we drop lo->mutex during syncfs().
 
-Actually I think even single "syncfs" will have synchronization issue
-with do_init() upon hard reboot if we drop lo->mutex during syncfs().
+Actually, we have similar issues with ->fsync(). We take lo->mutex,
+and then take a reference on inode. Call fsync() on this. Now it is
+possible that guest hard reboots, triggers, FUSE_INIT and lo_destroy()
+is called. It will take lo->mutex and drop its referene on inode.
+
+So it looks like in extreme case a new connection can start looking
+up inodes which we still have old inodes in hash table because
+some thread is blocked doing operation and has not dropped its
+reference.
+
+David, do I understand it right?
+
+We probably need to have a notion of keeping track of number of requests
+which are in progress. And lo_destroy() should wait till number of
+requests in progress come to zero. This will be equivalent of draining
+the queues operation in virtiofs kernel driver.
+
+Anyway, given we already have the issue w.r.t lo_destroy(), and C code
+is going away, I will be fine even if you don't fix races with FUSE_INIT.
 
 Vivek
-
 > 
-> And second patch series take care of above issues and will be little bit
-> more work.
-> 
-> Thanks
 > Vivek
+> 
+> > 
+> > And second patch series take care of above issues and will be little bit
+> > more work.
+> > 
+> > Thanks
+> > Vivek
 
 
