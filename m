@@ -2,59 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561BC4B559A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 17:07:57 +0100 (CET)
-Received: from localhost ([::1]:57098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DFC4B564E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 17:34:15 +0100 (CET)
+Received: from localhost ([::1]:54410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJdtM-0006eA-0u
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 11:07:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55740)
+	id 1nJeIo-0007z0-32
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 11:34:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nJdom-0004lv-LY
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 11:03:12 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:48790)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nJeGq-00075h-IP
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 11:32:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nJdoj-0002qX-Hq
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 11:03:11 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nJeGn-0000B4-K6
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 11:32:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644856328;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2zbjp4EoPUVr+XpeuhFNTpQtAmtutDQ9QIqPvVEgDCA=;
+ b=g90Un4R+ZRb4vUo0z1Hu0J1jgbkriswY1a5Xhs7Caty3aYnedzzKQ3IxFbeh9DvFNPyXxz
+ yECf+zzUMI5RuJIszyQ6+zu9ZUg033oTk7tImYplMin1cOfDm6PObjAIENhptjhv4s8ljZ
+ FT541NRo99y/noRJulyurI9hkT7WmtY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-102-Ys7MqZ90M_qx7tK1wyawNQ-1; Mon, 14 Feb 2022 11:03:06 -0500
-X-MC-Unique: Ys7MqZ90M_qx7tK1wyawNQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E8982F25
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 16:03:05 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64988753FC;
- Mon, 14 Feb 2022 16:02:49 +0000 (UTC)
-Date: Mon, 14 Feb 2022 17:02:48 +0100
-From: Greg Kurz <groug@kaod.org>
-To: German Maglione <gmaglione@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH v5 1/3] virtiofsd: Add support for
- FUSE_SYNCFS request with announce_submounts
-Message-ID: <20220214170248.362805f4@bahia>
-In-Reply-To: <CAJh=p+6ALJA_UazTGoPbmF09AEnecppDvaFVJT2bOK-R6_0WBw@mail.gmail.com>
-References: <20220214135820.43897-1-groug@kaod.org>
- <20220214135820.43897-2-groug@kaod.org>
- <CAJh=p+6ALJA_UazTGoPbmF09AEnecppDvaFVJT2bOK-R6_0WBw@mail.gmail.com>
+ us-mta-1-FBqbCeK0OZK-xeXHFvMONQ-1; Mon, 14 Feb 2022 11:32:07 -0500
+X-MC-Unique: FBqbCeK0OZK-xeXHFvMONQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay41-20020a05600c1e2900b0037c5168b3c4so3202185wmb.7
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 08:32:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=2zbjp4EoPUVr+XpeuhFNTpQtAmtutDQ9QIqPvVEgDCA=;
+ b=Yqk1t4gDnBEV22mcwUJL/9iUQxXVio/PVvavsphPJAIu2RID5IflBHXAROtqy4q0wy
+ nU9D/yg1/UyRJwmIm1cL8iMAkQFfIMKoBlB98fdPFaAKAjqgzKUrgLZFV77GmU0AAKx6
+ DfZJG48UwNZvqtQcMXKsbDsiOJc+zLtdPxTa1FDIARXCWNKAlQH0R3S9m+iHPmxfm/+k
+ rntFcr7Jiz3falH85IqxPBPPt8StK+ml5Tn2HFNEPfVAF5QReAUMbgURy7dWmNdM9nAO
+ wpXO8aEaCeR2oMARsm/UDwvjwgoVQ8RKpHNbYRV8OKQrwHfVb2tnptMdE7o/gRbIltKC
+ ZqjQ==
+X-Gm-Message-State: AOAM530sLgmhL1kVvkAokosFKvTuj2fyPSFSvMAZvUINZHAtqe9h+syj
+ O1kE+tVTnS0pkf86l1vpjktsajU842j7tg0OMd5E6g1PjKdb8cWg1QZit2EhULcaajQo8XupcOc
+ cLf4JFtEQEoSj3oo=
+X-Received: by 2002:a05:600c:2058:: with SMTP id
+ p24mr133683wmg.3.1644856325996; 
+ Mon, 14 Feb 2022 08:32:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxNqQekQHEpWPSjnIk8qAR9HJzoLsSqG3czYQnv4XY0+vcQA9+siecLZVMV8XQ6tFZn6++xYg==
+X-Received: by 2002:a05:600c:2058:: with SMTP id
+ p24mr133663wmg.3.1644856325742; 
+ Mon, 14 Feb 2022 08:32:05 -0800 (PST)
+Received: from ?IPV6:2003:cb:c707:5400:d8a3:8885:3275:4529?
+ (p200300cbc7075400d8a3888532754529.dip0.t-ipconnect.de.
+ [2003:cb:c707:5400:d8a3:8885:3275:4529])
+ by smtp.gmail.com with ESMTPSA id c5sm22809753wrq.102.2022.02.14.08.32.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 08:32:05 -0800 (PST)
+Message-ID: <2743ef0f-c73c-5a55-067b-6068c23334f3@redhat.com>
+Date: Mon, 14 Feb 2022 17:32:03 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+To: Igor Mammedov <imammedo@redhat.com>
+References: <alpine.DEB.2.22.394.2202141048390.13781@anisinha-lenovo>
+ <20220214133634.248d7de0@redhat.com>
+ <b9771171-8d28-b46b-4474-687a8fed0abd@redhat.com>
+ <20220214165515.226a1955@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: 9 TiB vm memory creation
+In-Reply-To: <20220214165515.226a1955@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,204 +105,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
- Vivek Goyal <vgoyal@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Feb 2022 16:43:15 +0100
-German Maglione <gmaglione@redhat.com> wrote:
+>>>
+>>> With KVM enabled it bails out with:
+>>>    qemu-system-x86_64: kvm_set_user_memory_region: KVM_SET_USER_MEMORY_REGION failed, slot=1, start=0x100000000, size=0x8ff40000000: Invalid argument
+>>>
+>>> all of that on a host with 32G of RAM/no swap.
+>>>
+>>>   
+>>
+>> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
+>>
+>> ~8 TiB (7,999999)
+> 
+> so essentially that's the our max for initial RAM
+> (ignoring initial RAM slots before 4Gb)
+> 
+> Are you aware of any attempts to make it larger?
 
-> On Mon, Feb 14, 2022 at 3:00 PM Greg Kurz <groug@kaod.org> wrote:
->=20
-> > Honor the expected behavior of syncfs() to synchronously flush all data
-> > and metadata to disk on linux systems.
-> >
-> > If virtiofsd is started with '-o announce_submounts', the client is
-> > expected to send a FUSE_SYNCFS request for each individual submount.
-> > In this case, we just create a new file descriptor on the submount
-> > inode with lo_inode_open(), call syncfs() on it and close it. The
-> > intermediary file is needed because O_PATH descriptors aren't
-> > backed by an actual file and syncfs() would fail with EBADF.
-> >
-> > If virtiofsd is started without '-o announce_submounts' or if the
-> > client doesn't have the FUSE_CAP_SUBMOUNTS capability, the client
-> > only sends a single FUSE_SYNCFS request for the root inode. The
-> > server would thus need to track submounts internally and call
-> > syncfs() on each of them. This will be implemented later.
-> >
-> > Note that syncfs() might suffer from a time penalty if the submounts
-> > are being hammered by some unrelated workload on the host. The only
-> > solution to prevent that is to avoid shared mounts.
-> >
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >  tools/virtiofsd/fuse_lowlevel.c       | 11 +++++++
-> >  tools/virtiofsd/fuse_lowlevel.h       | 13 ++++++++
-> >  tools/virtiofsd/passthrough_ll.c      | 45 +++++++++++++++++++++++++++
-> >  tools/virtiofsd/passthrough_seccomp.c |  1 +
-> >  4 files changed, 70 insertions(+)
-> >
-> > diff --git a/tools/virtiofsd/fuse_lowlevel.c
-> > b/tools/virtiofsd/fuse_lowlevel.c
-> > index e4679c73abc2..e02d8b25a5f6 100644
-> > --- a/tools/virtiofsd/fuse_lowlevel.c
-> > +++ b/tools/virtiofsd/fuse_lowlevel.c
-> > @@ -1876,6 +1876,16 @@ static void do_lseek(fuse_req_t req, fuse_ino_t
-> > nodeid,
-> >      }
-> >  }
-> >
-> > +static void do_syncfs(fuse_req_t req, fuse_ino_t nodeid,
-> > +                      struct fuse_mbuf_iter *iter)
-> > +{
-> > +    if (req->se->op.syncfs) {
-> > +        req->se->op.syncfs(req, nodeid);
-> > +    } else {
-> > +        fuse_reply_err(req, ENOSYS);
-> > +    }
-> > +}
-> > +
-> >  static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-> >                      struct fuse_mbuf_iter *iter)
-> >  {
-> > @@ -2280,6 +2290,7 @@ static struct {
-> >      [FUSE_RENAME2] =3D { do_rename2, "RENAME2" },
-> >      [FUSE_COPY_FILE_RANGE] =3D { do_copy_file_range, "COPY_FILE_RANGE"=
- },
-> >      [FUSE_LSEEK] =3D { do_lseek, "LSEEK" },
-> > +    [FUSE_SYNCFS] =3D { do_syncfs, "SYNCFS" },
-> >  };
-> >
-> >  #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
-> > diff --git a/tools/virtiofsd/fuse_lowlevel.h
-> > b/tools/virtiofsd/fuse_lowlevel.h
-> > index c55c0ca2fc1c..b889dae4de0e 100644
-> > --- a/tools/virtiofsd/fuse_lowlevel.h
-> > +++ b/tools/virtiofsd/fuse_lowlevel.h
-> > @@ -1226,6 +1226,19 @@ struct fuse_lowlevel_ops {
-> >       */
-> >      void (*lseek)(fuse_req_t req, fuse_ino_t ino, off_t off, int whenc=
-e,
-> >                    struct fuse_file_info *fi);
-> > +
-> > +    /**
-> > +     * Synchronize file system content
-> > +     *
-> > +     * If this request is answered with an error code of ENOSYS,
-> > +     * this is treated as success and future calls to syncfs() will
-> > +     * succeed automatically without being sent to the filesystem
-> > +     * process.
-> > +     *
-> > +     * @param req request handle
-> > +     * @param ino the inode number
-> > +     */
-> > +    void (*syncfs)(fuse_req_t req, fuse_ino_t ino);
-> >  };
-> >
-> >  /**
-> > diff --git a/tools/virtiofsd/passthrough_ll.c
-> > b/tools/virtiofsd/passthrough_ll.c
-> > index b3d0674f6d2f..2bf5d40df531 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -3357,6 +3357,50 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t
-> > ino, off_t off, int whence,
-> >      }
-> >  }
-> >
-> > +static int lo_do_syncfs(struct lo_data *lo, struct lo_inode *inode)
-> > +{
-> > +    int fd, ret =3D 0;
-> > +
-> > +    fuse_log(FUSE_LOG_DEBUG, "lo_do_syncfs(ino=3D%" PRIu64 ")\n",
-> > +             inode->fuse_ino);
-> > +
-> > +    fd =3D lo_inode_open(lo, inode, O_RDONLY);
-> > +    if (fd < 0) {
-> > +        return -fd;
-> > +    }
-> > +
-> > +    if (syncfs(fd) < 0) {
-> > +        ret =3D errno;
-> > +    }
-> > +
-> > +    close(fd);
-> > +    return ret;
-> > +}
-> > +
-> > +static void lo_syncfs(fuse_req_t req, fuse_ino_t ino)
-> > +{
-> > +    struct lo_data *lo =3D lo_data(req);
-> > +    int err;
-> > +
-> > +    if (lo->announce_submounts) {
-> > +        struct lo_inode *inode;
-> > +
-> > +        inode =3D lo_inode(req, ino);
-> > +        if (!inode) {
-> > +            fuse_reply_err(req, EBADF);
-> > +            return;
-> > +        }
-> > +
-> > +        err =3D lo_do_syncfs(lo, inode);
-> > +        lo_inode_put(lo, &inode);
-> > +    } else {
-> > +        /* Requires the sever to track submounts. Not implemented yet =
-*/
-> > +        err =3D ENOSYS;
-> > +    }
-> >
->=20
-> In the current rust version we don't check if announce_submount is enable=
-d,
-> with and without it lo_syncfs do the same thing. So, if announce_submount
-> is not enabled, at least the root shared dir get synced.
->=20
+Not really, I think for now only s390x had applicable machines where
+you'd have that much memory on a single NUMA node.
 
-I hesitated to do that but since the announce_submount case is
-handled in patch 3, I kept it simple. Anyway, I'm fine to post
-a new version that matches what the rust implementation does.
+> 
+> But can we use extra pc-dimm devices for additional memory (with 8TiB limit)
+> as that will use another memslot?
 
->=20
->=20
-> > +
-> > +    fuse_reply_err(req, err);
-> > +}
-> > +
-> >  static void lo_destroy(void *userdata)
-> >  {
-> >      struct lo_data *lo =3D (struct lo_data *)userdata;
-> > @@ -3417,6 +3461,7 @@ static struct fuse_lowlevel_ops lo_oper =3D {
-> >      .copy_file_range =3D lo_copy_file_range,
-> >  #endif
-> >      .lseek =3D lo_lseek,
-> > +    .syncfs =3D lo_syncfs,
-> >      .destroy =3D lo_destroy,
-> >  };
-> >
-> > diff --git a/tools/virtiofsd/passthrough_seccomp.c
-> > b/tools/virtiofsd/passthrough_seccomp.c
-> > index a3ce9f898d2d..3e9d6181dc69 100644
-> > --- a/tools/virtiofsd/passthrough_seccomp.c
-> > +++ b/tools/virtiofsd/passthrough_seccomp.c
-> > @@ -108,6 +108,7 @@ static const int syscall_allowlist[] =3D {
-> >      SCMP_SYS(set_robust_list),
-> >      SCMP_SYS(setxattr),
-> >      SCMP_SYS(symlinkat),
-> > +    SCMP_SYS(syncfs),
-> >      SCMP_SYS(time), /* Rarely needed, except on static builds */
-> >      SCMP_SYS(tgkill),
-> >      SCMP_SYS(unlinkat),
-> > --
-> > 2.34.1
-> >
-> > _______________________________________________
-> > Virtio-fs mailing list
-> > Virtio-fs@redhat.com
-> > https://listman.redhat.com/mailman/listinfo/virtio-fs
-> >
-> >
->=20
+I remember that was the workaround for now for some extremely large VMs
+where you'd want a single NUMA node or a lot of memory for a single NUMA
+node.
+
+> 
+> 
+>>
+>> In QEMU, we have
+>>
+>> static hwaddr kvm_max_slot_size = ~0;
+>>
+>> And only s390x sets
+>>
+>> kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
+>>
+>> with
+>>
+>> #define KVM_SLOT_MAX_BYTES (4UL * TiB)
+> in QEMU default value is:
+>   static hwaddr kvm_max_slot_size = ~0
+> it is kernel side that's failing
+
+... and kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES) works around the
+kernel limitation for s390x in user space.
+
+I feel like the right thing would be to look into increasing the limit
+in the kernel, and bail out if the kernel doesn't support it. Would
+require a new kernel for starting gigantic VMs with a single large
+memory backend, but then, it's a new use case.
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
