@@ -2,111 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9B94B4420
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:31:10 +0100 (CET)
-Received: from localhost ([::1]:60738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867664B445A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 09:37:19 +0100 (CET)
+Received: from localhost ([::1]:39136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJWlJ-0008Q3-0P
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:31:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42426)
+	id 1nJWrG-0004iD-9Z
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 03:37:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1nJWWB-00066A-JS
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:15:31 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53168)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWb7-0001rK-C8
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:20:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1nJWW9-0000pV-4n
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:15:31 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21E7aumu018310; 
- Mon, 14 Feb 2022 08:15:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=vXAIBZayCPPu4kFbUYduH5nQP5RaAbC3ZpNwF3RRX3w=;
- b=laNYWwBp/9UKhWGa+9iADEq0YbhEeMNFr7j8iLU5zTYlUjr+DWIDRUtPLlBE1KdUnzuc
- 7Fgynckzt4QFNaWx8+ERwpCG/DaKt63dgV2dcj4yX+q06mw5mKg6jOE+S2WnfFOr1xgV
- /oLg9sLxFqkfZg+p7Iv0+yMOUB1/2lOsSCIhlxsJZNPfBphaJ5wzZ3J3x0f/h/tOvVWG
- /D+jFveGPhyWyWXcpcC88Y1dQVU6zUzB7Red7pS+WoSLx3d2cRMR5JePeU498aEQz505
- 1lQyUuehxre3QQNonTMYhxRiriQ1UxgNwpRbRBiZgWKt4Q7PR4dViFWFEf1XRXJNOT+D nA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e785sukdf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 08:15:24 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21E87wiR007491;
- Mon, 14 Feb 2022 08:15:24 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e785sukd2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 08:15:24 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21E8Dobh011618;
- Mon, 14 Feb 2022 08:15:23 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma03dal.us.ibm.com with ESMTP id 3e64ha1d2e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 08:15:23 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21E8FLCd35783078
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Feb 2022 08:15:21 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D82BC6061;
- Mon, 14 Feb 2022 08:15:21 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B7EC5C605D;
- Mon, 14 Feb 2022 08:15:18 +0000 (GMT)
-Received: from [9.65.240.79] (unknown [9.65.240.79])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 14 Feb 2022 08:15:18 +0000 (GMT)
-Message-ID: <3df428b3-b5d7-aacc-9639-d2c2dfca6ed7@linux.ibm.com>
-Date: Mon, 14 Feb 2022 10:15:16 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] qapi, i386/sev: Add debug-launch-digest to launch-measure
- response
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220131111539.3091765-1-dovmurik@linux.ibm.com>
- <YffLgx48+mM2SiIX@redhat.com>
- <5f08d6d3-0279-50ed-5223-a9f3217e555d@linux.ibm.com>
- <YffxpK99EibxdXG4@redhat.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <YffxpK99EibxdXG4@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 1QZ8exmIJmYLqaYzTMP_DE3-0Df-PxNH
-X-Proofpoint-ORIG-GUID: MbZ9s7XoZfm2Htvb-LAdrOpudBz3VrW6
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nJWb3-0001XY-UF
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 03:20:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644826832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pESJdCq4+57H18iaKUReLi6KShaSen5hfJ4ns0dW7vg=;
+ b=Q4t8lgqVXtz++nD/Je13P9Aq04XZuh1wjWi724meERIwxHsZQRScZIMMJm/Yowp4t15yJe
+ J4wxRcFYBfbTC5qMBJlFnLrEPKGqth7KwaaFHoClY5liZ1JdFaRtfFoQeNdFGEMsckT/9k
+ z9HM3bjtXgvD56Qz//Gh539RluYMp64=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-596-73HItLa6NqqoZA-nJ05xsQ-1; Mon, 14 Feb 2022 03:20:31 -0500
+X-MC-Unique: 73HItLa6NqqoZA-nJ05xsQ-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ y10-20020a17090a134a00b001b8b7e5983bso10448374pjf.6
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 00:20:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pESJdCq4+57H18iaKUReLi6KShaSen5hfJ4ns0dW7vg=;
+ b=YCSIoOT+AvcHQxhI1EmxX38L6eG49IW34sPHdSyU82EbJqNh5b34Davnp/5kH/BChk
+ QUUq52ZQkDJuJZfzlel2mRCY8fO61uDYKTOLRpo1MbociO/yiBq+rD8wogXApeD7vS5W
+ O0HfmGdzRyORLgpBozQa0gbZz9OJv1wBP7YHvT6qMLlFBuvlykXjt9/aJC+JZbLA95Zq
+ 9hBIk4IaGMjx9yeGxzxDM6oGI8tuxKn+bVQu5jI3osivaDlw3lZClw2i35v+hgRek+J4
+ OxCfSzMdG/fNNs4RbhKbuBuvhscwG2L1DjFZ+fSDaJSTzM5qqZK95c/tIrPxfsDSPcuW
+ Xq7g==
+X-Gm-Message-State: AOAM530F6bB8IwSyHzbIE+gvlQLCzSrQyegh48uLDlLTUFdFt96ZzisG
+ IrKSWtnNsZ6PFyu+XksMgW0FGcMN5dsi+iX7F2w/lFvofkYee3/lsdiehkGuVsqOUfMiu6jrmSB
+ LN8HcWcBYxxhe7ps=
+X-Received: by 2002:a05:6a00:793:: with SMTP id
+ g19mr13357031pfu.21.1644826829713; 
+ Mon, 14 Feb 2022 00:20:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwy6eUtRx6O4EFMAI/x/v1o3C5tSBJZLCP+2KRyJpnnQ/JqYEEtAFL/jfXvj8P4iJBz+2Sivg==
+X-Received: by 2002:a05:6a00:793:: with SMTP id
+ g19mr13357016pfu.21.1644826829423; 
+ Mon, 14 Feb 2022 00:20:29 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.137])
+ by smtp.gmail.com with ESMTPSA id e30sm25458300pge.34.2022.02.14.00.20.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Feb 2022 00:20:29 -0800 (PST)
+Date: Mon, 14 Feb 2022 16:20:21 +0800
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH v14 6/7] softmmu/dirtylimit: Implement virtual CPU throttle
+Message-ID: <YgoQxbzrNleQT9TH@xz-m1.local>
+References: <cover.1644509582.git.huangy81@chinatelecom.cn>
+ <ad0a6e05b5bec2c2c8dd3a7663e39e3cf9af71a3.1644509582.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-14_01,2022-02-14_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=999
- malwarescore=0 adultscore=0 lowpriorityscore=0 clxscore=1015
- impostorscore=0 priorityscore=1501 bulkscore=0 suspectscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202140049
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H5=-1,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <ad0a6e05b5bec2c2c8dd3a7663e39e3cf9af71a3.1644509582.git.huangy81@chinatelecom.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,56 +95,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Feb 11, 2022 at 12:17:40AM +0800, huangy81@chinatelecom.cn wrote:
+> @@ -2964,8 +2971,13 @@ int kvm_cpu_exec(CPUState *cpu)
+>               */
+>              trace_kvm_dirty_ring_full(cpu->cpu_index);
+>              qemu_mutex_lock_iothread();
+> -            kvm_dirty_ring_reap(kvm_state, NULL);
+> +            if (dirtylimit_in_service()) {
+> +                kvm_dirty_ring_reap(kvm_state, cpu);
+> +            } else {
+> +                kvm_dirty_ring_reap(kvm_state, NULL);
+> +            }
 
+Could you add some comment here on why the cpu pointer is conditionally passed
+into the reaping routine?  Even if we know it now, it's not immediately obvious
+to all the readers.
 
-On 31/01/2022 16:26, Daniel P. Berrangé wrote:
 [...]
-> 
-> IOW, I think there's only two scenarios that make sense
-> 
-> 1. The combined launch digest over firmware, kernel hashes
->    and VMSA state.
-> 
-> 2. Individual hashes for each of firmware, kernel hashes table and
->    VMSA state
-> 
 
+> +struct {
+> +    VcpuDirtyLimitState *states;
+> +    /* Max cpus number configured by user */
+> +    int max_cpus;
+> +    /* Number of vcpu under dirtylimit */
+> +    int limited_nvcpu;
+> +    /* Function to implement throttle set up */
+> +    DirtyLimitFunc setup;
 
-Just one more data point relevant to this discussion: in SNP the guest
-asks the PSP for a signed attestation report (MSG_REPORT_REQ).  The
-returned report (ATTESTATION_REPORT structure; see section 7.3 of [1])
-includes a MEASUREMENT field which is the measurement calculated at
-launch (it's a SHA384-based chain of hashes and not a hash of the entire
-content as in SEV-ES; and GPAs are also included. Details in section
-8.17).  The entire report is signed with the signature appearing in a
-separate SIGNATURE field.
+"setup" normally is used only at startup of something, but not per interval.
+Perhaps "process" or "adjust"?  Same across other "setup" namings across the
+patch.
 
+Again, I'd rather call the function directly..
 
+[...]
 
-Mimicking that in QEMU for SEV-ES would be in my opinion closer to
-option (1) above.
+> +static void dirtylimit_adjust_throttle(CPUState *cpu)
+> +{
+> +    uint64_t quota = 0;
+> +    uint64_t current = 0;
+> +    int cpu_index = cpu->cpu_index;
+> +
+> +    quota = dirtylimit_vcpu_get_state(cpu_index)->quota;
+> +    current = vcpu_dirty_rate_get(cpu_index);
+> +
+> +    if (current == 0) {
+> +        cpu->throttle_us_per_full = 0;
+> +        goto end;
 
-Again, the proposed patch here doesn't yet include the VMSAs in the
-GCTX.LD and therefore is lacking.  Dave mentioned adding ioctl in KVM; I
-think that Daniel once suggested adding a virtual file like
-/sys/kernel/debug/kvm/617063-12/vcpu0/launch_vmsa with the 4KB VMSA content.
+Can be dropped?
 
+> +    } else if (dirtylimit_done(quota, current)) {
+> +        goto end;
 
-Note that AFAIK measured direct boot with -kernel is not yet supported
-in SNP but we plan to add it (with similar hashes table) after the SNP
-patches are accepted in OVMF.
+Same here.  Dropping it wholely and:
 
+       } else if (!dirtylimit_done(quota, current)) {
+           dirtylimit_set_throttle(cpu, quota, current);
+       }
 
-[1] https://www.amd.com/system/files/TechDocs/56860.pdf
+Would work?
 
+> +    } else {
+> +        dirtylimit_set_throttle(cpu, quota, current);
+> +    }
+> +end:
 
--Dov
+Can be dropped?
+
+> +    trace_dirtylimit_adjust_throttle(cpu_index,
+> +                                     quota, current,
+> +                                     cpu->throttle_us_per_full);
+> +    return;
+> +}
+> +
+> +void dirtylimit_setup(void)
+> +{
+> +    CPUState *cpu;
+> +
+> +    if (!qatomic_read(&dirtylimit_quit)) {
+> +        dirtylimit_state_lock();
+> +
+> +        if (!dirtylimit_in_service()) {
+> +            dirtylimit_state_unlock();
+
+Need to return?
+
+> +        }
+> +
+> +        CPU_FOREACH(cpu) {
+> +            if (!dirtylimit_vcpu_get_state(cpu->cpu_index)->enabled) {
+> +                continue;
+> +            }
+> +            dirtylimit_adjust_throttle(cpu);
+> +        }
+> +        dirtylimit_state_unlock();
+> +    }
+> +}
+
+[...]
+
+> +void dirtylimit_set_vcpu(int cpu_index,
+> +                         uint64_t quota,
+> +                         bool enable)
+> +{
+> +    dirtylimit_vcpu_set_quota(cpu_index, quota, enable);
+> +    trace_dirtylimit_set_vcpu(cpu_index, quota);
+> +}
+
+This helper is not "help"ful..  How about wrapping the trace into
+dirtylimit_vcpu_set_quota, then drop it?
+
+Thanks,
+
+-- 
+Peter Xu
+
 
