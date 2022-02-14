@@ -2,59 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE094B503E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 13:34:11 +0100 (CET)
-Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8C44B4FED
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 13:21:48 +0100 (CET)
+Received: from localhost ([::1]:50754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJaYU-0006p7-To
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 07:34:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41854)
+	id 1nJaMV-0001qN-U6
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 07:21:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nJaB0-00075d-Cl
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 07:09:55 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:56467)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nJaAy-0007pV-5i
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 07:09:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=toDLzzpMh/lT4emu+V1iaG7LqW7+vzP/Y3AugarSpGQ=; b=ANgf/urMF5cNoFW2pzV0ULlSUK
- +uJVDKFtdrk8fFNqGTsRKk2iBe1wlIzBQO3mpUa5S7yCbnojiECcgasDFm0eLKS2C3t8guj/oocSP
- VtUKQa8qtYl7rKVOl6vang6YTy8jshtf9gyiVJVxzToSnK+xljWwq/uS36u2oLzz0c+tq9JrmOMWT
- US1DkHebOfH/5rM9/DvhailIf2/Gb8Wu8Pkn3AdfyoqD1wBKTWOWk+Rj8t4idagVtxeAiV4W7tRom
- 092ueBtZ85nXZVpR+MHfMHjvziE7uvm8GzyphH9QrPponDgz6KR9mKJRRqUbFjnNBsvktkudmUep0
- CTCjcX4U94UAzmcYp8IzJvzNGBfwsLG1GTQkTaoXzD0/pubdTxilh5Nx0lRbEIneOnqZzOjPaHfgN
- FVixu6ILPTNrR2F1+Lx44cOqyQJicxFT0iodIwVdwxv8WEl4U4SlAxw5qn7QzxqNTbCRSgdkalO1g
- l2l1rc3jD/Lh+scmYXjlfrU0434slYffqMtfRrmIvy0zmzgdrY2xzFS/wqjupmUhfIUl74Dc7hTCs
- yoUTsAwEkAdbUOyCCLF9TrVkSiFKZTy+gIpRuF4apkoSO0BJ87HGfRWsE0kGKja2i52XCR4EFQTY7
- wl15fBpTGYKOXbyPAeG+sHL8XLkeg55MDxL0K64nY=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Vitaly Chikunov <vt@altlinux.org>,
- "Dmitry V . Levin" <ldv@altlinux.org>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PULL 0/5] 9p queue 2022-02-10
-Date: Mon, 14 Feb 2022 13:09:48 +0100
-Message-ID: <2563382.p5drSlMS5x@silver>
-In-Reply-To: <CAFEAcA9vHYw=hKaRqw4LBk7dHReR43duoCCEpH-VC2sEXoQKHA@mail.gmail.com>
-References: <cover.1644492115.git.qemu_oss@crudebyte.com>
- <2037112.271zI61438@silver>
- <CAFEAcA9vHYw=hKaRqw4LBk7dHReR43duoCCEpH-VC2sEXoQKHA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nJaEP-0002yq-OG
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 07:13:30 -0500
+Received: from [2a00:1450:4864:20::431] (port=45686
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nJaEO-0000RF-BO
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 07:13:25 -0500
+Received: by mail-wr1-x431.google.com with SMTP id p9so5948661wra.12
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 04:13:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=agkB3uiJ3JfJ/YEIZOLldPbyppmBSns8dZR8D8kar0s=;
+ b=Gv84ccgCoJvlOvLwbzXM3a7qyYPvxoukbD1VG06sZrawSoY8w2rsE+pMAKt45DLs7e
+ Us9iFGf9IYpNBSLLmVj3hiKQXSgyZU5iX1BE9J9qk3NTuxoBPgSZwwPzaVSu1/JhcLtJ
+ uHW79D7sZF7e0HvZ8Kds3uBUHMmV4IEb5g7LtYuqN7ncqEtrN6GIw5h9r+LIH9KPyDlx
+ MzalkkeBMDokcQe2wSxsPIL+SiOh5Pb+MbvFK1jKamtS/K+nKrqWT9hDRtTFrcDDOgaN
+ QU36MHkIXL0tl96pi57hEDyUIdaeM7J7iGJf68H9gM7jycR9nuf42sMLdj0QEgwSCkFu
+ uusw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=agkB3uiJ3JfJ/YEIZOLldPbyppmBSns8dZR8D8kar0s=;
+ b=wPSvWfP7NAjju2j2+tynAS3t1zfAkkxyQJVZoueX0amw8U9apSZALUEtUfFnvUnZCI
+ 8Lb7Tnmb3Jesyzeg4SCp9EPu6VsW1Qd0hJyqEOEsYocyN7dfoSG2Nhn23SM1B5GPVhJl
+ 5GGstj6NIhJsDJUm4SRHe7tFkX1eNddU3MTWw0aTg4JYc5EBUFSFMRdNKZdxgkBgOlvk
+ BcegRsmUY6agiZGLoThwr6nUmI9aE53TSzAwdrCn1OEGJ9fuIPCTf9w952nJi+EWKpYV
+ WH5qSpTzJ5yAIIYwd9otLddE/c2/GKiilHfVvGqJNAVEKsiBC0vpbhkjnl/zWHDKfDB2
+ 8Emg==
+X-Gm-Message-State: AOAM531mlb8DvPDYSDgHoamTpxadQM++iK3j9Z18r0bWGG3nyvGyo5ak
+ VvgvL8Q5OXD07sU16fcC9A4=
+X-Google-Smtp-Source: ABdhPJzSbT+x2TgdpQWf4HQ5pkZpCIVyaQjN5NrQbStTBn3ussYyxzWmjZeeOMkJUa6qRhB8rj9hGw==
+X-Received: by 2002:a5d:6143:: with SMTP id y3mr2912373wrt.210.1644840801785; 
+ Mon, 14 Feb 2022 04:13:21 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id d14sm14789317wri.93.2022.02.14.04.13.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 04:13:21 -0800 (PST)
+Message-ID: <2c3876ba-8d71-4df1-7080-66ad880cebac@amsat.org>
+Date: Mon, 14 Feb 2022 13:13:20 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH] MAINTAINERS: Add Akihiko Odaki to macOS-relateds
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20220213021215.1974-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20220213021215.1974-1-akihiko.odaki@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.785, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,38 +97,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Montag, 14. Februar 2022 10:55:17 CET Peter Maydell wrote:
-> On Mon, 14 Feb 2022 at 09:47, Christian Schoenebeck
+On 13/2/22 03:12, Akihiko Odaki wrote:
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>   MAINTAINERS | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> <qemu_oss@crudebyte.com> wrote:
-> > So this is about the 'dirent' patch:
-> > https://github.com/cschoenebeck/qemu/commit/de19c79dad6a2cad54ae04ce754d47
-> > c07bf9bc93
-> > 
-> > In conjunction with the 9p fuzzing tests:
-> > https://wiki.qemu.org/Documentation/9p#Fuzzing
-> > 
-> > I first thought it might be a false positive due to the unorthodox
-> > handling of dirent duplication by that patch, but from the ASan output
-> > below I am not really sure about that.
-> > 
-> > Is there a way to get the content of local variables?
-> 
-> Yes. You can build locally with the clang sanitizers enabled and then
-> run under gdb and with the appropriate environment variables to tell the
-> sanitizer to abort() on failures.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2fd74c46426..5aefb5b431a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2333,6 +2333,7 @@ F: audio/alsaaudio.c
+>   Core Audio framework backend
+>   M: Gerd Hoffmann <kraxel@redhat.com>
+>   R: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> +R: Akihiko Odaki <akihiko.odaki@gmail.com>
+>   S: Odd Fixes
+>   F: audio/coreaudio.c
+>   
+> @@ -2585,6 +2586,7 @@ F: util/drm.c
+>   
+>   Cocoa graphics
+>   M: Peter Maydell <peter.maydell@linaro.org>
+> +R: Akihiko Odaki <akihiko.odaki@gmail.com>
+>   S: Odd Fixes
+>   F: ui/cocoa.m
+>   
 
-Well, it does no longer matter for this particular issue here, but it would be 
-useful if the CI scripts would already dump the local variables to the logs. 
+Thanks!
 
-E.g. because the patch in question was about system dependant variations.
-
-Another reason is the random data nature of fuzzing tests. Even though the 
-latter could probably be reproduced with an appropriate seed.
-
-Best regards,
-Christian Schoenebeck
-
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
