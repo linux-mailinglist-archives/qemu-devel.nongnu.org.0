@@ -2,98 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84F64B531E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:21:31 +0100 (CET)
-Received: from localhost ([::1]:36146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12644B532F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:23:35 +0100 (CET)
+Received: from localhost ([::1]:42318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJcEM-0002y2-DH
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:21:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60132)
+	id 1nJcGM-00079V-Tw
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:23:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nJbIR-0002FK-Vn; Mon, 14 Feb 2022 08:21:40 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:14750
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1nJbOZ-0007En-TY
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:28:01 -0500
+Received: from mxout.security-mail.net ([85.31.212.46]:61964
+ helo=fx303.security-mail.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nJbIQ-0003hn-1x; Mon, 14 Feb 2022 08:21:39 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21EC2Nov022971; 
- Mon, 14 Feb 2022 13:21:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=cNuY+lH0s5P9gB037vN4OCYaXUgJqC40S8xjSj5jJlI=;
- b=HM8laUJLFp3fyZKla8pP6FH3hfiN3CbmIYArKgf3f4uFr+cS56N9PYe30a1EPRcqZp5o
- x5BpJqKwIfkswpVJ7fDHJgmqFx+jf2MqbJXclaZv6yl6WyDmAgwBk5Sg5lp/zU6YEJ21
- NPs3ex5rM1IOs3UqkEoks95hgggrW02R2HCmbR/yg2+9/emTBEBYHq68HBfjg+iQz6hl
- /I1Jzjz+eed3HZjX0zDU/qKyv2ChOLKUY0kgRY24Plb1SS5w/o/nReB+FGAwU9cET1LO
- OSf0etDXC5Trhc1HL5Y6oLGD+xLQ/2S2VwbcZAMh4TiQGcj5FJsR0OwJZfDwZ4XEKfUN GA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e6ycqsfcf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 13:21:36 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21EAwMZZ022276;
- Mon, 14 Feb 2022 13:21:36 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e6ycqsfc6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 13:21:36 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21EDDkFZ020543;
- Mon, 14 Feb 2022 13:21:35 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma05wdc.us.ibm.com with ESMTP id 3e64h9qny8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 13:21:35 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21EDLYec14156270
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Feb 2022 13:21:34 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0ABB2AE06B;
- Mon, 14 Feb 2022 13:21:34 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E8D30AE062;
- Mon, 14 Feb 2022 13:21:32 +0000 (GMT)
-Received: from localhost (unknown [9.211.47.159])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
- Mon, 14 Feb 2022 13:21:32 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
-Subject: Re: [PATCH] target/ppc: raise HV interrupts for partition table
- entry problems
-In-Reply-To: <20220214123101.1546351-1-npiggin@gmail.com>
-References: <20220214123101.1546351-1-npiggin@gmail.com>
-Date: Mon, 14 Feb 2022 10:21:29 -0300
-Message-ID: <87pmnplh2e.fsf@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: TukYA4sNPg65owFDpfodbhQb2Q3giTj8
-X-Proofpoint-GUID: GZ9-9lyHdXFlXUHothJGlzSMFFq4sGJW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-14_05,2022-02-14_03,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0
- adultscore=0 spamscore=0 priorityscore=1501 mlxscore=0 suspectscore=0
- impostorscore=0 malwarescore=0 clxscore=1015 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202140076
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1nJbOX-0004dS-Es
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:27:59 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by fx303.security-mail.net (Postfix) with ESMTP id A29711C3361
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 14:27:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+ s=sec-sig-email; t=1644845271;
+ bh=Z0LiL7ZtsJtzmKHmhv7FK1DekcDf7qm2jfvY9Bmun1A=;
+ h=From:To:Cc:Subject:Date;
+ b=mPZmoFV1hvJREHGhZPKUFbH+eFLJuxYNQ3RSAEdVyEDXwPQc8MJRt8tf2Fb26wMBd
+ AB2+5d1r24898AqwiJ3PSt0n/ByS1acNpa+DQI61Pwyn0LSuvYleaon9s2Kv1KyOHY
+ ojf6bYUVhHhBz/5qQx9HiHuYSLhNrJaFcTYiPH7s=
+Received: from fx303 (localhost [127.0.0.1])
+ by fx303.security-mail.net (Postfix) with ESMTP id B4DBE1C33E7;
+ Mon, 14 Feb 2022 14:27:50 +0100 (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <728d.620a58d6.5a627.0>
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
+ by fx303.security-mail.net (Postfix) with ESMTPS id 5B6471C33CB;
+ Mon, 14 Feb 2022 14:27:50 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
+ by zimbra2.kalray.eu (Postfix) with ESMTPS id 3D2CB27E040E;
+ Mon, 14 Feb 2022 14:27:50 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zimbra2.kalray.eu (Postfix) with ESMTP id 2569D27E040D;
+ Mon, 14 Feb 2022 14:27:50 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 2569D27E040D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1644845270;
+ bh=avs1+E3HdP016j80CtHlqh8NCWuNNIFczqLikOUjyro=;
+ h=From:To:Date:Message-Id;
+ b=EUMqnN3L/n507gaDzEfLPHh74GwhPAvu0fuxqxLCIKo3l6DRelKkSuzH16Uw36PJc
+ UGagFPFvvtLt8nhHw/iHtWmHr1EGYG53TRxDkuwi5df7Fn69SeNTHYFKWRO2NzFsUV
+ Dt0Q/ZLC8AtJf3+QJcRAK+7Jjt8Bs5wMxsNqVhOE=
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+ by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id diOo5F-uHeH1; Mon, 14 Feb 2022 14:27:50 +0100 (CET)
+Received: from ws2101.lin.mbt.kalray.eu (unknown [192.168.36.68])
+ by zimbra2.kalray.eu (Postfix) with ESMTPSA id 08F0B27E040E;
+ Mon, 14 Feb 2022 14:27:50 +0100 (CET)
+From: Luc Michel <lmichel@kalray.eu>
+To: qemu-devel@nongnu.org
+Cc: Luc Michel <lmichel@kalray.eu>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] accel/tcg/cpu-exec: fix precise single-stepping after
+ interrupt
+Date: Mon, 14 Feb 2022 14:26:56 +0100
+Message-Id: <20220214132656.11397-1-lmichel@kalray.eu>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: by Secumail
+Received-SPF: pass client-ip=85.31.212.46; envelope-from=lmichel@kalray.eu;
+ helo=fx303.security-mail.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,42 +90,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nicholas Piggin <npiggin@gmail.com> writes:
+In some cases, cpu->exit_request can be false after handling the
+interrupt, leading to another TB being executed instead of returning
+to the main loop.
 
-> Invalid or missing partition table entry exceptions should cause HV
-> interrupts. HDSISR is set to bad MMU config, which is consistent with
-> the ISA and experimentally matches what POWER9 generates.
->
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+Fix this by returning true unconditionally when in single-step mode.
 
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+Fixes: ba3c35d9c4026361fd380b269dc6def9510b7166
 
-> ---
->  target/ppc/mmu-radix64.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index 040c055bff..54fb3ce98d 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -560,13 +560,13 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
->      } else {
->          if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
->              if (guest_visible) {
-> -                ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_NOPTE);
-> +                ppc_radix64_raise_hsi(cpu, access_type, eaddr, eaddr, DSISR_R_BADCONFIG);
->              }
->              return false;
->          }
->          if (!validate_pate(cpu, lpid, &pate)) {
->              if (guest_visible) {
-> -                ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_R_BADCONFIG);
-> +                ppc_radix64_raise_hsi(cpu, access_type, eaddr, eaddr, DSISR_R_BADCONFIG);
->              }
->              return false;
->          }
+Signed-off-by: Luc Michel <lmichel@kalray.eu>
+---
+Coming back on this issue I worked on with Richard in 2020. The issue is
+that when debugging the guest with GDB, the first instruction of the IRQ
+handler is missed by GDB (it's still executed though).
+
+It happened to me again in TCG RR mode (but not in MTTCG). It seems that
+cpu->exit_request can be false in RR mode when returning from
+cc->tcg_ops->cpu_exec_interrupt, leading to cpu_handle_interrupt
+returning false and the next TB being executed, instead of the EXCP_DEBUG
+being handled.
+---
+ accel/tcg/cpu-exec.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 8b4cd6c59d..74d7f83f34 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -796,13 +796,17 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
+                 /*
+                  * After processing the interrupt, ensure an EXCP_DEBUG is
+                  * raised when single-stepping so that GDB doesn't miss the
+                  * next instruction.
+                  */
+-                cpu->exception_index =
+-                    (cpu->singlestep_enabled ? EXCP_DEBUG : -1);
+-                *last_tb = NULL;
++                if (unlikely(cpu->singlestep_enabled)) {
++                    cpu->exception_index = EXCP_DEBUG;
++                    return true;
++                } else {
++                    cpu->exception_index = -1;
++                    *last_tb = NULL;
++                }
+             }
+             /* The target hook may have updated the 'cpu->interrupt_request';
+              * reload the 'interrupt_request' value */
+             interrupt_request = cpu->interrupt_request;
+         }
+-- 
+2.17.1
+
 
