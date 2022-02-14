@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF7B4B5445
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:12:51 +0100 (CET)
-Received: from localhost ([::1]:32826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047B84B5484
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 16:22:17 +0100 (CET)
+Received: from localhost ([::1]:52648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJd22-0007W1-3A
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:12:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46542)
+	id 1nJdBA-00049k-3s
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 10:22:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nJcAx-0007au-06
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:17:59 -0500
-Received: from [187.72.171.209] (port=38209 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>) id 1nJcAt-00067Q-Mh
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:17:58 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 14 Feb 2022 11:17:46 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 7C65C800059;
- Mon, 14 Feb 2022 11:17:45 -0300 (-03)
-Message-ID: <f8164a77-80d1-86fa-7fc9-6089d6b4f34b@eldorado.org.br>
-Date: Mon, 14 Feb 2022 11:17:45 -0300
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJcKr-0004T0-Kh
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:28:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nJcKk-0007nJ-7T
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 09:28:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644848885;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q2Qbp2zFaDEzg1g9E4U+ZqgVlchzPyqXwu09JShmzVI=;
+ b=W5I23I11/IO/Ebd2tmFipapSRapb435PMcMvdJAKWkbsIWo/LgA8KTcqwtObOeVwRU34NF
+ hXmtJdpo2/4OVcoljQGWWK6SQ6cQx7aLk4/ve5awisZIrDfMpF8aRGc39wjAVA9EpyD2IH
+ 9T4bYPw2e+QcUlqsE7H+nhTcVN78U2s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-356-Wg9NwRoANUugq_b-3MFMng-1; Mon, 14 Feb 2022 09:27:57 -0500
+X-MC-Unique: Wg9NwRoANUugq_b-3MFMng-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A39632F46
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 14:27:56 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.32.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16966101E7E1;
+ Mon, 14 Feb 2022 14:27:19 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 9591C220CE9; Mon, 14 Feb 2022 09:27:18 -0500 (EST)
+Date: Mon, 14 Feb 2022 09:27:18 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2] Deprecate C virtiofsd
+Message-ID: <Ygpmxqs6rN8/5aJh@redhat.com>
+References: <20220210174714.19843-1-dgilbert@redhat.com>
+ <20220210204404.GA22879@redhat.com> <Ygo9O7oWsImstSJu@work-vm>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 11/11] tests/tcg: add vectorised sha512 versions
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220211160309.335014-1-alex.bennee@linaro.org>
- <20220211160309.335014-12-alex.bennee@linaro.org>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <20220211160309.335014-12-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 14 Feb 2022 14:17:46.0037 (UTC)
- FILETIME=[A34F4650:01D821AD]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.635, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <Ygo9O7oWsImstSJu@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,49 +79,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- berrange@redhat.com, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
- Eduardo Habkost <eduardo@habkost.net>,
- "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>, qemu-arm@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: berrange@redhat.com, slp@redhat.com,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMTEvMDIvMjAyMiAxMzowMywgQWxleCBCZW5uw6llIHdyb3RlOg0KPiBUaGlzIGJ1aWxk
-cyB2ZWN0b3Jpc2VkIHZlcnNpb25zIG9mIHNoYTUxMiB0byBleGVyY2lzZSB0aGUgdmVjdG9y
-IGNvZGU6DQo+IA0KPiAgICAtIGFhcmNoNjQgKEFkdlNpbWQpDQo+ICAgIC0gaTM4NiAoU1NF
-KQ0KPiAgICAtIHMzOTB4IChNVlgpDQo+ICAgIC0gcHBjNjQgKHZlY3RvcikNCj4gDQo+IFNp
-Z25lZC1vZmYtYnk6IEFsZXggQmVubsOpZSA8YWxleC5iZW5uZWVAbGluYXJvLm9yZz4NCj4g
-UmV2aWV3ZWQtYnk6IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5h
-cm8ub3JnPg0KPiBNZXNzYWdlLUlkOiA8MjAyMjAyMDIxOTEyNDIuNjUyNjA3LTUtYWxleC5i
-ZW5uZWVAbGluYXJvLm9yZz4NCj4gDQo+IC0tLQ0KPiB2Mg0KPiAgICAtIHVzZSAtbXNzZTQu
-MSAtTzMgaW5zdGVhZCBvZiAtcGVudGl1bTQgZm9yIGkzODYgYnVpbGQNCj4gLS0tDQo+ICAg
-dGVzdHMvdGNnL211bHRpYXJjaC9zaGE1MTIuYyAgICAgIHwgMiArLQ0KPiAgIHRlc3RzL3Rj
-Zy9hYXJjaDY0L01ha2VmaWxlLnRhcmdldCB8IDcgKysrKysrKw0KPiAgIHRlc3RzL3RjZy9h
-cm0vTWFrZWZpbGUudGFyZ2V0ICAgICB8IDggKysrKysrKysNCj4gICB0ZXN0cy90Y2cvaTM4
-Ni9NYWtlZmlsZS50YXJnZXQgICAgfCA2ICsrKysrKw0KPiAgIHRlc3RzL3RjZy9wcGM2NGxl
-L01ha2VmaWxlLnRhcmdldCB8IDUgKysrKy0NCj4gICB0ZXN0cy90Y2cvczM5MHgvTWFrZWZp
-bGUudGFyZ2V0ICAgfCA5ICsrKysrKysrKw0KPiAgIHRlc3RzL3RjZy94ODZfNjQvTWFrZWZp
-bGUudGFyZ2V0ICB8IDcgKysrKysrKw0KPiAgIDcgZmlsZXMgY2hhbmdlZCwgNDIgaW5zZXJ0
-aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQoNCjxzbmlwPg0KDQo+IGRpZmYgLS1naXQg
-YS90ZXN0cy90Y2cvcHBjNjRsZS9NYWtlZmlsZS50YXJnZXQgYi90ZXN0cy90Y2cvcHBjNjRs
-ZS9NYWtlZmlsZS50YXJnZXQNCj4gaW5kZXggNDgwZmYwODk4ZC4uNGYxZDAzZGZjZiAxMDA2
-NDQNCj4gLS0tIGEvdGVzdHMvdGNnL3BwYzY0bGUvTWFrZWZpbGUudGFyZ2V0DQo+ICsrKyBi
-L3Rlc3RzL3RjZy9wcGM2NGxlL01ha2VmaWxlLnRhcmdldA0KPiBAQCAtNSwxMCArNSwxMyBA
-QA0KPiAgIFZQQVRIICs9ICQoU1JDX1BBVEgpL3Rlc3RzL3RjZy9wcGM2NGxlDQo+IA0KPiAg
-IGlmbmVxICgkKERPQ0tFUl9JTUFHRSkkKENST1NTX0NDX0hBU19QT1dFUjhfVkVDVE9SKSwp
-DQo+IC1QUEM2NExFX1RFU1RTPWJjZHN1YiBub25fc2lnbmFsbGluZ194c2N2DQo+ICtQUEM2
-NExFX1RFU1RTPWJjZHN1YiBub25fc2lnbmFsbGluZ194c2N2IHNoYTUxMi12ZWN0b3INCj4g
-ICBlbmRpZg0KPiAgICQoUFBDNjRMRV9URVNUUyk6IENGTEFHUyArPSAtbXBvd2VyOC12ZWN0
-b3INCj4gDQoNClNpbmNlIHRoaXMgdGVzdCBkb2VzIG5vdCB0YXJnZXQgYSBzcGVjaWZpYyBp
-bnN0cnVjdGlvbiwgbWF5YmUgaXQgc2hvdWxkIA0KdXNlIC1tdnN4Ly1tYWx0aXZlYyB0byBh
-bGxvdyB0aGUgY29tcGlsZXIgdG8gdXNlIG5ld2VyIGluc3RydWN0aW9ucy4NCg0KPiArc2hh
-NTEyLXZlY3Rvcjogc2hhNTEyLmMNCj4gKyAgICAgICAkKENDKSAkKENGTEFHUykgJChFWFRS
-QV9DRkxBR1MpICQ8IC1vICRAICQoTERGTEFHUykNCj4gKw0KDQpDYW4gd2UgaGF2ZSB0aGlz
-IHRlc3QgZm9yIGJpZy1lbmRpYW4gdG9vPw0KDQpUaGFua3MsDQpNYXRoZXVzIEsuIEZlcnN0
-DQpJbnN0aXR1dG8gZGUgUGVzcXVpc2FzIEVMRE9SQURPIDxodHRwOi8vd3d3LmVsZG9yYWRv
-Lm9yZy5ici8+DQpBbmFsaXN0YSBkZSBTb2Z0d2FyZQ0KQXZpc28gTGVnYWwgLSBEaXNjbGFp
-bWVyIDxodHRwczovL3d3dy5lbGRvcmFkby5vcmcuYnIvZGlzY2xhaW1lci5odG1sPg0K
+On Mon, Feb 14, 2022 at 11:30:03AM +0000, Dr. David Alan Gilbert wrote:
+> * Richard W.M. Jones (rjones@redhat.com) wrote:
+> > On Thu, Feb 10, 2022 at 05:47:14PM +0000, Dr. David Alan Gilbert (git) wrote:
+> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > > 
+> > > There's a nice new Rust implementation out there; recommend people
+> > > do new work on that.
+> > > 
+> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > ---
+> > >  docs/about/deprecated.rst | 17 +++++++++++++++++
+> > >  1 file changed, 17 insertions(+)
+> > > 
+> > > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> > > index 47a594a3b6..3c73d22729 100644
+> > > --- a/docs/about/deprecated.rst
+> > > +++ b/docs/about/deprecated.rst
+> > > @@ -454,3 +454,20 @@ nanoMIPS ISA
+> > >  
+> > >  The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
+> > >  As it is hard to generate binaries for it, declare it deprecated.
+> > > +
+> > > +Tools
+> > > +-----
+> > > +
+> > > +virtiofsd
+> > > +'''''''''
+> > > +
+> > > +There is a new Rust implementation of ``virtiofsd`` at
+> > > +``https://gitlab.com/virtio-fs/virtiofsd``;
+> > > +since this is now marked stable, new development should be done on that
+> > > +rather than the existing C version in the QEMU tree.
+> > > +The C version will still accept fixes and patches that
+> > > +are already in development for the moment, but will eventually
+> > > +be deleted from this tree.
+> > > +New deployments should use the Rust version, and existing systems
+> > > +should consider moving to it.  The command line and feature set
+> > > +is very close and moving should be simple.
+> > 
+> > I'm not qualified to say if the Rust impl is complete enough
+> > to replace the C version, so I won't add a reviewed tag.
+> 
+> We believe it is a complete replacement at this point, with compatible
+> command line.
+
+I think its not a complete replacement yet. For example, POSIX_ACLs are
+not supported yet. German is looking into making it work.
+
+There might be other small things here and there, but nothing major, I
+think.
+
+Vivek
+> 
+> Dave
+> 
+> > However I want to say that from the point of view of downstream
+> > packagers of qemu -- especially Fedora -- it would be helpful if we
+> > could direct both upstream development effort and downstream packaging
+> > into just the one virtiofsd.  So I agree in principle with this.
+> > 
+> > Rich.
+> > 
+> > -- 
+> > Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+> > Read my programming and virtualization blog: http://rwmj.wordpress.com
+> > virt-p2v converts physical machines to virtual machines.  Boot with a
+> > live CD or over the network (PXE) and turn machines into KVM guests.
+> > http://libguestfs.org/virt-v2v
+> > 
+> -- 
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+
 
