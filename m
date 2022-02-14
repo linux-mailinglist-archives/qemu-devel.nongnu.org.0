@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE214B4C94
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 11:46:27 +0100 (CET)
-Received: from localhost ([::1]:42650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 551434B4C9C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 11:49:21 +0100 (CET)
+Received: from localhost ([::1]:45928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJYsE-0001bu-C8
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 05:46:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47860)
+	id 1nJYv2-0003vI-Bb
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 05:49:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJYpf-0008S9-NP
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 05:43:47 -0500
-Received: from [2a00:1450:4864:20::432] (port=40958
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJYpd-0001L2-Fb
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 05:43:47 -0500
-Received: by mail-wr1-x432.google.com with SMTP id j26so15232150wrb.7
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 02:43:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fAwQVllNV5REZ4fzUCZkGXQqHEDF3X80TRKMBRFFhW8=;
- b=jeMJhL8P1X74MCOHJutC+SJKEG6Q1pCWtJyPj1zkIRR/dbRwRZLxUInT0wx8X6tTyC
- QgOXzstGHIglNAGGqtETq6wCnv4HJsqB9SyiTeUGGFlTdCdDPWpNL//Kcmy6eCmzTHcx
- BSE8mimSawPUz8/7Is+46jG3BOY17fPUSuygw/UjR0CDEVjpEG/lDLGf/7dvOT8wXJ4N
- lzG3qlJn8AR1A2m8+lF93zSlH6egB4ioK9QGVVGHOHdON7LImC/yg8FqibGMxJdcfFul
- wcMRkQrG9D7eb0dsextSWktjb/WX5WPdZxFUHlz7mjjdMrJb0CSyjv5bWJ3mewE+2x+G
- KcxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fAwQVllNV5REZ4fzUCZkGXQqHEDF3X80TRKMBRFFhW8=;
- b=A8hQe1yWjIHdTKrcuhWeifC/eXPkapfAIICMZXXnjZU4S8x5Xos20UzF09mveKo4C/
- t+j/Rcx8bL5ciVCu96oXF3k7hfgfFHzhHDyFgfTdZb7xTJBqTz6AjFpU2KHP16GLwWZa
- s9UY9q4505pNbvixY5VBR8MvtANVq2pdtlXZkSu7q72oI08tVAnAAWPibDSKvdyj3HGQ
- dJa9Qc6F5KuIbfYbcppN27Jz2RVWigVpv7q6rjJujASK1uPuFJDwgEEIdY3CaKlkrs0L
- NFgqI6GlXGdp2ddLlhRn50ATlU3bkjHGPM+aBP1fYkBm//+si6kccU8aLTv4N9rWzyp1
- QqTw==
-X-Gm-Message-State: AOAM531n7ODUw53nDny7M0pMlagtp/v1Wq8YkwmMVGMfwodftTLU38aL
- ZrTsirx8ADOtOtXK/hbOlT51wahNBaXNNwEfIuhS6Q==
-X-Google-Smtp-Source: ABdhPJxLbNQXtIyZKEy26GQ41q8HYv/Zsw0O1lqxjqvI8pRHB6NFOGhOKINAPpD6Jf0DE2g9qwuMYzu0+qMdyqhPN6o=
-X-Received: by 2002:a5d:4ac7:: with SMTP id y7mr11041703wrs.521.1644835423344; 
- Mon, 14 Feb 2022 02:43:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nJYqQ-0000qa-T1
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 05:44:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41219)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nJYqO-0001Pd-Dc
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 05:44:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644835471;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5vVVGRCh/TRMt9Q37Hb6YEwRqPFDs0fDb8Mgbw5Sp9o=;
+ b=GmGWzWCRbINhimSmLa7rwa7kaSrjOO8DQdRnR5P9MaQKBRXxyB9heJNlKdnGieYpVbWscs
+ IDSM4GoaB2GbFcjYWrhxYU7EWMCmlDycrP9A4dtLnRZcEFji3FbXF7kamP+q7dNxJu9omI
+ 5iC25ramgJRl7tZPEnDSAiwCH4b4Dl8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-602-t5SsIE8wM-i5HxTd4j1-5Q-1; Mon, 14 Feb 2022 05:44:28 -0500
+X-MC-Unique: t5SsIE8wM-i5HxTd4j1-5Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2EB718B613A;
+ Mon, 14 Feb 2022 10:44:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C2A47BB45;
+ Mon, 14 Feb 2022 10:44:09 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 35FD61800091; Mon, 14 Feb 2022 11:44:03 +0100 (CET)
+Date: Mon, 14 Feb 2022 11:44:03 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [RFC PATCH v2 00/25] Virtio Sound card Implementation
+Message-ID: <20220214104403.xzzjy3iihnafe4vv@sirius.home.kraxel.org>
+References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
+ <20220211221319.193404-1-chouhan.shreyansh2702@gmail.com>
+ <a910913f-9621-1b75-d9a1-e5e7e0e5a135@vivier.eu>
 MIME-Version: 1.0
-References: <20210616141910.54188-1-akihiko.odaki@gmail.com>
- <CAFEAcA8LFt5NpsVTE1dYpA3rW0RsjS1Nf9Q3iS307kaHjVS=1g@mail.gmail.com>
- <20220214102704.fjnb4v55l6tcjajk@sirius.home.kraxel.org>
-In-Reply-To: <20220214102704.fjnb4v55l6tcjajk@sirius.home.kraxel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Feb 2022 10:43:32 +0000
-Message-ID: <CAFEAcA_P19jbTLOtBGgNPZUaP8aGTsOWHnyH6RcpdMTD=WnHpw@mail.gmail.com>
-Subject: Re: [PATCH] ui/cocoa: Set UI information
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.785, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <a910913f-9621-1b75-d9a1-e5e7e0e5a135@vivier.eu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,21 +80,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Feb 2022 at 10:27, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> > (2) A question for Gerd:
-> > Is it safe to call dpy_set_ui_info() from a non-QEMU-main-thread?
->
-> No.
+  Hi,
 
-Is it OK to do so if the other thread is holding the iothread lock?
-(This is how we do a lot of the other "need to call a QEMU function"
-work from the cocoa UI thread.)
+> IMHO, all your patches can be merged in only one.
 
-thanks
--- PMM
+For the most part yes.  I'd keep the pci wrapper (aka -device
+virtio-snd-pci) separate though.  Possibly also patches adding
+significant functionality in the future (i.e. one patch with all
+basics and playback support, one patch adding recording
+functionality, ...).
+
+> Morever it would help for
+> review as some patches remove code done in previous patches.
+
+Yes, squashing the incremental fixes at the end of the series makes
+sense.
+
+take care,
+  Gerd
+
 
