@@ -2,76 +2,158 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62BE74B51B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 14:35:20 +0100 (CET)
-Received: from localhost ([::1]:48234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598A84B52B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Feb 2022 15:06:09 +0100 (CET)
+Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJbVe-0001od-Rj
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 08:35:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58634)
+	id 1nJbzT-0000my-5R
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 09:06:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nJbCh-0004nb-4B
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:15:43 -0500
-Received: from [2607:f8b0:4864:20::230] (port=41915
- helo=mail-oi1-x230.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nJbCf-0002sM-3x
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:15:42 -0500
-Received: by mail-oi1-x230.google.com with SMTP id ay7so17283088oib.8
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 05:15:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TdIBjaKyMzZbcKYuWOo/hRYglNBU2Hw/aysBL3DO65Q=;
- b=TPtFbOrsJPtQX/RYdHFa0yVEwXpK+nO2giUAzc12Bk6zP9m8T9galr3bUTV6BdJiTh
- PVSye0EjoZ4hsqOnWq6otKfQO23r2Fsx/FZVLLIqe1lA3lD8EyfR3iw+cpmyS7FNSyxz
- jhrTE+HSu0bDbc5Xdgp8SehcFQXBbdVemkwhXQB7MGZCli1brmnXuknZAHTNEvmd01e2
- NFdCqMTc++MuoDEj8sEyiGHoPMRQnaA1Jmz/apzMyYLHKxnNxQnGTnurVdVIVzT48LtG
- 0S/8p6eqSZGfBhFyE88hbGhsijZDIWxLlbDFIF5Z96gNsFCRKroqQgTJgxU36UrYdl6R
- FS4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TdIBjaKyMzZbcKYuWOo/hRYglNBU2Hw/aysBL3DO65Q=;
- b=mSWM/xDIZgL2bj2IA1RZbYcfu/0Wy4QKzC/1GSC1e+bvbu7BORa6gaE5lKUqFRkIRG
- pxtF3jaBGTdINLjphb6ufqr7gJDvSAQUZOYUMpt/le2oLnFDqv0RiLw6q7/tHg88bjjy
- 0zoD865wbuh0gMqpmViNkUdU2M4LxuiwLumXFWpDB6g0CZKCuetK6zfvEELpx4z5iFW7
- 7HBv9ZHy4VJYd/9GZKgyYFIYeDR8wcdI24Zua+jFeT26+UJlselyT2dnWmIc0C5aE8Hx
- GpxzTwDPlRhBGpePFNHBuFlGIc8nKwwQqMSkthNVA2VxMoJwVrmQof/oBAQl6nUnBeV2
- q9xg==
-X-Gm-Message-State: AOAM531UmDeXHJKPyekp5WlfqVLkvH5r6ZAzBCNI8uG1vsN3NS3karZf
- qlOXg95q+w7IDc4hXf0vAG9+cJVmNBOgCG6zUsw=
-X-Google-Smtp-Source: ABdhPJz9i+VLRrNVWTVpp8sXh5P95WTHkjpPSuVr8xxwm6bxiW5dxtM3M8v225GGg7djLfwYm910wg0l2+zfWtSuWJs=
-X-Received: by 2002:a05:6808:1283:: with SMTP id
- a3mr5483831oiw.57.1644844539822; 
- Mon, 14 Feb 2022 05:15:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1nJbCy-0005QH-Tr
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:16:01 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:9198)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1nJbCv-0002su-Nq
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 08:16:00 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21EB2NMh028540; 
+ Mon, 14 Feb 2022 13:15:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : references : date : in-reply-to : message-id : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=MwXKFiTDgDEUklquWzgzE9YJSvFaAbnypdGC+cp1XMQ=;
+ b=K3sikP/B/CKRxzsX+ZwVt8Kyf+pIKsSk8kipksHsj7oD/DM7RbAHSk6V7fbvOOH9FAhu
+ 3RtK1MKLx87vjfS4NmhtnCE32ncCowwHJFlvF9j605kS863g6GF+tSiQKFPGb+ytGtdd
+ zvBslVhXUpEyOKZDhvV7r2BsT5ZSvmVVdQFYGsCmQIyya3XOqZWQhBG6O6+KFv5eXGiL
+ mvWfm8t+vYNpUzNlvNUHMZE6YPQOPBN4fZcDx7RQ1e1FsswOO26khchWlo1KhSn6wgY+
+ 0lOksjNeiVG4s6cn7oZWHPHA6ZgPA+mXldd6Q3OHv+fS3h1HpFq/EALDHRAIgRG4L2C5 Hw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3e63g14ds7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Feb 2022 13:15:48 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21EDAi8w165389;
+ Mon, 14 Feb 2022 13:15:47 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2109.outbound.protection.outlook.com [104.47.58.109])
+ by userp3020.oracle.com with ESMTP id 3e66bm0qdj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Feb 2022 13:15:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LAUB32kISKZhLg1LuDKEQy5enT+dwO1od5WrfgfUl87MGfGplxdmrI72KoH3yR282xuNOwIPOe2NEcTQPVZFhjb+VVNdr6zm/1x+7y7GJs/I7zlMnBs+guoMNau3nLyivEzUCOVWz0zqfUm2iKw/PQcIBWh2U7Mh84Gt8hi8rEGkX3Cpg8PwTtKZyeBihSvH9ZDT9iBBrIjKlhTrE3KHewqyxYIlo1sm5d2iUTxZfifuVe7Ii7xYYAx3ZHTGpB+dRjrRiMHbDsG4bmQy6zc8FMJuf/AnlGrckGrgDSws6n/zPNHZtCcy1ThEo4Q7xZ5z5mhMKtgMLYQ25W7i8lSOMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MwXKFiTDgDEUklquWzgzE9YJSvFaAbnypdGC+cp1XMQ=;
+ b=Nv12kCfiK3ekp2YVaRgvttgT53o/ndyUIi+j7IJZjPsgaSV0bHQJH8qccT8DnP4JB8Lfe5reOhvC4w0jWC3XSuH+I3TPJvoH3ypOQ22R6wJBDuLHgGi4ABY9qsAnqZgM1TnSJUpqYkmh/6BAkYag10WVMJEshZO/2o/pmyGeArROXr+umbjYNpmo1jHSnSe5r5hSnlZnlNi853MrAqs/pIE+GzLZYTXeP1fE05Xfj8PjyFYqOAYJO9s5pvkB0UfC+4v0yIrp5/5tI4ozaS0rt1VnfJ/tH6TEq0HdR8hCf43iMrRdODpbhNwckMAI7mA/HOJOl29C1uno7r/uYxcx2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MwXKFiTDgDEUklquWzgzE9YJSvFaAbnypdGC+cp1XMQ=;
+ b=Mv9lp9VIyocz1/7wlqlLx3cZuFGii3iOSnquhxU7GC7ial/F3BldgQc5jrbF+dteRa8BJycqvOz0Y/l96eZ+SIAWsUNiEGSvZp5yPb9bj4byFMrwYMS4ZHKMR0OvKoCykP6gexI/pyLIpMuMcOZ8vvXuHdkERdpRRt2XzDXweAk=
+Received: from DS7PR10MB4926.namprd10.prod.outlook.com (2603:10b6:5:3ac::20)
+ by CY4PR10MB1992.namprd10.prod.outlook.com (2603:10b6:903:124::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.19; Mon, 14 Feb
+ 2022 13:15:45 +0000
+Received: from DS7PR10MB4926.namprd10.prod.outlook.com
+ ([fe80::e429:a820:ef6e:98d9]) by DS7PR10MB4926.namprd10.prod.outlook.com
+ ([fe80::e429:a820:ef6e:98d9%6]) with mapi id 15.20.4975.019; Mon, 14 Feb 2022
+ 13:15:45 +0000
+From: David Edmondson <david.edmondson@oracle.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH RFCv2 3/4] i386/pc: warn if phys-bits is too low
+References: <20220207202422.31582-1-joao.m.martins@oracle.com>
+ <20220207202422.31582-4-joao.m.martins@oracle.com>
+Date: Mon, 14 Feb 2022 13:15:38 +0000
+In-Reply-To: <20220207202422.31582-4-joao.m.martins@oracle.com> (Joao
+ Martins's message of "Mon, 7 Feb 2022 20:24:21 +0000")
+Message-ID: <cuno839pp1h.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.0.50 (gnu/linux)
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P265CA0303.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a5::27) To DS7PR10MB4926.namprd10.prod.outlook.com
+ (2603:10b6:5:3ac::20)
 MIME-Version: 1.0
-References: <20220213024222.3548-1-akihiko.odaki@gmail.com>
- <CAJ+F1C+3NyD+8Z8XGLBDLDGMfXh+MG+SOB_OY=ZXyLRHHNDTfg@mail.gmail.com>
-In-Reply-To: <CAJ+F1C+3NyD+8Z8XGLBDLDGMfXh+MG+SOB_OY=ZXyLRHHNDTfg@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Mon, 14 Feb 2022 22:15:28 +0900
-Message-ID: <CAMVc7JXcUNNnD75f3VO5Vy+MyUfKQhBkM-xHqrXMDUGoh4ALKA@mail.gmail.com>
-Subject: Re: [PATCH 0/6] ui/dbus: Share one listener for a console
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 03dc8948-40a9-4a23-1baa-08d9efbc1bed
+X-MS-TrafficTypeDiagnostic: CY4PR10MB1992:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR10MB1992B354638F01B5B1FAF9CF88339@CY4PR10MB1992.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GVXvs14K2hULbc7yfTgptXgRNZDrx6itmn7bx24LQM8qtLJOBQ+Bxug5zjGONPJ0eo9SGwCjfdmR23dPj8LJS0BQu3bm7pGMGwj68Dqav0n7lrXCYGaxyPueFrFxxg54gkywkQY8XiYIU2SnQ/AUzEhtH3OusqklxH0bgt77kE+aIyaOneDhq9yVzrKOs0X6RS4jPD1aioCgEx8gDGZ2nds3UDubkKxl9YbU6Fvd1f0MtYPD0kHMiex41DxVANefJ80PbgeAi2ZlDTTI+/2cCNCJx4mtD//ilq0jSYw+pxSpCFRvuL7VctbowBOoN5paE762zsNh/TWlkhzgfyV98LaX6mYgQNIN+f4RlOTNnLpbq89RabEJwXdCxCgwIbZZg6/BKmBE+uHf/PHmR9O8hsA5ycj+SQdPCt7LIR3Xv7oPfp4TwD8zJ0jSrvPyFHT908bLxap0oFbyGKzV+BJTGx+3s/6bTFiODQi7mqSdD8HgPqGLguj1XGEugUzK3SuTqH5FY3c2+sWI1y//oyc0ZD1jiHTgdALzkb2gHf/Jidg0hIMXaHHcS5CrTZ3WMLMr2RUMOFFI9XmMtVHieqGQ3fUTbsFX/TQaxgnrW0Hwfo7doTa3UYbdEoUSsv1UWv0/H6mAUDHJy9Sr/I/g4ZYxbw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR10MB4926.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(36756003)(2616005)(5660300002)(2906002)(186003)(44832011)(66946007)(8936002)(7416002)(38100700002)(66556008)(52116002)(4326008)(6862004)(8676002)(66476007)(6506007)(508600001)(316002)(54906003)(37006003)(6636002)(6666004)(86362001)(6512007)(6486002)(83380400001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GcbD/RqUud6A6lqw6/Mcf21UtbiRuqlBd3F3W//wIqYP0kOs4/sERLtH6WdQ?=
+ =?us-ascii?Q?zpVi2PFGazZVqxKAdtvSmne8JvYFQV2qZgZp4KG8RrKebBg+qZRQ4lAImsqK?=
+ =?us-ascii?Q?3KTLve+7CPoWpqqM4oO8O1h9Z/djEDvilPPOUDHyxfuF/gEIt6F0dAsCm3op?=
+ =?us-ascii?Q?4d9hJx/wxRToWUtt4oS9zcXk4RuwK86a/NhQT0CwGvLxEuhmfJB3e6qyxLE4?=
+ =?us-ascii?Q?r7KbxJQAnz2EywtMz2T5Eh4kjWdGiuiHGE2isPTkM7+CKyxaRI7/RBbgp9qY?=
+ =?us-ascii?Q?t4iKbGabwgpxLpXHt7s3V7F2sujVt3J6T6KxxTp18legckPCrqDU8zfqnJwr?=
+ =?us-ascii?Q?JmishQujQj6b0ExwKGqEszft8Bp29t+ByHq7mWh1EKT7zulpAvUbs0Z5gvPa?=
+ =?us-ascii?Q?rUFxFUm7WtfNU6mTLoxOkzsV1WUXBHkT91dPa39wpK5mPyp1rdzUNDF1ICD9?=
+ =?us-ascii?Q?hF7Fcveac6mQ6c3/6ZtB4kh3haJbx7OIw+M4+Oi+dFVW8HqXbRqpOF1hZXrD?=
+ =?us-ascii?Q?IaTvMb2BsDIMgpB4cbjlibR1y01Ac42pESRZXZXy1NWNH18f+zGOXJFQQYF6?=
+ =?us-ascii?Q?A4IAMYITmTPIcs8+uwRRV/b5Q3GD0oXm/ABmXrb4QQ2LK+icotPagIit07nv?=
+ =?us-ascii?Q?ifS5x1ay+GZeSEqmbIcxdIrPg6sCscpm0XOVE4cX2V9fIIWWTb1+zIcPKkf8?=
+ =?us-ascii?Q?SAENZwEXg7RmX5fSBZuDLh0tIp43NGBA6Dz1IW0fXQTyMdkGQohS1v1Er2jx?=
+ =?us-ascii?Q?xtokb2tbEHUwtKOPDdMyWWEaZMDKCCrXAkJz7xkjqBENSjY8THXn39Q55TF2?=
+ =?us-ascii?Q?vvgPSmdpWV1tZ48R6BNFjU9PXjTq3cWX+L6sx4uFLJpiey93S46FX84sSp9C?=
+ =?us-ascii?Q?9LApepln2euD6+iJWaQdvp9tgm6Wxr51b/INrcAsbb726rB8r9quw5e0xc7/?=
+ =?us-ascii?Q?p8lJ3RC+ahM8E7uOWtVdJPJwpc7Blv73Tiy86WdEHGXujz1xQQpVcb18XUC2?=
+ =?us-ascii?Q?27E3GpfzrZR+/M9EQMdSOQT1NO7GeJtcgkXnEvf7liiqj26oVQzlFAHDQom+?=
+ =?us-ascii?Q?NLjnp1Xzv8gVAsxtipodjoDMK5i71bjyd3lwsc3NbBhLNLPuKgrFi/TauwOi?=
+ =?us-ascii?Q?t+POpDhpt1rYZggJeDPB6vnqaTPXWJxigKyN7qkGB9wPwFsXRVkBgVNbGZt6?=
+ =?us-ascii?Q?SomEPbQ17ifrFasNlwT8WyIxXz3kaU/impQdxD5ggzqLibjCDxJmiegTCLNq?=
+ =?us-ascii?Q?/bVjhbPcN/+ktN/GZTBw9SvKrxb7U9Wgaov2BLKwjE1vMeWK4zeMcpJoHvkm?=
+ =?us-ascii?Q?7WVtFMCOiLESBlfjNZKdCUUUQBJ//h+7PsKuXtQULSwaCumbOqKaXeGbWraq?=
+ =?us-ascii?Q?zmV2zvKRLiic4jRgxPKIQIC2vm3DkKA8ZIWXK024xx3RRnuYxSjXFqPDFe39?=
+ =?us-ascii?Q?9+Lh9kHI/BWEbGP45j8puutuT2CtL1vm3wmFRz4XTJ5pUG1YgXROFe6zMIYQ?=
+ =?us-ascii?Q?G9WVFPQGD/r3dssJqa+6ZGKooCG1Ju6SUdu1QFTysg+7B8BUniQ98z9lMYrV?=
+ =?us-ascii?Q?hw/g2ThDHF/NdFvp77d2n5hJYrmNr8OwkLge+oJhkln8BYKXpJPvakleGAPz?=
+ =?us-ascii?Q?7MsbMpQHBdutun12CJR6zrAhAmwQaSD4zloR1DB6LI50hECjoaFLVaEnkUE9?=
+ =?us-ascii?Q?hm7jUPEhWbZZqzgIHGyPF506H97IvNj6lU3dg8/oYuvCgo9v?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03dc8948-40a9-4a23-1baa-08d9efbc1bed
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB4926.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2022 13:15:45.2768 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9dnJxuyI4jBwtXJIFKCaAadKPYpbUeR8gG5RJI9kAquXYhDpvk4vx8DCcTRppmGe1N+mly+g5Td7CVBFJAZu3USTOnhPz5H67rN3w/uGg/M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1992
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10257
+ signatures=673431
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0
+ mlxlogscore=999 phishscore=0 bulkscore=0 malwarescore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202140081
+X-Proofpoint-GUID: OjI5YNsFBn0-hvSWNPpSaRGkD2NKWe7n
+X-Proofpoint-ORIG-GUID: OjI5YNsFBn0-hvSWNPpSaRGkD2NKWe7n
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=david.edmondson@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,142 +166,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 14, 2022 at 9:07 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi Akihiko
->
-> On Sun, Feb 13, 2022 at 6:44 AM Akihiko Odaki <akihiko.odaki@gmail.com> w=
-rote:
->>
->> ui/dbus required to have multiple DisplayChangeListeners (possibly with =
-OpenGL)
->> for a console but that caused several problems:
->> - It broke egl-headless, an unusual display which implements OpenGL rend=
-ering
->>   for non-OpenGL displays. The code to support multiple DisplayChangeLis=
-teners
->>   does not consider the case where non-OpenGL displays listens OpenGL co=
-nsoles.
->
->
-> Can you provide instructions on what broke? Even better write a test, ple=
-ase.
+On Monday, 2022-02-07 at 20:24:21 GMT, Joao Martins wrote:
 
-The following command segfaults. Adding a test would be nice, but it
-would need a binary which uses OpenGL.
-qemu-system-x86_64 -device virtio-gpu-gl-pci -display egl-headless
--vnc :0 -m 8G -cdrom Fedora-Workstation-Live-x86_64-34-1.2.iso -accel
-kvm
+> Default phys-bits on Qemu is TCG_PHYS_BITS (40) which is enough
+> to address 1Tb (0xff ffff ffff). On AMD platforms, if a
+> ram-above-4g relocation happens and the CPU wasn't configured
+> with a big enough phys-bits, warn the user. There isn't a
+> catastrophic failure exactly, the guest will still boot, but
+> most likely won't be able to use more than ~4G of RAM.
+>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>  hw/i386/pc.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index b060aedd38f3..f8712eb8427e 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -842,6 +842,7 @@ static void relocate_4g(MachineState *machine, PCMachineState *pcms)
+>      X86MachineState *x86ms = X86_MACHINE(pcms);
+>      ram_addr_t device_mem_size = 0;
+>      uint32_t eax, vendor[3];
+> +    hwaddr maxphysaddr;
+>
+>      host_cpuid(0x0, 0, &eax, &vendor[0], &vendor[2], &vendor[1]);
+>      if (!IS_AMD_VENDOR(vendor)) {
+> @@ -858,6 +859,12 @@ static void relocate_4g(MachineState *machine, PCMachineState *pcms)
+>          return;
+>      }
+>
+> +    maxphysaddr = ((hwaddr)1 << X86_CPU(first_cpu)->phys_bits) - 1;
+> +    if (maxphysaddr < AMD_ABOVE_1TB_START)
 
->
-> "make check-avocado AVOCADO_TESTS=3Dtests/avocado/virtio-gpu.py", which c=
-overs egl-headless usage, works.
->
->>
->> - Multiple OpenGL DisplayChangeListeners of dbus shares one DisplaySurfa=
-ce and
->>   modifies its texture field, causing OpenGL texture leak and use-after-=
-free.
->
->
-> Again, please provide instructions. I have regularly run -display dbus wi=
-th multiple clients and qemu compiled with sanitizers. I don't see any leak=
- or use after free.
+Braces around the block are required, I believe.
 
-I doubt sanitizers can find this because it is an OpenGL texture. You
-may add a probe around surface_gl_create_texture and
-surface_gl_destroy_texture.
+> +        warn_report("Relocated RAM above 4G to start at %lu "
 
->
->>
->> - Introduced extra code to check the compatibility of OpenGL context pro=
-viders
->>   and OpenGL texture renderers where those are often inherently tightly =
-coupled
->>   since they must share the same hardware.
->
->
-> So code checks are meant to prevent misusage. They might be too limited o=
-r broken in some ways, but reverting is likely going to introduce other reg=
-ressions I was trying to fix.
+Should use PRIu64?
 
-The misuse will not occur because DisplayChangeListeners will be
-merged with OpenGL context providers.
+> +                    "phys-bits too low (%u)",
+> +                    AMD_ABOVE_1TB_START, X86_CPU(first_cpu)->phys_bits);
+> +
+>      x86ms->above_4g_mem_start = AMD_ABOVE_1TB_START;
 
->
->> - Needed extra work to broadcast the same change to multiple dbus listen=
-ers.
->>
->
-> Compared to what?
+And a real nit - until above_4g_mem_start is modified, the number of
+phys_bits is fine, so I would have put the warning after the assignment.
 
-Compared to sharing one DisplayChangeListener for multiple dbus listeners.
+>  }
 
->
->>
->> This series solve them by implementing the change broadcast in ui/dbus, =
-which
->> knows exactly what is needed. Changes for the common code to support mul=
-tiple
->> OpenGL DisplayChangeListeners were reverted to fix egl-headless and redu=
-ce
->> the code size.
->
->
-> Thanks a lot for your work, I am going to take a look at your approach. B=
-ut please help us understand better what the problem actually is, by giving=
- examples & tests to avoid future regressions and document the expected beh=
-aviour.
-
-The thing is really complicated and I may miss details so please feel
-free to ask questions or provide suggestions.
-
-Regards,
-Akihiko Odaki
-
-
->
->>
->> Akihiko Odaki (6):
->>   ui/dbus: Share one listener for a console
->>   Revert "console: save current scanout details"
->>   Revert "ui: split the GL context in a different object"
->>   Revert "ui: dispatch GL events to all listeners"
->>   Revert "ui: associate GL context outside of display listener
->>     registration"
->>   Revert "ui: factor out qemu_console_set_display_gl_ctx()"
->>
->>  include/ui/console.h       |  60 +-----
->>  include/ui/egl-context.h   |   6 +-
->>  include/ui/gtk.h           |  11 +-
->>  include/ui/sdl2.h          |   7 +-
->>  include/ui/spice-display.h |   1 -
->>  ui/console.c               | 258 +++++++----------------
->>  ui/dbus-console.c          | 109 ++--------
->>  ui/dbus-listener.c         | 417 +++++++++++++++++++++++++++----------
->>  ui/dbus.c                  |  22 --
->>  ui/dbus.h                  |  36 +++-
->>  ui/egl-context.c           |   6 +-
->>  ui/egl-headless.c          |  20 +-
->>  ui/gtk-egl.c               |  10 +-
->>  ui/gtk-gl-area.c           |   8 +-
->>  ui/gtk.c                   |  25 +--
->>  ui/sdl2-gl.c               |  10 +-
->>  ui/sdl2.c                  |  14 +-
->>  ui/spice-display.c         |  19 +-
->>  18 files changed, 498 insertions(+), 541 deletions(-)
->>
->> --
->> 2.32.0 (Apple Git-132)
->>
->>
->
->
-> --
-> Marc-Andr=C3=A9 Lureau
+dme.
+-- 
+Tonight I'm gonna bury that horse in the ground.
 
