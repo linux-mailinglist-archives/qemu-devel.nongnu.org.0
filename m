@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D594B6615
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:31:13 +0100 (CET)
-Received: from localhost ([::1]:38768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542484B663C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:35:50 +0100 (CET)
+Received: from localhost ([::1]:45878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJtEu-0005sM-47
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:31:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33610)
+	id 1nJtJN-0002UV-Fx
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:35:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJsx8-0001Vx-4W
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:12:50 -0500
-Received: from [2a00:1450:4864:20::630] (port=45911
- helo=mail-ej1-x630.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJsx5-0003eu-H2
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:12:49 -0500
-Received: by mail-ej1-x630.google.com with SMTP id lw4so11682368ejb.12
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 00:12:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ToFKT+yv0G/Kp9EAsgjEx+fUChWt93odJ3rHVDo+pDo=;
- b=5y4Ou4oTwWFjGxGbXkBSR4eil60bVr147Eks+qhlcVuyZmBViDqAs9T2ZxMktwKj1S
- liJcv6YUU9FmYhx83L2KEai60RuP441bMbtcW4q4piVhG6+BNUaSq4RPdA5JG2F0bnKZ
- D5E2ass5zndRRo+p3rtxfXBf2JhDNatREBed0qJjgAgejP+QdoRu7O5AcUsXEwpYSU60
- 6GL+JZko8EnLB0mJfebaUei5SRASxjSoLdX/98qHtvN6Mwt4Ro22QEbR6rTbVIhEQJQX
- APnpDYXyCS74AC9HT6hsndXAgJmbCHYFDumv57Zd1qRgo2lgnH99AoCViQeeJx0MCeIF
- 6OBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ToFKT+yv0G/Kp9EAsgjEx+fUChWt93odJ3rHVDo+pDo=;
- b=0RGpf1I7EtfFS8SLFiTmqdikzW32Q7YcUbQQihBTb+ukZNRxeQoMh0z8I0WTOBDHps
- ndHPULt4+pALk+No5D4yEKhfV42WjmIc0yX8j5rdBQlF4PrXFACxsnTvEmTrudMS+PTX
- jyB3NnM3d5ud/xexf01pqHFhomUDr7JiUamXIRIK21/ocJscElGFt2lqSZt8b1Lc6cS6
- Nug9AAHpmxO+pGzSodrL/wYr8V2p7msbBJVtuEEoyxt8FlbJg28dB8YzvIA/TweQ4Zy9
- +9LZo3Z8XX5e02Cl+5Nez5IIMoVCIUsF98HNQj6XiEJ7P02FQe3aRFgFvvcLyJZrH9kz
- J0rQ==
-X-Gm-Message-State: AOAM532/Z2QGJs/CLTtkVEchYSRc53r5mzn2Bq9ullusgMChkqiV9r9Z
- bywNJLuy4Ql6yOYy8qudrXNtnqYYNoGe8ZOXfduOqA==
-X-Google-Smtp-Source: ABdhPJw/74VvQzlQc2lCn0uVnk9vhTwIJZF1gzx/qPuuHD6xo6mLLKMUCZQpdqzhU7cc2gX2hoZMUCgVv5zTMe9pVSU=
-X-Received: by 2002:a17:907:9606:: with SMTP id
- gb6mr1945512ejc.51.1644912765919; 
- Tue, 15 Feb 2022 00:12:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nJt3R-0000bu-8D
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:19:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nJt3N-0004T5-NM
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:19:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644913155;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gQ9OuGoS/NA2Tzl6Uq1iqNJKWTyzkp/8xEHR9qHGdq4=;
+ b=HFZlgPwRdeBiHn8tzIz7O7sJNHbHiKqpai9Dgj8bA3PwCGC4xdR46vLs1cdJ85+kGw3nvy
+ iDFAS/1qFIqN4T3wDZ+sXwGz8hGCkfhwSM+4g6LUarzoJmUNBYd8ZLRKhNTo9TB097/1+C
+ Qb7qHsnhEXl6aa/v8JMTxpxpJeKno5w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-264-8nrmdEoAOay3HYZqvdcXNg-1; Tue, 15 Feb 2022 03:19:12 -0500
+X-MC-Unique: 8nrmdEoAOay3HYZqvdcXNg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E4DA2F26;
+ Tue, 15 Feb 2022 08:19:10 +0000 (UTC)
+Received: from [10.72.13.24] (ovpn-13-24.pek2.redhat.com [10.72.13.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BFD8709E0;
+ Tue, 15 Feb 2022 08:19:04 +0000 (UTC)
+Subject: Re: [PATCH] hw/arm/virt: Fix CPU's default NUMA node ID
+To: "wangyanan (Y)" <wangyanan55@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>
+References: <20220126052410.36380-1-gshan@redhat.com>
+ <20220126101447.5d4f01f9@redhat.com>
+ <f5780366-7c6e-1643-d471-1304ce6584ca@huawei.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <5c99b245-e118-f7bd-4a4f-2c865bacaa75@redhat.com>
+Date: Tue, 15 Feb 2022 16:19:01 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-References: <alpine.DEB.2.22.394.2202141048390.13781@anisinha-lenovo>
- <20220214133634.248d7de0@redhat.com>
- <b9771171-8d28-b46b-4474-687a8fed0abd@redhat.com>
- <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
- <b06ab7b0-61f2-5301-70f9-197dfd9527e9@redhat.com>
-In-Reply-To: <b06ab7b0-61f2-5301-70f9-197dfd9527e9@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 15 Feb 2022 13:42:35 +0530
-Message-ID: <CAARzgwwDFybUsCj8Ym6kpcjNRCVV6vbsY7Lks0wsmrc2+ET03Q@mail.gmail.com>
-Subject: Re: 9 TiB vm memory creation
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::630;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <f5780366-7c6e-1643-d471-1304ce6584ca@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,75 +85,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 1:25 PM David Hildenbrand <david@redhat.com> wrote:
->
-> On 15.02.22 08:00, Ani Sinha wrote:
-> >
-> >
-> > On Mon, 14 Feb 2022, David Hildenbrand wrote:
-> >
-> >> On 14.02.22 13:36, Igor Mammedov wrote:
-> >>> On Mon, 14 Feb 2022 10:54:22 +0530 (IST)
-> >>> Ani Sinha <ani@anisinha.ca> wrote:
-> >>>
-> >>>> Hi Igor:
-> >>>>
-> >>>> I failed to spawn a 9 Tib VM. The max I could do was a 2 TiB vm on my
-> >>>> system with the following commandline before either the system
-> >>>> destabilized or the OOM killed killed qemu
-> >>>>
-> >>>> -m 2T,maxmem=9T,slots=1 \
-> >>>> -object memory-backend-file,id=mem0,size=2T,mem-path=/data/temp/memfile,prealloc=off \
-> >>>> -machine memory-backend=mem0 \
-> >>>> -chardev file,path=/tmp/debugcon2.txt,id=debugcon \
-> >>>> -device isa-debugcon,iobase=0x402,chardev=debugcon \
-> >>>>
-> >>>> I have attached the debugcon output from 2 TiB vm.
-> >>>> Is there any other commandline parameters or options I should try?
-> >>>>
-> >>>> thanks
-> >>>> ani
-> >>>
-> >>> $ truncate -s 9T 9tb_sparse_disk.img
-> >>> $ qemu-system-x86_64 -m 9T \
-> >>>   -object memory-backend-file,id=mem0,size=9T,mem-path=9tb_sparse_disk.img,prealloc=off,share=on \
-> >>>   -machine memory-backend=mem0
-> >>>
-> >>> works for me till GRUB menu, with sufficient guest kernel
-> >>> persuasion (i.e. CLI limit ram size to something reasonable) you can boot linux
-> >>> guest on it and inspect SMBIOS tables comfortably.
-> >>>
-> >>>
-> >>> With KVM enabled it bails out with:
-> >>>    qemu-system-x86_64: kvm_set_user_memory_region: KVM_SET_USER_MEMORY_REGION failed, slot=1, start=0x100000000, size=0x8ff40000000: Invalid argument
-> >>>
-> >
-> > I have seen this in my system but not always. Maybe I should have dug
-> > deeper as to why i do see this all the time.
-> >
-> >>> all of that on a host with 32G of RAM/no swap.
-> >>>
-> >
-> > My system in 16 Gib of main memory, no swap.
-> >
-> >>
-> >> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
-> >>
-> >> ~8 TiB (7,999999)
-> >
-> > That's not 8 Tib, thats 2 GiB. But yes, 0x8ff40000000 is certainly greater
-> > than 2 Gib * 4K (assuming 4K size pages).
->
-> "pages" don't carry the unit "GiB/TiB", so I was talking about the
-> actual size with 4k pages (your setup, I assume)
+On 1/28/22 3:05 PM, wangyanan (Y) via wrote
+> On 2022/1/26 17:14, Igor Mammedov wrote:
+>> On Wed, 26 Jan 2022 13:24:10 +0800
+>> Gavin Shan <gshan@redhat.com> wrote:
+>>
+>>> The default CPU-to-NUMA association is given by mc->get_default_cpu_node_id()
+>>> when it isn't provided explicitly. However, the CPU topology isn't fully
+>>> considered in the default association and it causes CPU topology broken
+>>> warnings on booting Linux guest.
+>>>
+>>> For example, the following warning messages are observed when the Linux guest
+>>> is booted with the following command lines.
+>>>
+>>>    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+>>>    -accel kvm -machine virt,gic-version=host               \
+>>>    -cpu host                                               \
+>>>    -smp 6,sockets=2,cores=3,threads=1                      \
+>>>    -m 1024M,slots=16,maxmem=64G                            \
+>>>    -object memory-backend-ram,id=mem0,size=128M            \
+>>>    -object memory-backend-ram,id=mem1,size=128M            \
+>>>    -object memory-backend-ram,id=mem2,size=128M            \
+>>>    -object memory-backend-ram,id=mem3,size=128M            \
+>>>    -object memory-backend-ram,id=mem4,size=128M            \
+>>>    -object memory-backend-ram,id=mem4,size=384M            \
+>>>    -numa node,nodeid=0,memdev=mem0                         \
+>>>    -numa node,nodeid=1,memdev=mem1                         \
+>>>    -numa node,nodeid=2,memdev=mem2                         \
+>>>    -numa node,nodeid=3,memdev=mem3                         \
+>>>    -numa node,nodeid=4,memdev=mem4                         \
+>>>    -numa node,nodeid=5,memdev=mem5
+>>>           :
+>>>    alternatives: patching kernel code
+>>>    BUG: arch topology borken
+>>>    the CLS domain not a subset of the MC domain
+>>>    <the above error log repeats>
+>>>    BUG: arch topology borken
+>>>    the DIE domain not a subset of the NODE domain
+>>>
+>>> With current implementation of mc->get_default_cpu_node_id(), CPU#0 to CPU#5
+>>> are associated with NODE#0 to NODE#5 separately. That's incorrect because
+>>> CPU#0/1/2 should be associated with same NUMA node because they're seated
+>>> in same socket.
+>>>
+>>> This fixes the issue by considering the socket when default CPU-to-NUMA
+>>> is given. With this applied, no more CPU topology broken warnings are seen
+>>> from the Linux guest. The 6 CPUs are associated with NODE#0/1, but there are
+>>> no CPUs associated with NODE#2/3/4/5.
+>> >From migration point of view it looks fine to me, and doesn't need a compat knob
+>> since NUMA data (on virt-arm) only used to construct ACPI tables (and we don't
+>> version those unless something is broken by it).
+>>
+>>
+>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>> ---
+>>>   hw/arm/virt.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>> index 141350bf21..b4a95522d3 100644
+>>> --- a/hw/arm/virt.c
+>>> +++ b/hw/arm/virt.c
+>>> @@ -2499,7 +2499,7 @@ virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
+>>>   static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
+>>>   {
+>>> -    return idx % ms->numa_state->num_nodes;
+>>> +    return idx / (ms->smp.dies * ms->smp.clusters * ms->smp.cores * ms->smp.threads);
+>> I'd like for ARM folks to confirm whether above is correct
+>> (i.e. socket is NUMA node boundary and also if above topo vars
+>> could have odd values. Don't look at horribly complicated x86
+>> as example, but it showed that vendors could stash pretty much
+>> anything there, so we should consider it here as well and maybe
+>> forbid that in smp virt-arm parser)
+> We now have a generic smp parser in machine-smp.c and it guarantees
+> different machine boards a correct group of topo vars: supported topo
+> vars being valid and value of unsupported ones being 1. I think it's safe
+> to use them here. Or am I missing something else?
+> 
+> Also, we may not need to include "dies" here because it's not supported
+> on ARM virt machine. I believe we will always have "ms->smp.dies==1"
+> for this machine.
+> 
 
-yes I got that after reading your email again.
-The interesting question now is how is redhat QE running 9 TiB vm with kvm?
+I'm sorry for the delayed response because I'm just back from two weeks
+holiday.
 
-https://bugzilla-attachments.redhat.com/attachment.cgi?id=1795945
+The issue isn't related to CPU topology directly. It's actually related
+to the fact: the default NUMA node ID will be picked for one particular
+CPU if the associated NUMA node ID isn't provided by users explicitly.
+So it's related to the CPU-to-NUMA association.
+
+For example, the CPU-to-NUMA association is breaking socket boundary
+without the code change included in this patch when the guest is booted
+with the command lines like below. With this patch applied, the CPU-to-NUMA
+association is following socket boundary, to make Linux guest happy.
+
+     -smp 6,sockets=2,cores=3,threads=1                      \
+     -m 1024M,slots=16,maxmem=64G                            \
+     -object memory-backend-ram,id=mem0,size=128M            \
+     -object memory-backend-ram,id=mem1,size=128M            \
+     -object memory-backend-ram,id=mem2,size=128M            \
+     -object memory-backend-ram,id=mem3,size=128M            \
+     -object memory-backend-ram,id=mem4,size=128M            \
+     -object memory-backend-ram,id=mem4,size=384M            \
+     -numa node,nodeid=0,memdev=mem0                         \
+     -numa node,nodeid=1,memdev=mem1                         \
+     -numa node,nodeid=2,memdev=mem2                         \
+     -numa node,nodeid=3,memdev=mem3                         \
+     -numa node,nodeid=4,memdev=mem4                         \
+     -numa node,nodeid=5,memdev=mem5
+
+     CPU     Core      Socket        NUMA-Node     NUA-Node-with-patch
+     ------------------------------------------------------------------
+      0       0          0             0           0
+      1       1          0             1           0
+      2       2          0             2           0
+      3       0          1             3           1
+      4       1          1             4           1
+      5       2          1             5           1
+
+I think it's fine to include "ms->smp.dies" here since it's always 1 on
+virt machine. We needn't change the code once it's supported some day.
+
+>>>   }
+>>>   static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+
+Thanks,
+Gavin
+
 
