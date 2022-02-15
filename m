@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1654B64C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 08:51:24 +0100 (CET)
-Received: from localhost ([::1]:40154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D29754B64CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 08:53:32 +0100 (CET)
+Received: from localhost ([::1]:42444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJscM-0000zy-4f
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 02:51:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57262)
+	id 1nJseR-0002fp-Nh
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 02:53:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJsa2-0008Is-L7
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:48:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43824)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJsZy-00005Z-L4
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:48:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644911331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qf0f3GqY7XJOGRvGn1MQtRPKB9lVAUr7eFd/kUGMfaw=;
- b=Cm2yY4XwnwiRSUgH7CX+IdEYIVqoJntACjgUGoEAiK+nDO9Sa8g2dJoN+0NFexWa4XNyLQ
- OdkiPra7bybIbTikHqEqq8TuyG1Rfi+3J4DzISd0AnPEkNpK1AL9XabASuZZLBj7rZVdEd
- Qzx4ln2p8cqeNVFqCoahK6AczkDvjIg=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-173-8pDhRo7rOgysbJYkJJWZjQ-1; Tue, 15 Feb 2022 02:48:47 -0500
-X-MC-Unique: 8pDhRo7rOgysbJYkJJWZjQ-1
-Received: by mail-lj1-f197.google.com with SMTP id
- bx17-20020a05651c199100b00244b2f9b56cso2899679ljb.22
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 23:48:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nJsaP-0000Gl-7U
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:49:21 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=54192
+ helo=mail-pj1-x102d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nJsaN-00007b-41
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:49:20 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id qe15so16730662pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 23:49:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YjRQIehuFvyT/HOncd6ACeyQd4ptT3JFYBV/nbI2IEk=;
+ b=BnfBabgbAphjC3SVa7hQI9FzjTJuFapnRkYYJSohddbQDjKgKEif83uqH5zkjRD/ud
+ k7m1qyuOqwqVrv1tcJTcDyfZiSmiGsvSVAUyvqERXktWt4FFbbkxbPxjjbhCD7UC0gzp
+ Y+BiKl/LfXKm1onyQdUFZCOB1zdRD9OTNMOaUN9GMMTG4cIrlVQbnVr3tvndQkK5v9Fv
+ y//koLNitej9yAvEHRYtBSKqlUkJ7+3oLx0fNddFcNvq76wsrVQhOqhzhqRMZJclMq6O
+ PJUX2Etdvxmct7IOmUwQ55temRHnQKSkZhiuj8etptQ1hjFQZsz6kgqCtKa0wwsB3jN8
+ 9Geg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qf0f3GqY7XJOGRvGn1MQtRPKB9lVAUr7eFd/kUGMfaw=;
- b=i4sfGliP3ZJ1vQRUjqPtoi0sCe7j91sFkNOjFSl6m19IcEGjq/JpPlg1isPFGu+2Ws
- i3nty/COoUm04ALpuG3sJ5leoI6zCb9Y+tc5KfIJtXMqXlPwz2FnxyrLmBUGYpKMdj4y
- qw5Dhm2/094nTOU71LCXbVC9hCZa2/n/LzGLxMbwMbTPNCrUtA+htp7KLna00DZmL/e4
- P/D8Yh6QzpLEizhGmvzKN2LNDXvBHWzNRRvUypOzBrSXMqzEIzP0TY98Z2+HIno4V/k6
- TPWFMO3S5oWHzLpXflCF/u1CNDZ+o40885Jpfvp/5T1aYartSDQUq2JUCutuZtyZRozV
- uW5Q==
-X-Gm-Message-State: AOAM531nWVipIgQrsZZbYm3bQgpSrmPQNcnKJa9CjFpRWxeOY/Tyf9jh
- D62wuhXglElkFib+fwoKa65n13tB5VGLfLBTD8pqKok8RxkPgyeKGyejGx4GqGHr5s4JVI+Y5Pa
- JP8bmXe5hdNqFIgSD+UGBewHXAj149IQ=
-X-Received: by 2002:a2e:914c:: with SMTP id q12mr1701375ljg.420.1644911326104; 
- Mon, 14 Feb 2022 23:48:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJypmK6UTHFl1ejOt9kDQsNxXoTtuMZRRFPEr4rUWc75hnD/F/KZVQzSNtRIDOFvz8w/q/0Eg42UbQsbRzx2v/8=
-X-Received: by 2002:a2e:914c:: with SMTP id q12mr1701351ljg.420.1644911325842; 
- Mon, 14 Feb 2022 23:48:45 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YjRQIehuFvyT/HOncd6ACeyQd4ptT3JFYBV/nbI2IEk=;
+ b=MQ8o6oWOsWLJ/JdJBuePQ34IImeaGa/6JGHzHAeQl1LO+gd65yByUzqY+D5WzZLaKL
+ TTHZCJDyPtpIDnzWkKRuZh5qZydqg/mt3rKZQKnCHlin5H9WoEQmVKolS9JkOTUX+FNg
+ q7uJ0RR/dFs7dzsKijgBqNsFC+P85W5CcFYyi7P+fQhF0VN8GlExDkvrUd98Blv8JJGz
+ ZGKn9KkF5S6YRuGuuFQBIOcDiCjmmste+72nW7bN9uAIYaqVwX20BFbmLCl6mgrBZ8O0
+ q8ADA5avivi7rYSbvLVFT2HyaQUonjx5+W53j54zKUc1MHp7QT65ZS9ASX1gyQCEMWZw
+ h/Cw==
+X-Gm-Message-State: AOAM531BVDGcXVRTussL5+rIHmPHsY+vSvwlVL3MYRZPLxI43K9eBlKI
+ 5ivoCx9oM6Ks8KLdPCdUfLk=
+X-Google-Smtp-Source: ABdhPJwdKcvosLMb+LkA1kq3jGtc0b3AyNnIk+tWsGhNoSjM6I1Dptqjcp2DXQp15EyP8d4hMZv+PQ==
+X-Received: by 2002:a17:90b:4a11:b0:1b9:9685:eea4 with SMTP id
+ kk17-20020a17090b4a1100b001b99685eea4mr3051469pjb.136.1644911354397; 
+ Mon, 14 Feb 2022 23:49:14 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id iy13sm16042673pjb.51.2022.02.14.23.49.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 23:49:14 -0800 (PST)
+Message-ID: <f340c859-3b20-98bc-a3eb-e7da207493eb@amsat.org>
+Date: Tue, 15 Feb 2022 08:49:09 +0100
 MIME-Version: 1.0
-References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
- <CACGkMEvtENvpubmZY3UKptD-T=c9+JJV1kRm-ZPhP08xOJv2fQ@mail.gmail.com>
- <20220214114825.pi44m7mqyqvvtt52@step1g3>
-In-Reply-To: <20220214114825.pi44m7mqyqvvtt52@step1g3>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 15 Feb 2022 15:48:34 +0800
-Message-ID: <CACGkMEsqTRP18Sp5zAy9tUOcsMNx+MwrkeqnMXg=2sS58MrsUQ@mail.gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
-To: Stefano Garzarella <sgarzare@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PULL 15/28] tests: Update CentOS 8 container to CentOS Stream 8
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220209141529.3418384-1-alex.bennee@linaro.org>
+ <20220209141529.3418384-16-alex.bennee@linaro.org>
+In-Reply-To: <20220209141529.3418384-16-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,67 +99,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sergio Lopez <slp@redhat.com>, kvm <kvm@vger.kernel.org>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Florescu, Andreea" <fandree@amazon.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- John Snow <jsnow@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Alex Agache <aagch@amazon.com>,
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Mon, Feb 14, 2022 at 7:48 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
->
-> On Mon, Feb 14, 2022 at 03:11:20PM +0800, Jason Wang wrote:
-> >On Fri, Jan 28, 2022 at 11:47 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> >>
-> >> Dear QEMU, KVM, and rust-vmm communities,
-> >> QEMU will apply for Google Summer of Code 2022
-> >> (https://summerofcode.withgoogle.com/) and has been accepted into
-> >> Outreachy May-August 2022 (https://www.outreachy.org/). You can now
-> >> submit internship project ideas for QEMU, KVM, and rust-vmm!
-> >>
-> >> If you have experience contributing to QEMU, KVM, or rust-vmm you can
-> >> be a mentor. It's a great way to give back and you get to work with
-> >> people who are just starting out in open source.
-> >>
-> >> Please reply to this email by February 21st with your project ideas.
-> >>
-> >> Good project ideas are suitable for remote work by a competent
-> >> programmer who is not yet familiar with the codebase. In
-> >> addition, they are:
-> >> - Well-defined - the scope is clear
-> >> - Self-contained - there are few dependencies
-> >> - Uncontroversial - they are acceptable to the community
-> >> - Incremental - they produce deliverables along the way
-> >>
-> >> Feel free to post ideas even if you are unable to mentor the project.
-> >> It doesn't hurt to share the idea!
-> >
-> >Implementing the VIRTIO_F_IN_ORDER feature for both Qemu and kernel
-> >(vhost/virtio drivers) would be an interesting idea.
-> >
-> >It satisfies all the points above since it's supported by virtio spec.
->
-> Yep, I agree!
->
-> >
-> >(Unfortunately, I won't have time in the mentoring)
->
-> I can offer my time to mentor this idea.
+Hi Thomas,
 
-Great, thanks a lot.
+On 9/2/22 15:15, Alex Bennée wrote:
+> From: Thomas Huth <thuth@redhat.com>
+> 
+> Support for CentOS 8 has stopped at the end of 2021, so let's
+> switch to the Stream variant instead.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Message-Id: <20220201101911.97900-1-thuth@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20220204204335.1689602-16-alex.bennee@linaro.org>
+> 
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+> index 3abac7a8b1..3ede55d09b 100644
+> --- a/tests/docker/dockerfiles/centos8.docker
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -1,10 +1,10 @@
+>   # THIS FILE WAS AUTO-GENERATED
+>   #
+> -#  $ lcitool dockerfile --layers all centos-8 qemu
+> +#  $ lcitool dockerfile --layers all centos-stream-8 qemu
+>   #
+>   # https://gitlab.com/libvirt/libvirt-ci
+>   
+> -FROM docker.io/library/centos:8
+> +FROM quay.io/centos/centos:stream8
+>   
+>   RUN dnf update -y && \
+>       dnf install 'dnf-command(config-manager)' -y && \
+> diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
+> index 25301f2ef0..4ab90a310a 100755
+> --- a/tests/lcitool/refresh
+> +++ b/tests/lcitool/refresh
+> @@ -77,7 +77,7 @@ ubuntu2004_tsanhack = [
+>   ]
+>   
+>   try:
+> -   generate_dockerfile("centos8", "centos-8")
+> +   generate_dockerfile("centos8", "centos-stream-8")
+>      generate_dockerfile("fedora", "fedora-35")
+>      generate_dockerfile("ubuntu1804", "ubuntu-1804",
+>                          trailer="".join(ubuntu1804_skipssh))
 
->
-> Thanks,
-> Stefano
->
+I don't understand, I don't get the same output.
 
+This hunk is missing:
+https://lore.kernel.org/qemu-devel/20220211163434.58423-2-f4bug@amsat.org/
+
+Should we add a gitlab job that runs 'make lcitool-refresh' and
+fails if tests/docker/dockerfiles/ mismatch?
 
