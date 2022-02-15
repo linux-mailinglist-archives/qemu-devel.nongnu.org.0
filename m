@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003FC4B73F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 18:07:04 +0100 (CET)
-Received: from localhost ([::1]:45428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0BE4B73F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 18:06:55 +0100 (CET)
+Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK1I6-0002Lh-UF
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 12:07:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32798)
+	id 1nK1Hw-00023c-Nt
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 12:06:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nK1D2-0004tG-61
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 12:01:48 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=45805
- helo=mail-pl1-x62a.google.com)
+ id 1nK1D3-0004vf-VM
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 12:01:51 -0500
+Received: from [2607:f8b0:4864:20::434] (port=34463
+ helo=mail-pf1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nK1Cw-0007VN-ML
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 12:01:47 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id w20so13537377plq.12
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 09:01:38 -0800 (PST)
+ id 1nK1D1-0007av-SY
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 12:01:49 -0500
+Received: by mail-pf1-x434.google.com with SMTP id g1so16080443pfv.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 09:01:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MksClFfWuwT461ko/karqF5I+zAWkXZ4G+9GZEuB/6s=;
- b=qiCzRSQGPBQa1BD+A2xdeRAbGmmq4l9eFvMH9PVSzGajHlPlXmwXBAx6oX0YcXoGkm
- qdfP2vrideCYokPoq2iXexwnr85TRT9ZQkn5bjpAH59bcOgW4F5YlqsSP8qicVEAhJ7Y
- WApE35yEyv2v/uoX7Ahzs/LepS28AgoDW6zJomKL7RKqS93nJr0mBQa9yPqoY+K7Khfr
- KDZf1aeJPBS3yTFpnYX1Zfn/1cTrSn4zN+oM4nygN9Qsm1F7BP8tSa/XGM4RhMzhwMyl
- OADaa4Jlf8odcQuTFJSXqPH8baj81Soi+WhwVDBk3D3ZhUmrBiM4biPfIBbrKaYZ6N4b
- gZlA==
+ bh=qKNx/hUMMdUpgOrn9IAyD8EGaw4inpSUg6uvueEzEgo=;
+ b=QDVWbauedMl0PiLjTuqHq5MmapM8vtr6ey4yTCvODJZYF6Kgz0qd8RMtleF14zF4Pu
+ BWxovG92MFkkjk63ohottThOf/Xo3/ze/UiUgKvWc+MHKDrCZZGT3HfhGESG+6foabd9
+ BOIZvBcx/jEz7fco/dDHip5DnoMrJXPnRaPCKTOntwK9fU6n8Ew4lavNvzZgj6/2Gi7j
+ n4N/cUugIbw9HQwt2uUZ8SAnligAlLz1eDoTLhR4Ch1nWpqyLfpXSbG4xVOLilxhwZhM
+ 14IZMrJYTJEBmgsC16kWMLNMAlFn6xwk5aAASrPTt3WDwfENmwIhiG2cqXcidNqtN8cA
+ kt8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MksClFfWuwT461ko/karqF5I+zAWkXZ4G+9GZEuB/6s=;
- b=22lIrDd0ExQCzpHtfW+G12itx5AhegMIovthqbAfceJEcvTOOJWxgIPZSE8X6cU6gm
- aLTqIVq4mxBA5gdevguUBNfdy6YHgit0I3Rob7qTVRoRsFIgXKRzOwjhqHE8/oHjI1h8
- yt+TOHOt+2G73C3AC1pfEZ9XdS9qxIQ+BHAWLQAvXnFBRjy6LMxWS8LUcc556LWdU+L8
- kg8deis4QTbPLFjmEEluYWKXEn0aCpKJ8DyBo6jmWKjpmBwWOL9W/y6D7CP4lWRVl/L7
- ZeP1v9X/au7NVAmin2C5iDPJiiLWg9We7tqM2rEy2KH9P3RFUG6pNfNFEc48yYx4LbLu
- ZM4Q==
-X-Gm-Message-State: AOAM5331YzYt/asS8Gh8QcXcdVkpcu4xuMrfMcAaGpED/6zTcAhSe6tD
- haLq/rF+UUiAFW16+ys+CZuGu3FujCo=
-X-Google-Smtp-Source: ABdhPJw5F/K/KKt4B3f+sm29kXbYt4uf69VgD5dMEuzVhS1gq4dpdJv6FXoRRgqvha+v3GzflIy+Kw==
-X-Received: by 2002:a17:902:f60c:: with SMTP id
- n12mr5020611plg.155.1644944497638; 
- Tue, 15 Feb 2022 09:01:37 -0800 (PST)
+ bh=qKNx/hUMMdUpgOrn9IAyD8EGaw4inpSUg6uvueEzEgo=;
+ b=7Ogjex6jvfE0bT9rbAhAOQ2aVktzba0zbvk5mLe8Hzpzcjk/wF1nVYzg+qnMEjDOIY
+ uSB3DftsWz1eEBFz1reEJb9lNp9bByv352gxEP1lOFgmHVsdaFLSEKViDGexZr13GSF7
+ NPio9HD89uH5p3/Ytz60Xb0VOBNYSob3otIhY3+ROWxgwdZm39EViWUO36+B4Mr9Bqv6
+ RyUsnnYrZ6g6ZxREMvS7qd1VB9RU4ueKQ738rA4Mx1yySEF5ltnVP8PxfST6xn4L/fvI
+ Z9BF6iDJHxrkJYUQib8iQXKJUA4VjH+LZ5XCDTNfRMsUxch6ztOc+FjSkL3cNfCfda99
+ b1Rg==
+X-Gm-Message-State: AOAM533GuyKNZjbYrq41I1U1RzhwYOBbVx7ECvzEVFAaOogW0v2cBQTF
+ y7eEDlMqFDiHaihf5UQLWpn2lbUD5jc=
+X-Google-Smtp-Source: ABdhPJzW48Aswjn3DBCKzbkvewuinWMDL9CWZaB/Tcj7JuLCo2a2hFQeiMGbfV3Xzc/R/ytiziYYlA==
+X-Received: by 2002:a63:101a:: with SMTP id f26mr4161408pgl.563.1644944506354; 
+ Tue, 15 Feb 2022 09:01:46 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id i3sm3151099pgq.65.2022.02.15.09.01.35
+ by smtp.gmail.com with ESMTPSA id 16sm17650365pje.34.2022.02.15.09.01.43
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 15 Feb 2022 09:01:37 -0800 (PST)
+ Tue, 15 Feb 2022 09:01:46 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 3/8] meson: Resolve the entitlement.sh script once for good
-Date: Tue, 15 Feb 2022 18:01:01 +0100
-Message-Id: <20220215170106.95848-4-f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2 4/8] configure: Disable out-of-line atomic operations on
+ Aarch64
+Date: Tue, 15 Feb 2022 18:01:02 +0100
+Message-Id: <20220215170106.95848-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215170106.95848-1-f4bug@amsat.org>
 References: <20220215170106.95848-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x434.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -98,39 +99,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Commit 235b523dba ("meson: Use find_program() to resolve the
-entitlement.sh script") didn't correctly fixed the issue, as
-the script is still resolved for each target. Move the check
-earlier, before processing each target.
+GCC 10.1 introduced the -moutline-atomics option on Aarch64.
+This options is enabled by default, and triggers a link failure:
+
+  Undefined symbols for architecture arm64:
+    "___aarch64_cas1_acq_rel", referenced from:
+        _qmp_migrate_recover in migration_migration.c.o
+        _cpu_atomic_cmpxchgb_mmu in accel_tcg_cputlb.c.o
+        _cpu_atomic_fetch_sminb_mmu in accel_tcg_cputlb.c.o
+        _cpu_atomic_fetch_uminb_mmu in accel_tcg_cputlb.c.o
+        _cpu_atomic_fetch_smaxb_mmu in accel_tcg_cputlb.c.o
+        _cpu_atomic_fetch_umaxb_mmu in accel_tcg_cputlb.c.o
+        _cpu_atomic_smin_fetchb_mmu in accel_tcg_cputlb.c.o
+        ...
+    "___aarch64_ldadd4_acq_rel", referenced from:
+        _multifd_recv_new_channel in migration_multifd.c.o
+        _monitor_event in monitor_hmp.c.o
+        _handle_hmp_command in monitor_hmp.c.o
+        _colo_compare_finalize in net_colo-compare.c.o
+        _flatview_unref in softmmu_memory.c.o
+        _virtio_scsi_hotunplug in hw_scsi_virtio-scsi.c.o
+        _tcg_register_thread in tcg_tcg.c.o
+        ...
+    "___aarch64_swp4_acq", referenced from:
+        _qemu_spin_lock in softmmu_cpu-timers.c.o
+        _cpu_get_ticks in softmmu_cpu-timers.c.o
+        _qemu_spin_lock in softmmu_icount.c.o
+        _cpu_exec in accel_tcg_cpu-exec.c.o
+        _page_flush_tb_1.isra.0 in accel_tcg_translate-all.c.o
+        _page_entry_lock in accel_tcg_translate-all.c.o
+        _do_tb_phys_invalidate in accel_tcg_translate-all.c.o
+        ...
+
+QEMU implements its own atomic operations using C11 builtin helpers.
+Disable the GCC out-of-line atomic ops.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- meson.build | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 
-diff --git a/meson.build b/meson.build
-index df25e7a5e7..287be51ff2 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2894,6 +2894,10 @@ common_all = static_library('common',
+Clearly out of my understanding, but at least it links and the qtests
+pass.
+---
+ configure | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/configure b/configure
+index 06c03cebd3..3217aa22cb 100755
+--- a/configure
++++ b/configure
+@@ -2826,6 +2826,18 @@ else
+   avx512f_opt="no"
+ fi
  
- feature_to_c = find_program('scripts/feature_to_c.sh')
- 
-+if targetos == 'darwin'
-+  entitlement = find_program('scripts/entitlement.sh')
-+endif
++#########################################
++# Disable out-of-line atomic operations.
 +
- emulators = {}
- foreach target : target_dirs
-   config_target = config_target_mak[target]
-@@ -3051,7 +3055,6 @@ foreach target : target_dirs
-         install_input += meson.current_source_dir() / entitlements
-       endif
++case "$cpu" in
++  aarch64)
++    write_c_skeleton;
++    if compile_prog "$CPU_CFLAGS -Werror -mno-outline-atomics" "" ; then
++      CPU_CFLAGS="-mno-outline-atomics $CPU_CFLAGS"
++    fi
++    ;;
++esac
++
+ ########################################
+ # check if __[u]int128_t is usable.
  
--      entitlement = find_program('scripts/entitlement.sh')
-       emulators += {exe['name'] : custom_target(exe['name'],
-                    input: build_input,
-                    output: exe['name'],
 -- 
 2.34.1
 
