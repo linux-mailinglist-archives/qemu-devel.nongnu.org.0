@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5158F4B74B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:30:10 +0100 (CET)
-Received: from localhost ([::1]:42256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D794B74BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:37:28 +0100 (CET)
+Received: from localhost ([::1]:50744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK3Wa-0000b9-5J
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:30:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35096)
+	id 1nK3df-0006X1-TL
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:37:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK380-0000Uw-HE
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:44 -0500
-Received: from [2607:f8b0:4864:20::f2c] (port=40636
- helo=mail-qv1-xf2c.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK382-0000YO-4P
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:46 -0500
+Received: from [2607:f8b0:4864:20::736] (port=37536
+ helo=mail-qk1-x736.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK37y-0002j6-H6
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:44 -0500
-Received: by mail-qv1-xf2c.google.com with SMTP id v10so26537qvk.7
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 11:04:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK380-0002jK-4l
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:45 -0500
+Received: by mail-qk1-x736.google.com with SMTP id 71so18211302qkf.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 11:04:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=q/a52Ymyen9MRJFePDxCcyYr+mACfmfhjAFtBkPNnik=;
- b=bj7+aSCws3ia/mOQt+JJ63Hv+pmA+6X/usethwlir31+s8ZXX5E4jKmcG8VE8BlFsQ
- eX7NlY4x2v0PEIWXPEuCPOBOqmK0Y3DUbT3+pSVvZFsfDzPb9tEewTv4goFp23/E1CRT
- 5JZtMS3pW8j7sBerC47zKFojaPTHVJ0aFxiipwP6IWwsjIDB6fHadBI6BpOcT2M/v4wq
- t8NB9kI1sFC+jiiq8IOyOp6WEl/1fJpVAc5InLxEK5/PEWDXU81mBwC4KEmbbbrKEBT2
- epKYJD81Oq6ESyTqJ1eGtpvyMV9CEq07QhQSjlcHwFn4LBzztDKvROqjlWqt/KDFhGOb
- 2Ulw==
+ bh=aU38QXrWIFeszm233oTiu8pqJG9R/BMWH8IeCEGMGvc=;
+ b=if8EoBF93CN41Elg221j8HZak/5KMvhkebm5HhVaYmU1EifxoSEfxcvn6w7SLUsMKn
+ vqNYZ8CpqKS1p/t0GAQQQrKp+Da637mzRsrXjucWqn+aotczT/RpWDS5yXVg7lKjIXQa
+ Vnzvzecd/eTMoHp1Pqm/RRYhjcG9Tmn9Dga7/7EdcLY6LNVjA5EXnnpg75AkuCn5GrgB
+ Sd+hrG2Y6vkBiP6iyAfsJatVNVar3qeqjIBlHig0Gz2gXN1Z9nimH8azDL0rHTk+Xrus
+ rDUqQ25+MZG3XSgYVMe3H9x/i8EQaND0+O6ZH/kmnz2oz4fTplekDhO7hsFZo/JpEHOa
+ MNOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=q/a52Ymyen9MRJFePDxCcyYr+mACfmfhjAFtBkPNnik=;
- b=qYV+pG8lmitu4ZEWjxMfzt4wWducWgBN2OEZid91dHvY+ox5u+8V/O/zfkq+GFw0za
- B7+/hv1xFwwW7TxtGm6IylLET1xdDj3dMj4VrtZqbfKOXmwsx1B7vYZZZBaPnjLruvvd
- Vy5bfvV2BGy0pIl4nqEd/ogNfu8lWk6bb5QB9zvOo+tjmCMRnVOjTSQtE3C4s80eYz+E
- EmwVqV0BKRXZKwG22bkk18MPj2ngy2QfGUIcwCl/vyYK0xd7KJq6Y+DFQE04iqtRzYKH
- c1IeRKLGGC4LeD6fV1lwD3KOXty9yjCHJR+ADGM58+edlXxM7MiczcbtmUGBx2bzdGwr
- RdsQ==
-X-Gm-Message-State: AOAM530xJVbeHH5Syjdu/uixjsHnzrqeUvgxvBg/ph/FwbqaN2zdubGJ
- 0ZFs5Ii85jEwvaVVYPdbQG5gv+226UkebA==
-X-Google-Smtp-Source: ABdhPJwR6/OriVWYUayfUKBTmm2E9EYc5Lzc+DO/8v/SibYPfgYsXJRZMunQxrGMMB/7kstsM1Q08w==
-X-Received: by 2002:a05:6214:5005:: with SMTP id
- jo5mr422712qvb.19.1644951881040; 
- Tue, 15 Feb 2022 11:04:41 -0800 (PST)
+ bh=aU38QXrWIFeszm233oTiu8pqJG9R/BMWH8IeCEGMGvc=;
+ b=1Kg2OWER27i0c58uhBIob+D+cGtTdsMWZSB57k9KGbSLls0u+AAHs4T4kxWhiZpAqv
+ PM25/BoEoPRnuicXmDAnZh+bMjCrAIgeSQCjLwkRXO0E0rOOOTkE+cSRjr8egJZngZYH
+ sCsMpBuBs5l3073YcIK/CsuUd9jn67/wknG45KUHQn2fQeRuynrc3eBkYCt4cPLxgl9J
+ v3/gZ7NiWWdUfrpZPhWAOE1juT4SYi9Cz3g9vushR6A8RLDfdljcFzdvt1zUAvz4ZDdP
+ 5tTmE+yG0h5QLC5NRfZeczAn7bOGK1cN/iDdzXFbqbNkkfXhuSJJmollFHRM/3hHaVL1
+ WEKg==
+X-Gm-Message-State: AOAM532iblyB6KIC5VgZprSRHhDCE/xoZySbvJv3G4aP1Y0xWsAxFWau
+ 0zHWWYdqvCffXsd1EiEIxOUZYOSPiT+Wfw==
+X-Google-Smtp-Source: ABdhPJxjm52TCK0k9w6f7K3clCuBvHUu7Rt7ecMeGIE0N6y7JRIwgAfOS1vQDsrlCZZimTVB1B86XQ==
+X-Received: by 2002:a05:620a:70f:: with SMTP id
+ 15mr253071qkc.682.1644951882784; 
+ Tue, 15 Feb 2022 11:04:42 -0800 (PST)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id w10sm21364527qtj.73.2022.02.15.11.04.36
+ by smtp.gmail.com with ESMTPSA id w10sm21364527qtj.73.2022.02.15.11.04.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 11:04:40 -0800 (PST)
+ Tue, 15 Feb 2022 11:04:41 -0800 (PST)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 01/11] 9p: linux: Fix a couple Linux assumptions
-Date: Tue, 15 Feb 2022 14:04:16 -0500
-Message-Id: <20220215190426.56130-2-wwcohen@gmail.com>
+Subject: [PATCH v7 02/11] 9p: Rename 9p-util -> 9p-util-linux
+Date: Tue, 15 Feb 2022 14:04:17 -0500
+Message-Id: <20220215190426.56130-3-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215190426.56130-1-wwcohen@gmail.com>
 References: <20220215190426.56130-1-wwcohen@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::736
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
- envelope-from=wwcohen@gmail.com; helo=mail-qv1-xf2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=wwcohen@gmail.com; helo=mail-qk1-x736.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -99,107 +99,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
- - Guard Linux only headers.
- - Add qemu/statfs.h header to abstract over the which
-   headers are needed for struct statfs
- - Define `ENOATTR` only if not only defined
-   (it's defined in system headers on Darwin).
+The current file only has the Linux versions of these functions.
+Rename the file accordingly and update the Makefile to only build
+it on Linux. A Darwin version of these will follow later in the
+series.
 
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
 [Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-
-While it might at first appear that fsdev/virtfs-proxy-header.c would
-need similar adjustment for darwin as file-op-9p here, a later patch in
-this series disables virtfs-proxy-helper for non-Linux. Allowing
-virtfs-proxy-helper on darwin could potentially be an additional
-optimization later.
-
-[Will Cohen: - Fix headers for Alpine
-             - Integrate statfs.h back into file-op-9p.h
-             - Remove superfluous header guards from file-opt-9p
-             - Add note about virtfs-proxy-helper being disabled
-               on non-Linux for this patch series]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- fsdev/file-op-9p.h   | 9 ++++++++-
- hw/9pfs/9p-local.c   | 2 ++
- hw/9pfs/9p.c         | 4 ++++
- include/qemu/xattr.h | 4 +++-
- 4 files changed, 17 insertions(+), 2 deletions(-)
+ hw/9pfs/{9p-util.c => 9p-util-linux.c} | 2 +-
+ hw/9pfs/meson.build                    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (97%)
 
-diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
-index 8fd89f0447..4997677460 100644
---- a/fsdev/file-op-9p.h
-+++ b/fsdev/file-op-9p.h
-@@ -16,10 +16,17 @@
- 
- #include <dirent.h>
- #include <utime.h>
--#include <sys/vfs.h>
- #include "qemu-fsdev-throttle.h"
- #include "p9array.h"
- 
-+#ifdef CONFIG_LINUX
-+# include <sys/vfs.h>
-+#endif
-+#ifdef CONFIG_DARWIN
-+# include <sys/param.h>
-+# include <sys/mount.h>
-+#endif
-+
- #define SM_LOCAL_MODE_BITS    0600
- #define SM_LOCAL_DIR_MODE_BITS    0700
- 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 210d9e7705..1a5e3eed73 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -32,10 +32,12 @@
- #include "qemu/error-report.h"
- #include "qemu/option.h"
- #include <libgen.h>
-+#ifdef CONFIG_LINUX
- #include <linux/fs.h>
- #ifdef CONFIG_LINUX_MAGIC_H
- #include <linux/magic.h>
- #endif
-+#endif
- #include <sys/ioctl.h>
- 
- #ifndef XFS_SUPER_MAGIC
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 15b3f4d385..9c63e14b28 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -32,7 +32,11 @@
- #include "migration/blocker.h"
- #include "qemu/xxhash.h"
- #include <math.h>
-+#ifdef CONFIG_LINUX
- #include <linux/limits.h>
-+#else
-+#include <limits.h>
-+#endif
- 
- int open_fd_hw;
- int total_open_fd;
-diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
-index a83fe8e749..f1d0f7be74 100644
---- a/include/qemu/xattr.h
-+++ b/include/qemu/xattr.h
-@@ -22,7 +22,9 @@
- #ifdef CONFIG_LIBATTR
- #  include <attr/xattr.h>
- #else
--#  define ENOATTR ENODATA
-+#  if !defined(ENOATTR)
-+#    define ENOATTR ENODATA
-+#  endif
- #  include <sys/xattr.h>
- #endif
+diff --git a/hw/9pfs/9p-util.c b/hw/9pfs/9p-util-linux.c
+similarity index 97%
+rename from hw/9pfs/9p-util.c
+rename to hw/9pfs/9p-util-linux.c
+index 3221d9b498..398614a5d0 100644
+--- a/hw/9pfs/9p-util.c
++++ b/hw/9pfs/9p-util-linux.c
+@@ -1,5 +1,5 @@
+ /*
+- * 9p utilities
++ * 9p utilities (Linux Implementation)
+  *
+  * Copyright IBM, Corp. 2017
+  *
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
+index 99be5d9119..1b28e70040 100644
+--- a/hw/9pfs/meson.build
++++ b/hw/9pfs/meson.build
+@@ -4,7 +4,6 @@ fs_ss.add(files(
+   '9p-posix-acl.c',
+   '9p-proxy.c',
+   '9p-synth.c',
+-  '9p-util.c',
+   '9p-xattr-user.c',
+   '9p-xattr.c',
+   '9p.c',
+@@ -14,6 +13,7 @@ fs_ss.add(files(
+   'coth.c',
+   'coxattr.c',
+ ))
++fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-util-linux.c'))
+ fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
+ softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
  
 -- 
 2.34.1
