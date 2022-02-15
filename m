@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213364B69A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:46:51 +0100 (CET)
-Received: from localhost ([::1]:44048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E21B4B6A3A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 12:06:58 +0100 (CET)
+Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJvM9-00050X-CI
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:46:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45700)
+	id 1nJvfd-0004UQ-8U
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 06:06:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nJvKp-0004Fq-PR
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:45:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nJvKl-00047r-V6
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:45:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644921922;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=B7AwO4+sTGzqweAjlUTOY5stF5sMlXbFPZe7vb2KjNE=;
- b=LGSMucvpnK+ESgKa8ostgg8kHZRFDDaph97pLHVgU8YynCuYx9WoBtcaUMoQYK1bOV7d3O
- 5ZqHwBWe6rx1gbGqYf1jPVEyOqA9E0b7oITKi5l8a/urRQzHfSNzr1LQpkfn+SIF3NsElS
- KQIxZ6m82EhRFF3Is8JTyS4db2kSVXE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-K6pbBXafMg2q5uN1mK6GAw-1; Tue, 15 Feb 2022 05:45:07 -0500
-X-MC-Unique: K6pbBXafMg2q5uN1mK6GAw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BB781006AA4;
- Tue, 15 Feb 2022 10:45:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.196.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 91C60703B5;
- Tue, 15 Feb 2022 10:44:58 +0000 (UTC)
-Date: Tue, 15 Feb 2022 10:44:55 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: 9 TiB vm memory creation
-Message-ID: <YguEJ332BZXm3fFC@redhat.com>
-References: <alpine.DEB.2.22.394.2202141048390.13781@anisinha-lenovo>
- <20220214133634.248d7de0@redhat.com>
- <b9771171-8d28-b46b-4474-687a8fed0abd@redhat.com>
- <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
- <b06ab7b0-61f2-5301-70f9-197dfd9527e9@redhat.com>
- <CAARzgwwDFybUsCj8Ym6kpcjNRCVV6vbsY7Lks0wsmrc2+ET03Q@mail.gmail.com>
- <492bd3a4-4a26-afc9-1268-74a9fd7f095a@redhat.com>
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nJvZg-0001BH-Ir
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 06:00:48 -0500
+Received: from [2607:f8b0:4864:20::62f] (port=42509
+ helo=mail-pl1-x62f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1nJvZZ-0006PV-8y
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 06:00:47 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id z17so12793520plb.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 03:00:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pJyNfi9Xg4L2BVEQfVxf88ijOUy1oJWXqnhUosj5ld0=;
+ b=XqdN1ATA9+6X/ZN/4Kr1/yWlsiXaccIvFi5aGlYNxssoCIczKs48fRGbp7cl4tYI+C
+ eL2jBlMv5tPtU48Gt9a6py3+2BI1Ai2U0qB6qkDXQkaBXfcUUAJ1Zgb6+HAnJvTr/4HV
+ EOkNo1+YKPyiOIl6h0yTl22Xd2MlUkrr+F4JK8AJPv04kiZVk4YWyORywKG/dEQ7LqNp
+ vhtazd8azahp/G33bGaCDr8L/c3pAXAJaZzbg5ccvUNYPp/VhLdkzGn9L5fS2Og3wT6i
+ SQ56Qv2+4vrOjCbQEqK5OWVmiV7qPPPTjkUOL8eG5sgnfRFEWPu3Frjl3GxMUiCRNJfU
+ bhuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pJyNfi9Xg4L2BVEQfVxf88ijOUy1oJWXqnhUosj5ld0=;
+ b=IBNTqE2cAJAkeUAoJZVBeFxu4ikz1PMt10rN8dZBRVywSE358kYdvE7CQDEWLY2xQW
+ DQIL/VBDlmrkXQnSxjiiKVyxinPk9AmLaPnorA7LS5UcHPnUX7Saiz88CvbJb/dArCXd
+ qFcxD/REyJ+01CkSOJ2O2+spTdWmp9ukqsM5bGooLW7bwzTg1xM+V8EWkVb8ZY8CFsso
+ qjuCNY1Q3fK8kWCXKO71J33F2iIcHlRG158YuVBVoFMkVcCyvwnSTtDmG6aukgi68ZtC
+ WiNQPD5VH6LV7I1myW/hWMsnrJsmoAORmaU5BrhBgLFA9jiFJkJ3btfIc6mJjTlPA0jP
+ XNGA==
+X-Gm-Message-State: AOAM531GwGVyZuafv5cPR/8Iu2jME5M+k+164F33EEhEF7wIcb1B0U1X
+ 7lEy3jeWYQsFje1QPBTQVISv
+X-Google-Smtp-Source: ABdhPJz6lFKR3lSKXEGxF1/ko1Zj8p5GGj8fgcf1Y9ppgxRa9s2c8F2icuBkLOc8XYUm5N/x+Xq5RA==
+X-Received: by 2002:a17:90a:e2cb:: with SMTP id
+ fr11mr3693542pjb.64.1644922827606; 
+ Tue, 15 Feb 2022 03:00:27 -0800 (PST)
+Received: from localhost ([139.177.225.253])
+ by smtp.gmail.com with ESMTPSA id n15sm2349844pgd.17.2022.02.15.03.00.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Feb 2022 03:00:25 -0800 (PST)
+From: Xie Yongji <xieyongji@bytedance.com>
+To: mst@redhat.com, jasowang@redhat.com, stefanha@redhat.com,
+ sgarzare@redhat.com, kwolf@redhat.com, mreitz@redhat.com,
+ mlureau@redhat.com
+Subject: [PATCH v2 0/6] Support exporting BDSs via VDUSE
+Date: Tue, 15 Feb 2022 18:59:37 +0800
+Message-Id: <20220215105943.90-1-xieyongji@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <492bd3a4-4a26-afc9-1268-74a9fd7f095a@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=xieyongji@bytedance.com; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,95 +87,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 09:38:34AM +0100, David Hildenbrand wrote:
-> On 15.02.22 09:12, Ani Sinha wrote:
-> > On Tue, Feb 15, 2022 at 1:25 PM David Hildenbrand <david@redhat.com> wrote:
-> >>
-> >> On 15.02.22 08:00, Ani Sinha wrote:
-> >>>
-> >>>
-> >>> On Mon, 14 Feb 2022, David Hildenbrand wrote:
-> >>>
-> >>>> On 14.02.22 13:36, Igor Mammedov wrote:
-> >>>>> On Mon, 14 Feb 2022 10:54:22 +0530 (IST)
-> >>>>> Ani Sinha <ani@anisinha.ca> wrote:
-> >>>>>
-> >>>>>> Hi Igor:
-> >>>>>>
-> >>>>>> I failed to spawn a 9 Tib VM. The max I could do was a 2 TiB vm on my
-> >>>>>> system with the following commandline before either the system
-> >>>>>> destabilized or the OOM killed killed qemu
-> >>>>>>
-> >>>>>> -m 2T,maxmem=9T,slots=1 \
-> >>>>>> -object memory-backend-file,id=mem0,size=2T,mem-path=/data/temp/memfile,prealloc=off \
-> >>>>>> -machine memory-backend=mem0 \
-> >>>>>> -chardev file,path=/tmp/debugcon2.txt,id=debugcon \
-> >>>>>> -device isa-debugcon,iobase=0x402,chardev=debugcon \
-> >>>>>>
-> >>>>>> I have attached the debugcon output from 2 TiB vm.
-> >>>>>> Is there any other commandline parameters or options I should try?
-> >>>>>>
-> >>>>>> thanks
-> >>>>>> ani
-> >>>>>
-> >>>>> $ truncate -s 9T 9tb_sparse_disk.img
-> >>>>> $ qemu-system-x86_64 -m 9T \
-> >>>>>   -object memory-backend-file,id=mem0,size=9T,mem-path=9tb_sparse_disk.img,prealloc=off,share=on \
-> >>>>>   -machine memory-backend=mem0
-> >>>>>
-> >>>>> works for me till GRUB menu, with sufficient guest kernel
-> >>>>> persuasion (i.e. CLI limit ram size to something reasonable) you can boot linux
-> >>>>> guest on it and inspect SMBIOS tables comfortably.
-> >>>>>
-> >>>>>
-> >>>>> With KVM enabled it bails out with:
-> >>>>>    qemu-system-x86_64: kvm_set_user_memory_region: KVM_SET_USER_MEMORY_REGION failed, slot=1, start=0x100000000, size=0x8ff40000000: Invalid argument
-> >>>>>
-> >>>
-> >>> I have seen this in my system but not always. Maybe I should have dug
-> >>> deeper as to why i do see this all the time.
-> >>>
-> >>>>> all of that on a host with 32G of RAM/no swap.
-> >>>>>
-> >>>
-> >>> My system in 16 Gib of main memory, no swap.
-> >>>
-> >>>>
-> >>>> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
-> >>>>
-> >>>> ~8 TiB (7,999999)
-> >>>
-> >>> That's not 8 Tib, thats 2 GiB. But yes, 0x8ff40000000 is certainly greater
-> >>> than 2 Gib * 4K (assuming 4K size pages).
-> >>
-> >> "pages" don't carry the unit "GiB/TiB", so I was talking about the
-> >> actual size with 4k pages (your setup, I assume)
-> > 
-> > yes I got that after reading your email again.
-> > The interesting question now is how is redhat QE running 9 TiB vm with kvm?
-> 
-> As already indicated by me regarding s390x only having single large NUMA
-> nodes, x86 is usually using multiple NUMA nodes with such large memory.
+Hi all,
 
-Yes, this is a documented requirement for KVM limits:
+Last few months ago, VDUSE (vDPA Device in Userspace) [1] has
+been merged into Linux kernel as a framework that make it
+possible to emulate a vDPA device in userspace. This series
+aimed at implementing a VDUSE block backend based on the
+qemu-storage-daemon infrastructure.
 
-     https://access.redhat.com/articles/906543
+To support that, we firstly introduce a VDUSE library as a
+subproject (like what libvhost-user does) to help implementing
+VDUSE backends in QEMU. Then a VDUSE block export is implemented
+based on this library. At last, we add resize and reconnect support
+to the VDUSE block export and VDUSE library.
 
-   "3. Note that virtualized guests larger than 8 TB currently 
-    require explicit virtual NUMA configuration, because the 
-    maximum virtual NUMA node size is 8 TB."
+Since we don't support vdpa-blk in QEMU currently, the VM case is
+tested with my previous patchset [2].
 
-Regards,
-Daniel
+[1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
+[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg797569.html
+
+Please review, thanks!
+
+V1 to V2:
+- Move vduse header to linux-headers [Stefan]
+- Add two new API to support creating device from /dev/vduse/$NAME or
+  file descriptor [Stefan]
+- Check VIRTIO_F_VERSION_1 during intialization [Stefan]
+- Replace malloc() + memset to calloc() [Stefan]
+- Increase default queue size to 256 for vduse-blk [Stefan]
+- Zero-initialize virtio-blk config space [Stefan]
+- Add a patch to support reset blk->dev_ops
+- Validate vq->log->inflight fields [Stefan]
+- Add vduse_set_reconnect_log_file() API to support specifing the
+  reconnect log file
+- Fix some bugs [Stefan]
+
+Xie Yongji (6):
+  block: Support passing NULL ops to blk_set_dev_ops()
+  linux-headers: Add vduse.h
+  libvduse: Add VDUSE (vDPA Device in Userspace) library
+  vduse-blk: implements vduse-blk export
+  vduse-blk: Add vduse-blk resize support
+  libvduse: Add support for reconnecting
+
+ block/block-backend.c                       |    2 +-
+ block/export/export.c                       |    6 +
+ block/export/meson.build                    |    5 +
+ block/export/vduse-blk.c                    |  462 +++++++
+ block/export/vduse-blk.h                    |   20 +
+ linux-headers/linux/vduse.h                 |  306 +++++
+ meson.build                                 |   28 +
+ meson_options.txt                           |    4 +
+ qapi/block-export.json                      |   24 +-
+ scripts/meson-buildoptions.sh               |    7 +
+ scripts/update-linux-headers.sh             |    2 +-
+ subprojects/libvduse/include/atomic.h       |    1 +
+ subprojects/libvduse/libvduse.c             | 1374 +++++++++++++++++++
+ subprojects/libvduse/libvduse.h             |  237 ++++
+ subprojects/libvduse/linux-headers/linux    |    1 +
+ subprojects/libvduse/meson.build            |   10 +
+ subprojects/libvduse/standard-headers/linux |    1 +
+ 17 files changed, 2486 insertions(+), 4 deletions(-)
+ create mode 100644 block/export/vduse-blk.c
+ create mode 100644 block/export/vduse-blk.h
+ create mode 100644 linux-headers/linux/vduse.h
+ create mode 120000 subprojects/libvduse/include/atomic.h
+ create mode 100644 subprojects/libvduse/libvduse.c
+ create mode 100644 subprojects/libvduse/libvduse.h
+ create mode 120000 subprojects/libvduse/linux-headers/linux
+ create mode 100644 subprojects/libvduse/meson.build
+ create mode 120000 subprojects/libvduse/standard-headers/linux
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.20.1
 
 
