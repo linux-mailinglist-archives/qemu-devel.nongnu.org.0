@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81474B7B2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 00:26:25 +0100 (CET)
-Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3CF4B7B75
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 00:55:02 +0100 (CET)
+Received: from localhost ([::1]:59564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK7DE-000877-Gc
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 18:26:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60336)
+	id 1nK7eu-0005Fy-Ua
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 18:55:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nK7BL-00078V-5e
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 18:24:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42153)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nK7dU-0004ad-Sm
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 18:53:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nK7BI-00018G-5G
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 18:24:26 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nK7dR-0005Em-LN
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 18:53:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644967463;
+ s=mimecast20190719; t=1644969208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R8MYDs9GbnWZySyj85jzHHisSEs9j1WoFWDhSPSY9IM=;
- b=jNASmpFGSAnImpj9R9pZNXBI2jETOcxMml+sAyh7ppP2vftAhYbRyXbxpNBTTvBvWVjM3b
- mdZuCx5TiPkicq8c9DFz2Z0HbctV9kwSQBYjfXKK+V46FNO7pXrfapjPIPR7wEWTkP7q1w
- baLdWRHHov6Ttp/WjZU9UVxnsLnhSJM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LeiBt5O8Wx0z3A5vviFvDmZPUpuqlWFuy40tnovxmmI=;
+ b=ZTeT1p+s5KoUHZTV/1iYZrRMUHQD0KXmmo8kfXre0cpfRti2XfG0Qeg9iVscKeUHk2MrsQ
+ sZNwwOzbvvLiHcNT6wxJdmN1NQyP1c/mP518arCRElH3YaccRo8l1KxNIkcVWSYBrF+PBZ
+ urS93CdUCCDTmjqcJKVC2KrgPzkAFYE=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-347-YhChSWKQOHiYyNN7BYnzow-1; Tue, 15 Feb 2022 18:24:20 -0500
-X-MC-Unique: YhChSWKQOHiYyNN7BYnzow-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D721F801B1C;
- Tue, 15 Feb 2022 23:24:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.22.17.153])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3671A104F1;
- Tue, 15 Feb 2022 23:24:17 +0000 (UTC)
-Date: Tue, 15 Feb 2022 17:24:14 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Nir Soffer <nsoffer@redhat.com>
-Subject: Re: [PATCH v2] nbd/server: Allow MULTI_CONN for shared writable
- exports
-Message-ID: <20220215232414.g4l4qoqiqyjvnweg@redhat.com>
-References: <20220215171838.2651387-1-eblake@redhat.com>
- <CAMRbyyvdBWMB9bzpkUUMO+SZj6PN8Xy0kJnvqLhB2W6vw+5iWQ@mail.gmail.com>
+ us-mta-638-JtYvxo5FMb2Ax0FZMRPu3g-1; Tue, 15 Feb 2022 18:53:27 -0500
+X-MC-Unique: JtYvxo5FMb2Ax0FZMRPu3g-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ a16-20020ab03c90000000b0033c71cc6a2cso290328uax.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 15:53:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LeiBt5O8Wx0z3A5vviFvDmZPUpuqlWFuy40tnovxmmI=;
+ b=XlM6bicGMuQBal/LAN1eRLJOAMj5b6DWZ/qCJJh05CJJpIr2jdXlNinOE4QI2ItsRj
+ qo27NThJ4CpUCAOGXgWU7FOghQfbFsdVlDFa3N4dpIyz7gorKZRK+etizBlmgD4KIdI7
+ Y4Y3ZnIcxfoorHYqX0d80cjqOQiNy/W3DNkqK9jp7kAVkf18K6z9/+CXu0eqjsg/MaUO
+ Rd6BR0g4sAQf3l1OQmWRQEd/Ku1GZhzy+ZIrzW3Jo9A/UcwV8RNMBQqfSaZP1GuinGP0
+ BCqQlxnCYUIZkFGbPC2I7aF7J+kcHH4l2d1i6M0MqKYZfgLRTgVX9GcmtM7haA9p1c7n
+ Vo/g==
+X-Gm-Message-State: AOAM530vX2HAlq4xYKHACGh8iOLyeaWtPWInx2nYW7qqAB6vdJdWbJ7T
+ oWVVwq7bAS0jY34L1PYmuK5ffhBccJVfQr8HSUIG7qIOsecVvVh2sBRYeaxcs8uToGE0IgGwmVy
+ Y3nHiBh7p64H/jakL8pGrWu0oO8sgbHg=
+X-Received: by 2002:a9f:3dc7:0:b0:33d:1812:15ac with SMTP id
+ e7-20020a9f3dc7000000b0033d181215acmr37387uaj.79.1644969206521; 
+ Tue, 15 Feb 2022 15:53:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyclthbg7wN/OX57t7HDMA6ru6Fl242+bD5mFl97xOM5pzHmxfh5iIHL+m2iZ1tPCB1+KMO4S2K8+9TtRULh04=
+X-Received: by 2002:a9f:3dc7:0:b0:33d:1812:15ac with SMTP id
+ e7-20020a9f3dc7000000b0033d181215acmr37380uaj.79.1644969206219; Tue, 15 Feb
+ 2022 15:53:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMRbyyvdBWMB9bzpkUUMO+SZj6PN8Xy0kJnvqLhB2W6vw+5iWQ@mail.gmail.com>
-User-Agent: NeoMutt/20211029-322-5436a9
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20220215220853.4179173-1-jsnow@redhat.com>
+ <20220215220853.4179173-2-jsnow@redhat.com>
+ <20220215225502.uuqqjkbbhqwuajn2@redhat.com>
+In-Reply-To: <20220215225502.uuqqjkbbhqwuajn2@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 15 Feb 2022 18:53:15 -0500
+Message-ID: <CAFn=p-be7D7DW3cxti3oC60EjhgPAeXyDhHW4owcEWb_Mvf-gQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] python/utils: add enboxify() text decoration utility
+To: Eric Blake <eblake@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -66,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,333 +93,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block <qemu-block@nongnu.org>, Richard Jones <rjones@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 09:23:36PM +0200, Nir Soffer wrote:
-> On Tue, Feb 15, 2022 at 7:22 PM Eric Blake <eblake@redhat.com> wrote:
-> 
-> > According to the NBD spec, a server advertising
-> > NBD_FLAG_CAN_MULTI_CONN promises that multiple client connections will
-> > not see any cache inconsistencies: when properly separated by a single
-> > flush, actions performed by one client will be visible to another
-> > client, regardless of which client did the flush.  We satisfy these
-> > conditions in qemu when our block layer is backed by the local
-> > filesystem (by virtue of the semantics of fdatasync(), and the fact
-> > that qemu itself is not buffering writes beyond flushes).  It is
-> > harder to state whether we satisfy these conditions for network-based
-> > protocols, so the safest course of action is to allow users to opt-in
-> > to advertising multi-conn.  We may later tweak defaults to advertise
-> > by default when the block layer can confirm that the underlying
-> > protocol driver is cache consistent between multiple writers, but for
-> > now, this at least allows savvy users (such as virt-v2v or nbdcopy) to
-> > explicitly start qemu-nbd or qemu-storage-daemon with multi-conn
-> > advertisement in a known-safe setup where the client end can then
-> > benefit from parallel clients.
+On Tue, Feb 15, 2022 at 5:55 PM Eric Blake <eblake@redhat.com> wrote:
+>
+> On Tue, Feb 15, 2022 at 05:08:50PM -0500, John Snow wrote:
+> > >>> print(enboxify(msg, width=3D72, name=3D"commit message"))
+> > =E2=94=8F=E2=94=81 commit message =E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=93
+> > =E2=94=83 enboxify() takes a chunk of text and wraps it in a text art b=
+ox that =E2=94=83
+> > =E2=94=83  adheres to a specified width. An optional title label may be=
+ given, =E2=94=83
+> > =E2=94=83  and any of the individual glyphs used to draw the box may be=
+        =E2=94=83
+>
+> Why do these two lines have a leading space,
+>
+> > =E2=94=83 replaced or specified as well.                               =
+        =E2=94=83
+>
+> but this one doesn't?  It must be an off-by-one corner case when your
+> choice of space to wrap on is exactly at the wrap column.
+>
+
+Right, you're probably witnessing the right-pad *and* the actual space.
+
+> > =E2=94=97=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=9B
 > >
-> 
-> It makes sense, and will be used by oVirt. Actually we are already using
-> multiple connections for writing about 2 years, based on your promise
-> that if every client writes to district  areas this is safe.
-
-I presume s/district/distinct/, but yes, I'm glad we're finally trying
-to make the code match existing practice ;)
-
-> > +++ b/docs/tools/qemu-nbd.rst
-> > @@ -139,8 +139,7 @@ driver options if ``--image-opts`` is specified.
-> >  .. option:: -e, --shared=NUM
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  python/qemu/utils/__init__.py | 58 +++++++++++++++++++++++++++++++++++
+> >  1 file changed, 58 insertions(+)
 > >
-> >    Allow up to *NUM* clients to share the device (default
-> > -  ``1``), 0 for unlimited. Safe for readers, but for now,
-> > -  consistency is not guaranteed between multiple writers.
-> > +  ``1``), 0 for unlimited.
+> > diff --git a/python/qemu/utils/__init__.py b/python/qemu/utils/__init__=
+.py
+> > index 7f1a5138c4b..f785316f230 100644
+> > --- a/python/qemu/utils/__init__.py
+> > +++ b/python/qemu/utils/__init__.py
+> > @@ -15,7 +15,10 @@
+> >  # the COPYING file in the top-level directory.
+> >  #
 > >
-> 
-> Removing the note means that now consistency is guaranteed between
-> multiple writers, no?
-> 
-> Or maybe we want to mention here that consistency depends on the protocol
-> and users can opt in, or refer to the section where this is discussed?
-
-Yeah, a link to the QAPI docs where multi-conn is documented might be
-nice, except I'm not sure the best way to do that in our sphinx
-documentation setup.
-
-> > +##
-> > +# @NbdExportMultiConn:
-> > +#
-> > +# Possible settings for advertising NBD multiple client support.
-> > +#
-> > +# @off: Do not advertise multiple clients.
-> > +#
-> > +# @on: Allow multiple clients (for writable clients, this is only safe
-> > +#      if the underlying BDS is cache-consistent, such as when backed
-> > +#      by the raw file driver); ignored if the NBD server was set up
-> > +#      with max-connections of 1.
-> > +#
-> > +# @auto: Behaves like @off if the export is writable, and @on if the
-> > +#        export is read-only.
-> > +#
-> > +# Since: 7.0
-> > +##
-> > +{ 'enum': 'NbdExportMultiConn',
-> > +  'data': ['off', 'on', 'auto'] }
-> >
-> 
-> Are we going to have --multi-con=(on|off|auto)?
-
-Oh. The QMP command (which is immediately visible through
-nbd-server-add/block-storage-add to qemu and qemu-storage-daemon)
-gains "multi-conn":"on", but you may be right that qemu-nbd would want
-a command line option (either that, or we accellerate our plans that
-qsd should replace qemu-nbd).
-
-> > +++ b/blockdev-nbd.c
-> > @@ -44,6 +44,11 @@ bool nbd_server_is_running(void)
-> >      return nbd_server || is_qemu_nbd;
-> >  }
-> >
-> > +int nbd_server_max_connections(void)
-> > +{
-> > +    return nbd_server ? nbd_server->max_connections : -1;
-> > +}
-> >
-> 
-> -1 is a little bit strange for a limit, maybe 1 is a better default when
-> we nbd_server == NULL? When can this happen?
-
-In qemu, if you haven't used the QMP command 'nbd-server-start' yet.
-In qemu-nbd, always (per the nbd_server_is_running function just
-above).  My iotest only covered the qemu/qsd side, not the qemu-nbd
-side, so it looks like I need a v3...
-
-> > +++ b/nbd/server.c
-
-> > +    /*
-> > +     * Determine whether to advertise multi-conn.  Default is auto,
-> > +     * which resolves to on for read-only and off for writable.  But
-> > +     * if the server has max-connections 1, that forces the flag off.
-> >
-> 
-> Looks good, this can be enabled automatically based on the driver
-> if we want, so users using auto will can upgrade to multi-con automatically.
-
-Yes, that's part of why I made it a tri-state with a default of 'auto'.
-
-> 
-> 
-> > +     */
-> > +    if (!arg->has_multi_conn) {
-> > +        arg->multi_conn = NBD_EXPORT_MULTI_CONN_AUTO;
-> > +    }
-> > +    if (nbd_server_max_connections() == 1) {
-> 
-> +        arg->multi_conn = NBD_EXPORT_MULTI_CONN_OFF;
-> > +    }
-> 
-> +    if (arg->multi_conn == NBD_EXPORT_MULTI_CONN_AUTO) {
-> > +        multi_conn = readonly;
-> > +    } else {
-> > +        multi_conn = arg->multi_conn == NBD_EXPORT_MULTI_CONN_ON;
-> > +    }
-> >
-> 
-> This part is a little bit confusing - we do:
-> - initialize args->multi_con if it has not value
-> - set the temporary multi_con based now initialized args->multi_con
-> 
-> I think it will be nicer to separate arguments parsing, so there is no need
-> to initialize it here or have arg->has_multi_conn, but I did not check how
-> other arguments are handled.
-
-arg->has_multi_conn is fallout from the fact that our QAPI must remain
-back-compat. If it is false, the user did not pass "multi-conn":...,
-so we want the default value of "auto".  Once we've established the
-default, then we force multi-conn off if we know we are limited to one
-client (although as you pointed out, nbd_server_max_connections()
-needs to be tested with qemu-nbd).  Then, it's easier to resolve the
-tri-state enum variable into the bool of what we actually advertise to
-the NBD client.
-
-> > +++ b/tests/qemu-iotests/tests/nbd-multiconn
-> > @@ -0,0 +1,188 @@
-> > +#!/usr/bin/env bash
-> > +# group: rw auto quick
-> > +#
-> > +# Test that qemu-nbd MULTI_CONN works
-> > +#
-> > +echo
-> > +echo "=== Initial image setup ==="
-> > +echo
-> > +
-> > +_make_test_img 4M
-> > +$QEMU_IO -c 'w -P 1 0 2M' -c 'w -P 2 2M 2M' "$TEST_IMG" | _filter_qemu_io
-> > +_launch_qemu 2> >(_filter_nbd)
-> > +_send_qemu_cmd $QEMU_HANDLE '{"execute":"qmp_capabilities"}' "return"
-> > +_send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
-> > +  "arguments":{"driver":"qcow2", "node-name":"n",
-> > +    "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
-
-I'm not the best at writing python iotests; I welcome a language
-translation of this aspect.  But the shell code for
-_launch_qemu/_send_qemu_cmd was already pretty nice for setting up a
-long-running background qemu process where I can pass in QMP commands
-at will, then interact from other processes.
-
-> > +export nbd_unix_socket
-> > +
-> > +echo
-> > +echo "=== Default nbd server settings ==="
-> > +echo
-> > +# Default allows for unlimited connections, readonly images advertise
-> > +# multi-conn, and writable images do not
-> > +_send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-start",
-> > +  "arguments":{"addr":{"type":"unix",
-> > +    "data":{"path":"'"$nbd_unix_socket"'"}}}}' "return"
-> > +_send_qemu_cmd $QEMU_HANDLE '{"execute":"block-export-add",
-> > +  "arguments":{"type":"nbd", "id":"r", "node-name":"n",
-> > +    "name":"r"}}' "return"
-> > +_send_qemu_cmd $QEMU_HANDLE '{"execute":"block-export-add",
-> > +  "arguments":{"type":"nbd", "id":"w", "node-name":"n",
-> > +    "name":"w", "writable":true}}' "return"
-> > +nbdsh -u "nbd+unix:///r?socket=$nbd_unix_socket" -c '
-> > +assert h.can_multi_conn()
-> > +h.shutdown()
-> > +print("nbdsh passed")'
-> > +nbdsh -u "nbd+unix:///w?socket=$nbd_unix_socket" -c '
-> > +assert not h.can_multi_conn()
-> > +h.shutdown()
-> > +print("nbdsh passed")'
-> >
-> 
-> Mixing of shell and python is very confusing. Wouldn't it be much cleaner
-> to write the test in python?
-
-Here, nbdsh -c 'python snippet' is used as a shell command line
-parameter.  Writing python code to call out to a system() command
-where one of the arguments to that command is a python script snippet
-is going to be just as annoying as writing it in bash.
-
-> > +echo
-> > +echo "=== Demonstrate parallel writers ==="
-> > +echo
-> > +_send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-start",
-> > +  "arguments":{"addr":{"type":"unix",
-> > +    "data":{"path":"'"$nbd_unix_socket"'"}}}}' "return"
-> > +_send_qemu_cmd $QEMU_HANDLE '{"execute":"block-export-add",
-> > +  "arguments":{"type":"nbd", "id":"w", "node-name":"n",
-> > +    "name":"", "multi-conn":"on", "writable":true}}' "return"
-> > +
-> > +nbdsh -c '
 > > +import os
-> > +sock = os.getenv("nbd_unix_socket")
-> > +h = []
+> >  import re
+> > +import shutil
+> > +import textwrap
+> >  from typing import Optional
+> >
+> >  # pylint: disable=3Dimport-error
+> > @@ -23,6 +26,7 @@
+> >
+> >
+> >  __all__ =3D (
+> > +    'enboxify',
+> >      'get_info_usernet_hostfwd_port',
+> >      'kvm_available',
+> >      'list_accel',
+> > @@ -43,3 +47,57 @@ def get_info_usernet_hostfwd_port(info_usernet_outpu=
+t: str) -> Optional[int]:
+> >          if match is not None:
+> >              return int(match[1])
+> >      return None
 > > +
-> > +for i in range(3):
-> > +  h.append(nbd.NBD())
-> > +  h[i].connect_unix(sock)
-> > +  assert h[i].can_multi_conn()
-> >
-> 
-> This is somewhat C in python, maybe:
-> 
->     handles = [nbd.NBD() for _ in range(3)]
-> 
->     for h in handles:
->         h.connect_unix(sock)
->         assert h.can_multi_con()
-> 
-> Since assert will abort the test, and we don't handle
-> exceptions, failure will not shutdown the connections
-> but it should not matter for the purpose of a test.
-
-As I said, I'm open to python suggestions :)  I like your approach.
-
-> 
-> 
 > > +
-> > +buf1 = h[0].pread(1024 * 1024, 0)
-> > +if buf1 != b"\x01" * 1024 * 1024:
-> > +  print("Unexpected initial read")
-> >
-> 
-> Not clear when we initialize the buffer to \x01 - is this the qemu-io above?
+> > +# pylint: disable=3Dtoo-many-arguments
+> > +def enboxify(
+> > +        content: str =3D '',
+> > +        width: Optional[int] =3D None,
+> > +        name: Optional[str] =3D None,
+> > +        padding: int =3D 1,
+> > +        upper_left: str =3D '=E2=94=8F',
+> > +        upper_right: str =3D '=E2=94=93',
+> > +        lower_left: str =3D '=E2=94=97',
+> > +        lower_right: str =3D '=E2=94=9B',
+> > +        horizontal: str =3D '=E2=94=81',
+> > +        vertical: str =3D '=E2=94=83',
+> > +) -> str:
+> > +    """
+> > +    Wrap some text into a text art box of a given width.
+> > +
+> > +    :param content: The text to wrap into a box.
+> > +    :param width: The number of columns (including the box itself).
+> > +    :param name: A label to apply to the upper-left of the box.
+> > +    :param padding: How many columns of padding to apply inside.
+> > +    """
+>
+> Where's theh :param docs for the 6 custom glyphs?
+>
 
-Yes, when the qcow2 file was initially created.
+Omitted as kinda-sorta-uninteresting. I can add them if we decide we
+want this series.
+(It's admittedly a bit of a "Hey, what do you think of this?")
 
-> 
-> 
-> > +buf2 = b"\x03" * 1024 * 1024
-> > +h[1].pwrite(buf2, 0)
-> > +h[2].flush()
-> > +buf1 = h[0].pread(1024 * 1024, 0)
-> > +if buf1 == buf2:
-> > +  print("Flush appears to be consistent across connections")
-> >
-> 
-> buf1 was the initial content, buf2 is the new content, but now we override
-> but1 to check that the right was flushed. It will be be better to use
-> different
-> names like inittial_data, updated_data, current_data.
+> > +    if width is None:
+> > +        width =3D shutil.get_terminal_size()[0]
+> > +    prefix =3D vertical + (' ' * padding)
+> > +    suffix =3D (' ' * padding) + vertical
+> > +    lwidth =3D width - len(suffix)
+> > +
+> > +    def _bar(name: Optional[str], top: bool =3D True) -> str:
+> > +        ret =3D upper_left if top else lower_left
+> > +        right =3D upper_right if top else lower_right
+> > +        if name is not None:
+> > +            ret +=3D f"{horizontal} {name} "
+> > +
+> > +        assert width is not None
+> > +        filler_len =3D width - len(ret) - len(right)
+> > +        ret +=3D f"{horizontal * filler_len}{right}"
+> > +        return ret
+> > +
+> > +    def _wrap(line: str) -> str:
+> > +        return os.linesep.join([
+> > +            wrapped_line.ljust(lwidth) + suffix
+> > +            for wrapped_line in textwrap.wrap(
+> > +                    line, width=3Dlwidth, initial_indent=3Dprefix,
+> > +                    subsequent_indent=3Dprefix, replace_whitespace=3DF=
+alse,
+> > +                    drop_whitespace=3DFalse, break_on_hyphens=3DFalse)
+>
+> Always nice when someone else has written the cool library function to
+> do all the hard work for you ;)  But this is probably where you have the =
+off-by-one I called out above.
+>
 
-Can do.
+Yeah, I just didn't want it to eat multiple spaces if they were
+present -- I wanted it to reproduce them faithfully. The tradeoff is
+some silliness near the margins.
 
-> 
-> This block is the most important part of the test, showing that we can write
-> in one connection, flush in the second, and read the written block in the
-> third.
-> Maybe add a comment about this? I think it will help someone else trying
-> to understand what this part is trying to test.
+Realistically, if I want something any better than what I've done
+here, I should find a library to do it for me instead -- but for the
+sake of highlighting some important information, this may be
+just-enough-juice.
 
-Can do.
-
-> > +{"execute":"block-export-add",
-> > +  "arguments":{"type":"nbd", "id":"w", "node-name":"n",
-> > +    "name":"", "multi-conn":"on", "writable":true}}
-> > +{"return": {}}
-> > +Flush appears to be consistent across connections
-> > +{"execute":"block-export-del",
-> > +  "arguments":{"id":"w"}}
-> > +{"return": {}}
-> > +{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-> > "event": "BLOCK_EXPORT_DELETED", "data": {"id": "w"}}
-> > +{"execute":"nbd-server-stop"}
-> > +{"return": {}}
-> > +{"execute":"quit"}
-> > +{"return": {}}
-> > +{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
-> > "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-> >
-> 
-> Nothing about the contents here says anything about the actual test
-> except the "Flush appears..." line.
-
-Yeah, it's a lot of QMP debugging (to show what commands were run in
-setting up the server), and less verbose in the nbdsh side.  Do I need
-to add more output during the nbdsh that uses multiple connections?
-
-> 
-> 
-> > +*** done
-> > --
-> > 2.35.1
-> >
-> 
-> Looks good, feel free to ignore the style comments and suggestion to rewrite
-> the test in python.
-
-The style comments are nice, the rewriting is going to be harder for
-me (but I'll accept help).  At any rate, getting qemu-nbd to be
-feature-compatible may require a v3 anyway.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+--js
 
 
