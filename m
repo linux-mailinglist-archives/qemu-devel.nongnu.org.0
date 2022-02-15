@@ -2,94 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15D04B7A42
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 23:12:20 +0100 (CET)
-Received: from localhost ([::1]:42034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC70B4B7A43
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 23:12:24 +0100 (CET)
+Received: from localhost ([::1]:42240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK63X-0006mb-Dr
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 17:12:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40542)
+	id 1nK63b-0006vR-QZ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 17:12:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nK5b4-0004Ih-JO; Tue, 15 Feb 2022 16:42:54 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26046)
+ id 1nK5bC-0004fC-Rp; Tue, 15 Feb 2022 16:43:02 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52706
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nK5b2-0002df-OI; Tue, 15 Feb 2022 16:42:54 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21FKb2jT015767; 
- Tue, 15 Feb 2022 21:42:47 GMT
+ id 1nK5bB-0002el-4g; Tue, 15 Feb 2022 16:43:02 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21FLH9CB018530; 
+ Tue, 15 Feb 2022 21:42:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=3ObSAjygcz7I/k6iy1ZH1TGVrg5dk0iuspeeMzuySac=;
- b=LLqICbjfouo74Ici3ronEnBF5ZZrnndvO1G4Lir7lnPOb89gzCd5oi2Bl798/z616Ts9
- 57V98GHI0Xh8xnq+p0nynwW+S3TvODK9sM8RSOdmTYBuDXpk4XjtBksYG8TXKUC4wVaU
- 4525/tS0OMLexjwFJpGD/LrzazDlxaPqHpdU3zGapkh3jrgPg7/HiKZCLEt9PyIeMY9o
- xyM5NIQJHiFQCNxEbst2qwUmjhoat7PBKk87hVLAJ2y/8hDhVpIxFUOh0edN5rY56QkX
- qE55NNNiAJJXfIIxk4v/wMoGfS1V+2w/uD+3Bc6olhPkKPx/AqABnf+YFuKaEf6NPGTE /g== 
+ bh=AGQt267R++oya9rZlmC6uwlRFfSaYl/J/jAdRmL32iY=;
+ b=OKNlN/ow/NKyVDaGKKEm6HnRxjoGEdDMFjIz/AeTqIrPOr+lMtHRnYcnh7K/qAYMGW6w
+ vlUSDYn5IVeDTePIPb9pSzYBOCcdvBAAckyx1d2r4ID4iQ03hxMxXs4B1pyYSV8yc3fJ
+ ILAY0IxzAZ6WXtX2aQjQ0jEVDO7CLIfmybcd3iz2UYCia00LnRSdGA1UPWI8bQ3yiaIG
+ Xud4VgPO11bxRCOZi4PLdzxN7NH8zMmsBJeQZ776G8AKeIOL5LlY9nEr8v6lvdLLzQ1Z
+ H4K9YuUjy/ekmOEkwQjOpMohBCkPH4TRuJCqZe1oNbCVjUUMGjeWCoAJd5GYkUo/wD3H lw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e8jn62g4s-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e8ky4ghrb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 21:42:47 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21FLg2YG005749;
- Tue, 15 Feb 2022 21:42:47 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e8jn62g4k-1
+ Tue, 15 Feb 2022 21:42:49 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21FLbnkB003919;
+ Tue, 15 Feb 2022 21:42:49 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e8ky4ghr5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 21:42:47 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21FLg9rL010785;
- Tue, 15 Feb 2022 21:42:46 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma04wdc.us.ibm.com with ESMTP id 3e64hb2r0b-1
+ Tue, 15 Feb 2022 21:42:48 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21FLgZ3P002746;
+ Tue, 15 Feb 2022 21:42:48 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma02wdc.us.ibm.com with ESMTP id 3e64hb2sbu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 21:42:46 +0000
+ Tue, 15 Feb 2022 21:42:48 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21FLgjSJ35848666
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21FLglrd16449840
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Feb 2022 21:42:45 GMT
+ Tue, 15 Feb 2022 21:42:47 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 89074BE056;
+ by IMSVA (Postfix) with ESMTP id 69127BE058;
+ Tue, 15 Feb 2022 21:42:47 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E36D0BE054;
  Tue, 15 Feb 2022 21:42:45 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D74D1BE054;
- Tue, 15 Feb 2022 21:42:43 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.143.123])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 15 Feb 2022 21:42:43 +0000 (GMT)
+ Tue, 15 Feb 2022 21:42:45 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/27] target/ppc: cpu_init: Move SPR registration macros to a
- header
-Date: Tue, 15 Feb 2022 18:41:46 -0300
-Message-Id: <20220215214148.1848266-26-farosas@linux.ibm.com>
+Subject: [PATCH 26/27] target/ppc: cpu_init: Move check_pow and QOM macros to
+ a header
+Date: Tue, 15 Feb 2022 18:41:47 -0300
+Message-Id: <20220215214148.1848266-27-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215214148.1848266-1-farosas@linux.ibm.com>
 References: <20220215214148.1848266-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 3KI5Z3Jggsjs7ZwpbA1hItUK-AEIZVaO
-X-Proofpoint-ORIG-GUID: Gq08y0ILM7uBN_xLG4FYvt_TgqIsO96p
+X-Proofpoint-ORIG-GUID: LAUUOtrxNsPVbU5k6psTeSuHOldEr32F
+X-Proofpoint-GUID: DnC4cH7o0YP7f89meShmLqMDzDbXYDRe
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-15_06,2022-02-14_04,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- mlxlogscore=999 spamscore=0 lowpriorityscore=0 malwarescore=0
- suspectscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ clxscore=1015 mlxlogscore=999 mlxscore=0 phishscore=0 malwarescore=0
+ impostorscore=0 suspectscore=0 spamscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2202150122
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -114,170 +115,147 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Put the SPR registration macros in a header that is accessible outside
-of cpu_init.c. The following patches will move CPU-specific code to
-separate files and will need to access it.
+These will need to be accessed from other files once we move the CPUs
+code to separate files.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 ---
-The spr_tcg.h header has always been used for both TCG and KVM, due to
-its usage in cpu_init.c, but maybe we should change it to spr_common.h
-to avoid confusion?
----
- target/ppc/cpu_init.c | 65 ++++++-------------------------------------
- target/ppc/spr_tcg.h  | 56 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 65 insertions(+), 56 deletions(-)
+ target/ppc/cpu.h      | 57 +++++++++++++++++++++++++++++++++++++++++++
+ target/ppc/cpu_init.c | 55 -----------------------------------------
+ 2 files changed, 57 insertions(+), 55 deletions(-)
 
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 6a06a7f533..ba0739c43b 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2733,4 +2733,61 @@ void dump_mmu(CPUPPCState *env);
+ void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len);
+ void ppc_store_vscr(CPUPPCState *env, uint32_t vscr);
+ uint32_t ppc_get_vscr(CPUPPCState *env);
++
++/*****************************************************************************/
++/* Power management enable checks                                            */
++static inline int check_pow_none(CPUPPCState *env)
++{
++    return 0;
++}
++
++static inline int check_pow_nocheck(CPUPPCState *env)
++{
++    return 1;
++}
++
++static inline int check_pow_hid0(CPUPPCState *env)
++{
++    if (env->spr[SPR_HID0] & 0x00E00000) {
++        return 1;
++    }
++
++    return 0;
++}
++
++static inline int check_pow_hid0_74xx(CPUPPCState *env)
++{
++    if (env->spr[SPR_HID0] & 0x00600000) {
++        return 1;
++    }
++
++    return 0;
++}
++
++/*****************************************************************************/
++/* PowerPC implementations definitions                                       */
++
++#define POWERPC_FAMILY(_name)                                               \
++    static void                                                             \
++    glue(glue(ppc_, _name), _cpu_family_class_init)(ObjectClass *, void *); \
++                                                                            \
++    static const TypeInfo                                                   \
++    glue(glue(ppc_, _name), _cpu_family_type_info) = {                      \
++        .name = stringify(_name) "-family-" TYPE_POWERPC_CPU,               \
++        .parent = TYPE_POWERPC_CPU,                                         \
++        .abstract = true,                                                   \
++        .class_init = glue(glue(ppc_, _name), _cpu_family_class_init),      \
++    };                                                                      \
++                                                                            \
++    static void glue(glue(ppc_, _name), _cpu_family_register_types)(void)   \
++    {                                                                       \
++        type_register_static(                                               \
++            &glue(glue(ppc_, _name), _cpu_family_type_info));               \
++    }                                                                       \
++                                                                            \
++    type_init(glue(glue(ppc_, _name), _cpu_family_register_types))          \
++                                                                            \
++    static void glue(glue(ppc_, _name), _cpu_family_class_init)
++
++
+ #endif /* PPC_CPU_H */
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 74e26f60dd..3327ea15fd 100644
+index 3327ea15fd..34306e2360 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -67,35 +67,15 @@ static inline void vscr_init(CPUPPCState *env, uint32_t val)
-  * may be compiled out, and the system kvm header may not be available
-  * for supplying the ID numbers.  This is ugly, but the best we can do.
-  */
--
--#ifdef CONFIG_TCG
--# define USR_ARG(X)    X,
--# ifdef CONFIG_USER_ONLY
--#  define SYS_ARG(X)
--# else
--#  define SYS_ARG(X)   X,
--# endif
--#else
--# define USR_ARG(X)
--# define SYS_ARG(X)
--#endif
--#ifdef CONFIG_KVM
--# define KVM_ARG(X)    X,
--#else
--# define KVM_ARG(X)
--#endif
--
--typedef void spr_callback(DisasContext *, int, int);
--
--static void _spr_register(CPUPPCState *env, int num, const char *name,
--                          USR_ARG(spr_callback *uea_read)
--                          USR_ARG(spr_callback *uea_write)
--                          SYS_ARG(spr_callback *oea_read)
--                          SYS_ARG(spr_callback *oea_write)
--                          SYS_ARG(spr_callback *hea_read)
--                          SYS_ARG(spr_callback *hea_write)
--                          KVM_ARG(uint64_t one_reg_id)
--                          target_ulong initial_value)
-+void _spr_register(CPUPPCState *env, int num, const char *name,
-+                   USR_ARG(spr_callback *uea_read)
-+                   USR_ARG(spr_callback *uea_write)
-+                   SYS_ARG(spr_callback *oea_read)
-+                   SYS_ARG(spr_callback *oea_write)
-+                   SYS_ARG(spr_callback *hea_read)
-+                   SYS_ARG(spr_callback *hea_write)
-+                   KVM_ARG(uint64_t one_reg_id)
-+                   target_ulong initial_value)
- {
-     ppc_spr_t *spr = &env->spr_cb[num];
+@@ -2484,61 +2484,6 @@ static void init_excp_POWER10(CPUPPCState *env)
  
-@@ -122,33 +102,6 @@ static void _spr_register(CPUPPCState *env, int num, const char *name,
  #endif
- }
  
--/* spr_register_kvm_hv passes all required arguments. */
--#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,             \
--                            oea_read, oea_write, hea_read, hea_write,        \
--                            one_reg_id, initial_value)                       \
--    _spr_register(env, num, name,                                            \
--                  USR_ARG(uea_read) USR_ARG(uea_write)                       \
--                  SYS_ARG(oea_read) SYS_ARG(oea_write)                       \
--                  SYS_ARG(hea_read) SYS_ARG(hea_write)                       \
--                  KVM_ARG(one_reg_id) initial_value)
+-/*****************************************************************************/
+-/* Power management enable checks                                            */
+-static int check_pow_none(CPUPPCState *env)
+-{
+-    return 0;
+-}
 -
--/* spr_register_kvm duplicates the oea callbacks to the hea callbacks. */
--#define spr_register_kvm(env, num, name, uea_read, uea_write,                \
--                         oea_read, oea_write, one_reg_id, ival)              \
--    spr_register_kvm_hv(env, num, name, uea_read, uea_write, oea_read,       \
--                        oea_write, oea_read, oea_write, one_reg_id, ival)
+-static int check_pow_nocheck(CPUPPCState *env)
+-{
+-    return 1;
+-}
 -
--/* spr_register_hv and spr_register are similar, except there is no kvm id. */
--#define spr_register_hv(env, num, name, uea_read, uea_write,                 \
--                        oea_read, oea_write, hea_read, hea_write, ival)      \
--    spr_register_kvm_hv(env, num, name, uea_read, uea_write, oea_read,       \
--                        oea_write, hea_read, hea_write, 0, ival)
+-static int check_pow_hid0(CPUPPCState *env)
+-{
+-    if (env->spr[SPR_HID0] & 0x00E00000) {
+-        return 1;
+-    }
 -
--#define spr_register(env, num, name, uea_read, uea_write,                    \
--                     oea_read, oea_write, ival)                              \
--    spr_register_kvm(env, num, name, uea_read, uea_write,                    \
--                     oea_read, oea_write, 0, ival)
+-    return 0;
+-}
 -
- /* Generic PowerPC SPRs */
- static void register_generic_sprs(PowerPCCPU *cpu)
+-static int check_pow_hid0_74xx(CPUPPCState *env)
+-{
+-    if (env->spr[SPR_HID0] & 0x00600000) {
+-        return 1;
+-    }
+-
+-    return 0;
+-}
+-
+-/*****************************************************************************/
+-/* PowerPC implementations definitions                                       */
+-
+-#define POWERPC_FAMILY(_name)                                               \
+-    static void                                                             \
+-    glue(glue(ppc_, _name), _cpu_family_class_init)(ObjectClass *, void *); \
+-                                                                            \
+-    static const TypeInfo                                                   \
+-    glue(glue(ppc_, _name), _cpu_family_type_info) = {                      \
+-        .name = stringify(_name) "-family-" TYPE_POWERPC_CPU,               \
+-        .parent = TYPE_POWERPC_CPU,                                         \
+-        .abstract = true,                                                   \
+-        .class_init = glue(glue(ppc_, _name), _cpu_family_class_init),      \
+-    };                                                                      \
+-                                                                            \
+-    static void glue(glue(ppc_, _name), _cpu_family_register_types)(void)   \
+-    {                                                                       \
+-        type_register_static(                                               \
+-            &glue(glue(ppc_, _name), _cpu_family_type_info));               \
+-    }                                                                       \
+-                                                                            \
+-    type_init(glue(glue(ppc_, _name), _cpu_family_register_types))          \
+-                                                                            \
+-    static void glue(glue(ppc_, _name), _cpu_family_class_init)
+-
+ static void init_proc_405(CPUPPCState *env)
  {
-diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-index a4f912faa4..786cdca80d 100644
---- a/target/ppc/spr_tcg.h
-+++ b/target/ppc/spr_tcg.h
-@@ -21,6 +21,62 @@
- 
- #define SPR_NOACCESS (&spr_noaccess)
- 
-+#ifdef CONFIG_TCG
-+# define USR_ARG(X)    X,
-+# ifdef CONFIG_USER_ONLY
-+#  define SYS_ARG(X)
-+# else
-+#  define SYS_ARG(X)   X,
-+# endif
-+#else
-+# define USR_ARG(X)
-+# define SYS_ARG(X)
-+#endif
-+#ifdef CONFIG_KVM
-+# define KVM_ARG(X)    X,
-+#else
-+# define KVM_ARG(X)
-+#endif
-+
-+typedef void spr_callback(DisasContext *, int, int);
-+
-+void _spr_register(CPUPPCState *env, int num, const char *name,
-+                   USR_ARG(spr_callback *uea_read)
-+                   USR_ARG(spr_callback *uea_write)
-+                   SYS_ARG(spr_callback *oea_read)
-+                   SYS_ARG(spr_callback *oea_write)
-+                   SYS_ARG(spr_callback *hea_read)
-+                   SYS_ARG(spr_callback *hea_write)
-+                   KVM_ARG(uint64_t one_reg_id)
-+                   target_ulong initial_value);
-+
-+/* spr_register_kvm_hv passes all required arguments. */
-+#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,             \
-+                            oea_read, oea_write, hea_read, hea_write,        \
-+                            one_reg_id, initial_value)                       \
-+    _spr_register(env, num, name,                                            \
-+                  USR_ARG(uea_read) USR_ARG(uea_write)                       \
-+                  SYS_ARG(oea_read) SYS_ARG(oea_write)                       \
-+                  SYS_ARG(hea_read) SYS_ARG(hea_write)                       \
-+                  KVM_ARG(one_reg_id) initial_value)
-+
-+/* spr_register_kvm duplicates the oea callbacks to the hea callbacks. */
-+#define spr_register_kvm(env, num, name, uea_read, uea_write,                \
-+                         oea_read, oea_write, one_reg_id, ival)              \
-+    spr_register_kvm_hv(env, num, name, uea_read, uea_write, oea_read,       \
-+                        oea_write, oea_read, oea_write, one_reg_id, ival)
-+
-+/* spr_register_hv and spr_register are similar, except there is no kvm id. */
-+#define spr_register_hv(env, num, name, uea_read, uea_write,                 \
-+                        oea_read, oea_write, hea_read, hea_write, ival)      \
-+    spr_register_kvm_hv(env, num, name, uea_read, uea_write, oea_read,       \
-+                        oea_write, hea_read, hea_write, 0, ival)
-+
-+#define spr_register(env, num, name, uea_read, uea_write,                    \
-+                     oea_read, oea_write, ival)                              \
-+    spr_register_kvm(env, num, name, uea_read, uea_write,                    \
-+                     oea_read, oea_write, 0, ival)
-+
- /* prototypes for readers and writers for SPRs */
- void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
- void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
+     register_40x_sprs(env);
 -- 
 2.34.1
 
