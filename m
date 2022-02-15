@@ -2,80 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16204B619B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 04:28:02 +0100 (CET)
-Received: from localhost ([::1]:56634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6051E4B6329
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 06:54:01 +0100 (CET)
+Received: from localhost ([::1]:57302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJoVV-0007cU-Lr
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 22:28:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40704)
+	id 1nJqml-0002Nx-UM
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 00:53:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nJoLA-0007NI-Li; Mon, 14 Feb 2022 22:17:20 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=36410
- helo=mail-pj1-x1031.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nJoL7-0002jC-Ob; Mon, 14 Feb 2022 22:17:20 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- c5-20020a17090a1d0500b001b904a7046dso1319714pjd.1; 
- Mon, 14 Feb 2022 19:17:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=S9hGl0PztDUKk/ldqillufukdnG/8A8jN1qvkcS83/I=;
- b=jW04lSFqhfrmcNgev6Th8rffzjOt+G4cLHykUYXcD+4lPjsklOTbyPHZVojvdbRIRY
- KsxaO6K/KBZum7Qp7F0HsiMuPuznIaJsuzibV5g6oTZrQoAUe1i6uTyUYeCdPsrNTvE9
- /k+dTjzPApWPMChzPrtWi6PPomjYoX9Ob8b6G4rXISufozVUnIvuYV7fUhgmW3GvOTTQ
- usPykT9FDJ7vxI0viNhxk8athKbpQWPkDkzjjKOj+xHcNqtt6ySV+tulF3e0WKSnh3cV
- xdPfFQfG0S9IT/WzUJFwCWEHkQCmX60KbSXLJqMAl3P+BoOrM71f8Giyux5Vf7UEWf47
- A6QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=S9hGl0PztDUKk/ldqillufukdnG/8A8jN1qvkcS83/I=;
- b=fzCigYjHI9tYuiTfd37gkydZihlN+yWTc5ip7vtRMClFdPrmaPE8n5zQtUCIyGf0Yn
- NUWAucKFSH7YEqDj9CO0Mda4CQnzaUDGIptp1qVXqkzyfcKuomby6Y8FWVq3mqNEohsa
- WCICdloQIGlzXpXJgTWV31OcRbRPtgS+LoVMhbCm6dmIcAMPlHh9mHLtiYLgk0wO4SDB
- HABrUuvE5zjz4KLsja62pb1aMWcU2F0QIlM9/MfR/+XDltFSdI1zqRFJsyWtsa7Er2Mu
- PUGm3IpcZJi+hMQm6nhtij/7oEmK1ifN5i+EL2z5MtgIb3gMW1d9tHa7Y+8ULFylWtLK
- 2IGA==
-X-Gm-Message-State: AOAM533bV2WqbuQugUMgfR7AQuq5VH3V9kkSrQleQZq/KRqGx5GdndBE
- nOdHYuAFcJngNT5orrIG4unw2m7eSwM=
-X-Google-Smtp-Source: ABdhPJyi5FAYqXo5XoiT3sa/Oo80WySVDapWutJ/ZfeEks9dJkr6bF/4jjoxanHrD9DNFVI1K6WsYA==
-X-Received: by 2002:a17:902:f645:: with SMTP id
- m5mr1968144plg.56.1644895035808; 
- Mon, 14 Feb 2022 19:17:15 -0800 (PST)
-Received: from bobo.ozlabs.ibm.com (27-33-251-132.static.tpgi.com.au.
- [27.33.251.132])
- by smtp.gmail.com with ESMTPSA id f22sm38667399pfj.206.2022.02.14.19.17.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 19:17:15 -0800 (PST)
-From: Nicholas Piggin <npiggin@gmail.com>
-To: qemu-ppc@nongnu.org
-Subject: [PATCH 9/9] spapr: implement nested-hv capability for the virtual
- hypervisor
-Date: Tue, 15 Feb 2022 13:16:42 +1000
-Message-Id: <20220215031642.1691873-10-npiggin@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20220215031642.1691873-1-npiggin@gmail.com>
-References: <20220215031642.1691873-1-npiggin@gmail.com>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <rohit.kumar3@nutanix.com>)
+ id 1nJql4-0001EM-NM
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 00:52:15 -0500
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:30544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rohit.kumar3@nutanix.com>)
+ id 1nJql2-0000LI-26
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 00:52:14 -0500
+Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21EL5nkv014924;
+ Mon, 14 Feb 2022 21:52:05 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=proofpoint20171006;
+ bh=FhbmJmyre1rw9BjP+eaHpK0FlD/S3S1rRIjiehWzpak=;
+ b=SCPdrisYqK3q9BQZYPBBai6VMEd7FSPV06HgjSgadfb6MIDR6e2iKkPNyUFA1COo6d/+
+ t516ZhzQgPtPueMJ4yxdWIv7v/OjiUH+Re8d1lU2Yxh7FFqp5FAq17UiZ0Cj2DBvoF1D
+ IH5LnRu1pHJyrk9D7TL8DF4Q6+b3UXhWoHgUXIf0re1hcQM+gt0eclDAfdwtNFN9TULO
+ EuHsBLnB215+OUiqItGMapwHgmgmssp0Ue/Xp4vPs55vchxg6BcnRadq55IFZzfJVX5z
+ 2W9earkOzJIKAnhkD+Z7iUj6B8Kmynrd/ljEK/1nrkA7ps8/3hnSAwqdPenDPZj4XcqK bA== 
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2103.outbound.protection.outlook.com [104.47.58.103])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3e7rgesmg7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Feb 2022 21:52:05 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K/4I5OC+SpWhf2bUUWGSLiXdJDB5/GsOJW0Q2AN11NTLJ86vWTAJlqhp/R5xKLh2WY3LCc6WM3uqJTpOBD5ZCm7OXEfT09Gz1RLqHfC89+UXEB3vr2l/etZFFpGQP9zLX9tC5PFWO3e+ah888e7z2pmbjzZsKgpPBJfm+RYzJTjBndE942mNW9asdR2UFCFvtQZEr0ZSPQIih3GMet7yZVr0E5RDNl8dFbHOssoN1ZrrmupWDVR4VrZHA8MMagcWRTwS9Feyy2RC38KxaaQqBl1mSSc8A+SX/CNTO0uzo3xxg65X5BQSYVjPJAQMlRufrk5rGZixjcuH1KDeaCpt0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FhbmJmyre1rw9BjP+eaHpK0FlD/S3S1rRIjiehWzpak=;
+ b=QdyMJLBoaH3VRPhEPjHlVjBQ7BfpTJSAU5uDo7/sPiUs+MyYy+EVAa7j+mqGJ2GCWhjczjDAx81onPShU9IX+qigwN6QX7SiJ2DyjDExXR+0chCCGckEfJMRVzqQm88kixGFNJmSs2eHLDJfnVyAjsPsFj034hOIdgYs1dqr0S81ucHlMrl/jZuvNY7qaPw1Me6ltLrC60bZFWt0DjF2d/i6M5F98mGaR9DlAdCGOeWhqYdJYfMUPxA7TAZCVOgL4InzwKLhHhRlZQumlwp8jF6kh1T3/qU4q8A0Ogz6y+1mdAQYzu7lauwoleQ5R2d8Uj5aPbRNX6L2DXHOIo0HAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from SJ0PR02MB8564.namprd02.prod.outlook.com (2603:10b6:a03:3f6::16)
+ by BYAPR02MB4135.namprd02.prod.outlook.com (2603:10b6:a03::24) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4975.15; Tue, 15 Feb 2022 05:52:03 +0000
+Received: from SJ0PR02MB8564.namprd02.prod.outlook.com
+ ([fe80::f58f:2ec1:820b:19f1]) by SJ0PR02MB8564.namprd02.prod.outlook.com
+ ([fe80::f58f:2ec1:820b:19f1%3]) with mapi id 15.20.4975.019; Tue, 15 Feb 2022
+ 05:52:03 +0000
+From: Rohit Kumar <rohit.kumar3@nutanix.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] Check and report for incomplete 'global' option format
+Date: Mon, 14 Feb 2022 21:51:38 -0800
+Message-Id: <20220215055138.267904-1-rohit.kumar3@nutanix.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR08CA0008.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::21) To SJ0PR02MB8564.namprd02.prod.outlook.com
+ (2603:10b6:a03:3f6::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c52feb24-dd5c-47cf-4447-08d9f0474a2b
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4135:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR02MB413517EF56C9EDA252A4B3F6D1349@BYAPR02MB4135.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:513;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: quAEpSNiKCK1eYjYksb6t5ZPo+sjAcBBbio5yZhsvpjkKXId6xspxLVys7KadwTnntSloiDaqu5H9xgWLyxiOFQzgCrGh1grejRowD/B3CIBMxviVo/l3fxt75vQCnw2VJRRygFczoZs3IJsmLXiyOivXJgLYCDcusk9yYr9tD5MW5wyxs9o3vhJZPNh3l/FvcmxJT9oKNFmyBTfwsNPZajUw64o+damc5h2tflROO6a0qK19YFXGHeDddthu6Kuuyp2zeBc2/8m79bU5ONdqyuOBduD4Aq9zIXtgQMyVbTMoWucCWgBGfJtiwRjqv361+NL4fSzud46KD7lZtEq6j4WYyh0PccIGLppiqvUU95vax8zYSewsrmHDA47MufqJ2WGNdsL2Tqlg0lNMqf5hG90Sgh52WESk8sesrSPtEmU4jfvRTKMgTBj7frhcDlpyUQFKl8xuNltu84f1xbW1RgpZB2XKBva6nlLKjQZkuTrJQbHXCih3mejs1mmNoqmZL3GGd/yqalFtoLIicW9R7GOVYwELNI57EXGC3K0HVLzVJimeooYNHjjGowe4oxUZfPBKEsi6Af2njPbQS5p3L+UDQqBMF7gILDiJK2ex6U7ZTDxJo41d6cUYNtAUNIWtcvUtZAQwgK1AB3H1GVOWSXWE6MZZKpEiPA4pl+AeYzPC+VBRtIsqmq8Ow5T2Mw3WgXIIw3kSKDFG331IW+Tbww9gMH5xYHmRGmlzCdcWjxuB24wEQmSn6K3cV0gUQAvsQJKn2uPFBWVgetjdemJUuH2q/ZcwFkCm9dI4Nu8ekg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR02MB8564.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(66476007)(966005)(4326008)(508600001)(6506007)(186003)(26005)(316002)(66556008)(6486002)(66946007)(8676002)(6916009)(2906002)(36756003)(86362001)(6512007)(1076003)(107886003)(2616005)(83380400001)(5660300002)(38100700002)(38350700002)(52116002)(6666004)(8936002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6DLiYOpl0Kr5ctmwfwBofUZiBzsKZmNPACJs4drd/sUhot1mES35nfrfv1XZ?=
+ =?us-ascii?Q?MIj9fLa0+WisRMMOUjnVYmMwvcmVSOJ/p8R3djZe27LwNZbMAXtUbEXkTJDX?=
+ =?us-ascii?Q?PAsxFp2Py4xFeJNyWF4XkaNFTon5mpEsEcI0CCHxicMhg7wNA2ckKDAWpJBw?=
+ =?us-ascii?Q?USrkF1UCfwooqwolW/sd3SHXyconm0HP5gmiMN22c6uscCtJ9dVQYOyMkMMn?=
+ =?us-ascii?Q?n1cm+BK4o/DCkljK1JVuetUSC5FHGJn+J2Fy9xaM9jx2PEkssOqWh50nb25l?=
+ =?us-ascii?Q?sqOgQZ/m85xh5BK1xVKVBIkeqtHIJ/pYsQ/zXxhG6HFLOVduP5OmfUkXqbFb?=
+ =?us-ascii?Q?5MTmcz/uMF/01K8Dyihd1F85y48jcP3UUoQ+H/+Iebfa0eXerxDt61FPki0r?=
+ =?us-ascii?Q?dA2OO4soahEMwSR1V6l4ZiXKzLhFeUqRIjZZMTj/z0dUcjW+dRD6XIY+KH0F?=
+ =?us-ascii?Q?ll/blaI2UFjc/XNSilksmlQ61AgDX0Q2CWutebpe9N/dckMJ7DPnofmRhmeY?=
+ =?us-ascii?Q?AGi7Azk6/ECKHRzmKAv45coEHsiKTRDqRUT/XMId00orEgCyI9wLBNrJkBVq?=
+ =?us-ascii?Q?xrLekjgcoVr417l4w2NTqtoBYurlMRk97deDXWC6klRhBHHEKUft60fJ2ee/?=
+ =?us-ascii?Q?KwfkXyhE90sKQbYNNsNJK0u3SQqVDCn4r1KGk1CKPbUbZiYXcLa/ANdRSfiL?=
+ =?us-ascii?Q?CshUSy9aW/vLJ8H72XV5MZwEUc++1hPl1sJsHsN+O+gv2ZXlPSMQxnG0S+ai?=
+ =?us-ascii?Q?wna3/54d6JsrW8eqaopwJZuneD15DtomLr9IC2afAXdlHzBnPhdOekQhPDus?=
+ =?us-ascii?Q?SR0hAwVti6wZEVEtasFs75Ob/bgXc1T99We5yE6oBOwexzwl08HWeXkOID1e?=
+ =?us-ascii?Q?Sm9QG8v3IqFqhgOwofHHO0YYfuvRm7v9MVLsIV74xxtxgMMclECbQqKsheXY?=
+ =?us-ascii?Q?RP0p7Yxzqj1eKiabn3kmzax5q11WR8Ri4UA5LS4J6/Qvm9LCpB8dFl5E9mpD?=
+ =?us-ascii?Q?nrjSR7Y9Hc8K9IpGqlzvVNNzIJQV4k9M9McLLHui6AbG9V7SFQm6Grv8nGwl?=
+ =?us-ascii?Q?xoM2qUxmZwnmyj+wvIMSjDpinHjUgaPpavrGixMxGON/lxO6NHQDux47vTnY?=
+ =?us-ascii?Q?fxWXG1IyxK4ILtlZSlj7EudtbHcSMRlCU7lv/RtqyC6r1jgwCqmvRY5hZ+/6?=
+ =?us-ascii?Q?rI73kqpd83IU8mKcoZHdIFAoQAd/4aX58PE6Ftg8Bk0Xc0YmGGKHbL/AdjZH?=
+ =?us-ascii?Q?USG4WGrPsDG3FGcsl9AhbkYHx+Eu5JX7ZD7ao5KKffqWjgY+NCvuhzC+I8Ig?=
+ =?us-ascii?Q?HMSaKdhk+b5METMIlw3CWRN8k1WnVVYhvjlxjhe9n+d7lgWs9P4aaK9teiI6?=
+ =?us-ascii?Q?r9knI5XrJWbAtdgOyd24zvev0tulZm8WTojNFSpf2zc9JscfcZG4DODxFagb?=
+ =?us-ascii?Q?Su+dqg+g6cgIzyYNsyOaW5Jaj65+BgWvkzSWF3SWqNGqSUsKz4u9RB/YbGoh?=
+ =?us-ascii?Q?JoevxGqXXK7ObRTp9dlwe6cwdPK3G87v9/dODbVU7Oen9qVwDcijfb3h4uw6?=
+ =?us-ascii?Q?X97yeuKeA8AqDQBih3umSvnMsbG9CkBmn78eib6Z+sF1WvByADE+y97dtSKd?=
+ =?us-ascii?Q?xYCZlqdJti6kD9Xnn0sAjCkg50pzlaZYAR5aD1KDPSJolR6JcVJFb4bhO2UG?=
+ =?us-ascii?Q?3x+wqPQlzp1/52ljMlVQ06HVfhI=3D?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c52feb24-dd5c-47cf-4447-08d9f0474a2b
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR02MB8564.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 05:52:02.9204 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Uqqpq4dfch7HV1CxXhV9UfNeODgdNUiJhf+oSKx115KrXVbKqe9RPN3c7qpqncvoDZt3cmz+JBhx6YV82IqFx73Xy15VZ+PQ3GZqWJYzGTQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4135
+X-Proofpoint-GUID: WNjeRu6vaG7DRW11VUcFt1dRHvT_Xg-C
+X-Proofpoint-ORIG-GUID: WNjeRu6vaG7DRW11VUcFt1dRHvT_Xg-C
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-15_02,2022-02-14_04,2021-12-02_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=rohit.kumar3@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,596 +148,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: eduardo@habkost.net, thuth@redhat.com, berrange@redhat.com,
+ prerna.saxena@nutanix.com, armbru@redhat.com, prachatos.mitra@nutanix.com,
+ pbonzini@redhat.com, Rohit Kumar <rohit.kumar3@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This implements the Nested KVM HV hcall API for spapr under TCG.
+Qemu might crash when provided incomplete '-global' option.
+For example:
+        qemu-system-x86_64 -global driver=isa-fdc
+        qemu-system-x86_64: ../../devel/qemu/qapi/string-input-visitor.c:394:
+        string_input_visitor_new: Assertion `str' failed.
+        Aborted (core dumped)
 
-The L2 is switched in when the H_ENTER_NESTED hcall is made, and the
-L1 is switched back in returned from the hcall when a HV exception
-is sent to the vhyp. Register state is copied in and out according to
-the nested KVM HV hcall API specification.
-
-The hdecr timer is started when the L2 is switched in, and it provides
-the HDEC / 0x980 return to L1.
-
-The MMU re-uses the bare metal radix 2-level page table walker by
-using the get_pate method to point the MMU to the nested partition
-table entry. MMU faults due to partition scope errors raise HV
-exceptions and accordingly are routed back to the L1.
-
-The MMU does not tag translations for the L1 (direct) vs L2 (nested)
-guests, so the TLB is flushed on any L1<->L2 transition (hcall entry
-and exit).
-
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/604
+Signed-off-by: Rohit Kumar <rohit.kumar3@nutanix.com>
 ---
- hw/ppc/spapr.c         |  32 +++-
- hw/ppc/spapr_caps.c    |  11 +-
- hw/ppc/spapr_hcall.c   | 321 +++++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr.h |  74 +++++++++-
- target/ppc/cpu.h       |   3 +
- 5 files changed, 431 insertions(+), 10 deletions(-)
+ diff to v1:
+  - Removed '\n' from error log message.
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 3a5cf92c94..6988e3ec76 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1314,11 +1314,32 @@ static bool spapr_get_pate(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
- {
-     SpaprMachineState *spapr = SPAPR_MACHINE(vhyp);
+ softmmu/qdev-monitor.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 01f3834db5..51b33caeca 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -1020,6 +1020,7 @@ int qemu_global_option(const char *str)
+     char driver[64], property[64];
+     QemuOpts *opts;
+     int rc, offset;
++    Error *err = NULL;
  
--    assert(lpid == 0);
-+    if (!cpu->in_spapr_nested) {
-+        assert(lpid == 0);
- 
--    /* Copy PATE1:GR into PATE0:HR */
--    entry->dw0 = spapr->patb_entry & PATE0_HR;
--    entry->dw1 = spapr->patb_entry;
-+        /* Copy PATE1:GR into PATE0:HR */
-+        entry->dw0 = spapr->patb_entry & PATE0_HR;
-+        entry->dw1 = spapr->patb_entry;
-+
-+    } else {
-+        uint64_t patb, pats;
-+
-+        assert(lpid != 0);
-+
-+        patb = spapr->nested_ptcr & PTCR_PATB;
-+        pats = spapr->nested_ptcr & PTCR_PATS;
-+
-+        /* Calculate number of entries */
-+        pats = 1ull << (pats + 12 - 4);
-+        if (pats <= lpid) {
-+            return false;
-+        }
-+
-+        /* Grab entry */
-+        patb += 16 * lpid;
-+        entry->dw0 = ldq_phys(CPU(cpu)->as, patb);
-+        entry->dw1 = ldq_phys(CPU(cpu)->as, patb + 8);
-+    }
- 
-     return true;
- }
-@@ -4472,7 +4493,7 @@ PowerPCCPU *spapr_find_cpu(int vcpu_id)
- 
- static bool spapr_cpu_in_nested(PowerPCCPU *cpu)
- {
--    return false;
-+    return cpu->in_spapr_nested;
- }
- 
- static void spapr_cpu_exec_enter(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu)
-@@ -4584,6 +4605,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
-     nc->nmi_monitor_handler = spapr_nmi;
-     smc->phb_placement = spapr_phb_placement;
-     vhc->cpu_in_nested = spapr_cpu_in_nested;
-+    vhc->deliver_hv_excp = spapr_exit_nested;
-     vhc->hypercall = emulate_spapr_hypercall;
-     vhc->hpt_mask = spapr_hpt_mask;
-     vhc->map_hptes = spapr_map_hptes;
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 5cc80776d0..4d8bb2ad2c 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -444,19 +444,22 @@ static void cap_nested_kvm_hv_apply(SpaprMachineState *spapr,
- {
-     ERRP_GUARD();
-     PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
-+    CPUPPCState *env = &cpu->env;
- 
-     if (!val) {
-         /* capability disabled by default */
-         return;
+     rc = sscanf(str, "%63[^.=].%63[^=]%n", driver, property, &offset);
+     if (rc == 2 && str[offset] == '=') {
+@@ -1031,7 +1032,12 @@ int qemu_global_option(const char *str)
      }
  
--    if (tcg_enabled()) {
--        error_setg(errp, "No Nested KVM-HV support in TCG");
-+    if (!(env->insns_flags2 & PPC2_ISA300)) {
-+        error_setg(errp, "Nested KVM-HV only supported on POWER9 and later");
-         error_append_hint(errp, "Try appending -machine cap-nested-hv=off\n");
--    } else if (kvm_enabled()) {
-+    }
-+
-+    if (kvm_enabled()) {
-         if (!ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_00, 0,
-                               spapr->max_compat_pvr)) {
--            error_setg(errp, "Nested KVM-HV only supported on POWER9");
-+            error_setg(errp, "Nested KVM-HV only supported on POWER9 and later");
-             error_append_hint(errp,
-                               "Try appending -machine max-cpu-compat=power9\n");
-             return;
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 5dec056796..3129fae90d 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -9,6 +9,7 @@
- #include "qemu/error-report.h"
- #include "exec/exec-all.h"
- #include "helper_regs.h"
-+#include "hw/ppc/ppc.h"
- #include "hw/ppc/spapr.h"
- #include "hw/ppc/spapr_cpu_core.h"
- #include "mmu-hash64.h"
-@@ -1500,6 +1501,321 @@ static void hypercall_register_softmmu(void)
- }
- #endif
- 
-+/* TCG only */
-+#define PRTS_MASK      0x1f
-+
-+static target_ulong h_set_ptbl(PowerPCCPU *cpu,
-+                               SpaprMachineState *spapr,
-+                               target_ulong opcode,
-+                               target_ulong *args)
-+{
-+    target_ulong ptcr = args[0];
-+
-+    if (!spapr_get_cap(spapr, SPAPR_CAP_NESTED_KVM_HV)) {
-+        return H_FUNCTION;
-+    }
-+
-+    if ((ptcr & PRTS_MASK) + 12 - 4 > 12) {
-+        return H_PARAMETER;
-+    }
-+
-+    spapr->nested_ptcr = ptcr; /* Save new partition table */
-+
-+    return H_SUCCESS;
-+}
-+
-+static target_ulong h_tlb_invalidate(PowerPCCPU *cpu,
-+                                     SpaprMachineState *spapr,
-+                                     target_ulong opcode,
-+                                     target_ulong *args)
-+{
-+    /*
-+     * The spapr virtual hypervisor nested HV implementation retains no L2
-+     * translation state except for TLB. And the TLB is always invalidated
-+     * across L1<->L2 transitions, so nothing is required here.
-+     */
-+
-+    return H_SUCCESS;
-+}
-+
-+static target_ulong h_copy_tofrom_guest(PowerPCCPU *cpu,
-+                                        SpaprMachineState *spapr,
-+                                        target_ulong opcode,
-+                                        target_ulong *args)
-+{
-+    /*
-+     * This HCALL is not required, L1 KVM will take a slow path and walk the
-+     * page tables manually to do the data copy.
-+     */
-+    return H_FUNCTION;
-+}
-+
-+/*
-+ * When this handler returns, the environment is switched to the L2 guest
-+ * and TCG begins running that. spapr_exit_nested() performs the switch from
-+ * L2 back to L1 and returns from the H_ENTER_NESTED hcall.
-+ */
-+static target_ulong h_enter_nested(PowerPCCPU *cpu,
-+                                   SpaprMachineState *spapr,
-+                                   target_ulong opcode,
-+                                   target_ulong *args)
-+{
-+    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
-+    CPUState *cs = CPU(cpu);
-+    CPUPPCState *env = &cpu->env;
-+    target_ulong hv_ptr = args[0];
-+    target_ulong regs_ptr = args[1];
-+    target_ulong hdec, now = cpu_ppc_load_tbl(env);
-+    target_ulong lpcr, lpcr_mask;
-+    struct kvmppc_hv_guest_state *hvstate;
-+    struct kvmppc_hv_guest_state hv_state;
-+    struct kvmppc_pt_regs *regs;
-+    hwaddr len;
-+    uint32_t cr;
-+    int i;
-+
-+    if (cpu->in_spapr_nested) {
-+        return H_FUNCTION;
-+    }
-+    if (spapr->nested_ptcr == 0) {
-+        return H_NOT_AVAILABLE;
-+    }
-+
-+    len = sizeof(*hvstate);
-+    hvstate = cpu_physical_memory_map(hv_ptr, &len, true);
-+    if (!hvstate || len != sizeof(*hvstate)) {
-+        return H_PARAMETER;
-+    }
-+
-+    memcpy(&hv_state, hvstate, len);
-+
-+    cpu_physical_memory_unmap(hvstate, len, 0 /* read */, len /* access len */);
-+
-+    /*
-+     * We accept versions 1 and 2. Version 2 fields are unused because TCG
-+     * does not implement DAWR*.
-+     */
-+    if (hv_state.version > HV_GUEST_STATE_VERSION) {
-+        return H_PARAMETER;
-+    }
-+
-+    cpu->nested_host_state = g_try_malloc(sizeof(CPUPPCState));
-+    if (!cpu->nested_host_state) {
-+        return H_NO_MEM;
-+    }
-+
-+    memcpy(cpu->nested_host_state, env, sizeof(CPUPPCState));
-+
-+    len = sizeof(*regs);
-+    regs = cpu_physical_memory_map(regs_ptr, &len, true);
-+    if (!regs || len != sizeof(*regs)) {
-+        g_free(cpu->nested_host_state);
-+        return H_P2;
-+    }
-+
-+    len = sizeof(env->gpr);
-+    assert(len == sizeof(regs->gpr));
-+    memcpy(env->gpr, regs->gpr, len);
-+
-+    env->lr = regs->link;
-+    env->ctr = regs->ctr;
-+    cpu_write_xer(env, regs->xer);
-+
-+    cr = regs->ccr;
-+    for (i = 7; i >= 0; i--) {
-+        env->crf[i] = cr & 15;
-+        cr >>= 4;
-+    }
-+
-+    env->msr = regs->msr;
-+    env->nip = regs->nip;
-+
-+    cpu_physical_memory_unmap(regs, len, 0 /* read */, len /* access len */);
-+
-+    env->cfar = hv_state.cfar;
-+
-+    assert(env->spr[SPR_LPIDR] == 0);
-+    env->spr[SPR_LPIDR] = hv_state.lpid;
-+
-+    lpcr_mask = LPCR_DPFD | LPCR_ILE | LPCR_AIL | LPCR_LD | LPCR_MER;
-+    lpcr = (env->spr[SPR_LPCR] & ~lpcr_mask) | (hv_state.lpcr & lpcr_mask);
-+    lpcr |= LPCR_HR | LPCR_UPRT | LPCR_GTSE | LPCR_HVICE | LPCR_HDICE;
-+    lpcr &= ~LPCR_LPES0;
-+    env->spr[SPR_LPCR] = lpcr & pcc->lpcr_mask;
-+
-+    env->spr[SPR_PCR] = hv_state.pcr;
-+    /* hv_state.amor is not used */
-+    env->spr[SPR_DPDES] = hv_state.dpdes;
-+    env->spr[SPR_HFSCR] = hv_state.hfscr;
-+    hdec = hv_state.hdec_expiry - now;
-+    env->tb_env->tb_offset += hv_state.tb_offset;
-+    /* TCG does not implement DAWR*, CIABR, PURR, SPURR, IC, VTB, HEIR SPRs*/
-+    env->spr[SPR_SRR0] = hv_state.srr0;
-+    env->spr[SPR_SRR1] = hv_state.srr1;
-+    env->spr[SPR_SPRG0] = hv_state.sprg[0];
-+    env->spr[SPR_SPRG1] = hv_state.sprg[1];
-+    env->spr[SPR_SPRG2] = hv_state.sprg[2];
-+    env->spr[SPR_SPRG3] = hv_state.sprg[3];
-+    env->spr[SPR_BOOKS_PID] = hv_state.pidr;
-+    env->spr[SPR_PPR] = hv_state.ppr;
-+
-+    cpu_ppc_hdecr_init(env);
-+    cpu_ppc_store_hdecr(env, hdec);
-+
-+    /*
-+     * The hv_state.vcpu_token is not needed. It is used by the KVM
-+     * implementation to remember which L2 vCPU last ran on which physical
-+     * CPU so as to invalidate process scope translations if it is moved
-+     * between physical CPUs. For now TLBs are always flushed on L1<->L2
-+     * transitions so this is not a problem.
-+     *
-+     * Could validate that the same vcpu_token does not attempt to run on
-+     * different L1 vCPUs at the same time, but that would be a L1 KVM bug
-+     * and it's not obviously worth a new data structure to do it.
-+     */
-+
-+    cpu->in_spapr_nested = true;
-+
-+    hreg_compute_hflags(env);
-+    tlb_flush(cs);
-+    env->reserve_addr = -1; /* Reset the reservation */
-+
-+    /*
-+     * The spapr hcall helper sets env->gpr[3] to the return value, but at
-+     * this point the L1 is not returning from the hcall but rather we
-+     * start running the L2, so r3 must not be clobbered, so return env->gpr[3]
-+     * to leave it unchanged.
-+     */
-+    return env->gpr[3];
-+}
-+
-+void spapr_exit_nested(PowerPCCPU *cpu, int excp)
-+{
-+    CPUState *cs = CPU(cpu);
-+    CPUPPCState *env = &cpu->env;
-+    target_ulong r3_return = env->excp_vectors[excp]; /* hcall return value */
-+    target_ulong hv_ptr = cpu->nested_host_state->gpr[4];
-+    target_ulong regs_ptr = cpu->nested_host_state->gpr[5];
-+    struct kvmppc_hv_guest_state *hvstate;
-+    struct kvmppc_pt_regs *regs;
-+    hwaddr len;
-+    int i;
-+
-+    assert(cpu->in_spapr_nested);
-+    cpu->in_spapr_nested = false;
-+
-+    cpu_ppc_hdecr_exit(env);
-+
-+    len = sizeof(*hvstate);
-+    hvstate = cpu_physical_memory_map(hv_ptr, &len, true);
-+    if (!hvstate || len != sizeof(*hvstate)) {
-+        r3_return = H_PARAMETER;
-+        goto out_restore_l1;
-+    }
-+
-+    env->tb_env->tb_offset -= hvstate->tb_offset;
-+
-+    hvstate->cfar = env->cfar;
-+    hvstate->lpcr = env->spr[SPR_LPCR];
-+    hvstate->pcr = env->spr[SPR_PCR];
-+    hvstate->dpdes = env->spr[SPR_DPDES];
-+    hvstate->hfscr = env->spr[SPR_HFSCR];
-+
-+    if (excp == POWERPC_EXCP_HDSI) {
-+        hvstate->hdar = env->spr[SPR_HDAR];
-+        hvstate->hdsisr = env->spr[SPR_HDSISR];
-+        hvstate->asdr = env->spr[SPR_ASDR];
-+    } else if (excp == POWERPC_EXCP_HISI) {
-+        hvstate->asdr = env->spr[SPR_ASDR];
-+    }
-+
-+    /* HEIR should be implemented for HV mode and saved here. */
-+    hvstate->srr0 = env->spr[SPR_SRR0];
-+    hvstate->srr1 = env->spr[SPR_SRR1];
-+    hvstate->sprg[0] = env->spr[SPR_SPRG0];
-+    hvstate->sprg[1] = env->spr[SPR_SPRG1];
-+    hvstate->sprg[2] = env->spr[SPR_SPRG2];
-+    hvstate->sprg[3] = env->spr[SPR_SPRG3];
-+    hvstate->pidr = env->spr[SPR_BOOKS_PID];
-+    hvstate->ppr = env->spr[SPR_PPR];
-+
-+    cpu_physical_memory_unmap(hvstate, len, 0 /* read */, len /* access len */);
-+
-+    len = sizeof(*regs);
-+    regs = cpu_physical_memory_map(regs_ptr, &len, true);
-+    if (!regs || len != sizeof(*regs)) {
-+        r3_return = H_P2;
-+        goto out_restore_l1;
-+    }
-+
-+    len = sizeof(env->gpr);
-+    assert(len == sizeof(regs->gpr));
-+    memcpy(regs->gpr, env->gpr, len);
-+
-+    regs->link = env->lr;
-+    regs->ctr = env->ctr;
-+    regs->xer = cpu_read_xer(env);
-+
-+    regs->ccr = 0;
-+    for (i = 0; i < 8; i++) {
-+        regs->ccr |= (env->crf[i] & 15) << (4 * (7 - i));
-+    }
-+
-+    if (excp == POWERPC_EXCP_MCHECK ||
-+        excp == POWERPC_EXCP_RESET ||
-+        excp == POWERPC_EXCP_SYSCALL) {
-+        regs->nip = env->spr[SPR_SRR0];
-+        regs->msr = env->spr[SPR_SRR1] & env->msr_mask;
-+    } else {
-+        regs->nip = env->spr[SPR_HSRR0];
-+        regs->msr = env->spr[SPR_HSRR1] & env->msr_mask;
-+    }
-+
-+    cpu_physical_memory_unmap(regs, len, 0 /* read */, len /* access len */);
-+
-+out_restore_l1:
-+    memcpy(env->gpr, cpu->nested_host_state->gpr, sizeof(env->gpr));
-+    env->lr = cpu->nested_host_state->lr;
-+    env->ctr = cpu->nested_host_state->ctr;
-+    memcpy(env->crf, cpu->nested_host_state->crf, sizeof(env->crf));
-+    env->cfar = cpu->nested_host_state->cfar;
-+    env->xer = cpu->nested_host_state->xer;
-+    env->so = cpu->nested_host_state->so;
-+    env->ov = cpu->nested_host_state->ov;
-+    env->ov32 = cpu->nested_host_state->ov32;
-+    env->ca32 = cpu->nested_host_state->ca32;
-+    env->msr = cpu->nested_host_state->msr;
-+    env->nip = cpu->nested_host_state->nip;
-+
-+    assert(env->spr[SPR_LPIDR] != 0);
-+    env->spr[SPR_LPCR] = cpu->nested_host_state->spr[SPR_LPCR];
-+    env->spr[SPR_LPIDR] = cpu->nested_host_state->spr[SPR_LPIDR];
-+    env->spr[SPR_PCR] = cpu->nested_host_state->spr[SPR_PCR];
-+    env->spr[SPR_DPDES] = 0;
-+    env->spr[SPR_HFSCR] = cpu->nested_host_state->spr[SPR_HFSCR];
-+    env->spr[SPR_SRR0] = cpu->nested_host_state->spr[SPR_SRR0];
-+    env->spr[SPR_SRR1] = cpu->nested_host_state->spr[SPR_SRR1];
-+    env->spr[SPR_SPRG0] = cpu->nested_host_state->spr[SPR_SPRG0];
-+    env->spr[SPR_SPRG1] = cpu->nested_host_state->spr[SPR_SPRG1];
-+    env->spr[SPR_SPRG2] = cpu->nested_host_state->spr[SPR_SPRG2];
-+    env->spr[SPR_SPRG3] = cpu->nested_host_state->spr[SPR_SPRG3];
-+    env->spr[SPR_BOOKS_PID] = cpu->nested_host_state->spr[SPR_BOOKS_PID];
-+    env->spr[SPR_PPR] = cpu->nested_host_state->spr[SPR_PPR];
-+
-+    g_free(cpu->nested_host_state);
-+    cpu->nested_host_state = NULL;
-+
-+    /*
-+     * Return the interrupt vector address from H_ENTER_NESTED to the L1
-+     * (or error code).
-+     */
-+    env->gpr[3] = r3_return;
-+
-+    hreg_compute_hflags(env);
-+    tlb_flush(cs);
-+    env->reserve_addr = -1; /* Reset the reservation */
-+}
-+
- static void hypercall_register_types(void)
- {
-     hypercall_register_softmmu();
-@@ -1555,6 +1871,11 @@ static void hypercall_register_types(void)
-     spapr_register_hypercall(KVMPPC_H_CAS, h_client_architecture_support);
- 
-     spapr_register_hypercall(KVMPPC_H_UPDATE_DT, h_update_dt);
-+
-+    spapr_register_hypercall(KVMPPC_H_SET_PARTITION_TABLE, h_set_ptbl);
-+    spapr_register_hypercall(KVMPPC_H_ENTER_NESTED, h_enter_nested);
-+    spapr_register_hypercall(KVMPPC_H_TLB_INVALIDATE, h_tlb_invalidate);
-+    spapr_register_hypercall(KVMPPC_H_COPY_TOFROM_GUEST, h_copy_tofrom_guest);
- }
- 
- type_init(hypercall_register_types)
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index edbf3eeed0..852fe61b36 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -199,6 +199,9 @@ struct SpaprMachineState {
-     bool has_graphics;
-     uint32_t vsmt;       /* Virtual SMT mode (KVM's "core stride") */
- 
-+    /* Nested HV support (TCG only) */
-+    uint64_t nested_ptcr;
-+
-     Notifier epow_notifier;
-     QTAILQ_HEAD(, SpaprEventLogEntry) pending_events;
-     bool use_hotplug_event_source;
-@@ -579,7 +582,14 @@ struct SpaprMachineState {
- #define KVMPPC_H_UPDATE_DT      (KVMPPC_HCALL_BASE + 0x3)
- /* 0x4 was used for KVMPPC_H_UPDATE_PHANDLE in SLOF */
- #define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
--#define KVMPPC_HCALL_MAX        KVMPPC_H_VOF_CLIENT
-+
-+/* Platform-specific hcalls used for nested HV KVM */
-+#define KVMPPC_H_SET_PARTITION_TABLE   (KVMPPC_HCALL_BASE + 0x800)
-+#define KVMPPC_H_ENTER_NESTED          (KVMPPC_HCALL_BASE + 0x804)
-+#define KVMPPC_H_TLB_INVALIDATE        (KVMPPC_HCALL_BASE + 0x808)
-+#define KVMPPC_H_COPY_TOFROM_GUEST     (KVMPPC_HCALL_BASE + 0x80C)
-+
-+#define KVMPPC_HCALL_MAX        KVMPPC_H_COPY_TOFROM_GUEST
- 
- /*
-  * The hcall range 0xEF00 to 0xEF80 is reserved for use in facilitating
-@@ -589,6 +599,65 @@ struct SpaprMachineState {
- #define SVM_H_TPM_COMM              0xEF10
- #define SVM_HCALL_MAX               SVM_H_TPM_COMM
- 
-+/*
-+ * Register state for entering a nested guest with H_ENTER_NESTED.
-+ * New member must be added at the end.
-+ */
-+struct kvmppc_hv_guest_state {
-+    uint64_t version;        /* version of this structure layout, must be first */
-+    uint32_t lpid;
-+    uint32_t vcpu_token;
-+    /* These registers are hypervisor privileged (at least for writing) */
-+    uint64_t lpcr;
-+    uint64_t pcr;
-+    uint64_t amor;
-+    uint64_t dpdes;
-+    uint64_t hfscr;
-+    int64_t tb_offset;
-+    uint64_t dawr0;
-+    uint64_t dawrx0;
-+    uint64_t ciabr;
-+    uint64_t hdec_expiry;
-+    uint64_t purr;
-+    uint64_t spurr;
-+    uint64_t ic;
-+    uint64_t vtb;
-+    uint64_t hdar;
-+    uint64_t hdsisr;
-+    uint64_t heir;
-+    uint64_t asdr;
-+    /* These are OS privileged but need to be set late in guest entry */
-+    uint64_t srr0;
-+    uint64_t srr1;
-+    uint64_t sprg[4];
-+    uint64_t pidr;
-+    uint64_t cfar;
-+    uint64_t ppr;
-+    /* Version 1 ends here */
-+    uint64_t dawr1;
-+    uint64_t dawrx1;
-+    /* Version 2 ends here */
-+};
-+
-+/* Latest version of hv_guest_state structure */
-+#define HV_GUEST_STATE_VERSION  2
-+
-+/* Linux 64-bit powerpc pt_regs struct, used by nested HV */
-+struct kvmppc_pt_regs {
-+    uint64_t gpr[32];
-+    uint64_t nip;
-+    uint64_t msr;
-+    uint64_t orig_gpr3;    /* Used for restarting system calls */
-+    uint64_t ctr;
-+    uint64_t link;
-+    uint64_t xer;
-+    uint64_t ccr;
-+    uint64_t softe;        /* Soft enabled/disabled */
-+    uint64_t trap;         /* Reason for being here */
-+    uint64_t dar;          /* Fault registers */
-+    uint64_t dsisr;        /* on 4xx/Book-E used for ESR */
-+    uint64_t result;       /* Result of a system call */
-+};
- 
- typedef struct SpaprDeviceTreeUpdateHeader {
-     uint32_t version_id;
-@@ -606,6 +675,9 @@ typedef target_ulong (*spapr_hcall_fn)(PowerPCCPU *cpu, SpaprMachineState *sm,
- void spapr_register_hypercall(target_ulong opcode, spapr_hcall_fn fn);
- target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
-                              target_ulong *args);
-+
-+void spapr_exit_nested(PowerPCCPU *cpu, int excp);
-+
- target_ulong softmmu_resize_hpt_prepare(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                                          target_ulong shift);
- target_ulong softmmu_resize_hpt_commit(PowerPCCPU *cpu, SpaprMachineState *spapr,
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index d8cc956c97..65c4401130 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1301,6 +1301,9 @@ struct PowerPCCPU {
-     bool pre_2_10_migration;
-     bool pre_3_0_migration;
-     int32_t mig_slb_nr;
-+
-+    bool in_spapr_nested;
-+    CPUPPCState *nested_host_state;
- };
- 
+     opts = qemu_opts_parse_noisily(&qemu_global_opts, str, false);
+-    if (!opts) {
++    if (!opts || !qemu_opt_get(opts, "driver") || !qemu_opt_get(opts,"property") ||
++    !qemu_opt_get(opts, "value")) {
++        error_setg(&err, "Invalid 'global' option format! "
++        "Use -global <driver>.<property>=<value> or "
++        "-global driver=driver,property=property,value=value");
++        error_report_err(err);
+         return -1;
+     }
  
 -- 
-2.23.0
+2.25.1
 
 
