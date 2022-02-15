@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1534B68BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:05:00 +0100 (CET)
-Received: from localhost ([::1]:47382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305714B68DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:10:51 +0100 (CET)
+Received: from localhost ([::1]:60426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuhf-0000rI-8K
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:04:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55058)
+	id 1nJunJ-00022x-OW
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:10:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCU-0004cA-RT
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:46 -0500
-Received: from [2a00:1450:4864:20::632] (port=37675
- helo=mail-ej1-x632.google.com)
+ id 1nJuCV-0004dA-3X
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:47 -0500
+Received: from [2a00:1450:4864:20::62e] (port=43843
+ helo=mail-ej1-x62e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCS-0008UX-Oc
+ id 1nJuCT-0008Ud-E1
  for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:46 -0500
-Received: by mail-ej1-x632.google.com with SMTP id h8so16384008ejy.4
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:44 -0800 (PST)
+Received: by mail-ej1-x62e.google.com with SMTP id d10so42877615eje.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bv7+RSXKAk+/P8xmsmdOzIGcRi8dXXMcCuzdHmmHF5c=;
- b=EXoOyhBgb/DvfnigH5JFDWDANQExbVqQLZu8JLYN3s6EVb7SVsVkrvxaKg//DbrSaw
- irODQEVsSTnt7ueHCyDZHw/JmaSBTQTew4Th95mGtFeSdPneJC9q37E6XfQ9+NRLdAsw
- MPzVz6ADRamOIiCUQq1/MAEmIvekb+F1lwttrixArI0OC/KkreB6VqQE4Cx89ItEFV33
- ClLiftoPnLVQqUZ1pIHK8O9vcN4zKAIbMqNy5ybWvYCCGj4YjsfTgSNwak8P6+hypyfS
- 7Ek5OKu2tyqdew49ZFv4evGR/PqNLvN/arAX2KQhb5qlT6hdCJoSZtkhJ5e/T4nMwH+l
- PWMA==
+ bh=6lnp+y1CQ1+VKM1AP6R8y5Kq7ZQ0qg3S2I5gAaWaIHc=;
+ b=gJw8JFwoaK+rs5T3MQNqqV9Njaj+BBqB1JHupYzUAaL6oW/VX7OPudWQrNv5b1NHaW
+ k/9A0+Gf0YdCZuXkrLfzBOMXpWDpdgmPSjOZ1NWKL609b5krnoF1Xo03eExwolQmmpDT
+ EF/+4mJbjGCGY123qRb4RrYSDDmipfrkO7opkBDtUQbW256F8eZHL47uk7DthaakmxDn
+ rztE1Z8GJrMgnvFM9ODCodx0RDc9yN2O9TCx/UdOkt9YLUaNoSlWnpUCbdDYQ8LBUlri
+ Tf8wD+HPIBo2qEO63uWeiUrD2DuN3g5zKfRMHd7mZaITPl3pSfzb55ie983B9fjxAXVh
+ JIfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Bv7+RSXKAk+/P8xmsmdOzIGcRi8dXXMcCuzdHmmHF5c=;
- b=X+FwYiV/AXBIbVMbU9/9+F/pfcCzQhIGruQ9vjry96ZFOyVj6Dt0bAqvhP04AMP8wk
- 9ob2NTzcyHwSC9OSrQ/DmStQ09Rs292tDk/JE5ruB3m6CJi6a3Io7C2tiLAW1fRpbv53
- C4fK0CFAYnIBFjWyPMCtJ2TaTNrNT4dQmUGeRkKZu0QrH3DjBUDcDbucUnbV5Nvh2hf3
- i1rNKsny6lh6NpA1Uum5cayUgASmHP/m4IQ1STgzktfjqe2xYXYaXTvTd5IDvo1cYGdy
- 81K8g7G0DHaCtmQ3AtRBni8urvG+txi+aFspipTVZdMT6KM3V4Ja2gaUePIcKUaCKPLs
- vZsQ==
-X-Gm-Message-State: AOAM533/5d3ePCKTAnGgLsJ1SqmAZK3WEnEQ3aYaVMaZK30XM27jy5Lr
- X+viqbsy9TnPOMgcfa6OtwL1kMMsCAI=
-X-Google-Smtp-Source: ABdhPJy7wlLWTMV084EViwieku5m5sGnhSFd1qXGs2ozhQv/jGxlZxzVry6YhxUuqh/lAhqb6maf0w==
-X-Received: by 2002:a17:906:190d:: with SMTP id
- a13mr2170751eje.339.1644917563290; 
- Tue, 15 Feb 2022 01:32:43 -0800 (PST)
+ bh=6lnp+y1CQ1+VKM1AP6R8y5Kq7ZQ0qg3S2I5gAaWaIHc=;
+ b=53dQA8FbSmT5s0mZ+zsHnLdQ3fhA8mhf7MNGeWjPwIzvNcuMJ71WFjdvHI0a6ii+fS
+ cVgZoXQ2kSE1Fkj7mYt/oq/DS210SyPKjfAsnXGgOBYMrhyFnjQXvlqwGHaKVbMz5SzD
+ a88x3uGSFrnKbMAdSxaCI8AfYj2UjUvLgBpCdwSw4SkQRAGAaRlRoo6g7gFw7icUCrVt
+ Az0IL/f34la9VxPcSBW+rfLxO+FyYa7Wd5bRPSV7kWshhQ1ArlyAnfV+I7FEOMrg97NC
+ PVyY0Y7yCmdDEOYHiYR3nmGDoD+XaTj+sFniQ+t68bqInR4MGb+9O+AqZcpwcqaBnHf5
+ bPEA==
+X-Gm-Message-State: AOAM5330EDf/BB+203TQkaLXV+w3CCLRdn4BIO40VpjH2XjD6Bi0yc16
+ PlHv8w3oT82IMqoC+WoSekqkStseZzk=
+X-Google-Smtp-Source: ABdhPJwsbkjJt/aa2KS/1wHK7oiwU9DsGdyNO3r+dlA/LdGAic089LQCnkPqrHvXBIzMcNrlNTM4lg==
+X-Received: by 2002:a17:906:779b:: with SMTP id
+ s27mr2180749ejm.389.1644917564089; 
+ Tue, 15 Feb 2022 01:32:44 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.42
+ by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 01:32:42 -0800 (PST)
+ Tue, 15 Feb 2022 01:32:43 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/30] qga/vss-win32: require widl/midl,
- remove pre-built TLB file
-Date: Tue, 15 Feb 2022 10:32:20 +0100
-Message-Id: <20220215093223.110827-28-pbonzini@redhat.com>
+Subject: [PULL 28/30] meson: require dynamic linking for VSS support
+Date: Tue, 15 Feb 2022 10:32:21 +0100
+Message-Id: <20220215093223.110827-29-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215093223.110827-1-pbonzini@redhat.com>
 References: <20220215093223.110827-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -97,96 +96,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-There are no good reason anymore to keep a pre-built file in the repository.
+The glib_dynamic detection does not work because the dependency is
+overridden in the main meson.build.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+[Rewritten commit message, added requirement in qga/meson.build - Paolo]
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build               |   4 ++++
- qga/meson.build           |   2 ++
- qga/vss-win32/meson.build |   9 +--------
- qga/vss-win32/qga-vss.tlb | Bin 1528 -> 0 bytes
- 4 files changed, 7 insertions(+), 8 deletions(-)
- delete mode 100644 qga/vss-win32/qga-vss.tlb
+ qga/meson.build           | 2 ++
+ qga/vss-win32/meson.build | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 39126d1cc6..730e622417 100644
---- a/meson.build
-+++ b/meson.build
-@@ -307,8 +307,12 @@ iokit = []
- emulator_link_args = []
- nvmm =not_found
- hvf = not_found
-+midl = not_found
-+widl = not_found
- host_dsosuf = '.so'
- if targetos == 'windows'
-+  midl = find_program('midl', required: false)
-+  widl = find_program('widl', required: false)
-   socket = cc.find_library('ws2_32')
-   winmm = cc.find_library('winmm')
- 
 diff --git a/qga/meson.build b/qga/meson.build
-index a32c141dd0..4ac781cb33 100644
+index 4ac781cb33..d22ecb4187 100644
 --- a/qga/meson.build
 +++ b/qga/meson.build
-@@ -20,6 +20,8 @@ have_qga_vss = get_option('qga_vss') \
-     $ scripts/extract-vsssdk-headers setup.exe
-     The headers are extracted in the directory 'inc/win2003'.
+@@ -22,6 +22,8 @@ have_qga_vss = get_option('qga_vss') \
      Then run configure with: --extra-cxxflags="-isystem /path/to/vss/inc/win2003"''') \
-+  .require(midl.found() or widl.found(),
-+           error_message: 'VSS support requires midl or widl') \
+   .require(midl.found() or widl.found(),
+            error_message: 'VSS support requires midl or widl') \
++  .require(not enable_static,
++           error_message: 'VSS support requires dynamic linking with GLib') \
    .allowed()
  
  all_qga = []
 diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
-index 8d4c5708d8..c064a4e245 100644
+index c064a4e245..71c50d0866 100644
 --- a/qga/vss-win32/meson.build
 +++ b/qga/vss-win32/meson.build
-@@ -25,21 +25,14 @@ qga_vss = shared_module(
- 
- all_qga += qga_vss
- 
--midl = find_program('midl', required: false)
--widl = find_program('widl', required: false)
- if midl.found()
-   gen_tlb = custom_target('gen-tlb',
-                           input: 'qga-vss.idl',
-                           output: 'qga-vss.tlb',
-                           command: [midl, '@INPUT@', '/tlb', '@OUTPUT@'])
--elif widl.found()
-+else
-   gen_tlb = custom_target('gen-tlb',
-                           input: 'qga-vss.idl',
-                           output: 'qga-vss.tlb',
-                           command: [widl, '-t', '@INPUT@', '-o', '@OUTPUT@'])
--else
--  gen_tlb = custom_target('gen-tlb',
--                          input: 'qga-vss.tlb',
--                          output: 'qga-vss.tlb',
--                          command: ['cp', '@INPUT@', '@OUTPUT@'])
- endif
-diff --git a/qga/vss-win32/qga-vss.tlb b/qga/vss-win32/qga-vss.tlb
-deleted file mode 100644
-index 226452a1861371ffe0cad1019cf90fdfdcd5ef49..0000000000000000000000000000000000000000
-GIT binary patch
-literal 0
-HcmV?d00001
-
-literal 1528
-zcmeYbb_-!*U}OLRP8Kl5;0UB3A_y8H!@$4<WGF*9|A9aP$W{R21|SCUVfs9Pj1;IC
-zKahR`)X0Ox{{ZC6An~sN`2tA%H9-9hNPHcj{0byK4>OPh6a(1_GM|T)fx!kz-UG<D
-zK;nbc0l9GX===tt`Vb`fD?q*q5+7YXI$u?Zf#C;G4-9~uhYKVCC4f!`hZ{(Z0*HVD
-zkhwswGqAt}ki;hd*$F@lQbP%-z+r|5P#hGW*vvKniaRx03p~wP?y>h_rLW<nKOg@=
-z6{hYgzgH7@QE<^MU>KC!yoBjb#vz`9Lwu4+R-SJ!kIOX4xLBUUGN9-NyTyP76j}@n
-z2f!qQ8-xepfXD+7rW+{SKz4&@7#qX~^1#sn3O|tFK>%ciE<<riN`6kNkzPqoQh0bc
-zNbM*XJ|Un0jALSb15^rEE6h+Y8tCpA798vm9#E8DmYI@T<dc~c4pSpwQKEn@FU<fE
-zfvHyrsVqoU0O~4AEUE;iEfI8i=bXgi;_z?|20Ng!&PAz-C8;S2NtFt|o-RHLWvNBQ
-znfZAN=6VJOdIqMZrV5EA3T{Q23NES13Py$shQ?OLW>&_Q3PuKoMqI)S5zj9Ngog_=
-gXfrXehlhjmFbIJB4$8MKU>*YlD1Z9^F{m5{03Vre%>V!Z
-
+@@ -1,4 +1,3 @@
+-glib_dynamic = dependency('glib-2.0', static: false)
+ link_args = cc.get_supported_link_arguments([
+   '-fstack-protector-all',
+   '-fstack-protector-strong',
+@@ -14,7 +13,8 @@ qga_vss = shared_module(
+   link_args: link_args,
+   vs_module_defs: 'qga-vss.def',
+   dependencies: [
+-    glib_dynamic, socket,
++    glib,
++    socket,
+     cc.find_library('ole32'),
+     cc.find_library('oleaut32'),
+     cc.find_library('shlwapi'),
 -- 
 2.34.1
 
