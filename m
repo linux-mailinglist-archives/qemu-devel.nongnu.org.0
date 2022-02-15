@@ -2,81 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93324B68BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:04:00 +0100 (CET)
-Received: from localhost ([::1]:45742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E274B6839
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:54:49 +0100 (CET)
+Received: from localhost ([::1]:52620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJugh-0008Bj-VM
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:04:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58896)
+	id 1nJuXo-0001Zr-8t
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:54:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1nJuTa-000672-QL
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:50:26 -0500
-Received: from [2a00:1450:4864:20::42a] (port=42750
- helo=mail-wr1-x42a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1nJuTX-0002uL-1o
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:50:26 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id h6so31078539wrb.9
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:50:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=iM3vI6OmCf8d2ZvpfzvY3zF91IJQs8TF+SJ4rjHl6/A=;
- b=ETplzmVKh+EUIwbXW/XpRhgMN7zMvD24C9B4tB/GRPgij5Ndjj8UybZsZSwh9BG9aM
- b9ISU/W2Dl1psWs1kOlD4PxHTmt0SF72E7HcMDLuYtIWG2/sNmEB+6JjNH2wFVrFrtJg
- tjjmLKgF5Brnc6y4CKrR8cibC2ebPnXKNBQiQc++IOAyfvAOYm9XcDZdDOTOeimiUufP
- rYpIafgTEEGJhD+v6G2mARCjHLdKwwA828a2FwYVwpmqR8QYBbyb5CnSIbFVcCm3XRph
- CM7iRkM2n4pWwIsxc33m5tq6YHYJmTiBGXlT9W61bTRP6+j5P+Fpb4a2OOLQB9tPoTCe
- JKzw==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nJuUp-0002HO-Vg
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:51:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nJuUe-00034B-T9
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:51:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644918692;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0hsH7ZT/PI23KOIyk4Z/0SjXihqf3zklroTj+29hySM=;
+ b=Bt8QJAn2Xd1V94igkeZioDqrS9fj1iEgHv/33NEuhpjYc6WhZ6LiSbjgESaH9GGtBLE6l8
+ qQXMkyFbsa2MBqUsHDdIZOnE253o5zKk/Ti+ogEqdtwpddV3a9rrxmVfz3KA0lnlJSAIuc
+ OzuqrXZK8Dh9TSr5X/gqMiYfSINHRkk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-179-UjO0AUpLPkm8ZmyYf_vAyg-1; Tue, 15 Feb 2022 04:51:28 -0500
+X-MC-Unique: UjO0AUpLPkm8ZmyYf_vAyg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ g17-20020adfa591000000b001da86c91c22so8129521wrc.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:51:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iM3vI6OmCf8d2ZvpfzvY3zF91IJQs8TF+SJ4rjHl6/A=;
- b=xzl7icCoDrfdnkwh5LtwhUUPzSH4PZRRXwXyFAsEaJF0DibLBPPzMAzTjUpVk+NRS+
- lSSvOKAg1Ll85jStTCyEGTc0icHmpa3tp8Vew7TFaIK9/q8JiQsoYr+/UCYfQKJNxTn5
- IgwcAuupTWUXBsazl/R3q1UBAOw3elk3QlZ9V0Q33KIRsGwdDtLfdJ3C3pyuuH61ZJO+
- E+wQTO1KF7n6GAHEzuxRsO0eJY0Z1DsjIBli9jv0xfIOHOLzLp2Aeq/56ybHvV2VqGw5
- jJK9yoc6T+IAtRDosPNAqhADaLNpOnYtwH2udOFR9us8HzXAcQkZVYVUIu1727At/Wd2
- LykA==
-X-Gm-Message-State: AOAM533d2ljeT5CKR9pXVRSL+tI889ZmQdYx9jKEFGHMEeURxCmGbRx/
- dSqxlP6z85bpPBAEpGA2lnOnrKSYF9CSuw==
-X-Google-Smtp-Source: ABdhPJytDgHdLJgU5bPIY4NEoUQYlBGplBL/jekJZGhZr8sGVpqrlz/WRXwMfJJipguOSbMgqHg36w==
-X-Received: by 2002:a05:6000:1d93:: with SMTP id
- bk19mr2481310wrb.264.1644918616856; 
- Tue, 15 Feb 2022 01:50:16 -0800 (PST)
-Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
- [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id a9sm15450312wrr.20.2022.02.15.01.50.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 01:50:16 -0800 (PST)
-Date: Tue, 15 Feb 2022 09:49:53 +0000
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v3 0/4] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
-Message-ID: <Ygt3QcDhRBKZJmf0@myrica>
-References: <20220214124356.872985-1-jean-philippe@linaro.org>
- <f70a113d-5762-3b4c-6125-0081a1d5ab63@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=0hsH7ZT/PI23KOIyk4Z/0SjXihqf3zklroTj+29hySM=;
+ b=PihURQ9ytk/VSALWNV5nktYt7w2YoGXuiCsm24TdyeSHql5whsVFsmqpn/ok06DUb1
+ 2FMPcI0zIH63uniBITBv68dKiB8kk5i5eyHMNTQm4FF6KvAgxjmumLOzxMXKjgvEvZKW
+ LTGJ1U/oqZ7Twux3Ykv6/zGDYFRFTclAbcRkhvmTOPFJ8OuThHI+KC342PnUsrARSY6p
+ RDToEBxdP5QTR1HbSRpYPZ5XfccsA/vnArjEX9rdc/sHZI+hPftgXIbP2jPqgGdCaiOu
+ nYOZs/9PTPWj0aYX5cJv5dlCfNsXCn6zuvqCqMij/6y9S2Tyi32V2FrvSoxmv8J5KkIw
+ z3Jw==
+X-Gm-Message-State: AOAM533P2mQZLasy8PPYA8RdqVyIEqIaE7WmWNj3RL9pwDHQnngCWhCX
+ 2Hh46FjYn8NgwCERj6iDakLe/4IZILIb8tlGpV/BHc/iGZcfGFyTUK150WvuQqWMfaUfP1NXCOF
+ ulfLxKiYkXjtWiyY=
+X-Received: by 2002:a1c:a552:0:b0:37b:c7e2:e4ed with SMTP id
+ o79-20020a1ca552000000b0037bc7e2e4edmr2369527wme.34.1644918687336; 
+ Tue, 15 Feb 2022 01:51:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzN1n2qFTA1kapWfkTJByuFBhDdSIs8Bk07qfvrGzSmdvv2RlvMiUGxhGsvslbJ4vNWcAalVg==
+X-Received: by 2002:a1c:a552:0:b0:37b:c7e2:e4ed with SMTP id
+ o79-20020a1ca552000000b0037bc7e2e4edmr2369500wme.34.1644918687043; 
+ Tue, 15 Feb 2022 01:51:27 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70e:3700:9260:2fb2:742d:da3e?
+ (p200300cbc70e370092602fb2742dda3e.dip0.t-ipconnect.de.
+ [2003:cb:c70e:3700:9260:2fb2:742d:da3e])
+ by smtp.gmail.com with ESMTPSA id g8sm17617928wrd.9.2022.02.15.01.51.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 01:51:26 -0800 (PST)
+Message-ID: <dcb41232-ccaf-d747-35c3-359459f62689@redhat.com>
+Date: Tue, 15 Feb 2022 10:51:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f70a113d-5762-3b4c-6125-0081a1d5ab63@redhat.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: 9 TiB vm memory creation
+To: Ani Sinha <ani@anisinha.ca>
+References: <alpine.DEB.2.22.394.2202141048390.13781@anisinha-lenovo>
+ <20220214133634.248d7de0@redhat.com>
+ <b9771171-8d28-b46b-4474-687a8fed0abd@redhat.com>
+ <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
+ <b06ab7b0-61f2-5301-70f9-197dfd9527e9@redhat.com>
+ <CAARzgwwDFybUsCj8Ym6kpcjNRCVV6vbsY7Lks0wsmrc2+ET03Q@mail.gmail.com>
+ <492bd3a4-4a26-afc9-1268-74a9fd7f095a@redhat.com>
+ <CAARzgwzd-p-GLOQ-VtBC2_-fd1=fg2rZU7t9XhVA1QSUe1vT0A@mail.gmail.com>
+ <86b5c589-c1d2-bd2b-12e4-9bec25d3a9ef@redhat.com>
+ <CAARzgwzYvk=pLz3gHX_Q3gTsJzog+S1mmB-ob6N=hY_odqA7Hw@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <CAARzgwzYvk=pLz3gHX_Q3gTsJzog+S1mmB-ob6N=hY_odqA7Hw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,44 +111,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, mst@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com,
- pbonzini@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 10:25:21AM +0100, Eric Auger wrote:
-> Hi Jean,
+On 15.02.22 10:48, Ani Sinha wrote:
+> On Tue, Feb 15, 2022 at 3:14 PM David Hildenbrand <david@redhat.com> wrote:
+>>
+>> On 15.02.22 10:40, Ani Sinha wrote:
+>>> On Tue, Feb 15, 2022 at 2:08 PM David Hildenbrand <david@redhat.com> wrote:
+>>>>
+>>>> On 15.02.22 09:12, Ani Sinha wrote:
+>>>>> On Tue, Feb 15, 2022 at 1:25 PM David Hildenbrand <david@redhat.com> wrote:
+>>>>>>
+>>>>>> On 15.02.22 08:00, Ani Sinha wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> On Mon, 14 Feb 2022, David Hildenbrand wrote:
+>>>>>>>
+>>>>>>>> On 14.02.22 13:36, Igor Mammedov wrote:
+>>>>>>>>> On Mon, 14 Feb 2022 10:54:22 +0530 (IST)
+>>>>>>>>> Ani Sinha <ani@anisinha.ca> wrote:
+>>>>>>>>>
+>>>>>>>>>> Hi Igor:
+>>>>>>>>>>
+>>>>>>>>>> I failed to spawn a 9 Tib VM. The max I could do was a 2 TiB vm on my
+>>>>>>>>>> system with the following commandline before either the system
+>>>>>>>>>> destabilized or the OOM killed killed qemu
+>>>>>>>>>>
+>>>>>>>>>> -m 2T,maxmem=9T,slots=1 \
+>>>>>>>>>> -object memory-backend-file,id=mem0,size=2T,mem-path=/data/temp/memfile,prealloc=off \
+>>>>>>>>>> -machine memory-backend=mem0 \
+>>>>>>>>>> -chardev file,path=/tmp/debugcon2.txt,id=debugcon \
+>>>>>>>>>> -device isa-debugcon,iobase=0x402,chardev=debugcon \
+>>>>>>>>>>
+>>>>>>>>>> I have attached the debugcon output from 2 TiB vm.
+>>>>>>>>>> Is there any other commandline parameters or options I should try?
+>>>>>>>>>>
+>>>>>>>>>> thanks
+>>>>>>>>>> ani
+>>>>>>>>>
+>>>>>>>>> $ truncate -s 9T 9tb_sparse_disk.img
+>>>>>>>>> $ qemu-system-x86_64 -m 9T \
+>>>>>>>>>   -object memory-backend-file,id=mem0,size=9T,mem-path=9tb_sparse_disk.img,prealloc=off,share=on \
+>>>>>>>>>   -machine memory-backend=mem0
+>>>>>>>>>
+>>>>>>>>> works for me till GRUB menu, with sufficient guest kernel
+>>>>>>>>> persuasion (i.e. CLI limit ram size to something reasonable) you can boot linux
+>>>>>>>>> guest on it and inspect SMBIOS tables comfortably.
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> With KVM enabled it bails out with:
+>>>>>>>>>    qemu-system-x86_64: kvm_set_user_memory_region: KVM_SET_USER_MEMORY_REGION failed, slot=1, start=0x100000000, size=0x8ff40000000: Invalid argument
+>>>>>>>>>
+>>>>>>>
+>>>>>>> I have seen this in my system but not always. Maybe I should have dug
+>>>>>>> deeper as to why i do see this all the time.
+>>>>>>>
+>>>>>>>>> all of that on a host with 32G of RAM/no swap.
+>>>>>>>>>
+>>>>>>>
+>>>>>>> My system in 16 Gib of main memory, no swap.
+>>>>>>>
+>>>>>>>>
+>>>>>>>> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
+>>>>>>>>
+>>>>>>>> ~8 TiB (7,999999)
+>>>>>>>
+>>>>>>> That's not 8 Tib, thats 2 GiB. But yes, 0x8ff40000000 is certainly greater
+>>>>>>> than 2 Gib * 4K (assuming 4K size pages).
+>>>>>>
+>>>>>> "pages" don't carry the unit "GiB/TiB", so I was talking about the
+>>>>>> actual size with 4k pages (your setup, I assume)
+>>>>>
+>>>>> yes I got that after reading your email again.
+>>>>> The interesting question now is how is redhat QE running 9 TiB vm with kvm?
+>>>>
+>>>> As already indicated by me regarding s390x only having single large NUMA
+>>>> nodes, x86 is usually using multiple NUMA nodes with such large memory.
+>>>> And QE seems to be using virtual numa nodes:
+>>>>
+>>>> Each of the 32 virtual numa nodes receive a:
+>>>>
+>>>>   -object memory-backend-ram,id=ram-node20,size=309237645312,host-
+>>>>    nodes=0-31,policy=bind
+>>>>
+>>>> which results in a dedicated KVM memslot (just like each DIMM would)
+>>>>
+>>>>
+>>>> 32 * 309237645312 == 9 TiB :)
+>>>
+>>> ah, I should have looked closely at the other commandlines before
+>>> shooting off the email. Yes the limitation is per mem-slot and they
+>>> have 32 slots one per node.
+>>> ok so should we do
+>>> kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
+>>> from i386 kvm_arch_init()?
+>>
+>>
+>> As I said, I'm not a friend of these workarounds in user space.
 > 
-> On 2/14/22 1:43 PM, Jean-Philippe Brucker wrote:
-> > Replace the VIRTIO_IOMMU_F_BYPASS feature with
-> > VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
-> > global bypass on and off.
-> >
-> > Add a boot-bypass option, which defaults to 'on' to be in line with
-> > other vIOMMUs and to allow running firmware/bootloader that are unaware
-> > of the IOMMU. x86 doesn't need a workaround to boot with virtio-iommu
-> > anymore.
-> >
-> > Since v2 [1]:
-> > * Added the new bypass bits to the migration stream.
-> >   As discussed on the v2 thread, we assume that cross-version
-> >   compatibility is not required for live migration at the moment, so we
-> >   only increase the version number. Patch 2 says: "We add the bypass
-> >   field to the migration stream without introducing subsections, based
-> >   on the assumption that this virtio-iommu device isn't being used in
-> >   production enough to require cross-version migration at the moment
-> >   (all previous version required workarounds since they didn't support
-> >   ACPI and boot-bypass)."
-> >
-> > [1] https://lore.kernel.org/qemu-devel/20220127142940.671333-1-jean-philippe@linaro.org/
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> Tested-by: Eric Auger <eric.auger@redhat.com>
+> Oh ok, did not realize you were against s390x like workarounds.
 > 
-> I tested both the boot bypass feature with virtio-blk-pci,
-> virtio-net-pci and virtio-gpu-pci and migration.
 
-Thanks!
+s390x doesn't support DIMMs so it was "easy" for them to just do it that
+way :)
 
-Jean
+-- 
+Thanks,
+
+David / dhildenb
+
 
