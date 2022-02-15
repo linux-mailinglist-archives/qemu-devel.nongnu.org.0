@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C35B54B7493
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:13:35 +0100 (CET)
-Received: from localhost ([::1]:46182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ECBF4B74A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:22:12 +0100 (CET)
+Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK3GY-0000SJ-Rx
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:13:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35234)
+	id 1nK3Os-0005ve-P0
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:22:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK38C-0000wG-DO
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:56 -0500
-Received: from [2607:f8b0:4864:20::f29] (port=34783
- helo=mail-qv1-xf29.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK38D-0000yG-3s
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:57 -0500
+Received: from [2607:f8b0:4864:20::733] (port=38822
+ helo=mail-qk1-x733.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK389-0002l0-2U
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK38B-0002lH-3R
  for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:56 -0500
-Received: by mail-qv1-xf29.google.com with SMTP id fh9so55522qvb.1
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 11:04:52 -0800 (PST)
+Received: by mail-qk1-x733.google.com with SMTP id n185so1391682qke.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 11:04:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=axA+qxXpY8sKbyRbqVq801h3dnGKdNQsigejBH57FZ8=;
- b=PyhSs4o0+mg3EVtKmV1zwXy6vtt8FL8syRdNhaa84qO5No9p/1WhOUlAxDsf5rUKxv
- fKbhYE5dB+lpsigRji6fsqqg7l81dnt3PI6ebXwX8Pb/1nJ86n5rXtUJotKnfuBksp6N
- zxjTLDDBtqEJTNHkOM6ybU9FUgcCinRFGnSYWbuWDHtbU8dvbo0DUlN2Fetrly53A8n+
- WRuNYdpn5JzBukaC0UjDQvp7bRkY8uVOlIpask8IJvo3XO1sgvy7AogRVsjYs2r1MQIA
- NJGFXTmjWnhgNZXK5ly6dp1akBT+KL3Ikc4ovc483v8KHfc/fSL3oXDq4ixBAOS4qpiy
- v0Fg==
+ bh=9kM+hfKaNHkhAKW7qPhMom4aNnY+CTog/UjBQslxta0=;
+ b=fuh7eB4Jn1cCvj4S8hW3js3zOa4O7UC5SarPdTohj4/q4hzch52f05TGW3r7uf/PRt
+ bgYENFFZCJGf+iyG2ZrK0j0lrR7kgfeXB9sktgmrQDUVUwz95ogCd4W6ajhjK/j+2diX
+ 0Vj8QCYY1ECKZJKNYLb21arE/Q8DRdQg7rwet/OMvp5fJv0NvrdWnpkn3Hj35NTViU1e
+ 70Oi6bPcnN6obQ9ll+fiZ4mx73Zedp8sJyfGK8UU79MGv65E2K25y9x0VjWJt9yBf46u
+ yOdrtZxWbooce1bz/GwahVuKfCaqWZtR9ZVdVPtUyfUzJhbd+yTUEHjsGtEgZ5fCHhUI
+ 0+FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=axA+qxXpY8sKbyRbqVq801h3dnGKdNQsigejBH57FZ8=;
- b=fwfoluBDPnxpDiAzuUAFhk8O26aFoxsDrQ6pggdyUj57L0lSNNedfhs6GaWmUGnVom
- t1hXBUK6xh9rER5tSwW+mVNqD5nHfZ8ucC95sombJ6WRl3XGgn46rAtS8SL8I/fy/rJ8
- 0OXZy4Wcqe25zfuuykJWe/WI/CcVfquohlb6vrKLMEaXvN5mHlwi48/wsRO8s1f8Rgpz
- GTT6Pw0fXpi56ael9BnOrWiErvRRKthafc93irCKt1Ttvmv42mKPpcQSF6eXt20PU7/B
- lpqvO2NghWzAoIXt5x1WX4ZA5m6YP9fOmfSxiGQEUJ5KpAf6pN0sAkUNRvBVw3yKOMB0
- 20Aw==
-X-Gm-Message-State: AOAM5307FCRhrynsZS9cTJu363JqgEloI2CXeSCSPqROXxf2rxMWP9Iv
- c8yi+ajHesEAOIA1AfA8XMTmaCFDFARHBg==
-X-Google-Smtp-Source: ABdhPJw3pBy2MaFf25fIbdCqiUS0BwdzIwVV4h6dC2LO561ahexuSE6BIRAY/GCW0Oun76SIAmh6TA==
-X-Received: by 2002:a0c:ed23:: with SMTP id u3mr441793qvq.74.1644951891723;
- Tue, 15 Feb 2022 11:04:51 -0800 (PST)
+ bh=9kM+hfKaNHkhAKW7qPhMom4aNnY+CTog/UjBQslxta0=;
+ b=lCw2iSkmE9ybWJaonE/MpX2wq8yZ+HboPb7TM2sAGGeT1mbVlF8A7d46D98M6FN0TU
+ rVf5Tw0odbwFpeEcCVLwiBmBWHDWn+XjFAEDGEqjBegrE/LhwaZA3vTzuY7aYWFqvx9Z
+ oCo8UKggNTeUY5/03zlZm9c+wQzNJS56uxTni6+EdC9N4tWaCHfWPPpa8ReQb92gtXGa
+ fuyLtNmQ7Xou0bm76BFzs7ckz4pvpEL2mDsvYbIWj5Y/eLZhhyLcZaELVGWCyfjFGHWM
+ SmNwm7Uh1hM3loLLkHNdtpJOhnqsWISkO5r9YWf8UnMpjE3wJxPbJT+/omAs733TYX/W
+ goAw==
+X-Gm-Message-State: AOAM533shZVL7kO5HzJjCOkThHxoJPAM+EXALKa1EwmuIndGlkDhyDG+
+ RTfTmplIJekdz1AH8mUWSe7WEOR8P/HXuQ==
+X-Google-Smtp-Source: ABdhPJw5jyrn6k+krYMhpYVlvk5l1E+RhbC8/ox22Qsxp2+cQwVWOXuwfFcHBS3swxKdFuxA23h0cQ==
+X-Received: by 2002:a05:620a:8d7:: with SMTP id
+ z23mr220784qkz.753.1644951893712; 
+ Tue, 15 Feb 2022 11:04:53 -0800 (PST)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id w10sm21364527qtj.73.2022.02.15.11.04.49
+ by smtp.gmail.com with ESMTPSA id w10sm21364527qtj.73.2022.02.15.11.04.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 11:04:51 -0800 (PST)
+ Tue, 15 Feb 2022 11:04:52 -0800 (PST)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 07/11] 9p: darwin: *xattr_nofollow implementations
-Date: Tue, 15 Feb 2022 14:04:22 -0500
-Message-Id: <20220215190426.56130-8-wwcohen@gmail.com>
+Subject: [PATCH v7 08/11] 9p: darwin: Compatibility for f/l*xattr
+Date: Tue, 15 Feb 2022 14:04:23 -0500
+Message-Id: <20220215190426.56130-9-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215190426.56130-1-wwcohen@gmail.com>
 References: <20220215190426.56130-1-wwcohen@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f29
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::733
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
- envelope-from=wwcohen@gmail.com; helo=mail-qv1-xf29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=wwcohen@gmail.com; helo=mail-qk1-x733.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -97,102 +98,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
-This implements the darwin equivalent of the functions that were
-moved to 9p-util(-linux) earlier in this series in the new
-9p-util-darwin file.
+On darwin `fgetxattr` takes two extra optional arguments,
+and the l* variants are not defined (in favor of an extra
+flag to the regular variants.
 
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
 [Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
 ---
- hw/9pfs/9p-util-darwin.c | 64 ++++++++++++++++++++++++++++++++++++++++
- hw/9pfs/meson.build      |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 hw/9pfs/9p-util-darwin.c
+ hw/9pfs/9p-local.c | 12 ++++++++----
+ hw/9pfs/9p-util.h  | 17 +++++++++++++++++
+ 2 files changed, 25 insertions(+), 4 deletions(-)
 
-diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-new file mode 100644
-index 0000000000..cdb4c9e24c
---- /dev/null
-+++ b/hw/9pfs/9p-util-darwin.c
-@@ -0,0 +1,64 @@
-+/*
-+ * 9p utilities (Darwin Implementation)
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/xattr.h"
-+#include "9p-util.h"
-+
-+ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const char *name,
-+                             void *value, size_t size)
-+{
-+    int ret;
-+    int fd = openat_file(dirfd, filename,
-+                         O_RDONLY | O_PATH_9P_UTIL | O_NOFOLLOW, 0);
-+    if (fd == -1) {
-+        return -1;
-+    }
-+    ret = fgetxattr(fd, name, value, size, 0, 0);
-+    close_preserve_errno(fd);
-+    return ret;
-+}
-+
-+ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
-+                              char *list, size_t size)
-+{
-+    int ret;
-+    int fd = openat_file(dirfd, filename,
-+                         O_RDONLY | O_PATH_9P_UTIL | O_NOFOLLOW, 0);
-+    if (fd == -1) {
-+        return -1;
-+    }
-+    ret = flistxattr(fd, list, size, 0);
-+    close_preserve_errno(fd);
-+    return ret;
-+}
-+
-+ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
-+                                const char *name)
-+{
-+    int ret;
-+    int fd = openat_file(dirfd, filename, O_PATH_9P_UTIL | O_NOFOLLOW, 0);
-+    if (fd == -1) {
-+        return -1;
-+    }
-+    ret = fremovexattr(fd, name, 0);
-+    close_preserve_errno(fd);
-+    return ret;
-+}
-+
-+int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
-+                         void *value, size_t size, int flags)
-+{
-+    int ret;
-+    int fd = openat_file(dirfd, filename, O_PATH_9P_UTIL | O_NOFOLLOW, 0);
-+    if (fd == -1) {
-+        return -1;
-+    }
-+    ret = fsetxattr(fd, name, value, size, 0, flags);
-+    close_preserve_errno(fd);
-+    return ret;
-+}
-diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
-index 1b28e70040..12443b6ad5 100644
---- a/hw/9pfs/meson.build
-+++ b/hw/9pfs/meson.build
-@@ -14,6 +14,7 @@ fs_ss.add(files(
-   'coxattr.c',
- ))
- fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-util-linux.c'))
-+fs_ss.add(when: 'CONFIG_DARWIN', if_true: files('9p-util-darwin.c'))
- fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
- softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index f3272f0b43..a0d08e5216 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -790,16 +790,20 @@ static int local_fstat(FsContext *fs_ctx, int fid_type,
+         mode_t tmp_mode;
+         dev_t tmp_dev;
  
+-        if (fgetxattr(fd, "user.virtfs.uid", &tmp_uid, sizeof(uid_t)) > 0) {
++        if (qemu_fgetxattr(fd, "user.virtfs.uid",
++                           &tmp_uid, sizeof(uid_t)) > 0) {
+             stbuf->st_uid = le32_to_cpu(tmp_uid);
+         }
+-        if (fgetxattr(fd, "user.virtfs.gid", &tmp_gid, sizeof(gid_t)) > 0) {
++        if (qemu_fgetxattr(fd, "user.virtfs.gid",
++                           &tmp_gid, sizeof(gid_t)) > 0) {
+             stbuf->st_gid = le32_to_cpu(tmp_gid);
+         }
+-        if (fgetxattr(fd, "user.virtfs.mode", &tmp_mode, sizeof(mode_t)) > 0) {
++        if (qemu_fgetxattr(fd, "user.virtfs.mode",
++                           &tmp_mode, sizeof(mode_t)) > 0) {
+             stbuf->st_mode = le32_to_cpu(tmp_mode);
+         }
+-        if (fgetxattr(fd, "user.virtfs.rdev", &tmp_dev, sizeof(dev_t)) > 0) {
++        if (qemu_fgetxattr(fd, "user.virtfs.rdev",
++                           &tmp_dev, sizeof(dev_t)) > 0) {
+             stbuf->st_rdev = le64_to_cpu(tmp_dev);
+         }
+     } else if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 0e445b5d52..82399702b9 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -19,6 +19,23 @@
+ #define O_PATH_9P_UTIL 0
+ #endif
+ 
++#ifdef CONFIG_DARWIN
++#define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
++#define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
++#define qemu_llistxattr(...) listxattr(__VA_ARGS__, XATTR_NOFOLLOW)
++#define qemu_lremovexattr(...) removexattr(__VA_ARGS__, XATTR_NOFOLLOW)
++static inline int qemu_lsetxattr(const char *path, const char *name,
++                                 const void *value, size_t size, int flags) {
++    return setxattr(path, name, value, size, 0, flags | XATTR_NOFOLLOW);
++}
++#else
++#define qemu_fgetxattr fgetxattr
++#define qemu_lgetxattr lgetxattr
++#define qemu_llistxattr llistxattr
++#define qemu_lremovexattr lremovexattr
++#define qemu_lsetxattr lsetxattr
++#endif
++
+ static inline void close_preserve_errno(int fd)
+ {
+     int serrno = errno;
 -- 
 2.34.1
 
