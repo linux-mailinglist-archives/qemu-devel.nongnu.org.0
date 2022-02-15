@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECAC44B67B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:36:39 +0100 (CET)
-Received: from localhost ([::1]:36746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7724A4B67BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:38:05 +0100 (CET)
+Received: from localhost ([::1]:42210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuGF-0000Nv-2V
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:36:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54686)
+	id 1nJuHc-0004A5-Hg
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:38:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCE-0003lP-Ty
+ id 1nJuCE-0003kW-JU
  for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:30 -0500
-Received: from [2a00:1450:4864:20::52b] (port=35653
- helo=mail-ed1-x52b.google.com)
+Received: from [2a00:1450:4864:20::52a] (port=46825
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCC-0008PS-1F
+ id 1nJuCC-0008PW-Kd
  for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:30 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id f17so31127843edd.2
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:27 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id m17so6180620edc.13
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+u0qUIogaWgGcHOtonrPExWgxK2xNivoZXLutbp5yVI=;
- b=mZVAGrx3FS07JgSa1YmWfT4qbLg1aofA717S5b5YTciblD4FqUILROU/ZV0r+oaXzv
- kZWIp0YSoLCh1cMsFHAEF0J57xzFN02eRTZr/CXgejr6ZD3pLl/e4RmPrj0jpDyGTY5J
- AWxw5HqjUGz4ChVg+KpMZvhNUwiW2TnkpXeMClDYOpDXg3jb+IIvyNXHGbUvwdFTJ4rm
- GL5YqyesL8klsJXkEcAsd55ZF8+xuJ5mnmkJU7uOuibs5jLjmDYdqk1KzKHGeXU0YOQ/
- WM4VCQhEtIWPEZzLiCE0e7BceQ50sizp0WNMZwXkJ4r7WWAhanJE4veQXvHSsrOG6qCs
- +m2g==
+ bh=B9NkiQxutvWo2hPvQYBM/5dxdxvT+GzFQ3unXvy2yF4=;
+ b=eA7qdWdUSHNNSf3Op7k5FvIm+vB79lcZcFkvwTOMgTD6U3+1VEAHRYjyvbZ6gEoAV7
+ x4bkl0MzYQTSlSIs4nwB7S+5KEZfNBuGWJidjoAtNkfJG2EWD9GF2V0Iu940ztzRG4De
+ N0EcgY4M4a0tAAQ+kpJo2c5AA0Iabyj88Dd9vA0TJ5IL43cfpf6hwb0/zMkIMYq56K7X
+ J9/g9w84/OYkaNO4JdO/gbLQlVlk0vQ4n8MTcK4+rfL/tmueev0Ogm+We0pxTyKuiOjf
+ Y+7e1SD6114Zjjm4W3Cf75y9MXJxSFni6lIFHNq924N0ntZhyxndoXwY2tWZEFEBKirT
+ 5/PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+u0qUIogaWgGcHOtonrPExWgxK2xNivoZXLutbp5yVI=;
- b=HAutR+lcRVp2N6XeO7V5mdhxkoocOCRVqQgwdC8c7yATD1hsLXXptkrBkiTcgxlE06
- B/wlIRqi5zYUS7eLkrLrtj0GDELFP1PDDLQgLLWUF1nXqQ9i7LPBMzKUnw1WefPtl4YO
- rYTOUOSOhFfNfcAP/11XTXT9c5K2tQ4ap9NpatEJzJq8vnwLqF3IMgMqsR8KMpVP4NB8
- 5GmlleKYiX6vVbc7x6UYwQ39h8GmIPUS1q0v96nbzT2UPuWTxih889B9YIo4COvWH7dw
- hx6PGIXIrB6MjbwXm1a5C7pYtP2o008oRPDdbIKDhqP3mBo7IM67DCG8lGt7dU+dHSRX
- J8bA==
-X-Gm-Message-State: AOAM533rDs9+MirPp2WlD/tS4F/CXtBZ3SsAdHu2DmiPu5JMFJb1diuZ
- TWAqP6DCC+4R4e2T/URa+XsP1Qnb7sw=
-X-Google-Smtp-Source: ABdhPJyFmf6tvksKpYoB/tb/67a0yrtzb362MTm94Ng4137K2TPelhkgYknt1bP1ZzL+kH4sJFfxVA==
-X-Received: by 2002:a05:6402:b23:: with SMTP id
- bo3mr2927610edb.42.1644917546831; 
- Tue, 15 Feb 2022 01:32:26 -0800 (PST)
+ bh=B9NkiQxutvWo2hPvQYBM/5dxdxvT+GzFQ3unXvy2yF4=;
+ b=qColhWz3kWinxNjJRgxzlQdGXece6FATtysFmPu7pueGPuv2GYzhyjrbJszqq4Inhb
+ aW1hfyhqfDow2L0yCK8U2IIZc8C8DxRFzKIFPcFNzwvgsjNF2E6nGyi8BIaIJI2XgP7G
+ KoNSuBEHpDOuwHQ8Sujs+yWrzhmdfBCyHQK3DqEQaqAgdOpfFIc5/VbDG3o/rAP+wAT4
+ lKZx2VVA02iEXIoY7RNIYOfwO3JGKMOHT4AkEWP53Dl/3hE/FRgPyXKbLhdHoek9QZhf
+ IJyS8/0qBV5JGjM200RvXqpfChFDGCqg2TrmispDc0u9senxAGQFKGm8BUosdmzuCjXT
+ qp7Q==
+X-Gm-Message-State: AOAM531AB3T2YfGxVZ/X6ATteVaHrOq5UIG/FY8ep9Unf2Pyh1uAzpS0
+ NsR+7WcRDwK+azIwve7aVLdAvX6jkS0=
+X-Google-Smtp-Source: ABdhPJxhNDKm20WglKlBpaA3cVScqkCbZsBQVjbJiP1oIqAaIcAPVnb+2PVdDDcX5zn66tRbZwN2fw==
+X-Received: by 2002:aa7:dac5:: with SMTP id x5mr769532eds.57.1644917547427;
+ Tue, 15 Feb 2022 01:32:27 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 01:32:26 -0800 (PST)
+ Tue, 15 Feb 2022 01:32:27 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/30] memory: Fix qemu crash on starting dirty log twice with
- stopped VM
-Date: Tue, 15 Feb 2022 10:31:55 +0100
-Message-Id: <20220215093223.110827-3-pbonzini@redhat.com>
+Subject: [PULL 03/30] tests/qemu-iotests/testrunner: Print diff to stderr in
+ TAP mode
+Date: Tue, 15 Feb 2022 10:31:56 +0100
+Message-Id: <20220215093223.110827-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215093223.110827-1-pbonzini@redhat.com>
 References: <20220215093223.110827-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -88,151 +87,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hyman Huang <huangy81@chinatelecom.cn>, Peter Xu <peterx@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-QEMU can now easily crash with two continuous migration carried out:
+When running in TAP mode, stdout is reserved for the TAP protocol.
+To see the "diff" of the failed test, we have to print it to
+stderr instead.
 
-(qemu) migrate -d exec:cat>out
-(qemu) migrate_cancel
-(qemu) migrate -d exec:cat>out
-[crash] ../softmmu/memory.c:2782: memory_global_dirty_log_start: Assertion
-`!(global_dirty_tracking & flags)' failed.
-
-It's because memory API provides a way to postpone dirty log stop if the VM is
-stopped, and that'll be re-done until the next VM start.  It was added in 2017
-with commit 1931076077 ("migration: optimize the downtime", 2017-08-01).
-
-However the recent work on allowing dirty tracking to be bitmask broke it,
-which is commit 63b41db4bc ("memory: make global_dirty_tracking a bitmask",
-2021-11-01).
-
-The fix proposed in this patch contains two things:
-
-  (1) Instead of passing over the flags to postpone stop dirty track, we add a
-      global variable (along with current vmstate_change variable) to record
-      what flags to stop dirty tracking.
-
-  (2) When start dirty tracking, instead if remove the vmstate hook directly,
-      we also execute the postponed stop process so that we make sure all the
-      starts and stops will be paired.
-
-This procedure is overlooked in the bitmask-ify work in 2021.
-
-Cc: Hyman Huang <huangy81@chinatelecom.cn>
-Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=2044818
-Fixes: 63b41db4bc ("memory: make global_dirty_tracking a bitmask")
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20220207123019.27223-1-peterx@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220209101530.3442837-8-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/memory.c | 65 ++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 47 insertions(+), 18 deletions(-)
+ tests/qemu-iotests/testrunner.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 678dc62f06..8060c6de78 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2790,19 +2790,32 @@ void memory_global_after_dirty_log_sync(void)
-     MEMORY_LISTENER_CALL_GLOBAL(log_global_after_sync, Forward);
- }
- 
-+/*
-+ * Dirty track stop flags that are postponed due to VM being stopped.  Should
-+ * only be used within vmstate_change hook.
-+ */
-+static unsigned int postponed_stop_flags;
- static VMChangeStateEntry *vmstate_change;
-+static void memory_global_dirty_log_stop_postponed_run(void);
- 
- void memory_global_dirty_log_start(unsigned int flags)
- {
--    unsigned int old_flags = global_dirty_tracking;
--
--    if (vmstate_change) {
--        qemu_del_vm_change_state_handler(vmstate_change);
--        vmstate_change = NULL;
--    }
-+    unsigned int old_flags;
- 
-     assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
--    assert(!(global_dirty_tracking & flags));
-+
-+    if (vmstate_change) {
-+        /* If there is postponed stop(), operate on it first */
-+        postponed_stop_flags &= ~flags;
-+        memory_global_dirty_log_stop_postponed_run();
-+    }
-+
-+    flags &= ~global_dirty_tracking;
-+    if (!flags) {
-+        return;
-+    }
-+
-+    old_flags = global_dirty_tracking;
-     global_dirty_tracking |= flags;
-     trace_global_dirty_changed(global_dirty_tracking);
- 
-@@ -2830,29 +2843,45 @@ static void memory_global_dirty_log_do_stop(unsigned int flags)
-     }
- }
- 
-+/*
-+ * Execute the postponed dirty log stop operations if there is, then reset
-+ * everything (including the flags and the vmstate change hook).
-+ */
-+static void memory_global_dirty_log_stop_postponed_run(void)
-+{
-+    /* This must be called with the vmstate handler registered */
-+    assert(vmstate_change);
-+
-+    /* Note: postponed_stop_flags can be cleared in log start routine */
-+    if (postponed_stop_flags) {
-+        memory_global_dirty_log_do_stop(postponed_stop_flags);
-+        postponed_stop_flags = 0;
-+    }
-+
-+    qemu_del_vm_change_state_handler(vmstate_change);
-+    vmstate_change = NULL;
-+}
-+
- static void memory_vm_change_state_handler(void *opaque, bool running,
-                                            RunState state)
- {
--    unsigned int flags = (unsigned int)(uintptr_t)opaque;
-     if (running) {
--        memory_global_dirty_log_do_stop(flags);
--
--        if (vmstate_change) {
--            qemu_del_vm_change_state_handler(vmstate_change);
--            vmstate_change = NULL;
--        }
-+        memory_global_dirty_log_stop_postponed_run();
-     }
- }
- 
- void memory_global_dirty_log_stop(unsigned int flags)
- {
-     if (!runstate_is_running()) {
-+        /* Postpone the dirty log stop, e.g., to when VM starts again */
-         if (vmstate_change) {
--            return;
-+            /* Batch with previous postponed flags */
-+            postponed_stop_flags |= flags;
-+        } else {
-+            postponed_stop_flags = flags;
-+            vmstate_change = qemu_add_vm_change_state_handler(
-+                memory_vm_change_state_handler, NULL);
-         }
--        vmstate_change = qemu_add_vm_change_state_handler(
--                                memory_vm_change_state_handler,
--                                (void *)(uintptr_t)flags);
-         return;
-     }
- 
+diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+index 0eace147b8..9a94273975 100644
+--- a/tests/qemu-iotests/testrunner.py
++++ b/tests/qemu-iotests/testrunner.py
+@@ -404,7 +404,10 @@ def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
+             if res.status == 'fail':
+                 failed.append(name)
+                 if res.diff:
+-                    print('\n'.join(res.diff))
++                    if self.tap:
++                        print('\n'.join(res.diff), file=sys.stderr)
++                    else:
++                        print('\n'.join(res.diff))
+             elif res.status == 'not run':
+                 notrun.append(name)
+             elif res.status == 'pass':
 -- 
 2.34.1
 
