@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3EA4B837E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:03:07 +0100 (CET)
-Received: from localhost ([::1]:38688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2717A4B8399
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:07:01 +0100 (CET)
+Received: from localhost ([::1]:47178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKGDK-0005EY-Ns
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:03:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51014)
+	id 1nKGH6-0002Wq-5U
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:07:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1nKG5a-0005B5-Su
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 03:55:06 -0500
+ id 1nKG5d-0005LU-SU
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 03:55:09 -0500
 Received: from mga17.intel.com ([192.55.52.151]:19074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1nKG5Y-0002n5-Oc
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 03:55:06 -0500
+ id 1nKG5b-0002n5-4k
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 03:55:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645001704; x=1676537704;
+ t=1645001707; x=1676537707;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Aqdv8MZYaBIeZdcgvu5e2Fh6FIGmCmAW19zWgTGh2xk=;
- b=cSyvTzL/sXcCNd2hVQ+KopkwHflWbdvn+7L4oFk0VnkaSbG2on/N/cKO
- uCDomvTV9UTnQnsQuNn0kfmMGuaS/RD7UPfKwS4XcVRod2qrKnL2uPbiL
- w0MXcYztWdJxYBqglYxKwZDmzoN14XILrQgH/YdMvG2ViHAwvdNuJzfsy
- ryvTaxWdEQjSs2vU5jIR8sTACh8uVLApPdmRWLg2qZMsNiEwF1g1bmxLq
- KgyoWkWsSlzXGHfpjWg97qIfpdfREEbriQe4QcHjOyInEnAXryGZWzOsW
- taPpIL74yxj/HKjw7jYzZgJHBwa2pahJbcNkCaT6z57PT7Hpca9PvHWei A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="231182063"
-X-IronPort-AV: E=Sophos;i="5.88,373,1635231600"; d="scan'208";a="231182063"
+ bh=HHSwigx+fEOjTfkwt5vUqTNa2cOrqiOLC5/yaTKJ80E=;
+ b=iNXxQf0hT5Hwy3LC1aiyXCXDFo9CrzbFyxjTfKl1tpJQ5XBLn7h3wMJU
+ rxTg5bsHNkQOmJJ5CJiWA3e6Df4isgdQWNmMO3ZilIUVzty0JrLfGZCkm
+ 3OLouRnerHmnXSyrP7zYs+L/24bOxqcvT1ZZTZimHJLUyRCUpYUWjypj/
+ OP/mc7QH/bcGdGqC2+PCYa7/Eye3D+x28aCbZNVEBTbLQU8DXq7rzkUVV
+ wStZ4vJfoPwANWoq//XINkMNxPDfd+xDKCcFGC2zQn4BfqRRlfC/v9aG2
+ 6l4/iHhftr+SNOHq2Nd4pQ6y3CVe7RYd1CW+IVtVVUKTLTpqTbQAnE9ND g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="231182079"
+X-IronPort-AV: E=Sophos;i="5.88,373,1635231600"; d="scan'208";a="231182079"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2022 00:54:27 -0800
-X-IronPort-AV: E=Sophos;i="5.88,373,1635231600"; d="scan'208";a="633418264"
+ 16 Feb 2022 00:54:41 -0800
+X-IronPort-AV: E=Sophos;i="5.88,373,1635231600"; d="scan'208";a="633418276"
 Received: from embargo.jf.intel.com ([10.165.9.183])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  16 Feb 2022 00:54:05 -0800
@@ -44,10 +44,9 @@ From: Yang Weijiang <weijiang.yang@intel.com>
 To: pbonzini@redhat.com, ehabkost@redhat.com, mtosatti@redhat.com,
  seanjc@google.com, richard.henderson@linaro.org, like.xu.linux@gmail.com,
  wei.w.wang@intel.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
-Subject: [PATCH 1/8] qdev-properties: Add a new macro with bitmask check for
- uint64_t property
-Date: Tue, 15 Feb 2022 14:52:51 -0500
-Message-Id: <20220215195258.29149-2-weijiang.yang@intel.com>
+Subject: [PATCH 3/8] target/i386: Add kvm_get_one_msr helper
+Date: Tue, 15 Feb 2022 14:52:53 -0500
+Message-Id: <20220215195258.29149-4-weijiang.yang@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220215195258.29149-1-weijiang.yang@intel.com>
 References: <20220215195258.29149-1-weijiang.yang@intel.com>
@@ -74,88 +73,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Weijiang <weijiang.yang@intel.com>, Like Xu <like.xu@linux.intel.com>
+Cc: Yang Weijiang <weijiang.yang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The DEFINE_PROP_UINT64_CHECKMASK maro applies certain mask check agaist
-user-supplied property value, reject the value if it violates the bitmask.
+When try to get one msr from KVM, I found there's no such kind of
+existing interface while kvm_put_one_msr() is there. So here comes
+the patch. It'll remove redundant preparation code before finally
+call KVM_GET_MSRS IOCTL.
 
-Co-developed-by: Like Xu <like.xu@linux.intel.com>
-Signed-off-by: Like Xu <like.xu@linux.intel.com>
+No functional change intended.
+
 Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
 ---
- hw/core/qdev-properties.c    | 19 +++++++++++++++++++
- include/hw/qdev-properties.h | 12 ++++++++++++
- 2 files changed, 31 insertions(+)
+ target/i386/kvm/kvm.c | 48 ++++++++++++++++++++++++-------------------
+ 1 file changed, 27 insertions(+), 21 deletions(-)
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index c34aac6ebc..27566e5ef7 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -428,6 +428,25 @@ const PropertyInfo qdev_prop_int64 = {
-     .set_default_value = qdev_propinfo_set_default_value_int,
- };
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 8dbda2420d..764d110e0f 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -136,6 +136,7 @@ static struct kvm_msr_list *kvm_feature_msrs;
  
-+static void set_uint64_checkmask(Object *obj, Visitor *v, const char *name,
-+                      void *opaque, Error **errp)
+ #define BUS_LOCK_SLICE_TIME 1000000000ULL /* ns */
+ static RateLimit bus_lock_ratelimit_ctrl;
++static int kvm_get_one_msr(X86CPU *cpu, int index, uint64_t *value);
+ 
+ int kvm_has_pit_state2(void)
+ {
+@@ -206,28 +207,21 @@ static int kvm_get_tsc(CPUState *cs)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
+-    struct {
+-        struct kvm_msrs info;
+-        struct kvm_msr_entry entries[1];
+-    } msr_data = {};
++    uint64_t value;
+     int ret;
+ 
+     if (env->tsc_valid) {
+         return 0;
+     }
+ 
+-    memset(&msr_data, 0, sizeof(msr_data));
+-    msr_data.info.nmsrs = 1;
+-    msr_data.entries[0].index = MSR_IA32_TSC;
+     env->tsc_valid = !runstate_is_running();
+ 
+-    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, &msr_data);
++    ret = kvm_get_one_msr(cpu, MSR_IA32_TSC, &value);
+     if (ret < 0) {
+         return ret;
+     }
+ 
+-    assert(ret == 1);
+-    env->tsc = msr_data.entries[0].data;
++    env->tsc = value;
+     return 0;
+ }
+ 
+@@ -1485,21 +1479,14 @@ static int hyperv_init_vcpu(X86CPU *cpu)
+          * the kernel doesn't support setting vp_index; assert that its value
+          * is in sync
+          */
+-        struct {
+-            struct kvm_msrs info;
+-            struct kvm_msr_entry entries[1];
+-        } msr_data = {
+-            .info.nmsrs = 1,
+-            .entries[0].index = HV_X64_MSR_VP_INDEX,
+-        };
+-
+-        ret = kvm_vcpu_ioctl(cs, KVM_GET_MSRS, &msr_data);
++        uint64_t value;
++
++        ret = kvm_get_one_msr(cpu, HV_X64_MSR_VP_INDEX, &value);
+         if (ret < 0) {
+             return ret;
+         }
+-        assert(ret == 1);
+ 
+-        if (msr_data.entries[0].data != hyperv_vp_index(CPU(cpu))) {
++        if (value != hyperv_vp_index(CPU(cpu))) {
+             error_report("kernel's vp_index != QEMU's vp_index");
+             return -ENXIO;
+         }
+@@ -2752,6 +2739,25 @@ static int kvm_put_one_msr(X86CPU *cpu, int index, uint64_t value)
+     return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
+ }
+ 
++static int kvm_get_one_msr(X86CPU *cpu, int index, uint64_t *value)
 +{
-+    Property *prop = opaque;
-+    uint64_t *ptr = object_field_prop_ptr(obj, prop);
++    int ret;
++    struct {
++        struct kvm_msrs info;
++        struct kvm_msr_entry entries[1];
++    } msr_data = {
++        .info.nmsrs = 1,
++        .entries[0].index = index,
++    };
 +
-+    visit_type_uint64(v, name, ptr, errp);
-+    if (*ptr & ~prop->bitmask) {
-+        error_setg(errp, "Property value for '%s' violates bitmask '0x%lx'",
-+                   name, prop->bitmask);
++    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, &msr_data);
++    if (ret < 0) {
++        return ret;
 +    }
++    assert(ret == 1);
++    *value = msr_data.entries[0].data;
++    return ret;
 +}
-+
-+const PropertyInfo qdev_prop_uint64_checkmask = {
-+    .name  = "uint64",
-+    .get   = get_uint64,
-+    .set   = set_uint64_checkmask,
-+};
-+
- /* --- string --- */
- 
- static void release_string(Object *obj, const char *name, void *opaque)
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index f7925f67d0..e1df08876c 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -17,6 +17,7 @@ struct Property {
-     const PropertyInfo *info;
-     ptrdiff_t    offset;
-     uint8_t      bitnr;
-+    uint64_t     bitmask;
-     bool         set_default;
-     union {
-         int64_t i;
-@@ -54,6 +55,7 @@ extern const PropertyInfo qdev_prop_uint16;
- extern const PropertyInfo qdev_prop_uint32;
- extern const PropertyInfo qdev_prop_int32;
- extern const PropertyInfo qdev_prop_uint64;
-+extern const PropertyInfo qdev_prop_uint64_checkmask;
- extern const PropertyInfo qdev_prop_int64;
- extern const PropertyInfo qdev_prop_size;
- extern const PropertyInfo qdev_prop_string;
-@@ -103,6 +105,16 @@ extern const PropertyInfo qdev_prop_link;
-                 .set_default = true,                         \
-                 .defval.u    = (bool)_defval)
- 
-+/**
-+ * The DEFINE_PROP_UINT64_CHECKMASK macro checks a user-supplied value
-+ * against corresponding bitmask, rejects the value if it violates.
-+ * The default value is set in instance_init().
-+ */
-+#define DEFINE_PROP_UINT64_CHECKMASK(_name, _state, _field, _bitmask)   \
-+    DEFINE_PROP(_name, _state, _field, qdev_prop_uint64_checkmask, uint64_t, \
-+                .bitmask    = (_bitmask),                     \
-+                .set_default = false)
-+
- #define PROP_ARRAY_LEN_PREFIX "len-"
- 
- /**
+ void kvm_put_apicbase(X86CPU *cpu, uint64_t value)
+ {
+     int ret;
 -- 
 2.27.0
 
