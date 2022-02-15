@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438B14B681F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:48:05 +0100 (CET)
-Received: from localhost ([::1]:36904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F05A4B6828
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:50:17 +0100 (CET)
+Received: from localhost ([::1]:43370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuRI-0003d5-Bo
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:48:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54914)
+	id 1nJuTQ-0001Wv-Cl
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:50:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCP-0004Jq-0N
+ id 1nJuCP-0004Ju-15
  for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:41 -0500
-Received: from [2a00:1450:4864:20::633] (port=47089
- helo=mail-ej1-x633.google.com)
+Received: from [2a00:1450:4864:20::631] (port=44922
+ helo=mail-ej1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCL-0008S4-RT
+ id 1nJuCM-0008SJ-IV
  for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:40 -0500
-Received: by mail-ej1-x633.google.com with SMTP id qx21so3115647ejb.13
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:37 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id p14so18652682ejf.11
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DZT7LYIMowLfFfQ/hzCsIHNSBTjrcm7LxXxZQ2L79o0=;
- b=ZvDs+Kx+vWf+nPUdcJ1X2vVoomFS54SZdmF5pFEOppEqFTnwRSSUv6S3v3UmkHdB6p
- M7vo2rgxg7wr0i1PQ4K2ykSgLehZf1GOFV6eQHr6UFE+a+u8ESXyILc2wE/BsP3RGXrE
- LBoGAJQ+F5FzNkJMSrgv0oZdM0NHTWHJZIos1AjczVRQwZFd9uFsrhoXPfUzcxJSIsMd
- 1vKeLVaQ/FJA1AvyeARysKxClXs+oEFC3FQRMkPL8dREopVjjkbkqREf7JM9s1pVyRua
- 3vZ3BW37U4vVOTnD0PKoSgHrfrDOSuklYf2VJh/evUHUM3UFLonAg5gnkvbdzhHVqGZV
- Oplg==
+ bh=deO2F0ErgO8GDflMKY+3HW/h9IN8YSSqPFluAnL4JQw=;
+ b=T/aSRDmlCK6yR0d0sgaB/lm5BC7FsJHWb6AN8qSpWMx8wD7GhwJS9sKr9GYFPUcNwa
+ X0Lj0w2SIQSbo3zuccTW5QTeCrOso4ylEQLoP7htC3ZuKX2r33BlsM465+++r0nkmOyv
+ zGkkkXr7McgskVKDIPEHVSV/htQo/245qQ9rrInWyA/w0OFOgAc/6wTFq6R//A6r7mmw
+ /4FTD1Gm3lMSUvFIUjkFuJ/WaKz1MDLYKjVbRLBNDaUE+SQno1j6AAS0s6mjzjKfLktH
+ gVxgprRy8kCHeUSGoJhQHVUSXkob+TsqN7kPmQYsqs4YYNREbx4Qto1smLTFEF09cXKc
+ 40rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DZT7LYIMowLfFfQ/hzCsIHNSBTjrcm7LxXxZQ2L79o0=;
- b=gEni19vzZjhs4vPl4SOuH5qDDk26bCzKFF14+JqsJVcmJ5Bhl+gu3G8UgTH4JPhtiR
- OXOrxMDwiFderqzWAkFW3tvxpfkTVPb5B+L4mV0p8MLxqr6+t+FLVszh/Cc5kTHBp7Zq
- Vrhjvkn9m1yXFOEqM+KvCkdgKqWC0xkjdQnipX/dVwfcUevY5L3+/Se999OehlD8VhHH
- rUfwhc4ehrG0VMgMXEjav2f6xgajFNks+GmvKvgak0PObjdLj4Rog63NKQA0IxgavWdA
- 18nucZ1Wfe6TdfjEurseyaddyYi820c29vYaA/BukABvs1epUHHzf74Rj+dTCgH53dll
- iUAQ==
-X-Gm-Message-State: AOAM530h7TVL3ptajRiqDutyViw5aOAaYqLgJ4RzycXClenq1kaBLF/6
- jgaDCB/lfHK75ni1A2Qpy6+KISc5WaE=
-X-Google-Smtp-Source: ABdhPJzQl+alL2SAoGc19w/21jrvyMzjJNrDoRdQNnjI1NW7UQAI9FxXE6EwHAYKz+E6tXaC4lU77w==
-X-Received: by 2002:a17:907:3f88:: with SMTP id
- hr8mr2211744ejc.600.1644917556487; 
- Tue, 15 Feb 2022 01:32:36 -0800 (PST)
+ bh=deO2F0ErgO8GDflMKY+3HW/h9IN8YSSqPFluAnL4JQw=;
+ b=brOSQf/aQ5XylO1WXarXDzz3mm+IPIovBg91NPXv++aZkq5VewlU19RWk1CYILXTcv
+ nGbuR0Dzx0Eikii6mjTG+ZZR+8JX1cC/LFjZB9SN/L7AjiAGOYsGl54NxuzpmU+Kpn8D
+ YGNlW10W4/QqvZcXXsA9WNTwKqcNsQkW1+TGUcE7IuxgPz6HRJTcIxD7/81DThUjYusW
+ W9QthAoQYLRfTJsMiLjI80m2DbqQ795kCWhT4cicC5XkrctrqPDIVBN6/z0ecjSs/jR3
+ vKPgS+UVwlw1oXxDmlJy0SoJk53yaFbjNH5KC+0TX3eTlCuHO6O5y3U9xf68WvcTyMpR
+ 4SFw==
+X-Gm-Message-State: AOAM532H2MekJUDvOG8i/eMOUU6FhFtWRm+NbclE1CY1zimJJqiYG7Ia
+ gpVYc3gY07xZrFgnFSwyWdshI8oe8bw=
+X-Google-Smtp-Source: ABdhPJyQfumNzCSZPGOXasNvj+lgnggWPk1kp+OC3U61oN1g8Dp6+pQ29FbyZBFYzqr/3ojBrofzaA==
+X-Received: by 2002:a17:906:6888:: with SMTP id n8mr2260321ejr.0.1644917557129; 
+ Tue, 15 Feb 2022 01:32:37 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.35
+ by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 15 Feb 2022 01:32:36 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/30] configure, meson: move smbd options to meson_options.txt
-Date: Tue, 15 Feb 2022 10:32:10 +0100
-Message-Id: <20220215093223.110827-18-pbonzini@redhat.com>
+Subject: [PULL 18/30] configure, meson: move guest-agent, tools to meson
+Date: Tue, 15 Feb 2022 10:32:11 +0100
+Message-Id: <20220215093223.110827-19-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215093223.110827-1-pbonzini@redhat.com>
 References: <20220215093223.110827-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -93,261 +92,365 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 26 ++------------------------
- meson.build                   | 15 +++++++++++++--
- meson_options.txt             |  4 ++++
- net/slirp.c                   | 16 ++++++++--------
- scripts/meson-buildoptions.py |  1 +
- scripts/meson-buildoptions.sh |  3 +++
- 6 files changed, 31 insertions(+), 34 deletions(-)
+ configure                          | 48 ++--------------------------
+ contrib/vhost-user-gpu/meson.build |  2 +-
+ docs/meson.build                   |  2 --
+ meson.build                        | 50 ++++++++++++++++--------------
+ meson_options.txt                  |  4 +++
+ qga/meson.build                    |  7 +++++
+ scripts/meson-buildoptions.sh      |  6 ++++
+ tests/Makefile.include             |  2 +-
+ tests/unit/meson.build             |  4 +--
+ 9 files changed, 50 insertions(+), 75 deletions(-)
 
 diff --git a/configure b/configure
-index 1cc836ee55..9230ebd4a8 100755
+index 9230ebd4a8..a66e2c0d71 100755
 --- a/configure
 +++ b/configure
-@@ -330,7 +330,6 @@ meson_args=""
- ninja=""
- gio="$default_feature"
- skip_meson=no
--slirp_smbd="$default_feature"
- 
- # The following Meson options are handled manually (still they
- # are included in the automatically generated help message)
-@@ -416,6 +415,7 @@ objcopy="${OBJCOPY-${cross_prefix}objcopy}"
- ld="${LD-${cross_prefix}ld}"
- ranlib="${RANLIB-${cross_prefix}ranlib}"
- nm="${NM-${cross_prefix}nm}"
-+smbd="$SMBD"
- strip="${STRIP-${cross_prefix}strip}"
- windres="${WINDRES-${cross_prefix}windres}"
- pkg_config_exe="${PKG_CONFIG-${cross_prefix}pkg-config}"
-@@ -535,7 +535,6 @@ darwin)
- sunos)
-   solaris="yes"
-   make="${MAKE-gmake}"
--  smbd="${SMBD-/usr/sfw/sbin/smbd}"
- # needed for CMSG_ macros in sys/socket.h
-   QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
- # needed for TIOCWIN* defines in termios.h
-@@ -1047,10 +1046,6 @@ for opt do
+@@ -317,10 +317,8 @@ pie=""
+ trace_backends="log"
+ trace_file="trace"
+ opengl="$default_feature"
+-guest_agent="$default_feature"
+ vss_win32_sdk="$default_feature"
+ win_sdk="no"
+-want_tools="$default_feature"
+ coroutine=""
+ tls_priority="NORMAL"
+ plugins="$default_feature"
+@@ -960,10 +958,6 @@ for opt do
    ;;
-   --disable-gio) gio=no
+   --disable-zlib-test)
    ;;
--  --enable-slirp-smbd) slirp_smbd=yes
+-  --enable-guest-agent) guest_agent="yes"
 -  ;;
--  --disable-slirp-smbd) slirp_smbd=no
+-  --disable-guest-agent) guest_agent="no"
 -  ;;
-   # backwards compatibility options
-   --enable-trace-backend=*) meson_option_parse "--enable-trace-backends=$optarg" "$optarg"
+   --with-vss-sdk) vss_win32_sdk=""
    ;;
-@@ -1282,7 +1277,6 @@ cat << EOF
+   --with-vss-sdk=*) vss_win32_sdk="$optarg"
+@@ -976,10 +970,6 @@ for opt do
+   ;;
+   --without-win-sdk) win_sdk="no"
+   ;;
+-  --enable-tools) want_tools="yes"
+-  ;;
+-  --disable-tools) want_tools="no"
+-  ;;
+   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
+       echo "$0: $opt is obsolete, virtio-blk data-plane is always on" >&2
+   ;;
+@@ -1256,7 +1246,6 @@ cat << EOF
+   user            supported user emulation targets
+   linux-user      all linux usermode emulation targets
+   bsd-user        all BSD usermode emulation targets
+-  guest-agent     build the QEMU Guest Agent
+   pie             Position Independent Executables
+   modules         modules support (non-Windows)
+   module-upgrades try to load modules from alternate paths for upgrades
+@@ -1275,7 +1264,6 @@ cat << EOF
+   vhost-user      vhost-user backend support
+   vhost-vdpa      vhost-vdpa kernel backend support
    opengl          opengl support
-   tools           build qemu-io, qemu-nbd and qemu-img tools
+-  tools           build qemu-io, qemu-nbd and qemu-img tools
    gio             libgio support
--  slirp-smbd      use smbd (at path --smbd=*) in slirp networking
  
  NOTE: The object files are built at the place where configure is launched
- EOF
-@@ -2725,19 +2719,6 @@ case "$slirp" in
-     ;;
- esac
+@@ -1678,16 +1666,6 @@ else
+     exit 1
+ fi
  
--# Check for slirp smbd dupport
--: ${smbd=${SMBD-/usr/sbin/smbd}}
--if test "$slirp_smbd" != "no" ; then
--  if test "$mingw32" = "yes" ; then
--    if test "$slirp_smbd" = "yes" ; then
--      error_exit "Host smbd not supported on this platform."
+-##########################################
+-# system tools
+-if test -z "$want_tools"; then
+-    if test "$softmmu" = "no"; then
+-        want_tools=no
+-    else
+-        want_tools=yes
 -    fi
--    slirp_smbd=no
+-fi
+-
+ #########################################
+ # vhost interdependencies and host support
+ 
+@@ -2344,7 +2322,7 @@ fi
+ # check if we have VSS SDK headers for win
+ 
+ guest_agent_with_vss="no"
+-if test "$mingw32" = "yes" && test "$guest_agent" != "no" && \
++if test "$mingw32" = "yes" && \
+         test "$vss_win32_sdk" != "no" ; then
+   case "$vss_win32_sdk" in
+     "")   vss_win32_include="-isystem $source_path" ;;
+@@ -2381,7 +2359,7 @@ fi
+ # VSS provider from the source. It is usually unnecessary because the
+ # pre-compiled .tlb file is included.
+ 
+-if test "$mingw32" = "yes" && test "$guest_agent" != "no" && \
++if test "$mingw32" = "yes" && \
+         test "$guest_agent_with_vss" = "yes" ; then
+   if test -z "$win_sdk"; then
+     programfiles="$PROGRAMFILES"
+@@ -2399,7 +2377,7 @@ fi
+ ##########################################
+ # check if mingw environment provides a recent ntddscsi.h
+ guest_agent_ntddscsi="no"
+-if test "$mingw32" = "yes" && test "$guest_agent" != "no"; then
++if test "$mingw32" = "yes"; then
+   cat > $TMPC << EOF
+ #include <windows.h>
+ #include <ntddscsi.h>
+@@ -2825,20 +2803,6 @@ if test "$mingw32" = "yes" ; then
+     done
+ fi
+ 
+-# Probe for guest agent support/options
+-
+-if [ "$guest_agent" != "no" ]; then
+-  if [ "$softmmu" = no -a "$want_tools" = no ] ; then
+-      guest_agent=no
+-  elif [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" -o "$mingw32" = "yes" ] ; then
+-      guest_agent=yes
+-  elif [ "$guest_agent" != yes ]; then
+-      guest_agent=no
 -  else
--    slirp_smbd=yes
+-      error_exit "Guest agent is not supported on this platform"
 -  fi
 -fi
 -
- ##########################################
- # check for usable __NR_keyctl syscall
+ # Guest agent Windows MSI package
  
-@@ -2993,10 +2974,6 @@ fi
- if test "$guest_agent" = "yes" ; then
-   echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
+ if test "$QEMU_GA_MANUFACTURER" = ""; then
+@@ -2968,12 +2932,6 @@ fi
+ if test "$static" = "yes" ; then
+   echo "CONFIG_STATIC=y" >> $config_host_mak
  fi
--if test "$slirp_smbd" = "yes" ; then
--  echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
--  echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
+-if test "$want_tools" = "yes" ; then
+-  echo "CONFIG_TOOLS=y" >> $config_host_mak
+-fi
+-if test "$guest_agent" = "yes" ; then
+-  echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
 -fi
  echo "CONFIG_BDRV_RW_WHITELIST=$block_drv_rw_whitelist" >> $config_host_mak
  echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
  qemu_version=$(head $source_path/VERSION)
-@@ -3355,6 +3332,7 @@ if test "$skip_meson" = no; then
-         -Ddocdir="$docdir" \
-         -Dqemu_firmwarepath="$firmwarepath" \
-         -Dqemu_suffix="$qemu_suffix" \
-+        -Dsmbd="$smbd" \
-         -Dsphinx_build="$sphinx_build" \
-         -Dtrace_file="$trace_file" \
-         -Doptimization=$(if test "$debug" = yes; then echo 0; else echo 2; fi) \
+diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
+index 92c8f3a86a..b4e26045da 100644
+--- a/contrib/vhost-user-gpu/meson.build
++++ b/contrib/vhost-user-gpu/meson.build
+@@ -1,4 +1,4 @@
+-if 'CONFIG_TOOLS' in config_host and virgl.found() and gbm.found() \
++if have_tools and virgl.found() and gbm.found() \
+     and 'CONFIG_LINUX' in config_host and pixman.found()
+   executable('vhost-user-gpu', files('vhost-user-gpu.c', 'virgl.c', 'vugbm.c'),
+              dependencies: [qemuutil, pixman, gbm, virgl, vhost_user, opengl],
+diff --git a/docs/meson.build b/docs/meson.build
+index 57b28a3146..831d4aea2b 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -37,8 +37,6 @@ endif
+ if build_docs
+   SPHINX_ARGS += ['-Dversion=' + meson.project_version(), '-Drelease=' + config_host['PKGVERSION']]
+ 
+-  have_ga = have_tools and config_host.has_key('CONFIG_GUEST_AGENT')
+-
+   man_pages = {
+         'qemu-ga.8': (have_ga ? 'man8' : ''),
+         'qemu-ga-ref.7': (have_ga ? 'man7' : ''),
 diff --git a/meson.build b/meson.build
-index 79ceff64a7..7b3cfb6316 100644
+index 7b3cfb6316..b9bedf928a 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1462,6 +1462,17 @@ config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') /
- config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
- config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('prefix') / get_option('sysconfdir'))
+@@ -44,21 +44,7 @@ config_host_data = configuration_data()
+ genh = []
+ qapi_trace_events = []
  
-+have_slirp_smbd = get_option('slirp_smbd') \
-+  .require(targetos != 'windows', error_message: 'Host smbd not supported on this platform.') \
+-target_dirs = config_host['TARGET_DIRS'].split()
+-have_linux_user = false
+-have_bsd_user = false
+-have_system = false
+-foreach target : target_dirs
+-  have_linux_user = have_linux_user or target.endswith('linux-user')
+-  have_bsd_user = have_bsd_user or target.endswith('bsd-user')
+-  have_system = have_system or target.endswith('-softmmu')
+-endforeach
+-have_user = have_linux_user or have_bsd_user
+-have_tools = 'CONFIG_TOOLS' in config_host
+-have_block = have_system or have_tools
+-
+-python = import('python').find_installation()
+-
++bsd_oses = ['gnu/kfreebsd', 'freebsd', 'netbsd', 'openbsd', 'dragonfly', 'darwin']
+ supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
+ supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv', 'x86', 'x86_64',
+   'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc64']
+@@ -72,6 +58,28 @@ endif
+ 
+ targetos = host_machine.system()
+ 
++target_dirs = config_host['TARGET_DIRS'].split()
++have_linux_user = false
++have_bsd_user = false
++have_system = false
++foreach target : target_dirs
++  have_linux_user = have_linux_user or target.endswith('linux-user')
++  have_bsd_user = have_bsd_user or target.endswith('bsd-user')
++  have_system = have_system or target.endswith('-softmmu')
++endforeach
++have_user = have_linux_user or have_bsd_user
++have_tools = get_option('tools') \
++  .disable_auto_if(not have_system) \
 +  .allowed()
-+if have_slirp_smbd
-+  smbd_path = get_option('smbd')
-+  if smbd_path == ''
-+    smbd_path = (targetos == 'solaris' ? '/usr/sfw/sbin/smbd' : '/usr/sbin/smbd')
-+  endif
-+  config_host_data.set_quoted('CONFIG_SMBD_COMMAND', smbd_path)
-+endif
++have_ga = get_option('guest_agent') \
++  .disable_auto_if(not have_system and not have_tools) \
++  .require(targetos in ['sunos', 'linux', 'windows'],
++           error_message: 'unsupported OS for QEMU guest agent') \
++  .allowed()
++have_block = have_system or have_tools
 +
- config_host_data.set('HOST_' + host_arch.to_upper(), 1)
++python = import('python').find_installation()
++
+ if cpu not in supported_cpus
+   host_arch = 'unknown'
+ elif cpu == 'x86'
+@@ -3214,11 +3222,7 @@ if 'CONFIG_PLUGIN' in config_host
+   install_headers('include/qemu/qemu-plugin.h')
+ endif
  
- config_host_data.set('CONFIG_ATTR', libattr.found())
-@@ -3333,8 +3344,8 @@ summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
- if targetos == 'windows' and config_host.has_key('CONFIG_GUEST_AGENT')
+-if 'CONFIG_GUEST_AGENT' in config_host
+-  subdir('qga')
+-elif get_option('guest_agent_msi').enabled()
+-  error('Guest agent MSI requested, but the guest agent is not being built')
+-endif
++subdir('qga')
+ 
+ # Don't build qemu-keymap if xkbcommon is not explicitly enabled
+ # when we don't build tools or system
+@@ -3341,7 +3345,7 @@ if config_host.has_key('HAVE_GDB_BIN')
+   summary_info += {'gdb':             config_host['HAVE_GDB_BIN']}
+ endif
+ summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
+-if targetos == 'windows' and config_host.has_key('CONFIG_GUEST_AGENT')
++if targetos == 'windows' and have_ga
    summary_info += {'wixl':            wixl}
  endif
--if slirp_opt != 'disabled' and 'CONFIG_SLIRP_SMBD' in config_host
--  summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
-+if slirp_opt != 'disabled' and have_system
-+  summary_info += {'smbd':            have_slirp_smbd ? smbd_path : false}
- endif
- summary(summary_info, bool_yn: true, section: 'Host binaries')
+ if slirp_opt != 'disabled' and have_system
+@@ -3379,7 +3383,7 @@ summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_USER')}
+ summary_info += {'vhost-user-blk server support': have_vhost_user_blk_server}
+ summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
+ summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
+-summary_info += {'build guest agent': config_host.has_key('CONFIG_GUEST_AGENT')}
++summary_info += {'build guest agent': have_ga}
+ summary(summary_info, bool_yn: true, section: 'Configurable features')
  
+ # Compilation information
+@@ -3589,7 +3593,7 @@ summary_info += {'GBM':               gbm}
+ summary_info += {'libiscsi support':  libiscsi}
+ summary_info += {'libnfs support':    libnfs}
+ if targetos == 'windows'
+-  if config_host.has_key('CONFIG_GUEST_AGENT')
++  if have_ga
+     summary_info += {'QGA VSS support':   config_host.has_key('CONFIG_QGA_VSS')}
+     summary_info += {'QGA w32 disk info': config_host.has_key('CONFIG_QGA_NTDDSCSI')}
+   endif
 diff --git a/meson_options.txt b/meson_options.txt
-index 03ae957102..59220b52c8 100644
+index 59220b52c8..589d242439 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -8,6 +8,8 @@ option('docdir', type : 'string', value : 'doc',
-        description: 'Base directory for documentation installation (can be empty)')
- option('qemu_firmwarepath', type : 'string', value : '',
-        description: 'search PATH for firmware files')
-+option('smbd', type : 'string', value : '',
-+       description: 'Path to smbd for slirp networking')
- option('sphinx_build', type : 'string', value : '',
-        description: 'Use specified sphinx-build [$sphinx_build] for building document (default to be empty)')
- option('default_devices', type : 'boolean', value : true,
-@@ -258,3 +260,5 @@ option('gprof', type: 'boolean', value: false,
-        description: 'QEMU profiling with gprof')
- option('profiler', type: 'boolean', value: false,
-        description: 'profiler support')
-+option('slirp_smbd', type : 'feature', value : 'auto',
-+       description: 'use smbd (at path --smbd=*) in slirp networking')
-diff --git a/net/slirp.c b/net/slirp.c
-index ad3a838e0b..bc5e9e4f77 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -27,7 +27,7 @@
- #include "net/slirp.h"
+@@ -36,8 +36,12 @@ option('install_blobs', type : 'boolean', value : true,
+        description: 'install provided firmware blobs')
+ option('sparse', type : 'feature', value : 'auto',
+        description: 'sparse checker')
++option('guest_agent', type : 'feature', value : 'auto',
++       description: 'Build QEMU Guest Agent')
+ option('guest_agent_msi', type : 'feature', value : 'auto',
+        description: 'Build MSI package for the QEMU Guest Agent')
++option('tools', type : 'feature', value : 'auto',
++       description: 'build support utilities that come with QEMU')
  
+ option('malloc_trim', type : 'feature', value : 'auto',
+        description: 'enable libc malloc_trim() for memory optimization')
+diff --git a/qga/meson.build b/qga/meson.build
+index 56fb6539e5..97cc391fe1 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -1,3 +1,10 @@
++if not have_ga
++  if get_option('guest_agent_msi').enabled()
++    error('Guest agent MSI requested, but the guest agent is not being built')
++  endif
++  subdir_done()
++endif
++
+ all_qga = []
  
--#if defined(CONFIG_SLIRP_SMBD)
-+#if defined(CONFIG_SMBD_COMMAND)
- #include <pwd.h>
- #include <sys/wait.h>
- #endif
-@@ -91,7 +91,7 @@ typedef struct SlirpState {
-     Slirp *slirp;
-     Notifier poll_notifier;
-     Notifier exit_notifier;
--#if defined(CONFIG_SLIRP_SMBD)
-+#if defined(CONFIG_SMBD_COMMAND)
-     gchar *smb_dir;
- #endif
-     GSList *fwd;
-@@ -104,7 +104,7 @@ static QTAILQ_HEAD(, SlirpState) slirp_stacks =
- static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp);
- static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp);
- 
--#if defined(CONFIG_SLIRP_SMBD)
-+#if defined(CONFIG_SMBD_COMMAND)
- static int slirp_smb(SlirpState *s, const char *exported_dir,
-                      struct in_addr vserver_addr, Error **errp);
- static void slirp_smb_cleanup(SlirpState *s);
-@@ -377,7 +377,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-     struct in6_addr ip6_prefix;
-     struct in6_addr ip6_host;
-     struct in6_addr ip6_dns;
--#if defined(CONFIG_SLIRP_SMBD)
-+#if defined(CONFIG_SMBD_COMMAND)
-     struct in_addr smbsrv = { .s_addr = 0 };
- #endif
-     NetClientState *nc;
-@@ -487,7 +487,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-         return -1;
-     }
- 
--#if defined(CONFIG_SLIRP_SMBD)
-+#if defined(CONFIG_SMBD_COMMAND)
-     if (vsmbserver && !inet_aton(vsmbserver, &smbsrv)) {
-         error_setg(errp, "Failed to parse SMB address");
-         return -1;
-@@ -602,7 +602,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-             }
-         }
-     }
--#if defined(CONFIG_SLIRP_SMBD)
-+#if defined(CONFIG_SMBD_COMMAND)
-     if (smb_export) {
-         if (slirp_smb(s, smb_export, smbsrv, errp) < 0) {
-             goto error;
-@@ -794,7 +794,7 @@ void hmp_hostfwd_add(Monitor *mon, const QDict *qdict)
- 
- }
- 
--#if defined(CONFIG_SLIRP_SMBD)
-+#if defined(CONFIG_SMBD_COMMAND)
- 
- /* automatic user mode samba server configuration */
- static void slirp_smb_cleanup(SlirpState *s)
-@@ -909,7 +909,7 @@ static int slirp_smb(SlirpState* s, const char *exported_dir,
-     return 0;
- }
- 
--#endif /* defined(CONFIG_SLIRP_SMBD) */
-+#endif /* defined(CONFIG_SMBD_COMMAND) */
- 
- static int guestfwd_can_read(void *opaque)
- {
-diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
-index 98ae944148..01b10f7ae0 100755
---- a/scripts/meson-buildoptions.py
-+++ b/scripts/meson-buildoptions.py
-@@ -32,6 +32,7 @@
-     "fuzzing_engine",
-     "qemu_firmwarepath",
-     "qemu_suffix",
-+    "smbd",
-     "sphinx_build",
-     "trace_file",
- }
+ qga_qapi_outputs = [
 diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 9a6e53a2e7..fb8812693c 100644
+index fb8812693c..4edc611273 100644
 --- a/scripts/meson-buildoptions.sh
 +++ b/scripts/meson-buildoptions.sh
-@@ -101,6 +101,7 @@ meson_options_help() {
-   printf "%s\n" '  sdl-image       SDL Image support for icons'
-   printf "%s\n" '  seccomp         seccomp support'
-   printf "%s\n" '  selinux         SELinux support in qemu-nbd'
-+  printf "%s\n" '  slirp-smbd      use smbd (at path --smbd=*) in slirp networking'
-   printf "%s\n" '  smartcard       CA smartcard emulation support'
-   printf "%s\n" '  snappy          snappy compression support'
-   printf "%s\n" '  sparse          sparse checker'
-@@ -296,6 +297,8 @@ _meson_option_parse() {
-     --enable-slirp) printf "%s" -Dslirp=enabled ;;
-     --disable-slirp) printf "%s" -Dslirp=disabled ;;
-     --enable-slirp=*) quote_sh "-Dslirp=$2" ;;
-+    --enable-slirp-smbd) printf "%s" -Dslirp_smbd=enabled ;;
-+    --disable-slirp-smbd) printf "%s" -Dslirp_smbd=disabled ;;
-     --enable-smartcard) printf "%s" -Dsmartcard=enabled ;;
-     --disable-smartcard) printf "%s" -Dsmartcard=disabled ;;
-     --enable-snappy) printf "%s" -Dsnappy=enabled ;;
+@@ -62,6 +62,7 @@ meson_options_help() {
+   printf "%s\n" '  glusterfs       Glusterfs block device driver'
+   printf "%s\n" '  gnutls          GNUTLS cryptography support'
+   printf "%s\n" '  gtk             GTK+ user interface'
++  printf "%s\n" '  guest-agent     Build QEMU Guest Agent'
+   printf "%s\n" '  guest-agent-msi Build MSI package for the QEMU Guest Agent'
+   printf "%s\n" '  hax             HAX acceleration support'
+   printf "%s\n" '  hvf             HVF acceleration support'
+@@ -108,6 +109,7 @@ meson_options_help() {
+   printf "%s\n" '  spice           Spice server support'
+   printf "%s\n" '  spice-protocol  Spice protocol support'
+   printf "%s\n" '  tcg             TCG support'
++  printf "%s\n" '  tools           build support utilities that come with QEMU'
+   printf "%s\n" '  tpm             TPM support'
+   printf "%s\n" '  u2f             U2F emulation support'
+   printf "%s\n" '  usb-redir       libusbredir support'
+@@ -209,6 +211,8 @@ _meson_option_parse() {
+     --disable-gprof) printf "%s" -Dgprof=false ;;
+     --enable-gtk) printf "%s" -Dgtk=enabled ;;
+     --disable-gtk) printf "%s" -Dgtk=disabled ;;
++    --enable-guest-agent) printf "%s" -Dguest_agent=enabled ;;
++    --disable-guest-agent) printf "%s" -Dguest_agent=disabled ;;
+     --enable-guest-agent-msi) printf "%s" -Dguest_agent_msi=enabled ;;
+     --disable-guest-agent-msi) printf "%s" -Dguest_agent_msi=disabled ;;
+     --enable-hax) printf "%s" -Dhax=enabled ;;
+@@ -315,6 +319,8 @@ _meson_option_parse() {
+     --disable-tcg) printf "%s" -Dtcg=disabled ;;
+     --enable-tcg-interpreter) printf "%s" -Dtcg_interpreter=true ;;
+     --disable-tcg-interpreter) printf "%s" -Dtcg_interpreter=false ;;
++    --enable-tools) printf "%s" -Dtools=enabled ;;
++    --disable-tools) printf "%s" -Dtools=disabled ;;
+     --enable-tpm) printf "%s" -Dtpm=enabled ;;
+     --disable-tpm) printf "%s" -Dtpm=disabled ;;
+     --enable-trace-backends=*) quote_sh "-Dtrace_backends=$2" ;;
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 646c8b1334..e7153c8e91 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -150,7 +150,7 @@ check-acceptance: check-acceptance-deprecated-warning | check-avocado
+ .PHONY: check-block check check-clean get-vm-images
+ check:
+ 
+-ifeq ($(CONFIG_TOOLS)$(CONFIG_POSIX),yy)
++ifneq ($(.check-block.deps),)
+ check: check-block
+ check-block: run-ninja
+ 	$(if $(MAKE.n),,+)$(MESON) test $(MTESTARGS) $(.mtestargs) --verbose \
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index 0959061faf..3a51759ebc 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -149,9 +149,7 @@ if have_system
+   endif
+ endif
+ 
+-if 'CONFIG_TSAN' not in config_host and \
+-   'CONFIG_GUEST_AGENT' in config_host and \
+-   'CONFIG_LINUX' in config_host
++if have_ga and targetos == 'linux' and 'CONFIG_TSAN' not in config_host
+   tests += {'test-qga': ['../qtest/libqtest.c']}
+   test_deps += {'test-qga': qga}
+ endif
 -- 
 2.34.1
 
