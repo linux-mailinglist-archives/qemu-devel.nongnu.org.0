@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0F54B6840
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:55:49 +0100 (CET)
-Received: from localhost ([::1]:55900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A9A4B6852
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:59:30 +0100 (CET)
+Received: from localhost ([::1]:36002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuYn-0005kE-2r
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:55:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54970)
+	id 1nJucL-0001aV-Do
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:59:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCQ-0004OJ-Et
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:42 -0500
-Received: from [2a00:1450:4864:20::636] (port=43849
+ id 1nJuCR-0004QE-Bv
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:43 -0500
+Received: from [2a00:1450:4864:20::636] (port=39615
  helo=mail-ej1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCO-0008Sg-LE
+ id 1nJuCP-0008Su-2K
  for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:42 -0500
-Received: by mail-ej1-x636.google.com with SMTP id d10so42877184eje.10
+Received: by mail-ej1-x636.google.com with SMTP id p9so20021760ejd.6
  for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iwKrw8tO5y25zYOksvfVojKXZjXfywa7yUC+Id68b80=;
- b=SukyXIponDfC/9oCJ3lLJ2oX9SM4FI/v66qY+ij6harXLYGwI467t+Bwv1OsV2xBtd
- U/LOc+dsRn7P4nZldW0Ny8d3GLPs9oplb2tYc5vho/P4Wnc2mq4w9ydWrNzh9dsSl+Jt
- NH39+9B9Bc3la4UGu7lN5RZ4f+Y0Z+aooPSZDh63yedb24p6oeMcKWy2qEbXLhGlojSj
- 1whU6sry8zbPgjdSR+b57s0tt6qdQ92jKb7I2rEg3KDnUdNPu21OaFgiuBeAFe1eLn9q
- Cl0tm4sDJ403ShacTsWrYvX+j1TmJv9UtWo/1JSazQNOy0hya4aLNS+uFB8QwOvAR36l
- uEaw==
+ bh=SRgJg5xfpuSAqjCPUPWulsWzAL4Etybls08rekRjgyc=;
+ b=fZinXVP+NV/qUgE3PAsM0u1nLhqDmwwAuALQzMCFv4isQm5yzDxDaBeLYjnho9xjKT
+ gily+qDbIy56aLjE2QnRQyhg5AOUW6+t8hlms9ch9zcuRlTEqw/x8DJpoM0ipqk0+fL6
+ Ct1K12k1fhoYsRXxUHjwtAdW6wpMdhlL+ywMWrIczf1S6AmDriG0SzWORi9MlcCFTxXz
+ buGn2y0gCs2I1Qw638jtauWExw/lPSwuhSALQyRcdgCs52kuhi2lQdJRC6nDe1EKe7E5
+ Q0Fxf+VtArBp/WYSOuyQOzhU2cXTL72wJMdljYPO24d2kouz49RGHXpKKJ5eEZrtECNm
+ RUhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iwKrw8tO5y25zYOksvfVojKXZjXfywa7yUC+Id68b80=;
- b=kAea2KjUplAZvudA8BOFyD7jqptdfGsEnaWywp4Tq9n31gTvE/+A5mGSlJ3FZV7Rtz
- XFmWnpg4imLnt/m5dOTaQL2BgNY7VuTsHfr8Wk2MkjnhQPZOYof6Sor0a5s2fwtO+Mq9
- Y7medsu7miTMF3yfVNeBoBoIDNFy+rq/XCOfxp+0z16PWM1AFnYDaRGBnwi7p/tmMsnM
- dr3GyjTrdu+YcSAiVBmHyBokd8cp2CKXiU24dUDbLAFXbm6yu3axC6U2U9Mr31tBi9Yj
- FDmpfwv3kKtVHFfO14rPft/cKexYNMeup0+M5D3HVp54ylVhUtlKjE5QCuMC8ojiJ2V0
- xKig==
-X-Gm-Message-State: AOAM531sUJL/JYsfVsdLACM2bkRWBRWkLBq338SbXGS+HMZHGNiXorez
- RUgAHnUQ7TeScZ3y8Ep1GWyAm69Pjl0=
-X-Google-Smtp-Source: ABdhPJzX6e8OIyPrlMUxkJDndvoAozpweUKk3uQ3WNTHBTueQ4x2GClnJcV7lDt1nVU93ERMxhjk+w==
-X-Received: by 2002:a17:907:1c87:: with SMTP id
- nb7mr2212163ejc.279.1644917559115; 
+ bh=SRgJg5xfpuSAqjCPUPWulsWzAL4Etybls08rekRjgyc=;
+ b=uwulXeRlrefgHelx3zyiYp7Cuent2723upSB7OYobO6R4hmus36TPQp/zS/bKT7t+0
+ 6lLxY2lIl5eBGhFkW7JxlxitmzRmHZ642KoGDNpuuL0g2uBolcFzdtsr0wrF69uEXS52
+ sLzyZt3vDjYK3fN+VFal/9O/ODeLT4/0fJhsyaL8fJHSmZKomuLJAiZIWC4jyNK4WdHI
+ NU89j55lJCkMsFEHt17fWBKhbjBwCCt/JheNR9a7GkYvO9ub0eDuDyt/MX4ip/w5Eqp7
+ ICoo2m6nk8mjiTKlaPFGQ3MOREf3EcIerLM6lq9tT0y49HFkSYbf3Y89viGQ/gZWMsW7
+ bZtw==
+X-Gm-Message-State: AOAM530xewd+MR77bLdD0B5RH3ZjNAbJbPK3NCkrQX37n1bmySXs09Pc
+ hYThtLJ4e7X8MtCEpjU8tsjRJSaYmRA=
+X-Google-Smtp-Source: ABdhPJxPWnraBmWhFLBdbBu9uAY/HDrV0O40+pmjBQRvWPdWjU0uGtixSa0eIIqkouJDGhDws1vLbw==
+X-Received: by 2002:a17:906:2ed0:: with SMTP id
+ s16mr2167511eji.327.1644917559866; 
  Tue, 15 Feb 2022 01:32:39 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.38
+ by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 01:32:38 -0800 (PST)
+ Tue, 15 Feb 2022 01:32:39 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/30] qga/vss-win32: fix midl arguments
-Date: Tue, 15 Feb 2022 10:32:14 +0100
-Message-Id: <20220215093223.110827-22-pbonzini@redhat.com>
+Subject: [PULL 22/30] meson: drop --with-win-sdk
+Date: Tue, 15 Feb 2022 10:32:15 +0100
+Message-Id: <20220215093223.110827-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215093223.110827-1-pbonzini@redhat.com>
 References: <20220215093223.110827-1-pbonzini@redhat.com>
@@ -94,38 +94,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Microsoft midl compiler doesn't take "-options" form, nor does it take
-OUTPUT filename. The -I option seems needless as well (at least with
-VS15).
-
-It's not clear what was actually used when it was introduced in commit
-b39297aedfabe9.
-
-strings says "Created by MIDL version 7.00.0555 at Fri Dec 21 13:36:39
-2012".
-
-I doubt the makefile rule actually ever worked.
+It's no longer used.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qga/vss-win32/meson.build | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ configure   | 29 -----------------------------
+ meson.build |  5 -----
+ 2 files changed, 34 deletions(-)
 
-diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
-index 90825edef3..78bdf5e74a 100644
---- a/qga/vss-win32/meson.build
-+++ b/qga/vss-win32/meson.build
-@@ -26,8 +26,7 @@ if midl.found()
-   gen_tlb = custom_target('gen-tlb',
-                           input: 'qga-vss.idl',
-                           output: 'qga-vss.tlb',
--                          command: [midl, '-tlb', '-I' + config_host['WIN_SDK'],
--                                     '@INPUT@', '@OUTPUT@'])
-+                          command: [midl, '@INPUT@', '/tlb', '@OUTPUT@'])
- else
-   gen_tlb = custom_target('gen-tlb',
-                           input: 'qga-vss.tlb',
+diff --git a/configure b/configure
+index 4c9f3f7cb4..20968ca7ac 100755
+--- a/configure
++++ b/configure
+@@ -317,7 +317,6 @@ pie=""
+ trace_backends="log"
+ trace_file="trace"
+ vss_win32_sdk="$default_feature"
+-win_sdk="no"
+ coroutine=""
+ tls_priority="NORMAL"
+ plugins="$default_feature"
+@@ -959,12 +958,6 @@ for opt do
+   ;;
+   --without-vss-sdk) vss_win32_sdk="no"
+   ;;
+-  --with-win-sdk) win_sdk=""
+-  ;;
+-  --with-win-sdk=*) win_sdk="$optarg"
+-  ;;
+-  --without-win-sdk) win_sdk="no"
+-  ;;
+   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
+       echo "$0: $opt is obsolete, virtio-blk data-plane is always on" >&2
+   ;;
+@@ -2319,27 +2312,6 @@ EOF
+   fi
+ fi
+ 
+-##########################################
+-# lookup Windows platform SDK (if not specified)
+-# The SDK is needed only to build .tlb (type library) file of guest agent
+-# VSS provider from the source. It is usually unnecessary because the
+-# pre-compiled .tlb file is included.
+-
+-if test "$mingw32" = "yes" && \
+-        test "$guest_agent_with_vss" = "yes" ; then
+-  if test -z "$win_sdk"; then
+-    programfiles="$PROGRAMFILES"
+-    test -n "$PROGRAMW6432" && programfiles="$PROGRAMW6432"
+-    if test -n "$programfiles"; then
+-      win_sdk=$(ls -d "$programfiles/Microsoft SDKs/Windows/v"* | tail -1) 2>/dev/null
+-    else
+-      feature_not_found "Windows SDK"
+-    fi
+-  elif test "$win_sdk" = "no"; then
+-    win_sdk=""
+-  fi
+-fi
+-
+ ##########################################
+ # check if mingw environment provides a recent ntddscsi.h
+ guest_agent_ntddscsi="no"
+@@ -2871,7 +2843,6 @@ if test "$mingw32" = "yes" ; then
+   echo "CONFIG_WIN32=y" >> $config_host_mak
+   if test "$guest_agent_with_vss" = "yes" ; then
+     echo "CONFIG_QGA_VSS=y" >> $config_host_mak
+-    echo "WIN_SDK=\"$win_sdk\"" >> $config_host_mak
+   fi
+   if test "$guest_agent_ntddscsi" = "yes" ; then
+     echo "CONFIG_QGA_NTDDSCSI=y" >> $config_host_mak
+diff --git a/meson.build b/meson.build
+index 6308225e3c..96d64ec28f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3409,11 +3409,6 @@ endif
+ if targetos == 'darwin'
+   summary_info += {'Objective-C compiler': ' '.join(meson.get_compiler('objc').cmd_array())}
+ endif
+-if targetos == 'windows'
+-  if 'WIN_SDK' in config_host
+-    summary_info += {'Windows SDK':   config_host['WIN_SDK']}
+-  endif
+-endif
+ summary_info += {'CFLAGS':            ' '.join(get_option('c_args')
+                                                + ['-O' + get_option('optimization')]
+                                                + (get_option('debug') ? ['-g'] : []))}
 -- 
 2.34.1
 
