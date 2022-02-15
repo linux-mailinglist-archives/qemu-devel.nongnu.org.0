@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80F24B6505
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:03:13 +0100 (CET)
-Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC904B66B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:57:59 +0100 (CET)
+Received: from localhost ([::1]:34650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJsno-0000z9-KC
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:03:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59376)
+	id 1nJteo-0006XA-Sa
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:57:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>) id 1nJslp-0008S1-Mu
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:01:09 -0500
-Received: from mail-sn1anam02on2055.outbound.protection.outlook.com
- ([40.107.96.55]:19653 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>) id 1nJtcv-0005Gp-NI
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:56:02 -0500
+Received: from [2a01:111:f400:7e83::608] (port=41537
+ helo=NAM02-DM3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>) id 1nJsll-00020A-2s
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:01:07 -0500
+ (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>) id 1nJtcq-0002LD-3P
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:56:00 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QPL0r6AA7PwAEFb3co5bhuUmF1+2AAoeeoeV2hVNwhANUCqhuhZLnE8TrIgDqoyaPK2VOcHSzyR/VdghSEgvpBqr7nWaLgxWMoCsWNwfTtJ1jGkZhXMfL/t4yNmshnc4j7H6uqknnoKSuvpLLotrIQUSK/Un9A8zXW3zpCIfonkhDzSaJlrJ0g+O6aVg1HnrhDIVKG35atxxq0vH59UOpXTag3l+Of1BIoK22kEld9cFPYz2loy//OMNY/7aw+svpTFIN45emngflbIjY4YMJQmPYllYZgGrEmlStJ08yzMKfTq0RUSeuLG7W5DcFvkcUiShN945FLpk80edQkRBtw==
+ b=OVtlcHq8Xu6fFwCXLYY5Uf75glS4IhSmgPn7kLzwC4rycZyI5xEFlSnl4Qrt4oNExGxRf5EZfywu3yebpstzUgVJgU2l71lq3Axy3tKrx3+jgSa2nnhO15gAML3TGt4c+xB0GsW/ngZsSX+kNLfLo0BRZpDWEtfJlgmncmlMYNhAn7LmB/zuAvO5SFf0VAZyOfr/gv67x6HqFaVokUCHySCpCkjK7PcsY6t64fegn4qV0XoVenylCgOjcHcLoYavq7n/hRBvVek4e2z5OOOKkej7GBWWYI6N7BXgIlBR+9S7PSAylv4IXqbjlEG1KUkkRKHW9PHtBstvI/jNHsJ1KA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IoH06FvlXWoCtd3/dIjfpi0wbMOzGLH6yDyi259IFoM=;
- b=U98kPP9hP6UME3ZK3XgfBKS40JAt9TtHT/g4iIUwN4dG7yXXKOH7LrZpAcB1exeu0uN1mu+sf5tlsH5sYvE6uYmTvtGOpPQv3YKoex/KJAbB2Vi1JUHM1prBTjg7P6dIoozk5QDtvklkr78CX7GEOS0Ryl51+j4Xgy5pg7WALvhsvKd425itw1lYfl6L2E8rGsP44/bqh+Q8/q0WoX0EhBpuRAplurPI/fvObeJw3D3ANNwHXjcWyMcoILGi+J3JlI5NkB1SlEy72Va4aPBIAt2Ep7mW70gQw7O8qJ2mUldsghs0sybHKtaGi0F9AoqV+yYh2UavMxbT5xxQuDBi4w==
+ bh=Vufn8JTmNJ/PuPqmtbX+lWw9edRfQyNre5FGEuvrk40=;
+ b=DQCtkSDe+BN2UjeKj4cFM4OZWHe4oBhnqfnY9oPLJzF96OV/vv6fjcj9stCvsaDxCLnv3sl5HDpUL4f11AY/2iUO2KqoPOGoneQMAv9PynzbveWD5CDVNYN4fdchQ/uPhNHrNjnKkST745ArBIEXkWRORHk7G9IbyB9wf4+xaB3pFGer1/2qSIRxjVa2FZwwWVXPTXg5/MKYvax0LpVu8Ywit5/8ddbobW1LSanX2rDNpb11eF9e6j20f2JXtWHWUG1qUNKT5MEonD4AOOcGHODZ+x9R/DlpcbFm3X1zRpu9I7BCeJa42rh9GLo2W/KUnN+p0OTwivmrcLthrLvKsQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=redhat.com smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IoH06FvlXWoCtd3/dIjfpi0wbMOzGLH6yDyi259IFoM=;
- b=Uk1W7neRMxROCU+wS1t+1pGYmlSrZeWpyiejb0lCr1lvm9PMl0Dp1w43pSmR90H4YY/uEWGveGnv5a0XtPcWcnTHWqD8luDDkN9OWhoq/f3yeTZlWokNhvOXvAqHsjqZo9KWeDtM445uB7juypI+rzfkrWbghtcXDRfH4PaaY1A=
-Received: from BN0PR04CA0189.namprd04.prod.outlook.com (2603:10b6:408:e9::14)
- by CH2PR02MB6694.namprd02.prod.outlook.com (2603:10b6:610:ae::16)
+ bh=Vufn8JTmNJ/PuPqmtbX+lWw9edRfQyNre5FGEuvrk40=;
+ b=mOcEIFMmJ/H260wLpOy0U5qcreBgv5RJGQapFNaWSTHjLZleeMEf+EqNYHTUEmciTjfSKXIBm8DDa86kGl86ETEvhFFTOABJbs6YzTFuOacCi6CKliYXbXoELI4W9h54k04ICIbMS1P4ecebDr/cmabb2evFtnrVUFvg//qKuJg=
+Received: from BN0PR02CA0039.namprd02.prod.outlook.com (2603:10b6:408:e5::14)
+ by CO6PR02MB8818.namprd02.prod.outlook.com (2603:10b6:303:142::6)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Tue, 15 Feb
- 2022 07:22:46 +0000
-Received: from BN1NAM02FT028.eop-nam02.prod.protection.outlook.com
- (2603:10b6:408:e9:cafe::2b) by BN0PR04CA0189.outlook.office365.com
- (2603:10b6:408:e9::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.16 via Frontend
- Transport; Tue, 15 Feb 2022 07:22:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.11; Tue, 15 Feb
+ 2022 07:22:54 +0000
+Received: from BN1NAM02FT064.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:408:e5:cafe::c6) by BN0PR02CA0039.outlook.office365.com
+ (2603:10b6:408:e5::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.13 via Frontend
+ Transport; Tue, 15 Feb 2022 07:22:54 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=xilinx.com;
@@ -51,64 +51,69 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
 Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- BN1NAM02FT028.mail.protection.outlook.com (10.13.2.142) with Microsoft SMTP
+ BN1NAM02FT064.mail.protection.outlook.com (10.13.2.170) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4975.11 via Frontend Transport; Tue, 15 Feb 2022 07:22:46 +0000
+ 15.20.4975.11 via Frontend Transport; Tue, 15 Feb 2022 07:22:53 +0000
 Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Mon, 14 Feb 2022 23:22:45 -0800
+ 15.1.2176.14; Mon, 14 Feb 2022 23:22:50 -0800
 Received: from smtp.xilinx.com (172.19.127.96) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Mon, 14 Feb 2022 23:22:45 -0800
+ 15.1.2176.14 via Frontend Transport; Mon, 14 Feb 2022 23:22:50 -0800
 Received: from [10.170.66.102] (port=55622 helo=xndengvm004102.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <gautam.dawar@xilinx.com>)
- id 1nJsAe-0000hL-TY; Mon, 14 Feb 2022 23:22:45 -0800
+ id 1nJsAj-0000hL-LL; Mon, 14 Feb 2022 23:22:50 -0800
 From: Gautam Dawar <gautam.dawar@xilinx.com>
 To: <mst@redhat.com>, <jasowang@redhat.com>, <qemu-devel@nongnu.org>,
  <eperezma@redhat.com>
-Subject: [PATCH 0/2] Allow VIRTIO_F_IN_ORDER negotiation with vhost-vdpa
-Date: Tue, 15 Feb 2022 12:52:29 +0530
-Message-ID: <20220215072231.2498-1-gdawar@xilinx.com>
+Subject: [PATCH 1/2] linux headers: update against Linux 5.17-rc4
+Date: Tue, 15 Feb 2022 12:52:30 +0530
+Message-ID: <20220215072231.2498-2-gdawar@xilinx.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20220215072231.2498-1-gdawar@xilinx.com>
+References: <20220215072231.2498-1-gdawar@xilinx.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eacf1cf3-bb44-4992-2b54-08d9f053f6c8
-X-MS-TrafficTypeDiagnostic: CH2PR02MB6694:EE_
-X-Microsoft-Antispam-PRVS: <CH2PR02MB66940E87F2D96401ADDDB125B1349@CH2PR02MB6694.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Office365-Filtering-Correlation-Id: 593f1a60-3dfc-4b8f-8a5e-08d9f053fb56
+X-MS-TrafficTypeDiagnostic: CO6PR02MB8818:EE_
+X-Microsoft-Antispam-PRVS: <CO6PR02MB88181FFD5B352109A469F3CAB1349@CO6PR02MB8818.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HocVdn4wWA08keieW5czGw3yDEZ3G8a+qX64IH6F/ajXemZQ675DQNnuh7doiNWdkoLBGkn9pomCTUQhTV8FHWh9+vicpeyDQ4yB/LOKvTK6fNt/1jqSiJCtHsG9kKo5oH460NBbhlHbivEFcKjPoWxAUfR4TW+pr2UGlLB3mYcU0XriYbf2kn+M3UoTcV3IPnSPxQn7YQ4Iy3Sm2CSgQErdZlUpb3yyGQjUkjq3N/Ng8j+owZCV1saGL4p/Bf5gKuXrpK8bDqQ5Gruy3B10sQFsbCxi4SrHVHEFqTi/K8W7lhVctTxs7+A3VDpeXc28Ee3VySVC3aN1m8tsw1dURCA44npifRWdMJ34pelDaWQ4qwTRxQfTSYFlfr58t7QczzwPwYGnkWolwJRCVZmcS4sAFeKZeEB3994wmLzWhFstm4jZg+noLgcSmFhspXfZQwcsAOjbE2s/xjh9xy+42POLvc3+DGCGY0jnRMg1N44QVFQLeIuNr61eikb88o+kyWX0vLkFfopPwPdawVOQEpOLwMuT9PfgUW2PvrhZSRiO7OS1UL/jeXU1ve8xOs7qVGm2dlspnEuJjgiolAH3eUGENbolLZXw0e+6eWmHoZbAiuXcAIIateL5iZJD463PAeMBAHpyTBW6DWl8+vGurzFh5vbGBLJbap2DP5OT2pZdwPyG/pi+yWO9/xyhzpIHbfXci+O34qZM5S/TAyPvfA==
+X-Microsoft-Antispam-Message-Info: MQJDRj+pNoZB0rZ0QqjaMEK1sdctdHrj+WH5cJxiPjVMMBud+bJhp3RrhutY1HKeAhkS3wWl+Svn94asEd95qcfL9WOEAQ6aGlxAwjhgw6DmtOwoaDFsdUYq+RUpdFEAxWqi16B2KDu/zo+5eMZ1BZZk5maKV82rxGIAByHN78mKq3qN5cqi9ohZNJt6HUCMlm+XYvUa80OvAzOUmVTm8svCMcTFbkGXYMPfclqC/2D89Za8eeIeWE7L2S55H30LZHjhirl26mtmz/4zNihYXuJMaw3RtnNc55q+MNQVaEM3bJh+KBa3vBG28xV2jS+UfKgnCy5d8WF23ZTxql1nTLKxoCoWGB9dO1CFVTz+tGQzuT4kj97t4NQcCyUZZyZCWpzAWA844ODkDB20tXJ6r3q+AwcACJeHJWpvsQBW6Y0D6wVxjvPkXAeVQlBR9pul9KcrBpaGuhgXP6Uv4ysMt11Jz78Bpm8nKP+elA9sbJoEHQUMqWMwk51mt7OOaIFRieZSFVMIB3bZBphDi3e1PU7vrr5mxWK5jDbfuaXUQIajG4qXN8MSvse4D/IuaYv0sRia7k16aAfXKBG3CJAWRgyjsmdmUIDmvDdcOY+siUDYNkPy/OSvIVFXvShytaRo2qAFeDerfWAsB32A1tUp7kaq29j1XpCP5FbsZ2u7UvkPC7LMl4PATzT7+1nSB2QVf1qd0yh0PueRAV4HfF0H1N0LHLTMH2q/cFmKStMBrldXAta6AmkYzZlofK6wJrppDcNNKsoSYa7SqvKmBZCoMP1sWqFdGnnsbc7gftROBQadSfCHir8YjMKmf0k5elkc
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(4326008)(8936002)(8676002)(47076005)(5660300002)(44832011)(9786002)(110136005)(6666004)(54906003)(508600001)(7696005)(36860700001)(107886003)(36756003)(83380400001)(70206006)(2616005)(82310400004)(1076003)(426003)(336012)(186003)(26005)(7636003)(2906002)(316002)(356005)(40460700003)(70586007)(102446001);
+ SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(9786002)(110136005)(5660300002)(82310400004)(336012)(44832011)(15650500001)(36860700001)(2906002)(30864003)(40460700003)(7696005)(316002)(356005)(426003)(8936002)(186003)(7636003)(6666004)(70206006)(107886003)(508600001)(1076003)(2616005)(36756003)(83380400001)(8676002)(26005)(54906003)(47076005)(4326008)(70586007)(102446001)(2004002)(559001)(579004);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 07:22:46.1494 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eacf1cf3-bb44-4992-2b54-08d9f053f6c8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 07:22:53.7621 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 593f1a60-3dfc-4b8f-8a5e-08d9f053fb56
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
  Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT028.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT064.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6694
-Received-SPF: pass client-ip=40.107.96.55; envelope-from=gdawar@xilinx.com;
- helo=NAM02-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR02MB8818
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e83::608
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f400:7e83::608;
+ envelope-from=gdawar@xilinx.com;
+ helo=NAM02-DM3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RDNS_NONE=0.793,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,28 +131,13 @@ Cc: martinh@xilinx.com, pabloc@xilinx.com, hanand@xilinx.com, tanujk@xilinx.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VIRTIO_F_IN_ORDER feature is implemented by DPDK virtio_net driver
-but not by the Linux kernel's virtio_net driver.
+This update is done to bring in the definition of VIRTIO_F_IN_ORDER
+from Linux kernel's include/uapi/linux/virtio_config.h.
+A patch was recently published to add VIRTIO_F_IN_ORDER's definition
+in the Linux kernel on top of version 5.17-rc4
 
-However, this feature can't be tested using vhost-vdpa even with HW devices
-that implement it as VIRTIO_F_IN_ORDER isn't defined in kernel's
-virtio_config.h header file yet and hence is not available in QEMU.
-
-Accordingly, as a first step, a patch for defining VIRTIO_F_IN_ORDER in
-kernel (version 5.17-rc4, file: include/uapi/linux/virtio_config.h) has
-been published.
-
-This patch series first brings in VIRTIO_F_IN_ORDER's definition from Linux
-kernel using the script update-linux-headers.sh.
-Next, it adds VIRTIO_F_IN_ORDER to host_features in case the underlying
-vdpa device exposes this feature bit in device featues there by making it
-available for negotiation with the virtio_net driver.
-
-Gautam Dawar (2):
-  linux headers: update against Linux 5.17-rc4
-  Allow VIRTIO_F_IN_ORDER to be negotiated for vdpa devices
-
- hw/net/virtio-net.c                           |  10 ++
+Signed-off-by: Gautam Dawar <gdawar@xilinx.com>
+---
  include/standard-headers/asm-x86/kvm_para.h   |   1 +
  include/standard-headers/drm/drm_fourcc.h     |  11 ++
  include/standard-headers/linux/ethtool.h      |   1 +
@@ -175,8 +165,7 @@ Gautam Dawar (2):
  linux-headers/asm-x86/unistd_64.h             |   1 +
  linux-headers/asm-x86/unistd_x32.h            |   1 +
  linux-headers/linux/kvm.h                     |  18 +++
- net/vhost-vdpa.c                              |   1 +
- 29 files changed, 490 insertions(+), 76 deletions(-)
+ 27 files changed, 479 insertions(+), 76 deletions(-)
  create mode 100644 include/standard-headers/linux/virtio_gpio.h
  create mode 100644 include/standard-headers/linux/virtio_i2c.h
  create mode 100644 include/standard-headers/linux/virtio_pcidev.h
@@ -185,6 +174,1199 @@ Gautam Dawar (2):
  create mode 100644 linux-headers/asm-riscv/mman.h
  create mode 100644 linux-headers/asm-riscv/unistd.h
 
+diff --git a/include/standard-headers/asm-x86/kvm_para.h b/include/standard-headers/asm-x86/kvm_para.h
+index 204cfb8640..f0235e58a1 100644
+--- a/include/standard-headers/asm-x86/kvm_para.h
++++ b/include/standard-headers/asm-x86/kvm_para.h
+@@ -8,6 +8,7 @@
+  * should be used to determine that a VM is running under KVM.
+  */
+ #define KVM_CPUID_SIGNATURE	0x40000000
++#define KVM_SIGNATURE "KVMKVMKVM\0\0\0"
+ 
+ /* This CPUID returns two feature bitmaps in eax, edx. Before enabling
+  * a particular paravirtualization, the appropriate feature bit should
+diff --git a/include/standard-headers/drm/drm_fourcc.h b/include/standard-headers/drm/drm_fourcc.h
+index 2c025cb4fe..4888f85f69 100644
+--- a/include/standard-headers/drm/drm_fourcc.h
++++ b/include/standard-headers/drm/drm_fourcc.h
+@@ -313,6 +313,13 @@ extern "C" {
+  */
+ #define DRM_FORMAT_P016		fourcc_code('P', '0', '1', '6') /* 2x2 subsampled Cr:Cb plane 16 bits per channel */
+ 
++/* 2 plane YCbCr420.
++ * 3 10 bit components and 2 padding bits packed into 4 bytes.
++ * index 0 = Y plane, [31:0] x:Y2:Y1:Y0 2:10:10:10 little endian
++ * index 1 = Cr:Cb plane, [63:0] x:Cr2:Cb2:Cr1:x:Cb1:Cr0:Cb0 [2:10:10:10:2:10:10:10] little endian
++ */
++#define DRM_FORMAT_P030		fourcc_code('P', '0', '3', '0') /* 2x2 subsampled Cr:Cb plane 10 bits per channel packed */
++
+ /* 3 plane non-subsampled (444) YCbCr
+  * 16 bits per component, but only 10 bits are used and 6 bits are padded
+  * index 0: Y plane, [15:0] Y:x [10:6] little endian
+@@ -853,6 +860,10 @@ drm_fourcc_canonicalize_nvidia_format_mod(uint64_t modifier)
+  * and UV.  Some SAND-using hardware stores UV in a separate tiled
+  * image from Y to reduce the column height, which is not supported
+  * with these modifiers.
++ *
++ * The DRM_FORMAT_MOD_BROADCOM_SAND128_COL_HEIGHT modifier is also
++ * supported for DRM_FORMAT_P030 where the columns remain as 128 bytes
++ * wide, but as this is a 10 bpp format that translates to 96 pixels.
+  */
+ 
+ #define DRM_FORMAT_MOD_BROADCOM_SAND32_COL_HEIGHT(v) \
+diff --git a/include/standard-headers/linux/ethtool.h b/include/standard-headers/linux/ethtool.h
+index 688eb8dc39..38d5a4cd6e 100644
+--- a/include/standard-headers/linux/ethtool.h
++++ b/include/standard-headers/linux/ethtool.h
+@@ -231,6 +231,7 @@ enum tunable_id {
+ 	ETHTOOL_RX_COPYBREAK,
+ 	ETHTOOL_TX_COPYBREAK,
+ 	ETHTOOL_PFC_PREVENTION_TOUT, /* timeout in msecs */
++	ETHTOOL_TX_COPYBREAK_BUF_SIZE,
+ 	/*
+ 	 * Add your fresh new tunable attribute above and remember to update
+ 	 * tunable_strings[] in net/ethtool/common.c
+diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
+index 23ea31708b..bda06258be 100644
+--- a/include/standard-headers/linux/fuse.h
++++ b/include/standard-headers/linux/fuse.h
+@@ -184,6 +184,16 @@
+  *
+  *  7.34
+  *  - add FUSE_SYNCFS
++ *
++ *  7.35
++ *  - add FOPEN_NOFLUSH
++ *
++ *  7.36
++ *  - extend fuse_init_in with reserved fields, add FUSE_INIT_EXT init flag
++ *  - add flags2 to fuse_init_in and fuse_init_out
++ *  - add FUSE_SECURITY_CTX init flag
++ *  - add security context to create, mkdir, symlink, and mknod requests
++ *  - add FUSE_HAS_INODE_DAX, FUSE_ATTR_DAX
+  */
+ 
+ #ifndef _LINUX_FUSE_H
+@@ -215,7 +225,7 @@
+ #define FUSE_KERNEL_VERSION 7
+ 
+ /** Minor version number of this interface */
+-#define FUSE_KERNEL_MINOR_VERSION 34
++#define FUSE_KERNEL_MINOR_VERSION 36
+ 
+ /** The node ID of the root inode */
+ #define FUSE_ROOT_ID 1
+@@ -286,12 +296,14 @@ struct fuse_file_lock {
+  * FOPEN_NONSEEKABLE: the file is not seekable
+  * FOPEN_CACHE_DIR: allow caching this directory
+  * FOPEN_STREAM: the file is stream-like (no file position at all)
++ * FOPEN_NOFLUSH: don't flush data cache on close (unless FUSE_WRITEBACK_CACHE)
+  */
+ #define FOPEN_DIRECT_IO		(1 << 0)
+ #define FOPEN_KEEP_CACHE	(1 << 1)
+ #define FOPEN_NONSEEKABLE	(1 << 2)
+ #define FOPEN_CACHE_DIR		(1 << 3)
+ #define FOPEN_STREAM		(1 << 4)
++#define FOPEN_NOFLUSH		(1 << 5)
+ 
+ /**
+  * INIT request/reply flags
+@@ -332,6 +344,11 @@ struct fuse_file_lock {
+  *			write/truncate sgid is killed only if file has group
+  *			execute permission. (Same as Linux VFS behavior).
+  * FUSE_SETXATTR_EXT:	Server supports extended struct fuse_setxattr_in
++ * FUSE_INIT_EXT: extended fuse_init_in request
++ * FUSE_INIT_RESERVED: reserved, do not use
++ * FUSE_SECURITY_CTX:	add security context to create, mkdir, symlink, and
++ *			mknod
++ * FUSE_HAS_INODE_DAX:  use per inode DAX
+  */
+ #define FUSE_ASYNC_READ		(1 << 0)
+ #define FUSE_POSIX_LOCKS	(1 << 1)
+@@ -363,6 +380,11 @@ struct fuse_file_lock {
+ #define FUSE_SUBMOUNTS		(1 << 27)
+ #define FUSE_HANDLE_KILLPRIV_V2	(1 << 28)
+ #define FUSE_SETXATTR_EXT	(1 << 29)
++#define FUSE_INIT_EXT		(1 << 30)
++#define FUSE_INIT_RESERVED	(1 << 31)
++/* bits 32..63 get shifted down 32 bits into the flags2 field */
++#define FUSE_SECURITY_CTX	(1ULL << 32)
++#define FUSE_HAS_INODE_DAX	(1ULL << 33)
+ 
+ /**
+  * CUSE INIT request/reply flags
+@@ -445,8 +467,10 @@ struct fuse_file_lock {
+  * fuse_attr flags
+  *
+  * FUSE_ATTR_SUBMOUNT: Object is a submount root
++ * FUSE_ATTR_DAX: Enable DAX for this file in per inode DAX mode
+  */
+ #define FUSE_ATTR_SUBMOUNT      (1 << 0)
++#define FUSE_ATTR_DAX		(1 << 1)
+ 
+ /**
+  * Open flags
+@@ -732,6 +756,8 @@ struct fuse_init_in {
+ 	uint32_t	minor;
+ 	uint32_t	max_readahead;
+ 	uint32_t	flags;
++	uint32_t	flags2;
++	uint32_t	unused[11];
+ };
+ 
+ #define FUSE_COMPAT_INIT_OUT_SIZE 8
+@@ -748,7 +774,8 @@ struct fuse_init_out {
+ 	uint32_t	time_gran;
+ 	uint16_t	max_pages;
+ 	uint16_t	map_alignment;
+-	uint32_t	unused[8];
++	uint32_t	flags2;
++	uint32_t	unused[7];
+ };
+ 
+ #define CUSE_INIT_INFO_MAX 4096
+@@ -856,9 +883,12 @@ struct fuse_dirent {
+ 	char name[];
+ };
+ 
+-#define FUSE_NAME_OFFSET offsetof(struct fuse_dirent, name)
+-#define FUSE_DIRENT_ALIGN(x) \
++/* Align variable length records to 64bit boundary */
++#define FUSE_REC_ALIGN(x) \
+ 	(((x) + sizeof(uint64_t) - 1) & ~(sizeof(uint64_t) - 1))
++
++#define FUSE_NAME_OFFSET offsetof(struct fuse_dirent, name)
++#define FUSE_DIRENT_ALIGN(x) FUSE_REC_ALIGN(x)
+ #define FUSE_DIRENT_SIZE(d) \
+ 	FUSE_DIRENT_ALIGN(FUSE_NAME_OFFSET + (d)->namelen)
+ 
+@@ -975,4 +1005,26 @@ struct fuse_syncfs_in {
+ 	uint64_t	padding;
+ };
+ 
++/*
++ * For each security context, send fuse_secctx with size of security context
++ * fuse_secctx will be followed by security context name and this in turn
++ * will be followed by actual context label.
++ * fuse_secctx, name, context
++ */
++struct fuse_secctx {
++	uint32_t	size;
++	uint32_t	padding;
++};
++
++/*
++ * Contains the information about how many fuse_secctx structures are being
++ * sent and what's the total size of all security contexts (including
++ * size of fuse_secctx_header).
++ *
++ */
++struct fuse_secctx_header {
++	uint32_t	size;
++	uint32_t	nr_secctx;
++};
++
+ #endif /* _LINUX_FUSE_H */
+diff --git a/include/standard-headers/linux/pci_regs.h b/include/standard-headers/linux/pci_regs.h
+index ff6ccbc6ef..bee1a9ed6e 100644
+--- a/include/standard-headers/linux/pci_regs.h
++++ b/include/standard-headers/linux/pci_regs.h
+@@ -301,23 +301,23 @@
+ #define  PCI_SID_ESR_FIC	0x20	/* First In Chassis Flag */
+ #define PCI_SID_CHASSIS_NR	3	/* Chassis Number */
+ 
+-/* Message Signalled Interrupt registers */
++/* Message Signaled Interrupt registers */
+ 
+-#define PCI_MSI_FLAGS		2	/* Message Control */
++#define PCI_MSI_FLAGS		0x02	/* Message Control */
+ #define  PCI_MSI_FLAGS_ENABLE	0x0001	/* MSI feature enabled */
+ #define  PCI_MSI_FLAGS_QMASK	0x000e	/* Maximum queue size available */
+ #define  PCI_MSI_FLAGS_QSIZE	0x0070	/* Message queue size configured */
+ #define  PCI_MSI_FLAGS_64BIT	0x0080	/* 64-bit addresses allowed */
+ #define  PCI_MSI_FLAGS_MASKBIT	0x0100	/* Per-vector masking capable */
+ #define PCI_MSI_RFU		3	/* Rest of capability flags */
+-#define PCI_MSI_ADDRESS_LO	4	/* Lower 32 bits */
+-#define PCI_MSI_ADDRESS_HI	8	/* Upper 32 bits (if PCI_MSI_FLAGS_64BIT set) */
+-#define PCI_MSI_DATA_32		8	/* 16 bits of data for 32-bit devices */
+-#define PCI_MSI_MASK_32		12	/* Mask bits register for 32-bit devices */
+-#define PCI_MSI_PENDING_32	16	/* Pending intrs for 32-bit devices */
+-#define PCI_MSI_DATA_64		12	/* 16 bits of data for 64-bit devices */
+-#define PCI_MSI_MASK_64		16	/* Mask bits register for 64-bit devices */
+-#define PCI_MSI_PENDING_64	20	/* Pending intrs for 64-bit devices */
++#define PCI_MSI_ADDRESS_LO	0x04	/* Lower 32 bits */
++#define PCI_MSI_ADDRESS_HI	0x08	/* Upper 32 bits (if PCI_MSI_FLAGS_64BIT set) */
++#define PCI_MSI_DATA_32		0x08	/* 16 bits of data for 32-bit devices */
++#define PCI_MSI_MASK_32		0x0c	/* Mask bits register for 32-bit devices */
++#define PCI_MSI_PENDING_32	0x10	/* Pending intrs for 32-bit devices */
++#define PCI_MSI_DATA_64		0x0c	/* 16 bits of data for 64-bit devices */
++#define PCI_MSI_MASK_64		0x10	/* Mask bits register for 64-bit devices */
++#define PCI_MSI_PENDING_64	0x14	/* Pending intrs for 64-bit devices */
+ 
+ /* MSI-X registers (in MSI-X capability) */
+ #define PCI_MSIX_FLAGS		2	/* Message Control */
+@@ -335,10 +335,10 @@
+ 
+ /* MSI-X Table entry format (in memory mapped by a BAR) */
+ #define PCI_MSIX_ENTRY_SIZE		16
+-#define PCI_MSIX_ENTRY_LOWER_ADDR	0  /* Message Address */
+-#define PCI_MSIX_ENTRY_UPPER_ADDR	4  /* Message Upper Address */
+-#define PCI_MSIX_ENTRY_DATA		8  /* Message Data */
+-#define PCI_MSIX_ENTRY_VECTOR_CTRL	12 /* Vector Control */
++#define PCI_MSIX_ENTRY_LOWER_ADDR	0x0  /* Message Address */
++#define PCI_MSIX_ENTRY_UPPER_ADDR	0x4  /* Message Upper Address */
++#define PCI_MSIX_ENTRY_DATA		0x8  /* Message Data */
++#define PCI_MSIX_ENTRY_VECTOR_CTRL	0xc  /* Vector Control */
+ #define  PCI_MSIX_ENTRY_CTRL_MASKBIT	0x00000001
+ 
+ /* CompactPCI Hotswap Register */
+@@ -470,7 +470,7 @@
+ 
+ /* PCI Express capability registers */
+ 
+-#define PCI_EXP_FLAGS		2	/* Capabilities register */
++#define PCI_EXP_FLAGS		0x02	/* Capabilities register */
+ #define  PCI_EXP_FLAGS_VERS	0x000f	/* Capability version */
+ #define  PCI_EXP_FLAGS_TYPE	0x00f0	/* Device/Port type */
+ #define   PCI_EXP_TYPE_ENDPOINT	   0x0	/* Express Endpoint */
+@@ -484,7 +484,7 @@
+ #define   PCI_EXP_TYPE_RC_EC	   0xa	/* Root Complex Event Collector */
+ #define  PCI_EXP_FLAGS_SLOT	0x0100	/* Slot implemented */
+ #define  PCI_EXP_FLAGS_IRQ	0x3e00	/* Interrupt message number */
+-#define PCI_EXP_DEVCAP		4	/* Device capabilities */
++#define PCI_EXP_DEVCAP		0x04	/* Device capabilities */
+ #define  PCI_EXP_DEVCAP_PAYLOAD	0x00000007 /* Max_Payload_Size */
+ #define  PCI_EXP_DEVCAP_PHANTOM	0x00000018 /* Phantom functions */
+ #define  PCI_EXP_DEVCAP_EXT_TAG	0x00000020 /* Extended tags */
+@@ -497,7 +497,7 @@
+ #define  PCI_EXP_DEVCAP_PWR_VAL	0x03fc0000 /* Slot Power Limit Value */
+ #define  PCI_EXP_DEVCAP_PWR_SCL	0x0c000000 /* Slot Power Limit Scale */
+ #define  PCI_EXP_DEVCAP_FLR     0x10000000 /* Function Level Reset */
+-#define PCI_EXP_DEVCTL		8	/* Device Control */
++#define PCI_EXP_DEVCTL		0x08	/* Device Control */
+ #define  PCI_EXP_DEVCTL_CERE	0x0001	/* Correctable Error Reporting En. */
+ #define  PCI_EXP_DEVCTL_NFERE	0x0002	/* Non-Fatal Error Reporting Enable */
+ #define  PCI_EXP_DEVCTL_FERE	0x0004	/* Fatal Error Reporting Enable */
+@@ -522,7 +522,7 @@
+ #define  PCI_EXP_DEVCTL_READRQ_2048B 0x4000 /* 2048 Bytes */
+ #define  PCI_EXP_DEVCTL_READRQ_4096B 0x5000 /* 4096 Bytes */
+ #define  PCI_EXP_DEVCTL_BCR_FLR 0x8000  /* Bridge Configuration Retry / FLR */
+-#define PCI_EXP_DEVSTA		10	/* Device Status */
++#define PCI_EXP_DEVSTA		0x0a	/* Device Status */
+ #define  PCI_EXP_DEVSTA_CED	0x0001	/* Correctable Error Detected */
+ #define  PCI_EXP_DEVSTA_NFED	0x0002	/* Non-Fatal Error Detected */
+ #define  PCI_EXP_DEVSTA_FED	0x0004	/* Fatal Error Detected */
+@@ -530,7 +530,7 @@
+ #define  PCI_EXP_DEVSTA_AUXPD	0x0010	/* AUX Power Detected */
+ #define  PCI_EXP_DEVSTA_TRPND	0x0020	/* Transactions Pending */
+ #define PCI_CAP_EXP_RC_ENDPOINT_SIZEOF_V1	12	/* v1 endpoints without link end here */
+-#define PCI_EXP_LNKCAP		12	/* Link Capabilities */
++#define PCI_EXP_LNKCAP		0x0c	/* Link Capabilities */
+ #define  PCI_EXP_LNKCAP_SLS	0x0000000f /* Supported Link Speeds */
+ #define  PCI_EXP_LNKCAP_SLS_2_5GB 0x00000001 /* LNKCAP2 SLS Vector bit 0 */
+ #define  PCI_EXP_LNKCAP_SLS_5_0GB 0x00000002 /* LNKCAP2 SLS Vector bit 1 */
+@@ -549,7 +549,7 @@
+ #define  PCI_EXP_LNKCAP_DLLLARC	0x00100000 /* Data Link Layer Link Active Reporting Capable */
+ #define  PCI_EXP_LNKCAP_LBNC	0x00200000 /* Link Bandwidth Notification Capability */
+ #define  PCI_EXP_LNKCAP_PN	0xff000000 /* Port Number */
+-#define PCI_EXP_LNKCTL		16	/* Link Control */
++#define PCI_EXP_LNKCTL		0x10	/* Link Control */
+ #define  PCI_EXP_LNKCTL_ASPMC	0x0003	/* ASPM Control */
+ #define  PCI_EXP_LNKCTL_ASPM_L0S 0x0001	/* L0s Enable */
+ #define  PCI_EXP_LNKCTL_ASPM_L1  0x0002	/* L1 Enable */
+@@ -562,7 +562,7 @@
+ #define  PCI_EXP_LNKCTL_HAWD	0x0200	/* Hardware Autonomous Width Disable */
+ #define  PCI_EXP_LNKCTL_LBMIE	0x0400	/* Link Bandwidth Management Interrupt Enable */
+ #define  PCI_EXP_LNKCTL_LABIE	0x0800	/* Link Autonomous Bandwidth Interrupt Enable */
+-#define PCI_EXP_LNKSTA		18	/* Link Status */
++#define PCI_EXP_LNKSTA		0x12	/* Link Status */
+ #define  PCI_EXP_LNKSTA_CLS	0x000f	/* Current Link Speed */
+ #define  PCI_EXP_LNKSTA_CLS_2_5GB 0x0001 /* Current Link Speed 2.5GT/s */
+ #define  PCI_EXP_LNKSTA_CLS_5_0GB 0x0002 /* Current Link Speed 5.0GT/s */
+@@ -582,7 +582,7 @@
+ #define  PCI_EXP_LNKSTA_LBMS	0x4000	/* Link Bandwidth Management Status */
+ #define  PCI_EXP_LNKSTA_LABS	0x8000	/* Link Autonomous Bandwidth Status */
+ #define PCI_CAP_EXP_ENDPOINT_SIZEOF_V1	20	/* v1 endpoints with link end here */
+-#define PCI_EXP_SLTCAP		20	/* Slot Capabilities */
++#define PCI_EXP_SLTCAP		0x14	/* Slot Capabilities */
+ #define  PCI_EXP_SLTCAP_ABP	0x00000001 /* Attention Button Present */
+ #define  PCI_EXP_SLTCAP_PCP	0x00000002 /* Power Controller Present */
+ #define  PCI_EXP_SLTCAP_MRLSP	0x00000004 /* MRL Sensor Present */
+@@ -595,7 +595,7 @@
+ #define  PCI_EXP_SLTCAP_EIP	0x00020000 /* Electromechanical Interlock Present */
+ #define  PCI_EXP_SLTCAP_NCCS	0x00040000 /* No Command Completed Support */
+ #define  PCI_EXP_SLTCAP_PSN	0xfff80000 /* Physical Slot Number */
+-#define PCI_EXP_SLTCTL		24	/* Slot Control */
++#define PCI_EXP_SLTCTL		0x18	/* Slot Control */
+ #define  PCI_EXP_SLTCTL_ABPE	0x0001	/* Attention Button Pressed Enable */
+ #define  PCI_EXP_SLTCTL_PFDE	0x0002	/* Power Fault Detected Enable */
+ #define  PCI_EXP_SLTCTL_MRLSCE	0x0004	/* MRL Sensor Changed Enable */
+@@ -617,7 +617,7 @@
+ #define  PCI_EXP_SLTCTL_EIC	0x0800	/* Electromechanical Interlock Control */
+ #define  PCI_EXP_SLTCTL_DLLSCE	0x1000	/* Data Link Layer State Changed Enable */
+ #define  PCI_EXP_SLTCTL_IBPD_DISABLE	0x4000 /* In-band PD disable */
+-#define PCI_EXP_SLTSTA		26	/* Slot Status */
++#define PCI_EXP_SLTSTA		0x1a	/* Slot Status */
+ #define  PCI_EXP_SLTSTA_ABP	0x0001	/* Attention Button Pressed */
+ #define  PCI_EXP_SLTSTA_PFD	0x0002	/* Power Fault Detected */
+ #define  PCI_EXP_SLTSTA_MRLSC	0x0004	/* MRL Sensor Changed */
+@@ -627,15 +627,15 @@
+ #define  PCI_EXP_SLTSTA_PDS	0x0040	/* Presence Detect State */
+ #define  PCI_EXP_SLTSTA_EIS	0x0080	/* Electromechanical Interlock Status */
+ #define  PCI_EXP_SLTSTA_DLLSC	0x0100	/* Data Link Layer State Changed */
+-#define PCI_EXP_RTCTL		28	/* Root Control */
++#define PCI_EXP_RTCTL		0x1c	/* Root Control */
+ #define  PCI_EXP_RTCTL_SECEE	0x0001	/* System Error on Correctable Error */
+ #define  PCI_EXP_RTCTL_SENFEE	0x0002	/* System Error on Non-Fatal Error */
+ #define  PCI_EXP_RTCTL_SEFEE	0x0004	/* System Error on Fatal Error */
+ #define  PCI_EXP_RTCTL_PMEIE	0x0008	/* PME Interrupt Enable */
+ #define  PCI_EXP_RTCTL_CRSSVE	0x0010	/* CRS Software Visibility Enable */
+-#define PCI_EXP_RTCAP		30	/* Root Capabilities */
++#define PCI_EXP_RTCAP		0x1e	/* Root Capabilities */
+ #define  PCI_EXP_RTCAP_CRSVIS	0x0001	/* CRS Software Visibility capability */
+-#define PCI_EXP_RTSTA		32	/* Root Status */
++#define PCI_EXP_RTSTA		0x20	/* Root Status */
+ #define  PCI_EXP_RTSTA_PME	0x00010000 /* PME status */
+ #define  PCI_EXP_RTSTA_PENDING	0x00020000 /* PME pending */
+ /*
+@@ -646,7 +646,7 @@
+  * Use pcie_capability_read_word() and similar interfaces to use them
+  * safely.
+  */
+-#define PCI_EXP_DEVCAP2		36	/* Device Capabilities 2 */
++#define PCI_EXP_DEVCAP2		0x24	/* Device Capabilities 2 */
+ #define  PCI_EXP_DEVCAP2_COMP_TMOUT_DIS	0x00000010 /* Completion Timeout Disable supported */
+ #define  PCI_EXP_DEVCAP2_ARI		0x00000020 /* Alternative Routing-ID */
+ #define  PCI_EXP_DEVCAP2_ATOMIC_ROUTE	0x00000040 /* Atomic Op routing */
+@@ -658,7 +658,7 @@
+ #define  PCI_EXP_DEVCAP2_OBFF_MSG	0x00040000 /* New message signaling */
+ #define  PCI_EXP_DEVCAP2_OBFF_WAKE	0x00080000 /* Re-use WAKE# for OBFF */
+ #define  PCI_EXP_DEVCAP2_EE_PREFIX	0x00200000 /* End-End TLP Prefix */
+-#define PCI_EXP_DEVCTL2		40	/* Device Control 2 */
++#define PCI_EXP_DEVCTL2		0x28	/* Device Control 2 */
+ #define  PCI_EXP_DEVCTL2_COMP_TIMEOUT	0x000f	/* Completion Timeout Value */
+ #define  PCI_EXP_DEVCTL2_COMP_TMOUT_DIS	0x0010	/* Completion Timeout Disable */
+ #define  PCI_EXP_DEVCTL2_ARI		0x0020	/* Alternative Routing-ID */
+@@ -670,9 +670,9 @@
+ #define  PCI_EXP_DEVCTL2_OBFF_MSGA_EN	0x2000	/* Enable OBFF Message type A */
+ #define  PCI_EXP_DEVCTL2_OBFF_MSGB_EN	0x4000	/* Enable OBFF Message type B */
+ #define  PCI_EXP_DEVCTL2_OBFF_WAKE_EN	0x6000	/* OBFF using WAKE# signaling */
+-#define PCI_EXP_DEVSTA2		42	/* Device Status 2 */
+-#define PCI_CAP_EXP_RC_ENDPOINT_SIZEOF_V2	44	/* v2 endpoints without link end here */
+-#define PCI_EXP_LNKCAP2		44	/* Link Capabilities 2 */
++#define PCI_EXP_DEVSTA2		0x2a	/* Device Status 2 */
++#define PCI_CAP_EXP_RC_ENDPOINT_SIZEOF_V2 0x2c	/* end of v2 EPs w/o link */
++#define PCI_EXP_LNKCAP2		0x2c	/* Link Capabilities 2 */
+ #define  PCI_EXP_LNKCAP2_SLS_2_5GB	0x00000002 /* Supported Speed 2.5GT/s */
+ #define  PCI_EXP_LNKCAP2_SLS_5_0GB	0x00000004 /* Supported Speed 5GT/s */
+ #define  PCI_EXP_LNKCAP2_SLS_8_0GB	0x00000008 /* Supported Speed 8GT/s */
+@@ -680,7 +680,7 @@
+ #define  PCI_EXP_LNKCAP2_SLS_32_0GB	0x00000020 /* Supported Speed 32GT/s */
+ #define  PCI_EXP_LNKCAP2_SLS_64_0GB	0x00000040 /* Supported Speed 64GT/s */
+ #define  PCI_EXP_LNKCAP2_CROSSLINK	0x00000100 /* Crosslink supported */
+-#define PCI_EXP_LNKCTL2		48	/* Link Control 2 */
++#define PCI_EXP_LNKCTL2		0x30	/* Link Control 2 */
+ #define  PCI_EXP_LNKCTL2_TLS		0x000f
+ #define  PCI_EXP_LNKCTL2_TLS_2_5GT	0x0001 /* Supported Speed 2.5GT/s */
+ #define  PCI_EXP_LNKCTL2_TLS_5_0GT	0x0002 /* Supported Speed 5GT/s */
+@@ -691,12 +691,12 @@
+ #define  PCI_EXP_LNKCTL2_ENTER_COMP	0x0010 /* Enter Compliance */
+ #define  PCI_EXP_LNKCTL2_TX_MARGIN	0x0380 /* Transmit Margin */
+ #define  PCI_EXP_LNKCTL2_HASD		0x0020 /* HW Autonomous Speed Disable */
+-#define PCI_EXP_LNKSTA2		50	/* Link Status 2 */
+-#define PCI_CAP_EXP_ENDPOINT_SIZEOF_V2	52	/* v2 endpoints with link end here */
+-#define PCI_EXP_SLTCAP2		52	/* Slot Capabilities 2 */
++#define PCI_EXP_LNKSTA2		0x32	/* Link Status 2 */
++#define PCI_CAP_EXP_ENDPOINT_SIZEOF_V2	0x32	/* end of v2 EPs w/ link */
++#define PCI_EXP_SLTCAP2		0x34	/* Slot Capabilities 2 */
+ #define  PCI_EXP_SLTCAP2_IBPD	0x00000001 /* In-band PD Disable Supported */
+-#define PCI_EXP_SLTCTL2		56	/* Slot Control 2 */
+-#define PCI_EXP_SLTSTA2		58	/* Slot Status 2 */
++#define PCI_EXP_SLTCTL2		0x38	/* Slot Control 2 */
++#define PCI_EXP_SLTSTA2		0x3a	/* Slot Status 2 */
+ 
+ /* Extended Capabilities (PCI-X 2.0 and Express) */
+ #define PCI_EXT_CAP_ID(header)		(header & 0x0000ffff)
+@@ -742,7 +742,7 @@
+ #define PCI_EXT_CAP_MCAST_ENDPOINT_SIZEOF 40
+ 
+ /* Advanced Error Reporting */
+-#define PCI_ERR_UNCOR_STATUS	4	/* Uncorrectable Error Status */
++#define PCI_ERR_UNCOR_STATUS	0x04	/* Uncorrectable Error Status */
+ #define  PCI_ERR_UNC_UND	0x00000001	/* Undefined */
+ #define  PCI_ERR_UNC_DLP	0x00000010	/* Data Link Protocol */
+ #define  PCI_ERR_UNC_SURPDN	0x00000020	/* Surprise Down */
+@@ -760,11 +760,11 @@
+ #define  PCI_ERR_UNC_MCBTLP	0x00800000	/* MC blocked TLP */
+ #define  PCI_ERR_UNC_ATOMEG	0x01000000	/* Atomic egress blocked */
+ #define  PCI_ERR_UNC_TLPPRE	0x02000000	/* TLP prefix blocked */
+-#define PCI_ERR_UNCOR_MASK	8	/* Uncorrectable Error Mask */
++#define PCI_ERR_UNCOR_MASK	0x08	/* Uncorrectable Error Mask */
+ 	/* Same bits as above */
+-#define PCI_ERR_UNCOR_SEVER	12	/* Uncorrectable Error Severity */
++#define PCI_ERR_UNCOR_SEVER	0x0c	/* Uncorrectable Error Severity */
+ 	/* Same bits as above */
+-#define PCI_ERR_COR_STATUS	16	/* Correctable Error Status */
++#define PCI_ERR_COR_STATUS	0x10	/* Correctable Error Status */
+ #define  PCI_ERR_COR_RCVR	0x00000001	/* Receiver Error Status */
+ #define  PCI_ERR_COR_BAD_TLP	0x00000040	/* Bad TLP Status */
+ #define  PCI_ERR_COR_BAD_DLLP	0x00000080	/* Bad DLLP Status */
+@@ -773,20 +773,20 @@
+ #define  PCI_ERR_COR_ADV_NFAT	0x00002000	/* Advisory Non-Fatal */
+ #define  PCI_ERR_COR_INTERNAL	0x00004000	/* Corrected Internal */
+ #define  PCI_ERR_COR_LOG_OVER	0x00008000	/* Header Log Overflow */
+-#define PCI_ERR_COR_MASK	20	/* Correctable Error Mask */
++#define PCI_ERR_COR_MASK	0x14	/* Correctable Error Mask */
+ 	/* Same bits as above */
+-#define PCI_ERR_CAP		24	/* Advanced Error Capabilities */
+-#define  PCI_ERR_CAP_FEP(x)	((x) & 31)	/* First Error Pointer */
++#define PCI_ERR_CAP		0x18	/* Advanced Error Capabilities & Ctrl*/
++#define  PCI_ERR_CAP_FEP(x)	((x) & 0x1f)	/* First Error Pointer */
+ #define  PCI_ERR_CAP_ECRC_GENC	0x00000020	/* ECRC Generation Capable */
+ #define  PCI_ERR_CAP_ECRC_GENE	0x00000040	/* ECRC Generation Enable */
+ #define  PCI_ERR_CAP_ECRC_CHKC	0x00000080	/* ECRC Check Capable */
+ #define  PCI_ERR_CAP_ECRC_CHKE	0x00000100	/* ECRC Check Enable */
+-#define PCI_ERR_HEADER_LOG	28	/* Header Log Register (16 bytes) */
+-#define PCI_ERR_ROOT_COMMAND	44	/* Root Error Command */
++#define PCI_ERR_HEADER_LOG	0x1c	/* Header Log Register (16 bytes) */
++#define PCI_ERR_ROOT_COMMAND	0x2c	/* Root Error Command */
+ #define  PCI_ERR_ROOT_CMD_COR_EN	0x00000001 /* Correctable Err Reporting Enable */
+ #define  PCI_ERR_ROOT_CMD_NONFATAL_EN	0x00000002 /* Non-Fatal Err Reporting Enable */
+ #define  PCI_ERR_ROOT_CMD_FATAL_EN	0x00000004 /* Fatal Err Reporting Enable */
+-#define PCI_ERR_ROOT_STATUS	48
++#define PCI_ERR_ROOT_STATUS	0x30
+ #define  PCI_ERR_ROOT_COR_RCV		0x00000001 /* ERR_COR Received */
+ #define  PCI_ERR_ROOT_MULTI_COR_RCV	0x00000002 /* Multiple ERR_COR */
+ #define  PCI_ERR_ROOT_UNCOR_RCV		0x00000004 /* ERR_FATAL/NONFATAL */
+@@ -795,52 +795,52 @@
+ #define  PCI_ERR_ROOT_NONFATAL_RCV	0x00000020 /* Non-Fatal Received */
+ #define  PCI_ERR_ROOT_FATAL_RCV		0x00000040 /* Fatal Received */
+ #define  PCI_ERR_ROOT_AER_IRQ		0xf8000000 /* Advanced Error Interrupt Message Number */
+-#define PCI_ERR_ROOT_ERR_SRC	52	/* Error Source Identification */
++#define PCI_ERR_ROOT_ERR_SRC	0x34	/* Error Source Identification */
+ 
+ /* Virtual Channel */
+-#define PCI_VC_PORT_CAP1	4
++#define PCI_VC_PORT_CAP1	0x04
+ #define  PCI_VC_CAP1_EVCC	0x00000007	/* extended VC count */
+ #define  PCI_VC_CAP1_LPEVCC	0x00000070	/* low prio extended VC count */
+ #define  PCI_VC_CAP1_ARB_SIZE	0x00000c00
+-#define PCI_VC_PORT_CAP2	8
++#define PCI_VC_PORT_CAP2	0x08
+ #define  PCI_VC_CAP2_32_PHASE		0x00000002
+ #define  PCI_VC_CAP2_64_PHASE		0x00000004
+ #define  PCI_VC_CAP2_128_PHASE		0x00000008
+ #define  PCI_VC_CAP2_ARB_OFF		0xff000000
+-#define PCI_VC_PORT_CTRL	12
++#define PCI_VC_PORT_CTRL	0x0c
+ #define  PCI_VC_PORT_CTRL_LOAD_TABLE	0x00000001
+-#define PCI_VC_PORT_STATUS	14
++#define PCI_VC_PORT_STATUS	0x0e
+ #define  PCI_VC_PORT_STATUS_TABLE	0x00000001
+-#define PCI_VC_RES_CAP		16
++#define PCI_VC_RES_CAP		0x10
+ #define  PCI_VC_RES_CAP_32_PHASE	0x00000002
+ #define  PCI_VC_RES_CAP_64_PHASE	0x00000004
+ #define  PCI_VC_RES_CAP_128_PHASE	0x00000008
+ #define  PCI_VC_RES_CAP_128_PHASE_TB	0x00000010
+ #define  PCI_VC_RES_CAP_256_PHASE	0x00000020
+ #define  PCI_VC_RES_CAP_ARB_OFF		0xff000000
+-#define PCI_VC_RES_CTRL		20
++#define PCI_VC_RES_CTRL		0x14
+ #define  PCI_VC_RES_CTRL_LOAD_TABLE	0x00010000
+ #define  PCI_VC_RES_CTRL_ARB_SELECT	0x000e0000
+ #define  PCI_VC_RES_CTRL_ID		0x07000000
+ #define  PCI_VC_RES_CTRL_ENABLE		0x80000000
+-#define PCI_VC_RES_STATUS	26
++#define PCI_VC_RES_STATUS	0x1a
+ #define  PCI_VC_RES_STATUS_TABLE	0x00000001
+ #define  PCI_VC_RES_STATUS_NEGO		0x00000002
+ #define PCI_CAP_VC_BASE_SIZEOF		0x10
+-#define PCI_CAP_VC_PER_VC_SIZEOF	0x0C
++#define PCI_CAP_VC_PER_VC_SIZEOF	0x0c
+ 
+ /* Power Budgeting */
+-#define PCI_PWR_DSR		4	/* Data Select Register */
+-#define PCI_PWR_DATA		8	/* Data Register */
++#define PCI_PWR_DSR		0x04	/* Data Select Register */
++#define PCI_PWR_DATA		0x08	/* Data Register */
+ #define  PCI_PWR_DATA_BASE(x)	((x) & 0xff)	    /* Base Power */
+ #define  PCI_PWR_DATA_SCALE(x)	(((x) >> 8) & 3)    /* Data Scale */
+ #define  PCI_PWR_DATA_PM_SUB(x)	(((x) >> 10) & 7)   /* PM Sub State */
+ #define  PCI_PWR_DATA_PM_STATE(x) (((x) >> 13) & 3) /* PM State */
+ #define  PCI_PWR_DATA_TYPE(x)	(((x) >> 15) & 7)   /* Type */
+ #define  PCI_PWR_DATA_RAIL(x)	(((x) >> 18) & 7)   /* Power Rail */
+-#define PCI_PWR_CAP		12	/* Capability */
++#define PCI_PWR_CAP		0x0c	/* Capability */
+ #define  PCI_PWR_CAP_BUDGET(x)	((x) & 1)	/* Included in system budget */
+-#define PCI_EXT_CAP_PWR_SIZEOF	16
++#define PCI_EXT_CAP_PWR_SIZEOF	0x10
+ 
+ /* Root Complex Event Collector Endpoint Association  */
+ #define PCI_RCEC_RCIEP_BITMAP	4	/* Associated Bitmap for RCiEPs */
+@@ -964,7 +964,7 @@
+ #define  PCI_SRIOV_VFM_MI	0x1	/* Dormant.MigrateIn */
+ #define  PCI_SRIOV_VFM_MO	0x2	/* Active.MigrateOut */
+ #define  PCI_SRIOV_VFM_AV	0x3	/* Active.Available */
+-#define PCI_EXT_CAP_SRIOV_SIZEOF 64
++#define PCI_EXT_CAP_SRIOV_SIZEOF 0x40
+ 
+ #define PCI_LTR_MAX_SNOOP_LAT	0x4
+ #define PCI_LTR_MAX_NOSNOOP_LAT	0x6
+@@ -1017,12 +1017,12 @@
+ #define   PCI_TPH_LOC_NONE	0x000	/* no location */
+ #define   PCI_TPH_LOC_CAP	0x200	/* in capability */
+ #define   PCI_TPH_LOC_MSIX	0x400	/* in MSI-X */
+-#define PCI_TPH_CAP_ST_MASK	0x07FF0000	/* st table mask */
+-#define PCI_TPH_CAP_ST_SHIFT	16	/* st table shift */
+-#define PCI_TPH_BASE_SIZEOF	12	/* size with no st table */
++#define PCI_TPH_CAP_ST_MASK	0x07FF0000	/* ST table mask */
++#define PCI_TPH_CAP_ST_SHIFT	16	/* ST table shift */
++#define PCI_TPH_BASE_SIZEOF	0xc	/* size with no ST table */
+ 
+ /* Downstream Port Containment */
+-#define PCI_EXP_DPC_CAP			4	/* DPC Capability */
++#define PCI_EXP_DPC_CAP			0x04	/* DPC Capability */
+ #define PCI_EXP_DPC_IRQ			0x001F	/* Interrupt Message Number */
+ #define  PCI_EXP_DPC_CAP_RP_EXT		0x0020	/* Root Port Extensions */
+ #define  PCI_EXP_DPC_CAP_POISONED_TLP	0x0040	/* Poisoned TLP Egress Blocking Supported */
+@@ -1030,19 +1030,19 @@
+ #define  PCI_EXP_DPC_RP_PIO_LOG_SIZE	0x0F00	/* RP PIO Log Size */
+ #define  PCI_EXP_DPC_CAP_DL_ACTIVE	0x1000	/* ERR_COR signal on DL_Active supported */
+ 
+-#define PCI_EXP_DPC_CTL			6	/* DPC control */
++#define PCI_EXP_DPC_CTL			0x06	/* DPC control */
+ #define  PCI_EXP_DPC_CTL_EN_FATAL	0x0001	/* Enable trigger on ERR_FATAL message */
+ #define  PCI_EXP_DPC_CTL_EN_NONFATAL	0x0002	/* Enable trigger on ERR_NONFATAL message */
+ #define  PCI_EXP_DPC_CTL_INT_EN		0x0008	/* DPC Interrupt Enable */
+ 
+-#define PCI_EXP_DPC_STATUS		8	/* DPC Status */
++#define PCI_EXP_DPC_STATUS		0x08	/* DPC Status */
+ #define  PCI_EXP_DPC_STATUS_TRIGGER	    0x0001 /* Trigger Status */
+ #define  PCI_EXP_DPC_STATUS_TRIGGER_RSN	    0x0006 /* Trigger Reason */
+ #define  PCI_EXP_DPC_STATUS_INTERRUPT	    0x0008 /* Interrupt Status */
+ #define  PCI_EXP_DPC_RP_BUSY		    0x0010 /* Root Port Busy */
+ #define  PCI_EXP_DPC_STATUS_TRIGGER_RSN_EXT 0x0060 /* Trig Reason Extension */
+ 
+-#define PCI_EXP_DPC_SOURCE_ID		10	/* DPC Source Identifier */
++#define PCI_EXP_DPC_SOURCE_ID		 0x0A	/* DPC Source Identifier */
+ 
+ #define PCI_EXP_DPC_RP_PIO_STATUS	 0x0C	/* RP PIO Status */
+ #define PCI_EXP_DPC_RP_PIO_MASK		 0x10	/* RP PIO Mask */
+@@ -1086,7 +1086,11 @@
+ 
+ /* Designated Vendor-Specific (DVSEC, PCI_EXT_CAP_ID_DVSEC) */
+ #define PCI_DVSEC_HEADER1		0x4 /* Designated Vendor-Specific Header1 */
++#define  PCI_DVSEC_HEADER1_VID(x)	((x) & 0xffff)
++#define  PCI_DVSEC_HEADER1_REV(x)	(((x) >> 16) & 0xf)
++#define  PCI_DVSEC_HEADER1_LEN(x)	(((x) >> 20) & 0xfff)
+ #define PCI_DVSEC_HEADER2		0x8 /* Designated Vendor-Specific Header2 */
++#define  PCI_DVSEC_HEADER2_ID(x)		((x) & 0xffff)
+ 
+ /* Data Link Feature */
+ #define PCI_DLF_CAP		0x04	/* Capabilities Register */
+diff --git a/include/standard-headers/linux/virtio_config.h b/include/standard-headers/linux/virtio_config.h
+index 22e3a85f67..7acd8d4abc 100644
+--- a/include/standard-headers/linux/virtio_config.h
++++ b/include/standard-headers/linux/virtio_config.h
+@@ -80,6 +80,12 @@
+ /* This feature indicates support for the packed virtqueue layout. */
+ #define VIRTIO_F_RING_PACKED		34
+ 
++/*
++ * Inorder feature indicates that all buffers are used by the device
++ * in the same order in which they have been made available.
++ */
++#define VIRTIO_F_IN_ORDER		35
++
+ /*
+  * This feature indicates that memory accesses by the driver and the
+  * device are ordered in a way described by the platform.
+diff --git a/include/standard-headers/linux/virtio_gpio.h b/include/standard-headers/linux/virtio_gpio.h
+new file mode 100644
+index 0000000000..2b5cf06349
+--- /dev/null
++++ b/include/standard-headers/linux/virtio_gpio.h
+@@ -0,0 +1,72 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++
++#ifndef _LINUX_VIRTIO_GPIO_H
++#define _LINUX_VIRTIO_GPIO_H
++
++#include "standard-headers/linux/types.h"
++
++/* Virtio GPIO Feature bits */
++#define VIRTIO_GPIO_F_IRQ			0
++
++/* Virtio GPIO request types */
++#define VIRTIO_GPIO_MSG_GET_NAMES		0x0001
++#define VIRTIO_GPIO_MSG_GET_DIRECTION		0x0002
++#define VIRTIO_GPIO_MSG_SET_DIRECTION		0x0003
++#define VIRTIO_GPIO_MSG_GET_VALUE		0x0004
++#define VIRTIO_GPIO_MSG_SET_VALUE		0x0005
++#define VIRTIO_GPIO_MSG_IRQ_TYPE		0x0006
++
++/* Possible values of the status field */
++#define VIRTIO_GPIO_STATUS_OK			0x0
++#define VIRTIO_GPIO_STATUS_ERR			0x1
++
++/* Direction types */
++#define VIRTIO_GPIO_DIRECTION_NONE		0x00
++#define VIRTIO_GPIO_DIRECTION_OUT		0x01
++#define VIRTIO_GPIO_DIRECTION_IN		0x02
++
++/* Virtio GPIO IRQ types */
++#define VIRTIO_GPIO_IRQ_TYPE_NONE		0x00
++#define VIRTIO_GPIO_IRQ_TYPE_EDGE_RISING	0x01
++#define VIRTIO_GPIO_IRQ_TYPE_EDGE_FALLING	0x02
++#define VIRTIO_GPIO_IRQ_TYPE_EDGE_BOTH		0x03
++#define VIRTIO_GPIO_IRQ_TYPE_LEVEL_HIGH		0x04
++#define VIRTIO_GPIO_IRQ_TYPE_LEVEL_LOW		0x08
++
++struct virtio_gpio_config {
++	uint16_t ngpio;
++	uint8_t padding[2];
++	uint32_t gpio_names_size;
++};
++
++/* Virtio GPIO Request / Response */
++struct virtio_gpio_request {
++	uint16_t type;
++	uint16_t gpio;
++	uint32_t value;
++};
++
++struct virtio_gpio_response {
++	uint8_t status;
++	uint8_t value;
++};
++
++struct virtio_gpio_response_get_names {
++	uint8_t status;
++	uint8_t value[];
++};
++
++/* Virtio GPIO IRQ Request / Response */
++struct virtio_gpio_irq_request {
++	uint16_t gpio;
++};
++
++struct virtio_gpio_irq_response {
++	uint8_t status;
++};
++
++/* Possible values of the interrupt status field */
++#define VIRTIO_GPIO_IRQ_STATUS_INVALID		0x0
++#define VIRTIO_GPIO_IRQ_STATUS_VALID		0x1
++
++#endif /* _LINUX_VIRTIO_GPIO_H */
+diff --git a/include/standard-headers/linux/virtio_i2c.h b/include/standard-headers/linux/virtio_i2c.h
+new file mode 100644
+index 0000000000..09fa907793
+--- /dev/null
++++ b/include/standard-headers/linux/virtio_i2c.h
+@@ -0,0 +1,47 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later WITH Linux-syscall-note */
++/*
++ * Definitions for virtio I2C Adpter
++ *
++ * Copyright (c) 2021 Intel Corporation. All rights reserved.
++ */
++
++#ifndef _LINUX_VIRTIO_I2C_H
++#define _LINUX_VIRTIO_I2C_H
++
++#include "standard-headers/linux/const.h"
++#include "standard-headers/linux/types.h"
++
++/* Virtio I2C Feature bits */
++#define VIRTIO_I2C_F_ZERO_LENGTH_REQUEST	0
++
++/* The bit 0 of the @virtio_i2c_out_hdr.@flags, used to group the requests */
++#define VIRTIO_I2C_FLAGS_FAIL_NEXT	_BITUL(0)
++
++/* The bit 1 of the @virtio_i2c_out_hdr.@flags, used to mark a buffer as read */
++#define VIRTIO_I2C_FLAGS_M_RD		_BITUL(1)
++
++/**
++ * struct virtio_i2c_out_hdr - the virtio I2C message OUT header
++ * @addr: the controlled device address
++ * @padding: used to pad to full dword
++ * @flags: used for feature extensibility
++ */
++struct virtio_i2c_out_hdr {
++	uint16_t addr;
++	uint16_t padding;
++	uint32_t flags;
++};
++
++/**
++ * struct virtio_i2c_in_hdr - the virtio I2C message IN header
++ * @status: the processing result from the backend
++ */
++struct virtio_i2c_in_hdr {
++	uint8_t status;
++};
++
++/* The final status written by the device */
++#define VIRTIO_I2C_MSG_OK	0
++#define VIRTIO_I2C_MSG_ERR	1
++
++#endif /* _LINUX_VIRTIO_I2C_H */
+diff --git a/include/standard-headers/linux/virtio_iommu.h b/include/standard-headers/linux/virtio_iommu.h
+index b9443b83a1..366379c2f0 100644
+--- a/include/standard-headers/linux/virtio_iommu.h
++++ b/include/standard-headers/linux/virtio_iommu.h
+@@ -16,6 +16,7 @@
+ #define VIRTIO_IOMMU_F_BYPASS			3
+ #define VIRTIO_IOMMU_F_PROBE			4
+ #define VIRTIO_IOMMU_F_MMIO			5
++#define VIRTIO_IOMMU_F_BYPASS_CONFIG		6
+ 
+ struct virtio_iommu_range_64 {
+ 	uint64_t					start;
+@@ -36,6 +37,8 @@ struct virtio_iommu_config {
+ 	struct virtio_iommu_range_32		domain_range;
+ 	/* Probe buffer size */
+ 	uint32_t					probe_size;
++	uint8_t					bypass;
++	uint8_t					reserved[3];
+ };
+ 
+ /* Request types */
+@@ -66,11 +69,14 @@ struct virtio_iommu_req_tail {
+ 	uint8_t					reserved[3];
+ };
+ 
++#define VIRTIO_IOMMU_ATTACH_F_BYPASS		(1 << 0)
++
+ struct virtio_iommu_req_attach {
+ 	struct virtio_iommu_req_head		head;
+ 	uint32_t					domain;
+ 	uint32_t					endpoint;
+-	uint8_t					reserved[8];
++	uint32_t					flags;
++	uint8_t					reserved[4];
+ 	struct virtio_iommu_req_tail		tail;
+ };
+ 
+diff --git a/include/standard-headers/linux/virtio_pcidev.h b/include/standard-headers/linux/virtio_pcidev.h
+new file mode 100644
+index 0000000000..bdf1d062da
+--- /dev/null
++++ b/include/standard-headers/linux/virtio_pcidev.h
+@@ -0,0 +1,65 @@
++/* SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause) */
++/*
++ * Copyright (C) 2021 Intel Corporation
++ * Author: Johannes Berg <johannes@sipsolutions.net>
++ */
++#ifndef _LINUX_VIRTIO_PCIDEV_H
++#define _LINUX_VIRTIO_PCIDEV_H
++#include "standard-headers/linux/types.h"
++
++/**
++ * enum virtio_pcidev_ops - virtual PCI device operations
++ * @VIRTIO_PCIDEV_OP_RESERVED: reserved to catch errors
++ * @VIRTIO_PCIDEV_OP_CFG_READ: read config space, size is 1, 2, 4 or 8;
++ *	the @data field should be filled in by the device (in little endian).
++ * @VIRTIO_PCIDEV_OP_CFG_WRITE: write config space, size is 1, 2, 4 or 8;
++ *	the @data field contains the data to write (in little endian).
++ * @VIRTIO_PCIDEV_OP_MMIO_READ: read BAR mem/pio, size can be variable;
++ *	the @data field should be filled in by the device (in little endian).
++ * @VIRTIO_PCIDEV_OP_MMIO_WRITE: write BAR mem/pio, size can be variable;
++ *	the @data field contains the data to write (in little endian).
++ * @VIRTIO_PCIDEV_OP_MMIO_MEMSET: memset MMIO, size is variable but
++ *	the @data field only has one byte (unlike @VIRTIO_PCIDEV_OP_MMIO_WRITE)
++ * @VIRTIO_PCIDEV_OP_INT: legacy INTx# pin interrupt, the addr field is 1-4 for
++ *	the number
++ * @VIRTIO_PCIDEV_OP_MSI: MSI(-X) interrupt, this message basically transports
++ *	the 16- or 32-bit write that would otherwise be done into memory,
++ *	analogous to the write messages (@VIRTIO_PCIDEV_OP_MMIO_WRITE) above
++ * @VIRTIO_PCIDEV_OP_PME: Dummy message whose content is ignored (and should be
++ *	all zeroes) to signal the PME# pin.
++ */
++enum virtio_pcidev_ops {
++	VIRTIO_PCIDEV_OP_RESERVED = 0,
++	VIRTIO_PCIDEV_OP_CFG_READ,
++	VIRTIO_PCIDEV_OP_CFG_WRITE,
++	VIRTIO_PCIDEV_OP_MMIO_READ,
++	VIRTIO_PCIDEV_OP_MMIO_WRITE,
++	VIRTIO_PCIDEV_OP_MMIO_MEMSET,
++	VIRTIO_PCIDEV_OP_INT,
++	VIRTIO_PCIDEV_OP_MSI,
++	VIRTIO_PCIDEV_OP_PME,
++};
++
++/**
++ * struct virtio_pcidev_msg - virtio PCI device operation
++ * @op: the operation to do
++ * @bar: the bar (only with BAR read/write messages)
++ * @reserved: reserved
++ * @size: the size of the read/write (in bytes)
++ * @addr: the address to read/write
++ * @data: the data, normally @size long, but just one byte for
++ *	%VIRTIO_PCIDEV_OP_MMIO_MEMSET
++ *
++ * Note: the fields are all in native (CPU) endian, however, the
++ * @data values will often be in little endian (see the ops above.)
++ */
++struct virtio_pcidev_msg {
++	uint8_t op;
++	uint8_t bar;
++	uint16_t reserved;
++	uint32_t size;
++	uint64_t addr;
++	uint8_t data[];
++};
++
++#endif /* _LINUX_VIRTIO_PCIDEV_H */
+diff --git a/include/standard-headers/linux/virtio_scmi.h b/include/standard-headers/linux/virtio_scmi.h
+new file mode 100644
+index 0000000000..8f2c305aea
+--- /dev/null
++++ b/include/standard-headers/linux/virtio_scmi.h
+@@ -0,0 +1,24 @@
++/* SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause) */
++/*
++ * Copyright (C) 2020-2021 OpenSynergy GmbH
++ * Copyright (C) 2021 ARM Ltd.
++ */
++
++#ifndef _LINUX_VIRTIO_SCMI_H
++#define _LINUX_VIRTIO_SCMI_H
++
++#include "standard-headers/linux/virtio_types.h"
++
++/* Device implements some SCMI notifications, or delayed responses. */
++#define VIRTIO_SCMI_F_P2A_CHANNELS 0
++
++/* Device implements any SCMI statistics shared memory region */
++#define VIRTIO_SCMI_F_SHARED_MEMORY 1
++
++/* Virtqueues */
++
++#define VIRTIO_SCMI_VQ_TX 0 /* cmdq */
++#define VIRTIO_SCMI_VQ_RX 1 /* eventq */
++#define VIRTIO_SCMI_VQ_MAX_CNT 2
++
++#endif /* _LINUX_VIRTIO_SCMI_H */
+diff --git a/linux-headers/asm-generic/unistd.h b/linux-headers/asm-generic/unistd.h
+index 4557a8b608..1c48b0ae3b 100644
+--- a/linux-headers/asm-generic/unistd.h
++++ b/linux-headers/asm-generic/unistd.h
+@@ -883,8 +883,11 @@ __SYSCALL(__NR_process_mrelease, sys_process_mrelease)
+ #define __NR_futex_waitv 449
+ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+ 
++#define __NR_set_mempolicy_home_node 450
++__SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
++
+ #undef __NR_syscalls
+-#define __NR_syscalls 450
++#define __NR_syscalls 451
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/linux-headers/asm-mips/unistd_n32.h b/linux-headers/asm-mips/unistd_n32.h
+index 4b3e7ad1ec..1f14a6fad3 100644
+--- a/linux-headers/asm-mips/unistd_n32.h
++++ b/linux-headers/asm-mips/unistd_n32.h
+@@ -377,5 +377,7 @@
+ #define __NR_landlock_add_rule (__NR_Linux + 445)
+ #define __NR_landlock_restrict_self (__NR_Linux + 446)
+ #define __NR_process_mrelease (__NR_Linux + 448)
++#define __NR_futex_waitv (__NR_Linux + 449)
++#define __NR_set_mempolicy_home_node (__NR_Linux + 450)
+ 
+ #endif /* _ASM_UNISTD_N32_H */
+diff --git a/linux-headers/asm-mips/unistd_n64.h b/linux-headers/asm-mips/unistd_n64.h
+index 488d9298d9..e5a8ebec78 100644
+--- a/linux-headers/asm-mips/unistd_n64.h
++++ b/linux-headers/asm-mips/unistd_n64.h
+@@ -353,5 +353,7 @@
+ #define __NR_landlock_add_rule (__NR_Linux + 445)
+ #define __NR_landlock_restrict_self (__NR_Linux + 446)
+ #define __NR_process_mrelease (__NR_Linux + 448)
++#define __NR_futex_waitv (__NR_Linux + 449)
++#define __NR_set_mempolicy_home_node (__NR_Linux + 450)
+ 
+ #endif /* _ASM_UNISTD_N64_H */
+diff --git a/linux-headers/asm-mips/unistd_o32.h b/linux-headers/asm-mips/unistd_o32.h
+index f47399870a..871d57168f 100644
+--- a/linux-headers/asm-mips/unistd_o32.h
++++ b/linux-headers/asm-mips/unistd_o32.h
+@@ -423,5 +423,7 @@
+ #define __NR_landlock_add_rule (__NR_Linux + 445)
+ #define __NR_landlock_restrict_self (__NR_Linux + 446)
+ #define __NR_process_mrelease (__NR_Linux + 448)
++#define __NR_futex_waitv (__NR_Linux + 449)
++#define __NR_set_mempolicy_home_node (__NR_Linux + 450)
+ 
+ #endif /* _ASM_UNISTD_O32_H */
+diff --git a/linux-headers/asm-powerpc/unistd_32.h b/linux-headers/asm-powerpc/unistd_32.h
+index 11d54696dc..585c7fefbc 100644
+--- a/linux-headers/asm-powerpc/unistd_32.h
++++ b/linux-headers/asm-powerpc/unistd_32.h
+@@ -430,6 +430,8 @@
+ #define __NR_landlock_add_rule 445
+ #define __NR_landlock_restrict_self 446
+ #define __NR_process_mrelease 448
++#define __NR_futex_waitv 449
++#define __NR_set_mempolicy_home_node 450
+ 
+ 
+ #endif /* _ASM_UNISTD_32_H */
+diff --git a/linux-headers/asm-powerpc/unistd_64.h b/linux-headers/asm-powerpc/unistd_64.h
+index cf740bab13..350f7ec0ac 100644
+--- a/linux-headers/asm-powerpc/unistd_64.h
++++ b/linux-headers/asm-powerpc/unistd_64.h
+@@ -402,6 +402,8 @@
+ #define __NR_landlock_add_rule 445
+ #define __NR_landlock_restrict_self 446
+ #define __NR_process_mrelease 448
++#define __NR_futex_waitv 449
++#define __NR_set_mempolicy_home_node 450
+ 
+ 
+ #endif /* _ASM_UNISTD_64_H */
+diff --git a/linux-headers/asm-riscv/bitsperlong.h b/linux-headers/asm-riscv/bitsperlong.h
+new file mode 100644
+index 0000000000..cc5c45a9ce
+--- /dev/null
++++ b/linux-headers/asm-riscv/bitsperlong.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
++/*
++ * Copyright (C) 2012 ARM Ltd.
++ * Copyright (C) 2015 Regents of the University of California
++ */
++
++#ifndef _ASM_RISCV_BITSPERLONG_H
++#define _ASM_RISCV_BITSPERLONG_H
++
++#define __BITS_PER_LONG (__SIZEOF_POINTER__ * 8)
++
++#include <asm-generic/bitsperlong.h>
++
++#endif /* _ASM_RISCV_BITSPERLONG_H */
+diff --git a/linux-headers/asm-riscv/mman.h b/linux-headers/asm-riscv/mman.h
+new file mode 100644
+index 0000000000..8eebf89f5a
+--- /dev/null
++++ b/linux-headers/asm-riscv/mman.h
+@@ -0,0 +1 @@
++#include <asm-generic/mman.h>
+diff --git a/linux-headers/asm-riscv/unistd.h b/linux-headers/asm-riscv/unistd.h
+new file mode 100644
+index 0000000000..8062996c2d
+--- /dev/null
++++ b/linux-headers/asm-riscv/unistd.h
+@@ -0,0 +1,44 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ * Copyright (C) 2018 David Abdurachmanov <david.abdurachmanov@gmail.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
++ */
++
++#ifdef __LP64__
++#define __ARCH_WANT_NEW_STAT
++#define __ARCH_WANT_SET_GET_RLIMIT
++#endif /* __LP64__ */
++
++#define __ARCH_WANT_SYS_CLONE3
++
++#include <asm-generic/unistd.h>
++
++/*
++ * Allows the instruction cache to be flushed from userspace.  Despite RISC-V
++ * having a direct 'fence.i' instruction available to userspace (which we
++ * can't trap!), that's not actually viable when running on Linux because the
++ * kernel might schedule a process on another hart.  There is no way for
++ * userspace to handle this without invoking the kernel (as it doesn't know the
++ * thread->hart mappings), so we've defined a RISC-V specific system call to
++ * flush the instruction cache.
++ *
++ * __NR_riscv_flush_icache is defined to flush the instruction cache over an
++ * address range, with the flush applying to either all threads or just the
++ * caller.  We don't currently do anything with the address range, that's just
++ * in there for forwards compatibility.
++ */
++#ifndef __NR_riscv_flush_icache
++#define __NR_riscv_flush_icache (__NR_arch_specific_syscall + 15)
++#endif
++__SYSCALL(__NR_riscv_flush_icache, sys_riscv_flush_icache)
+diff --git a/linux-headers/asm-s390/unistd_32.h b/linux-headers/asm-s390/unistd_32.h
+index 8f97d98128..8e644d65f5 100644
+--- a/linux-headers/asm-s390/unistd_32.h
++++ b/linux-headers/asm-s390/unistd_32.h
+@@ -420,5 +420,7 @@
+ #define __NR_landlock_add_rule 445
+ #define __NR_landlock_restrict_self 446
+ #define __NR_process_mrelease 448
++#define __NR_futex_waitv 449
++#define __NR_set_mempolicy_home_node 450
+ 
+ #endif /* _ASM_S390_UNISTD_32_H */
+diff --git a/linux-headers/asm-s390/unistd_64.h b/linux-headers/asm-s390/unistd_64.h
+index 021ffc30e6..51da542fec 100644
+--- a/linux-headers/asm-s390/unistd_64.h
++++ b/linux-headers/asm-s390/unistd_64.h
+@@ -368,5 +368,7 @@
+ #define __NR_landlock_add_rule 445
+ #define __NR_landlock_restrict_self 446
+ #define __NR_process_mrelease 448
++#define __NR_futex_waitv 449
++#define __NR_set_mempolicy_home_node 450
+ 
+ #endif /* _ASM_S390_UNISTD_64_H */
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 5a776a08f7..bf6e96011d 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -373,9 +373,23 @@ struct kvm_debugregs {
+ 	__u64 reserved[9];
+ };
+ 
+-/* for KVM_CAP_XSAVE */
++/* for KVM_CAP_XSAVE and KVM_CAP_XSAVE2 */
+ struct kvm_xsave {
++	/*
++	 * KVM_GET_XSAVE2 and KVM_SET_XSAVE write and read as many bytes
++	 * as are returned by KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2)
++	 * respectively, when invoked on the vm file descriptor.
++	 *
++	 * The size value returned by KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2)
++	 * will always be at least 4096. Currently, it is only greater
++	 * than 4096 if a dynamic feature has been enabled with
++	 * ``arch_prctl()``, but this may change in the future.
++	 *
++	 * The offsets of the state save areas in struct kvm_xsave follow
++	 * the contents of CPUID leaf 0xD on the host.
++	 */
+ 	__u32 region[1024];
++	__u32 extra[0];
+ };
+ 
+ #define KVM_MAX_XCRS	16
+@@ -438,6 +452,9 @@ struct kvm_sync_regs {
+ 
+ #define KVM_STATE_VMX_PREEMPTION_TIMER_DEADLINE	0x00000001
+ 
++/* attributes for system fd (group 0) */
++#define KVM_X86_XCOMP_GUEST_SUPP	0
++
+ struct kvm_vmx_nested_state_data {
+ 	__u8 vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
+ 	__u8 shadow_vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
+diff --git a/linux-headers/asm-x86/unistd_32.h b/linux-headers/asm-x86/unistd_32.h
+index 9c9ffe312b..87e1e977af 100644
+--- a/linux-headers/asm-x86/unistd_32.h
++++ b/linux-headers/asm-x86/unistd_32.h
+@@ -440,6 +440,7 @@
+ #define __NR_memfd_secret 447
+ #define __NR_process_mrelease 448
+ #define __NR_futex_waitv 449
++#define __NR_set_mempolicy_home_node 450
+ 
+ 
+ #endif /* _ASM_UNISTD_32_H */
+diff --git a/linux-headers/asm-x86/unistd_64.h b/linux-headers/asm-x86/unistd_64.h
+index 084f1eef9c..147a78d623 100644
+--- a/linux-headers/asm-x86/unistd_64.h
++++ b/linux-headers/asm-x86/unistd_64.h
+@@ -362,6 +362,7 @@
+ #define __NR_memfd_secret 447
+ #define __NR_process_mrelease 448
+ #define __NR_futex_waitv 449
++#define __NR_set_mempolicy_home_node 450
+ 
+ 
+ #endif /* _ASM_UNISTD_64_H */
+diff --git a/linux-headers/asm-x86/unistd_x32.h b/linux-headers/asm-x86/unistd_x32.h
+index a2441affc2..27098db7fb 100644
+--- a/linux-headers/asm-x86/unistd_x32.h
++++ b/linux-headers/asm-x86/unistd_x32.h
+@@ -315,6 +315,7 @@
+ #define __NR_memfd_secret (__X32_SYSCALL_BIT + 447)
+ #define __NR_process_mrelease (__X32_SYSCALL_BIT + 448)
+ #define __NR_futex_waitv (__X32_SYSCALL_BIT + 449)
++#define __NR_set_mempolicy_home_node (__X32_SYSCALL_BIT + 450)
+ #define __NR_rt_sigaction (__X32_SYSCALL_BIT + 512)
+ #define __NR_rt_sigreturn (__X32_SYSCALL_BIT + 513)
+ #define __NR_ioctl (__X32_SYSCALL_BIT + 514)
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 02c5e7b7bb..5aa9cf7315 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1130,6 +1130,10 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_BINARY_STATS_FD 203
+ #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
+ #define KVM_CAP_ARM_MTE 205
++#define KVM_CAP_VM_MOVE_ENC_CONTEXT_FROM 206
++#define KVM_CAP_VM_GPA_BITS 207
++#define KVM_CAP_XSAVE2 208
++#define KVM_CAP_SYS_ATTRIBUTES 209
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1161,11 +1165,20 @@ struct kvm_irq_routing_hv_sint {
+ 	__u32 sint;
+ };
+ 
++struct kvm_irq_routing_xen_evtchn {
++	__u32 port;
++	__u32 vcpu;
++	__u32 priority;
++};
++
++#define KVM_IRQ_ROUTING_XEN_EVTCHN_PRIO_2LEVEL ((__u32)(-1))
++
+ /* gsi routing entry types */
+ #define KVM_IRQ_ROUTING_IRQCHIP 1
+ #define KVM_IRQ_ROUTING_MSI 2
+ #define KVM_IRQ_ROUTING_S390_ADAPTER 3
+ #define KVM_IRQ_ROUTING_HV_SINT 4
++#define KVM_IRQ_ROUTING_XEN_EVTCHN 5
+ 
+ struct kvm_irq_routing_entry {
+ 	__u32 gsi;
+@@ -1177,6 +1190,7 @@ struct kvm_irq_routing_entry {
+ 		struct kvm_irq_routing_msi msi;
+ 		struct kvm_irq_routing_s390_adapter adapter;
+ 		struct kvm_irq_routing_hv_sint hv_sint;
++		struct kvm_irq_routing_xen_evtchn xen_evtchn;
+ 		__u32 pad[8];
+ 	} u;
+ };
+@@ -1207,6 +1221,7 @@ struct kvm_x86_mce {
+ #define KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL	(1 << 1)
+ #define KVM_XEN_HVM_CONFIG_SHARED_INFO		(1 << 2)
+ #define KVM_XEN_HVM_CONFIG_RUNSTATE		(1 << 3)
++#define KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL	(1 << 4)
+ 
+ struct kvm_xen_hvm_config {
+ 	__u32 flags;
+@@ -2030,4 +2045,7 @@ struct kvm_stats_desc {
+ 
+ #define KVM_GET_STATS_FD  _IO(KVMIO,  0xce)
+ 
++/* Available with KVM_CAP_XSAVE2 */
++#define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct kvm_xsave)
++
+ #endif /* __LINUX_KVM_H */
 -- 
 2.30.1
 
