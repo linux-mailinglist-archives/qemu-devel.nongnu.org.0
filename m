@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277324B694E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:30:20 +0100 (CET)
-Received: from localhost ([::1]:34944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213364B69A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:46:51 +0100 (CET)
+Received: from localhost ([::1]:44048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJv6B-0006WE-0U
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:30:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38678)
+	id 1nJvM9-00050X-CI
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:46:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vysakhpillai@gmail.com>)
- id 1nJuzx-0000iC-QC
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:23:53 -0500
-Received: from [2607:f8b0:4864:20::831] (port=34815
- helo=mail-qt1-x831.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vysakhpillai@gmail.com>)
- id 1nJuzv-0008Ej-Kk
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:23:53 -0500
-Received: by mail-qt1-x831.google.com with SMTP id r9so6907900qta.1
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 02:23:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=pq66D9WB2qTHxfm4fksD+6n7eVfCeMWuspZTSmfRbls=;
- b=pmzZfuzTiqGH2nIwyxyPozFeP/M2GKPHBstYrYPCswZwVajNUTZmfhCMF5t48SlIRM
- F380YvwdIGaMsuUlGc7oXoN/SSIdr/ww4w/tWfEBS0ssu7RR4VCnD5i30xnmSSKhlD9f
- lGo4i3K/HlUoG4NfnLG5yERzujyqgdxP9FU8qgTL7cu9p34t4UKhlP96t6yBBbTgNupq
- EzJcfVrkCSLB1qfAoErPBRVdFiYYQYirtVkuxgDhKqEtaxnN1QI+CwYHQlD/DafeMnAJ
- FX79lTAE5v/gSs5VNmuq8tdClLo2vBJblAG7mbrouaJiPabC5t9Uv4fK9Zx829xfHfLR
- 9QYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=pq66D9WB2qTHxfm4fksD+6n7eVfCeMWuspZTSmfRbls=;
- b=1716bqXMVNtgYBvzReCdQ98df7u2FiN4N8A4Rh4yrUvvjQZfuFyHczuvZzb2tXKXjw
- x2HMJWMmVcEjZZW92FbKsPnxEiHnekpMsK9JxLqeFXaMBJt00LYfImvTYI8iKWCvaJiA
- UmL8euzlPA4R5WVfiSXS/Pui52tJmkJyXPGHDeYeejKXS/VhBAaIsD181pGCgXVVS3GZ
- 58VqUCABeQnylnlsc0QI3a59w1wSxE7i256aIKANT0zRMUgGgY1AYoaaddpN7k17mQjs
- qZyhnusvyycBFIrr1dpCwX6WHLpJ+l3DLUvYwaQMWvVVqvexP4bsPoVnKeey4o5+gKoN
- uGqw==
-X-Gm-Message-State: AOAM533ShfAiL4RGoQjIGYENDYlgIj1sZcO7ktK5MonVfZPlG6P8JzM+
- sxajnV02d6WrfTwKD3pxgg7KeMnB1ZBrhK4VdrnUOW09/Ig=
-X-Google-Smtp-Source: ABdhPJy+o9YWXm9d8FdRSeGEDdGpGg4xv24GFcaAmZaJWwLr+b5aQ8Fd8CK9oF+bGo35Sxt5AxH/deXBDNhbw4/GS38=
-X-Received: by 2002:a05:622a:1189:: with SMTP id
- m9mr2078332qtk.573.1644920630233; 
- Tue, 15 Feb 2022 02:23:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nJvKp-0004Fq-PR
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:45:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nJvKl-00047r-V6
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:45:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644921922;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=B7AwO4+sTGzqweAjlUTOY5stF5sMlXbFPZe7vb2KjNE=;
+ b=LGSMucvpnK+ESgKa8ostgg8kHZRFDDaph97pLHVgU8YynCuYx9WoBtcaUMoQYK1bOV7d3O
+ 5ZqHwBWe6rx1gbGqYf1jPVEyOqA9E0b7oITKi5l8a/urRQzHfSNzr1LQpkfn+SIF3NsElS
+ KQIxZ6m82EhRFF3Is8JTyS4db2kSVXE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-156-K6pbBXafMg2q5uN1mK6GAw-1; Tue, 15 Feb 2022 05:45:07 -0500
+X-MC-Unique: K6pbBXafMg2q5uN1mK6GAw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BB781006AA4;
+ Tue, 15 Feb 2022 10:45:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.196.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91C60703B5;
+ Tue, 15 Feb 2022 10:44:58 +0000 (UTC)
+Date: Tue, 15 Feb 2022 10:44:55 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: 9 TiB vm memory creation
+Message-ID: <YguEJ332BZXm3fFC@redhat.com>
+References: <alpine.DEB.2.22.394.2202141048390.13781@anisinha-lenovo>
+ <20220214133634.248d7de0@redhat.com>
+ <b9771171-8d28-b46b-4474-687a8fed0abd@redhat.com>
+ <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
+ <b06ab7b0-61f2-5301-70f9-197dfd9527e9@redhat.com>
+ <CAARzgwwDFybUsCj8Ym6kpcjNRCVV6vbsY7Lks0wsmrc2+ET03Q@mail.gmail.com>
+ <492bd3a4-4a26-afc9-1268-74a9fd7f095a@redhat.com>
 MIME-Version: 1.0
-From: vysakh pillai <vysakhpillai@gmail.com>
-Date: Tue, 15 Feb 2022 15:53:39 +0530
-Message-ID: <CAAFEQFF9tjKEt1fL5=kiVpRxXX=Ti9HKW-YE1rnFXx0dPB9VQA@mail.gmail.com>
-Subject: Holding RISCV CPUs in reset
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000d94da205d80beda2"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::831
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=vysakhpillai@gmail.com; helo=mail-qt1-x831.google.com
-X-Spam_score_int: 35
-X-Spam_score: 3.5
-X-Spam_bar: +++
-X-Spam_report: (3.5 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.904, PDS_OTHER_BAD_TLD=1.999,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <492bd3a4-4a26-afc9-1268-74a9fd7f095a@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,44 +85,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d94da205d80beda2
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Feb 15, 2022 at 09:38:34AM +0100, David Hildenbrand wrote:
+> On 15.02.22 09:12, Ani Sinha wrote:
+> > On Tue, Feb 15, 2022 at 1:25 PM David Hildenbrand <david@redhat.com> wrote:
+> >>
+> >> On 15.02.22 08:00, Ani Sinha wrote:
+> >>>
+> >>>
+> >>> On Mon, 14 Feb 2022, David Hildenbrand wrote:
+> >>>
+> >>>> On 14.02.22 13:36, Igor Mammedov wrote:
+> >>>>> On Mon, 14 Feb 2022 10:54:22 +0530 (IST)
+> >>>>> Ani Sinha <ani@anisinha.ca> wrote:
+> >>>>>
+> >>>>>> Hi Igor:
+> >>>>>>
+> >>>>>> I failed to spawn a 9 Tib VM. The max I could do was a 2 TiB vm on my
+> >>>>>> system with the following commandline before either the system
+> >>>>>> destabilized or the OOM killed killed qemu
+> >>>>>>
+> >>>>>> -m 2T,maxmem=9T,slots=1 \
+> >>>>>> -object memory-backend-file,id=mem0,size=2T,mem-path=/data/temp/memfile,prealloc=off \
+> >>>>>> -machine memory-backend=mem0 \
+> >>>>>> -chardev file,path=/tmp/debugcon2.txt,id=debugcon \
+> >>>>>> -device isa-debugcon,iobase=0x402,chardev=debugcon \
+> >>>>>>
+> >>>>>> I have attached the debugcon output from 2 TiB vm.
+> >>>>>> Is there any other commandline parameters or options I should try?
+> >>>>>>
+> >>>>>> thanks
+> >>>>>> ani
+> >>>>>
+> >>>>> $ truncate -s 9T 9tb_sparse_disk.img
+> >>>>> $ qemu-system-x86_64 -m 9T \
+> >>>>>   -object memory-backend-file,id=mem0,size=9T,mem-path=9tb_sparse_disk.img,prealloc=off,share=on \
+> >>>>>   -machine memory-backend=mem0
+> >>>>>
+> >>>>> works for me till GRUB menu, with sufficient guest kernel
+> >>>>> persuasion (i.e. CLI limit ram size to something reasonable) you can boot linux
+> >>>>> guest on it and inspect SMBIOS tables comfortably.
+> >>>>>
+> >>>>>
+> >>>>> With KVM enabled it bails out with:
+> >>>>>    qemu-system-x86_64: kvm_set_user_memory_region: KVM_SET_USER_MEMORY_REGION failed, slot=1, start=0x100000000, size=0x8ff40000000: Invalid argument
+> >>>>>
+> >>>
+> >>> I have seen this in my system but not always. Maybe I should have dug
+> >>> deeper as to why i do see this all the time.
+> >>>
+> >>>>> all of that on a host with 32G of RAM/no swap.
+> >>>>>
+> >>>
+> >>> My system in 16 Gib of main memory, no swap.
+> >>>
+> >>>>
+> >>>> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
+> >>>>
+> >>>> ~8 TiB (7,999999)
+> >>>
+> >>> That's not 8 Tib, thats 2 GiB. But yes, 0x8ff40000000 is certainly greater
+> >>> than 2 Gib * 4K (assuming 4K size pages).
+> >>
+> >> "pages" don't carry the unit "GiB/TiB", so I was talking about the
+> >> actual size with 4k pages (your setup, I assume)
+> > 
+> > yes I got that after reading your email again.
+> > The interesting question now is how is redhat QE running 9 TiB vm with kvm?
+> 
+> As already indicated by me regarding s390x only having single large NUMA
+> nodes, x86 is usually using multiple NUMA nodes with such large memory.
 
-Hi,
- In an SMP system like the sifive_u machine which has a RISCV  e_cpu as
-hart0 and a set of u_cpus as hart 1-N, is there a way to start just the
-hart0 and hold the other CPUs in reset until explicitly released by hart0
-SW?
+Yes, this is a documented requirement for KVM limits:
 
- I am working on a machine similar to the sifive_u machine that has a set
-of control registers which are accessible by hart0 to release the
-other cores from reset once the SoC level initialization is completed by
-the hart0 SW. Currently, the CPUs spin if they have a non-zero mhartid,
-executing code from resetvec.
+     https://access.redhat.com/articles/906543
 
-Vysakh P Pillai
-http://embeddedinn.xyz
+   "3. Note that virtualized guests larger than 8 TB currently 
+    require explicit virtual NUMA configuration, because the 
+    maximum virtual NUMA node size is 8 TB."
 
---000000000000d94da205d80beda2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-<div dir=3D"ltr">Hi,<div>=C2=A0In an SMP system like the sifive_u machine w=
-hich has a RISCV=C2=A0 e_cpu as hart0 and a set of u_cpus as hart 1-N, is t=
-here a way to start just the hart0 and hold the other CPUs in reset until e=
-xplicitly released by hart0 SW?</div><div><br></div><div>=C2=A0I am working=
- on a machine similar to the sifive_u machine that has a set of control reg=
-isters which are accessible by hart0 to release the other=C2=A0cores from r=
-eset once the SoC level initialization is completed by the hart0 SW. Curren=
-tly, the CPUs spin if they have a non-zero mhartid, executing code from res=
-etvec.</div><div><br clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_sig=
-nature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=
-=3D"ltr"><div><div dir=3D"ltr">Vysakh P Pillai<div><a href=3D"http://embedd=
-edinn.xyz" target=3D"_blank">http://embeddedinn.xyz</a><br></div></div></di=
-v></div></div></div></div></div></div></div>
-
---000000000000d94da205d80beda2--
 
