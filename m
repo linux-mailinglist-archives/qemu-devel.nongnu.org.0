@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F272B4B701E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:29:31 +0100 (CET)
-Received: from localhost ([::1]:59624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3DD4B701F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:29:33 +0100 (CET)
+Received: from localhost ([::1]:59710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK0hm-00064Y-SH
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:29:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51848)
+	id 1nK0ho-00067u-Va
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:29:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nK0f5-0003dW-7K
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:26:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30667)
+ id 1nK0f8-0003eN-Pp
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:26:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nK0f2-0001Z4-7u
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:26:41 -0500
+ id 1nK0f4-0001ZA-B6
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:26:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644942397;
+ s=mimecast20190719; t=1644942401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=f6bo/GW5t5A/Owl9rZwvgfjVe13aOBMBWE6RvCnUV5A=;
- b=CYRRgYMTtxR8I/ceb4NS8mscjhwE+Lh+W5oK4x/exHZp/PGlxsYqLpOzZkwATLcVbsGSMa
- s8VVmL7gMTLN43Oc9RDj99jd71xlLYEufcvi+hWmcG6n/qgk7GJ6y7w3GEPX+YqGjBzhk0
- ydPJ3ISv2DEZs4IyUI+6Jz32Ol+8Gao=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F5zVHW8Wa7G3Hzkr8Lj29+WtfvQrMl4IZkfnFMsX+ys=;
+ b=bQdQgsaWyWYlT4jREVqDkt1AvBv9INxA++doKWG9TuDeJtzflsm6pnQGwFYUS6SImmQuZc
+ +04CSv/rtwv6PFMYe+xU5ZOl3Dq5bDnJKgR86a8bUgHNeVR6VKYHlW6j5lMv1cMAOHI9Iu
+ jYz+B8jNMLB2GcgMEVUIHHzbpSJjsBA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-2-aF4cPJNySpXiXa64M4_g-1; Tue, 15 Feb 2022 11:26:36 -0500
-X-MC-Unique: 2-aF4cPJNySpXiXa64M4_g-1
+ us-mta-196-QPwbdCPiMtm2rkjtpx9pyA-1; Tue, 15 Feb 2022 11:26:38 -0500
+X-MC-Unique: QPwbdCPiMtm2rkjtpx9pyA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 743681006AA4;
- Tue, 15 Feb 2022 16:26:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65B778189CF;
+ Tue, 15 Feb 2022 16:26:37 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.195.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F408310A48D2;
- Tue, 15 Feb 2022 16:25:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D773710A48D8;
+ Tue, 15 Feb 2022 16:26:35 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net,
  mst@redhat.com, thuth@redhat.com, berrange@redhat.com, quintela@redhat.com
-Subject: [PATCH 0/3] x86: Switch over to q35 as the default machine type
-Date: Tue, 15 Feb 2022 16:25:30 +0000
-Message-Id: <20220215162537.605030-1-dgilbert@redhat.com>
+Subject: [PATCH 1/3] tests/x86: Use 'pc' machine type for old hardware tests
+Date: Tue, 15 Feb 2022 16:25:31 +0000
+Message-Id: <20220215162537.605030-2-dgilbert@redhat.com>
+In-Reply-To: <20220215162537.605030-1-dgilbert@redhat.com>
+References: <20220215162537.605030-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -82,32 +85,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-We've been using q35 heavily for a while now and it generally works
-quite nicely; downstream in RH we prefer it as our default, and I wanted
-to see what people think of making it the default.
-
-The only pain really is that it requires some more setup for hotplug;
-so for now I've forced hotplug tests to stay on i440fx aka pc.
+For tests that rely on old hardware, e.g. floppies or IDE drives,
+explicitly select the 'pc' machine type.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ tests/qtest/fdc-test.c    |  2 +-
+ tests/qtest/hd-geo-test.c | 12 +++++++++---
+ tests/qtest/i440fx-test.c |  2 +-
+ tests/qtest/ide-test.c    |  3 ++-
+ 4 files changed, 13 insertions(+), 6 deletions(-)
 
-
-Dr. David Alan Gilbert (3):
-  tests/x86: Use 'pc' machine type for old hardware tests
-  tests/x86: Use 'pc' machine type for hotplug tests
-  x86: Switch to q35 as the default machine type
-
- hw/i386/pc_piix.c              | 12 +-----------
- hw/i386/pc_q35.c               |  2 ++
- tests/qtest/device-plug-test.c | 20 +++++++++++++++++--
- tests/qtest/drive_del-test.c   | 35 +++++++++++++++++++++++++++++-----
- tests/qtest/fdc-test.c         |  2 +-
- tests/qtest/hd-geo-test.c      | 16 +++++++++++-----
- tests/qtest/i440fx-test.c      |  2 +-
- tests/qtest/ide-test.c         |  3 ++-
- tests/qtest/ivshmem-test.c     |  7 ++++++-
- 9 files changed, 72 insertions(+), 27 deletions(-)
-
+diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
+index 8f6eee84a4..b0d40012e6 100644
+--- a/tests/qtest/fdc-test.c
++++ b/tests/qtest/fdc-test.c
+@@ -598,7 +598,7 @@ int main(int argc, char **argv)
+     /* Run the tests */
+     g_test_init(&argc, &argv, NULL);
+ 
+-    qtest_start("-device floppy,id=floppy0");
++    qtest_start("-machine pc -device floppy,id=floppy0");
+     qtest_irq_intercept_in(global_qtest, "ioapic");
+     qtest_add_func("/fdc/cmos", test_cmos);
+     qtest_add_func("/fdc/no_media_on_start", test_no_media_on_start);
+diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
+index 771eaa741b..3554b5d500 100644
+--- a/tests/qtest/hd-geo-test.c
++++ b/tests/qtest/hd-geo-test.c
+@@ -178,9 +178,15 @@ static int append_arg(int argc, char *argv[], int argv_sz, char *arg)
+ 
+ static int setup_common(char *argv[], int argv_sz)
+ {
++    int new_argc;
+     memset(cur_ide, 0, sizeof(cur_ide));
+-    return append_arg(0, argv, argv_sz,
+-                      g_strdup("-nodefaults"));
++    new_argc = append_arg(0, argv, argv_sz,
++                          g_strdup("-nodefaults"));
++    new_argc = append_arg(new_argc, argv, argv_sz,
++                          g_strdup("-machine"));
++    new_argc = append_arg(new_argc, argv, argv_sz,
++                          g_strdup("pc"));
++    return new_argc;
+ }
+ 
+ static void setup_mbr(int img_idx, MBRcontents mbr)
+@@ -697,7 +703,7 @@ static void test_override(TestArgs *args, CHSResult expected[])
+ 
+     joined_args = g_strjoinv(" ", args->argv);
+ 
+-    qts = qtest_init(joined_args);
++    qts = qtest_initf("-machine pc %s", joined_args);
+     fw_cfg = pc_fw_cfg_init(qts);
+ 
+     read_bootdevices(fw_cfg, expected);
+diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
+index 1f57d9684b..6d7d4d8d8f 100644
+--- a/tests/qtest/i440fx-test.c
++++ b/tests/qtest/i440fx-test.c
+@@ -35,7 +35,7 @@ static QPCIBus *test_start_get_bus(const TestData *s)
+ {
+     char *cmdline;
+ 
+-    cmdline = g_strdup_printf("-smp %d", s->num_cpus);
++    cmdline = g_strdup_printf("-machine pc -smp %d", s->num_cpus);
+     qtest_start(cmdline);
+     g_free(cmdline);
+     return qpci_new_pc(global_qtest, NULL);
+diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
+index 3f8081e77d..84935578fb 100644
+--- a/tests/qtest/ide-test.c
++++ b/tests/qtest/ide-test.c
+@@ -128,10 +128,11 @@ static char debug_path[] = "/tmp/qtest-blkdebug.XXXXXX";
+ static QTestState *ide_test_start(const char *cmdline_fmt, ...)
+ {
+     QTestState *qts;
++    g_autofree char *full_fmt = g_strdup_printf("-machine pc %s", cmdline_fmt);
+     va_list ap;
+ 
+     va_start(ap, cmdline_fmt);
+-    qts = qtest_vinitf(cmdline_fmt, ap);
++    qts = qtest_vinitf(full_fmt, ap);
+     va_end(ap);
+ 
+     pc_alloc_init(&guest_malloc, qts, 0);
 -- 
 2.35.1
 
