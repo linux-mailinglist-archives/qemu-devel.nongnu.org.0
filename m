@@ -2,49 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D68F4B7014
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:22:32 +0100 (CET)
-Received: from localhost ([::1]:53630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F272B4B701E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:29:31 +0100 (CET)
+Received: from localhost ([::1]:59624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK0b1-0001kT-Bu
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:22:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50358)
+	id 1nK0hm-00064Y-SH
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:29:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <heiko@sntech.de>)
- id 1nK0Z0-0000n9-G3; Tue, 15 Feb 2022 11:20:26 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:54332)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nK0f5-0003dW-7K
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:26:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <heiko@sntech.de>)
- id 1nK0Yx-0000cr-1S; Tue, 15 Feb 2022 11:20:26 -0500
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1nK0Yr-0000cd-9w; Tue, 15 Feb 2022 17:20:17 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org,
- Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH] target/riscv: Add isa extenstion strings to the device
- tree
-Date: Tue, 15 Feb 2022 17:20:16 +0100
-Message-ID: <2828317.Et2jP947se@diego>
-In-Reply-To: <20220215090530.911828-1-atishp@rivosinc.com>
-References: <20220215090530.911828-1-atishp@rivosinc.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nK0f2-0001Z4-7u
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:26:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644942397;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=f6bo/GW5t5A/Owl9rZwvgfjVe13aOBMBWE6RvCnUV5A=;
+ b=CYRRgYMTtxR8I/ceb4NS8mscjhwE+Lh+W5oK4x/exHZp/PGlxsYqLpOzZkwATLcVbsGSMa
+ s8VVmL7gMTLN43Oc9RDj99jd71xlLYEufcvi+hWmcG6n/qgk7GJ6y7w3GEPX+YqGjBzhk0
+ ydPJ3ISv2DEZs4IyUI+6Jz32Ol+8Gao=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-324-2-aF4cPJNySpXiXa64M4_g-1; Tue, 15 Feb 2022 11:26:36 -0500
+X-MC-Unique: 2-aF4cPJNySpXiXa64M4_g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 743681006AA4;
+ Tue, 15 Feb 2022 16:26:35 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.39.195.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F408310A48D2;
+ Tue, 15 Feb 2022 16:25:42 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net,
+ mst@redhat.com, thuth@redhat.com, berrange@redhat.com, quintela@redhat.com
+Subject: [PATCH 0/3] x86: Switch over to q35 as the default machine type
+Date: Tue, 15 Feb 2022 16:25:30 +0000
+Message-Id: <20220215162537.605030-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: none client-ip=185.11.138.130; envelope-from=heiko@sntech.de;
- helo=gloria.sntech.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,113 +80,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am Dienstag, 15. Februar 2022, 10:05:30 CET schrieb Atish Patra:
-> Append the available ISA extensions to the "riscv,isa" string if it
-> is enabled so that kernel can process it.
-> 
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->  target/riscv/cpu.c | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index b0a40b83e7a8..c70260d0df15 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -34,6 +34,9 @@
->  
->  /* RISC-V CPU definitions */
->  
-> +/* This includes the null terminated character '\0' */
-> +#define MAX_ISA_EXT_LEN 256
-> +
->  static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
->  
->  const char * const riscv_int_regnames[] = {
-> @@ -881,10 +884,26 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
->      device_class_set_props(dc, riscv_cpu_properties);
->  }
->  
-> +static void riscv_isa_string_ext(RISCVCPU *cpu, char *isa_str, int max_str_len)
-> +{
-> +    int offset = strnlen(isa_str, max_str_len);
-> +
-> +    if (cpu->cfg.ext_svpbmt) {
-> +        offset += snprintf(isa_str + offset, max_str_len, "_%s", "_svpbmt");
-> +    }
-> +    if ((offset < max_str_len) && cpu->cfg.ext_svinval) {
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-shouldn't offset + strlen("svinval") +1 be < max_str_len?
-snprintf will write partial strings but this would throw off a
-qemu client completely I guess.
+We've been using q35 heavily for a while now and it generally works
+quite nicely; downstream in RH we prefer it as our default, and I wanted
+to see what people think of making it the default.
+
+The only pain really is that it requires some more setup for hotplug;
+so for now I've forced hotplug tests to stay on i440fx aka pc.
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 
-> +        offset += snprintf(isa_str + offset, max_str_len, "_%s", "_svinval");
-> +    }
-> +    if ((offset < max_str_len) && (cpu->cfg.ext_svnapot)) {
-> +        offset += snprintf(isa_str + offset, max_str_len, "_%s", "_svnapot");
-> +    }
+Dr. David Alan Gilbert (3):
+  tests/x86: Use 'pc' machine type for old hardware tests
+  tests/x86: Use 'pc' machine type for hotplug tests
+  x86: Switch to q35 as the default machine type
 
-wouldn't it make more sense to do something like:
+ hw/i386/pc_piix.c              | 12 +-----------
+ hw/i386/pc_q35.c               |  2 ++
+ tests/qtest/device-plug-test.c | 20 +++++++++++++++++--
+ tests/qtest/drive_del-test.c   | 35 +++++++++++++++++++++++++++++-----
+ tests/qtest/fdc-test.c         |  2 +-
+ tests/qtest/hd-geo-test.c      | 16 +++++++++++-----
+ tests/qtest/i440fx-test.c      |  2 +-
+ tests/qtest/ide-test.c         |  3 ++-
+ tests/qtest/ivshmem-test.c     |  7 ++++++-
+ 9 files changed, 72 insertions(+), 27 deletions(-)
 
-+    struct {
-+        const char *value;
-+        bool enabled;
-+    } extensions[] = {
-+        { "svpbmt", cpu->cfg.ext_svpbmt },
-+        { "svinval", cpu->cfg.ext_svinval },
-+        { "svnapot", cpu->cfg.ext_svnapot },
-+    };
-+    int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(extensions); i++) {
-+        if (!extensions[i].enabled)
-+            continue;
-+
-+        /* check available space */
-+        if (offset + strlen(extensions[i].value) + 1 > max_str_len) {
-+            //do warn about exceeded length
-+            return;
-+        }
-+
-+        offset += snprintf(isa_str + offset, max_str_len, "_%s",
-+                                                          extensions[i].value);
-+    }
-
-instead?
-
-Because that list will get longer over time and repeating checks
-and snprintf calls will get harder to keep in sync over time?
-
-
-Heiko
-
-
-
-
-> +}
-> +
->  char *riscv_isa_string(RISCVCPU *cpu)
->  {
->      int i;
-> -    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) + 1;
-> +    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) +
-> +                          MAX_ISA_EXT_LEN;
->      char *isa_str = g_new(char, maxlen);
->      char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
->      for (i = 0; i < sizeof(riscv_exts); i++) {
-> @@ -893,6 +912,8 @@ char *riscv_isa_string(RISCVCPU *cpu)
->          }
->      }
->      *p = '\0';
-> +    riscv_isa_string_ext(cpu, isa_str, maxlen);
-> +
->      return isa_str;
->  }
->  
-> 
-
-
-
+-- 
+2.35.1
 
 
