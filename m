@@ -2,71 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B8F4B7237
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:41:52 +0100 (CET)
-Received: from localhost ([::1]:49704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1F44B73D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:44:54 +0100 (CET)
+Received: from localhost ([::1]:55256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK0tj-00029e-QE
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:41:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55166)
+	id 1nK0wf-0005uJ-68
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:44:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK0qX-0000c0-3A
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nK0qX-0000bt-P4
  for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:38:34 -0500
-Received: from [2a00:1450:4864:20::236] (port=35373
- helo=mail-lj1-x236.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK0qR-0003Vg-6x
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:38:29 -0500
-Received: by mail-lj1-x236.google.com with SMTP id u16so6345299ljk.2
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 08:38:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J1AR/LyD+fU2ZCRpw3aXIvlasGEy5Y4jMFha/h03nFk=;
- b=FpMLIHBU+bxFHE790Xu1uCat3P/a5F8Uvfgo55m/XB6M9QsgyoGs5iFnoCuPc6uL3J
- agtXlWOVegNXh9HxlX2jAIy7+WfEaoPNTtPDRddGi5ML/Fc2TX6giZLIC1ca2I6cXe9z
- 3zwACEuki83eA31k2cg84+zt8BBZOi98VAHsTN4hkxacU4RT2gyWgvnM1jnbZujIf7gC
- 2Yu0oTJinUSkWhaxMktXBLyDTjVpTSZlerSd63wYK6TVPp/0YTG3+1eoiVMSILLrRiUK
- 1/IrRs+TSSNiIavpKO3wpfyKLr+JKI1AroPWPn7d3hvCYYHrttm3GfOBM87x4ZKp9a7B
- Kqsw==
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nK0qR-0003Vv-75
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:38:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644943105;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f8fiR3Fz28sHX5HyltlIXpClWiCTAMufZbT/MGbuDic=;
+ b=P3dI046W4vRQ0/fMuED0e7bRevDHA8U/HlSVCdE7LgwXfy1s1JQYGM7Vy8fi7OO+s2ysVh
+ JnflfaoS02PGIjtCTbccehgMorLEwDnTiaI8RRzdd3MR6TYR1hgrFl1LH6ohIMulSa+tFv
+ 1MZApR0PwO735YHJSgKdUBRid6L/Lzw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-500-R31SgL9MNjWXnPo0vr2Teg-1; Tue, 15 Feb 2022 11:38:23 -0500
+X-MC-Unique: R31SgL9MNjWXnPo0vr2Teg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h82-20020a1c2155000000b003552c13626cso1677854wmh.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 08:38:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J1AR/LyD+fU2ZCRpw3aXIvlasGEy5Y4jMFha/h03nFk=;
- b=ZJec9FBY27fBJ9DQta70GgVCXfWrpJ4awFT6Jjgwxzb3cjYtp/7WZ6xtHUXESBqDoV
- guag+i2vYN/em7kM9intyn7Ej7+zECaFf/fVJSbG4HxL+SYAARjrgE6GGv/y0ahIrnQO
- 6kG2rQPg7wERa1S1nA1thxWkG2DtcTUguB7OF1Lzq+JdPndzcM2sf25EyjKqt40qN5nR
- hVQwb7tVE6+5V0ZXqHTNwBlVHOYf19f2zExOV5SrG+AU6wijaE/nLQb63D3n4QI10cyY
- 1NMowebiu3AYstHMgg7JvIBU3rIu4qg0dvmqICPizaGNHw/CnCQJ07Bgrq04fkIccEPS
- CSgw==
-X-Gm-Message-State: AOAM533bGC7sfQDmsMTwvn+fsGfKYVhVXMC6h0jxjDVSrQE9sf64ewRR
- ftMz6KlWZ5qTk2m49aMPwvbiwkODwxIbZR//dk0=
-X-Google-Smtp-Source: ABdhPJxs1cTx53GGTXWatmKjTuDWxmB/QpjO8qiX3pbili8dHJJ/iYGdFy6RwxdqFX6Bv1IC197gEfdXqMWISHg2o/s=
-X-Received: by 2002:a2e:b7c9:: with SMTP id p9mr3009240ljo.268.1644943104153; 
- Tue, 15 Feb 2022 08:38:24 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=f8fiR3Fz28sHX5HyltlIXpClWiCTAMufZbT/MGbuDic=;
+ b=fGml93xKVdOEc5ukyfDdk7MrfA+mWE5Ndy0oZRijvgkVO/BP1owlejb2Sp7x5TfouR
+ lb3J6l5g0oUzW5GyzOJr4glICO2xr73C3MlSnAIG6RAo8wjBkahaW6/HBvdzwPjDMymP
+ /K1lPg9tDpFzZSphrkdtGGIUnKE8I6w58ESra1MvgzJzgtsI2UsAtw8cIRWiPEku1wgV
+ wrGJtdUfLjOHHnzjwqRb4jVvCjn/KSL1b6E6l0fgEFrunyw89RmizzdvFqRNjFuR6oBv
+ ITqhNcukntAz4RYIoeMz25L+JhBE3c6xGBgNQsZocc6S5u6ncYH+Dlgk5KmGoQr5RaWZ
+ vKxA==
+X-Gm-Message-State: AOAM533Kj/H4aBx5gJg9sG97iLUiUkbWvTmpgiYeCaiaHpijSvP5ZM0M
+ YPSDdqVUl4Miynesii92X5zqr8YjJ0tYhIxjGd9g/5UChBIo5WVvXzmEQfK2smpRPNrmIp7zQk5
+ s83RawdjZx/evu08=
+X-Received: by 2002:a05:600c:692:b0:37b:c64f:a66d with SMTP id
+ a18-20020a05600c069200b0037bc64fa66dmr3761448wmn.165.1644943101981; 
+ Tue, 15 Feb 2022 08:38:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwJY66NZ2bMbcjxlW1R5IUfON7nBnLk42UEN/+ic3YEDOz3tPT3coywbU753vDnfkQE25NJ3w==
+X-Received: by 2002:a05:600c:692:b0:37b:c64f:a66d with SMTP id
+ a18-20020a05600c069200b0037bc64fa66dmr3761428wmn.165.1644943101727; 
+ Tue, 15 Feb 2022 08:38:21 -0800 (PST)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218])
+ by smtp.gmail.com with ESMTPSA id d7sm18895050wmb.18.2022.02.15.08.38.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 08:38:21 -0800 (PST)
+Message-ID: <ca589020-564d-18d1-6526-8a624c4fe154@redhat.com>
+Date: Tue, 15 Feb 2022 17:38:19 +0100
 MIME-Version: 1.0
-References: <20220215080307.69550-1-f4bug@amsat.org>
- <20220215080307.69550-12-f4bug@amsat.org>
-In-Reply-To: <20220215080307.69550-12-f4bug@amsat.org>
-From: Will Cohen <wwcohen@gmail.com>
-Date: Tue, 15 Feb 2022 11:38:06 -0500
-Message-ID: <CAB26zV2t70aHm5QyK4g4CNTxM55Lv9JXWR4+F4erwi8r2DnZEQ@mail.gmail.com>
-Subject: Re: [PATCH v6 11/15] ui/cocoa: Add Services menu
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000661c3d05d81129c4"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::236
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::236;
- envelope-from=wwcohen@gmail.com; helo=mail-lj1-x236.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Possible end of Ubuntu LTS 18.04 as a build target in 7.1 ?
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <Yguz2GtTm+oEN0rI@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <Yguz2GtTm+oEN0rI@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,139 +101,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ David Gibson <dgibson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000661c3d05d81129c4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 15/02/2022 15.08, Daniel P. Berrangé wrote:
+> Per our platform support policy
+> 
+>    https://www.qemu.org/docs/master/about/build-platforms.html
+> 
+>    "The project aims to support the most recent major version at all
+>     times. Support for the previous major version will be dropped 2
+>     years after the new major version is released or when the vendor
+>     itself drops support, whichever comes first."
+> 
+> In April this year, Ubuntu LTS 22.04 will arrive, which means the
+> "previous" release will then be considered to be "LTS 20.04" and
+> thus "18.04" will no longer be in scope for what we aim to support.
+> 
+> It is possible that this might enable us to assume newer versions
+> of some software we depend on, but I've not analysed the situation
+> yet. This would apply from start of 7.1 development cycle if any
+> min version bumps do appear relevant.
 
-On Tue, Feb 15, 2022 at 3:04 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-wrote:
+What I really would like to see: Could we get rid of some of the git 
+submodules, since they keep being a pain from time to time. Could we get rid 
+of the capstone submodule? libslirp? dtc? ... but this needs some careful 
+checking first, of course.
 
-> From: Akihiko Odaki <akihiko.odaki@gmail.com>
->
-> Services menu functionality of Cocoa is described at:
->
-> https://developer.apple.com/design/human-interface-guidelines/macos/exten=
-sions/services/
->
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Message-Id: <20220214091320.51750-1-akihiko.odaki@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  ui/cocoa.m | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index 7a1ddd4075..becca58cb7 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -1591,11 +1591,15 @@ static void create_initial_menus(void)
->      NSMenuItem  *menuItem;
->
->      [NSApp setMainMenu:[[NSMenu alloc] init]];
-> +    [NSApp setServicesMenu:[[NSMenu alloc] initWithTitle:@"Services"]];
->
->      // Application menu
->      menu =3D [[NSMenu alloc] initWithTitle:@""];
->      [menu addItemWithTitle:@"About QEMU" action:@selector(do_about_menu_=
-item:)
-> keyEquivalent:@""]; // About QEMU
->      [menu addItem:[NSMenuItem separatorItem]]; //Separator
-> +    menuItem =3D [menu addItemWithTitle:@"Services" action:nil
-> keyEquivalent:@""];
-> +    [menuItem setSubmenu:[NSApp servicesMenu]];
-> +    [menu addItem:[NSMenuItem separatorItem]];
->      [menu addItemWithTitle:@"Hide QEMU" action:@selector(hide:)
-> keyEquivalent:@"h"]; //Hide QEMU
->      menuItem =3D (NSMenuItem *)[menu addItemWithTitle:@"Hide Others"
-> action:@selector(hideOtherApplications:) keyEquivalent:@"h"]; // Hide
-> Others
->      [menuItem
-> setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFl=
-agCommand)];
-> --
-> 2.34.1
->
+> When we previously had 16.04 fall out of scope for support, we had
+> a roadblock in bumping min versions. IIRC this was due to various
+> machines in the compile farm Peter used for merge testing not
+> supporting anything newer.
+> 
+> I don't have a good understanding of what machines are used for
+> testing now, so I'm wondering if we're going to hit any kind of
+> similar issue if we try to drop 18.04 support ?  If so we might
+> want to start thinking about our options now.
 
-Reviewed-by: Will Cohen <wwcohen@gmail.com>
-Tested-by: Will Cohen <wwcohen@gmail.com>
+I think the most difficult part are maybe the custom runners in 
+.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml ... who has access to 
+that system and could try to get these updated?
 
---000000000000661c3d05d81129c4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+We've got some more few occurances, e.g. in .gitlab-ci.d/opensbi/Dockerfile 
+and in .gitlab-ci.d/containers.yml ... but that can be done by anybody who 
+knows how to use the gitlab-CI.
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Feb 15, 2022 at 3:04 AM Philippe =
-Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</=
-a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">From: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.=
-odaki@gmail.com" target=3D"_blank">akihiko.odaki@gmail.com</a>&gt;<br>
-<br>
-Services menu functionality of Cocoa is described at:<br>
-<a href=3D"https://developer.apple.com/design/human-interface-guidelines/ma=
-cos/extensions/services/" rel=3D"noreferrer" target=3D"_blank">https://deve=
-loper.apple.com/design/human-interface-guidelines/macos/extensions/services=
-/</a><br>
-<br>
-Signed-off-by: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com"=
- target=3D"_blank">akihiko.odaki@gmail.com</a>&gt;<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
-org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.or=
-g" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-Message-Id: &lt;<a href=3D"mailto:20220214091320.51750-1-akihiko.odaki@gmai=
-l.com" target=3D"_blank">20220214091320.51750-1-akihiko.odaki@gmail.com</a>=
-&gt;<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
-t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
----<br>
-=C2=A0ui/cocoa.m | 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
-<br>
-diff --git a/ui/cocoa.m b/ui/cocoa.m<br>
-index 7a1ddd4075..becca58cb7 100644<br>
---- a/ui/cocoa.m<br>
-+++ b/ui/cocoa.m<br>
-@@ -1591,11 +1591,15 @@ static void create_initial_menus(void)<br>
-=C2=A0 =C2=A0 =C2=A0NSMenuItem=C2=A0 *menuItem;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0[NSApp setMainMenu:[[NSMenu alloc] init]];<br>
-+=C2=A0 =C2=A0 [NSApp setServicesMenu:[[NSMenu alloc] initWithTitle:@&quot;=
-Services&quot;]];<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0// Application menu<br>
-=C2=A0 =C2=A0 =C2=A0menu =3D [[NSMenu alloc] initWithTitle:@&quot;&quot;];<=
-br>
-=C2=A0 =C2=A0 =C2=A0[menu addItemWithTitle:@&quot;About QEMU&quot; action:@=
-selector(do_about_menu_item:) keyEquivalent:@&quot;&quot;]; // About QEMU<b=
-r>
-=C2=A0 =C2=A0 =C2=A0[menu addItem:[NSMenuItem separatorItem]]; //Separator<=
-br>
-+=C2=A0 =C2=A0 menuItem =3D [menu addItemWithTitle:@&quot;Services&quot; ac=
-tion:nil keyEquivalent:@&quot;&quot;];<br>
-+=C2=A0 =C2=A0 [menuItem setSubmenu:[NSApp servicesMenu]];<br>
-+=C2=A0 =C2=A0 [menu addItem:[NSMenuItem separatorItem]];<br>
-=C2=A0 =C2=A0 =C2=A0[menu addItemWithTitle:@&quot;Hide QEMU&quot; action:@s=
-elector(hide:) keyEquivalent:@&quot;h&quot;]; //Hide QEMU<br>
-=C2=A0 =C2=A0 =C2=A0menuItem =3D (NSMenuItem *)[menu addItemWithTitle:@&quo=
-t;Hide Others&quot; action:@selector(hideOtherApplications:) keyEquivalent:=
-@&quot;h&quot;]; // Hide Others<br>
-=C2=A0 =C2=A0 =C2=A0[menuItem setKeyEquivalentModifierMask:(NSEventModifier=
-FlagOption|NSEventModifierFlagCommand)];<br>
--- <br>
-2.34.1<br></blockquote><div><br></div><div>Reviewed-by: Will Cohen &lt;<a h=
-ref=3D"mailto:wwcohen@gmail.com">wwcohen@gmail.com</a>&gt;<br>
-Tested-by: Will Cohen &lt;<a href=3D"mailto:wwcohen@gmail.com">wwcohen@gmai=
-l.com</a>&gt; <br></div></div></div>
+And there are still some jobs on bionic in .travis.yml - but I can take care 
+of those.
 
---000000000000661c3d05d81129c4--
+  Thomas
+
 
