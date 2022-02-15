@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE684B7430
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 18:51:52 +0100 (CET)
-Received: from localhost ([::1]:55330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315A24B742B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 18:48:34 +0100 (CET)
+Received: from localhost ([::1]:52510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK1zS-0003JH-Jd
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 12:51:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44508)
+	id 1nK1wG-0001Lp-Md
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 12:48:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nK1tB-0008BB-6V
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 12:45:21 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:44686)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nK1tx-0000HV-TX
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 12:46:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nK1t8-0006SN-AF
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 12:45:20 -0500
-Received: from [192.168.13.13] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 13A612077C;
- Tue, 15 Feb 2022 17:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1644947115;
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nK1tt-0006gh-PC
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 12:46:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644947163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Yi6l3cGD21KiZnAtKfCFq3893L9Q5pYs+DUjAUTC8H0=;
- b=0K8W/DCPcsNA4WSZ/LvnBKal2BrbHlNjmNCqo38Fn+J6D/VozKZ/XsRI9DzmhB1xNbm6MT
- nsALYJqq1CzGw5HU51X3rWAg2nDdHFlZjLYHaG3kkshMas2wqAdq9XQ3cINTTKqRe2RKs6
- oMblWoWISUIIQl2g+QlYDYvyT2/e9rs=
-Message-ID: <7700bff5-ccc9-0286-118e-a12efe1cdb72@greensocs.com>
-Date: Tue, 15 Feb 2022 18:45:13 +0100
+ bh=DXXldyx09nnkm5ZLlRKqq/rqqBPUgBz27Rf1GdYM0eI=;
+ b=Egf59uNeyIkUf2zt1NAEFrVcY0ZGld8/3YowZWgj7dxXLt1B+cjkB2VrPG6y/5EzLBya7O
+ tAMLVCTeDU4ixlPx6bDB8mEe20tolfiGGXcX8xEiODOPL1WxPv546ltoaQMgcXRexD99zg
+ u97qXm2joe/2jhssp8aBRkjXWNxchho=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-659-nzdzQFW5NmuNppPpFv4mXg-1; Tue, 15 Feb 2022 12:46:02 -0500
+X-MC-Unique: nzdzQFW5NmuNppPpFv4mXg-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ b10-20020a05612202ea00b0032d73e46551so795560vko.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 09:46:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DXXldyx09nnkm5ZLlRKqq/rqqBPUgBz27Rf1GdYM0eI=;
+ b=BAfKdGxwKav5gVcZKYpEfcQn/elwgvqR4wKChkxpAq3SJHl42eeJvqz2i+UWdqh7gG
+ mesVrDihw62xCJ44hy+0Rc5P+9t50X2zcCG4CkecZkOGcr1VRXhe6C9ERuTZ4xAcqRxQ
+ /lNjzCWvlC7bqNlV1VSw8AHnf9ygTnsEVsdb7CTxdGzfmDJnT5Zewho63HqJWkm+baC+
+ 0L/F4NaXmgHe5ImATyh2Tu5w+jIrl1X8+3F5vcIDHYHTWDJoF9VdpTjv/Opn4HLDO7oI
+ yGqhHC3wH7tHUM6aiO/ovtNTyPZthXoaFPN0JVPchQVPYWBfcPDGZZMF+ivdn2qT35xx
+ N8MQ==
+X-Gm-Message-State: AOAM5306ZVHX1eg0z2cAhFJuqo6+s04bgGZp+2KlD/8Y0cdqGydm+xGt
+ l8VRMlKtKAJM+8ugl68mbj+KCxWqJs0mTvzhYcqu9xG5XgwsuR8qheNQ4qlp2ZcPUU6knxSt8mi
+ KCjz+5I7hQ6Q1qcTRGFe7znoBfglrUuY=
+X-Received: by 2002:a67:a449:: with SMTP id p9mr1634939vsh.61.1644947161943;
+ Tue, 15 Feb 2022 09:46:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzJzkGUorGh7aKilPGOE+y7t6RwJuRmZ1Hu+4gr3qzzXCC+IvqQoRNSSMBAt2wYYD8n11GrmcqZDL956j7+OKs=
+X-Received: by 2002:a67:a449:: with SMTP id p9mr1634919vsh.61.1644947161647;
+ Tue, 15 Feb 2022 09:46:01 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 00/14] target: Use ArchCPU & CPUArchState as abstract
- interface to target CPU
-Content-Language: en-US-large
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20220214183144.27402-1-f4bug@amsat.org>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <20220214183144.27402-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220203015946.1330386-1-jsnow@redhat.com>
+ <CAFEAcA_OXJ6C1UTFXiy6x1gp4VRmaWQY7ntU8N-3-O+TGcsKQQ@mail.gmail.com>
+ <CAFn=p-ZeG2XM_cP3hpKN-Cagk4T1Sr05YEDhtwmR4+_VOjVt7w@mail.gmail.com>
+ <CAFEAcA9fJMQizPmd1rUh7wPgPoz4dAXQPP07DzDFQK1ieN72VA@mail.gmail.com>
+ <CAFn=p-Zpvf4W1zZtnv5a9sn=38=dgsa7HUMnYM7dk7xW7gRB3g@mail.gmail.com>
+ <CAFEAcA-XvLDYRsM0Yf0TCg=7MMDCe7cKz0qcMFcOx5KZfZTyQA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-XvLDYRsM0Yf0TCg=7MMDCe7cKz0qcMFcOx5KZfZTyQA@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 15 Feb 2022 12:45:50 -0500
+Message-ID: <CAFn=p-YnPiexJLCNGikCvJMSZKvuyUoWhb6vmBz966cWcEkObg@mail.gmail.com>
+Subject: Re: [PULL 0/4] Python patches
+To: Peter Maydell <peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,107 +92,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Taylor Simpson <tsimpson@quicinc.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+On Tue, Feb 8, 2022 at 9:40 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Thu, 3 Feb 2022 at 23:22, John Snow <jsnow@redhat.com> wrote:
+> >
+> > On Thu, Feb 3, 2022 at 11:52 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > On Thu, 3 Feb 2022 at 16:38, John Snow <jsnow@redhat.com> wrote:
+> > >
+> > > > On Thu, Feb 3, 2022, 11:20 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > > >> Summary of Failures:
+> > > >>
+> > > >> 1/1 qemu:block / qemu-iotests qcow2 ERROR          243.14s   exit status 1
+> >
+> > I'm not too familiar with this new test runner, yet. (Is this error
+> > even anything to do with the python lib? I guess I can't rule it
+> > out...)
+> > I just got a clean run of 'make vm-build-netbsd', so I'm using that
+> > output as reference and making some guesses.
+>
+> Rerunning on the netbsd VM with Paolo's "revert the iotests
+> conversion" patch, here's the output from a failing run, where
+> iotest 041 failed:
+>
+> TEST   iotest-qcow2: 041 [fail]
+> QEMU          --
+> "/home/qemu/qemu-test.Kywnb7/build/tests/qemu-iotests/../../qemu-system-aarch64"
+> -nodefaults -display none -accel qtest -machine virt
+> QEMU_IMG      --
+> "/home/qemu/qemu-test.Kywnb7/build/tests/qemu-iotests/../../qemu-img"
+> QEMU_IO       --
+> "/home/qemu/qemu-test.Kywnb7/build/tests/qemu-iotests/../../qemu-io"
+> --cache writeback --aio threads -f qcow2
+> QEMU_NBD      --
+> "/home/qemu/qemu-test.Kywnb7/build/tests/qemu-iotests/../../qemu-nbd"
+> IMGFMT        -- qcow2
+> IMGPROTO      -- file
+> PLATFORM      -- NetBSD/amd64 localhost 9.2
+> TEST_DIR      -- /home/qemu/qemu-test.Kywnb7/build/tests/qemu-iotests/scratch
+> SOCK_DIR      -- /tmp/tmp6fiu68sr
+> GDB_OPTIONS   --
+> VALGRIND_QEMU --
+> PRINT_QEMU_OUTPUT --
+>
+> --- /home/qemu/qemu-test.Kywnb7/src/tests/qemu-iotests/041.out
+> +++ 041.out.bad
+> @@ -1,5 +1,44 @@
+> -...........................................................................................................
+> +........................................ERROR:qemu.aqmp.qmp_client.qemu-14411:Failed
+> to establish connection: concurrent.futures._base.CancelledError
+> +E..................................................................
+> +======================================================================
+> +ERROR: test_mirror_to_self (__main__.TestSingleBlockdev)
+> +----------------------------------------------------------------------
+> +Traceback (most recent call last):
+> +  File "/home/qemu/qemu-test.Kywnb7/src/python/qemu/machine/machine.py",
+> line 428, in launch
+> +    self._launch()
+> +  File "/home/qemu/qemu-test.Kywnb7/src/python/qemu/machine/machine.py",
+> line 467, in _launch
+> +    self._post_launch()
+> +  File "/home/qemu/qemu-test.Kywnb7/src/python/qemu/machine/qtest.py",
+> line 147, in _post_launch
+> +    super()._post_launch()
+> +  File "/home/qemu/qemu-test.Kywnb7/src/python/qemu/machine/machine.py",
+> line 369, in _post_launch
+> +    self._qmp.accept(self._qmp_timer)
+> +  File "/home/qemu/qemu-test.Kywnb7/src/python/qemu/aqmp/legacy.py",
+> line 95, in accept
+> +    timeout
+> +  File "/home/qemu/qemu-test.Kywnb7/src/python/qemu/aqmp/legacy.py",
+> line 68, in _sync
+> +    asyncio.wait_for(future, timeout=timeout)
+> +  File "/usr/pkg/lib/python3.7/asyncio/base_events.py", line 587, in
+> run_until_complete
+> +    return future.result()
+> +  File "/usr/pkg/lib/python3.7/asyncio/tasks.py", line 449, in wait_for
+> +    raise futures.TimeoutError()
+> +concurrent.futures._base.TimeoutError
+> +
+> +The above exception was the direct cause of the following exception:
+> +
+> +Traceback (most recent call last):
+> +  File "/home/qemu/qemu-test.Kywnb7/src/tests/qemu-iotests/041", line
+> 233, in setUp
+> +    TestSingleDrive.setUp(self)
+> +  File "/home/qemu/qemu-test.Kywnb7/src/tests/qemu-iotests/041", line
+> 54, in setUp
+> +    self.vm.launch()
+> +  File "/home/qemu/qemu-test.Kywnb7/src/python/qemu/machine/machine.py",
+> line 445, in launch
+> +    ) from exc
+> +qemu.machine.machine.VMLaunchFailure: TimeoutError
+> +       Exit code: 1
+> +       Command:
+> /home/qemu/qemu-test.Kywnb7/build/tests/qemu-iotests/../../qemu-system-aarch64
+> -display none -vga none -chardev
+> socket,id=mon,path=/tmp/tmp6fiu68sr/qemu-14411-monitor.sock -mon
+> chardev=mon,mode=control -qtest
+> unix:path=/tmp/tmp6fiu68sr/qemu-14411-qtest.sock -accel qtest
+> -nodefaults -display none -accel qtest -machine virt -drive
+> if=virtio,id=drive0,file=/home/qemu/qemu-test.Kywnb7/build/tests/qemu-iotests/scratch/test.img,format=qcow2,cache=writeback,aio=threads,node-name=top,backing.node-name=base
+> +       Output: qemu-system-aarch64: -chardev
+> socket,id=mon,path=/tmp/tmp6fiu68sr/qemu-14411-monitor.sock: Failed to
+> connect to '/tmp/tmp6fiu68sr/qemu-14411-monitor.sock': Connection
+> refused
+> +
+> +
+> +
+>  ----------------------------------------------------------------------
+>  Ran 107 tests
+>
+> -OK
+> +FAILED (errors=1)
+>
+>
+> thanks
+> -- PMM
+>
 
-What's the idea behind these 2 types: ArchCPU and CPUArchState ?
-I don't understand why we'll need them.
+Just so I don't leave this thread hanging, I filed a GitLab issue and
+I'm working on it, but this one isn't as quick to solve as the other.
 
-Thanks,
-Damien
+https://gitlab.com/qemu-project/qemu/-/issues/874
 
-On 2/14/22 19:31, Philippe Mathieu-Daudé via wrote:
-> Missing review: 10, 13, 14
-> 
-> Since v1:
-> - Include Hexagon OBJECT_DECLARE_TYPE() patch
-> - Add missing includes to Hexagon
-> - Introduce OBJECT_DECLARE_CPU_TYPE() macro
-> - Use OBJECT_DECLARE_CPU_TYPE()
-> 
-> Kind of respin of the "exec: Move translation declarations to
-> 'translate-all.h'" series, but without modifying translate-all.h :)
-> (same same but different).
-> 
-> Based-on: <20220207082756.82600-1-f4bug@amsat.org>
-> "exec: Remove 'qemu/log.h' from 'exec-all.h'"
-> 
-> Philippe Mathieu-Daudé (13):
->    meson: Display libfdt as disabled when system emulation is disabled
->    hw/m68k/mcf: Add missing 'exec/hwaddr.h' header
->    hw/tricore: Remove unused and incorrect header
->    exec/cpu_ldst: Include 'cpu.h' to get target_ulong definition
->    cpu: Add missing 'exec/exec-all.h' and 'qemu/accel.h' headers
->    target/i386/cpu: Ensure accelerators set CPU addressble physical bits
->    target/i386/tcg/sysemu: Include missing 'exec/exec-all.h' header
->    target: Include missing 'cpu.h'
->    target/hexagon: Add missing 'hw/core/cpu.h' include
->    target: Use forward declared type instead of structure type
->    target: Use CPUArchState as interface to target-specific CPU state
->    target: Introduce and use OBJECT_DECLARE_CPU_TYPE() macro
->    target: Use ArchCPU as interface to target CPU
-> 
-> Taylor Simpson (1):
->    Hexagon (target/hexagon) convert to OBJECT_DECLARE_TYPE
-> 
->   cpu.c                                |  2 ++
->   include/exec/cpu_ldst.h              |  1 +
->   include/exec/poison.h                |  2 --
->   include/hw/core/cpu.h                | 20 +++++++++++++++++++-
->   include/hw/m68k/mcf.h                |  1 +
->   include/hw/tricore/triboard.h        |  1 -
->   include/qemu/typedefs.h              |  2 ++
->   meson.build                          |  4 +++-
->   target/alpha/cpu-qom.h               |  3 +--
->   target/alpha/cpu.h                   | 11 +++--------
->   target/arm/cpu-qom.h                 |  3 +--
->   target/arm/cpu.h                     |  7 ++-----
->   target/arm/hvf_arm.h                 |  2 +-
->   target/avr/cpu-qom.h                 |  3 +--
->   target/avr/cpu.h                     | 13 ++++---------
->   target/cris/cpu-qom.h                |  3 +--
->   target/cris/cpu.h                    |  7 ++-----
->   target/hexagon/cpu.h                 | 23 ++++++++---------------
->   target/hppa/cpu-qom.h                |  3 +--
->   target/hppa/cpu.h                    | 12 +++---------
->   target/i386/cpu-qom.h                |  3 +--
->   target/i386/cpu.c                    |  1 +
->   target/i386/cpu.h                    |  7 ++-----
->   target/i386/tcg/sysemu/excp_helper.c |  1 +
->   target/i386/tcg/sysemu/misc_helper.c |  1 +
->   target/m68k/cpu-qom.h                |  3 +--
->   target/m68k/cpu.h                    |  7 ++-----
->   target/microblaze/cpu-qom.h          |  3 +--
->   target/microblaze/cpu.h              |  9 +++------
->   target/microblaze/mmu.h              |  2 ++
->   target/mips/cpu-qom.h                |  3 +--
->   target/mips/cpu.h                    | 10 +++-------
->   target/mips/internal.h               | 15 ++++++++-------
->   target/nios2/cpu.h                   |  9 ++++-----
->   target/nios2/mmu.h                   |  2 ++
->   target/openrisc/cpu.h                | 17 +++++------------
->   target/ppc/cpu-qom.h                 |  5 ++---
->   target/ppc/cpu.h                     |  7 ++-----
->   target/riscv/cpu.h                   | 11 ++++-------
->   target/riscv/pmp.h                   |  2 ++
->   target/rx/cpu-qom.h                  |  5 +----
->   target/rx/cpu.h                      |  6 ++----
->   target/s390x/cpu-qom.h               |  7 +++----
->   target/s390x/cpu.h                   |  7 ++-----
->   target/sh4/cpu-qom.h                 |  3 +--
->   target/sh4/cpu.h                     |  7 ++-----
->   target/sparc/cpu-qom.h               |  3 +--
->   target/sparc/cpu.h                   |  9 +++------
->   target/tricore/cpu-qom.h             |  3 +--
->   target/tricore/cpu.h                 | 10 +++-------
->   target/xtensa/cpu-qom.h              |  3 +--
->   target/xtensa/cpu.h                  | 13 +++++--------
->   52 files changed, 129 insertions(+), 188 deletions(-)
-> 
+--js
+
 
