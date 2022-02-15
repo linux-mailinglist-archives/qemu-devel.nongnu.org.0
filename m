@@ -2,94 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89594B79C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 22:49:56 +0100 (CET)
-Received: from localhost ([::1]:46204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B304B7A06
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 22:54:11 +0100 (CET)
+Received: from localhost ([::1]:57006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK5hr-00044U-VZ
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 16:49:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40250)
+	id 1nK5ly-00033E-4p
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 16:54:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nK5af-0003gk-Dz; Tue, 15 Feb 2022 16:42:29 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1144
- helo=mx0a-001b2d01.pphosted.com)
+ id 1nK5ae-0003dL-3k; Tue, 15 Feb 2022 16:42:28 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nK5ac-0002WB-EQ; Tue, 15 Feb 2022 16:42:29 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21FLCJ0g028119; 
- Tue, 15 Feb 2022 21:42:15 GMT
+ id 1nK5ab-0002Vy-60; Tue, 15 Feb 2022 16:42:26 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21FKDYl9014684; 
+ Tue, 15 Feb 2022 21:42:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=Ak3OGe62O3jP4hU+4ysVhE0GpKofFgRZKG+M5gW7/Rg=;
- b=FawbYTaBNo+dVuqUQtyI+D3rYxCNjgIz86ws8qYmOscKmmhOXxxK0TupwL0gA5BDoUvk
- SnUZGmy3F41wQt74WsnvIU4CCP8c03PLYxvAnaTZlInwqFH7aL+K0SVmnJs2GU8ddUbK
- OOiLkRPlNIxb8oAAMzELcPIXjlyi6nncpfBeq8bxlVBPfZsCUOcxDJPu+8i04eWsEAbu
- 32/R2ge72HUAEhoDmWQw4cyPPUBKVZ4JEBifSTPgUQ9zR63lb/+7I03PUMNkgwXKGeVA
- tnRnvlISRQg7rY0OfQVUrQleQVEvLMWKh6tM46XaCIsFwXUXFJn/tcIj9SUPaCIM8KxF fA== 
+ bh=rRR7NnJ4wb8x7sVDv0R2ZbuF3DULiq8WUZ1NuI71194=;
+ b=UVUeEWebpHiaayP6J3LyDtOVHdWiC2lxqY5pQyxjlTlHJNryV5jQrE4ZbZNSZdNhiw+U
+ M3ENC2P7v/WUeV/OuucwCKDatCQAWmuUVfyMPHiv0R25Hza4AGfB131Ssze4NsGTSW4K
+ lJMbPA7cH11y6Bn8w0bLqO3CY2W9C1Wk2GOD6qF0Azi15CuEQ2nI8h1vxHFVn7i8cP+K
+ 3PuUAiDQWdE1wkpbo5X5+cskF+r/YJL690xf4acMP692eDqlOhYDuwlRrxBynG5G2nCZ
+ 9CKVCqiRgS9fkgVBgwkg4Xw4svk8+xy3/yliSTaby0/Kf9lkg8/jngfSu0UxcLANz8JI ZQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e8kvtrmn4-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e8k1aa4fj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 21:42:15 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21FLa6uW016174;
- Tue, 15 Feb 2022 21:42:14 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e8kvtrmmv-1
+ Tue, 15 Feb 2022 21:42:18 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21FLgIIb029851;
+ Tue, 15 Feb 2022 21:42:18 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e8k1aa4fb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 21:42:14 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21FLNRwG003748;
- Tue, 15 Feb 2022 21:42:14 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma01wdc.us.ibm.com with ESMTP id 3e877fhb9s-1
+ Tue, 15 Feb 2022 21:42:18 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21FLMWmb000363;
+ Tue, 15 Feb 2022 21:42:16 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma03dal.us.ibm.com with ESMTP id 3e64hbjuhm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 21:42:14 +0000
+ Tue, 15 Feb 2022 21:42:16 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21FLgDRU33685770
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21FLgFI326870204
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Feb 2022 21:42:13 GMT
+ Tue, 15 Feb 2022 21:42:15 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 126A6BE054;
+ by IMSVA (Postfix) with ESMTP id 1AEA1BE053;
+ Tue, 15 Feb 2022 21:42:15 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8C18CBE058;
  Tue, 15 Feb 2022 21:42:13 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 995BEBE04F;
- Tue, 15 Feb 2022 21:42:11 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.143.123])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 15 Feb 2022 21:42:11 +0000 (GMT)
+ Tue, 15 Feb 2022 21:42:13 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/27] target/ppc: cpu_init: Decouple G2 SPR registration from
- 755
-Date: Tue, 15 Feb 2022 18:41:29 -0300
-Message-Id: <20220215214148.1848266-9-farosas@linux.ibm.com>
+Subject: [PATCH 09/27] target/ppc: cpu_init: Decouple 74xx SPR registration
+ from 7xx
+Date: Tue, 15 Feb 2022 18:41:30 -0300
+Message-Id: <20220215214148.1848266-10-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215214148.1848266-1-farosas@linux.ibm.com>
 References: <20220215214148.1848266-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: SYtCsLefQSEbIHaVDF28uf6cfOSML7RW
-X-Proofpoint-ORIG-GUID: JhGMQMNZJOgGu7KsRTrq_fTSDouvCLV8
+X-Proofpoint-GUID: tWDZ2epdO2zMxr5qNC1Sn3ekya8rYI_A
+X-Proofpoint-ORIG-GUID: ToxjzFcLGme9byY7LyVFRL1kH5HeVyk5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-15_06,2022-02-14_04,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- malwarescore=0 impostorscore=0 phishscore=0 clxscore=1015 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202150122
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ mlxlogscore=951 clxscore=1015
+ malwarescore=0 priorityscore=1501 adultscore=0 mlxscore=0 suspectscore=0
+ impostorscore=0 phishscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202150122
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -115,81 +114,188 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're considering these two to be in different CPU families (6xx and
-7xx), so keep their SPR registration separate.
-
-The code was copied into register_G2_sprs and the common function was
-renamed to apply only to the 755.
+We're considering these two to be from different CPU families, so
+duplicate some code to keep them separate.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 ---
- target/ppc/cpu_init.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+ target/ppc/cpu_init.c | 107 +++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 91 insertions(+), 16 deletions(-)
 
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 29f25e093f..6a367f2bbc 100644
+index 6a367f2bbc..79cd14d49c 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -466,8 +466,7 @@ static void register_6xx_7xx_soft_tlb(CPUPPCState *env, int nb_tlbs, int nb_ways
- #endif
- }
- 
--/* SPR common to MPC755 and G2 */
--static void register_G2_755_sprs(CPUPPCState *env)
-+static void register_755_sprs(CPUPPCState *env)
- {
-     /* SGPRs */
-     spr_register(env, SPR_SPRG4, "SPRG4",
-@@ -783,6 +782,23 @@ static void register_G2_sprs(CPUPPCState *env)
-                  &spr_read_generic, &spr_write_generic,
-                  0x00000000);
- 
-+    /* SGPRs */
-+    spr_register(env, SPR_SPRG4, "SPRG4",
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 &spr_read_generic, &spr_write_generic,
-+                 0x00000000);
-+    spr_register(env, SPR_SPRG5, "SPRG5",
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 &spr_read_generic, &spr_write_generic,
-+                 0x00000000);
-+    spr_register(env, SPR_SPRG6, "SPRG6",
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 &spr_read_generic, &spr_write_generic,
-+                 0x00000000);
-+    spr_register(env, SPR_SPRG7, "SPRG7",
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 &spr_read_generic, &spr_write_generic,
-+                 0x00000000);
- }
+@@ -803,6 +803,97 @@ static void register_G2_sprs(CPUPPCState *env)
  
  static void register_74xx_sprs(CPUPPCState *env)
-@@ -2852,7 +2868,6 @@ static void init_proc_G2(CPUPPCState *env)
+ {
++    /* Breakpoints */
++    spr_register_kvm(env, SPR_DABR, "DABR",
++                     SPR_NOACCESS, SPR_NOACCESS,
++                     &spr_read_generic, &spr_write_generic,
++                     KVM_REG_PPC_DABR, 0x00000000);
++
++    spr_register(env, SPR_IABR, "IABR",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, &spr_write_generic,
++                 0x00000000);
++    /* Cache management */
++    spr_register(env, SPR_ICTC, "ICTC",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, &spr_write_generic,
++                 0x00000000);
++    /* Performance monitors */
++    spr_register(env, SPR_7XX_MMCR0, "MMCR0",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, &spr_write_generic,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_MMCR1, "MMCR1",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, &spr_write_generic,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_PMC1, "PMC1",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, &spr_write_generic,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_PMC2, "PMC2",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, &spr_write_generic,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_PMC3, "PMC3",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, &spr_write_generic,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_PMC4, "PMC4",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, &spr_write_generic,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_SIAR, "SIAR",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, SPR_NOACCESS,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_UMMCR0, "UMMCR0",
++                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_ureg, SPR_NOACCESS,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_UMMCR1, "UMMCR1",
++                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_ureg, SPR_NOACCESS,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_UPMC1, "UPMC1",
++                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_ureg, SPR_NOACCESS,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_UPMC2, "UPMC2",
++                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_ureg, SPR_NOACCESS,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_UPMC3, "UPMC3",
++                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_ureg, SPR_NOACCESS,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_UPMC4, "UPMC4",
++                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_ureg, SPR_NOACCESS,
++                 0x00000000);
++
++    spr_register(env, SPR_7XX_USIAR, "USIAR",
++                 &spr_read_ureg, SPR_NOACCESS,
++                 &spr_read_ureg, SPR_NOACCESS,
++                 0x00000000);
++    /* External access control */
++    spr_register(env, SPR_EAR, "EAR",
++                 SPR_NOACCESS, SPR_NOACCESS,
++                 &spr_read_generic, &spr_write_generic,
++                 0x00000000);
++
+     /* Processor identification */
+     spr_register(env, SPR_PIR, "PIR",
+                  SPR_NOACCESS, SPR_NOACCESS,
+@@ -4644,8 +4735,6 @@ static void init_proc_7400(CPUPPCState *env)
  {
      register_ne_601_sprs(env);
      register_sdr1_sprs(env);
--    register_G2_755_sprs(env);
-     register_G2_sprs(env);
+-    register_7xx_sprs(env);
+-    /* 74xx specific SPR */
+     register_74xx_sprs(env);
+     vscr_init(env, 0x00010000);
  
-     /* Memory management */
-@@ -4474,7 +4489,7 @@ static void init_proc_745(CPUPPCState *env)
+@@ -4718,8 +4807,6 @@ static void init_proc_7410(CPUPPCState *env)
+ {
      register_ne_601_sprs(env);
      register_sdr1_sprs(env);
-     register_7xx_sprs(env);
--    register_G2_755_sprs(env);
-+    register_755_sprs(env);
-     /* Thermal management */
-     register_thrm_sprs(env);
-     /* Hardware implementation registers */
-@@ -4547,7 +4562,7 @@ static void init_proc_755(CPUPPCState *env)
+-    register_7xx_sprs(env);
+-    /* 74xx specific SPR */
+     register_74xx_sprs(env);
+     vscr_init(env, 0x00010000);
+ 
+@@ -4799,8 +4886,6 @@ static void init_proc_7440(CPUPPCState *env)
+ {
      register_ne_601_sprs(env);
      register_sdr1_sprs(env);
-     register_7xx_sprs(env);
--    register_G2_755_sprs(env);
-+    register_755_sprs(env);
-     /* L2 cache control */
-     spr_register(env, SPR_L2CR, "L2CR",
-                  SPR_NOACCESS, SPR_NOACCESS,
+-    register_7xx_sprs(env);
+-    /* 74xx specific SPR */
+     register_74xx_sprs(env);
+     vscr_init(env, 0x00010000);
+ 
+@@ -4901,8 +4986,6 @@ static void init_proc_7450(CPUPPCState *env)
+ {
+     register_ne_601_sprs(env);
+     register_sdr1_sprs(env);
+-    register_7xx_sprs(env);
+-    /* 74xx specific SPR */
+     register_74xx_sprs(env);
+     vscr_init(env, 0x00010000);
+     /* Level 3 cache control */
+@@ -5025,8 +5108,6 @@ static void init_proc_7445(CPUPPCState *env)
+ {
+     register_ne_601_sprs(env);
+     register_sdr1_sprs(env);
+-    register_7xx_sprs(env);
+-    /* 74xx specific SPR */
+     register_74xx_sprs(env);
+     vscr_init(env, 0x00010000);
+     /* LDSTCR */
+@@ -5156,8 +5237,6 @@ static void init_proc_7455(CPUPPCState *env)
+ {
+     register_ne_601_sprs(env);
+     register_sdr1_sprs(env);
+-    register_7xx_sprs(env);
+-    /* 74xx specific SPR */
+     register_74xx_sprs(env);
+     vscr_init(env, 0x00010000);
+     /* Level 3 cache control */
+@@ -5289,8 +5368,6 @@ static void init_proc_7457(CPUPPCState *env)
+ {
+     register_ne_601_sprs(env);
+     register_sdr1_sprs(env);
+-    register_7xx_sprs(env);
+-    /* 74xx specific SPR */
+     register_74xx_sprs(env);
+     vscr_init(env, 0x00010000);
+     /* Level 3 cache control */
+@@ -5442,8 +5519,6 @@ static void init_proc_e600(CPUPPCState *env)
+ {
+     register_ne_601_sprs(env);
+     register_sdr1_sprs(env);
+-    register_7xx_sprs(env);
+-    /* 74xx specific SPR */
+     register_74xx_sprs(env);
+     vscr_init(env, 0x00010000);
+ 
 -- 
 2.34.1
 
