@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BB44B6B4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 12:41:55 +0100 (CET)
-Received: from localhost ([::1]:57776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB2C4B6B8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 12:54:17 +0100 (CET)
+Received: from localhost ([::1]:60808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJwDS-0001wQ-RN
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 06:41:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34964)
+	id 1nJwPQ-0004YM-JS
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 06:54:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJwBH-0001C9-Qu
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 06:39:40 -0500
-Received: from [2a00:1450:4864:20::42a] (port=36379
- helo=mail-wr1-x42a.google.com)
+ (Exim 4.90_1) (envelope-from <vishwa.mg@gmail.com>)
+ id 1nJwNd-0003nh-ML
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 06:52:25 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=55274
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJwBE-0005dy-On
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 06:39:38 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id o24so28949140wro.3
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 03:39:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hDsVCuNDpEl7oPg4Sel05WLiYEawZS8qDlZQolDd4UI=;
- b=ayiqin5tO51d5kU9siqrT+UgWbL0KWL1vvor6kq1+mc8p+aKReZbH94+ZGrG2Trz/b
- Lvwu/LqQnAUDEhHKHNbpSYjzCnGsSE4sw/qJBlGgrGU+egTfCNm2cO0ipRWJBR8no5qd
- nie6RzkpJCciUoIviyeZPd9V1qf7wpRudRxJoH1oZw5u1ruHu9PTMjJtbmFJu+R3B107
- D3LYAJ5C66mVq+fvfXN0JFlezJy7m27d6LdHuk1e88BJeexPJCQogBuso3jgwBBflEgI
- w37Ibnkzgf6Vij0Z9W95ckKhmJIckHRS7EloTVPy6/rjHsHevMGYCH9mW3fHhUK7IASj
- 5T+A==
+ (Exim 4.90_1) (envelope-from <vishwa.mg@gmail.com>)
+ id 1nJwNK-0007c6-Ai
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 06:52:08 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id b8so5306265pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 03:52:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=j8UaSfCrr34zqlSoHpHyJsiXIr02m/jhyOaoUGxw/fo=;
+ b=BkZ6MnV7knDAKZwN8uzOCV1DCN6RVX3/b0g8HbvGlbLLmnhKR9D+3ONDHD/DVb6ucE
+ k4H0iLGxlXEO5VrkXb9O9IxoasZvKXIZey3oAv2c+ZAhNw666RdaW0KWkSQ//rYICYkl
+ dbl8SZGSFz+fMkB0dliU04z1qUvn5Y+WIpxWowFVC8XensJJkWlKXlu2KiS5FvYES6Qm
+ zNaIPcoJZX9GIWc8m2oopq9gAVKE5scIkpy0tenoT+PDq2ARHvnFhHQhMOnAZ4eBxu4Q
+ eIxa+D6WKWRYODts6HdCyAlH8Ft0Ssw3aQr2xzMQNRv3dt/Ulxz2y9jH3q9jJTa+VjHq
+ Saeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hDsVCuNDpEl7oPg4Sel05WLiYEawZS8qDlZQolDd4UI=;
- b=grLLs0YxajZe+zacBpmOCJHOmkrxtiDpZ4dnwm1+94f4AhUfpj4Vp/YjSUajGkMTiF
- u04dq6qwasRAkY1GFzZvmxoeJlh3tq8emeqFdaxdtn/Mf9OZ/urx1hxpMda0Dx0gQRDD
- ORjN2e1gcmV5aGUa7mmfWJblOvIugdSR8qsDriHBxUchrNXuGaDYTEHSs9ugNCW30GYo
- UrikK+gWRdf+RgxdWJfLmQ+Mh/ftPZgruAdet0SwmvzbEPWNQ1v6xpqYKWRGI8gag6n2
- wzuJsEGBfDougG1P14fGlmuqWrDJCkI2GdYeoZfiozGFsvu799r5SLLN3BlHcMtDKnfi
- u+HQ==
-X-Gm-Message-State: AOAM533FpsXpNK7EwasFYiB5MT79CnCRNe3LZ8DzAJ73V32vu9icg6E8
- Q+A5DmJNsgmFlyU15nIdZ+fsDpMyLv+o64yXU20mqw==
-X-Google-Smtp-Source: ABdhPJyrFtrfX81EVvj0VPrwSB3g8jhqebKyHFr9XVF4aUzmPKnWeIkEEb7tLdpWImiHhRnFVFAo5NWATyWLb5dt1P8=
-X-Received: by 2002:a5d:62c4:: with SMTP id o4mr2860991wrv.319.1644925173445; 
- Tue, 15 Feb 2022 03:39:33 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=j8UaSfCrr34zqlSoHpHyJsiXIr02m/jhyOaoUGxw/fo=;
+ b=cim3hxvwIyzh/Akcfyhz5R9c/7iFLMS2lPVB9vG1Scn2MJEWNVQ1kYuseLrGrEGmLJ
+ s5UFjSEAFAKwAjanR22W5TSmf23AQFPFAsePA/eVqtRDnLcrOT6KQBXerzHGV9cUPw10
+ a5jdYyl6NzQI8xTUhCtPQqojmqS66cErtGpNtxi6FgP9w70M+pDH0fDzF+hQAaBPEOEq
+ zsJKm67TsKinHt7wodncGlQ9MzcQbFZeN+0P7Q5WzoJQTydEjzNv6YmPJrvrD7xsm79b
+ 6P8t5IZiPCQ12MnO5i3WURp2Hg133LyKO7K1wdfKGbb4r+11YwXoq9gW1dmImO/UsJm2
+ ZzWA==
+X-Gm-Message-State: AOAM532RCXX3t6QOWwXcAC0P1K3oHPmH1II5ea3fCsFDOzhdR3KYZ9oO
+ Xgs4Wf58S1QjniPohkX7fa8r+2ld8z39Wk+msGtyI5me0i1a
+X-Google-Smtp-Source: ABdhPJz7A/UnsPlLGXZgs9USZTkIqQo+3HogfyvPy/78vcbs5TuyTKUac7d75SVyYCrOmRSLOgNn8ICX2J8Z4S/FOsg=
+X-Received: by 2002:a17:90b:3ec8:: with SMTP id
+ rm8mr3994747pjb.138.1644925924097; 
+ Tue, 15 Feb 2022 03:52:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20220212000031.3946524-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220212000031.3946524-1-alistair.francis@opensource.wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Feb 2022 11:39:22 +0000
-Message-ID: <CAFEAcA96Jir1xbWSjhtXJhJkKQ3oR2ck=OFM06OWsyZJep0ecg@mail.gmail.com>
-Subject: Re: [PULL 00/40] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+From: Vishwanath MG <vishwa.mg@gmail.com>
+Date: Tue, 15 Feb 2022 17:21:52 +0530
+Message-ID: <CABDZEhG8wJo4x71HvM_oCNF7rQkjyy-YFV76j2+BuiwcXdyz4Q@mail.gmail.com>
+Subject: Implementing ATC[Address Translation Cache] within emulated pcie
+ end-point
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000063413b05d80d29c7"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=vishwa.mg@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
 X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,56 +79,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 12 Feb 2022 at 00:07, Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> The following changes since commit 0a301624c2f4ced3331ffd5bce85b4274fe132af:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220208' into staging (2022-02-08 11:40:08 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220212
->
-> for you to fetch changes up to 31d69b66ed89fa0f66d4e5a15e9664c92c3ed8f8:
->
->   docs/system: riscv: Update description of CPU (2022-02-11 18:31:29 +1000)
->
-> ----------------------------------------------------------------
-> Fourth RISC-V PR for QEMU 7.0
->
->  * Remove old Ibex PLIC header file
->  * Allow writing 8 bytes with generic loader
->  * Fixes for RV128
->  * Refactor RISC-V CPU configs
->  * Initial support for XVentanaCondOps custom extension
->  * Fix for vill field in vtype
->  * Fix trap cause for RV32 HS-mode CSR access from RV64 HS-mode
->  * RISC-V AIA support for virt machine
->  * Support for svnapot, svinval and svpbmt extensions
+--00000000000063413b05d80d29c7
+Content-Type: text/plain; charset="UTF-8"
 
-Hi; this has format string issues on 32-bit hosts:
-https://gitlab.com/qemu-project/qemu/-/jobs/2092600735
+  Looking for QEMU support in emulating ATC inside pcie EP (emulated). So
+that ATC behaviour can be modelled, deriving right set of ATC parameters
+and the right caching algorithm.
 
-../hw/riscv/virt.c: In function 'create_fdt_imsic':
-../hw/riscv/virt.c:519:49: error: format '%lx' expects argument of
-type 'long unsigned int', but argument 2 has type 'hwaddr' {aka 'long
-long unsigned int'} [-Werror=format=]
+Looked at patches
+https://lists.nongnu.org/archive/html/qemu-devel/2016-11/msg00642.html
+where ATS support has been added for  virtio kind of devices.
 
-../hw/riscv/virt.c:569:49: error: format '%lx' expects argument of
-type 'long unsigned int', but argument 2 has type 'hwaddr' {aka 'long
-long unsigned int'} [-Werror=format=]
+e.g, using virtio device
+qemu-system-x86_64 \
+    -machine q35,accel=kvm,kernel_irqchip=split \
+    -enable-kvm \
+    -vga none -nographic \
+    -device intel-iommu,intremap=on,caching-mode=on,device-iotlb=on
+    -device vfio-pci,host=03:00.0 \
+    -device
+virtio-net-pci,netdev=mynet0,disable-legacy=on,disable-modern=off,iommu_platform=on,ats=on
 
-Printing hwaddrs needs the HWADDR_PRIx macro. (%l and %ll are
-usually the wrong thing in QEMU code as we don't often deal
-with real 'long' or 'long long' types.)
+In our use case, virtio-net-pci would be simple pcie EP, which implements
+ATC needs following infra
+1. IOMMU invalidate request needs to be propagated to EP, so that ATC would
+be flushed
+2. Ability to send ATS requests to the hypervisor layer to populate IOTLB
+entries
+3. Ability to request for page to hypervisor, when page fault occurs at EP
 
--- PMM
+exploring intel_iommu devices, to see if such a API;s are provided. Any
+help in this
+would be highly appreciated.
+
+thanks
+Vishwa.mg ( @samsung)
+
+--00000000000063413b05d80d29c7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">=C2=A0 Looking for QEMU support in emulating ATC inside pc=
+ie EP (emulated). So<br>that ATC behaviour can be modelled, deriving right =
+set of ATC parameters<br>and the right caching algorithm.<br><br>Looked at =
+patches <a href=3D"https://lists.nongnu.org/archive/html/qemu-devel/2016-11=
+/msg00642.html">https://lists.nongnu.org/archive/html/qemu-devel/2016-11/ms=
+g00642.html</a><br>where ATS support has been added for =C2=A0virtio kind o=
+f devices.<br><br>e.g, using virtio device<br>qemu-system-x86_64 \<br>=C2=
+=A0 =C2=A0 -machine q35,accel=3Dkvm,kernel_irqchip=3Dsplit \<br>=C2=A0 =C2=
+=A0 -enable-kvm \<br>=C2=A0 =C2=A0 -vga none -nographic \<br>=C2=A0 =C2=A0 =
+-device intel-iommu,intremap=3Don,caching-mode=3Don,device-iotlb=3Don<br>=
+=C2=A0 =C2=A0 -device vfio-pci,host=3D03:00.0 \<br>=C2=A0 =C2=A0 -device vi=
+rtio-net-pci,netdev=3Dmynet0,disable-legacy=3Don,disable-modern=3Doff,iommu=
+_platform=3Don,ats=3Don<br><br>In our use case, virtio-net-pci would be sim=
+ple pcie EP, which implements ATC needs following infra<br>1. IOMMU invalid=
+ate request needs to be propagated to EP, so that ATC would be flushed<br>2=
+. Ability to send ATS requests to the hypervisor layer to populate IOTLB en=
+tries<br>3. Ability to request for page to hypervisor, when page fault occu=
+rs at EP<br><br>exploring intel_iommu devices, to see if such a API;s are p=
+rovided. Any help in this<br>would be highly appreciated.<br><br>thanks<br>=
+Vishwa.mg ( @samsung)<br></div>
+
+--00000000000063413b05d80d29c7--
 
