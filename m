@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE844B67A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:33:08 +0100 (CET)
-Received: from localhost ([::1]:57534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FAEE4B67B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:35:22 +0100 (CET)
+Received: from localhost ([::1]:33736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuCp-0003ZL-DE
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:33:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54220)
+	id 1nJuEz-0006mf-6F
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:35:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nJuAP-0002XT-3s
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:30:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nJuAM-00089s-CJ
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:30:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644917433;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/dBixpvMzL5LyYr+MqNH8nyvBEtkZnEK2fOClxHz8vc=;
- b=bn/8l/SVUf0vZpVOCcsTz5OYjzTKC4rWhHYLrDEDYoAP5vKtNTktRcx6N/BA9ReeqBdNfw
- CITFqDB/8UA5uZQVrCCJxmtSrDkuPWg1HraKFLCiM8YyVmCjsC+TNWoFB5IdGA5IIQjLvi
- +Nyh/spC5DcqLlb7D3loVNOAylG+H6M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-241-oJRBmbOgPh2qKHIbu3niTA-1; Tue, 15 Feb 2022 04:30:31 -0500
-X-MC-Unique: oJRBmbOgPh2qKHIbu3niTA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82CA41091DA1;
- Tue, 15 Feb 2022 09:30:30 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E85785E4A7;
- Tue, 15 Feb 2022 09:30:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5E14F21E66FF; Tue, 15 Feb 2022 10:30:18 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Rohit Kumar <rohit.kumar3@nutanix.com>
-Subject: Re: [PATCH v2] Check and report for incomplete 'global' option format
-References: <20220215055138.267904-1-rohit.kumar3@nutanix.com>
-Date: Tue, 15 Feb 2022 10:30:18 +0100
-In-Reply-To: <20220215055138.267904-1-rohit.kumar3@nutanix.com> (Rohit Kumar's
- message of "Mon, 14 Feb 2022 21:51:38 -0800")
-Message-ID: <87sfskeatx.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nJuCD-0003j0-Hq
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:29 -0500
+Received: from [2a00:1450:4864:20::52b] (port=45811
+ helo=mail-ed1-x52b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nJuCA-0008PM-WF
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:29 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id z13so12788506edc.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dd26NKrT61RjpLU7Rt855gwV8Et+6ujvDGZLdFJMrkY=;
+ b=WInWzpYVgiExSeDJyZJ+onzJqF4hX/fi1XEud0vQU0qHfOgm3xXiAW+1NRgY/k9C5s
+ 71R0aUXx5RNNkVHiTnn9fFrF4z3SGcH3kg1b1NSYadalcZE68GSLECE0yHRHySGncUxy
+ l7268IvYfhftjePmJTc/rctnrevTWOP3XEwl1KLMar0soimL3G0r2IitkrGp9IOOAonP
+ fHsyLV0P7K7/Um799UqNEUNcoKpq0H9FGEU7vbTlCtCtijgFg244LRS2aPwxULtOunKN
+ 9P4x3xtOGxn+s0T7FsEv40Gh3cboaXw0vHyYLT951qbpztJHv0VutAH7VjlJIc8h2ldi
+ C38A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=dd26NKrT61RjpLU7Rt855gwV8Et+6ujvDGZLdFJMrkY=;
+ b=I8FQUkYPopFbmWExidtbdsBL11B48S1oRTwVEVtazXcB2KC2PKK2Cj8409RvG8Bd9e
+ ZMqPWYsu/RN/DFghGEg/VUk4iyFuEZG0YdBt6tqkEqe/176NaJtlkKgJ6m3tatTQcAUh
+ ehT6Fj0vMfuSh00/l8vhbv3htiwq7DCsf9OUf4wgQZcDXWVZzvEolZm/6D9OORT+fEKZ
+ S/pf1c/CUzJAyB//KBLRvnrEiTKmL036pOrbW+Pjro9lhBU/uZKL0f7yxYcWv9TxAQqU
+ C+17iN0oz3JmfUCdS1bfTKRsYIEwxC2EqGkNrhlYuSIqwJtNt2ZvGJevrYDZQdtbmD8d
+ KSsg==
+X-Gm-Message-State: AOAM533HP0efnXeUDn6u6z8BNiuUtdr1BwEHqi24sEJvMLCKI1U2fMsd
+ v5BQR+WQv6+WKKPdmWFVrC8PmOcfoEc=
+X-Google-Smtp-Source: ABdhPJzvlBtYdQ2V/DcX048IoetUE4EhYlj6lMskPkM9hHspCjG2cWvdb3trEscBWR9e8tU6OziMZw==
+X-Received: by 2002:a05:6402:34d3:: with SMTP id
+ w19mr2915937edc.377.1644917545472; 
+ Tue, 15 Feb 2022 01:32:25 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.24
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Feb 2022 01:32:25 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/30] Misc mostly build system patches for 2022-02-15
+Date: Tue, 15 Feb 2022 10:31:53 +0100
+Message-Id: <20220215093223.110827-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, PDS_HP_HELO_NORDNS=0.904,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,87 +87,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, thuth@redhat.com, berrange@redhat.com,
- prerna.saxena@nutanix.com, qemu-devel@nongnu.org, prachatos.mitra@nutanix.com,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rohit Kumar <rohit.kumar3@nutanix.com> writes:
+The following changes since commit 2d88a3a595f1094e3ecc6cd2fd1e804634c84b0f:
 
-> Qemu might crash when provided incomplete '-global' option.
-> For example:
->         qemu-system-x86_64 -global driver=isa-fdc
->         qemu-system-x86_64: ../../devel/qemu/qapi/string-input-visitor.c:394:
->         string_input_visitor_new: Assertion `str' failed.
->         Aborted (core dumped)
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/604
+  Merge remote-tracking branch 'remotes/kwolf-gitlab/tags/for-upstream' into staging (2022-02-14 19:54:00 +0000)
 
-The original qemu_global_option() only ever created QemuOpts with all
-three options present.  Code consuming these QemuOpts relies on this
-invariant.  Commit 3751d7c43f "vl: allow full-blown QemuOpts syntax for
--global" (v2.4.0) wrecked it.
+are available in the Git repository at:
 
-Let's point to the root cause:
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-  Fixes: 3751d7c43f795b45ffdb9429cfb09c6beea55c68
+for you to fetch changes up to 3dd33fd665e7fb041350849e35408f679dfa7383:
 
-> Signed-off-by: Rohit Kumar <rohit.kumar3@nutanix.com>
-> ---
->  diff to v1:
->   - Removed '\n' from error log message.
->
->  softmmu/qdev-monitor.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index 01f3834db5..51b33caeca 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -1020,6 +1020,7 @@ int qemu_global_option(const char *str)
->      char driver[64], property[64];
->      QemuOpts *opts;
->      int rc, offset;
-> +    Error *err = NULL;
->  
->      rc = sscanf(str, "%63[^.=].%63[^=]%n", driver, property, &offset);
->      if (rc == 2 && str[offset] == '=') {
-> @@ -1031,7 +1032,12 @@ int qemu_global_option(const char *str)
->      }
->  
->      opts = qemu_opts_parse_noisily(&qemu_global_opts, str, false);
-> -    if (!opts) {
-> +    if (!opts || !qemu_opt_get(opts, "driver") || !qemu_opt_get(opts,"property") ||
-> +    !qemu_opt_get(opts, "value")) {
-> +        error_setg(&err, "Invalid 'global' option format! "
-> +        "Use -global <driver>.<property>=<value> or "
-> +        "-global driver=driver,property=property,value=value");
-> +        error_report_err(err);
->          return -1;
->      }
+  configure, meson: move CONFIG_IASL to a Meson option (2022-02-15 09:36:13 +0100)
 
-This fix isn't quite right.
+----------------------------------------------------------------
+* More Meson conversions (0.59.x now required rather than suggested)
+* UMIP support for TCG x86
+* Fix migration crash
+* Restore error output for check-block
 
-When qemu_opts_parse_noisily() fails, it reports an error and returns
-null.  Your patch reports a second error then.  Reproducer:
+----------------------------------------------------------------
+Gareth Webb (1):
+      target/i386: add TCG support for UMIP
 
-    $ qemu-system-x86_64 -global =
-    qemu-system-x86_64: -global =: Invalid parameter ''
-    qemu-system-x86_64: -global =: Invalid 'global' option format! Use -global <driver>.<property>=<value> or -global driver=driver,property=property,value=value
+Marc-André Lureau (9):
+      qga/vss-win32: fix midl arguments
+      meson: drop --with-win-sdk
+      qga/vss-win32: use widl if available
+      qga/vss: use standard windows headers location
+      configure, meson: replace VSS SDK checks and options with --enable-vss-sdk
+      meson: do not make qga/vss-win32/meson.build conditional on C++ presence
+      qga/vss-win32: require widl/midl, remove pre-built TLB file
+      meson: require dynamic linking for VSS support
+      meson, configure: move ntddscsi API check to meson
 
-You should do something like
+Paolo Bonzini (18):
+      meson: use .allowed() method for features
+      meson: use .require() and .disable_auto_if() method for features
+      configure, meson: move AVX tests to meson
+      configure, meson: move membarrier test to meson
+      configure, meson: move AF_ALG test to meson
+      configure, meson: move libnuma detection to meson
+      configure, meson: move TPM check to meson
+      configure, meson: cleanup qemu-ga libraries
+      configure, meson: move image format options to meson_options.txt
+      configure, meson: move block layer options to meson_options.txt
+      meson: define qemu_cflags/qemu_ldflags
+      configure, meson: move some default-disabled options to meson_options.txt
+      configure, meson: move coroutine options to meson_options.txt
+      configure, meson: move smbd options to meson_options.txt
+      configure, meson: move guest-agent, tools to meson
+      meson: refine check for whether to look for virglrenderer
+      configure, meson: move OpenGL check to meson
+      configure, meson: move CONFIG_IASL to a Meson option
 
-    opts = qemu_opts_parse_noisily(&qemu_global_opts, str, false);
-    if (!opts) {
-        return -1;
-    }
-    if (!qemu_opt_get(opts, "driver")
-        || !qemu_opt_get(opts, "property")
-        || !qemu_opt_get(opts, "value")) {
-        error_report("options 'driver', 'property', and 'value'"
-                     " are required');
-        return -1;
-    }
+Peter Xu (1):
+      memory: Fix qemu crash on starting dirty log twice with stopped VM
+
+Thomas Huth (1):
+      tests/qemu-iotests/testrunner: Print diff to stderr in TAP mode
+
+ backends/tpm/meson.build           |  14 +-
+ block/meson.build                  |  51 ++-
+ configure                          | 638 +------------------------------------
+ contrib/vhost-user-gpu/meson.build |   3 +-
+ crypto/meson.build                 |   6 +-
+ docs/devel/kconfig.rst             |   2 +-
+ docs/meson.build                   |   2 -
+ hw/acpi/meson.build                |   4 +-
+ meson.build                        | 445 +++++++++++++++++---------
+ meson_options.txt                  |  66 ++++
+ migration/meson.build              |   4 +-
+ net/slirp.c                        |  16 +-
+ qga/commands-win32.c               |   6 +-
+ qga/meson.build                    |  55 +++-
+ qga/vss-win32/install.cpp          |   2 +-
+ qga/vss-win32/meson.build          |  52 +--
+ qga/vss-win32/provider.cpp         |   4 +-
+ qga/vss-win32/qga-vss.tlb          | Bin 1528 -> 0 bytes
+ qga/vss-win32/requester.cpp        |   4 +-
+ qga/vss-win32/vss-common.h         |   6 +-
+ scripts/meson-buildoptions.py      |   2 +
+ scripts/meson-buildoptions.sh      |  92 ++++++
+ softmmu/memory.c                   |  65 ++--
+ softmmu/meson.build                |   5 +-
+ target/i386/cpu.c                  |   2 +-
+ target/i386/cpu.h                  |   4 +-
+ target/i386/helper.c               |   8 +-
+ target/i386/tcg/translate.c        |  15 +
+ tests/Makefile.include             |   2 +-
+ tests/check-block.sh               |   4 -
+ tests/meson.build                  |   2 +-
+ tests/qemu-iotests/meson.build     |   2 +-
+ tests/qemu-iotests/testrunner.py   |   5 +-
+ tests/unit/meson.build             |   6 +-
+ tools/meson.build                  |  31 +-
+ ui/meson.build                     |  16 +-
+ util/meson.build                   |   4 +-
+ 37 files changed, 714 insertions(+), 931 deletions(-)
+ delete mode 100644 qga/vss-win32/qga-vss.tlb
+-- 
+2.34.1
 
 
