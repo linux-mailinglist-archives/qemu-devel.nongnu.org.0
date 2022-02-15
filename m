@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1404B7AA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 23:41:33 +0100 (CET)
-Received: from localhost ([::1]:54002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246C34B7A64
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 23:22:25 +0100 (CET)
+Received: from localhost ([::1]:40620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK6Vo-0003xq-BG
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 17:41:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48398)
+	id 1nK6DH-0008Hp-J8
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 17:22:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nK6AF-0004OX-OT
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:19:15 -0500
-Received: from [2a00:1450:4864:20::32f] (port=37382
- helo=mail-wm1-x32f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nK6A9-000885-UY
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:19:15 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso2454128wmj.2
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 14:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+GO2t88Z+VbnJ3TDs49HJ+5AsGu6OFL8hFwfMD+4rQw=;
- b=u+PIijCPMCTsd3rtCl5HoRRCBH2E1ZgonuoxGVTkj8xn1fGegxp+715wueWbj/mKl7
- HHH1OH8KVbjlynld4PQ4yJVvVONWu0Qu9dCzDNj1h1YUO6pZzu5TiZv6vAR9gfVGNv9q
- 72gd+vnWrpnoNJNnXYVzzM9OFEYVeHNCzBbWXOBPrlXbY19vpThNac7EVSkRLxDJ5nLG
- xs/gg5fR0UV1L5yUvP+LmJ0nxWckUQ3GKUoBM9xllIu4VWVvVxO96NkmYDX2QI2LWr7o
- bmN0fGK0Y+E5FHk/ZVKcaHemhRlTfcqGjrWxfdE3+C9xQvhARDMCUlruOZhOKiAAtXSX
- ywpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+GO2t88Z+VbnJ3TDs49HJ+5AsGu6OFL8hFwfMD+4rQw=;
- b=BrQegHYYEaupjgS1wjY/M6m1MZQiq87GqUnSx+A/vG9r8RYJOvbOlQf/o5tbygcykt
- lm7ArMUicSelz7UnGj+R8ocz1qhmXs7hhkK0OswYEjHlozBMhATu+eW33xuBYIcN0Qhv
- vnLI1UwDVbwR6rJUcXnRdfPrOuxX5WU4Rw9yM5wBMcBLZ9e4dlCr2gkP67HUxhBnUHma
- 1RTRNzSJQFI3ZaCBCdXKYUO1WHo467cLEg+dn4qE6cX3c8RNrcAd957LriQJmDkqF/y9
- Zx9np+Uxza9DwdAF4kooeQMMV8dAk9zeEozhxRbI/RR40F3dzbutTIHpFfjUualZwZkc
- zg0A==
-X-Gm-Message-State: AOAM533F2YedWQFTlmumQwVxOhqOHooBNzh2Hg6ce61t9Vtoejv+9ocO
- 5SaKgTOXNuD3p7XTTkYZvd93i5wD9L42o2otMaKEVQ==
-X-Google-Smtp-Source: ABdhPJwiI+KEwjbiWKzosr2OIfSTzf2mTfd4ye/13o36sIYSgBNnI6C58uujrxP/m92eOVBTlBiDeAI9qkqD+DtmuUc=
-X-Received: by 2002:a05:600c:4f14:b0:353:32b7:b47 with SMTP id
- l20-20020a05600c4f1400b0035332b70b47mr4988462wmq.126.1644963548036; Tue, 15
- Feb 2022 14:19:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nK6Ac-0005SP-E1
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:19:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34800)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nK6AZ-0008AY-N8
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:19:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644963575;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vl4cjeX04MhjmaU8szejBtZZaZXpt9xFamqeoA/iGfw=;
+ b=D5PRPtJiY3j0uQLvyvsRDvxRO5IRazkY7mavdn7A47rfEi/bOG8E9Nt94uZxwWBWq9W6Id
+ KggSAnm1vJuPcGFo4ashe1Fi+nB5iDgLm4HcS7gvUbbzJSvlVz7Xsduw0+0jUfDFb9uxJU
+ jMFDNgXCmzpa/dyXP1DjRqi3JVjWGLo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-106-Z0cWhDx2PveZYPyfaxxT3A-1; Tue, 15 Feb 2022 17:19:31 -0500
+X-MC-Unique: Z0cWhDx2PveZYPyfaxxT3A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC4621091DA4;
+ Tue, 15 Feb 2022 22:19:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.17.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 57FB15E26D;
+ Tue, 15 Feb 2022 22:19:16 +0000 (UTC)
+Date: Tue, 15 Feb 2022 16:19:14 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 2/3] iotests: Allow using QMP with the QSD
+Message-ID: <20220215221914.2g4w7f7aol7ge3wy@redhat.com>
+References: <20220215135727.28521-1-hreitz@redhat.com>
+ <20220215135727.28521-3-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20220210040423.95120-1-richard.henderson@linaro.org>
- <20220210040423.95120-14-richard.henderson@linaro.org>
-In-Reply-To: <20220210040423.95120-14-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Feb 2022 22:18:57 +0000
-Message-ID: <CAFEAcA9-em5bOe7fALC6__Jg_zjeqQTLMLWZ01Hk3JQYr_pXVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 13/15] target/arm: Fix TLBIRange.base for 16k and 64k
- pages
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220215135727.28521-3-hreitz@redhat.com>
+User-Agent: NeoMutt/20211029-322-5436a9
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,25 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Feb 2022 at 04:05, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The shift of the BaseADDR field depends on the translation
-> granule in use.
->
-> Fixes: 84940ed8255 ("target/arm: Add support for FEAT_TLBIRANGE")
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, Feb 15, 2022 at 02:57:26PM +0100, Hanna Reitz wrote:
+> Add a parameter to optionally open a QMP connection when creating a
+> QemuStorageDaemon instance.
+> 
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 > ---
->  target/arm/helper.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  tests/qemu-iotests/iotests.py | 29 ++++++++++++++++++++++++++++-
+>  1 file changed, 28 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 6ba65eb1ff..47e3808ab9 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -39,6 +39,7 @@
+>  
+>  from qemu.machine import qtest
+>  from qemu.qmp import QMPMessage
+> +from qemu.aqmp.legacy import QEMUMonitorProtocol
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I thought we were trying to get rid of aqmp.legacy usage, so this
+feels like a temporary regression.  Oh well, not the end of the
+testing world.
 
-thanks
--- PMM
+>      def stop(self, kill_signal=15):
+>          self._p.send_signal(kill_signal)
+>          self._p.wait()
+>          self._p = None
+>  
+> +        if self._qmp:
+> +            self._qmp.close()
+> +
+>          try:
+> +            if self._qmpsock is not None:
+> +                os.remove(self._qmpsock)
+>              os.remove(self.pidfile)
+>          except OSError:
+>              pass
+
+Do we need two try: blocks here, to remove self.pidfile even if
+os.remove(self._qmpsock) failed?
+
+Otherwise, makes sense to me.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
