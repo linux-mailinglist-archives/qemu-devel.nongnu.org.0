@@ -2,108 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2BC4B63CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 07:57:08 +0100 (CET)
-Received: from localhost ([::1]:42282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9B14B63D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 07:59:41 +0100 (CET)
+Received: from localhost ([::1]:45824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJrlr-0005ns-5D
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 01:57:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48960)
+	id 1nJroJ-0008Kq-U1
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 01:59:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1nJrhc-0004pm-Iz
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 01:52:44 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26262)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1nJrhZ-0000vn-Tc
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 01:52:43 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21F5ux9U006472; 
- Tue, 15 Feb 2022 06:52:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Q/rc1yaNUqyBdUu4Cc2XhkjTZlUd0knbeAbaTJFbfrw=;
- b=K4KqENeLPc9QrrIvTqVF6gL8qCMXDeS8FL7+ya3baeKE66xMwN5ofFHwhgW5O3GN4LEd
- z++gB4k012Kpy1xr1oj8E09V9QrnecvExVOyx9s1/is8jw8eAhpHKlXeRahgul58ixD9
- ptedDs4ysV5YYVb09X9E2pSRoOhVN07QkaNToPGxgydEUiNJQesSoN6s8nP+Nb7K5DDD
- zgoSTcjDF9uEchYA+/1KhT0DeZcFNONSXrQfQvZIMUMo+b/zFq/AFAU4D3Cvon5/U9Fn
- l/HpW9WrhSMrYcXoJ1MaFuC5RVMEUsclPzPS2WmW7V/i8TxYHMUWETac/oOUNIi87IhT Kg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e85efae6a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 06:52:37 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21F6S0Bn003202;
- Tue, 15 Feb 2022 06:52:37 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e85efae62-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 06:52:37 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21F6q6YJ019774;
- Tue, 15 Feb 2022 06:52:36 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 3e64hahf21-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 06:52:36 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21F6qZbs41877968
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Feb 2022 06:52:36 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DCF0A124058;
- Tue, 15 Feb 2022 06:52:35 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5A444124055;
- Tue, 15 Feb 2022 06:52:27 +0000 (GMT)
-Received: from [9.160.23.162] (unknown [9.160.23.162])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 15 Feb 2022 06:52:26 +0000 (GMT)
-Message-ID: <96450f57-c01e-55a9-2700-8e4e8e36b14b@linux.ibm.com>
-Date: Tue, 15 Feb 2022 08:52:21 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2] docs: Add measurement calculation details to
- amd-memory-encryption.txt
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <20211220104224.143961-1-dovmurik@linux.ibm.com>
- <YdSLJG3GRSf88G11@redhat.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <YdSLJG3GRSf88G11@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 0Q_Pc8u_yKmQVFoi8oPAHQQQGtnY71Io
-X-Proofpoint-ORIG-GUID: 5wLksiVtQlBRKyfDxAK_e7cfIJSJ7cnE
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nJrj7-0005YV-Ru; Tue, 15 Feb 2022 01:54:19 -0500
+Received: from [2607:f8b0:4864:20::22d] (port=34327
+ helo=mail-oi1-x22d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nJrj2-0001Aj-Fp; Tue, 15 Feb 2022 01:54:16 -0500
+Received: by mail-oi1-x22d.google.com with SMTP id i5so19896377oih.1;
+ Mon, 14 Feb 2022 22:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=mwR2K4VxfqDD4S4XcVuW68Hpg8pTpcjfz0vEfmM78ds=;
+ b=RZlIthFKAo2DMYme+lGeQ1lznVbfvcEk2lX1mVqZXRAMXhJR4nOcNL+22SpE8pEAEo
+ IjxNqZ5fjJA3cMmspGFlcMQDkT/gOewvgA2hu5ruPa100pi19WW/aQUTRNPEllERqw87
+ ig6SyiEZ9jLb8nj03gCHndFfKfH5+4b2/c+ROFkvYxOJZDtoj7AVIUNU4V6bu7F60hmh
+ /b4Ylc6fEmiOb6Lsmr3aZSkRjWpR0A8xBwpkQ3QOVlVPcDshAgfg64Gva7Hztw+VlGoN
+ rcTqMyRXrkIcrD0TLq9cmvjmHUBIxKINNOg5hiJdLQf8jkGfSAcDWo5/xcUaRIaHZ2Eg
+ E45Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mwR2K4VxfqDD4S4XcVuW68Hpg8pTpcjfz0vEfmM78ds=;
+ b=zP/UfmkvNK7F0360P8uDS6xr7hoRWB60S6ggCyzgCZ5/0WclSL+6ngxf0FjkIKanSS
+ dzsPAO8XLeacB0XB/L+ZU9H+qOQ8DGmyzXt7/5Qg80IaU0bVXmWJ4WHuiaR5yTt/G5st
+ p3kKxLRU9JrbxlvXS5+Cc881559InIXKWy61uOmdQ38vsc4MRPpjjbpJhyeRCMs2em31
+ YB9KbogzrvBFPHE5cH2laRCV7NF0t06CRjzwezJ6zIfBviJpPJh96y1vQVkWKD0sGILC
+ HtMq4dQ/Q1pvx6dS2qMkxq4eCVShYXGocYrL3eU/Tla3Vf3l6Mi4EbqH0MetJdwFns2R
+ OhcQ==
+X-Gm-Message-State: AOAM533GMhIzA3E0gNKWXztF6iOHSgK6BY1r6q+vD7M2Tj/BeV2rEmZ5
+ SOHxT6XW1qTSWfswQC4LiyCUUsrmU5kw2VBz9Z4=
+X-Google-Smtp-Source: ABdhPJx4bftjN54a4Lb9HrdZe0LxrDtzB2X5QZRmygLhTXE1WzrJxFtMkNSMCL68zr0sHYJ829WrTC0XOHoW3fYRjBw=
+X-Received: by 2002:aca:6083:0:b0:2cb:5570:7564 with SMTP id
+ u125-20020aca6083000000b002cb55707564mr1046967oib.57.1644908049979; Mon, 14
+ Feb 2022 22:54:09 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-15_02,2022-02-14_04,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 spamscore=0 clxscore=1015 bulkscore=0
- priorityscore=1501 suspectscore=0 impostorscore=0 adultscore=0
- mlxlogscore=999 malwarescore=0 mlxscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202150037
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220214185605.28087-1-f4bug@amsat.org>
+ <20220214185605.28087-11-f4bug@amsat.org>
+In-Reply-To: <20220214185605.28087-11-f4bug@amsat.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Tue, 15 Feb 2022 15:53:59 +0900
+Message-ID: <CAMVc7JUiFBcvMeFXrgM=6V51JGQZFvynX5hwnZRWaPzPp+5hWA@mail.gmail.com>
+Subject: Re: [PATCH v5 10/16] audio/coreaudio: Remove a deprecation warning on
+ macOS 12
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-oi1-x22d.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,47 +83,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Li Zhang <lizhang@suse.de>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Roman Bolshakov <roman@roolebo.dev>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Feb 15, 2022 at 3:57 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> When building on macOS 12 we get:
+>
+>   audio/coreaudio.c:50:5: error: 'kAudioObjectPropertyElementMaster' is d=
+eprecated: first deprecated in macOS 12.0 [-Werror,-Wdeprecated-declaration=
+s]
+>       kAudioObjectPropertyElementMaster
+>       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       kAudioObjectPropertyElementMain
+>   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Fram=
+eworks/CoreAudio.framework/Headers/AudioHardwareBase.h:208:5: note: 'kAudio=
+ObjectPropertyElementMaster' has been explicitly marked deprecated here
+>       kAudioObjectPropertyElementMaster API_DEPRECATED_WITH_REPLACEMENT("=
+kAudioObjectPropertyElementMain", macos(10.0, 12.0), ios(2.0, 15.0), watcho=
+s(1.0, 8.0), tvos(9.0, 15.0)) =3D kAudioObjectPropertyElementMain
+>       ^
+>
+> Replace by kAudioObjectPropertyElementMain, redefining it to
+> kAudioObjectPropertyElementMaster if not available.
+>
+> Suggested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Suggested-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Suggested-by: Roman Bolshakov <roman@roolebo.dev>
+> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  audio/coreaudio.c | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+>
+> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+> index d8a21d3e50..5b3aeaced0 100644
+> --- a/audio/coreaudio.c
+> +++ b/audio/coreaudio.c
+> @@ -44,10 +44,15 @@ typedef struct coreaudioVoiceOut {
+>      bool enabled;
+>  } coreaudioVoiceOut;
+>
+> +#if !defined(MAC_OS_VERSION_12_0) \
+> +    || (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_VERSION_12_0)
+> +#define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaste=
+r
+> +#endif
+> +
 
+This still uses MAC_OS_X_VERSION_MAX_ALLOWED. Apparently the change to
+use MAC_OS_X_VERSION_MIN_REQUIRED went to "[PATCH v5 16/16] gitlab-ci:
+Support macOS 12 via cirrus-run".
 
-On 04/01/2022 20:00, Daniel P. Berrangé wrote:
-> On Mon, Dec 20, 2021 at 10:42:24AM +0000, Dov Murik wrote:
->> Add a section explaining how the Guest Owner should calculate the
->> expected guest launch measurement for SEV and SEV-ES.
->>
->> Also update the name and link to the SEV API Spec document.
->>
->> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
->> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
->>
->> ---
->>
->> v2:
->> - Explain that firmware must be built without NVRAM store.
->> ---
->>  docs/amd-memory-encryption.txt | 52 +++++++++++++++++++++++++++++++---
->>  1 file changed, 48 insertions(+), 4 deletions(-)
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> 
-
-Paolo,
-
-Can you please add this to your queue?
-
-Original patch v2:
-https://lore.kernel.org/qemu-devel/20211220104224.143961-1-dovmurik@linux.ibm.com/
-
-Thanks,
-Dov
+>  static const AudioObjectPropertyAddress voice_addr =3D {
+>      kAudioHardwarePropertyDefaultOutputDevice,
+>      kAudioObjectPropertyScopeGlobal,
+> -    kAudioObjectPropertyElementMaster
+> +    kAudioObjectPropertyElementMain
+>  };
+>
+>  static OSStatus coreaudio_get_voice(AudioDeviceID *id)
+> @@ -69,7 +74,7 @@ static OSStatus coreaudio_get_framesizerange(AudioDevic=
+eID id,
+>      AudioObjectPropertyAddress addr =3D {
+>          kAudioDevicePropertyBufferFrameSizeRange,
+>          kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>      };
+>
+>      return AudioObjectGetPropertyData(id,
+> @@ -86,7 +91,7 @@ static OSStatus coreaudio_get_framesize(AudioDeviceID i=
+d, UInt32 *framesize)
+>      AudioObjectPropertyAddress addr =3D {
+>          kAudioDevicePropertyBufferFrameSize,
+>          kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>      };
+>
+>      return AudioObjectGetPropertyData(id,
+> @@ -103,7 +108,7 @@ static OSStatus coreaudio_set_framesize(AudioDeviceID=
+ id, UInt32 *framesize)
+>      AudioObjectPropertyAddress addr =3D {
+>          kAudioDevicePropertyBufferFrameSize,
+>          kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>      };
+>
+>      return AudioObjectSetPropertyData(id,
+> @@ -121,7 +126,7 @@ static OSStatus coreaudio_set_streamformat(AudioDevic=
+eID id,
+>      AudioObjectPropertyAddress addr =3D {
+>          kAudioDevicePropertyStreamFormat,
+>          kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>      };
+>
+>      return AudioObjectSetPropertyData(id,
+> @@ -138,7 +143,7 @@ static OSStatus coreaudio_get_isrunning(AudioDeviceID=
+ id, UInt32 *result)
+>      AudioObjectPropertyAddress addr =3D {
+>          kAudioDevicePropertyDeviceIsRunning,
+>          kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>      };
+>
+>      return AudioObjectGetPropertyData(id,
+> --
+> 2.34.1
+>
 
