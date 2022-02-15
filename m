@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5F84B791F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 21:58:45 +0100 (CET)
-Received: from localhost ([::1]:55474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FD94B792A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 22:11:01 +0100 (CET)
+Received: from localhost ([::1]:36210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK4uK-0003HY-Ev
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 15:58:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58294)
+	id 1nK56B-0001Wy-MV
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 16:10:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.kanavin@gmail.com>)
- id 1nK4sY-0001nJ-8U
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 15:56:54 -0500
-Received: from [2a00:1450:4864:20::62c] (port=43712
- helo=mail-ej1-x62c.google.com)
+ id 1nK53z-00081q-Ix
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 16:08:44 -0500
+Received: from [2a00:1450:4864:20::62a] (port=36400
+ helo=mail-ej1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.kanavin@gmail.com>)
- id 1nK4sV-0003Ym-RB
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 15:56:53 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id d10so46899214eje.10
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 12:56:48 -0800 (PST)
+ id 1nK53w-0005Kz-Uy
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 16:08:43 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id jg20so22039273ejc.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 13:08:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=0M5hqcm8sugKN8xuN3cjc170LMmNC3ZZM/7j3IAI1Qk=;
- b=aP0SAokJ9ZJz/KxYLtYdrfhZRa0hetUHAr3pxruZc58E/9hNWN8eZOubHAJ6bOLRJ9
- faQ0hIZ3DzYVvGCvqu+yhZtv6Pi4tVuHzzbVZvx/Am8WpB0cB85jkigpcqX0VQKqhSOQ
- kAwkMX/0uSesI8di0svcjXjV3HXmi4fJC7IsJmBkwwHjkVPh3GqhI8VQz2en7n8NMkls
- 16tx6CDwsYLIKy0lWiZiPyGs1bUGwDvK+HZ3j9CxtZkkP6pu5HGjGgqPxk9BpjjsEV6z
- oGCoPnKjg0I5iogZvZULMidhm2PRjllDQA0ziyLNWOkKgm2C2NF7LEYTOMJUsOlFdRTM
- LokA==
+ bh=CfQRdtbyJnVTZ5vcMfgR0ZQCgifg3c+t/Lrr5IqOCGw=;
+ b=ihPphRGuqXGpVxwnmkooVTWITTDzBTrAu9eeweEvHGLqK0fTVbR10UEGFUQx/q8TbP
+ yaMWKHwuGJ9vD/pBs55lPbXI6K1PihHww8iin9gVHyargcqEtyf6Hq7fQvoH2EEIZnf/
+ JoLqoiyB/y8ZrvN27VeIKoTfXYlNI2b1xz7p3Ox+4pg/FGn9et2qKid4rUg0U2moHXcN
+ rImF/+/J3MReKrEBYZFSrGM8YItRjyJIzJ2L8pfOJws6avLWJOOkrmbjBPl9XAF+gQ6p
+ a4a7EvuV4DNUkHkYj/iPpG6hD0sIu+SBDGFTMV1VpKs51qWwfqOeByI32eUqVRUv4kUY
+ Cnmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=0M5hqcm8sugKN8xuN3cjc170LMmNC3ZZM/7j3IAI1Qk=;
- b=oKcf63+KeFeEC7RHuTcHZ6eNyxiMO1RVp4bfFtUYO7cBRhmP7nqrAhxIfhAbejtGvW
- ln2OhcrvaKqhacJOfknVTxJPnIUzaKRtUoq4IPWTXJ862dj0oyPRSS9fdjlrdeuncjXt
- 6TQy9DQm1EUfqCmQ6te/4QSY/tJg7g6iGyfemaLEuCCDqRCvXKaiPWnOo+LdTe4OiUNZ
- LbEfDD1IIz3CHpjhtaUXEXGSM0irLNPbvDQkl5sQTVElafmhAkzqGve+DkeHjCurnuYz
- aiOLBqVmc5Pajsm2cW7drWlZ26R8R+g0N4w2k+K5XjnjUh3t9iLrf/PnbQLa86QlBovU
- Xv8g==
-X-Gm-Message-State: AOAM533jTjugjEVsvbBk6sjQSGpBuA87JCR25YnCRdn6LKdti0UAqp4X
- eCtVmvuP7b59G4pIzQqLz7uKzipp50I=
-X-Google-Smtp-Source: ABdhPJz44nRC1yatQb5x0mz7grnrLp/EgPbUGPdc+3v/7UuNM4x+I3Reqr6BRjVrqAM9zm1CKRpS8w==
-X-Received: by 2002:a17:906:950c:: with SMTP id
- u12mr745792ejx.252.1644958607451; 
- Tue, 15 Feb 2022 12:56:47 -0800 (PST)
+ bh=CfQRdtbyJnVTZ5vcMfgR0ZQCgifg3c+t/Lrr5IqOCGw=;
+ b=nflrTSgCa4O6uB/FjCdeGLDwLPtmqTZb9dsYanD62CSkkpfdegsCCSqFMZYSPa0rkX
+ BlYNgpEYPeHWPu1P/LIGM2+NrUSnOf0O+fm7URhVnrMwNEXh45lyULYML3se1O+50juA
+ Wk4KTYXmE6ylFBHDgSukrCnyM7wuBT1BR8CBdoy96snrvIDUvNj+daGGOmvx5r1WEjNs
+ IfC27QhNsaGDiOLF1lcLTQ1/02zlMvySLto4Qw4WoACcDoEez5V8hkEjJRnuJTYv+5Q7
+ kE37vwD6h0mpGAjPxibKIcGEINUOrSiCaUW+0Gq24H3fR3lJmVPHTg4XtVe6SWWk8b8V
+ DCkQ==
+X-Gm-Message-State: AOAM532T1cvrpCD2eZuWLi2UBeAiJuegJABkv+19gePFB6QipmF5ayRj
+ 0ytNvarmVf3qugQlgUmjDJ2YH+uiFRs=
+X-Google-Smtp-Source: ABdhPJyE/+2xFxp9/ohvwsOwMutKNa2a7DrUAYh0jGvd0RN7rYuiTXPR+NP65A/Xgt8CjhSxigoVbw==
+X-Received: by 2002:a17:906:549:: with SMTP id k9mr725457eja.649.1644958861523; 
+ Tue, 15 Feb 2022 13:01:01 -0800 (PST)
 Received: from alex-lx-laptop.fritz.box
  ([2a02:2454:29b:3b00:6474:2a45:decd:ac3c])
- by smtp.gmail.com with ESMTPSA id j9sm1778559ejo.106.2022.02.15.12.56.46
+ by smtp.gmail.com with ESMTPSA id z1sm1217455eji.136.2022.02.15.13.01.00
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 12:56:47 -0800 (PST)
+ Tue, 15 Feb 2022 13:01:01 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: qemu-devel@nongnu.org
 Subject: [RFC PATCH] i386/tcg: add AVX/AVX2 support (severely incomplete,
  just for preliminary feedback)
-Date: Tue, 15 Feb 2022 21:56:37 +0100
-Message-Id: <20220215205637.36863-1-alex@linutronix.de>
+Date: Tue, 15 Feb 2022 22:00:59 +0100
+Message-Id: <20220215210059.37002-1-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=alex.kanavin@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=alex.kanavin@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -88,7 +87,6 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Kanavin <alex@linutronix.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -103,7 +101,7 @@ There's an enormous amount of legacy SSE instructions to adjust
 for VEX-128 and VEX-256 flavours, so I would want to know that this
 way would be acceptable.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
  target/i386/cpu.h            |   6 ++
  target/i386/ops_sse.h        |  40 +++++++++---
