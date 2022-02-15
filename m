@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39834B65FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:26:03 +0100 (CET)
-Received: from localhost ([::1]:57694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F80D4B659F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:14:49 +0100 (CET)
+Received: from localhost ([::1]:37510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJt9u-0007ug-S5
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:26:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60002)
+	id 1nJsz2-0002VJ-EO
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:14:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJspP-00031g-Et
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:04:51 -0500
-Received: from [2607:f8b0:4864:20::62b] (port=33564
- helo=mail-pl1-x62b.google.com)
+ id 1nJspZ-00038X-Ir
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:05:02 -0500
+Received: from [2607:f8b0:4864:20::434] (port=40464
+ helo=mail-pf1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJspM-0002Ee-Qa
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:04:50 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id l9so10913166plg.0
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 00:04:48 -0800 (PST)
+ id 1nJspX-0002Fb-64
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:05:00 -0500
+Received: by mail-pf1-x434.google.com with SMTP id c4so12267386pfl.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 00:04:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jfgedMbiWFKJInWYax42U3NQTRfZ8JrSl2dGV6VDciM=;
- b=WtQvJs4Y9gRPECZX2mY0/vVrc2mqAWgaaAMuIvO2hn00T1OpMWW6KBWRAxHdyRsPeG
- 4nk5N5n+WkXXvN5KmI4ehG2FYqIrm8dT+glBpaDmwOkh9Fd7or0UspC6xTyJHcuLAFfF
- mHOW7ztQ1aAfeRYfKWErpWn3+HkAo1fA6PiOyWJfUMnRa8hx2c/OoweFvaW8oM8sDHeY
- kdq1SiyPwsHM1vClYEf2749qVfpRMiDhV3Xb0HADQV7jPRR00d4M38mQXiFrw4SsA7LS
- Jyj6KdHQJxjoNEezO3KN/cyAIaCc301LBorTjtqVDAVFVX1zHfrHD1EIlN2wyYS9hDze
- id6Q==
+ bh=cRI6UGAn4vjJdciiBP0mAxumIP6lTNDE1aSs08ebrks=;
+ b=nePv76A56nC5QANB/2nuk5UhqhXcUkVyHDikNtrfqXEX5OCRi3i1RqiNMplL+/wXeH
+ 67JMcPtMAEWCowDI51mOiChqxHgXfIrRjpZGol1Jh7wmsqk5qb+oKCXavDhNYyRj4SKK
+ sUZcV9ngM3vfm9bf7ooEgJJLKHu/rkAYm/sdvuEMNq6BfAD3TyQX507IrFnb5Q3iwhdf
+ nfXkPlERmDQ2Rz4AKUKVirNLqCjX+u23TNf0PqXtBv9PfK9QVcwCkGGRU3QWNfnR85Jt
+ 5lcVmF+tcKhUyUY7AD3LBdTX5HvepFm/FhdRpn9PsOcEp6FwS2A+6p/RAigd2s/QkFpC
+ v3Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jfgedMbiWFKJInWYax42U3NQTRfZ8JrSl2dGV6VDciM=;
- b=3OPFf0hf6OnI4/8/z8TdXHo1W4f1laL4wN0aTVg+QnXHKPVSrY7yn9yDelsTm/nilr
- dhgxwyQ8zANEMer++sKHO6EvX5bFm+ba7NwYIOtq7QBH5oj+z8MqUhc7fkoxwHDuE0Q0
- 9JD/rbM0MWXIeJwrJF17o1CWTLQVVnJ1G59erj6R8A5WXSoKjb/dkE06FrLanWEF0iyx
- uJ3U5P+ufXxfxVGQm+doPLtIfJhrza7GgdP+v6Ry5TCIKgHO2AHvHrx7D0bMHHJ7oYj3
- WDfXHGXr4OqibTGNuNyp2KLRaA23rFQhMjIdP1TtKP/8yewr3INSM936AGohNivWJC8D
- CNyQ==
-X-Gm-Message-State: AOAM5325Oz5ZyGlKsn/CoNwvM1RHhStqLeqL5Xke+7tZa5okBrbvsHfm
- s7ERcH9fcYYxwdV7IfC31KzjTaR1eio=
-X-Google-Smtp-Source: ABdhPJxiDj9mLZKPv58/Fu9d2CxhXdSbrfbtKzUNRspNfMVOI0PD/qZj8K7WfsEorcf/2XHY6M59CQ==
-X-Received: by 2002:a17:903:228b:: with SMTP id
- b11mr2811664plh.104.1644912287567; 
- Tue, 15 Feb 2022 00:04:47 -0800 (PST)
+ bh=cRI6UGAn4vjJdciiBP0mAxumIP6lTNDE1aSs08ebrks=;
+ b=JEMTc5Qf/HLOrIrkuFaRE/X0E9jMHwv069/uQBzGMhE9oX0clfEsvtnPYabqiWSywD
+ BxgZ/yhW1Rhzrtoc9X3FHTxMOkt0rE/2M3ChlZIa2WLb863DOc5y2h+H/9VzNFFnRAQ3
+ qz+Z/1v6+1Maay3UD2fMISsy/Z+MN1S8yHBB3nwgCS6KgMDSqJcOvnMkaEQAjaKT2G4F
+ 5DzNllDAVU28IUHI7hdhf0Uo6Bne3VECguLjTrL0k1xASyYGc6NjvcGQ+GOC7us0Z6Kd
+ uygLQRGNsuWqcblQlygNec6fsuiPd9o4ruiVXejcQzC/HmCS0roZLg/uPWQ4KzlvS8+E
+ rHyA==
+X-Gm-Message-State: AOAM532nhU3SM5z+l7oBoHwfMOzFc7y70OplZGZ/zzqzGNV7kQsLa7w1
+ bCTZW6HGYoek+vtrnH+XlIbpYy5xZnM=
+X-Google-Smtp-Source: ABdhPJwRVVk123M4wdH9+RhKVXV+aVRODk3++6NGWWjv1Fi7cHF/ElC86Tl5ZC+cYSOlrqDY9boyng==
+X-Received: by 2002:a63:505a:: with SMTP id q26mr2490725pgl.485.1644912295857; 
+ Tue, 15 Feb 2022 00:04:55 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id pc18sm5678038pjb.9.2022.02.15.00.04.45
+ by smtp.gmail.com with ESMTPSA id w11sm38982375pfu.50.2022.02.15.00.04.53
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 15 Feb 2022 00:04:47 -0800 (PST)
+ Tue, 15 Feb 2022 00:04:55 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
  Cameron Esfahani <dirty@apple.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v6 11/15] ui/cocoa: Add Services menu
-Date: Tue, 15 Feb 2022 09:03:03 +0100
-Message-Id: <20220215080307.69550-12-f4bug@amsat.org>
+Subject: [PATCH v6 12/15] ui/cocoa: Do not alert even without block devices
+Date: Tue, 15 Feb 2022 09:03:04 +0100
+Message-Id: <20220215080307.69550-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215080307.69550-1-f4bug@amsat.org>
 References: <20220215080307.69550-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x434.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -100,38 +99,29 @@ From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Services menu functionality of Cocoa is described at:
-https://developer.apple.com/design/human-interface-guidelines/macos/extensions/services/
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220214091320.51750-1-akihiko.odaki@gmail.com>
+Message-Id: <20220213021418.2155-1-akihiko.odaki@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- ui/cocoa.m | 4 ++++
- 1 file changed, 4 insertions(+)
+ ui/cocoa.m | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 7a1ddd4075..becca58cb7 100644
+index becca58cb7..6cadd43309 100644
 --- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -1591,11 +1591,15 @@ static void create_initial_menus(void)
-     NSMenuItem  *menuItem;
+@@ -1713,11 +1713,6 @@ static void addRemovableDevicesMenuItems(void)
  
-     [NSApp setMainMenu:[[NSMenu alloc] init]];
-+    [NSApp setServicesMenu:[[NSMenu alloc] initWithTitle:@"Services"]];
+     currentDevice = qmp_query_block(NULL);
+     pointerToFree = currentDevice;
+-    if(currentDevice == NULL) {
+-        NSBeep();
+-        QEMU_Alert(@"Failed to query for block devices!");
+-        return;
+-    }
  
-     // Application menu
-     menu = [[NSMenu alloc] initWithTitle:@""];
-     [menu addItemWithTitle:@"About QEMU" action:@selector(do_about_menu_item:) keyEquivalent:@""]; // About QEMU
-     [menu addItem:[NSMenuItem separatorItem]]; //Separator
-+    menuItem = [menu addItemWithTitle:@"Services" action:nil keyEquivalent:@""];
-+    [menuItem setSubmenu:[NSApp servicesMenu]];
-+    [menu addItem:[NSMenuItem separatorItem]];
-     [menu addItemWithTitle:@"Hide QEMU" action:@selector(hide:) keyEquivalent:@"h"]; //Hide QEMU
-     menuItem = (NSMenuItem *)[menu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"]; // Hide Others
-     [menuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
+     menu = [[[NSApp mainMenu] itemWithTitle:@"Machine"] submenu];
+ 
 -- 
 2.34.1
 
