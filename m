@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B800B4B7441
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 19:06:07 +0100 (CET)
-Received: from localhost ([::1]:50404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE92C4B7442
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 19:06:09 +0100 (CET)
+Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK2DG-0002er-Cg
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 13:06:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48028)
+	id 1nK2DI-0002gS-57
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 13:06:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nK27I-0007Op-HS
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 12:59:58 -0500
-Received: from [2a00:1450:4864:20::433] (port=33562
- helo=mail-wr1-x433.google.com)
+ id 1nK28O-0007nO-Md
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 13:01:08 -0500
+Received: from [2a00:1450:4864:20::431] (port=39752
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nK27F-0000Jm-VX
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 12:59:56 -0500
-Received: by mail-wr1-x433.google.com with SMTP id e3so33557783wra.0
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 09:59:49 -0800 (PST)
+ id 1nK28J-0000og-0X
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 13:01:01 -0500
+Received: by mail-wr1-x431.google.com with SMTP id d27so33475537wrc.6
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 10:00:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QdTYeDZ6DuyxcJzqQqQeAlebg7soHWD2SDdKzIc3ngc=;
- b=EmQJ4LLsVe+xo8TqlRzqYn/4foZm9EGERCwhen0aay6C13kQ2IicCZHyxMjfzxnYho
- Mwusi3z6wYmefO9y254H1ZRqY+VqZfiJ2VpdYCYne1l4xNihmgE73d+IeE0GMiDtwrOn
- CQuyhM4V/bEa9G8QI/LQ2hGTQJVVTksFuHVXpSZkNiDQhgqXJ913FNEZUfqh9ZWfOpuu
- evcUni9NzaV1lqcZuFkK97ltWYycbUK74yfsSmj5lSLU0zAnlTFYJmcxVUowxvXJrABV
- mJgdcQyvxwPzxlPns7p0hda0csQNnSDJVZ8/vnrRfjctCY8yrpDKLUVvxYmXwPhyEjjx
- sAnw==
+ :cc; bh=hDgOuShkiI43vYLf1+GhgKiQWBz+TwVIXLFATL2dXRc=;
+ b=Rp7U8OO/aqtsyksmBMXNnBzKUm4gEpzgC0yPbC8rSbOZ4oW+FdI83EPypX7c55UliL
+ /57ncY6ztHrGcG8OFzTo6L2R1JD7sVvGuy0ZIb0+mt5khQAoDAlaGPvb5tvTKs0ilLYX
+ nTTH7Gt0RG54CA5k1usqci6xdKS9WEa07NPzCIdxOXVUMd5L9RnFzERuCuSotJ8UKwZ+
+ 7nsiGUu9FqNjJB1hApDS/M5iIm1kjykVF6LsNoCg5shaj697fHi4RHwfHlDIhSP5cggc
+ FieBL24exF9kk4jgSRlHk0zBoHFBcyWywkubEoqFIIwRdLLJo+PEUJ0JoIDDZcfer4Qe
+ cYhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QdTYeDZ6DuyxcJzqQqQeAlebg7soHWD2SDdKzIc3ngc=;
- b=leizLeafB4kz8c7WD1lkTB+QX4dGzpSbr9nmwMUCGQWDvAhq7yPm1NMVfKKhMlWUEy
- 7pGVYubaM9VxZ4cEY2JEH9qAKtYO3MfuN0t3qqWYheL8GYvy34kCkuswc6Ao1BODNkqv
- 8czQzqESKEWT6sNASE09KBZGWEHoI5hxAAbybReNgooEjxTdIwCeDb2fnvsqIBlLKWYc
- 3IQO7X8oKjZjMRk7Wog9+F3yfisbF88WmO25EGAMiHB6lyKUYU2J+WE6TCDqjzeU4AmM
- d12LhkO21mQOz3iaYpAioHWnryqv5NaVUgrl1odvluii/NFZc1VPJBGboKQAJpr9kDrr
- cJ6w==
-X-Gm-Message-State: AOAM530FSb+TvSDD40IcJ6d4WHxYDXcuDUHg/nMQoZh6xU3w3SyXyASQ
- gb6OvxyHxQZQAuIzWDwRylWsNqxZnsLo83Q5MuIpSw==
-X-Google-Smtp-Source: ABdhPJxlYw9Mgc+D+M0ZUWInu6UsfNMm7aFz1gw4rzNllfn0iVJZZbPqAksmoz7AYmAQukc8nWcFACDMiypAUzifO0c=
-X-Received: by 2002:a5d:498d:: with SMTP id r13mr146141wrq.172.1644947988424; 
- Tue, 15 Feb 2022 09:59:48 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=hDgOuShkiI43vYLf1+GhgKiQWBz+TwVIXLFATL2dXRc=;
+ b=5bDrlBRMFNGZZ1PvlGuuSOWDyMVGSs8vErWSb1qcHe9ZSdlZ8E+jYwENe3JtRoOyru
+ JiV2PBNLJWequmsHFKhAZjoydM0Rok1+x9HdPHXzRbIG33UPkWcQWQ+QDiD8+D7T+Tof
+ gqRqbg9ZiPmgWDY48dqGzhDhRlilBrHu7IFe9hna3dQCJJHHpyIj1qwnzHcurm64OYes
+ DmTw1ARuBB1pBqrLABGYafHx7BX8Davlep2+KV7GEsKsf/sxqIElysv/0tJJ5AcfJ7VR
+ FmbsVpSZt0BLAgd1UZZ5qUyhJ4jlHtt2efEBLozXCF0jnpPSIUp8mn3IPLuXoSjwaGOJ
+ 6Ovw==
+X-Gm-Message-State: AOAM533vMQ1AMCqzw0hpZwgYOuUTZ0KvFvLL7TOpGVe2/U9RmK7YgmOh
+ UCTFyoRNWjUut0sKVW81maTWK5m26he5N3yyaAMpZA==
+X-Google-Smtp-Source: ABdhPJz+BXMmDma2Dq9Q4G8StpRxKg5OEU16PtjeJv2UdnGxP6dkqRRbTDijXa891wPxX6EhMMX5GmiOSL/FSFrajoc=
+X-Received: by 2002:a5d:498d:: with SMTP id r13mr149800wrq.172.1644948055656; 
+ Tue, 15 Feb 2022 10:00:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20220127150548.20595-1-quintela@redhat.com>
- <20220127150548.20595-19-quintela@redhat.com>
- <CAFEAcA8+ri-ndQv0b10yfUjSJZwH5Ec08S10_-2k5C8_OMYYDg@mail.gmail.com>
- <7e091698-d5db-689c-4c19-b5a7eede51f3@kaod.org>
-In-Reply-To: <7e091698-d5db-689c-4c19-b5a7eede51f3@kaod.org>
+References: <20220203015946.1330386-1-jsnow@redhat.com>
+ <CAFEAcA_OXJ6C1UTFXiy6x1gp4VRmaWQY7ntU8N-3-O+TGcsKQQ@mail.gmail.com>
+ <CAFn=p-ZeG2XM_cP3hpKN-Cagk4T1Sr05YEDhtwmR4+_VOjVt7w@mail.gmail.com>
+ <CAFEAcA9fJMQizPmd1rUh7wPgPoz4dAXQPP07DzDFQK1ieN72VA@mail.gmail.com>
+ <CAFn=p-Zpvf4W1zZtnv5a9sn=38=dgsa7HUMnYM7dk7xW7gRB3g@mail.gmail.com>
+ <CAFEAcA-XvLDYRsM0Yf0TCg=7MMDCe7cKz0qcMFcOx5KZfZTyQA@mail.gmail.com>
+ <CAFn=p-YnPiexJLCNGikCvJMSZKvuyUoWhb6vmBz966cWcEkObg@mail.gmail.com>
+In-Reply-To: <CAFn=p-YnPiexJLCNGikCvJMSZKvuyUoWhb6vmBz966cWcEkObg@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Feb 2022 17:59:37 +0000
-Message-ID: <CAFEAcA8ENTOMS2xzEeMr6hq-j_WE9musmq5mhQmSBAfHUt-M0Q@mail.gmail.com>
-Subject: Re: [PULL 18/38] Remove unnecessary minimum_version_id_old fields
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Date: Tue, 15 Feb 2022 18:00:44 +0000
+Message-ID: <CAFEAcA_JbCrWRX=uHtbm=b+DATXRmJNzRe_p_v8Td2pfY4N7oQ@mail.gmail.com>
+Subject: Re: [PULL 0/4] Python patches
+To: John Snow <jsnow@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -85,46 +86,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Laurent Vivier <Laurent@vivier.eu>,
- Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Hannes Reinecke <hare@suse.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>, Alistair Francis <alistair@alistair23.me>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-ppc@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Feb 2022 at 17:34, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Tue, 15 Feb 2022 at 17:46, John Snow <jsnow@redhat.com> wrote:
+> Just so I don't leave this thread hanging, I filed a GitLab issue and
+> I'm working on it, but this one isn't as quick to solve as the other.
 >
-> On 2/15/22 18:13, Peter Maydell wrote:
-> > No, as the commit message notes, it deliberately did not change
-> > that one vmstate, because at the time of writing the patch
-> > that was the one vmstate that really was still using
-> > load_state_old. As it happens commit 8f91aca7ff0044b hit
-> > master first, removing that use of load_state_old (but
-> > forgetting to remove the minimum_version_id_old field along
-> > with it),
->
-> If I remember well, at the time of this patch, we were both working
-> on the same part and I thought that removing all minimum_version_id_old
-> in one go was better.
+> https://gitlab.com/qemu-project/qemu/-/issues/874
 
-I would tend to disagree, but we got to the right place anyway,
-so it doesn't matter. I've just posted the patch that removes
-the load_state_old and minimum_version_id_old fields from
-the struct definition entirely; it's nice to be able to
-finally drop that little bit of legacy support.
+Is there anything particular to NetBSD that means it happens
+more often there, or is it just random luck that we hit
+the race there and haven't seen it elsewhere ?
 
 -- PMM
 
