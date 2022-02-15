@@ -2,49 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A0B4B68D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:08:08 +0100 (CET)
-Received: from localhost ([::1]:55194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7234B68E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:11:42 +0100 (CET)
+Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJukh-0006q1-Op
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:08:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60356)
+	id 1nJuo9-0004BT-Tx
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:11:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <heiko@sntech.de>)
- id 1nJubg-00045g-BX; Tue, 15 Feb 2022 04:58:48 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:51272)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nJuf7-0007FG-Lb
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:02:21 -0500
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:48837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <heiko@sntech.de>)
- id 1nJubc-0003yl-LZ; Tue, 15 Feb 2022 04:58:47 -0500
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1nJubW-0006wr-FN; Tue, 15 Feb 2022 10:58:38 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org,
- Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH] target/riscv: Add isa extenstion strings to the device
- tree
-Date: Tue, 15 Feb 2022 10:58:37 +0100
-Message-ID: <3809640.nalusGk6Lh@diego>
-In-Reply-To: <20220215090530.911828-1-atishp@rivosinc.com>
-References: <20220215090530.911828-1-atishp@rivosinc.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nJuej-0004aj-OD
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:01:59 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.173])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 22D03DFF0403;
+ Tue, 15 Feb 2022 11:01:55 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 15 Feb
+ 2022 11:01:54 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004ad930e13-4a03-459c-a89d-6e0b42ec1237,
+ 9E61FECBC99B7F84222AE0DB6991604CA8A139D0) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <56392cde-b5f6-2e47-7980-ec2385e4c280@kaod.org>
+Date: Tue, 15 Feb 2022 11:01:48 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: none client-ip=185.11.138.130; envelope-from=heiko@sntech.de;
- helo=gloria.sntech.de
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 4/9] target/ppc: add vhyp addressing mode helper for radix
+ MMU
+Content-Language: en-US
+To: Nicholas Piggin <npiggin@gmail.com>, <qemu-ppc@nongnu.org>
+References: <20220215031642.1691873-1-npiggin@gmail.com>
+ <20220215031642.1691873-5-npiggin@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220215031642.1691873-5-npiggin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 69f87a9c-9859-4bf9-9ed3-0567b5dbce2c
+X-Ovh-Tracer-Id: 8796093025944439776
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrjeeggddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehfrghrohhsrghssehlihhnuhigrdhisghmrdgtohhm
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,87 +71,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Atish,
-
-Am Dienstag, 15. Februar 2022, 10:05:30 CET schrieb Atish Patra:
-> Append the available ISA extensions to the "riscv,isa" string if it
-> is enabled so that kernel can process it.
-
-For people glancing at these patches, a bit more insight into
-how the isa string comes together might be helpful.
-
-See question below for the reason ;-)
-
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->  target/riscv/cpu.c | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
+On 2/15/22 04:16, Nicholas Piggin wrote:
+> The radix on vhyp MMU uses a single-level radix table walk, with the
+> partition scope mapping provided by the flat QEMU machine memory.
 > 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index b0a40b83e7a8..c70260d0df15 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -34,6 +34,9 @@
->  
->  /* RISC-V CPU definitions */
->  
-> +/* This includes the null terminated character '\0' */
-> +#define MAX_ISA_EXT_LEN 256
-> +
->  static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
->  
->  const char * const riscv_int_regnames[] = {
-> @@ -881,10 +884,26 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
->      device_class_set_props(dc, riscv_cpu_properties);
->  }
->  
-> +static void riscv_isa_string_ext(RISCVCPU *cpu, char *isa_str, int max_str_len)
+> A subsequent change will use the two-level radix walk on vhyp in some
+> situations, so provide a helper which can abstract that logic.
+> 
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
+
+> ---
+>   target/ppc/mmu-radix64.c | 19 +++++++++++++++----
+>   1 file changed, 15 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+> index df2fec80ce..5535f0fe20 100644
+> --- a/target/ppc/mmu-radix64.c
+> +++ b/target/ppc/mmu-radix64.c
+> @@ -354,6 +354,17 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
+>       return 0;
+>   }
+>   
+> +/*
+> + * The spapr vhc has a flat partition scope provided by qemu memory.
+> + */
+> +static bool vhyp_flat_addressing(PowerPCCPU *cpu)
 > +{
-> +    int offset = strnlen(isa_str, max_str_len);
-> +
-> +    if (cpu->cfg.ext_svpbmt) {
-> +        offset += snprintf(isa_str + offset, max_str_len, "_%s", "_svpbmt");
-
-is a double-"__" the correct divider for isa extensions?
-
-I.e. you have "_%s" as well as "_svpbmt" here, which creates a double
-underscore in the ISA string.
-
-
+> +    if (cpu->vhyp) {
+> +        return true;
 > +    }
-> +    if ((offset < max_str_len) && cpu->cfg.ext_svinval) {
-> +        offset += snprintf(isa_str + offset, max_str_len, "_%s", "_svinval");
-> +    }
-> +    if ((offset < max_str_len) && (cpu->cfg.ext_svnapot)) {
-> +        offset += snprintf(isa_str + offset, max_str_len, "_%s", "_svnapot");
-> +    }
+> +    return false;
 > +}
 > +
->  char *riscv_isa_string(RISCVCPU *cpu)
->  {
->      int i;
-> -    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) + 1;
-> +    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) +
-> +                          MAX_ISA_EXT_LEN;
->      char *isa_str = g_new(char, maxlen);
->      char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
->      for (i = 0; i < sizeof(riscv_exts); i++) {
-> @@ -893,6 +912,8 @@ char *riscv_isa_string(RISCVCPU *cpu)
->          }
->      }
->      *p = '\0';
-
-blank line here?
-
-> +    riscv_isa_string_ext(cpu, isa_str, maxlen);
-> +
->      return isa_str;
->  }
-
-Heiko
-
+>   static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+>                                               MMUAccessType access_type,
+>                                               vaddr eaddr, uint64_t pid,
+> @@ -385,7 +396,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+>       }
+>       prtbe_addr = (pate.dw1 & PATE1_R_PRTB) + offset;
+>   
+> -    if (cpu->vhyp) {
+> +    if (vhyp_flat_addressing(cpu)) {
+>           prtbe0 = ldq_phys(cs->as, prtbe_addr);
+>       } else {
+>           /*
+> @@ -411,7 +422,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+>       *g_page_size = PRTBE_R_GET_RTS(prtbe0);
+>       base_addr = prtbe0 & PRTBE_R_RPDB;
+>       nls = prtbe0 & PRTBE_R_RPDS;
+> -    if (msr_hv || cpu->vhyp) {
+> +    if (msr_hv || vhyp_flat_addressing(cpu)) {
+>           /*
+>            * Can treat process table addresses as real addresses
+>            */
+> @@ -515,7 +526,7 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
+>       relocation = !mmuidx_real(mmu_idx);
+>   
+>       /* HV or virtual hypervisor Real Mode Access */
+> -    if (!relocation && (mmuidx_hv(mmu_idx) || cpu->vhyp)) {
+> +    if (!relocation && (mmuidx_hv(mmu_idx) || vhyp_flat_addressing(cpu))) {
+>           /* In real mode top 4 effective addr bits (mostly) ignored */
+>           *raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
+>   
+> @@ -592,7 +603,7 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
+>           g_raddr = eaddr & R_EADDR_MASK;
+>       }
+>   
+> -    if (cpu->vhyp) {
+> +    if (vhyp_flat_addressing(cpu)) {
+>           *raddr = g_raddr;
+>       } else {
+>           /*
+> 
 
 
