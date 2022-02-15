@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E389C4B6FFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:02:19 +0100 (CET)
-Received: from localhost ([::1]:45506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CAC84B6FFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:03:09 +0100 (CET)
+Received: from localhost ([::1]:47990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK0HS-0003fv-Ci
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:02:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44342)
+	id 1nK0IG-0005Ru-EM
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:03:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nK0F3-0002pQ-Cv; Tue, 15 Feb 2022 10:59:49 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60078)
+ id 1nK0HG-0004AW-1I; Tue, 15 Feb 2022 11:02:06 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nK0F0-0005aq-H3; Tue, 15 Feb 2022 10:59:49 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21FFfqUR014455; 
- Tue, 15 Feb 2022 15:59:39 GMT
+ id 1nK0HD-0006Bt-0x; Tue, 15 Feb 2022 11:02:05 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21FF3pJ3012815; 
+ Tue, 15 Feb 2022 16:01:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=0Lk5qLZLbmxMDOXqVXMQHgcdLyeHfh54dct2rf/ES+U=;
- b=VpWGr3uWXVLRdcvftqxvI4kEOqp/R6XRuM9rHYjvqzpkr3X7b18o3ekiYMgGH6feJtqf
- Xu5tcst6cBdATcI7DyFdRUUg6TsMNmeESSMjFEiLyOOPZNu763n+BMw06J3MALUBS82D
- rbYOAU+/4yhPyYJCJISBFW0Vl7ArOJhdmp4v6Uy6gaAuKZ+oHnE0g1uGfcR4NWlaQNSm
- OKpDNPu3W0xcGsq+7VJ9KGHbFBbQ/zUGiOV7OKGQA44q+Kxzqm2ZxhSMaGIAT1ceiz09
- g1I2mHR2f6ajBkjnhxRhiQbQck1J+Nz3yJG0db+1b8bdDThlx7Ta+2fQCgi+6Qb6Vbjq BA== 
+ content-type; s=pp1; bh=44WD/3bxxZXGZEEeO6eGQS1HcleNpgaMhZvEZL+W0Tw=;
+ b=AzJ9FRwhtx+cmyl2fpPHqsKcVrczm+gqbDf5p0SjY37XsryfuPXN5INBdXVp5jtP32IT
+ WaKhP1Su3GW5TOrtGZfbvnSSqQF6GVuLeZiEf2/lwdODejnMM/9AE/dQxfZGQugmzrvg
+ 6PJ+bZSlCnKLc/AvRQbowaME3VtqR8jD2oshsPQGpGIkMz53XvsRb++dECx32+snaUjv
+ rxJn1bDW/a0k+iJw2Qa+Oiktc7L8wq1Y8RWBM7aWw0XcPL6EtSM59eCmf5xWdKPA2q1G
+ jQfqOeI6IlU/t4dI/xEQG/HfB1hw2E22yJsnN7LwS1SpHUIiE6vXJEj59miTadPD2hkk aw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e8f1s0dpg-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e8e5ka56x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 15:59:39 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21FFjknj001271;
- Tue, 15 Feb 2022 15:59:38 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e8f1s0dny-1
+ Tue, 15 Feb 2022 16:01:44 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21FFoipt009920;
+ Tue, 15 Feb 2022 16:01:43 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e8e5ka56c-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 15:59:38 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21FFwSx5026542;
- Tue, 15 Feb 2022 15:59:37 GMT
+ Tue, 15 Feb 2022 16:01:43 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21FFvmXg023311;
+ Tue, 15 Feb 2022 16:01:43 GMT
 Received: from b03cxnp08026.gho.boulder.ibm.com
  (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma05wdc.us.ibm.com with ESMTP id 3e64hakwj7-1
+ by ppma04dal.us.ibm.com with ESMTP id 3e64hbtff7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Feb 2022 15:59:37 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ Tue, 15 Feb 2022 16:01:42 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
  by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21FFxapf28377552
+ 21FG1fk627066676
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Feb 2022 15:59:36 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3F060BE054;
- Tue, 15 Feb 2022 15:59:36 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6B0ABBE062;
- Tue, 15 Feb 2022 15:59:35 +0000 (GMT)
+ Tue, 15 Feb 2022 16:01:41 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 78A92C6067;
+ Tue, 15 Feb 2022 16:01:41 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9E613C6069;
+ Tue, 15 Feb 2022 16:01:40 +0000 (GMT)
 Received: from localhost (unknown [9.211.143.123])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Tue, 15 Feb 2022 15:59:35 +0000 (GMT)
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Tue, 15 Feb 2022 16:01:40 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
-Subject: Re: [PATCH 8/9] target/ppc: Introduce a vhyp framework for nested
- HV support
-In-Reply-To: <20220215031642.1691873-9-npiggin@gmail.com>
+Subject: Re: [PATCH 9/9] spapr: implement nested-hv capability for the
+ virtual hypervisor
+In-Reply-To: <20220215031642.1691873-10-npiggin@gmail.com>
 References: <20220215031642.1691873-1-npiggin@gmail.com>
- <20220215031642.1691873-9-npiggin@gmail.com>
-Date: Tue, 15 Feb 2022 12:59:33 -0300
-Message-ID: <87pmnoxgre.fsf@linux.ibm.com>
+ <20220215031642.1691873-10-npiggin@gmail.com>
+Date: Tue, 15 Feb 2022 13:01:38 -0300
+Message-ID: <87mtisxgnx.fsf@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: WieWIi7qtFtTlns1lvnSUwiJ4Pl26tOS
-X-Proofpoint-GUID: fAcFT-yVq5NKoS2RRYGmSeyPTMHU9Rdn
+X-Proofpoint-ORIG-GUID: cxToWmyNlEVpqnKQWGAMw_xgHisUQcw-
+X-Proofpoint-GUID: jOEoyfRwp_PFnVIV3_kxxHNHk3MXoEJS
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-15_04,2022-02-14_04,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  lowpriorityscore=0
- priorityscore=1501 phishscore=0 spamscore=0 mlxlogscore=582 bulkscore=0
- suspectscore=0 mlxscore=0 adultscore=0 impostorscore=0 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202150091
+ malwarescore=0 phishscore=0 impostorscore=0 mlxscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 suspectscore=0 spamscore=0
+ mlxlogscore=546 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202150095
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -115,25 +115,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Nicholas Piggin <npiggin@gmail.com> writes:
 
-> Introduce virtual hypervisor methods that can support a "Nested KVM HV"
-> implementation using the bare metal 2-level radix MMU, and using HV
-> exceptions to return from H_ENTER_NESTED (rather than cause interrupts).
+> This implements the Nested KVM HV hcall API for spapr under TCG.
 >
-> HV exceptions can now be raised in the TCG spapr machine when running a
-> nested KVM HV guest. The main ones are the lev==1 syscall, the hdecr,
-> hdsi and hisi, hv fu, and hv emu, and h_virt external interrupts.
+> The L2 is switched in when the H_ENTER_NESTED hcall is made, and the
+> L1 is switched back in returned from the hcall when a HV exception
+> is sent to the vhyp. Register state is copied in and out according to
+> the nested KVM HV hcall API specification.
 >
-> HV exceptions are intercepted in the exception handler code and instead
-> of causing interrupts in the guest and switching the machine to HV mode,
-> they go to the vhyp where it may exit the H_ENTER_NESTED hcall with the
-> interrupt vector numer as return value as required by the hcall API.
+> The hdecr timer is started when the L2 is switched in, and it provides
+> the HDEC / 0x980 return to L1.
 >
-> Address translation is provided by the 2-level page table walker that is
-> implemented for the bare metal radix MMU. The partition scope page table
-> is pointed to the L1's partition scope by the get_pate vhc method.
+> The MMU re-uses the bare metal radix 2-level page table walker by
+> using the get_pate method to point the MMU to the nested partition
+> table entry. MMU faults due to partition scope errors raise HV
+> exceptions and accordingly are routed back to the L1.
+>
+> The MMU does not tag translations for the L1 (direct) vs L2 (nested)
+> guests, so the TLB is flushed on any L1<->L2 transition (hcall entry
+> and exit).
 >
 > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
 Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-
 
