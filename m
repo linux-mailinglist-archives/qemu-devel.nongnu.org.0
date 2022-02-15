@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C5F4B7A91
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 23:39:47 +0100 (CET)
-Received: from localhost ([::1]:50482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582384B7AAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 23:43:18 +0100 (CET)
+Received: from localhost ([::1]:57230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK6U6-0001Cy-It
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 17:39:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49520)
+	id 1nK6XV-0006PU-Gd
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 17:43:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nK6FT-0006M1-P1
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:24:39 -0500
-Received: from [2a00:1450:4864:20::42c] (port=38515
- helo=mail-wr1-x42c.google.com)
+ id 1nK6Va-0004ge-Of
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:41:18 -0500
+Received: from [2a00:1450:4864:20::429] (port=38649
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nK6FS-0000Wd-6b
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:24:39 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id d27so396213wrb.5
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 14:24:37 -0800 (PST)
+ id 1nK6VY-0003EK-Ny
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:41:18 -0500
+Received: by mail-wr1-x429.google.com with SMTP id d27so444326wrb.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 14:41:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X0XGzw/JpnzzkJGvYBeoA5oz+SbPnjkG+OYo4X70usc=;
- b=YbFoL6+0T0lgS7kNjEY30Frub+A4kZKc3AOLmUlF5LX2BCVa2j/GGedptBl0jMVhkv
- 8ooG8ULUr7Av+k8QaNGKUlbMQYyQK5kZNRXrNAZdtmqOgfxQbYnkaGSK7TcAr/6Y1JP4
- UfhhT+cugdg1YvqIWEuzQF9j9Z+iLVWmsm4ZAkrWMXVVtqmfrqCc125leZGLlDpLE2KE
- y8yDai5d/1C6TwWVc/FEd+0iqLykngs7aHaCztkbO1p954aNoXisFuFJReaw0xKt1Gmp
- uehW4HB5LGHL94m4XdT6Az0Cb8CGxgh2RcDLCMfGSRo/mV53lV2FvQ8YSQu5YOm5aDFz
- Md/Q==
+ :cc; bh=PcFBTJ/FJSIMzco4pkUj7WHkUKvwPRNSLBpa49AXX5A=;
+ b=SjEhSkX2uZOq9UjrXLHdsYFVIYYgtuVECg81zGn9VVnu4C2/o5aKLk6NTJ6XGB48kU
+ we12fekI3ggjtusdyPy0W8lmpjHgOb1f9+NUxaawhRl0BFq8NIPDHGmKKF9X4Q4Pv2Ht
+ hhVBtTL+zqHDrde/WtCyDI/sS9IP5k0MJl7tLsgrBYTt/+XJlbcUTksKPcAz4l3UmK8g
+ vGJbXi981Mr6ZJAt5zG4rNvul1gn0hnJgaeKWQeTALH65+oWmicst7cNh+iEZ3tqTZgp
+ bkJxuZehzgZvAUXTo/VUf0mBNUdpj2zWWASuYBxMTumSo0t3u0QHCGq13BpKiMmHvFmT
+ 0S0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=X0XGzw/JpnzzkJGvYBeoA5oz+SbPnjkG+OYo4X70usc=;
- b=oUmcLhmyX7lXmhlnip8qaveP6+0Rvkbtpf34zFB+ypwwgcGtDmMNgc2FmgaNaduKhf
- ovPjfagHdgTx0JCLm1RJkRbCKxPhaDpTHrsLOyDoHNHPTIpJEdcOfWCSstcaw5MH0o3p
- UsHkhSyO4F6cBWs4Ifo+56nW+HQOpD4Qh63EqQn3mSm2Yg2Usc8nIYoFQe7xhWQnEo5x
- VY40BSE7zpiXz6DZQRtUwkIb4JvaUBm8KHOjmQJOCeRI6SknxuDtSeiHthLKQ9AWsnly
- kpb2COZjZTGDU8TwmCni1LmmhGmU+6JSawyICkYCR1ezVIXOWp0Djm9PicxTjDxega/5
- YqDA==
-X-Gm-Message-State: AOAM533nvu5scb+t7aQTbtyVA1UNxkeOvEg+1zv2u8+Hkffn5SsZ2+Hk
- 6gBiiXZFIJOPkn4SyUphNn2GpTFOwhCyP445Jko+2g==
-X-Google-Smtp-Source: ABdhPJxINqrtldMAfp1RuixdZBh3yrpqU3wibiRBYHWZZ2prTtx2oNoZo5e8bE9mh4PCnGhMiX9pm5uK3uybxQQxIFs=
-X-Received: by 2002:a5d:59ac:0:b0:1e4:9b6e:eac7 with SMTP id
- p12-20020a5d59ac000000b001e49b6eeac7mr114451wrr.172.1644963876691; Tue, 15
- Feb 2022 14:24:36 -0800 (PST)
+ bh=PcFBTJ/FJSIMzco4pkUj7WHkUKvwPRNSLBpa49AXX5A=;
+ b=1UsfEID90rjNSRQPHnjOwMIHrntPc4Cdciyj9i9n/zDxdP3VEItCROB3vlR5xyl0hG
+ WNxD6i+notn4p7HN8Zhq+kShBiemxdU2+SI+UC0VvhsONOOzfycP+SC9D36FMhWdpQne
+ cy+MaEHPQbtsYtLYoDq48ptf6rrGfDiILPR3kbkvvJmBdO607mVXLNLxX+rXIInZiF8g
+ mXfILGAgsdIe/9uWFzR3XlXnMUjZwj89VpeL1CQYf+pe8dYDB9zlwaSHTbGErc8xwvdo
+ rOD8l6tSq4hLCvr5L6MePkkOgYvI094FUFSX7MT3PLbCdxonb6mA1PZTw4VaUPbgvW2C
+ eRWQ==
+X-Gm-Message-State: AOAM532QzvlEScNZn1VdY61medpI/H5vRr4M8Rq6YbJEwuzVS4NAJUOR
+ GIaKRYRGoTZT3ZoAutpqL/A8tTX8/MxBdnkZZBCX2A==
+X-Google-Smtp-Source: ABdhPJy36mNY4WlubP7PEmpVOFgrPRWZkC8yUj/JPvs2/x3tevAcdQ92ZIcL07qzF27m2e5SwqrL1fXNf707DKGUoUk=
+X-Received: by 2002:adf:816e:0:b0:1e4:ad2b:cb24 with SMTP id
+ 101-20020adf816e000000b001e4ad2bcb24mr53616wrm.521.1644964865963; Tue, 15 Feb
+ 2022 14:41:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20220210040423.95120-1-richard.henderson@linaro.org>
- <20220210040423.95120-15-richard.henderson@linaro.org>
-In-Reply-To: <20220210040423.95120-15-richard.henderson@linaro.org>
+References: <20220214171545.10242-1-stefanha@redhat.com>
+In-Reply-To: <20220214171545.10242-1-stefanha@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Feb 2022 22:24:25 +0000
-Message-ID: <CAFEAcA_yJeqQ0rA582cZhCZYxsFL4bVrMYeUvy5mBEQQ9m7ZKA@mail.gmail.com>
-Subject: Re: [PATCH v2 14/15] target/arm: Validate tlbi TG matches translation
- granule in use
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 15 Feb 2022 22:40:55 +0000
+Message-ID: <CAFEAcA_R1aqTqrD7Pmo-jqkniJNpJGE=UbxBnBUvVFLMb-5Fxw@mail.gmail.com>
+Subject: Re: [PULL 0/3] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -83,20 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ virtio-fs@redhat.com, Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Feb 2022 at 04:05, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Mon, 14 Feb 2022 at 17:44, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> For FEAT_LPA2, we will need other ARMVAParameters, which themselves
-> depend on the translation granule in use.  We might as well validate
-> that the given TG matches; the architecture "does not require that
-> the instruction invalidates any entries" if this is not true.
+> The following changes since commit cc5ce8b8b6be83e5fe3b668dbd061ad97c534e3f:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+>   Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220210' into staging (2022-02-13 20:33:28 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to 4c41c69e05fe28c0f95f8abd2ebf407e95a4f04b:
+>
+>   util: adjust coroutine pool size to virtio block queue (2022-02-14 17:11:25 +0000)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> This contains coroutine poll size scaling, virtiofsd rseq seccomp for new glibc
+> versions, and the QEMU C virtiofsd deprecation notice.
+>
+> ----------------------------------------------------------------
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
