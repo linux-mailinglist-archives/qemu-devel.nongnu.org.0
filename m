@@ -2,77 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6AC4B670C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:10:53 +0100 (CET)
-Received: from localhost ([::1]:40760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119EA4B6736
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:14:28 +0100 (CET)
+Received: from localhost ([::1]:43630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJtrI-0003l5-10
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:10:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48602)
+	id 1nJtul-0001hr-7X
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:14:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nJtmJ-0000hB-Ph
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:05:43 -0500
-Received: from [2607:f8b0:4864:20::731] (port=33535
- helo=mail-qk1-x731.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nJtmH-00048D-DV
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:05:43 -0500
-Received: by mail-qk1-x731.google.com with SMTP id o10so16785852qkg.0
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:05:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P3TDeBoYnGJEcYB2yF/ZaCd5f36n6a0O40QXP2A3pTk=;
- b=0yTG5ybbN2NQaWf1LOaeSuTpBMiDamRR5tEz6jQZUnM9RHVEO1PKAK8OY/Hhi951bj
- j69CB/Cq3AGDycGTSjaJ2TeNx5XvS0RxrNHx56DnkECQ2GrBfwxX/oFSTjhhqsFDEL2K
- WJT0M5KMFZv0fbS2raRpKGzm6skEI9/PShw6xlDtXW6U601IVocHVGT2/oovooPVooET
- pcQmfvQBU0Tg+/Lv5bQdfVnJ1WPmtsdtxMQIuhKpzmwLY7qoFwvxdOgDKe7BxkJua6Da
- cqgvQt3C0KUBh+Vljby42UTeN8Dof6YBNQIr2gcqdhzTJ4khTdgHmcNpfOjMiVQeqLrK
- hQ9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P3TDeBoYnGJEcYB2yF/ZaCd5f36n6a0O40QXP2A3pTk=;
- b=RS7EGcPTQt1RokOQFxUZmEkHktIAZ0Deo1isnQNNv3LdWjK0As9CtKQiHSnulwzoU5
- eDoN9zXaIL3Xe1q3rbGQ8MdE27pYafNmX46Vw0n37c5FPjTZPmFwZD/tplLT1WmRgLBr
- Inrj1JZackatVzTuL5Y8eCS2TQivXXt0ljv8kt1asFR+dXokis9phFAMqGJczb0Y8a1d
- 96bW7zRet+nCxauL2yWSLiDowpFGIBaIQXQ3NMDGkIF471SYkXQ7+srJSp0srxvBmP6M
- aYOLHdAMsP9i0VSuaKnFBOKKM38KCJIhSw1aA4PvCjeQ8OcjybHaJkDXMTgckgXL3rK0
- MvnA==
-X-Gm-Message-State: AOAM532XS3RUHMMaijmN29HJkmqxtFGWSpJLMJAMbMQvgGXJTpAPetH/
- oAm+liDM/RPIPay7uK+jCKdPFu0n4awmT8RM
-X-Google-Smtp-Source: ABdhPJx725idZpO94ZILRY4pg9T9ibe8d8dkpI06JpVqXJNMTT4yrPU9Ep1RlglLh3T9jivGdNe/iA==
-X-Received: by 2002:a05:620a:4501:: with SMTP id
- t1mr1490758qkp.16.1644915938748; 
- Tue, 15 Feb 2022 01:05:38 -0800 (PST)
-Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
- [70.228.75.190])
- by smtp.gmail.com with ESMTPSA id o5sm690868qtp.48.2022.02.15.01.05.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 01:05:38 -0800 (PST)
-From: Atish Patra <atishp@rivosinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/riscv: Add isa extenstion strings to the device tree
-Date: Tue, 15 Feb 2022 01:05:30 -0800
-Message-Id: <20220215090530.911828-1-atishp@rivosinc.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nJtt8-0006fm-Hk
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:12:49 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:29720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nJtt6-00058u-Nd
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:12:46 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-623-CdEYnuEvN6W0qYUmMUWL-A-1; Tue, 15 Feb 2022 04:12:35 -0500
+X-MC-Unique: CdEYnuEvN6W0qYUmMUWL-A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B12D71091DA2;
+ Tue, 15 Feb 2022 09:12:32 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F1EBA7AB55;
+ Tue, 15 Feb 2022 09:12:10 +0000 (UTC)
+Date: Tue, 15 Feb 2022 10:12:09 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v5 3/3] virtiofsd: Add support for FUSE_SYNCFS request
+ without announce_submounts
+Message-ID: <20220215101209.3fd92bd6@bahia>
+In-Reply-To: <YgqfCtcjhApw5Fyw@redhat.com>
+References: <20220214135820.43897-1-groug@kaod.org>
+ <20220214135820.43897-4-groug@kaod.org>
+ <YgqfCtcjhApw5Fyw@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::731
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=atishp@rivosinc.com; helo=mail-qk1-x731.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,72 +67,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Cc: virtio-fs@redhat.com,
+ Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Append the available ISA extensions to the "riscv,isa" string if it
-is enabled so that kernel can process it.
+On Mon, 14 Feb 2022 13:27:22 -0500
+Vivek Goyal <vgoyal@redhat.com> wrote:
 
-Signed-off-by: Atish Patra <atishp@rivosinc.com>
----
- target/riscv/cpu.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+> On Mon, Feb 14, 2022 at 02:58:20PM +0100, Greg Kurz wrote:
+> > This adds the missing bits to support FUSE_SYNCFS in the case submounts
+> > aren't announced to the client.
+> >=20
+> > Iterate over all inodes and call syncfs() on the ones marked as submoun=
+ts.
+> > Since syncfs() can block for an indefinite time, we cannot call it with
+> > lo->mutex held as it would prevent the server to process other requests=
+.
+> > This is thus broken down in two steps. First build a list of submounts
+> > with lo->mutex held, drop the mutex and finally process the list. A
+> > reference is taken on the inodes to ensure they don't go away when
+> > lo->mutex is dropped.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 38 ++++++++++++++++++++++++++++++--
+> >  1 file changed, 36 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
+ough_ll.c
+> > index e94c4e6f8635..7ce944bfe2a0 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -3400,8 +3400,42 @@ static void lo_syncfs(fuse_req_t req, fuse_ino_t=
+ ino)
+> >          err =3D lo_do_syncfs(lo, inode);
+> >          lo_inode_put(lo, &inode);
+> >      } else {
+> > -        /* Requires the sever to track submounts. Not implemented yet =
+*/
+> > -        err =3D ENOSYS;
+> > +        g_autoptr(GSList) submount_list =3D NULL;
+> > +        GSList *elem;
+> > +        GHashTableIter iter;
+> > +        gpointer key, value;
+> > +
+> > +        pthread_mutex_lock(&lo->mutex);
+> > +
+> > +        g_hash_table_iter_init(&iter, lo->inodes);
+> > +        while (g_hash_table_iter_next(&iter, &key, &value)) {
+>=20
+> Going through all the inodes sounds very inefficient. If there are large
+> number of inodes (say 1 million or more), and if frequent syncfs requests
+> are coming this can consume lot of cpu cycles.
+>=20
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index b0a40b83e7a8..c70260d0df15 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -34,6 +34,9 @@
- 
- /* RISC-V CPU definitions */
- 
-+/* This includes the null terminated character '\0' */
-+#define MAX_ISA_EXT_LEN 256
-+
- static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
- 
- const char * const riscv_int_regnames[] = {
-@@ -881,10 +884,26 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_props(dc, riscv_cpu_properties);
- }
- 
-+static void riscv_isa_string_ext(RISCVCPU *cpu, char *isa_str, int max_str_len)
-+{
-+    int offset = strnlen(isa_str, max_str_len);
-+
-+    if (cpu->cfg.ext_svpbmt) {
-+        offset += snprintf(isa_str + offset, max_str_len, "_%s", "_svpbmt");
-+    }
-+    if ((offset < max_str_len) && cpu->cfg.ext_svinval) {
-+        offset += snprintf(isa_str + offset, max_str_len, "_%s", "_svinval");
-+    }
-+    if ((offset < max_str_len) && (cpu->cfg.ext_svnapot)) {
-+        offset += snprintf(isa_str + offset, max_str_len, "_%s", "_svnapot");
-+    }
-+}
-+
- char *riscv_isa_string(RISCVCPU *cpu)
- {
-     int i;
--    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) + 1;
-+    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) +
-+                          MAX_ISA_EXT_LEN;
-     char *isa_str = g_new(char, maxlen);
-     char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
-     for (i = 0; i < sizeof(riscv_exts); i++) {
-@@ -893,6 +912,8 @@ char *riscv_isa_string(RISCVCPU *cpu)
-         }
-     }
-     *p = '\0';
-+    riscv_isa_string_ext(cpu, isa_str, maxlen);
-+
-     return isa_str;
- }
- 
--- 
-2.30.2
+Yes.
+
+> Given C virtiofsd is slowly going away, so I don't want to be too
+> particular about it. But, I would have thought to put submount
+> inodes into another list or hash map (using mount id as key) and just
+> traverse through that list instead. Given number of submounts should
+> be small, it should be pretty quick to walk through that list.
+>=20
+
+I don't think this requires a hash, but yes we could manage a list
+of these so that we don't have to create the list at syncfs() time.
+
+> > +            struct lo_inode *inode =3D value;
+> > +
+> > +            if (inode->is_submount) {
+> > +                g_atomic_int_inc(&inode->refcount);
+> > +                submount_list =3D g_slist_prepend(submount_list, inode=
+);
+> > +            }
+> > +        }
+> > +
+> > +        pthread_mutex_unlock(&lo->mutex);
+> > +
+> > +        /* The root inode is always present and not tracked in the has=
+h table */
+> > +        err =3D lo_do_syncfs(lo, &lo->root);
+> > +
+> > +        for (elem =3D submount_list; elem; elem =3D g_slist_next(elem)=
+) {
+> > +            struct lo_inode *inode =3D elem->data;
+> > +            int r;
+> > +
+> > +            r =3D lo_do_syncfs(lo, inode);
+> > +            if (r) {
+> > +                /*
+> > +                 * Try to sync as much as possible. Only one error can=
+ be
+> > +                 * reported to the client though, arbitrarily the last=
+ one.
+> > +                 */
+> > +                err =3D r;
+> > +            }
+> > +            lo_inode_put(lo, &inode);
+> > +        }
+>=20
+> One more minor nit. What happens if virtiofsd is processing syncfs list
+> and then somebody hard reboots qemu and mounts virtiofs again. That
+> will trigger FUSE_INIT and will call lo_destroy() first.
+>=20
+> fuse_lowlevel.c
+>=20
+> fuse_session_process_buf_int()
+> {
+>             fuse_log(FUSE_LOG_DEBUG, "%s: reinit\n", __func__);
+>             se->got_destroy =3D 1;
+>             se->got_init =3D 0;
+>             if (se->op.destroy) {
+>                 se->op.destroy(se->userdata);
+>             }
+> }
+>=20
+> IIUC, there is no synchronization with this path. If we are running with
+> thread pool enabled, it could very well happen that one thread is still
+> doing syncfs while other thread is executing do_init(). That sounds
+> like little bit of a problem. It will be good if there is a way
+> to either abort syncfs() or do_destroy() waits for all the previous
+> syncfs() to finish.
+>=20
+
+Ah, this is a problem indeed but how does it differ from any other
+outstanding request ? It seems that do_destroy() should drain all
+of them.
+
+> Greg, if you like, you could break down this work in two patch series.
+> First patch series just issues syncfs() on inode id sent with FUSE_SYNCFS=
+.
+> That's easy fix and can get merged now.
+>=20
+
+Sure. I can quickly repost patch 1 that matches what the rust
+implementation is doing as suggested by German.=20
+
+> And second patch series take care of above issues and will be little bit
+> more work.
+>=20
+
+This might take some more time as I really only have very few cycles to
+work on this.
+
+Cheers,
+
+--
+Greg
+
+> Thanks
+> Vivek
+>=20
 
 
