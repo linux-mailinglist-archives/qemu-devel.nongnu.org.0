@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939C34B6E2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 14:56:24 +0100 (CET)
-Received: from localhost ([::1]:59640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 731E94B6E37
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 14:59:12 +0100 (CET)
+Received: from localhost ([::1]:38786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJyJb-00079i-MO
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 08:56:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35326)
+	id 1nJyMJ-0003iw-8b
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 08:59:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJyEz-0001tR-Lo
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:51:41 -0500
-Received: from [2a00:1450:4864:20::32c] (port=43838
- helo=mail-wm1-x32c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJyEx-0001DA-E3
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:51:36 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- x3-20020a05600c21c300b0037c01ad715bso1450294wmj.2
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 05:51:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Wuu5RI+ZFh0HyegXHarUvjCXvQJ+miOoIgw0flxvPw0=;
- b=IKn5tS8rCX4Uz2ipT4qCDtK4+gGHPlcj//1m3TYYE+urlrbW7PHKV9xkWq8ilgn4zR
- VQjoRu6N0Zvv1ihwfELh2VTNRN5KXKoVzH8SbfD3GBD6+IybDlBc7ZiSoHyeMLBlJFCI
- N0XWpQAVNrfUJFE9Wa13mg4BZoCyJQ537mS5clHcSKVrmaTfX2RKrRlUtyU3/AnIcMTT
- bmPivUkBEPjiZXqiJJTDW6d35RiCUKql8Hv5nN32GIXPoibGD3xrlD8Cj91elzBPnbDJ
- N7QX9pivcNcdE1Cn2FG1pMeMThSrpYngMKQ8ZBm6BXhbiVkWWSVP/CtqbASAZ/Hvk6uO
- 6+5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Wuu5RI+ZFh0HyegXHarUvjCXvQJ+miOoIgw0flxvPw0=;
- b=xfZkItiLhqWWvkMNtRJ8gPTsMzkeK5/+NyHJDbuvrQjhgO5eM3uc2QhO3KO4WhXmd8
- GSCwNbz2QvGS04vsFkLFRhOzMu7LCp5Apd7D1EQFFqvZG1xqSgJZtJUoKeKeojqdwxVU
- qrermvC2P6f3HcGW/cYsCQ/4YpZf9gFXUKNR/gmpmgUE7Fwfl79Ejsp1/Xlcpc1fstX2
- 9XVriPDjWEWUjFXCpsJidmwi9a7s9B7k2cbACNmT+1eeENsPnpT8xAai00hJSHEpqwMy
- YtqsFV5xpNrqdP5+ZWiWTs+2z1tcvgg6HqoSoQwIXqVP9aSaOdx1sDBAOp8CKiMElS0a
- J1xQ==
-X-Gm-Message-State: AOAM531dDZZ/NFTDQq+yyBiPc1zTE1AzHrlypeG2JeywXUmYn8W1eK9R
- Thv7YYavReO5uogeR9MxQyk3DoO2L3wRrCsoCmJjLA==
-X-Google-Smtp-Source: ABdhPJw2vpBj6Ulo5ENVLyMPznUEJflw5KYwKUnDWmfyAu3LwDIVGyh2YHtWy1vFFzK3JtFgr0Qrk2s2PjWqCkQd0LQ=
-X-Received: by 2002:a7b:c5d1:: with SMTP id n17mr3241607wmk.32.1644933092775; 
- Tue, 15 Feb 2022 05:51:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nJyF7-0001vA-2o
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:51:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49672)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nJyF4-0001EJ-27
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:51:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644933100;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XoHVAL53C7cx571uxEVQqJhMVRCNVZmBnl8H7pvuEsE=;
+ b=GUIhkwzWPGZvvy6xMRc+EX9PTKxNVAeqMIj/mRNUxDP8wNJzpMytjKJogOShNWjEycI6RC
+ kfkwjIuSyFTvIdXd6Ib5d21WyshVcs1bLuVNMfjyCejkr3IE9u8PIEmoMb7PIEoPCgJ5hf
+ MJ79fOLIIZd+1Q/ES6yhQ65/+2yUoX4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-170-W57TuOEjO02gQgbwcrjYWQ-1; Tue, 15 Feb 2022 08:51:34 -0500
+X-MC-Unique: W57TuOEjO02gQgbwcrjYWQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDF1E100CCC0;
+ Tue, 15 Feb 2022 13:51:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.196.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B70C74D73D;
+ Tue, 15 Feb 2022 13:51:31 +0000 (UTC)
+Date: Tue, 15 Feb 2022 13:51:28 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/6] tests/qemu-iotests: Improve the check for GNU sed
+Message-ID: <Yguv4PfwuoUE/Kio@redhat.com>
+References: <20220208101311.1511083-2-thuth@redhat.com>
+ <8332fa43-9e77-34f3-c012-062342d62c92@redhat.com>
+ <dd7f32dd-807c-d389-1f19-323141178bba@redhat.com>
+ <1d5f544a-8362-6932-2f2a-6fd5f8e53978@redhat.com>
+ <10264836-2ca6-c134-5eb9-018ef618edc1@redhat.com>
+ <4cc4a814-3dba-11ab-3643-76ba974476c8@amsat.org>
+ <80372081-ca28-7566-9fa7-6e6820a7b37f@redhat.com>
+ <20220211161410.sbxfy7tf7patm25i@redhat.com>
+ <e5d38a7d-93a2-beb9-c621-838c8ed43231@redhat.com>
+ <804188e2-6426-6fe2-f8c3-70316e5c7c44@redhat.com>
 MIME-Version: 1.0
-References: <20220214035957.71339-1-jasowang@redhat.com>
-In-Reply-To: <20220214035957.71339-1-jasowang@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Feb 2022 13:51:21 +0000
-Message-ID: <CAFEAcA_zywEBY98UGjJ42McdLHqRyX4gHFSvkJg5g+4AhhcNDQ@mail.gmail.com>
-Subject: Re: [PULL 0/8] Net patches
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <804188e2-6426-6fe2-f8c3-70316e5c7c44@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,30 +91,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Feb 2022 at 04:00, Jason Wang <jasowang@redhat.com> wrote:
->
-> The following changes since commit 48033ad678ae2def43bf0d543a2c4c3d2a93feaf:
->
->   Merge remote-tracking branch 'remotes/vsementsov/tags/pull-nbd-2022-02-09-v2' into staging (2022-02-12 22:04:07 +0000)
->
-> are available in the git repository at:
->
->   https://github.com/jasowang/qemu.git tags/net-pull-request
->
-> for you to fetch changes up to 9d6267b240c114d1a3cd314a08fd6e1339d34b83:
->
->   net/eth: Don't consider ESP to be an IPv6 option header (2022-02-14 11:50:44 +0800)
->
-> ----------------------------------------------------------------
+On Tue, Feb 15, 2022 at 02:28:24PM +0100, Thomas Huth wrote:
+> On 11/02/2022 17.48, Thomas Huth wrote:
+> > On 11/02/2022 17.14, Eric Blake wrote:
+> > > On Tue, Feb 08, 2022 at 03:52:19PM +0100, Thomas Huth wrote:
+> > > > > > The current code with $SED has been introduced almost three years
+> > > > > > ago already...
+> > > > > > 
+> > > > > > >    Can’t we just do `alias sed=gsed`?
+> > > > > > 
+> > > > > > Maybe ... but let's ask Philippe and Kevin first, who Signed-off
+> > > > > > commit bde36af1ab4f476 that introduced the current way with $SED:
+> > > > > > What's your opinion about this?
+> > > > > 
+> > > > > This commit was to have check-block working on the OpenBSD VM image.
+> > > > 
+> > > > Sure. The question was whether using an alias as suggested by Hanna would be
+> > > > nicer instead of using $SED ?
+> > > 
+> > > Scripting with aliases becomes a nightmare to debug, since it is
+> > > relatively uncommon.  In particular, in bash, you have to explicitly
+> > > opt in to using aliases (contrary to POSIX sh where aliases are
+> > > available to scripts at startup).
+> > 
+> > shopt -s expand_aliases
+> > ... as I just learnt the hard way ;-)
+> > 
+> > > Using $SED everywhere may require
+> > > more hunting, but it is more obvious when reading a test that "oh
+> > > yeah, I might be using extensions that the default 'sed' can't
+> > > support" than a script that blindly uses 'sed' and depends on it
+> > > aliasing to a more-capable sed at a distance.
+> > > 
+> > > The other question is how many GNU sed features are we actually
+> > > depending on?  Which tests break if we have BSD sed or busybox sed?
+> > > Can we rewrite those sed scripts to avoid GNU extensions?  But
+> > > auditing for s/sed/$SED/ seems easier than auditing for which
+> > > non-portable sed extensions we depend on.
+> > 
+> > The most obvious part are the filter functions in common.filter - we're
+> > using "-r" here that is not part of the POSIX sed as far as I can see.
+> 
+> Now that I stepped through the list, the other major part that is failing on
+> non-GNU seds are the statements that use "\r" or "\n" or "\e" to replace
+> special characters. That seems to be a non-POSIX extension, too.
+> 
+> But for running with Alpine, there is also the additional problems that the
+> libc uses slightly different error strings, e.g. "I/O error" instead of
+> "Input/output error", see e.g.:
+> 
+>  https://gitlab.com/thuth/qemu/-/jobs/2094869856
+> 
+> Maybe it could be fixed with some extensions to the filters, but I'm not
+> sure whether we really want to go down that road...?
 
-Applied, thanks.
+AFAIK, errno strings are not standardized by POSIX, so I presume this
+problem will apply to running I/O tests on any non-Linux system too.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+With this in mind I think we should consider what a portable solution
+looks like. We can't simply match the Alpine strings and turn them
+into GLibC strings, as that does nothing to help portability on *BSD,
+macOS, Windows, etc. We would need to figure out how to blank out
+arbitrary input error message strings.
 
--- PMM
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
