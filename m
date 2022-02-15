@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C8B4B6E09
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 14:50:38 +0100 (CET)
-Received: from localhost ([::1]:47552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 977814B6E22
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 14:54:59 +0100 (CET)
+Received: from localhost ([::1]:55758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJyE1-0007HM-2p
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 08:50:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33974)
+	id 1nJyIE-0004Y7-O7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 08:54:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJy8q-0004WY-9p
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:45:17 -0500
-Received: from [2a00:1450:4864:20::434] (port=40906
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJy8n-0000ER-Sp
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:45:15 -0500
-Received: by mail-wr1-x434.google.com with SMTP id j26so21365342wrb.7
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 05:45:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nPq/M02plWYOpzb7wq1gUGlKy/4+bPjBTZHeWmlU4wI=;
- b=KhI4DSimOMQKZsEeKX0/OuojISAdqeybY9l9yE+VI0xWIXecqUoJeA75p9gtySboYK
- 5ldoi2enSjhW4GSFANJLaO+QWoRstiO/WcB742/C+o5Fix88PJ212QwztJd+O5q6Akod
- siAVFISNlBAK+31hyA6FgxiQ4fdFhuwacGHN0qCTecDV7SDHZ0m8VVYHbD8aEPUd/GVh
- 5ElrKJyPSBTalDBqrTIXnsOPLcV94c/iPb/2ZFa1Mz9mHfNghmKuQ7PlIb+y9xa6Aet1
- 0lFpBE+rx9K8brOenIjIvClJ0TIjZRwjmGPSo6aEBs1EjciO26RRvdIzGPU3lkXbQcmM
- b5Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nPq/M02plWYOpzb7wq1gUGlKy/4+bPjBTZHeWmlU4wI=;
- b=1pm7RoIFle+Vk+jw0OmU9HmaeaXbzdOgyHoiykTZg7AW1Aw0zI7fbcEo4/siu+5KlW
- P2rvsVlYR/a16cPvkuRw1nUKxFhGU3WH/kc6oowHIQvo5pUkA4iXl7UZb5QJ1+exnEXd
- BcxuibigiHoDDhXm/7bIIcYtfb6SsHt6FtRzYOAyG7dbVFN9weeQoe5CTt17XJe/Hk62
- 4vDjPGhUovUq77iv50NwSC8f2FWZGExHujiHUnH9sIWh5UkJKYYNPwnGrZd70ZrZbU3d
- ubn29MqzyUiX2+1enEIJFp8FJ9GttFTrFXRbnMn4fi+YxADeeRESVeHX64i9XLaN5IRp
- 1tMA==
-X-Gm-Message-State: AOAM532Cmrswv2jn081pnBMh73K6XU2sIFsYNnVTIKKVxtdBoOjNxnL2
- NhAiGCVxJVIBmVtt638ils9GhOyWPt7Fyg106vZLZA==
-X-Google-Smtp-Source: ABdhPJzxmwUjWFDb2ONe1wJnpoXS4zeDBv/NELcSTLHfhNcXtAxpzicn461IP/+DbGSJjuZrvud2i21hweycdYKLevo=
-X-Received: by 2002:a5d:62c4:: with SMTP id o4mr3296376wrv.319.1644932711457; 
- Tue, 15 Feb 2022 05:45:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nJyA9-0006QJ-Ht
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:46:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nJyA3-0000UP-8N
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:46:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644932784;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JYDj68KLrieaG2I1N1N/CU2pNk6je4/PvP7zK+5gnKc=;
+ b=GajtCiBOAMtoLL4qclJ3+mKZMSyOyQChhcHJAH3CatGup+ODn8rW+gzJiYk0olj/pjr0wa
+ lqVdiUgjYBSrAXaaGXtoxDTjL2oSmsdVHWs0k4X/09bCOMUWH4GCMszcEGBLbSNnSq0Cw2
+ qfyL/tdv6elOLmCKjDDWTHG+f+9zmfk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-205-Zi5zbIPmNdOtQJ_4qdikog-1; Tue, 15 Feb 2022 08:46:21 -0500
+X-MC-Unique: Zi5zbIPmNdOtQJ_4qdikog-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 550F1801B0C
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 13:46:20 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45F1270D3C;
+ Tue, 15 Feb 2022 13:46:14 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [qemu-web PATCH] Announce Outreachy 2022 May-August
+Date: Tue, 15 Feb 2022 13:46:12 +0000
+Message-Id: <20220215134612.41736-1-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20220215120625.64711-1-f4bug@amsat.org>
- <20220215120625.64711-5-f4bug@amsat.org>
- <5430167.XuPm0vUgvV@silver>
-In-Reply-To: <5430167.XuPm0vUgvV@silver>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Feb 2022 13:45:00 +0000
-Message-ID: <CAFEAcA_58__sVrAdN410PvketwTLyyYb=OZ4y2oWDjMYGW+J0g@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/4] ui/cocoa: Ignore 'initializer overrides' warnings
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,79 +76,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Feb 2022 at 13:18, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
->
-> On Dienstag, 15. Februar 2022 13:06:25 CET Philippe Mathieu-Daud=C3=A9 vi=
-a wrote:
-> > We globally ignore the 'initializer overrides' warnings in C code
-> > since commit c1556a812a ("configure: Disable (clang)
-> > initializer-overrides warnings"). Unfortunately the ${gcc_flags}
-> > variable is not propagated to Objective-C flags ($OBJCFLAGS).
-> > Instead of reworking the configure script to test all supported
-> > C flags in Objective-C and sanitize them, ignore the warning
-> > locally with the GCC diagnostic #pragma (Clang ignores it).
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > ---
->
-> What about this instead:
->
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index ac18e14ce0..df9b9be999 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -652,9 +652,7 @@ QemuCocoaView *cocoaView;
->
->      /* translates Macintosh keycodes to QEMU's keysym */
->
-> -    int without_control_translation[] =3D {
-> -        [0 ... 0xff] =3D 0,   // invalid key
-> -
-> +    int without_control_translation[256] =3D {
+Add a blog post inviting Outreachy applicants. QEMU has funding to
+participate in the Outreachy internship program
+(https://www.outreachy.org/) again this summer. We need to let people
+know about this so we get applicants!
 
-I think this won't zero-initialize, because this is a function
-level variable, not a global or static, but maybe ObjectiveC
-rules differ from C here? (Besides, it really should be
-a static const array.) That said...
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ _posts/2022-02-16-outreach-2022.md | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+ create mode 100644 _posts/2022-02-16-outreach-2022.md
 
-> That warning should only be raised on overlapping designated initializati=
-ons
-> which strictly is undefined behaviour. Because which order defines the
-> precedence of overlapping initializers, is it the order of the designated
-> intializer list, or rather the memory order?
+diff --git a/_posts/2022-02-16-outreach-2022.md b/_posts/2022-02-16-outreach-2022.md
+new file mode 100644
+index 0000000..a6b59e4
+--- /dev/null
++++ b/_posts/2022-02-16-outreach-2022.md
+@@ -0,0 +1,30 @@
++---
++layout: post
++title:  "QEMU welcomes Outreachy internship applicants"
++date:   2022-02-15 13:30:00 +0000
++categories: [internships, outreachy]
++---
++QEMU is offering open source internships in
++[Outreachy's](https://www.outreachy.org/) May-August 2022 round. You can submit
++your application until February 25th 2022 if you want to contribute to QEMU in
++a remote work internship this summer.
++
++Outreachy internships are extended to people who are subject to systemic bias
++and underrepresentation in the technical industry where they are living. For
++details on applying, please see the [Outreachy
++website](https://www.outreachy.org/apply/). If you are not eligible, don't
++worry, QEMU is also applying to participate in Google Summer of Code again and
++we hope to share news about additional internships later this year.
++
++Outreachy interns work together with their mentors, experienced QEMU
++contributors who support their interns in their projects. Code developed during
++the internship is submitted via the same open source development process that
++all QEMU code follows. This gives interns experience with contributing to open
++source software. Some interns then choose to pursue a career in open source
++software after completing their internship.
++
++Now is the chance to get involved in QEMU development!
++
++If you have questions about applying for QEMU Outreachy, please email [Stefan
++Hajnoczi](mailto:stefanha@gmail.com) or ask on the [#qemu-gsoc IRC
++channel](https://webchat.oftc.net/?channels=qemu-gsoc).
+-- 
+2.34.1
 
-This is defined: textually last initializer wins.
-https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html
-
-> See also:
-> https://stackoverflow.com/questions/40920714/is-full-followed-by-partial-=
-initialization-of-a-subobject-undefined-behavior
-
-That's about struct initializers; we're dealing with array initializers her=
-e.
-
-> So I have my doubts whether this warning suppression should be used in QE=
-MU at
-> all.
-
-The warning is useful in the pure-standard-C world where there
-is no such thing as the "range initialization" syntax. In that
-case trying to initialize the same array member twice is very
-likely a bug. However, if you use range initialization then
-the pattern "initialize a range first, then override some specific
-members within it" is very common and the warning is incorrect here.
-We use and like the range-initialization syntax, and so we disable
-the -Winitializer-overrides warnings. The bug here is just that
-we are incorrectly failing to apply the warning flags we use
-for C code when we compile ObjC files.
-
-thanks
--- PMM
 
