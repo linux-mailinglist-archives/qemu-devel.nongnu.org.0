@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B10A4B681D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:47:36 +0100 (CET)
-Received: from localhost ([::1]:34794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC694B67D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:40:53 +0100 (CET)
+Received: from localhost ([::1]:50024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuQp-000263-8v
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:47:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54772)
+	id 1nJuKK-00018e-Vd
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:40:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCI-0003xF-Ec
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:34 -0500
-Received: from [2a00:1450:4864:20::635] (port=37674
- helo=mail-ej1-x635.google.com)
+ id 1nJuCJ-000425-IU
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:35 -0500
+Received: from [2a00:1450:4864:20::62d] (port=42826
+ helo=mail-ej1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCG-0008Qi-L5
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:34 -0500
-Received: by mail-ej1-x635.google.com with SMTP id h8so16382970ejy.4
+ id 1nJuCH-0008Qt-6p
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:35 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id hw13so14354374ejc.9
  for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=931YQ/n8R//7jvPgZB7qt0my6F42icBbcLTxZP+VAfM=;
- b=gHJflh9XqrzEWRTmfR5/Ul5ZDaRrMDxb202oO1gVlK2jlrmdaL3vmcp3kU50JvU71J
- 6M1E7OKUl2sBO0JWXZksyNxw1m9NzY0HZUhbSLIl8XosqhhMuFTm7QWCxzk8ByqDVElu
- KhsFIA5mMA8unjuWYbxSCJilPsxShhPIIdeZbBI/GHZfZ6qmkj+Nh0V/kpR36Oe3rkF9
- p9gFtBQfb4eXM+2icM1XiQHW+wp9IQgsxS8GQhFH6iLWzbQxlOEXohuH+GecXfRwsPAV
- YUF317W74kttGZ3RWEHqEe39fTZMVMmbqHoYxOOemzuL97BSnrtC0kYD8GhWGFU16nWH
- QTMA==
+ bh=iCDUNjf44S0gmQlhAow9hp61ImWk+aCFVeZk76vSUJQ=;
+ b=bQCwlqJdhVz6P3Ul3gtWOKMUaGslDym33iRwLonoBhuMC4NV81ZCKZkDjSLHrFZ2PB
+ RCuQA0kVpeTaqT6C5z+Aiy3g4iuL+jceMeP5tD8iBUEUx4kjNV7n6WqufTnB7bWgw4r2
+ oXrWRHIXGyJmZbE0zuZXmgdxKwWlwZNQ+pknCe4BS5MS6PoGkoMN9cGwW1sZ1hJOlRmq
+ BkYfEc5OhEPH/hPS/6ENGVgnrgJuNRMkrOrKDkPHZwZ97GTs4qgAHjJVFFQKUw2X7XmN
+ itaBhEO6pySBQ/7ru4Wgmk/5PHGeMSBswMVE4Lt+y5kr+ndlGyk/NnmHuJm475CLin8L
+ Jxew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=931YQ/n8R//7jvPgZB7qt0my6F42icBbcLTxZP+VAfM=;
- b=hG88xwcfqLS1XM+NDl/UnCJY0/r0kwEDP2G+hf6nSOKKdtZaKGmd9EMuB+dpOMpbfK
- Gsh7uQPpEui8BJPAIYZcY3o6XCnSHztWyWuqDeBkK2xKFhdtiauDaMoY8l0AZlAm2LT8
- saXPSdPWgclZvFBNGySPmt1BsI2RiAXj+/cBGpVL/YoHw4IA2reYb+r33c1o+chLEAd/
- cvRMiKo1HTjD9pOAZHUpeMkdri//uT8IbUqlpkEi/VjujRu6QvQfgREmaLMpXTRLHDEu
- BShWDEfOC+mkGAHAiCZAbILc+vzUKTFnlihS3R5K/kVTIBnG7GvsR5Ff5iu89vhpmr5k
- 7KpQ==
-X-Gm-Message-State: AOAM531t6+sV30Tg/zcVpTyAgVHGWCTpq2Vok4txwMMWsIlb4yFMXbup
- /pxaI70jBvQrbhWWMzvBI6Mlm01+4CI=
-X-Google-Smtp-Source: ABdhPJzBaFQm7uv/D3i+Df74xppaCXK5WmnH9G5Ou7z2y1E9eOOq7Rf3wsWUlWdRUmRYNw2SW9Fkjg==
-X-Received: by 2002:a17:906:779b:: with SMTP id
- s27mr2180122ejm.389.1644917551312; 
- Tue, 15 Feb 2022 01:32:31 -0800 (PST)
+ bh=iCDUNjf44S0gmQlhAow9hp61ImWk+aCFVeZk76vSUJQ=;
+ b=VvRi34asSNkv1bzeGK7dbYwP328oDM73QQ+TmkuCWCJTtadPn1xAqvrZgxOUx3XQm8
+ M7m7aTX+d0gvVWbmET41lq/xk14ebfHCh9v52B1yyKct2NMZU19DRIaUdWFwLC9uy76U
+ kaqy0aKUpO1xw7WCCuWPGku2txqqkair6M2/8U9/ow2iJJkYpru7s6iWgrZ4woBbJIOR
+ LZDGhnWdTo46aprwC/2YxoFpZU8F6OVjSnXFfDlQ0YcYX+GR7FM6tJ+Q8fbc0mA+LIxY
+ BgvtZs/a2yPNpg6Cp82pCfbud8hYkbj/WdYpioNqhPfKeABFDNLppnVqkxl2boiVdukh
+ 8g8g==
+X-Gm-Message-State: AOAM532R/roG1DFMFqxJh2S/Fh42nacDM43Hi70CYX18qzlrPry2kVlA
+ Y0Jl9HDcKWSd2+kv1DG1G0pz4tAgcrg=
+X-Google-Smtp-Source: ABdhPJzHqmgyUf23n5SRSTOecJElrwBAzQFDgwkyQptZR6WVRQU09n5STqTns57I+mUdRo1qKqFAKg==
+X-Received: by 2002:a17:906:7a09:: with SMTP id
+ d9mr2140163ejo.103.1644917552001; 
+ Tue, 15 Feb 2022 01:32:32 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.30
+ by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 15 Feb 2022 01:32:31 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/30] configure, meson: move libnuma detection to meson
-Date: Tue, 15 Feb 2022 10:32:02 +0100
-Message-Id: <20220215093223.110827-10-pbonzini@redhat.com>
+Subject: [PULL 10/30] configure, meson: move TPM check to meson
+Date: Tue, 15 Feb 2022 10:32:03 +0100
+Message-Id: <20220215093223.110827-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215093223.110827-1-pbonzini@redhat.com>
 References: <20220215093223.110827-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -91,172 +91,221 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The check is simply for a POSIX system.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 31 -------------------------------
- meson.build                   | 25 ++++++++++++++++++++-----
+ backends/tpm/meson.build      | 14 ++++++--------
+ configure                     | 25 -------------------------
+ docs/devel/kconfig.rst        |  2 +-
+ hw/acpi/meson.build           |  4 +++-
+ meson.build                   |  9 +++++++--
  meson_options.txt             |  2 ++
  scripts/meson-buildoptions.sh |  3 +++
- 4 files changed, 25 insertions(+), 36 deletions(-)
+ softmmu/meson.build           |  5 ++++-
+ 8 files changed, 26 insertions(+), 38 deletions(-)
 
+diff --git a/backends/tpm/meson.build b/backends/tpm/meson.build
+index 857929082e..7f2503f84e 100644
+--- a/backends/tpm/meson.build
++++ b/backends/tpm/meson.build
+@@ -1,8 +1,6 @@
+-tpm_ss = ss.source_set()
+-
+-tpm_ss.add(files('tpm_backend.c'))
+-tpm_ss.add(files('tpm_util.c'))
+-tpm_ss.add(when: 'CONFIG_TPM_PASSTHROUGH', if_true: files('tpm_passthrough.c'))
+-tpm_ss.add(when: 'CONFIG_TPM_EMULATOR', if_true: files('tpm_emulator.c'))
+-
+-softmmu_ss.add_all(when: 'CONFIG_TPM', if_true: tpm_ss)
++if have_tpm
++  softmmu_ss.add(files('tpm_backend.c'))
++  softmmu_ss.add(files('tpm_util.c'))
++  softmmu_ss.add(when: 'CONFIG_TPM_PASSTHROUGH', if_true: files('tpm_passthrough.c'))
++  softmmu_ss.add(when: 'CONFIG_TPM_EMULATOR', if_true: files('tpm_emulator.c'))
++endif
 diff --git a/configure b/configure
-index 07ea08cd08..f536f53106 100755
+index f536f53106..54eb954296 100755
 --- a/configure
 +++ b/configure
-@@ -332,7 +332,6 @@ debug_stack_usage="no"
+@@ -330,7 +330,6 @@ coroutine=""
+ coroutine_pool="$default_feature"
+ debug_stack_usage="no"
  tls_priority="NORMAL"
- tpm="$default_feature"
+-tpm="$default_feature"
  live_block_migration=${default_feature:-yes}
--numa="$default_feature"
  replication=${default_feature:-yes}
  bochs=${default_feature:-yes}
- cloop=${default_feature:-yes}
-@@ -1048,10 +1047,6 @@ for opt do
+@@ -1039,10 +1038,6 @@ for opt do
+   ;;
+   --disable-pvrdma) pvrdma="no"
+   ;;
+-  --disable-tpm) tpm="no"
+-  ;;
+-  --enable-tpm) tpm="yes"
+-  ;;
+   --disable-live-block-migration) live_block_migration="no"
    ;;
    --enable-live-block-migration) live_block_migration="yes"
-   ;;
--  --disable-numa) numa="no"
--  ;;
--  --enable-numa) numa="yes"
--  ;;
-   --disable-replication) replication="no"
-   ;;
-   --enable-replication) replication="yes"
-@@ -1384,7 +1379,6 @@ cat << EOF
+@@ -1378,7 +1373,6 @@ cat << EOF
+   vhost-vdpa      vhost-vdpa kernel backend support
    live-block-migration   Block migration in the main migration stream
    coroutine-pool  coroutine freelist (better performance)
-   tpm             TPM support
--  numa            libnuma support
+-  tpm             TPM support
    replication     replication support
    opengl          opengl support
    qom-cast-debug  cast debugging support
-@@ -2455,26 +2449,6 @@ EOF
-   fi
+@@ -2395,21 +2389,6 @@ if test "$modules" = yes; then
+     fi
  fi
  
 -##########################################
--# libnuma probe
+-# TPM emulation is only on POSIX
 -
--if test "$numa" != "no" ; then
--  cat > $TMPC << EOF
--#include <numa.h>
--int main(void) { return numa_available(); }
--EOF
--
--  if compile_prog "" "-lnuma" ; then
--    numa=yes
--    numa_libs="-lnuma"
+-if test "$tpm" = ""; then
+-  if test "$mingw32" = "yes"; then
+-    tpm=no
 -  else
--    if test "$numa" = "yes" ; then
--      feature_not_found "numa" "install numactl devel"
--    fi
--    numa=no
+-    tpm=yes
+-  fi
+-elif test "$tpm" = "yes"; then
+-  if test "$mingw32" = "yes" ; then
+-    error_exit "TPM emulation only available on POSIX systems"
 -  fi
 -fi
 -
- # check for usbfs
- have_usbfs=no
- if test "$linux_user" = "yes"; then
-@@ -3442,11 +3416,6 @@ if test "$default_targets" = "yes"; then
-   echo "CONFIG_DEFAULT_TARGETS=y" >> $config_host_mak
+ ##########################################
+ # fdt probe
+ 
+@@ -3274,10 +3253,6 @@ if test "$live_block_migration" = "yes" ; then
+   echo "CONFIG_LIVE_BLOCK_MIGRATION=y" >> $config_host_mak
  fi
  
--if test "$numa" = "yes"; then
--  echo "CONFIG_NUMA=y" >> $config_host_mak
--  echo "NUMA_LIBS=$numa_libs" >> $config_host_mak
+-if test "$tpm" = "yes"; then
+-  echo 'CONFIG_TPM=y' >> $config_host_mak
 -fi
 -
- if test "$ccache_cpp2" = "yes"; then
-   echo "export CCACHE_CPP2=y" >> $config_host_mak
- fi
+ if test "$rdma" = "yes" ; then
+   echo "CONFIG_RDMA=y" >> $config_host_mak
+   echo "RDMA_LIBS=$rdma_libs" >> $config_host_mak
+diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
+index a1cdbec751..d6b55a6fe0 100644
+--- a/docs/devel/kconfig.rst
++++ b/docs/devel/kconfig.rst
+@@ -301,7 +301,7 @@ and also listed as follows in the top-level meson.build's host_kconfig
+ variable::
+ 
+     host_kconfig = \
+-      ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
++      (have_tpm ? ['CONFIG_TPM=y'] : []) + \
+       ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
+       (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
+       ...
+diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+index f5b22983bb..8bea2e6933 100644
+--- a/hw/acpi/meson.build
++++ b/hw/acpi/meson.build
+@@ -25,7 +25,9 @@ acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_ERST', if_true: files('erst.c'))
+ acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
+ acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
+-acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
++if have_tpm
++  acpi_ss.add(files('tpm.c'))
++endif
+ softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c', 'ghes-stub.c'))
+ softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
+ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
 diff --git a/meson.build b/meson.build
-index 9e1acb98aa..f8b83f64db 100644
+index f8b83f64db..02137be91e 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1164,14 +1164,28 @@ if lzo.found() and not cc.links('''
-   endif
- endif
+@@ -276,6 +276,10 @@ multiprocess_allowed = get_option('multiprocess') \
+   .require(targetos == 'linux', error_message: 'Multiprocess QEMU is supported only on Linux') \
+   .allowed()
  
-+numa = not_found
-+if not get_option('numa').auto() or have_system or have_tools
-+  numa = cc.find_library('numa', has_headers: ['numa.h'],
-+                              required: get_option('numa'),
-+                              kwargs: static_kwargs)
-+endif
-+if numa.found() and not cc.links('''
-+   #include <numa.h>
-+   int main(void) { return numa_available(); }
-+   ''', dependencies: numa)
-+  numa = not_found
-+  if get_option('numa').enabled()
-+    error('could not link numa')
-+  else
-+    warning('could not link numa, disabling')
-+  endif
-+endif
++have_tpm = get_option('tpm') \
++  .require(targetos != 'windows', error_message: 'TPM emulation only available on POSIX systems') \
++  .allowed()
 +
- rdma = not_found
- if 'CONFIG_RDMA' in config_host
-   rdma = declare_dependency(link_args: config_host['RDMA_LIBS'].split())
- endif
--numa = not_found
--if 'CONFIG_NUMA' in config_host
--  numa = declare_dependency(link_args: config_host['NUMA_LIBS'].split())
--endif
- xen = not_found
- if 'CONFIG_XEN_BACKEND' in config_host
-   xen = declare_dependency(compile_args: config_host['XEN_CFLAGS'].split(),
-@@ -1472,6 +1486,7 @@ config_host_data.set('CONFIG_LIBSSH', libssh.found())
- config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
- config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
- config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
-+config_host_data.set('CONFIG_NUMA', numa.found())
- config_host_data.set('CONFIG_RBD', rbd.found())
- config_host_data.set('CONFIG_SDL', sdl.found())
+ # Target-specific libraries and flags
+ libm = cc.find_library('m', required: false)
+ threads = dependency('threads')
+@@ -1492,6 +1496,7 @@ config_host_data.set('CONFIG_SDL', sdl.found())
  config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
-@@ -3548,7 +3563,7 @@ summary_info += {'snappy support':    snappy}
- summary_info += {'bzip2 support':     libbzip2}
- summary_info += {'lzfse support':     liblzfse}
- summary_info += {'zstd support':      zstd}
--summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
-+summary_info += {'NUMA host support': numa}
- summary_info += {'capstone':          capstone_opt == 'internal' ? capstone_opt : capstone}
- summary_info += {'libpmem support':   libpmem}
- summary_info += {'libdaxctl support': libdaxctl}
+ config_host_data.set('CONFIG_SECCOMP', seccomp.found())
+ config_host_data.set('CONFIG_SNAPPY', snappy.found())
++config_host_data.set('CONFIG_TPM', have_tpm)
+ config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+ config_host_data.set('CONFIG_VDE', vde.found())
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
+@@ -1942,7 +1947,7 @@ endif
+ have_ivshmem = config_host_data.get('CONFIG_EVENTFD')
+ host_kconfig = \
+   (get_option('fuzzing') ? ['CONFIG_FUZZ=y'] : []) + \
+-  ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
++  (have_tpm ? ['CONFIG_TPM=y'] : []) + \
+   (spice.found() ? ['CONFIG_SPICE=y'] : []) + \
+   (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
+   ('CONFIG_OPENGL' in config_host ? ['CONFIG_OPENGL=y'] : []) + \
+@@ -3556,7 +3561,7 @@ if targetos == 'windows'
+ endif
+ summary_info += {'seccomp support':   seccomp}
+ summary_info += {'GlusterFS support': glusterfs}
+-summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
++summary_info += {'TPM support':       have_tpm}
+ summary_info += {'libssh support':    libssh}
+ summary_info += {'lzo support':       lzo}
+ summary_info += {'snappy support':    snappy}
 diff --git a/meson_options.txt b/meson_options.txt
-index 6efad01528..bb443023b5 100644
+index bb443023b5..1b44b4e666 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -103,6 +103,8 @@ option('libnfs', type : 'feature', value : 'auto',
-        description: 'libnfs block device driver')
- option('mpath', type : 'feature', value : 'auto',
-        description: 'Multipath persistent reservation passthrough')
-+option('numa', type : 'feature', value : 'auto',
-+       description: 'libnuma support')
- option('iconv', type : 'feature', value : 'auto',
-        description: 'Font glyph conversion support')
- option('curses', type : 'feature', value : 'auto',
+@@ -68,6 +68,8 @@ option('multiprocess', type: 'feature', value: 'auto',
+        description: 'Out of process device emulation support')
+ option('dbus_display', type: 'feature', value: 'auto',
+        description: '-display dbus support')
++option('tpm', type : 'feature', value : 'auto',
++       description: 'TPM support')
+ 
+ # Do not enable it by default even for Mingw32, because it doesn't
+ # work on Wine.
 diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index a20d40e685..d46d7181e7 100644
+index d46d7181e7..3f107e5724 100644
 --- a/scripts/meson-buildoptions.sh
 +++ b/scripts/meson-buildoptions.sh
-@@ -71,6 +71,7 @@ meson_options_help() {
-   printf "%s\n" '  multiprocess    Out of process device emulation support'
-   printf "%s\n" '  netmap          netmap network backend support'
-   printf "%s\n" '  nettle          nettle cryptography support'
-+  printf "%s\n" '  numa            libnuma support'
-   printf "%s\n" '  nvmm            NVMM acceleration support'
-   printf "%s\n" '  oss             OSS sound support'
-   printf "%s\n" '  pa              PulseAudio sound support'
-@@ -218,6 +219,8 @@ _meson_option_parse() {
-     --disable-netmap) printf "%s" -Dnetmap=disabled ;;
-     --enable-nettle) printf "%s" -Dnettle=enabled ;;
-     --disable-nettle) printf "%s" -Dnettle=disabled ;;
-+    --enable-numa) printf "%s" -Dnuma=enabled ;;
-+    --disable-numa) printf "%s" -Dnuma=disabled ;;
-     --enable-nvmm) printf "%s" -Dnvmm=enabled ;;
-     --disable-nvmm) printf "%s" -Dnvmm=disabled ;;
-     --enable-oss) printf "%s" -Doss=enabled ;;
+@@ -86,6 +86,7 @@ meson_options_help() {
+   printf "%s\n" '  spice           Spice server support'
+   printf "%s\n" '  spice-protocol  Spice protocol support'
+   printf "%s\n" '  tcg             TCG support'
++  printf "%s\n" '  tpm             TPM support'
+   printf "%s\n" '  u2f             U2F emulation support'
+   printf "%s\n" '  usb-redir       libusbredir support'
+   printf "%s\n" '  vde             vde network backend support'
+@@ -256,6 +257,8 @@ _meson_option_parse() {
+     --disable-tcg) printf "%s" -Dtcg=disabled ;;
+     --enable-tcg-interpreter) printf "%s" -Dtcg_interpreter=true ;;
+     --disable-tcg-interpreter) printf "%s" -Dtcg_interpreter=false ;;
++    --enable-tpm) printf "%s" -Dtpm=enabled ;;
++    --disable-tpm) printf "%s" -Dtpm=disabled ;;
+     --enable-trace-backends=*) quote_sh "-Dtrace_backends=$2" ;;
+     --enable-u2f) printf "%s" -Du2f=enabled ;;
+     --disable-u2f) printf "%s" -Du2f=disabled ;;
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+index d8e03018ab..39f766ce7c 100644
+--- a/softmmu/meson.build
++++ b/softmmu/meson.build
+@@ -27,6 +27,9 @@ softmmu_ss.add(files(
+   'qdev-monitor.c',
+ ), sdl, libpmem, libdaxctl)
+ 
+-softmmu_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
++if have_tpm
++  softmmu_ss.add(files('tpm.c'))
++endif
++
+ softmmu_ss.add(when: seccomp, if_true: files('qemu-seccomp.c'))
+ softmmu_ss.add(when: fdt, if_true: files('device_tree.c'))
 -- 
 2.34.1
 
