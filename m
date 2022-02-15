@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6894B681E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:47:40 +0100 (CET)
-Received: from localhost ([::1]:35008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438B14B681F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:48:05 +0100 (CET)
+Received: from localhost ([::1]:36904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuQt-0002Ef-8I
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:47:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54862)
+	id 1nJuRI-0003d5-Bo
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:48:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCN-0004HP-FJ
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:39 -0500
-Received: from [2a00:1450:4864:20::636] (port=43848
- helo=mail-ej1-x636.google.com)
+ id 1nJuCP-0004Jq-0N
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:41 -0500
+Received: from [2a00:1450:4864:20::633] (port=47089
+ helo=mail-ej1-x633.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCL-0008Rt-5y
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:39 -0500
-Received: by mail-ej1-x636.google.com with SMTP id d10so42876866eje.10
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:36 -0800 (PST)
+ id 1nJuCL-0008S4-RT
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:40 -0500
+Received: by mail-ej1-x633.google.com with SMTP id qx21so3115647ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zhzbJ767n7/0p+5JsD4NIlyqO+FKtLZx4tLmECyeVwc=;
- b=dQRvWbE/z8RVlhicxZK71Im8UDr/v6jne9JKskYRXMY2tNtdfxhSGQzqppX7qyOEx6
- tLVzu5bcyQRD/BxWA3KOPEswvZg08V31ZcZslrKMEFmy8wWO39nd+k+WvsZnHFTQgNzD
- N1izVnRj4K7omYKbyszy2j/F9EJRMSE2ksmJxVTu2wYASu0DYVte6YeUSzqJL063LSxv
- 6Kgzf79khUSESf0wZs2zPGvSgLhaPC3+6gAG8qmeuze+f98U1eedf+gGwq+zFV8rlrXn
- EqKNs7esyOD+sp0XXWEb12eDY95PK5Tv4jH+I8xoHy4EZnzjMAwoz0DQjJEFWRmoc8Jq
- SCrQ==
+ bh=DZT7LYIMowLfFfQ/hzCsIHNSBTjrcm7LxXxZQ2L79o0=;
+ b=ZvDs+Kx+vWf+nPUdcJ1X2vVoomFS54SZdmF5pFEOppEqFTnwRSSUv6S3v3UmkHdB6p
+ M7vo2rgxg7wr0i1PQ4K2ykSgLehZf1GOFV6eQHr6UFE+a+u8ESXyILc2wE/BsP3RGXrE
+ LBoGAJQ+F5FzNkJMSrgv0oZdM0NHTWHJZIos1AjczVRQwZFd9uFsrhoXPfUzcxJSIsMd
+ 1vKeLVaQ/FJA1AvyeARysKxClXs+oEFC3FQRMkPL8dREopVjjkbkqREf7JM9s1pVyRua
+ 3vZ3BW37U4vVOTnD0PKoSgHrfrDOSuklYf2VJh/evUHUM3UFLonAg5gnkvbdzhHVqGZV
+ Oplg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zhzbJ767n7/0p+5JsD4NIlyqO+FKtLZx4tLmECyeVwc=;
- b=4dmylJBL0TMoMnijSBziF274xnJecEnWkAnMvx8CvJbsgyZ+gcwVaQ5N6RxNwpx0KW
- niVZqRY0CpQtBougFs/ul5RlmJNh1jCUiySL9APsdJV+mtZyCqxZDMl40aS3mCh7IhZv
- i6NX6Y4RCOvQMjQuJED+ztPFmRQeOA6mRKbACNt93CA/ZLNtpW775assaEoZmNtPsNAp
- V0xF7+3pYh3Zg3lTLxKEwVoCQd4ohbjgVrsKYPUYJC7ruIkk2z/cq7TuAX3+HnHmpWBW
- n9kEubagu/3JcO+DwaISDiXA8XmWLH3fF4cuQSVeDEW98TVNpa9zgMN0yd3zTqxUQbzf
- lZQA==
-X-Gm-Message-State: AOAM533HKMTS4kFXUGa6tQ4Ph4gl5zkYV+GpCUrULbs/5TrEFQv/fxZd
- 3nLb/R4pAbPP2Cs5tFK5ywANdEGyKl8=
-X-Google-Smtp-Source: ABdhPJxGOPf2ovDTaDWQd9C/RJl+M2arwavjZzXfVxsvX74HbXKDDnf2I8lP8VlB+hQdqQxrtfy6TA==
-X-Received: by 2002:a17:906:73cc:: with SMTP id
- n12mr2212998ejl.459.1644917555856; 
- Tue, 15 Feb 2022 01:32:35 -0800 (PST)
+ bh=DZT7LYIMowLfFfQ/hzCsIHNSBTjrcm7LxXxZQ2L79o0=;
+ b=gEni19vzZjhs4vPl4SOuH5qDDk26bCzKFF14+JqsJVcmJ5Bhl+gu3G8UgTH4JPhtiR
+ OXOrxMDwiFderqzWAkFW3tvxpfkTVPb5B+L4mV0p8MLxqr6+t+FLVszh/Cc5kTHBp7Zq
+ Vrhjvkn9m1yXFOEqM+KvCkdgKqWC0xkjdQnipX/dVwfcUevY5L3+/Se999OehlD8VhHH
+ rUfwhc4ehrG0VMgMXEjav2f6xgajFNks+GmvKvgak0PObjdLj4Rog63NKQA0IxgavWdA
+ 18nucZ1Wfe6TdfjEurseyaddyYi820c29vYaA/BukABvs1epUHHzf74Rj+dTCgH53dll
+ iUAQ==
+X-Gm-Message-State: AOAM530h7TVL3ptajRiqDutyViw5aOAaYqLgJ4RzycXClenq1kaBLF/6
+ jgaDCB/lfHK75ni1A2Qpy6+KISc5WaE=
+X-Google-Smtp-Source: ABdhPJzQl+alL2SAoGc19w/21jrvyMzjJNrDoRdQNnjI1NW7UQAI9FxXE6EwHAYKz+E6tXaC4lU77w==
+X-Received: by 2002:a17:907:3f88:: with SMTP id
+ hr8mr2211744ejc.600.1644917556487; 
+ Tue, 15 Feb 2022 01:32:36 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 01:32:35 -0800 (PST)
+ Tue, 15 Feb 2022 01:32:36 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/30] configure,
- meson: move coroutine options to meson_options.txt
-Date: Tue, 15 Feb 2022 10:32:09 +0100
-Message-Id: <20220215093223.110827-17-pbonzini@redhat.com>
+Subject: [PULL 17/30] configure, meson: move smbd options to meson_options.txt
+Date: Tue, 15 Feb 2022 10:32:10 +0100
+Message-Id: <20220215093223.110827-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215093223.110827-1-pbonzini@redhat.com>
 References: <20220215093223.110827-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -94,176 +93,261 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 31 -------------------------------
- meson.build                   | 11 +++++++++--
+ configure                     | 26 ++------------------------
+ meson.build                   | 15 +++++++++++++--
  meson_options.txt             |  4 ++++
- scripts/meson-buildoptions.sh |  7 +++++++
- 4 files changed, 20 insertions(+), 33 deletions(-)
+ net/slirp.c                   | 16 ++++++++--------
+ scripts/meson-buildoptions.py |  1 +
+ scripts/meson-buildoptions.sh |  3 +++
+ 6 files changed, 31 insertions(+), 34 deletions(-)
 
 diff --git a/configure b/configure
-index 5a4a642846..1cc836ee55 100755
+index 1cc836ee55..9230ebd4a8 100755
 --- a/configure
 +++ b/configure
-@@ -322,8 +322,6 @@ vss_win32_sdk="$default_feature"
- win_sdk="no"
- want_tools="$default_feature"
- coroutine=""
--coroutine_pool="$default_feature"
--debug_stack_usage="no"
- tls_priority="NORMAL"
- plugins="$default_feature"
- secret_keyring="$default_feature"
-@@ -937,12 +935,6 @@ for opt do
+@@ -330,7 +330,6 @@ meson_args=""
+ ninja=""
+ gio="$default_feature"
+ skip_meson=no
+-slirp_smbd="$default_feature"
+ 
+ # The following Meson options are handled manually (still they
+ # are included in the automatically generated help message)
+@@ -416,6 +415,7 @@ objcopy="${OBJCOPY-${cross_prefix}objcopy}"
+ ld="${LD-${cross_prefix}ld}"
+ ranlib="${RANLIB-${cross_prefix}ranlib}"
+ nm="${NM-${cross_prefix}nm}"
++smbd="$SMBD"
+ strip="${STRIP-${cross_prefix}strip}"
+ windres="${WINDRES-${cross_prefix}windres}"
+ pkg_config_exe="${PKG_CONFIG-${cross_prefix}pkg-config}"
+@@ -535,7 +535,6 @@ darwin)
+ sunos)
+   solaris="yes"
+   make="${MAKE-gmake}"
+-  smbd="${SMBD-/usr/sfw/sbin/smbd}"
+ # needed for CMSG_ macros in sys/socket.h
+   QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
+ # needed for TIOCWIN* defines in termios.h
+@@ -1047,10 +1046,6 @@ for opt do
    ;;
-   --with-coroutine=*) coroutine="$optarg"
+   --disable-gio) gio=no
    ;;
--  --disable-coroutine-pool) coroutine_pool="no"
+-  --enable-slirp-smbd) slirp_smbd=yes
 -  ;;
--  --enable-coroutine-pool) coroutine_pool="yes"
+-  --disable-slirp-smbd) slirp_smbd=no
 -  ;;
--  --enable-debug-stack-usage) debug_stack_usage="yes"
--  ;;
-   --disable-vhost-net) vhost_net="no"
+   # backwards compatibility options
+   --enable-trace-backend=*) meson_option_parse "--enable-trace-backends=$optarg" "$optarg"
    ;;
-   --enable-vhost-net) vhost_net="yes"
-@@ -1258,8 +1250,6 @@ Advanced options (experts only):
-   --with-vss-sdk=SDK-path  enable Windows VSS support in QEMU Guest Agent
-   --with-win-sdk=SDK-path  path to Windows Platform SDK (to build VSS .tlb)
-   --tls-priority           default TLS protocol/cipher priority string
--  --enable-debug-stack-usage
--                           track the maximum stack usage of stacks created by qemu_alloc_stack
-   --enable-plugins
-                            enable plugins via shared library loading
-   --disable-containers     don't use containers for cross-building
-@@ -1289,7 +1279,6 @@ cat << EOF
-   vhost-kernel    vhost kernel backend support
-   vhost-user      vhost-user backend support
-   vhost-vdpa      vhost-vdpa kernel backend support
--  coroutine-pool  coroutine freelist (better performance)
+@@ -1282,7 +1277,6 @@ cat << EOF
    opengl          opengl support
    tools           build qemu-io, qemu-nbd and qemu-img tools
    gio             libgio support
-@@ -2498,17 +2487,6 @@ else
-   esac
- fi
+-  slirp-smbd      use smbd (at path --smbd=*) in slirp networking
  
--if test "$coroutine_pool" = ""; then
--  coroutine_pool=yes
--fi
--
--if test "$debug_stack_usage" = "yes"; then
--  if test "$coroutine_pool" = "yes"; then
--    echo "WARN: disabling coroutine pool for stack usage debugging"
--    coroutine_pool=no
+ NOTE: The object files are built at the place where configure is launched
+ EOF
+@@ -2725,19 +2719,6 @@ case "$slirp" in
+     ;;
+ esac
+ 
+-# Check for slirp smbd dupport
+-: ${smbd=${SMBD-/usr/sbin/smbd}}
+-if test "$slirp_smbd" != "no" ; then
+-  if test "$mingw32" = "yes" ; then
+-    if test "$slirp_smbd" = "yes" ; then
+-      error_exit "Host smbd not supported on this platform."
+-    fi
+-    slirp_smbd=no
+-  else
+-    slirp_smbd=yes
 -  fi
 -fi
 -
- ##################################################
- # SafeStack
+ ##########################################
+ # check for usable __NR_keyctl syscall
  
-@@ -3102,15 +3080,6 @@ if [ "$bsd" = "yes" ] ; then
+@@ -2993,10 +2974,6 @@ fi
+ if test "$guest_agent" = "yes" ; then
+   echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
  fi
- 
- echo "CONFIG_COROUTINE_BACKEND=$coroutine" >> $config_host_mak
--if test "$coroutine_pool" = "yes" ; then
--  echo "CONFIG_COROUTINE_POOL=1" >> $config_host_mak
--else
--  echo "CONFIG_COROUTINE_POOL=0" >> $config_host_mak
+-if test "$slirp_smbd" = "yes" ; then
+-  echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
+-  echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
 -fi
--
--if test "$debug_stack_usage" = "yes" ; then
--  echo "CONFIG_DEBUG_STACK_USAGE=y" >> $config_host_mak
--fi
- 
- if test "$have_asan_iface_fiber" = "yes" ; then
-     echo "CONFIG_ASAN_IFACE_FIBER=y" >> $config_host_mak
+ echo "CONFIG_BDRV_RW_WHITELIST=$block_drv_rw_whitelist" >> $config_host_mak
+ echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
+ qemu_version=$(head $source_path/VERSION)
+@@ -3355,6 +3332,7 @@ if test "$skip_meson" = no; then
+         -Ddocdir="$docdir" \
+         -Dqemu_firmwarepath="$firmwarepath" \
+         -Dqemu_suffix="$qemu_suffix" \
++        -Dsmbd="$smbd" \
+         -Dsphinx_build="$sphinx_build" \
+         -Dtrace_file="$trace_file" \
+         -Doptimization=$(if test "$debug" = yes; then echo 0; else echo 2; fi) \
 diff --git a/meson.build b/meson.build
-index 8fc23df33d..79ceff64a7 100644
+index 79ceff64a7..7b3cfb6316 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1548,7 +1548,14 @@ config_host_data.set_quoted('CONFIG_HOST_DSOSUF', host_dsosuf)
- config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
- config_host_data.set('HOST_WORDS_BIGENDIAN', host_machine.endian() == 'big')
+@@ -1462,6 +1462,17 @@ config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') /
+ config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
+ config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('prefix') / get_option('sysconfdir'))
  
-+have_coroutine_pool = get_option('coroutine_pool')
-+if get_option('debug_stack_usage') and have_coroutine_pool
-+  message('Disabling coroutine pool to measure stack usage')
-+  have_coroutine_pool = false
++have_slirp_smbd = get_option('slirp_smbd') \
++  .require(targetos != 'windows', error_message: 'Host smbd not supported on this platform.') \
++  .allowed()
++if have_slirp_smbd
++  smbd_path = get_option('smbd')
++  if smbd_path == ''
++    smbd_path = (targetos == 'solaris' ? '/usr/sfw/sbin/smbd' : '/usr/sbin/smbd')
++  endif
++  config_host_data.set_quoted('CONFIG_SMBD_COMMAND', smbd_path)
 +endif
-+config_host_data.set10('CONFIG_COROUTINE_POOL', have_coroutine_pool)
- config_host_data.set('CONFIG_DEBUG_MUTEX', get_option('debug_mutex'))
-+config_host_data.set('CONFIG_DEBUG_STACK_USAGE', get_option('debug_stack_usage'))
- config_host_data.set('CONFIG_GPROF', get_option('gprof'))
- config_host_data.set('CONFIG_LIVE_BLOCK_MIGRATION', get_option('live_block_migration').allowed())
- config_host_data.set('CONFIG_QOM_CAST_DEBUG', get_option('qom_cast_debug'))
-@@ -3403,7 +3410,7 @@ summary_info += {'PIE':               get_option('b_pie')}
- summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
- summary_info += {'malloc trim support': has_malloc_trim}
- summary_info += {'membarrier':        have_membarrier}
--summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
-+summary_info += {'debug stack usage': get_option('debug_stack_usage')}
- summary_info += {'mutex debugging':   get_option('debug_mutex')}
- summary_info += {'memory allocator':  get_option('malloc')}
- summary_info += {'avx2 optimization': config_host_data.get('CONFIG_AVX2_OPT')}
-@@ -3471,7 +3478,7 @@ summary(summary_info, bool_yn: true, section: 'Targets and accelerators')
- # Block layer
- summary_info = {}
- summary_info += {'coroutine backend': config_host['CONFIG_COROUTINE_BACKEND']}
--summary_info += {'coroutine pool':    config_host['CONFIG_COROUTINE_POOL'] == '1'}
-+summary_info += {'coroutine pool':    have_coroutine_pool}
- if have_block
-   summary_info += {'Block whitelist (rw)': config_host['CONFIG_BDRV_RW_WHITELIST']}
-   summary_info += {'Block whitelist (ro)': config_host['CONFIG_BDRV_RO_WHITELIST']}
++
+ config_host_data.set('HOST_' + host_arch.to_upper(), 1)
+ 
+ config_host_data.set('CONFIG_ATTR', libattr.found())
+@@ -3333,8 +3344,8 @@ summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
+ if targetos == 'windows' and config_host.has_key('CONFIG_GUEST_AGENT')
+   summary_info += {'wixl':            wixl}
+ endif
+-if slirp_opt != 'disabled' and 'CONFIG_SLIRP_SMBD' in config_host
+-  summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
++if slirp_opt != 'disabled' and have_system
++  summary_info += {'smbd':            have_slirp_smbd ? smbd_path : false}
+ endif
+ summary(summary_info, bool_yn: true, section: 'Host binaries')
+ 
 diff --git a/meson_options.txt b/meson_options.txt
-index 781e4d5170..03ae957102 100644
+index 03ae957102..59220b52c8 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -246,8 +246,12 @@ option('block_drv_whitelist_in_tools', type: 'boolean', value: false,
-        description: 'use block whitelist also in tools instead of only QEMU')
- option('rng_none', type: 'boolean', value: false,
-        description: 'dummy RNG, avoid using /dev/(u)random and getrandom()')
-+option('coroutine_pool', type: 'boolean', value: true,
-+       description: 'coroutine freelist (better performance)')
- option('debug_mutex', type: 'boolean', value: false,
-        description: 'mutex debugging support')
-+option('debug_stack_usage', type: 'boolean', value: false,
-+       description: 'measure coroutine stack usage')
- option('qom_cast_debug', type: 'boolean', value: false,
-        description: 'cast debugging support')
- option('gprof', type: 'boolean', value: false,
+@@ -8,6 +8,8 @@ option('docdir', type : 'string', value : 'doc',
+        description: 'Base directory for documentation installation (can be empty)')
+ option('qemu_firmwarepath', type : 'string', value : '',
+        description: 'search PATH for firmware files')
++option('smbd', type : 'string', value : '',
++       description: 'Path to smbd for slirp networking')
+ option('sphinx_build', type : 'string', value : '',
+        description: 'Use specified sphinx-build [$sphinx_build] for building document (default to be empty)')
+ option('default_devices', type : 'boolean', value : true,
+@@ -258,3 +260,5 @@ option('gprof', type: 'boolean', value: false,
+        description: 'QEMU profiling with gprof')
+ option('profiler', type: 'boolean', value: false,
+        description: 'profiler support')
++option('slirp_smbd', type : 'feature', value : 'auto',
++       description: 'use smbd (at path --smbd=*) in slirp networking')
+diff --git a/net/slirp.c b/net/slirp.c
+index ad3a838e0b..bc5e9e4f77 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -27,7 +27,7 @@
+ #include "net/slirp.h"
+ 
+ 
+-#if defined(CONFIG_SLIRP_SMBD)
++#if defined(CONFIG_SMBD_COMMAND)
+ #include <pwd.h>
+ #include <sys/wait.h>
+ #endif
+@@ -91,7 +91,7 @@ typedef struct SlirpState {
+     Slirp *slirp;
+     Notifier poll_notifier;
+     Notifier exit_notifier;
+-#if defined(CONFIG_SLIRP_SMBD)
++#if defined(CONFIG_SMBD_COMMAND)
+     gchar *smb_dir;
+ #endif
+     GSList *fwd;
+@@ -104,7 +104,7 @@ static QTAILQ_HEAD(, SlirpState) slirp_stacks =
+ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp);
+ static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp);
+ 
+-#if defined(CONFIG_SLIRP_SMBD)
++#if defined(CONFIG_SMBD_COMMAND)
+ static int slirp_smb(SlirpState *s, const char *exported_dir,
+                      struct in_addr vserver_addr, Error **errp);
+ static void slirp_smb_cleanup(SlirpState *s);
+@@ -377,7 +377,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+     struct in6_addr ip6_prefix;
+     struct in6_addr ip6_host;
+     struct in6_addr ip6_dns;
+-#if defined(CONFIG_SLIRP_SMBD)
++#if defined(CONFIG_SMBD_COMMAND)
+     struct in_addr smbsrv = { .s_addr = 0 };
+ #endif
+     NetClientState *nc;
+@@ -487,7 +487,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+         return -1;
+     }
+ 
+-#if defined(CONFIG_SLIRP_SMBD)
++#if defined(CONFIG_SMBD_COMMAND)
+     if (vsmbserver && !inet_aton(vsmbserver, &smbsrv)) {
+         error_setg(errp, "Failed to parse SMB address");
+         return -1;
+@@ -602,7 +602,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+             }
+         }
+     }
+-#if defined(CONFIG_SLIRP_SMBD)
++#if defined(CONFIG_SMBD_COMMAND)
+     if (smb_export) {
+         if (slirp_smb(s, smb_export, smbsrv, errp) < 0) {
+             goto error;
+@@ -794,7 +794,7 @@ void hmp_hostfwd_add(Monitor *mon, const QDict *qdict)
+ 
+ }
+ 
+-#if defined(CONFIG_SLIRP_SMBD)
++#if defined(CONFIG_SMBD_COMMAND)
+ 
+ /* automatic user mode samba server configuration */
+ static void slirp_smb_cleanup(SlirpState *s)
+@@ -909,7 +909,7 @@ static int slirp_smb(SlirpState* s, const char *exported_dir,
+     return 0;
+ }
+ 
+-#endif /* defined(CONFIG_SLIRP_SMBD) */
++#endif /* defined(CONFIG_SMBD_COMMAND) */
+ 
+ static int guestfwd_can_read(void *opaque)
+ {
+diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
+index 98ae944148..01b10f7ae0 100755
+--- a/scripts/meson-buildoptions.py
++++ b/scripts/meson-buildoptions.py
+@@ -32,6 +32,7 @@
+     "fuzzing_engine",
+     "qemu_firmwarepath",
+     "qemu_suffix",
++    "smbd",
+     "sphinx_build",
+     "trace_file",
+ }
 diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index a2d6f34b21..9a6e53a2e7 100644
+index 9a6e53a2e7..fb8812693c 100644
 --- a/scripts/meson-buildoptions.sh
 +++ b/scripts/meson-buildoptions.sh
-@@ -8,7 +8,10 @@ meson_options_help() {
-   printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
-   printf "%s\n" '  --enable-cfi             Control-Flow Integrity (CFI)'
-   printf "%s\n" '  --enable-cfi-debug       Verbose errors in case of CFI violation'
-+  printf "%s\n" '  --disable-coroutine-pool coroutine freelist (better performance)'
-   printf "%s\n" '  --enable-debug-mutex     mutex debugging support'
-+  printf "%s\n" '  --enable-debug-stack-usage'
-+  printf "%s\n" '                           measure coroutine stack usage'
-   printf "%s\n" '  --enable-fdt[=CHOICE]    Whether and how to find the libfdt library'
-   printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
-   printf "%s\n" '  --enable-fuzzing         build fuzzing targets'
-@@ -164,6 +167,8 @@ _meson_option_parse() {
-     --disable-cocoa) printf "%s" -Dcocoa=disabled ;;
-     --enable-coreaudio) printf "%s" -Dcoreaudio=enabled ;;
-     --disable-coreaudio) printf "%s" -Dcoreaudio=disabled ;;
-+    --enable-coroutine-pool) printf "%s" -Dcoroutine_pool=true ;;
-+    --disable-coroutine-pool) printf "%s" -Dcoroutine_pool=false ;;
-     --enable-crypto-afalg) printf "%s" -Dcrypto_afalg=enabled ;;
-     --disable-crypto-afalg) printf "%s" -Dcrypto_afalg=disabled ;;
-     --enable-curl) printf "%s" -Dcurl=enabled ;;
-@@ -174,6 +179,8 @@ _meson_option_parse() {
-     --disable-dbus-display) printf "%s" -Ddbus_display=disabled ;;
-     --enable-debug-mutex) printf "%s" -Ddebug_mutex=true ;;
-     --disable-debug-mutex) printf "%s" -Ddebug_mutex=false ;;
-+    --enable-debug-stack-usage) printf "%s" -Ddebug_stack_usage=true ;;
-+    --disable-debug-stack-usage) printf "%s" -Ddebug_stack_usage=false ;;
-     --enable-dmg) printf "%s" -Ddmg=enabled ;;
-     --disable-dmg) printf "%s" -Ddmg=disabled ;;
-     --enable-docs) printf "%s" -Ddocs=enabled ;;
+@@ -101,6 +101,7 @@ meson_options_help() {
+   printf "%s\n" '  sdl-image       SDL Image support for icons'
+   printf "%s\n" '  seccomp         seccomp support'
+   printf "%s\n" '  selinux         SELinux support in qemu-nbd'
++  printf "%s\n" '  slirp-smbd      use smbd (at path --smbd=*) in slirp networking'
+   printf "%s\n" '  smartcard       CA smartcard emulation support'
+   printf "%s\n" '  snappy          snappy compression support'
+   printf "%s\n" '  sparse          sparse checker'
+@@ -296,6 +297,8 @@ _meson_option_parse() {
+     --enable-slirp) printf "%s" -Dslirp=enabled ;;
+     --disable-slirp) printf "%s" -Dslirp=disabled ;;
+     --enable-slirp=*) quote_sh "-Dslirp=$2" ;;
++    --enable-slirp-smbd) printf "%s" -Dslirp_smbd=enabled ;;
++    --disable-slirp-smbd) printf "%s" -Dslirp_smbd=disabled ;;
+     --enable-smartcard) printf "%s" -Dsmartcard=enabled ;;
+     --disable-smartcard) printf "%s" -Dsmartcard=disabled ;;
+     --enable-snappy) printf "%s" -Dsnappy=enabled ;;
 -- 
 2.34.1
 
