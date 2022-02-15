@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573E24B6AB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 12:25:02 +0100 (CET)
-Received: from localhost ([::1]:45716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1B24B6B3F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 12:35:19 +0100 (CET)
+Received: from localhost ([::1]:54630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJvx6-0001Wz-NT
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 06:25:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55796)
+	id 1nJw74-0007wN-F8
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 06:35:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJvrU-0008Nd-V5
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 06:19:13 -0500
-Received: from [2a00:1450:4864:20::42b] (port=36618
- helo=mail-wr1-x42b.google.com)
+ id 1nJw4j-0006qw-3j
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 06:32:53 -0500
+Received: from [2a00:1450:4864:20::433] (port=38756
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nJvrT-0001kk-4K
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 06:19:12 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id o24so28848985wro.3
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 03:19:10 -0800 (PST)
+ id 1nJw4f-0004p0-WC
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 06:32:51 -0500
+Received: by mail-wr1-x433.google.com with SMTP id d27so27782541wrb.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 03:32:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CP27Kh/7m2+PaDA2NMkJ9yz10CAuFEdzl1SJbOsAISU=;
- b=gf1101F5Y59Mk63lv2UcIa5IJ7nePOVtvfZnTyNXvUw/smk0Wzyd0l4ejJjs+j6g0a
- ZckfTUYQ+QLUdDemGc9Y1P6ktRT2V6aqcSFZb3XR6ICZsqU+4t3H+v019AQH8lKPOyHE
- apG5r817AmnaIg+WVQhrq2184IqneduchwNcdn4FULBRVhJbqIrWd8u6mtXQ56im+Sys
- Mb+rG81TOy3Edg5q4nIZZY3mArp0icBGFpHK7dt/FtF/jEorpOC5WjTCYnkdGXRO1JQw
- t1U02mqQyKrwvhc7mOmSKkFUvxwg45IytKg1vi+z7DyoHGl2CZJMi3zXNcrCCjg1HSW5
- agng==
+ :cc; bh=e6qgJLfjvPJ7GEp9mmG7Qw9Vy/KV+MFTTnVuM91jcyE=;
+ b=GzAKjOn3UdeOWGZDH1vN8HiNggDWCC9AY3qvZmh3YwJebKOQFN9gl1wq01evzZDkzS
+ oEh3S8poQD8Qzg8gruIWC8qay4rHfG2QeG0WOeEkIb7dnNMKwY051Gae5vb2lDjiIPsY
+ WyF+1M7wLj5hn3tjwnS7d8JnAS1DrOTHumk1svPm+O7lL9kLJpLx97UQCL+mlDcoWkhg
+ CpSQuQP5ERXTFnNP6ej6vu74YSbqwvo9f27e4EHhBsb2fkW9dQnHMw8P/x/UrOmDz0wk
+ YfBwDiLLbO2dUs4qobL1SQgBwvJRZlvfTJwG2BwgJGynVgbss24/oHHkIwSw4ELa9ZVL
+ LrJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CP27Kh/7m2+PaDA2NMkJ9yz10CAuFEdzl1SJbOsAISU=;
- b=ZBHdnwINyIBNCA6w3qSz8v93Pp92gdd7JWHigJV6nuc+jnOeCG174AF5l8Sk09cpFI
- vqZDyleOtiMZfKP9ynHDkPzRWglUbkp73VODJ+/BMm+oD7EbmRUwLCMkUzpyliCy28ah
- gMbkWS/Etr69akRWSsSW/a+r+YPN7T8u9F9u0QbmyNat81MZh4QVFNa8x66iMW6VNK4R
- kgZs8XIlx0rAUCpZAvy6Khmj/ij39/fg2PbX+/23fQAgTuF/U0lBGQPUnsdYYvAIf1oB
- PLUbMb+AToGZ9k7A/bYc+VAmcsVpb/jjGgL311Cr6VpiQwiLIEFhElNXnAjARWyWuOEB
- 3E+Q==
-X-Gm-Message-State: AOAM531P5X40DOgFipVcdDRYyG9FCIDzhbDtwGL2Y3DF69XPb8py/MNR
- +6r60oe/jBiO8bX3YzzuNGCoZqWeDnNSCQT0TK5MSA==
-X-Google-Smtp-Source: ABdhPJyY42rCmyK9LG/FjEn1mHNCdVGKKt2trvAViYr7RRM/1V6jkWU8go7MWdAMdOsAEKzkp6qETojYX1Vf5DaoKhc=
-X-Received: by 2002:a5d:6d8d:: with SMTP id l13mr2746640wrs.295.1644923949671; 
- Tue, 15 Feb 2022 03:19:09 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=e6qgJLfjvPJ7GEp9mmG7Qw9Vy/KV+MFTTnVuM91jcyE=;
+ b=CAB1UzLlg6Txu50L7nP9ag8ueAr0ioYCb+c2IuFcZLdCwNqNrD36+aftkFZkUI568v
+ +dnUyKGjyNLmY08v+TUHWdeP74uDLIkKF/lG510dL9BlD628BG8GMzCZOYKuUBfDsT7E
+ 5fpzfsvt37I5rVuDddtg+yZVB7cfKH0/DyvQ+eOmv9r9U0Ijx7n8P0FQnDCbKx+QC6zZ
+ 7t5rKHCB6yV7DJ5K2x9kVWlyL2TVCINb+wqoZpDK5eLN9tudVK3xlB8NgR6jUrlCn4Js
+ 8GnFYzkCyBO/xtsUKEnksHJXrtabH3bqyV4tBT42teek19Sh5sP843ihq6FpGzgG+x/I
+ V/+A==
+X-Gm-Message-State: AOAM532w4874AUXNNlYkmYS0Sunzct4OB5ogOvPV942EAHAbuQ0+jo2y
+ 0D1UtH6PF04uevPadM2keJx2rbRKOJulsytCM05srg==
+X-Google-Smtp-Source: ABdhPJwtouEEVoIbDICmCJDG7D1dXXWYy7FCpN5NUch1cRtg1Y0jMYdFhX1+ZMQhMTLyPi3EPtP9s9gjy/oQ6RaLyTs=
+X-Received: by 2002:a5d:4ac7:: with SMTP id y7mr2915371wrs.521.1644924768415; 
+ Tue, 15 Feb 2022 03:32:48 -0800 (PST)
 MIME-Version: 1.0
-References: <CAAFEQFF9tjKEt1fL5=kiVpRxXX=Ti9HKW-YE1rnFXx0dPB9VQA@mail.gmail.com>
-In-Reply-To: <CAAFEQFF9tjKEt1fL5=kiVpRxXX=Ti9HKW-YE1rnFXx0dPB9VQA@mail.gmail.com>
+References: <e9bae713-1051-1bf0-5f3a-d9bb61aade8a@greensocs.com>
+In-Reply-To: <e9bae713-1051-1bf0-5f3a-d9bb61aade8a@greensocs.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Feb 2022 11:18:58 +0000
-Message-ID: <CAFEAcA8pr1w8OLRPDHb7+F=9UysEEOhQpU=o6upg_s1AQ-rnbg@mail.gmail.com>
-Subject: Re: Holding RISCV CPUs in reset
-To: vysakh pillai <vysakhpillai@gmail.com>
+Date: Tue, 15 Feb 2022 11:32:36 +0000
+Message-ID: <CAFEAcA9P7DyYqBCLeTMRSTiw2jYMfQ97vs_u+55nCdov7LDdrw@mail.gmail.com>
+Subject: Re: qdev instance_init vs realize split
+To: Damien Hedde <damien.hedde@greensocs.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -82,38 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Feb 2022 at 10:30, vysakh pillai <vysakhpillai@gmail.com> wrote:
+On Tue, 15 Feb 2022 at 10:32, Damien Hedde <damien.hedde@greensocs.com> wrote:
+> I'm wondering if there are rules or convention about what we put in the
+> instance_init() vs realize() for simple devices ? (For complex ones we
+> generally have no choice to put everything in realize())
 >
-> Hi,
->  In an SMP system like the sifive_u machine which has a RISCV  e_cpu as h=
-art0 and a set of u_cpus as hart 1-N, is there a way to start just the hart=
-0 and hold the other CPUs in reset until explicitly released by hart0 SW?
+> For example we can declare irqs and mmios in instance_init() or
+> realize() if they do not depend on some property.
+
+We don't, unfortunately, have a clear set of conventions for this.
+We really ideally ought to write some up, because the question
+keeps coming up. There are a few absolute rules:
+ * things that can fail must be done in realize
+ * things that depend on property values must be done in realize
+ * things that affect the simulation must be done in realize
+ * if you do something that needs a corresponding manual deinit
+   step in instance_init then you must provide an instance_finalize
+   even if the device would otherwise be "create once, lasts for
+   entire simulation" as many of our devices are
+
+But in many cases actions can be done in either method, and we
+end up with devices being inconsistent and people wondering whether
+there's a reason for it.
+
+I vaguely think it would be good to get into the habit of writing
+all our devices to have the full lifecycle code including supporting
+init-realize-unrealize-finalize, but on the other hand that implies
+a bunch of code (unrealize) which is never executed or tested...
+I also suspect we have a bunch of buggy code in realize methods
+which isn't correctly undoing things it has done already in the
+error-exit-from-realize case.
+
+> This is not a big deal, but given how works the help message generation
+> in the monitor, there are difference if the device is user-creatable.
 >
->  I am working on a machine similar to the sifive_u machine that has a set=
- of control registers which are accessible by hart0 to release the other co=
-res from reset once the SoC level initialization is completed by the hart0 =
-SW. Currently, the CPUs spin if they have a non-zero mhartid, executing cod=
-e from resetvec.
+> If we leave irqs and mmios declaration in the instance_init(). They
+> appear in the help message.
+>  > (qemu) device_add ibex-timer,help
+>  > ibex-timer options:
+>  >   ibex-timer[0]=<child<memory-region>>
+>  >   sysbus-irq[0]=<link<irq>>
+>  >   timebase-freq=<uint32> -  (default: 10000)
+>
+> If we delay the declaration in realize(), we only have the declared
+> qdev-properties (which is maybe more what we expect at this point):
+>
+>  > (qemu) device_add ibex-timer,help
+>  > ibex-timer options:
+>  >   timebase-freq=<uint32> -  (default: 10000)
 
-I don't think the riscv code has support for this, but QEMU's
-core machinery does because it's used by some arm boards,
-so it shouldn't be too difficult to add the necessary riscv parts.
-
-You can look at the handling of the 'start-powered-off' property:
-the SoC model sets that on CPUs which do not start running
-immediately. The target/riscv code may need some minor changes
-to do something appropriate with it.
-The power-controller device model on an arm board then starts CPUs
-as required by calling arm_set_cpu_on() or similar. There will
-need to be a riscv-specific version of that code too.
-
-(We don't distinguish "starts powered off" from "starts held
-in reset", because from QEMU's point of view both states are
-the same: the CPU is not executing instructions.)
+This seems to me to be a problem with the help message generation.
+IRQ and MMIO properties shouldn't be being presented to the user
+whether we set them up in instance-init or realize: there is nothing
+the user can usefully do with them.
 
 thanks
 -- PMM
