@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C21A4B67BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:38:06 +0100 (CET)
-Received: from localhost ([::1]:42162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284694B67D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:40:51 +0100 (CET)
+Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuHd-00048F-8S
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:38:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54728)
+	id 1nJuKI-000138-7d
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:40:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCG-0003rE-Nb
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:32 -0500
-Received: from [2a00:1450:4864:20::52a] (port=33467
+ id 1nJuCH-0003uw-Gj
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:33 -0500
+Received: from [2a00:1450:4864:20::52a] (port=45811
  helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCE-0008Q6-Pz
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:32 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id b13so31191825edn.0
+ id 1nJuCF-0008QG-CI
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:33 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id z13so12788773edc.12
  for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XVnVeU9E3mpcEroUKHrZf65c5xkFEcPvt7vB9d+yeUw=;
- b=PCMRx5RFcHmOlXyoHR3ZVFjYEUY+wUe30LK6gjNrWTLAVt3UO9P7zKs+h2xPiOaXmC
- MdOFQTPUZi9CZ7fpuaCg5BGnR1U3L0b2D2iNBP2rcfw7j6RUeypV7/6at9UHLq80cJ4Q
- 0ETWHPZVNXQHbrkteuFsxvxdUR+FFjPcx7NmtJ2FQ5VBXpbHn2DKxQBR85ikOzGgMxV0
- SBMlTA65fSN8uHw2YeWtN22nxPpJYO/vy6zoROWh8g9qvxin87fPipqAwMM/OJZ3ld4O
- 1H850dWvQJnbi0HPLkbVsIh4sK7mZyGgDtaXD4t8apijx83hy7GGD/Ge5A3R5Zi4itOs
- XNBA==
+ bh=lgMyPZYrb3nwjXIR9q8COjU2UhZ4fpa1Lv+L1kHYEeA=;
+ b=hWrbhDf7qgwvsF2yURKTQcUs2AR2NYK9eYMDL3+r37tTQZ5L3usKTH6RmXhaRvdNvr
+ oA+iKlDOFf7pT8+I0JoP5Acnu0L6H0wSIqSN5/Yd1Z+WO3B2gUzWJv65wlb3mdzOWp5j
+ EtkSui/97+zfdj3eGin/6PuRzV4JqRrbluAqEq7MnmPBW0ySkhKT+cibh0WEBGtLjadv
+ pi5qDhQMNH6hf1TshkcCmaYZpVubt1gC9OL5c0LIRyHv/2BmdzeRAgUdbdXOedwJDgUB
+ V2TXc0kt6iqeJLovd6yEyqBPvywa+QW//QMxeHNjz1se9zJ9ZCb3IaXQ165aObRkxNYx
+ 7SUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XVnVeU9E3mpcEroUKHrZf65c5xkFEcPvt7vB9d+yeUw=;
- b=6dXLxKktCO+SuG5sYDevDMpl+DO3X12awk7EfvmsXpuBdmUA2eJziYpAAPlcdx1nPZ
- RUlVYLmRdKoPb/Zb47Xk1IblVVc2TFcOB1GgKeLBC0X7sKBCTaRVFdj6s+ruCL1sAOCv
- SfJDnrPwAo296hsT13kczSHTaSSDEfK5RZjPyP1ykXkWur/zwKPJp6Db2sG+iXVvVtzN
- Yc1WdwS9i65Q/fOcIt2FUf/57u+Py0aJJJHq4uWIpDRM6T8kvc+aDyxq4Ghe2xO4qY7O
- 73R6SlLTO9f59Uc8nEZd31AjpPiqz0AFR7N7QlIGJBCRSpixjT6/lkUKisU9oexVuV/f
- Ky4Q==
-X-Gm-Message-State: AOAM530opR0fMyBmNITNK3S7RnKAulcn5kHD6uUy8f9vN4QCTo7lHN85
- SOsOwgzIBVPVunqAXvXPENWMsUEbQvs=
-X-Google-Smtp-Source: ABdhPJz70u6slGtSlA7hOXFdBigQ/C1+C/kinBXevQNUJczSxPKbk073VNfFyi13k84bMGiieJlj2A==
-X-Received: by 2002:aa7:dc42:: with SMTP id g2mr2941197edu.410.1644917549425; 
- Tue, 15 Feb 2022 01:32:29 -0800 (PST)
+ bh=lgMyPZYrb3nwjXIR9q8COjU2UhZ4fpa1Lv+L1kHYEeA=;
+ b=yhNjTEG02cxAYMxYemOjyex+osu1TTymE36wDJzTIFihudQp8ZboGifJTiTFzd54A4
+ QSPKzeQ8S2DIgRZaDU2w1dnZFSy2vRhTkedJ0KaRIBo3cWvJOfzyKfr1GDXzc5ilVkJy
+ dqU4B/qZQ3ySS6DiMTxRBXdqfA5/xTvIYMBP27GG2mFV9GCsvvnTMRQBaVsvGVCOEI/L
+ CZ1QDCA220Lc2YcxKSvKzXT+DwanyQU9t3LziN5+lu7ejXbiDKhtox0KkVm/uc6dPLOg
+ VjfxmD1HOtSLrbAoTiKjVMzbd6gW4Qj/jnkcg6iNrICF6S3ji26+yJ+WAVzgQOsK1UlL
+ uD2A==
+X-Gm-Message-State: AOAM533+Xtp2zJiFQFIR6Mz9ejEGqY3W4YYnUzkw7VNH0/23S/9q8S7o
+ GEND4byFNpESrZCylh/ed4UGVm1cMio=
+X-Google-Smtp-Source: ABdhPJzu1t14nGQWGn/D7Q+jpHGPkg41BNm4Dsp5Z2VZLop6NbXHjl963SSTg9GFrVlYC4vLoLqj3g==
+X-Received: by 2002:a05:6402:4313:: with SMTP id
+ m19mr2957229edc.320.1644917550078; 
+ Tue, 15 Feb 2022 01:32:30 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.28
+ by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.29
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 15 Feb 2022 01:32:29 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/30] configure, meson: move AVX tests to meson
-Date: Tue, 15 Feb 2022 10:31:59 +0100
-Message-Id: <20220215093223.110827-7-pbonzini@redhat.com>
+Subject: [PULL 07/30] configure, meson: move membarrier test to meson
+Date: Tue, 15 Feb 2022 10:32:00 +0100
+Message-Id: <20220215093223.110827-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215093223.110827-1-pbonzini@redhat.com>
 References: <20220215093223.110827-1-pbonzini@redhat.com>
@@ -86,278 +88,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For consistency with other tests, --enable-avx2 and --enable-avx512f
-fail to compile on x86 systems if cpuid.h is not available.
+The test is a bit different from the others, in that it does not run
+if $membarrier is empty.  For meson, the default can simply be disabled;
+if one day we will toggle the default, no change is needed in meson.build.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 103 ----------------------------------
- meson.build                   |  50 ++++++++++++++++-
- meson_options.txt             |   4 ++
- scripts/meson-buildoptions.sh |   6 ++
- 4 files changed, 58 insertions(+), 105 deletions(-)
+ configure                     | 40 -----------------------------------
+ meson.build                   | 22 ++++++++++++++++++-
+ meson_options.txt             |  6 ++++++
+ scripts/meson-buildoptions.sh |  3 +++
+ util/meson.build              |  4 +++-
+ 5 files changed, 33 insertions(+), 42 deletions(-)
 
 diff --git a/configure b/configure
-index 3a29eff5cc..a6a577277f 100755
+index a6a577277f..c49797012d 100755
 --- a/configure
 +++ b/configure
-@@ -323,8 +323,6 @@ qom_cast_debug="yes"
- trace_backends="log"
- trace_file="trace"
- opengl="$default_feature"
--cpuid_h="no"
--avx2_opt="$default_feature"
- guest_agent="$default_feature"
- vss_win32_sdk="$default_feature"
- win_sdk="no"
-@@ -1033,14 +1031,6 @@ for opt do
+@@ -290,7 +290,6 @@ EXTRA_CXXFLAGS=""
+ EXTRA_LDFLAGS=""
+ 
+ xen_ctrl_version="$default_feature"
+-membarrier="$default_feature"
+ vhost_kernel="$default_feature"
+ vhost_net="$default_feature"
+ vhost_crypto="$default_feature"
+@@ -967,10 +966,6 @@ for opt do
    ;;
-   --disable-tools) want_tools="no"
+   --enable-fdt=*) fdt="$optarg"
    ;;
--  --disable-avx2) avx2_opt="no"
+-  --disable-membarrier) membarrier="no"
 -  ;;
--  --enable-avx2) avx2_opt="yes"
+-  --enable-membarrier) membarrier="yes"
 -  ;;
--  --disable-avx512f) avx512f_opt="no"
--  ;;
--  --enable-avx512f) avx512f_opt="yes"
--  ;;
-   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
-       echo "$0: $opt is obsolete, virtio-blk data-plane is always on" >&2
+   --with-pkgversion=*) pkgversion="$optarg"
    ;;
-@@ -1406,8 +1396,6 @@ cat << EOF
-   coroutine-pool  coroutine freelist (better performance)
-   tpm             TPM support
-   numa            libnuma support
--  avx2            AVX2 optimization support
--  avx512f         AVX512F optimization support
-   replication     replication support
-   opengl          opengl support
-   qom-cast-debug  cast debugging support
-@@ -2740,85 +2728,6 @@ else # "$safe_stack" = ""
- fi
+   --with-coroutine=*) coroutine="$optarg"
+@@ -1382,7 +1377,6 @@ cat << EOF
+   lto             Enable Link-Time Optimization.
+   safe-stack      SafeStack Stack Smash Protection. Depends on
+                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
+-  membarrier      membarrier system call (for Linux 4.14+ or Windows)
+   rdma            Enable RDMA-based migration
+   pvrdma          Enable PVRDMA support
+   vhost-net       vhost-net kernel acceleration support
+@@ -2823,37 +2817,6 @@ if test "$fortify_source" != "no"; then
+   fi
  fi
  
--########################################
--# check if cpuid.h is usable.
--
--cat > $TMPC << EOF
--#include <cpuid.h>
--int main(void) {
--    unsigned a, b, c, d;
--    unsigned max = __get_cpuid_max(0, 0);
--
--    if (max >= 1) {
--        __cpuid(1, a, b, c, d);
--    }
--
--    if (max >= 7) {
--        __cpuid_count(7, 0, a, b, c, d);
--    }
--
--    return 0;
--}
--EOF
--if compile_prog "" "" ; then
--    cpuid_h=yes
--fi
--
 -##########################################
--# avx2 optimization requirement check
--#
--# There is no point enabling this if cpuid.h is not usable,
--# since we won't be able to select the new routines.
--
--if test "$cpuid_h" = "yes" && test "$avx2_opt" != "no"; then
--  cat > $TMPC << EOF
--#pragma GCC push_options
--#pragma GCC target("avx2")
--#include <cpuid.h>
--#include <immintrin.h>
--static int bar(void *a) {
--    __m256i x = *(__m256i *)a;
--    return _mm256_testz_si256(x, x);
--}
--int main(int argc, char *argv[]) { return bar(argv[0]); }
+-# check for usable membarrier system call
+-if test "$membarrier" = "yes"; then
+-    have_membarrier=no
+-    if test "$mingw32" = "yes" ; then
+-        have_membarrier=yes
+-    elif test "$linux" = "yes" ; then
+-        cat > $TMPC << EOF
+-    #include <linux/membarrier.h>
+-    #include <sys/syscall.h>
+-    #include <unistd.h>
+-    #include <stdlib.h>
+-    int main(void) {
+-        syscall(__NR_membarrier, MEMBARRIER_CMD_QUERY, 0);
+-        syscall(__NR_membarrier, MEMBARRIER_CMD_SHARED, 0);
+-	exit(0);
+-    }
 -EOF
--  if compile_object "-Werror" ; then
--    avx2_opt="yes"
--  else
--    avx2_opt="no"
--  fi
--fi
--
--##########################################
--# avx512f optimization requirement check
--#
--# There is no point enabling this if cpuid.h is not usable,
--# since we won't be able to select the new routines.
--# by default, it is turned off.
--# if user explicitly want to enable it, check environment
--
--if test "$cpuid_h" = "yes" && test "$avx512f_opt" = "yes"; then
--  cat > $TMPC << EOF
--#pragma GCC push_options
--#pragma GCC target("avx512f")
--#include <cpuid.h>
--#include <immintrin.h>
--static int bar(void *a) {
--    __m512i x = *(__m512i *)a;
--    return _mm512_test_epi64_mask(x, x);
--}
--int main(int argc, char *argv[])
--{
--	return bar(argv[0]);
--}
--EOF
--  if ! compile_object "-Werror" ; then
--    avx512f_opt="no"
--  fi
+-        if compile_prog "" "" ; then
+-            have_membarrier=yes
+-        fi
+-    fi
+-    if test "$have_membarrier" = "no"; then
+-      feature_not_found "membarrier" "membarrier system call not available"
+-    fi
 -else
--  avx512f_opt="no"
+-    # Do not enable it by default even for Mingw32, because it doesn't
+-    # work on Wine.
+-    membarrier=no
 -fi
 -
- ########################################
- # check if __[u]int128_t is usable.
- 
-@@ -3419,14 +3328,6 @@ if test "$opengl" = "yes" ; then
-   echo "OPENGL_LIBS=$opengl_libs" >> $config_host_mak
+ ##########################################
+ # check for usable AF_ALG environment
+ have_afalg=no
+@@ -3315,9 +3278,6 @@ fi
+ if test "$vhost_user_fs" = "yes" ; then
+   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
  fi
- 
--if test "$avx2_opt" = "yes" ; then
--  echo "CONFIG_AVX2_OPT=y" >> $config_host_mak
+-if test "$membarrier" = "yes" ; then
+-  echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
 -fi
--
--if test "$avx512f_opt" = "yes" ; then
--  echo "CONFIG_AVX512F_OPT=y" >> $config_host_mak
--fi
--
- # XXX: suppress that
- if [ "$bsd" = "yes" ] ; then
-   echo "CONFIG_BSD=y" >> $config_host_mak
-@@ -3459,10 +3360,6 @@ if test "$have_tsan" = "yes" && test "$have_tsan_iface_fiber" = "yes" ; then
-     echo "CONFIG_TSAN=y" >> $config_host_mak
- fi
- 
--if test "$cpuid_h" = "yes" ; then
--  echo "CONFIG_CPUID_H=y" >> $config_host_mak
--fi
--
- if test "$int128" = "yes" ; then
-   echo "CONFIG_INT128=y" >> $config_host_mak
+ if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
+   echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
  fi
 diff --git a/meson.build b/meson.build
-index 15dfd66a3e..7a262051b7 100644
+index 7a262051b7..6dc38a7916 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1762,6 +1762,52 @@ config_host_data.set('CONFIG_GETAUXVAL', cc.links(gnu_source_prefix + '''
-     return getauxval(AT_HWCAP) == 0;
-   }'''))
+@@ -1808,6 +1808,26 @@ config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
+     int main(int argc, char *argv[]) { return bar(argv[0]); }
+   '''), error_message: 'AVX512F not available').allowed())
  
-+have_cpuid_h = cc.links('''
-+  #include <cpuid.h>
-+  int main(void) {
-+    unsigned a, b, c, d;
-+    unsigned max = __get_cpuid_max(0, 0);
-+
-+    if (max >= 1) {
-+        __cpuid(1, a, b, c, d);
-+    }
-+
-+    if (max >= 7) {
-+        __cpuid_count(7, 0, a, b, c, d);
-+    }
-+
-+    return 0;
-+  }''')
-+config_host_data.set('CONFIG_CPUID_H', have_cpuid_h)
-+
-+config_host_data.set('CONFIG_AVX2_OPT', get_option('avx2') \
-+  .require(have_cpuid_h, error_message: 'cpuid.h not available, cannot enable AVX2') \
-+  .require(cc.links('''
-+    #pragma GCC push_options
-+    #pragma GCC target("avx2")
-+    #include <cpuid.h>
-+    #include <immintrin.h>
-+    static int bar(void *a) {
-+      __m256i x = *(__m256i *)a;
-+      return _mm256_testz_si256(x, x);
-+    }
-+    int main(int argc, char *argv[]) { return bar(argv[0]); }
-+  '''), error_message: 'AVX2 not available').allowed())
-+
-+config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
-+  .require(have_cpuid_h, error_message: 'cpuid.h not available, cannot enable AVX512F') \
-+  .require(cc.links('''
-+    #pragma GCC push_options
-+    #pragma GCC target("avx512f")
-+    #include <cpuid.h>
-+    #include <immintrin.h>
-+    static int bar(void *a) {
-+      __m512i x = *(__m512i *)a;
-+      return _mm512_test_epi64_mask(x, x);
-+    }
-+    int main(int argc, char *argv[]) { return bar(argv[0]); }
-+  '''), error_message: 'AVX512F not available').allowed())
++if get_option('membarrier').disabled()
++  have_membarrier = false
++elif targetos == 'windows'
++  have_membarrier = true
++elif targetos == 'linux'
++  have_membarrier = cc.compiles('''
++    #include <linux/membarrier.h>
++    #include <sys/syscall.h>
++    #include <unistd.h>
++    #include <stdlib.h>
++    int main(void) {
++        syscall(__NR_membarrier, MEMBARRIER_CMD_QUERY, 0);
++        syscall(__NR_membarrier, MEMBARRIER_CMD_SHARED, 0);
++        exit(0);
++    }''')
++endif
++config_host_data.set('CONFIG_MEMBARRIER', get_option('membarrier') \
++  .require(have_membarrier, error_message: 'membarrier system call not available') \
++  .allowed())
 +
  config_host_data.set('CONFIG_AF_VSOCK', cc.compiles(gnu_source_prefix + '''
    #include <errno.h>
    #include <sys/types.h>
-@@ -3289,8 +3335,8 @@ summary_info += {'membarrier':        config_host.has_key('CONFIG_MEMBARRIER')}
+@@ -3331,7 +3351,7 @@ summary_info += {'link-time optimization (LTO)': get_option('b_lto')}
+ summary_info += {'PIE':               get_option('b_pie')}
+ summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
+ summary_info += {'malloc trim support': has_malloc_trim}
+-summary_info += {'membarrier':        config_host.has_key('CONFIG_MEMBARRIER')}
++summary_info += {'membarrier':        have_membarrier}
  summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
  summary_info += {'mutex debugging':   config_host.has_key('CONFIG_DEBUG_MUTEX')}
  summary_info += {'memory allocator':  get_option('malloc')}
--summary_info += {'avx2 optimization': config_host.has_key('CONFIG_AVX2_OPT')}
--summary_info += {'avx512f optimization': config_host.has_key('CONFIG_AVX512F_OPT')}
-+summary_info += {'avx2 optimization': config_host_data.get('CONFIG_AVX2_OPT')}
-+summary_info += {'avx512f optimization': config_host_data.get('CONFIG_AVX512F_OPT')}
- summary_info += {'gprof enabled':     config_host.has_key('CONFIG_GPROF')}
- summary_info += {'gcov':              get_option('b_coverage')}
- summary_info += {'thread sanitizer':  config_host.has_key('CONFIG_TSAN')}
 diff --git a/meson_options.txt b/meson_options.txt
-index 95d527f773..6ff349023c 100644
+index 6ff349023c..49f14f960e 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -68,6 +68,10 @@ option('multiprocess', type: 'feature', value: 'auto',
+@@ -68,6 +68,12 @@ option('multiprocess', type: 'feature', value: 'auto',
         description: 'Out of process device emulation support')
  option('dbus_display', type: 'feature', value: 'auto',
         description: '-display dbus support')
-+option('avx2', type: 'feature', value: 'auto',
-+       description: 'AVX2 optimizations')
-+option('avx512f', type: 'feature', value: 'disabled',
-+       description: 'AVX512F optimizations')
- 
- option('attr', type : 'feature', value : 'auto',
-        description: 'attr/xattr support')
++
++# Do not enable it by default even for Mingw32, because it doesn't
++# work on Wine.
++option('membarrier', type: 'feature', value: 'disabled',
++       description: 'membarrier system call (for Linux 4.14+ or Windows')
++
+ option('avx2', type: 'feature', value: 'auto',
+        description: 'AVX2 optimizations')
+ option('avx512f', type: 'feature', value: 'disabled',
 diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 48a454cece..dcfc39ec6b 100644
+index dcfc39ec6b..c204ede02b 100644
 --- a/scripts/meson-buildoptions.sh
 +++ b/scripts/meson-buildoptions.sh
-@@ -26,6 +26,8 @@ meson_options_help() {
-   printf "%s\n" '  alsa            ALSA sound support'
-   printf "%s\n" '  attr            attr/xattr support'
-   printf "%s\n" '  auth-pam        PAM access control'
-+  printf "%s\n" '  avx2            AVX2 optimizations'
-+  printf "%s\n" '  avx512f         AVX512F optimizations'
-   printf "%s\n" '  bpf             eBPF support'
-   printf "%s\n" '  brlapi          brlapi character device driver'
-   printf "%s\n" '  bzip2           bzip2 support for DMG images'
-@@ -109,6 +111,10 @@ _meson_option_parse() {
-     --disable-attr) printf "%s" -Dattr=disabled ;;
-     --enable-auth-pam) printf "%s" -Dauth_pam=enabled ;;
-     --disable-auth-pam) printf "%s" -Dauth_pam=disabled ;;
-+    --enable-avx2) printf "%s" -Davx2=enabled ;;
-+    --disable-avx2) printf "%s" -Davx2=disabled ;;
-+    --enable-avx512f) printf "%s" -Davx512f=enabled ;;
-+    --disable-avx512f) printf "%s" -Davx512f=disabled ;;
-     --enable-bpf) printf "%s" -Dbpf=enabled ;;
-     --disable-bpf) printf "%s" -Dbpf=disabled ;;
-     --enable-brlapi) printf "%s" -Dbrlapi=enabled ;;
+@@ -65,6 +65,7 @@ meson_options_help() {
+   printf "%s\n" '  lzfse           lzfse support for DMG images'
+   printf "%s\n" '  lzo             lzo compression support'
+   printf "%s\n" '  malloc-trim     enable libc malloc_trim() for memory optimization'
++  printf "%s\n" '  membarrier      membarrier system call (for Linux 4.14+ or Windows'
+   printf "%s\n" '  mpath           Multipath persistent reservation passthrough'
+   printf "%s\n" '  multiprocess    Out of process device emulation support'
+   printf "%s\n" '  netmap          netmap network backend support'
+@@ -204,6 +205,8 @@ _meson_option_parse() {
+     --enable-malloc=*) quote_sh "-Dmalloc=$2" ;;
+     --enable-malloc-trim) printf "%s" -Dmalloc_trim=enabled ;;
+     --disable-malloc-trim) printf "%s" -Dmalloc_trim=disabled ;;
++    --enable-membarrier) printf "%s" -Dmembarrier=enabled ;;
++    --disable-membarrier) printf "%s" -Dmembarrier=disabled ;;
+     --enable-mpath) printf "%s" -Dmpath=enabled ;;
+     --disable-mpath) printf "%s" -Dmpath=disabled ;;
+     --enable-multiprocess) printf "%s" -Dmultiprocess=enabled ;;
+diff --git a/util/meson.build b/util/meson.build
+index c9a9cc1cf5..3736988b9f 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -35,7 +35,9 @@ util_ss.add(files('crc32c.c'))
+ util_ss.add(files('uuid.c'))
+ util_ss.add(files('getauxval.c'))
+ util_ss.add(files('rcu.c'))
+-util_ss.add(when: 'CONFIG_MEMBARRIER', if_true: files('sys_membarrier.c'))
++if have_membarrier
++  util_ss.add(files('sys_membarrier.c'))
++endif
+ util_ss.add(files('log.c'))
+ util_ss.add(files('pagesize.c'))
+ util_ss.add(files('qdist.c'))
 -- 
 2.34.1
 
