@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8995E4B7AF7
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 00:01:33 +0100 (CET)
-Received: from localhost ([::1]:39546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DDF4B7B07
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 00:08:36 +0100 (CET)
+Received: from localhost ([::1]:45152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK6p8-0005nv-Ou
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 18:01:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55484)
+	id 1nK6vz-0001Si-79
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 18:08:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nK6mg-000502-45
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:58:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44362)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nK6sl-0000Gs-66
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 18:05:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25710)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nK6me-0005j7-CW
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:58:57 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nK6sg-0006pL-VV
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 18:05:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644965935;
+ s=mimecast20190719; t=1644966309;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/5yO1sRlpEOOCDri5DI7dWCwAG9fPVPIrtrsowdI3AY=;
- b=CtvV92VWy7Rcrqr1Itb84NzxwxXKAazXJk4ouG/DWjhKfOTJ3X9VPQOxDhVInhp5kgSFwn
- 3KQEAfMkc5Gfjo3d7jgQEPL9JTYUYP8XfUYknqFbMWm7zmQFpUjDZ2Ax+eQ0WAtwLyeUfy
- 4tgf+1BwHSESLI1RdyGdPh7pTtwpk/o=
+ bh=qwShJHEcwBjxofMsqXHfY7MN1rdCEChC+l1OetKpJrA=;
+ b=F84x+CuIeccuth0ASb2tteXkhQzvRXrdck5rp8DoG7cBb34WbtJltgeYBejCZaWInYOU62
+ mDnXEjKJcUHOQ1Tt2CcA2wDxpUJ59P6vYQwY84gV3OJP7WFsgNoJGqN8OQA7rjJ/YN1tVE
+ Gp3e17OEko3XOsusA45/zETRZRutkdk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459-EUB9nmSSOLmQJ9F-PZ8Jrg-1; Tue, 15 Feb 2022 17:58:47 -0500
-X-MC-Unique: EUB9nmSSOLmQJ9F-PZ8Jrg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-125-i40po8RuP4qUKj8kwGZEBA-1; Tue, 15 Feb 2022 18:05:08 -0500
+X-MC-Unique: i40po8RuP4qUKj8kwGZEBA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0E681853026;
- Tue, 15 Feb 2022 22:58:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A38381091DA0;
+ Tue, 15 Feb 2022 23:05:01 +0000 (UTC)
 Received: from redhat.com (unknown [10.22.17.153])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FB9E519B9;
- Tue, 15 Feb 2022 22:58:19 +0000 (UTC)
-Date: Tue, 15 Feb 2022 16:58:18 -0600
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5CDADE2EC;
+ Tue, 15 Feb 2022 23:04:45 +0000 (UTC)
+Date: Tue, 15 Feb 2022 17:04:43 -0600
 From: Eric Blake <eblake@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 2/4] iotests: add VerboseProcessError
-Message-ID: <20220215225818.stzmm2ui2yp345v6@redhat.com>
+Subject: Re: [PATCH 3/4] iotests: Remove explicit checks for qemu_img() == 0
+Message-ID: <20220215230443.a3hkbcchlsyk5c6q@redhat.com>
 References: <20220215220853.4179173-1-jsnow@redhat.com>
- <20220215220853.4179173-3-jsnow@redhat.com>
+ <20220215220853.4179173-4-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220215220853.4179173-3-jsnow@redhat.com>
+In-Reply-To: <20220215220853.4179173-4-jsnow@redhat.com>
 User-Agent: NeoMutt/20211029-322-5436a9
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -65,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,31 +85,18 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 05:08:51PM -0500, John Snow wrote:
-> This adds an Exception that extends the garden variety
-> subprocess.CalledProcessError. When this exception is raised, it will
-> still be caught when selecting for the stdlib variant.
-> 
-> The difference is that the str() method of this Exception also adds the
-> stdout/stderr logs. In effect, if this exception goes unhandled, Python
-> will print the output in a nice, highlighted box to the terminal so that
-> it's easy to spot.
-> 
-> This should save some headache from having to re-run test suites with
-> debugging enabled if we augment the exceptions we print more information
-
-This didn't parse well for me.  Maybe
-s/enabled/enabled,/ s/print more/print with more/
-
-> in the default case.
+On Tue, Feb 15, 2022 at 05:08:52PM -0500, John Snow wrote:
+> qemu_img() returning zero ought to be the rule, not the
+> exception. Remove all explicit checks against the condition in
+> preparation for making non-zero returns an Exception.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  tests/qemu-iotests/iotests.py | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
->
 
-Otherwise seems useful.
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+This one seems clean whether or not there are questions about using
+enboxify earlier in the series.
 
 -- 
 Eric Blake, Principal Software Engineer
