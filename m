@@ -2,91 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80ED64B663D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:35:50 +0100 (CET)
-Received: from localhost ([::1]:45932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1884B6647
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:38:07 +0100 (CET)
+Received: from localhost ([::1]:50170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJtJN-0002Wl-Ll
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:35:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38002)
+	id 1nJtLa-0005XB-RG
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:38:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1nJtGV-0008Sq-Ab
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:32:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1nJtGM-0006cZ-VX
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:32:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644913961;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/lYuj1q0G/e5fohAucU6CRJsUenht4hAdP+PjzymoR8=;
- b=Lmp9ff2t/WjbAnlwrOY//tPAOMmgSCnR2+S+ENJyIJHC7nzekx8YCyfkPNANoRQmQVDt19
- rSraHyy8EzMTA7GM2qelqslHbYBM8gFTa2oYlh7f13gKFBK62jQjv3fpCfNNqFwtHoOPGS
- YSUpuvA5RYzCMpJ9uTZhgWv9PGGrouQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-325-46sj8ZzmPnms2Ai94L_Fwg-1; Tue, 15 Feb 2022 03:32:39 -0500
-X-MC-Unique: 46sj8ZzmPnms2Ai94L_Fwg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- 13-20020a170906328d00b006982d0888a4so6908120ejw.9
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 00:32:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nJtJf-0004HV-Pq; Tue, 15 Feb 2022 03:36:07 -0500
+Received: from [2a00:1450:4864:20::62d] (port=40613
+ helo=mail-ej1-x62d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nJtJd-0007On-Kr; Tue, 15 Feb 2022 03:36:07 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id p15so42579131ejc.7;
+ Tue, 15 Feb 2022 00:36:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KwboSK8Jm36ruw+fM2paSrmLmkIv6bCbjLlJ9oM0qYU=;
+ b=RuoTj33BLC89KgmAVctLZYw1iFhnmJ+OaNNv+QX57OfpcMIc++RZ+PDA9PSEW5gOmu
+ PRJKuYuChYgl7WcvmRDcarW+4axsuSiCW2mf2oXTQVdm4QTVh84BoFVJ81kSslYh9Kf2
+ GlhpBvAPnWfmfCkZzMSD0hHg2r4Zu6LVzK84sJiq0f8sOwKuQsUSyBi3mYVuAiEGKzY2
+ 8hiktDle0TiHpltbE+FkvsiKGJGo2SRKdQrcHN0Towd00EyTh5I4nJeIaGFJa/SrAQzc
+ rZs3ghGjFmRJS4xhiuS9cLzMdVcXF8Wgm6s3VPty0oxNJlmNNmIx/C56QW7mtYFPYpAp
+ iNVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/lYuj1q0G/e5fohAucU6CRJsUenht4hAdP+PjzymoR8=;
- b=5dUYS6o10VjaKGbRt/UIAEoKUBNSJc08hOCdqVp5gWtbD6O3nVnm8hTtiYpo9vskVM
- lzypyyB0mmxjAMMgVMZ2wA8PCNgpyGDyqQfMvp5XrnqvV95c8d4YKnVauVLUMu3SrpnI
- MdAabA1Iph3ZFu+7Q6IXnEzo1m1xIxJs61GqqBczyVAtsZ5kuPrHKBW+SI+itDXfwbns
- UEA0uLpKJ0yNsdjeW++Jc1jEBKVgzW+gCXFI0d77tbEfVjR0tX6bGkrQ8b+nTBB158qy
- /h4TpKrHX0IxK3maY0TzljraiFhlQJ+Yv9YXYEfy5dD4W3xbS6tNHsrQs6q1XGGw70ol
- nNzA==
-X-Gm-Message-State: AOAM531Zt9v1ZjpoCeygBE6enCyC1ERUYeNtQhl2/iEho2fhl5kvICvY
- 7+Gr2SO8+OnFRdBXGRy2MKLLI+iaW1xflgHVebSuTOmtaCfLddhkotRPFX18S7BKX07Svp0aKJB
- xGyIFxg9QP02/XD8=
-X-Received: by 2002:a17:906:7812:: with SMTP id
- u18mr2043040ejm.335.1644913958756; 
- Tue, 15 Feb 2022 00:32:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyqC9Yp4rL47jTdrkbfpjLgdXao+G7dsGjXaJNRqKeR5LURBCorpqJZBPXNUfjxBB8/xltTuA==
-X-Received: by 2002:a17:906:7812:: with SMTP id
- u18mr2043027ejm.335.1644913958540; 
- Tue, 15 Feb 2022 00:32:38 -0800 (PST)
-Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
- by smtp.gmail.com with ESMTPSA id z6sm6153812edb.69.2022.02.15.00.32.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 00:32:38 -0800 (PST)
-Date: Tue, 15 Feb 2022 09:32:36 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH] hw/arm/virt: Fix CPU's default NUMA node ID
-Message-ID: <20220215083236.tt2ajffkdq3psmxw@gator>
-References: <20220126052410.36380-1-gshan@redhat.com>
- <20220126101447.5d4f01f9@redhat.com>
- <f5780366-7c6e-1643-d471-1304ce6584ca@huawei.com>
- <5c99b245-e118-f7bd-4a4f-2c865bacaa75@redhat.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KwboSK8Jm36ruw+fM2paSrmLmkIv6bCbjLlJ9oM0qYU=;
+ b=Npxk7iViAdtFMNQKPGqKF52AsSI4cPAbPSKGD/fw+a5fbxe5eSqwh4NR0HJZcS208f
+ Hpgiv+JHioZ9DGQCNUKJunWa9X6uh1I//hb+RkLqCyKoMXfOt62OC6A8Z5bU3Mzo06Bf
+ 2x53QhEOoE/o57sSeJONkvbgLXV44XfUJRDyid9LF95LZTtCA3PF4DlaEmGPtvPT+PmM
+ G3uvePulh2gIZZB4I0Iw6PxO3iXcN17o5GXou9aWd1NoCg70jVh8RkhALSX9Ozm3g3Jt
+ M2WvRyKUDZ7qrdY7i/WtahBY5GZ7PLKnOVrhG6Je80pW7fU/CLaRSvE/vX4qvEoxxtFn
+ 29aA==
+X-Gm-Message-State: AOAM533TzfsihZsqOIc2TKBB5Zld2kyWqMG9svnHeDdJqHbCGydvMF34
+ L8psA30lh6rYX+7OdE/Y4I0=
+X-Google-Smtp-Source: ABdhPJz2v/dOySPTfzIzOEBaEBjY+r6k6VHOiTDJmGOQSs7+JLxb3xvGiIuTi9EOZVLyyVncOpgqXQ==
+X-Received: by 2002:a17:906:51c9:: with SMTP id
+ v9mr1995614ejk.113.1644914163561; 
+ Tue, 15 Feb 2022 00:36:03 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id f14sm1377454edf.67.2022.02.15.00.36.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 00:36:02 -0800 (PST)
+Message-ID: <39bd75c8-b3b5-50b8-9a51-e845f40d0267@redhat.com>
+Date: Tue, 15 Feb 2022 09:36:02 +0100
 MIME-Version: 1.0
-In-Reply-To: <5c99b245-e118-f7bd-4a4f-2c865bacaa75@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 7/8] tests/qemu-iotests/testrunner: Print diff to
+ stderr in TAP mode
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>
+References: <20220209101530.3442837-1-thuth@redhat.com>
+ <20220209101530.3442837-8-thuth@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220209101530.3442837-8-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,31 +95,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, "wangyanan \(Y\)" <wangyanan55@huawei.com>,
- qemu-arm@nongnu.org, shan.gavin@gmail.com, Igor Mammedov <imammedo@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 04:19:01PM +0800, Gavin Shan wrote:
-> The issue isn't related to CPU topology directly. It's actually related
-> to the fact: the default NUMA node ID will be picked for one particular
-> CPU if the associated NUMA node ID isn't provided by users explicitly.
-> So it's related to the CPU-to-NUMA association.
+On 2/9/22 11:15, Thomas Huth wrote:
+> When running in TAP mode, stdout is reserved for the TAP protocol.
+> To see the "diff" of the failed test, we have to print it to
+> stderr instead.
 > 
-> For example, the CPU-to-NUMA association is breaking socket boundary
-> without the code change included in this patch when the guest is booted
-> with the command lines like below. With this patch applied, the CPU-to-NUMA
-> association is following socket boundary, to make Linux guest happy.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/qemu-iotests/testrunner.py | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+> index 9d20f51bb1..1f7ca1f2f9 100644
+> --- a/tests/qemu-iotests/testrunner.py
+> +++ b/tests/qemu-iotests/testrunner.py
+> @@ -404,7 +404,10 @@ def run_tests(self, tests: List[str], jobs: int = 1) -> bool:
+>               if res.status == 'fail':
+>                   failed.append(name)
+>                   if res.diff:
+> -                    print('\n'.join(res.diff))
+> +                    if self.tap:
+> +                        print('\n'.join(res.diff), file=sys.stderr)
+> +                    else:
+> +                        print('\n'.join(res.diff))
+>               elif res.status == 'not run':
+>                   notrun.append(name)
+>               elif res.status == 'pass':
 
-Gavin,
+Queued, thanks.
 
-Please look at Igor's request for more information. Are we sure that a
-socket is a NUMA node boundary? Are we sure we can assume an even
-distribution for sockets to nodes or nodes to sockets? If so, where is
-that documented?
-
-Thanks,
-drew
-
+Paolo
 
