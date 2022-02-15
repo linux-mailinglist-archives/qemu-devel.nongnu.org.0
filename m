@@ -2,61 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C624B6E7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 15:15:54 +0100 (CET)
-Received: from localhost ([::1]:34866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57054B6EBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 15:21:05 +0100 (CET)
+Received: from localhost ([::1]:46302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJycT-0003c5-O9
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 09:15:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41608)
+	id 1nJyhU-0002xZ-DX
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 09:21:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nJyYN-00075r-2Z
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 09:11:39 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:44699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nJyXy-0004a8-I1
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 09:11:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=EYGpwzbin/SpCHWu6C+bOyGw+HpODDHfIyueZzl56Ts=; b=quME1pXF2kP8p4oan7u99RfyYw
- PCuqg3TpNC1Bv7c42yj68VwsCDgLVbxxnhz6tX7m9hBwVd8pSbTPUtFmzmNAlSPGXjA9VqsZP8XBt
- FSd17lccXJ203DkmpEWSlRsWPF8i2osJS0fVB6ISHPLkdsk/gh/d8K/rug6VEHxpydzkWGgKidg6P
- bF2sCEvJY5netUGeB0q7qBtjuR28+2yIExCWio5lEV6rMRdtP0uxSDX8D7o6sNoyvnajCU5Msx5NE
- mh7HX3vSexLpnSfDhJCC4AsVYUPLggMAQ5FAh4iwQp8PFoCF0J0EVFLkmhI14XpOV1Jii5MCgdui9
- 2YKiGTOA/h2xNdwBYEiomyk/zfAP7jDqt5sV7zPI1f1tf49JM7q6/GwRnnbAW0kWMCNABiLIsAUcF
- akeyaxP3qgBsDqdko4tbX9BjZ8l+DkAG8JvB7ufw+HHZiHGzqK1J4lz/+yIN/3vmYObKxglEyFCOQ
- pEeVRijKQ0IJvxiFWuYzW66r0yWtOcTNv3AHP58dhh1pkJ0b+/FIAs2wXcSutH/x494lQofPEhtOJ
- zhh7S7jGhoJc1hS1T4tqys5hzvklkuNj5vPlatDxpZOVoalHB4JBZNXGFK+OYfuCPdyWu/9tz5h96
- 9cp0fYTdoHmhUguEsa0zo7QDPFeXj7/Tng6Zdi4Dk=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: Re: [RFC PATCH 4/4] ui/cocoa: Ignore 'initializer overrides' warnings
-Date: Tue, 15 Feb 2022 15:11:08 +0100
-Message-ID: <2344563.XbXamImqsm@silver>
-In-Reply-To: <CAFEAcA_58__sVrAdN410PvketwTLyyYb=OZ4y2oWDjMYGW+J0g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nJyeQ-0000Td-B5
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 09:17:54 -0500
+Received: from [2a00:1450:4864:20::42e] (port=34591
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nJyeM-0005nN-QT
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 09:17:53 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id s10so18850212wrb.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 06:17:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mIVBk2ulOpFi1/bvZ/x8732jD12UGgyndX6bnXmtom8=;
+ b=EsFF04QVzOUNKt8S6H/ZQt/fPEJMJyKnx1vITEUJsGT3NWLqTiKagAJpQQpg0+gcc7
+ WP9WHvMTuhNsJXEahv0uxBXKJ/vC2hwK3z9NgZU8oqvj37xy6SAU71e64S0XaCcWg6KU
+ KNCMnPZLMtplA/GA8rj4EnNbn2tZDO9CSwVP4nvjGxyemJkfZudAzUUArESwL8gU5DRq
+ TEFNyvifkNuruBRjdQZcWdepCv1xIcSTwBaxDXKzfNVaXNHj2l1Dse2rE3kVKkAB5FYH
+ 0sx4d0aUN1ZezJZFw0eNsngmn932mLC3tmVSMwYl31T0nIm4FlM1+OeS4wtbEKcpbfDw
+ RZYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mIVBk2ulOpFi1/bvZ/x8732jD12UGgyndX6bnXmtom8=;
+ b=GomPcp1DpewhiNcntGyhCUzVveQ3HvpN5RtiuzQ/I/I9RmU4vkcNPKBNgwSOwD+EcV
+ m1T+JWHtWfi7HL3aeZgXfavib9X4jL5FgoYZj2WPRy/315W74xGqKPRQ/U3i2Bv4pAM0
+ mes/4esJwRNwv5kIoS+Jj1puMKAQmzxaYiN9SYVRSLR5RhXu2sXhfZ5pkf3cHurMDhHb
+ 9zB4tnMOoXiHQAHY3uUVH2oXwrIyEmrQ7erEEzTDE5/RVTsotOSF3kSALlE6Hc9emeyc
+ 15whodUzQNI1lR0F4P9wxIW0zN0ytt1bBvrbRMUthof/llF+/Rf4kfcDn3QN4N5P9q6p
+ Drbw==
+X-Gm-Message-State: AOAM530rtldTmjZadWe60/c8XpikjDrP1sdfjg/WYYFF/7v0Lom933/l
+ 11LSJS4SX1xboNyf3sb3on7mhv5cztQTeKQPbU/12A==
+X-Google-Smtp-Source: ABdhPJwdMINm3PUMpNnDETzcyB2c6K/mZ7OE/pPiRlSA6Fxv+OjpT+qgMBp0GuCBXwFfNvmKesOzRMFAoPBaBmXTF+c=
+X-Received: by 2002:a5d:498d:: with SMTP id r13mr3491736wrq.172.1644934669293; 
+ Tue, 15 Feb 2022 06:17:49 -0800 (PST)
+MIME-Version: 1.0
 References: <20220215120625.64711-1-f4bug@amsat.org>
  <5430167.XuPm0vUgvV@silver>
  <CAFEAcA_58__sVrAdN410PvketwTLyyYb=OZ4y2oWDjMYGW+J0g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ <2344563.XbXamImqsm@silver>
+In-Reply-To: <2344563.XbXamImqsm@silver>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 15 Feb 2022 14:17:37 +0000
+Message-ID: <CAFEAcA8yBaMJAUTb93hu_nP8c0Fidq1g6F0JwTodrPYiAhXsgA@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/4] ui/cocoa: Ignore 'initializer overrides' warnings
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,115 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 15. Februar 2022 14:45:00 CET Peter Maydell wrote:
-> On Tue, 15 Feb 2022 at 13:18, Christian Schoenebeck
->=20
-> <qemu_oss@crudebyte.com> wrote:
-> > On Dienstag, 15. Februar 2022 13:06:25 CET Philippe Mathieu-Daud=E9 via=
-=20
-wrote:
-> > > We globally ignore the 'initializer overrides' warnings in C code
-> > > since commit c1556a812a ("configure: Disable (clang)
-> > > initializer-overrides warnings"). Unfortunately the ${gcc_flags}
-> > > variable is not propagated to Objective-C flags ($OBJCFLAGS).
-> > > Instead of reworking the configure script to test all supported
-> > > C flags in Objective-C and sanitize them, ignore the warning
-> > > locally with the GCC diagnostic #pragma (Clang ignores it).
-> > >=20
-> > > Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> > > ---
-> >=20
-> > What about this instead:
-> >=20
-> > diff --git a/ui/cocoa.m b/ui/cocoa.m
-> > index ac18e14ce0..df9b9be999 100644
-> > --- a/ui/cocoa.m
-> > +++ b/ui/cocoa.m
-> > @@ -652,9 +652,7 @@ QemuCocoaView *cocoaView;
-> >=20
-> >      /* translates Macintosh keycodes to QEMU's keysym */
-> >=20
-> > -    int without_control_translation[] =3D {
-> > -        [0 ... 0xff] =3D 0,   // invalid key
-> > -
-> > +    int without_control_translation[256] =3D {
->=20
-> I think this won't zero-initialize, because this is a function
-> level variable, not a global or static, but maybe ObjectiveC
-> rules differ from C here? (Besides, it really should be
-> a static const array.) That said...
+On Tue, 15 Feb 2022 at 14:11, Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
+>
+> On Dienstag, 15. Februar 2022 14:45:00 CET Peter Maydell wrote:
+> > I think this won't zero-initialize, because this is a function
+> > level variable, not a global or static, but maybe ObjectiveC
+> > rules differ from C here? (Besides, it really should be
+> > a static const array.) That said...
+>
+> That's a base requirement for designated initializers to fallback to automatic
+> default initialization (zero) for omitted members. It's like:
+>
+>         int a[10] = { }; // all zero
 
-That's a base requirement for designated initializers to fallback to automa=
-tic=20
-default initialization (zero) for omitted members. It's like:
+Ah, yes, you're right.
 
-	int a[10] =3D { }; // all zero
+> Yes, but if you suppress this warning globally, you shut up the potential
+> warning for the linked case as well. And as demonstrated there, you would end
+> up with different/unexpected behaviour depending on the precise compiler being
+> used.
+>
+> So I still think it is not a good idea to suppress this warning globally.
 
-It works for me (including on function level) with both GCC and clang, on=20
-Linux and macOS:
+We *must* suppress it globally, because we make wide use of the
+array-range-initializer idiom that it incorrectly complains about,
+and we don't want to discourage use of that. This is fairly standard
+for compiler warnings: sometimes the compiler complains too much,
+or the intent of the warning is something we disagree with. Those
+warnings we disable or don't enable. In this particular case, if the
+compilers ever develop versions of this warning that complain about
+actual bugs without also warning about false positives like this
+one, we could turn the warning on again.
 
-#include <stdio.h>
+Put another way, there's a tradeoff here. Sometimes it's worth
+distorting the way we would write code to avoid compiler warnings,
+because we'd like to keep them enabled to catch some real bugs.
+Sometimes the distortion would be too much, and then we take the
+choice to disable the warning. There's a judgement call based on
+how much perfectly-fine code the compiler is warning about and
+how much worse the rewritten code would be. In the case of this
+warning we've decided that the tradeoff favours disabling the warning.
 
-int main() {
-    int a[] =3D {
-        [4] =3D 409,
-        [6] =3D 609,
-        [9] =3D 909
-    };
-    for (int i =3D 0; i < 10; ++i)
-        printf("a[%d] =3D %d\n", i, a[i]);
-    return 0;
-}
+Having made that decision on a codebase-wide basis, we should then
+just adhere to it whether we're building ObjC or C.
 
-Was this ever not the case?
-
-> > That warning should only be raised on overlapping designated
-> > initializations which strictly is undefined behaviour. Because which
-> > order defines the precedence of overlapping initializers, is it the ord=
-er
-> > of the designated intializer list, or rather the memory order?
->=20
-> This is defined: textually last initializer wins.
-> https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html
->=20
-> > See also:
-> > https://stackoverflow.com/questions/40920714/is-full-followed-by-partia=
-l-i
-> > nitialization-of-a-subobject-undefined-behavior
-> That's about struct initializers; we're dealing with array initializers
-> here.
-
-Yes, but if you suppress this warning globally, you shut up the potential=20
-warning for the linked case as well. And as demonstrated there, you would e=
-nd=20
-up with different/unexpected behaviour depending on the precise compiler be=
-ing=20
-used.
-
-So I still think it is not a good idea to suppress this warning globally.
-
-Best regards,
-Christian Schoenebeck
-
-> > So I have my doubts whether this warning suppression should be used in
-> > QEMU at all.
->=20
-> The warning is useful in the pure-standard-C world where there
-> is no such thing as the "range initialization" syntax. In that
-> case trying to initialize the same array member twice is very
-> likely a bug. However, if you use range initialization then
-> the pattern "initialize a range first, then override some specific
-> members within it" is very common and the warning is incorrect here.
-> We use and like the range-initialization syntax, and so we disable
-> the -Winitializer-overrides warnings. The bug here is just that
-> we are incorrectly failing to apply the warning flags we use
-> for C code when we compile ObjC files.
->=20
-> thanks
-> -- PMM
-
-
+thanks
+-- PMM
 
