@@ -2,60 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5A84B6D4F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 14:24:15 +0100 (CET)
-Received: from localhost ([::1]:39200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E734B6D9A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 14:35:24 +0100 (CET)
+Received: from localhost ([::1]:47768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJxoT-0007Fj-EG
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 08:24:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56146)
+	id 1nJxzG-0004zN-9N
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 08:35:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nJxj6-00055n-Nc
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:18:40 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:57217)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nJxj4-0004Hz-2i
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:18:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=A1flev7o+cIm+o4uFXx9aGLmgq4nIDdNSIqaqsMFMv4=; b=nbR//rTYptmt/9W6qurewI2NZI
- 6kmAt6yGuNYoEviqZeoh67bKDcUO7VzxidN/p9ZhJwDzYsusF0K4ksxVlIMQelHSunalW+CCLbeHn
- pPyM+MICk3Nq/OunukbI+xfR3yHZmY04m94kLUfrp6l4vatF/x2Y479UtZoO0NgcwcsaFPDbGDn1B
- d84A4i1U0ELtxvPA5srh9c2PdtT7waSsbqJFKvgXB+FG5Bmz+3JAeb0z0opw2Qo03CdW7inprpoal
- UmmKLTe7/8CKT/tRaQSyJuzcoMBp6jvPWDW6JjJm7Jc2k9/5aRqp/YXUSY63Jw8O7hmWcs0x7ApMi
- BAzPjD9w3SLck42II9TpmNtaLhj8ZFGWhiEI4wbfE60YlcDnRCLzdm7eb6o3RLjdtQugvk8Xm+gvJ
- CC62CtkFUR4sTU8ZQkRl9PiICej5SsnFjphZOeMLGCbVz7aJv7vyBB5BmwzvdwVH9Jhy4Bhy6Dqfm
- fz9Rfcl4E6fCUn1pNdwH3BNTvDPSXq16SutF8l04Op+I+eL7EthyFnOTWgcgxLi1JayuJRX40Cwq/
- otJ6L/d87QsyHcndktVPPSb4CNu0664627GPh2El/ZDXwlCQZ+9elajNzJK137LqzOY87kRfX5naQ
- FipPSM6m8MeW44WEj0OqaSwxH3eopTgj+kS+9fXRU=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH 4/4] ui/cocoa: Ignore 'initializer overrides' warnings
-Date: Tue, 15 Feb 2022 14:18:32 +0100
-Message-ID: <5430167.XuPm0vUgvV@silver>
-In-Reply-To: <20220215120625.64711-5-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nJxkG-0005og-VP
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:19:52 -0500
+Received: from [2607:f8b0:4864:20::c2a] (port=37580
+ helo=mail-oo1-xc2a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nJxkD-0004SB-MT
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 08:19:52 -0500
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ x6-20020a4a4106000000b003193022319cso586661ooa.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 05:19:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zH8bEzAMCbpF2jDeAsuMttoXUXBTHyGzeG4U3ecCy6M=;
+ b=pfnHq5bKM5dQkbD3bYEk+f2Egdf4/W5RikFPufnzpagDPaqtQXNgYVJscDKYvGo69C
+ mDOYxFhVlYI616wQxYgSeFuC8mVkPaMoltmFlfqtdHhSnSC8FnqM2GDJP0zBWZ5elzAM
+ KxGX/mfhPMuHWJwnwGoXvkk/x4TRqAEHdO6LIXHYcO/Nh69A9lKC7JsfyK/okaaJI/Pd
+ 2U3HEC7kCPp1jULCOGgcs9L60RfqYRMjJc3uIdhUPLIKbaEKhYp4j9Roe5h6WbIW3/ca
+ V0FS8N1Tojts1tdKCy4qxSeWiIO0u6zTcMpbZ8hmbKFNrj1KS99hBhF987i1o/1pwz+W
+ w+AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zH8bEzAMCbpF2jDeAsuMttoXUXBTHyGzeG4U3ecCy6M=;
+ b=l7PbrTXxdQHHoLaFU3enZaD07Es16rSbPdDfH5EcyCoERUxjFS5C5pu3FDxFNAC6Iv
+ 1q5Mfam16X9mEtThZA6qLZOoaNurn4Uzm8cpbC4guM1qxA/XBRZiRUY/Dc4J6L1eupgd
+ KxJgiO8uateEnEcQS5ubFf7psk77txLkXB5dZayQpjFMqneFDTqD7TsslgsEJgzygeYM
+ yq0AsgUhX/wCmsiMy5pEPz8y+xDQzn9wBJhNQi9RWDpWRDeg8mlJ1KeP4SUxyN3hYuT4
+ DqfaLfI5pLrLdMqoWWAzo2YnEEObY8SJj6Ec0UPPXKt1f+1JYyMd7lDzS1LkeLSOG+Yk
+ hrBw==
+X-Gm-Message-State: AOAM530FMHdRCQ3b/e4NQSAA2kxThr2X4t8yoKQXP3iGyhF/bpJfxUvH
+ tYBwYFD6fmvxNpjRAHJD4kMwenNjDiFZxl6GplE=
+X-Google-Smtp-Source: ABdhPJw4ekkOnBd2HsVuWg6tsx6WPhvDyea5nFrM0KF65IshI4saguGky3PZXuB6xWFTGeG/ns1tEkm3V1nGO7GGSOw=
+X-Received: by 2002:a05:6870:5a83:: with SMTP id
+ dt3mr1242835oab.193.1644931184815; 
+ Tue, 15 Feb 2022 05:19:44 -0800 (PST)
+MIME-Version: 1.0
 References: <20220215120625.64711-1-f4bug@amsat.org>
  <20220215120625.64711-5-f4bug@amsat.org>
-MIME-Version: 1.0
+ <CAFEAcA_Mp5=iAh=LE+w7Ky+nSHZRA0JSjfwom5JWYxKn0s8HXQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_Mp5=iAh=LE+w7Ky+nSHZRA0JSjfwom5JWYxKn0s8HXQ@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Tue, 15 Feb 2022 22:19:33 +0900
+Message-ID: <CAMVc7JWRjZouOeicu6D_WGw4-vR8z9zmrDEhH94SyJd=zQb90Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/4] ui/cocoa: Ignore 'initializer overrides' warnings
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-oo1-xc2a.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,66 +86,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 15. Februar 2022 13:06:25 CET Philippe Mathieu-Daud=E9 via wro=
-te:
-> We globally ignore the 'initializer overrides' warnings in C code
-> since commit c1556a812a ("configure: Disable (clang)
-> initializer-overrides warnings"). Unfortunately the ${gcc_flags}
-> variable is not propagated to Objective-C flags ($OBJCFLAGS).
-> Instead of reworking the configure script to test all supported
-> C flags in Objective-C and sanitize them, ignore the warning
-> locally with the GCC diagnostic #pragma (Clang ignores it).
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> ---
+On Tue, Feb 15, 2022 at 9:35 PM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+>
+> On Tue, 15 Feb 2022 at 12:13, Philippe Mathieu-Daud=C3=A9 via
+> <qemu-devel@nongnu.org> wrote:
+> >
+> > We globally ignore the 'initializer overrides' warnings in C code
+> > since commit c1556a812a ("configure: Disable (clang)
+> > initializer-overrides warnings"). Unfortunately the ${gcc_flags}
+> > variable is not propagated to Objective-C flags ($OBJCFLAGS).
+> > Instead of reworking the configure script to test all supported
+> > C flags in Objective-C and sanitize them, ignore the warning
+> > locally with the GCC diagnostic #pragma (Clang ignores it).
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> I'm not really a fan of #pragma GCC diagnostic directives in
+> specific source files, unless there's no alternative or
+> the issue really is specific to one file.
+>
+> thanks
+> -- PMM
 
-What about this instead:
+What about fixing then? Something like this should do:
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index ac18e14ce0..df9b9be999 100644
-=2D-- a/ui/cocoa.m
+--- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -652,9 +652,7 @@ QemuCocoaView *cocoaView;
-=20
+@@ -652,9 +652,7 @@ - (void) handleMonitorInput:(NSEvent *)event
+
      /* translates Macintosh keycodes to QEMU's keysym */
-=20
-=2D    int without_control_translation[] =3D {
-=2D        [0 ... 0xff] =3D 0,   // invalid key
-=2D
+
+-    int without_control_translation[] =3D {
+-        [0 ... 0xff] =3D 0,   // invalid key
+-
 +    int without_control_translation[256] =3D {
          [kVK_UpArrow]       =3D QEMU_KEY_UP,
          [kVK_DownArrow]     =3D QEMU_KEY_DOWN,
          [kVK_RightArrow]    =3D QEMU_KEY_RIGHT,
-@@ -667,9 +665,7 @@ QemuCocoaView *cocoaView;
+@@ -667,9 +665,7 @@ - (void) handleMonitorInput:(NSEvent *)event
          [kVK_Delete]        =3D QEMU_KEY_BACKSPACE,
      };
-=20
-=2D    int with_control_translation[] =3D {
-=2D        [0 ... 0xff] =3D 0,   // invalid key
-=2D
+
+-    int with_control_translation[] =3D {
+-        [0 ... 0xff] =3D 0,   // invalid key
+-
 +    int with_control_translation[256] =3D {
          [kVK_UpArrow]       =3D QEMU_KEY_CTRL_UP,
          [kVK_DownArrow]     =3D QEMU_KEY_CTRL_DOWN,
          [kVK_RightArrow]    =3D QEMU_KEY_CTRL_RIGHT,
-
-That warning should only be raised on overlapping designated initializations
-which strictly is undefined behaviour. Because which order defines the
-precedence of overlapping initializers, is it the order of the designated
-intializer list, or rather the memory order?
-
-See also:
-https://stackoverflow.com/questions/40920714/is-full-followed-by-partial-in=
-itialization-of-a-subobject-undefined-behavior
-
-So I have my doubts whether this warning suppression should be used in QEMU=
- at
-all.
-
-Best regards,
-Christian Schoenebeck
-
-
 
