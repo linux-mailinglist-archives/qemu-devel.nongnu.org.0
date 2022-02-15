@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6564B703C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:37:59 +0100 (CET)
-Received: from localhost ([::1]:45896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D494B7284
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:42:19 +0100 (CET)
+Received: from localhost ([::1]:50946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK0pw-0007pM-5p
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:37:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52026)
+	id 1nK0u8-0002zl-Lz
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:42:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nK0fQ-00047Q-Jg
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:27:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48452)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nK0pe-0008VW-FG
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:37:38 -0500
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:33709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nK0fO-0001fU-KP
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:27:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644942422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5jI9pWeGRC+NCecONkAqQzwBbY8Az7U40BhcS6Z4hps=;
- b=GB5o62902IyYT9wzvK9H/x8Q/HxSi+ZKIVWDrTO+inHpOJ1j3vg/iwU+2KimpOqHdSPiPN
- 9yKjQafHvBYdOwkWreTNEFKJBhqgGi2TowMmBwEINN1/C42HA7/m4TM33yoQFJxAeSUYDD
- OEp1ehfR7yfPCzp2QkEaz5kyKv1Mesw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-tLKQJL_IMOK1nKxMp-c-IQ-1; Tue, 15 Feb 2022 11:26:58 -0500
-X-MC-Unique: tLKQJL_IMOK1nKxMp-c-IQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C22FE1091DA0;
- Tue, 15 Feb 2022 16:26:57 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.39.195.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E0A610A48D2;
- Tue, 15 Feb 2022 16:26:56 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net,
- mst@redhat.com, thuth@redhat.com, berrange@redhat.com, quintela@redhat.com
-Subject: [PATCH 3/3] x86: Switch to q35 as the default machine type
-Date: Tue, 15 Feb 2022 16:25:37 +0000
-Message-Id: <20220215162537.605030-8-dgilbert@redhat.com>
-In-Reply-To: <20220215162537.605030-1-dgilbert@redhat.com>
-References: <20220215162537.605030-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nK0pZ-0003No-Sn
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:37:36 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.26])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id CCFE622232;
+ Tue, 15 Feb 2022 16:37:22 +0000 (UTC)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 15 Feb
+ 2022 17:37:22 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R005ee07b9db-a923-4acf-a75f-2779fa3aa80a,
+ 9E61FECBC99B7F84222AE0DB6991604CA8A139D0) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <e2b494ec-59aa-d280-8621-0a1df20052a9@kaod.org>
+Date: Tue, 15 Feb 2022 17:37:16 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v11 4/4] target/ppc: trigger PERFM EBBs from power8-pmu.c
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+References: <20220211183354.563602-1-danielhb413@gmail.com>
+ <20220211183354.563602-5-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220211183354.563602-5-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 2cd53a92-892d-499e-a708-bffc3b73a7c5
+X-Ovh-Tracer-Id: 15474931272191806432
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrjeeggdeklecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,142 +70,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 2/11/22 19:33, Daniel Henrique Barboza wrote:
+> This patch adds the EBB exception support that are triggered by
+> Performance Monitor alerts. This happens when a Performance Monitor
+> alert occurs and MMCR0_EBE, BESCR_PME and BESCR_GE are set.
+> 
+> fire_PMC_interrupt() will execute a new ebb_perfm_excp() helper that
+> will check for MMCR0_EBE, BESCR_PME and BESCR_GE bits. If all bits are
+> set, do_ebb() will attempt to trigger a PERFM EBB event.
+> 
+> If the EBB facility is enabled in both FSCR and HFSCR we consider that
+> the EBB is valid and set BESCR_PMEO. After that, if we're running in
+> problem state, fire a POWERPC_EXCP_PERM_EBB immediately. Otherwise we'll
+> queue a PPC_INTERRUPT_EBB.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-The 'q35' machine type series has been around for a few years now, and
-is getting heavily used downstream without many problems;  lets flip
-to using it as the default.
+Looks good. One comment below.
 
-While it is of course newer and shinier than it's old i440fx cousin,
-the main reasons are:
-  * PCIe support
-  * No default floppy or IDE
-  * More modern defaults for NIC
-  * Better OVMF support
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hw/i386/pc_piix.c | 12 +-----------
- hw/i386/pc_q35.c  |  2 ++
- 2 files changed, 3 insertions(+), 11 deletions(-)
+> ---
+>   target/ppc/excp_helper.c | 48 ++++++++++++++++++++++++++++++++++++++++
+>   target/ppc/helper.h      |  1 +
+>   target/ppc/power8-pmu.c  |  3 +--
+>   3 files changed, 50 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index ad40a0f8e6..0c031e67b1 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -1948,6 +1948,54 @@ void helper_rfebb(CPUPPCState *env, target_ulong s)
+>           env->spr[SPR_BESCR] &= ~BESCR_GE;
+>       }
+>   }
+> +
+> +/*
+> + * Triggers or queues an 'ebb_excp' EBB exception. All checks
+> + * but FSCR, HFSCR and msr_pr must be done beforehand.
+> + *
+> + * PowerISA v3.1 isn't clear about whether an EBB should be
+> + * postponed or cancelled if the EBB facility is unavailable.
+> + * Our assumption here is that the EBB is cancelled if both
+> + * FSCR and HFSCR EBB facilities aren't available.
+> + */
+> +static void do_ebb(CPUPPCState *env, int ebb_excp)
+> +{
+> +    PowerPCCPU *cpu = env_archcpu(env);
+> +    CPUState *cs = CPU(cpu);
+> +
+> +    /*
+> +     * FSCR_EBB and FSCR_IC_EBB are the same bits used with
+> +     * HFSCR.
+> +     */
+> +    helper_fscr_facility_check(env, FSCR_EBB, 0, FSCR_IC_EBB);
+> +    helper_hfscr_facility_check(env, FSCR_EBB, "EBB", FSCR_IC_EBB);
+> +
+> +    if (ebb_excp == POWERPC_EXCP_PERFM_EBB) {
+> +        env->spr[SPR_BESCR] |= BESCR_PMEO;
+> +    } else if (ebb_excp == POWERPC_EXCP_EXTERNAL_EBB) {
+> +        env->spr[SPR_BESCR] |= BESCR_EEO;
+> +    }
+> +
+> +    if (msr_pr == 1) {
+> +        powerpc_excp(cpu, ebb_excp);
+> +    } else {
+> +        env->pending_interrupts |= 1 << PPC_INTERRUPT_EBB;
+> +        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+> +    }
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index d9b344248d..50c7e6c2c0 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -420,7 +420,7 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_i440fx_machine_options(m);
-     m->alias = "pc";
--    m->is_default = true;
-+    m->is_default = false;
-     pcmc->default_cpu_version = 1;
- }
- 
-@@ -431,7 +431,6 @@ static void pc_i440fx_6_2_machine_options(MachineClass *m)
- {
-     pc_i440fx_7_0_machine_options(m);
-     m->alias = NULL;
--    m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_6_2, hw_compat_6_2_len);
-     compat_props_add(m->compat_props, pc_compat_6_2, pc_compat_6_2_len);
- }
-@@ -443,7 +442,6 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
- {
-     pc_i440fx_6_2_machine_options(m);
-     m->alias = NULL;
--    m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
-     m->smp_props.prefer_sockets = true;
-@@ -456,7 +454,6 @@ static void pc_i440fx_6_0_machine_options(MachineClass *m)
- {
-     pc_i440fx_6_1_machine_options(m);
-     m->alias = NULL;
--    m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_6_0, hw_compat_6_0_len);
-     compat_props_add(m->compat_props, pc_compat_6_0, pc_compat_6_0_len);
- }
-@@ -468,7 +465,6 @@ static void pc_i440fx_5_2_machine_options(MachineClass *m)
- {
-     pc_i440fx_6_0_machine_options(m);
-     m->alias = NULL;
--    m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-     compat_props_add(m->compat_props, pc_compat_5_2, pc_compat_5_2_len);
- }
-@@ -482,7 +478,6 @@ static void pc_i440fx_5_1_machine_options(MachineClass *m)
- 
-     pc_i440fx_5_2_machine_options(m);
-     m->alias = NULL;
--    m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
-     compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
-     pcmc->kvmclock_create_always = false;
-@@ -496,7 +491,6 @@ static void pc_i440fx_5_0_machine_options(MachineClass *m)
- {
-     pc_i440fx_5_1_machine_options(m);
-     m->alias = NULL;
--    m->is_default = false;
-     m->numa_mem_supported = true;
-     compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
-     compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
-@@ -510,7 +504,6 @@ static void pc_i440fx_4_2_machine_options(MachineClass *m)
- {
-     pc_i440fx_5_0_machine_options(m);
-     m->alias = NULL;
--    m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-     compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
- }
-@@ -522,7 +515,6 @@ static void pc_i440fx_4_1_machine_options(MachineClass *m)
- {
-     pc_i440fx_4_2_machine_options(m);
-     m->alias = NULL;
--    m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_4_1, hw_compat_4_1_len);
-     compat_props_add(m->compat_props, pc_compat_4_1, pc_compat_4_1_len);
- }
-@@ -535,7 +527,6 @@ static void pc_i440fx_4_0_machine_options(MachineClass *m)
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_i440fx_4_1_machine_options(m);
-     m->alias = NULL;
--    m->is_default = false;
-     pcmc->default_cpu_version = CPU_VERSION_LEGACY;
-     compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
-     compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
-@@ -549,7 +540,6 @@ static void pc_i440fx_3_1_machine_options(MachineClass *m)
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
- 
-     pc_i440fx_4_0_machine_options(m);
--    m->is_default = false;
-     pcmc->do_not_add_smb_acpi = true;
-     m->smbus_no_migration_support = true;
-     m->alias = NULL;
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 1780f79bc1..aec4e09c9f 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -365,6 +365,7 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_machine_options(m);
-     m->alias = "q35";
-+    m->is_default = true;
-     pcmc->default_cpu_version = 1;
- }
- 
-@@ -375,6 +376,7 @@ static void pc_q35_6_2_machine_options(MachineClass *m)
- {
-     pc_q35_7_0_machine_options(m);
-     m->alias = NULL;
-+    m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_6_2, hw_compat_6_2_len);
-     compat_props_add(m->compat_props, pc_compat_6_2, pc_compat_6_2_len);
- }
--- 
-2.35.1
+Don't you need to lock the iothread ?
+
+Thanks,
+
+C.
+
+> +}
+> +
+> +void helper_ebb_perfm_excp(CPUPPCState *env)
+> +{
+> +    bool perfm_ebb_enabled = env->spr[SPR_POWER_MMCR0] & MMCR0_EBE &&
+> +                             env->spr[SPR_BESCR] & BESCR_PME &&
+> +                             env->spr[SPR_BESCR] & BESCR_GE;
+> +
+> +    if (!perfm_ebb_enabled) {
+> +        return;
+> +    }
+> +
+> +    do_ebb(env, POWERPC_EXCP_PERFM_EBB);
+> +}
+>   #endif
+>   
+>   /*****************************************************************************/
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index f2e5060910..adc31235a8 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -19,6 +19,7 @@ DEF_HELPER_1(rfid, void, env)
+>   DEF_HELPER_1(rfscv, void, env)
+>   DEF_HELPER_1(hrfid, void, env)
+>   DEF_HELPER_2(rfebb, void, env, tl)
+> +DEF_HELPER_1(ebb_perfm_excp, void, env)
+>   DEF_HELPER_2(store_lpcr, void, env, tl)
+>   DEF_HELPER_2(store_pcr, void, env, tl)
+>   DEF_HELPER_2(store_mmcr0, void, env, tl)
+> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+> index d245663158..38e1ecb782 100644
+> --- a/target/ppc/power8-pmu.c
+> +++ b/target/ppc/power8-pmu.c
+> @@ -307,8 +307,7 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
+>           env->spr[SPR_POWER_MMCR0] |= MMCR0_PMAO;
+>       }
+>   
+> -    /* PMC interrupt not implemented yet */
+> -    return;
+> +    helper_ebb_perfm_excp(env);
+>   }
+>   
+>   /* This helper assumes that the PMC is running. */
 
 
