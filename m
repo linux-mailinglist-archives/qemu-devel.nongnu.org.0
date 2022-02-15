@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0574B68D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:08:53 +0100 (CET)
-Received: from localhost ([::1]:56756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D69524B6935
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:26:36 +0100 (CET)
+Received: from localhost ([::1]:57514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJulQ-0007vd-Ka
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:08:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33692)
+	id 1nJv2Z-0002Xk-J7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:26:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nJugZ-0001Y0-GM
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:03:52 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:53431)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nJuh8-0002J5-VJ
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:04:27 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:53721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nJugX-0004na-4n
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:03:51 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 074EBDFF08A9;
- Tue, 15 Feb 2022 11:03:47 +0100 (CET)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nJuh5-0004od-4X
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:04:26 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.48])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id E9E84DFF091A;
+ Tue, 15 Feb 2022 11:04:09 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 15 Feb
- 2022 11:03:46 +0100
+ 2022 11:04:09 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0032142d5f9-5ce7-458c-b4f6-1084bce6169c,
+ (GARM-102R004cb9c9fe6-9f0a-45c2-b482-e88c159553ae,
  9E61FECBC99B7F84222AE0DB6991604CA8A139D0) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <756e5841-8248-196d-9a9a-4d8cb2148a03@kaod.org>
-Date: Tue, 15 Feb 2022 11:03:45 +0100
+Message-ID: <5c3d6110-77bf-d3ce-9990-c5ebea01b077@kaod.org>
+Date: Tue, 15 Feb 2022 11:04:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 5/9] target/ppc: make vhyp get_pate method take lpid and
- return success
+Subject: Re: [PATCH 7/9] target/ppc: Add powerpc_reset_excp_state helper
 Content-Language: en-US
 To: Nicholas Piggin <npiggin@gmail.com>, <qemu-ppc@nongnu.org>
 References: <20220215031642.1691873-1-npiggin@gmail.com>
- <20220215031642.1691873-6-npiggin@gmail.com>
+ <20220215031642.1691873-8-npiggin@gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220215031642.1691873-6-npiggin@gmail.com>
+In-Reply-To: <20220215031642.1691873-8-npiggin@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 0cdb2f91-ba74-4dcf-b8f4-c800bcab5dae
-X-Ovh-Tracer-Id: 8827618223443446752
+X-Ovh-Tracer-GUID: 28ab0d14-337a-4112-8be3-f3f5d17a952d
+X-Ovh-Tracer-Id: 8834092147997445088
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrjeeggddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhgrrhhoshgrsheslhhinhhugidrihgsmhdrtghomh
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrjeeggddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehfrghrohhsrghssehlihhnuhigrdhisghmrdgtohhm
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,14 +75,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/15/22 04:16, Nicholas Piggin wrote:
-> In prepartion for implementing a full partition table option for
-> vhyp, update the get_pate method to take an lpid and return a
-> success/fail indicator.
-> 
-> The spapr implementation currently just asserts lpid is always 0
-> and always return success.
+> This moves the logic to reset the QEMU exception state into its own
+> function.
 > 
 > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
@@ -92,69 +88,124 @@ Thanks,
 C.
 
 
-
 > ---
->   hw/ppc/spapr.c           | 7 ++++++-
->   target/ppc/cpu.h         | 3 ++-
->   target/ppc/mmu-radix64.c | 7 ++++++-
->   3 files changed, 14 insertions(+), 3 deletions(-)
+>   target/ppc/excp_helper.c | 41 ++++++++++++++++++++--------------------
+>   1 file changed, 21 insertions(+), 20 deletions(-)
 > 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 15a02d3e78..1892a29e2d 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1309,13 +1309,18 @@ void spapr_set_all_lpcrs(target_ulong value, target_ulong mask)
->       }
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 6b6ec71bc2..778eb4f3b0 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -360,12 +360,20 @@ static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp, target_ulong msr,
 >   }
+>   #endif
 >   
-> -static void spapr_get_pate(PPCVirtualHypervisor *vhyp, ppc_v3_pate_t *entry)
-> +static bool spapr_get_pate(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
-> +                           target_ulong lpid, ppc_v3_pate_t *entry)
+> -static void powerpc_set_excp_state(PowerPCCPU *cpu,
+> -                                          target_ulong vector, target_ulong msr)
+> +static void powerpc_reset_excp_state(PowerPCCPU *cpu)
 >   {
->       SpaprMachineState *spapr = SPAPR_MACHINE(vhyp);
+>       CPUState *cs = CPU(cpu);
+>       CPUPPCState *env = &cpu->env;
 >   
-> +    assert(lpid == 0);
+> +    /* Reset exception state */
+> +    cs->exception_index = POWERPC_EXCP_NONE;
+> +    env->error_code = 0;
+> +}
 > +
->       /* Copy PATE1:GR into PATE0:HR */
->       entry->dw0 = spapr->patb_entry & PATE0_HR;
->       entry->dw1 = spapr->patb_entry;
+> +static void powerpc_set_excp_state(PowerPCCPU *cpu, target_ulong vector, target_ulong msr)
+> +{
+> +    CPUPPCState *env = &cpu->env;
 > +
-> +    return true;
+>       assert((msr & env->msr_mask) == msr);
+>   
+>       /*
+> @@ -376,21 +384,20 @@ static void powerpc_set_excp_state(PowerPCCPU *cpu,
+>        * will prevent setting of the HV bit which some exceptions might need
+>        * to do.
+>        */
+> +    env->nip = vector;
+>       env->msr = msr;
+>       hreg_compute_hflags(env);
+> -    env->nip = vector;
+> -    /* Reset exception state */
+> -    cs->exception_index = POWERPC_EXCP_NONE;
+> -    env->error_code = 0;
+>   
+> -    /* Reset the reservation */
+> -    env->reserve_addr = -1;
+> +    powerpc_reset_excp_state(cpu);
+>   
+>       /*
+>        * Any interrupt is context synchronizing, check if TCG TLB needs
+>        * a delayed flush on ppc64
+>        */
+>       check_tlb_flush(env, false);
+> +
+> +    /* Reset the reservation */
+> +    env->reserve_addr = -1;
 >   }
 >   
->   #define HPTE(_table, _i)   (void *)(((uint64_t *)(_table)) + ((_i) * 2))
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 555c6b9245..c79ae74f10 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1320,7 +1320,8 @@ struct PPCVirtualHypervisorClass {
->                           hwaddr ptex, int n);
->       void (*hpte_set_c)(PPCVirtualHypervisor *vhyp, hwaddr ptex, uint64_t pte1);
->       void (*hpte_set_r)(PPCVirtualHypervisor *vhyp, hwaddr ptex, uint64_t pte1);
-> -    void (*get_pate)(PPCVirtualHypervisor *vhyp, ppc_v3_pate_t *entry);
-> +    bool (*get_pate)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
-> +                     target_ulong lpid, ppc_v3_pate_t *entry);
->       target_ulong (*encode_hpt_for_kvm_pr)(PPCVirtualHypervisor *vhyp);
->       void (*cpu_exec_enter)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
->       void (*cpu_exec_exit)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index 5535f0fe20..3b6d75a292 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -563,7 +563,12 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
->       if (cpu->vhyp) {
->           PPCVirtualHypervisorClass *vhc;
->           vhc = PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
-> -        vhc->get_pate(cpu->vhyp, &pate);
-> +        if (!vhc->get_pate(cpu->vhyp, cpu, lpid, &pate)) {
-> +            if (guest_visible) {
-> +                ppc_radix64_raise_hsi(cpu, access_type, eaddr, eaddr, DSISR_R_BADCONFIG);
-> +            }
-> +            return false;
-> +        }
->       } else {
->           if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
->               if (guest_visible) {
+>   static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
+> @@ -471,8 +478,7 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
+>           case POWERPC_EXCP_FP:
+>               if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+>                   trace_ppc_excp_fp_ignore();
+> -                cs->exception_index = POWERPC_EXCP_NONE;
+> -                env->error_code = 0;
+> +                powerpc_reset_excp_state(cpu);
+>                   return;
+>               }
+>               env->spr[SPR_40x_ESR] = ESR_FP;
+> @@ -609,8 +615,7 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
+>           case POWERPC_EXCP_FP:
+>               if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+>                   trace_ppc_excp_fp_ignore();
+> -                cs->exception_index = POWERPC_EXCP_NONE;
+> -                env->error_code = 0;
+> +                powerpc_reset_excp_state(cpu);
+>                   return;
+>               }
+>   
+> @@ -783,8 +788,7 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
+>           case POWERPC_EXCP_FP:
+>               if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+>                   trace_ppc_excp_fp_ignore();
+> -                cs->exception_index = POWERPC_EXCP_NONE;
+> -                env->error_code = 0;
+> +                powerpc_reset_excp_state(cpu);
+>                   return;
+>               }
+>   
+> @@ -969,8 +973,7 @@ static void powerpc_excp_74xx(PowerPCCPU *cpu, int excp)
+>           case POWERPC_EXCP_FP:
+>               if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+>                   trace_ppc_excp_fp_ignore();
+> -                cs->exception_index = POWERPC_EXCP_NONE;
+> -                env->error_code = 0;
+> +                powerpc_reset_excp_state(cpu);
+>                   return;
+>               }
+>   
+> @@ -1168,8 +1171,7 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
+>           case POWERPC_EXCP_FP:
+>               if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+>                   trace_ppc_excp_fp_ignore();
+> -                cs->exception_index = POWERPC_EXCP_NONE;
+> -                env->error_code = 0;
+> +                powerpc_reset_excp_state(cpu);
+>                   return;
+>               }
+>   
+> @@ -1406,8 +1408,7 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+>           case POWERPC_EXCP_FP:
+>               if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+>                   trace_ppc_excp_fp_ignore();
+> -                cs->exception_index = POWERPC_EXCP_NONE;
+> -                env->error_code = 0;
+> +                powerpc_reset_excp_state(cpu);
+>                   return;
+>               }
+>   
 > 
 
 
