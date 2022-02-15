@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6689B4B7491
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:12:29 +0100 (CET)
-Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88784B749F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:20:00 +0100 (CET)
+Received: from localhost ([::1]:51946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK3FU-0007aa-G3
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:12:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35160)
+	id 1nK3Ml-0004Sw-II
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:19:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK385-0000fZ-VV
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:49 -0500
-Received: from [2607:f8b0:4864:20::72c] (port=42572
- helo=mail-qk1-x72c.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK388-0000kv-Cx
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:52 -0500
+Received: from [2607:f8b0:4864:20::82a] (port=42532
+ helo=mail-qt1-x82a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK383-0002kI-Io
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:49 -0500
-Received: by mail-qk1-x72c.google.com with SMTP id m25so18196916qka.9
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 11:04:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK385-0002kV-G1
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:52 -0500
+Received: by mail-qt1-x82a.google.com with SMTP id s1so19502667qtw.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 11:04:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=usoXj/aS1VhYctCFHSsTirdJcm/7xjAPuTTAm7+v4eQ=;
- b=F1PweqS3cUCWyxSRXoQACIdpxrYZSpoY2I4H/kO2tCTXsM4V0aX9gfYcI69h6UVbJR
- g565kjBFXHCkORcGwLGts7hKRdov1rjLbVyZlmaoicyERTjfRtpG/5Fo6c0qvewHGG03
- Ib0WZEiuq5RmY48mtNuE97BkXOsT9zDeIT30c45RTIOy6NyYII6qh49f39JHx1/aLBIS
- j7vFFVdsnwj1sFzSRlLOxWHH/bBGnoMcSkjdfoGMXBauEPDrYzLbm8VMqKJQur9pJU3y
- lizuTbbd+plSvjcq7f7x+Yqev1xDGOIO2eINqddj0QTBreb7a9B49I2y1dCdkG8uyA/x
- YPpQ==
+ bh=gIGVlFzwI+BOQT0G5tpy36kLec/z/FbtOyvz6GVCXtw=;
+ b=iTSBifTbp2bHC0SIE9SHd5uKARuJ8+xzmO0rxatJrS3LEYAe8JJmnK/uniMOMtpItf
+ nQbfLnO0T1KgZFye6prel28Hl13sOGIBBcCrnS3shroo6N1Ryw9OKv9R5N2l35xPPbj7
+ yaB5dW+iy4Tn3AV6OFcPvM2IaVaXM6xs4y9qaCjk2rP61kLMp7DJMJildh+fJNflSLD4
+ jAQVcKWhANsz+RVx+uzQKJtps7BpRiIZ7uGzq9p3ogsF3OrYV3LxSdJ6JddpGN7D/QEp
+ 8Ra5Y2E5H6f5Sow0vnNhU7M8wlm9lffST8GDNaxIVgPcp8fLz76UVRVTvYHdsxh1lLlo
+ yJbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=usoXj/aS1VhYctCFHSsTirdJcm/7xjAPuTTAm7+v4eQ=;
- b=ZYixYzYhzvQO9WR/1P7miEi61NxyacqYp1Tl381Tw1rhO3EA1VPEfN4CGIDXm5uc9I
- IU0fBkAGFu2CxamyrAJSGhKdabyLrZmJ6XFPBOGUnQDoI4AUkYdrtfTd8Dn0qt62gvh4
- hjitZ49H7K+e+PVM4tmHy+lcxqGirfuHCtj2PSqOn3ZqYMivXQBwPBIaJONH/6D0QFAP
- PwJoD611RiqmYIXdTS6ZPz6ruVivN/nhZXaV9LQ9ruCNLah+T7Q5KLLFqz8xCK7qmOi6
- VDxNkCDhCitKH+EiW1j55tSZAUWj0arKvdsuWfD0x+0HPB/C05c5NOhJ7v/T4X8D+TzL
- tb2g==
-X-Gm-Message-State: AOAM5330AImx/2kxZefpAVlV6sAcuiboFpejI4sgKn+dHyhtzmIZKlGL
- NCD+Sz4NQW+67KpLCHzqoflZwgPWF7DcKQ==
-X-Google-Smtp-Source: ABdhPJwHZq1E6CFrgup3dGvZC48wEgCTMmvfAbaN824g7HPiJpuJKj0cpFNFSPngMHSyYf4JVTZbkw==
-X-Received: by 2002:a05:620a:24d5:: with SMTP id
- m21mr241956qkn.15.1644951886246; 
- Tue, 15 Feb 2022 11:04:46 -0800 (PST)
+ bh=gIGVlFzwI+BOQT0G5tpy36kLec/z/FbtOyvz6GVCXtw=;
+ b=fCSAWo5ZD4hfHwCvC+EUoDlrrTmMPUvr4fE33saJf5o9l8jTCA3vuzhgXcObFh/wpZ
+ MWHM59cLOdn+c88MDfheFZpJr2nXOSV42NqrAjzwFtI07usY1Y0BoeqnmQ8cnWRS0OO/
+ l8n9+AA2qTBKoHBaZJlw9CIDqqz07NmVG2ybBznqKoBXoU1jIxbTqAYzXKFtST8LW/xL
+ +q0YwhWbx8hbXqeRlwOQDWHQAGPJajIomrrSw316FYTguMXsO6vKjNqhqsH0r+MPFT76
+ kqGc1UkhKz+nDoqD6bAG+z6/F9xOlrIJUBGNJwnh5qLASI9jtcRRkJ6tkqXcA4FbPCF8
+ 7CDw==
+X-Gm-Message-State: AOAM5330P3mK8jot/hzIFDwlluVEttiW9+5ME2Xtxp95D6PtyhRdWerY
+ lwZJyCfOqLPcGzxKg4TbL8u2M48mRVqdmg==
+X-Google-Smtp-Source: ABdhPJy8FlwBDx0uCdpO+/muvmFO4dBptvaISQQv7qIW19kO+f1VWIGwp8LKnkRC1a8IfGCVskS8og==
+X-Received: by 2002:ac8:5fca:: with SMTP id k10mr383045qta.639.1644951887898; 
+ Tue, 15 Feb 2022 11:04:47 -0800 (PST)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id w10sm21364527qtj.73.2022.02.15.11.04.44
+ by smtp.gmail.com with ESMTPSA id w10sm21364527qtj.73.2022.02.15.11.04.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 11:04:45 -0800 (PST)
+ Tue, 15 Feb 2022 11:04:47 -0800 (PST)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 04/11] 9p: darwin: Handle struct dirent differences
-Date: Tue, 15 Feb 2022 14:04:19 -0500
-Message-Id: <20220215190426.56130-5-wwcohen@gmail.com>
+Subject: [PATCH v7 05/11] 9p: darwin: Ignore O_{NOATIME, DIRECT}
+Date: Tue, 15 Feb 2022 14:04:20 -0500
+Message-Id: <20220215190426.56130-6-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215190426.56130-1-wwcohen@gmail.com>
 References: <20220215190426.56130-1-wwcohen@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=wwcohen@gmail.com; helo=mail-qk1-x72c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=wwcohen@gmail.com; helo=mail-qt1-x82a.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -88,7 +87,6 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Fabian Franz <fabianfranz.oss@gmail.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Greg Kurz <groug@kaod.org>, hi@alyssa.is,
@@ -99,190 +97,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
-On darwin d_seekoff exists, but is optional and does not seem to
-be commonly used by file systems. Use `telldir` instead to obtain
-the seek offset and inject it into d_seekoff, and create a
-qemu_dirent_off helper to call it appropriately when appropriate.
+Darwin doesn't have either of these flags. Darwin does have
+F_NOCACHE, which is similar to O_DIRECT, but has different
+enough semantics that other projects don't generally map
+them automatically. In any case, we don't support O_DIRECT
+on Linux at the moment either.
 
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
 [Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-[Will Cohen: - Adjust to pass testing
-             - Ensure that d_seekoff is filled using telldir
-               on darwin, and create qemu_dirent_off helper
-               to decide which to access]
-[Fabian Franz: - Add telldir error handling for darwin]
-Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
-[Will Cohen: - Ensure that telldir error handling uses
-               signed int
-             - Cleanup of telldir error handling
-             - Remove superfluous error handling for
-               qemu_dirent_off
-             - Adjust formatting
-             - Use qemu_dirent_off in codir.c]
+[Will Cohen: - Adjust coding style]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
 ---
- hw/9pfs/9p-local.c |  9 +++++++++
- hw/9pfs/9p-proxy.c | 16 +++++++++++++++-
- hw/9pfs/9p-synth.c |  4 ++++
- hw/9pfs/9p-util.h  | 16 ++++++++++++++++
- hw/9pfs/9p.c       |  7 +++++--
- hw/9pfs/codir.c    |  4 +++-
- 6 files changed, 52 insertions(+), 4 deletions(-)
+ hw/9pfs/9p-util.h |  2 ++
+ hw/9pfs/9p.c      | 13 ++++++++++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 1a5e3eed73..f3272f0b43 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -562,6 +562,15 @@ again:
-     if (!entry) {
-         return NULL;
-     }
-+#ifdef CONFIG_DARWIN
-+    int off;
-+    off = telldir(fs->dir.stream);
-+    /* If telldir fails, fail the entire readdir call */
-+    if (off < 0) {
-+        return NULL;
-+    }
-+    entry->d_seekoff = off;
-+#endif
- 
-     if (ctx->export_flags & V9FS_SM_MAPPED) {
-         entry->d_type = DT_UNKNOWN;
-diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-index b1664080d8..8b4b5cf7dc 100644
---- a/hw/9pfs/9p-proxy.c
-+++ b/hw/9pfs/9p-proxy.c
-@@ -706,7 +706,21 @@ static off_t proxy_telldir(FsContext *ctx, V9fsFidOpenState *fs)
- 
- static struct dirent *proxy_readdir(FsContext *ctx, V9fsFidOpenState *fs)
- {
--    return readdir(fs->dir.stream);
-+    struct dirent *entry;
-+    entry = readdir(fs->dir.stream);
-+#ifdef CONFIG_DARWIN
-+    if (!entry) {
-+        return NULL;
-+    }
-+    int td;
-+    td = telldir(fs->dir.stream);
-+    /* If telldir fails, fail the entire readdir call */
-+    if (td < 0) {
-+        return NULL;
-+    }
-+    entry->d_seekoff = td;
-+#endif
-+    return entry;
- }
- 
- static void proxy_seekdir(FsContext *ctx, V9fsFidOpenState *fs, off_t off)
-diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-index 4a4a776d06..e264a03eef 100644
---- a/hw/9pfs/9p-synth.c
-+++ b/hw/9pfs/9p-synth.c
-@@ -222,7 +222,11 @@ static void synth_direntry(V9fsSynthNode *node,
- {
-     strcpy(entry->d_name, node->name);
-     entry->d_ino = node->attr->inode;
-+#ifdef CONFIG_DARWIN
-+    entry->d_seekoff = off + 1;
-+#else
-     entry->d_off = off + 1;
-+#endif
- }
- 
- static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
 diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 546f46dc7d..d41f37f085 100644
+index d41f37f085..0e445b5d52 100644
 --- a/hw/9pfs/9p-util.h
 +++ b/hw/9pfs/9p-util.h
-@@ -79,3 +79,19 @@ ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
-                                 const char *name);
- 
- #endif
-+
-+
-+/**
-+ * Darwin has d_seekoff, which appears to function similarly to d_off.
-+ * However, it does not appear to be supported on all file systems,
-+ * so ensure it is manually injected earlier and call here when
-+ * needed.
-+ */
-+inline off_t qemu_dirent_off(struct dirent *dent)
-+{
-+#ifdef CONFIG_DARWIN
-+    return dent->d_seekoff;
-+#else
-+    return dent->d_off;
+@@ -41,6 +41,7 @@ again:
+     fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
+                 mode);
+     if (fd == -1) {
++#ifndef CONFIG_DARWIN
+         if (errno == EPERM && (flags & O_NOATIME)) {
+             /*
+              * The client passed O_NOATIME but we lack permissions to honor it.
+@@ -53,6 +54,7 @@ again:
+             flags &= ~O_NOATIME;
+             goto again;
+         }
 +#endif
-+}
+         return -1;
+     }
+ 
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 1563d7b7c6..caf3b240fe 100644
+index caf3b240fe..14e84c3bcf 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -27,6 +27,7 @@
- #include "virtio-9p.h"
- #include "fsdev/qemu-fsdev.h"
- #include "9p-xattr.h"
-+#include "9p-util.h"
- #include "coth.h"
- #include "trace.h"
- #include "migration/blocker.h"
-@@ -2281,7 +2282,7 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
-         count += len;
-         v9fs_stat_free(&v9stat);
-         v9fs_path_free(&path);
--        saved_dir_pos = dent->d_off;
-+        saved_dir_pos = qemu_dirent_off(dent);
-     }
+@@ -138,11 +138,20 @@ static int dotl_to_open_flags(int flags)
+         { P9_DOTL_NONBLOCK, O_NONBLOCK } ,
+         { P9_DOTL_DSYNC, O_DSYNC },
+         { P9_DOTL_FASYNC, FASYNC },
++#ifndef CONFIG_DARWIN
++        { P9_DOTL_NOATIME, O_NOATIME },
++        /*
++         *  On Darwin, we could map to F_NOCACHE, which is
++         *  similar, but doesn't quite have the same
++         *  semantics. However, we don't support O_DIRECT
++         *  even on linux at the moment, so we just ignore
++         *  it here.
++         */
+         { P9_DOTL_DIRECT, O_DIRECT },
++#endif
+         { P9_DOTL_LARGEFILE, O_LARGEFILE },
+         { P9_DOTL_DIRECTORY, O_DIRECTORY },
+         { P9_DOTL_NOFOLLOW, O_NOFOLLOW },
+-        { P9_DOTL_NOATIME, O_NOATIME },
+         { P9_DOTL_SYNC, O_SYNC },
+     };
  
-     v9fs_readdir_unlock(&fidp->fs.dir);
-@@ -2420,6 +2421,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-     V9fsString name;
-     int len, err = 0;
-     int32_t count = 0;
-+    off_t off;
-     struct dirent *dent;
-     struct stat *st;
-     struct V9fsDirEnt *entries = NULL;
-@@ -2480,12 +2482,13 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-             qid.version = 0;
-         }
+@@ -171,10 +180,12 @@ static int get_dotl_openflags(V9fsState *s, int oflags)
+      */
+     flags = dotl_to_open_flags(oflags);
+     flags &= ~(O_NOCTTY | O_ASYNC | O_CREAT);
++#ifndef CONFIG_DARWIN
+     /*
+      * Ignore direct disk access hint until the server supports it.
+      */
+     flags &= ~O_DIRECT;
++#endif
+     return flags;
+ }
  
-+        off = qemu_dirent_off(dent);
-         v9fs_string_init(&name);
-         v9fs_string_sprintf(&name, "%s", dent->d_name);
- 
-         /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
-         len = pdu_marshal(pdu, 11 + count, "Qqbs",
--                          &qid, dent->d_off,
-+                          &qid, off,
-                           dent->d_type, &name);
- 
-         v9fs_string_free(&name);
-diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-index 032cce04c4..8e66205d9d 100644
---- a/hw/9pfs/codir.c
-+++ b/hw/9pfs/codir.c
-@@ -22,6 +22,8 @@
- #include "qemu/coroutine.h"
- #include "qemu/main-loop.h"
- #include "coth.h"
-+#include "9p-xattr.h"
-+#include "9p-util.h"
- 
- /*
-  * Intended to be called from bottom-half (e.g. background I/O thread)
-@@ -167,7 +169,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
-         }
- 
-         size += len;
--        saved_dir_pos = dent->d_off;
-+        saved_dir_pos = qemu_dirent_off(dent);
-     }
- 
-     /* restore (last) saved position */
 -- 
 2.34.1
 
