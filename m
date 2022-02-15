@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5724B6FB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 16:27:02 +0100 (CET)
-Received: from localhost ([::1]:59880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8434B6FD0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 16:33:00 +0100 (CET)
+Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJzjJ-0001Di-Vn
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 10:27:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36000)
+	id 1nJzp5-0005Ol-GQ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 10:32:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJzh1-0008BA-EJ
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:24:39 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=42583
- helo=mail-pj1-x1034.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJzo9-0004it-DT
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:32:01 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=40722
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJzgz-0000Da-EN
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:24:38 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- h7-20020a17090a648700b001b927560c2bso2414092pjj.1
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 07:24:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJzo6-0001Tr-U0
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:32:00 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ n19-20020a17090ade9300b001b9892a7bf9so3199733pjv.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 07:31:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=R/68K3kUhahgPyfwnoDtJRaoW5FXk97pGtmVXIB71XA=;
- b=nmufSL6+QSDs0a8TntRMJFNcnPnxHHbJ8BIjaLQLWeM14UoVOq3NCe9sFkPeUbxKGs
- /1VlIauS4aR6Rdtv7r/fAbiTtlr1SpmAkvAb9haW/vywL7KWsAYUGVQQ3GySaNpYjW2S
- BPluVeYIJT/Vuh/Zd/cBWV6wBDLzeFWtZCXpJw4j/XRqScGr0FudY29rihQyX1soHCrs
- 9dLBiyevasFomW9hC7Gg73qUlpQfWjV92BesUbkYkI1WlpyCH4u44EzYW9YaC3Mk//7F
- 2b3aZVUZ+iRit17uAeAxE5CooLuZ4lLMmDgW+S9iTTCP8kiTolQ+th7bdLy9p+EZ6CIQ
- Minw==
+ bh=p7SqXYMTajVkBABRyBqfUV05cAfvK6uBYaLQJ2ar4i4=;
+ b=kC/XY1Bq9lT5REa+9XQM6pChEv8ncfdWgeG8gsWMXfzMGAvOul78WHeFfOFuhtyiN9
+ QFea/xEz4WTRz3nkLrz+5y91jG1Qj1rW9b+tmJjdPL0yC6zPl3rkLO72lPNUf1sFepfm
+ eso/5odAqJFe439/+HTydkBzszZez3TH1GwQVvIyHTMxSFmhj5jaf2VnKJItRbl83pBK
+ +wuWNWIAk/TxG8+uvHYV4ROlN9qlr0v9a7voHeFMLND60fpbKICq34P1kHhsf2WR3Ibl
+ YflYOMnZP1St4zRJ5D57mUBse5geSLL1KjGruhJbi7LuUSwCwMny2O26X61laL4kVNDh
+ WbBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=R/68K3kUhahgPyfwnoDtJRaoW5FXk97pGtmVXIB71XA=;
- b=SGMHTMmaQLiJJ6ruV7NGv90CF9ciCAiut0hoXKQXCW73E/nXiKRyMMGZ3A3mLGHfXi
- qEP43yrje9JAIGLFxkoC+6Y2FSng6htGqu9xWTKNqHDw58RnNf0J3QSJVuOSe2VdXzM8
- erlrYK+BHSBHBOYictiYDadDtrZpx4jV6hIMVvlg+yYTr4XrB+CQf6K9xgDkHiw3vSX0
- LjkVNco2wRU9FA5wCN2xe/XYI7bLqxLx+pG++/fBRyQaRmdcni9kNddeoyxSZDJItN+N
- KDaP8TGezuHw0zuA+OZRiwYJRbW1xJS3b6Ga626tJx8kUsnIkUqlBHxfG1tPC3KdO4sX
- F9Fw==
-X-Gm-Message-State: AOAM532O4tyJQ7secnCl0cmIF/AFnl8aXJSq0f74mTgET3cVsgNIahzK
- BYYsPoApG9EiNXiNDmFNP7NzHyhAkxxJ0w==
-X-Google-Smtp-Source: ABdhPJwy348Xd1mEj0r7JoYrUoWkyyeMO36VB6/jOCw+EB2cpHWw8uOoDm5lo3qcvxmADkseIB0Nww==
-X-Received: by 2002:a17:902:e54d:: with SMTP id
- n13mr4685767plf.120.1644938674925; 
- Tue, 15 Feb 2022 07:24:34 -0800 (PST)
+ bh=p7SqXYMTajVkBABRyBqfUV05cAfvK6uBYaLQJ2ar4i4=;
+ b=F7ZzjDLRH5igWAXZCajDOZxH+uPTpGmhE6SRIESzWcSmIOjJgMUrz+IAyaQerdOXg2
+ fvZ9solC92VIrDikjtVo3uETNDApZxxH13qzhR362PdTXudnhcaTJpOqImhy4SQWRVDH
+ jK6/bfcxGsml0dtkVbz+q3ybHiC/XoQLVG6Lv3g/TT6iGqLahie8MF6XAh7QSxpwjnBq
+ ZOn03SKapDrvWIf93WpTaVmwEmDnc8brwvuUJcI7m6tRrVwZanVjvL4sk+YbPgheSOjA
+ Ypd3KaOVdGl19awBu2LuAHFUPB4ZrKL1AcH8P1kxu573i6vurmtnW5aHYtxR6COHavff
+ EOlQ==
+X-Gm-Message-State: AOAM533powgaPEo4KItqCO5cdX5tDD5FlBC8NI7SOMGtGtM8XtbjsXVJ
+ 7G6KHBUtfWKgQCihTF5Jt6XGnFW73CBbFQ==
+X-Google-Smtp-Source: ABdhPJz+WBm6X3zUOwKarPXGqi3czuMi5ZYGFgrYCT7W3zXv81hdf1zydLCS7guHmlUgFBGivlIAvw==
+X-Received: by 2002:a17:902:a9c1:: with SMTP id
+ b1mr4689386plr.45.1644939116871; 
+ Tue, 15 Feb 2022 07:31:56 -0800 (PST)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.141.137])
- by smtp.googlemail.com with ESMTPSA id 16sm29497989pfm.200.2022.02.15.07.24.32
+ by smtp.googlemail.com with ESMTPSA id na15sm3234710pjb.17.2022.02.15.07.31.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 07:24:34 -0800 (PST)
+ Tue, 15 Feb 2022 07:31:56 -0800 (PST)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH] docs/acpi/erst: add device id for ACPI ERST device in
- pci-ids.txt
-Date: Tue, 15 Feb 2022 20:53:51 +0530
-Message-Id: <20220215152351.127781-1-ani@anisinha.ca>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PATCH] hw/acpi/erst: clean up unused IS_UEFI_CPER_RECORD macro
+Date: Tue, 15 Feb 2022 21:01:40 +0530
+Message-Id: <20220215153140.128528-1-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::1034;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1034.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -1
 X-Spam_score: -0.2
 X-Spam_bar: /
@@ -86,32 +85,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com,
- Eric DeVolder <eric.devolder@oracle.com>
+Cc: Eric DeVolder <eric.devolder@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding device ID for ERST device in pci-ids.txt. It was missed when ERST
-related patches were reviewed.
+This change is cosmetic. IS_UEFI_CPER_RECORD macro definition that was added
+as a part of the ERST implementation seems to be unused. Remove it.
 
 CC: Eric DeVolder <eric.devolder@oracle.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- docs/specs/pci-ids.txt | 1 +
- 1 file changed, 1 insertion(+)
+ hw/acpi/erst.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
-index 5e407a6f32..dd6859d039 100644
---- a/docs/specs/pci-ids.txt
-+++ b/docs/specs/pci-ids.txt
-@@ -65,6 +65,7 @@ PCI devices (other than virtio):
- 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
- 1b36:0010  PCIe NVMe device (-device nvme)
- 1b36:0011  PCI PVPanic device (-device pvpanic-pci)
-+1b36:0012  PCI ACPI ERST device (-device acpi-erst)
+diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+index c0a23cf467..de509c2b48 100644
+--- a/hw/acpi/erst.c
++++ b/hw/acpi/erst.c
+@@ -80,11 +80,6 @@
+ #define UEFI_CPER_RECORD_MIN_SIZE 128U
+ #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
+ #define UEFI_CPER_RECORD_ID_OFFSET 96U
+-#define IS_UEFI_CPER_RECORD(ptr) \
+-    (((ptr)[0] == 'C') && \
+-     ((ptr)[1] == 'P') && \
+-     ((ptr)[2] == 'E') && \
+-     ((ptr)[3] == 'R'))
  
- All these devices are documented in docs/specs.
- 
+ /*
+  * NOTE that when accessing CPER fields within a record, memcpy()
 -- 
 2.25.1
 
