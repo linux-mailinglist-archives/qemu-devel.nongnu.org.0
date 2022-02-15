@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FF154B5E45
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 00:31:51 +0100 (CET)
-Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D484B5F0F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 01:30:09 +0100 (CET)
+Received: from localhost ([::1]:35494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJkow-0000rx-0i
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 18:31:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55904)
+	id 1nJljM-0006dp-CW
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 19:30:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nJklV-0007Up-Qu; Mon, 14 Feb 2022 18:28:18 -0500
-Received: from [2607:f8b0:4864:20::431] (port=45905
- helo=mail-pf1-x431.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nJlgV-0005No-M7
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 19:27:11 -0500
+Received: from [2607:f8b0:4864:20::430] (port=36833
+ helo=mail-pf1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nJklT-000235-MX; Mon, 14 Feb 2022 18:28:17 -0500
-Received: by mail-pf1-x431.google.com with SMTP id p10so11218216pfo.12;
- Mon, 14 Feb 2022 15:28:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nJlgT-0002yc-LB
+ for qemu-devel@nongnu.org; Mon, 14 Feb 2022 19:27:11 -0500
+Received: by mail-pf1-x430.google.com with SMTP id z16so10151274pfh.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 16:27:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:subject:to:cc:references:in-reply-to:mime-version
- :message-id:content-transfer-encoding;
- bh=tlwGCVdZmAJjoJdpb964kX3NL+Equ/twi1Dw4QlXJxA=;
- b=UFe6Iwg0VLwgccZRNXBBHQuMfSgGe+4rK0/jzwJlGtnZxhzC+bzeDNJcy3+NIkP+AV
- 717PEu2oAfXVaMBveA++j88UEXGOZTpmDjKYVIL3EDafk3XqQxQ7Uu7fi9BvY7nq3j2p
- qsq6K9fe7Li7j3YLzYNYa4WYMLKzZfPI+Ycw13tbaHGzmyLx5NwouWrnG/k7OlxV4dFi
- ++qlqBwVBCFQTckwlUgZpY/gu+c+3h8UnAmxsHyKN8mXL2RgwYtgGOLwL9UOMGKqV67p
- GQsRlvC/2VNB5G4glbE/Uky5i33HBp7X34psbs43oJ9F0/2pSbJ8eGg2WSjwQyNtvS9u
- 5Tow==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gBxEdXK4NgOejp71nnLyyGOU9/xjfgVNHN27SNO4ukE=;
+ b=iuNZM0leSSudeYMgc3hG5SXDRbQeRVphrdgA3WF2frD4MS7C8mLIs+CfG9DabQsBEg
+ D2/yA54GgukONSyH+bhZO0JK3csE3UQpw9IgEJKtoXBUOpi2RGzgpHpnpS5tkovdZMgt
+ 4btZ4xAtBUY+bHje9Z6CtNRfnDRLRVXh+N/8AhNLqH7cH18bZuTNp5FZd9r5FTyan9ZS
+ TrUxZkExAYk9DzCBfo6KdUzSkcwA9LyZ+tNCZgASxCajcUn3GmRsOWatjgW8FNZw6tm0
+ BnlszFzt+PvpcPxaHi2T75O6n6mkNM59ZSNDnVtWJ9Fn04K5UtPp7CRX5ms+hnAb9M+S
+ Nb3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
- :mime-version:message-id:content-transfer-encoding;
- bh=tlwGCVdZmAJjoJdpb964kX3NL+Equ/twi1Dw4QlXJxA=;
- b=V6kB2YARFvl3dksFhvhdzyJoXnR9Xkxy7oB20jSWvA0gCfyGknzAP6fXfYVQkRU8FL
- xcDUXvJAuZr3HGu8up0NcKGm6kmYuze5ziXTJkw9K6D3CwG8LTcBJjyGyMW7FsjGeDRt
- X2KUxKTbvWx4px1kD6HA028yiCMFkXqG+jFnF6tm4OoqMHvwNcUz+B/nNMBC/X2lOQyW
- VPSevAK4bx4E+9u9D5Ab4yHQTLK1qlXwNE22nHevQdWwE9YIxH6f/VB065SUmMn00XLp
- 7YgHe/nDrQJxDHsb5q3DmM/7A311lWqQxp7FJrtbOTa8dTwqXSowS2lmq9VBqKiG4IXw
- BJCw==
-X-Gm-Message-State: AOAM530bKV6WljGc8uW52Se471nF5XFG/NvkZfuXIK0ALkbq5wI0d9gU
- okP/yr3nbM0dVXTV4SbtMlPLhDDPDSM=
-X-Google-Smtp-Source: ABdhPJy2qfVDN3wOYLnmjXLeI2QUQYMlB42hmi7ZuzK39AxbYF9okPuokU0McJYt2NB9jxFfWrjR3g==
-X-Received: by 2002:a65:6b8f:: with SMTP id d15mr1198943pgw.452.1644881293803; 
- Mon, 14 Feb 2022 15:28:13 -0800 (PST)
-Received: from localhost (27-33-251-132.static.tpgi.com.au. [27.33.251.132])
- by smtp.gmail.com with ESMTPSA id g22sm20935460pfk.219.2022.02.14.15.28.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 15:28:13 -0800 (PST)
-Date: Tue, 15 Feb 2022 09:28:08 +1000
-From: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [RFC PATCH 3/3] spapr: implement nested-hv support for the TCG
- virtual hypervisor
-To: =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org
-References: <20220210065340.1276367-1-npiggin@gmail.com>
- <20220210065340.1276367-4-npiggin@gmail.com>
- <aaaf8ca4-9685-f600-9082-bc3a80eb59c9@kaod.org>
-In-Reply-To: <aaaf8ca4-9685-f600-9082-bc3a80eb59c9@kaod.org>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=gBxEdXK4NgOejp71nnLyyGOU9/xjfgVNHN27SNO4ukE=;
+ b=uSc4l0AHjddHCtYMJCmXrutB5+Aw/74bu0G0AOFT3nUPGao/1zgg1H5B62Ja5Sk4ZO
+ a4AzSMFlmmj4AgLYhRA/3rqtTcdmBqtqx4BbBDBCJ3HcpBAfwtlmXw546vqZtbYWcqql
+ jEdVjU2IRNqk/PRa7ajE92qbIJLamNhtdPXgFx+Fpl1z2MQFVjl4G4PNgEmK7M49f74E
+ YI+jaf3L/l7kT6GDbTkWyAHPtkODHPMMpd1G42G3Wftb3Fon246VlDLCzG4o1Ju2uIns
+ 7kCopO28bC7iRusr2ydfWDPxo4mmh7aiOhkOHt90Fvb0Igo53ebceSRPHaCAA809Pcf3
+ lVdQ==
+X-Gm-Message-State: AOAM532rxFy++WJhRHdGzJlDnY9SxjS6gZ9ImhFcyE5SRQcyilUFQH9j
+ Za7M2r9hbhqJKhvg0zbm2lg=
+X-Google-Smtp-Source: ABdhPJzZO/Ni9uuTCJqNlexrbDDISRW0XqVb5sndFzCpOyxRpZgHZNCgUFUxPoJayviRqkfZLmOITQ==
+X-Received: by 2002:a65:62d7:: with SMTP id m23mr1295682pgv.329.1644884828072; 
+ Mon, 14 Feb 2022 16:27:08 -0800 (PST)
+Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id fv9sm15550780pjb.7.2022.02.14.16.27.02
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 14 Feb 2022 16:27:07 -0800 (PST)
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Mark Burton <mark.burton@greensocs.com>, qemu-devel@nongnu.org
+Cc: Amir Gonnen <amir.gonnen@neuroblade.ai>, Eric Blake <eblake@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Juan Quintela <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [NOTFORMERGE PATCH 0/1] target: Toward heterogeneous machine
+Date: Tue, 15 Feb 2022 01:26:57 +0100
+Message-Id: <20220215002658.60678-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Message-Id: <1644881088.rvm7j0emi0.astroid@bobo.none>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=npiggin@gmail.com; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -87,118 +99,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Excerpts from C=C3=A9dric Le Goater's message of February 15, 2022 4:31 am:
-> On 2/10/22 07:53, Nicholas Piggin wrote:
->> +void cpu_ppc_hdecr_init (CPUPPCState *env)
->> +{
->> +    PowerPCCPU *cpu =3D env_archcpu(env);
->> +
->> +    assert(env->tb_env->hdecr_timer =3D=3D NULL);
->> +
->> +    env->tb_env->hdecr_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_=
-ppc_hdecr_cb,
->> +                                                 cpu);
->> +}
->> +
->> +void cpu_ppc_hdecr_exit (CPUPPCState *env)
->> +{
->> +    PowerPCCPU *cpu =3D env_archcpu(env);
->> +
->> +    timer_free(env->tb_env->hdecr_timer);
->> +    env->tb_env->hdecr_timer =3D NULL;
->> +
->> +    cpu_ppc_hdecr_lower(cpu);
->> +}
->=20
->=20
-> So these are called every time a L2 enters or exits ?
+Hi, following last week KVM call [1], I'm posting my playground
+machine to slowly work toward heterogeneous QEMU. This is
+orthogonal to Paolo / Markus / Daniel effort to have a
+qemu-system-qmp CLI entrypoint [2].
 
-Yes.
+After refactoring a bit the headers to remove target-specific
+dependencies, we can remove the targets (and accelerators)
+from the picture, to have a target-agnostic QEMU.
 
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index 3d6ec309dd..f0c3f726f2 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -1273,6 +1273,8 @@ static void emulate_spapr_hypercall(PPCVirtualHype=
-rvisor *vhyp,
->>       if (msr_pr) {
->>           hcall_dprintf("Hypercall made with MSR[PR]=3D1\n");
->>           env->gpr[3] =3D H_PRIVILEGE;
->> +    } else if (env->gpr[3] =3D=3D KVMPPC_H_ENTER_NESTED) {
->> +        spapr_enter_nested(cpu);
->=20
-> Can not this be in the hcall table ?
+This binary helps to find a lot of code abuses where we only
+expect one target being built, and is useful to clean that.
 
-See reply to Fabiano, I think it can be.
+So far my naive roadmap draft is:
 
->>       } else {
->>           env->gpr[3] =3D spapr_hypercall(cpu, env->gpr[3], &env->gpr[4]=
-);
->>       }
->> @@ -4465,6 +4467,17 @@ PowerPCCPU *spapr_find_cpu(int vcpu_id)
->>       return NULL;
->>   }
->>  =20
->> +static bool spapr_cpu_in_nested(PowerPCCPU *cpu)
->> +{
->> +    return cpu->in_spapr_nested;
->> +}
->=20
-> This handler is not very much used.
+- Ignoring target-specific hardware devices, target-agnostic
+  code should only use the CPUClass and CPUState to interface
+  with the target-specific code.
 
-Yeah, I have improved that in the current code, hopefully doesn't=20
-open-code cpu->in_spapr_nested anywhere outside spapr specifics.
+- CPU objects shouldn't access an unique global accelerator,
+  but should be initialized with a specific accelerator.
 
->> +void spapr_enter_nested(PowerPCCPU *cpu)
->> +{
->> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
->> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
->> +    CPUState *cs =3D CPU(cpu);
->> +    CPUPPCState *env =3D &cpu->env;
->> +    target_ulong hv_ptr =3D env->gpr[4];
->> +    target_ulong regs_ptr =3D env->gpr[5];
->> +    target_ulong hdec, now =3D cpu_ppc_load_tbl(env);
->> +    struct kvmppc_hv_guest_state *hvstate;
->> +    struct kvmppc_hv_guest_state hv_state;
->> +    struct kvmppc_pt_regs *regs;
->> +    hwaddr len;
->> +    uint32_t cr;
->> +    int i;
->> +
->> +    if (cpu->in_spapr_nested) {
->> +        env->gpr[3] =3D H_FUNCTION;
->> +        return;
->> +    }
->> +    if (spapr->nested_ptcr =3D=3D 0) {
->> +        env->gpr[3] =3D H_NOT_AVAILABLE;
->> +        return;
->> +    }
->> +
->> +    len =3D sizeof(*hvstate);
->> +    hvstate =3D cpu_physical_memory_map(hv_ptr, &len,=20
->=20
-> Are you writing to the state ? address_space_map() is a better pratice.
+- Each target registers as a QEMU module. Should we expose
+  a target API beside the CPU?
 
-Yes, in exit_nested it gets written. I'll take a look at=20
-address_space_map().
+- Compile TCG-target-specific objects in each target dir?
 
->> @@ -916,7 +924,7 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int =
-excp)
->>           env->nip +=3D 4;
->>  =20
->>           /* "PAPR mode" built-in hypercall emulation */
->> -        if ((lev =3D=3D 1) && cpu->vhyp) {
->> +        if ((lev =3D=3D 1) && cpu->vhyp && !cpu->in_spapr_nested) {
->=20
-> an helper for (cpu->vhyp && !cpu->in_spapr_nested) would help.
+- Refactor buildsys to register multiple targets.
 
-Yeah, I put some helpers in the mmu code since this patch which is=20
-nicer. Will try to do the same for this.
+- TBC.
 
-Thanks,
-Nick
+[1] https://lore.kernel.org/qemu-devel/87fsot761s.fsf@secure.mitica/
+[2] https://lore.kernel.org/qemu-devel/20220208144458.1079634-1-pbonzini@redhat.com/
+
+Based-on: <20220214183144.27402-1-f4bug@amsat.org>
+"target: Use ArchCPU & CPUArchState as abstract interface to target CPU"
+https://lore.kernel.org/qemu-devel/20220214183144.27402-1-f4bug@amsat.org/
+
+Philippe Mathieu-Daudé (1):
+  target: Add system emulation aiming to target any architecture
+
+ configs/devices/any-softmmu/default.mak |  1 +
+ configs/targets/any-softmmu.mak         |  3 +++
+ hw/any/meson.build                      |  5 +++++
+ hw/meson.build                          |  1 +
+ include/sysemu/arch_init.h              |  1 +
+ meson.build                             |  6 +++--
+ qapi/machine.json                       |  2 +-
+ target/Kconfig                          |  1 +
+ target/any/Kconfig                      |  4 ++++
+ target/any/cpu-param.h                  | 30 +++++++++++++++++++++++++
+ target/any/cpu.h                        | 26 +++++++++++++++++++++
+ target/any/meson.build                  |  8 +++++++
+ target/meson.build                      |  1 +
+ 13 files changed, 86 insertions(+), 3 deletions(-)
+ create mode 100644 configs/devices/any-softmmu/default.mak
+ create mode 100644 configs/targets/any-softmmu.mak
+ create mode 100644 hw/any/meson.build
+ create mode 100644 target/any/Kconfig
+ create mode 100644 target/any/cpu-param.h
+ create mode 100644 target/any/cpu.h
+ create mode 100644 target/any/meson.build
+
+-- 
+2.34.1
+
 
