@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292604B6FB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 16:26:07 +0100 (CET)
-Received: from localhost ([::1]:57808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5724B6FB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 16:27:02 +0100 (CET)
+Received: from localhost ([::1]:59880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJziP-00088v-Q9
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 10:26:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35644)
+	id 1nJzjJ-0001Di-Vn
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 10:27:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nJzfN-0007Qe-D7
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:22:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50126)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nJzfJ-0008VH-BI
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:22:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644938562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bYgYD26q4PlHgyOEC+8nEf7MxYAReO/7AACXWBnZnr0=;
- b=iriZmT9TwIpmHjsJnlrl1t/pXD8bTZCB4/DEtazVsF+uyCuk0Do8A9Tf449SEqD1cS7OAD
- cYiFxwzwNPqA4WbMmHycqaADau9OjMs+sssUJqiP0sjl/Y9K6fLbUzeW/M5VQ0btvU8j+f
- w4n4i1QDhCtNrC01MghyJwrqCZCo/7c=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-164-j0Bx4YtdP9WVXDbnVslMgg-1; Tue, 15 Feb 2022 10:22:41 -0500
-X-MC-Unique: j0Bx4YtdP9WVXDbnVslMgg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- l3-20020a0ce503000000b0042c0129c766so14160976qvm.20
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 07:22:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJzh1-0008BA-EJ
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:24:39 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=42583
+ helo=mail-pj1-x1034.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJzgz-0000Da-EN
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:24:38 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ h7-20020a17090a648700b001b927560c2bso2414092pjj.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 07:24:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R/68K3kUhahgPyfwnoDtJRaoW5FXk97pGtmVXIB71XA=;
+ b=nmufSL6+QSDs0a8TntRMJFNcnPnxHHbJ8BIjaLQLWeM14UoVOq3NCe9sFkPeUbxKGs
+ /1VlIauS4aR6Rdtv7r/fAbiTtlr1SpmAkvAb9haW/vywL7KWsAYUGVQQ3GySaNpYjW2S
+ BPluVeYIJT/Vuh/Zd/cBWV6wBDLzeFWtZCXpJw4j/XRqScGr0FudY29rihQyX1soHCrs
+ 9dLBiyevasFomW9hC7Gg73qUlpQfWjV92BesUbkYkI1WlpyCH4u44EzYW9YaC3Mk//7F
+ 2b3aZVUZ+iRit17uAeAxE5CooLuZ4lLMmDgW+S9iTTCP8kiTolQ+th7bdLy9p+EZ6CIQ
+ Minw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bYgYD26q4PlHgyOEC+8nEf7MxYAReO/7AACXWBnZnr0=;
- b=aR+0RypJ8GuKpme873HkjhrflJCN9NhxnicPDTklKk2mPbabfPTte5Fkanl1JVHhUS
- rD6jalfQi5u/uWdFV7IIJHZaC5Q45Es5ZM4DvU5TlO42h0Ib6QIjEDe+slpuMBpE+bFb
- 3xxj9V4w4ZFa9IYxkS80wi4kXJp1r+U0qsrt5B8DCgwrSwfGlkzdVgIuFWgUPAKrqIlR
- s9w/6S8KeIRmJhekqoBOmiOOuG7Qw5Br2hH4cewgccDHwYlqYbq7amui7YOtFU0qDE66
- 82GjZA3FoZZhooo4xGLZRZLMuVRjuNkb9EkVsdwd8z4zhN1sFxddfsdiQgqN/1ENvmTz
- X01A==
-X-Gm-Message-State: AOAM531HN5j3ZlCNYtUMcfMo2VOe1PjWkOfdS+P+qhmK9S1t4rroVb8m
- pAWpl0ONcUawl+5lJ9bRM6ZtJH8F5Yanp35Z/0OVRxEBoHWndszT1LBW+9gUeHQnpm7FSfZ0Hse
- J73Ru7WQRQPE4k4ap3U0BKjgKDQHGzB0=
-X-Received: by 2002:ad4:5c4c:: with SMTP id a12mr3016368qva.119.1644938560560; 
- Tue, 15 Feb 2022 07:22:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyf7SyYmXGpq29IYGxU8d9VUE1lQk908lSW8vqKKhsVcO1cyG9SXM4btniTNeAMf9SZFN/sMw9GJnctpc6G2IE=
-X-Received: by 2002:ad4:5c4c:: with SMTP id a12mr3016349qva.119.1644938560384; 
- Tue, 15 Feb 2022 07:22:40 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R/68K3kUhahgPyfwnoDtJRaoW5FXk97pGtmVXIB71XA=;
+ b=SGMHTMmaQLiJJ6ruV7NGv90CF9ciCAiut0hoXKQXCW73E/nXiKRyMMGZ3A3mLGHfXi
+ qEP43yrje9JAIGLFxkoC+6Y2FSng6htGqu9xWTKNqHDw58RnNf0J3QSJVuOSe2VdXzM8
+ erlrYK+BHSBHBOYictiYDadDtrZpx4jV6hIMVvlg+yYTr4XrB+CQf6K9xgDkHiw3vSX0
+ LjkVNco2wRU9FA5wCN2xe/XYI7bLqxLx+pG++/fBRyQaRmdcni9kNddeoyxSZDJItN+N
+ KDaP8TGezuHw0zuA+OZRiwYJRbW1xJS3b6Ga626tJx8kUsnIkUqlBHxfG1tPC3KdO4sX
+ F9Fw==
+X-Gm-Message-State: AOAM532O4tyJQ7secnCl0cmIF/AFnl8aXJSq0f74mTgET3cVsgNIahzK
+ BYYsPoApG9EiNXiNDmFNP7NzHyhAkxxJ0w==
+X-Google-Smtp-Source: ABdhPJwy348Xd1mEj0r7JoYrUoWkyyeMO36VB6/jOCw+EB2cpHWw8uOoDm5lo3qcvxmADkseIB0Nww==
+X-Received: by 2002:a17:902:e54d:: with SMTP id
+ n13mr4685767plf.120.1644938674925; 
+ Tue, 15 Feb 2022 07:24:34 -0800 (PST)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.141.137])
+ by smtp.googlemail.com with ESMTPSA id 16sm29497989pfm.200.2022.02.15.07.24.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Feb 2022 07:24:34 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH] docs/acpi/erst: add device id for ACPI ERST device in
+ pci-ids.txt
+Date: Tue, 15 Feb 2022 20:53:51 +0530
+Message-Id: <20220215152351.127781-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220215072231.2498-1-gdawar@xilinx.com>
- <20220215072231.2498-3-gdawar@xilinx.com>
-In-Reply-To: <20220215072231.2498-3-gdawar@xilinx.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 15 Feb 2022 16:22:04 +0100
-Message-ID: <CAJaqyWcGqfrEjRzDR0dqyB8xDTjMBRr8XfBXJPiSgu3-8wWW4A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Allow VIRTIO_F_IN_ORDER to be negotiated for vdpa
- devices
-To: Gautam Dawar <gautam.dawar@xilinx.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,84 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Tsirkin <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- martinh@xilinx.com, Harpreet Singh Anand <hanand@xilinx.com>,
- tanujk@xilinx.com, pabloc@xilinx.com
+Cc: Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com,
+ Eric DeVolder <eric.devolder@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 8:23 AM Gautam Dawar <gautam.dawar@xilinx.com> wrot=
-e:
->
-> This patch adds the ability to negotiate VIRTIO_F_IN_ORDER bit
-> for vhost-vdpa backend when the underlying device supports this
-> feature.
-> This would aid in reaping performance benefits with HW devices
-> that implement this feature. At the same time, it shouldn't have
-> any negative impact as vhost-vdpa backend doesn't involve any
-> userspace virtqueue operations.
->
-> Signed-off-by: Gautam Dawar <gdawar@xilinx.com>
-> ---
->  hw/net/virtio-net.c | 10 ++++++++++
->  net/vhost-vdpa.c    |  1 +
->  2 files changed, 11 insertions(+)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index cf8ab0f8af..a1089d06f6 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -3507,11 +3507,21 @@ static void virtio_net_device_realize(DeviceState=
- *dev, Error **errp)
->      nc->rxfilter_notify_enabled =3D 1;
->
->     if (nc->peer && nc->peer->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_V=
-DPA) {
-> +        uint64_t features =3D BIT_ULL(VIRTIO_F_IN_ORDER);
+Adding device ID for ERST device in pci-ids.txt. It was missed when ERST
+related patches were reviewed.
 
-If more users arise, we could declare a set of features that can be
-bypassed as long as the backend doesn't use userspace networking in
-virtio.h/.c. Out_of_qemu_tree_valid_features?
+CC: Eric DeVolder <eric.devolder@oracle.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ docs/specs/pci-ids.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-But I think it is better to restrict the changes here at the moment.
-
->          struct virtio_net_config netcfg =3D {};
-> +
->          memcpy(&netcfg.mac, &n->nic_conf.macaddr, ETH_ALEN);
->          vhost_net_set_config(get_vhost_net(nc->peer),
->              (uint8_t *)&netcfg, 0, ETH_ALEN, VHOST_SET_CONFIG_TYPE_MASTE=
-R);
-> +
-> +       /*
-> +         * For vhost-vdpa, if underlying device supports IN_ORDER featur=
-e,
-> +         * make it available for negotiation.
-> +         */
-> +       features =3D vhost_net_get_features(get_vhost_net(nc->peer), feat=
-ures);
-> +       n->host_features |=3D features;
->      }
-> +
->      QTAILQ_INIT(&n->rsc_chains);
->      n->qdev =3D dev;
->
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 25dd6dd975..2886cba5ec 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -62,6 +62,7 @@ const int vdpa_feature_bits[] =3D {
->      VIRTIO_NET_F_CTRL_VQ,
->      VIRTIO_F_IOMMU_PLATFORM,
->      VIRTIO_F_RING_PACKED,
-> +    VIRTIO_F_IN_ORDER,
->      VIRTIO_NET_F_RSS,
->      VIRTIO_NET_F_HASH_REPORT,
->      VIRTIO_NET_F_GUEST_ANNOUNCE,
-> --
-> 2.30.1
->
-
-Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
+index 5e407a6f32..dd6859d039 100644
+--- a/docs/specs/pci-ids.txt
++++ b/docs/specs/pci-ids.txt
+@@ -65,6 +65,7 @@ PCI devices (other than virtio):
+ 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
+ 1b36:0010  PCIe NVMe device (-device nvme)
+ 1b36:0011  PCI PVPanic device (-device pvpanic-pci)
++1b36:0012  PCI ACPI ERST device (-device acpi-erst)
+ 
+ All these devices are documented in docs/specs.
+ 
+-- 
+2.25.1
 
 
