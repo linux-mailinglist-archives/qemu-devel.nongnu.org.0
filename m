@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECBF4B74A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:22:12 +0100 (CET)
-Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3F74B74C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:46:22 +0100 (CET)
+Received: from localhost ([::1]:38948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK3Os-0005ve-P0
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:22:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35244)
+	id 1nK3mH-0001JG-HD
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:46:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK38D-0000yG-3s
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:57 -0500
-Received: from [2607:f8b0:4864:20::733] (port=38822
- helo=mail-qk1-x733.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK38E-00011b-PV
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:58 -0500
+Received: from [2607:f8b0:4864:20::836] (port=42544
+ helo=mail-qt1-x836.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK38B-0002lH-3R
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:56 -0500
-Received: by mail-qk1-x733.google.com with SMTP id n185so1391682qke.5
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 11:04:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK38C-0002lT-FP
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:04:58 -0500
+Received: by mail-qt1-x836.google.com with SMTP id s1so19503043qtw.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 11:04:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9kM+hfKaNHkhAKW7qPhMom4aNnY+CTog/UjBQslxta0=;
- b=fuh7eB4Jn1cCvj4S8hW3js3zOa4O7UC5SarPdTohj4/q4hzch52f05TGW3r7uf/PRt
- bgYENFFZCJGf+iyG2ZrK0j0lrR7kgfeXB9sktgmrQDUVUwz95ogCd4W6ajhjK/j+2diX
- 0Vj8QCYY1ECKZJKNYLb21arE/Q8DRdQg7rwet/OMvp5fJv0NvrdWnpkn3Hj35NTViU1e
- 70Oi6bPcnN6obQ9ll+fiZ4mx73Zedp8sJyfGK8UU79MGv65E2K25y9x0VjWJt9yBf46u
- yOdrtZxWbooce1bz/GwahVuKfCaqWZtR9ZVdVPtUyfUzJhbd+yTUEHjsGtEgZ5fCHhUI
- 0+FA==
+ bh=EB8tJkFyv0t4GdFE0KqllcD+blasxRu406yEHevMwSc=;
+ b=cR9+tPRN4rtlc4IOX949GROCSX81Q1ESQclGgB1057mo8lX0CGipzdM1mlRqJvsViX
+ No6ztMx35bQ5jDsxXxsPnUW8u0EMwS6ne5zuxaG+Ob+F7e6W/zfdQlNWBnwmROXpgMDL
+ SGsv9opE3PVr4rQJLxYn/BgqVEzFuvpHxgCWu+bWzO0ayhGnrcyfqee92qFM5tOiDqJB
+ FFeklC21/oDEUu6yiY3dkoLKZ6yhKLHw1tOhHbsc+W0XqaUhNbi0ZShbSuQOpAkQSTBV
+ 48dROSpspM3/sc76wr7wEwzOdv3VpkxG51MFbYMyq161/trB/CWgyy48dOHsvpSTbI5D
+ jbPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9kM+hfKaNHkhAKW7qPhMom4aNnY+CTog/UjBQslxta0=;
- b=lCw2iSkmE9ybWJaonE/MpX2wq8yZ+HboPb7TM2sAGGeT1mbVlF8A7d46D98M6FN0TU
- rVf5Tw0odbwFpeEcCVLwiBmBWHDWn+XjFAEDGEqjBegrE/LhwaZA3vTzuY7aYWFqvx9Z
- oCo8UKggNTeUY5/03zlZm9c+wQzNJS56uxTni6+EdC9N4tWaCHfWPPpa8ReQb92gtXGa
- fuyLtNmQ7Xou0bm76BFzs7ckz4pvpEL2mDsvYbIWj5Y/eLZhhyLcZaELVGWCyfjFGHWM
- SmNwm7Uh1hM3loLLkHNdtpJOhnqsWISkO5r9YWf8UnMpjE3wJxPbJT+/omAs733TYX/W
- goAw==
-X-Gm-Message-State: AOAM533shZVL7kO5HzJjCOkThHxoJPAM+EXALKa1EwmuIndGlkDhyDG+
- RTfTmplIJekdz1AH8mUWSe7WEOR8P/HXuQ==
-X-Google-Smtp-Source: ABdhPJw5jyrn6k+krYMhpYVlvk5l1E+RhbC8/ox22Qsxp2+cQwVWOXuwfFcHBS3swxKdFuxA23h0cQ==
-X-Received: by 2002:a05:620a:8d7:: with SMTP id
- z23mr220784qkz.753.1644951893712; 
- Tue, 15 Feb 2022 11:04:53 -0800 (PST)
+ bh=EB8tJkFyv0t4GdFE0KqllcD+blasxRu406yEHevMwSc=;
+ b=wxBs1kv811JxQBWXIf3qUeXXNM31gPxFpQnhkqW6z/KsbpBW0ojpzmYy0FoXLxOUv0
+ TilpwtCEz6liEeqaOhH69JcqSzGp182T6oTdjEb84+Ne70uWn+JO9pT1GOKRYYYHTI4z
+ LXPuBnoy5ud6X74mCFb+BjVauS23yiQKhViZFcqdgAJEA/ilBmA85EdZbAwDMUNI8OPI
+ dEBbqQhGyI931JZI+U7hiXG/Sn1RZ78RUG5sc5SVzPNLbZPohMsx7dkVB5XbeTA1re/E
+ iCkV4P180UIo/lpWCa0no0nyDXrhSpNh/UiIlELjsIapx5sbem/6HWT+QDP+jkd7o9XB
+ f8PQ==
+X-Gm-Message-State: AOAM532CzBxNZZanc0WyFZZJe/1JrVT+O2CwVV3xjX+4Q7pG8RLaZ3vA
+ gYPBj/Q4/OwhrvWLfdNTqkcA9UYsTghRqg==
+X-Google-Smtp-Source: ABdhPJxahFa2X5PiQzx/B2DlgzY6vd416+XNAYqbBbHgjpdI0LPRTKJwp1lqj4WlOAKcyD3H6fKIrw==
+X-Received: by 2002:a05:622a:249:: with SMTP id
+ c9mr414794qtx.109.1644951895192; 
+ Tue, 15 Feb 2022 11:04:55 -0800 (PST)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id w10sm21364527qtj.73.2022.02.15.11.04.51
+ by smtp.gmail.com with ESMTPSA id w10sm21364527qtj.73.2022.02.15.11.04.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 11:04:52 -0800 (PST)
+ Tue, 15 Feb 2022 11:04:54 -0800 (PST)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 08/11] 9p: darwin: Compatibility for f/l*xattr
-Date: Tue, 15 Feb 2022 14:04:23 -0500
-Message-Id: <20220215190426.56130-9-wwcohen@gmail.com>
+Subject: [PATCH v7 09/11] 9p: darwin: Implement compatibility for mknodat
+Date: Tue, 15 Feb 2022 14:04:24 -0500
+Message-Id: <20220215190426.56130-10-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215190426.56130-1-wwcohen@gmail.com>
 References: <20220215190426.56130-1-wwcohen@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::733
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::836
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
- envelope-from=wwcohen@gmail.com; helo=mail-qk1-x733.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
+ envelope-from=wwcohen@gmail.com; helo=mail-qt1-x836.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -98,76 +98,140 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
-On darwin `fgetxattr` takes two extra optional arguments,
-and the l* variants are not defined (in favor of an extra
-flag to the regular variants.
+Darwin does not support mknodat. However, to avoid race conditions
+with later setting the permissions, we must avoid using mknod on
+the full path instead. We could try to fchdir, but that would cause
+problems if multiple threads try to call mknodat at the same time.
+However, luckily there is a solution: Darwin includes a function
+that sets the cwd for the current thread only.
+This should suffice to use mknod safely.
+
+This function (pthread_fchdir_np) is protected by a check in
+meson in a patch later in this series.
 
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-[Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+[Will Cohen: - Adjust coding style
+             - Replace clang references with gcc
+             - Note radar filed with Apple for missing syscall
+             - Replace direct syscall with pthread_fchdir_np and
+               adjust patch notes accordingly
+             - Move qemu_mknodat from 9p-util to osdep and os-posix
+             - Move pthread_fchdir_np declaration only to osdep
+             - Declare pthread_fchdir_np with
+             - __attribute__((weak_import)) to allow checking for
+               its presence before usage
+             - Move declarations above cplusplus guard
+             - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
+               presence in osdep.h and os-posix.c]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
 ---
- hw/9pfs/9p-local.c | 12 ++++++++----
- hw/9pfs/9p-util.h  | 17 +++++++++++++++++
- 2 files changed, 25 insertions(+), 4 deletions(-)
+ hw/9pfs/9p-local.c   |  4 ++--
+ include/qemu/osdep.h | 12 ++++++++++++
+ meson.build          |  1 +
+ os-posix.c           | 35 +++++++++++++++++++++++++++++++++++
+ 4 files changed, 50 insertions(+), 2 deletions(-)
 
 diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index f3272f0b43..a0d08e5216 100644
+index a0d08e5216..d42ce6d8b8 100644
 --- a/hw/9pfs/9p-local.c
 +++ b/hw/9pfs/9p-local.c
-@@ -790,16 +790,20 @@ static int local_fstat(FsContext *fs_ctx, int fid_type,
-         mode_t tmp_mode;
-         dev_t tmp_dev;
+@@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
  
--        if (fgetxattr(fd, "user.virtfs.uid", &tmp_uid, sizeof(uid_t)) > 0) {
-+        if (qemu_fgetxattr(fd, "user.virtfs.uid",
-+                           &tmp_uid, sizeof(uid_t)) > 0) {
-             stbuf->st_uid = le32_to_cpu(tmp_uid);
+     if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+         fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+-        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
++        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+         if (err == -1) {
+             goto out;
          }
--        if (fgetxattr(fd, "user.virtfs.gid", &tmp_gid, sizeof(gid_t)) > 0) {
-+        if (qemu_fgetxattr(fd, "user.virtfs.gid",
-+                           &tmp_gid, sizeof(gid_t)) > 0) {
-             stbuf->st_gid = le32_to_cpu(tmp_gid);
+@@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
          }
--        if (fgetxattr(fd, "user.virtfs.mode", &tmp_mode, sizeof(mode_t)) > 0) {
-+        if (qemu_fgetxattr(fd, "user.virtfs.mode",
-+                           &tmp_mode, sizeof(mode_t)) > 0) {
-             stbuf->st_mode = le32_to_cpu(tmp_mode);
+     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+                fs_ctx->export_flags & V9FS_SM_NONE) {
+-        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
++        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+         if (err == -1) {
+             goto out;
          }
--        if (fgetxattr(fd, "user.virtfs.rdev", &tmp_dev, sizeof(dev_t)) > 0) {
-+        if (qemu_fgetxattr(fd, "user.virtfs.rdev",
-+                           &tmp_dev, sizeof(dev_t)) > 0) {
-             stbuf->st_rdev = le64_to_cpu(tmp_dev);
-         }
-     } else if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 0e445b5d52..82399702b9 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -19,6 +19,23 @@
- #define O_PATH_9P_UTIL 0
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index d1660d67fa..fb25cafcc4 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -805,6 +805,18 @@ static inline int platform_does_not_support_system(const char *command)
+ }
+ #endif /* !HAVE_SYSTEM_FUNCTION */
+ 
++/*
++ * As long as mknodat is not available on macOS, this workaround
++ * using pthread_fchdir_np is needed. qemu_mknodat is defined in
++ * os-posix.c. pthread_fchdir_np is weakly linked here as a guard
++ * in case it disappears in future macOS versions, because it is
++ * is a private API.
++ */
++#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
++int pthread_fchdir_np(int fd) __attribute__((weak_import));
++#endif
++int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
++
+ #ifdef __cplusplus
+ }
  #endif
- 
-+#ifdef CONFIG_DARWIN
-+#define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
-+#define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
-+#define qemu_llistxattr(...) listxattr(__VA_ARGS__, XATTR_NOFOLLOW)
-+#define qemu_lremovexattr(...) removexattr(__VA_ARGS__, XATTR_NOFOLLOW)
-+static inline int qemu_lsetxattr(const char *path, const char *name,
-+                                 const void *value, size_t size, int flags) {
-+    return setxattr(path, name, value, size, 0, flags | XATTR_NOFOLLOW);
+diff --git a/meson.build b/meson.build
+index ae5f7eec6e..6fdc0281ad 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1557,6 +1557,7 @@ config_host_data.set('CONFIG_POSIX_FALLOCATE', cc.has_function('posix_fallocate'
+ config_host_data.set('CONFIG_POSIX_MEMALIGN', cc.has_function('posix_memalign'))
+ config_host_data.set('CONFIG_PPOLL', cc.has_function('ppoll'))
+ config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
++config_host_data.set('CONFIG_PTHREAD_FCHDIR_NP', cc.has_function('pthread_fchdir_np'))
+ config_host_data.set('CONFIG_SEM_TIMEDWAIT', cc.has_function('sem_timedwait', dependencies: threads))
+ config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
+ config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and cc.has_function('unshare'))
+diff --git a/os-posix.c b/os-posix.c
+index ae6c9f2a5e..ccc3d1e9d3 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -332,3 +332,38 @@ int os_mlock(void)
+     return -ENOSYS;
+ #endif
+ }
++
++/*
++ * As long as mknodat is not available on macOS, this workaround
++ * using pthread_fchdir_np is needed.
++ *
++ * Radar filed with Apple for implementing mknodat:
++ * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
++ */
++#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
++
++int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
++{
++    int preserved_errno, err;
++    if (!pthread_fchdir_np) {
++        error_report_once("pthread_fchdir_np() is not available on this version of macOS");
++        return -ENOTSUP;
++    }
++    if (pthread_fchdir_np(dirfd) < 0) {
++        return -1;
++    }
++    err = mknod(filename, mode, dev);
++    preserved_errno = errno;
++    /* Stop using the thread-local cwd */
++    pthread_fchdir_np(-1);
++    if (err < 0) {
++        errno = preserved_errno;
++    }
++    return err;
 +}
 +#else
-+#define qemu_fgetxattr fgetxattr
-+#define qemu_lgetxattr lgetxattr
-+#define qemu_llistxattr llistxattr
-+#define qemu_lremovexattr lremovexattr
-+#define qemu_lsetxattr lsetxattr
++int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
++{
++    return mknodat(dirfd, filename, mode, dev);
++}
 +#endif
-+
- static inline void close_preserve_errno(int fd)
- {
-     int serrno = errno;
 -- 
 2.34.1
 
