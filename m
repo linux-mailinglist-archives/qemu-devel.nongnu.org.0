@@ -2,58 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF174B63E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 08:03:54 +0100 (CET)
-Received: from localhost ([::1]:50370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137614B640F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 08:13:54 +0100 (CET)
+Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJrsQ-00036k-1R
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 02:03:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50850)
+	id 1nJs25-0005pw-0V
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 02:13:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nJrqP-0001mJ-FQ
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:01:49 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:50241)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nJrqN-0002K9-2W
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:01:48 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-12-sJNflErWNCu70AUGFy82EQ-1; Tue, 15 Feb 2022 02:01:42 -0500
-X-MC-Unique: sJNflErWNCu70AUGFy82EQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EE07814243;
- Tue, 15 Feb 2022 07:01:41 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D92524F85A;
- Tue, 15 Feb 2022 07:01:38 +0000 (UTC)
-Date: Tue, 15 Feb 2022 08:01:37 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Vitaly Chikunov <vt@altlinux.org>
-Subject: Re: [PULL 0/5] 9p queue 2022-02-10
-Message-ID: <20220215080137.021f6938@bahia>
-In-Reply-To: <20220214144351.dp57o6jyfvliwkos@altlinux.org>
-References: <cover.1644492115.git.qemu_oss@crudebyte.com>
- <2037112.271zI61438@silver> <20220214113653.087a06e2@bahia>
- <2442070.WHyy189egQ@silver>
- <20220214144351.dp57o6jyfvliwkos@altlinux.org>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJrzX-00053N-PR
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:11:16 -0500
+Received: from [2607:f8b0:4864:20::42b] (port=35558
+ helo=mail-pf1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJrzW-0003ZI-35
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:11:15 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id l19so27595997pfu.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 23:11:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=tUjN+MwfPXKyekJyLdLOuh9XbMeX1gHW6QfO4xOx6IQ=;
+ b=e7qMPHAMUCER2XWdYT/ZCuxpco78MI6tSxllOph7aEi/OnRscmrTZvoobb94yKjP6J
+ i8QSSNkyyaQ4gDf/WDAsefjIfVbfF7F4mKukem7KiLbKY4DaO317xt8t7zVO6yOdWZeB
+ A751O6UQKCAO5CrZwrYcqvWXxxohPqqb+KuTPMrzgpa3vsK0dOvvvO1AFpS8e9XR2IS9
+ 69iqla7ZZArOqHxmEdi8lGUJIM9op1gl9ZIXrp7/Eh7FmlT+00zkZ1b05oRjqMBjy1+R
+ 0B30FQdOSjOjbsBgfYPkHye5sh+qdtMS1tH1VhOBjeh5KOouVusC5aslSD4YSHuXXDMY
+ 72yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=tUjN+MwfPXKyekJyLdLOuh9XbMeX1gHW6QfO4xOx6IQ=;
+ b=1pJcCqkT7wR9Idwjv6v4wg0QAD8BUwWj1tRXryPEGXTuynAasQO0cn4pZIb31Cnm7G
+ 6Uw4E3nkV7Khf3y6+5OHow1KeUORjMHRjSB++ul+IEV1Ie8VM3wG9/fAsOzMOHPt1nCH
+ wkAZjOKhhjFJndaIm2rPkUiHH3c5nP8gvL+BCzogtcVm6nU2VsTWmdqPMPgW1w04gFzk
+ NmQixL9+5/0FlwTV1Tsm/MY0z5NC+qWkKlynfEeJinjI9RwtkjQMeF55UoH/8NTblUIC
+ GHFZ1VehlPySVDP8MdnCLgcgbe4kz3kaDs34jqFC4nulVDjr8MQqhLNMxoxBXfLAahmO
+ 65cA==
+X-Gm-Message-State: AOAM532KrNvxM3X3enlyj49MNzqohn6nnNZuo4bs95nAuLnJDordLeK8
+ o7PaJVU6jOEa52nkNf6ovej/QA==
+X-Google-Smtp-Source: ABdhPJyrEzRwIreXS++rrLi8gclNGXl4L8CgwQqB+9dafwg6jrwtoxUr8w+KXKI5z3Y/l3RfrPX5gw==
+X-Received: by 2002:a63:4422:: with SMTP id r34mr2390430pga.275.1644909071544; 
+ Mon, 14 Feb 2022 23:11:11 -0800 (PST)
+Received: from anisinha-lenovo ([115.96.197.51])
+ by smtp.googlemail.com with ESMTPSA id y10sm4087346pjc.0.2022.02.14.23.11.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Feb 2022 23:11:11 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Tue, 15 Feb 2022 12:41:06 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: 9 TiB vm memory creation
+In-Reply-To: <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
+Message-ID: <alpine.DEB.2.22.394.2202151240250.13781@anisinha-lenovo>
+References: <alpine.DEB.2.22.394.2202141048390.13781@anisinha-lenovo>
+ <20220214133634.248d7de0@redhat.com>
+ <b9771171-8d28-b46b-4474-687a8fed0abd@redhat.com>
+ <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,135 +89,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- "Dmitry V . Levin" <ldv@altlinux.org>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Feb 2022 17:43:51 +0300
-Vitaly Chikunov <vt@altlinux.org> wrote:
-
-> Christian,
->=20
-> On Mon, Feb 14, 2022 at 12:44:48PM +0100, Christian Schoenebeck wrote:
-> > On Montag, 14. Februar 2022 11:36:53 CET Greg Kurz wrote:
-> > > The synth backend should be fixed to honor d_reclen, or
-> > > at least to allocate with g_new0().
-> >=20
-> > Yes, I overlooked that this is not initialized with zero already.
-> >=20
-> > With g_new0() d_reclen would be zero and qemu_dirent_dup() would then f=
-allback=20
-> > to the portable branch (as I assumed it already would):
->=20
-> Perhaps, this additional change should be added (I only found two instanc=
-es of
-> V9fsSynthOpenState allocation):
->=20
-> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-> --- a/hw/9pfs/9p-synth.c
-> +++ b/hw/9pfs/9p-synth.c
-> @@ -182,7 +182,7 @@ static int synth_opendir(FsContext *ctx,
->      V9fsSynthOpenState *synth_open;
->      V9fsSynthNode *node =3D *(V9fsSynthNode **)fs_path->data;
-> =20
-> -    synth_open =3D g_malloc(sizeof(*synth_open));
-> +    synth_open =3D g_malloc0(sizeof(*synth_open));
->      synth_open->node =3D node;
->      node->open_count++;
->      fs->private =3D synth_open;
-> @@ -266,7 +266,7 @@ static int synth_open(FsContext *ctx, V9fsPath *fs_pa=
-th,
->      V9fsSynthOpenState *synth_open;
->      V9fsSynthNode *node =3D *(V9fsSynthNode **)fs_path->data;
-> =20
-> -    synth_open =3D g_malloc(sizeof(*synth_open));
-> +    synth_open =3D g_malloc0(sizeof(*synth_open));
->      synth_open->node =3D node;
->      node->open_count++;
->      fs->private =3D synth_open;
->=20
-> > Additionally I would add NAME_MAX to the V9fsSynthOpenState allocation =
-size,=20
-> > because it is known that some systems define dirent as flex-array (zero=
- d_name=20
-> > size).
->=20
-> (To be precise) not just zero, but 1 byte. Also, to remind, for some
-> filesystems, such as CIFS, actual d_name size could be longer than NAME_M=
-AX.
-> Because of that struct dirent cannot be allocated statically or with simp=
-le
-> sizeof.
->=20
-> >=20
-> > I know Greg would not favour this solution (using g_new0), but it's the=
- most=20
-> > minimalistic and most portable solution. So I would favour it for now.
->=20
-> Why g_new0 and not just g_malloc0? This is smallest code change, which se=
-ems
-> appropriate for a bug fix.
->=20
 
 
-I prefer g_new0() for the exact reasons that are provided in QEMU's
-official coding style docs/devel/style.rst:
 
----
+> > static hwaddr kvm_max_slot_size = ~0;
+> >
+> > And only s390x sets
+> >
+> > kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
+> >
+> > with
+> >
+> > #define KVM_SLOT_MAX_BYTES (4UL * TiB)
+> >
+>
+>
+> So seems in Igor's system its getting limited by kvm not qemu.
 
-Prefer ``g_new(T, n)`` instead of ``g_malloc(sizeof(T) * n)`` for the follo=
-wing
-reasons:
-
-* It catches multiplication overflowing size_t;
-* It returns T ``*`` instead of void ``*``, letting compiler catch more typ=
-e errors.
-
-Declarations like
-
-.. code-block:: c
-
-    T *v =3D g_malloc(sizeof(*v))
-
-are acceptable, though.
-
----
-
-I'm fine with the acceptable version as well. The only important thing is
-to fix the synth backend.
-
-Cheers,
-
---
-Greg
-
-> Thanks,
->=20
-> >=20
-> > A cleaner solution on the long-term would be turning V9fsSynthOpenState=
-'s=20
-> > 'dent' member into a pointer and adding a new function to osdep like:
-> >=20
-> > struct dirent *
-> > qemu_dirent_new(const char* name) {
-> >     ...
-> > }
-> >=20
-> > But I would like to postpone that qemu_dirent_new() solution, e.g. beca=
-use I=20
-> > guess some people would probably not like qemu_dirent_new() to have in =
-osdep,=20
-> > as it is probably not a general purpose function, and I am not keen put=
-ting=20
-> > qemu_dirent_new() into a different location than qemu_dirent_dup(), bec=
-ause it=20
-> > would raise the danger that system dependent code might deviate in futu=
-re.
-> >=20
-> > Best regards,
-> > Christian Schoenebeck
-> >=20
-
+oops sorry, I read through the thread. we are all saying the same thing.
 
