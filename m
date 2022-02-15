@@ -2,63 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943214B7481
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:00:15 +0100 (CET)
-Received: from localhost ([::1]:52726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 049A94B747F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 19:59:44 +0100 (CET)
+Received: from localhost ([::1]:50926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK33e-0002SC-N2
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:00:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56454)
+	id 1nK339-0001Fm-5Z
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 13:59:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nK2fC-0004Hs-5l
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 13:34:58 -0500
-Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:56823)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nK2fA-0006Lv-CU
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 13:34:57 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.206])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 96CC5242D2;
- Tue, 15 Feb 2022 18:34:53 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 15 Feb
- 2022 19:34:53 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006aed817fe-76ae-42a9-bd2a-7a967a80b103,
- 9E61FECBC99B7F84222AE0DB6991604CA8A139D0) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <72d35f00-269e-9397-c2d8-6c2f1f7ac3fb@kaod.org>
-Date: Tue, 15 Feb 2022 19:34:50 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nK2jN-0007sG-AE
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 13:39:22 -0500
+Received: from [2607:f8b0:4864:20::52d] (port=40945
+ helo=mail-pg1-x52d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nK2jK-0007BD-K4
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 13:39:16 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id q132so7136pgq.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 10:39:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UejEu0HzoBYlK4R96yOloNJZOm4d4GvjXLvk0/GQc2U=;
+ b=J78Xbzwn7cFkhxEzH2EHjArLchrGPGsEnFqPIuOselItbMFGTOsk6V4nXriaBLIYXX
+ EgLSNsnq4Ja+1NgLaxqwfEM2ADnhNXN4SbR3SmEcJk0Ooo5rWLN0nEkaL985xd6VzZ8G
+ +T7VkC0ICwetaErH/vTt2vh1hFs5+9snQl/tnGOG1kjrfhFhNRfmG53BckI6cOBdiW0b
+ 7bpoOgpzAQ32148RSSAT2STB5704Ef64YzPvERZd6j2pzQJlamTIQhiM1Mrbh7qyfjPS
+ QwLXZAmq8zpJesYmUCGx8bhgge5m/LKvtZS3TUM0+zJrZ1zkwc/xkTNYaxyWUD6koOR6
+ QlXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UejEu0HzoBYlK4R96yOloNJZOm4d4GvjXLvk0/GQc2U=;
+ b=3/20wxjKhhgWJTn2+IxoBOY1NHGJjb12OwmT1Q5mE29hMCkx/hgDZSqG7wcIjdf+x8
+ +vyriVR549tQLpiXoDZiiTTpl0sggMcJaLaQEm/Yrb6AC917uzai2TtT3NCkdIwGdhFl
+ /clcjCFnXPSZpZw+SeAptdW+LPM4NAgzarITFJGmXzDsCFNcicTY5ia8Sn+ohs/CqXst
+ +JTO+8I9MAb894tU4PQm2zsKxsYzBN3ayPD/T2HZlIhBizjjWqT8zg2Y3KYDeeu6farb
+ KL/efDLsFppiwESQmqoPvCSzpuU45mW1PqtBCq9fesm9X8zWh5UOnEr5xBUQsPzogFQo
+ RlOA==
+X-Gm-Message-State: AOAM533rcWbs7xAyfSvaoffTNwkBPra2KU3W0m1gaoIV4G2+vu+ADEF7
+ EcGEYWhMKQdn9j+swofsWCg=
+X-Google-Smtp-Source: ABdhPJw6FLSK/oBJbh67wr4zGrNoLfzDqHItiyOUY65Mjat81FC/lXMLMebLBNkjeI7xWzuOq8jHww==
+X-Received: by 2002:a63:345:: with SMTP id 66mr207489pgd.268.1644950353114;
+ Tue, 15 Feb 2022 10:39:13 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id z9sm3082467pgz.32.2022.02.15.10.39.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 10:39:12 -0800 (PST)
+Message-ID: <7dcd2ac3-d009-feb3-a177-f79f49bd848b@amsat.org>
+Date: Tue, 15 Feb 2022 19:39:08 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/9] spapr: prevent hdec timer being set up under virtual
- hypervisor
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH] migration: Remove load_state_old and
+ minimum_version_id_old
 Content-Language: en-US
-To: Nicholas Piggin <npiggin@gmail.com>, <qemu-ppc@nongnu.org>
-References: <20220215031642.1691873-1-npiggin@gmail.com>
- <20220215031642.1691873-3-npiggin@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220215031642.1691873-3-npiggin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Francisco Iglesias <francisco.iglesias@xilinx.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+References: <20220215175705.3846411-1-peter.maydell@linaro.org>
+In-Reply-To: <20220215175705.3846411-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c1bf943e-1305-49e7-8221-23cd75685ad6
-X-Ovh-Tracer-Id: 17459611334094916576
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrjeeggdduudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhgrrhhoshgrsheslhhinhhugidrihgsmhdrtghomh
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,59 +98,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 2/15/22 04:16, Nicholas Piggin wrote:
-> The spapr virtual hypervisor does not require the hdecr timer.
-> Remove it.
+On 15/2/22 18:57, Peter Maydell wrote:
+> There are no longer any VMStateDescription structs in the tree which
+> use the load_state_old support for custom handling of incoming
+> migration from very old QEMU.  Remove the mechanism entirely.
 > 
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
+> This includes removing one stray useless setting of
+> minimum_version_id_old in a VMStateDescription with no load_state_old
+> function, which crept in after the global weeding-out of them in
+> commit 17e313406126.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   hw/ppc/ppc.c            | 2 +-
->   hw/ppc/spapr_cpu_core.c | 6 +++---
->   2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-> index ba7fa0f3b5..c6dfc5975f 100644
-> --- a/hw/ppc/ppc.c
-> +++ b/hw/ppc/ppc.c
-> @@ -1072,7 +1072,7 @@ clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, uint32_t freq)
->       }
->       /* Create new timer */
->       tb_env->decr_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_decr_cb, cpu);
-> -    if (env->has_hv_mode) {
-> +    if (env->has_hv_mode && !cpu->vhyp) {
->           tb_env->hdecr_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_hdecr_cb,
->                                                   cpu);
->       } else {
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index a781e97f8d..ed84713960 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -261,12 +261,12 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
->           return false;
->       }
->   
-> -    /* Set time-base frequency to 512 MHz */
-> -    cpu_ppc_tb_init(env, SPAPR_TIMEBASE_FREQ);
-> -
->       cpu_ppc_set_vhyp(cpu, PPC_VIRTUAL_HYPERVISOR(spapr));
->       kvmppc_set_papr(cpu);
->   
-> +    /* Set time-base frequency to 512 MHz. vhyp must be set first. */
-> +    cpu_ppc_tb_init(env, SPAPR_TIMEBASE_FREQ);
-> +
->       if (spapr_irq_cpu_intc_create(spapr, cpu, errp) < 0) {
->           qdev_unrealize(DEVICE(cpu));
->           return false;
+>   docs/devel/migration.rst    | 10 ++--------
+>   include/migration/vmstate.h |  2 --
+>   hw/ssi/xlnx-versal-ospi.c   |  1 -
+>   migration/vmstate.c         |  6 ------
+>   4 files changed, 2 insertions(+), 17 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
