@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7CA4B64D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 08:55:52 +0100 (CET)
-Received: from localhost ([::1]:44926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E444B64DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 08:58:56 +0100 (CET)
+Received: from localhost ([::1]:48730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJsgg-0004Pn-5S
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 02:55:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57382)
+	id 1nJsjf-00078M-Bi
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 02:58:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJsb0-0000dc-W1
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:50:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32267)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nJsgq-0005Y3-QN
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:56:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nJsax-00009L-AT
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:49:57 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nJsgo-0001C2-6v
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:56:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644911394;
+ s=mimecast20190719; t=1644911757;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=skGSLOtnoQCHfjZETdhbalWZTJmtFEGpyP+K1bHAZS8=;
- b=HKIvBE4OzPRJ5oPGwlyd1uZBwpjBqN+jqdWWW6uQOn7nUBtXqOBHaGPwhKORl95Fc7zFoP
- cBOKzID1lMQGmf9eYNz0uZV8FvjLgh2+UPvejJ7+a0Df1w5PkP7liK9tsyfa2kuUliJEgD
- Tqt/hnH4mQA/tbCO280RhMTca5d+OO8=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ympp/p0xCgmbASfboQxaqSF/QIhozfgr+0zVS/tIuL8=;
+ b=JvuGknmskaFpKvbAayKObBcrkcb6Mxt/A8p3DbYpedfky2u4Cjom4FNcbyDwXwVdiaPFtr
+ Wm/i31CZQbwvOnSg/79B0E4raGnQufw82pBWtMjb1cTcjdAM+QzNmfklW214IdnrIa/6tS
+ HDa16aKpQCsPa13TTrg7w5XSEy1J6OM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-235-9bCEW8gHN4mlk-pr6PrzEw-1; Tue, 15 Feb 2022 02:49:52 -0500
-X-MC-Unique: 9bCEW8gHN4mlk-pr6PrzEw-1
-Received: by mail-lj1-f197.google.com with SMTP id
- y19-20020a2e9793000000b0023f158d6cc0so6858216lji.10
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 23:49:52 -0800 (PST)
+ us-mta-537-ezWDVZ0gPqCsTAdrNj86Qw-1; Tue, 15 Feb 2022 02:55:50 -0500
+X-MC-Unique: ezWDVZ0gPqCsTAdrNj86Qw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ t14-20020adfa2ce000000b001e1ad2deb3dso7962402wra.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 23:55:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=skGSLOtnoQCHfjZETdhbalWZTJmtFEGpyP+K1bHAZS8=;
- b=nq8kQBFzFjPGPYWRGOpZH0kgRfn85PZ3bombseo25KvqUp9Ec4xecIIICQXGjHQ9gQ
- B4v9A5ZHAeqV5mruOiZhFqOgIY7sFH0r1Sug+hjCFqSLsyhM90xfMk8ScTnf+9uexjP4
- o8j9PNU9J1+vLrywVNGVT+GCLd8NRnJhxPu/fHvRHW86uxoN21Rx0FlAfQg66xdVkYuN
- wp5EXfO+zCtXChzFXz3TstT5OIHnXDTuKuAyMuhmF/bfFBEwqTFwtW4Jngm7DDHyPT0w
- aloN2l910fey3aKMcxsE98UH51iGcmiGTNiTx46UOUZKzESUdqYQn2iUsPywNGD61m/e
- ftJQ==
-X-Gm-Message-State: AOAM531nflNzxHffyO7iHnfVdz/GB+p5snb9TKOfV9JY1X3c147NNXxV
- giHa7MpcvEaijpOikt+D6jpjZ6VFKmdn0kfuMP5h0to2QQN/q/KJ4EqDhZxIDR/A1DrM420B6O4
- V8PkVCRvLyYuGlm2xjgE2IsMx0cSP/no=
-X-Received: by 2002:a05:6512:314d:: with SMTP id
- s13mr2280830lfi.84.1644911391192; 
- Mon, 14 Feb 2022 23:49:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw7jdBCFRGtOx3ChomoUjTqjBAlmnC0RLhXqNRSdsZZrU1QoF+2qS6ZJyNW8cOqfDRUBFdq9mmUwa0oMmRJaPM=
-X-Received: by 2002:a05:6512:314d:: with SMTP id
- s13mr2280802lfi.84.1644911390882; 
- Mon, 14 Feb 2022 23:49:50 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=ympp/p0xCgmbASfboQxaqSF/QIhozfgr+0zVS/tIuL8=;
+ b=VI6+Ry+chZMVG66lL2pQdsDsez2+NCF23K6Y6FGgBdLKyUIij7p7Rw76I1Udy3Ro0z
+ 3O72+o0jCRNinVP84JtYSmeefWNFBtoGqb6zX+k7MnEWXUGmHlgr0ofWpnrbJwTFIPzR
+ kG6fZGoDW4X0boGBeCj16Rgc5sN0y6gG0IhbtQlFIq96NKX8Y+svQsuQOxALDgSZBuEx
+ eqnwxMN3YYswMbMiK6/dbR2qzIstvJc695aMNYcdPPOeVQmaRsjSNr0vNJkMTZ8t+bY4
+ vB/UWqbND0I0w5I7jbgLqS00zzjmn5drUsvcDdDe/64oTBV72qwU2lQTXoOsBSo3dNCh
+ cCWQ==
+X-Gm-Message-State: AOAM532IC3QNFIP4z40ecndfVYA7svPHwrp+U2LCITJHWntkV0hDFDQ6
+ J3kfrw8uw0mWkCxqTEp9vX52D9T6L+OXSvFLJzh/jJhc8lMImLrW8fmfddNIvAGcLCDauvbyAwd
+ U64B6jJVqvZ7CqOk=
+X-Received: by 2002:adf:d1e6:: with SMTP id g6mr999105wrd.668.1644911749818;
+ Mon, 14 Feb 2022 23:55:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVrKr2Mv8ZqG/8jNG4eVguBePW/apTls2/Kh4d3z8QfbPZmUpYGTmxrtp+2SRUp4xw1UKuRA==
+X-Received: by 2002:adf:d1e6:: with SMTP id g6mr999091wrd.668.1644911749568;
+ Mon, 14 Feb 2022 23:55:49 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70e:3700:9260:2fb2:742d:da3e?
+ (p200300cbc70e370092602fb2742dda3e.dip0.t-ipconnect.de.
+ [2003:cb:c70e:3700:9260:2fb2:742d:da3e])
+ by smtp.gmail.com with ESMTPSA id g22sm13960360wmh.12.2022.02.14.23.55.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Feb 2022 23:55:49 -0800 (PST)
+Message-ID: <b06ab7b0-61f2-5301-70f9-197dfd9527e9@redhat.com>
+Date: Tue, 15 Feb 2022 08:55:48 +0100
 MIME-Version: 1.0
-References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
- <CACGkMEvtENvpubmZY3UKptD-T=c9+JJV1kRm-ZPhP08xOJv2fQ@mail.gmail.com>
- <CAJSP0QX6JgCG7UdqaY=G8rc64ZqE912UzM7pQkSMBfzGywHaHg@mail.gmail.com>
-In-Reply-To: <CAJSP0QX6JgCG7UdqaY=G8rc64ZqE912UzM7pQkSMBfzGywHaHg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 15 Feb 2022 15:49:39 +0800
-Message-ID: <CACGkMEvt66SwZxWhZ72Bv_CL_tykwpL7njZwoddTdVQF7yDfqQ@mail.gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
-To: Stefan Hajnoczi <stefanha@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: 9 TiB vm memory creation
+To: Ani Sinha <ani@anisinha.ca>
+References: <alpine.DEB.2.22.394.2202141048390.13781@anisinha-lenovo>
+ <20220214133634.248d7de0@redhat.com>
+ <b9771171-8d28-b46b-4474-687a8fed0abd@redhat.com>
+ <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,89 +103,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sergio Lopez <slp@redhat.com>, kvm <kvm@vger.kernel.org>, mst <mst@redhat.com>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, John Snow <jsnow@redhat.com>,
- Hannes Reinecke <hare@suse.de>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, "Florescu,
- Andreea" <fandree@amazon.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Alex Agache <aagch@amazon.com>,
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 14, 2022 at 10:02 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->
-> On Mon, 14 Feb 2022 at 07:11, Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Fri, Jan 28, 2022 at 11:47 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> > >
-> > > Dear QEMU, KVM, and rust-vmm communities,
-> > > QEMU will apply for Google Summer of Code 2022
-> > > (https://summerofcode.withgoogle.com/) and has been accepted into
-> > > Outreachy May-August 2022 (https://www.outreachy.org/). You can now
-> > > submit internship project ideas for QEMU, KVM, and rust-vmm!
-> > >
-> > > If you have experience contributing to QEMU, KVM, or rust-vmm you can
-> > > be a mentor. It's a great way to give back and you get to work with
-> > > people who are just starting out in open source.
-> > >
-> > > Please reply to this email by February 21st with your project ideas.
-> > >
-> > > Good project ideas are suitable for remote work by a competent
-> > > programmer who is not yet familiar with the codebase. In
-> > > addition, they are:
-> > > - Well-defined - the scope is clear
-> > > - Self-contained - there are few dependencies
-> > > - Uncontroversial - they are acceptable to the community
-> > > - Incremental - they produce deliverables along the way
-> > >
-> > > Feel free to post ideas even if you are unable to mentor the project.
-> > > It doesn't hurt to share the idea!
-> >
-> > Implementing the VIRTIO_F_IN_ORDER feature for both Qemu and kernel
-> > (vhost/virtio drivers) would be an interesting idea.
-> >
-> > It satisfies all the points above since it's supported by virtio spec.
-> >
-> > (Unfortunately, I won't have time in the mentoring)
->
-> Thanks for this idea. As a stretch goal we could add implementing the
-> packed virtqueue layout in Linux vhost, QEMU's libvhost-user, and/or
-> QEMU's virtio qtest code.
+On 15.02.22 08:00, Ani Sinha wrote:
+> 
+> 
+> On Mon, 14 Feb 2022, David Hildenbrand wrote:
+> 
+>> On 14.02.22 13:36, Igor Mammedov wrote:
+>>> On Mon, 14 Feb 2022 10:54:22 +0530 (IST)
+>>> Ani Sinha <ani@anisinha.ca> wrote:
+>>>
+>>>> Hi Igor:
+>>>>
+>>>> I failed to spawn a 9 Tib VM. The max I could do was a 2 TiB vm on my
+>>>> system with the following commandline before either the system
+>>>> destabilized or the OOM killed killed qemu
+>>>>
+>>>> -m 2T,maxmem=9T,slots=1 \
+>>>> -object memory-backend-file,id=mem0,size=2T,mem-path=/data/temp/memfile,prealloc=off \
+>>>> -machine memory-backend=mem0 \
+>>>> -chardev file,path=/tmp/debugcon2.txt,id=debugcon \
+>>>> -device isa-debugcon,iobase=0x402,chardev=debugcon \
+>>>>
+>>>> I have attached the debugcon output from 2 TiB vm.
+>>>> Is there any other commandline parameters or options I should try?
+>>>>
+>>>> thanks
+>>>> ani
+>>>
+>>> $ truncate -s 9T 9tb_sparse_disk.img
+>>> $ qemu-system-x86_64 -m 9T \
+>>>   -object memory-backend-file,id=mem0,size=9T,mem-path=9tb_sparse_disk.img,prealloc=off,share=on \
+>>>   -machine memory-backend=mem0
+>>>
+>>> works for me till GRUB menu, with sufficient guest kernel
+>>> persuasion (i.e. CLI limit ram size to something reasonable) you can boot linux
+>>> guest on it and inspect SMBIOS tables comfortably.
+>>>
+>>>
+>>> With KVM enabled it bails out with:
+>>>    qemu-system-x86_64: kvm_set_user_memory_region: KVM_SET_USER_MEMORY_REGION failed, slot=1, start=0x100000000, size=0x8ff40000000: Invalid argument
+>>>
+> 
+> I have seen this in my system but not always. Maybe I should have dug
+> deeper as to why i do see this all the time.
+> 
+>>> all of that on a host with 32G of RAM/no swap.
+>>>
+> 
+> My system in 16 Gib of main memory, no swap.
+> 
+>>
+>> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
+>>
+>> ~8 TiB (7,999999)
+> 
+> That's not 8 Tib, thats 2 GiB. But yes, 0x8ff40000000 is certainly greater
+> than 2 Gib * 4K (assuming 4K size pages).
 
-Yes, for vhost, last time I remember Michael may want to do that.
+"pages" don't carry the unit "GiB/TiB", so I was talking about the
+actual size with 4k pages (your setup, I assume)
 
-Adding Michael for more comments.
+-- 
+Thanks,
 
-Thanks
-
->
-> Stefano: Thank you for volunteering to mentor the project. Please
-> write a project description (see template below) and I will add this
-> idea:
->
-> === TITLE ===
->
->  '''Summary:''' Short description of the project
->
->  Detailed description of the project.
->
->  '''Links:'''
->  * Wiki links to relevant material
->  * External links to mailing lists or web sites
->
->  '''Details:'''
->  * Skill level: beginner or intermediate or advanced
->  * Language: C
->  * Mentor: Email address and IRC nick
->  * Suggested by: Person who suggested the idea
->
-> Stefan
->
+David / dhildenb
 
 
