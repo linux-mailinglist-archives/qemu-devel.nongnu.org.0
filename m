@@ -2,81 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137614B640F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 08:13:54 +0100 (CET)
-Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80F24B6505
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:03:13 +0100 (CET)
+Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJs25-0005pw-0V
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 02:13:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52060)
+	id 1nJsno-0000z9-KC
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:03:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJrzX-00053N-PR
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:11:16 -0500
-Received: from [2607:f8b0:4864:20::42b] (port=35558
- helo=mail-pf1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJrzW-0003ZI-35
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 02:11:15 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id l19so27595997pfu.2
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 23:11:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>) id 1nJslp-0008S1-Mu
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:01:09 -0500
+Received: from mail-sn1anam02on2055.outbound.protection.outlook.com
+ ([40.107.96.55]:19653 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>) id 1nJsll-00020A-2s
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:01:07 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QPL0r6AA7PwAEFb3co5bhuUmF1+2AAoeeoeV2hVNwhANUCqhuhZLnE8TrIgDqoyaPK2VOcHSzyR/VdghSEgvpBqr7nWaLgxWMoCsWNwfTtJ1jGkZhXMfL/t4yNmshnc4j7H6uqknnoKSuvpLLotrIQUSK/Un9A8zXW3zpCIfonkhDzSaJlrJ0g+O6aVg1HnrhDIVKG35atxxq0vH59UOpXTag3l+Of1BIoK22kEld9cFPYz2loy//OMNY/7aw+svpTFIN45emngflbIjY4YMJQmPYllYZgGrEmlStJ08yzMKfTq0RUSeuLG7W5DcFvkcUiShN945FLpk80edQkRBtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IoH06FvlXWoCtd3/dIjfpi0wbMOzGLH6yDyi259IFoM=;
+ b=U98kPP9hP6UME3ZK3XgfBKS40JAt9TtHT/g4iIUwN4dG7yXXKOH7LrZpAcB1exeu0uN1mu+sf5tlsH5sYvE6uYmTvtGOpPQv3YKoex/KJAbB2Vi1JUHM1prBTjg7P6dIoozk5QDtvklkr78CX7GEOS0Ryl51+j4Xgy5pg7WALvhsvKd425itw1lYfl6L2E8rGsP44/bqh+Q8/q0WoX0EhBpuRAplurPI/fvObeJw3D3ANNwHXjcWyMcoILGi+J3JlI5NkB1SlEy72Va4aPBIAt2Ep7mW70gQw7O8qJ2mUldsghs0sybHKtaGi0F9AoqV+yYh2UavMxbT5xxQuDBi4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=redhat.com smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=tUjN+MwfPXKyekJyLdLOuh9XbMeX1gHW6QfO4xOx6IQ=;
- b=e7qMPHAMUCER2XWdYT/ZCuxpco78MI6tSxllOph7aEi/OnRscmrTZvoobb94yKjP6J
- i8QSSNkyyaQ4gDf/WDAsefjIfVbfF7F4mKukem7KiLbKY4DaO317xt8t7zVO6yOdWZeB
- A751O6UQKCAO5CrZwrYcqvWXxxohPqqb+KuTPMrzgpa3vsK0dOvvvO1AFpS8e9XR2IS9
- 69iqla7ZZArOqHxmEdi8lGUJIM9op1gl9ZIXrp7/Eh7FmlT+00zkZ1b05oRjqMBjy1+R
- 0B30FQdOSjOjbsBgfYPkHye5sh+qdtMS1tH1VhOBjeh5KOouVusC5aslSD4YSHuXXDMY
- 72yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=tUjN+MwfPXKyekJyLdLOuh9XbMeX1gHW6QfO4xOx6IQ=;
- b=1pJcCqkT7wR9Idwjv6v4wg0QAD8BUwWj1tRXryPEGXTuynAasQO0cn4pZIb31Cnm7G
- 6Uw4E3nkV7Khf3y6+5OHow1KeUORjMHRjSB++ul+IEV1Ie8VM3wG9/fAsOzMOHPt1nCH
- wkAZjOKhhjFJndaIm2rPkUiHH3c5nP8gvL+BCzogtcVm6nU2VsTWmdqPMPgW1w04gFzk
- NmQixL9+5/0FlwTV1Tsm/MY0z5NC+qWkKlynfEeJinjI9RwtkjQMeF55UoH/8NTblUIC
- GHFZ1VehlPySVDP8MdnCLgcgbe4kz3kaDs34jqFC4nulVDjr8MQqhLNMxoxBXfLAahmO
- 65cA==
-X-Gm-Message-State: AOAM532KrNvxM3X3enlyj49MNzqohn6nnNZuo4bs95nAuLnJDordLeK8
- o7PaJVU6jOEa52nkNf6ovej/QA==
-X-Google-Smtp-Source: ABdhPJyrEzRwIreXS++rrLi8gclNGXl4L8CgwQqB+9dafwg6jrwtoxUr8w+KXKI5z3Y/l3RfrPX5gw==
-X-Received: by 2002:a63:4422:: with SMTP id r34mr2390430pga.275.1644909071544; 
- Mon, 14 Feb 2022 23:11:11 -0800 (PST)
-Received: from anisinha-lenovo ([115.96.197.51])
- by smtp.googlemail.com with ESMTPSA id y10sm4087346pjc.0.2022.02.14.23.11.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Feb 2022 23:11:11 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Tue, 15 Feb 2022 12:41:06 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: 9 TiB vm memory creation
-In-Reply-To: <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
-Message-ID: <alpine.DEB.2.22.394.2202151240250.13781@anisinha-lenovo>
-References: <alpine.DEB.2.22.394.2202141048390.13781@anisinha-lenovo>
- <20220214133634.248d7de0@redhat.com>
- <b9771171-8d28-b46b-4474-687a8fed0abd@redhat.com>
- <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IoH06FvlXWoCtd3/dIjfpi0wbMOzGLH6yDyi259IFoM=;
+ b=Uk1W7neRMxROCU+wS1t+1pGYmlSrZeWpyiejb0lCr1lvm9PMl0Dp1w43pSmR90H4YY/uEWGveGnv5a0XtPcWcnTHWqD8luDDkN9OWhoq/f3yeTZlWokNhvOXvAqHsjqZo9KWeDtM445uB7juypI+rzfkrWbghtcXDRfH4PaaY1A=
+Received: from BN0PR04CA0189.namprd04.prod.outlook.com (2603:10b6:408:e9::14)
+ by CH2PR02MB6694.namprd02.prod.outlook.com (2603:10b6:610:ae::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Tue, 15 Feb
+ 2022 07:22:46 +0000
+Received: from BN1NAM02FT028.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:408:e9:cafe::2b) by BN0PR04CA0189.outlook.office365.com
+ (2603:10b6:408:e9::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.16 via Frontend
+ Transport; Tue, 15 Feb 2022 07:22:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ BN1NAM02FT028.mail.protection.outlook.com (10.13.2.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4975.11 via Frontend Transport; Tue, 15 Feb 2022 07:22:46 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Mon, 14 Feb 2022 23:22:45 -0800
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Mon, 14 Feb 2022 23:22:45 -0800
+Received: from [10.170.66.102] (port=55622 helo=xndengvm004102.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <gautam.dawar@xilinx.com>)
+ id 1nJsAe-0000hL-TY; Mon, 14 Feb 2022 23:22:45 -0800
+From: Gautam Dawar <gautam.dawar@xilinx.com>
+To: <mst@redhat.com>, <jasowang@redhat.com>, <qemu-devel@nongnu.org>,
+ <eperezma@redhat.com>
+Subject: [PATCH 0/2] Allow VIRTIO_F_IN_ORDER negotiation with vhost-vdpa
+Date: Tue, 15 Feb 2022 12:52:29 +0530
+Message-ID: <20220215072231.2498-1-gdawar@xilinx.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::42b;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: eacf1cf3-bb44-4992-2b54-08d9f053f6c8
+X-MS-TrafficTypeDiagnostic: CH2PR02MB6694:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR02MB66940E87F2D96401ADDDB125B1349@CH2PR02MB6694.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HocVdn4wWA08keieW5czGw3yDEZ3G8a+qX64IH6F/ajXemZQ675DQNnuh7doiNWdkoLBGkn9pomCTUQhTV8FHWh9+vicpeyDQ4yB/LOKvTK6fNt/1jqSiJCtHsG9kKo5oH460NBbhlHbivEFcKjPoWxAUfR4TW+pr2UGlLB3mYcU0XriYbf2kn+M3UoTcV3IPnSPxQn7YQ4Iy3Sm2CSgQErdZlUpb3yyGQjUkjq3N/Ng8j+owZCV1saGL4p/Bf5gKuXrpK8bDqQ5Gruy3B10sQFsbCxi4SrHVHEFqTi/K8W7lhVctTxs7+A3VDpeXc28Ee3VySVC3aN1m8tsw1dURCA44npifRWdMJ34pelDaWQ4qwTRxQfTSYFlfr58t7QczzwPwYGnkWolwJRCVZmcS4sAFeKZeEB3994wmLzWhFstm4jZg+noLgcSmFhspXfZQwcsAOjbE2s/xjh9xy+42POLvc3+DGCGY0jnRMg1N44QVFQLeIuNr61eikb88o+kyWX0vLkFfopPwPdawVOQEpOLwMuT9PfgUW2PvrhZSRiO7OS1UL/jeXU1ve8xOs7qVGm2dlspnEuJjgiolAH3eUGENbolLZXw0e+6eWmHoZbAiuXcAIIateL5iZJD463PAeMBAHpyTBW6DWl8+vGurzFh5vbGBLJbap2DP5OT2pZdwPyG/pi+yWO9/xyhzpIHbfXci+O34qZM5S/TAyPvfA==
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(4326008)(8936002)(8676002)(47076005)(5660300002)(44832011)(9786002)(110136005)(6666004)(54906003)(508600001)(7696005)(36860700001)(107886003)(36756003)(83380400001)(70206006)(2616005)(82310400004)(1076003)(426003)(336012)(186003)(26005)(7636003)(2906002)(316002)(356005)(40460700003)(70586007)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2022 07:22:46.1494 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: eacf1cf3-bb44-4992-2b54-08d9f053f6c8
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT028.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6694
+Received-SPF: pass client-ip=40.107.96.55; envelope-from=gdawar@xilinx.com;
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,27 +121,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, David Hildenbrand <david@redhat.com>
+Cc: martinh@xilinx.com, pabloc@xilinx.com, hanand@xilinx.com, tanujk@xilinx.com,
+ gdawar@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The VIRTIO_F_IN_ORDER feature is implemented by DPDK virtio_net driver
+but not by the Linux kernel's virtio_net driver.
 
+However, this feature can't be tested using vhost-vdpa even with HW devices
+that implement it as VIRTIO_F_IN_ORDER isn't defined in kernel's
+virtio_config.h header file yet and hence is not available in QEMU.
 
+Accordingly, as a first step, a patch for defining VIRTIO_F_IN_ORDER in
+kernel (version 5.17-rc4, file: include/uapi/linux/virtio_config.h) has
+been published.
 
-> > static hwaddr kvm_max_slot_size = ~0;
-> >
-> > And only s390x sets
-> >
-> > kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
-> >
-> > with
-> >
-> > #define KVM_SLOT_MAX_BYTES (4UL * TiB)
-> >
->
->
-> So seems in Igor's system its getting limited by kvm not qemu.
+This patch series first brings in VIRTIO_F_IN_ORDER's definition from Linux
+kernel using the script update-linux-headers.sh.
+Next, it adds VIRTIO_F_IN_ORDER to host_features in case the underlying
+vdpa device exposes this feature bit in device featues there by making it
+available for negotiation with the virtio_net driver.
 
-oops sorry, I read through the thread. we are all saying the same thing.
+Gautam Dawar (2):
+  linux headers: update against Linux 5.17-rc4
+  Allow VIRTIO_F_IN_ORDER to be negotiated for vdpa devices
+
+ hw/net/virtio-net.c                           |  10 ++
+ include/standard-headers/asm-x86/kvm_para.h   |   1 +
+ include/standard-headers/drm/drm_fourcc.h     |  11 ++
+ include/standard-headers/linux/ethtool.h      |   1 +
+ include/standard-headers/linux/fuse.h         |  60 +++++++-
+ include/standard-headers/linux/pci_regs.h     | 142 +++++++++---------
+ .../standard-headers/linux/virtio_config.h    |   6 +
+ include/standard-headers/linux/virtio_gpio.h  |  72 +++++++++
+ include/standard-headers/linux/virtio_i2c.h   |  47 ++++++
+ include/standard-headers/linux/virtio_iommu.h |   8 +-
+ .../standard-headers/linux/virtio_pcidev.h    |  65 ++++++++
+ include/standard-headers/linux/virtio_scmi.h  |  24 +++
+ linux-headers/asm-generic/unistd.h            |   5 +-
+ linux-headers/asm-mips/unistd_n32.h           |   2 +
+ linux-headers/asm-mips/unistd_n64.h           |   2 +
+ linux-headers/asm-mips/unistd_o32.h           |   2 +
+ linux-headers/asm-powerpc/unistd_32.h         |   2 +
+ linux-headers/asm-powerpc/unistd_64.h         |   2 +
+ linux-headers/asm-riscv/bitsperlong.h         |  14 ++
+ linux-headers/asm-riscv/mman.h                |   1 +
+ linux-headers/asm-riscv/unistd.h              |  44 ++++++
+ linux-headers/asm-s390/unistd_32.h            |   2 +
+ linux-headers/asm-s390/unistd_64.h            |   2 +
+ linux-headers/asm-x86/kvm.h                   |  19 ++-
+ linux-headers/asm-x86/unistd_32.h             |   1 +
+ linux-headers/asm-x86/unistd_64.h             |   1 +
+ linux-headers/asm-x86/unistd_x32.h            |   1 +
+ linux-headers/linux/kvm.h                     |  18 +++
+ net/vhost-vdpa.c                              |   1 +
+ 29 files changed, 490 insertions(+), 76 deletions(-)
+ create mode 100644 include/standard-headers/linux/virtio_gpio.h
+ create mode 100644 include/standard-headers/linux/virtio_i2c.h
+ create mode 100644 include/standard-headers/linux/virtio_pcidev.h
+ create mode 100644 include/standard-headers/linux/virtio_scmi.h
+ create mode 100644 linux-headers/asm-riscv/bitsperlong.h
+ create mode 100644 linux-headers/asm-riscv/mman.h
+ create mode 100644 linux-headers/asm-riscv/unistd.h
+
+-- 
+2.30.1
+
 
