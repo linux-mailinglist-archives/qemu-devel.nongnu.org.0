@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D464B7036
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:34:50 +0100 (CET)
-Received: from localhost ([::1]:43520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6564B703C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 17:37:59 +0100 (CET)
+Received: from localhost ([::1]:45896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK0mv-00061z-6I
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:34:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52000)
+	id 1nK0pw-0007pM-5p
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 11:37:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nK0fM-0003xs-TJ
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:27:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58861)
+ id 1nK0fQ-00047Q-Jg
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:27:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nK0fK-0001ch-It
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:27:00 -0500
+ id 1nK0fO-0001fU-KP
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 11:27:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644942418;
+ s=mimecast20190719; t=1644942422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hCecIkSfLDbD9L4WU/0h5uVxpUqPhLXRetd8WA8JqGw=;
- b=PQAvYHUTUcxsjxMaX7BWf39JDWkpnPQ/2hzQ4puj3Tt8MTSKAke/Y8bpqIY92zZazUa85R
- EMVv789PBIgiqgKRt3PFGWDwXutrYNbQOmRnZBft5ZE5NUoZ7TIOQh+cDIrxae2qhd9UsR
- lCdOpTMqjnpWrXYw+LCTOjvaMCYrV4g=
+ bh=5jI9pWeGRC+NCecONkAqQzwBbY8Az7U40BhcS6Z4hps=;
+ b=GB5o62902IyYT9wzvK9H/x8Q/HxSi+ZKIVWDrTO+inHpOJ1j3vg/iwU+2KimpOqHdSPiPN
+ 9yKjQafHvBYdOwkWreTNEFKJBhqgGi2TowMmBwEINN1/C42HA7/m4TM33yoQFJxAeSUYDD
+ OEp1ehfR7yfPCzp2QkEaz5kyKv1Mesw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-511-ENjzx1-tP7uOAhXzFFD7Wg-1; Tue, 15 Feb 2022 11:26:56 -0500
-X-MC-Unique: ENjzx1-tP7uOAhXzFFD7Wg-1
+ us-mta-587-tLKQJL_IMOK1nKxMp-c-IQ-1; Tue, 15 Feb 2022 11:26:58 -0500
+X-MC-Unique: tLKQJL_IMOK1nKxMp-c-IQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3951814243;
- Tue, 15 Feb 2022 16:26:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C22FE1091DA0;
+ Tue, 15 Feb 2022 16:26:57 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.195.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABEC810A48CD;
- Tue, 15 Feb 2022 16:26:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E0A610A48D2;
+ Tue, 15 Feb 2022 16:26:56 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net,
  mst@redhat.com, thuth@redhat.com, berrange@redhat.com, quintela@redhat.com
-Subject: [PATCH 2/3] tests/x86: Use 'pc' machine type for hotplug tests
-Date: Tue, 15 Feb 2022 16:25:36 +0000
-Message-Id: <20220215162537.605030-7-dgilbert@redhat.com>
+Subject: [PATCH 3/3] x86: Switch to q35 as the default machine type
+Date: Tue, 15 Feb 2022 16:25:37 +0000
+Message-Id: <20220215162537.605030-8-dgilbert@redhat.com>
 In-Reply-To: <20220215162537.605030-1-dgilbert@redhat.com>
 References: <20220215162537.605030-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -85,177 +85,136 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Hotplug tests need a bridge setting up on q35, for now
-keep them on 'pc'.
+The 'q35' machine type series has been around for a few years now, and
+is getting heavily used downstream without many problems;  lets flip
+to using it as the default.
+
+While it is of course newer and shinier than it's old i440fx cousin,
+the main reasons are:
+  * PCIe support
+  * No default floppy or IDE
+  * More modern defaults for NIC
+  * Better OVMF support
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tests/qtest/device-plug-test.c | 20 +++++++++++++++++--
- tests/qtest/drive_del-test.c   | 35 +++++++++++++++++++++++++++++-----
- tests/qtest/hd-geo-test.c      |  4 ++--
- tests/qtest/ivshmem-test.c     |  7 ++++++-
- 4 files changed, 56 insertions(+), 10 deletions(-)
+ hw/i386/pc_piix.c | 12 +-----------
+ hw/i386/pc_q35.c  |  2 ++
+ 2 files changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-index ad79bd4c14..404a92e132 100644
---- a/tests/qtest/device-plug-test.c
-+++ b/tests/qtest/device-plug-test.c
-@@ -63,7 +63,15 @@ static void wait_device_deleted_event(QTestState *qtest, const char *id)
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index d9b344248d..50c7e6c2c0 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -420,7 +420,7 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_i440fx_machine_options(m);
+     m->alias = "pc";
+-    m->is_default = true;
++    m->is_default = false;
+     pcmc->default_cpu_version = 1;
+ }
  
- static void test_pci_unplug_request(void)
+@@ -431,7 +431,6 @@ static void pc_i440fx_6_2_machine_options(MachineClass *m)
  {
--    QTestState *qtest = qtest_initf("-device virtio-mouse-pci,id=dev0");
-+    const char *arch = qtest_get_arch();
-+    const char *machine_addition = "";
-+
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        machine_addition = "-machine pc";
-+    }
-+
-+    QTestState *qtest = qtest_initf("%s -device virtio-mouse-pci,id=dev0",
-+                                    machine_addition);
- 
-     /*
-      * Request device removal. As the guest is not running, the request won't
-@@ -79,8 +87,16 @@ static void test_pci_unplug_request(void)
- 
- static void test_pci_unplug_json_request(void)
+     pc_i440fx_7_0_machine_options(m);
+     m->alias = NULL;
+-    m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+     compat_props_add(m->compat_props, pc_compat_6_2, pc_compat_6_2_len);
+ }
+@@ -443,7 +442,6 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
  {
-+    const char *arch = qtest_get_arch();
-+    const char *machine_addition = "";
-+
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        machine_addition = "-machine pc";
-+    }
-+
-     QTestState *qtest = qtest_initf(
--        "-device '{\"driver\": \"virtio-mouse-pci\", \"id\": \"dev0\"}'");
-+        "%s -device '{\"driver\": \"virtio-mouse-pci\", \"id\": \"dev0\"}'",
-+        machine_addition);
- 
-     /*
-      * Request device removal. As the guest is not running, the request won't
-diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
-index 8d08ee9995..0cc18dfa4a 100644
---- a/tests/qtest/drive_del-test.c
-+++ b/tests/qtest/drive_del-test.c
-@@ -235,14 +235,21 @@ static void test_drive_del_device_del(void)
- static void test_cli_device_del(void)
+     pc_i440fx_6_2_machine_options(m);
+     m->alias = NULL;
+-    m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
+     m->smp_props.prefer_sockets = true;
+@@ -456,7 +454,6 @@ static void pc_i440fx_6_0_machine_options(MachineClass *m)
  {
-     QTestState *qts;
-+    const char *arch = qtest_get_arch();
-+    const char *machine_addition = "";
-+
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        machine_addition = "-machine pc";
-+    }
- 
-     /*
-      * -drive/-device and device_del.  Start with a drive used by a
-      * device that unplugs after reset.
-      */
--    qts = qtest_initf("-drive if=none,id=drive0,file=null-co://,"
-+    qts = qtest_initf("%s -drive if=none,id=drive0,file=null-co://,"
-                       "file.read-zeroes=on,format=raw"
-                       " -device virtio-blk-%s,drive=drive0,id=dev0",
-+                      machine_addition,
-                       qvirtio_get_dev_type());
- 
-     device_del(qts, true);
-@@ -266,13 +273,19 @@ static void test_empty_device_del(void)
- static void test_device_add_and_del(void)
+     pc_i440fx_6_1_machine_options(m);
+     m->alias = NULL;
+-    m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_6_0, hw_compat_6_0_len);
+     compat_props_add(m->compat_props, pc_compat_6_0, pc_compat_6_0_len);
+ }
+@@ -468,7 +465,6 @@ static void pc_i440fx_5_2_machine_options(MachineClass *m)
  {
-     QTestState *qts;
-+    const char *arch = qtest_get_arch();
-+    const char *machine_addition = "";
-+
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        machine_addition = "-machine pc";
-+    }
+     pc_i440fx_6_0_machine_options(m);
+     m->alias = NULL;
+-    m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_5_2, hw_compat_5_2_len);
+     compat_props_add(m->compat_props, pc_compat_5_2, pc_compat_5_2_len);
+ }
+@@ -482,7 +478,6 @@ static void pc_i440fx_5_1_machine_options(MachineClass *m)
  
-     /*
-      * -drive/device_add and device_del.  Start with a drive used by a
-      * device that unplugs after reset.
-      */
--    qts = qtest_init("-drive if=none,id=drive0,file=null-co://,"
--                     "file.read-zeroes=on,format=raw");
-+    qts = qtest_initf("%s -drive if=none,id=drive0,file=null-co://,"
-+                     "file.read-zeroes=on,format=raw", machine_addition);
- 
-     device_add(qts);
-     device_del(qts, true);
-@@ -284,8 +297,14 @@ static void test_device_add_and_del(void)
- static void test_drive_add_device_add_and_del(void)
+     pc_i440fx_5_2_machine_options(m);
+     m->alias = NULL;
+-    m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_5_1, hw_compat_5_1_len);
+     compat_props_add(m->compat_props, pc_compat_5_1, pc_compat_5_1_len);
+     pcmc->kvmclock_create_always = false;
+@@ -496,7 +491,6 @@ static void pc_i440fx_5_0_machine_options(MachineClass *m)
  {
-     QTestState *qts;
-+    const char *arch = qtest_get_arch();
-+    const char *machine_addition = "";
-+
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        machine_addition = "-machine pc";
-+    }
- 
--    qts = qtest_init("");
-+    qts = qtest_init(machine_addition);
- 
-     /*
-      * drive_add/device_add and device_del.  The drive is used by a
-@@ -302,8 +321,14 @@ static void test_drive_add_device_add_and_del(void)
- static void test_blockdev_add_device_add_and_del(void)
+     pc_i440fx_5_1_machine_options(m);
+     m->alias = NULL;
+-    m->is_default = false;
+     m->numa_mem_supported = true;
+     compat_props_add(m->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+     compat_props_add(m->compat_props, pc_compat_5_0, pc_compat_5_0_len);
+@@ -510,7 +504,6 @@ static void pc_i440fx_4_2_machine_options(MachineClass *m)
  {
-     QTestState *qts;
-+    const char *arch = qtest_get_arch();
-+    const char *machine_addition = "";
-+
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        machine_addition = "-machine pc";
-+    }
+     pc_i440fx_5_0_machine_options(m);
+     m->alias = NULL;
+-    m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+     compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
+ }
+@@ -522,7 +515,6 @@ static void pc_i440fx_4_1_machine_options(MachineClass *m)
+ {
+     pc_i440fx_4_2_machine_options(m);
+     m->alias = NULL;
+-    m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_4_1, hw_compat_4_1_len);
+     compat_props_add(m->compat_props, pc_compat_4_1, pc_compat_4_1_len);
+ }
+@@ -535,7 +527,6 @@ static void pc_i440fx_4_0_machine_options(MachineClass *m)
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_i440fx_4_1_machine_options(m);
+     m->alias = NULL;
+-    m->is_default = false;
+     pcmc->default_cpu_version = CPU_VERSION_LEGACY;
+     compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
+     compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
+@@ -549,7 +540,6 @@ static void pc_i440fx_3_1_machine_options(MachineClass *m)
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
  
--    qts = qtest_init("");
-+    qts = qtest_init(machine_addition);
+     pc_i440fx_4_0_machine_options(m);
+-    m->is_default = false;
+     pcmc->do_not_add_smb_acpi = true;
+     m->smbus_no_migration_support = true;
+     m->alias = NULL;
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 1780f79bc1..aec4e09c9f 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -365,6 +365,7 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_machine_options(m);
+     m->alias = "q35";
++    m->is_default = true;
+     pcmc->default_cpu_version = 1;
+ }
  
-     /*
-      * blockdev_add/device_add and device_del.  The it drive is used by a
-diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
-index 3554b5d500..64023c0574 100644
---- a/tests/qtest/hd-geo-test.c
-+++ b/tests/qtest/hd-geo-test.c
-@@ -839,7 +839,7 @@ static void test_override_scsi_hot_unplug(void)
- 
-     joined_args = g_strjoinv(" ", args->argv);
- 
--    qts = qtest_init(joined_args);
-+    qts = qtest_initf("-machine pc %s", joined_args);
-     fw_cfg = pc_fw_cfg_init(qts);
- 
-     read_bootdevices(fw_cfg, expected);
-@@ -899,7 +899,7 @@ static void test_override_virtio_hot_unplug(void)
- 
-     joined_args = g_strjoinv(" ", args->argv);
- 
--    qts = qtest_init(joined_args);
-+    qts = qtest_initf("-machine pc %s", joined_args);
-     fw_cfg = pc_fw_cfg_init(qts);
- 
-     read_bootdevices(fw_cfg, expected);
-diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
-index fe94dd3b96..4e8af42a9d 100644
---- a/tests/qtest/ivshmem-test.c
-+++ b/tests/qtest/ivshmem-test.c
-@@ -385,7 +385,12 @@ static void test_ivshmem_hotplug(void)
-     QTestState *qts;
-     const char *arch = qtest_get_arch();
- 
--    qts = qtest_init("-object memory-backend-ram,size=1M,id=mb1");
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        qts = qtest_init("-object memory-backend-ram,size=1M,id=mb1"
-+                         " -machine pc");
-+    } else {
-+        qts = qtest_init("-object memory-backend-ram,size=1M,id=mb1");
-+    }
- 
-     qtest_qmp_device_add(qts, "ivshmem-plain", "iv1",
-                          "{'addr': %s, 'memdev': 'mb1'}",
+@@ -375,6 +376,7 @@ static void pc_q35_6_2_machine_options(MachineClass *m)
+ {
+     pc_q35_7_0_machine_options(m);
+     m->alias = NULL;
++    m->is_default = false;
+     compat_props_add(m->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+     compat_props_add(m->compat_props, pc_compat_6_2, pc_compat_6_2_len);
+ }
 -- 
 2.35.1
 
