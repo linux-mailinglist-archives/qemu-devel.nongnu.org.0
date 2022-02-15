@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBAB14B7A69
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 23:23:06 +0100 (CET)
-Received: from localhost ([::1]:42560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36BBD4B7A80
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 23:35:42 +0100 (CET)
+Received: from localhost ([::1]:44596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK6Dx-0001Gz-Nr
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 17:23:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45916)
+	id 1nK6Q9-0004nt-BW
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 17:35:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nK60T-0003zk-2a
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:09:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31645)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nK60W-00044J-3X
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:09:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nK60O-0006Kr-6v
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:09:08 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nK60T-0006MK-G1
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:09:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1644962943;
+ s=mimecast20190719; t=1644962949;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0Est3gT7fKJzLxS65tT1wupOiKJEw+eV9Ot8heZ+DqM=;
- b=My1jqfjzY2HWLBqku+br0qzYJhd8H+hCMHm76fYsGbUTfYP5txRUgxdEJqo+4uGWt/GFGm
- evyRZa7oYh2bBYf1NctdRTWmcY3qHH8p9OdiE2RoWpBqAKp2DyfFVSteWYQNWl8NmYePWv
- HLiBHvi/IHpBRRH1V8QIpfoLHF3/IHM=
+ bh=CC5RwmrM3Z6fneyx6TO6ECM2diqtgSXOfmp8OB/JxV8=;
+ b=gFUqhHJ/6Wty7saCUdig8l96lZ9r79sovoZ9b2yHkTQou3kW8kq9ojelFBQD6CRtmnJbkC
+ 8SXW1p5LZ+ENMwqMWAOP4RPwUc+5JHKfTCHJI9xU+RCxo7xczBSHL2pshFAgpQ5oOH4ZZc
+ YjFSvj/7UO4GPSBKRc0DIUrvxSXz06w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-9ZxjYUUWNdeoHtPhcckQcw-1; Tue, 15 Feb 2022 17:08:59 -0500
-X-MC-Unique: 9ZxjYUUWNdeoHtPhcckQcw-1
+ us-mta-119-VkpGZJ_PPLeaf1mgARUj_Q-1; Tue, 15 Feb 2022 17:09:01 -0500
+X-MC-Unique: VkpGZJ_PPLeaf1mgARUj_Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B30081091DA0;
- Tue, 15 Feb 2022 22:08:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 031B81091DA3;
+ Tue, 15 Feb 2022 22:09:00 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9EBB51059A77;
- Tue, 15 Feb 2022 22:08:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E2F1D1059A77;
+ Tue, 15 Feb 2022 22:08:58 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] python/utils: add enboxify() text decoration utility
-Date: Tue, 15 Feb 2022 17:08:50 -0500
-Message-Id: <20220215220853.4179173-2-jsnow@redhat.com>
+Subject: [PATCH 2/4] iotests: add VerboseProcessError
+Date: Tue, 15 Feb 2022 17:08:51 -0500
+Message-Id: <20220215220853.4179173-3-jsnow@redhat.com>
 In-Reply-To: <20220215220853.4179173-1-jsnow@redhat.com>
 References: <20220215220853.4179173-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -84,100 +84,83 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>> print(enboxify(msg, width=72, name="commit message"))
-┏━ commit message ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ enboxify() takes a chunk of text and wraps it in a text art box that ┃
-┃  adheres to a specified width. An optional title label may be given, ┃
-┃  and any of the individual glyphs used to draw the box may be        ┃
-┃ replaced or specified as well.                                       ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+This adds an Exception that extends the garden variety
+subprocess.CalledProcessError. When this exception is raised, it will
+still be caught when selecting for the stdlib variant.
+
+The difference is that the str() method of this Exception also adds the
+stdout/stderr logs. In effect, if this exception goes unhandled, Python
+will print the output in a nice, highlighted box to the terminal so that
+it's easy to spot.
+
+This should save some headache from having to re-run test suites with
+debugging enabled if we augment the exceptions we print more information
+in the default case.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/utils/__init__.py | 58 +++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+ tests/qemu-iotests/iotests.py | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/python/qemu/utils/__init__.py b/python/qemu/utils/__init__.py
-index 7f1a5138c4b..f785316f230 100644
---- a/python/qemu/utils/__init__.py
-+++ b/python/qemu/utils/__init__.py
-@@ -15,7 +15,10 @@
- # the COPYING file in the top-level directory.
- #
- 
-+import os
- import re
-+import shutil
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 6ba65eb1ffe..7df393df2c3 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -30,6 +30,7 @@
+ import struct
+ import subprocess
+ import sys
 +import textwrap
- from typing import Optional
+ import time
+ from typing import (Any, Callable, Dict, Iterable, Iterator,
+                     List, Optional, Sequence, TextIO, Tuple, Type, TypeVar)
+@@ -39,6 +40,7 @@
  
- # pylint: disable=import-error
-@@ -23,6 +26,7 @@
+ from qemu.machine import qtest
+ from qemu.qmp import QMPMessage
++from qemu.utils import enboxify
+ 
+ # Use this logger for logging messages directly from the iotests module
+ logger = logging.getLogger('qemu.iotests')
+@@ -117,6 +119,38 @@
+ sample_img_dir = os.environ['SAMPLE_IMG_DIR']
  
  
- __all__ = (
-+    'enboxify',
-     'get_info_usernet_hostfwd_port',
-     'kvm_available',
-     'list_accel',
-@@ -43,3 +47,57 @@ def get_info_usernet_hostfwd_port(info_usernet_output: str) -> Optional[int]:
-         if match is not None:
-             return int(match[1])
-     return None
-+
-+
-+# pylint: disable=too-many-arguments
-+def enboxify(
-+        content: str = '',
-+        width: Optional[int] = None,
-+        name: Optional[str] = None,
-+        padding: int = 1,
-+        upper_left: str = '┏',
-+        upper_right: str = '┓',
-+        lower_left: str = '┗',
-+        lower_right: str = '┛',
-+        horizontal: str = '━',
-+        vertical: str = '┃',
-+) -> str:
++class VerboseProcessError(subprocess.CalledProcessError):
 +    """
-+    Wrap some text into a text art box of a given width.
++    The same as CalledProcessError, but more verbose.
 +
-+    :param content: The text to wrap into a box.
-+    :param width: The number of columns (including the box itself).
-+    :param name: A label to apply to the upper-left of the box.
-+    :param padding: How many columns of padding to apply inside.
++    This is useful for debugging failed calls during test executions.
++    The return code, signal (if any), and terminal output will be displayed
++    on unhandled exceptions.
 +    """
-+    if width is None:
-+        width = shutil.get_terminal_size()[0]
-+    prefix = vertical + (' ' * padding)
-+    suffix = (' ' * padding) + vertical
-+    lwidth = width - len(suffix)
++    def summary(self) -> str:
++        return super().__str__()
 +
-+    def _bar(name: Optional[str], top: bool = True) -> str:
-+        ret = upper_left if top else lower_left
-+        right = upper_right if top else lower_right
-+        if name is not None:
-+            ret += f"{horizontal} {name} "
++    def __str__(self) -> str:
++        lmargin = '  '
++        width = shutil.get_terminal_size()[0] - len(lmargin)
++        sections = []
 +
-+        assert width is not None
-+        filler_len = width - len(ret) - len(right)
-+        ret += f"{horizontal * filler_len}{right}"
-+        return ret
++        if self.stdout:
++            name = 'output' if self.stderr is None else 'stdout'
++            sections.append(enboxify(self.stdout, width, name))
++        else:
++            sections.append(f"{name}: N/A")
 +
-+    def _wrap(line: str) -> str:
-+        return os.linesep.join([
-+            wrapped_line.ljust(lwidth) + suffix
-+            for wrapped_line in textwrap.wrap(
-+                    line, width=lwidth, initial_indent=prefix,
-+                    subsequent_indent=prefix, replace_whitespace=False,
-+                    drop_whitespace=False, break_on_hyphens=False)
-+        ])
++        if self.stderr:
++            sections.append(enboxify(self.stderr, width, 'stderr'))
++        elif self.stderr is not None:
++            sections.append("stderr: N/A")
 +
-+    return os.linesep.join((
-+        _bar(name, top=True),
-+        os.linesep.join(_wrap(line) for line in content.splitlines()),
-+        _bar(None, top=False),
-+    ))
++        return os.linesep.join((
++            self.summary(),
++            textwrap.indent(os.linesep.join(sections), prefix=lmargin),
++        ))
++
+ @contextmanager
+ def change_log_level(
+         logger_name: str, level: int = logging.CRITICAL) -> Iterator[None]:
 -- 
 2.34.1
 
