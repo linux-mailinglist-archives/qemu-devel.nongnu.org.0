@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41BB4B7A65
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 23:22:29 +0100 (CET)
-Received: from localhost ([::1]:41110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619FA4B7A5B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 23:19:35 +0100 (CET)
+Received: from localhost ([::1]:33902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK6DM-0000EZ-R3
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 17:22:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44518)
+	id 1nK6AY-0003hM-Fh
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 17:19:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nK5xo-00069Z-8x
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:06:24 -0500
-Received: from [2a00:1450:4864:20::42c] (port=46892
- helo=mail-wr1-x42c.google.com)
+ id 1nK5xz-0006Wt-FF
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:06:35 -0500
+Received: from [2a00:1450:4864:20::32b] (port=42664
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nK5xf-00064Z-HQ
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:06:23 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id q7so282356wrc.13
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 14:05:53 -0800 (PST)
+ id 1nK5xx-00066A-DZ
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 17:06:34 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ k3-20020a1ca103000000b0037bdea84f9cso313472wme.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 14:06:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tjwzavPHuwLQhDLaeCIqve1wOTSq+fSSdSxuL6FgndY=;
- b=hyLB+QdgTJkxAQcnPlb1uORvHQNf7bCW7gFZ3rq0q+qUBm6oYmv3rdnP95ES9ZxqcH
- egoy5KXm/XUZ6lz8E0OwECBrioAWEdpIxqIQRH8JRnV1YIRNHDrLRcgB1OfubqeRvOGQ
- EcC6+cnj21qpeJf3N+cza83GPTplGnoj4MXBChj0rGEaa0V7Q0OWrjmiu0EvUTHOMU49
- 2NOXl+oI8VK8zD5/LvPL9bB7DK9J963HeWSvBy63LNIuPsfsLwWj/LJ59JtmbiePaQQB
- c6fytC1C938zGJp3Fm3Ld0G3aghvBMiTnVFRzb9osxjY8boHBjmEYU2uRS5r6bQW/VjC
- JEWw==
+ :cc; bh=uWJuQd3u5jYBPObb+LwdIwwHZ0kfCM4Q0ZXoLm2w4EA=;
+ b=sB1RfWYAXYNKWwPJ4cjdS/s2ExUKnVxURS+huSKvm8AoixapMZqu1ffIPr8EZfYr4H
+ ZrEDZAXChDwhRlh8TAzdRlBhDyYWOUwS8gdsJ4DvW+Ro/v5D485uzXReE6BJ8ivBI53H
+ 68QTHkb0Z30TcPPR52Qbf2UKIaMze1e4zCb6P5gXfZYdPEYHXm6bD6DMCNSlPt9HOUaB
+ lZhSygubT1h9L2uXlIttJQ3lwHsD2UKum7FCrqPmNeiKLdmDyb5YhcrUaKdNyJF8m7TJ
+ 8STx/80ZrCunbRhrbsCnstlmbx1niwNF0Fu4sSK8iuFe2sPVS1FexKjVZdfZuRNs/Min
+ 2pbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tjwzavPHuwLQhDLaeCIqve1wOTSq+fSSdSxuL6FgndY=;
- b=SvR2JC0rF3rg6ca1BHMySFc6nWXP6hhGXDAdzg7ZdY5+5MBspR+JBhmPQLW+G3zky+
- Kmd3lMdJ5uuzyHVOet+Yl+GVEaj4DPgrH2jfrwaMJldihtslJ1SVuSOHWdNm1FnjPl8H
- InhzpaJS+RYaXRMYI1nFY7hKq04jQyIQkx6tvqGiYW2o3PBQyLqWB2NrRBYlhJ0hi7Ax
- zQ/GEZQwvHK63/fbwp9H8MqxSMN/46cfmuAlSXaFa5js7sfUFodornIStlCz/Fz5OTni
- rAx90OhpdgIjJbgis4nffy0bVeZo34smwlS0DGg3JliVFro54URZ/fh35K4R0TDN0c06
- wCpg==
-X-Gm-Message-State: AOAM531XgAsLrNw6N8wa0rGeNtlvhATyEOScwrJ0MN1khhjiTD7zy1D5
- oznTLLdmWP43vzXbZiqGjeoNWga6KtoI8Msql9wZQ3qnSrj6Pg==
-X-Google-Smtp-Source: ABdhPJy9A1echo2ApI0kvDf5CxuPujmHL7vq/P0koavyLj8vSUfuOFNlqBbgnIjJ+0eZbsDQp/jgGkx6gs3BLPUFyrE=
-X-Received: by 2002:a5d:59ac:0:b0:1e4:9b6e:eac7 with SMTP id
- p12-20020a5d59ac000000b001e49b6eeac7mr73224wrr.172.1644962752631; Tue, 15 Feb
- 2022 14:05:52 -0800 (PST)
+ bh=uWJuQd3u5jYBPObb+LwdIwwHZ0kfCM4Q0ZXoLm2w4EA=;
+ b=Dr9yM1R7j3JL8ZCmiM7CoL9w+DhG/QV0HypuUTlNct0TPqWaMx81n4r6m67KH0jmOC
+ qxxL+QHbAayZnEsFFYvIAAy1sJ8l2q5YZCm7B1x0tQj1c1gGxMkkMDs1kb+Iq/5IFas5
+ /w9OyM1mK5rGKsBE9hiQMjjN2S+oI+X0+ImK3K5nG61Ud3W5NyAmYfxfVzZe8ZX93OUy
+ sLk0psMGNFBRd04D0uDK2N1P+MCjr++22P9VLBRZ4WafnzpnEdCTl/fO726KD05T6//l
+ lKKowEY9v1/7To2cNUIw+gBhavhVBBcNNrTIpB5xq6FqbnEmzXsT/8YXkA6VRBNM4g74
+ sfzQ==
+X-Gm-Message-State: AOAM531vqyyk4Jh6ikKDKdElfHASdBjwUy9oQDibIrOo3ZSoAxssBGkL
+ zIWx/70I9a+LYNngq3MXeQIy/Ri+LxgUb8IOdqvJuQ==
+X-Google-Smtp-Source: ABdhPJxpeSXrPrHXz65iwfq46zelyyLGGI5akUL+4TQXOLjN92Q1D0w/v7/LEcVJF01udTi3hZaSSYRzyK1j3tY4o1c=
+X-Received: by 2002:a05:600c:4f14:b0:353:32b7:b47 with SMTP id
+ l20-20020a05600c4f1400b0035332b70b47mr4955913wmq.126.1644962791921; Tue, 15
+ Feb 2022 14:06:31 -0800 (PST)
 MIME-Version: 1.0
 References: <20220210040423.95120-1-richard.henderson@linaro.org>
- <20220210040423.95120-10-richard.henderson@linaro.org>
-In-Reply-To: <20220210040423.95120-10-richard.henderson@linaro.org>
+ <20220210040423.95120-11-richard.henderson@linaro.org>
+In-Reply-To: <20220210040423.95120-11-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Feb 2022 22:05:41 +0000
-Message-ID: <CAFEAcA-xbQadTvdYtadfxEYPG_5smfgikJJaOvf2ByjNJg_27g@mail.gmail.com>
-Subject: Re: [PATCH v2 09/15] target/arm: Implement FEAT_LVA
+Date: Tue, 15 Feb 2022 22:06:20 +0000
+Message-ID: <CAFEAcA8=ZkMy7YNMricVtBA-U8tTnBKbgH0Et2MjvBSKDPtHEA@mail.gmail.com>
+Subject: Re: [PATCH v2 10/15] target/arm: Implement FEAT_LPA
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -86,32 +87,27 @@ Cc: qemu-arm@nongnu.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Feb 2022 at 04:04, Richard Henderson
+On Thu, 10 Feb 2022 at 04:05, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> This feature is relatively small, as it applies only to
-> 64k pages and thus requires no additional changes to the
-> table descriptor walking algorithm, only a change to the
-> minimum TSZ (which is the inverse of the maximum virtual
-> address space size).
+> This feature widens physical addresses (and intermediate physical
+> addresses for 2-stage translation) from 48 to 52 bits, when using
+> 64k pages.  The only thing left at this point is to handle the
+> extra bits in the TTBR and in the table descriptors.
 >
-> Note that this feature widens VBAR_ELx, but we already
-> treat the register as being 64 bits wide.
+> Note that PAR_EL1 and HPFAR_EL2 are nominally extended, but we don't
+> mask out the high bits when writing to those registers, so no changes
+> are required there.
 >
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/cpu-param.h | 2 +-
->  target/arm/cpu.h       | 5 +++++
->  target/arm/cpu64.c     | 1 +
->  target/arm/helper.c    | 9 ++++++++-
->  4 files changed, 15 insertions(+), 2 deletions(-)
+>  target/arm/cpu-param.h |  2 +-
+>  target/arm/cpu64.c     |  2 +-
+>  target/arm/helper.c    | 19 ++++++++++++++++---
+>  3 files changed, 18 insertions(+), 5 deletions(-)
 
-Need to add FEAT_LVA to the list of emulated features in
-docs/system/arm/emulation.rst.
+Need to update docs/system/arm/emulation.rst
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
 -- PMM
 
