@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B684B748E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:07:45 +0100 (CET)
-Received: from localhost ([::1]:39468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3964B74AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 20:25:51 +0100 (CET)
+Received: from localhost ([::1]:34240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK3Au-0003xz-T3
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:07:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35292)
+	id 1nK3SQ-0003U0-Fh
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 14:25:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK38I-0001BR-RQ
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:05:02 -0500
-Received: from [2607:f8b0:4864:20::82e] (port=45666
- helo=mail-qt1-x82e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nK38G-0002mF-8I
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:05:01 -0500
-Received: by mail-qt1-x82e.google.com with SMTP id o3so19521580qtm.12
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 11:04:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JbF/C9JMkxQTOgzoTFWfI/WAJzjiOKPl6EnvR0wzVl4=;
- b=LczEbLetGohAjLD3KzWkQjFMVWilpSPa2oyEF9gMDxzJf8rdkByHwdf07y4UroAST8
- 7xUnowM/+FEeOyqY9I92fyOYFNEAW0cYGzrWobdqfIggJle5NyPospJ7jj+217V0UkIV
- P+1vwQPDobT221Zzhy5iUM0TbDmDG7Te7JOeiiy+YKZ9JwLeubPNbaBhyOHP+K/69VsX
- 6x+tuZvMfUJGOfbf1TPVqPpwrP/2ZApYOiv93xAOu8sIR3SN4wW01t5MQZIViPTiTb9x
- yUovm2BAvKKEdAwcGlNduMgHmU7RyLv8yrv6Ditlxu05kFr+SW9RQc4urDsY9EaP8vDv
- uY3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JbF/C9JMkxQTOgzoTFWfI/WAJzjiOKPl6EnvR0wzVl4=;
- b=E4kZsST9uKzAvt5MYm+ggvqozi8nMmH2q/lGoOHEfW7bUHFSTjt/G0eulL+Yj88iQD
- wEvmD5Jf1RwO1dc8wPl8wzJZj56AogaeEUTEOOB8/lrrTmJ8E2DwcsvDUc/2g0wkF3Qa
- 2qEcOspdtuIQuJkWPJQAQ7sNqeqz4FpTgwmYRpnq32YwQkhZ9qirxFLo8iO7KaR3DEwQ
- g7HTJRjG9Xcox1VhkOedu8sVgXv3zXIiFl5B/7rbS+sscAjzAeaCIaAEvIoq4Ba9O+m7
- LlNNYWIKV4Eeu1gELZuOOkFN3y/EWJzClnezphiy/mUKbs2MTL1v0xGohpUj/FhocrMC
- yhuw==
-X-Gm-Message-State: AOAM531sR1cClHc4F5RNXwYbizmdMrJkox4nIa4nqu6yM+BU1OWJ986+
- cW3veuC38eWAfa/A8b7WOATSJWeMi5KGTQ==
-X-Google-Smtp-Source: ABdhPJyNX/4ZM5qv2r5Pc3UbBF39TbhJH+ck322e+kHkwxVuRj/CVVs7izhcj3mDnZk+vsG23+usqw==
-X-Received: by 2002:ac8:7dc8:: with SMTP id c8mr416846qte.672.1644951898759;
- Tue, 15 Feb 2022 11:04:58 -0800 (PST)
-Received: from localhost.localdomain
- (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
- [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id w10sm21364527qtj.73.2022.02.15.11.04.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 11:04:58 -0800 (PST)
-From: Will Cohen <wwcohen@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 11/11] 9p: darwin: meson: Allow VirtFS on Darwin
-Date: Tue, 15 Feb 2022 14:04:26 -0500
-Message-Id: <20220215190426.56130-12-wwcohen@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220215190426.56130-1-wwcohen@gmail.com>
-References: <20220215190426.56130-1-wwcohen@gmail.com>
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nK3A2-00047E-MK
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:06:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21907)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nK39x-0003Eq-OC
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 14:06:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644952004;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0F1h11CEyOJ35ptObuAciRzgWT/V1LbVkolQAkYHIa8=;
+ b=F4tCuM9FzyvE6PlOvN/MvRqiclp2pYwJqEcHqVDn42PXVYkDyXCM/J3qIOLco4+jDmfReS
+ Po04iIg6hnlq0F1WHYcHCxOSQtX3pYpjNkvOa77AzFwyxk62Q3NaDmPKJ8ePM7w7XQvHSp
+ w0JqEBZ4eZvw6bolFY0wliqrjIb+IsQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-426-ryVSoAIJPeCt7aI_Q2qH4Q-1; Tue, 15 Feb 2022 14:06:43 -0500
+X-MC-Unique: ryVSoAIJPeCt7aI_Q2qH4Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7015D814243;
+ Tue, 15 Feb 2022 19:06:42 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.32.164])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6888D60854;
+ Tue, 15 Feb 2022 19:06:24 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id F263322361A; Tue, 15 Feb 2022 14:06:23 -0500 (EST)
+Date: Tue, 15 Feb 2022 14:06:23 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v6 1/1] virtiofsd: Add basic support for FUSE_SYNCFS
+ request
+Message-ID: <Ygv5r+6JfG1XsG8n@redhat.com>
+References: <20220215181529.164070-1-groug@kaod.org>
+ <20220215181529.164070-2-groug@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=wwcohen@gmail.com; helo=mail-qt1-x82e.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220215181529.164070-2-groug@kaod.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,87 +80,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Greg Kurz <groug@kaod.org>, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Cc: virtio-fs@redhat.com,
+ Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Keno Fischer <keno@juliacomputing.com>
+On Tue, Feb 15, 2022 at 07:15:29PM +0100, Greg Kurz wrote:
+> Honor the expected behavior of syncfs() to synchronously flush all data
+> and metadata to disk on linux systems.
+> 
+> If virtiofsd is started with '-o announce_submounts', the client is
+> expected to send a FUSE_SYNCFS request for each individual submount.
+> In this case, we just create a new file descriptor on the submount
+> inode with lo_inode_open(), call syncfs() on it and close it. The
+> intermediary file is needed because O_PATH descriptors aren't
+> backed by an actual file and syncfs() would fail with EBADF.
+> 
+> If virtiofsd is started without '-o announce_submounts' or if the
+> client doesn't have the FUSE_CAP_SUBMOUNTS capability, the client
+> only sends a single FUSE_SYNCFS request for the root inode. The
+> server would thus need to track submounts internally and call
+> syncfs() on each of them. This will be implemented later.
+> 
+> Note that syncfs() might suffer from a time penalty if the submounts
+> are being hammered by some unrelated workload on the host. The only
+> solution to prevent that is to avoid shared mounts.
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-To allow VirtFS on darwin, we need to check that pthread_fchdir_np is
-available, which has only been available since macOS 10.12.
+Looks good to me. Thanks Greg.
 
-Additionally, virtfs_proxy_helper is disabled on Darwin. This patch
-series does not currently provide an implementation of the proxy-helper,
-but this functionality could be implemented later on.
+Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
 
-Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-[Michael Roitzsch: - Rebase for NixOS]
-Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-[Will Cohen: - Rebase to master]
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-[Will Cohen: - Add check for pthread_fchdir_np to virtfs
-             - Add comments to patch commit
-             - Note that virtfs_proxy_helper does not work
-               on macOS
-             - Fully adjust meson virtfs error note to specify
-               macOS]
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
----
- fsdev/meson.build |  1 +
- meson.build       | 14 ++++++++++----
- 2 files changed, 11 insertions(+), 4 deletions(-)
+Vivek
 
-diff --git a/fsdev/meson.build b/fsdev/meson.build
-index adf57cc43e..b632b66348 100644
---- a/fsdev/meson.build
-+++ b/fsdev/meson.build
-@@ -7,6 +7,7 @@ fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
-   'qemu-fsdev.c',
- ), if_false: files('qemu-fsdev-dummy.c'))
- softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
-+softmmu_ss.add_all(when: 'CONFIG_DARWIN', if_true: fsdev_ss)
- 
- if have_virtfs_proxy_helper
-   executable('virtfs-proxy-helper',
-diff --git a/meson.build b/meson.build
-index 6fdc0281ad..b6f5c57487 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1416,17 +1416,23 @@ if not get_option('dbus_display').disabled()
-   endif
- endif
- 
--have_virtfs = (targetos == 'linux' and
-+if targetos == 'darwin' and cc.has_function('pthread_fchdir_np')
-+  have_virtfs = have_system
-+else
-+  have_virtfs = (targetos == 'linux' and
-     have_system and
-     libattr.found() and
-     libcap_ng.found())
-+endif
- 
--have_virtfs_proxy_helper = have_virtfs and have_tools
-+have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
- 
- if get_option('virtfs').enabled()
-   if not have_virtfs
--    if targetos != 'linux'
--      error('virtio-9p (virtfs) requires Linux')
-+    if targetos != 'linux' and targetos != 'darwin'
-+      error('virtio-9p (virtfs) requires Linux or macOS')
-+    elif targetos == 'darwin' and not cc.has_function('pthread_fchdir_np')
-+      error('virtio-9p (virtfs) on macOS requires the presence of pthread_fchdir_np')
-     elif not libcap_ng.found() or not libattr.found()
-       error('virtio-9p (virtfs) requires libcap-ng-devel and libattr-devel')
-     elif not have_system
--- 
-2.34.1
+> ---
+>  tools/virtiofsd/fuse_lowlevel.c       | 11 +++++++
+>  tools/virtiofsd/fuse_lowlevel.h       | 13 ++++++++
+>  tools/virtiofsd/passthrough_ll.c      | 44 +++++++++++++++++++++++++++
+>  tools/virtiofsd/passthrough_seccomp.c |  1 +
+>  4 files changed, 69 insertions(+)
+> 
+> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+> index e4679c73abc2..e02d8b25a5f6 100644
+> --- a/tools/virtiofsd/fuse_lowlevel.c
+> +++ b/tools/virtiofsd/fuse_lowlevel.c
+> @@ -1876,6 +1876,16 @@ static void do_lseek(fuse_req_t req, fuse_ino_t nodeid,
+>      }
+>  }
+>  
+> +static void do_syncfs(fuse_req_t req, fuse_ino_t nodeid,
+> +                      struct fuse_mbuf_iter *iter)
+> +{
+> +    if (req->se->op.syncfs) {
+> +        req->se->op.syncfs(req, nodeid);
+> +    } else {
+> +        fuse_reply_err(req, ENOSYS);
+> +    }
+> +}
+> +
+>  static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+>                      struct fuse_mbuf_iter *iter)
+>  {
+> @@ -2280,6 +2290,7 @@ static struct {
+>      [FUSE_RENAME2] = { do_rename2, "RENAME2" },
+>      [FUSE_COPY_FILE_RANGE] = { do_copy_file_range, "COPY_FILE_RANGE" },
+>      [FUSE_LSEEK] = { do_lseek, "LSEEK" },
+> +    [FUSE_SYNCFS] = { do_syncfs, "SYNCFS" },
+>  };
+>  
+>  #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
+> diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+> index c55c0ca2fc1c..b889dae4de0e 100644
+> --- a/tools/virtiofsd/fuse_lowlevel.h
+> +++ b/tools/virtiofsd/fuse_lowlevel.h
+> @@ -1226,6 +1226,19 @@ struct fuse_lowlevel_ops {
+>       */
+>      void (*lseek)(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
+>                    struct fuse_file_info *fi);
+> +
+> +    /**
+> +     * Synchronize file system content
+> +     *
+> +     * If this request is answered with an error code of ENOSYS,
+> +     * this is treated as success and future calls to syncfs() will
+> +     * succeed automatically without being sent to the filesystem
+> +     * process.
+> +     *
+> +     * @param req request handle
+> +     * @param ino the inode number
+> +     */
+> +    void (*syncfs)(fuse_req_t req, fuse_ino_t ino);
+>  };
+>  
+>  /**
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index b3d0674f6d2f..0f65e6423cf5 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -3357,6 +3357,49 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
+>      }
+>  }
+>  
+> +static int lo_do_syncfs(struct lo_data *lo, struct lo_inode *inode)
+> +{
+> +    int fd, ret = 0;
+> +
+> +    fuse_log(FUSE_LOG_DEBUG, "lo_do_syncfs(ino=%" PRIu64 ")\n",
+> +             inode->fuse_ino);
+> +
+> +    fd = lo_inode_open(lo, inode, O_RDONLY);
+> +    if (fd < 0) {
+> +        return -fd;
+> +    }
+> +
+> +    if (syncfs(fd) < 0) {
+> +        ret = errno;
+> +    }
+> +
+> +    close(fd);
+> +    return ret;
+> +}
+> +
+> +static void lo_syncfs(fuse_req_t req, fuse_ino_t ino)
+> +{
+> +    struct lo_data *lo = lo_data(req);
+> +    struct lo_inode *inode = lo_inode(req, ino);
+> +    int err;
+> +
+> +    if (!inode) {
+> +        fuse_reply_err(req, EBADF);
+> +        return;
+> +    }
+> +
+> +    err = lo_do_syncfs(lo, inode);
+> +    lo_inode_put(lo, &inode);
+> +
+> +    /*
+> +     * If submounts aren't announced, the client only sends a request to
+> +     * sync the root inode. TODO: Track submounts internally and iterate
+> +     * over them as well.
+> +     */
+> +
+> +    fuse_reply_err(req, err);
+> +}
+> +
+>  static void lo_destroy(void *userdata)
+>  {
+>      struct lo_data *lo = (struct lo_data *)userdata;
+> @@ -3417,6 +3460,7 @@ static struct fuse_lowlevel_ops lo_oper = {
+>      .copy_file_range = lo_copy_file_range,
+>  #endif
+>      .lseek = lo_lseek,
+> +    .syncfs = lo_syncfs,
+>      .destroy = lo_destroy,
+>  };
+>  
+> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+> index a3ce9f898d2d..3e9d6181dc69 100644
+> --- a/tools/virtiofsd/passthrough_seccomp.c
+> +++ b/tools/virtiofsd/passthrough_seccomp.c
+> @@ -108,6 +108,7 @@ static const int syscall_allowlist[] = {
+>      SCMP_SYS(set_robust_list),
+>      SCMP_SYS(setxattr),
+>      SCMP_SYS(symlinkat),
+> +    SCMP_SYS(syncfs),
+>      SCMP_SYS(time), /* Rarely needed, except on static builds */
+>      SCMP_SYS(tgkill),
+>      SCMP_SYS(unlinkat),
+> -- 
+> 2.34.1
+> 
 
 
