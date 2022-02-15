@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6054B6956
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:31:44 +0100 (CET)
-Received: from localhost ([::1]:33688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277324B694E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:30:20 +0100 (CET)
+Received: from localhost ([::1]:34944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJv7X-0005es-59
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:31:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37476)
+	id 1nJv6B-0006WE-0U
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:30:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nJuwl-0005c9-DN
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:20:35 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:41114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nJuwC-0007Jb-QR
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:20:02 -0500
-Received: from [192.168.13.13] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 8B93B20780;
- Tue, 15 Feb 2022 10:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1644920398;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5XsoldZcG7fxIgbo+yzHhTn9KY5to7/oAhwKtH+uHZU=;
- b=BzXeDG9AW1Qup0aFoQV60DpinYeQL23FfXOS+aWjwLvFWGi8uaE5IqSqmQLk+K9sqoVaxR
- U1P+7XberziQ32KV7QPhkDUSi8oqHFeY/b23eEvznqpR15xNphLLtScJqEF3lWeABVpZAb
- WKp8G4M2YcXTK0tDKf2ctIjC2SDewAM=
-Message-ID: <e9bae713-1051-1bf0-5f3a-d9bb61aade8a@greensocs.com>
-Date: Tue, 15 Feb 2022 11:19:56 +0100
+ (Exim 4.90_1) (envelope-from <vysakhpillai@gmail.com>)
+ id 1nJuzx-0000iC-QC
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:23:53 -0500
+Received: from [2607:f8b0:4864:20::831] (port=34815
+ helo=mail-qt1-x831.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <vysakhpillai@gmail.com>)
+ id 1nJuzv-0008Ej-Kk
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 05:23:53 -0500
+Received: by mail-qt1-x831.google.com with SMTP id r9so6907900qta.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 02:23:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=pq66D9WB2qTHxfm4fksD+6n7eVfCeMWuspZTSmfRbls=;
+ b=pmzZfuzTiqGH2nIwyxyPozFeP/M2GKPHBstYrYPCswZwVajNUTZmfhCMF5t48SlIRM
+ F380YvwdIGaMsuUlGc7oXoN/SSIdr/ww4w/tWfEBS0ssu7RR4VCnD5i30xnmSSKhlD9f
+ lGo4i3K/HlUoG4NfnLG5yERzujyqgdxP9FU8qgTL7cu9p34t4UKhlP96t6yBBbTgNupq
+ EzJcfVrkCSLB1qfAoErPBRVdFiYYQYirtVkuxgDhKqEtaxnN1QI+CwYHQlD/DafeMnAJ
+ FX79lTAE5v/gSs5VNmuq8tdClLo2vBJblAG7mbrouaJiPabC5t9Uv4fK9Zx829xfHfLR
+ 9QYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=pq66D9WB2qTHxfm4fksD+6n7eVfCeMWuspZTSmfRbls=;
+ b=1716bqXMVNtgYBvzReCdQ98df7u2FiN4N8A4Rh4yrUvvjQZfuFyHczuvZzb2tXKXjw
+ x2HMJWMmVcEjZZW92FbKsPnxEiHnekpMsK9JxLqeFXaMBJt00LYfImvTYI8iKWCvaJiA
+ UmL8euzlPA4R5WVfiSXS/Pui52tJmkJyXPGHDeYeejKXS/VhBAaIsD181pGCgXVVS3GZ
+ 58VqUCABeQnylnlsc0QI3a59w1wSxE7i256aIKANT0zRMUgGgY1AYoaaddpN7k17mQjs
+ qZyhnusvyycBFIrr1dpCwX6WHLpJ+l3DLUvYwaQMWvVVqvexP4bsPoVnKeey4o5+gKoN
+ uGqw==
+X-Gm-Message-State: AOAM533ShfAiL4RGoQjIGYENDYlgIj1sZcO7ktK5MonVfZPlG6P8JzM+
+ sxajnV02d6WrfTwKD3pxgg7KeMnB1ZBrhK4VdrnUOW09/Ig=
+X-Google-Smtp-Source: ABdhPJy+o9YWXm9d8FdRSeGEDdGpGg4xv24GFcaAmZaJWwLr+b5aQ8Fd8CK9oF+bGo35Sxt5AxH/deXBDNhbw4/GS38=
+X-Received: by 2002:a05:622a:1189:: with SMTP id
+ m9mr2078332qtk.573.1644920630233; 
+ Tue, 15 Feb 2022 02:23:50 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Content-Language: en-US-large
-To: QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, "Daniel P. Berrange"
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Subject: qdev instance_init vs realize split
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+From: vysakh pillai <vysakhpillai@gmail.com>
+Date: Tue, 15 Feb 2022 15:53:39 +0530
+Message-ID: <CAAFEQFF9tjKEt1fL5=kiVpRxXX=Ti9HKW-YE1rnFXx0dPB9VQA@mail.gmail.com>
+Subject: Holding RISCV CPUs in reset
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000d94da205d80beda2"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::831
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=vysakhpillai@gmail.com; helo=mail-qt1-x831.google.com
+X-Spam_score_int: 35
+X-Spam_score: 3.5
+X-Spam_bar: +++
+X-Spam_report: (3.5 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.904, PDS_OTHER_BAD_TLD=1.999,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,35 +81,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000d94da205d80beda2
+Content-Type: text/plain; charset="UTF-8"
+
 Hi,
+ In an SMP system like the sifive_u machine which has a RISCV  e_cpu as
+hart0 and a set of u_cpus as hart 1-N, is there a way to start just the
+hart0 and hold the other CPUs in reset until explicitly released by hart0
+SW?
 
-I'm wondering if there are rules or convention about what we put in the 
-instance_init() vs realize() for simple devices ? (For complex ones we 
-generally have no choice to put everything in realize())
+ I am working on a machine similar to the sifive_u machine that has a set
+of control registers which are accessible by hart0 to release the
+other cores from reset once the SoC level initialization is completed by
+the hart0 SW. Currently, the CPUs spin if they have a non-zero mhartid,
+executing code from resetvec.
 
-For example we can declare irqs and mmios in instance_init() or 
-realize() if they do not depend on some property.
+Vysakh P Pillai
+http://embeddedinn.xyz
 
-This is not a big deal, but given how works the help message generation 
-in the monitor, there are difference if the device is user-creatable.
+--000000000000d94da205d80beda2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If we leave irqs and mmios declaration in the instance_init(). They 
-appear in the help message.
- > (qemu) device_add ibex-timer,help
- > ibex-timer options:
- >   ibex-timer[0]=<child<memory-region>>
- >   sysbus-irq[0]=<link<irq>>
- >   timebase-freq=<uint32> -  (default: 10000)
+<div dir=3D"ltr">Hi,<div>=C2=A0In an SMP system like the sifive_u machine w=
+hich has a RISCV=C2=A0 e_cpu as hart0 and a set of u_cpus as hart 1-N, is t=
+here a way to start just the hart0 and hold the other CPUs in reset until e=
+xplicitly released by hart0 SW?</div><div><br></div><div>=C2=A0I am working=
+ on a machine similar to the sifive_u machine that has a set of control reg=
+isters which are accessible by hart0 to release the other=C2=A0cores from r=
+eset once the SoC level initialization is completed by the hart0 SW. Curren=
+tly, the CPUs spin if they have a non-zero mhartid, executing code from res=
+etvec.</div><div><br clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_sig=
+nature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=
+=3D"ltr"><div><div dir=3D"ltr">Vysakh P Pillai<div><a href=3D"http://embedd=
+edinn.xyz" target=3D"_blank">http://embeddedinn.xyz</a><br></div></div></di=
+v></div></div></div></div></div></div></div>
 
-If we delay the declaration in realize(), we only have the declared 
-qdev-properties (which is maybe more what we expect at this point):
-
- > (qemu) device_add ibex-timer,help
- > ibex-timer options:
- >   timebase-freq=<uint32> -  (default: 10000)
-
-Any comments ?
-
-Thanks,
-Damien
+--000000000000d94da205d80beda2--
 
