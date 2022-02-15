@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A064B6856
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:00:22 +0100 (CET)
-Received: from localhost ([::1]:37868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93324B68BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:04:00 +0100 (CET)
+Received: from localhost ([::1]:45742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJudB-0004p8-BR
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:00:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58696)
+	id 1nJugh-0008Bj-VM
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:04:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1nJuSU-0001Wu-2F
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:49:18 -0500
-Received: from [2a00:1450:4864:20::335] (port=42731
- helo=mail-wm1-x335.google.com)
+ id 1nJuTa-000672-QL
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:50:26 -0500
+Received: from [2a00:1450:4864:20::42a] (port=42750
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1nJuSS-0002dc-3n
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:49:17 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- k3-20020a1ca103000000b0037bdea84f9cso1031841wme.1
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:49:15 -0800 (PST)
+ id 1nJuTX-0002uL-1o
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:50:26 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id h6so31078539wrb.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:50:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=PpU3dsxQ1HcBY2Eb20bMEfHSWxXLppGLA2neLS9FsA0=;
- b=hGkfyJUv229iMuVb4I9tL/H3Rktbdm8PNlO72A5H45bZZMIEFSnHFxfxmOkDgbEt3P
- JcGhfJOBuZuBy7dCWhjv3TxfzOog7KTMe9NXA6vofhoOlOlGRxn++IWwSLf7chAO2vDI
- 4esAbueuBzm2Q3SgbTq+LR/lvn38MEE8tUU/pQOC76yL+TZCu6dAEuOyEHHAb+5nlIy1
- Mp7Blb0IGI0uwLL/WeuXCZzG4HVAFYDHngiRhWLRJ/eoeFDGNfYR+KjZUqR68KVt137o
- taFJsj2e9AlfQp+KXhKO3OOhmb9brIAzvsjdvaIDeApd+WIdNxcqzzHTyiFLnBN1Yndd
- 0PkQ==
+ bh=iM3vI6OmCf8d2ZvpfzvY3zF91IJQs8TF+SJ4rjHl6/A=;
+ b=ETplzmVKh+EUIwbXW/XpRhgMN7zMvD24C9B4tB/GRPgij5Ndjj8UybZsZSwh9BG9aM
+ b9ISU/W2Dl1psWs1kOlD4PxHTmt0SF72E7HcMDLuYtIWG2/sNmEB+6JjNH2wFVrFrtJg
+ tjjmLKgF5Brnc6y4CKrR8cibC2ebPnXKNBQiQc++IOAyfvAOYm9XcDZdDOTOeimiUufP
+ rYpIafgTEEGJhD+v6G2mARCjHLdKwwA828a2FwYVwpmqR8QYBbyb5CnSIbFVcCm3XRph
+ CM7iRkM2n4pWwIsxc33m5tq6YHYJmTiBGXlT9W61bTRP6+j5P+Fpb4a2OOLQB9tPoTCe
+ JKzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=PpU3dsxQ1HcBY2Eb20bMEfHSWxXLppGLA2neLS9FsA0=;
- b=TkCnc7HEIVn87tTvchGQwVZvbn/jKp19MCqwIn+hPYXDyekzp1hhkU3zX5ldb6Ug16
- YChaPq6XJqjFROBUIs4fK0zLITqTXp8XtATFUFWvc/vCQgdytDAjcvdF9QCfTNvKak1S
- GhDRcSxP0Fh4MaH+8XJx9EjNea5d3PZHxjxKnuVhoYwkQAASRfVc2RuHbmwVv9gqYvcV
- XIg86MUqiuSAQAb/8GJE4AvbHs5Ot2naV8G9C4pbbKdFv+XMxyxOxf8XxG9B4lbq72eh
- Vj6RZrKsv3q5HNxe3caniMGS46D6NYaxMd4XfSTqNIR3MWkVx+jYyIHKZRiWRCUfD3av
- ODDA==
-X-Gm-Message-State: AOAM5311etkE3EO1Ri4wWnaJ1EZg07k6POoEDefvmqJm8SVQwGUa/ew3
- 0eqmN/GHIbhs3JEj2T1bpJTaBw==
-X-Google-Smtp-Source: ABdhPJzzI+IgeJNpIefxbZPcil0EyxF2Xsp9eaCNckq/Yg0FeQ3O45YLIAAuyvj4yel+y6qKc1NXCw==
-X-Received: by 2002:a1c:3586:: with SMTP id c128mr2403538wma.15.1644918554759; 
- Tue, 15 Feb 2022 01:49:14 -0800 (PST)
+ bh=iM3vI6OmCf8d2ZvpfzvY3zF91IJQs8TF+SJ4rjHl6/A=;
+ b=xzl7icCoDrfdnkwh5LtwhUUPzSH4PZRRXwXyFAsEaJF0DibLBPPzMAzTjUpVk+NRS+
+ lSSvOKAg1Ll85jStTCyEGTc0icHmpa3tp8Vew7TFaIK9/q8JiQsoYr+/UCYfQKJNxTn5
+ IgwcAuupTWUXBsazl/R3q1UBAOw3elk3QlZ9V0Q33KIRsGwdDtLfdJ3C3pyuuH61ZJO+
+ E+wQTO1KF7n6GAHEzuxRsO0eJY0Z1DsjIBli9jv0xfIOHOLzLp2Aeq/56ybHvV2VqGw5
+ jJK9yoc6T+IAtRDosPNAqhADaLNpOnYtwH2udOFR9us8HzXAcQkZVYVUIu1727At/Wd2
+ LykA==
+X-Gm-Message-State: AOAM533d2ljeT5CKR9pXVRSL+tI889ZmQdYx9jKEFGHMEeURxCmGbRx/
+ dSqxlP6z85bpPBAEpGA2lnOnrKSYF9CSuw==
+X-Google-Smtp-Source: ABdhPJytDgHdLJgU5bPIY4NEoUQYlBGplBL/jekJZGhZr8sGVpqrlz/WRXwMfJJipguOSbMgqHg36w==
+X-Received: by 2002:a05:6000:1d93:: with SMTP id
+ bk19mr2481310wrb.264.1644918616856; 
+ Tue, 15 Feb 2022 01:50:16 -0800 (PST)
 Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
  [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id g12sm11189967wmq.28.2022.02.15.01.49.14
+ by smtp.gmail.com with ESMTPSA id a9sm15450312wrr.20.2022.02.15.01.50.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 01:49:14 -0800 (PST)
-Date: Tue, 15 Feb 2022 09:48:51 +0000
+ Tue, 15 Feb 2022 01:50:16 -0800 (PST)
+Date: Tue, 15 Feb 2022 09:49:53 +0000
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: Eric Auger <eric.auger@redhat.com>
 Subject: Re: [PATCH v3 0/4] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
-Message-ID: <Ygt3A4jETnmy0K0Y@myrica>
+Message-ID: <Ygt3QcDhRBKZJmf0@myrica>
 References: <20220214124356.872985-1-jean-philippe@linaro.org>
- <87o839s67g.fsf@redhat.com>
- <ef945ca8-ee6b-8b17-2fe2-add32dfb9dd4@redhat.com>
+ <f70a113d-5762-3b4c-6125-0081a1d5ab63@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ef945ca8-ee6b-8b17-2fe2-add32dfb9dd4@redhat.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+In-Reply-To: <f70a113d-5762-3b4c-6125-0081a1d5ab63@redhat.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -90,55 +89,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, mst@redhat.com,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, dgilbert@redhat.com,
- pasic@linux.ibm.com, pbonzini@redhat.com
+Cc: lvivier@redhat.com, thuth@redhat.com, mst@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 10:16:40AM +0100, Eric Auger wrote:
-> Hi Connie,
+On Tue, Feb 15, 2022 at 10:25:21AM +0100, Eric Auger wrote:
+> Hi Jean,
 > 
-> On 2/14/22 6:34 PM, Cornelia Huck wrote:
-> > On Mon, Feb 14 2022, Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+> On 2/14/22 1:43 PM, Jean-Philippe Brucker wrote:
+> > Replace the VIRTIO_IOMMU_F_BYPASS feature with
+> > VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
+> > global bypass on and off.
 > >
-> >> Replace the VIRTIO_IOMMU_F_BYPASS feature with
-> >> VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
-> >> global bypass on and off.
-> >>
-> >> Add a boot-bypass option, which defaults to 'on' to be in line with
-> >> other vIOMMUs and to allow running firmware/bootloader that are unaware
-> >> of the IOMMU. x86 doesn't need a workaround to boot with virtio-iommu
-> >> anymore.
-> >>
-> >> Since v2 [1]:
-> >> * Added the new bypass bits to the migration stream.
-> >>   As discussed on the v2 thread, we assume that cross-version
-> >>   compatibility is not required for live migration at the moment, so we
-> >>   only increase the version number. Patch 2 says: "We add the bypass
-> >>   field to the migration stream without introducing subsections, based
-> >>   on the assumption that this virtio-iommu device isn't being used in
-> >>   production enough to require cross-version migration at the moment
-> >>   (all previous version required workarounds since they didn't support
-> >>   ACPI and boot-bypass)."
-> >>
-> >> [1] https://lore.kernel.org/qemu-devel/20220127142940.671333-1-jean-philippe@linaro.org/
-> > One thing that we could do to avoid surprises in the unlikely case that
-> > somebody has a virtio-iommu device and wants to migrate to an older
-> > machine version is to add a migration blocker for the virtio-iommu
-> > device for all compat machines for versions 6.2 or older (i.e. only 7.0
-> > or newer machine types can have a migratable virtio-iommu device
-> > starting with QEMU 7.0.) Not too complicated to implement, but I'm not
-> > sure whether we'd add too much code to prevent something very unlikely
-> > to happen anyway. I would not insist on it :)
-> As nobody has shout and we are not aware of anybody using the device in
-> production mode yet due to the missing boot bypass feature this series
-> brings, I would be personally in favour of leaving things as is. Now, up
-> to Jean if he wants to go and implement your suggestion.
+> > Add a boot-bypass option, which defaults to 'on' to be in line with
+> > other vIOMMUs and to allow running firmware/bootloader that are unaware
+> > of the IOMMU. x86 doesn't need a workaround to boot with virtio-iommu
+> > anymore.
+> >
+> > Since v2 [1]:
+> > * Added the new bypass bits to the migration stream.
+> >   As discussed on the v2 thread, we assume that cross-version
+> >   compatibility is not required for live migration at the moment, so we
+> >   only increase the version number. Patch 2 says: "We add the bypass
+> >   field to the migration stream without introducing subsections, based
+> >   on the assumption that this virtio-iommu device isn't being used in
+> >   production enough to require cross-version migration at the moment
+> >   (all previous version required workarounds since they didn't support
+> >   ACPI and boot-bypass)."
+> >
+> > [1] https://lore.kernel.org/qemu-devel/20220127142940.671333-1-jean-philippe@linaro.org/
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Tested-by: Eric Auger <eric.auger@redhat.com>
+> 
+> I tested both the boot bypass feature with virtio-blk-pci,
+> virtio-net-pci and virtio-gpu-pci and migration.
 
-I agree, it seems too unlikely that someone would want to migrate it back
-to 6.2 where it wasn't really useable except for experiments
+Thanks!
 
-Thanks,
 Jean
 
