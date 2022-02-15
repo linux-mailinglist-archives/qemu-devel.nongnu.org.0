@@ -2,59 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119EA4B6736
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:14:28 +0100 (CET)
-Received: from localhost ([::1]:43630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ADD34B675A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:18:52 +0100 (CET)
+Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJtul-0001hr-7X
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:14:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50166)
+	id 1nJtz1-0004Nq-08
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:18:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nJtt8-0006fm-Hk
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:12:49 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:29720)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nJtx9-0001R4-Tx
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:16:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nJtt6-00058u-Nd
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:12:46 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nJtx5-0005nO-Qx
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:16:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644916610;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=venWY+SDalVW4Zgf8HNc7ksd8lvrIn1qbTRT0F5mb4M=;
+ b=CPPqquSM33lsfCxZS72yRMyB07oB0IbuxyzNyKK5ZUu6i+2fzLXjO7P/C+HUqlpPwV1jWm
+ 4A53c/JrbdODM556hyF502XO1Bo0Qes5dttF9XBkrustsNnYF7xCj0thaea5c1Q556dBMT
+ fZFPVJ0lDJiUpTKMKo7laXKSSNMl62c=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-CdEYnuEvN6W0qYUmMUWL-A-1; Tue, 15 Feb 2022 04:12:35 -0500
-X-MC-Unique: CdEYnuEvN6W0qYUmMUWL-A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B12D71091DA2;
- Tue, 15 Feb 2022 09:12:32 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1EBA7AB55;
- Tue, 15 Feb 2022 09:12:10 +0000 (UTC)
-Date: Tue, 15 Feb 2022 10:12:09 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH v5 3/3] virtiofsd: Add support for FUSE_SYNCFS request
- without announce_submounts
-Message-ID: <20220215101209.3fd92bd6@bahia>
-In-Reply-To: <YgqfCtcjhApw5Fyw@redhat.com>
-References: <20220214135820.43897-1-groug@kaod.org>
- <20220214135820.43897-4-groug@kaod.org>
- <YgqfCtcjhApw5Fyw@redhat.com>
+ us-mta-661-rGh6GL4RM2GY6L3sQpY3Hg-1; Tue, 15 Feb 2022 04:16:44 -0500
+X-MC-Unique: rGh6GL4RM2GY6L3sQpY3Hg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q8-20020adfb188000000b001e33a8cdbf4so8058904wra.16
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:16:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=venWY+SDalVW4Zgf8HNc7ksd8lvrIn1qbTRT0F5mb4M=;
+ b=4qFJjtOqj3HiTASRkmCn0ywKggGhvI9q/Hm7Po1/1UXyPQYeZShaW0ohp7XlNzWY9k
+ dkEpOHadVIf0LcV3fyISd9YiwvsuH9aXaBpRyCbZ4FYThQuNVvHCs754MD4wnaJ2dEIU
+ 1z6gREvqYqCk8mSMEc1V9IRbB0l+Efw6BikPU5YwElk5SV7YxaKtc/gPJBuhR2fzzft6
+ 1qOosK/impRPAezKviZ/BOlWna7YFnggbOLfk/8ogtr4/RHjnY1zhePbTy9+4Eh4tksU
+ PmW2lfRBMOGbgOWGEVtrDfGlTvGCdJygRbm4atCCsZgeilIsZrt0uV3Kv4gjnQ/lS5EI
+ /57w==
+X-Gm-Message-State: AOAM531xiq43mBjjabv2Yp8USeW70rRg6yRIPH6cH234zh7nJMHN+aUw
+ Z32bmM+KJDgsbatuWotIJsmrKXpCBrSYX02FFkKMPIc3MADy76r/BImOp+CKZXapUJNB+OU+T9Z
+ e1rTpq9WAIlb9ZEU=
+X-Received: by 2002:a7b:cf18:: with SMTP id l24mr2231046wmg.35.1644916603007; 
+ Tue, 15 Feb 2022 01:16:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzBLiyiVGswdaSDQic99yn5BfZJVKYntmGu336TTNdn8M6ArwKP91jhJZ2gwdK+SJsW0txvXg==
+X-Received: by 2002:a7b:cf18:: with SMTP id l24mr2231030wmg.35.1644916602799; 
+ Tue, 15 Feb 2022 01:16:42 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:92b:6460:3f38:a137:6502:95a4?
+ ([2a01:e0a:92b:6460:3f38:a137:6502:95a4])
+ by smtp.gmail.com with ESMTPSA id l15sm14291193wmi.29.2022.02.15.01.16.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Feb 2022 01:16:42 -0800 (PST)
+Subject: Re: [PATCH v3 0/4] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
+To: Cornelia Huck <cohuck@redhat.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>
+References: <20220214124356.872985-1-jean-philippe@linaro.org>
+ <87o839s67g.fsf@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <ef945ca8-ee6b-8b17-2fe2-add32dfb9dd4@redhat.com>
+Date: Tue, 15 Feb 2022 10:16:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <87o839s67g.fsf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,159 +103,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com,
- Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: eric.auger@redhat.com
+Cc: lvivier@redhat.com, thuth@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pasic@linux.ibm.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Feb 2022 13:27:22 -0500
-Vivek Goyal <vgoyal@redhat.com> wrote:
+Hi Connie,
 
-> On Mon, Feb 14, 2022 at 02:58:20PM +0100, Greg Kurz wrote:
-> > This adds the missing bits to support FUSE_SYNCFS in the case submounts
-> > aren't announced to the client.
-> >=20
-> > Iterate over all inodes and call syncfs() on the ones marked as submoun=
-ts.
-> > Since syncfs() can block for an indefinite time, we cannot call it with
-> > lo->mutex held as it would prevent the server to process other requests=
-.
-> > This is thus broken down in two steps. First build a list of submounts
-> > with lo->mutex held, drop the mutex and finally process the list. A
-> > reference is taken on the inodes to ensure they don't go away when
-> > lo->mutex is dropped.
-> >=20
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >  tools/virtiofsd/passthrough_ll.c | 38 ++++++++++++++++++++++++++++++--
-> >  1 file changed, 36 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
-ough_ll.c
-> > index e94c4e6f8635..7ce944bfe2a0 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -3400,8 +3400,42 @@ static void lo_syncfs(fuse_req_t req, fuse_ino_t=
- ino)
-> >          err =3D lo_do_syncfs(lo, inode);
-> >          lo_inode_put(lo, &inode);
-> >      } else {
-> > -        /* Requires the sever to track submounts. Not implemented yet =
-*/
-> > -        err =3D ENOSYS;
-> > +        g_autoptr(GSList) submount_list =3D NULL;
-> > +        GSList *elem;
-> > +        GHashTableIter iter;
-> > +        gpointer key, value;
-> > +
-> > +        pthread_mutex_lock(&lo->mutex);
-> > +
-> > +        g_hash_table_iter_init(&iter, lo->inodes);
-> > +        while (g_hash_table_iter_next(&iter, &key, &value)) {
->=20
-> Going through all the inodes sounds very inefficient. If there are large
-> number of inodes (say 1 million or more), and if frequent syncfs requests
-> are coming this can consume lot of cpu cycles.
->=20
+On 2/14/22 6:34 PM, Cornelia Huck wrote:
+> On Mon, Feb 14 2022, Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+>
+>> Replace the VIRTIO_IOMMU_F_BYPASS feature with
+>> VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
+>> global bypass on and off.
+>>
+>> Add a boot-bypass option, which defaults to 'on' to be in line with
+>> other vIOMMUs and to allow running firmware/bootloader that are unaware
+>> of the IOMMU. x86 doesn't need a workaround to boot with virtio-iommu
+>> anymore.
+>>
+>> Since v2 [1]:
+>> * Added the new bypass bits to the migration stream.
+>>   As discussed on the v2 thread, we assume that cross-version
+>>   compatibility is not required for live migration at the moment, so we
+>>   only increase the version number. Patch 2 says: "We add the bypass
+>>   field to the migration stream without introducing subsections, based
+>>   on the assumption that this virtio-iommu device isn't being used in
+>>   production enough to require cross-version migration at the moment
+>>   (all previous version required workarounds since they didn't support
+>>   ACPI and boot-bypass)."
+>>
+>> [1] https://lore.kernel.org/qemu-devel/20220127142940.671333-1-jean-philippe@linaro.org/
+> One thing that we could do to avoid surprises in the unlikely case that
+> somebody has a virtio-iommu device and wants to migrate to an older
+> machine version is to add a migration blocker for the virtio-iommu
+> device for all compat machines for versions 6.2 or older (i.e. only 7.0
+> or newer machine types can have a migratable virtio-iommu device
+> starting with QEMU 7.0.) Not too complicated to implement, but I'm not
+> sure whether we'd add too much code to prevent something very unlikely
+> to happen anyway. I would not insist on it :)
+As nobody has shout and we are not aware of anybody using the device in
+production mode yet due to the missing boot bypass feature this series
+brings, I would be personally in favour of leaving things as is. Now, up
+to Jean if he wants to go and implement your suggestion.
 
-Yes.
+Thanks
 
-> Given C virtiofsd is slowly going away, so I don't want to be too
-> particular about it. But, I would have thought to put submount
-> inodes into another list or hash map (using mount id as key) and just
-> traverse through that list instead. Given number of submounts should
-> be small, it should be pretty quick to walk through that list.
->=20
+Eric
 
-I don't think this requires a hash, but yes we could manage a list
-of these so that we don't have to create the list at syncfs() time.
-
-> > +            struct lo_inode *inode =3D value;
-> > +
-> > +            if (inode->is_submount) {
-> > +                g_atomic_int_inc(&inode->refcount);
-> > +                submount_list =3D g_slist_prepend(submount_list, inode=
-);
-> > +            }
-> > +        }
-> > +
-> > +        pthread_mutex_unlock(&lo->mutex);
-> > +
-> > +        /* The root inode is always present and not tracked in the has=
-h table */
-> > +        err =3D lo_do_syncfs(lo, &lo->root);
-> > +
-> > +        for (elem =3D submount_list; elem; elem =3D g_slist_next(elem)=
-) {
-> > +            struct lo_inode *inode =3D elem->data;
-> > +            int r;
-> > +
-> > +            r =3D lo_do_syncfs(lo, inode);
-> > +            if (r) {
-> > +                /*
-> > +                 * Try to sync as much as possible. Only one error can=
- be
-> > +                 * reported to the client though, arbitrarily the last=
- one.
-> > +                 */
-> > +                err =3D r;
-> > +            }
-> > +            lo_inode_put(lo, &inode);
-> > +        }
->=20
-> One more minor nit. What happens if virtiofsd is processing syncfs list
-> and then somebody hard reboots qemu and mounts virtiofs again. That
-> will trigger FUSE_INIT and will call lo_destroy() first.
->=20
-> fuse_lowlevel.c
->=20
-> fuse_session_process_buf_int()
-> {
->             fuse_log(FUSE_LOG_DEBUG, "%s: reinit\n", __func__);
->             se->got_destroy =3D 1;
->             se->got_init =3D 0;
->             if (se->op.destroy) {
->                 se->op.destroy(se->userdata);
->             }
-> }
->=20
-> IIUC, there is no synchronization with this path. If we are running with
-> thread pool enabled, it could very well happen that one thread is still
-> doing syncfs while other thread is executing do_init(). That sounds
-> like little bit of a problem. It will be good if there is a way
-> to either abort syncfs() or do_destroy() waits for all the previous
-> syncfs() to finish.
->=20
-
-Ah, this is a problem indeed but how does it differ from any other
-outstanding request ? It seems that do_destroy() should drain all
-of them.
-
-> Greg, if you like, you could break down this work in two patch series.
-> First patch series just issues syncfs() on inode id sent with FUSE_SYNCFS=
-.
-> That's easy fix and can get merged now.
->=20
-
-Sure. I can quickly repost patch 1 that matches what the rust
-implementation is doing as suggested by German.=20
-
-> And second patch series take care of above issues and will be little bit
-> more work.
->=20
-
-This might take some more time as I really only have very few cycles to
-work on this.
-
-Cheers,
-
---
-Greg
-
-> Thanks
-> Vivek
->=20
+>
+> Otherwise, I didn't spot problems in this series.
+>
 
 
