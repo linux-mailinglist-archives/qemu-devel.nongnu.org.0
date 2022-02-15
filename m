@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A794B6845
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:56:25 +0100 (CET)
-Received: from localhost ([::1]:57384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A064B6856
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 11:00:22 +0100 (CET)
+Received: from localhost ([::1]:37868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuZM-00088U-Qm
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:56:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58612)
+	id 1nJudB-0004p8-BR
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 05:00:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJuSB-0007S0-4F
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:48:59 -0500
-Received: from [2a00:1450:4864:20::535] (port=43836
- helo=mail-ed1-x535.google.com)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1nJuSU-0001Wu-2F
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:49:18 -0500
+Received: from [2a00:1450:4864:20::335] (port=42731
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJuS9-0002cI-GW
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:48:58 -0500
-Received: by mail-ed1-x535.google.com with SMTP id y17so29145804edd.10
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:48:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BnRhxGYYfE1KOVwREmvYiP9dp/YVvP/CIfZoSMCSUPI=;
- b=XEbs2DlJ3BrIBSC2hS2ypWlKElX8I48x2Kgc4vD4fAQ/sZLbWiXNQSuUyHDRxdezEP
- aeX6satXBpJisIuvqWzSwDx6aHDqtGLm8usDHQ5Ac5A6pkIjM/cXp2gvRY8lRGCZqHov
- aPRkEU8vE9FXarvq9f7PkXPzgCmXeXfjnmjtKO8Dr5c2e6x8NWMwZm4GHULki53jEP4P
- f181J4lhpcJh8uMdqBlLl2Hsd1Ob8EN0wn6zpRAfl1priukoLDs9Nv9RFxhTk3NLiDWW
- a3SXTFViUPCyH7d05GOR6MVHKVfIk5cst6AwEXRUWFf31ynmddn9N/lu7PPKl36ZeFXZ
- M/KQ==
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1nJuSS-0002dc-3n
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:49:17 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ k3-20020a1ca103000000b0037bdea84f9cso1031841wme.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:49:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=PpU3dsxQ1HcBY2Eb20bMEfHSWxXLppGLA2neLS9FsA0=;
+ b=hGkfyJUv229iMuVb4I9tL/H3Rktbdm8PNlO72A5H45bZZMIEFSnHFxfxmOkDgbEt3P
+ JcGhfJOBuZuBy7dCWhjv3TxfzOog7KTMe9NXA6vofhoOlOlGRxn++IWwSLf7chAO2vDI
+ 4esAbueuBzm2Q3SgbTq+LR/lvn38MEE8tUU/pQOC76yL+TZCu6dAEuOyEHHAb+5nlIy1
+ Mp7Blb0IGI0uwLL/WeuXCZzG4HVAFYDHngiRhWLRJ/eoeFDGNfYR+KjZUqR68KVt137o
+ taFJsj2e9AlfQp+KXhKO3OOhmb9brIAzvsjdvaIDeApd+WIdNxcqzzHTyiFLnBN1Yndd
+ 0PkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BnRhxGYYfE1KOVwREmvYiP9dp/YVvP/CIfZoSMCSUPI=;
- b=qg4FDodaMOZHx3ggp3ovRzPK55s7Lr27nuY6WK0RmmCe9bs8Ie4hM/mnmde2lEWPT/
- PJyd6C8BJRS1KXZx73SG82qax1wLXW4LjvT1z+gStoU6jYwcMXPjbjfGklkVfe+nGuQv
- 1VjenUdwK2eKJH9tP3b9ox+kdEkGqvwwn1CfX2OgiEEYvDdto2KDbZgdfzRujlwfwm4u
- LIU8u0XcZVn/zntaqnAgU2sFNPUMQDE3X67vVq93Jspd83Ywv8g1TetIRi///vrJctkG
- RoMg+ZjXt3vv9NTuFCaHGggXlNTTZClD+qz4GkD4xWs/uW/gWCFL7v96SDod+TN8fpQu
- yzjg==
-X-Gm-Message-State: AOAM531Bi3Pt5mXfRowuXD8OFaRLQsXUWfNQ2WOUHh1Y8OImDctheZoZ
- gh8H6xYeJRcM2CMSB12z6uM1v2l12f+NVyjeT00m/g==
-X-Google-Smtp-Source: ABdhPJw1RtTcDKqZ9eIMFAByDaykoc04HD2BIDe7Um6jaYvxqz9Ddkm+GoGRoWAT0zOckWXk8UmWI3ohlTwEW24zymA=
-X-Received: by 2002:a05:6402:b09:: with SMTP id
- bm9mr3070069edb.304.1644918536136; 
- Tue, 15 Feb 2022 01:48:56 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PpU3dsxQ1HcBY2Eb20bMEfHSWxXLppGLA2neLS9FsA0=;
+ b=TkCnc7HEIVn87tTvchGQwVZvbn/jKp19MCqwIn+hPYXDyekzp1hhkU3zX5ldb6Ug16
+ YChaPq6XJqjFROBUIs4fK0zLITqTXp8XtATFUFWvc/vCQgdytDAjcvdF9QCfTNvKak1S
+ GhDRcSxP0Fh4MaH+8XJx9EjNea5d3PZHxjxKnuVhoYwkQAASRfVc2RuHbmwVv9gqYvcV
+ XIg86MUqiuSAQAb/8GJE4AvbHs5Ot2naV8G9C4pbbKdFv+XMxyxOxf8XxG9B4lbq72eh
+ Vj6RZrKsv3q5HNxe3caniMGS46D6NYaxMd4XfSTqNIR3MWkVx+jYyIHKZRiWRCUfD3av
+ ODDA==
+X-Gm-Message-State: AOAM5311etkE3EO1Ri4wWnaJ1EZg07k6POoEDefvmqJm8SVQwGUa/ew3
+ 0eqmN/GHIbhs3JEj2T1bpJTaBw==
+X-Google-Smtp-Source: ABdhPJzzI+IgeJNpIefxbZPcil0EyxF2Xsp9eaCNckq/Yg0FeQ3O45YLIAAuyvj4yel+y6qKc1NXCw==
+X-Received: by 2002:a1c:3586:: with SMTP id c128mr2403538wma.15.1644918554759; 
+ Tue, 15 Feb 2022 01:49:14 -0800 (PST)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id g12sm11189967wmq.28.2022.02.15.01.49.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Feb 2022 01:49:14 -0800 (PST)
+Date: Tue, 15 Feb 2022 09:48:51 +0000
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 0/4] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
+Message-ID: <Ygt3A4jETnmy0K0Y@myrica>
+References: <20220214124356.872985-1-jean-philippe@linaro.org>
+ <87o839s67g.fsf@redhat.com>
+ <ef945ca8-ee6b-8b17-2fe2-add32dfb9dd4@redhat.com>
 MIME-Version: 1.0
-References: <alpine.DEB.2.22.394.2202141048390.13781@anisinha-lenovo>
- <20220214133634.248d7de0@redhat.com>
- <b9771171-8d28-b46b-4474-687a8fed0abd@redhat.com>
- <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
- <b06ab7b0-61f2-5301-70f9-197dfd9527e9@redhat.com>
- <CAARzgwwDFybUsCj8Ym6kpcjNRCVV6vbsY7Lks0wsmrc2+ET03Q@mail.gmail.com>
- <492bd3a4-4a26-afc9-1268-74a9fd7f095a@redhat.com>
- <CAARzgwzd-p-GLOQ-VtBC2_-fd1=fg2rZU7t9XhVA1QSUe1vT0A@mail.gmail.com>
- <86b5c589-c1d2-bd2b-12e4-9bec25d3a9ef@redhat.com>
-In-Reply-To: <86b5c589-c1d2-bd2b-12e4-9bec25d3a9ef@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 15 Feb 2022 15:18:45 +0530
-Message-ID: <CAARzgwzYvk=pLz3gHX_Q3gTsJzog+S1mmB-ob6N=hY_odqA7Hw@mail.gmail.com>
-Subject: Re: 9 TiB vm memory creation
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ef945ca8-ee6b-8b17-2fe2-add32dfb9dd4@redhat.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::535;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,105 +90,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com, thuth@redhat.com, mst@redhat.com,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ pasic@linux.ibm.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 3:14 PM David Hildenbrand <david@redhat.com> wrote:
->
-> On 15.02.22 10:40, Ani Sinha wrote:
-> > On Tue, Feb 15, 2022 at 2:08 PM David Hildenbrand <david@redhat.com> wrote:
-> >>
-> >> On 15.02.22 09:12, Ani Sinha wrote:
-> >>> On Tue, Feb 15, 2022 at 1:25 PM David Hildenbrand <david@redhat.com> wrote:
-> >>>>
-> >>>> On 15.02.22 08:00, Ani Sinha wrote:
-> >>>>>
-> >>>>>
-> >>>>> On Mon, 14 Feb 2022, David Hildenbrand wrote:
-> >>>>>
-> >>>>>> On 14.02.22 13:36, Igor Mammedov wrote:
-> >>>>>>> On Mon, 14 Feb 2022 10:54:22 +0530 (IST)
-> >>>>>>> Ani Sinha <ani@anisinha.ca> wrote:
-> >>>>>>>
-> >>>>>>>> Hi Igor:
-> >>>>>>>>
-> >>>>>>>> I failed to spawn a 9 Tib VM. The max I could do was a 2 TiB vm on my
-> >>>>>>>> system with the following commandline before either the system
-> >>>>>>>> destabilized or the OOM killed killed qemu
-> >>>>>>>>
-> >>>>>>>> -m 2T,maxmem=9T,slots=1 \
-> >>>>>>>> -object memory-backend-file,id=mem0,size=2T,mem-path=/data/temp/memfile,prealloc=off \
-> >>>>>>>> -machine memory-backend=mem0 \
-> >>>>>>>> -chardev file,path=/tmp/debugcon2.txt,id=debugcon \
-> >>>>>>>> -device isa-debugcon,iobase=0x402,chardev=debugcon \
-> >>>>>>>>
-> >>>>>>>> I have attached the debugcon output from 2 TiB vm.
-> >>>>>>>> Is there any other commandline parameters or options I should try?
-> >>>>>>>>
-> >>>>>>>> thanks
-> >>>>>>>> ani
-> >>>>>>>
-> >>>>>>> $ truncate -s 9T 9tb_sparse_disk.img
-> >>>>>>> $ qemu-system-x86_64 -m 9T \
-> >>>>>>>   -object memory-backend-file,id=mem0,size=9T,mem-path=9tb_sparse_disk.img,prealloc=off,share=on \
-> >>>>>>>   -machine memory-backend=mem0
-> >>>>>>>
-> >>>>>>> works for me till GRUB menu, with sufficient guest kernel
-> >>>>>>> persuasion (i.e. CLI limit ram size to something reasonable) you can boot linux
-> >>>>>>> guest on it and inspect SMBIOS tables comfortably.
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> With KVM enabled it bails out with:
-> >>>>>>>    qemu-system-x86_64: kvm_set_user_memory_region: KVM_SET_USER_MEMORY_REGION failed, slot=1, start=0x100000000, size=0x8ff40000000: Invalid argument
-> >>>>>>>
-> >>>>>
-> >>>>> I have seen this in my system but not always. Maybe I should have dug
-> >>>>> deeper as to why i do see this all the time.
-> >>>>>
-> >>>>>>> all of that on a host with 32G of RAM/no swap.
-> >>>>>>>
-> >>>>>
-> >>>>> My system in 16 Gib of main memory, no swap.
-> >>>>>
-> >>>>>>
-> >>>>>> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
-> >>>>>>
-> >>>>>> ~8 TiB (7,999999)
-> >>>>>
-> >>>>> That's not 8 Tib, thats 2 GiB. But yes, 0x8ff40000000 is certainly greater
-> >>>>> than 2 Gib * 4K (assuming 4K size pages).
-> >>>>
-> >>>> "pages" don't carry the unit "GiB/TiB", so I was talking about the
-> >>>> actual size with 4k pages (your setup, I assume)
-> >>>
-> >>> yes I got that after reading your email again.
-> >>> The interesting question now is how is redhat QE running 9 TiB vm with kvm?
-> >>
-> >> As already indicated by me regarding s390x only having single large NUMA
-> >> nodes, x86 is usually using multiple NUMA nodes with such large memory.
-> >> And QE seems to be using virtual numa nodes:
-> >>
-> >> Each of the 32 virtual numa nodes receive a:
-> >>
-> >>   -object memory-backend-ram,id=ram-node20,size=309237645312,host-
-> >>    nodes=0-31,policy=bind
-> >>
-> >> which results in a dedicated KVM memslot (just like each DIMM would)
-> >>
-> >>
-> >> 32 * 309237645312 == 9 TiB :)
+On Tue, Feb 15, 2022 at 10:16:40AM +0100, Eric Auger wrote:
+> Hi Connie,
+> 
+> On 2/14/22 6:34 PM, Cornelia Huck wrote:
+> > On Mon, Feb 14 2022, Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 > >
-> > ah, I should have looked closely at the other commandlines before
-> > shooting off the email. Yes the limitation is per mem-slot and they
-> > have 32 slots one per node.
-> > ok so should we do
-> > kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
-> > from i386 kvm_arch_init()?
->
->
-> As I said, I'm not a friend of these workarounds in user space.
+> >> Replace the VIRTIO_IOMMU_F_BYPASS feature with
+> >> VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
+> >> global bypass on and off.
+> >>
+> >> Add a boot-bypass option, which defaults to 'on' to be in line with
+> >> other vIOMMUs and to allow running firmware/bootloader that are unaware
+> >> of the IOMMU. x86 doesn't need a workaround to boot with virtio-iommu
+> >> anymore.
+> >>
+> >> Since v2 [1]:
+> >> * Added the new bypass bits to the migration stream.
+> >>   As discussed on the v2 thread, we assume that cross-version
+> >>   compatibility is not required for live migration at the moment, so we
+> >>   only increase the version number. Patch 2 says: "We add the bypass
+> >>   field to the migration stream without introducing subsections, based
+> >>   on the assumption that this virtio-iommu device isn't being used in
+> >>   production enough to require cross-version migration at the moment
+> >>   (all previous version required workarounds since they didn't support
+> >>   ACPI and boot-bypass)."
+> >>
+> >> [1] https://lore.kernel.org/qemu-devel/20220127142940.671333-1-jean-philippe@linaro.org/
+> > One thing that we could do to avoid surprises in the unlikely case that
+> > somebody has a virtio-iommu device and wants to migrate to an older
+> > machine version is to add a migration blocker for the virtio-iommu
+> > device for all compat machines for versions 6.2 or older (i.e. only 7.0
+> > or newer machine types can have a migratable virtio-iommu device
+> > starting with QEMU 7.0.) Not too complicated to implement, but I'm not
+> > sure whether we'd add too much code to prevent something very unlikely
+> > to happen anyway. I would not insist on it :)
+> As nobody has shout and we are not aware of anybody using the device in
+> production mode yet due to the missing boot bypass feature this series
+> brings, I would be personally in favour of leaving things as is. Now, up
+> to Jean if he wants to go and implement your suggestion.
 
-Oh ok, did not realize you were against s390x like workarounds.
+I agree, it seems too unlikely that someone would want to migrate it back
+to 6.2 where it wasn't really useable except for experiments
+
+Thanks,
+Jean
 
