@@ -2,79 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FD94B792A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 22:11:01 +0100 (CET)
-Received: from localhost ([::1]:36210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9030B4B792F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 22:22:41 +0100 (CET)
+Received: from localhost ([::1]:45428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nK56B-0001Wy-MV
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 16:10:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33204)
+	id 1nK5HU-0008Lf-4n
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 16:22:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.kanavin@gmail.com>)
- id 1nK53z-00081q-Ix
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 16:08:44 -0500
-Received: from [2a00:1450:4864:20::62a] (port=36400
- helo=mail-ej1-x62a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.kanavin@gmail.com>)
- id 1nK53w-0005Kz-Uy
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 16:08:43 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id jg20so22039273ejc.3
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 13:08:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CfQRdtbyJnVTZ5vcMfgR0ZQCgifg3c+t/Lrr5IqOCGw=;
- b=ihPphRGuqXGpVxwnmkooVTWITTDzBTrAu9eeweEvHGLqK0fTVbR10UEGFUQx/q8TbP
- yaMWKHwuGJ9vD/pBs55lPbXI6K1PihHww8iin9gVHyargcqEtyf6Hq7fQvoH2EEIZnf/
- JoLqoiyB/y8ZrvN27VeIKoTfXYlNI2b1xz7p3Ox+4pg/FGn9et2qKid4rUg0U2moHXcN
- rImF/+/J3MReKrEBYZFSrGM8YItRjyJIzJ2L8pfOJws6avLWJOOkrmbjBPl9XAF+gQ6p
- a4a7EvuV4DNUkHkYj/iPpG6hD0sIu+SBDGFTMV1VpKs51qWwfqOeByI32eUqVRUv4kUY
- Cnmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CfQRdtbyJnVTZ5vcMfgR0ZQCgifg3c+t/Lrr5IqOCGw=;
- b=nflrTSgCa4O6uB/FjCdeGLDwLPtmqTZb9dsYanD62CSkkpfdegsCCSqFMZYSPa0rkX
- BlYNgpEYPeHWPu1P/LIGM2+NrUSnOf0O+fm7URhVnrMwNEXh45lyULYML3se1O+50juA
- Wk4KTYXmE6ylFBHDgSukrCnyM7wuBT1BR8CBdoy96snrvIDUvNj+daGGOmvx5r1WEjNs
- IfC27QhNsaGDiOLF1lcLTQ1/02zlMvySLto4Qw4WoACcDoEez5V8hkEjJRnuJTYv+5Q7
- kE37vwD6h0mpGAjPxibKIcGEINUOrSiCaUW+0Gq24H3fR3lJmVPHTg4XtVe6SWWk8b8V
- DCkQ==
-X-Gm-Message-State: AOAM532T1cvrpCD2eZuWLi2UBeAiJuegJABkv+19gePFB6QipmF5ayRj
- 0ytNvarmVf3qugQlgUmjDJ2YH+uiFRs=
-X-Google-Smtp-Source: ABdhPJyE/+2xFxp9/ohvwsOwMutKNa2a7DrUAYh0jGvd0RN7rYuiTXPR+NP65A/Xgt8CjhSxigoVbw==
-X-Received: by 2002:a17:906:549:: with SMTP id k9mr725457eja.649.1644958861523; 
- Tue, 15 Feb 2022 13:01:01 -0800 (PST)
-Received: from alex-lx-laptop.fritz.box
- ([2a02:2454:29b:3b00:6474:2a45:decd:ac3c])
- by smtp.gmail.com with ESMTPSA id z1sm1217455eji.136.2022.02.15.13.01.00
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 13:01:01 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] i386/tcg: add AVX/AVX2 support (severely incomplete,
- just for preliminary feedback)
-Date: Tue, 15 Feb 2022 22:00:59 +0100
-Message-Id: <20220215210059.37002-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <heiko@sntech.de>)
+ id 1nK5Fc-0007SB-Sd; Tue, 15 Feb 2022 16:20:46 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:56060)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <heiko@sntech.de>)
+ id 1nK5FP-0007a3-4e; Tue, 15 Feb 2022 16:20:35 -0500
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1nK5FF-0002gN-6s; Tue, 15 Feb 2022 22:20:21 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Atish Patra <atishp@atishpatra.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Atish Patra <atishp@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Subject: Re: [PATCH] target/riscv: Add isa extenstion strings to the device
+ tree
+Date: Tue, 15 Feb 2022 22:20:19 +0100
+Message-ID: <3681957.RLg0Pos3oq@diego>
+In-Reply-To: <CAOnJCU+K6dKda0gwE_+V8qAp9CUg1RWseuCAOCPKoWs3_p6kUA@mail.gmail.com>
+References: <20220215090530.911828-1-atishp@rivosinc.com>
+ <2828317.Et2jP947se@diego>
+ <CAOnJCU+K6dKda0gwE_+V8qAp9CUg1RWseuCAOCPKoWs3_p6kUA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=alex.kanavin@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: none client-ip=185.11.138.130; envelope-from=heiko@sntech.de;
+ helo=gloria.sntech.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,394 +62,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Lack of AVX/AVX2 support in the i386 TCG has been a significant gap
-for a long while; I've started work to close this gap.
+Am Dienstag, 15. Februar 2022, 20:39:10 CET schrieb Atish Patra:
+> On Tue, Feb 15, 2022 at 8:20 AM Heiko St=FCbner <heiko@sntech.de> wrote:
+> >
+> > Am Dienstag, 15. Februar 2022, 10:05:30 CET schrieb Atish Patra:
+> > > Append the available ISA extensions to the "riscv,isa" string if it
+> > > is enabled so that kernel can process it.
+> > >
+> > > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > > ---
+> > >  target/riscv/cpu.c | 23 ++++++++++++++++++++++-
+> > >  1 file changed, 22 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > > index b0a40b83e7a8..c70260d0df15 100644
+> > > --- a/target/riscv/cpu.c
+> > > +++ b/target/riscv/cpu.c
+> > > @@ -34,6 +34,9 @@
+> > >
+> > >  /* RISC-V CPU definitions */
+> > >
+> > > +/* This includes the null terminated character '\0' */
+> > > +#define MAX_ISA_EXT_LEN 256
+> > > +
+> > >  static const char riscv_exts[26] =3D "IEMAFDQCLBJTPVNSUHKORWXYZG";
+> > >
+> > >  const char * const riscv_int_regnames[] =3D {
+> > > @@ -881,10 +884,26 @@ static void riscv_cpu_class_init(ObjectClass *c=
+, void *data)
+> > >      device_class_set_props(dc, riscv_cpu_properties);
+> > >  }
+> > >
+> > > +static void riscv_isa_string_ext(RISCVCPU *cpu, char *isa_str, int m=
+ax_str_len)
+> > > +{
+> > > +    int offset =3D strnlen(isa_str, max_str_len);
+> > > +
+> > > +    if (cpu->cfg.ext_svpbmt) {
+> > > +        offset +=3D snprintf(isa_str + offset, max_str_len, "_%s", "=
+_svpbmt");
+> > > +    }
+> > > +    if ((offset < max_str_len) && cpu->cfg.ext_svinval) {
+> >
+> > shouldn't offset + strlen("svinval") +1 be < max_str_len?
+> > snprintf will write partial strings but this would throw off a
+> > qemu client completely I guess.
+> >
+>=20
+> We need that check to put out warnings to the user.
 
-This is of course nowhere near complete, or even buildable, I'm
-just requesting initial feedback from the qemu gurus - am I on
-the right track with this? Does something need to be done differently?
+That is what I meant :-)
 
-There's an enormous amount of legacy SSE instructions to adjust
-for VEX-128 and VEX-256 flavours, so I would want to know that this
-way would be acceptable.
+The current check above is for "there is still space for _something_"
+but it doesn't check if the whole extension name fits.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- target/i386/cpu.h            |   6 ++
- target/i386/ops_sse.h        |  40 +++++++++---
- target/i386/ops_sse_header.h |   6 +-
- target/i386/tcg/translate.c  | 115 ++++++++++++++++++++++++++++++-----
- 4 files changed, 140 insertions(+), 27 deletions(-)
+That is what I'm trying to do in my example below check (and warn if not)
+if the whole name fits into the remaining space.
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 9911d7c871..ff83c7ef5b 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -82,6 +82,12 @@ typedef enum X86Seg {
-     R_TR = 7,
- } X86Seg;
- 
-+enum {
-+    SIMD_SSE,
-+    SIMD_VEX128,
-+    SIMD_VEX256
-+};
-+
- /* segment descriptor fields */
- #define DESC_G_SHIFT    23
- #define DESC_G_MASK     (1 << DESC_G_SHIFT)
-diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 6f1fc174b3..5a57abd383 100644
---- a/target/i386/ops_sse.h
-+++ b/target/i386/ops_sse.h
-@@ -1249,15 +1249,27 @@ void glue(helper_packssdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-     }                                                                   \
-                                                                         \
-     void glue(helper_punpck ## base_name ## dq, SUFFIX)(CPUX86State *env,\
--                                                        Reg *d, Reg *s) \
-+                                                        Reg *d, Reg *s2, Reg *s1, unsigned int simd_type) \
-     {                                                                   \
-         Reg r;                                                          \
-                                                                         \
--        r.L(0) = d->L((base << SHIFT) + 0);                             \
--        r.L(1) = s->L((base << SHIFT) + 0);                             \
-+        if (simd_type == SIMD_SSE)                             \
-+            s1 = d;                                            \
-+        r.L(0) = s1->L((base << SHIFT) + 0);                             \
-+        r.L(1) = s2->L((base << SHIFT) + 0);                             \
-         XMM_ONLY(                                                       \
--                 r.L(2) = d->L((base << SHIFT) + 1);                    \
--                 r.L(3) = s->L((base << SHIFT) + 1);                    \
-+                 r.L(2) = s1->L((base << SHIFT) + 1);                    \
-+                 r.L(3) = s2->L((base << SHIFT) + 1);                    \
-+                 if (simd_type == SIMD_VEX256) {                        \
-+                     r.L(4) = s1->L((base<<1) + 4);                            \
-+                     r.L(5) = s2->L((base<<1) + 4);                            \
-+                     r.L(6) = s1->L((base<<1) + 5);                            \
-+                     r.L(7) = s2->L((base<<1) + 5);                            \
-+                 }                                                      \
-+                 if (simd_type == SIMD_VEX128) {                        \
-+                     r.Q(2) = 0;                                        \
-+                     r.Q(3) = 0;                                        \
-+                 }                                                      \
-                                                                       ) \
-             *d = r;                                                     \
-     }                                                                   \
-@@ -1266,12 +1278,24 @@ void glue(helper_packssdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-              void glue(helper_punpck ## base_name ## qdq, SUFFIX)(CPUX86State \
-                                                                   *env, \
-                                                                   Reg *d, \
--                                                                  Reg *s) \
-+                                                                  Reg *s2, \
-+                                                                  Reg *s1, \
-+                                                                  unsigned int simd_type) \
-              {                                                          \
-                  Reg r;                                                 \
-                                                                         \
--                 r.Q(0) = d->Q(base);                                   \
--                 r.Q(1) = s->Q(base);                                   \
-+                 if (simd_type == SIMD_SSE)                             \
-+                     s1 = d;                                            \
-+                 r.Q(0) = s1->Q(base);                                  \
-+                 r.Q(1) = s2->Q(base);                                  \
-+                 if (simd_type == SIMD_VEX256) {                        \
-+                     r.Q(2) = s1->Q(base+2);                            \
-+                     r.Q(3) = s2->Q(base+2);                            \
-+                 }                                                      \
-+                 if (simd_type == SIMD_VEX128) {                        \
-+                     r.Q(2) = 0;                                        \
-+                     r.Q(3) = 0;                                        \
-+                 }                                                      \
-                  *d = r;                                                \
-              }                                                          \
-                                                                         )
-diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
-index e68af5c403..269aef771b 100644
---- a/target/i386/ops_sse_header.h
-+++ b/target/i386/ops_sse_header.h
-@@ -228,14 +228,14 @@ DEF_HELPER_3(glue(packssdw, SUFFIX), void, env, Reg, Reg)
- #define UNPCK_OP(base_name, base)                                       \
-     DEF_HELPER_3(glue(punpck ## base_name ## bw, SUFFIX), void, env, Reg, Reg) \
-     DEF_HELPER_3(glue(punpck ## base_name ## wd, SUFFIX), void, env, Reg, Reg) \
--    DEF_HELPER_3(glue(punpck ## base_name ## dq, SUFFIX), void, env, Reg, Reg)
-+    DEF_HELPER_5(glue(punpck ## base_name ## dq, SUFFIX), void, env, Reg, Reg, Reg, i32)
- 
- UNPCK_OP(l, 0)
- UNPCK_OP(h, 1)
- 
- #if SHIFT == 1
--DEF_HELPER_3(glue(punpcklqdq, SUFFIX), void, env, Reg, Reg)
--DEF_HELPER_3(glue(punpckhqdq, SUFFIX), void, env, Reg, Reg)
-+DEF_HELPER_5(glue(punpcklqdq, SUFFIX), void, env, Reg, Reg, Reg, i32)
-+DEF_HELPER_5(glue(punpckhqdq, SUFFIX), void, env, Reg, Reg, Reg, i32)
- #endif
- 
- /* 3DNow! float ops */
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 77878cd832..5d59472ea9 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -2729,7 +2729,7 @@ static inline void gen_stq_env_A0(DisasContext *s, int offset)
-     tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0, s->mem_index, MO_LEUQ);
- }
- 
--static inline void gen_ldo_env_A0(DisasContext *s, int offset)
-+static inline void gen_ldo_env_A0(DisasContext *s, int offset, int simd_type)
- {
-     int mem_index = s->mem_index;
-     tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEUQ);
-@@ -2737,6 +2737,17 @@ static inline void gen_ldo_env_A0(DisasContext *s, int offset)
-     tcg_gen_addi_tl(s->tmp0, s->A0, 8);
-     tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
-     tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(1)));
-+    if (simd_type == SIMD_VEX128) {
-+        tcg_gen_st_i64(0, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(2)));
-+        tcg_gen_st_i64(0, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(3)));
-+    } else if (simd_type == SIMD_VEX256) {
-+        tcg_gen_addi_tl(s->tmp0, s->A0, 8);
-+        tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
-+        tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(2)));
-+        tcg_gen_addi_tl(s->tmp0, s->A0, 8);
-+        tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
-+        tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(3)));
-+    }
- }
- 
- static inline void gen_sto_env_A0(DisasContext *s, int offset)
-@@ -2749,12 +2760,21 @@ static inline void gen_sto_env_A0(DisasContext *s, int offset)
-     tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
- }
- 
--static inline void gen_op_movo(DisasContext *s, int d_offset, int s_offset)
-+static inline void gen_op_movo(DisasContext *s, int d_offset, int s_offset, int simd_type)
- {
-     tcg_gen_ld_i64(s->tmp1_i64, cpu_env, s_offset + offsetof(ZMMReg, ZMM_Q(0)));
-     tcg_gen_st_i64(s->tmp1_i64, cpu_env, d_offset + offsetof(ZMMReg, ZMM_Q(0)));
-     tcg_gen_ld_i64(s->tmp1_i64, cpu_env, s_offset + offsetof(ZMMReg, ZMM_Q(1)));
-     tcg_gen_st_i64(s->tmp1_i64, cpu_env, d_offset + offsetof(ZMMReg, ZMM_Q(1)));
-+    if (simd_type == SIMD_VEX128) {
-+        tcg_gen_st_i64(0, cpu_env, d_offset + offsetof(ZMMReg, ZMM_Q(2)));
-+        tcg_gen_st_i64(0, cpu_env, d_offset + offsetof(ZMMReg, ZMM_Q(3)));
-+    } else if (simd_type == SIMD_VEX256) {
-+        tcg_gen_ld_i64(s->tmp1_i64, cpu_env, s_offset + offsetof(ZMMReg, ZMM_Q(2)));
-+        tcg_gen_st_i64(s->tmp1_i64, cpu_env, d_offset + offsetof(ZMMReg, ZMM_Q(2)));
-+        tcg_gen_ld_i64(s->tmp1_i64, cpu_env, s_offset + offsetof(ZMMReg, ZMM_Q(3)));
-+        tcg_gen_st_i64(s->tmp1_i64, cpu_env, d_offset + offsetof(ZMMReg, ZMM_Q(3)));
-+    }
- }
- 
- static inline void gen_op_movq(DisasContext *s, int d_offset, int s_offset)
-@@ -2779,7 +2799,7 @@ typedef void (*SSEFunc_i_ep)(TCGv_i32 val, TCGv_ptr env, TCGv_ptr reg);
- typedef void (*SSEFunc_l_ep)(TCGv_i64 val, TCGv_ptr env, TCGv_ptr reg);
- typedef void (*SSEFunc_0_epi)(TCGv_ptr env, TCGv_ptr reg, TCGv_i32 val);
- typedef void (*SSEFunc_0_epl)(TCGv_ptr env, TCGv_ptr reg, TCGv_i64 val);
--typedef void (*SSEFunc_0_epp)(TCGv_ptr env, TCGv_ptr reg_a, TCGv_ptr reg_b);
-+typedef void (*SSEFunc_0_epp)(TCGv_ptr env, TCGv_ptr reg_a, TCGv_ptr reg_b, TCGv_ptr reg_c, TCGv_i32 simd_mode);
- typedef void (*SSEFunc_0_eppi)(TCGv_ptr env, TCGv_ptr reg_a, TCGv_ptr reg_b,
-                                TCGv_i32 val);
- typedef void (*SSEFunc_0_ppi)(TCGv_ptr reg_a, TCGv_ptr reg_b, TCGv_i32 val);
-@@ -3115,6 +3135,13 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-     SSEFunc_0_ppi sse_fn_ppi;
-     SSEFunc_0_eppt sse_fn_eppt;
-     MemOp ot;
-+    int simd_type;
-+
-+    simd_type = SIMD_SSE;
-+    if ((s->prefix & PREFIX_VEX) && (s->vex_l == 0))
-+        simd_type = SIMD_VEX128;
-+    else if ((s->prefix & PREFIX_VEX) && (s->vex_l == 1))
-+        simd_type = SIMD_VEX256;
- 
-     b &= 0xff;
-     if (s->prefix & PREFIX_DATA)
-@@ -3271,11 +3298,11 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-         case 0x26f: /* movdqu xmm, ea */
-             if (mod != 3) {
-                 gen_lea_modrm(env, s, modrm);
--                gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
-+                gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]), simd_type);
-             } else {
-                 rm = (modrm & 7) | REX_B(s);
-                 gen_op_movo(s, offsetof(CPUX86State, xmm_regs[reg]),
--                            offsetof(CPUX86State,xmm_regs[rm]));
-+                            offsetof(CPUX86State,xmm_regs[rm]), simd_type);
-             }
-             break;
-         case 0x210: /* movss xmm, ea */
-@@ -3291,8 +3318,16 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                                 offsetof(CPUX86State, xmm_regs[reg].ZMM_L(2)));
-                 tcg_gen_st32_tl(s->T0, cpu_env,
-                                 offsetof(CPUX86State, xmm_regs[reg].ZMM_L(3)));
-+                if (simd_type == SIMD_VEX128) {
-+                   tcg_gen_st_i64(0, cpu_env, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(2)));
-+                   tcg_gen_st_i64(0, cpu_env, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(3)));
-+                }
-             } else {
-                 rm = (modrm & 7) | REX_B(s);
-+                if (simd_type == SIMD_VEX128) {
-+                    gen_op_movo(s, offsetof(CPUX86State, xmm_regs[reg]),
-+                                offsetof(CPUX86State,xmm_regs[s->vex_v]), simd_type);
-+                }
-                 gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(0)),
-                             offsetof(CPUX86State,xmm_regs[rm].ZMM_L(0)));
-             }
-@@ -3307,8 +3342,16 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                                 offsetof(CPUX86State, xmm_regs[reg].ZMM_L(2)));
-                 tcg_gen_st32_tl(s->T0, cpu_env,
-                                 offsetof(CPUX86State, xmm_regs[reg].ZMM_L(3)));
-+                if (simd_type == SIMD_VEX128) {
-+                   tcg_gen_st_i64(0, cpu_env, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(2)));
-+                   tcg_gen_st_i64(0, cpu_env, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(3)));
-+                }
-             } else {
-                 rm = (modrm & 7) | REX_B(s);
-+                if (simd_type == SIMD_VEX128) {
-+                    gen_op_movo(s, offsetof(CPUX86State, xmm_regs[reg]),
-+                                offsetof(CPUX86State,xmm_regs[s->vex_v]), simd_type);
-+                }
-                 gen_op_movq(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(0)),
-                             offsetof(CPUX86State,xmm_regs[rm].ZMM_Q(0)));
-             }
-@@ -3316,6 +3359,10 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-         case 0x012: /* movlps */
-         case 0x112: /* movlpd */
-             if (mod != 3) {
-+                if (simd_type == SIMD_VEX128) {
-+                    gen_op_movo(s, offsetof(CPUX86State, xmm_regs[reg]),
-+                                offsetof(CPUX86State,xmm_regs[s->vex_v]), simd_type);
-+                }
-                 gen_lea_modrm(env, s, modrm);
-                 gen_ldq_env_A0(s, offsetof(CPUX86State,
-                                            xmm_regs[reg].ZMM_Q(0)));
-@@ -3324,36 +3371,50 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                 rm = (modrm & 7) | REX_B(s);
-                 gen_op_movq(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(0)),
-                             offsetof(CPUX86State,xmm_regs[rm].ZMM_Q(1)));
-+                if (simd_type == SIMD_VEX128) {
-+                    gen_op_movq(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(1)),
-+                                offsetof(CPUX86State,xmm_regs[s->vex_v].ZMM_Q(1)));
-+                    tcg_gen_st_i64(0, cpu_env, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(2)));
-+                    tcg_gen_st_i64(0, cpu_env, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(3)));
-+                }
-             }
-             break;
-         case 0x212: /* movsldup */
-             if (mod != 3) {
-                 gen_lea_modrm(env, s, modrm);
--                gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
-+                gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]), simd_type);
-             } else {
-                 rm = (modrm & 7) | REX_B(s);
--                gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(0)),
--                            offsetof(CPUX86State,xmm_regs[rm].ZMM_L(0)));
--                gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(2)),
--                            offsetof(CPUX86State,xmm_regs[rm].ZMM_L(2)));
-+                gen_op_movo(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(0)),
-+                            offsetof(CPUX86State,xmm_regs[rm].ZMM_Q(0)), simd_type);
-             }
-             gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(1)),
-                         offsetof(CPUX86State,xmm_regs[reg].ZMM_L(0)));
-             gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(3)),
-                         offsetof(CPUX86State,xmm_regs[reg].ZMM_L(2)));
-+            if (simd_type == SIMD_VEX256) {
-+                gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(5)),
-+                            offsetof(CPUX86State,xmm_regs[reg].ZMM_Q(4)));
-+                gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(7)),
-+                            offsetof(CPUX86State,xmm_regs[reg].ZMM_Q(6)));
-+            }
-             break;
-         case 0x312: /* movddup */
-             if (mod != 3) {
-                 gen_lea_modrm(env, s, modrm);
--                gen_ldq_env_A0(s, offsetof(CPUX86State,
--                                           xmm_regs[reg].ZMM_Q(0)));
-+                gen_ldo_env_A0(s, offsetof(CPUX86State,
-+                                           xmm_regs[reg]), simd_type);
-             } else {
-                 rm = (modrm & 7) | REX_B(s);
--                gen_op_movq(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(0)),
--                            offsetof(CPUX86State,xmm_regs[rm].ZMM_Q(0)));
-+                gen_op_movo(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(0)),
-+                            offsetof(CPUX86State,xmm_regs[rm].ZMM_Q(0)), simd_type);
-             }
-             gen_op_movq(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(1)),
-                         offsetof(CPUX86State,xmm_regs[reg].ZMM_Q(0)));
-+            if (simd_type == SIMD_VEX256) {
-+                gen_op_movq(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(3)),
-+                            offsetof(CPUX86State,xmm_regs[reg].ZMM_Q(2)));
-+            }
-             break;
-         case 0x016: /* movhps */
-         case 0x116: /* movhpd */
-@@ -3361,11 +3422,23 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                 gen_lea_modrm(env, s, modrm);
-                 gen_ldq_env_A0(s, offsetof(CPUX86State,
-                                            xmm_regs[reg].ZMM_Q(1)));
-+                if (simd_type == SIMD_VEX128) {
-+                    gen_op_movq(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(0)),
-+                                offsetof(CPUX86State,xmm_regs[s->vex_v].ZMM_Q(0)));
-+                    tcg_gen_st_i64(0, cpu_env, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(2)));
-+                    tcg_gen_st_i64(0, cpu_env, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(3)));
-+                }
-             } else {
-                 /* movlhps */
-                 rm = (modrm & 7) | REX_B(s);
-                 gen_op_movq(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(1)),
-                             offsetof(CPUX86State,xmm_regs[rm].ZMM_Q(0)));
-+                if (simd_type == SIMD_VEX128) {
-+                    gen_op_movq(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(0)),
-+                                offsetof(CPUX86State,xmm_regs[s->vex_v].ZMM_Q(0)));
-+                    tcg_gen_st_i64(0, cpu_env, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(2)));
-+                    tcg_gen_st_i64(0, cpu_env, offsetof(CPUX86State, xmm_regs[reg].ZMM_Q(3)));
-+                }
-             }
-             break;
-         case 0x216: /* movshdup */
-@@ -3467,7 +3540,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-             } else {
-                 rm = (modrm & 7) | REX_B(s);
-                 gen_op_movo(s, offsetof(CPUX86State, xmm_regs[rm]),
--                            offsetof(CPUX86State,xmm_regs[reg]));
-+                            offsetof(CPUX86State,xmm_regs[reg]), simd_type);
-             }
-             break;
-         case 0x211: /* movss ea, xmm */
-@@ -3478,6 +3551,10 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                 gen_op_st_v(s, MO_32, s->T0, s->A0);
-             } else {
-                 rm = (modrm & 7) | REX_B(s);
-+                if (simd_type == SIMD_VEX128) {
-+                    gen_op_movo(s, offsetof(CPUX86State, xmm_regs[rm]),
-+                                offsetof(CPUX86State,xmm_regs[s->vex_v]), simd_type);
-+                }
-                 gen_op_movl(s, offsetof(CPUX86State, xmm_regs[rm].ZMM_L(0)),
-                             offsetof(CPUX86State,xmm_regs[reg].ZMM_L(0)));
-             }
-@@ -3489,6 +3566,10 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                                            xmm_regs[reg].ZMM_Q(0)));
-             } else {
-                 rm = (modrm & 7) | REX_B(s);
-+                if (simd_type == SIMD_VEX128) {
-+                    gen_op_movo(s, offsetof(CPUX86State, xmm_regs[rm]),
-+                                offsetof(CPUX86State,xmm_regs[s->vex_v]), simd_type);
-+                }
-                 gen_op_movq(s, offsetof(CPUX86State, xmm_regs[rm].ZMM_Q(0)),
-                             offsetof(CPUX86State,xmm_regs[reg].ZMM_Q(0)));
-             }
-@@ -4534,9 +4615,11 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-             sse_fn_eppt(cpu_env, s->ptr0, s->ptr1, s->A0);
-             break;
-         default:
-+            TCGv_ptr ptr2;
-             tcg_gen_addi_ptr(s->ptr0, cpu_env, op1_offset);
-             tcg_gen_addi_ptr(s->ptr1, cpu_env, op2_offset);
--            sse_fn_epp(cpu_env, s->ptr0, s->ptr1);
-+            tcg_gen_addi_ptr(ptr2, cpu_env, offsetof(CPUX86State,xmm_regs[s->vex_v]));
-+            sse_fn_epp(cpu_env, s->ptr0, s->ptr1, ptr2, simd_type);
-             break;
-         }
-         if (b == 0x2e || b == 0x2f) {
--- 
-2.34.1
+>=20
+> >
+> > > +        offset +=3D snprintf(isa_str + offset, max_str_len, "_%s", "=
+_svinval");
+> > > +    }
+> > > +    if ((offset < max_str_len) && (cpu->cfg.ext_svnapot)) {
+> > > +        offset +=3D snprintf(isa_str + offset, max_str_len, "_%s", "=
+_svnapot");
+> > > +    }
+> >
+> > wouldn't it make more sense to do something like:
+> >
+> > +    struct {
+> > +        const char *value;
+> > +        bool enabled;
+> > +    } extensions[] =3D {
+> > +        { "svpbmt", cpu->cfg.ext_svpbmt },
+> > +        { "svinval", cpu->cfg.ext_svinval },
+> > +        { "svnapot", cpu->cfg.ext_svnapot },
+> > +    };
+> > +    int i;
+> > +
+> > +    for (i =3D 0; i < ARRAY_SIZE(extensions); i++) {
+> > +        if (!extensions[i].enabled)
+> > +            continue;
+> > +
+> > +        /* check available space */
+> > +        if (offset + strlen(extensions[i].value) + 1 > max_str_len) {
+> > +            //do warn about exceeded length
+> > +            return;
+> > +        }
+> > +
+> > +        offset +=3D snprintf(isa_str + offset, max_str_len, "_%s",
+> > +                                                          extensions[i=
+].value);
+> > +    }
+> >
+> > instead?
+> >
+> > Because that list will get longer over time and repeating checks
+> > and snprintf calls will get harder to keep in sync over time?
+> >
+>=20
+> Yeah. This is much better.
+>=20
+> >
+> > Heiko
+> >
+> >
+> >
+> >
+> > > +}
+> > > +
+> > >  char *riscv_isa_string(RISCVCPU *cpu)
+> > >  {
+> > >      int i;
+> > > -    const size_t maxlen =3D sizeof("rv128") + sizeof(riscv_exts) + 1;
+> > > +    const size_t maxlen =3D sizeof("rv128") + sizeof(riscv_exts) +
+> > > +                          MAX_ISA_EXT_LEN;
+> > >      char *isa_str =3D g_new(char, maxlen);
+> > >      char *p =3D isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_L=
+ONG_BITS);
+> > >      for (i =3D 0; i < sizeof(riscv_exts); i++) {
+> > > @@ -893,6 +912,8 @@ char *riscv_isa_string(RISCVCPU *cpu)
+> > >          }
+> > >      }
+> > >      *p =3D '\0';
+> > > +    riscv_isa_string_ext(cpu, isa_str, maxlen);
+> > > +
+> > >      return isa_str;
+> > >  }
+> > >
+> > >
+> >
+> >
+> >
+> >
+> >
+>=20
+>=20
+>=20
+
+
+
 
 
