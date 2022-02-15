@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12EA4B65BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:18:07 +0100 (CET)
-Received: from localhost ([::1]:44046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713574B6612
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:30:11 +0100 (CET)
+Received: from localhost ([::1]:36518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJt2E-0006zk-Vb
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:18:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60168)
+	id 1nJtDu-0004KK-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:30:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJspo-0003DC-SG
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:05:17 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=45620
- helo=mail-pj1-x1031.google.com)
+ id 1nJspy-0003VL-6H
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:05:27 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=43576
+ helo=mail-pj1-x1030.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJspm-0002Hl-Bk
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:05:15 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- q11-20020a17090a304b00b001b94d25eaecso1453279pjl.4
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 00:05:14 -0800 (PST)
+ id 1nJspv-0002TX-6y
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:05:25 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ t14-20020a17090a3e4e00b001b8f6032d96so1455814pjm.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 00:05:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5Hph4sk4oyPtFjQNA2cfWHdIT/B6rQkBhH5AEZC1b9k=;
- b=m5L7a1SAcvuM5JSCbqvB3nB+WSVL8EQXN9Vj+0B+vxYUetHSqjIzvnEQ8o7Qcw+e/3
- OIVZlS5y9tNJwScijO+phhRWZ46IHCCQVobY2r5woE+ej3oJnyT+gJk2Uu5MASCXG/3b
- Hp1x651bA0JBvZ+tpFZGF6z9LRc0CYZLNTVSbWBQnIaslGiK4hFipoSYWHrKNTNsapsk
- 234qmTOsXnHELuLss5DnChX4fi9b4yavIYsqLEJnRnWPPTfL/n8W7moGUD6YvzZDxqvU
- H/a1AHy10XUyXz3y0gCeZVA1UW4jf4509Wq4NPlFqwQcCF2zMgFoRmRvwqWMZraO1Wpj
- KOyw==
+ bh=qfJBWc7VlSAxcQpybErIaMF3n0Z6M+HIapcTvTq5mnc=;
+ b=liUCV82O0/VQ0P5gJce1HfTyLB0ughJg5oNWU8P5mmsfjUdW0Hf82YIi+sZ8EjTP+4
+ rD5u29eVFKCdHSOpzcqIbKLswN2aHkbYcGfJNFHy66AdV00+Vscd32HWMxYvV4KVwKsG
+ XL0+FIoE2MjUU87LM6l4NMzXdQZ+ZidJGXJG3TtpY2bYA8YlEyXuLjc+RXArxu1/hIwO
+ rfPp8EyhXimqNOObaJNZ0sPe/ASMpQ+D27p8q3sH+xkWgMJe0/u07dnkKLlcQkjW6bRd
+ DL/d4yLoMpLZAXVN5bitNPGzNwaipDYfbAASVfda/xxl+ppho24VffD4lcU/9+G3KYlY
+ eUHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5Hph4sk4oyPtFjQNA2cfWHdIT/B6rQkBhH5AEZC1b9k=;
- b=UR2M5LfNb92fun1esOj4nid26/8TvV+xWNJp4Ci36nYT082vUnJBMc592CsHPGOhs6
- 5PRaXuKo1SbGhvwZxpSyctJpDeAJrAedOvt/VqKUYZ/1eTh2AouiJ7/6kiCKkqLVuedT
- d+QEChSbfCbtXL/v3t5uTBtr2fr5XJbjHOdxFD7PObKwXML1oBCHcaHY4j7RpdYvm1bV
- ZRuVgE/HTsicvRFdMURG2/PZqxlTXu3PH20FkPPgLy9mXoA5wJwFBmD3magDiRO5elqd
- SlnN+nPA9WR6P5v2EhznvKG1lSPm1RORBDMq1pepJzqgZv5NBwDZKd0Dl5GZWD/jGw9m
- +dWw==
-X-Gm-Message-State: AOAM532ZObR/4H/SK8dyLrrsI3x6Q1jQUQyH+flJtjviKc9N8OFSaSpW
- FpzNYjcEVTbLUsIo7VZumQ12/7PvEXk=
-X-Google-Smtp-Source: ABdhPJzAq1yCFLrcrojEuIzTkBXAcEBJm6EawDrgzpRzIJU0THDYSnl+xr2Oc72lZC4VltgU2PSxCg==
-X-Received: by 2002:a17:903:2406:: with SMTP id
- e6mr2922566plo.21.1644912313104; 
- Tue, 15 Feb 2022 00:05:13 -0800 (PST)
+ bh=qfJBWc7VlSAxcQpybErIaMF3n0Z6M+HIapcTvTq5mnc=;
+ b=0YwpSB5a1YdrEsixkUG+aWkOw9pNKEoD3pVgWo2PsQcRqlkF02MEcSWK3rRfJWF7h7
+ jg7aFFOmP5rtMjtkohqpJimGE97Hswj52UZTjz+r/KS3bUdT1coMdUlo1If+KV5ptC0u
+ SPUG2Vu7AVG7DCj49avSq+djQwWxZ9hJnNu7pPHSKs+pWf1CJPN77AFJBKIFLxiZO/AN
+ aMkw0NWQxB6bSEHvhxkkpu34KxPxq7z9DszPzB2NyWTjUOtNROpYRywbqxanhOpMTqOq
+ 9GgrbDU/5dQ7FIuzgXK3qqWiJO3ZxLpMfICPYNcRIMXL7OxsmI1FbDdbDzX+8vdz+p0/
+ eaCQ==
+X-Gm-Message-State: AOAM533MhrrI3IOoYlgfcK2NjhGAAcPCFubDouRq4uzZaQAelAYonNDL
+ kHmov8/IMw1ibTZET+xzwe2V4KLGMIU=
+X-Google-Smtp-Source: ABdhPJzhG4jJaLzItHQvs33ZEhgpFe1VogLCutbTnfhCLPkaFJa+KuvxUS2qKXIYQZUoQ8EDwvS7xA==
+X-Received: by 2002:a17:902:b941:: with SMTP id
+ h1mr3051902pls.73.1644912321854; 
+ Tue, 15 Feb 2022 00:05:21 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id j2sm38841461pfc.209.2022.02.15.00.05.10
+ by smtp.gmail.com with ESMTPSA id f8sm39470584pfe.204.2022.02.15.00.05.19
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 15 Feb 2022 00:05:12 -0800 (PST)
+ Tue, 15 Feb 2022 00:05:21 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
  Cameron Esfahani <dirty@apple.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v6 14/15] lcitool: Refresh
-Date: Tue, 15 Feb 2022 09:03:06 +0100
-Message-Id: <20220215080307.69550-15-f4bug@amsat.org>
+Subject: [PATCH v6 15/15] gitlab-ci: Support macOS 12 via cirrus-run
+Date: Tue, 15 Feb 2022 09:03:07 +0100
+Message-Id: <20220215080307.69550-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215080307.69550-1-f4bug@amsat.org>
 References: <20220215080307.69550-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -99,54 +99,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Run 'make lcitool-refresh' again.
+Add support for macOS 12 build on Cirrus-CI, similarly to commit
+0e103a65ba1 ("gitlab: support for ... macOS 11 via cirrus-run"),
+but with the following differences:
+ - Enable modules (configure --enable-modules)
+ - Do not run softfloat3 tests (make check-softfloat)
+ - Run Aarch64 qtests instead of x86_64 ones
+
+Generate the vars file by calling 'make lcitool-refresh'.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/docker/dockerfiles/ubuntu1804.docker | 2 --
- tests/docker/dockerfiles/ubuntu2004.docker | 2 --
- 2 files changed, 4 deletions(-)
+ .gitlab-ci.d/cirrus.yml           | 16 ++++++++++++++++
+ .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++
+ tests/lcitool/refresh             |  1 +
+ 3 files changed, 33 insertions(+)
+ create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
 
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 699f2dfc6a..040938277a 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -65,7 +65,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-             libpam0g-dev \
-             libpcre2-dev \
-             libpixman-1-dev \
--            libpmem-dev \
-             libpng-dev \
-             libpulse-dev \
-             librbd-dev \
-@@ -89,7 +88,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-             libvdeplug-dev \
-             libvirglrenderer-dev \
-             libvte-2.91-dev \
--            libxen-dev \
-             libzstd-dev \
-             llvm \
-             locales \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 87513125b8..159e7f60c9 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -66,7 +66,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-             libpam0g-dev \
-             libpcre2-dev \
-             libpixman-1-dev \
--            libpmem-dev \
-             libpng-dev \
-             libpulse-dev \
-             librbd-dev \
-@@ -91,7 +90,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-             libvdeplug-dev \
-             libvirglrenderer-dev \
-             libvte-2.91-dev \
--            libxen-dev \
-             libzstd-dev \
-             llvm \
-             locales \
+diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
+index b96b22e269..be1dce5d4e 100644
+--- a/.gitlab-ci.d/cirrus.yml
++++ b/.gitlab-ci.d/cirrus.yml
+@@ -87,6 +87,22 @@ x64-macos-11-base-build:
+     PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
+     TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
+ 
++x64-macos-12-base-build:
++  extends: .cirrus_build_job
++  variables:
++    NAME: macos-12
++    CIRRUS_VM_INSTANCE_TYPE: osx_instance
++    CIRRUS_VM_IMAGE_SELECTOR: image
++    CIRRUS_VM_IMAGE_NAME: monterey-base
++    CIRRUS_VM_CPUS: 12
++    CIRRUS_VM_RAM: 24G
++    UPDATE_COMMAND: brew update
++    INSTALL_COMMAND: brew install
++    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
++    PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
++    CONFIGURE_ARGS: --enable-modules
++    TEST_TARGETS: check-unit check-block check-qapi-schema check-qtest-aarch64
++
+ 
+ # The following jobs run VM-based tests via KVM on a Linux-based Cirrus-CI job
+ .cirrus_kvm_job:
+diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/macos-12.vars
+new file mode 100644
+index 0000000000..a793258c64
+--- /dev/null
++++ b/.gitlab-ci.d/cirrus/macos-12.vars
+@@ -0,0 +1,16 @@
++# THIS FILE WAS AUTO-GENERATED
++#
++#  $ lcitool variables macos-12 qemu
++#
++# https://gitlab.com/libvirt/libvirt-ci
++
++CCACHE='/usr/local/bin/ccache'
++CPAN_PKGS='Test::Harness'
++CROSS_PKGS=''
++MAKE='/usr/local/bin/gmake'
++NINJA='/usr/local/bin/ninja'
++PACKAGING_COMMAND='brew'
++PIP3='/usr/local/bin/pip3'
++PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
++PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme virtualenv'
++PYTHON='/usr/local/bin/python3'
+diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
+index 4ab90a310a..a714e2851d 100755
+--- a/tests/lcitool/refresh
++++ b/tests/lcitool/refresh
+@@ -89,6 +89,7 @@ try:
+    generate_cirrus("freebsd-12")
+    generate_cirrus("freebsd-13")
+    generate_cirrus("macos-11")
++   generate_cirrus("macos-12")
+ 
+    sys.exit(0)
+ except Exception as ex:
 -- 
 2.34.1
 
