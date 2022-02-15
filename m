@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F74E4B6827
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:49:24 +0100 (CET)
-Received: from localhost ([::1]:41468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F254B6837
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:54:04 +0100 (CET)
+Received: from localhost ([::1]:50274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuSZ-0006vT-GB
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:49:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54964)
+	id 1nJuX5-00072u-LD
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:54:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCQ-0004Nx-CX
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:42 -0500
-Received: from [2a00:1450:4864:20::62f] (port=39608
- helo=mail-ej1-x62f.google.com)
+ id 1nJuCP-0004Mf-Pc
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:41 -0500
+Received: from [2a00:1450:4864:20::631] (port=35404
+ helo=mail-ej1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCO-0008SN-3T
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:42 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id p9so20021592ejd.6
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:38 -0800 (PST)
+ id 1nJuCN-0008ST-Ph
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:41 -0500
+Received: by mail-ej1-x631.google.com with SMTP id qk11so22510390ejb.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T0OFaVgYpYiiercWGJHBall5XMdKYApo48qVLKLorG8=;
- b=hD7ImMut3e5vFtwVJmqfxoV6iSUpL63/IH/cWW/pBzGhEhJTVO8h8oWXjXtrysMDp4
- z4Xjta/BuHEnB7m7jQw+0HE6lu23aeWryByet0DxPYzwESK3is+VrwLhcIvq7fQLGpq5
- eKxF4MOoFQGo68R29HsNFf3C9QDCO+7bgEjbd2NHtue8GRfXHZLvLKnDW7u+rp0z7oZ4
- v6zgermByi3Fd/HjWQhJ8/EltmDadSS6vDUWVAwHp4AT+JrW4HxQSHlrETXytm6lddsa
- OMVu6aujFGXXDHMdK4Yl/o9TTKLZTMjhgWDs5BJyJFLJhg0LZNgzevfvlEEb8FBdaT8U
- pYhg==
+ bh=ks34+qg3/pZbGPdtnrEzelBZMFOlLPY42nRaA7wgQnQ=;
+ b=mgbJijRU5vlexr7BlFdCH3hg/qwEIR3NE6pLx7vB4WClgOr4Ts1pbPyhvAoYo8NqV1
+ lXSJif57s0blAnLrBkHfG/PYbdTRk00hI5vkAHohQBWEGhX4yhSQAcw6PupI0e9p72bp
+ 8U2E0OMTEVMQuUK9T1gdFbuhOgDSkEc1280jVgi9F4CtMwAb+w0Gof6GCiTQ3HYTFxjG
+ Z5CN4hMb2gUJrpZARswsRs0IM95UubeH98NjssoG0Uf6PsoBviMiQ3DEWUD+IpRtE8HE
+ P2sBteTLTQT0738RLur7MDM3/WbduSI4YrO3vGgD2iREdoi+Fcz9ghyCrXVhmRWEa3sH
+ lQEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=T0OFaVgYpYiiercWGJHBall5XMdKYApo48qVLKLorG8=;
- b=pUlsr0yKNxq9+1jupldYMt5G9+ll44HD7fgigo7BY7iIxQs45CrLPyZt9GbobAEnbA
- vhd5U/mOTc0Z8FtOxxkD3EFX6KTRyuNgmboAIiJFy/YYQFy/C94RBx/ADH1LNkRBmWAp
- R2m1MAC/dq8ye7N/kvWy7Y9bc/rQqdBqF8D4UG60dA9VbvpvtX2NQjyP2sYtkUGbP+sq
- RdS+bI/Xp5vMUiiG0MIzj8QGTovLQ7XpiMVarss1wLoocRF8jYpzU2nyqeFv1qYuNjHl
- 4xilluX1OtU30bHPBnbNyy6rd9V/B+DrCBihPuoKAeiDBvww3I+1NiOf/nQ+mG0q8/Wm
- S+qA==
-X-Gm-Message-State: AOAM532d9Jo/xCl6LSJXtAvTVh3kgg2tamJXMTfN3QelXkNgIv02Uv9n
- 9MF652+E6A98sxnaedX2nVj9S+KHrhs=
-X-Google-Smtp-Source: ABdhPJzYAS3lozsb3J9R4mMmjhaXZhNjXw8qYF0nvQPEW38w2csN1hzfVaVIll+hXVRFR5K+EXzbOQ==
-X-Received: by 2002:a17:906:7291:: with SMTP id
- b17mr2170377ejl.321.1644917557830; 
- Tue, 15 Feb 2022 01:32:37 -0800 (PST)
+ bh=ks34+qg3/pZbGPdtnrEzelBZMFOlLPY42nRaA7wgQnQ=;
+ b=4nVJGchdOvfcRMGYbokRPnDZ4xyBmV+qVnjIemUOAhMpu+r4Nnhq1v46MC2Od7NXge
+ 8dvb7Mf+Zxluw1LoqjFzRoKZ94Z/5myPtdqwZtOttB9yFg955PNmuXb+NbIs5/gO90X1
+ RoTJr/Qc5Zmm8C9pLFLTAm39nvPoM+Wfa3MFx+jsKnCg5xuX/MCHT/Z53/MH2UvQ+Sn2
+ 0wLxEflS641pLx4SF6X5bpE8dfPZDjNmz16DTILYrlqDuM7c1a0XeOfkOWsyXYY2Z9j/
+ u3hsoJfGvuuaDtsAPxaYANyLaC4E2OAu/ltY2ThehdQA+cnTtesHd4juopeZNq44FYRC
+ 9K2w==
+X-Gm-Message-State: AOAM532oLhiwaYHkx4ZrKGV29wmWduALRy4/H7lQbf1d7aX2Foe/vf+g
+ AYeqE5RLE+Y6SH+kUm7a5BLpVaO/tA4=
+X-Google-Smtp-Source: ABdhPJwf4QnLjYPG9FjlDQX9bIc3HaOaq+sf4u9yF/kjNvc4WQz8wY8q5R0Huw94ReoYY9ZJoHZFJA==
+X-Received: by 2002:a17:907:8192:: with SMTP id
+ iy18mr208550ejc.209.1644917558488; 
+ Tue, 15 Feb 2022 01:32:38 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 01:32:37 -0800 (PST)
+ Tue, 15 Feb 2022 01:32:38 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/30] meson: refine check for whether to look for virglrenderer
-Date: Tue, 15 Feb 2022 10:32:12 +0100
-Message-Id: <20220215093223.110827-20-pbonzini@redhat.com>
+Subject: [PULL 20/30] configure, meson: move OpenGL check to meson
+Date: Tue, 15 Feb 2022 10:32:13 +0100
+Message-Id: <20220215093223.110827-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215093223.110827-1-pbonzini@redhat.com>
 References: <20220215093223.110827-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -91,50 +91,231 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The check should be performed even if !have_system, as long as there is some hope that
-vhost-user-gpu will be built.  Store into have_vhost_user_gpu whether vhost-user-gpu
-will be built; we will also use the variable to decide whether to look for libepoxy.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- contrib/vhost-user-gpu/meson.build | 3 +--
- meson.build                        | 5 ++++-
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ configure                     | 40 -----------------------------------
+ meson.build                   | 16 +++++++++-----
+ meson_options.txt             |  2 ++
+ scripts/meson-buildoptions.sh |  3 +++
+ ui/meson.build                | 16 +++++++-------
+ 5 files changed, 24 insertions(+), 53 deletions(-)
 
-diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
-index b4e26045da..c8883c2d8e 100644
---- a/contrib/vhost-user-gpu/meson.build
-+++ b/contrib/vhost-user-gpu/meson.build
-@@ -1,5 +1,4 @@
--if have_tools and virgl.found() and gbm.found() \
--    and 'CONFIG_LINUX' in config_host and pixman.found()
-+if have_vhost_user_gpu
-   executable('vhost-user-gpu', files('vhost-user-gpu.c', 'virgl.c', 'vugbm.c'),
-              dependencies: [qemuutil, pixman, gbm, virgl, vhost_user, opengl],
-              install: true,
+diff --git a/configure b/configure
+index a66e2c0d71..4c9f3f7cb4 100755
+--- a/configure
++++ b/configure
+@@ -316,7 +316,6 @@ pkgversion=""
+ pie=""
+ trace_backends="log"
+ trace_file="trace"
+-opengl="$default_feature"
+ vss_win32_sdk="$default_feature"
+ win_sdk="no"
+ coroutine=""
+@@ -952,10 +951,6 @@ for opt do
+   ;;
+   --enable-vhost-user-fs) vhost_user_fs="yes"
+   ;;
+-  --disable-opengl) opengl="no"
+-  ;;
+-  --enable-opengl) opengl="yes"
+-  ;;
+   --disable-zlib-test)
+   ;;
+   --with-vss-sdk) vss_win32_sdk=""
+@@ -1263,7 +1258,6 @@ cat << EOF
+   vhost-kernel    vhost kernel backend support
+   vhost-user      vhost-user backend support
+   vhost-vdpa      vhost-vdpa kernel backend support
+-  opengl          opengl support
+   gio             libgio support
+ 
+ NOTE: The object files are built at the place where configure is launched
+@@ -2266,34 +2260,6 @@ case "$fdt" in
+ esac
+ 
+ ##########################################
+-# opengl probe (for sdl2, gtk)
+-
+-if test "$opengl" != "no" ; then
+-  epoxy=no
+-  if $pkg_config epoxy; then
+-    cat > $TMPC << EOF
+-#include <epoxy/egl.h>
+-int main(void) { return 0; }
+-EOF
+-    if compile_prog "" "" ; then
+-      epoxy=yes
+-    fi
+-  fi
+-
+-  if test "$epoxy" = "yes" ; then
+-    opengl_cflags="$($pkg_config --cflags epoxy)"
+-    opengl_libs="$($pkg_config --libs epoxy)"
+-    opengl=yes
+-  else
+-    if test "$opengl" = "yes" ; then
+-      feature_not_found "opengl" "Please install epoxy with EGL"
+-    fi
+-    opengl_cflags=""
+-    opengl_libs=""
+-    opengl=no
+-  fi
+-fi
+-
+ # check for usbfs
+ have_usbfs=no
+ if test "$linux_user" = "yes"; then
+@@ -3003,12 +2969,6 @@ if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
+   echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
+ fi
+ 
+-if test "$opengl" = "yes" ; then
+-  echo "CONFIG_OPENGL=y" >> $config_host_mak
+-  echo "OPENGL_CFLAGS=$opengl_cflags" >> $config_host_mak
+-  echo "OPENGL_LIBS=$opengl_libs" >> $config_host_mak
+-fi
+-
+ # XXX: suppress that
+ if [ "$bsd" = "yes" ] ; then
+   echo "CONFIG_BSD=y" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index b9bedf928a..5ad346816e 100644
+index 5ad346816e..6308225e3c 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -621,7 +621,9 @@ if not get_option('zstd').auto() or have_block
-                     method: 'pkg-config', kwargs: static_kwargs)
+@@ -993,9 +993,14 @@ if not get_option('coreaudio').auto() or (targetos == 'darwin' and have_system)
  endif
- virgl = not_found
--if not get_option('virglrenderer').auto() or have_system
-+
-+have_vhost_user_gpu = have_tools and targetos == 'linux' and pixman.found()
-+if not get_option('virglrenderer').auto() or have_system or have_vhost_user_gpu
-   virgl = dependency('virglrenderer',
-                      method: 'pkg-config',
-                      required: get_option('virglrenderer'),
-@@ -1000,6 +1002,7 @@ if (have_system or have_tools) and (virgl.found() or opengl.found())
-   gbm = dependency('gbm', method: 'pkg-config', required: false,
-                    kwargs: static_kwargs)
- endif
-+have_vhost_user_gpu = have_vhost_user_gpu and virgl.found() and gbm.found()
  
- gnutls = not_found
- gnutls_crypto = not_found
+ opengl = not_found
+-if 'CONFIG_OPENGL' in config_host
+-  opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
+-                              link_args: config_host['OPENGL_LIBS'].split())
++if not get_option('opengl').auto() or have_system or have_vhost_user_gpu
++  epoxy = dependency('epoxy', method: 'pkg-config',
++                      required: get_option('opengl'), kwargs: static_kwargs)
++  if cc.has_header('epoxy/egl.h', dependencies: epoxy)
++    opengl = epoxy
++  elif get_option('dsound').enabled()
++    error('epoxy/egl.h not found')
++  endif
+ endif
+ gbm = not_found
+ if (have_system or have_tools) and (virgl.found() or opengl.found())
+@@ -1521,6 +1526,7 @@ config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
+ config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
+ config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
+ config_host_data.set('CONFIG_NUMA', numa.found())
++config_host_data.set('CONFIG_OPENGL', opengl.found())
+ config_host_data.set('CONFIG_PROFILER', get_option('profiler'))
+ config_host_data.set('CONFIG_RBD', rbd.found())
+ config_host_data.set('CONFIG_SDL', sdl.found())
+@@ -1994,7 +2000,7 @@ host_kconfig = \
+   (have_tpm ? ['CONFIG_TPM=y'] : []) + \
+   (spice.found() ? ['CONFIG_SPICE=y'] : []) + \
+   (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
+-  ('CONFIG_OPENGL' in config_host ? ['CONFIG_OPENGL=y'] : []) + \
++  (opengl.found() ? ['CONFIG_OPENGL=y'] : []) + \
+   (x11.found() ? ['CONFIG_X11=y'] : []) + \
+   ('CONFIG_VHOST_USER' in config_host ? ['CONFIG_VHOST_USER=y'] : []) + \
+   ('CONFIG_VHOST_VDPA' in config_host ? ['CONFIG_VHOST_VDPA=y'] : []) + \
+@@ -3591,7 +3597,7 @@ summary_info += {'smartcard support': cacard}
+ summary_info += {'U2F support':       u2f}
+ summary_info += {'libusb':            libusb}
+ summary_info += {'usb net redir':     usbredir}
+-summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
++summary_info += {'OpenGL support (epoxy)': opengl}
+ summary_info += {'GBM':               gbm}
+ summary_info += {'libiscsi support':  libiscsi}
+ summary_info += {'libnfs support':    libnfs}
+diff --git a/meson_options.txt b/meson_options.txt
+index 589d242439..417b543314 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -145,6 +145,8 @@ option('lzo', type : 'feature', value : 'auto',
+        description: 'lzo compression support')
+ option('rbd', type : 'feature', value : 'auto',
+        description: 'Ceph block device driver')
++option('opengl', type : 'feature', value : 'auto',
++       description: 'OpenGL support')
+ option('gtk', type : 'feature', value : 'auto',
+        description: 'GTK+ user interface')
+ option('sdl', type : 'feature', value : 'auto',
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 4edc611273..cc9bb4b1fd 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -91,6 +91,7 @@ meson_options_help() {
+   printf "%s\n" '  nettle          nettle cryptography support'
+   printf "%s\n" '  numa            libnuma support'
+   printf "%s\n" '  nvmm            NVMM acceleration support'
++  printf "%s\n" '  opengl          OpenGL support'
+   printf "%s\n" '  oss             OSS sound support'
+   printf "%s\n" '  pa              PulseAudio sound support'
+   printf "%s\n" '  parallels       parallels image format support'
+@@ -270,6 +271,8 @@ _meson_option_parse() {
+     --disable-numa) printf "%s" -Dnuma=disabled ;;
+     --enable-nvmm) printf "%s" -Dnvmm=enabled ;;
+     --disable-nvmm) printf "%s" -Dnvmm=disabled ;;
++    --enable-opengl) printf "%s" -Dopengl=enabled ;;
++    --disable-opengl) printf "%s" -Dopengl=disabled ;;
+     --enable-oss) printf "%s" -Doss=enabled ;;
+     --disable-oss) printf "%s" -Doss=disabled ;;
+     --enable-pa) printf "%s" -Dpa=enabled ;;
+diff --git a/ui/meson.build b/ui/meson.build
+index 64286ba150..cdf2bafb03 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -43,7 +43,6 @@ vnc_ss.add(zlib, png, jpeg, gnutls)
+ vnc_ss.add(when: sasl, if_true: files('vnc-auth-sasl.c'))
+ softmmu_ss.add_all(when: vnc, if_true: vnc_ss)
+ softmmu_ss.add(when: vnc, if_false: files('vnc-stubs.c'))
+-specific_ss.add(when: ['CONFIG_SOFTMMU'], if_true: opengl)
+ 
+ ui_modules = {}
+ 
+@@ -53,17 +52,18 @@ if curses.found()
+   ui_modules += {'curses' : curses_ss}
+ endif
+ 
+-if config_host.has_key('CONFIG_OPENGL')
++softmmu_ss.add(opengl)
++if opengl.found()
+   opengl_ss = ss.source_set()
+   opengl_ss.add(gbm)
+-  opengl_ss.add(when: [opengl, pixman, 'CONFIG_OPENGL'],
++  opengl_ss.add(when: [opengl, pixman],
+                if_true: files('shader.c', 'console-gl.c', 'egl-helpers.c', 'egl-context.c'))
+   ui_modules += {'opengl' : opengl_ss}
+ endif
+ 
+-if config_host.has_key('CONFIG_OPENGL') and gbm.found()
++if opengl.found() and gbm.found()
+   egl_headless_ss = ss.source_set()
+-  egl_headless_ss.add(when: [opengl, gbm, pixman, 'CONFIG_OPENGL'],
++  egl_headless_ss.add(when: [opengl, gbm, pixman],
+                       if_true: files('egl-headless.c'))
+   ui_modules += {'egl-headless' : egl_headless_ss}
+ endif
+@@ -98,8 +98,8 @@ if gtk.found()
+   gtk_ss = ss.source_set()
+   gtk_ss.add(gtk, vte, pixman, files('gtk.c', 'gtk-clipboard.c'))
+   gtk_ss.add(when: x11, if_true: files('x_keymap.c'))
+-  gtk_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('gtk-gl-area.c'))
+-  gtk_ss.add(when: [x11, opengl, 'CONFIG_OPENGL'], if_true: files('gtk-egl.c'))
++  gtk_ss.add(when: opengl, if_true: files('gtk-gl-area.c'))
++  gtk_ss.add(when: [x11, opengl], if_true: files('gtk-egl.c'))
+   ui_modules += {'gtk' : gtk_ss}
+ endif
+ 
+@@ -112,7 +112,7 @@ if sdl.found()
+     'sdl2-input.c',
+     'sdl2.c',
+   ))
+-  sdl_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('sdl2-gl.c'))
++  sdl_ss.add(when: opengl, if_true: files('sdl2-gl.c'))
+   sdl_ss.add(when: x11, if_true: files('x_keymap.c'))
+   ui_modules += {'sdl' : sdl_ss}
+ endif
 -- 
 2.34.1
 
