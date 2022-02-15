@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713574B6612
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:30:11 +0100 (CET)
-Received: from localhost ([::1]:36518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D594B6615
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 09:31:13 +0100 (CET)
+Received: from localhost ([::1]:38768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJtDu-0004KK-Ia
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:30:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60198)
+	id 1nJtEu-0005sM-47
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 03:31:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJspy-0003VL-6H
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:05:27 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=43576
- helo=mail-pj1-x1030.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJsx8-0001Vx-4W
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:12:50 -0500
+Received: from [2a00:1450:4864:20::630] (port=45911
+ helo=mail-ej1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJspv-0002TX-6y
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:05:25 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- t14-20020a17090a3e4e00b001b8f6032d96so1455814pjm.2
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 00:05:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qfJBWc7VlSAxcQpybErIaMF3n0Z6M+HIapcTvTq5mnc=;
- b=liUCV82O0/VQ0P5gJce1HfTyLB0ughJg5oNWU8P5mmsfjUdW0Hf82YIi+sZ8EjTP+4
- rD5u29eVFKCdHSOpzcqIbKLswN2aHkbYcGfJNFHy66AdV00+Vscd32HWMxYvV4KVwKsG
- XL0+FIoE2MjUU87LM6l4NMzXdQZ+ZidJGXJG3TtpY2bYA8YlEyXuLjc+RXArxu1/hIwO
- rfPp8EyhXimqNOObaJNZ0sPe/ASMpQ+D27p8q3sH+xkWgMJe0/u07dnkKLlcQkjW6bRd
- DL/d4yLoMpLZAXVN5bitNPGzNwaipDYfbAASVfda/xxl+ppho24VffD4lcU/9+G3KYlY
- eUHw==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJsx5-0003eu-H2
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 03:12:49 -0500
+Received: by mail-ej1-x630.google.com with SMTP id lw4so11682368ejb.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 00:12:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ToFKT+yv0G/Kp9EAsgjEx+fUChWt93odJ3rHVDo+pDo=;
+ b=5y4Ou4oTwWFjGxGbXkBSR4eil60bVr147Eks+qhlcVuyZmBViDqAs9T2ZxMktwKj1S
+ liJcv6YUU9FmYhx83L2KEai60RuP441bMbtcW4q4piVhG6+BNUaSq4RPdA5JG2F0bnKZ
+ D5E2ass5zndRRo+p3rtxfXBf2JhDNatREBed0qJjgAgejP+QdoRu7O5AcUsXEwpYSU60
+ 6GL+JZko8EnLB0mJfebaUei5SRASxjSoLdX/98qHtvN6Mwt4Ro22QEbR6rTbVIhEQJQX
+ APnpDYXyCS74AC9HT6hsndXAgJmbCHYFDumv57Zd1qRgo2lgnH99AoCViQeeJx0MCeIF
+ 6OBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qfJBWc7VlSAxcQpybErIaMF3n0Z6M+HIapcTvTq5mnc=;
- b=0YwpSB5a1YdrEsixkUG+aWkOw9pNKEoD3pVgWo2PsQcRqlkF02MEcSWK3rRfJWF7h7
- jg7aFFOmP5rtMjtkohqpJimGE97Hswj52UZTjz+r/KS3bUdT1coMdUlo1If+KV5ptC0u
- SPUG2Vu7AVG7DCj49avSq+djQwWxZ9hJnNu7pPHSKs+pWf1CJPN77AFJBKIFLxiZO/AN
- aMkw0NWQxB6bSEHvhxkkpu34KxPxq7z9DszPzB2NyWTjUOtNROpYRywbqxanhOpMTqOq
- 9GgrbDU/5dQ7FIuzgXK3qqWiJO3ZxLpMfICPYNcRIMXL7OxsmI1FbDdbDzX+8vdz+p0/
- eaCQ==
-X-Gm-Message-State: AOAM533MhrrI3IOoYlgfcK2NjhGAAcPCFubDouRq4uzZaQAelAYonNDL
- kHmov8/IMw1ibTZET+xzwe2V4KLGMIU=
-X-Google-Smtp-Source: ABdhPJzhG4jJaLzItHQvs33ZEhgpFe1VogLCutbTnfhCLPkaFJa+KuvxUS2qKXIYQZUoQ8EDwvS7xA==
-X-Received: by 2002:a17:902:b941:: with SMTP id
- h1mr3051902pls.73.1644912321854; 
- Tue, 15 Feb 2022 00:05:21 -0800 (PST)
-Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id f8sm39470584pfe.204.2022.02.15.00.05.19
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 15 Feb 2022 00:05:21 -0800 (PST)
-To: qemu-devel@nongnu.org
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
- Cameron Esfahani <dirty@apple.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v6 15/15] gitlab-ci: Support macOS 12 via cirrus-run
-Date: Tue, 15 Feb 2022 09:03:07 +0100
-Message-Id: <20220215080307.69550-16-f4bug@amsat.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220215080307.69550-1-f4bug@amsat.org>
-References: <20220215080307.69550-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ToFKT+yv0G/Kp9EAsgjEx+fUChWt93odJ3rHVDo+pDo=;
+ b=0RGpf1I7EtfFS8SLFiTmqdikzW32Q7YcUbQQihBTb+ukZNRxeQoMh0z8I0WTOBDHps
+ ndHPULt4+pALk+No5D4yEKhfV42WjmIc0yX8j5rdBQlF4PrXFACxsnTvEmTrudMS+PTX
+ jyB3NnM3d5ud/xexf01pqHFhomUDr7JiUamXIRIK21/ocJscElGFt2lqSZt8b1Lc6cS6
+ Nug9AAHpmxO+pGzSodrL/wYr8V2p7msbBJVtuEEoyxt8FlbJg28dB8YzvIA/TweQ4Zy9
+ +9LZo3Z8XX5e02Cl+5Nez5IIMoVCIUsF98HNQj6XiEJ7P02FQe3aRFgFvvcLyJZrH9kz
+ J0rQ==
+X-Gm-Message-State: AOAM532/Z2QGJs/CLTtkVEchYSRc53r5mzn2Bq9ullusgMChkqiV9r9Z
+ bywNJLuy4Ql6yOYy8qudrXNtnqYYNoGe8ZOXfduOqA==
+X-Google-Smtp-Source: ABdhPJw/74VvQzlQc2lCn0uVnk9vhTwIJZF1gzx/qPuuHD6xo6mLLKMUCZQpdqzhU7cc2gX2hoZMUCgVv5zTMe9pVSU=
+X-Received: by 2002:a17:907:9606:: with SMTP id
+ gb6mr1945512ejc.51.1644912765919; 
+ Tue, 15 Feb 2022 00:12:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+References: <alpine.DEB.2.22.394.2202141048390.13781@anisinha-lenovo>
+ <20220214133634.248d7de0@redhat.com>
+ <b9771171-8d28-b46b-4474-687a8fed0abd@redhat.com>
+ <alpine.DEB.2.22.394.2202151221090.13781@anisinha-lenovo>
+ <b06ab7b0-61f2-5301-70f9-197dfd9527e9@redhat.com>
+In-Reply-To: <b06ab7b0-61f2-5301-70f9-197dfd9527e9@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 15 Feb 2022 13:42:35 +0530
+Message-ID: <CAARzgwwDFybUsCj8Ym6kpcjNRCVV6vbsY7Lks0wsmrc2+ET03Q@mail.gmail.com>
+Subject: Re: 9 TiB vm memory creation
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: 2
-X-Spam_score: 0.2
+Received-SPF: none client-ip=2a00:1450:4864:20::630;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
 X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, PDS_HP_HELO_NORDNS=0.904,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,90 +83,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Add support for macOS 12 build on Cirrus-CI, similarly to commit
-0e103a65ba1 ("gitlab: support for ... macOS 11 via cirrus-run"),
-but with the following differences:
- - Enable modules (configure --enable-modules)
- - Do not run softfloat3 tests (make check-softfloat)
- - Run Aarch64 qtests instead of x86_64 ones
+On Tue, Feb 15, 2022 at 1:25 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 15.02.22 08:00, Ani Sinha wrote:
+> >
+> >
+> > On Mon, 14 Feb 2022, David Hildenbrand wrote:
+> >
+> >> On 14.02.22 13:36, Igor Mammedov wrote:
+> >>> On Mon, 14 Feb 2022 10:54:22 +0530 (IST)
+> >>> Ani Sinha <ani@anisinha.ca> wrote:
+> >>>
+> >>>> Hi Igor:
+> >>>>
+> >>>> I failed to spawn a 9 Tib VM. The max I could do was a 2 TiB vm on my
+> >>>> system with the following commandline before either the system
+> >>>> destabilized or the OOM killed killed qemu
+> >>>>
+> >>>> -m 2T,maxmem=9T,slots=1 \
+> >>>> -object memory-backend-file,id=mem0,size=2T,mem-path=/data/temp/memfile,prealloc=off \
+> >>>> -machine memory-backend=mem0 \
+> >>>> -chardev file,path=/tmp/debugcon2.txt,id=debugcon \
+> >>>> -device isa-debugcon,iobase=0x402,chardev=debugcon \
+> >>>>
+> >>>> I have attached the debugcon output from 2 TiB vm.
+> >>>> Is there any other commandline parameters or options I should try?
+> >>>>
+> >>>> thanks
+> >>>> ani
+> >>>
+> >>> $ truncate -s 9T 9tb_sparse_disk.img
+> >>> $ qemu-system-x86_64 -m 9T \
+> >>>   -object memory-backend-file,id=mem0,size=9T,mem-path=9tb_sparse_disk.img,prealloc=off,share=on \
+> >>>   -machine memory-backend=mem0
+> >>>
+> >>> works for me till GRUB menu, with sufficient guest kernel
+> >>> persuasion (i.e. CLI limit ram size to something reasonable) you can boot linux
+> >>> guest on it and inspect SMBIOS tables comfortably.
+> >>>
+> >>>
+> >>> With KVM enabled it bails out with:
+> >>>    qemu-system-x86_64: kvm_set_user_memory_region: KVM_SET_USER_MEMORY_REGION failed, slot=1, start=0x100000000, size=0x8ff40000000: Invalid argument
+> >>>
+> >
+> > I have seen this in my system but not always. Maybe I should have dug
+> > deeper as to why i do see this all the time.
+> >
+> >>> all of that on a host with 32G of RAM/no swap.
+> >>>
+> >
+> > My system in 16 Gib of main memory, no swap.
+> >
+> >>
+> >> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
+> >>
+> >> ~8 TiB (7,999999)
+> >
+> > That's not 8 Tib, thats 2 GiB. But yes, 0x8ff40000000 is certainly greater
+> > than 2 Gib * 4K (assuming 4K size pages).
+>
+> "pages" don't carry the unit "GiB/TiB", so I was talking about the
+> actual size with 4k pages (your setup, I assume)
 
-Generate the vars file by calling 'make lcitool-refresh'.
+yes I got that after reading your email again.
+The interesting question now is how is redhat QE running 9 TiB vm with kvm?
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .gitlab-ci.d/cirrus.yml           | 16 ++++++++++++++++
- .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++
- tests/lcitool/refresh             |  1 +
- 3 files changed, 33 insertions(+)
- create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
-
-diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-index b96b22e269..be1dce5d4e 100644
---- a/.gitlab-ci.d/cirrus.yml
-+++ b/.gitlab-ci.d/cirrus.yml
-@@ -87,6 +87,22 @@ x64-macos-11-base-build:
-     PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
-     TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
- 
-+x64-macos-12-base-build:
-+  extends: .cirrus_build_job
-+  variables:
-+    NAME: macos-12
-+    CIRRUS_VM_INSTANCE_TYPE: osx_instance
-+    CIRRUS_VM_IMAGE_SELECTOR: image
-+    CIRRUS_VM_IMAGE_NAME: monterey-base
-+    CIRRUS_VM_CPUS: 12
-+    CIRRUS_VM_RAM: 24G
-+    UPDATE_COMMAND: brew update
-+    INSTALL_COMMAND: brew install
-+    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
-+    PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
-+    CONFIGURE_ARGS: --enable-modules
-+    TEST_TARGETS: check-unit check-block check-qapi-schema check-qtest-aarch64
-+
- 
- # The following jobs run VM-based tests via KVM on a Linux-based Cirrus-CI job
- .cirrus_kvm_job:
-diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/macos-12.vars
-new file mode 100644
-index 0000000000..a793258c64
---- /dev/null
-+++ b/.gitlab-ci.d/cirrus/macos-12.vars
-@@ -0,0 +1,16 @@
-+# THIS FILE WAS AUTO-GENERATED
-+#
-+#  $ lcitool variables macos-12 qemu
-+#
-+# https://gitlab.com/libvirt/libvirt-ci
-+
-+CCACHE='/usr/local/bin/ccache'
-+CPAN_PKGS='Test::Harness'
-+CROSS_PKGS=''
-+MAKE='/usr/local/bin/gmake'
-+NINJA='/usr/local/bin/ninja'
-+PACKAGING_COMMAND='brew'
-+PIP3='/usr/local/bin/pip3'
-+PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
-+PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme virtualenv'
-+PYTHON='/usr/local/bin/python3'
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 4ab90a310a..a714e2851d 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -89,6 +89,7 @@ try:
-    generate_cirrus("freebsd-12")
-    generate_cirrus("freebsd-13")
-    generate_cirrus("macos-11")
-+   generate_cirrus("macos-12")
- 
-    sys.exit(0)
- except Exception as ex:
--- 
-2.34.1
-
+https://bugzilla-attachments.redhat.com/attachment.cgi?id=1795945
 
