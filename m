@@ -2,93 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 373E04B5F10
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 01:31:01 +0100 (CET)
-Received: from localhost ([::1]:35972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 215034B5FFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 02:25:59 +0100 (CET)
+Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJlkB-0006xM-UJ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 19:30:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39822)
+	id 1nJmbM-0006uf-IH
+	for lists+qemu-devel@lfdr.de; Mon, 14 Feb 2022 20:25:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJlgg-0005Wf-D1
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 19:27:22 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=46999
- helo=mail-pf1-x42d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nJlgd-000305-R9
- for qemu-devel@nongnu.org; Mon, 14 Feb 2022 19:27:22 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id i21so30569417pfd.13
- for <qemu-devel@nongnu.org>; Mon, 14 Feb 2022 16:27:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IhUX6hoIe/XXFCGxxCf6LO2gddbwggaBNY4iBCzgVVM=;
- b=ES6sc8VDfxixIssrUp3nj8FjYkU6qxeKC3W1o1ZBIS4f1BCI7aui2zQznks4DxlA9C
- 97pWnxfDBjONmzAic2rBy+KlAB5eawe2a0FwQ876C3Z5JNMOXLkCyaZ8E/QBR+9UM1ph
- nB/xf5fcPED0GQCTNilHjNf4z6C5iOuXP4Hw0aUpNqlEg69JkC0N7F4Yo5SbnczrPzMA
- Dje8krnLk+nqjlUf5s/xs+QuYbzrZwlikTOjUfL28Fivvpcit6u/e6LtbQNLs8BZ0mtB
- gHlKgcz0/Zy0EGshvzM3u9aGgexcEZvvzcb9oXJXYbUxGXERUOF5Br1MIwgWyHvz8h9e
- OCjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IhUX6hoIe/XXFCGxxCf6LO2gddbwggaBNY4iBCzgVVM=;
- b=smkVYHpWu+1ELrx15y96uDVct2eJKzliwNRnipDWqHCJQdaq3tZImxWGfp7iKhz+Rb
- tq9STlNHy6oHRj0/B7Zw++/ZqbgYx2+D2t9wl4DxroTIhI0y8LLxS7TdeS5MR6pPAwuc
- 60Vew7RWeSAldlCcScoya7sxro9LjOqwlBlew6qVNckgkG4MHX93K1anmb4QctKs+GiX
- ToEbqoRJwugJDp6/Ly/HWEzSrhWFJwqyYpSHrH2OVqGvAegO9D1Zdj9ejJeYIiR98TwH
- tsHE1ROG7n4Na5V902BIZzjRZGuGy3DH5Dh/VEIznG1szLPAxDs3vzFRYa9lFV6AweLn
- aGog==
-X-Gm-Message-State: AOAM530sR9Uezmm4Qs5VYagiNAOny4idANsnpPatHPAhrkQO22h1EseU
- 2zLHH55xIOwFUbAlmlP8TBQ=
-X-Google-Smtp-Source: ABdhPJyRE8SGcx65H2rJjZwZASv5p0wBC5qjdCC45pQej3fBzGnffd8zK9AZ3yXoiDIhob5yuAmqeA==
-X-Received: by 2002:aa7:9ad0:: with SMTP id x16mr1676347pfp.55.1644884838474; 
- Mon, 14 Feb 2022 16:27:18 -0800 (PST)
-Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id b14sm38062399pfm.17.2022.02.14.16.27.13
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Feb 2022 16:27:18 -0800 (PST)
-To: Richard Henderson <richard.henderson@linaro.org>,
- Mark Burton <mark.burton@greensocs.com>, qemu-devel@nongnu.org
-Cc: Amir Gonnen <amir.gonnen@neuroblade.ai>, Eric Blake <eblake@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- Damien Hedde <damien.hedde@greensocs.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- Juan Quintela <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [NOTFORMERGE PATCH 1/1] target: Add system emulation aiming to target
- any architecture
-Date: Tue, 15 Feb 2022 01:26:58 +0100
-Message-Id: <20220215002658.60678-2-f4bug@amsat.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220215002658.60678-1-f4bug@amsat.org>
-References: <20220215002658.60678-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nJmOh-0005kR-2F; Mon, 14 Feb 2022 20:12:51 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:57473)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nJmOZ-0001Lj-Ii; Mon, 14 Feb 2022 20:12:50 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JyNNn2ZKrz4xsm; Tue, 15 Feb 2022 12:12:25 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1644887545;
+ bh=eDkSB5XCTpHKsRgSTeQSwoiemJ9BRmJQey8eWub2x6k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HzhCta444rSpe+xhUqFvb0Xum++VaIskEOAF3o7JlOMBPZusoY3Ntt4UGFrhluiy+
+ DqOa0AZoC2jENuyOt7dv+Nl2aGpeXh+1XC6MoOKeBn/7u6KJp7BLHmwJKcXJjBYN+c
+ u8SengFGHx0STurnt493hUWShBRcpyU8UN+g84Hg=
+Date: Tue, 15 Feb 2022 12:10:17 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH 1/2] spapr: Add SPAPR_CAP_AIL_MODE_3 for AIL mode 3
+ support for H_SET_MODE hcall
+Message-ID: <Ygr9eYymaFJb0nEI@yekko>
+References: <20220214111749.1542196-1-npiggin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- PDS_HP_HELO_NORDNS=0.635, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cN8ik1bBkERO3gFk"
+Content-Disposition: inline
+In-Reply-To: <20220214111749.1542196-1-npiggin@gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,275 +59,309 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Add the 'any'-architecture target.
 
-- Only consider 64-bit targets
-- Do not use any hardware accelerator (except qtest)
-- For architecture constants, use:
-  . max of supported targets phys/virt address space
-  . max of supported targets MMU modes
-  . min of supported targets variable page bits
+--cN8ik1bBkERO3gFk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Build as:
+On Mon, Feb 14, 2022 at 09:17:48PM +1000, Nicholas Piggin wrote:
+> The behaviour of the Address Translation Mode on Interrupt resource is
+> not consistently supported by all CPU versions or all KVM versions. In
+> particular KVM HV only supports mode 0 on POWER7 processors and some
+> early POWER9 processors, and does not support mode 2 anywhere. KVM PR
+> only supports mode 0. TCG supports all modes (0, 2, 3).
+>=20
+> This leads to inconsistencies in guest behaviour and could cause
+> problems migrating guests. This was not noticable for Linux guests for a
+> long time because the kernel only uses modes 0 and 3, and it used to
+> consider AIL-3 to be advisory in that it would always keep the AIL-0
+> vectors around. KVM for a long time would not always honor the AIL mode,
+> contrary to architecture.
+>=20
+> Recent Linux guests depend on the AIL mode working as specified in order
+> to support the SCV facility interrupt. If AIL-3 can not be provided,
+> then Linux must be given an error so it can disable the SCV facility,
+> rather than silently failing.
+>=20
+> Add the ail-mode-3 capability to specify that AIL-3 is supported. AIL-0
+> is implied as the baseline. AIL-2 is no longer supported by spapr. It
+> is not known to be used by any software, but support in TCG could be
+> restored with an ail-mode-2 capability quite easily if a regression is
+> reported.
+>=20
+> Modify the H_SET_MODE Address Translation Mode on Interrupt resource
+> handler to check capabilities and correctly return error if not
+> supported.
+>=20
+> A heuristic is added for KVM to determine AIL-3 support before the
+> introduction of a new KVM CAP.
+>=20
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> ---
+> Since the RFC, I made this a single mode cap for ail-3, suggested
+> by David. Also split out the KVM CAP into patch 2 because that is
+> not ready for merge yet (this patch can go in ahead of it).
+>=20
+> Thanks,
+> Nick
+>=20
+>  hw/ppc/spapr.c         |  6 ++++++
+>  hw/ppc/spapr_caps.c    | 23 +++++++++++++++++++++++
+>  hw/ppc/spapr_hcall.c   | 23 +++++++++++++----------
+>  include/hw/ppc/spapr.h |  4 +++-
+>  target/ppc/kvm.c       | 23 +++++++++++++++++++++++
+>  target/ppc/kvm_ppc.h   |  6 ++++++
+>  6 files changed, 74 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 3d6ec309dd..15a02d3e78 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4606,6 +4606,12 @@ static void spapr_machine_class_init(ObjectClass *=
+oc, void *data)
+>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_ON;
+>      smc->default_caps.caps[SPAPR_CAP_FWNMI] =3D SPAPR_CAP_ON;
+>      smc->default_caps.caps[SPAPR_CAP_RPT_INVALIDATE] =3D SPAPR_CAP_OFF;
+> +
+> +    /* This cap specifies whether the AIL 3 mode for H_SET_RESOURCE is
+> +     * supported. Default to true, (PR KVM, POWER7 and earlier, and KVM =
+on
+> +     * some early POWER9s only support 0).
+> +     */
+> +    smc->default_caps.caps[SPAPR_CAP_AIL_MODE_3] =3D SPAPR_CAP_ON;
+>      spapr_caps_add_properties(smc);
+>      smc->irq =3D &spapr_irq_dual;
+>      smc->dr_phb_enabled =3D true;
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index ed7c077a0d..5fd4a53c33 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -613,6 +613,20 @@ static void cap_rpt_invalidate_apply(SpaprMachineSta=
+te *spapr,
+>      }
+>  }
+> =20
+> +static void cap_ail_mode_3_apply(SpaprMachineState *spapr,
+> +                                     uint8_t val, Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +
+> +    if (kvm_enabled()) {
+> +        if (!kvmppc_supports_ail_3()) {
+> +            error_setg(errp, "KVM implementation does not support cap-ai=
+l-mode-3");
+> +            error_append_hint(errp, "Try appending -machine cap-ail-mode=
+-3=3Doff\n");
+> +            return;
+> +        }
+> +    }
+> +}
+> +
+>  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
+>      [SPAPR_CAP_HTM] =3D {
+>          .name =3D "htm",
+> @@ -730,6 +744,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =
+=3D {
+>          .type =3D "bool",
+>          .apply =3D cap_rpt_invalidate_apply,
+>      },
+> +    [SPAPR_CAP_AIL_MODE_3] =3D {
+> +        .name =3D "ail-mode-3",
+> +        .description =3D "Alternate Interrupt Location (AIL) mode 3 supp=
+ort",
+> +        .index =3D SPAPR_CAP_AIL_MODE_3,
+> +        .get =3D spapr_cap_get_bool,
+> +        .set =3D spapr_cap_set_bool,
+> +        .type =3D "bool",
+> +        .apply =3D cap_ail_mode_3_apply,
+> +    },
+>  };
+> =20
+>  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 222c1b6bbd..5dec056796 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -811,32 +811,35 @@ static target_ulong h_set_mode_resource_le(PowerPCC=
+PU *cpu,
+>  }
+> =20
+>  static target_ulong h_set_mode_resource_addr_trans_mode(PowerPCCPU *cpu,
+> +                                                        SpaprMachineStat=
+e *spapr,
+>                                                          target_ulong mfl=
+ags,
+>                                                          target_ulong val=
+ue1,
+>                                                          target_ulong val=
+ue2)
+>  {
+> -    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+> -
+> -    if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
+> -        return H_P2;
+> -    }
+>      if (value1) {
+>          return H_P3;
+>      }
+> +
+>      if (value2) {
+>          return H_P4;
+>      }
+> =20
+> -    if (mflags =3D=3D 1) {
+> -        /* AIL=3D1 is reserved in POWER8/POWER9/POWER10 */
+> +    /* AIL-1 is not architected, and AIL-2 is not supported by QEMU. */
+> +    if (mflags =3D=3D 1 || mflags =3D=3D 2) {
 
-  $ ../configure --target-list=any-softmmu \
-      --disable-tcg --disable-kvm --disable-hvf
+This test is redundant with the one below, isn't it?
 
-Test as:
+>          return H_UNSUPPORTED_FLAG;
+>      }
+> =20
+> -    if (mflags =3D=3D 2 && (pcc->insns_flags2 & PPC2_ISA310)) {
+> -        /* AIL=3D2 is reserved in POWER10 (ISA v3.1) */
+> +    /* Only 0 and 3 are possible */
+> +    if (mflags !=3D 0 && mflags !=3D 3) {
+>          return H_UNSUPPORTED_FLAG;
+>      }
+> =20
+> +    if (mflags =3D=3D 3) {
+> +        if (!spapr_get_cap(spapr, SPAPR_CAP_AIL_MODE_3)) {
+> +            return H_UNSUPPORTED_FLAG;
+> +        }
+> +    }
+> +
+>      spapr_set_all_lpcrs(mflags << LPCR_AIL_SHIFT, LPCR_AIL);
+> =20
+>      return H_SUCCESS;
+> @@ -853,7 +856,7 @@ static target_ulong h_set_mode(PowerPCCPU *cpu, Spapr=
+MachineState *spapr,
+>          ret =3D h_set_mode_resource_le(cpu, spapr, args[0], args[2], arg=
+s[3]);
+>          break;
+>      case H_SET_MODE_RESOURCE_ADDR_TRANS_MODE:
+> -        ret =3D h_set_mode_resource_addr_trans_mode(cpu, args[0],
+> +        ret =3D h_set_mode_resource_addr_trans_mode(cpu, spapr, args[0],
+>                                                    args[2], args[3]);
+>          break;
+>      }
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index ee7504b976..edbf3eeed0 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -77,8 +77,10 @@ typedef enum {
+>  #define SPAPR_CAP_FWNMI                 0x0A
+>  /* Support H_RPT_INVALIDATE */
+>  #define SPAPR_CAP_RPT_INVALIDATE        0x0B
+> +/* Support for AIL modes */
+> +#define SPAPR_CAP_AIL_MODE_3            0x0C
+>  /* Num Caps */
+> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_RPT_INVALIDATE + 1)
+> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_AIL_MODE_3 + 1)
+> =20
+>  /*
+>   * Capability Values
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index dc93b99189..128bc530d4 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -2563,6 +2563,29 @@ int kvmppc_has_cap_rpt_invalidate(void)
+>      return cap_rpt_invalidate;
+>  }
+> =20
+> +int kvmppc_supports_ail_3(void)
 
-  $ qemu-system-any -M none,accel=qtest -monitor stdio
-  QEMU 6.2.50 monitor - type 'help' for more information
-  (qemu) info mtree
-  address-space: I/O
-    0000000000000000-000000000000ffff (prio 0, i/o): io
+Returning bool would make more sense, no?
 
-  address-space: memory
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+> +{
+> +    PowerPCCPUClass *pcc =3D kvm_ppc_get_host_cpu_class();
+> +
+> +    /*
+> +     * KVM PR only supports AIL-0
+> +     */
+> +    if (kvmppc_is_pr(kvm_state)) {
+> +        return 0;
+> +    }
+> +
+> +    /*
+> +     * KVM HV hosts support AIL-3 on POWER8 and above, except for radix
+> +     * mode on some early POWER9s, but it's not clear how to cover those
+> +     * without disabling the feature for many.
+> +     */
+> +    if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
 
-  (qemu) info qom-tree
-  /machine (none-machine)
-    /peripheral (container)
-    /peripheral-anon (container)
-    /unattached (container)
-      /io[0] (memory-region)
-      /sysbus (System)
-      /system[0] (memory-region)
-  (qemu) info qtree
-  bus: main-system-bus
-    type System
-  (qemu) info cpus
-  (qemu)
+This effectively means that the pseries machine type simply won't
+start with a !PPC2_ISA207S cpu model.  I'm not sure if we support any
+such CPUs in any case.  If we do, we should probably change the
+default value for this cap based on cpu model in
+default_caps_with_cpu().
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- configs/devices/any-softmmu/default.mak |  1 +
- configs/targets/any-softmmu.mak         |  3 +++
- hw/any/meson.build                      |  5 +++++
- hw/meson.build                          |  1 +
- include/sysemu/arch_init.h              |  1 +
- meson.build                             |  6 +++--
- qapi/machine.json                       |  2 +-
- target/Kconfig                          |  1 +
- target/any/Kconfig                      |  4 ++++
- target/any/cpu-param.h                  | 30 +++++++++++++++++++++++++
- target/any/cpu.h                        | 26 +++++++++++++++++++++
- target/any/meson.build                  |  8 +++++++
- target/meson.build                      |  1 +
- 13 files changed, 86 insertions(+), 3 deletions(-)
- create mode 100644 configs/devices/any-softmmu/default.mak
- create mode 100644 configs/targets/any-softmmu.mak
- create mode 100644 hw/any/meson.build
- create mode 100644 target/any/Kconfig
- create mode 100644 target/any/cpu-param.h
- create mode 100644 target/any/cpu.h
- create mode 100644 target/any/meson.build
+> +        return 0;
+> +    }
+> +
+> +    return 1;
+> +}
+> +
+>  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void)
+>  {
+>      uint32_t host_pvr =3D mfpvr();
+> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> index ee9325bf9a..d9d1c54955 100644
+> --- a/target/ppc/kvm_ppc.h
+> +++ b/target/ppc/kvm_ppc.h
+> @@ -73,6 +73,7 @@ int kvmppc_set_cap_nested_kvm_hv(int enable);
+>  int kvmppc_get_cap_large_decr(void);
+>  int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
+>  int kvmppc_has_cap_rpt_invalidate(void);
+> +int kvmppc_supports_ail_3(void);
+>  int kvmppc_enable_hwrng(void);
+>  int kvmppc_put_books_sregs(PowerPCCPU *cpu);
+>  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
+> @@ -393,6 +394,11 @@ static inline int kvmppc_has_cap_rpt_invalidate(void)
+>      return false;
+>  }
+> =20
+> +static inline int kvmppc_supports_ail_3(void)
+> +{
+> +    return false;
+> +}
+> +
+>  static inline int kvmppc_enable_hwrng(void)
+>  {
+>      return -1;
 
-diff --git a/configs/devices/any-softmmu/default.mak b/configs/devices/any-softmmu/default.mak
-new file mode 100644
-index 0000000000..315c06b689
---- /dev/null
-+++ b/configs/devices/any-softmmu/default.mak
-@@ -0,0 +1 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-diff --git a/configs/targets/any-softmmu.mak b/configs/targets/any-softmmu.mak
-new file mode 100644
-index 0000000000..2c6cf1edd4
---- /dev/null
-+++ b/configs/targets/any-softmmu.mak
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+TARGET_ARCH=any
-diff --git a/hw/any/meson.build b/hw/any/meson.build
-new file mode 100644
-index 0000000000..60e1567e53
---- /dev/null
-+++ b/hw/any/meson.build
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+any_ss = ss.source_set()
-+
-+hw_arch += {'any': any_ss}
-diff --git a/hw/meson.build b/hw/meson.build
-index b3366c888e..6e7e102bbd 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -44,6 +44,7 @@ subdir('xen')
- subdir('xenpv')
- 
- subdir('alpha')
-+subdir('any')
- subdir('arm')
- subdir('avr')
- subdir('cris')
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 79c2591425..f86bf4b0cd 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -4,6 +4,7 @@
- 
- enum {
-     QEMU_ARCH_ALL = -1,
-+    QEMU_ARCH_ANY = -1,
-     QEMU_ARCH_ALPHA = (1 << 0),
-     QEMU_ARCH_ARM = (1 << 1),
-     QEMU_ARCH_CRIS = (1 << 2),
-diff --git a/meson.build b/meson.build
-index 9460875693..f587f4ba59 100644
---- a/meson.build
-+++ b/meson.build
-@@ -61,7 +61,7 @@ python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
- supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv', 'x86', 'x86_64',
--  'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+  'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc64', 'any']
- 
- cpu = host_machine.cpu_family()
- 
-@@ -1934,7 +1934,9 @@ foreach target : target_dirs
-     if default_targets
-       continue
-     endif
--    error('No accelerator available for target @0@'.format(target))
-+    if 'any-softmmu' not in target_dirs
-+      error('No accelerator available for target @0@'.format(target))
-+    endif
-   endif
- 
-   actual_target_dirs += target
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 42fc68403d..4b09831a27 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -34,7 +34,7 @@
-              'mips64el', 'mipsel', 'nios2', 'or1k', 'ppc',
-              'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
-              'sh4eb', 'sparc', 'sparc64', 'tricore',
--             'x86_64', 'xtensa', 'xtensaeb' ] }
-+             'x86_64', 'xtensa', 'xtensaeb', 'any' ] }
- 
- ##
- # @CpuS390State:
-diff --git a/target/Kconfig b/target/Kconfig
-index ae7f24fc66..ea381d28b5 100644
---- a/target/Kconfig
-+++ b/target/Kconfig
-@@ -1,4 +1,5 @@
- source alpha/Kconfig
-+source any/Kconfig
- source arm/Kconfig
- source avr/Kconfig
- source cris/Kconfig
-diff --git a/target/any/Kconfig b/target/any/Kconfig
-new file mode 100644
-index 0000000000..8840d70e55
---- /dev/null
-+++ b/target/any/Kconfig
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+config ANY
-+    bool
-diff --git a/target/any/cpu-param.h b/target/any/cpu-param.h
-new file mode 100644
-index 0000000000..21cda0ddc2
---- /dev/null
-+++ b/target/any/cpu-param.h
-@@ -0,0 +1,30 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#ifndef ANY_CPU_PARAM_H
-+#define ANY_CPU_PARAM_H
-+
-+#define TARGET_LONG_BITS 64
-+
-+#define TARGET_PHYS_ADDR_SPACE_BITS 64 /* MAX(targets) */
-+#define TARGET_VIRT_ADDR_SPACE_BITS 64 /* MAX(targets) */
-+
-+#define TARGET_PAGE_BITS_VARY
-+#define TARGET_PAGE_BITS_MIN  10 /* MIN(targets)=ARMv5/ARMv6, ignoring AVR */
-+
-+#define NB_MMU_MODES 15 /* MAX(targets) = ARM */
-+
-+#include "hw/core/cpu.h"
-+#include "qom/object.h"
-+
-+#define TYPE_ANY_CPU "any-cpu"
-+
-+OBJECT_DECLARE_CPU_TYPE(ANYCPU, ANYCPUClass, ANY_CPU)
-+
-+struct ANYCPUClass {
-+    /*< private >*/
-+    CPUClass parent_class;
-+    /*< public >*/
-+    DeviceRealize parent_realize;
-+    DeviceReset parent_reset;
-+};
-+
-+#endif
-diff --git a/target/any/cpu.h b/target/any/cpu.h
-new file mode 100644
-index 0000000000..f85ebed956
---- /dev/null
-+++ b/target/any/cpu.h
-@@ -0,0 +1,26 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#ifndef TARGET_ANY_CPU_H
-+#define TARGET_ANY_CPU_H
-+
-+#include "exec/cpu-defs.h"
-+
-+#define ANY_CPU_TYPE_SUFFIX "-" TYPE_ANY_CPU
-+#define ANY_CPU_TYPE_NAME(name) (name ANY_CPU_TYPE_SUFFIX)
-+#define CPU_RESOLVING_TYPE TYPE_ANY_CPU
-+
-+struct CPUArchState {
-+    /* nothing here */
-+};
-+
-+struct ArchCPU {
-+    /*< private >*/
-+    CPUState parent_obj;
-+    /*< public >*/
-+
-+    CPUNegativeOffsetState neg;
-+    CPUArchState env;
-+};
-+
-+#include "exec/cpu-all.h"
-+
-+#endif
-diff --git a/target/any/meson.build b/target/any/meson.build
-new file mode 100644
-index 0000000000..1c36a6e3a1
---- /dev/null
-+++ b/target/any/meson.build
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+any_ss = ss.source_set()
-+
-+any_softmmu_ss = ss.source_set()
-+
-+target_arch += {'any': any_ss}
-+target_softmmu_arch += {'any': any_softmmu_ss}
-diff --git a/target/meson.build b/target/meson.build
-index 2f6940255e..ef7f960f6e 100644
---- a/target/meson.build
-+++ b/target/meson.build
-@@ -1,4 +1,5 @@
- subdir('alpha')
-+subdir('any')
- subdir('arm')
- subdir('avr')
- subdir('cris')
--- 
-2.34.1
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--cN8ik1bBkERO3gFk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIK/XAACgkQgypY4gEw
+YSK8qA//YQV1xXDxU9GMf9r1ld8SjVC/qKjIOEbh360jqkvzpkWBefL157x3/rHy
+cFNnq7QwTMgDTGIGq2NeKwQteQMMxm186cIaLWD+gSRP2B4AoogXD0xT1uYm7DGZ
+5igPPoKWEvCJRS0B6HSO5TS69gqLm8M5zYS61mMSsVmjYEQ9EoqyCw8bihZcjfRx
+QSZHA+SRkyi0ukzb4USG1F2BJnRPeuWjALVYefyBKSDdwlpFKgU5vbzgyYIY/vj9
+C74peFHnQlJt+/mLrbUft2BKAMotMBHmYfLKVrErBstblr8j7HSpuh0sLWGQLvxU
+dlocGgTPoSpCRY2pgo2BTA6MqFlr4If+1Vn2+4QgAziL8KXU61kdxlVIh6N2gHmS
+RrRcD+QD28uYxVWsnqa4L131Humgxk6GYMTc5Z+oIGzGzUizrmScWELqXPdeizfY
+oWcvx5EDK5leOe8VijCL2baQt5V7vl+3hFMya4CCRAJQPntOI4/8PexdZpgtQBvr
+eF9htwRKuIIV7PGQhB2y+l1RIVFA14mBhveEw4s4mxyPgsfBUEfr8b+U3glDHbgD
+Q8ptvPH9OtImVI1SqcZXxil7fIkAcQyQp5kgScIcdDKh5tQ1aBq91rqvPhygS49C
+OizH2d0FE/TZi6Bst9+FY/rvnj4s/KaI9Mlk5obkr7ylc+3GvnU=
+=v/ZE
+-----END PGP SIGNATURE-----
+
+--cN8ik1bBkERO3gFk--
 
