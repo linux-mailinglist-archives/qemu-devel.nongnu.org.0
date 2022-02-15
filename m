@@ -2,89 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CF44B8325
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 09:43:31 +0100 (CET)
-Received: from localhost ([::1]:35736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EF94B84C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:49:49 +0100 (CET)
+Received: from localhost ([::1]:41350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKFuM-0008VS-ET
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 03:43:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44552)
+	id 1nKGwW-0007HU-AS
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:49:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nKFkx-00065Z-Is
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 03:33:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39287)
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1nKG5Z-000553-1q
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 03:55:05 -0500
+Received: from mga17.intel.com ([192.55.52.151]:19074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nKFku-0006F5-Lb
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 03:33:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645000423;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3TtyifTkBvffIq1MCmwHBZ/nedtnPusx5+ks20r0XTU=;
- b=VxPMHria+zJieLcYG857jXzP1joGVrA8f9XP/zXYsi6C/34IUNcYxup1uF0+N/0fh7jKsk
- t2G+wjZ0u8NB2b+fS1rBo6R2+2Ci95mAUnUzViAXJ91CxfCSIKDe536lAQxgeIMiuBrwdl
- 4ZcCPfdh3fWKL4hh5X9v4GRxM4Fgu88=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-454-mj2VDKsUPpKuay1YTkYqVA-1; Wed, 16 Feb 2022 03:33:41 -0500
-X-MC-Unique: mj2VDKsUPpKuay1YTkYqVA-1
-Received: by mail-qk1-f197.google.com with SMTP id
- m22-20020a05620a221600b005f180383baeso761391qkh.15
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 00:33:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3TtyifTkBvffIq1MCmwHBZ/nedtnPusx5+ks20r0XTU=;
- b=LPL8gCVJHriyUblz1YyAmDhCfdSaIlzlBCi/rIJI/YHRQPKxmW8ncYeLWzNnhnTtmz
- jhGyojn1CIe2+zLgyvNsJ3v37JdeoSBxoaPnCR3CrviJpa7LYsuJVqYmrIMQkGWqqcZY
- iTWB+fTLu4fydHGfjOvEbkF76Qs8szuiaQ/cQxJ3coo/08cpsRsASNr4IApqK8G3E7ad
- XufHA9FGrB6n8pv05AlV0fr40MrVl+y3PvDvOki4x7K8CGZcCFPG0VJmhvv4/5HBg9jj
- MocjIKU8Rz2wurySBS5s5lV4LP7vmmAlxETTnXhOu0TVV+6SVV4oHAmzizV8Mgbnbm80
- duKw==
-X-Gm-Message-State: AOAM532TloC5ROaejDFCIcv6OVnLncFl2L2/2SBGsZGQjpPI8QSlzZmo
- wkCLkw5kQ/SWG/99Y4Up99+4UAXrmfq02DoaIkaYt/UMvxaRZZ4qAdLlU49sSHlfUNqRiO2JOuK
- 73P1cYWWnUJ35PMk=
-X-Received: by 2002:ad4:5fce:0:b0:42d:fa10:6451 with SMTP id
- jq14-20020ad45fce000000b0042dfa106451mr1006592qvb.1.1645000421328; 
- Wed, 16 Feb 2022 00:33:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzzfnYS0M1E173zH3uYXamkhzRdWFw+B9NtDcL+MjRd2S6ohuP2TCadIWMSdfEkXrnHrv2jFQ==
-X-Received: by 2002:ad4:5fce:0:b0:42d:fa10:6451 with SMTP id
- jq14-20020ad45fce000000b0042dfa106451mr1006580qvb.1.1645000421079; 
- Wed, 16 Feb 2022 00:33:41 -0800 (PST)
-Received: from sgarzare-redhat (host-95-248-229-156.retail.telecomitalia.it.
- [95.248.229.156])
- by smtp.gmail.com with ESMTPSA id bk23sm18404621qkb.3.2022.02.16.00.33.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 00:33:40 -0800 (PST)
-Date: Wed, 16 Feb 2022 09:33:36 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] hw/virtio: vdpa: Fix leak of host-notifier memory-region
-Message-ID: <20220216083336.jcvgen26qdrz7kpy@sgarzare-redhat>
-References: <20220211170259.1388734-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1nKG5V-0002n5-UX
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 03:55:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645001701; x=1676537701;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=bLryyWPt1g3avKzZTxRq/rTUSnwy7iNJ2yHqzo/iFpo=;
+ b=X+Q1oJ0Dd9Rt3lykyrs2rtaiUq+MjNCcl8IPksX/YK+lUS/7LKvF9Zqe
+ 2uu8zJPRs9ZMneLJysqQFKesvmEDqbVh8AIotksdxBOCf6sXE7xCSWJdZ
+ vUSRou0HBINcbKdBoHP9Sdjt6ZyINPJ5jTZnOfxNplcOaHpXYDEpNsFU9
+ 5FI4i7FvnUWrtdAlNoAOi7rVuwC9QqImzM1uGEfz5vl2SokBhA7NnkzBl
+ oTd+bnIuVGmIGGgXTmRCvDbRSwL04XDMz0HiCjhKF9Q2+u/Mvne+/enow
+ D4T7Veyk4wyw0VP8VAlHFYSqRpLGiLZjog2mqxsaoOGFswd9Jwkahj5W3 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="231182045"
+X-IronPort-AV: E=Sophos;i="5.88,373,1635231600"; d="scan'208";a="231182045"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 00:54:16 -0800
+X-IronPort-AV: E=Sophos;i="5.88,373,1635231600"; d="scan'208";a="633418259"
+Received: from embargo.jf.intel.com ([10.165.9.183])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 00:54:04 -0800
+From: Yang Weijiang <weijiang.yang@intel.com>
+To: pbonzini@redhat.com, ehabkost@redhat.com, mtosatti@redhat.com,
+ seanjc@google.com, richard.henderson@linaro.org, like.xu.linux@gmail.com,
+ wei.w.wang@intel.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Subject: [PATCH 0/8] Enable Architectural LBR for guest
+Date: Tue, 15 Feb 2022 14:52:50 -0500
+Message-Id: <20220215195258.29149-1-weijiang.yang@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20220211170259.1388734-1-lvivier@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.151;
+ envelope-from=weijiang.yang@intel.com; helo=mga17.intel.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIMWL_WL_HIGH=-0.083, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,48 +71,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Yang Weijiang <weijiang.yang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 11, 2022 at 06:02:59PM +0100, Laurent Vivier wrote:
->If call virtio_queue_set_host_notifier_mr fails, should free
->host-notifier memory-region.
->
->This problem can trigger a coredump with some vDPA drivers (mlx5,
->but not with the vdpasim), if we unplug the virtio-net card from
->the guest after a stop/start.
->
->The same fix has been done for vhost-user:
->  1f89d3b91e3e ("hw/virtio: Fix leak of host-notifier memory-region")
->
->Fixes: d0416d487bd5 ("vhost-vdpa: map virtqueue notification area if possible")
->Cc: jasowang@redhat.com
->Resolves: https://bugzilla.redhat.com/2027208
->Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->---
-> hw/virtio/vhost-vdpa.c | 1 +
-> 1 file changed, 1 insertion(+)
+Architectural LBR (Arch LBR) is the enhancement for previous
+non-Architectural LBR (Legacy LBR). This feature is introduced
+in Intel Architecture Instruction Set Extensions and Future
+Features Programming Reference[0]. The advantages of Arch LBR
+can be referred to in native patch series[1].
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Since Arch LBR relies on XSAVES/XRSTORS to boost memory save/
+restore, QEMU needs to enable the support for XSS first. Similar
+as Legacy LBR, QEMU uses lbr-fmt=0x3f parameter to advertise
+Arch LBR feature to guest.
 
->
->diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->index 04ea43704f5d..11f696468dc1 100644
->--- a/hw/virtio/vhost-vdpa.c
->+++ b/hw/virtio/vhost-vdpa.c
->@@ -431,6 +431,7 @@ static int vhost_vdpa_host_notifier_init(struct vhost_dev *dev, int queue_index)
->     g_free(name);
->
->     if (virtio_queue_set_host_notifier_mr(vdev, queue_index, &n->mr, true)) {
->+        object_unparent(OBJECT(&n->mr));
->         munmap(addr, page_size);
->         goto err;
->     }
->-- 
->2.34.1
->
->
+Note, the depth MSR has following side-effects: 1)On write to the
+MSR, it'll reset all Arch LBR recording MSRs to 0s. 2) XRSTORS
+resets all record MSRs to 0s if the saved depth mismatches
+MSR_ARCH_LBR_DEPTH. As the first step, the Arch LBR virtulization
+solution only supports guest depth == host depth to simplify the
+implementation.
+
+During live migration, before put Arch LBR msrs, it'll check the
+depth setting of destination host, the LBR records are written to
+destination only if both source and destination host depth MSR
+settings match.
+
+This patch series should be built with AMX QEMU patches in order
+to set proper xsave area size.
+
+[0]https://software.intel.com/sites/default/files/managed/c5/15/architecture-instruction-set-extensions-programming-reference.pdf
+[1]https://lore.kernel.org/lkml/1593780569-62993-1-git-send-email-kan.liang@linux.intel.com/
+
+QEMU base-commit: ad38520bde
+
+patch 1~2: The support patches for legacy LBR.
+patch 3:   Add a helper function to clean up code and it'll be 
+	   used by Arch LBR patch too.
+patch 4~5: Enable XSAVES support for Arch LBR.
+patch 6~7: Enable Arch LBR live migration support.
+patch 8:   Advertise Arch LBR feature.
+
+Yang Weijiang (8):
+  qdev-properties: Add a new macro with bitmask check for uint64_t
+    property
+  target/i386: Add lbr-fmt vPMU option to support guest LBR
+  target/i386: Add kvm_get_one_msr helper
+  target/i386: Enable support for XSAVES based features
+  target/i386: Add XSAVES support for Arch LBR
+  target/i386: Add MSR access interface for Arch LBR
+  target/i386: Enable Arch LBR migration states in vmstate
+  target/i386: Support Arch LBR in CPUID enumeration
+
+ hw/core/qdev-properties.c    |  19 ++++
+ include/hw/qdev-properties.h |  12 +++
+ target/i386/cpu.c            | 169 +++++++++++++++++++++++++++++------
+ target/i386/cpu.h            |  56 +++++++++++-
+ target/i386/kvm/kvm.c        | 115 +++++++++++++++++++-----
+ target/i386/machine.c        |  38 ++++++++
+ 6 files changed, 361 insertions(+), 48 deletions(-)
+
+-- 
+2.27.0
 
 
