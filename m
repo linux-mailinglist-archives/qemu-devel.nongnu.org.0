@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8434B6FD0
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 16:33:00 +0100 (CET)
-Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E1F4B6FF9
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 16:54:55 +0100 (CET)
+Received: from localhost ([::1]:42038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJzp5-0005Ol-GQ
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 10:32:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37692)
+	id 1nK0AH-000158-S4
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 10:54:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJzo9-0004it-DT
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:32:01 -0500
-Received: from [2607:f8b0:4864:20::102e] (port=40722
- helo=mail-pj1-x102e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nJzo6-0001Tr-U0
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:32:00 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- n19-20020a17090ade9300b001b9892a7bf9so3199733pjv.5
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 07:31:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p7SqXYMTajVkBABRyBqfUV05cAfvK6uBYaLQJ2ar4i4=;
- b=kC/XY1Bq9lT5REa+9XQM6pChEv8ncfdWgeG8gsWMXfzMGAvOul78WHeFfOFuhtyiN9
- QFea/xEz4WTRz3nkLrz+5y91jG1Qj1rW9b+tmJjdPL0yC6zPl3rkLO72lPNUf1sFepfm
- eso/5odAqJFe439/+HTydkBzszZez3TH1GwQVvIyHTMxSFmhj5jaf2VnKJItRbl83pBK
- +wuWNWIAk/TxG8+uvHYV4ROlN9qlr0v9a7voHeFMLND60fpbKICq34P1kHhsf2WR3Ibl
- YflYOMnZP1St4zRJ5D57mUBse5geSLL1KjGruhJbi7LuUSwCwMny2O26X61laL4kVNDh
- WbBA==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nK089-0000Mg-18
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:52:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50676)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nK085-0004dF-R5
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 10:52:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644940357;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U67NHitYDnuO4aq81m1FCV0aXG6JgX2Ajb0hhkIAfmA=;
+ b=GKXlRMaJzttJMyRxNLFIDNohg+tBNoderjlr4sCtb9PDifq6/ywTEVUMXAoQdUoqP7nKUe
+ KXv91FGj4PMhzoa1w5QKhPxI09gH1VX+U4NXkhhtaLO0NibNeGgJLo/4EA2/dkI2DNfvw3
+ hWMMWWNQCdQUth9/o5XD6T8/rSjVVkU=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-78-4JsoI0GmNe-FRCGhezrFgg-1; Tue, 15 Feb 2022 10:52:34 -0500
+X-MC-Unique: 4JsoI0GmNe-FRCGhezrFgg-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ s1-20020ac85ec1000000b002cf7c93d56dso15143403qtx.21
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 07:52:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p7SqXYMTajVkBABRyBqfUV05cAfvK6uBYaLQJ2ar4i4=;
- b=F7ZzjDLRH5igWAXZCajDOZxH+uPTpGmhE6SRIESzWcSmIOjJgMUrz+IAyaQerdOXg2
- fvZ9solC92VIrDikjtVo3uETNDApZxxH13qzhR362PdTXudnhcaTJpOqImhy4SQWRVDH
- jK6/bfcxGsml0dtkVbz+q3ybHiC/XoQLVG6Lv3g/TT6iGqLahie8MF6XAh7QSxpwjnBq
- ZOn03SKapDrvWIf93WpTaVmwEmDnc8brwvuUJcI7m6tRrVwZanVjvL4sk+YbPgheSOjA
- Ypd3KaOVdGl19awBu2LuAHFUPB4ZrKL1AcH8P1kxu573i6vurmtnW5aHYtxR6COHavff
- EOlQ==
-X-Gm-Message-State: AOAM533powgaPEo4KItqCO5cdX5tDD5FlBC8NI7SOMGtGtM8XtbjsXVJ
- 7G6KHBUtfWKgQCihTF5Jt6XGnFW73CBbFQ==
-X-Google-Smtp-Source: ABdhPJz+WBm6X3zUOwKarPXGqi3czuMi5ZYGFgrYCT7W3zXv81hdf1zydLCS7guHmlUgFBGivlIAvw==
-X-Received: by 2002:a17:902:a9c1:: with SMTP id
- b1mr4689386plr.45.1644939116871; 
- Tue, 15 Feb 2022 07:31:56 -0800 (PST)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.141.137])
- by smtp.googlemail.com with ESMTPSA id na15sm3234710pjb.17.2022.02.15.07.31.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 07:31:56 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH] hw/acpi/erst: clean up unused IS_UEFI_CPER_RECORD macro
-Date: Tue, 15 Feb 2022 21:01:40 +0530
-Message-Id: <20220215153140.128528-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=U67NHitYDnuO4aq81m1FCV0aXG6JgX2Ajb0hhkIAfmA=;
+ b=W2ogKnmncczobhdLILxYfBVFgu0xwP+Nmxs6Px6dbDtIiTEmpWQZPOJtMU1D++zsOV
+ jiHJ9jAyv9z3hBW3DlmRwLJKyR+c3IOgNWd8Kag1pLcytidVkfB3Or30zvUPvK8P5ACP
+ RgaBbtglfsdH40yyRYFz8OxkXfYVn3XdBZ4eJxvSf/iCQHWeU9M7ii226PQ1lgV1zgVC
+ aYpjRtzdLN92ybp0VGFtwbpItGm4ivnkZq2KAiI+pX2XgipfpiVhAbvi7Kj65xLNfDHo
+ Yt+YYYbzeGNVIcN77XbABZ9fjM13Fbf7F8+nVdpxc1OYN3z4Y8SHt82janY0nywedNpI
+ 9AlQ==
+X-Gm-Message-State: AOAM531pvtcxqTzC3NqzpJEaAQDfCAU78DGyKERdQSIhvFodmty/mBvx
+ USySVJe/z28/ghCqo8CqwMB3mjbXMU75RE+mUPFqISHyhMygXZXcWReGer1zjzqpFRUa7PqXh+3
+ vD8wf+Di8V1vk8oMsWjSmr/rkC6oIzGQ=
+X-Received: by 2002:ac8:5a4a:: with SMTP id o10mr3113311qta.459.1644940354068; 
+ Tue, 15 Feb 2022 07:52:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxDAEWoefCFLb3bGu9XR6jSzkwRnZdWYbFUdDlX37J0SA95dCV0BZRvAy/Uo5EVMIHWQXa5c3vH1oTSGI7tzHk=
+X-Received: by 2002:ac8:5a4a:: with SMTP id o10mr3113293qta.459.1644940353829; 
+ Tue, 15 Feb 2022 07:52:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220214191635.1604932-1-eperezma@redhat.com>
+In-Reply-To: <20220214191635.1604932-1-eperezma@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 15 Feb 2022 16:51:57 +0100
+Message-ID: <CAJaqyWctkCcpJtRU-9CYB=f8erVrw10puK570GLBCV2j9eg7DA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/9] Net Control VQ support in vDPA SVQ
+To: qemu-level <qemu-devel@nongnu.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,36 +91,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric DeVolder <eric.devolder@oracle.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Eli Cohen <eli@mellanox.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change is cosmetic. IS_UEFI_CPER_RECORD macro definition that was added
-as a part of the ERST implementation seems to be unused. Remove it.
+On Mon, Feb 14, 2022 at 8:38 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+ote:
+>
+> Control virtqueue is used by networking device for accepting various
+> commands from the driver. It's a must to support multiqueue and other
+> configurations.
+>
+> Shadow VirtQueue (SVQ) [1] already makes possible migration of virtqueue
+> states, effectively intercepting them so qemu can track what regions of m=
+emory
+> are dirty because device action and needs migration. However, this does n=
+ot
+> solve networking device state seen by the driver because CVQ messages, li=
+ke
+> changes on MAC addresses from the driver.
+>
+> To solve that, this series uses SVQ infraestructure proposed at SVQ [1] t=
+o
+> intercept networking control messages used by the device. This way, qemu =
+is
+> able to update VirtIONet device model and to migrate it. This series need=
+s to
+> be applied on top of [1].
+>
+> Ideally, only the control VQ would be shadowed for all the run of qemu an=
+d the
+> rest of virtqueues would be passthrough unless it's migration time. Howev=
+er,
+> this requires the vDPA device to support address translations from more t=
+han
+> one address space, something that is not possible at the moment with the
+> current vhost-vDPA API. The API change has been proposed at [2], but use =
+of it
+> is left for future series.
+>
+> Sending this as a RFC so some details like error control is still not 100=
+%
+> tested. Comments are welcomed on every aspect of the patch.
+>
+> [1] https://lore.kernel.org/qemu-devel/20220121202733.404989-1-eperezma@r=
+edhat.com/
+> [2] https://lkml.org/lkml/2020/9/23/1243
+>
+> Eugenio P=C3=A9rez (9):
+>   virtio-net: Expose ctrl virtqueue logic
+>   vdpa: Extract get geatures part from vhost_vdpa_get_max_queue_pairs
+>   virtio: Make virtqueue_alloc_element non-static
+>   vhost: Add SVQElement
+>   vhost: Add custom used buffer callback
+>   vdpa: Add map/unmap operation callback to SVQ
+>   vhost: Add vhost_svq_inject
+>   vhost: Add vhost_svq_start_op
+>   vdpa: control virtqueue support on shadow virtqueue
+>
+>  hw/virtio/vhost-shadow-virtqueue.h |  25 +++-
+>  include/hw/virtio/vhost-vdpa.h     |   2 +
+>  include/hw/virtio/virtio-net.h     |   3 +
+>  include/hw/virtio/virtio.h         |   1 +
+>  hw/net/virtio-net.c                |  83 ++++++-----
+>  hw/virtio/vhost-shadow-virtqueue.c | 217 +++++++++++++++++++++++------
+>  hw/virtio/vhost-vdpa.c             |  22 ++-
+>  hw/virtio/virtio.c                 |   2 +-
+>  net/vhost-vdpa.c                   | 140 +++++++++++++++++--
+>  9 files changed, 405 insertions(+), 90 deletions(-)
+>
 
-CC: Eric DeVolder <eric.devolder@oracle.com>
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- hw/acpi/erst.c | 5 -----
- 1 file changed, 5 deletions(-)
+This series is available to test at [1].
 
-diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-index c0a23cf467..de509c2b48 100644
---- a/hw/acpi/erst.c
-+++ b/hw/acpi/erst.c
-@@ -80,11 +80,6 @@
- #define UEFI_CPER_RECORD_MIN_SIZE 128U
- #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
- #define UEFI_CPER_RECORD_ID_OFFSET 96U
--#define IS_UEFI_CPER_RECORD(ptr) \
--    (((ptr)[0] == 'C') && \
--     ((ptr)[1] == 'P') && \
--     ((ptr)[2] == 'E') && \
--     ((ptr)[3] == 'R'))
- 
- /*
-  * NOTE that when accessing CPER fields within a record, memcpy()
--- 
-2.25.1
+Thanks!
+
+[1] https://github.com/eugpermar/qemu/releases/tag/vdpa_sw_live_migration.d=
+%2Fcvq-v1
+
+> --
+> 2.27.0
+>
+>
+>
 
 
