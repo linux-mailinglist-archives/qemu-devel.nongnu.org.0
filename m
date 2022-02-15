@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E064B67F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:43:53 +0100 (CET)
-Received: from localhost ([::1]:56586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B10A4B681D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Feb 2022 10:47:36 +0100 (CET)
+Received: from localhost ([::1]:34794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nJuNF-0005f1-38
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:43:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54768)
+	id 1nJuQp-000263-8v
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 04:47:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCI-0003wy-CL
+ id 1nJuCI-0003xF-Ec
  for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:34 -0500
-Received: from [2a00:1450:4864:20::633] (port=37672
- helo=mail-ej1-x633.google.com)
+Received: from [2a00:1450:4864:20::635] (port=37674
+ helo=mail-ej1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nJuCG-0008Qc-2y
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:33 -0500
-Received: by mail-ej1-x633.google.com with SMTP id h8so16382918ejy.4
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:31 -0800 (PST)
+ id 1nJuCG-0008Qi-L5
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 04:32:34 -0500
+Received: by mail-ej1-x635.google.com with SMTP id h8so16382970ejy.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 01:32:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9eEr9vypFvm/GDMW5MF5P0L/9K86tQJ32Kkz70oz/Mk=;
- b=bF0cwE7zeeD+Se7QQRThBYsohef3+1FvmOVCS2Im5E+iJ+GjwyPJucKq2sesemcCHV
- loX1zZXk4uNBwpHDE1zLsDU59rGwyrxkIh3NOxVXcza7B5MlqRZT1LDpL5tl830C4mgQ
- 7XRXW254EwoqhQb+Vn2ceZ66sg5jzXPqnXRXg34P6nA5r564uQJXVv52fpOBN1sI0Ste
- ADPLsMe5QaAYjc2Vf8utcK7XVgbwF1dz24dIf7TN0tFWGRShRl1cZvVpWU7jpEuFQSlg
- 6dX9Aup8W/M3yxuqeD7Zwga2+aU45SD8I7mYaIVfaTxpA92OMtlO5OTypMBE8h1i0mCH
- TSMw==
+ bh=931YQ/n8R//7jvPgZB7qt0my6F42icBbcLTxZP+VAfM=;
+ b=gHJflh9XqrzEWRTmfR5/Ul5ZDaRrMDxb202oO1gVlK2jlrmdaL3vmcp3kU50JvU71J
+ 6M1E7OKUl2sBO0JWXZksyNxw1m9NzY0HZUhbSLIl8XosqhhMuFTm7QWCxzk8ByqDVElu
+ KhsFIA5mMA8unjuWYbxSCJilPsxShhPIIdeZbBI/GHZfZ6qmkj+Nh0V/kpR36Oe3rkF9
+ p9gFtBQfb4eXM+2icM1XiQHW+wp9IQgsxS8GQhFH6iLWzbQxlOEXohuH+GecXfRwsPAV
+ YUF317W74kttGZ3RWEHqEe39fTZMVMmbqHoYxOOemzuL97BSnrtC0kYD8GhWGFU16nWH
+ QTMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9eEr9vypFvm/GDMW5MF5P0L/9K86tQJ32Kkz70oz/Mk=;
- b=tHfyniMJhtGA5pYTC5GDnqHS6ZKZQwk2Owt5/IARWjbFDcjvauJitDdOxpbU1DOolG
- 0Y60pmqFZIoQOscjWVKpALwaxONMYrLpjKtwRJNn+oSDxs7A1JA7bkphXC8MgwFDWoCn
- +I9o+jeL/ccXQM+DY8OTpEtj/iRiXTQoafGXR3suSsJsnhd+GbwvByUUODtUfpHTlnsn
- 4R+9qwap+pppLVYOS4ReuBV/LJo8cBqgGxQGoIhxyGIphAxj/HhDIwOVKEkbtD0C21Gs
- pcHriSXLZdGAIOmkXz+U4HCxU79X+xqY7c9ebVA+lP3t6Ye/LirGN7PUOKcLK5JyxNRM
- FGaQ==
-X-Gm-Message-State: AOAM532QUKVaL4sEm9r/TqfvcqJ2ttOaw1g37I3pJPkrct5n7l663ELH
- gFI9FRunNnH29C1D9BQgmVGhYU0xBog=
-X-Google-Smtp-Source: ABdhPJw8m5Rmb1jlA1bH3rSyRWzqhmsJXYez9yGUoOcuhrQCeRzrglrwEj6uMa0+pkkj5/k2ajBAZg==
-X-Received: by 2002:a17:906:8592:: with SMTP id
- v18mr689703ejx.207.1644917550737; 
- Tue, 15 Feb 2022 01:32:30 -0800 (PST)
+ bh=931YQ/n8R//7jvPgZB7qt0my6F42icBbcLTxZP+VAfM=;
+ b=hG88xwcfqLS1XM+NDl/UnCJY0/r0kwEDP2G+hf6nSOKKdtZaKGmd9EMuB+dpOMpbfK
+ Gsh7uQPpEui8BJPAIYZcY3o6XCnSHztWyWuqDeBkK2xKFhdtiauDaMoY8l0AZlAm2LT8
+ saXPSdPWgclZvFBNGySPmt1BsI2RiAXj+/cBGpVL/YoHw4IA2reYb+r33c1o+chLEAd/
+ cvRMiKo1HTjD9pOAZHUpeMkdri//uT8IbUqlpkEi/VjujRu6QvQfgREmaLMpXTRLHDEu
+ BShWDEfOC+mkGAHAiCZAbILc+vzUKTFnlihS3R5K/kVTIBnG7GvsR5Ff5iu89vhpmr5k
+ 7KpQ==
+X-Gm-Message-State: AOAM531t6+sV30Tg/zcVpTyAgVHGWCTpq2Vok4txwMMWsIlb4yFMXbup
+ /pxaI70jBvQrbhWWMzvBI6Mlm01+4CI=
+X-Google-Smtp-Source: ABdhPJzBaFQm7uv/D3i+Df74xppaCXK5WmnH9G5Ou7z2y1E9eOOq7Rf3wsWUlWdRUmRYNw2SW9Fkjg==
+X-Received: by 2002:a17:906:779b:: with SMTP id
+ s27mr2180122ejm.389.1644917551312; 
+ Tue, 15 Feb 2022 01:32:31 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id m4sm6634308ejl.45.2022.02.15.01.32.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 01:32:30 -0800 (PST)
+ Tue, 15 Feb 2022 01:32:31 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/30] configure, meson: move AF_ALG test to meson
-Date: Tue, 15 Feb 2022 10:32:01 +0100
-Message-Id: <20220215093223.110827-9-pbonzini@redhat.com>
+Subject: [PULL 09/30] configure, meson: move libnuma detection to meson
+Date: Tue, 15 Feb 2022 10:32:02 +0100
+Message-Id: <20220215093223.110827-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220215093223.110827-1-pbonzini@redhat.com>
 References: <20220215093223.110827-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -93,171 +93,170 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 36 -----------------------------------
- crypto/meson.build            |  4 +++-
- meson.build                   | 16 +++++++++++++++-
+ configure                     | 31 -------------------------------
+ meson.build                   | 25 ++++++++++++++++++++-----
  meson_options.txt             |  2 ++
  scripts/meson-buildoptions.sh |  3 +++
- 5 files changed, 23 insertions(+), 38 deletions(-)
+ 4 files changed, 25 insertions(+), 36 deletions(-)
 
 diff --git a/configure b/configure
-index c49797012d..07ea08cd08 100755
+index 07ea08cd08..f536f53106 100755
 --- a/configure
 +++ b/configure
-@@ -329,7 +329,6 @@ want_tools="$default_feature"
- coroutine=""
- coroutine_pool="$default_feature"
- debug_stack_usage="no"
--crypto_afalg="no"
+@@ -332,7 +332,6 @@ debug_stack_usage="no"
  tls_priority="NORMAL"
  tpm="$default_feature"
  live_block_migration=${default_feature:-yes}
-@@ -976,10 +975,6 @@ for opt do
+-numa="$default_feature"
+ replication=${default_feature:-yes}
+ bochs=${default_feature:-yes}
+ cloop=${default_feature:-yes}
+@@ -1048,10 +1047,6 @@ for opt do
    ;;
-   --enable-debug-stack-usage) debug_stack_usage="yes"
+   --enable-live-block-migration) live_block_migration="yes"
    ;;
--  --enable-crypto-afalg) crypto_afalg="yes"
+-  --disable-numa) numa="no"
 -  ;;
--  --disable-crypto-afalg) crypto_afalg="no"
+-  --enable-numa) numa="yes"
 -  ;;
-   --disable-vhost-net) vhost_net="no"
+   --disable-replication) replication="no"
    ;;
-   --enable-vhost-net) vhost_net="yes"
-@@ -1402,7 +1397,6 @@ cat << EOF
-   vvfat           vvfat image format support
-   qed             qed image format support
-   parallels       parallels image format support
--  crypto-afalg    Linux AF_ALG crypto backend driver
-   debug-mutex     mutex debugging support
-   rng-none        dummy RNG, avoid using /dev/(u)random and getrandom()
-   gio             libgio support
-@@ -2817,32 +2811,6 @@ if test "$fortify_source" != "no"; then
+   --enable-replication) replication="yes"
+@@ -1384,7 +1379,6 @@ cat << EOF
+   live-block-migration   Block migration in the main migration stream
+   coroutine-pool  coroutine freelist (better performance)
+   tpm             TPM support
+-  numa            libnuma support
+   replication     replication support
+   opengl          opengl support
+   qom-cast-debug  cast debugging support
+@@ -2455,26 +2449,6 @@ EOF
    fi
  fi
  
 -##########################################
--# check for usable AF_ALG environment
--have_afalg=no
--cat > $TMPC << EOF
--#include <errno.h>
--#include <sys/types.h>
--#include <sys/socket.h>
--#include <linux/if_alg.h>
--int main(void) {
--    int sock;
--    sock = socket(AF_ALG, SOCK_SEQPACKET, 0);
--    return sock;
--}
+-# libnuma probe
+-
+-if test "$numa" != "no" ; then
+-  cat > $TMPC << EOF
+-#include <numa.h>
+-int main(void) { return numa_available(); }
 -EOF
--if compile_prog "" "" ; then
--    have_afalg=yes
--fi
--if test "$crypto_afalg" = "yes"
--then
--    if test "$have_afalg" != "yes"
--    then
--	error_exit "AF_ALG requested but could not be detected"
+-
+-  if compile_prog "" "-lnuma" ; then
+-    numa=yes
+-    numa_libs="-lnuma"
+-  else
+-    if test "$numa" = "yes" ; then
+-      feature_not_found "numa" "install numactl devel"
 -    fi
+-    numa=no
+-  fi
 -fi
 -
--
- ##########################################
- # checks for sanitizers
- 
-@@ -3308,10 +3276,6 @@ if test "$debug_stack_usage" = "yes" ; then
-   echo "CONFIG_DEBUG_STACK_USAGE=y" >> $config_host_mak
+ # check for usbfs
+ have_usbfs=no
+ if test "$linux_user" = "yes"; then
+@@ -3442,11 +3416,6 @@ if test "$default_targets" = "yes"; then
+   echo "CONFIG_DEFAULT_TARGETS=y" >> $config_host_mak
  fi
  
--if test "$crypto_afalg" = "yes" ; then
--  echo "CONFIG_AF_ALG=y" >> $config_host_mak
+-if test "$numa" = "yes"; then
+-  echo "CONFIG_NUMA=y" >> $config_host_mak
+-  echo "NUMA_LIBS=$numa_libs" >> $config_host_mak
 -fi
 -
- if test "$have_asan_iface_fiber" = "yes" ; then
-     echo "CONFIG_ASAN_IFACE_FIBER=y" >> $config_host_mak
+ if test "$ccache_cpp2" = "yes"; then
+   echo "export CCACHE_CPP2=y" >> $config_host_mak
  fi
-diff --git a/crypto/meson.build b/crypto/meson.build
-index 95a6a83504..9bf3a431fe 100644
---- a/crypto/meson.build
-+++ b/crypto/meson.build
-@@ -35,7 +35,9 @@ else
- endif
- 
- crypto_ss.add(when: 'CONFIG_SECRET_KEYRING', if_true: files('secret_keyring.c'))
--crypto_ss.add(when: 'CONFIG_AF_ALG', if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
-+if have_afalg
-+  crypto_ss.add(if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
-+endif
- crypto_ss.add(when: gnutls, if_true: files('tls-cipher-suites.c'))
- 
- util_ss.add(files('aes.c'))
 diff --git a/meson.build b/meson.build
-index 6dc38a7916..9e1acb98aa 100644
+index 9e1acb98aa..f8b83f64db 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1828,6 +1828,20 @@ config_host_data.set('CONFIG_MEMBARRIER', get_option('membarrier') \
-   .require(have_membarrier, error_message: 'membarrier system call not available') \
-   .allowed())
- 
-+have_afalg = get_option('crypto_afalg') \
-+  .require(cc.compiles(gnu_source_prefix + '''
-+    #include <errno.h>
-+    #include <sys/types.h>
-+    #include <sys/socket.h>
-+    #include <linux/if_alg.h>
-+    int main(void) {
-+      int sock;
-+      sock = socket(AF_ALG, SOCK_SEQPACKET, 0);
-+      return sock;
-+    }
-+  '''), error_message: 'AF_ALG requested but could not be detected').allowed()
-+config_host_data.set('CONFIG_AF_ALG', have_afalg)
-+
- config_host_data.set('CONFIG_AF_VSOCK', cc.compiles(gnu_source_prefix + '''
-   #include <errno.h>
-   #include <sys/types.h>
-@@ -3453,7 +3467,7 @@ summary_info += {'nettle':            nettle}
- if nettle.found()
-    summary_info += {'  XTS':             xts != 'private'}
+@@ -1164,14 +1164,28 @@ if lzo.found() and not cc.links('''
+   endif
  endif
--summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
-+summary_info += {'AF_ALG support':    have_afalg}
- summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
- summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
- summary(summary_info, bool_yn: true, section: 'Crypto')
+ 
++numa = not_found
++if not get_option('numa').auto() or have_system or have_tools
++  numa = cc.find_library('numa', has_headers: ['numa.h'],
++                              required: get_option('numa'),
++                              kwargs: static_kwargs)
++endif
++if numa.found() and not cc.links('''
++   #include <numa.h>
++   int main(void) { return numa_available(); }
++   ''', dependencies: numa)
++  numa = not_found
++  if get_option('numa').enabled()
++    error('could not link numa')
++  else
++    warning('could not link numa, disabling')
++  endif
++endif
++
+ rdma = not_found
+ if 'CONFIG_RDMA' in config_host
+   rdma = declare_dependency(link_args: config_host['RDMA_LIBS'].split())
+ endif
+-numa = not_found
+-if 'CONFIG_NUMA' in config_host
+-  numa = declare_dependency(link_args: config_host['NUMA_LIBS'].split())
+-endif
+ xen = not_found
+ if 'CONFIG_XEN_BACKEND' in config_host
+   xen = declare_dependency(compile_args: config_host['XEN_CFLAGS'].split(),
+@@ -1472,6 +1486,7 @@ config_host_data.set('CONFIG_LIBSSH', libssh.found())
+ config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
+ config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
+ config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
++config_host_data.set('CONFIG_NUMA', numa.found())
+ config_host_data.set('CONFIG_RBD', rbd.found())
+ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+@@ -3548,7 +3563,7 @@ summary_info += {'snappy support':    snappy}
+ summary_info += {'bzip2 support':     libbzip2}
+ summary_info += {'lzfse support':     liblzfse}
+ summary_info += {'zstd support':      zstd}
+-summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
++summary_info += {'NUMA host support': numa}
+ summary_info += {'capstone':          capstone_opt == 'internal' ? capstone_opt : capstone}
+ summary_info += {'libpmem support':   libpmem}
+ summary_info += {'libdaxctl support': libdaxctl}
 diff --git a/meson_options.txt b/meson_options.txt
-index 49f14f960e..6efad01528 100644
+index 6efad01528..bb443023b5 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -113,6 +113,8 @@ option('nettle', type : 'feature', value : 'auto',
-        description: 'nettle cryptography support')
- option('gcrypt', type : 'feature', value : 'auto',
-        description: 'libgcrypt cryptography support')
-+option('crypto_afalg', type : 'feature', value : 'auto',
-+       description: 'Linux AF_ALG crypto backend driver')
- option('libdaxctl', type : 'feature', value : 'auto',
-        description: 'libdaxctl support')
- option('libpmem', type : 'feature', value : 'auto',
+@@ -103,6 +103,8 @@ option('libnfs', type : 'feature', value : 'auto',
+        description: 'libnfs block device driver')
+ option('mpath', type : 'feature', value : 'auto',
+        description: 'Multipath persistent reservation passthrough')
++option('numa', type : 'feature', value : 'auto',
++       description: 'libnuma support')
+ option('iconv', type : 'feature', value : 'auto',
+        description: 'Font glyph conversion support')
+ option('curses', type : 'feature', value : 'auto',
 diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index c204ede02b..a20d40e685 100644
+index a20d40e685..d46d7181e7 100644
 --- a/scripts/meson-buildoptions.sh
 +++ b/scripts/meson-buildoptions.sh
-@@ -34,6 +34,7 @@ meson_options_help() {
-   printf "%s\n" '  cap-ng          cap_ng support'
-   printf "%s\n" '  cocoa           Cocoa user interface (macOS only)'
-   printf "%s\n" '  coreaudio       CoreAudio sound support'
-+  printf "%s\n" '  crypto-afalg    Linux AF_ALG crypto backend driver'
-   printf "%s\n" '  curl            CURL block device driver'
-   printf "%s\n" '  curses          curses UI'
-   printf "%s\n" '  dbus-display    -display dbus support'
-@@ -135,6 +136,8 @@ _meson_option_parse() {
-     --disable-cocoa) printf "%s" -Dcocoa=disabled ;;
-     --enable-coreaudio) printf "%s" -Dcoreaudio=enabled ;;
-     --disable-coreaudio) printf "%s" -Dcoreaudio=disabled ;;
-+    --enable-crypto-afalg) printf "%s" -Dcrypto_afalg=enabled ;;
-+    --disable-crypto-afalg) printf "%s" -Dcrypto_afalg=disabled ;;
-     --enable-curl) printf "%s" -Dcurl=enabled ;;
-     --disable-curl) printf "%s" -Dcurl=disabled ;;
-     --enable-curses) printf "%s" -Dcurses=enabled ;;
+@@ -71,6 +71,7 @@ meson_options_help() {
+   printf "%s\n" '  multiprocess    Out of process device emulation support'
+   printf "%s\n" '  netmap          netmap network backend support'
+   printf "%s\n" '  nettle          nettle cryptography support'
++  printf "%s\n" '  numa            libnuma support'
+   printf "%s\n" '  nvmm            NVMM acceleration support'
+   printf "%s\n" '  oss             OSS sound support'
+   printf "%s\n" '  pa              PulseAudio sound support'
+@@ -218,6 +219,8 @@ _meson_option_parse() {
+     --disable-netmap) printf "%s" -Dnetmap=disabled ;;
+     --enable-nettle) printf "%s" -Dnettle=enabled ;;
+     --disable-nettle) printf "%s" -Dnettle=disabled ;;
++    --enable-numa) printf "%s" -Dnuma=enabled ;;
++    --disable-numa) printf "%s" -Dnuma=disabled ;;
+     --enable-nvmm) printf "%s" -Dnvmm=enabled ;;
+     --disable-nvmm) printf "%s" -Dnvmm=disabled ;;
+     --enable-oss) printf "%s" -Doss=enabled ;;
 -- 
 2.34.1
 
