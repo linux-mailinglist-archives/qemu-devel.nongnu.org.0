@@ -2,91 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8E64B8F19
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 18:27:22 +0100 (CET)
-Received: from localhost ([::1]:46136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3CC4B8F12
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 18:22:12 +0100 (CET)
+Received: from localhost ([::1]:38176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKO5J-0005zY-De
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 12:27:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44108)
+	id 1nKO0J-0000QA-4Z
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 12:22:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nKNpc-0005FN-UG
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:11:10 -0500
-Received: from [2607:f8b0:4864:20::533] (port=45710
- helo=mail-pg1-x533.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nKNpZ-0001b1-QU
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:11:08 -0500
-Received: by mail-pg1-x533.google.com with SMTP id z4so2665039pgh.12
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 09:11:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:cc:from:in-reply-to:content-transfer-encoding;
- bh=QZwUHs8blL7ig0/Y2jeJGqz4Paa580U7Y4d86v1RKrY=;
- b=qWEpRNqgGquAMSbouzqOT7e6yWp2b16QH9HyraaWdapck7Up2lD9RK/dkd1CtSzHyk
- Nz3XCBQ18oVGThBMnyhfiPzlzztG3nv18eZQIoiNqu96kr0rwqaGzVN4yaeEgsWUYFTM
- CLcSVcVfUXsQ41IzpqjRJEN2ejSU7kCRa915vTlljCQXDw/Xv8NMz4univ23eCTGMjHC
- B//Y4DbwzRkRGfHNIm+fV7HOuMYWL/bzrG5y69QqvTcAaBK/oQj/SvTVOjsK8sY7bm+k
- bHcCP6/jhexVrZTxvoVaFqRcmkLjE3kLItjwdImlauf2yI69LG93rZvYD0mVGMUGGQMh
- ca+g==
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1nKNtl-0001MG-3P
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:15:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25244)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1nKNtf-0002fc-RC
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:15:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645031718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RJBopkJONM+p7/tvTxD1ZFp3g0u8D9kn8Q/ICglqrNw=;
+ b=OhhDRJpXQsvAyIByqHw0itHU7ZRNbrGraPzYO4r9ylULgc+FVx15AjJ8jADpSIiFDqxUe8
+ mgvgQ1M3OqdVquh913pvK5McRUzQmnUOB5ibdIOErR4ECIm3yvETiMAdAENf4vqLFb/qvi
+ /9nPz+MJTU/jPpMFm5nP321SQOc0Ncc=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-617-1VVVmSYtNcyoKe0Q21kY-w-1; Wed, 16 Feb 2022 12:15:17 -0500
+X-MC-Unique: 1VVVmSYtNcyoKe0Q21kY-w-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ x12-20020a19f60c000000b00443972023c6so333165lfe.10
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 09:15:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:cc:from:in-reply-to
- :content-transfer-encoding;
- bh=QZwUHs8blL7ig0/Y2jeJGqz4Paa580U7Y4d86v1RKrY=;
- b=BgB3kTtN8hDtBxMw8cbT6HhIAQNp2lfFHaERaMNIyUIl5rpf2SpEkUTqiysqlMluCY
- erhmwcp5jt8hDAAQoIuDLXXMJFF4jx6E3BIMHbEIz1vV2fzSJJAlSZkRQsQXIwaoas6E
- Q7mPZHCpWHT2Wi/5P8iiaI/MrRSs3LPCez2nXJ83obEIknp6aJTVInfnIX/TT6JEXmIu
- 4oqtScexk4ObLKivRI/tT4lBu3vUteyCDUbnsvsH0Pu1S18g9HckPG36Dmq5QL2wnPmU
- 2CQkkA63zOcoMlXMlRfgn+cLQ6cISnQd0eY5TSCQ/aPl/VY3+r7CocpkDOGAYDXg5byB
- 07OA==
-X-Gm-Message-State: AOAM533jlU1JuWohAALt8zOBuSQUjqG9QuRTN4lcEKHk53hYVrFiwZU1
- QRxoATMneQKrhX0v85Krli0=
-X-Google-Smtp-Source: ABdhPJwa5Zv/8AigrkpDKa60dUxB85QEhsPwte2+/1YcQmpDUiM2kbMDozfFO+hlYw3JgJ9hJnjgkQ==
-X-Received: by 2002:a63:6cb:0:b0:36c:e2d:8857 with SMTP id
- 194-20020a6306cb000000b0036c0e2d8857mr3055230pgg.214.1645031464229; 
- Wed, 16 Feb 2022 09:11:04 -0800 (PST)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- c17sm47446717pfv.68.2022.02.16.09.11.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 09:11:03 -0800 (PST)
-Message-ID: <365c0267-b630-8ec3-3daa-a76614eace8d@gmail.com>
-Date: Thu, 17 Feb 2022 02:05:35 +0900
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RJBopkJONM+p7/tvTxD1ZFp3g0u8D9kn8Q/ICglqrNw=;
+ b=HWXFvispzHCrRWfijyggmnf2UAur1XzgsbzCx9qOrUX5AiqXtEujczgLIh6/M6yCe5
+ YZMj9xLWWEbmEceLDK1EcEWRRK47wCvcuAnht9ZLLuogGQgKI92+BsfGvNcFuGHmoJZ1
+ 6fHFOA8XfjkqX0dVNsDWn6wSkMZmKJzGIDBcq59VndrfpJ/1o39nYGcQdYlL6yq0ptcK
+ uge842SkzvYxcyvYqcBwKigvAfees5p8a/vEvibewJvqLRjDiwGR6yFRHgIRRbeOlQpc
+ jXRVGtRw5AnQ+bko28B/Y1d4rIFarnRucfpk0lrYWgQB3o0h1Mrhb3245C70eERSq6dP
+ Iaaw==
+X-Gm-Message-State: AOAM530EqZbLlGG8NbbQ2ivht/u+NGqmhLuiU4SuYomXd8jVXdBSPAe6
+ J1yxQXrykw+Xari1iA/QBdRiTAw1tNmM6VfFqBJQ4sNQD8qTckPy9O8XXtm885ADfXVX3x2KeFh
+ H5aYfRkd9noCrxk43pH1iF8/DzBiUjhY=
+X-Received: by 2002:a05:651c:1147:b0:23f:2ab8:2e0 with SMTP id
+ h7-20020a05651c114700b0023f2ab802e0mr2852971ljo.156.1645031715437; 
+ Wed, 16 Feb 2022 09:15:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzcV3pKjAK6LFbcU4A7JEtGeS3j8+uM32W6Ru4T9M/WIiLnswnFn48A7yByHDQwk41InfNf8vwzsbVsBdtoRKA=
+X-Received: by 2002:a05:651c:1147:b0:23f:2ab8:2e0 with SMTP id
+ h7-20020a05651c114700b0023f2ab802e0mr2852939ljo.156.1645031714979; Wed, 16
+ Feb 2022 09:15:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 0/6] ui/dbus: Share one listener for a console
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <20220213024222.3548-1-akihiko.odaki@gmail.com>
- <CAJ+F1C+3NyD+8Z8XGLBDLDGMfXh+MG+SOB_OY=ZXyLRHHNDTfg@mail.gmail.com>
- <CAMVc7JXcUNNnD75f3VO5Vy+MyUfKQhBkM-xHqrXMDUGoh4ALKA@mail.gmail.com>
- <CAJ+F1CKxwycO56NNFtZV8-anadCEOxYY3vwZ1xx+_v2y-z8XgA@mail.gmail.com>
- <fe618e4c-0817-a86d-58d2-c80a878195b4@gmail.com>
- <CAJ+F1CKOkTqFBkDF7VTjeE8LX=wFgsrPrmuvnj0L1vMThyWGUQ@mail.gmail.com>
- <CAMVc7JWnqucqKeEBDWFES8JYY77gmbMaX-inz+CSzd-bymr5cQ@mail.gmail.com>
- <CAJ+F1CJ1ZZV-dv6kHhYmAkg5Pnrb_-q7o3Bndo6cQZsYN+RkgA@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <CAJ+F1CJ1ZZV-dv6kHhYmAkg5Pnrb_-q7o3Bndo6cQZsYN+RkgA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001, FREEMAIL_REPLY=1,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.978, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220215171838.2651387-1-eblake@redhat.com>
+ <CAMRbyyvdBWMB9bzpkUUMO+SZj6PN8Xy0kJnvqLhB2W6vw+5iWQ@mail.gmail.com>
+ <20220215232414.g4l4qoqiqyjvnweg@redhat.com>
+ <a36660ff-c7d6-9bd1-bea8-dc0a10b74329@virtuozzo.com>
+In-Reply-To: <a36660ff-c7d6-9bd1-bea8-dc0a10b74329@virtuozzo.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Wed, 16 Feb 2022 19:14:58 +0200
+Message-ID: <CAMRbyysF6p=_Hdj-b6jdAVqfpQHqjGQ4V_=GfQmAxiPPwHyt0Q@mail.gmail.com>
+Subject: Re: [PATCH v2] nbd/server: Allow MULTI_CONN for shared writable
+ exports
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,454 +95,518 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Richard Jones <rjones@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Feb 16, 2022 at 10:08 AM Vladimir Sementsov-Ogievskiy
+<vsementsov@virtuozzo.com> wrote:
+>
+> 16.02.2022 02:24, Eric Blake wrote:
+> > On Tue, Feb 15, 2022 at 09:23:36PM +0200, Nir Soffer wrote:
+> >> On Tue, Feb 15, 2022 at 7:22 PM Eric Blake <eblake@redhat.com> wrote:
+> >>
+> >>> According to the NBD spec, a server advertising
+> >>> NBD_FLAG_CAN_MULTI_CONN promises that multiple client connections will
+> >>> not see any cache inconsistencies: when properly separated by a single
+> >>> flush, actions performed by one client will be visible to another
+> >>> client, regardless of which client did the flush.  We satisfy these
+> >>> conditions in qemu when our block layer is backed by the local
+> >>> filesystem (by virtue of the semantics of fdatasync(), and the fact
+> >>> that qemu itself is not buffering writes beyond flushes).  It is
+> >>> harder to state whether we satisfy these conditions for network-based
+> >>> protocols, so the safest course of action is to allow users to opt-in
+> >>> to advertising multi-conn.  We may later tweak defaults to advertise
+> >>> by default when the block layer can confirm that the underlying
+> >>> protocol driver is cache consistent between multiple writers, but for
+> >>> now, this at least allows savvy users (such as virt-v2v or nbdcopy) to
+> >>> explicitly start qemu-nbd or qemu-storage-daemon with multi-conn
+> >>> advertisement in a known-safe setup where the client end can then
+> >>> benefit from parallel clients.
+> >>>
+> >>
+> >> It makes sense, and will be used by oVirt. Actually we are already using
+> >> multiple connections for writing about 2 years, based on your promise
+> >> that if every client writes to district  areas this is safe.
+> >
+> > I presume s/district/distinct/, but yes, I'm glad we're finally trying
+> > to make the code match existing practice ;)
+> >
+> >>> +++ b/docs/tools/qemu-nbd.rst
+> >>> @@ -139,8 +139,7 @@ driver options if ``--image-opts`` is specified.
+> >>>   .. option:: -e, --shared=NUM
+> >>>
+> >>>     Allow up to *NUM* clients to share the device (default
+> >>> -  ``1``), 0 for unlimited. Safe for readers, but for now,
+> >>> -  consistency is not guaranteed between multiple writers.
+> >>> +  ``1``), 0 for unlimited.
+> >>>
+> >>
+> >> Removing the note means that now consistency is guaranteed between
+> >> multiple writers, no?
+> >>
+> >> Or maybe we want to mention here that consistency depends on the protocol
+> >> and users can opt in, or refer to the section where this is discussed?
+> >
+> > Yeah, a link to the QAPI docs where multi-conn is documented might be
+> > nice, except I'm not sure the best way to do that in our sphinx
+> > documentation setup.
+> >
+> >>> +##
+> >>> +# @NbdExportMultiConn:
+> >>> +#
+> >>> +# Possible settings for advertising NBD multiple client support.
+> >>> +#
+> >>> +# @off: Do not advertise multiple clients.
+> >>> +#
+> >>> +# @on: Allow multiple clients (for writable clients, this is only safe
+> >>> +#      if the underlying BDS is cache-consistent, such as when backed
+> >>> +#      by the raw file driver); ignored if the NBD server was set up
+> >>> +#      with max-connections of 1.
+> >>> +#
+> >>> +# @auto: Behaves like @off if the export is writable, and @on if the
+> >>> +#        export is read-only.
+> >>> +#
+> >>> +# Since: 7.0
+> >>> +##
+> >>> +{ 'enum': 'NbdExportMultiConn',
+> >>> +  'data': ['off', 'on', 'auto'] }
+> >>>
+> >>
+> >> Are we going to have --multi-con=(on|off|auto)?
+> >
+> > Oh. The QMP command (which is immediately visible through
+> > nbd-server-add/block-storage-add to qemu and qemu-storage-daemon)
+> > gains "multi-conn":"on", but you may be right that qemu-nbd would want
+> > a command line option (either that, or we accellerate our plans that
+> > qsd should replace qemu-nbd).
+> >
+> >>> +++ b/blockdev-nbd.c
+> >>> @@ -44,6 +44,11 @@ bool nbd_server_is_running(void)
+> >>>       return nbd_server || is_qemu_nbd;
+> >>>   }
+> >>>
+> >>> +int nbd_server_max_connections(void)
+> >>> +{
+> >>> +    return nbd_server ? nbd_server->max_connections : -1;
+> >>> +}
+> >>>
+> >>
+> >> -1 is a little bit strange for a limit, maybe 1 is a better default when
+> >> we nbd_server == NULL? When can this happen?
+> >
+> > In qemu, if you haven't used the QMP command 'nbd-server-start' yet.
+> > In qemu-nbd, always (per the nbd_server_is_running function just
+> > above).  My iotest only covered the qemu/qsd side, not the qemu-nbd
+> > side, so it looks like I need a v3...
+> >
+> >>> +++ b/nbd/server.c
+> >
+> >>> +    /*
+> >>> +     * Determine whether to advertise multi-conn.  Default is auto,
+> >>> +     * which resolves to on for read-only and off for writable.  But
+> >>> +     * if the server has max-connections 1, that forces the flag off.
+> >>>
+> >>
+> >> Looks good, this can be enabled automatically based on the driver
+> >> if we want, so users using auto will can upgrade to multi-con automatically.
+> >
+> > Yes, that's part of why I made it a tri-state with a default of 'auto'.
+> >
+> >>
+> >>
+> >>> +     */
+> >>> +    if (!arg->has_multi_conn) {
+> >>> +        arg->multi_conn = NBD_EXPORT_MULTI_CONN_AUTO;
+> >>> +    }
+> >>> +    if (nbd_server_max_connections() == 1) {
+> >>
+> >> +        arg->multi_conn = NBD_EXPORT_MULTI_CONN_OFF;
+> >>> +    }
+> >>
+> >> +    if (arg->multi_conn == NBD_EXPORT_MULTI_CONN_AUTO) {
+> >>> +        multi_conn = readonly;
+> >>> +    } else {
+> >>> +        multi_conn = arg->multi_conn == NBD_EXPORT_MULTI_CONN_ON;
+> >>> +    }
+> >>>
+> >>
+> >> This part is a little bit confusing - we do:
+> >> - initialize args->multi_con if it has not value
+> >> - set the temporary multi_con based now initialized args->multi_con
+> >>
+> >> I think it will be nicer to separate arguments parsing, so there is no need
+> >> to initialize it here or have arg->has_multi_conn, but I did not check how
+> >> other arguments are handled.
+> >
+> > arg->has_multi_conn is fallout from the fact that our QAPI must remain
+> > back-compat. If it is false, the user did not pass "multi-conn":...,
+> > so we want the default value of "auto".  Once we've established the
+> > default, then we force multi-conn off if we know we are limited to one
+> > client (although as you pointed out, nbd_server_max_connections()
+> > needs to be tested with qemu-nbd).  Then, it's easier to resolve the
+> > tri-state enum variable into the bool of what we actually advertise to
+> > the NBD client.
+> >
+> >>> +++ b/tests/qemu-iotests/tests/nbd-multiconn
+> >>> @@ -0,0 +1,188 @@
+> >>> +#!/usr/bin/env bash
+> >>> +# group: rw auto quick
+> >>> +#
+> >>> +# Test that qemu-nbd MULTI_CONN works
+> >>> +#
+> >>> +echo
+> >>> +echo "=== Initial image setup ==="
+> >>> +echo
+> >>> +
+> >>> +_make_test_img 4M
+> >>> +$QEMU_IO -c 'w -P 1 0 2M' -c 'w -P 2 2M 2M' "$TEST_IMG" | _filter_qemu_io
+> >>> +_launch_qemu 2> >(_filter_nbd)
+> >>> +_send_qemu_cmd $QEMU_HANDLE '{"execute":"qmp_capabilities"}' "return"
+> >>> +_send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
+> >>> +  "arguments":{"driver":"qcow2", "node-name":"n",
+> >>> +    "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
+> >
+> > I'm not the best at writing python iotests; I welcome a language
+> > translation of this aspect.
+>
+>
+>
+> Let me try:)
 
-On 2022/02/17 1:51, Marc-André Lureau wrote:
-> Hi Akihiko,
-> 
-> (I suppose you meant to reply-all, feel free to add back qemu-devel)
+Thanks! This is much nicer and will be easier to maintain.
 
-My bad, restored Ccs.
+>
+>
+> #!/usr/bin/env python3
+>
+> import os
+> import iotests
+> import nbd
+> from iotests import qemu_img_create, qemu_io_silent
+>
+>
+> disk = os.path.join(iotests.test_dir, 'disk')
+> size = '4M'
+> nbd_sock = os.path.join(iotests.test_dir, 'nbd_sock')
+> nbd_uri = 'nbd+unix:///{}?socket=' + nbd_sock
+>
+>
+> class TestNbdMulticonn(iotests.QMPTestCase):
+>      def setUp(self):
+>          assert qemu_img_create('-f', iotests.imgfmt, disk, size) == 0
+>          assert qemu_io_silent('-c', 'w -P 1 0 2M',
+>                                '-c', 'w -P 2 2M 2M', disk) == 0
+>
+>          self.vm = iotests.VM()
+>          self.vm.launch()
+>          result = self.vm.qmp('blockdev-add', {
+>              'driver': 'qcow2',
+>              'node-name': 'n',
+>              'file': {'driver': 'file', 'filename': disk}
+>          })
+>          self.assert_qmp(result, 'return', {})
+>
+>      def tearDown(self):
+>          self.vm.shutdown()
+>          os.remove(disk)
+>          os.remove(nbd_sock)
+>
+>      def server_start(self, max_connections=None):
+>          args = {
+>              'addr': {
+>                  'type': 'unix',
+>                  'data': {'path': nbd_sock}
+>              }
+>          }
+>          if max_connections is not None:
+>              args['max-connections'] = max_connections
+>
+>          result = self.vm.qmp('nbd-server-start', args)
+>          self.assert_qmp(result, 'return', {})
+>
+>      def export_add(self, name, writable=None, multi_conn=None):
+>          args = {
+>              'type': 'nbd',
+>              'id': name,
+>              'node-name': 'n',
+>              'name': name,
+>          }
+>          if writable is not None:
+>              args['writable'] = writable
+>          if multi_conn is not None:
+>              args['multi-conn'] = multi_conn
+>
+>          result = self.vm.qmp('block-export-add', args)
+>          self.assert_qmp(result, 'return', {})
+>
+>      def check_multi_conn(self, export_name, multi_conn):
+>          cl = nbd.NBD()
+>          cl.connect_uri(nbd_uri.format(export_name))
+>          self.assertEqual(cl.can_multi_conn(), multi_conn)
+>          cl.shutdown()
 
-> 
-> On Tue, Feb 15, 2022 at 5:56 PM Akihiko Odaki <akihiko.odaki@gmail.com 
-> <mailto:akihiko.odaki@gmail.com>> wrote:
-> 
->     On Tue, Feb 15, 2022 at 10:32 PM Marc-André Lureau
->     <marcandre.lureau@gmail.com <mailto:marcandre.lureau@gmail.com>> wrote:
->      >
->      > Hi
->      >
->      > On Tue, Feb 15, 2022 at 7:09 AM Akihiko Odaki
->     <akihiko.odaki@gmail.com <mailto:akihiko.odaki@gmail.com>> wrote:
->      >>
->      >>
->      >>
->      >> On 2022/02/15 4:49, Marc-André Lureau wrote:
->      >> > Hi
->      >> >
->      >> > On Mon, Feb 14, 2022 at 5:15 PM Akihiko Odaki
->     <akihiko.odaki@gmail.com <mailto:akihiko.odaki@gmail.com>
->      >> > <mailto:akihiko.odaki@gmail.com
->     <mailto:akihiko.odaki@gmail.com>>> wrote:
->      >> >
->      >> >     On Mon, Feb 14, 2022 at 9:07 PM Marc-André Lureau
->      >> >     <marcandre.lureau@gmail.com
->     <mailto:marcandre.lureau@gmail.com>
->     <mailto:marcandre.lureau@gmail.com
->     <mailto:marcandre.lureau@gmail.com>>> wrote:
->      >> >      >
->      >> >      > Hi Akihiko
->      >> >      >
->      >> >      > On Sun, Feb 13, 2022 at 6:44 AM Akihiko Odaki
->      >> >     <akihiko.odaki@gmail.com <mailto:akihiko.odaki@gmail.com>
->     <mailto:akihiko.odaki@gmail.com <mailto:akihiko.odaki@gmail.com>>>
->     wrote:
->      >> >      >>
->      >> >      >> ui/dbus required to have multiple DisplayChangeListeners
->      >> >     (possibly with OpenGL)
->      >> >      >> for a console but that caused several problems:
->      >> >      >> - It broke egl-headless, an unusual display which
->     implements
->      >> >     OpenGL rendering
->      >> >      >>   for non-OpenGL displays. The code to support multiple
->      >> >     DisplayChangeListeners
->      >> >      >>   does not consider the case where non-OpenGL displays
->     listens
->      >> >     OpenGL consoles.
->      >> >      >
->      >> >      >
->      >> >      > Can you provide instructions on what broke? Even better
->     write a
->      >> >     test, please.
->      >> >
->      >> >     The following command segfaults. Adding a test would be
->     nice, but it
->      >> >     would need a binary which uses OpenGL.
->      >> >     qemu-system-x86_64 -device virtio-gpu-gl-pci -display
->     egl-headless
->      >> >     -vnc :0 -m 8G -cdrom
->     Fedora-Workstation-Live-x86_64-34-1.2.iso -accel
->      >> >     kvm
->      >> >
->      >> >
->      >> > Thanks!
->      >> >
->      >> > This is clearly a mistake from commit 7cc712e98 ("ui: dispatch
->     GL events
->      >> > to all listener").
->      >> >
->      >> > It should have taken into account that some listeners do not
->     have GL
->      >> > callbacks, and guard the call.
->      >> >
->      >> > We should wrap the missing ops->dpy_gl_call() with a if
->      >> > (ops->dpy_gl_call) ? I'll send a patch for that.
->      >>
->      >>
->      >> The assumption that OpenGL DisplayChangeListener and non-OpenGL
->      >> DisplayChangeListener are exclusive is now broken so we have to
->     examine
->      >
->      >
->      > Before the changes, there was already such a GL & non-GL listener
->     mixed situation. It's only because the first listener with GL would
->     be registered in register_displaychangelistener() that it "worked".
-> 
->     I mean the dbus patch series should be reexamined since it does not
->     seem to consider the case.
-> 
-> 
-> That's what I am doing, with your very good help.
-> 
-> 
->      >
->      >> if the whole patch series works correct without the assumption.
->     Other
->      >> problem I have found (and forgot to mention) is:
->      >> - that console_select and register_displaychangelistener may not
->     call
->      >> dpy_gfx_switch and call dpy_gl_scanout_texture instead. It is
->      >> incompatible with non-OpenGL displays and
->      >
->      >
->      > Can you translate that to a reproducible test with expected outcome?
-> 
->     vnc has the feature to switch consoles with Ctrl+Alt+[1-9] if it is
->     not bound to a particular console. Invoking the functionality with
->     egl-headless enabled would trigger the problem.
-> 
-> 
-> That doesn't seem to happen after the fixes ([PATCH 0/3] GL console 
-> related fixes) I posted.
-> 
->      >
->      >>
->      >> - that the compatibility check breaks if egl-headless is present
->     and a
->      >> non-OpenGL DisplayChangeListener with con field is being added.
->      >>
->      >
->      > Same, thanks
-> 
->     The following command should do:
->     qemu-system-x86_64 -device virtio-gpu-gl-pci,id=d -display
->     egl-headless -vnc :0,display=d -m 8G -cdrom
->     Fedora-Workstation-Live-x86_64-34-1.2.iso -accel kvm
-> 
-> 
-> Thanks, that helps! I didn't realize DCL had "dynamic" consoles and the 
-> compatibility checks were bypassed without specifying a specific display=d.
-> 
-> I'll address this in the v2 of my patch fixes series. Please check it.
-> 
->      >
->      >>
->      >> By the way, dbus registers a DisplayChangeListener for the size
->      >> detection, apparently it fails to set "con" field, making it an
->      >> accidental user of console_select.
->      >
->      >
->      > I need more details, please.
-> 
->     A DisplayChangeListener without con field set is passed to
->     register_displaychangelistener in dbus_display_console_new.
-> 
-> 
-> Good catch, should be fixed too.
-> 
-> 
->      >
->      >>
->      >>
->      >> >
->      >> >      >
->      >> >      > "make check-avocado
->     AVOCADO_TESTS=tests/avocado/virtio-gpu.py",
->      >> >     which covers egl-headless usage, works.
->      >> >      >
->      >> >      >>
->      >> >      >> - Multiple OpenGL DisplayChangeListeners of dbus
->     shares one
->      >> >     DisplaySurface and
->      >> >      >>   modifies its texture field, causing OpenGL texture
->     leak and
->      >> >     use-after-free.
->      >> >      >
->      >> >      >
->      >> >      > Again, please provide instructions. I have regularly
->     run -display
->      >> >     dbus with multiple clients and qemu compiled with
->     sanitizers. I
->      >> >     don't see any leak or use after free.
->      >> >
->      >> >     I doubt sanitizers can find this because it is an OpenGL
->     texture. You
->      >> >     may add a probe around surface_gl_create_texture and
->      >> >     surface_gl_destroy_texture.
->      >> >
->      >> >
->      >> > Indeed, a surface is created on each frame, because we create a 2d
->      >> > surface on each qemu_console_resize(), which is called at each
->     virgl
->      >> > scanout. This is a regression introduced by commit ebced09185
->     ("console:
->      >> > save current scanout details"). I can propose an easy fix,
->     please check it.
->      >> >
->      >> > And the root of the leak is actually
->     surface_gl_create_texutre(), it
->      >> > should be idempotent, just like destroy().
->      >>
->      >> That is not enough since it may leave the texture present after
->      >> unregister_displaychangelistener. And calling
->      >> surface_gl_destroy_texture() before
->     unregister_displaychangelistener may
->      >> break the other listeners.
->      >
->      >
->      > The texture is shared, but owned by the console. It is not leaked.
->      >
->      > However, given that it is shared, it would be indeed better to
->     refcount the users to avoid destroying the texture by one listener
->     going away.
-> 
->     Nobody destroys the texture in the case so it is a leak. Particularly
->     after dpy_gfx_replace_surface, even the reference which remains in
->     DisplaySurface will be gone.
-> 
-> 
->   We need a QemuConsole finalizer to call qemu_free_displaysurface(). 
-> The UI code needs to evolve to become more robust in dynamic situations. 
-> Let's do that.
+The test will be more clear and the code more reusable if the helper
+was doing only connect/disconnect.
 
-QemuConsole gets never gone (if it does it would also break other 
-displays), so adding a code to call surface_gl_destroy_texutre before 
-unregister_displaychangelistener should be enough. However, doing so 
-would break the other OpenGL DisplayChangeListeners of the same console 
-if they exist.
+@contextmanager
+def open_nbd(nbd_uri, export_name):
+     h = nbd.NBD()
+     h.connect_uri(nbd_uri.format(export_name))
+     try:
+         yield h
+     finally:
+         h.shutdown()
 
-Allowing to add/remove QemuConsole would be nice for hotplugging and it 
-should also make the code clear overall by being more explicit about the 
-lifetime of the resources, but that needs to update most (probably all) 
-displays.
+Any test that need nbd handle can do:
 
-> 
-> 
->      >
->      >>
->      >> >
->      >> >
->      >> >      >
->      >> >      >>
->      >> >      >> - Introduced extra code to check the compatibility of
->     OpenGL
->      >> >     context providers
->      >> >      >>   and OpenGL texture renderers where those are often
->     inherently
->      >> >     tightly coupled
->      >> >      >>   since they must share the same hardware.
->      >> >      >
->      >> >      >
->      >> >      > So code checks are meant to prevent misusage. They
->     might be too
->      >> >     limited or broken in some ways, but reverting is likely
->     going to
->      >> >     introduce other regressions I was trying to fix.
->      >> >
->      >> >     The misuse will not occur because DisplayChangeListeners
->     will be
->      >> >     merged with OpenGL context providers.
->      >> >
->      >> >
->      >> > Ok, but aren't the checks enough to prevent it already? I have
->     to check
->      >> > the use cases and differences of design, but you might be
->     right that we
->      >> > don't need such a split after all.
->      >>
->      >> Yes, the point is that it requires extra code.
->      >>
->      >> >
->      >> >
->      >> >      >
->      >> >      >> - Needed extra work to broadcast the same change to
->     multiple
->      >> >     dbus listeners.
->      >> >      >>
->      >> >      >
->      >> >      > Compared to what?
->      >> >
->      >> >     Compared to sharing one DisplayChangeListener for multiple
->     dbus
->      >> >     listeners.
->      >> >
->      >> >
->      >> > Well, you just moved the problem to the dbus display, not
->     removed any work.
->      >> >
->      >> > What we have currently is more generic, you should be able to
->     add/remove
->      >> > various listeners (in theory, we only really do it for dbus at
->     this point).
->      >>
->      >> The each DisplayChangeListeners have to upload the
->     DisplaySurface to the
->      >> graphics accelerator, create a DMA-BUF file descriptor, and make it
->      >> suitable for D-Bus delivery. The duplicate work can be just done
->     once if
->      >> we have only one DisplayChangeListener for one console.
->      >
->      >
->      > And we should avoid duplicating the texture/resources if
->     possible. This is not specific to DBus, it's the reason why I would
->     rather have the logic in the console code so we avoid code
->     duplication and we can do further improvement at the lower-level.
-> 
->     The resources created are specific to D-Bus. Not all displays have
->     GUnixFDList, DMA-BUF file descriptors and OpenGL textures.
-> 
-> 
->   GUnixFDList is in dbus code. dmabuf fd & opengl textures are not 
-> specific to dbus, they are used by spice as well, for example.
-> 
+    with open_nbd(nbd_uri, export_name) as h:
+        use the handle...
 
-You have to consider about the case where DMA-BUF is not used or OpenGL 
-is not enabled if we try to remove the duplicate work in the common 
-code. It would result in much less code if you reuse GUnixFDList in 
-dbus, and that is what this patch series do.
+Good example when we can use this is the block status cache test,
+using complicated qemu-img commands instead of opening
+a client and calling block_status a few times.
 
-> 
->     Regards,
->     Akihiko Odaki
-> 
->      >
->      >>
->      >>
->      >> >
->      >> >
->      >> >      >
->      >> >      >>
->      >> >      >> This series solve them by implementing the change
->     broadcast in
->      >> >     ui/dbus, which
->      >> >      >> knows exactly what is needed. Changes for the common
->     code to
->      >> >     support multiple
->      >> >      >> OpenGL DisplayChangeListeners were reverted to fix
->     egl-headless
->      >> >     and reduce
->      >> >      >> the code size.
->      >> >      >
->      >> >      >
->      >> >      > Thanks a lot for your work, I am going to take a look
->     at your
->      >> >     approach. But please help us understand better what the
->     problem
->      >> >     actually is, by giving examples & tests to avoid future
->     regressions
->      >> >     and document the expected behaviour.
->      >> >
->      >> >     The thing is really complicated and I may miss details so
->     please feel
->      >> >     free to ask questions or provide suggestions.
->      >> >
->      >> >
->      >> > Reverting changes and proposing an alternative implementation
->     requires
->      >> > detailed explanation and convincing arguments. It may take a
->     while, but
->      >> > we will try to get through the problems and evaluate the
->     alternative
->      >> > designs. Thanks again for your help!
->      >>
->      >> Rather, I think proposing a large change to common console code
->     requires
->      >> thorough examination and it should be reverted before it reaches the
->      >> release if it is doubtful that it is correct and reduces the
->     complexity
->      >> of a few displays (possibly in the future). "No regression"
->     should come
->      >> first before fix and feature. We can always revisit the change
->     land it
->      >> in a proper form even after reverting the change.
->      >>
->      >
->      > That's not how we usually work, there was a long RFC&PATCH review
->     period during which testing was done. It's true that Gerd, the
->     maintainer, didn't do a thorough review though. If we have to
->     revert, we can do it before the release. However, I would rather fix
->     the current design since it is meant to be more generic & flexible.
->     We still have some time.
->      >
->      > Thanks again for your help
->      >
->      >> Regards,
->      >> Akihiko Odaki
->      >>
->      >> >
->      >> >     Regards,
->      >> >     Akihiko Odaki
->      >> >
->      >> >
->      >> >      >
->      >> >      >>
->      >> >      >> Akihiko Odaki (6):
->      >> >      >>   ui/dbus: Share one listener for a console
->      >> >      >>   Revert "console: save current scanout details"
->      >> >      >>   Revert "ui: split the GL context in a different object"
->      >> >      >>   Revert "ui: dispatch GL events to all listeners"
->      >> >      >>   Revert "ui: associate GL context outside of display
->     listener
->      >> >      >>     registration"
->      >> >      >>   Revert "ui: factor out
->     qemu_console_set_display_gl_ctx()"
->      >> >      >>
->      >> >      >>  include/ui/console.h       |  60 +-----
->      >> >      >>  include/ui/egl-context.h   |   6 +-
->      >> >      >>  include/ui/gtk.h           |  11 +-
->      >> >      >>  include/ui/sdl2.h          |   7 +-
->      >> >      >>  include/ui/spice-display.h |   1 -
->      >> >      >>  ui/console.c               | 258 +++++++----------------
->      >> >      >>  ui/dbus-console.c          | 109 ++--------
->      >> >      >>  ui/dbus-listener.c         | 417
->      >> >     +++++++++++++++++++++++++++----------
->      >> >      >>  ui/dbus.c                  |  22 --
->      >> >      >>  ui/dbus.h                  |  36 +++-
->      >> >      >>  ui/egl-context.c           |   6 +-
->      >> >      >>  ui/egl-headless.c          |  20 +-
->      >> >      >>  ui/gtk-egl.c               |  10 +-
->      >> >      >>  ui/gtk-gl-area.c           |   8 +-
->      >> >      >>  ui/gtk.c                   |  25 +--
->      >> >      >>  ui/sdl2-gl.c               |  10 +-
->      >> >      >>  ui/sdl2.c                  |  14 +-
->      >> >      >>  ui/spice-display.c         |  19 +-
->      >> >      >>  18 files changed, 498 insertions(+), 541 deletions(-)
->      >> >      >>
->      >> >      >> --
->      >> >      >> 2.32.0 (Apple Git-132)
->      >> >      >>
->      >> >      >>
->      >> >      >
->      >> >      >
->      >> >      > --
->      >> >      > Marc-André Lureau
->      >> >
->      >> >
->      >> >
->      >> > --
->      >> > Marc-André Lureau
->      >
->      >
->      >
->      > --
->      > Marc-André Lureau
-> 
-> 
-> 
-> -- 
-> Marc-André Lureau
+And this also cleans up at the end of the test so failure
+will not affect the next test.
+
+The helper can live in the iotest module instead of inventing it for
+every new test.
+
+>
+>      def test_default_settings(self):
+>          self.server_start()
+>          self.export_add('r'))
+>          self.export_add('w', writable=True)
+>          self.check_multi_conn('r', True)
+>          self.check_multi_conn('w', False)
+
+With the helper suggested, this test will be:
+
+    with open_nbd(nbd_uri, "r") as h:
+        self.assertTrue(h.can_multi_conn())
+
+    with open_nbd(nbd_uri, "w") as h:
+        self.assertFalse(h.can_multi_conn())
+
+Now you don't need to check what check_multicon() is doing when
+reading the tests, and it is very clear what open_nbd() does based
+on the name and usage as context manager.
+
+>
+>      def test_multiconn_option(self):
+>          self.server_start()
+>          self.export_add('r', multi_conn='off')
+>          self.export_add('w', writable=True, multi_conn='on')
+
+It will be more natural to use:
+
+    self.start_server()
+    self.add_export(...)
+
+In C the other way is more natural because you don't have namespaces
+or classes.
+
+>          self.check_multi_conn('r', False)
+>          self.check_multi_conn('w', True)
+
+And I think you agree since you did not use:
+
+    self.multi_con_check(...)
+
+>
+>      def test_limited_connections(self):
+>          self.server_start(max_connections=1)
+>          self.export_add('r', multi_conn='on')
+>          self.export_add('w', writable=True, multi_conn='on')
+>          self.check_multi_conn('r', False)
+>          self.check_multi_conn('w', False)
+>
+>      def test_parallel_writes(self):
+>          self.server_start()
+>          self.export_add('w', writable=True, multi_conn='on')
+>
+>          clients = [nbd.NBD() for _ in range(3)]
+>          for c in clients:
+>              c.connect_uri(nbd_uri.format('w'))
+>              assert c.can_multi_conn()
+>
+>          buf1 = clients[0].pread(1024 * 1024, 0)
+>          self.assertEqual(buf1, b"\x01" * 1024 * 1024)
+>
+>          buf2 = b"\x03" * 1024 * 1024
+>          clients[1].pwrite(buf2, 0)
+>          clients[2].flush()
+>          buf1 = clients[0].pread(1024 * 1024, 0)
+>
+>          self.assertEqual(buf1, buf2)
+>
+>          for i in range(3):
+>              clients[i].shutdown()
+>
+>
+> if __name__ == '__main__':
+>      iotests.main(supported_fmts=['qcow2'])
+>
+> > But the shell code for
+> > _launch_qemu/_send_qemu_cmd was already pretty nice for setting up a
+> > long-running background qemu process where I can pass in QMP commands
+> > at will, then interact from other processes.
+> >
+> >>> +export nbd_unix_socket
+> >>> +
+> >>> +echo
+> >>> +echo "=== Default nbd server settings ==="
+> >>> +echo
+> >>> +# Default allows for unlimited connections, readonly images advertise
+> >>> +# multi-conn, and writable images do not
+> >>> +_send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-start",
+> >>> +  "arguments":{"addr":{"type":"unix",
+> >>> +    "data":{"path":"'"$nbd_unix_socket"'"}}}}' "return"
+> >>> +_send_qemu_cmd $QEMU_HANDLE '{"execute":"block-export-add",
+> >>> +  "arguments":{"type":"nbd", "id":"r", "node-name":"n",
+> >>> +    "name":"r"}}' "return"
+> >>> +_send_qemu_cmd $QEMU_HANDLE '{"execute":"block-export-add",
+> >>> +  "arguments":{"type":"nbd", "id":"w", "node-name":"n",
+> >>> +    "name":"w", "writable":true}}' "return"
+> >>> +nbdsh -u "nbd+unix:///r?socket=$nbd_unix_socket" -c '
+> >>> +assert h.can_multi_conn()
+> >>> +h.shutdown()
+> >>> +print("nbdsh passed")'
+> >>> +nbdsh -u "nbd+unix:///w?socket=$nbd_unix_socket" -c '
+> >>> +assert not h.can_multi_conn()
+> >>> +h.shutdown()
+> >>> +print("nbdsh passed")'
+> >>>
+> >>
+> >> Mixing of shell and python is very confusing. Wouldn't it be much cleaner
+> >> to write the test in python?
+> >
+> > Here, nbdsh -c 'python snippet' is used as a shell command line
+> > parameter.  Writing python code to call out to a system() command
+> > where one of the arguments to that command is a python script snippet
+> > is going to be just as annoying as writing it in bash.
+> >
+> >>> +echo
+> >>> +echo "=== Demonstrate parallel writers ==="
+> >>> +echo
+> >>> +_send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-start",
+> >>> +  "arguments":{"addr":{"type":"unix",
+> >>> +    "data":{"path":"'"$nbd_unix_socket"'"}}}}' "return"
+> >>> +_send_qemu_cmd $QEMU_HANDLE '{"execute":"block-export-add",
+> >>> +  "arguments":{"type":"nbd", "id":"w", "node-name":"n",
+> >>> +    "name":"", "multi-conn":"on", "writable":true}}' "return"
+> >>> +
+> >>> +nbdsh -c '
+> >>> +import os
+> >>> +sock = os.getenv("nbd_unix_socket")
+> >>> +h = []
+> >>> +
+> >>> +for i in range(3):
+> >>> +  h.append(nbd.NBD())
+> >>> +  h[i].connect_unix(sock)
+> >>> +  assert h[i].can_multi_conn()
+> >>>
+> >>
+> >> This is somewhat C in python, maybe:
+> >>
+> >>      handles = [nbd.NBD() for _ in range(3)]
+> >>
+> >>      for h in handles:
+> >>          h.connect_unix(sock)
+> >>          assert h.can_multi_con()
+> >>
+> >> Since assert will abort the test, and we don't handle
+> >> exceptions, failure will not shutdown the connections
+> >> but it should not matter for the purpose of a test.
+> >
+> > As I said, I'm open to python suggestions :)  I like your approach.
+> >
+> >>
+> >>
+> >>> +
+> >>> +buf1 = h[0].pread(1024 * 1024, 0)
+> >>> +if buf1 != b"\x01" * 1024 * 1024:
+> >>> +  print("Unexpected initial read")
+> >>>
+> >>
+> >> Not clear when we initialize the buffer to \x01 - is this the qemu-io above?
+> >
+> > Yes, when the qcow2 file was initially created.
+> >
+> >>
+> >>
+> >>> +buf2 = b"\x03" * 1024 * 1024
+> >>> +h[1].pwrite(buf2, 0)
+> >>> +h[2].flush()
+> >>> +buf1 = h[0].pread(1024 * 1024, 0)
+> >>> +if buf1 == buf2:
+> >>> +  print("Flush appears to be consistent across connections")
+> >>>
+> >>
+> >> buf1 was the initial content, buf2 is the new content, but now we override
+> >> but1 to check that the right was flushed. It will be be better to use
+> >> different
+> >> names like inittial_data, updated_data, current_data.
+> >
+> > Can do.
+> >
+> >>
+> >> This block is the most important part of the test, showing that we can write
+> >> in one connection, flush in the second, and read the written block in the
+> >> third.
+> >> Maybe add a comment about this? I think it will help someone else trying
+> >> to understand what this part is trying to test.
+> >
+> > Can do.
+> >
+> >>> +{"execute":"block-export-add",
+> >>> +  "arguments":{"type":"nbd", "id":"w", "node-name":"n",
+> >>> +    "name":"", "multi-conn":"on", "writable":true}}
+> >>> +{"return": {}}
+> >>> +Flush appears to be consistent across connections
+> >>> +{"execute":"block-export-del",
+> >>> +  "arguments":{"id":"w"}}
+> >>> +{"return": {}}
+> >>> +{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
+> >>> "event": "BLOCK_EXPORT_DELETED", "data": {"id": "w"}}
+> >>> +{"execute":"nbd-server-stop"}
+> >>> +{"return": {}}
+> >>> +{"execute":"quit"}
+> >>> +{"return": {}}
+> >>> +{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP},
+> >>> "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+> >>>
+> >>
+> >> Nothing about the contents here says anything about the actual test
+> >> except the "Flush appears..." line.
+> >
+> > Yeah, it's a lot of QMP debugging (to show what commands were run in
+> > setting up the server), and less verbose in the nbdsh side.  Do I need
+> > to add more output during the nbdsh that uses multiple connections?
+> >
+> >>
+> >>
+> >>> +*** done
+> >>> --
+> >>> 2.35.1
+> >>>
+> >>
+> >> Looks good, feel free to ignore the style comments and suggestion to rewrite
+> >> the test in python.
+> >
+> > The style comments are nice, the rewriting is going to be harder for
+> > me (but I'll accept help).  At any rate, getting qemu-nbd to be
+> > feature-compatible may require a v3 anyway.
+> >
+>
+>
+> --
+> Best regards,
+> Vladimir
+>
+
 
