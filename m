@@ -2,93 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F1B4B877E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 13:23:16 +0100 (CET)
-Received: from localhost ([::1]:50166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8464B8786
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 13:24:52 +0100 (CET)
+Received: from localhost ([::1]:53506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKJL0-0002mB-Lw
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 07:23:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58312)
+	id 1nKJMZ-0005CL-KZ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 07:24:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKJGJ-0001I3-3T
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 07:18:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38584)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nKJI1-0002TX-F3
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 07:20:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKJGF-0005jG-JU
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 07:18:21 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nKJHy-0006AB-N7
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 07:20:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645013898;
+ s=mimecast20190719; t=1645014005;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2i0K/IPUiFCQPHMw1zKcl1XyQYSd4Qhs1t1xdnhbiFA=;
- b=hMVkAOY5jhuTxR+NJDiv1wtrsgIyWSFNhk3L5klw9/dIMtl97OicfZ/VmldCn80B+sEyIt
- RNTUetChhlf/TfXrnRrBIhlvoVDhy9q2orFrcANOwlFuIwcv0pDm2zrQdPN3HcR/B1Yt0M
- 5CXJMS+xT4WcCvydj/pYk+HqwzmClWc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yMe6HeKIaRVM/WYZxb220VJ2vwBLcnVqQSTLPKRSStw=;
+ b=AlqGiFPhrCLT92YGB6Oprn7vSa74jFhK04VPKJ9glkxvwBcyeF+8tqVSbSx8XPnHVzZ/+w
+ HhQ1pho2b9aJv/73WwXkuZhRnDuJiPco/fzpZaSRvTvYPrjuUH8WllfaKe64F0Ama7ktBZ
+ BM1IFh9SR/tDgJ3e8aaEJY9PrDCxTXo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-WQOJ0cirPO2W-L6Lks2fYQ-1; Wed, 16 Feb 2022 07:18:17 -0500
-X-MC-Unique: WQOJ0cirPO2W-L6Lks2fYQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- g17-20020adfa591000000b001da86c91c22so1026266wrc.5
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 04:18:17 -0800 (PST)
+ us-mta-549-uGWZv_nXPJi2Pe40peIbJQ-1; Wed, 16 Feb 2022 07:20:02 -0500
+X-MC-Unique: uGWZv_nXPJi2Pe40peIbJQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s22-20020adf9796000000b001e7e75ab581so989245wrb.23
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 04:20:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=2i0K/IPUiFCQPHMw1zKcl1XyQYSd4Qhs1t1xdnhbiFA=;
- b=A5Yk506Kf8R7fxiqhXfxAZWhkyQMcbEz8r26XEh80UQJPW98mGZIszKC9ydoN8taF8
- UsZ03PiDCO9tXOdU0a+tnWz0CXUF2iFFiDj86x3jrspBb95hDI31OTz0wk4ofcSWP/wg
- MY2MjcR+PVIXaEg4XCdVQ/cTMaoQdhM7wqdAIyNYCZrHS2wKUOCmWGmjDAcmE8RBSf7i
- +sqsddy26VKJ7sY4Fglz66Z8QBGYBMUcRrkAj8Uyl9tjyBRPk2ktnOzPm/CCCOcJbI9n
- wSeUNfGV0tiV0DHVtL+D2euzFrf9qnjMFJ1/9gFKbAO4ZGO6p3sq+UzMnQPsoqORA79+
- dceg==
-X-Gm-Message-State: AOAM532lDfmXIiAAt2QGM7WsFrBfpXcVKwCxY8wuYiReLdpvgQNZd149
- 6Bq8Rnblc7qYbPgaqylNfqxOzt4TpGaVBmJZ4qogJBCV+78Yoi9VHyHcxrktacxuNO/aIW6+yaK
- /MYOcJw+9bK2En9I=
-X-Received: by 2002:a05:6000:1e0d:b0:1e4:bb5d:4bd6 with SMTP id
- bj13-20020a0560001e0d00b001e4bb5d4bd6mr2151439wrb.676.1645013896136; 
- Wed, 16 Feb 2022 04:18:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzn0lrHVYraA4eRGiTj2kLfjRTjb/2LqGumcyPs46ksDq7qygcMTHH1IA5s+TS+jXDGufQnHQ==
-X-Received: by 2002:a05:6000:1e0d:b0:1e4:bb5d:4bd6 with SMTP id
- bj13-20020a0560001e0d00b001e4bb5d4bd6mr2151419wrb.676.1645013895870; 
- Wed, 16 Feb 2022 04:18:15 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id g8sm23151001wrd.9.2022.02.16.04.18.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 04:18:15 -0800 (PST)
-Date: Wed, 16 Feb 2022 12:18:13 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH v6 1/1] virtiofsd: Add basic support for FUSE_SYNCFS
- request
-Message-ID: <YgzrhYK1eskcbTjV@work-vm>
-References: <20220215181529.164070-1-groug@kaod.org>
- <20220215181529.164070-2-groug@kaod.org>
- <Ygv5r+6JfG1XsG8n@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=yMe6HeKIaRVM/WYZxb220VJ2vwBLcnVqQSTLPKRSStw=;
+ b=pD6zIOOMG03Hppyt822lO+pW/WlVYS8JvLFWQPVSGWxJbfKljgjSUFuqjEBrwZM9Fw
+ Xj3WUY/HDixVQr0MGfcbtvc9aub4ujAE3u2W7nGVyuzSdRIHbnaS9DHG2i1Vl23W+ijV
+ 6UNfuWZRS3dlaY4+nP6cq9PvpIesvGZ2Q72QLcdvWnrZA/ZzGkHFbgH8za8syLgscYPt
+ sMDA9rLzwNBbJXn00SwhlHj83u36dwQ4b/ZJYKgUI53EczALFpS1V7/5XKC0rFmqTwn6
+ bNZfZEV/YUcKxZagAUqjGxUg1UPhM62tpIJ2h2XPOhJS9lEPgSisbivSsym3IV901BdE
+ 6uZw==
+X-Gm-Message-State: AOAM533JTyogUBGXMhk5Z8znrUmoiBeouXdzJ3w9peAf7IbJMjNoSebr
+ DAWFQEdMrVtDiGbVsH9s6vHrV+i3BC9lZS8yE3TAVJMkf+JDtEA8APt5ZHvqcra2n6SSRx5LvPd
+ r++LYp+Brjcus80Y=
+X-Received: by 2002:a05:600c:2301:b0:37b:de9e:226d with SMTP id
+ 1-20020a05600c230100b0037bde9e226dmr1392847wmo.78.1645014001110; 
+ Wed, 16 Feb 2022 04:20:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx+biquCviNjZcU2OSmwcKSzUzkqut8TDrfW9vid0JtSHASxLhsofy34jdZr2cU/4QjUD/IbA==
+X-Received: by 2002:a05:600c:2301:b0:37b:de9e:226d with SMTP id
+ 1-20020a05600c230100b0037bde9e226dmr1392828wmo.78.1645014000867; 
+ Wed, 16 Feb 2022 04:20:00 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70b:600:4ff7:25c:5aad:2711?
+ (p200300cbc70b06004ff7025c5aad2711.dip0.t-ipconnect.de.
+ [2003:cb:c70b:600:4ff7:25c:5aad:2711])
+ by smtp.gmail.com with ESMTPSA id a10sm11514739wrt.59.2022.02.16.04.19.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 04:20:00 -0800 (PST)
+Message-ID: <5cd206e3-f7f6-1fdb-10f9-26a7c12ec9b6@redhat.com>
+Date: Wed, 16 Feb 2022 13:19:59 +0100
 MIME-Version: 1.0
-In-Reply-To: <Ygv5r+6JfG1XsG8n@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+To: Elena Ufimtseva <elena.ufimtseva@oracle.com>, qemu-devel@nongnu.org
+References: <cover.1644302411.git.elena.ufimtseva@oracle.com>
+ <6001ed71ebe40c88e9d903bf0983884f522b2dea.1644302411.git.elena.ufimtseva@oracle.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [RFC 1/8] ioregionfd: introduce a syscall and memory API
+In-Reply-To: <6001ed71ebe40c88e9d903bf0983884f522b2dea.1644302411.git.elena.ufimtseva@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,184 +103,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com,
- Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel@nongnu.org
+Cc: eduardo@habkost.net, john.g.johnson@oracle.com, jag.raman@oracle.com,
+ john.levon@nutanix.com, philmd@redhat.com, cohuck@redhat.com,
+ armbru@redhat.com, peterx@redhat.com, mst@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, berrange@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> On Tue, Feb 15, 2022 at 07:15:29PM +0100, Greg Kurz wrote:
-> > Honor the expected behavior of syncfs() to synchronously flush all data
-> > and metadata to disk on linux systems.
-> > 
-> > If virtiofsd is started with '-o announce_submounts', the client is
-> > expected to send a FUSE_SYNCFS request for each individual submount.
-> > In this case, we just create a new file descriptor on the submount
-> > inode with lo_inode_open(), call syncfs() on it and close it. The
-> > intermediary file is needed because O_PATH descriptors aren't
-> > backed by an actual file and syncfs() would fail with EBADF.
-> > 
-> > If virtiofsd is started without '-o announce_submounts' or if the
-> > client doesn't have the FUSE_CAP_SUBMOUNTS capability, the client
-> > only sends a single FUSE_SYNCFS request for the root inode. The
-> > server would thus need to track submounts internally and call
-> > syncfs() on each of them. This will be implemented later.
-> > 
-> > Note that syncfs() might suffer from a time penalty if the submounts
-> > are being hammered by some unrelated workload on the host. The only
-> > solution to prevent that is to avoid shared mounts.
-> > 
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> 
-> Looks good to me. Thanks Greg.
-> 
-> Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+Looks straight forward to me.
 
-Queued
+[...]
 
-> Vivek
-> 
-> > ---
-> >  tools/virtiofsd/fuse_lowlevel.c       | 11 +++++++
-> >  tools/virtiofsd/fuse_lowlevel.h       | 13 ++++++++
-> >  tools/virtiofsd/passthrough_ll.c      | 44 +++++++++++++++++++++++++++
-> >  tools/virtiofsd/passthrough_seccomp.c |  1 +
-> >  4 files changed, 69 insertions(+)
-> > 
-> > diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> > index e4679c73abc2..e02d8b25a5f6 100644
-> > --- a/tools/virtiofsd/fuse_lowlevel.c
-> > +++ b/tools/virtiofsd/fuse_lowlevel.c
-> > @@ -1876,6 +1876,16 @@ static void do_lseek(fuse_req_t req, fuse_ino_t nodeid,
-> >      }
-> >  }
-> >  
-> > +static void do_syncfs(fuse_req_t req, fuse_ino_t nodeid,
-> > +                      struct fuse_mbuf_iter *iter)
-> > +{
-> > +    if (req->se->op.syncfs) {
-> > +        req->se->op.syncfs(req, nodeid);
-> > +    } else {
-> > +        fuse_reply_err(req, ENOSYS);
-> > +    }
-> > +}
-> > +
-> >  static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-> >                      struct fuse_mbuf_iter *iter)
-> >  {
-> > @@ -2280,6 +2290,7 @@ static struct {
-> >      [FUSE_RENAME2] = { do_rename2, "RENAME2" },
-> >      [FUSE_COPY_FILE_RANGE] = { do_copy_file_range, "COPY_FILE_RANGE" },
-> >      [FUSE_LSEEK] = { do_lseek, "LSEEK" },
-> > +    [FUSE_SYNCFS] = { do_syncfs, "SYNCFS" },
-> >  };
-> >  
-> >  #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
-> > diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
-> > index c55c0ca2fc1c..b889dae4de0e 100644
-> > --- a/tools/virtiofsd/fuse_lowlevel.h
-> > +++ b/tools/virtiofsd/fuse_lowlevel.h
-> > @@ -1226,6 +1226,19 @@ struct fuse_lowlevel_ops {
-> >       */
-> >      void (*lseek)(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
-> >                    struct fuse_file_info *fi);
-> > +
-> > +    /**
-> > +     * Synchronize file system content
-> > +     *
-> > +     * If this request is answered with an error code of ENOSYS,
-> > +     * this is treated as success and future calls to syncfs() will
-> > +     * succeed automatically without being sent to the filesystem
-> > +     * process.
-> > +     *
-> > +     * @param req request handle
-> > +     * @param ino the inode number
-> > +     */
-> > +    void (*syncfs)(fuse_req_t req, fuse_ino_t ino);
-> >  };
-> >  
-> >  /**
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > index b3d0674f6d2f..0f65e6423cf5 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -3357,6 +3357,49 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
-> >      }
-> >  }
-> >  
-> > +static int lo_do_syncfs(struct lo_data *lo, struct lo_inode *inode)
-> > +{
-> > +    int fd, ret = 0;
-> > +
-> > +    fuse_log(FUSE_LOG_DEBUG, "lo_do_syncfs(ino=%" PRIu64 ")\n",
-> > +             inode->fuse_ino);
-> > +
-> > +    fd = lo_inode_open(lo, inode, O_RDONLY);
-> > +    if (fd < 0) {
-> > +        return -fd;
-> > +    }
-> > +
-> > +    if (syncfs(fd) < 0) {
-> > +        ret = errno;
-> > +    }
-> > +
-> > +    close(fd);
-> > +    return ret;
-> > +}
-> > +
-> > +static void lo_syncfs(fuse_req_t req, fuse_ino_t ino)
-> > +{
-> > +    struct lo_data *lo = lo_data(req);
-> > +    struct lo_inode *inode = lo_inode(req, ino);
-> > +    int err;
-> > +
-> > +    if (!inode) {
-> > +        fuse_reply_err(req, EBADF);
-> > +        return;
-> > +    }
-> > +
-> > +    err = lo_do_syncfs(lo, inode);
-> > +    lo_inode_put(lo, &inode);
-> > +
-> > +    /*
-> > +     * If submounts aren't announced, the client only sends a request to
-> > +     * sync the root inode. TODO: Track submounts internally and iterate
-> > +     * over them as well.
-> > +     */
-> > +
-> > +    fuse_reply_err(req, err);
-> > +}
-> > +
-> >  static void lo_destroy(void *userdata)
-> >  {
-> >      struct lo_data *lo = (struct lo_data *)userdata;
-> > @@ -3417,6 +3460,7 @@ static struct fuse_lowlevel_ops lo_oper = {
-> >      .copy_file_range = lo_copy_file_range,
-> >  #endif
-> >      .lseek = lo_lseek,
-> > +    .syncfs = lo_syncfs,
-> >      .destroy = lo_destroy,
-> >  };
-> >  
-> > diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-> > index a3ce9f898d2d..3e9d6181dc69 100644
-> > --- a/tools/virtiofsd/passthrough_seccomp.c
-> > +++ b/tools/virtiofsd/passthrough_seccomp.c
-> > @@ -108,6 +108,7 @@ static const int syscall_allowlist[] = {
-> >      SCMP_SYS(set_robust_list),
-> >      SCMP_SYS(setxattr),
-> >      SCMP_SYS(symlinkat),
-> > +    SCMP_SYS(syncfs),
-> >      SCMP_SYS(time), /* Rarely needed, except on static builds */
-> >      SCMP_SYS(tgkill),
-> >      SCMP_SYS(unlinkat),
-> > -- 
-> > 2.34.1
-> > 
-> 
+>  
+> +int kvm_set_ioregionfd(struct kvm_ioregion *ioregionfd)
+> +{
+> +    KVMState *s = kvm_state;
+> +    int ret = -1;
+> +
+> +    ret = kvm_vm_ioctl(s, KVM_SET_IOREGION, ioregionfd);
+> +    if (ret < 0) {
+> +        error_report("Failed SET_IOREGION syscall ret is %d", ret);
+
+Maybe print the textual representation via strerror(-ret).
+
+> +    }
+> +    return ret;
+> +}
+> +
+>  static int do_kvm_destroy_vcpu(CPUState *cpu)
+>  {
+>      KVMState *s = kvm_state;
+> @@ -1635,6 +1648,104 @@ static void kvm_io_ioeventfd_del(MemoryListener *listener,
+>      }
+>  }
+>  
+> +static void kvm_mem_ioregionfd_add(MemoryListener *listener,
+> +                                   MemoryRegionSection *section,
+> +                                   uint64_t data,
+> +                                   int fd)
+> +{
+> +
+> +    struct kvm_ioregion ioregionfd;
+> +    int r = -1;
+> +
+> +    ioregionfd.guest_paddr = section->offset_within_address_space;
+> +    ioregionfd.memory_size = int128_get64(section->size);
+> +    ioregionfd.user_data = data;
+> +    ioregionfd.read_fd = fd;
+> +    ioregionfd.write_fd = fd;
+> +    ioregionfd.flags = 0;
+> +    memset(&ioregionfd.pad, 0, sizeof(ioregionfd.pad));
+> +
+> +    r = kvm_set_ioregionfd(&ioregionfd);
+> +    if (r < 0) {
+> +        fprintf(stderr, "%s: error adding ioregionfd: %s (%d)\n,",
+> +                __func__, strerror(-r), -r);
+
+Oh, you're actually printing the error again? Why error_report() above
+and here fprintf?
+
+[...]
+
+>  void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+>                                    AddressSpace *as, int as_id, const char *name)
+>  {
+> @@ -1679,6 +1790,12 @@ static MemoryListener kvm_io_listener = {
+>      .priority = 10,
+>  };
+>  
+> +static MemoryListener kvm_ioregion_listener = {
+> +    .ioregionfd_add = kvm_io_ioregionfd_add,
+> +    .ioregionfd_del = kvm_io_ioregionfd_del,
+> +    .priority = 10,
+> +};
+> +
+>  int kvm_set_irq(KVMState *s, int irq, int level)
+>  {
+>      struct kvm_irq_level event;
+> @@ -2564,6 +2681,9 @@ static int kvm_init(MachineState *ms)
+>      kvm_ioeventfd_any_length_allowed =
+>          (kvm_check_extension(s, KVM_CAP_IOEVENTFD_ANY_LENGTH) > 0);
+>  
+> +    kvm_ioregionfds_allowed =
+> +        (kvm_check_extension(s, KVM_CAP_IOREGIONFD) > 0);
+> +
+>      kvm_state = s;
+>  
+>      ret = kvm_arch_init(ms, s);
+> @@ -2585,6 +2705,12 @@ static int kvm_init(MachineState *ms)
+>          s->memory_listener.listener.eventfd_add = kvm_mem_ioeventfd_add;
+>          s->memory_listener.listener.eventfd_del = kvm_mem_ioeventfd_del;
+>      }
+> +
+> +    if (kvm_ioregionfds_allowed) {
+> +        s->memory_listener.listener.ioregionfd_add = kvm_mem_ioregionfd_add;
+> +        s->memory_listener.listener.ioregionfd_del = kvm_mem_ioregionfd_del;
+> +    }
+> +
+>      s->memory_listener.listener.coalesced_io_add = kvm_coalesce_mmio_region;
+>      s->memory_listener.listener.coalesced_io_del = kvm_uncoalesce_mmio_region;
+>  
+> @@ -2594,6 +2720,12 @@ static int kvm_init(MachineState *ms)
+>          memory_listener_register(&kvm_io_listener,
+>                                   &address_space_io);
+>      }
+> +
+> +    if (kvm_ioregionfds_allowed) {
+> +        memory_listener_register(&kvm_ioregion_listener,
+> +                                 &address_space_io);
+> +    }
+> +
+>      memory_listener_register(&kvm_coalesced_pio_listener,
+>                               &address_space_io);
+>  
+
+Why are we using a single memory listener for address_space_memory but
+individual listeners for address_space_io?
+
+IOW, wey don't we have &s->io_listener ?
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Thanks,
+
+David / dhildenb
 
 
