@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8104B7FEA
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 06:13:58 +0100 (CET)
-Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21A44B803A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 06:33:58 +0100 (CET)
+Received: from localhost ([::1]:33166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKCda-0004Lo-0Y
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 00:13:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58302)
+	id 1nKCwv-0001mR-Fk
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 00:33:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKC7v-0001RY-0e; Tue, 15 Feb 2022 23:41:16 -0500
-Received: from [2404:9400:2221:ea00::3] (port=44127 helo=gandalf.ozlabs.org)
+ id 1nKC7g-0001JQ-Cn; Tue, 15 Feb 2022 23:41:00 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:49895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKC7t-0000RI-5t; Tue, 15 Feb 2022 23:41:14 -0500
+ id 1nKC7a-0000Rd-Rc; Tue, 15 Feb 2022 23:41:00 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jz4y34B06z4y4n; Wed, 16 Feb 2022 15:40:11 +1100 (AEDT)
+ id 4Jz4y34Fqhz4y4p; Wed, 16 Feb 2022 15:40:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1644986411;
- bh=cbpWe3LSKET99M0L6sdDV/Vxqpfu6rqkB3Ucrx6dd08=;
+ bh=f5rH5Ic3nCtogas5y/2/1zL62pjTqLe1HjKtymqNeps=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=G6zEReo1Y7lmIfwkjizQCw4BwFkwcUnxUTJ4vQlLEuqUfXVzQxx/a0mTagwldFvsC
- 6WPEZNBBdOwtAEDkx1HRAYWlGDeSbkUPwRz/NybWJiNtR9wDy3xJVKuEMY3NUtEYGF
- mYLxzPPAqHH5oEpXJId47JfFkMEa7BLb8jegXpqc=
-Date: Wed, 16 Feb 2022 13:59:48 +1100
+ b=GegpI1ovALqj7QMFDgp0o9dpKME+162ldW0Hv65H8t3K3kFL/JZaTiXae/Uy1KFFf
+ Lq5xCSPJA45piWX5nqRs1xgfxJwRRwKI2+NzOi6WbhdCEygug8BKmbmxVWRhFFT37+
+ AEWm2VKdiahWPvq1StZhfFP1h9cxJYCq7GlWDTdI=
+Date: Wed, 16 Feb 2022 14:00:28 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 23/27] target/ppc: cpu_init: Remove register_usprg3_sprs
-Message-ID: <YgxopGxFTgiMigOl@yekko>
+Subject: Re: [PATCH 24/27] target/ppc: cpu_init: Expose some SPR registration
+ helpers
+Message-ID: <YgxozKf7FMg8ED/y@yekko>
 References: <20220215214148.1848266-1-farosas@linux.ibm.com>
- <20220215214148.1848266-24-farosas@linux.ibm.com>
+ <20220215214148.1848266-25-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dG1tThV20thHARi+"
+ protocol="application/pgp-signature"; boundary="kSE07oiwL5p2xoSu"
 Content-Disposition: inline
-In-Reply-To: <20220215214148.1848266-24-farosas@linux.ibm.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2404:9400:2221:ea00::3
- (failed)
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+In-Reply-To: <20220215214148.1848266-25-farosas@linux.ibm.com>
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,78 +66,120 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---dG1tThV20thHARi+
+--kSE07oiwL5p2xoSu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 15, 2022 at 06:41:44PM -0300, Fabiano Rosas wrote:
-> This function registers just one SPR and has only two callers, so open
-> code it.
+On Tue, Feb 15, 2022 at 06:41:45PM -0300, Fabiano Rosas wrote:
+> The following patches will move CPU-specific code into separate files,
+> so expose the most used SPR registration functions:
+>=20
+> register_sdr1_sprs         | 22 callers
+> register_low_BATs          | 20 callers
+> register_non_embedded_sprs | 19 callers
+> register_high_BATs         | 10 callers
+> register_thrm_sprs         | 8 callers
+> register_usprgh_sprs       | 6 callers
+> register_soft_tlb_sprs     | only 3 callers, but it helps to
+>                              keep the soft TLB code consistent.
 >=20
 > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/cpu_init.c | 21 +++++++++++----------
->  1 file changed, 11 insertions(+), 10 deletions(-)
+>  target/ppc/cpu_init.c | 14 +++++++-------
+>  target/ppc/spr_tcg.h  |  8 ++++++++
+>  2 files changed, 15 insertions(+), 7 deletions(-)
 >=20
 > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 621812d079..3585dc69bc 100644
+> index 3585dc69bc..74e26f60dd 100644
 > --- a/target/ppc/cpu_init.c
 > +++ b/target/ppc/cpu_init.c
-> @@ -1072,14 +1072,6 @@ static void register_l3_ctrl(CPUPPCState *env)
+> @@ -241,7 +241,7 @@ static void register_generic_sprs(PowerPCCPU *cpu)
 >                   0x00000000);
 >  }
 > =20
-> -static void register_usprg3_sprs(CPUPPCState *env)
-> -{
-> -    spr_register(env, SPR_USPRG3, "USPRG3",
-> -                 &spr_read_ureg, SPR_NOACCESS,
-> -                 &spr_read_ureg, SPR_NOACCESS,
-> -                 0x00000000);
-> -}
-> -
->  static void register_usprgh_sprs(CPUPPCState *env)
+> -static void register_non_embedded_sprs(CPUPPCState *env)
+> +void register_non_embedded_sprs(CPUPPCState *env)
 >  {
->      spr_register(env, SPR_USPRG4, "USPRG4",
-> @@ -3310,7 +3302,12 @@ static void init_proc_e500(CPUPPCState *env, int v=
-ersion)
->          break;
->      }
->      register_BookE_sprs(env, ivor_mask);
-> -    register_usprg3_sprs(env);
-> +
-> +    spr_register(env, SPR_USPRG3, "USPRG3",
-> +                 &spr_read_ureg, SPR_NOACCESS,
-> +                 &spr_read_ureg, SPR_NOACCESS,
-> +                 0x00000000);
-> +
->      /* Processor identification */
->      spr_register(env, SPR_BOOKE_PIR, "PIR",
->                   SPR_NOACCESS, SPR_NOACCESS,
-> @@ -6200,7 +6197,6 @@ static void init_tcg_pmu_power8(CPUPPCState *env)
->  static void init_proc_book3s_common(CPUPPCState *env)
->  {
->      register_non_embedded_sprs(env);
-> -    register_usprg3_sprs(env);
->      register_book3s_altivec_sprs(env);
->      register_book3s_pmu_sup_sprs(env);
->      register_book3s_pmu_user_sprs(env);
-> @@ -6210,6 +6206,11 @@ static void init_proc_book3s_common(CPUPPCState *e=
+>      /* Exception processing */
+>      spr_register_kvm(env, SPR_DSISR, "DSISR",
+> @@ -260,7 +260,7 @@ static void register_non_embedded_sprs(CPUPPCState *e=
 nv)
->       * value is the one used by 74xx processors.
->       */
->      vscr_init(env, 0x00010000);
-> +
-> +    spr_register(env, SPR_USPRG3, "USPRG3",
-> +                 &spr_read_ureg, SPR_NOACCESS,
-> +                 &spr_read_ureg, SPR_NOACCESS,
-> +                 0x00000000);
 >  }
 > =20
->  static void init_proc_970(CPUPPCState *env)
+>  /* Storage Description Register 1 */
+> -static void register_sdr1_sprs(CPUPPCState *env)
+> +void register_sdr1_sprs(CPUPPCState *env)
+>  {
+>  #ifndef CONFIG_USER_ONLY
+>      if (env->has_hv_mode) {
+> @@ -283,7 +283,7 @@ static void register_sdr1_sprs(CPUPPCState *env)
+>  }
+> =20
+>  /* BATs 0-3 */
+> -static void register_low_BATs(CPUPPCState *env)
+> +void register_low_BATs(CPUPPCState *env)
+>  {
+>  #if !defined(CONFIG_USER_ONLY)
+>      spr_register(env, SPR_IBAT0U, "IBAT0U",
+> @@ -355,7 +355,7 @@ static void register_low_BATs(CPUPPCState *env)
+>  }
+> =20
+>  /* BATs 4-7 */
+> -static void register_high_BATs(CPUPPCState *env)
+> +void register_high_BATs(CPUPPCState *env)
+>  {
+>  #if !defined(CONFIG_USER_ONLY)
+>      spr_register(env, SPR_IBAT4U, "IBAT4U",
+> @@ -427,7 +427,7 @@ static void register_high_BATs(CPUPPCState *env)
+>  }
+> =20
+>  /* Softare table search registers */
+> -static void register_soft_tlb_sprs(CPUPPCState *env, int nb_tlbs, int nb=
+_ways)
+> +void register_soft_tlb_sprs(CPUPPCState *env, int nb_tlbs, int nb_ways)
+>  {
+>  #if !defined(CONFIG_USER_ONLY)
+>      env->nb_tlb =3D nb_tlbs;
+> @@ -667,7 +667,7 @@ static void register_iamr_sprs(CPUPPCState *env)
+>  }
+>  #endif /* TARGET_PPC64 */
+> =20
+> -static void register_thrm_sprs(CPUPPCState *env)
+> +void register_thrm_sprs(CPUPPCState *env)
+>  {
+>      /* Thermal management */
+>      spr_register(env, SPR_THRM1, "THRM1",
+> @@ -1072,7 +1072,7 @@ static void register_l3_ctrl(CPUPPCState *env)
+>                   0x00000000);
+>  }
+> =20
+> -static void register_usprgh_sprs(CPUPPCState *env)
+> +void register_usprgh_sprs(CPUPPCState *env)
+>  {
+>      spr_register(env, SPR_USPRG4, "USPRG4",
+>                   &spr_read_ureg, SPR_NOACCESS,
+> diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
+> index df2abacc64..a4f912faa4 100644
+> --- a/target/ppc/spr_tcg.h
+> +++ b/target/ppc/spr_tcg.h
+> @@ -141,4 +141,12 @@ void spr_write_hmer(DisasContext *ctx, int sprn, int=
+ gprn);
+>  void spr_write_lpcr(DisasContext *ctx, int sprn, int gprn);
+>  #endif
+> =20
+> +void register_low_BATs(CPUPPCState *env);
+> +void register_high_BATs(CPUPPCState *env);
+> +void register_sdr1_sprs(CPUPPCState *env);
+> +void register_thrm_sprs(CPUPPCState *env);
+> +void register_usprgh_sprs(CPUPPCState *env);
+> +void register_non_embedded_sprs(CPUPPCState *env);
+> +void register_soft_tlb_sprs(CPUPPCState *env, int nb_tlbs, int nb_ways);
+> +
+>  #endif
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -146,25 +187,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---dG1tThV20thHARi+
+--kSE07oiwL5p2xoSu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIMaJ0ACgkQgypY4gEw
-YSIZKhAAqEPcSlSywRH4CZY2xzzgjAXCEbZVEQTpmBqUF5sNxdhZ0ma9TCcoVgbM
-Is+JNvizENM5Zqi47Nbrh08s22NLYzX1QHB7CbDDwxJnjKwR5g8RYEcUui6ad4Ej
-sjopWAhelZikrmy+6XDibD0fnZiNbXfpOBAJkp+lFavG4qYmtzG7CkiJujPNxoYa
-kbXX/N8+Y2AEgIX9bKkeC41Ludj46MsPWS3xV3D3WEIh3g5Lusk63MELSRn0P25a
-Fp2fWvuDNyLeiAaihSoRiUVuksLP3hhcL+M9tAN2pv+pxqlnggrQ1FH1GVtqcICe
-pTS89XvzJxWjx0/uNVZTNd9Ynz6DbSRUWi0HXeETmtzjTL0N9LsBskBfEn+Tnu75
-wA1wq4hB2jfu72HaDUPEXhtDbJ0YGCiMZEBVoU79EcByQVwmt6/aHa6P+7sfLdvu
-m2p75Z+/ci0O3v+cIV6xaQqoDVfqAuiuhYT51MupqFYMMNeRgCvMYZTWGPcjATLN
-elqRgWjo7b4Sl81S03Yn5+/sS8FY0FbFQT3F0iGVMz5uy4s+qT98ndferGvw/7ht
-VhWsle0RVyqK6RXQKw/5fyyUm+b0ojXwPx78T3OJMz8wYUmt2DHfsikYokrt6lj+
-FP0+cLS81DKK4f++HgUFa7Mm3f5td/plCeQ2R7TVuK5ZSzxxI30=
-=DpTI
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIMaMYACgkQgypY4gEw
+YSKadQ/7BYhPhqMwtaL9kiw6cFNyBWjGlBs/yyww8wtu/AvBW3ko0IoXHNhkUX6i
+tomIrNMA70gKVh9fkglZF5CIxzZFqyAo0aIaDGm7kBpTo+7VPz56IqsvJ+wOWd3J
+MQ4leqBgQesyj3XKWD8eiZFD8K32gkfkV3CK2riaPzPFOFOUrx3W/VznFuVoTElH
+NHnyG6TB6x/kOb9tHBdX0x5927+4yQPtdAso6u0+s0H3U/AatFeVyFlJpla6uKpD
+nQ/2tFw3+HgZajoRGVpZwhDPKBbh8IX1nGl/sOULNy36JRQSgEZhgBkF/fWLb1HF
+yGcYRfkPCmiWACeS0ok4rEotb8t9zPVqTnqrX1XTCAqdxkHSlGHjENHm7icEpIW8
+ERyC2Ous05hpv5OwgajGP4IQap5hkVlT2KaRRhOgrsVsuwRY1snPkzjtumQTeR2v
+d1bKA09AHlSdME6kvBCGHjwnzTEsA1QhUxN7X5c6xmzGZMEB8YTjOWUuIjyuTgRD
+dMXL7KfWBItW95o1/MASdPOXEQCeDjpe7sCgszJJHLl1Vww8lQBPdl8H+7U34vTD
+yFnQeN8cZPd96l/mzASiDVFG60/WSbIrFlPIPp2j+hwh3YUyYXcgddbs8jYP+Xw6
+gWKLvt6VkS29RIwrjzak9To2Bmcl4Ep24g0kBM9ezldjoPVFY4c=
+=gwrm
 -----END PGP SIGNATURE-----
 
---dG1tThV20thHARi+--
+--kSE07oiwL5p2xoSu--
 
