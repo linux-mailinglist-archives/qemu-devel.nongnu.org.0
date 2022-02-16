@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E1A4B9248
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:31:05 +0100 (CET)
-Received: from localhost ([::1]:59108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A72BF4B9263
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:36:04 +0100 (CET)
+Received: from localhost ([::1]:35966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKQx5-0007td-82
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:31:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38278)
+	id 1nKR1v-0003HX-50
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:36:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nKQvE-0006pD-Dl
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 15:29:08 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=53882
+ id 1nKQzp-0001iA-VE
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 15:33:53 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=34807
  helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nKQvC-0004zf-9v
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 15:29:08 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id qe15so3528721pjb.3
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 12:28:59 -0800 (PST)
+ id 1nKQzn-0005g0-VR
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 15:33:53 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ ki18-20020a17090ae91200b001b8be87e9abso4607786pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 12:33:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dguwGe1Kncim4kPjBAcoO7mVk/iTb1YdxWmSRpZq2zQ=;
- b=MzahiiT2Rf4BTNA1p8sGuRZluJI8iyyK9ol7DjxWZFZGfawBM3H6FnVfnCH8rrpkG+
- +R9YYHUJ+EqPPkcUDq+CH56pX5D4G7M7yto9Y14F1jJ+G9hoaPsvU+iTgxMEDnGELApD
- kCbuNvyOol/4hz6b89O4QIGXprWZLsElWDHquPZ7RqV8zlTzBpkEHXMT3dXbLHtfK90J
- nrpMEfVP8enI50uR7/HO75pfmgmB3jN9r+qbzYbTEnfxMDbet742kh09/5NFG7TQgsIm
- CjeYhC/cNiSldRdqche5jg4nKVo1aT4Psp9lqgCooocZvH3SMimIQxgFE+pWwhLzt6yd
- ix2Q==
+ :cc; bh=RbJRqWsddi9IfiBeXdggswwK+0sptc3tHrNIVoFIZTI=;
+ b=WlnoD2lLYhypFOr0ihmW3+gWHS1gh0g6cD02ewEpn8ytLrzdK3zxpZjekJ1x82ma3m
+ iXlEvzEZImaokJz84tFOQOQLvZUO2TK7FfPWBRio+JeiZGk4M3jX6sK1ESCxFtSn52bs
+ KvX7nxkIOeFvXJq1C+GzzPvSHz64YVhmFuMUAjzno6uJdNqnhVfrmGZNw1OpvNVVOELV
+ j9I+vnnm5xyKgQA7VsUQvXDTAaq2gDzpE8e1hwUt7fCByCVzIOwO3WSvXjVca+2PJVGC
+ zr8jyC163pmsdEEpTbVCJ3mdYtPOqkDp7R5J/C7Jjh2ghgtxc0V2plK3bBFztvXpPz60
+ 2J8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=dguwGe1Kncim4kPjBAcoO7mVk/iTb1YdxWmSRpZq2zQ=;
- b=0XumpqIlPPYafQRS3OCg3flYsqh+albaJAkB3kfudz4cq+ncuQGBokzg/bIbMdEyp2
- Zha0mg/pMsp/PX/D/UDDz0cQwbpJ3+UCnyAsnu2mSsfVn4n8tmuu4w97PG+zBhUP8ghF
- G7bAGNsKeR2Aii6Uk2vpZKB/+UZEjCHb8tVOaVzMNElzfEb1wuSrZBHybnfgVH84CVMH
- jGKGOHJRrvmrP0SQerYHoZJEZ/hN5N1m0R9j1XvnS6Yv/IMhdAu6RRdJWukeq9PdGzuH
- WTrn0JPJZE0+hwtHbRtW3EgnKWHTFchG6+9zd7TLTNBmH+wcjLF8C5OcytbZbo0rwPZJ
- TADw==
-X-Gm-Message-State: AOAM533PSNBuy7VxRu1IGJ+aqpFI7lPBg6NMjne2hPflJ1vVgteSsfHU
- TECMpXq9ToxVXpDuUK3+HIp0BGOp7QpktzsmGCE=
-X-Google-Smtp-Source: ABdhPJwlU4nXS8PSag2zvEeLWHqPWtF6QQFmIEhIto7m9IzkBX5Xsv52ld7hw78Ks3ij1Qu9A3JslZZrffQdju8MGXI=
-X-Received: by 2002:a17:90b:4ad2:b0:1b8:e050:c7e3 with SMTP id
- mh18-20020a17090b4ad200b001b8e050c7e3mr3747492pjb.83.1645043338167; Wed, 16
- Feb 2022 12:28:58 -0800 (PST)
+ bh=RbJRqWsddi9IfiBeXdggswwK+0sptc3tHrNIVoFIZTI=;
+ b=2Br/wOFDR//Gu0K0TzlVZAdAOB3nBQ5TydFcwYppY7F/p71oPBWpat29n0xeVxDSm3
+ kBq4HhSGvxBh5mcceMS3Y6DbZWvLLat8W6i86BvfNq4agJp4z8NwugqFeqI+dUWa/7Wg
+ vXSZ5qEsUOuoI3vFVcN+XJg6gdXwkDp/rCuDO8lwVkMjwODS35XR1Q+XWt3N6Rs0Pdi1
+ OES7MP5NaLKtn6BidO2GIuWaV2OqIJ94ppYjW0fNkMY597gbgfb3egxJ9VY6GHgBcMBg
+ 18Do2Z1hE8FiicXtwodORgcCn40vqGuM5PrqITAkSl1CUVf9RzLgv/6IPoTjQsmqpdU1
+ zDqg==
+X-Gm-Message-State: AOAM530qd07VfhFO7Teo9riCj6rJ3N2laPOVWnxwStHNfrK27y8ZQSOQ
+ FObOOHUg3Cg8w8JLF9GRv9wHOKtAj7kjgjdV3j0f6W/k
+X-Google-Smtp-Source: ABdhPJx9KQE1PcNnRTww5WYMF4XZLdISLLDiOu/0OPEVS5xwX/GH81qeyuvJY7CG7CTYz+4r0ZO1F83LiH9CIa3WP8o=
+X-Received: by 2002:a17:902:bc82:b0:14f:2b9c:4aa with SMTP id
+ bb2-20020a170902bc8200b0014f2b9c04aamr538933plb.145.1645043630756; Wed, 16
+ Feb 2022 12:33:50 -0800 (PST)
 MIME-Version: 1.0
 References: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain>
  <87leyaznm6.fsf@oldenburg.str.redhat.com>
-In-Reply-To: <87leyaznm6.fsf@oldenburg.str.redhat.com>
+ <CAJSP0QXmF=AKtaZO7GjxFtd7o5iQ9JC2xYGYDo-zC0Ea1POS5w@mail.gmail.com>
+In-Reply-To: <CAJSP0QXmF=AKtaZO7GjxFtd7o5iQ9JC2xYGYDo-zC0Ea1POS5w@mail.gmail.com>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 16 Feb 2022 20:28:47 +0000
-Message-ID: <CAJSP0QXmF=AKtaZO7GjxFtd7o5iQ9JC2xYGYDo-zC0Ea1POS5w@mail.gmail.com>
+Date: Wed, 16 Feb 2022 20:33:39 +0000
+Message-ID: <CAJSP0QUOXwwBzXpBNhGb_uuxM8AqP2mOD_7tSSWoEhErdVnHNw@mail.gmail.com>
 Subject: Re: Portable inline asm to get address of TLS variable
 To: Florian Weimer <fweimer@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -88,39 +90,45 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Feb 2022 at 18:14, Florian Weimer <fweimer@redhat.com> wrote:
+On Wed, 16 Feb 2022 at 20:28, Stefan Hajnoczi <stefanha@gmail.com> wrote:
 >
-> * Stefan Hajnoczi:
+> On Wed, 16 Feb 2022 at 18:14, Florian Weimer <fweimer@redhat.com> wrote:
+> >
+> > * Stefan Hajnoczi:
+> >
+> > > I've been trying to make the inline asm that gets the address of a TLS
+> > > variable for QEMU coroutines pass QEMU's GitLab CI.
+> > > https://gitlab.com/stefanha/qemu/-/blob/coroutine-tls-fix/include/qemu/coroutine-tls.h#L89
+> > >
+> > > The code isn't -fPIC-friendly (R_X86_64_TPOFF32 relocations aren't
+> > > allowed in -fPIC shared libraries) so builds fail with ./configure
+> > > --enable-modules. While I was tackling this I stumbled on this:
+> > >
+> > >   void *dst_ptr;
+> > >   asm volatile("" : "=r"(dst_ptr) : "0"(&tls_var))
+> > >
+> > > What's nice about it:
+> > > - It's portable, there are no arch-specific assembly instructions.
+> > > - It works for both -fPIC and non-PIC.
+> > >
+> > > However, I wonder if the compiler might reuse a register that already
+> > > contains the address. Then we'd have the coroutine problem again when
+> > > qemu_coroutine_yield() is called between the earlier address calculation
+> > > and the asm volatile statement.
+> > >
+> > > Thoughts?
+> >
+> > Sorry, I don't see why this isn't equivalent to a plain &tls_var.
+> > What exactly are you trying to achieve?
 >
-> > I've been trying to make the inline asm that gets the address of a TLS
-> > variable for QEMU coroutines pass QEMU's GitLab CI.
-> > https://gitlab.com/stefanha/qemu/-/blob/coroutine-tls-fix/include/qemu/coroutine-tls.h#L89
-> >
-> > The code isn't -fPIC-friendly (R_X86_64_TPOFF32 relocations aren't
-> > allowed in -fPIC shared libraries) so builds fail with ./configure
-> > --enable-modules. While I was tackling this I stumbled on this:
-> >
-> >   void *dst_ptr;
-> >   asm volatile("" : "=r"(dst_ptr) : "0"(&tls_var))
-> >
-> > What's nice about it:
-> > - It's portable, there are no arch-specific assembly instructions.
-> > - It works for both -fPIC and non-PIC.
-> >
-> > However, I wonder if the compiler might reuse a register that already
-> > contains the address. Then we'd have the coroutine problem again when
-> > qemu_coroutine_yield() is called between the earlier address calculation
-> > and the asm volatile statement.
-> >
-> > Thoughts?
+> &tls_var, except forcing the compiler to calculate the address from scratch.
 >
-> Sorry, I don't see why this isn't equivalent to a plain &tls_var.
-> What exactly are you trying to achieve?
+> The goal is to avoid stale TLS variable addresses when a coroutine
+> yields in one thread and is resumed in another thread.
 
-&tls_var, except forcing the compiler to calculate the address from scratch.
-
-The goal is to avoid stale TLS variable addresses when a coroutine
-yields in one thread and is resumed in another thread.
+I'm basically asking whether the &tls_var input operand is treated as
+volatile and part of the inline assembly or whether it's just regular
+C code that the compiler may optimize with the surrounding function?
 
 Stefan
 
