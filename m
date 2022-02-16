@@ -2,93 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6874B8E1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 17:36:52 +0100 (CET)
-Received: from localhost ([::1]:40550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CD04B8E5C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 17:41:25 +0100 (CET)
+Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKNIR-0000xq-KO
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 11:36:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59020)
+	id 1nKNMq-0006ky-Nx
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 11:41:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nKN7N-0002cq-Qw; Wed, 16 Feb 2022 11:25:25 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51098)
+ id 1nKN7R-0002mJ-1G; Wed, 16 Feb 2022 11:25:29 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29122
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nKN7M-0001Y9-2d; Wed, 16 Feb 2022 11:25:25 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21GG7nL0027872; 
- Wed, 16 Feb 2022 16:25:19 GMT
+ id 1nKN7O-0001YV-Qs; Wed, 16 Feb 2022 11:25:28 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21GGA9CH012698; 
+ Wed, 16 Feb 2022 16:25:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=UnjXkzujAUAxnz0SlHUCkn3XPH3YbUgjV9oE5ZZhQ3g=;
- b=bE3zdt2pidAkkyMx7Rb0kLSrLYc+8nbBRMuHyEe2CRDQDyii6XHWRkKcVHFxAxoxh2+B
- a+XudsevFJhBxUGiveAtSFBmOiz2WaVPqt+HzuuHpnI5nDtALUIZNTvUyF48tF5feHLV
- yXXX07Pk2mfolCJ+SrXHg3sDE3II8it4sq8icx/PFZqIczufq40gqIUzeAAh0ihOYl8p
- NK7jdyQj9kzAp495uq/bkramLg0Oserz1kQLdDemL0J9x0m5zSdfC9bmOw772NrISQf6
- 30gk4xeRCON8O6u7thawbVoAGg24uEUfIkZzBzKY5RyUss3+8dBnKLR0JzJgLBl7oOAi DQ== 
+ : date : message-id : in-reply-to : references : content-transfer-encoding
+ : mime-version; s=pp1; bh=iwjGWVYse1rciRIgMPIDZyZNMILlYkWifTcLa/y4Owg=;
+ b=pft1PKB6QG2XdCEr01L1K4Qt9iJ6nAAYo9HOKzeV1yy57HE7tYl4J/sDj+pzK3HXK4Uq
+ drkuP0c7sl2+eGzHFw8LvwpHGr+7kZn+oOkt8fkFVah7z4SgJbS70/M3QI7GDJcim06k
+ eqq4pqw8FfXVLuTrpynkqW+LmCTKaUC17zDdl2mqgQz/wCzwZrKI8kmLWikDRCgPR9k9
+ iiwgpTsZ8jlLywQqj10kx9195zQxq0jpteVEXWUsUD/4usY/hNeRhkYGX8BVAg6fGIAq
+ qnQHHx3oaEQXrxI9ZLns5l/U/W2jUIc+I83fF0MMLc+qV1GbK62ETD8poTWoPCno7DMi Tw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e920vmj6a-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e944t8ss0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 16:25:18 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21GG7wKL028630;
- Wed, 16 Feb 2022 16:25:18 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e920vmj61-1
+ Wed, 16 Feb 2022 16:25:21 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21GGB0gW015426;
+ Wed, 16 Feb 2022 16:25:21 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3e944t8srm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 16:25:18 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21GGCBON028846;
- Wed, 16 Feb 2022 16:25:17 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma04wdc.us.ibm.com with ESMTP id 3e64hbkt3q-1
+ Wed, 16 Feb 2022 16:25:20 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21GGCj9w020841;
+ Wed, 16 Feb 2022 16:25:20 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma01dal.us.ibm.com with ESMTP id 3e91f6e9jx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 16:25:17 +0000
+ Wed, 16 Feb 2022 16:25:19 +0000
 Received: from b03ledav004.gho.boulder.ibm.com
  (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21GGPGwb12124434
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21GGPI0k26870038
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Feb 2022 16:25:16 GMT
+ Wed, 16 Feb 2022 16:25:18 GMT
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8457878072;
- Wed, 16 Feb 2022 16:25:16 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6472278077;
+ Wed, 16 Feb 2022 16:25:18 +0000 (GMT)
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 17FBB78092;
- Wed, 16 Feb 2022 16:25:15 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0ADE078069;
+ Wed, 16 Feb 2022 16:25:17 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.144.50])
  by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 16 Feb 2022 16:25:14 +0000 (GMT)
+ Wed, 16 Feb 2022 16:25:16 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 22/27] target/ppc: cpu_init: Remove register_usprg3_sprs
-Date: Wed, 16 Feb 2022 13:24:21 -0300
-Message-Id: <20220216162426.1885923-23-farosas@linux.ibm.com>
+Subject: [PATCH v2 23/27] target/ppc: Rename spr_tcg.h to spr_common.h
+Date: Wed, 16 Feb 2022 13:24:22 -0300
+Message-Id: <20220216162426.1885923-24-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220216162426.1885923-1-farosas@linux.ibm.com>
 References: <20220216162426.1885923-1-farosas@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: xY2X2aH7109qx0NGocnacL4V5YReMfef
-X-Proofpoint-ORIG-GUID: QZjao4iJPBFjJCENusgOQ5xU3qQbuPe-
+X-Proofpoint-GUID: Xoe7D0w3Uo9huMOgnJwnJCazyTleieoK
+X-Proofpoint-ORIG-GUID: vFaTHzU_NiKKNkU2h-rrGhnVTHxFeR4T
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-16_07,2022-02-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 priorityscore=1501
- clxscore=1015 mlxlogscore=926 spamscore=0 impostorscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 mlxscore=0
+ spamscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=977
+ impostorscore=0 priorityscore=1501 adultscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2202160095
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -113,68 +114,68 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function registers just one SPR and has only two callers, so open
-code it.
+Initial intent for the spr_tcg header was to expose the spr_read|write
+callbacks that are only used by TCG code. However, although these
+routines are TCG-specific, the KVM code needs access to env->sprs
+which creation is currently coupled to the callback registration.
+
+We are probably not going to decouple SPR creation and TCG callback
+registration any time soon, so let's rename the header to spr_common
+to accomodate the register_*_sprs functions that will be moved out of
+cpu_init.c in the following patches.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu_init.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ target/ppc/cpu_init.c                  | 2 +-
+ target/ppc/{spr_tcg.h => spr_common.h} | 4 ++--
+ target/ppc/translate.c                 | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+ rename target/ppc/{spr_tcg.h => spr_common.h} (99%)
 
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index f464ad64fd..adb23019ef 100644
+index adb23019ef..17f12aceb6 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -1072,14 +1072,6 @@ static void register_l3_ctrl(CPUPPCState *env)
-                  0x00000000);
- }
+@@ -44,7 +44,7 @@
  
--static void register_usprg3_sprs(CPUPPCState *env)
--{
--    spr_register(env, SPR_USPRG3, "USPRG3",
--                 &spr_read_ureg, SPR_NOACCESS,
--                 &spr_read_ureg, SPR_NOACCESS,
--                 0x00000000);
--}
--
- static void register_usprgh_sprs(CPUPPCState *env)
- {
-     spr_register(env, SPR_USPRG4, "USPRG4",
-@@ -3310,7 +3302,12 @@ static void init_proc_e500(CPUPPCState *env, int version)
-         break;
-     }
-     register_BookE_sprs(env, ivor_mask);
--    register_usprg3_sprs(env);
-+
-+    spr_register(env, SPR_USPRG3, "USPRG3",
-+                 &spr_read_ureg, SPR_NOACCESS,
-+                 &spr_read_ureg, SPR_NOACCESS,
-+                 0x00000000);
-+
-     /* Processor identification */
-     spr_register(env, SPR_BOOKE_PIR, "PIR",
-                  SPR_NOACCESS, SPR_NOACCESS,
-@@ -6200,7 +6197,6 @@ static void init_tcg_pmu_power8(CPUPPCState *env)
- static void init_proc_book3s_common(CPUPPCState *env)
- {
-     register_non_embedded_sprs(env);
--    register_usprg3_sprs(env);
-     register_book3s_altivec_sprs(env);
-     register_book3s_pmu_sup_sprs(env);
-     register_book3s_pmu_user_sprs(env);
-@@ -6210,6 +6206,11 @@ static void init_proc_book3s_common(CPUPPCState *env)
-      * value is the one used by 74xx processors.
-      */
-     vscr_init(env, 0x00010000);
-+
-+    spr_register(env, SPR_USPRG3, "USPRG3",
-+                 &spr_read_ureg, SPR_NOACCESS,
-+                 &spr_read_ureg, SPR_NOACCESS,
-+                 0x00000000);
- }
+ #include "helper_regs.h"
+ #include "internal.h"
+-#include "spr_tcg.h"
++#include "spr_common.h"
+ #include "power8-pmu.h"
  
- static void init_proc_970(CPUPPCState *env)
+ /* #define PPC_DEBUG_SPR */
+diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_common.h
+similarity index 99%
+rename from target/ppc/spr_tcg.h
+rename to target/ppc/spr_common.h
+index df2abacc64..5aec76ade4 100644
+--- a/target/ppc/spr_tcg.h
++++ b/target/ppc/spr_common.h
+@@ -16,8 +16,8 @@
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+-#ifndef SPR_TCG_H
+-#define SPR_TCG_H
++#ifndef SPR_COMMON_H
++#define SPR_COMMON_H
+ 
+ #define SPR_NOACCESS (&spr_noaccess)
+ 
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 2eaffd432a..ecc5a104e0 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -35,7 +35,7 @@
+ #include "exec/translator.h"
+ #include "exec/log.h"
+ #include "qemu/atomic128.h"
+-#include "spr_tcg.h"
++#include "spr_common.h"
+ 
+ #include "qemu/qemu-print.h"
+ #include "qapi/error.h"
 -- 
 2.34.1
 
