@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE70F4B83DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:23:39 +0100 (CET)
-Received: from localhost ([::1]:47924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC464B84FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:57:15 +0100 (CET)
+Received: from localhost ([::1]:58228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKGXC-0006H8-UJ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:23:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56916)
+	id 1nKH3i-00020P-NK
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:57:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nKGV6-0003Rg-6U; Wed, 16 Feb 2022 04:21:28 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59848
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nKGV4-00008H-JQ; Wed, 16 Feb 2022 04:21:27 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21G7dcWQ005277; 
- Wed, 16 Feb 2022 09:21:22 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e8v7ktr88-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 09:21:21 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21G9IuEK026279;
- Wed, 16 Feb 2022 09:21:20 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3e64ha6jnu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 09:21:20 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 21G9LHrj36635042
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Feb 2022 09:21:17 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DCF5FA4062;
- Wed, 16 Feb 2022 09:21:17 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 99FF1A405C;
- Wed, 16 Feb 2022 09:21:17 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed, 16 Feb 2022 09:21:17 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.91.22])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id DEEEA220032;
- Wed, 16 Feb 2022 10:21:16 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 6/6] aspeed/sdmc: Add trace events
-Date: Wed, 16 Feb 2022 10:21:11 +0100
-Message-Id: <20220216092111.237896-7-clg@kaod.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220216092111.237896-1-clg@kaod.org>
-References: <20220216092111.237896-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nKGYL-0000zY-NK
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 04:24:49 -0500
+Received: from [2607:f8b0:4864:20::629] (port=39720
+ helo=mail-pl1-x629.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nKGYJ-0000dH-EH
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 04:24:49 -0500
+Received: by mail-pl1-x629.google.com with SMTP id w1so1553773plb.6
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 01:24:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=4166yeff1dkXsd2kh4oVryecIas3IOy9l1fPw94wCVU=;
+ b=uHecwOdsibIqpX+lQk2eHpz5TJIM9XIGBcJI+Vox+8HJJea4jr0tKDw5NvyeTAhBR3
+ cm7hs12AibrR08mPUA4mdgTraGdjhIbjeF86YZklha0GqD+nBXMY36cWc1+njVXwaPqd
+ I9Q5Y78jc6Cjf23tT8Y5GaTRTA1UwEYVH3/wpo73IJiqMrHh7Y1a7GiSioz40Mw8tGYp
+ XcUgajVEv4Y/gK7CLGCsfykGja//+CQofk3GrrKjR8q+VwYw2AmabipKulzApvOAlXBB
+ /L0mSr/49bcz6uIfYu+vq/Xz9CgZVpGkQ5c7TWS9LW35NQX9QyCFy4YV4pI8RxwI6vmn
+ bBoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4166yeff1dkXsd2kh4oVryecIas3IOy9l1fPw94wCVU=;
+ b=sOSdVs9ciJrGubMH7WstpUZMI9pH9nulaz5p9M64er3Qz6T9GtiySV/WBr5hUQdopc
+ txSzOZ9OD4izbwuaVqdTZvFS/RKfLF/IbuZG+/fO+30FsPIFehzW1KpeFNk5NgpDjNE0
+ zXA9Q/YIm7lneSH6Nt0NN3qXgFTINQrZn0QOefJRx515JPB+PXYdEkD2smdX7UO3cAP6
+ kGRjkegJh3eoX2cd/03rnW57c/AKhL0fBSctZomn2nDmWFZIfXtwU1wKTUkQ6gLyDP2Q
+ eiXrg/JmGfVa6nEvk9MxqoAXB4YWc97rgTBSJOF96SmgF1iq9dIM6LqMCq/thfmVSkQ8
+ EitA==
+X-Gm-Message-State: AOAM531RJHHcyaLEXamsxwotxDoZ5jGZ9PN+yib0MWt+2Hb5t+LuYXI5
+ ysaBNrhJSYiHYeztaVOR3HNbig==
+X-Google-Smtp-Source: ABdhPJwMO4QhXhKimRhL3qBfDpZJk5lRPspWRe5pVQEMRpw+WuCLGt5e6fricHOW8rnAhl4y53DRxg==
+X-Received: by 2002:a17:90a:d58b:b0:1b9:9559:4ae7 with SMTP id
+ v11-20020a17090ad58b00b001b995594ae7mr683477pju.144.1645003485396; 
+ Wed, 16 Feb 2022 01:24:45 -0800 (PST)
+Received: from ?IPV6:2001:8003:3669:700:fe11:3bc:6f06:c324?
+ ([2001:8003:3669:700:fe11:3bc:6f06:c324])
+ by smtp.gmail.com with ESMTPSA id g19sm25326175pfc.109.2022.02.16.01.24.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 01:24:44 -0800 (PST)
+Message-ID: <65399dfb-02bd-473f-a7b7-23131fde30be@linaro.org>
+Date: Wed, 16 Feb 2022 20:24:39 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: nAIPvkVOTgImH-ulc9XJMK_moElsRnBD
-X-Proofpoint-GUID: nAIPvkVOTgImH-ulc9XJMK_moElsRnBD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-16_04,2022-02-14_04,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 mlxscore=0 adultscore=0 mlxlogscore=660 phishscore=0
- spamscore=0 bulkscore=0 malwarescore=0 clxscore=1034 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202160051
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.186,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH] i386/tcg: add AVX/AVX2 support (severely incomplete, 
+ just for preliminary feedback)
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>, qemu-devel@nongnu.org
+References: <20220215205637.36863-1-alex@linutronix.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220215205637.36863-1-alex@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,65 +93,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Alexander Kanavin <alex@linutronix.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is useful to analyze changes in the U-Boot RAM driver when SDRAM
-training is performed.
+On 2/16/22 07:56, Alexander Kanavin wrote:
+> Lack of AVX/AVX2 support in the i386 TCG has been a significant gap
+> for a long while; I've started work to close this gap.
+> 
+> This is of course nowhere near complete, or even buildable, I'm
+> just requesting initial feedback from the qemu gurus - am I on
+> the right track with this? Does something need to be done differently?
+> 
+> There's an enormous amount of legacy SSE instructions to adjust
+> for VEX-128 and VEX-256 flavours, so I would want to know that this
+> way would be acceptable.
+> 
+> Signed-off-by: Alexander Kanavin<alex@linutronix.de>
+> ---
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/misc/aspeed_sdmc.c | 2 ++
- hw/misc/trace-events  | 4 ++++
- 2 files changed, 6 insertions(+)
+Have a look at updating some existing work:
 
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index 08f856cbda7e..d2a3931033b3 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -130,6 +130,7 @@ static uint64_t aspeed_sdmc_read(void *opaque, hwaddr=
- addr, unsigned size)
-         return 0;
-     }
-=20
-+    trace_aspeed_sdmc_read(addr, s->regs[addr]);
-     return s->regs[addr];
- }
-=20
-@@ -148,6 +149,7 @@ static void aspeed_sdmc_write(void *opaque, hwaddr ad=
-dr, uint64_t data,
-         return;
-     }
-=20
-+    trace_aspeed_sdmc_write(addr, data);
-     asc->write(s, addr, data);
- }
-=20
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 1c373dd0a4c5..c3fc9fecbe34 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -205,6 +205,10 @@ aspeed_i3c_write(uint64_t offset, uint64_t data) "I3=
-C write: offset 0x%" PRIx64
- aspeed_i3c_device_read(uint32_t deviceid, uint64_t offset, uint64_t data=
-) "I3C Dev[%u] read: offset 0x%" PRIx64 " data 0x%" PRIx64
- aspeed_i3c_device_write(uint32_t deviceid, uint64_t offset, uint64_t dat=
-a) "I3C Dev[%u] write: offset 0x%" PRIx64 " data 0x%" PRIx64
-=20
-+# aspeed_sdmc.c
-+aspeed_sdmc_write(uint32_t reg, uint32_t data) "reg @0x%" PRIx32 " data:=
- 0x%" PRIx32
-+aspeed_sdmc_read(uint32_t reg, uint32_t data) "reg @0x%" PRIx32 " data: =
-0x%" PRIx32
-+
- # bcm2835_property.c
- bcm2835_mbox_property(uint32_t tag, uint32_t bufsize, size_t resplen) "m=
-box property tag:0x%08x in_sz:%u out_sz:%zu"
-=20
---=20
-2.34.1
+https://lore.kernel.org/qemu-devel/20190821172951.15333-1-jan.bobek@gmail.com/
 
+
+r~
 
