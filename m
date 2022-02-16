@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F8C4B7FAE
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 05:48:39 +0100 (CET)
-Received: from localhost ([::1]:52270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63ECA4B7FB9
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 05:55:31 +0100 (CET)
+Received: from localhost ([::1]:33402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKCF2-0005K7-VL
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 23:48:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57806)
+	id 1nKCLi-0003co-Cz
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 23:55:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKC76-0000xt-Vy; Tue, 15 Feb 2022 23:40:27 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:42463)
+ id 1nKC7E-00013M-7c; Tue, 15 Feb 2022 23:40:32 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:38407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKC73-00009r-Fc; Tue, 15 Feb 2022 23:40:23 -0500
+ id 1nKC79-0000Gw-OE; Tue, 15 Feb 2022 23:40:30 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jz4y32d6bz4y45; Wed, 16 Feb 2022 15:40:11 +1100 (AEDT)
+ id 4Jz4y32sx6z4y46; Wed, 16 Feb 2022 15:40:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1644986411;
- bh=6bK2CqwAdDRuFKH7dxs8PQvndYQpiCYIPzLsJ2HhnCY=;
+ bh=pwZCjg6eJXP86+hOAE09GhuznyvWTQjgbUjxg4aCJcc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Bzax9d5UNNQ7AtjVaGMpGCTf4lwF5p3msIG+G+iy+HB7plfw2+bfnYdSAP8JqxrdY
- dFKVwkwxIl4aFXnhG5tvg5T88I56CjREPrb7BvNYjeybP7kUOu43mbwLZuqysU7Fbt
- tB1y1gtU7DOg/ROJC546IB0XaOo7C2Hbi7gTy3g4=
-Date: Wed, 16 Feb 2022 13:12:13 +1100
+ b=cm48JC0fC4H6hz+82754VS0jS2JR+fizuOaDX3xC6DR/yd4GK8t3TgT0aO67bR9zE
+ 8+6QN5JQfb2IU8kkJqn0h0jCvriXum8r6a8d1pw0/ENl9s4eOode5RGc7PWgXzD4At
+ 15MW4T3JTAHWKwt1f37yOftybmraVjFQO7f9FGKU=
+Date: Wed, 16 Feb 2022 13:14:10 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 05/27] target/ppc: cpu_init: Avoid nested SPR register
- functions
-Message-ID: <YgxdfToSNXwr8t2d@yekko>
+Subject: Re: [PATCH 07/27] target/ppc: cpu_init: Move G2 SPRs into
+ register_G2_sprs
+Message-ID: <Ygxd8pHI5DFywNgp@yekko>
 References: <20220215214148.1848266-1-farosas@linux.ibm.com>
- <20220215214148.1848266-6-farosas@linux.ibm.com>
+ <20220215214148.1848266-8-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QgdF4h+TwaONe6GW"
+ protocol="application/pgp-signature"; boundary="Um1/rs5qklke6tkW"
 Content-Disposition: inline
-In-Reply-To: <20220215214148.1848266-6-farosas@linux.ibm.com>
+In-Reply-To: <20220215214148.1848266-8-farosas@linux.ibm.com>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -66,72 +66,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---QgdF4h+TwaONe6GW
+--Um1/rs5qklke6tkW
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 15, 2022 at 06:41:26PM -0300, Fabiano Rosas wrote:
-> Make sure that every register_*_sprs function only has calls to
-> spr_register* to register individual SPRs. Do not allow nesting. This
-> makes the code easier to follow and a look at init_proc_* should
-> suffice to know what SPRs a CPU has.
->=20
+On Tue, Feb 15, 2022 at 06:41:28PM -0300, Fabiano Rosas wrote:
 > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/cpu_init.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  target/ppc/cpu_init.c | 41 ++++++++++++++++++++++-------------------
+>  1 file changed, 22 insertions(+), 19 deletions(-)
 >=20
 > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index b7e460e12d..1eef006a04 100644
+> index 330b765ba9..29f25e093f 100644
 > --- a/target/ppc/cpu_init.c
 > +++ b/target/ppc/cpu_init.c
-> @@ -1128,8 +1128,6 @@ static void register_BookE206_sprs(CPUPPCState *env=
-, uint32_t mas_mask,
->          break;
->      }
->  #endif
+> @@ -761,6 +761,28 @@ static void register_G2_sprs(CPUPPCState *env)
+>                   SPR_NOACCESS, SPR_NOACCESS,
+>                   &spr_read_generic, &spr_write_generic,
+>                   0x00000000);
+> +
+> +    /* External access control */
+> +    spr_register(env, SPR_EAR, "EAR",
+> +                 SPR_NOACCESS, SPR_NOACCESS,
+> +                 &spr_read_generic, &spr_write_generic,
+> +                 0x00000000);
+> +    /* Hardware implementation register */
+> +    spr_register(env, SPR_HID0, "HID0",
+> +                 SPR_NOACCESS, SPR_NOACCESS,
+> +                 &spr_read_generic, &spr_write_generic,
+> +                 0x00000000);
+> +
+> +    spr_register(env, SPR_HID1, "HID1",
+> +                 SPR_NOACCESS, SPR_NOACCESS,
+> +                 &spr_read_generic, &spr_write_generic,
+> +                 0x00000000);
+> +
+> +    spr_register(env, SPR_HID2, "HID2",
+> +                 SPR_NOACCESS, SPR_NOACCESS,
+> +                 &spr_read_generic, &spr_write_generic,
+> +                 0x00000000);
+> +
+>  }
+> =20
+>  static void register_74xx_sprs(CPUPPCState *env)
+> @@ -2832,26 +2854,7 @@ static void init_proc_G2(CPUPPCState *env)
+>      register_sdr1_sprs(env);
+>      register_G2_755_sprs(env);
+>      register_G2_sprs(env);
+> -    /* External access control */
+> -    spr_register(env, SPR_EAR, "EAR",
+> -                 SPR_NOACCESS, SPR_NOACCESS,
+> -                 &spr_read_generic, &spr_write_generic,
+> -                 0x00000000);
+> -    /* Hardware implementation register */
+> -    spr_register(env, SPR_HID0, "HID0",
+> -                 SPR_NOACCESS, SPR_NOACCESS,
+> -                 &spr_read_generic, &spr_write_generic,
+> -                 0x00000000);
+> =20
+> -    spr_register(env, SPR_HID1, "HID1",
+> -                 SPR_NOACCESS, SPR_NOACCESS,
+> -                 &spr_read_generic, &spr_write_generic,
+> -                 0x00000000);
 > -
-> -    register_usprgh_sprs(env);
->  }
-> =20
->  /* SPR specific to PowerPC 440 implementation */
-> @@ -1427,7 +1425,6 @@ static void register_405_sprs(CPUPPCState *env)
->                   SPR_NOACCESS, SPR_NOACCESS,
->                   spr_read_generic, &spr_write_generic,
->                   0x00000000);
-> -    register_usprgh_sprs(env);
->  }
-> =20
-> =20
-> @@ -2322,6 +2319,7 @@ static void init_proc_405(CPUPPCState *env)
->  {
->      register_40x_sprs(env);
->      register_405_sprs(env);
-> +    register_usprgh_sprs(env);
->      /* Bus access control */
->      /* not emulated, as QEMU never does speculative access */
->      spr_register(env, SPR_40x_SGR, "SGR",
-> @@ -2951,6 +2949,7 @@ static void init_proc_e200(CPUPPCState *env)
->                   0x00000000);
+> -    spr_register(env, SPR_HID2, "HID2",
+> -                 SPR_NOACCESS, SPR_NOACCESS,
+> -                 &spr_read_generic, &spr_write_generic,
+> -                 0x00000000);
 >      /* Memory management */
->      register_BookE206_sprs(env, 0x0000005D, NULL, 0);
-> +    register_usprgh_sprs(env);
-> =20
->      spr_register(env, SPR_HID0, "HID0",
->                   SPR_NOACCESS, SPR_NOACCESS,
-> @@ -3298,6 +3297,7 @@ static void init_proc_e500(CPUPPCState *env, int ve=
-rsion)
->                    env->spr[SPR_PVR]);
->      }
->      register_BookE206_sprs(env, 0x000000DF, tlbncfg, mmucfg);
-> +    register_usprgh_sprs(env);
-> =20
->      spr_register(env, SPR_HID0, "HID0",
->                   SPR_NOACCESS, SPR_NOACCESS,
+>      register_low_BATs(env);
+>      register_high_BATs(env);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -139,25 +147,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---QgdF4h+TwaONe6GW
+--Um1/rs5qklke6tkW
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIMXXYACgkQgypY4gEw
-YSKLxA//fr4ANNqrcQmZWm239TNNReYrfRpVa0dZUl7iAo2tib/l4SU6b37NNoIg
-ZxFKiGo0wLZEYs5+ruv2B2of15UCQSGF+Dx577q4PQsfFwY9b+9IG5qHmaeMxfvQ
-UyEqOTpZoptlInOOk41mbIkMT9iK7g9xC/nlKUtDYG+xOp4EE9Zhba6F4Keq202n
-JNtqdNnFLu9W3/6XrA1cRvgxhJDIj45SxTcl6tw8dUEEJphhwpT0BfK9DaeYxTbw
-MCy4nmPBXziTIlOKlruFz6kAcyohz9rRNGuCvHAFRZND13SlShFUN4ebQTbTmGWw
-Zb4J195SguhT83zmKESG3pxm1FtKxm24Qxo3OoziZh2F0VvzrnndO9ysX4VBbaGE
-EFQjvdZp4lPiTl/ceC56eSjY4k5TcKrjsQLtLrmL3p1GmUh9tK31Sf87ogkGYV2E
-scEXTigGGe65o49KX2XoY+rt+nJ6NgK/AZQDHrj2WDBNdPR7EpPkP40TPjIey2I1
-7brdOVy4JAmBQJUM4vR8q73mS75iXHXgXMLBk811kvJydK5cipvo/xC/aB88mXrH
-exZRpJFSGEjCDZoTPsMISe3J2wMKnR1SiOraQKZbvbzopZTWXVHRcfvgjv7Fpjk0
-xON7QBS58yJ6kyqyp3fha4kX+rMbdMMC9z93uGHwGq6qOAYuATs=
-=Gp9M
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIMXesACgkQgypY4gEw
+YSIL9Q//dJybsmKCrZPiRJtBPZvPqcbQW88JYTlgQVYCmQigMqsBch/9GR9XLNhB
+wE/SogiVYN0wrl07yD2nzHUC5wTntlaq1Kc34Rpy5Z8ChC2Q0K+SqqIauUUFZJuT
+lHHWBipBHCIUqTDELqoUacF2AC5NdwXF4RqXm1//fZCvNtdAm6VlnQ2+Ja0PL08f
+rlK0DRmc509yJRO1Qo+6IU2M83RfxHqyTXDRgEUuIkuVVsRdZTKdv+sQt6tmgdZc
+Nh9ZBqNUOd9EtKZJUdt1FYxKTOJbts/bxn/OSRG4olx7/so99WXpQjdAN/gsUaTR
+HwniFTwLnxKqblKmkODugxygIp1hkceXzNALdKH5+OTUMgIWisE2rU3t8EFug4B3
+PebGmHK6mhqUD4XWsbhKdTcTNZc3mlhHOrv7OaZYSvA+kcyRYuTwBn0otGhJQpR8
+FWa7KMyA92HxHFMwJRU681kpjX0S9dmAemv7GWZEeQOdk3BTw07djpOgSbRFXNae
+K0kLLQbomCl84T9u+5qn8EPBzdrX1vk020LIFEiKBO6299f1dsW/LtqhqMfPFE77
+jovvWLPul8E45Fxd4iUxGo64Lh3EJDphPMF5FJffl87Mrg8yaU5ArOxc9QIyaBmD
+t3ss4YmX/PACTow0B7NL/UD9CGL2PCAQ5T9J09C0TeQcXgNTYos=
+=mR6N
 -----END PGP SIGNATURE-----
 
---QgdF4h+TwaONe6GW--
+--Um1/rs5qklke6tkW--
 
