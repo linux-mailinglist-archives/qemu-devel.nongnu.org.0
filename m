@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E784B8CE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 16:52:06 +0100 (CET)
-Received: from localhost ([::1]:44884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80884B8CE8
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 16:52:07 +0100 (CET)
+Received: from localhost ([::1]:44880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKMb7-0005KZ-LR
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 10:52:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49260)
+	id 1nKMb8-0005KU-Rf
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 10:52:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
- id 1nKMXv-0003pc-I3; Wed, 16 Feb 2022 10:48:47 -0500
-Received: from mail-ed1-f45.google.com ([209.85.208.45]:41954)
+ id 1nKMXw-0003py-1a; Wed, 16 Feb 2022 10:48:49 -0500
+Received: from mail-ed1-f51.google.com ([209.85.208.51]:46976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
- id 1nKMXt-0002Cl-ER; Wed, 16 Feb 2022 10:48:47 -0500
-Received: by mail-ed1-f45.google.com with SMTP id w3so4619675edu.8;
- Wed, 16 Feb 2022 07:48:44 -0800 (PST)
+ id 1nKMXu-0002Cr-9M; Wed, 16 Feb 2022 10:48:47 -0500
+Received: by mail-ed1-f51.google.com with SMTP id m17so4553486edc.13;
+ Wed, 16 Feb 2022 07:48:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B2LvU4DARiT2QkDkCD5x8wYO9mjKLVGNZYSdk3BEnAc=;
- b=2zHseHzcOGYyUKQhV+uyBMxIpHQP4oVZBeMuRH20cRKeIbdSgC0h58WabRSPAgWUJ2
- toPhZgMeg2VIIBSkTy9n4kAZcosLWlw9Hb3mZ8/o095Y8tSUrrGDl+LHKFugQYWCdCqM
- i0trfUTEmlO5b626qDwGajJHEz4gh8MJPeIZTD/gW+fdp9dbOR8UmMyvCKSW/rYDyihk
- h1ri9PLneaBmK7hA0bdiIGoXrKotzK/9TtTTCaoS3Twi/TjA2nJTXc+i+8zzQad992s2
- AP7Q/O3v9K/ghnYwO4aCCbeT48LSfm9Sv+jhHLZHsIBoJxzzA8nG40LqX6TlGX39mMoh
- eH2w==
-X-Gm-Message-State: AOAM532ExueXczjfk7ww1xgNkcYYrSHrzN+ylv5Oz3ny6FKqPHolCADH
- UzXz3RSAk1+4EuLIn3R5lUA=
-X-Google-Smtp-Source: ABdhPJxGMZNjpQwgRP5rtk50wxtkxZ9RRyCz5/ecqrPItIgCx23TzwWoYS+89YFWAQKQFMNUkg9Qvw==
-X-Received: by 2002:a50:d79d:0:b0:410:82a0:5d76 with SMTP id
- w29-20020a50d79d000000b0041082a05d76mr3731301edi.130.1645026523607; 
- Wed, 16 Feb 2022 07:48:43 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=BoKgCe4G+NDDPBY2ub1AJjaBVvuya03VwFnwHV4G4HM=;
+ b=DNope7exz3s2jxVax7iSHUoe7PYuQarlywrzAmz6KEyEtQenSd/TDYjBIUID+rN8k7
+ 9GLtWT17mwZwwPg25/elVHsTbX1OnVft1iLenPI2AOmK9bgbSLn1SWZRx0Qz96boavMz
+ LXO2gDwGv26J/Wr5DqYpi3/9G4I+LzTurUUHzruic5zL+qXNJgA7DRu1iBvhgw/1lQ5V
+ UDB3zUa68kF134dPbH40a93U4iHGTRcdM5Vet0rgxPcIf4IDm7DhHt07GTYFFW2SamLs
+ 9Hwh2AzFHaGnDu2tqOlFAOzs6TTvnuHkN9UCbPI5S4x8ug0ofknm5XZmB3BteBWB25Ol
+ pavw==
+X-Gm-Message-State: AOAM530KLWEKidthJStwNcP+YEZ0G5iDOmKIcBesY3Yq0pdsVysTLbJ0
+ AQCOumWiCBXYlobStQNJcTY=
+X-Google-Smtp-Source: ABdhPJyK0Fgtz/rjiE+tgvxpcLPnYS36CCvQhY4fVJjpe5O9MCB9Eelrnw7woersDIBBcSQYsvDP7g==
+X-Received: by 2002:a05:6402:1e8b:b0:3da:58e6:9a09 with SMTP id
+ f11-20020a0564021e8b00b003da58e69a09mr3706315edf.155.1645026524562; 
+ Wed, 16 Feb 2022 07:48:44 -0800 (PST)
 Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
  [62.178.148.172])
- by smtp.gmail.com with ESMTPSA id b15sm1895570edd.60.2022.02.16.07.48.42
+ by smtp.gmail.com with ESMTPSA id b15sm1895570edd.60.2022.02.16.07.48.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 07:48:43 -0800 (PST)
+ Wed, 16 Feb 2022 07:48:44 -0800 (PST)
 From: Christoph Muellner <cmuellner@linux.com>
 To: Atish Patra <atishp@rivosinc.com>, Anup Patel <anup@brainfault.org>,
  =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
@@ -51,14 +51,16 @@ To: Atish Patra <atishp@rivosinc.com>, Anup Patel <anup@brainfault.org>,
  qemu-devel@nongnu.org, Philipp Tomsich <philipp.tomsich@vrull.eu>,
  Richard Henderson <richard.henderson@linaro.org>,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v4 0/2] riscv: Add support for Zicbo[m,z,p] instructions
-Date: Wed, 16 Feb 2022 16:48:37 +0100
-Message-Id: <20220216154839.1024927-1-cmuellner@linux.com>
+Subject: [PATCH v4 1/2] accel/tcg: Add probe_access_range_flags interface
+Date: Wed, 16 Feb 2022 16:48:38 +0100
+Message-Id: <20220216154839.1024927-2-cmuellner@linux.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220216154839.1024927-1-cmuellner@linux.com>
+References: <20220216154839.1024927-1-cmuellner@linux.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.208.45;
- envelope-from=christophm30@gmail.com; helo=mail-ed1-f45.google.com
+Received-SPF: pass client-ip=209.85.208.51;
+ envelope-from=christophm30@gmail.com; helo=mail-ed1-f51.google.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -83,59 +85,130 @@ Cc: Christoph Muellner <cmuellner@linux.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The RISC-V base cache management operation ISA extension has been
-ratified [1]. This patchset adds support for the defined instructions.
+The existing probe_access* functions do not allow to specify the
+access size and a non-faulting behavior at the same time.
 
-As the exception behavior of these instructions depend on the PMP
-configuration, the first patch introduces a new API to probe the access
-of an address range with a specified size with optional nonfaulting
-behavior.
+This is resolved by adding a generalization of probe_access_flags()
+that takes an additional size parameter.
 
-The Zicbo[m,z,p] patch should be straight-forward and has been reviewed
-in previous versions of this patchset.
+The semantics is basically the same as probe_access_flags(),
+but instead of assuming an access to any byte of the addressed
+page, we can restrict to access to a specific area, like
+probe_access() allows.
 
-The series is rebsed on top of github-alistair23/riscv-to-apply.next plus
-the Priv v1.12 series from github-atishp04/priv_1_12_support_v3.
+Signed-off-by: Christoph Muellner <cmuellner@linux.com>
+---
+ accel/tcg/cputlb.c      | 17 +++++++++++++----
+ accel/tcg/user-exec.c   | 15 ++++++++++++---
+ include/exec/exec-all.h | 24 ++++++++++++++++++++++++
+ 3 files changed, 49 insertions(+), 7 deletions(-)
 
-[1] https://wiki.riscv.org/display/TECH/Recently+Ratified+Extensions
-
-v4:
-- Add patch to add probe_access_range_flags() interface
-- Rename cbozelen -> cboz_blocksize
-- Introduce cbom_blocksize
-- Remove RISCV_CPU() calls from trans_*()
-- Use probe_access_range_flags() to improve exception behavior
-
-v3:
-- Enable by default (like zb*)
-- Rename flags Zicbo* -> zicbo* (like zb*)
-- Rename ext_zicbo* -> ext_icbo* (like ext_icsr)
-- Rename trans_zicbo.c.inc -> trans_rvzicbo.c.inc (like all others)
-- Simplify prefetch instruction support to a single comment
-- Rebase on top of github-alistair23/riscv-to-apply.next plus the
-  Priv v1.12 series from github-atishp04/priv_1_12_support_v3
-
-v2:
-- Fix overlapping instruction encoding with LQ instructions
-- Drop CSR related changes and rebase on Priv 1.12 patchset
-
-Christoph Muellner (2):
-  accel/tcg: Add probe_access_range_flags interface
-  target/riscv: Enable Zicbo[m,z,p] instructions
-
- accel/tcg/cputlb.c                          | 17 +++-
- accel/tcg/user-exec.c                       | 15 +++-
- include/exec/exec-all.h                     | 24 +++++
- target/riscv/cpu.c                          |  4 +
- target/riscv/cpu.h                          |  4 +
- target/riscv/helper.h                       |  5 ++
- target/riscv/insn32.decode                  | 16 +++-
- target/riscv/insn_trans/trans_rvzicbo.c.inc | 57 ++++++++++++
- target/riscv/op_helper.c                    | 97 +++++++++++++++++++++
- target/riscv/translate.c                    |  1 +
- 10 files changed, 232 insertions(+), 8 deletions(-)
- create mode 100644 target/riscv/insn_trans/trans_rvzicbo.c.inc
-
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 5e0d0eebc3..b4f0eb20b0 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1624,13 +1624,14 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     return flags;
+ }
+ 
+-int probe_access_flags(CPUArchState *env, target_ulong addr,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool nonfault, void **phost, uintptr_t retaddr)
++int probe_access_range_flags(CPUArchState *env, target_ulong addr,
++                             int size, MMUAccessType access_type,
++                             int mmu_idx, bool nonfault, void **phost,
++                             uintptr_t retaddr)
+ {
+     int flags;
+ 
+-    flags = probe_access_internal(env, addr, 0, access_type, mmu_idx,
++    flags = probe_access_internal(env, addr, size, access_type, mmu_idx,
+                                   nonfault, phost, retaddr);
+ 
+     /* Handle clean RAM pages.  */
+@@ -1645,6 +1646,14 @@ int probe_access_flags(CPUArchState *env, target_ulong addr,
+     return flags;
+ }
+ 
++int probe_access_flags(CPUArchState *env, target_ulong addr,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool nonfault, void **phost, uintptr_t retaddr)
++{
++    return probe_access_range_flags(env, addr, 0, access_type, mmu_idx,
++                                    nonfault, phost, retaddr);
++}
++
+ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+                    MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+ {
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 6f5d4933f0..0dbc345e63 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -176,9 +176,10 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     cpu_loop_exit_sigsegv(env_cpu(env), addr, access_type, maperr, ra);
+ }
+ 
+-int probe_access_flags(CPUArchState *env, target_ulong addr,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool nonfault, void **phost, uintptr_t ra)
++int probe_access_range_flags(CPUArchState *env, target_ulong addr,
++                             int size, MMUAccessType access_type,
++                             int mmu_idx, bool nonfault, void **phost,
++                             uintptr_t ra)
+ {
+     int flags;
+ 
+@@ -187,6 +188,14 @@ int probe_access_flags(CPUArchState *env, target_ulong addr,
+     return flags;
+ }
+ 
++int probe_access_flags(CPUArchState *env, target_ulong addr,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool nonfault, void **phost, uintptr_t ra)
++{
++    return probe_access_range_flags(env, addr, 0, access_type, mmu_idx,
++                                    nonfault, phost, ra);
++}
++
+ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+                    MMUAccessType access_type, int mmu_idx, uintptr_t ra)
+ {
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 35d8e93976..0d06b45c62 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -441,6 +441,30 @@ static inline void *probe_read(CPUArchState *env, target_ulong addr, int size,
+     return probe_access(env, addr, size, MMU_DATA_LOAD, mmu_idx, retaddr);
+ }
+ 
++/**
++ * probe_access_range_flags:
++ * @env: CPUArchState
++ * @addr: guest virtual address to look up
++ * @size: size of the access
++ * @access_type: read, write or execute permission
++ * @mmu_idx: MMU index to use for lookup
++ * @nonfault: suppress the fault
++ * @phost: return value for host address
++ * @retaddr: return address for unwinding
++ *
++ * Similar to probe_access, loosely returning the TLB_FLAGS_MASK for
++ * the access range, and storing the host address for RAM in @phost.
++ *
++ * If @nonfault is set, do not raise an exception but return TLB_INVALID_MASK.
++ * Do not handle watchpoints, but include TLB_WATCHPOINT in the returned flags.
++ * Do handle clean pages, so exclude TLB_NOTDIRY from the returned flags.
++ * For simplicity, all "mmio-like" flags are folded to TLB_MMIO.
++ */
++int probe_access_range_flags(CPUArchState *env, target_ulong addr,
++                             int size, MMUAccessType access_type,
++                             int mmu_idx, bool nonfault, void **phost,
++                             uintptr_t retaddr);
++
+ /**
+  * probe_access_flags:
+  * @env: CPUArchState
 -- 
 2.35.1
 
