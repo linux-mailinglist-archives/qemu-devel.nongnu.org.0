@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D284B857B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:27:49 +0100 (CET)
-Received: from localhost ([::1]:59486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B2B4B85CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:32:29 +0100 (CET)
+Received: from localhost ([::1]:41810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKHXE-0008TZ-P7
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:27:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44590)
+	id 1nKHbo-0007LQ-0F
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:32:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nKHUO-0006L7-L1
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 05:24:48 -0500
-Received: from [2a00:1450:4864:20::42a] (port=41744
- helo=mail-wr1-x42a.google.com)
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nKHV1-0007Dh-26
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 05:25:27 -0500
+Received: from [2a00:1450:4864:20::32a] (port=46657
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nKHUL-0004rl-FY
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 05:24:48 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id k1so2628934wrd.8
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 02:24:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hZeb99V8/WjFFZUOv/7QfQCLPEl8t1vJ77oILzuyFQw=;
- b=mjncLQv3X3prziZTOMl5/WGBOuHsb3IMeWzjTssIaY0b99BqpdP2TuNH+FRUKHaUhk
- 2FfN6h5g9nf2rBI1eR8EwQ930IgQpGB3MG8cJMEnhTasaM5h/iaeSN2/K3RSU4EedZc0
- qHSRqQnLyKXE2v2hqA7c3mKmZBDeOo7Nbd+srK113AUy2UtdIg1BlNqrrwr4qAqHBYME
- 6/lNz2kyzGTz41nI1zDnXY6eceHqDCFpByb6oeMtKKb9mnqhNk0n5BYPCjkpIbmZZAdg
- mxjum42o6xRXLsyCFF2tcLTOpAx5YoBzHTdYQZUu1b9yhSiZebqB+OSGIKPhCRyY/KAK
- /2hA==
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nKHUz-0005B2-26
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 05:25:26 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l67-20020a1c2546000000b00353951c3f62so1223554wml.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 02:25:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Mc7PhGprugYH6JsJ/btdb54+G1UeM9DE+ApRCNmOHhE=;
+ b=e8x5fScG9S78GgtHIk9SRmTwMlbbna6cgWXc/qpGUX5MVDsVjSmHWF4bIQQu3n5mOp
+ UY/XVIccHjtGfpn1p4ouMzcBQHANvJn0F1hFxpYbf3OZ2Nh8kUI8ycTAUljlCG/quNcg
+ gzBg1C8R3QRq23/OLG+wzkg6mrlT7nYBoCCU7afmDAdzbrdFsIw7PO8idDjKb0R7gAjV
+ qS/LhjCfSP6AxveeW2vUgVJAiH7fOHSY73wXRXkZj9IMl/96gEA/qXUMcdUqNt7N3ktf
+ og7L+zHaMgLf/M56I/Y6sJg4oXCA3lY4XNRdIT+WmyZCsMNCZL7bny4nrVXI2dtUNE6X
+ G/pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hZeb99V8/WjFFZUOv/7QfQCLPEl8t1vJ77oILzuyFQw=;
- b=lhYPgDUSEdqker9JfIJhq1ufyMC6gcB8D0GxsSybCeji42n/K6LN8Sa8obvpRqK6i9
- 6MdTinNUuhTDJYy3BwhuYa4Er5lQlww1nPHF+zYavBvuCiTEDQzt1K0ArnJEZQPxE6nA
- P3JHNNQSre2txGdH/BqJhT+y4gtosWaxwBBTiv5K5gpVGpYwmIln9JMQ4Gp39BO9DRYz
- jK1lGDaWHFt7ehdsOAxrTBWfS8g+sKYdYAqcK0r25IEYq/S22yVtLCKbDFCVOqKV+ebb
- 46fBhcS0zd9lejG3+A0RQbsXRUkmKz30sV1c/LCVH7pg1pf13QyPU0vwXYik10X/G+xB
- MZ7A==
-X-Gm-Message-State: AOAM530BYVhXmcNcLXbfgyydGZaN13JhsXUWhsQyoJIRgOY6rFbdgxT8
- zCBfWj8zXIXE5+DyTx6CIPrMUexfog3H6VzNix4o3w==
-X-Google-Smtp-Source: ABdhPJxnd9DGN3a5H8hNsuCW+27mXW9vhrqH3wB3pgv7wN8OVm5I/VzOTUq5lh1tEJQGhQ5Ym1zubxzGKNT09cGNtEA=
-X-Received: by 2002:adf:f2cb:0:b0:1e4:bd07:ed68 with SMTP id
- d11-20020adff2cb000000b001e4bd07ed68mr1744914wrp.306.1645007074406; Wed, 16
- Feb 2022 02:24:34 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Mc7PhGprugYH6JsJ/btdb54+G1UeM9DE+ApRCNmOHhE=;
+ b=k1iaoQWSi5gwevrhydIy4CfeP3mxmYKUvc/T/YBb/4LBfz55aOMf7r0yHgoEd8c0lU
+ KS196vN49nIwX8VjoRkYMBcrfsDExVhqe+XuIT7V7XeRN/+2OrqPJSp650APLLFSclA3
+ pTz5RMXBcmXFhz849Eu4tCRoMorzn8imdFz/gNsFojDmWZRRYfO2NgI0UzyQfmKoPoph
+ 0W2dEqaUsA9bg/C7CnU9Nrtf4qOoIciLm+1COOKoNwTeOZOqFGY26whuAcn7pfX91LS6
+ HUITGxg2avkOaoFzJftHf5cJCMQ0add7qZMMapCvpLrHABD3ncZDax/CI0nkBxjlhx7x
+ 6UVA==
+X-Gm-Message-State: AOAM533QfSv7U+43OBZ54YbMdSoOnb5gYMK+cTE3bwf8CJy0u8SnckDx
+ h0vpssU4gieEJawxkHKvuoE4Xdmkoqw=
+X-Google-Smtp-Source: ABdhPJyHDFCVLd7OyM6o1TMhoBvndejxNbiiwHwR7upVCcX6KWiCs6Y//i1fXUIt18aOUK+KnbBTXA==
+X-Received: by 2002:a7b:c8d4:0:b0:37c:32be:55b4 with SMTP id
+ f20-20020a7bc8d4000000b0037c32be55b4mr924158wml.53.1645007120508; 
+ Wed, 16 Feb 2022 02:25:20 -0800 (PST)
+Received: from localhost.localdomain
+ ([2a0d:6fc2:4af1:7d00:5e41:a6ea:ffaa:548c])
+ by smtp.gmail.com with ESMTPSA id y10sm17212967wmi.47.2022.02.16.02.25.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Feb 2022 02:25:19 -0800 (PST)
+From: Jon Doron <arilou@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] HyperV: Synthetic Debugging device
+Date: Wed, 16 Feb 2022 12:24:56 +0200
+Message-Id: <20220216102500.692781-1-arilou@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
- <20220216062912.319738-8-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220216062912.319738-8-alistair.francis@opensource.wdc.com>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Wed, 16 Feb 2022 11:24:23 +0100
-Message-ID: <CAAeLtUA7KCTPCkutpTn2GgpWi2nU_Zidsh1yKf6bFKEQ4CWdpA@mail.gmail.com>
-Subject: Re: [PULL v2 07/35] target/riscv: access cfg structure through
- DisasContext
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=arilou@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
 X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -83,83 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alistair,
+This patchset adds support for the synthetic debugging device.
 
-This PULL seems not to include the fixup (which you had intended to
-squash into it) for the regression introduced (i.e. the condition
-being inverted):
-  https://patchwork.kernel.org/project/qemu-devel/patch/20220203153946.2676353-1-philipp.tomsich@vrull.eu/
-Without that change this will introduce a regression in Zb[abcs]
-(i.e., it will be enabled when it shouldn't be, and will be disabled
-when it should be on).
+HyperV supports a special transport layer for the kernel debugger when
+running in HyperV.
 
-Please ignore, if I missed a later stand-alone patch (I just looked at
-the series in Patchworks).
+This patchset add supports for this device so you could have a setup
+fast windows kernel debugging.
 
-Thanks,
-Philipp.
+At this point of time, DHCP is not implmeneted so to set this up few
+things need to be noted.
 
+The scenario I used to test is having 2 VMs in the same virtual network
+i.e a Debugger VM with the NIC:
+-nic tap,model=virtio,mac=02:ca:01:01:01:01,script=/etc/qemu-ifup
+And it's IP is going to be static 192.168.53.12
+And the VM we want to debug, to which we need to have the englightments
+and vmbus configured:
+ -cpu host,hv-relaxed,hv_spinlocks=0x1fff,hv_time,+vmx,invtsc,hv-vapic,hv-vpindex,hv-synic,hv-syndbg \
+ -device vmbus-bridge \
+ -device hv-syndbg,host_ip=192.168.53.12,host_port=50000,use_hcalls=false \
+ -nic tap,model=virtio,mac=02:ca:01:01:01:02,script=/etc/qemu-ifup \
 
-On Wed, 16 Feb 2022 at 07:29, Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Philipp Tomsich <philipp.tomsich@vrull.eu>
->
-> The Zb[abcs] support code still uses the RISCV_CPU macros to access
-> the configuration information (i.e., check whether an extension is
-> available/enabled).  Now that we provide this information directly
-> from DisasContext, we can access this directly via the cfg_ptr field.
->
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20220202005249.3566542-5-philipp.tomsich@vrull.eu>
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/insn_trans/trans_rvb.c.inc | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-> index 810431a1d6..f9bd3b7ec4 100644
-> --- a/target/riscv/insn_trans/trans_rvb.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-> @@ -19,25 +19,25 @@
->   */
->
->  #define REQUIRE_ZBA(ctx) do {                    \
-> -    if (!RISCV_CPU(ctx->cs)->cfg.ext_zba) {      \
-> +    if (ctx->cfg_ptr->ext_zba) {                 \
->          return false;                            \
->      }                                            \
->  } while (0)
->
->  #define REQUIRE_ZBB(ctx) do {                    \
-> -    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbb) {      \
-> +    if (ctx->cfg_ptr->ext_zbb) {                 \
->          return false;                            \
->      }                                            \
->  } while (0)
->
->  #define REQUIRE_ZBC(ctx) do {                    \
-> -    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbc) {      \
-> +    if (ctx->cfg_ptr->ext_zbc) {                 \
->          return false;                            \
->      }                                            \
->  } while (0)
->
->  #define REQUIRE_ZBS(ctx) do {                    \
-> -    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbs) {      \
-> +    if (ctx->cfg_ptr->ext_zbs) {                 \
->          return false;                            \
->      }                                            \
->  } while (0)
-> --
-> 2.34.1
->
+Then in the debuggee VM we would setup the kernel debugging in the
+following way:
+
+If the VM is older than Win8:
+* Copy the proper platform kdvm.dll (make sure it's called kdvm.dll even if platform is 32bit)
+bcdedit /set {GUID} dbgtransport kdvm.dll
+bcdedit /set {GUID} loadoptions host_ip="1.2.3.4",host_port="50000",nodhcp
+bcdedit /set {GUID} debug on
+bcdedit /set {GUID} halbreakpoint on
+
+Win8 and late:
+bcdedit /dbgsettings net hostip:7.7.7.7 port:50000 nodhcp
+
+This is all the setup that is required to get the synthetic debugger
+configured correctly.
+
+Jon Doron (4):
+  hyperv: SControl is optional to enable SynIc
+  hyperv: Add definitions for syndbg
+  hyperv: Add support to process syndbg commands
+  hw: hyperv: Initial commit for Synthetic Debugging device
+
+ docs/hyperv.txt                  |  15 ++
+ hw/hyperv/Kconfig                |   5 +
+ hw/hyperv/hyperv.c               | 352 ++++++++++++++++++++++++---
+ hw/hyperv/meson.build            |   1 +
+ hw/hyperv/syndbg.c               | 402 +++++++++++++++++++++++++++++++
+ include/hw/hyperv/hyperv-proto.h |  52 ++++
+ include/hw/hyperv/hyperv.h       |  58 +++++
+ target/i386/cpu.c                |   2 +
+ target/i386/cpu.h                |   7 +
+ target/i386/kvm/hyperv-proto.h   |  37 +++
+ target/i386/kvm/hyperv-stub.c    |   6 +
+ target/i386/kvm/hyperv.c         |  52 +++-
+ target/i386/kvm/kvm.c            |  76 +++++-
+ 13 files changed, 1024 insertions(+), 41 deletions(-)
+ create mode 100644 hw/hyperv/syndbg.c
+
+-- 
+2.35.1
+
 
