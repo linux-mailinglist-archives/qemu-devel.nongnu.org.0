@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D484B95A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 02:49:37 +0100 (CET)
-Received: from localhost ([::1]:56004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64C44B9592
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 02:39:54 +0100 (CET)
+Received: from localhost ([::1]:49422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKVvL-0001qt-3l
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 20:49:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42022)
+	id 1nKVlx-00057o-TE
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 20:39:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKVeB-0002cE-9l; Wed, 16 Feb 2022 20:31:52 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:41203)
+ id 1nKVe9-0002br-EP; Wed, 16 Feb 2022 20:31:49 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:41569)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKVe6-0002QK-38; Wed, 16 Feb 2022 20:31:49 -0500
+ id 1nKVe6-0002QG-3C; Wed, 16 Feb 2022 20:31:49 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jzck42PLJz4xsk; Thu, 17 Feb 2022 12:31:40 +1100 (AEDT)
+ id 4Jzck42Wfgz4xv3; Thu, 17 Feb 2022 12:31:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1645061500;
- bh=zPAahDLPEKVgz0PwoIrKIKBEfCBvef5Fpd5ldDpuJP4=;
+ bh=D/JNyxsSI9J36OApW0gSU7IGc7OIGnfAHbgkHIS7RrI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bMcGNkjsI2jcx51BdS5bkIyYNpAa0gH5BkKm4IFn2bS8iNZPNM0TKgHIsGHIzZ+H9
- rq86xFXtGA+nG9C1hxIcbVPe3rD3LeeaLGrkLjYEWKfLwWbc1FPgUSQe5nQCzc0hRP
- JeecG3ezghH0UkejBvPBbbs7k6PAo2RkkE772lr0=
-Date: Thu, 17 Feb 2022 10:34:23 +1100
+ b=JSmpoKKfiqw/qX2CA9EO1dGNztV7RJvQtDyK7dM1I/U7cju7AiD8yGRVhe2qBZo3z
+ Uua9HOLcRnBEbfoUmzqhSGlY1Hdngdng9oY4ocCJiEoAh/oQHQIsVlelb+9ONWJHle
+ ZAicT7Hg0qa1T/Y5NuL9EkvHbDWaVb2aukfhKB5U=
+Date: Thu, 17 Feb 2022 10:35:40 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH v2 23/27] target/ppc: Rename spr_tcg.h to spr_common.h
-Message-ID: <Yg2J/2fhqOq/aL0Z@yekko>
+Subject: Re: [PATCH v2 26/27] target/ppc: cpu_init: Move check_pow and QOM
+ macros to a header
+Message-ID: <Yg2KTM6TiMAFQxfp@yekko>
 References: <20220216162426.1885923-1-farosas@linux.ibm.com>
- <20220216162426.1885923-24-farosas@linux.ibm.com>
+ <20220216162426.1885923-27-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Sp0/oT3wr4gflqZv"
+ protocol="application/pgp-signature"; boundary="cEJQVZRgMdoAhZEy"
 Content-Disposition: inline
-In-Reply-To: <20220216162426.1885923-24-farosas@linux.ibm.com>
+In-Reply-To: <20220216162426.1885923-27-farosas@linux.ibm.com>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -65,78 +66,180 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Sp0/oT3wr4gflqZv
+--cEJQVZRgMdoAhZEy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 16, 2022 at 01:24:22PM -0300, Fabiano Rosas wrote:
-> Initial intent for the spr_tcg header was to expose the spr_read|write
-> callbacks that are only used by TCG code. However, although these
-> routines are TCG-specific, the KVM code needs access to env->sprs
-> which creation is currently coupled to the callback registration.
+On Wed, Feb 16, 2022 at 01:24:25PM -0300, Fabiano Rosas wrote:
+> These will need to be accessed from other files once we move the CPUs
+> code to separate files.
 >=20
-> We are probably not going to decouple SPR creation and TCG callback
-> registration any time soon, so let's rename the header to spr_common
-> to accomodate the register_*_sprs functions that will be moved out of
-> cpu_init.c in the following patches.
+> The check_pow_hid0 and check_pow_hid0_74xx are too specific to be
+> moved to a header so I'll deal with them later when splitting this
+> code between the multiple CPU families.
 >=20
 > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/cpu_init.c                  | 2 +-
->  target/ppc/{spr_tcg.h =3D> spr_common.h} | 4 ++--
->  target/ppc/translate.c                 | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
->  rename target/ppc/{spr_tcg.h =3D> spr_common.h} (99%)
+>  target/ppc/cpu.h      | 39 +++++++++++++++++++++++++++++++++++++++
+>  target/ppc/cpu_init.c | 37 -------------------------------------
+>  2 files changed, 39 insertions(+), 37 deletions(-)
 >=20
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 6a06a7f533..1d33e8afea 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -2733,4 +2733,43 @@ void dump_mmu(CPUPPCState *env);
+>  void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int le=
+n);
+>  void ppc_store_vscr(CPUPPCState *env, uint32_t vscr);
+>  uint32_t ppc_get_vscr(CPUPPCState *env);
+> +
+> +/***********************************************************************=
+******/
+> +/* Power management enable checks                                       =
+     */
+> +static inline int check_pow_none(CPUPPCState *env)
+> +{
+> +    return 0;
+> +}
+> +
+> +static inline int check_pow_nocheck(CPUPPCState *env)
+> +{
+> +    return 1;
+> +}
+> +
+> +/***********************************************************************=
+******/
+> +/* PowerPC implementations definitions                                  =
+     */
+> +
+> +#define POWERPC_FAMILY(_name)                                           =
+    \
+> +    static void                                                         =
+    \
+> +    glue(glue(ppc_, _name), _cpu_family_class_init)(ObjectClass *, void =
+*); \
+> +                                                                        =
+    \
+> +    static const TypeInfo                                               =
+    \
+> +    glue(glue(ppc_, _name), _cpu_family_type_info) =3D {                =
+      \
+> +        .name =3D stringify(_name) "-family-" TYPE_POWERPC_CPU,         =
+      \
+> +        .parent =3D TYPE_POWERPC_CPU,                                   =
+      \
+> +        .abstract =3D true,                                             =
+      \
+> +        .class_init =3D glue(glue(ppc_, _name), _cpu_family_class_init),=
+      \
+> +    };                                                                  =
+    \
+> +                                                                        =
+    \
+> +    static void glue(glue(ppc_, _name), _cpu_family_register_types)(void=
+)   \
+> +    {                                                                   =
+    \
+> +        type_register_static(                                           =
+    \
+> +            &glue(glue(ppc_, _name), _cpu_family_type_info));           =
+    \
+> +    }                                                                   =
+    \
+> +                                                                        =
+    \
+> +    type_init(glue(glue(ppc_, _name), _cpu_family_register_types))      =
+    \
+> +                                                                        =
+    \
+> +    static void glue(glue(ppc_, _name), _cpu_family_class_init)
+> +
+> +
+>  #endif /* PPC_CPU_H */
 > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index adb23019ef..17f12aceb6 100644
+> index 4c6b462cad..5bbbcceb55 100644
 > --- a/target/ppc/cpu_init.c
 > +++ b/target/ppc/cpu_init.c
-> @@ -44,7 +44,7 @@
+> @@ -2484,18 +2484,6 @@ static void init_excp_POWER10(CPUPPCState *env)
 > =20
->  #include "helper_regs.h"
->  #include "internal.h"
-> -#include "spr_tcg.h"
-> +#include "spr_common.h"
->  #include "power8-pmu.h"
+>  #endif
 > =20
->  /* #define PPC_DEBUG_SPR */
-> diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_common.h
-> similarity index 99%
-> rename from target/ppc/spr_tcg.h
-> rename to target/ppc/spr_common.h
-> index df2abacc64..5aec76ade4 100644
-> --- a/target/ppc/spr_tcg.h
-> +++ b/target/ppc/spr_common.h
-> @@ -16,8 +16,8 @@
->   * You should have received a copy of the GNU Lesser General Public
->   * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
->   */
-> -#ifndef SPR_TCG_H
-> -#define SPR_TCG_H
-> +#ifndef SPR_COMMON_H
-> +#define SPR_COMMON_H
+> -/***********************************************************************=
+******/
+> -/* Power management enable checks                                       =
+     */
+> -static int check_pow_none(CPUPPCState *env)
+> -{
+> -    return 0;
+> -}
+> -
+> -static int check_pow_nocheck(CPUPPCState *env)
+> -{
+> -    return 1;
+> -}
+> -
+>  static int check_pow_hid0(CPUPPCState *env)
+>  {
+>      if (env->spr[SPR_HID0] & 0x00E00000) {
+> @@ -2514,31 +2502,6 @@ static int check_pow_hid0_74xx(CPUPPCState *env)
+>      return 0;
+>  }
 > =20
->  #define SPR_NOACCESS (&spr_noaccess)
-> =20
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 2eaffd432a..ecc5a104e0 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -35,7 +35,7 @@
->  #include "exec/translator.h"
->  #include "exec/log.h"
->  #include "qemu/atomic128.h"
-> -#include "spr_tcg.h"
-> +#include "spr_common.h"
-> =20
->  #include "qemu/qemu-print.h"
->  #include "qapi/error.h"
+> -/***********************************************************************=
+******/
+> -/* PowerPC implementations definitions                                  =
+     */
+> -
+> -#define POWERPC_FAMILY(_name)                                           =
+    \
+> -    static void                                                         =
+    \
+> -    glue(glue(ppc_, _name), _cpu_family_class_init)(ObjectClass *, void =
+*); \
+> -                                                                        =
+    \
+> -    static const TypeInfo                                               =
+    \
+> -    glue(glue(ppc_, _name), _cpu_family_type_info) =3D {                =
+      \
+> -        .name =3D stringify(_name) "-family-" TYPE_POWERPC_CPU,         =
+      \
+> -        .parent =3D TYPE_POWERPC_CPU,                                   =
+      \
+> -        .abstract =3D true,                                             =
+      \
+> -        .class_init =3D glue(glue(ppc_, _name), _cpu_family_class_init),=
+      \
+> -    };                                                                  =
+    \
+> -                                                                        =
+    \
+> -    static void glue(glue(ppc_, _name), _cpu_family_register_types)(void=
+)   \
+> -    {                                                                   =
+    \
+> -        type_register_static(                                           =
+    \
+> -            &glue(glue(ppc_, _name), _cpu_family_type_info));           =
+    \
+> -    }                                                                   =
+    \
+> -                                                                        =
+    \
+> -    type_init(glue(glue(ppc_, _name), _cpu_family_register_types))      =
+    \
+> -                                                                        =
+    \
+> -    static void glue(glue(ppc_, _name), _cpu_family_class_init)
+> -
+>  static void init_proc_405(CPUPPCState *env)
+>  {
+>      register_40x_sprs(env);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -144,25 +247,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Sp0/oT3wr4gflqZv
+--cEJQVZRgMdoAhZEy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmINifgACgkQgypY4gEw
-YSKXmRAAt5M0klskUmZpJISxCVLzoEJCBIRBpieRePunia+BQY4P+kHxOTkYEz9P
-Tc3aepDT+9yR/OyIIaR9famP2jwKCpUP5qNdMVHzyBcyjalc4zK4cKZxTaA3MCWd
-LAKDKdUFaR+slOafPMLfeUeGjqRTlqDaIqREPs0Ix8QYzOvoOHdEDIi2WeRPS9FV
-41In3CEz1bIuoQBC+27203hlW2VtjdRRVUpRJDcW6SX3VqXZVj6zpbQsVC2dHTrv
-ZixueN88PrNYLBrD3ZM3F77ssruDrD7o1LFZl7zNyQ9Y3jDZoIz7NzXMSFcfvAyK
-nSn/cPMnOtupcM90lqxa/8WvAfkwgMPtx2baFbRrgdtQnCt3xGVXhd8D/BGTVGho
-eQ7lFNSJC0CfRNhC/EjwC9wnKDBdR47dcYACHhN1Fc1FqiIuVbko9uokDlbWnOlF
-+S853asoWoRO6AokI7xbPHnNvPbTUYXBiQgToNYH+/ATJ/ySog6rPyKT06+vUDbq
-GuJtISrWCuWGyZBoK7rfERONYHga+cuqxy4Fop6c/+PKQNgeHmVV3Kly2xaeSK4i
-BxAutrjUqONn45/jW2zIUrCaIKIGlApB38mRPR11ZmftScOs10xaJv0cJ9pnsrSC
-47Gu1Gn90Pfx/IgyzMn8eIfrugm3rMXmZu9tm3dSaKzzcjGymGY=
-=94ha
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmINikUACgkQgypY4gEw
+YSKh1g/+Iva0OBZUPqhusUBkPVEQYRslL0yiBqbXOMg8wogoPmib6+aG9B3wJFUr
+MAUSY4i5yUQOCtorTPGEs1H9bCpF0VKi7Q1zo3Jvh9SI/LPDcLKhCHiAdDB81En7
+i2jNAmzjxAIxFoVYAM9yl7Bmkgltk4pOHv7daFMh//5SKpfBTg3Yq/zaLD542wfY
+coFQwZP2V2AEFrZ11U/Zr3ePi4hjbR9WJhZg6nKz16Pjj+4y7oHERfeATfttmo4u
+pbXcIfiERknjRv8h9Jak8zdxhh9+wtZTIhbClmV+rwgpaX78FiHfQBOrkYDpV6QW
++TI7FXF6zOrndGUJDpWP4AI9OpR6sqKx2HlTCE+zsX0LpZzJL7cY2o1U5KMenS0o
+NEqB+4RMleTsnVlE1xKpMcJK/oBTloZcTJVXg/xMEju0ViaVgnRaKzKitKNWdtvt
+SGBvypIq119sTQuOSkvnqlBSQkZIZF8290V9LkmOQIb6++soec9G3GCeDuqKYSV5
+97TI2UxQMGoabpdNndL7om0S/F8ofTd+mFl/3+eCzipahR7S44h8gFYs7TtoZG2H
+Nlty87D9E8DJkqZEr8Ng6QooMswMTvPaMMIX5PDnOZV2moaSFYl5bDcgrXUolZkz
+Dubg8bzpqwGN8Of0y00tJLC2HcfBrmwS7jexBLwU7vOU8fl9PMg=
+=CllP
 -----END PGP SIGNATURE-----
 
---Sp0/oT3wr4gflqZv--
+--cEJQVZRgMdoAhZEy--
 
