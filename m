@@ -2,97 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DCFA4B8673
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 12:07:40 +0100 (CET)
-Received: from localhost ([::1]:55464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFF84B867F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 12:11:14 +0100 (CET)
+Received: from localhost ([::1]:32774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKI9r-0005Y9-Gy
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 06:07:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56188)
+	id 1nKIDH-0000yo-DI
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 06:11:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nKI7T-0003NI-Tt
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 06:05:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52917)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKIBa-0007bW-Ni
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 06:09:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nKI7O-0004TN-66
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 06:05:11 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKIBR-0005eA-QK
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 06:09:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645009505;
+ s=mimecast20190719; t=1645009745;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eq5MFQBr3+Qka7AS7Wvl084+gCBnemtT5nXOSkUSKNg=;
- b=F3xU8SOD48kzx41LDGCvQZ/I0xDLDbxFx8CnWOOH8CrkyvJU70wMCeeSzOcMyqdPboiDY5
- fCrJesNJ2iwhvRrag/paV5jNWw+zsh1l+88v0/AXxdhwKnoiS2+8P4eZEjKS0X8/QXAG7M
- W4jAPV98t3JhPcP1Ae04a/aL3CGf7BA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gFeIoJw3MWAgRN+Am9jfkP/Ejstseez5e/kjW9IxWPs=;
+ b=hNgmcWdsLD1CWtjBISLvudZltii29s+sIReIS+6ZmJ5xYYrGqv6+GUzzHYPg+NQs6TGomd
+ W/fP4CPQq/V1PcwvWBxOIY/H8Y44fDxya5gCaE6vJRwiIFX9KoyB5f+9NOfkic5qcd6WZE
+ 6R7xuA1YHScksy6IQe+ByZjsUeD6M74=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-PWWLJ8ymPGyarcuhmeIbpQ-1; Wed, 16 Feb 2022 06:05:04 -0500
-X-MC-Unique: PWWLJ8ymPGyarcuhmeIbpQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n3-20020a05600c294300b0037bc685b717so331369wmd.8
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 03:05:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=eq5MFQBr3+Qka7AS7Wvl084+gCBnemtT5nXOSkUSKNg=;
- b=aI4Rfj9esYyO6xFC8k3xOvBiZr3ciFKDQfj7S3TLK2AU0WfJQTDqwVTQd5OH/B0nGI
- 99meno09260tYPjAqM19fhFbO+tnWtpe+Nr6y67s83F6ZLPMxH2zeo3GO7bwJPy4I388
- 5jaWf/CDalAk8Uzm3ETMDm3Yuv7Em71ES2Bgciso2K+ti84mMyjbwCMBcTPOuDSNk7cF
- U+ivW1lFe2YYu84PYhViMCAIjknQmxWnaH49IqsNEEJK5a2OvC1Ma9fdLO70wz0Bse6S
- Ks7/ODrzhQ9F6zlLyUlGn1JeOHdGYkJS+oCC4FD2IJB5qTrFqteBqtySkR/3Iprwt2Hp
- 2dCA==
-X-Gm-Message-State: AOAM532KgZ2jTRK5v23UstCSJSm7SzWv6DI0QIhF0pYZnaSpLgYcm+IW
- mjGILC2PPhaKfLt+z7jRXY3JM3KJXd0JmVE4J+03mu7J75BHWzYUWHAtLjtOCNfuyk3ZmXk34ox
- Y2LM7izVHSAfCRSk=
-X-Received: by 2002:a05:600c:364a:b0:37b:ac5d:b77b with SMTP id
- y10-20020a05600c364a00b0037bac5db77bmr1069906wmq.82.1645009503073; 
- Wed, 16 Feb 2022 03:05:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxeE8bvTvmYZWYeEGkkM+elQQzgG2eeAeLaJEgQ2/8afoLfoBt+8IWzanYzdKI+1c3pBHs8Sg==
-X-Received: by 2002:a05:600c:364a:b0:37b:ac5d:b77b with SMTP id
- y10-20020a05600c364a00b0037bac5db77bmr1069877wmq.82.1645009502784; 
- Wed, 16 Feb 2022 03:05:02 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70b:600:4ff7:25c:5aad:2711?
- (p200300cbc70b06004ff7025c5aad2711.dip0.t-ipconnect.de.
- [2003:cb:c70b:600:4ff7:25c:5aad:2711])
- by smtp.gmail.com with ESMTPSA id j35sm17630427wms.32.2022.02.16.03.05.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 03:05:02 -0800 (PST)
-Message-ID: <2a1e0ed0-57ca-205c-a652-fd41d2ec586e@redhat.com>
-Date: Wed, 16 Feb 2022 12:05:01 +0100
+ us-mta-370-TWl6q1lQOzyaiyo4eZeixA-1; Wed, 16 Feb 2022 06:09:04 -0500
+X-MC-Unique: TWl6q1lQOzyaiyo4eZeixA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26C8E2F26;
+ Wed, 16 Feb 2022 11:09:02 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E613510841E0;
+ Wed, 16 Feb 2022 11:08:04 +0000 (UTC)
+Date: Wed, 16 Feb 2022 11:08:03 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Elena <elena.ufimtseva@oracle.com>
+Subject: Re: [RFC 4/8] ioregionfd: Introduce IORegionDFObject type
+Message-ID: <YgzbE0QBaJ4ml2H5@stefanha-x1.localdomain>
+References: <cover.1644302411.git.elena.ufimtseva@oracle.com>
+ <fa5bc2e2773966fd209a2c866eb95ac8ac60a928.1644302411.git.elena.ufimtseva@oracle.com>
+ <YgppIUOpkYUKwB5K@stefanha-x1.localdomain>
+ <20220215181812.GB33858@nuker>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 3/3] s390x/tcg/tests: Tests for
- Miscellaneous-Instruction-Extensions Facility 3
-To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <b69367a6-7744-6dbf-c370-3019bd66965c@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <b69367a6-7744-6dbf-c370-3019bd66965c@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="91T4X1kC33M4VDxU"
+Content-Disposition: inline
+In-Reply-To: <20220215181812.GB33858@nuker>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,58 +78,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
- farman@linux.ibm.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com
+Cc: eduardo@habkost.net, john.g.johnson@oracle.com, cohuck@redhat.com,
+ jag.raman@oracle.com, john.levon@nutanix.com, eblake@redhat.com,
+ david@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com, armbru@redhat.com,
+ mst@redhat.com, berrange@redhat.com, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15.02.22 21:27, David Miller wrote:
-> tests/tcg/s390x/mie3-compl.c: [N]*K instructions
-> tests/tcg/s390x/mie3-mvcrl.c: MVCRL instruction
-> tests/tcg/s390x/mie3-sel.c:  SELECT instruction
-> 
 
-(I know, a lot of mails from my side :) )
+--91T4X1kC33M4VDxU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-1. I think we usually use the prefix in the subject "tests/tcg/s390x: "
+On Tue, Feb 15, 2022 at 10:18:12AM -0800, Elena wrote:
+> On Mon, Feb 14, 2022 at 02:37:21PM +0000, Stefan Hajnoczi wrote:
+> > On Mon, Feb 07, 2022 at 11:22:18PM -0800, Elena Ufimtseva wrote:
+> > > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> > > ---
+> > >  meson.build                    |  15 ++-
+> > >  qapi/qom.json                  |  32 +++++-
+> > >  include/hw/remote/ioregionfd.h |  40 +++++++
+> > >  hw/remote/ioregionfd.c         | 196 +++++++++++++++++++++++++++++++=
+++
+> > >  Kconfig.host                   |   3 +
+> > >  MAINTAINERS                    |   2 +
+> > >  hw/remote/Kconfig              |   4 +
+> > >  hw/remote/meson.build          |   1 +
+> > >  meson_options.txt              |   2 +
+> > >  scripts/meson-buildoptions.sh  |   3 +
+> > >  10 files changed, 294 insertions(+), 4 deletions(-)
+> > >  create mode 100644 include/hw/remote/ioregionfd.h
+> > >  create mode 100644 hw/remote/ioregionfd.c
+> > >=20
+> > > diff --git a/meson.build b/meson.build
+> > > index 96de1a6ef9..6483e754bd 100644
+> > > --- a/meson.build
+> > > +++ b/meson.build
+> > > @@ -258,6 +258,17 @@ if targetos !=3D 'linux' and get_option('multipr=
+ocess').enabled()
+> > >  endif
+> > >  multiprocess_allowed =3D targetos =3D=3D 'linux' and not get_option(=
+'multiprocess').disabled()
+> > > =20
+> > > +# TODO: drop this limitation
+> >=20
+> > What is the reason for the limitation?
+> >
+>=20
+> The idea is to limit use of this acceleration until the API is more
+> generic and does not need mutliprocess.
 
-2. Make sure the patches are checkpatch clean as good as possible:
+Please document that intention so readers understand why a limitation
+is in place.
 
-For this patch:
-
-$ rm *.patch
-$ git format-patch -1
-$ ./scripts/checkpatch.pl *.patch
-WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-#45:
-new file mode 100644
-
-ERROR: spaces required around that ':' (ctx:VxW)
-#53: FILE: tests/tcg/s390x/mie3-compl.c:4:
-+#define F_EPI "stg %%r0, %[res] ": [res] "+m" (res) : : "r0", "r2", "r3"
-                                  ^
-
-ERROR: unnecessary whitespace before a quoted newline
-#57: FILE: tests/tcg/s390x/mie3-compl.c:8:
-+    "lg %%r2, %[a] \n" \
-
-ERROR: space prohibited before that close parenthesis ')'
-#61: FILE: tests/tcg/s390x/mie3-compl.c:12:
-+    : "r2", "r3" )
-
-ERROR: unnecessary whitespace before a quoted newline
-#67: FILE: tests/tcg/s390x/mie3-compl.c:18:
-+FbinOp(_ncrk,  asm("ncrk  %%r0, %%r3, %%r2 \n" F_EPI))
-
-ERROR: unnecessary whitespace before a quoted newline
-#68: FILE: tests/tcg/s390x/mie3-compl.c:19:
-+FbinOp(_ncgrk, asm("ncgrk %%r0, %%r3, %%r2 \n" F_EPI))
-
-...
-
--- 
 Thanks,
+Stefan
 
-David / dhildenb
+--91T4X1kC33M4VDxU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIM2xMACgkQnKSrs4Gr
+c8jZrgf6Ap+KnoP0Qkyuj6HI5e4eBKq9/4FVeAtj1b3Ab1E1f7DNrJLuVca/Cp08
+nujFYimLF7GnyG3yfrBcVppNkoexpRGpExyBDw1QykGWCUBkCkE60zMWyyoYYE7q
+XzX51eOHsL+f+HjhaggkTacwlKg5RrnLY/abRzbIKmpQjPPQcGJNeTpro+sk5A2K
+OdzIMgkdUFtScz4JX9JOpueU2zpFJ2/oH4QhxSUbJgJnHKRli6b1HxVooOhzlr5a
+gfT6JslSgztstBau6X8V7w7lSTOfx18MFjVNLwnOHYpK7z1dkokn79aJqf83u+h9
+OB0Z6XjdLYNgEsXjZzB5uFISY8ouBA==
+=8m8C
+-----END PGP SIGNATURE-----
+
+--91T4X1kC33M4VDxU--
 
 
