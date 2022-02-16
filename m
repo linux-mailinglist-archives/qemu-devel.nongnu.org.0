@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F024B8334
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 09:46:42 +0100 (CET)
-Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC4A4B8356
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 09:50:19 +0100 (CET)
+Received: from localhost ([::1]:44874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKFxR-00037Z-BW
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 03:46:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49084)
+	id 1nKG0w-0006gO-AD
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 03:50:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDqt-0007Ii-3Z
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:31:48 -0500
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:31692)
+ id 1nKDr2-0007Lr-Fr
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:31:56 -0500
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:31697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDqr-0006ss-49
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:31:46 -0500
+ id 1nKDr0-0006tE-HH
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:31:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1644993105; x=1676529105;
+ t=1644993114; x=1676529114;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xBwofrwi48pVPtDFWuxDh/a2BN1h2L8su5YfJ1V9v60=;
- b=SmqfrlzjlAbJLT6jxQkMVN+bDzAXaOOdZBIyl9P8joOePWgJao4vT5XP
- VHRrtk9nGvIsImzS4tXg1rJ1Ig9xxyGQ9albOu3iDz4Mw+LvJbpwxFE8d
- E4lNTGpmOC3bbx6GA0Iv9wbnMIgH41msoaXkO8mihRkBu6Ngp412a0iVR
- QUdfx2bIzKpBUw2qpYByz/TfawjHQ0XRvMjkDIT1RxrPRQK6SVgYLUlIr
- 3++kVIBcc7iMWq7mPMuMmMYkvvVXFiT07XUdoZF093Cp+I+MtEXVVHGaD
- 7Wly7KxYcQX7rljLIKfLyAeBOfWHXlOp15fLA8PxYS2RXLX3FkyfVnRVA w==;
-X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="304974651"
+ bh=5M2juYO1XBdVp0HXJg8qxnDJ7Bn+5MPFeReNPxd/vPE=;
+ b=KofN1ql4oHP2PTXHFwRqYTuj7MygFo45prMFL5dzHONLQWYBVO8daLKk
+ 07/k0KJ8lWa9S9BOj8NnkqbyNWWJXD5IQTv37r0AbwqmpBBVcB2gznGX0
+ t0a8n8wIPCyHskM46fxIPxdYv58+OWr8Vw66XJdCFjQ7HJiEXqEi9j41M
+ 4J8k9adyd29GZ+4S1zyLNYeTaaFTdK8TGn1KZO7TV0eTiWeRMaP7MrWr4
+ lQTAN52VTX5rtNqg2Wa36W6uSVu7TnwwNkkQMsuffTunrLW+LhDVNwiDJ
+ D0aX79iyZ5VIRyo79BMaRTBD19kbOi4HdMaoxUZIFQig8sHgnsI9Gi2y4 w==;
+X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="304974664"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:31:43 +0800
-IronPort-SDR: RdZWScatkGWCvNNu4XN/ISdAwI8Fd4UAK4tsXt8eCEbqj9apr/4Q3wtKn+eiJVHhtPGiYWpTww
- f33pDXzh1F2zRYmIoDaC8KGz1zzLykw7YC72qwDvA6lkwPkzUWCDKtoDvXavO9DmU5EiS5YV/t
- kauz1EfKrs5iimXQU5VdCBMYvxSaWcox6xSuhGPs9wCQCpeUMhnwc8wHfAPjOWyPoNEv3o58sk
- Sxg8zt8uUUCtpp3zrW2r8FR3oJfPriEYAfmxw2ygGTbTNcLNTTFmHX0Uparb4CxlE5olH+7pQJ
- LFCcrj/IWGV9+8IuQOKsbudG
+ by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:31:53 +0800
+IronPort-SDR: AdnJWqE5C3DYZpAlScivfr4Ovv40CUbu8RmoB7BiLJDmmpmbs1+ShcK080SSH2uSnKT8m1fxig
+ E2MIbqz3rU5tXcsdzdZCdAWFVwvH6jywjD4qgWPDJ2qbMVZoUQs1an2E15ZNg3+384ArFIEvoq
+ KCWKPRakEM+jlgRiecCwpDSqdV1X+VbwZ6KQof7gRd/tjSXQG2TrdsCM1zfwzT3wRsagmACoVx
+ F3LHuJ9MXp4Fkag8EJjtfJ0gj/E3F5tvS4JdDuo16v6c8/tFnohK8lAWTXO0zy/tyYpsYwdGG3
+ zq06Ubcsu9aqu0Dp8C7XLO4J
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:03:24 -0800
-IronPort-SDR: hgbQ9lDp6ZECsMRHzfBqBmbLp8XzWX1DgWAtmnfuVuZtNsZ7ZBE9Oj1L261ldUjeHmYwPCzAUv
- Q5l1fkEdEO9EfZ5c7UZo31rzvSPgadhrjnMmk8bNJ5+XqAHt/coufhVYTOPydCYm448kJqwX3q
- owtTW+CoU0juVyDPMVmACdpgwtHcMdATSlp6AdKWkMeB768kkFJMhyDTrLFWd1j1Vto3zQuPzf
- yYkPMI6Q3Rfnnw4xSNdqMlGgqom6Sj39JE2UtN70Xsm9Em+HAp3LjYP8ibIGAaXJckGTWzDPWZ
- ZiE=
+ 15 Feb 2022 22:03:33 -0800
+IronPort-SDR: tDd1Ju/lStGje5OUHRw3rUIDVn2J2jFM1AvI/KvrRiIykcZ/XHMnxLJLzgtOpfN2LALtyG9r+c
+ VNBlEMvNTh3gA1Vz51URMKkx41UejiF72Ih9AB7tuSpk08E7NkvDkYs/sJyFzelLF1NZa7fo0O
+ rpyVjMCza+ATnaTpWH3ZxgOwnWOLluDu24DU8713jFk9589sQZNSu9MO1Yre36B9oqJIHik3oK
+ Ky2FS0gY1apPs+IFIU6FDznagmYFEbP/sLXgPVOJ40Qb1gCIODd+mmKqMnqSvYvm5KRn0sRui0
+ uPQ=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:31:44 -0800
+ 15 Feb 2022 22:31:53 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7Ql39rlz1Rwrw
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:31:43 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7Qw6C30z1SHwl
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:31:52 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1644993102; x=1647585103; bh=xBwofrwi48pVPtDFWu
- xDh/a2BN1h2L8su5YfJ1V9v60=; b=hcRjkcZq0jT1xtpE1fIkgr2f5lzJoVNcUk
- WcjU2xTlSslIUjlrj7fXhRiBRj8ZlYNr9ztPpfTf4fK/P+eK+F3usVU7d13sfSE+
- MT323WK3be2de3Lg/T0Q0fsMZMOVS49OuDDR4ArBFwWMkHxoQeJHWjZDNsvpd9Ij
- FK77SE0tjAuLYMzt2ik8gCG+cZbXD2K3OHonSl+hfiO6hwItASsrCkOskBAdwT4o
- xd0+YZ5dGpfUpEXg09pmlfkHerMa+r6t5lU6rM1tTSuaT7x9oRx0pPTzdRKixjmZ
- doukGLWaSda2qqHaPO+Ax737fZQ8dVU5u7GDVnrUCt2MZuSSDUog==
+ :from; s=dkim; t=1644993112; x=1647585113; bh=5M2juYO1XBdVp0HXJg
+ 8qxnDJ7Bn+5MPFeReNPxd/vPE=; b=W5svLGuvSihQqRu3sAn2hNlqTvrZFrMFcm
+ kcUxl7oXxA78Lc2YiYUBREbPU5M6kV4mIeT9BfxFqR21fR2x1FAhkCsoCrVMN2W/
+ m+Tzg83hYQ/pGJ/8GI0MzYoMQBmfxDCC//oobiFP0VY2w3RcphURYNjHQ2Y78owz
+ H4F4U9iZO0RPA6RV4uijgHyrRtBjl1w4S0eEekx5wjA63Wljul3Q9JXIde+k0UHu
+ VdYmSq94uZUTisxmUTXQOxiJudoMep1TrVf3O1IFdDwDGsrfBoSdHKUCpTBsWRBY
+ 91274Xz/Ol1S8XJnUCUNtilmk5BjU+rUUkU2GIlUKVFctK54jZ2w==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id ALOP6FKLMM_H for <qemu-devel@nongnu.org>;
- Tue, 15 Feb 2022 22:31:42 -0800 (PST)
+ port 10026) with ESMTP id RSicG0VIN_Hy for <qemu-devel@nongnu.org>;
+ Tue, 15 Feb 2022 22:31:52 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.165.97])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7Qf57sxz1SHwl;
- Tue, 15 Feb 2022 22:31:38 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7Qr3V7Bz1Rwrw;
+ Tue, 15 Feb 2022 22:31:48 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Guo Ren <ren_guo@c-sky.com>,
- Liu Zhiwei <zhiwei_liu@c-sky.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: [PULL v2 30/35] target/riscv: Ignore reserved bits in PTE for RV64
-Date: Wed, 16 Feb 2022 16:29:07 +1000
-Message-Id: <20220216062912.319738-31-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Junqiang Wang <wangjunqiang@iscas.ac.cn>, Anup Patel <anup@brainfault.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL v2 32/35] target/riscv: add support for svnapot extension
+Date: Wed, 16 Feb 2022 16:29:09 +1000
+Message-Id: <20220216062912.319738-33-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
 References: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
@@ -116,110 +116,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guo Ren <ren_guo@c-sky.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Highest bits of PTE has been used for svpbmt, ref: [1], [2], so we
-need to ignore them. They cannot be a part of ppn.
+- add PTE_N bit
+- add PTE_N bit check for inner PTE
+- update address translation to support 64KiB continuous region (napot_bi=
+ts =3D 4)
 
-1: The RISC-V Instruction Set Manual, Volume II: Privileged Architecture
-   4.4 Sv39: Page-Based 39-bit Virtual-Memory System
-   4.5 Sv48: Page-Based 48-bit Virtual-Memory System
-
-2: https://github.com/riscv/virtual-memory/blob/main/specs/663-Svpbmt-dif=
-f.pdf
-
-Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-Reviewed-by: Liu Zhiwei <zhiwei_liu@c-sky.com>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Anup Patel <anup@brainfault.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Cc: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220204022658.18097-2-liweiwei@iscas.ac.cn>
+Message-Id: <20220204022658.18097-4-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h        | 15 +++++++++++++++
- target/riscv/cpu_bits.h   |  3 +++
- target/riscv/cpu_helper.c | 13 ++++++++++++-
- 3 files changed, 30 insertions(+), 1 deletion(-)
+ target/riscv/cpu_bits.h   |  1 +
+ target/riscv/cpu.c        |  2 ++
+ target/riscv/cpu_helper.c | 18 +++++++++++++++---
+ 3 files changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 7ecb1387dd..cefccb4016 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -359,6 +359,8 @@ struct RISCVCPUConfig {
-     bool ext_counters;
-     bool ext_ifencei;
-     bool ext_icsr;
-+    bool ext_svnapot;
-+    bool ext_svpbmt;
-     bool ext_zfh;
-     bool ext_zfhmin;
-     bool ext_zve32f;
-@@ -558,6 +560,19 @@ static inline int riscv_cpu_xlen(CPURISCVState *env)
-     return 16 << env->xl;
- }
-=20
-+#ifdef TARGET_RISCV32
-+#define riscv_cpu_sxl(env)  ((void)(env), MXL_RV32)
-+#else
-+static inline RISCVMXL riscv_cpu_sxl(CPURISCVState *env)
-+{
-+#ifdef CONFIG_USER_ONLY
-+    return env->misa_mxl;
-+#else
-+    return get_field(env->mstatus, MSTATUS64_SXL);
-+#endif
-+}
-+#endif
-+
- /*
-  * Encode LMUL to lmul as follows:
-  *     LMUL    vlmul    lmul
 diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 068c4d8034..b3489cbc10 100644
+index b3489cbc10..37ed4da72c 100644
 --- a/target/riscv/cpu_bits.h
 +++ b/target/riscv/cpu_bits.h
-@@ -565,6 +565,9 @@ typedef enum {
+@@ -561,6 +561,7 @@ typedef enum {
+ #define PTE_A               0x040 /* Accessed */
+ #define PTE_D               0x080 /* Dirty */
+ #define PTE_SOFT            0x300 /* Reserved for Software */
++#define PTE_N               0x8000000000000000ULL /* NAPOT translation *=
+/
+=20
  /* Page table PPN shift amount */
  #define PTE_PPN_SHIFT       10
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 9dce57a380..fda99c2a81 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -774,6 +774,8 @@ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
 =20
-+/* Page table PPN mask */
-+#define PTE_PPN_MASK        0x3FFFFFFFFFFC00ULL
++    DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
 +
- /* Leaf page shift amount */
- #define PGSHIFT             12
-=20
+     DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
+     DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 430060dcd8..7df4569526 100644
+index 25ebc76725..437c9488a6 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -751,6 +751,8 @@ static int get_physical_address(CPURISCVState *env, h=
+@@ -753,6 +753,8 @@ static int get_physical_address(CPURISCVState *env, h=
 waddr *physical,
-     MemTxAttrs attrs =3D MEMTXATTRS_UNSPECIFIED;
-     int mode =3D mmu_idx & TB_FLAGS_PRIV_MMU_MASK;
      bool use_background =3D false;
-+    hwaddr ppn;
-+    RISCVCPU *cpu =3D env_archcpu(env);
+     hwaddr ppn;
+     RISCVCPU *cpu =3D env_archcpu(env);
++    int napot_bits =3D 0;
++    target_ulong napot_mask;
 =20
      /*
       * Check if we should use the background registers for the two
-@@ -919,7 +921,16 @@ restart:
+@@ -937,7 +939,7 @@ restart:
              return TRANSLATE_FAIL;
-         }
-=20
--        hwaddr ppn =3D pte >> PTE_PPN_SHIFT;
-+        if (riscv_cpu_sxl(env) =3D=3D MXL_RV32) {
-+            ppn =3D pte >> PTE_PPN_SHIFT;
-+        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
-+            ppn =3D (pte & (target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT;
-+        } else {
-+            ppn =3D pte >> PTE_PPN_SHIFT;
-+            if ((pte & ~(target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT) {
-+                return TRANSLATE_FAIL;
+         } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
+             /* Inner PTE, continue walking */
+-            if (pte & (PTE_D | PTE_A | PTE_U)) {
++            if (pte & (PTE_D | PTE_A | PTE_U | PTE_N)) {
+                 return TRANSLATE_FAIL;
+             }
+             base =3D ppn << PGSHIFT;
+@@ -1013,8 +1015,18 @@ restart:
+             /* for superpage mappings, make a fake leaf PTE for the TLB'=
+s
+                benefit. */
+             target_ulong vpn =3D addr >> PGSHIFT;
+-            *physical =3D ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSH=
+IFT) |
+-                        (addr & ~TARGET_PAGE_MASK);
++
++            if (cpu->cfg.ext_svnapot && (pte & PTE_N)) {
++                napot_bits =3D ctzl(ppn) + 1;
++                if ((i !=3D (levels - 1)) || (napot_bits !=3D 4)) {
++                    return TRANSLATE_FAIL;
++                }
 +            }
-+        }
++
++            napot_mask =3D (1 << napot_bits) - 1;
++            *physical =3D (((ppn & ~napot_mask) | (vpn & napot_mask) |
++                          (vpn & (((target_ulong)1 << ptshift) - 1))
++                         ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
 =20
-         if (!(pte & PTE_V)) {
-             /* Invalid PTE */
+             /* set permissions on the TLB entry */
+             if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
 --=20
 2.34.1
 
