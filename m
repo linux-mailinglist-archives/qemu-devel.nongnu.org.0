@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46174B9295
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:44:57 +0100 (CET)
-Received: from localhost ([::1]:48054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8415D4B9293
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:43:58 +0100 (CET)
+Received: from localhost ([::1]:46036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKRAW-0003gS-DQ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:44:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39224)
+	id 1nKR9Z-0002A5-78
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:43:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nKR0R-00028N-Rz; Wed, 16 Feb 2022 15:34:32 -0500
-Received: from [2607:f8b0:4864:20::d29] (port=38647
- helo=mail-io1-xd29.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nKR0O-0005iI-HF; Wed, 16 Feb 2022 15:34:31 -0500
-Received: by mail-io1-xd29.google.com with SMTP id w7so1195651ioj.5;
- Wed, 16 Feb 2022 12:34:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ws1Uq9o0dc3PMzm7vjp3Z/TRyPVzPcf1fGpu52pJhJc=;
- b=KK5XXl3UrkZZCZleBE7SRmcmVCjLFHvCtRwMm+Lg/YEUgPWGQZ6M3rfDKCzsY8iqQ+
- 3NcolAR3PEJTv93Y/7PFBrCIt5PW/WIryrX7RHTFMb9xg6QQdGml9mdIU2c+8BwMXmk/
- BHZafqSlc8atrQ6CEgtC1WrvoMqmB0IqSl/gSJmIHtRODeiSMw51X7T8LDFFZLZPgot6
- MAqX9zx0HO4/ta0nBoNKp+qvlgc3nDk3O8lj6Gjf903SnU/WJ9O+8UPUf53gGjNz4imq
- Rk6I42hJne6TFjTrPb2uV2PwYvXNjyt68xqu2IWhyWxCtg7bSBQJDxUGIul8/SEfJ8qH
- iM1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ws1Uq9o0dc3PMzm7vjp3Z/TRyPVzPcf1fGpu52pJhJc=;
- b=0jby2tJ3YvBJ8IV6aEGYUgQaO8CMWv6ZLiTmrS6dmBWr3IFmMy3tMS7eHYqJgmLlWj
- ndNvPvJpxBw2fjm2hDlOJUDob5Ol+EbA6FP3dMoROZVVwCKnlc/7OYWtt/9NoLfg4isu
- 9+7/gT0BilGc0gvbRUvHADNB/G5Go+2MriwHCW3GCkkQJj0LFfbNOQJDAO976gVpRGA3
- Aeyq1zMEuV0gJmdQOaTgZlZEsiB9n+gf+LmRFxttCi1qqTjLT1V60WoxiGD3i8+kDrjg
- LBD9VkRUi5krdDMj9s2lbzs+JzjIFcAeaXdSudDWvVCNE+eRK2PRSYlIOw0aCMkv7B1l
- RWCA==
-X-Gm-Message-State: AOAM530RBqPboBmySyOd1Pcb7g97IPhG0YIN7EKz66ZqwkolC7e2j05L
- lMSZ39+Tuiw+4++3/Tag3sKcPiK3snc0BVfUz1A=
-X-Google-Smtp-Source: ABdhPJzbF5ZQ3ldmlsms9W/6JuA8CN6X/13erzRTpCwbwB4hCmN1C/i1AgDPJ+md95axudgu2ATp+Q==
-X-Received: by 2002:a6b:5b01:0:b0:5ed:17b0:5947 with SMTP id
- v1-20020a6b5b01000000b005ed17b05947mr3016076ioh.74.1645043664250; 
- Wed, 16 Feb 2022 12:34:24 -0800 (PST)
-Received: from rygar.pwrtc.com (mont-dyn-147-119.pwrtc.com. [205.174.147.119])
- by smtp.gmail.com with ESMTPSA id
- d12sm511990ilv.42.2022.02.16.12.34.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 12:34:23 -0800 (PST)
-From: David Miller <dmiller423@gmail.com>
-To: qemu-s390x@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v5 3/3] tests/tcg/s390x: Tests for
- Miscellaneous-Instruction-Extensions Facility 3
-Date: Wed, 16 Feb 2022 15:34:15 -0500
-Message-Id: <20220216203415.138819-4-dmiller423@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220216203415.138819-1-dmiller423@gmail.com>
-References: <20220216203415.138819-1-dmiller423@gmail.com>
+ (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
+ id 1nKR7J-0000XH-Lz
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 15:41:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21516)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
+ id 1nKR6q-00072m-Ax
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 15:41:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645044066;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZLMudiywTVi+lYp2St98ZH5sYEoA5qi1FBjpkD9IpXs=;
+ b=XNg3c9vC39oRe8wunh9Vzc2lpU98ptI1kseEX+PXZFczvrFTZ5VRmCtRM5n5j1kg6++9HJ
+ lS1ezovrlG5BGoiau4QlcYbr3p2yugLrTVY24NjTEOljAGwQoJ1fP+NkVbiKZgKh9yZo81
+ RoHfgXDV62PHBMpm2QtRqAO0gQd0PrE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-350-MmL60RU3Mg21RW3k1CFzOA-1; Wed, 16 Feb 2022 15:41:04 -0500
+X-MC-Unique: MmL60RU3Mg21RW3k1CFzOA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B9DE1091DA1;
+ Wed, 16 Feb 2022 20:41:03 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.195.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44C64101F6D4;
+ Wed, 16 Feb 2022 20:40:35 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: Portable inline asm to get address of TLS variable
+References: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain>
+ <87leyaznm6.fsf@oldenburg.str.redhat.com>
+ <CAJSP0QXmF=AKtaZO7GjxFtd7o5iQ9JC2xYGYDo-zC0Ea1POS5w@mail.gmail.com>
+Date: Wed, 16 Feb 2022 21:40:34 +0100
+In-Reply-To: <CAJSP0QXmF=AKtaZO7GjxFtd7o5iQ9JC2xYGYDo-zC0Ea1POS5w@mail.gmail.com>
+ (Stefan Hajnoczi's message of "Wed, 16 Feb 2022 20:28:47 +0000")
+Message-ID: <877d9uzgsd.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=dmiller423@gmail.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.978,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=fweimer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=fweimer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,196 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org, farman@linux.ibm.com,
- David Miller <dmiller423@gmail.com>, pasic@linux.ibm.com,
- borntraeger@linux.ibm.com
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tests/tcg/s390x/mie3-compl.c: [N]*K instructions
-tests/tcg/s390x/mie3-mvcrl.c: MVCRL instruction
-tests/tcg/s390x/mie3-sel.c:  SELECT instruction
+* Stefan Hajnoczi:
 
-Signed-off-by: David Miller <dmiller423@gmail.com>
----
- tests/tcg/s390x/Makefile.target |  5 ++-
- tests/tcg/s390x/mie3-compl.c    | 55 +++++++++++++++++++++++++++++++++
- tests/tcg/s390x/mie3-mvcrl.c    | 31 +++++++++++++++++++
- tests/tcg/s390x/mie3-sel.c      | 42 +++++++++++++++++++++++++
- 4 files changed, 132 insertions(+), 1 deletion(-)
- create mode 100644 tests/tcg/s390x/mie3-compl.c
- create mode 100644 tests/tcg/s390x/mie3-mvcrl.c
- create mode 100644 tests/tcg/s390x/mie3-sel.c
+> On Wed, 16 Feb 2022 at 18:14, Florian Weimer <fweimer@redhat.com> wrote:
+>>
+>> * Stefan Hajnoczi:
+>>
+>> > I've been trying to make the inline asm that gets the address of a TLS
+>> > variable for QEMU coroutines pass QEMU's GitLab CI.
+>> > https://gitlab.com/stefanha/qemu/-/blob/coroutine-tls-fix/include/qemu/coroutine-tls.h#L89
+>> >
+>> > The code isn't -fPIC-friendly (R_X86_64_TPOFF32 relocations aren't
+>> > allowed in -fPIC shared libraries) so builds fail with ./configure
+>> > --enable-modules. While I was tackling this I stumbled on this:
+>> >
+>> >   void *dst_ptr;
+>> >   asm volatile("" : "=r"(dst_ptr) : "0"(&tls_var))
+>> >
+>> > What's nice about it:
+>> > - It's portable, there are no arch-specific assembly instructions.
+>> > - It works for both -fPIC and non-PIC.
+>> >
+>> > However, I wonder if the compiler might reuse a register that already
+>> > contains the address. Then we'd have the coroutine problem again when
+>> > qemu_coroutine_yield() is called between the earlier address calculation
+>> > and the asm volatile statement.
+>> >
+>> > Thoughts?
+>>
+>> Sorry, I don't see why this isn't equivalent to a plain &tls_var.
+>> What exactly are you trying to achieve?
+>
+> &tls_var, except forcing the compiler to calculate the address from scratch.
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 1a7238b4eb..54e67446aa 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -1,12 +1,15 @@
- S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
- VPATH+=$(S390X_SRC)
--CFLAGS+=-march=zEC12 -m64
-+CFLAGS+=-march=z15 -m64
- TESTS+=hello-s390x
- TESTS+=csst
- TESTS+=ipm
- TESTS+=exrl-trt
- TESTS+=exrl-trtr
- TESTS+=pack
-+TESTS+=mie3-compl
-+TESTS+=mie3-mvcrl
-+TESTS+=mie3-sel
- TESTS+=mvo
- TESTS+=mvc
- TESTS+=shift
-diff --git a/tests/tcg/s390x/mie3-compl.c b/tests/tcg/s390x/mie3-compl.c
-new file mode 100644
-index 0000000000..98281ee683
---- /dev/null
-+++ b/tests/tcg/s390x/mie3-compl.c
-@@ -0,0 +1,55 @@
-+#include <stdint.h>
-+
-+
-+#define F_EPI "stg %%r0, %[res] " : [res] "+m" (res) : : "r0", "r2", "r3"
-+
-+#define F_PRO    asm ( \
-+    "llihf %%r0,801\n" \
-+    "lg %%r2, %[a]\n"  \
-+    "lg %%r3, %[b] "   \
-+    : : [a] "m" (a),   \
-+        [b] "m" (b)    \
-+    : "r2", "r3")
-+
-+#define FbinOp(S, ASM) uint64_t S(uint64_t a, uint64_t b) \
-+{ uint64_t res = 0; F_PRO; ASM; return res; }
-+
-+/* AND WITH COMPLEMENT */
-+FbinOp(_ncrk,  asm("ncrk  %%r0, %%r3, %%r2\n" F_EPI))
-+FbinOp(_ncgrk, asm("ncgrk %%r0, %%r3, %%r2\n" F_EPI))
-+
-+/* NAND */
-+FbinOp(_nnrk,  asm("nnrk  %%r0, %%r3, %%r2\n" F_EPI))
-+FbinOp(_nngrk, asm("nngrk %%r0, %%r3, %%r2\n" F_EPI))
-+
-+/* NOT XOR */
-+FbinOp(_nxrk,  asm("nxrk  %%r0, %%r3, %%r2\n" F_EPI))
-+FbinOp(_nxgrk, asm("nxgrk %%r0, %%r3, %%r2\n" F_EPI))
-+
-+/* NOR */
-+FbinOp(_nork,  asm("nork  %%r0, %%r3, %%r2\n" F_EPI))
-+FbinOp(_nogrk, asm("nogrk %%r0, %%r3, %%r2\n" F_EPI))
-+
-+/* OR WITH COMPLEMENT */
-+FbinOp(_ocrk,  asm("ocrk  %%r0, %%r3, %%r2\n" F_EPI))
-+FbinOp(_ocgrk, asm("ocgrk %%r0, %%r3, %%r2\n" F_EPI))
-+
-+
-+int main(int argc, char *argv[])
-+{
-+    if (_ncrk(0xFF88, 0xAA11)  != 0x0000032100000011ull ||
-+        _nnrk(0xFF88, 0xAA11)  != 0x00000321FFFF55FFull ||
-+        _nork(0xFF88, 0xAA11)  != 0x00000321FFFF0066ull ||
-+        _nxrk(0xFF88, 0xAA11)  != 0x00000321FFFFAA66ull ||
-+        _ocrk(0xFF88, 0xAA11)  != 0x00000321FFFFAA77ull ||
-+        _ncgrk(0xFF88, 0xAA11) != 0x0000000000000011ull ||
-+        _nngrk(0xFF88, 0xAA11) != 0xFFFFFFFFFFFF55FFull ||
-+        _nogrk(0xFF88, 0xAA11) != 0xFFFFFFFFFFFF0066ull ||
-+        _nxgrk(0xFF88, 0xAA11) != 0xFFFFFFFFFFFFAA66ull ||
-+        _ocgrk(0xFF88, 0xAA11) != 0xFFFFFFFFFFFFAA77ull)
-+    {
-+        return 1;
-+    }
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/s390x/mie3-mvcrl.c b/tests/tcg/s390x/mie3-mvcrl.c
-new file mode 100644
-index 0000000000..81cf3ad702
---- /dev/null
-+++ b/tests/tcg/s390x/mie3-mvcrl.c
-@@ -0,0 +1,31 @@
-+#include <stdint.h>
-+#include <string.h>
-+
-+
-+static inline void mvcrl_8(const char *dst, const char *src)
-+{
-+    asm volatile (
-+    "llill %%r0, 8\n"
-+    "mvcrl 0(%[dst]), 0(%[src])\n"
-+    : : [dst] "d" (dst), [src] "d" (src)
-+    : "memory");
-+}
-+
-+
-+int main(int argc, char *argv[])
-+{
-+    const char *alpha = "abcdefghijklmnop";
-+
-+    /* array missing 'i' */
-+    char tstr[17] = "abcdefghjklmnop\0" ;
-+
-+    /* mvcrl reference use: 'open a hole in an array' */
-+    mvcrl_8(tstr + 9, tstr + 8);
-+
-+    /* place missing 'i' */
-+    tstr[8] = 'i';
-+
-+    return strncmp(alpha, tstr, 16ul);
-+}
-+
-+
-diff --git a/tests/tcg/s390x/mie3-sel.c b/tests/tcg/s390x/mie3-sel.c
-new file mode 100644
-index 0000000000..d6b7b0933b
---- /dev/null
-+++ b/tests/tcg/s390x/mie3-sel.c
-@@ -0,0 +1,42 @@
-+#include <stdint.h>
-+
-+
-+#define F_EPI "stg %%r0, %[res] " : [res] "+m" (res) : : "r0", "r2", "r3"
-+
-+#define F_PRO    asm ( \
-+    "lg %%r2, %[a]\n"  \
-+    "lg %%r3, %[b]\n"  \
-+    "lg %%r0, %[c]\n"  \
-+    "ltgr %%r0, %%r0"  \
-+    : : [a] "m" (a),   \
-+        [b] "m" (b),   \
-+        [c] "m" (c)    \
-+    : "r0", "r2", "r3", "r4")
-+
-+
-+
-+#define Fi3(S, ASM) uint64_t S(uint64_t a, uint64_t b, uint64_t c) \
-+{ uint64_t res = 0; F_PRO ; ASM ; return res; }
-+
-+
-+Fi3 (_selre,     asm("selre    %%r0, %%r3, %%r2\n" F_EPI))
-+Fi3 (_selgrz,    asm("selgrz   %%r0, %%r3, %%r2\n" F_EPI))
-+Fi3 (_selfhrnz,  asm("selfhrnz %%r0, %%r3, %%r2\n" F_EPI))
-+
-+
-+int main(int argc, char *argv[])
-+{
-+    uint64_t a = ~0, b = ~0, c = ~0;
-+    a =    _selre(0x066600000066ull, 0x066600000006ull, a);
-+    b =   _selgrz(0xF00D00000005ull, 0xF00D00000055ull, b);
-+    c = _selfhrnz(0x004400000044ull, 0x000400000004ull, c);
-+
-+    if ((0xFFFFFFFF00000066ull != a) ||
-+        (0x0000F00D00000005ull != b) ||
-+        (0x00000004FFFFFFFFull != c))
-+    {
-+        return 1;
-+    }
-+    return 0;
-+}
-+
--- 
-2.32.0
+I think you can compute
+
+  (void *) &tls_var - __builtin_thread_pointer ();
+
+to get the offset.  On many targets, GCC folds away the thread pointer
+load, but that doesn't change the outcome.  Then it boils down to
+getting access to the thread pointer, and you can get that behind a
+compiler barrier (in a separate function).
+
+But going against ABI and toolchain in this way is really no long-term
+solution.  You need to switch to stackless co-routines, or we need to
+provide proper ABI-level support for this.  Today it's the thread
+pointer, tomorrow it's the shadow stack pointer, and the day after that,
+it's the SafeStack pointer.  And further down the road, it's some thread
+state for garbage collection support.  Or something like that.
+
+Thanks,
+Florian
 
 
