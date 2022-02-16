@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740A74B83B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:11:59 +0100 (CET)
-Received: from localhost ([::1]:55122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66704B83C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:14:31 +0100 (CET)
+Received: from localhost ([::1]:32990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKGLu-0007rd-Jl
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:11:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50370)
+	id 1nKGOM-0003j0-PO
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:14:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1nKDz2-0000ax-4v
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:40:17 -0500
-Received: from home.keithp.com ([63.227.221.253]:53226 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1nKDyz-0000CT-K8
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:40:11 -0500
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id 4629F3F3208D;
- Tue, 15 Feb 2022 22:40:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1644993604; bh=pflxpiPe4qdORwoSxhqmwc6wZlpKKOcj5j3UB3b8hok=;
- h=From:To:Cc:Subject:Date:From;
- b=vrvczwuE8LTdC5K044YJYzIzgfJUuzgcojrkyclPmndYoXixFkzsK9IXBAeG6F3od
- r32Ol2/VKqvDRl9oSKc/UIoswzIuAIFWjrXBm7Znz+JFLprGQWx+laKmBX++fV4Djp
- VFsnO6Q69fZtJjzr0+jRAiAsoWO/MQOnQDCACAimaNZlyI/CO4a5E2YjKLzZeC0SMJ
- 39zxJ6gEg2aM9c6ftIgj/FyAwj+stlhpJajpmYu3f/6oNNY/L6U11hsioJ2axKwkqh
- LNjckxS69yWSNX3GLE0iQabpAtKKPb1aBHLiYitPFNFZ+pcRvzUjrKKsfUvvZfdDn0
- uPocpJ3gGqrVA==
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id guE2AbpBd1Lv; Tue, 15 Feb 2022 22:40:03 -0800 (PST)
-Received: from keithp.com (koto.keithp.com [192.168.11.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id BBDC43F3208B;
- Tue, 15 Feb 2022 22:40:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1644993603; bh=pflxpiPe4qdORwoSxhqmwc6wZlpKKOcj5j3UB3b8hok=;
- h=From:To:Cc:Subject:Date:From;
- b=MTid/KUeoPXtVbIUjGjbEtqDZ2/WqrF+kgUfBmWu2IXky3/eYtgBwP8TT00hYUSLW
- q7WC0lqwfokSCxJTPzFdwSLs9E99rQZPvUAjSPU4IR1ZXK0suYjSNcsrP6oQ+ufaAB
- eMveHanwuyKCSwMmCwyHbrgIV8Zohf8AxP85PcbBxlIglSZfTHgKWGumOk5Ptb29Pz
- C62hQJsz0ArVcm1VO+NfTjvihGmNcrKQ/PgEQ4lhWYkA9k3TsyuAwoIlB7DDzcwRX/
- NlV07XcUUEw9eeJPFKRo1xroZ2fQ+TFL2/Tsz2RaBZ2HTB4EHxd3kaC/wxFaxQ8kXG
- qvH5UbcFijCqw==
-Received: by keithp.com (Postfix, from userid 1000)
- id 94FEE1E60073; Tue, 15 Feb 2022 22:40:03 -0800 (PST)
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Keith Packard <keithp@keithp.com>
-Subject: [PATCH] tcg: Add 'signed' bit to typecodes
-Date: Tue, 15 Feb 2022 22:39:45 -0800
-Message-Id: <20220216063945.1986257-1-keithp@keithp.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nKE4r-0001i7-8O
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:46:13 -0500
+Received: from [2a00:1450:4864:20::42e] (port=37484
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nKE4n-0001jv-5g
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:46:12 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id w11so1778659wra.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:46:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PK0DPwTnZJWnTMrBxp9jjSD+w+wBQBR5N79KrwCU7UQ=;
+ b=Iy7G9SX6ZSJ47O+bWcRPR+hxId5CphQtsDfxaZ15s8MVaod5aaLZnURzsXg+kpC7FZ
+ /UkhkAaH+eizefNFVNtyA9jOAm7vsxn1TfQPBgG7/1aUoQfier+2mOhE9jmGHGEkm/op
+ vUJoEWObTcyLCdJyMU1KW85LTDW2AFwL5KEdcYYBKTVxVP64AfE7Ul+lX3mbAZK7I7DX
+ SIQgQUD4Erg1qqcqGM+8cKK8EHswAHrvKYD1OX4hGrmTP/tV/g/yKhOq6CwUnHctq+Lr
+ Sf0feB9ThOOQLL0fAG2N+XNYwHnPELOtuKMul08JY7NDtsASb3zaishQpTX/SXLel3h0
+ NUjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PK0DPwTnZJWnTMrBxp9jjSD+w+wBQBR5N79KrwCU7UQ=;
+ b=z8D6YcO3qOe9VX4/M3p/IBG9Z8DC5GHQsauftvhR0VOBr3Za5+6QZr0G4WBc4okbhO
+ nNH3FAr7xzZkSC4/EdOTRkRhLNv3c2wrzzg7i9dFjUPBVIvOGc0zLrf99vyLlDt6+aGs
+ AsMtq4edFSTNH4rPxDT680nCDA6bxDF68BKyPi7HC6U4hGynC0oL/goHS+rWKYM1Q8Ye
+ jdrkngCQOaZg0s73XSFDSz8UVCZ0yxkdg0z3F2sONhvJcRPPe3FPwsNIEL0OS0kgOt5p
+ hshr4FM6p6CbKtaM+c6O1BBqmpYRx1P7ioTZOth+hLw0F3Qc2ghjMCf2NdtRTj6OqqFy
+ UX7A==
+X-Gm-Message-State: AOAM533oaxgtc6wChx6KfR/JDVUJUgBjwMqNQpxH1UADntRTiS1FBLCr
+ xauo1t30VeM4oct/+L/LQr1kezHB39IXOU5GrGUBRg==
+X-Google-Smtp-Source: ABdhPJxul0DYXKDYjq/7PsViAGEwfEq09GcpujA3PnTsZ//pYox5Dl9QroCOKjL3cAaDGLBytVT8AjeBfn0cuBqaNpQ=
+X-Received: by 2002:a5d:6a02:0:b0:1e3:392b:7447 with SMTP id
+ m2-20020a5d6a02000000b001e3392b7447mr1175558wru.214.1644993967266; Tue, 15
+ Feb 2022 22:46:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220212000031.3946524-1-alistair.francis@opensource.wdc.com>
+ <CAFEAcA96Jir1xbWSjhtXJhJkKQ3oR2ck=OFM06OWsyZJep0ecg@mail.gmail.com>
+ <CAKmqyKOr6bHz6PaaR+SopbhMrhEBzYc-naeCmfSjVtot9LO2mg@mail.gmail.com>
+In-Reply-To: <CAKmqyKOr6bHz6PaaR+SopbhMrhEBzYc-naeCmfSjVtot9LO2mg@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Wed, 16 Feb 2022 12:15:53 +0530
+Message-ID: <CAAhSdy3VZhn8TJ0DU7SVh85LSftuKBY=vR4A1zgimPmh5FAybQ@mail.gmail.com>
+Subject: Re: [PULL 00/40] riscv-to-apply queue
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::42e;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,106 +83,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Alistair Francis <alistair.francis@opensource.wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Keith Packard <keithp@keithp.com>
-From:  Keith Packard via <qemu-devel@nongnu.org>
 
-Commit 7319d83a (tcg: Combine dh_is_64bit and dh_is_signed to
-dh_typecode) converted the tcg type system to a 3-bit field from two
-separate 1-bit fields. This subtly lost the 'signed' information from
-the types as it uses the dh_alias macro to reduce the types down to
-basic machine types. However, the dh_alias macro also discards sign
-information, aliasing 's32' to 'i32'.
+On Wed, Feb 16, 2022 at 11:59 AM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Tue, Feb 15, 2022 at 9:39 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Sat, 12 Feb 2022 at 00:07, Alistair Francis
+> > <alistair.francis@opensource.wdc.com> wrote:
+> > >
+> > > From: Alistair Francis <alistair.francis@wdc.com>
+> > >
+> > > The following changes since commit 0a301624c2f4ced3331ffd5bce85b4274fe132af:
+> > >
+> > >   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220208' into staging (2022-02-08 11:40:08 +0000)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220212
+> > >
+> > > for you to fetch changes up to 31d69b66ed89fa0f66d4e5a15e9664c92c3ed8f8:
+> > >
+> > >   docs/system: riscv: Update description of CPU (2022-02-11 18:31:29 +1000)
+> > >
+> > > ----------------------------------------------------------------
+> > > Fourth RISC-V PR for QEMU 7.0
+> > >
+> > >  * Remove old Ibex PLIC header file
+> > >  * Allow writing 8 bytes with generic loader
+> > >  * Fixes for RV128
+> > >  * Refactor RISC-V CPU configs
+> > >  * Initial support for XVentanaCondOps custom extension
+> > >  * Fix for vill field in vtype
+> > >  * Fix trap cause for RV32 HS-mode CSR access from RV64 HS-mode
+> > >  * RISC-V AIA support for virt machine
+> > >  * Support for svnapot, svinval and svpbmt extensions
+> >
+> > Hi; this has format string issues on 32-bit hosts:
+> > https://gitlab.com/qemu-project/qemu/-/jobs/2092600735
+> >
+> > ../hw/riscv/virt.c: In function 'create_fdt_imsic':
+> > ../hw/riscv/virt.c:519:49: error: format '%lx' expects argument of
+> > type 'long unsigned int', but argument 2 has type 'hwaddr' {aka 'long
+> > long unsigned int'} [-Werror=format=]
+> >
+> > ../hw/riscv/virt.c:569:49: error: format '%lx' expects argument of
+> > type 'long unsigned int', but argument 2 has type 'hwaddr' {aka 'long
+> > long unsigned int'} [-Werror=format=]
+> >
+> > Printing hwaddrs needs the HWADDR_PRIx macro. (%l and %ll are
+> > usually the wrong thing in QEMU code as we don't often deal
+> > with real 'long' or 'long long' types.)
+>
+> Argh... Sorry about that Peter.
+>
+> I have already fixed a few issues with that series and I would like
+> this PR merged soon, so I have just dropped the offending patches.
+>
+> @Anup Patel You will need to rebase the last 5 or so AIA patches, fix
+> the failures and re-send them once the v2 PR is merged.
 
-I considered two solutions; switching away from using dh_alias and
-expressing typecode values for all types or staying with dh_alias and
-re-inserting the sign information. The latter approach turns out a bit
-cleaner as it doesn't require dealing with machine-dependent types
-like 'tl'.
+Okay, I will re-send.
 
-I re-inserted the dh_is_signed macro with its values and 'or' in that
-bit to the unsigned typecode.
+Thanks,
+Anup
 
-This bug was detected when running the 'arm' emulator on an s390
-system. The s390 uses TCG_TARGET_EXTEND_ARGS which triggers code
-in tcg_gen_callN to extend 32 bit values to 64 bits; the incorrect
-sign data in the typemask for each argument caused the values to be
-extended as unsigned values.
-
-This simple program exhibits the problem:
-
-	static volatile int num = -9;
-	static volatile int den = -5;
-
-	int
-	main(void)
-	{
-		int quo = num / den;
-		printf("num %d den %d quo %d\n", num, den, quo);
-		exit(0);
-	}
-
-When run on the broken qemu, this results in:
-
-	num -9 den -5 quo 0
-
-The correct result is:
-
-	num -9 den -5 quo 1
-
-This issue was originally discovered when running snek on s390x under
-qemu 6.2:
-
-	https://github.com/keith-packard/snek/issues/58
-
-Signed-off-by: Keith Packard <keithp@keithp.com>
----
- include/exec/helper-head.h | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
-
-diff --git a/include/exec/helper-head.h b/include/exec/helper-head.h
-index b974eb394a..eb1066f939 100644
---- a/include/exec/helper-head.h
-+++ b/include/exec/helper-head.h
-@@ -85,14 +85,33 @@
- #define dh_retvar_ptr tcgv_ptr_temp(retval)
- #define dh_retvar(t) glue(dh_retvar_, dh_alias(t))
- 
-+#define dh_is_signed_void 0
-+#define dh_is_signed_noreturn 0
-+#define dh_is_signed_i32 0
-+#define dh_is_signed_s32 1
-+#define dh_is_signed_i64 0
-+#define dh_is_signed_s64 1
-+#define dh_is_signed_f16 0
-+#define dh_is_signed_f32 0
-+#define dh_is_signed_f64 0
-+#define dh_is_signed_tl  0
-+#define dh_is_signed_int 1
-+/*
-+ * ??? This is highly specific to the host cpu.  There are even special
-+ * extension instructions that may be required, e.g. ia64's addp4.  But
-+ * for now we don't support any 64-bit targets with 32-bit pointers.
-+ */
-+#define dh_is_signed_ptr 0
-+#define dh_is_signed_cptr dh_is_signed_ptr
-+#define dh_is_signed_env dh_is_signed_ptr
-+#define dh_is_signed(t) dh_is_signed_##t
-+
- #define dh_typecode_void 0
- #define dh_typecode_noreturn 0
- #define dh_typecode_i32 2
--#define dh_typecode_s32 3
- #define dh_typecode_i64 4
--#define dh_typecode_s64 5
- #define dh_typecode_ptr 6
--#define dh_typecode(t) glue(dh_typecode_, dh_alias(t))
-+#define dh_typecode(t) (glue(dh_typecode_, dh_alias(t)) | dh_is_signed(t))
- 
- #define dh_callflag_i32  0
- #define dh_callflag_s32  0
--- 
-2.34.1
-
+>
+> Alistair
+>
+> >
+> > -- PMM
 
