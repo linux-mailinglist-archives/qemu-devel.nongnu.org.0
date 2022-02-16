@@ -2,87 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A254B896F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 14:19:20 +0100 (CET)
-Received: from localhost ([::1]:38786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786CD4B89BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 14:23:34 +0100 (CET)
+Received: from localhost ([::1]:42690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKKDH-0001kY-65
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 08:19:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42238)
+	id 1nKKHN-0004dD-At
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 08:23:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1nKK98-0000Ht-GB
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 08:15:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30985)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nKKDw-0002vL-Lo; Wed, 16 Feb 2022 08:20:00 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1nKK93-0008GW-6E
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 08:15:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645017296;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q4hpcN4BbhJULEcIDvbShbG9YPPs+Ctq2rocmrcOmQQ=;
- b=aR6TaAaq7hGLPWIMKlmKpHITYTNrgj8vgG2G506YP7Itga5uCi+c+xHX+JbpLl0Ed+sbJJ
- GeiFM+hP/HbccX03u6F9+pzxoQqFQzFkgjRoVOvoA9R8BbH1zm2m8TMO4uiHp5GZGo8TIt
- mwsH9IgzqhRgnnuu4qwl53G59TvJELI=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-477-Bcd0k7A9M321vXB7F_Y6lw-1; Wed, 16 Feb 2022 08:14:54 -0500
-X-MC-Unique: Bcd0k7A9M321vXB7F_Y6lw-1
-Received: by mail-lj1-f198.google.com with SMTP id
- c31-20020a2ebf1f000000b0022d87a28911so945728ljr.1
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 05:14:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q4hpcN4BbhJULEcIDvbShbG9YPPs+Ctq2rocmrcOmQQ=;
- b=jtOhnIKkSJQpUhZ2fcPM37u9WQuQ06EFHS7VhQQYXFoy2DCqF/pug7ggK82lDo+i+y
- IfXF073Wr+MZ4ptI0MFruJ0qG+V0gArstrGmfZi5h0MFMLNfTOhHSLyYuDyNJ3klycpD
- oqdVtEUkKzCs1zQntZkJFUgb8/na47dme40KRLoFds5QWgJqX5i6/B5MoDwOlKaaxw/B
- varEr+GD7KfDx0xCqI6KhPWn5S6Qx0VBOUlfy0FCoGUU3o5Z5T+Fe3i4PjiBOXmlNRqL
- z3Z49KWhbw+QIfPX/VUwPmg/jBIv2lyxIL9OtmA8grnkUxDM5ajbWWJb5p2zRVZifkIP
- gAcQ==
-X-Gm-Message-State: AOAM530FCR7jRRd32qCbYz/4z4si8+4G2GRSywKaXdmMBx5hft7w14yJ
- Jt1oOGtBCapOofTUtK27DgfpgQnWjZG3TMchqYhP88WsRJCLd8gW6Tq9clGQrPPIU28AZjKgfIo
- gqmLak34J2rBxW3xcLA61QDn0fobHXmA=
-X-Received: by 2002:a05:6512:c0c:b0:443:7b05:40ef with SMTP id
- z12-20020a0565120c0c00b004437b0540efmr1947685lfu.325.1645017293135; 
- Wed, 16 Feb 2022 05:14:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxjVfg7p9xFBSPBNwwriTWN3ma4kFOxidW4mBFyyS1+VEd0EdUCWcRmVT6aD/ECXoW9e0cAJDUurKDZuvDXXE0=
-X-Received: by 2002:a05:6512:c0c:b0:443:7b05:40ef with SMTP id
- z12-20020a0565120c0c00b004437b0540efmr1947656lfu.325.1645017292751; Wed, 16
- Feb 2022 05:14:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nKKDu-0000Xj-SE; Wed, 16 Feb 2022 08:20:00 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21GDEfQ7024662; 
+ Wed, 16 Feb 2022 13:19:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=pYuADN7Tk6yqZU4kKEIBv+Oxw7Rr29GxR6uqFdFInKI=;
+ b=F5Jqnn1DEE11QMeAHLecKo0GEn2eaCpw9Jqbuyn2lZ4Z1Mc2CfmsH1XMQS6UHJQzM0Lq
+ 85x1Zfd84sjV41xxW/zY68l+HrctVV3aDwj5+vzZaTUJivisat/taVivBe+kFzhbJfJf
+ NF5PWWDiER4GhJzhPv2gIOSWCBKm++WcStn//Gr6vsAlvGaS66VydkNUs3eDKLAMNpgY
+ gsoqWVyzBKU2K1MP5ZvpqbidYRgYKigPeG+pguhKZEypHn9awmREUOXHr4eSZFDC+Az0
+ p3MCfFLVd8zno2sJ02EDJL8T4EPsusDMCIue/Q2ulxM2aHkIX6cYMBISFOipK/+hVtse 8Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e91ysr3v9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Feb 2022 13:19:46 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21GDEjSt024836;
+ Wed, 16 Feb 2022 13:19:45 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e91ysr3uq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Feb 2022 13:19:45 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21GDCCJm020061;
+ Wed, 16 Feb 2022 13:19:44 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma04wdc.us.ibm.com with ESMTP id 3e64hbfytx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Feb 2022 13:19:44 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21GDJhIF36766096
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 16 Feb 2022 13:19:43 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 24F5978074;
+ Wed, 16 Feb 2022 13:19:43 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 72C9178068;
+ Wed, 16 Feb 2022 13:19:42 +0000 (GMT)
+Received: from localhost (unknown [9.211.144.50])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Wed, 16 Feb 2022 13:19:42 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 22/27] target/ppc: cpu_init: Rename register_ne_601_sprs
+In-Reply-To: <Ygxog9Ngz0bvn8gO@yekko>
+References: <20220215214148.1848266-1-farosas@linux.ibm.com>
+ <20220215214148.1848266-23-farosas@linux.ibm.com> <Ygxog9Ngz0bvn8gO@yekko>
+Date: Wed, 16 Feb 2022 10:19:40 -0300
+Message-ID: <87a6erx82b.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <20220215171838.2651387-1-eblake@redhat.com>
- <CAMRbyyvdBWMB9bzpkUUMO+SZj6PN8Xy0kJnvqLhB2W6vw+5iWQ@mail.gmail.com>
- <20220215232414.g4l4qoqiqyjvnweg@redhat.com>
- <20220216101254.GI1127@redhat.com>
-In-Reply-To: <20220216101254.GI1127@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Wed, 16 Feb 2022 15:14:36 +0200
-Message-ID: <CAMRbyytRzjinK1OiV157cw+dWAWabzvrSV0FWPC0OTDby8nASw@mail.gmail.com>
-Subject: Re: [PATCH v2] nbd/server: Allow MULTI_CONN for shared writable
- exports
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000062623905d8226f7e"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsoffer@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 2a70dwPRWu-X-fKqtfCrC6OhJr1JAXxg
+X-Proofpoint-ORIG-GUID: gadd7YKMLY5qDhx6FkVR8KeYVkQHY62X
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-16_06,2022-02-16_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0
+ priorityscore=1501 mlxlogscore=999 impostorscore=0 suspectscore=0
+ spamscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202160076
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,108 +107,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000062623905d8226f7e
-Content-Type: text/plain; charset="UTF-8"
+David Gibson <david@gibson.dropbear.id.au> writes:
 
-On Wed, Feb 16, 2022 at 12:13 PM Richard W.M. Jones <rjones@redhat.com>
-wrote:
-
-> On Tue, Feb 15, 2022 at 05:24:14PM -0600, Eric Blake wrote:
-> > Oh. The QMP command (which is immediately visible through
-> > nbd-server-add/block-storage-add to qemu and qemu-storage-daemon)
-> > gains "multi-conn":"on", but you may be right that qemu-nbd would want
-> > a command line option (either that, or we accellerate our plans that
-> > qsd should replace qemu-nbd).
+> On Tue, Feb 15, 2022 at 06:41:43PM -0300, Fabiano Rosas wrote:
+>> The important part of this function is that it applies to non-embedded
+>> CPUs, not that it also applies to the 601. We removed support for the
+>> 601 anyway, so rename this function.
+>> 
+>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 >
-> I really hope there will always be something called "qemu-nbd"
-> that acts like qemu-nbd.
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 >
+> Although, I wonder if "books_common" or something might be a better
+> name, though.  Admittedly, I don't think the "BookS" terminology
+> existed at the time of most of these earlier CPUs.  However, these
+> days the majority of 7xx chips are probably in embedded applications,
+> even if they weren't designed for an embedded chip line.
 
-I share this hope. Most projects I work on are based on qemu-nbd.
-
-However in oVirt use case, we want to provide an NBD socket for clients to
-allow direct
-access to disks. One of the issues we need to solve for this is having a
-way to tell if the
-qemu-nbd is active, so we can terminate idle transfers.
-
-The way we do this with the ovirt-imageio server is to query the status of
-the transfer, and
-use the idle time (time since last request) and active status (has inflight
-requests) to detect
-a stale transfer that should be terminated. An example use case is a
-process on a remote
-host that started an image transfer, and killed or crashed in the middle of
-the transfer
-without cleaning up properly.
-
-To be more specific, every request to the imageio server (read, write,
-flush, zero, options)
-updates a timestamp in the transfer state. When we get the status we report
-the time since
-that timestamp was updated.
-
-Additionally we keep and report the number of inflight requests, so we can
-tell the case when
-requests are blocked on inaccessible storage (e.g. non responsive NFS).
-
-We don't have a way to do this with qemu-nbd, but I guess that using
-qemu-storage-daemon
-when we have qmp access will make such monitoring possible.
-
-Nir
-
---00000000000062623905d8226f7e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, Feb 16, 2022 at 12:13 PM Richard =
-W.M. Jones &lt;<a href=3D"mailto:rjones@redhat.com" target=3D"_blank">rjone=
-s@redhat.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">On Tue, Feb 15, 2022 at 05:24:14PM -=
-0600, Eric Blake wrote:<br>
-&gt; Oh. The QMP command (which is immediately visible through<br>
-&gt; nbd-server-add/block-storage-add to qemu and qemu-storage-daemon)<br>
-&gt; gains &quot;multi-conn&quot;:&quot;on&quot;, but you may be right that=
- qemu-nbd would want<br>
-&gt; a command line option (either that, or we accellerate our plans that<b=
-r>
-&gt; qsd should replace qemu-nbd).<br>
-<br>
-I really hope there will always be something called &quot;qemu-nbd&quot;<br=
->
-that acts like qemu-nbd.<br>
-</blockquote><div><br></div><div>I share this hope. Most projects I work on=
- are based on qemu-nbd.</div><div><br></div><div>However in oVirt use case,=
- we want to provide an NBD socket for clients to allow direct</div><div>acc=
-ess to disks. One of the issues we need to solve for this is having a way t=
-o tell if the</div><div>qemu-nbd is active, so we can terminate idle transf=
-ers.</div><div><br></div><div>The way we do this with the ovirt-imageio ser=
-ver is to query the status of the transfer, and</div><div>use the idle time=
- (time since last request) and active status (has inflight requests) to det=
-ect</div><div>a stale transfer that should be terminated. An example use ca=
-se is a process on a remote</div><div>host that started an image transfer, =
-and killed or crashed in the middle of the transfer</div><div>without clean=
-ing up properly.</div><div><br></div><div>To be more specific, every reques=
-t to the imageio server (read, write, flush, zero, options)</div><div>updat=
-es a timestamp in the transfer state. When we get the status we report the =
-time since</div><div>that timestamp was updated.</div><div><br></div><div>A=
-dditionally=C2=A0we keep and report the number of inflight requests, so we =
-can tell the case when</div><div>requests are blocked on inaccessible stora=
-ge (e.g. non responsive NFS).</div><div><br></div><div>We don&#39;t have a =
-way to do this with qemu-nbd, but I guess that using qemu-storage-daemon</d=
-iv><div>when we have qmp access will make such monitoring possible.</div><d=
-iv><br></div><div>Nir</div></div></div>
-
---00000000000062623905d8226f7e--
-
+The 'ne' in the original name was probably meant to signify
+not-BookE. So non_booke perhaps would work? The thing with calling it
+books_common is that we're using BookS only for the 970 and upwards and
+this function applies to 6xx, 7xx, 74xx as well.
 
