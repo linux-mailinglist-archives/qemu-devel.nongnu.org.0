@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6219B4B8BDC
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 15:56:34 +0100 (CET)
-Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E53424B8BF2
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 16:01:50 +0100 (CET)
+Received: from localhost ([::1]:34108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKLjN-0007J8-1N
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 09:56:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36940)
+	id 1nKLoT-0001WD-25
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 10:01:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nKLi6-0006Vs-95
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 09:55:15 -0500
-Received: from [2a00:1450:4864:20::62f] (port=45600
- helo=mail-ej1-x62f.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nKLmP-00005B-G8; Wed, 16 Feb 2022 09:59:41 -0500
+Received: from [2607:f8b0:4864:20::f35] (port=37798
+ helo=mail-qv1-xf35.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nKLhy-00011T-AD
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 09:55:08 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id lw4so5118911ejb.12
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 06:55:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=wUdc+2mA8pKCy0jMlItcXO03jldAuhzWi/FvpMLc670=;
- b=zAQRiAMaMgbt20MPkgMdOf5xkhNfCkxetElLjVVnNE5Nov398onfx3HfM4Ob8M5Dgd
- iptbPTtZnE4nTVj2jrqPImnaxCER7dKIncl0T4f9DeeZftVjZ9LxULwpTS1Ex8uuO1Zj
- UkO63uoars7XuXilUx0tuE5vgQUioaQ+Dpg9VTYL7wDqRgPO11+3rHjDQGkUy+K4mRm5
- 9Q2/Ez+DsiMvUlY+w/KrhQnoECGdrGApxUOAyHsW1qVYXC/iPxEOfwIzk240T5qCqmwz
- 9NmQ1ZwifKjHK5YnPJ56V77sr5sYtLZunvd6VaP3tlX2vSoI1Eds8ALbfPzwKTgzObIw
- sLVQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nKLmN-0001nS-Id; Wed, 16 Feb 2022 09:59:41 -0500
+Received: by mail-qv1-xf35.google.com with SMTP id a19so2353231qvm.4;
+ Wed, 16 Feb 2022 06:59:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HCwQ5n10CaOFxQZnPNWsRrLw6em1r9vm4xFTrSfEEXU=;
+ b=NRMQtgl5HcxMyIu/YQGGl75dn3OlGfHTm+mYT/teEgu3p25ELCIiA/1vvWIRsbblsi
+ BIpltToFSu/AL8oGr45qQ8sT5W43v4isXHI0VtzKULvziXQzAYs5Ui5NaKs2a64O+EL8
+ GmNFp1JYQK7QGZygC+nnKjs+wrmu7evfNK8vUbBKN4+fGOazJ8q5GcbRNwiTRE6NQCr+
+ bi5nj49AnrcrlbxbnJyV2kwDPy3n1an597R/DFQCKfmWRYmKcD1V/pvTrI2aun/yjLuq
+ NQ/2xxy6E5rpzVO192UQLnMjXmDHS9CdYGlcvWfvaiijQDx0Nk13KfNW8ht1b1Zo2eF3
+ p7/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=wUdc+2mA8pKCy0jMlItcXO03jldAuhzWi/FvpMLc670=;
- b=1qwXFCn6FHp5nG4QEYfLZefdgRrOWGE6/QPuza6aMkaRS5/OkDBrV4vCy0Ae2SX/H3
- jBNBqaM7Ee6eJphIl1DMiMDNjKPI4iNwyluRMPXGqGFp69NBFXPwKVtBzoOI6Bdq4CBE
- ak9HC3AqhJfatr2q4ZHB+eUe2wkXDA8MeoVMfg/9gNhrN4oK3b4CcEhW4Y/e9FMFSMFr
- wNh9s1aWOOOmV9IyG+pwJ7nfjG8jXu6X7zMqAMSsIfBpW9GqI0Tb2REbFIuj89yjgfJr
- QZhnI51yTNYfbYw//c2/2kHCJ/dehDdX8gZvB3NL48jKH0cB6yWJGaL2nz/G2no3UXrB
- NKig==
-X-Gm-Message-State: AOAM5321DFD7iAVWPsiyaBNku8VyRCBroRyfy4jwoWh2ebxX9t2Lqgg8
- gHLKcJbgWJQ9inAaMuIfN6lEwg==
-X-Google-Smtp-Source: ABdhPJw0J2XRRFZZzGFqlOHrbdJDqBMPkPiQHI6MGkhnETuNT3xgF+msn3UX0LCdtNDpec8K/ohmrw==
-X-Received: by 2002:a17:906:c7cd:b0:6b7:a0ea:81f with SMTP id
- dc13-20020a170906c7cd00b006b7a0ea081fmr2638774ejb.502.1645023298406; 
- Wed, 16 Feb 2022 06:54:58 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s1sm1738974edt.49.2022.02.16.06.54.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 06:54:56 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CD88020329;
- Wed, 16 Feb 2022 14:54:55 +0000 (GMT)
-References: <20220216115102.206129-1-david@redhat.com>
-User-agent: mu4e 1.7.7; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH] tests/tcg/s390x: Build tests with debian11
-Date: Wed, 16 Feb 2022 14:54:26 +0000
-In-reply-to: <20220216115102.206129-1-david@redhat.com>
-Message-ID: <87wnhuc14w.fsf@linaro.org>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HCwQ5n10CaOFxQZnPNWsRrLw6em1r9vm4xFTrSfEEXU=;
+ b=t6cEnfMxJCKoBKJ+1JSYm2wa28mMI2meoUvW1OYTagAYNLHaDhd8dVh6amYwReIoEe
+ NMO2Hd0C7+qWgbDRSfrVjqA2xWzBXIlhNZ/g0t++ThVrK2jV4fFHsYU8TpgnJqQhtwaE
+ 2p4ZbgKkIf8oWmNe9N5F+ovFHbtrvvRyVj5twwLiBuW1/msSiXTPRQp08SCV9K7AiDgN
+ 0moUB/PNXlW6aYbL7DjK5qcxgChQFoWF28Bp3vDMNKzVVVuH8MrObkBYddVmbxsXNWUt
+ wsRpzbpdd4vsbW6H1E/rrco4MhvDHvPZsYtBL3bks67tfv1wxK+YEefPA1eammmvrUVE
+ Emaw==
+X-Gm-Message-State: AOAM532O2ZYkJIPu4DskERVHEbeFpFzkEwofvFfD0Sc4F0xQyAUlcoBY
+ 4ZlNRmF2FZesWXeaMc89tfM=
+X-Google-Smtp-Source: ABdhPJyCPwU7C92utEivNCPloBV6uW8+yej2WGsvs5md88MQhhPyVuB9XvRrUYy6ctn2/HctiBF/VQ==
+X-Received: by 2002:ac8:7d8f:0:b0:2d8:9bfb:f975 with SMTP id
+ c15-20020ac87d8f000000b002d89bfbf975mr2246497qtd.548.1645023578223; 
+ Wed, 16 Feb 2022 06:59:38 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id l11sm19818114qkp.86.2022.02.16.06.59.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 06:59:37 -0800 (PST)
+Message-ID: <a7667501-4ec6-271f-e9d5-0f03f3c73297@amsat.org>
+Date: Wed, 16 Feb 2022 15:59:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [PATCH 3/6] aspeed: rainier: Add i2c LED devices
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell
+ <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>
+References: <20220216092111.237896-1-clg@kaod.org>
+ <20220216092111.237896-4-clg@kaod.org>
+In-Reply-To: <20220216092111.237896-4-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f35
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qv1-xf35.google.com
+X-Spam_score_int: 3
+X-Spam_score: 0.3
 X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.978, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -91,123 +95,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-s390x@nongnu.org, David Miller <dmiller423@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-
-David Hildenbrand <david@redhat.com> writes:
-
-> We need a newer compiler to build upcoming tests that test for z15
-> features with -march=3Dz15. So let's do it similar to arm64 and powerpc,
-> using an environment based on debian11 to build tests only.
->
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
-> Cc: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
-> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Cc: Beraldo Leal <bleal@redhat.com>
-> Cc: David Miller <dmiller423@gmail.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-for now... I'll update the s390x image on my next posting.
-
+On 16/2/22 10:21, Cédric Le Goater wrote:
+> From: Joel Stanley <joel@jms.id.au>
+> 
+> This helps quieten booting the current Rainier kernel.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  .gitlab-ci.d/container-cross.yml                    |  7 +++++++
->  tests/docker/Makefile.include                       |  3 ++-
->  .../dockerfiles/debian-s390x-test-cross.docker      | 13 +++++++++++++
->  tests/tcg/configure.sh                              |  2 +-
->  4 files changed, 23 insertions(+), 2 deletions(-)
->  create mode 100644 tests/docker/dockerfiles/debian-s390x-test-cross.dock=
-er
->
-> diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cr=
-oss.yml
-> index a3b5b90552..f8544750ea 100644
-> --- a/.gitlab-ci.d/container-cross.yml
-> +++ b/.gitlab-ci.d/container-cross.yml
-> @@ -146,6 +146,13 @@ s390x-debian-cross-container:
->    variables:
->      NAME: debian-s390x-cross
->=20=20
-> +s390x-test-debian-cross-container:
-> +  extends: .container_job_template
-> +  stage: containers-layer2
-> +  needs: ['amd64-debian11-container']
-> +  variables:
-> +    NAME: debian-s390x-test-cross
-> +
->  sh4-debian-cross-container:
->    extends: .container_job_template
->    stage: containers-layer2
-> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-> index f1a0c5db7a..b77f6088d9 100644
-> --- a/tests/docker/Makefile.include
-> +++ b/tests/docker/Makefile.include
-> @@ -210,6 +210,7 @@ docker-image-debian-arm64-test-cross: docker-image-de=
-bian11
->  docker-image-debian-microblaze-cross: docker-image-debian10
->  docker-image-debian-nios2-cross: docker-image-debian10
->  docker-image-debian-powerpc-test-cross: docker-image-debian11
-> +docker-image-debian-s390x-test-cross: docker-image-debian11
->=20=20
->  # These images may be good enough for building tests but not for test bu=
-ilds
->  DOCKER_PARTIAL_IMAGES +=3D debian-alpha-cross
-> @@ -219,7 +220,7 @@ DOCKER_PARTIAL_IMAGES +=3D debian-hppa-cross
->  DOCKER_PARTIAL_IMAGES +=3D debian-m68k-cross debian-mips64-cross
->  DOCKER_PARTIAL_IMAGES +=3D debian-microblaze-cross
->  DOCKER_PARTIAL_IMAGES +=3D debian-nios2-cross
-> -DOCKER_PARTIAL_IMAGES +=3D debian-sh4-cross debian-sparc64-cross
-> +DOCKER_PARTIAL_IMAGES +=3D debian-s390x-test-cross debian-sh4-cross debi=
-an-sparc64-cross
->  DOCKER_PARTIAL_IMAGES +=3D debian-tricore-cross
->  DOCKER_PARTIAL_IMAGES +=3D debian-xtensa-cross
->  DOCKER_PARTIAL_IMAGES +=3D fedora-cris-cross
-> diff --git a/tests/docker/dockerfiles/debian-s390x-test-cross.docker b/te=
-sts/docker/dockerfiles/debian-s390x-test-cross.docker
-> new file mode 100644
-> index 0000000000..26435287b6
-> --- /dev/null
-> +++ b/tests/docker/dockerfiles/debian-s390x-test-cross.docker
-> @@ -0,0 +1,13 @@
-> +#
-> +# Docker s390x cross-compiler target (tests only)
-> +#
-> +# This docker target builds on the debian Bullseye base image.
-> +#
-> +FROM qemu/debian11
-> +
-> +# Add the foreign architecture we want and install dependencies
-> +RUN dpkg --add-architecture s390x
-> +RUN apt update && \
-> +    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-> +        apt install -y --no-install-recommends \
-> +        crossbuild-essential-s390x gcc-10-s390x-linux-gnu
-> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-> index 763e9b6ad8..3f00f9307f 100755
-> --- a/tests/tcg/configure.sh
-> +++ b/tests/tcg/configure.sh
-> @@ -185,7 +185,7 @@ for target in $target_list; do
->        ;;
->      s390x-*)
->        container_hosts=3Dx86_64
-> -      container_image=3Ddebian-s390x-cross
-> +      container_image=3Ddebian-s390x-test-cross
->        container_cross_cc=3Ds390x-linux-gnu-gcc
->        ;;
->      sh4-*)
+>   hw/arm/aspeed.c | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 9789a489047b..0e5e5c31d59c 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -723,6 +723,8 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+>   
+>       aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 0), 0x51, 32 * KiB);
+>   
+> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 3), "pca9552", 0x61);
 
+Possible cleanup: add a create_pca9552(soc, i2c_bus_id, i2c_addr) static
+helper which uses the TYPE_PCA9552 definitions.
 
---=20
-Alex Benn=C3=A9e
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
