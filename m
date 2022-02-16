@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B944B922F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:19:39 +0100 (CET)
-Received: from localhost ([::1]:40846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3FA4B9237
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:22:21 +0100 (CET)
+Received: from localhost ([::1]:48966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKQm2-0003V3-AT
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:19:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60432)
+	id 1nKQoc-0000mg-E6
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:22:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nKQX2-0000X5-GX; Wed, 16 Feb 2022 15:04:08 -0500
-Received: from [2607:f8b0:4864:20::d36] (port=41555
- helo=mail-io1-xd36.google.com)
+ id 1nKQX2-0000Xk-PB; Wed, 16 Feb 2022 15:04:08 -0500
+Received: from [2607:f8b0:4864:20::d29] (port=34565
+ helo=mail-io1-xd29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nKQX0-0000Pl-9C; Wed, 16 Feb 2022 15:04:08 -0500
-Received: by mail-io1-xd36.google.com with SMTP id z2so1074400iow.8;
- Wed, 16 Feb 2022 12:04:05 -0800 (PST)
+ id 1nKQX1-0000Pu-2g; Wed, 16 Feb 2022 15:04:08 -0500
+Received: by mail-io1-xd29.google.com with SMTP id y20so1108149iod.1;
+ Wed, 16 Feb 2022 12:04:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oJCqRIkEsM1dSkylYRG8xS2rNewVHCYsSgGo0LbMZ4E=;
- b=VqvuWiEupceOlaGbJ07zU0BUw+oUeY819yiczjFE6Tsae1lyHNMBBBXf74BNOwPd8O
- mZHmcg/z/+Ilmqus47FZsvXKfttIQQXTCX2EZHNrjGkjTJMUTBVTG8hWvqXp9S2XcRKM
- lRKjHqgXvxYXjSi70ETLIdI4JQWYDhFe3rHA8kLJhfJmAt0uqorMmCyhk4EjQ2yS8siX
- mOcfqoPkvrAovcWNGqJHYro7n+JLL5ivEw9Yo/vzWE/9aLRHIatEGiRTb38gnNh1wm6o
- a3eeFtNucfSgiaZ9x5LosRSQ/91QQPaScE1VfOdZ5l0MJNwRUmRdEQpZ0fzVG1MlKLov
- KV3A==
+ bh=ZZmfXA9JJyDuc75lRpnAhhZGOGAzOWR4TXt8vKOOvUo=;
+ b=THSMI/n5YMlRSvY3vZ/lcS8hfiWYtW3SQwTq1U5jeDnlIdfN3XC2pqYuFDBywFIUdU
+ 2JBk5ti2X5nZBtQgKKrneI3LNXfpJSAOYd3dtL7e4TtTgYVBnnhxsF2NLKbAxFimhrw0
+ l8BUM5KZOli2qGPdRce5S1n3yKoSX0vM7ef0v339chbEerkSJAtI+khgoXZEO/uCYHlV
+ V0YKdo8jFi9POlIXG6QbTSX3+/osmMtjTbFbg//Iehx8ie0/wOMDJ7wlQNDQc3QXMJgW
+ DUnigYU7vHRiVdPasBSmib0GPSNGgG0Tbz3e1c5jJog/dGR8YhmhJfsiefmDaxCj1ICe
+ qe6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oJCqRIkEsM1dSkylYRG8xS2rNewVHCYsSgGo0LbMZ4E=;
- b=KX1P+I18tttJt2+YPNjVzL2npkCFbMQuU8EAy75Xu+Q0RXrSlVtyiyJOSfdGJmq3ON
- amk6bcqdvgejdsUamJmk+qNBqTNx5xLiNkUJVAso9MwGFwCiWyQx6shhXiiZXAoVW62s
- vN/GOdW7yXz/uRX7UW0nCvOB7FNcO0LQV5hFzDS0slfxdQMaegjypodGLCoWNKsKhE7v
- Kp67PgES75dvzS720g/ygQLJmIAGcGUWz4hDR/FlX4qqCAUAIxpB63g2O+qkrPWVJbFV
- LB6oCcvMOBfWzyFXWe4ivH7K4bpeyQt5tV+KnLzhbsrvMPHi30u/kZNuwYwLuHwJrtoi
- tv0A==
-X-Gm-Message-State: AOAM531n6Vd4XC6QinIroC6McR06lUXFo6Luaq/PrAqXHkbQgamAGVVT
- 3GguQ4e/M4ZhAlJszRAm9bpBmB4VFY/Ch+S7JJ0=
-X-Google-Smtp-Source: ABdhPJxU9vdHTbW1Jn2n3DDkFNP9F9ju+O+7TNH8do3PtuAKF636YLznR3qhj1LXgz3kAugRyn4ytg==
-X-Received: by 2002:a02:a804:0:b0:30e:4778:559a with SMTP id
- f4-20020a02a804000000b0030e4778559amr2733634jaj.291.1645041844750; 
- Wed, 16 Feb 2022 12:04:04 -0800 (PST)
+ bh=ZZmfXA9JJyDuc75lRpnAhhZGOGAzOWR4TXt8vKOOvUo=;
+ b=1gEv1NC5FfoNXUlri4u93rnvw0Du8Ye8AUNrmiQVtuQd7qXgXZ7SWD6N3m36qCr/z0
+ vFLDCT+b11Xr6Toa8t9Mr4VGpQxDkZvUpRp6Wc+f2YWMXpo5YEGYrdswFCOOXpm+rCOd
+ 9Aidf7wqbc7HhYs6zPNc6gkBwRaBFuAIolS/DnqxTLylOAyGmJCPwppkmrawuLuOQfoR
+ VSXmqSiBE/WiKx66l+8OkIhCxv4L7Mp25xekpNzTi0gHNE0JTYI7A37cQHXc3LBxhotC
+ Cmoc3tjvkWIaB+di39T944kacsTN7Q/vo6YE83E2MhABZWsNW14iW4OefcN9v3M5a8Ap
+ Li0g==
+X-Gm-Message-State: AOAM5319fjFvWWUVPIivcTt9F9keoUd9VQqy1f2H6f1XNNKgNZWaVdXq
+ AmWXVzKJK4kJrO0xZ4JPP53Rg+J/ev3rbRe3ohE=
+X-Google-Smtp-Source: ABdhPJypivMBFv+e97lNgS2OH5WMCtpSAeh/72PQ6LEAb5Ihjl2I3XGho9ZJDjCglR7YmqPikNAunA==
+X-Received: by 2002:a5d:80c5:0:b0:613:88a4:ecb4 with SMTP id
+ h5-20020a5d80c5000000b0061388a4ecb4mr2974057ior.130.1645041845493; 
+ Wed, 16 Feb 2022 12:04:05 -0800 (PST)
 Received: from rygar.pwrtc.com (mont-dyn-147-119.pwrtc.com. [205.174.147.119])
  by smtp.gmail.com with ESMTPSA id
- j14sm428902ilc.62.2022.02.16.12.04.03
+ j14sm428902ilc.62.2022.02.16.12.04.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 12:04:03 -0800 (PST)
+ Wed, 16 Feb 2022 12:04:05 -0800 (PST)
 From: David Miller <dmiller423@gmail.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v4 2/3] s390x/cpumodel: Bump up QEMU model to a stripped-down
- IBM z15 GA1
-Date: Wed, 16 Feb 2022 15:03:54 -0500
-Message-Id: <20220216200355.128731-3-dmiller423@gmail.com>
+Subject: [PATCH v4 3/3] tests/tcg/s390x: Tests for
+ Miscellaneous-Instruction-Extensions Facility 3
+Date: Wed, 16 Feb 2022 15:03:55 -0500
+Message-Id: <20220216200355.128731-4-dmiller423@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220216200355.128731-1-dmiller423@gmail.com>
 References: <20220216200355.128731-1-dmiller423@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=dmiller423@gmail.com; helo=mail-io1-xd36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=dmiller423@gmail.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -95,80 +95,36 @@ Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TCG implements everything we need to run basic z15 OS+software
+tests/tcg/s390x/mie3-compl.c: [N]*K instructions
+tests/tcg/s390x/mie3-mvcrl.c: MVCRL instruction
+tests/tcg/s390x/mie3-sel.c:  SELECT instruction
 
 Signed-off-by: David Miller <dmiller423@gmail.com>
 ---
- hw/s390x/s390-virtio-ccw.c  | 3 +++
- target/s390x/cpu_models.c   | 6 +++---
- target/s390x/gen-features.c | 7 +++++--
- 3 files changed, 11 insertions(+), 5 deletions(-)
+ tests/tcg/s390x/Makefile.target | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 84e3e63c43..90480e7cf9 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -802,7 +802,10 @@ DEFINE_CCW_MACHINE(7_0, "7.0", true);
- 
- static void ccw_machine_6_2_instance_options(MachineState *machine)
- {
-+    static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V6_2 };
-+
-     ccw_machine_7_0_instance_options(machine);
-+    s390_set_qemu_cpu_model(0x3906, 14, 2, qemu_cpu_feat);
- }
- 
- static void ccw_machine_6_2_class_options(MachineClass *mc)
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 11e06cc51f..89f83e81d5 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -85,9 +85,9 @@ static S390CPUDef s390_cpu_defs[] = {
-     CPUDEF_INIT(0x3932, 16, 1, 47, 0x08000000U, "gen16b", "IBM 3932 GA1"),
- };
- 
--#define QEMU_MAX_CPU_TYPE 0x3906
--#define QEMU_MAX_CPU_GEN 14
--#define QEMU_MAX_CPU_EC_GA 2
-+#define QEMU_MAX_CPU_TYPE 0x8561
-+#define QEMU_MAX_CPU_GEN 15
-+#define QEMU_MAX_CPU_EC_GA 1
- static const S390FeatInit qemu_max_cpu_feat_init = { S390_FEAT_LIST_QEMU_MAX };
- static S390FeatBitmap qemu_max_cpu_feat;
- 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index a3f30f69d9..22846121c4 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -731,16 +731,18 @@ static uint16_t qemu_V6_0[] = {
-     S390_FEAT_ESOP,
- };
- 
--static uint16_t qemu_LATEST[] = {
-+static uint16_t qemu_V6_2[] = {
-     S390_FEAT_INSTRUCTION_EXEC_PROT,
-     S390_FEAT_MISC_INSTRUCTION_EXT2,
-     S390_FEAT_MSA_EXT_8,
-     S390_FEAT_VECTOR_ENH,
- };
- 
-+static uint16_t qemu_LATEST[] = {
-+    S390_FEAT_MISC_INSTRUCTION_EXT3,
-+};
- /* add all new definitions before this point */
- static uint16_t qemu_MAX[] = {
--    S390_FEAT_MISC_INSTRUCTION_EXT3,
-     /* generates a dependency warning, leave it out for now */
-     S390_FEAT_MSA_EXT_5,
- };
-@@ -863,6 +865,7 @@ static FeatGroupDefSpec QemuFeatDef[] = {
-     QEMU_FEAT_INITIALIZER(V4_0),
-     QEMU_FEAT_INITIALIZER(V4_1),
-     QEMU_FEAT_INITIALIZER(V6_0),
-+    QEMU_FEAT_INITIALIZER(V6_2),
-     QEMU_FEAT_INITIALIZER(LATEST),
-     QEMU_FEAT_INITIALIZER(MAX),
- };
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 1a7238b4eb..54e67446aa 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -1,12 +1,15 @@
+ S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
+ VPATH+=$(S390X_SRC)
+-CFLAGS+=-march=zEC12 -m64
++CFLAGS+=-march=z15 -m64
+ TESTS+=hello-s390x
+ TESTS+=csst
+ TESTS+=ipm
+ TESTS+=exrl-trt
+ TESTS+=exrl-trtr
+ TESTS+=pack
++TESTS+=mie3-compl
++TESTS+=mie3-mvcrl
++TESTS+=mie3-sel
+ TESTS+=mvo
+ TESTS+=mvc
+ TESTS+=shift
 -- 
 2.32.0
 
