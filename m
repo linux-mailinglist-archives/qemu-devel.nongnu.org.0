@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67344B8601
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:40:07 +0100 (CET)
-Received: from localhost ([::1]:60898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4550B4B8618
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:43:47 +0100 (CET)
+Received: from localhost ([::1]:40864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKHjC-0003aG-OR
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:40:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45206)
+	id 1nKHmk-0000sd-2z
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:43:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nKHVt-0000y0-3X; Wed, 16 Feb 2022 05:26:22 -0500
-Received: from [2607:f8b0:4864:20::433] (port=33289
+ id 1nKHWC-00014i-Lj; Wed, 16 Feb 2022 05:26:40 -0500
+Received: from [2607:f8b0:4864:20::433] (port=42706
  helo=mail-pf1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nKHVr-0005LJ-Hv; Wed, 16 Feb 2022 05:26:20 -0500
-Received: by mail-pf1-x433.google.com with SMTP id d17so1838348pfl.0;
- Wed, 16 Feb 2022 02:26:18 -0800 (PST)
+ id 1nKHVu-0005Le-So; Wed, 16 Feb 2022 05:26:24 -0500
+Received: by mail-pf1-x433.google.com with SMTP id i6so1769610pfc.9;
+ Wed, 16 Feb 2022 02:26:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Dbtih0DtqaIWcdiGzJw5+r5UgVFV1kuwMUAShpRrOcA=;
- b=fA6EP8/FDlPQlPDimx99T6WoA5eQd3k3DxUZiwvyZfP1bPptF8kLq5whYgBemGWise
- 39yDFofgpiLpSPVuso0of/Oj2IfOPg8iS2Be+Ij9nGEhdjaEgEfo5aslAMjk3U491/4E
- bOIS+sFyIkza+HeKUwc4BGJ8sWF5SBXBXwLqJsI3/mblZLrhcmKlFG8qL2CpKzfAD6nw
- DU8wj3z04yqtAWBbb2JYjOZhp7uvxiWIVKidfl5nMk8AIle3pqYdmHBFBB+97BIxyHKB
- tQcc63MUFvGUmDAYJNFDVmHVposEVTR1UytHqXxv9uzuGaIUVAodbXY2hV40HbVy4fAt
- QCMA==
+ bh=prFXyExXRocVxCDwtIex6BP56Yse47yKFs426Ch3c9s=;
+ b=HJBswebISRk71gOQGjoLfKjWDZBvXCTenPTzuhOvjq5a+nj8q3pNhrX63zGwVmkYeX
+ PXfpoeCwEN/V1Zd+v2ESLdqIcRjIJSDuKltEt2cNuOfYlYhD+EQMbqz9axMFxvhB464a
+ TLWqxLB0rMh3MdIqMPCm6h9ibUOLE3t1sWguvFEoyDxybLoLWQWVJLuP+2KYQ1eEcmTe
+ jK5Mfkt0c9mPbMbjvtOyBWS7+h0o5fNQ8UuNdSr1n8PvyPO4V9o2dS/dHdpTwCMxjrm0
+ f03KV8EhvjyQGJl6n4sfzauCfdaACWDOsKUuMfHHwM9YalAria8vo7Bxr9W55vUR58dE
+ qeew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Dbtih0DtqaIWcdiGzJw5+r5UgVFV1kuwMUAShpRrOcA=;
- b=PzJwXYDTftJOnvcpkqzeB1kQ1++P6tIotqsvFZ2904iyNJrixH58kGgt/hWx2Cklif
- tS/zdhIopjsw07ItWdKwYg90QxdO1T6OxHSXjjH5mMTNQZhVZ5JhMPB9jNNTsDT1XxIa
- 3q29BHoXD9ryNckXxdWtDQw8AquLBzwhTCZ0Ayj7sTZzji/Jrky2mc1t2R/SFbxNKmYb
- jHIgERY59Np0M+QgUOaEWKrzrNAGTbb+HS9gS4yYdvhSe2mDBKTg7LOemOQMawcWmqgK
- snNTgT3ziNsrJrXgFvn2f9f/KagCwAjU+ERimxPQkJgl88lLg+4fFwjMM1uHPg4cdjFd
- wwnw==
-X-Gm-Message-State: AOAM531mr7Ys56xnhn4O1E70+Hp3Etm7wBBrmb8cUscTkESwiYrZXcCx
- DCcQUAZ43mnDB5lh3REAJoypdyQ6ZfY=
-X-Google-Smtp-Source: ABdhPJzPr9s4MFwZsWjrbEmhYwLGtyUB96fNfwO8ZCjh4baUJrBY/VZwVCAn4Ypq8cqT0A/iu+Vtkg==
-X-Received: by 2002:a05:6a00:198e:b0:4e1:52be:877d with SMTP id
- d14-20020a056a00198e00b004e152be877dmr2020954pfl.78.1645007177959; 
- Wed, 16 Feb 2022 02:26:17 -0800 (PST)
+ bh=prFXyExXRocVxCDwtIex6BP56Yse47yKFs426Ch3c9s=;
+ b=70TCKcEKeVNDarNRKamd0zbSMKdIKOHUwLQnX2Dj36H+S/y2mZUYEE1FdN+eCvYHUy
+ AzLtpVwzfF/JgS0Io9wEJu7Pk8HPlF/IEnYdlRYxP8t1IAjfUg3FwmKWcR8BXlqmD1yQ
+ m/Tpe9c8QeG1Eki3U1h64pPe5aQFOC7vviPWIABszH2Ji+yn7YvY9oqUo0ajNjwg3U/+
+ z9xJktvLq6eGVIbabwZ8EjzaU90o4Z2w7Y/T6EME8kFJFcSptb0MTo8vQ37xHY8Qm2KN
+ Wpge/0yHK/vEgsWMujpLr+zVPYylI5x88jB82Fi7PIcHSd2Dggz6ipkb5h4FFJ289c1C
+ u0HQ==
+X-Gm-Message-State: AOAM533NZtjR/RjSvovFPJ5yQmEqUJ3KDLyKp5mhZHA/J8127s8j3hPW
+ 19srV6PZBCT/V/z4ihB3QB1WW7lTRCA=
+X-Google-Smtp-Source: ABdhPJyqzlvyr2HzR2csu3zmTvw0hgfD1JiHuXWN/9l0941iRY/EXBv2Fl9GU2KZTwGUIC7BKF7CUw==
+X-Received: by 2002:a05:6a00:a26:b0:4c3:d3e:3667 with SMTP id
+ p38-20020a056a000a2600b004c30d3e3667mr2190782pfh.69.1645007181226; 
+ Wed, 16 Feb 2022 02:26:21 -0800 (PST)
 Received: from bobo.ozlabs.ibm.com (193-116-225-41.tpgi.com.au.
  [193.116.225.41])
- by smtp.gmail.com with ESMTPSA id j3sm5214474pgs.0.2022.02.16.02.26.15
+ by smtp.gmail.com with ESMTPSA id j3sm5214474pgs.0.2022.02.16.02.26.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 02:26:17 -0800 (PST)
+ Wed, 16 Feb 2022 02:26:21 -0800 (PST)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v2 6/9] target/ppc: add helper for books vhyp hypercall handler
-Date: Wed, 16 Feb 2022 20:25:42 +1000
-Message-Id: <20220216102545.1808018-7-npiggin@gmail.com>
+Subject: [PATCH v2 7/9] target/ppc: Add powerpc_reset_excp_state helper
+Date: Wed, 16 Feb 2022 20:25:43 +1000
+Message-Id: <20220216102545.1808018-8-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20220216102545.1808018-1-npiggin@gmail.com>
 References: <20220216102545.1808018-1-npiggin@gmail.com>
@@ -94,49 +94,129 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virtual hypervisor currently always intercepts and handles
-hypercalls but with a future change this will not always be the case.
-
-Add a helper for the test so the logic is abstracted from the mechanism.
+This moves the logic to reset the QEMU exception state into its own
+function.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- target/ppc/excp_helper.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ target/ppc/excp_helper.c | 41 ++++++++++++++++++++--------------------
+ 1 file changed, 21 insertions(+), 20 deletions(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index fcc83a7701..6b6ec71bc2 100644
+index 6b6ec71bc2..778eb4f3b0 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -1278,6 +1278,18 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
+@@ -360,12 +360,20 @@ static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp, target_ulong msr,
  }
+ #endif
  
- #ifdef TARGET_PPC64
-+/*
-+ * When running under vhyp, hcalls are always intercepted and sent to the
-+ * vhc->hypercall handler.
-+ */
-+static bool books_vhyp_handles_hcall(PowerPCCPU *cpu)
-+{
-+    if (cpu->vhyp) {
-+        return true;
-+    }
-+    return false;
-+}
-+
- static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+-static void powerpc_set_excp_state(PowerPCCPU *cpu,
+-                                          target_ulong vector, target_ulong msr)
++static void powerpc_reset_excp_state(PowerPCCPU *cpu)
  {
      CPUState *cs = CPU(cpu);
-@@ -1439,7 +1451,7 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
-         env->nip += 4;
+     CPUPPCState *env = &cpu->env;
  
-         /* "PAPR mode" built-in hypercall emulation */
--        if ((lev == 1) && cpu->vhyp) {
-+        if ((lev == 1) && books_vhyp_handles_hcall(cpu)) {
-             PPCVirtualHypervisorClass *vhc =
-                 PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
-             vhc->hypercall(cpu->vhyp, cpu);
++    /* Reset exception state */
++    cs->exception_index = POWERPC_EXCP_NONE;
++    env->error_code = 0;
++}
++
++static void powerpc_set_excp_state(PowerPCCPU *cpu, target_ulong vector, target_ulong msr)
++{
++    CPUPPCState *env = &cpu->env;
++
+     assert((msr & env->msr_mask) == msr);
+ 
+     /*
+@@ -376,21 +384,20 @@ static void powerpc_set_excp_state(PowerPCCPU *cpu,
+      * will prevent setting of the HV bit which some exceptions might need
+      * to do.
+      */
++    env->nip = vector;
+     env->msr = msr;
+     hreg_compute_hflags(env);
+-    env->nip = vector;
+-    /* Reset exception state */
+-    cs->exception_index = POWERPC_EXCP_NONE;
+-    env->error_code = 0;
+ 
+-    /* Reset the reservation */
+-    env->reserve_addr = -1;
++    powerpc_reset_excp_state(cpu);
+ 
+     /*
+      * Any interrupt is context synchronizing, check if TCG TLB needs
+      * a delayed flush on ppc64
+      */
+     check_tlb_flush(env, false);
++
++    /* Reset the reservation */
++    env->reserve_addr = -1;
+ }
+ 
+ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
+@@ -471,8 +478,7 @@ static void powerpc_excp_40x(PowerPCCPU *cpu, int excp)
+         case POWERPC_EXCP_FP:
+             if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+                 trace_ppc_excp_fp_ignore();
+-                cs->exception_index = POWERPC_EXCP_NONE;
+-                env->error_code = 0;
++                powerpc_reset_excp_state(cpu);
+                 return;
+             }
+             env->spr[SPR_40x_ESR] = ESR_FP;
+@@ -609,8 +615,7 @@ static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
+         case POWERPC_EXCP_FP:
+             if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+                 trace_ppc_excp_fp_ignore();
+-                cs->exception_index = POWERPC_EXCP_NONE;
+-                env->error_code = 0;
++                powerpc_reset_excp_state(cpu);
+                 return;
+             }
+ 
+@@ -783,8 +788,7 @@ static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
+         case POWERPC_EXCP_FP:
+             if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+                 trace_ppc_excp_fp_ignore();
+-                cs->exception_index = POWERPC_EXCP_NONE;
+-                env->error_code = 0;
++                powerpc_reset_excp_state(cpu);
+                 return;
+             }
+ 
+@@ -969,8 +973,7 @@ static void powerpc_excp_74xx(PowerPCCPU *cpu, int excp)
+         case POWERPC_EXCP_FP:
+             if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+                 trace_ppc_excp_fp_ignore();
+-                cs->exception_index = POWERPC_EXCP_NONE;
+-                env->error_code = 0;
++                powerpc_reset_excp_state(cpu);
+                 return;
+             }
+ 
+@@ -1168,8 +1171,7 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
+         case POWERPC_EXCP_FP:
+             if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+                 trace_ppc_excp_fp_ignore();
+-                cs->exception_index = POWERPC_EXCP_NONE;
+-                env->error_code = 0;
++                powerpc_reset_excp_state(cpu);
+                 return;
+             }
+ 
+@@ -1406,8 +1408,7 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+         case POWERPC_EXCP_FP:
+             if ((msr_fe0 == 0 && msr_fe1 == 0) || msr_fp == 0) {
+                 trace_ppc_excp_fp_ignore();
+-                cs->exception_index = POWERPC_EXCP_NONE;
+-                env->error_code = 0;
++                powerpc_reset_excp_state(cpu);
+                 return;
+             }
+ 
 -- 
 2.23.0
 
