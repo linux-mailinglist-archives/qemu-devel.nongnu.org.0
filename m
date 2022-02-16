@@ -2,100 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B654B82FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 09:35:58 +0100 (CET)
-Received: from localhost ([::1]:50894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2264B82C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 09:17:41 +0100 (CET)
+Received: from localhost ([::1]:50632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKFn3-0007c1-FI
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 03:35:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48664)
+	id 1nKFVM-0004Wu-7q
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 03:17:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDpm-0006Vy-Ay
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:30:38 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:14545)
+ id 1nKDpr-0006gT-D1
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:30:43 -0500
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:31617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDpj-0006h9-Dd
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:30:38 -0500
+ id 1nKDpp-0006hk-M5
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:30:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1644993036; x=1676529036;
+ t=1644993041; x=1676529041;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DVUTjB2lAiVl3JnKm7Gl1e92WjdQT2bI1iA7+W7EZ4Y=;
- b=MN8RoYl/3DbhCtaJcFI7q4xauQ6hlZLjPTjS1sUkx9a4gTDAubdY6re2
- ZjIngkwquOQ+CwKlIfIYtYf2DFmcWfICIp1ylT+ILFGy3CLeg0DeiIwy2
- jrze8J7MpgYPEsZZC3gfrXlVQuVoeaI/ghZs3egZsvKeMiUiwG4y/0FJk
- mneJAtIaTvojH8HK512KlJ95z0mFruhKKfugQXmhtpPCjlRA5w9920Osy
- SgCPxuo9JqcVgB9KUBqZ5LikfgQM0j97MdwfUG06Ef8DzixRQtJFgeyuS
- RLtNHTC/gvS8D3S5oqfjgLCZeVbzY2W3PCzAzeCLhrgpAdO0joRXj5mw9 A==;
-X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="194046761"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:30:35 +0800
-IronPort-SDR: h07u/iqRUt/Yz+m5pWFp6/w+MP8B2isObmjfIBP1zGBaJ9s3/SlFZXxsOaRUkTqARSyeSlp3I/
- TxBT9tmgTBFygKtFEwvA9lhOd8CEpCiIM4froTFJgTvgsSbEy4CxxJtDWBNesuOdG4sRsCdv4B
- fz7OhId+SJSqIkH8yCId+CzfCmpj8GRh3VPwtjicZVRvuE0BeCvNYV0mhnfiVXEtkT1TO5CoMx
- zf9SMXoXgrQOk9FYo0Q36v1cz33t9fAy5lgFdTOu+EKJk734erl8qzo8VqzXpiWDxufPyoEVX3
- L0p4GoSocTXdNznZIis5/PLv
+ bh=pvnxMTCRdBYWESBTahjlcU5dha2IzsUpRGE46NIzUNo=;
+ b=CIyswWfu8I1qmVni2M3JjVcw0vFG4H4sjsw9OnnYl3qAkmucB7wr65ke
+ X8Id0cKII5vSZBp0jaP3A7VTQtN+cLVMq0LW2kb+ddxrfSK00bQ7td+eI
+ whZcwbe26Xqqlv7W5hrsYyN03BzmENUqhxNYf6wN/+SuRmEvnusNNnUpM
+ X8smf0BwoUJQSpUwMXGPanjCQ542RDdHm9BjFDnz9OxWrn5prbyjlRJZw
+ dCkFZjSd2QqSTzeWMvx3SIV4H8le12tSasp3/hBWwF8+UqJQvRlC7Fcqv
+ 4+LArzmNQpCFeiYFrltvorOtgKsdFupzU9g5TxtF/mRwNXnwwZO1QCICW w==;
+X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="304974571"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:30:40 +0800
+IronPort-SDR: VxErY+h6sWf4mF8iWDQqrG24ASxlm2rcQaF/SnCsOIG1WMBNbu9T1jFzSN8sYbfd2bO2n3vOIW
+ 1xO8mv8rPwSUDaGFfIXGbLk44cGg6LvqSLJv25rhhotYUAOO1X7Dr4Q8DVQyNgEEV0isxh5Sz7
+ Dbp2/xi2V/gtGwcNzzNroNHDOxeEYv0M844mpfIKLs44CwDXsYa5fGOza3YQZrG9sHD0ZZOXrH
+ TwiCwfmhOeJoIOSg/n/rtp4bdhsxfP+uFUQm4zqSZoE1AoHA5ccn7W5mpct0RWM42WEi7W14Ip
+ p4s8sHdsw4eUFjE+EU5vAoI7
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:02:14 -0800
-IronPort-SDR: FNVc2zM1BUkIS8WktONsJygWyZRCxnlO6KdaS1NX+Gfl9H+LWb9kYDG+CUQR4o94H+f3ZXhBFp
- cZYoY9eNIDCUsBvFs6bV6K3LjeK+00NK+g4zaKTN0aPuRHVTYbo/tfVSgL+Nr/iJ2wpvKdtPmj
- 04TSuXvShOCFYjQcdTMja3TGklTPKlzfvKKk4NtClZYMY0E1EILQluuOnj6awbisbL4oDx1Xij
- S0bN9soWB1vhQDFVmWHWixYHgw3OWJHGz2CWi9klbv/H2XdNDpBXiRhUXIvc9je22SQOm/EZyt
- yr0=
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 22:03:28 -0800
+IronPort-SDR: ptUXRSNslVU2QL2VFSbYX4dvX4hUzm7Yx2ZSuvS4ZSU2luCyvzQjhrXZs6naDRHrPujj8De5Wl
+ ewm3n0S2zJ8Irnq/VWtTTUvC+gC9xeaGc4kWYOKsxBJi6CqdXcHAfP2FrgvIk+7ugIvn68iPuG
+ tKzdnnGQXtYx1eIbePi+YQBghOZ4N9VA7aYBMtkfYMhjK0ywsRgFLQGEXN1FNPBKLBK+dMdrFJ
+ QfxGKCAjG7uBhMDXew2s5muxbQU5K3wxP46yS2kdQsP4murTc1+AUuXZ5vNSezhX+ZXT/f+7rU
+ sIQ=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:30:34 -0800
+ 15 Feb 2022 22:30:40 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7PP6jwZz1SVp2
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:30:33 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7PW4R5fz1SVp3
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:30:39 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1644993033; x=1647585034; bh=DVUTjB2lAiVl3JnKm7
- Gl1e92WjdQT2bI1iA7+W7EZ4Y=; b=Ihin+WVi9NWNsWxhHi7w4F5KCEko337ZgJ
- ACQZlrp4jSuN0o5jKGXCsliay4sIgBSei0MX6peGFR0FYK5kNHSBHazz70QAol6R
- OnKC3iTzsVHvoZRwE07Pn3U7KDDEuYspKVcbY+FIsbaTbgXGaHfNwb7V+KqfAk1v
- xfYRQRau12I+MhACA47ONAudvFo4uuwH0fOvIg9MH9wrIC9eBBldE0t6Yqx5Gq5P
- W3cocr2Uu0APhy7G+yeymdESbm36D1Tfer16zGg6G5ODoRf7/iYLryzWDZIzuQPj
- dM5f0uJZma7+I/e0goeFxMcH9f4aDaYsddoNJyjuIfX+aVG9ZBWw==
+ :from; s=dkim; t=1644993039; x=1647585040; bh=pvnxMTCRdBYWESBTah
+ jlcU5dha2IzsUpRGE46NIzUNo=; b=Dcn3+L/hkQHsVi1AQslF+njNPLyPZtQF+b
+ HUECwvk9tMnRay1ntIej+ca/eKb+QjhEC3PAmVOkAN5dGuFggVbEWMiganY7FpTL
+ HXQzO3N55fyLirGaKN7MB++1lbjqJKP9I5fhe2hMhjpgyzNbQOI6SE0XHVHDa2bb
+ kJgw2MNgAUCo7jqlFkztaqb/ehcPlxB1sCGkY7Q4fZZO9LTS5R4leW3QW3mTFmww
+ SmEWJnjxeSCoVup2lQQ3//iwxR39lEIRTSrf5SDe++gtKcEIUU0TqpmOg3dYLUwF
+ /YpqSkUMiQSXhmbfl/2DwKJa/kVMu4TyCxuQkJkNK954MnIGENGw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id UwdMX9y_fvLB for <qemu-devel@nongnu.org>;
- Tue, 15 Feb 2022 22:30:33 -0800 (PST)
+ port 10026) with ESMTP id YHkWqmnEiL5m for <qemu-devel@nongnu.org>;
+ Tue, 15 Feb 2022 22:30:39 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.165.97])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7PK24tzz1Rwrw;
- Tue, 15 Feb 2022 22:30:28 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7PQ74t4z1Rwrw;
+ Tue, 15 Feb 2022 22:30:34 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Anup Patel <anup.patel@wdc.com>,
  Anup Patel <anup@brainfault.org>, Bin Meng <bmeng.cn@gmail.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Frank Chang <frank.chang@sifive.com>
-Subject: [PULL v2 16/35] target/riscv: Allow setting CPU feature from
- machine/device emulation
-Date: Wed, 16 Feb 2022 16:28:53 +1000
-Message-Id: <20220216062912.319738-17-alistair.francis@opensource.wdc.com>
+Subject: [PULL v2 17/35] target/riscv: Add AIA cpu feature
+Date: Wed, 16 Feb 2022 16:28:54 +1000
+Message-Id: <20220216062912.319738-18-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
 References: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
+Received-SPF: pass client-ip=68.232.141.245;
  envelope-from=prvs=039576d22=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
+ helo=esa1.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -120,82 +119,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anup Patel <anup.patel@wdc.com>
 
-The machine or device emulation should be able to force set certain
-CPU features because:
-1) We can have certain CPU features which are in-general optional
-   but implemented by RISC-V CPUs on the machine.
-2) We can have devices which require a certain CPU feature. For example,
-   AIA IMSIC devices expect AIA CSRs implemented by RISC-V CPUs.
+We define a CPU feature for AIA CSR support in RISC-V CPUs which
+can be set by machine/device emulation. The RISC-V CSR emulation
+will also check this feature for emulating AIA CSRs.
 
 Signed-off-by: Anup Patel <anup.patel@wdc.com>
 Signed-off-by: Anup Patel <anup@brainfault.org>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Message-id: 20220204174700.534953-6-anup@brainfault.org
+Message-id: 20220204174700.534953-7-anup@brainfault.org
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h |  5 +++++
- target/riscv/cpu.c | 11 +++--------
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ target/riscv/cpu.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index f030cb58b2..283a3cda4b 100644
+index 283a3cda4b..8838c61ae4 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -379,6 +379,11 @@ static inline bool riscv_feature(CPURISCVState *env,=
- int feature)
-     return env->features & (1ULL << feature);
- }
+@@ -78,7 +78,8 @@ enum {
+     RISCV_FEATURE_MMU,
+     RISCV_FEATURE_PMP,
+     RISCV_FEATURE_EPMP,
+-    RISCV_FEATURE_MISA
++    RISCV_FEATURE_MISA,
++    RISCV_FEATURE_AIA
+ };
 =20
-+static inline void riscv_set_feature(CPURISCVState *env, int feature)
-+{
-+    env->features |=3D (1ULL << feature);
-+}
-+
- #include "cpu_user.h"
-=20
- extern const char * const riscv_int_regnames[];
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index f1c268415a..ff766acc21 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -135,11 +135,6 @@ static void set_vext_version(CPURISCVState *env, int=
- vext_ver)
-     env->vext_ver =3D vext_ver;
- }
-=20
--static void set_feature(CPURISCVState *env, int feature)
--{
--    env->features |=3D (1ULL << feature);
--}
--
- static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
- {
- #ifndef CONFIG_USER_ONLY
-@@ -508,18 +503,18 @@ static void riscv_cpu_realize(DeviceState *dev, Err=
-or **errp)
-     }
-=20
-     if (cpu->cfg.mmu) {
--        set_feature(env, RISCV_FEATURE_MMU);
-+        riscv_set_feature(env, RISCV_FEATURE_MMU);
-     }
-=20
-     if (cpu->cfg.pmp) {
--        set_feature(env, RISCV_FEATURE_PMP);
-+        riscv_set_feature(env, RISCV_FEATURE_PMP);
-=20
-         /*
-          * Enhanced PMP should only be available
-          * on harts with PMP support
-          */
-         if (cpu->cfg.epmp) {
--            set_feature(env, RISCV_FEATURE_EPMP);
-+            riscv_set_feature(env, RISCV_FEATURE_EPMP);
-         }
-     }
-=20
+ #define PRIV_VERSION_1_10_0 0x00011000
 --=20
 2.34.1
 
