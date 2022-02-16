@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E21A44B803A
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 06:33:58 +0100 (CET)
-Received: from localhost ([::1]:33166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE06C4B7FFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 06:19:20 +0100 (CET)
+Received: from localhost ([::1]:38654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKCwv-0001mR-Fk
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 00:33:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58256)
+	id 1nKCil-0002Yj-Nh
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 00:19:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKC7g-0001JQ-Cn; Tue, 15 Feb 2022 23:41:00 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:49895)
+ id 1nKC8F-0001Ye-K3; Tue, 15 Feb 2022 23:41:35 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:41445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKC7a-0000Rd-Rc; Tue, 15 Feb 2022 23:41:00 -0500
+ id 1nKC7y-0000SG-Mk; Tue, 15 Feb 2022 23:41:29 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jz4y34Fqhz4y4p; Wed, 16 Feb 2022 15:40:11 +1100 (AEDT)
+ id 4Jz4y34K2Tz4y4q; Wed, 16 Feb 2022 15:40:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1644986411;
- bh=f5rH5Ic3nCtogas5y/2/1zL62pjTqLe1HjKtymqNeps=;
+ bh=RgVOUF3Z2W7Cy+2BF13N5lsiBD8fE+bY/QonnLAgHO0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GegpI1ovALqj7QMFDgp0o9dpKME+162ldW0Hv65H8t3K3kFL/JZaTiXae/Uy1KFFf
- Lq5xCSPJA45piWX5nqRs1xgfxJwRRwKI2+NzOi6WbhdCEygug8BKmbmxVWRhFFT37+
- AEWm2VKdiahWPvq1StZhfFP1h9cxJYCq7GlWDTdI=
-Date: Wed, 16 Feb 2022 14:00:28 +1100
+ b=LHzjlEVUqTZ2Kz4MC+hVLZRSAzmXKrvhJFmQvbhY6BhUE5N827mOmKJ4Pm1bf7V38
+ /4KlZEE3WnWmNly4Bbrnf7dk7hc6QwpklHGYkE8HuLWZsrg9wlKItOz3bzig+UIxDX
+ pQyTMY0J84zJaENn6K5n7ezoYEcqWFpHpg3yGHtc=
+Date: Wed, 16 Feb 2022 14:01:44 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 24/27] target/ppc: cpu_init: Expose some SPR registration
- helpers
-Message-ID: <YgxozKf7FMg8ED/y@yekko>
+Subject: Re: [PATCH 25/27] target/ppc: cpu_init: Move SPR registration macros
+ to a header
+Message-ID: <YgxpGLXmM3HH9RC0@yekko>
 References: <20220215214148.1848266-1-farosas@linux.ibm.com>
- <20220215214148.1848266-25-farosas@linux.ibm.com>
+ <20220215214148.1848266-26-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kSE07oiwL5p2xoSu"
+ protocol="application/pgp-signature"; boundary="3cnVhJgAF2hCYkRt"
 Content-Disposition: inline
-In-Reply-To: <20220215214148.1848266-25-farosas@linux.ibm.com>
+In-Reply-To: <20220215214148.1848266-26-farosas@linux.ibm.com>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -66,120 +66,218 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---kSE07oiwL5p2xoSu
+--3cnVhJgAF2hCYkRt
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 15, 2022 at 06:41:45PM -0300, Fabiano Rosas wrote:
-> The following patches will move CPU-specific code into separate files,
-> so expose the most used SPR registration functions:
->=20
-> register_sdr1_sprs         | 22 callers
-> register_low_BATs          | 20 callers
-> register_non_embedded_sprs | 19 callers
-> register_high_BATs         | 10 callers
-> register_thrm_sprs         | 8 callers
-> register_usprgh_sprs       | 6 callers
-> register_soft_tlb_sprs     | only 3 callers, but it helps to
->                              keep the soft TLB code consistent.
+On Tue, Feb 15, 2022 at 06:41:46PM -0300, Fabiano Rosas wrote:
+> Put the SPR registration macros in a header that is accessible outside
+> of cpu_init.c. The following patches will move CPU-specific code to
+> separate files and will need to access it.
 >=20
 > Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/cpu_init.c | 14 +++++++-------
->  target/ppc/spr_tcg.h  |  8 ++++++++
->  2 files changed, 15 insertions(+), 7 deletions(-)
+> The spr_tcg.h header has always been used for both TCG and KVM, due to
+> its usage in cpu_init.c, but maybe we should change it to spr_common.h
+> to avoid confusion?
+
+That's probably a good idea.
+
+> ---
+>  target/ppc/cpu_init.c | 65 ++++++-------------------------------------
+>  target/ppc/spr_tcg.h  | 56 +++++++++++++++++++++++++++++++++++++
+>  2 files changed, 65 insertions(+), 56 deletions(-)
 >=20
 > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 3585dc69bc..74e26f60dd 100644
+> index 74e26f60dd..3327ea15fd 100644
 > --- a/target/ppc/cpu_init.c
 > +++ b/target/ppc/cpu_init.c
-> @@ -241,7 +241,7 @@ static void register_generic_sprs(PowerPCCPU *cpu)
->                   0x00000000);
+> @@ -67,35 +67,15 @@ static inline void vscr_init(CPUPPCState *env, uint32=
+_t val)
+>   * may be compiled out, and the system kvm header may not be available
+>   * for supplying the ID numbers.  This is ugly, but the best we can do.
+>   */
+> -
+> -#ifdef CONFIG_TCG
+> -# define USR_ARG(X)    X,
+> -# ifdef CONFIG_USER_ONLY
+> -#  define SYS_ARG(X)
+> -# else
+> -#  define SYS_ARG(X)   X,
+> -# endif
+> -#else
+> -# define USR_ARG(X)
+> -# define SYS_ARG(X)
+> -#endif
+> -#ifdef CONFIG_KVM
+> -# define KVM_ARG(X)    X,
+> -#else
+> -# define KVM_ARG(X)
+> -#endif
+> -
+> -typedef void spr_callback(DisasContext *, int, int);
+> -
+> -static void _spr_register(CPUPPCState *env, int num, const char *name,
+> -                          USR_ARG(spr_callback *uea_read)
+> -                          USR_ARG(spr_callback *uea_write)
+> -                          SYS_ARG(spr_callback *oea_read)
+> -                          SYS_ARG(spr_callback *oea_write)
+> -                          SYS_ARG(spr_callback *hea_read)
+> -                          SYS_ARG(spr_callback *hea_write)
+> -                          KVM_ARG(uint64_t one_reg_id)
+> -                          target_ulong initial_value)
+> +void _spr_register(CPUPPCState *env, int num, const char *name,
+> +                   USR_ARG(spr_callback *uea_read)
+> +                   USR_ARG(spr_callback *uea_write)
+> +                   SYS_ARG(spr_callback *oea_read)
+> +                   SYS_ARG(spr_callback *oea_write)
+> +                   SYS_ARG(spr_callback *hea_read)
+> +                   SYS_ARG(spr_callback *hea_write)
+> +                   KVM_ARG(uint64_t one_reg_id)
+> +                   target_ulong initial_value)
+>  {
+>      ppc_spr_t *spr =3D &env->spr_cb[num];
+> =20
+> @@ -122,33 +102,6 @@ static void _spr_register(CPUPPCState *env, int num,=
+ const char *name,
+>  #endif
 >  }
 > =20
-> -static void register_non_embedded_sprs(CPUPPCState *env)
-> +void register_non_embedded_sprs(CPUPPCState *env)
+> -/* spr_register_kvm_hv passes all required arguments. */
+> -#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,        =
+     \
+> -                            oea_read, oea_write, hea_read, hea_write,   =
+     \
+> -                            one_reg_id, initial_value)                  =
+     \
+> -    _spr_register(env, num, name,                                       =
+     \
+> -                  USR_ARG(uea_read) USR_ARG(uea_write)                  =
+     \
+> -                  SYS_ARG(oea_read) SYS_ARG(oea_write)                  =
+     \
+> -                  SYS_ARG(hea_read) SYS_ARG(hea_write)                  =
+     \
+> -                  KVM_ARG(one_reg_id) initial_value)
+> -
+> -/* spr_register_kvm duplicates the oea callbacks to the hea callbacks. */
+> -#define spr_register_kvm(env, num, name, uea_read, uea_write,           =
+     \
+> -                         oea_read, oea_write, one_reg_id, ival)         =
+     \
+> -    spr_register_kvm_hv(env, num, name, uea_read, uea_write, oea_read,  =
+     \
+> -                        oea_write, oea_read, oea_write, one_reg_id, ival)
+> -
+> -/* spr_register_hv and spr_register are similar, except there is no kvm =
+id. */
+> -#define spr_register_hv(env, num, name, uea_read, uea_write,            =
+     \
+> -                        oea_read, oea_write, hea_read, hea_write, ival) =
+     \
+> -    spr_register_kvm_hv(env, num, name, uea_read, uea_write, oea_read,  =
+     \
+> -                        oea_write, hea_read, hea_write, 0, ival)
+> -
+> -#define spr_register(env, num, name, uea_read, uea_write,               =
+     \
+> -                     oea_read, oea_write, ival)                         =
+     \
+> -    spr_register_kvm(env, num, name, uea_read, uea_write,               =
+     \
+> -                     oea_read, oea_write, 0, ival)
+> -
+>  /* Generic PowerPC SPRs */
+>  static void register_generic_sprs(PowerPCCPU *cpu)
 >  {
->      /* Exception processing */
->      spr_register_kvm(env, SPR_DSISR, "DSISR",
-> @@ -260,7 +260,7 @@ static void register_non_embedded_sprs(CPUPPCState *e=
-nv)
->  }
-> =20
->  /* Storage Description Register 1 */
-> -static void register_sdr1_sprs(CPUPPCState *env)
-> +void register_sdr1_sprs(CPUPPCState *env)
->  {
->  #ifndef CONFIG_USER_ONLY
->      if (env->has_hv_mode) {
-> @@ -283,7 +283,7 @@ static void register_sdr1_sprs(CPUPPCState *env)
->  }
-> =20
->  /* BATs 0-3 */
-> -static void register_low_BATs(CPUPPCState *env)
-> +void register_low_BATs(CPUPPCState *env)
->  {
->  #if !defined(CONFIG_USER_ONLY)
->      spr_register(env, SPR_IBAT0U, "IBAT0U",
-> @@ -355,7 +355,7 @@ static void register_low_BATs(CPUPPCState *env)
->  }
-> =20
->  /* BATs 4-7 */
-> -static void register_high_BATs(CPUPPCState *env)
-> +void register_high_BATs(CPUPPCState *env)
->  {
->  #if !defined(CONFIG_USER_ONLY)
->      spr_register(env, SPR_IBAT4U, "IBAT4U",
-> @@ -427,7 +427,7 @@ static void register_high_BATs(CPUPPCState *env)
->  }
-> =20
->  /* Softare table search registers */
-> -static void register_soft_tlb_sprs(CPUPPCState *env, int nb_tlbs, int nb=
-_ways)
-> +void register_soft_tlb_sprs(CPUPPCState *env, int nb_tlbs, int nb_ways)
->  {
->  #if !defined(CONFIG_USER_ONLY)
->      env->nb_tlb =3D nb_tlbs;
-> @@ -667,7 +667,7 @@ static void register_iamr_sprs(CPUPPCState *env)
->  }
->  #endif /* TARGET_PPC64 */
-> =20
-> -static void register_thrm_sprs(CPUPPCState *env)
-> +void register_thrm_sprs(CPUPPCState *env)
->  {
->      /* Thermal management */
->      spr_register(env, SPR_THRM1, "THRM1",
-> @@ -1072,7 +1072,7 @@ static void register_l3_ctrl(CPUPPCState *env)
->                   0x00000000);
->  }
-> =20
-> -static void register_usprgh_sprs(CPUPPCState *env)
-> +void register_usprgh_sprs(CPUPPCState *env)
->  {
->      spr_register(env, SPR_USPRG4, "USPRG4",
->                   &spr_read_ureg, SPR_NOACCESS,
 > diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-> index df2abacc64..a4f912faa4 100644
+> index a4f912faa4..786cdca80d 100644
 > --- a/target/ppc/spr_tcg.h
 > +++ b/target/ppc/spr_tcg.h
-> @@ -141,4 +141,12 @@ void spr_write_hmer(DisasContext *ctx, int sprn, int=
- gprn);
->  void spr_write_lpcr(DisasContext *ctx, int sprn, int gprn);
->  #endif
+> @@ -21,6 +21,62 @@
 > =20
-> +void register_low_BATs(CPUPPCState *env);
-> +void register_high_BATs(CPUPPCState *env);
-> +void register_sdr1_sprs(CPUPPCState *env);
-> +void register_thrm_sprs(CPUPPCState *env);
-> +void register_usprgh_sprs(CPUPPCState *env);
-> +void register_non_embedded_sprs(CPUPPCState *env);
-> +void register_soft_tlb_sprs(CPUPPCState *env, int nb_tlbs, int nb_ways);
+>  #define SPR_NOACCESS (&spr_noaccess)
+> =20
+> +#ifdef CONFIG_TCG
+> +# define USR_ARG(X)    X,
+> +# ifdef CONFIG_USER_ONLY
+> +#  define SYS_ARG(X)
+> +# else
+> +#  define SYS_ARG(X)   X,
+> +# endif
+> +#else
+> +# define USR_ARG(X)
+> +# define SYS_ARG(X)
+> +#endif
+> +#ifdef CONFIG_KVM
+> +# define KVM_ARG(X)    X,
+> +#else
+> +# define KVM_ARG(X)
+> +#endif
 > +
->  #endif
+> +typedef void spr_callback(DisasContext *, int, int);
+> +
+> +void _spr_register(CPUPPCState *env, int num, const char *name,
+> +                   USR_ARG(spr_callback *uea_read)
+> +                   USR_ARG(spr_callback *uea_write)
+> +                   SYS_ARG(spr_callback *oea_read)
+> +                   SYS_ARG(spr_callback *oea_write)
+> +                   SYS_ARG(spr_callback *hea_read)
+> +                   SYS_ARG(spr_callback *hea_write)
+> +                   KVM_ARG(uint64_t one_reg_id)
+> +                   target_ulong initial_value);
+> +
+> +/* spr_register_kvm_hv passes all required arguments. */
+> +#define spr_register_kvm_hv(env, num, name, uea_read, uea_write,        =
+     \
+> +                            oea_read, oea_write, hea_read, hea_write,   =
+     \
+> +                            one_reg_id, initial_value)                  =
+     \
+> +    _spr_register(env, num, name,                                       =
+     \
+> +                  USR_ARG(uea_read) USR_ARG(uea_write)                  =
+     \
+> +                  SYS_ARG(oea_read) SYS_ARG(oea_write)                  =
+     \
+> +                  SYS_ARG(hea_read) SYS_ARG(hea_write)                  =
+     \
+> +                  KVM_ARG(one_reg_id) initial_value)
+> +
+> +/* spr_register_kvm duplicates the oea callbacks to the hea callbacks. */
+> +#define spr_register_kvm(env, num, name, uea_read, uea_write,           =
+     \
+> +                         oea_read, oea_write, one_reg_id, ival)         =
+     \
+> +    spr_register_kvm_hv(env, num, name, uea_read, uea_write, oea_read,  =
+     \
+> +                        oea_write, oea_read, oea_write, one_reg_id, ival)
+> +
+> +/* spr_register_hv and spr_register are similar, except there is no kvm =
+id. */
+> +#define spr_register_hv(env, num, name, uea_read, uea_write,            =
+     \
+> +                        oea_read, oea_write, hea_read, hea_write, ival) =
+     \
+> +    spr_register_kvm_hv(env, num, name, uea_read, uea_write, oea_read,  =
+     \
+> +                        oea_write, hea_read, hea_write, 0, ival)
+> +
+> +#define spr_register(env, num, name, uea_read, uea_write,               =
+     \
+> +                     oea_read, oea_write, ival)                         =
+     \
+> +    spr_register_kvm(env, num, name, uea_read, uea_write,               =
+     \
+> +                     oea_read, oea_write, 0, ival)
+> +
+>  /* prototypes for readers and writers for SPRs */
+>  void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
+>  void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -187,25 +285,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---kSE07oiwL5p2xoSu
+--3cnVhJgAF2hCYkRt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIMaMYACgkQgypY4gEw
-YSKadQ/7BYhPhqMwtaL9kiw6cFNyBWjGlBs/yyww8wtu/AvBW3ko0IoXHNhkUX6i
-tomIrNMA70gKVh9fkglZF5CIxzZFqyAo0aIaDGm7kBpTo+7VPz56IqsvJ+wOWd3J
-MQ4leqBgQesyj3XKWD8eiZFD8K32gkfkV3CK2riaPzPFOFOUrx3W/VznFuVoTElH
-NHnyG6TB6x/kOb9tHBdX0x5927+4yQPtdAso6u0+s0H3U/AatFeVyFlJpla6uKpD
-nQ/2tFw3+HgZajoRGVpZwhDPKBbh8IX1nGl/sOULNy36JRQSgEZhgBkF/fWLb1HF
-yGcYRfkPCmiWACeS0ok4rEotb8t9zPVqTnqrX1XTCAqdxkHSlGHjENHm7icEpIW8
-ERyC2Ous05hpv5OwgajGP4IQap5hkVlT2KaRRhOgrsVsuwRY1snPkzjtumQTeR2v
-d1bKA09AHlSdME6kvBCGHjwnzTEsA1QhUxN7X5c6xmzGZMEB8YTjOWUuIjyuTgRD
-dMXL7KfWBItW95o1/MASdPOXEQCeDjpe7sCgszJJHLl1Vww8lQBPdl8H+7U34vTD
-yFnQeN8cZPd96l/mzASiDVFG60/WSbIrFlPIPp2j+hwh3YUyYXcgddbs8jYP+Xw6
-gWKLvt6VkS29RIwrjzak9To2Bmcl4Ep24g0kBM9ezldjoPVFY4c=
-=gwrm
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIMaREACgkQgypY4gEw
+YSKiCA//Y5pa92VeX9TCYaMCcNhMiADWd53g+hMhdPwLnQeKQJ2gFZgrkWCMZJjC
+k7ZkbbxYM8mA3sgzwj6EPQWu6J6pB4BHBIALNgqeZRAXCxklqS/ij1bEkGXNVdT3
+/cFiE+wlyGJ7GXrFCdQgmPeDUYfsNyQyaw8ywqkcagDZlFHVdHpaGXjIsnRBb0ik
+bJ9NzEJprCLciXvUsE46Xgwe5QRin09dNi+kb/AiqTozuvxdKES/mxnvvhKT478W
+gruNUKdpHOmFPB9iMb06LgucI1mB36r/mjTtWAc7aAnIgA4ppNUkoK3xrGLKjUBx
+CGOK+1svvXN14GILE2xl3FoDAxpYfI7ra/svM4na2PMuHf5l014hInzb+EymE3ok
+tPdcUR16HBeVQqe7VY/jeCxbkbRiZzXHsUzBoZpgc8pixnyEx7IxLXMGejK1E+ja
+x/teuyDv3WPzspFnHZy3tfjCwF4YtmawwVkwiJKcGGE5J+nTdNsSX1sBmn4O6d4o
+miVNpIM5F59gJCWsN0sc+W57eVf5AzbF472FejxXMk70eQx+FLUeqlsnTUkOUbL1
+78TRho3ygBTRJOmxr5z5mQPIgy8OxgwrByUxTfb8wVoxI9WrHZYW6L4la0sAf+Hy
+DyI1ChBOOZiZo/hG4Y2dy1WBedd/y6NOjtp/te0ikbMqz2qkjbQ=
+=bvPk
 -----END PGP SIGNATURE-----
 
---kSE07oiwL5p2xoSu--
+--3cnVhJgAF2hCYkRt--
 
