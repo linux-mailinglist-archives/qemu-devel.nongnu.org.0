@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324694B8360
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 09:54:30 +0100 (CET)
-Received: from localhost ([::1]:51138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642CD4B8372
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 09:56:49 +0100 (CET)
+Received: from localhost ([::1]:56062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKG4z-0002ls-7a
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 03:54:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49854)
+	id 1nKG7E-00067t-H3
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 03:56:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nKDwL-0007O2-My; Wed, 16 Feb 2022 01:37:25 -0500
-Received: from [2607:f8b0:4864:20::136] (port=45678
- helo=mail-il1-x136.google.com)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nKDy7-0000QQ-Ac; Wed, 16 Feb 2022 01:39:15 -0500
+Received: from [2607:f8b0:4864:20::432] (port=38850
+ helo=mail-pf1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nKDwJ-0007bn-Fm; Wed, 16 Feb 2022 01:37:25 -0500
-Received: by mail-il1-x136.google.com with SMTP id n5so732099ilk.12;
- Tue, 15 Feb 2022 22:37:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nKDy4-0008Mv-WC; Wed, 16 Feb 2022 01:39:15 -0500
+Received: by mail-pf1-x432.google.com with SMTP id e17so1376992pfv.5;
+ Tue, 15 Feb 2022 22:39:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R7xbu3Rp+F9ZGa674vRKUiSEN5Jq70AeAe3N6aCuIyA=;
- b=aChIngA5YRXgLjyiobLWavE9cLEOdX1rgSGnd6GZ+AHWPvKqJaJqH+2BY8oTQD/RXP
- Ngr+aPT8NXSLVhQ/0h/dCiSU5PbOODkCTywAaGZms8GyjWBec/qsjPNGijA3kgPrk1+7
- 5a6nURvx/6fpk+7LkyWuKgYzLlKTqz6Iw4CcC1XWP90KTATptmnvtOjkjx7GtafBbmkS
- snOo3Yk32tHFR55tk5LhJnjFB1B9HlXuyId3dy2/vsfuyBlYyFoFwRFK3s66qw+iYLJZ
- hRfJjLBceJqcmTR7WnS5982dzdMlbuAKisLR6t1j/g2Z3Pw/SYypZ2+J/r6plh1Bv+7B
- JkHg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8saAjQILxZ8CaggHHHXQP67/rH9Sks9TT/Y58ROx85g=;
+ b=MIQxx9rF+Am3+Wz8A25ml9+VyKSSeh43rBL+6idrjqdC6Uf5QQtFF2YJ0c6NCeGPwD
+ FE68WUVMiRAAOPErzn2Pxma9VW48SucEVfJSd6JRHCzeYDJzMocUPW9bn6tpOp21Y0QO
+ tooTllrXDbKYHrS9C8/6m/DBIcAgtwYC3Qu1VO4S57sQ7IzC7WqYSodxIRy0/SxXN+qM
+ 2iYof6FTp9NukNLRN8NrnJ3QQSxzQmJ6rwUvtV1UZ4Vcj1BiClLAN3i3qNU7Qx+jb1SM
+ zs6CBlaawtFS3utG1nzWdi9R89VukPrRWDEBpzTzz2vr+9cjCTM4bp2DtR1oxDv9rAm+
+ PJwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R7xbu3Rp+F9ZGa674vRKUiSEN5Jq70AeAe3N6aCuIyA=;
- b=HCtijYPtzzooFGMvtRatZaPkXgy7Nws2JkHa2dwT0AjFwYlShVn2JwUmy2oOodydBf
- ur1wUl/EPYjZAosYK9k2qB5KxkZEdftHVOp8km8fAeaRPhq46KZY8iz8caxCuJo6KmZe
- jt4vE5XdkbAFGPj8Bak59mJHXDC/CNl9mBOPf/85IU8Kx7VuNYYpp4BLn9Z9g1aQ3XTi
- cH22ThNhzY+r7XPrcZZgggpa0akKvpkOhBJwqpnNa3EKd727EyCQkRTZhFiiFlA0GjWP
- we5Yt2hvAmi0ZcXVdXatPwWapNXmLjOk0ki6DAgLFo/bNq+auxoC62tRG4vLM/WNhWOw
- 8yVA==
-X-Gm-Message-State: AOAM532qeQK44+ehJb9hs7L1foac4MDTArQC0gQImBb9pOfc8LtPYP63
- OQmN+BEM7X9+/uWoVAsQKXf6y86Eo0/4jILTYqA=
-X-Google-Smtp-Source: ABdhPJyR6RZVJJus9POF2bujKrkIL/OsDLE0wgLnl+QCvZBPaxKleqxtaRqL4PR/UXmD7Kq+IC4MwRvlzq342C9ZWFU=
-X-Received: by 2002:a92:c269:0:b0:2be:795d:abb2 with SMTP id
- h9-20020a92c269000000b002be795dabb2mr972518ild.46.1644993441895; Tue, 15 Feb
- 2022 22:37:21 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8saAjQILxZ8CaggHHHXQP67/rH9Sks9TT/Y58ROx85g=;
+ b=EXL/tA0PMCOU9o0M3m85mt3ePUN8NWpOhJ5+WEQTHw2lj2dPPosquHQR3gTMcpWd/z
+ bs/D4lBi2HKbY1GtmeDVHuzJrTjFInVctYvDiobF+9fcDe3PKiZ7P0viAKYa0NLqvkkk
+ CaWHQ14/+Qsj0YzMIyeIazqAX8L1+UVwUfL9zf6cMv255gqmzTrwQ7He8xQaCj3JKGmc
+ MtQrMmeVSBBatDP0Nzioe+woLiH1+U3O42Ac4j21vsKM/qx6d00X8nRdYM2k015SZ13E
+ c4DiMN1AU+lyHk1V36IaanA9dtKosSfmAOXmGxOMaPPXHHmGmgnBCmNf8YAA31iiakf8
+ DY7A==
+X-Gm-Message-State: AOAM533/WiYkGOLM6EL2yZESyZsHCTm7mQ/BfA7aiW/lCp0e1ABkxH0z
+ R8byFq4WQwBbq6vlsv5nwtLo7lXUkC8=
+X-Google-Smtp-Source: ABdhPJwmGF+1xgC3Tx/g+tfrsin9eXcPlFZ1sa9rdCJK8pRo3AZqis9moUrG7ZugaU2JF3O/bo7SrQ==
+X-Received: by 2002:a63:d252:0:b0:363:271c:fe63 with SMTP id
+ t18-20020a63d252000000b00363271cfe63mr1120983pgi.524.1644993551099; 
+ Tue, 15 Feb 2022 22:39:11 -0800 (PST)
+Received: from bobo.ozlabs.ibm.com (60-241-140-189.static.tpgi.com.au.
+ [60.241.140.189])
+ by smtp.gmail.com with ESMTPSA id dw20sm18379814pjb.3.2022.02.15.22.39.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Feb 2022 22:39:10 -0800 (PST)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v2 1/3] target/ppc: Fix POWER9 DD2.0 PVR, add DD2.1
+Date: Wed, 16 Feb 2022 16:39:01 +1000
+Message-Id: <20220216063903.1782281-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20220216062248.317329-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220216062248.317329-1-alistair.francis@opensource.wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 16 Feb 2022 16:36:55 +1000
-Message-ID: <CAKmqyKPWbsKq4Umi6m71C=wi_jnvpdAEiUKDs-LC6O-TWXdX+g@mail.gmail.com>
-Subject: Re: [PATCH v1] hw: riscv: opentitan: fixup SPI addresses
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::136
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x136.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.904,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,84 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, wilfred.mallawa@wdc.com,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>,
+ Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 16, 2022 at 4:23 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
->
-> This patch updates the SPI_DEVICE, SPI_HOST0, SPI_HOST1
-> base addresses. Also adds these as unimplemented devices.
->
-> The address references can be found [1].
->
-> [1] https://github.com/lowRISC/opentitan/blob/6c317992fbd646818b34f2a2dbf44bc850e461e4/hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h#L107
->
-> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+The POWER9 DD2.0 PVR is incorrect. It doesn't cause problems because
+the pvr check is masking it and matching against the base.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Correct it, add a PVR for DD2.1.
 
-Alistair
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+---
+Since v1: new patch
 
-> ---
->  hw/riscv/opentitan.c         | 12 +++++++++---
->  include/hw/riscv/opentitan.h |  4 +++-
->  2 files changed, 12 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-> index aec7cfa33f..596b518a26 100644
-> --- a/hw/riscv/opentitan.c
-> +++ b/hw/riscv/opentitan.c
-> @@ -33,8 +33,10 @@ static const MemMapEntry ibex_memmap[] = {
->      [IBEX_DEV_RAM] =            {  0x10000000,  0x10000 },
->      [IBEX_DEV_FLASH] =          {  0x20000000,  0x80000 },
->      [IBEX_DEV_UART] =           {  0x40000000,  0x1000  },
-> +    [IBEX_DEV_SPI_HOST0] =      {  0x40300000,  0x1000  },
-> +    [IBEX_DEV_SPI_HOST1] =      {  0x40310000,  0x1000  },
->      [IBEX_DEV_GPIO] =           {  0x40040000,  0x1000  },
-> -    [IBEX_DEV_SPI] =            {  0x40050000,  0x1000  },
-> +    [IBEX_DEV_SPI_DEVICE] =     {  0x40050000,  0x1000  },
->      [IBEX_DEV_I2C] =            {  0x40080000,  0x1000  },
->      [IBEX_DEV_PATTGEN] =        {  0x400e0000,  0x1000  },
->      [IBEX_DEV_TIMER] =          {  0x40100000,  0x1000  },
-> @@ -209,8 +211,12 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
->
->      create_unimplemented_device("riscv.lowrisc.ibex.gpio",
->          memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
-> -    create_unimplemented_device("riscv.lowrisc.ibex.spi",
-> -        memmap[IBEX_DEV_SPI].base, memmap[IBEX_DEV_SPI].size);
-> +    create_unimplemented_device("riscv.lowrisc.ibex.spi_device",
-> +        memmap[IBEX_DEV_SPI_DEVICE].base, memmap[IBEX_DEV_SPI_DEVICE].size);
-> +    create_unimplemented_device("riscv.lowrisc.ibex.spi_host0",
-> +        memmap[IBEX_DEV_SPI_HOST0].base, memmap[IBEX_DEV_SPI_HOST0].size);
-> +    create_unimplemented_device("riscv.lowrisc.ibex.spi_host1",
-> +        memmap[IBEX_DEV_SPI_HOST1].base, memmap[IBEX_DEV_SPI_HOST1].size);
->      create_unimplemented_device("riscv.lowrisc.ibex.i2c",
->          memmap[IBEX_DEV_I2C].base, memmap[IBEX_DEV_I2C].size);
->      create_unimplemented_device("riscv.lowrisc.ibex.pattgen",
-> diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-> index eac35ef590..00da9ded43 100644
-> --- a/include/hw/riscv/opentitan.h
-> +++ b/include/hw/riscv/opentitan.h
-> @@ -57,8 +57,10 @@ enum {
->      IBEX_DEV_FLASH,
->      IBEX_DEV_FLASH_VIRTUAL,
->      IBEX_DEV_UART,
-> +    IBEX_DEV_SPI_DEVICE,
-> +    IBEX_DEV_SPI_HOST0,
-> +    IBEX_DEV_SPI_HOST1,
->      IBEX_DEV_GPIO,
-> -    IBEX_DEV_SPI,
->      IBEX_DEV_I2C,
->      IBEX_DEV_PATTGEN,
->      IBEX_DEV_TIMER,
-> --
-> 2.35.1
->
+ target/ppc/cpu-models.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/target/ppc/cpu-models.h b/target/ppc/cpu-models.h
+index 76775a74a9..9902285ac8 100644
+--- a/target/ppc/cpu-models.h
++++ b/target/ppc/cpu-models.h
+@@ -349,7 +349,8 @@ enum {
+     CPU_POWERPC_POWER8NVL_v10      = 0x004C0100,
+     CPU_POWERPC_POWER9_BASE        = 0x004E0000,
+     CPU_POWERPC_POWER9_DD1         = 0x004E0100,
+-    CPU_POWERPC_POWER9_DD20        = 0x004E1200,
++    CPU_POWERPC_POWER9_DD20        = 0x004E0200,
++    CPU_POWERPC_POWER9_DD21        = 0x004E0201,
+     CPU_POWERPC_POWER10_BASE       = 0x00800000,
+     CPU_POWERPC_POWER10_DD1        = 0x00800100,
+     CPU_POWERPC_POWER10_DD20       = 0x00800200,
+-- 
+2.23.0
+
 
