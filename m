@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C534B85D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:35:00 +0100 (CET)
-Received: from localhost ([::1]:47668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC76B4B85DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:36:05 +0100 (CET)
+Received: from localhost ([::1]:52438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKHeF-0002zL-7r
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:34:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45174)
+	id 1nKHfJ-0006AI-24
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:36:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nKHVp-0000tq-NJ; Wed, 16 Feb 2022 05:26:18 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=35578
- helo=mail-pj1-x1032.google.com)
+ id 1nKHVq-0000ub-Kl; Wed, 16 Feb 2022 05:26:18 -0500
+Received: from [2607:f8b0:4864:20::42a] (port=37546
+ helo=mail-pf1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nKHVm-0005Jq-WA; Wed, 16 Feb 2022 05:26:17 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- a11-20020a17090a740b00b001b8b506c42fso6074310pjg.0; 
- Wed, 16 Feb 2022 02:26:12 -0800 (PST)
+ id 1nKHVo-0005Ko-AU; Wed, 16 Feb 2022 05:26:18 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id y5so1786849pfe.4;
+ Wed, 16 Feb 2022 02:26:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5jXe3T2wyV+2aAGsx8+ZxKTOXK7yGgOLGPaTiywcda8=;
- b=J/FyMzbTdREnzfow2oGBqYSQPElf5pSwywgVvIb7G3VpdGBxb7UnbBaZngMs6Y8uJV
- vp2MQTothaS0H+IbrhxxAURP5wjxaG52UccgnibAFuXiv5d987EVbUi5Wuk6+RcOSnqj
- vKNM5k58hWB3cWnQ3q3hOL6G4U6p4I9MHWAVeVjazqWsxiMM+KJz1cld2IBtvCgLJYoh
- zA3OCmRTWlaKU8ZjdNX03CblA8hf9SBKBHzwR6luq95j6q2rsrchljsKrIGvQ1mJdZqk
- 9xd8TFafs+VgUgSQlfzrKqAq4niBZeUkQL6nseNKflFg3hRIV0PmTlvc1eLWv0irOOz6
- fVgQ==
+ bh=M4NFLlQqMsYA2ZPB0Ry2XG9CKJH0Mpapq2s+FuZgqno=;
+ b=N+fnleirDXAL4ymIgFUWi0Cq+mZtSSV6Ntpa1MXBpRwmVt8A6LdHyR02iGUX92wbEC
+ 282Fel4R9y877cz8d69/o8r2C1jjzQFkAERrAcb28KbpZUDJPzrqEj6heGZr/8mO1XXc
+ hHngYanjUseM8Tn9lTkpFWKSK2P2gO8JTMN8wp/SMKxwS/quZ0cyNhqIhDmWrcyGytQQ
+ tVFyadu2NCfj53uTw9wt41Am77zyhI4L3K/K/nzvLcRT+62RbQo3C1v8iWvNx+ZOkp3k
+ 30/8e/1CEC+mt2QFXpbzk98z3AuHKeiWDbJ6RbX7x2uWa/mt0nmOfpYL86B2SCINN4ew
+ 3aPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5jXe3T2wyV+2aAGsx8+ZxKTOXK7yGgOLGPaTiywcda8=;
- b=HZMSEM/nh1f4r0XDZXwTA7xAQ/5YEm3EIDg7JWHMJKNYAWUmB1NvkEyspASbceYMfL
- 5DZdHhKtYJ5wrqH0lTytYgGIy0MqLGZwaDLtc+nBJVxkLYQM8+FCnj412BsoYqpoFpDm
- YR7RVIs2NBeNA9TEjEfFFUKN29nqVD50kkQJ+EqX4JnaX96YWZTG1GC5W23pwiXgVvxn
- QngGt3N+m6VoG2mitmAlh7NjzdqN709anRTm30zQcZAzfzi/ljN/xB+qINil1Zv00G6F
- EpzcI60YKs9e8uVrTEeIhxQEcerzgoHF6mIE01sk8aAVAyV69FGgj7rOA9GmQMs1eV3K
- C9Uw==
-X-Gm-Message-State: AOAM530X7trPTDb2reooJAy9xyxIJuTJve9aGbQN7+/Yei4VkWfTvJsS
- +5MIcSbHrMLWPasXugO2lX1Zr/cr5/A=
-X-Google-Smtp-Source: ABdhPJwiM0xfsj9Lzv9BLRoBvVdBcvA5oxbF8G8vvg9vU1GHYZu1/2dKbNMl0OwmoRaR9p38w9NTyw==
-X-Received: by 2002:a17:90a:6be5:b0:1b9:8717:a1e1 with SMTP id
- w92-20020a17090a6be500b001b98717a1e1mr920150pjj.59.1645007171228; 
- Wed, 16 Feb 2022 02:26:11 -0800 (PST)
+ bh=M4NFLlQqMsYA2ZPB0Ry2XG9CKJH0Mpapq2s+FuZgqno=;
+ b=bjueMggka3Di0q9HOSPyAJvacv745vtSkHtpdDcrJiT2RjyTgxkBjVPMB26Uaa+Dg7
+ 6T3J6DrEpBHiJQAs7u9m7U85WwryTyFFQzzYUORvN4s5ROXSESfAxRcOtx077R0ekO7a
+ 1hthZ4NtKBOyBgq1rk+PugBjT4q/E5aSwiXQqOUa9U7p+7KrJ3WC+7p3WNWmbRLCSOfw
+ RF9pGO0mZ8YC2nFicoFo1fCRITGHqr/Z/1lcbk5PahGjoD3EnvbOWv/Xb3Iqi+K+oN/a
+ KNE3Gl0+NtRy+5iPJVIX3f4XbAc1TzHU1KAylfDnoKWlbrRy2Ac6ULIxMKkIrfJ6OcRb
+ hmgA==
+X-Gm-Message-State: AOAM530AqWh/yLh+Y7L7vGjlQ05Plawd49dU8WNEstjNXq5ASsqK+pNr
+ 2qXJCBra/h5ExtMQIhtXmgJE1Ybg8w8=
+X-Google-Smtp-Source: ABdhPJysHc2QFwQpbpI8peY85eb+yjTbkdlEEGVQP8V6QWUsICfgPiERw86r5lLh/HVwq+FwBGE4+A==
+X-Received: by 2002:a05:6a00:190f:b0:4e0:69a4:7ad0 with SMTP id
+ y15-20020a056a00190f00b004e069a47ad0mr1985673pfi.41.1645007174571; 
+ Wed, 16 Feb 2022 02:26:14 -0800 (PST)
 Received: from bobo.ozlabs.ibm.com (193-116-225-41.tpgi.com.au.
  [193.116.225.41])
- by smtp.gmail.com with ESMTPSA id j3sm5214474pgs.0.2022.02.16.02.26.08
+ by smtp.gmail.com with ESMTPSA id j3sm5214474pgs.0.2022.02.16.02.26.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 02:26:10 -0800 (PST)
+ Wed, 16 Feb 2022 02:26:14 -0800 (PST)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v2 4/9] target/ppc: add vhyp addressing mode helper for radix
- MMU
-Date: Wed, 16 Feb 2022 20:25:40 +1000
-Message-Id: <20220216102545.1808018-5-npiggin@gmail.com>
+Subject: [PATCH v2 5/9] target/ppc: make vhyp get_pate method take lpid and
+ return success
+Date: Wed, 16 Feb 2022 20:25:41 +1000
+Message-Id: <20220216102545.1808018-6-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20220216102545.1808018-1-npiggin@gmail.com>
 References: <20220216102545.1808018-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -96,76 +95,77 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The radix on vhyp MMU uses a single-level radix table walk, with the
-partition scope mapping provided by the flat QEMU machine memory.
+In prepartion for implementing a full partition table option for
+vhyp, update the get_pate method to take an lpid and return a
+success/fail indicator.
 
-A subsequent change will use the two-level radix walk on vhyp in some
-situations, so provide a helper which can abstract that logic.
+The spapr implementation currently just asserts lpid is always 0
+and always return success.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- target/ppc/mmu-radix64.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ hw/ppc/spapr.c           | 7 ++++++-
+ target/ppc/cpu.h         | 3 ++-
+ target/ppc/mmu-radix64.c | 7 ++++++-
+ 3 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index df2fec80ce..5535f0fe20 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -354,6 +354,17 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
-     return 0;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index fd7eccbdfd..2c95a09d25 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1309,13 +1309,18 @@ void spapr_set_all_lpcrs(target_ulong value, target_ulong mask)
+     }
  }
  
-+/*
-+ * The spapr vhc has a flat partition scope provided by qemu memory.
-+ */
-+static bool vhyp_flat_addressing(PowerPCCPU *cpu)
-+{
-+    if (cpu->vhyp) {
-+        return true;
-+    }
-+    return false;
-+}
+-static void spapr_get_pate(PPCVirtualHypervisor *vhyp, ppc_v3_pate_t *entry)
++static bool spapr_get_pate(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
++                           target_ulong lpid, ppc_v3_pate_t *entry)
+ {
+     SpaprMachineState *spapr = SPAPR_MACHINE(vhyp);
+ 
++    assert(lpid == 0);
 +
- static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-                                             MMUAccessType access_type,
-                                             vaddr eaddr, uint64_t pid,
-@@ -385,7 +396,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-     }
-     prtbe_addr = (pate.dw1 & PATE1_R_PRTB) + offset;
+     /* Copy PATE1:GR into PATE0:HR */
+     entry->dw0 = spapr->patb_entry & PATE0_HR;
+     entry->dw1 = spapr->patb_entry;
++
++    return true;
+ }
  
--    if (cpu->vhyp) {
-+    if (vhyp_flat_addressing(cpu)) {
-         prtbe0 = ldq_phys(cs->as, prtbe_addr);
+ #define HPTE(_table, _i)   (void *)(((uint64_t *)(_table)) + ((_i) * 2))
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 555c6b9245..c79ae74f10 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1320,7 +1320,8 @@ struct PPCVirtualHypervisorClass {
+                         hwaddr ptex, int n);
+     void (*hpte_set_c)(PPCVirtualHypervisor *vhyp, hwaddr ptex, uint64_t pte1);
+     void (*hpte_set_r)(PPCVirtualHypervisor *vhyp, hwaddr ptex, uint64_t pte1);
+-    void (*get_pate)(PPCVirtualHypervisor *vhyp, ppc_v3_pate_t *entry);
++    bool (*get_pate)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
++                     target_ulong lpid, ppc_v3_pate_t *entry);
+     target_ulong (*encode_hpt_for_kvm_pr)(PPCVirtualHypervisor *vhyp);
+     void (*cpu_exec_enter)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
+     void (*cpu_exec_exit)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 5535f0fe20..3b6d75a292 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -563,7 +563,12 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
+     if (cpu->vhyp) {
+         PPCVirtualHypervisorClass *vhc;
+         vhc = PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+-        vhc->get_pate(cpu->vhyp, &pate);
++        if (!vhc->get_pate(cpu->vhyp, cpu, lpid, &pate)) {
++            if (guest_visible) {
++                ppc_radix64_raise_hsi(cpu, access_type, eaddr, eaddr, DSISR_R_BADCONFIG);
++            }
++            return false;
++        }
      } else {
-         /*
-@@ -411,7 +422,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-     *g_page_size = PRTBE_R_GET_RTS(prtbe0);
-     base_addr = prtbe0 & PRTBE_R_RPDB;
-     nls = prtbe0 & PRTBE_R_RPDS;
--    if (msr_hv || cpu->vhyp) {
-+    if (msr_hv || vhyp_flat_addressing(cpu)) {
-         /*
-          * Can treat process table addresses as real addresses
-          */
-@@ -515,7 +526,7 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
-     relocation = !mmuidx_real(mmu_idx);
- 
-     /* HV or virtual hypervisor Real Mode Access */
--    if (!relocation && (mmuidx_hv(mmu_idx) || cpu->vhyp)) {
-+    if (!relocation && (mmuidx_hv(mmu_idx) || vhyp_flat_addressing(cpu))) {
-         /* In real mode top 4 effective addr bits (mostly) ignored */
-         *raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
- 
-@@ -592,7 +603,7 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
-         g_raddr = eaddr & R_EADDR_MASK;
-     }
- 
--    if (cpu->vhyp) {
-+    if (vhyp_flat_addressing(cpu)) {
-         *raddr = g_raddr;
-     } else {
-         /*
+         if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
+             if (guest_visible) {
 -- 
 2.23.0
 
