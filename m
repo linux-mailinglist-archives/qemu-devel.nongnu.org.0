@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642CD4B8372
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 09:56:49 +0100 (CET)
-Received: from localhost ([::1]:56062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A2334B82C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 09:17:36 +0100 (CET)
+Received: from localhost ([::1]:50790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKG7E-00067t-H3
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 03:56:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50166)
+	id 1nKFVH-0004dj-Cz
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 03:17:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nKDy7-0000QQ-Ac; Wed, 16 Feb 2022 01:39:15 -0500
-Received: from [2607:f8b0:4864:20::432] (port=38850
- helo=mail-pf1-x432.google.com)
+ id 1nKDyW-0000Tp-U9; Wed, 16 Feb 2022 01:39:41 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=46997
+ helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nKDy4-0008Mv-WC; Wed, 16 Feb 2022 01:39:15 -0500
-Received: by mail-pf1-x432.google.com with SMTP id e17so1376992pfv.5;
- Tue, 15 Feb 2022 22:39:12 -0800 (PST)
+ id 1nKDyJ-0008OC-LW; Wed, 16 Feb 2022 01:39:38 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ t4-20020a17090a510400b001b8c4a6cd5dso1506609pjh.5; 
+ Tue, 15 Feb 2022 22:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8saAjQILxZ8CaggHHHXQP67/rH9Sks9TT/Y58ROx85g=;
- b=MIQxx9rF+Am3+Wz8A25ml9+VyKSSeh43rBL+6idrjqdC6Uf5QQtFF2YJ0c6NCeGPwD
- FE68WUVMiRAAOPErzn2Pxma9VW48SucEVfJSd6JRHCzeYDJzMocUPW9bn6tpOp21Y0QO
- tooTllrXDbKYHrS9C8/6m/DBIcAgtwYC3Qu1VO4S57sQ7IzC7WqYSodxIRy0/SxXN+qM
- 2iYof6FTp9NukNLRN8NrnJ3QQSxzQmJ6rwUvtV1UZ4Vcj1BiClLAN3i3qNU7Qx+jb1SM
- zs6CBlaawtFS3utG1nzWdi9R89VukPrRWDEBpzTzz2vr+9cjCTM4bp2DtR1oxDv9rAm+
- PJwA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=faPwK3xKd/s3q84AwnCEXfzjSCVe11WPt79jOJyox+4=;
+ b=bnbp6BjTF4M/fB/rnqBsS+OatSTGD9/3uTKmdKKxKRopE2XprYh8hFv1woj0asV/Gs
+ TWSczvc5FsOG5jhd5xTF5Xeyq2sUB6h7Xy7SRAKlgq5xWdZUBlkw0lE/FQfgMcFDayUU
+ BPnlatgfppAVsoeXIhcVF4NZTcWhYRKyDXvZ3dYKCW5EKzgJ8UCrlA/JhjeFXBh6Tw/A
+ bNr4ujIOS7bWB/kcqkrDIdQ8TvWnUElhR80lCQWtatYDvxQF0+FvPMw2ssrmoPEBl9xQ
+ 5riebPZZVFRwzOSN45HUnOnSYRf9pBXf5kbay77wmyU37WLwDdLRHTl3Md3uBlxqMzHk
+ 0Zcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8saAjQILxZ8CaggHHHXQP67/rH9Sks9TT/Y58ROx85g=;
- b=EXL/tA0PMCOU9o0M3m85mt3ePUN8NWpOhJ5+WEQTHw2lj2dPPosquHQR3gTMcpWd/z
- bs/D4lBi2HKbY1GtmeDVHuzJrTjFInVctYvDiobF+9fcDe3PKiZ7P0viAKYa0NLqvkkk
- CaWHQ14/+Qsj0YzMIyeIazqAX8L1+UVwUfL9zf6cMv255gqmzTrwQ7He8xQaCj3JKGmc
- MtQrMmeVSBBatDP0Nzioe+woLiH1+U3O42Ac4j21vsKM/qx6d00X8nRdYM2k015SZ13E
- c4DiMN1AU+lyHk1V36IaanA9dtKosSfmAOXmGxOMaPPXHHmGmgnBCmNf8YAA31iiakf8
- DY7A==
-X-Gm-Message-State: AOAM533/WiYkGOLM6EL2yZESyZsHCTm7mQ/BfA7aiW/lCp0e1ABkxH0z
- R8byFq4WQwBbq6vlsv5nwtLo7lXUkC8=
-X-Google-Smtp-Source: ABdhPJwmGF+1xgC3Tx/g+tfrsin9eXcPlFZ1sa9rdCJK8pRo3AZqis9moUrG7ZugaU2JF3O/bo7SrQ==
-X-Received: by 2002:a63:d252:0:b0:363:271c:fe63 with SMTP id
- t18-20020a63d252000000b00363271cfe63mr1120983pgi.524.1644993551099; 
- Tue, 15 Feb 2022 22:39:11 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=faPwK3xKd/s3q84AwnCEXfzjSCVe11WPt79jOJyox+4=;
+ b=mCQXrFHKINElGqwf9ywNgOHhQJi08xUXD4BAboxHmzv1GjdHQOtPedYrFU6nqE6KIc
+ Mf+tAw2VdVLiPmE3vy41F4GVk6hyRiL/M7QsEVnJ02pwwROYQdOCOru78f8TESS0cMut
+ BH9ju/e+3bzDTCIJ3iHVpITlRXPUEIGcw0Q+HqoklHwHV3GljVr/jhLESF44cta4SRlQ
+ R0WUbS9Mv2vHXrL59W221xLYjGaM+IJ8BYssrWvzpJAMIoQcnNES8aP1opjth966SBSm
+ 9fxmg9vTgG78sHeR4oJNT+XWNiW72YBscVn4lLGHxFmXEGjK8fS6MMidIUNkZIi6U7KX
+ t/yw==
+X-Gm-Message-State: AOAM531HO6e7Q7PW+ncg3l9BVse7NL4CafPZmjtH1C93UrvgJ3ttXUxe
+ qkb8eyBusoNo78eUvix7nk1jBoKS8GY=
+X-Google-Smtp-Source: ABdhPJxMO2kqiK6cD7BoCnwQdse4hkLMYPEE0durClPqjBhR/U/+HHGckdeeSzJUtCIFu+7LT1JxBw==
+X-Received: by 2002:a17:90b:4d86:b0:1b9:d5fe:b30 with SMTP id
+ oj6-20020a17090b4d8600b001b9d5fe0b30mr146705pjb.142.1644993557263; 
+ Tue, 15 Feb 2022 22:39:17 -0800 (PST)
 Received: from bobo.ozlabs.ibm.com (60-241-140-189.static.tpgi.com.au.
  [60.241.140.189])
- by smtp.gmail.com with ESMTPSA id dw20sm18379814pjb.3.2022.02.15.22.39.08
+ by smtp.gmail.com with ESMTPSA id dw20sm18379814pjb.3.2022.02.15.22.39.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Feb 2022 22:39:10 -0800 (PST)
+ Tue, 15 Feb 2022 22:39:17 -0800 (PST)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v2 1/3] target/ppc: Fix POWER9 DD2.0 PVR, add DD2.1
-Date: Wed, 16 Feb 2022 16:39:01 +1000
-Message-Id: <20220216063903.1782281-1-npiggin@gmail.com>
+Subject: [PATCH v2 3/3] target/ppc/kvm: Use KVM_CAP_PPC_AIL_MODE_3 to
+ determine cap-ail-mode-3 support
+Date: Wed, 16 Feb 2022 16:39:03 +1000
+Message-Id: <20220216063903.1782281-3-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20220216063903.1782281-1-npiggin@gmail.com>
+References: <20220216063903.1782281-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=npiggin@gmail.com; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -91,32 +95,85 @@ Cc: David Gibson <david@gibson.dropbear.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The POWER9 DD2.0 PVR is incorrect. It doesn't cause problems because
-the pvr check is masking it and matching against the base.
+Use KVM_CAP_PPC_AIL_MODE_3 to determine cap-ail-mode-3 support for KVM
+guests. Keep the fallback heuristic for KVM hosts that pre-date this
+CAP.
 
-Correct it, add a PVR for DD2.1.
+This is only proposed the KVM CAP has not yet been allocated. I will
+ask to merge the new KVM cap when there are no objections on the QEMU
+side.
 
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+not-yet-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
-Since v1: new patch
+Since v1: 
+- Remove incorrect test for unsupported cap query. Add comment instead.
 
- target/ppc/cpu-models.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ linux-headers/linux/kvm.h |  1 +
+ target/ppc/kvm.c          | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/target/ppc/cpu-models.h b/target/ppc/cpu-models.h
-index 76775a74a9..9902285ac8 100644
---- a/target/ppc/cpu-models.h
-+++ b/target/ppc/cpu-models.h
-@@ -349,7 +349,8 @@ enum {
-     CPU_POWERPC_POWER8NVL_v10      = 0x004C0100,
-     CPU_POWERPC_POWER9_BASE        = 0x004E0000,
-     CPU_POWERPC_POWER9_DD1         = 0x004E0100,
--    CPU_POWERPC_POWER9_DD20        = 0x004E1200,
-+    CPU_POWERPC_POWER9_DD20        = 0x004E0200,
-+    CPU_POWERPC_POWER9_DD21        = 0x004E0201,
-     CPU_POWERPC_POWER10_BASE       = 0x00800000,
-     CPU_POWERPC_POWER10_DD1        = 0x00800100,
-     CPU_POWERPC_POWER10_DD20       = 0x00800200,
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 02c5e7b7bb..d91f578200 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1130,6 +1130,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_BINARY_STATS_FD 203
+ #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
+ #define KVM_CAP_ARM_MTE 205
++#define KVM_CAP_PPC_AIL_MODE_3 210
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 1338c41f8f..7f71f78253 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -90,6 +90,7 @@ static int cap_ppc_nested_kvm_hv;
+ static int cap_large_decr;
+ static int cap_fwnmi;
+ static int cap_rpt_invalidate;
++static int cap_ail_mode_3;
+ 
+ static uint32_t debug_inst_opcode;
+ 
+@@ -154,6 +155,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+     }
+ 
+     cap_rpt_invalidate = kvm_vm_check_extension(s, KVM_CAP_PPC_RPT_INVALIDATE);
++    cap_ail_mode_3 = kvm_vm_check_extension(s, KVM_CAP_PPC_AIL_MODE_3);
+     kvm_ppc_register_host_cpu_type();
+ 
+     return 0;
+@@ -2567,6 +2569,17 @@ bool kvmppc_supports_ail_3(void)
+ {
+     PowerPCCPUClass *pcc = kvm_ppc_get_host_cpu_class();
+ 
++    if (cap_ail_mode_3) {
++        return 1;
++    }
++
++    /*
++     * cap-ail-mode-3 is disabled, but it may be because the KVM host pre-dates
++     * the cap. Special-case the test because the performance cost for
++     * disabling the feature unconditionally is prohibitive until updated
++     * KVM is widely in use.
++     */
++
+     /*
+      * KVM PR only supports AIL-0
+      */
+@@ -2589,6 +2602,11 @@ bool kvmppc_supports_ail_3(void)
+         return 0;
+     }
+ 
++    /*
++     * Beyond ISA v3.1 (POWER10), this could return 0, because all KVM
++     * implementations for such hosts would support the cap.
++     */
++
+     return 1;
+ }
+ 
 -- 
 2.23.0
 
