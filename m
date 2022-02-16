@@ -2,93 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CD04B8E5C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 17:41:25 +0100 (CET)
-Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BBDE4B8E95
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 17:53:25 +0100 (CET)
+Received: from localhost ([::1]:41222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKNMq-0006ky-Nx
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 11:41:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59042)
+	id 1nKNYR-0004Yl-RZ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 11:53:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nKN7R-0002mJ-1G; Wed, 16 Feb 2022 11:25:29 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29122
- helo=mx0a-001b2d01.pphosted.com)
+ id 1nKN8F-0003VR-TZ; Wed, 16 Feb 2022 11:26:21 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nKN7O-0001YV-Qs; Wed, 16 Feb 2022 11:25:28 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21GGA9CH012698; 
- Wed, 16 Feb 2022 16:25:21 GMT
+ id 1nKN7w-0001Z8-Rm; Wed, 16 Feb 2022 11:26:10 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21GGHLA0021459; 
+ Wed, 16 Feb 2022 16:25:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-transfer-encoding
- : mime-version; s=pp1; bh=iwjGWVYse1rciRIgMPIDZyZNMILlYkWifTcLa/y4Owg=;
- b=pft1PKB6QG2XdCEr01L1K4Qt9iJ6nAAYo9HOKzeV1yy57HE7tYl4J/sDj+pzK3HXK4Uq
- drkuP0c7sl2+eGzHFw8LvwpHGr+7kZn+oOkt8fkFVah7z4SgJbS70/M3QI7GDJcim06k
- eqq4pqw8FfXVLuTrpynkqW+LmCTKaUC17zDdl2mqgQz/wCzwZrKI8kmLWikDRCgPR9k9
- iiwgpTsZ8jlLywQqj10kx9195zQxq0jpteVEXWUsUD/4usY/hNeRhkYGX8BVAg6fGIAq
- qnQHHx3oaEQXrxI9ZLns5l/U/W2jUIc+I83fF0MMLc+qV1GbK62ETD8poTWoPCno7DMi Tw== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=FR8bVCTJupn/bHkin8BNpqAGpE84lpQ+tUM9z0eZGeE=;
+ b=j75guUR7Zm1YKCJJPruQNp49X3qkxe/dhdeXgJ/AGWouFYZRaoJfMbq+TSzefYOuuhxC
+ 7lYkpuBZMJ6pV9WKrqcot9KvMu/XFDi2jTJ+SlEfhQiGTH9rLY6Xuhf8CKjvIeEFw0+T
+ LqOKikyMM5EE06FD2M5xaz3Jd7HIZH6GngwWnTzvC4Mw4CpDL1EAF/qnb2Wgsyc71AoK
+ VexFIkm+pMeOSZ94iuUxG4Klo1Q8AD2JItJ/lMNu6fZBW/k633DxoBBOm1LbEi0LsFIo
+ Zp/NuMuMoxIYuXFU2I8aAsgSV6gHoXXDq3FXdOfYBGVBh4D0aZVzJa3guLOite5atSt6 1w== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e944t8ss0-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e94nj8447-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 16:25:21 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21GGB0gW015426;
- Wed, 16 Feb 2022 16:25:21 GMT
+ Wed, 16 Feb 2022 16:25:23 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21GGJR1I024272;
+ Wed, 16 Feb 2022 16:25:22 GMT
 Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
  [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3e944t8srm-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e94nj843u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 16:25:20 +0000
+ Wed, 16 Feb 2022 16:25:22 +0000
 Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21GGCj9w020841;
- Wed, 16 Feb 2022 16:25:20 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01dal.us.ibm.com with ESMTP id 3e91f6e9jx-1
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21GGCjfA020845;
+ Wed, 16 Feb 2022 16:25:21 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma01dal.us.ibm.com with ESMTP id 3e91f6e9km-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 16:25:19 +0000
+ Wed, 16 Feb 2022 16:25:21 +0000
 Received: from b03ledav004.gho.boulder.ibm.com
  (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21GGPI0k26870038
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21GGPKEc36962690
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Feb 2022 16:25:18 GMT
+ Wed, 16 Feb 2022 16:25:20 GMT
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6472278077;
+ by IMSVA (Postfix) with ESMTP id 3786378072;
+ Wed, 16 Feb 2022 16:25:20 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C5D2D78070;
  Wed, 16 Feb 2022 16:25:18 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0ADE078069;
- Wed, 16 Feb 2022 16:25:17 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.144.50])
  by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 16 Feb 2022 16:25:16 +0000 (GMT)
+ Wed, 16 Feb 2022 16:25:18 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 23/27] target/ppc: Rename spr_tcg.h to spr_common.h
-Date: Wed, 16 Feb 2022 13:24:22 -0300
-Message-Id: <20220216162426.1885923-24-farosas@linux.ibm.com>
+Subject: [PATCH v2 24/27] target/ppc: cpu_init: Expose some SPR registration
+ helpers
+Date: Wed, 16 Feb 2022 13:24:23 -0300
+Message-Id: <20220216162426.1885923-25-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220216162426.1885923-1-farosas@linux.ibm.com>
 References: <20220216162426.1885923-1-farosas@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Xoe7D0w3Uo9huMOgnJwnJCazyTleieoK
-X-Proofpoint-ORIG-GUID: vFaTHzU_NiKKNkU2h-rrGhnVTHxFeR4T
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: wWwzi8hbs0iRdlaEG_GdPYd9nRhSx53x
+X-Proofpoint-ORIG-GUID: gUMvTfylo0p62TgxuBJSugquNFTvVfjT
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-16_07,2022-02-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0
- spamscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=977
- impostorscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 suspectscore=0
+ malwarescore=0 lowpriorityscore=0 priorityscore=1501 impostorscore=0
+ spamscore=0 clxscore=1015 mlxlogscore=999 bulkscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2202160095
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -114,68 +114,109 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initial intent for the spr_tcg header was to expose the spr_read|write
-callbacks that are only used by TCG code. However, although these
-routines are TCG-specific, the KVM code needs access to env->sprs
-which creation is currently coupled to the callback registration.
+The following patches will move CPU-specific code into separate files,
+so expose the most used SPR registration functions:
 
-We are probably not going to decouple SPR creation and TCG callback
-registration any time soon, so let's rename the header to spr_common
-to accomodate the register_*_sprs functions that will be moved out of
-cpu_init.c in the following patches.
+register_sdr1_sprs         | 22 callers
+register_low_BATs          | 20 callers
+register_non_embedded_sprs | 19 callers
+register_high_BATs         | 10 callers
+register_thrm_sprs         | 8 callers
+register_usprgh_sprs       | 6 callers
+register_6xx_7xx_soft_tlb  | only 3 callers, but it helps to
+                             keep the soft TLB code consistent.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu_init.c                  | 2 +-
- target/ppc/{spr_tcg.h => spr_common.h} | 4 ++--
- target/ppc/translate.c                 | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
- rename target/ppc/{spr_tcg.h => spr_common.h} (99%)
+ target/ppc/cpu_init.c   | 14 +++++++-------
+ target/ppc/spr_common.h |  8 ++++++++
+ 2 files changed, 15 insertions(+), 7 deletions(-)
 
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index adb23019ef..17f12aceb6 100644
+index 17f12aceb6..cfabf25040 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -44,7 +44,7 @@
+@@ -241,7 +241,7 @@ static void register_generic_sprs(PowerPCCPU *cpu)
+                  0x00000000);
+ }
  
- #include "helper_regs.h"
- #include "internal.h"
--#include "spr_tcg.h"
-+#include "spr_common.h"
- #include "power8-pmu.h"
+-static void register_non_embedded_sprs(CPUPPCState *env)
++void register_non_embedded_sprs(CPUPPCState *env)
+ {
+     /* Exception processing */
+     spr_register_kvm(env, SPR_DSISR, "DSISR",
+@@ -260,7 +260,7 @@ static void register_non_embedded_sprs(CPUPPCState *env)
+ }
  
- /* #define PPC_DEBUG_SPR */
-diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_common.h
-similarity index 99%
-rename from target/ppc/spr_tcg.h
-rename to target/ppc/spr_common.h
-index df2abacc64..5aec76ade4 100644
---- a/target/ppc/spr_tcg.h
+ /* Storage Description Register 1 */
+-static void register_sdr1_sprs(CPUPPCState *env)
++void register_sdr1_sprs(CPUPPCState *env)
+ {
+ #ifndef CONFIG_USER_ONLY
+     if (env->has_hv_mode) {
+@@ -283,7 +283,7 @@ static void register_sdr1_sprs(CPUPPCState *env)
+ }
+ 
+ /* BATs 0-3 */
+-static void register_low_BATs(CPUPPCState *env)
++void register_low_BATs(CPUPPCState *env)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+     spr_register(env, SPR_IBAT0U, "IBAT0U",
+@@ -355,7 +355,7 @@ static void register_low_BATs(CPUPPCState *env)
+ }
+ 
+ /* BATs 4-7 */
+-static void register_high_BATs(CPUPPCState *env)
++void register_high_BATs(CPUPPCState *env)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+     spr_register(env, SPR_IBAT4U, "IBAT4U",
+@@ -427,7 +427,7 @@ static void register_high_BATs(CPUPPCState *env)
+ }
+ 
+ /* Softare table search registers */
+-static void register_6xx_7xx_soft_tlb(CPUPPCState *env, int nb_tlbs, int nb_ways)
++void register_6xx_7xx_soft_tlb(CPUPPCState *env, int nb_tlbs, int nb_ways)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+     env->nb_tlb = nb_tlbs;
+@@ -667,7 +667,7 @@ static void register_iamr_sprs(CPUPPCState *env)
+ }
+ #endif /* TARGET_PPC64 */
+ 
+-static void register_thrm_sprs(CPUPPCState *env)
++void register_thrm_sprs(CPUPPCState *env)
+ {
+     /* Thermal management */
+     spr_register(env, SPR_THRM1, "THRM1",
+@@ -1072,7 +1072,7 @@ static void register_l3_ctrl(CPUPPCState *env)
+                  0x00000000);
+ }
+ 
+-static void register_usprgh_sprs(CPUPPCState *env)
++void register_usprgh_sprs(CPUPPCState *env)
+ {
+     spr_register(env, SPR_USPRG4, "USPRG4",
+                  &spr_read_ureg, SPR_NOACCESS,
+diff --git a/target/ppc/spr_common.h b/target/ppc/spr_common.h
+index 5aec76ade4..329b7e91a2 100644
+--- a/target/ppc/spr_common.h
 +++ b/target/ppc/spr_common.h
-@@ -16,8 +16,8 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
--#ifndef SPR_TCG_H
--#define SPR_TCG_H
-+#ifndef SPR_COMMON_H
-+#define SPR_COMMON_H
+@@ -141,4 +141,12 @@ void spr_write_hmer(DisasContext *ctx, int sprn, int gprn);
+ void spr_write_lpcr(DisasContext *ctx, int sprn, int gprn);
+ #endif
  
- #define SPR_NOACCESS (&spr_noaccess)
- 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 2eaffd432a..ecc5a104e0 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -35,7 +35,7 @@
- #include "exec/translator.h"
- #include "exec/log.h"
- #include "qemu/atomic128.h"
--#include "spr_tcg.h"
-+#include "spr_common.h"
- 
- #include "qemu/qemu-print.h"
- #include "qapi/error.h"
++void register_low_BATs(CPUPPCState *env);
++void register_high_BATs(CPUPPCState *env);
++void register_sdr1_sprs(CPUPPCState *env);
++void register_thrm_sprs(CPUPPCState *env);
++void register_usprgh_sprs(CPUPPCState *env);
++void register_non_embedded_sprs(CPUPPCState *env);
++void register_6xx_7xx_soft_tlb(CPUPPCState *env, int nb_tlbs, int nb_ways);
++
+ #endif
 -- 
 2.34.1
 
