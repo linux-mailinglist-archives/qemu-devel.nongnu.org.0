@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AB54B8558
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:16:50 +0100 (CET)
-Received: from localhost ([::1]:42368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24E34B8562
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:18:24 +0100 (CET)
+Received: from localhost ([::1]:48136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKHMf-0004fQ-Le
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:16:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40994)
+	id 1nKHOC-0000Li-0K
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:18:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nKHHV-0004rD-8L; Wed, 16 Feb 2022 05:11:29 -0500
-Received: from [2607:f8b0:4864:20::236] (port=43745
- helo=mail-oi1-x236.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nKHHT-0002B6-BE; Wed, 16 Feb 2022 05:11:28 -0500
-Received: by mail-oi1-x236.google.com with SMTP id s5so490221oic.10;
- Wed, 16 Feb 2022 02:11:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5cBEGFkYOy9hRxli33ftixkD7di/63zI7udVHNDzaBk=;
- b=i0EdYCdg7t9jpBAZCzGypD13/35BmaJ2niOJNxo682FhuUzMQ+52T3iiAlIuzKfI9R
- 7Ibs1KI5duDkMmcdXxtuC3GH/tQMXUvmeGPRTglfiojiInq6vF42rnWlMIrhMWgmZSIb
- wpOmUY7TwbNH9CHXHELe1kfFeTGQjr+p86giwMVtfy0mQRJxbSqERzE3Avg8fE5PmA/c
- +vPrhdGT0Q7wuDlo1xNAn36w8EUa6fVTxOkQ+UpY5AKDdr9WEiNRIHo+otBMg1OrHD1z
- HQAspSRfxc40g/LmNAPerPv2k2j9hwhALbxfpK0Nv+b3/ZarYM9bnioEnR4R+60FlQAi
- PRAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5cBEGFkYOy9hRxli33ftixkD7di/63zI7udVHNDzaBk=;
- b=VHoDHypbrCv5wXwKdgDHOkOc+0+NS3IhH9jOJsC4GE7H7hAV0isiAA2r9mmcUUqnJ6
- s/mspCcD9uJkrsZZnP4hwsRAAypYPoHTQJkWBoYlUP0TGp6akftBE64K8NldjJemheON
- sH+Uord8+u7/WvAr1OyanFaD9+nPmj7K/qaOohPmouDJDXLi486ENulhUk7lGAMooiYK
- 8Y8CZ3kYrWYKgWFxITblS5Qd05yVrShJNn1uT7g4HKAnENsPZ5v/7aG1aneOb5v/TB2C
- SLXrZ/y9IWCKmMgYmrCE+ygfuEuwR3DzumYmR17xlh2s4Ng8AVOWX1BjvSj7+9pCnsBo
- KYYA==
-X-Gm-Message-State: AOAM533XSNvOdzmMwCmBy0gqlvuMNGYtlIdZQ7s53JzWskKeIwfdyzQZ
- oEGvoYuG4zRLt2buMyW6ojV7N8dX9Zk=
-X-Google-Smtp-Source: ABdhPJwYI8UrIH6TV3jKjrz52ECVMZ/SEOaGKU7nWp2tzsKbX5s34zbSqBHk8WoPZzAYt8hd+W8bGw==
-X-Received: by 2002:a05:6808:1929:b0:2d4:374e:3980 with SMTP id
- bf41-20020a056808192900b002d4374e3980mr303544oib.294.1645006285767; 
- Wed, 16 Feb 2022 02:11:25 -0800 (PST)
-Received: from rekt.ibmmodules.com ([2804:431:c7c6:367f:eb9c:8725:6b7f:76b3])
- by smtp.gmail.com with ESMTPSA id
- y1sm17612689oad.38.2022.02.16.02.11.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 02:11:25 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v12 5/5] target/ppc: trigger PERFM EBBs from power8-pmu.c
-Date: Wed, 16 Feb 2022 07:11:02 -0300
-Message-Id: <20220216101102.179158-6-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220216101102.179158-1-danielhb413@gmail.com>
-References: <20220216101102.179158-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nKHJC-00082r-Fl
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 05:13:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nKHJ9-0002Qd-B4
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 05:13:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645006387;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s+3lWsJ553r/T9G+4OHC6BnZ6ESXT4DEeSlFllNTerw=;
+ b=P5r7qh7dU9kvUboinRSuQ0U9BADgmCG2eUHh8uEiAvhQVtakmVOxjHBB9Nb+R53ajFPgQP
+ bernqn6rNlfhIIfVBoF1aYyzWyHP4Jx86uliMcdFUlOqjW3xSjacu6zvoJR41kGGvAv3Lg
+ Y5OPveZSGqW5jDsATp5L1YpIjxtdmcU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-500-a85-vyFZP56m3rQSi5oa_g-1; Wed, 16 Feb 2022 05:13:04 -0500
+X-MC-Unique: a85-vyFZP56m3rQSi5oa_g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9F63100CCC2;
+ Wed, 16 Feb 2022 10:13:02 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F0A856AA2;
+ Wed, 16 Feb 2022 10:12:55 +0000 (UTC)
+Date: Wed, 16 Feb 2022 10:12:54 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2] nbd/server: Allow MULTI_CONN for shared writable
+ exports
+Message-ID: <20220216101254.GI1127@redhat.com>
+References: <20220215171838.2651387-1-eblake@redhat.com>
+ <CAMRbyyvdBWMB9bzpkUUMO+SZj6PN8Xy0kJnvqLhB2W6vw+5iWQ@mail.gmail.com>
+ <20220215232414.g4l4qoqiqyjvnweg@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::236
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.904,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220215232414.g4l4qoqiqyjvnweg@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,117 +80,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds the EBB exception support that are triggered by
-Performance Monitor alerts. This happens when a Performance Monitor
-alert occurs and MMCR0_EBE, BESCR_PME and BESCR_GE are set.
+On Tue, Feb 15, 2022 at 05:24:14PM -0600, Eric Blake wrote:
+> Oh. The QMP command (which is immediately visible through
+> nbd-server-add/block-storage-add to qemu and qemu-storage-daemon)
+> gains "multi-conn":"on", but you may be right that qemu-nbd would want
+> a command line option (either that, or we accellerate our plans that
+> qsd should replace qemu-nbd).
 
-fire_PMC_interrupt() will execute a new ebb_perfm_excp() helper that
-will check for MMCR0_EBE, BESCR_PME and BESCR_GE bits. If all bits are
-set, do_ebb() will attempt to trigger a PERFM EBB event.
+I really hope there will always be something called "qemu-nbd"
+that acts like qemu-nbd.
 
-If the EBB facility is enabled in both FSCR and HFSCR we consider that
-the EBB is valid and set BESCR_PMEO. After that, if we're running in
-problem state, fire a POWERPC_EXCP_PERM_EBB immediately. Otherwise we'll
-queue a PPC_INTERRUPT_EBB.
+Rich.
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/excp_helper.c | 48 ++++++++++++++++++++++++++++++++++++++++
- target/ppc/helper.h      |  1 +
- target/ppc/power8-pmu.c  |  3 +--
- 3 files changed, 50 insertions(+), 2 deletions(-)
-
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 04c61cff39..32a28ecce2 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -2009,6 +2009,54 @@ void helper_rfebb(CPUPPCState *env, target_ulong s)
-         env->spr[SPR_BESCR] &= ~BESCR_GE;
-     }
- }
-+
-+/*
-+ * Triggers or queues an 'ebb_excp' EBB exception. All checks
-+ * but FSCR, HFSCR and msr_pr must be done beforehand.
-+ *
-+ * PowerISA v3.1 isn't clear about whether an EBB should be
-+ * postponed or cancelled if the EBB facility is unavailable.
-+ * Our assumption here is that the EBB is cancelled if both
-+ * FSCR and HFSCR EBB facilities aren't available.
-+ */
-+static void do_ebb(CPUPPCState *env, int ebb_excp)
-+{
-+    PowerPCCPU *cpu = env_archcpu(env);
-+    CPUState *cs = CPU(cpu);
-+
-+    /*
-+     * FSCR_EBB and FSCR_IC_EBB are the same bits used with
-+     * HFSCR.
-+     */
-+    helper_fscr_facility_check(env, FSCR_EBB, 0, FSCR_IC_EBB);
-+    helper_hfscr_facility_check(env, FSCR_EBB, "EBB", FSCR_IC_EBB);
-+
-+    if (ebb_excp == POWERPC_EXCP_PERFM_EBB) {
-+        env->spr[SPR_BESCR] |= BESCR_PMEO;
-+    } else if (ebb_excp == POWERPC_EXCP_EXTERNAL_EBB) {
-+        env->spr[SPR_BESCR] |= BESCR_EEO;
-+    }
-+
-+    if (msr_pr == 1) {
-+        powerpc_excp(cpu, ebb_excp);
-+    } else {
-+        env->pending_interrupts |= 1 << PPC_INTERRUPT_EBB;
-+        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-+    }
-+}
-+
-+void helper_ebb_perfm_excp(CPUPPCState *env)
-+{
-+    bool perfm_ebb_enabled = env->spr[SPR_POWER_MMCR0] & MMCR0_EBE &&
-+                             env->spr[SPR_BESCR] & BESCR_PME &&
-+                             env->spr[SPR_BESCR] & BESCR_GE;
-+
-+    if (!perfm_ebb_enabled) {
-+        return;
-+    }
-+
-+    do_ebb(env, POWERPC_EXCP_PERFM_EBB);
-+}
- #endif
- 
- /*****************************************************************************/
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index ab008c9d4e..8c2c03fd48 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -18,6 +18,7 @@ DEF_HELPER_1(rfid, void, env)
- DEF_HELPER_1(rfscv, void, env)
- DEF_HELPER_1(hrfid, void, env)
- DEF_HELPER_2(rfebb, void, env, tl)
-+DEF_HELPER_1(ebb_perfm_excp, void, env)
- DEF_HELPER_2(store_lpcr, void, env, tl)
- DEF_HELPER_2(store_pcr, void, env, tl)
- DEF_HELPER_2(store_mmcr0, void, env, tl)
-diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index d245663158..38e1ecb782 100644
---- a/target/ppc/power8-pmu.c
-+++ b/target/ppc/power8-pmu.c
-@@ -307,8 +307,7 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
-         env->spr[SPR_POWER_MMCR0] |= MMCR0_PMAO;
-     }
- 
--    /* PMC interrupt not implemented yet */
--    return;
-+    helper_ebb_perfm_excp(env);
- }
- 
- /* This helper assumes that the PMC is running. */
 -- 
-2.34.1
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-df lists disk usage of guests without needing to install any
+software inside the virtual machine.  Supports Linux and Windows.
+http://people.redhat.com/~rjones/virt-df/
 
 
