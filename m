@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11EC14B8C3E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 16:17:07 +0100 (CET)
-Received: from localhost ([::1]:47742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0834B8C42
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 16:18:53 +0100 (CET)
+Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKM3G-0003CS-77
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 10:17:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41890)
+	id 1nKM4y-0005c3-In
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 10:18:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nKM1U-0001Qz-Pi; Wed, 16 Feb 2022 10:15:16 -0500
-Received: from [2607:f8b0:4864:20::52c] (port=45979
- helo=mail-pg1-x52c.google.com)
+ id 1nKM3m-0004mI-Qw
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 10:17:38 -0500
+Received: from [2607:f8b0:4864:20::432] (port=46687
+ helo=mail-pf1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nKM1T-0004eh-1b; Wed, 16 Feb 2022 10:15:16 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id z4so2384982pgh.12;
- Wed, 16 Feb 2022 07:14:58 -0800 (PST)
+ id 1nKM3l-0005PE-7I
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 10:17:38 -0500
+Received: by mail-pf1-x432.google.com with SMTP id i21so2337705pfd.13
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 07:17:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=dqWpjmWTBqUgKA9i/7qf57fdHnci2U5owDk01nOvQ50=;
- b=ExCvhe6DVIWasjvb0lBRxgQph8QH9ox1ueNRGxDB39ukhCGPE5Gt6Ccx1hvz+c2oha
- 5Kjzr1YnTFeMclQkOfNUuDVTXner2F4VEsvy3t0YpG049xMjkSXipV52dv5BPXeDCJyP
- 6eptGGtMRYFe24ZQZuYw1YsXBz/NV8SnusNdLrNP+K/sIYhHhFHrShP+yc13tqkx99L9
- AwCrrrdz5XFdBTNJGKdT0AxiXA7qYmKUy+chcU6DgxlPqc1ZxdpJ9DAnsp8m/GdfUH6Q
- LhJgTsYoaI9RLRrY8gpOXWS1skIvJXPA9xaoSUfMhVWcHp0usPCFzBMnX2LdjykL7mzD
- INrw==
+ bh=6Q1Zsq2uisU0kJFxeV+colZSEAD8yJLqzq+oYUzwQos=;
+ b=W983VES4cf5xxaFK3u78vOfRTNUcAp96PoembnSHDeeKdzCZS1NXSOKuKKbj3QOUdt
+ 9nyDpwc0BpzINuDDZTys+PZMcWHePaqFLXHaAgiPSh3VBxqZ8nDWWgwragqzaml68rN9
+ 3M7M5/Yt9uvjU3mqzFvjDQtxszjlebOPF76OtYhk3ubstD34KsE2AIuQYsIxlClpkjND
+ YBjiz/VbklCWfceAhkAHUH5TfHmJAy6Asyh654hZlnTzO955+x2DWRzCD6xMywO/xJUu
+ xb+6p7Zi6cy0esEFv4trN47d8eFWv/dcDlpKjBmvpY8a2BrNJmup78D4bFXJ9e4rtgio
+ Ra0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=dqWpjmWTBqUgKA9i/7qf57fdHnci2U5owDk01nOvQ50=;
- b=6H4gndLASWN0dy1JbBGpJy9Etew0spdVfOUtQK4H2snRIPMsM0sd/zcaiMPeYeMhAn
- T4xEPxvnFIAHp/CXMI04Zc+xCIltGCsYyFXdP/Y5jmAwxxUdryzapT8LhoZjfhkebqY+
- trsptnmZf0HGAaJeEsox+ghr9smfpjYFY1AlM2ba+0UbMd2B6KFwG7CR4U6oMGkqQuX/
- 76CkbkMWg+OAt7hhUaQSJXzO70e15BXKTSqMWqT/+RpR6RBn9B2Em64uV7T4cxXxorCZ
- zDrDHgK4Uy6lctWcqYP1P4dw95tMX0bRrl4H/5V73Xo9uxAoXtTOsnpT+UGM9L4XYjEQ
- S/fg==
-X-Gm-Message-State: AOAM530k3MfzIG4dpVAk+GBHJGQeA4uQ5P4T+g9nTVSnlCvUpngkQHxz
- 0io68rIpIHEpDQO49hT+lg4=
-X-Google-Smtp-Source: ABdhPJyLKhGb7g3x1alZLta1bxJ163EcT0i8lvfCQAGGfSn9ivGHPKP313Kdn+QwtUXu+LR2YDnjJw==
-X-Received: by 2002:a63:548:0:b0:372:c882:2109 with SMTP id
- 69-20020a630548000000b00372c8822109mr2628890pgf.415.1645024497937; 
- Wed, 16 Feb 2022 07:14:57 -0800 (PST)
+ bh=6Q1Zsq2uisU0kJFxeV+colZSEAD8yJLqzq+oYUzwQos=;
+ b=qNl25lHBr1d1nZxOZUXn2Z1nvasPt5yNSjYgjYqf+aWsZccXEjHAyprpO2527phjQ4
+ w4SdUVur1KRgm3VZOCNdywWdojMGSfHXZuLJLE1NDBKWIRj55vXJaA9Z8aAX/bozC3Xj
+ KIFNGLx29ZzFFHo5LvefFu6S19MAVcSFVTWDQ2K+5EvRvRLdcmslUhGEV6fsuq/Pz73d
+ 8C5qgof/SiQzuQJKgpde5Kj8FcZquc0wgpu9dr7Q27MyIyWPayPeFnM4XBORywgFEmaw
+ lZs9jj2zY77NRCWDK9DrvFdUT8Q/EtB3dmI6fkzXx88QthLHmkWk6LEnSSItlMADwfIb
+ wJPA==
+X-Gm-Message-State: AOAM530rOzDNGjyKg8Kyc+SOfDGRnEUxY9BCOx9WpG0qK+FwrWoOU97d
+ MN0ZuxtNHyGumeXX8pKajxM=
+X-Google-Smtp-Source: ABdhPJzppTaM8Th4tM3V4dmjxY8ftOHACqh75BugwWu71c7rEHbtMOwTmzQfjw1A8JpMTfxV+LQIeA==
+X-Received: by 2002:a63:fa0c:0:b0:373:13fb:9956 with SMTP id
+ y12-20020a63fa0c000000b0037313fb9956mr2673475pgh.391.1645024655718; 
+ Wed, 16 Feb 2022 07:17:35 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id u11sm8158635pfi.126.2022.02.16.07.14.55
+ by smtp.gmail.com with ESMTPSA id 142sm37186659pfy.11.2022.02.16.07.17.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 07:14:56 -0800 (PST)
-Message-ID: <959ea128-f2f3-836b-4fc1-503a9e77c3dd@amsat.org>
-Date: Wed, 16 Feb 2022 16:14:52 +0100
+ Wed, 16 Feb 2022 07:17:34 -0800 (PST)
+Message-ID: <cdc339d9-0a6b-5535-14c5-fee964649f4d@amsat.org>
+Date: Wed, 16 Feb 2022 16:17:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH v2] tests/qemu-iotests: Rework the checks and spots using
- GNU sed
+Subject: Re: Undelivered Mail Returned to Sender
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20220216125454.465041-1-thuth@redhat.com>
-In-Reply-To: <20220216125454.465041-1-thuth@redhat.com>
+To: "Joseph Fitzgerald (KM1P)" <jfitzgerald@amsat.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ "postmaster@amsat.org" <postmaster@amsat.org>
+Cc: qemu Developers <qemu-devel@nongnu.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20220216022900.8DE3E1770A1@mail-01.amsat.org>
+ <CAMVc7JUy5NeEN0q=4zfZvn_rppgqn9wicV1z=TsLuHKS3RY3Sw@mail.gmail.com>
+ <PH0PR16MB476031694D02A6550B15D294B6359@PH0PR16MB4760.namprd16.prod.outlook.com>
+In-Reply-To: <PH0PR16MB476031694D02A6550B15D294B6359@PH0PR16MB4760.namprd16.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
 X-Spam_score_int: 3
 X-Spam_score: 0.3
 X-Spam_bar: /
@@ -99,33 +105,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 16/2/22 13:54, Thomas Huth wrote:
-> Instead of failing the iotests if GNU sed is not available (or skipping
-> them completely in the check-block.sh script), it would be better to
-> simply skip the bash-based tests that rely on GNU sed, so that the other
-> tests could still be run. Thus we now explicitely use "gsed" (either as
-> direct program or as a wrapper around "sed" if it's the GNU version)
-> in the spots that rely on the GNU sed behavior. Statements that use the
-> "-r" parameter of sed have been switched to use "-E" instead, since this
-> switch is supported by all sed versions on our supported build hosts
-> (most also support "-r", but macOS' sed only supports "-E"). With all
-> these changes in place, we then can also remove the sed checks from the
-> check-block.sh script, so that "make check-block" can now be run on
-> systems without GNU sed, too.
+On 16/2/22 14:54, Joseph Fitzgerald (KM1P) wrote:
+> Thank you for this trouble report.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   I've checked that this still works fine with "make vm-build-freebsd",
->   "make vm-build-netbsd" and "make vm-build-openbsd" and the Cirrus-CI
->   macOS tasks.
+> We recommend that Philippe subscribe to the qemu mailing list via a 
+> "real" mailing address rather than his f4bug@amsat.org mail 
+> alias/forwarding address.
+
+Sigh, OK :(
+
+> There is some combination of the Free Software Foundation's mail server 
+> configuration and our remailer that causes and Google to reject mail 
+> from the qemu list - other traffic to Google flowing fine.  We have been 
+> in communication with FSF to try to resolve the issue without success to 
+> date.
+
+Thank you Joe & 73
+
 > 
->   tests/check-block.sh             | 12 ------
->   tests/qemu-iotests/271           |  2 +-
->   tests/qemu-iotests/common.filter | 65 ++++++++++++++++----------------
->   tests/qemu-iotests/common.rc     | 45 +++++++++++-----------
->   4 files changed, 57 insertions(+), 67 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-
+> -Joe Fitzgerald
+> AMSAT IT
+> 
+> 
+> 
+> ------------------------------------------------------------------------
+> *From:* Akihiko Odaki <akihiko.odaki@gmail.com>
+> *Sent:* Tuesday, February 15, 2022 10:20 PM
+> *To:* postmaster@amsat.org <postmaster@amsat.org>
+> *Cc:* Philippe Mathieu-Daudé <f4bug@amsat.org>; qemu Developers 
+> <qemu-devel@nongnu.org>; Roman Bolshakov <r.bolshakov@yadro.com>; 
+> Christian Schoenebeck <qemu_oss@crudebyte.com>
+> *Subject:* Fwd: Undelivered Mail Returned to Sender
+> Hi postmaster@amsat.org,
+> 
+> Apparently your system is rejected by Gmail. Could you fix the problem?
+> 
+> Thanks,
+> Akihiko Odaki
+> 
+> ---------- Forwarded message ---------
+> From: Mail Delivery System <MAILER-DAEMON@mail-01.amsat.org>
+> Date: Wed, Feb 16, 2022 at 11:29 AM
+> Subject: Undelivered Mail Returned to Sender
+> To: <akihiko.odaki@gmail.com>
+> 
+> 
+> This is the mail system at host mail-01.amsat.org.
+> 
+> I'm sorry to have to inform you that your message could not
+> be delivered to one or more recipients. It's attached below.
+> 
+> For further assistance, please send mail to postmaster.
+> 
+> If you do so, please include this problem report. You can
+> delete your own text from the attached returned message.
+> 
+>                     The mail system
+> 
+> <philippe.mathieu.daude@gmail.com> (expanded from <f4bug@amsat.org>): host
+>      gmail-smtp-in.l.google.com[64.233.177.26] said: 550-5.7.1 
+> [172.105.152.211
+>      12] Our system has detected that this message is 550-5.7.1 likely
+>      unsolicited mail. To reduce the amount of spam sent to Gmail, 550-5.7.1
+>      this message has been blocked. Please visit 550-5.7.1
+> https://support.google.com/mail/?p=UnsolicitedMessageError 
+> <https://support.google.com/mail/?p=UnsolicitedMessageError> 550 5.7.1  for
+>      more information. m141si25626293ybm.519 - gsmtp (in reply to end of 
+> DATA
+>      command)
 
