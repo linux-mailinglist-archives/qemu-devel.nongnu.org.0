@@ -2,52 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FDD4B8030
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 06:28:21 +0100 (CET)
-Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F0C4B8060
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 07:04:37 +0100 (CET)
+Received: from localhost ([::1]:50640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKCrU-0005G4-NS
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 00:28:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33226)
+	id 1nKDQa-0006J2-8h
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 01:04:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKCQi-0003xT-UE; Wed, 16 Feb 2022 00:00:41 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:43263)
+ (Exim 4.90_1) (envelope-from <rohit.kumar3@nutanix.com>)
+ id 1nKDN3-0005Ud-Qn
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:00:57 -0500
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:50014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKCQf-0004Zm-On; Wed, 16 Feb 2022 00:00:40 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jz5PW1z76z4xsm; Wed, 16 Feb 2022 16:00:31 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1644987631;
- bh=EuFDs6t06wJPL7QHVrz/xkyfyoco99C3cCVRayR1K18=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Eiu39IbgeEy5S6byXEkcBXfbmNvw6qoHQn0vlrTXFQTcJ5B+3f6TVQ2h7Mqxuq3Fc
- 8kpsc3a7GVKamzNafUSmJCvmzrGtEIeeLQ53xhjdLKZaBxzASilT68gLK4EUps4S6W
- /fyQxuEn6jJIlrZ/9p/q8kfXM4ASvhs5o3L/4wRw=
-Date: Wed, 16 Feb 2022 16:00:03 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH 1/2] spapr: Add SPAPR_CAP_AIL_MODE_3 for AIL mode 3
- support for H_SET_MODE hcall
-Message-ID: <YgyE00PnEomXD+DQ@yekko>
-References: <20220214111749.1542196-1-npiggin@gmail.com>
- <Ygr9eYymaFJb0nEI@yekko> <1644976024.xj3xgh76qi.astroid@bobo.none>
+ (Exim 4.90_1) (envelope-from <rohit.kumar3@nutanix.com>)
+ id 1nKDN0-0000bl-7D
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:00:56 -0500
+Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21FNG5Q8019005;
+ Tue, 15 Feb 2022 22:00:50 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=JxapR4NUiXsIr4jyKT7SImi4fCp1/Gk8ZbEuxxdJfHE=;
+ b=kPSvU1rIL7tndfm33nF6zCc4zy/NwnuFnj/v36lkyKtCaCVaqq4FIAKqbRlhm0F1LZb0
+ x5BZOMcSgCaEAOqlYk/bLUiufL07T/WXvcw+flOOaxirFUz96BtERkOYmHWXItTihHY7
+ 261NV59NeRg+704oNtA/37t1vn0rWdz6FzJh+NiWfkMWTt8+fEsXnM3Y1FjrNWTsvQ5/
+ 62ZZCaG6niLUJ2VBhC/UPMAKCj2Q5DDlV2eI4x3DNrXUMYedNtN2q9T/QnzwWMXtbWs9
+ QS31HMSAzotycq0CVpatO9/vNI02ddxY9R3NqHxBP9umUAgNuS/EHJT3ehJJ60Yx1E1r Qw== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2104.outbound.protection.outlook.com [104.47.55.104])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3e8npugjhf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Feb 2022 22:00:50 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fMNIEunY0F2xxIaD8U6oQyNzbFWBCwduqgb60baH7oqTt/aFLx2inaBonIYhSfv8XP1exsdnHaWmegiVbh7I82RPSsoPR5Jizcv/Or5BZmpRgdEIlrXkW5kdizu7RYv19OL4+DLGen5ins8ePEI3FMP+qCHsBHZ5Dwau4WQlngJ2UV44VLOsxOOj2wvzpNQ8DeItIVsadFmQay2hboioAm6Syziwoux9N2pjPCbbw+JKV6RJGbmlHLLmDGSOE32SJCZX4pfmVRlrRwzqThWAy7cZbiV3gUPzfQPeo9893q4S5pwQokLUb0HAjvWdtZ30JmwLjIjwrv87yVR6XOxp0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JxapR4NUiXsIr4jyKT7SImi4fCp1/Gk8ZbEuxxdJfHE=;
+ b=DxCHm4yXmBLzYD8rhUWiCnEH3M19eiqsWYO9eErILfo4a0ti5s6duLQqtBGyo6TqE8zUF0QxVV1VuJB63qIeX34ek8FFLP2W/caGsSk/3eiRrR/sHGDcAwElbghHak8FW1SdoQFj3T6NK4Jt009h/M/Z3PW+G3ZWguwfGusr2XkY854aXjf4+3164JOEtbDYEnXXHdA/t1z8im7beVSHMeOLkuf4rUMhKW0jEJq04skKLEUuHRQqM+tBkvSdLgDwpapVZPvOFoON9YZ2Py9kWtx0vZfD+R54EfDK+yqu1L2A/F82pw03iq9PSfKtamWfcJJUlsJq0HScMeQ+aw+FUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from SJ0PR02MB8564.namprd02.prod.outlook.com (2603:10b6:a03:3f6::16)
+ by SA2PR02MB7803.namprd02.prod.outlook.com (2603:10b6:806:142::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16; Wed, 16 Feb
+ 2022 06:00:47 +0000
+Received: from SJ0PR02MB8564.namprd02.prod.outlook.com
+ ([fe80::f58f:2ec1:820b:19f1]) by SJ0PR02MB8564.namprd02.prod.outlook.com
+ ([fe80::f58f:2ec1:820b:19f1%3]) with mapi id 15.20.4975.019; Wed, 16 Feb 2022
+ 06:00:46 +0000
+Message-ID: <5cb4a936-6277-5466-638e-d67f9a75f06c@nutanix.com>
+Date: Wed, 16 Feb 2022 11:30:09 +0530
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.0
+Subject: Re: [PATCH v2] Check and report for incomplete 'global' option format
+To: Markus Armbruster <armbru@redhat.com>
+References: <20220215055138.267904-1-rohit.kumar3@nutanix.com>
+ <87sfskeatx.fsf@pond.sub.org>
+From: Rohit Kumar <rohit.kumar3@nutanix.com>
+In-Reply-To: <87sfskeatx.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MAXPR0101CA0046.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:d::32) To SJ0PR02MB8564.namprd02.prod.outlook.com
+ (2603:10b6:a03:3f6::16)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6gS/m+4rYhnaBkeo"
-Content-Disposition: inline
-In-Reply-To: <1644976024.xj3xgh76qi.astroid@bobo.none>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a9f30f5f-af11-4f08-8191-08d9f111acae
+X-MS-TrafficTypeDiagnostic: SA2PR02MB7803:EE_
+X-Microsoft-Antispam-PRVS: <SA2PR02MB780376294BF730C38C6B9E36D1359@SA2PR02MB7803.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zz+82arrlTqnwz9dywAQE8Aq8opEYvpZhGLnIguxohseu5VgkdrWAC3PBKXWjqtx/VlSHu6x80HouwUuBj7wNIDJqSrZxt2iw6SFAGUFWaoA70cIR3l2gdkNcc9aCxLzUUFcyIl3xwmo2afl3gpFMsVPPlMdz6SM85bfhJM5crgeLQJKFTSi7B6PK3k00/UwK3AiuGDRzhDzw0SZXcV1UV8iGvnUtSbEuca1UfQpO1NXQtq+rSDElzuktIaYgFr7qLUfMd0r7H1GLfrzIjha8cma3latMnQJGA5YmQJd7Fqz0L0xg8Ru1wJgaVQ3SO3e99Uyyrezo9C+sRmQd2Rc2vdozFRFzRbjgefmizi2fk6nPs0tYmvsZKnYykJdTQ6RtRXSzBJKTqNq9X2GYjNlN5h3pFd6mQGY1Eou0xC+jycB9y1YwEB2Xfo8kqXgdYq34E6+auxSuHDpwE74i1+JqQLeqScPE/B9nn/6zIADxoEWOh2fm1pcmslKVNqVlgGAyi7pIOg0wZ4AFL6leSVqtf6bGPMaSRZUw64JxZ0NVnFHEc1hxfs6wzfVpt8W0KnqC29ykmTrde3+sJC7zwvop2LwMy8lthKX+snNhIra27biyVIH5FJJnv6Y7Ej7r7Z9zH+sdkp+uFj1u2nQvCoBP3WnTvVUzm+eexWBJ8/GqY2ycX89J3KOkNcOP6CR2nryyE9kUBMfnTRB5+Vq/RloPuLd0cnfZzymZLDUPaIutCiBn/byLVl5CyGtBTcSO5dY1smLddVTxER8Mu7qf9tHXdq8OjEF7dU+JwZlfbcdwl+nq8LbMy3Qlak0OWIOVx0qb8imqf60r/vR3UViF/cAEYRx9qr17PIrzLqCjOW3Ycg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR02MB8564.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(2616005)(186003)(26005)(31686004)(107886003)(52116002)(53546011)(6666004)(6512007)(6506007)(508600001)(316002)(6916009)(36756003)(6486002)(966005)(8936002)(2906002)(83380400001)(86362001)(66556008)(66946007)(8676002)(66476007)(38350700002)(4326008)(38100700002)(5660300002)(31696002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVFRMEJxRDgwUXlCeUNyYlorbkpYVkFsbGExV3FHU0pUd0s0aE51QS9jKzZr?=
+ =?utf-8?B?dVZVbXMwK0xqVmRNekUzYUtPUWpCVjAzRnZjMEozMmxkNGplQmpEMUYyRkQ0?=
+ =?utf-8?B?U0hycHZvWmU0YWFGNGhCSFVBcUZjT1Izc3FqaFFZVmRHSHRUdEY4aXdjYlVD?=
+ =?utf-8?B?WUJjNU5veEkzNVpSZWpWRW43OGJhMXVBcElLa0UwbVByN3NCTWk3UStEV2Ni?=
+ =?utf-8?B?aFJrYmlDN2VpVTZFN0Roci83TWg0YjgrWWlIb3pra2w2OHFPaG5VRmFadStu?=
+ =?utf-8?B?QldkQ3A4VGxOY3pHeThLYXlHZHRqVEVzRzF1WmRrd0F3djh3WEZrOHZvTHJa?=
+ =?utf-8?B?c3VDSnNsTmZpcFpTOGpKMGFYMDU1SHB1SlRxZzhSV0lHcFpFeEhEWHBDQzJm?=
+ =?utf-8?B?bVhlbVVMZnJXSHR2eXZtR1VETXlVTUNCRms2dmk4QW9oN2ROUHc2N2hLM1Rx?=
+ =?utf-8?B?MDQ5a1dVSDJxRFIvWEdsL2grK0pqSDEwem5vaGZldGJMSHFqcU82cTQ2YmhY?=
+ =?utf-8?B?ZkdYazAveGZwYkwzbmNtV1hKRFpBd3hJMFQ0alR5SCtKZ0tlVXc1K0VqYTI4?=
+ =?utf-8?B?OWk2ek9FMm9uMFNxTDdFTHlKeUZIUkVWSUM3UVczc0xQVUNpTlRoeUg3bjdm?=
+ =?utf-8?B?alJpYk53QzUvaERiTmY2a3c0OEw1eXhzeWJUOVVQblR5dTI1M1JzUmIvVUY3?=
+ =?utf-8?B?M2RRZXhwcHUyTGlrZFg1Rm84R0ozSmxGV2M1a3ZiZGZuNHg0Q0tUTDJGOGpu?=
+ =?utf-8?B?TW4yQ3hSbDZBNjVSb2Nzc2VySXZoWlQ0WWJlUExsMlVZTGhIbzZsZzlqREk4?=
+ =?utf-8?B?MXZmWE1CWXZjd2cya0JGSTM5ZVVtakhCL1RyNWE1T3J6ZmxpOUNZcVpodUdB?=
+ =?utf-8?B?c1ZCTEpjaXFQck1zTHM3bmNxNHV0MW1VNVNLbVZNL1JpeGdHQU5ZWGcybE5t?=
+ =?utf-8?B?TGRmOFNuTDZFVGJWN0FtMkRYKzJZaVJlL0d0SmtqYzlmS2tBS1BUMlRsamlD?=
+ =?utf-8?B?Nkxqd0FIQkcvMkhIay9zc3FiY2VxV3U1NDJGb0poUXB2NEEyOVFDd0h0azBp?=
+ =?utf-8?B?N2VMMDRuRzFoRDlFTmRpZ0tRRHRTRitkd2RGQ0xkZjFEd2V3eTRGTytIS1I1?=
+ =?utf-8?B?TUkwQWNUeng2MDFKVmFXWW5Iai93aHp0NllEb1AvMmtQVmVxTGhIa2xpVk9s?=
+ =?utf-8?B?UCtYZTh1b2lvQ0p5dERSR0NDWmZEd3NLNTZ2NFNGRzJoU0NmVUt4a3dlVm91?=
+ =?utf-8?B?S1JJOXR0V1VQdEMwT3dFQ1NOb1RkdUc2bjNkcE02alVKajY2K3FGVExrbWI4?=
+ =?utf-8?B?TE14N2VFVEVmREIvZVV1a0g5TG96ZGlVSExzYURnN0ZFOWttSjlSeGZuMzZV?=
+ =?utf-8?B?YWN4ekJ6YUtDQ2FJbHJyRTVMcUo0RGZrbWtZcUVzelZ4dVpucmxyT1BNZVN6?=
+ =?utf-8?B?WXYyb2dnb1dyQm40SHc5Mmh3Zm5HRFVJdzBKbWhsVkMwYVJOSmd3eVZQdFBn?=
+ =?utf-8?B?R0tESlprZDJscUFJWHorR0VSM0NjZXh0bUVNS2N5cm50SVQxTmZIdnpxSm1T?=
+ =?utf-8?B?Nk5YT3ZTQjdHeEI5OTg3Qzlnc280NDArY3Y3VjV3a0YyV3p4WUlMWXp4YTJQ?=
+ =?utf-8?B?eHFYYXY0UlVDbCtEZkg0VVhiQVBXS3BJZ2pha1p6OVg4NVhhU0dyRmZNNFpa?=
+ =?utf-8?B?dVJTR1B6Vmk1VVNZMzRZWEhSSUkyTCsrY21rL0hDYkd0K0x6RU5qdDNCZVBX?=
+ =?utf-8?B?YW95d2sxd2tKSUgrK2FreEpIL3pCeXNqbTduMWtwbXp5MnRMVklCc0NhM0xB?=
+ =?utf-8?B?Wlp6bXQ0a2xXQ2Y2R0dhdnZOaHU1VmFjVmt3RXlwU1BaT3ZYZEJoVjNSL2h6?=
+ =?utf-8?B?dEJ1MHE3SHBVOTFFRUJqRDBHWkxuZUszYm9adXVMSHRodUZsSXRGZVQwM1dt?=
+ =?utf-8?B?VDcwU1d6Y0ovVmMyeVVKUDM1d2hkdGwxNnI3RVNuTlhWTGFCdk45YzVxbWxs?=
+ =?utf-8?B?UU1pR3k2Z1Q0WGlZSVlJbEc3dCtvSlh6dFkxQkVqVVVjR2VpanptaVg1MjBD?=
+ =?utf-8?B?UUVIZXN6RHpBODRWcUFkc3g5TzU4N1Zxb0x4bitaaFNlM2Y0WHc5Zml1Vzdt?=
+ =?utf-8?B?emJaenFIZzRaS29Db1d1OGJFY1RPM0RVNHM2TXZjTmxFUFJ1SGxLbGludk9h?=
+ =?utf-8?B?UEFxQ0VoM2haMWNsWllWMGR3NHA1S1NTcjRobkxpdnYrVElMa3hZRW01OGwr?=
+ =?utf-8?B?Q3lpRXJpcStMQ1JWcm55VHpHWnR3PT0=?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9f30f5f-af11-4f08-8191-08d9f111acae
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR02MB8564.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2022 06:00:46.6147 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Loxs28CkOYV0Qyr9mApEHbj+GwJafYjEJ/xOr2js12IRh8ORhx6NaQWIGGjLJFLXY9AMggxUCI2cilUKZMmIZvnExAbWA6rK+NyJFDvE5P0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR02MB7803
+X-Proofpoint-ORIG-GUID: 4-URqnYKIvlLgetSwXZfKwi-D1EDZ-8K
+X-Proofpoint-GUID: 4-URqnYKIvlLgetSwXZfKwi-D1EDZ-8K
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-16_02,2022-02-14_04,2021-12-02_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=rohit.kumar3@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,189 +162,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: eduardo@habkost.net, thuth@redhat.com, berrange@redhat.com,
+ prerna.saxena@nutanix.com, qemu-devel@nongnu.org, prachatos.mitra@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---6gS/m+4rYhnaBkeo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Feb 16, 2022 at 11:50:34AM +1000, Nicholas Piggin wrote:
-> Excerpts from David Gibson's message of February 15, 2022 11:10 am:
-> > On Mon, Feb 14, 2022 at 09:17:48PM +1000, Nicholas Piggin wrote:
-> >> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> >> index 222c1b6bbd..5dec056796 100644
-> >> --- a/hw/ppc/spapr_hcall.c
-> >> +++ b/hw/ppc/spapr_hcall.c
-> >> @@ -811,32 +811,35 @@ static target_ulong h_set_mode_resource_le(Power=
-PCCPU *cpu,
-> >>  }
-> >> =20
-> >>  static target_ulong h_set_mode_resource_addr_trans_mode(PowerPCCPU *c=
-pu,
-> >> +                                                        SpaprMachineS=
-tate *spapr,
-> >>                                                          target_ulong =
-mflags,
-> >>                                                          target_ulong =
-value1,
-> >>                                                          target_ulong =
-value2)
-> >>  {
-> >> -    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> >> -
-> >> -    if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
-> >> -        return H_P2;
-> >> -    }
-> >>      if (value1) {
-> >>          return H_P3;
-> >>      }
-> >> +
-> >>      if (value2) {
-> >>          return H_P4;
-> >>      }
-> >> =20
-> >> -    if (mflags =3D=3D 1) {
-> >> -        /* AIL=3D1 is reserved in POWER8/POWER9/POWER10 */
-> >> +    /* AIL-1 is not architected, and AIL-2 is not supported by QEMU. =
-*/
-> >> +    if (mflags =3D=3D 1 || mflags =3D=3D 2) {
-> >=20
-> > This test is redundant with the one below, isn't it?
->=20
-> Ah, yes.
->=20
-> >=20
-> >>          return H_UNSUPPORTED_FLAG;
-> >>      }
-> >> =20
-> >> -    if (mflags =3D=3D 2 && (pcc->insns_flags2 & PPC2_ISA310)) {
-> >> -        /* AIL=3D2 is reserved in POWER10 (ISA v3.1) */
-> >> +    /* Only 0 and 3 are possible */
-> >> +    if (mflags !=3D 0 && mflags !=3D 3) {
-> >>          return H_UNSUPPORTED_FLAG;
-> >>      }
-> >> =20
-> >> +    if (mflags =3D=3D 3) {
-> >> +        if (!spapr_get_cap(spapr, SPAPR_CAP_AIL_MODE_3)) {
-> >> +            return H_UNSUPPORTED_FLAG;
-> >> +        }
-> >> +    }
-> >> +
-> >>      spapr_set_all_lpcrs(mflags << LPCR_AIL_SHIFT, LPCR_AIL);
-> >> =20
-> >>      return H_SUCCESS;
-> >> @@ -853,7 +856,7 @@ static target_ulong h_set_mode(PowerPCCPU *cpu, Sp=
-aprMachineState *spapr,
-> >>          ret =3D h_set_mode_resource_le(cpu, spapr, args[0], args[2], =
-args[3]);
-> >>          break;
-> >>      case H_SET_MODE_RESOURCE_ADDR_TRANS_MODE:
-> >> -        ret =3D h_set_mode_resource_addr_trans_mode(cpu, args[0],
-> >> +        ret =3D h_set_mode_resource_addr_trans_mode(cpu, spapr, args[=
-0],
-> >>                                                    args[2], args[3]);
-> >>          break;
-> >>      }
-> >> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> >> index ee7504b976..edbf3eeed0 100644
-> >> --- a/include/hw/ppc/spapr.h
-> >> +++ b/include/hw/ppc/spapr.h
-> >> @@ -77,8 +77,10 @@ typedef enum {
-> >>  #define SPAPR_CAP_FWNMI                 0x0A
-> >>  /* Support H_RPT_INVALIDATE */
-> >>  #define SPAPR_CAP_RPT_INVALIDATE        0x0B
-> >> +/* Support for AIL modes */
-> >> +#define SPAPR_CAP_AIL_MODE_3            0x0C
-> >>  /* Num Caps */
-> >> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_RPT_INVALIDATE + 1)
-> >> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_AIL_MODE_3 + 1)
-> >> =20
-> >>  /*
-> >>   * Capability Values
-> >> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> >> index dc93b99189..128bc530d4 100644
-> >> --- a/target/ppc/kvm.c
-> >> +++ b/target/ppc/kvm.c
-> >> @@ -2563,6 +2563,29 @@ int kvmppc_has_cap_rpt_invalidate(void)
-> >>      return cap_rpt_invalidate;
-> >>  }
-> >> =20
-> >> +int kvmppc_supports_ail_3(void)
-> >=20
-> > Returning bool would make more sense, no?
->=20
-> It would.
->=20
-> >=20
-> >> +{
-> >> +    PowerPCCPUClass *pcc =3D kvm_ppc_get_host_cpu_class();
-> >> +
-> >> +    /*
-> >> +     * KVM PR only supports AIL-0
-> >> +     */
-> >> +    if (kvmppc_is_pr(kvm_state)) {
-> >> +        return 0;
-> >> +    }
-> >> +
-> >> +    /*
-> >> +     * KVM HV hosts support AIL-3 on POWER8 and above, except for rad=
-ix
-> >> +     * mode on some early POWER9s, but it's not clear how to cover th=
-ose
-> >> +     * without disabling the feature for many.
-> >> +     */
-> >> +    if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
-> >=20
-> > This effectively means that the pseries machine type simply won't
-> > start with a !PPC2_ISA207S cpu model.  I'm not sure if we support any
-> > such CPUs in any case.
->=20
-> Oh, would that at least give an error to disable cap-ail-mode-3?
-
-Yes, it should.  Which for something as obscure as POWER7 may be acceptable.
-
-> > If we do, we should probably change the
-> > default value for this cap based on cpu model in
-> > default_caps_with_cpu().
->=20
-> We allegedly still support POWER7 KVM in Linux. I've never tested it
-> and I don't know how much it's used at all. Probably should keep it
-> working here if possible. I'll look into default_caps_with_cpu().
->=20
-> Thanks,
-> Nick
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---6gS/m+4rYhnaBkeo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIMhMoACgkQgypY4gEw
-YSKeXA//aNDsPOB3Yv4oe9kqGNAW84mZG/7nbEqSCd0cSvZLp/KiczJDgwKeBOhU
-+jDx40d0EBoicZb4Qrj9v1vbRdGQivRjSKeXgw9stU7aLOcH8F0rVCMiAgE6BKWv
-KWAd75eekeaUoNX3+9PSn3T/fcHnB1V2mUE3NIVozCrLtQFHQ6yVQpX9L/IodOL2
-ttDFhhw24V25fYeujP/O3JPk/QtKd4cCeW6hZislBNnWtfL4MusVsk5rq6+WXbLB
-1f11cWdrHjWUO0XDtZyAHfd9Ir3WwwiYjxs3kfd3wZxxeVKLcV18hnob72q8qqfE
-vyV7ZQyUIk08oRH/L5p2l/qcobCV52JRV4QYwGCDnK2N4qWO48PCajBOKZjSMqzn
-lcEj/HmeBGRLLgenz2k6jkcfoalETOi0Uvx8oe3P5CfoMVfXofx14YuxlPeS4PL3
-ZajvIpx4LMgzmz2Kewk57P2MHGKekhpGWOAxUsuK2FSgn/qXlO0NPHnSaQ9L/J5o
-juj2yYnOebE9wEvFncymOFvU0oAp9hy3sjm2SUVO96bA3vPH4sU7RCWNiru1ENDl
-3geOlxsuUd3wvgLjZNaMgBy1JbvwNzb1/NpOu6L2/sndrT63KsbHg9oq+moMWhJ4
-dhNRPC4rC5Gp07SPaenHQ9yPoq3hzwkZvjI7xD5SgvvfurvcBjg=
-=sFF6
------END PGP SIGNATURE-----
-
---6gS/m+4rYhnaBkeo--
+On 15/02/22 3:00 pm, Markus Armbruster wrote:
+> Rohit Kumar <rohit.kumar3@nutanix.com> writes:
+>
+>> Qemu might crash when provided incomplete '-global' option.
+>> For example:
+>>          qemu-system-x86_64 -global driver=isa-fdc
+>>          qemu-system-x86_64: ../../devel/qemu/qapi/string-input-visitor.c:394:
+>>          string_input_visitor_new: Assertion `str' failed.
+>>          Aborted (core dumped)
+>>
+>> Resolves: https://urldefense.proofpoint.com/v2/url?u=https-3A__gitlab.com_qemu-2Dproject_qemu_-2D_issues_604&d=DwIBAg&c=s883GpUCOChKOHiocYtGcg&r=ABSkr7gy7ZTfApFfI-Xxt1gZNtsDDiXoXOXc0OrkyFs&m=YfuOt9ozXVjjleGOXTdWK4Hu8PoU3kTzGTXAJ223138_AM934NRnuqUQHpaLSWTs&s=WEGcm58m7pR4XrWGsUvHOVPj18ym0OrlAObwY_CfKlc&e=
+> The original qemu_global_option() only ever created QemuOpts with all
+> three options present.  Code consuming these QemuOpts relies on this
+> invariant.  Commit 3751d7c43f "vl: allow full-blown QemuOpts syntax for
+> -global" (v2.4.0) wrecked it.
+>
+> Let's point to the root cause:
+>
+>    Fixes: 3751d7c43f795b45ffdb9429cfb09c6beea55c68
+Thanks, Markus for pointing out this. I will add it in the next patch.
+>
+>> Signed-off-by: Rohit Kumar <rohit.kumar3@nutanix.com>
+>> ---
+>>   diff to v1:
+>>    - Removed '\n' from error log message.
+>>
+>>   softmmu/qdev-monitor.c | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+>> index 01f3834db5..51b33caeca 100644
+>> --- a/softmmu/qdev-monitor.c
+>> +++ b/softmmu/qdev-monitor.c
+>> @@ -1020,6 +1020,7 @@ int qemu_global_option(const char *str)
+>>       char driver[64], property[64];
+>>       QemuOpts *opts;
+>>       int rc, offset;
+>> +    Error *err = NULL;
+>>   
+>>       rc = sscanf(str, "%63[^.=].%63[^=]%n", driver, property, &offset);
+>>       if (rc == 2 && str[offset] == '=') {
+>> @@ -1031,7 +1032,12 @@ int qemu_global_option(const char *str)
+>>       }
+>>   
+>>       opts = qemu_opts_parse_noisily(&qemu_global_opts, str, false);
+>> -    if (!opts) {
+>> +    if (!opts || !qemu_opt_get(opts, "driver") || !qemu_opt_get(opts,"property") ||
+>> +    !qemu_opt_get(opts, "value")) {
+>> +        error_setg(&err, "Invalid 'global' option format! "
+>> +        "Use -global <driver>.<property>=<value> or "
+>> +        "-global driver=driver,property=property,value=value");
+>> +        error_report_err(err);
+>>           return -1;
+>>       }
+> This fix isn't quite right.
+>
+> When qemu_opts_parse_noisily() fails, it reports an error and returns
+> null.  Your patch reports a second error then.  Reproducer:
+>
+>      $ qemu-system-x86_64 -global =
+>      qemu-system-x86_64: -global =: Invalid parameter ''
+>      qemu-system-x86_64: -global =: Invalid 'global' option format! Use -global <driver>.<property>=<value> or -global driver=driver,property=property,value=value
+>
+> You should do something like
+>
+>      opts = qemu_opts_parse_noisily(&qemu_global_opts, str, false);
+>      if (!opts) {
+>          return -1;
+>      }
+>      if (!qemu_opt_get(opts, "driver")
+>          || !qemu_opt_get(opts, "property")
+>          || !qemu_opt_get(opts, "value")) {
+>          error_report("options 'driver', 'property', and 'value'"
+>                       " are required');
+>          return -1;
+>      }
+Ack., I will update it in the next patch. Thanks.
 
