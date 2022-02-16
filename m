@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98CB4B854B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:14:26 +0100 (CET)
-Received: from localhost ([::1]:34790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B451C4B854C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:14:28 +0100 (CET)
+Received: from localhost ([::1]:34904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKHKJ-0007jW-1z
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:14:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40946)
+	id 1nKHKN-0007nk-RD
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:14:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nKHHP-0004T2-U5; Wed, 16 Feb 2022 05:11:23 -0500
-Received: from [2607:f8b0:4864:20::c2f] (port=44640
- helo=mail-oo1-xc2f.google.com)
+ id 1nKHHS-0004fs-JW; Wed, 16 Feb 2022 05:11:26 -0500
+Received: from [2607:f8b0:4864:20::c2e] (port=46014
+ helo=mail-oo1-xc2e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nKHHO-000293-4z; Wed, 16 Feb 2022 05:11:23 -0500
-Received: by mail-oo1-xc2f.google.com with SMTP id
- o128-20020a4a4486000000b003181707ed40so1858483ooa.11; 
- Wed, 16 Feb 2022 02:11:21 -0800 (PST)
+ id 1nKHHQ-0002A5-TR; Wed, 16 Feb 2022 05:11:26 -0500
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ u25-20020a4ad0d9000000b002e8d4370689so1851611oor.12; 
+ Wed, 16 Feb 2022 02:11:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fZPI2m+wUmzdQWIlgl7wmaSuMlcvFlJcfg619/oCuhk=;
- b=nYhQVVXHluWdji2KZRKbdw8glH+UN7i3hmsOOE8FIatZJGeGewFuWs7nUM3T/Ph0u1
- HLdHJZAKi7SGrqARE/UT5XWnTFk1oIhwSUoIu8IyuNk6aUzdOsHnWCz0SV/4+oMiI61s
- iNsiGz/ZmW2TPAS/+jO3FhIXH1MP2ElXxIK/3sRzcYb1OlNHAygrzMhCfUnVd1Zz7wB6
- LqfsDcSQbxkss9KnyLQRvgShGEZZ/Zg5sQRz9OgTxJZLc13xsOWbZirUiKT2UHG6OeOq
- AJOezVdN4Zb5cFVe7GPLzsODizvWY8vK7El5zEN9oAKPunpniOps8mh3Nep4jVp5xVlm
- fHHQ==
+ bh=afcW9NjHxvKYiIPUrAUv9u2+Pl3fFq4NpoJePFp6Ykc=;
+ b=gcByH1D9AvX2yVcyFXZSSERXksYvFUqcps72Xdaxm8ZHV0GNg/aJDNAgCcuKNlsbN6
+ sLpdQrXhr/CJPl6t8+5YGV2Ezsogw2cuyCM9fI1dQ/VsQxK+ahsfXQC7a+FM6XI6nse+
+ aIEHwdTzwqmv0W2rpgqMUaimtuzkj9CBhxXHQv6a/yaRs3lWUS3cDsT2ULE4W1x+rDs/
+ eKffG5bb262geq5YXj3zaLa2s/4Tc07SHOg6D9u8E0Ihnkg7R2s4/E7JY13k12FzeujU
+ f+t/ULZSUqBgsO6BE0cpjEGtBPGvKDG3k7YA7x8Mg3EbJ7HsdBi2jpSTj02bTatEUofU
+ Mpeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fZPI2m+wUmzdQWIlgl7wmaSuMlcvFlJcfg619/oCuhk=;
- b=C6yuiLzl+vKOdBvL5AoTJ1k6ZqXlMUmDK3Se1OaT46X3EnpCn++IZNfxegXtOW6Kkz
- f2jmCKbgaBFze16Eo5t58RB4DhjqJ8ZEjdKh/cXQqfJG2gke8S5o67NlDIeZ/6gWCgKZ
- yC1x1hGdvZPCnuv/+Qf44NMlJ8ij/km1qjy+i/BRcJo2rKSaK0xZUI8RuQetnQv0FGHh
- 2ET5Ggi8ro34HiYJb82YsWfUE1FLEzVMbA6L+K+eAOztz3YgGnhSnTujQHX7Z0Y9GQAJ
- fHTZSYTVUix1L6qatPZD3fN/7+9e/OLA0lrs7cGrLi8JIr8g+9aMpXVVV5OnCyS2/jFU
- pzOw==
-X-Gm-Message-State: AOAM532zZrF9r0eHY0FsFLHv12OqLPHRpn86m3p15poD8J2DfCONWKkK
- V4QuWqN31glDsrnjUQxUG2Pexuj1nyU=
-X-Google-Smtp-Source: ABdhPJy9f9W/VA5Pgx9+UALEVGCza9BtVwmHeGzxHaWe6HGMOnptpG2FgBXTJ9JG0bzI8Bqs74HFqw==
-X-Received: by 2002:a05:6870:a987:b0:d3:3505:4b8e with SMTP id
- ep7-20020a056870a98700b000d335054b8emr230958oab.88.1645006280727; 
- Wed, 16 Feb 2022 02:11:20 -0800 (PST)
+ bh=afcW9NjHxvKYiIPUrAUv9u2+Pl3fFq4NpoJePFp6Ykc=;
+ b=JaaLS/uLV3PuAzrrZzvZtoz0zSAov7ct4Qxr45ob1d+UnzEhbQEInmKNuqMK34FIRF
+ wid3VuEEiKCKkhhnpwJj0x7olho46r39yGav58oZoquSPI5ON0kOqfJQi+UcridKKLZi
+ /a0eusBXai/3Q8aY72ANqytctj5TaJE+HX01DYP54EZItcyw9je9cd12Xi82Ihbu/4BB
+ UgvVJWLPFgNvo6A7Qd03gtmC0MYb/ke62STARE/2/LHgsRe1N4XPY8kthS2fhiDYvQvt
+ NcoCnj1/lp5UZKTIHLiXtvy8O3OqlzZCZ2XT7tYL+pI5lKsWU3sAdPVx+QA5Jr8GnouZ
+ Ah2g==
+X-Gm-Message-State: AOAM532bna5JtXujUq3mBmlEhtl7i0u7xre6dS8KLuaWGYpc6jlupLk6
+ mD5vrCMOK1Q649lAJW9Rgigb0YwQ3f8=
+X-Google-Smtp-Source: ABdhPJzamHaJUJWykyzRxlRFRdXUGT8YUcf9Vn0QL2cJgGULignak5aikuZb0czs8H7qIgOpajemoA==
+X-Received: by 2002:a05:6870:54c7:b0:c4:7dc0:d6e5 with SMTP id
+ g7-20020a05687054c700b000c47dc0d6e5mr215193oan.184.1645006283384; 
+ Wed, 16 Feb 2022 02:11:23 -0800 (PST)
 Received: from rekt.ibmmodules.com ([2804:431:c7c6:367f:eb9c:8725:6b7f:76b3])
  by smtp.gmail.com with ESMTPSA id
- y1sm17612689oad.38.2022.02.16.02.11.18
+ y1sm17612689oad.38.2022.02.16.02.11.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 02:11:20 -0800 (PST)
+ Wed, 16 Feb 2022 02:11:23 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v12 3/5] target/ppc: finalize pre-EBB PMU logic
-Date: Wed, 16 Feb 2022 07:11:00 -0300
-Message-Id: <20220216101102.179158-4-danielhb413@gmail.com>
+Subject: [PATCH v12 4/5] target/ppc: add PPC_INTERRUPT_EBB and EBB exceptions
+Date: Wed, 16 Feb 2022 07:11:01 -0300
+Message-Id: <20220216101102.179158-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220216101102.179158-1-danielhb413@gmail.com>
 References: <20220216101102.179158-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2f;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2e.google.com
 X-Spam_score_int: -1
 X-Spam_score: -0.2
 X-Spam_bar: /
@@ -92,74 +93,121 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are still PMU exclusive bits to handle in fire_PMC_interrupt()
-before implementing the EBB support. Let's finalize it now to avoid
-dealing with PMU and EBB logic at the same time in the next patches.
+PPC_INTERRUPT_EBB is a new interrupt that will be used to deliver EBB
+exceptions that had to be postponed because the thread wasn't in problem
+state at the time the event-based branch was supposed to occur.
 
-fire_PMC_interrupt() will fire an Performance Monitor alert depending on
-MMCR0_PMAE. If we are required to freeze the timers (MMCR0_FCECE) we'll
-also need to update summaries and delete the existing overflow timers.
-In all cases we're going to update the cycle counters.
+ISA 3.1 also defines two EBB exceptions: Performance Monitor EBB
+exception and External EBB exception. They are being added as
+POWERPC_EXCP_PERFM_EBB and POWERPC_EXCP_EXTERNAL_EBB.
 
+PPC_INTERRUPT_EBB will check BESCR bits to see the EBB type that
+occurred and trigger the appropriate exception. Both exceptions are
+doing the same thing in this first implementation: clear BESCR_GE and
+enter the branch with env->nip retrieved from SPR_EBBHR.
+
+The checks being done by the interrupt code are msr_pr and BESCR_GE
+states. All other checks (EBB facility check, BESCR_PME bit, specific
+bits related to the event type) must be done beforehand.
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/power8-pmu.c | 36 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
+ target/ppc/cpu.h         |  5 ++++-
+ target/ppc/cpu_init.c    |  4 ++++
+ target/ppc/excp_helper.c | 33 +++++++++++++++++++++++++++++++++
+ 3 files changed, 41 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index 236e8e66e9..d245663158 100644
---- a/target/ppc/power8-pmu.c
-+++ b/target/ppc/power8-pmu.c
-@@ -222,6 +222,20 @@ static void pmu_update_overflow_timers(CPUPPCState *env)
-     }
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 555c6b9245..e8a423d14d 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -127,8 +127,10 @@ enum {
+     /* ISA 3.00 additions */
+     POWERPC_EXCP_HVIRT    = 101,
+     POWERPC_EXCP_SYSCALL_VECTORED = 102, /* scv exception                     */
++    POWERPC_EXCP_PERFM_EBB = 103,    /* Performance Monitor EBB Exception    */
++    POWERPC_EXCP_EXTERNAL_EBB = 104, /* External EBB Exception               */
+     /* EOL                                                                   */
+-    POWERPC_EXCP_NB       = 103,
++    POWERPC_EXCP_NB       = 105,
+     /* QEMU exceptions: special cases we want to stop translation            */
+     POWERPC_EXCP_SYSCALL_USER = 0x203, /* System call in user mode only      */
+ };
+@@ -2426,6 +2428,7 @@ enum {
+     PPC_INTERRUPT_HMI,            /* Hypervisor Maintenance interrupt    */
+     PPC_INTERRUPT_HDOORBELL,      /* Hypervisor Doorbell interrupt        */
+     PPC_INTERRUPT_HVIRT,          /* Hypervisor virtualization interrupt  */
++    PPC_INTERRUPT_EBB,            /* Event-based Branch exception         */
+ };
+ 
+ /* Processor Compatibility mask (PCR) */
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 8fc644f8d6..8ddac4e2fe 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -2239,6 +2239,10 @@ static void init_excp_POWER8(CPUPPCState *env)
+     env->excp_vectors[POWERPC_EXCP_FU]       = 0x00000F60;
+     env->excp_vectors[POWERPC_EXCP_HV_FU]    = 0x00000F80;
+     env->excp_vectors[POWERPC_EXCP_SDOOR_HV] = 0x00000E80;
++
++    /* Userland exceptions without vector value in PowerISA v3.1 */
++    env->excp_vectors[POWERPC_EXCP_PERFM_EBB] = 0x0;
++    env->excp_vectors[POWERPC_EXCP_EXTERNAL_EBB] = 0x0;
+ #endif
  }
  
-+static void pmu_delete_timers(CPUPPCState *env)
-+{
-+    QEMUTimer *pmc_overflow_timer;
-+    int sprn;
-+
-+    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC6; sprn++) {
-+        pmc_overflow_timer = get_cyc_overflow_timer(env, sprn);
-+
-+        if (pmc_overflow_timer) {
-+            timer_del(pmc_overflow_timer);
-+        }
-+    }
-+}
-+
- void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
- {
-     bool hflags_pmcc0 = (value & MMCR0_PMCC0) != 0;
-@@ -271,8 +285,26 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
- {
-     CPUPPCState *env = &cpu->env;
- 
--    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_EBE)) {
--        return;
-+    pmu_update_cycles(env);
-+
-+    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FCECE) {
-+        env->spr[SPR_POWER_MMCR0] &= ~MMCR0_FCECE;
-+        env->spr[SPR_POWER_MMCR0] |= MMCR0_FC;
-+
-+        /* Changing MMCR0_FC requires a new HFLAGS_INSN_CNT calc */
-+        pmu_update_summaries(env);
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index bbc75afbc0..04c61cff39 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -1513,6 +1513,21 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+         new_msr |= (target_ulong)MSR_HVB;
+         new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+         break;
++    case POWERPC_EXCP_PERFM_EBB:        /* Performance Monitor EBB Exception  */
++    case POWERPC_EXCP_EXTERNAL_EBB:     /* External EBB Exception             */
++        env->spr[SPR_BESCR] &= ~BESCR_GE;
 +
 +        /*
-+         * Delete all pending timers if we need to freeze
-+         * the PMC. We'll restart them when the PMC starts
-+         * running again.
++         * Save NIP for rfebb insn in SPR_EBBRR. Next nip is
++         * stored in the EBB Handler SPR_EBBHR.
 +         */
-+        pmu_delete_timers(env);
-+    }
++        env->spr[SPR_EBBRR] = env->nip;
++        powerpc_set_excp_state(cpu, env->spr[SPR_EBBHR], env->msr);
 +
-+    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMAE) {
-+        env->spr[SPR_POWER_MMCR0] &= ~MMCR0_PMAE;
-+        env->spr[SPR_POWER_MMCR0] |= MMCR0_PMAO;
++        /*
++         * This exception is handled in userspace. No need to proceed.
++         */
++        return;
+     case POWERPC_EXCP_THERM:     /* Thermal interrupt                        */
+     case POWERPC_EXCP_PERFM:     /* Embedded performance monitor interrupt   */
+     case POWERPC_EXCP_VPUA:      /* Vector assist exception                  */
+@@ -1742,6 +1757,24 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+             powerpc_excp(cpu, POWERPC_EXCP_THERM);
+             return;
+         }
++        /* EBB exception */
++        if (env->pending_interrupts & (1 << PPC_INTERRUPT_EBB)) {
++            /*
++             * EBB exception must be taken in problem state and
++             * with BESCR_GE set.
++             */
++            if (msr_pr == 1 && env->spr[SPR_BESCR] & BESCR_GE) {
++                env->pending_interrupts &= ~(1 << PPC_INTERRUPT_EBB);
++
++                if (env->spr[SPR_BESCR] & BESCR_PMEO) {
++                    powerpc_excp(cpu, POWERPC_EXCP_PERFM_EBB);
++                } else if (env->spr[SPR_BESCR] & BESCR_EEO) {
++                    powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL_EBB);
++                }
++
++                return;
++            }
++        }
      }
  
-     /* PMC interrupt not implemented yet */
+     if (env->resume_as_sreset) {
 -- 
 2.34.1
 
