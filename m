@@ -2,83 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7136A4B953E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 02:09:27 +0100 (CET)
-Received: from localhost ([::1]:40842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8158E4B95C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 02:56:02 +0100 (CET)
+Received: from localhost ([::1]:58398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKVIT-000688-V0
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 20:09:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37828)
+	id 1nKW1Z-0003o4-Dy
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 20:56:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nKVHT-0005Qs-6N
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 20:08:23 -0500
-Received: from [2607:f8b0:4864:20::52e] (port=41605
- helo=mail-pg1-x52e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nKVHP-0007M8-R6
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 20:08:22 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id f8so3591449pgc.8
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 17:08:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=wk5GwAEn92AhNtHexLGSoQji9LZyDgHKd1e1OhndGvw=;
- b=PdwhqoqrnUsVQq+LmcMC/I4hEiGht4RYYuUL/6DCtlIVHA/BWGaV07o0T/IL2xs84I
- wlq6CDk2LHgr6ZUCIS06bXNrWV41QQqyRAuRIOBVwNE6SFGD2oD8UGf29BHZkLux69hS
- 5IG+msTxZCH5QXYLKB6WtafHM+5PmHmi25LkeSYgOqLuRLTR7/HIQ6fROF+VI8UEo7H/
- vtekNKISml5cDFIaVTjIdxNTlXcu/gcVTz8vHUgy8+eSwqsz+V7tdf/6vjlsDF2saFHX
- k6h5FkUAz9Bt3LIJpBqR/wSNJrjoyH+jqjpB0wfBW+KRYQOjuehNVCPCcGhEvQkdR8A6
- mvRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wk5GwAEn92AhNtHexLGSoQji9LZyDgHKd1e1OhndGvw=;
- b=hjL8IBIIqYZWfkuvuz+1HrvwjR3dKJ8+Er77DqzzvHZPgul809R9HpKJtYyLLYwWYM
- sXRphJ9yVygK/QNa5qbuIiEMV9JD9hmSYadSmexnv4yrMMnY3x3eJF6o+RR5gjJR4h1f
- X9KMd73Ec0ri9aiBiTBe3e0naMeivdyOW4SbD8Qu3GQgcgFZFzDOn/qUiZdcAPQLS8+h
- 0rj3UIjvl1fTads+OYb2pJpk0lHfeYe+yja0pIMGMou+5gZWohlAvi412PQPM+MnB/WT
- q1bkpzF4woXGjYM7Qtm8kTmKcCC+RvNhMZ82TEt1UkzrSmMHe6TgNrcuFycFROtoy8Gx
- pBNg==
-X-Gm-Message-State: AOAM5303b/8vLBrkdtc/HgvAL0To6rlnUeMnG4qkcB9wB4TQK6qKcxQn
- +kesZVSqiYctiyY4IOpDg+4CEg==
-X-Google-Smtp-Source: ABdhPJzswhHZ0YAbFjwrH81cVMhz9z82uBtGvEumxw7Xq/FxMJeA1D77OHx6nlkS73a+KKvxAR4Czg==
-X-Received: by 2002:a63:4347:0:b0:373:8e62:5a87 with SMTP id
- q68-20020a634347000000b003738e625a87mr532707pga.288.1645060093098; 
- Wed, 16 Feb 2022 17:08:13 -0800 (PST)
-Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id q32sm6681210pgm.26.2022.02.16.17.08.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 17:08:12 -0800 (PST)
-Message-ID: <9d21dc04-0010-2ab9-9bc5-d42fa2f06fc0@linaro.org>
-Date: Thu, 17 Feb 2022 09:52:59 +1100
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nKVeB-0002cQ-CM; Wed, 16 Feb 2022 20:31:52 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:56469)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nKVe6-0002QJ-3C; Wed, 16 Feb 2022 20:31:50 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4Jzck42GgQz4xsg; Thu, 17 Feb 2022 12:31:40 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1645061500;
+ bh=zgp0c6UZFPt/q0YiwTSr6I0elEOep5HGpHEkrqwYA3k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=I0VdBeD7LEsLEJpBFeVXiECtr0gSnmFpO9RMhEDoUwBT0OoppO4TsPMj8FxZuR5do
+ fS2/o4O0bj3dl6tlEkcbHzq7vNcpBgyPLQ5IMQLzmtVkfFx8+zLTPpCLOk/l9zKsWJ
+ lTLonihvKkCg8oXOJDJd04otsu4dK2tENeTZw3XQ=
+Date: Thu, 17 Feb 2022 10:32:00 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [PATCH 26/27] target/ppc: cpu_init: Move check_pow and QOM
+ macros to a header
+Message-ID: <Yg2JcI+inDKWGb8P@yekko>
+References: <20220215214148.1848266-1-farosas@linux.ibm.com>
+ <20220215214148.1848266-27-farosas@linux.ibm.com>
+ <YgxpuvVtY3Roy9Pr@yekko> <87czjnx8od.fsf@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3] Hexagon (target/hexagon) properly handle NaN in
- dfmin/dfmax/sfmin/sfmax
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <20220216043939.25339-1-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220216043939.25339-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.978, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hS8cpMerK1O2zhbO"
+Content-Disposition: inline
+In-Reply-To: <87czjnx8od.fsf@linux.ibm.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,21 +61,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, mlambert@quicinc.com, f4bug@amsat.org
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/16/22 15:39, Taylor Simpson wrote:
-> The float??_minnum implementation differs from Hexagon for SNaN,
-> it returns NaN, but Hexagon returns the other input.  So, we use
-> float??_minimum_number.  For double precision, we check for QNaN and
-> raise the invalid flag.
 
-I'm surprised that the behaviour for double differs from single, but the docs are light on 
-the subject.  Anyway,
+--hS8cpMerK1O2zhbO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Wed, Feb 16, 2022 at 10:06:26AM -0300, Fabiano Rosas wrote:
+> David Gibson <david@gibson.dropbear.id.au> writes:
+>=20
+> > On Tue, Feb 15, 2022 at 06:41:47PM -0300, Fabiano Rosas wrote:
+> >> These will need to be accessed from other files once we move the CPUs
+> >> code to separate files.
+> >>=20
+> >> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> >> ---
+> >>  target/ppc/cpu.h      | 57 +++++++++++++++++++++++++++++++++++++++++++
+> >>  target/ppc/cpu_init.c | 55 -----------------------------------------
+> >>  2 files changed, 57 insertions(+), 55 deletions(-)
+> >>=20
+> >> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> >> index 6a06a7f533..ba0739c43b 100644
+> >> --- a/target/ppc/cpu.h
+> >> +++ b/target/ppc/cpu.h
+> >> @@ -2733,4 +2733,61 @@ void dump_mmu(CPUPPCState *env);
+> >>  void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int=
+ len);
+> >>  void ppc_store_vscr(CPUPPCState *env, uint32_t vscr);
+> >>  uint32_t ppc_get_vscr(CPUPPCState *env);
+> >> +
+> >> +/********************************************************************=
+*********/
+> >> +/* Power management enable checks                                    =
+        */
+> >> +static inline int check_pow_none(CPUPPCState *env)
+> >> +{
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static inline int check_pow_nocheck(CPUPPCState *env)
+> >> +{
+> >> +    return 1;
+> >> +}
+> >> +
+> >> +static inline int check_pow_hid0(CPUPPCState *env)
+> >
+> > I'm a little nervous about moving this to a more exposed location.  By
+> > definition the HID register is implementation dependent, and we can
+> > see immediately below that not all things use the same interpretation
+> > of it in practice.  So at the very least it seems like it has a bad
+> > name to be exposed more widely.  It also seems like it might better
+> > belong next to the code for the cpus that actually use this version.
+>=20
+> Good point. Since these are quite simple it might be best to duplicate
+> them when doing the split between the families. I'm doing the same for
+> vscr_init.
 
+Right, that sounds like a good idea to me.
 
-r~
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--hS8cpMerK1O2zhbO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmINiWgACgkQgypY4gEw
+YSIt6hAAsqZdc5WqTZfCVW5z2ajPq6qgD370TGRmktmR0r9eL/RclLUG6wTtf3qQ
+8N5Kyuy+SV/z2E7Rp4dT6iPLYXqX3AlB51DYRFuoIDO7lGVjweUCUOJL6gaelHAi
+bIasHyClm5dJAen++32KotqHfbtWW9RkJSBfsfxcFYL7Q3g006RptfUhsxP9IVmv
+xdJ+H3zxNdt/jSnFES6l9n63Ozcs9G5yitZrZn5pUyN6DeYcvzmkAWcyF58oqix7
+ZCml5bNB3QoyKFcNcltKKpWBKBwoAAfAxHtNqZX/umvnFmv+zBgtsqA3LYZBbosO
+oCOFBVnXXVhsApSgroZ0Ot/ShLbs7Q0JZMUh+8E6D7SE92mDz11pty5EV6XHKvcX
+z65yAJsPtl7ykfKAk0sPtpMWD8oXOyYPl8YLm84kNKrE3afPHjQwWlpsOVKW99mg
+LM9RST0DtVdtpP8bkkK0jqvOgF45sXbwFYXf376Z8hqzwYQWWNteMraQNcOkBhNm
+833f0y5VqL1qnxFSDa/g2abkEnfHIVILp1yypwL5o+IcSUUiBu8tfY3Z85vmWRib
+fFzPL+1antWQUxQns4AcwTwhqAgxCmDpzCjAoE2hi7DnWlA0J67EGiyqRvJERgtC
+eRgRLSv7X+3wUkgwSUlILll8Xm/wRp2U0Jqadp6bbVpOmHe+FJk=
+=D/NZ
+-----END PGP SIGNATURE-----
+
+--hS8cpMerK1O2zhbO--
 
