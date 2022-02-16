@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9F04B861F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:46:10 +0100 (CET)
-Received: from localhost ([::1]:45488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7E74B861E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:46:01 +0100 (CET)
+Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKHp3-00045h-Qv
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:46:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45884)
+	id 1nKHou-0003np-RE
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:46:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nKHY0-0004M9-Fj
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 05:28:32 -0500
-Received: from [2a00:1450:4864:20::334] (port=33574
- helo=mail-wm1-x334.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nKHXy-0005dY-W7
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 05:28:32 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- y6-20020a7bc186000000b0037bdc5a531eso2506717wmi.0
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 02:28:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=T5gj0S/SjYpjzRiDLtr3YzD9Hb5PYaTL91rCkqV4AMI=;
- b=aem9YX8hFrbp3A89f5173r5naZCB2y2HoTy6h+3B9i5EUep9h10MKKedOUjwgcoKA+
- gcgf5jc/3VEUhrYpbCsCYYQB+0uDUwfC4xNaf2J32ukO5Q7iIW50T76D4rY0uFxVvPRT
- AuzkSzZjpCeLQ4nxKs08C6MvGpgT3l5S8IGFBxtJ3kTXy0q5DVOHv6OpgEv23qVEo4nK
- Sivx36TgZG2ldPEMoH8SnNcqj7ep0U10s4T/pBYAASRnHcjgGq3BQGWTwv3HOM7XhuS7
- xLbBrGrnmkVYfoatqJMu2eU7ZWPHVBiWGhQ16uSbOy7cIPbmjol0Wilvf7/pg3VwIQsj
- K4Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=T5gj0S/SjYpjzRiDLtr3YzD9Hb5PYaTL91rCkqV4AMI=;
- b=LlsGkNn/xlWkyp8Tq8ras39f7F4qqgUbShlVNLR9sFYjKyGbNJV1RqiHlSFG/gkTjl
- 9KFRbA8MpUcUANyZFb9mBYuEbSW/6ueDWWBa6kdpT1CzuwOc1oiCmDjHlpxK7lmwTjPU
- Sbl8RvtzNFG0+v0dPbMAuqVcUA2BD6q8aVdvMN8E7X5AuAkBLqm8XYEAMjYULzgOz91/
- Pzu/oC21VyGOQ6kCGtF9FIcYCACHhYbXnBWyT+/9uW0eEMimvYqOrmw1P+qm3CGY5+KA
- zVgIj8HNTyjlJgB/R9VncKjC2FKoYOeMoNgI1KbjMRl1RtBvonklKADUmM9i1pR2Y3Zm
- 3ZLQ==
-X-Gm-Message-State: AOAM533/zudvrC0UlpNavUFgClH5gr2GcagplQKZFd19GftJ1BtGFlmg
- aacIgCTuHM2hN5uwdm50U70LDRhQpYE=
-X-Google-Smtp-Source: ABdhPJzn/g0WH1buIUPgv3dHR5soMJAx0By3qZKGg1Jj8wdDK2feQk3HFv86paxBAAKUJT9CINf4Pg==
-X-Received: by 2002:a05:600c:212:b0:37c:919b:3eba with SMTP id
- 18-20020a05600c021200b0037c919b3ebamr924233wmi.119.1645007309757; 
- Wed, 16 Feb 2022 02:28:29 -0800 (PST)
-Received: from jondnuc ([2a0d:6fc2:4af1:7d00:5e41:a6ea:ffaa:548c])
- by smtp.gmail.com with ESMTPSA id p7sm10803492wrr.95.2022.02.16.02.28.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 02:28:29 -0800 (PST)
-Date: Wed, 16 Feb 2022 12:28:27 +0200
-From: Jon Doron <arilou@gmail.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v1 4/4] hw: hyperv: Initial commit for Synthetic
- Debugging device
-Message-ID: <YgzRywoqNvCI759G@jondnuc>
-References: <20220204100723.406121-1-arilou@gmail.com>
- <20220204100723.406121-5-arilou@gmail.com>
- <82d00de9-3784-161d-bb3e-a36940fd9396@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nKHZi-0007Bg-B7
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 05:30:19 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:60309)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nKHZf-00060L-Ha
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 05:30:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=jILkoSmkFgT3w1Xyq0SBfj99Lw/U1s6SUXdkbpvKF48=; b=oeQjjqQ7DT9rfv97LYYjEySu0J
+ +zjKkAtmzt9Zan609aZy496QdM3AXFH+5s4LOymTMrcg9wXPXDQH8ewOXWe5Wd5Z8485u/azGFbZN
+ atggNsRUzkAqhWIi2f6ZIgfEWMOSszjaaBBVKNw1Kvkm2gbBaFABV/mVFp+HWPFHBskZB81oPtbve
+ c5dyklOAaeBGCzh8l7qxe/GfjfsLVvu4+NA5sADRAG7hXP59oGADjxG2m7ty91bvuUUQjmcOluPTx
+ cQl0SoSkDJXwC+zaTn5KC+qf0rTJrx9A0BUr2Xj4RZYZlBNXsBF4dKG1XZRGmOgoO5S+h6IgXb+Dz
+ VPj7VfJfJz+kCiw6WyFwhvfOB9CgMlpM+L2Vx7g9BIoDLmYMiEPg64pEXvNRPZNXZ8mMZI8sfXIJk
+ fCvnHLwo0Q7Zi8Yg+TSteXFNBUGav5NyJVPCfPWIuxE27kuBzy5It3QByqskIvrLvmMs6M1t2wPnQ
+ huYhTReySBDrD9engdAzBuWTxCQ0kC6JuHhVb8frmF84UEdmMhWsiSK4Ugv/vSyJbkqz1f6W50jKt
+ CjmjNPCFtli6Ia5di17PUsKzyHSY6qrUUgTSKDHvqU+4MAuKLUG0YdfqnKOA3yreWxV9vZSFsYrXt
+ fITM7ZCD223ee344b/en5xBTLijDwr3Ql5uLFtf7E=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Vitaly Chikunov <vt@altlinux.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dmitry V . Levin" <ldv@altlinux.org>
+Subject: Re: [PULL 0/5] 9p queue 2022-02-10
+Date: Wed, 16 Feb 2022 11:30:12 +0100
+Message-ID: <1736989.e8qiMhLugc@silver>
+In-Reply-To: <20220215080137.021f6938@bahia>
+References: <cover.1644492115.git.qemu_oss@crudebyte.com>
+ <20220214144351.dp57o6jyfvliwkos@altlinux.org>
+ <20220215080137.021f6938@bahia>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <82d00de9-3784-161d-bb3e-a36940fd9396@redhat.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=arilou@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,83 +68,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, vkuznets@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/02/2022, Emanuele Giuseppe Esposito wrote:
->
->> +
->> +static uint16_t handle_recv_msg(HvSynDbg *syndbg, uint64_t outgpa,
->> +                                uint32_t count, bool is_raw, uint32_t options,
->> +                                uint64_t timeout, uint32_t *retrieved_count)
->> +{
->> +    uint16_t ret;
->> +    uint8_t data_buf[TARGET_PAGE_SIZE - UDP_PKT_HEADER_SIZE];
->> +    hwaddr out_len;
->> +    void *out_data = NULL;
->> +    ssize_t recv_byte_count;
->> +
->> +    /* TODO: Handle options and timeout */
->> +    (void)options;
->> +    (void)timeout;
->> +
->> +    if (!syndbg->has_data_pending) {
->> +        recv_byte_count = 0;
->> +    } else {
->> +        recv_byte_count = qemu_recv(syndbg->socket, data_buf,
->> +                                    MIN(sizeof(data_buf), count), MSG_WAITALL);
->> +        if (recv_byte_count == -1) {
->> +            ret = HV_STATUS_INVALID_PARAMETER;
->> +            goto cleanup;
->> +        }
->> +    }
->> +
->> +    if (!recv_byte_count) {
->> +        *retrieved_count = 0;
->> +        ret = HV_STATUS_NO_DATA;
->> +        goto cleanup;
->> +    }
->> +
->> +    set_pending_state(syndbg, false);
->> +
->> +    out_len = recv_byte_count;
->> +    if (is_raw) {
->> +        out_len += UDP_PKT_HEADER_SIZE;
->> +    }
->> +    out_data = cpu_physical_memory_map(outgpa, &out_len, 1);
->> +    if (!out_data) {
->> +        ret = HV_STATUS_INSUFFICIENT_MEMORY;
->> +        goto cleanup;
->> +    }
->> +
->> +    if (is_raw &&
->> +        !create_udp_pkt(syndbg, out_data,
->> +                        recv_byte_count + UDP_PKT_HEADER_SIZE,
->> +                        data_buf, recv_byte_count)) {
->> +        ret = HV_STATUS_INSUFFICIENT_MEMORY;
->> +        goto cleanup;
->> +    } else if (!is_raw) {
->> +        memcpy(out_data, data_buf, recv_byte_count);
->> +    }
->> +
->> +    *retrieved_count = recv_byte_count;
->> +    if (is_raw) {
->> +        *retrieved_count += UDP_PKT_HEADER_SIZE;
->> +    }
->> +    ret = HV_STATUS_SUCCESS;
->> +cleanup:
->> +    if (out_data) {
->> +        cpu_physical_memory_unmap(out_data, out_len, 1, out_len);
->> +    }
->
->Same nitpick as done in patch 1, I think you can use more gotos labels
->instead of adding if statements.
->
-Done
->> +
->> +    return ret;
->> +}
->> +
->
+On Dienstag, 15. Februar 2022 08:01:37 CET Greg Kurz wrote:
+> On Mon, 14 Feb 2022 17:43:51 +0300
+> 
+> Vitaly Chikunov <vt@altlinux.org> wrote:
+> > Why g_new0 and not just g_malloc0? This is smallest code change, which
+> > seems appropriate for a bug fix.
+> 
+> I prefer g_new0() for the exact reasons that are provided in QEMU's
+> official coding style docs/devel/style.rst:
+[...]
+> I'm fine with the acceptable version as well. The only important thing is
+> to fix the synth backend.
+> 
+> Cheers,
+
+Hi, is anybody working on a v5 of this patch? If not I will send one this 
+evening to bring this issue forward, because it is blocking my queue.
+
+Best regards,
+Christian Schoenebeck
+
+
 
