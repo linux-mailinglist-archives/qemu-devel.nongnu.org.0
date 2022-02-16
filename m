@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81DD4B7D79
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 03:30:49 +0100 (CET)
-Received: from localhost ([::1]:47518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EFE4B7D90
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 03:40:04 +0100 (CET)
+Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKA5g-0006aX-II
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 21:30:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38140)
+	id 1nKAEc-0000W7-QE
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 21:40:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nKA3x-0005sm-W8
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 21:29:02 -0500
-Received: from [2607:f8b0:4864:20::335] (port=39718
- helo=mail-ot1-x335.google.com)
+ id 1nKABc-0008FI-0m
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 21:36:56 -0500
+Received: from [2607:f8b0:4864:20::c36] (port=41520
+ helo=mail-oo1-xc36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nKA3w-0006jo-Ip
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 21:29:01 -0500
-Received: by mail-ot1-x335.google.com with SMTP id
- r18-20020a05683001d200b005ac516aa180so592024ota.6
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 18:29:00 -0800 (PST)
+ id 1nKABa-00083A-Hq
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 21:36:55 -0500
+Received: by mail-oo1-xc36.google.com with SMTP id
+ d134-20020a4a528c000000b00319244f4b04so919832oob.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 18:36:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Pr/73cazkwVW9MiUci7b4tSB6qYeiOsHE8ByPcIyOWo=;
- b=p/2v7N8ZdPLuEtVuOND+jsLEp34UigrSNQJFeevJYYBMrqpjSyM2U1VS+W25KNaxw6
- rU938obaVTZSNLTjG2KwgfB+JNT75Yc6x2S5/Ex+UDnef/fqiz9DJlNsC58woxpPgTqq
- rZ6S4/c6PIRYVJsy/0vrj1l4YipyCWVRhgLfrtV2NgsKccxKMK9tz4G9LCc1qiozS3jJ
- 5DNHh/g92zW+bkJEZ2DaZGTXZ/fFXgJUdYwGq5A9rdd+UG8AV+I6aJjcJDFTiR99hpaw
- HflC6BnoYqi7lkJr1v9Q8/YOKoJeLqVtCDxdud1zCI7ve67VYkJ4B6WFGQGcil6LVE5/
- b5ug==
+ bh=I/6V9r6ddDQj0AXlMuTrrmqWesdNjeXXrgoGSGdxjmE=;
+ b=mtGVRHXSefCeGgMltgIGkZhP+alEbPpAY66X2bPo8nc58bMajs+WCj636VTeZb4uEk
+ UK5ENHt8H6UlbCtVky2q8fhl5pbo419f4J7SR0f/s7bOgc35wnevxXu2XpJcQvf4y1sM
+ fN2IzB8NkeJe4XiVFFoXsD68Oi65zjxtBYW/NkwnrKM1Rj86OFPx+hIX4SFI1BicQxsF
+ X942ejfg1izcn0n6EHZezJBPvencnrs3LVtjzHfnHopLtbOvC++I7EpyONiEVhl2UzDn
+ S4gXW4ys3NMHTRQvXqtLiIwiN38FLvqn5/MsRNLT0OMWWTPKXYsfTnKr9DMcAxaGWVV5
+ ChGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Pr/73cazkwVW9MiUci7b4tSB6qYeiOsHE8ByPcIyOWo=;
- b=1tOTJ/8Ofd6+Z1+sFyWlMa0ur+NPQhV5kMh3JFERmcRb1+tXhGDh2UZk4pQmemvRKv
- dk4Iqn7n2rXuBB/1a3ubhsragotzPuUdgnO+bdgX3zqzdC9IicOzlriGjWA1MhLBA7sL
- QBArjbUdBgqOKDwUxof1cACYP4uuqlcfHCVeXPtBZfKd+0XcZ16c7PNgpN4BTVBv4vxN
- 88SwVTwvb/OCc0KVOIe9JvJn+CXS9h2Uk2jtGLtvot0i/y+7vYgEstfFaZG5bq36Vd1t
- J99UhtdknSlew8UdoW/IkxzimmqRyl5QXDMJFofiaU8s2j0PoxMYPY9NIiN05yZEArN7
- bYAg==
-X-Gm-Message-State: AOAM532HK8KRvn7G97VW4FB6mvt2CUiKUCf9TbUGSmf8dwoYzT+mBw9+
- vyRm3IGYnowwBaDh/mhW+mHX0+hUF04Bvygng5Q=
-X-Google-Smtp-Source: ABdhPJz/cy827bEAWy6VKDRkbaTIG4qigK/o6S5vtiyB5boLhu+DFjuLZP6bHj4oGMZHINFcu9eFZXkf7Nl+nFniM2Y=
-X-Received: by 2002:a9d:6f8c:0:b0:5ac:4ce8:b34d with SMTP id
- h12-20020a9d6f8c000000b005ac4ce8b34dmr178064otq.235.1644978538720; Tue, 15
- Feb 2022 18:28:58 -0800 (PST)
+ bh=I/6V9r6ddDQj0AXlMuTrrmqWesdNjeXXrgoGSGdxjmE=;
+ b=e/7gfThwsZKftThWmk25OWU+BzN6VJiHuevYIBfwsgOhVXw50R+tIHcUzzjvRRFxbW
+ oOcT6VXFy1Cn0b3FSOw8qMBXUnxNFeqBY16/UOPbwZCzjByo723iNSC3j/oVfuq8p1FS
+ eRpHVl2rUEqyCAmG2dcI/BKdNW4TVs7P/UW5textJrGtYRQp6Pk18c7jomcqAyVB11mB
+ x4inP+vg7oG9M0ZMQD/7zDFcktzPtKgQG1B8FjRvRd5TZIMGwJ5cvtvTz9D3vb3arVGi
+ c3PmAT0mHqvsh+4Y75sJEEH8YHouBIwVDwYR+e7QpQXX2mPopCOclKcuwv0c4Bg+IlKG
+ DRxw==
+X-Gm-Message-State: AOAM533UgzyXKAl9XN2eKi1MJc7Jv/XmAtiEm6wBm36fyT4TQ3z8B74Y
+ 9IYmLB007jXTGY3qtUTKrLQh+DkpIGadEwSJLFk=
+X-Google-Smtp-Source: ABdhPJyCpCxfR9JKlOwqDu+suz4xb/CL25VwPP3Zh1ciHyR/nVJ70aM2/bZAKn0Z2ubPka2U6Q4g/I3vPeIk7WiL3Ks=
+X-Received: by 2002:a05:6871:418b:b0:d1:4e3:7711 with SMTP id
+ lc11-20020a056871418b00b000d104e37711mr291910oab.237.1644979013478; Tue, 15
+ Feb 2022 18:36:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20220215120625.64711-1-f4bug@amsat.org>
- <CAMVc7JU3sd+h4A2R2-hScyLBJyo9Zb8SzLFapMsRdSwJ3KX_xw@mail.gmail.com>
- <f223128e-b6df-5f48-5478-d57f54bfcda0@amsat.org>
-In-Reply-To: <f223128e-b6df-5f48-5478-d57f54bfcda0@amsat.org>
+References: <20220215170106.95848-1-f4bug@amsat.org>
+ <20220215170106.95848-3-f4bug@amsat.org>
+In-Reply-To: <20220215170106.95848-3-f4bug@amsat.org>
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Wed, 16 Feb 2022 11:28:46 +0900
-Message-ID: <CAMVc7JXZFcpiM2vHFMRQ_yWWH0eA8L-Z9h=E4dJETQJnYOj7_w@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] buildsys: More fixes to use GCC on macOS
+Date: Wed, 16 Feb 2022 11:36:41 +0900
+Message-ID: <CAMVc7JVNhx6yAFo_hYO3qJOQqysU_ejqwVuC9eXs5zusxOtDkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/8] osdep: Ignore 'unguarded-availability-new'
+ warnings on macOS Catalina
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c36
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ot1-x335.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c36;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-oo1-xc36.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -86,47 +86,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 10:25 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
+On Wed, Feb 16, 2022 at 2:01 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
-> On 15/2/22 14:06, Akihiko Odaki wrote:
-> > On Tue, Feb 15, 2022 at 9:06 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org> wrote:
-> >>
-> >> Few fixes to be able to use GCC extensions which are not
-> >> available on Clang.
-> >>
-> >> Philippe Mathieu-Daud=C3=A9 (4):
-> >>    osdep: Avoid using Clang-specific __builtin_available()
-> >>    osdep: Un-inline qemu_thread_jit_execute/write
-> >>    audio: Rename coreaudio extension to use Objective-C compiler
-> >>    ui/cocoa: Ignore 'initializer overrides' warnings
-> >>
-> >>   audio/{coreaudio.c =3D> coreaudio.m} |  0
-> >>   audio/meson.build                  |  2 +-
-> >>   include/qemu/osdep.h               | 21 ++-------------------
-> >>   ui/cocoa.m                         |  5 +++++
-> >>   util/osdep.c                       | 20 ++++++++++++++++++++
-> >>   5 files changed, 28 insertions(+), 20 deletions(-)
-> >>   rename audio/{coreaudio.c =3D> coreaudio.m} (100%)
-> >>
-> >> --
-> >> 2.34.1
-> >>
-> >
-> > Compiler portability is always nice to have. Making QEMU on macOS
-> > compatible with GCC is good, but I don't think that would justify
-> > abandoning compatibility with Clang.
+> When building with GCC on macOS Catalina we get 2254 times:
 >
-> I am certainly not abandoning compatibility with Clang. What gives
-> you this impression?
+>   include/qemu/osdep.h:780:5: warning: 'pthread_jit_write_protect_np' is =
+only available on macOS 11.0 or newer [-Wunguarded-availability-new]
+>       pthread_jit_write_protect_np(true);
+>       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> Fix by using a stricker toolchain version low range, replacing
+> MAC_OS_X_VERSION_MAX_ALLOWED by MAC_OS_X_VERSION_MIN_REQUIRED.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  include/qemu/osdep.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index aecd2f66ec..1e7a002339 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -774,7 +774,7 @@ size_t qemu_get_host_physmem(void);
+>   * for the current thread.
+>   */
+>  #if defined(MAC_OS_VERSION_11_0) && \
+> -    MAC_OS_X_VERSION_MAX_ALLOWED >=3D MAC_OS_VERSION_11_0
+> +    MAC_OS_X_VERSION_MIN_REQUIRED >=3D MAC_OS_VERSION_11_0
+>  static inline void qemu_thread_jit_execute(void)
+>  {
+>      pthread_jit_write_protect_np(true);
+> --
+> 2.34.1
+>
 
-I read the description as it says it allows to introduce GCC
-extensions which breaks builds with Clang.
+This should be squashed with "[PATCH v2 1/8] osdep: Avoid using
+Clang-specific __builtin_available()"; Removing __builtin_available
+makes it incompatible with macOS < 11.0, hence this change is needed.
 
