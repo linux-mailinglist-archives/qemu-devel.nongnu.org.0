@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558394B9300
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 22:07:22 +0100 (CET)
-Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C334B9302
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 22:08:56 +0100 (CET)
+Received: from localhost ([::1]:35422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKRWC-00075Z-Kt
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 16:07:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45716)
+	id 1nKRXj-00005L-9B
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 16:08:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nKRVE-0006P0-Ez
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 16:06:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28205)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1nKRV1-0003EC-Ta
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 16:06:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645045567;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p0RnlFfzQJySKna15p7Z+trT0H+KlpUfL2SBl+TisD0=;
- b=UiJRtvpZDNLRJvprFI/94GKaoIrLbnaASNu/XMbiepuq4rhNMxZZkQCGmEsAYAT8d8KNOF
- K/Acv5mrwyS+7KWhCXDacs644GFS6oaSAZSg1drcacB3ky1tB/oGURgVCKfx5YkXbvqJzU
- 9YzKSrhSNENIc61176dc+nSZFY1GOq4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-VhYkumGQN3Wuhe0m9EfH8Q-1; Wed, 16 Feb 2022 16:06:03 -0500
-X-MC-Unique: VhYkumGQN3Wuhe0m9EfH8Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7111F1006AA5;
- Wed, 16 Feb 2022 21:06:02 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.16.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CAF92610A7;
- Wed, 16 Feb 2022 21:05:24 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 5574B22361A; Wed, 16 Feb 2022 16:05:24 -0500 (EST)
-Date: Wed, 16 Feb 2022 16:05:24 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [Virtio-fs] [PULL 00/12] virtiofs queue
-Message-ID: <Yg1nFPqBnOf+4pDi@redhat.com>
-References: <20220216173625.128109-1-dgilbert@redhat.com>
- <Yg1THoNoxjSAcK7u@work-vm>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nKRVJ-0006TM-Vk
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 16:06:25 -0500
+Received: from [2a00:1450:4864:20::532] (port=44564
+ helo=mail-ed1-x532.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nKRVG-0003GM-VZ
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 16:06:25 -0500
+Received: by mail-ed1-x532.google.com with SMTP id x5so6045347edd.11
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 13:06:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=JZ34b1pTOCWTCCR+vcaeUxJXtmWyzwWkGOsgWbGrGXc=;
+ b=U3vef0ioD6ABJVmp/tYlpFzZnyVKlIm2Xg/RKZHC93NYIVa62kx+CsQi5AM3Rl4tIG
+ P8LXkoNRPLH8AxU+V04ou95j2u5WNeXlmyFWK4HZPIGeBk6HBd6OiZ8p5yW4T1+CY4Cg
+ SO0W9CyX4O9jHrGnat1Is6Bk9eYdrye/M3ssnU7aOPx9F5Ji0QmzdAhU4p3BitpgnSKV
+ 1m81T0K+Z3Bwcz6ZfjQ8QkeBSRHIr4g0QZcJQeAlajb1ORAPpohQ0c2J0xXLjUodEZhQ
+ TBcvubeVgfk0O4Bo+rhHzpq4Zs9gMef1a7eUJN66XYU2R1mge35e5XdUbeEZ6vC+S3jy
+ GXow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=JZ34b1pTOCWTCCR+vcaeUxJXtmWyzwWkGOsgWbGrGXc=;
+ b=MaINaCpUyUHaOwpssd6lCJColyhOl0ZolIg54IWDDaLpe+1gCEU9DQi6gG0rrX/vv6
+ i4X9dzKCOy7KPt0ChMRbdFrlAu5S/XqUBsgl+K1Ys8UXgSa8c22wTPy5VJiTarwXjqcl
+ xyb+BYEmzSgfE5mHF2AaSBRJgBxp3WZs9nadSy4lxlVqOYggS7ZWmNKyPKQUYdFdtaeP
+ 47i2U21+MvSBQL720BcAatRo6bW7qwneB9rW/xeRBOktSu/5i+/ywBHP1AybXkYvqIGN
+ ovtz81fYstUSY9tyuywOWHVhMgMiCziO8MabvgCSBEKMWan2VVorHUyu7fGGfNY2L1mH
+ hifA==
+X-Gm-Message-State: AOAM531rSCIMOF8fG+1arLn0elkBo80Xz4nEO3YaYZNNDz+vNhl8A975
+ T4rYa6FJNQLo3cKMaJzuF3A=
+X-Google-Smtp-Source: ABdhPJzcY1rZvDN9rvG9a3EYUSJ1TM8YkE3t6IXiBKv0uc6HLlnX6a+75x5s0Sl0jUrhkEnbKK2phg==
+X-Received: by 2002:a05:6402:511:b0:40d:e8eb:1dbb with SMTP id
+ m17-20020a056402051100b0040de8eb1dbbmr4941723edv.418.1645045580485; 
+ Wed, 16 Feb 2022 13:06:20 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id en27sm286536edb.5.2022.02.16.13.06.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 13:06:19 -0800 (PST)
+Message-ID: <bf2d63eb-54f1-16a2-b133-4932f8021250@redhat.com>
+Date: Wed, 16 Feb 2022 22:06:19 +0100
 MIME-Version: 1.0
-In-Reply-To: <Yg1THoNoxjSAcK7u@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PULL 00/30] Misc mostly build system patches for 2022-02-15
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220215093223.110827-1-pbonzini@redhat.com>
+ <CAFEAcA_xPeknSFpf0M9vETUXk8fW0gfiKg7eiJszJfagsJubqw@mail.gmail.com>
+ <d4976978-b8bc-83ec-1a8a-9618d6ea6e98@redhat.com>
+ <CAFEAcA_DvHUN_TJ4-4oDsu9sDOAqde967YtcJhGCqvBC8u4zbg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAFEAcA_DvHUN_TJ4-4oDsu9sDOAqde967YtcJhGCqvBC8u4zbg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: 3
+X-Spam_score: 0.3
+X-Spam_bar: /
+X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.978, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,197 +97,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, sebastian.hasler@stuvus.uni-stuttgart.de,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 16, 2022 at 07:40:14PM +0000, Dr. David Alan Gilbert wrote:
-> * Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > The following changes since commit c13b8e9973635f34f3ce4356af27a311c993729c:
-> > 
-> >   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220216' into staging (2022-02-16 09:57:11 +0000)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20220216
-> > 
-> > for you to fetch changes up to 47cc3ef597b2ee926c13c9433f4f73645429e128:
-> > 
-> >   virtiofsd: Add basic support for FUSE_SYNCFS request (2022-02-16 17:29:32 +0000)
+On 2/16/22 15:41, Peter Maydell wrote:
+> On Wed, 16 Feb 2022 at 14:03, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> On 2/16/22 10:56, Peter Maydell wrote:
+>>> Hi; this fails to build on OpenBSD (on the tests/vm/ setup).
+>>>
+>>> Meson thinks it's found OpenGL:
+>>>       OpenGL support (epoxy)       : YES 1.5.4
+>>>
+>>> but either it's wrong or else it's not putting the right
+>>> include directory onto the path, because the compiler
+>>> fails to find the headers:
+>>>
+>>> In file included from ../src/hw/arm/virt.c:42:
+>>> In file included from
+>>> /home/qemu/qemu-test.sr5128/src/include/hw/vfio/vfio-calxeda-xgmac.h:17:
+>>> In file included from
+>>> /home/qemu/qemu-test.sr5128/src/include/hw/vfio/vfio-platform.h:20:
+>>> In file included from
+>>> /home/qemu/qemu-test.sr5128/src/include/hw/vfio/vfio-common.h:27:
+>>> /home/qemu/qemu-test.sr5128/src/include/ui/console.h:11:11: fatal
+>>> error: 'epoxy/gl.h' file not found
+>>> # include <epoxy/gl.h>
+>>>             ^~~~~~~~~~~~
+>>> 1 error generated.
+>>
+>> Yeah, there's a lot of uses of ui/console.h and they all need
+>> epoxy/gl.h.  That's in need of some cleanup.
 > 
-> NAK
-> this doesn't build on older Linuxes.
-> 
-> Rework version in the works.
+> Why can't meson just do the same thing configure was doing,
+> ie add the include path to the cflags and the library path
+> to the linker flags?
 
-Hi David,
+Yes, it can do that as well.  I found it now:
 
-I think it is patch 8 which is using gettid(). I have updated that
-patch and now I am using syscall(NR_gettid) instead. Here is the
-updated patch. I hope this solves the build on older Linux issue.
+@@ -43,7 +43,6 @@ vnc_ss.add(zlib, png, jpeg, gnutls)
+  vnc_ss.add(when: sasl, if_true: files('vnc-auth-sasl.c'))
+  softmmu_ss.add_all(when: vnc, if_true: vnc_ss)
+  softmmu_ss.add(when: vnc, if_false: files('vnc-stubs.c'))
+-specific_ss.add(when: ['CONFIG_SOFTMMU'], if_true: opengl)
+
+  ui_modules = {}
 
 
-Subject: virtiofsd: Add helpers to work with /proc/self/task/tid/attr/fscreate
-
-Soon we will be able to create and also set security context on the file
-atomically using /proc/self/task/tid/attr/fscreate knob. If this knob
-is available on the system, first set the knob with the desired context
-and then create the file. It will be created with the context set in
-fscreate. This works basically for SELinux and its per thread.
-
-This patch just introduces the helper functions. Subsequent patches will
-make use of these helpers.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
----
- tools/virtiofsd/passthrough_ll.c |   92 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
-
-Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
-===================================================================
---- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2022-02-16 15:53:13.657015138 -0500
-+++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2022-02-16 15:55:14.911234993 -0500
-@@ -173,10 +173,14 @@ struct lo_data {
- 
-     /* An O_PATH file descriptor to /proc/self/fd/ */
-     int proc_self_fd;
-+    /* An O_PATH file descriptor to /proc/self/task/ */
-+    int proc_self_task;
-     int user_killpriv_v2, killpriv_v2;
-     /* If set, virtiofsd is responsible for setting umask during creation */
-     bool change_umask;
-     int user_posix_acl, posix_acl;
-+    /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
-+    bool use_fscreate;
- };
- 
- static const struct fuse_opt lo_opts[] = {
-@@ -257,6 +261,72 @@ static struct lo_data *lo_data(fuse_req_
- }
- 
- /*
-+ * Tries to figure out if /proc/<pid>/attr/fscreate is usable or not. With
-+ * selinux=0, read from fscreate returns -EINVAL.
-+ *
-+ * TODO: Link with libselinux and use is_selinux_enabled() instead down
-+ * the line. It probably will be more reliable indicator.
-+ */
-+static bool is_fscreate_usable(struct lo_data *lo)
-+{
-+    char procname[64];
-+    int fscreate_fd;
-+    size_t bytes_read;
-+
-+    sprintf(procname, "%ld/attr/fscreate", syscall(SYS_gettid));
-+    fscreate_fd = openat(lo->proc_self_task, procname, O_RDWR);
-+    if (fscreate_fd == -1) {
-+        return false;
-+    }
-+
-+    bytes_read = read(fscreate_fd, procname, 64);
-+    close(fscreate_fd);
-+    if (bytes_read == -1) {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+/* Helpers to set/reset fscreate */
-+__attribute__((unused))
-+static int open_set_proc_fscreate(struct lo_data *lo, const void *ctx,
-+                                  size_t ctxlen,int *fd)
-+{
-+    char procname[64];
-+    int fscreate_fd, err = 0;
-+    size_t written;
-+
-+    sprintf(procname, "%ld/attr/fscreate", syscall(SYS_gettid));
-+    fscreate_fd = openat(lo->proc_self_task, procname, O_WRONLY);
-+    err = fscreate_fd == -1 ? errno : 0;
-+    if (err) {
-+        return err;
-+    }
-+
-+    written = write(fscreate_fd, ctx, ctxlen);
-+    err = written == -1 ? errno : 0;
-+    if (err) {
-+        goto out;
-+    }
-+
-+    *fd = fscreate_fd;
-+    return 0;
-+out:
-+    close(fscreate_fd);
-+    return err;
-+}
-+
-+__attribute__((unused))
-+static void close_reset_proc_fscreate(int fd)
-+{
-+    if ((write(fd, NULL, 0)) == -1) {
-+        fuse_log(FUSE_LOG_WARNING, "Failed to reset fscreate. err=%d\n", errno);
-+    }
-+    close(fd);
-+    return;
-+}
-+
-+/*
-  * Load capng's state from our saved state if the current thread
-  * hadn't previously been loaded.
-  * returns 0 on success
-@@ -3522,6 +3592,15 @@ static void setup_namespaces(struct lo_d
-         exit(1);
-     }
- 
-+    /* Get the /proc/self/task descriptor */
-+    lo->proc_self_task = open("/proc/self/task/", O_PATH);
-+    if (lo->proc_self_task == -1) {
-+        fuse_log(FUSE_LOG_ERR, "open(/proc/self/task, O_PATH): %m\n");
-+        exit(1);
-+    }
-+
-+    lo->use_fscreate = is_fscreate_usable(lo);
-+
-     /*
-      * We only need /proc/self/fd. Prevent ".." from accessing parent
-      * directories of /proc/self/fd by bind-mounting it over /proc. Since / was
-@@ -3738,6 +3817,14 @@ static void setup_chroot(struct lo_data
-         exit(1);
-     }
- 
-+    lo->proc_self_task = open("/proc/self/task", O_PATH);
-+    if (lo->proc_self_fd == -1) {
-+        fuse_log(FUSE_LOG_ERR, "open(\"/proc/self/task\", O_PATH): %m\n");
-+        exit(1);
-+    }
-+
-+    lo->use_fscreate = is_fscreate_usable(lo);
-+
-     /*
-      * Make the shared directory the file system root so that FUSE_OPEN
-      * (lo_open()) cannot escape the shared directory by opening a symlink.
-@@ -3923,6 +4010,10 @@ static void fuse_lo_data_cleanup(struct
-         close(lo->proc_self_fd);
-     }
- 
-+    if (lo->proc_self_task >= 0) {
-+        close(lo->proc_self_task);
-+    }
-+
-     if (lo->root.fd >= 0) {
-         close(lo->root.fd);
-     }
-@@ -3950,6 +4041,7 @@ int main(int argc, char *argv[])
-         .posix_lock = 0,
-         .allow_direct_io = 0,
-         .proc_self_fd = -1,
-+        .proc_self_task = -1,
-         .user_killpriv_v2 = -1,
-         .user_posix_acl = -1,
-     };
-
+Paolo
 
