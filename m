@@ -2,106 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E528E4B844A
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:31:11 +0100 (CET)
-Received: from localhost ([::1]:60436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDF64B848B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:37:37 +0100 (CET)
+Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKGeU-0006Qs-VF
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:31:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58818)
+	id 1nKGki-00016T-RW
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:37:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1nKGc4-0003Tw-O0; Wed, 16 Feb 2022 04:28:40 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50772)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nKGcI-00048x-Qz
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 04:28:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1nKGc2-0001H2-G1; Wed, 16 Feb 2022 04:28:40 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21G7dNWA010249; 
- Wed, 16 Feb 2022 09:28:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=1Q7qaCyc3SnSBV7/Ru8iODnsSpaxXbclUEoVHaHpdgQ=;
- b=tpkU+niN2oVLByAjCeyAlb54101HmpFes1X1oLLhnyXH9xM6cqQNGJmsdHbj0HYVRAhq
- +Oi0DN7O6kgdi5to9j7VpUGVrkI4m9IM5RIyoSNpUbLPE0l2mRryHnWFR9/1UXnchhci
- w26uk88Thedp+5m70gU7NJVZ8rf2szXpK0ErJJx9ubHNu76Ooy1K0t3mydrSwL/oON0I
- HGR21fGTfUh39LfhF7UHmg6SrWQ/t5Q6JWNgmw/hTaTimcDZbIIiNMc4HC3bQ4LumFft
- BNzzx/qm5FXYfpUFdDlCMw2jWOWwmAB9ePpAar1zenhb/dIXK0tkYOmm1d5nEyZKlZcJ sQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e8thyd64p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 09:28:35 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21G9Kmoa031824;
- Wed, 16 Feb 2022 09:28:34 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e8thyd647-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 09:28:34 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21G9HorN031033;
- Wed, 16 Feb 2022 09:28:32 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04fra.de.ibm.com with ESMTP id 3e64ha51ue-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Feb 2022 09:28:32 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 21G9SNxn47055298
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Feb 2022 09:28:23 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 372734C044;
- Wed, 16 Feb 2022 09:28:23 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AF30A4C058;
- Wed, 16 Feb 2022 09:28:22 +0000 (GMT)
-Received: from [9.171.60.98] (unknown [9.171.60.98])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 16 Feb 2022 09:28:22 +0000 (GMT)
-Message-ID: <30804e5d-74bd-b7be-7615-5d7c3690a902@linux.ibm.com>
-Date: Wed, 16 Feb 2022 10:28:22 +0100
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nKGcF-0001I7-Re
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 04:28:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645003730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DAgnXjhppYszNLnGuE2twe2wlpPEZuN/XnCcs4EnxkI=;
+ b=Bwwu00zruZ0VNcPDHv8wS6SlmLl5ir/UFOvsSod1n0JCtyV8AmCAMJaFfjJdtPRhyRZ/7n
+ a2cVcR70AaNYJzwIBPAH/GISh5Ja13rbV37rxUrYV/XjxTy01PebVhdXEXfeohZD3ZUWUj
+ M9jTCL53spM2EJ3rVvLAid40QMzOVxc=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-543-1X_81zaXP_qsxo63YaPJMQ-1; Wed, 16 Feb 2022 04:28:49 -0500
+X-MC-Unique: 1X_81zaXP_qsxo63YaPJMQ-1
+Received: by mail-pg1-f198.google.com with SMTP id
+ p21-20020a631e55000000b00372d919267cso968993pgm.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 01:28:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DAgnXjhppYszNLnGuE2twe2wlpPEZuN/XnCcs4EnxkI=;
+ b=NMZuzdKfQjnoxVf2OxGvOOijqCJoyZwBsmnmB1KvRIhyidKr6VdPQliExd8pfMbtr4
+ 1D8cInipNqDxgrGj9+ZXuvWMFux/agigUYty2qk+d5And3N5WZoxyFCgjCnTAwVW9hY+
+ n40xxMRdWGXYiUr6aRSOvbREHjWwuI97dJG/Am5BFPZnDyx6q7L0OOhJMww2H/uYggbY
+ W85he1atF+3aCY1O1OvcQ1DjIyM766u7wqY6NBM6QpHkrkPKsTzinj6HvN14JoMqDUQw
+ PyQJs9cyxoXxatH+OIaM/gNY6gG+fHD8MTyp5EZzZ2oegjONLTgICAMLAbFSs1WeAOvx
+ sEVw==
+X-Gm-Message-State: AOAM533os4gO5EJlGOgPOPAQ3OsX1wzT06TtWOuJoEDXQDx2Q917zo6R
+ tckyOD+7bnPrtfzG0a/IiL62Q3BH0LE8qIhroTOjyu//+9BTyoF9M+CuIpG+PyAEkcHDsN6pw4C
+ gju7qCUTANLxfMkZ1xK2Rm7tfDK6seOH0Bf5i7nWWOyMvpbFduOVLDPPbKZw8BvZz
+X-Received: by 2002:a05:6a00:84f:b0:4e1:9243:b638 with SMTP id
+ q15-20020a056a00084f00b004e19243b638mr1979791pfk.1.1645003727963; 
+ Wed, 16 Feb 2022 01:28:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwPdyL+CeFpXpccXCd6u4nOZJ1XXyOOfQMArXQj4mA4GYkRAs8fFZYwzeCAgxnfEz2pfYhvEQ==
+X-Received: by 2002:a05:6a00:84f:b0:4e1:9243:b638 with SMTP id
+ q15-20020a056a00084f00b004e19243b638mr1979764pfk.1.1645003727582; 
+ Wed, 16 Feb 2022 01:28:47 -0800 (PST)
+Received: from xz-m1.local ([64.64.123.81])
+ by smtp.gmail.com with ESMTPSA id q2sm9912491pfu.160.2022.02.16.01.28.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Feb 2022 01:28:47 -0800 (PST)
+Date: Wed, 16 Feb 2022 17:28:34 +0800
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 00/20] migration: Postcopy Preemption
+Message-ID: <YgzDwjHrpUq6tcmH@xz-m1.local>
+References: <20220216062809.57179-1-peterx@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 3/3] s390x/tcg/tests: Tests for
- Miscellaneous-Instruction-Extensions Facility 3
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, David Miller <dmiller423@gmail.com>,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org, thuth@redhat.com
-References: <b69367a6-7744-6dbf-c370-3019bd66965c@gmail.com>
- <65402899-e2ad-0a59-e77a-07f2f8ca4ff2@redhat.com>
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <65402899-e2ad-0a59-e77a-07f2f8ca4ff2@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7i7RufYTqhcDSPq5XzhL1Bouu0zJpRxs
-X-Proofpoint-ORIG-GUID: CY5HojWxzpInApd12AI4imfRNnoKNf_B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-16_04,2022-02-14_04,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- clxscore=1015 mlxscore=0 suspectscore=0 lowpriorityscore=0 mlxlogscore=999
- impostorscore=0 spamscore=0 adultscore=0 priorityscore=1501 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202160051
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <20220216062809.57179-1-peterx@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,67 +94,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pasic@linux.ibm.com, farman@linux.ibm.com, cohuck@redhat.com,
- richard.henderson@linaro.org
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-Am 16.02.22 um 10:17 schrieb David Hildenbrand:
-> On 15.02.22 21:27, David Miller wrote:
->> tests/tcg/s390x/mie3-compl.c: [N]*K instructions
->> tests/tcg/s390x/mie3-mvcrl.c: MVCRL instruction
->> tests/tcg/s390x/mie3-sel.c:  SELECT instruction
->>
->> Signed-off-by: David Miller <dmiller423@gmail.com>
->> ---
->>    tests/tcg/s390x/Makefile.target |  2 +-
->>    tests/tcg/s390x/mie3-compl.c    | 56 +++++++++++++++++++++++++++++++++
->>    tests/tcg/s390x/mie3-mvcrl.c    | 31 ++++++++++++++++++
->>    tests/tcg/s390x/mie3-sel.c      | 42 +++++++++++++++++++++++++
->>    4 files changed, 130 insertions(+), 1 deletion(-)
->>    create mode 100644 tests/tcg/s390x/mie3-compl.c
->>    create mode 100644 tests/tcg/s390x/mie3-mvcrl.c
->>    create mode 100644 tests/tcg/s390x/mie3-sel.c
->>
->> diff --git a/tests/tcg/s390x/Makefile.target
->> b/tests/tcg/s390x/Makefile.target
->> index 1a7238b4eb..16b9d45307 100644
->> --- a/tests/tcg/s390x/Makefile.target
->> +++ b/tests/tcg/s390x/Makefile.target
->> @@ -1,6 +1,6 @@
->>    S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
->>    VPATH+=$(S390X_SRC)
->> -CFLAGS+=-march=zEC12 -m64
->> +CFLAGS+=-march=z15 -m64
+On Wed, Feb 16, 2022 at 02:27:49PM +0800, Peter Xu wrote:
+> The new patch layout:
 > 
-> Unfortunately, this makes our docker builds unhappy -- fail. I assume the
-> compiler in the container is outdated.
+> Patch 1-3: Three leftover patches from patchset "[PATCH v3 0/8] migration:
+> Postcopy cleanup on ram disgard" that I picked up here too.
 > 
-> $ make run-tcg-tests-s390x-linux-user
-> changing dir to build for make "run-tcg-tests-s390x-linux-user"...
-> make[1]: Entering directory '/home/dhildenb/git/qemu/build'
->    GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc capstone slirp
->    BUILD   debian10
->    BUILD   debian-s390x-cross
->    BUILD   TCG tests for s390x-linux-user
->    CHECK   debian10
->    CHECK   debian-s390x-cross
->    BUILD   s390x-linux-user guest-tests with docker qemu/debian-s390x-cross
-> s390x-linux-gnu-gcc: error: unrecognized argument in option '-march=z15'
-> s390x-linux-gnu-gcc: note: valid arguments to '-march=' are: arch10 arch11 arch12 arch3 arch5 arch6 arch7 arch8 arch9 g5 g6 native z10 z13 z14 z196 z9-109 z9-ec z900 z990 zEC12; did you mean 'z10'?
+>   https://lore.kernel.org/qemu-devel/20211224065000.97572-1-peterx@redhat.com/
 > 
-> Maybe debian11 could, work.
+>   migration: Dump sub-cmd name in loadvm_process_command tp
+>   migration: Finer grained tracepoints for POSTCOPY_LISTEN
+>   migration: Tracepoint change in postcopy-run bottom half
 > 
-> @Thomas do you have any idea if we could get this to work with
-> '-march=z15' or should we work around that by manually encoding
-> the relevant instructions instead?
+> Patch 4-9: Original postcopy preempt RFC preparation patches (with slight
+> modifications).
+> 
+>   migration: Introduce postcopy channels on dest node
+>   migration: Dump ramblock and offset too when non-same-page detected
+>   migration: Add postcopy_thread_create()
+>   migration: Move static var in ram_block_from_stream() into global
+>   migration: Add pss.postcopy_requested status
+>   migration: Move migrate_allow_multifd and helpers into migration.c
+> 
+> Patch 10-15: Some newly added patches when working on postcopy recovery
+> support.  After these patches migrate-recover command will allow re-entrance,
+> which is a very nice side effect.
+> 
+>   migration: Enlarge postcopy recovery to capture !-EIO too
+>   migration: postcopy_pause_fault_thread() never fails
+>   migration: Export ram_load_postcopy()
+>   migration: Move channel setup out of postcopy_try_recover()
+>   migration: Add migration_incoming_transport_cleanup()
+>   migration: Allow migrate-recover to run multiple times
 
-Yes, the problem is that binutils reject new mnemomics for older -march settings.
-The Linux kernel handles this by using
-.insn instead of the mnemonic. This will also allow to compile the testcase with older compilers/binutils.
+Patches before 15 are IMHO good in various aspects with/without the new
+preemption, so they can be considered for review earlier.
 
-So something like
-"ncrk  0, 3, 2" -> ".insn rrf,0xb9f50000,0,3,2,0"
+Especially:
+
+    migration: Enlarge postcopy recovery to capture !-EIO too
+    migration: Add migration_incoming_transport_cleanup()
+    migration: Allow migrate-recover to run multiple times
+
+Thanks,
+
+-- 
+Peter Xu
+
 
