@@ -2,141 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D344B84BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:48:08 +0100 (CET)
-Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF96D4B8398
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:05:46 +0100 (CET)
+Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKGut-0003mr-PG
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:48:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49676)
+	id 1nKGFt-0007iE-RK
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:05:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nKG16-0008FX-5y; Wed, 16 Feb 2022 03:50:28 -0500
-Received: from [2a01:111:f400:7d00::72f] (port=65408
- helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nKGBc-0004eR-TO
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 04:01:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nKG13-0002Dg-4w; Wed, 16 Feb 2022 03:50:27 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fsKZF7kBs9RHNbfi82Z4NoStZDGMB+teeEoKj3/ohC9Nn+8O1azvb3b1KZRt2hhMgUjsfGzsjihZUqlqCXc1bmOpHWo/L65+FcJTF860xRabZ6BZm/EdJKo3uqeUG5J8LAApRqL7lAqKgmjVoTR7+t25xyix3Xjw7YG6RCn70qucP97nIk8dyps6H3LSXKit6g0HsErAPj5Q4zsoiiEq6NxfVoXL/Q0yEcmVL25RkfKw8TLz9vqOVova7nA/1uSd3h1dCmqs+7XshTV5NPm9chvBhc/VwzZu/47G6cbOQZ1nkLyLSdwNDDE3YNwffFOW8ARFOr7buiCaGyh3sijqdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MlsZDULGcl40bsM1MqJOiMShxnKGSByiZVJEu0DjRbk=;
- b=KJwmj8T0zbquebz0/IRSpMaSU2w1qYPYoMJp2nBYKWNyHgXmll4Km9ECGZdoxVEmGNHWz+hfTt+lGPv85iRg0lu1SPj7l33LKWF2CIFN+TtQWrf1+hDkAMCltyh/tHNOITFw6MdN7+g2z5DQSDIfErogX4gmwrJhKvrUX8dTfoEMzP+eKfFOWME+ILpX/RcCvVvxjvs8NDpdNyL2ZWJXHTKkf047XWgIM19SgVTDCLvmgIoUjp0tttJ1k7WgWrTcOzxUPYdas4MtoJSg5GHmC04V1p46x6B3bHhzvAIZi+04rcfb7AS92soksYoTG0kD3kTk88myyMacv4z1IncRNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MlsZDULGcl40bsM1MqJOiMShxnKGSByiZVJEu0DjRbk=;
- b=DvwmciEzFIfVJ7tBvgkEIEO1DrUAEO+mGOKVi46VHu2+/4lKZ2vDPpGkPo9QkZXiiSayMnc/lLj/Mv6pmvtjx9XhHuLXmVIUtzzWsVKGNaxSrlnlGE2G+CVVfbyn/c/88ZmEZUPKJjebj4H/tu1a5E6Kp0pHRXbw52b+lbVn/40=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by VI1PR0802MB2269.eurprd08.prod.outlook.com (2603:10a6:800:9e::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.17; Wed, 16 Feb
- 2022 08:50:19 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::49c:67e9:3e24:8714%4]) with mapi id 15.20.4995.016; Wed, 16 Feb 2022
- 08:50:19 +0000
-Message-ID: <99593693-49d5-b8d2-8732-4a12a1bf5841@virtuozzo.com>
-Date: Wed, 16 Feb 2022 11:50:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 1/4] block: bdrv_merge_dirty_bitmap: add return value
-Content-Language: en-US
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
- eblake@redhat.com, jsnow@redhat.com, hreitz@redhat.com, kwolf@redhat.com
-References: <20220215175310.68058-1-vsementsov@virtuozzo.com>
- <20220215175310.68058-2-vsementsov@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20220215175310.68058-2-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR0301CA0023.eurprd03.prod.outlook.com
- (2603:10a6:206:14::36) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nKGBY-00042x-8e
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 04:01:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645002074;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TKeHIkENSwCLZh0+2NhTQ+iBjBj6faGQPYbVl5qsHBY=;
+ b=OGFmCKuSo7gdaekD0ewAo4DcKxN1WItdHN627297hxx2zEzdU5hRDEcuGajzTI0JPdfnd8
+ gfOQ6CbA1xfqBb3lpvTpC35K2a0bIKwtAgT18l4u4ySnZAaKWYt8/CTLzS9pjt3iagZK0V
+ GfQ8mj+6s1LH85Vr4bQNmadJGg7XmC0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-592-hgZVcdk3Nf-qJiESApFaKA-1; Wed, 16 Feb 2022 04:01:09 -0500
+X-MC-Unique: hgZVcdk3Nf-qJiESApFaKA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ g5-20020a056402090500b0040f28e1da47so1165823edz.8
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 01:01:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TKeHIkENSwCLZh0+2NhTQ+iBjBj6faGQPYbVl5qsHBY=;
+ b=4U0cOrfrbQ2YrGF7C4t8wSqcBlZEF5fLJnZCUrKulcWkYzsFWFjUDJooy1/wzrB7Ih
+ 4E4VT3hFQs92b4S5Ezzu290ZZvnGoCjWCOpVjYlegO/qbWKl1bG/E6hN6NZ+p/53tKic
+ jcWP6hn8tAKdnUtPDLaedzpxa16h2jcNQMOtKxHMwUDD3uvLAe0BTQKikB4o5oyJZxTW
+ uXf08TGpyq+QYop9z7MFTx5p2LLAJ8it+8gUS9t5CiaNHQMKM6ekrcl1uh5BiwB8uEkw
+ XoajzKoImRtmDUpn/QcUu38/ZJaJvhPbTkKL90+pw6Q3hf6TKQeLeGYC42/XX4ic4vpW
+ 3LZQ==
+X-Gm-Message-State: AOAM533Me+INsrU3E2MFwDo9z7zacRh8qg0lNTxINyuER8rk0M5pa5gZ
+ Egdpf1CcdZ/ZlX4mCtumquQfIBE1RV14xThG7z0HBsvyT/LfCYzVX74TLQQ+iQN7s46SsiOPm7H
+ RqdUl3PtaBN8rhBE=
+X-Received: by 2002:a17:906:360a:b0:6a6:a997:8297 with SMTP id
+ q10-20020a170906360a00b006a6a9978297mr1488812ejb.180.1645002067749; 
+ Wed, 16 Feb 2022 01:01:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzbIgu85MltKFRP7zcFZF6pZgwK+QzTFqaHPaZivkSLQO479fSBLNjg10Qw07bb0mk0H3bCYQ==
+X-Received: by 2002:a17:906:360a:b0:6a6:a997:8297 with SMTP id
+ q10-20020a170906360a00b006a6a9978297mr1488793ejb.180.1645002067504; 
+ Wed, 16 Feb 2022 01:01:07 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id c6sm2989189ejs.130.2022.02.16.01.01.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Feb 2022 01:01:06 -0800 (PST)
+Date: Wed, 16 Feb 2022 10:01:02 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [PATCH v4 4/4] hw/i386/sgx: Attach SGX-EPC objects to machine
+Message-ID: <20220216100102.1414d720@redhat.com>
+In-Reply-To: <YgovOszouLTQfZgI@redhat.com>
+References: <20220205124526.500158-1-f4bug@amsat.org>
+ <20220205124526.500158-5-f4bug@amsat.org>
+ <20220207093752.7503b6cb@redhat.com>
+ <20220214065857.GA5015@yangzhon-Virtual>
+ <20220214092107.56d3f300@redhat.com> <YgovOszouLTQfZgI@redhat.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ba86048b-082a-49d4-8cd0-08d9f1295c28
-X-MS-TrafficTypeDiagnostic: VI1PR0802MB2269:EE_
-X-Microsoft-Antispam-PRVS: <VI1PR0802MB2269A07F679C73B140B87FA2C1359@VI1PR0802MB2269.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:188;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eqJau81Uk5wksQdlp3YebwThs5OyJN9Y7pDZ3N3/jKYXy0X/YjhAzZw1Y3njTyvd3dYdqgDZ2B4T1c/R8dOjRVkGSqPDexAnmNJAAE5ytCp/j+m0yix9MoQiFoQ4nyUo1QWigOTsTxPZKlKVo1cAUH6+Svoa48JWycFCuV81ElaGAEoUDkIe2dsa9pxKWvZVcrtbG4uJPM7hBQM2KGApBUAdbupph5Zz6JUrBOsduuTLniAI8SamCbOLLG5bswqmK7V3PvBDy0yyupYZ4pZqMU/l+0yZ4aIt7JB3vEMMiy+F62eJYsjj2kikgE0NlC+/kjOS9l5D5FrgjfJjbd5F1E5wtvmlZ0u6gqiS3kvnq4++N3oZ5f0BNy9TYb55/N4uGnUxWDYoyyRpueQ4v4V/mRIJvZjY5ZGkTVkl3PMsk+6K6fGeHoJsRft/UuCN3H/l3EM9/ccf3nQlMSe0x5DQtZKFN6Cb1tegssCtTl66uTvEf7XIoY919Rz0xfJvnd6mOGmgid+/txd95p3Zw/NGK30ljtJWIUbOH/mFmvP1XP/Wxsugq+nWnvW5emuN2M15uu/p04GTJM80dZYDDni2N0UkdfIC//7UcyetV8f86b8FIL2pevnY+ooz1LiObIYZvFf8x2bJiEQXemtEvZJ3ojlfEooVPTVxLlFvKvjpkLlRojeGnbVHDVf/KikDfUpjTWIv4yJ1s8mEgROT8e63Tx8KyGfWE2xpVnv6LiEOM02J2356i10d0v5XXWoZgmG8xtSAnt8aUOEq7r4e/SaTkSLIOpCFDfwXEWBEKUM9cz4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(66476007)(2616005)(38100700002)(38350700002)(2906002)(508600001)(8676002)(66556008)(66946007)(31686004)(86362001)(31696002)(52116002)(36756003)(8936002)(83380400001)(186003)(5660300002)(316002)(6666004)(26005)(6916009)(6486002)(4326008)(6506007)(6512007)(14143004)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aXoralJHNy9RSGVJRTlWSzEyOTRadDNCSUxwNEVJRG8rTXJyTHYvT2V4Wml2?=
- =?utf-8?B?TkI5czYxU1ROYXJWYVA4OFM5UXBMZHRuWVc5TDgvWmRzSy9Fdmw0SkdGNTlq?=
- =?utf-8?B?Z1RjMUZhUnFONENlRVEyY05QMHlwQWFMelNNY1dISk1SYnoxUk9hRnFqbkFk?=
- =?utf-8?B?TGk5bm9rWEpEeVpxOXFNeE5jc0FUNitqckhPMFFjekNucUg3aHZ4dFl1VjZX?=
- =?utf-8?B?dVdrM01EdXN0bHZWUVVnbXQ0cDdxZHJvU0J1aUtHelB2MHlXeEN6ZnhKdFpE?=
- =?utf-8?B?dmdrY0F2WDQvTG9PZFZOc2prRDROMjIxQlJmeDZXcEs1b0NxTnNjMisySmNx?=
- =?utf-8?B?S0l2SEVWWGdpOEhLdlB5M3F4WDMzLzhMZmtRWGtoMzl1TEVidk9uSmxSc05R?=
- =?utf-8?B?R09meXVBUDJCZGsyc0hhYkFZK3JEbllXUlZEQ0xHNkVjdEJ0YmJma3ZpT3Bo?=
- =?utf-8?B?VEUwMXBsQ3lBNE1vQ3hlc0gzdnJXYnBHQ0hKdzVUUjVmcW44VU9US3Q2UDU0?=
- =?utf-8?B?ZU4rSGd0WjZzc2poM2FwZ2FqY20zVTB6SEZjZHVmdDFIOU4xMDVBbkwzTGZS?=
- =?utf-8?B?YnFTdUd1ZDNJK1NIM3hpWkM0ZWtnUDNyZXdiMHZYMytkbUZHZXdGczQvRVVR?=
- =?utf-8?B?bnd3QkpmZjJkeTBveXZBdWV1TzBmaWNWQTdKdE1PUXNiRjVrOTFTbWJ1NC9V?=
- =?utf-8?B?VitLa3g2aFZYKzAwV0lCUmJrNCsxcWlFbWhBcGNIWXQ2NnFmNVV4U05lblpJ?=
- =?utf-8?B?ZTcycVZ0Z1psVFFEUzNKS0Z0R0ZRdDd2Nm1lYUVqSFJzTVpwKytVQzVwSHFh?=
- =?utf-8?B?NTYwdXh3dFZ0eTVuZjkwRkZ6U2txeWFSK3dZVmxFUnRJOVlqR1FMdko3UnVF?=
- =?utf-8?B?eUlPSGJWRWh6ck51MHFSMmdocHo0aHNUK09zNFVuSjdmYmRaeDNERHNoNm1z?=
- =?utf-8?B?VHB4ZUE3ai91NGZqUk1lOVpUVzgxLy85ZHhEUnQxR2g0a0h3Vm8zam5hTWZG?=
- =?utf-8?B?ekJLaXVpeFFWWW5CQ1ZQU0hSckJ5U1pLSThHS25CaUJlNHFsdHA1d1VjdGR2?=
- =?utf-8?B?MDFOa3JySlZsbXo2L2Y2VkZQb1U4V1FPcFlOdlVvOW9nWWV2SHROVzdHY2dP?=
- =?utf-8?B?Tno2bXpIMk9ncmVvWFRydXArcTZMd3E3Q2xEQWI4bmRreEpFWElURDVSanRE?=
- =?utf-8?B?VWZRZXZxekxTVFAwZjduOG9uUHF0TGRtWmQvVXdYcDJtYjdMS1JNL1NyWDhL?=
- =?utf-8?B?RmJxVXhhSGpSMzVSaFo0RUZQcEVwS2Q5eVNpSytWQU1kaEpPVFpGTjJaYW5x?=
- =?utf-8?B?eGJIMjV4elEweGNvczVEdzV3OGs5Qlczanc4YnRZbXhRM01vMjFmRVZjUUsy?=
- =?utf-8?B?V3BjQlpqU0U4VGVyVUdXK2NZZ21UcnpMUDBiTTh0UitvSEtXNDkvYWF1MER4?=
- =?utf-8?B?SThRMzUwZlVBaFJHbk0wOThoamRadDRtV1JMZ1dOVlhpcm1mME5ZczRtb1pM?=
- =?utf-8?B?ZVA4c2tTaklwdnhIWVljWVpZY0JTMFo3YnJvOTYzUXNqVmNRV3NxV3dadzND?=
- =?utf-8?B?Z2l1TXJKVlFQWTNsVjFtelpDMjJlYmcvL1BucGxqS3c4bXphMGMxa0pPNGd6?=
- =?utf-8?B?djZxbXBlWlQvcjJ5L0diUnpwOVpJdWhjWFZidTEzc2FNNE91SUhLNHh3WGlo?=
- =?utf-8?B?TzJvU0ZnejNESXpmNktlMTB1Y253YUhldDNLVEN0UVlQbEFza0daS2pQU1hT?=
- =?utf-8?B?cU9CaisyRVU0aTFhTUZRbGFrN0E4dmpxWmZXd1dpbnBhNEtTRlJIOXZqZ0hI?=
- =?utf-8?B?ZlhRUTdMQ3NqMEhjM1d6L3hZMHpDSVB2ZjZPbEs1Qm1JMWtrK1Q4aTcrdU4v?=
- =?utf-8?B?eklqaG0xQ1ZpTS9LWkRZcFcxeUVhU0NWdDBkNHVZMnNhUE9lM1lZZDRob2w5?=
- =?utf-8?B?Y3FOM1VLOWRkQkF6RjFNaklLZ0lzWnRObTl4SEdzRUd4b0ZuNUlSdXNTUCtw?=
- =?utf-8?B?NGpFNFBGeUw1V3l2YlZSQ2tlMm1ueVhFUmRHOG5CaWJsak1nV1JrYzNUMFkx?=
- =?utf-8?B?cXdpeTk4b2RxK3Z2dTdqdmZETmdlRFI3TVh5bHhNU2FWcGgwUHBmRGJvaGYw?=
- =?utf-8?B?emhtbm5PYTJtVWFqK0VGMlNqZXIzanZnd09HTHdnTWdZQnMzS3FmMkd3bzFR?=
- =?utf-8?B?MG9TOWtTdU5EWnBpOHpsQUVhcWJTZXFaL1Zxb2lRTnA3bUVxZmpQWDFkNGha?=
- =?utf-8?Q?g/18BymAm/MSjhSiKSS9cEuN21XE5bqaPYYaAOFawM=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba86048b-082a-49d4-8cd0-08d9f1295c28
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2022 08:50:19.3781 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nxC6B5pL/paiDYoSHi57OLovA+4ga6MfM0BbuuQvaz6FfUa1iak89oI2lBRGcy82Et9lXXtydf7PjdONLBpmB1Bjfz6gvGsfNpGgwiBU3Y4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2269
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7d00::72f
- (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7d00::72f;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -149,90 +102,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yang Zhong <yang.zhong@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?= =?UTF-8?B?w6k=?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I forget that I already sent it in other series: [PATCH v3 02/19] block/dirty-bitmap: bdrv_merge_dirty_bitmap(): add return value
+On Mon, 14 Feb 2022 10:30:18 +0000
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-"[PATCH v3 02/19] block/dirty-bitmap: bdrv_merge_dirty_bitmap(): add return value" is a bit better as it adds a comment. And has Hanna's r-b
+> On Mon, Feb 14, 2022 at 09:21:07AM +0100, Igor Mammedov wrote:
+> > On Mon, 14 Feb 2022 14:58:57 +0800
+> > Yang Zhong <yang.zhong@intel.com> wrote:
+> >  =20
+> > > On Mon, Feb 07, 2022 at 09:37:52AM +0100, Igor Mammedov wrote: =20
+> > > > On Sat,  5 Feb 2022 13:45:26 +0100
+> > > > Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+> > > >    =20
+> > > > > Previously SGX-EPC objects were exposed in the QOM tree at a path
+> > > > >=20
+> > > > >   /machine/unattached/device[nn]
+> > > > >=20
+> > > > > where the 'nn' varies depending on what devices were already crea=
+ted.
+> > > > >=20
+> > > > > With this change the SGX-EPC objects are now at
+> > > > >=20
+> > > > >   /machine/sgx-epc[nn]
+> > > > >=20
+> > > > > where the 'nn' of the first SGX-EPC object is always zero.   =20
+> > > >=20
+> > > > yet again, why it's necessary?   =20
+> > >=20
+> > >=20
+> > >   Igor, Sorry for delay feedback because of Chinese New Year holiday.
+> > >=20
+> > >   This series patches are to fix below issues I reported before,
+> > >   https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg05670.h=
+tml
+> > >=20
+> > >   Since the /machine/unattached/device[0] is used by vcpu and Libvirt
+> > >   use this interface to get unavailable-features list. But in the SGX
+> > >   VM, the device[0] will be occupied by virtual sgx epc device, Libvi=
+rt
+> > >   can't get unavailable-features from this device[0].
+> > >=20
+> > >   Although patch 2 in this series already fixed "unavailable-features=
+" issue, =20
+> >=20
+> > I've seen patches on libvirt fixing "unavailable-features" in another w=
+ay
+> > without dependence on  /machine/unattached/device[0].
+> > see:
+> >  https://www.mail-archive.com/libvir-list@redhat.com/msg226244.html
+> >  =20
+> > >   this patch can move sgx virtual device from /machine/unattached/dev=
+ice[nn]
+> > >   to /machine/sgx-epc[nn], which seems more clear. Thanks! =20
+> >=20
+> > with those patches device[0] becomes non issue, and this patch also bec=
+omes
+> > unnecessary.
+> > I don't mind putting sgx-epc under machine, but that shall be justified
+> > somehow. A drawback I noticed in this case is an extra manual
+> > plumbing/wiring without apparent need for it. =20
+>=20
+> This is effectively questioning why we have a QOM hierarchy with
+> named devices at all. IMHO we don't need to justify giving explicitly
+> named nodes under QOM beyond  "this is normal QOM modelling", and
+> anything under '/unattached' is subject to being fixed in this way.
 
-15.02.2022 20:53, Vladimir Sementsov-Ogievskiy wrote:
-> Add return value to bdrv_merge_dirty_bitmap() and use it to reduce
-> error propagation.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   include/block/dirty-bitmap.h    | 2 +-
->   block/dirty-bitmap.c            | 6 ++++--
->   block/monitor/bitmap-qmp-cmds.c | 5 +----
->   3 files changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-> index 40950ae3d5..f95d350b70 100644
-> --- a/include/block/dirty-bitmap.h
-> +++ b/include/block/dirty-bitmap.h
-> @@ -77,7 +77,7 @@ void bdrv_dirty_bitmap_set_persistence(BdrvDirtyBitmap *bitmap,
->                                          bool persistent);
->   void bdrv_dirty_bitmap_set_inconsistent(BdrvDirtyBitmap *bitmap);
->   void bdrv_dirty_bitmap_set_busy(BdrvDirtyBitmap *bitmap, bool busy);
-> -void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-> +bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
->                                HBitmap **backup, Error **errp);
->   void bdrv_dirty_bitmap_skip_store(BdrvDirtyBitmap *bitmap, bool skip);
->   bool bdrv_dirty_bitmap_get(BdrvDirtyBitmap *bitmap, int64_t offset);
-> diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-> index 0ef46163e3..d16b96ee62 100644
-> --- a/block/dirty-bitmap.c
-> +++ b/block/dirty-bitmap.c
-> @@ -881,10 +881,10 @@ bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
->    *
->    * @backup: If provided, make a copy of dest here prior to merge.
->    */
-> -void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-> +bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
->                                HBitmap **backup, Error **errp)
->   {
-> -    bool ret;
-> +    bool ret = false;
->   
->       bdrv_dirty_bitmaps_lock(dest->bs);
->       if (src->bs != dest->bs) {
-> @@ -912,6 +912,8 @@ out:
->       if (src->bs != dest->bs) {
->           bdrv_dirty_bitmaps_unlock(src->bs);
->       }
-> +
-> +    return ret;
->   }
->   
->   /**
-> diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
-> index 9f11deec64..83970b22fa 100644
-> --- a/block/monitor/bitmap-qmp-cmds.c
-> +++ b/block/monitor/bitmap-qmp-cmds.c
-> @@ -259,7 +259,6 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
->       BlockDriverState *bs;
->       BdrvDirtyBitmap *dst, *src, *anon;
->       BlockDirtyBitmapMergeSourceList *lst;
-> -    Error *local_err = NULL;
->   
->       dst = block_dirty_bitmap_lookup(node, target, &bs, errp);
->       if (!dst) {
-> @@ -297,9 +296,7 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
->               abort();
->           }
->   
-> -        bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
-> -        if (local_err) {
-> -            error_propagate(errp, local_err);
-> +        if (!bdrv_merge_dirty_bitmap(anon, src, NULL, errp)) {
->               dst = NULL;
->               goto out;
->           }
-> 
+I agree that we should fix '/unattached', however blindly naming and
+moving it wherever just because we can is not the fixing I've have had
+in the mind.
 
+With QOM device models, I'd try to compose parent/child relationships
+like it's done in real hardware (ex: apic is a part of x86 CPU, so we
+made cpu its parent, there are many ARM device models that follow
+the same suit.)
 
--- 
-Best regards,
-Vladimir
+In commit message, there must be a reason/explanation as to why
+proposed parent has been chosen.
+The current reason (lets get it out of the way just because some
+userspace abused direct access to QOM) in commit message in not
+a valid (I'd even say wasn't valid to begin with).
+All I'm asking for is for sane commit message explaining why
+something is moved to where it's proposed so that others can
+understand it when looking at it.
+
+With this patch I'm not sure if SGX should be a part of machine
+or a part of CPU device model. (it seem SGX is a CPU feature
+after all)
+=20
+> Regards,
+> Daniel
+
 
