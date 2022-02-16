@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35C54B93D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 23:30:08 +0100 (CET)
-Received: from localhost ([::1]:48060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F154B93FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 23:48:48 +0100 (CET)
+Received: from localhost ([::1]:33398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKSoJ-0000Fg-A9
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 17:30:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35242)
+	id 1nKT6N-0001sP-Fl
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 17:48:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nKSmy-00080T-BP
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 17:28:44 -0500
-Received: from [2a00:1450:4864:20::634] (port=40534
- helo=mail-ej1-x634.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKT3Y-0007W6-J7
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 17:45:52 -0500
+Received: from [2a00:1450:4864:20::636] (port=34768
+ helo=mail-ej1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nKSmw-0000PF-Ly
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 17:28:43 -0500
-Received: by mail-ej1-x634.google.com with SMTP id p15so2478664ejc.7
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 14:28:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKT3V-0003Qc-SA
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 17:45:52 -0500
+Received: by mail-ej1-x636.google.com with SMTP id gb39so2623971ejc.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 14:45:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=WjxU1xcOHjHzxIuB20VTJTnhavioopYgErvzULhJl3E=;
- b=F81G+lKAM895ZLpNScRJx3nZgn5+AI60xH+AfCZln202tkg76u1bwtIK9qlBnQI52X
- Gc8PLRcmSsaFaCc+Oi565l5KvvKlqQs+ksQlBE4eRc3b9NF+22Thukr2NwzrEN2jWLcP
- YdsDEQsD8iFS1dajbDXjqrzPVXRzTj5LV6H/ofR3pclaU765fiP5gPhF13EvnVASY/yE
- 0UYAKe6Xph6JRNgD3sBN8TeEcytsZDWyXljcFk7JV/u1qLR/54/Tc/kfaqgtA1F7e040
- DvveKNID5LDq356YquGiAsQejOixLXLX0D7pCI+nOhOsRD+s/MiKr9u66I09dxv+aIwA
- dLeQ==
+ bh=hPAmto1QIqxeLgW2F/dijeq91aVDa3U69jfrypz+7Zc=;
+ b=gB1eMumbM+6/vDlzIsqMcKgJ9Jtxkfpj0sZrt/Ah+Mqfvo1oX9RkyUBsj2cU1goWXD
+ jAZhjNLAWMxzYGq58rP97n8dcjmsSHxuQmk0R86wt/ys7vtRo3XAvnR5lvNJwm+XyvqM
+ wq/njnfjQeTc6Z3iOvRDkeJ1x53u+eDb1nia+QJL8iLSm2L+UcbyyNOyEqle6sZtUclX
+ z1Yvszq6P48g+7yrlk9KqiBq0M3xpEbfFUkaRirliUetJAmLwZP95a74vfiloqFRwFsr
+ 1//VcLhkkoQKHWhlxOOIBNHB7MSutugk6b2FpInZWupRUNv8Tjf1lqNbGhigRc3pIlPI
+ NihQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=WjxU1xcOHjHzxIuB20VTJTnhavioopYgErvzULhJl3E=;
- b=G86F/JfUBd5b0h489HDaxr9reTIpdzbg9t8tZ3e42XpYRw4imD4zvTPgYfbyahJI0R
- Qghlm9ZSRzSrDOae53HyRekTER3jR0wPvKYEq1NbrZxaHNnGy11Vxn2snMbyZlFnL9cO
- q4aYTa2c5urZwv4PfhxDI3s8ajb/ce14SZC/LE02R7snTyUG8oxaZFjhbRofFmvgOtTz
- Xo91T4MtX+Nu9EqiUtGj/RzG7z2tiSs8eMoMkTXfmzG5TLhcf+1lo4qdT3RYgkDzQFmq
- Gj7rRriruLuB3N0xsIS83kUjaZUZKAN9w3gyQAUpkKiF4fdKnbE1aqAVVZoxrfFpn3sq
- xP6Q==
-X-Gm-Message-State: AOAM530bxccZoqVkhwD48ijS0+DndrxZdsijXmS6KD1mOyb5XBRJpTBK
- CicZ2hWxPuUQe89Csf5wigs=
-X-Google-Smtp-Source: ABdhPJxtNIU+x94jEFEy7h+Nea8P8FPm9+Vp0anrI78O4MqNP5Ih9cly2BwFVMTLNKmtMLuP4ORLKw==
-X-Received: by 2002:a17:906:b57:b0:6ce:29b3:404c with SMTP id
- v23-20020a1709060b5700b006ce29b3404cmr138641ejg.140.1645050520905; 
- Wed, 16 Feb 2022 14:28:40 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id g2sm2328337edt.44.2022.02.16.14.28.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 14:28:40 -0800 (PST)
-Message-ID: <a35b3b64-2e6b-2a43-9f2b-ab3ba322bbea@redhat.com>
-Date: Wed, 16 Feb 2022 23:28:34 +0100
+ bh=hPAmto1QIqxeLgW2F/dijeq91aVDa3U69jfrypz+7Zc=;
+ b=Cp3E0cs5CTPUwpGBkJNkN+//En29BK33Kp8dVtxvr03A6yK2D5I1g/KLPXV15R5wuP
+ g4ZsWtg7SUvCL4ikxf/Md5zqrU6BRtL1RLED5zmt4IDw+6og8FuOEj7jLTnS4sQaGTZl
+ Fam0mB9eZlvnPbWac4/mxO9+wRkIQqz5Yx1yftBifPSLxUG5HVTeuQrGRGFHwlFZnHC9
+ Yt1bxniHcEf0JX3pylF83G24YYEt94ubdS1m/rzGLXVklktx3E4QpMb8aa+5g2HbRvNR
+ sW8x4VspMjJG1sgo4GYyW2k8pomCEeVO1esBLa0OpIHzJe5sQ9D2Mr7RtAwyZWJqDELe
+ 1eOg==
+X-Gm-Message-State: AOAM532EIt01Huua/uz7Cy1LcisvKfKbv0eq1KFB0jos6slhWisVurUl
+ OgbYMWLODAeU3GlwSzFjlR/Wb4F5ASY=
+X-Google-Smtp-Source: ABdhPJxX5deFa4PdroMbiwtO6kcpslnHRTThQJ1GAaovapb4P4Gc5fkUp4rELfX0gvmdWdvrrPfyMg==
+X-Received: by 2002:a17:906:32d0:b0:6ce:e1cf:3f2e with SMTP id
+ k16-20020a17090632d000b006cee1cf3f2emr167637ejk.214.1645051547308; 
+ Wed, 16 Feb 2022 14:45:47 -0800 (PST)
+Received: from Provence.localdomain
+ (dynamic-078-054-075-152.78.54.pool.telefonica.de. [78.54.75.152])
+ by smtp.gmail.com with ESMTPSA id t26sm1475820edv.50.2022.02.16.14.45.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Feb 2022 14:45:46 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/7] malta: Fix PCI IRQ levels to be preserved during
+ migration, cleanup
+Date: Wed, 16 Feb 2022 23:45:12 +0100
+Message-Id: <20220216224519.157233-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: Portable inline asm to get address of TLS variable
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: 3
-X-Spam_score: 0.3
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
 X-Spam_bar: /
-X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.978, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -95,36 +86,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, qemu-devel@nongnu.org,
- Serge Guelton <sguelton@redhat.com>
+Cc: Bernhard Beschow <shentey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/16/22 18:46, Stefan Hajnoczi wrote:
-> However, I wonder if the compiler might reuse a register that already
-> contains the address. Then we'd have the coroutine problem again when
-> qemu_coroutine_yield() is called between the earlier address calculation
-> and the asm volatile statement.
+Tested with [1]:
 
-Yes, the compiler should be able to reuse the register.  volatile only 
-says that the contents of the "asm" cannot be subject to e.g. loop 
-optimizations:
+  qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda \
+  debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"
 
-	for (i = 0; i < 10; i++) {
-		asm("# assembly": "=r"(k) : "0"(10));
-		j += k;
-	}
+It was possible to log in as root and `poweroff` the machine.
 
-will likely execute the asm once, while "asm volatile" (or an asm 
-without inputs, which is always volatile) will execute it ten times.
+Moreover, I ran:
 
-However, the input of the assembly can be evaluated only once either 
-way.  For example, in the case above you might have "movl $10, %edx" 
-outside the loop even with asm volatile.
+  :$ make check
+  Ok:                 569
+  Expected Fail:      0
+  Fail:               0
+  Unexpected Pass:    0
+  Skipped:            178
+  Timeout:            0
 
-One way to fix it for modules could be to define a (global, non-TLS) 
-variable in QEMU with the %fs-based offset of the relevant thread-local 
-variable, and initialize it before modules are loaded.
+[1] https://people.debian.org/~aurel32/qemu/mips/
 
-Paolo
+
+v3:
+  The migration bug now gets fixed in gt64xxx_pci before any cleanup. As
+    suggested by PMM the patch is based on commit e735b55a8c11.
+  The code movement patch now moves the already fixed code. I might be a bit
+    too conservative here by removing Philippe's Reviewed-By tag.
+  As suggested by BALATON Zoltan, the redundant i8259[] attribute is now
+    resolved immediately after the code movement. As a side effect, it also
+    removes moved code which doesn't adhere to the coding style (local loop
+    variable).
+  To address BALATON Zoltan's comment and to reduce the number of required
+    Reviewed-By's, only piix4_set_irq() is modified to expect own DeviceState
+    paremeter. Up to v2, all remaining set_irq() functions were changed this
+    way.
+  The patch resolving piix4's singleton variable got split into two patches:
+    One which resolves the singleton variable and one which replaces magic
+    constants. The split patches should be more comprehensible.
+  Suggested by BALATON Zoltan, I took a chance to resolve gt64120_register(),
+    a method akin to the legacy init functions we're trying to get rid of.
+
+v2:
+  isa/piix4: Fix PCI IRQ levels to be preserved in VMState
+  isa/piix4: Resolve redundant i8259[] attribute
+
+Bernhard Beschow (7):
+  hw/mips/gt64xxx_pci: Fix PCI IRQ levels to be preserved during
+    migration
+  malta: Move PCI interrupt handling from gt64xxx_pci to piix4
+  hw/isa/piix4: Resolve redundant i8259[] attribute
+  hw/isa/piix4: Pass PIIX4State as opaque parameter for piix4_set_irq()
+  hw/isa/piix4: Resolve global instance variable
+  hw/isa/piix4: Replace some magic IRQ constants
+  hw/mips/gt64xxx_pci: Resolve gt64120_register()
+
+ hw/isa/piix4.c                | 54 +++++++++++++++++++++--
+ hw/mips/gt64xxx_pci.c         | 80 +++--------------------------------
+ hw/mips/malta.c               | 17 ++++----
+ include/hw/mips/mips.h        |  3 --
+ include/hw/southbridge/piix.h |  2 -
+ 5 files changed, 65 insertions(+), 91 deletions(-)
+
+-- 
+2.35.1
+
 
