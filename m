@@ -2,99 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358B34B80D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 07:56:13 +0100 (CET)
-Received: from localhost ([::1]:52902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3284B80DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 07:58:57 +0100 (CET)
+Received: from localhost ([::1]:33354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKEEW-0004Ke-1L
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 01:56:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48922)
+	id 1nKEHA-0001kZ-2u
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 01:58:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDqJ-00076h-T4
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:31:12 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:61749)
+ id 1nKDqx-0007Kh-6N
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:31:52 -0500
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:31697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDqI-0006ld-1E
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:31:11 -0500
+ id 1nKDqv-0006tE-Ho
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:31:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1644993070; x=1676529070;
+ t=1644993109; x=1676529109;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=e6y3dsWCf1ia7rtV5ptSfzr6nuJuaFHm6pTp3m7sfs0=;
- b=Wz6SZkj1aFoPyA0wcJbdBwuc8lWpH9P1nGbTNnzJDbRVDK7q7yYIFJd5
- hPLhO30kUi8AYqshnAQZmVOWZLVe9s9MZE5STgGOBXZXzYPaS6+Llvse6
- EtNqBLw1KvXHlFWEHjAryQQGSdCpLkneK7lAqQXTnUKauxWpBSMskg2qP
- roonn+p53x4w1IeXELAqrm278FfBNhuP6JL2XR+MfOVgEptIfm/3Hmw3j
- Nazd30GT5+kbG4fghc9/L4DOAlBbRhPSswLuwgw9ZLFoGn+JZ3X9vbfQ6
- gORWE/1lsYmlTG6EgKUK699Ldp1Ux7sr8Dwpbd3rW0FYzePxkQJPvUFYE g==;
-X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="297181825"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:31:08 +0800
-IronPort-SDR: czA6wZ8WBfNFLkuzxK/Rk/vLjThMdtJpSiSWg2NFuRTTMUYCH8d2IwDnPUXow39ZSfO4Z+vhvc
- LCgY0YmxTnKQNO8kZnBrIKXjoLNg672jLuekytIr+URqrJ2ZhaGf+aGklvetoWvIaw8yoBYFyu
- bGgbNErSRut1Lk7U4ISrm8StEp4rHQRY8qH9gt22kME0z2o77Pj6ZVWZKOg830/4RQ09FBIg4W
- FHtmOiAZBHMf04b4BC0ILR6ehEt3cdykMc+vD+Z/qGwIua6+mpjhKrk1qqUwonIAXEn9ZZRzh3
- Nk1xPZYEY10TRRW90WeXdg6p
+ bh=Op9MBksbJCLjCPcsH3y+BxEHX7yAAvSi//ZF4kTyuyI=;
+ b=Efe1H56ZtBrc6mQ7axrNxKWiGybT0Ffi9eYPGeFQ91kr57ErmrRb62zQ
+ sv0lLfS28RVihOYGtv5/8peDQCRRM084a1udU8cmSW/GOc3MU4dAd77L8
+ FARotWvxPnOaeeTGU3vwwcNWmn6HJGIN4aemFshg/m5e7XLmFDJpcjhqe
+ vK6mnd3r9MmaH4v8jFUcgP9pW+j8LAxz+xLPrxixB4tM+ghBIDEsrwClp
+ ondI3awI0EpvkpWKTmOKy9BrRyACoKLNWE78AOZc9TjQDYSBi1zWAE6kY
+ kD53hoOhBVbLIJLQtoE9wQObX4znF1kX+86CAMLSszwqNHbzTG07jTpWy w==;
+X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="304974653"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:31:48 +0800
+IronPort-SDR: VxAZfY6uAv1B0lxHwkGZvuRM9lfgKBFmSjxEsaTZW+BseOi2pPFyRQ4PraRGV4juWedt38oL6j
+ j0ZNhRIuNc/ILRz5IeiJryxvRqzi91xgRuteL4650VbZpdc8bMwPzJ0T40M1R375jf2xH6DOKx
+ P3Pu47T1IFUvoFlXoTDjfoOYtjZD+O4DlCfFYIKGhJQnQH9MpaAkLw1JPtV2Qo3+5bviiL0XSj
+ z/Jd0KGLUwlPOuckw2trKnVtT7m6ixBVWtLvxXLSENdyKCHMXR6sVY+Xkc2/00E8X1RCSDsM0y
+ SC+uhrtbtfmGxiKK+mVDVWcg
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:03:56 -0800
-IronPort-SDR: R8OL8D68S6kQDACWpl0MSjbmArZc7Fwr/igh2ChP3lFOqxCKN7uGmKlYDvNmDIz4EoEv7lVwcI
- 80e9+DXQPlsqM3ysIbJO7K64ZIVL21PCj5A9xz1/8M3j7N6JQgs5k7elI1kFu3YacGic6DnGf7
- 37JltjotrPLlNI3N1Dt4zYQMwcceLiv37Lr+Cxb51Ft4bHea7GU2vydKD7schxXTLmjs/ndIvH
- aoEZ595fQyptHBhd4VX2iH6K8kqitkSQnU32iwBOzhACMZxnE/0oKYbtTZ9eR9JsdGmSznnIud
- X20=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2022 22:03:28 -0800
+IronPort-SDR: qzOCvQ2oR/7plTKxKfIhRVoJWYkbQ4sOJ8JFl7O5OujOnPwOUhv/jU5lXZfIT5XFe/NrA2NA04
+ vgIK5xAk89GRDG6FFWq+G9cuRRrpAbEMTNobATe/j7RQFIfvXWsVDmSslk6duIE//UjnlyKs87
+ TuGUotJ7WeQLAdgxDYJtGwM3xNaUQ0KX+yEoKYdAN04cnZToD0aucp6R92b2ANTI+Xy0HCiO9L
+ Apou6PUhQY1irI6sLu2NY0Jj/j5DpG8Ds3SFTj/X0jFViNLB7Wp9zzy6JY0GvrbWdo83SmBy37
+ r4M=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:31:09 -0800
+ 15 Feb 2022 22:31:48 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7Q42TYCz1SVp1
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:31:08 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7Qq71Lhz1SVp0
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:31:47 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1644993067; x=1647585068; bh=e6y3dsWCf1ia7rtV5p
- tSfzr6nuJuaFHm6pTp3m7sfs0=; b=bmkTBEv9IF5RcWwnJ57zWQXTOcv8CSBy+u
- RhjbYo5plLRTltc3ir7+kaYiAbGFf74MUOYSQGDWj4N/v/S4T48rlDVnR8c1Jo4o
- X3bh9HTUlq0rkaRLO/U7D3vJmQxdcpWZXk/5oTwKQeUphUFpvABAGYTRR+Z1e24/
- qOKF+MSOtTf2L3FbYGylDdcniD1DCB0wRY96tsezSzJh1JpX7qBV2btGT6sRMXej
- rrs73Ocjs7QSONdtAzUKpS0n0S9izmfUISEvYAGsYD2bdWuIY+xPC8HNqdz7+ArI
- pl7xcMZJRCvBStT4GYsSD9q13ZmzO9OcBVqu087UcerwlNbjC7Gg==
+ :from; s=dkim; t=1644993107; x=1647585108; bh=Op9MBksbJCLjCPcsH3
+ y+BxEHX7yAAvSi//ZF4kTyuyI=; b=pMAMcCtjBVraUGmu6FnV3wRUlJbfxhxRfl
+ J0sXAdtkOPxXimSsCe9+ztFkbOEj5FAbs03p2baYnSecXU7IGzicuLA/JXoMj2D2
+ wry7FFP5clHOVCgodhZVnkLalXoBdKOv2RDHCSa7rn5QwfJxGO7sZwgJgPVsd1NR
+ WhC8SoFWam+L0BOUP9rBUnzzjcZDAf6R+jyKunhHfPgzQY3dLmT59M+ndBzKC8Ie
+ M7LBjKaBVWvHOzMIA3rPnoe/qEq6Fo8Dw19kS4bZ+oE4Hn3jDF2sabCG+HBmsH4R
+ jublAiJAY37OH1F3YRiWfvLEzflXVzDux2/s15CAu4bQyvhaVLnQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id tcx7f51JDdbF for <qemu-devel@nongnu.org>;
- Tue, 15 Feb 2022 22:31:07 -0800 (PST)
+ port 10026) with ESMTP id GlM6hPFL4Lzb for <qemu-devel@nongnu.org>;
+ Tue, 15 Feb 2022 22:31:47 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.165.97])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7Q02DKfz1Rwrw;
- Tue, 15 Feb 2022 22:31:03 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7Ql5Kydz1Rwrw;
+ Tue, 15 Feb 2022 22:31:43 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Anup Patel <anup.patel@wdc.com>,
- Anup Patel <anup@brainfault.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Frank Chang <frank.chang@sifive.com>
-Subject: [PULL v2 23/35] target/riscv: Implement AIA interrupt filtering CSRs
-Date: Wed, 16 Feb 2022 16:29:00 +1000
-Message-Id: <20220216062912.319738-24-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Junqiang Wang <wangjunqiang@iscas.ac.cn>, Anup Patel <anup@brainfault.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL v2 31/35] target/riscv: add PTE_A/PTE_D/PTE_U bits check for
+ inner PTE
+Date: Wed, 16 Feb 2022 16:29:08 +1000
+Message-Id: <20220216062912.319738-32-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
 References: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.143.124;
+Received-SPF: pass client-ip=68.232.141.245;
  envelope-from=prvs=039576d22=alistair.francis@opensource.wdc.com;
- helo=esa2.hgst.iphmx.com
+ helo=esa1.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -117,112 +117,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anup Patel <anup.patel@wdc.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-The AIA specificaiton adds interrupt filtering support for M-mode
-and HS-mode. Using AIA interrupt filtering M-mode and H-mode can
-take local interrupt 13 or above and selectively inject same local
-interrupt to lower privilege modes.
+For non-leaf PTEs, the D, A, and U bits are reserved for future standard =
+use.
 
-At the moment, we don't have any local interrupts above 12 so we
-add dummy implementation (i.e. read zero and ignore write) of AIA
-interrupt filtering CSRs.
-
-Signed-off-by: Anup Patel <anup.patel@wdc.com>
-Signed-off-by: Anup Patel <anup@brainfault.org>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Anup Patel <anup@brainfault.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Message-id: 20220204174700.534953-13-anup@brainfault.org
+Message-Id: <20220204022658.18097-3-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ target/riscv/cpu_helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 46448a2b7e..89700038fb 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -158,6 +158,15 @@ static RISCVException any32(CPURISCVState *env, int =
-csrno)
-=20
- }
-=20
-+static int aia_any(CPURISCVState *env, int csrno)
-+{
-+    if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    return any(env, csrno);
-+}
-+
- static int aia_any32(CPURISCVState *env, int csrno)
- {
-     if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-@@ -568,6 +577,12 @@ static RISCVException read_zero(CPURISCVState *env, =
-int csrno,
-     return RISCV_EXCP_NONE;
- }
-=20
-+static RISCVException write_ignore(CPURISCVState *env, int csrno,
-+                                   target_ulong val)
-+{
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_mhartid(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
- {
-@@ -2598,9 +2613,15 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
-     [CSR_MTVAL]    =3D { "mtval",    any,  read_mtval,    write_mtval   =
- },
-     [CSR_MIP]      =3D { "mip",      any,  NULL,    NULL, rmw_mip       =
- },
-=20
-+    /* Virtual Interrupts for Supervisor Level (AIA) */
-+    [CSR_MVIEN]      =3D { "mvien", aia_any, read_zero, write_ignore },
-+    [CSR_MVIP]       =3D { "mvip",  aia_any, read_zero, write_ignore },
-+
-     /* Machine-Level High-Half CSRs (AIA) */
-     [CSR_MIDELEGH] =3D { "midelegh", aia_any32, NULL, NULL, rmw_midelegh=
- },
-     [CSR_MIEH]     =3D { "mieh",     aia_any32, NULL, NULL, rmw_mieh    =
- },
-+    [CSR_MVIENH]   =3D { "mvienh",   aia_any32, read_zero,  write_ignore=
- },
-+    [CSR_MVIPH]    =3D { "mviph",    aia_any32, read_zero,  write_ignore=
- },
-     [CSR_MIPH]     =3D { "miph",     aia_any32, NULL, NULL, rmw_miph    =
- },
-=20
-     /* Supervisor Trap Setup */
-@@ -2654,12 +2675,14 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D =
-{
-     [CSR_MTINST]      =3D { "mtinst",      hmode,   read_mtinst,      wr=
-ite_mtinst      },
-=20
-     /* Virtual Interrupts and Interrupt Priorities (H-extension with AIA=
-) */
-+    [CSR_HVIEN]       =3D { "hvien",       aia_hmode, read_zero, write_i=
-gnore },
-     [CSR_HVICTL]      =3D { "hvictl",      aia_hmode, read_hvictl, write=
-_hvictl },
-     [CSR_HVIPRIO1]    =3D { "hviprio1",    aia_hmode, read_hviprio1,   w=
-rite_hviprio1 },
-     [CSR_HVIPRIO2]    =3D { "hviprio2",    aia_hmode, read_hviprio2,   w=
-rite_hviprio2 },
-=20
-     /* Hypervisor and VS-Level High-Half CSRs (H-extension with AIA) */
-     [CSR_HIDELEGH]    =3D { "hidelegh",    aia_hmode32, NULL, NULL, rmw_=
-hidelegh },
-+    [CSR_HVIENH]      =3D { "hvienh",      aia_hmode32, read_zero, write=
-_ignore },
-     [CSR_HVIPH]       =3D { "hviph",       aia_hmode32, NULL, NULL, rmw_=
-hviph },
-     [CSR_HVIPRIO1H]   =3D { "hviprio1h",   aia_hmode32, read_hviprio1h, =
-write_hviprio1h },
-     [CSR_HVIPRIO2H]   =3D { "hviprio2h",   aia_hmode32, read_hviprio2h, =
-write_hviprio2h },
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 7df4569526..25ebc76725 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -937,6 +937,9 @@ restart:
+             return TRANSLATE_FAIL;
+         } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
+             /* Inner PTE, continue walking */
++            if (pte & (PTE_D | PTE_A | PTE_U)) {
++                return TRANSLATE_FAIL;
++            }
+             base =3D ppn << PGSHIFT;
+         } else if ((pte & (PTE_R | PTE_W | PTE_X)) =3D=3D PTE_W) {
+             /* Reserved leaf PTE flags: PTE_W */
 --=20
 2.34.1
 
