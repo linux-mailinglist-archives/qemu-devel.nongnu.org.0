@@ -2,99 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E26C4B8FE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 19:10:20 +0100 (CET)
-Received: from localhost ([::1]:56508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1925F4B900C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 19:19:49 +0100 (CET)
+Received: from localhost ([::1]:47896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKOkt-0003y9-7R
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 13:10:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59482)
+	id 1nKOu4-0000db-6v
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 13:19:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKOYD-0001S9-9g
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:57:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37056)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKOY9-0003kB-Uo
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:57:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645034228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+GbFNPXQEQlilfzBDz9EtLKbrmfxZtReoAbH0tAYpss=;
- b=SFURtfKHqzizfQgtG4mx597FpYk5PZ2APD6LZzqCzSFxTfDKGzhpe+f77KTa/W0+ukNJS3
- wVmCHFbOSG27GIqrdceZ5XREFBYkFMqaf+Ztcfvk7WSYMkGR8XzQ3WTwgx5ZDn5HxEB/6b
- vwa+qEl9TA0te8wkaVV7nWr3FjZ6SYE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-gDFRxmU7PCywU1yQ7hSmMQ-1; Wed, 16 Feb 2022 12:57:06 -0500
-X-MC-Unique: gDFRxmU7PCywU1yQ7hSmMQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- c9-20020adfa709000000b001dde29c3202so1356127wrd.22
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 09:57:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=+GbFNPXQEQlilfzBDz9EtLKbrmfxZtReoAbH0tAYpss=;
- b=Avl5D0r9dIc+rlt0x+eKB8FOTJdnImnUMjWjM245B8LdZ2COUElzumn2ejQt3eCbZW
- wyBbuLbgE/hvO2j3NA6rPfOpHo2Pd7kE7pSGqoT8z/PUVzEAMFYuwSp4n+CkgLcHKBpQ
- L8ynypQpUaZ7BNMH9ImpSCODiOShRqbvb8X7mDbdgrywAOsRpha99BtsgcabLpS1lbV3
- pw64/fTMvjO1HhR491ERHOuxa7MDFlQ5+nkwcO59A88ujSbR2p5C8fQvh6D9VDrVTzUy
- Tc3ckTtk7ThWQMTD2U159avTh402cz/UX6bnh1G1snp+M5TkTIWx6nzo8/kGWtQQ0gya
- Iw0A==
-X-Gm-Message-State: AOAM531iF/qpzBNYoRCv/QdPlZkuJmzQ57TyKtn6QFEyjXvWjKNBZJ8G
- 852zxUSZN5fE0JzBszOnk1PRCntRHwPE7gUJQcnq0zwUAe+8avGatcejt89/be5j5PQDscLoqQf
- w4/kuu9HfyM/dUcE=
-X-Received: by 2002:a05:6000:258:b0:1e4:eee1:93b9 with SMTP id
- m24-20020a056000025800b001e4eee193b9mr3268914wrz.558.1645034225725; 
- Wed, 16 Feb 2022 09:57:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyltHV+EdxwknhQNJ77gneoZUySs9O5SS+qtHe1WgYoNYXlp0UNW5cklO9qbTyptnC1hDkT5w==
-X-Received: by 2002:a05:6000:258:b0:1e4:eee1:93b9 with SMTP id
- m24-20020a056000025800b001e4eee193b9mr3268900wrz.558.1645034225489; 
- Wed, 16 Feb 2022 09:57:05 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id s26sm18731706wmh.47.2022.02.16.09.57.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 09:57:04 -0800 (PST)
-Date: Wed, 16 Feb 2022 17:57:02 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 3/3] x86: Switch to q35 as the default machine type
-Message-ID: <Yg067jLmVM4aIFIq@work-vm>
-References: <20220215162537.605030-1-dgilbert@redhat.com>
- <20220215162537.605030-4-dgilbert@redhat.com>
- <YgvtLmoJcv+ZSW1S@redhat.com>
- <20220216105808.77kqhmsagz3ej74h@sirius.home.kraxel.org>
- <YgzZhHKSAFYTYFDc@work-vm>
- <db583712-cd6e-d67d-ad98-989a9867499a@redhat.com>
- <Yg03HB5KHGYWyI0J@work-vm> <Yg042JzxCjgF2siM@redhat.com>
+ (Exim 4.90_1) (envelope-from <kallisti5@unixzen.com>)
+ id 1nKOnQ-0000UM-0y; Wed, 16 Feb 2022 13:12:57 -0500
+Received: from mx.dal1.terarocket.io ([108.61.222.170]:53934)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <kallisti5@unixzen.com>)
+ id 1nKOnL-0006cx-K2; Wed, 16 Feb 2022 13:12:55 -0500
+Received: by mx.dal1.terarocket.io (Postfix, from userid 1001)
+ id 082E95E76E; Wed, 16 Feb 2022 18:12:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx.dal1.terarocket.io 082E95E76E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unixzen.com;
+ s=default; t=1645035169;
+ bh=wdXc83FJr0avoSdHJP3Qfa84LdqUXH/eUt68bG9Zoto=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References:From;
+ b=gQ1LJB4iogBOEgCJ1LPvxXTT4E//RFARLovm+Kda4L6SojcIb7ijF0FB3Y6/JrT7s
+ dc9oQ8kAfsTQaK0pocqGO1in7ep3j6fodd+BRcYdyXSa1azK31vvMZq+gwycUzqldX
+ FXrauKT1akOkoICkjMRMXrPY3v99GnD4Gq6d+YPU=
+Received: from mx.dal1.terarocket.io (localhost [IPv6:::1])
+ by mx.dal1.terarocket.io (Postfix) with ESMTPSA id 21EB25E4C8;
+ Wed, 16 Feb 2022 18:12:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx.dal1.terarocket.io 21EB25E4C8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unixzen.com;
+ s=default; t=1645035165;
+ bh=wdXc83FJr0avoSdHJP3Qfa84LdqUXH/eUt68bG9Zoto=;
+ h=Date:From:Subject:To:Cc:In-Reply-To:References:From;
+ b=kZuPNaqEkwvYUpi+w+xQXgG4IyLXVUSMCFl0+8Jj5mGsv+iJwzX5zQV2f4WkWVTe+
+ CrYz5CyrU6G83QIxmQ7j4J1Z8CsEH1hfnCrit/zeIkBxbbeYMUD39LvXukMmF69l5g
+ UX8TMH+d/eOpEFbOdhioixtzOi7UCj0nXPv199KI=
 MIME-Version: 1.0
-In-Reply-To: <Yg042JzxCjgF2siM@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Date: Wed, 16 Feb 2022 18:12:44 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: RainLoop/1.13.0
+From: "Alexander von Gluck IV" <kallisti5@unixzen.com>
+Message-ID: <dd3cfc5c9d69795b2e5be9b536066f8f@unixzen.com>
+Subject: Re: [PATCH] tests/vm: Update haiku test vm to R1/Beta3
+To: "Thomas Huth" <thuth@redhat.com>, qemu-devel@nongnu.org
+In-Reply-To: <2d597b24-2b00-3e4c-27ed-3265a38a48a6@redhat.com>
+References: <2d597b24-2b00-3e4c-27ed-3265a38a48a6@redhat.com>
+ <20220216154208.2985103-1-kallisti5@unixzen.com>
+Received-SPF: pass client-ip=108.61.222.170;
+ envelope-from=kallisti5@unixzen.com; helo=mx.dal1.terarocket.io
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,74 +70,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, Thomas Huth <thuth@redhat.com>, mst@redhat.com,
- quintela@redhat.com, qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- pbonzini@redhat.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Wed, Feb 16, 2022 at 05:40:44PM +0000, Dr. David Alan Gilbert wrote:
-> > * Thomas Huth (thuth@redhat.com) wrote:
-> > > On 16/02/2022 12.01, Dr. David Alan Gilbert wrote:
-> > > > * Gerd Hoffmann (kraxel@redhat.com) wrote:
-> > > > >    Hi,
-> > > > > > Given the semantic differences from 'i440fx', changing the default
-> > > > > > machine type has effects that are equivalent to breaking command
-> > > > > > line syntax compatibility, which is something we've always tried
-> > > > > > to avoid.
-> > > > > 
-> > > > > And if we are fine breaking backward compatibility I'd rather *not* pick
-> > > > > a default, effectively making -M $something mandatory, similar to arm.
-> > > > 
-> > > > Oh, that's probably easy to do;  what are other peoples thoughts on
-> > > > that?
-> > > 
-> > > I agree with Gerd. Getting rid of a default machine on x86 is likely better
-> > > than silently changing it to q35. But I'd maybe say that this should go
-> > > through the deprecation process first?
-> > 
-> > So just adding something like the following under 'System emulator
-> > machines':
-> > 
-> > x86 default machine type
-> > ------------------------
-> > 
-> > x86 currently defaults to the very old ```pc``` machine type
-> > which is based on the very old ```i440f``` chipset.  This default
-> > will be removed and the user will be required to specify a machine
-> > type explicitly using -M; users are encouraged to switch to the
-> > not quite as old ```q35``` machine types.
-> > 
-> > 
-> > (This option is going to take a lot more work switching all the
-> > test cases over; in my world here I'd only changed the tests that broke
-> > on q35, now everything is going to need to specify a type).
-> 
-> ....which is still nothing compared to how many users will be impacted
-> and the docs all over the internet we'll never be able to change, which
-> give illustrations using qemu command lines without '-M pc'
-
-What's your prreference - it sounds like you'd prefer to leave the
-default as 'pc' ?
-
-aarch's message is:
-qemu-system-aarch64: No machine specified, and there is no default
-Use -machine help to list supported machines
-
-We could add a:
-'Use -machine pc for the old default behaviour'
-
-Dave
-
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+February 16, 2022 10:26 AM, "Thomas Huth" <thuth@redhat.com> wrote:=0A> O=
+n 16/02/2022 16.42, Alexander von Gluck IV wrote:=0A> =0A>> ---=0A>> test=
+s/vm/haiku.x86_64 | 8 ++++----=0A>> 1 file changed, 4 insertions(+), 4 de=
+letions(-)=0A>> diff --git a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_6=
+4=0A>> index 2eb736dae1..936f7d2ae2 100755=0A>> --- a/tests/vm/haiku.x86_=
+64=0A>> +++ b/tests/vm/haiku.x86_64=0A>> @@ -2,7 +2,7 @@=0A>> #=0A>> # Ha=
+iku VM image=0A>> #=0A>> -# Copyright 2020 Haiku, Inc.=0A>> +# Copyright =
+2020-2022 Haiku, Inc.=0A>> #=0A>> # Authors:=0A>> # Alexander von Gluck I=
+V <kallisti5@unixzen.com>=0A>> @@ -48,8 +48,8 @@ class HaikuVM(basevm.Bas=
+eVM):=0A>> name =3D "haiku"=0A>> arch =3D "x86_64"=0A>>> - link =3D=0A>> =
+"https://app.vagrantup.com/haiku-os/boxes/r1beta2-x86_64/versions/2020070=
+2/providers/libvirt.box"=0A>> - csum =3D "41c38b316e0cbdbc66b5dbaf3612b86=
+6700a4f35807cb1eb266a5bf83e9e68d5"=0A>> + link =3D=0A>> "https://app.vagr=
+antup.com/haiku-os/boxes/r1beta3-x86_64/versions/20220216/providers/libvi=
+rt.box"=0A>> + csum =3D "e67d4aacbcc687013d5cc91990ddd86cc5d70a5d28432ae2=
+691944f8ce5d5041"=0A>>> poweroff =3D "shutdown"=0A>>> @@ -99,7 +99,7 @@ c=
+lass HaikuVM(basevm.BaseVM):=0A>>> self.print_step("Extracting disk image=
+")=0A>>> - subprocess.check_call(["tar", "xzf", tarball, "./box.img", "-O=
+"],=0A>> + subprocess.check_call(["tar", "xzf", tarball, "box.img", "-O"]=
+,=0A>> stdout=3Dopen(img, 'wb'))=0A>>> self.print_step("Preparing disk im=
+age")=0A> =0A> Thank you very much for the quick fix, that indeed helps t=
+o compile-test Haiku again! (the unit=0A> tests are failing, though, but =
+IIRC that was already the case before)=0A> =0A> Tested-by: Thomas Huth <t=
+huth@redhat.com>=0A=0AThanks!=0A=0ASorry for forgetting about it.   I han=
+d release Vagrant images for Haiku after major releases=0Aand generally f=
+orget to update them until ~6 months after a major release as there aren'=
+t many users.=0A=0AI don't have commit access to qemu so will need someon=
+e else to push when the time comes.=0A=0A -- Alex
 
