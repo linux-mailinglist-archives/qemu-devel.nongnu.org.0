@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A334B7E73
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 04:20:33 +0100 (CET)
-Received: from localhost ([::1]:35930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611454B7E76
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 04:22:22 +0100 (CET)
+Received: from localhost ([::1]:38262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKAro-0004gp-It
-	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 22:20:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45964)
+	id 1nKAtZ-0006JT-8l
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 22:22:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nKAqL-0003zc-EK
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 22:19:01 -0500
-Received: from [2a00:1450:4864:20::329] (port=51138
- helo=mail-wm1-x329.google.com)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nKArf-000543-21
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 22:20:23 -0500
+Received: from [2607:f8b0:4864:20::32d] (port=35818
+ helo=mail-ot1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nKAqJ-0008Li-L6
- for qemu-devel@nongnu.org; Tue, 15 Feb 2022 22:19:01 -0500
-Received: by mail-wm1-x329.google.com with SMTP id k41so423192wms.0
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 19:18:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nKArd-0000Fl-4f
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 22:20:22 -0500
+Received: by mail-ot1-x32d.google.com with SMTP id
+ e19-20020a05683013d300b005acfb3d602aso220737otq.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 19:20:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VIpqwX3pb/x9MGHuVA4MujkpwJHnFZnNxJJJm2Jrt1Y=;
- b=K4mVQtabp/AAYc1cCGouoE0Ox+jVkejwA62SIU4/VpAdKJnIWENYj9AWEq0KV1kptk
- WqIeGBeux+z50bxaolnNXRrEueKGe3UhOPAvdBKEowKOyzNQWgpDUrevHo20dc7uJVwE
- 4So13UksCcTxb5hDQdAnJys8zt2qOogimch1hGjxW/TlYbeid0JROcdqzA6UtEeABT4/
- y1UDhw0CmkyNPeLf1Re6uHFM+mpjRIqlSGluw62eZF4Qe89NoiCsLUAnceefK/jYaWnx
- thcpUQyfgWLYh5ZcPvcSbqx8NCKuJMyBpDZpAbUUoaflxJdGnBE89Mx5cMyMl4HcIvfE
- RCbw==
+ :cc:content-transfer-encoding;
+ bh=tynXVh+uaZPsFERZOYD/01X6B6FlXz8z0OSigHVNDzw=;
+ b=XL0bnIO86jLj4lvbye9+Uj9UpH8NKUq22XGohXlHvJ+5/+KhyQzwe97R9b/7JwZXqO
+ UF/ND/i0ek5WekiyWPEk7stxHEqf4HS6e9nfa4KKZMXquuKsgVOiXUOUYfMqBfKutvXd
+ Rr//SkSuGQ2fjJRBcuXsPwsqYMNwdpaBmQwKHAcSp3qN4193eg7SLpHU9BjCL1x1kYyb
+ fJmss48EpBiCyL3mMBisbJpOw0/Dieo6CPoCrgNJ1bR2VlcLE6ce1HofWNwBSVrnn9X+
+ cjNaX0Qgsi4Yn0669XZHWhNAiO6lJQRfLuoOq3EsY2E2y/RQSASxPWlFF0q3gZGhNBck
+ q18Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VIpqwX3pb/x9MGHuVA4MujkpwJHnFZnNxJJJm2Jrt1Y=;
- b=FVINFJDq3+4L7ELbm8vbMiMC3D/E8a486yy6jOy6Lw0ZdMf0PmCTqxICZRJ1g+VASq
- 6spezuq6ldcC/5Y4r4Cgsvb+cU2EOn0bcrRi6Bh06RNXAfTIfXXG9f+eutDmuKdUYcOB
- CmbFvuDAl1nmI9D1SGUbPtDKSLs9qVOdPYNrzqVpUUTv615og2BqFR0npVM2p4WRijea
- 9dl0tiiKKud5tTakCP4kWIyla5zCqFr8yQA09C1iivBekTY1/BhUk+y+p7JMeU0QYVH/
- O05KntekhV057Ku/jXvduPjfC+Eu83OUusQAqQDpgjdpKOmf8qf0sDj2HDkK0MmjMy/h
- KmSg==
-X-Gm-Message-State: AOAM531xzAkbO84FaQ48tfv/EEip1sn0TBYTuaqY+V5soE9W+aOzncDc
- wCbkp5sEh349fi+XMyFF95AIKKOhTDo9UkShS79Bcw==
-X-Google-Smtp-Source: ABdhPJzpA+0kFc0SwKCa1ZZA76q/AEVeR4Grl2kytpEZXbrJkDktvSjL6aNTEPIOlbS754SBQRkKQ0PMdE+SOuzk/iU=
-X-Received: by 2002:a1c:7715:0:b0:37b:dc94:9eb4 with SMTP id
- t21-20020a1c7715000000b0037bdc949eb4mr659145wmi.61.1644981537165; Tue, 15 Feb
- 2022 19:18:57 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tynXVh+uaZPsFERZOYD/01X6B6FlXz8z0OSigHVNDzw=;
+ b=32qG+F7pNY0cZlWdZmYDgXS/e+1x2Io13f6X5qfZKn3zgV8k8RoE9HJfxkckxDPQv/
+ k7CcsqmlIj4U+OJFK0QuQvhv9fqEzgPi8tLfJl27ZJE3X0cgOQO3QduiXXEVXViNXzg4
+ Im9E63hNg9S4M9aWOOKaPC6c2diK+EZ6T5jIbhnf426OuLjASU1IN6KzNPk22FAQ4pG8
+ mGUQ+y+EsNHeknz5dOikvaBx3/H0Q/OLLRIkF9F8ffmF77q743PPy9Y3PG4DmZD0kaAx
+ SR9CcFacsJyjUsoamMWb19vyeYjX9wmJEUorv0EX5w3GoaL67FkfqBBlVZuaq0PuXMnO
+ zSuQ==
+X-Gm-Message-State: AOAM533gCqXCYeBbV9MNestGN+1EVUuvsIffAjgV+I3iX8UatuqNx52s
+ k8HANYHml89bKMKoCmJeMZtUv6/VakkRdJ3sCcc=
+X-Google-Smtp-Source: ABdhPJwGAywdP1GejFqdlnK/S2lgXXTAKhLZhDDEi4FFl6wV32+S9GKtcPVJH1nZti1F2VBB3U/7fYjCB9TOYK+OQsY=
+X-Received: by 2002:a9d:6f8c:0:b0:5ac:4ce8:b34d with SMTP id
+ h12-20020a9d6f8c000000b005ac4ce8b34dmr222927otq.235.1644981619827; Tue, 15
+ Feb 2022 19:20:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20220216000904.1217872-1-atishp@rivosinc.com>
-In-Reply-To: <20220216000904.1217872-1-atishp@rivosinc.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Wed, 16 Feb 2022 08:48:43 +0530
-Message-ID: <CAAhSdy0zv2Cj-h503EVmwDXpa=SE3W9Bk8P3-baiYZaw750ZUw@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: Add isa extenstion strings to the device
- tree
-To: Atish Patra <atishp@rivosinc.com>
+References: CAMVc7JXZFcpiM2vHFMRQ_yWWH0eA8L-Z9h=E4dJETQJnYOj7_w@mail.gmail.com
+ <20220216022900.8DE3E1770A1@mail-01.amsat.org>
+In-Reply-To: <20220216022900.8DE3E1770A1@mail-01.amsat.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Wed, 16 Feb 2022 12:20:08 +0900
+Message-ID: <CAMVc7JUy5NeEN0q=4zfZvn_rppgqn9wicV1z=TsLuHKS3RY3Sw@mail.gmail.com>
+Subject: Fwd: Undelivered Mail Returned to Sender
+To: postmaster@amsat.org
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32d
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::329;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ot1-x32d.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,107 +85,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stubner <heiko@sntech.de>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 16, 2022 at 5:39 AM Atish Patra <atishp@rivosinc.com> wrote:
->
-> The Linux kernel parses the ISA extensions from "riscv,isa" DT
-> property. It used to parse only the single letter base extensions
-> until now. A generic ISA extension parsing framework was proposed[1]
-> recently that can parse multi-letter ISA extensions as well.
->
-> Generate the extended ISA string by appending  the available ISA extensions
-> to the "riscv,isa" string if it is enabled so that kernel can process it.
->
-> [1] https://lkml.org/lkml/2022/2/15/263
->
-> Suggested-by: Heiko Stubner <heiko@sntech.de>
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
-> Changes from v1->v2:
-> 1. Improved the code redability by using arrays instead of individual check
-> ---
->  target/riscv/cpu.c | 35 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 34 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index b0a40b83e7a8..9bf8923f164b 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -34,6 +34,13 @@
->
->  /* RISC-V CPU definitions */
->
-> +/* This includes the null terminated character '\0' */
-> +#define MAX_ISA_EXT_LEN 256
-> +struct isa_ext_data {
-> +        const char *name;
-> +        bool enabled;
-> +};
-> +
->  static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
->
->  const char * const riscv_int_regnames[] = {
-> @@ -881,10 +888,35 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
->      device_class_set_props(dc, riscv_cpu_properties);
->  }
->
-> +static void riscv_isa_string_ext(RISCVCPU *cpu, char *isa_str, int max_str_len)
-> +{
-> +    int offset = strnlen(isa_str, max_str_len);
-> +    int i;
-> +    struct isa_ext_data isa_edata_arr[] = {
-> +        { "svpbmt", cpu->cfg.ext_svpbmt   },
-> +        { "svinval", cpu->cfg.ext_svinval },
-> +        { "svnapot", cpu->cfg.ext_svnapot },
-> +    };
-> +
-> +    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-> +        if (!isa_edata_arr[i].enabled) {
-> +            continue;
-> +        }
-> +        /* check available space */
-> +        if ((offset + strlen(isa_edata_arr[i].name) + 1) > max_str_len) {
-> +            qemu_log("No space left to append isa extension");
-> +            return;
-> +        }
-> +        offset += snprintf(isa_str + offset, max_str_len, "_%s",
-> +                           isa_edata_arr[i].name);
+Hi postmaster@amsat.org,
 
-You don't need to use snprintf() and MAX_ISA_EXT_LEN if you
-use g_strconcat() for creating new concat strings and freeing
-original string using g_free().
+Apparently your system is rejected by Gmail. Could you fix the problem?
 
-Regards,
-Anup
+Thanks,
+Akihiko Odaki
 
-> +    }
-> +}
-> +
->  char *riscv_isa_string(RISCVCPU *cpu)
->  {
->      int i;
-> -    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) + 1;
-> +    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) +
-> +                          MAX_ISA_EXT_LEN;
->      char *isa_str = g_new(char, maxlen);
->      char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
->      for (i = 0; i < sizeof(riscv_exts); i++) {
-> @@ -893,6 +925,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
->          }
->      }
->      *p = '\0';
-> +    riscv_isa_string_ext(cpu, isa_str, maxlen);
->      return isa_str;
->  }
+---------- Forwarded message ---------
+From: Mail Delivery System <MAILER-DAEMON@mail-01.amsat.org>
+Date: Wed, Feb 16, 2022 at 11:29 AM
+Subject: Undelivered Mail Returned to Sender
+To: <akihiko.odaki@gmail.com>
+
+
+This is the mail system at host mail-01.amsat.org.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to postmaster.
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                   The mail system
+
+<philippe.mathieu.daude@gmail.com> (expanded from <f4bug@amsat.org>): host
+    gmail-smtp-in.l.google.com[64.233.177.26] said: 550-5.7.1 [172.105.152.=
+211
+    12] Our system has detected that this message is 550-5.7.1 likely
+    unsolicited mail. To reduce the amount of spam sent to Gmail, 550-5.7.1
+    this message has been blocked. Please visit 550-5.7.1
+    https://support.google.com/mail/?p=3DUnsolicitedMessageError 550 5.7.1 =
+ for
+    more information. m141si25626293ybm.519 - gsmtp (in reply to end of DAT=
+A
+    command)
+
+
+
+---------- Forwarded message ----------
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
+Cc: qemu Developers <qemu-devel@nongnu.org>, Roman Bolshakov
+<r.bolshakov@yadro.com>, Christian Schoenebeck
+<qemu_oss@crudebyte.com>
+Bcc:
+Date: Wed, 16 Feb 2022 11:28:46 +0900
+Subject: Re: [RFC PATCH 0/4] buildsys: More fixes to use GCC on macOS
+On Tue, Feb 15, 2022 at 10:25 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
 >
-> --
-> 2.30.2
+> On 15/2/22 14:06, Akihiko Odaki wrote:
+> > On Tue, Feb 15, 2022 at 9:06 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
+t.org> wrote:
+> >>
+> >> Few fixes to be able to use GCC extensions which are not
+> >> available on Clang.
+> >>
+> >> Philippe Mathieu-Daud=C3=A9 (4):
+> >>    osdep: Avoid using Clang-specific __builtin_available()
+> >>    osdep: Un-inline qemu_thread_jit_execute/write
+> >>    audio: Rename coreaudio extension to use Objective-C compiler
+> >>    ui/cocoa: Ignore 'initializer overrides' warnings
+> >>
+> >>   audio/{coreaudio.c =3D> coreaudio.m} |  0
+> >>   audio/meson.build                  |  2 +-
+> >>   include/qemu/osdep.h               | 21 ++-------------------
+> >>   ui/cocoa.m                         |  5 +++++
+> >>   util/osdep.c                       | 20 ++++++++++++++++++++
+> >>   5 files changed, 28 insertions(+), 20 deletions(-)
+> >>   rename audio/{coreaudio.c =3D> coreaudio.m} (100%)
+> >>
+> >> --
+> >> 2.34.1
+> >>
+> >
+> > Compiler portability is always nice to have. Making QEMU on macOS
+> > compatible with GCC is good, but I don't think that would justify
+> > abandoning compatibility with Clang.
 >
->
+> I am certainly not abandoning compatibility with Clang. What gives
+> you this impression?
+
+I read the description as it says it allows to introduce GCC
+extensions which breaks builds with Clang.
 
