@@ -2,104 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9A7C4B8099
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 07:25:26 +0100 (CET)
-Received: from localhost ([::1]:55372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2715B4B80B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 07:33:16 +0100 (CET)
+Received: from localhost ([::1]:32956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKDkj-0002A9-2r
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 01:25:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47170)
+	id 1nKDsI-0006Qk-UN
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 01:33:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDie-0001HD-0K
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:23:16 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:58996)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nKDns-0003tf-2N
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:28:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDib-0005TZ-PM
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:23:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1644992593; x=1676528593;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=OS1E/FtxGnq0FdQKgaclKyxOcSmrIY7adRw9g/4vIHs=;
- b=Iebs4A75I0/TxZAAetye7VOOIn93w/YHeFa7kFmCXA/a9AWhaDi6nGUb
- Gi5GqHyfN2ShxMkABE83zBnjtHRV8zg1s7V08+5EUCuSV2AYghX38EdCf
- 3ZHKXWA4pWsJK7oE8+PD6mQ/EuMa1u0MpYePEYuS3k0zpAhXD9IncUkq8
- Q41J0m4JSPOEav/20rr2lQISPEvpilIiA0D+Es9m9j+46NVOgYv7/PaLz
- mU6whRIfOGi9fUANLALcF15OGorl9W6gQwLH2R2ttN0GFGHvHhWuTPnVH
- Sixv/Oo6di8Fwi2R1BzO7uAWDz7LBKHS6iod9+Hl3pYLQk1ZUbZUUPQO8 Q==;
-X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="193072320"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:23:05 +0800
-IronPort-SDR: j3Nvlb8h7QvStb12oMoi2UK4XNx6an8f3XGgXknJx4StsFIqqdLoKyHZtX2CJJe1KbK3AUMQR5
- HwDt0Gp1wSboxxcdudXY4CDWvxaCTz2Lgox0ESeLfb012GQEXZrdNuFPsdL1RRvkKqlKTyLNF7
- JjubWMm0sooMr1XUkcTTFRqoxCO0zyDZrJR8T32mKSM71X85KHRhUeCYUMpoHjmp+froAFrcqV
- z7pNIHf4+g02iO877FZwh6RPOPsUDYGzcU+2ebNhm/rvK9bjD9AilCsmiDWfuUhoWhinmNXPnu
- YU8mdlR67EeD18+m/4sW/xKB
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 21:55:53 -0800
-IronPort-SDR: CWXobATif2//YO9sI7kJldY0QzIBp97vGeiSOByod1HdP0jDkziv9YD8tD3hzT4F/TyesG/Nkc
- VADwYcXVhN4mW2qVwOImCHxM8jZmfXSVhCI4eiROqxpiuxIlARrhxEuZaMbsBiak3+tR8U5Kg6
- xTeb2QCR0LQU/gQlkBFbRc2rB+5xq8QQ337EnHXw2IliXbiPBId7kfYM0DnWgwP0zozoP8O4+s
- 86S6nwQ5NOTTTmxtoP1m5jARWgPSd/gi4uq345DYhE92xbbtFWR4C5I/Sx9L76mtZCemzYRncv
- 5cg=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:23:05 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7Dm6hYkz1SVp3
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:23:04 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :x-mailer:message-id:date:subject:to:from; s=dkim; t=1644992584;
- x=1647584585; bh=OS1E/FtxGnq0FdQKgaclKyxOcSmrIY7adRw9g/4vIHs=; b=
- bMRs9RtFWHEmnT7yCfOv/xFR4cOWJTv+YMYuydo13QgxcCh3gksAbsBzIDvufJWR
- J+ZBjod19dtDDh+L8uuOt2DS/oN+lvgwUzQnw/xiW//Hi8AXixluU1Cw49dnZFRa
- 3cokh4HqmniIHKvWZziqb73whYI5iBv24ZD3h3vVIhysqxc4McGKYoYnFMK2eDjE
- joQ/xA20b19paFtliFV9XjLcDU92O5WU5ABn4q96aWON81p3+oSgXl/35RhkBdtm
- QLrR2fRaI6DD7U2tHUIpKOLxH6cYPFQL8N3gAey2pYy4WBdJDQP1/ANITUEfUAPF
- FiRKXb1iH+30h7mFbxBr4g==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id z84xUgSDHZ49 for <qemu-devel@nongnu.org>;
- Tue, 15 Feb 2022 22:23:04 -0800 (PST)
-Received: from toolbox.wdc.com (unknown [10.225.165.97])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7Dg59M5z1Rwrw;
- Tue, 15 Feb 2022 22:22:59 -0800 (PST)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: bmeng.cn@gmail.com, palmer@dabbelt.com, alistair.francis@wdc.com,
- alistair23@gmail.com, wilfred.mallawa@wdc.com
-Subject: [PATCH v1] hw: riscv: opentitan: fixup SPI addresses
-Date: Wed, 16 Feb 2022 16:22:48 +1000
-Message-Id: <20220216062248.317329-1-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nKDnn-0006BZ-Dc
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:28:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1644992911;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IfYz64FhyR1+Y/3c9+UlHk4jX4zFAtudGxBPXX7XU0Y=;
+ b=Rp/vwK8xTtOU2h/ZqXrRDpeiffSBVMGX21rltHLcCb3b9iOP9xTJoJ6qyf5UC/ALU4VfnH
+ 92ZE8KxLHCWIUS1VChodZjQI8p9BRQ2zc2DED6UhiP7RjS1nSGw9OdqE+V2kdjB9e8Wj8r
+ rex50jkjVJ7hQvO3RX1OCFqY8MlirmQ=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-206-FlYP0V3lPwuVnnH8BUBhFQ-1; Wed, 16 Feb 2022 01:28:29 -0500
+X-MC-Unique: FlYP0V3lPwuVnnH8BUBhFQ-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ a15-20020a17090ad80f00b001b8a1e1da50so940547pjv.6
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:28:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IfYz64FhyR1+Y/3c9+UlHk4jX4zFAtudGxBPXX7XU0Y=;
+ b=6lRDkR+rzLSBO5gwwPquSyF0x5LLH1tftILGpJGCu5h6nRpdZpyMWEMqN3mdTLZ8l2
+ bIwrAO6huOPgunOCtWXdK0sp57V9E6CF+A23YKOEHwT7LPGEclD1ljw2Gircoa0kThYW
+ c4gOQY+h6pSMtbOEQ6jnazF3epZNzAa2a9vBVGATyvW1Vkjna770eB6oEtRlwJhfyaXY
+ L5hLiZUx+fU25Uc45O36U9RNDtPp3LpLWRMS7NBHv3Lxi3qM6d1XblpYFG35mUG9YGWH
+ RFi2fX8nGCa/SQ8tP2tf5fP2gWXOuHa3a/qS0oyzkJg/Blvn6UCHQJQuAo80qaQ95Drs
+ L9dg==
+X-Gm-Message-State: AOAM531ziUH27OwfATtRYN7D4+nYQGgDoautV2zEPgLRRLHOZvUbi92Z
+ PizsMEGdnPsNAfZGysYjYadQYRd8nuFRROwkyfG3efsz9X+daJmh9ODw3zGdCV18ZR2c96ukcfp
+ OsTOVy0Gh/MKkdHE9e+Nwl41nIlNMjpbNYE1creiKqauz6dOFSMLIGLrLqrizJknv
+X-Received: by 2002:a17:90b:ecf:b0:1b8:c0f1:3ae7 with SMTP id
+ gz15-20020a17090b0ecf00b001b8c0f13ae7mr95116pjb.63.1644992907676; 
+ Tue, 15 Feb 2022 22:28:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxXtVejDBQV6FMJW68rOL5qYfL9jrRtOkgej5Ez20mWTYlNWE3sxdX1JJELQhkAOd8dbdk06w==
+X-Received: by 2002:a17:90b:ecf:b0:1b8:c0f1:3ae7 with SMTP id
+ gz15-20020a17090b0ecf00b001b8c0f13ae7mr95083pjb.63.1644992907135; 
+ Tue, 15 Feb 2022 22:28:27 -0800 (PST)
+Received: from localhost.localdomain ([64.64.123.81])
+ by smtp.gmail.com with ESMTPSA id 17sm42104657pfl.175.2022.02.15.22.28.20
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 15 Feb 2022 22:28:26 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/20] migration: Postcopy Preemption
+Date: Wed, 16 Feb 2022 14:27:49 +0800
+Message-Id: <20220216062809.57179-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=039576d22=alistair.francis@opensource.wdc.com;
- helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,77 +93,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+This is v1 of postcopy preempt series.  It can also be found here:
 
-This patch updates the SPI_DEVICE, SPI_HOST0, SPI_HOST1
-base addresses. Also adds these as unimplemented devices.
+  https://github.com/xzpeter/qemu/tree/postcopy-preempt
 
-The address references can be found [1].
+This series added a new migration capability called "postcopy-preempt".  It can
+be enabled when postcopy is enabled, and it'll simply (but greatly) speed up
+postcopy page requests handling process.
 
-[1] https://github.com/lowRISC/opentitan/blob/6c317992fbd646818b34f2a2dbf=
-44bc850e461e4/hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h#L107
+  |----------------+--------------+-----------------------|
+  | Host page size | Vanilla (ms) | Postcopy Preempt (ms) |
+  |----------------+--------------+-----------------------|
+  | 2M             |        10.58 |                  4.96 |
+  | 4K             |        10.68 |                  0.57 |
+  |----------------+--------------+-----------------------|
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
----
- hw/riscv/opentitan.c         | 12 +++++++++---
- include/hw/riscv/opentitan.h |  4 +++-
- 2 files changed, 12 insertions(+), 4 deletions(-)
+The major change since RFC is:
 
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index aec7cfa33f..596b518a26 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -33,8 +33,10 @@ static const MemMapEntry ibex_memmap[] =3D {
-     [IBEX_DEV_RAM] =3D            {  0x10000000,  0x10000 },
-     [IBEX_DEV_FLASH] =3D          {  0x20000000,  0x80000 },
-     [IBEX_DEV_UART] =3D           {  0x40000000,  0x1000  },
-+    [IBEX_DEV_SPI_HOST0] =3D      {  0x40300000,  0x1000  },
-+    [IBEX_DEV_SPI_HOST1] =3D      {  0x40310000,  0x1000  },
-     [IBEX_DEV_GPIO] =3D           {  0x40040000,  0x1000  },
--    [IBEX_DEV_SPI] =3D            {  0x40050000,  0x1000  },
-+    [IBEX_DEV_SPI_DEVICE] =3D     {  0x40050000,  0x1000  },
-     [IBEX_DEV_I2C] =3D            {  0x40080000,  0x1000  },
-     [IBEX_DEV_PATTGEN] =3D        {  0x400e0000,  0x1000  },
-     [IBEX_DEV_TIMER] =3D          {  0x40100000,  0x1000  },
-@@ -209,8 +211,12 @@ static void lowrisc_ibex_soc_realize(DeviceState *de=
-v_soc, Error **errp)
-=20
-     create_unimplemented_device("riscv.lowrisc.ibex.gpio",
-         memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
--    create_unimplemented_device("riscv.lowrisc.ibex.spi",
--        memmap[IBEX_DEV_SPI].base, memmap[IBEX_DEV_SPI].size);
-+    create_unimplemented_device("riscv.lowrisc.ibex.spi_device",
-+        memmap[IBEX_DEV_SPI_DEVICE].base, memmap[IBEX_DEV_SPI_DEVICE].si=
-ze);
-+    create_unimplemented_device("riscv.lowrisc.ibex.spi_host0",
-+        memmap[IBEX_DEV_SPI_HOST0].base, memmap[IBEX_DEV_SPI_HOST0].size=
-);
-+    create_unimplemented_device("riscv.lowrisc.ibex.spi_host1",
-+        memmap[IBEX_DEV_SPI_HOST1].base, memmap[IBEX_DEV_SPI_HOST1].size=
-);
-     create_unimplemented_device("riscv.lowrisc.ibex.i2c",
-         memmap[IBEX_DEV_I2C].base, memmap[IBEX_DEV_I2C].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.pattgen",
-diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index eac35ef590..00da9ded43 100644
---- a/include/hw/riscv/opentitan.h
-+++ b/include/hw/riscv/opentitan.h
-@@ -57,8 +57,10 @@ enum {
-     IBEX_DEV_FLASH,
-     IBEX_DEV_FLASH_VIRTUAL,
-     IBEX_DEV_UART,
-+    IBEX_DEV_SPI_DEVICE,
-+    IBEX_DEV_SPI_HOST0,
-+    IBEX_DEV_SPI_HOST1,
-     IBEX_DEV_GPIO,
--    IBEX_DEV_SPI,
-     IBEX_DEV_I2C,
-     IBEX_DEV_PATTGEN,
-     IBEX_DEV_TIMER,
---=20
-2.35.1
+  - The very large patch is split into smaller ones
+  - Added postcopy recovery support, and its unit test
+
+The RFC series actually broke postcopy recovery on huge pages, and this version
+will also have that issue fixed.
+
+Just a quick note: this series is partly preparing for the doublemap support
+too in the future.  The channel separation speedup will be beneficial for both
+current postcopy or when doublemap is ready.  The huge page preemption part may
+only benefit current postcopy, and it won't be enabled in the future doublemap
+support because in that new doublemap world there will have no huge pages at
+all being mapped.
+
+The new patch layout:
+
+Patch 1-3: Three leftover patches from patchset "[PATCH v3 0/8] migration:
+Postcopy cleanup on ram disgard" that I picked up here too.
+
+  https://lore.kernel.org/qemu-devel/20211224065000.97572-1-peterx@redhat.com/
+
+  migration: Dump sub-cmd name in loadvm_process_command tp
+  migration: Finer grained tracepoints for POSTCOPY_LISTEN
+  migration: Tracepoint change in postcopy-run bottom half
+
+Patch 4-9: Original postcopy preempt RFC preparation patches (with slight
+modifications).
+
+  migration: Introduce postcopy channels on dest node
+  migration: Dump ramblock and offset too when non-same-page detected
+  migration: Add postcopy_thread_create()
+  migration: Move static var in ram_block_from_stream() into global
+  migration: Add pss.postcopy_requested status
+  migration: Move migrate_allow_multifd and helpers into migration.c
+
+Patch 10-15: Some newly added patches when working on postcopy recovery
+support.  After these patches migrate-recover command will allow re-entrance,
+which is a very nice side effect.
+
+  migration: Enlarge postcopy recovery to capture !-EIO too
+  migration: postcopy_pause_fault_thread() never fails
+  migration: Export ram_load_postcopy()
+  migration: Move channel setup out of postcopy_try_recover()
+  migration: Add migration_incoming_transport_cleanup()
+  migration: Allow migrate-recover to run multiple times
+
+Patch 16-19: The major work of postcopy preemption implementation is split into
+four patches as suggested by Dave.
+
+  migration: Add postcopy-preempt capability
+  migration: Postcopy preemption preparation on channel creation
+  migration: Postcopy preemption enablement
+  migration: Postcopy recover with preempt enabled
+
+Patch 20: the test case.
+
+  tests: Add postcopy preempt test
+
+For more information, feel free to refer to the RFC series cover letter:
+
+  https://lore.kernel.org/qemu-devel/20220119080929.39485-1-peterx@redhat.com/
+
+Please review, thanks.
+
+Peter Xu (20):
+  migration: Dump sub-cmd name in loadvm_process_command tp
+  migration: Finer grained tracepoints for POSTCOPY_LISTEN
+  migration: Tracepoint change in postcopy-run bottom half
+  migration: Introduce postcopy channels on dest node
+  migration: Dump ramblock and offset too when non-same-page detected
+  migration: Add postcopy_thread_create()
+  migration: Move static var in ram_block_from_stream() into global
+  migration: Add pss.postcopy_requested status
+  migration: Move migrate_allow_multifd and helpers into migration.c
+  migration: Enlarge postcopy recovery to capture !-EIO too
+  migration: postcopy_pause_fault_thread() never fails
+  migration: Export ram_load_postcopy()
+  migration: Move channel setup out of postcopy_try_recover()
+  migration: Add migration_incoming_transport_cleanup()
+  migration: Allow migrate-recover to run multiple times
+  migration: Add postcopy-preempt capability
+  migration: Postcopy preemption preparation on channel creation
+  migration: Postcopy preemption enablement
+  migration: Postcopy recover with preempt enabled
+  tests: Add postcopy preempt test
+
+ migration/migration.c        | 184 +++++++++++++++-----
+ migration/migration.h        |  64 ++++++-
+ migration/multifd.c          |  19 +--
+ migration/multifd.h          |   2 -
+ migration/postcopy-ram.c     | 208 ++++++++++++++++++-----
+ migration/postcopy-ram.h     |  14 ++
+ migration/ram.c              | 320 +++++++++++++++++++++++++++++++----
+ migration/ram.h              |   3 +
+ migration/savevm.c           |  66 ++++++--
+ migration/socket.c           |  22 ++-
+ migration/socket.h           |   1 +
+ migration/trace-events       |  19 ++-
+ qapi/migration.json          |   8 +-
+ tests/qtest/migration-test.c |  39 ++++-
+ 14 files changed, 803 insertions(+), 166 deletions(-)
+
+-- 
+2.32.0
 
 
