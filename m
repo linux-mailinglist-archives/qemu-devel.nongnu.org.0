@@ -2,44 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8158E4B95C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 02:56:02 +0100 (CET)
-Received: from localhost ([::1]:58398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D484B95A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 02:49:37 +0100 (CET)
+Received: from localhost ([::1]:56004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKW1Z-0003o4-Dy
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 20:56:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42034)
+	id 1nKVvL-0001qt-3l
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 20:49:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKVeB-0002cQ-CM; Wed, 16 Feb 2022 20:31:52 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:56469)
+ id 1nKVeB-0002cE-9l; Wed, 16 Feb 2022 20:31:52 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:41203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKVe6-0002QJ-3C; Wed, 16 Feb 2022 20:31:50 -0500
+ id 1nKVe6-0002QK-38; Wed, 16 Feb 2022 20:31:49 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jzck42GgQz4xsg; Thu, 17 Feb 2022 12:31:40 +1100 (AEDT)
+ id 4Jzck42PLJz4xsk; Thu, 17 Feb 2022 12:31:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1645061500;
- bh=zgp0c6UZFPt/q0YiwTSr6I0elEOep5HGpHEkrqwYA3k=;
+ bh=zPAahDLPEKVgz0PwoIrKIKBEfCBvef5Fpd5ldDpuJP4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=I0VdBeD7LEsLEJpBFeVXiECtr0gSnmFpO9RMhEDoUwBT0OoppO4TsPMj8FxZuR5do
- fS2/o4O0bj3dl6tlEkcbHzq7vNcpBgyPLQ5IMQLzmtVkfFx8+zLTPpCLOk/l9zKsWJ
- lTLonihvKkCg8oXOJDJd04otsu4dK2tENeTZw3XQ=
-Date: Thu, 17 Feb 2022 10:32:00 +1100
+ b=bMcGNkjsI2jcx51BdS5bkIyYNpAa0gH5BkKm4IFn2bS8iNZPNM0TKgHIsGHIzZ+H9
+ rq86xFXtGA+nG9C1hxIcbVPe3rD3LeeaLGrkLjYEWKfLwWbc1FPgUSQe5nQCzc0hRP
+ JeecG3ezghH0UkejBvPBbbs7k6PAo2RkkE772lr0=
+Date: Thu, 17 Feb 2022 10:34:23 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 26/27] target/ppc: cpu_init: Move check_pow and QOM
- macros to a header
-Message-ID: <Yg2JcI+inDKWGb8P@yekko>
-References: <20220215214148.1848266-1-farosas@linux.ibm.com>
- <20220215214148.1848266-27-farosas@linux.ibm.com>
- <YgxpuvVtY3Roy9Pr@yekko> <87czjnx8od.fsf@linux.ibm.com>
+Subject: Re: [PATCH v2 23/27] target/ppc: Rename spr_tcg.h to spr_common.h
+Message-ID: <Yg2J/2fhqOq/aL0Z@yekko>
+References: <20220216162426.1885923-1-farosas@linux.ibm.com>
+ <20220216162426.1885923-24-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hS8cpMerK1O2zhbO"
+ protocol="application/pgp-signature"; boundary="Sp0/oT3wr4gflqZv"
 Content-Disposition: inline
-In-Reply-To: <87czjnx8od.fsf@linux.ibm.com>
+In-Reply-To: <20220216162426.1885923-24-farosas@linux.ibm.com>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -67,62 +65,78 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---hS8cpMerK1O2zhbO
+--Sp0/oT3wr4gflqZv
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 16, 2022 at 10:06:26AM -0300, Fabiano Rosas wrote:
-> David Gibson <david@gibson.dropbear.id.au> writes:
+On Wed, Feb 16, 2022 at 01:24:22PM -0300, Fabiano Rosas wrote:
+> Initial intent for the spr_tcg header was to expose the spr_read|write
+> callbacks that are only used by TCG code. However, although these
+> routines are TCG-specific, the KVM code needs access to env->sprs
+> which creation is currently coupled to the callback registration.
 >=20
-> > On Tue, Feb 15, 2022 at 06:41:47PM -0300, Fabiano Rosas wrote:
-> >> These will need to be accessed from other files once we move the CPUs
-> >> code to separate files.
-> >>=20
-> >> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> >> ---
-> >>  target/ppc/cpu.h      | 57 +++++++++++++++++++++++++++++++++++++++++++
-> >>  target/ppc/cpu_init.c | 55 -----------------------------------------
-> >>  2 files changed, 57 insertions(+), 55 deletions(-)
-> >>=20
-> >> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> >> index 6a06a7f533..ba0739c43b 100644
-> >> --- a/target/ppc/cpu.h
-> >> +++ b/target/ppc/cpu.h
-> >> @@ -2733,4 +2733,61 @@ void dump_mmu(CPUPPCState *env);
-> >>  void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int=
- len);
-> >>  void ppc_store_vscr(CPUPPCState *env, uint32_t vscr);
-> >>  uint32_t ppc_get_vscr(CPUPPCState *env);
-> >> +
-> >> +/********************************************************************=
-*********/
-> >> +/* Power management enable checks                                    =
-        */
-> >> +static inline int check_pow_none(CPUPPCState *env)
-> >> +{
-> >> +    return 0;
-> >> +}
-> >> +
-> >> +static inline int check_pow_nocheck(CPUPPCState *env)
-> >> +{
-> >> +    return 1;
-> >> +}
-> >> +
-> >> +static inline int check_pow_hid0(CPUPPCState *env)
-> >
-> > I'm a little nervous about moving this to a more exposed location.  By
-> > definition the HID register is implementation dependent, and we can
-> > see immediately below that not all things use the same interpretation
-> > of it in practice.  So at the very least it seems like it has a bad
-> > name to be exposed more widely.  It also seems like it might better
-> > belong next to the code for the cpus that actually use this version.
+> We are probably not going to decouple SPR creation and TCG callback
+> registration any time soon, so let's rename the header to spr_common
+> to accomodate the register_*_sprs functions that will be moved out of
+> cpu_init.c in the following patches.
 >=20
-> Good point. Since these are quite simple it might be best to duplicate
-> them when doing the split between the families. I'm doing the same for
-> vscr_init.
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-Right, that sounds like a good idea to me.
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  target/ppc/cpu_init.c                  | 2 +-
+>  target/ppc/{spr_tcg.h =3D> spr_common.h} | 4 ++--
+>  target/ppc/translate.c                 | 2 +-
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+>  rename target/ppc/{spr_tcg.h =3D> spr_common.h} (99%)
+>=20
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index adb23019ef..17f12aceb6 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -44,7 +44,7 @@
+> =20
+>  #include "helper_regs.h"
+>  #include "internal.h"
+> -#include "spr_tcg.h"
+> +#include "spr_common.h"
+>  #include "power8-pmu.h"
+> =20
+>  /* #define PPC_DEBUG_SPR */
+> diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_common.h
+> similarity index 99%
+> rename from target/ppc/spr_tcg.h
+> rename to target/ppc/spr_common.h
+> index df2abacc64..5aec76ade4 100644
+> --- a/target/ppc/spr_tcg.h
+> +++ b/target/ppc/spr_common.h
+> @@ -16,8 +16,8 @@
+>   * You should have received a copy of the GNU Lesser General Public
+>   * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+>   */
+> -#ifndef SPR_TCG_H
+> -#define SPR_TCG_H
+> +#ifndef SPR_COMMON_H
+> +#define SPR_COMMON_H
+> =20
+>  #define SPR_NOACCESS (&spr_noaccess)
+> =20
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 2eaffd432a..ecc5a104e0 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -35,7 +35,7 @@
+>  #include "exec/translator.h"
+>  #include "exec/log.h"
+>  #include "qemu/atomic128.h"
+> -#include "spr_tcg.h"
+> +#include "spr_common.h"
+> =20
+>  #include "qemu/qemu-print.h"
+>  #include "qapi/error.h"
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -130,25 +144,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---hS8cpMerK1O2zhbO
+--Sp0/oT3wr4gflqZv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmINiWgACgkQgypY4gEw
-YSIt6hAAsqZdc5WqTZfCVW5z2ajPq6qgD370TGRmktmR0r9eL/RclLUG6wTtf3qQ
-8N5Kyuy+SV/z2E7Rp4dT6iPLYXqX3AlB51DYRFuoIDO7lGVjweUCUOJL6gaelHAi
-bIasHyClm5dJAen++32KotqHfbtWW9RkJSBfsfxcFYL7Q3g006RptfUhsxP9IVmv
-xdJ+H3zxNdt/jSnFES6l9n63Ozcs9G5yitZrZn5pUyN6DeYcvzmkAWcyF58oqix7
-ZCml5bNB3QoyKFcNcltKKpWBKBwoAAfAxHtNqZX/umvnFmv+zBgtsqA3LYZBbosO
-oCOFBVnXXVhsApSgroZ0Ot/ShLbs7Q0JZMUh+8E6D7SE92mDz11pty5EV6XHKvcX
-z65yAJsPtl7ykfKAk0sPtpMWD8oXOyYPl8YLm84kNKrE3afPHjQwWlpsOVKW99mg
-LM9RST0DtVdtpP8bkkK0jqvOgF45sXbwFYXf376Z8hqzwYQWWNteMraQNcOkBhNm
-833f0y5VqL1qnxFSDa/g2abkEnfHIVILp1yypwL5o+IcSUUiBu8tfY3Z85vmWRib
-fFzPL+1antWQUxQns4AcwTwhqAgxCmDpzCjAoE2hi7DnWlA0J67EGiyqRvJERgtC
-eRgRLSv7X+3wUkgwSUlILll8Xm/wRp2U0Jqadp6bbVpOmHe+FJk=
-=D/NZ
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmINifgACgkQgypY4gEw
+YSKXmRAAt5M0klskUmZpJISxCVLzoEJCBIRBpieRePunia+BQY4P+kHxOTkYEz9P
+Tc3aepDT+9yR/OyIIaR9famP2jwKCpUP5qNdMVHzyBcyjalc4zK4cKZxTaA3MCWd
+LAKDKdUFaR+slOafPMLfeUeGjqRTlqDaIqREPs0Ix8QYzOvoOHdEDIi2WeRPS9FV
+41In3CEz1bIuoQBC+27203hlW2VtjdRRVUpRJDcW6SX3VqXZVj6zpbQsVC2dHTrv
+ZixueN88PrNYLBrD3ZM3F77ssruDrD7o1LFZl7zNyQ9Y3jDZoIz7NzXMSFcfvAyK
+nSn/cPMnOtupcM90lqxa/8WvAfkwgMPtx2baFbRrgdtQnCt3xGVXhd8D/BGTVGho
+eQ7lFNSJC0CfRNhC/EjwC9wnKDBdR47dcYACHhN1Fc1FqiIuVbko9uokDlbWnOlF
++S853asoWoRO6AokI7xbPHnNvPbTUYXBiQgToNYH+/ATJ/ySog6rPyKT06+vUDbq
+GuJtISrWCuWGyZBoK7rfERONYHga+cuqxy4Fop6c/+PKQNgeHmVV3Kly2xaeSK4i
+BxAutrjUqONn45/jW2zIUrCaIKIGlApB38mRPR11ZmftScOs10xaJv0cJ9pnsrSC
+47Gu1Gn90Pfx/IgyzMn8eIfrugm3rMXmZu9tm3dSaKzzcjGymGY=
+=94ha
 -----END PGP SIGNATURE-----
 
---hS8cpMerK1O2zhbO--
+--Sp0/oT3wr4gflqZv--
 
