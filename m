@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39ACB4B92A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:50:21 +0100 (CET)
-Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46174B9295
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:44:57 +0100 (CET)
+Received: from localhost ([::1]:48054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKRFk-0000BZ-Ax
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:50:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40836)
+	id 1nKRAW-0003gS-DQ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:44:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nKR7I-0000XG-4F; Wed, 16 Feb 2022 15:41:40 -0500
-Received: from [2607:f8b0:4864:20::52e] (port=33413
- helo=mail-pg1-x52e.google.com)
+ id 1nKR0R-00028N-Rz; Wed, 16 Feb 2022 15:34:32 -0500
+Received: from [2607:f8b0:4864:20::d29] (port=38647
+ helo=mail-io1-xd29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nKR6n-0006w6-Ne; Wed, 16 Feb 2022 15:41:09 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id v22so2459736pgb.0;
- Wed, 16 Feb 2022 12:40:43 -0800 (PST)
+ id 1nKR0O-0005iI-HF; Wed, 16 Feb 2022 15:34:31 -0500
+Received: by mail-io1-xd29.google.com with SMTP id w7so1195651ioj.5;
+ Wed, 16 Feb 2022 12:34:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oJCqRIkEsM1dSkylYRG8xS2rNewVHCYsSgGo0LbMZ4E=;
- b=KMkIdD7YP2c7U5uMDW8exJzn/u29sS2JviXnM1JdOODgg+1v4sJyL0qI0QvYm8PIjg
- 2o66eqA6zqogCU++ECEJrV1i6mbleDEgqXhSNOrcTSc+wHlIvF/JIkL0xdbzrZms90Wj
- h2olR74eM4fPlT/oRrAyrlKgmAd7sSbcqEwy+w3lcz295dWrlit4qRaeEbQ4djYzB4Ef
- 7WUzpz8qbo/iQymavt7kSFdP9R22UQM831O0HQ/7kNS7Gm9ghtB+eoM275dP9TrCYbFr
- XPyCRot3K7ZnARZHsQJWqgi2sXZdoZiJmusJHjANatXxHj6Os9DlTZr2GV5kKyGBSrRK
- gSzg==
+ bh=ws1Uq9o0dc3PMzm7vjp3Z/TRyPVzPcf1fGpu52pJhJc=;
+ b=KK5XXl3UrkZZCZleBE7SRmcmVCjLFHvCtRwMm+Lg/YEUgPWGQZ6M3rfDKCzsY8iqQ+
+ 3NcolAR3PEJTv93Y/7PFBrCIt5PW/WIryrX7RHTFMb9xg6QQdGml9mdIU2c+8BwMXmk/
+ BHZafqSlc8atrQ6CEgtC1WrvoMqmB0IqSl/gSJmIHtRODeiSMw51X7T8LDFFZLZPgot6
+ MAqX9zx0HO4/ta0nBoNKp+qvlgc3nDk3O8lj6Gjf903SnU/WJ9O+8UPUf53gGjNz4imq
+ Rk6I42hJne6TFjTrPb2uV2PwYvXNjyt68xqu2IWhyWxCtg7bSBQJDxUGIul8/SEfJ8qH
+ iM1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oJCqRIkEsM1dSkylYRG8xS2rNewVHCYsSgGo0LbMZ4E=;
- b=qOo2hsEWz7StWAasqK32+ARyVjGEi4DTNq1y6y3amBFZ40rQguDQIUqzW++6qWV75+
- H/rUbLe7fTgiigp6lCOeqtEAlCvLlXEOt3B20JWWtQqirQpfl77nnW71WcSUSYpckR4Z
- 4zIJO9hOC6rIx+RXKaMKF+AjyzNW9W5aRxBGuiBxGv5pqsqgz+3NSKOcnd34vU1TxpUU
- rizsOqhHbYKxTkS/EoTAka9KSGOHyLLaInYcwoxC7kDfpmWv+Emisy2ZXqC2NTTz3Cg2
- 9HUrefuoc8mBXcAJ5ynI34Bs5NvDwpgxCR8ugGKxz+w1u9v9nWFY+9jIKiLOzlv8jLP0
- 0lGA==
-X-Gm-Message-State: AOAM530UG0Rk8cKJ/7o+SqITvBilJYlsdPVQPgHk2Zry9KTBhgqPlwVl
- JIKa6fdAevlWlRa9AY82myK7Tnw8t3qmZsou3nk=
-X-Google-Smtp-Source: ABdhPJyj6R6uOQcJr2FE+H1HpJzMAaa1j7ZLac3RvgaAZegLUVf52nbEXK8h6IxL7/keHypprSZn4A==
-X-Received: by 2002:a5d:9da6:0:b0:63d:b471:ec55 with SMTP id
- ay38-20020a5d9da6000000b0063db471ec55mr2415918iob.97.1645043663400; 
- Wed, 16 Feb 2022 12:34:23 -0800 (PST)
+ bh=ws1Uq9o0dc3PMzm7vjp3Z/TRyPVzPcf1fGpu52pJhJc=;
+ b=0jby2tJ3YvBJ8IV6aEGYUgQaO8CMWv6ZLiTmrS6dmBWr3IFmMy3tMS7eHYqJgmLlWj
+ ndNvPvJpxBw2fjm2hDlOJUDob5Ol+EbA6FP3dMoROZVVwCKnlc/7OYWtt/9NoLfg4isu
+ 9+7/gT0BilGc0gvbRUvHADNB/G5Go+2MriwHCW3GCkkQJj0LFfbNOQJDAO976gVpRGA3
+ Aeyq1zMEuV0gJmdQOaTgZlZEsiB9n+gf+LmRFxttCi1qqTjLT1V60WoxiGD3i8+kDrjg
+ LBD9VkRUi5krdDMj9s2lbzs+JzjIFcAeaXdSudDWvVCNE+eRK2PRSYlIOw0aCMkv7B1l
+ RWCA==
+X-Gm-Message-State: AOAM530RBqPboBmySyOd1Pcb7g97IPhG0YIN7EKz66ZqwkolC7e2j05L
+ lMSZ39+Tuiw+4++3/Tag3sKcPiK3snc0BVfUz1A=
+X-Google-Smtp-Source: ABdhPJzbF5ZQ3ldmlsms9W/6JuA8CN6X/13erzRTpCwbwB4hCmN1C/i1AgDPJ+md95axudgu2ATp+Q==
+X-Received: by 2002:a6b:5b01:0:b0:5ed:17b0:5947 with SMTP id
+ v1-20020a6b5b01000000b005ed17b05947mr3016076ioh.74.1645043664250; 
+ Wed, 16 Feb 2022 12:34:24 -0800 (PST)
 Received: from rygar.pwrtc.com (mont-dyn-147-119.pwrtc.com. [205.174.147.119])
  by smtp.gmail.com with ESMTPSA id
- d12sm511990ilv.42.2022.02.16.12.34.22
+ d12sm511990ilv.42.2022.02.16.12.34.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 16 Feb 2022 12:34:23 -0800 (PST)
 From: David Miller <dmiller423@gmail.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v5 2/3] s390x/cpumodel: Bump up QEMU model to a stripped-down
- IBM z15 GA1
-Date: Wed, 16 Feb 2022 15:34:14 -0500
-Message-Id: <20220216203415.138819-3-dmiller423@gmail.com>
+Subject: [PATCH v5 3/3] tests/tcg/s390x: Tests for
+ Miscellaneous-Instruction-Extensions Facility 3
+Date: Wed, 16 Feb 2022 15:34:15 -0500
+Message-Id: <20220216203415.138819-4-dmiller423@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220216203415.138819-1-dmiller423@gmail.com>
 References: <20220216203415.138819-1-dmiller423@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=dmiller423@gmail.com; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=dmiller423@gmail.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -95,80 +95,188 @@ Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TCG implements everything we need to run basic z15 OS+software
+tests/tcg/s390x/mie3-compl.c: [N]*K instructions
+tests/tcg/s390x/mie3-mvcrl.c: MVCRL instruction
+tests/tcg/s390x/mie3-sel.c:  SELECT instruction
 
 Signed-off-by: David Miller <dmiller423@gmail.com>
 ---
- hw/s390x/s390-virtio-ccw.c  | 3 +++
- target/s390x/cpu_models.c   | 6 +++---
- target/s390x/gen-features.c | 7 +++++--
- 3 files changed, 11 insertions(+), 5 deletions(-)
+ tests/tcg/s390x/Makefile.target |  5 ++-
+ tests/tcg/s390x/mie3-compl.c    | 55 +++++++++++++++++++++++++++++++++
+ tests/tcg/s390x/mie3-mvcrl.c    | 31 +++++++++++++++++++
+ tests/tcg/s390x/mie3-sel.c      | 42 +++++++++++++++++++++++++
+ 4 files changed, 132 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/s390x/mie3-compl.c
+ create mode 100644 tests/tcg/s390x/mie3-mvcrl.c
+ create mode 100644 tests/tcg/s390x/mie3-sel.c
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 84e3e63c43..90480e7cf9 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -802,7 +802,10 @@ DEFINE_CCW_MACHINE(7_0, "7.0", true);
- 
- static void ccw_machine_6_2_instance_options(MachineState *machine)
- {
-+    static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V6_2 };
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 1a7238b4eb..54e67446aa 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -1,12 +1,15 @@
+ S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
+ VPATH+=$(S390X_SRC)
+-CFLAGS+=-march=zEC12 -m64
++CFLAGS+=-march=z15 -m64
+ TESTS+=hello-s390x
+ TESTS+=csst
+ TESTS+=ipm
+ TESTS+=exrl-trt
+ TESTS+=exrl-trtr
+ TESTS+=pack
++TESTS+=mie3-compl
++TESTS+=mie3-mvcrl
++TESTS+=mie3-sel
+ TESTS+=mvo
+ TESTS+=mvc
+ TESTS+=shift
+diff --git a/tests/tcg/s390x/mie3-compl.c b/tests/tcg/s390x/mie3-compl.c
+new file mode 100644
+index 0000000000..98281ee683
+--- /dev/null
++++ b/tests/tcg/s390x/mie3-compl.c
+@@ -0,0 +1,55 @@
++#include <stdint.h>
 +
-     ccw_machine_7_0_instance_options(machine);
-+    s390_set_qemu_cpu_model(0x3906, 14, 2, qemu_cpu_feat);
- }
- 
- static void ccw_machine_6_2_class_options(MachineClass *mc)
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 11e06cc51f..89f83e81d5 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -85,9 +85,9 @@ static S390CPUDef s390_cpu_defs[] = {
-     CPUDEF_INIT(0x3932, 16, 1, 47, 0x08000000U, "gen16b", "IBM 3932 GA1"),
- };
- 
--#define QEMU_MAX_CPU_TYPE 0x3906
--#define QEMU_MAX_CPU_GEN 14
--#define QEMU_MAX_CPU_EC_GA 2
-+#define QEMU_MAX_CPU_TYPE 0x8561
-+#define QEMU_MAX_CPU_GEN 15
-+#define QEMU_MAX_CPU_EC_GA 1
- static const S390FeatInit qemu_max_cpu_feat_init = { S390_FEAT_LIST_QEMU_MAX };
- static S390FeatBitmap qemu_max_cpu_feat;
- 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index a3f30f69d9..22846121c4 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -731,16 +731,18 @@ static uint16_t qemu_V6_0[] = {
-     S390_FEAT_ESOP,
- };
- 
--static uint16_t qemu_LATEST[] = {
-+static uint16_t qemu_V6_2[] = {
-     S390_FEAT_INSTRUCTION_EXEC_PROT,
-     S390_FEAT_MISC_INSTRUCTION_EXT2,
-     S390_FEAT_MSA_EXT_8,
-     S390_FEAT_VECTOR_ENH,
- };
- 
-+static uint16_t qemu_LATEST[] = {
-+    S390_FEAT_MISC_INSTRUCTION_EXT3,
-+};
- /* add all new definitions before this point */
- static uint16_t qemu_MAX[] = {
--    S390_FEAT_MISC_INSTRUCTION_EXT3,
-     /* generates a dependency warning, leave it out for now */
-     S390_FEAT_MSA_EXT_5,
- };
-@@ -863,6 +865,7 @@ static FeatGroupDefSpec QemuFeatDef[] = {
-     QEMU_FEAT_INITIALIZER(V4_0),
-     QEMU_FEAT_INITIALIZER(V4_1),
-     QEMU_FEAT_INITIALIZER(V6_0),
-+    QEMU_FEAT_INITIALIZER(V6_2),
-     QEMU_FEAT_INITIALIZER(LATEST),
-     QEMU_FEAT_INITIALIZER(MAX),
- };
++
++#define F_EPI "stg %%r0, %[res] " : [res] "+m" (res) : : "r0", "r2", "r3"
++
++#define F_PRO    asm ( \
++    "llihf %%r0,801\n" \
++    "lg %%r2, %[a]\n"  \
++    "lg %%r3, %[b] "   \
++    : : [a] "m" (a),   \
++        [b] "m" (b)    \
++    : "r2", "r3")
++
++#define FbinOp(S, ASM) uint64_t S(uint64_t a, uint64_t b) \
++{ uint64_t res = 0; F_PRO; ASM; return res; }
++
++/* AND WITH COMPLEMENT */
++FbinOp(_ncrk,  asm("ncrk  %%r0, %%r3, %%r2\n" F_EPI))
++FbinOp(_ncgrk, asm("ncgrk %%r0, %%r3, %%r2\n" F_EPI))
++
++/* NAND */
++FbinOp(_nnrk,  asm("nnrk  %%r0, %%r3, %%r2\n" F_EPI))
++FbinOp(_nngrk, asm("nngrk %%r0, %%r3, %%r2\n" F_EPI))
++
++/* NOT XOR */
++FbinOp(_nxrk,  asm("nxrk  %%r0, %%r3, %%r2\n" F_EPI))
++FbinOp(_nxgrk, asm("nxgrk %%r0, %%r3, %%r2\n" F_EPI))
++
++/* NOR */
++FbinOp(_nork,  asm("nork  %%r0, %%r3, %%r2\n" F_EPI))
++FbinOp(_nogrk, asm("nogrk %%r0, %%r3, %%r2\n" F_EPI))
++
++/* OR WITH COMPLEMENT */
++FbinOp(_ocrk,  asm("ocrk  %%r0, %%r3, %%r2\n" F_EPI))
++FbinOp(_ocgrk, asm("ocgrk %%r0, %%r3, %%r2\n" F_EPI))
++
++
++int main(int argc, char *argv[])
++{
++    if (_ncrk(0xFF88, 0xAA11)  != 0x0000032100000011ull ||
++        _nnrk(0xFF88, 0xAA11)  != 0x00000321FFFF55FFull ||
++        _nork(0xFF88, 0xAA11)  != 0x00000321FFFF0066ull ||
++        _nxrk(0xFF88, 0xAA11)  != 0x00000321FFFFAA66ull ||
++        _ocrk(0xFF88, 0xAA11)  != 0x00000321FFFFAA77ull ||
++        _ncgrk(0xFF88, 0xAA11) != 0x0000000000000011ull ||
++        _nngrk(0xFF88, 0xAA11) != 0xFFFFFFFFFFFF55FFull ||
++        _nogrk(0xFF88, 0xAA11) != 0xFFFFFFFFFFFF0066ull ||
++        _nxgrk(0xFF88, 0xAA11) != 0xFFFFFFFFFFFFAA66ull ||
++        _ocgrk(0xFF88, 0xAA11) != 0xFFFFFFFFFFFFAA77ull)
++    {
++        return 1;
++    }
++
++    return 0;
++}
+diff --git a/tests/tcg/s390x/mie3-mvcrl.c b/tests/tcg/s390x/mie3-mvcrl.c
+new file mode 100644
+index 0000000000..81cf3ad702
+--- /dev/null
++++ b/tests/tcg/s390x/mie3-mvcrl.c
+@@ -0,0 +1,31 @@
++#include <stdint.h>
++#include <string.h>
++
++
++static inline void mvcrl_8(const char *dst, const char *src)
++{
++    asm volatile (
++    "llill %%r0, 8\n"
++    "mvcrl 0(%[dst]), 0(%[src])\n"
++    : : [dst] "d" (dst), [src] "d" (src)
++    : "memory");
++}
++
++
++int main(int argc, char *argv[])
++{
++    const char *alpha = "abcdefghijklmnop";
++
++    /* array missing 'i' */
++    char tstr[17] = "abcdefghjklmnop\0" ;
++
++    /* mvcrl reference use: 'open a hole in an array' */
++    mvcrl_8(tstr + 9, tstr + 8);
++
++    /* place missing 'i' */
++    tstr[8] = 'i';
++
++    return strncmp(alpha, tstr, 16ul);
++}
++
++
+diff --git a/tests/tcg/s390x/mie3-sel.c b/tests/tcg/s390x/mie3-sel.c
+new file mode 100644
+index 0000000000..d6b7b0933b
+--- /dev/null
++++ b/tests/tcg/s390x/mie3-sel.c
+@@ -0,0 +1,42 @@
++#include <stdint.h>
++
++
++#define F_EPI "stg %%r0, %[res] " : [res] "+m" (res) : : "r0", "r2", "r3"
++
++#define F_PRO    asm ( \
++    "lg %%r2, %[a]\n"  \
++    "lg %%r3, %[b]\n"  \
++    "lg %%r0, %[c]\n"  \
++    "ltgr %%r0, %%r0"  \
++    : : [a] "m" (a),   \
++        [b] "m" (b),   \
++        [c] "m" (c)    \
++    : "r0", "r2", "r3", "r4")
++
++
++
++#define Fi3(S, ASM) uint64_t S(uint64_t a, uint64_t b, uint64_t c) \
++{ uint64_t res = 0; F_PRO ; ASM ; return res; }
++
++
++Fi3 (_selre,     asm("selre    %%r0, %%r3, %%r2\n" F_EPI))
++Fi3 (_selgrz,    asm("selgrz   %%r0, %%r3, %%r2\n" F_EPI))
++Fi3 (_selfhrnz,  asm("selfhrnz %%r0, %%r3, %%r2\n" F_EPI))
++
++
++int main(int argc, char *argv[])
++{
++    uint64_t a = ~0, b = ~0, c = ~0;
++    a =    _selre(0x066600000066ull, 0x066600000006ull, a);
++    b =   _selgrz(0xF00D00000005ull, 0xF00D00000055ull, b);
++    c = _selfhrnz(0x004400000044ull, 0x000400000004ull, c);
++
++    if ((0xFFFFFFFF00000066ull != a) ||
++        (0x0000F00D00000005ull != b) ||
++        (0x00000004FFFFFFFFull != c))
++    {
++        return 1;
++    }
++    return 0;
++}
++
 -- 
 2.32.0
 
