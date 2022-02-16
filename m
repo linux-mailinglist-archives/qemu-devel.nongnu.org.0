@@ -2,98 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7182F4B9284
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:38:14 +0100 (CET)
-Received: from localhost ([::1]:39498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E1A4B9248
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:31:05 +0100 (CET)
+Received: from localhost ([::1]:59108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKR41-0005nZ-9B
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:38:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36416)
+	id 1nKQx5-0007td-82
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:31:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nKQmr-0007bG-8u
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 15:20:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nKQmo-0003cv-4c
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 15:20:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645042821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nk8mono7lIda3fwrI4BCghpAaXomfc91+Xn5MWXJxBM=;
- b=OIzMDDBygyrHODsdt2C1Y7EnvXSYaaxmPtu0Pdfk1ROXEetDMJzeruEOFKc0Ji889u9nbC
- d+yv4MKXgXP6SQ5jP4x/sEeYByGibcWgQgb5pO+y4Xb4jy9NyftFaFN/51DmYvlG+G5v2F
- uwhV3MhLnAYyCEWPjq4dbkjCS6g0lbg=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-U-ywEqXZMuqy_GuJpjpNFw-1; Wed, 16 Feb 2022 15:20:20 -0500
-X-MC-Unique: U-ywEqXZMuqy_GuJpjpNFw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- u17-20020a05620a431100b004765c0dc33cso2188916qko.14
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 12:20:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nKQvE-0006pD-Dl
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 15:29:08 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=53882
+ helo=mail-pj1-x102d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nKQvC-0004zf-9v
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 15:29:08 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id qe15so3528721pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 12:28:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dguwGe1Kncim4kPjBAcoO7mVk/iTb1YdxWmSRpZq2zQ=;
+ b=MzahiiT2Rf4BTNA1p8sGuRZluJI8iyyK9ol7DjxWZFZGfawBM3H6FnVfnCH8rrpkG+
+ +R9YYHUJ+EqPPkcUDq+CH56pX5D4G7M7yto9Y14F1jJ+G9hoaPsvU+iTgxMEDnGELApD
+ kCbuNvyOol/4hz6b89O4QIGXprWZLsElWDHquPZ7RqV8zlTzBpkEHXMT3dXbLHtfK90J
+ nrpMEfVP8enI50uR7/HO75pfmgmB3jN9r+qbzYbTEnfxMDbet742kh09/5NFG7TQgsIm
+ CjeYhC/cNiSldRdqche5jg4nKVo1aT4Psp9lqgCooocZvH3SMimIQxgFE+pWwhLzt6yd
+ ix2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=nk8mono7lIda3fwrI4BCghpAaXomfc91+Xn5MWXJxBM=;
- b=5jaHiNp1SFnYljMrLT9or262Esz70aNb1GffKfpRrTp2HrZ0tQhZFBMogGya/Nq7pX
- KFDKGGYB69aIxfDCEtFfgIewVsWIjmPBCPUBnwaY8IrpB/YMjuddANJrjeJAlNYiIFwT
- rjSK1xFrJvB7ruI2OH+dEP5drPWoHaAHzkEcdpA7OiWiEnbGLt3qEHXhkCQzzPDlwNCJ
- 2nb7CzA9dyQ98xwsnBAS8AOiwHoEmn5D9/l1SsgsC62pa6at2HLwx1c/IXgCMNDtPM0X
- VZ2UIzsaLYoQ96qTOvAfhVV5sT7yi6wLeD7NZHXShhNViZq5uFLVNqxvsdhPp1wXuIuJ
- 3vpw==
-X-Gm-Message-State: AOAM530c4NGD9rycWtJo+mgq4HTqHaWt0b1MAKI8ImSgAYXmYY47yfe4
- 0N1aRVkf20w+VI8tGii3/sVd+WP47jwDUVuMhQdBePoavMPMFyEKaS951nLoavSbyNgeu9RrEA6
- DJ+0AmNYLA60g6dw=
-X-Received: by 2002:a05:622a:1820:b0:2dc:93dd:19f8 with SMTP id
- t32-20020a05622a182000b002dc93dd19f8mr3365082qtc.301.1645042819970; 
- Wed, 16 Feb 2022 12:20:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz9h43ODOpFFXmROHf0SRjbT0Am80NSRxjk5XZpndAMzUSUHVUSaJsKXnkHMzrx2zf3cjKK1g==
-X-Received: by 2002:a05:622a:1820:b0:2dc:93dd:19f8 with SMTP id
- t32-20020a05622a182000b002dc93dd19f8mr3365059qtc.301.1645042819745; 
- Wed, 16 Feb 2022 12:20:19 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70b:600:4ff7:25c:5aad:2711?
- (p200300cbc70b06004ff7025c5aad2711.dip0.t-ipconnect.de.
- [2003:cb:c70b:600:4ff7:25c:5aad:2711])
- by smtp.gmail.com with ESMTPSA id i4sm20549814qkn.13.2022.02.16.12.20.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 12:20:18 -0800 (PST)
-Message-ID: <06935d17-7264-8adc-2629-0e76c72ac21b@redhat.com>
-Date: Wed, 16 Feb 2022 21:20:15 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dguwGe1Kncim4kPjBAcoO7mVk/iTb1YdxWmSRpZq2zQ=;
+ b=0XumpqIlPPYafQRS3OCg3flYsqh+albaJAkB3kfudz4cq+ncuQGBokzg/bIbMdEyp2
+ Zha0mg/pMsp/PX/D/UDDz0cQwbpJ3+UCnyAsnu2mSsfVn4n8tmuu4w97PG+zBhUP8ghF
+ G7bAGNsKeR2Aii6Uk2vpZKB/+UZEjCHb8tVOaVzMNElzfEb1wuSrZBHybnfgVH84CVMH
+ jGKGOHJRrvmrP0SQerYHoZJEZ/hN5N1m0R9j1XvnS6Yv/IMhdAu6RRdJWukeq9PdGzuH
+ WTrn0JPJZE0+hwtHbRtW3EgnKWHTFchG6+9zd7TLTNBmH+wcjLF8C5OcytbZbo0rwPZJ
+ TADw==
+X-Gm-Message-State: AOAM533PSNBuy7VxRu1IGJ+aqpFI7lPBg6NMjne2hPflJ1vVgteSsfHU
+ TECMpXq9ToxVXpDuUK3+HIp0BGOp7QpktzsmGCE=
+X-Google-Smtp-Source: ABdhPJwlU4nXS8PSag2zvEeLWHqPWtF6QQFmIEhIto7m9IzkBX5Xsv52ld7hw78Ks3ij1Qu9A3JslZZrffQdju8MGXI=
+X-Received: by 2002:a17:90b:4ad2:b0:1b8:e050:c7e3 with SMTP id
+ mh18-20020a17090b4ad200b001b8e050c7e3mr3747492pjb.83.1645043338167; Wed, 16
+ Feb 2022 12:28:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v4 3/3] tests/tcg/s390x: Tests for
- Miscellaneous-Instruction-Extensions Facility 3
-To: David Miller <dmiller423@gmail.com>
-References: <20220216200355.128731-1-dmiller423@gmail.com>
- <20220216200355.128731-4-dmiller423@gmail.com>
- <12b765a8-f443-19de-0ddb-95182debcf3c@redhat.com>
- <CAEgyohVsfrhDWeSbksn5UUObiP+fKjmWEdt-0xtmg7XzM19QTg@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CAEgyohVsfrhDWeSbksn5UUObiP+fKjmWEdt-0xtmg7XzM19QTg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain>
+ <87leyaznm6.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <87leyaznm6.fsf@oldenburg.str.redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 16 Feb 2022 20:28:47 +0000
+Message-ID: <CAJSP0QXmF=AKtaZO7GjxFtd7o5iQ9JC2xYGYDo-zC0Ea1POS5w@mail.gmail.com>
+Subject: Re: Portable inline asm to get address of TLS variable
+To: Florian Weimer <fweimer@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=stefanha@gmail.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.978, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,32 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, farman@linux.ibm.com, cohuck@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.02.22 21:18, David Miller wrote:
-> That is strange, if I unstage them show status they are set to be committed:
-> 
-> null@rygar:~/projects/qemu/build$ git reset --soft HEAD~1
-> null@rygar:~/projects/qemu/build$ git status
-> On branch t2
-> Changes to be committed:
->   (use "git restore --staged <file>..." to unstage)
->         modified:   ../tests/tcg/s390x/Makefile.target
->         new file:   ../tests/tcg/s390x/mie3-compl.c
->         new file:   ../tests/tcg/s390x/mie3-mvcrl.c
->         new file:   ../tests/tcg/s390x/mie3-sel.c
+On Wed, 16 Feb 2022 at 18:14, Florian Weimer <fweimer@redhat.com> wrote:
+>
+> * Stefan Hajnoczi:
+>
+> > I've been trying to make the inline asm that gets the address of a TLS
+> > variable for QEMU coroutines pass QEMU's GitLab CI.
+> > https://gitlab.com/stefanha/qemu/-/blob/coroutine-tls-fix/include/qemu/coroutine-tls.h#L89
+> >
+> > The code isn't -fPIC-friendly (R_X86_64_TPOFF32 relocations aren't
+> > allowed in -fPIC shared libraries) so builds fail with ./configure
+> > --enable-modules. While I was tackling this I stumbled on this:
+> >
+> >   void *dst_ptr;
+> >   asm volatile("" : "=r"(dst_ptr) : "0"(&tls_var))
+> >
+> > What's nice about it:
+> > - It's portable, there are no arch-specific assembly instructions.
+> > - It works for both -fPIC and non-PIC.
+> >
+> > However, I wonder if the compiler might reuse a register that already
+> > contains the address. Then we'd have the coroutine problem again when
+> > qemu_coroutine_yield() is called between the earlier address calculation
+> > and the asm volatile statement.
+> >
+> > Thoughts?
+>
+> Sorry, I don't see why this isn't equivalent to a plain &tls_var.
+> What exactly are you trying to achieve?
 
-Maybe you did a "git add" but not a "git commit --amend" to squash them
-into the previous commit?
+&tls_var, except forcing the compiler to calculate the address from scratch.
 
--- 
-Thanks,
+The goal is to avoid stale TLS variable addresses when a coroutine
+yields in one thread and is resumed in another thread.
 
-David / dhildenb
-
+Stefan
 
