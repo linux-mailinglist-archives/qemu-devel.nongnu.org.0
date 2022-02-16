@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B524B8CD3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 16:47:58 +0100 (CET)
-Received: from localhost ([::1]:41352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E784B8CE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 16:52:06 +0100 (CET)
+Received: from localhost ([::1]:44884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKMX7-0002kU-Bd
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 10:47:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48322)
+	id 1nKMb7-0005KZ-LR
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 10:52:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKMSn-00080Q-I8
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 10:43:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41419)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKMSk-0001GD-Mv
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 10:43:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645026204;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A2h83PET5lPperJXvOsXuzwmL1tne5oKkk/SOMqRrho=;
- b=XkT1aCVvdBRpZu3gCC4wFcNDT4gcEyBLTLbzp0KaiBdXEv1Pvfglud0yGj7nxa+FRhXuOw
- 2aWzBjjEmx/DijlqSdlt+uyzyNja1ohR+Z4wl8huL8Wz2Lj4qDc6z5r45z0Tf5s3Gmc7UJ
- Owy+lSV0bC3Y5+VjSsSjfgG549ffbQI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-oaeiErgsP4asBx6S_1pS6g-1; Wed, 16 Feb 2022 10:43:22 -0500
-X-MC-Unique: oaeiErgsP4asBx6S_1pS6g-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j8-20020adfc688000000b001e3322ced69so1222945wrg.13
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 07:43:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
+ id 1nKMXv-0003pc-I3; Wed, 16 Feb 2022 10:48:47 -0500
+Received: from mail-ed1-f45.google.com ([209.85.208.45]:41954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
+ id 1nKMXt-0002Cl-ER; Wed, 16 Feb 2022 10:48:47 -0500
+Received: by mail-ed1-f45.google.com with SMTP id w3so4619675edu.8;
+ Wed, 16 Feb 2022 07:48:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=A2h83PET5lPperJXvOsXuzwmL1tne5oKkk/SOMqRrho=;
- b=GVRYvns++vzYDekvCssLMhXqmawZNR4wXPpoD4SpvyEujM+HEI0aXc/yQqBjpW9O1D
- kfGVOZku69YnxnHL0APc1qXSfgG8Dj4pTB7lFwF9Cb99O74tnx76REsi2n/mwm4cmo0P
- VPtc/UakjFANs6Fn5JC3jKi5zywNh/ktJok74jKxccGrTj4gv06Wv6X+21zTEXa805LE
- w7/ojmqYiKLi9UaXFZl16Jg9r7Gh8bg54rmkMg7yRA3Mn/eNnSo8SS/PVDmNPk2LGQCv
- rhNq3HFIEhbBydXJqvc6Ud/bEpOIsn/dyUq93m5T1VnruzaV2Y6vvfRsWUMcUXKvnj//
- NeGA==
-X-Gm-Message-State: AOAM530EhrKQsVV9Hr2KfIccbsuxG0AVHfARNkeuCI1BAkZOp4eNoXWq
- 5NGRO4MhFOFM/REz8qJSjBKMvKnGlslUbm68slxH0Zy8db75inKRJDl71jmnAjpqokUKJUgtWbq
- fGgmbM1rzhE3ilQk=
-X-Received: by 2002:adf:e549:0:b0:1e3:42a:1cfd with SMTP id
- z9-20020adfe549000000b001e3042a1cfdmr2721868wrm.79.1645026201555; 
- Wed, 16 Feb 2022 07:43:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylYC5+huN5hlM7xOAGcBKziETaUUevLHUcba/VrJmlxiHUN7QtsUkD2R3Q3hjdYnkiFz/+Aw==
-X-Received: by 2002:adf:e549:0:b0:1e3:42a:1cfd with SMTP id
- z9-20020adfe549000000b001e3042a1cfdmr2721855wrm.79.1645026201359; 
- Wed, 16 Feb 2022 07:43:21 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id bg23sm24493098wmb.5.2022.02.16.07.43.20
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B2LvU4DARiT2QkDkCD5x8wYO9mjKLVGNZYSdk3BEnAc=;
+ b=2zHseHzcOGYyUKQhV+uyBMxIpHQP4oVZBeMuRH20cRKeIbdSgC0h58WabRSPAgWUJ2
+ toPhZgMeg2VIIBSkTy9n4kAZcosLWlw9Hb3mZ8/o095Y8tSUrrGDl+LHKFugQYWCdCqM
+ i0trfUTEmlO5b626qDwGajJHEz4gh8MJPeIZTD/gW+fdp9dbOR8UmMyvCKSW/rYDyihk
+ h1ri9PLneaBmK7hA0bdiIGoXrKotzK/9TtTTCaoS3Twi/TjA2nJTXc+i+8zzQad992s2
+ AP7Q/O3v9K/ghnYwO4aCCbeT48LSfm9Sv+jhHLZHsIBoJxzzA8nG40LqX6TlGX39mMoh
+ eH2w==
+X-Gm-Message-State: AOAM532ExueXczjfk7ww1xgNkcYYrSHrzN+ylv5Oz3ny6FKqPHolCADH
+ UzXz3RSAk1+4EuLIn3R5lUA=
+X-Google-Smtp-Source: ABdhPJxGMZNjpQwgRP5rtk50wxtkxZ9RRyCz5/ecqrPItIgCx23TzwWoYS+89YFWAQKQFMNUkg9Qvw==
+X-Received: by 2002:a50:d79d:0:b0:410:82a0:5d76 with SMTP id
+ w29-20020a50d79d000000b0041082a05d76mr3731301edi.130.1645026523607; 
+ Wed, 16 Feb 2022 07:48:43 -0800 (PST)
+Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
+ [62.178.148.172])
+ by smtp.gmail.com with ESMTPSA id b15sm1895570edd.60.2022.02.16.07.48.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 07:43:20 -0800 (PST)
-Date: Wed, 16 Feb 2022 15:43:19 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 02/20] migration: Finer grained tracepoints for
- POSTCOPY_LISTEN
-Message-ID: <Yg0bl/tXUrJZdxY1@work-vm>
-References: <20220216062809.57179-1-peterx@redhat.com>
- <20220216062809.57179-3-peterx@redhat.com>
+ Wed, 16 Feb 2022 07:48:43 -0800 (PST)
+From: Christoph Muellner <cmuellner@linux.com>
+To: Atish Patra <atishp@rivosinc.com>, Anup Patel <anup@brainfault.org>,
+ =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v4 0/2] riscv: Add support for Zicbo[m,z,p] instructions
+Date: Wed, 16 Feb 2022 16:48:37 +0100
+Message-Id: <20220216154839.1024927-1-cmuellner@linux.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <20220216062809.57179-3-peterx@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=209.85.208.45;
+ envelope-from=christophm30@gmail.com; helo=mail-ed1-f45.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,84 +79,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: Christoph Muellner <cmuellner@linux.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> The enablement of postcopy listening has a few steps, add a few tracepoints to
-> be there ready for some basic measurements for them.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+The RISC-V base cache management operation ISA extension has been
+ratified [1]. This patchset adds support for the defined instructions.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+As the exception behavior of these instructions depend on the PMP
+configuration, the first patch introduces a new API to probe the access
+of an address range with a specified size with optional nonfaulting
+behavior.
 
-> ---
->  migration/savevm.c     | 9 ++++++++-
->  migration/trace-events | 2 +-
->  2 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 7bb65e1d61..190cc5fc42 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1948,9 +1948,10 @@ static void *postcopy_ram_listen_thread(void *opaque)
->  static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
->  {
->      PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING);
-> -    trace_loadvm_postcopy_handle_listen();
->      Error *local_err = NULL;
->  
-> +    trace_loadvm_postcopy_handle_listen("enter");
-> +
->      if (ps != POSTCOPY_INCOMING_ADVISE && ps != POSTCOPY_INCOMING_DISCARD) {
->          error_report("CMD_POSTCOPY_LISTEN in wrong postcopy state (%d)", ps);
->          return -1;
-> @@ -1965,6 +1966,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
->          }
->      }
->  
-> +    trace_loadvm_postcopy_handle_listen("after discard");
-> +
->      /*
->       * Sensitise RAM - can now generate requests for blocks that don't exist
->       * However, at this point the CPU shouldn't be running, and the IO
-> @@ -1977,6 +1980,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
->          }
->      }
->  
-> +    trace_loadvm_postcopy_handle_listen("after uffd");
-> +
->      if (postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN, &local_err)) {
->          error_report_err(local_err);
->          return -1;
-> @@ -1991,6 +1996,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
->      qemu_sem_wait(&mis->listen_thread_sem);
->      qemu_sem_destroy(&mis->listen_thread_sem);
->  
-> +    trace_loadvm_postcopy_handle_listen("return");
-> +
->      return 0;
->  }
->  
-> diff --git a/migration/trace-events b/migration/trace-events
-> index 123cfe79d7..92596c00d8 100644
-> --- a/migration/trace-events
-> +++ b/migration/trace-events
-> @@ -14,7 +14,7 @@ loadvm_handle_cmd_packaged_main(int ret) "%d"
->  loadvm_handle_cmd_packaged_received(int ret) "%d"
->  loadvm_handle_recv_bitmap(char *s) "%s"
->  loadvm_postcopy_handle_advise(void) ""
-> -loadvm_postcopy_handle_listen(void) ""
-> +loadvm_postcopy_handle_listen(const char *str) "%s"
->  loadvm_postcopy_handle_run(void) ""
->  loadvm_postcopy_handle_run_cpu_sync(void) ""
->  loadvm_postcopy_handle_run_vmstart(void) ""
-> -- 
-> 2.32.0
-> 
+The Zicbo[m,z,p] patch should be straight-forward and has been reviewed
+in previous versions of this patchset.
+
+The series is rebsed on top of github-alistair23/riscv-to-apply.next plus
+the Priv v1.12 series from github-atishp04/priv_1_12_support_v3.
+
+[1] https://wiki.riscv.org/display/TECH/Recently+Ratified+Extensions
+
+v4:
+- Add patch to add probe_access_range_flags() interface
+- Rename cbozelen -> cboz_blocksize
+- Introduce cbom_blocksize
+- Remove RISCV_CPU() calls from trans_*()
+- Use probe_access_range_flags() to improve exception behavior
+
+v3:
+- Enable by default (like zb*)
+- Rename flags Zicbo* -> zicbo* (like zb*)
+- Rename ext_zicbo* -> ext_icbo* (like ext_icsr)
+- Rename trans_zicbo.c.inc -> trans_rvzicbo.c.inc (like all others)
+- Simplify prefetch instruction support to a single comment
+- Rebase on top of github-alistair23/riscv-to-apply.next plus the
+  Priv v1.12 series from github-atishp04/priv_1_12_support_v3
+
+v2:
+- Fix overlapping instruction encoding with LQ instructions
+- Drop CSR related changes and rebase on Priv 1.12 patchset
+
+Christoph Muellner (2):
+  accel/tcg: Add probe_access_range_flags interface
+  target/riscv: Enable Zicbo[m,z,p] instructions
+
+ accel/tcg/cputlb.c                          | 17 +++-
+ accel/tcg/user-exec.c                       | 15 +++-
+ include/exec/exec-all.h                     | 24 +++++
+ target/riscv/cpu.c                          |  4 +
+ target/riscv/cpu.h                          |  4 +
+ target/riscv/helper.h                       |  5 ++
+ target/riscv/insn32.decode                  | 16 +++-
+ target/riscv/insn_trans/trans_rvzicbo.c.inc | 57 ++++++++++++
+ target/riscv/op_helper.c                    | 97 +++++++++++++++++++++
+ target/riscv/translate.c                    |  1 +
+ 10 files changed, 232 insertions(+), 8 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzicbo.c.inc
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.35.1
 
 
