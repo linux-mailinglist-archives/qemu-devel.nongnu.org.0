@@ -2,57 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948C14B8045
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 06:40:41 +0100 (CET)
-Received: from localhost ([::1]:38320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FDD4B8030
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 06:28:21 +0100 (CET)
+Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKD3Q-0005Ub-En
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 00:40:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33224)
+	id 1nKCrU-0005G4-NS
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 00:28:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKCQi-0003wX-06; Wed, 16 Feb 2022 00:00:40 -0500
-Received: from [2404:9400:2221:ea00::3] (port=50299 helo=gandalf.ozlabs.org)
+ id 1nKCQi-0003xT-UE; Wed, 16 Feb 2022 00:00:41 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:43263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKCQf-0004Zl-Nr; Wed, 16 Feb 2022 00:00:39 -0500
+ id 1nKCQf-0004Zm-On; Wed, 16 Feb 2022 00:00:40 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jz5PW1sJ7z4xmx; Wed, 16 Feb 2022 16:00:31 +1100 (AEDT)
+ id 4Jz5PW1z76z4xsm; Wed, 16 Feb 2022 16:00:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1644987631;
- bh=UzGGp+C2ieyJYHwEExDKvDa4IZNtHEfWRlR8ZVp+Sms=;
+ bh=EuFDs6t06wJPL7QHVrz/xkyfyoco99C3cCVRayR1K18=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ta4kwsPfNnothF3pBAc6E+ZO1uz/d/k8pVxUoRbScInMz8m73Thun1XAEud9IY0nD
- zSBGZuSsPeKU679Gt89PupUSm4FKtzfkue1Htj58xJgg1mGIxr7lQr/mOfXwrlya71
- 47oBf6oIx+gcRODtHgq+z2OPzO2TNOr7ZpJ2Yc38=
-Date: Wed, 16 Feb 2022 15:58:34 +1100
+ b=Eiu39IbgeEy5S6byXEkcBXfbmNvw6qoHQn0vlrTXFQTcJ5B+3f6TVQ2h7Mqxuq3Fc
+ 8kpsc3a7GVKamzNafUSmJCvmzrGtEIeeLQ53xhjdLKZaBxzASilT68gLK4EUps4S6W
+ /fyQxuEn6jJIlrZ/9p/q8kfXM4ASvhs5o3L/4wRw=
+Date: Wed, 16 Feb 2022 16:00:03 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH 2/2] target/ppc/kvm: Use KVM_CAP_PPC_AIL_MODE_3 to
- determine cap-ail-mode-3 support
-Message-ID: <YgyEehoxHyNQyfJc@yekko>
+Subject: Re: [PATCH 1/2] spapr: Add SPAPR_CAP_AIL_MODE_3 for AIL mode 3
+ support for H_SET_MODE hcall
+Message-ID: <YgyE00PnEomXD+DQ@yekko>
 References: <20220214111749.1542196-1-npiggin@gmail.com>
- <20220214111749.1542196-2-npiggin@gmail.com>
- <87sfsllhez.fsf@linux.ibm.com>
- <1644878889.dc8nyl60bz.astroid@bobo.none>
- <87tud0xqvb.fsf@linux.ibm.com>
- <1644975678.e05ill5mjj.astroid@bobo.none>
+ <Ygr9eYymaFJb0nEI@yekko> <1644976024.xj3xgh76qi.astroid@bobo.none>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cQRKO6j9ux8JwjfT"
+ protocol="application/pgp-signature"; boundary="6gS/m+4rYhnaBkeo"
 Content-Disposition: inline
-In-Reply-To: <1644975678.e05ill5mjj.astroid@bobo.none>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2404:9400:2221:ea00::3
- (failed)
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+In-Reply-To: <1644976024.xj3xgh76qi.astroid@bobo.none>
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,138 +60,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Fabiano Rosas <farosas@linux.ibm.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---cQRKO6j9ux8JwjfT
+--6gS/m+4rYhnaBkeo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
->On Wed, Feb 16, 2022 at 11:46:58AM +1000, Nicholas Piggin wrote:
-> Excerpts from Fabiano Rosas's message of February 15, 2022 10:21 pm:
-> > Nicholas Piggin <npiggin@gmail.com> writes:
+On Wed, Feb 16, 2022 at 11:50:34AM +1000, Nicholas Piggin wrote:
+> Excerpts from David Gibson's message of February 15, 2022 11:10 am:
+> > On Mon, Feb 14, 2022 at 09:17:48PM +1000, Nicholas Piggin wrote:
+> >> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> >> index 222c1b6bbd..5dec056796 100644
+> >> --- a/hw/ppc/spapr_hcall.c
+> >> +++ b/hw/ppc/spapr_hcall.c
+> >> @@ -811,32 +811,35 @@ static target_ulong h_set_mode_resource_le(Power=
+PCCPU *cpu,
+> >>  }
+> >> =20
+> >>  static target_ulong h_set_mode_resource_addr_trans_mode(PowerPCCPU *c=
+pu,
+> >> +                                                        SpaprMachineS=
+tate *spapr,
+> >>                                                          target_ulong =
+mflags,
+> >>                                                          target_ulong =
+value1,
+> >>                                                          target_ulong =
+value2)
+> >>  {
+> >> -    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+> >> -
+> >> -    if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
+> >> -        return H_P2;
+> >> -    }
+> >>      if (value1) {
+> >>          return H_P3;
+> >>      }
+> >> +
+> >>      if (value2) {
+> >>          return H_P4;
+> >>      }
+> >> =20
+> >> -    if (mflags =3D=3D 1) {
+> >> -        /* AIL=3D1 is reserved in POWER8/POWER9/POWER10 */
+> >> +    /* AIL-1 is not architected, and AIL-2 is not supported by QEMU. =
+*/
+> >> +    if (mflags =3D=3D 1 || mflags =3D=3D 2) {
 > >=20
-> >> Excerpts from Fabiano Rosas's message of February 14, 2022 11:13 pm:
-> >>> Nicholas Piggin <npiggin@gmail.com> writes:
-> >>>=20
-> >>>> Use KVM_CAP_PPC_AIL_MODE_3 to determine cap-ail-mode-3 support for K=
-VM
-> >>>> guests. Keep the fallback heuristic for KVM hosts that pre-date this
-> >>>> CAP.
-> >>>>
-> >>>> This is only proposed the KVM CAP has not yet been allocated. I will
-> >>>> ask to merge the new KVM cap when there are no objections on the QEMU
-> >>>> side.
-> >>>>
-> >>>> not-yet-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> >>>> ---
-> >>>>  hw/ppc/spapr_caps.c       |  2 +-
-> >>>>  linux-headers/linux/kvm.h |  1 +
-> >>>>  target/ppc/kvm.c          | 18 +++++++++++++++++-
-> >>>>  target/ppc/kvm_ppc.h      |  4 ++--
-> >>>>  4 files changed, 21 insertions(+), 4 deletions(-)
-> >>>>
-> >>>> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> >>>> index 5fd4a53c33..5cc80776d0 100644
-> >>>> --- a/hw/ppc/spapr_caps.c
-> >>>> +++ b/hw/ppc/spapr_caps.c
-> >>>> @@ -619,7 +619,7 @@ static void cap_ail_mode_3_apply(SpaprMachineSta=
-te *spapr,
-> >>>>      ERRP_GUARD();
-> >>>> =20
-> >>>>      if (kvm_enabled()) {
-> >>>> -        if (!kvmppc_supports_ail_3()) {
-> >>>> +        if (!kvmppc_has_cap_ail_3()) {
-> >>>>              error_setg(errp, "KVM implementation does not support c=
-ap-ail-mode-3");
-> >>>>              error_append_hint(errp, "Try appending -machine cap-ail=
--mode-3=3Doff\n");
-> >>>>              return;
-> >>>> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-> >>>> index 02c5e7b7bb..d91f578200 100644
-> >>>> --- a/linux-headers/linux/kvm.h
-> >>>> +++ b/linux-headers/linux/kvm.h
-> >>>> @@ -1130,6 +1130,7 @@ struct kvm_ppc_resize_hpt {
-> >>>>  #define KVM_CAP_BINARY_STATS_FD 203
-> >>>>  #define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
-> >>>>  #define KVM_CAP_ARM_MTE 205
-> >>>> +#define KVM_CAP_PPC_AIL_MODE_3 210
-> >>>> =20
-> >>>>  #ifdef KVM_CAP_IRQ_ROUTING
-> >>>> =20
-> >>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> >>>> index 128bc530d4..d0d0bdaac4 100644
-> >>>> --- a/target/ppc/kvm.c
-> >>>> +++ b/target/ppc/kvm.c
-> >>>> @@ -90,6 +90,7 @@ static int cap_ppc_nested_kvm_hv;
-> >>>>  static int cap_large_decr;
-> >>>>  static int cap_fwnmi;
-> >>>>  static int cap_rpt_invalidate;
-> >>>> +static int cap_ail_mode_3;
-> >>>> =20
-> >>>>  static uint32_t debug_inst_opcode;
-> >>>> =20
-> >>>> @@ -154,6 +155,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-> >>>>      }
-> >>>> =20
-> >>>>      cap_rpt_invalidate =3D kvm_vm_check_extension(s, KVM_CAP_PPC_RP=
-T_INVALIDATE);
-> >>>> +    cap_ail_mode_3 =3D kvm_vm_check_extension(s, KVM_CAP_PPC_AIL_MO=
-DE_3);
-> >>>>      kvm_ppc_register_host_cpu_type();
-> >>>> =20
-> >>>>      return 0;
-> >>>> @@ -2563,10 +2565,24 @@ int kvmppc_has_cap_rpt_invalidate(void)
-> >>>>      return cap_rpt_invalidate;
-> >>>>  }
-> >>>> =20
-> >>>> -int kvmppc_supports_ail_3(void)
-> >>>> +int kvmppc_has_cap_ail_3(void)
-> >>>>  {
-> >>>>      PowerPCCPUClass *pcc =3D kvm_ppc_get_host_cpu_class();
-> >>>> =20
-> >>>> +    if (cap_ail_mode_3) {
-> >>>> +        return 1;
-> >>>> +    }
-> >>>> +
-> >>>> +    if (kvm_ioctl(kvm_state, KVM_CHECK_EXTENSION, KVM_CAP_PPC_AIL_M=
-ODE_3) =3D=3D 0) {
-> >>>> +        return 0;
-> >>>> +    }
-> >>>=20
-> >>> This is not needed here it seems.
-> >>
-> >> This is to test whether the capability is recognised by the HV.=20
-> >> kvm_vm_check_extension() treats ioctl error as 0 capability but we wan=
-t=20
-> >> to do this extra heuristic.
+> > This test is redundant with the one below, isn't it?
+>=20
+> Ah, yes.
+>=20
 > >=20
-> > Do you intend to make the KVM capability return < 0 in case AIL_3 is not
-> > supported?
+> >>          return H_UNSUPPORTED_FLAG;
+> >>      }
+> >> =20
+> >> -    if (mflags =3D=3D 2 && (pcc->insns_flags2 & PPC2_ISA310)) {
+> >> -        /* AIL=3D2 is reserved in POWER10 (ISA v3.1) */
+> >> +    /* Only 0 and 3 are possible */
+> >> +    if (mflags !=3D 0 && mflags !=3D 3) {
+> >>          return H_UNSUPPORTED_FLAG;
+> >>      }
+> >> =20
+> >> +    if (mflags =3D=3D 3) {
+> >> +        if (!spapr_get_cap(spapr, SPAPR_CAP_AIL_MODE_3)) {
+> >> +            return H_UNSUPPORTED_FLAG;
+> >> +        }
+> >> +    }
+> >> +
+> >>      spapr_set_all_lpcrs(mflags << LPCR_AIL_SHIFT, LPCR_AIL);
+> >> =20
+> >>      return H_SUCCESS;
+> >> @@ -853,7 +856,7 @@ static target_ulong h_set_mode(PowerPCCPU *cpu, Sp=
+aprMachineState *spapr,
+> >>          ret =3D h_set_mode_resource_le(cpu, spapr, args[0], args[2], =
+args[3]);
+> >>          break;
+> >>      case H_SET_MODE_RESOURCE_ADDR_TRANS_MODE:
+> >> -        ret =3D h_set_mode_resource_addr_trans_mode(cpu, args[0],
+> >> +        ret =3D h_set_mode_resource_addr_trans_mode(cpu, spapr, args[=
+0],
+> >>                                                    args[2], args[3]);
+> >>          break;
+> >>      }
+> >> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> >> index ee7504b976..edbf3eeed0 100644
+> >> --- a/include/hw/ppc/spapr.h
+> >> +++ b/include/hw/ppc/spapr.h
+> >> @@ -77,8 +77,10 @@ typedef enum {
+> >>  #define SPAPR_CAP_FWNMI                 0x0A
+> >>  /* Support H_RPT_INVALIDATE */
+> >>  #define SPAPR_CAP_RPT_INVALIDATE        0x0B
+> >> +/* Support for AIL modes */
+> >> +#define SPAPR_CAP_AIL_MODE_3            0x0C
+> >>  /* Num Caps */
+> >> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_RPT_INVALIDATE + 1)
+> >> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_AIL_MODE_3 + 1)
+> >> =20
+> >>  /*
+> >>   * Capability Values
+> >> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> >> index dc93b99189..128bc530d4 100644
+> >> --- a/target/ppc/kvm.c
+> >> +++ b/target/ppc/kvm.c
+> >> @@ -2563,6 +2563,29 @@ int kvmppc_has_cap_rpt_invalidate(void)
+> >>      return cap_rpt_invalidate;
+> >>  }
+> >> =20
+> >> +int kvmppc_supports_ail_3(void)
+> >=20
+> > Returning bool would make more sense, no?
 >=20
-> No it should return 0 in that case.
+> It would.
 >=20
-> > AFAICS the unknown capability won't result in an ioctl error
-> > as kvm_vm_ioctl_check_extension always returns >=3D 0.
+> >=20
+> >> +{
+> >> +    PowerPCCPUClass *pcc =3D kvm_ppc_get_host_cpu_class();
+> >> +
+> >> +    /*
+> >> +     * KVM PR only supports AIL-0
+> >> +     */
+> >> +    if (kvmppc_is_pr(kvm_state)) {
+> >> +        return 0;
+> >> +    }
+> >> +
+> >> +    /*
+> >> +     * KVM HV hosts support AIL-3 on POWER8 and above, except for rad=
+ix
+> >> +     * mode on some early POWER9s, but it's not clear how to cover th=
+ose
+> >> +     * without disabling the feature for many.
+> >> +     */
+> >> +    if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
+> >=20
+> > This effectively means that the pseries machine type simply won't
+> > start with a !PPC2_ISA207S cpu model.  I'm not sure if we support any
+> > such CPUs in any case.
 >=20
-> Oh. There is no way to tell that a host does not recognise a cap? :(
+> Oh, would that at least give an error to disable cap-ail-mode-3?
 
-Not short of giving it all non-zero values when you create the new cap.
+Yes, it should.  Which for something as obscure as POWER7 may be acceptable.
 
-> Great for the purity test, unknown cap =3D=3D unsupported. For a practica=
-l=20
-> point of view to catch such bugs and oversights there should have been
-> some way to handle it.
-
-Yeah :(.
-
-> I'm not sure what to do then. Try some even worse hack and leave that
-> in for a couple of years to give upstream KVM a chance to trickle down.
+> > If we do, we should probably change the
+> > default value for this cap based on cpu model in
+> > default_caps_with_cpu().
+>=20
+> We allegedly still support POWER7 KVM in Linux. I've never tested it
+> and I don't know how much it's used at all. Probably should keep it
+> working here if possible. I'll look into default_caps_with_cpu().
 >=20
 > Thanks,
 > Nick
@@ -209,25 +224,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---cQRKO6j9ux8JwjfT
+--6gS/m+4rYhnaBkeo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIMhHAACgkQgypY4gEw
-YSI7CxAAqF3Wm6aAcykMmJLiGtDxvqRyN4TNXP2RLYAjwFlJfGdN9wEFA3+bqs8i
-l/9mZEnKQbJFPsniItPVfplt2blWFX3/XvWKyHfiy7gz/PxR6SDw/Yfjo9E7lPpe
-Q5iC7qeIOiweaKe6IThaNcEnlZrLxz7aBk9dH0ibtC1u2HTdFTvWzwS8LFBvWCHY
-jFpOlXIKSY+H5gwIA5mCOLN4tyGv/oS6rIUkN/+Z24RgsoCfsBVRqBDWzWt91VMa
-Ny8y1eLTrunSDm6Duza6iJ7a1ALYT0ilFyy6IuVo79FQY2eWt5JyyroZquqY2Emm
-ZDOrzrCpvBkEvyik69JI+Ri4xWKk5e+g6cIS+TCkAcVuNndRn7Ql8w1uPI8tLNW1
-peiktD8h2ILK7zFKs5bjnHMncPlYUOSkzeLeVen0kbtlFTP8b2DtVBhYwuWudmvj
-0lDXg+VrfaCwPXETEF/IvMZKJJBhXbhNqdw0NsM2D6NTxZaq0DANVsDWEsXP4iWj
-Tl+E0nhwIYI+IKASyXiR80LbIKN+sADWEinvbwNmMVz7e/wXmUDaFJSVnmOawoye
-PTg4xVy3VmeA05o7mFA8jktQ+ZtStrCjTMtjx8S/HzDKE0HxSOyoZOhBR4M5TMEZ
-Y2YDWwPdUAycguDKz0iCFYYXahY/IS2yCNKq4jwNW2dPvHCoLlI=
-=0ztb
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIMhMoACgkQgypY4gEw
+YSKeXA//aNDsPOB3Yv4oe9kqGNAW84mZG/7nbEqSCd0cSvZLp/KiczJDgwKeBOhU
++jDx40d0EBoicZb4Qrj9v1vbRdGQivRjSKeXgw9stU7aLOcH8F0rVCMiAgE6BKWv
+KWAd75eekeaUoNX3+9PSn3T/fcHnB1V2mUE3NIVozCrLtQFHQ6yVQpX9L/IodOL2
+ttDFhhw24V25fYeujP/O3JPk/QtKd4cCeW6hZislBNnWtfL4MusVsk5rq6+WXbLB
+1f11cWdrHjWUO0XDtZyAHfd9Ir3WwwiYjxs3kfd3wZxxeVKLcV18hnob72q8qqfE
+vyV7ZQyUIk08oRH/L5p2l/qcobCV52JRV4QYwGCDnK2N4qWO48PCajBOKZjSMqzn
+lcEj/HmeBGRLLgenz2k6jkcfoalETOi0Uvx8oe3P5CfoMVfXofx14YuxlPeS4PL3
+ZajvIpx4LMgzmz2Kewk57P2MHGKekhpGWOAxUsuK2FSgn/qXlO0NPHnSaQ9L/J5o
+juj2yYnOebE9wEvFncymOFvU0oAp9hy3sjm2SUVO96bA3vPH4sU7RCWNiru1ENDl
+3geOlxsuUd3wvgLjZNaMgBy1JbvwNzb1/NpOu6L2/sndrT63KsbHg9oq+moMWhJ4
+dhNRPC4rC5Gp07SPaenHQ9yPoq3hzwkZvjI7xD5SgvvfurvcBjg=
+=sFF6
 -----END PGP SIGNATURE-----
 
---cQRKO6j9ux8JwjfT--
+--6gS/m+4rYhnaBkeo--
 
