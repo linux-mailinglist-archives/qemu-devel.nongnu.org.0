@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AD24B85FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:39:48 +0100 (CET)
-Received: from localhost ([::1]:59366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C534B85D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 11:35:00 +0100 (CET)
+Received: from localhost ([::1]:47668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKHit-0002W9-Vi
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:39:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45124)
+	id 1nKHeF-0002zL-7r
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 05:34:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nKHVj-0000qo-2C; Wed, 16 Feb 2022 05:26:11 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=44804
- helo=mail-pj1-x1031.google.com)
+ id 1nKHVp-0000tq-NJ; Wed, 16 Feb 2022 05:26:18 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=35578
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nKHVh-0005Im-Hi; Wed, 16 Feb 2022 05:26:10 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- d9-20020a17090a498900b001b8bb1d00e7so1947537pjh.3; 
- Wed, 16 Feb 2022 02:26:08 -0800 (PST)
+ id 1nKHVm-0005Jq-WA; Wed, 16 Feb 2022 05:26:17 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ a11-20020a17090a740b00b001b8b506c42fso6074310pjg.0; 
+ Wed, 16 Feb 2022 02:26:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RwN2ENv+FQz68DkGfO0cMbM+F5Qw9FausFcvvyZLN0I=;
- b=YvKTRDVkClCqFYPSgTKKmS7QEtTyR4xB6RhLRoDH6ySZm6BGEvRaeiSsCtp5mC74rd
- sBFgp8R+3jUHBoH9BA0YwtkQhCYUSSwJceNesAngUIB0ICBKvXMpfIziz/jcOQQK3zGR
- 6bRkGNLhNWRqhl4p2CaFsmoqLemWCbYOdhpiYsXhNd/h5HnfwRY2mjmcECi7oaqEL/wA
- udllABS7T0EGoQN9SAP6NkLfBx/M6Vq5b0z9A4H4MG0FfBNT03N4/lqxC7EAxzYSzXpo
- RdgMWJ+MlXXyerWxEnNeseja4w9A096SNFtErqmvJsvfinbTR1GJTGWuC490kZhNxo/f
- 9N1A==
+ bh=5jXe3T2wyV+2aAGsx8+ZxKTOXK7yGgOLGPaTiywcda8=;
+ b=J/FyMzbTdREnzfow2oGBqYSQPElf5pSwywgVvIb7G3VpdGBxb7UnbBaZngMs6Y8uJV
+ vp2MQTothaS0H+IbrhxxAURP5wjxaG52UccgnibAFuXiv5d987EVbUi5Wuk6+RcOSnqj
+ vKNM5k58hWB3cWnQ3q3hOL6G4U6p4I9MHWAVeVjazqWsxiMM+KJz1cld2IBtvCgLJYoh
+ zA3OCmRTWlaKU8ZjdNX03CblA8hf9SBKBHzwR6luq95j6q2rsrchljsKrIGvQ1mJdZqk
+ 9xd8TFafs+VgUgSQlfzrKqAq4niBZeUkQL6nseNKflFg3hRIV0PmTlvc1eLWv0irOOz6
+ fVgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RwN2ENv+FQz68DkGfO0cMbM+F5Qw9FausFcvvyZLN0I=;
- b=5FV+o12z4hZYA0pNc4MjYo4esA8Bd1GFmVO1BunXQLEvPSPiWb9FSJULDsg8aD0Gke
- +wnFeE5BFubpkTOJGl7OfpoGW/RBbFTOqEWhH/5BJlztFDGTpBmM7KDXDA7q/4wBpLTP
- SnYhpajN9xNPXxOA+xcoVsC4mnp6TXsEGrlGc1bUr67wTYGg4MlFTb7PK+oBxYlwCO4J
- AMnPabadB1v4csL3YmzIsqFeLZn/e6V9X4pEsusHQYmoOkhnHT0yCFLEqV8pjL6CjaDx
- 6fFp7FebRGGLks9nsDdENd+OioUj7uP+CYqa9tUloDSdMhovQMPHk7hajoIKLh3SiBrj
- WmbQ==
-X-Gm-Message-State: AOAM532+u0nWNruBoSIm0gOv6DIB9hYo24YAN2gplBL4jqpFt6b2igXU
- p/ueEbaz2YT2bQRzVN62uAs85svCk/U=
-X-Google-Smtp-Source: ABdhPJyZsVr7D8t0/od69tOQc0zW5EYKWHIFI2Nd4S275hSKTbfnbgy+7uWoPEaG0Vmlf0ROrlIKGA==
-X-Received: by 2002:a17:902:da84:b0:14e:eb44:40c3 with SMTP id
- j4-20020a170902da8400b0014eeb4440c3mr1699430plx.167.1645007167829; 
- Wed, 16 Feb 2022 02:26:07 -0800 (PST)
+ bh=5jXe3T2wyV+2aAGsx8+ZxKTOXK7yGgOLGPaTiywcda8=;
+ b=HZMSEM/nh1f4r0XDZXwTA7xAQ/5YEm3EIDg7JWHMJKNYAWUmB1NvkEyspASbceYMfL
+ 5DZdHhKtYJ5wrqH0lTytYgGIy0MqLGZwaDLtc+nBJVxkLYQM8+FCnj412BsoYqpoFpDm
+ YR7RVIs2NBeNA9TEjEfFFUKN29nqVD50kkQJ+EqX4JnaX96YWZTG1GC5W23pwiXgVvxn
+ QngGt3N+m6VoG2mitmAlh7NjzdqN709anRTm30zQcZAzfzi/ljN/xB+qINil1Zv00G6F
+ EpzcI60YKs9e8uVrTEeIhxQEcerzgoHF6mIE01sk8aAVAyV69FGgj7rOA9GmQMs1eV3K
+ C9Uw==
+X-Gm-Message-State: AOAM530X7trPTDb2reooJAy9xyxIJuTJve9aGbQN7+/Yei4VkWfTvJsS
+ +5MIcSbHrMLWPasXugO2lX1Zr/cr5/A=
+X-Google-Smtp-Source: ABdhPJwiM0xfsj9Lzv9BLRoBvVdBcvA5oxbF8G8vvg9vU1GHYZu1/2dKbNMl0OwmoRaR9p38w9NTyw==
+X-Received: by 2002:a17:90a:6be5:b0:1b9:8717:a1e1 with SMTP id
+ w92-20020a17090a6be500b001b98717a1e1mr920150pjj.59.1645007171228; 
+ Wed, 16 Feb 2022 02:26:11 -0800 (PST)
 Received: from bobo.ozlabs.ibm.com (193-116-225-41.tpgi.com.au.
  [193.116.225.41])
- by smtp.gmail.com with ESMTPSA id j3sm5214474pgs.0.2022.02.16.02.26.05
+ by smtp.gmail.com with ESMTPSA id j3sm5214474pgs.0.2022.02.16.02.26.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 02:26:07 -0800 (PST)
+ Wed, 16 Feb 2022 02:26:10 -0800 (PST)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v2 3/9] ppc: allow the hdecr timer to be created/destroyed
-Date: Wed, 16 Feb 2022 20:25:39 +1000
-Message-Id: <20220216102545.1808018-4-npiggin@gmail.com>
+Subject: [PATCH v2 4/9] target/ppc: add vhyp addressing mode helper for radix
+ MMU
+Date: Wed, 16 Feb 2022 20:25:40 +1000
+Message-Id: <20220216102545.1808018-5-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20220216102545.1808018-1-npiggin@gmail.com>
 References: <20220216102545.1808018-1-npiggin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -94,62 +96,76 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Machines which don't emulate the HDEC facility are able to use the
-timer for something else. Provide functions to start and stop the
-hdecr timer.
+The radix on vhyp MMU uses a single-level radix table walk, with the
+partition scope mapping provided by the flat QEMU machine memory.
 
+A subsequent change will use the two-level radix walk on vhyp in some
+situations, so provide a helper which can abstract that logic.
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hw/ppc/ppc.c         | 21 +++++++++++++++++++++
- include/hw/ppc/ppc.h |  3 +++
- 2 files changed, 24 insertions(+)
+ target/ppc/mmu-radix64.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index c6dfc5975f..ad64015551 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -1083,6 +1083,27 @@ clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, uint32_t freq)
-     return &cpu_ppc_set_tb_clk;
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index df2fec80ce..5535f0fe20 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -354,6 +354,17 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
+     return 0;
  }
  
-+/* cpu_ppc_hdecr_init may be used if the timer is not used by HDEC emulation */
-+void cpu_ppc_hdecr_init(CPUPPCState *env)
++/*
++ * The spapr vhc has a flat partition scope provided by qemu memory.
++ */
++static bool vhyp_flat_addressing(PowerPCCPU *cpu)
 +{
-+    PowerPCCPU *cpu = env_archcpu(env);
-+
-+    assert(env->tb_env->hdecr_timer == NULL);
-+
-+    env->tb_env->hdecr_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_hdecr_cb,
-+                                                 cpu);
++    if (cpu->vhyp) {
++        return true;
++    }
++    return false;
 +}
 +
-+void cpu_ppc_hdecr_exit(CPUPPCState *env)
-+{
-+    PowerPCCPU *cpu = env_archcpu(env);
-+
-+    timer_free(env->tb_env->hdecr_timer);
-+    env->tb_env->hdecr_timer = NULL;
-+
-+    cpu_ppc_hdecr_lower(cpu);
-+}
-+
- /*****************************************************************************/
- /* PowerPC 40x timers */
+ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+                                             MMUAccessType access_type,
+                                             vaddr eaddr, uint64_t pid,
+@@ -385,7 +396,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+     }
+     prtbe_addr = (pate.dw1 & PATE1_R_PRTB) + offset;
  
-diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
-index 93e614cffd..b0ba4bd6b9 100644
---- a/include/hw/ppc/ppc.h
-+++ b/include/hw/ppc/ppc.h
-@@ -54,6 +54,9 @@ struct ppc_tb_t {
+-    if (cpu->vhyp) {
++    if (vhyp_flat_addressing(cpu)) {
+         prtbe0 = ldq_phys(cs->as, prtbe_addr);
+     } else {
+         /*
+@@ -411,7 +422,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+     *g_page_size = PRTBE_R_GET_RTS(prtbe0);
+     base_addr = prtbe0 & PRTBE_R_RPDB;
+     nls = prtbe0 & PRTBE_R_RPDS;
+-    if (msr_hv || cpu->vhyp) {
++    if (msr_hv || vhyp_flat_addressing(cpu)) {
+         /*
+          * Can treat process table addresses as real addresses
+          */
+@@ -515,7 +526,7 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
+     relocation = !mmuidx_real(mmu_idx);
  
- uint64_t cpu_ppc_get_tb(ppc_tb_t *tb_env, uint64_t vmclk, int64_t tb_offset);
- clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, uint32_t freq);
-+void cpu_ppc_hdecr_init(CPUPPCState *env);
-+void cpu_ppc_hdecr_exit(CPUPPCState *env);
-+
- /* Embedded PowerPC DCR management */
- typedef uint32_t (*dcr_read_cb)(void *opaque, int dcrn);
- typedef void (*dcr_write_cb)(void *opaque, int dcrn, uint32_t val);
+     /* HV or virtual hypervisor Real Mode Access */
+-    if (!relocation && (mmuidx_hv(mmu_idx) || cpu->vhyp)) {
++    if (!relocation && (mmuidx_hv(mmu_idx) || vhyp_flat_addressing(cpu))) {
+         /* In real mode top 4 effective addr bits (mostly) ignored */
+         *raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
+ 
+@@ -592,7 +603,7 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
+         g_raddr = eaddr & R_EADDR_MASK;
+     }
+ 
+-    if (cpu->vhyp) {
++    if (vhyp_flat_addressing(cpu)) {
+         *raddr = g_raddr;
+     } else {
+         /*
 -- 
 2.23.0
 
