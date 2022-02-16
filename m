@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBE14B87D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 13:36:54 +0100 (CET)
-Received: from localhost ([::1]:38772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1F74B8848
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 13:56:58 +0100 (CET)
+Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKJYD-0006FN-9j
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 07:36:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33118)
+	id 1nKJrc-0008EA-Rx
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 07:56:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nKJUC-000479-HL
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 07:32:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48774)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nKJqF-0007KD-10
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 07:55:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nKJU9-0008SZ-Lf
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 07:32:43 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nKJqB-0004a4-7N
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 07:55:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645014760;
+ s=mimecast20190719; t=1645016126;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9HRFsEkKQj2Q60eEVsVfv9HiYxBdd5zO+uv7qAlp8BI=;
- b=DXs9+ImMD8FBN12jL/wBSaWr8G6EwSRPCJcxCpUorYJIoGZXR6tuX9fKBqJFI6Qs/KJLoW
- N7Q0lvZP2Mcwmb5THmSdflowfVEWorMb6LjM+vkm/U6KqrJtKOy2pqXb8G+VhLNqkj6z4L
- wpz43LeUniL2yD15U7Y2euuT87zb78w=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KC7bjLpPIbeGZcF8Op9ic9lEC2tBD8bA0H32n1mED44=;
+ b=ak4LRO+z7UpyeC5PpF7pFq0ldDPKVDFWfwEH9osyg5vYEgVTe+P1JwAfXVRXtUl8qtXD7Z
+ tX3sqG40EiLcoy2Ngv6KmOlyS67JNuXsr+oE7xvC7JwFNp2xmtJYMez+vc1xANqw905O0+
+ +nhwpVHGjTU7HD93YDXbU4XUl/vC7zc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-106-C5kNtewwO-y9z4be20mCIQ-1; Wed, 16 Feb 2022 07:32:39 -0500
-X-MC-Unique: C5kNtewwO-y9z4be20mCIQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-651-mka1f3TDM-uE_Wwljrprjw-1; Wed, 16 Feb 2022 07:55:22 -0500
+X-MC-Unique: mka1f3TDM-uE_Wwljrprjw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56F571006AA0;
- Wed, 16 Feb 2022 12:32:38 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B9A36FB02;
- Wed, 16 Feb 2022 12:32:18 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EC3F11800617; Wed, 16 Feb 2022 13:32:14 +0100 (CET)
-Date: Wed, 16 Feb 2022 13:32:14 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH RFCv2 2/4] i386/pc: relocate 4g start to 1T where
- applicable
-Message-ID: <20220216123214.vwmbkgdjlhvsje45@sirius.home.kraxel.org>
-References: <20220207202422.31582-1-joao.m.martins@oracle.com>
- <20220207202422.31582-3-joao.m.martins@oracle.com>
- <20220214155318.3ce80da0@redhat.com>
- <fa172a19-5db6-a844-27d7-8497d306024e@oracle.com>
- <20220214163158.4c4b210b@redhat.com>
- <20220215095358.5qcrgwlasheu63uj@sirius.home.kraxel.org>
- <8a0bcebf-117e-fe41-a477-4769ca94472c@oracle.com>
- <20220216081917.sqc5jdikaoxjbciv@sirius.home.kraxel.org>
- <df167baf-c21f-75e2-ed4b-5b53ab4ac2aa@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6F7F801B0C;
+ Wed, 16 Feb 2022 12:55:21 +0000 (UTC)
+Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 636152B47C;
+ Wed, 16 Feb 2022 12:54:56 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Subject: [PATCH v2] tests/qemu-iotests: Rework the checks and spots using GNU
+ sed
+Date: Wed, 16 Feb 2022 13:54:54 +0100
+Message-Id: <20220216125454.465041-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <df167baf-c21f-75e2-ed4b-5b53ab4ac2aa@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -74,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,81 +76,364 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Instead of failing the iotests if GNU sed is not available (or skipping
+them completely in the check-block.sh script), it would be better to
+simply skip the bash-based tests that rely on GNU sed, so that the other
+tests could still be run. Thus we now explicitely use "gsed" (either as
+direct program or as a wrapper around "sed" if it's the GNU version)
+in the spots that rely on the GNU sed behavior. Statements that use the
+"-r" parameter of sed have been switched to use "-E" instead, since this
+switch is supported by all sed versions on our supported build hosts
+(most also support "-r", but macOS' sed only supports "-E"). With all
+these changes in place, we then can also remove the sed checks from the
+check-block.sh script, so that "make check-block" can now be run on
+systems without GNU sed, too.
 
-> What I overlooked was the emphasis you had on desktops (qemu default bigger than
-> host-advertised), where I am thinking mostly in servers.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ I've checked that this still works fine with "make vm-build-freebsd",
+ "make vm-build-netbsd" and "make vm-build-openbsd" and the Cirrus-CI
+ macOS tasks.
 
-Yep, on servers you have the reverse problem that phys-bits=40 might be
-too small for very large guests.
+ tests/check-block.sh             | 12 ------
+ tests/qemu-iotests/271           |  2 +-
+ tests/qemu-iotests/common.filter | 65 ++++++++++++++++----------------
+ tests/qemu-iotests/common.rc     | 45 +++++++++++-----------
+ 4 files changed, 57 insertions(+), 67 deletions(-)
 
-> > To make things even worse:  The default
-> > value (phys-bits=40) is larger than what many intel boxes support.
-> > 
-> > host-phys-bits=on fixes that.  It makes guest-phys-bits == host-phys-bits
-> > by default, and also enforces guest-phys-bits <= host-phys-bits.
-> > So with host-phys-bits=on the guest can actually use CPUID.80000008.EAX
-> > to figure how big the guest physical address space is.
-> > 
-> Your 2 paragraphs sound like it's two different things, but +host-phys-bits
-> just sets CPUID.80000008.EAX with the host CPUID equivalent leaf/register
-> value. Which yes, it makes it reliable, but the way to convey is still the
-> same. That is regardless, of phys-bits=bogus-bigger-than-host-number,
-> host-phys-bits=on or host-phys-bits-limit=N.
-
-Yep, it's CPUID.80000008.EAX in all cases.
-
-> > Problem is the guest doesn't know whenever host-phys-bits is enabled or
-> > not ...
-> > 
-> > So the options to fix that are:
-> > 
-> >   (1) Make the host-phys-bits option visible to the guest (as suggested
-> >       above), or
-> >   (2) Advertise a _reliable_ phys-bits value to the guest somehow.
-> 
-> What I am not enterily sure from (1) is the value on having a 'guest phys-bits'
-> and a 'host phys-bits' *exposed to the guest* when it seems we are picking the wrong
-> value for guests.
-
-Well, the guest can read CPUID.80000008.EAX but as of today the guest
-just doesn't know whenever it's bogus or not.
-
-> It seems unnecessary redirection (compared to real hw) unless
-> there's a use-case in keeping both that I am probably missing.
-
-Well, the use case is backward compatibility.  If we want make better
-use of the guest physical address space on newer qemu without breaking
-compatibility with older qemu versions the firmware needs to do
-something along the lines of:
-
-    if (i-can-trust-phys-bits) {
-        // new qemu
-        read CPUID.80000008.EAX and go with that
-    } else {
-        // old qemu
-        use current heuristic, placing stuff as low as possible.
-    }
-
-And for that to actually work new qemu needs to expose something to the
-guest which can be used to evaluate the "i-can-trust-phys-bits"
-expression.  A guest-readable bit somewhere which is 1 for
-host-phys-bits=on and 0 otherwise would do the trick, but there are
-surely other ways to solve the problem.
-
-take care,
-  Gerd
+diff --git a/tests/check-block.sh b/tests/check-block.sh
+index 720a46bc36..af0c574812 100755
+--- a/tests/check-block.sh
++++ b/tests/check-block.sh
+@@ -52,18 +52,6 @@ if LANG=C bash --version | grep -q 'GNU bash, version [123]' ; then
+     skip "bash version too old ==> Not running the qemu-iotests."
+ fi
+ 
+-if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
+-    if ! command -v gsed >/dev/null 2>&1; then
+-        skip "GNU sed not available ==> Not running the qemu-iotests."
+-    fi
+-else
+-    # Double-check that we're not using BusyBox' sed which says
+-    # that "This is not GNU sed version 4.0" ...
+-    if sed --version | grep -q 'not GNU sed' ; then
+-        skip "BusyBox sed not supported ==> Not running the qemu-iotests."
+-    fi
+-fi
+-
+ cd tests/qemu-iotests
+ 
+ # QEMU_CHECK_BLOCK_AUTO is used to disable some unstable sub-tests
+diff --git a/tests/qemu-iotests/271 b/tests/qemu-iotests/271
+index 2775b4d130..c7c2cadda0 100755
+--- a/tests/qemu-iotests/271
++++ b/tests/qemu-iotests/271
+@@ -896,7 +896,7 @@ _make_test_img -o extended_l2=on 1M
+ # Second and third writes in _concurrent_io() are independent and may finish in
+ # different order. So, filter offset out to match both possible variants.
+ _concurrent_io     | $QEMU_IO | _filter_qemu_io | \
+-    $SED -e 's/\(20480\|40960\)/OFFSET/'
++    sed -e 's/\(20480\|40960\)/OFFSET/'
+ _concurrent_verify | $QEMU_IO | _filter_qemu_io
+ 
+ # success, all done
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index 75cc241580..21819db9c3 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -21,44 +21,44 @@
+ 
+ _filter_date()
+ {
+-    $SED -re 's/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/yyyy-mm-dd hh:mm:ss/'
++    sed -Ee 's/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/yyyy-mm-dd hh:mm:ss/'
+ }
+ 
+ _filter_vmstate_size()
+ {
+-    $SED -r -e 's/[0-9. ]{5} [KMGT]iB/     SIZE/' \
+-            -e 's/[0-9. ]{5} B/   SIZE/'
++    sed -E -e 's/[0-9. ]{5} [KMGT]iB/     SIZE/' \
++           -e 's/[0-9. ]{5} B/   SIZE/'
+ }
+ 
+ _filter_generated_node_ids()
+ {
+-    $SED -re 's/\#block[0-9]{3,}/NODE_NAME/'
++    sed -Ee 's/\#block[0-9]{3,}/NODE_NAME/'
+ }
+ 
+ _filter_qom_path()
+ {
+-    $SED -e '/Attached to:/s/\device[[0-9]\+\]/device[N]/g'
++    gsed -e '/Attached to:/s/\device[[0-9]\+\]/device[N]/g'
+ }
+ 
+ # replace occurrences of the actual TEST_DIR value with TEST_DIR
+ _filter_testdir()
+ {
+-    $SED -e "s#$TEST_DIR/#TEST_DIR/#g" \
+-         -e "s#$SOCK_DIR/#SOCK_DIR/#g" \
+-         -e "s#SOCK_DIR/fuse-#TEST_DIR/#g"
++    sed -e "s#$TEST_DIR/#TEST_DIR/#g" \
++        -e "s#$SOCK_DIR/#SOCK_DIR/#g" \
++        -e "s#SOCK_DIR/fuse-#TEST_DIR/#g"
+ }
+ 
+ # replace occurrences of the actual IMGFMT value with IMGFMT
+ _filter_imgfmt()
+ {
+-    $SED -e "s#$IMGFMT#IMGFMT#g"
++    sed -e "s#$IMGFMT#IMGFMT#g"
+ }
+ 
+ # Replace error message when the format is not supported and delete
+ # the output lines after the first one
+ _filter_qemu_img_check()
+ {
+-    $SED -e '/allocated.*fragmented.*compressed clusters/d' \
++    gsed -e '/allocated.*fragmented.*compressed clusters/d' \
+         -e 's/qemu-img: This image format does not support checks/No errors were found on the image./' \
+         -e '/Image end offset: [0-9]\+/d'
+ }
+@@ -66,13 +66,14 @@ _filter_qemu_img_check()
+ # Removes \r from messages
+ _filter_win32()
+ {
+-    $SED -e 's/\r//g'
++    gsed -e 's/\r//g'
+ }
+ 
+ # sanitize qemu-io output
+ _filter_qemu_io()
+ {
+-    _filter_win32 | $SED -e "s/[0-9]* ops\; [0-9/:. sec]* ([0-9/.inf]* [EPTGMKiBbytes]*\/sec and [0-9/.inf]* ops\/sec)/X ops\; XX:XX:XX.X (XXX YYY\/sec and XXX ops\/sec)/" \
++    _filter_win32 | \
++    gsed -e "s/[0-9]* ops\; [0-9/:. sec]* ([0-9/.inf]* [EPTGMKiBbytes]*\/sec and [0-9/.inf]* ops\/sec)/X ops\; XX:XX:XX.X (XXX YYY\/sec and XXX ops\/sec)/" \
+         -e "s/: line [0-9][0-9]*:  *[0-9][0-9]*\( Aborted\| Killed\)/:\1/" \
+         -e "s/qemu-io> //g"
+ }
+@@ -80,7 +81,7 @@ _filter_qemu_io()
+ # replace occurrences of QEMU_PROG with "qemu"
+ _filter_qemu()
+ {
+-    $SED -e "s#\\(^\\|(qemu) \\)$(basename $QEMU_PROG):#\1QEMU_PROG:#" \
++    gsed -e "s#\\(^\\|(qemu) \\)$(basename $QEMU_PROG):#\1QEMU_PROG:#" \
+         -e 's#^QEMU [0-9]\+\.[0-9]\+\.[0-9]\+ monitor#QEMU X.Y.Z monitor#' \
+         -e $'s#\r##' # QEMU monitor uses \r\n line endings
+ }
+@@ -89,7 +90,7 @@ _filter_qemu()
+ _filter_qmp()
+ {
+     _filter_win32 | \
+-    $SED -e 's#\("\(micro\)\?seconds": \)[0-9]\+#\1 TIMESTAMP#g' \
++    gsed -e 's#\("\(micro\)\?seconds": \)[0-9]\+#\1 TIMESTAMP#g' \
+         -e 's#^{"QMP":.*}$#QMP_VERSION#' \
+         -e '/^    "QMP": {\s*$/, /^    }\s*$/ c\' \
+         -e '    QMP_VERSION'
+@@ -98,32 +99,32 @@ _filter_qmp()
+ # readline makes HMP command strings so long that git complains
+ _filter_hmp()
+ {
+-    $SED -e $'s/^\\((qemu) \\)\\?.*\e\\[D/\\1/g' \
++    gsed -e $'s/^\\((qemu) \\)\\?.*\e\\[D/\\1/g' \
+         -e $'s/\e\\[K//g'
+ }
+ 
+ # replace block job offset
+ _filter_block_job_offset()
+ {
+-    $SED -e 's/, "offset": [0-9]\+,/, "offset": OFFSET,/'
++    sed -e 's/, "offset": [0-9]\+,/, "offset": OFFSET,/'
+ }
+ 
+ # replace block job len
+ _filter_block_job_len()
+ {
+-    $SED -e 's/, "len": [0-9]\+,/, "len": LEN,/g'
++    sed -e 's/, "len": [0-9]\+,/, "len": LEN,/g'
+ }
+ 
+ # replace actual image size (depends on the host filesystem)
+ _filter_actual_image_size()
+ {
+-    $SED -s 's/\("actual-size":\s*\)[0-9]\+/\1SIZE/g'
++    gsed -s 's/\("actual-size":\s*\)[0-9]\+/\1SIZE/g'
+ }
+ 
+ # Filename filters for qemu-img create
+ _filter_img_create_filenames()
+ {
+-    $SED \
++    sed \
+         -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
+         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
+         -e "s#$TEST_DIR#TEST_DIR#g" \
+@@ -141,7 +142,7 @@ _do_filter_img_create()
+     # precedes ", fmt=") and the options part ($options, which starts
+     # with "fmt=")
+     # (And just echo everything before the first "^Formatting")
+-    readarray formatting_line < <($SED -e 's/, fmt=/\n/')
++    readarray formatting_line < <(gsed -e 's/, fmt=/\n/')
+ 
+     filename_part=${formatting_line[0]}
+     unset formatting_line[0]
+@@ -168,11 +169,11 @@ _do_filter_img_create()
+     options=$(
+         echo "$options" \
+         | tr '\n' '\0' \
+-        | $SED -e 's/ \([a-z0-9_.-]*\)=/\n\1=/g' \
++        | gsed -e 's/ \([a-z0-9_.-]*\)=/\n\1=/g' \
+         | grep -a -e '^fmt' -e '^size' -e '^backing' -e '^preallocation' \
+                   -e '^encryption' "${grep_data_file[@]}" \
+         | _filter_img_create_filenames \
+-        | $SED \
++        | sed \
+             -e 's/^\(fmt\)/0-\1/' \
+             -e 's/^\(size\)/1-\1/' \
+             -e 's/^\(backing\)/2-\1/' \
+@@ -180,9 +181,9 @@ _do_filter_img_create()
+             -e 's/^\(encryption\)/4-\1/' \
+             -e 's/^\(preallocation\)/8-\1/' \
+         | LC_ALL=C sort \
+-        | $SED -e 's/^[0-9]-//' \
++        | sed -e 's/^[0-9]-//' \
+         | tr '\n\0' ' \n' \
+-        | $SED -e 's/^ *$//' -e 's/ *$//'
++        | sed -e 's/^ *$//' -e 's/ *$//'
+     )
+ 
+     if [ -n "$options" ]; then
+@@ -208,7 +209,7 @@ _filter_img_create()
+ 
+ _filter_img_create_size()
+ {
+-    $SED -e "s# size=[0-9]\\+# size=SIZE#g"
++    gsed -e "s# size=[0-9]\\+# size=SIZE#g"
+ }
+ 
+ _filter_img_info()
+@@ -222,7 +223,7 @@ _filter_img_info()
+ 
+     discard=0
+     regex_json_spec_start='^ *"format-specific": \{'
+-    $SED -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
++    gsed -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
+         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
+         -e "s#$TEST_DIR#TEST_DIR#g" \
+         -e "s#$SOCK_DIR#SOCK_DIR#g" \
+@@ -284,7 +285,7 @@ _filter_qemu_img_map()
+         data_file_filter=(-e "s#$data_file_pattern#\\1#")
+     fi
+ 
+-    $SED -e 's/\([0-9a-fx]* *[0-9a-fx]* *\)[0-9a-fx]* */\1/g' \
++    sed -e 's/\([0-9a-fx]* *[0-9a-fx]* *\)[0-9a-fx]* */\1/g' \
+         -e 's/"offset": [0-9]\+/"offset": OFFSET/g' \
+         -e 's/Mapped to *//' \
+         "${data_file_filter[@]}" \
+@@ -298,7 +299,7 @@ _filter_nbd()
+     # receive callbacks sometimes, making them unreliable.
+     #
+     # Filter out the TCP port number since this changes between runs.
+-    $SED -e '/nbd\/.*\.c:/d' \
++    sed -e '/nbd\/.*\.c:/d' \
+         -e 's#127\.0\.0\.1:[0-9]*#127.0.0.1:PORT#g' \
+         -e "s#?socket=$SOCK_DIR#?socket=SOCK_DIR#g" \
+         -e 's#\(foo\|PORT/\?\|.sock\): Failed to .*$#\1#'
+@@ -335,14 +336,14 @@ sys.stdout.write(result)'
+ 
+ _filter_authz_check_tls()
+ {
+-    $SED -e 's/TLS x509 authz check for .* is denied/TLS x509 authz check for DISTINGUISHED-NAME is denied/'
++    sed -e 's/TLS x509 authz check for .* is denied/TLS x509 authz check for DISTINGUISHED-NAME is denied/'
+ }
+ 
+ _filter_qcow2_compression_type_bit()
+ {
+-    $SED -e 's/\(incompatible_features\s\+\)\[3\(, \)\?/\1[/' \
+-         -e 's/\(incompatible_features.*\), 3\]/\1]/' \
+-         -e 's/\(incompatible_features.*\), 3\(,.*\)/\1\2/'
++    gsed -e 's/\(incompatible_features\s\+\)\[3\(, \)\?/\1[/' \
++        -e 's/\(incompatible_features.*\), 3\]/\1]/' \
++        -e 's/\(incompatible_features.*\), 3\(,.*\)/\1\2/'
+ }
+ 
+ # make sure this script returns success
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 9885030b43..3bfd94c2e0 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -17,17 +17,28 @@
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+ 
+-SED=
+-for sed in sed gsed; do
+-    ($sed --version | grep 'GNU sed') > /dev/null 2>&1
+-    if [ "$?" -eq 0 ]; then
+-        SED=$sed
+-        break
+-    fi
+-done
+-if [ -z "$SED" ]; then
+-    echo "$0: GNU sed not found"
+-    exit 1
++# bail out, setting up .notrun file
++_notrun()
++{
++    echo "$*" >"$OUTPUT_DIR/$seq.notrun"
++    echo "$seq not run: $*"
++    status=0
++    exit
++}
++
++if ! command -v gsed >/dev/null 2>&1; then
++    if sed --version 2>&1 | grep -v 'not GNU sed' | grep 'GNU sed' > /dev/null;
++    then
++        gsed()
++        {
++            sed "$@"
++        }
++    else
++        gsed()
++        {
++            _notrun "GNU sed not available"
++        }
++    fi
+ fi
+ 
+ dd()
+@@ -722,16 +733,6 @@ _img_info()
+         done
+ }
+ 
+-# bail out, setting up .notrun file
+-#
+-_notrun()
+-{
+-    echo "$*" >"$OUTPUT_DIR/$seq.notrun"
+-    echo "$seq not run: $*"
+-    status=0
+-    exit
+-}
+-
+ # bail out, setting up .casenotrun file
+ # The function _casenotrun() is used as a notifier. It is the
+ # caller's responsibility to make skipped a particular test.
+@@ -920,7 +921,7 @@ _require_working_luks()
+     IMGFMT='luks' _rm_test_img "$file"
+ 
+     if [ $status != 0 ]; then
+-        reason=$(echo "$output" | grep "$file:" | $SED -e "s#.*$file: *##")
++        reason=$(echo "$output" | grep "$file:" | sed -e "s#.*$file: *##")
+         if [ -z "$reason" ]; then
+             reason="Failed to create a LUKS image"
+         fi
+-- 
+2.27.0
 
 
