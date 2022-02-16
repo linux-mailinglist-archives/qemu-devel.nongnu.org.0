@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB4B4B811D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 08:12:46 +0100 (CET)
-Received: from localhost ([::1]:47674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1AE4B82AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 09:13:10 +0100 (CET)
+Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKEUX-0003BT-PZ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 02:12:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48344)
+	id 1nKFQz-00018Z-4y
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 03:13:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDpA-0005BG-Oi
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:30:00 -0500
+ id 1nKDpF-0005Jj-6e
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:30:05 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124]:61649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDp8-0006K3-Hp
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:30:00 -0500
+ id 1nKDpC-0006K3-Om
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:30:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1644992998; x=1676528998;
+ t=1644993002; x=1676529002;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LvOnLpqh0OHiSklef1KLb+8AQDDkHx+78+oM9pbP6k4=;
- b=cE/H1x7SJEZ6sF3Brd0MDt7yKt/tcPWGVDiVQ7qOEuQUNl6B0UB5CR2V
- iLpYX0WUd6AaNLAey7aAbWbeq0TZawM5IstRnurW9DtSQZYe6EEmSaLwI
- 9lcJd10x9VG7VucMjJ+y4BDe4qjKJhlcX+d575U9+D6q7+jXpY0KyePG+
- VJghU0jeqGfM8GWdomCf5zrg4JFN7BFW24pUe7aDNMszGqxPt1YcBIVYb
- KwH7F6kZJrCt+kUkYd2iKgc3nUT3sE29I1WjMoyrNWlYInl7EgPZxIP5I
- gKZhfuwxtmG96Mvcb+Fsn4ZkOyfCdmuCBnzJ2+f/N0K97gArWWBYqUxDw w==;
-X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="297181714"
+ bh=BHptb7kbEv714Dh/R5SnIIpNuw/wfBKBUjAPWBpglVs=;
+ b=gAcwrZSaZhxlnNyO+b7Smezmfs+zaIqRM69GHUL9OKTph2HOl6mV+tBa
+ VcHm9/Lq/P0nT0sTKAEY/9vsu5OBZPbltKAfQPLKVpRV2ewK5W3VyEw3H
+ g9ev0yl1hHbumccLRSoYO/ztzWd/zWV972AnaDFd5E4SW3Ik4dX7OEfzd
+ fk0Y0sMAUm1oZVZBUgHaahny9kAmfutxcMzsYA4VFvuyxTy/1Mh/7IhKO
+ izs8tzzoTl3RzaH6k+i2099G5JpHPrgvZ2n9kRLCqcOkWgcAi8w/Vig0S
+ 57dSp4ll1OJPfCtVjPKrLNlUqHFLq9ISaidcCAJubkkTdMIIF0AbOiGPH Q==;
+X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="297181718"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:29:57 +0800
-IronPort-SDR: NrJcImrAg8wx8OIbF7aRMnLd76xjIGryjNx3huOA4I8EcM0WzfhX5SL26zaebrfgknl6mWX9lg
- mpAYedFFvSNueYyIJ/gNdO+lWd9cLkg31YCctM1thhqeX62yiNiClW/xwvti/m9ODXOM5Y1PzO
- hV0xJ3Ki8Zzcic9uwdDHJkHIIl7/6NkHJwOhmii8Rtku58ouF5dPS+ucGoFQZXpEIuGwHZsK6q
- yO7xWhMHUwKoL0X9PVR5jzmicEGQkdiMoTPbbpKTLKXYUxkHt6/aV74KoDsiWx8gCoLfnNaizX
- vyWdLOvfBP8VM0JAydB3urKC
+ by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:30:02 +0800
+IronPort-SDR: 2BZUatzl82KZ342audCHh0m/qmOQGzvpcLos2MyUugg1S2rA+GBXxrWuGSkRwkyiMZbvkgE/uK
+ nraH8DU9TT0u3JLZSEn5qM6qzDX0az7KPFfY4B5N3hjsBuXWej1KbsrwmAEPhtVmcX7EL4hLJH
+ drWnmobcgLg/B4Nh5oSI4hJS9xz91L2KWgCySxKhVPlIlVjjEKE0EESoLzAIiDubIJABhiQHUk
+ yAVEsdurcMulKYloKb+640tsR1kQFWArY2kagWEuUx+J8EoXDIqlB/3r58vrOhzl2UAzIm1PYL
+ PkSVI08Rn/9RwpTL8YpSMXdX
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:02:45 -0800
-IronPort-SDR: aSDglZdaRCaQisGigoh5lrP9XfufNA8vGW43rZDVQCt3VVHPcHF6Amxs3d1VmjxwfLqm6RdS3a
- RAPM/L8qrgd/viQMsILwbvLlj1qUx0MiyUpybGRehr4uX9tzfYwyol7E+Da9QK33TxK32Mq3IL
- GnTWWv4psJZot361OgOYa7PXzgBi8fxZkXomtjQcQRVTYm4jc7Ltga3z9pYYZnbSUQFTWWTc4Y
- NBasHou47BZjSfWv8ut/F2Xiudn+shuptkFRxGMeJvBY7b/xRpz08nt19amlsdFbZY3yzgYSP3
- bH8=
+ 15 Feb 2022 22:02:50 -0800
+IronPort-SDR: 0QQpJ3EyjkfR/5KfmPAZOQRvJq+ALyBoi3a0YvUyjFnKm3Chpt6KXQ/ZjMDH+Lawsx9U3FE49s
+ 5JIJ4omgdS58HptUDO8fQb2hUKksGNG+CLZDNZ9aBKuoHKIQJPdfp/a3ZNnxd6F2hI/pCfQ2bJ
+ KxRaCrkwjJsKQFhpRyFLH/r4qo6YJ1Ln+J0v4Ke+DPZxqRif3qthN6J2UZJOJWVynKOzcyvnfo
+ PM21p7ri94TPGMicuFdlmzti1fWlMQcybxC6dX51hofl3vH4A2gcCfW1gl2Dg0oAVyf8/l/rzI
+ LDY=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:29:57 -0800
+ 15 Feb 2022 22:30:02 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7Nj1CXtz1SVp0
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:29:57 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7Nn5l6gz1SVny
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:30:01 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1644992996; x=1647584997; bh=LvOnLpqh0OHiSklef1
- KLb+8AQDDkHx+78+oM9pbP6k4=; b=r0HX7tNwHaAltbnLO1IryN2mrIG+dusVo+
- 1Uu7Umdi1fOuMrNCma0kwbSEj3NdpEHK12tk3j/SP1HlpmubjS7j60FbdlogPzhD
- SEhguHPx+Ox/ih1IlOQ5c1gbvYakT6/V6lI0juPfWndpuBJOVKjJUDM/Vb/Au+QD
- JARrNM6dhCHsFDNyA4gNJ62j+mrG0qtcEKS5to0Dg35QeM0iiGyOdk6tu15mtnMM
- UpyyTsIqxXz169eg4dUuD2op9ASiSS5vJXJ3tC+OnvMmxd505iphwBbesjX86at2
- 9vaP5aAybJvlf1i9X6t3gZxFwtXBDrKaJLXDck4Ik6zy+r9JjcUA==
+ :from; s=dkim; t=1644993000; x=1647585001; bh=BHptb7kbEv714Dh/R5
+ SnIIpNuw/wfBKBUjAPWBpglVs=; b=eNBIVCrOsTEfdOOM2lXdWMdOPGAhvI1JGI
+ u/q3vR4314xwNln8z6YrWcbBH3XGVlp7hq5muR9yfddFUO9WRgpr+0A8BlZNZiuT
+ TJlY/gXj6KIMDv97ySXKZTgXxQd36DJIDOQCUZBWKEBP4ysCNxq3o41UG/YL3R5a
+ TbyBBrqliq5PXt0A4P2kO5+ihsa64pUhT2qwzdxxjN++a/tSjbmgy7Gu5uxnAj/E
+ 5FhtC412IS66zjE15SS2y06Its4mHWvSBvqsRsjTQdeB4W+bHPMam6JfxmUbN+pM
+ LrzPMpwZJALtUqs6h7t1oT4NS5gGK94+rOVfIZlKRtEXzWT38WjQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id uvqCYM0flvwC for <qemu-devel@nongnu.org>;
- Tue, 15 Feb 2022 22:29:56 -0800 (PST)
+ port 10026) with ESMTP id gNTkv6q73XHf for <qemu-devel@nongnu.org>;
+ Tue, 15 Feb 2022 22:30:00 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.165.97])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7Nd3NMKz1SHwl;
- Tue, 15 Feb 2022 22:29:53 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7Nj4Xgnz1Rwrw;
+ Tue, 15 Feb 2022 22:29:57 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Philipp Tomsich <philipp.tomsich@vrull.eu>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 08/35] target/riscv: iterate over a table of decoders
-Date: Wed, 16 Feb 2022 16:28:45 +1000
-Message-Id: <20220216062912.319738-9-alistair.francis@opensource.wdc.com>
+Subject: [PULL v2 09/35] target/riscv: Add XVentanaCondOps custom extension
+Date: Wed, 16 Feb 2022 16:28:46 +1000
+Message-Id: <20220216062912.319738-10-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
 References: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
@@ -118,95 +118,204 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 
-To split up the decoder into multiple functions (both to support
-vendor-specific opcodes in separate files and to simplify maintenance
-of orthogonal extensions), this changes decode_op to iterate over a
-table of decoders predicated on guard functions.
+This adds the decoder and translation for the XVentanaCondOps custom
+extension (vendor-defined by Ventana Micro Systems), which is
+documented at https://github.com/ventanamicro/ventana-custom-extensions/r=
+eleases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf
 
-This commit only adds the new structure and the table, allowing for
-the easy addition of additional decoders in the future.
+This commit then also adds a guard-function (has_XVentanaCondOps_p)
+and the decoder function to the table of decoders, enabling the
+support for the XVentanaCondOps extension.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220202005249.3566542-6-philipp.tomsich@vrull.eu>
+Message-Id: <20220202005249.3566542-7-philipp.tomsich@vrull.eu>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/translate.c | 32 +++++++++++++++++++++++++++-----
- 1 file changed, 27 insertions(+), 5 deletions(-)
+ target/riscv/cpu.h                            |  3 ++
+ target/riscv/XVentanaCondOps.decode           | 25 ++++++++++++
+ target/riscv/cpu.c                            |  3 ++
+ target/riscv/translate.c                      | 12 ++++++
+ .../insn_trans/trans_xventanacondops.c.inc    | 39 +++++++++++++++++++
+ target/riscv/meson.build                      |  1 +
+ 6 files changed, 83 insertions(+)
+ create mode 100644 target/riscv/XVentanaCondOps.decode
+ create mode 100644 target/riscv/insn_trans/trans_xventanacondops.c.inc
 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 1175915c0d..aacc997d56 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -329,6 +329,9 @@ struct RISCVCPUConfig {
+     bool ext_zve32f;
+     bool ext_zve64f;
+=20
++    /* Vendor-specific custom extensions */
++    bool ext_XVentanaCondOps;
++
+     char *priv_spec;
+     char *user_spec;
+     char *bext_spec;
+diff --git a/target/riscv/XVentanaCondOps.decode b/target/riscv/XVentanaC=
+ondOps.decode
+new file mode 100644
+index 0000000000..5aef7c3d72
+--- /dev/null
++++ b/target/riscv/XVentanaCondOps.decode
+@@ -0,0 +1,25 @@
++#
++# RISC-V translation routines for the XVentanaCondOps extension
++#
++# Copyright (c) 2022 Dr. Philipp Tomsich, philipp.tomsich@vrull.eu
++#
++# SPDX-License-Identifier: LGPL-2.1-or-later
++#
++# Reference: VTx-family custom instructions
++#            Custom ISA extensions for Ventana Micro Systems RISC-V core=
+s
++#            (https://github.com/ventanamicro/ventana-custom-extensions/=
+releases/download/v1.0.0/ventana-custom-extensions-v1.0.0.pdf)
++
++# Fields
++%rs2  20:5
++%rs1  15:5
++%rd    7:5
++
++# Argument sets
++&r    rd rs1 rs2  !extern
++
++# Formats
++@r         .......  ..... ..... ... ..... ....... &r                %rs2=
+ %rs1 %rd
++
++# *** RV64 Custom-3 Extension ***
++vt_maskc   0000000  ..... ..... 110 ..... 1111011 @r
++vt_maskcn  0000000  ..... ..... 111 ..... 1111011 @r
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 5ada71e5bf..1238aabe3f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -733,6 +733,9 @@ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
+     DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
+=20
++    /* Vendor-specific custom extensions */
++    DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOp=
+s, false),
++
+     /* These are experimental so mark with 'x-' */
+     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+     /* ePMP 0.9.3 */
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index f19d5cd0c0..30b1b68341 100644
+index 30b1b68341..eaf5a72c81 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -111,6 +111,11 @@ static inline bool has_ext(DisasContext *ctx, uint32=
-_t ext)
-     return ctx->misa_ext & ext;
+@@ -116,6 +116,14 @@ static bool always_true_p(DisasContext *ctx  __attri=
+bute__((__unused__)))
+     return true;
  }
 =20
-+static bool always_true_p(DisasContext *ctx  __attribute__((__unused__))=
-)
-+{
-+    return true;
-+}
++#define MATERIALISE_EXT_PREDICATE(ext)  \
++    static bool has_ ## ext ## _p(DisasContext *ctx)    \
++    { \
++        return ctx->cfg_ptr->ext_ ## ext ; \
++    }
++
++MATERIALISE_EXT_PREDICATE(XVentanaCondOps);
 +
  #ifdef TARGET_RISCV32
  #define get_xl(ctx)    MXL_RV32
  #elif defined(CONFIG_USER_ONLY)
-@@ -855,15 +860,26 @@ static uint32_t opcode_at(DisasContextBase *dcbase,=
- target_ulong pc)
+@@ -854,9 +862,12 @@ static uint32_t opcode_at(DisasContextBase *dcbase, =
+target_ulong pc)
+ #include "insn_trans/trans_rvb.c.inc"
+ #include "insn_trans/trans_rvzfh.c.inc"
+ #include "insn_trans/trans_privileged.c.inc"
++#include "insn_trans/trans_xventanacondops.c.inc"
+=20
+ /* Include the auto-generated decoder for 16 bit insn */
+ #include "decode-insn16.c.inc"
++/* Include decoders for factored-out extensions */
++#include "decode-XVentanaCondOps.c.inc"
 =20
  static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t o=
 pcode)
  {
--    /* check for compressed insn */
-+    /*
-+     * A table with predicate (i.e., guard) functions and decoder functi=
-ons
-+     * that are tested in-order until a decoder matches onto the opcode.
-+     */
-+    static const struct {
-+        bool (*guard_func)(DisasContext *);
-+        bool (*decode_func)(DisasContext *, uint32_t);
-+    } decoders[] =3D {
-+        { always_true_p,  decode_insn32 },
-+    };
-+
-+    /* Check for compressed insn */
-     if (extract16(opcode, 0, 2) !=3D 3) {
-         if (!has_ext(ctx, RVC)) {
-             gen_exception_illegal(ctx);
-         } else {
-             ctx->opcode =3D opcode;
-             ctx->pc_succ_insn =3D ctx->base.pc_next + 2;
--            if (!decode_insn16(ctx, opcode)) {
--                gen_exception_illegal(ctx);
-+            if (decode_insn16(ctx, opcode)) {
-+                return;
-             }
-         }
-     } else {
-@@ -873,10 +889,16 @@ static void decode_opc(CPURISCVState *env, DisasCon=
-text *ctx, uint16_t opcode)
-                                              ctx->base.pc_next + 2));
-         ctx->opcode =3D opcode32;
-         ctx->pc_succ_insn =3D ctx->base.pc_next + 4;
--        if (!decode_insn32(ctx, opcode32)) {
--            gen_exception_illegal(ctx);
-+
-+        for (size_t i =3D 0; i < ARRAY_SIZE(decoders); ++i) {
-+            if (decoders[i].guard_func(ctx) &&
-+                decoders[i].decode_func(ctx, opcode32)) {
-+                return;
-+            }
-         }
-     }
-+
-+    gen_exception_illegal(ctx);
- }
+@@ -869,6 +880,7 @@ static void decode_opc(CPURISCVState *env, DisasConte=
+xt *ctx, uint16_t opcode)
+         bool (*decode_func)(DisasContext *, uint32_t);
+     } decoders[] =3D {
+         { always_true_p,  decode_insn32 },
++        { has_XVentanaCondOps_p,  decode_XVentanaCodeOps },
+     };
 =20
- static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUSta=
-te *cs)
+     /* Check for compressed insn */
+diff --git a/target/riscv/insn_trans/trans_xventanacondops.c.inc b/target=
+/riscv/insn_trans/trans_xventanacondops.c.inc
+new file mode 100644
+index 0000000000..16849e6d4e
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_xventanacondops.c.inc
+@@ -0,0 +1,39 @@
++/*
++ * RISC-V translation routines for the XVentanaCondOps extension.
++ *
++ * Copyright (c) 2021-2022 VRULL GmbH.
++ *
++ * This program is free software; you can redistribute it and/or modify =
+it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOU=
+T
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++static bool gen_vt_condmask(DisasContext *ctx, arg_r *a, TCGCond cond)
++{
++    TCGv dest =3D dest_gpr(ctx, a->rd);
++    TCGv src1 =3D get_gpr(ctx, a->rs1, EXT_NONE);
++    TCGv src2 =3D get_gpr(ctx, a->rs2, EXT_NONE);
++
++    tcg_gen_movcond_tl(cond, dest, src2, ctx->zero, src1, ctx->zero);
++
++    gen_set_gpr(ctx, a->rd, dest);
++    return true;
++}
++
++static bool trans_vt_maskc(DisasContext *ctx, arg_r *a)
++{
++    return gen_vt_condmask(ctx, a, TCG_COND_NE);
++}
++
++static bool trans_vt_maskcn(DisasContext *ctx, arg_r *a)
++{
++    return gen_vt_condmask(ctx, a, TCG_COND_EQ);
++}
+diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+index a3997ed580..91f0ac32ff 100644
+--- a/target/riscv/meson.build
++++ b/target/riscv/meson.build
+@@ -4,6 +4,7 @@ dir =3D meson.current_source_dir()
+ gen =3D [
+   decodetree.process('insn16.decode', extra_args: ['--static-decode=3Dde=
+code_insn16', '--insnwidth=3D16']),
+   decodetree.process('insn32.decode', extra_args: '--static-decode=3Ddec=
+ode_insn32'),
++  decodetree.process('XVentanaCondOps.decode', extra_args: '--static-dec=
+ode=3Ddecode_XVentanaCodeOps'),
+ ]
+=20
+ riscv_ss =3D ss.source_set()
 --=20
 2.34.1
 
