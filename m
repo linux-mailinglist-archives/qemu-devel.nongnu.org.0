@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47B64B9317
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 22:22:00 +0100 (CET)
-Received: from localhost ([::1]:46600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CE34B932F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 22:28:53 +0100 (CET)
+Received: from localhost ([::1]:49788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKRkN-0000TD-Jf
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 16:21:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48850)
+	id 1nKRr2-000349-J2
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 16:28:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1nKRjW-000870-KV; Wed, 16 Feb 2022 16:21:06 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:56088)
+ id 1nKRoY-0002A0-5o; Wed, 16 Feb 2022 16:26:18 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:58608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1nKRjN-0005vV-8U; Wed, 16 Feb 2022 16:21:06 -0500
+ id 1nKRoV-0006bg-Sf; Wed, 16 Feb 2022 16:26:17 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4F17CB81FC5;
- Wed, 16 Feb 2022 21:20:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32B39C004E1;
- Wed, 16 Feb 2022 21:20:45 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6E9D2B82071;
+ Wed, 16 Feb 2022 21:26:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71FB3C004E1;
+ Wed, 16 Feb 2022 21:26:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645046445;
- bh=3ONfFmhUq7JTWAZagk6nrGXgxgp2rWZLCXy7gh8bHNQ=;
+ s=k20201202; t=1645046771;
+ bh=EN9irQYIH2M8OsXxl6EnEEfmiiKAgEsKCvldZSe1ucg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WwXPmPzF6a1lj7HlsPIFkACFl5AcmmYXIu5j3KP5QXheAQNbf+DIDPkvpghXQvA9v
- EfLLO/5lNfeD4nS84+M1V3/aqmIHNPMlSxwZQZfOAlNSh45hS4l1xHalpw3zcCidJ8
- Wh5KCpU3dNiZKb/8+9/qIGd7mKrsovpYAetV0GuGmvOVDWdF3s8YFlNjwVIE4yasYA
- MIGKkvA4ZHuYz/GoFrtyXjIQZS9OWUx4yn0e4NfsQQsuPWcyD2xdEV9U4PGdQXmqCP
- YgxSrX6LFQEnkOL2QZDnm6+NALrZC1XW0OOpAcfVgoesjAMs2mUjoIL6mb2jQBUiud
- TG1EBGhZaA72w==
-Date: Wed, 16 Feb 2022 13:20:43 -0800
+ b=J2UgFXWF3ZhiyMkL2/5BmUhiRkMxolgU+CFENQqiTIhvgbhh8nvAKRYKSFrQmaNiy
+ zMXgRwpI5RylHB+kQHCTOfipaKwBvSJUykyFQDoH3Tnvu2LXLR4HoBc5EHHTjusiYE
+ h+JXX0BisyYyXVmLsqc3PtMHZSTwnk6pmv9fslDcd2tAQ5ISeh2LB/WIGAyNeIYogl
+ JGc74mHFxBEl3Zq4VHhPPCaAe7HeA/QI7o2XpFt0qP/7FQ+ITKiE5n/1runiPUvZ2o
+ 0E+BCHSIWtTXwyA8+lHxLQzM5iPMVBxYuYZujJseHUmUQ5X1TSIuqDnVUs14qGoEGj
+ WnNkwAQEJnPQw==
+Date: Wed, 16 Feb 2022 13:26:08 -0800
 From: Keith Busch <kbusch@kernel.org>
 To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 6/6] hw/nvme: 64-bit pi support
-Message-ID: <20220216212043.GA1949599@dhcp-10-100-145-180.wdc.com>
+Subject: Re: [PATCH 0/6] hw/nvme: enhanced protection information (64-bit
+ guard)
+Message-ID: <20220216212608.GB1949599@dhcp-10-100-145-180.wdc.com>
 References: <20220214123029.106404-1-its@irrelevant.dk>
- <20220214123029.106404-7-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220214123029.106404-7-its@irrelevant.dk>
+In-Reply-To: <20220214123029.106404-1-its@irrelevant.dk>
 Received-SPF: pass client-ip=145.40.68.75; envelope-from=kbusch@kernel.org;
  helo=ams.source.kernel.org
 X-Spam_score_int: -71
@@ -74,20 +74,23 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 14, 2022 at 01:30:29PM +0100, Klaus Jensen wrote:
-> @@ -384,6 +389,12 @@ static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
->          return -1;
->      }
->  
-> +    if (ns->params.pif != NVME_PI_GUARD_16 &&
-> +        ns->params.pif != NVME_PI_GUARD_64) {
-> +        error_setg(errp, "invalid 'pif'");
-> +        return -1;
-> +    }
+On Mon, Feb 14, 2022 at 01:30:23PM +0100, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> This adds support for one possible new protection information format
+> introduced in TP4068 (and integrated in NVMe 2.0): the 64-bit CRC guard
+> and 48-bit reference tag. This version does not support storage tags.
+> 
+> Like the CRC16 support already present, this uses a software
+> implementation of CRC64 (so it is naturally pretty slow). But its good
+> enough for verification purposes.
+> 
+> This goes hand-in-hand with the support that Keith submitted for the
+> Linux kernel[1].
+> 
+> [1]: https://lore.kernel.org/linux-nvme/20220201190128.3075065-1-kbusch@kernel.org/
 
-In addition, the requested metadata size ('params.ms') should be checked
-against the requested PI option. The function currently just checks
-against 8 bytes, but the 64b guard requires at least 16 bytes.
+Other than comment on 6/6, series looks good to me.
 
-Otherwise, looks great.
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
