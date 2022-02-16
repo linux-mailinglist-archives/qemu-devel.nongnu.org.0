@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66624B9216
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:07:02 +0100 (CET)
-Received: from localhost ([::1]:40036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AEAE4B920E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 21:03:16 +0100 (CET)
+Received: from localhost ([::1]:34976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKQZq-0001Ee-0Q
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:07:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56316)
+	id 1nKQWB-00060t-CP
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 15:03:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nKQGZ-0003sC-Cr; Wed, 16 Feb 2022 14:47:07 -0500
-Received: from [2a01:111:f400:7e1b::707] (port=17600
- helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ id 1nKQGa-0003w9-Me; Wed, 16 Feb 2022 14:47:08 -0500
+Received: from [2a01:111:f400:fe08::723] (port=55682
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nKQGC-0006Dk-Pm; Wed, 16 Feb 2022 14:46:47 -0500
+ id 1nKQGT-0006EC-MB; Wed, 16 Feb 2022 14:47:08 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=feacJGpDqY8X/YB70M+s7+ZhCXpbbQGxognqouUvhLdDghRFp7Bou4KSO0gIMA+HS1TJkq9IkifZGtKfBJUObnvYDuhrFk001R+pE5B7oXAETIb8cyB4eJ5LcCJyqTLo0JcULDiRY8P9unbNvY3ypK3WNuMW8GScb1f8AfMB/afpcGFreL5LAvDI4MjS8G6tlwbQhySeOn6qNiyoPyUffEUqzInI3Kkeu8n2wP/P0CC2OP/B0BlHjoDAfE8ASeSM2UOH//tX64uGRInipu6/XqIlrBVQptG3QpNL0F5jyOGQCjMii/kPWxnXXTK0vrqBcwf4Hvme5pJA5tjlnPLApg==
+ b=CoMPLG0t6CSoSeTMANEOx56gedT9Bp72CN8zk2hD7h/RkN3HV3hVsJj1jpfDF8R2WNAepXJiuZ1rUb9E6RZena8xv6J4l9gpWdOs5rrWgeDOH0dmzSrvpflQgFgC0F7SKXaW84hZCAC/rFgTk53YY1cebWiHldJ0WYtSFDiw8wBddNldy5lQmO4a70222VS3qoJtoumzbFptNC6ddUELhy96tccPGnwrTLF7RZEEmuW+Uf2qdkew9+J5xvv3xHfb6qKQ1zx6KeeMVbOKTfMrLQs5pX1DopDDi0Fr0C9b6BFgSkiiU0iYd03qfmcCP4Vx/uH3ocgyieFDkyZUBfqkNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HwtkRFZsupCHj5xg46xDbUv6v3iJOt4sHv5qvsVGsLU=;
- b=gd7enrzqtebqk4nGGX6ZvX8MKHJcUa9LDjWCfYj9Yk1CTFx6LJx47C+vEeTbC3rClx7yJQiQsWPF1LJ6TzwmEPWh3Pe5KGqkNycrFlLZ7eRFN04BbYmkSD3r3/WTYUS1BGbdc7SZAjBOM0CMo+WGnbvtudxE5dfl84cQ9a2iXK023rFx3zClza1DOtHLv9T5f4Kyjw6eYE6GB6OUQyRSwtNfRJoPKDRJlVkZ+S7EYdkFEhtgAITaxkljriRMeCHf4QlW3eNVmgyLXGXGLwln6Em4fOMwhlEWOtE0eUFxeP2CzRFc4hsDThw9klabjbXqhCFehpxfezCn5zNE/aw4SQ==
+ bh=giIsqwMQ/SbM8wV0PiBL06+2PzS3/KTOorsF/WkowaA=;
+ b=eX9FHn/+/I5FepCpyyU1hWPF6S31zxX0sU8nKzOol+HyWe3gXBOpSuYTt75hD6+FSs7SNUjbLJd6P5xwSeULi5CTT/r1OYTkbMH5dvOwnmfGJeix2/+mBXG1blgXYqxb9c4Gv0Yy1nWEejdz8Waa7RrLXJNd4Q4fg/87z0XMvZ+Dm+qBpwgwmHWg5S2yanDu2OB4DU7Mn7d0UJEgByzqhoVOuB47Wnor3s5haGxsIe5xHiZMJ/2WE24LM6BBAFitUWma8KyIrkWri74USE49Jyk258dKD/iGQGe7BDrvuQhg8iEGTUde3JoWDgAnYeOnj2lr6UrfmMbcv9k7IF4JWg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HwtkRFZsupCHj5xg46xDbUv6v3iJOt4sHv5qvsVGsLU=;
- b=itdyTigYz45nYFJGoopoK0A5btnGMHPC0ZVFp2Kfllcka9LUFQ40mBWfHTWWB3Mthdl6wd4jjQhIcMLsovc3QK+Y1X72xAjIxBw9L62iqWFcQ+LCg4o+uAppY0uBV0CnFOqhgsDGhvruNizG/BwYYD1LJFX44+52xBUYtVSNXnI=
+ bh=giIsqwMQ/SbM8wV0PiBL06+2PzS3/KTOorsF/WkowaA=;
+ b=hzxnbDlYNZVp4LHaaE99YEEqz125NIEeYrC6YMa8zHyGMDcvGVLajYW/D0/Whw3n6/4C6NF9MaGqZUfsWiXCPWDAbN3Hf4KMhPLXKyhYz32P6WnbTkoeo4uJpegDM46KSUkc22qkZwR5lrQ5eB3zrXHf1G4woxaCYat8NY5dr4M=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by AM4PR08MB2851.eurprd08.prod.outlook.com (2603:10a6:205:d::33) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.15; Wed, 16 Feb
- 2022 19:46:38 +0000
+ 2022 19:46:39 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714%4]) with mapi id 15.20.4995.016; Wed, 16 Feb 2022
- 19:46:38 +0000
+ 19:46:39 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, xiechanglong.d@gmail.com,
  wencongyang2@huawei.com, fam@euphon.net, stefanha@redhat.com,
  eblake@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com, nikita.lapshin@virtuozzo.com
-Subject: [PATCH v4 09/18] block/reqlist: add reqlist_wait_all()
-Date: Wed, 16 Feb 2022 20:46:08 +0100
-Message-Id: <20220216194617.126484-10-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 10/18] block/io: introduce block driver snapshot-access API
+Date: Wed, 16 Feb 2022 20:46:09 +0100
+Message-Id: <20220216194617.126484-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220216194617.126484-1-vsementsov@virtuozzo.com>
 References: <20220216194617.126484-1-vsementsov@virtuozzo.com>
@@ -63,71 +63,70 @@ X-ClientProxiedBy: AS8PR05CA0005.eurprd05.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db266209-abc2-4e19-1b8f-08d9f18509db
+X-MS-Office365-Filtering-Correlation-Id: a257745b-c7da-469e-6704-08d9f1850c74
 X-MS-TrafficTypeDiagnostic: AM4PR08MB2851:EE_
-X-Microsoft-Antispam-PRVS: <AM4PR08MB2851DC08809D1DE331C95331C1359@AM4PR08MB2851.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:411;
+X-Microsoft-Antispam-PRVS: <AM4PR08MB2851D586F52D214364C25A1CC1359@AM4PR08MB2851.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:359;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: louF7vqY3MLwRnBhMvoi6Y/4ND9rl03CDXyXgo4MbnoZmMXlCavuD37phI4kFB6Gnp2IjRrJHQPBdBZ/CSIdSq3uXzDKaD0WtLr6Y6yf5VwgSme05kGaagGCsDauRHXhnaBsIZnh8KtK4OQYyhYsGmmR9+OGlmEmUXB/+RhAqwsIDbidQQOt6b2Gk0qV92KMI+/qq8UmSsX2W8E0HAZUGR7/LCDDGsLSZ6DGSYAMr6W66q53/QxWr504ZJIHZCr8WD0sVUEJoWAJmwrYHjH4r8f4SJPPs0mVpGV+2FiuF2AvMKQ52YIWg2qMt/Mok0N6KwcD+j5n/Home5VX9clCMaG3LO0hKlWAEdxEBwt89pxYVQbPhq3fSc7Ln0AlJIFFLHBE6bIGBzc+g2BlLvZk9zx56v1MtDkxQJsSwcXFCgfYZNFmLQ3HP1/q71jgORE1Fs1NCltAz1RvJa0BC3HxT7+n7TAjd8PmGh3fMpm/GuIbEyx/nhqasjBYmOm4h7wfNDNo6oqHo29CSwajiwtWSvqhzZ/Hv8TyocPQYMBXVYziQj9jclOvTKNmtvUoVC3RBlOJaDGav86/hrnmwWhj3hyQK2jiXAXdpS+zYn/WKrOr6ZwHohK1rnqoPa3v3kxDVbo+d+Ln4n7dEykZWFvJj4QlhpN48J/XMjbSJwXGsn4FbSi9lsJrcTKNY7icrpNNdzHH3O8n57NBXxnRp7eZfQ==
+X-Microsoft-Antispam-Message-Info: 8dnsSOdILBc7DVnbJLYBzg4Vc27yczPKiPEaygAUWnKYWiFHtM896r3t68gUOxJzKq7+kqsqCp7nfmcc0aoMmgVmEp4gxWxpsr2FPTmtPdiNsajVozk1J9DiJLRDv5vejZUxGKwSFugGPIOO/OsMf/MKFRkBbxtq+s2oGi621I5XgGr+cbTWqDfU8NHWBjnOq0UtnhINEdvs6g8IkudU8LjTi8KjwNWXNoGvmfP7ZoUtzq893z9G4jl+yWwtW+cNZGAdVRvWNLXDzI59OSA7tR8a5EqKjKxW+GXwFmreDrteRKRzJM1ITwm14kRDj5sd5PEH/iYZOMThpk+L6CXYMnPh7FKv0AZ2zs9LJ/UxiqROSJQNy5AnkX2J6/XXknIwmwzHy9HhXGo9aKhlxT8VBVgzTCFBJyFJFIU79N+TVZeIrn82cd9ghUdZ8hHvbusLyprWtBu7xb9WSPdo2sq7M0RZgaxIptI3FF7+jwSCR9s5yzMJ+i6QFFIBsoVEYvQp72u86lu6gSaeqxkJ7wnDR1sDGLCMR1Bl8ncSx/K66wcQKChT9Owniqy5bv3eXggnBhKmswVWtG4i+ub1qMMz58x2v54SMOLgCrJV6mvQmaj6w6etDijbU4fW4X7Y/5mY+oYnUB0MnUxXD3lxEBJCqFqXxd2guADUPYxNQDjJ7oplB/vqb0vT51gmvXcCrKDdLLTkjVo5BwGtJ5Jvxgh6eQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(4636009)(366004)(52116002)(7416002)(6486002)(1076003)(36756003)(2906002)(86362001)(83380400001)(508600001)(316002)(6916009)(5660300002)(66946007)(66476007)(2616005)(6512007)(66556008)(8676002)(107886003)(4326008)(26005)(6506007)(8936002)(38350700002)(186003)(6666004)(38100700002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Du+qJanFesRzcmAJ4vYjE6f8pt+QbKppx7C1ylKl0yRzdpMqLqwcab2rBgfv?=
- =?us-ascii?Q?9M9QU0YRsgB5V1ZocUwQBnYWrn17KAw6tkntKjrljhMjIB6vCile2P7Ds0JD?=
- =?us-ascii?Q?j9VdVQTiF732z4exYjj+5zvoPO0ciSJSRJAHomAfJ9pBsM/nIQQ8KlpPWUG0?=
- =?us-ascii?Q?pRtwxU+oCOV9KdR3HArWrCTSWMTkaiiuH247fl7Y2l0XfY7xRsJfQSCsp9yj?=
- =?us-ascii?Q?l2hulx8Hai6NzE5cy9X/lq1JFXPx/w015K8mM9IJdIn3GnHIT9U2wxG/Xm15?=
- =?us-ascii?Q?0zOsL+NiD6C38yCsme6CLnhnpNoLMViIXZJPYEmYsXe8DOrkcH3ylPlZA8by?=
- =?us-ascii?Q?+C0KBgW/5QrmGLLaF4U4/6cRF7GN35Rd21xFNY9QmBllXimm39wo7qi2QnOV?=
- =?us-ascii?Q?WPswXB+1eZ9P4/u+xaGzOD7A5VB1S4eKQNVZYuhDlRGBQ5YLejWkMdqWySgq?=
- =?us-ascii?Q?5ZaPEemvS+6tlZLBRU6pgv+m26j6xPNWK7sa1ym1EjnWwqF7gj5iGJD4CcOT?=
- =?us-ascii?Q?eEGELmYjpO8y69CfMvIB69VZG2oVZC2AaNLsr0FlJFtAwHgqPxsm7MD0gfd7?=
- =?us-ascii?Q?JOiHuxKI3aVLojvrC1vEjJOz9CO7xgPcl7amZiG4yDGfewYMV0bHq2sBPEID?=
- =?us-ascii?Q?5WpHrAuKj6LqkEjmnasvELiwsMYLcFkrl4yJW5J9PurIu+iFwXynlvMYI5KX?=
- =?us-ascii?Q?/E6GYRsLPOZNKDXGhDXn6mvE536fKFwHoWDU5nfAo9p02GzYMzm2y2iwHxOB?=
- =?us-ascii?Q?Vc+71c6At+GBvqrhQyiqAjZEqm6S5E4QO/gkI4EItDhT8WOAJlq9J/IB6WWe?=
- =?us-ascii?Q?jDGcnGJ2CD6hH9ZfePC860rropijfRlzC4OEMSVTz932v8KzQosOEAcNBWq0?=
- =?us-ascii?Q?py6ct86+tVaaAuf7aoBP9GxB0ycwOSHq+zJA6f0UPtLPJ3MoxZF/aXSl8cwm?=
- =?us-ascii?Q?UCXH/pzSic6F258Q7mByz/7CqJ7C8wj5+FbVl9mh30uWsFmzk1NjFdz0m3CA?=
- =?us-ascii?Q?HMSnx4ezNmsiJ+vpEH0LT9h0+f70Gw8jwVDqhMCpIzR1GP2junt1x/VSTJYJ?=
- =?us-ascii?Q?LE3QqOfLwR/PN89zgNAtIP6j+ZgTNPJEQTqGKydJjFDe1qyVfejbFiaRA6rH?=
- =?us-ascii?Q?pHsfZLC97rECil3VsfhAfqF264E1eX7/3G5vxavTCUkHrlhQ7MXHiV8pWd2t?=
- =?us-ascii?Q?6HJwMutwDthTeqKBZy/aV1BXoCwz1THjtl8AZGgls88JJtozrnF/Z9EgGZH/?=
- =?us-ascii?Q?utt8jHONR+KXG1w9iOYNo6Z4hF9NIoAMeDffSQ1D3GgVgZwFtu70neGxgv0S?=
- =?us-ascii?Q?ygHjYaIZD7onilvorBM1yRvqJp9JxqB4CxVG7IjEplKPLkg2WaAsDHOSrzF3?=
- =?us-ascii?Q?fx6Cvszq/p1o+RQ2l9xhv4ReUKlZlhibUvZ0iZmG6bO24y/62A7AvkRGcxPN?=
- =?us-ascii?Q?3Mu64JEpqUMt1vrjaex64E4bAWbuGiVhHdFD24FrCWJ186s2t4aFhVUkpzmk?=
- =?us-ascii?Q?8HeeSxr5FRt8V8jM3guEhNlQneisFo0N+11Xhek/skvecrGcYnjZ68pTNL12?=
- =?us-ascii?Q?A1UlJfBj1w/B5+8/Ty0jDiYxMTdD5w6R67qVxU/H7nhgzFoF6KEY6wKT9Tir?=
- =?us-ascii?Q?nopry2z6G+7f+lPXzHdCwuTi48C9ZNhhdT+1njXXOvhXE8jLKveBm77nclZO?=
- =?us-ascii?Q?X5mZ7w=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?b2DKTx7TYkS+lxuADhEhLiYstzd+g4RqGZFgQ0kWlCJDYBAIxmpE7zAJjt1Z?=
+ =?us-ascii?Q?jGBssk3Z1wDv0vW7U7aLDUIwwvQJC0IGQFU0VuArZJYPY0tGQ2exolykDUch?=
+ =?us-ascii?Q?CKSZacccgnw9w6pLyqS3kKABsjYKcb3cZxTR0ttXufPbAI2NELkPWgu+sGyW?=
+ =?us-ascii?Q?b0Q6wB1o6EtQNkQ6oQGEXKEV/2me7TFqLv1Xv09dfK2LP8W4pOxqbDXF/iz+?=
+ =?us-ascii?Q?zh/6Oxj9i21wgLRMIAePBJi7hp3gON8VK1rw1nGwJmY/IBuIyg+fwi75p8oA?=
+ =?us-ascii?Q?WH0JDOAdjzHtRkVqcA1na68ji1GvEmJJ8vImS9zgIt9amxB/FEdw5X/qmbNz?=
+ =?us-ascii?Q?uma3E5cQR70J/0KimcFIOV/fwpv2Ip/Pw6ZfWJjYHAV0V+D8ObfpBhEaKRI/?=
+ =?us-ascii?Q?nTjhoD7HyucVR3n5TbeXBnwn5s3YObPJw3AsZNpXsPzKjgOoBXfVcIwiUD82?=
+ =?us-ascii?Q?1dnp91SquBwBJuq2+ZwGjYjGXxddRZq/15vHgWXxGKv0hcgsGchUboV+1juG?=
+ =?us-ascii?Q?L74cIhYfQGj3XsgwBHfXkTk3dTbNW4lPUSYUM04vzFCS1+h06XmCElLsKCSj?=
+ =?us-ascii?Q?R5K0fu9U0LqVP+mVRUq8n3/W7KUUtUjZCAnp9aCWfV+pnC8Wd5KwIkxcI+uO?=
+ =?us-ascii?Q?S+9/DtEKsKcC1NKiaoSu6Z34NXkL9ttmqLv7qqhrZOnxhGltHzFWGhQc/wTV?=
+ =?us-ascii?Q?tVbAWqrgVR5lDnwLlp/iEylvm5nENCS9fwYcEIfYqnuD5Dn0Ru04a+Grs1R6?=
+ =?us-ascii?Q?6iFqZhudNG0m3ejnkEApM2r1/brg9sKW0VEaU/bssddKTG4H6ykXaTRpINRB?=
+ =?us-ascii?Q?zxuGb2OcFdUQRQrLzeKy6M2znU1rx0bpnl5FU2uwN0jmpfZVjrZUvoleh4mo?=
+ =?us-ascii?Q?pX5kfRTB99pP7dJl51npgy2slLbfjRgAj+YBi2sqtj4rzyDJTHQNlWd80C3T?=
+ =?us-ascii?Q?52ObPV+OYZAOpWjMyAb0OcVes8aKSvqTe9cHnn8hBH0DRbf4vee0A8zqX3d4?=
+ =?us-ascii?Q?Pqh+NXH27XFjXfNXGRHG4k5zQadiO0L2jM/90KQXyjtM0w8fbSyEfQ8Wb3IG?=
+ =?us-ascii?Q?v927WVPUCryx1yzfvon/op/0jLU8ESCB3Ecgcneh/8nsb0OsdJMIa3crnsAX?=
+ =?us-ascii?Q?LH0FuqeTVYZq0W9bhNTu6F5UTQHLhdMEvfBMIF0G7y49xSzfusEMxIf1KOYA?=
+ =?us-ascii?Q?kZN8oxGjiulRN+71XdDnC4OLPyp2J53WpxXOYMxwJB3CvK/sR2L1LKJLSWYV?=
+ =?us-ascii?Q?Au+vt36niDbYjncxN5C+zNVttUEXR+0WTxwVGrQ4SbQkkenFBJza4jf07xgB?=
+ =?us-ascii?Q?iubckuQt580WXm2jsSiHlj+P+ZviHyiLgEeIiFSPmdVRfhPTsLtjjBc1Ws8Q?=
+ =?us-ascii?Q?vttOwK7JQw+bNZLnb7mi99KeGaRfFlkdM+wo61aVDeF/H5emoeoNDGUJPo0e?=
+ =?us-ascii?Q?KAliBp4U7QV8tszqUZlTa1zOdG+xDPFUxRm+Oaykxslj690YwMPviP46AcDZ?=
+ =?us-ascii?Q?ldUDgn+oLSJyHnxFH7g25x9yRyUY8tASQArgjv/GXJmWIwhl3VYg24xvPWjj?=
+ =?us-ascii?Q?XAZZO0JjsZi4NfLVXwHsvUKS6KJw1EVwbjJkUY3gAbAXB1JTIdWcW5RVQDHp?=
+ =?us-ascii?Q?BNJE5yyle3QcRtiYumo/f+EUhnlwbKmLgRZVAyptI1rgfGe1h445II3yUTQB?=
+ =?us-ascii?Q?cCMPBg=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db266209-abc2-4e19-1b8f-08d9f18509db
+X-MS-Exchange-CrossTenant-Network-Message-Id: a257745b-c7da-469e-6704-08d9f1850c74
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2022 19:46:38.2485 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2022 19:46:39.4503 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zbXzE0fDO8XnmjjjwvsTS7AZ9Kexr8saKhxPzqFj/CAcCY88L5FHs0dDdVJSMXV7sDua4GJvnn9K8axp771hgcGxyxvg7PbbrWOHOK6i+eo=
+X-MS-Exchange-CrossTenant-UserPrincipalName: u5zzYKGRmNkI46/xOk7FxdJZQ0JX0uZvPL5d+hmTe7xQsxcJD26hQHbcVzNrIy06GCl2xTJ7Pdu1VBCRbTtOtp/MSxtnJSvsQiH30trQJfw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR08MB2851
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e1b::707
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe08::723
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7e1b::707;
+Received-SPF: pass client-ip=2a01:111:f400:fe08::723;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -2
 X-Spam_score: -0.3
 X-Spam_bar: /
 X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.978, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.978, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -143,55 +142,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add function to wait for all intersecting requests.
-To be used in the further commit.
+Add new block driver handlers and corresponding generic wrappers.
+It will be used to allow copy-before-write filter to provide
+reach fleecing interface in further commit.
+
+In future this approach may be used to allow reading qcow2 interanal
+snaphots, for example to export them through NBD.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- include/block/reqlist.h | 8 ++++++++
- block/reqlist.c         | 8 ++++++++
- 2 files changed, 16 insertions(+)
+ include/block/block_int.h | 27 +++++++++++++++
+ block/io.c                | 69 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 96 insertions(+)
 
-diff --git a/include/block/reqlist.h b/include/block/reqlist.h
-index 0fa1eef259..5253497bae 100644
---- a/include/block/reqlist.h
-+++ b/include/block/reqlist.h
-@@ -53,6 +53,14 @@ BlockReq *reqlist_find_conflict(BlockReqList *reqs, int64_t offset,
- bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
-                                    int64_t bytes, CoMutex *lock);
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 27008cfb22..c43315ae6e 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -376,6 +376,24 @@ struct BlockDriver {
+      */
+     void (*bdrv_cancel_in_flight)(BlockDriverState *bs);
  
-+/*
-+ * Wait for all intersecting requests. It just calls reqlist_wait_one() in a
-+ * loop, caller is responsible to stop producing new requests in this region
-+ * in parallel, otherwise reqlist_wait_all() may never return.
-+ */
-+void coroutine_fn reqlist_wait_all(BlockReqList *reqs, int64_t offset,
-+                                   int64_t bytes, CoMutex *lock);
++    /*
++     * Snapshot-access API.
++     *
++     * Block-driver may provide snapshot-access API: special functions to access
++     * some internal "snapshot". The functions are similar with normal
++     * read/block_status/discard handler, but don't have any specific handling
++     * in generic block-layer: no serializing, no alignment, no tracked
++     * requests. So, block-driver that realizes these APIs is fully responsible
++     * for synchronization between snapshot-access API and normal IO requests.
++     */
++    int coroutine_fn (*bdrv_co_preadv_snapshot)(BlockDriverState *bs,
++        int64_t offset, int64_t bytes, QEMUIOVector *qiov, size_t qiov_offset);
++    int coroutine_fn (*bdrv_co_snapshot_block_status)(BlockDriverState *bs,
++        bool want_zero, int64_t offset, int64_t bytes, int64_t *pnum,
++        int64_t *map, BlockDriverState **file);
++    int coroutine_fn (*bdrv_co_pdiscard_snapshot)(BlockDriverState *bs,
++        int64_t offset, int64_t bytes);
 +
- /*
-  * Shrink request and wake all waiting coroutines (maybe some of them are not
-  * intersecting with shrunk request).
-diff --git a/block/reqlist.c b/block/reqlist.c
-index 09fecbd48c..08cb57cfa4 100644
---- a/block/reqlist.c
-+++ b/block/reqlist.c
-@@ -58,6 +58,14 @@ bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
-     return true;
- }
+     /*
+      * Invalidate any cached meta-data.
+      */
+@@ -1078,6 +1096,15 @@ extern BlockDriver bdrv_file;
+ extern BlockDriver bdrv_raw;
+ extern BlockDriver bdrv_qcow2;
  
-+void coroutine_fn reqlist_wait_all(BlockReqList *reqs, int64_t offset,
-+                                   int64_t bytes, CoMutex *lock)
++int coroutine_fn bdrv_co_preadv_snapshot(BdrvChild *child,
++    int64_t offset, int64_t bytes, QEMUIOVector *qiov, size_t qiov_offset);
++int coroutine_fn bdrv_co_snapshot_block_status(BlockDriverState *bs,
++    bool want_zero, int64_t offset, int64_t bytes, int64_t *pnum,
++    int64_t *map, BlockDriverState **file);
++int coroutine_fn bdrv_co_pdiscard_snapshot(BlockDriverState *bs,
++    int64_t offset, int64_t bytes);
++
++
+ int coroutine_fn bdrv_co_preadv(BdrvChild *child,
+     int64_t offset, int64_t bytes, QEMUIOVector *qiov,
+     BdrvRequestFlags flags);
+diff --git a/block/io.c b/block/io.c
+index 4e4cb556c5..0bcf09a491 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3587,3 +3587,72 @@ void bdrv_cancel_in_flight(BlockDriverState *bs)
+         bs->drv->bdrv_cancel_in_flight(bs);
+     }
+ }
++
++int coroutine_fn
++bdrv_co_preadv_snapshot(BdrvChild *child, int64_t offset, int64_t bytes,
++                        QEMUIOVector *qiov, size_t qiov_offset)
 +{
-+    while (reqlist_wait_one(reqs, offset, bytes, lock)) {
-+        /* continue */
++    BlockDriverState *bs = child->bs;
++    BlockDriver *drv = bs->drv;
++    int ret;
++
++    if (!drv) {
++        return -ENOMEDIUM;
 +    }
++
++    if (!drv->bdrv_co_preadv_snapshot) {
++        return -ENOTSUP;
++    }
++
++    bdrv_inc_in_flight(bs);
++    ret = drv->bdrv_co_preadv_snapshot(bs, offset, bytes, qiov, qiov_offset);
++    bdrv_dec_in_flight(bs);
++
++    return ret;
 +}
 +
- void coroutine_fn reqlist_shrink_req(BlockReq *req, int64_t new_bytes)
- {
-     if (new_bytes == req->bytes) {
++int coroutine_fn
++bdrv_co_snapshot_block_status(BlockDriverState *bs,
++                              bool want_zero, int64_t offset, int64_t bytes,
++                              int64_t *pnum, int64_t *map,
++                              BlockDriverState **file)
++{
++    BlockDriver *drv = bs->drv;
++    int ret;
++
++    if (!drv) {
++        return -ENOMEDIUM;
++    }
++
++    if (!drv->bdrv_co_snapshot_block_status) {
++        return -ENOTSUP;
++    }
++
++    bdrv_inc_in_flight(bs);
++    ret = drv->bdrv_co_snapshot_block_status(bs, want_zero, offset, bytes,
++                                             pnum, map, file);
++    bdrv_dec_in_flight(bs);
++
++    return ret;
++}
++
++int coroutine_fn
++bdrv_co_pdiscard_snapshot(BlockDriverState *bs, int64_t offset, int64_t bytes)
++{
++    BlockDriver *drv = bs->drv;
++    int ret;
++
++    if (!drv) {
++        return -ENOMEDIUM;
++    }
++
++    if (!drv->bdrv_co_pdiscard_snapshot) {
++        return -ENOTSUP;
++    }
++
++    bdrv_inc_in_flight(bs);
++    ret = drv->bdrv_co_pdiscard_snapshot(bs, offset, bytes);
++    bdrv_dec_in_flight(bs);
++
++    return ret;
++}
 -- 
 2.31.1
 
