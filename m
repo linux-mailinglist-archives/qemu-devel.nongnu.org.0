@@ -2,77 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414164B84B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:46:30 +0100 (CET)
-Received: from localhost ([::1]:33006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACCFA4B84C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 10:49:06 +0100 (CET)
+Received: from localhost ([::1]:39058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKGtJ-0001AM-2Y
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:46:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54760)
+	id 1nKGvp-0005gy-Qj
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 04:49:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nKGMg-0002ng-NT
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 04:12:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32574)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nKGR5-0006EM-6w
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 04:17:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nKGMe-0006UI-IM
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 04:12:46 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nKGR1-0007Uv-13
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 04:17:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645002763;
+ s=mimecast20190719; t=1645003028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oUcyxEbooTdROsSb0BRYTxisdMidby1dzxFhQ3eL1cg=;
- b=AE2x4vI547ifsxquS4whB09G6xPSuJ8qsMGw4puqPSC/U+VsOIBhUoADykguu/NZVOhkgb
- HnfHI619o6X+QPwBdYOByAr0TH2kHuI0dwWE+xI9n+aJJ+rFKVyOsCDN11xgRMeAEHxyu1
- owaI5Jba9LSJXMgjMBg8ANz29Wann10=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GOMMKhRmr0WZqt/h2Tv35d2Gx0AbDb4x7jAVCHHSuDM=;
+ b=JCR0T2z+eLpQnkXhjOvj8cpDOxrpYYSkNr8cYOrt6JmkBT64zngxw0WWKzXiYjRgBf/AQx
+ rQ5U53AsM/soxWmIos3YBnB8D2Z3XzEIIxxP4QmAPR6RFaDBlqc4xprzFK3G0d0ZRSfX1H
+ aHH+Iqp77rhmoyK5iexWVN5EetLknaw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-Jnxct6JhM5GlV2KOI1GS4A-1; Wed, 16 Feb 2022 04:12:40 -0500
-X-MC-Unique: Jnxct6JhM5GlV2KOI1GS4A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AB1C1006AA0;
- Wed, 16 Feb 2022 09:12:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E68214F874;
- Wed, 16 Feb 2022 09:12:37 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4209021E66FF; Wed, 16 Feb 2022 10:12:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Michael Roth <michael.roth@amd.com>
-Subject: Re: Adding a handshake to qemu-guest-agent
-References: <CAFn=p-anWO3dpvcECpW6J1ExJLw01DhXvTYtC5FUi5p7kQ2tig@mail.gmail.com>
- <87pmnwqzq7.fsf@pond.sub.org>
- <CAFn=p-YVdQDbzUsQm97=FyuZN_m3jCsFzjTpguRPjtH3PezTMg@mail.gmail.com>
- <87zgmze0im.fsf@pond.sub.org>
- <CAFn=p-b-gfeDgFfivtJ6tOixyydRb1kS8rS+H41RjiVZ-3Sgsw@mail.gmail.com>
- <87czjpilgy.fsf@pond.sub.org>
- <20220215193601.7bfexzqnpsprjg2t@amd.com>
-Date: Wed, 16 Feb 2022 10:12:36 +0100
-In-Reply-To: <20220215193601.7bfexzqnpsprjg2t@amd.com> (Michael Roth's message
- of "Tue, 15 Feb 2022 13:36:01 -0600")
-Message-ID: <87zgmr89a3.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-468-X095tUV4OtGa8QYwfFx2pw-1; Wed, 16 Feb 2022 04:17:06 -0500
+X-MC-Unique: X095tUV4OtGa8QYwfFx2pw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ b17-20020a05600c4e1100b0037cc0d56524so2673408wmq.2
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 01:17:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=GOMMKhRmr0WZqt/h2Tv35d2Gx0AbDb4x7jAVCHHSuDM=;
+ b=lHeLUemn4wN3oJah8azvn3+zXjLfnAhckFODqgLI68WzstWqjyAsmD2hE0xNqpVmSq
+ EnNUuyl0xupA+MVI+oPVd6uHkvOH/z/4U3Jb4LOJtnaZ235rHUPuXGZDqFtHHpucYdRh
+ QysVPcYHgtWlxsJu0j2fmdGc7xEVGndwuctIYGsaELjUdvB4M+fc31B2yBVf4xbAoX1H
+ 1sZLqZ/hlQz8sgoNPpye/Lzc0Q4zFHgXjzxvb9CZJ+Vvr29SU7c0ayYxSRnwRkq5vGxp
+ DrGKVAWASZnRBuSKaMSkVxiAfzJeLuiAaJQsJoTfpdkJa0GdtkZrj9ZPyWEgRr6wWwvZ
+ +cvg==
+X-Gm-Message-State: AOAM531RU7TlD7U4yOscYZOn5l477SkK5XOTqWTRig1FXbm46CURBJht
+ z1Wwl5U6pryPUbzXN2ND6XlQPKUFg++VP6mpWGpDB+nSI1YxUkOhVAgJoKF83g0Cyx5wTDjGxde
+ j/r7Hh0hlW0sdPOo=
+X-Received: by 2002:adf:fd48:0:b0:1e4:99d8:48bd with SMTP id
+ h8-20020adffd48000000b001e499d848bdmr1458699wrs.497.1645003025720; 
+ Wed, 16 Feb 2022 01:17:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwCGZmrOvFoShkVKCiEe0NlBsdbPWAJiiHm34M5T2wAAuqZWxku/1GHWGQ9pujmjthWNTd/uw==
+X-Received: by 2002:adf:fd48:0:b0:1e4:99d8:48bd with SMTP id
+ h8-20020adffd48000000b001e499d848bdmr1458682wrs.497.1645003025404; 
+ Wed, 16 Feb 2022 01:17:05 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70b:600:4ff7:25c:5aad:2711?
+ (p200300cbc70b06004ff7025c5aad2711.dip0.t-ipconnect.de.
+ [2003:cb:c70b:600:4ff7:25c:5aad:2711])
+ by smtp.gmail.com with ESMTPSA id r12sm12857560wmq.33.2022.02.16.01.17.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 01:17:05 -0800 (PST)
+Message-ID: <65402899-e2ad-0a59-e77a-07f2f8ca4ff2@redhat.com>
+Date: Wed, 16 Feb 2022 10:17:04 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 3/3] s390x/tcg/tests: Tests for
+ Miscellaneous-Instruction-Extensions Facility 3
+To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, thuth@redhat.com
+References: <b69367a6-7744-6dbf-c370-3019bd66965c@gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <b69367a6-7744-6dbf-c370-3019bd66965c@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,220 +104,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: pasic@linux.ibm.com, borntraeger@linux.ibm.com, farman@linux.ibm.com,
+ cohuck@redhat.com, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Michael Roth <michael.roth@amd.com> writes:
+On 15.02.22 21:27, David Miller wrote:
+> tests/tcg/s390x/mie3-compl.c: [N]*K instructions
+> tests/tcg/s390x/mie3-mvcrl.c: MVCRL instruction
+> tests/tcg/s390x/mie3-sel.c:  SELECT instruction
+> 
+> Signed-off-by: David Miller <dmiller423@gmail.com>
+> ---
+>   tests/tcg/s390x/Makefile.target |  2 +-
+>   tests/tcg/s390x/mie3-compl.c    | 56 +++++++++++++++++++++++++++++++++
+>   tests/tcg/s390x/mie3-mvcrl.c    | 31 ++++++++++++++++++
+>   tests/tcg/s390x/mie3-sel.c      | 42 +++++++++++++++++++++++++
+>   4 files changed, 130 insertions(+), 1 deletion(-)
+>   create mode 100644 tests/tcg/s390x/mie3-compl.c
+>   create mode 100644 tests/tcg/s390x/mie3-mvcrl.c
+>   create mode 100644 tests/tcg/s390x/mie3-sel.c
+> 
+> diff --git a/tests/tcg/s390x/Makefile.target 
+> b/tests/tcg/s390x/Makefile.target
+> index 1a7238b4eb..16b9d45307 100644
+> --- a/tests/tcg/s390x/Makefile.target
+> +++ b/tests/tcg/s390x/Makefile.target
+> @@ -1,6 +1,6 @@
+>   S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
+>   VPATH+=$(S390X_SRC)
+> -CFLAGS+=-march=zEC12 -m64
+> +CFLAGS+=-march=z15 -m64
 
-> On Mon, Feb 14, 2022 at 03:14:37PM +0100, Markus Armbruster wrote:
->> Cc: the qemu-ga maintainer
->> 
->> John Snow <jsnow@redhat.com> writes:
->> 
->> > [Moving our discussion upstream, because it stopped being brief and simple.]
->
-> Hi John, Markus,
->
->> 
->> Motivation: qemu-ga doesn't do capability negotiation as specified in
->> docs/interop/qmp-spec.txt.
->> 
->> Reminder: qmp-spec.txt specifies the server shall send a greeting
->> containing the capabilities on offer.  The client shall send a
->> qmp_capabilities command before any other command.
->> 
->> We can't just fix qemu-ga to comply, because it would break existing
->> clients.
->> 
->> We could document its behavior in qmp-spec.txt.  Easy enough, but also
->> kind of sad.
->
-> I'm not sure we could've ever done it QMP-style with the initial
-> greeting/negotiation mode. It's been a while, I but recall virtio-serial
-> chardev in guest not having a very straight-forward way of flushing out
-> data from the vring after a new client connects on the host side, so
-> new clients had a chance of reading left-over garbage from previous
-> client sessions. Or maybe it was open/close/open on the guest/chardev
-> side that didn't cause the flush... anyway:
->
-> This is why guest-sync was there, so you could verify the stream was
-> in sync with a given "session ID" before continuing. But that doesn't
-> help much if the stream is in some garbage state that parser can't
-> recover from...
->
-> This is why guest-sync-delimited was introduced; it inserts a 0xFF
-> sential value (invalid for any normal QMP stream) prior to response that
-> a client can scan for to flush the stream. Similarly, clients are
-> supposed to precede guest-sync/guest-sync-delimited so QGA to get stuck
-> trying to parse a partial read from an earlier client that is 'eating' a
-> new request from a new client connection. I don't think these are really
-> issues with vsock (or the other transports QGA accepts), but AFAIK
-> Windows is still mostly reliant on virtio-serial, so these are probably
-> still needed.
+Unfortunately, this makes our docker builds unhappy -- fail. I assume the
+compiler in the container is outdated.
 
-I believe you're right about the reason being virtio-serial.  I
-documented it that way in commit 72e9e569d0 "docs/interop/qmp-spec: How
-to force known good parser state".
+$ make run-tcg-tests-s390x-linux-user 
+changing dir to build for make "run-tcg-tests-s390x-linux-user"...
+make[1]: Entering directory '/home/dhildenb/git/qemu/build'
+  GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc capstone slirp
+  BUILD   debian10
+  BUILD   debian-s390x-cross
+  BUILD   TCG tests for s390x-linux-user
+  CHECK   debian10
+  CHECK   debian-s390x-cross
+  BUILD   s390x-linux-user guest-tests with docker qemu/debian-s390x-cross
+s390x-linux-gnu-gcc: error: unrecognized argument in option '-march=z15'
+s390x-linux-gnu-gcc: note: valid arguments to '-march=' are: arch10 arch11 arch12 arch3 arch5 arch6 arch7 arch8 arch9 g5 g6 native z10 z13 z14 z196 z9-109 z9-ec z900 z990 zEC12; did you mean 'z10'?
 
-    2.6 Forcing the JSON parser into known-good state
-    -------------------------------------------------
+Maybe debian11 could, work.
 
-    Incomplete or invalid input can leave the server's JSON parser in a
-    state where it can't parse additional commands.  To get it back into
-    known-good state, the client should provoke a lexical error.
+@Thomas do you have any idea if we could get this to work with
+'-march=z15' or should we work around that by manually encoding
+the relevant instructions instead?
 
-    The cleanest way to do that is sending an ASCII control character
-    other than '\t' (horizontal tab), '\r' (carriage return), or '\n' (new
-    line).
+-- 
+Thanks,
 
-    Sadly, older versions of QEMU can fail to flag this as an error.  If a
-    client needs to deal with them, it should send a 0xFF byte.
-
-    2.7 QGA Synchronization
-    -----------------------
-
-    When a client connects to QGA over a transport lacking proper
-    connection semantics such as virtio-serial, QGA may have read partial
-    input from a previous client.  The client needs to force QGA's parser
-    into known-good state using the previous section's technique.
-    Moreover, the client may receive output a previous client didn't read.
-    To help with skipping that output, QGA provides the
-    'guest-sync-delimited' command.  Refer to its documentation for
-    details.
-
-0xFF is invalid UTF-8, which is kind of icky.  We should've used a
-proper control character like EOT (end of transmission) from the start.
-Water under the bridge.
-
-guest-sync has another design flaw: an unread command reply consisting
-of just an integer can be confused with guest-sync's reply.  Unlikely as
-long as guest-sync's @id argument is chosen at random, as its
-documentation demands.
-
-guest-sync could be deprecated, I guess.  
-
-The @id argument of guest-sync and guest-sync-delimited feels kind of
-redundant with the command object's @id member.  Except QGA didn't
-conform to the QMP spec until commit 4eaca8de26 "qmp: common 'id'
-handling & make QGA conform to QMP spec" (v4.0.0).  More water under the
-bridge.
-
-Note that there's no need for all this when the transport provides
-proper connection semantics.  Clients relying on connection semantics
-work fine even when they don't bother with this syncing stuff.  Do such
-clients exist?  We probably don't know.  May or may not matter.
-
-> So QGA has sort of always had its own hand-shake, ideally via
-> guest-sync-delimited. So if this new negotiation mechanism could
-> build off of that, rather than introducing something on top, that would
-> be ideal. Unfortunately it's naming isn't great for what's being done
-> here, but 'synchronize' is sorta in the ball-park at least...
-
-Fair point.
-
->> Is there a way to add capability negotiation to qemu-ga without breaking
->> existing clients?  We obviously have to make it optional.
->> 
->> The obvious idea "make qmp_capabilities optional" doesn't work, because
->> the client needs to receive the greeting before sending
->> qmp_capabilities, to learn what capabilities are on offer.
->> 
->> This leads to...
->> 
->> > What about something like this:
->> >
->> > Add a new "request-negotiation" command to qemu-guest-agent 7.0.0.
->> >
->> > [Modern client to unknown server]
->> > 1. A modern client connects to a server of unknown version, and
->> > without waiting, issues the "request-negotiation" command.
->> > 2. An old server will reply with CommandNotFound. We are done negotiating.
->> > 3. A modern server will reply with the greeting in the traditional
->> > format, but as a reply object (to preserve "execute" semantics.)
->> > 4. The modern client will now issue qmp-capabilities as normal.
->> > 5. The server replies with success or failure as normal.
->> > 6. Connection is fully established.
->> >
->> > [Old client to unknown server]
->> > 1. An old client connects to an unknown version server.
->> > 2. A command is issued some time later.
->> >   2a. The server is old, the command worked as anticipated.
->> >   2b. The server is new, the command fails with CommandNotFound and
->> > urges the use of 'request-negotiation'.
->> 
->> A new server could accept the command, too.  This way, negotiation
->> remains optional, unlike in "normal" QMP.  Old clients don't negotiate,
->> and get default capabilities.
->
-> ...so what if we had guest-sync/guest-sync-delimited start returning
-> capabilities and version fields rather than a new request-negotiation
-> command? If they aren't present we know the server is too old, and don't
-> have to rely on CommandNotFound to determine that.
-
-Both guest-sync and guest-sync-delimited have a design flaw that defeats
-such a straighforward extension: 'returns': 'int'.  There is no way to
-return more data compatibly.
-
-We could add an optional flag to guest-sync-delimited to make it return
-an object.  But I think we'd be better off with a new command.
-
-> If they are present, then qmp_capabilities can be issued to renegotiate
-> capabilities. (I agree with Markus on enabling default capabilities by
-> default as it's done now so backward-compatibility with older clients
-> is maintained, or maybe an explicit flag to QGA to require negotiation,
-> but only if there's a good use-case for requiring negotiation in some
-> cases)
->
->> 
->> > Compatibility matrix summary:
->> > Old client on old server: Works just fine, as always.
->> > Old client on new server: Will fail; the new server requires the
->> > negotiation step to be performed. This is a tractable problem.
->> > POSSIBLY we need to send some kind of "warning event" for two versions
->> > before making it genuinely mandatory. Also tractable.
->> 
->> With optional negotiation, this works fine, too.
->> 
->> > New client on old server: Works, albeit with a single failed execute
->> > command now in the log file.
->> > New client on new server: Works, though handshaking is now permanently
->> > a little chattier than with any other QMP server.
->> >
->> > ***The QMP spec will need to be updated*** to state: the asynchronous
->> > greeting is mandatory on all QMP implementations, EXCEPT for the
->> > qemu-guest-agent, which for historical reasons, uses an alternate
->> > handshaking process, ...
->> >
->> > Compatibility concerns:
->> > - We must never remove the 'request-negotiation' command from QGA,
->> > forever-and-ever, unless we also make a new error class for
->> > "NegotiationRequired" that's distinct from "CommandNotFound", but
->> > that's more divergence. Supporting the negotiation request command
->> > forever-and-ever is probably fine.
->> 
->> Yup.
->> 
->> > - QGA is now officially on a different flavor of QMP protocol. You
->> > still need to know in advance if you are connecting to QGA or anything
->> > else. That's still a little sad, but maybe that's just simply an
->> > impossible goal.
->> >
->> > Bonus:
->> > - If an execution ID is used when sending "request-negotiation", we
->> > know that the server is at least version 4.0.0 if it responds to us
->> > using that ID. A modern client can then easily distinguish between
->> > pre-4.0, post-4.0 and post-7.0 servers. It's a useful probe.
->
-> Is that in reference to the optional 'id' field that can be passed to
-> QMP requests? Don't see the harm in that, and QGA should pass them back
-> intact.
-
-I think it does since commit 4eaca8de26 "qmp: common 'id' handling &
-make QGA conform to QMP spec" (v4.0.0).
-
->> 
->> Mike, thoughts?
->> 
+David / dhildenb
 
 
