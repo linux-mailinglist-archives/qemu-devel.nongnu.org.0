@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7A24B8F3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 18:34:43 +0100 (CET)
-Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734894B8F1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 18:27:33 +0100 (CET)
+Received: from localhost ([::1]:46898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKOCQ-00047f-Na
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 12:34:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47054)
+	id 1nKO5U-0006Uz-8C
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 12:27:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nKNy7-0005vy-Df
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:19:55 -0500
-Received: from [2a00:1450:4864:20::434] (port=46053
- helo=mail-wr1-x434.google.com)
+ id 1nKO0k-0003JO-IK
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:22:40 -0500
+Received: from [2a00:1450:4864:20::331] (port=34552
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nKNy5-00044Z-6p
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:19:54 -0500
-Received: by mail-wr1-x434.google.com with SMTP id p9so4569631wra.12
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 09:19:52 -0800 (PST)
+ id 1nKO0i-0004wm-7B
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:22:37 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ bg19-20020a05600c3c9300b0034565e837b6so2853413wmb.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 09:22:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=KnkYmmKj7SRQUO3Dj3thwmKdeRaaizNMtuGfGC3jrIE=;
- b=lpYCURmFE7FsoC+/F2UdkEvzb8jcX5mKU4lLRJJM6PW6KH+dPRmx0ITbOh6Q48W8qf
- OeM7a8FqN/0dCe1NJJOV08yqFBNf/MuNRY6Vt/g7jsMuROr/Int0IcpSsuRUle/vwLId
- XZsqsSl/dDOxwCHWd4WtQA+T5dde2hC5DFdQkOKc7WGkZ3LxlxwsUZfuqahH59Xst+JM
- dgp8cjrSuLto48oBpsHp6/4VmQF97IJUxC3GXei7crbHb+k1DRnhUa6ldeHjvWnSd4BA
- GyG1m7TokR6Vi6f5JgtJ2Tm8dBqXCNaYNa9C6nc51joEusMFmNnGk3c8EVikSM3MBHiG
- PXYQ==
+ :cc; bh=QORcjmEXUGfd9Xa9zPKbWb2nXbgIoxfbWbX9GxZufTM=;
+ b=uCT9qOUppLiu1E4bU2x6FMO4oVCUxMAQj7Xl8NXd0Gzs3qxADI6fDT9vpJh/T7B+AW
+ +kfoPMH7CRLbt+a5bddkWm8by8H4xsQ4snylvWml2s9jfmgMjD/qWPVAtHPEGEh3evCO
+ pXLILpram1bVmvj4dyKvO+gGLnK5n0wU2CVBmwHXx3e2W09iNLMqh/A/j9Hiq0ync9r7
+ EId7M9Zz0hj+kezcM9gNoKSVjsyJCkhhokqUBPRVIQlx5fLD/PcNwgRdxxjBJ6Bnbrt4
+ W02lWs2+84cN27bIadI45Ioato5fgwDH7Ov/WTUUxxFklInxowss7fK4xOOyryMAxa7h
+ 902Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KnkYmmKj7SRQUO3Dj3thwmKdeRaaizNMtuGfGC3jrIE=;
- b=msjNPoWjDwq02bCeO6mx4MlDqxmD5pV/+ltr4bjr/e/oYMHFJyIDEMBPYPQz1hbwyj
- 77rFpHX4IaVQkSeWrx8P+no9ktf8YefQHXCxeyw6rzQPfvhQnB967+eV4I6Nhvl3eG8e
- 095te1REhp4Mtwjni3V8Mske4RaqkY6Fux8ZeMR9z/+i9L0mIhaA1dnH31k1tgjNmeXg
- uCVyEkj/mV9uDEaNoBhsltBFNKXevFpnMbQdaBEtmjP8U8V3KGPNphbFvJbGfwsT5JmY
- cdd+aNmqJazNmpeBxQyqhp/qPFkx947ioEpVxlX/6YUVp7WzeuSO1gJt2frIanpYaAv8
- Sc7g==
-X-Gm-Message-State: AOAM530Lfq55U8Ynh3g8mgXc0+U1ewzlZ3Z5nl0TEcf9NXXni3/tqPMq
- mQGRSs6a8v0ZczHRQxP8INsXh//6W1KPMd5VnBXebA==
-X-Google-Smtp-Source: ABdhPJwQ/BTswfO3wRULc6ACrO0BqWHAEnV4+QTal0oXcMEQYCNhgcR68ei8zuvfOPEB2D2rAIk2xKYHtqniW4DX7bc=
-X-Received: by 2002:adf:d20e:0:b0:1e4:a0a0:9da2 with SMTP id
- j14-20020adfd20e000000b001e4a0a09da2mr3045326wrh.319.1645031991827; Wed, 16
- Feb 2022 09:19:51 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=QORcjmEXUGfd9Xa9zPKbWb2nXbgIoxfbWbX9GxZufTM=;
+ b=LtUQ/4wqX7gYWt1fa0/mJoGCF1dsoaD3b6Gis9VF5LHxBFXosm0ZAWLEoHfiXinzMg
+ eQMS+Cw4WNp9ycXljXaoJhg0yEd9PN5+dyleBV+nC4Xe2kTWkSz1/zitFUEATwNS6zZr
+ dGAZUZ1RsBeKQtsH4lVyiNISuhmPjxovJPxd9MxAH2myF2RpbCsFN6rwHpXnyrZAcgHE
+ w/NZbvX1MNBgy0ccPv11t+2UrouJKi9xsTnz4JEv9pCeBiiwUKncGl/I+hmj06ECtzzw
+ wvweKbnxpHbbNz0YE5OjximYrqK64IRc7ZplnaxntPLeTJVEsVCth3MaHOtYJV6rXSZb
+ TA3A==
+X-Gm-Message-State: AOAM532slseIbMoxp33I3P6Ql25s7gKGoMTcH/qghG+QcSrj98jPCtSZ
+ azrN4GJFfmjiSb/eRHda8nt5wigY0NceYZ5dx5gGQQ==
+X-Google-Smtp-Source: ABdhPJxVyl+27gpXSd96EU9dg0T7vjRDEP5YrEh2ZjLI7M1R7r3O8PNKy2zdItV8pu9Lw5rWfEqdFUzAyq5bi7I5h54=
+X-Received: by 2002:a05:600c:3d06:b0:37b:a5ea:a61b with SMTP id
+ bh6-20020a05600c3d0600b0037ba5eaa61bmr2583928wmb.32.1645032153378; Wed, 16
+ Feb 2022 09:22:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20220215170106.95848-1-f4bug@amsat.org>
- <20220215170106.95848-5-f4bug@amsat.org>
- <1872c662-9363-6d49-d057-9be7ab7c6e0b@linaro.org>
- <5356ac8a-cfbf-cfcb-13c5-872ecaf7bed2@amsat.org>
- <996032dd-4f00-6480-a485-80d49fb70c67@gmail.com>
- <02c7d441-815b-2fd8-21dc-8357b5cd6ebb@amsat.org>
-In-Reply-To: <02c7d441-815b-2fd8-21dc-8357b5cd6ebb@amsat.org>
+References: <20220131122001.1476101-1-ani@anisinha.ca>
+In-Reply-To: <20220131122001.1476101-1-ani@anisinha.ca>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 16 Feb 2022 17:19:40 +0000
-Message-ID: <CAFEAcA8V-PAwbtPWghvyjgKtzi949F6g9TnBJpLsGGHt51J64w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] configure: Disable out-of-line atomic operations
- on Aarch64
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Wed, 16 Feb 2022 17:22:22 +0000
+Message-ID: <CAFEAcA-P1ectf3BNRq+i6z6RAgawJ=fSs7TZ_EkK0cALENq21w@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Adding myself as a reviewer of some
+ components
+To: Ani Sinha <ani@anisinha.ca>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -2
 X-Spam_score: -0.3
 X-Spam_bar: /
@@ -89,25 +83,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, atar4qemu@gmail.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Feb 2022 at 17:18, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
-> Thanks for the pointer. And the next section is
-> https://clang.llvm.org/docs/Toolchain.html#atomics-library :)
+On Mon, 31 Jan 2022 at 12:20, Ani Sinha <ani@anisinha.ca> wrote:
 >
->    Clang does not currently automatically link against libatomic when
->     using libgcc_s. You may need to manually add -latomic to support
->    this configuration when using non-native atomic operations (if you
->    see link errors referring to __atomic_* functions).
+> Added myself as a reviewer of vmgenid, unimplemented device and empty slot.
+>
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> ---
+>  MAINTAINERS | 3 +++
+>  1 file changed, 3 insertions(+)
+>
 
-We deliberately don't link against libatomic at the moment...
+
+Applied to target-arm.next, thanks.
 
 -- PMM
 
