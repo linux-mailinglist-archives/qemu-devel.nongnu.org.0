@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031234B8BF8
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 16:02:12 +0100 (CET)
-Received: from localhost ([::1]:35428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB3B4B8BFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 16:03:55 +0100 (CET)
+Received: from localhost ([::1]:38804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKLop-0002Pl-4X
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 10:02:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38052)
+	id 1nKLqU-0004i6-A0
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 10:03:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nKLnH-0000po-4S; Wed, 16 Feb 2022 10:00:35 -0500
-Received: from [2607:f8b0:4864:20::f34] (port=40735
- helo=mail-qv1-xf34.google.com)
+ id 1nKLot-0003Mw-1L; Wed, 16 Feb 2022 10:02:15 -0500
+Received: from [2607:f8b0:4864:20::f30] (port=46941
+ helo=mail-qv1-xf30.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nKLnE-00025j-TC; Wed, 16 Feb 2022 10:00:34 -0500
-Received: by mail-qv1-xf34.google.com with SMTP id v10so2352025qvk.7;
- Wed, 16 Feb 2022 07:00:32 -0800 (PST)
+ id 1nKLon-0002QJ-1H; Wed, 16 Feb 2022 10:02:14 -0500
+Received: by mail-qv1-xf30.google.com with SMTP id n6so2329431qvk.13;
+ Wed, 16 Feb 2022 07:02:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Qy3xZ8qT/ums2dwQPJUMHVrEiOHX4u79jkuCfY9Lj/8=;
- b=IsIlANyA+mTOsp8JUdWp6SBQkR/jpEE2c3WWZ4FzfBSixtvPMNg//zXwqRFRL6e2SI
- 8WQ8gps4CXqGvcgG+i0ZC3UQsyRe7SBA7UUU1xpW6jkGG1YMq9kKBDI2n1IeM+VMJ0x5
- lgtOHU8+EFMTcHe1OpFNbbpXm93Gh/Tx8ph6u6qZZVtMtPhBgJ7yXqYZPUBy+FFe24xQ
- GBy+UNUH7Sp1D/52zX8+4M3s2qS952DgB9KhBoVdpanP6Fkf+tvID7dGQXbr7TINX/FH
- sTFnvm8XGq5E9MyTWwORjaCQAUn7DBeMZvFcHn9+0UflIWl741pdCWcy/VwWNJQAkJjQ
- IBrQ==
+ bh=YJ1j6jNYmoZSXeOFtB+OgXbJfjAqsu5DuJtEpvHwN+0=;
+ b=n2MDEejZy5pnQzNg76OPVZRZ3faq0kxzzrdtaP5AHK2WDfWcgQieKTL9WThG9Oo7tr
+ 7MaFM/picn8DPQWyfwDqwXSulcaKmQkaU0Cg+dGswJjQwAyYOwSJOOL0jBs/LrxQEpz9
+ Hpt/Gkf25JxMHtEtALLUjr87wlSv/pynVtdYhhACOdPJQ9cTesiLX5OMlqGq+drvU0Vf
+ NGwExZU4p9zPnQ7HrC3IGHWdiF7ojhZzpWXwUqNecyo4ogPfEcjyTwKPLZgfONCfCKiD
+ PyrZAFRhlDD69h3VhI0zOIzgBK3ZbSPmhFa7qvHc5UzeKcknMNebVRhB0Jr5otkKFpyO
+ mY2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Qy3xZ8qT/ums2dwQPJUMHVrEiOHX4u79jkuCfY9Lj/8=;
- b=pyQF0FnGVo000caz/J9E+g9I6uM46qsCfLhl4byTk84FZVisjbnCxoILw7OshNcxQN
- GnbvUF+a8gwt9N804usqkJb0X9pDpRlMmXnEImkV6Bx8I3mzPpj630Zk2tWLvWBLC2U9
- jv/n17pfji7kFeMC5puIYOxfYxJPAxGnPRyvSU0jBW2rnt+s+iJ+XuXQL9PlpbGkLl3G
- H3uV+gEv//UaLKxZx473IkRJ3JvLQzlLJepz8LJU9qqxq+SXidFFdcOAoEjuf5+WXD+7
- MPTi6/zmTiJYn7DgJN/6pB4vNH6Ma+kB5RM2iwWOX1lVg3ZgDfEl83x9613RGwzjYVl/
- XXTA==
-X-Gm-Message-State: AOAM532rNGZI3f6UEA8cP0SaDS7c24VBlN6uVx+OMgW+wEsJc1M0MiU9
- K0F4UVo+YWQlDrrKyZjKaog=
-X-Google-Smtp-Source: ABdhPJy5a/i3q2ZeOQMu5mzImT+o2qMRgwdGXRkeXhs0Kyk2hFAr8NhL0Mt2QBrv/V0IZap0BlnFsg==
-X-Received: by 2002:a05:622a:138a:b0:2c9:efe8:72c7 with SMTP id
- o10-20020a05622a138a00b002c9efe872c7mr2244567qtk.546.1645023631391; 
- Wed, 16 Feb 2022 07:00:31 -0800 (PST)
+ bh=YJ1j6jNYmoZSXeOFtB+OgXbJfjAqsu5DuJtEpvHwN+0=;
+ b=WhviQrjHIpo2OWlONB1yQJqSJZqylmVnLpODGcUEQn7C2IA1QoBxy4FDhACU/b1R+1
+ q+G9Qh+qdfs8+k4mFEJmxhuMZ6KH1R6E6T7nWiAFoNBUjzXOhotSlFzDXhFdPiCbWQXV
+ lp3dW3No8u266fhfdIHFdWeQau/r6KSwzawC7iJ+ixxw8nwzOVY1cxIAqyOcVWXUHHSc
+ umLhcM7XTb8LjZJ+FrSH+FFLKjxbQtl8HpT0hP2K5a2G9IePojLeOnQTU63eVmwTX4/2
+ P0Lsn/yV0e7vSOHxeq5qTsiJwjzXciAOmK6fJdmyXfMWKq20vhlk6dt+qcoN13u8fsi0
+ vFiw==
+X-Gm-Message-State: AOAM530Qr7Y52jjVdbh69hh+v3l2PZRI6cDrfSTkmAa/bdRKmRPf8Kfd
+ AZssSCAyFlxVdGNNImFaBrY=
+X-Google-Smtp-Source: ABdhPJybtmoWIZkGOp8hmbfbrNuhvRv4ktPPYyhuj+v12AdBsdIZpXXRmC+MSdq8fLwYn/EkQqcUtw==
+X-Received: by 2002:ad4:470a:0:b0:42d:7937:1458 with SMTP id
+ k10-20020ad4470a000000b0042d79371458mr2083763qvz.45.1645023727497; 
+ Wed, 16 Feb 2022 07:02:07 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id c21sm21366147qtx.89.2022.02.16.07.00.28
+ by smtp.gmail.com with ESMTPSA id bm8sm13423421qkb.25.2022.02.16.07.02.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 07:00:30 -0800 (PST)
-Message-ID: <a3b91b3a-6a75-3dd8-d1dd-fca3f6762c97@amsat.org>
-Date: Wed, 16 Feb 2022 16:00:26 +0100
+ Wed, 16 Feb 2022 07:02:06 -0800 (PST)
+Message-ID: <e356a02a-133b-8aac-b28a-9daf8c27c3a7@amsat.org>
+Date: Wed, 16 Feb 2022 16:02:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [PATCH 2/6] ast2600: Add Secure Boot Controller model
+Subject: Re: [PATCH 1/6] arm: Remove swift-bmc machine
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell
  <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>
 References: <20220216092111.237896-1-clg@kaod.org>
- <20220216092111.237896-3-clg@kaod.org>
-In-Reply-To: <20220216092111.237896-3-clg@kaod.org>
+ <20220216092111.237896-2-clg@kaod.org>
+In-Reply-To: <20220216092111.237896-2-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f34
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f30
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qv1-xf34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-qv1-xf30.google.com
 X-Spam_score_int: 3
 X-Spam_score: 0.3
 X-Spam_bar: /
@@ -103,34 +103,32 @@ From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 On 16/2/22 10:21, Cédric Le Goater wrote:
 > From: Joel Stanley <joel@jms.id.au>
 > 
-> Just a stub that indicates the system has booted in secure boot mode.
-> Used for testing the driver:
-> 
->   https://lore.kernel.org/all/20211019080608.283324-1-joel@jms.id.au/
+> It was scheduled for removal in 7.0.
 > 
 > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Message-Id: <20220216080947.65955-1-joel@jms.id.au>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->   include/hw/arm/aspeed_soc.h  |   3 +
->   include/hw/misc/aspeed_sbc.h |  33 ++++++++
->   hw/arm/aspeed_ast2600.c      |   9 +++
->   hw/misc/aspeed_sbc.c         | 141 +++++++++++++++++++++++++++++++++++
->   hw/misc/meson.build          |   1 +
->   5 files changed, 187 insertions(+)
->   create mode 100644 include/hw/misc/aspeed_sbc.h
->   create mode 100644 hw/misc/aspeed_sbc.c
+>   docs/about/deprecated.rst  |  7 -----
+>   docs/system/arm/aspeed.rst |  1 -
+>   hw/arm/aspeed.c            | 53 --------------------------------------
+>   3 files changed, 61 deletions(-)
 
-> +++ b/include/hw/misc/aspeed_sbc.h
-> @@ -0,0 +1,33 @@
-> +/*
-> + * sASPEED Secure Boot Controller
+>   static void sonorapass_bmc_i2c_init(AspeedMachineState *bmc)
+>   {
+>       AspeedSoCState *soc = &bmc->soc;
+> @@ -1102,26 +1073,6 @@ static void aspeed_machine_sonorapass_class_init(ObjectClass *oc, void *data)
+>           aspeed_soc_num_cpus(amc->soc_name);
+>   };
+>   
+> -static void aspeed_machine_swift_class_init(ObjectClass *oc, void *data)
+> -{
+> -    MachineClass *mc = MACHINE_CLASS(oc);
+> -    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+> -
+> -    mc->desc       = "OpenPOWER Swift BMC (ARM1176)";
+> -    amc->soc_name  = "ast2500-a1";
+> -    amc->hw_strap1 = SWIFT_BMC_HW_STRAP1;
 
-Typo?
-
-> + *
-> + * Copyright (C) 2021 IBM Corp.
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
+Can we also remove this definition?
 
