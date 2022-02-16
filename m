@@ -2,71 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5DCC4B8FF5
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 19:15:23 +0100 (CET)
-Received: from localhost ([::1]:39712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D514B901A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 19:22:40 +0100 (CET)
+Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKOpm-0003MA-Qh
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 13:15:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35056)
+	id 1nKOwp-0003xE-FF
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 13:22:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
- id 1nKOoD-0001DB-BD
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 13:13:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28204)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
- id 1nKOo8-0006lc-Sd
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 13:13:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645035217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ny4DybM2M4p2MCxOBw1f3RkuKNvLwCvFQWJnjC/gKFI=;
- b=Adetwn3o2SR9qYJc9d1kdL6HzY/xETsBWTKSUKsIz8nZoC57LHRdE7t/p9UnWl2oAQWyNJ
- 0sTp7kLGsdJa1eZJ/Ds6VcWK9CZUBid65t18tRJDxlcX1SIrspI19vgKiDgMNjhWvzxEvW
- kGuanQR0Yfifs6beZmOAImNjfVmcrBQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-Z-asbatfOJ6vqwPX95yZIA-1; Wed, 16 Feb 2022 13:13:33 -0500
-X-MC-Unique: Z-asbatfOJ6vqwPX95yZIA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 091311006AA3;
- Wed, 16 Feb 2022 18:13:32 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.195.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A14F677465;
- Wed, 16 Feb 2022 18:13:07 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: Portable inline asm to get address of TLS variable
-References: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain>
-Date: Wed, 16 Feb 2022 19:13:05 +0100
-In-Reply-To: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain> (Stefan Hajnoczi's
- message of "Wed, 16 Feb 2022 17:46:11 +0000")
-Message-ID: <87leyaznm6.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <vt@altlinux.org>)
+ id 1nKOu8-0001ru-Fy; Wed, 16 Feb 2022 13:19:52 -0500
+Received: from vmicros1.altlinux.org ([194.107.17.57]:39194)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <vt@altlinux.org>)
+ id 1nKOu5-0007jy-9X; Wed, 16 Feb 2022 13:19:52 -0500
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+ by vmicros1.altlinux.org (Postfix) with ESMTP id 4C79472C905;
+ Wed, 16 Feb 2022 21:19:47 +0300 (MSK)
+Received: from beacon.altlinux.org (unknown [193.43.10.9])
+ by imap.altlinux.org (Postfix) with ESMTPSA id 375724A46EA;
+ Wed, 16 Feb 2022 21:19:47 +0300 (MSK)
+From: Vitaly Chikunov <vt@altlinux.org>
+To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH v5] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
+Date: Wed, 16 Feb 2022 21:18:21 +0300
+Message-Id: <20220216181821.3481527-1-vt@altlinux.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=fweimer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=fweimer@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=194.107.17.57; envelope-from=vt@altlinux.org;
+ helo=vmicros1.altlinux.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,39 +52,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Serge Guelton <sguelton@redhat.com>
+Cc: Vitaly Chikunov <vt@altlinux.org>, qemu-stable@nongnu.org,
+ "Dmitry V . Levin" <ldv@altlinux.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi:
+`struct dirent' returned from readdir(3) could be shorter (or longer)
+than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
+into unallocated page causing SIGSEGV. Example stack trace:
 
-> I've been trying to make the inline asm that gets the address of a TLS
-> variable for QEMU coroutines pass QEMU's GitLab CI.
-> https://gitlab.com/stefanha/qemu/-/blob/coroutine-tls-fix/include/qemu/coroutine-tls.h#L89
->
-> The code isn't -fPIC-friendly (R_X86_64_TPOFF32 relocations aren't
-> allowed in -fPIC shared libraries) so builds fail with ./configure
-> --enable-modules. While I was tackling this I stumbled on this:
->
->   void *dst_ptr;
->   asm volatile("" : "=r"(dst_ptr) : "0"(&tls_var))
->
-> What's nice about it:
-> - It's portable, there are no arch-specific assembly instructions.
-> - It works for both -fPIC and non-PIC.
->
-> However, I wonder if the compiler might reuse a register that already
-> contains the address. Then we'd have the coroutine problem again when
-> qemu_coroutine_yield() is called between the earlier address calculation
-> and the asm volatile statement.
->
-> Thoughts?
+ #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 + 0x497eed)
+ #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64 + 0x4982e9)
+ #2  0x0000555555eb7983 coroutine_trampoline (/usr/bin/qemu-system-x86_64 + 0x963983)
+ #3  0x00007ffff73e0be0 n/a (n/a + 0x0)
 
-Sorry, I don't see why this isn't equivalent to a plain &tls_var.
-What exactly are you trying to achieve?
+While fixing this, provide a helper for any future `struct dirent' cloning.
 
-Thanks,
-Florian
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+Cc: qemu-stable@nongnu.org
+Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Dmitry V. Levin <ldv@altlinux.org>
+Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+---
+Tested on x68-64 Linux with btrfs-progs tests and qos-test -m slow.
+Changes since v4:
+- Zero clear V9fsSynthOpenState on allocation. Uninitialised use of
+  d_reclen bug found by fuzzing. Use g_new0 instead of g_malloc0 as
+  Greg Kurz suggested.
+
+ hw/9pfs/9p-synth.c   | 18 +++++++++++++++---
+ hw/9pfs/9p-synth.h   |  5 +++++
+ hw/9pfs/codir.c      |  3 +--
+ include/qemu/osdep.h | 13 +++++++++++++
+ util/osdep.c         | 21 +++++++++++++++++++++
+ 5 files changed, 55 insertions(+), 5 deletions(-)
+
+diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+index b38088e066..396cda36f1 100644
+--- a/hw/9pfs/9p-synth.c
++++ b/hw/9pfs/9p-synth.c
+@@ -182,7 +182,12 @@ static int synth_opendir(FsContext *ctx,
+     V9fsSynthOpenState *synth_open;
+     V9fsSynthNode *node = *(V9fsSynthNode **)fs_path->data;
+ 
+-    synth_open = g_malloc(sizeof(*synth_open));
++    /*
++     * V9fsSynthOpenState contains 'struct dirent' which have OS-specific
++     * properties, thus it's zero cleared on allocation here and below
++     * in synth_open.
++     */
++    synth_open = g_new0(V9fsSynthOpenState, 1);
+     synth_open->node = node;
+     node->open_count++;
+     fs->private = synth_open;
+@@ -220,7 +225,14 @@ static void synth_rewinddir(FsContext *ctx, V9fsFidOpenState *fs)
+ static void synth_direntry(V9fsSynthNode *node,
+                                 struct dirent *entry, off_t off)
+ {
+-    strcpy(entry->d_name, node->name);
++    size_t sz = strlen(node->name) + 1;
++    /*
++     * 'entry' is always inside of V9fsSynthOpenState which have NAME_MAX
++     * back padding. Ensure we do not orerflow it.
++     */
++    g_assert(sizeof(struct dirent) + NAME_MAX >=
++             offsetof(struct dirent, d_name) + sz);
++    memcpy(entry->d_name, node->name, sz);
+     entry->d_ino = node->attr->inode;
+     entry->d_off = off + 1;
+ }
+@@ -266,7 +278,7 @@ static int synth_open(FsContext *ctx, V9fsPath *fs_path,
+     V9fsSynthOpenState *synth_open;
+     V9fsSynthNode *node = *(V9fsSynthNode **)fs_path->data;
+ 
+-    synth_open = g_malloc(sizeof(*synth_open));
++    synth_open = g_new0(V9fsSynthOpenState, 1);
+     synth_open->node = node;
+     node->open_count++;
+     fs->private = synth_open;
+diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
+index 036d7e4a5b..eeb246f377 100644
+--- a/hw/9pfs/9p-synth.h
++++ b/hw/9pfs/9p-synth.h
+@@ -41,6 +41,11 @@ typedef struct V9fsSynthOpenState {
+     off_t offset;
+     V9fsSynthNode *node;
+     struct dirent dent;
++    /*
++     * Ensure there is enough space for 'dent' above, some systems have a
++     * d_name size of just 1, which would cause a buffer overrun.
++     */
++    char dent_trailing_space[NAME_MAX];
+ } V9fsSynthOpenState;
+ 
+ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mode,
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index 032cce04c4..c0873bde16 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+         } else {
+             e = e->next = g_malloc0(sizeof(V9fsDirEnt));
+         }
+-        e->dent = g_malloc0(sizeof(struct dirent));
+-        memcpy(e->dent, dent, sizeof(struct dirent));
++        e->dent = qemu_dirent_dup(dent);
+ 
+         /* perform a full stat() for directory entry if requested by caller */
+         if (dostat) {
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index d1660d67fa..ce12f64853 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -805,6 +805,19 @@ static inline int platform_does_not_support_system(const char *command)
+ }
+ #endif /* !HAVE_SYSTEM_FUNCTION */
+ 
++/**
++ * Duplicate directory entry @dent.
++ *
++ * It is highly recommended to use this function instead of open coding
++ * duplication of @c dirent objects, because the actual @c struct @c dirent
++ * size may be bigger or shorter than @c sizeof(struct dirent) and correct
++ * handling is platform specific (see gitlab issue #841).
++ *
++ * @dent - original directory entry to be duplicated
++ * @returns duplicated directory entry which should be freed with g_free()
++ */
++struct dirent *qemu_dirent_dup(struct dirent *dent);
++
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/util/osdep.c b/util/osdep.c
+index 42a0a4986a..67fbf22778 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -33,6 +33,7 @@
+ extern int madvise(char *, size_t, int);
+ #endif
+ 
++#include <dirent.h>
+ #include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "qemu/sockets.h"
+@@ -615,3 +616,23 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+     return readv_writev(fd, iov, iov_cnt, true);
+ }
+ #endif
++
++struct dirent *
++qemu_dirent_dup(struct dirent *dent)
++{
++    size_t sz = 0;
++#if defined _DIRENT_HAVE_D_RECLEN
++    /* Avoid use of strlen() if platform supports d_reclen. */
++    sz = dent->d_reclen;
++#endif
++    /*
++     * Test sz for zero even if d_reclen is available
++     * because some drivers may set d_reclen to zero.
++     */
++    if (sz == 0) {
++        /* Fallback to the most portable way. */
++        sz = offsetof(struct dirent, d_name) +
++                      strlen(dent->d_name) + 1;
++    }
++    return g_memdup(dent, sz);
++}
+-- 
+2.33.0
 
 
