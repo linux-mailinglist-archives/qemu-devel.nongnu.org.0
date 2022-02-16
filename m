@@ -2,70 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFF84B867F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 12:11:14 +0100 (CET)
-Received: from localhost ([::1]:32774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5374B868E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 12:22:03 +0100 (CET)
+Received: from localhost ([::1]:37120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKIDH-0000yo-DI
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 06:11:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57336)
+	id 1nKINm-0004a4-5n
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 06:22:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nKIBa-0007bW-Ni
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 06:09:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40166)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nKIKS-0003b9-T1
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 06:18:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nKIBR-0005eA-QK
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 06:09:22 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nKIKQ-0007pf-8x
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 06:18:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645009745;
+ s=mimecast20190719; t=1645010312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gFeIoJw3MWAgRN+Am9jfkP/Ejstseez5e/kjW9IxWPs=;
- b=hNgmcWdsLD1CWtjBISLvudZltii29s+sIReIS+6ZmJ5xYYrGqv6+GUzzHYPg+NQs6TGomd
- W/fP4CPQq/V1PcwvWBxOIY/H8Y44fDxya5gCaE6vJRwiIFX9KoyB5f+9NOfkic5qcd6WZE
- 6R7xuA1YHScksy6IQe+ByZjsUeD6M74=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nSEcn2G9eZcfO9aMYYUKHFod0b+Ly1yLWGxot+Q/PvQ=;
+ b=caSlhgWSuAPnni/WK59C863jQ/nXmgY6CQDp+UfY4bOHVHH/BACWShrUvWLFVkveRL14+W
+ JY7VzbnjKWOJuRKh5G2/x+j8v89NrvcX7n7f3Xtvplif2qkxUI0gtQjOYkDXAax8HA358y
+ KZnzoc6K7zs8d90xuRnebeIyjBMuj3w=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-370-TWl6q1lQOzyaiyo4eZeixA-1; Wed, 16 Feb 2022 06:09:04 -0500
-X-MC-Unique: TWl6q1lQOzyaiyo4eZeixA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26C8E2F26;
- Wed, 16 Feb 2022 11:09:02 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E613510841E0;
- Wed, 16 Feb 2022 11:08:04 +0000 (UTC)
-Date: Wed, 16 Feb 2022 11:08:03 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena <elena.ufimtseva@oracle.com>
-Subject: Re: [RFC 4/8] ioregionfd: Introduce IORegionDFObject type
-Message-ID: <YgzbE0QBaJ4ml2H5@stefanha-x1.localdomain>
-References: <cover.1644302411.git.elena.ufimtseva@oracle.com>
- <fa5bc2e2773966fd209a2c866eb95ac8ac60a928.1644302411.git.elena.ufimtseva@oracle.com>
- <YgppIUOpkYUKwB5K@stefanha-x1.localdomain>
- <20220215181812.GB33858@nuker>
+ us-mta-207-Y_8PcIwANOiMD3TJtzi_Rg-1; Wed, 16 Feb 2022 06:18:31 -0500
+X-MC-Unique: Y_8PcIwANOiMD3TJtzi_Rg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ d8-20020a05600c34c800b0037e3cd6225eso37106wmq.6
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 03:18:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=nSEcn2G9eZcfO9aMYYUKHFod0b+Ly1yLWGxot+Q/PvQ=;
+ b=zYL90cT6fV8GSIHF144uDyFCleURvcqCt7KG8Qw5v1kbEY0277IV86gptkn+y31J2q
+ zG5RoMYa6Qwx9JERXh6Sl1FU/K4DvOqowA6IvpALzCjQeYbsnfNy+9B02qCKpKo21Nzl
+ wxF/2KA61OUqdSxUbxtHdasqgTTbLtgD79PWrk03ulMDvTUXSZq6vqrdblZWfXKxd9o/
+ 2GL4Nn8GAwWjdq8j5nmhcPcJL7ZiGPA8Iog1Bc1qaGo6h5SdNI1duOlBF7J7Hf6HW/MW
+ SLKuCQ6+T2Quj+T1wm7iTfjEqzbfIELVIBrWrDx1xJuBDyHw+V5JgflL+VjnfWc4asnW
+ KWqQ==
+X-Gm-Message-State: AOAM533HjZFMwkQVtnIXNNEF8mH2vjXSGynrMdbkw09UEVRs8GufrXk4
+ Wk3Or4Lb3SamaMHDmaFIE2aGqLc5Ies3Msyaxri2dYcuXJXO6oeOoGc4Kb6C2YsmyqZv3AJshYD
+ kYTLji/Q9bH69ZiE=
+X-Received: by 2002:a5d:5302:0:b0:1e3:1af3:13c9 with SMTP id
+ e2-20020a5d5302000000b001e31af313c9mr1954723wrv.128.1645010310376; 
+ Wed, 16 Feb 2022 03:18:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx6H6WPMjhHk7y7d73eNOwfKnHSTHuQ6oMseB1jireC+e2BhWzhhByv5k9J6IZl+ob11VZyiw==
+X-Received: by 2002:a5d:5302:0:b0:1e3:1af3:13c9 with SMTP id
+ e2-20020a5d5302000000b001e31af313c9mr1954708wrv.128.1645010310179; 
+ Wed, 16 Feb 2022 03:18:30 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70b:600:4ff7:25c:5aad:2711?
+ (p200300cbc70b06004ff7025c5aad2711.dip0.t-ipconnect.de.
+ [2003:cb:c70b:600:4ff7:25c:5aad:2711])
+ by smtp.gmail.com with ESMTPSA id o4sm14992533wrc.52.2022.02.16.03.18.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Feb 2022 03:18:29 -0800 (PST)
+Message-ID: <8f264304-3c48-da34-42e3-30519cf0c3e3@redhat.com>
+Date: Wed, 16 Feb 2022 12:18:28 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="91T4X1kC33M4VDxU"
-Content-Disposition: inline
-In-Reply-To: <20220215181812.GB33858@nuker>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 1/3] s390x/tcg: Implement
+ Miscellaneous-Instruction-Extensions Facility 3 for the s390x
+To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+References: <25fcb9f9-4314-faca-a7e3-99fbbe0541d2@gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <25fcb9f9-4314-faca-a7e3-99fbbe0541d2@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,78 +104,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, john.g.johnson@oracle.com, cohuck@redhat.com,
- jag.raman@oracle.com, john.levon@nutanix.com, eblake@redhat.com,
- david@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com, armbru@redhat.com,
- mst@redhat.com, berrange@redhat.com, pbonzini@redhat.com, philmd@redhat.com
+Cc: thuth@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ farman@linux.ibm.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+>       /* Really format SS_b, but we pack both lengths into one argument
+> @@ -735,6 +753,9 @@
+>   /* PACK UNICODE */
+>       C(0xe100, PKU,     SS_f,  E2,  la1, a2, 0, 0, pku, 0)
+>   +/* POPULATION COUNT */
+> +    C(0xb9e1, POPCNT,  RRE,   PC,  0, r2_o, r1, 0, popcnt, nz64)
 
---91T4X1kC33M4VDxU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You actually need RRF_c instead of RRE.
 
-On Tue, Feb 15, 2022 at 10:18:12AM -0800, Elena wrote:
-> On Mon, Feb 14, 2022 at 02:37:21PM +0000, Stefan Hajnoczi wrote:
-> > On Mon, Feb 07, 2022 at 11:22:18PM -0800, Elena Ufimtseva wrote:
-> > > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> > > ---
-> > >  meson.build                    |  15 ++-
-> > >  qapi/qom.json                  |  32 +++++-
-> > >  include/hw/remote/ioregionfd.h |  40 +++++++
-> > >  hw/remote/ioregionfd.c         | 196 +++++++++++++++++++++++++++++++=
-++
-> > >  Kconfig.host                   |   3 +
-> > >  MAINTAINERS                    |   2 +
-> > >  hw/remote/Kconfig              |   4 +
-> > >  hw/remote/meson.build          |   1 +
-> > >  meson_options.txt              |   2 +
-> > >  scripts/meson-buildoptions.sh  |   3 +
-> > >  10 files changed, 294 insertions(+), 4 deletions(-)
-> > >  create mode 100644 include/hw/remote/ioregionfd.h
-> > >  create mode 100644 hw/remote/ioregionfd.c
-> > >=20
-> > > diff --git a/meson.build b/meson.build
-> > > index 96de1a6ef9..6483e754bd 100644
-> > > --- a/meson.build
-> > > +++ b/meson.build
-> > > @@ -258,6 +258,17 @@ if targetos !=3D 'linux' and get_option('multipr=
-ocess').enabled()
-> > >  endif
-> > >  multiprocess_allowed =3D targetos =3D=3D 'linux' and not get_option(=
-'multiprocess').disabled()
-> > > =20
-> > > +# TODO: drop this limitation
-> >=20
-> > What is the reason for the limitation?
-> >
->=20
-> The idea is to limit use of this acceleration until the API is more
-> generic and does not need mutliprocess.
+Otherwise QEMU aborts when the guest executes POPCNT as RRE does not
+include the m3 field.
 
-Please document that intention so readers understand why a limitation
-is in place.
 
+-- 
 Thanks,
-Stefan
 
---91T4X1kC33M4VDxU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIM2xMACgkQnKSrs4Gr
-c8jZrgf6Ap+KnoP0Qkyuj6HI5e4eBKq9/4FVeAtj1b3Ab1E1f7DNrJLuVca/Cp08
-nujFYimLF7GnyG3yfrBcVppNkoexpRGpExyBDw1QykGWCUBkCkE60zMWyyoYYE7q
-XzX51eOHsL+f+HjhaggkTacwlKg5RrnLY/abRzbIKmpQjPPQcGJNeTpro+sk5A2K
-OdzIMgkdUFtScz4JX9JOpueU2zpFJ2/oH4QhxSUbJgJnHKRli6b1HxVooOhzlr5a
-gfT6JslSgztstBau6X8V7w7lSTOfx18MFjVNLwnOHYpK7z1dkokn79aJqf83u+h9
-OB0Z6XjdLYNgEsXjZzB5uFISY8ouBA==
-=8m8C
------END PGP SIGNATURE-----
-
---91T4X1kC33M4VDxU--
+David / dhildenb
 
 
