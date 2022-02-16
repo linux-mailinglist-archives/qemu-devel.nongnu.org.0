@@ -2,53 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33124B7FCE
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 06:00:29 +0100 (CET)
-Received: from localhost ([::1]:42588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A334B7E73
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 04:20:33 +0100 (CET)
+Received: from localhost ([::1]:35930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKCQW-0001el-Ka
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 00:00:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58168)
+	id 1nKAro-0004gp-It
+	for lists+qemu-devel@lfdr.de; Tue, 15 Feb 2022 22:20:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKC7X-0001HI-Cx; Tue, 15 Feb 2022 23:40:58 -0500
-Received: from [2404:9400:2221:ea00::3] (port=56655 helo=gandalf.ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKC7V-0000Q6-8y; Tue, 15 Feb 2022 23:40:51 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jz4y33r9vz4y4j; Wed, 16 Feb 2022 15:40:11 +1100 (AEDT)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nKAqL-0003zc-EK
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 22:19:01 -0500
+Received: from [2a00:1450:4864:20::329] (port=51138
+ helo=mail-wm1-x329.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nKAqJ-0008Li-L6
+ for qemu-devel@nongnu.org; Tue, 15 Feb 2022 22:19:01 -0500
+Received: by mail-wm1-x329.google.com with SMTP id k41so423192wms.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 19:18:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1644986411;
- bh=ht4xcyzdyLWBRPX3PsMbrGKmIdmQVVq73wRugcGK430=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AZsQw0dmTWPnfrYV4stobFABt8/DIHst7KaMtjsOAox3IUo9ES0bKTgGZem5gMEjl
- 2difoucOHol8VmB2noqnXXbE8gH0fLLWpnqfPQjLwe9nQpe/k4PN9pt3QLah7yIOVH
- 8j0k0TUVBy0BFhMAC/EVF57SRFKi4EJeY00sUQ3s=
-Date: Wed, 16 Feb 2022 13:50:39 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 19/27] target/ppc: cpu_init: Reuse init_proc_604 for the
- 604e
-Message-ID: <YgxmfyUJDPvZTfa4@yekko>
-References: <20220215214148.1848266-1-farosas@linux.ibm.com>
- <20220215214148.1848266-20-farosas@linux.ibm.com>
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VIpqwX3pb/x9MGHuVA4MujkpwJHnFZnNxJJJm2Jrt1Y=;
+ b=K4mVQtabp/AAYc1cCGouoE0Ox+jVkejwA62SIU4/VpAdKJnIWENYj9AWEq0KV1kptk
+ WqIeGBeux+z50bxaolnNXRrEueKGe3UhOPAvdBKEowKOyzNQWgpDUrevHo20dc7uJVwE
+ 4So13UksCcTxb5hDQdAnJys8zt2qOogimch1hGjxW/TlYbeid0JROcdqzA6UtEeABT4/
+ y1UDhw0CmkyNPeLf1Re6uHFM+mpjRIqlSGluw62eZF4Qe89NoiCsLUAnceefK/jYaWnx
+ thcpUQyfgWLYh5ZcPvcSbqx8NCKuJMyBpDZpAbUUoaflxJdGnBE89Mx5cMyMl4HcIvfE
+ RCbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VIpqwX3pb/x9MGHuVA4MujkpwJHnFZnNxJJJm2Jrt1Y=;
+ b=FVINFJDq3+4L7ELbm8vbMiMC3D/E8a486yy6jOy6Lw0ZdMf0PmCTqxICZRJ1g+VASq
+ 6spezuq6ldcC/5Y4r4Cgsvb+cU2EOn0bcrRi6Bh06RNXAfTIfXXG9f+eutDmuKdUYcOB
+ CmbFvuDAl1nmI9D1SGUbPtDKSLs9qVOdPYNrzqVpUUTv615og2BqFR0npVM2p4WRijea
+ 9dl0tiiKKud5tTakCP4kWIyla5zCqFr8yQA09C1iivBekTY1/BhUk+y+p7JMeU0QYVH/
+ O05KntekhV057Ku/jXvduPjfC+Eu83OUusQAqQDpgjdpKOmf8qf0sDj2HDkK0MmjMy/h
+ KmSg==
+X-Gm-Message-State: AOAM531xzAkbO84FaQ48tfv/EEip1sn0TBYTuaqY+V5soE9W+aOzncDc
+ wCbkp5sEh349fi+XMyFF95AIKKOhTDo9UkShS79Bcw==
+X-Google-Smtp-Source: ABdhPJzpA+0kFc0SwKCa1ZZA76q/AEVeR4Grl2kytpEZXbrJkDktvSjL6aNTEPIOlbS754SBQRkKQ0PMdE+SOuzk/iU=
+X-Received: by 2002:a1c:7715:0:b0:37b:dc94:9eb4 with SMTP id
+ t21-20020a1c7715000000b0037bdc949eb4mr659145wmi.61.1644981537165; Tue, 15 Feb
+ 2022 19:18:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="btYZXcTZVzEx086g"
-Content-Disposition: inline
-In-Reply-To: <20220215214148.1848266-20-farosas@linux.ibm.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2404:9400:2221:ea00::3
+References: <20220216000904.1217872-1-atishp@rivosinc.com>
+In-Reply-To: <20220216000904.1217872-1-atishp@rivosinc.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Wed, 16 Feb 2022 08:48:43 +0530
+Message-ID: <CAAhSdy0zv2Cj-h503EVmwDXpa=SE3W9Bk8P3-baiYZaw750ZUw@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: Add isa extenstion strings to the device
+ tree
+To: Atish Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Received-SPF: none client-ip=2a00:1450:4864:20::329;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.904, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,76 +82,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- clg@kaod.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stubner <heiko@sntech.de>,
+ Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---btYZXcTZVzEx086g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Feb 15, 2022 at 06:41:40PM -0300, Fabiano Rosas wrote:
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
+On Wed, Feb 16, 2022 at 5:39 AM Atish Patra <atishp@rivosinc.com> wrote:
+>
+> The Linux kernel parses the ISA extensions from "riscv,isa" DT
+> property. It used to parse only the single letter base extensions
+> until now. A generic ISA extension parsing framework was proposed[1]
+> recently that can parse multi-letter ISA extensions as well.
+>
+> Generate the extended ISA string by appending  the available ISA extensions
+> to the "riscv,isa" string if it is enabled so that kernel can process it.
+>
+> [1] https://lkml.org/lkml/2022/2/15/263
+>
+> Suggested-by: Heiko Stubner <heiko@sntech.de>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
 > ---
->  target/ppc/cpu_init.c | 12 +-----------
->  1 file changed, 1 insertion(+), 11 deletions(-)
->=20
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 8fbd205699..32f99373dc 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -3926,18 +3926,8 @@ POWERPC_FAMILY(604)(ObjectClass *oc, void *data)
-> =20
->  static void init_proc_604E(CPUPPCState *env)
->  {
-> -    register_ne_601_sprs(env);
-> -    register_sdr1_sprs(env);
-> -    register_604_sprs(env);
-> +    init_proc_604(env);
->      register_604e_sprs(env);
-> -
-> -    /* Memory management */
-> -    register_low_BATs(env);
-> -    init_excp_604(env);
-> -    env->dcache_line_size =3D 32;
-> -    env->icache_line_size =3D 32;
-> -    /* Allocate hardware IRQ controller */
-> -    ppc6xx_irq_init(env_archcpu(env));
+> Changes from v1->v2:
+> 1. Improved the code redability by using arrays instead of individual check
+> ---
+>  target/riscv/cpu.c | 35 ++++++++++++++++++++++++++++++++++-
+>  1 file changed, 34 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index b0a40b83e7a8..9bf8923f164b 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -34,6 +34,13 @@
+>
+>  /* RISC-V CPU definitions */
+>
+> +/* This includes the null terminated character '\0' */
+> +#define MAX_ISA_EXT_LEN 256
+> +struct isa_ext_data {
+> +        const char *name;
+> +        bool enabled;
+> +};
+> +
+>  static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
+>
+>  const char * const riscv_int_regnames[] = {
+> @@ -881,10 +888,35 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+>      device_class_set_props(dc, riscv_cpu_properties);
 >  }
-> =20
->  POWERPC_FAMILY(604E)(ObjectClass *oc, void *data)
+>
+> +static void riscv_isa_string_ext(RISCVCPU *cpu, char *isa_str, int max_str_len)
+> +{
+> +    int offset = strnlen(isa_str, max_str_len);
+> +    int i;
+> +    struct isa_ext_data isa_edata_arr[] = {
+> +        { "svpbmt", cpu->cfg.ext_svpbmt   },
+> +        { "svinval", cpu->cfg.ext_svinval },
+> +        { "svnapot", cpu->cfg.ext_svnapot },
+> +    };
+> +
+> +    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+> +        if (!isa_edata_arr[i].enabled) {
+> +            continue;
+> +        }
+> +        /* check available space */
+> +        if ((offset + strlen(isa_edata_arr[i].name) + 1) > max_str_len) {
+> +            qemu_log("No space left to append isa extension");
+> +            return;
+> +        }
+> +        offset += snprintf(isa_str + offset, max_str_len, "_%s",
+> +                           isa_edata_arr[i].name);
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+You don't need to use snprintf() and MAX_ISA_EXT_LEN if you
+use g_strconcat() for creating new concat strings and freeing
+original string using g_free().
 
---btYZXcTZVzEx086g
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
+Anup
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIMZnkACgkQgypY4gEw
-YSL2ShAAq/fPcSIhk1yNTW9j6XX6YjwiB6BmLXGpExVZMbYFWZnpHq0eYY7he3Ni
-sM2eZ8DzbSMtFHvzERSKWZDt+AzEfFifoXoclYTwucFBM117iexjlgC7iQplGFyl
-CSsFVJ0Klzf12jE6gaWlOUfvCcaGWkEfcUY+RMW2aGmOrGV1eddpwHHvrEAFgAEd
-MWZWNZ69XyUFGdDZr9SSGd9fn085JcoYtq2fsaeE+Q8aJ7Gm5ekNxnUU5jM5kDyF
-VyDjxUxp9YqXdtbgOOUmTnnWaBZRdlZwbBz4xjOzKxT9x7sUExCrk76UaD0GvdYG
-CjyivYs7K+yct/BD02LMCutmJeFec3V+Piw9UK/24l3BxB+cVLW5jn8uisC+Bd32
-0tGICrJn3NtiaitFGnV0taxvursWxvYZ56U2U/bKWwCuIWgGULXNQQMevrI7ePcM
-WQI74or9mFSPTtQ+1g/x6x9KqhaD63uQ3TZ7VSpGYUnU+LokO9cjGzX3ba6Wyf0O
-ihUQ+eRePWuWOPaKIOnF0AyqYsUWwUrDalQ0vM/VJ+FiS7xMfeklIsnSgIkJyOwQ
-NzaTaln2z+Dl/rMg1dEhjslfqXjvO7lcYVH9a+HMOaDNDdy1ZWtvztxBcCVaeRO6
-qRoLFldE5PgBy2TNohDnBK5fltoQANBikhIWYRkdseBIJGtteEY=
-=0EeV
------END PGP SIGNATURE-----
-
---btYZXcTZVzEx086g--
+> +    }
+> +}
+> +
+>  char *riscv_isa_string(RISCVCPU *cpu)
+>  {
+>      int i;
+> -    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) + 1;
+> +    const size_t maxlen = sizeof("rv128") + sizeof(riscv_exts) +
+> +                          MAX_ISA_EXT_LEN;
+>      char *isa_str = g_new(char, maxlen);
+>      char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
+>      for (i = 0; i < sizeof(riscv_exts); i++) {
+> @@ -893,6 +925,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
+>          }
+>      }
+>      *p = '\0';
+> +    riscv_isa_string_ext(cpu, isa_str, maxlen);
+>      return isa_str;
+>  }
+>
+> --
+> 2.30.2
+>
+>
 
