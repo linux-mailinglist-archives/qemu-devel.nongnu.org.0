@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489874B80E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 08:02:55 +0100 (CET)
-Received: from localhost ([::1]:38968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB4B4B811D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 08:12:46 +0100 (CET)
+Received: from localhost ([::1]:47674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKEL0-0005Sm-91
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 02:02:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48326)
+	id 1nKEUX-0003BT-PZ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 02:12:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDp6-00051Z-Ms
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:29:56 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:61643)
+ id 1nKDpA-0005BG-Oi
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:30:00 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:61649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=039576d22=alistair.francis@opensource.wdc.com>)
- id 1nKDp4-0006JS-FV
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:29:56 -0500
+ id 1nKDp8-0006K3-Hp
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 01:30:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1644992994; x=1676528994;
+ t=1644992998; x=1676528998;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uYE/mOCtndKnFgc+9uvpYG2BClhduKs/P6ABzwgR2HE=;
- b=YAp83XjIphEWuJohWajiaVTk1DNjFOsyLT4/4MSu+2FC4scssa4S8loM
- wfBNj4gi/hpsxpOBE1GdsROc4krqbKPRUzbVBEIN1PE5M+NN0CtGbTPpj
- 3BOp5e6e1+1Fu6uWYamtXPzjTlv5vuu9HWyjR/RFCWa4ZRIVAGqLOnUY0
- PXjCC7Pk4d7B/UiqqFzyR2PLw0Nhk1uiCx7EsGmTj/Ra0ZMj7BMZioKtE
- iW9R43IGeV0a1/wqTc+tpZzw0w5u0+ei49F5PvSJR7lny9BEXOkq73B1k
- wGo6C9JwpBLJ5gJfISoaqZGdpEkkKRGnwJojjgv2wCDZy4OCtYqhpjFC/ A==;
-X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="297181708"
+ bh=LvOnLpqh0OHiSklef1KLb+8AQDDkHx+78+oM9pbP6k4=;
+ b=cE/H1x7SJEZ6sF3Brd0MDt7yKt/tcPWGVDiVQ7qOEuQUNl6B0UB5CR2V
+ iLpYX0WUd6AaNLAey7aAbWbeq0TZawM5IstRnurW9DtSQZYe6EEmSaLwI
+ 9lcJd10x9VG7VucMjJ+y4BDe4qjKJhlcX+d575U9+D6q7+jXpY0KyePG+
+ VJghU0jeqGfM8GWdomCf5zrg4JFN7BFW24pUe7aDNMszGqxPt1YcBIVYb
+ KwH7F6kZJrCt+kUkYd2iKgc3nUT3sE29I1WjMoyrNWlYInl7EgPZxIP5I
+ gKZhfuwxtmG96Mvcb+Fsn4ZkOyfCdmuCBnzJ2+f/N0K97gArWWBYqUxDw w==;
+X-IronPort-AV: E=Sophos;i="5.88,373,1635177600"; d="scan'208";a="297181714"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:29:53 +0800
-IronPort-SDR: zZkCU2tkhguI8AtCbb7o3ixobRdHM4bephyHX5PHjOKTA8ojE6JJ0OZN/bHyNsoonQTU0h2ogV
- PBaml0dM2BDp+9uTt6LWLROAg3xzYgw9ItOFZ1UoUs7F9YjuK1NgxLHRLnnphC4ab0GUd94UHy
- n50G8c65NIbSfC+OGOP1XMxCew/Fmu6CKWW/TsrX13aWnlr/CzQpx3AKgtnxjgBS5eB6CAFcWe
- +bYWO2vy2OqTZzKlqvzr2CUHCWJyqN82bkH5CKiMxkXHm4IZA5WzkjlwEh76dRfeXbfLZroFLA
- 7zwe9E32PiOqWVuTliov8wzx
+ by ob1.hgst.iphmx.com with ESMTP; 16 Feb 2022 14:29:57 +0800
+IronPort-SDR: NrJcImrAg8wx8OIbF7aRMnLd76xjIGryjNx3huOA4I8EcM0WzfhX5SL26zaebrfgknl6mWX9lg
+ mpAYedFFvSNueYyIJ/gNdO+lWd9cLkg31YCctM1thhqeX62yiNiClW/xwvti/m9ODXOM5Y1PzO
+ hV0xJ3Ki8Zzcic9uwdDHJkHIIl7/6NkHJwOhmii8Rtku58ouF5dPS+ucGoFQZXpEIuGwHZsK6q
+ yO7xWhMHUwKoL0X9PVR5jzmicEGQkdiMoTPbbpKTLKXYUxkHt6/aV74KoDsiWx8gCoLfnNaizX
+ vyWdLOvfBP8VM0JAydB3urKC
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:02:41 -0800
-IronPort-SDR: hNS31K9QCnT6xF0fGGNp4z8W3i0cBsy9cMdG8aXOlxd+6LRWSnC7JRMHpaSaqQ/IqdXtXXklH7
- z5jaYSrJmbci0UuDlBb26r1iSJeDHtgtke/vx7n1/3jk8ewZl5WcCOwstBt0KZo7n/+msuwGBt
- 5hbk5U5NunaIDXdsiTOXS7UUdas8iC2c2zZhb23C5g2a2BDF7REEfxLPSvJ5AIB3bQt+MxXPlP
- w6SW3hGWGAX+oJyGIdiG+2OIFwS1TOvZjno10KEsCMaApJmPs1wHapsFcNpBrxaqT/P86YtQFj
- jMg=
+ 15 Feb 2022 22:02:45 -0800
+IronPort-SDR: aSDglZdaRCaQisGigoh5lrP9XfufNA8vGW43rZDVQCt3VVHPcHF6Amxs3d1VmjxwfLqm6RdS3a
+ RAPM/L8qrgd/viQMsILwbvLlj1qUx0MiyUpybGRehr4uX9tzfYwyol7E+Da9QK33TxK32Mq3IL
+ GnTWWv4psJZot361OgOYa7PXzgBi8fxZkXomtjQcQRVTYm4jc7Ltga3z9pYYZnbSUQFTWWTc4Y
+ NBasHou47BZjSfWv8ut/F2Xiudn+shuptkFRxGMeJvBY7b/xRpz08nt19amlsdFbZY3yzgYSP3
+ bH8=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2022 22:29:53 -0800
+ 15 Feb 2022 22:29:57 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7Nd0CZMz1SVp0
- for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:29:53 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Jz7Nj1CXtz1SVp0
+ for <qemu-devel@nongnu.org>; Tue, 15 Feb 2022 22:29:57 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1644992992; x=1647584993; bh=uYE/mOCtndKnFgc+9u
- vpYG2BClhduKs/P6ABzwgR2HE=; b=eTKpetcSvEE2WNiWuszFD7/28hUybXVxy2
- MQ06YyPrwL5MTr0wfPm3XaAxRjVsP5YJfCaX2JVz7qusUONTcOx/cv/V3ChkWwng
- F7r2mhLEDoKNQlwN0BFelJ6YJq4CAt1BwhhB5oh+XChZg2vjxlDcP9EmpCHcUmu/
- 34DQE2kEj+P0LUszTPANM6jSKoFg7S3AB45Ea6ZOH76AS550NkN8R1E3OzViu2ij
- QoBqi7uWniMtWkpbkzNgHXkix2WLuxl/z59yOfmYKDg6tjIW37uwU4Kl6iUq3FvW
- lndzL3GMtnZ5iBQge+z+hSKKPrV9Z9EEkAVEG5Res5ks9lpH+MoA==
+ :from; s=dkim; t=1644992996; x=1647584997; bh=LvOnLpqh0OHiSklef1
+ KLb+8AQDDkHx+78+oM9pbP6k4=; b=r0HX7tNwHaAltbnLO1IryN2mrIG+dusVo+
+ 1Uu7Umdi1fOuMrNCma0kwbSEj3NdpEHK12tk3j/SP1HlpmubjS7j60FbdlogPzhD
+ SEhguHPx+Ox/ih1IlOQ5c1gbvYakT6/V6lI0juPfWndpuBJOVKjJUDM/Vb/Au+QD
+ JARrNM6dhCHsFDNyA4gNJ62j+mrG0qtcEKS5to0Dg35QeM0iiGyOdk6tu15mtnMM
+ UpyyTsIqxXz169eg4dUuD2op9ASiSS5vJXJ3tC+OnvMmxd505iphwBbesjX86at2
+ 9vaP5aAybJvlf1i9X6t3gZxFwtXBDrKaJLXDck4Ik6zy+r9JjcUA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id zMot2s3une1J for <qemu-devel@nongnu.org>;
- Tue, 15 Feb 2022 22:29:52 -0800 (PST)
+ port 10026) with ESMTP id uvqCYM0flvwC for <qemu-devel@nongnu.org>;
+ Tue, 15 Feb 2022 22:29:56 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.165.97])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7NY1JYCz1SHwl;
- Tue, 15 Feb 2022 22:29:48 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Jz7Nd3NMKz1SHwl;
+ Tue, 15 Feb 2022 22:29:53 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL v2 07/35] target/riscv: access cfg structure through
- DisasContext
-Date: Wed, 16 Feb 2022 16:28:44 +1000
-Message-Id: <20220216062912.319738-8-alistair.francis@opensource.wdc.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL v2 08/35] target/riscv: iterate over a table of decoders
+Date: Wed, 16 Feb 2022 16:28:45 +1000
+Message-Id: <20220216062912.319738-9-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
 References: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
@@ -119,56 +118,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 
-The Zb[abcs] support code still uses the RISCV_CPU macros to access
-the configuration information (i.e., check whether an extension is
-available/enabled).  Now that we provide this information directly
-from DisasContext, we can access this directly via the cfg_ptr field.
+To split up the decoder into multiple functions (both to support
+vendor-specific opcodes in separate files and to simplify maintenance
+of orthogonal extensions), this changes decode_op to iterate over a
+table of decoders predicated on guard functions.
+
+This commit only adds the new structure and the table, allowing for
+the easy addition of additional decoders in the future.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220202005249.3566542-5-philipp.tomsich@vrull.eu>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20220202005249.3566542-6-philipp.tomsich@vrull.eu>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvb.c.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/riscv/translate.c | 32 +++++++++++++++++++++++++++-----
+ 1 file changed, 27 insertions(+), 5 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_=
-trans/trans_rvb.c.inc
-index 810431a1d6..f9bd3b7ec4 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -19,25 +19,25 @@
-  */
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index f19d5cd0c0..30b1b68341 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -111,6 +111,11 @@ static inline bool has_ext(DisasContext *ctx, uint32=
+_t ext)
+     return ctx->misa_ext & ext;
+ }
 =20
- #define REQUIRE_ZBA(ctx) do {                    \
--    if (!RISCV_CPU(ctx->cs)->cfg.ext_zba) {      \
-+    if (ctx->cfg_ptr->ext_zba) {                 \
-         return false;                            \
-     }                                            \
- } while (0)
++static bool always_true_p(DisasContext *ctx  __attribute__((__unused__))=
+)
++{
++    return true;
++}
++
+ #ifdef TARGET_RISCV32
+ #define get_xl(ctx)    MXL_RV32
+ #elif defined(CONFIG_USER_ONLY)
+@@ -855,15 +860,26 @@ static uint32_t opcode_at(DisasContextBase *dcbase,=
+ target_ulong pc)
 =20
- #define REQUIRE_ZBB(ctx) do {                    \
--    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbb) {      \
-+    if (ctx->cfg_ptr->ext_zbb) {                 \
-         return false;                            \
-     }                                            \
- } while (0)
+ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t o=
+pcode)
+ {
+-    /* check for compressed insn */
++    /*
++     * A table with predicate (i.e., guard) functions and decoder functi=
+ons
++     * that are tested in-order until a decoder matches onto the opcode.
++     */
++    static const struct {
++        bool (*guard_func)(DisasContext *);
++        bool (*decode_func)(DisasContext *, uint32_t);
++    } decoders[] =3D {
++        { always_true_p,  decode_insn32 },
++    };
++
++    /* Check for compressed insn */
+     if (extract16(opcode, 0, 2) !=3D 3) {
+         if (!has_ext(ctx, RVC)) {
+             gen_exception_illegal(ctx);
+         } else {
+             ctx->opcode =3D opcode;
+             ctx->pc_succ_insn =3D ctx->base.pc_next + 2;
+-            if (!decode_insn16(ctx, opcode)) {
+-                gen_exception_illegal(ctx);
++            if (decode_insn16(ctx, opcode)) {
++                return;
+             }
+         }
+     } else {
+@@ -873,10 +889,16 @@ static void decode_opc(CPURISCVState *env, DisasCon=
+text *ctx, uint16_t opcode)
+                                              ctx->base.pc_next + 2));
+         ctx->opcode =3D opcode32;
+         ctx->pc_succ_insn =3D ctx->base.pc_next + 4;
+-        if (!decode_insn32(ctx, opcode32)) {
+-            gen_exception_illegal(ctx);
++
++        for (size_t i =3D 0; i < ARRAY_SIZE(decoders); ++i) {
++            if (decoders[i].guard_func(ctx) &&
++                decoders[i].decode_func(ctx, opcode32)) {
++                return;
++            }
+         }
+     }
++
++    gen_exception_illegal(ctx);
+ }
 =20
- #define REQUIRE_ZBC(ctx) do {                    \
--    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbc) {      \
-+    if (ctx->cfg_ptr->ext_zbc) {                 \
-         return false;                            \
-     }                                            \
- } while (0)
-=20
- #define REQUIRE_ZBS(ctx) do {                    \
--    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbs) {      \
-+    if (ctx->cfg_ptr->ext_zbs) {                 \
-         return false;                            \
-     }                                            \
- } while (0)
+ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUSta=
+te *cs)
 --=20
 2.34.1
 
