@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F8A4B8F23
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 18:31:24 +0100 (CET)
-Received: from localhost ([::1]:51052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59BC4B8F0E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 18:21:39 +0100 (CET)
+Received: from localhost ([::1]:35542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKO9D-0000us-EI
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 12:31:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45624)
+	id 1nKNzl-0006xX-Gf
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 12:21:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nKNuj-0001i0-GQ
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:16:25 -0500
-Received: from [2607:f8b0:4864:20::630] (port=41838
- helo=mail-pl1-x630.google.com)
+ id 1nKNx9-0004Ar-G0
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:18:55 -0500
+Received: from [2607:f8b0:4864:20::52b] (port=43845
+ helo=mail-pg1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nKNua-0002tT-Ev
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:16:18 -0500
-Received: by mail-pl1-x630.google.com with SMTP id j4so2480122plj.8
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 09:16:16 -0800 (PST)
+ id 1nKNx7-0003pK-PB
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:18:55 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id r76so2696955pgr.10
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 09:18:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=soeRtaHMpVlIOG7bBLcFT1ESX8NximIrsneRSnqTvL8=;
- b=g0/dezJBg0NxiANRE/x5imbaFxvG+AHQ0yC3cZpn/Q8TYbCdGlhkHPxuop/+AQ9QTU
- z6HhW3Uyq40SlQGkFeBvI3H36fHVlQLOdGmvgl62pPseoGWw1V+pePJL0pSQ5dXxLcA+
- nK67lOtiM9dm/KIBDjiAgzK5dJCNwh9AMJGtiLXkYr/kCIOSQ06BZlCnmvgmhieRiaca
- IDsLatE7iAyBphhbD33+vP7y1xFl94WGDTl6ro72sNSIs+j0RJqwrjx0mvk+lJswHFbK
- wRErjty7POF35iFon3oXHve5Zj8miYP+YIoT7jkJrCV6vU2oK8MSFlzIVSn4dHht+cZc
- rvZg==
+ bh=EF+NKXbrtv/QNaBwXnYGQM61PefZhaDqnVpjGLHrpdw=;
+ b=gYln7xVGLQwS/319CHQOmRQk+LnuLVnZrV4j4tG1+vLMZrOU0XtJrcE46+hctzWb2b
+ 1DP9hkVb/vh4KH2Eh1RDKeoabQOyXJIHewFzrFs/rGEWZG1+ktXPiEhiYJ5eQ4nbvhDK
+ u8fiDFjkbRGYfSDONPp7RQdLlQRLrX/hdrnWNxs+4J0lHts2wTxxevTOSeRyyKDoWj+I
+ DuSi1OdqKpzytnnoUW3tkjX0mXBFPnK6d2SAs+JXSJrFuUXCFUJ+Cp2CveFc1UsqqyEx
+ KaHbrdDX1zU+BdmcHIrmgScJjAMgDIe7S6XrMk+9TxYqsUZUsF3qzB8vGXxZnvCfXZq6
+ V47Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=soeRtaHMpVlIOG7bBLcFT1ESX8NximIrsneRSnqTvL8=;
- b=2kL/VsCZLO4e07RJ0L+QCSeALkLQ/jgMuL7ZC/gFYuzTlBFM6aIyywH31luzHxDn57
- J1NBUIVm0CAF8bQvRGKnA0TkCBW3vKMHDw+D0efXEwwEC6Tz+W5ngsKBcYzDdAfZHI0j
- SawTuGOFpuVy+fB77CH2ToZSlZ8Zn/bQGBwJgt/N2ercoHIOnQNwXqcDP2bzyTH9YlOA
- NYQ3oLaSHpjLWCo2EK+yTQN6fCVuPK+7MasMC6bvjRMvpg9pZWdbrBlK8K9cn/ijDhSn
- CCsYUEpxGshlytxpMFWqXw+JH8B7N43SJOE0O8MYe9shM4zhwZxAosmRH/+4lrkM5IC7
- cEaw==
-X-Gm-Message-State: AOAM531kx8N+mSEYexuzPsSRkEE+ebEj6BrPnxZcwEZqy4KKlB5Mvcbz
- tdHdNHOWXxWOIcT85C0+9Og=
-X-Google-Smtp-Source: ABdhPJxyaIfFOH8zIED4LHEZioJ4JrxjSUopKBd1YqFRr49vAXUL27NzX5z1k5s4gIP8Heoj/NYB5w==
-X-Received: by 2002:a17:902:ab18:b0:14f:3c15:8f18 with SMTP id
- ik24-20020a170902ab1800b0014f3c158f18mr3785716plb.21.1645031775011; 
- Wed, 16 Feb 2022 09:16:15 -0800 (PST)
+ bh=EF+NKXbrtv/QNaBwXnYGQM61PefZhaDqnVpjGLHrpdw=;
+ b=gkXrEY2W9MhZRYikUydIvjFWj9Lw5AJD2ta5NUa9+ljG+7tFaP7r8jNwdOG8qljEps
+ +C3vOuGCLLaE8XubgMzy82NN6S3aIn2FijGDuf4VHRJ1/z/4Ac7Idv3Iici06QAUzRRO
+ TxDRRnkjqCFiSsXw5CsiZ8wcpcZenfpW3dWHvUQvp/XYqJ0JVmVnnF1Vnz6RgsTW/Laz
+ u8GsInD5LskFYBm1rD9PPWS+i70ay3H1uqTN6ISgQwG7UGd81RUQ6ODgmsWyuXkKy9wP
+ 1hxb8i+1uCPMFaaW2L4PFS6OVW6WgpNl7k0zT/MNK5gMPH64NSB/s26UfvIt06MeZlT3
+ hPlA==
+X-Gm-Message-State: AOAM533uX06N73MVlbwZQOOn14fBHekkqBFyItNX/FqMtd7+O3XG0AVr
+ wsiSBDE5Xhdsx6REUVQhrG0=
+X-Google-Smtp-Source: ABdhPJy3lVu7r+GvGezR/4fGm31sKRzqYlhP8KlSIHe6dgfmMnn/7Ocj2kyT9iQoP6ugPTAjSYU5YQ==
+X-Received: by 2002:a63:f750:0:b0:342:b67b:5922 with SMTP id
+ f16-20020a63f750000000b00342b67b5922mr3041541pgk.483.1645031931166; 
+ Wed, 16 Feb 2022 09:18:51 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id y72sm14092334pfb.91.2022.02.16.09.16.12
+ by smtp.gmail.com with ESMTPSA id b8sm548176pfv.74.2022.02.16.09.18.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 09:16:14 -0800 (PST)
-Message-ID: <ea30ad98-8e15-7404-c91c-ec475551b866@amsat.org>
-Date: Wed, 16 Feb 2022 18:16:10 +0100
+ Wed, 16 Feb 2022 09:18:50 -0800 (PST)
+Message-ID: <02c7d441-815b-2fd8-21dc-8357b5cd6ebb@amsat.org>
+Date: Wed, 16 Feb 2022 18:18:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: QEMU's Haiku CI image
+Subject: Re: [PATCH v2 4/8] configure: Disable out-of-line atomic operations
+ on Aarch64
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>,
- Alexander von Gluck IV <kallisti5@unixzen.com>,
- Richard Zak <richard.j.zak@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cleber Rosa <crosa@redhat.com>
-References: <c13291ec-ed73-a62d-24bc-e4282aad2031@redhat.com>
- <777cb005f1c2197ff3fd610f89215b4d@unixzen.com>
- <0a36d4b2-965d-84ad-1e04-ab4cd8c437f1@redhat.com>
-In-Reply-To: <0a36d4b2-965d-84ad-1e04-ab4cd8c437f1@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Andrew Jones <drjones@redhat.com>
+References: <20220215170106.95848-1-f4bug@amsat.org>
+ <20220215170106.95848-5-f4bug@amsat.org>
+ <1872c662-9363-6d49-d057-9be7ab7c6e0b@linaro.org>
+ <5356ac8a-cfbf-cfcb-13c5-872ecaf7bed2@amsat.org>
+ <996032dd-4f00-6480-a485-80d49fb70c67@gmail.com>
+In-Reply-To: <996032dd-4f00-6480-a485-80d49fb70c67@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: 3
 X-Spam_score: 0.3
 X-Spam_bar: /
@@ -107,40 +109,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 16/2/22 17:32, Thomas Huth wrote:
-> On 16/02/2022 16.52, Alexander von Gluck IV wrote:
->> February 16, 2022 6:31 AM, "Thomas Huth" <thuth@redhat.com> wrote:
+On 16/2/22 17:42, Akihiko Odaki wrote:
+> On 2022/02/17 0:08, Philippe Mathieu-Daudé wrote:
+>> On 16/2/22 11:19, Richard Henderson wrote:
+>>> On 2/16/22 04:01, Philippe Mathieu-Daudé via wrote:
+>>>> GCC 10.1 introduced the -moutline-atomics option on Aarch64.
+>>>> This options is enabled by default, and triggers a link failure:
+>>>>
+>>>>    Undefined symbols for architecture arm64:
+>>>>      "___aarch64_cas1_acq_rel", referenced from:
+>>>>          _qmp_migrate_recover in migration_migration.c.o
+>>>>          _cpu_atomic_cmpxchgb_mmu in accel_tcg_cputlb.c.o
+>>>>          _cpu_atomic_fetch_sminb_mmu in accel_tcg_cputlb.c.o
+>>>>          _cpu_atomic_fetch_uminb_mmu in accel_tcg_cputlb.c.o
+>>>>          _cpu_atomic_fetch_smaxb_mmu in accel_tcg_cputlb.c.o
+>>>>          _cpu_atomic_fetch_umaxb_mmu in accel_tcg_cputlb.c.o
+>>>>          _cpu_atomic_smin_fetchb_mmu in accel_tcg_cputlb.c.o
+>>>>          ...
+>>>>      "___aarch64_ldadd4_acq_rel", referenced from:
+>>>>          _multifd_recv_new_channel in migration_multifd.c.o
+>>>>          _monitor_event in monitor_hmp.c.o
+>>>>          _handle_hmp_command in monitor_hmp.c.o
+>>>>          _colo_compare_finalize in net_colo-compare.c.o
+>>>>          _flatview_unref in softmmu_memory.c.o
+>>>>          _virtio_scsi_hotunplug in hw_scsi_virtio-scsi.c.o
+>>>>          _tcg_register_thread in tcg_tcg.c.o
+>>>>          ...
+>>>>      "___aarch64_swp4_acq", referenced from:
+>>>>          _qemu_spin_lock in softmmu_cpu-timers.c.o
+>>>>          _cpu_get_ticks in softmmu_cpu-timers.c.o
+>>>>          _qemu_spin_lock in softmmu_icount.c.o
+>>>>          _cpu_exec in accel_tcg_cpu-exec.c.o
+>>>>          _page_flush_tb_1.isra.0 in accel_tcg_translate-all.c.o
+>>>>          _page_entry_lock in accel_tcg_translate-all.c.o
+>>>>          _do_tb_phys_invalidate in accel_tcg_translate-all.c.o
+>>>>          ...
+>>>>
+>>>> QEMU implements its own atomic operations using C11 builtin helpers.
+>>>> Disable the GCC out-of-line atomic ops.
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+>>>> ---
+>>>> Cc: Stefan Hajnoczi<stefanha@redhat.com>
+>>>> Cc: Paolo Bonzini<pbonzini@redhat.com>
+>>>>
+>>>> Clearly out of my understanding, but at least it links and the qtests
+>>>> pass.
+>>>> ---
+>>>>   configure | 12 ++++++++++++
+>>>>   1 file changed, 12 insertions(+)
 >>>
->>> while researching the different "sed" options on our supported build 
->>> platform today, I started
->>> "make vm-build-haiku.x86_64" in my QEMU build directory for the first 
->>> time since many months again.
->>> And I had to discover that this is completely out of date. The image 
->>> does not contain any version
->>> of Python 3 yet which we require for compilation since more than a 
->>> year now already, and the Haiku
->>> version in there seems to be too old to do a "pkgman install -y 
->>> python3" ... so this has been
->>> completely been bitrotting since more than a year now. Is anybody 
->>> still interested in keeping the
->>> Haiku support in QEMU? If so, please help to get the VM image 
->>> updated. Thanks!
+>>> These should have been supplied by libgcc.a, which we're supposed to 
+>>> be linking against. Something is wrong with your installation.
 >>
->> I submitted
->> https://patchwork.kernel.org/project/qemu-devel/patch/20220216154208.2985103-1-kallisti5@unixzen.com/ 
+>> I don't have gobjc/g++ installed, so ./configure defaulted to Clang to
+>> compile these languages, but compiled C files using GCC. At the end the
+>> Clang linker is used (the default c++ symlink).
 >>
->> to fix this issue.  The build runs as expected after that patchset.
->>
->> Likely cause is us no longer packing a "python" binary, deferring to 
->> "python2" vs "python3"
->>
->> I'm still the most likely maintainer.  Are there still plans to 
->> automate the tests for Haiku to
->> prevent this from happening again in the future?
+>> Could there be a mismatch between Clang (-mno-outline-atomics) and GCC
+>> (-moutline-atomics)?
 > 
-> AFAIK we still don't have a machine where we could properly run VM-based 
-> tests in the CI, do we? Peter? Cleber?
+> I think you have to instruct Clang to use libgcc instead of compiler-rt 
+> and link the objects with GCC. Here is the documentation of Clang about 
+> the runtime I could find:
+> https://clang.llvm.org/docs/Toolchain.html#libgcc-s-gnu
 
-We still have unused fosshost.org resources. What we don't have is a
-sysadmin willing to install the VM and maintain it over time.
+Thanks for the pointer. And the next section is
+https://clang.llvm.org/docs/Toolchain.html#atomics-library :)
+
+   Clang does not currently automatically link against libatomic when
+    using libgcc_s. You may need to manually add -latomic to support
+   this configuration when using non-native atomic operations (if you
+   see link errors referring to __atomic_* functions).
+
+I'll try that.
 
