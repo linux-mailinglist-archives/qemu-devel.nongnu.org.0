@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0FF4B8F97
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 18:44:51 +0100 (CET)
-Received: from localhost ([::1]:41450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A69A4B8F4E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Feb 2022 18:40:03 +0100 (CET)
+Received: from localhost ([::1]:33770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKOME-0006cO-7x
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 12:44:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52858)
+	id 1nKOHZ-0000oP-M0
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 12:40:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKOEP-0006cW-Hp
+ id 1nKOEP-0006cX-LN
  for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:36:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21797)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKOEK-0007ke-Sj
+ id 1nKOEM-0007lQ-3B
  for qemu-devel@nongnu.org; Wed, 16 Feb 2022 12:36:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645032999;
+ s=mimecast20190719; t=1645033001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5uW7adoh+Dgrl44gjHb4LT9WMtYlXyzJDWx7NfbNSxw=;
- b=PlX8LKIu/bVeZPuI7cWmhN1T0IwMnzRot1nsWbJXi+zP01lz9iygaL104R7pzqzbX0Mqva
- Wk4K9d1/vClUCMlwMpJLdI04yQ1tRrnSbY9HIq/829fhJo0uI963Fz24fVjUPYi2kPTNvD
- Q1XbnipJXJN8vrDsNrXjhtQDgyfeu9o=
+ bh=MaJrs/ZheBAa9RrtTzRrPMkAxwpo5GQ5cHjMnqAbx28=;
+ b=GO/1Te9BMcc8eE74IWa5oa0Co5PvA4xlNrJF8431ZcCwn2Fvtl5SGqcMRqvC4g3veSzuWB
+ hzIvXXw3N4J6c9hwwnNrydSls+5TyI70TAfoCQ6sSg3C5ecsEMYUKtufSFLGecC2Sql1qT
+ OBqO/WJd2f0bDqA06Fpm2TDMahF7648=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-107-iIdrh7DLNzqxpxBAa2L-GA-1; Wed, 16 Feb 2022 12:36:35 -0500
-X-MC-Unique: iIdrh7DLNzqxpxBAa2L-GA-1
+ us-mta-228-LDD_nqqaNxi2MNGC3vAvug-1; Wed, 16 Feb 2022 12:36:37 -0500
+X-MC-Unique: LDD_nqqaNxi2MNGC3vAvug-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D47298143E5;
- Wed, 16 Feb 2022 17:36:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1F921853028;
+ Wed, 16 Feb 2022 17:36:36 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.195.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 470C775740;
- Wed, 16 Feb 2022 17:36:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C2DB75740;
+ Wed, 16 Feb 2022 17:36:35 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, vgoyal@redhat.com, groug@kaod.org,
  sebastian.hasler@stuvus.uni-stuttgart.de
-Subject: [PULL 01/12] virtiofsd: Do not support blocking flock
-Date: Wed, 16 Feb 2022 17:36:14 +0000
-Message-Id: <20220216173625.128109-2-dgilbert@redhat.com>
+Subject: [PULL 02/12] virtiofsd: Fix breakage due to fuse_init_in size change
+Date: Wed, 16 Feb 2022 17:36:15 +0000
+Message-Id: <20220216173625.128109-3-dgilbert@redhat.com>
 In-Reply-To: <20220216173625.128109-1-dgilbert@redhat.com>
 References: <20220216173625.128109-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,41 +84,52 @@ Cc: virtio-fs@redhat.com, stefanha@redhat.com, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-With the current implementation, blocking flock can lead to
-deadlock. Thus, it's better to return EOPNOTSUPP if a user attempts
-to perform a blocking flock request.
+Kernel version 5.17 has increased the size of "struct fuse_init_in" struct.
+Previously this struct was 16 bytes and now it has been extended to
+64 bytes in size.
 
-Signed-off-by: Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>
-Message-Id: <20220113153249.710216-1-sebastian.hasler@stuvus.uni-stuttgart.de>
+Once qemu headers are updated to latest, it will expect to receive 64 byte
+size struct (for protocol version major 7 and minor > 6). But if guest is
+booting older kernel (older than 5.17), then it still sends older
+fuse_init_in of size 16 bytes. And do_init() fails. It is expecting
+64 byte struct. And this results in mount of virtiofs failing.
+
+Fix this by parsing 16 bytes only for now. Separate patches will be
+posted which will parse rest of the bytes and enable new functionality.
+Right now we don't support any of the new functionality, so we don't
+lose anything by not parsing bytes beyond 16.
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Message-Id: <20220208204813.682906-2-vgoyal@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- tools/virtiofsd/passthrough_ll.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ tools/virtiofsd/fuse_lowlevel.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index b3d0674f6d..3e56d1cd95 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2467,6 +2467,15 @@ static void lo_flock(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
-     int res;
-     (void)ino;
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index e4679c73ab..ce29a70253 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -1880,6 +1880,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+                     struct fuse_mbuf_iter *iter)
+ {
+     size_t compat_size = offsetof(struct fuse_init_in, max_readahead);
++    size_t compat2_size = offsetof(struct fuse_init_in, flags) + sizeof(uint32_t);
+     struct fuse_init_in *arg;
+     struct fuse_init_out outarg;
+     struct fuse_session *se = req->se;
+@@ -1897,7 +1898,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
  
-+    if (!(op & LOCK_NB)) {
-+        /*
-+         * Blocking flock can deadlock as there is only one thread
-+         * serving the queue.
-+         */
-+        fuse_reply_err(req, EOPNOTSUPP);
-+        return;
-+    }
-+
-     res = flock(lo_fi_fd(req, fi), op);
- 
-     fuse_reply_err(req, res == -1 ? errno : 0);
+     /* ...and now consume the new fields. */
+     if (arg->major == 7 && arg->minor >= 6) {
+-        if (!fuse_mbuf_iter_advance(iter, sizeof(*arg) - compat_size)) {
++        if (!fuse_mbuf_iter_advance(iter, compat2_size - compat_size)) {
+             fuse_reply_err(req, EINVAL);
+             return;
+         }
 -- 
 2.35.1
 
