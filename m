@@ -2,88 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232AE4BA276
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:06:05 +0100 (CET)
-Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3171E4BA2A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:13:54 +0100 (CET)
+Received: from localhost ([::1]:40230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKhQ3-0002qo-Km
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:06:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35734)
+	id 1nKhXc-0000qU-Tt
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:13:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nKh5B-0002ky-5e
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:44:29 -0500
-Received: from [2a00:1450:4864:20::636] (port=35426
- helo=mail-ej1-x636.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nKh58-0002af-Og
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:44:28 -0500
-Received: by mail-ej1-x636.google.com with SMTP id qk11so7445707ejb.2
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 05:44:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GUzDAkORZzekUXxw8oyBR3o2aMGTChOMLfj3ZxQVqhA=;
- b=Ued4oCK8lsKJotPmXeBO4DAltPFt6ClYvv4Pfv7By9I/fAJC3bIv/RC1AhEJckFm8X
- 7NlWG4DpGpTggbsAR9mN0ilUkNq2SdTUlY4Czm3TGIwMpN7guUuwvtNBIJ9fX2ocSnyG
- 2LBBEAKtves6dMNAMvSS35QJNAV/NQa6FSw+/9UyMUOt1hpeQrTly2s9+B7k2nI4RhuO
- +lmY0iWMViWdAOYrOK1MKOVr7veJOOtxOW73j5+NaYJaHviB9rRehv2y7tnlYRPuE7Jn
- /+lSUHrb73JF9qsaVuEMVBdjNy4oQoh+N1RWzhLUJf+oj78ybSNuP7W8OXF0FnygpaOm
- 8JHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GUzDAkORZzekUXxw8oyBR3o2aMGTChOMLfj3ZxQVqhA=;
- b=rqkBwrPPztwrHf9PxG7DpoWpnL4mif2XsYSOoGGpCrwGkwsxLhzGyvnmFL7IpY4pAu
- DxWtpvbzwmHhdWPMjO5nHvDOYqBk8poANwHKC6lzUDOhSkizDWizdZY3O2RXxkm8wkQN
- zTtu8ph6rx4v62FmcHb2xk4yPa1owTaRNbzgAgvi56dwEMf57LCU34nzBht/WDVNsJ87
- pt33oWKaCf+HGDglldckOMcOB1FZDHIMCixhV3LhazWkvkvAdLB4fwAQLzImzPtGXnD3
- RK4dk+JxKe4m2ZaAQj7BUGtU2ysFdhfEUrluooomVbPoONUO5AsUb4EgR9hEeLTC7nMm
- gYTw==
-X-Gm-Message-State: AOAM5324AcMeCZDdJJQr3jfIu8qK5QWzdE7TRWMwNHkmh4GNax8cGQBv
- CBM79sUPrqgPuN6fMtwdxIQ=
-X-Google-Smtp-Source: ABdhPJytLpv2o3f3eOKa0WegtoWq0hNuMCIXUdukOrzuB43TjdGsjKsioVPleltKgJ1o1tBQin3bjQ==
-X-Received: by 2002:a17:906:9bcf:b0:6cc:1ba8:5c5a with SMTP id
- de15-20020a1709069bcf00b006cc1ba85c5amr2304239ejc.640.1645105455947; 
- Thu, 17 Feb 2022 05:44:15 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id fx2sm1081625ejb.59.2022.02.17.05.44.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 05:44:15 -0800 (PST)
-Message-ID: <9e873019-99c6-bd47-458d-1d307961882c@redhat.com>
-Date: Thu, 17 Feb 2022 14:44:10 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKh6Z-0003O0-PW
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:45:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35242)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKh6W-0002uo-O2
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:45:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645105552;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7/qoYrfnLVP0RNSqwR3WL942TjpbsnJZLexQ3jsUFcs=;
+ b=ge/lUbFaHF2YvjLMfYBkp110ZJ/mOJ4/yXhnWzuts5GDvxdW7bhfJa7VcrPwJje/9J8OuS
+ 33CWM4Z3Mlik/hkSNOZRyn9Vi6fjRs0Ju3HjvJ1ag7iJcvb5mwrl7qmlArBWEBSvTqWO5U
+ mjxEXVK2IG6i7bvkn40oLkXkJpI0zkg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-467-M35Xjno5Owu2fswsKXvckg-1; Thu, 17 Feb 2022 08:45:48 -0500
+X-MC-Unique: M35Xjno5Owu2fswsKXvckg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E96EF1091DA0;
+ Thu, 17 Feb 2022 13:45:46 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E7A36FB8A;
+ Thu, 17 Feb 2022 13:45:36 +0000 (UTC)
+Date: Thu, 17 Feb 2022 13:45:35 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v5 04/20] job.c: move inner aiocontext lock in callbacks
+Message-ID: <Yg5Rfyf2NvnCPAWq@stefanha-x1.localdomain>
+References: <20220208143513.1077229-1-eesposit@redhat.com>
+ <20220208143513.1077229-5-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 3/8] x86: Grant AMX permission for guest
-Content-Language: en-US
-To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
-References: <20220217060434.52460-1-yang.zhong@intel.com>
- <20220217060434.52460-4-yang.zhong@intel.com>
- <20220217055836.GA10691@yangzhon-Virtual>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220217055836.GA10691@yangzhon-Virtual>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HylsmDjAewPOse0o"
+Content-Disposition: inline
+In-Reply-To: <20220208143513.1077229-5-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,173 +76,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: seanjc@google.com, kevin.tian@intel.com, jing2.liu@linux.intel.com,
- wei.w.wang@intel.com, guang.zeng@intel.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/22 06:58, Yang Zhong wrote:
->> +
->> +    if ((mask & XSTATE_XTILE_DATA_MASK) == XSTATE_XTILE_DATA_MASK) {
->> +        bitmask = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
->> +        if (!(bitmask & XSTATE_XTILE_DATA_MASK)) {
->     Paolo, last time you suggested below changes for here:
-> 
->     rc = kvm_arch_get_supported_cpuid(s, 0xd, 0,
->                                    (xdata_bit < 32 ? R_EAX : R_EDX));
->     if (!(rc & BIT(xdata_bit & 31)) {
->        ...
->     }
-> 
->    Since I used "mask" as parameter here, so I had to directly use R_EAX here.
->    Please review and if need change it to like "(xdata_bit < 32 ? R_EAX : R_EDX)",
->    I will change this in next version, thanks!
 
-I looked at this function more closely because it didn't compile on non-Linux
-systems, too.  I think it's better to write it already to plan for more
-dynamic features.  In the code below, I'm also relying on
-KVM_GET_SUPPORTED_CPUID/KVM_X86_COMP_GUEST_SUPP being executed
-before ARCH_REQ_XCOMP_GUEST_PERM, which therefore cannot fail.
+--HylsmDjAewPOse0o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 377d993438..1d0c006077 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -43,8 +43,6 @@
-  #include "disas/capstone.h"
-  #include "cpu-internal.h"
-  
--#include <sys/syscall.h>
--
-  /* Helpers for building CPUID[2] descriptors: */
-  
-  struct CPUID2CacheDescriptorInfo {
-@@ -6002,40 +6000,6 @@ static void x86_cpu_adjust_feat_level(X86CPU *cpu, FeatureWord w)
-      }
-  }
-  
--static void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
--{
--    KVMState *s = kvm_state;
--    uint64_t bitmask;
--    long rc;
--
--    if ((mask & XSTATE_XTILE_DATA_MASK) == XSTATE_XTILE_DATA_MASK) {
--        bitmask = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
--        if (!(bitmask & XSTATE_XTILE_DATA_MASK)) {
--            warn_report("no amx support from supported_xcr0, "
--                        "bitmask:0x%lx", bitmask);
--            return;
--        }
--
--        rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_GUEST_PERM,
--                      XSTATE_XTILE_DATA_BIT);
--        if (rc) {
--            /*
--             * The older kernel version(<5.15) can't support
--             * ARCH_REQ_XCOMP_GUEST_PERM and directly return.
--             */
--            return;
--        }
--
--        rc = syscall(SYS_arch_prctl, ARCH_GET_XCOMP_GUEST_PERM, &bitmask);
--        if (rc) {
--            warn_report("prctl(ARCH_GET_XCOMP_GUEST_PERM) error: %ld", rc);
--        } else if (!(bitmask & XFEATURE_XTILE_MASK)) {
--            warn_report("prctl(ARCH_REQ_XCOMP_GUEST_PERM) failure "
--                        "and bitmask=0x%lx", bitmask);
--        }
--    }
--}
--
-  /* Calculate XSAVE components based on the configured CPU feature flags */
-  static void x86_cpu_enable_xsave_components(X86CPU *cpu)
-  {
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d4ad0f56bd..de949bd63d 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -551,11 +551,8 @@ typedef enum X86Seg {
-  #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
-  #define XSTATE_XTILE_CFG_MASK           (1ULL << XSTATE_XTILE_CFG_BIT)
-  #define XSTATE_XTILE_DATA_MASK          (1ULL << XSTATE_XTILE_DATA_BIT)
--#define XFEATURE_XTILE_MASK             (XSTATE_XTILE_CFG_MASK \
--                                         | XSTATE_XTILE_DATA_MASK)
-  
--#define ARCH_GET_XCOMP_GUEST_PERM       0x1024
--#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
-+#define XSTATE_DYNAMIC_MASK             (XSTATE_XTILE_DATA_MASK)
-  
-  #define ESA_FEATURE_ALIGN64_BIT         1
-  
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 3bdcd724c4..4b07778970 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -17,6 +17,7 @@
-  #include "qapi/error.h"
-  #include <sys/ioctl.h>
-  #include <sys/utsname.h>
-+#include <sys/syscall.h>
-  
-  #include <linux/kvm.h>
-  #include "standard-headers/asm-x86/kvm_para.h"
-@@ -5168,3 +5169,39 @@ bool kvm_arch_cpu_check_are_resettable(void)
-  {
-      return !sev_es_enabled();
-  }
-+
-+#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
-+
-+void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
-+{
-+    KVMState *s = kvm_state;
-+    uint64_t supported;
-+
-+    mask &= XSTATE_DYNAMIC_MASK;
-+    if (!mask) {
-+	return;
-+    }
-+    /*
-+     * Just ignore bits that are not in CPUID[EAX=0xD,ECX=0].
-+     * ARCH_REQ_XCOMP_GUEST_PERM would fail, and QEMU has warned
-+     * about them already because they are not supported features.
-+     */
-+    supported = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
-+    supported |= (uint64_t)kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EDX) << 32;
-+    mask &= ~supported;
-+
-+    while (mask) {
-+        int bit = ctz64(mask);
-+        int rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_GUEST_PERM, bit);
-+        if (rc) {
-+            /*
-+             * Older kernel version (<5.17) do not support
-+             * ARCH_REQ_XCOMP_GUEST_PERM, but also do not return
-+             * any dynamic feature from kvm_arch_get_supported_cpuid.
-+             */
-+            warn_report("prctl(ARCH_REQ_XCOMP_GUEST_PERM) failure "
-+                        "for feature bit %d", bit);
-+        }
-+	mask &= ~BIT_ULL(bit);
-+    }
-+}
-diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-index a978509d50..4124912c20 100644
---- a/target/i386/kvm/kvm_i386.h
-+++ b/target/i386/kvm/kvm_i386.h
-@@ -52,5 +52,6 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
-  uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
-  
-  bool kvm_enable_sgx_provisioning(KVMState *s);
-+void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask);
-  
-  #endif
+On Tue, Feb 08, 2022 at 09:34:57AM -0500, Emanuele Giuseppe Esposito wrote:
+> Instead of having the lock in job_tnx_apply, move it inside
 
+s/tnx/txn/
 
-If this works, the rest of the series is good to go!
+> in the callback. This will be helpful for next commits, when
+> we introduce job_lock/unlock pairs.
+>=20
+> job_transition_to_pending() and job_needs_finalize() do not
+> need to be protected by the aiocontext lock.
+>=20
+> No functional change intended.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  job.c | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
 
-Thanks,
+I find this hard to review. The patch reduces the scope of the
+AioContext lock region and accesses Job in places where the AioContext
+was previously held. The commit description doesn't explain why it is
+safe to do this.
 
-Paolo
+I may need to audit the code myself but will try reviewing a few more
+patches first to see if I get the hang of this.
+
+>=20
+> diff --git a/job.c b/job.c
+> index f13939d3c6..d8c13ac0d1 100644
+> --- a/job.c
+> +++ b/job.c
+> @@ -149,7 +149,6 @@ static void job_txn_del_job(Job *job)
+> =20
+>  static int job_txn_apply(Job *job, int fn(Job *))
+>  {
+> -    AioContext *inner_ctx;
+>      Job *other_job, *next;
+>      JobTxn *txn =3D job->txn;
+>      int rc =3D 0;
+> @@ -164,10 +163,7 @@ static int job_txn_apply(Job *job, int fn(Job *))
+>      aio_context_release(job->aio_context);
+> =20
+>      QLIST_FOREACH_SAFE(other_job, &txn->jobs, txn_list, next) {
+> -        inner_ctx =3D other_job->aio_context;
+> -        aio_context_acquire(inner_ctx);
+>          rc =3D fn(other_job);
+> -        aio_context_release(inner_ctx);
+>          if (rc) {
+>              break;
+>          }
+> @@ -717,11 +713,15 @@ static void job_clean(Job *job)
+> =20
+>  static int job_finalize_single(Job *job)
+>  {
+> +    AioContext *ctx =3D job->aio_context;
+> +
+>      assert(job_is_completed(job));
+> =20
+>      /* Ensure abort is called for late-transactional failures */
+>      job_update_rc(job);
+> =20
+> +    aio_context_acquire(ctx);
+> +
+>      if (!job->ret) {
+>          job_commit(job);
+>      } else {
+> @@ -729,6 +729,8 @@ static int job_finalize_single(Job *job)
+>      }
+>      job_clean(job);
+> =20
+> +    aio_context_release(ctx);
+> +
+>      if (job->cb) {
+>          job->cb(job->opaque, job->ret);
+>      }
+> @@ -833,8 +835,8 @@ static void job_completed_txn_abort(Job *job)
+>              assert(job_cancel_requested(other_job));
+>              job_finish_sync(other_job, NULL, NULL);
+>          }
+> -        job_finalize_single(other_job);
+>          aio_context_release(ctx);
+> +        job_finalize_single(other_job);
+>      }
+> =20
+>      /*
+> @@ -849,11 +851,16 @@ static void job_completed_txn_abort(Job *job)
+> =20
+>  static int job_prepare(Job *job)
+>  {
+> +    AioContext *ctx =3D job->aio_context;
+>      assert(qemu_in_main_thread());
+> +
+>      if (job->ret =3D=3D 0 && job->driver->prepare) {
+> +        aio_context_acquire(ctx);
+>          job->ret =3D job->driver->prepare(job);
+> +        aio_context_release(ctx);
+>          job_update_rc(job);
+>      }
+> +
+>      return job->ret;
+>  }
+> =20
+> --=20
+> 2.31.1
+>=20
+
+--HylsmDjAewPOse0o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIOUX8ACgkQnKSrs4Gr
+c8iKTggAmz8F/gvIJz5ZzKvwEOQNgCDT2czZ66W/JsOwa8CH0Bt3xZnFG1vwRIDd
+9h30iAHoXjfYnpv63YepEMouVWGUF82RTTlCf6BaiHM7SN8ydliiYpImyblQJ1dQ
+2ZoambYuW5jKyJcDei5q49/6SlMLR3bbSdF7+UuWA+lNWu5h8EvxYsY+/2kXV3x8
+KUkwpP7u8CA0Y0+erTHjG4BlGg7oKazFJeEmXigLSsAuINdpLFnMuHcUVm7tvlpn
+CWfnhFp3KCc8HeOYPamvf4xaQgFdE638ifeQ0GynCmyqKjgy/Am0nudqhw5hMV2C
+EoZ5Te0dlbeO4JzWCPdYZzjD13kJwg==
+=boV/
+-----END PGP SIGNATURE-----
+
+--HylsmDjAewPOse0o--
+
 
