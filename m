@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51CBD4BA79F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 19:01:47 +0100 (CET)
-Received: from localhost ([::1]:51064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3365D4BA7D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 19:13:04 +0100 (CET)
+Received: from localhost ([::1]:43588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKl6A-0008B8-Cp
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 13:01:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37150)
+	id 1nKlH4-0005Hm-0f
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 13:13:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nKkxF-0001ij-V0
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:52:34 -0500
-Received: from [2a00:1450:4864:20::536] (port=44640
- helo=mail-ed1-x536.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nKl97-0005kD-W9
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 13:04:51 -0500
+Received: from [2607:f8b0:4864:20::b2a] (port=43735
+ helo=mail-yb1-xb2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nKkxA-00087y-8T
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:52:33 -0500
-Received: by mail-ed1-x536.google.com with SMTP id x5so11007396edd.11
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 09:52:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0GezYuBq/IBk84/vSXTIhXk7J6MIx3mjFhk6IwFvMpk=;
- b=jLaab6MwwT20QXD4svGT4lr1ununpN2FDzfw5Fd5zN6NacnaFxdFx/32vEkC4NW6jk
- zkbeWhtkY5i4CnmhFXMqOwvr9CBReUqYHQbYGVZbhPq6jiJlHLszzydv65qpfQA8QTFQ
- Y7aSWHzgC/8dvePLHMdKg2l7ChiAxPHDx/4ma3gbp0nMUq8yjIv5s0G8VjLd4DYc6WPQ
- KM2yKtixtMjDh9EIEP951hwb2dfs6Fg7EaTAx08VPJ9u8rKWgdwOspobpOFkMRCFkFLx
- RC2gp1VeFZCE101Ix5JhDVANbO5Xa4/rrGhBgwkRxIPjZiR64PxNPl8TFZxBZGLN+aSy
- Agtw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nKl93-0001Gt-0U
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 13:04:49 -0500
+Received: by mail-yb1-xb2a.google.com with SMTP id v63so14636776ybv.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 10:04:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lazB452ztCvc9qsnFJ9w/i9NUbnbc+2tXk+zMU1a4oo=;
+ b=m3qluDm6SzE3J7yhe3HqEt9aXkm21Dj5UR+SSbhDhfO0nDNfZsClJetZNju5xocPo5
+ Kv9bW03nrSlQ9DjZj0uithEhmyF5Xj2mXS8Or9uUmHerEb+yJP8jISnWrdmhsG0Scwpv
+ KTiOkOZ4Sgndqy1Jw9KAAV26mg6U9VhgZURy4RaQav+ISQeFeQ7el/msBwtlUfqpb16W
+ v44iBo1qErloda0LmiMKjXMDYaGL9r4xXbaq7C6aOR3+/+lMx+J6X47vtrcXc8sOyxkc
+ NYbds9M6+dXNnYkNnIx/Wea0MP2Tc9B7VHym06ITQZ7c8lIYGgemV2z9q8R2eoWT0gQh
+ bsXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0GezYuBq/IBk84/vSXTIhXk7J6MIx3mjFhk6IwFvMpk=;
- b=cvOcR6f/JAjfPnorhc7zx99eBfGT28KeAowUHEzZjuCexmhHJ855xpmh9a9lB8EdGG
- yAFU6z4FxcUyfxSSwRBKCzf6t9Yw1mw36WMPaAnD43QPsd0IBZGcEkNB+G/AR4Ykv3VM
- bh54uHkGWHGr43N7zyQzaWR4JHY0iaO8cN2F41tyIO7NP6jj1DLYyyU7HHdb93JR/Ltp
- An+ieBwyZvPfEnzvlqY+kQLXRbm/Nq20klocpVT/rYuqYubvGToY75kwNM3DwzxkS1gW
- HkWdZVAhe9EXOgDQFP6e9vvwHm9zIsjeQE7h5w+JS1oKgh9eEDr1e2Ey5ni2ruUduHct
- +wcw==
-X-Gm-Message-State: AOAM533o0eMaxhDThmtwGtByUkqzn/o4IDALGLLRYcBRdpLJMnIf7feX
- Zayf7RNfG2mJi/jJIUls4qM=
-X-Google-Smtp-Source: ABdhPJzI200juUtGBf/k8LHDGffRyefuo8jxOX3KLk/VDR0ORMo5x7f5QIrkpeZ3jz6H/ybWZB20vQ==
-X-Received: by 2002:a05:6402:18:b0:410:86cd:9dce with SMTP id
- d24-20020a056402001800b0041086cd9dcemr3830314edu.70.1645120346234; 
- Thu, 17 Feb 2022 09:52:26 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id b5sm3717367edz.13.2022.02.17.09.52.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 09:52:25 -0800 (PST)
-Message-ID: <f7dc638d-0de1-baa8-d883-fd8435ae13f2@redhat.com>
-Date: Thu, 17 Feb 2022 18:52:25 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lazB452ztCvc9qsnFJ9w/i9NUbnbc+2tXk+zMU1a4oo=;
+ b=okppQYcZ1EpWTFRe+ZgtfgqqJBhPDiziVp0p1KzmuaSf7zCznIyvpL15uhDyvVRi05
+ tGnGTvyxGBiFlHqq/HgXcq5dL9L03Yu+D2i8Uqxx/AwjP9zK1qa/Emn4jPQTixjR80Q7
+ 0Og83JJ7g5v5hyIfDU081JfqUJhS+Zx6i/z9bT9TV3pRwS9OTxq5jPuKyZsKOEaUdAQe
+ c4kyacxa3rpvYZgXpaaCBKFNN6d9LcxYom1dGwYzdRjfMgB4vFh2Bcxu9qJJuBLNeOMU
+ g3M6uTmoR/DqcjiXReTBREmQD9V4S0scjJPMifwWLzl1w7MJvDEKtL4+1wN2Nh9brn7k
+ llCw==
+X-Gm-Message-State: AOAM532xaMavl0U0KDzLdFnTQYdzw/r0DC158ZrrnSfvG1Owb/opr4g4
+ mWF28le9Y/6f7Uutla8K9x6sX4lUpM7Oax7XvHIrKQ==
+X-Google-Smtp-Source: ABdhPJxziJ/K6gN6DlmFvkRY48XDk1cBqlTuVXlIGorQqwh5akrg4jkw0F+uAcXwe/RxPdjV2yDhmfxjSQUmsNkJJIw=
+X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
+ h3-20020a056902008300b0061a709bd841mr3606864ybs.140.1645121083768; Thu, 17
+ Feb 2022 10:04:43 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>, 
- kvm <kvm@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>
-References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+References: <20220210123403.2059926-1-shorne@gmail.com>
+ <20220210123403.2059926-5-shorne@gmail.com>
+In-Reply-To: <20220210123403.2059926-5-shorne@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Feb 2022 18:04:32 +0000
+Message-ID: <CAFEAcA8Gn50VHK41M36OzbSYE5Z7WEoOFqsBweFFgCvsoC6DKA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] hw/openrisc/openrisc_sim: Add support for initrd
+ loading
+To: Stafford Horne <shorne@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -96,64 +83,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Development <qemu-devel@nongnu.org>, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/22 16:47, Stefan Hajnoczi wrote:
-> Dear QEMU, KVM, and rust-vmm communities,
-> QEMU will apply for Google Summer of Code 2022
-> (https://summerofcode.withgoogle.com/) and has been accepted into
-> Outreachy May-August 2022 (https://www.outreachy.org/). You can now
-> submit internship project ideas for QEMU, KVM, and rust-vmm!
-> 
-> If you have experience contributing to QEMU, KVM, or rust-vmm you can
-> be a mentor. It's a great way to give back and you get to work with
-> people who are just starting out in open source.
-> 
-> Please reply to this email by February 21st with your project ideas.
+On Thu, 10 Feb 2022 at 13:13, Stafford Horne <shorne@gmail.com> wrote:
+>
+> The initrd passed via the command line is loaded into memory.  It's
+> location and size is then added to the device tree so the kernel knows
+> where to find it.
+>
+> Signed-off-by: Stafford Horne <shorne@gmail.com>
+> ---
+>  hw/openrisc/openrisc_sim.c | 32 +++++++++++++++++++++++++++++++-
+>  1 file changed, 31 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+> index d7c26af82c..5354797e20 100644
+> --- a/hw/openrisc/openrisc_sim.c
+> +++ b/hw/openrisc/openrisc_sim.c
+> @@ -187,6 +187,32 @@ static hwaddr openrisc_load_kernel(ram_addr_t ram_size,
+>      return 0;
+>  }
+>
+> +static hwaddr openrisc_load_initrd(Or1ksimState *s, const char *filename,
+> +    hwaddr load_start, uint64_t mem_size)
 
-I would like to co-mentor one or more projects about adding more 
-statistics to Mark Kanda's newly-born introspectable statistics 
-subsystem in QEMU 
-(https://patchew.org/QEMU/20220215150433.2310711-1-mark.kanda@oracle.com/), 
-for example integrating "info blockstats"; and/or, to add matching 
-functionality to libvirt.
+Indentation here is off.
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-However, I will only be available for co-mentoring unfortunately.
-
-Paolo
-
-> Good project ideas are suitable for remote work by a competent
-> programmer who is not yet familiar with the codebase. In
-> addition, they are:
-> - Well-defined - the scope is clear
-> - Self-contained - there are few dependencies
-> - Uncontroversial - they are acceptable to the community
-> - Incremental - they produce deliverables along the way
-> 
-> Feel free to post ideas even if you are unable to mentor the project.
-> It doesn't hurt to share the idea!
-> 
-> I will review project ideas and keep you up-to-date on QEMU's
-> acceptance into GSoC.
-> 
-> Internship program details:
-> - Paid, remote work open source internships
-> - GSoC projects are 175 or 350 hours, Outreachy projects are 30
-> hrs/week for 12 weeks
-> - Mentored by volunteers from QEMU, KVM, and rust-vmm
-> - Mentors typically spend at least 5 hours per week during the coding period
-> 
-> Changes since last year: GSoC now has 175 or 350 hour project sizes
-> instead of 12 week full-time projects. GSoC will accept applicants who
-> are not students, before it was limited to students.
-> 
-> For more background on QEMU internships, check out this video:
-> https://www.youtube.com/watch?v=xNVCX7YMUL8
-> 
-> Please let me know if you have any questions!
-> 
-> Stefan
-> 
-
+thanks
+-- PMM
 
