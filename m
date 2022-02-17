@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98364BA11D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 14:29:21 +0100 (CET)
-Received: from localhost ([::1]:59722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8251F4BA0BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 14:13:07 +0100 (CET)
+Received: from localhost ([::1]:41242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKgqX-00072m-1w
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 08:29:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51724)
+	id 1nKgan-0001Qd-0K
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 08:13:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nKgLi-0002eT-KJ
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:57:32 -0500
-Received: from mga14.intel.com ([192.55.52.115]:55807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nKgLg-0002nz-H4
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:57:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645102648; x=1676638648;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=muUyZFkT/XUwYXtZ4KuQ8w3WazrYqWNDm8XTjig5hYY=;
- b=D91GABD51DROhfeANHHG8jAUDtT3oatQtbYw/rG8sN8cZ+GTVWQyPqoe
- SI85fyFhNmEF3bjxd+5yiFfy8yeChnDp/ANL/lkU0Pg3f1veQx9UaBA8x
- 3HJucDSfeWJM8kXv4hHNnonQ73YOLBOXJFA0ybwISOqjFDPXPh4LpJ5OM
- AXI56ZSEj8GbAbPLJXdBN9QRH4NdjhOVgevlOpTxFwTPJVNP32kzZaBdz
- ZZ8f8y+H2btbI996qUsCzXAi8i779Ez4M5oHxjaN6MUdKzUH4Ewphe3CX
- B7UNHDIpBBuPm21RFTVIuROD7AKjH2Iat8zWmIx2EVwP/E41DarCl/1HA A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="251064852"
-X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="251064852"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2022 04:57:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="704785987"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga005.jf.intel.com with ESMTP; 17 Feb 2022 04:57:18 -0800
-Date: Thu, 17 Feb 2022 20:56:57 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH v4 01/12] mm/shmem: Introduce F_SEAL_INACCESSIBLE
-Message-ID: <20220217125656.GA32679@chaop.bj.intel.com>
-References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
- <20220118132121.31388-2-chao.p.peng@linux.intel.com>
- <64407833-1387-0c46-c569-8b6a3db8e88c@suse.cz>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nKgNO-0004IB-RJ
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:59:14 -0500
+Received: from [2607:f8b0:4864:20::336] (port=46906
+ helo=mail-ot1-x336.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nKgNA-0002vs-PT
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:59:12 -0500
+Received: by mail-ot1-x336.google.com with SMTP id
+ l12-20020a0568302b0c00b005a4856ff4ceso3564485otv.13
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 04:59:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=An6FEf7CqZpGWxOISdENfeZc/g7pSrwrvb3ALwslhIE=;
+ b=QZCKMAzikcp+fXpbaxZ4vF77+lWEnz0jzjk2iazs3or0RQdtauFD3VqZUR4IQvvDlF
+ QLCGILwTY35vv1XsuEy+46A4kIgWjK6pH4VcWvLBbKUaWKxkZJgiOiBdzhmIBRp9FVHZ
+ AGhWL+86CM2GcOKG1cdCkMcWAvr3QSzl82qW+zV9mRnQ3onN15sL/SM+OlGVzCrcdMM1
+ F1hlhIV9jsbi8RdT+8qppDfJNutL2Z+RF/90TISTT2BtQWFdZbCmFIm2llMXh8B2F8RE
+ zPVlgxu3plIPr84Hjz/COAs+neCGD/qalMWVBs7iEldBAi3ePFrtjBpDtBwfBdJfdFzv
+ m6kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=An6FEf7CqZpGWxOISdENfeZc/g7pSrwrvb3ALwslhIE=;
+ b=PajCWY6tlD2z3qGdomChFnBGClIEdq1jsuzmNH9GsrXyR+5jBbGSs5Pv9mO5/lSesv
+ HxUj2gm+EaCWdgqlA0E3yxV49L1+lCjsaNDisXCVznwJ+1ho0mQNEb+q/DRuq8st8q9J
+ UaGmqECWK2/yIaMjzrw69FX/INAhyLx7djJ7KtpUjMkrh45coL6AVPIow+mdEix4qo49
+ iOokpBL+eM6hXgjRN1E5YNvbkgTV+IzFpWcItugbV8/XgQMcLpwBazliq5IpKSy96tua
+ ryMaa4U2T9TV0LCkzU0cv9xg75K9IOXPBf2fw91hg4Y3eecQDmrmTdVhxqVcfqVFrMWo
+ 3b4w==
+X-Gm-Message-State: AOAM531S3Xf0bX9bUGg1pylf98rZuFCrLZvvwa/inOe3gjVbTRreMA+E
+ Z4Zf7WLUk6qO/0gmLEG3hjeZhM1HKzpgHDCOM1w=
+X-Google-Smtp-Source: ABdhPJw+IDWEI8B6cKhs3FYSvzfHpEqVafV0gIigF/bPtrqHtJkQopsuFMk4d3ZzLJqRxi9dseMcDKrwTCanVH8kuZg=
+X-Received: by 2002:a05:6830:2908:b0:5ad:1ed7:70ea with SMTP id
+ z8-20020a056830290800b005ad1ed770eamr351068otu.186.1645102739447; Thu, 17 Feb
+ 2022 04:58:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <64407833-1387-0c46-c569-8b6a3db8e88c@suse.cz>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Thu, 17 Feb 2022 21:58:48 +0900
+Message-ID: <CAMVc7JVOJxkqLpvRu7JLNP48C5Kmu0JRYUSR8xP+dAtGp_n=_A@mail.gmail.com>
+Subject: Re: [PATCH v2 00/12] GL & D-Bus display related fixes
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::336
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ot1-x336.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,67 +83,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: qemu Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 07, 2022 at 01:24:42PM +0100, Vlastimil Babka wrote:
-> On 1/18/22 14:21, Chao Peng wrote:
-> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > 
-> >  /*
-> > diff --git a/mm/shmem.c b/mm/shmem.c
-> > index 18f93c2d68f1..72185630e7c4 100644
-> > --- a/mm/shmem.c
-> > +++ b/mm/shmem.c
-> > @@ -1098,6 +1098,13 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
-> >  		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
-> >  			return -EPERM;
-> >  
-> > +		if (info->seals & F_SEAL_INACCESSIBLE) {
-> > +			if(i_size_read(inode))
-> 
-> Is this needed? The rest of the function seems to trust oldsize obtained by
-> plain reading inode->i_size well enough, so why be suddenly paranoid here?
+On Thu, Feb 17, 2022 at 8:58 PM <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Hi,
+>
+> In the thread "[PATCH 0/6] ui/dbus: Share one listener for a console", Ak=
+ihiko
+> Odaki reported a number of issues with the GL and D-Bus display. His seri=
+es
+> propose a different design, and reverting some of my previous generic con=
+sole
+> changes to fix those issues.
+>
+> However, as I work through the issue so far, they can be solved by reason=
+able
+> simple fixes while keeping the console changes generic (not specific to t=
+he
+> D-Bus display backend). I belive a shared infrastructure is more benefici=
+al long
+> term than having GL-specific code in the DBus code (in particular, the
+> egl-headless & VNC combination could potentially use it)
+>
+> Thanks a lot Akihiko for reporting the issues proposing a different appro=
+ach!
+> Please test this alternative series and let me know of any further issues=
+. My
+> understanding is that you are mainly concerned with the Cocoa backend, an=
+d I
+> don't have a way to test it, so please check it. If necessary, we may wel=
+l have
+> to revert my earlier changes and go your way, eventually.
+>
+> Marc-Andr=C3=A9 Lureau (12):
+>   ui/console: fix crash when using gl context with non-gl listeners
+>   ui/console: fix texture leak when calling surface_gl_create_texture()
+>   ui: do not create a surface when resizing a GL scanout
+>   ui/console: move check for compatible GL context
+>   ui/console: move dcl compatiblity check to a callback
+>   ui/console: egl-headless is compatible with non-gl listeners
+>   ui/dbus: associate the DBusDisplayConsole listener with the given
+>     console
+>   ui/console: move console compatibility check to dcl_display_console()
+>   ui/shader: fix potential leak of shader on error
+>   ui/shader: free associated programs
+>   ui/console: add a dpy_gfx_switch callback helper
+>   ui/dbus: fix texture sharing
+>
+>  include/ui/console.h |  19 ++++---
+>  ui/dbus.h            |   3 ++
+>  ui/console-gl.c      |   4 ++
+>  ui/console.c         | 119 ++++++++++++++++++++++++++-----------------
+>  ui/dbus-console.c    |  27 +++++-----
+>  ui/dbus-listener.c   |  11 ----
+>  ui/dbus.c            |  33 +++++++++++-
+>  ui/egl-headless.c    |  17 ++++++-
+>  ui/gtk.c             |  18 ++++++-
+>  ui/sdl2.c            |   9 +++-
+>  ui/shader.c          |   9 +++-
+>  ui/spice-display.c   |   9 +++-
+>  12 files changed, 192 insertions(+), 86 deletions(-)
+>
+> --
+> 2.34.1.428.gdcc0cd074f0c
+>
+>
 
-oldsize sounds enough here, unless kirill has different mind.
+You missed only one thing:
+>- that console_select and register_displaychangelistener may not call
+> dpy_gfx_switch and call dpy_gl_scanout_texture instead. It is
+> incompatible with non-OpenGL displays
 
-> 
-> > +				return -EPERM;
-> > +			if (newsize & ~PAGE_MASK)
-> > +				return -EINVAL;
-> > +		}
-> > +
-> >  		if (newsize != oldsize) {
-> >  			error = shmem_reacct_size(SHMEM_I(inode)->flags,
-> > +		if ((info->seals & F_SEAL_INACCESSIBLE) &&
-> > +		    (offset & ~PAGE_MASK || len & ~PAGE_MASK)) {
-> 
-> Could we use PAGE_ALIGNED()?
+displaychangelistener_display_console always has to call
+dpy_gfx_switch for non-OpenGL displays, but it still doesn't.
 
-Yes, definitely, thanks.
+Anything else should be addressed with this patch series. (And it also
+has nice fixes for shader leaks.)
 
-Chao
-> 
-> > +			error = -EINVAL;
-> > +			goto out;
-> > +		}
-> > +
-> >  		shmem_falloc.waitq = &shmem_falloc_waitq;
-> >  		shmem_falloc.start = (u64)unmap_start >> PAGE_SHIFT;
-> >  		shmem_falloc.next = (unmap_end + 1) >> PAGE_SHIFT;
+cocoa doesn't have OpenGL output and egl-headless, the cause of many
+pains addressed here, does not work on macOS so you need little
+attention. I have an out-of-tree OpenGL support for cocoa but it is
+out-of-tree anyway and I can fix it anytime.
+
+Regards,
+Akihiko Odaki
 
