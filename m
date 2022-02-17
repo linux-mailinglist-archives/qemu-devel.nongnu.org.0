@@ -2,90 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189344BA18F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 14:42:55 +0100 (CET)
-Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA47A4BA32A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:40:08 +0100 (CET)
+Received: from localhost ([::1]:43968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKh3e-0007QC-5z
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 08:42:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33738)
+	id 1nKhx1-0007Ji-BC
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:40:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKgxx-0004Co-Hx
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:37:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32798)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1nKh0I-0006bM-0y; Thu, 17 Feb 2022 08:39:26 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKgxv-0001Lz-2N
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:37:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645105017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LK2eLRH1TqyBFmiR9BklW/jr3YLNDhaAE/MeiB9B1oU=;
- b=ho19ikiUlOc72LdcutQXkH3He3G/uNgbYJpz2JLGEAT4/ELczG9Fh4OuNUxGAPUpgEjuuE
- 7zykWEPU01uHLetKzZTH0Lq7VZM9eVCJQ/DBT6JjYImD/o9Z/Iv2fG8uC86M1PSHEzwPpm
- +LGmvnuwuXcade4C+IkPvXfB3rBNqsA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-29-rR5y2mpvNDqTmEy9I1mqyg-1; Thu, 17 Feb 2022 08:36:56 -0500
-X-MC-Unique: rR5y2mpvNDqTmEy9I1mqyg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 7-20020a1c1907000000b003471d9bbe8dso2776129wmz.0
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 05:36:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=LK2eLRH1TqyBFmiR9BklW/jr3YLNDhaAE/MeiB9B1oU=;
- b=b/wpnOX3zKflBvAozi3Lahr4FkbKpLrRlstlol073AEL2/PDcCwrNsBUY2EtDhbH0T
- /fOmjtlW8+P4gX3DbmsOQomWQTyTF+jKWoCLgZwqNf8Fx8DfUS8nRsq/4PVk3VwxhKnP
- LxKadxgAAyESGnCZ+uU1NJBFYUc+vDteuE+4Z6Z+AdV59UNl+UsYc7haFoeMBh+BU506
- 5HtrvT6lVeMymuOPeSFsZCy45mnB2ROlGM8hH+hhpL1dItvJY4BhJeoJlAZkF4s9rbe1
- FwY5rNsdGZWOxqNJlYi73v5hFSBIEiD+eXSfCcXeODl/mdJU86UxKC4JSe3aQjhYPyNn
- hBkw==
-X-Gm-Message-State: AOAM531ax6NJqkevEorWrCXWvBRpUr/D+0XLCIFB5lJgfaSB4/B9M75T
- 0fRP6+RWExQqidH+Iq8+pK/DSp84MxmlavRb02q3hcl6mI2UYVMHHTD2msv8dbdNPTRNURHdLX2
- ipPj2Obp1PntqJbE=
-X-Received: by 2002:a7b:c44c:0:b0:37b:baaf:ae36 with SMTP id
- l12-20020a7bc44c000000b0037bbaafae36mr2751991wmi.81.1645105014855; 
- Thu, 17 Feb 2022 05:36:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzzgOvICHk+lw5Yt3ZOpcfPVmP/K2K0rQkzsrHGmzOg7oYskVOG/SMDaTVmuWhxxBcAH+SPLQ==
-X-Received: by 2002:a7b:c44c:0:b0:37b:baaf:ae36 with SMTP id
- l12-20020a7bc44c000000b0037bbaafae36mr2751973wmi.81.1645105014632; 
- Thu, 17 Feb 2022 05:36:54 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id m8sm1388784wms.4.2022.02.17.05.36.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 05:36:54 -0800 (PST)
-Date: Thu, 17 Feb 2022 13:36:52 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [Virtio-fs] [PULL 00/12] virtiofs queue
-Message-ID: <Yg5PdHX0+0GJ2Si5@work-vm>
-References: <20220216173625.128109-1-dgilbert@redhat.com>
- <Yg1THoNoxjSAcK7u@work-vm> <Yg1nFPqBnOf+4pDi@redhat.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1nKh0F-0001j8-22; Thu, 17 Feb 2022 08:39:25 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21HCgP01037457; 
+ Thu, 17 Feb 2022 13:39:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=OfhSZ218kMmIFXeFDf7x8MHceNBKb89iR8fLU7xXd3c=;
+ b=f79VYD/U8h8QnTf+vRb2a5njUbmS7ZLwnUT9FjKCRpUbqfBMuHDLZPBb+5j0w+z6T9+J
+ jUAKpWSx/zDiBAH2XF7zE6VUrBh8fc3GAIbz1PWWhhUCuWmY1Pnb9VQsXm2AufGqDuDj
+ yS99pLhqsKKIf5aOeYE0QYflu8ExXCBZJruh/B5oB9pMPjM6VYwKlb1pzgw9wjNLPd0l
+ UNCiZMzkqVX1989O9O216faNnlRXD8T3q/GXmT8q6a3MHj4L4UR1z2LjvS1BtmFg8HhV
+ MNZGIHaplk+Tuu5lPOeAOSnYwwhLnq4dhHgBvMbsGH4yeQSWLYr3+f9Fd1sPQeBzS4RC eQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e9pkjsdfe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Feb 2022 13:39:20 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21HDMDTK028778;
+ Thu, 17 Feb 2022 13:39:19 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3e9pkjsde2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Feb 2022 13:39:19 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21HDbQLQ007613;
+ Thu, 17 Feb 2022 13:39:17 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 3e645kasu9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Feb 2022 13:39:17 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21HDdCSa40239602
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Feb 2022 13:39:12 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E7B174C05E;
+ Thu, 17 Feb 2022 13:39:11 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2518C4C040;
+ Thu, 17 Feb 2022 13:39:11 +0000 (GMT)
+Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
+ [9.171.42.121])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 17 Feb 2022 13:39:11 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Subject: [PATCH v6 00/11] s390x: CPU Topology
+Date: Thu, 17 Feb 2022 14:41:14 +0100
+Message-Id: <20220217134125.132150-1-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: vhyGP4RGclw5gvUueYoM4cr16ny1V56I
+X-Proofpoint-GUID: r3mrb4DMPGa_tqBkul7ggCfQeWzY31uB
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <Yg1nFPqBnOf+4pDi@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-17_05,2022-02-17_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ lowpriorityscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202170061
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,206 +107,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, sebastian.hasler@stuvus.uni-stuttgart.de,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: thuth@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ ehabkost@redhat.com, kvm@vger.kernel.org, david@redhat.com, eblake@redhat.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com, mst@redhat.com,
+ pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> On Wed, Feb 16, 2022 at 07:40:14PM +0000, Dr. David Alan Gilbert wrote:
-> > * Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > > 
-> > > The following changes since commit c13b8e9973635f34f3ce4356af27a311c993729c:
-> > > 
-> > >   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220216' into staging (2022-02-16 09:57:11 +0000)
-> > > 
-> > > are available in the Git repository at:
-> > > 
-> > >   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20220216
-> > > 
-> > > for you to fetch changes up to 47cc3ef597b2ee926c13c9433f4f73645429e128:
-> > > 
-> > >   virtiofsd: Add basic support for FUSE_SYNCFS request (2022-02-16 17:29:32 +0000)
-> > 
-> > NAK
-> > this doesn't build on older Linuxes.
-> > 
-> > Rework version in the works.
-> 
-> Hi David,
-> 
-> I think it is patch 8 which is using gettid(). I have updated that
-> patch and now I am using syscall(NR_gettid) instead. Here is the
-> updated patch. I hope this solves the build on older Linux issue.
-> 
-> 
-> Subject: virtiofsd: Add helpers to work with /proc/self/task/tid/attr/fscreate
-> 
-> Soon we will be able to create and also set security context on the file
-> atomically using /proc/self/task/tid/attr/fscreate knob. If this knob
-> is available on the system, first set the knob with the desired context
-> and then create the file. It will be created with the context set in
-> fscreate. This works basically for SELinux and its per thread.
-> 
-> This patch just introduces the helper functions. Subsequent patches will
-> make use of these helpers.
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Hi,
 
-Thanks, I'll merge that in.
+The goal of this series is to implement CPU topology for S390, it
+improves the preceeding series with the implementation of books and
+drawers, of non uniform CPU topology and with documentation.
 
-Dave
+To use these patches, you will need the Linux series version 5.
+You find it there:
+https://lkml.org/lkml/2022/2/17/253
 
-> ---
->  tools/virtiofsd/passthrough_ll.c |   92 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 92 insertions(+)
-> 
-> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
-> ===================================================================
-> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2022-02-16 15:53:13.657015138 -0500
-> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2022-02-16 15:55:14.911234993 -0500
-> @@ -173,10 +173,14 @@ struct lo_data {
->  
->      /* An O_PATH file descriptor to /proc/self/fd/ */
->      int proc_self_fd;
-> +    /* An O_PATH file descriptor to /proc/self/task/ */
-> +    int proc_self_task;
->      int user_killpriv_v2, killpriv_v2;
->      /* If set, virtiofsd is responsible for setting umask during creation */
->      bool change_umask;
->      int user_posix_acl, posix_acl;
-> +    /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
-> +    bool use_fscreate;
->  };
->  
->  static const struct fuse_opt lo_opts[] = {
-> @@ -257,6 +261,72 @@ static struct lo_data *lo_data(fuse_req_
->  }
->  
->  /*
-> + * Tries to figure out if /proc/<pid>/attr/fscreate is usable or not. With
-> + * selinux=0, read from fscreate returns -EINVAL.
-> + *
-> + * TODO: Link with libselinux and use is_selinux_enabled() instead down
-> + * the line. It probably will be more reliable indicator.
-> + */
-> +static bool is_fscreate_usable(struct lo_data *lo)
-> +{
-> +    char procname[64];
-> +    int fscreate_fd;
-> +    size_t bytes_read;
-> +
-> +    sprintf(procname, "%ld/attr/fscreate", syscall(SYS_gettid));
-> +    fscreate_fd = openat(lo->proc_self_task, procname, O_RDWR);
-> +    if (fscreate_fd == -1) {
-> +        return false;
-> +    }
-> +
-> +    bytes_read = read(fscreate_fd, procname, 64);
-> +    close(fscreate_fd);
-> +    if (bytes_read == -1) {
-> +        return false;
-> +    }
-> +    return true;
-> +}
-> +
-> +/* Helpers to set/reset fscreate */
-> +__attribute__((unused))
-> +static int open_set_proc_fscreate(struct lo_data *lo, const void *ctx,
-> +                                  size_t ctxlen,int *fd)
-> +{
-> +    char procname[64];
-> +    int fscreate_fd, err = 0;
-> +    size_t written;
-> +
-> +    sprintf(procname, "%ld/attr/fscreate", syscall(SYS_gettid));
-> +    fscreate_fd = openat(lo->proc_self_task, procname, O_WRONLY);
-> +    err = fscreate_fd == -1 ? errno : 0;
-> +    if (err) {
-> +        return err;
-> +    }
-> +
-> +    written = write(fscreate_fd, ctx, ctxlen);
-> +    err = written == -1 ? errno : 0;
-> +    if (err) {
-> +        goto out;
-> +    }
-> +
-> +    *fd = fscreate_fd;
-> +    return 0;
-> +out:
-> +    close(fscreate_fd);
-> +    return err;
-> +}
-> +
-> +__attribute__((unused))
-> +static void close_reset_proc_fscreate(int fd)
-> +{
-> +    if ((write(fd, NULL, 0)) == -1) {
-> +        fuse_log(FUSE_LOG_WARNING, "Failed to reset fscreate. err=%d\n", errno);
-> +    }
-> +    close(fd);
-> +    return;
-> +}
-> +
-> +/*
->   * Load capng's state from our saved state if the current thread
->   * hadn't previously been loaded.
->   * returns 0 on success
-> @@ -3522,6 +3592,15 @@ static void setup_namespaces(struct lo_d
->          exit(1);
->      }
->  
-> +    /* Get the /proc/self/task descriptor */
-> +    lo->proc_self_task = open("/proc/self/task/", O_PATH);
-> +    if (lo->proc_self_task == -1) {
-> +        fuse_log(FUSE_LOG_ERR, "open(/proc/self/task, O_PATH): %m\n");
-> +        exit(1);
-> +    }
-> +
-> +    lo->use_fscreate = is_fscreate_usable(lo);
-> +
->      /*
->       * We only need /proc/self/fd. Prevent ".." from accessing parent
->       * directories of /proc/self/fd by bind-mounting it over /proc. Since / was
-> @@ -3738,6 +3817,14 @@ static void setup_chroot(struct lo_data
->          exit(1);
->      }
->  
-> +    lo->proc_self_task = open("/proc/self/task", O_PATH);
-> +    if (lo->proc_self_fd == -1) {
-> +        fuse_log(FUSE_LOG_ERR, "open(\"/proc/self/task\", O_PATH): %m\n");
-> +        exit(1);
-> +    }
-> +
-> +    lo->use_fscreate = is_fscreate_usable(lo);
-> +
->      /*
->       * Make the shared directory the file system root so that FUSE_OPEN
->       * (lo_open()) cannot escape the shared directory by opening a symlink.
-> @@ -3923,6 +4010,10 @@ static void fuse_lo_data_cleanup(struct
->          close(lo->proc_self_fd);
->      }
->  
-> +    if (lo->proc_self_task >= 0) {
-> +        close(lo->proc_self_task);
-> +    }
-> +
->      if (lo->root.fd >= 0) {
->          close(lo->root.fd);
->      }
-> @@ -3950,6 +4041,7 @@ int main(int argc, char *argv[])
->          .posix_lock = 0,
->          .allow_direct_io = 0,
->          .proc_self_fd = -1,
-> +        .proc_self_task = -1,
->          .user_killpriv_v2 = -1,
->          .user_posix_acl = -1,
->      };
-> 
+Currently this code is for KVM only, I have no idea if it is interesting
+to provide a TCG patch. If ever it will be done in another series.
+
+To have a better understanding of the S390x CPU Topology and its
+implementation in QEMU you can have a look at the documentation in the
+last patch or follow the introduction here under.
+
+A short introduction
+====================
+
+CPU Topology is described in the S390 POP with essentially the description
+of two instructions:
+
+PTF Perform Topology function used to poll for topology change
+    and used to set the polarization but this part is not part of this item.
+
+STSI Store System Information and the SYSIB 15.1.x providing the Topology
+    configuration.
+
+S390 Topology is a 6 levels hierarchical topology with up to 5 level
+    of containers. The last topology level, specifying the CPU cores.
+
+    This patch series only uses the two lower levels sockets and cores.
+    
+    To get the information on the topology, S390 provides the STSI
+    instruction, which stores a structures providing the list of the
+    containers used in the Machine topology: the SYSIB.
+    A selector within the STSI instruction allow to chose how many topology
+    levels will be provide in the SYSIB.
+
+    Using the Topology List Entries (TLE) provided inside the SYSIB we
+    the Linux kernel is able to compute the information about the cache
+    distance between two cores and can use this information to take
+    scheduling decisions.
+
+The design
+==========
+
+1) To be ready for hotplug, I chose an Object oriented design
+of the topology containers:
+- A node is a bridge on the SYSBUS and defines a "node bus"
+- A drawer is hotplug on the "node bus"
+- A book on the "drawer bus"
+- A socket on the "book bus"
+- And the CPU Topology List Entry (CPU-TLE)sits on the socket bus.
+These objects will be enhanced with the cache information when
+NUMA is implemented.
+
+This also allows for easy retrieval when building the different SYSIB
+for Store Topology System Information (STSI)
+
+2) Perform Topology Function (PTF) instruction is made available to the
+guest with a new KVM capability and intercepted in QEMU, allowing the
+guest to pool for topology changes.
+
+
+Features
+========
+
+- There is no direct match between IDs shown by:
+    - lscpu (unrelated numbered list),
+    - SYSIB 15.1.x (topology ID)
+
+- The CPU number, left column of lscpu, is used to reference a CPU
+    by Linux tools
+    While the CPU address is used by QEMU for hotplug.
+
+- Effect of -smp parsing on the topology with an example:
+    -smp 9,sockets=4,cores=4,maxcpus=16
+
+    We have 4 socket each holding 4 cores so that we have a maximum 
+    of 16 CPU, 9 of them are active on boot. (Should be obvious)
+
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+# 
+
+
+- To plug a new CPU inside the topology one can simply use the CPU
+    address like in:
+  
+(qemu) device_add host-s390x-cpu,core-id=12
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+  9    -      -    -      -    - :::                 no yes        horizontal   12
+# chcpu -e 9
+CPU 9 enabled
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+  9    0      0    0      3    9 9:9:9:9            yes yes        horizontal   12
+#
+
+It is up to the admin level, Libvirt for example, to pin the righ CPU to the right
+vCPU, but as we can see without NUMA, chosing separate sockets for CPUs is not easy
+without hotplug because without information the code will assign the vCPU and fill
+the sockets one after the other.
+Note that this is also the default behavior on the LPAR.
+
+Conclusion
+==========
+
+This patch, together with the associated KVM patch allows to provide CPU topology
+information to the guest.
+Currently, only dedicated vCPU and CPU are supported and a NUMA topology can only
+be handled using CPU hotplug inside the guest.
+
+Regards,
+Pierre
+
+Pierre Morel (11):
+  s390x: SCLP: reporting the maximum nested topology entries
+  s390x: topology: CPU topology objects and structures
+  s390x: topology: implementating Store Topology System Information
+  s390x: CPU topology: CPU topology migration
+  s390x: kvm: topology: interception of PTF instruction
+  s390x: topology: Adding books to CPU topology
+  s390x: topology: Adding books to STSI
+  s390x: topology: Adding drawers to CPU topology
+  s390x: topology: Adding drawers to STSI
+  s390x: topology: implementing numa for the s390x topology
+  s390x: topology: documentation
+
+ docs/system/s390x/numa-cpu-topology.rst | 273 +++++++++++
+ hw/core/machine-smp.c                   |  48 +-
+ hw/core/machine.c                       |  22 +
+ hw/s390x/cpu-topology.c                 | 599 ++++++++++++++++++++++++
+ hw/s390x/meson.build                    |   1 +
+ hw/s390x/s390-virtio-ccw.c              | 124 ++++-
+ hw/s390x/sclp.c                         |   1 +
+ include/hw/boards.h                     |   8 +
+ include/hw/s390x/cpu-topology.h         |  97 ++++
+ include/hw/s390x/s390-virtio-ccw.h      |   6 +
+ include/hw/s390x/sclp.h                 |   4 +-
+ qapi/machine.json                       |  12 +-
+ softmmu/vl.c                            |   6 +
+ target/s390x/cpu.h                      |  50 ++
+ target/s390x/cpu_features_def.h.inc     |   1 +
+ target/s390x/cpu_models.c               |   2 +
+ target/s390x/cpu_topology.c             | 169 +++++++
+ target/s390x/gen-features.c             |   3 +
+ target/s390x/kvm/kvm.c                  |  26 +
+ target/s390x/machine.c                  |  48 ++
+ target/s390x/meson.build                |   1 +
+ 21 files changed, 1485 insertions(+), 16 deletions(-)
+ create mode 100644 docs/system/s390x/numa-cpu-topology.rst
+ create mode 100644 hw/s390x/cpu-topology.c
+ create mode 100644 include/hw/s390x/cpu-topology.h
+ create mode 100644 target/s390x/cpu_topology.c
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.27.0
 
+Changelog:
+
+- since v5
+
+- rebasing on newer QEMU version
+
+- reworked most lines above 80 characters.
+
+- since v4
+
+- Added drawer and books to topology
+
+- Added numa topology
+
+- Added documentation
+
+- since v3
+
+- Added migration
+  (Thomas)
+
+- Separated STSI instruction from KVM to prepare TCG
+  (Thomas)
+
+- Take care of endianess to prepare TCG
+  (Thomas)
+
+- Added comments on STSI CPU container and PFT instruction
+  (Thomas)
+
+- Moved enabling the instructions as the last patch
+  (Thomas)
 
