@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665B04BA72D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 18:33:59 +0100 (CET)
-Received: from localhost ([::1]:41468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2504BA744
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 18:37:39 +0100 (CET)
+Received: from localhost ([::1]:51294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKkfG-0004Tj-GC
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 12:33:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59604)
+	id 1nKkio-0002rV-Hj
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 12:37:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKkY6-000524-Uu
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:26:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20428)
+ id 1nKkb8-0000IY-EW
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:29:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKkY5-0003yo-10
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:26:34 -0500
+ id 1nKkb6-0004NG-UY
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:29:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645118792;
+ s=mimecast20190719; t=1645118980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HjuqpVf/Iw3bMxUfmRnvXi5Vt1xaYkbXAvH3yQ4X0Lk=;
- b=bL9+/q2B6pypWHEa5zBTE1kF5IInsvFqwOttShunKf844pSuvf25nPqtVrdCNY1DLo9sxR
- t40v9JWStYWl/wTcKC416P4IQPQ/JBWj4bdWs38fW8FPToXKTEX54N+rTEsPwe/yTIB6M1
- FiClVC9F6k6gTbAft40DCKasHpxtLGE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hawIJs+wdTCZhLCZDcG5ssZBbu2KnVfUBPHMJwoVFZ8=;
+ b=QlV+lbc5vO1gGQUbYv3Xq0qszJFxkEvHp7E2Y5iRIta+lCRE3D2bkgLsR+Ui0uQuAckXnL
+ VuQlGifsk3uMKuW7WDxCW8Ic6kq1rFBi2djN5fW7Ptpf4veLMdjvwg2jOifL3oJEw/hxwv
+ swbU4O3wMGQFVtRkIr2KnWurE9vNA8g=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-329-YG_FLGTMM-KzgM7kDZg_WA-1; Thu, 17 Feb 2022 12:26:31 -0500
-X-MC-Unique: YG_FLGTMM-KzgM7kDZg_WA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k30-20020a05600c1c9e00b0037d1bee4847so4525509wms.9
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 09:26:31 -0800 (PST)
+ us-mta-557-YEg4tixVPQGpKk6m-_Tyrg-1; Thu, 17 Feb 2022 12:29:38 -0500
+X-MC-Unique: YEg4tixVPQGpKk6m-_Tyrg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ a8-20020a7bc1c8000000b0037bc4c62e97so1973876wmj.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 09:29:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=HjuqpVf/Iw3bMxUfmRnvXi5Vt1xaYkbXAvH3yQ4X0Lk=;
- b=UwVgzN39bSw0y20BG9ySzBDSP+gdCDPjhyiwo/Hv1qKCwJopfLkSgYrGyNCkUTMIRZ
- aZnvT02li6aBd/RD7oXqrO7AMJpVa2iLmLj0RD/AQ/FupZ9uiZE8V9hD+Ck2mEQzJOkj
- /esAt9kiDNBZ5wzi5tNVx8hyqAYOoIV/LzemO5re75H6qbxj50F4rZ9CKZE3kF0duLlQ
- X+sA+iR/jfRUhVMQfbwArgAZQXmSQyMqpW0fFJBVvje+G/WMyZcp6XzA70bdnNTJ4ocK
- Rq3/U3YSQzndDV+qmIX9FcyYc/OI0q1fEE418BC/307iyMI6dpsFvN9AfLRYJ9iAZv35
- zA/g==
-X-Gm-Message-State: AOAM530z5boOpbJkB6vPFd1usivHieA1n6dOD27XL1aUtwyuwfoh7IvV
- rDPr91UfYE5oX5qC8arm1wGMNNR2xaptP6NJVngGNwbfqv+DoB9GoY8mWvLRMP4rtmpu8x2BdPO
- Dq8sI4EfjC2V0ISYf1R+ij6ajwyON7w33oJrZOxKDYZ09mD3y+qxZlSmSjMQZbC3H+MA=
-X-Received: by 2002:a05:6000:1b02:b0:1e6:80c4:effa with SMTP id
- f2-20020a0560001b0200b001e680c4effamr3134175wrz.646.1645118789735; 
- Thu, 17 Feb 2022 09:26:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzzRTjXRR8qnvjZTN1HxIdVX1732G2Y5IhgNR7Nl82u82qGgnQHyXbuNWVNkI2VL/hpaTXqpw==
-X-Received: by 2002:a05:6000:1b02:b0:1e6:80c4:effa with SMTP id
- f2-20020a0560001b0200b001e680c4effamr3134156wrz.646.1645118789436; 
- Thu, 17 Feb 2022 09:26:29 -0800 (PST)
+ bh=hawIJs+wdTCZhLCZDcG5ssZBbu2KnVfUBPHMJwoVFZ8=;
+ b=nPTvlGgNAcYGNi2grYSVthV8nZh+NZPw+fplRjUO1yrbkqAn2Y4iQSXE0Tb6nFIYYD
+ /meYn6CySrGVl7sW+O+5LwGMDqOu+6y/6m6K0wOgQct4iowKp2Ukdij6UI757GLCykDG
+ w6cdvk3ZLgEdJNmgU9AnTuH5BbxOJsIYQshxQwqJUiftJTJc63QbjEnDRhPjn5R6N3+8
+ YYZHxXZAE71ooxSGyjawL5ONbmDgUTkLaUkS24P0aodsGEQJOVaDbMCGrASD1WOw6BMU
+ kt9ajjjCjVliee9muXpxikx4AFAQ40dTgKpwZhbjQ8tGpGn/0Em9XVXySbk2+Vt0bKPk
+ v5wg==
+X-Gm-Message-State: AOAM5314I0ilWhcZiXG38s2VOUNYpc2y50RGmarmakcqFxp36zBt54rc
+ ZP64zfQNqivAxf5m66/pySCLoMHSkFP0FgutnnGctISkAsHmQ6/haCFl/2aMqakTHLKmcUzwht0
+ 84XztXFEdCq7IEyI=
+X-Received: by 2002:a1c:7704:0:b0:354:4d2b:9d5 with SMTP id
+ t4-20020a1c7704000000b003544d2b09d5mr7039732wmi.155.1645118977142; 
+ Thu, 17 Feb 2022 09:29:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzKxZf0Nn1IQl9nu5GTMnju6xG4FiG+ex9WFlwvfag0Hasckw3yjJLwGDU8QkE57/yw6nZNWQ==
+X-Received: by 2002:a1c:7704:0:b0:354:4d2b:9d5 with SMTP id
+ t4-20020a1c7704000000b003544d2b09d5mr7039724wmi.155.1645118976981; 
+ Thu, 17 Feb 2022 09:29:36 -0800 (PST)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id h6sm2161158wmq.8.2022.02.17.09.26.28
+ by smtp.gmail.com with ESMTPSA id p27sm1938547wms.39.2022.02.17.09.29.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 09:26:28 -0800 (PST)
-Date: Thu, 17 Feb 2022 17:26:26 +0000
+ Thu, 17 Feb 2022 09:29:36 -0800 (PST)
+Date: Thu, 17 Feb 2022 17:29:34 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, vgoyal@redhat.com, groug@kaod.org,
- sebastian.hasler@stuvus.uni-stuttgart.de
-Subject: Re: [Virtio-fs] [PULL 00/12] virtiofs queue
-Message-ID: <Yg6FQuL4RcJ05S45@work-vm>
-References: <20220217142402.52819-1-dgilbert@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH] migration: NULL transport_data after freeing
+Message-ID: <Yg6F/kMaUSzX95Gc@work-vm>
+References: <20220217170407.24906-1-hreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220217142402.52819-1-dgilbert@redhat.com>
+In-Reply-To: <20220217170407.24906-1-hreitz@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -99,105 +98,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+* Hanna Reitz (hreitz@redhat.com) wrote:
+> migration_incoming_state_destroy() NULLs all objects it frees after they
+> are freed, presumably so that a subsequent call to the same function
+> will not free them again, unless new objects have been created in the
+> meantime.
 > 
-> The following changes since commit c13b8e9973635f34f3ce4356af27a311c993729c:
+> transport_data is the exception, and it shows exactly this problem: When
+> an incoming migration uses transport_cleanup() and transport_data, and a
+> subsequent incoming migration (e.g. loadvm) occurs that does not, then
+> when this second one is done, it will call transport_cleanup() on the
+> old transport_data again -- which has already been freed.  This is
+> sometimes visible in the iotest 201, though for some reason I can only
+> reproduce it with -m32.
 > 
->   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220216' into staging (2022-02-16 09:57:11 +0000)
+> To fix this, call transport_cleanup() only when transport_data is not
+> NULL (otherwise there is nothing to clean up), and set transport_data to
+> NULL when it has been cleaned up (i.e. freed).
 > 
-> are available in the Git repository at:
+> (transport_cleanup() is used only by migration/socket.c, where
+> socket_start_incoming_migration_internal() sets both it and
+> transport_data to non-NULL values.)
 > 
->   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20220217
-> 
-> for you to fetch changes up to e138ec4ac86ea71d10ecd032edc433290776a5f2:
-> 
->   virtiofsd: Add basic support for FUSE_SYNCFS request (2022-02-17 13:35:55 +0000)
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 
-NAK again
-Some checkpatch fixes slipped through; v3 in flight
+That probably deserves a fixes: a59136f
 
-> ----------------------------------------------------------------
-> V2: virtiofs pull 2022-02-17
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  migration/migration.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> Security label improvements from Vivek
->   - includes a fix for building against new kernel headers
->   [V2: Fix building on old Linux]
-> Blocking flock disable from Sebastian
-> SYNCFS support from Greg
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> ----------------------------------------------------------------
-> Greg Kurz (1):
->       virtiofsd: Add basic support for FUSE_SYNCFS request
-> 
-> Sebastian Hasler (1):
->       virtiofsd: Do not support blocking flock
-> 
-> Vivek Goyal (10):
->       virtiofsd: Fix breakage due to fuse_init_in size change
->       linux-headers: Update headers to v5.17-rc1
->       virtiofsd: Parse extended "struct fuse_init_in"
->       virtiofsd: Extend size of fuse_conn_info->capable and ->want fields
->       virtiofsd, fuse_lowlevel.c: Add capability to parse security context
->       virtiofsd: Move core file creation code in separate function
->       virtiofsd: Add helpers to work with /proc/self/task/tid/attr/fscreate
->       virtiofsd: Create new file with security context
->       virtiofsd: Create new file using O_TMPFILE and set security context
->       virtiofsd: Add an option to enable/disable security label
-> 
->  docs/tools/virtiofsd.rst                       |  32 ++
->  include/standard-headers/asm-x86/kvm_para.h    |   1 +
->  include/standard-headers/drm/drm_fourcc.h      |  11 +
->  include/standard-headers/linux/ethtool.h       |   1 +
->  include/standard-headers/linux/fuse.h          |  60 +++-
->  include/standard-headers/linux/pci_regs.h      | 142 ++++----
->  include/standard-headers/linux/virtio_gpio.h   |  72 ++++
->  include/standard-headers/linux/virtio_i2c.h    |  47 +++
->  include/standard-headers/linux/virtio_iommu.h  |   8 +-
->  include/standard-headers/linux/virtio_pcidev.h |  65 ++++
->  include/standard-headers/linux/virtio_scmi.h   |  24 ++
->  linux-headers/asm-generic/unistd.h             |   5 +-
->  linux-headers/asm-mips/unistd_n32.h            |   2 +
->  linux-headers/asm-mips/unistd_n64.h            |   2 +
->  linux-headers/asm-mips/unistd_o32.h            |   2 +
->  linux-headers/asm-powerpc/unistd_32.h          |   2 +
->  linux-headers/asm-powerpc/unistd_64.h          |   2 +
->  linux-headers/asm-riscv/bitsperlong.h          |  14 +
->  linux-headers/asm-riscv/mman.h                 |   1 +
->  linux-headers/asm-riscv/unistd.h               |  44 +++
->  linux-headers/asm-s390/unistd_32.h             |   2 +
->  linux-headers/asm-s390/unistd_64.h             |   2 +
->  linux-headers/asm-x86/kvm.h                    |  16 +-
->  linux-headers/asm-x86/unistd_32.h              |   1 +
->  linux-headers/asm-x86/unistd_64.h              |   1 +
->  linux-headers/asm-x86/unistd_x32.h             |   1 +
->  linux-headers/linux/kvm.h                      |  17 +
->  tools/virtiofsd/fuse_common.h                  |   9 +-
->  tools/virtiofsd/fuse_i.h                       |   7 +
->  tools/virtiofsd/fuse_lowlevel.c                | 179 ++++++++--
->  tools/virtiofsd/fuse_lowlevel.h                |  13 +
->  tools/virtiofsd/helper.c                       |   1 +
->  tools/virtiofsd/passthrough_ll.c               | 467 +++++++++++++++++++++++--
->  tools/virtiofsd/passthrough_seccomp.c          |   1 +
->  34 files changed, 1122 insertions(+), 132 deletions(-)
->  create mode 100644 include/standard-headers/linux/virtio_gpio.h
->  create mode 100644 include/standard-headers/linux/virtio_i2c.h
->  create mode 100644 include/standard-headers/linux/virtio_pcidev.h
->  create mode 100644 include/standard-headers/linux/virtio_scmi.h
->  create mode 100644 linux-headers/asm-riscv/bitsperlong.h
->  create mode 100644 linux-headers/asm-riscv/mman.h
->  create mode 100644 linux-headers/asm-riscv/unistd.h
-> 
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://listman.redhat.com/mailman/listinfo/virtio-fs
+> diff --git a/migration/migration.c b/migration/migration.c
+> index bcc385b94b..cdb2e76d02 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -287,8 +287,9 @@ void migration_incoming_state_destroy(void)
+>          g_array_free(mis->postcopy_remote_fds, TRUE);
+>          mis->postcopy_remote_fds = NULL;
+>      }
+> -    if (mis->transport_cleanup) {
+> +    if (mis->transport_cleanup && mis->transport_data) {
+>          mis->transport_cleanup(mis->transport_data);
+> +        mis->transport_data = NULL;
+>      }
+>  
+>      qemu_event_reset(&mis->main_thread_load_event);
+> -- 
+> 2.34.1
 > 
 -- 
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
