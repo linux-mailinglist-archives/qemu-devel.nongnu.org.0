@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DB54BA4A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 16:41:00 +0100 (CET)
-Received: from localhost ([::1]:47956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2EF4BA4C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 16:46:09 +0100 (CET)
+Received: from localhost ([::1]:58944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKitu-000273-BE
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 10:40:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55064)
+	id 1nKiyt-0001G8-BN
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 10:46:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nKiUT-0000AR-Tt
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 10:14:44 -0500
-Received: from [2607:f8b0:4864:20::536] (port=39735
- helo=mail-pg1-x536.google.com)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nKibm-0007Hm-IV
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 10:22:16 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:57110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nKiUS-0007cx-Is
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 10:14:41 -0500
-Received: by mail-pg1-x536.google.com with SMTP id 195so5286436pgc.6
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 07:14:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=QjYn/nDcS9vSkBLMNCNGY4sLg2O1EWN+YW+PnfRwmZE=;
- b=G6qfXj7G21WnhiyNsyWUXjhnJnmDuxgiFVDVZROknMAesK/KyvheZ+k9oAlfNcYZvi
- /trsR+UY8v5/5W3NHcL8Tgkiq26J7Tlbug4BRn51+ArMHA9tB4I57s3yAQs/0j/39k4j
- +9nzFrVQftlTIIuyvvDrkm0Fo6J1cUEvUhfYquuHS7cEg780ez66JRPqw5mSyJAC06Lu
- EjDvW4MOdZgoXIsjNFG4yCD5OBQUuS8+h8lPRLqnjc+KaS4o0WJAZzZ1uau0ikfPMmc1
- Cw/KQwe1RQ1raqmfb26TUUGu4D599ZyaDBkdWmWDa275KVb2mPLkIn737v65ga9mBLUq
- V+Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QjYn/nDcS9vSkBLMNCNGY4sLg2O1EWN+YW+PnfRwmZE=;
- b=JZ+7WLIoiPf4yjekQp7FhC0+tqEkHV4dpY7aEi+YUnP+NTOk9R1ALWEMYlQoViiPCV
- IRP2b6OoipW5p475EUxjUqX1xjvW23jaeTC+BLTrpWictMVQ3bW1EhpiZHQ+no33hUfs
- rVMaD28NpnMdp8uMgSqnj2BAUfmU/xSUTmVhY1gcDYSFTyypNpHw0mHUO94tDLX1R7Ie
- qOuUpVxxRwUeRZ1bonChpklnZfM5lzAhDjk52nNRhGwvtwe8TTBVaL3PJ5q8AJ3wtP47
- tSdrUxzhikyCsx1w4VkrXnUdSEMiUrwWpHTbTOOrPVqq7qzx03xbG9hZAk9r+c9Ehr/p
- rwAA==
-X-Gm-Message-State: AOAM530IGKXZrWNwfkZRJ1d0NpSZZvv1JQ8TXmRG4rQJoRnWr+bikbib
- ruqp+zb8X87tMfrAgaeTGERqPZqHzGQzJQ==
-X-Google-Smtp-Source: ABdhPJwJfuJsza9bOLk1az7yAjn26Odscx3WOcJ7M3kUVM2LUvyDKoP2wZCFSw/acJxZPsolG5qEHA==
-X-Received: by 2002:a05:6a00:1249:b0:4e1:5aa4:9ac6 with SMTP id
- u9-20020a056a00124900b004e15aa49ac6mr3334326pfi.72.1645110879093; 
- Thu, 17 Feb 2022 07:14:39 -0800 (PST)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.242.253])
- by smtp.googlemail.com with ESMTPSA id z9sm8456884pgz.32.2022.02.17.07.14.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 07:14:38 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH v4 3/3] hw/smbios: add assertion to ensure handles of tables
- 19 and 32 do not collide
-Date: Thu, 17 Feb 2022 20:44:10 +0530
-Message-Id: <20220217151410.300210-4-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220217151410.300210-1-ani@anisinha.ca>
-References: <20220217151410.300210-1-ani@anisinha.ca>
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nKibk-0000R0-3K
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 10:22:13 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3E0DF2198B;
+ Thu, 17 Feb 2022 15:22:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1645111330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TQD/GnXMck7dJWuPdfaDGPyieYGu/jdNOVyI3wHE/1o=;
+ b=Tqhg9iL640ME/QbkMbE2Rn19g4r5DE1ya347wveUBAruWgTtRt7gDk/UsYjqrN6fuXJ+y+
+ mh2QdSG1VN5/ZxH9TNoJWQVLEX+SBUVlA1+uwPkRj6rdzrWmpeMqQSSJduFyQyBQf1iuID
+ QTQP4fspRVTiW5hXqulRXvoOdb7lQ3g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1645111330;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TQD/GnXMck7dJWuPdfaDGPyieYGu/jdNOVyI3wHE/1o=;
+ b=aZDS4AF8g+69jhWyn56hWZwcT85c45LINS6/UXedW1VowU3k3u6WZWJMUE0qqQCXROB3SO
+ /j8+0+Y7NuHTFIDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D55B613C1B;
+ Thu, 17 Feb 2022 15:22:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4FXgMCFoDmKNWQAAMHmgww
+ (envelope-from <lizhang@suse.de>); Thu, 17 Feb 2022 15:22:09 +0000
+Subject: Re: [PATCH 1/1] numa: check mem or memdev in numa configuration
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20220216163613.22570-1-lizhang@suse.de>
+ <20220217101024.7c723f10@redhat.com>
+ <65f05997-dd2b-c30d-5c95-8e832f21afa0@suse.de>
+ <20220217112539.43ddd55f@redhat.com>
+ <f3b49aba-5fef-8c80-17c3-d577aeed6111@suse.de>
+ <20220217143335.17e8ff28@redhat.com>
+From: Li Zhang <lizhang@suse.de>
+Message-ID: <81561d8b-0be9-a6d8-57a8-fb400e55aa7f@suse.de>
+Date: Thu, 17 Feb 2022 16:22:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::536;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220217143335.17e8ff28@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,40 +89,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: eduardo@habkost.net, wangyanan55@huawei.com, f4bug@amsat.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since change dcf359832eec02 ("hw/smbios: fix table memory corruption with large memory vms")
-we reserve additional space between handle numbers of tables 17 and 19 for
-large VMs. This may cause table 19 to collide with table 32 in their handle
-numbers for those large VMs. This change adds an assertion to ensure numbers
-do not collide. If they do, qemu crashes with useful debug information for
-taking additional steps.
+On 2/17/22 2:33 PM, Igor Mammedov wrote:
+> On Thu, 17 Feb 2022 13:24:08 +0100
+> Li Zhang <lizhang@suse.de> wrote:
+> 
+>> On 2/17/22 11:25 AM, Igor Mammedov wrote:
+>>> On Thu, 17 Feb 2022 10:38:32 +0100
+>>> Li Zhang <lizhang@suse.de> wrote:
+>>>    
+>>>> On 2/17/22 10:10 AM, Igor Mammedov wrote:
+>>>>> On Wed, 16 Feb 2022 17:36:13 +0100
+>>>>> Li Zhang <lizhang@suse.de> wrote:
+>>>>>       
+>>>>>> If there is no mem or memdev in numa configuration, it always
+>>>>>> reports the error as the following:
+>>>>>>
+>>>>>> total memory for NUMA nodes (0x0) should equal RAM size (0x100000000)
+>>>>>>
+>>>>>> This error is confusing and the reason is that total memory of numa nodes
+>>>>>> is always 0 if there is no mem or memdev in numa configuration.
+>>>>>> So it's better to check mem or memdev in numa configuration.
+>>>>>>
+>>>>>> Signed-off-by: Li Zhang <lizhang@suse.de>
+>>>>>> ---
+>>>>>>     hw/core/numa.c | 5 +++++
+>>>>>>     1 file changed, 5 insertions(+)
+>>>>>>
+>>>>>> diff --git a/hw/core/numa.c b/hw/core/numa.c
+>>>>>> index 1aa05dcf42..11cbec51eb 100644
+>>>>>> --- a/hw/core/numa.c
+>>>>>> +++ b/hw/core/numa.c
+>>>>>> @@ -132,6 +132,11 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+>>>>>>     
+>>>>>>         have_memdevs = have_memdevs ? : node->has_memdev;
+>>>>>>         have_mem = have_mem ? : node->has_mem;
+>>>>>> +    if (!node->has_memdev && !node->has_mem) {
+>>>>>> +        error_setg(errp, "numa configuration should use mem= or memdev= ");
+>>>>>> +        return;
+>>>>>> +    }
+>>>>>
+>>>>> Wouldn't this breaks memory less numa nodes?
+>>>>
+>>>> Yes, you are right. It will break it if there more numa nodes
+>>>> than memory, and the numa nodes have no memory backends specified.
+>>>>
+>>>> Is it allowed for users to specify more numa nodes than memory?
+>>> yep, I think we support it at least for one of the targets
+>>> (but I don't remember which one(s))
+>>>    
+>>
+>> Is it okay if I put a warning here, instead of an error and return?
+>> It won't break the special case. I wonder if it is annoying to get
+>> the warning.
+> issuing warning in perfectly valid case (memory-less node)
+> doesn't look like a good thing to do.
+> 
+> there is already a error message,
+> 
+>   "total memory for NUMA nodes (0x0) should equal RAM size (0x100000000)"
+> 
+> I'd suggest to just fix this error message to be less confusing
+> instead of adding dubious warning elsewhere.
+> 
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
----
- hw/smbios/smbios.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+OK, thanks for your suggestion.
 
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 44c53797a4..1f8d5c252f 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -1048,6 +1048,12 @@ void smbios_get_tables(MachineState *ms,
-                                        mem_array[i].length);
-         }
- 
-+        /*
-+         * make sure 16 bit handle numbers in the headers of tables 19
-+         * and 32 do not overlap.
-+         */
-+        assert((mem_array_size + offset) < (T32_BASE - T19_BASE));
-+
-         smbios_build_type_32_table();
-         smbios_build_type_38_table();
-         smbios_build_type_41_table(errp);
--- 
-2.25.1
+>>
+>> Thanks
+>> Li
+>>
+>>>>   
+>>>>>
+>>>>> I'd rather add/rephrase to original error message that memory
+>>>>> should be specified explicitly for desired numa nodes.
+>>>>> And I'd not mention 'mem=' since
+>>>>>      docs/about/removed-features.rst:``-numa node,mem=...`` (removed in 5.1)
+>>>>
+>>>> Thanks for your suggestions, I will rephrase it.
+>>>>   
+>>>>>       
+>>>>>> +
+>>>>>>         if ((node->has_mem && have_memdevs) || (node->has_memdev && have_mem)) {
+>>>>>>             error_setg(errp, "numa configuration should use either mem= or memdev=,"
+>>>>>>                        "mixing both is not allowed");
+>>>>>       
+>>>>   
+>>>    
+>>
+> 
+> 
 
 
