@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B77D4BA012
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 13:26:24 +0100 (CET)
-Received: from localhost ([::1]:59168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5135A4BA024
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 13:29:54 +0100 (CET)
+Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKfrb-0006ZX-8A
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 07:26:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40062)
+	id 1nKfuz-0002fX-DM
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 07:29:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nKfS0-0007FH-Vr
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 06:59:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31017)
+ id 1nKfSX-0007qI-V7
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:00:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nKfRz-0001Fz-DJ
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 06:59:56 -0500
+ id 1nKfSW-0001YM-05
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:00:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645099194;
+ s=mimecast20190719; t=1645099227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z3/fLVN0f8FmK2BpekjUIonMnz89spwYrYp7oriaLhQ=;
- b=F1Ou7XsapzNfCu6mUHl+vT5b7plFHUz+dZLd90LVXqjrB7Mp5L3TSjQVawuf440Uh6bDbG
- g/3Al5uxe0Vcc3QgvQosh/cr6awrUKpKwbNlRkrOeV9OXKA6Ran5pCWKGjuje/FzNbrnmy
- PAlxIdODohl4cGyFFhcuFxaRDcB35uk=
+ bh=q9H2nuo2ugwOgD6+ZO4ABhkAteCErk3GCcKKop4U28c=;
+ b=OcvjaxSNajilteiQDvdhp709oxzIrTzNkpenMsm7prDRhz1/SjAR2chDlhlZHz+LsqAGWj
+ yVyBYE0Gadt1CBtMfws6ocPiBuPT67L9dmiA85InId141g4G1wIWPdgSSskmzTiwErfYgb
+ DkVjompzxe3ZMj0MbReek6ZxSp/6ywQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-421-yx_nhTttOGWAZkMjR6veag-1; Thu, 17 Feb 2022 06:59:53 -0500
-X-MC-Unique: yx_nhTttOGWAZkMjR6veag-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-551-bc1lfWf-OX6JfCfGBxy7xg-1; Thu, 17 Feb 2022 07:00:26 -0500
+X-MC-Unique: bc1lfWf-OX6JfCfGBxy7xg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E07241006AA0;
- Thu, 17 Feb 2022 11:59:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52D43801AC5;
+ Thu, 17 Feb 2022 12:00:25 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E984F7C0CC;
- Thu, 17 Feb 2022 11:59:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D33E66E33;
+ Thu, 17 Feb 2022 11:59:56 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/12] ui: do not create a surface when resizing a GL
- scanout
-Date: Thu, 17 Feb 2022 15:58:20 +0400
-Message-Id: <20220217115829.2314347-4-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 04/12] ui/console: move check for compatible GL context
+Date: Thu, 17 Feb 2022 15:58:21 +0400
+Message-Id: <20220217115829.2314347-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
 References: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,49 +87,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-qemu_console_resize() will create a blank surface and replace the
-current scanout with it if called while the current scanout is
-GL (texture or dmabuf).
-
-This is not only very costly, but also can produce glitches on the
-display/listener side.
-
-Instead, compare the current console size with the fitting console
-functions, which also works when the scanout is GL.
-
-Note: there might be still an unnecessary surface creation on calling
-qemu_console_resize() when the size is actually changing, but display
-backends currently rely on DisplaySurface details during
-dpy_gfx_switch() to handle various resize aspects. We would need more
-refactoring to handle resize without DisplaySurface, this is left for a
-future improvement.
+Move GL context compatibility check in dpy_compatible_with(), and use
+recommended error reporting.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/console.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ ui/console.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
 diff --git a/ui/console.c b/ui/console.c
-index 79a01afd1ea7..365a2c14b809 100644
+index 365a2c14b809..57e431d9e609 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -2400,13 +2400,12 @@ static void vc_chr_open(Chardev *chr,
+@@ -1482,6 +1482,12 @@ static bool dpy_compatible_with(QemuConsole *con,
  
- void qemu_console_resize(QemuConsole *s, int width, int height)
+     flags = con->hw_ops->get_flags ? con->hw_ops->get_flags(con->hw) : 0;
+ 
++    if (console_has_gl(con) && con->gl->ops->compatible_dcl != dcl->ops) {
++        error_setg(errp, "Display %s is incompatible with the GL context",
++                   dcl->ops->dpy_name);
++        return false;
++    }
++
+     if (flags & GRAPHIC_FLAGS_GL &&
+         !console_has_gl(con)) {
+         error_setg(errp, "The console requires a GL context.");
+@@ -1509,27 +1515,12 @@ void qemu_console_set_display_gl_ctx(QemuConsole *con, DisplayGLCtx *gl)
+     con->gl = gl;
+ }
+ 
+-static bool dpy_gl_compatible_with(QemuConsole *con, DisplayChangeListener *dcl)
+-{
+-    if (!con->gl) {
+-        return true;
+-    }
+-
+-    return con->gl->ops->compatible_dcl == dcl->ops;
+-}
+-
+ void register_displaychangelistener(DisplayChangeListener *dcl)
  {
--    DisplaySurface *surface = qemu_console_surface(s);
-+    DisplaySurface *surface;
+     QemuConsole *con;
  
-     assert(s->console_type == GRAPHIC_CONSOLE);
+     assert(!dcl->ds);
  
--    if (surface && (surface->flags & QEMU_ALLOCATED_FLAG) &&
--        pixman_image_get_width(surface->image) == width &&
--        pixman_image_get_height(surface->image) == height) {
-+    if (qemu_console_get_width(s, -1) == width &&
-+        qemu_console_get_height(s, -1) == height) {
-         return;
+-    if (dcl->con && !dpy_gl_compatible_with(dcl->con, dcl)) {
+-        error_report("Display %s is incompatible with the GL context",
+-                     dcl->ops->dpy_name);
+-        exit(1);
+-    }
+-
+     if (dcl->con) {
+         dpy_compatible_with(dcl->con, dcl, &error_fatal);
      }
- 
 -- 
 2.34.1.428.gdcc0cd074f0c
 
