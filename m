@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11A94B98C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 07:08:18 +0100 (CET)
-Received: from localhost ([::1]:37018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C594B98C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 07:08:37 +0100 (CET)
+Received: from localhost ([::1]:38614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKZxi-0001Aw-0l
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 01:08:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52976)
+	id 1nKZy0-0002EW-Uz
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 01:08:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nKZuH-0006cu-Oa
+ id 1nKZuH-0006cs-AJ
  for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:04:46 -0500
-Received: from mga18.intel.com ([134.134.136.126]:2004)
+Received: from mga18.intel.com ([134.134.136.126]:2007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nKZuF-0005nn-7Z
+ id 1nKZuF-0005os-Kx
  for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:04:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1645077883; x=1676613883;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CIMivtwBOBQZtE3wyg+kmMOiJ9vcJSpRpGFGO0fV1bc=;
- b=gBuQW2kQ4i/h393SF1q2i4w75YTszaad7MKjden+hCkxuzT8QLuOQ3l8
- 5pRkvWOWda5/UupypxnHqjco+6bUumBVfbzYWN63XszCGCQkxZqfIHfXK
- 5tQlHvd4cdQfGRZY6bCvhnpuCOFhSBeYvzY4P7z6x8K0gNyUoy00Xffj8
- GdO9xKZyr/VamULMhVFFjwVb/GZD9VEOMn2r9Wgt4UAeO5wUmPghUGY0O
- k3yXM3QvAzCHZJRsz02AljOJiFSE10TohL+/wTf8+QzEvcll1B29RYPLg
- l2bSu3w9yUWwof1b0Ew4fi+s7Kmz0Vbg+ASez2AieGYchhwHwIhUzfo2l w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="234332896"
-X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="234332896"
+ bh=wGJsbwQh33DrXPNfdzWxtDYQ48O6VitEiFhqf0Yh0MI=;
+ b=KD7Aw/DZbPZN2dPYaediPG+8lbZ/H0obqv3OxBcy+oAEk+DqDrK0DJ1b
+ OopZOlkRGaDdt8SbvYmlTwyOyBmPIk76e40iL/qCnYv87PyHViKKtwMUC
+ B2tTldOEAfbV9+VAG7bUXHNsXwkdmvHKtwSKdagYvB84sp/mJsgoCh0x+
+ ywTfQc5lVBg/RIvudifqarn9KpZARDxkNx1qG3FfkMJKgNlwmWXbVjRsx
+ uqZJ/Z8DpPT+nwjno772DxBzFH6YwkyjY4NwkvRJDPdyfDJX3LcEQbcYZ
+ /TmEcu3aVsiR9uoOJqbHuBzbsv18U69oPFFo5u8pnasVo3yhnZJHH/gVf g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="234332898"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="234332898"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  16 Feb 2022 22:04:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="634318698"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="634318702"
 Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
  by fmsmga002.fm.intel.com with ESMTP; 16 Feb 2022 22:04:35 -0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/8] x86: Grant AMX permission for guest
-Date: Wed, 16 Feb 2022 22:04:29 -0800
-Message-Id: <20220217060434.52460-4-yang.zhong@intel.com>
+Subject: [PATCH v2 4/8] x86: Add XFD faulting bit for state components
+Date: Wed, 16 Feb 2022 22:04:30 -0800
+Message-Id: <20220217060434.52460-5-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220217060434.52460-1-yang.zhong@intel.com>
 References: <20220217060434.52460-1-yang.zhong@intel.com>
@@ -77,191 +77,48 @@ Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kernel allocates 4K xstate buffer by default. For XSAVE features
-which require large state component (e.g. AMX), Linux kernel
-dynamically expands the xstate buffer only after the process has
-acquired the necessary permissions. Those are called dynamically-
-enabled XSAVE features (or dynamic xfeatures).
+From: Jing Liu <jing2.liu@intel.com>
 
-There are separate permissions for native tasks and guests.
+Intel introduces XFD faulting mechanism for extended
+XSAVE features to dynamically enable the features in
+runtime. If CPUID (EAX=0Dh, ECX=n, n>1).ECX[2] is set
+as 1, it indicates support for XFD faulting of this
+state component.
 
-Qemu should request the guest permissions for dynamic xfeatures
-which will be exposed to the guest. This only needs to be done
-once before the first vcpu is created.
-
-KVM implemented one new ARCH_GET_XCOMP_SUPP system attribute API to
-get host side supported_xcr0 and Qemu can decide if it can request
-dynamically enabled XSAVE features permission.
-https://lore.kernel.org/all/20220126152210.3044876-1-pbonzini@redhat.com/
-
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 Signed-off-by: Jing Liu <jing2.liu@intel.com>
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- target/i386/cpu.h         |  7 +++++++
- target/i386/cpu.c         | 43 +++++++++++++++++++++++++++++++++++++++
- target/i386/kvm/kvm-cpu.c | 12 +++++------
- target/i386/kvm/kvm.c     | 20 ++++++++++++++++++
- 4 files changed, 76 insertions(+), 6 deletions(-)
+ target/i386/cpu.h | 2 ++
+ target/i386/cpu.c | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 06d2d6bccf..d4ad0f56bd 100644
+index d4ad0f56bd..f7fc2e97a6 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -549,6 +549,13 @@ typedef enum X86Seg {
- #define XSTATE_ZMM_Hi256_MASK           (1ULL << XSTATE_ZMM_Hi256_BIT)
- #define XSTATE_Hi16_ZMM_MASK            (1ULL << XSTATE_Hi16_ZMM_BIT)
- #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
-+#define XSTATE_XTILE_CFG_MASK           (1ULL << XSTATE_XTILE_CFG_BIT)
-+#define XSTATE_XTILE_DATA_MASK          (1ULL << XSTATE_XTILE_DATA_BIT)
-+#define XFEATURE_XTILE_MASK             (XSTATE_XTILE_CFG_MASK \
-+                                         | XSTATE_XTILE_DATA_MASK)
-+
-+#define ARCH_GET_XCOMP_GUEST_PERM       0x1024
-+#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
+@@ -558,8 +558,10 @@ typedef enum X86Seg {
+ #define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
  
  #define ESA_FEATURE_ALIGN64_BIT         1
++#define ESA_FEATURE_XFD_BIT             2
  
+ #define ESA_FEATURE_ALIGN64_MASK        (1U << ESA_FEATURE_ALIGN64_BIT)
++#define ESA_FEATURE_XFD_MASK            (1U << ESA_FEATURE_XFD_BIT)
+ 
+ 
+ /* CPUID feature words */
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index ea7e8f9081..377d993438 100644
+index 377d993438..5a7ee8c7e1 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -43,6 +43,8 @@
- #include "disas/capstone.h"
- #include "cpu-internal.h"
- 
-+#include <sys/syscall.h>
-+
- /* Helpers for building CPUID[2] descriptors: */
- 
- struct CPUID2CacheDescriptorInfo {
-@@ -6000,12 +6002,47 @@ static void x86_cpu_adjust_feat_level(X86CPU *cpu, FeatureWord w)
-     }
- }
- 
-+static void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
-+{
-+    KVMState *s = kvm_state;
-+    uint64_t bitmask;
-+    long rc;
-+
-+    if ((mask & XSTATE_XTILE_DATA_MASK) == XSTATE_XTILE_DATA_MASK) {
-+        bitmask = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
-+        if (!(bitmask & XSTATE_XTILE_DATA_MASK)) {
-+            warn_report("no amx support from supported_xcr0, "
-+                        "bitmask:0x%lx", bitmask);
-+            return;
-+        }
-+
-+        rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_GUEST_PERM,
-+                      XSTATE_XTILE_DATA_BIT);
-+        if (rc) {
-+            /*
-+             * The older kernel version(<5.15) can't support
-+             * ARCH_REQ_XCOMP_GUEST_PERM and directly return.
-+             */
-+            return;
-+        }
-+
-+        rc = syscall(SYS_arch_prctl, ARCH_GET_XCOMP_GUEST_PERM, &bitmask);
-+        if (rc) {
-+            warn_report("prctl(ARCH_GET_XCOMP_GUEST_PERM) error: %ld", rc);
-+        } else if (!(bitmask & XFEATURE_XTILE_MASK)) {
-+            warn_report("prctl(ARCH_REQ_XCOMP_GUEST_PERM) failure "
-+                        "and bitmask=0x%lx", bitmask);
-+        }
-+    }
-+}
-+
- /* Calculate XSAVE components based on the configured CPU feature flags */
- static void x86_cpu_enable_xsave_components(X86CPU *cpu)
- {
-     CPUX86State *env = &cpu->env;
-     int i;
-     uint64_t mask;
-+    static bool request_perm;
- 
-     if (!(env->features[FEAT_1_ECX] & CPUID_EXT_XSAVE)) {
-         env->features[FEAT_XSAVE_COMP_LO] = 0;
-@@ -6021,6 +6058,12 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
-         }
-     }
- 
-+    /* Only request permission for first vcpu */
-+    if (kvm_enabled() && !request_perm) {
-+        kvm_request_xsave_components(cpu, mask);
-+        request_perm = true;
-+    }
-+
-     env->features[FEAT_XSAVE_COMP_LO] = mask;
-     env->features[FEAT_XSAVE_COMP_HI] = mask >> 32;
- }
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index ce27d3b1df..a35a1bf9fe 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -84,7 +84,7 @@ static void kvm_cpu_max_instance_init(X86CPU *cpu)
- static void kvm_cpu_xsave_init(void)
- {
-     static bool first = true;
--    KVMState *s = kvm_state;
-+    uint32_t eax, ebx, ecx, edx;
-     int i;
- 
-     if (!first) {
-@@ -100,11 +100,11 @@ static void kvm_cpu_xsave_init(void)
-         ExtSaveArea *esa = &x86_ext_save_areas[i];
- 
-         if (esa->size) {
--            int sz = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EAX);
--            if (sz != 0) {
--                assert(esa->size == sz);
--                esa->offset = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EBX);
--                esa->ecx = kvm_arch_get_supported_cpuid(s, 0xd, i, R_ECX);
-+            host_cpuid(0xd, i, &eax, &ebx, &ecx, &edx);
-+            if (eax != 0) {
-+                assert(esa->size == eax);
-+                esa->offset = ebx;
-+                esa->ecx = ecx;
+@@ -5497,7 +5497,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                 const ExtSaveArea *esa = &x86_ext_save_areas[count];
+                 *eax = esa->size;
+                 *ebx = esa->offset;
+-                *ecx = esa->ecx & ESA_FEATURE_ALIGN64_MASK;
++                *ecx = (esa->ecx & ESA_FEATURE_ALIGN64_MASK) |
++                       (esa->ecx & ESA_FEATURE_XFD_MASK);
              }
          }
-     }
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 2c8feb4a6f..3bdcd724c4 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -348,6 +348,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-     struct kvm_cpuid2 *cpuid;
-     uint32_t ret = 0;
-     uint32_t cpuid_1_edx;
-+    uint64_t bitmask;
- 
-     cpuid = get_supported_cpuid(s);
- 
-@@ -405,6 +406,25 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-         if (!has_msr_arch_capabs) {
-             ret &= ~CPUID_7_0_EDX_ARCH_CAPABILITIES;
-         }
-+    } else if (function == 0xd && index == 0 &&
-+               (reg == R_EAX || reg == R_EDX)) {
-+        struct kvm_device_attr attr = {
-+            .group = 0,
-+            .attr = KVM_X86_XCOMP_GUEST_SUPP,
-+            .addr = (unsigned long) &bitmask
-+        };
-+
-+        bool sys_attr = kvm_check_extension(s, KVM_CAP_SYS_ATTRIBUTES);
-+        if (!sys_attr) {
-+            warn_report("cannot get sys attribute capabilities %d", sys_attr);
-+        }
-+
-+        int rc = kvm_ioctl(s, KVM_GET_DEVICE_ATTR, &attr);
-+        if (rc == -1 && (errno == ENXIO || errno == EINVAL)) {
-+            warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
-+                        "error: %d", rc);
-+        }
-+        ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
-     } else if (function == 0x80000001 && reg == R_ECX) {
-         /*
-          * It's safe to enable TOPOEXT even if it's not returned by
+         break;
 
