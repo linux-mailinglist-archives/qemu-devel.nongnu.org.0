@@ -2,89 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324AC4B98B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 07:04:48 +0100 (CET)
-Received: from localhost ([::1]:60110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808324B98C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 07:08:18 +0100 (CET)
+Received: from localhost ([::1]:37020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKZuI-0005zW-NR
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 01:04:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52314)
+	id 1nKZxh-0001Az-KS
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 01:08:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nKZs1-0005Il-5t
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:02:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31535)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nKZuE-0006av-HG
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:04:43 -0500
+Received: from mga18.intel.com ([134.134.136.126]:2004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nKZrw-0005do-Va
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:02:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645077739;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AJ43gSmtVUJMmgA5fIQo+GYRl7d1tlzDB8+T6/5SR7g=;
- b=MJh2w0/GJamhfY4UKhPti7KohjDvnqgu37GPWcU6umEQrESkwkHKvZyhUM7HjXSaOwLS10
- o4U8YGiIulVdaS3ODzqA8fbkCZ8g+2BqqyO6ZgwXz359xt2JuZdizRcuHNoWfD1xIU4j7W
- i4L2QRIVcrgZkaqpB86R9JiLg7IbuHQ=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-YaVTedRCOe29CCz5sE68Bw-1; Thu, 17 Feb 2022 01:02:18 -0500
-X-MC-Unique: YaVTedRCOe29CCz5sE68Bw-1
-Received: by mail-yb1-f197.google.com with SMTP id
- 128-20020a251286000000b0062234a636b0so8798122ybs.16
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 22:02:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=AJ43gSmtVUJMmgA5fIQo+GYRl7d1tlzDB8+T6/5SR7g=;
- b=JHTuwDpyv8FiDmSDHohi3h/tYhuG/hGI82ZPM5IR/ujvSfFiOqqaGnimKh+JkXf+WM
- FJZnAu3MPuQM8+NML3coj4ZC6m41VMdbiKOqKAgtbhIdvKRD0+VAtV0QCQJ7OcVs2lKh
- AdaCO2ZNcIMHEoTdHK0ND31N2fAmgyivznH8ANTFKc7NZjLdi4haMyzHBOAdKNkY5FSH
- haTvcQrFOf+ooX64S08VmHLqNqGqCGHbv5R+cBOslxqjbSIifj+hCu9HVOVEJZokU+xo
- 0+/B+WPvsmHVAC+RirTU6xMzYBRy0wUZdFuBbMWLL9OYJGlkLWzaSFd66gxvKguOmRBv
- ZAig==
-X-Gm-Message-State: AOAM532wl7DiDX3fxb1drzC96gwmxZIjUIgktfAOOYwVkzlZAZlgv+Tm
- FFhlrsp1FBbuqqF6bIcMEOhgYvUEH7fehEPZUqQhweyBSOhameBLRUL0PJkT2CIh2x1xSc+Vliz
- m6Q+kuzLqJaV7CJ8DSL0QL1pOR1XYsTE=
-X-Received: by 2002:a81:c54a:0:b0:2d6:435a:5875 with SMTP id
- o10-20020a81c54a000000b002d6435a5875mr1188502ywj.181.1645077737485; 
- Wed, 16 Feb 2022 22:02:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxWDR785zTtcjGEoamEsKqFytogOfPdl/ew1QqgL/zFAsqSiEZOt7izL9dDH41YrCUJp0By1t1R65bKo1jhMYY=
-X-Received: by 2002:a81:c54a:0:b0:2d6:435a:5875 with SMTP id
- o10-20020a81c54a000000b002d6435a5875mr1188475ywj.181.1645077737156; Wed, 16
- Feb 2022 22:02:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nKZuB-0005nn-Gi
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:04:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645077879; x=1676613879;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NxrIdoLQRPqFvNvcaHRHtSiiYT97pTyEhuD6ElcJPD4=;
+ b=Z2mZiYyrPpWiCB2Wud7QV5qXndhPqoE62fDgD75eJTt4driiZbwaYpec
+ M5Nf24Hi/i2fsay7GYvQEdq+n5L9fxzHw6+UTxHAplNNnSOREMEVwlk0H
+ pATT+op9N54EyYsWVME22b2c9Xg/idE9raCZz/kynbP5t8lBUiko0WStR
+ ugYKygUoql0JpBzQOkZTWDHzn+IS7m2ORA2orDzVigrRKIJHbt5WnLgTQ
+ N0OGE5nxX7SYLNnpEVxmQDE+lzPQDQo5ujVg6jW0f8lUYt65UggUOo8wK
+ sZtBlLSpb0MrGhU1fMoyRbAbMDmO1VlsioMXpx5+2ddjRoehfHH1sqG/v A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="234332892"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="234332892"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 22:04:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="634318683"
+Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
+ by fmsmga002.fm.intel.com with ESMTP; 16 Feb 2022 22:04:34 -0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/8] AMX support in Qemu
+Date: Wed, 16 Feb 2022 22:04:26 -0800
+Message-Id: <20220217060434.52460-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-29-eperezma@redhat.com>
- <42664143-6d0c-b107-ec90-8e6336bae29b@redhat.com>
- <CAJaqyWdBLU+maEhByepzeH7iwLmqUba0rRb8PM4VwBy2P8Vtow@mail.gmail.com>
- <9b32f664-56a9-3718-cf48-49003f87d430@redhat.com>
- <CAJaqyWcvWjPas0=xp+U-c-kG+e6k73jg=C4phFD7S-tZY=niSQ@mail.gmail.com>
-In-Reply-To: <CAJaqyWcvWjPas0=xp+U-c-kG+e6k73jg=C4phFD7S-tZY=niSQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 17 Feb 2022 14:02:05 +0800
-Message-ID: <CACGkMEtbd9RsE9f-HLnwmhJEFsK++uBHnqG4N0c6qJG0PxDdzw@mail.gmail.com>
-Subject: Re: [PATCH 28/31] vdpa: Expose VHOST_F_LOG_ALL on SVQ
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.126;
+ envelope-from=yang.zhong@intel.com; helo=mga18.intel.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,168 +69,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
+ jing2.liu@linux.intel.com, wei.w.wang@intel.com, guang.zeng@intel.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 16, 2022 at 11:54 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Tue, Feb 8, 2022 at 9:25 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2022/2/1 =E4=B8=8B=E5=8D=887:45, Eugenio Perez Martin =E5=86=
-=99=E9=81=93:
-> > > On Sun, Jan 30, 2022 at 7:50 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > >>
-> > >> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=
-=86=99=E9=81=93:
-> > >>> SVQ is able to log the dirty bits by itself, so let's use it to not
-> > >>> block migration.
-> > >>>
-> > >>> Also, ignore set and clear of VHOST_F_LOG_ALL on set_features if SV=
-Q is
-> > >>> enabled. Even if the device supports it, the reports would be nonse=
-nse
-> > >>> because SVQ memory is in the qemu region.
-> > >>>
-> > >>> The log region is still allocated. Future changes might skip that, =
-but
-> > >>> this series is already long enough.
-> > >>>
-> > >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > >>> ---
-> > >>>    hw/virtio/vhost-vdpa.c | 20 ++++++++++++++++++++
-> > >>>    1 file changed, 20 insertions(+)
-> > >>>
-> > >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > >>> index fb0a338baa..75090d65e8 100644
-> > >>> --- a/hw/virtio/vhost-vdpa.c
-> > >>> +++ b/hw/virtio/vhost-vdpa.c
-> > >>> @@ -1022,6 +1022,9 @@ static int vhost_vdpa_get_features(struct vho=
-st_dev *dev, uint64_t *features)
-> > >>>        if (ret =3D=3D 0 && v->shadow_vqs_enabled) {
-> > >>>            /* Filter only features that SVQ can offer to guest */
-> > >>>            vhost_svq_valid_guest_features(features);
-> > >>> +
-> > >>> +        /* Add SVQ logging capabilities */
-> > >>> +        *features |=3D BIT_ULL(VHOST_F_LOG_ALL);
-> > >>>        }
-> > >>>
-> > >>>        return ret;
-> > >>> @@ -1039,8 +1042,25 @@ static int vhost_vdpa_set_features(struct vh=
-ost_dev *dev,
-> > >>>
-> > >>>        if (v->shadow_vqs_enabled) {
-> > >>>            uint64_t dev_features, svq_features, acked_features;
-> > >>> +        uint8_t status =3D 0;
-> > >>>            bool ok;
-> > >>>
-> > >>> +        ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &statu=
-s);
-> > >>> +        if (unlikely(ret)) {
-> > >>> +            return ret;
-> > >>> +        }
-> > >>> +
-> > >>> +        if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
-> > >>> +            /*
-> > >>> +             * vhost is trying to enable or disable _F_LOG, and th=
-e device
-> > >>> +             * would report wrong dirty pages. SVQ handles it.
-> > >>> +             */
-> > >>
-> > >> I fail to understand this comment, I'd think there's no way to disab=
-le
-> > >> dirty page tracking for SVQ.
-> > >>
-> > > vhost_log_global_{start,stop} are called at the beginning and end of
-> > > migration. To inform the device that it should start logging, they se=
-t
-> > > or clean VHOST_F_LOG_ALL at vhost_dev_set_log.
-> >
-> >
-> > Yes, but for SVQ, we can't disable dirty page tracking, isn't it? The
-> > only thing is to ignore or filter out the F_LOG_ALL and pretend to be
-> > enabled and disabled.
-> >
->
-> Yes, that's what this patch does.
->
-> >
-> > >
-> > > While SVQ does not use VHOST_F_LOG_ALL, it exports the feature bit so
-> > > vhost does not block migration. Maybe we need to look for another way
-> > > to do this?
-> >
-> >
-> > I'm fine with filtering since it's much more simpler, but I fail to
-> > understand why we need to check DRIVER_OK.
-> >
->
-> Ok maybe I can make that part more clear,
->
-> Since both operations use vhost_vdpa_set_features we must just filter
-> the one that actually sets or removes VHOST_F_LOG_ALL, without
-> affecting other features.
->
-> In practice, that means to not forward the set features after
-> DRIVER_OK. The device is not expecting them anymore.
+Intel introduces Advanced Matrix Extensions (AMX) [1] feature that
+consists of configurable two-dimensional "TILE" registers and new
+accelerator instructions that operate on them. TMUL (Tile matrix
+MULtiply) is the first accelerator instruction set to use the new
+registers.
 
-I wonder what happens if we don't do this.
+Since AMX KVM patches have been merged into Linux release, this series
+is based on latest Linux release(5.17-rc4).
 
-So kernel had this check:
+According to the KVM design, the userspace VMM (e.g. Qemu) is expected
+to request guest permission for the dynamically-enabled XSAVE features
+only once when the first vCPU is created, and KVM checks guest permission
+in KVM_SET_CPUID2.
 
-        /*
-         * It's not allowed to change the features after they have
-         * been negotiated.
-         */
-if (ops->get_status(vdpa) & VIRTIO_CONFIG_S_FEATURES_OK)
-        return -EBUSY;
+Intel AMX is XSAVE supported and XSAVE enabled. Those extended features
+has large state while current kvm_xsave only allows 4KB. The AMX KVM has
+extended struct kvm_xsave to meet this requirenment and added one extra
+KVM_GET_XSAVE2 ioctl to handle extended features. From our test, the AMX
+live migration work well.
 
-So is it FEATURES_OK actually?
+Notice: This version still includes some definitions in the linux-headers,
+once Qemu sync those linux-headers, I will remove those definitions. So
+please ignore those changes.
 
-For this patch, I wonder if the thing we need to do is to see whether
-it is a enable/disable F_LOG_ALL and simply return.
+[1] Intel Architecture Instruction Set Extension Programming Reference
+    https://software.intel.com/content/dam/develop/external/us/en/documents/\
+    architecture-instruction-set-extensions-programming-reference.pdf
 
-Thanks
+Thanks,
+Yang
+----
 
->
-> Does that make more sense?
->
-> Thanks!
->
-> > Thanks
-> >
-> >
-> > >
-> > > Thanks!
-> > >
-> > >> Thanks
-> > >>
-> > >>
-> > >>> +            return 0;
-> > >>> +        }
-> > >>> +
-> > >>> +        /* We must not ack _F_LOG if SVQ is enabled */
-> > >>> +        features &=3D ~BIT_ULL(VHOST_F_LOG_ALL);
-> > >>> +
-> > >>>            ret =3D vhost_vdpa_get_dev_features(dev, &dev_features);
-> > >>>            if (ret !=3D 0) {
-> > >>>                error_report("Can't get vdpa device features, got (%=
-d)", ret);
-> >
->
+Change history
+--------------
+v1->v2:
+   - Patch 1 moved "esa->ecx" into the "if{}"(Paolo).
+   - Patch 3, the requiremnets from Paoalo,
+     - Moved "esa->ecx" into the "if{}".
+     - Used the "mask" as parameter to replace xtiledata bits in
+       kvm_request_xsave_components()
+     - Used the new defined KVM_X86_XCOMP_GUEST_SUPP from KVM to get
+       supported_xcr0 from kvm_arch_get_supported_cpuid().
+     - Updated the kvm_request_xsave_components() for future usage.
+   - Patch 5 added "case 0x1e:" in kvm_arch_init_vcpu()(Paolo).
+   - Patch 6 replaced "if (e->size && e->offset)" with 
+     "if (e->size && e->offset && buflen >= e->size + e->offset)"
+     for xsave and xrstor(Paolo).
+   - Patch 8, which is new added patch and is only for linux-headers.
+     This patch can be directly dropped once Qemu sync linux-headers. 
+
+rfc v1->v1:
+   - Patch 1 changed commit message(Kevin and Paolo).
+   - Patch 2 changed commit message(Kevin and Paolo).
+   - Patch 3, below requirements from Paolo,
+     - Called ARCH_REQ_XCOMP_GUEST_PERM from x86_cpu_enable_xsave_components.
+       Used kvm_request_xsave_components() to replace x86_xsave_req_perm().
+       Replaced syscall(ARCH_GET_XCOMP_GUEST_PERM) with kvm_arch_get_supported_cpuid()
+       in kvm_request_xsave_components().
+     - Changed kvm_cpu_xsave_init() to use host_cpuid() instead of
+       kvm_arch_get_supported_cpuid().
+     - Added the "function == 0xd" handle in kvm_arch_get_supported_cpuid().
+   - Patch 4, used "uint32_t ecx" to replace "uint32_t need_align, support_xfd".
+   - Patch 6, below changes,
+     - Changed the commit message(Kevin) and Used the new function
+     - kvm_init_xsave() to replace some pieces of code(Wei).
+     - Moved KVM_CAP_XSAVE2 extension check to kvm_arch_init_vcpu() to
+       make the request permission before KVM_CAP_XSAVE2 extension check(Paolo).
+   - Removed RFC prefix.
+
+Jing Liu (5):
+  x86: Fix the 64-byte boundary enumeration for extended state
+  x86: Add AMX XTILECFG and XTILEDATA components
+  x86: Add XFD faulting bit for state components
+  x86: Add AMX CPUIDs enumeration
+  x86: add support for KVM_CAP_XSAVE2 and AMX state migration
+
+Yang Zhong (2):
+  x86: Grant AMX permission for guest
+  linux-header: Sync the linux headers
+
+Zeng Guang (1):
+  x86: Support XFD and AMX xsave data migration
+
+ linux-headers/asm-x86/kvm.h |  17 ++++++
+ linux-headers/linux/kvm.h   |   4 ++
+ target/i386/cpu.h           |  46 ++++++++++++++-
+ target/i386/cpu.c           | 108 +++++++++++++++++++++++++++++++++++-
+ target/i386/kvm/kvm-cpu.c   |  11 ++--
+ target/i386/kvm/kvm.c       |  84 ++++++++++++++++++++++------
+ target/i386/machine.c       |  42 ++++++++++++++
+ target/i386/xsave_helper.c  |  33 +++++++++++
+ 8 files changed, 320 insertions(+), 25 deletions(-)
 
 
