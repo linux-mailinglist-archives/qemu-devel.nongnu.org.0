@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042CB4B9953
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 07:37:12 +0100 (CET)
-Received: from localhost ([::1]:38730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050CE4B9959
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 07:43:03 +0100 (CET)
+Received: from localhost ([::1]:43184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKaPe-00059p-RB
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 01:37:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58312)
+	id 1nKaVF-0008Hy-3T
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 01:42:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKaNe-0003g0-HF
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:35:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29492)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKaO6-0004jp-Tt
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:35:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKaNa-00027d-Rd
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:35:04 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKaO4-00029U-PO
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:35:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645079702;
+ s=mimecast20190719; t=1645079732;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HIIxW03Itzows/dKwEZzQIalCuxF7XRm6lPHX/0A80c=;
- b=eGZssmJfy3WIt9XwhcfUR7om+V3eCAm2SskIopIj31Zu2n96+87D89HmtgXSCQYcpPlDgG
- sLNisu/j87+MPt0cFLssrkIR2lJewnBsLsQYKjGUrIQHmqfKFMhXA9kLMcnv5d2J8uSOXc
- 4Q2fchVziXrLdyHfUG+XzPsV7xGJ+fQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kN8VXWG4c5e2v+R1vCZhvxt1KmyiyuArd6nbATp+DYo=;
+ b=F4Ix7dWQo/KwIXl1R2D6tUXiS9MpJ7fQWrh1b3FbxmdQNs37WYCXnLWBGvexg2kFKfzjMA
+ wlKV1oBQf0pnJClk51Z6nvdpwrM5ltxJ5b2Z14bGXGnKxHhdgM5+bVuEiVrV6GevmOTvfy
+ Wi8eTmJHPYoyxrW3gbVNHwaoATfZ+G4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-241-5N-JXDTMMHKRtzBMyIX_5g-1; Thu, 17 Feb 2022 01:35:00 -0500
-X-MC-Unique: 5N-JXDTMMHKRtzBMyIX_5g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l9-20020a05600c1d0900b0037be9e5f7e8so892249wms.7
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 22:35:00 -0800 (PST)
+ us-mta-498-5Q74u8LMP6C8g5VVAs0oRg-1; Thu, 17 Feb 2022 01:35:31 -0500
+X-MC-Unique: 5Q74u8LMP6C8g5VVAs0oRg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ u9-20020adfae49000000b001e89793bcb0so384712wrd.17
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 22:35:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=HIIxW03Itzows/dKwEZzQIalCuxF7XRm6lPHX/0A80c=;
- b=7QNpeXNdgNfQDOSJlNfzGbwFpd9Fbp6hoATeUKiL+ieSVaKCXmXWwIDfBuruzpRTaF
- wmGkOdGTzUaYxdWUohkMluovqZp98d1vYCfBLyVjFv9F3lBxZDnvumE4hbcf7VBtskbQ
- r4LkFk/mqUKJ9aMJP5BdBiPohJ7DsdCvtyOqYjNDCSicxs86UP5GhqUllpre5dLnHN2+
- QbC4W1fie/EWM07FQWRNYcAueVmA9seXJrbPJWisSupZVCHjqSdR5K6kUGqbeRp2ubkh
- M2XUfiPz0kvo56joyw1Za35A9BzF7Irwb6076G2oPe9lOqbVVcBFEOTmc7jUfT2vQwJk
- rFoA==
-X-Gm-Message-State: AOAM533GkGlbXLPIL7BIkJiJ54sBC55F2+1RGexUjretxhA7phZh/KrP
- QkYabeYUHDLNNwl1zZv1PGqhxMsSxeL5ULVWj9meGYovD6VVAl7hGTLCTtLifV48VlzMSVVaLHN
- s2ed2Xz4AWwRFleY=
-X-Received: by 2002:a05:600c:284a:b0:37e:9244:abea with SMTP id
- r10-20020a05600c284a00b0037e9244abeamr48860wmb.2.1645079699759; 
- Wed, 16 Feb 2022 22:34:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwCTfuNx7HpI5vD/Nl0z0ZYVluNBtNtOd8VjJuVs7IBjrkicfJ+gyaexudIexb1IONWeRavQg==
-X-Received: by 2002:a05:600c:284a:b0:37e:9244:abea with SMTP id
- r10-20020a05600c284a00b0037e9244abeamr48847wmb.2.1645079699583; 
- Wed, 16 Feb 2022 22:34:59 -0800 (PST)
+ bh=kN8VXWG4c5e2v+R1vCZhvxt1KmyiyuArd6nbATp+DYo=;
+ b=aJ0LqmL5xA+doAtVQbM7bXxcgnRT6jUGvnTgLxh3jtKFCtXoDzgKYA0Hp++lpPbLKn
+ AxK5tUt00UqV2ZwLiSvRvrnuI4dy2DdhaYP3ZkJO+4nNjNLHeQrdZS8aMSgfgp4A5gKn
+ 42x33QGOTYXtg6Dkb/dtA+OD53Et04ujpb+qSKpiXBKMnRVraXIaqn/k2hxtMJ+q9fvM
+ xha76exdRAWq4K5GqV4E43lkkS3HAVdblycmo98Ldb8Aol0maMfEQd43UG+adTQndjEd
+ jR9VhPVdqCwa1TyhkMYNqktvr4n04Mt4cgqG92DmQwadJ/wIMbQR7NPQ4jZ9rVAoJAwZ
+ WRoQ==
+X-Gm-Message-State: AOAM5315tmFaVGo1QqmavyFB+s0hM1yKUlmqRTMKck7UUsEhWZC4RLVt
+ g2a3M3w3mdkWsfXgQlhwWPh2lypldjxMO3hiC9kOQRu2QIW5CO8p2M0TaKO2cJVQ41/JqMisSmu
+ MepnFEuPjYSjMxV8=
+X-Received: by 2002:a05:6000:144b:b0:1e8:50cb:f8f5 with SMTP id
+ v11-20020a056000144b00b001e850cbf8f5mr1089439wrx.236.1645079729589; 
+ Wed, 16 Feb 2022 22:35:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyYrYT2E++4E28KTM18lA6+mg+YmlXbefOdcZxJxQnOED2lOwPDxOqsGojhkEavAp/O8H7CBw==
+X-Received: by 2002:a05:6000:144b:b0:1e8:50cb:f8f5 with SMTP id
+ v11-20020a056000144b00b001e850cbf8f5mr1089423wrx.236.1645079729326; 
+ Wed, 16 Feb 2022 22:35:29 -0800 (PST)
 Received: from redhat.com ([2.55.139.83])
- by smtp.gmail.com with ESMTPSA id p27sm656169wms.1.2022.02.16.22.34.57
+ by smtp.gmail.com with ESMTPSA id v5sm17714609wrr.7.2022.02.16.22.35.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 22:34:59 -0800 (PST)
-Date: Thu, 17 Feb 2022 01:34:55 -0500
+ Wed, 16 Feb 2022 22:35:28 -0800 (PST)
+Date: Thu, 17 Feb 2022 01:35:25 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH v3 3/7] hw/isa/piix4: Resolve redundant i8259[] attribute
-Message-ID: <20220217013448-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v3 6/7] hw/isa/piix4: Replace some magic IRQ constants
+Message-ID: <20220217013520-mutt-send-email-mst@kernel.org>
 References: <20220216224519.157233-1-shentey@gmail.com>
- <20220216224519.157233-4-shentey@gmail.com>
+ <20220216224519.157233-7-shentey@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220216224519.157233-4-shentey@gmail.com>
+In-Reply-To: <20220216224519.157233-7-shentey@gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,42 +101,43 @@ Cc: =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 16, 2022 at 11:45:15PM +0100, Bernhard Beschow wrote:
+On Wed, Feb 16, 2022 at 11:45:18PM +0100, Bernhard Beschow wrote:
 > This is a follow-up on patch "malta: Move PCI interrupt handling from
-> gt64xxx_pci to piix4" where i8259[] was moved from MaltaState to
-> PIIX4State to make the code movement more obvious. However, i8259[]
-> seems redundant to *isa, so remove it.
+> gt64xxx_pci to piix4". gt64xxx_pci used magic constants, and probably
+> didn't want to use piix4-specific constants. Now that the interrupt
+> handing resides in piix4, its constants can be used.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
 > ---
->  hw/isa/piix4.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+>  hw/isa/piix4.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 > diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-> index 196b56e69c..179968b18e 100644
+> index 2e9b5ccada..f876c71750 100644
 > --- a/hw/isa/piix4.c
 > +++ b/hw/isa/piix4.c
-> @@ -45,7 +45,6 @@ struct PIIX4State {
->      PCIDevice dev;
->      qemu_irq cpu_intr;
->      qemu_irq *isa;
-> -    qemu_irq i8259[ISA_NUM_IRQS];
->  
->      RTCState rtc;
->      /* Reset Control Register */
-> @@ -320,11 +319,7 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+> @@ -61,10 +61,10 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
+>      /* now we change the pic irq level according to the piix irq mappings */
+>      /* XXX: optimize */
+>      pic_irq = s->dev.config[PIIX_PIRQCA + irq_num];
+> -    if (pic_irq < 16) {
+> +    if (pic_irq < ISA_NUM_IRQS) {
+>          /* The pic level is the logical OR of all the PCI irqs mapped to it. */
+>          pic_level = 0;
+> -        for (i = 0; i < 4; i++) {
+> +        for (i = 0; i < PIIX_NUM_PIRQS; i++) {
+>              if (pic_irq == s->dev.config[PIIX_PIRQCA + i]) {
+>                  pic_level |= pci_bus_get_irq_level(bus, i);
+>              }
+> @@ -315,7 +315,7 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
 >                                 NULL, 0, NULL);
 >      }
 >  
-> -    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s->i8259, 4);
-> -
-> -    for (int i = 0; i < ISA_NUM_IRQS; i++) {
-> -        s->i8259[i] = qdev_get_gpio_in_named(dev, "isa", i);
-> -    }
-> +    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s->isa, 4);
+> -    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, 4);
+> +    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
 >  
 >      return dev;
 >  }
