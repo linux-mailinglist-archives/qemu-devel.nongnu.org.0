@@ -2,56 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61234B96A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 04:26:29 +0100 (CET)
-Received: from localhost ([::1]:35934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779044B96E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 04:48:43 +0100 (CET)
+Received: from localhost ([::1]:41910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKXR6-0006Jq-PE
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 22:26:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57144)
+	id 1nKXmc-00039I-1R
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 22:48:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nKXJp-0004Mn-OL
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 22:18:57 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:50987
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nKXJn-0008R0-4D
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 22:18:57 -0500
-HMM_SOURCE_IP: 172.18.0.48:39086.855590468
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 604672800CB;
- Thu, 17 Feb 2022 11:18:46 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id b63935ce0e234f6b962c256b986a47a0 for
- qemu-devel@nongnu.org; Thu, 17 Feb 2022 11:18:49 CST
-X-Transaction-ID: b63935ce0e234f6b962c256b986a47a0
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v16 7/7] softmmu/dirtylimit: Implement dirty page rate limit
-Date: Thu, 17 Feb 2022 11:17:17 +0800
-Message-Id: <fd1ae9a250a0b0028c578e15c6b18addd96735fe.1645067453.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1645067452.git.huangy81@chinatelecom.cn>
-References: <cover.1645067452.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1645067452.git.huangy81@chinatelecom.cn>
-References: <cover.1645067452.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nKXlW-0002TU-HB
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 22:47:34 -0500
+Received: from [2607:f8b0:4864:20::532] (port=39487
+ helo=mail-pg1-x532.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nKXlU-0004Ey-La
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 22:47:34 -0500
+Received: by mail-pg1-x532.google.com with SMTP id 195so3875281pgc.6
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 19:47:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sE6epnFLRPawhptQFLC1349Kvww9N3xjC3vZESL/dbM=;
+ b=ek6L7mMXAGOMWcInZg5e/PtXPAd0tVHWzZ6nUoFX8o/H6ifOFLau0PQJPVYfUSyEpQ
+ OOEstT9qWq6iL3ym5+lGjsNWOyRDme3gTrBM1PcUX1AHrKiSMMA+w6kB7HTUJ7Rss2ex
+ QV5endvbJS+VOhDKCMHLUPNUFo4goBlB7sKV5x5WAjdKqAvWrA96ChveW7cgOOX17EQb
+ kLOlvQIO4oKvmF+RBhdh8gI0lJARmk87oD4xbLKxzbGYpGWq0QyHcjb3N4gdZLy1sJcX
+ y60X381yT/NXn3WNtIenuqJuFqGWDE0PDs+PJWI0PujUolJDWeZYG7BhX7q7MQP82A3U
+ w8Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sE6epnFLRPawhptQFLC1349Kvww9N3xjC3vZESL/dbM=;
+ b=wD2LUXqHcs1e+TTSGJe7LXeqO4RQCILPcZvAoZqhkwda/L3+1LbFcEtvi2nq0pcfk1
+ 0R+AIeCp4guZegef3o+Ri9SdWCbemtUZ7/ElAcoIajmkBXBJ7l3dRKDm/U+lBqb33GBD
+ YcKoWncBj17ZusFVkv5nxFW7Vup1K/f8Vn3BAu+YlIaZ9zjDxnEEXRaWv7FnwR1n8HXf
+ S6KKlk+cQasBTqgzm23yS6jqke5xzGkJjDQzx0CkXdeD2MZsGct0ye6R/6buKN393NwM
+ 1pXsgPGh4f2BOEdQ/EnXU6dvzW9X6jbI97dZ99rJ65wOUOqdNpgH22Qp1317ai6EWpt3
+ ZIgQ==
+X-Gm-Message-State: AOAM533mR6cwcPgcU0RfZrI9Qun3CRAL0v6HVqsiYzR0B7sy+EfEac6C
+ KBMF0Z12UFQSHE4QA7/f2QsVHUvo5Z4CMBgE
+X-Google-Smtp-Source: ABdhPJxaVXEHpqUBGEerV1VrZ45GCMjcRLO2AXhPn9eqqqvpZkRvACcQwG1RLNqJeq0Gfv1AV26mNQ==
+X-Received: by 2002:a05:6a00:130e:b0:4cc:3c7d:4dec with SMTP id
+ j14-20020a056a00130e00b004cc3c7d4decmr1279522pfu.32.1645069651098; 
+ Wed, 16 Feb 2022 19:47:31 -0800 (PST)
+Received: from localhost.localdomain (alanje.lnk.telstra.net.
+ [120.151.179.201])
+ by smtp.gmail.com with ESMTPSA id p1sm11766813pfo.212.2022.02.16.19.47.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Feb 2022 19:47:30 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tcg: Remove dh_alias indirection for dh_typecode
+Date: Thu, 17 Feb 2022 14:47:25 +1100
+Message-Id: <20220217034725.272552-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.226;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.978, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,423 +86,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus ArmBruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Keith Packard <keithp@keithp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+The dh_alias redirect is intended to handle TCG types as distinguished
+from C types.  TCG does not distinguish signed int from unsigned int,
+because they are the same size.  However, we need to retain this
+distinction for dh_typecode, lest we fail to extend abi types properly
+for the host call parameters.
 
-Implement dirtyrate calculation periodically basing on
-dirty-ring and throttle virtual CPU until it reachs the quota
-dirty page rate given by user.
+This bug was detected when running the 'arm' emulator on an s390
+system. The s390 uses TCG_TARGET_EXTEND_ARGS which triggers code
+in tcg_gen_callN to extend 32 bit values to 64 bits; the incorrect
+sign data in the typemask for each argument caused the values to be
+extended as unsigned values.
 
-Introduce qmp commands "set-vcpu-dirty-limit",
-"cancel-vcpu-dirty-limit", "query-vcpu-dirty-limit"
-to enable, disable, query dirty page limit for virtual CPU.
+This simple program exhibits the problem:
 
-Meanwhile, introduce corresponding hmp commands
-"set_vcpu_dirty_limit", "cancel_vcpu_dirty_limit",
-"info vcpu_dirty_limit" so the feature can be more usable.
+	static volatile int num = -9;
+	static volatile int den = -5;
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+	int
+	main(void)
+	{
+		int quo = num / den;
+		printf("num %d den %d quo %d\n", num, den, quo);
+		exit(0);
+	}
+
+When run on the broken qemu, this results in:
+
+	num -9 den -5 quo 0
+
+The correct result is:
+
+	num -9 den -5 quo 1
+
+Reported-by: Keith Packard <keithp@keithp.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hmp-commands-info.hx  |  13 ++++
- hmp-commands.hx       |  32 +++++++++
- include/monitor/hmp.h |   3 +
- qapi/migration.json   |  80 +++++++++++++++++++++
- softmmu/dirtylimit.c  | 195 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 323 insertions(+)
+ include/exec/helper-head.h   | 19 ++++++++++---------
+ target/hppa/helper.h         |  2 ++
+ target/i386/ops_sse_header.h |  3 +++
+ target/m68k/helper.h         |  1 +
+ target/ppc/helper.h          |  3 +++
+ 5 files changed, 19 insertions(+), 9 deletions(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index e90f20a..61b23d2 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -865,6 +865,19 @@ SRST
-     Display the vcpu dirty rate information.
- ERST
+diff --git a/include/exec/helper-head.h b/include/exec/helper-head.h
+index b974eb394a..734af067fe 100644
+--- a/include/exec/helper-head.h
++++ b/include/exec/helper-head.h
+@@ -53,13 +53,16 @@
+ # ifdef TARGET_LONG_BITS
+ #  if TARGET_LONG_BITS == 32
+ #   define dh_alias_tl i32
++#   define dh_typecode_tl dh_typecode_i32
+ #  else
+ #   define dh_alias_tl i64
++#   define dh_typecode_tl dh_typecode_i64
+ #  endif
+ # endif
+-# define dh_alias_env ptr
+ # define dh_ctype_tl target_ulong
++# define dh_alias_env ptr
+ # define dh_ctype_env CPUArchState *
++# define dh_typecode_env dh_typecode_ptr
+ #endif
  
-+    {
-+        .name       = "vcpu_dirty_limit",
-+        .args_type  = "",
-+        .params     = "",
-+        .help       = "show dirty page limit information of all vCPU",
-+        .cmd        = hmp_info_vcpu_dirty_limit,
-+    },
-+
-+SRST
-+  ``info vcpu_dirty_limit``
-+    Display the vcpu dirty page limit information.
-+ERST
-+
- #if defined(TARGET_I386)
-     {
-         .name       = "sgx",
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 70a9136..5bedee2 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1744,3 +1744,35 @@ ERST
-                       "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
-         .cmd        = hmp_calc_dirty_rate,
-     },
-+
-+SRST
-+``set_vcpu_dirty_limit``
-+  Set dirty page rate limit on virtual CPU, the information about all the
-+  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
-+  command.
-+ERST
-+
-+    {
-+        .name       = "set_vcpu_dirty_limit",
-+        .args_type  = "dirty_rate:l,cpu_index:l?",
-+        .params     = "dirty_rate [cpu_index]",
-+        .help       = "set dirty page rate limit, use cpu_index to set limit"
-+                      "\n\t\t\t\t\t on a specified virtual cpu",
-+        .cmd        = hmp_set_vcpu_dirty_limit,
-+    },
-+
-+SRST
-+``cancel_vcpu_dirty_limit``
-+  Cancel dirty page rate limit on virtual CPU, the information about all the
-+  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
-+  command.
-+ERST
-+
-+    {
-+        .name       = "cancel_vcpu_dirty_limit",
-+        .args_type  = "cpu_index:l?",
-+        .params     = "[cpu_index]",
-+        .help       = "cancel dirty page rate limit, use cpu_index to cancel"
-+                      "\n\t\t\t\t\t limit on a specified virtual cpu",
-+        .cmd        = hmp_cancel_vcpu_dirty_limit,
-+    },
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 96d0148..478820e 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -131,6 +131,9 @@ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_seek(Monitor *mon, const QDict *qdict);
- void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
- void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
-+void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-+void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-+void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
- void hmp_human_readable_text_helper(Monitor *mon,
-                                     HumanReadableText *(*qmp_handler)(Error **));
+ /* We can't use glue() here because it falls foul of C preprocessor
+@@ -92,18 +95,16 @@
+ #define dh_typecode_i64 4
+ #define dh_typecode_s64 5
+ #define dh_typecode_ptr 6
+-#define dh_typecode(t) glue(dh_typecode_, dh_alias(t))
++#define dh_typecode_int dh_typecode_s32
++#define dh_typecode_f16 dh_typecode_i32
++#define dh_typecode_f32 dh_typecode_i32
++#define dh_typecode_f64 dh_typecode_i64
++#define dh_typecode_cptr dh_typecode_ptr
++#define dh_typecode(t) dh_typecode_##t
  
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 5975a0e..2ccbb92 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1861,6 +1861,86 @@
- { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
+ #define dh_callflag_i32  0
+-#define dh_callflag_s32  0
+-#define dh_callflag_int  0
+ #define dh_callflag_i64  0
+-#define dh_callflag_s64  0
+-#define dh_callflag_f16  0
+-#define dh_callflag_f32  0
+-#define dh_callflag_f64  0
+ #define dh_callflag_ptr  0
+-#define dh_callflag_cptr dh_callflag_ptr
+ #define dh_callflag_void 0
+ #define dh_callflag_noreturn TCG_CALL_NO_RETURN
+ #define dh_callflag(t) glue(dh_callflag_, dh_alias(t))
+diff --git a/target/hppa/helper.h b/target/hppa/helper.h
+index fe8a9ce493..c7e35ce8c7 100644
+--- a/target/hppa/helper.h
++++ b/target/hppa/helper.h
+@@ -1,7 +1,9 @@
+ #if TARGET_REGISTER_BITS == 64
+ # define dh_alias_tr     i64
++# define dh_typecode_tr  dh_typecode_i64
+ #else
+ # define dh_alias_tr     i32
++# define dh_typecode_tr  dh_typecode_i32
+ #endif
+ #define dh_ctype_tr      target_ureg
  
- ##
-+# @DirtyLimitInfo:
-+#
-+# Dirty page rate limit information of a virtual CPU.
-+#
-+# @cpu-index: index of a virtual CPU.
-+#
-+# @limit-rate: upper limit of dirty page rate (MB/s) for a virtual
-+#              CPU, 0 means unlimited.
-+#
-+# @current-rate: current dirty page rate (MB/s) for a virtual CPU.
-+#
-+# Since: 7.0
-+#
-+##
-+{ 'struct': 'DirtyLimitInfo',
-+  'data': { 'cpu-index': 'int',
-+            'limit-rate': 'uint64',
-+            'current-rate': 'uint64' } }
-+
-+##
-+# @set-vcpu-dirty-limit:
-+#
-+# Set the upper limit of dirty page rate for virtual CPUs.
-+#
-+# Requires KVM with accelerator property "dirty-ring-size" set.
-+# A virtual CPU's dirty page rate is a measure of its memory load.
-+# To observe dirty page rates, use @calc-dirty-rate.
-+#
-+# @cpu-index: index of a virtual CPU, default is all.
-+#
-+# @dirty-rate: upper limit of dirty page rate (MB/s) for virtual CPUs.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "set-vcpu-dirty-limit"}
-+#    "arguments": { "dirty-rate": 200,
-+#                   "cpu-index": 1 } }
-+#
-+##
-+{ 'command': 'set-vcpu-dirty-limit',
-+  'data': { '*cpu-index': 'int',
-+            'dirty-rate': 'uint64' } }
-+
-+##
-+# @cancel-vcpu-dirty-limit:
-+#
-+# Cancel the upper limit of dirty page rate for virtual CPUs.
-+#
-+# Cancel the dirty page limit for the vCPU which has been set with
-+# set-vcpu-dirty-limit command. Note that this command requires
-+# support from dirty ring, same as the "set-vcpu-dirty-limit".
-+#
-+# @cpu-index: index of a virtual CPU, default is all.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "cancel-vcpu-dirty-limit"}
-+#    "arguments": { "cpu-index": 1 } }
-+#
-+##
-+{ 'command': 'cancel-vcpu-dirty-limit',
-+  'data': { '*cpu-index': 'int'} }
-+
-+##
-+# @query-vcpu-dirty-limit:
-+#
-+# Returns information about virtual CPU dirty page rate limits, if any.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "query-vcpu-dirty-limit"}
-+#
-+##
-+{ 'command': 'query-vcpu-dirty-limit',
-+  'returns': [ 'DirtyLimitInfo' ] }
-+
-+##
- # @snapshot-save:
- #
- # Save a VM snapshot
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 76d0b44..365bd43 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -14,8 +14,12 @@
- #include "qapi/error.h"
- #include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/error.h"
- #include "sysemu/dirtyrate.h"
- #include "sysemu/dirtylimit.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
- #include "exec/memory.h"
- #include "hw/boards.h"
- #include "sysemu/kvm.h"
-@@ -405,3 +409,194 @@ void dirtylimit_vcpu_execute(CPUState *cpu)
-         usleep(cpu->throttle_us_per_full);
-     }
- }
-+
-+static void dirtylimit_init(void)
-+{
-+    dirtylimit_state_initialize();
-+    dirtylimit_change(true);
-+    vcpu_dirty_rate_stat_initialize();
-+    vcpu_dirty_rate_stat_start();
-+}
-+
-+static void dirtylimit_cleanup(void)
-+{
-+    vcpu_dirty_rate_stat_stop();
-+    vcpu_dirty_rate_stat_finalize();
-+    dirtylimit_change(false);
-+    dirtylimit_state_finalize();
-+}
-+
-+void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
-+                                 int64_t cpu_index,
-+                                 Error **errp)
-+{
-+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+        return;
-+    }
-+
-+    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
-+        error_setg(errp, "incorrect cpu index specified");
-+        return;
-+    }
-+
-+    if (!dirtylimit_in_service()) {
-+        return;
-+    }
-+
-+    dirtylimit_state_lock();
-+
-+    if (has_cpu_index) {
-+        dirtylimit_set_vcpu(cpu_index, 0, false);
-+    } else {
-+        dirtylimit_set_all(0, false);
-+    }
-+
-+    if (!dirtylimit_state->limited_nvcpu) {
-+        dirtylimit_cleanup();
-+    }
-+
-+    dirtylimit_state_unlock();
-+}
-+
-+void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-+    Error *err = NULL;
-+
-+    qmp_cancel_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, &err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
-+                   "dirty limit for virtual CPU]\n");
-+}
-+
-+void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
-+                              int64_t cpu_index,
-+                              uint64_t dirty_rate,
-+                              Error **errp)
-+{
-+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty page limit feature requires KVM with"
-+                   " accelerator property 'dirty-ring-size' set'");
-+        return;
-+    }
-+
-+    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
-+        error_setg(errp, "incorrect cpu index specified");
-+        return;
-+    }
-+
-+    if (!dirty_rate) {
-+        qmp_cancel_vcpu_dirty_limit(has_cpu_index, cpu_index, errp);
-+        return;
-+    }
-+
-+    dirtylimit_state_lock();
-+
-+    if (!dirtylimit_in_service()) {
-+        dirtylimit_init();
-+    }
-+
-+    if (has_cpu_index) {
-+        dirtylimit_set_vcpu(cpu_index, dirty_rate, true);
-+    } else {
-+        dirtylimit_set_all(dirty_rate, true);
-+    }
-+
-+    dirtylimit_state_unlock();
-+}
-+
-+void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t dirty_rate = qdict_get_int(qdict, "dirty_rate");
-+    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-+    Error *err = NULL;
-+
-+    qmp_set_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, dirty_rate, &err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
-+                   "dirty limit for virtual CPU]\n");
-+}
-+
-+static struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index)
-+{
-+    DirtyLimitInfo *info = NULL;
-+
-+    info = g_malloc0(sizeof(*info));
-+    info->cpu_index = cpu_index;
-+    info->limit_rate = dirtylimit_vcpu_get_state(cpu_index)->quota;
-+    info->current_rate = vcpu_dirty_rate_get(cpu_index);
-+
-+    return info;
-+}
-+
-+static struct DirtyLimitInfoList *dirtylimit_query_all(void)
-+{
-+    int i, index;
-+    DirtyLimitInfo *info = NULL;
-+    DirtyLimitInfoList *head = NULL, **tail = &head;
-+
-+    dirtylimit_state_lock();
-+
-+    if (!dirtylimit_in_service()) {
-+        dirtylimit_state_unlock();
-+        return NULL;
-+    }
-+
-+    for (i = 0; i < dirtylimit_state->max_cpus; i++) {
-+        index = dirtylimit_state->states[i].cpu_index;
-+        if (dirtylimit_vcpu_get_state(index)->enabled) {
-+            info = dirtylimit_query_vcpu(index);
-+            QAPI_LIST_APPEND(tail, info);
-+        }
-+    }
-+
-+    dirtylimit_state_unlock();
-+
-+    return head;
-+}
-+
-+struct DirtyLimitInfoList *qmp_query_vcpu_dirty_limit(Error **errp)
-+{
-+    if (!dirtylimit_in_service()) {
-+        error_setg(errp, "dirty page limit not enabled");
-+        return NULL;
-+    }
-+
-+    return dirtylimit_query_all();
-+}
-+
-+void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    DirtyLimitInfoList *limit, *head, *info = NULL;
-+    Error *err = NULL;
-+
-+    if (!dirtylimit_in_service()) {
-+        monitor_printf(mon, "Dirty page limit not enabled!\n");
-+        return;
-+    }
-+
-+    info = qmp_query_vcpu_dirty_limit(&err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    head = info;
-+    for (limit = head; limit != NULL; limit = limit->next) {
-+        monitor_printf(mon, "vcpu[%"PRIi64"], limit rate %"PRIi64 " (MB/s),"
-+                            " current rate %"PRIi64 " (MB/s)\n",
-+                            limit->value->cpu_index,
-+                            limit->value->limit_rate,
-+                            limit->value->current_rate);
-+    }
-+
-+    g_free(info);
-+}
+diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
+index e68af5c403..cef28f2aae 100644
+--- a/target/i386/ops_sse_header.h
++++ b/target/i386/ops_sse_header.h
+@@ -30,6 +30,9 @@
+ #define dh_ctype_Reg Reg *
+ #define dh_ctype_ZMMReg ZMMReg *
+ #define dh_ctype_MMXReg MMXReg *
++#define dh_typecode_Reg dh_typecode_ptr
++#define dh_typecode_ZMMReg dh_typecode_ptr
++#define dh_typecode_MMXReg dh_typecode_ptr
+ 
+ DEF_HELPER_3(glue(psrlw, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(psraw, SUFFIX), void, env, Reg, Reg)
+diff --git a/target/m68k/helper.h b/target/m68k/helper.h
+index 9842eeaa95..0a6b4146f6 100644
+--- a/target/m68k/helper.h
++++ b/target/m68k/helper.h
+@@ -17,6 +17,7 @@ DEF_HELPER_4(cas2l_parallel, void, env, i32, i32, i32)
+ 
+ #define dh_alias_fp ptr
+ #define dh_ctype_fp FPReg *
++#define dh_typecode_fp dh_typecode_ptr
+ 
+ DEF_HELPER_3(exts32, void, env, fp, s32)
+ DEF_HELPER_3(extf32, void, env, fp, f32)
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index ab008c9d4e..ae7d503fcf 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -127,9 +127,11 @@ DEF_HELPER_FLAGS_1(ftsqrt, TCG_CALL_NO_RWG_SE, i32, i64)
+ 
+ #define dh_alias_avr ptr
+ #define dh_ctype_avr ppc_avr_t *
++#define dh_typecode_avr dh_typecode_ptr
+ 
+ #define dh_alias_vsr ptr
+ #define dh_ctype_vsr ppc_vsr_t *
++#define dh_typecode_vsr dh_typecode_ptr
+ 
+ DEF_HELPER_3(vavgub, void, avr, avr, avr)
+ DEF_HELPER_3(vavguh, void, avr, avr, avr)
+@@ -708,6 +710,7 @@ DEF_HELPER_3(store_dbatu, void, env, i32, tl)
+ 
+ #define dh_alias_fprp ptr
+ #define dh_ctype_fprp ppc_fprp_t *
++#define dh_typecode_fprp dh_typecode_ptr
+ 
+ DEF_HELPER_4(DADD, void, env, fprp, fprp, fprp)
+ DEF_HELPER_4(DADDQ, void, env, fprp, fprp, fprp)
 -- 
-1.8.3.1
+2.25.1
 
 
