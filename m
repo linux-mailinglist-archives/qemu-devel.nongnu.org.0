@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A634BA7BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 19:10:11 +0100 (CET)
-Received: from localhost ([::1]:38270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CBD4BA79F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 19:01:47 +0100 (CET)
+Received: from localhost ([::1]:51064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKlEH-0001Qs-Jp
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 13:10:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36886)
+	id 1nKl6A-0008B8-Cp
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 13:01:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nKkvk-00082R-SZ
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:51:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nKkvg-00080B-GJ
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:50:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645120241;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zTsCoUoM6GSUXC9kbdbEv3j0VsB+4Z+ZH7S1KgtdN0Y=;
- b=DhYk1rp9+8ZPmZ4cs5OIx/VN/ZFGjbdu5eug7jVpOXLvbdThlL2vAbOzM7hqYY1odRnJbB
- bMwbk3NSxh5bBtfC8eVlG+2pxQCnE9a9HJB2BOpyISDrFodht8zopWCnQUyuf5F2CgJCp2
- cLQls+JHkdI8Iy3Q/gvyzdvC4yYRRSA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-350-OIMqpYAEMEO6DHv7ZLQ5Eg-1; Thu, 17 Feb 2022 12:50:38 -0500
-X-MC-Unique: OIMqpYAEMEO6DHv7ZLQ5Eg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85B7F84DA40;
- Thu, 17 Feb 2022 17:50:37 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.193.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F36987DE5B;
- Thu, 17 Feb 2022 17:50:31 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] virtio-net: Unlimit tx queue size if peer is vdpa
-Date: Thu, 17 Feb 2022 18:50:29 +0100
-Message-Id: <20220217175029.2517071-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nKkxF-0001ij-V0
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:52:34 -0500
+Received: from [2a00:1450:4864:20::536] (port=44640
+ helo=mail-ed1-x536.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nKkxA-00087y-8T
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:52:33 -0500
+Received: by mail-ed1-x536.google.com with SMTP id x5so11007396edd.11
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 09:52:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0GezYuBq/IBk84/vSXTIhXk7J6MIx3mjFhk6IwFvMpk=;
+ b=jLaab6MwwT20QXD4svGT4lr1ununpN2FDzfw5Fd5zN6NacnaFxdFx/32vEkC4NW6jk
+ zkbeWhtkY5i4CnmhFXMqOwvr9CBReUqYHQbYGVZbhPq6jiJlHLszzydv65qpfQA8QTFQ
+ Y7aSWHzgC/8dvePLHMdKg2l7ChiAxPHDx/4ma3gbp0nMUq8yjIv5s0G8VjLd4DYc6WPQ
+ KM2yKtixtMjDh9EIEP951hwb2dfs6Fg7EaTAx08VPJ9u8rKWgdwOspobpOFkMRCFkFLx
+ RC2gp1VeFZCE101Ix5JhDVANbO5Xa4/rrGhBgwkRxIPjZiR64PxNPl8TFZxBZGLN+aSy
+ Agtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0GezYuBq/IBk84/vSXTIhXk7J6MIx3mjFhk6IwFvMpk=;
+ b=cvOcR6f/JAjfPnorhc7zx99eBfGT28KeAowUHEzZjuCexmhHJ855xpmh9a9lB8EdGG
+ yAFU6z4FxcUyfxSSwRBKCzf6t9Yw1mw36WMPaAnD43QPsd0IBZGcEkNB+G/AR4Ykv3VM
+ bh54uHkGWHGr43N7zyQzaWR4JHY0iaO8cN2F41tyIO7NP6jj1DLYyyU7HHdb93JR/Ltp
+ An+ieBwyZvPfEnzvlqY+kQLXRbm/Nq20klocpVT/rYuqYubvGToY75kwNM3DwzxkS1gW
+ HkWdZVAhe9EXOgDQFP6e9vvwHm9zIsjeQE7h5w+JS1oKgh9eEDr1e2Ey5ni2ruUduHct
+ +wcw==
+X-Gm-Message-State: AOAM533o0eMaxhDThmtwGtByUkqzn/o4IDALGLLRYcBRdpLJMnIf7feX
+ Zayf7RNfG2mJi/jJIUls4qM=
+X-Google-Smtp-Source: ABdhPJzI200juUtGBf/k8LHDGffRyefuo8jxOX3KLk/VDR0ORMo5x7f5QIrkpeZ3jz6H/ybWZB20vQ==
+X-Received: by 2002:a05:6402:18:b0:410:86cd:9dce with SMTP id
+ d24-20020a056402001800b0041086cd9dcemr3830314edu.70.1645120346234; 
+ Thu, 17 Feb 2022 09:52:26 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id b5sm3717367edz.13.2022.02.17.09.52.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Feb 2022 09:52:25 -0800 (PST)
+Message-ID: <f7dc638d-0de1-baa8-d883-fd8435ae13f2@redhat.com>
+Date: Thu, 17 Feb 2022 18:52:25 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ kvm <kvm@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>
+References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,54 +96,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code used to limit the maximum size of tx queue for others backends
-than vhost_user since the introduction of configurable tx queue size in
-9b02e1618cf2 ("virtio-net: enable configurable tx queue size").
+On 1/28/22 16:47, Stefan Hajnoczi wrote:
+> Dear QEMU, KVM, and rust-vmm communities,
+> QEMU will apply for Google Summer of Code 2022
+> (https://summerofcode.withgoogle.com/) and has been accepted into
+> Outreachy May-August 2022 (https://www.outreachy.org/). You can now
+> submit internship project ideas for QEMU, KVM, and rust-vmm!
+> 
+> If you have experience contributing to QEMU, KVM, or rust-vmm you can
+> be a mentor. It's a great way to give back and you get to work with
+> people who are just starting out in open source.
+> 
+> Please reply to this email by February 21st with your project ideas.
 
-As vhost_user, vhost_vdpa devices should deal with memory region
-crosses already, so let's use the full tx size.
+I would like to co-mentor one or more projects about adding more 
+statistics to Mark Kanda's newly-born introspectable statistics 
+subsystem in QEMU 
+(https://patchew.org/QEMU/20220215150433.2310711-1-mark.kanda@oracle.com/), 
+for example integrating "info blockstats"; and/or, to add matching 
+functionality to libvirt.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- hw/net/virtio-net.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+However, I will only be available for co-mentoring unfortunately.
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 49cd13314a..b1769bfee0 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -629,17 +629,20 @@ static int virtio_net_max_tx_queue_size(VirtIONet *n)
-     NetClientState *peer = n->nic_conf.peers.ncs[0];
- 
-     /*
--     * Backends other than vhost-user don't support max queue size.
-+     * Backends other than vhost-user or vhost-vdpa don't support max queue
-+     * size.
-      */
-     if (!peer) {
-         return VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE;
-     }
- 
--    if (peer->info->type != NET_CLIENT_DRIVER_VHOST_USER) {
-+    switch(peer->info->type) {
-+    case NET_CLIENT_DRIVER_VHOST_USER:
-+    case NET_CLIENT_DRIVER_VHOST_VDPA:
-+        return VIRTQUEUE_MAX_SIZE;
-+    default:
-         return VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE;
--    }
--
--    return VIRTQUEUE_MAX_SIZE;
-+    };
- }
- 
- static int peer_attach(VirtIONet *n, int index)
--- 
-2.27.0
+Paolo
+
+> Good project ideas are suitable for remote work by a competent
+> programmer who is not yet familiar with the codebase. In
+> addition, they are:
+> - Well-defined - the scope is clear
+> - Self-contained - there are few dependencies
+> - Uncontroversial - they are acceptable to the community
+> - Incremental - they produce deliverables along the way
+> 
+> Feel free to post ideas even if you are unable to mentor the project.
+> It doesn't hurt to share the idea!
+> 
+> I will review project ideas and keep you up-to-date on QEMU's
+> acceptance into GSoC.
+> 
+> Internship program details:
+> - Paid, remote work open source internships
+> - GSoC projects are 175 or 350 hours, Outreachy projects are 30
+> hrs/week for 12 weeks
+> - Mentored by volunteers from QEMU, KVM, and rust-vmm
+> - Mentors typically spend at least 5 hours per week during the coding period
+> 
+> Changes since last year: GSoC now has 175 or 350 hour project sizes
+> instead of 12 week full-time projects. GSoC will accept applicants who
+> are not students, before it was limited to students.
+> 
+> For more background on QEMU internships, check out this video:
+> https://www.youtube.com/watch?v=xNVCX7YMUL8
+> 
+> Please let me know if you have any questions!
+> 
+> Stefan
+> 
 
 
