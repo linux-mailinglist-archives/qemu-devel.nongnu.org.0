@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8A44B9765
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 05:03:25 +0100 (CET)
-Received: from localhost ([::1]:47518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B4D4B991D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 07:19:15 +0100 (CET)
+Received: from localhost ([::1]:57130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKY0p-0007oC-Th
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 23:03:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35514)
+	id 1nKa8I-0006aK-5p
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 01:19:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
- id 1nKXxd-0006qe-2z; Wed, 16 Feb 2022 23:00:05 -0500
-Received: from mail-vs1-f47.google.com ([209.85.217.47]:39751)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
- id 1nKXxa-0005im-DD; Wed, 16 Feb 2022 23:00:04 -0500
-Received: by mail-vs1-f47.google.com with SMTP id g21so4826330vsp.6;
- Wed, 16 Feb 2022 20:00:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=acgzlMs8+2Yrufr6o620i2RHe1oEK5N6TpDz6ZtW7No=;
- b=sJC7jaNACuHUyqzg/u/XltNgvdflAIW2z1P5DwRy/zdon+RjIGI1WTg+nTU0mse9Lc
- zpOwSyhVi2Y9yLgWtFZdjEppueUK43LBAbQBAhgCz6WFFmrVxp6t86n07ZtouiJgedIz
- TU1/jA3wYZqtoeqi/+yDKSQXBVagWYSaZe0hBGN5QKqT74PdwMtB9YtlDnqYIblcKj3B
- l2wc76/G1dDCkP0M1jbuWiRICPJ0SaWoMMusQtobOfVzJUEGCmgM6VXfNls6xKEg+XqC
- J7/9T5MmDrTz4qx6WDxCHSThqN7/YiZkpNmRNkENoh6+ktWK7s3tNaMd5bLSn/UOwe6E
- 9WJQ==
-X-Gm-Message-State: AOAM533Kupoza/EILD0FbIgK5NAV5UmfiRff3b6IvqPoiI94dM5eVk/L
- oOGNiI2N7OLEC2tnJ7os0nbhjRSBrLWzHvbC
-X-Google-Smtp-Source: ABdhPJxlVfmyJ4P+GJlp246gd7q/aAapK+f59euUYS/bd7uxg9ll8tF4h6yei2ji0UJCkn3UCqJBtw==
-X-Received: by 2002:a05:6102:956:b0:31b:1b52:ed9f with SMTP id
- a22-20020a056102095600b0031b1b52ed9fmr473378vsi.28.1645070400772; 
- Wed, 16 Feb 2022 20:00:00 -0800 (PST)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com.
- [209.85.217.42])
- by smtp.gmail.com with ESMTPSA id 137sm2361548vkz.2.2022.02.16.20.00.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 20:00:00 -0800 (PST)
-Received: by mail-vs1-f42.google.com with SMTP id e26so4849019vso.3;
- Wed, 16 Feb 2022 20:00:00 -0800 (PST)
-X-Received: by 2002:a67:d48d:0:b0:31b:9467:3e1b with SMTP id
- g13-20020a67d48d000000b0031b94673e1bmr378314vsj.46.1645070400037; Wed, 16 Feb
- 2022 20:00:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nKa3Y-0002Wy-H1
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:14:22 -0500
+Received: from mga05.intel.com ([192.55.52.43]:56193)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nKa3U-0007SB-Lb
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:14:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645078456; x=1676614456;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=izyQjp6lclMwHJPp2uRllZeNO6EQ/Tnv0d8E8KGqbgM=;
+ b=faPhfeoUYi+gNupQOwWTgEO5C8o9UocFeirS2HSHNyawKgwbVZEFgA62
+ GRgtmV9rcKRtQpKakAHLRPQELURC4PGyft4fXShE14jWplBI3c22WVuko
+ vs/GqyuLDyKZHhZtYjrsRIY8Ccrz5HPzpvC/lOpFdPHxl2A/uiUdetZ58
+ VcPJOgHL2kZCOZKjDY9dgLrvzAqp7+l3Po4kaWiIv7Hd9rv7YrD6+mVnE
+ UFfzjcKOcqnRFiwnvbfRxcvuGf59kUPv4InlDtK41D9qDjRW5dMWFa7TZ
+ /kml4qFOIipBY9zH7+Rk6bLV44LhY2GjLPgGY7L6JLvNTtlAwru4h1KYT w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="337247013"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="337247013"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2022 22:14:15 -0800
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="681822594"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.145.56])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 16 Feb 2022 22:14:12 -0800
+Date: Thu, 17 Feb 2022 13:58:36 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 3/8] x86: Grant AMX permission for guest
+Message-ID: <20220217055836.GA10691@yangzhon-Virtual>
+References: <20220217060434.52460-1-yang.zhong@intel.com>
+ <20220217060434.52460-4-yang.zhong@intel.com>
 MIME-Version: 1.0
-References: <20220216154839.1024927-1-cmuellner@linux.com>
- <20220216154839.1024927-3-cmuellner@linux.com>
- <2c0fcafe-868a-ba7a-bf42-3a4ed2df19ba@iscas.ac.cn>
-In-Reply-To: <2c0fcafe-868a-ba7a-bf42-3a4ed2df19ba@iscas.ac.cn>
-From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <cmuellner@linux.com>
-Date: Thu, 17 Feb 2022 04:59:48 +0100
-X-Gmail-Original-Message-ID: <CAHB2gtTOrFWq7=Y-ALCtp6H6JAUKDG1fhojxQ-xNV8LLxcop4w@mail.gmail.com>
-Message-ID: <CAHB2gtTOrFWq7=Y-ALCtp6H6JAUKDG1fhojxQ-xNV8LLxcop4w@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] target/riscv: Enable Zicbo[m,z,p] instructions
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: multipart/alternative; boundary="000000000000d3296705d82ecc73"
-Received-SPF: pass client-ip=209.85.217.47;
- envelope-from=christophm30@gmail.com; helo=mail-vs1-f47.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220217060434.52460-4-yang.zhong@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=yang.zhong@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,309 +74,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
- Atish Patra <atishp@rivosinc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?= <frederic.petrot@univ-grenoble-alpes.fr>
+Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
+ jing2.liu@linux.intel.com, wei.w.wang@intel.com, guang.zeng@intel.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d3296705d82ecc73
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Feb 16, 2022 at 10:04:29PM -0800, Yang Zhong wrote:
+> Kernel allocates 4K xstate buffer by default. For XSAVE features
+> which require large state component (e.g. AMX), Linux kernel
+> dynamically expands the xstate buffer only after the process has
+> acquired the necessary permissions. Those are called dynamically-
+> enabled XSAVE features (or dynamic xfeatures).
+> 
+> There are separate permissions for native tasks and guests.
+> 
+> Qemu should request the guest permissions for dynamic xfeatures
+> which will be exposed to the guest. This only needs to be done
+> once before the first vcpu is created.
+> 
+> KVM implemented one new ARCH_GET_XCOMP_SUPP system attribute API to
+> get host side supported_xcr0 and Qemu can decide if it can request
+> dynamically enabled XSAVE features permission.
+> https://lore.kernel.org/all/20220126152210.3044876-1-pbonzini@redhat.com/
+> 
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> ---
+>  target/i386/cpu.h         |  7 +++++++
+>  target/i386/cpu.c         | 43 +++++++++++++++++++++++++++++++++++++++
+>  target/i386/kvm/kvm-cpu.c | 12 +++++------
+>  target/i386/kvm/kvm.c     | 20 ++++++++++++++++++
+>  4 files changed, 76 insertions(+), 6 deletions(-)
+> 
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 06d2d6bccf..d4ad0f56bd 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -549,6 +549,13 @@ typedef enum X86Seg {
+>  #define XSTATE_ZMM_Hi256_MASK           (1ULL << XSTATE_ZMM_Hi256_BIT)
+>  #define XSTATE_Hi16_ZMM_MASK            (1ULL << XSTATE_Hi16_ZMM_BIT)
+>  #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
+> +#define XSTATE_XTILE_CFG_MASK           (1ULL << XSTATE_XTILE_CFG_BIT)
+> +#define XSTATE_XTILE_DATA_MASK          (1ULL << XSTATE_XTILE_DATA_BIT)
+> +#define XFEATURE_XTILE_MASK             (XSTATE_XTILE_CFG_MASK \
+> +                                         | XSTATE_XTILE_DATA_MASK)
+> +
+> +#define ARCH_GET_XCOMP_GUEST_PERM       0x1024
+> +#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
+>  
+>  #define ESA_FEATURE_ALIGN64_BIT         1
+>  
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index ea7e8f9081..377d993438 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -43,6 +43,8 @@
+>  #include "disas/capstone.h"
+>  #include "cpu-internal.h"
+>  
+> +#include <sys/syscall.h>
+> +
+>  /* Helpers for building CPUID[2] descriptors: */
+>  
+>  struct CPUID2CacheDescriptorInfo {
+> @@ -6000,12 +6002,47 @@ static void x86_cpu_adjust_feat_level(X86CPU *cpu, FeatureWord w)
+>      }
+>  }
+>  
+> +static void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
+> +{
+> +    KVMState *s = kvm_state;
+> +    uint64_t bitmask;
+> +    long rc;
+> +
+> +    if ((mask & XSTATE_XTILE_DATA_MASK) == XSTATE_XTILE_DATA_MASK) {
+> +        bitmask = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
+> +        if (!(bitmask & XSTATE_XTILE_DATA_MASK)) {
 
-On Thu, Feb 17, 2022 at 3:15 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+   Paolo, last time you suggested below changes for here:
 
->
-> =E5=9C=A8 2022/2/16 =E4=B8=8B=E5=8D=8811:48, Christoph Muellner =E5=86=99=
-=E9=81=93:
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 39ffb883fc..04500fe352 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -764,6 +764,10 @@ static Property riscv_cpu_properties[] =3D {
-> >       DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-> >       DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> >       DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> > +    DEFINE_PROP_BOOL("zicbom", RISCVCPU, cfg.ext_icbom, true),
-> > +    DEFINE_PROP_BOOL("zicboz", RISCVCPU, cfg.ext_icboz, true),
-> > +    DEFINE_PROP_UINT16("cbom_blocksize", RISCVCPU, cfg.cbom_blocksize,
-> 64),
-> > +    DEFINE_PROP_UINT16("cboz_blocksize", RISCVCPU, cfg.cboz_blocksize,
-> 64),
-> Why use two different cache block size here? Is there any new spec
-> update for this?
->
+   rc = kvm_arch_get_supported_cpuid(s, 0xd, 0,
+                                  (xdata_bit < 32 ? R_EAX : R_EDX));
+   if (!(rc & BIT(xdata_bit & 31)) {
+      ...
+   }   
 
-No, we are talking about the same specification.
+  Since I used "mask" as parameter here, so I had to directly use R_EAX here.
+  Please review and if need change it to like "(xdata_bit < 32 ? R_EAX : R_EDX)",
+  I will change this in next version, thanks!
 
-Section 2.7 states the following:
-"""
-The initial set of CMO extensions requires the following information to be
-discovered by software:
-* The size of the cache block for management and prefetch instructions
-* The size of the cache block for zero instructions
-* CBIE support at each privilege level
-"""
-
-So at least the spec authors did differentiate between the two block sizes
-as well.
-
-
-> >       DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-> >       DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-> >       DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-> > +
-> > +/* helper_zicbom_access
-> > + *
-> > + * Check access permissions (LOAD, STORE or FETCH as specified in
-> section
-> > + * 2.5.2 of the CMO specification) for Zicbom, raising either store
-> > + * page-fault (non-virtualised) or store guest-page fault (virtualised=
-).
-> > + */
-> > +static void helper_zicbom_access(CPURISCVState *env, target_ulong
-> address,
-> > +                                 uintptr_t ra)
-> > +{
-> > +    int ret;
-> > +    void* phost;
-> > +    int mmu_idx =3D cpu_mmu_index(env, false);
-> > +
-> > +    /* Get the size of the cache block for management instructions. */
-> > +    RISCVCPU *cpu =3D env_archcpu(env);
-> > +    uint16_t cbomlen =3D cpu->cfg.cbom_blocksize;
-> > +
-> > +    /* Mask off low-bits to align-down to the cache-block. */
-> > +    address &=3D ~(cbomlen - 1);
-> > +
-> > +    /* A cache-block management instruction is permitted to access
-> > +     * the specified cache block whenever a load instruction, store
-> > +     * instruction, or instruction fetch is permitted to access the
-> > +     * corresponding physical addresses.
-> > +     */
-> > +    ret =3D probe_access_range_flags(env, address, cbomlen, MMU_DATA_L=
-OAD,
-> > +                                   mmu_idx, true, &phost, ra);
-> > +    if (ret =3D=3D TLB_INVALID_MASK)
-> > +        ret =3D probe_access_range_flags(env, address, cbomlen,
-> MMU_INST_FETCH,
-> > +                                       mmu_idx, true, &phost, ra);
-> > +    if (ret =3D=3D TLB_INVALID_MASK)
-> > +        probe_access_range_flags(env, address, cbomlen, MMU_DATA_STORE=
-,
-> > +                                 mmu_idx, false, &phost, ra);
-> > +}
-> > +
->
->
-> I think it's a little different here. Probe_access_range_flags may
-> trigger different execptions for different access_type. For example:
->
-> If  the page for the address  is executable and readable but not
-> writable,  and the access cannot pass the pmp check for all access_type,
->
-> it may trigger access fault for load/fetch access, and  trigger page
-> fault for  store access.
->
-
-Just to be clear:
-The patch does not trigger any fault for LOAD or FETCH because nonfault is
-set
-to true (6th argument of probe_access_range_flags()).
-Only the last call to probe_access_range_flags() raises an exception.
-
-Section 2.5.2 states the following:
-"""
-If access to the cache block is not permitted, a cache-block management
-instruction raises a store page fault or store guest-page fault exception
-if address translation does not permit any
-access or raises a store access fault exception otherwise.
-"""
-
-In your scenario we have (1...allowed; 0...not allowed):
-* read: perm:1, pmp:0
-* fetch: perm:1: pmp:0
-* write: perm:0, pmp:0
-
-Address translation would allow read and fetch access, but PMP blocks that.
-So the "does not permit any"-part is wrong, therefore we should raise a
-store page fault.
-
-In fact, I can't predict what will happen, because the code in
-target/riscv/cpu_helper.c does
-not really prioritize page faults or PMP faults. it returns one of them,
-once they are encountered.
-
-In order to model this properly, we would have to refactor cpu_helper.c to
-separate page permissions
-from PMP. However, that seems a bit out of scope for a Zicbo* support
-patchset.
+  Yang
 
 
-
->
-> I think the final exception should be access fault instead of the page
-> fault caused by probe_access_range_flags with MMU_DATA_STORE.
->
-> Regards,
->
-> Weiwei Li
->
->
-
---000000000000d3296705d82ecc73
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 17, 2022 at 3:15 AM Weiwe=
-i Li &lt;<a href=3D"mailto:liweiwei@iscas.ac.cn">liweiwei@iscas.ac.cn</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-=E5=9C=A8 2022/2/16 =E4=B8=8B=E5=8D=8811:48, Christoph Muellner =E5=86=99=
-=E9=81=93:<br>
-&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-&gt; index 39ffb883fc..04500fe352 100644<br>
-&gt; --- a/target/riscv/cpu.c<br>
-&gt; +++ b/target/riscv/cpu.c<br>
-&gt; @@ -764,6 +764,10 @@ static Property riscv_cpu_properties[] =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Counters&quot;, RISCV=
-CPU, cfg.ext_counters, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zifencei&quot;, RISCV=
-CPU, cfg.ext_ifencei, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zicsr&quot;, RISCVCPU=
-, cfg.ext_icsr, true),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;zicbom&quot;, RISCVCPU, cfg.ext_=
-icbom, true),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;zicboz&quot;, RISCVCPU, cfg.ext_=
-icboz, true),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_UINT16(&quot;cbom_blocksize&quot;, RISCVCPU=
-, cfg.cbom_blocksize, 64),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_UINT16(&quot;cboz_blocksize&quot;, RISCVCPU=
-, cfg.cboz_blocksize, 64),<br>
-Why use two different cache block size here? Is there any new spec <br>
-update for this?<br></blockquote><div><br></div><div>No, we are talking abo=
-ut the same specification.</div><div><br></div><div>Section 2.7 states the =
-following:<br></div><div>&quot;&quot;&quot;</div><div>The initial set of CM=
-O extensions requires the following information to be discovered by softwar=
-e:<br>* The size of the cache block for management and prefetch instruction=
-s<br>* The size of the cache block for zero instructions<br>* CBIE support =
-at each privilege level<br></div><div>&quot;&quot;&quot;</div><div><br></di=
-v><div>So at least the spec authors did differentiate between the two block=
- sizes as well.</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zfh&quot;, RISCVCPU, =
-cfg.ext_zfh, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zfhmin&quot;, RISCVCP=
-U, cfg.ext_zfhmin, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zve32f&quot;, RISCVCP=
-U, cfg.ext_zve32f, false),<br>
-&gt; +<br>
-&gt; +/* helper_zicbom_access<br>
-&gt; + *<br>
-&gt; + * Check access permissions (LOAD, STORE or FETCH as specified in sec=
-tion<br>
-&gt; + * 2.5.2 of the CMO specification) for Zicbom, raising either store<b=
-r>
-&gt; + * page-fault (non-virtualised) or store guest-page fault (virtualise=
-d).<br>
-&gt; + */<br>
-&gt; +static void helper_zicbom_access(CPURISCVState *env, target_ulong add=
-ress,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uintptr_t ra)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 int ret;<br>
-&gt; +=C2=A0 =C2=A0 void* phost;<br>
-&gt; +=C2=A0 =C2=A0 int mmu_idx =3D cpu_mmu_index(env, false);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* Get the size of the cache block for management instr=
-uctions. */<br>
-&gt; +=C2=A0 =C2=A0 RISCVCPU *cpu =3D env_archcpu(env);<br>
-&gt; +=C2=A0 =C2=A0 uint16_t cbomlen =3D cpu-&gt;cfg.cbom_blocksize;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* Mask off low-bits to align-down to the cache-block. =
-*/<br>
-&gt; +=C2=A0 =C2=A0 address &amp;=3D ~(cbomlen - 1);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* A cache-block management instruction is permitted to=
- access<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* the specified cache block whenever a load instr=
-uction, store<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* instruction, or instruction fetch is permitted =
-to access the<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* corresponding physical addresses.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 ret =3D probe_access_range_flags(env, address, cbomlen,=
- MMU_DATA_LOAD,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mmu_idx, true, &amp=
-;phost, ra);<br>
-&gt; +=C2=A0 =C2=A0 if (ret =3D=3D TLB_INVALID_MASK)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D probe_access_range_flags(env, add=
-ress, cbomlen, MMU_INST_FETCH,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mmu_i=
-dx, true, &amp;phost, ra);<br>
-&gt; +=C2=A0 =C2=A0 if (ret =3D=3D TLB_INVALID_MASK)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 probe_access_range_flags(env, address, cb=
-omlen, MMU_DATA_STORE,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mmu_idx, false, &amp;phost=
-, ra);<br>
-&gt; +}<br>
-&gt; +<br>
-<br>
-<br>
-I think it&#39;s a little different here. Probe_access_range_flags may <br>
-trigger different execptions for different access_type. For example:<br>
-<br>
-If=C2=A0 the page for the address=C2=A0 is executable and readable but not =
-<br>
-writable,=C2=A0 and the access cannot pass the pmp check for all access_typ=
-e,<br>
-<br>
-it may trigger access fault for load/fetch access, and=C2=A0 trigger page <=
-br>
-fault for=C2=A0 store access.<br></blockquote><div><br></div><div>Just to b=
-e clear:</div><div>The patch does not trigger any fault for LOAD or FETCH b=
-ecause nonfault=C2=A0is set</div><div>to true (6th argument of probe_access=
-_range_flags()).</div><div>Only the last call to probe_access_range_flags()=
- raises an exception.</div><div><br></div><div>Section 2.5.2 states the fol=
-lowing:<br></div><div>&quot;&quot;&quot;</div><div>If access to the cache b=
-lock is not permitted, a cache-block management<br>instruction raises a sto=
-re page fault or store guest-page fault exception if address translation do=
-es not permit any<br>access or raises a store access fault exception otherw=
-ise.<br></div><div>&quot;&quot;&quot;</div><div><br></div><div>In your scen=
-ario we have (1...allowed; 0...not allowed):</div><div>* read: perm:1, pmp:=
-0</div><div>* fetch: perm:1: pmp:0</div><div>* write: perm:0, pmp:0</div><d=
-iv><br></div><div>Address translation would allow read and fetch access, bu=
-t PMP blocks that.</div><div>So the &quot;does not permit any&quot;-part is=
- wrong, therefore we should raise a store page fault.</div><div><br></div><=
-div>In fact, I can&#39;t predict what will happen, because the code in targ=
-et/riscv/cpu_helper.c does</div><div>not really prioritize page faults or P=
-MP faults. it returns one of them, once they are encountered.</div><div><br=
-></div><div>In order to model this properly, we would have to refactor cpu_=
-helper.c to separate page permissions</div><div>from PMP. However, that see=
-ms a bit out of scope for a Zicbo* support patchset.</div><div><br></div><d=
-iv>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-I think the final exception should be access fault instead of the page <br>
-fault caused by probe_access_range_flags with MMU_DATA_STORE.<br>
-<br>
-Regards,<br>
-<br>
-Weiwei Li<br>
-<br>
-</blockquote></div></div>
-
---000000000000d3296705d82ecc73--
+> +            warn_report("no amx support from supported_xcr0, "
+> +                        "bitmask:0x%lx", bitmask);
+> +            return;
+> +        }
+> +
+> +        rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_GUEST_PERM,
+> +                      XSTATE_XTILE_DATA_BIT);
+> +        if (rc) {
+> +            /*
+> +             * The older kernel version(<5.15) can't support
+> +             * ARCH_REQ_XCOMP_GUEST_PERM and directly return.
+> +             */
+> +            return;
+> +        }
+> +
+> +        rc = syscall(SYS_arch_prctl, ARCH_GET_XCOMP_GUEST_PERM, &bitmask);
+> +        if (rc) {
+> +            warn_report("prctl(ARCH_GET_XCOMP_GUEST_PERM) error: %ld", rc);
+> +        } else if (!(bitmask & XFEATURE_XTILE_MASK)) {
+> +            warn_report("prctl(ARCH_REQ_XCOMP_GUEST_PERM) failure "
+> +                        "and bitmask=0x%lx", bitmask);
+> +        }
+> +    }
+> +}
+> +
+>  /* Calculate XSAVE components based on the configured CPU feature flags */
+>  static void x86_cpu_enable_xsave_components(X86CPU *cpu)
+>  {
+>      CPUX86State *env = &cpu->env;
+>      int i;
+>      uint64_t mask;
+> +    static bool request_perm;
+>  
+>      if (!(env->features[FEAT_1_ECX] & CPUID_EXT_XSAVE)) {
+>          env->features[FEAT_XSAVE_COMP_LO] = 0;
+> @@ -6021,6 +6058,12 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
+>          }
+>      }
+>  
+> +    /* Only request permission for first vcpu */
+> +    if (kvm_enabled() && !request_perm) {
+> +        kvm_request_xsave_components(cpu, mask);
+> +        request_perm = true;
+> +    }
+> +
+>      env->features[FEAT_XSAVE_COMP_LO] = mask;
+>      env->features[FEAT_XSAVE_COMP_HI] = mask >> 32;
+>  }
+> diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+> index ce27d3b1df..a35a1bf9fe 100644
+> --- a/target/i386/kvm/kvm-cpu.c
+> +++ b/target/i386/kvm/kvm-cpu.c
+> @@ -84,7 +84,7 @@ static void kvm_cpu_max_instance_init(X86CPU *cpu)
+>  static void kvm_cpu_xsave_init(void)
+>  {
+>      static bool first = true;
+> -    KVMState *s = kvm_state;
+> +    uint32_t eax, ebx, ecx, edx;
+>      int i;
+>  
+>      if (!first) {
+> @@ -100,11 +100,11 @@ static void kvm_cpu_xsave_init(void)
+>          ExtSaveArea *esa = &x86_ext_save_areas[i];
+>  
+>          if (esa->size) {
+> -            int sz = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EAX);
+> -            if (sz != 0) {
+> -                assert(esa->size == sz);
+> -                esa->offset = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EBX);
+> -                esa->ecx = kvm_arch_get_supported_cpuid(s, 0xd, i, R_ECX);
+> +            host_cpuid(0xd, i, &eax, &ebx, &ecx, &edx);
+> +            if (eax != 0) {
+> +                assert(esa->size == eax);
+> +                esa->offset = ebx;
+> +                esa->ecx = ecx;
+>              }
+>          }
+>      }
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index 2c8feb4a6f..3bdcd724c4 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -348,6 +348,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+>      struct kvm_cpuid2 *cpuid;
+>      uint32_t ret = 0;
+>      uint32_t cpuid_1_edx;
+> +    uint64_t bitmask;
+>  
+>      cpuid = get_supported_cpuid(s);
+>  
+> @@ -405,6 +406,25 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+>          if (!has_msr_arch_capabs) {
+>              ret &= ~CPUID_7_0_EDX_ARCH_CAPABILITIES;
+>          }
+> +    } else if (function == 0xd && index == 0 &&
+> +               (reg == R_EAX || reg == R_EDX)) {
+> +        struct kvm_device_attr attr = {
+> +            .group = 0,
+> +            .attr = KVM_X86_XCOMP_GUEST_SUPP,
+> +            .addr = (unsigned long) &bitmask
+> +        };
+> +
+> +        bool sys_attr = kvm_check_extension(s, KVM_CAP_SYS_ATTRIBUTES);
+> +        if (!sys_attr) {
+> +            warn_report("cannot get sys attribute capabilities %d", sys_attr);
+> +        }
+> +
+> +        int rc = kvm_ioctl(s, KVM_GET_DEVICE_ATTR, &attr);
+> +        if (rc == -1 && (errno == ENXIO || errno == EINVAL)) {
+> +            warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
+> +                        "error: %d", rc);
+> +        }
+> +        ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
+>      } else if (function == 0x80000001 && reg == R_ECX) {
+>          /*
+>           * It's safe to enable TOPOEXT even if it's not returned by
 
