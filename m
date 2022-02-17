@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864924BA427
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 16:20:00 +0100 (CET)
-Received: from localhost ([::1]:41124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519B64BA411
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 16:14:22 +0100 (CET)
+Received: from localhost ([::1]:60582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKiZb-0003Mu-Gg
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 10:19:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44672)
+	id 1nKiU9-0005ce-DC
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 10:14:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKhmW-00013B-Jv
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:29:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44315)
+ id 1nKhn6-0001GF-3A
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:29:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKhmU-0000df-4H
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:29:16 -0500
+ id 1nKhn3-0000fp-TO
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:29:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645108153;
+ s=mimecast20190719; t=1645108189;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4D0kRoPFLiHV+w9F5DHSIOBxctB5y2dOINT7eQ7n7HQ=;
- b=Fc9KslXuH49lCTtJYjMNbh5HvlNK5iqWumZ7HCKnmNRlhhfTW896rWSlCz11FsbeqyQe61
- XNWHlP0KJO99qm0jEDYzQYQwwOHwRiww8CrIC5eG5S8SEk2uEorg4a0S8AH+7u0Ib9GqzW
- Pxdc8Q0Dp+8qEFY288N4GW/wRMWPwuY=
+ bh=3qTZFm134yUJg5nRUl7PbQJQ/HFQUv8bzb9bXPgCH/E=;
+ b=GPBnBy+YIQ9Yv8lasfxXdBoxNh5no78mqgDSfMXyhtAlg8gquJRKjSfoV6LTGrIISRQzpi
+ XgKwRVP5PwTlwyLfLpk9q5KYD4ypOHOu1TZk2cH1syb9R8QdpsNaGHMG0iJBZ0OtmmaWPn
+ g6j/a4H6snCWeVjKhtIsjWgW0K31Lk8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-LqAU6bSbOluV2_iN5SHs2g-1; Thu, 17 Feb 2022 09:29:10 -0500
-X-MC-Unique: LqAU6bSbOluV2_iN5SHs2g-1
+ us-mta-517-Uv_WjNPCMCOKRR8TkIIx5Q-1; Thu, 17 Feb 2022 09:29:41 -0500
+X-MC-Unique: Uv_WjNPCMCOKRR8TkIIx5Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DB6E1091DA1;
- Thu, 17 Feb 2022 14:29:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48E312F47;
+ Thu, 17 Feb 2022 14:29:40 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.194.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21B8B6F948;
- Thu, 17 Feb 2022 14:28:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70FC56F948;
+ Thu, 17 Feb 2022 14:29:09 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, vgoyal@redhat.com, groug@kaod.org,
  sebastian.hasler@stuvus.uni-stuttgart.de
-Subject: [PULL 09/12] virtiofsd: Create new file with security context
-Date: Thu, 17 Feb 2022 14:23:59 +0000
-Message-Id: <20220217142402.52819-10-dgilbert@redhat.com>
+Subject: [PULL 10/12] virtiofsd: Create new file using O_TMPFILE and set
+ security context
+Date: Thu, 17 Feb 2022 14:24:00 +0000
+Message-Id: <20220217142402.52819-11-dgilbert@redhat.com>
 In-Reply-To: <20220217142402.52819-1-dgilbert@redhat.com>
 References: <20220217142402.52819-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -86,345 +87,165 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vivek Goyal <vgoyal@redhat.com>
 
-This patch adds support for creating new file with security context
-as sent by client. It basically takes three paths.
+If guest and host policies can't work with each other, then guest security
+context (selinux label) needs to be set into an xattr. Say remap guest
+security.selinux xattr to trusted.virtiofs.security.selinux.
 
-- If no security context enabled, then it continues to create files without
-  security context.
+That means setting "fscreate" is not going to help as that's ony useful
+for security.selinux xattr on host.
 
-- If security context is enabled and but security.selinux has not been
-  remapped, then it uses /proc/thread-self/attr/fscreate knob to set
-  security context and then create the file. This will make sure that
-  newly created file gets the security context as set in "fscreate" and
-  this is atomic w.r.t file creation.
+So we need another method which is atomic. Use O_TMPFILE to create new
+file, set xattr and then linkat() to proper place.
 
-  This is useful and host and guest SELinux policies don't conflict and
-  can work with each other. In that case, guest security.selinux xattr
-  is not remapped and it is passthrough as "security.selinux" xattr
-  on host.
+But this works only for regular files. So dir, symlinks will continue
+to be non-atomic.
 
-- If security context is enabled but security.selinux xattr has been
-  remapped to something else, then it first creates the file and then
-  uses setxattr() to set the remapped xattr with the security context.
-  This is a non-atomic operation w.r.t file creation.
-
-  This mode will be most versatile and allow host and guest to have their
-  own separate SELinux xattrs and have their own separate SELinux policies.
+Also if host filesystem does not support O_TMPFILE, we fallback to
+non-atomic behavior.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Message-Id: <20220208204813.682906-9-vgoyal@redhat.com>
+Message-Id: <20220208204813.682906-10-vgoyal@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 229 +++++++++++++++++++++++++++----
- 1 file changed, 200 insertions(+), 29 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 80 ++++++++++++++++++++++++++++----
+ 1 file changed, 72 insertions(+), 8 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 406b35ddd4..148ac4a326 100644
+index 148ac4a326..49f7caefbd 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -234,6 +234,11 @@ static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
- static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-                             char **out_name);
+@@ -2153,14 +2153,29 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
  
-+#define FCHDIR_NOFAIL(fd) do {                         \
-+        int fchdir_res = fchdir(fd);                   \
-+        assert(fchdir_res == 0);                       \
-+    } while (0)
-+
- static bool is_dot_or_dotdot(const char *name)
+ static int do_create_nosecctx(fuse_req_t req, struct lo_inode *parent_inode,
+                                const char *name, mode_t mode,
+-                               struct fuse_file_info *fi, int *open_fd)
++                               struct fuse_file_info *fi, int *open_fd,
++                              bool tmpfile)
  {
-     return name[0] == '.' &&
-@@ -288,7 +293,6 @@ static bool is_fscreate_usable(struct lo_data *lo)
- }
- 
- /* Helpers to set/reset fscreate */
--__attribute__((unused))
- static int open_set_proc_fscreate(struct lo_data *lo, const void *ctx,
-                                   size_t ctxlen,int *fd)
- {
-@@ -316,7 +320,6 @@ out:
-     return err;
- }
- 
--__attribute__((unused))
- static void close_reset_proc_fscreate(int fd)
- {
-     if ((write(fd, NULL, 0)) == -1) {
-@@ -1354,16 +1357,103 @@ static void lo_restore_cred_gain_cap(struct lo_cred *old, bool restore_umask,
-     }
- }
- 
-+static int do_mknod_symlink_secctx(fuse_req_t req, struct lo_inode *dir,
-+                                   const char *name, const char *secctx_name)
-+{
-+    int path_fd, err;
-+    char procname[64];
-+    struct lo_data *lo = lo_data(req);
-+
-+    if (!req->secctx.ctxlen) {
-+        return 0;
-+    }
-+
-+    /* Open newly created element with O_PATH */
-+    path_fd = openat(dir->fd, name, O_PATH | O_NOFOLLOW);
-+    err = path_fd == -1 ? errno : 0;
-+    if (err) {
-+        return err;
-+    }
-+    sprintf(procname, "%i", path_fd);
-+    FCHDIR_NOFAIL(lo->proc_self_fd);
-+    /* Set security context. This is not atomic w.r.t file creation */
-+    err = setxattr(procname, secctx_name, req->secctx.ctx, req->secctx.ctxlen,
-+                   0);
-+    if (err) {
-+        err = errno;
-+    }
-+    FCHDIR_NOFAIL(lo->root.fd);
-+    close(path_fd);
-+    return err;
-+}
-+
-+static int do_mknod_symlink(fuse_req_t req, struct lo_inode *dir,
-+                            const char *name, mode_t mode, dev_t rdev,
-+                            const char *link)
-+{
-+    int err, fscreate_fd = -1;
-+    const char *secctx_name = req->secctx.name;
-+    struct lo_cred old = {};
-+    struct lo_data *lo = lo_data(req);
-+    char *mapped_name = NULL;
-+    bool secctx_enabled = req->secctx.ctxlen;
-+    bool do_fscreate = false;
-+
-+    if (secctx_enabled && lo->xattrmap) {
-+        err = xattr_map_client(lo, req->secctx.name, &mapped_name);
-+        if (err < 0) {
-+            return -err;
-+        }
-+        secctx_name = mapped_name;
-+    }
-+
-+    /*
-+     * If security xattr has not been remapped and selinux is enabled on
-+     * host, set fscreate and no need to do a setxattr() after file creation
-+     */
-+    if (secctx_enabled && !mapped_name && lo->use_fscreate) {
-+        do_fscreate = true;
-+        err = open_set_proc_fscreate(lo, req->secctx.ctx, req->secctx.ctxlen,
-+                                     &fscreate_fd);
-+        if (err) {
-+            goto out;
-+        }
-+    }
-+
-+    err = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
-+    if (err) {
-+        goto out;
-+    }
-+
-+    err = mknod_wrapper(dir->fd, name, link, mode, rdev);
-+    err = err == -1 ? errno : 0;
-+    lo_restore_cred(&old, lo->change_umask && !S_ISLNK(mode));
-+    if (err) {
-+        goto out;
-+    }
-+
-+    if (!do_fscreate) {
-+        err = do_mknod_symlink_secctx(req, dir, name, secctx_name);
-+        if (err) {
-+            unlinkat(dir->fd, name, S_ISDIR(mode) ? AT_REMOVEDIR : 0);
-+        }
-+    }
-+out:
-+    if (fscreate_fd != -1) {
-+        close_reset_proc_fscreate(fscreate_fd);
-+    }
-+    g_free(mapped_name);
-+    return err;
-+}
-+
- static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-                              const char *name, mode_t mode, dev_t rdev,
-                              const char *link)
- {
--    int res;
-     int saverr;
-     struct lo_data *lo = lo_data(req);
-     struct lo_inode *dir;
-     struct fuse_entry_param e;
--    struct lo_cred old = {};
- 
-     if (is_empty(name)) {
-         fuse_reply_err(req, ENOENT);
-@@ -1381,21 +1471,11 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-         return;
-     }
- 
--    saverr = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
-+    saverr = do_mknod_symlink(req, dir, name, mode, rdev, link);
-     if (saverr) {
-         goto out;
-     }
- 
--    res = mknod_wrapper(dir->fd, name, link, mode, rdev);
--
--    saverr = errno;
--
--    lo_restore_cred(&old, lo->change_umask && !S_ISLNK(mode));
--
--    if (res == -1) {
--        goto out;
--    }
--
-     saverr = lo_do_lookup(req, parent, name, &e, NULL);
-     if (saverr) {
-         goto out;
-@@ -2071,13 +2151,16 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
-     return 0;
- }
- 
--static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
--                        const char *name, mode_t mode,
--                        struct fuse_file_info *fi, int* open_fd)
-+static int do_create_nosecctx(fuse_req_t req, struct lo_inode *parent_inode,
-+                               const char *name, mode_t mode,
-+                               struct fuse_file_info *fi, int *open_fd)
- {
--    int err = 0, fd;
-+    int err, fd;
+     int err, fd;
      struct lo_cred old = {};
      struct lo_data *lo = lo_data(req);
-+    int flags;
+     int flags;
+ 
+-    flags = fi->flags | O_CREAT | O_EXCL;
++    if (tmpfile) {
++        flags = fi->flags | O_TMPFILE;
++        /*
++         * Don't use O_EXCL as we want to link file later. Also reset O_CREAT
++         * otherwise openat() returns -EINVAL.
++         */
++        flags &= ~(O_CREAT | O_EXCL);
 +
-+    flags = fi->flags | O_CREAT | O_EXCL;
++        /* O_TMPFILE needs either O_RDWR or O_WRONLY */
++        if ((flags & O_ACCMODE) == O_RDONLY) {
++            flags |= O_RDWR;
++        }
++    } else {
++        flags = fi->flags | O_CREAT | O_EXCL;
++    }
  
      err = lo_change_cred(req, &old, lo->change_umask);
      if (err) {
-@@ -2085,13 +2168,106 @@ static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
+@@ -2191,7 +2206,7 @@ static int do_create_secctx_fscreate(fuse_req_t req,
+         return err;
      }
  
-     /* Try to create a new file but don't open existing files */
--    fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
--    if (fd == -1) {
--        err = errno;
--    } else {
-+    fd = openat(parent_inode->fd, name, flags, mode);
-+    err = fd == -1 ? errno : 0;
-+    lo_restore_cred(&old, lo->change_umask);
-+    if (!err) {
-         *open_fd = fd;
-     }
--    lo_restore_cred(&old, lo->change_umask);
-+    return err;
-+}
-+
-+static int do_create_secctx_fscreate(fuse_req_t req,
-+                                     struct lo_inode *parent_inode,
-+                                     const char *name, mode_t mode,
-+                                     struct fuse_file_info *fi, int *open_fd)
+-    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
++    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd, false);
+ 
+     close_reset_proc_fscreate(fscreate_fd);
+     if (!err) {
+@@ -2200,6 +2215,44 @@ static int do_create_secctx_fscreate(fuse_req_t req,
+     return err;
+ }
+ 
++static int do_create_secctx_tmpfile(fuse_req_t req,
++                                    struct lo_inode *parent_inode,
++                                    const char *name, mode_t mode,
++                                    struct fuse_file_info *fi,
++                                    const char *secctx_name, int *open_fd)
 +{
-+    int err = 0, fd = -1, fscreate_fd = -1;
++    int err, fd = -1;
 +    struct lo_data *lo = lo_data(req);
++    char procname[64];
 +
-+    err = open_set_proc_fscreate(lo, req->secctx.ctx, req->secctx.ctxlen,
-+                                 &fscreate_fd);
++    err = do_create_nosecctx(req, parent_inode, ".", mode, fi, &fd, true);
 +    if (err) {
 +        return err;
 +    }
 +
-+    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
-+
-+    close_reset_proc_fscreate(fscreate_fd);
-+    if (!err) {
-+        *open_fd = fd;
-+    }
-+    return err;
-+}
-+
-+static int do_create_secctx_noatomic(fuse_req_t req,
-+                                     struct lo_inode *parent_inode,
-+                                     const char *name, mode_t mode,
-+                                     struct fuse_file_info *fi,
-+                                     const char *secctx_name, int *open_fd)
-+{
-+    int err = 0, fd = -1;
-+
-+    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
++    err = fsetxattr(fd, secctx_name, req->secctx.ctx, req->secctx.ctxlen, 0);
 +    if (err) {
++        err = errno;
 +        goto out;
 +    }
 +
-+    /* Set security context. This is not atomic w.r.t file creation */
-+    err = fsetxattr(fd, secctx_name, req->secctx.ctx, req->secctx.ctxlen, 0);
++    /* Security context set on file. Link it in place */
++    sprintf(procname, "%d", fd);
++    FCHDIR_NOFAIL(lo->proc_self_fd);
++    err = linkat(AT_FDCWD, procname, parent_inode->fd, name,
++                 AT_SYMLINK_FOLLOW);
 +    err = err == -1 ? errno : 0;
++    FCHDIR_NOFAIL(lo->root.fd);
++
 +out:
 +    if (!err) {
 +        *open_fd = fd;
-+    } else {
-+        if (fd != -1) {
-+            close(fd);
-+            unlinkat(parent_inode->fd, name, 0);
-+        }
++    } else if (fd != -1) {
++        close(fd);
 +    }
 +    return err;
 +}
 +
-+static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
-+                        const char *name, mode_t mode,
-+                        struct fuse_file_info *fi, int *open_fd)
-+{
-+    struct lo_data *lo = lo_data(req);
-+    char *mapped_name = NULL;
-+    int err;
-+    const char *ctxname = req->secctx.name;
-+    bool secctx_enabled = req->secctx.ctxlen;
-+
-+    if (secctx_enabled && lo->xattrmap) {
-+        err = xattr_map_client(lo, req->secctx.name, &mapped_name);
-+        if (err < 0) {
-+            return -err;
-+        }
-+
-+        ctxname = mapped_name;
-+    }
-+
-+    if (secctx_enabled) {
-+        /*
-+         * If security.selinux has not been remapped and selinux is enabled,
-+         * use fscreate to set context before file creation.
-+         * Otherwise fallback to non-atomic method of file creation
-+         * and xattr settting.
-+         */
-+        if (!mapped_name && lo->use_fscreate) {
-+            err = do_create_secctx_fscreate(req, parent_inode, name, mode, fi,
-+                                            open_fd);
-+            goto out;
-+        }
-+
-+        err = do_create_secctx_noatomic(req, parent_inode, name, mode, fi,
-+                                        ctxname, open_fd);
-+    } else {
-+        err = do_create_nosecctx(req, parent_inode, name, mode, fi, open_fd);
-+    }
-+
-+out:
-+    g_free(mapped_name);
-     return err;
- }
- 
-@@ -2935,11 +3111,6 @@ static int xattr_map_server(const struct lo_data *lo, const char *server_name,
-     return -ENODATA;
- }
- 
--#define FCHDIR_NOFAIL(fd) do {                         \
--        int fchdir_res = fchdir(fd);                   \
--        assert(fchdir_res == 0);                       \
--    } while (0)
--
- static bool block_xattr(struct lo_data *lo, const char *name)
+ static int do_create_secctx_noatomic(fuse_req_t req,
+                                      struct lo_inode *parent_inode,
+                                      const char *name, mode_t mode,
+@@ -2208,7 +2261,7 @@ static int do_create_secctx_noatomic(fuse_req_t req,
  {
-     /*
+     int err = 0, fd = -1;
+ 
+-    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd);
++    err = do_create_nosecctx(req, parent_inode, name, mode, fi, &fd, false);
+     if (err) {
+         goto out;
+     }
+@@ -2250,20 +2303,31 @@ static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
+     if (secctx_enabled) {
+         /*
+          * If security.selinux has not been remapped and selinux is enabled,
+-         * use fscreate to set context before file creation.
+-         * Otherwise fallback to non-atomic method of file creation
+-         * and xattr settting.
++         * use fscreate to set context before file creation. If not, use
++         * tmpfile method for regular files. Otherwise fallback to
++         * non-atomic method of file creation and xattr settting.
+          */
+         if (!mapped_name && lo->use_fscreate) {
+             err = do_create_secctx_fscreate(req, parent_inode, name, mode, fi,
+                                             open_fd);
+             goto out;
++        } else if (S_ISREG(mode)) {
++            err = do_create_secctx_tmpfile(req, parent_inode, name, mode, fi,
++                                           ctxname, open_fd);
++            /*
++             * If filesystem does not support O_TMPFILE, fallback to non-atomic
++             * method.
++             */
++            if (!err || err != EOPNOTSUPP) {
++                goto out;
++            }
+         }
+ 
+         err = do_create_secctx_noatomic(req, parent_inode, name, mode, fi,
+                                         ctxname, open_fd);
+     } else {
+-        err = do_create_nosecctx(req, parent_inode, name, mode, fi, open_fd);
++        err = do_create_nosecctx(req, parent_inode, name, mode, fi, open_fd,
++                                 false);
+     }
+ 
+ out:
 -- 
 2.35.1
 
