@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB2C4BA62E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 17:40:33 +0100 (CET)
-Received: from localhost ([::1]:34042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0984BA673
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 17:54:24 +0100 (CET)
+Received: from localhost ([::1]:48040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKjpX-0001VG-Vh
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 11:40:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47904)
+	id 1nKk2x-0003IW-BZ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 11:54:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nKjmq-0008WE-TT; Thu, 17 Feb 2022 11:37:45 -0500
-Received: from [2607:f8b0:4864:20::c32] (port=35771
- helo=mail-oo1-xc32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nKjmp-0004Vi-60; Thu, 17 Feb 2022 11:37:44 -0500
-Received: by mail-oo1-xc32.google.com with SMTP id
- 189-20020a4a03c6000000b003179d7b30d8so223327ooi.2; 
- Thu, 17 Feb 2022 08:37:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hVjOnfoEw1XJprIsFPTDlJHbffibU6mY1ORjgyyWR8g=;
- b=DcIop0FiDeMFjUJAExybv0NkZ9Nyy8u8/1eFYUnXMVJ+GThoRXBYQBOrkHq7driSdI
- 2u/GmJR+TZAzF1YRxc1Xm6IUrplR6V2g19nttVaH+z05VYbSmLs2Himod8Dg9gDuVrBm
- 91ItU9FKheKQslziL0OimSmSf21zqiqKodNuv8oyRqgHl0FN9a/rV7waT+vmvqLmt4iq
- b64ZTtuPXbJePvbCrLT+7g4yiaNRgELzKwggZ5MdJGpHCq0P+EJumoVKy7QcXd31SUKP
- CE/qWuRSYQQBX/+mKi3IGcxjR9K7SKd9sO1U64A2ifs484u00uPUdTRXDQzDPzq8z8Uu
- 2o/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hVjOnfoEw1XJprIsFPTDlJHbffibU6mY1ORjgyyWR8g=;
- b=YVUtIOvrsQuH1oO4E2cqwfSLesDmTSTXgK8qHGcK9raBd2PXuCmXfCCpH6jhbXs5Da
- J6nfso8Zy4WAI+uxjcdweTd8mCX0QiolykEY4o7o9kGW+Pou5kmmj6wD2uDSR3442qTo
- S65ZDXZ97B3F7pUacrjLL0QkXhc+yt0bAwFgI6Af0a+jZRsvU0m4qMcVPJt4bKh1pUHy
- NNsDGSE0G4717bPaw2PKKgraW3k6S87D4ZLbuMw+FloSlpUGSB6K+lExISouk9gd3jWD
- lw9WANwmGEB6SULQWzgDewpX6yGShxS/QDzRd84GBeuGwnMsuaR54n98v0T/tTd+89Ro
- muZA==
-X-Gm-Message-State: AOAM5324RWkAL5jhdp/kgFuJh4JJkRQEFvCDq+hUOU4xk69sv/oev363
- Y+KBzi4LK9ss8qDrWouaqco7u0GIDOYNgBtsTAI=
-X-Google-Smtp-Source: ABdhPJw/VFGQwjwEuKKRzT6Lq8iqiknbttopiUP9NhvgXtmrmMHFGLcQtu89u8U/mVOOIPCbm4BGPp3fuS3S2KeVnmA=
-X-Received: by 2002:a05:6870:5b0e:b0:d3:4f0d:fef0 with SMTP id
- ds14-20020a0568705b0e00b000d34f0dfef0mr2533406oab.242.1645115857174; Thu, 17
- Feb 2022 08:37:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKk1o-0002CW-W3
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 11:53:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25953)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKk1m-0007Bt-5l
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 11:53:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645116789;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uz8ikP+tv+gH+w9F7uOv4qesEFI68perrZFSUKI96a8=;
+ b=VnuYJ/C6I7bzPy2fl2sjF4qWNDZGfy6XQDM1G4Nuqw1art91rTlHq5QptOfAbypVlthESp
+ f49Xjy5YK0xRUAXAL6IhtzWT1jhWuWlXekSf6QACZi1BCMqv0+yProKBeki8KEhxcq1Ncj
+ yYoGRbr3BHgXBo4fc59smuhF9h0SNz4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-4jXchySwM8-WiwIw972C-Q-1; Thu, 17 Feb 2022 11:53:05 -0500
+X-MC-Unique: 4jXchySwM8-WiwIw972C-Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8267B344E0;
+ Thu, 17 Feb 2022 16:53:04 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A4B278AB1;
+ Thu, 17 Feb 2022 16:53:03 +0000 (UTC)
+Date: Thu, 17 Feb 2022 16:53:02 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v5 11/20] block/mirror.c: use of job helpers in drivers
+ to avoid TOC/TOU
+Message-ID: <Yg59bohalymEAfvp@stefanha-x1.localdomain>
+References: <20220208143513.1077229-1-eesposit@redhat.com>
+ <20220208143513.1077229-12-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20220216203415.138819-1-dmiller423@gmail.com>
- <20220216203415.138819-2-dmiller423@gmail.com>
- <45137b73-2c97-7b22-b497-45f6c4f30205@linux.ibm.com>
-In-Reply-To: <45137b73-2c97-7b22-b497-45f6c4f30205@linux.ibm.com>
-From: David Miller <dmiller423@gmail.com>
-Date: Thu, 17 Feb 2022 11:37:25 -0500
-Message-ID: <CAEgyohVRqmouZbFxfrzjiNyJMEiJFrh1izAa2nq89VYnaTr4sw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] s390x/tcg: Implement
- Miscellaneous-Instruction-Extensions Facility 3 for the s390x
-To: Christian Borntraeger <borntraeger@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c32
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
- envelope-from=dmiller423@gmail.com; helo=mail-oo1-xc32.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="a+FKwuzjR0ZBQjDU"
+Content-Disposition: inline
+In-Reply-To: <20220208143513.1077229-12-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,12 +77,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, David Hildenbrand <david@redhat.com>,
- farman@linux.ibm.com, cohuck@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, qemu-s390x@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Will submit patch later today, thanks
+
+--a+FKwuzjR0ZBQjDU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Feb 08, 2022 at 09:35:04AM -0500, Emanuele Giuseppe Esposito wrote:
+> Once job lock is used and aiocontext is removed, mirror has
+> to perform job operations under the same critical section,
+> using the helpers prepared in previous commit.
+>=20
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are *nop*.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  block/mirror.c | 19 ++++++++++++++-----
+>  1 file changed, 14 insertions(+), 5 deletions(-)
+
+My understanding is that MirrorBlockJob itself does need a lock because
+it's only access from the coroutines - and they run in only one thread.
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--a+FKwuzjR0ZBQjDU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIOfW4ACgkQnKSrs4Gr
+c8glZQgAwHuJX+TKA8ghR4n0h2OmFr9BD4ZRiJqvBinghoBmmICBxRPdyBhX6jlU
+/X9FM1gr57FS/s3ukW5RprSrvvasZhulf4tfedxWDIB7FUNDHMGX9FhBm24raXzq
+ZZRSmXp5vL75GHbqXESN/p0OVu9pb2NdUmWbCyWPT54NvoQv5we4k/1mfPg1KAv6
+/IHG2svW4NXYUnAqCAAI+sbtA0XSrwDvJEK0msS+XqEO6bfQTddo9mHJZfXgh6eo
+9C6U+o/EZqEoxjjE1Jzabtv4SU6E8CIBDHw9Danw3Lc2YQmZShWrFg4XPiLhEk4s
+J4fQgVHrsTnFn31d9t494QnfzFuWHQ==
+=fLX5
+-----END PGP SIGNATURE-----
+
+--a+FKwuzjR0ZBQjDU--
+
 
