@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A574BA390
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:50:35 +0100 (CET)
-Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBC84BA333
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:42:08 +0100 (CET)
+Received: from localhost ([::1]:46540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKi77-0000qJ-RQ
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:50:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41466)
+	id 1nKhyx-0000xg-KQ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:42:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nKhWZ-0002Uz-1R
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:12:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25218)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nKhev-0001DF-Ha
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:21:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nKhWX-0006oy-GI
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:12:46 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nKhes-00084E-V8
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:21:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645107163;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OaQjRcFhPdDPCJE7+4fugMZnAW8MqV8/DlME2/soBlU=;
- b=YT1wk8Y6bO73VCMwbyxQDo4HNFE1sz7lki3Hb4ZKqgCvLEmrrsSgmxlgvW5iHfgiY7oimk
- 6BPIK9d0J2NanyfJdMDiYAAw+Dnk+fHrElRBbeDcYa39zRy4Ep9DJmE1fwwgs7euu0QgIk
- 3iEcvo5I6cqHbftX6FzhLQVsrSFS3FE=
+ s=mimecast20190719; t=1645107681;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=4O0+CQbK6wk9fkyoPo8Iv9tdOs7BtuKcNBkdCn4J6FQ=;
+ b=Y85TTGtgqZma5QeRdlpyZQAfNT/cuL1GltT2g3u7MbkGAVy7eqIVrp4ngOnjRcEIO/g1lc
+ 0Xw+xE6CbpByIfFuT+nHEM0Xw1Gh76mjmZjKXLwrccyfnYgAXEvFvKub32xKFJd6ssnFbe
+ jokDqpVPELYjmIzYsYHdlHw0h0tq8lA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-smChv5SAO-yM0wV5ojZSoA-1; Thu, 17 Feb 2022 09:12:40 -0500
-X-MC-Unique: smChv5SAO-yM0wV5ojZSoA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-446-yQ5WYX7IOua0JuB1Exikhw-1; Thu, 17 Feb 2022 09:21:17 -0500
+X-MC-Unique: yQ5WYX7IOua0JuB1Exikhw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CCBC2F4A;
- Thu, 17 Feb 2022 14:12:39 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C55FF106A7AF;
- Thu, 17 Feb 2022 14:12:38 +0000 (UTC)
-Date: Thu, 17 Feb 2022 14:12:37 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v5 06/20] jobs: remove aiocontext locks since the
- functions are under BQL
-Message-ID: <Yg5X1V1md25LOxaP@stefanha-x1.localdomain>
-References: <20220208143513.1077229-1-eesposit@redhat.com>
- <20220208143513.1077229-7-eesposit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5A862F4F;
+ Thu, 17 Feb 2022 14:21:02 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13B3470D40;
+ Thu, 17 Feb 2022 14:20:22 +0000 (UTC)
+Date: Thu, 17 Feb 2022 14:20:20 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Pierre Morel <pmorel@linux.ibm.com>
+Subject: Re: [PATCH v6 08/11] s390x: topology: Adding drawers to CPU topology
+Message-ID: <Yg5ZpEisMK1uWqQH@redhat.com>
+References: <20220217134125.132150-1-pmorel@linux.ibm.com>
+ <20220217134125.132150-9-pmorel@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vYqf68ODQ7+wLF8Y"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220208143513.1077229-7-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20220217134125.132150-9-pmorel@linux.ibm.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -64,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,86 +76,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: thuth@redhat.com, nrb@linux.ibm.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, david@redhat.com, philmd@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ pasic@linux.ibm.com, seiden@linux.ibm.com, qemu-s390x@nongnu.org,
+ mst@redhat.com, pbonzini@redhat.com, eblake@redhat.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---vYqf68ODQ7+wLF8Y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Feb 08, 2022 at 09:34:59AM -0500, Emanuele Giuseppe Esposito wrote:
-> In preparation to the job_lock/unlock patch, remove these
-> aiocontext locks.
-> The main reason these two locks are removed here is because
-> they are inside a loop iterating on the jobs list. Once the
-> job_lock is added, it will have to protect the whole loop,
-> wrapping also the aiocontext acquire/release.
->=20
-> We don't want this, as job_lock must be taken inside the AioContext
-> lock, and taking it outside would cause deadlocks.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+On Thu, Feb 17, 2022 at 02:41:22PM +0100, Pierre Morel wrote:
+> S390 CPU topology may have up to 5 topology containers.
+> The first container above the cores is level 2, the sockets,
+> and the level 3, containing sockets are the books.
+> 
+> We introduce here the drawers, drawers is the level containing books.
+> 
+> Let's add drawers, level4, containers to the CPU topology.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->  blockdev.c | 4 ----
->  job-qmp.c  | 4 ----
->  2 files changed, 8 deletions(-)
->=20
-> diff --git a/blockdev.c b/blockdev.c
-> index 8cac3d739c..e315466914 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -3713,15 +3713,11 @@ BlockJobInfoList *qmp_query_block_jobs(Error **er=
-rp)
-> =20
->      for (job =3D block_job_next(NULL); job; job =3D block_job_next(job))=
- {
+>  hw/core/machine-smp.c      | 33 ++++++++++++++++++++++++++-------
+>  hw/core/machine.c          |  2 ++
+>  hw/s390x/s390-virtio-ccw.c |  1 +
+>  include/hw/boards.h        |  4 ++++
+>  qapi/machine.json          |  7 ++++++-
+>  softmmu/vl.c               |  3 +++
+>  6 files changed, 42 insertions(+), 8 deletions(-)
 
-I'm confused. block_job_next() is supposed to be called with job_mutex
-held since it iterates the jobs list.
+Needs to update -smp args in qemu-options.hx too.
 
-The patch series might fix this later on but it's hard to review patches
-with broken invariants.
-
-Does this mean git-bisect(1) is broken since intermediate commits are
-not thread-safe?
-
->          BlockJobInfo *value;
-> -        AioContext *aio_context;
-> =20
->          if (block_job_is_internal(job)) {
->              continue;
+> 
+> diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+> index d7aa39d540..26150c748f 100644
+> --- a/hw/core/machine-smp.c
+> +++ b/hw/core/machine-smp.c
+> @@ -31,6 +31,10 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
+>      MachineClass *mc = MACHINE_GET_CLASS(ms);
+>      GString *s = g_string_new(NULL);
+>  
+> +    if (mc->smp_props.drawers_supported) {
+> +        g_string_append_printf(s, " * drawers (%u)", ms->smp.drawers);
+> +    }
+> +
+>      if (mc->smp_props.books_supported) {
+>          g_string_append_printf(s, " * books (%u)", ms->smp.books);
+>      }
+> @@ -77,6 +81,7 @@ void machine_parse_smp_config(MachineState *ms,
+>  {
+>      MachineClass *mc = MACHINE_GET_CLASS(ms);
+>      unsigned cpus    = config->has_cpus ? config->cpus : 0;
+> +    unsigned drawers = config->has_drawers ? config->drawers : 0;
+>      unsigned books   = config->has_books ? config->books : 0;
+>      unsigned sockets = config->has_sockets ? config->sockets : 0;
+>      unsigned dies    = config->has_dies ? config->dies : 0;
+> @@ -90,6 +95,7 @@ void machine_parse_smp_config(MachineState *ms,
+>       * explicit configuration like "cpus=0" is not allowed.
+>       */
+>      if ((config->has_cpus && config->cpus == 0) ||
+> +        (config->has_drawers && config->drawers == 0) ||
+>          (config->has_books && config->books == 0) ||
+>          (config->has_sockets && config->sockets == 0) ||
+>          (config->has_dies && config->dies == 0) ||
+> @@ -124,6 +130,13 @@ void machine_parse_smp_config(MachineState *ms,
+>  
+>      books = books > 0 ? books : 1;
+>  
+> +    if (!mc->smp_props.drawers_supported && drawers > 1) {
+> +        error_setg(errp, "drawers not supported by this machine's CPU topology");
+> +        return;
+> +    }
+> +
+> +    drawers = drawers > 0 ? drawers : 1;
+> +
+>      /* compute missing values based on the provided ones */
+>      if (cpus == 0 && maxcpus == 0) {
+>          sockets = sockets > 0 ? sockets : 1;
+> @@ -137,34 +150,40 @@ void machine_parse_smp_config(MachineState *ms,
+>              if (sockets == 0) {
+>                  cores = cores > 0 ? cores : 1;
+>                  threads = threads > 0 ? threads : 1;
+> -                sockets = maxcpus / (books * dies * clusters * cores * threads);
+> +                sockets = maxcpus /
+> +                          (drawers * books * dies * clusters * cores * threads);
+>              } else if (cores == 0) {
+>                  threads = threads > 0 ? threads : 1;
+> -                cores = maxcpus / (books * sockets * dies * clusters * threads);
+> +                cores = maxcpus /
+> +                        (drawers * books * sockets * dies * clusters * threads);
+>              }
+>          } else {
+>              /* prefer cores over sockets since 6.2 */
+>              if (cores == 0) {
+>                  sockets = sockets > 0 ? sockets : 1;
+>                  threads = threads > 0 ? threads : 1;
+> -                cores = maxcpus / (books * sockets * dies * clusters * threads);
+> +                cores = maxcpus /
+> +                        (drawers * books * sockets * dies * clusters * threads);
+>              } else if (sockets == 0) {
+>                  threads = threads > 0 ? threads : 1;
+> -                sockets = maxcpus / (books * dies * clusters * cores * threads);
+> +                sockets = maxcpus /
+> +                         (drawers * books * dies * clusters * cores * threads);
+>              }
 >          }
-> -        aio_context =3D block_job_get_aio_context(job);
-> -        aio_context_acquire(aio_context);
->          value =3D block_job_query(job, errp);
+>  
+>          /* try to calculate omitted threads at last */
+>          if (threads == 0) {
+> -            threads = maxcpus / (books * sockets * dies * clusters * cores);
+> +            threads = maxcpus /
+> +                      (drawers * books * sockets * dies * clusters * cores);
+>          }
+>      }
+>  
+> -    maxcpus = maxcpus > 0 ? maxcpus : books * sockets * dies *
+> +    maxcpus = maxcpus > 0 ? maxcpus : drawers * books * sockets * dies *
+>                                        clusters * cores * threads;
+>      cpus = cpus > 0 ? cpus : maxcpus;
+>  
+>      ms->smp.cpus = cpus;
+> +    ms->smp.drawers = drawers;
+>      ms->smp.books = books;
+>      ms->smp.sockets = sockets;
+>      ms->smp.dies = dies;
+> @@ -174,7 +193,7 @@ void machine_parse_smp_config(MachineState *ms,
+>      ms->smp.max_cpus = maxcpus;
+>  
+>      /* sanity-check of the computed topology */
+> -    if (books * sockets * dies * clusters * cores * threads != maxcpus) {
+> +    if (drawers * books * sockets * dies * clusters * cores * threads != maxcpus) {
+>          g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
+>          error_setg(errp, "Invalid CPU topology: "
+>                     "product of the hierarchy must match maxcpus: "
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index b8c624d2bf..1db55e36c8 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -743,6 +743,7 @@ static void machine_get_smp(Object *obj, Visitor *v, const char *name,
+>      MachineState *ms = MACHINE(obj);
+>      SMPConfiguration *config = &(SMPConfiguration){
+>          .has_cpus = true, .cpus = ms->smp.cpus,
+> +        .has_drawers = true, .drawers = ms->smp.drawers,
+>          .has_books = true, .books = ms->smp.books,
+>          .has_sockets = true, .sockets = ms->smp.sockets,
+>          .has_dies = true, .dies = ms->smp.dies,
+> @@ -936,6 +937,7 @@ static void machine_initfn(Object *obj)
+>      /* default to mc->default_cpus */
+>      ms->smp.cpus = mc->default_cpus;
+>      ms->smp.max_cpus = mc->default_cpus;
+> +    ms->smp.drawers = 1;
+>      ms->smp.books = 1;
+>      ms->smp.sockets = 1;
+>      ms->smp.dies = 1;
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 193883fba3..03829e90b3 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -667,6 +667,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
+>      nc->nmi_monitor_handler = s390_nmi;
+>      mc->default_ram_id = "s390.ram";
+>      mc->smp_props.books_supported = true;
+> +    mc->smp_props.drawers_supported = true;
+>  }
+>  
+>  static inline bool machine_get_aes_key_wrap(Object *obj, Error **errp)
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index bc0f7f22dc..abc5556c50 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -131,12 +131,14 @@ typedef struct {
+>   * @dies_supported - whether dies are supported by the machine
+>   * @clusters_supported - whether clusters are supported by the machine
+>   * @books_supported - whether books are supported by the machine
+> + * @drawers_supported - whether drawers are supported by the machine
+>   */
+>  typedef struct {
+>      bool prefer_sockets;
+>      bool dies_supported;
+>      bool clusters_supported;
+>      bool books_supported;
+> +    bool drawers_supported;
+>  } SMPCompatProps;
+>  
+>  /**
+> @@ -301,6 +303,7 @@ typedef struct DeviceMemoryState {
+>  /**
+>   * CpuTopology:
+>   * @cpus: the number of present logical processors on the machine
+> + * @drawers: the number of drawers on the machine
+>   * @books: the number of books on the machine
+>   * @sockets: the number of sockets on the machine
+>   * @dies: the number of dies in one socket
+> @@ -311,6 +314,7 @@ typedef struct DeviceMemoryState {
+>   */
+>  typedef struct CpuTopology {
+>      unsigned int cpus;
+> +    unsigned int drawers;
+>      unsigned int books;
+>      unsigned int sockets;
+>      unsigned int dies;
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 73206f811a..fa6bde5617 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -866,13 +866,14 @@
+>  # a CPU is being hotplugged.
+>  #
+>  # @node-id: NUMA node ID the CPU belongs to
+> +# @drawer-id: drawer number within node/board the CPU belongs to
+>  # @book-id: book number within node/board the CPU belongs to
+>  # @socket-id: socket number within node/board the CPU belongs to
 
-This function accesses fields that are protected by job_mutex, which we
-don't hold.
+So the lack of change here implies that 'socket-id' is unique
+across multiple  books/drawers. Is that correct, as its differnt
+from semantics for die-id/core-id/thread-id which are scoped
+to within the next level of the topology ?
 
---vYqf68ODQ7+wLF8Y
-Content-Type: application/pgp-signature; name="signature.asc"
+>  # @die-id: die number within socket the CPU belongs to (since 4.1)
+>  # @core-id: core number within die the CPU belongs to
+>  # @thread-id: thread number within core the CPU belongs to
+>  #
+> -# Note: currently there are 6 properties that could be present
+> +# Note: currently there are 7 properties that could be present
+>  #       but management should be prepared to pass through other
+>  #       properties with device_add command to allow for future
+>  #       interface extension. This also requires the filed names to be kept in
+> @@ -882,6 +883,7 @@
+>  ##
+>  { 'struct': 'CpuInstanceProperties',
+>    'data': { '*node-id': 'int',
+> +            '*drawer-id': 'int',
+>              '*book-id': 'int',
+>              '*socket-id': 'int',
+>              '*die-id': 'int',
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIOV9UACgkQnKSrs4Gr
-c8hFWggAhSI4gCSd6kwo3kttGmlIHzZaIjA4FRCT1ulAISElX9romT4QRhG7LHkE
-zrdVbx9WsfEAI0/YSmL5+f49m6zl8taxnRaGBkp3nFkua4HMQz/IA0PahFUju6SB
-DugMkiniHVGbV9dI2mSNvLnRcGcvv4niMmpZwF5/prutjx+g2vAuQGfjwhdC7O3f
-BWJd2b1KHz9J/77ArNxQKLxcy+55CsjfSpDRPbNaBtwv53IMGRmfsy3i+LXkbkZp
-ZacvYqD/GXZWaZ6KLr0TVP4KsgmNNjnTYPhuuRc28VPZrc8a6sh6/St5dkWoUmd7
-RKmvZp8ID6yocVo50emct88PN3Nzlw==
-=DvOY
------END PGP SIGNATURE-----
-
---vYqf68ODQ7+wLF8Y--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
