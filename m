@@ -2,59 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61674BA110
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 14:25:58 +0100 (CET)
-Received: from localhost ([::1]:54968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52BC04BA157
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 14:35:51 +0100 (CET)
+Received: from localhost ([::1]:34996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKgnF-0003KT-Ni
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 08:25:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47434)
+	id 1nKgwn-00018G-Q8
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 08:35:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nKg10-0003cZ-8j
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:36:06 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:42968)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nKg5N-0006kt-K5
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:40:40 -0500
+Received: from [2001:738:2001:2001::2001] (port=53120 helo=zero.eik.bme.hu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nKg0u-00088k-6V
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:36:04 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-DeU0tDZGNzC7qbCacolJ6A-1; Thu, 17 Feb 2022 07:35:49 -0500
-X-MC-Unique: DeU0tDZGNzC7qbCacolJ6A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF74A1800D50;
- Thu, 17 Feb 2022 12:35:47 +0000 (UTC)
-Received: from bahia (unknown [10.39.195.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED8E06E1F4;
- Thu, 17 Feb 2022 12:35:45 +0000 (UTC)
-Date: Thu, 17 Feb 2022 13:35:44 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Vitaly Chikunov <vt@altlinux.org>
-Subject: Re: [PATCH v5] 9pfs: Fix segfault in do_readdir_many caused by
- struct dirent overread
-Message-ID: <20220217133544.0d348700@bahia>
-In-Reply-To: <20220216181821.3481527-1-vt@altlinux.org>
-References: <20220216181821.3481527-1-vt@altlinux.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nKg5K-0000TR-TC
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:40:36 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 54E7C745712;
+ Thu, 17 Feb 2022 13:40:32 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 2CF847456FE; Thu, 17 Feb 2022 13:40:32 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 2B09B7456E3;
+ Thu, 17 Feb 2022 13:40:32 +0100 (CET)
+Date: Thu, 17 Feb 2022 13:40:32 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+Subject: Re: [PATCH v4 7/7] hw/mips/gt64xxx_pci: Resolve gt64120_register()
+In-Reply-To: <20220217101924.15347-8-shentey@gmail.com>
+Message-ID: <b514d656-9edd-a125-f334-4f1fabcfa8e@eik.bme.hu>
+References: <20220217101924.15347-1-shentey@gmail.com>
+ <20220217101924.15347-8-shentey@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/mixed;
+ boundary="3866299591-202673521-1645101632=:67559"
+X-Spam-Probability: 9%
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+ (failed)
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,201 +61,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dmitry V . Levin" <ldv@altlinux.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
+Cc: qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Feb 2022 21:18:21 +0300
-Vitaly Chikunov <vt@altlinux.org> wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> `struct dirent' returned from readdir(3) could be shorter (or longer)
-> than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
-> into unallocated page causing SIGSEGV. Example stack trace:
->=20
->  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64=
- + 0x497eed)
->  #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64 + 0x498=
-2e9)
->  #2  0x0000555555eb7983 coroutine_trampoline (/usr/bin/qemu-system-x86_64=
- + 0x963983)
->  #3  0x00007ffff73e0be0 n/a (n/a + 0x0)
->=20
-> While fixing this, provide a helper for any future `struct dirent' clonin=
-g.
->=20
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
-> Cc: qemu-stable@nongnu.org
-> Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Reviewed-by: Dmitry V. Levin <ldv@altlinux.org>
-> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+--3866299591-202673521-1645101632=:67559
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Thu, 17 Feb 2022, Bernhard Beschow wrote:
+> Now that gt64120_register() lost its pic parameter, there is an
+> opportunity to remove it. gt64120_register() is old style by wrapping
+> qdev API, and the new style is to use qdev directly. So take the
+> opportunity and modernize the code.
+>
+> Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
 > ---
-> Tested on x68-64 Linux with btrfs-progs tests and qos-test -m slow.
-> Changes since v4:
-> - Zero clear V9fsSynthOpenState on allocation. Uninitialised use of
->   d_reclen bug found by fuzzing. Use g_new0 instead of g_malloc0 as
->   Greg Kurz suggested.
->=20
-
-The synth fixes would have deserved a separate patch and I'm
-not super fan of the padding hack... I'd rather allocate the
-dirent dynamically with the right size and populated according
-to the _DIRENT_HAVE macros. Anyway, this fix should be enough
-for now and Christian already provided his R-b, so:
-
-Acked-by: Greg Kurz <groug@kaod.org>
-
->  hw/9pfs/9p-synth.c   | 18 +++++++++++++++---
->  hw/9pfs/9p-synth.h   |  5 +++++
->  hw/9pfs/codir.c      |  3 +--
->  include/qemu/osdep.h | 13 +++++++++++++
->  util/osdep.c         | 21 +++++++++++++++++++++
->  5 files changed, 55 insertions(+), 5 deletions(-)
->=20
-> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-> index b38088e066..396cda36f1 100644
-> --- a/hw/9pfs/9p-synth.c
-> +++ b/hw/9pfs/9p-synth.c
-> @@ -182,7 +182,12 @@ static int synth_opendir(FsContext *ctx,
->      V9fsSynthOpenState *synth_open;
->      V9fsSynthNode *node =3D *(V9fsSynthNode **)fs_path->data;
-> =20
-> -    synth_open =3D g_malloc(sizeof(*synth_open));
-> +    /*
-> +     * V9fsSynthOpenState contains 'struct dirent' which have OS-specifi=
-c
-> +     * properties, thus it's zero cleared on allocation here and below
-> +     * in synth_open.
-> +     */
-> +    synth_open =3D g_new0(V9fsSynthOpenState, 1);
->      synth_open->node =3D node;
->      node->open_count++;
->      fs->private =3D synth_open;
-> @@ -220,7 +225,14 @@ static void synth_rewinddir(FsContext *ctx, V9fsFidO=
-penState *fs)
->  static void synth_direntry(V9fsSynthNode *node,
->                                  struct dirent *entry, off_t off)
->  {
-> -    strcpy(entry->d_name, node->name);
-> +    size_t sz =3D strlen(node->name) + 1;
-> +    /*
-> +     * 'entry' is always inside of V9fsSynthOpenState which have NAME_MA=
-X
-> +     * back padding. Ensure we do not orerflow it.
-> +     */
-> +    g_assert(sizeof(struct dirent) + NAME_MAX >=3D
-> +             offsetof(struct dirent, d_name) + sz);
-> +    memcpy(entry->d_name, node->name, sz);
->      entry->d_ino =3D node->attr->inode;
->      entry->d_off =3D off + 1;
->  }
-> @@ -266,7 +278,7 @@ static int synth_open(FsContext *ctx, V9fsPath *fs_pa=
-th,
->      V9fsSynthOpenState *synth_open;
->      V9fsSynthNode *node =3D *(V9fsSynthNode **)fs_path->data;
-> =20
-> -    synth_open =3D g_malloc(sizeof(*synth_open));
-> +    synth_open =3D g_new0(V9fsSynthOpenState, 1);
->      synth_open->node =3D node;
->      node->open_count++;
->      fs->private =3D synth_open;
-> diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
-> index 036d7e4a5b..eeb246f377 100644
-> --- a/hw/9pfs/9p-synth.h
-> +++ b/hw/9pfs/9p-synth.h
-> @@ -41,6 +41,11 @@ typedef struct V9fsSynthOpenState {
->      off_t offset;
->      V9fsSynthNode *node;
->      struct dirent dent;
-> +    /*
-> +     * Ensure there is enough space for 'dent' above, some systems have =
-a
-> +     * d_name size of just 1, which would cause a buffer overrun.
-> +     */
-> +    char dent_trailing_space[NAME_MAX];
->  } V9fsSynthOpenState;
-> =20
->  int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mode,
-> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-> index 032cce04c4..c0873bde16 100644
-> --- a/hw/9pfs/codir.c
-> +++ b/hw/9pfs/codir.c
-> @@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState=
- *fidp,
->          } else {
->              e =3D e->next =3D g_malloc0(sizeof(V9fsDirEnt));
->          }
-> -        e->dent =3D g_malloc0(sizeof(struct dirent));
-> -        memcpy(e->dent, dent, sizeof(struct dirent));
-> +        e->dent =3D qemu_dirent_dup(dent);
-> =20
->          /* perform a full stat() for directory entry if requested by cal=
-ler */
->          if (dostat) {
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index d1660d67fa..ce12f64853 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -805,6 +805,19 @@ static inline int platform_does_not_support_system(c=
-onst char *command)
->  }
->  #endif /* !HAVE_SYSTEM_FUNCTION */
-> =20
-> +/**
-> + * Duplicate directory entry @dent.
-> + *
-> + * It is highly recommended to use this function instead of open coding
-> + * duplication of @c dirent objects, because the actual @c struct @c dir=
-ent
-> + * size may be bigger or shorter than @c sizeof(struct dirent) and corre=
-ct
-> + * handling is platform specific (see gitlab issue #841).
-> + *
-> + * @dent - original directory entry to be duplicated
-> + * @returns duplicated directory entry which should be freed with g_free=
-()
-> + */
-> +struct dirent *qemu_dirent_dup(struct dirent *dent);
-> +
->  #ifdef __cplusplus
->  }
->  #endif
-> diff --git a/util/osdep.c b/util/osdep.c
-> index 42a0a4986a..67fbf22778 100644
-> --- a/util/osdep.c
-> +++ b/util/osdep.c
-> @@ -33,6 +33,7 @@
->  extern int madvise(char *, size_t, int);
->  #endif
-> =20
-> +#include <dirent.h>
->  #include "qemu-common.h"
->  #include "qemu/cutils.h"
->  #include "qemu/sockets.h"
-> @@ -615,3 +616,23 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
->      return readv_writev(fd, iov, iov_cnt, true);
->  }
->  #endif
-> +
-> +struct dirent *
-> +qemu_dirent_dup(struct dirent *dent)
-> +{
-> +    size_t sz =3D 0;
-> +#if defined _DIRENT_HAVE_D_RECLEN
-> +    /* Avoid use of strlen() if platform supports d_reclen. */
-> +    sz =3D dent->d_reclen;
-> +#endif
-> +    /*
-> +     * Test sz for zero even if d_reclen is available
-> +     * because some drivers may set d_reclen to zero.
-> +     */
-> +    if (sz =3D=3D 0) {
-> +        /* Fallback to the most portable way. */
-> +        sz =3D offsetof(struct dirent, d_name) +
-> +                      strlen(dent->d_name) + 1;
-> +    }
-> +    return g_memdup(dent, sz);
-> +}
-
+> hw/mips/gt64xxx_pci.c  | 21 ++++-----------------
+> hw/mips/malta.c        |  3 ++-
+> include/hw/mips/mips.h |  3 ---
+> 3 files changed, 6 insertions(+), 21 deletions(-)
+>
+> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+> index eb205d6d70..e0ff1b5566 100644
+> --- a/hw/mips/gt64xxx_pci.c
+> +++ b/hw/mips/gt64xxx_pci.c
+> @@ -26,7 +26,6 @@
+> #include "qapi/error.h"
+> #include "qemu/units.h"
+> #include "qemu/log.h"
+> -#include "hw/mips/mips.h"
+> #include "hw/pci/pci.h"
+> #include "hw/pci/pci_host.h"
+> #include "migration/vmstate.h"
+> @@ -1151,30 +1150,18 @@ static void gt64120_reset(DeviceState *dev)
+> static void gt64120_realize(DeviceState *dev, Error **errp)
+> {
+>     GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
+> +    PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+>
+>     memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
+>                           "gt64120-isd", 0x1000);
+> -}
+> -
+> -PCIBus *gt64120_register(void)
+> -{
+> -    GT64120State *d;
+> -    PCIHostState *phb;
+> -    DeviceState *dev;
+> -
+> -    dev = qdev_new(TYPE_GT64120_PCI_HOST_BRIDGE);
+> -    d = GT64120_PCI_HOST_BRIDGE(dev);
+> -    phb = PCI_HOST_BRIDGE(dev);
+> -    memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
+> -    address_space_init(&d->pci0_mem_as, &d->pci0_mem, "pci0-mem");
+> +    memory_region_init(&s->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
+> +    address_space_init(&s->pci0_mem_as, &s->pci0_mem, "pci0-mem");
+>     phb->bus = pci_root_bus_new(dev, "pci",
+> -                                &d->pci0_mem,
+> +                                &s->pci0_mem,
+>                                 get_system_io(),
+>                                 PCI_DEVFN(18, 0), TYPE_PCI_BUS);
+> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>
+>     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
+> -    return phb->bus;
+> }
+>
+> static void gt64120_pci_realize(PCIDevice *d, Error **errp)
+> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> index 13254dbc89..55037eb90f 100644
+> --- a/hw/mips/malta.c
+> +++ b/hw/mips/malta.c
+> @@ -1390,7 +1390,8 @@ void mips_malta_init(MachineState *machine)
+>     stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
+>
+>     /* Northbridge */
+> -    pci_bus = gt64120_register();
+> +    dev = sysbus_create_simple("gt64120", -1, NULL);
+> +    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
+>     /*
+>      * The whole address space decoded by the GT-64120A doesn't generate
+>      * exception when accessing invalid memory. Create an empty slot to
+> diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
+> index ff88942e63..101799f7d3 100644
+> --- a/include/hw/mips/mips.h
+> +++ b/include/hw/mips/mips.h
+> @@ -9,9 +9,6 @@
+>
+> #include "exec/memory.h"
+>
+> -/* gt64xxx.c */
+> -PCIBus *gt64120_register(void);
+> -
+> /* bonito.c */
+> PCIBus *bonito_init(qemu_irq *pic);
+>
+>
+--3866299591-202673521-1645101632=:67559--
 
