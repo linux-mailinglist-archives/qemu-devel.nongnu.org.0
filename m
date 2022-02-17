@@ -2,51 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52BC04BA157
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 14:35:51 +0100 (CET)
-Received: from localhost ([::1]:34996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 127604BA18E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 14:42:51 +0100 (CET)
+Received: from localhost ([::1]:43524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKgwn-00018G-Q8
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 08:35:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48528)
+	id 1nKh3Z-0007J9-NR
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 08:42:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nKg5N-0006kt-K5
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:40:40 -0500
-Received: from [2001:738:2001:2001::2001] (port=53120 helo=zero.eik.bme.hu)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nKg5K-0000TR-TC
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:40:36 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 54E7C745712;
- Thu, 17 Feb 2022 13:40:32 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2CF847456FE; Thu, 17 Feb 2022 13:40:32 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2B09B7456E3;
- Thu, 17 Feb 2022 13:40:32 +0100 (CET)
-Date: Thu, 17 Feb 2022 13:40:32 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH v4 7/7] hw/mips/gt64xxx_pci: Resolve gt64120_register()
-In-Reply-To: <20220217101924.15347-8-shentey@gmail.com>
-Message-ID: <b514d656-9edd-a125-f334-4f1fabcfa8e@eik.bme.hu>
-References: <20220217101924.15347-1-shentey@gmail.com>
- <20220217101924.15347-8-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nKg6d-00073U-Hs
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:41:55 -0500
+Received: from [2a00:1450:4864:20::62b] (port=40885
+ helo=mail-ej1-x62b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nKg6a-0000gl-02
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:41:53 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id p15so6923364ejc.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 04:41:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=NWqxa0fX7wT+VsS/TxtlGe7RxlgAE8iSVtKC1Zh/OWs=;
+ b=pr6SRuLnjtQo8PekN5Dr5nTPsiMPRVk5v/J/1bl07JvKleWWSyeslUGG4HJHLP0f8K
+ Bm+ggirlwFVlCgma7kdwUIQc4wlPi3GRRlbFOv4/WXEdZrF5HSQnxkR0r50lKk08k6C/
+ LPMXRB4rqLn9p7MMZSwH37if/k43ho2j0BkS301QOQChdOFtMjQhGFG9bzjlSFJJ/5/U
+ l9528aQcMwfGSw+GXzNlcXZsnw1ypyhBWALzc2C6y2ev05trEX6VvS2ilpqjB3vA+Qo7
+ +lXvTauoufEyr0VDsvowos4gXp3kW0Saq0cpuVEk3B/MAU3clPBNNU4MVWKfrC5v1sIJ
+ K0Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=NWqxa0fX7wT+VsS/TxtlGe7RxlgAE8iSVtKC1Zh/OWs=;
+ b=Q6C106XTKMt1U4WY6VqemCs7k+745myN15QEG+B2+X4MsrRuyWOQRuAC9zwgFByV7G
+ SQtqMza2ns+A2FC1YkSi6/ETJ9A0y8Ue8NMtLQd0UJ8blcu/jZVXJzH8vPcs+0hfKXe6
+ 6LAVL28FwfZqX+3CJ1P/Yp7HmeQ1yncU5yIoVuWpmD712SkezjKrttg5M34PDwVedD87
+ w6oxnjiL+xqWy+KUDhmsXZWB3nAO+7kiG7ze6r/g6X/VyX4J8QmpG3doWqRsa4n3lOU9
+ 6DX7wQYCuhJig6KvStLaDRZ4OkjEoQvSJm0KX1h5u+NeYjgyFb/xcxBOJNnSoAdC9QS9
+ yU8g==
+X-Gm-Message-State: AOAM530y9UWL6tR5x05lvdcAxwyIEvnm73g/BONf1tq/4QYSoaZEL6Kp
+ qoV3OgVoJw8nxvSnbUkjb+f4eQ==
+X-Google-Smtp-Source: ABdhPJyyIaEreNlQq5OsLQ9gIJRZj/+67i0u3muLxHohfgMD+uY7nlNeeJsxKg31shWC0b+3uQJNEQ==
+X-Received: by 2002:a17:906:6d94:b0:6ce:d45b:19b8 with SMTP id
+ h20-20020a1709066d9400b006ced45b19b8mr2111259ejt.634.1645101699636; 
+ Thu, 17 Feb 2022 04:41:39 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f17sm1139953ejl.36.2022.02.17.04.41.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Feb 2022 04:41:38 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9992520329;
+ Thu, 17 Feb 2022 12:41:37 +0000 (GMT)
+References: <20220217034725.272552-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.7; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] tcg: Remove dh_alias indirection for dh_typecode
+Date: Thu, 17 Feb 2022 12:41:06 +0000
+In-reply-to: <20220217034725.272552-1-richard.henderson@linaro.org>
+Message-ID: <878ru9br7i.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-202673521-1645101632=:67559"
-X-Spam-Probability: 9%
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -61,111 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Keith Packard <keithp@keithp.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-202673521-1645101632=:67559
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-On Thu, 17 Feb 2022, Bernhard Beschow wrote:
-> Now that gt64120_register() lost its pic parameter, there is an
-> opportunity to remove it. gt64120_register() is old style by wrapping
-> qdev API, and the new style is to use qdev directly. So take the
-> opportunity and modernize the code.
+> The dh_alias redirect is intended to handle TCG types as distinguished
+> from C types.  TCG does not distinguish signed int from unsigned int,
+> because they are the same size.  However, we need to retain this
+> distinction for dh_typecode, lest we fail to extend abi types properly
+> for the host call parameters.
 >
-> Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> This bug was detected when running the 'arm' emulator on an s390
+> system. The s390 uses TCG_TARGET_EXTEND_ARGS which triggers code
+> in tcg_gen_callN to extend 32 bit values to 64 bits; the incorrect
+> sign data in the typemask for each argument caused the values to be
+> extended as unsigned values.
+>
+> This simple program exhibits the problem:
+>
+> 	static volatile int num =3D -9;
+> 	static volatile int den =3D -5;
+>
+> 	int
+> 	main(void)
+> 	{
+> 		int quo =3D num / den;
+> 		printf("num %d den %d quo %d\n", num, den, quo);
+> 		exit(0);
+> 	}
+>
+> When run on the broken qemu, this results in:
+>
+> 	num -9 den -5 quo 0
+>
+> The correct result is:
+>
+> 	num -9 den -5 quo 1
+>
 
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/876
 
-> ---
-> hw/mips/gt64xxx_pci.c  | 21 ++++-----------------
-> hw/mips/malta.c        |  3 ++-
-> include/hw/mips/mips.h |  3 ---
-> 3 files changed, 6 insertions(+), 21 deletions(-)
->
-> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-> index eb205d6d70..e0ff1b5566 100644
-> --- a/hw/mips/gt64xxx_pci.c
-> +++ b/hw/mips/gt64xxx_pci.c
-> @@ -26,7 +26,6 @@
-> #include "qapi/error.h"
-> #include "qemu/units.h"
-> #include "qemu/log.h"
-> -#include "hw/mips/mips.h"
-> #include "hw/pci/pci.h"
-> #include "hw/pci/pci_host.h"
-> #include "migration/vmstate.h"
-> @@ -1151,30 +1150,18 @@ static void gt64120_reset(DeviceState *dev)
-> static void gt64120_realize(DeviceState *dev, Error **errp)
-> {
->     GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
-> +    PCIHostState *phb = PCI_HOST_BRIDGE(dev);
->
->     memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
->                           "gt64120-isd", 0x1000);
-> -}
-> -
-> -PCIBus *gt64120_register(void)
-> -{
-> -    GT64120State *d;
-> -    PCIHostState *phb;
-> -    DeviceState *dev;
-> -
-> -    dev = qdev_new(TYPE_GT64120_PCI_HOST_BRIDGE);
-> -    d = GT64120_PCI_HOST_BRIDGE(dev);
-> -    phb = PCI_HOST_BRIDGE(dev);
-> -    memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
-> -    address_space_init(&d->pci0_mem_as, &d->pci0_mem, "pci0-mem");
-> +    memory_region_init(&s->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
-> +    address_space_init(&s->pci0_mem_as, &s->pci0_mem, "pci0-mem");
->     phb->bus = pci_root_bus_new(dev, "pci",
-> -                                &d->pci0_mem,
-> +                                &s->pci0_mem,
->                                 get_system_io(),
->                                 PCI_DEVFN(18, 0), TYPE_PCI_BUS);
-> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->
->     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
-> -    return phb->bus;
-> }
->
-> static void gt64120_pci_realize(PCIDevice *d, Error **errp)
-> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-> index 13254dbc89..55037eb90f 100644
-> --- a/hw/mips/malta.c
-> +++ b/hw/mips/malta.c
-> @@ -1390,7 +1390,8 @@ void mips_malta_init(MachineState *machine)
->     stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
->
->     /* Northbridge */
-> -    pci_bus = gt64120_register();
-> +    dev = sysbus_create_simple("gt64120", -1, NULL);
-> +    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
->     /*
->      * The whole address space decoded by the GT-64120A doesn't generate
->      * exception when accessing invalid memory. Create an empty slot to
-> diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
-> index ff88942e63..101799f7d3 100644
-> --- a/include/hw/mips/mips.h
-> +++ b/include/hw/mips/mips.h
-> @@ -9,9 +9,6 @@
->
-> #include "exec/memory.h"
->
-> -/* gt64xxx.c */
-> -PCIBus *gt64120_register(void);
-> -
-> /* bonito.c */
-> PCIBus *bonito_init(qemu_irq *pic);
->
->
---3866299591-202673521-1645101632=:67559--
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
