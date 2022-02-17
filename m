@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721D24BA3C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:55:59 +0100 (CET)
-Received: from localhost ([::1]:38230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A574BA390
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:50:35 +0100 (CET)
+Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKiCM-0006iA-6K
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:55:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41428)
+	id 1nKi77-0000qJ-RQ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:50:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nKhWX-0002Uf-Dx
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKhWZ-0002Uz-1R
  for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:12:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57929)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nKhWT-0006oc-7X
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:12:44 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKhWX-0006oy-GI
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:12:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645107160;
+ s=mimecast20190719; t=1645107163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/cZXGNior+ZsJ3e+PrQnLgahobz9IXWhoV+xYGtogyM=;
- b=UpiLx37kzrG2v3G4CKpm0V1dscQXSPqNzrs3h/qVxbV7s42epEZRcrCjgY2Qecc00wR+sk
- 8c7bHCTcGzQv5+bJAn7QOzZHJVauARuuzzweVQFw+2hrN3gTde0wIJEL4u1PDQxKukq1jy
- 5GCOtXrhbBmSqjkvtHGHbBsuLAUFQrs=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OaQjRcFhPdDPCJE7+4fugMZnAW8MqV8/DlME2/soBlU=;
+ b=YT1wk8Y6bO73VCMwbyxQDo4HNFE1sz7lki3Hb4ZKqgCvLEmrrsSgmxlgvW5iHfgiY7oimk
+ 6BPIK9d0J2NanyfJdMDiYAAw+Dnk+fHrElRBbeDcYa39zRy4Ep9DJmE1fwwgs7euu0QgIk
+ 3iEcvo5I6cqHbftX6FzhLQVsrSFS3FE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-7-kWfTpNSyOPaKeC909txYSg-1; Thu, 17 Feb 2022 09:12:36 -0500
-X-MC-Unique: kWfTpNSyOPaKeC909txYSg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- m20-20020a05621402b400b0042bffb6a731so5382389qvv.11
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 06:12:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/cZXGNior+ZsJ3e+PrQnLgahobz9IXWhoV+xYGtogyM=;
- b=7KFZWFEYRN766oXJQIR0y1ssIhH6YYRdl8ZTWH5iEnsMndPi19wtyTy+vpm4xwABgg
- rBsymrEKK3biRIpwqeNcpHhG0mOVHsWcGKtL8NFaRAIS8QI0XIMaWzoxnNUo8RhCc1Qd
- ylLsFTaC1eLwTHBdO4luvdjJrvWcitJrix9tm46OhH/K9NMSs+n4SsrDrHNVj1/l8e+S
- Z4Sk+jMHGE8xClFHKIXRRjTBDToLQAomGFDx9+GwB4IicZCT3chaak2Ua819b6n5lSDQ
- jIGtsTMNMubW+EcVTGjxCi7ExsMnMEqVwvk3bpWjRhQp3KDgmQzO4r7pULCTjilFmE1D
- Z+zQ==
-X-Gm-Message-State: AOAM530n8GB04/KT0NgA/NVYcJ7nRZ4zirffPdis2QfYHuIAwwHYYLaX
- OkgyGww/CDvctFXW7PQVPijZc3pbFvRkjQnggRnOMMtiq1kOxOGXmiYhyVIcDTMjxPzQl2oDufX
- kgwkQuZeM6OoVf94=
-X-Received: by 2002:ae9:f80f:0:b0:60d:dca9:d021 with SMTP id
- x15-20020ae9f80f000000b0060ddca9d021mr1278470qkh.53.1645107155360; 
- Thu, 17 Feb 2022 06:12:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxQ28xbd3gosVH54yFSb3YNcBcISrsFM0+HMmhcisfzw8nknVsLJomqhc3vG1UlAdRabcvprw==
-X-Received: by 2002:ae9:f80f:0:b0:60d:dca9:d021 with SMTP id
- x15-20020ae9f80f000000b0060ddca9d021mr1278449qkh.53.1645107155086; 
- Thu, 17 Feb 2022 06:12:35 -0800 (PST)
-Received: from sgarzare-redhat (host-95-248-229-156.retail.telecomitalia.it.
- [95.248.229.156])
- by smtp.gmail.com with ESMTPSA id h21sm1706611qtm.23.2022.02.17.06.12.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 06:12:34 -0800 (PST)
-Date: Thu, 17 Feb 2022 15:12:27 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
-Message-ID: <20220217141227.sk7hfng7raq6xvuh@sgarzare-redhat>
-References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
- <CACGkMEvtENvpubmZY3UKptD-T=c9+JJV1kRm-ZPhP08xOJv2fQ@mail.gmail.com>
- <CAJSP0QX6JgCG7UdqaY=G8rc64ZqE912UzM7pQkSMBfzGywHaHg@mail.gmail.com>
+ us-mta-317-smChv5SAO-yM0wV5ojZSoA-1; Thu, 17 Feb 2022 09:12:40 -0500
+X-MC-Unique: smChv5SAO-yM0wV5ojZSoA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CCBC2F4A;
+ Thu, 17 Feb 2022 14:12:39 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C55FF106A7AF;
+ Thu, 17 Feb 2022 14:12:38 +0000 (UTC)
+Date: Thu, 17 Feb 2022 14:12:37 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v5 06/20] jobs: remove aiocontext locks since the
+ functions are under BQL
+Message-ID: <Yg5X1V1md25LOxaP@stefanha-x1.localdomain>
+References: <20220208143513.1077229-1-eesposit@redhat.com>
+ <20220208143513.1077229-7-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJSP0QX6JgCG7UdqaY=G8rc64ZqE912UzM7pQkSMBfzGywHaHg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vYqf68ODQ7+wLF8Y"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+In-Reply-To: <20220208143513.1077229-7-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -99,111 +77,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sergio Lopez <slp@redhat.com>, kvm <kvm@vger.kernel.org>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, John Snow <jsnow@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, "Florescu,
- Andreea" <fandree@amazon.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Alex Agache <aagch@amazon.com>,
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Hannes Reinecke <hare@suse.de>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 14, 2022 at 02:01:52PM +0000, Stefan Hajnoczi wrote:
->On Mon, 14 Feb 2022 at 07:11, Jason Wang <jasowang@redhat.com> wrote:
->>
->> On Fri, Jan 28, 2022 at 11:47 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->> >
->> > Dear QEMU, KVM, and rust-vmm communities,
->> > QEMU will apply for Google Summer of Code 2022
->> > (https://summerofcode.withgoogle.com/) and has been accepted into
->> > Outreachy May-August 2022 (https://www.outreachy.org/). You can now
->> > submit internship project ideas for QEMU, KVM, and rust-vmm!
->> >
->> > If you have experience contributing to QEMU, KVM, or rust-vmm you can
->> > be a mentor. It's a great way to give back and you get to work with
->> > people who are just starting out in open source.
->> >
->> > Please reply to this email by February 21st with your project ideas.
->> >
->> > Good project ideas are suitable for remote work by a competent
->> > programmer who is not yet familiar with the codebase. In
->> > addition, they are:
->> > - Well-defined - the scope is clear
->> > - Self-contained - there are few dependencies
->> > - Uncontroversial - they are acceptable to the community
->> > - Incremental - they produce deliverables along the way
->> >
->> > Feel free to post ideas even if you are unable to mentor the project.
->> > It doesn't hurt to share the idea!
->>
->> Implementing the VIRTIO_F_IN_ORDER feature for both Qemu and kernel
->> (vhost/virtio drivers) would be an interesting idea.
->>
->> It satisfies all the points above since it's supported by virtio spec.
->>
->> (Unfortunately, I won't have time in the mentoring)
->
->Thanks for this idea. As a stretch goal we could add implementing the
->packed virtqueue layout in Linux vhost, QEMU's libvhost-user, and/or
->QEMU's virtio qtest code.
->
->Stefano: Thank you for volunteering to mentor the project. Please
->write a project description (see template below) and I will add this
->idea:
->
 
-I wrote a description of the project below. Let me know if there is 
-anything to change.
+--vYqf68ODQ7+wLF8Y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Stefano
+On Tue, Feb 08, 2022 at 09:34:59AM -0500, Emanuele Giuseppe Esposito wrote:
+> In preparation to the job_lock/unlock patch, remove these
+> aiocontext locks.
+> The main reason these two locks are removed here is because
+> they are inside a loop iterating on the jobs list. Once the
+> job_lock is added, it will have to protect the whole loop,
+> wrapping also the aiocontext acquire/release.
+>=20
+> We don't want this, as job_lock must be taken inside the AioContext
+> lock, and taking it outside would cause deadlocks.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  blockdev.c | 4 ----
+>  job-qmp.c  | 4 ----
+>  2 files changed, 8 deletions(-)
+>=20
+> diff --git a/blockdev.c b/blockdev.c
+> index 8cac3d739c..e315466914 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -3713,15 +3713,11 @@ BlockJobInfoList *qmp_query_block_jobs(Error **er=
+rp)
+> =20
+>      for (job =3D block_job_next(NULL); job; job =3D block_job_next(job))=
+ {
 
+I'm confused. block_job_next() is supposed to be called with job_mutex
+held since it iterates the jobs list.
 
+The patch series might fix this later on but it's hard to review patches
+with broken invariants.
 
-=== VIRTIO_F_IN_ORDER support for virtio devices ===
+Does this mean git-bisect(1) is broken since intermediate commits are
+not thread-safe?
 
-'''Summary:''' Implement VIRTIO_F_IN_ORDER feature for QEMU and Linux
-(vhost/virtio drivers)
+>          BlockJobInfo *value;
+> -        AioContext *aio_context;
+> =20
+>          if (block_job_is_internal(job)) {
+>              continue;
+>          }
+> -        aio_context =3D block_job_get_aio_context(job);
+> -        aio_context_acquire(aio_context);
+>          value =3D block_job_query(job, errp);
 
-The VIRTIO spec defines a feature bit (VIRTIO_F_IN_ORDER) that devices
-and drivers can negotiate when they are able to use descriptors in the
-same order in which they have been made available.
+This function accesses fields that are protected by job_mutex, which we
+don't hold.
 
-This feature could allow to simplify the implementation and develop
-optimizations to increase performance. For example, when
-VIRTIO_F_IN_ORDER is negotiated, it may be easier to create batch of
-buffers and reduce the amount of notification needed between devices
-and drivers.
+--vYqf68ODQ7+wLF8Y
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Currently the devices and drivers available on Linux and QEMU do not
-support this feature. An implementation is available in DPDK for the
-virtio-net driver.
+-----BEGIN PGP SIGNATURE-----
 
-The project could start with implementation for a single device/driver
-in QEMU and Linux, then generalize it into the virtio core for split
-and packed virtqueue layouts.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIOV9UACgkQnKSrs4Gr
+c8hFWggAhSI4gCSd6kwo3kttGmlIHzZaIjA4FRCT1ulAISElX9romT4QRhG7LHkE
+zrdVbx9WsfEAI0/YSmL5+f49m6zl8taxnRaGBkp3nFkua4HMQz/IA0PahFUju6SB
+DugMkiniHVGbV9dI2mSNvLnRcGcvv4niMmpZwF5/prutjx+g2vAuQGfjwhdC7O3f
+BWJd2b1KHz9J/77ArNxQKLxcy+55CsjfSpDRPbNaBtwv53IMGRmfsy3i+LXkbkZp
+ZacvYqD/GXZWaZ6KLr0TVP4KsgmNNjnTYPhuuRc28VPZrc8a6sh6/St5dkWoUmd7
+RKmvZp8ID6yocVo50emct88PN3Nzlw==
+=DvOY
+-----END PGP SIGNATURE-----
 
-If time allows we could develop the support for packed virtqueue layout
-in Linux vhost, QEMU's libvhost-user, and/or QEMU's virtio qtest code.
-
-'''Links:'''
-* [https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html VIRTIO spec 1.1]
-** [https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html#x1-470009 "In-order use of descriptors" section for split virtqueues]
-* [https://github.com/oasis-tcs/virtio-spec Source code for the VIRTIO spec]
-* [https://mails.dpdk.org/archives/dev/2018-July/106069.html Patches that introduced VIRTIO_F_IN_ORDER in DPDK]
-* [https://lists.oasis-open.org/archives/virtio/201803/msg00048.html Patch that introduced VIRTIO_F_IN_ORDER in VIRTIO spec]
-* [https://patchew.org/QEMU/1533833677-27512-1-git-send-email-i.maximets@samsung.com/ Incomplete implementation proposed for QEMU]
-
-'''Details:'''
-* Skill level: intermediate
-* Language: C
-* Mentor: Stefano Garzarella <sgarzare@redhat.com>
-** IRC/Matrix nick: sgarzare (OFTC/matrix.org)
-* Suggested by: Jason Wang <jasowang@redhat.com>
+--vYqf68ODQ7+wLF8Y--
 
 
