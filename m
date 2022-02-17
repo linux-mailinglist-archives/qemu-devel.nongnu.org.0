@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A61D4BABD5
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 22:36:59 +0100 (CET)
-Received: from localhost ([::1]:36932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336284BAB68
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 22:04:57 +0100 (CET)
+Received: from localhost ([::1]:43052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKoSP-0003ZR-Mr
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 16:36:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38566)
+	id 1nKnxM-000476-St
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 16:04:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hamachiach81@gmail.com>)
- id 1nKnCf-0005QF-S2
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 15:16:38 -0500
-Received: from [2a00:1450:4864:20::533] (port=44652
- helo=mail-ed1-x533.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hamachiach81@gmail.com>)
- id 1nKnCd-0004zq-Oz
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 15:16:37 -0500
-Received: by mail-ed1-x533.google.com with SMTP id x5so11647347edd.11
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 12:16:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:message-id:date:mime-version:user-agent:to:content-language
- :subject:content-transfer-encoding;
- bh=bXUVYmxmr2BWnCFpLSUhWOOG0HMrohicF0qi9WuXILE=;
- b=bg6WoKUmQu44kePgLWhheNQvgFbb7f4GRo6mPN+TpKQr5kU4BizGrxyKVYdSFed6vB
- kHnCe1P9iItS7qZSrdaZw1sYDu8Jk9IRoNRUdV8xPKbBicB6S18ZwX87kj4FC6nK2umK
- W5+ogUxaXbpyIAA3ezo6HpQUZzDX5DmE0f4dARm7qA9Rrda8sNi2hVSZbYkwlCfZyNJ8
- iCyzeAksVsEzgjFcX+xgEh/+7Ejb9oqkBnmCVfra29643a7/cIL1DqR3KStHxdqwT9qS
- MU/kHkHbGC2BxDlSW6YJW5u6OU4tyGVnAE9jUkLZezyoheFnH26X1Zc0yOmPJKxjrDXe
- 3KjQ==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nKnvY-0002oY-Tg
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 16:03:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42240)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nKnvV-00037d-CZ
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 16:02:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645131776;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fMTWnyWpBmervrPypyC/+bVFRmSNBkugqzlIvJjAY/Y=;
+ b=O+1NIwIbgnI8iEIcUluMJVnonunTuUwqsQcP/FS3FiL1xnPaQM7/dHrlZ1HyN0a2UDRLWT
+ gRLkDsfPuWkuUkYZqQe/hhBbC/bFKJIudWXCI+qYwxMyg8k4Pu+IoCKgk3B13LwUfynnbP
+ YfMw5tR0nke443apTDedb9Sm7CUCl7I=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-53-Qy8Qy2LlOIOqyeSxI9eGXQ-1; Thu, 17 Feb 2022 16:02:53 -0500
+X-MC-Unique: Qy8Qy2LlOIOqyeSxI9eGXQ-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ v8-20020ab036a8000000b0033cc15dc051so2584520uat.13
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 13:02:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:message-id:date:mime-version:user-agent:to
- :content-language:subject:content-transfer-encoding;
- bh=bXUVYmxmr2BWnCFpLSUhWOOG0HMrohicF0qi9WuXILE=;
- b=xPSF1GOADrYUAaV07j/eD4GCBNCd7yEbQWCLlaFs7twBnT+ZLuBhcNjYhAhP9l4Llp
- rghO778n/+er71cjhs1KrhmjwPAFXwPsIB7g4lc6XbkW9NRaE6xRNdpAQ4mJYmUEFjAl
- OAb0BVIISXH23iamIckUygYKCp06is59q4bI7XmykDKaS6zOu0rABPWjwFoduQv3/dbw
- idWqBg430+Ivby/+BL92DnfUCcMujzIUhqwjBAzSb/NLCoI9MTd45nFKLBlv52CzyJ4k
- JhJ1luNkPo6X69ONTTF09d32Ze+yl+kj1IiDQl4dqSQbXuOkDjcNym2rNvXEPYiZ4vvT
- SNBQ==
-X-Gm-Message-State: AOAM531sgmGSKbrATgreZCojMu7XJx8QdOnFrVBvRdR8JEn9LHloH/Ja
- 6LXc4yzi2v1VhsY7a1orl6FSRSbAUps=
-X-Google-Smtp-Source: ABdhPJxI0sLkho8KgHFOwFIHRzcRcIvLID95bRfx+5TqrP9OJE7c3HRvRbXlmUok3RCP5Nyj0mfMUw==
-X-Received: by 2002:a05:6402:1e8b:b0:3da:58e6:9a09 with SMTP id
- f11-20020a0564021e8b00b003da58e69a09mr4598146edf.155.1645128993037; 
- Thu, 17 Feb 2022 12:16:33 -0800 (PST)
-Received: from [192.168.178.38] (dyndsl-091-096-223-141.ewe-ip-backbone.de.
- [91.96.223.141])
- by smtp.gmail.com with ESMTPSA id bo11sm1494166ejb.24.2022.02.17.12.16.32
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 12:16:32 -0800 (PST)
-From: Anon Anonymous <hamachiach81@gmail.com>
-X-Google-Original-From: Anon Anonymous <Hamachiach81@gmail.com>
-Message-ID: <96f6290f-9465-eac6-2810-5e027d5e3281@gmail.com>
-Date: Thu, 17 Feb 2022 21:16:31 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fMTWnyWpBmervrPypyC/+bVFRmSNBkugqzlIvJjAY/Y=;
+ b=3mnc5JrWCCD7IsZTprAuK1/VswswFx2JWDMijwDBJOH8qMp+H3nmIz10IU+uinyURQ
+ 6g8yiLpK1Hf4QbL7rzlAyv2R/m8W5eAJCcwWFbVrbxOSlozJj7VGtUkGCN5e8WkBfe3S
+ liRN4Xek4xqQburyqW2M3aVY8bzBnBJvlj0FXlTuOmU3Lfv2QJ/hWB3u8M9G9OMHe8VF
+ omOvCvwf5YSq+h3n8VFJMznla1UO/IwQI7fYPqqqP5SBDMca8T22zQSNOtFc7OBtR3ba
+ d6Y4v5wAaeg9yWy+MTE601V3rxCOt1gejIU47Zv0z9zDBTsaiSOOqV8pEcPEmpsFUPwP
+ opcQ==
+X-Gm-Message-State: AOAM531jIxXMjx8ASXQmchpIuPiF0w658Zf+PnT5cVxiM/vaWNxdM7DQ
+ irVJXAKO/D6GRgPgoQ9rbuNHwtcjQ/gcIa3VFHrmKuR79tr8SN8g9fCGnxcBCZIhKrRe0Ottl+o
+ oJABx2t9sxl+edH3nVuVBf1jsn7wjHXQ=
+X-Received: by 2002:ab0:280f:0:b0:33c:ead3:23d7 with SMTP id
+ w15-20020ab0280f000000b0033cead323d7mr2001341uap.50.1645131773217; 
+ Thu, 17 Feb 2022 13:02:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx1z9XmAFIYoBnr8hoStdUwutxeRrYOtRn9tyJnCXQROnfG8XxevZdIcDNr0iPmMgCyS27VgA96NKiWJ+T2mbc=
+X-Received: by 2002:ab0:280f:0:b0:33c:ead3:23d7 with SMTP id
+ w15-20020ab0280f000000b0033cead323d7mr2001327uap.50.1645131772904; Thu, 17
+ Feb 2022 13:02:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-To: qemu-devel@nongnu.org
-Content-Language: en-US
-Subject: A Virtual Bios in Qemu with GUI by Boot QEMU with SHORTCUT
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=hamachiach81@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220120142259.120189-1-hreitz@redhat.com>
+ <3462d5d7-3032-421f-f2d2-d6564e9927a4@redhat.com>
+In-Reply-To: <3462d5d7-3032-421f-f2d2-d6564e9927a4@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 17 Feb 2022 16:02:41 -0500
+Message-ID: <CAFn=p-Ywz_mOMuuSxcJaUocuGSASnC-mDHnBFEK0MR7NpcZa6g@mail.gmail.com>
+Subject: Re: [PATCH v2] ide: Increment BB in-flight counter for TRIM BH
+To: Hanna Reitz <hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 17 Feb 2022 16:33:57 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,76 +92,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello can you build a Virtual Bios with Hardware Simulation Emulation 
-and change Hardware?
+On Tue, Feb 15, 2022 at 12:14 PM Hanna Reitz <hreitz@redhat.com> wrote:
+>
+> Ping
+>
+> (I can take it too, if you=E2=80=99d like, John, but you=E2=80=99re liste=
+d as the only
+> maintainer for hw/ide, so...  Just say the word, though!)
+>
 
-CPU Option = CPU x86/x64/SPARC/ARM/ARM64/ANDROID/IOS/MAC
+Sorry, I sent you a mail off-list at the time where I said you were
+free to take it whenever you like. Why'd I send it off-list? I don't
+know....
 
-CPU Standard Config Name = Original CPU in HArdware or Simulation 
-Emulation All INTEL CELERON, CENTRINO, ATOM, PENTIUM (MMX) 1234, 
-i3,i5,i7,i9 , ALL MAC Processors, ALL AMD Processors, ALL 
-HANDY/SMARTPHONE Processor, ALL ONE PLATINE CPU and Hardware Raspberry 
-Pi ZERO, 1, 2, 3, 4, CM4, 400, RockPI and all other or Optional Config 
-and Retro Computers AMIGA, COMMODORE, SPEKTRUM, SINCLAIR, PC IBM DOS ALL 
-8086 up to 486 CPU
+Please feel free to send this with your next block PR.
 
-CPU Core MAX USE MANUAL OPTIONAL = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 
-12, 13, 14, 15, 16, up to 256 Cores.
+--js
 
-CPU Core Speed min. 1 MHz up to max. CPU Speed from Hardware
-
-CPU Architecture Simulation 8-bit, 16-bit, 32-bit, 64-bit (Future: 
-Quantum Processor)
-
-GPU Grafic Card Simulation Emulation = Orginal GPU from Hardware or 
-simulated emulated all Graficcard from RETRO MATROX S3 NVIDIA ATI 
-DOS/WINDOWS and all other from other hardware
-
-GPU Grafic Card Space from 128 Kilobyte up to max Speed GPU.
-
-GPU Grafic Card Core = 1 up to max from graficcard Autodetection
-
-1 - 4 Graficcards
-
-Architecture Graficcard from 8-Bit up to 64-Bit
-
-Graficcard Simulation = Hercules, CGA, EGA, VGA, SVGA and greater 4:3, 
-16:9, 16:10
-
-Graficcard Min Size max Size = ALL DOS 320x240, 640x480, 1024x768, 
-1280x1024, 1600x1200, HDREADY, FULLHD, 2K, 4K, 8K
-
-RAM from 0,5 MB up to Max hardware.
-
-mount 26 Drives Floppy, Harddisk, SD-Card, CD/DVD/BLURAY REAL SATA / USB 
-or Emulation Hardware Controllers Master SLAVE IDE/ATA FDD or Image file
-
-Sound Card EMulation Real or Creativ Soundblster, Terratec, Roland, 
-Adlib, or / and PC Speaker
-
-Boot Option 1234
-
-1=First drive Boot or USB Boot
-
-2=Second Drive (image) Boot or USB Boot
-
-3= third drive boot
-
-4=fourth Drive Boot
-
-
-And i can change with File Folder Image File by Short Cuts in System 
-CD/DVD/BLURAY/FLOPPY IMAGE
-
-
-Best King Regards
-
-
-
-
-Daniel Frank Nommensen
+> On 20.01.22 15:22, Hanna Reitz wrote:
+> > When we still have an AIOCB registered for DMA operations, we try to
+> > settle the respective operation by draining the BlockBackend associated
+> > with the IDE device.
+> >
+> > However, this assumes that every DMA operation is associated with an
+> > increment of the BlockBackend=E2=80=99s in-flight counter (e.g. through=
+ some
+> > ongoing I/O operation), so that draining the BB until its in-flight
+> > counter reaches 0 will settle all DMA operations.  That is not the case=
+:
+> > For TRIM, the guest can issue a zero-length operation that will not
+> > result in any I/O operation forwarded to the BlockBackend, and also not
+> > increment the in-flight counter in any other way.  In such a case,
+> > blk_drain() will be a no-op if no other operations are in flight.
+> >
+> > It is clear that if blk_drain() is a no-op, the value of
+> > s->bus->dma->aiocb will not change between checking it in the `if`
+> > condition and asserting that it is NULL after blk_drain().
+> >
+> > The particular problem is that ide_issue_trim() creates a BH
+> > (ide_trim_bh_cb()) to settle the TRIM request: iocb->common.cb() is
+> > ide_dma_cb(), which will either create a new request, or find the
+> > transfer to be done and call ide_set_inactive(), which clears
+> > s->bus->dma->aiocb.  Therefore, the blk_drain() must wait for
+> > ide_trim_bh_cb() to run, which currently it will not always do.
+> >
+> > To fix this issue, we increment the BlockBackend's in-flight counter
+> > when the TRIM operation begins (in ide_issue_trim(), when the
+> > ide_trim_bh_cb() BH is created) and decrement it when ide_trim_bh_cb()
+> > is done.
+> >
+> > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D2029980
+> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> > ---
+> > v1:
+> > https://lists.nongnu.org/archive/html/qemu-block/2022-01/msg00024.html
+> >
+> > v2:
+> > - Increment BB=E2=80=99s in-flight counter while the BH is active so th=
+at
+> >    blk_drain() will poll until the BH is done, as suggested by Paolo
+> >
+> > (No git-backport-diff, because this patch was basically completely
+> > rewritten, so it wouldn=E2=80=99t be worth it.)
+> > ---
+> >   hw/ide/core.c | 7 +++++++
+> >   1 file changed, 7 insertions(+)
+>
 
 
