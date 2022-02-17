@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0F54BA3FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 16:06:55 +0100 (CET)
-Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483224BA40A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 16:12:38 +0100 (CET)
+Received: from localhost ([::1]:58608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKiMw-0006Qs-6b
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 10:06:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41866)
+	id 1nKiST-0004G9-9P
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 10:12:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nKhYQ-0004JI-L8
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:14:42 -0500
-Received: from [2607:f8b0:4864:20::b2e] (port=39925
- helo=mail-yb1-xb2e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nKhYO-00072t-Tc
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:14:42 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id p19so13307807ybc.6
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 06:14:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tl48z0epbBl7QP/CjWHzxMWZfj2iC8QYDyAt9TKidpg=;
- b=RcrM8KY5XeIZVeQnG5cZJvdAXSZFu1AZn99kSF/KlwaH7zSOobU6XS5JfYB08TvtIw
- eqhr6ovGvItgfAbums2Ofxp5tyqPgFdjw3NG+81DCkuOH+px/g/2ZZAfOwB6r9Hw2rpq
- zxsiSFgCLP4+0s+Z4J7mRaC9f3gAmF68ynHgKezkEUXyPROL7akX51a3/M78W0TiAmdW
- prH0vzRiAYIDcwMZ+xQNftZ2BpGKaTCx9MtUOIlNIbEjVet5+m05knbzSs7NduoMsa9b
- QcAeb4/5ZltyV/2mWb00Rwqpe0PP5163vDNzFHYTJNAXZlA5HUm01Vys2jPAwA5fPry2
- 8dCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tl48z0epbBl7QP/CjWHzxMWZfj2iC8QYDyAt9TKidpg=;
- b=LboRRGV4f+IHul5vhCm3gLH9fFp1DmIQCXWOro8MpjMPdFdzjqB77iEQ/FFX5QTliX
- nSGdduj19GlHdhlQss5Pmgi6ctnHoMOdc+gd1JTovJxYzCAIUBXZfiXXB5BJEFgZ8eAv
- DKtHs9RE7ywa6e4nh8CKcaxHCasdaTJj2faHg2hO6y+DwAFWeuIrU+XhRPMK8TViKDKj
- LKKKiAO0ko46Y/6A/Yp4bMNjE/k/Z+bX1/kjxMGzE3kldcE2iRoUGKA/t+rprKuUdBRS
- 1zDJuthPF1Bs8siQ+zjKe5YH+Wv1WiWpgmGl24QP436KXJAxEoAZv4BlBp6HpI+KW2UP
- 40Ig==
-X-Gm-Message-State: AOAM532ra5g09kvr/uklPz0ZhwM2qgLClwSLMCXy9rYzdY/Sr3KSmnN3
- 149dCiW/wMvrS0gxTt9ktXVeUUhgFXcgOpo/VzGxzg+9ll45vw==
-X-Google-Smtp-Source: ABdhPJz0f2AtC2TnxNopoga8n91/h3VoYrukh0eMLSB3OfGH+ey8OAYSuN9s9xlIU7xLYXxqCVDcE3KCjDna1djHDUU=
-X-Received: by 2002:a81:bb51:0:b0:2d6:997b:131c with SMTP id
- a17-20020a81bb51000000b002d6997b131cmr2193081ywl.64.1645106876042; Thu, 17
- Feb 2022 06:07:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKheN-0000dd-EE
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:20:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKheI-0007wm-8j
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:20:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645107630;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kKy2PL98RiUGCl++TZKSBX7rBubsAZ2w129QK43c/3E=;
+ b=b0i5xGtVHOUIIfj9CbtLe+WI0q4kNgz1kY46dAJhUmSPuzWBGrQGmX0KzGCgLmPSFD18N+
+ x1DIjbQoY6YVmIGkREbkSjzhfacYb9iFNHeVTjE06r2H0fCj5+OgwDoDtDTJlN2+kWv+/A
+ LnjArQOYx4Ekls10cVeZoGlDwtRaz5Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-460-lx6ozGh8N1itEjMjDgv_Hg-1; Thu, 17 Feb 2022 09:20:26 -0500
+X-MC-Unique: lx6ozGh8N1itEjMjDgv_Hg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93A1E1006AA6;
+ Thu, 17 Feb 2022 14:20:25 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E43A0708D3;
+ Thu, 17 Feb 2022 14:20:23 +0000 (UTC)
+Date: Thu, 17 Feb 2022 14:20:22 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v5 07/20] job.h: add _locked duplicates for job API
+ functions called with and without job_mutex
+Message-ID: <Yg5ZpqTZkoKAmTPZ@stefanha-x1.localdomain>
+References: <20220208143513.1077229-1-eesposit@redhat.com>
+ <20220208143513.1077229-8-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20220210040423.95120-1-richard.henderson@linaro.org>
-In-Reply-To: <20220210040423.95120-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Feb 2022 14:07:44 +0000
-Message-ID: <CAFEAcA_m1Hobh8M+RBto_uECQdq1BN7nvMFOsCbrkL773MEr1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/15] target/arm: Implement LVA, LPA, LPA2 features
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pTYR4Rd5VLpG49sX"
+Content-Disposition: inline
+In-Reply-To: <20220208143513.1077229-8-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,75 +77,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Feb 2022 at 04:04, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Changes for v2:
->   * Introduce FIELD_SEX64, instead of open-coding w/ sextract64.
->   * Set TCR_EL1 more completely for user-only.
->   * Continue to bound tsz within aa64_va_parameters;
->     provide an out-of-bound indicator for raising AddressSize fault.
->   * Split IPS patch.
->   * Fix debug registers for LVA.
->   * Fix long-format fsc for LPA2.
->   * Fix TLBI page shift.
->   * Validate TLBI granule vs TCR granule.
->
-> Not done:
->   * Validate translation levels which accept blocks.
->
-> There is still no upstream kernel support for FEAT_LPA2,
-> so that is essentially untested.
 
-This series seems to break 'make check-acceptance':
+--pTYR4Rd5VLpG49sX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- (01/59) tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2:
-INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
-Timeout reached\nOriginal status: ERROR\n{'name':
-'01-tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2',
-'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/results/j...
-(900.74 s)
- (02/59) tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3:
-INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
-Timeout reached\nOriginal status: ERROR\n{'name':
-'02-tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3',
-'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/results/j...
-(900.71 s)
+On Tue, Feb 08, 2022 at 09:35:00AM -0500, Emanuele Giuseppe Esposito wrote:
+>  static void job_exit(void *opaque)
+>  {
+>      Job *job =3D (Job *)opaque;
+>      AioContext *ctx;
+> +    JOB_LOCK_GUARD();
+> =20
+>      job_ref(job);
+>      aio_context_acquire(job->aio_context);
 
-UEFI runs in the guest and seems to launch the kernel, but there's
-no output from the kernel itself in the logfile. Last thing it
-prints is:
+The previous patch said:
 
-EFI stub: Booting Linux Kernel...
-EFI stub: EFI_RNG_PROTOCOL unavailable, no randomness supplied
-EFI stub: Using DTB from configuration table
-EFI stub: Exiting boot services and installing virtual address map...
-SetUefiImageMemoryAttributes - 0x000000007F500000 - 0x0000000000040000
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x000000007C190000 - 0x0000000000040000
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x000000007C140000 - 0x0000000000040000
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x000000007F4C0000 - 0x0000000000030000
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x000000007C0F0000 - 0x0000000000040000
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x000000007BFB0000 - 0x0000000000040000
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x000000007BE00000 - 0x0000000000030000
-(0x0000000000000008)
-SetUefiImageMemoryAttributes - 0x000000007BDC0000 - 0x0000000000030000
-(0x0000000000000008)
+  We don't want this, as job_lock must be taken inside the AioContext
+  lock, and taking it outside would cause deadlocks.
 
-This ought to be followed by the usual kernel boot log
-[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x000f0510]
-etc but it isn't. Probably the kernel is crashing in early bootup
-before it gets round to printing anything.
+Therefore this looks like a deadlock.
 
-thanks
--- PMM
+--pTYR4Rd5VLpG49sX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIOWaYACgkQnKSrs4Gr
+c8h0LAf+L/fF877b5sIbewkN2HZwkA/iVbs2yE3mAZUUhPhqnHBaMUQeOqvyx1pF
+g0IyYpaRRZfWlXRmtFKQ6zkxWCOvThfRlpMzyzc2U0ucx0Yx4rcdOD/xrE7GWtOh
+WZ5WJIamtR7tBUxUYNuApjZkPpF2iEHt2UMNLF9vuTUKXkPxtW+KWs0YcjA32vPH
+CP7klSWdymI6W+6Un4BhRtufdlxbTU9jMXMv/RtmiGTIosHH1GJfI2F9oWDs9R9y
+4s/ye2AgPNmuJtqex9y1Oor2VQsiHY6sxWnR3RCgLWyRsqOVs6DuI9d3hKJiPond
+7lH5cvCZT0tAQGCeb6lRZHnAJHqITg==
+=SfYX
+-----END PGP SIGNATURE-----
+
+--pTYR4Rd5VLpG49sX--
+
 
