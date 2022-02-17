@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12BE4B9591
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 02:39:53 +0100 (CET)
-Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E754B9594
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 02:41:07 +0100 (CET)
+Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKVlw-00056M-8s
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 20:39:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42020)
+	id 1nKVn7-0005gT-GC
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 20:41:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKVe9-0002c6-TV; Wed, 16 Feb 2022 20:31:50 -0500
-Received: from [2404:9400:2221:ea00::3] (port=44793 helo=gandalf.ozlabs.org)
+ id 1nKVeA-0002cG-UD; Wed, 16 Feb 2022 20:31:50 -0500
+Received: from [2404:9400:2221:ea00::3] (port=51895 helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nKVe6-0002QI-G4; Wed, 16 Feb 2022 20:31:49 -0500
+ id 1nKVe6-0002QF-3E; Wed, 16 Feb 2022 20:31:50 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Jzck42cPQz4xn3; Thu, 17 Feb 2022 12:31:40 +1100 (AEDT)
+ id 4Jzck42lnjz4xv5; Thu, 17 Feb 2022 12:31:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1645061500;
- bh=OHDCt9guNI9YA0jknvNWyNTMz7540taes3wkxbtIIEo=;
+ bh=NYhILMI93GejYAD2tdkqChu4nsLOhm24Gu8RGrQf2EM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Cv1Q9Uo6m1931sVF0YyDRXQ25VG8byLdWuX1kA2JVrz0lFqcpllVW9S2mvmpQ8d8X
- izj/pbnZ1we/TRs3zR5JMi1SvMHM2lf4VLft4O14apBjAD7MyqSxqRTTHlt0wv16I/
- e/qQkiiqj+nVv894mAbKplwoB3eAf8tCQ1i2qFHk=
-Date: Thu, 17 Feb 2022 10:41:03 +1100
+ b=Daz3+pX1T0GNk7Lpe/gbstFbmzJBvfWmJGAZfbGZNyg2DIsRS61xYbKTjxy4UgBIY
+ FHQPkzZIl2c3Ab2wqXMA3wHSmGiKh/1hJhZcW01uNQZyKHY7U1hQMMkpBwUR97+kev
+ gOIF6UbBNxqYfLjwsYlhmqtoLLC+vh4F5miOpM40=
+Date: Thu, 17 Feb 2022 11:17:10 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 22/27] target/ppc: cpu_init: Rename register_ne_601_sprs
-Message-ID: <Yg2Lj+8LrMHQFNVU@yekko>
-References: <20220215214148.1848266-1-farosas@linux.ibm.com>
- <20220215214148.1848266-23-farosas@linux.ibm.com>
- <Ygxog9Ngz0bvn8gO@yekko> <87a6erx82b.fsf@linux.ibm.com>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH v2 2/3] spapr: Add SPAPR_CAP_AIL_MODE_3 for AIL mode 3
+ support for H_SET_MODE hcall
+Message-ID: <Yg2UBtTXneXhDdHz@yekko>
+References: <20220216063903.1782281-1-npiggin@gmail.com>
+ <20220216063903.1782281-2-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MlZa9vjdr+sDe9um"
+ protocol="application/pgp-signature"; boundary="8jhyMQNZHRGIimUf"
 Content-Disposition: inline
-In-Reply-To: <87a6erx82b.fsf@linux.ibm.com>
+In-Reply-To: <20220216063903.1782281-2-npiggin@gmail.com>
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2404:9400:2221:ea00::3
  (failed)
 Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
@@ -62,51 +62,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- clg@kaod.org
+Cc: Fabiano Rosas <farosas@linux.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---MlZa9vjdr+sDe9um
+--8jhyMQNZHRGIimUf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 16, 2022 at 10:19:40AM -0300, Fabiano Rosas wrote:
-> David Gibson <david@gibson.dropbear.id.au> writes:
+On Wed, Feb 16, 2022 at 04:39:02PM +1000, Nicholas Piggin wrote:
+> The behaviour of the Address Translation Mode on Interrupt resource is
+> not consistently supported by all CPU versions or all KVM versions:
+> KVM-HV does not support mode 2, and does not support mode 3 on POWER7 or
+> early POWER9 processesors. KVM PR only supports mode 0. TCG supports all
+> modes (0, 2, 3). This leads to inconsistencies in guest behaviour and
+> could cause problems migrating guests.
 >=20
-> > On Tue, Feb 15, 2022 at 06:41:43PM -0300, Fabiano Rosas wrote:
-> >> The important part of this function is that it applies to non-embedded
-> >> CPUs, not that it also applies to the 601. We removed support for the
-> >> 601 anyway, so rename this function.
-> >>=20
-> >> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> >
-> > Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-> >
-> > Although, I wonder if "books_common" or something might be a better
-> > name, though.  Admittedly, I don't think the "BookS" terminology
-> > existed at the time of most of these earlier CPUs.  However, these
-> > days the majority of 7xx chips are probably in embedded applications,
-> > even if they weren't designed for an embedded chip line.
+> This was not noticable for Linux guests for a long time because the
+> kernel only uses modes 0 and 3, and it used to consider AIL-3 to be
+> advisory in that it would always keep the AIL-0 vectors around. Recent
+> Linux guests depend on the AIL mode working as specified in order to
+> support the SCV facility interrupt. If AIL-3 can not be provided, then
+> Linux must be given an error so it can disable the SCV facility, rather
+> than silently failing.
 >=20
-> The 'ne' in the original name was probably meant to signify
-> not-BookE. So non_booke perhaps would work? The thing with calling it
-> books_common is that we're using BookS only for the 970 and upwards and
-> this function applies to 6xx, 7xx, 74xx as well.
+> Add the ail-mode-3 capability to specify that AIL-3 is supported. AIL-0
+> is implied as the baseline, and AIL-2 is no longer supported by spapr.
+> AIL-2 is not known to be used by any software, but support in TCG could
+> be restored with an ail-mode-2 capability quite easily if a regression
+> is reported.
+>=20
+> Modify the H_SET_MODE Address Translation Mode on Interrupt resource
+> handler to check capabilities and correctly return error if not
+> supported.
+>=20
+> A heuristic is added for KVM to determine AIL-3 support before the
+> introduction of a new KVM CAP, because blanket disabling AIL-3 has too
+> much performance cost.
+>=20
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-So, an informal server / embedded split is older than the "Book S"
-vs. "Book E" terminology, so it's a question of whether we want to
-apply the newer terminology to the older systems.  As you say, that's
-arguably problematic for BookS, but it's equally troublesome for "not
-BookE": 40x and possibly 44x as well also predate the "Book E"
-terminology (and certainly don't meet even the earliest version of the
-Book E spec).  However they are from the "embedded" branch of cpu
-models, and do not have the registers that the ne_601 function
-creates.
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-Naming things is hard :/.
+[snip]
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index dc93b99189..1338c41f8f 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -2563,6 +2563,35 @@ int kvmppc_has_cap_rpt_invalidate(void)
+>      return cap_rpt_invalidate;
+>  }
+> =20
+> +bool kvmppc_supports_ail_3(void)
+> +{
+> +    PowerPCCPUClass *pcc =3D kvm_ppc_get_host_cpu_class();
+> +
+> +    /*
+> +     * KVM PR only supports AIL-0
+> +     */
+> +    if (kvmppc_is_pr(kvm_state)) {
+> +        return 0;
+> +    }
+> +
+> +    /*
+> +     * KVM HV hosts support AIL-3 on POWER8 and above, except for radix
+> +     * mode on some early POWER9s.
+> +     */
+> +    if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
+> +        return 0;
+> +    }
+> +
+> +    /* These tests match the CPU_FTR_P9_RADIX_PREFETCH_BUG flag in Linux=
+ */
+> +    if (((pcc->pvr & 0xffffff00) =3D=3D CPU_POWERPC_POWER9_DD1) ||
+> +        ((pcc->pvr & 0xffffff00) =3D=3D CPU_POWERPC_POWER9_DD20) ||
+> +        ((pcc->pvr & 0xffffff00) =3D=3D CPU_POWERPC_POWER9_DD21)) {
+> +        return 0;
+> +    }
+
+Deducing what KVM supports rather than getting it to tell us
+explicitly with a cap is usually frowned upon.  However, given the
+earlier discussion, I'm satisfied that this is the least bad available
+option, at least for now.
+
+
+> +
+> +    return 1;
+> +}
+> +
+>  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void)
+>  {
+>      uint32_t host_pvr =3D mfpvr();
+> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> index ee9325bf9a..7bba26d1da 100644
+> --- a/target/ppc/kvm_ppc.h
+> +++ b/target/ppc/kvm_ppc.h
+> @@ -73,6 +73,7 @@ int kvmppc_set_cap_nested_kvm_hv(int enable);
+>  int kvmppc_get_cap_large_decr(void);
+>  int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
+>  int kvmppc_has_cap_rpt_invalidate(void);
+> +bool kvmppc_supports_ail_3(void);
+>  int kvmppc_enable_hwrng(void);
+>  int kvmppc_put_books_sregs(PowerPCCPU *cpu);
+>  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
+> @@ -393,6 +394,11 @@ static inline int kvmppc_has_cap_rpt_invalidate(void)
+>      return false;
+>  }
+> =20
+> +static inline bool kvmppc_supports_ail_3(void)
+> +{
+> +    return false;
+> +}
+> +
+>  static inline int kvmppc_enable_hwrng(void)
+>  {
+>      return -1;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -114,25 +187,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---MlZa9vjdr+sDe9um
+--8jhyMQNZHRGIimUf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmINi4gACgkQgypY4gEw
-YSLsCxAAyhb+ysvXRbtvnN1DNJGfLoQr+fJ//Ip/Z5lKqI1CihqiidyWjeACAFcn
-du5jFiH8D6dLiZGd+lkieyy7oPrB2nf7tZ7RaJZN9F4Sr2s/NzKbZSCSpSwjWzwW
-Kp6uhBU6fn9FwKKT9lRpZ/ohNUm/ZfgBezFIrBnn7Vvv23q1eIeQk7y34QOqPAcO
-NUj/eotTat+M9Kp1uw1zhckXA/42hiO9TXKzmrcIOhg2AkWmK2sPjormpLUC5Y1v
-xA8ZM8j8XgyvHFymSzbXXpXU+3/gGsJnuvken5fRUbRa/YneFklThaQCd4+uxz9+
-0Xa8Pn4Pfm4B4B9PKVy122hIf51NXIif/Vv5Zn5WrqZg/7mWdkClYt19gvzZRIyS
-w+BD+6+b4BgIEfddXwocVP5z5RO8LNW0ChbiO1kNjoc1R/lbbLbXgUNkppKKe93U
-c4yKYEtFXBOWTv4zxR3y2O2l7TFGRFWcNEDqfzKCxk7zpuPUifXMQF0FlT8opBer
-EUyuXAWz2fI9Z+ra0te+yj3T6CPJcShj5VPqRnJh4WVJIAdOT5hiF+b2N/rH6km8
-1aVVebAMLXxi5OZx1iTJOfHVPZnDJiXURPyoM2Dmi6xP2+H9ucOS0IdnpyVJS2lw
-3GGUPdFioVbHeShBhmQlDeFW7s7/s5cDIztehYG3EEwzmkJIO3Q=
-=t7Xn
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmINk/8ACgkQgypY4gEw
+YSLs7RAAwvRQnE4/oEobFRNp/vjCWYyWTvIqPQHhztN4KxmegRh2pJUoKlsIwMk+
+6izv5wYC/YB/zaWTxUT4P8oTO7kpxgxkBofQscJzP/MwmAuP38kt1OM0yPNSQ7fz
+1m3HpW0adsY6MFEKe/3OZpTcKpbmwveir3UclzPLEgAgSVSjih43lMoiu7bIBjke
+ZU9AQnzVUWh4Ea1eDjoApjtYUpd3tmAkv94Ni+q+cNgTgZ/Qz5WFS/xHOSi56I1B
+lXgJuq4GNfqAC1zZTkfhBDiNEJQFk0RgAUYjOmo+a/DTLoIUG8FQpzJHEJ7BlhFY
+fXj3Y2QioFBDLYxIYvIE4vQOZW2oDcr6FtdYdqyI4SvZ5yU8cIsd8r4RtvQHUiS+
+xg5/PWe3eLI4MUWq8zFpf78h/LRRPSb3OFidzbkEEfWQhC8JmVkd++Gfn8gcpybz
+vMBGIQgbexkfTO7UvnfqjKrsROg7bkWcULDfZGbKPOEW8KLat6oExDBjvEqMuW9S
+2KYmM/TtR9Ueb0k7andZ14Yg/JUrOnHdvTfBvSijOZ+5Zt/ey3uwfXDo6qLwp+rP
+kwkmeGsR8mXR5omul9dGuXXkbCc8mBihEanavt1oV9yhcy9pd0DfMi9GqT2FMehz
+mjqlbpv/I8JeVR1CpK2Z6wLZNF1FI2xjEy9qnOWbqbCkpKyb3tE=
+=kEqy
 -----END PGP SIGNATURE-----
 
---MlZa9vjdr+sDe9um--
+--8jhyMQNZHRGIimUf--
 
