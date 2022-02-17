@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32BD44B9D4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 11:38:18 +0100 (CET)
-Received: from localhost ([::1]:37026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C2D4B9D2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 11:31:48 +0100 (CET)
+Received: from localhost ([::1]:54946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKeAz-00062L-Ap
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 05:38:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47358)
+	id 1nKe4h-0007MP-2P
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 05:31:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKdtn-0006mD-V8
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 05:20:31 -0500
-Received: from [2a00:1450:4864:20::62f] (port=45654
- helo=mail-ej1-x62f.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKdtn-0006mb-WC
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 05:20:32 -0500
+Received: from [2a00:1450:4864:20::530] (port=39913
+ helo=mail-ed1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKdti-0002xX-FU
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKdtl-0002zH-VT
  for qemu-devel@nongnu.org; Thu, 17 Feb 2022 05:20:31 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id lw4so5977164ejb.12
+Received: by mail-ed1-x530.google.com with SMTP id u18so8725308edt.6
  for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 02:20:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FjZmcHcFQKseAEVMH4Ldpagp8bK5okxSN4jEauQ21es=;
- b=T/zdlWgqFdWgjcvqcxQbDRYX4+f9EoDx0XsHHhsO26b5pOQQk3qzfpi/8UPF5uBkW1
- hAVOdrC0xuqPUTVGnzuY3RleCqHD+a/SWgzBHc9u1VSSKBYbOd/pK8XWxjY0K9dnNEJs
- qfAmxZx0oMosOEVj/FnNIgiU5AIOe779G2OyMu+4Ck61osOrloU6DitJtSDL0OT4yACT
- 5NisdHeXXQFDiKBLjAHz0XtqtdTbtapHpBB9GZpX/H75a44p7wrCHhptRbsdi1miUGil
- Z3bXV+d8psQ5K4JlnDgIhR4KPjvcUzkQQ6zt0yzk2sUNyy2feGwZSxUNgM3vUtfZCedR
- sVnQ==
+ bh=/2H6Kju1HQIwMzyjyD2tOtStIN9FFUqCW7TnSzlxvNo=;
+ b=C83SScQnuijwIs+sxGoIGan320fIM+Fql98aXbBhhd8XqmL/eacEMw3t80GAD+ZfZu
+ mCAWmGWEz46maeJSvsnfq6DRJOy5p/TQvq00iBRNkZ2/RkAF/O7B+zWSeIVErHssUrXu
+ recGwtXbUsYfMT/bykUaUst3YEHo5nk2vlGeDK4QkD1wSGk3F9WeQllYWaPpzh5OyzXr
+ Dlu1QxOV5u84em853W82A0k5PH5PF8ofBjHt3VJt7LqX00J8IrwRV8l78C+F4/gJl5Lj
+ vrDZqAyiWL0iUlpw4+A9Qo8ux5cfkwB8mHY6ZO41DTdkWNrFkO5EWaEcr/JS0kL51bof
+ tI9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FjZmcHcFQKseAEVMH4Ldpagp8bK5okxSN4jEauQ21es=;
- b=WQIcD7EEiwyFukynROo1FXzIvykZoTvgYXaNCQCMVsMlSUqbVgn7IG2InNtyUXQHXq
- 1ZH/afb6wLXQY8w3/AilNuHHuQB0lzLABcrr2KB0ox5jvwn3rsW+pR8+Uc22NDE7PaSf
- SrOSp0uAip0+SLA+VtgOBuWj2g3VQi70m6zvhLICXO6HtS/8pkAkEfheKg+cKI4n8U2W
- Ik6Wyz2lm3f908wxxVjT0xzb6Vvk7WN7n2zUaWUobuGy7JfQICPOqoLS3GS9LYmziVZP
- ezoASuhGP7aVr/h9etm85A2qlXIcLYmbRpAj3mY0RqyqJB77JmWztgbB5esBU2qWqXL3
- a11Q==
-X-Gm-Message-State: AOAM530K9y+ssuAZI8EYX2RKbJldGIFhShdLXZP13UcIAfDuleiX2Fck
- RPw5TpHU8K7FumNaKntlExCLtj5016g=
-X-Google-Smtp-Source: ABdhPJzzmAg+CrxJh8DQsa0IZkMhEbsQqZsVyZx4lKAgXWuYgael47xlOO47u4uznbQpqo4PDO5Ekw==
-X-Received: by 2002:a17:906:bc46:b0:6cd:e855:18fc with SMTP id
- s6-20020a170906bc4600b006cde85518fcmr1703398ejv.263.1645093225042; 
+ bh=/2H6Kju1HQIwMzyjyD2tOtStIN9FFUqCW7TnSzlxvNo=;
+ b=gHPG+UwL+079z8Y5A8zSCh4eyz95sXbE12dZXtZ46zbHItIvrt/WPACR+GeBZzLWcI
+ Ngq+4fyo/U9eK+4rbfVDTn9/W6uyIXmlG9Qr5mqQrxDAcCBhleuI43MAsvdbg/7jywc/
+ ba+JZHxGuZTBsDvBQqZlpjKIYaFFtoR3l4fZVvCxGc0ZjPR9MQBXrf8DrJfsAFbIFsoi
+ ekkpa5SUZWbIz7m72ngwTkSzsNAG2TMVp+gY7bgvsTHxuQiVWHETW0fOoq/gIIyn+MBk
+ sAj024khTNE1rCHkO43LMXN8gQSxczSS+iQtFp7KBo0POCrRnDWfTU4vjvIdtKY1r+oq
+ 6FEQ==
+X-Gm-Message-State: AOAM5312LF7O/tk0gZdOH4TECw729k8kRCYorey6YtEiQlkPM+e0mUSo
+ VZOPPUc+rLD0XY8Y/mjjqzHA4nYwH/c=
+X-Google-Smtp-Source: ABdhPJykH1nFZD7E35U4cK6Elai4sg8YfiNZYTRQSYyL93VNRuxN+vurCpu9UAsvZjy6vaAMAA4voQ==
+X-Received: by 2002:a50:ba8e:0:b0:410:a99c:4c3b with SMTP id
+ x14-20020a50ba8e000000b00410a99c4c3bmr1852663ede.427.1645093225944; 
  Thu, 17 Feb 2022 02:20:25 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-077-183-198-236.77.183.pool.telefonica.de. [77.183.198.236])
- by smtp.gmail.com with ESMTPSA id u26sm986753ejg.196.2022.02.17.02.20.23
+ by smtp.gmail.com with ESMTPSA id u26sm986753ejg.196.2022.02.17.02.20.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 02:20:24 -0800 (PST)
+ Thu, 17 Feb 2022 02:20:25 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 6/7] hw/isa/piix4: Replace some magic IRQ constants
-Date: Thu, 17 Feb 2022 11:19:23 +0100
-Message-Id: <20220217101924.15347-7-shentey@gmail.com>
+Subject: [PATCH v4 7/7] hw/mips/gt64xxx_pci: Resolve gt64120_register()
+Date: Thu, 17 Feb 2022 11:19:24 +0100
+Message-Id: <20220217101924.15347-8-shentey@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220217101924.15347-1-shentey@gmail.com>
 References: <20220217101924.15347-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -2
 X-Spam_score: -0.3
 X-Spam_bar: /
@@ -87,51 +87,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Bernhard Beschow <shentey@gmail.com>,
+Cc: Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>, "Michael S . Tsirkin" <mst@redhat.com>
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a follow-up on patch "malta: Move PCI interrupt handling from
-gt64xxx_pci to piix4". gt64xxx_pci used magic constants, and probably
-didn't want to use piix4-specific constants. Now that the interrupt
-handing resides in piix4, its constants can be used.
+Now that gt64120_register() lost its pic parameter, there is an
+opportunity to remove it. gt64120_register() is old style by wrapping
+qdev API, and the new style is to use qdev directly. So take the
+opportunity and modernize the code.
 
+Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/isa/piix4.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/mips/gt64xxx_pci.c  | 21 ++++-----------------
+ hw/mips/malta.c        |  3 ++-
+ include/hw/mips/mips.h |  3 ---
+ 3 files changed, 6 insertions(+), 21 deletions(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 2e9b5ccada..f876c71750 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -61,10 +61,10 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
-     /* now we change the pic irq level according to the piix irq mappings */
-     /* XXX: optimize */
-     pic_irq = s->dev.config[PIIX_PIRQCA + irq_num];
--    if (pic_irq < 16) {
-+    if (pic_irq < ISA_NUM_IRQS) {
-         /* The pic level is the logical OR of all the PCI irqs mapped to it. */
-         pic_level = 0;
--        for (i = 0; i < 4; i++) {
-+        for (i = 0; i < PIIX_NUM_PIRQS; i++) {
-             if (pic_irq == s->dev.config[PIIX_PIRQCA + i]) {
-                 pic_level |= pci_bus_get_irq_level(bus, i);
-             }
-@@ -315,7 +315,7 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
-                                NULL, 0, NULL);
-     }
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+index eb205d6d70..e0ff1b5566 100644
+--- a/hw/mips/gt64xxx_pci.c
++++ b/hw/mips/gt64xxx_pci.c
+@@ -26,7 +26,6 @@
+ #include "qapi/error.h"
+ #include "qemu/units.h"
+ #include "qemu/log.h"
+-#include "hw/mips/mips.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_host.h"
+ #include "migration/vmstate.h"
+@@ -1151,30 +1150,18 @@ static void gt64120_reset(DeviceState *dev)
+ static void gt64120_realize(DeviceState *dev, Error **errp)
+ {
+     GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
++    PCIHostState *phb = PCI_HOST_BRIDGE(dev);
  
--    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, 4);
-+    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
+     memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
+                           "gt64120-isd", 0x1000);
+-}
+-
+-PCIBus *gt64120_register(void)
+-{
+-    GT64120State *d;
+-    PCIHostState *phb;
+-    DeviceState *dev;
+-
+-    dev = qdev_new(TYPE_GT64120_PCI_HOST_BRIDGE);
+-    d = GT64120_PCI_HOST_BRIDGE(dev);
+-    phb = PCI_HOST_BRIDGE(dev);
+-    memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
+-    address_space_init(&d->pci0_mem_as, &d->pci0_mem, "pci0-mem");
++    memory_region_init(&s->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
++    address_space_init(&s->pci0_mem_as, &s->pci0_mem, "pci0-mem");
+     phb->bus = pci_root_bus_new(dev, "pci",
+-                                &d->pci0_mem,
++                                &s->pci0_mem,
+                                 get_system_io(),
+                                 PCI_DEVFN(18, 0), TYPE_PCI_BUS);
+-    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
  
-     return dev;
+     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
+-    return phb->bus;
  }
+ 
+ static void gt64120_pci_realize(PCIDevice *d, Error **errp)
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 13254dbc89..55037eb90f 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -1390,7 +1390,8 @@ void mips_malta_init(MachineState *machine)
+     stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
+ 
+     /* Northbridge */
+-    pci_bus = gt64120_register();
++    dev = sysbus_create_simple("gt64120", -1, NULL);
++    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
+     /*
+      * The whole address space decoded by the GT-64120A doesn't generate
+      * exception when accessing invalid memory. Create an empty slot to
+diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
+index ff88942e63..101799f7d3 100644
+--- a/include/hw/mips/mips.h
++++ b/include/hw/mips/mips.h
+@@ -9,9 +9,6 @@
+ 
+ #include "exec/memory.h"
+ 
+-/* gt64xxx.c */
+-PCIBus *gt64120_register(void);
+-
+ /* bonito.c */
+ PCIBus *bonito_init(qemu_irq *pic);
+ 
 -- 
 2.35.1
 
