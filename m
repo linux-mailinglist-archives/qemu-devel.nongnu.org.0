@@ -2,54 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CBB4BA0DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 14:19:05 +0100 (CET)
-Received: from localhost ([::1]:44302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98364BA11D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 14:29:21 +0100 (CET)
+Received: from localhost ([::1]:59722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKggZ-00041S-W7
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 08:19:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50202)
+	id 1nKgqX-00072m-1w
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 08:29:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nKgCO-0007mU-6Z; Thu, 17 Feb 2022 07:47:54 -0500
-Received: from [187.72.171.209] (port=34490 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nKgCK-0001Sp-3m; Thu, 17 Feb 2022 07:47:50 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 17 Feb 2022 09:46:22 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id B4A338001F1;
- Thu, 17 Feb 2022 09:46:21 -0300 (-03)
-Message-ID: <5c23b766-e436-b1cb-2f54-d2b1ef71e540@eldorado.org.br>
-Date: Thu, 17 Feb 2022 09:46:21 -0300
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nKgLi-0002eT-KJ
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:57:32 -0500
+Received: from mga14.intel.com ([192.55.52.115]:55807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nKgLg-0002nz-H4
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:57:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645102648; x=1676638648;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=muUyZFkT/XUwYXtZ4KuQ8w3WazrYqWNDm8XTjig5hYY=;
+ b=D91GABD51DROhfeANHHG8jAUDtT3oatQtbYw/rG8sN8cZ+GTVWQyPqoe
+ SI85fyFhNmEF3bjxd+5yiFfy8yeChnDp/ANL/lkU0Pg3f1veQx9UaBA8x
+ 3HJucDSfeWJM8kXv4hHNnonQ73YOLBOXJFA0ybwISOqjFDPXPh4LpJ5OM
+ AXI56ZSEj8GbAbPLJXdBN9QRH4NdjhOVgevlOpTxFwTPJVNP32kzZaBdz
+ ZZ8f8y+H2btbI996qUsCzXAi8i779Ez4M5oHxjaN6MUdKzUH4Ewphe3CX
+ B7UNHDIpBBuPm21RFTVIuROD7AKjH2Iat8zWmIx2EVwP/E41DarCl/1HA A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="251064852"
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="251064852"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2022 04:57:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,375,1635231600"; d="scan'208";a="704785987"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by orsmga005.jf.intel.com with ESMTP; 17 Feb 2022 04:57:18 -0800
+Date: Thu, 17 Feb 2022 20:56:57 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH v4 01/12] mm/shmem: Introduce F_SEAL_INACCESSIBLE
+Message-ID: <20220217125656.GA32679@chaop.bj.intel.com>
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+ <20220118132121.31388-2-chao.p.peng@linux.intel.com>
+ <64407833-1387-0c46-c569-8b6a3db8e88c@suse.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 11/11] tests/tcg: add vectorised sha512 versions
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220211160309.335014-1-alex.bennee@linaro.org>
- <20220211160309.335014-12-alex.bennee@linaro.org>
- <f8164a77-80d1-86fa-7fc9-6089d6b4f34b@eldorado.org.br>
- <87v8xhcwdf.fsf@linaro.org>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <87v8xhcwdf.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 17 Feb 2022 12:46:22.0255 (UTC)
- FILETIME=[5DF5CBF0:01D823FC]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64407833-1387-0c46-c569-8b6a3db8e88c@suse.cz>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=192.55.52.115;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,57 +74,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- berrange@redhat.com, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- f4bug@amsat.org, Eduardo Habkost <eduardo@habkost.net>,
- "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>, qemu-arm@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMTQvMDIvMjAyMiAxMjoxNCwgQWxleCBCZW5uw6llIHdyb3RlOg0KPiAiTWF0aGV1cyBL
-LiBGZXJzdCIgPG1hdGhldXMuZmVyc3RAZWxkb3JhZG8ub3JnLmJyPiB3cml0ZXM6DQo+IA0K
-Pj4gT24gMTEvMDIvMjAyMiAxMzowMywgQWxleCBCZW5uw6llIHdyb3RlOg0KPj4+IFRoaXMg
-YnVpbGRzIHZlY3RvcmlzZWQgdmVyc2lvbnMgb2Ygc2hhNTEyIHRvIGV4ZXJjaXNlIHRoZSB2
-ZWN0b3IgY29kZToNCj4+PiAgICAgLSBhYXJjaDY0IChBZHZTaW1kKQ0KPj4+ICAgICAtIGkz
-ODYgKFNTRSkNCj4+PiAgICAgLSBzMzkweCAoTVZYKQ0KPj4+ICAgICAtIHBwYzY0ICh2ZWN0
-b3IpDQo+Pj4gU2lnbmVkLW9mZi1ieTogQWxleCBCZW5uw6llIDxhbGV4LmJlbm5lZUBsaW5h
-cm8ub3JnPg0KPj4+IFJldmlld2VkLWJ5OiBSaWNoYXJkIEhlbmRlcnNvbiA8cmljaGFyZC5o
-ZW5kZXJzb25AbGluYXJvLm9yZz4NCj4+PiBNZXNzYWdlLUlkOiA8MjAyMjAyMDIxOTEyNDIu
-NjUyNjA3LTUtYWxleC5iZW5uZWVAbGluYXJvLm9yZz4NCj4+PiAtLS0NCj4+PiB2Mg0KPj4+
-ICAgICAtIHVzZSAtbXNzZTQuMSAtTzMgaW5zdGVhZCBvZiAtcGVudGl1bTQgZm9yIGkzODYg
-YnVpbGQNCj4+PiAtLS0NCj4+PiAgICB0ZXN0cy90Y2cvbXVsdGlhcmNoL3NoYTUxMi5jICAg
-ICAgfCAyICstDQo+Pj4gICAgdGVzdHMvdGNnL2FhcmNoNjQvTWFrZWZpbGUudGFyZ2V0IHwg
-NyArKysrKysrDQo+Pj4gICAgdGVzdHMvdGNnL2FybS9NYWtlZmlsZS50YXJnZXQgICAgIHwg
-OCArKysrKysrKw0KPj4+ICAgIHRlc3RzL3RjZy9pMzg2L01ha2VmaWxlLnRhcmdldCAgICB8
-IDYgKysrKysrDQo+Pj4gICAgdGVzdHMvdGNnL3BwYzY0bGUvTWFrZWZpbGUudGFyZ2V0IHwg
-NSArKysrLQ0KPj4+ICAgIHRlc3RzL3RjZy9zMzkweC9NYWtlZmlsZS50YXJnZXQgICB8IDkg
-KysrKysrKysrDQo+Pj4gICAgdGVzdHMvdGNnL3g4Nl82NC9NYWtlZmlsZS50YXJnZXQgIHwg
-NyArKysrKysrDQo+Pj4gICAgNyBmaWxlcyBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspLCAy
-IGRlbGV0aW9ucygtKQ0KPj4+DQo+Pg0KPj4gPHNuaXA+DQo+Pg0KPj4+IGRpZmYgLS1naXQg
-YS90ZXN0cy90Y2cvcHBjNjRsZS9NYWtlZmlsZS50YXJnZXQgYi90ZXN0cy90Y2cvcHBjNjRs
-ZS9NYWtlZmlsZS50YXJnZXQNCj4+PiBpbmRleCA0ODBmZjA4OThkLi40ZjFkMDNkZmNmIDEw
-MDY0NA0KPj4+IC0tLSBhL3Rlc3RzL3RjZy9wcGM2NGxlL01ha2VmaWxlLnRhcmdldA0KPj4+
-ICsrKyBiL3Rlc3RzL3RjZy9wcGM2NGxlL01ha2VmaWxlLnRhcmdldA0KPj4+IEBAIC01LDEw
-ICs1LDEzIEBADQo+Pj4gICAgVlBBVEggKz0gJChTUkNfUEFUSCkvdGVzdHMvdGNnL3BwYzY0
-bGUNCj4+PiAgICBpZm5lcSAoJChET0NLRVJfSU1BR0UpJChDUk9TU19DQ19IQVNfUE9XRVI4
-X1ZFQ1RPUiksKQ0KPj4+IC1QUEM2NExFX1RFU1RTPWJjZHN1YiBub25fc2lnbmFsbGluZ194
-c2N2DQo+Pj4gK1BQQzY0TEVfVEVTVFM9YmNkc3ViIG5vbl9zaWduYWxsaW5nX3hzY3Ygc2hh
-NTEyLXZlY3Rvcg0KPj4+ICAgIGVuZGlmDQo+Pj4gICAgJChQUEM2NExFX1RFU1RTKTogQ0ZM
-QUdTICs9IC1tcG93ZXI4LXZlY3Rvcg0KPj4+DQo+Pg0KPj4gU2luY2UgdGhpcyB0ZXN0IGRv
-ZXMgbm90IHRhcmdldCBhIHNwZWNpZmljIGluc3RydWN0aW9uLCBtYXliZSBpdA0KPj4gc2hv
-dWxkIHVzZSAtbXZzeC8tbWFsdGl2ZWMgdG8gYWxsb3cgdGhlIGNvbXBpbGVyIHRvIHVzZSBu
-ZXdlcg0KPj4gaW5zdHJ1Y3Rpb25zLg0KPiANCj4gSSB3YXNuJ3Qgc3VyZSB3aGljaCB2ZWN0
-b3IgaW5zdHJ1Y3Rpb25zIGFyZSBzdXBwb3J0ZWQgYnkgdGhlIFRDRyBmcm9udA0KPiBlbmRz
-IHNvIGlmIHRoZSBhYm92ZSBmbGFncyB3b24ndCB0cmlwIHVwIHRoZSBUQ0cgSSBjYW4gYWRk
-IHRoZW0gdG8gdGhlDQo+IGNmbGFncy4NCj4gDQoNCkFGQUlDVCwgd2Ugc2hvdWxkIGhhdmUg
-YWxsIHZlY3RvciBpbnN0cnVjdGlvbiB1bnRpbCBQT1dFUjkuIFBPV0VSMTAgaXMgDQpXSVAs
-IGJ1dCBjdXJyZW50IHZlcnNpb25zIG9mIEdDQy9DbGFuZyBhcmUgbm90IGVtaXR0aW5nIGFu
-eSBvZiB0aGUgDQptaXNzaW5nIGluc3RydWN0aW9ucywgZXZlbiB3aXRoIC1tY3B1PXBvd2Vy
-MTANCg0KVGhhbmtzLA0KTWF0aGV1cyBLLiBGZXJzdA0KSW5zdGl0dXRvIGRlIFBlc3F1aXNh
-cyBFTERPUkFETyA8aHR0cDovL3d3dy5lbGRvcmFkby5vcmcuYnIvPg0KQW5hbGlzdGEgZGUg
-U29mdHdhcmUNCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxkb3Jh
-ZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
+On Mon, Feb 07, 2022 at 01:24:42PM +0100, Vlastimil Babka wrote:
+> On 1/18/22 14:21, Chao Peng wrote:
+> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > 
+> >  /*
+> > diff --git a/mm/shmem.c b/mm/shmem.c
+> > index 18f93c2d68f1..72185630e7c4 100644
+> > --- a/mm/shmem.c
+> > +++ b/mm/shmem.c
+> > @@ -1098,6 +1098,13 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
+> >  		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
+> >  			return -EPERM;
+> >  
+> > +		if (info->seals & F_SEAL_INACCESSIBLE) {
+> > +			if(i_size_read(inode))
+> 
+> Is this needed? The rest of the function seems to trust oldsize obtained by
+> plain reading inode->i_size well enough, so why be suddenly paranoid here?
+
+oldsize sounds enough here, unless kirill has different mind.
+
+> 
+> > +				return -EPERM;
+> > +			if (newsize & ~PAGE_MASK)
+> > +				return -EINVAL;
+> > +		}
+> > +
+> >  		if (newsize != oldsize) {
+> >  			error = shmem_reacct_size(SHMEM_I(inode)->flags,
+> > +		if ((info->seals & F_SEAL_INACCESSIBLE) &&
+> > +		    (offset & ~PAGE_MASK || len & ~PAGE_MASK)) {
+> 
+> Could we use PAGE_ALIGNED()?
+
+Yes, definitely, thanks.
+
+Chao
+> 
+> > +			error = -EINVAL;
+> > +			goto out;
+> > +		}
+> > +
+> >  		shmem_falloc.waitq = &shmem_falloc_waitq;
+> >  		shmem_falloc.start = (u64)unmap_start >> PAGE_SHIFT;
+> >  		shmem_falloc.next = (unmap_end + 1) >> PAGE_SHIFT;
 
