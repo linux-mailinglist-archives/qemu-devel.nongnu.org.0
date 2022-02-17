@@ -2,96 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5FA4B99E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 08:34:53 +0100 (CET)
-Received: from localhost ([::1]:45738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E6F4B99E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 08:36:04 +0100 (CET)
+Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKbJS-0005NS-HK
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 02:34:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39508)
+	id 1nKbKd-0006td-QE
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 02:36:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nKbGn-0004g3-C3
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:32:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45713)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKbHg-0005TO-IX
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:33:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nKbGi-0001xa-Mm
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:32:03 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKbHd-00025w-6A
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:32:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645083118;
+ s=mimecast20190719; t=1645083176;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fB9/Luj5DjULKBnRypebVUVbX6jLdsH7uFOM58/mVyw=;
- b=DcvLXLelpLtv8d8mqFShJe/mABnmOOjryen9O3/b7dfNzGElBxnW8bSoKcRRB6LIWcXDyk
- Rz6ME1KhyPcyhHyRoJJdEESpQGIOqzaXjpJAqphJIVSuaHHN60Mm5uL2RaTv9ArKAqTg9L
- hnyU0QHXs+pwAD3BdaNv0jy/M4/Sbcs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HTUBHeOEltOAv+Jkswry3Bekv9Kv6f4tNMJ77KCZN2w=;
+ b=ZH77w48fFIhlVOwxrFMKv4j/guMEYkDU4J1jU9kbnz9xLEbjaej+13SLEOX+ZB23O3sFk9
+ yFLnImbaPX9T2YG9QzGbn/0r+gIxBUfx55iARoP5zcdR3VckBkJJ5gAukLVHZWfQ0n05k3
+ 4YOdVsLnka/ntYAPNea3Bz5sQljcL6k=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-4PXrTDTGP22GwMxWR9TKjQ-1; Thu, 17 Feb 2022 02:31:57 -0500
-X-MC-Unique: 4PXrTDTGP22GwMxWR9TKjQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d13-20020adfa34d000000b001e33a1c56f3so1916364wrb.20
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 23:31:57 -0800 (PST)
+ us-mta-385-eGgcT4YFMXS-TZU8ZuObgg-1; Thu, 17 Feb 2022 02:32:55 -0500
+X-MC-Unique: eGgcT4YFMXS-TZU8ZuObgg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ h82-20020a1c2155000000b003552c13626cso3846034wmh.3
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 23:32:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fB9/Luj5DjULKBnRypebVUVbX6jLdsH7uFOM58/mVyw=;
- b=p2QPj/B1qpBttBxqe0uOWW4mwsX9nN4OqLBI3WyeSrcZS2sxtl2xfSEU9k6z3I1W+T
- UDpuNb39bJzcUDZ7mecM+mPFjFRgv6gr5QbL3qmOz6g6luesnsobuCBr2lDW9UFv+qZA
- pGODlcWr4Hrn3ZM+eI+r35eCDk0NH8kh1Oi4b8m4CPjA2860vZTCvzFFtHjFPjknmnYG
- 0sSafFBw0PFBNjFUwO8VuJiUPCJ55F7XWOqBh+WjBgLqgCDStePjNDVHZ+4xLLR4gR1M
- UbqmVFopi8c3BygRYg6CvLo8W2DkRVmhRMO73l4DOqMre/bhCeZMw5AWmRJH4fYLZa5+
- ruPg==
-X-Gm-Message-State: AOAM532Z0DKecVMMMvwUWxauwBesfzv34XpVovYlg4CrfHRSIe0gZ+uq
- uPGZ4mw43/bLWY6uTJrEHdMiNFqVGVqGau4NHfCHHbgirhBulkpE5gx7/CQlq6VLsaUKeGX8EyW
- Nj/UMTovQkRM2lq4=
-X-Received: by 2002:adf:d082:0:b0:1e3:16e2:d611 with SMTP id
- y2-20020adfd082000000b001e316e2d611mr1283330wrh.716.1645083116470; 
- Wed, 16 Feb 2022 23:31:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxxcERVv3D5ZpLE5kRxeAB91jZfDV++7pk6e5ywhME1Wr5F9tZmA9OhBuzwMqz0BJTjv1tcfw==
-X-Received: by 2002:adf:d082:0:b0:1e3:16e2:d611 with SMTP id
- y2-20020adfd082000000b001e316e2d611mr1283312wrh.716.1645083116248; 
- Wed, 16 Feb 2022 23:31:56 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id e3sm31369020wrr.94.2022.02.16.23.31.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Feb 2022 23:31:55 -0800 (PST)
-Message-ID: <3321e10a-7778-918d-8583-d545e388ea5d@redhat.com>
-Date: Thu, 17 Feb 2022 08:31:54 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=HTUBHeOEltOAv+Jkswry3Bekv9Kv6f4tNMJ77KCZN2w=;
+ b=4+JqhXLHXq+fCFnxbxLCIPk6XlbpbNFbUESzBSVAFL1L7RUXy4WSEjJUCIwfhNQhYH
+ o4fkAVDNZoojyqxph2dYrTHKUm09sfMAQ6vupAATsxu/0cEhBAUf+OA2mN67MqeQXH4s
+ AxxI4d7OH+mNRZzn11yer9d1T3zOBeP7Wg9pI22uaWxR202QieIzWKb8SxK7W3hpmxPh
+ 1u56S64RXAETT+8tQUvspCTdot5b/msY8+cOkEMzPqQehyyGVP9vTO+u1+JvacnKAJgH
+ PnVzLbAdBi9w/vFXUwpYEq05IUVM3udKFdlne8+1p8u5l/9QU4A7PAwnw8iMEHaz6wQL
+ BXww==
+X-Gm-Message-State: AOAM531R/VNv9GceYq/MptIiNa1MOiq2fYqp5N7IzhaS9/RSl1dDN4t4
+ 1cSdKXiouKQNlmDNZoAbVjf4Pca2qlmnVm6qdE8QcG/PEavZgUltSijLtbGivR0cy7V4S80HqOO
+ n0Kb1l3dB0BREh6w=
+X-Received: by 2002:a5d:6511:0:b0:1e5:9467:e7b5 with SMTP id
+ x17-20020a5d6511000000b001e59467e7b5mr1269616wru.307.1645083174098; 
+ Wed, 16 Feb 2022 23:32:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzOKArqOAq7sqwlMkYY8tfOGJIITqe5IFI9fz2CUh2e2MqQwU7NTAjKIN1c1wleZ/NaXhBm/g==
+X-Received: by 2002:a5d:6511:0:b0:1e5:9467:e7b5 with SMTP id
+ x17-20020a5d6511000000b001e59467e7b5mr1269599wru.307.1645083173810; 
+ Wed, 16 Feb 2022 23:32:53 -0800 (PST)
+Received: from redhat.com ([2.55.139.83])
+ by smtp.gmail.com with ESMTPSA id s7sm20959903wrw.71.2022.02.16.23.32.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Feb 2022 23:32:53 -0800 (PST)
+Date: Thu, 17 Feb 2022 02:32:48 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gautam Dawar <gautam.dawar@xilinx.com>
+Subject: Re: [PATCH 2/2] Allow VIRTIO_F_IN_ORDER to be negotiated for vdpa
+ devices
+Message-ID: <20220217023150-mutt-send-email-mst@kernel.org>
+References: <20220215072231.2498-1-gdawar@xilinx.com>
+ <20220215072231.2498-3-gdawar@xilinx.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: QEMU's Haiku CI image
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <c13291ec-ed73-a62d-24bc-e4282aad2031@redhat.com>
- <777cb005f1c2197ff3fd610f89215b4d@unixzen.com>
- <0a36d4b2-965d-84ad-1e04-ab4cd8c437f1@redhat.com>
- <ea30ad98-8e15-7404-c91c-ec475551b866@amsat.org>
- <Yg1OrEqyDQm/ZGlm@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <Yg1OrEqyDQm/ZGlm@redhat.com>
+In-Reply-To: <20220215072231.2498-3-gdawar@xilinx.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,29 +96,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alexander von Gluck IV <kallisti5@unixzen.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Zak <richard.j.zak@gmail.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org, gdawar@xilinx.com,
+ martinh@xilinx.com, eperezma@redhat.com, hanand@xilinx.com, tanujk@xilinx.com,
+ pabloc@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/02/2022 20.21, Daniel P. Berrangé wrote:
-> [...] The main issue is that for non-Linux,
-> we don't have full automation for building the VM templates. We need
-> someone to prepare the image by getting it able to run and expose
-> SSH, whereupon we can provision the build-deps.
+On Tue, Feb 15, 2022 at 12:52:31PM +0530, Gautam Dawar wrote:
+> This patch adds the ability to negotiate VIRTIO_F_IN_ORDER bit
+> for vhost-vdpa backend when the underlying device supports this
+> feature.
+> This would aid in reaping performance benefits with HW devices
+> that implement this feature. At the same time, it shouldn't have
+> any negative impact as vhost-vdpa backend doesn't involve any
+> userspace virtqueue operations.
+> 
+> Signed-off-by: Gautam Dawar <gdawar@xilinx.com>
 
-That's easy: In QEMU build folder, type:
+Having features that hardware implements but qemu does not
+means we can't migrate between them.
+So I'd rather see a userspace implementation.
 
-  make vm-build-netbsd
-  make vm-build-openbsd
-  make vm-build-haiku.x86_64
-
-... and then you can find the images in the ~/.cache/qemu-vm/images/ folder.
-
-  Thomas
+> ---
+>  hw/net/virtio-net.c | 10 ++++++++++
+>  net/vhost-vdpa.c    |  1 +
+>  2 files changed, 11 insertions(+)
+> 
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index cf8ab0f8af..a1089d06f6 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3507,11 +3507,21 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+>      nc->rxfilter_notify_enabled = 1;
+>  
+>     if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+> +        uint64_t features = BIT_ULL(VIRTIO_F_IN_ORDER);
+>          struct virtio_net_config netcfg = {};
+> +
+>          memcpy(&netcfg.mac, &n->nic_conf.macaddr, ETH_ALEN);
+>          vhost_net_set_config(get_vhost_net(nc->peer),
+>              (uint8_t *)&netcfg, 0, ETH_ALEN, VHOST_SET_CONFIG_TYPE_MASTER);
+> +
+> +	/*
+> +         * For vhost-vdpa, if underlying device supports IN_ORDER feature,
+> +         * make it available for negotiation.
+> +         */
+> +	features = vhost_net_get_features(get_vhost_net(nc->peer), features);
+> +	n->host_features |= features;
+>      }
+> +
+>      QTAILQ_INIT(&n->rsc_chains);
+>      n->qdev = dev;
+>  
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 25dd6dd975..2886cba5ec 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -62,6 +62,7 @@ const int vdpa_feature_bits[] = {
+>      VIRTIO_NET_F_CTRL_VQ,
+>      VIRTIO_F_IOMMU_PLATFORM,
+>      VIRTIO_F_RING_PACKED,
+> +    VIRTIO_F_IN_ORDER,
+>      VIRTIO_NET_F_RSS,
+>      VIRTIO_NET_F_HASH_REPORT,
+>      VIRTIO_NET_F_GUEST_ANNOUNCE,
+> -- 
+> 2.30.1
 
 
