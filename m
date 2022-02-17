@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6446D4B9D48
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 11:36:20 +0100 (CET)
-Received: from localhost ([::1]:33864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D534B9CFD
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 11:25:55 +0100 (CET)
+Received: from localhost ([::1]:46626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKe95-0003tj-9M
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 05:36:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47288)
+	id 1nKdz0-0001X6-CD
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 05:25:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKdti-0006dp-Es
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 05:20:26 -0500
-Received: from [2a00:1450:4864:20::633] (port=37665
- helo=mail-ej1-x633.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKdtm-0006hm-9F
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 05:20:30 -0500
+Received: from [2a00:1450:4864:20::636] (port=37668
+ helo=mail-ej1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKdtg-0002vH-2Z
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 05:20:26 -0500
-Received: by mail-ej1-x633.google.com with SMTP id bg10so6050514ejb.4
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 02:20:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKdti-0002wO-2V
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 05:20:29 -0500
+Received: by mail-ej1-x636.google.com with SMTP id bg10so6050672ejb.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 02:20:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fv04+POlH5pIZx0q4PgvkVhFNcEbQGNzNkVBRpZhCes=;
- b=AMKECsLBLaWMLDAVvx8OFqMHE4hT+vQbX/DJva8abJHK8jymbdIpueKbbX34Y6xgj4
- atU908bH7PKp6hC5GwwsmnPoNqteKSg7G1rXmKhtmtpNSrQCDLZZA0BCXqsU8aegXhVy
- y8/Gq6iQdaOop18sc+C6O1zXLNDFlTzVyVjmVVf/P4Ze8eDpeFZMnyAMuvSJWo6QeOyt
- cvNIeLR3u4a1d8LU9U5N6D1Rv1YzIpfHefLHVKA6uy3JLyBxzkTZ69B8m7VlLRoaVeHz
- 6a6LBxhNkOc3zTyy77pe9Bpst0xGxWeKzyE5XuBKYWUawx7DHRmWLfWeV8Sd9OC2AaFk
- hlfA==
+ bh=KELY3CAB4d07BDetRGotYwvw76oRR8+YLOX5VD+ZX1E=;
+ b=ptToxxTlCEleYMg563kof57b1qb0w3ByJs3n23JG1NUJyXM6ewm2HPsZWg38cQksY5
+ KX8vsoNZqerArcznS8C9Alu4iUVSmVHv07BRyKBQCnFoGMksYRxVEG+4Z1IxBB5MWtSJ
+ PRFmxlyONu95M2GZEVhWmf+HQLxMwHjfrzRl6okuvfAbsOL8jvpZKnkZs088P1RvaPeq
+ Je+SbiT7DdKr23Z2x90OzvLSiM/qHKAYPs9gQWENXQWadgwgqXGlzgQDUhRcH/GZokqZ
+ w5d94xKkaqnwHOkFq7ZsVhcWqfpB2es7o+UbjzYrxaIv3ciuhZ1euRe8FyiuzNP0jvaT
+ r8YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fv04+POlH5pIZx0q4PgvkVhFNcEbQGNzNkVBRpZhCes=;
- b=uwlsCktRzR7aS8U1SrNRC1/u10sYMccvY2xbzO0xL7gUr8kLiHuZEbTyEGPMgWuDte
- Rw/UsEe2jze4XeTp2mhudLDBYwm78xLN2eMZXjnV0f+5DBDqPARnv6JUnZq98RNZrCVc
- uDH8iBppMdbyrdG0vi4om8av+HTa1/yENV85o5umnkZFd0RiuuhUt2LLTg4Qx9S1IuUN
- Xa+GTBUU41lRwD8N1i1A5EcE4mvsDtmGvtz2zEnyHBvabzKLtEWZF3FdYJspqBsTNFlR
- /RPAQ4IC2AIwjMNFolNKaiPHSJLimSp98H0k/YjWIC/uHQzTTM1ltZEMO1sYVYcZj6Wr
- ejIw==
-X-Gm-Message-State: AOAM533V0v8pn0EoDmtD45VQ37f3HnjbJXvpG+a9+zYblhGo3RGevP7L
- p66W5stpQz0bKCuoqhtvB19/r+cOdnk=
-X-Google-Smtp-Source: ABdhPJyro3cxSabVTKFUECMmsJQKligVF9AYMfLgzlnFcLxQaG4ItGVXC9rLqqBzKDIedjpfm7ziNg==
-X-Received: by 2002:a17:906:7852:b0:6ce:88f5:4dc9 with SMTP id
- p18-20020a170906785200b006ce88f54dc9mr1793719ejm.491.1645093222600; 
- Thu, 17 Feb 2022 02:20:22 -0800 (PST)
+ bh=KELY3CAB4d07BDetRGotYwvw76oRR8+YLOX5VD+ZX1E=;
+ b=bpeScxlI/Tt2q5CcJi3Cs0U5NEZNHL8eRG7y7NfkjQP3j5w7iyHgvr8hzzvss34Sat
+ +Hn6HV6GpLqad9IZH6Ddy03Z4izewcG64WImXe+HwtMGgbn951LjyNUV8Op/2Ct7nSns
+ hJBzoubW3HuTrroQGeCJMNzH4cWuumtgnG1fQY2rqe2dp5XxcuYP97CtcQAuDdZdT4N7
+ ENwK0AS60zagCGAz/uvnEJ7txD9YDqwZ2Hn46m59aSmA281ylxY/NuSYxwvmQ0f1d5YU
+ 5Ygn0rV0UD78pyJhVtjqV0dSfGikHTgRCxauSUVPcQ/h34UyxlwLooahRAlYtcE3U2Wh
+ ZGQQ==
+X-Gm-Message-State: AOAM530sNHxykPPaC7Tp0EkXuqNWBABcH7VJv4x1IohDHp9zIc908aPp
+ zpKHLG+QZUgrll+tljyr9rbM8cmhMY0=
+X-Google-Smtp-Source: ABdhPJy7f3c0tV3u87stU3tUfVs8VN5Qtz2B7415uVbuQFqxgsD6pLdNesjwNJzzNr6E4adIBegvZg==
+X-Received: by 2002:a17:906:7746:b0:6ce:a12e:489f with SMTP id
+ o6-20020a170906774600b006cea12e489fmr1670997ejn.551.1645093223644; 
+ Thu, 17 Feb 2022 02:20:23 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-077-183-198-236.77.183.pool.telefonica.de. [77.183.198.236])
- by smtp.gmail.com with ESMTPSA id u26sm986753ejg.196.2022.02.17.02.20.21
+ by smtp.gmail.com with ESMTPSA id u26sm986753ejg.196.2022.02.17.02.20.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 02:20:22 -0800 (PST)
+ Thu, 17 Feb 2022 02:20:23 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/7] hw/isa/piix4: Pass PIIX4State as opaque parameter for
- piix4_set_irq()
-Date: Thu, 17 Feb 2022 11:19:21 +0100
-Message-Id: <20220217101924.15347-5-shentey@gmail.com>
+Subject: [PATCH v4 5/7] hw/isa/piix4: Resolve global instance variable
+Date: Thu, 17 Feb 2022 11:19:22 +0100
+Message-Id: <20220217101924.15347-6-shentey@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220217101924.15347-1-shentey@gmail.com>
 References: <20220217101924.15347-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -2
 X-Spam_score: -0.3
 X-Spam_bar: /
@@ -88,56 +87,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Bernhard Beschow <shentey@gmail.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Passing PIIX4State rather than just the qemu_irq allows for resolving
-the global piix4_dev variable.
+Now that piix4_set_irq's opaque parameter references own PIIX4State,
+piix4_dev becomes redundant.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/isa/piix4.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/isa/piix4.c                | 10 +++-------
+ include/hw/southbridge/piix.h |  2 --
+ 2 files changed, 3 insertions(+), 9 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 179968b18e..caa2002e2c 100644
+index caa2002e2c..2e9b5ccada 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -57,7 +57,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_PCI_DEVICE)
- static void piix4_set_irq(void *opaque, int irq_num, int level)
+@@ -39,8 +39,6 @@
+ #include "sysemu/runstate.h"
+ #include "qom/object.h"
+ 
+-PCIDevice *piix4_dev;
+-
+ struct PIIX4State {
+     PCIDevice dev;
+     qemu_irq cpu_intr;
+@@ -58,16 +56,16 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
  {
      int i, pic_irq, pic_level;
--    qemu_irq *pic = opaque;
-+    PIIX4State *s = opaque;
-     PCIBus *bus = pci_get_bus(piix4_dev);
+     PIIX4State *s = opaque;
+-    PCIBus *bus = pci_get_bus(piix4_dev);
++    PCIBus *bus = pci_get_bus(&s->dev);
  
      /* now we change the pic irq level according to the piix irq mappings */
-@@ -71,7 +71,7 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
+     /* XXX: optimize */
+-    pic_irq = piix4_dev->config[PIIX_PIRQCA + irq_num];
++    pic_irq = s->dev.config[PIIX_PIRQCA + irq_num];
+     if (pic_irq < 16) {
+         /* The pic level is the logical OR of all the PCI irqs mapped to it. */
+         pic_level = 0;
+         for (i = 0; i < 4; i++) {
+-            if (pic_irq == piix4_dev->config[PIIX_PIRQCA + i]) {
++            if (pic_irq == s->dev.config[PIIX_PIRQCA + i]) {
                  pic_level |= pci_bus_get_irq_level(bus, i);
              }
          }
--        qemu_set_irq(pic[pic_irq], pic_level);
-+        qemu_set_irq(s->isa[pic_irq], pic_level);
+@@ -219,8 +217,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+         return;
      }
+     isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc.irq, RTC_ISA_IRQ);
+-
+-    piix4_dev = dev;
  }
  
-@@ -319,7 +319,7 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
-                                NULL, 0, NULL);
-     }
+ static void piix4_init(Object *obj)
+diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+index 6387f2b612..f63f83e5c6 100644
+--- a/include/hw/southbridge/piix.h
++++ b/include/hw/southbridge/piix.h
+@@ -70,8 +70,6 @@ typedef struct PIIXState PIIX3State;
+ DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
+                          TYPE_PIIX3_PCI_DEVICE)
  
--    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s->isa, 4);
-+    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, 4);
+-extern PCIDevice *piix4_dev;
+-
+ PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus);
  
-     return dev;
- }
+ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus);
 -- 
 2.35.1
 
