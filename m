@@ -2,101 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2C34BA2F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:27:13 +0100 (CET)
-Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232AE4BA276
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:06:05 +0100 (CET)
+Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKhkV-00059W-KU
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:27:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34436)
+	id 1nKhQ3-0002qo-Km
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:06:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nKh0f-0006mx-JV; Thu, 17 Feb 2022 08:39:50 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nKh0N-0001mM-TR; Thu, 17 Feb 2022 08:39:33 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21HDBtBL032405; 
- Thu, 17 Feb 2022 13:39:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=HtBjouYh/khg0VzKgu31GEOtWucFRevC0aoJP77O1TE=;
- b=E8qoQwpdrLKdA7A/3ebnQqfXxYpf4j9v11LRJitsav8HtwxHDfstvhkZ37PLQutIrZb0
- t3pj0Z7BV52wc405buFO+sZFZkegkOdCkRSg8i4Upd6p2YozTcXLIeEkNCnvyeU4xrg4
- XSwcBppsLV29NdoyR4xWyaGY53QPdLTvyLViwMvauN8tJGWZx2TxDK78YXXHsnI9vSan
- BwhJHe3ahWcTu3MLFdRqJsCTPMm/HoQNNwa5r5hBzH18UBV/lxyZThuYozSsX+B5++sk
- n8UI1SMMD9DN4hspYZKzJlGz8/akoJI3GcCQfE2gGTzQnBN588FoQhbA4yJ6ae53eb+N Og== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e9n9pkjnq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Feb 2022 13:39:29 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21HD1pck014937;
- Thu, 17 Feb 2022 13:39:28 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e9n9pkjmx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Feb 2022 13:39:28 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21HDbP6e029436;
- Thu, 17 Feb 2022 13:39:26 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma06fra.de.ibm.com with ESMTP id 3e645k8hre-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Feb 2022 13:39:26 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21HDdLSg32964930
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Feb 2022 13:39:21 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A865D4C05A;
- Thu, 17 Feb 2022 13:39:21 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D4AC24C044;
- Thu, 17 Feb 2022 13:39:20 +0000 (GMT)
-Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
- [9.171.42.121])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 17 Feb 2022 13:39:20 +0000 (GMT)
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Subject: [PATCH v6 11/11] s390x: topology: documentation
-Date: Thu, 17 Feb 2022 14:41:25 +0100
-Message-Id: <20220217134125.132150-12-pmorel@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220217134125.132150-1-pmorel@linux.ibm.com>
-References: <20220217134125.132150-1-pmorel@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nKh5B-0002ky-5e
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:44:29 -0500
+Received: from [2a00:1450:4864:20::636] (port=35426
+ helo=mail-ej1-x636.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nKh58-0002af-Og
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:44:28 -0500
+Received: by mail-ej1-x636.google.com with SMTP id qk11so7445707ejb.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 05:44:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GUzDAkORZzekUXxw8oyBR3o2aMGTChOMLfj3ZxQVqhA=;
+ b=Ued4oCK8lsKJotPmXeBO4DAltPFt6ClYvv4Pfv7By9I/fAJC3bIv/RC1AhEJckFm8X
+ 7NlWG4DpGpTggbsAR9mN0ilUkNq2SdTUlY4Czm3TGIwMpN7guUuwvtNBIJ9fX2ocSnyG
+ 2LBBEAKtves6dMNAMvSS35QJNAV/NQa6FSw+/9UyMUOt1hpeQrTly2s9+B7k2nI4RhuO
+ +lmY0iWMViWdAOYrOK1MKOVr7veJOOtxOW73j5+NaYJaHviB9rRehv2y7tnlYRPuE7Jn
+ /+lSUHrb73JF9qsaVuEMVBdjNy4oQoh+N1RWzhLUJf+oj78ybSNuP7W8OXF0FnygpaOm
+ 8JHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GUzDAkORZzekUXxw8oyBR3o2aMGTChOMLfj3ZxQVqhA=;
+ b=rqkBwrPPztwrHf9PxG7DpoWpnL4mif2XsYSOoGGpCrwGkwsxLhzGyvnmFL7IpY4pAu
+ DxWtpvbzwmHhdWPMjO5nHvDOYqBk8poANwHKC6lzUDOhSkizDWizdZY3O2RXxkm8wkQN
+ zTtu8ph6rx4v62FmcHb2xk4yPa1owTaRNbzgAgvi56dwEMf57LCU34nzBht/WDVNsJ87
+ pt33oWKaCf+HGDglldckOMcOB1FZDHIMCixhV3LhazWkvkvAdLB4fwAQLzImzPtGXnD3
+ RK4dk+JxKe4m2ZaAQj7BUGtU2ysFdhfEUrluooomVbPoONUO5AsUb4EgR9hEeLTC7nMm
+ gYTw==
+X-Gm-Message-State: AOAM5324AcMeCZDdJJQr3jfIu8qK5QWzdE7TRWMwNHkmh4GNax8cGQBv
+ CBM79sUPrqgPuN6fMtwdxIQ=
+X-Google-Smtp-Source: ABdhPJytLpv2o3f3eOKa0WegtoWq0hNuMCIXUdukOrzuB43TjdGsjKsioVPleltKgJ1o1tBQin3bjQ==
+X-Received: by 2002:a17:906:9bcf:b0:6cc:1ba8:5c5a with SMTP id
+ de15-20020a1709069bcf00b006cc1ba85c5amr2304239ejc.640.1645105455947; 
+ Thu, 17 Feb 2022 05:44:15 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id fx2sm1081625ejb.59.2022.02.17.05.44.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Feb 2022 05:44:15 -0800 (PST)
+Message-ID: <9e873019-99c6-bd47-458d-1d307961882c@redhat.com>
+Date: Thu, 17 Feb 2022 14:44:10 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _agRRUwEZj5qcxZLuOUhWLDcE5TBlgiB
-X-Proofpoint-ORIG-GUID: 1wfrkBIeWAkdFaIcQhIfufr2yXiscKRP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-17_05,2022-02-17_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 impostorscore=0 adultscore=0 lowpriorityscore=0
- suspectscore=0 mlxscore=0 malwarescore=0 phishscore=0 spamscore=0
- mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2201110000 definitions=main-2202170061
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 3/8] x86: Grant AMX permission for guest
+Content-Language: en-US
+To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
+References: <20220217060434.52460-1-yang.zhong@intel.com>
+ <20220217060434.52460-4-yang.zhong@intel.com>
+ <20220217055836.GA10691@yangzhon-Virtual>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220217055836.GA10691@yangzhon-Virtual>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,303 +96,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- ehabkost@redhat.com, kvm@vger.kernel.org, david@redhat.com, eblake@redhat.com,
- cohuck@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- armbru@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com, mst@redhat.com,
- pbonzini@redhat.com, philmd@redhat.com
+Cc: seanjc@google.com, kevin.tian@intel.com, jing2.liu@linux.intel.com,
+ wei.w.wang@intel.com, guang.zeng@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The use of the S390x CPU topology is explain in a new documentation
-file.
+On 2/17/22 06:58, Yang Zhong wrote:
+>> +
+>> +    if ((mask & XSTATE_XTILE_DATA_MASK) == XSTATE_XTILE_DATA_MASK) {
+>> +        bitmask = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
+>> +        if (!(bitmask & XSTATE_XTILE_DATA_MASK)) {
+>     Paolo, last time you suggested below changes for here:
+> 
+>     rc = kvm_arch_get_supported_cpuid(s, 0xd, 0,
+>                                    (xdata_bit < 32 ? R_EAX : R_EDX));
+>     if (!(rc & BIT(xdata_bit & 31)) {
+>        ...
+>     }
+> 
+>    Since I used "mask" as parameter here, so I had to directly use R_EAX here.
+>    Please review and if need change it to like "(xdata_bit < 32 ? R_EAX : R_EDX)",
+>    I will change this in next version, thanks!
 
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
----
- docs/system/s390x/numa-cpu-topology.rst | 273 ++++++++++++++++++++++++
- 1 file changed, 273 insertions(+)
- create mode 100644 docs/system/s390x/numa-cpu-topology.rst
+I looked at this function more closely because it didn't compile on non-Linux
+systems, too.  I think it's better to write it already to plan for more
+dynamic features.  In the code below, I'm also relying on
+KVM_GET_SUPPORTED_CPUID/KVM_X86_COMP_GUEST_SUPP being executed
+before ARCH_REQ_XCOMP_GUEST_PERM, which therefore cannot fail.
 
-diff --git a/docs/system/s390x/numa-cpu-topology.rst b/docs/system/s390x/numa-cpu-topology.rst
-new file mode 100644
-index 0000000000..9ae15f792f
---- /dev/null
-+++ b/docs/system/s390x/numa-cpu-topology.rst
-@@ -0,0 +1,273 @@
-+NUMA CPU Topology on S390x
-+==========================
-+
-+IBM S390 provides a complex CPU architecture with several cache levels.
-+Using NUMA with the CPU topology is a way to let the guest optimize his
-+accesses to the main memory.
-+
-+The QEMU smp parameter for S390x allows to specify 4 NUMA levels:
-+core, socket, drawer and book and these levels are available for
-+the numa parameter too.
-+
-+
-+Prerequisites
-+-------------
-+
-+To take advantage of the CPU topology, KVM must give support for the
-+Perform Topology Function and to the Store System Information instructions
-+as indicated by the Perform CPU Topology facility (stfle bit 11).
-+
-+If those requirements are met, the capability ``KVM_CAP_S390_CPU_TOPOLOGY``
-+will indicate that KVM can support CPU Topology on that LPAR.
-+
-+
-+Using CPU Topology in QEMU for S390x
-+------------------------------------
-+
-+
-+QEMU -smp parameter
-+~~~~~~~~~~~~~~~~~~~
-+
-+With -smp QEMU provides the user with the possibility to define
-+a Topology based on ::
-+
-+  -smp [[cpus=]n][,maxcpus=maxcpus][,drawers=drawers][,books=books] \
-+       [,sockets=sockets][,cores=cores]
-+
-+The topology reported to the guest in this situation will provide
-+n cpus of a maximum of maxcpus cpus, filling the topology levels one by one
-+starting with CPU0 being the first CPU on drawer[0] book[0] socket[0].
-+
-+For example ``-smp 5,books=2,sockets=2,cores=2`` will provide ::
-+
-+  drawer[0]--+--book[0]--+--socket[0]--+--core[0]-CPU0
-+             |           |             |
-+             |           |             +--core[1]-CPU1
-+             |           |
-+             |           +--socket[1]--+--core[0]-CPU2
-+             |                         |
-+             |                         +--core[1]-CPU3
-+             |
-+             +--book[1]--+--socket[0]--+--core[0]-CPU4
-+
-+
-+Note that the thread parameter can not be defined on S390 as it
-+has no representation on the CPU topology.
-+
-+
-+QEMU -numa parameter
-+~~~~~~~~~~~~~~~~~~~
-+
-+With -numa QEMU provides the user with the possibility to define
-+the Topology in a non uniform way ::
-+
-+  -smp [[cpus=]n][,maxcpus=maxcpus][,drawers=drawers][,books=books] \
-+       [,sockets=sockets][,cores=cores]
-+  -numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]
-+  -numa cpu,node-id=node[,drawer-id=x][,book-id=x][,socket-id=x][,core-id=y]
-+
-+The topology reported to the guest in this situation will provide
-+n cpus of a maximum of maxcpus cpus, and the topology entries will be
-+
-+- if there is less cpus than specified by the -numa arguments
-+  the topology will be build by filling the numa definitions
-+  starting with the lowest node.
-+
-+- if there is more cpus than specified by the -numa argument
-+  the numa specification will first be fulfilled and the remaining
-+  CPU will be assigned to unassigned slots starting with the
-+  core 0 on socket 0.
-+
-+- a CPU declared with -device does not count inside the ncpus parameter
-+  of the -smp argument and will be added on the topology based on
-+  its core ID.
-+
-+For example  ::
-+
-+  -smp 3,drawers=8,books=2,sockets=2,cores=2,maxcpus=64
-+  -object memory-backend-ram,id=mem0,size=10G
-+  -numa node,nodeid=0,memdev=mem0
-+  -numa node,nodeid=1
-+  -numa node,nodeid=2
-+  -numa cpu,node-id=0,drawer-id=0
-+  -numa cpu,node-id=1,socket-id=9
-+  -device host-s390x-cpu,core-id=19
-+
-+Will provide the following topology ::
-+
-+  drawer[0]--+--book[0]--+--socket[0]--+--core[0]-CPU0
-+                         |             |
-+                         |             +--core[1]-CPU1
-+                         |
-+                         +--socket[1]--+--core[0]-CPU2
-+
-+  drawer[2]--+--book[0]--+--socket[1]--+--core[1]-CPU19
-+
-+
-+S390 NUMA specificity
-+---------------------
-+
-+Heterogene Memory Attributes
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The S390 topology implementation does not use ACPI HMAT to specify the
-+cache size and bandwidth between nodes.
-+
-+Memory device
-+~~~~~~~~~~~~~
-+
-+When using NUMA S390 needs a memory device to be associated with
-+the nodes definitions. As we do not use HMAT, it has little sense
-+to assign memory to each node and one should assign all memory to
-+a node without CPU and use other nodes to define the CPU Topology.
-+
-+Exemple ::
-+
-+  -object memory-backend-ram,id=mem0,size=10G
-+  -numa node,nodeid=0,memdev=mem0
-+
-+
-+CPUs
-+~~~~
-+
-+In the S390 topology we do not use threads and the first topology
-+level is the core.
-+The number of threads can no be defined for S390 and is always equal to 1.
-+
-+When using NUMA, QEMU issues a warning for CPUS not assigned to nodes.
-+The S390 topology will silently assign unassigned CPUs to the topology
-+searching for free core starting on the first core of the first socket
-+in the first book.
-+This is of course advised to assign all possible CPUs to nodes to
-+guaranty future compatibility.
-+
-+
-+The topology provided to the guest
-+----------------------------------
-+
-+The guest , when the CPU Topology is available as indicated by the
-+Perform CPU Topology facility (stfle bit 11) may use two instructions
-+to retrieve the CPU topology and optimize its CPU scheduling:
-+
-+- PTF (Perform Topology function) which will give information
-+  about a change in the CPU Topology, that is a change in the
-+  result of the STSI(15,1,2) instruction.
-+
-+- STSI (Stote System Information) with parameters (15,1,2)
-+  to retrieve the CPU Topology.
-+
-+Exemple ::
-+
-+  -smp 3,drawers=8,books=2,sockets=2,cores=2,maxcpus=64
-+  -object memory-backend-ram,id=mem0,size=10G
-+  -numa node,nodeid=0,memdev=mem0
-+  -numa node,nodeid=1
-+  -numa node,nodeid=2
-+  -numa cpu,node-id=1,drawer-id=0
-+  -numa cpu,node-id=2,socket-id=9
-+  -device host-s390x-cpu,core-id=19
-+
-+Formated result for STSI(15,1,2) showing the 6 different levels
-+with:
-+- levels 2 (socket) and 1 (core) used.
-+- 3 sockets with a CPU mask for CPU type 3, non dedicated and
-+  with horizontal polarization.
-+- The first socket contains 2 cores as specified by the -smp argument
-+- The second socket contains the 3rd core defined by the -smp argument
-+- both these sockets belong to drawer-id=0 and to node-1
-+- The third socket hold the CPU with core-id 19 assigned to socket-id 9
-+  and to node-2
-+
-+Here the kernel view ::
-+
-+  mag[6] = 0
-+  mag[5] = 0
-+  mag[4] = 0
-+  mag[3] = 0
-+  mag[2] = 32
-+  mag[1] = 2
-+  MNest  = 2
-+  socket: 1 0
-+  cpu type 03  d: 0 pp: 0
-+  origin : 0000
-+  mask   : c000000000000000
-+
-+  socket: 1 1
-+  cpu type 03  d: 0 pp: 0
-+  origin : 0000
-+  mask   : 2000000000000000
-+
-+  socket: 1 9
-+  cpu type 03  d: 0 pp: 0
-+  origin : 0000
-+  mask   : 0000100000000000
-+
-+And the admin view ::
-+
-+  # lscpu -e
-+  CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
-+  0   0    0      0    0      0    0:0:0:0         yes    yes        horizontal   0
-+  1   0    0      0    0      1    1:1:1:1         yes    yes        horizontal   1
-+  2   0    0      0    1      2    2:2:2:2         yes    yes        horizontal   2
-+  3   0    1      1    2      3    3:3:3:3         yes    yes        horizontal   19
-+
-+
-+Hotplug with NUMA
-+-----------------
-+
-+Using the core-id the topology is automatically calculated to put the core
-+inside the right socket.
-+
-+Example::
-+
-+  (qemu) device_add host-s390x-cpu,core-id=8
-+
-+  # lscpu -e
-+  CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
-+  0   0    0      0    0      0    0:0:0:0         yes    yes        horizontal   0
-+  1   0    0      0    0      1    1:1:1:1         yes    yes        horizontal   1
-+  2   0    0      0    1      2    2:2:2:2         yes    yes        horizontal   2
-+  3   0    1      1    2      3    3:3:3:3         yes    yes        horizontal   19
-+  4   -    -      -    -      -    :::             no     yes        horizontal   8
-+
-+  # chcpu -e 4
-+  CPU 4 enabled
-+  # lscpu -e
-+  CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
-+  0   0    0      0    0      0    0:0:0:0         yes    yes        horizontal   0
-+  1   0    0      0    0      1    1:1:1:1         yes    yes        horizontal   1
-+  2   0    0      0    1      2    2:2:2:2         yes    yes        horizontal   2
-+  3   0    1      1    2      3    3:3:3:3         yes    yes        horizontal   19
-+  4   0    2      2    3      4    4:4:4:4         yes    yes        horizontal   8
-+
-+One can see that the userland tool reports serials IDs which do not correspond
-+to the firmware IDs but does however report the new CPU on it's own socket.
-+
-+The result seen by the kernel looks like ::
-+
-+  mag[6] = 0
-+  mag[5] = 0
-+  mag[4] = 0
-+  mag[3] = 0
-+  mag[2] = 32
-+  mag[1] = 2
-+  MNest  = 2
-+  00 - socket: 1 0
-+  cpu type 03  d: 0 pp: 0
-+  origin : 0000
-+  mask   : c000000000000000
-+
-+  socket: 1 1
-+  cpu type 03  d: 0 pp: 0
-+  origin : 0000
-+  mask   : 2000000000000000
-+
-+  socket: 1 9
-+  cpu type 03  d: 0 pp: 0
-+  origin : 0000
-+  mask   : 0000100000000000
-+
-+  socket: 1 4
-+  cpu type 03  d: 0 pp: 0
-+  origin : 0000
-+  mask   : 0080000000000000
--- 
-2.27.0
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 377d993438..1d0c006077 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -43,8 +43,6 @@
+  #include "disas/capstone.h"
+  #include "cpu-internal.h"
+  
+-#include <sys/syscall.h>
+-
+  /* Helpers for building CPUID[2] descriptors: */
+  
+  struct CPUID2CacheDescriptorInfo {
+@@ -6002,40 +6000,6 @@ static void x86_cpu_adjust_feat_level(X86CPU *cpu, FeatureWord w)
+      }
+  }
+  
+-static void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
+-{
+-    KVMState *s = kvm_state;
+-    uint64_t bitmask;
+-    long rc;
+-
+-    if ((mask & XSTATE_XTILE_DATA_MASK) == XSTATE_XTILE_DATA_MASK) {
+-        bitmask = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
+-        if (!(bitmask & XSTATE_XTILE_DATA_MASK)) {
+-            warn_report("no amx support from supported_xcr0, "
+-                        "bitmask:0x%lx", bitmask);
+-            return;
+-        }
+-
+-        rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_GUEST_PERM,
+-                      XSTATE_XTILE_DATA_BIT);
+-        if (rc) {
+-            /*
+-             * The older kernel version(<5.15) can't support
+-             * ARCH_REQ_XCOMP_GUEST_PERM and directly return.
+-             */
+-            return;
+-        }
+-
+-        rc = syscall(SYS_arch_prctl, ARCH_GET_XCOMP_GUEST_PERM, &bitmask);
+-        if (rc) {
+-            warn_report("prctl(ARCH_GET_XCOMP_GUEST_PERM) error: %ld", rc);
+-        } else if (!(bitmask & XFEATURE_XTILE_MASK)) {
+-            warn_report("prctl(ARCH_REQ_XCOMP_GUEST_PERM) failure "
+-                        "and bitmask=0x%lx", bitmask);
+-        }
+-    }
+-}
+-
+  /* Calculate XSAVE components based on the configured CPU feature flags */
+  static void x86_cpu_enable_xsave_components(X86CPU *cpu)
+  {
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index d4ad0f56bd..de949bd63d 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -551,11 +551,8 @@ typedef enum X86Seg {
+  #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
+  #define XSTATE_XTILE_CFG_MASK           (1ULL << XSTATE_XTILE_CFG_BIT)
+  #define XSTATE_XTILE_DATA_MASK          (1ULL << XSTATE_XTILE_DATA_BIT)
+-#define XFEATURE_XTILE_MASK             (XSTATE_XTILE_CFG_MASK \
+-                                         | XSTATE_XTILE_DATA_MASK)
+  
+-#define ARCH_GET_XCOMP_GUEST_PERM       0x1024
+-#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
++#define XSTATE_DYNAMIC_MASK             (XSTATE_XTILE_DATA_MASK)
+  
+  #define ESA_FEATURE_ALIGN64_BIT         1
+  
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 3bdcd724c4..4b07778970 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -17,6 +17,7 @@
+  #include "qapi/error.h"
+  #include <sys/ioctl.h>
+  #include <sys/utsname.h>
++#include <sys/syscall.h>
+  
+  #include <linux/kvm.h>
+  #include "standard-headers/asm-x86/kvm_para.h"
+@@ -5168,3 +5169,39 @@ bool kvm_arch_cpu_check_are_resettable(void)
+  {
+      return !sev_es_enabled();
+  }
++
++#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
++
++void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
++{
++    KVMState *s = kvm_state;
++    uint64_t supported;
++
++    mask &= XSTATE_DYNAMIC_MASK;
++    if (!mask) {
++	return;
++    }
++    /*
++     * Just ignore bits that are not in CPUID[EAX=0xD,ECX=0].
++     * ARCH_REQ_XCOMP_GUEST_PERM would fail, and QEMU has warned
++     * about them already because they are not supported features.
++     */
++    supported = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
++    supported |= (uint64_t)kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EDX) << 32;
++    mask &= ~supported;
++
++    while (mask) {
++        int bit = ctz64(mask);
++        int rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_GUEST_PERM, bit);
++        if (rc) {
++            /*
++             * Older kernel version (<5.17) do not support
++             * ARCH_REQ_XCOMP_GUEST_PERM, but also do not return
++             * any dynamic feature from kvm_arch_get_supported_cpuid.
++             */
++            warn_report("prctl(ARCH_REQ_XCOMP_GUEST_PERM) failure "
++                        "for feature bit %d", bit);
++        }
++	mask &= ~BIT_ULL(bit);
++    }
++}
+diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+index a978509d50..4124912c20 100644
+--- a/target/i386/kvm/kvm_i386.h
++++ b/target/i386/kvm/kvm_i386.h
+@@ -52,5 +52,6 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
+  uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
+  
+  bool kvm_enable_sgx_provisioning(KVMState *s);
++void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask);
+  
+  #endif
 
+
+If this works, the rest of the series is good to go!
+
+Thanks,
+
+Paolo
 
