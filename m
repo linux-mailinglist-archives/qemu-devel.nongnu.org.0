@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2434BA480
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 16:37:46 +0100 (CET)
-Received: from localhost ([::1]:41242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDA84BA443
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 16:25:06 +0100 (CET)
+Received: from localhost ([::1]:51756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKiqn-0005xB-C6
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 10:37:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51578)
+	id 1nKieX-0002GC-L6
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 10:25:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nKiGZ-0002xy-Aw
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 10:00:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32000)
+ (Exim 4.90_1) (envelope-from <serge.guelton@telecom-bretagne.eu>)
+ id 1nKiIl-0004c9-N3
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 10:02:36 -0500
+Received: from smtp5-g21.free.fr ([212.27.42.5]:48410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nKiGS-0005XZ-3A
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 10:00:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645110011;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yNi4JZJdFYJHvkkjLdYGmk446PWczoxpy9KXeynwKaE=;
- b=SYaqM9trPn/hjlso0YWrONG+NiCOsnvMsSyjkKeifQl1MW8u05cXiybcQnr5cYJd3fm1ki
- YRGIuXZ+hFKpKZBucKyen6+sNeyqfGgRhlibf951Eet9dMVtq949ptYZ6lF0O19Dcd2lxn
- GkcI6op0PYDngcb0C9XsMS6x6WNpaao=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-378-MS0_jV5YNniplydGkFCNtg-1; Thu, 17 Feb 2022 10:00:09 -0500
-X-MC-Unique: MS0_jV5YNniplydGkFCNtg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A70A1853024;
- Thu, 17 Feb 2022 15:00:08 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 825CB7D729;
- Thu, 17 Feb 2022 15:00:07 +0000 (UTC)
-Date: Thu, 17 Feb 2022 15:00:06 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v5 09/20] jobs: add job lock in find_* functions
-Message-ID: <Yg5i9qPJLoNVqBW5@stefanha-x1.localdomain>
-References: <20220208143513.1077229-1-eesposit@redhat.com>
- <20220208143513.1077229-10-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <serge.guelton@telecom-bretagne.eu>)
+ id 1nKiIc-0005og-0O
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 10:02:33 -0500
+Received: from localhost (unknown [89.217.187.128])
+ (Authenticated sender: sergesanspaille@free.fr)
+ by smtp5-g21.free.fr (Postfix) with ESMTPSA id 73E5E5FFCF;
+ Thu, 17 Feb 2022 16:02:17 +0100 (CET)
+Date: Thu, 17 Feb 2022 16:02:16 +0100
+From: Serge Guelton <sguelton@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Portable inline asm to get address of TLS variable
+Message-ID: <20220217150216.GD11782@sguelton.remote.csb>
+References: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain>
+ <87leyaznm6.fsf@oldenburg.str.redhat.com>
+ <CAJSP0QXmF=AKtaZO7GjxFtd7o5iQ9JC2xYGYDo-zC0Ea1POS5w@mail.gmail.com>
+ <877d9uzgsd.fsf@oldenburg.str.redhat.com>
+ <Yg4VV+VFe3Bc1BQ6@stefanha-x1.localdomain>
+ <1a17e6e5-fd03-a01b-9692-4dd9d7bffcb0@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ep8RsOaURwwKEHPP"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220208143513.1077229-10-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+In-Reply-To: <1a17e6e5-fd03-a01b-9692-4dd9d7bffcb0@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: softfail client-ip=212.27.42.5;
+ envelope-from=serge.guelton@telecom-bretagne.eu; helo=smtp5-g21.free.fr
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,66 +60,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Florian Weimer <fweimer@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Feb 17, 2022 at 12:40:40PM +0100, Paolo Bonzini wrote:
+> On 2/17/22 10:28, Stefan Hajnoczi wrote:
+> >>But going against ABI and toolchain in this way is really no long-term
+> >>solution.  You need to switch to stackless co-routines, or we need to
+> >>provide proper ABI-level support for this.  Today it's the thread
+> >>pointer, tomorrow it's the shadow stack pointer, and the day after that,
+> >>it's the SafeStack pointer.  And further down the road, it's some thread
+> >>state for garbage collection support.  Or something like that.
+> >
+> >Yes, understood :(. This does feel like solving an undefined behavior
+> >problem by adding more undefined behavior on top!
+> 
+> Yes, this is the kind of thing that I generally despise when I see
+> other programs do it...  it's easy to dig ourselves in the same
+> hole.
+> 
+> >I took a quick look at C++20 coroutines since they are available in
+> >compilers but the primitives look hard to use even from C++, let alone
+> >from C.
+> 
+> They're C++ only in GCC, too.  I really think that QEMU should be
+> compilable in C++, but I'm not sure how easy a sell it is.
 
---ep8RsOaURwwKEHPP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Feb 08, 2022 at 09:35:02AM -0500, Emanuele Giuseppe Esposito wrote:
-> diff --git a/blockdev.c b/blockdev.c
-> index c5fba4d157..08408cd44b 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -3311,7 +3311,10 @@ out:
->      aio_context_release(aio_context);
->  }
-> =20
-> -/* Get a block job using its ID and acquire its AioContext */
-> +/*
-> + * Get a block job using its ID and acquire its AioContext.
-> + * Returns with job_lock held on success.
-
-The caller needs to deal with unlocking anyway, so maybe ask the caller
-to acquire the lock too? That would make the function simpler to reason
-about.
-
-> @@ -60,6 +65,7 @@ void qmp_job_cancel(const char *id, Error **errp)
->      trace_qmp_job_cancel(job);
->      job_user_cancel(job, true, errp);
->      aio_context_release(aio_context);
-> +    job_unlock();
->  }
-
-Is job_mutex -> AioContext lock ordering correct? I thought the
-AioContext must be held before taking the job lock according to "jobs:
-remove aiocontext locks since the functions are under BQL"?
-
---ep8RsOaURwwKEHPP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIOYvYACgkQnKSrs4Gr
-c8jPpgf/Zd+A17GN6LKRXjHQJgfnk9RVfdL2LEKGIkivWjgIFX0WgKK2wf7IDofQ
-rihNutHeAqiLsvosJkUiDRKjp93PID+ncAxyN/d+mS4NkpbOmKeqn4QwbzaxDXz9
-29sPYKE6+I17Wu/xVrkgjSojBeXZZny+eJX4G9MmF1Ei31/x9wfNO0JOb6Z8kNxl
-C1U5wVhXpTMisqoagEjAmDruEA3rBYyzRCHTYfkX1e3il80kdMJd17qHi7vlqEL1
-wAt6NW0xiDSZT05rCzhLnp4E5MPeJ8cHQXRbdAUY8aepsfh0y8UEYt42VDyd2Pkw
-chYH2xSx0VTT6k1/nwxXDiKRdHFhrg==
-=6Wb7
------END PGP SIGNATURE-----
-
---ep8RsOaURwwKEHPP--
-
+It's perfectly fine to have one compilation unit written in C++ with a few
+symbol in `extern "C"`. No need to touch the other part of the project.
 
