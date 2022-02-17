@@ -2,80 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D830D4BA72E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 18:34:00 +0100 (CET)
-Received: from localhost ([::1]:41472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 665B04BA72D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 18:33:59 +0100 (CET)
+Received: from localhost ([::1]:41468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKkfH-0004Ts-U3
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 12:33:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59338)
+	id 1nKkfG-0004Tj-GC
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 12:33:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nKkXu-0004nJ-U8
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:26:23 -0500
-Received: from [2607:f8b0:4864:20::c29] (port=42996
- helo=mail-oo1-xc29.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nKkXX-0003vE-Mm
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:26:02 -0500
-Received: by mail-oo1-xc29.google.com with SMTP id
- s203-20020a4a3bd4000000b003191c2dcbe8so362676oos.9
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 09:25:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=aoOLBQmHPB9qQDaYEBgSnxTNJ8K7ltnZhswl0kzdrEk=;
- b=OJDud+pfEMRNkcbEEYBWNSzpACmwSANte/U2cHTBMY3KYzHV7XEPVZzxgJwt2PT2Bs
- CvmDBGm0OcNmGjG2akc1gD7M7Svf0dwy08qYD97oaI4CpuCmGQ8zllsnIRwOr22RFlNh
- ijQ5bECikNznvHln2VgXSB9OvPIJ7wgUJ1Qjy4VmTKCoT6S4Ti/jcSwAXkOFdfd/E9xV
- YWZFq57qRHMod/52+Jb8mE/UsPXgkuA+jY5Q7v5QATH/U/WCOIb+d/jORRZVqrDl37Ib
- cyRVL3DcqUjQ/iLMQUlgUFh35Q7O93xVX0WDlYD5AWkfzRpD8IMSac7bBQQ0TEGv7BB1
- axfg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nKkY6-000524-Uu
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:26:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20428)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nKkY5-0003yo-10
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:26:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645118792;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HjuqpVf/Iw3bMxUfmRnvXi5Vt1xaYkbXAvH3yQ4X0Lk=;
+ b=bL9+/q2B6pypWHEa5zBTE1kF5IInsvFqwOttShunKf844pSuvf25nPqtVrdCNY1DLo9sxR
+ t40v9JWStYWl/wTcKC416P4IQPQ/JBWj4bdWs38fW8FPToXKTEX54N+rTEsPwe/yTIB6M1
+ FiClVC9F6k6gTbAft40DCKasHpxtLGE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-329-YG_FLGTMM-KzgM7kDZg_WA-1; Thu, 17 Feb 2022 12:26:31 -0500
+X-MC-Unique: YG_FLGTMM-KzgM7kDZg_WA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k30-20020a05600c1c9e00b0037d1bee4847so4525509wms.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 09:26:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=aoOLBQmHPB9qQDaYEBgSnxTNJ8K7ltnZhswl0kzdrEk=;
- b=H1l/rdLAszOIs9/OfhLpi8o6orHak9dta/+oDGre81kRRSMhxBgUpIaVtyeOWTGvW4
- XANvT/a2PIalaFouydsKsZzlhURN5naJMWw8/0x9hRN947A1IvNutkQ5g/8XCR5tHc8h
- rZHMSG/lUm9v8fH3jJCUQjbhT9ihN0xdzf6jhn17YQ1RBHLm4M5DOYXY1dLWx46GnFRm
- TdnxPJgJNGeJthWwbhcxCui6BsRfGDi1cVb1a0sCiu9hyYcbRsIegXaJ0m4heDxXcdLp
- DnR6OkwJkK/2My0Qzz7XROEYu4ZiL88NmUdyMBIKhxKcnWgSQOiFyjgLFZhIf9p75WJD
- wLAQ==
-X-Gm-Message-State: AOAM530rqlYMTw3Xb70JtQZK1038Qlz0RBSXWqWpa/Jku39mZPCGdVEP
- qaANmEcl79Tnawvct9092LoD2a8y0xvtZ0TUPQ0=
-X-Google-Smtp-Source: ABdhPJxNrYykjKWph85HpK2aXVNQ1OTZv8E1ajYCxiQk49+F5zik8x6Ljw8Wgq2KsM/5bGW+0hf875F1oVhh9zRtTFQ=
-X-Received: by 2002:a05:6870:f78d:b0:d2:73ff:93a8 with SMTP id
- fs13-20020a056870f78d00b000d273ff93a8mr1325493oab.193.1645118758047; Thu, 17
- Feb 2022 09:25:58 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=HjuqpVf/Iw3bMxUfmRnvXi5Vt1xaYkbXAvH3yQ4X0Lk=;
+ b=UwVgzN39bSw0y20BG9ySzBDSP+gdCDPjhyiwo/Hv1qKCwJopfLkSgYrGyNCkUTMIRZ
+ aZnvT02li6aBd/RD7oXqrO7AMJpVa2iLmLj0RD/AQ/FupZ9uiZE8V9hD+Ck2mEQzJOkj
+ /esAt9kiDNBZ5wzi5tNVx8hyqAYOoIV/LzemO5re75H6qbxj50F4rZ9CKZE3kF0duLlQ
+ X+sA+iR/jfRUhVMQfbwArgAZQXmSQyMqpW0fFJBVvje+G/WMyZcp6XzA70bdnNTJ4ocK
+ Rq3/U3YSQzndDV+qmIX9FcyYc/OI0q1fEE418BC/307iyMI6dpsFvN9AfLRYJ9iAZv35
+ zA/g==
+X-Gm-Message-State: AOAM530z5boOpbJkB6vPFd1usivHieA1n6dOD27XL1aUtwyuwfoh7IvV
+ rDPr91UfYE5oX5qC8arm1wGMNNR2xaptP6NJVngGNwbfqv+DoB9GoY8mWvLRMP4rtmpu8x2BdPO
+ Dq8sI4EfjC2V0ISYf1R+ij6ajwyON7w33oJrZOxKDYZ09mD3y+qxZlSmSjMQZbC3H+MA=
+X-Received: by 2002:a05:6000:1b02:b0:1e6:80c4:effa with SMTP id
+ f2-20020a0560001b0200b001e680c4effamr3134175wrz.646.1645118789735; 
+ Thu, 17 Feb 2022 09:26:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzzRTjXRR8qnvjZTN1HxIdVX1732G2Y5IhgNR7Nl82u82qGgnQHyXbuNWVNkI2VL/hpaTXqpw==
+X-Received: by 2002:a05:6000:1b02:b0:1e6:80c4:effa with SMTP id
+ f2-20020a0560001b0200b001e680c4effamr3134156wrz.646.1645118789436; 
+ Thu, 17 Feb 2022 09:26:29 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id h6sm2161158wmq.8.2022.02.17.09.26.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Feb 2022 09:26:28 -0800 (PST)
+Date: Thu, 17 Feb 2022 17:26:26 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, vgoyal@redhat.com, groug@kaod.org,
+ sebastian.hasler@stuvus.uni-stuttgart.de
+Subject: Re: [Virtio-fs] [PULL 00/12] virtiofs queue
+Message-ID: <Yg6FQuL4RcJ05S45@work-vm>
+References: <20220217142402.52819-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
- <CAMVc7JVOJxkqLpvRu7JLNP48C5Kmu0JRYUSR8xP+dAtGp_n=_A@mail.gmail.com>
- <CAJ+F1CKgvcA97kLdxVodSoAFbk1_kB3_po8vn4kX_gPZgKYxbg@mail.gmail.com>
- <CAMVc7JU1rfBEHgofiveNopLkyXRLSEG8dA=6cn_qY52BqLB3iw@mail.gmail.com>
- <CAJ+F1CJsrfL-PiPM5W4Ydp4WLMfrZOaYydUp4wrX1LbFCxiSaA@mail.gmail.com>
-In-Reply-To: <CAJ+F1CJsrfL-PiPM5W4Ydp4WLMfrZOaYydUp4wrX1LbFCxiSaA@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Fri, 18 Feb 2022 02:25:47 +0900
-Message-ID: <CAMVc7JVADz6A+xA7bcZOCd5Y+=2bAqyPGyxqu-Z1gawKGRtiGw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/12] GL & D-Bus display related fixes
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c29
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-oo1-xc29.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220217142402.52819-1-dgilbert@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,239 +99,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: virtio-fs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 18, 2022 at 2:07 AM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Thu, Feb 17, 2022 at 8:39 PM Akihiko Odaki <akihiko.odaki@gmail.com> w=
-rote:
->>
->> On Fri, Feb 18, 2022 at 1:12 AM Marc-Andr=C3=A9 Lureau
->> <marcandre.lureau@gmail.com> wrote:
->> >
->> > Hi
->> >
->> > On Thu, Feb 17, 2022 at 5:09 PM Akihiko Odaki <akihiko.odaki@gmail.com=
-> wrote:
->> >>
->> >> On Thu, Feb 17, 2022 at 8:58 PM <marcandre.lureau@redhat.com> wrote:
->> >> >
->> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >> >
->> >> > Hi,
->> >> >
->> >> > In the thread "[PATCH 0/6] ui/dbus: Share one listener for a consol=
-e", Akihiko
->> >> > Odaki reported a number of issues with the GL and D-Bus display. Hi=
-s series
->> >> > propose a different design, and reverting some of my previous gener=
-ic console
->> >> > changes to fix those issues.
->> >> >
->> >> > However, as I work through the issue so far, they can be solved by =
-reasonable
->> >> > simple fixes while keeping the console changes generic (not specifi=
-c to the
->> >> > D-Bus display backend). I belive a shared infrastructure is more be=
-neficial long
->> >> > term than having GL-specific code in the DBus code (in particular, =
-the
->> >> > egl-headless & VNC combination could potentially use it)
->> >> >
->> >> > Thanks a lot Akihiko for reporting the issues proposing a different=
- approach!
->> >> > Please test this alternative series and let me know of any further =
-issues. My
->> >> > understanding is that you are mainly concerned with the Cocoa backe=
-nd, and I
->> >> > don't have a way to test it, so please check it. If necessary, we m=
-ay well have
->> >> > to revert my earlier changes and go your way, eventually.
->> >> >
->> >> > Marc-Andr=C3=A9 Lureau (12):
->> >> >   ui/console: fix crash when using gl context with non-gl listeners
->> >> >   ui/console: fix texture leak when calling surface_gl_create_textu=
-re()
->> >> >   ui: do not create a surface when resizing a GL scanout
->> >> >   ui/console: move check for compatible GL context
->> >> >   ui/console: move dcl compatiblity check to a callback
->> >> >   ui/console: egl-headless is compatible with non-gl listeners
->> >> >   ui/dbus: associate the DBusDisplayConsole listener with the given
->> >> >     console
->> >> >   ui/console: move console compatibility check to dcl_display_conso=
-le()
->> >> >   ui/shader: fix potential leak of shader on error
->> >> >   ui/shader: free associated programs
->> >> >   ui/console: add a dpy_gfx_switch callback helper
->> >> >   ui/dbus: fix texture sharing
->> >> >
->> >> >  include/ui/console.h |  19 ++++---
->> >> >  ui/dbus.h            |   3 ++
->> >> >  ui/console-gl.c      |   4 ++
->> >> >  ui/console.c         | 119 ++++++++++++++++++++++++++-------------=
-----
->> >> >  ui/dbus-console.c    |  27 +++++-----
->> >> >  ui/dbus-listener.c   |  11 ----
->> >> >  ui/dbus.c            |  33 +++++++++++-
->> >> >  ui/egl-headless.c    |  17 ++++++-
->> >> >  ui/gtk.c             |  18 ++++++-
->> >> >  ui/sdl2.c            |   9 +++-
->> >> >  ui/shader.c          |   9 +++-
->> >> >  ui/spice-display.c   |   9 +++-
->> >> >  12 files changed, 192 insertions(+), 86 deletions(-)
->> >> >
->> >> > --
->> >> > 2.34.1.428.gdcc0cd074f0c
->> >> >
->> >> >
->> >>
->> >> You missed only one thing:
->> >> >- that console_select and register_displaychangelistener may not cal=
-l
->> >> > dpy_gfx_switch and call dpy_gl_scanout_texture instead. It is
->> >> > incompatible with non-OpenGL displays
->> >>
->> >> displaychangelistener_display_console always has to call
->> >> dpy_gfx_switch for non-OpenGL displays, but it still doesn't.
->> >
->> >
->> > Ok, would that be what you have in mind?
->> >
->> >  --- a/ui/console.c
->> > +++ b/ui/console.c
->> > @@ -1122,6 +1122,10 @@ static void displaychangelistener_display_conso=
-le(DisplayChangeListener *dcl,
->> >      } else if (con->scanout.kind =3D=3D SCANOUT_SURFACE) {
->> >          dpy_gfx_create_texture(con, con->surface);
->> >          displaychangelistener_gfx_switch(dcl, con->surface);
->> > +    } else {
->> > +        /* use the fallback surface, egl-headless keeps it updated */
->> > +        assert(con->surface);
->> > +        displaychangelistener_gfx_switch(dcl, con->surface);
->> >      }
->>
->> It should call displaychangelistener_gfx_switch even when e.g.
->> con->scanout.kind =3D=3D SCANOUT_TEXTURE. egl-headless renders the conte=
-nt
->> to the last DisplaySurface it received while con->scanout.kind =3D=3D
->> SCANOUT_TEXTURE.
->
->
-> I see, egl-headless is really not a "listener".
->
->>
->> >
->> > I wish such egl-headless specific code would be there, but we would ne=
-ed more refactoring.
->> >
->> > I think I would rather have a backend split for GL context, like "-obj=
-ect egl-context". egl-headless-specific copy code would be handled by commo=
-n/util code for anything that wants a pixman surface (VNC, screen capture, =
-non-GL display etc).
->> >
->> > This split would allow sharing the context code, and introduce other s=
-ystem specific GL initialization, such as WGL etc. Right now, I doubt the E=
-GL code works on anything but Linux.
->>
->> Sharing the context code is unlikely to happen. Usually the toolkit
->> (GTK, SDL, or Cocoa in my fork) knows what graphics accelerator should
->> be used and how the context should be created for a particular window.
->> The context sharing can be achieved only for headless displays, namely
->> dbus, egl-headless and spice. Few people would want to use them in
->> combination.
->
->
-> Ok for toolkits, they usually have their own context. But ideally, qemu s=
-hould be "headless". And the GL contexts should be working on other systems=
- than EGL Linux.
->
-> Any of the spice, vnc, dbus display etc may legitimately be fixed to work=
- with WGL etc. Doing this repeatedly on the various display backends would =
-be bad design.
+* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> The following changes since commit c13b8e9973635f34f3ce4356af27a311c993729c:
+> 
+>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220216' into staging (2022-02-16 09:57:11 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20220217
+> 
+> for you to fetch changes up to e138ec4ac86ea71d10ecd032edc433290776a5f2:
+> 
+>   virtiofsd: Add basic support for FUSE_SYNCFS request (2022-02-17 13:35:55 +0000)
 
-We already have ui/egl-context.c to share the code for EGL. We can
-have ui/headless-context.c or something which creates a context for
-headless but the implementation can be anything proper there. It
-doesn't require modifying ui/console.c or adding something like
-"-object egl-context".
+NAK again
+Some checkpatch fixes slipped through; v3 in flight
 
->
-> Although my idea is that display servers (spice, vnc, rdp, etc) & various=
- UI (gtk, cocoa, sdl, etc) should be outside of qemu. The display would use=
- IPC, based on DBus if it fits the job, or something else if necessary. Obv=
-iously, there is still a lot of work to do to improve surface & texture sha=
-ring and portability, but that should be possible...
+> ----------------------------------------------------------------
+> V2: virtiofs pull 2022-02-17
+> 
+> Security label improvements from Vivek
+>   - includes a fix for building against new kernel headers
+>   [V2: Fix building on old Linux]
+> Blocking flock disable from Sebastian
+> SYNCFS support from Greg
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
+> ----------------------------------------------------------------
+> Greg Kurz (1):
+>       virtiofsd: Add basic support for FUSE_SYNCFS request
+> 
+> Sebastian Hasler (1):
+>       virtiofsd: Do not support blocking flock
+> 
+> Vivek Goyal (10):
+>       virtiofsd: Fix breakage due to fuse_init_in size change
+>       linux-headers: Update headers to v5.17-rc1
+>       virtiofsd: Parse extended "struct fuse_init_in"
+>       virtiofsd: Extend size of fuse_conn_info->capable and ->want fields
+>       virtiofsd, fuse_lowlevel.c: Add capability to parse security context
+>       virtiofsd: Move core file creation code in separate function
+>       virtiofsd: Add helpers to work with /proc/self/task/tid/attr/fscreate
+>       virtiofsd: Create new file with security context
+>       virtiofsd: Create new file using O_TMPFILE and set security context
+>       virtiofsd: Add an option to enable/disable security label
+> 
+>  docs/tools/virtiofsd.rst                       |  32 ++
+>  include/standard-headers/asm-x86/kvm_para.h    |   1 +
+>  include/standard-headers/drm/drm_fourcc.h      |  11 +
+>  include/standard-headers/linux/ethtool.h       |   1 +
+>  include/standard-headers/linux/fuse.h          |  60 +++-
+>  include/standard-headers/linux/pci_regs.h      | 142 ++++----
+>  include/standard-headers/linux/virtio_gpio.h   |  72 ++++
+>  include/standard-headers/linux/virtio_i2c.h    |  47 +++
+>  include/standard-headers/linux/virtio_iommu.h  |   8 +-
+>  include/standard-headers/linux/virtio_pcidev.h |  65 ++++
+>  include/standard-headers/linux/virtio_scmi.h   |  24 ++
+>  linux-headers/asm-generic/unistd.h             |   5 +-
+>  linux-headers/asm-mips/unistd_n32.h            |   2 +
+>  linux-headers/asm-mips/unistd_n64.h            |   2 +
+>  linux-headers/asm-mips/unistd_o32.h            |   2 +
+>  linux-headers/asm-powerpc/unistd_32.h          |   2 +
+>  linux-headers/asm-powerpc/unistd_64.h          |   2 +
+>  linux-headers/asm-riscv/bitsperlong.h          |  14 +
+>  linux-headers/asm-riscv/mman.h                 |   1 +
+>  linux-headers/asm-riscv/unistd.h               |  44 +++
+>  linux-headers/asm-s390/unistd_32.h             |   2 +
+>  linux-headers/asm-s390/unistd_64.h             |   2 +
+>  linux-headers/asm-x86/kvm.h                    |  16 +-
+>  linux-headers/asm-x86/unistd_32.h              |   1 +
+>  linux-headers/asm-x86/unistd_64.h              |   1 +
+>  linux-headers/asm-x86/unistd_x32.h             |   1 +
+>  linux-headers/linux/kvm.h                      |  17 +
+>  tools/virtiofsd/fuse_common.h                  |   9 +-
+>  tools/virtiofsd/fuse_i.h                       |   7 +
+>  tools/virtiofsd/fuse_lowlevel.c                | 179 ++++++++--
+>  tools/virtiofsd/fuse_lowlevel.h                |  13 +
+>  tools/virtiofsd/helper.c                       |   1 +
+>  tools/virtiofsd/passthrough_ll.c               | 467 +++++++++++++++++++++++--
+>  tools/virtiofsd/passthrough_seccomp.c          |   1 +
+>  34 files changed, 1122 insertions(+), 132 deletions(-)
+>  create mode 100644 include/standard-headers/linux/virtio_gpio.h
+>  create mode 100644 include/standard-headers/linux/virtio_i2c.h
+>  create mode 100644 include/standard-headers/linux/virtio_pcidev.h
+>  create mode 100644 include/standard-headers/linux/virtio_scmi.h
+>  create mode 100644 linux-headers/asm-riscv/bitsperlong.h
+>  create mode 100644 linux-headers/asm-riscv/mman.h
+>  create mode 100644 linux-headers/asm-riscv/unistd.h
+> 
+> _______________________________________________
+> Virtio-fs mailing list
+> Virtio-fs@redhat.com
+> https://listman.redhat.com/mailman/listinfo/virtio-fs
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Maybe we can rework the present UIs of QEMU to make them compatible
-with both in-process communication and D-Bus inter-process
-communication. If the user has a requirement incompatible with IPC
-(e.g. OpenGL on macOS), the user can opt for in-process communication.
-D-Bus would be used otherwise. (Of course that would require
-substantial effort.)
-
->
->>
->>
->> >
->> >>
->> >> Anything else should be addressed with this patch series. (And it als=
-o
->> >> has nice fixes for shader leaks.)
->> >
->> >
->> > thanks
->> >
->> >>
->> >>
->> >> cocoa doesn't have OpenGL output and egl-headless, the cause of many
->> >> pains addressed here, does not work on macOS so you need little
->> >> attention. I have an out-of-tree OpenGL support for cocoa but it is
->> >> out-of-tree anyway and I can fix it anytime.
->> >
->> >
->> > Great!
->> >
->> > btw, I suppose you checked your DBus changes against the WIP "qemu-dis=
-play" project. What was your experience? I don't think many people have tri=
-ed it yet. Do you think this could be made to work on macOS? at least the n=
-on-dmabuf support should work, as long as Gtk4 has good macOS support. I do=
-n't know if dmabuf or similar exist there, any idea?
->>
->> I tested it on Fedora. I think it would probably work on macOS but
->> maybe require some tweaks. IOSurface is a counterpart of DMA-BUF in
->> macOS but its situation is bad; it must be delivered via macOS's own
->> IPC mechanisms (Mach port and XPC), but they are for server-client
->> model and not for P2P. fileport mechanism allows to convert Mach port
->> to file descriptor, but it is not documented. (In reality, I think all
->> of the major browsers, Chromium, Firefox and Safari use fileport for
->> this purpose. Apple should really document it if they use it for their
->> app.) It is also possible to share IOSurface with a global number, but
->> it can be brute-forced and is insecure.
->>
->
-> Thanks, the Gtk developers might have some clue. They have been working o=
-n improving macOS support, and it can use opengl now (https://blogs.gnome.o=
-rg/chergert/2020/12/15/gtk-4-got-a-new-macos-backend-now-with-opengl/).
-
-They don't need IPC for passing textures so that is a different story.
-
->
->>
->> Regards,
->> Akihiko Odaki
->>
->> >
->> >
->> > --
->> > Marc-Andr=C3=A9 Lureau
->
->
->
-> --
-> Marc-Andr=C3=A9 Lureau
 
