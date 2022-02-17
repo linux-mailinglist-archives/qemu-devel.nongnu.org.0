@@ -2,95 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854124B9B83
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 09:53:03 +0100 (CET)
-Received: from localhost ([::1]:41962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1A44B9B5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 09:45:37 +0100 (CET)
+Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKcX8-0004Ya-8e
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 03:53:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45614)
+	id 1nKcPw-0007cw-Qm
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 03:45:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nKbmM-00022G-M2
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 03:04:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59414)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nKbmh-000267-UL
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 03:05:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nKbmH-0006eN-JI
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 03:04:40 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nKbmf-0006fN-Qs
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 03:05:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645085072;
+ s=mimecast20190719; t=1645085094;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6V3iMPqtA7UUUIw8Mrp2dZYNAKHdvpQvfldz6t3SyPU=;
- b=POGV0tcsQ8d5zROZthhpUg/I9p2JuUIWBF4mbovvWZHz4MfpN9/H/EDZOkdL+3Yy6knVYs
- ZOoOvhhr0By7ORn1Cj4zxNGT5vRxIIf/9fosGg2GElR3lZHw2TLvkIPXQc2mGavuDQB7b+
- 7eaUhq+VvyI8ggYVkGmdPg5uyzek1kM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=shAqLFk08GGhzY9e2pCu0ttGCMndFcJfO8j5zj1oYyA=;
+ b=CDnnHA/jew/5j56cgRF+E7xBjqWjj8hDfOeniaYUP3hAQQCM1aCTYE3wtu7kv9Xg6NTGGL
+ VRwI+TXcW20vXgS1SNqdqjCt+t9Bo9lyP77A/Te1ozTKzUbHiGhe4ReFOBL/Th1Jboa04D
+ ekoC+WhaHEZhPqk2ZU1pd7rWCB4HYWk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-495-IAkXyh_qPbaFTS-W_X3PIA-1; Thu, 17 Feb 2022 03:04:31 -0500
-X-MC-Unique: IAkXyh_qPbaFTS-W_X3PIA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- u14-20020a05600c210e00b0037bddd0562eso1334005wml.1
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 00:04:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6V3iMPqtA7UUUIw8Mrp2dZYNAKHdvpQvfldz6t3SyPU=;
- b=0CY1sWqN5uLVs5EpVoArkCXkus762rFFRkGpjfwSHz21IJqxkOdfoRUr8HRTm4yVT1
- E3ZNdIWyjB/4yBVT0nOVOxNt5kd4Olp+Oj3vdCokzKzSiU6Sl+2FcQpVcLseZmZ0xB11
- c6sMjrdEq4TwmgId0bdV/AjaGHxR8tI5AThwzgX0GGKVu+LxMe/uNNQEEneg4pPuwD2B
- 0bDJYk83Q03/YgJPnkw5GmKPqIpsjNDpVR3alqsZYQDHZ3lovjKm/9+mYmeLeKGGq9VW
- IU2ID+M3AEgGUBO88akj55IhvwUCOHZlJiZRjwRGrwTVK0Blur117Yvcm3D5WZxaU+uu
- lfeQ==
-X-Gm-Message-State: AOAM530jpkNX/HZI9By4IcyYAHh1yYqzf/b4fN/WL0jRKBzMFacvY7BO
- 8qxJ6Q4kdMGu/Ukyd9GzBjCkY/79cFHY8LE/EZg4/SUGbEojZngy0eLTqcM71T0sX1hCe4KcxaZ
- MDnsKAI+byzfRA0M=
-X-Received: by 2002:a5d:64ef:0:b0:1e3:1e05:d042 with SMTP id
- g15-20020a5d64ef000000b001e31e05d042mr1271511wri.679.1645085070328; 
- Thu, 17 Feb 2022 00:04:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJznhPPUqRLP8kaW7VT9O6O8vaownlZgLRs6edw+3EOoPTaD3ihATdbsYGrLR29t8NVmc+HFjA==
-X-Received: by 2002:a5d:64ef:0:b0:1e3:1e05:d042 with SMTP id
- g15-20020a5d64ef000000b001e31e05d042mr1271498wri.679.1645085070119; 
- Thu, 17 Feb 2022 00:04:30 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id s7sm21026198wrw.71.2022.02.17.00.04.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 00:04:29 -0800 (PST)
-Message-ID: <be415d25-6c87-9163-718e-c4d53f71291a@redhat.com>
-Date: Thu, 17 Feb 2022 09:04:28 +0100
+ us-mta-481-bR0oVo42P4Oh8_XqywSI-A-1; Thu, 17 Feb 2022 03:04:51 -0500
+X-MC-Unique: bR0oVo42P4Oh8_XqywSI-A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B27E61006AA8;
+ Thu, 17 Feb 2022 08:04:49 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 112554F851;
+ Thu, 17 Feb 2022 08:04:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9047F21A408E; Thu, 17 Feb 2022 09:04:41 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: dgilbert@redhat.com
+Subject: Re: [PATCH v8 3/3] qapi/monitor: allow VNC display id in
+ set/expire_password
+References: <20220204101220.343526-1-f.ebner@proxmox.com>
+ <20220204101220.343526-4-f.ebner@proxmox.com>
+ <875ypogmkt.fsf@pond.sub.org>
+ <988fcea0-b231-6a23-5c2b-e384ddaf7ef4@proxmox.com>
+Date: Thu, 17 Feb 2022 09:04:41 +0100
+In-Reply-To: <988fcea0-b231-6a23-5c2b-e384ddaf7ef4@proxmox.com> (Fabian
+ Ebner's message of "Thu, 17 Feb 2022 08:42:29 +0100")
+Message-ID: <87wnhtvrza.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/3] tests/x86: Use 'pc' machine type for old hardware
- tests
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net,
- mst@redhat.com, berrange@redhat.com, quintela@redhat.com
-References: <20220215162537.605030-1-dgilbert@redhat.com>
- <20220215162537.605030-2-dgilbert@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220215162537.605030-2-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,98 +85,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: w.bumiller@proxmox.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ marcandre.lureau@gmail.com, kraxel@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, Fabian Ebner <f.ebner@proxmox.com>,
+ eblake@redhat.com, t.lamprecht@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/02/2022 17.25, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> For tests that rely on old hardware, e.g. floppies or IDE drives,
-> explicitly select the 'pc' machine type.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->   tests/qtest/fdc-test.c    |  2 +-
->   tests/qtest/hd-geo-test.c | 12 +++++++++---
->   tests/qtest/i440fx-test.c |  2 +-
->   tests/qtest/ide-test.c    |  3 ++-
->   4 files changed, 13 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
-> index 8f6eee84a4..b0d40012e6 100644
-> --- a/tests/qtest/fdc-test.c
-> +++ b/tests/qtest/fdc-test.c
-> @@ -598,7 +598,7 @@ int main(int argc, char **argv)
->       /* Run the tests */
->       g_test_init(&argc, &argv, NULL);
->   
-> -    qtest_start("-device floppy,id=floppy0");
-> +    qtest_start("-machine pc -device floppy,id=floppy0");
->       qtest_irq_intercept_in(global_qtest, "ioapic");
->       qtest_add_func("/fdc/cmos", test_cmos);
->       qtest_add_func("/fdc/no_media_on_start", test_no_media_on_start);
-> diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
-> index 771eaa741b..3554b5d500 100644
-> --- a/tests/qtest/hd-geo-test.c
-> +++ b/tests/qtest/hd-geo-test.c
-> @@ -178,9 +178,15 @@ static int append_arg(int argc, char *argv[], int argv_sz, char *arg)
->   
->   static int setup_common(char *argv[], int argv_sz)
->   {
-> +    int new_argc;
->       memset(cur_ide, 0, sizeof(cur_ide));
-> -    return append_arg(0, argv, argv_sz,
-> -                      g_strdup("-nodefaults"));
-> +    new_argc = append_arg(0, argv, argv_sz,
-> +                          g_strdup("-nodefaults"));
-> +    new_argc = append_arg(new_argc, argv, argv_sz,
-> +                          g_strdup("-machine"));
-> +    new_argc = append_arg(new_argc, argv, argv_sz,
-> +                          g_strdup("pc"));
-> +    return new_argc;
->   }
->   
->   static void setup_mbr(int img_idx, MBRcontents mbr)
-> @@ -697,7 +703,7 @@ static void test_override(TestArgs *args, CHSResult expected[])
->   
->       joined_args = g_strjoinv(" ", args->argv);
->   
-> -    qts = qtest_init(joined_args);
-> +    qts = qtest_initf("-machine pc %s", joined_args);
->       fw_cfg = pc_fw_cfg_init(qts);
->   
->       read_bootdevices(fw_cfg, expected);
-> diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
-> index 1f57d9684b..6d7d4d8d8f 100644
-> --- a/tests/qtest/i440fx-test.c
-> +++ b/tests/qtest/i440fx-test.c
-> @@ -35,7 +35,7 @@ static QPCIBus *test_start_get_bus(const TestData *s)
->   {
->       char *cmdline;
->   
-> -    cmdline = g_strdup_printf("-smp %d", s->num_cpus);
-> +    cmdline = g_strdup_printf("-machine pc -smp %d", s->num_cpus);
->       qtest_start(cmdline);
->       g_free(cmdline);
->       return qpci_new_pc(global_qtest, NULL);
-> diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-> index 3f8081e77d..84935578fb 100644
-> --- a/tests/qtest/ide-test.c
-> +++ b/tests/qtest/ide-test.c
-> @@ -128,10 +128,11 @@ static char debug_path[] = "/tmp/qtest-blkdebug.XXXXXX";
->   static QTestState *ide_test_start(const char *cmdline_fmt, ...)
->   {
->       QTestState *qts;
-> +    g_autofree char *full_fmt = g_strdup_printf("-machine pc %s", cmdline_fmt);
->       va_list ap;
->   
->       va_start(ap, cmdline_fmt);
-> -    qts = qtest_vinitf(cmdline_fmt, ap);
-> +    qts = qtest_vinitf(full_fmt, ap);
->       va_end(ap);
->   
->       pc_alloc_init(&guest_malloc, qts, 0);
+Fabian Ebner <f.ebner@proxmox.com> writes:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Am 09.02.22 um 15:07 schrieb Markus Armbruster:
+>> Fabian Ebner <f.ebner@proxmox.com> writes:
+>>=20
+>>> From: Stefan Reiter <s.reiter@proxmox.com>
+>>>
+>>> It is possible to specify more than one VNC server on the command line,
+>>> either with an explicit ID or the auto-generated ones =C3=A0 la "defaul=
+t",
+>>> "vnc2", "vnc3", ...
+>>>
+>>> It is not possible to change the password on one of these extra VNC
+>>> displays though. Fix this by adding a "display" parameter to the
+>>> "set_password" and "expire_password" QMP and HMP commands.
+>>>
+>>> For HMP, the display is specified using the "-d" value flag.
+>>>
+>>> For QMP, the schema is updated to explicitly express the supported
+>>> variants of the commands with protocol-discriminated unions.
+
+[...]
+
+>>> diff --git a/hmp-commands.hx b/hmp-commands.hx
+>>> index 70a9136ac2..cc2f4bdeba 100644
+>>> --- a/hmp-commands.hx
+>>> +++ b/hmp-commands.hx
+>>> @@ -1514,33 +1514,35 @@ ERST
+>>> =20
+>>>      {
+>>>          .name       =3D "set_password",
+>>> -        .args_type  =3D "protocol:s,password:s,connected:s?",
+>>> -        .params     =3D "protocol password action-if-connected",
+>>> +        .args_type  =3D "protocol:s,password:s,display:-dV,connected:s=
+?",
+>>> +        .params     =3D "protocol password [-d display] [action-if-con=
+nected]",
+>>>          .help       =3D "set spice/vnc password",
+>>>          .cmd        =3D hmp_set_password,
+>>>      },
+>>> =20
+>>>  SRST
+>>> -``set_password [ vnc | spice ] password [ action-if-connected ]``
+>>> -  Change spice/vnc password.  *action-if-connected* specifies what
+>>> -  should happen in case a connection is established: *fail* makes the
+>>> -  password change fail.  *disconnect* changes the password and
+>>> +``set_password [ vnc | spice ] password [ -d display ] [ action-if-con=
+nected ]``
+>>=20
+>> This is the first flag with an argument in HMP.  The alternative is
+>> another optional argument.
+>>=20
+>> PRO optional argument: no need for PATCH 1.
+>>=20
+>> PRO flag with argument: can specify the display without
+>> action-if-connected.
+>>=20
+>> Dave, this is your call to make.
+>>=20
+>
+> I'll go ahead with v9 once the decision is made.
+
+Dave?
+
+[...]
 
 
