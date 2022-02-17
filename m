@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44D24B9C43
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 10:42:28 +0100 (CET)
-Received: from localhost ([::1]:59878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320684B9C1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 10:37:19 +0100 (CET)
+Received: from localhost ([::1]:54102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKdIx-0004Lm-Fl
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 04:42:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57916)
+	id 1nKdDx-0000BS-LD
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 04:37:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nKco9-0003Yl-Db
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:10:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53095)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nKcuB-0007q9-Gv
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:16:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nKco5-0007xz-3p
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:10:36 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nKcu8-0000lW-Vc
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:16:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645089029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tsSfdSw2Ks433q23+5Q3VH5jFp5AOH0XIWxAdpoZX0Q=;
- b=SM/nQpqbCOdWIIoLhMpzwsO63m2exxyEMOtUuNvRty8L7lsy9mv5mEZfIWVNxi2N7v25WD
- i3PoLGhZ5r3ksOmfHqKtWPZN1+C5bz/T0iNv/eaXyJAtOOMGdch+inTmQb1tAE42qIu3Qe
- aogr9Q/RcftTiM4EycOhutZUhMh08vA=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1645089406;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=HyXfisScbKDuOqvZ5VSh9zSxmqCW7Fysbh6HUUwoEow=;
+ b=XAmDOwpWRE6LVTbObaQR8413Np6WbTNL+Y3NEgUWzLyN+l8QPX+qWJ6o2BoLX3X9Rc50xQ
+ jD9n2h6bxmEuUvDfvGpLoXlJ6LHvzRxNJpORzd/m0xwEeNJmmdzTRx9sSIeS9xSS7ol29v
+ juafEx1k3KdKPZAzhXk79mHw96WoqJ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-uIYQHZEfOQ60DAs1heGnew-1; Thu, 17 Feb 2022 04:10:27 -0500
-X-MC-Unique: uIYQHZEfOQ60DAs1heGnew-1
-Received: by mail-ej1-f72.google.com with SMTP id
- m12-20020a1709062acc00b006cfc98179e2so1220300eje.6
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 01:10:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tsSfdSw2Ks433q23+5Q3VH5jFp5AOH0XIWxAdpoZX0Q=;
- b=PjIWFWo1x5Ynyw25Rt3yNc0LaDnHh4Ynaci9osCf/MTkU7Sb3sYbETJsVHR/cp8d8R
- 3rt+/jLxEq1MIpcaUHN+d4Apu1eFMtpiuNP0BauhGgkwJQzlfgiBSWH3dufjwnogtP+f
- MEGrKhZeFc1nbKhwcXUF6vFcNeIVM0fuXQ5TOVRkHhmDFIFLNMlo9jYbn6lt2YaalMF3
- QIp7SA30wys7Lxr83imLAR8NormvmlE/gLkxn0tuPtpHZN+vikf7Dd/hvoNVCHJs3RAG
- BQoPjfFAwojuoXq2M7BblvHV+zwGmW5B0uxao/JDUQJz36fxvOtI8UWnv3Ll9agv0Lrl
- l+xQ==
-X-Gm-Message-State: AOAM530V5FxHDTZu8EmH1vdsARyDXOqbwRoOsbQ2xEGcFOeAXQGNIi48
- fvSTMwL3r7n5xRJzCac9nLn3MEuJIzpWF72cRo2uqyH3lzMT4DEV5yVxw4vmOe9j94EESy1RXdh
- xwzkzRimJgP63qvI=
-X-Received: by 2002:a17:906:2991:b0:6cc:fc18:f10c with SMTP id
- x17-20020a170906299100b006ccfc18f10cmr1557639eje.744.1645089026485; 
- Thu, 17 Feb 2022 01:10:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwcyvrwXroplsrAJzvlrpunxjQwONMo6M//PTcy1aeh9/94a7FyZxWbM10rcjbFk4sdIFyTAg==
-X-Received: by 2002:a17:906:2991:b0:6cc:fc18:f10c with SMTP id
- x17-20020a170906299100b006ccfc18f10cmr1557617eje.744.1645089026190; 
- Thu, 17 Feb 2022 01:10:26 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id j21sm947735ejj.193.2022.02.17.01.10.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 01:10:25 -0800 (PST)
-Date: Thu, 17 Feb 2022 10:10:24 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Li Zhang <lizhang@suse.de>
-Subject: Re: [PATCH 1/1] numa: check mem or memdev in numa configuration
-Message-ID: <20220217101024.7c723f10@redhat.com>
-In-Reply-To: <20220216163613.22570-1-lizhang@suse.de>
-References: <20220216163613.22570-1-lizhang@suse.de>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ us-mta-470-F9-TtWDEPwu6wRm9zEMM0A-1; Thu, 17 Feb 2022 04:16:43 -0500
+X-MC-Unique: F9-TtWDEPwu6wRm9zEMM0A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 159C42F51;
+ Thu, 17 Feb 2022 09:16:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB8C97B14A;
+ Thu, 17 Feb 2022 09:16:39 +0000 (UTC)
+Date: Thu, 17 Feb 2022 09:16:36 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 3/3] x86: Switch to q35 as the default machine type
+Message-ID: <Yg4SdD7wMuB7KwEA@redhat.com>
+References: <20220215162537.605030-1-dgilbert@redhat.com>
+ <20220215162537.605030-4-dgilbert@redhat.com>
+ <YgvtLmoJcv+ZSW1S@redhat.com>
+ <20220216105808.77kqhmsagz3ej74h@sirius.home.kraxel.org>
+ <YgzZhHKSAFYTYFDc@work-vm>
+ <db583712-cd6e-d67d-ad98-989a9867499a@redhat.com>
+ <Yg03HB5KHGYWyI0J@work-vm>
+ <f5ea8b34-2d50-c0d7-4ec0-ff0921dbcbd4@redhat.com>
+ <20220217080852.omqkckc5i2lav7gb@sirius.home.kraxel.org>
+ <20220217031311-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20220217031311-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,51 +88,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, wangyanan55@huawei.com, f4bug@amsat.org,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: eduardo@habkost.net, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, quintela@redhat.com, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Feb 2022 17:36:13 +0100
-Li Zhang <lizhang@suse.de> wrote:
-
-> If there is no mem or memdev in numa configuration, it always
-> reports the error as the following:
+On Thu, Feb 17, 2022 at 03:17:04AM -0500, Michael S. Tsirkin wrote:
+> On Thu, Feb 17, 2022 at 09:08:52AM +0100, Gerd Hoffmann wrote:
+> >   Hi,
+> > 
+> > > Other heretic question: Should we maybe get rid of the default machine type
+> > > for *all* targets? ... so that we do not continue to run into this issue
+> > > again and again and again...
+> > 
+> > /me votes "yes".
+> > 
+> > take care,
+> >   Gerd
 > 
-> total memory for NUMA nodes (0x0) should equal RAM size (0x100000000)
+> Well originally qemu tried to be friendly and to just create
+> a reasonable machine when given a disk, to the point where
+> it would even set up some networking by default.
 > 
-> This error is confusing and the reason is that total memory of numa nodes
-> is always 0 if there is no mem or memdev in numa configuration.
-> So it's better to check mem or memdev in numa configuration.
+> And I think it's not a bad idea, forcing everyone to specify a bunch of
+> boilerplate does not really result in people researching which machine
+> type is good for them, people instead just copy paste from a random
+> website.
 > 
-> Signed-off-by: Li Zhang <lizhang@suse.de>
-> ---
->  hw/core/numa.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/hw/core/numa.c b/hw/core/numa.c
-> index 1aa05dcf42..11cbec51eb 100644
-> --- a/hw/core/numa.c
-> +++ b/hw/core/numa.c
-> @@ -132,6 +132,11 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
->  
->      have_memdevs = have_memdevs ? : node->has_memdev;
->      have_mem = have_mem ? : node->has_mem;
-> +    if (!node->has_memdev && !node->has_mem) {
-> +        error_setg(errp, "numa configuration should use mem= or memdev= ");
-> +        return;
-> +    }
+> So maybe we can detect that basic usage somehow (I only have some
+> vague ideas) and then set a bunch of defaults that we consider
+> best?
 
-Wouldn't this breaks memory less numa nodes?
+The "basic usage" is the majority of people using QEMU directly,
+as opposed to via a MGMT app. As I pointed out elserwhere in this
+thread, changing the machine type in QEMU won't have any effect
+on apps using libvirt, since libvirt explicitly override's QEMU's
+default. So with that in mind, this proposed QEMU level defaults
+change is primarily going to impact the basic usage, as those
+people aren't using libvirt. IOW, to avoid impacting basic usage
+don't change the default in current QEMU binaries at all.
 
-I'd rather add/rephrase to original error message that memory
-should be specified explicitly for desired numa nodes.
-And I'd not mention 'mem=' since
-  docs/about/removed-features.rst:``-numa node,mem=...`` (removed in 5.1)
 
-> +
->      if ((node->has_mem && have_memdevs) || (node->has_memdev && have_mem)) {
->          error_setg(errp, "numa configuration should use either mem= or memdev=,"
->                     "mixing both is not allowed");
+Separately, we've got active work going on to try to eliminate
+the need for QemuOpts and enable entirely QAPI based runtime
+configuration. That is intending to start off by adding new system
+emulator binaries targetted exclusively at machine usage, to avoid
+impacting back compat of existing binaries wrt human usage. That
+will likely eliminate the notion of a default machine entirely,
+because you'll be required to issue a QMP command to select a
+machine as one of the very first config steps.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
