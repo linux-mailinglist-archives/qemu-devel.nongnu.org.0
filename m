@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9DDE4BA6CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 18:15:31 +0100 (CET)
-Received: from localhost ([::1]:42170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FBE4BA6ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 18:18:12 +0100 (CET)
+Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKkNO-0002BH-Eo
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 12:15:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56680)
+	id 1nKkPz-0006k7-A5
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 12:18:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <494fbbd3ed46a14ef0924651c058b9b0dcb4a7b4@lizzy.crudebyte.com>)
- id 1nKkK7-0008Lc-B5
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:12:07 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:41729)
+ (envelope-from <ba6112e40c03594cf4e3a7a6ebf52341153e7496@lizzy.crudebyte.com>)
+ id 1nKkMN-0002i9-9R
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:14:28 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:54215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <494fbbd3ed46a14ef0924651c058b9b0dcb4a7b4@lizzy.crudebyte.com>)
- id 1nKkK0-0001fJ-1Z
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:12:07 -0500
+ (envelope-from <ba6112e40c03594cf4e3a7a6ebf52341153e7496@lizzy.crudebyte.com>)
+ id 1nKkMD-0001tO-IC
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:14:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=mcbRg2xlZAZHldg9PdPezpruRYnaMN84QxS/hR585+U=; b=jyauA
- PGLMEABx4ia3grMWc7oHNhA/306LiHzZ4lo6FHnBkBffFIsFOc38dfcdQDL1X+VIIfJP08zjLFr5c
- atcVnDt7f5rm3eQO9Kn1FOIVxwNntwnMN6rIP/8WMsudvFKbgm/XVXdKignCKeadkudMiFUVZD3Ff
- nYlIn4okaGZFZlTqpgMjjr9JShY5f6rEyfZnl5aVLorcIKnNZrTPL/7E3oa15nUuKo+TQfUDPdnm1
- BPjF1LbHnOhRuq8yB38Luk8e7oB6ho1n1PVdc9tnSt9QjvmHiJGBq6zNdb4Qb+WgOcPC1MCee8ZyN
- txKi2mNqg8mUk7iyC1vpd8KEoHZWQ==;
-Message-Id: <494fbbd3ed46a14ef0924651c058b9b0dcb4a7b4.1645114783.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=nol1mgUdNPIinW3AvolOp2b+vCDqiMhIC5upX6MUJlg=; b=APc3I
+ uAw1xHHbK0hMLhEJdRwVdNXZwVk9f++RXhnyGd7JhJA33jrfYnrga+v2lztG+rxnYGqECsCjjwroh
+ Mp+24VHfQz/uzgAjuCxCfNX2Zjb5zqOnqC/imqyJyBbasZYbmlihwunD9yGDq69z+GJ+vo7w96O1V
+ bjfCC6fN/OzeuaEPXIloZmrN48uo16eyzo/xFL1Fpqpz0Bc8LDZAbfwaqU7CKTqgm9unin/8eAptB
+ Uhm+OAgwTFIs5ZixUCB/u5zzp8cjOcFtCSXzznJ9MdmkG7q/TQTrPVRjIUmTGTCqYhPJXmIesrMdn
+ qtwMR86YU4Ys+P6x3PLldIFuXxj8A==;
+Message-Id: <ba6112e40c03594cf4e3a7a6ebf52341153e7496.1645114783.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1645114783.git.qemu_oss@crudebyte.com>
 References: <cover.1645114783.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 17 Feb 2022 17:19:44 +0100
-Subject: [PULL v2 4/5] tests/9pfs: Use g_autofree and g_autoptr where possible
+Subject: [PULL v2 3/5] tests/9pfs: Fix leak of local_test_path
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=494fbbd3ed46a14ef0924651c058b9b0dcb4a7b4@lizzy.crudebyte.com;
+ envelope-from=ba6112e40c03594cf4e3a7a6ebf52341153e7496@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -65,73 +65,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-It is recommended to use g_autofree or g_autoptr as it reduces
-the odds of introducing memory leaks in future changes.
+local_test_path is allocated in virtio_9p_create_local_test_dir() to hold the path
+of the temporary directory. It should be freed in virtio_9p_remove_local_test_dir()
+when the temporary directory is removed. Clarify the lifecycle of local_test_path
+while here.
 
+Based-on: <f6602123c6f7d0d593466231b04fba087817abbd.1642879848.git.qemu_oss@crudebyte.com>
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20220201151508.190035-3-groug@kaod.org>
+Message-Id: <20220201151508.190035-2-groug@kaod.org>
 Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/libqos/virtio-9p.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ tests/qtest/libqos/virtio-9p.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index 5d18e5eae5..f51f0635cc 100644
+index ef96ef006a..5d18e5eae5 100644
 --- a/tests/qtest/libqos/virtio-9p.c
 +++ b/tests/qtest/libqos/virtio-9p.c
-@@ -41,7 +41,7 @@ void virtio_9p_create_local_test_dir(void)
+@@ -39,8 +39,13 @@ static char *concat_path(const char* a, const char* b)
+ 
+ void virtio_9p_create_local_test_dir(void)
  {
-     g_assert(local_test_path == NULL);
++    g_assert(local_test_path == NULL);
      struct stat st;
--    char *pwd = g_get_current_dir();
-+    g_autofree char *pwd = g_get_current_dir();
-     /*
-      * template gets cached into local_test_path and freed in
-      * virtio_9p_remove_local_test_dir().
-@@ -52,7 +52,6 @@ void virtio_9p_create_local_test_dir(void)
-     if (!local_test_path) {
-         g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
-     }
--    g_free(pwd);
+     char *pwd = g_get_current_dir();
++    /*
++     * template gets cached into local_test_path and freed in
++     * virtio_9p_remove_local_test_dir().
++     */
+     char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
  
-     g_assert(local_test_path != NULL);
- 
-@@ -65,12 +64,11 @@ void virtio_9p_create_local_test_dir(void)
- void virtio_9p_remove_local_test_dir(void)
- {
-     g_assert(local_test_path != NULL);
--    char *cmd = g_strdup_printf("rm -fr '%s'\n", local_test_path);
-+    g_autofree char *cmd = g_strdup_printf("rm -fr '%s'\n", local_test_path);
-     int res = system(cmd);
-     if (res < 0) {
+     local_test_path = mkdtemp(template);
+@@ -66,6 +71,8 @@ void virtio_9p_remove_local_test_dir(void)
          /* ignore error, dummy check to prevent compiler error */
      }
--    g_free(cmd);
-     g_free(local_test_path);
-     local_test_path = NULL;
- }
-@@ -216,8 +214,8 @@ static void *virtio_9p_pci_create(void *pci_bus, QGuestAllocator *t_alloc,
- static void regex_replace(GString *haystack, const char *pattern,
-                           const char *replace_fmt, ...)
- {
--    GRegex *regex;
--    char *replace, *s;
-+    g_autoptr(GRegex) regex = NULL;
-+    g_autofree char *replace = NULL, *s = NULL;
-     va_list argp;
- 
-     va_start(argp, replace_fmt);
-@@ -227,9 +225,6 @@ static void regex_replace(GString *haystack, const char *pattern,
-     regex = g_regex_new(pattern, 0, 0, NULL);
-     s = g_regex_replace(regex, haystack->str, -1, 0, replace, 0, NULL);
-     g_string_assign(haystack, s);
--    g_free(s);
--    g_regex_unref(regex);
--    g_free(replace);
+     g_free(cmd);
++    g_free(local_test_path);
++    local_test_path = NULL;
  }
  
- void virtio_9p_assign_local_driver(GString *cmd_line, const char *args)
+ char *virtio_9p_test_path(const char *path)
 -- 
 2.20.1
 
