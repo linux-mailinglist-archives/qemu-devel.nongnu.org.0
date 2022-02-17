@@ -2,52 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40FBE4BA6ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 18:18:12 +0100 (CET)
-Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605F24BA6B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 18:07:26 +0100 (CET)
+Received: from localhost ([::1]:59996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKkPz-0006k7-A5
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 12:18:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56898)
+	id 1nKkFZ-0003Uj-1j
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 12:07:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <ba6112e40c03594cf4e3a7a6ebf52341153e7496@lizzy.crudebyte.com>)
- id 1nKkMN-0002i9-9R
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:14:28 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:54215)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nKkCd-0001K5-NY
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:04:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <ba6112e40c03594cf4e3a7a6ebf52341153e7496@lizzy.crudebyte.com>)
- id 1nKkMD-0001tO-IC
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:14:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=nol1mgUdNPIinW3AvolOp2b+vCDqiMhIC5upX6MUJlg=; b=APc3I
- uAw1xHHbK0hMLhEJdRwVdNXZwVk9f++RXhnyGd7JhJA33jrfYnrga+v2lztG+rxnYGqECsCjjwroh
- Mp+24VHfQz/uzgAjuCxCfNX2Zjb5zqOnqC/imqyJyBbasZYbmlihwunD9yGDq69z+GJ+vo7w96O1V
- bjfCC6fN/OzeuaEPXIloZmrN48uo16eyzo/xFL1Fpqpz0Bc8LDZAbfwaqU7CKTqgm9unin/8eAptB
- Uhm+OAgwTFIs5ZixUCB/u5zzp8cjOcFtCSXzznJ9MdmkG7q/TQTrPVRjIUmTGTCqYhPJXmIesrMdn
- qtwMR86YU4Ys+P6x3PLldIFuXxj8A==;
-Message-Id: <ba6112e40c03594cf4e3a7a6ebf52341153e7496.1645114783.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1645114783.git.qemu_oss@crudebyte.com>
-References: <cover.1645114783.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 17 Feb 2022 17:19:44 +0100
-Subject: [PULL v2 3/5] tests/9pfs: Fix leak of local_test_path
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=ba6112e40c03594cf4e3a7a6ebf52341153e7496@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nKkCY-0000QL-Bm
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:04:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645117455;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2Bpd6Kb5ibzWUzJStYNKY+51Tu+N5ef1mGNeaBYyXNk=;
+ b=CcZTtTITOoCwtpKOMuxYw92a++KmMytpP6loWU/qVbSzLDDTFKYb6PxgOD3LXxL1D2x11R
+ CH7youYoqqlLCTyVQVkXZaXSAmUm7j3AnTCm+BwzQF9kY2NyQ8F9lOAHhOhFufPqS7wX3Q
+ 0M38DDAyDqZ6ODhpbJQw1BBWcaC9bYc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611-jLrqtgltOca0e-7afRgVUw-1; Thu, 17 Feb 2022 12:04:14 -0500
+X-MC-Unique: jLrqtgltOca0e-7afRgVUw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F078C1006AA3
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 17:04:12 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B0BB2DE9C;
+ Thu, 17 Feb 2022 17:04:09 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] migration: NULL transport_data after freeing
+Date: Thu, 17 Feb 2022 18:04:07 +0100
+Message-Id: <20220217170407.24906-1-hreitz@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,53 +74,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Hanna Reitz <hreitz@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+migration_incoming_state_destroy() NULLs all objects it frees after they
+are freed, presumably so that a subsequent call to the same function
+will not free them again, unless new objects have been created in the
+meantime.
 
-local_test_path is allocated in virtio_9p_create_local_test_dir() to hold the path
-of the temporary directory. It should be freed in virtio_9p_remove_local_test_dir()
-when the temporary directory is removed. Clarify the lifecycle of local_test_path
-while here.
+transport_data is the exception, and it shows exactly this problem: When
+an incoming migration uses transport_cleanup() and transport_data, and a
+subsequent incoming migration (e.g. loadvm) occurs that does not, then
+when this second one is done, it will call transport_cleanup() on the
+old transport_data again -- which has already been freed.  This is
+sometimes visible in the iotest 201, though for some reason I can only
+reproduce it with -m32.
 
-Based-on: <f6602123c6f7d0d593466231b04fba087817abbd.1642879848.git.qemu_oss@crudebyte.com>
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20220201151508.190035-2-groug@kaod.org>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To fix this, call transport_cleanup() only when transport_data is not
+NULL (otherwise there is nothing to clean up), and set transport_data to
+NULL when it has been cleaned up (i.e. freed).
+
+(transport_cleanup() is used only by migration/socket.c, where
+socket_start_incoming_migration_internal() sets both it and
+transport_data to non-NULL values.)
+
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qtest/libqos/virtio-9p.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ migration/migration.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index ef96ef006a..5d18e5eae5 100644
---- a/tests/qtest/libqos/virtio-9p.c
-+++ b/tests/qtest/libqos/virtio-9p.c
-@@ -39,8 +39,13 @@ static char *concat_path(const char* a, const char* b)
- 
- void virtio_9p_create_local_test_dir(void)
- {
-+    g_assert(local_test_path == NULL);
-     struct stat st;
-     char *pwd = g_get_current_dir();
-+    /*
-+     * template gets cached into local_test_path and freed in
-+     * virtio_9p_remove_local_test_dir().
-+     */
-     char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
- 
-     local_test_path = mkdtemp(template);
-@@ -66,6 +71,8 @@ void virtio_9p_remove_local_test_dir(void)
-         /* ignore error, dummy check to prevent compiler error */
+diff --git a/migration/migration.c b/migration/migration.c
+index bcc385b94b..cdb2e76d02 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -287,8 +287,9 @@ void migration_incoming_state_destroy(void)
+         g_array_free(mis->postcopy_remote_fds, TRUE);
+         mis->postcopy_remote_fds = NULL;
      }
-     g_free(cmd);
-+    g_free(local_test_path);
-+    local_test_path = NULL;
- }
+-    if (mis->transport_cleanup) {
++    if (mis->transport_cleanup && mis->transport_data) {
+         mis->transport_cleanup(mis->transport_data);
++        mis->transport_data = NULL;
+     }
  
- char *virtio_9p_test_path(const char *path)
+     qemu_event_reset(&mis->main_thread_load_event);
 -- 
-2.20.1
+2.34.1
 
 
