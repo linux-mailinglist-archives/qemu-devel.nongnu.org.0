@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F114BA301
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:31:20 +0100 (CET)
-Received: from localhost ([::1]:35416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189344BA18F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 14:42:55 +0100 (CET)
+Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKhoV-00018i-7g
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:31:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32958)
+	id 1nKh3e-0007QC-5z
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 08:42:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nKgum-0002F3-NX
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:33:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43866)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nKgxx-0004Co-Hx
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:37:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nKguj-0000pi-Qr
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:33:43 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nKgxv-0001Lz-2N
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 08:37:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645104820;
+ s=mimecast20190719; t=1645105017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eBNMAKIHVcZKs63r5Y6t4a705SFZnlw1Kv7nVwtdeew=;
- b=hMModP+2UmG1KChtbgTAVhmpaFd+VgIoMiTNJrjGvrJbreVRsK3aLnBDyY7Ku1ZqBZ8A0D
- XyXUnA+uF7iuAdYF0RoM/Fczuxq9Z9x9fQGiqU0u9c29CcdXXoyEAy5p94tu52aP9Kxn9w
- nFX3VGVXaE+UkjQv+Si2DiwHUwqqLsg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LK2eLRH1TqyBFmiR9BklW/jr3YLNDhaAE/MeiB9B1oU=;
+ b=ho19ikiUlOc72LdcutQXkH3He3G/uNgbYJpz2JLGEAT4/ELczG9Fh4OuNUxGAPUpgEjuuE
+ 7zykWEPU01uHLetKzZTH0Lq7VZM9eVCJQ/DBT6JjYImD/o9Z/Iv2fG8uC86M1PSHEzwPpm
+ +LGmvnuwuXcade4C+IkPvXfB3rBNqsA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-421-m074rY7IMu-QNa5g0k-3QA-1; Thu, 17 Feb 2022 08:33:39 -0500
-X-MC-Unique: m074rY7IMu-QNa5g0k-3QA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- y13-20020aa7c24d000000b00411925b7829so3359283edo.22
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 05:33:39 -0800 (PST)
+ us-mta-29-rR5y2mpvNDqTmEy9I1mqyg-1; Thu, 17 Feb 2022 08:36:56 -0500
+X-MC-Unique: rR5y2mpvNDqTmEy9I1mqyg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 7-20020a1c1907000000b003471d9bbe8dso2776129wmz.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 05:36:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eBNMAKIHVcZKs63r5Y6t4a705SFZnlw1Kv7nVwtdeew=;
- b=Tny4toNVJfVDZwxUKOQ/fxGAg/iF6DCfGWNZUJsCR3Xr5XYPkEgqCnC49c8bMF0OHE
- HBNw9MPVVB3OoqBHigsI3E6QGljMUmhbmP2ft0sSW97nHXz3omDrNDPyMiL9fEPMDvzg
- sOkXQlK+jCcnEL3VOTcayuWZfxlmCxqHMv/68/xqzxQXhAMHM+hLnqY0ew01p7PDLyJN
- q8c9ktbknXx63K5iQejTfoZWc4iKJ90Sv9TU1OjSbcxz4EhwEdoR3WiRrWIcGdRZIv/Y
- 2JQHLLsO/Mk+Xz2jve9LV+inxyR61OPoN/I2DaaJ+4QJNzBaWVhLjRwmFqfzE97Qm/VJ
- WxpA==
-X-Gm-Message-State: AOAM53235EQN0aKEJ1bXbufq6ox+T5Lx67Du+u/gDYF14MMpe+YffeF5
- au+ADOJzz5bKrwWFCbD22ePY+63rwvSUDFJb6MzUO4Ze3o3474cdOj05vK4Q4yFiCoKtjVMZHxL
- uwxmImSngj0GXQTE=
-X-Received: by 2002:a17:906:ae97:b0:6cf:73fe:8515 with SMTP id
- md23-20020a170906ae9700b006cf73fe8515mr2355427ejb.462.1645104818306; 
- Thu, 17 Feb 2022 05:33:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx//SbgJGJZuQqH/0tqIdee3KVAE4sywew+oKH7TcdGWB5K5Wj7zbOnX5YWNFVxIBafCvaEDQ==
-X-Received: by 2002:a17:906:ae97:b0:6cf:73fe:8515 with SMTP id
- md23-20020a170906ae9700b006cf73fe8515mr2355406ejb.462.1645104818031; 
- Thu, 17 Feb 2022 05:33:38 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id gq1sm1194646ejb.58.2022.02.17.05.33.36
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=LK2eLRH1TqyBFmiR9BklW/jr3YLNDhaAE/MeiB9B1oU=;
+ b=b/wpnOX3zKflBvAozi3Lahr4FkbKpLrRlstlol073AEL2/PDcCwrNsBUY2EtDhbH0T
+ /fOmjtlW8+P4gX3DbmsOQomWQTyTF+jKWoCLgZwqNf8Fx8DfUS8nRsq/4PVk3VwxhKnP
+ LxKadxgAAyESGnCZ+uU1NJBFYUc+vDteuE+4Z6Z+AdV59UNl+UsYc7haFoeMBh+BU506
+ 5HtrvT6lVeMymuOPeSFsZCy45mnB2ROlGM8hH+hhpL1dItvJY4BhJeoJlAZkF4s9rbe1
+ FwY5rNsdGZWOxqNJlYi73v5hFSBIEiD+eXSfCcXeODl/mdJU86UxKC4JSe3aQjhYPyNn
+ hBkw==
+X-Gm-Message-State: AOAM531ax6NJqkevEorWrCXWvBRpUr/D+0XLCIFB5lJgfaSB4/B9M75T
+ 0fRP6+RWExQqidH+Iq8+pK/DSp84MxmlavRb02q3hcl6mI2UYVMHHTD2msv8dbdNPTRNURHdLX2
+ ipPj2Obp1PntqJbE=
+X-Received: by 2002:a7b:c44c:0:b0:37b:baaf:ae36 with SMTP id
+ l12-20020a7bc44c000000b0037bbaafae36mr2751991wmi.81.1645105014855; 
+ Thu, 17 Feb 2022 05:36:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzzgOvICHk+lw5Yt3ZOpcfPVmP/K2K0rQkzsrHGmzOg7oYskVOG/SMDaTVmuWhxxBcAH+SPLQ==
+X-Received: by 2002:a7b:c44c:0:b0:37b:baaf:ae36 with SMTP id
+ l12-20020a7bc44c000000b0037bbaafae36mr2751973wmi.81.1645105014632; 
+ Thu, 17 Feb 2022 05:36:54 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id m8sm1388784wms.4.2022.02.17.05.36.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 05:33:37 -0800 (PST)
-Date: Thu, 17 Feb 2022 14:33:35 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Li Zhang <lizhang@suse.de>
-Subject: Re: [PATCH 1/1] numa: check mem or memdev in numa configuration
-Message-ID: <20220217143335.17e8ff28@redhat.com>
-In-Reply-To: <f3b49aba-5fef-8c80-17c3-d577aeed6111@suse.de>
-References: <20220216163613.22570-1-lizhang@suse.de>
- <20220217101024.7c723f10@redhat.com>
- <65f05997-dd2b-c30d-5c95-8e832f21afa0@suse.de>
- <20220217112539.43ddd55f@redhat.com>
- <f3b49aba-5fef-8c80-17c3-d577aeed6111@suse.de>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ Thu, 17 Feb 2022 05:36:54 -0800 (PST)
+Date: Thu, 17 Feb 2022 13:36:52 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] [PULL 00/12] virtiofs queue
+Message-ID: <Yg5PdHX0+0GJ2Si5@work-vm>
+References: <20220216173625.128109-1-dgilbert@redhat.com>
+ <Yg1THoNoxjSAcK7u@work-vm> <Yg1nFPqBnOf+4pDi@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <Yg1nFPqBnOf+4pDi@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -102,93 +99,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, wangyanan55@huawei.com, f4bug@amsat.org,
- qemu-devel@nongnu.org
+Cc: virtio-fs@redhat.com, sebastian.hasler@stuvus.uni-stuttgart.de,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Feb 2022 13:24:08 +0100
-Li Zhang <lizhang@suse.de> wrote:
-
-> On 2/17/22 11:25 AM, Igor Mammedov wrote:
-> > On Thu, 17 Feb 2022 10:38:32 +0100
-> > Li Zhang <lizhang@suse.de> wrote:
-> >   
-> >> On 2/17/22 10:10 AM, Igor Mammedov wrote:  
-> >>> On Wed, 16 Feb 2022 17:36:13 +0100
-> >>> Li Zhang <lizhang@suse.de> wrote:
-> >>>      
-> >>>> If there is no mem or memdev in numa configuration, it always
-> >>>> reports the error as the following:
-> >>>>
-> >>>> total memory for NUMA nodes (0x0) should equal RAM size (0x100000000)
-> >>>>
-> >>>> This error is confusing and the reason is that total memory of numa nodes
-> >>>> is always 0 if there is no mem or memdev in numa configuration.
-> >>>> So it's better to check mem or memdev in numa configuration.
-> >>>>
-> >>>> Signed-off-by: Li Zhang <lizhang@suse.de>
-> >>>> ---
-> >>>>    hw/core/numa.c | 5 +++++
-> >>>>    1 file changed, 5 insertions(+)
-> >>>>
-> >>>> diff --git a/hw/core/numa.c b/hw/core/numa.c
-> >>>> index 1aa05dcf42..11cbec51eb 100644
-> >>>> --- a/hw/core/numa.c
-> >>>> +++ b/hw/core/numa.c
-> >>>> @@ -132,6 +132,11 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-> >>>>    
-> >>>>        have_memdevs = have_memdevs ? : node->has_memdev;
-> >>>>        have_mem = have_mem ? : node->has_mem;
-> >>>> +    if (!node->has_memdev && !node->has_mem) {
-> >>>> +        error_setg(errp, "numa configuration should use mem= or memdev= ");
-> >>>> +        return;
-> >>>> +    }  
-> >>>
-> >>> Wouldn't this breaks memory less numa nodes?  
-> >>
-> >> Yes, you are right. It will break it if there more numa nodes
-> >> than memory, and the numa nodes have no memory backends specified.
-> >>
-> >> Is it allowed for users to specify more numa nodes than memory?  
-> > yep, I think we support it at least for one of the targets
-> > (but I don't remember which one(s))
-> >   
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> On Wed, Feb 16, 2022 at 07:40:14PM +0000, Dr. David Alan Gilbert wrote:
+> > * Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
+> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > > 
+> > > The following changes since commit c13b8e9973635f34f3ce4356af27a311c993729c:
+> > > 
+> > >   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220216' into staging (2022-02-16 09:57:11 +0000)
+> > > 
+> > > are available in the Git repository at:
+> > > 
+> > >   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20220216
+> > > 
+> > > for you to fetch changes up to 47cc3ef597b2ee926c13c9433f4f73645429e128:
+> > > 
+> > >   virtiofsd: Add basic support for FUSE_SYNCFS request (2022-02-16 17:29:32 +0000)
+> > 
+> > NAK
+> > this doesn't build on older Linuxes.
+> > 
+> > Rework version in the works.
 > 
-> Is it okay if I put a warning here, instead of an error and return?
-> It won't break the special case. I wonder if it is annoying to get
-> the warning.
-issuing warning in perfectly valid case (memory-less node)
-doesn't look like a good thing to do.
-
-there is already a error message,
-
- "total memory for NUMA nodes (0x0) should equal RAM size (0x100000000)"
-
-I'd suggest to just fix this error message to be less confusing
-instead of adding dubious warning elsewhere.
-
+> Hi David,
 > 
-> Thanks
-> Li
+> I think it is patch 8 which is using gettid(). I have updated that
+> patch and now I am using syscall(NR_gettid) instead. Here is the
+> updated patch. I hope this solves the build on older Linux issue.
 > 
-> >>  
-> >>>
-> >>> I'd rather add/rephrase to original error message that memory
-> >>> should be specified explicitly for desired numa nodes.
-> >>> And I'd not mention 'mem=' since
-> >>>     docs/about/removed-features.rst:``-numa node,mem=...`` (removed in 5.1)  
-> >>
-> >> Thanks for your suggestions, I will rephrase it.
-> >>  
-> >>>      
-> >>>> +
-> >>>>        if ((node->has_mem && have_memdevs) || (node->has_memdev && have_mem)) {
-> >>>>            error_setg(errp, "numa configuration should use either mem= or memdev=,"
-> >>>>                       "mixing both is not allowed");  
-> >>>      
-> >>  
-> >   
 > 
+> Subject: virtiofsd: Add helpers to work with /proc/self/task/tid/attr/fscreate
+> 
+> Soon we will be able to create and also set security context on the file
+> atomically using /proc/self/task/tid/attr/fscreate knob. If this knob
+> is available on the system, first set the knob with the desired context
+> and then create the file. It will be created with the context set in
+> fscreate. This works basically for SELinux and its per thread.
+> 
+> This patch just introduces the helper functions. Subsequent patches will
+> make use of these helpers.
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+
+Thanks, I'll merge that in.
+
+Dave
+
+> ---
+>  tools/virtiofsd/passthrough_ll.c |   92 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 92 insertions(+)
+> 
+> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
+> ===================================================================
+> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2022-02-16 15:53:13.657015138 -0500
+> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2022-02-16 15:55:14.911234993 -0500
+> @@ -173,10 +173,14 @@ struct lo_data {
+>  
+>      /* An O_PATH file descriptor to /proc/self/fd/ */
+>      int proc_self_fd;
+> +    /* An O_PATH file descriptor to /proc/self/task/ */
+> +    int proc_self_task;
+>      int user_killpriv_v2, killpriv_v2;
+>      /* If set, virtiofsd is responsible for setting umask during creation */
+>      bool change_umask;
+>      int user_posix_acl, posix_acl;
+> +    /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
+> +    bool use_fscreate;
+>  };
+>  
+>  static const struct fuse_opt lo_opts[] = {
+> @@ -257,6 +261,72 @@ static struct lo_data *lo_data(fuse_req_
+>  }
+>  
+>  /*
+> + * Tries to figure out if /proc/<pid>/attr/fscreate is usable or not. With
+> + * selinux=0, read from fscreate returns -EINVAL.
+> + *
+> + * TODO: Link with libselinux and use is_selinux_enabled() instead down
+> + * the line. It probably will be more reliable indicator.
+> + */
+> +static bool is_fscreate_usable(struct lo_data *lo)
+> +{
+> +    char procname[64];
+> +    int fscreate_fd;
+> +    size_t bytes_read;
+> +
+> +    sprintf(procname, "%ld/attr/fscreate", syscall(SYS_gettid));
+> +    fscreate_fd = openat(lo->proc_self_task, procname, O_RDWR);
+> +    if (fscreate_fd == -1) {
+> +        return false;
+> +    }
+> +
+> +    bytes_read = read(fscreate_fd, procname, 64);
+> +    close(fscreate_fd);
+> +    if (bytes_read == -1) {
+> +        return false;
+> +    }
+> +    return true;
+> +}
+> +
+> +/* Helpers to set/reset fscreate */
+> +__attribute__((unused))
+> +static int open_set_proc_fscreate(struct lo_data *lo, const void *ctx,
+> +                                  size_t ctxlen,int *fd)
+> +{
+> +    char procname[64];
+> +    int fscreate_fd, err = 0;
+> +    size_t written;
+> +
+> +    sprintf(procname, "%ld/attr/fscreate", syscall(SYS_gettid));
+> +    fscreate_fd = openat(lo->proc_self_task, procname, O_WRONLY);
+> +    err = fscreate_fd == -1 ? errno : 0;
+> +    if (err) {
+> +        return err;
+> +    }
+> +
+> +    written = write(fscreate_fd, ctx, ctxlen);
+> +    err = written == -1 ? errno : 0;
+> +    if (err) {
+> +        goto out;
+> +    }
+> +
+> +    *fd = fscreate_fd;
+> +    return 0;
+> +out:
+> +    close(fscreate_fd);
+> +    return err;
+> +}
+> +
+> +__attribute__((unused))
+> +static void close_reset_proc_fscreate(int fd)
+> +{
+> +    if ((write(fd, NULL, 0)) == -1) {
+> +        fuse_log(FUSE_LOG_WARNING, "Failed to reset fscreate. err=%d\n", errno);
+> +    }
+> +    close(fd);
+> +    return;
+> +}
+> +
+> +/*
+>   * Load capng's state from our saved state if the current thread
+>   * hadn't previously been loaded.
+>   * returns 0 on success
+> @@ -3522,6 +3592,15 @@ static void setup_namespaces(struct lo_d
+>          exit(1);
+>      }
+>  
+> +    /* Get the /proc/self/task descriptor */
+> +    lo->proc_self_task = open("/proc/self/task/", O_PATH);
+> +    if (lo->proc_self_task == -1) {
+> +        fuse_log(FUSE_LOG_ERR, "open(/proc/self/task, O_PATH): %m\n");
+> +        exit(1);
+> +    }
+> +
+> +    lo->use_fscreate = is_fscreate_usable(lo);
+> +
+>      /*
+>       * We only need /proc/self/fd. Prevent ".." from accessing parent
+>       * directories of /proc/self/fd by bind-mounting it over /proc. Since / was
+> @@ -3738,6 +3817,14 @@ static void setup_chroot(struct lo_data
+>          exit(1);
+>      }
+>  
+> +    lo->proc_self_task = open("/proc/self/task", O_PATH);
+> +    if (lo->proc_self_fd == -1) {
+> +        fuse_log(FUSE_LOG_ERR, "open(\"/proc/self/task\", O_PATH): %m\n");
+> +        exit(1);
+> +    }
+> +
+> +    lo->use_fscreate = is_fscreate_usable(lo);
+> +
+>      /*
+>       * Make the shared directory the file system root so that FUSE_OPEN
+>       * (lo_open()) cannot escape the shared directory by opening a symlink.
+> @@ -3923,6 +4010,10 @@ static void fuse_lo_data_cleanup(struct
+>          close(lo->proc_self_fd);
+>      }
+>  
+> +    if (lo->proc_self_task >= 0) {
+> +        close(lo->proc_self_task);
+> +    }
+> +
+>      if (lo->root.fd >= 0) {
+>          close(lo->root.fd);
+>      }
+> @@ -3950,6 +4041,7 @@ int main(int argc, char *argv[])
+>          .posix_lock = 0,
+>          .allow_direct_io = 0,
+>          .proc_self_fd = -1,
+> +        .proc_self_task = -1,
+>          .user_killpriv_v2 = -1,
+>          .user_posix_acl = -1,
+>      };
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
