@@ -2,90 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B2504BA744
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 18:37:39 +0100 (CET)
-Received: from localhost ([::1]:51294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696B04BA766
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 18:46:23 +0100 (CET)
+Received: from localhost ([::1]:42824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKkio-0002rV-Hj
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 12:37:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60800)
+	id 1nKkrG-0008Ma-Gw
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 12:46:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKkb8-0000IY-EW
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:29:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42466)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKkb6-0004NG-UY
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:29:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645118980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hawIJs+wdTCZhLCZDcG5ssZBbu2KnVfUBPHMJwoVFZ8=;
- b=QlV+lbc5vO1gGQUbYv3Xq0qszJFxkEvHp7E2Y5iRIta+lCRE3D2bkgLsR+Ui0uQuAckXnL
- VuQlGifsk3uMKuW7WDxCW8Ic6kq1rFBi2djN5fW7Ptpf4veLMdjvwg2jOifL3oJEw/hxwv
- swbU4O3wMGQFVtRkIr2KnWurE9vNA8g=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-YEg4tixVPQGpKk6m-_Tyrg-1; Thu, 17 Feb 2022 12:29:38 -0500
-X-MC-Unique: YEg4tixVPQGpKk6m-_Tyrg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- a8-20020a7bc1c8000000b0037bc4c62e97so1973876wmj.0
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 09:29:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nKki2-0002kt-1j
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:36:50 -0500
+Received: from [2a00:1450:4864:20::32b] (port=38653
+ helo=mail-wm1-x32b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nKkhy-0005e9-J9
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 12:36:49 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ k127-20020a1ca185000000b0037bc4be8713so6765498wme.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 09:36:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NEwOnuSunFhdAQMmZpXgUdim0fC5SVV0It+Fqkan15o=;
+ b=WfaIxBxGXq5ZHAJHc3KTwcf5Cxa70DO3RWJkoTzut+paJmnrWsHwcgTiFo82tVSid1
+ h+KxRTTJEiUIasqCRMq0LFUhWQlHPc/PgstQ/fvql6ZA2UDQbmSf/gjOQYQnpsnkgJCy
+ VeX8SEGQtJPiWYE8Nc6Yx9I6qJBAml8at3lFzzawQ6o+NHp8chb9e2Z5Pc2c1qM4lmDO
+ LhvA/kXvrvpVUVk/5NmuM/+M6+KSrXihr7EhgtNmpsqm51LUXKBIyf6jnWoB9XWA0MJm
+ /xLCfmLpZ1E7MS5W0+Ut/r3k68uR+cJf1vn2M2XNopAeyKSgrm50hvxzQNaqkH8lO4OG
+ 4dDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=hawIJs+wdTCZhLCZDcG5ssZBbu2KnVfUBPHMJwoVFZ8=;
- b=nPTvlGgNAcYGNi2grYSVthV8nZh+NZPw+fplRjUO1yrbkqAn2Y4iQSXE0Tb6nFIYYD
- /meYn6CySrGVl7sW+O+5LwGMDqOu+6y/6m6K0wOgQct4iowKp2Ukdij6UI757GLCykDG
- w6cdvk3ZLgEdJNmgU9AnTuH5BbxOJsIYQshxQwqJUiftJTJc63QbjEnDRhPjn5R6N3+8
- YYZHxXZAE71ooxSGyjawL5ONbmDgUTkLaUkS24P0aodsGEQJOVaDbMCGrASD1WOw6BMU
- kt9ajjjCjVliee9muXpxikx4AFAQ40dTgKpwZhbjQ8tGpGn/0Em9XVXySbk2+Vt0bKPk
- v5wg==
-X-Gm-Message-State: AOAM5314I0ilWhcZiXG38s2VOUNYpc2y50RGmarmakcqFxp36zBt54rc
- ZP64zfQNqivAxf5m66/pySCLoMHSkFP0FgutnnGctISkAsHmQ6/haCFl/2aMqakTHLKmcUzwht0
- 84XztXFEdCq7IEyI=
-X-Received: by 2002:a1c:7704:0:b0:354:4d2b:9d5 with SMTP id
- t4-20020a1c7704000000b003544d2b09d5mr7039732wmi.155.1645118977142; 
- Thu, 17 Feb 2022 09:29:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzKxZf0Nn1IQl9nu5GTMnju6xG4FiG+ex9WFlwvfag0Hasckw3yjJLwGDU8QkE57/yw6nZNWQ==
-X-Received: by 2002:a1c:7704:0:b0:354:4d2b:9d5 with SMTP id
- t4-20020a1c7704000000b003544d2b09d5mr7039724wmi.155.1645118976981; 
- Thu, 17 Feb 2022 09:29:36 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id p27sm1938547wms.39.2022.02.17.09.29.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 09:29:36 -0800 (PST)
-Date: Thu, 17 Feb 2022 17:29:34 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH] migration: NULL transport_data after freeing
-Message-ID: <Yg6F/kMaUSzX95Gc@work-vm>
-References: <20220217170407.24906-1-hreitz@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NEwOnuSunFhdAQMmZpXgUdim0fC5SVV0It+Fqkan15o=;
+ b=b2+3shi7SQqvyIDx4Pz7ixprVooEht9p/MziNf82il504LiBWZHCtqI2cV7BwOCoiC
+ hesziECJsrj1sV8FxUFlfjvLqSJ8iXbHe2yknGP+as4T+jFnt7gw6dcgaa0RtbJXiffy
+ T2Ulpzddg/9lebUR16KoR81j3VjnKc8fOzXTOhaftFd78tSfXYXFuquRhdyOGnMHXtqK
+ i1DRjuJLVuCYAfgTd/wxVECIW0S6RYGA1yCDwcoBj+lNv3QLbah2aC+GryocpNxPxAtS
+ Howcaqy2AzNzLzGndClJw5m9ATtpW2XVrzKD+vGxT7xGgZCjj3Zhim/s/QpLIJnA2ZnK
+ zr+A==
+X-Gm-Message-State: AOAM532OOWHEnI0hsQQJ5r06Iino2lZjD8jQjun11tBvO+/qIFGCBh57
+ 5Q/zcSiyC+H4RaIzgEhOV5DTTel3CaL4sY7+Qow=
+X-Google-Smtp-Source: ABdhPJyz6sL7+YV/5VrRVA/wVdW+K7QG93I5YskjjIGedywA7IKq33pyZiNM1HFqPDoG6/TsAG3rBeZTk0mq3KdL6ws=
+X-Received: by 2002:a05:600c:354e:b0:37c:815f:8a3f with SMTP id
+ i14-20020a05600c354e00b0037c815f8a3fmr7062836wmq.15.1645119404760; Thu, 17
+ Feb 2022 09:36:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220217170407.24906-1-hreitz@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
+ <CAMVc7JVOJxkqLpvRu7JLNP48C5Kmu0JRYUSR8xP+dAtGp_n=_A@mail.gmail.com>
+ <CAJ+F1CKgvcA97kLdxVodSoAFbk1_kB3_po8vn4kX_gPZgKYxbg@mail.gmail.com>
+ <CAMVc7JU1rfBEHgofiveNopLkyXRLSEG8dA=6cn_qY52BqLB3iw@mail.gmail.com>
+ <CAJ+F1CJsrfL-PiPM5W4Ydp4WLMfrZOaYydUp4wrX1LbFCxiSaA@mail.gmail.com>
+ <CAMVc7JVADz6A+xA7bcZOCd5Y+=2bAqyPGyxqu-Z1gawKGRtiGw@mail.gmail.com>
+In-Reply-To: <CAMVc7JVADz6A+xA7bcZOCd5Y+=2bAqyPGyxqu-Z1gawKGRtiGw@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 17 Feb 2022 21:36:32 +0400
+Message-ID: <CAJ+F1CKE3utVzLGLUk8FP9D_3YMprn3fLnuq-k+EJNiSXFBj=g@mail.gmail.com>
+Subject: Re: [PATCH v2 00/12] GL & D-Bus display related fixes
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000bbe20605d83a3574"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,61 +87,610 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: qemu Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Hanna Reitz (hreitz@redhat.com) wrote:
-> migration_incoming_state_destroy() NULLs all objects it frees after they
-> are freed, presumably so that a subsequent call to the same function
-> will not free them again, unless new objects have been created in the
-> meantime.
-> 
-> transport_data is the exception, and it shows exactly this problem: When
-> an incoming migration uses transport_cleanup() and transport_data, and a
-> subsequent incoming migration (e.g. loadvm) occurs that does not, then
-> when this second one is done, it will call transport_cleanup() on the
-> old transport_data again -- which has already been freed.  This is
-> sometimes visible in the iotest 201, though for some reason I can only
-> reproduce it with -m32.
-> 
-> To fix this, call transport_cleanup() only when transport_data is not
-> NULL (otherwise there is nothing to clean up), and set transport_data to
-> NULL when it has been cleaned up (i.e. freed).
-> 
-> (transport_cleanup() is used only by migration/socket.c, where
-> socket_start_incoming_migration_internal() sets both it and
-> transport_data to non-NULL values.)
-> 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+--000000000000bbe20605d83a3574
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-That probably deserves a fixes: a59136f
+Hi
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On Thu, Feb 17, 2022 at 9:25 PM Akihiko Odaki <akihiko.odaki@gmail.com>
+wrote:
 
-> ---
->  migration/migration.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index bcc385b94b..cdb2e76d02 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -287,8 +287,9 @@ void migration_incoming_state_destroy(void)
->          g_array_free(mis->postcopy_remote_fds, TRUE);
->          mis->postcopy_remote_fds = NULL;
->      }
-> -    if (mis->transport_cleanup) {
-> +    if (mis->transport_cleanup && mis->transport_data) {
->          mis->transport_cleanup(mis->transport_data);
-> +        mis->transport_data = NULL;
->      }
->  
->      qemu_event_reset(&mis->main_thread_load_event);
-> -- 
-> 2.34.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> On Fri, Feb 18, 2022 at 2:07 AM Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@gmail.com> wrote:
+> >
+> > Hi
+> >
+> > On Thu, Feb 17, 2022 at 8:39 PM Akihiko Odaki <akihiko.odaki@gmail.com>
+> wrote:
+> >>
+> >> On Fri, Feb 18, 2022 at 1:12 AM Marc-Andr=C3=A9 Lureau
+> >> <marcandre.lureau@gmail.com> wrote:
+> >> >
+> >> > Hi
+> >> >
+> >> > On Thu, Feb 17, 2022 at 5:09 PM Akihiko Odaki <
+> akihiko.odaki@gmail.com> wrote:
+> >> >>
+> >> >> On Thu, Feb 17, 2022 at 8:58 PM <marcandre.lureau@redhat.com> wrote=
+:
+> >> >> >
+> >> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >> >> >
+> >> >> > Hi,
+> >> >> >
+> >> >> > In the thread "[PATCH 0/6] ui/dbus: Share one listener for a
+> console", Akihiko
+> >> >> > Odaki reported a number of issues with the GL and D-Bus display.
+> His series
+> >> >> > propose a different design, and reverting some of my previous
+> generic console
+> >> >> > changes to fix those issues.
+> >> >> >
+> >> >> > However, as I work through the issue so far, they can be solved b=
+y
+> reasonable
+> >> >> > simple fixes while keeping the console changes generic (not
+> specific to the
+> >> >> > D-Bus display backend). I belive a shared infrastructure is more
+> beneficial long
+> >> >> > term than having GL-specific code in the DBus code (in particular=
+,
+> the
+> >> >> > egl-headless & VNC combination could potentially use it)
+> >> >> >
+> >> >> > Thanks a lot Akihiko for reporting the issues proposing a
+> different approach!
+> >> >> > Please test this alternative series and let me know of any furthe=
+r
+> issues. My
+> >> >> > understanding is that you are mainly concerned with the Cocoa
+> backend, and I
+> >> >> > don't have a way to test it, so please check it. If necessary, we
+> may well have
+> >> >> > to revert my earlier changes and go your way, eventually.
+> >> >> >
+> >> >> > Marc-Andr=C3=A9 Lureau (12):
+> >> >> >   ui/console: fix crash when using gl context with non-gl listene=
+rs
+> >> >> >   ui/console: fix texture leak when calling
+> surface_gl_create_texture()
+> >> >> >   ui: do not create a surface when resizing a GL scanout
+> >> >> >   ui/console: move check for compatible GL context
+> >> >> >   ui/console: move dcl compatiblity check to a callback
+> >> >> >   ui/console: egl-headless is compatible with non-gl listeners
+> >> >> >   ui/dbus: associate the DBusDisplayConsole listener with the giv=
+en
+> >> >> >     console
+> >> >> >   ui/console: move console compatibility check to
+> dcl_display_console()
+> >> >> >   ui/shader: fix potential leak of shader on error
+> >> >> >   ui/shader: free associated programs
+> >> >> >   ui/console: add a dpy_gfx_switch callback helper
+> >> >> >   ui/dbus: fix texture sharing
+> >> >> >
+> >> >> >  include/ui/console.h |  19 ++++---
+> >> >> >  ui/dbus.h            |   3 ++
+> >> >> >  ui/console-gl.c      |   4 ++
+> >> >> >  ui/console.c         | 119
+> ++++++++++++++++++++++++++-----------------
+> >> >> >  ui/dbus-console.c    |  27 +++++-----
+> >> >> >  ui/dbus-listener.c   |  11 ----
+> >> >> >  ui/dbus.c            |  33 +++++++++++-
+> >> >> >  ui/egl-headless.c    |  17 ++++++-
+> >> >> >  ui/gtk.c             |  18 ++++++-
+> >> >> >  ui/sdl2.c            |   9 +++-
+> >> >> >  ui/shader.c          |   9 +++-
+> >> >> >  ui/spice-display.c   |   9 +++-
+> >> >> >  12 files changed, 192 insertions(+), 86 deletions(-)
+> >> >> >
+> >> >> > --
+> >> >> > 2.34.1.428.gdcc0cd074f0c
+> >> >> >
+> >> >> >
+> >> >>
+> >> >> You missed only one thing:
+> >> >> >- that console_select and register_displaychangelistener may not
+> call
+> >> >> > dpy_gfx_switch and call dpy_gl_scanout_texture instead. It is
+> >> >> > incompatible with non-OpenGL displays
+> >> >>
+> >> >> displaychangelistener_display_console always has to call
+> >> >> dpy_gfx_switch for non-OpenGL displays, but it still doesn't.
+> >> >
+> >> >
+> >> > Ok, would that be what you have in mind?
+> >> >
+> >> >  --- a/ui/console.c
+> >> > +++ b/ui/console.c
+> >> > @@ -1122,6 +1122,10 @@ static void
+> displaychangelistener_display_console(DisplayChangeListener *dcl,
+> >> >      } else if (con->scanout.kind =3D=3D SCANOUT_SURFACE) {
+> >> >          dpy_gfx_create_texture(con, con->surface);
+> >> >          displaychangelistener_gfx_switch(dcl, con->surface);
+> >> > +    } else {
+> >> > +        /* use the fallback surface, egl-headless keeps it updated =
+*/
+> >> > +        assert(con->surface);
+> >> > +        displaychangelistener_gfx_switch(dcl, con->surface);
+> >> >      }
+> >>
+> >> It should call displaychangelistener_gfx_switch even when e.g.
+> >> con->scanout.kind =3D=3D SCANOUT_TEXTURE. egl-headless renders the con=
+tent
+> >> to the last DisplaySurface it received while con->scanout.kind =3D=3D
+> >> SCANOUT_TEXTURE.
+> >
+> >
+> > I see, egl-headless is really not a "listener".
+> >
+> >>
+> >> >
+> >> > I wish such egl-headless specific code would be there, but we would
+> need more refactoring.
+> >> >
+> >> > I think I would rather have a backend split for GL context, like
+> "-object egl-context". egl-headless-specific copy code would be handled b=
+y
+> common/util code for anything that wants a pixman surface (VNC, screen
+> capture, non-GL display etc).
+> >> >
+> >> > This split would allow sharing the context code, and introduce other
+> system specific GL initialization, such as WGL etc. Right now, I doubt th=
+e
+> EGL code works on anything but Linux.
+> >>
+> >> Sharing the context code is unlikely to happen. Usually the toolkit
+> >> (GTK, SDL, or Cocoa in my fork) knows what graphics accelerator should
+> >> be used and how the context should be created for a particular window.
+> >> The context sharing can be achieved only for headless displays, namely
+> >> dbus, egl-headless and spice. Few people would want to use them in
+> >> combination.
+> >
+> >
+> > Ok for toolkits, they usually have their own context. But ideally, qemu
+> should be "headless". And the GL contexts should be working on other
+> systems than EGL Linux.
+> >
+> > Any of the spice, vnc, dbus display etc may legitimately be fixed to
+> work with WGL etc. Doing this repeatedly on the various display backends
+> would be bad design.
+>
+> We already have ui/egl-context.c to share the code for EGL. We can
+> have ui/headless-context.c or something which creates a context for
+> headless but the implementation can be anything proper there. It
+> doesn't require modifying ui/console.c or adding something like
+> "-object egl-context".
+>
 
+Agree, as long as you have only a single context provider per system.  But
+that's not my experience with GL in the past. Maybe this is true today.
+
+
+> >
+> > Although my idea is that display servers (spice, vnc, rdp, etc) &
+> various UI (gtk, cocoa, sdl, etc) should be outside of qemu. The display
+> would use IPC, based on DBus if it fits the job, or something else if
+> necessary. Obviously, there is still a lot of work to do to improve surfa=
+ce
+> & texture sharing and portability, but that should be possible...
+>
+> Maybe we can rework the present UIs of QEMU to make them compatible
+> with both in-process communication and D-Bus inter-process
+> communication. If the user has a requirement incompatible with IPC
+> (e.g. OpenGL on macOS), the user can opt for in-process communication.
+> D-Bus would be used otherwise. (Of course that would require
+> substantial effort.)
+>
+
+That should be possible, as long the IPC is very close to the inner qemu
+API, we could have an IPC-based display code turned into a shared library
+instead and run in process. Although I think that would limit the kind of
+UI you can expect (it would be a bare display, like qemu-display today, not
+something that would bring you a full user-friendly UI, virt-manager/Boxes
+kind)
+
+
+
+> >
+> >>
+> >>
+> >> >
+> >> >>
+> >> >> Anything else should be addressed with this patch series. (And it
+> also
+> >> >> has nice fixes for shader leaks.)
+> >> >
+> >> >
+> >> > thanks
+> >> >
+> >> >>
+> >> >>
+> >> >> cocoa doesn't have OpenGL output and egl-headless, the cause of man=
+y
+> >> >> pains addressed here, does not work on macOS so you need little
+> >> >> attention. I have an out-of-tree OpenGL support for cocoa but it is
+> >> >> out-of-tree anyway and I can fix it anytime.
+> >> >
+> >> >
+> >> > Great!
+> >> >
+> >> > btw, I suppose you checked your DBus changes against the WIP
+> "qemu-display" project. What was your experience? I don't think many peop=
+le
+> have tried it yet. Do you think this could be made to work on macOS? at
+> least the non-dmabuf support should work, as long as Gtk4 has good macOS
+> support. I don't know if dmabuf or similar exist there, any idea?
+> >>
+> >> I tested it on Fedora. I think it would probably work on macOS but
+> >> maybe require some tweaks. IOSurface is a counterpart of DMA-BUF in
+> >> macOS but its situation is bad; it must be delivered via macOS's own
+> >> IPC mechanisms (Mach port and XPC), but they are for server-client
+> >> model and not for P2P. fileport mechanism allows to convert Mach port
+> >> to file descriptor, but it is not documented. (In reality, I think all
+> >> of the major browsers, Chromium, Firefox and Safari use fileport for
+> >> this purpose. Apple should really document it if they use it for their
+> >> app.) It is also possible to share IOSurface with a global number, but
+> >> it can be brute-forced and is insecure.
+> >>
+> >
+> > Thanks, the Gtk developers might have some clue. They have been working
+> on improving macOS support, and it can use opengl now (
+> https://blogs.gnome.org/chergert/2020/12/15/gtk-4-got-a-new-macos-backend=
+-now-with-opengl/
+> ).
+>
+> They don't need IPC for passing textures so that is a different story.
+>
+
+Yes but they have web-engine and video decoding concerns (beside
+qemu/dmabuf gtk display they should be aware of).  I'll try to reach
+Christian about it.
+
+thanks
+
+
+> >
+> >>
+> >> Regards,
+> >> Akihiko Odaki
+> >>
+> >> >
+> >> >
+> >> > --
+> >> > Marc-Andr=C3=A9 Lureau
+> >
+> >
+> >
+> > --
+> > Marc-Andr=C3=A9 Lureau
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000bbe20605d83a3574
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 17, 2022 at 9:25 PM Aki=
+hiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gma=
+il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Fri, Feb 18, 2022 at 2:07 AM Marc-Andr=C3=A9 Lureau<br>
+&lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_blank">marcand=
+re.lureau@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi<br>
+&gt;<br>
+&gt; On Thu, Feb 17, 2022 at 8:39 PM Akihiko Odaki &lt;<a href=3D"mailto:ak=
+ihiko.odaki@gmail.com" target=3D"_blank">akihiko.odaki@gmail.com</a>&gt; wr=
+ote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Fri, Feb 18, 2022 at 1:12 AM Marc-Andr=C3=A9 Lureau<br>
+&gt;&gt; &lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_blank=
+">marcandre.lureau@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Hi<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; On Thu, Feb 17, 2022 at 5:09 PM Akihiko Odaki &lt;<a href=3D"=
+mailto:akihiko.odaki@gmail.com" target=3D"_blank">akihiko.odaki@gmail.com</=
+a>&gt; wrote:<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; On Thu, Feb 17, 2022 at 8:58 PM &lt;<a href=3D"mailto:mar=
+candre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>=
+&gt; wrote:<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:m=
+arcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</=
+a>&gt;<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; Hi,<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; In the thread &quot;[PATCH 0/6] ui/dbus: Share one l=
+istener for a console&quot;, Akihiko<br>
+&gt;&gt; &gt;&gt; &gt; Odaki reported a number of issues with the GL and D-=
+Bus display. His series<br>
+&gt;&gt; &gt;&gt; &gt; propose a different design, and reverting some of my=
+ previous generic console<br>
+&gt;&gt; &gt;&gt; &gt; changes to fix those issues.<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; However, as I work through the issue so far, they ca=
+n be solved by reasonable<br>
+&gt;&gt; &gt;&gt; &gt; simple fixes while keeping the console changes gener=
+ic (not specific to the<br>
+&gt;&gt; &gt;&gt; &gt; D-Bus display backend). I belive a shared infrastruc=
+ture is more beneficial long<br>
+&gt;&gt; &gt;&gt; &gt; term than having GL-specific code in the DBus code (=
+in particular, the<br>
+&gt;&gt; &gt;&gt; &gt; egl-headless &amp; VNC combination could potentially=
+ use it)<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; Thanks a lot Akihiko for reporting the issues propos=
+ing a different approach!<br>
+&gt;&gt; &gt;&gt; &gt; Please test this alternative series and let me know =
+of any further issues. My<br>
+&gt;&gt; &gt;&gt; &gt; understanding is that you are mainly concerned with =
+the Cocoa backend, and I<br>
+&gt;&gt; &gt;&gt; &gt; don&#39;t have a way to test it, so please check it.=
+ If necessary, we may well have<br>
+&gt;&gt; &gt;&gt; &gt; to revert my earlier changes and go your way, eventu=
+ally.<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; Marc-Andr=C3=A9 Lureau (12):<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/console: fix crash when using gl cont=
+ext with non-gl listeners<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/console: fix texture leak when callin=
+g surface_gl_create_texture()<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui: do not create a surface when resizin=
+g a GL scanout<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/console: move check for compatible GL=
+ context<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/console: move dcl compatiblity check =
+to a callback<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/console: egl-headless is compatible w=
+ith non-gl listeners<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/dbus: associate the DBusDisplayConsol=
+e listener with the given<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0console<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/console: move console compatibility c=
+heck to dcl_display_console()<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/shader: fix potential leak of shader =
+on error<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/shader: free associated programs<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/console: add a dpy_gfx_switch callbac=
+k helper<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 =C2=A0ui/dbus: fix texture sharing<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 include/ui/console.h |=C2=A0 19 ++++---<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/dbus.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A03 ++<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/console-gl.c=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A04 ++<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/console.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+| 119 ++++++++++++++++++++++++++-----------------<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/dbus-console.c=C2=A0 =C2=A0 |=C2=A0 27 ++++=
++-----<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/dbus-listener.c=C2=A0 =C2=A0|=C2=A0 11 ----=
+<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/dbus.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 33 +++++++++++-<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/egl-headless.c=C2=A0 =C2=A0 |=C2=A0 17 ++++=
+++-<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/gtk.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 18 ++++++-<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/sdl2.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A09 +++-<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/shader.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 =C2=A09 +++-<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 ui/spice-display.c=C2=A0 =C2=A0|=C2=A0 =C2=A09=
+ +++-<br>
+&gt;&gt; &gt;&gt; &gt;=C2=A0 12 files changed, 192 insertions(+), 86 deleti=
+ons(-)<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; --<br>
+&gt;&gt; &gt;&gt; &gt; 2.34.1.428.gdcc0cd074f0c<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; You missed only one thing:<br>
+&gt;&gt; &gt;&gt; &gt;- that console_select and register_displaychangeliste=
+ner may not call<br>
+&gt;&gt; &gt;&gt; &gt; dpy_gfx_switch and call dpy_gl_scanout_texture inste=
+ad. It is<br>
+&gt;&gt; &gt;&gt; &gt; incompatible with non-OpenGL displays<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; displaychangelistener_display_console always has to call<=
+br>
+&gt;&gt; &gt;&gt; dpy_gfx_switch for non-OpenGL displays, but it still does=
+n&#39;t.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Ok, would that be what you have in mind?<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 --- a/ui/console.c<br>
+&gt;&gt; &gt; +++ b/ui/console.c<br>
+&gt;&gt; &gt; @@ -1122,6 +1122,10 @@ static void displaychangelistener_disp=
+lay_console(DisplayChangeListener *dcl,<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 } else if (con-&gt;scanout.kind =3D=3D SC=
+ANOUT_SURFACE) {<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dpy_gfx_create_texture(con,=
+ con-&gt;surface);<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 displaychangelistener_gfx_s=
+witch(dcl, con-&gt;surface);<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 } else {<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* use the fallback surface, egl=
+-headless keeps it updated */<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(con-&gt;surface);<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 displaychangelistener_gfx_switch=
+(dcl, con-&gt;surface);<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt;<br>
+&gt;&gt; It should call displaychangelistener_gfx_switch even when e.g.<br>
+&gt;&gt; con-&gt;scanout.kind =3D=3D SCANOUT_TEXTURE. egl-headless renders =
+the content<br>
+&gt;&gt; to the last DisplaySurface it received while con-&gt;scanout.kind =
+=3D=3D<br>
+&gt;&gt; SCANOUT_TEXTURE.<br>
+&gt;<br>
+&gt;<br>
+&gt; I see, egl-headless is really not a &quot;listener&quot;.<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; I wish such egl-headless specific code would be there, but we=
+ would need more refactoring.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; I think I would rather have a backend split for GL context, l=
+ike &quot;-object egl-context&quot;. egl-headless-specific copy code would =
+be handled by common/util code for anything that wants a pixman surface (VN=
+C, screen capture, non-GL display etc).<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; This split would allow sharing the context code, and introduc=
+e other system specific GL initialization, such as WGL etc. Right now, I do=
+ubt the EGL code works on anything but Linux.<br>
+&gt;&gt;<br>
+&gt;&gt; Sharing the context code is unlikely to happen. Usually the toolki=
+t<br>
+&gt;&gt; (GTK, SDL, or Cocoa in my fork) knows what graphics accelerator sh=
+ould<br>
+&gt;&gt; be used and how the context should be created for a particular win=
+dow.<br>
+&gt;&gt; The context sharing can be achieved only for headless displays, na=
+mely<br>
+&gt;&gt; dbus, egl-headless and spice. Few people would want to use them in=
+<br>
+&gt;&gt; combination.<br>
+&gt;<br>
+&gt;<br>
+&gt; Ok for toolkits, they usually have their own context. But ideally, qem=
+u should be &quot;headless&quot;. And the GL contexts should be working on =
+other systems than EGL Linux.<br>
+&gt;<br>
+&gt; Any of the spice, vnc, dbus display etc may legitimately be fixed to w=
+ork with WGL etc. Doing this repeatedly on the various display backends wou=
+ld be bad design.<br>
+<br>
+We already have ui/egl-context.c to share the code for EGL. We can<br>
+have ui/headless-context.c or something which creates a context for<br>
+headless but the implementation can be anything proper there. It<br>
+doesn&#39;t require modifying ui/console.c or adding something like<br>
+&quot;-object egl-context&quot;.<br></blockquote><div><br></div><div>Agree,=
+ as long as you have only a single context provider per system.=C2=A0 But t=
+hat&#39;s not my experience with GL in the past. Maybe this is true today.<=
+br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt;<br>
+&gt; Although my idea is that display servers (spice, vnc, rdp, etc) &amp; =
+various UI (gtk, cocoa, sdl, etc) should be outside of qemu. The display wo=
+uld use IPC, based on DBus if it fits the job, or something else if necessa=
+ry. Obviously, there is still a lot of work to do to improve surface &amp; =
+texture sharing and portability, but that should be possible...<br>
+<br>
+Maybe we can rework the present UIs of QEMU to make them compatible<br>
+with both in-process communication and D-Bus inter-process<br>
+communication. If the user has a requirement incompatible with IPC<br>
+(e.g. OpenGL on macOS), the user can opt for in-process communication.<br>
+D-Bus would be used otherwise. (Of course that would require<br>
+substantial effort.)<br></blockquote><div><br></div><div>That should be pos=
+sible, as long the IPC is very close to the inner qemu API, we could have a=
+n IPC-based display code turned into a shared library instead and run in pr=
+ocess. Although I think that would limit the kind of UI you can expect (it =
+would be a bare display, like qemu-display today, not something that would =
+bring you a full user-friendly UI, virt-manager/Boxes kind)<br></div><div><=
+br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; Anything else should be addressed with this patch series.=
+ (And it also<br>
+&gt;&gt; &gt;&gt; has nice fixes for shader leaks.)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; thanks<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; cocoa doesn&#39;t have OpenGL output and egl-headless, th=
+e cause of many<br>
+&gt;&gt; &gt;&gt; pains addressed here, does not work on macOS so you need =
+little<br>
+&gt;&gt; &gt;&gt; attention. I have an out-of-tree OpenGL support for cocoa=
+ but it is<br>
+&gt;&gt; &gt;&gt; out-of-tree anyway and I can fix it anytime.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Great!<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; btw, I suppose you checked your DBus changes against the WIP =
+&quot;qemu-display&quot; project. What was your experience? I don&#39;t thi=
+nk many people have tried it yet. Do you think this could be made to work o=
+n macOS? at least the non-dmabuf support should work, as long as Gtk4 has g=
+ood macOS support. I don&#39;t know if dmabuf or similar exist there, any i=
+dea?<br>
+&gt;&gt;<br>
+&gt;&gt; I tested it on Fedora. I think it would probably work on macOS but=
+<br>
+&gt;&gt; maybe require some tweaks. IOSurface is a counterpart of DMA-BUF i=
+n<br>
+&gt;&gt; macOS but its situation is bad; it must be delivered via macOS&#39=
+;s own<br>
+&gt;&gt; IPC mechanisms (Mach port and XPC), but they are for server-client=
+<br>
+&gt;&gt; model and not for P2P. fileport mechanism allows to convert Mach p=
+ort<br>
+&gt;&gt; to file descriptor, but it is not documented. (In reality, I think=
+ all<br>
+&gt;&gt; of the major browsers, Chromium, Firefox and Safari use fileport f=
+or<br>
+&gt;&gt; this purpose. Apple should really document it if they use it for t=
+heir<br>
+&gt;&gt; app.) It is also possible to share IOSurface with a global number,=
+ but<br>
+&gt;&gt; it can be brute-forced and is insecure.<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; Thanks, the Gtk developers might have some clue. They have been workin=
+g on improving macOS support, and it can use opengl now (<a href=3D"https:/=
+/blogs.gnome.org/chergert/2020/12/15/gtk-4-got-a-new-macos-backend-now-with=
+-opengl/" rel=3D"noreferrer" target=3D"_blank">https://blogs.gnome.org/cher=
+gert/2020/12/15/gtk-4-got-a-new-macos-backend-now-with-opengl/</a>).<br>
+<br>
+They don&#39;t need IPC for passing textures so that is a different story.<=
+br></blockquote><div><br></div><div>Yes but they have web-engine and video =
+decoding concerns (beside qemu/dmabuf gtk display they should be aware of).=
+=C2=A0 I&#39;ll try to reach Christian about it.<br></div><div>=C2=A0</div>=
+<div>thanks</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">
+<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Regards,<br>
+&gt;&gt; Akihiko Odaki<br>
+&gt;&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; --<br>
+&gt;&gt; &gt; Marc-Andr=C3=A9 Lureau<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; Marc-Andr=C3=A9 Lureau<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000bbe20605d83a3574--
 
