@@ -2,87 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E6F4B99E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 08:36:04 +0100 (CET)
-Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4954B99FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 08:44:36 +0100 (CET)
+Received: from localhost ([::1]:51238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKbKd-0006td-QE
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 02:36:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39610)
+	id 1nKbSt-00016i-Fo
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 02:44:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKbHg-0005TO-IX
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:33:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53420)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1nKbRG-0000Ow-1A
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:42:54 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:4635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKbHd-00025w-6A
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:32:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645083176;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HTUBHeOEltOAv+Jkswry3Bekv9Kv6f4tNMJ77KCZN2w=;
- b=ZH77w48fFIhlVOwxrFMKv4j/guMEYkDU4J1jU9kbnz9xLEbjaej+13SLEOX+ZB23O3sFk9
- yFLnImbaPX9T2YG9QzGbn/0r+gIxBUfx55iARoP5zcdR3VckBkJJ5gAukLVHZWfQ0n05k3
- 4YOdVsLnka/ntYAPNea3Bz5sQljcL6k=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-385-eGgcT4YFMXS-TZU8ZuObgg-1; Thu, 17 Feb 2022 02:32:55 -0500
-X-MC-Unique: eGgcT4YFMXS-TZU8ZuObgg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- h82-20020a1c2155000000b003552c13626cso3846034wmh.3
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 23:32:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=HTUBHeOEltOAv+Jkswry3Bekv9Kv6f4tNMJ77KCZN2w=;
- b=4+JqhXLHXq+fCFnxbxLCIPk6XlbpbNFbUESzBSVAFL1L7RUXy4WSEjJUCIwfhNQhYH
- o4fkAVDNZoojyqxph2dYrTHKUm09sfMAQ6vupAATsxu/0cEhBAUf+OA2mN67MqeQXH4s
- AxxI4d7OH+mNRZzn11yer9d1T3zOBeP7Wg9pI22uaWxR202QieIzWKb8SxK7W3hpmxPh
- 1u56S64RXAETT+8tQUvspCTdot5b/msY8+cOkEMzPqQehyyGVP9vTO+u1+JvacnKAJgH
- PnVzLbAdBi9w/vFXUwpYEq05IUVM3udKFdlne8+1p8u5l/9QU4A7PAwnw8iMEHaz6wQL
- BXww==
-X-Gm-Message-State: AOAM531R/VNv9GceYq/MptIiNa1MOiq2fYqp5N7IzhaS9/RSl1dDN4t4
- 1cSdKXiouKQNlmDNZoAbVjf4Pca2qlmnVm6qdE8QcG/PEavZgUltSijLtbGivR0cy7V4S80HqOO
- n0Kb1l3dB0BREh6w=
-X-Received: by 2002:a5d:6511:0:b0:1e5:9467:e7b5 with SMTP id
- x17-20020a5d6511000000b001e59467e7b5mr1269616wru.307.1645083174098; 
- Wed, 16 Feb 2022 23:32:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzOKArqOAq7sqwlMkYY8tfOGJIITqe5IFI9fz2CUh2e2MqQwU7NTAjKIN1c1wleZ/NaXhBm/g==
-X-Received: by 2002:a5d:6511:0:b0:1e5:9467:e7b5 with SMTP id
- x17-20020a5d6511000000b001e59467e7b5mr1269599wru.307.1645083173810; 
- Wed, 16 Feb 2022 23:32:53 -0800 (PST)
-Received: from redhat.com ([2.55.139.83])
- by smtp.gmail.com with ESMTPSA id s7sm20959903wrw.71.2022.02.16.23.32.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 23:32:53 -0800 (PST)
-Date: Thu, 17 Feb 2022 02:32:48 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gautam Dawar <gautam.dawar@xilinx.com>
-Subject: Re: [PATCH 2/2] Allow VIRTIO_F_IN_ORDER to be negotiated for vdpa
- devices
-Message-ID: <20220217023150-mutt-send-email-mst@kernel.org>
-References: <20220215072231.2498-1-gdawar@xilinx.com>
- <20220215072231.2498-3-gdawar@xilinx.com>
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1nKbRD-0003YS-Ml
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:42:53 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id EF012404E1;
+ Thu, 17 Feb 2022 08:42:39 +0100 (CET)
+Message-ID: <988fcea0-b231-6a23-5c2b-e384ddaf7ef4@proxmox.com>
+Date: Thu, 17 Feb 2022 08:42:29 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220215072231.2498-3-gdawar@xilinx.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v8 3/3] qapi/monitor: allow VNC display id in
+ set/expire_password
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, dgilbert@redhat.com
+References: <20220204101220.343526-1-f.ebner@proxmox.com>
+ <20220204101220.343526-4-f.ebner@proxmox.com> <875ypogmkt.fsf@pond.sub.org>
+From: Fabian Ebner <f.ebner@proxmox.com>
+In-Reply-To: <875ypogmkt.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,71 +57,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org, gdawar@xilinx.com,
- martinh@xilinx.com, eperezma@redhat.com, hanand@xilinx.com, tanujk@xilinx.com,
- pabloc@xilinx.com
+Cc: w.bumiller@proxmox.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ marcandre.lureau@gmail.com, kraxel@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, eblake@redhat.com, t.lamprecht@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 15, 2022 at 12:52:31PM +0530, Gautam Dawar wrote:
-> This patch adds the ability to negotiate VIRTIO_F_IN_ORDER bit
-> for vhost-vdpa backend when the underlying device supports this
-> feature.
-> This would aid in reaping performance benefits with HW devices
-> that implement this feature. At the same time, it shouldn't have
-> any negative impact as vhost-vdpa backend doesn't involve any
-> userspace virtqueue operations.
+Am 09.02.22 um 15:07 schrieb Markus Armbruster:
+> Fabian Ebner <f.ebner@proxmox.com> writes:
 > 
-> Signed-off-by: Gautam Dawar <gdawar@xilinx.com>
-
-Having features that hardware implements but qemu does not
-means we can't migrate between them.
-So I'd rather see a userspace implementation.
-
-> ---
->  hw/net/virtio-net.c | 10 ++++++++++
->  net/vhost-vdpa.c    |  1 +
->  2 files changed, 11 insertions(+)
+>> From: Stefan Reiter <s.reiter@proxmox.com>
+>>
+>> It is possible to specify more than one VNC server on the command line,
+>> either with an explicit ID or the auto-generated ones à la "default",
+>> "vnc2", "vnc3", ...
+>>
+>> It is not possible to change the password on one of these extra VNC
+>> displays though. Fix this by adding a "display" parameter to the
+>> "set_password" and "expire_password" QMP and HMP commands.
+>>
+>> For HMP, the display is specified using the "-d" value flag.
+>>
+>> For QMP, the schema is updated to explicitly express the supported
+>> variants of the commands with protocol-discriminated unions.
+>>
+>> Suggested-by: Markus Armbruster <armbru@redhat.com>
 > 
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index cf8ab0f8af..a1089d06f6 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -3507,11 +3507,21 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
->      nc->rxfilter_notify_enabled = 1;
->  
->     if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-> +        uint64_t features = BIT_ULL(VIRTIO_F_IN_ORDER);
->          struct virtio_net_config netcfg = {};
-> +
->          memcpy(&netcfg.mac, &n->nic_conf.macaddr, ETH_ALEN);
->          vhost_net_set_config(get_vhost_net(nc->peer),
->              (uint8_t *)&netcfg, 0, ETH_ALEN, VHOST_SET_CONFIG_TYPE_MASTER);
-> +
-> +	/*
-> +         * For vhost-vdpa, if underlying device supports IN_ORDER feature,
-> +         * make it available for negotiation.
-> +         */
-> +	features = vhost_net_get_features(get_vhost_net(nc->peer), features);
-> +	n->host_features |= features;
->      }
-> +
->      QTAILQ_INIT(&n->rsc_chains);
->      n->qdev = dev;
->  
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 25dd6dd975..2886cba5ec 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -62,6 +62,7 @@ const int vdpa_feature_bits[] = {
->      VIRTIO_NET_F_CTRL_VQ,
->      VIRTIO_F_IOMMU_PLATFORM,
->      VIRTIO_F_RING_PACKED,
-> +    VIRTIO_F_IN_ORDER,
->      VIRTIO_NET_F_RSS,
->      VIRTIO_NET_F_HASH_REPORT,
->      VIRTIO_NET_F_GUEST_ANNOUNCE,
-> -- 
-> 2.30.1
+> Did I suggest this feature?  I don't remember...  Most likely, I merely
+> suggested using a union.  Mind if I drop this tag?
+> 
+
+Yes, Stefan might've put the tag because of the suggested approach. I'll
+drop it.
+
+>> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+>> [FE: update "Since: " from 6.2 to 7.0
+>>      set {has_}connected for VNC in hmp_set_password]
+>> Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+>> ---
+>>
+>> v7 -> v8:
+>> * add missing # in the description for @ExpirePasswordOptions
+>> * other changes are already mentioned above
+>>
+>>  hmp-commands.hx    |  24 +++++-----
+>>  monitor/hmp-cmds.c |  39 ++++++++++++----
+>>  monitor/qmp-cmds.c |  34 ++++++--------
+>>  qapi/ui.json       | 110 ++++++++++++++++++++++++++++++++++++---------
+>>  4 files changed, 145 insertions(+), 62 deletions(-)
+>>
+>> diff --git a/hmp-commands.hx b/hmp-commands.hx
+>> index 70a9136ac2..cc2f4bdeba 100644
+>> --- a/hmp-commands.hx
+>> +++ b/hmp-commands.hx
+>> @@ -1514,33 +1514,35 @@ ERST
+>>  
+>>      {
+>>          .name       = "set_password",
+>> -        .args_type  = "protocol:s,password:s,connected:s?",
+>> -        .params     = "protocol password action-if-connected",
+>> +        .args_type  = "protocol:s,password:s,display:-dV,connected:s?",
+>> +        .params     = "protocol password [-d display] [action-if-connected]",
+>>          .help       = "set spice/vnc password",
+>>          .cmd        = hmp_set_password,
+>>      },
+>>  
+>>  SRST
+>> -``set_password [ vnc | spice ] password [ action-if-connected ]``
+>> -  Change spice/vnc password.  *action-if-connected* specifies what
+>> -  should happen in case a connection is established: *fail* makes the
+>> -  password change fail.  *disconnect* changes the password and
+>> +``set_password [ vnc | spice ] password [ -d display ] [ action-if-connected ]``
+> 
+> This is the first flag with an argument in HMP.  The alternative is
+> another optional argument.
+> 
+> PRO optional argument: no need for PATCH 1.
+> 
+> PRO flag with argument: can specify the display without
+> action-if-connected.
+> 
+> Dave, this is your call to make.
+> 
+
+I'll go ahead with v9 once the decision is made.
+
+----8<----
+
+>> diff --git a/qapi/ui.json b/qapi/ui.json
+>> index e112409211..089f05c702 100644
+>> --- a/qapi/ui.json
+>> +++ b/qapi/ui.json
+>> @@ -38,20 +38,61 @@
+>>    'data': [ 'keep', 'fail', 'disconnect' ] }
+>>  
+>>  ##
+>> -# @set_password:
+>> +# @SetPasswordOptions:
+>>  #
+>> -# Sets the password of a remote display session.
+>> +# General options for set_password.
+> 
+> Actually, all the options there are.  Let's drop "General".
+> 
+
+Ok.
+
+>>  #
+>>  # @protocol: - 'vnc' to modify the VNC server password
+>>  #            - 'spice' to modify the Spice server password
+>>  #
+>>  # @password: the new password
+>>  #
+>> -# @connected: how to handle existing clients when changing the
+>> -#             password.  If nothing is specified, defaults to 'keep'
+>> -#             'fail' to fail the command if clients are connected
+>> -#             'disconnect' to disconnect existing clients
+>> -#             'keep' to maintain existing clients
+>> +# Since: 7.0
+>> +#
+>> +##
+>> +{ 'union': 'SetPasswordOptions',
+>> +  'base': { 'protocol': 'DisplayProtocol',
+>> +            'password': 'str' },
+>> +  'discriminator': 'protocol',
+>> +  'data': { 'vnc': 'SetPasswordOptionsVnc',
+>> +            'spice': 'SetPasswordOptionsSpice' } }
+>> +
+>> +##
+>> +# @SetPasswordOptionsSpice:
+>> +#
+>> +# Options for set_password specific to the SPICE procotol.
+>> +#
+>> +# @connected: How to handle existing clients when changing the
+>> +#             password. If nothing is specified, defaults to 'keep'.
+>> +#
+>> +# Since: 7.0
+>> +#
+>> +##
+>> +{ 'struct': 'SetPasswordOptionsSpice',
+>> +  'data': { '*connected': 'SetPasswordAction' } }
+>> +
+>> +##
+>> +# @SetPasswordOptionsVnc:
+>> +#
+>> +# Options for set_password specific to the VNC procotol.
+>> +#
+>> +# @display: The id of the display where the password should be changed.
+>> +#           Defaults to the first.
+>> +#
+>> +# @connected: How to handle existing clients when changing the
+>> +#             password.
+> 
+> Neglects to document the default, unlike SetPasswordOptionsSpice above.
+> 
+
+Will add it in v9.
+
+>> +#
+>> +# Since: 7.0
+>> +#
+>> +##
+>> +{ 'struct': 'SetPasswordOptionsVnc',
+>> +  'data': { '*display': 'str',
+>> +            '*connected': 'SetPasswordAction' }}
+> 
+> @connected could be made a common member.  Untested incremental patch
+> appended for your consideration.
+> 
+
+Yes, sounds good.
 
 
