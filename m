@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 976584B9FF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 13:19:54 +0100 (CET)
-Received: from localhost ([::1]:50864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 227E74BA045
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 13:37:58 +0100 (CET)
+Received: from localhost ([::1]:52642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKflJ-0000aW-LZ
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 07:19:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42534)
+	id 1nKg2m-0005CG-VH
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 07:37:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nKfbX-0004zt-JG
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:09:47 -0500
-Received: from [2607:f8b0:4864:20::b2e] (port=41689
- helo=mail-yb1-xb2e.google.com)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nKfpV-0006i2-6T
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:24:13 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:50518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nKfbS-0003Pj-Bx
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:09:47 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id j12so12552295ybh.8
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 04:09:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AxT3GYqb0GmTSaRDS4G1IlBIVR9UlMzc1VconxXO1SM=;
- b=cwc6ZUtrxN/sfip0nBnq6Sh7nqa0QZ63OSK1AWanl4C7mYG7BsqymDDGN9J6auytXq
- ut8+ndrxBwp4sUHZ7hQnbmQSTuRaIlEI5Kn6StyzZJOl86+/sUsx7S39Hp7GP0q6yZeD
- Cqmyw2XqgQToO8Jv0nr8NOzAWs9XJIVWLZz7bzcw9k5s8eQ+xVgsxrpAU6vYiUL+L0C5
- N3GVEB06awgBG9UzH/v8e4BYHH7mLjlkJM7VGq/njdnNGeK7Q8AqF8+QOfqokmvP8kJg
- 1cx6OuQHkRsvYDI4gFPrJmZ8yY2/C+WFAMaGduDjX8sobZ7Xt15nAEjGNWN8Ct32gmz1
- 2Ueg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AxT3GYqb0GmTSaRDS4G1IlBIVR9UlMzc1VconxXO1SM=;
- b=UhYBDwgMV2g4bp9gq7YaS9s61lwXjPk3S9oSDMRWVUVsM5p+7NXgBKszfnxbzA0lCU
- gCbOuDi07ulDEdb78twXAbQkW6HUIkA8cjjH/Gyt9i0ijJ0gcbQFBXoALRLCBl/VJ0OD
- 74rbnwhVp6hKPgC9S9jWzMMstE/J4/r5irTOx36KhcNidA8br2Zf4NiPNKpvBhwfpCZK
- CV+mLUWesdHvPlQ7PdGRUR4mYy14MAzQxAK7SqvHpyXpumJ5DZ2vnpTWautaZy9qZA/N
- m0bOL5UB3SuL2cq2HdyFdPntLJBTgvGe0kY4Rm4Yl8taqcfDs2Qd4cR7IzUO6GFu+ylP
- uSow==
-X-Gm-Message-State: AOAM532e7QD48Uww8geTEMgOtN0FHsuxD5CQkIm0VV6dbh6pI+FaNQAT
- nZ4csFjxTeY7hi0+8f+9l3Kn0iEwaUIMgknUhCP/wg==
-X-Google-Smtp-Source: ABdhPJzyLDIiiqFALyiTN29umBRljmujSucT4okcLXiHDUSdsyLNDqciAJ1AmtNk8prbGUCCWyvZKEzSQkrW/dKIzuo=
-X-Received: by 2002:a25:dec2:0:b0:61d:e09e:94d1 with SMTP id
- v185-20020a25dec2000000b0061de09e94d1mr2122643ybg.287.1645099781410; Thu, 17
- Feb 2022 04:09:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nKfpS-0005wl-Uu
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:24:12 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 14CF21F37D;
+ Thu, 17 Feb 2022 12:24:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1645100649; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k3+ORlyyXZ1uXJMaBLrfIMsZ0XCFPS336gKIZJ2jGuQ=;
+ b=LKR2bUnv0FWvq875faqODwIaTv28l3v9EuIKwmBu0/AOELzXLUuBA4VxhsuvdwGtMhUROi
+ H3JsqH5sER+OIjkls4ofKplZs0XoHujwEFWPmTX1I2RuikaO4qL+hiveoKLtVXHkfB9hQG
+ LlMRkhaCw5W9rSG/Sl7uOVFTGrNLTNA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1645100649;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k3+ORlyyXZ1uXJMaBLrfIMsZ0XCFPS336gKIZJ2jGuQ=;
+ b=naA1pbga2IfVWNk50pwYZq3ovUBWnOESjlFpaUS3G5XvrfFAWmH1Edbjpb6Du8x5Lx22oZ
+ xBlzN6iP3tkg9dCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B77B713BF1;
+ Thu, 17 Feb 2022 12:24:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 56ENKmg+DmJdeQAAMHmgww
+ (envelope-from <lizhang@suse.de>); Thu, 17 Feb 2022 12:24:08 +0000
+Subject: Re: [PATCH 1/1] numa: check mem or memdev in numa configuration
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20220216163613.22570-1-lizhang@suse.de>
+ <20220217101024.7c723f10@redhat.com>
+ <65f05997-dd2b-c30d-5c95-8e832f21afa0@suse.de>
+ <20220217112539.43ddd55f@redhat.com>
+From: Li Zhang <lizhang@suse.de>
+Message-ID: <f3b49aba-5fef-8c80-17c3-d577aeed6111@suse.de>
+Date: Thu, 17 Feb 2022 13:24:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <cover.1645079934.git.jag.raman@oracle.com>
- <4bef7bdd7309e128eca140a2324a126346c9f1f1.1645079934.git.jag.raman@oracle.com>
-In-Reply-To: <4bef7bdd7309e128eca140a2324a126346c9f1f1.1645079934.git.jag.raman@oracle.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Feb 2022 12:09:30 +0000
-Message-ID: <CAFEAcA9JW0OyAyCk0zbnMMQbo=Q6vr7P4EhEHjrc=i0spCSGLw@mail.gmail.com>
-Subject: Re: [PATCH v6 01/19] configure, meson: override C compiler for cmake
-To: Jagannathan Raman <jag.raman@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.978, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220217112539.43ddd55f@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,30 +87,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, berrange@redhat.com,
- bleal@redhat.com, john.g.johnson@oracle.com, john.levon@nutanix.com,
- qemu-devel@nongnu.org, armbru@redhat.com, quintela@redhat.com,
- alex.williamson@redhat.com, pbonzini@redhat.com, mst@redhat.com,
- stefanha@redhat.com, thanos.makatos@nutanix.com, kanth.ghatraju@oracle.com,
- eblake@redhat.com, dgilbert@redhat.com, f4bug@amsat.org
+Cc: eduardo@habkost.net, wangyanan55@huawei.com, f4bug@amsat.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Feb 2022 at 07:56, Jagannathan Raman <jag.raman@oracle.com> wrote:
->
-> The compiler path that cmake gets from meson is corrupted. It results in
-> the following error:
-> | -- The C compiler identification is unknown
-> | CMake Error at CMakeLists.txt:35 (project):
-> | The CMAKE_C_COMPILER:
-> | /opt/rh/devtoolset-9/root/bin/cc;-m64;-mcx16
-> | is not a full path to an existing compiler tool.
->
-> Explicitly specify the C compiler for cmake to avoid this error
+On 2/17/22 11:25 AM, Igor Mammedov wrote:
+> On Thu, 17 Feb 2022 10:38:32 +0100
+> Li Zhang <lizhang@suse.de> wrote:
+> 
+>> On 2/17/22 10:10 AM, Igor Mammedov wrote:
+>>> On Wed, 16 Feb 2022 17:36:13 +0100
+>>> Li Zhang <lizhang@suse.de> wrote:
+>>>    
+>>>> If there is no mem or memdev in numa configuration, it always
+>>>> reports the error as the following:
+>>>>
+>>>> total memory for NUMA nodes (0x0) should equal RAM size (0x100000000)
+>>>>
+>>>> This error is confusing and the reason is that total memory of numa nodes
+>>>> is always 0 if there is no mem or memdev in numa configuration.
+>>>> So it's better to check mem or memdev in numa configuration.
+>>>>
+>>>> Signed-off-by: Li Zhang <lizhang@suse.de>
+>>>> ---
+>>>>    hw/core/numa.c | 5 +++++
+>>>>    1 file changed, 5 insertions(+)
+>>>>
+>>>> diff --git a/hw/core/numa.c b/hw/core/numa.c
+>>>> index 1aa05dcf42..11cbec51eb 100644
+>>>> --- a/hw/core/numa.c
+>>>> +++ b/hw/core/numa.c
+>>>> @@ -132,6 +132,11 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+>>>>    
+>>>>        have_memdevs = have_memdevs ? : node->has_memdev;
+>>>>        have_mem = have_mem ? : node->has_mem;
+>>>> +    if (!node->has_memdev && !node->has_mem) {
+>>>> +        error_setg(errp, "numa configuration should use mem= or memdev= ");
+>>>> +        return;
+>>>> +    }
+>>>
+>>> Wouldn't this breaks memory less numa nodes?
+>>
+>> Yes, you are right. It will break it if there more numa nodes
+>> than memory, and the numa nodes have no memory backends specified.
+>>
+>> Is it allowed for users to specify more numa nodes than memory?
+> yep, I think we support it at least for one of the targets
+> (but I don't remember which one(s))
+> 
 
-This sounds like a bug in Meson. Is there a Meson bug report
-we can reference in the commit message here ?
+Is it okay if I put a warning here, instead of an error and return?
+It won't break the special case. I wonder if it is annoying to get
+the warning.
 
-thanks
--- PMM
+Thanks
+Li
+
+>>
+>>>
+>>> I'd rather add/rephrase to original error message that memory
+>>> should be specified explicitly for desired numa nodes.
+>>> And I'd not mention 'mem=' since
+>>>     docs/about/removed-features.rst:``-numa node,mem=...`` (removed in 5.1)
+>>
+>> Thanks for your suggestions, I will rephrase it.
+>>
+>>>    
+>>>> +
+>>>>        if ((node->has_mem && have_memdevs) || (node->has_memdev && have_mem)) {
+>>>>            error_setg(errp, "numa configuration should use either mem= or memdev=,"
+>>>>                       "mixing both is not allowed");
+>>>    
+>>
+> 
+
 
