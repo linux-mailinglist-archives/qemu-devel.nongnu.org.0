@@ -2,77 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4514B9C16
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 10:33:24 +0100 (CET)
-Received: from localhost ([::1]:49390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024CF4B9C44
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 10:42:54 +0100 (CET)
+Received: from localhost ([::1]:60518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKdAB-0005E1-2C
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 04:33:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32950)
+	id 1nKdJJ-0004tj-Hb
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 04:42:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nKcxC-0001ZI-Gg
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:19:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60832)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nKd3m-00049D-3d; Thu, 17 Feb 2022 04:26:46 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:37191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nKcx9-0001AP-HE
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:19:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645089594;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WfGOesajA4FcsjHyQMIoxheaV5Wxmerc3U7hVfDJYFE=;
- b=EXJNuvcok/SH1v+UeSaqKWbjZoDOKGwsA4LQ9/P9h/BlvNhhP+GCmQWrCs3SquVtfw/fr1
- Kbe9kQDXqiGp7+IAvSRglqmyVSa60zMJnj1uR0UdoDjyD+2r/0oGV33rikwcz27wSGRkwL
- 4tz3Xrgk9eiDPZYQH8N8tYx4zCJmWk4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-A02csnNPPPOrVS84ztcTbw-1; Thu, 17 Feb 2022 04:19:53 -0500
-X-MC-Unique: A02csnNPPPOrVS84ztcTbw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F9EF814243;
- Thu, 17 Feb 2022 09:19:52 +0000 (UTC)
-Received: from paraplu (unknown [10.39.194.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E34285445C;
- Thu, 17 Feb 2022 09:19:09 +0000 (UTC)
-Date: Thu, 17 Feb 2022 10:19:06 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 3/3] x86: Switch to q35 as the default machine type
-Message-ID: <Yg4TCpFgT7PRxVXm@paraplu>
-References: <20220215162537.605030-1-dgilbert@redhat.com>
- <20220215162537.605030-4-dgilbert@redhat.com>
- <YgvtLmoJcv+ZSW1S@redhat.com>
- <20220216105808.77kqhmsagz3ej74h@sirius.home.kraxel.org>
- <YgzZhHKSAFYTYFDc@work-vm>
- <db583712-cd6e-d67d-ad98-989a9867499a@redhat.com>
- <Yg03HB5KHGYWyI0J@work-vm>
- <f5ea8b34-2d50-c0d7-4ec0-ff0921dbcbd4@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nKd3i-0002QA-Ps; Thu, 17 Feb 2022 04:26:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=7jAVIf4EirqOb4pVpM5PgVbJ6re9Tn99ZrlcJ9FM5Qg=; b=XBTMrTH1cGUlZgSLVw2V+8QOCS
+ Qgz1oHZfxUi1ZsC7mw/Ylw7SLlGyGtR80HPv7zpc4ASBg46TRoJ/cKiQHY3q4xLTy3J5kwwDnKUGp
+ +HVwQkI02S4nDBNFVSFgpvCgLzfsO9YmXeihEzraWpRSHSzMsOmhvyAxp4yhto77ZwbRNogu1jY6R
+ Vbi+SbQ97RxKUO3emlyWvfWcaYNXdJ7GRxR6y2dyoj9aUW9UlYN49O/BOXR+oYUPwh3jGu9DTT+vt
+ r/J/wyZ9HsKXOeXhIOOdJvUyvKGZ/ZQ0wgodOoqLZ0gwdM+i1AgBYT65xc4sLuRkBjmjeBfZUxWly
+ QljVwLpSV3Kpn6m2gmJERj6Yq7rfyiyWqckDuWe3gufGHReciRvt51SU0jRGZNwSpJV66VK6b7pDi
+ mnyhKvRI8jQ0GmojA8MNB5miIr9X278/1zyvBRr2mml+XGDtBjVLAE13QAaEG8lEZEJd8U4GrP2av
+ 466osYi67OtXK1oKaxiq5QwLEaKAKPdI8n9+RqPihekBO5HlfPDBk7Mxkwh7+Kp9vDQboahH/ERCr
+ Mti60B9vcUSyIWgxeSu8Mv+vA3Ml+S/LuJJ4JQJduHJBjqJ8Ux0qGpJPVig9RGV7JOEFxrDBhw0gi
+ tODX8wHgHLpd8xj61edjm7Buf/p4wSEl1Or/gFTuw=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Vitaly Chikunov <vt@altlinux.org>, Greg Kurz <groug@kaod.org>,
+ qemu-stable@nongnu.org, "Dmitry V . Levin" <ldv@altlinux.org>
+Subject: Re: [PATCH v5] 9pfs: Fix segfault in do_readdir_many caused by struct
+ dirent overread
+Date: Thu, 17 Feb 2022 10:26:37 +0100
+Message-ID: <1985849.zTV3lQ0sjB@silver>
+In-Reply-To: <20220216181821.3481527-1-vt@altlinux.org>
+References: <20220216181821.3481527-1-vt@altlinux.org>
 MIME-Version: 1.0
-In-Reply-To: <f5ea8b34-2d50-c0d7-4ec0-ff0921dbcbd4@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,65 +64,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, Laurent Vivier <lvivier@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- quintela@redhat.com, mst@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 17, 2022 at 08:57:19AM +0100, Thomas Huth wrote:
-> On 16/02/2022 18.40, Dr. David Alan Gilbert wrote:
-
-[...]
-
-> > So just adding something like the following under 'System emulator
-> > machines':
-> > 
-> > x86 default machine type
-> > ------------------------
-> > 
-> > x86 currently defaults to the very old ```pc``` machine type
+On Mittwoch, 16. Februar 2022 19:18:21 CET Vitaly Chikunov wrote:
+> `struct dirent' returned from readdir(3) could be shorter (or longer)
+> than `sizeof(struct dirent)', thus memcpy of sizeof length will overread
+> into unallocated page causing SIGSEGV. Example stack trace:
 > 
-> I'd scrath the "very old" above since you repeat it below...
+>  #0  0x00005555559ebeed v9fs_co_readdir_many (/usr/bin/qemu-system-x86_64 +
+> 0x497eed) #1  0x00005555559ec2e9 v9fs_readdir (/usr/bin/qemu-system-x86_64
+> + 0x4982e9) #2  0x0000555555eb7983 coroutine_trampoline
+> (/usr/bin/qemu-system-x86_64 + 0x963983) #3  0x00007ffff73e0be0 n/a (n/a +
+> 0x0)
 > 
-> > which is based on the very old ```i440f``` chipset.  This default
-> > will be removed and the user will be required to specify a machine
-> > type explicitly using -M; users are encouraged to switch to the
-> > not quite as old ```q35``` machine types.
+> While fixing this, provide a helper for any future `struct dirent' cloning.
 > 
-> ... but otherwise this sounds good to me.
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/841
+> Cc: qemu-stable@nongnu.org
+> Co-authored-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Reviewed-by: Dmitry V. Levin <ldv@altlinux.org>
+> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+> ---
+> Tested on x68-64 Linux with btrfs-progs tests and qos-test -m slow.
 
-Yeah, _not_ picking a default sounds good to me.  As there might come a
-better machine type for x86 too, just like how "virt" machine type was
-expressly designed for AArch64 guests.
- 
-> > (This option is going to take a lot more work switching all the
-> > test cases over; in my world here I'd only changed the tests that broke
-> > on q35, now everything is going to need to specify a type).
-> 
-> We've got a bunch of targets now already that do not have a default machine
-> type yet (aarch64/arm, avr, rx, tricore), and some where the default machine
-> type does not make too much sense for testing anyway (e.g. m68k) ... so it
-> would maybe be good to have a global qtest_get_default_machine() function in
-> the qtest framework anyway instead of re-encoding this in each and every
-> test case.
-> 
-> Anyway, if we agree that the default machine type of x86 should go through
-> the deprecation process, we've got plenty of time to fix this up in the
-> tests, no need to rush this now before 7.0.
-> 
-> Other heretic question: Should we maybe get rid of the default machine type
-> for *all* targets? ... so that we do not continue to run into this issue
-> again and again and again...
+Consider donating your Tested-by tag then.
 
-Not at all heretic :-) I think the same reasoning above works here too.
-FWIW, I agree to make the behaviour consistent across all targets.
+> Changes since v4:
+> - Zero clear V9fsSynthOpenState on allocation. Uninitialised use of
+>   d_reclen bug found by fuzzing. Use g_new0 instead of g_malloc0 as
+>   Greg Kurz suggested.
 
-[...] 
+I can confirm that v4 triggered the previously discussed ASan error when
+running the 9p 'synth' tests; and with this v5 ASan no longer triggers an
+error.
 
--- 
-/kashyap
+Tested-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+
+Maybe some of the new comments could be improved, for instance ...
+
+> 
+>  hw/9pfs/9p-synth.c   | 18 +++++++++++++++---
+>  hw/9pfs/9p-synth.h   |  5 +++++
+>  hw/9pfs/codir.c      |  3 +--
+>  include/qemu/osdep.h | 13 +++++++++++++
+>  util/osdep.c         | 21 +++++++++++++++++++++
+>  5 files changed, 55 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> index b38088e066..396cda36f1 100644
+> --- a/hw/9pfs/9p-synth.c
+> +++ b/hw/9pfs/9p-synth.c
+> @@ -182,7 +182,12 @@ static int synth_opendir(FsContext *ctx,
+>      V9fsSynthOpenState *synth_open;
+>      V9fsSynthNode *node = *(V9fsSynthNode **)fs_path->data;
+> 
+> -    synth_open = g_malloc(sizeof(*synth_open));
+> +    /*
+> +     * V9fsSynthOpenState contains 'struct dirent' which have OS-specific
+> +     * properties, thus it's zero cleared on allocation here and below
+> +     * in synth_open.
+> +     */
+> +    synth_open = g_new0(V9fsSynthOpenState, 1);
+>      synth_open->node = node;
+>      node->open_count++;
+>      fs->private = synth_open;
+> @@ -220,7 +225,14 @@ static void synth_rewinddir(FsContext *ctx,
+> V9fsFidOpenState *fs) static void synth_direntry(V9fsSynthNode *node,
+>                                  struct dirent *entry, off_t off)
+>  {
+> -    strcpy(entry->d_name, node->name);
+> +    size_t sz = strlen(node->name) + 1;
+> +    /*
+> +     * 'entry' is always inside of V9fsSynthOpenState which have NAME_MAX
+> +     * back padding. Ensure we do not orerflow it.
+> +     */
+
+... here is a typo in the comment. But unless there are more issues, I could
+handle such minor comment issues on my end before pushing.
+
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+
+Best regards,
+Christian Schoenebeck
+
+> +    g_assert(sizeof(struct dirent) + NAME_MAX >=
+> +             offsetof(struct dirent, d_name) + sz);
+> +    memcpy(entry->d_name, node->name, sz);
+>      entry->d_ino = node->attr->inode;
+>      entry->d_off = off + 1;
+>  }
+> @@ -266,7 +278,7 @@ static int synth_open(FsContext *ctx, V9fsPath *fs_path,
+> V9fsSynthOpenState *synth_open;
+>      V9fsSynthNode *node = *(V9fsSynthNode **)fs_path->data;
+> 
+> -    synth_open = g_malloc(sizeof(*synth_open));
+> +    synth_open = g_new0(V9fsSynthOpenState, 1);
+>      synth_open->node = node;
+>      node->open_count++;
+>      fs->private = synth_open;
+> diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
+> index 036d7e4a5b..eeb246f377 100644
+> --- a/hw/9pfs/9p-synth.h
+> +++ b/hw/9pfs/9p-synth.h
+> @@ -41,6 +41,11 @@ typedef struct V9fsSynthOpenState {
+>      off_t offset;
+>      V9fsSynthNode *node;
+>      struct dirent dent;
+> +    /*
+> +     * Ensure there is enough space for 'dent' above, some systems have a
+> +     * d_name size of just 1, which would cause a buffer overrun.
+> +     */
+> +    char dent_trailing_space[NAME_MAX];
+>  } V9fsSynthOpenState;
+> 
+>  int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mode,
+> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+> index 032cce04c4..c0873bde16 100644
+> --- a/hw/9pfs/codir.c
+> +++ b/hw/9pfs/codir.c
+> @@ -143,8 +143,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState
+> *fidp, } else {
+>              e = e->next = g_malloc0(sizeof(V9fsDirEnt));
+>          }
+> -        e->dent = g_malloc0(sizeof(struct dirent));
+> -        memcpy(e->dent, dent, sizeof(struct dirent));
+> +        e->dent = qemu_dirent_dup(dent);
+> 
+>          /* perform a full stat() for directory entry if requested by caller
+> */ if (dostat) {
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index d1660d67fa..ce12f64853 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -805,6 +805,19 @@ static inline int
+> platform_does_not_support_system(const char *command) }
+>  #endif /* !HAVE_SYSTEM_FUNCTION */
+> 
+> +/**
+> + * Duplicate directory entry @dent.
+> + *
+> + * It is highly recommended to use this function instead of open coding
+> + * duplication of @c dirent objects, because the actual @c struct @c dirent
+> + * size may be bigger or shorter than @c sizeof(struct dirent) and correct
+> + * handling is platform specific (see gitlab issue #841).
+> + *
+> + * @dent - original directory entry to be duplicated
+> + * @returns duplicated directory entry which should be freed with g_free()
+> + */
+> +struct dirent *qemu_dirent_dup(struct dirent *dent);
+> +
+>  #ifdef __cplusplus
+>  }
+>  #endif
+> diff --git a/util/osdep.c b/util/osdep.c
+> index 42a0a4986a..67fbf22778 100644
+> --- a/util/osdep.c
+> +++ b/util/osdep.c
+> @@ -33,6 +33,7 @@
+>  extern int madvise(char *, size_t, int);
+>  #endif
+> 
+> +#include <dirent.h>
+>  #include "qemu-common.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/sockets.h"
+> @@ -615,3 +616,23 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+>      return readv_writev(fd, iov, iov_cnt, true);
+>  }
+>  #endif
+> +
+> +struct dirent *
+> +qemu_dirent_dup(struct dirent *dent)
+> +{
+> +    size_t sz = 0;
+> +#if defined _DIRENT_HAVE_D_RECLEN
+> +    /* Avoid use of strlen() if platform supports d_reclen. */
+> +    sz = dent->d_reclen;
+> +#endif
+> +    /*
+> +     * Test sz for zero even if d_reclen is available
+> +     * because some drivers may set d_reclen to zero.
+> +     */
+> +    if (sz == 0) {
+> +        /* Fallback to the most portable way. */
+> +        sz = offsetof(struct dirent, d_name) +
+> +                      strlen(dent->d_name) + 1;
+> +    }
+> +    return g_memdup(dent, sz);
+> +}
+
 
 
