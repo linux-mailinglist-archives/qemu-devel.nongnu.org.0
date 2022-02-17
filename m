@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8DE4BA011
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 13:26:09 +0100 (CET)
-Received: from localhost ([::1]:58886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B77D4BA012
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 13:26:24 +0100 (CET)
+Received: from localhost ([::1]:59168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKfrM-0006NJ-Q3
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 07:26:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40010)
+	id 1nKfrb-0006ZX-8A
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 07:26:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nKfRn-0006Vc-V7
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 06:59:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55402)
+ id 1nKfS0-0007FH-Vr
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 06:59:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nKfRm-0001FG-F0
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 06:59:43 -0500
+ id 1nKfRz-0001Fz-DJ
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 06:59:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645099181;
+ s=mimecast20190719; t=1645099194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xd1wCtHOUdWyn1wICNVybJ+lJ9wf6hUnyrfwpvgaL18=;
- b=iH8sBHdpYROy43in0GjTfBq75CZ3PSukMolqPzQCUvBKbwZ/8WyY1ibtsGZGGi7f0lZ48J
- 5KLAv6p57brLOwsvpZIzdn4ezpZ+bRh9u5Y7fJH8yjAl44zISK6JaJz7WvAgJ98A5mMvZW
- IE9aUu6YIUfP4T9ckqGtZhIrX2u95A8=
+ bh=z3/fLVN0f8FmK2BpekjUIonMnz89spwYrYp7oriaLhQ=;
+ b=F1Ou7XsapzNfCu6mUHl+vT5b7plFHUz+dZLd90LVXqjrB7Mp5L3TSjQVawuf440Uh6bDbG
+ g/3Al5uxe0Vcc3QgvQosh/cr6awrUKpKwbNlRkrOeV9OXKA6Ran5pCWKGjuje/FzNbrnmy
+ PAlxIdODohl4cGyFFhcuFxaRDcB35uk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-r9lW0J1fPEatWSOsSTpzSg-1; Thu, 17 Feb 2022 06:59:39 -0500
-X-MC-Unique: r9lW0J1fPEatWSOsSTpzSg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-421-yx_nhTttOGWAZkMjR6veag-1; Thu, 17 Feb 2022 06:59:53 -0500
+X-MC-Unique: yx_nhTttOGWAZkMjR6veag-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 098BF1853028;
- Thu, 17 Feb 2022 11:59:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E07241006AA0;
+ Thu, 17 Feb 2022 11:59:52 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A79773146;
- Thu, 17 Feb 2022 11:59:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E984F7C0CC;
+ Thu, 17 Feb 2022 11:59:42 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/12] ui/console: fix texture leak when calling
- surface_gl_create_texture()
-Date: Thu, 17 Feb 2022 15:58:19 +0400
-Message-Id: <20220217115829.2314347-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 03/12] ui: do not create a surface when resizing a GL
+ scanout
+Date: Thu, 17 Feb 2022 15:58:20 +0400
+Message-Id: <20220217115829.2314347-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
 References: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,33 +88,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Make surface_gl_create_texture() idempotent: if the surface is already
-bound to a texture, do not create a new one.
+qemu_console_resize() will create a blank surface and replace the
+current scanout with it if called while the current scanout is
+GL (texture or dmabuf).
 
-This fixes texture leaks when there are multiple DBus listeners, for
-example.
+This is not only very costly, but also can produce glitches on the
+display/listener side.
 
-Reported-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Instead, compare the current console size with the fitting console
+functions, which also works when the scanout is GL.
+
+Note: there might be still an unnecessary surface creation on calling
+qemu_console_resize() when the size is actually changing, but display
+backends currently rely on DisplaySurface details during
+dpy_gfx_switch() to handle various resize aspects. We would need more
+refactoring to handle resize without DisplaySurface, this is left for a
+future improvement.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/console-gl.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ ui/console.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/ui/console-gl.c b/ui/console-gl.c
-index 7c9894a51d99..8e3c9a3c8c01 100644
---- a/ui/console-gl.c
-+++ b/ui/console-gl.c
-@@ -49,6 +49,10 @@ void surface_gl_create_texture(QemuGLShader *gls,
-     assert(gls);
-     assert(QEMU_IS_ALIGNED(surface_stride(surface), surface_bytes_per_pixel(surface)));
+diff --git a/ui/console.c b/ui/console.c
+index 79a01afd1ea7..365a2c14b809 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -2400,13 +2400,12 @@ static void vc_chr_open(Chardev *chr,
  
-+    if (surface->texture) {
-+        return;
-+    }
-+
-     switch (surface->format) {
-     case PIXMAN_BE_b8g8r8x8:
-     case PIXMAN_BE_b8g8r8a8:
+ void qemu_console_resize(QemuConsole *s, int width, int height)
+ {
+-    DisplaySurface *surface = qemu_console_surface(s);
++    DisplaySurface *surface;
+ 
+     assert(s->console_type == GRAPHIC_CONSOLE);
+ 
+-    if (surface && (surface->flags & QEMU_ALLOCATED_FLAG) &&
+-        pixman_image_get_width(surface->image) == width &&
+-        pixman_image_get_height(surface->image) == height) {
++    if (qemu_console_get_width(s, -1) == width &&
++        qemu_console_get_height(s, -1) == height) {
+         return;
+     }
+ 
 -- 
 2.34.1.428.gdcc0cd074f0c
 
