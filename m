@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAD74B95DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 03:17:26 +0100 (CET)
-Received: from localhost ([::1]:38416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4724B95DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 03:17:31 +0100 (CET)
+Received: from localhost ([::1]:38890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKWMH-0002Hr-6e
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 21:17:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48302)
+	id 1nKWMN-0002bt-2U
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 21:17:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nKWK1-0000g0-2L
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 21:15:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nKWJx-0008GF-9V
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 21:15:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645064100;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zula+PXSQblh46QPK9jKUrgI5KitJ7yQrx1SpAD10qg=;
- b=f9YZg7ROcfBm3YrwLcfSgrFcOvNTnNzCWWNLLhXK7Wwx40RgCDm/U3wlDLPZGp6Yp+U5xZ
- sDzIcVAkpD5dO4KwGKV6SL53t6aVgGZ0rChN0SbzLVKIsOsoMSnFyGxKvc5+qvtFjIuAuZ
- JUGH9Vf/uNq1loEjMuJ0b/oLbH7F+7E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-o2wsiEbxOSOdtQmj3tNNww-1; Wed, 16 Feb 2022 21:14:57 -0500
-X-MC-Unique: o2wsiEbxOSOdtQmj3tNNww-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 752FD1091DA0;
- Thu, 17 Feb 2022 02:14:55 +0000 (UTC)
-Received: from [10.72.13.24] (ovpn-13-24.pek2.redhat.com [10.72.13.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 95C8845D9A;
- Thu, 17 Feb 2022 02:14:47 +0000 (UTC)
-Subject: Re: [PATCH] hw/arm/virt: Fix CPU's default NUMA node ID
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20220126052410.36380-1-gshan@redhat.com>
- <20220126101447.5d4f01f9@redhat.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <aa22b9ba-6b5a-a728-870d-e5efbea67c5d@redhat.com>
-Date: Thu, 17 Feb 2022 10:14:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nKWKD-0000kZ-9p; Wed, 16 Feb 2022 21:15:17 -0500
+Received: from smtp23.cstnet.cn ([159.226.251.23]:36442 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nKWK8-0008Rp-LF; Wed, 16 Feb 2022 21:15:15 -0500
+Received: from [192.168.0.104] (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowADn6MChrw1itXO3AA--.50708S2;
+ Thu, 17 Feb 2022 10:14:59 +0800 (CST)
+Subject: Re: [PATCH v4 2/2] target/riscv: Enable Zicbo[m,z,p] instructions
+To: Christoph Muellner <cmuellner@linux.com>,
+ Atish Patra <atishp@rivosinc.com>, Anup Patel <anup@brainfault.org>,
+ =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20220216154839.1024927-1-cmuellner@linux.com>
+ <20220216154839.1024927-3-cmuellner@linux.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <2c0fcafe-868a-ba7a-bf42-3a4ed2df19ba@iscas.ac.cn>
+Date: Thu, 17 Feb 2022 10:14:57 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220126101447.5d4f01f9@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20220216154839.1024927-3-cmuellner@linux.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-CM-TRANSID: rQCowADn6MChrw1itXO3AA--.50708S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXrWDXryDCF1UCr1rAFy5Arb_yoW5AFy5pF
+ Z3GFy3KFs7XF1DZ3y0qwnFvF4F93WxCayjgw48X3sYkw43Gr13XF1vkFs8CrsxJFs7Zw42
+ ga1YvF1xA3yqvaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBI14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+ c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x
+ 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+ 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+ C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+ 04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aV
+ CY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUj0JPtUUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,126 +80,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, "wangyanan \(Y\)" <wangyanan55@huawei.com>,
- qemu-arm@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/26/22 5:14 PM, Igor Mammedov wrote:
-> On Wed, 26 Jan 2022 13:24:10 +0800
-> Gavin Shan <gshan@redhat.com> wrote:
-> 
->> The default CPU-to-NUMA association is given by mc->get_default_cpu_node_id()
->> when it isn't provided explicitly. However, the CPU topology isn't fully
->> considered in the default association and it causes CPU topology broken
->> warnings on booting Linux guest.
->>
->> For example, the following warning messages are observed when the Linux guest
->> is booted with the following command lines.
->>
->>    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
->>    -accel kvm -machine virt,gic-version=host               \
->>    -cpu host                                               \
->>    -smp 6,sockets=2,cores=3,threads=1                      \
->>    -m 1024M,slots=16,maxmem=64G                            \
->>    -object memory-backend-ram,id=mem0,size=128M            \
->>    -object memory-backend-ram,id=mem1,size=128M            \
->>    -object memory-backend-ram,id=mem2,size=128M            \
->>    -object memory-backend-ram,id=mem3,size=128M            \
->>    -object memory-backend-ram,id=mem4,size=128M            \
->>    -object memory-backend-ram,id=mem4,size=384M            \
->>    -numa node,nodeid=0,memdev=mem0                         \
->>    -numa node,nodeid=1,memdev=mem1                         \
->>    -numa node,nodeid=2,memdev=mem2                         \
->>    -numa node,nodeid=3,memdev=mem3                         \
->>    -numa node,nodeid=4,memdev=mem4                         \
->>    -numa node,nodeid=5,memdev=mem5
->>           :
->>    alternatives: patching kernel code
->>    BUG: arch topology borken
->>    the CLS domain not a subset of the MC domain
->>    <the above error log repeats>
->>    BUG: arch topology borken
->>    the DIE domain not a subset of the NODE domain
->>
->> With current implementation of mc->get_default_cpu_node_id(), CPU#0 to CPU#5
->> are associated with NODE#0 to NODE#5 separately. That's incorrect because
->> CPU#0/1/2 should be associated with same NUMA node because they're seated
->> in same socket.
->>
->> This fixes the issue by considering the socket when default CPU-to-NUMA
->> is given. With this applied, no more CPU topology broken warnings are seen
->> from the Linux guest. The 6 CPUs are associated with NODE#0/1, but there are
->> no CPUs associated with NODE#2/3/4/5.
-> 
->>From migration point of view it looks fine to me, and doesn't need a compat knob
-> since NUMA data (on virt-arm) only used to construct ACPI tables (and we don't
-> version those unless something is broken by it).
-> 
-> 
->> Signed-off-by: Gavin Shan <gshan@redhat.com>
->> ---
->>   hw/arm/virt.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index 141350bf21..b4a95522d3 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -2499,7 +2499,7 @@ virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
->>   
->>   static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
->>   {
->> -    return idx % ms->numa_state->num_nodes;
->> +    return idx / (ms->smp.dies * ms->smp.clusters * ms->smp.cores * ms->smp.threads);
-> 
-> I'd like for ARM folks to confirm whether above is correct
-> (i.e. socket is NUMA node boundary and also if above topo vars
-> could have odd values. Don't look at horribly complicated x86
-> as example, but it showed that vendors could stash pretty much
-> anything there, so we should consider it here as well and maybe
-> forbid that in smp virt-arm parser)
-> 
 
-After doing some investigation, I don't think the socket is NUMA node boundary.
-Unfortunately, I didn't find it's documented like this in any documents after
-checking device-tree specification, Linux CPU topology and NUMA binding documents.
-
-However, there are two options here according to Linux (guest) kernel code:
-(A) socket is NUMA node boundary  (B) CPU die is NUMA node boundary. They are
-equivalent as CPU die isn't supported on arm/virt machine. Besides, the topology
-of one-to-one association between socket and NUMA node sounds natural and simplified.
-So I think (A) is the best way to go.
-
-Another thing I want to explain here is how the changes affect the memory
-allocation in Linux guest. Taking the command lines included in the commit
-log as an example, the first two NUMA nodes are bound to CPUs while the other
-4 NUMA nodes are regarded as remote NUMA nodes to CPUs. The remote NUMA node
-won't accommodate the memory allocation until the memory in the near (local)
-NUMA node becomes exhausted. However, it's uncertain how the memory is hosted
-if memory binding isn't applied.
-
-Besides, I think the code should be improved like below to avoid overflow on
-ms->numa_state->num_nodes.
-
-  static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
-  {
--    return idx % ms->numa_state->num_nodes;
-+    int node_idx;
-+
-+    node_idx = idx / (ms->smp.dies * ms->smp.clusters * ms->smp.cores * ms->smp.threads);
-+    return node_idx % ms->numa_state->num_nodes;
-  }
+在 2022/2/16 下午11:48, Christoph Muellner 写道:
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 39ffb883fc..04500fe352 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -764,6 +764,10 @@ static Property riscv_cpu_properties[] = {
+>       DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+>       DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+>       DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> +    DEFINE_PROP_BOOL("zicbom", RISCVCPU, cfg.ext_icbom, true),
+> +    DEFINE_PROP_BOOL("zicboz", RISCVCPU, cfg.ext_icboz, true),
+> +    DEFINE_PROP_UINT16("cbom_blocksize", RISCVCPU, cfg.cbom_blocksize, 64),
+> +    DEFINE_PROP_UINT16("cboz_blocksize", RISCVCPU, cfg.cboz_blocksize, 64),
+Why use two different cache block size here? Is there any new spec 
+update for this?
+>       DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+>       DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+>       DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+> +
+> +/* helper_zicbom_access
+> + *
+> + * Check access permissions (LOAD, STORE or FETCH as specified in section
+> + * 2.5.2 of the CMO specification) for Zicbom, raising either store
+> + * page-fault (non-virtualised) or store guest-page fault (virtualised).
+> + */
+> +static void helper_zicbom_access(CPURISCVState *env, target_ulong address,
+> +                                 uintptr_t ra)
+> +{
+> +    int ret;
+> +    void* phost;
+> +    int mmu_idx = cpu_mmu_index(env, false);
+> +
+> +    /* Get the size of the cache block for management instructions. */
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +    uint16_t cbomlen = cpu->cfg.cbom_blocksize;
+> +
+> +    /* Mask off low-bits to align-down to the cache-block. */
+> +    address &= ~(cbomlen - 1);
+> +
+> +    /* A cache-block management instruction is permitted to access
+> +     * the specified cache block whenever a load instruction, store
+> +     * instruction, or instruction fetch is permitted to access the
+> +     * corresponding physical addresses.
+> +     */
+> +    ret = probe_access_range_flags(env, address, cbomlen, MMU_DATA_LOAD,
+> +                                   mmu_idx, true, &phost, ra);
+> +    if (ret == TLB_INVALID_MASK)
+> +        ret = probe_access_range_flags(env, address, cbomlen, MMU_INST_FETCH,
+> +                                       mmu_idx, true, &phost, ra);
+> +    if (ret == TLB_INVALID_MASK)
+> +        probe_access_range_flags(env, address, cbomlen, MMU_DATA_STORE,
+> +                                 mmu_idx, false, &phost, ra);
+> +}
+> +
 
 
->>   }
->>   
->>   static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
-> 
+I think it's a little different here. Probe_access_range_flags may 
+trigger different execptions for different access_type. For example:
 
-Thanks,
-Gavin
+If  the page for the address  is executable and readable but not 
+writable,  and the access cannot pass the pmp check for all access_type,
+
+it may trigger access fault for load/fetch access, and  trigger page 
+fault for  store access.
+
+I think the final exception should be access fault instead of the page 
+fault caused by probe_access_range_flags with MMU_DATA_STORE.
+
+Regards,
+
+Weiwei Li
+
 
 
