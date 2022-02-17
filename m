@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D8B4B9CA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 11:01:54 +0100 (CET)
-Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0423B4B9C6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 10:48:34 +0100 (CET)
+Received: from localhost ([::1]:40150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKdbk-0005Og-Pi
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 05:01:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35092)
+	id 1nKdOn-00020b-0X
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 04:48:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nKd6k-0005HK-7M
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:29:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48721)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKd7P-0005c5-TL
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:30:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nKd6d-0002is-0f
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:29:48 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nKd7K-00032G-EV
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:30:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645090181;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1645090225;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aW4kazNGTJFif+22NDas8WbDqc8usJZ/aFtXgYXWlpc=;
- b=SCq5Fm71dvbBW8UHb9LRmTvj/IScL8P6746CYmCEpKsEa32Hzl4ezdUNkfOfL0o33Ee915
- PMeWRG5P2rJv2Q1IeMzkHqckC+nM59GbS5w6zw8HOsvdMi3940nJUvW1Y6/nt56O24xrpg
- iCXWvD6faC6ycDwj+o46wtC6giukV0M=
+ bh=BIrZXwX77PNEDAtLXr0w1k+NFhP3nlgCp8Yow1kH+l4=;
+ b=V9/BUJgf8bpFKnykjxFMaLQ0T93z2B2DX191opuAmHZMS+SmqdiFmLVp6WOZgK/3b9MqpG
+ 1idUj9CIJG34BZtkryKX4xPzxg23BiC9zKRCLV2kowHk5ZvumHCsfUtwRtWCLVPSK7ZRQx
+ 6iy4hpJJwYSkj2vPnIEcSq+xyxXBFyM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-YZXMdFMAMBGOXne07pt6eA-1; Thu, 17 Feb 2022 04:29:34 -0500
-X-MC-Unique: YZXMdFMAMBGOXne07pt6eA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-418-7EYNqP8gNb2UTfi70_l9Ww-1; Thu, 17 Feb 2022 04:30:22 -0500
+X-MC-Unique: 7EYNqP8gNb2UTfi70_l9Ww-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D1A31091DA0;
- Thu, 17 Feb 2022 09:29:33 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ECC64F87F;
- Thu, 17 Feb 2022 09:29:15 +0000 (UTC)
-Date: Thu, 17 Feb 2022 09:29:13 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 3/3] x86: Switch to q35 as the default machine type
-Message-ID: <Yg4VaTuXWME0LQUP@redhat.com>
-References: <20220215162537.605030-1-dgilbert@redhat.com>
- <20220215162537.605030-4-dgilbert@redhat.com>
- <YgvtLmoJcv+ZSW1S@redhat.com>
- <20220216105808.77kqhmsagz3ej74h@sirius.home.kraxel.org>
- <YgzZhHKSAFYTYFDc@work-vm>
- <db583712-cd6e-d67d-ad98-989a9867499a@redhat.com>
- <Yg03HB5KHGYWyI0J@work-vm> <Yg042JzxCjgF2siM@redhat.com>
- <Yg067jLmVM4aIFIq@work-vm>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A1DF1800D50;
+ Thu, 17 Feb 2022 09:30:21 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 944F75E4BC;
+ Thu, 17 Feb 2022 09:30:20 +0000 (UTC)
+Date: Thu, 17 Feb 2022 09:30:19 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Florian Weimer <fweimer@redhat.com>
+Subject: Re: Portable inline asm to get address of TLS variable
+Message-ID: <Yg4Vq/0Pm1sh0sLq@stefanha-x1.localdomain>
+References: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain>
+ <87leyaznm6.fsf@oldenburg.str.redhat.com>
+ <CAJSP0QXmF=AKtaZO7GjxFtd7o5iQ9JC2xYGYDo-zC0Ea1POS5w@mail.gmail.com>
+ <CAJSP0QUOXwwBzXpBNhGb_uuxM8AqP2mOD_7tSSWoEhErdVnHNw@mail.gmail.com>
+ <871r02zgj9.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <Yg067jLmVM4aIFIq@work-vm>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="H7B6bpB+n8nKkdFW"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <871r02zgj9.fsf@oldenburg.str.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,83 +79,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: eduardo@habkost.net, Thomas Huth <thuth@redhat.com>, mst@redhat.com,
- quintela@redhat.com, qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- pbonzini@redhat.com
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 16, 2022 at 05:57:02PM +0000, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > On Wed, Feb 16, 2022 at 05:40:44PM +0000, Dr. David Alan Gilbert wrote:
-> > > * Thomas Huth (thuth@redhat.com) wrote:
-> > > > On 16/02/2022 12.01, Dr. David Alan Gilbert wrote:
-> > > > > * Gerd Hoffmann (kraxel@redhat.com) wrote:
-> > > > > >    Hi,
-> > > > > > > Given the semantic differences from 'i440fx', changing the default
-> > > > > > > machine type has effects that are equivalent to breaking command
-> > > > > > > line syntax compatibility, which is something we've always tried
-> > > > > > > to avoid.
-> > > > > > 
-> > > > > > And if we are fine breaking backward compatibility I'd rather *not* pick
-> > > > > > a default, effectively making -M $something mandatory, similar to arm.
-> > > > > 
-> > > > > Oh, that's probably easy to do;  what are other peoples thoughts on
-> > > > > that?
-> > > > 
-> > > > I agree with Gerd. Getting rid of a default machine on x86 is likely better
-> > > > than silently changing it to q35. But I'd maybe say that this should go
-> > > > through the deprecation process first?
-> > > 
-> > > So just adding something like the following under 'System emulator
-> > > machines':
-> > > 
-> > > x86 default machine type
-> > > ------------------------
-> > > 
-> > > x86 currently defaults to the very old ```pc``` machine type
-> > > which is based on the very old ```i440f``` chipset.  This default
-> > > will be removed and the user will be required to specify a machine
-> > > type explicitly using -M; users are encouraged to switch to the
-> > > not quite as old ```q35``` machine types.
-> > > 
-> > > 
-> > > (This option is going to take a lot more work switching all the
-> > > test cases over; in my world here I'd only changed the tests that broke
-> > > on q35, now everything is going to need to specify a type).
-> > 
-> > ....which is still nothing compared to how many users will be impacted
-> > and the docs all over the internet we'll never be able to change, which
-> > give illustrations using qemu command lines without '-M pc'
-> 
-> What's your prreference - it sounds like you'd prefer to leave the
-> default as 'pc' ?
 
-Yes.
+--H7B6bpB+n8nKkdFW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> aarch's message is:
-> qemu-system-aarch64: No machine specified, and there is no default
-> Use -machine help to list supported machines
-> 
-> We could add a:
-> 'Use -machine pc for the old default behaviour'
+On Wed, Feb 16, 2022 at 09:46:02PM +0100, Florian Weimer wrote:
+> * Stefan Hajnoczi:
+>=20
+> > I'm basically asking whether the &tls_var input operand is treated as
+> > volatile and part of the inline assembly or whether it's just regular
+> > C code that the compiler may optimize with the surrounding function?
+>=20
+> &tls_var is evaluated outside of the inline assembly, any compiler
+> barrier will come after that.  It's subject to CSE (or whatever it's
+> called.  Three asm statements in a row
+>=20
+>   asm volatile("" : "=3Dr"(dst_ptr) : "0"(&tls_var));
+>   asm volatile("" : "=3Dr"(dst_ptr) : "0"(&tls_var));
+>   asm volatile("" : "=3Dr"(dst_ptr) : "0"(&tls_var));
+>=20
+> result in
+>=20
+> 	movq	tls_var@gottpoff(%rip), %rax
+> 	addq	%fs:0, %rax
+> 	movq	%rax, %rdx
+> 	movq	%rax, %rdx
+>=20
+> which is probably not what you want.
 
-Does this really serve to benefit our users though ? As noted, this
-will have no benefit to any mgmt app using libvirt, as it'll still
-explicitly set 'pc' by default. So we only impact basic users who
-are relying on QEMU's built-in defaults.
+Right, the approach I suggested doesn't work. Thanks for sharing the
+example!
 
-It feels like the arguments for removing the machine type default
-apply equally to other aspects of QEMU defaults. ie lets make
--cpu, -accel, -m, -smp, and -display mandatory too, since the
-defaults might not be right for some users ?
+Stefan
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--H7B6bpB+n8nKkdFW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIOFasACgkQnKSrs4Gr
+c8io9gf/aHVuVOnJjbOP+Us+0jh5VndZ3CMA0KVDOpMhDAmUOwVi11i6mOsBw1pK
+HIVgJjV6sbkcQCvjPZcsGjOGRrfhewLt40dY4S7TAdf/gxXwQKp4Rq1jZAMU7eGh
+h7i6ovlAZUvfY3SmzGx/fyBYN5QJnqzTgfmp+fARb5VPiv56supcGMH1OrWNQSHJ
+nG+9Ywedl3btkwFCI0oYrczANE0MW6XtHb4GxHQdqn75gShLvV/Oz69b3u0eoVf+
+LJk1WBpI+fSQA0Q5GJoY9Xc1aYxQadQbNoPpN/KOVXer3SAkl/69NkhNe/7AGQpa
+gJo6OsKDOK6uMVAX0GNmkA3tElfFow==
+=rhnd
+-----END PGP SIGNATURE-----
+
+--H7B6bpB+n8nKkdFW--
 
 
