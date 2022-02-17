@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288834BA423
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 16:19:37 +0100 (CET)
-Received: from localhost ([::1]:39800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C04F4BA426
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 16:19:55 +0100 (CET)
+Received: from localhost ([::1]:40886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKiZE-0002Sk-6r
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 10:19:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44894)
+	id 1nKiZW-0003CV-IE
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 10:19:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKhnK-0001fA-L8
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:30:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40080)
+ id 1nKhnM-0001jJ-Kt
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:30:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKhnI-0000jC-MN
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:30:06 -0500
+ id 1nKhnK-0000jl-CB
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:30:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645108204;
+ s=mimecast20190719; t=1645108205;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hZFkhWKn51pkqx0EumhtyvE40npPVdZl7g0qnQFTgW8=;
- b=G5dL/rqqb09lXljSaAilvQiXXGzv+GEGeZ1BCUA++eUG0Zv40G+nOB5Zj8wmCVLqTIw8tx
- qOjYOYUGsKJvucIaJHZzFqciOZxu7DZ3oUKjKzPwNB8FhILVHc7ivxlbupF0CJ/Cx7xBVE
- h+dM712J67QjiesppW35r5bm9l2fpIc=
+ bh=aN1oLdKWIbE2rGnGc46vposcZVwilYw7QWpvyS9WwRI=;
+ b=BdYeb9demxTHNnHl7w0myluPspHNmB7MjiM3kiOXmXMwipgL6DPVkF+KoQjZNY2L/feXgC
+ lytQPsHRzxWY+Zl8bllw6Mjn1bojtjEP/Ly3CnF85RRU/kRGJG7NgvoLFD0mZoi/aqBdcv
+ i3vHncQ7ba41ACCsa+JYPeiJOEhRjiE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-578-VSJMAdiTNvyZdB4z0e3Eaw-1; Thu, 17 Feb 2022 09:30:00 -0500
-X-MC-Unique: VSJMAdiTNvyZdB4z0e3Eaw-1
+ us-mta-222-9fcgwZC0Mmi9tJKlUg2U9A-1; Thu, 17 Feb 2022 09:30:02 -0500
+X-MC-Unique: 9fcgwZC0Mmi9tJKlUg2U9A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A758D1800D50;
- Thu, 17 Feb 2022 14:29:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E3CD801B0C;
+ Thu, 17 Feb 2022 14:30:01 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.194.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FA9C6F948;
- Thu, 17 Feb 2022 14:29:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03A87708CC;
+ Thu, 17 Feb 2022 14:29:59 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, vgoyal@redhat.com, groug@kaod.org,
  sebastian.hasler@stuvus.uni-stuttgart.de
-Subject: [PULL 11/12] virtiofsd: Add an option to enable/disable security label
-Date: Thu, 17 Feb 2022 14:24:01 +0000
-Message-Id: <20220217142402.52819-12-dgilbert@redhat.com>
+Subject: [PULL 12/12] virtiofsd: Add basic support for FUSE_SYNCFS request
+Date: Thu, 17 Feb 2022 14:24:02 +0000
+Message-Id: <20220217142402.52819-13-dgilbert@redhat.com>
 In-Reply-To: <20220217142402.52819-1-dgilbert@redhat.com>
 References: <20220217142402.52819-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -84,136 +84,166 @@ Cc: virtio-fs@redhat.com, stefanha@redhat.com, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vivek Goyal <vgoyal@redhat.com>
+From: Greg Kurz <groug@kaod.org>
 
-Provide an option "-o security_label/no_security_label" to enable/disable
-security label functionality. By default these are turned off.
+Honor the expected behavior of syncfs() to synchronously flush all data
+and metadata to disk on linux systems.
 
-If enabled, server will indicate to client that it is capable of handling
-one security label during file creation. Typically this is expected to
-be a SELinux label. File server will set this label on the file. It will
-try to set it atomically wherever possible. But its not possible in
-all the cases.
+If virtiofsd is started with '-o announce_submounts', the client is
+expected to send a FUSE_SYNCFS request for each individual submount.
+In this case, we just create a new file descriptor on the submount
+inode with lo_inode_open(), call syncfs() on it and close it. The
+intermediary file is needed because O_PATH descriptors aren't
+backed by an actual file and syncfs() would fail with EBADF.
 
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Message-Id: <20220208204813.682906-11-vgoyal@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+If virtiofsd is started without '-o announce_submounts' or if the
+client doesn't have the FUSE_CAP_SUBMOUNTS capability, the client
+only sends a single FUSE_SYNCFS request for the root inode. The
+server would thus need to track submounts internally and call
+syncfs() on each of them. This will be implemented later.
+
+Note that syncfs() might suffer from a time penalty if the submounts
+are being hammered by some unrelated workload on the host. The only
+solution to prevent that is to avoid shared mounts.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20220215181529.164070-2-groug@kaod.org>
+Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- docs/tools/virtiofsd.rst         | 32 ++++++++++++++++++++++++++++++++
- tools/virtiofsd/helper.c         |  1 +
- tools/virtiofsd/passthrough_ll.c | 15 +++++++++++++++
- 3 files changed, 48 insertions(+)
+ tools/virtiofsd/fuse_lowlevel.c       | 11 +++++++
+ tools/virtiofsd/fuse_lowlevel.h       | 13 ++++++++
+ tools/virtiofsd/passthrough_ll.c      | 44 +++++++++++++++++++++++++++
+ tools/virtiofsd/passthrough_seccomp.c |  1 +
+ 4 files changed, 69 insertions(+)
 
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 07ac0be551..0c0560203c 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -104,6 +104,13 @@ Options
-   * posix_acl|no_posix_acl -
-     Enable/disable posix acl support.  Posix ACLs are disabled by default.
- 
-+  * security_label|no_security_label -
-+    Enable/disable security label support. Security labels are disabled by
-+    default. This will allow client to send a MAC label of file during
-+    file creation. Typically this is expected to be SELinux security
-+    label. Server will try to set that label on newly created file
-+    atomically wherever possible.
-+
- .. option:: --socket-path=PATH
- 
-   Listen on vhost-user UNIX domain socket at PATH.
-@@ -348,6 +355,31 @@ client arguments or lists returned from the host.  This stops
- the client seeing any 'security.' attributes on the server and
- stops it setting any.
- 
-+SELinux support
-+---------------
-+One can enable support for SELinux by running virtiofsd with option
-+"-o security_label". But this will try to save guest's security context
-+in xattr security.selinux on host and it might fail if host's SELinux
-+policy does not permit virtiofsd to do this operation.
-+
-+Hence, it is preferred to remap guest's "security.selinux" xattr to say
-+"trusted.virtiofs.security.selinux" on host.
-+
-+"-o xattrmap=:map:security.selinux:trusted.virtiofs.:"
-+
-+This will make sure that guest and host's SELinux xattrs on same file
-+remain separate and not interfere with each other. And will allow both
-+host and guest to implement their own separate SELinux policies.
-+
-+Setting trusted xattr on host requires CAP_SYS_ADMIN. So one will need
-+add this capability to daemon.
-+
-+"-o modcaps=+sys_admin"
-+
-+Giving CAP_SYS_ADMIN increases the risk on system. Now virtiofsd is more
-+powerful and if gets compromised, it can do lot of damage to host system.
-+So keep this trade-off in my mind while making a decision.
-+
- Examples
- --------
- 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index a8295d975a..e226fc590f 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -187,6 +187,7 @@ void fuse_cmdline_help(void)
-            "                               default: no_allow_direct_io\n"
-            "    -o announce_submounts      Announce sub-mount points to the guest\n"
-            "    -o posix_acl/no_posix_acl  Enable/Disable posix_acl. (default: disabled)\n"
-+           "    -o security_label/no_security_label  Enable/Disable security label. (default: disabled)\n"
-            );
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index 2909122b23..6a427caa3d 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -1967,6 +1967,16 @@ static void do_lseek(fuse_req_t req, fuse_ino_t nodeid,
+     }
  }
  
++static void do_syncfs(fuse_req_t req, fuse_ino_t nodeid,
++                      struct fuse_mbuf_iter *iter)
++{
++    if (req->se->op.syncfs) {
++        req->se->op.syncfs(req, nodeid);
++    } else {
++        fuse_reply_err(req, ENOSYS);
++    }
++}
++
+ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+                     struct fuse_mbuf_iter *iter)
+ {
+@@ -2398,6 +2408,7 @@ static struct {
+     [FUSE_RENAME2] = { do_rename2, "RENAME2" },
+     [FUSE_COPY_FILE_RANGE] = { do_copy_file_range, "COPY_FILE_RANGE" },
+     [FUSE_LSEEK] = { do_lseek, "LSEEK" },
++    [FUSE_SYNCFS] = { do_syncfs, "SYNCFS" },
+ };
+ 
+ #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+index c55c0ca2fc..b889dae4de 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -1226,6 +1226,19 @@ struct fuse_lowlevel_ops {
+      */
+     void (*lseek)(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
+                   struct fuse_file_info *fi);
++
++    /**
++     * Synchronize file system content
++     *
++     * If this request is answered with an error code of ENOSYS,
++     * this is treated as success and future calls to syncfs() will
++     * succeed automatically without being sent to the filesystem
++     * process.
++     *
++     * @param req request handle
++     * @param ino the inode number
++     */
++    void (*syncfs)(fuse_req_t req, fuse_ino_t ino);
+ };
+ 
+ /**
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 49f7caefbd..f586df955a 100644
+index f586df955a..9f6439c405 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -181,6 +181,7 @@ struct lo_data {
-     int user_posix_acl, posix_acl;
-     /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
-     bool use_fscreate;
-+    int user_security_label;
- };
- 
- static const struct fuse_opt lo_opts[] = {
-@@ -215,6 +216,8 @@ static const struct fuse_opt lo_opts[] = {
-     { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
-     { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
-     { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
-+    { "security_label", offsetof(struct lo_data, user_security_label), 1 },
-+    { "no_security_label", offsetof(struct lo_data, user_security_label), 0 },
-     FUSE_OPT_END
- };
- static bool use_syslog = false;
-@@ -808,6 +811,17 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-         fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
-         conn->want &= ~FUSE_CAP_POSIX_ACL;
+@@ -3699,6 +3699,49 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
      }
-+
-+    if (lo->user_security_label == 1) {
-+        if (!(conn->capable & FUSE_CAP_SECURITY_CTX)) {
-+            fuse_log(FUSE_LOG_ERR, "lo_init: Can not enable security label."
-+                     " kernel does not support FUSE_SECURITY_CTX capability.\n");
-+        }
-+        conn->want |= FUSE_CAP_SECURITY_CTX;
-+    } else {
-+        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling security label\n");
-+        conn->want &= ~FUSE_CAP_SECURITY_CTX;
-+    }
  }
  
- static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-@@ -4288,6 +4302,7 @@ int main(int argc, char *argv[])
-         .proc_self_task = -1,
-         .user_killpriv_v2 = -1,
-         .user_posix_acl = -1,
-+        .user_security_label = -1,
-     };
-     struct lo_map_elem *root_elem;
-     struct lo_map_elem *reserve_elem;
++static int lo_do_syncfs(struct lo_data *lo, struct lo_inode *inode)
++{
++    int fd, ret = 0;
++
++    fuse_log(FUSE_LOG_DEBUG, "lo_do_syncfs(ino=%" PRIu64 ")\n",
++             inode->fuse_ino);
++
++    fd = lo_inode_open(lo, inode, O_RDONLY);
++    if (fd < 0) {
++        return -fd;
++    }
++
++    if (syncfs(fd) < 0) {
++        ret = errno;
++    }
++
++    close(fd);
++    return ret;
++}
++
++static void lo_syncfs(fuse_req_t req, fuse_ino_t ino)
++{
++    struct lo_data *lo = lo_data(req);
++    struct lo_inode *inode = lo_inode(req, ino);
++    int err;
++
++    if (!inode) {
++        fuse_reply_err(req, EBADF);
++        return;
++    }
++
++    err = lo_do_syncfs(lo, inode);
++    lo_inode_put(lo, &inode);
++
++    /*
++     * If submounts aren't announced, the client only sends a request to
++     * sync the root inode. TODO: Track submounts internally and iterate
++     * over them as well.
++     */
++
++    fuse_reply_err(req, err);
++}
++
+ static void lo_destroy(void *userdata)
+ {
+     struct lo_data *lo = (struct lo_data *)userdata;
+@@ -3759,6 +3802,7 @@ static struct fuse_lowlevel_ops lo_oper = {
+     .copy_file_range = lo_copy_file_range,
+ #endif
+     .lseek = lo_lseek,
++    .syncfs = lo_syncfs,
+     .destroy = lo_destroy,
+ };
+ 
+diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+index 2bc0127b69..888295c073 100644
+--- a/tools/virtiofsd/passthrough_seccomp.c
++++ b/tools/virtiofsd/passthrough_seccomp.c
+@@ -111,6 +111,7 @@ static const int syscall_allowlist[] = {
+     SCMP_SYS(set_robust_list),
+     SCMP_SYS(setxattr),
+     SCMP_SYS(symlinkat),
++    SCMP_SYS(syncfs),
+     SCMP_SYS(time), /* Rarely needed, except on static builds */
+     SCMP_SYS(tgkill),
+     SCMP_SYS(unlinkat),
 -- 
 2.35.1
 
