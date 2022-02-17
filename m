@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF944B9B27
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 09:32:43 +0100 (CET)
-Received: from localhost ([::1]:50738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8664B9B4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 09:40:13 +0100 (CET)
+Received: from localhost ([::1]:56684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKcDS-0006vg-SG
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 03:32:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43062)
+	id 1nKcKi-0002st-6I
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 03:40:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nKbYK-0004Ig-7H
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:50:12 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:29070)
+ id 1nKbYM-0004Os-D2
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:50:14 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:31522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1nKbYE-0004Ty-Jb
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:50:09 -0500
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21H5WxbN009086; 
- Thu, 17 Feb 2022 07:49:54 GMT
+ id 1nKbYJ-0004h2-Sz
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:50:14 -0500
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21H4NP7R027719; 
+ Thu, 17 Feb 2022 07:49:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=YtwyPyeZLkPGA2UyzFQiulYbfpCHWKzHu6SfZg1oS0Q=;
- b=GgiJf3ppNwzG2ztUZod8fxc2F6pLQOAX/rleeGBk9HWCXjVPmmj0rCEk/gn+suAMI4em
- 00xTsM3TYxEamDq9y8XSbd2bpPQPJrHSNnsbWZnG0lH17R9adZ1/ZNfXyxiD57JA7M9L
- zFIK5ILlM0VVJE2dFrGX1iIHIrE+8M55aVj5UQR12NjsJse1TDmOv+sJvLOHJsBdJgs8
- 7PyXHMacYnex1UWgU8g3XCSHY0XPmIGloDkLZFXgxSvV2EDLq66us6i+lCHfMcPVsnCu
- Rg/6NDDVVDV1/9VZDf2n6D19uXMlFJjkR3tvoVIDSbXyJsNiAyq0rv3jbzur8PYlzXg/ qw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3e8nb3mhs0-1
+ s=corp-2021-07-09; bh=nXThYHpchnLLASRjX99W4MtY+r3DIhAqrtlPgKqa37I=;
+ b=fRNvWqakMiPqDUv+6vqj1BSNbDA5InfYZHkr+6KaQGZQOcmWKtndAR8VyaUkdiNj3uvw
+ nKRsVa7pQp7hMPJiL5+h/t7f5bShkINSvKGbLQa8vgUHU6xTvZg1wPmgwdT4QElrupFa
+ 0NGGUPVxQ3j1cJnqXxs4IO0DgJfyMjkSZfOw20c3axhrnCJx5ikJLUDvgE0/7DE1cxYm
+ KTjGu5L6YoafaJMvkFOTWIk/JucFERq60hzfiJPRf0zWirFnp/+/+N8IIvN91KkYiWUO
+ WJMg9WcsPHQGmC5HASUXMc+wWGGMqxCRzEa1CD2G5R41b4cqgGMvWHONv/EgHyMoMSjI gQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3e8nr94whb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Feb 2022 07:49:54 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21H7gDWf030241;
- Thu, 17 Feb 2022 07:49:53 GMT
+ Thu, 17 Feb 2022 07:49:57 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21H7fJKh142772;
+ Thu, 17 Feb 2022 07:49:56 GMT
 Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
- by aserp3020.oracle.com with ESMTP id 3e8nvtf6hf-1
+ (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
+ by userp3030.oracle.com with ESMTP id 3e8nkyqrwg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Feb 2022 07:49:53 +0000
+ Thu, 17 Feb 2022 07:49:56 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PCwDHuDbhqC2YRMgBpRFLrSAV/tAHCaWlNhKuVjcYHpwRS+w+57rgN8FrtK/bfOdVJd+8ZpKIddUidKe1zQjPDt8qquqKuot55F0Aj9Ww1XgM4gnnQAuCd9j/7qzXvVUvZ9+gzNatD6F3SusfRZzLGhZi64rX7JdPPQKkz3p1C3j663CvN87oNQgb2XQd6qIu4SR/sjX1DW4u9tCOvJi9v4WwW0+8Tq94M/xuD+o3KHUxyWRmEhe7+iDKwQP4+888ClDg7keBcTEmISU+Yzyl0RfNFFPe6l9gI/bkQN3jtbKK6GdrWoYW9nrAh5R6NKHFdhGu+0gV6u+VfjU/OUhYA==
+ b=LSS6odCtwT1bE1Sqr6UNIfoRcFU9euH2cL8m79MD6Sy8PwLhIXylwRkOuPSof9zxIfEN2W/uO0yfwCxgeRL8Vn7awru1akK2S97J79wF5SnT2uBfdtDf755BZdn3hxLKXR0P63WBxPFnBokf7HovvTWXu8mDH5UFFDTq0PNB0Pm6wWdGkuNFi7v03qchRVD2xPwXPPJY7StJk5rBwLQJc45hVHrEb9TqQQPevqMYfhvCwiukOTc90lDTUkgXu7J+B7XoQhB86HOSGYCrde6LoW0bMsxPDO9wgIWWu3rdKl/z43bops7e2xv9UTdmz8NGtlifK0gQLSMECL9Dt+AuiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YtwyPyeZLkPGA2UyzFQiulYbfpCHWKzHu6SfZg1oS0Q=;
- b=lWHkLHV4yr9AQM73MJiCi0ChMHvauFczPaUMS6QNWs/A7r80FA5NBpcr+MHiHmSqAtDqY1cFnBCfK4ZTZqlWLjlPkQTaaokMqpSHp2Gxl1CV43CfF6XqfsPoxm939M6+/QIuGB7FFgDYWxmCtG31agG8iWYmd7iVzivCAwWou6Sz0Y7/braWcy0BoUGkE0Nrfg2Z6nazfl6IDF/m7n4AFSXX6RWPJ2Mh7Mfe3m1XTwQHtyUZhVzrz6RQHkUvqJT2pLfpkj6RCvrMdGYzgWrdG7N3ezQD8xsN8+qYFeZY04bqY22GSa4ydqMOAaEPNs3KZXB9FBq/eAVHuIz/1fmyvA==
+ bh=nXThYHpchnLLASRjX99W4MtY+r3DIhAqrtlPgKqa37I=;
+ b=VNsYmJ41e96+tyfJyGVYqln1ghrMruBITiGlC8O3P3BY3xMfnUwikoFUF6Oobiogr/OsUQX4FuBFxsz9kJlMMujI929CgGPw5l+F4UoIOlead2DddGfiODsAx9y90pa6I9MRbOZ3vzLu3L/+zHFbfBBw1AXNcqhcly1G85ev+zCygfIGv7DXAHpGIV2RHNgoRnu+DqjW88yaksMUk60GvjUqXiAbO2UFJocIiC83Cyq/bHIo+D0535B18ayGVOBVESSKvnziSQBoHtxjgh64qODUea58TS41EuyT9BoCb8yAGZyqO3ewWcqc9yzc0cNgTticyJ/fI5mp0+tD+SuSeg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YtwyPyeZLkPGA2UyzFQiulYbfpCHWKzHu6SfZg1oS0Q=;
- b=ZZ77JozQ6Qj+1pghZGZZorJriWpebEXpzvnAucUYok9Ydl49eNG6mqz90eOKpty1R2QSrXGG6B0WRnMXlFfI4eQG0V1KPtX8KPOJy5GGOHN9S070GKuAtZqLXk8oYlOI/H6dLI8vme3Yh0SmOciAo+mKQH8btef448yb292NfJE=
+ bh=nXThYHpchnLLASRjX99W4MtY+r3DIhAqrtlPgKqa37I=;
+ b=KnZiXA4oZS60V++EEYcwiw6AFEp+Tld8TjMcMmGL6qhBxE53+EtpzHlPF+762w597PNRZgTIQU1INpJr3r/f2fukcELEeWax2xX4kcsiKRrId4N41qdbjCxRoqGM5savtacFPJgQ41tbDhmLjIUhzsUXQE6bHJiitlM0Vg08Gco=
 Received: from CH2PR10MB4008.namprd10.prod.outlook.com (2603:10b6:610:c::22)
  by DM6PR10MB3211.namprd10.prod.outlook.com (2603:10b6:5:1a6::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.17; Thu, 17 Feb
- 2022 07:49:51 +0000
+ 2022 07:49:53 +0000
 Received: from CH2PR10MB4008.namprd10.prod.outlook.com
  ([fe80::8062:cb07:e437:1bfe]) by CH2PR10MB4008.namprd10.prod.outlook.com
  ([fe80::8062:cb07:e437:1bfe%6]) with mapi id 15.20.4995.016; Thu, 17 Feb 2022
- 07:49:51 +0000
+ 07:49:53 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 18/19] vfio-user: handle reset of remote device
-Date: Thu, 17 Feb 2022 02:49:05 -0500
-Message-Id: <54278334564d9e9f8d2eb3ff884260ac90da44e5.1645079934.git.jag.raman@oracle.com>
+Subject: [PATCH v6 19/19] vfio-user: avocado tests for vfio-user
+Date: Thu, 17 Feb 2022 02:49:06 -0500
+Message-Id: <4f17aa680216dfe7a226553ebfe164b59fa3cf2d.1645079934.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1645079934.git.jag.raman@oracle.com>
 References: <cover.1645079934.git.jag.raman@oracle.com>
@@ -82,68 +82,68 @@ X-ClientProxiedBy: SA9PR10CA0002.namprd10.prod.outlook.com
  (2603:10b6:610:c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 34331bab-01c0-49d1-e05d-08d9f1ea140a
+X-MS-Office365-Filtering-Correlation-Id: d8922d47-0d13-45b0-b818-08d9f1ea154c
 X-MS-TrafficTypeDiagnostic: DM6PR10MB3211:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR10MB3211ADE98651B668D1E3C83490369@DM6PR10MB3211.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:854;
+X-Microsoft-Antispam-PRVS: <DM6PR10MB32116E4B501D51D3E7A6774990369@DM6PR10MB3211.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GKX0yXvhQQ50vNdUrjU0nqoq0rpZGBKB/kuwEU5ODlxR6BYBLe548LxXMhsFAuPF+DAtDITyRXkCj+qVqyrNT3q6fRuL7lpxzU2JjKzgJjAAVaZ6p1ZUOCPeCAhTmmKm1M+dVKCULUdXs1xM2Zflx8VpEJNe1eO5r7IMA4pX7PMjH1LrJlJ8goHgRp2KRxJyFc7HdsyqFhAamdVgtmnJtZjoYYilGHnAUyVmFCt9I7yZPgDLJDwXNO3/rIfVeOOwsTNRSLMyURYXKU3pXjO+56OtL8MpVCIUYzozFq6Tlqro+HP2Zs0v+Z+26QECFYGMKDNaCST8zLEM649EjtSdX6URib3nw59wBOaht6Bc0kDYCdFGgXLn/uoiOwy130FRePMJ/246i7eMla39UJDP1+hJ7eKNcOWJrF2whiTaY9WZOthqe4kx6ubtV4vgjBvF3nR3/uxB9oZ7iQTJGAZe9WvxFW962wmqVRwV93iOyZufKk7t+cfSjJxjpsGbtJaY1BkLq8loBqu6HMdu70GVL1uaZWSPAf/hKfSlyKWVVjhMqG9uG9HvZd9Q/pkNEDX1f+q86Nl+yopRL6hT9FfhC4hnsC/PNOlUlQ82P5x4Eh+VPH8vx9qjVk6uY6HdLSgGBfxKcvnnRShUXtzvL0pPePZTWV8XjFF0xQ+LLRdD5cLR8hQWpPYf7rD1SMqLRDp8Izy3G7lcbn6o4vvZqYWlvw==
+X-Microsoft-Antispam-Message-Info: GBwydnxyCBSHh+l+g7Y5mboYWUR7OVGScLUJJmGaNMh6tNmDSav3GXwem22fyfz8etXk7KI0Tk8HKwdA3LmGGjt9+cDmI2cdc13PAe9WIxbji5Ex16OtGLhNtyH9m6iStFz+W3+cq9uQywMK/WVhemFlwaaHkG5ZFH4bpGJexdvGmf6f22Iv0hZ648QpieLcihFnH7Q77BSG9CLrpdJXQCBBlYTpupx0f8hv7le8rZ85bMHMVcnE5UvFLUESE8H7n3NeslvsC/CtiRDEsdUcILjVZPtiRbGtYEFZ6LkoslOunJ27lIrgnKUV1bJ0FELClNU3KT2ur7s8iTLYzsD9H72G4nU+Pr8uUnnimCVYdUdpk+giIfchA4eQMnJek4FCgaEEQcq0Lygvv7tFx0BICa3m4XXK3CgE2XO/iN11nd/dXkYb7Sr/LN45UuYZ9Sw7rgPW+zGS2afqILV54mjs6D4aBsFU2sMkeVbu21aGlKs0AqGmgqcarm607LlwOs3VqGuEnU1ndObn5N+jx44fnCDyRSQGahXd3IoBANsv7GhdqiwcgLI18pOFtxEXYk4tyEyyLuDqI7d2y0AYQq2tyaw4RcuF5290Jsb/sMcVBNi0VVw9NJoLUI4az/rQR87sOciZeIWHhDscQEfhW8RD3/4HCKxA/6G+RyfVLPD1Yhzc1sTBtmmIZf6gCHEl5+4zPRFqoV+fAHhXdPBjY7VJk4HNIPkxJWyrC6zAuV5UoxABPPpFeWx5CFPcbQBaGgXd5qukCBlA4HxwQEfKxRyfqM1T3gKa9O9SXL7CrwaQDdU=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR10MB4008.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(186003)(66946007)(38350700002)(7416002)(4326008)(107886003)(26005)(66556008)(6916009)(8676002)(5660300002)(2616005)(8936002)(86362001)(38100700002)(66476007)(36756003)(316002)(508600001)(52116002)(6512007)(6506007)(2906002)(6666004)(6486002);
+ SFS:(13230001)(366004)(83380400001)(186003)(66946007)(38350700002)(7416002)(4326008)(107886003)(26005)(66556008)(6916009)(8676002)(5660300002)(2616005)(8936002)(86362001)(38100700002)(66476007)(36756003)(316002)(508600001)(52116002)(6512007)(6506007)(2906002)(6666004)(6486002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wpXj2qsvzX4yOzwnfa8QN8+eUK+BTJb5eTb6rCfey2885J6TygLkX20LQe0I?=
- =?us-ascii?Q?6uzPfz+FykdXEy0Om+JBbDB9OE0ezALjEUn6b9XuyevnClIT7CUPVU7a6AZU?=
- =?us-ascii?Q?S28yNsrUk/jvfdpPFAKDrP6YhXjejIfIMsv34hXDAS83BRIn/sld37VsMHj3?=
- =?us-ascii?Q?qY6efhj+gd6C7yj20csPuDwesWU6IySmCaedhc62Ta+cwmEZQCzyDFmQx15v?=
- =?us-ascii?Q?eYwocjbWefEkl4K6Gj22Cqy6g2Zta4uxt3EfkVzNyLxcHJbmNv38KX6pN+2G?=
- =?us-ascii?Q?pfz/uZfIj+JGI12J67EXB6sRZcxnJHufZCjacyBRYJ8oxQg+mWL4FmKnO76w?=
- =?us-ascii?Q?9JKtYJurBclTqsuLG9qUFSgQUdLTGcAhD0p/zhzHIyqc49OT4h0zHm5Nvtwm?=
- =?us-ascii?Q?lAxmf3ALVS90aiE1WxeqGuyBgRtY+hAPrBc1iTVmpTXTACG8RGV7E/JCRPqs?=
- =?us-ascii?Q?DXxGZYKxDdTf7f7oKwecyHvk5SZslesEaMVZaQbTsbhHoDg7d9gO6UK17imT?=
- =?us-ascii?Q?166He9hxG/SxPurlyYwEPlY5R+3E3ACNap6kgb7WviUwLMbqCbNIie6VJIEt?=
- =?us-ascii?Q?yMyjM6eKOaYmKV5PjUzR9/dxMjNIILhPw+YDEM7qNlyW/QNB/R2p33tSzFeT?=
- =?us-ascii?Q?7xfihe3GWuFOkPlxRiqZVSTjJjs8cdzgWxLO8Tb0fzXyMAk+ru9iUbeGoJWM?=
- =?us-ascii?Q?XUc3xBB/4LJi5PM7DDcbwDLO2aih/YDhh5jvosC4bVeSTS7wOndIhpq0rs9B?=
- =?us-ascii?Q?zvdKVSygRCcfHq6ImVJ2iSFGwbvlNHVCCYKm+NkF4a1xe6PJ8XNvLPA5+y9X?=
- =?us-ascii?Q?PgYbt21EZx+Qssb0HPuGpBXJVQTaROd027bjOnQZsUywhcIeIBR74wBj1DMY?=
- =?us-ascii?Q?8Sbq9f8l9EraMUs5kI7mcIut/ijJxv5496Bb19a/UyWLUMnw/vuLbHvcxj9p?=
- =?us-ascii?Q?L15ztviNmGWKo3/p/MWGexp9mj1kFu7jcHxAKMyCsWahDfahZ/vaPozUAIfk?=
- =?us-ascii?Q?njfH8ilabo81N26UyTUl9XftzWtTkj6hgohLl6eMSHmRvo98wq5m+pTZ/FAs?=
- =?us-ascii?Q?bFGMC/y9hjlkqaH4eoNTeZO805Z2AOFGR+IjgrlYkn7CcGxZ16WqjPQZxqSW?=
- =?us-ascii?Q?MObkrhahhQbE4JT5m9xrKdWX7TlPYuchJ7B8Vmt+blgWEZLEtf+yC7BB7027?=
- =?us-ascii?Q?LMv0jdTZAlgvGm73O/KmK82b4OTd3Y29HKvgvTu67J/r0oSFKEQpwmazsb6I?=
- =?us-ascii?Q?ljH/jDOw6/TmtMsoacSZNwrK+EZZVC6Z9gKSKUfiULRveLQtZFWqqoW//3EB?=
- =?us-ascii?Q?z/svS1FnH/BdMK9JFtROK+3CmeZoqTuu6STlZ/QU+wrMHnwIp2ZV5XKlJhsW?=
- =?us-ascii?Q?MaP4lG2LTbgUdSnrwRNTSeL0ptogtrIMwyB8k+JMd6kO6Rf2y9qopZUx4sd1?=
- =?us-ascii?Q?m7bybWuk88846wocTFyEbNTEIk+TcczMz3V3/9PnRDywA9v06TSkx2UxRI04?=
- =?us-ascii?Q?rVOm7WN+a202sAgysSVCd4dMYAAgTVYd+OmkoF1oWbJVY+vTrenwca9m4wme?=
- =?us-ascii?Q?1CMdx+1xrLxWLWbyRITGUHRe7XWeiZTlQMJwcO9MIOYOEB53FXFPyxkdthaN?=
- =?us-ascii?Q?KBpBND93snkSoHNklbJviYc=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JFSv2fHHTRLQO+NFKO3K4gg/GOO9uGciIJ/kUpcw3JZiC+a+jpeiaN83dViu?=
+ =?us-ascii?Q?d3njGjgYuttYer1TlGfVy4aKoeeq2hMMclzq7Ht8b6MY+ccykzMtChFaqcZ+?=
+ =?us-ascii?Q?4idbtdRsRYYbHbJ7LuIIcDFyipSIAmG8qbEeCQUmEH0oL1YODHY+REB4Bv1F?=
+ =?us-ascii?Q?OvwtwxM14YeLzkENuEEn8vC+JR5SLwD0BbGAHCE/BZ5ubqN/hQUzYfRt3u52?=
+ =?us-ascii?Q?SNxWbMqGYwkJAz4T690xbsHfRS3KzEqdggskP8ZaezBLukVjiJO8KNa4cOMl?=
+ =?us-ascii?Q?dKHgejGL/9mxTULDzoqXhB9uoCBt2d9JMtjoz3vch/9ltF2ZxtIi4aK9s6KU?=
+ =?us-ascii?Q?ClAwZ0GXGcXgjL3T+vi1pNoGuP21HPphEXaAhPajuE/O0um/GCMHVo1wqZ0d?=
+ =?us-ascii?Q?HRACpDpp9esnTh1/xNdy1entfn9He7AQRBLejz7fRr4BYZbUXlWTXOLaao/m?=
+ =?us-ascii?Q?K8L0cVtuvk3RnP0ucR16RR65lMabogl1I4lIAaZGUN2VZbKQIcy+3NRA+pGd?=
+ =?us-ascii?Q?qvKqkOrudFUa7xnSMPRMzgXWNn7zCUWsi8lWB4PEno5Zkqa0vVGsXrxk/n0o?=
+ =?us-ascii?Q?jdGfpA0FGF17AjJTPzHAaPsJWtqTgADVsvOEErjFltBKQoyOkUYM6MbqW6Dt?=
+ =?us-ascii?Q?7U80Bmpms9Cyk/oZU597q49uVHWbXx5Eh97E/XKmU+/EbE3O3Lt1H4MBcFPS?=
+ =?us-ascii?Q?cERSNuYelosaKOIp0vyo/lEOrOWneJ8WzSryif/Zg7hJ9ubwRxH2d6HtY2uR?=
+ =?us-ascii?Q?DKx0Mun1hmZ//LxW3khaDaGQ5OPdJfgsz9YApshmNml/02Do9LbKp5FsKzCA?=
+ =?us-ascii?Q?XBGUgZn2EITIBUjX4EsO6ON7vZygxhEqHCKfWBcS6TvAOJcRRemY/7ZIhSSo?=
+ =?us-ascii?Q?nrbC2ZeKWYmALJ9kPhGM2F4tisTB9F9tVRmEJXmzouQBxS3EUGRSEgYYg6Bp?=
+ =?us-ascii?Q?ngLDypZugUjVjxlfJOxGzueMJ88Ht/UEFtNqmgAkmkFBSHSjdKiI7tnxAm66?=
+ =?us-ascii?Q?tlFD+uxYTrxAwHt2UcrekASTNAhQ02GgWnBq41znu23pJlq0doIdmfqhyKO9?=
+ =?us-ascii?Q?u/Nf8QG+h3oOD9kbHK0a1SzIj6KUWIscoDYWCQwZwg92OAa9v1Sg8CnFFH6p?=
+ =?us-ascii?Q?NT6eoi4C29TL8M/8h4bZvj1zBvFB7xJoqVj9I/WLdKx+pYvIQkJfb4Nq31lZ?=
+ =?us-ascii?Q?dsykU+v46fB57+KPP5L0XRD2HAHpEexv8OIjk6tfA+XMrlO3Rqj52sUMY2lE?=
+ =?us-ascii?Q?CFRfWaiKHKPKHRLA3DVojNh8birjsTH25cyVZBe3Eptsu72HoNUh3Uey0jC9?=
+ =?us-ascii?Q?yXtwvXMtdflgFkZM5zsOYAGlywgnOzx4DyD8ayJNztqc7YKoxO2wNCsx/O+i?=
+ =?us-ascii?Q?9m39pyP0f/mAOJApKvdKLdF5pii8t9ohytlN8Iy0ustweyPGaOVy7hGTrY1G?=
+ =?us-ascii?Q?vCDDrjWeLkGgvSgPAls1AxtuA4p15l7TL6d7LbL/MphuK9I6mwyZxTmC8YBy?=
+ =?us-ascii?Q?IdXTeEhg0BO59l5/X6PpvR7Yfh82/7gOBFioXMGRzwqlobWLgGmmvnQmL0nh?=
+ =?us-ascii?Q?xJaXWv3wc68LoqERY/nmVN8cThnPpShL88Fw6jQO49oPplLrA8qwN1Gjm396?=
+ =?us-ascii?Q?I98T16UJhvoP9ZdD7ggAttk=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34331bab-01c0-49d1-e05d-08d9f1ea140a
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8922d47-0d13-45b0-b818-08d9f1ea154c
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR10MB4008.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2022 07:49:51.1471 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2022 07:49:53.2876 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6jvnWT+L3WbhRySGyHBYsHYr3L6iKbvECar6Gzh+JwgR8+SJzYJHMsGBbP7j93uQPVrSWRXy1T7IpxoOOcaPUw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: X4Xq1ymMUIZ/RDCrwLoX5wh561KFpp6KJw5ZlTLudSxn6RgXcxnZia3FIG4Tz9DMPjZeI0vrFTRZ37E/zSwhFw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3211
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10260
  signatures=675971
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- spamscore=0
- phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202170034
-X-Proofpoint-GUID: MbNXoCMZ8Jv4OTLqcl-Ze0By9E7QKg8z
-X-Proofpoint-ORIG-GUID: MbNXoCMZ8Jv4OTLqcl-Ze0By9E7QKg8z
-Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
- helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0 adultscore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202170034
+X-Proofpoint-GUID: f1hSi6Nfn4MqGMUg8AFP57FE2zRsfMJT
+X-Proofpoint-ORIG-GUID: f1hSi6Nfn4MqGMUg8AFP57FE2zRsfMJT
+Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -173,52 +173,270 @@ Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds handler to reset a remote device
+Avocado tests for libvfio-user in QEMU - tests startup,
+hotplug and migration of the server object
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/remote/vfio-user-obj.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ MAINTAINERS                |   1 +
+ tests/avocado/vfio-user.py | 234 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 235 insertions(+)
+ create mode 100644 tests/avocado/vfio-user.py
 
-diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-index 2304643003..55f1bf5e0f 100644
---- a/hw/remote/vfio-user-obj.c
-+++ b/hw/remote/vfio-user-obj.c
-@@ -989,6 +989,19 @@ static bool vfu_object_migratable(VfuObject *o)
-     return dc->vmsd && !dc->vmsd->unmigratable;
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1f55d04ce6..02728eb8b8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3573,6 +3573,7 @@ F: include/hw/remote/vfio-user-obj.h
+ F: hw/remote/iommu.c
+ F: include/hw/remote/iommu.h
+ F: stubs/defer-backend-init.c
++F: tests/avocado/vfio-user.py
  
-+static int vfu_object_device_reset(vfu_ctx_t *vfu_ctx, vfu_reset_type_t type)
-+{
-+    VfuObject *o = vfu_get_private(vfu_ctx);
+ EBPF:
+ M: Jason Wang <jasowang@redhat.com>
+diff --git a/tests/avocado/vfio-user.py b/tests/avocado/vfio-user.py
+new file mode 100644
+index 0000000000..3f13d9895d
+--- /dev/null
++++ b/tests/avocado/vfio-user.py
+@@ -0,0 +1,234 @@
++# vfio-user protocol sanity test
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
 +
-+    if (type == VFU_RESET_LOST_CONN) {
-+        return 0;
-+    }
 +
-+    qdev_reset_all(DEVICE(o->pci_dev));
++import os
++import socket
++import uuid
 +
-+    return 0;
-+}
++from avocado_qemu import QemuSystemTest
++from avocado_qemu import wait_for_console_pattern
++from avocado_qemu import exec_command
++from avocado_qemu import exec_command_and_wait_for_pattern
 +
- /*
-  * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'device'
-  * properties. It also depends on devices instantiated in QEMU. These
-@@ -1105,6 +1118,12 @@ static void vfu_object_init_ctx(VfuObject *o, Error **errp)
-         goto fail;
-     }
- 
-+    ret = vfu_setup_device_reset_cb(o->vfu_ctx, &vfu_object_device_reset);
-+    if (ret < 0) {
-+        error_setg(errp, "vfu: Failed to setup reset callback");
-+        goto fail;
-+    }
++from avocado.utils import network
++from avocado.utils import wait
 +
-     if (!vfu_object_migratable(o)) {
-         goto realize_ctx;
-     }
++class VfioUser(QemuSystemTest):
++    """
++    :avocado: tags=vfiouser
++    """
++    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
++    timeout = 20
++
++    @staticmethod
++    def migration_finished(vm):
++        res = vm.command('query-migrate')
++        if 'status' in res:
++            return res['status'] in ('completed', 'failed')
++        else:
++            return False
++
++    def _get_free_port(self):
++        port = network.find_free_port()
++        if port is None:
++            self.cancel('Failed to find a free port')
++        return port
++
++    def validate_vm_launch(self, vm):
++        wait_for_console_pattern(self, 'as init process',
++                                 'Kernel panic - not syncing', vm=vm)
++        exec_command(self, 'mount -t sysfs sysfs /sys', vm=vm)
++        exec_command_and_wait_for_pattern(self,
++                                          'cat /sys/bus/pci/devices/*/uevent',
++                                          'PCI_ID=1000:0060', vm=vm)
++
++    def launch_server_startup(self, socket, *opts):
++        server_vm = self.get_vm()
++        server_vm.add_args('-machine', 'x-remote,vfio-user=on')
++        server_vm.add_args('-nodefaults')
++        server_vm.add_args('-device', 'megasas,id=sas1')
++        server_vm.add_args('-object', 'x-vfio-user-server,id=vfioobj1,'
++                           'type=unix,path='+socket+',device=sas1')
++        for opt in opts:
++            server_vm.add_args(opt)
++        server_vm.launch()
++        return server_vm
++
++    def launch_server_hotplug(self, socket):
++        server_vm = self.get_vm()
++        server_vm.add_args('-machine', 'x-remote,vfio-user=on')
++        server_vm.add_args('-nodefaults')
++        server_vm.launch()
++        server_vm.qmp('device_add', args_dict=None, conv_keys=None,
++                      driver='megasas', id='sas1')
++        obj_add_opts = {'qom-type': 'x-vfio-user-server',
++                        'id': 'vfioobj', 'device': 'sas1',
++                        'socket': {'type': 'unix', 'path': socket}}
++        server_vm.qmp('object-add', args_dict=obj_add_opts)
++        return server_vm
++
++    def launch_client(self, kernel_path, initrd_path, kernel_command_line,
++                      machine_type, socket, *opts):
++        client_vm = self.get_vm()
++        client_vm.set_console()
++        client_vm.add_args('-machine', machine_type)
++        client_vm.add_args('-accel', 'kvm')
++        client_vm.add_args('-cpu', 'host')
++        client_vm.add_args('-object',
++                           'memory-backend-memfd,id=sysmem-file,size=2G')
++        client_vm.add_args('--numa', 'node,memdev=sysmem-file')
++        client_vm.add_args('-m', '2048')
++        client_vm.add_args('-kernel', kernel_path,
++                           '-initrd', initrd_path,
++                           '-append', kernel_command_line)
++        client_vm.add_args('-device',
++                           'vfio-user-pci,x-enable-migration=true,'
++                           'socket='+socket)
++        for opt in opts:
++            client_vm.add_args(opt)
++        client_vm.launch()
++        return client_vm
++
++    def do_test_startup(self, kernel_url, initrd_url, kernel_command_line,
++                machine_type):
++        self.require_accelerator('kvm')
++
++        kernel_path = self.fetch_asset(kernel_url)
++        initrd_path = self.fetch_asset(initrd_url)
++        socket = os.path.join('/tmp', str(uuid.uuid4()))
++        if os.path.exists(socket):
++            os.remove(socket)
++        self.launch_server_startup(socket)
++        client = self.launch_client(kernel_path, initrd_path,
++                                    kernel_command_line, machine_type, socket)
++        self.validate_vm_launch(client)
++
++    def do_test_hotplug(self, kernel_url, initrd_url, kernel_command_line,
++                machine_type):
++        self.require_accelerator('kvm')
++
++        kernel_path = self.fetch_asset(kernel_url)
++        initrd_path = self.fetch_asset(initrd_url)
++        socket = os.path.join('/tmp', str(uuid.uuid4()))
++        if os.path.exists(socket):
++            os.remove(socket)
++        self.launch_server_hotplug(socket)
++        client = self.launch_client(kernel_path, initrd_path,
++                                    kernel_command_line, machine_type, socket)
++        self.validate_vm_launch(client)
++
++    def do_test_migrate(self, kernel_url, initrd_url, kernel_command_line,
++                machine_type):
++        self.require_accelerator('kvm')
++
++        kernel_path = self.fetch_asset(kernel_url)
++        initrd_path = self.fetch_asset(initrd_url)
++        srv_socket = os.path.join('/tmp', str(uuid.uuid4()))
++        if os.path.exists(srv_socket):
++            os.remove(srv_socket)
++        dst_socket = os.path.join('/tmp', str(uuid.uuid4()))
++        if os.path.exists(dst_socket):
++            os.remove(dst_socket)
++        client_uri = 'tcp:localhost:%u' % self._get_free_port()
++
++        """ Launch destination VM """
++        self.launch_server_startup(dst_socket)
++        dst_client = self.launch_client(kernel_path, initrd_path,
++                                        kernel_command_line, machine_type,
++                                        dst_socket, '-incoming', client_uri)
++
++        """ Launch source VM """
++        self.launch_server_startup(srv_socket)
++        src_client = self.launch_client(kernel_path, initrd_path,
++                                        kernel_command_line, machine_type,
++                                        srv_socket)
++        self.validate_vm_launch(src_client)
++
++        """ Kick off migration """
++        src_client.qmp('migrate', uri=client_uri)
++
++        wait.wait_for(self.migration_finished,
++                      timeout=self.timeout,
++                      step=0.1,
++                      args=(dst_client,))
++
++        self.assertEqual(src_client.command('query-migrate')['status'], \
++                         'completed')
++        self.assertEqual(dst_client.command('query-migrate')['status'], \
++                         'completed')
++        self.assertEqual(src_client.command('query-status')['status'], \
++                         'postmigrate')
++        self.assertEqual(dst_client.command('query-status')['status'], \
++                         'running')
++
++    def test_vfio_user_x86_64(self):
++        """
++        :avocado: tags=arch:x86_64
++        :avocado: tags=distro:centos
++        """
++        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
++                      '/linux/releases/31/Everything/x86_64/os/images'
++                      '/pxeboot/vmlinuz')
++        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
++                      '/linux/releases/31/Everything/x86_64/os/images'
++                      '/pxeboot/initrd.img')
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyS0 rdinit=/bin/bash')
++        machine_type = 'pc'
++        self.do_test_startup(kernel_url, initrd_url, kernel_command_line,
++                             machine_type)
++
++    def test_vfio_user_aarch64(self):
++        """
++        :avocado: tags=arch:aarch64
++        :avocado: tags=distro:ubuntu
++        """
++        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
++                      '/linux/releases/31/Everything/aarch64/os/images'
++                      '/pxeboot/vmlinuz')
++        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
++                      '/linux/releases/31/Everything/aarch64/os/images'
++                      '/pxeboot/initrd.img')
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'rdinit=/bin/bash console=ttyAMA0')
++        machine_type = 'virt,gic-version=3'
++        self.do_test_startup(kernel_url, initrd_url, kernel_command_line,
++                             machine_type)
++
++    def test_vfio_user_hotplug_x86_64(self):
++        """
++        :avocado: tags=arch:x86_64
++        :avocado: tags=distro:centos
++        """
++        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
++                      '/linux/releases/31/Everything/x86_64/os/images'
++                      '/pxeboot/vmlinuz')
++        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
++                      '/linux/releases/31/Everything/x86_64/os/images'
++                      '/pxeboot/initrd.img')
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyS0 rdinit=/bin/bash')
++        machine_type = 'pc'
++        self.do_test_hotplug(kernel_url, initrd_url, kernel_command_line,
++                             machine_type)
++
++    def test_vfio_user_migrate_x86_64(self):
++        """
++        :avocado: tags=arch:x86_64
++        :avocado: tags=distro:centos
++        """
++        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
++                      '/linux/releases/31/Everything/x86_64/os/images'
++                      '/pxeboot/vmlinuz')
++        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
++                      '/linux/releases/31/Everything/x86_64/os/images'
++                      '/pxeboot/initrd.img')
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyS0 rdinit=/bin/bash')
++        machine_type = 'pc'
++        self.do_test_migrate(kernel_url, initrd_url, kernel_command_line,
++                             machine_type)
++
 -- 
 2.20.1
 
