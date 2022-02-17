@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFE04BABF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 22:41:28 +0100 (CET)
-Received: from localhost ([::1]:46218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1955F4BAC1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 22:54:36 +0100 (CET)
+Received: from localhost ([::1]:51196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKoWl-0001bF-KL
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 16:41:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53260)
+	id 1nKojS-0005lO-LV
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 16:54:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nKoUb-0007lc-E5
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 16:39:13 -0500
-Received: from [2607:f8b0:4864:20::430] (port=38412
- helo=mail-pf1-x430.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKohS-0004iA-GI
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 16:52:30 -0500
+Received: from [2a00:1450:4864:20::535] (port=35385
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nKoUX-0008UA-FG
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 16:39:13 -0500
-Received: by mail-pf1-x430.google.com with SMTP id x18so768959pfh.5
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 13:39:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKohQ-0002Y1-9Q
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 16:52:29 -0500
+Received: by mail-ed1-x535.google.com with SMTP id f17so12115690edd.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 13:52:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=uvBLXkQsdwGTdg8gECAZ77Fzy9HB3zUwcpqwtmG9KPw=;
- b=UEvDpNkdb8/60TSyBeZKkWhBwgcAjh1efOmAJG1zNEJVo65K2Ka2qn5an9vWrwyDoD
- 4mE819R6rFwt/HVFsRwvq0M/aIZmXjBmVVAIKzQif95lsgvrwnRn+AiwheAyiQ2EWj0z
- TWBJwFf3CJ/5EkRGj6tJkMxyifZST88NBbxTK9VmnSsKFmwcnQsgM6f/cBKfXKt/cdOM
- pF7/FI8RDAtb8keWbari9n/PtUdvV6+3F4h/JaLNn/yYzWEZeA8lmzz8vDORyfqIddZZ
- gY/XMtzeIqM6feJukT19OQ5uPuEvHWvPjHViFmSXPRGrUUXV4ZR/jzxhfRn5XB7gqJp/
- shzw==
+ h=date:from:to:cc:subject:in-reply-to:references:message-id
+ :mime-version:content-transfer-encoding;
+ bh=XIFL0hjqnnFRxO6jLglAz+dpEQHc2thAnGlNXhplSwI=;
+ b=ab3LUkBM74saxkMxcjF0z8wPU1dQzMcBGnYBQHi4AscykrHzoKL0eYmwzIgqYk7aLw
+ s4XMEmxnqTRvIAEdRfSsekxLao79n/EUmoYLMgQgNHHujTSUSV3kF2gACW7sn4HlRtVF
+ DOJza7Kqk7rBC0Q9Yq8XwDbFP2v4C7DdzawiIOYNSyDrRSZZlOh8ndh/VRarR7ZTRBBf
+ PjmfzmOzG1RB3Woek9YJnOiB+EHQcrmLcQLZrfifudlmeVQxTbDg9QRYPUH7V01KHX/w
+ CstyTBIwVcmmKIeO4+RiyYluGNs3nuSkXGTVmye6v2IYrRcNq1ML0ZQLTjPuzh9ud4hB
+ Cj6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uvBLXkQsdwGTdg8gECAZ77Fzy9HB3zUwcpqwtmG9KPw=;
- b=c8JnPok1d4wUQ4HSRbZ5ItZfUrv6L7FvOrJjM9X9glXxL26M0IBoxFPHvNDC/X0hS2
- yASDnvA/qWqsJLz9c92FRtPknV0Tw1pTCXXC4sCuXoFfBWzkL3BhZAzQwrHPhJZ2PLgn
- KMEJ83BaDNzV/nLnLrWyhCszLJFV8AR7zUCsIwLme1WsaV+sY9fDpmDqhHEe+yA04UtJ
- Sf5RrNYGDHb0bTObfKwc9Zu0atr+e/Xk5h1gQOxZYtvFhp3V6V+HJrA326e4TYcxhRLd
- SxMmx4kl89IJCN4u9K3rH+7+21DCB6iQ0wUD0pn2o8zv390d7a/MIuHr4C5MAorsbEsv
- X0YA==
-X-Gm-Message-State: AOAM532NCfb0g6g/MChkigGVXh5Y33lfDaSSKJWjYFePo34DR0Ep+Awh
- Hjyu1dZBoSvPC5zQF2lRcfI=
-X-Google-Smtp-Source: ABdhPJyRZsy91R5TMvF8KqUu2E/OZUL5LSbliDzh7YJRfMHfSMihGcPTzVL8CBfKZxTDwrgrPLv1zw==
-X-Received: by 2002:a63:7709:0:b0:36c:8c3c:1199 with SMTP id
- s9-20020a637709000000b0036c8c3c1199mr3882490pgc.580.1645133947760; 
- Thu, 17 Feb 2022 13:39:07 -0800 (PST)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id s6sm9072929pgk.44.2022.02.17.13.39.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 13:39:07 -0800 (PST)
-Date: Fri, 18 Feb 2022 06:39:05 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 3/4] hw/openrisc/openrisc_sim; Add support for loading a
- decice tree
-Message-ID: <Yg7AeSuZOEW3nT26@antec>
-References: <20220210063009.1048751-1-shorne@gmail.com>
- <20220210063009.1048751-4-shorne@gmail.com>
- <CAFEAcA_kMsoO26G-KhuNkUH=fJpdWPP_aKCwWva8RnV6ZDKkvg@mail.gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=XIFL0hjqnnFRxO6jLglAz+dpEQHc2thAnGlNXhplSwI=;
+ b=K6ZixRmJTpGzFuXIcnaGIPRK1KpBEyDKMEqSYPDTXSrzCO5e2lhu7XfbGGm1AEivzb
+ I8rM+PMPRVKTrK7lNCYIBZb8zQzZ1GYklS2ulO0m6/I0uZ4ag9Kceav/LEQ18ynTWWvx
+ NdLu0WrFeuqb9nrDzHyOexcNeAtcEEQuniX8xmS9NWpath8ZveFP8QZqOPmiRIdKPXfK
+ lxv3/guYGfOR4b/Ekzsmtr0iD0wuTurZ7mTbm+nP550z8CZ0W7FlY+OiA6LCL7T5Ilh6
+ oKUgandVy05WaOslOfLVWRgYytybpdw5W0Es4mBV3TS3gc8F9JPLKstxVSFb71nHNiF9
+ pyjQ==
+X-Gm-Message-State: AOAM532iYEexJaWss647uUSu5fDOehwQabEaVc1acJ5K3DMlcE7aK+Co
+ RMOnbQ/wCDOaD2BgSDL+xPZHMCuY/5POEQ==
+X-Google-Smtp-Source: ABdhPJwDPt49QGgEXjyzT7wpeHQz4VDZB+ZxQh8gaNqyihlgAX/DFipHBasvj67XVNyXrSUCNX9YEA==
+X-Received: by 2002:a05:6402:c81:b0:410:a329:e27a with SMTP id
+ cm1-20020a0564020c8100b00410a329e27amr4898308edb.142.1645134728282; 
+ Thu, 17 Feb 2022 13:52:08 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-077-183-198-236.77.183.pool.telefonica.de.
+ [77.183.198.236])
+ by smtp.gmail.com with ESMTPSA id j3sm1571238ejj.9.2022.02.17.13.52.07
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 17 Feb 2022 13:52:07 -0800 (PST)
+Date: Thu, 17 Feb 2022 21:52:02 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_1/7=5D_hw/mips/gt64xxx=5Fpci=3A_Fix_P?=
+ =?US-ASCII?Q?CI_IRQ_levels_to_be_preserved_during_migration?=
+In-Reply-To: <20220217101924.15347-2-shentey@gmail.com>
+References: <20220217101924.15347-1-shentey@gmail.com>
+ <20220217101924.15347-2-shentey@gmail.com>
+Message-ID: <15030F67-E5A3-436F-89D7-A3BF256C3256@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_kMsoO26G-KhuNkUH=fJpdWPP_aKCwWva8RnV6ZDKkvg@mail.gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=shorne@gmail.com; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,273 +89,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Development <qemu-devel@nongnu.org>, Jia Liu <proljc@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 17, 2022 at 06:18:58PM +0000, Peter Maydell wrote:
-> On Thu, 10 Feb 2022 at 06:46, Stafford Horne <shorne@gmail.com> wrote:
-> >
-> > Using the device tree means that qemu can now directly tell
-> > the kernel what hardware is configured rather than use having
-> > to maintain and update a separate device tree file.
-> >
-> > This patch adds device tree support for the OpenRISC simulator.
-> > A device tree is built up based on the state of the configure
-> > openrisc simulator.
-> 
-> This sounds like it's support for creating a device
-> tree? Support for loading a device tree would be "the
-> user passes us a filename of a dtb file". (This is mostly a
-> quibble about commit message wording.)
+Am 17=2E Februar 2022 10:19:18 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>Based on commit e735b55a8c11dd455e31ccd4420e6c9485191d0c:
+>
+>  piix_pci: eliminate PIIX3State::pci_irq_levels
+>
+>  PIIX3State::pci_irq_levels are redundant which is already tracked by
+>  PCIBus layer=2E So eliminate them=2E
+>
+>The IRQ levels in the PCIBus layer are already preserved during
+>migration=2E By reusing them and rather than having a redundant implement=
+ation
+>the bug is avoided in the first place=2E
+>
+>Suggested-by: Peter Maydell <peter=2Emaydell@linaro=2Eorg>
+>Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
-Ah, yes I will fix this to say, "adds automatic device tree generation support"
-....
+Copy from v3:
 
-> > -static void openrisc_load_kernel(ram_addr_t ram_size,
-> > +static hwaddr openrisc_load_kernel(ram_addr_t ram_size,
-> >                                   const char *kernel_filename)
-> 
-> Indentation looks off now ?
+Reviewed-by: Peter Maydell <peter=2Emaydell@linaro=2Eorg>
 
-Fixed now.
+>---
+> hw/mips/gt64xxx_pci=2Ec | 7 ++-----
+> 1 file changed, 2 insertions(+), 5 deletions(-)
+>
+>diff --git a/hw/mips/gt64xxx_pci=2Ec b/hw/mips/gt64xxx_pci=2Ec
+>index c7480bd019=2E=2E4cbd0911f5 100644
+>--- a/hw/mips/gt64xxx_pci=2Ec
+>+++ b/hw/mips/gt64xxx_pci=2Ec
+>@@ -1006,14 +1006,11 @@ static int gt64120_pci_map_irq(PCIDevice *pci_dev=
+, int irq_num)
+>     }
+> }
+>=20
+>-static int pci_irq_levels[4];
+>-
+> static void gt64120_pci_set_irq(void *opaque, int irq_num, int level)
+> {
+>     int i, pic_irq, pic_level;
+>     qemu_irq *pic =3D opaque;
+>-
+>-    pci_irq_levels[irq_num] =3D level;
+>+    PCIBus *bus =3D pci_get_bus(piix4_dev);
+>=20
+>     /* now we change the pic irq level according to the piix irq mapping=
+s */
+>     /* XXX: optimize */
+>@@ -1023,7 +1020,7 @@ static void gt64120_pci_set_irq(void *opaque, int i=
+rq_num, int level)
+>         pic_level =3D 0;
+>         for (i =3D 0; i < 4; i++) {
+>             if (pic_irq =3D=3D piix4_dev->config[PIIX_PIRQCA + i]) {
+>-                pic_level |=3D pci_irq_levels[i];
+>+                pic_level |=3D pci_bus_get_irq_level(bus, i);
+>             }
+>         }
+>         qemu_set_irq(pic[pic_irq], pic_level);
 
-> >  {
-> >      long kernel_size;
-> >      uint64_t elf_entry;
-> > +    uint64_t high_addr;
-> >      hwaddr entry;
-> >
-> >      if (kernel_filename && !qtest_enabled()) {
-> >          kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
-> > -                               &elf_entry, NULL, NULL, NULL, 1, EM_OPENRISC,
-> > -                               1, 0);
-> > +                               &elf_entry, NULL, &high_addr, NULL, 1,
-> > +                               EM_OPENRISC, 1, 0);
-> >          entry = elf_entry;
-> >          if (kernel_size < 0) {
-> >              kernel_size = load_uimage(kernel_filename,
-> >                                        &entry, NULL, NULL, NULL, NULL);
-> > +            high_addr = entry + kernel_size;
-> >          }
-> >          if (kernel_size < 0) {
-> >              kernel_size = load_image_targphys(kernel_filename,
-> >                                                KERNEL_LOAD_ADDR,
-> >                                                ram_size - KERNEL_LOAD_ADDR);
-> > +            high_addr = KERNEL_LOAD_ADDR + kernel_size;
-> >          }
-> >
-> >          if (entry <= 0) {
-> > @@ -168,7 +181,139 @@ static void openrisc_load_kernel(ram_addr_t ram_size,
-> >              exit(1);
-> >          }
-> >          boot_info.bootstrap_pc = entry;
-> > +
-> > +        return high_addr;
-> > +    }
-> > +    return 0;
-> > +}
-> > +
-> > +static uint32_t openrisc_load_fdt(Or1ksimState *s, hwaddr load_start,
-> > +    uint64_t mem_size)
-> 
-> Indentation again.
-
-Fixed.
-
-> > +{
-> > +    uint32_t fdt_addr;
-> > +    int fdtsize = fdt_totalsize(s->fdt);
-> > +
-> > +    if (fdtsize <= 0) {
-> > +        error_report("invalid device-tree");
-> > +        exit(1);
-> > +    }
-> > +
-> > +    /* We should put fdt right after the kernel */
-> 
-> You change this comment in patch 4 -- I think you might as well
-> just use that text in this patch to start with.
-
-OK, I had that at first but I did this to be more techincally correct.  I will
-simplify as you suggest.
-
-> > +    fdt_addr = ROUND_UP(load_start, 4);
-> > +
-> > +    fdt_pack(s->fdt);
-> 
-> fdt_pack() returns an error code -- you should check it.
-
-OK.
-
-> > +    /* copy in the device tree */
-> > +    qemu_fdt_dumpdtb(s->fdt, fdtsize);
-> > +
-> > +    rom_add_blob_fixed_as("fdt", s->fdt, fdtsize, fdt_addr,
-> > +                          &address_space_memory);
-> > +
-> > +    return fdt_addr;
-> > +}
-> > +
-> > +static void openrisc_create_fdt(Or1ksimState *s,
-> > +    const struct MemmapEntry *memmap, int num_cpus, uint64_t mem_size,
-> > +    const char *cmdline)
-> 
-> Indentation.
-
-Right, fixed.
-
-> > +{
-> > +    void *fdt;
-> > +    int cpu;
-> > +    char *nodename;
-> > +    int pic_ph;
-> > +
-> > +    fdt = s->fdt = create_device_tree(&s->fdt_size);
-> > +    if (!fdt) {
-> > +        error_report("create_device_tree() failed");
-> > +        exit(1);
-> > +    }
-> > +
-> > +    qemu_fdt_setprop_string(fdt, "/", "compatible", "opencores,or1ksim");
-> > +    qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x1);
-> > +    qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x1);
-> > +
-> > +    nodename = g_strdup_printf("/memory@%lx",
-> > +                               (long)memmap[OR1KSIM_DRAM].base);
-> 
-> Use the appropriate format string macro for the type, rather than
-> casting to long (here and below).
-
-Right good point.
-
-> > +    qemu_fdt_add_subnode(fdt, nodename);
-> > +    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-> > +                           memmap[OR1KSIM_DRAM].base, mem_size);
-> > +    qemu_fdt_setprop_string(fdt, nodename, "device_type", "memory");
-> > +    g_free(nodename);
-> > +
-> > +    qemu_fdt_add_subnode(fdt, "/cpus");
-> > +    qemu_fdt_setprop_cell(fdt, "/cpus", "#size-cells", 0x0);
-> > +    qemu_fdt_setprop_cell(fdt, "/cpus", "#address-cells", 0x1);
-> > +
-> > +    for (cpu = 0; cpu < num_cpus; cpu++) {
-> > +        nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
-> > +        qemu_fdt_add_subnode(fdt, nodename);
-> > +        qemu_fdt_setprop_string(fdt, nodename, "compatible",
-> > +                                "opencores,or1200-rtlsvn481");
-> > +        qemu_fdt_setprop_cell(fdt, nodename, "reg", cpu);
-> > +        qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
-> > +                              OR1KSIM_CLK_MHZ);
-> > +        g_free(nodename);
-> > +    }
-> > +
-> > +    if (num_cpus > 0) {
-> > +        nodename = g_strdup_printf("/ompic@%lx",
-> > +                                   (long)memmap[OR1KSIM_OMPIC].base);
-> > +        qemu_fdt_add_subnode(fdt, nodename);
-> > +        qemu_fdt_setprop_string(fdt, nodename, "compatible", "openrisc,ompic");
-> > +        qemu_fdt_setprop_cells(fdt, nodename, "reg",
-> > +                               memmap[OR1KSIM_OMPIC].base,
-> > +                               memmap[OR1KSIM_OMPIC].size);
-> > +        qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
-> > +        qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 0);
-> > +        qemu_fdt_setprop_cell(fdt, nodename, "interrupts", OR1KSIM_OMPIC_IRQ);
-> > +        g_free(nodename);
-> >      }
-> > +
-> > +    nodename = (char *)"/pic";
-> > +    qemu_fdt_add_subnode(fdt, nodename);
-> > +    pic_ph = qemu_fdt_alloc_phandle(fdt);
-> > +    qemu_fdt_setprop_string(fdt, nodename, "compatible",
-> > +                            "opencores,or1k-pic-level");
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 1);
-> > +    qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "phandle", pic_ph);
-> > +
-> > +    qemu_fdt_setprop_cell(fdt, "/", "interrupt-parent", pic_ph);
-> > +
-> > +    if (nd_table[0].used) {
-> > +        nodename = g_strdup_printf("/ethoc@%lx",
-> > +                                   (long)memmap[OR1KSIM_ETHOC].base);
-> > +        qemu_fdt_add_subnode(fdt, nodename);
-> > +        qemu_fdt_setprop_string(fdt, nodename, "compatible", "opencores,ethoc");
-> > +        qemu_fdt_setprop_cells(fdt, nodename, "reg",
-> > +                               memmap[OR1KSIM_ETHOC].base,
-> > +                               memmap[OR1KSIM_ETHOC].size);
-> > +        qemu_fdt_setprop_cell(fdt, nodename, "interrupts", OR1KSIM_ETHOC_IRQ);
-> > +        qemu_fdt_setprop(fdt, nodename, "big-endian", NULL, 0);
-> > +
-> > +        qemu_fdt_add_subnode(fdt, "/aliases");
-> > +        qemu_fdt_setprop_string(fdt, "/aliases", "enet0", nodename);
-> > +        g_free(nodename);
-> > +    }
-> > +
-> > +    nodename = g_strdup_printf("/serial@%lx",
-> > +                               (long)memmap[OR1KSIM_UART].base);
-> > +    qemu_fdt_add_subnode(fdt, nodename);
-> > +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "ns16550a");
-> > +    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-> > +                           memmap[OR1KSIM_UART].base,
-> > +                           memmap[OR1KSIM_UART].size);
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", OR1KSIM_UART_IRQ);
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency", OR1KSIM_CLK_MHZ);
-> > +    qemu_fdt_setprop(fdt, nodename, "big-endian", NULL, 0);
-> > +
-> > +    qemu_fdt_add_subnode(fdt, "/chosen");
-> > +    qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", nodename);
-> > +    if (cmdline) {
-> > +        qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
-> > +    }
-> > +
-> > +    qemu_fdt_setprop_string(fdt, "/aliases", "uart0", nodename);
-> 
-> I think the pattern the hw/arm/virt.c code uses, where the board
-> code functions that create the UART, interrupt controller, etc
-> devices on the board also have the code to add FDT nodes for them.
-> Especially as the board gets new devices added over time, it's easier
-> to check that the FDT nodes and the devices match up, and you don't
-> have to awkwardly duplicate control-flow logic like "we only have
-> an ethernet device if nd_table[0].used". But I won't insist that
-> you rewrite this.
-
-Right, this makes sense.  I might as well split it out.  I did it that way for
-initrd.  I it may make sense to do for UART, OMPIC and Ethernet here.
-
-> > +    g_free(nodename);
-> >  }
-> >
-> >  static void openrisc_sim_init(MachineState *machine)
-> > @@ -178,6 +323,7 @@ static void openrisc_sim_init(MachineState *machine)
-> >      OpenRISCCPU *cpus[2] = {};
-> >      Or1ksimState *s = OR1KSIM_MACHINE(machine);
-> >      MemoryRegion *ram;
-> > +    hwaddr load_addr;
-> >      qemu_irq serial_irq;
-> >      int n;
-> >      unsigned int smp_cpus = machine->smp.cpus;
-> > @@ -219,7 +365,11 @@ static void openrisc_sim_init(MachineState *machine)
-> >      serial_mm_init(get_system_memory(), or1ksim_memmap[OR1KSIM_UART].base, 0,
-> >                     serial_irq, 115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
-> >
-> > -    openrisc_load_kernel(ram_size, kernel_filename);
-> > +    openrisc_create_fdt(s, or1ksim_memmap, smp_cpus, machine->ram_size,
-> > +                        machine->kernel_cmdline);
-> > +
-> > +    load_addr = openrisc_load_kernel(ram_size, kernel_filename);
-> > +    boot_info.fdt_addr = openrisc_load_fdt(s, load_addr, machine->ram_size);
-> >  }
-> 
-> If the user doesn't specify a kernel file, we'll still load the FDT,
-> at address zero. Is that sensible/intended behaviour ?
-
-Good point,  I guess we can add some space to not override the interrupt
-vectors.  The system booting with no kernel will probably not very useful
-anyway.  But I imaging one could connect a debugger and load some binary into
-memory and having the FDT in memory would be helpful.
-
-So moving the fdt offset to 0 + 1-page would give enough space.  Does this sound
-OK?
-
--Stafford
 
