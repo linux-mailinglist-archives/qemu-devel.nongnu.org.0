@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551D44BA371
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:49:09 +0100 (CET)
-Received: from localhost ([::1]:54944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E297E4BA3AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 15:54:20 +0100 (CET)
+Received: from localhost ([::1]:35064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKi5k-00079I-CC
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:49:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43706)
+	id 1nKiAm-0004aR-0E
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 09:54:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKhi5-0004ct-8p
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:24:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48311)
+ id 1nKhiZ-0005Hq-QL
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:25:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKhi3-0008OF-Hq
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:24:40 -0500
+ id 1nKhiX-0008QZ-Qp
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 09:25:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645107878;
+ s=mimecast20190719; t=1645107909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=0BS0J1LH2f7VONzrFCW6W3z88o9CQ4pBpwZhfOAWVrs=;
- b=LzZesOxUxOPrdd6w4kiJou2t6HYFvSy/3Qn3FS9T9jgu12q4pEbplDexWiUHZr0wqpL0AX
- oq7ZQ/4+v7HihKpTFtEsvvo0+aC4WWvHXgd1ECx/cTO4g0dIvi9lHr8t84KKaqCGMC31Ev
- RmL6SEwqw+gKuxZ2RgeWLvQAABJuJzw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MaJrs/ZheBAa9RrtTzRrPMkAxwpo5GQ5cHjMnqAbx28=;
+ b=c5wClppQoONLMyVWuZtg2zop0cET7QrZeXbRM5FLPnhMOyRzPhM4ppfkRFZMCii5qXw8iU
+ 4NCqE+ovhGidIkaT7nzC8IiBm1BlI5WLsepI3EURX393UOZfy0fCNdSMcg33HEhXIWR7+S
+ vVAnZSMZIKwuXU3szjUP6rYUl8VqnJw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-o-cVfVzfNs2eQRgc-sneTg-1; Thu, 17 Feb 2022 09:24:35 -0500
-X-MC-Unique: o-cVfVzfNs2eQRgc-sneTg-1
+ us-mta-263-_3zviBpuPkyLGZsoFfdNSw-1; Thu, 17 Feb 2022 09:25:08 -0500
+X-MC-Unique: _3zviBpuPkyLGZsoFfdNSw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F5C21091DA1;
- Thu, 17 Feb 2022 14:24:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C060F81424A;
+ Thu, 17 Feb 2022 14:25:04 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.194.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5CE5E4EC8F;
- Thu, 17 Feb 2022 14:24:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A40A4EC8F;
+ Thu, 17 Feb 2022 14:25:03 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, vgoyal@redhat.com, groug@kaod.org,
  sebastian.hasler@stuvus.uni-stuttgart.de
-Subject: [PULL 00/12] virtiofs queue
-Date: Thu, 17 Feb 2022 14:23:50 +0000
-Message-Id: <20220217142402.52819-1-dgilbert@redhat.com>
+Subject: [PULL 02/12] virtiofsd: Fix breakage due to fuse_init_in size change
+Date: Thu, 17 Feb 2022 14:23:52 +0000
+Message-Id: <20220217142402.52819-3-dgilbert@redhat.com>
+In-Reply-To: <20220217142402.52819-1-dgilbert@redhat.com>
+References: <20220217142402.52819-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
@@ -81,91 +84,53 @@ Cc: virtio-fs@redhat.com, stefanha@redhat.com, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-The following changes since commit c13b8e9973635f34f3ce4356af27a311c993729c:
+Kernel version 5.17 has increased the size of "struct fuse_init_in" struct.
+Previously this struct was 16 bytes and now it has been extended to
+64 bytes in size.
 
-  Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220216' into staging (2022-02-16 09:57:11 +0000)
+Once qemu headers are updated to latest, it will expect to receive 64 byte
+size struct (for protocol version major 7 and minor > 6). But if guest is
+booting older kernel (older than 5.17), then it still sends older
+fuse_init_in of size 16 bytes. And do_init() fails. It is expecting
+64 byte struct. And this results in mount of virtiofs failing.
 
-are available in the Git repository at:
+Fix this by parsing 16 bytes only for now. Separate patches will be
+posted which will parse rest of the bytes and enable new functionality.
+Right now we don't support any of the new functionality, so we don't
+lose anything by not parsing bytes beyond 16.
 
-  https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20220217
-
-for you to fetch changes up to e138ec4ac86ea71d10ecd032edc433290776a5f2:
-
-  virtiofsd: Add basic support for FUSE_SYNCFS request (2022-02-17 13:35:55 +0000)
-
-----------------------------------------------------------------
-V2: virtiofs pull 2022-02-17
-
-Security label improvements from Vivek
-  - includes a fix for building against new kernel headers
-  [V2: Fix building on old Linux]
-Blocking flock disable from Sebastian
-SYNCFS support from Greg
-
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Message-Id: <20220208204813.682906-2-vgoyal@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ tools/virtiofsd/fuse_lowlevel.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-----------------------------------------------------------------
-Greg Kurz (1):
-      virtiofsd: Add basic support for FUSE_SYNCFS request
-
-Sebastian Hasler (1):
-      virtiofsd: Do not support blocking flock
-
-Vivek Goyal (10):
-      virtiofsd: Fix breakage due to fuse_init_in size change
-      linux-headers: Update headers to v5.17-rc1
-      virtiofsd: Parse extended "struct fuse_init_in"
-      virtiofsd: Extend size of fuse_conn_info->capable and ->want fields
-      virtiofsd, fuse_lowlevel.c: Add capability to parse security context
-      virtiofsd: Move core file creation code in separate function
-      virtiofsd: Add helpers to work with /proc/self/task/tid/attr/fscreate
-      virtiofsd: Create new file with security context
-      virtiofsd: Create new file using O_TMPFILE and set security context
-      virtiofsd: Add an option to enable/disable security label
-
- docs/tools/virtiofsd.rst                       |  32 ++
- include/standard-headers/asm-x86/kvm_para.h    |   1 +
- include/standard-headers/drm/drm_fourcc.h      |  11 +
- include/standard-headers/linux/ethtool.h       |   1 +
- include/standard-headers/linux/fuse.h          |  60 +++-
- include/standard-headers/linux/pci_regs.h      | 142 ++++----
- include/standard-headers/linux/virtio_gpio.h   |  72 ++++
- include/standard-headers/linux/virtio_i2c.h    |  47 +++
- include/standard-headers/linux/virtio_iommu.h  |   8 +-
- include/standard-headers/linux/virtio_pcidev.h |  65 ++++
- include/standard-headers/linux/virtio_scmi.h   |  24 ++
- linux-headers/asm-generic/unistd.h             |   5 +-
- linux-headers/asm-mips/unistd_n32.h            |   2 +
- linux-headers/asm-mips/unistd_n64.h            |   2 +
- linux-headers/asm-mips/unistd_o32.h            |   2 +
- linux-headers/asm-powerpc/unistd_32.h          |   2 +
- linux-headers/asm-powerpc/unistd_64.h          |   2 +
- linux-headers/asm-riscv/bitsperlong.h          |  14 +
- linux-headers/asm-riscv/mman.h                 |   1 +
- linux-headers/asm-riscv/unistd.h               |  44 +++
- linux-headers/asm-s390/unistd_32.h             |   2 +
- linux-headers/asm-s390/unistd_64.h             |   2 +
- linux-headers/asm-x86/kvm.h                    |  16 +-
- linux-headers/asm-x86/unistd_32.h              |   1 +
- linux-headers/asm-x86/unistd_64.h              |   1 +
- linux-headers/asm-x86/unistd_x32.h             |   1 +
- linux-headers/linux/kvm.h                      |  17 +
- tools/virtiofsd/fuse_common.h                  |   9 +-
- tools/virtiofsd/fuse_i.h                       |   7 +
- tools/virtiofsd/fuse_lowlevel.c                | 179 ++++++++--
- tools/virtiofsd/fuse_lowlevel.h                |  13 +
- tools/virtiofsd/helper.c                       |   1 +
- tools/virtiofsd/passthrough_ll.c               | 467 +++++++++++++++++++++++--
- tools/virtiofsd/passthrough_seccomp.c          |   1 +
- 34 files changed, 1122 insertions(+), 132 deletions(-)
- create mode 100644 include/standard-headers/linux/virtio_gpio.h
- create mode 100644 include/standard-headers/linux/virtio_i2c.h
- create mode 100644 include/standard-headers/linux/virtio_pcidev.h
- create mode 100644 include/standard-headers/linux/virtio_scmi.h
- create mode 100644 linux-headers/asm-riscv/bitsperlong.h
- create mode 100644 linux-headers/asm-riscv/mman.h
- create mode 100644 linux-headers/asm-riscv/unistd.h
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index e4679c73ab..ce29a70253 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -1880,6 +1880,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+                     struct fuse_mbuf_iter *iter)
+ {
+     size_t compat_size = offsetof(struct fuse_init_in, max_readahead);
++    size_t compat2_size = offsetof(struct fuse_init_in, flags) + sizeof(uint32_t);
+     struct fuse_init_in *arg;
+     struct fuse_init_out outarg;
+     struct fuse_session *se = req->se;
+@@ -1897,7 +1898,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+ 
+     /* ...and now consume the new fields. */
+     if (arg->major == 7 && arg->minor >= 6) {
+-        if (!fuse_mbuf_iter_advance(iter, sizeof(*arg) - compat_size)) {
++        if (!fuse_mbuf_iter_advance(iter, compat2_size - compat_size)) {
+             fuse_reply_err(req, EINVAL);
+             return;
+         }
+-- 
+2.35.1
 
 
