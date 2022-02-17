@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD4BC4B9B8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 09:56:10 +0100 (CET)
-Received: from localhost ([::1]:47774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57714B9BBB
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 10:08:56 +0100 (CET)
+Received: from localhost ([::1]:59916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKca9-0000Ep-L2
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 03:56:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49596)
+	id 1nKcmV-0000dA-FU
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 04:08:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nKc4b-0007mS-Vt
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 03:23:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42965)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKc0L-0003US-Ga
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 03:19:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nKc4a-0001Eq-2N
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 03:23:33 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKc0J-0000Zx-FI
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 03:19:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645086208;
+ s=mimecast20190719; t=1645085946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iuUszf31v1+VXVwNfyB66q1aKRgpaPaeqCEht3hf9yA=;
- b=DgmITAaK3gKhAPyaxGJEO3p91XwGc4IuVNV8gT0yognfF7FP7m+W5jkxIB7iZgWg+69CG5
- abs1fH+79B/fawzO4971NHBDsBr3LF7UUu+fIa1jXRp62BOGPB8eQ438zdIE+i0ylZzIdk
- 7CHQyH4iQVo+JzRs7ZmvxyMSGtqZmMc=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MUrPm5gIi6Za8Ss7us9nLvHfDnvtsaerqVO72xd+uCo=;
+ b=hiv+y0x5yXvflE66qGdIi2MKfSadvXjCUZfiI1IAbYJxlTYwKzxJAL3j5HSj5DpLartsjN
+ dQkHP4UmsGD9CWQg4NiW2R4FViWxW2TpZOv3D5sURoIlehVHNowncg1Fzi9LTNA9jGbdW+
+ /VXr3AlpIm+Ak6Ln0SczGDl5L6KtFbw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-22-muvqeZMzPHC3DEN0UjTBHQ-1; Thu, 17 Feb 2022 03:23:25 -0500
-X-MC-Unique: muvqeZMzPHC3DEN0UjTBHQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- w4-20020a05620a094400b0060dd52a1445so1383546qkw.3
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 00:23:25 -0800 (PST)
+ us-mta-564-s407Bdm1NAyRhXCyE6Fn_w-1; Thu, 17 Feb 2022 03:19:05 -0500
+X-MC-Unique: s407Bdm1NAyRhXCyE6Fn_w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ e11-20020adf9bcb000000b001e316b01456so1951634wrc.21
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 00:19:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iuUszf31v1+VXVwNfyB66q1aKRgpaPaeqCEht3hf9yA=;
- b=yEV7J3L1t3pf8nB4pk4Jl67CGaJn+MNf58d6IYlEKW2S+0bBt+Q6tT3HE5rjDV8qwV
- y8eJNTTrpa96gg+7yb0NfRZaPvpOD3iHDACQASzqZOFgBUsegm9gDExRG4JHa0/aj4K3
- lKXFuQTDXeNlsDGUVTB40tQHfxfFwtGtWxmBld3H4T81kqHw7PBGD+YqTq2+ucj08xTv
- VPzvUOASfmlAivbt5cbldi5CeJNqUnbY93wxdXXHAxVee9V2Lm9GuUZn3BeZEVYQkytf
- V4IypGIWntAW5EDcKxf7VjsGUwBVBU/Ed2UsIueRVgY/Of4QIcJbCgbDP6vcRKo517P0
- wW4A==
-X-Gm-Message-State: AOAM5317uWj6FlNVKKFU+FNqZjnKZNzr04XkGf1iy16AEvpMBLLY1ezc
- eRoSjQCjPvqRd74Z+73SDhtjWcdGNw2cf1W7IJMNwrRqNXSgz22PTzPc2i+xIfnduXkHs4iuyqC
- vWdkSQeXBr+3l5P2BEMygf3NdFAls5cI=
-X-Received: by 2002:ac8:5a01:0:b0:2dd:2de2:58cf with SMTP id
- n1-20020ac85a01000000b002dd2de258cfmr1405849qta.199.1645086205344; 
- Thu, 17 Feb 2022 00:23:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwxeQjjxCQmc/KX7NgWBqiOzK/mqqmhSoOer9GDN0DMB7EppSOc4ewj3Vii2nHzzV8OTUmb+ROLXV5nw37SqYk=
-X-Received: by 2002:ac8:5a01:0:b0:2dd:2de2:58cf with SMTP id
- n1-20020ac85a01000000b002dd2de258cfmr1405821qta.199.1645086205001; Thu, 17
- Feb 2022 00:23:25 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MUrPm5gIi6Za8Ss7us9nLvHfDnvtsaerqVO72xd+uCo=;
+ b=JyCTQ8My+/By4dAONNWHbfiuecz+ZK0twVmwaZSvwTRUGSAHR1AU1+D/jMy+LgoHyz
+ kvBFGcfru4E1+zZkkYeAw4SpCTFtjwxbk/3uEAV+MPrJ/IWJaNUpSYtwh/LBAUBJm50u
+ i3HLEvUwKYucuKCniaSBhiAF/mWE+fUpFVK872oq7uHNB2cfKKRlHy0+ihYsEX+0qGoi
+ RUBhsKdp837SFlqvjrtGs8ZCNfSs07JHO7gGqJo7euPngup/gd2JIW0YCJoztzRtENTS
+ +bUACTp0yz/4BlBx6G1U0qrO/niE6zbn+x3460s6hNR30Zerg1gmNDQx3rdo4QT7DUeC
+ wutw==
+X-Gm-Message-State: AOAM533xYnydPWQl6btFWI1DpOioj+m1e8343x8yThomLVvn7MT2Meca
+ DoAyMau510SPT5PVR7hw4GX5FaUW2w11ilOJG4J59fVYcNHsc4FSFNiZNi50fdSUeW/pbYXzQjp
+ Pvtcq4Fn6mJ3ihW8=
+X-Received: by 2002:a05:6000:1882:b0:1e4:be96:8816 with SMTP id
+ a2-20020a056000188200b001e4be968816mr1433680wri.277.1645085943961; 
+ Thu, 17 Feb 2022 00:19:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxTEUNzZ5LtI9TGeN7N9ApZYC6hH2JP6B/TFZsPEOf1DkYeLfuMJqJHLKuLaqDaWDaSTxy/2g==
+X-Received: by 2002:a05:6000:1882:b0:1e4:be96:8816 with SMTP id
+ a2-20020a056000188200b001e4be968816mr1433662wri.277.1645085943750; 
+ Thu, 17 Feb 2022 00:19:03 -0800 (PST)
+Received: from redhat.com ([2.55.139.83])
+ by smtp.gmail.com with ESMTPSA id n2sm568776wmq.6.2022.02.17.00.19.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Feb 2022 00:19:03 -0800 (PST)
+Date: Thu, 17 Feb 2022 03:18:59 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 1/3] tests/x86: Use 'pc' machine type for old hardware
+ tests
+Message-ID: <20220217031836-mutt-send-email-mst@kernel.org>
+References: <20220215162537.605030-1-dgilbert@redhat.com>
+ <20220215162537.605030-2-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-29-eperezma@redhat.com>
- <42664143-6d0c-b107-ec90-8e6336bae29b@redhat.com>
- <CAJaqyWdBLU+maEhByepzeH7iwLmqUba0rRb8PM4VwBy2P8Vtow@mail.gmail.com>
- <9b32f664-56a9-3718-cf48-49003f87d430@redhat.com>
- <CAJaqyWcvWjPas0=xp+U-c-kG+e6k73jg=C4phFD7S-tZY=niSQ@mail.gmail.com>
- <CACGkMEtbd9RsE9f-HLnwmhJEFsK++uBHnqG4N0c6qJG0PxDdzw@mail.gmail.com>
-In-Reply-To: <CACGkMEtbd9RsE9f-HLnwmhJEFsK++uBHnqG4N0c6qJG0PxDdzw@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 17 Feb 2022 09:22:49 +0100
-Message-ID: <CAJaqyWdhHmD+tB_bY_YEMnBU1p7-LW=LP8f+3e_ZXDcOfSRiNA@mail.gmail.com>
-Subject: Re: [PATCH 28/31] vdpa: Expose VHOST_F_LOG_ALL on SVQ
-To: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220215162537.605030-2-dgilbert@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -99,208 +96,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: eduardo@habkost.net, thuth@redhat.com, berrange@redhat.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 17, 2022 at 7:02 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Wed, Feb 16, 2022 at 11:54 PM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
-> >
-> > On Tue, Feb 8, 2022 at 9:25 AM Jason Wang <jasowang@redhat.com> wrote:
-> > >
-> > >
-> > > =E5=9C=A8 2022/2/1 =E4=B8=8B=E5=8D=887:45, Eugenio Perez Martin =E5=
-=86=99=E9=81=93:
-> > > > On Sun, Jan 30, 2022 at 7:50 AM Jason Wang <jasowang@redhat.com> wr=
-ote:
-> > > >>
-> > > >> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=
-=86=99=E9=81=93:
-> > > >>> SVQ is able to log the dirty bits by itself, so let's use it to n=
-ot
-> > > >>> block migration.
-> > > >>>
-> > > >>> Also, ignore set and clear of VHOST_F_LOG_ALL on set_features if =
-SVQ is
-> > > >>> enabled. Even if the device supports it, the reports would be non=
-sense
-> > > >>> because SVQ memory is in the qemu region.
-> > > >>>
-> > > >>> The log region is still allocated. Future changes might skip that=
-, but
-> > > >>> this series is already long enough.
-> > > >>>
-> > > >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > >>> ---
-> > > >>>    hw/virtio/vhost-vdpa.c | 20 ++++++++++++++++++++
-> > > >>>    1 file changed, 20 insertions(+)
-> > > >>>
-> > > >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > > >>> index fb0a338baa..75090d65e8 100644
-> > > >>> --- a/hw/virtio/vhost-vdpa.c
-> > > >>> +++ b/hw/virtio/vhost-vdpa.c
-> > > >>> @@ -1022,6 +1022,9 @@ static int vhost_vdpa_get_features(struct v=
-host_dev *dev, uint64_t *features)
-> > > >>>        if (ret =3D=3D 0 && v->shadow_vqs_enabled) {
-> > > >>>            /* Filter only features that SVQ can offer to guest */
-> > > >>>            vhost_svq_valid_guest_features(features);
-> > > >>> +
-> > > >>> +        /* Add SVQ logging capabilities */
-> > > >>> +        *features |=3D BIT_ULL(VHOST_F_LOG_ALL);
-> > > >>>        }
-> > > >>>
-> > > >>>        return ret;
-> > > >>> @@ -1039,8 +1042,25 @@ static int vhost_vdpa_set_features(struct =
-vhost_dev *dev,
-> > > >>>
-> > > >>>        if (v->shadow_vqs_enabled) {
-> > > >>>            uint64_t dev_features, svq_features, acked_features;
-> > > >>> +        uint8_t status =3D 0;
-> > > >>>            bool ok;
-> > > >>>
-> > > >>> +        ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &sta=
-tus);
-> > > >>> +        if (unlikely(ret)) {
-> > > >>> +            return ret;
-> > > >>> +        }
-> > > >>> +
-> > > >>> +        if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
-> > > >>> +            /*
-> > > >>> +             * vhost is trying to enable or disable _F_LOG, and =
-the device
-> > > >>> +             * would report wrong dirty pages. SVQ handles it.
-> > > >>> +             */
-> > > >>
-> > > >> I fail to understand this comment, I'd think there's no way to dis=
-able
-> > > >> dirty page tracking for SVQ.
-> > > >>
-> > > > vhost_log_global_{start,stop} are called at the beginning and end o=
-f
-> > > > migration. To inform the device that it should start logging, they =
-set
-> > > > or clean VHOST_F_LOG_ALL at vhost_dev_set_log.
-> > >
-> > >
-> > > Yes, but for SVQ, we can't disable dirty page tracking, isn't it? The
-> > > only thing is to ignore or filter out the F_LOG_ALL and pretend to be
-> > > enabled and disabled.
-> > >
-> >
-> > Yes, that's what this patch does.
-> >
-> > >
-> > > >
-> > > > While SVQ does not use VHOST_F_LOG_ALL, it exports the feature bit =
-so
-> > > > vhost does not block migration. Maybe we need to look for another w=
-ay
-> > > > to do this?
-> > >
-> > >
-> > > I'm fine with filtering since it's much more simpler, but I fail to
-> > > understand why we need to check DRIVER_OK.
-> > >
-> >
-> > Ok maybe I can make that part more clear,
-> >
-> > Since both operations use vhost_vdpa_set_features we must just filter
-> > the one that actually sets or removes VHOST_F_LOG_ALL, without
-> > affecting other features.
-> >
-> > In practice, that means to not forward the set features after
-> > DRIVER_OK. The device is not expecting them anymore.
->
-> I wonder what happens if we don't do this.
->
+On Tue, Feb 15, 2022 at 04:25:31PM +0000, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> For tests that rely on old hardware, e.g. floppies or IDE drives,
+> explicitly select the 'pc' machine type.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-If we simply delete the check vhost_dev_set_features will return an
-error, failing the start of the migration. More on this below.
+This makes sense regardless of the rest of the series.
 
-> So kernel had this check:
->
->         /*
->          * It's not allowed to change the features after they have
->          * been negotiated.
->          */
-> if (ops->get_status(vdpa) & VIRTIO_CONFIG_S_FEATURES_OK)
->         return -EBUSY;
->
-> So is it FEATURES_OK actually?
->
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-Yes, FEATURES_OK seems more appropriate actually so I will switch to
-it for the next version.
-
-But it should be functionally equivalent, since
-vhost.c:vhost_dev_start sets both and the setting of _F_LOG_ALL cannot
-be concurrent with it.
-
-> For this patch, I wonder if the thing we need to do is to see whether
-> it is a enable/disable F_LOG_ALL and simply return.
->
-
-Yes, that's the intention of the patch.
-
-We have 4 cases here:
-a) We're being called from vhost_dev_start, with enable_log =3D false
-b) We're being called from vhost_dev_start, with enable_log =3D true
-c) We're being called from vhost_dev_set_log, with enable_log =3D false
-d) We're being called from vhost_dev_set_log, with enable_log =3D true
-
-The way to tell the difference between a/b and c/d is to check if
-{FEATURES,DRIVER}_OK is set. And, as you point out in previous mails,
-F_LOG_ALL must be filtered unconditionally since SVQ tracks dirty
-memory through the memory unmapping, so we clear the bit
-unconditionally if we detect that VHOST_SET_FEATURES will be called
-(cases a and b).
-
-Another possibility is to track if features have been set with a bool
-in vhost_vdpa or something like that. But it seems cleaner to me to
-only store that in the actual device.
-
-> Thanks
->
-> >
-> > Does that make more sense?
-> >
-> > Thanks!
-> >
-> > > Thanks
-> > >
-> > >
-> > > >
-> > > > Thanks!
-> > > >
-> > > >> Thanks
-> > > >>
-> > > >>
-> > > >>> +            return 0;
-> > > >>> +        }
-> > > >>> +
-> > > >>> +        /* We must not ack _F_LOG if SVQ is enabled */
-> > > >>> +        features &=3D ~BIT_ULL(VHOST_F_LOG_ALL);
-> > > >>> +
-> > > >>>            ret =3D vhost_vdpa_get_dev_features(dev, &dev_features=
-);
-> > > >>>            if (ret !=3D 0) {
-> > > >>>                error_report("Can't get vdpa device features, got =
-(%d)", ret);
-> > >
-> >
->
+> ---
+>  tests/qtest/fdc-test.c    |  2 +-
+>  tests/qtest/hd-geo-test.c | 12 +++++++++---
+>  tests/qtest/i440fx-test.c |  2 +-
+>  tests/qtest/ide-test.c    |  3 ++-
+>  4 files changed, 13 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
+> index 8f6eee84a4..b0d40012e6 100644
+> --- a/tests/qtest/fdc-test.c
+> +++ b/tests/qtest/fdc-test.c
+> @@ -598,7 +598,7 @@ int main(int argc, char **argv)
+>      /* Run the tests */
+>      g_test_init(&argc, &argv, NULL);
+>  
+> -    qtest_start("-device floppy,id=floppy0");
+> +    qtest_start("-machine pc -device floppy,id=floppy0");
+>      qtest_irq_intercept_in(global_qtest, "ioapic");
+>      qtest_add_func("/fdc/cmos", test_cmos);
+>      qtest_add_func("/fdc/no_media_on_start", test_no_media_on_start);
+> diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
+> index 771eaa741b..3554b5d500 100644
+> --- a/tests/qtest/hd-geo-test.c
+> +++ b/tests/qtest/hd-geo-test.c
+> @@ -178,9 +178,15 @@ static int append_arg(int argc, char *argv[], int argv_sz, char *arg)
+>  
+>  static int setup_common(char *argv[], int argv_sz)
+>  {
+> +    int new_argc;
+>      memset(cur_ide, 0, sizeof(cur_ide));
+> -    return append_arg(0, argv, argv_sz,
+> -                      g_strdup("-nodefaults"));
+> +    new_argc = append_arg(0, argv, argv_sz,
+> +                          g_strdup("-nodefaults"));
+> +    new_argc = append_arg(new_argc, argv, argv_sz,
+> +                          g_strdup("-machine"));
+> +    new_argc = append_arg(new_argc, argv, argv_sz,
+> +                          g_strdup("pc"));
+> +    return new_argc;
+>  }
+>  
+>  static void setup_mbr(int img_idx, MBRcontents mbr)
+> @@ -697,7 +703,7 @@ static void test_override(TestArgs *args, CHSResult expected[])
+>  
+>      joined_args = g_strjoinv(" ", args->argv);
+>  
+> -    qts = qtest_init(joined_args);
+> +    qts = qtest_initf("-machine pc %s", joined_args);
+>      fw_cfg = pc_fw_cfg_init(qts);
+>  
+>      read_bootdevices(fw_cfg, expected);
+> diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
+> index 1f57d9684b..6d7d4d8d8f 100644
+> --- a/tests/qtest/i440fx-test.c
+> +++ b/tests/qtest/i440fx-test.c
+> @@ -35,7 +35,7 @@ static QPCIBus *test_start_get_bus(const TestData *s)
+>  {
+>      char *cmdline;
+>  
+> -    cmdline = g_strdup_printf("-smp %d", s->num_cpus);
+> +    cmdline = g_strdup_printf("-machine pc -smp %d", s->num_cpus);
+>      qtest_start(cmdline);
+>      g_free(cmdline);
+>      return qpci_new_pc(global_qtest, NULL);
+> diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
+> index 3f8081e77d..84935578fb 100644
+> --- a/tests/qtest/ide-test.c
+> +++ b/tests/qtest/ide-test.c
+> @@ -128,10 +128,11 @@ static char debug_path[] = "/tmp/qtest-blkdebug.XXXXXX";
+>  static QTestState *ide_test_start(const char *cmdline_fmt, ...)
+>  {
+>      QTestState *qts;
+> +    g_autofree char *full_fmt = g_strdup_printf("-machine pc %s", cmdline_fmt);
+>      va_list ap;
+>  
+>      va_start(ap, cmdline_fmt);
+> -    qts = qtest_vinitf(cmdline_fmt, ap);
+> +    qts = qtest_vinitf(full_fmt, ap);
+>      va_end(ap);
+>  
+>      pc_alloc_init(&guest_malloc, qts, 0);
+> -- 
+> 2.35.1
 
 
