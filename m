@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BC64BACF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 23:56:42 +0100 (CET)
-Received: from localhost ([::1]:45552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415B24BAD28
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 00:19:57 +0100 (CET)
+Received: from localhost ([::1]:32994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKphZ-0007Sx-GX
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 17:56:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42398)
+	id 1nKq43-0002Fe-Ql
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 18:19:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKpf4-0005KN-2w
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 17:54:06 -0500
-Received: from [2a00:1450:4864:20::629] (port=46701
- helo=mail-ej1-x629.google.com)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nKq1w-0000FJ-Bw; Thu, 17 Feb 2022 18:17:44 -0500
+Received: from [2607:f8b0:4864:20::f2b] (port=43893
+ helo=mail-qv1-xf2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKpf1-0003x9-SS
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 17:54:05 -0500
-Received: by mail-ej1-x629.google.com with SMTP id qx21so10614375ejb.13;
- Thu, 17 Feb 2022 14:54:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nKq1u-00084z-RI; Thu, 17 Feb 2022 18:17:44 -0500
+Received: by mail-qv1-xf2b.google.com with SMTP id a28so11370392qvb.10;
+ Thu, 17 Feb 2022 15:17:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fRlSqQPzztWpXDOsBI/n8vm223cY5mt64tT7JGeMEVY=;
- b=WALMoUBa3GnbcoiVWR6ZatTUDmxBdfLzOUeSF5pAl3HzaVayj3BmRZ6cfchm4GTDIg
- uwZSPeG9f/5eSitBi5SBiqkBrsGiWG0CVz4ZOALChX3fY7u7M+QIfkL2EjYGtyf+QFu9
- vQ8FoOBxDie3xXrjU2CdMjSASzk4SRUtkCFt+3vekn/AMnspv1d0xRWSi9t6W8K43ZIp
- fhEAY5t2dp6qYGxuANLSaObbG99hqptSxh/pcKYvsrT4ELHiUg9vSB/cyonE4uGudXYz
- mt5OL6c1VFvapjZiom2fUNrJa+/iViEoQJ+Xv0sFa74AHnj+bBJ3xxDEgHmylx3rCUMC
- lxGw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PGpDObpsa3Ygi/AImksjWDq8VH26ZxfAFX26paCxGus=;
+ b=H30zr8LMIjkacRdam2mM+jQd2iX5xpXhqy2OJvlDx8qVRaH8BKeu3jnKvu+dmzvK1T
+ fuM/kZEErPQclWxRgsZ3ueFh0fYuGf77F7aUrKhZVs4/2/gCPCLBM7b0zeBxtVNPBKjJ
+ k5XERBmeWF5tnVDKTmg2JV1UBMM2+BbJXwS4Gd19HXbe9sXKENhm6lB3cXZOpOQoOgTZ
+ +RhM1hedH0ekzYTZTbRU9jB+osdEPY5Afs/4/4X/+pzgM3AbztDPCPDc+kb5aNpSoK1w
+ LxJU+nCsOHN2vExc0JlwMlixwdKedFcHdPeCUHEUOnYnCKmyaiP232IysZ7Kn6j/LXLV
+ EQrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fRlSqQPzztWpXDOsBI/n8vm223cY5mt64tT7JGeMEVY=;
- b=fzwhAg18cKixMPOHDWJ1AxdpA1JWw3ks9YW0n+jZIVg5tazh6ANRXJDY9CLKXKl84u
- uClZASfx0fq9wOzu/RWfBBVnWKTMHK+mOgcQLzQ6JcmdHtSFAnkgwhaEmct9ZoW2NAc9
- 0FD1tyR57g4mMPIkS0+s7ahlZFC60TExC6CpUp0Hc6nO1Ovmr84J+vukZKzEFxV9Ym3O
- C6iWtoPDyhu/F5G4q3NPIKAuQE5Aj/j0aOrYq+ZtoeQzpIhvI5Qy630d3T39o7z5N2Mu
- A802S46Ak88PiVB9u1SIGIiskvfUW9YkLzAhcKfwvHkR3Tt5h4D8brwxjXr2tWJzsCjw
- GV1w==
-X-Gm-Message-State: AOAM533s5CKTtfkuObrSkyOsyZFNPTWjhZ/zHRq1QmoMVL1ePpnlTR7A
- ZwrhLRgxGlFTFAnyj8aFU9Hx1nQpkOLQIg==
-X-Google-Smtp-Source: ABdhPJxxQ/4h522NJRoTK1rfkAlGURA55n5+lJkFU1N6XIlBcI/cq1XSOodxfuPN8ryHvmyw3qNX4g==
-X-Received: by 2002:a17:906:53c7:b0:6ce:6f32:ce53 with SMTP id
- p7-20020a17090653c700b006ce6f32ce53mr4156328ejo.352.1645138442275; 
- Thu, 17 Feb 2022 14:54:02 -0800 (PST)
-Received: from Provence.localdomain
- (dynamic-077-183-198-236.77.183.pool.telefonica.de. [77.183.198.236])
- by smtp.gmail.com with ESMTPSA id mb23sm1598871ejb.62.2022.02.17.14.54.01
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PGpDObpsa3Ygi/AImksjWDq8VH26ZxfAFX26paCxGus=;
+ b=fF0LPb8Hs3Zd5glCcPpuiHYEwy5lWiuXYXrwIgEnjEQfE6FVYZdsV5u54RAGetKlwd
+ 8lfc9mJtRKBfxcNHzInYny4ni/MCNR234cXgA60vBwkI7Ob5ET9TsEOb7KXfQy8VDHsO
+ UBK8p8vPQYUdPwXhG1M/mZhsmaH/ih3H95jQO/oC0qYh1I5OVQD4uW6u6brfPQDLH7Su
+ OKQUhr/UcoIMzuG4ZKCz6ZJVjknsEopcwbmvjfUEkjx8A2zltfpk34AXuZ6W4PM+VUuP
+ xFhkywwYkKU9mhEuS94ST0uJo1caqb3bIFUcLVfcPUoRqQ7aI7UHuIIxlR6lKrvrWFzC
+ KwhQ==
+X-Gm-Message-State: AOAM531/KnWcMyEZFe8bdHLzETpZved8erSE0r8A97cHHttThmB4+WiS
+ 42jUV9tigbqL/JcRtXX1hm5woTYXj/2hLOXDlvRt44+X
+X-Google-Smtp-Source: ABdhPJwOmUH75dMf9onCyaRSmF0tKlQFu6cU701lhjBj6tecyqiRep7YP+ynZxbIx4Dh9j7BibujdQ==
+X-Received: by 2002:a05:6214:300a:b0:430:c41:3d92 with SMTP id
+ ke10-20020a056214300a00b004300c413d92mr3898710qvb.53.1645139860835; 
+ Thu, 17 Feb 2022 15:17:40 -0800 (PST)
+Received: from rygar.pwrtc.com (mont-dyn-147-119.pwrtc.com. [205.174.147.119])
+ by smtp.gmail.com with ESMTPSA id
+ h10sm21272939qko.92.2022.02.17.15.17.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 14:54:01 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/riscv/sifive_u: Resolve redundant property accessors
-Date: Thu, 17 Feb 2022 23:53:51 +0100
-Message-Id: <20220217225351.140095-4-shentey@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220217225351.140095-1-shentey@gmail.com>
-References: <20220217225351.140095-1-shentey@gmail.com>
+ Thu, 17 Feb 2022 15:17:40 -0800 (PST)
+From: David Miller <dmiller423@gmail.com>
+To: qemu-s390x@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v6 0/4] s390x: Add partial z15 support and tests 
+Date: Thu, 17 Feb 2022 18:17:24 -0500
+Message-Id: <20220217231728.13932-1-dmiller423@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=dmiller423@gmail.com; helo=mail-qv1-xf2b.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,66 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Bernhard Beschow <shentey@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:SiFive Machines" <qemu-riscv@nongnu.org>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, farman@linux.ibm.com,
+ David Miller <dmiller423@gmail.com>, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QOM API already provides accessors for uint32 values, so reuse them.
+Add partial support for s390x z15 ga1 and specific tests for mie3 
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/riscv/sifive_u.c | 24 ++++--------------------
- 1 file changed, 4 insertions(+), 20 deletions(-)
+v5 -> v6:
+* Swap operands for sel* instructions 
+* Use .insn in tests for z15 arch instructions
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 7fbc7dea42..747eb4ee89 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -713,36 +713,20 @@ static void sifive_u_machine_set_start_in_flash(Object *obj, bool value, Error *
-     s->start_in_flash = value;
- }
- 
--static void sifive_u_machine_get_uint32_prop(Object *obj, Visitor *v,
--                                             const char *name, void *opaque,
--                                             Error **errp)
--{
--    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
--}
--
--static void sifive_u_machine_set_uint32_prop(Object *obj, Visitor *v,
--                                             const char *name, void *opaque,
--                                             Error **errp)
--{
--    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
--}
--
- static void sifive_u_machine_instance_init(Object *obj)
- {
-     SiFiveUState *s = RISCV_U_MACHINE(obj);
- 
-     s->start_in_flash = false;
-     s->msel = 0;
--    object_property_add(obj, "msel", "uint32",
--                        sifive_u_machine_get_uint32_prop,
--                        sifive_u_machine_set_uint32_prop, NULL, &s->msel);
-+    object_property_add_uint32_ptr(obj, "msel", &s->msel,
-+                                   OBJ_PROP_FLAG_READWRITE);
-     object_property_set_description(obj, "msel",
-                                     "Mode Select (MSEL[3:0]) pin state");
- 
-     s->serial = OTP_SERIAL;
--    object_property_add(obj, "serial", "uint32",
--                        sifive_u_machine_get_uint32_prop,
--                        sifive_u_machine_set_uint32_prop, NULL, &s->serial);
-+    object_property_add_uint32_ptr(obj, "serial", &s->serial,
-+                                   OBJ_PROP_FLAG_READWRITE);
-     object_property_set_description(obj, "serial", "Board serial number");
- }
- 
+v4 -> v5:
+* Readd missing tests/tcg/s390x/mie3-*.c to patch
+
+v3 -> v4:
+* Change popcnt encoding RRE -> RRF_c
+* Remove redundant code op_sel -> op_loc
+* Cleanup for checkpatch.pl
+* Readded mie3-* to Makefile.target
+
+v2 -> v3:
+* Moved tests to separate patch.
+* Combined patches into series.
+
+
+David Miller (4):
+  s390x/tcg: Implement Miscellaneous-Instruction-Extensions Facility 3
+    for the s390x
+  s390x/cpumodel: Bump up QEMU model to a stripped-down IBM z15 GA1
+  tests/tcg/s390x: Tests for Miscellaneous-Instruction-Extensions
+    Facility 3
+  tests/tcg/s390x: changed to using .insn for tests requiring z15
+
+ hw/s390x/s390-virtio-ccw.c      |  3 ++
+ target/s390x/cpu_models.c       |  6 ++--
+ target/s390x/gen-features.c     |  6 +++-
+ target/s390x/helper.h           |  1 +
+ target/s390x/tcg/insn-data.def  | 30 ++++++++++++++++--
+ target/s390x/tcg/mem_helper.c   | 20 ++++++++++++
+ target/s390x/tcg/translate.c    | 53 +++++++++++++++++++++++++++++--
+ tests/tcg/s390x/Makefile.target |  5 ++-
+ tests/tcg/s390x/mie3-compl.c    | 56 +++++++++++++++++++++++++++++++++
+ tests/tcg/s390x/mie3-mvcrl.c    | 31 ++++++++++++++++++
+ tests/tcg/s390x/mie3-sel.c      | 42 +++++++++++++++++++++++++
+ 11 files changed, 243 insertions(+), 10 deletions(-)
+ create mode 100644 tests/tcg/s390x/mie3-compl.c
+ create mode 100644 tests/tcg/s390x/mie3-mvcrl.c
+ create mode 100644 tests/tcg/s390x/mie3-sel.c
+
 -- 
-2.35.1
+2.32.0
 
 
