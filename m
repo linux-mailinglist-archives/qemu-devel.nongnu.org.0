@@ -2,100 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6FE4B9C70
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 10:49:10 +0100 (CET)
-Received: from localhost ([::1]:40956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3764B9CFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 11:25:35 +0100 (CET)
+Received: from localhost ([::1]:46182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKdPR-0002ck-Nd
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 04:49:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38848)
+	id 1nKdyd-0001D3-E2
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 05:25:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKdKZ-0007wt-D5
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:44:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nKdKU-0005PR-9K
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 04:44:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645091036;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5b77v3HeGVaaaAxPqEEKyh1KJD416NcpLjLcARsu3Ok=;
- b=jDOqPSY1QmLU6NRn+XwKm5VnVGuiIRbzRJVgQkxqkRpYtOG7qBYNYCOEj212w7OCir7kqT
- eP04TNQiM6FWtjtigvGpHsu/z6EYvb3x4ZnVIWR0nMBOjczanfGl4cf+9rrqpz6IHyWrxC
- R1wlVMyVfgMqGXHwbPMzjJrF4kSgmbs=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-219-08o-HhtkPU6NzJrBd5oeKw-1; Thu, 17 Feb 2022 04:43:54 -0500
-X-MC-Unique: 08o-HhtkPU6NzJrBd5oeKw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- k20-20020adfc714000000b001e305cd1597so2048998wrg.19
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 01:43:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKdte-0006bk-Gl
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 05:20:23 -0500
+Received: from [2a00:1450:4864:20::632] (port=37663
+ helo=mail-ej1-x632.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nKdtc-0002u2-8v
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 05:20:21 -0500
+Received: by mail-ej1-x632.google.com with SMTP id bg10so6050090ejb.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 02:20:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B8P/c6Ywxh6oPDA6IWJBkTL+fvHUClnwW71KtVkO9S4=;
+ b=HNj3WxvFvZvgAQvtJpLs0afTvAZgo7aonDCvm5ZDgurfyAv9Pke+opq92gxSPArBxM
+ ikWyY6TGJyjIZXPQLfOehyOd7X8r7P2J/7c61LJRsYySLTB+rSxwY6E/iANW2J02UIYs
+ fjEnll387ed9KefUPc1DEB1icDm7AAJIhgkaMk9yJ01uDo1f9NxlcAirS9/EJJK8cF8z
+ 066YSZ52HPNRHzurgn3oVff/q49F/L+tJro69DY0x+aeB2gXo1q5EMndjmY6E3uQ4zZm
+ BRxaYzzepgIUp7aF+kgJ9Gb0lSTxad4uB382JnaLS7F1yXVXDC5ADZGD1PMIrUxiU3e4
+ x5Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=5b77v3HeGVaaaAxPqEEKyh1KJD416NcpLjLcARsu3Ok=;
- b=hOgcli5KVjcsVBzX7SGQT456ssIp33pifXAvssPawljmnEZ0d2XGGoMPTKhDSz2cX2
- DNIUZyhML/o42B551hNAniw3KVUZLoYB7/KU3R3j93hRQRNRLnb+dnmJyvPiiPens94z
- QBzeZKI3ixMDYd5IbpAu5sxk/OhHVEX6wEG4JIYFx1vRjgf0BQIwamqMbxKlo3VIMyXn
- 4EkWdFwtmIGFWQUH7pzV+6xOcsAa52HYxQoDPp3P+aZkl1j1SWupVzyfXY63YKnZUJZU
- n5u1ta5RyoWYeAaIFpUMdONkBGD1i1OmRyvpja4tL8gSg/oBgjM93wrR4UL0sHTTGY1g
- 8niA==
-X-Gm-Message-State: AOAM533OjfIp7lHAdeLtNMs+MgpILmW0SfwNIhyVZmKO3Fw2hfPnNPpw
- dbgG3LKkuGix2Y3tFAJPwcFTBOyinsop2rTKDFUYhlmiG0GTjT7Qka9s2q6f8FmsgQ5ToP+FVCF
- sxGqGsWF+bJjm+DE=
-X-Received: by 2002:a5d:6e09:0:b0:1e4:a65a:c3ca with SMTP id
- h9-20020a5d6e09000000b001e4a65ac3camr1565551wrz.235.1645091033665; 
- Thu, 17 Feb 2022 01:43:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzdQ3Ilff31KkgO6yDzU9/ah8dGZwVmKSEpD3tlkkm7PaA4GfeCHjGFYEIi0h/kbeIKtHbM3Q==
-X-Received: by 2002:a5d:6e09:0:b0:1e4:a65a:c3ca with SMTP id
- h9-20020a5d6e09000000b001e4a65ac3camr1565538wrz.235.1645091033408; 
- Thu, 17 Feb 2022 01:43:53 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id j15sm864538wmq.6.2022.02.17.01.43.51
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B8P/c6Ywxh6oPDA6IWJBkTL+fvHUClnwW71KtVkO9S4=;
+ b=1rxil+cNSEs2FwegZIuEHhPuxEobd0vZqaX7LEdV+5T971zh7+WLBaKhC8E6ofriVB
+ l5SmwwBnFvAEnyQYVJA/QWrzNFsyJhIlDOPTbcDWL3hebly4vE//qTZn26DcBH8TAoMV
+ uMney8uljBRANub3t2RsEUav/v3kH733wmlfd5mZIYl6ZDi3nvBsbsWILm8uAM112DIk
+ p+tnPAt1OU+ycyK526dI8KQ9zi5HEZ2M4MlT/W4MPDBr22TRp3Sij+Q9QP80NtvC6eB6
+ AzDj1bDeHmPpPbXI0+beeFptYcLEbtQ/smSmymOhyKJV1J3mY82l/aJJMkoAV4MTohqE
+ mlOg==
+X-Gm-Message-State: AOAM533njE53AyAOJzsm4Xm8j0MBJ0dCRAH3sgWvTkEAUzsxe0K8ssdM
+ nTGocP20iq0GoVJalpn6GBE9hF4uH5w=
+X-Google-Smtp-Source: ABdhPJxEgNKfh4R4b4g5nOhpo2bs4h5HjWXohkmj/ppDCYxeIj5nCF+LOYpXZpYlQD0Sl7EMXDxDwA==
+X-Received: by 2002:a17:906:53c3:b0:6cf:742d:84de with SMTP id
+ p3-20020a17090653c300b006cf742d84demr1720174ejo.576.1645093218563; 
+ Thu, 17 Feb 2022 02:20:18 -0800 (PST)
+Received: from Provence.localdomain
+ (dynamic-077-183-198-236.77.183.pool.telefonica.de. [77.183.198.236])
+ by smtp.gmail.com with ESMTPSA id u26sm986753ejg.196.2022.02.17.02.20.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Feb 2022 01:43:52 -0800 (PST)
-Date: Thu, 17 Feb 2022 09:43:50 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 3/3] x86: Switch to q35 as the default machine type
-Message-ID: <Yg4Y1i17My7X3bTq@work-vm>
-References: <20220215162537.605030-1-dgilbert@redhat.com>
- <20220215162537.605030-4-dgilbert@redhat.com>
- <YgvtLmoJcv+ZSW1S@redhat.com>
- <20220216105808.77kqhmsagz3ej74h@sirius.home.kraxel.org>
- <YgzZhHKSAFYTYFDc@work-vm>
- <db583712-cd6e-d67d-ad98-989a9867499a@redhat.com>
- <Yg03HB5KHGYWyI0J@work-vm> <Yg042JzxCjgF2siM@redhat.com>
- <Yg067jLmVM4aIFIq@work-vm> <Yg4VaTuXWME0LQUP@redhat.com>
+ Thu, 17 Feb 2022 02:20:18 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/7] malta: Fix PCI IRQ levels to be preserved during
+ migration, cleanup
+Date: Thu, 17 Feb 2022 11:19:17 +0100
+Message-Id: <20220217101924.15347-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <Yg4VaTuXWME0LQUP@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.978, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,105 +86,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, Thomas Huth <thuth@redhat.com>, mst@redhat.com,
- quintela@redhat.com, qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- pbonzini@redhat.com
+Cc: Bernhard Beschow <shentey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Wed, Feb 16, 2022 at 05:57:02PM +0000, Dr. David Alan Gilbert wrote:
-> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > On Wed, Feb 16, 2022 at 05:40:44PM +0000, Dr. David Alan Gilbert wrote:
-> > > > * Thomas Huth (thuth@redhat.com) wrote:
-> > > > > On 16/02/2022 12.01, Dr. David Alan Gilbert wrote:
-> > > > > > * Gerd Hoffmann (kraxel@redhat.com) wrote:
-> > > > > > >    Hi,
-> > > > > > > > Given the semantic differences from 'i440fx', changing the default
-> > > > > > > > machine type has effects that are equivalent to breaking command
-> > > > > > > > line syntax compatibility, which is something we've always tried
-> > > > > > > > to avoid.
-> > > > > > > 
-> > > > > > > And if we are fine breaking backward compatibility I'd rather *not* pick
-> > > > > > > a default, effectively making -M $something mandatory, similar to arm.
-> > > > > > 
-> > > > > > Oh, that's probably easy to do;  what are other peoples thoughts on
-> > > > > > that?
-> > > > > 
-> > > > > I agree with Gerd. Getting rid of a default machine on x86 is likely better
-> > > > > than silently changing it to q35. But I'd maybe say that this should go
-> > > > > through the deprecation process first?
-> > > > 
-> > > > So just adding something like the following under 'System emulator
-> > > > machines':
-> > > > 
-> > > > x86 default machine type
-> > > > ------------------------
-> > > > 
-> > > > x86 currently defaults to the very old ```pc``` machine type
-> > > > which is based on the very old ```i440f``` chipset.  This default
-> > > > will be removed and the user will be required to specify a machine
-> > > > type explicitly using -M; users are encouraged to switch to the
-> > > > not quite as old ```q35``` machine types.
-> > > > 
-> > > > 
-> > > > (This option is going to take a lot more work switching all the
-> > > > test cases over; in my world here I'd only changed the tests that broke
-> > > > on q35, now everything is going to need to specify a type).
-> > > 
-> > > ....which is still nothing compared to how many users will be impacted
-> > > and the docs all over the internet we'll never be able to change, which
-> > > give illustrations using qemu command lines without '-M pc'
-> > 
-> > What's your prreference - it sounds like you'd prefer to leave the
-> > default as 'pc' ?
-> 
-> Yes.
+Tested with [1]:
 
-Damn, that means we've got a 3 way split of people preferring pc, q35
-and no default.
+  qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda \
+  debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"
 
-> > aarch's message is:
-> > qemu-system-aarch64: No machine specified, and there is no default
-> > Use -machine help to list supported machines
-> > 
-> > We could add a:
-> > 'Use -machine pc for the old default behaviour'
-> 
-> Does this really serve to benefit our users though ? As noted, this
-> will have no benefit to any mgmt app using libvirt, as it'll still
-> explicitly set 'pc' by default. So we only impact basic users who
-> are relying on QEMU's built-in defaults.
+It was possible to log in as root and `poweroff` the machine.
 
-Right; since none of this impacts libvirt users it's all about the
-(substantial number of) users who run qemu manually.
-Any change will surprise them, if the change (no default) is going to
-produce an error, then it may as well be a helpful error telling them
-how to fix it.
-
-> It feels like the arguments for removing the machine type default
-> apply equally to other aspects of QEMU defaults. ie lets make
-> -cpu, -accel, -m, -smp, and -display mandatory too, since the
-> defaults might not be right for some users ?
-
-My preference here was changing the default to q35 rather than
-requiring an explicit selection; however I don't think requiring -M is
-unreasonable, since it's an easy enough selection.
-
-Requiring '-m' might also be a reasonable requirement - there's very few
-use cases on x86 where the default works (probably just running DOS).
-
-Dave
+[1] https://people.debian.org/~aurel32/qemu/mips/
 
 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
+v4:
+  As suggested by BALATON Zoltan, gt64120_register() is now resolved by
+    sysbus_create_simple() etc. This also fixes the nitpick pointed out by
+    Philippe.
+
+v3:
+  The migration bug now gets fixed in gt64xxx_pci before any cleanup. As
+    suggested by PMM the patch is based on commit e735b55a8c11.
+  The code movement patch now moves the already fixed code. I might be a bit
+    too conservative here by removing Philippe's Reviewed-By tag.
+  As suggested by BALATON Zoltan, the redundant i8259[] attribute is now
+    resolved immediately after the code movement. As a side effect, it also
+    removes moved code which doesn't adhere to the coding style (local loop
+    variable).
+  To address BALATON Zoltan's comment and to reduce the number of required
+    Reviewed-By's, only piix4_set_irq() is modified to expect own DeviceState
+    paremeter. Up to v2, all remaining set_irq() functions were changed this
+    way.
+  The patch resolving piix4's singleton variable got split into two patches:
+    One which resolves the singleton variable and one which replaces magic
+    constants. The split patches should be more comprehensible.
+  Suggested by BALATON Zoltan, I took a chance to resolve gt64120_register(),
+    a method akin to the legacy init functions we're trying to get rid of.
+
+v2:
+  isa/piix4: Fix PCI IRQ levels to be preserved in VMState
+  isa/piix4: Resolve redundant i8259[] attribute
+
+Bernhard Beschow (7):
+  hw/mips/gt64xxx_pci: Fix PCI IRQ levels to be preserved during
+    migration
+  malta: Move PCI interrupt handling from gt64xxx_pci to piix4
+  hw/isa/piix4: Resolve redundant i8259[] attribute
+  hw/isa/piix4: Pass PIIX4State as opaque parameter for piix4_set_irq()
+  hw/isa/piix4: Resolve global instance variable
+  hw/isa/piix4: Replace some magic IRQ constants
+  hw/mips/gt64xxx_pci: Resolve gt64120_register()
+
+ hw/isa/piix4.c                | 54 +++++++++++++++++++++--
+ hw/mips/gt64xxx_pci.c         | 80 +++--------------------------------
+ hw/mips/malta.c               |  7 +--
+ include/hw/mips/mips.h        |  3 --
+ include/hw/southbridge/piix.h |  2 -
+ 5 files changed, 59 insertions(+), 87 deletions(-)
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.35.1
 
 
