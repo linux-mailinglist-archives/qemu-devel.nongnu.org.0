@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A604BA064
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 13:53:06 +0100 (CET)
-Received: from localhost ([::1]:55424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8873F4BA039
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 13:34:34 +0100 (CET)
+Received: from localhost ([::1]:44050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKgHQ-0007Uo-HZ
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 07:53:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40616)
+	id 1nKfzV-0007cN-Ih
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 07:34:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nKfTp-0000C8-Ez
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:01:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26096)
+ (Exim 4.90_1) (envelope-from <arei.gonglei@huawei.com>)
+ id 1nKfbR-0004x9-Sv
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:09:41 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:3271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nKfTe-0001hg-6I
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:01:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645099295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KdfW8EWn9HAFN9rtDr4m2Xs1y65Nmx5hvt7SEdnLv88=;
- b=OMhG9Gh4s7XW3pEI7j/KT5QwOgiM+hJwdSc7HGXncBjCxzMf2PPpATw//1ZlgvZdtOpVaM
- sE4iHjq+tFOxYNIzSIuigxiUbNkSxguk5UrI+GXAOQ2E5dWv33/HUPxgwvger+K/AWqrRg
- 34BAZKNucjRX4oAeYfO+uJvcKt+H85M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-355-X9uuJghvPMGWR8IAKHCEUQ-1; Thu, 17 Feb 2022 07:01:32 -0500
-X-MC-Unique: X9uuJghvPMGWR8IAKHCEUQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FF691883620;
- Thu, 17 Feb 2022 12:01:31 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03AD06E1B8;
- Thu, 17 Feb 2022 12:01:29 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/12] ui/console: add a dpy_gfx_switch callback helper
-Date: Thu, 17 Feb 2022 15:58:28 +0400
-Message-Id: <20220217115829.2314347-12-marcandre.lureau@redhat.com>
-In-Reply-To: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
-References: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <arei.gonglei@huawei.com>)
+ id 1nKfbO-0003JV-Q4
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 07:09:41 -0500
+Received: from dggeme709-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Jztmp3WFFz1FDJW;
+ Thu, 17 Feb 2022 20:04:58 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggeme709-chm.china.huawei.com (10.1.199.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.21; Thu, 17 Feb 2022 20:09:21 +0800
+Received: from dggpemm500006.china.huawei.com ([7.185.36.236]) by
+ dggpemm500006.china.huawei.com ([7.185.36.236]) with mapi id 15.01.2308.021;
+ Thu, 17 Feb 2022 20:09:21 +0800
+To: zhenwei pi <pizhenwei@bytedance.com>, "mst@redhat.com" <mst@redhat.com>
+CC: "jasowang@redhat.com" <jasowang@redhat.com>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>, "linux-crypto@vger.kernel.org"
+ <linux-crypto@vger.kernel.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "helei.sig11@bytedance.com"
+ <helei.sig11@bytedance.com>, "herbert@gondor.apana.org.au"
+ <herbert@gondor.apana.org.au>
+Subject: RE: [PATCH v2 1/3] virtio-crypto: header update
+Thread-Topic: [PATCH v2 1/3] virtio-crypto: header update
+Thread-Index: AQHYHyOv4Ow7dlLIq02ovelfF5jSS6yXr/+A
+Date: Thu, 17 Feb 2022 12:09:21 +0000
+Message-ID: <67a8975b0ed54f5a92b5032793a176f8@huawei.com>
+References: <20220211084335.1254281-1-pizhenwei@bytedance.com>
+ <20220211084335.1254281-2-pizhenwei@bytedance.com>
+In-Reply-To: <20220211084335.1254281-2-pizhenwei@bytedance.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.149.11]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=arei.gonglei@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,79 +74,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- kraxel@redhat.com, akihiko.odaki@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Gonglei (Arei)" <arei.gonglei@huawei.com>
+From:  "Gonglei (Arei)" via <qemu-devel@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Slight code improvement.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- ui/console.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+> -----Original Message-----
+> From: zhenwei pi [mailto:pizhenwei@bytedance.com]
+> Sent: Friday, February 11, 2022 4:44 PM
+> To: Gonglei (Arei) <arei.gonglei@huawei.com>; mst@redhat.com
+> Cc: jasowang@redhat.com; virtualization@lists.linux-foundation.org;
+> linux-crypto@vger.kernel.org; qemu-devel@nongnu.org;
+> helei.sig11@bytedance.com; herbert@gondor.apana.org.au; zhenwei pi
+> <pizhenwei@bytedance.com>
+> Subject: [PATCH v2 1/3] virtio-crypto: header update
+>=20
+> Update header from linux, support akcipher service.
+>=20
+> Signed-off-by: lei he <helei.sig11@bytedance.com>
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> ---
+>  .../standard-headers/linux/virtio_crypto.h    | 82 ++++++++++++++++++-
+>  1 file changed, 81 insertions(+), 1 deletion(-)
+>=20
 
-diff --git a/ui/console.c b/ui/console.c
-index d3ecbb215736..102fcf0a5068 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1058,6 +1058,15 @@ static void console_putchar(QemuConsole *s, int ch)
-     }
- }
- 
-+static void displaychangelistener_gfx_switch(DisplayChangeListener *dcl,
-+                                             struct DisplaySurface *new_surface)
-+{
-+    if (dcl->ops->dpy_gfx_switch) {
-+        dcl->ops->dpy_gfx_switch(dcl, new_surface);
-+    }
-+}
-+
-+
- static void displaychangelistener_display_console(DisplayChangeListener *dcl,
-                                                   QemuConsole *con,
-                                                   Error **errp)
-@@ -1067,13 +1076,10 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
-     static DisplaySurface *dummy;
- 
-     if (!con || !console_compatible_with(con, dcl, errp)) {
--        if (!dcl->ops->dpy_gfx_switch) {
--            return;
--        }
-         if (!dummy) {
-             dummy = qemu_create_placeholder_surface(640, 480, nodev);
-         }
--        dcl->ops->dpy_gfx_switch(dcl, dummy);
-+        displaychangelistener_gfx_switch(dcl, dummy);
-         return;
-     }
- 
-@@ -1091,9 +1097,8 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
-                                          con->scanout.texture.y,
-                                          con->scanout.texture.width,
-                                          con->scanout.texture.height);
--    } else if (con->scanout.kind == SCANOUT_SURFACE &&
--               dcl->ops->dpy_gfx_switch) {
--        dcl->ops->dpy_gfx_switch(dcl, con->surface);
-+    } else if (con->scanout.kind == SCANOUT_SURFACE) {
-+        displaychangelistener_gfx_switch(dcl, con->surface);
-     }
- 
-     dcl->ops->dpy_gfx_update(dcl, 0, 0,
-@@ -1677,9 +1682,7 @@ void dpy_gfx_replace_surface(QemuConsole *con,
-         if (con != (dcl->con ? dcl->con : active_console)) {
-             continue;
-         }
--        if (dcl->ops->dpy_gfx_switch) {
--            dcl->ops->dpy_gfx_switch(dcl, surface);
--        }
-+        displaychangelistener_gfx_switch(dcl, surface);
-     }
-     qemu_free_displaysurface(old_surface);
- }
--- 
-2.34.1.428.gdcc0cd074f0c
+Reviewed-by: Gonglei <arei.gonglei@huawei.com>
+
+
+> diff --git a/include/standard-headers/linux/virtio_crypto.h
+> b/include/standard-headers/linux/virtio_crypto.h
+> index 5ff0b4ee59..68066dafb6 100644
+> --- a/include/standard-headers/linux/virtio_crypto.h
+> +++ b/include/standard-headers/linux/virtio_crypto.h
+> @@ -37,6 +37,7 @@
+>  #define VIRTIO_CRYPTO_SERVICE_HASH   1
+>  #define VIRTIO_CRYPTO_SERVICE_MAC    2
+>  #define VIRTIO_CRYPTO_SERVICE_AEAD   3
+> +#define VIRTIO_CRYPTO_SERVICE_AKCIPHER 4
+>=20
+>  #define VIRTIO_CRYPTO_OPCODE(service, op)   (((service) << 8) | (op))
+>=20
+> @@ -57,6 +58,10 @@ struct virtio_crypto_ctrl_header {
+>  	   VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AEAD, 0x02)
+> #define VIRTIO_CRYPTO_AEAD_DESTROY_SESSION \
+>  	   VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AEAD, 0x03)
+> +#define VIRTIO_CRYPTO_AKCIPHER_CREATE_SESSION \
+> +	   VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AKCIPHER, 0x04)
+> #define
+> +VIRTIO_CRYPTO_AKCIPHER_DESTROY_SESSION \
+> +	   VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AKCIPHER,
+> 0x05)
+>  	uint32_t opcode;
+>  	uint32_t algo;
+>  	uint32_t flag;
+> @@ -180,6 +185,58 @@ struct virtio_crypto_aead_create_session_req {
+>  	uint8_t padding[32];
+>  };
+>=20
+> +struct virtio_crypto_rsa_session_para {
+> +#define VIRTIO_CRYPTO_RSA_RAW_PADDING   0
+> +#define VIRTIO_CRYPTO_RSA_PKCS1_PADDING 1
+> +	uint32_t padding_algo;
+> +
+> +#define VIRTIO_CRYPTO_RSA_NO_HASH   0
+> +#define VIRTIO_CRYPTO_RSA_MD2       1
+> +#define VIRTIO_CRYPTO_RSA_MD3       2
+> +#define VIRTIO_CRYPTO_RSA_MD4       3
+> +#define VIRTIO_CRYPTO_RSA_MD5       4
+> +#define VIRTIO_CRYPTO_RSA_SHA1      5
+> +#define VIRTIO_CRYPTO_RSA_SHA256    6
+> +#define VIRTIO_CRYPTO_RSA_SHA384    7
+> +#define VIRTIO_CRYPTO_RSA_SHA512    8
+> +#define VIRTIO_CRYPTO_RSA_SHA224    9
+> +	uint32_t hash_algo;
+> +};
+> +
+> +struct virtio_crypto_ecdsa_session_para {
+> +#define VIRTIO_CRYPTO_CURVE_UNKNOWN   0
+> +#define VIRTIO_CRYPTO_CURVE_NIST_P192 1 #define
+> +VIRTIO_CRYPTO_CURVE_NIST_P224 2 #define
+> VIRTIO_CRYPTO_CURVE_NIST_P256 3
+> +#define VIRTIO_CRYPTO_CURVE_NIST_P384 4 #define
+> +VIRTIO_CRYPTO_CURVE_NIST_P521 5
+> +	uint32_t curve_id;
+> +	uint32_t padding;
+> +};
+> +
+> +struct virtio_crypto_akcipher_session_para {
+> +#define VIRTIO_CRYPTO_NO_AKCIPHER    0
+> +#define VIRTIO_CRYPTO_AKCIPHER_RSA   1
+> +#define VIRTIO_CRYPTO_AKCIPHER_DSA   2
+> +#define VIRTIO_CRYPTO_AKCIPHER_ECDSA 3
+> +	uint32_t algo;
+> +
+> +#define VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PUBLIC  1 #define
+> +VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PRIVATE 2
+> +	uint32_t keytype;
+> +	uint32_t keylen;
+> +
+> +	union {
+> +		struct virtio_crypto_rsa_session_para rsa;
+> +		struct virtio_crypto_ecdsa_session_para ecdsa;
+> +	} u;
+> +};
+> +
+> +struct virtio_crypto_akcipher_create_session_req {
+> +	struct virtio_crypto_akcipher_session_para para;
+> +	uint8_t padding[36];
+> +};
+> +
+>  struct virtio_crypto_alg_chain_session_para {  #define
+> VIRTIO_CRYPTO_SYM_ALG_CHAIN_ORDER_HASH_THEN_CIPHER  1
+> #define VIRTIO_CRYPTO_SYM_ALG_CHAIN_ORDER_CIPHER_THEN_HASH  2
+> @@ -247,6 +304,8 @@ struct virtio_crypto_op_ctrl_req {
+>  			mac_create_session;
+>  		struct virtio_crypto_aead_create_session_req
+>  			aead_create_session;
+> +		struct virtio_crypto_akcipher_create_session_req
+> +			akcipher_create_session;
+>  		struct virtio_crypto_destroy_session_req
+>  			destroy_session;
+>  		uint8_t padding[56];
+> @@ -266,6 +325,14 @@ struct virtio_crypto_op_header {
+>  	VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AEAD, 0x00)
+> #define VIRTIO_CRYPTO_AEAD_DECRYPT \
+>  	VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AEAD, 0x01)
+> +#define VIRTIO_CRYPTO_AKCIPHER_ENCRYPT \
+> +	VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AKCIPHER, 0x00)
+> #define
+> +VIRTIO_CRYPTO_AKCIPHER_DECRYPT \
+> +	VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AKCIPHER, 0x01)
+> #define
+> +VIRTIO_CRYPTO_AKCIPHER_SIGN \
+> +	VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AKCIPHER, 0x02)
+> #define
+> +VIRTIO_CRYPTO_AKCIPHER_VERIFY \
+> +	VIRTIO_CRYPTO_OPCODE(VIRTIO_CRYPTO_SERVICE_AKCIPHER, 0x03)
+>  	uint32_t opcode;
+>  	/* algo should be service-specific algorithms */
+>  	uint32_t algo;
+> @@ -390,6 +457,16 @@ struct virtio_crypto_aead_data_req {
+>  	uint8_t padding[32];
+>  };
+>=20
+> +struct virtio_crypto_akcipher_para {
+> +	uint32_t src_data_len;
+> +	uint32_t dst_data_len;
+> +};
+> +
+> +struct virtio_crypto_akcipher_data_req {
+> +	struct virtio_crypto_akcipher_para para;
+> +	uint8_t padding[40];
+> +};
+> +
+>  /* The request of the data virtqueue's packet */  struct
+> virtio_crypto_op_data_req {
+>  	struct virtio_crypto_op_header header; @@ -399,6 +476,7 @@ struct
+> virtio_crypto_op_data_req {
+>  		struct virtio_crypto_hash_data_req hash_req;
+>  		struct virtio_crypto_mac_data_req mac_req;
+>  		struct virtio_crypto_aead_data_req aead_req;
+> +		struct virtio_crypto_akcipher_data_req akcipher_req;
+>  		uint8_t padding[48];
+>  	} u;
+>  };
+> @@ -408,6 +486,8 @@ struct virtio_crypto_op_data_req {
+>  #define VIRTIO_CRYPTO_BADMSG    2
+>  #define VIRTIO_CRYPTO_NOTSUPP   3
+>  #define VIRTIO_CRYPTO_INVSESS   4 /* Invalid session id */
+> +#define VIRTIO_CRYPTO_NOSPC     5 /* no free session ID */
+> +#define VIRTIO_CRYPTO_KEY_REJECTED 6 /* Signature verification failed
+> +*/
+>=20
+>  /* The accelerator hardware is ready */  #define
+> VIRTIO_CRYPTO_S_HW_READY  (1 << 0) @@ -438,7 +518,7 @@ struct
+> virtio_crypto_config {
+>  	uint32_t max_cipher_key_len;
+>  	/* Maximum length of authenticated key */
+>  	uint32_t max_auth_key_len;
+> -	uint32_t reserve;
+> +	uint32_t akcipher_algo;
+>  	/* Maximum size of each crypto request's content */
+>  	uint64_t max_size;
+>  };
+> --
+> 2.20.1
 
 
