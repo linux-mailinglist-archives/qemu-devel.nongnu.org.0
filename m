@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AC64BA84A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 19:32:12 +0100 (CET)
-Received: from localhost ([::1]:34046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B17454BA84F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 19:33:53 +0100 (CET)
+Received: from localhost ([::1]:36390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKlZb-000205-8P
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 13:32:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44930)
+	id 1nKlbE-0003h7-Hs
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 13:33:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nKlXk-0001H5-CY
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 13:30:16 -0500
-Received: from [2607:f8b0:4864:20::b2f] (port=36857
- helo=mail-yb1-xb2f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nKlXh-0005MA-Tq
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 13:30:16 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id c6so14868623ybk.3
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 10:30:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WZXPv0304nZFa8hNoGbS4yYAuT7M3qYRZYOBtLusbWs=;
- b=sFCotR6VyaQytBbRMp1FtO7xHl1dhMCEcJ4iZCr1Aa6GV6rlaB9nnkec33//UGcTcD
- oTkLxDeVyHOa0s2ZOubru4uQGFSL0DvbXD3XL17t78IH3ODx1FS87ks6KhLWmw63lgok
- UlQ6aXmv+41+ItS7dd/w8MK8pAZ6jai5uCxCCgUqAUYsWANGZo0lcBmYJCKlJRZiInhr
- mxQXIT45B1q6vKRgWsWchOwP5Vc9atnSCu83uieqgSwebaG5XiyV7WQIRJutmRyk5Yql
- 4rw1STI6tpL69t5zK1zFFpDBfZxuV0wWFxS+wdXktdNFPQrUJwOmXdYUKjCpIkkHINc8
- 4NMA==
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nKlXl-0001HN-Ue
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 13:30:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21806)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1nKlXi-0005MH-7U
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 13:30:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645122606;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/1SgVat+E0OmWYcW9b5fobONEaVEjoK3nTTS4QQsaDI=;
+ b=bOW4B5XVmrbZN4GeoU+zStunYYbxtKXj+sQNRSrauz5dzp1nWEOxwyrmLQladcP9FXcb6t
+ KfjFhRbUKT+CdCOKSw2nn/mWWNEA7twxUuY4eatAjNjy9A1QFFqFfy08KCENfxmMlfbHvb
+ QqsP/kk2ZSf+XF/zdtzH5HlQNdrSTYc=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-456-CObmFzELNwSRZHEOJcYI5g-1; Thu, 17 Feb 2022 13:30:04 -0500
+X-MC-Unique: CObmFzELNwSRZHEOJcYI5g-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ 128-20020a251286000000b0062234a636b0so10748532ybs.16
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 10:30:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WZXPv0304nZFa8hNoGbS4yYAuT7M3qYRZYOBtLusbWs=;
- b=K+lX4gyoqVd+6TDxYrrvCSXD8A/U0Nq9yj3g0iiwH84W0alnwOX9nVEPFoop+eI33E
- 9uktsBvQlj/PSlWGMLTO3GIjbtGb9znpQH2kVcOD2VJ5kAYQFMgUS8LUHQxu4DjGONQo
- rUsqfQwf6Mm5fl7m7xA8gGBFsssWTYfIHJwhtYIMyz6bVuEEcdXbFGWHOCtAH7udegY7
- R7BldAKFmBTZPwy6DYN/eK55tLc7OLnuuBkSSPNNEuexjFXfR4GuW6uGE+5RzR6w0Oog
- 2uFJRTUE3/jpmoDHfHgTm/hkWoAuzJipWn4wCfsfS/UsbQXJmQC9pyZDrIHjW97RAHD3
- zTJQ==
-X-Gm-Message-State: AOAM531nJUJ7LR00Lb8m7sfQRSvHz/3smyBRcIIFEprPUd+PCI9LmtUx
- DcOw+ZrbEiUAvD2jx8bVXkBFyZd3AldEP7CjhkcBmw==
-X-Google-Smtp-Source: ABdhPJw7ZAXcI8Z2mo8H2zDXhsLqjJQm799coJi82WRTL0UGqppmkA88dzogQ3ZnUwaNUr4umzuJ/sLTBgYQLb8BCdE=
-X-Received: by 2002:a25:27c3:0:b0:623:249b:1213 with SMTP id
- n186-20020a2527c3000000b00623249b1213mr3911739ybn.39.1645122604763; Thu, 17
- Feb 2022 10:30:04 -0800 (PST)
+ h=x-gm-message-state:from:references:mime-version:in-reply-to:date
+ :message-id:subject:to:cc;
+ bh=/1SgVat+E0OmWYcW9b5fobONEaVEjoK3nTTS4QQsaDI=;
+ b=L3FlfOC909gxEBVWAxMkK1sDk83OQHr3tElpCvkDu7Nn7BTga14Au6SvUZS0YFI6CH
+ 6/yXi4Zlytv/0+0fyd+spqU7rejQAFdEF7stPbmxHU7C+w1QaRNH9akv/ewtsWUvEM8K
+ vY0WzLu+PmX9k8560Z1YWkB3TDkrhuJzGX1Ch1d4Mpf4583iN0mvuVUYuHlvristPuvz
+ mgUBynYT9vPTnq1+ubjVdnAkmW2MRl7D2cy5tT3XRgxZpI9eYhtthpB0aLtyc6eieh+4
+ NtLYmkP2L61sJXtbIuUc8nMKUYIzaeVUobmw0DeYKXtucoqQmHFAoIcYJO/LKaNo0FPA
+ MlFQ==
+X-Gm-Message-State: AOAM533BLYd2S9Kw0/Skl5PRDRwRfyLXgMaOBY+DjyaBTPiWjHXRSzAZ
+ reHai2mwV9kOt31ypKgG1NwZMLEUMdCyIPTeNAUVPqfWKNi8H+JmXk0+Xa58+dh50S5YE/BzZpx
+ DvukDiFcDjQMKL6PGjgNJIXvMtSHs2gE=
+X-Received: by 2002:a81:7141:0:b0:2d3:d549:23f8 with SMTP id
+ m62-20020a817141000000b002d3d54923f8mr3906316ywc.87.1645122604061; 
+ Thu, 17 Feb 2022 10:30:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzA6U1V1adAD9lk4ybd1frO5eWYk696kMpU6cM6xrvZz2KqJoa3XhNsg3A1qGldOOcF0bgpxZ7ixVLrv425+sU=
+X-Received: by 2002:a81:7141:0:b0:2d3:d549:23f8 with SMTP id
+ m62-20020a817141000000b002d3d54923f8mr3906298ywc.87.1645122603808; Thu, 17
+ Feb 2022 10:30:03 -0800 (PST)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 17 Feb 2022 10:30:03 -0800
+From: Andrea Bolognani <abologna@redhat.com>
+References: <CAK7yb4TeKr2br6RthdQwiU2+JGrWcs3ZgWbWHOYGEJ=Ae2z36Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220214185605.28087-1-f4bug@amsat.org>
- <20220214185605.28087-3-f4bug@amsat.org>
-In-Reply-To: <20220214185605.28087-3-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Feb 2022 18:29:53 +0000
-Message-ID: <CAFEAcA_9ixAF2v+RkTHE+pej3EqUemd5ykw+3T84iKWC9Y7sTg@mail.gmail.com>
-Subject: Re: [PATCH v5 02/16] configure: Allow passing extra Objective C
- compiler flags
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+In-Reply-To: <CAK7yb4TeKr2br6RthdQwiU2+JGrWcs3ZgWbWHOYGEJ=Ae2z36Q@mail.gmail.com>
+Date: Thu, 17 Feb 2022 10:30:03 -0800
+Message-ID: <CABJz62MGL6a8JU12fXQ_jJNsc_4X+MRv_Cf_7iwkRWfQ1uiPWA@mail.gmail.com>
+Subject: Re: qemu crash 100% CPU with Ubuntu10.04 guest (solved)
+To: Ben Smith <ben.ellis.smith@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,27 +93,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <lizhang@suse.de>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Feb 2022 at 18:56, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Thu, Feb 17, 2022 at 12:07:15PM +1100, Ben Smith wrote:
+> Hi All,
 >
-> We can pass C/CPP/LD flags via CFLAGS/CXXFLAGS/LDFLAGS environment
-> variables, or via configure --extra-cflags / --extra-cxxflags /
-> --extra-ldflags options. Provide similar behavior for Objective C:
-> use existing flags from $OBJCFLAGS, or passed via --extra-objcflags.
+> I'm cross-posting this from Reddit qemu_kvm, in case it helps in some
+> way. I know my setup is ancient and unique; let me know if you would
+> like more info.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Symptoms:
+> 1. Ubuntu10.04 32-bit guest locks up randomly between 0 and 30 days.
+> 2. The console shows a CPU trace dump, nothing else logged on the guest or host.
+> 3. Host system (Ubuntu20.04) 100% CPU for qemu process.
+>
+> Solution:
+> When using virt-install, always use the "--os-variant" parameter!
+> e.g. --os-variant ubuntu10.04
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+FWIW, the --os-variant / --osinfo argument is going to be mandatory
+starting with the upcoming virt-manager release.
 
-thanks
--- PMM
+https://listman.redhat.com/archives/virt-tools-list/2022-February/msg00021.html
+
+-- 
+Andrea Bolognani / Red Hat / Virtualization
+
 
