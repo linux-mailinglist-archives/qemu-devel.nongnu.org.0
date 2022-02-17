@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F274B9975
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 07:49:19 +0100 (CET)
-Received: from localhost ([::1]:46474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D25E44B99AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 08:13:39 +0100 (CET)
+Received: from localhost ([::1]:57926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKabF-0002HC-3w
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 01:49:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58610)
+	id 1nKayw-0002KO-FT
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 02:13:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKaPU-0005qw-86
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:37:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26576)
+ (Exim 4.90_1) (envelope-from <afrosi@redhat.com>) id 1nKav0-0001O6-Jd
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:09:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nKaPG-0002TE-St
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 01:36:49 -0500
+ (Exim 4.90_1) (envelope-from <afrosi@redhat.com>) id 1nKauu-0007Aa-K0
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 02:09:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645079806;
+ s=mimecast20190719; t=1645081767;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DT+1gkjLu6rYoRgQ72JKCrcr3jDcAgRKWOHsvqhyWhI=;
- b=PzFUUMVjr8x3/+JTJXCRkPmSK56DdlZC2fXp2r3Q7ZsrkuQKqLf2Bozn/uo7Fl934Ha/kB
- u8h5W6Ev/U1qu+GL00tlaVYUwUNnKpb2W0hgRwz7xkec69DniACA4AzsEIswvqjViNmvwa
- 4wPR7iuuFfD92axdAW3CI0A46VR0gOg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PJwlrEigBYAbeDng+pA4J2ghsfpfNYKjHDIfIXfAcCk=;
+ b=Wp4dBrZLCYr1YJBkdljN3MGUCxWF7KAT97USrtKcp1jouDn4w0H/F+vg0tc+w+NBY0p/Q1
+ KvgHEQ0IZ3w3B+uQ+uPhdq0BF7VoxX9W2OjogaG0CKzDdPCzCg244NWE/42wlGggNNMbw4
+ jb+Mo/LzJYXKZGFyoA0Tc6hfe8n2pb4=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-551-8KxV_iu8M3CuG2A0mEeu_Q-1; Thu, 17 Feb 2022 01:36:45 -0500
-X-MC-Unique: 8KxV_iu8M3CuG2A0mEeu_Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n3-20020a05600c294300b0037bc685b717so1244110wmd.8
- for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 22:36:44 -0800 (PST)
+ us-mta-246-seqx38R5NXKC-X3f4rGvLg-1; Thu, 17 Feb 2022 02:08:18 -0500
+X-MC-Unique: seqx38R5NXKC-X3f4rGvLg-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ s20-20020a2eb8d4000000b00244c0c07f5aso1891256ljp.7
+ for <qemu-devel@nongnu.org>; Wed, 16 Feb 2022 23:08:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DT+1gkjLu6rYoRgQ72JKCrcr3jDcAgRKWOHsvqhyWhI=;
- b=azYbhnBO0CAG3QxzlJVrcnWXbrzowORDNZ4i+T9+JLGq/VhC5mJDlx05VXdAFE21bI
- QoycTB+OTxMRKUT06JNAgQo37L/uRSO0z6OWp51rr01yeE9FegRGPRo66YeEL3tNlJ1u
- XUF/qulrAU/D73VLCJ3jkweH3jRe8aXfMnpIHkQzUBaKAIlAIlpaEhuNQgoFYnW1IoYU
- GN8zlDgiR/x+iXxVbDHGbuq/YENo8T+noIB8U5ekRW4aSKRUCqtylsyuDYJzux0QBPLD
- eE3pDNV7QLV6G83kvgqnFBUY33U1Xs7HYylxj/LRtty0N1mCEG4IRE0R0efuxh6rJJug
- 0fkQ==
-X-Gm-Message-State: AOAM532MEL9B87dOomyZK4PBsRspjRbu38nCPMFwe8fymH0VKmVfSFXw
- D8nhCtpzLrXs8oO66PT0lqnwJTNtfvjDVq4mBuPIsmW6pb/je4iJIb2EhHkBSoJfD7rjlvED+4Q
- ewB26izgi5bstLfI=
-X-Received: by 2002:a7b:c201:0:b0:350:de40:c295 with SMTP id
- x1-20020a7bc201000000b00350de40c295mr4743210wmi.103.1645079803366; 
- Wed, 16 Feb 2022 22:36:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyiJxI92qpyHOhut8/vpCFyPO89odoCcQTMKHT0KsFsehilVZillqgt4j8ATOW38Xwzq4uCwQ==
-X-Received: by 2002:a7b:c201:0:b0:350:de40:c295 with SMTP id
- x1-20020a7bc201000000b00350de40c295mr4743195wmi.103.1645079803101; 
- Wed, 16 Feb 2022 22:36:43 -0800 (PST)
-Received: from redhat.com ([2.55.139.83])
- by smtp.gmail.com with ESMTPSA id u11sm37455454wrt.108.2022.02.16.22.36.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Feb 2022 22:36:42 -0800 (PST)
-Date: Thu, 17 Feb 2022 01:36:40 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH v3 0/7] malta: Fix PCI IRQ levels to be preserved during
- migration, cleanup
-Message-ID: <20220217013601-mutt-send-email-mst@kernel.org>
-References: <20220216224519.157233-1-shentey@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PJwlrEigBYAbeDng+pA4J2ghsfpfNYKjHDIfIXfAcCk=;
+ b=298lugp5xmWkgOoia+puVTxtH9GlXZoBGLY9nAEQswXJNEm5tLAnjB+Afh3Objj8Io
+ U0zJqVFmEXJY56jupM7vxRd3m+p4mzIxyoU9il8wNBzqS14COz6vCHj3k2x6hS/yVItl
+ A5nAX/RJSVzcRAF2Fa/SkXnyRlVKniMT2amC83hfMTn+jVDbeumIcNspOM7L9KyijOof
+ GkxembZ12yEwG8ZTvv8AZ8dNNmWwD22lUcbLllJnPefPBkQ9JJRgaT8MK9g77Mqy2TbJ
+ Vhx9yWsBdB8eWDiKsjAOlg9/KPwUcaOEdywIxihZI+fwRoekaPtG/QyJI/QIFeVOn5GK
+ +o0Q==
+X-Gm-Message-State: AOAM5326S2F829w84rfP5rXKOtTbQ1euVdiGwHw2W2Kr1hSnN6BuDhwY
+ d4ihrw1oN8TwM1FQ0THCtBR8UbUXbP0t9lG63Tf+x49h5kWt5srZp9mkocBc/HXHB0CCHaoU2dz
+ mi+BEsnlXi+OyGYstrzyaFZLqu2mfgiw=
+X-Received: by 2002:a05:6512:1581:b0:443:96c9:d1a0 with SMTP id
+ bp1-20020a056512158100b0044396c9d1a0mr1165201lfb.501.1645081697356; 
+ Wed, 16 Feb 2022 23:08:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy9ZAveF3ctcDThUhmShOSbalf72WBbK0f6Bxv13o5sV4xVgG8OW3g25T+vumGT/qKP9gOoHKx2rUn5apiTujI=
+X-Received: by 2002:a05:6512:1581:b0:443:96c9:d1a0 with SMTP id
+ bp1-20020a056512158100b0044396c9d1a0mr1165171lfb.501.1645081697029; Wed, 16
+ Feb 2022 23:08:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220216224519.157233-1-shentey@gmail.com>
+References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+In-Reply-To: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+From: Alice Frosi <afrosi@redhat.com>
+Date: Thu, 17 Feb 2022 08:08:06 +0100
+Message-ID: <CABBoX7PcqRFHDm0LCwWOwmYmOwH2x70pM-3OyxfDXD1sE_fHrw@mail.gmail.com>
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
+To: Stefan Hajnoczi <stefanha@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=afrosi@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afrosi@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -95,77 +89,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Damien Le Moal <Damien.LeMoal@wdc.com>,
+ Sergio Lopez Pascual <slp@redhat.com>, kvm <kvm@vger.kernel.org>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, John Snow <jsnow@redhat.com>,
+ Alex Agache <aagch@amazon.com>, qemu-devel <qemu-devel@nongnu.org>, "Florescu,
+ Andreea" <fandree@amazon.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, hreitz@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 16, 2022 at 11:45:12PM +0100, Bernhard Beschow wrote:
-> Tested with [1]:
-> 
->   qemu-system-mipsel -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda \
->   debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=tty0"
-> 
-> It was possible to log in as root and `poweroff` the machine.
-> 
-> Moreover, I ran:
-> 
->   :$ make check
->   Ok:                 569
->   Expected Fail:      0
->   Fail:               0
->   Unexpected Pass:    0
->   Skipped:            178
->   Timeout:            0
-> 
-> [1] https://people.debian.org/~aurel32/qemu/mips/
-> 
+On Fri, Jan 28, 2022 at 6:04 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> Dear QEMU, KVM, and rust-vmm communities,
+> QEMU will apply for Google Summer of Code 2022
+> (https://summerofcode.withgoogle.com/) and has been accepted into
+> Outreachy May-August 2022 (https://www.outreachy.org/). You can now
+> submit internship project ideas for QEMU, KVM, and rust-vmm!
+>
+> If you have experience contributing to QEMU, KVM, or rust-vmm you can
+> be a mentor. It's a great way to give back and you get to work with
+> people who are just starting out in open source.
+>
+> Please reply to this email by February 21st with your project ideas.
+>
+> Good project ideas are suitable for remote work by a competent
+> programmer who is not yet familiar with the codebase. In
+> addition, they are:
+> - Well-defined - the scope is clear
+> - Self-contained - there are few dependencies
+> - Uncontroversial - they are acceptable to the community
+> - Incremental - they produce deliverables along the way
+>
+> Feel free to post ideas even if you are unable to mentor the project.
+> It doesn't hurt to share the idea!
+>
 
-Who's merging this? I assume mips guys?
+I'd like to propose this idea:
 
-> v3:
->   The migration bug now gets fixed in gt64xxx_pci before any cleanup. As
->     suggested by PMM the patch is based on commit e735b55a8c11.
->   The code movement patch now moves the already fixed code. I might be a bit
->     too conservative here by removing Philippe's Reviewed-By tag.
->   As suggested by BALATON Zoltan, the redundant i8259[] attribute is now
->     resolved immediately after the code movement. As a side effect, it also
->     removes moved code which doesn't adhere to the coding style (local loop
->     variable).
->   To address BALATON Zoltan's comment and to reduce the number of required
->     Reviewed-By's, only piix4_set_irq() is modified to expect own DeviceState
->     paremeter. Up to v2, all remaining set_irq() functions were changed this
->     way.
->   The patch resolving piix4's singleton variable got split into two patches:
->     One which resolves the singleton variable and one which replaces magic
->     constants. The split patches should be more comprehensible.
->   Suggested by BALATON Zoltan, I took a chance to resolve gt64120_register(),
->     a method akin to the legacy init functions we're trying to get rid of.
-> 
-> v2:
->   isa/piix4: Fix PCI IRQ levels to be preserved in VMState
->   isa/piix4: Resolve redundant i8259[] attribute
-> 
-> Bernhard Beschow (7):
->   hw/mips/gt64xxx_pci: Fix PCI IRQ levels to be preserved during
->     migration
->   malta: Move PCI interrupt handling from gt64xxx_pci to piix4
->   hw/isa/piix4: Resolve redundant i8259[] attribute
->   hw/isa/piix4: Pass PIIX4State as opaque parameter for piix4_set_irq()
->   hw/isa/piix4: Resolve global instance variable
->   hw/isa/piix4: Replace some magic IRQ constants
->   hw/mips/gt64xxx_pci: Resolve gt64120_register()
-> 
->  hw/isa/piix4.c                | 54 +++++++++++++++++++++--
->  hw/mips/gt64xxx_pci.c         | 80 +++--------------------------------
->  hw/mips/malta.c               | 17 ++++----
->  include/hw/mips/mips.h        |  3 --
->  include/hw/southbridge/piix.h |  2 -
->  5 files changed, 65 insertions(+), 91 deletions(-)
-> 
-> -- 
-> 2.35.1
-> 
-> 
-> 
+Title: Create encrypted storage using VM-based container runtimes
+
+Cryptsetup requires root privileges in order to be able to encrypt
+storage with luks. However, privileged containers are generally
+discouraged for security reasons. A possible solution to avoid extra
+privileges is using VM-based container runtimes (e.g crun with libkrun
+or kata-containers) and running inside the Virtual Machine the tools
+for the storage encryption.
+
+This internship focus on a PoC for integrating and extending crun with
+libkrun in order to be able to create encrypted storage. The initial
+step will focus on creating encrypted images to demonstrate the
+feasibility and the necessary changes in the stack. If the timeframe
+allows it, an interesting follow-up of the first step is the
+encryption of persistent storage using block-based PVCs.
+
+Language: C, rust, golang
+Skills: containers and virtualization would be a big plus
+I won't put a level but the intern needs to be willing to dig into
+different source codes like crun (written in C), libkrun (written in
+Rust) and possibly podman or other kubernetes/containers projects
+(written in go)
+Mentor: Alice Frosi, Co-mentor: Sergio Lopez Pascual
+
+Let me know if the idea sounds feasible to you!
+
+Many thanks,
+
+Alice
 
 
