@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F62C4B95DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 03:23:58 +0100 (CET)
-Received: from localhost ([::1]:42838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6974B968C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Feb 2022 04:20:32 +0100 (CET)
+Received: from localhost ([::1]:50782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKWSa-0005gF-Pi
-	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 21:23:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49446)
+	id 1nKXLM-0005bp-0h
+	for lists+qemu-devel@lfdr.de; Wed, 16 Feb 2022 22:20:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nKWR9-0004qg-Vq
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 21:22:27 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:17651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nKWR5-00011U-VE
- for qemu-devel@nongnu.org; Wed, 16 Feb 2022 21:22:27 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D4BA37457EF;
- Thu, 17 Feb 2022 03:22:19 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A8D8B745712; Thu, 17 Feb 2022 03:22:19 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A72D57456E3;
- Thu, 17 Feb 2022 03:22:19 +0100 (CET)
-Date: Thu, 17 Feb 2022 03:22:19 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH v3 7/7] hw/mips/gt64xxx_pci: Resolve gt64120_register()
-In-Reply-To: <20220216224519.157233-8-shentey@gmail.com>
-Message-ID: <28b9c78c-e54a-157a-c42b-b88e465ff12@eik.bme.hu>
-References: <20220216224519.157233-1-shentey@gmail.com>
- <20220216224519.157233-8-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1nKXIq-0003H6-PC
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 22:17:57 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:50682
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1nKXIj-0008MJ-Iw
+ for qemu-devel@nongnu.org; Wed, 16 Feb 2022 22:17:54 -0500
+HMM_SOURCE_IP: 172.18.0.48:39086.855590468
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 7FEF52800C1;
+ Thu, 17 Feb 2022 11:17:34 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id c1a3714c640f4f5ab8d53245e761ae47 for
+ qemu-devel@nongnu.org; Thu, 17 Feb 2022 11:17:41 CST
+X-Transaction-ID: c1a3714c640f4f5ab8d53245e761ae47
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v16 0/7] support dirty restraint on vCPU 
+Date: Thu, 17 Feb 2022 11:17:10 +0800
+Message-Id: <cover.1645067452.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.226;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,154 +60,413 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus ArmBruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Feb 2022, Bernhard Beschow wrote:
-> Now that gt64120_register() lost its pic parameter, there is an
-> opportunity to remove it. gt64120_register() is old style by wrapping
-> qdev API, and the new style is to use qdev directly. So take the
-> opportunity and modernize the code.
->
-> Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
-> hw/mips/gt64xxx_pci.c  | 21 ++++-----------------
-> hw/mips/malta.c        | 13 ++++++++-----
-> include/hw/mips/mips.h |  3 ---
-> 3 files changed, 12 insertions(+), 25 deletions(-)
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Very good but maybe it could be simplified even further, see below.
+v16
+- rebase on master
+- drop the unused typedef syntax in [PATCH v15 6/7] 
+- add the Reviewed-by and Acked-by tags by the way 
 
-> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-> index eb205d6d70..e0ff1b5566 100644
-> --- a/hw/mips/gt64xxx_pci.c
-> +++ b/hw/mips/gt64xxx_pci.c
-> @@ -26,7 +26,6 @@
-> #include "qapi/error.h"
-> #include "qemu/units.h"
-> #include "qemu/log.h"
-> -#include "hw/mips/mips.h"
-> #include "hw/pci/pci.h"
-> #include "hw/pci/pci_host.h"
-> #include "migration/vmstate.h"
-> @@ -1151,30 +1150,18 @@ static void gt64120_reset(DeviceState *dev)
-> static void gt64120_realize(DeviceState *dev, Error **errp)
-> {
->     GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
-> +    PCIHostState *phb = PCI_HOST_BRIDGE(dev);
->
->     memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
->                           "gt64120-isd", 0x1000);
-> -}
-> -
-> -PCIBus *gt64120_register(void)
-> -{
-> -    GT64120State *d;
-> -    PCIHostState *phb;
-> -    DeviceState *dev;
-> -
-> -    dev = qdev_new(TYPE_GT64120_PCI_HOST_BRIDGE);
-> -    d = GT64120_PCI_HOST_BRIDGE(dev);
-> -    phb = PCI_HOST_BRIDGE(dev);
-> -    memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
-> -    address_space_init(&d->pci0_mem_as, &d->pci0_mem, "pci0-mem");
-> +    memory_region_init(&s->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
-> +    address_space_init(&s->pci0_mem_as, &s->pci0_mem, "pci0-mem");
->     phb->bus = pci_root_bus_new(dev, "pci",
-> -                                &d->pci0_mem,
-> +                                &s->pci0_mem,
->                                 get_system_io(),
->                                 PCI_DEVFN(18, 0), TYPE_PCI_BUS);
-> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->
->     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
-> -    return phb->bus;
-> }
->
-> static void gt64120_pci_realize(PCIDevice *d, Error **errp)
-> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-> index 13254dbc89..16fdaed3db 100644
-> --- a/hw/mips/malta.c
-> +++ b/hw/mips/malta.c
-> @@ -38,6 +38,7 @@
-> #include "hw/mips/mips.h"
-> #include "hw/mips/cpudevs.h"
-> #include "hw/pci/pci.h"
-> +#include "hw/pci/pci_host.h"
-> #include "qemu/log.h"
-> #include "hw/mips/bios.h"
-> #include "hw/ide.h"
-> @@ -1230,7 +1231,7 @@ void mips_malta_init(MachineState *machine)
->     const size_t smbus_eeprom_size = 8 * 256;
->     uint8_t *smbus_eeprom_buf = g_malloc0(smbus_eeprom_size);
->     uint64_t kernel_entry, bootloader_run_addr;
-> -    PCIBus *pci_bus;
-> +    PCIHostState *phb;
->     ISABus *isa_bus;
->     qemu_irq cbus_irq, i8259_irq;
->     I2CBus *smbus;
-> @@ -1390,7 +1391,9 @@ void mips_malta_init(MachineState *machine)
->     stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
->
->     /* Northbridge */
-> -    pci_bus = gt64120_register();
-> +    dev = qdev_new("gt64120");
-> +    phb = PCI_HOST_BRIDGE(dev);
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+v15
+- rebase on master
+- drop the 'init_time_ms' parameter in function vcpu_calculate_dirtyrate 
+- drop the 'setup' field in dirtylimit_state and call dirtylimit_process
+  directly, which makes code cleaner.
+- code clean in dirtylimit_adjust_throttle
+- fix miss dirtylimit_state_unlock() in dirtylimit_process and
+  dirtylimit_query_all
+- add some comment
 
-Since no need for setting properties you could do qdev_new and realize in 
-one step with sysbus_create_simple and then get the bus from it so no need 
-for going through phb either. Something like:
+Please review. Thanks,
 
-dev = sysbus_create_simple("gt64120", -1. 0);
-pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
+Regards
+Yong 
 
-should work with less changes.
+v14
+- v13 sent by accident, resend patchset. 
 
-Regards,
-BALATON Zoltan
+v13
+- rebase on master
+- passing NULL to kvm_dirty_ring_reap in commit
+  "refactor per-vcpu dirty ring reaping" to keep the logic unchanged.
+  In other word, we still try the best to reap as much PFNs as possible
+  if dirtylimit not in service.
+- move the cpu list gen id changes into a separate patch.   
+- release the lock before sleep during dirty page rate calculation.
+- move the dirty ring size fetch logic into a separate patch.
+- drop the DIRTYLIMIT_LINEAR_ADJUSTMENT_WATERMARK MACRO .
+- substitute bh with function pointer when implement dirtylimit.
+- merge the dirtylimit_start/stop into dirtylimit_change.
+- fix "cpu-index" parameter type with "int" to keep consistency.
+- fix some syntax error in documents.
 
->     /*
->      * The whole address space decoded by the GT-64120A doesn't generate
->      * exception when accessing invalid memory. Create an empty slot to
-> @@ -1399,7 +1402,7 @@ void mips_malta_init(MachineState *machine)
->     empty_slot_init("GT64120", 0, 0x20000000);
->
->     /* Southbridge */
-> -    dev = piix4_create(pci_bus, &isa_bus, &smbus);
-> +    dev = piix4_create(phb->bus, &isa_bus, &smbus);
->
->     /* Interrupt controller */
->     qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
-> @@ -1414,10 +1417,10 @@ void mips_malta_init(MachineState *machine)
->     isa_create_simple(isa_bus, TYPE_FDC37M81X_SUPERIO);
->
->     /* Network card */
-> -    network_init(pci_bus);
-> +    network_init(phb->bus);
->
->     /* Optional PCI video card */
-> -    pci_vga_init(pci_bus);
-> +    pci_vga_init(phb->bus);
-> }
->
-> static void mips_malta_instance_init(Object *obj)
-> diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
-> index ff88942e63..101799f7d3 100644
-> --- a/include/hw/mips/mips.h
-> +++ b/include/hw/mips/mips.h
-> @@ -9,9 +9,6 @@
->
-> #include "exec/memory.h"
->
-> -/* gt64xxx.c */
-> -PCIBus *gt64120_register(void);
-> -
-> /* bonito.c */
-> PCIBus *bonito_init(qemu_irq *pic);
->
->
+Please review. Thanks,
+
+Yong
+
+v12
+- rebase on master
+- add a new commmit to refactor per-vcpu dirty ring reaping, which can resolve 
+  the "vcpu miss the chances to sleep" problem
+- remove the dirtylimit_thread and implemtment throttle in bottom half instead.
+- let the dirty ring reaper thread keep sleeping when dirtylimit is in service 
+- introduce cpu_list_generation_id to identify cpu_list changing. 
+- keep taking the cpu_list_lock during dirty_stat_wait to prevent vcpu plug/unplug
+  when calculating the dirty page rate
+- move the dirtylimit global initializations out of dirtylimit_set_vcpu and do
+  some code clean
+- add DIRTYLIMIT_LINEAR_ADJUSTMENT_WATERMARK in case of oscillation when throttling 
+- remove the unmatched count field in dirtylimit_state
+- add stub to fix build on non-x86
+- refactor the documents
+
+Thanks Peter and Markus for reviewing the previous versions, please review.
+
+Thanks,
+Yong
+
+v11
+- rebase on master
+- add a commit " refactor dirty page rate calculation"  so that dirty page rate limit
+  can reuse the calculation logic. 
+- handle the cpu hotplug/unplug case in the dirty page rate calculation logic.
+- modify the qmp commands according to Markus's advice.
+- introduce a standalone file dirtylimit.c to implement dirty page rate limit
+- check if dirty limit in service by dirtylimit_state pointer instead of global variable
+- introduce dirtylimit_mutex to protect dirtylimit_state
+- do some code clean and docs
+
+See the commit for more detail, thanks Markus and Peter very mush for the code
+review and give the experienced and insightful advices, most modifications are
+based on these advices.
+
+v10:
+- rebase on master
+- make the following modifications on patch [1/3]:
+  1. Make "dirtylimit-calc" thread joinable and join it after quitting.
+
+  2. Add finalize function to free dirtylimit_calc_state
+
+  3. Do some code clean work
+
+- make the following modifications on patch [2/3]:
+  1. Remove the original implementation of throttle according to
+     Peter's advice.
+     
+  2. Introduce a negative feedback system and implement the throttle
+     on all vcpu in one thread named "dirtylimit". 
+
+  3. Simplify the algo when calculation the throttle_us_per_full:
+     increase/decrease linearly when there exists a wide difference
+     between quota and current dirty page rate, increase/decrease
+     a fixed time slice when the difference is narrow. This makes
+     throttle responds faster and reach the quota smoothly.
+
+  4. Introduce a unfit_cnt in algo to make sure throttle really
+     takes effect.
+
+  5. Set the max sleep time 99 times more than "ring_full_time_us".                                                                                                                                                                          
+                                                                                                                                                                                                                                             
+  6. Make "dirtylimit" thread joinable and join it after quitting.                                                                                                                                                                           
+                                                                                                                                                                                                                                             
+- make the following modifications on patch [3/3]:                                                                                                                                                                                           
+  1. Remove the unplug cpu handling logic.                                                                                                                                                                                                   
+                                                                                                                                                                                                                                             
+  2. "query-vcpu-dirty-limit" only return dirtylimit information of                                                                                                                                                                          
+     vcpus that enable dirtylimit                                                                                                                                                                                                            
+                                                                                                                                                                                                                                             
+  3. Remove the "dirtylimit_setup" function                                                                                                                                                                                                  
+                                                                                                                                                                                                                                             
+  4. Trigger the dirtylimit and initialize the global state only                                                                                                                                                                             
+     when someone enable dirtylimit, and finalize it after the last                                                                                                                                                                          
+     dirtylimit be canceled.                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                             
+  5. Redefine the qmp command vcpu-dirty-limit/query-vcpu-dirty-limit:                                                                                                                                                                       
+     enable/disable dirtylimit use a single command "vcpu-dirty-limit",
+     to enable/disabled dirtylimit on specified vcpu only if "cpu-index"
+     is specified, otherwise, all vcpu will be affected.
+
+  6. Redefine the hmp command vcpu_dirty_limit/info vcpu_dirty_limit
+
+- other points about the code review:
+  1. "merge the code of calculation dirty page rate"
+     I think maybe it's not suitable to touch the 'calc-dirty-rate',
+     because 'calc-dirty-rate' will stop sync log after calculating 
+     the dirtyrate and the 'dirtylimit-cal' will not untill the last
+     dirtylimit be canceled, if we merge the GLOBAL_DIRTY_LIMIT into
+     GLOBAL_DIRTY_DIRTYRATE, the two are interacted with each other.
+
+  2. The new implementaion of throttle algo enlightened by Peter
+     responds faster and consume less cpu resource than the older,
+     we make a impressed progress.
+
+     And there is a viewpoint may be discussed, it is that the new 
+     throttle logic is "passive", vcpu sleeps only after dirty ring,
+     is full, unlike the "auto-converge" which will kick vcpu instead
+     in a fixed slice time. If the vcpu is memory-write intensive
+     and the ring size is large, it will produce dirty memory during
+     the dirty ring full time and the throttle works not so good, it
+     means the throttle depends on the dirty ring size. 
+
+     I actually tested the new algo in two case:
+
+     case 1: dirty-ring-size: 4096, dirtyrate: 1170MB/s 
+     result: minimum quota dirtyrate is 25MB/s or even less
+             minimum vcpu util is 6%
+
+     case 2: dirty-ring-size: 65536, dirtyrate: 1170MB/s 
+     result: minimum quota dirtyrate is 256MB/s
+             minimum vcpu util is 24%
+     
+     I post this just for discussion, i think this is not a big deal
+     beacase if we set the dirty-ring-size to the maximum value(65536),
+     we assume the server's bandwidth is capable of handling it.
+
+  3. I hard-code the acceptable deviation value to 25MB/s, see the
+     macro DIRTYLIMIT_TOLERANCE_RANGE. I'm struggling to decide 
+     whether to let it configurable
+   
+  4. Another point is the unplug cpu handle, current algo affects the
+     unplugged vcpu, if we set dirty limit on it, we should fork 2 
+     thread "dirtylimit" and "dirtylimit-calc" but do nothing, once the
+     vcpu is hot-plugged, dirty limit works, i think the logic is ok
+     but still there can be different advice.
+
+- to let developers play with it easier, i post the hmp usage example:
+  (qemu) vcpu_dirty_limit -g on -1 500
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  vcpu[0], limit rate 500 (MB/s), current rate 415 (MB/s)
+  vcpu[1], limit rate 500 (MB/s), current rate 496 (MB/s)
+  vcpu[2], limit rate 500 (MB/s), current rate 0 (MB/s)
+  vcpu[3], limit rate 500 (MB/s), current rate 0 (MB/s)
+  (qemu) vcpu_dirty_limit -g off
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  Dirty page limit not enabled!
+  
+  (qemu) vcpu_dirty_limit on 0 300
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) vcpu_dirty_limit on 1 500
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  vcpu[0], limit rate 300 (MB/s), current rate 342 (MB/s)
+  vcpu[1], limit rate 500 (MB/s), current rate 485 (MB/s)
+  
+  (qemu) vcpu_dirty_limit off 0
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  vcpu[1], limit rate 500 (MB/s), current rate 528 (MB/s)
+  
+  (qemu) vcpu_dirty_limit off 1
+  [Please use 'info vcpu_dirty_limit' to query dirty limit for virtual CPU]
+  
+  (qemu) info vcpu_dirty_limit 
+  Dirty page limit not enabled!
+
+Thanks very much for the instructive algo suggestion given by Peter,
+the comment and other code reviews made by Markus.
+
+Please review, thanks!
+
+v9:
+- rebase on master
+- fix the meson directory change, keep it untouched.
+
+v8:
+- rebase on master
+- polish the error message and remove the "unlikely" compilation syntax
+  according to the advice given by Markus.
+- keep the dirty tracking enabled during "dirtylimit-calc" lifecycle
+  so that the overhead can be reduced according to the advice given by
+  Peter. 
+- merge the "set/cancel" qmp commands into one named "vcpu-dirty-limit"
+  and introduce qmp command "query-vcpu-dirty-limit" to query dirty
+  limit information about virtual CPU, according to the advice given by
+  Peter.
+- check if vcpu index is valid and handle the unplug case before
+  enabling, disabling dirty limit for virtual CPU.
+- introduce hmp commands so developers can play with them easier, use
+  "vcpu_dirty_limit" to enable dirty limit and "info vcpu_dirty_limit"
+  to query.
+
+The patch [2/3] has not been touched so far. Any corrections and
+suggetions are welcome. 
+
+Please review, thanks!
+
+v7:
+- rebase on master
+- polish the comments and error message according to the
+  advices given by Markus
+- introduce dirtylimit_enabled function to pre-check if dirty
+  page limit is enabled before canceling.
+
+v6:
+- rebase on master
+- fix dirtylimit setup crash found by Markus
+- polish the comments according to the advice given by Markus
+- adjust the qemu qmp command tag to 7.0
+
+v5:
+- rebase on master
+- adjust the throttle algorithm by removing the tuning in 
+  RESTRAINT_RATIO case so that dirty page rate could reachs the quota
+  more quickly.
+- fix percentage update in throttle iteration.
+
+v4:
+- rebase on master
+- modify the following points according to the advice given by Markus
+  1. move the defination into migration.json
+  2. polish the comments of set-dirty-limit
+  3. do the syntax check and change dirty rate to dirty page rate
+
+Thanks for the carefule reviews made by Markus.
+
+Please review, thanks!
+
+v3:
+- rebase on master
+- modify the following points according to the advice given by Markus
+  1. remove the DirtyRateQuotaVcpu and use its field as option directly
+  2. add comments to show details of what dirtylimit setup do
+  3. explain how to use dirtylimit in combination with existing qmp
+     commands "calc-dirty-rate" and "query-dirty-rate" in documentation.
+
+Thanks for the carefule reviews made by Markus.
+
+Please review, thanks!
+
+Hyman
+
+v2:
+- rebase on master
+- modify the following points according to the advices given by Juan
+  1. rename dirtyrestraint to dirtylimit
+  2. implement the full lifecyle function of dirtylimit_calc, include
+     dirtylimit_calc and dirtylimit_calc_quit
+  3. introduce 'quit' field in dirtylimit_calc_state to implement the
+     dirtylimit_calc_quit
+  4. remove the ready_cond and ready_mtx since it may not be suitable
+  5. put the 'record_dirtypage' function code at the beggining of the
+     file
+  6. remove the unnecesary return;
+- other modifications has been made after code review
+  1. introduce 'bmap' and 'nr' field in dirtylimit_state to record the
+     number of running thread forked by dirtylimit
+  2. stop the dirtyrate calculation thread if all the dirtylimit thread
+     are stopped
+  3. do some renaming works
+     dirtyrate calulation thread -> dirtylimit-calc
+     dirtylimit thread -> dirtylimit-{cpu_index}
+     function name do_dirtyrestraint -> dirtylimit_check
+     qmp command dirty-restraint -> set-drity-limit
+     qmp command dirty-restraint-cancel -> cancel-dirty-limit
+     header file dirtyrestraint.h -> dirtylimit.h
+
+Please review, thanks !
+
+thanks for the accurate and timely advices given by Juan. we really
+appreciate it if corrections and suggetions about this patchset are
+proposed.
+
+Best Regards !
+
+Hyman
+
+v1:
+this patchset introduce a mechanism to impose dirty restraint
+on vCPU, aiming to keep the vCPU running in a certain dirtyrate
+given by user. dirty restraint on vCPU maybe an alternative
+method to implement convergence logic for live migration,
+which could improve guest memory performance during migration
+compared with traditional method in theory.
+
+For the current live migration implementation, the convergence
+logic throttles all vCPUs of the VM, which has some side effects.
+-'read processes' on vCPU will be unnecessarily penalized
+- throttle increase percentage step by step, which seems
+  struggling to find the optimal throttle percentage when
+  dirtyrate is high.
+- hard to predict the remaining time of migration if the
+  throttling percentage reachs 99%
+
+to a certain extent, the dirty restraint machnism can fix these
+effects by throttling at vCPU granularity during migration.
+
+the implementation is rather straightforward, we calculate
+vCPU dirtyrate via the Dirty Ring mechanism periodically
+as the commit 0e21bf246 "implement dirty-ring dirtyrate calculation"
+does, for vCPU that be specified to impose dirty restraint,
+we throttle it periodically as the auto-converge does, once after
+throttling, we compare the quota dirtyrate with current dirtyrate,
+if current dirtyrate is not under the quota, increase the throttling
+percentage until current dirtyrate is under the quota.
+
+this patchset is the basis of implmenting a new auto-converge method
+for live migration, we introduce two qmp commands for impose/cancel
+the dirty restraint on specified vCPU, so it also can be an independent
+api to supply the upper app such as libvirt, which can use it to
+implement the convergence logic during live migration, supplemented
+with the qmp 'calc-dirty-rate' command or whatever.
+
+we post this patchset for RFC and any corrections and suggetions about
+the implementation, api, throttleing algorithm or whatever are very
+appreciated!
+
+Please review, thanks !
+
+Best Regards !
+
+Hyman Huang (7):
+  accel/kvm/kvm-all: Refactor per-vcpu dirty ring reaping
+  cpus: Introduce cpu_list_generation_id
+  migration/dirtyrate: Refactor dirty page rate calculation
+  softmmu/dirtylimit: Implement vCPU dirtyrate calculation periodically
+  accel/kvm/kvm-all: Introduce kvm_dirty_ring_size function
+  softmmu/dirtylimit: Implement virtual CPU throttle
+  softmmu/dirtylimit: Implement dirty page rate limit
+
+ accel/kvm/kvm-all.c         |  45 +++-
+ accel/stubs/kvm-stub.c      |   5 +
+ cpus-common.c               |   8 +
+ hmp-commands-info.hx        |  13 +
+ hmp-commands.hx             |  32 +++
+ include/exec/cpu-common.h   |   1 +
+ include/exec/memory.h       |   5 +-
+ include/hw/core/cpu.h       |   6 +
+ include/monitor/hmp.h       |   3 +
+ include/sysemu/dirtylimit.h |  37 +++
+ include/sysemu/dirtyrate.h  |  28 +++
+ include/sysemu/kvm.h        |   2 +
+ migration/dirtyrate.c       | 227 +++++++++++------
+ migration/dirtyrate.h       |   7 +-
+ qapi/migration.json         |  80 ++++++
+ softmmu/dirtylimit.c        | 602 ++++++++++++++++++++++++++++++++++++++++++++
+ softmmu/meson.build         |   1 +
+ softmmu/trace-events        |   7 +
+ 18 files changed, 1010 insertions(+), 99 deletions(-)
+ create mode 100644 include/sysemu/dirtylimit.h
+ create mode 100644 include/sysemu/dirtyrate.h
+ create mode 100644 softmmu/dirtylimit.c
+
+-- 
+1.8.3.1
+
 
