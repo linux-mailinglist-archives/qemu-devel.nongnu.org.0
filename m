@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D194BBD93
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 17:33:22 +0100 (CET)
-Received: from localhost ([::1]:46486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9723D4BBDA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 17:38:46 +0100 (CET)
+Received: from localhost ([::1]:48956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL6C8-0001aY-Rc
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 11:33:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39368)
+	id 1nL6HN-0003Za-Ne
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 11:38:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nL6Ao-0000tJ-3O
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:31:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36913)
+ id 1nL6FB-0002e6-8l
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:36:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nL6Aj-0005N0-1r
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:31:55 -0500
+ id 1nL6F9-0005w6-NA
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:36:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645201910;
+ s=mimecast20190719; t=1645202187;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Lg3iL/P0pt0uYiau8ls3TCa12gsEX4qoLBd5oiW9qLg=;
- b=h9Q7MTJNKpRGhp5OG4FVuD3r9fk4C6qrwqzeG0G710gDmC7jUt/KF/0G4FqG/xdR5pJ8lM
- C0MNzqWcrCXLQu+NtoLFqT91HEXi+vgr/h7D5GCMkqOArIkpjcaAzz/8i2WZ50eMkxvTWm
- 6O0SjYLm9Kh+VBXntOEveLklFE5NI+w=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=MmlqaK94ucmVjOfGVmlu+cLYtIHuSc74u3lVDu13T6Q=;
+ b=bCMxiHAIQAONKViER3JKsc4Le2sZvXG6ac+8KJscnDpYn61JA5+vrl3myPL5q2N/3/UIAb
+ 9XFKJ5D4OoHTwlHGKIl/Uc5zHruxEuh1Q+kRIzC59J0m4gJ6qsezn6YXFaNt2TquCXvbCe
+ UG03/2UFXa4ApBzG4Q6+h+VOsCifOCA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-FPWwQs28M9iljAt6voCg1Q-1; Fri, 18 Feb 2022 11:31:49 -0500
-X-MC-Unique: FPWwQs28M9iljAt6voCg1Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q8-20020adfb188000000b001e33a8cdbf4so3754375wra.16
- for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 08:31:49 -0800 (PST)
+ us-mta-47--dtS8lUUPNiOJB4GEFq--g-1; Fri, 18 Feb 2022 11:36:25 -0500
+X-MC-Unique: -dtS8lUUPNiOJB4GEFq--g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k30-20020a05600c1c9e00b0037d1bee4847so6140373wms.9
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 08:36:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Lg3iL/P0pt0uYiau8ls3TCa12gsEX4qoLBd5oiW9qLg=;
- b=opmWloPPhdwHWGPTb+hpoPMJBhDyzSPhXudn9Y0K3QqXH21F6TjG4SLIlQKQ1ZkLaZ
- i+j4L2/Zt80cLRQGSv93dJ7BFN6y8li/hIuTTtQous4/ZrmNdcvg502fTrUef47ibuHd
- BkFcuvrdEdyv3RoxVPrqcZ6jo5QQ9JwTB0/pPtOkFuP8Dpf7vn/mEqeboy096UzDmlNh
- eByO64qhoVaiHw/Le+d/GXC0/OwJPivP3Jmsb4z4jRm21GKMktG9qAek9obUS+OyrwWm
- WH2Ke1b85iAqgoxTIJJ6lgULfnjlscakTAv/7PTwdcnejweC8ao/yYnu0lhEPd/ZPl1n
- 2n8g==
-X-Gm-Message-State: AOAM530rK9P4ttpn5/uwCTQJc5YXLvjbEBgbPTtqD1nVRSl/m2L9SqzN
- Np4zkqjkaGWgwobOnVpdB+sjgH9fB+YxuL/Qgyb9rHRGMoYvqjXd00jhW3hc6HbSTxiWYpykv0s
- TUkfwxWusED1R5UQ=
-X-Received: by 2002:a05:6000:1103:b0:1e6:2787:cdf4 with SMTP id
- z3-20020a056000110300b001e62787cdf4mr6605502wrw.31.1645201908357; 
- Fri, 18 Feb 2022 08:31:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwWKlaaVlU8KzZ+CR7SablGde1rL0Wj570oGdWzyFIBQ+olppV336BtMA7M4akX8XQYtjWjhA==
-X-Received: by 2002:a05:6000:1103:b0:1e6:2787:cdf4 with SMTP id
- z3-20020a056000110300b001e62787cdf4mr6605478wrw.31.1645201908057; 
- Fri, 18 Feb 2022 08:31:48 -0800 (PST)
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=MmlqaK94ucmVjOfGVmlu+cLYtIHuSc74u3lVDu13T6Q=;
+ b=LuKvWL9pUspRVSPysH5CD2xwcXlbiLvhc3fAeeBpCNqaubK/dNzpeTadja3LmDwiof
+ ZVmifWAU44o8xxwYDPfaFgin+D2aEblH9vjrS9vP2loJIlms5PMyl7CqoGVOaPB/qpK5
+ 3fdWvPzPJ0Zp4A9qw0hd/KgCtCBxNUwa1p02qBf3lOFkRcUdL3K460v0qSD5ZWgh5nPO
+ i9YSWNpQsvb4kIcpPb/SHHUFrKG4fRrGI7QhN+HAJcCsnqn9s0gH5IMtA1RynVdu6QrJ
+ d4BDHdN8mggbDJVChZ/f+8fcAj0MtRHb6bUmzncKmP17fW9ISJOHZ0LcB4fVdoDxX0+A
+ l2Cg==
+X-Gm-Message-State: AOAM531b6p7zpu05JTRRDTXdn/yOpOUHuGROz+4kzUBit3oadBUzNT+9
+ 059uRZjd4vwlXV9fjQiCdThn5igb+yoEu1ZXJm5kXAa+su8EkAn0fzRTPYI/x/SMoCiQD9QHpsQ
+ DYgpEfXizeWRXLP4=
+X-Received: by 2002:a1c:7704:0:b0:354:4d2b:9d5 with SMTP id
+ t4-20020a1c7704000000b003544d2b09d5mr11281541wmi.155.1645202184708; 
+ Fri, 18 Feb 2022 08:36:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw6CTuvfICu6V5w2Fjz77mEO4kVl9PTXbsQplijqAnn6cChFrna8LtkMDbsMkCYh91sdnuk4A==
+X-Received: by 2002:a1c:7704:0:b0:354:4d2b:9d5 with SMTP id
+ t4-20020a1c7704000000b003544d2b09d5mr11281508wmi.155.1645202184438; 
+ Fri, 18 Feb 2022 08:36:24 -0800 (PST)
 Received: from localhost (nat-252.udc.es. [193.144.61.252])
- by smtp.gmail.com with ESMTPSA id g12sm6197166wmq.28.2022.02.18.08.31.47
+ by smtp.gmail.com with ESMTPSA id g5sm4685441wmk.38.2022.02.18.08.36.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Feb 2022 08:31:47 -0800 (PST)
+ Fri, 18 Feb 2022 08:36:24 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
-To: Leonardo Bras Soares Passos <leobras@redhat.com>
-Subject: Re: [PATCH v7 3/5] migration: Add zero-copy parameter for QMP/HMP
- for Linux
-In-Reply-To: <CAJ6HWG6pWzkxmi+o3j9u+O0K=o3rBEKMmfMYQNY0pfKzg-NeqQ@mail.gmail.com>
- (Leonardo Bras Soares Passos's message of "Wed, 19 Jan 2022 15:46:04
- -0300")
-References: <20220106221341.8779-1-leobras@redhat.com>
- <20220106221341.8779-4-leobras@redhat.com>
- <YeAkpTE0gqf1dj4C@redhat.com>
- <CAJ6HWG4GQV1N_=18TPqQygKCz36+VBx=b4EtUoZpMvcOQ6v0Vg@mail.gmail.com>
- <YehVMEL1hPaTbCIE@redhat.com>
- <CAJ6HWG6pWzkxmi+o3j9u+O0K=o3rBEKMmfMYQNY0pfKzg-NeqQ@mail.gmail.com>
+To: Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v8 1/5] QIOChannel: Add flags on io_writev and introduce
+ io_flush callback
+In-Reply-To: <20220201062901.428838-2-leobras@redhat.com> (Leonardo Bras's
+ message of "Tue, 1 Feb 2022 03:28:59 -0300")
+References: <20220201062901.428838-1-leobras@redhat.com>
+ <20220201062901.428838-2-leobras@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Fri, 18 Feb 2022 17:31:46 +0100
-Message-ID: <87zgmocf0t.fsf@secure.mitica>
+Date: Fri, 18 Feb 2022 17:36:23 +0100
+Message-ID: <87v8xccet4.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -109,62 +100,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: quintela@redhat.com
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Leonardo Bras Soares Passos <leobras@redhat.com> wrote:
-> On Wed, Jan 19, 2022 at 3:16 PM Daniel P. Berrang=C3=A9 <berrange@redhat.=
-com> wrote:
->>
->> On Wed, Jan 19, 2022 at 03:03:29PM -0300, Leonardo Bras Soares Passos wr=
-ote:
->> > Hello Daniel,
->> >
->> > On Thu, Jan 13, 2022 at 10:10 AM Daniel P. Berrang=C3=A9 <berrange@red=
-hat.com> wrote:
->> > >
->> > > On Thu, Jan 06, 2022 at 07:13:40PM -0300, Leonardo Bras wrote:
->> > > > Add property that allows zero-copy migration of memory pages,
->> > > > and also includes a helper function migrate_use_zero_copy() to che=
-ck
->> > > > if it's enabled.
->> > > >
->> > > > No code is introduced to actually do the migration, but it allow
->> > > > future implementations to enable/disable this feature.
->> > > >
->> > > > On non-Linux builds this parameter is compiled-out.
->> > > >
->> > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
->> > > > ---
->> > > >  qapi/migration.json   | 24 ++++++++++++++++++++++++
->> > > >  migration/migration.h |  5 +++++
->> > > >  migration/migration.c | 32 ++++++++++++++++++++++++++++++++
->> > > >  migration/socket.c    |  5 +++++
->> > > >  monitor/hmp-cmds.c    |  6 ++++++
->> > > >  5 files changed, 72 insertions(+)
->> > >
->> > > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->> >
->> > Thanks!
->>
+Leonardo Bras <leobras@redhat.com> wrote:
+> Add flags to io_writev and introduce io_flush as optional callback to
+> QIOChannelClass, allowing the implementation of zero copy writes by
+> subclasses.
 >
-> Ok, I see the point.
-> I will try to refactor the code changing zero-copy to zero-copy-send
-> or something like that.
+> How to use them:
+> - Write data using qio_channel_writev*(...,QIO_CHANNEL_WRITE_FLAG_ZERO_COPY),
+> - Wait write completion with qio_channel_flush().
+>
+> Notes:
+> As some zero copy write implementations work asynchronously, it's
+> recommended to keep the write buffer untouched until the return of
+> qio_channel_flush(), to avoid the risk of sending an updated buffer
+> instead of the buffer state during write.
+>
+> As io_flush callback is optional, if a subclass does not implement it, then:
+> - io_flush will return 0 without changing anything.
+>
+> Also, some functions like qio_channel_writev_full_all() were adapted to
+> receive a flag parameter. That allows shared code between zero copy and
+> non-zero copy writev, and also an easier implementation on new flags.
+>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
-Hi
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-I am late to the party, but I agree with Dan that we need two flags.
-
-Thre reason is that you can be the target of one migration, and later be
-the source of a next one.  If we only have one flag that means different
-things on the source and destination side, things become really
-complicated.
-
-Later, Juan.
+As everybody pointed out about the missing assertion...
 
 
