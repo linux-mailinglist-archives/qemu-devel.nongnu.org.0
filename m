@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C423C4BB715
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 11:42:07 +0100 (CET)
-Received: from localhost ([::1]:37238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCF64BB762
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 11:58:45 +0100 (CET)
+Received: from localhost ([::1]:38636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL0iE-0004w0-PJ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 05:42:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43146)
+	id 1nL0yK-0000GX-BZ
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 05:58:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nL0fM-00010s-QP; Fri, 18 Feb 2022 05:39:08 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18588
+ id 1nL0fT-00011u-9H; Fri, 18 Feb 2022 05:39:15 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35524
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nL0ex-0005f6-26; Fri, 18 Feb 2022 05:38:47 -0500
+ id 1nL0fN-0005gw-3O; Fri, 18 Feb 2022 05:39:12 -0500
 Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21IAc8mW023525; 
- Fri, 18 Feb 2022 10:38:40 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ea8py1by5-1
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21IAcBB7023724; 
+ Fri, 18 Feb 2022 10:38:44 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ea8py1byp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 10:38:40 +0000
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21IAcUPA024419;
- Fri, 18 Feb 2022 10:38:40 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ea8py1bxt-1
+ Fri, 18 Feb 2022 10:38:43 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21IAc2vM006215;
+ Fri, 18 Feb 2022 10:38:42 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3e64has9n0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 10:38:39 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21IAbskL011050;
- Fri, 18 Feb 2022 10:38:38 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3e645khcdp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 10:38:38 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21IAcaPI46137820
+ Fri, 18 Feb 2022 10:38:42 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 21IAcemV21692880
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Feb 2022 10:38:36 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EBFE2A4075;
- Fri, 18 Feb 2022 10:38:35 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B01BEA4064;
- Fri, 18 Feb 2022 10:38:35 +0000 (GMT)
+ Fri, 18 Feb 2022 10:38:40 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0083B4C072;
+ Fri, 18 Feb 2022 10:38:40 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B04FF4C07F;
+ Fri, 18 Feb 2022 10:38:39 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 18 Feb 2022 10:38:35 +0000 (GMT)
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri, 18 Feb 2022 10:38:39 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.87.94])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 0EA3F2201F1;
- Fri, 18 Feb 2022 11:38:34 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id ECAF42201F1;
+ Fri, 18 Feb 2022 11:38:38 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 08/39] target/ppc: make vhyp get_pate method take lpid and
- return success
-Date: Fri, 18 Feb 2022 11:37:56 +0100
-Message-Id: <20220218103827.682032-9-clg@kaod.org>
+Subject: [PULL 14/39] target/ppc: cpu_init: Remove G2LE init code
+Date: Fri, 18 Feb 2022 11:38:02 +0100
+Message-Id: <20220218103827.682032-15-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218103827.682032-1-clg@kaod.org>
 References: <20220218103827.682032-1-clg@kaod.org>
@@ -72,15 +64,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: SHU_RrnAJC-qs8oEC5JczOfLHv7XzXTn
-X-Proofpoint-GUID: VBvN86cBazsyRLMvAh8G8SybPEAWY_1G
+X-Proofpoint-ORIG-GUID: WE9S4edDsEi_5LbzBvB-Znq1P3rB98SF
+X-Proofpoint-GUID: WE9S4edDsEi_5LbzBvB-Znq1P3rB98SF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-18_04,2022-02-18_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  malwarescore=0 suspectscore=0
  bulkscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0
- mlxscore=0 mlxlogscore=768 priorityscore=1501 clxscore=1034 phishscore=0
+ mlxscore=0 mlxlogscore=769 priorityscore=1501 clxscore=1034 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
  definitions=main-2202180067
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
@@ -104,93 +96,84 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Nicholas Piggin <npiggin@gmail.com>
+ Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nicholas Piggin <npiggin@gmail.com>
+From: Fabiano Rosas <farosas@linux.ibm.com>
 
-In prepartion for implementing a full partition table option for
-vhyp, update the get_pate method to take an lpid and return a
-success/fail indicator.
+The G2LE CPU initialization code is the same as the G2. Use the latter
+for both.
 
-The spapr implementation currently just asserts lpid is always 0
-and always return success.
-
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-[ clg: checkpatch fixes ]
-Message-Id: <20220216102545.1808018-6-npiggin@gmail.com>
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20220216162426.1885923-3-farosas@linux.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/cpu.h         | 3 ++-
- hw/ppc/spapr.c           | 7 ++++++-
- target/ppc/mmu-radix64.c | 8 +++++++-
- 3 files changed, 15 insertions(+), 3 deletions(-)
+ target/ppc/cpu_init.c | 42 +-----------------------------------------
+ 1 file changed, 1 insertion(+), 41 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 555c6b924576..c79ae74f10de 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1320,7 +1320,8 @@ struct PPCVirtualHypervisorClass {
-                         hwaddr ptex, int n);
-     void (*hpte_set_c)(PPCVirtualHypervisor *vhyp, hwaddr ptex, uint64_t=
- pte1);
-     void (*hpte_set_r)(PPCVirtualHypervisor *vhyp, hwaddr ptex, uint64_t=
- pte1);
--    void (*get_pate)(PPCVirtualHypervisor *vhyp, ppc_v3_pate_t *entry);
-+    bool (*get_pate)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
-+                     target_ulong lpid, ppc_v3_pate_t *entry);
-     target_ulong (*encode_hpt_for_kvm_pr)(PPCVirtualHypervisor *vhyp);
-     void (*cpu_exec_enter)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-     void (*cpu_exec_exit)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 92639856635a..4fdff12a9625 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1309,13 +1309,18 @@ void spapr_set_all_lpcrs(target_ulong value, targ=
-et_ulong mask)
-     }
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 767994fb8f99..ec29ccf473e6 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -2885,53 +2885,13 @@ POWERPC_FAMILY(G2)(ObjectClass *oc, void *data)
+                  POWERPC_FLAG_BE | POWERPC_FLAG_BUS_CLK;
  }
 =20
--static void spapr_get_pate(PPCVirtualHypervisor *vhyp, ppc_v3_pate_t *en=
-try)
-+static bool spapr_get_pate(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
-+                           target_ulong lpid, ppc_v3_pate_t *entry)
+-static void init_proc_G2LE(CPUPPCState *env)
+-{
+-    register_ne_601_sprs(env);
+-    register_sdr1_sprs(env);
+-    register_G2_755_sprs(env);
+-    register_G2_sprs(env);
+-    /* Time base */
+-    register_tbl(env);
+-    /* External access control */
+-    spr_register(env, SPR_EAR, "EAR",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_generic,
+-                 0x00000000);
+-    /* Hardware implementation register */
+-    spr_register(env, SPR_HID0, "HID0",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_generic,
+-                 0x00000000);
+-
+-    spr_register(env, SPR_HID1, "HID1",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_generic,
+-                 0x00000000);
+-
+-    spr_register(env, SPR_HID2, "HID2",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, &spr_write_generic,
+-                 0x00000000);
+-
+-    /* Memory management */
+-    register_low_BATs(env);
+-    register_high_BATs(env);
+-    register_6xx_7xx_soft_tlb(env, 64, 2);
+-    init_excp_G2(env);
+-    env->dcache_line_size =3D 32;
+-    env->icache_line_size =3D 32;
+-    /* Allocate hardware IRQ controller */
+-    ppc6xx_irq_init(env_archcpu(env));
+-}
+-
+ POWERPC_FAMILY(G2LE)(ObjectClass *oc, void *data)
  {
-     SpaprMachineState *spapr =3D SPAPR_MACHINE(vhyp);
+     DeviceClass *dc =3D DEVICE_CLASS(oc);
+     PowerPCCPUClass *pcc =3D POWERPC_CPU_CLASS(oc);
 =20
-+    assert(lpid =3D=3D 0);
-+
-     /* Copy PATE1:GR into PATE0:HR */
-     entry->dw0 =3D spapr->patb_entry & PATE0_HR;
-     entry->dw1 =3D spapr->patb_entry;
-+
-+    return true;
- }
-=20
- #define HPTE(_table, _i)   (void *)(((uint64_t *)(_table)) + ((_i) * 2))
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index 04690b64828f..9c557c6de97a 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -563,7 +563,13 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, =
-vaddr eaddr,
-     if (cpu->vhyp) {
-         PPCVirtualHypervisorClass *vhc;
-         vhc =3D PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
--        vhc->get_pate(cpu->vhyp, &pate);
-+        if (!vhc->get_pate(cpu->vhyp, cpu, lpid, &pate)) {
-+            if (guest_visible) {
-+                ppc_radix64_raise_hsi(cpu, access_type, eaddr, eaddr,
-+                                      DSISR_R_BADCONFIG);
-+            }
-+            return false;
-+        }
-     } else {
-         if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
-             if (guest_visible) {
+     dc->desc =3D "PowerPC G2LE";
+-    pcc->init_proc =3D init_proc_G2LE;
++    pcc->init_proc =3D init_proc_G2;
+     pcc->check_pow =3D check_pow_hid0;
+     pcc->insns_flags =3D PPC_INSNS_BASE | PPC_STRING | PPC_MFTB |
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
 --=20
 2.34.1
 
