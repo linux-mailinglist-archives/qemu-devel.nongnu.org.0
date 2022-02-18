@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270324BB065
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 04:50:02 +0100 (CET)
-Received: from localhost ([::1]:35250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200874BB132
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 06:19:39 +0100 (CET)
+Received: from localhost ([::1]:42114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKuHP-0004uX-UC
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 22:49:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57252)
+	id 1nKvg9-00061c-Kl
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 00:19:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nKuFZ-00041O-Df
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 22:48:05 -0500
-Received: from [2607:f8b0:4864:20::42f] (port=46893
- helo=mail-pf1-x42f.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nKvfA-0005Lh-9N
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 00:18:36 -0500
+Received: from [2a00:1450:4864:20::629] (port=45910
+ helo=mail-ej1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nKuFX-0004Ov-MB
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 22:48:05 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id i21so1308131pfd.13
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 19:48:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6N1EnLMGnEq8wQ5a/od9AfA+7poSeJEV510Fw3dyECY=;
- b=aBnWBbRO91L74bZC61aTdvoUO7mw3c9WEATCetT84kAPTIx91AoAtrFRLoM3feAGdp
- KUBrNPpTaBN1ODp6u7+CNFgj0Nqgay8YG3QZqbsCDS2Mi+Q4gS+repA0BP3Z4HoprNAu
- 7aI0/NmQHt/rY2Hj85N1FYt0hKNbyRyho7mgWIw0nUq2NbkOeLXUCFS2rSj/+caOB5y1
- C3iS6yfW89BSkVUSpwm04EdG5iqc+PATGt8VUQ5Le0Ji0K7iy6dHoXqdbnT+W39tc2mS
- 6wJxh+1Zb+6vE9r0mCSFeqP6oH8hqYcfRyh/vEWQ96ZXdQRD1mPdJoYODSMo9og0juEW
- Kd+g==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nKvf8-0008A5-8t
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 00:18:36 -0500
+Received: by mail-ej1-x629.google.com with SMTP id lw4so12283855ejb.12
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 21:18:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KdLEML2HOrp0wMbxtgoWIoLCpLMhdwH5tohyTCDkDSM=;
+ b=d9NAi0c4+Tg8C7h2WgUQWaIHIx0ZbziNs7wTAvX4ep0iHS4vVBertfAf21edmI9FU8
+ +/bs/03ASMZ+/xIWviyre6i+frNLtebC/j3CYZzpHIH/EfmoOLY7NyjWco3CEicLN1m8
+ NbMrdW2Nu3tC2L8lB6Bp9T6lPs00TZnwvp+96HUWa7B3XedNCoGlk5468NjtW3nZMfAh
+ asgThq4EKhIZ8mHNKFpon1My94c4GCr5dfPNODqBqHXngTa8bAAFzusSiS8h5muGMAsb
+ oL2JK7VSYSfX7h2EiAVCq5RT/1s1u4SqyzQZJc/k/+9OzwJMrwH8SmU+IVD4g58QUj46
+ y5WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6N1EnLMGnEq8wQ5a/od9AfA+7poSeJEV510Fw3dyECY=;
- b=PtKDjC18L+V+IxYMBEIC9oSYhv4/FTS2O/q43VEOZ/7Yz4a6Sw/eIGhgysF0jjryfJ
- HAPPrqDbPmbak0HUQ6dABi8s7XL0BbA7Kt3hT1hhcajfFMK84z3lOt4umVUzbdI2+ZDJ
- mJ47NGBSRLE6ZNlpLfnYR3HP+BNfecHqAw6BL8AE7f/g8B3L7EE++BdlBWhamKDQA8KX
- FFtQNV5urEex7QWjXedUAUDt7Qg1KCOPHLysbPW/Ok9Dwg6jgx7Y/VikK6X9GxmbdUZe
- Majxy98Q8DADBz4Hu3QflrDihqDbuPvi3An8c8hCCniYyBEhZktjlq7f3F/kJBCy+l4R
- bwaw==
-X-Gm-Message-State: AOAM530SByUnkIAAzcfFc2IfLLH6i+SI5myjkDi0znZKJL54t2reD2Vl
- xHRmy33FaFBBAmhUaARnMohT0w==
-X-Google-Smtp-Source: ABdhPJwH+pXR+AhVLQLP7IZ6GXvkosY0yrJgigrFJp+kgmd9tMeK7pWtXkLq75pkayH1vT3MIIDFAw==
-X-Received: by 2002:a63:ce51:0:b0:362:c4fd:273b with SMTP id
- r17-20020a63ce51000000b00362c4fd273bmr4817719pgi.540.1645156082068; 
- Thu, 17 Feb 2022 19:48:02 -0800 (PST)
-Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id c23sm1001460pfi.136.2022.02.17.19.47.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 19:48:01 -0800 (PST)
-Message-ID: <a8dd9d30-843c-0510-db1c-de965220778f@linaro.org>
-Date: Fri, 18 Feb 2022 14:47:56 +1100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KdLEML2HOrp0wMbxtgoWIoLCpLMhdwH5tohyTCDkDSM=;
+ b=dcXB+9qoyEOwx6Ernsha6FIcDk90Ew6iXn5z0/PmShAUCLnqO+fdPNODHczGp+m7+w
+ fLGaKg2WSIS7S6SVqGHmXn7PQc4XanXFVAYPbbLGI+NZqJ1EpXiTOgo+FeSxRrXPp2qd
+ fxgK7A0RhbfKTfplpzzWJAgVY4DBJXU+75DJLBwpsOuewjhdO/eJjebxhCvJbRgCafGO
+ 3lhaIzdi7Cu5F+4LbZ6tkG4qqS/VuV2xBsV4kTk937glyvWxUC4iQ/jCx65GnwjWzMJz
+ XvHhuDjOH3XXVUPrtJ5XqdwdaEc8s8Vc/snFO+v2AUzo1RPicv4Hn8BMjHUNmfTYc/ZY
+ fjIg==
+X-Gm-Message-State: AOAM533jc3ZCBH7UGBMjOINr4O4LvgdXBr8pGavXfktAOAwxmYacDJdc
+ 0k5278MPcfCVFWrXPye2Uf1yx0zFHOHCoSF0OiYC6Q==
+X-Google-Smtp-Source: ABdhPJxlE8xvHvnKseKStVf0gdHS4ukh6hvv/0TPnwBUY+x6T+rE6mL4VWoL0p+IXKoOKtEsRem1PPJi5UHdgqRe9QA=
+X-Received: by 2002:a17:906:a85:b0:6d0:827a:89d0 with SMTP id
+ y5-20020a1709060a8500b006d0827a89d0mr3739684ejf.230.1645161512651; Thu, 17
+ Feb 2022 21:18:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 00/15] target/arm: Implement LVA, LPA, LPA2 features
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220210040423.95120-1-richard.henderson@linaro.org>
- <CAFEAcA_m1Hobh8M+RBto_uECQdq1BN7nvMFOsCbrkL773MEr1Q@mail.gmail.com>
- <87v8xd9yw9.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87v8xd9yw9.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+References: <20220207113129.2701722-1-ani@anisinha.ca>
+ <20220207113129.2701722-3-ani@anisinha.ca>
+ <20220214135054.2602fa82@redhat.com>
+In-Reply-To: <20220214135054.2602fa82@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 18 Feb 2022 10:48:21 +0530
+Message-ID: <CAARzgww21E5pJ=TgJ+iO9MwfYLMmkZJnWywtqhtZE5V1TWzKnw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] hw/smbios: fix table memory corruption with large
+ memory vms
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: none client-ip=2a00:1450:4864:20::629;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,91 +82,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/18/22 04:37, Alex Bennée wrote:
-> 
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> 
->> On Thu, 10 Feb 2022 at 04:04, Richard Henderson
->> <richard.henderson@linaro.org> wrote:
->>>
->>> Changes for v2:
->>>    * Introduce FIELD_SEX64, instead of open-coding w/ sextract64.
->>>    * Set TCR_EL1 more completely for user-only.
->>>    * Continue to bound tsz within aa64_va_parameters;
->>>      provide an out-of-bound indicator for raising AddressSize fault.
->>>    * Split IPS patch.
->>>    * Fix debug registers for LVA.
->>>    * Fix long-format fsc for LPA2.
->>>    * Fix TLBI page shift.
->>>    * Validate TLBI granule vs TCR granule.
->>>
->>> Not done:
->>>    * Validate translation levels which accept blocks.
->>>
->>> There is still no upstream kernel support for FEAT_LPA2,
->>> so that is essentially untested.
->>
->> This series seems to break 'make check-acceptance':
->>
->>   (01/59) tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2:
->> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
->> Timeout reached\nOriginal status: ERROR\n{'name':
->> '01-tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv2',
->> 'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/results/j...
->> (900.74 s)
->>   (02/59) tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3:
->> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
->> Timeout reached\nOriginal status: ERROR\n{'name':
->> '02-tests/avocado/boot_linux.py:BootLinuxAarch64.test_virt_tcg_gicv3',
->> 'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/results/j...
->> (900.71 s)
->>
->> UEFI runs in the guest and seems to launch the kernel, but there's
->> no output from the kernel itself in the logfile. Last thing it
->> prints is:
->>
->> EFI stub: Booting Linux Kernel...
->> EFI stub: EFI_RNG_PROTOCOL unavailable, no randomness supplied
->> EFI stub: Using DTB from configuration table
->> EFI stub: Exiting boot services and installing virtual address map...
->> SetUefiImageMemoryAttributes - 0x000000007F500000 - 0x0000000000040000
->> (0x0000000000000008)
->> SetUefiImageMemoryAttributes - 0x000000007C190000 - 0x0000000000040000
->> (0x0000000000000008)
->> SetUefiImageMemoryAttributes - 0x000000007C140000 - 0x0000000000040000
->> (0x0000000000000008)
->> SetUefiImageMemoryAttributes - 0x000000007F4C0000 - 0x0000000000030000
->> (0x0000000000000008)
->> SetUefiImageMemoryAttributes - 0x000000007C0F0000 - 0x0000000000040000
->> (0x0000000000000008)
->> SetUefiImageMemoryAttributes - 0x000000007BFB0000 - 0x0000000000040000
->> (0x0000000000000008)
->> SetUefiImageMemoryAttributes - 0x000000007BE00000 - 0x0000000000030000
->> (0x0000000000000008)
->> SetUefiImageMemoryAttributes - 0x000000007BDC0000 - 0x0000000000030000
->> (0x0000000000000008)
->>
->> This ought to be followed by the usual kernel boot log
->> [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x000f0510]
->> etc but it isn't. Probably the kernel is crashing in early bootup
->> before it gets round to printing anything.
-> 
-> As this test runs under -cpu max it is likely exercising the new
-> features (and failing).
+On Mon, Feb 14, 2022 at 6:21 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Mon,  7 Feb 2022 17:01:28 +0530
+> Ani Sinha <ani@anisinha.ca> wrote:
+>
+> > With the current smbios table assignment code, we can have only 512 DIMM slots
+> it's a bit confusing, since it's not DIMM slots in QEMU sense (we do not expose
+> DIMM devices via SMBIOS/E820). So maybe clarify here that initial RAM is split
+> into 16GB (with 'DIMM' type ) chunks/entries when it's described in SMBIOS table 17.
+>
+> > (each DIMM of 16 GiB in size) before tables 17 and 19 conflict with their
+> > addresses.
+>
+> Are you sure it's addresses that are wrong?
 
-I would have thought so too.  However...
-
-I've bisected this to the final LPA2 patch.  I have not tracked down what exactly is going 
-on with this, but it's definitely not the guest exercising the new feature -- there is no 
-upstream support for LPA2.
-
-I'll keep looking.
-
-
-r~
-
+I don't know why I had this pre conception of memory corruption and
+overlapping addresses! Even the BZ says table handles overlap. Grr ...
+doing too much multiplexing these days :(
 
