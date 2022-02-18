@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B314BBDD1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 17:52:33 +0100 (CET)
-Received: from localhost ([::1]:58954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67ABB4BBDD2
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 17:53:00 +0100 (CET)
+Received: from localhost ([::1]:59082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL6Uh-0002NO-UX
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 11:52:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41958)
+	id 1nL6V9-0002SQ-CY
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 11:52:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nL6PS-00081o-Hm; Fri, 18 Feb 2022 11:47:06 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:48182)
+ id 1nL6PV-00083R-0w; Fri, 18 Feb 2022 11:47:09 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:48200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nL6PQ-0007ZI-K2; Fri, 18 Feb 2022 11:47:06 -0500
+ id 1nL6PR-0007ZY-Sa; Fri, 18 Feb 2022 11:47:08 -0500
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id DCB7B20898;
- Fri, 18 Feb 2022 16:47:01 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 834672089E;
+ Fri, 18 Feb 2022 16:47:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1645202822;
+ s=mail; t=1645202824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fTwQXv8aSQcofSMa0IHoyzLvta1LaHX+zhc2AwBgJog=;
- b=hiRvhiL7kMyxAHhM3XaBLatXedpfNzsBk2TOIoz4M1qblIAMvO3IMYm4/MzD+rzzLYuA95
- yfULyihZ3+lk0tE1Yo7dOOTOUau8cxVs5fy3850h3pVpEno+iM2X5AmAmIm8P023bosbBk
- wXMF5Nm0DklVRNcQ4XkHgpEaWfE31+g=
+ bh=H4p+4KovWb/FJ5Zi+VtCTfrkAKtSSXwV+qbaQx93f+0=;
+ b=TGUueIQgRUoWBihzKsvlHPLzUcNojs9+u5r/RE7AfOAk6YsOwPM5jkJTMMhw23Cg5P22g1
+ xll8VmF+AE79mxY8ApLiGfbeXaNmpOdUrrrmBdRqzhDiQbe3wi+9e9C6xiqEGo6mzQz4ka
+ of4ez8rYfF4hicWixO7W8YNzAYsM0Rc=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] hw/riscv/riscv_hart: free the harts array when the object
- is finalized
-Date: Fri, 18 Feb 2022 17:46:42 +0100
-Message-Id: <20220218164646.132112-2-damien.hedde@greensocs.com>
+Subject: [PATCH 2/5] target/riscv: add riscv_cpu_release_claimed_interrupts
+ function
+Date: Fri, 18 Feb 2022 17:46:43 +0100
+Message-Id: <20220218164646.132112-3-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220218164646.132112-1-damien.hedde@greensocs.com>
 References: <20220218164646.132112-1-damien.hedde@greensocs.com>
@@ -68,44 +68,52 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The array is dynamically allocated by realize() depending on the
-number of harts.
-
-This clean-up removes memory leaks which would happen in the
-'init->finalize' life-cycle use-case (happening when user creation
-is allowed).
+This function will be used to undo an interrupt claim made by
+a previous call to riscv_cpu_claim_interrupts().
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/riscv/riscv_hart.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/riscv/cpu.h        | 7 +++++++
+ target/riscv/cpu_helper.c | 8 ++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-index 613ea2aaa0..4aed6c2a59 100644
---- a/hw/riscv/riscv_hart.c
-+++ b/hw/riscv/riscv_hart.c
-@@ -66,6 +66,13 @@ static void riscv_harts_realize(DeviceState *dev, Error **errp)
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 8183fb86d5..9f0c432053 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -469,6 +469,13 @@ void riscv_cpu_list(void);
+ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+ void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
+ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint64_t interrupts);
++
++/*
++ * riscv_cpu_release_unclaimed_interrupts:
++ * Release previously claimed interrupts by riscv_cpu_claim_interrupts().
++ */
++void riscv_cpu_release_claimed_interrupts(RISCVCPU *cpu, uint64_t interrupts);
++
+ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value);
+ #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
+ void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 746335bfd6..170fed6dff 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -596,6 +596,14 @@ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint64_t interrupts)
      }
  }
  
-+static void riscv_harts_finalize(Object *obj)
++void riscv_cpu_release_claimed_interrupts(RISCVCPU *cpu, uint64_t interrupts)
 +{
-+    RISCVHartArrayState *s = RISCV_HART_ARRAY(obj);
-+
-+    g_free(s->harts);
++    CPURISCVState *env = &cpu->env;
++    /* ensure all claimed interrupt are really there */
++    g_assert((env->miclaim & interrupts) == interrupts);
++    env->miclaim &= ~interrupts;
 +}
 +
- static void riscv_harts_class_init(ObjectClass *klass, void *data)
+ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -79,6 +86,7 @@ static const TypeInfo riscv_harts_info = {
-     .parent        = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(RISCVHartArrayState),
-     .class_init    = riscv_harts_class_init,
-+    .instance_finalize = riscv_harts_finalize,
- };
- 
- static void riscv_harts_register_types(void)
+     CPURISCVState *env = &cpu->env;
 -- 
 2.35.1
 
