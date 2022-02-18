@@ -2,41 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E0A4BBDD0
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 17:52:32 +0100 (CET)
-Received: from localhost ([::1]:58934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B314BBDD1
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 17:52:33 +0100 (CET)
+Received: from localhost ([::1]:58954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL6Ug-0002MY-UY
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 11:52:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41940)
+	id 1nL6Uh-0002NO-UX
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 11:52:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nL6PP-00080p-Vr; Fri, 18 Feb 2022 11:47:03 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:48172)
+ id 1nL6PS-00081o-Hm; Fri, 18 Feb 2022 11:47:06 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:48182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nL6PM-0007ZA-Kx; Fri, 18 Feb 2022 11:47:03 -0500
+ id 1nL6PQ-0007ZI-K2; Fri, 18 Feb 2022 11:47:06 -0500
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 80C2920896;
- Fri, 18 Feb 2022 16:46:56 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id DCB7B20898;
+ Fri, 18 Feb 2022 16:47:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1645202816;
+ s=mail; t=1645202822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=SHHPXzHVaXTncR+1zcq0I1jkRrXwjiEdJ2zyeEQu6b4=;
- b=Fw+i3Vw2a4tEBDGnGB1WbLTSLokAbaWqDrRqZOsjioXI44St/SEStGghmAc6M+2pgsHRjJ
- c3GaZBATv/NT3YxFusoIlU2I6Hn6wbJtrZ7Wc93i0CaHBcPXcLqzyWGEn3CiP26rpOdjbb
- KRAlx++4FFlm43Qq7Za/SZ86T5jXado=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fTwQXv8aSQcofSMa0IHoyzLvta1LaHX+zhc2AwBgJog=;
+ b=hiRvhiL7kMyxAHhM3XaBLatXedpfNzsBk2TOIoz4M1qblIAMvO3IMYm4/MzD+rzzLYuA95
+ yfULyihZ3+lk0tE1Yo7dOOTOUau8cxVs5fy3850h3pVpEno+iM2X5AmAmIm8P023bosbBk
+ wXMF5Nm0DklVRNcQ4XkHgpEaWfE31+g=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] RiscV cleanups for user-related life cycles
-Date: Fri, 18 Feb 2022 17:46:41 +0100
-Message-Id: <20220218164646.132112-1-damien.hedde@greensocs.com>
+Subject: [PATCH 1/5] hw/riscv/riscv_hart: free the harts array when the object
+ is finalized
+Date: Fri, 18 Feb 2022 17:46:42 +0100
+Message-Id: <20220218164646.132112-2-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220218164646.132112-1-damien.hedde@greensocs.com>
+References: <20220218164646.132112-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 Received-SPF: pass client-ip=5.135.226.135;
  envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
 X-Spam_score_int: -20
@@ -59,45 +64,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org
+ Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The array is dynamically allocated by realize() depending on the
+number of harts.
 
-This is a few cleanups regarding user oriented life-cycle use cases.
-When a device is accessible to user creation, there are a few
-life-cycle use cases to consider:
-+ init -> finalize (happen when introspection the object).
-+ init -> realize-failure -> finalize (realize must report errors due
-to miss configuration and leave in a 'good' state)
+This clean-up removes memory leaks which would happen in the
+'init->finalize' life-cycle use-case (happening when user creation
+is allowed).
 
-This series fixes issues I've spotted in the riscv hart array and
-interrupt controllers. It is organized as follows:
-+ patch 1 prevent memory leak in riscv array array
-+ patch 2 introduce a new function in the riscv cpu needed by next
-  pacthes
-+ patches 3/4/5 prevent memory leaks and add error reporting in plic and
-  aclint devices
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+---
+ hw/riscv/riscv_hart.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thanks,
---
-Damien
-
-Damien Hedde (5):
-  hw/riscv/riscv_hart: free the harts array when the object is finalized
-  target/riscv: add riscv_cpu_release_claimed_interrupts function
-  hw/intc/sifive_plic: report errors and free allocated memory
-  hw/intc/riscv_aclint: swi: report errors and free allocated memory
-  hw/intc/riscv_aclint: mtimer: report errors and free allocated memory
-
- target/riscv/cpu.h        |   7 +++
- hw/intc/riscv_aclint.c    | 112 ++++++++++++++++++++++++++++----------
- hw/intc/sifive_plic.c     |  90 ++++++++++++++++++++----------
- hw/riscv/riscv_hart.c     |   8 +++
- target/riscv/cpu_helper.c |   8 +++
- 5 files changed, 168 insertions(+), 57 deletions(-)
-
+diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
+index 613ea2aaa0..4aed6c2a59 100644
+--- a/hw/riscv/riscv_hart.c
++++ b/hw/riscv/riscv_hart.c
+@@ -66,6 +66,13 @@ static void riscv_harts_realize(DeviceState *dev, Error **errp)
+     }
+ }
+ 
++static void riscv_harts_finalize(Object *obj)
++{
++    RISCVHartArrayState *s = RISCV_HART_ARRAY(obj);
++
++    g_free(s->harts);
++}
++
+ static void riscv_harts_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -79,6 +86,7 @@ static const TypeInfo riscv_harts_info = {
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(RISCVHartArrayState),
+     .class_init    = riscv_harts_class_init,
++    .instance_finalize = riscv_harts_finalize,
+ };
+ 
+ static void riscv_harts_register_types(void)
 -- 
 2.35.1
 
