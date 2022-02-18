@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DC34BBF12
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 19:12:03 +0100 (CET)
-Received: from localhost ([::1]:60948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC2A4BBF3F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 19:15:09 +0100 (CET)
+Received: from localhost ([::1]:36618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL7jd-0005F9-55
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 13:12:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58008)
+	id 1nL7me-0007yw-Hg
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 13:15:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nL7h6-0003jj-FA
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:09:28 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=51860
- helo=mail-pj1-x1035.google.com)
+ id 1nL7jN-0006Cg-2E
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:11:46 -0500
+Received: from [2607:f8b0:4864:20::52d] (port=39617
+ helo=mail-pg1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nL7h4-0002kf-KE
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:09:24 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id y9so9281982pjf.1
- for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 10:09:22 -0800 (PST)
+ id 1nL7jK-0003Je-Ie
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:11:44 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id 195so8528295pgc.6
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 10:11:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=tmTohSHoe+JQPpzq470FgxtpAE0Jj7SepU34Mt/GbOw=;
- b=hL0KIgnMVAVTR/xgA3o9+o4+FwuP1Eusgvv4a8IhcL1acXNTdjY/LCm6vAXwdurkRf
- ztAHt1XAAjlFdLP3me931o5hw3L6MykE1sxLLHQghNNrlSgpQh+uRUPwByrQ9li5XyHR
- +37c1y6NEdap6xHPSrrhAOU6hfDkI8ewLkj8F7MdVoYzfe2OdcvOGNz7f8Vz6DgZn5SC
- WI0jqLYonRUUHvhYqB5AzPfLsE971Y08++z+asZWKULhm/0MRG2DH/frB10OefvkPZhK
- kTWT1ywMe1kkskGEprKQh78k81MKdz1cRuffnLHxeRmKpTph7i41ywp6GvBhtPnTTq1R
- 8ikA==
+ bh=glpdK+fO5Q+QLS3q1YP48ouP8KoB7zTaA/MDsrT5IHY=;
+ b=auyL0Og+nRv7KHTY/rM2mEt3b34ItYWrihm9sbBN7YR3GcZTCs+DmDAfa2gUQTRuz1
+ Go220yaz+azOds+nztwxFnruv+tajcF4gWhDT62csNbkl7heqHmN6L0MAUq5QmN0W5F2
+ J4c8Weq40hgqcsMwbMqi0ItMOWX7RY+vVOD27u0Qf5kZJ2Ya1A2j2aBzzoXOiHOJdciR
+ G4vsx9H7i5wJdCoICWpsBvXE+mVMLoCFc8Ij8sPwpmzm0ywFkro3ZeLZhbD8yFGDfPY+
+ IwQmyd5dTKRVWlO2bLMuTgBbSLchl8onFu+twjHHY8smxb/7/vpz6zWE04JjsDavNdYd
+ d6GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=tmTohSHoe+JQPpzq470FgxtpAE0Jj7SepU34Mt/GbOw=;
- b=4TyyRbQHJvDNhvYa3w5ECl/9r9ri3+DMV1gu7m19GezB0EgwUKSuwdVjcYzh/ihbGE
- bolzVCKu2kzs8Vwn2sV8wvqJeGOVDNzMpPjQyza2emJKnrkzADQ5dD2cWZXxfvuL3LUw
- DcnQXLMz7LUhett1NLloGWh6RG1rVpOR58XtWe2kcr9VwuI2nAtnxN4bEtTZzzez9O30
- M1Pnmd/P2aj6b+2/DIf5dH/VOHI1v5i09XH67QU/FwafnUmd6KrOb59RLsDJADxFSVDd
- 8I8cDjVNskI/pMhii0qpeVZJXAjGi0DA3x+65OPV9ire/fyI11C5LPF++UUUFtaHY/1E
- JIlA==
-X-Gm-Message-State: AOAM5332Codm76B7qXERlFmYlAMEj5cPqf77aQtD9fJnkG7X1/OM/Lsd
- u+DxpDk4KwWgWOtjiOrvuC4=
-X-Google-Smtp-Source: ABdhPJxyys2ylaiQXirqHcTtulp6M1X9hmBcopbuY+Z11tnJz6WbXDuk1CFj8AR3DicWXI9eXi+H+Q==
-X-Received: by 2002:a17:903:240a:b0:14e:dad4:5ce4 with SMTP id
- e10-20020a170903240a00b0014edad45ce4mr8434735plo.125.1645207761239; 
- Fri, 18 Feb 2022 10:09:21 -0800 (PST)
+ bh=glpdK+fO5Q+QLS3q1YP48ouP8KoB7zTaA/MDsrT5IHY=;
+ b=FpYQFSznNJMEEudUdhe6uVjkfq/vjPhA3jRddRZnjo+SDKFGv+yeJwIBZacHNUrQvv
+ VTFjdReB55WV/lm+Q8mlkxh5yw3o/C+Kzvo8mFzZ86mNsQu7M164GdnmhR5G8O7BRSWn
+ SbievHBW9d492WSt3jRig1wSUf/JcX1cf5t5vuoy1kON9mM5f788F6b05EbTOsjpi+mI
+ dhyju9rups8PZSsQvolNpg3cPtV8QGDTfPB6F1+SxZ5XB9y/F4HZx//UvW0/J+xC/53D
+ GPDcXV8rhQ7X8zR3o6fswXefVSGyDdsczrjv4WH+szlVI/IUEQkUVoxRA0ag+D6njlv9
+ 0ACw==
+X-Gm-Message-State: AOAM530Ah3ED+lPKvQzjAy5lhaCZvrFrrz0qHbrrRdNtwjcNSXdQyq6w
+ YY46zX3kQ74tibmUzQrjEkA=
+X-Google-Smtp-Source: ABdhPJy0w37m1npebAIH9voMGVw6+qsR2ugQYOoVHV4ZoYmelTy4r1zkc56XDOh/x6UF/q6lhZdTzQ==
+X-Received: by 2002:a63:5f14:0:b0:373:9e86:44d3 with SMTP id
+ t20-20020a635f14000000b003739e8644d3mr7200246pgb.416.1645207898395; 
+ Fri, 18 Feb 2022 10:11:38 -0800 (PST)
 Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
  by smtp.gmail.com with ESMTPSA id
- q13sm4065587pfl.210.2022.02.18.10.09.19
+ l12sm4049706pfc.182.2022.02.18.10.11.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Feb 2022 10:09:20 -0800 (PST)
-Message-ID: <7eb3be1b-68a1-37e4-52f0-8a154d2f23be@gmail.com>
-Date: Sat, 19 Feb 2022 03:09:16 +0900
+ Fri, 18 Feb 2022 10:11:38 -0800 (PST)
+Message-ID: <907eb058-01ff-0542-c057-7ecb3fd46cac@gmail.com>
+Date: Sat, 19 Feb 2022 03:11:33 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v6 03/15] tests/fp/berkeley-testfloat-3: Ignore ignored
- #pragma directives
+Subject: Re: [PATCH v6 07/15] block/file-posix: Remove a deprecation warning
+ on macOS 12
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220215080307.69550-1-f4bug@amsat.org>
- <20220215080307.69550-4-f4bug@amsat.org>
+ <20220215080307.69550-8-f4bug@amsat.org>
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20220215080307.69550-4-f4bug@amsat.org>
+In-Reply-To: <20220215080307.69550-8-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -105,37 +105,62 @@ Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
 On 2022/02/15 17:02, Philippe Mathieu-Daudé via wrote:
-> Since we already use -Wno-unknown-pragmas, we can also use
-> -Wno-ignored-pragmas. This silences hundred of warnings using
-> clang 13 on macOS Monterey:
+> When building on macOS 12 we get:
 > 
->    [409/771] Compiling C object tests/fp/libtestfloat.a.p/berkeley-testfloat-3_source_test_az_f128_rx.c.o
->    ../tests/fp/berkeley-testfloat-3/source/test_az_f128_rx.c:49:14: warning: '#pragma FENV_ACCESS' is not supported on this target - ignored [-Wignored-pragmas]
->    #pragma STDC FENV_ACCESS ON
->                 ^
->    1 warning generated.
+>    block/file-posix.c:3335:18: warning: 'IOMasterPort' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
+>        kernResult = IOMasterPort( MACH_PORT_NULL, &masterPort );
+>                     ^~~~~~~~~~~~
+>                     IOMainPort
 > 
-> Having:
+> Replace by IOMainPort, redefining it to IOMasterPort if not available.
 > 
->    $ cc -v
->    Apple clang version 13.0.0 (clang-1300.0.29.30)
-> 
+> Suggested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Reviewed by: Cameron Esfahani <dirty@apple.com>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   tests/fp/meson.build | 1 +
->   1 file changed, 1 insertion(+)
+>   block/file-posix.c | 14 ++++++++++----
+>   1 file changed, 10 insertions(+), 4 deletions(-)
 > 
-> diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-> index 59776a00a7..5192264a08 100644
-> --- a/tests/fp/meson.build
-> +++ b/tests/fp/meson.build
-> @@ -30,6 +30,7 @@ tfcflags = [
->     '-Wno-implicit-fallthrough',
->     '-Wno-strict-prototypes',
->     '-Wno-unknown-pragmas',
-> +  '-Wno-ignored-pragmas',
->     '-Wno-uninitialized',
->     '-Wno-missing-prototypes',
->     '-Wno-return-type',
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 1f1756e192..13393ad296 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -3319,17 +3319,23 @@ BlockDriver bdrv_file = {
+>   #if defined(__APPLE__) && defined(__MACH__)
+>   static kern_return_t GetBSDPath(io_iterator_t mediaIterator, char *bsdPath,
+>                                   CFIndex maxPathSize, int flags);
+> +
+> +#if !defined(MAC_OS_VERSION_12_0) \
+> +    || (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_12_0)
+> +#define IOMainPort IOMasterPort
+> +#endif
+> +
+>   static char *FindEjectableOpticalMedia(io_iterator_t *mediaIterator)
+>   {
+>       kern_return_t kernResult = KERN_FAILURE;
+> -    mach_port_t     masterPort;
+> +    mach_port_t mainPort;
+>       CFMutableDictionaryRef  classesToMatch;
+>       const char *matching_array[] = {kIODVDMediaClass, kIOCDMediaClass};
+>       char *mediaType = NULL;
+>   
+> -    kernResult = IOMasterPort( MACH_PORT_NULL, &masterPort );
+> +    kernResult = IOMainPort(MACH_PORT_NULL, &mainPort);
+>       if ( KERN_SUCCESS != kernResult ) {
+> -        printf( "IOMasterPort returned %d\n", kernResult );
+> +        printf("IOMainPort returned %d\n", kernResult);
+>       }
+>   
+>       int index;
+> @@ -3342,7 +3348,7 @@ static char *FindEjectableOpticalMedia(io_iterator_t *mediaIterator)
+>           }
+>           CFDictionarySetValue(classesToMatch, CFSTR(kIOMediaEjectableKey),
+>                                kCFBooleanTrue);
+> -        kernResult = IOServiceGetMatchingServices(masterPort, classesToMatch,
+> +        kernResult = IOServiceGetMatchingServices(mainPort, classesToMatch,
+>                                                     mediaIterator);
+>           if (kernResult != KERN_SUCCESS) {
+>               error_report("Note: IOServiceGetMatchingServices returned %d",
 
 
