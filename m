@@ -2,125 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC7D4BC313
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 00:56:25 +0100 (CET)
-Received: from localhost ([::1]:57364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495E84BC2D3
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 00:19:38 +0100 (CET)
+Received: from localhost ([::1]:53294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLD6u-0000ua-AL
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 18:56:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47442)
+	id 1nLCXI-0004n9-Rx
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 18:19:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>)
- id 1nLD5c-0008V7-UM; Fri, 18 Feb 2022 18:55:04 -0500
-Received: from [2a01:111:f400:7ea9::60b] (port=32435
- helo=NAM02-SN1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>)
- id 1nLD5D-0001tY-BL; Fri, 18 Feb 2022 18:55:03 -0500
-Received: from CH0PR02MB8027.namprd02.prod.outlook.com (2603:10b6:610:108::13)
- by MN2PR02MB6685.namprd02.prod.outlook.com (2603:10b6:208:1d5::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Fri, 18 Feb
- 2022 22:21:27 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QKMYWTlCRIO0r0mt7yhRCXytb6vrHU336VptcwCp4mKkVe6E7jO15c176zrQCby6kuNLwRJSR2onF/r0REWiQYpdAhbbhBjb82UbqDYy52ifGGN1R9FdE9ERem1DqibVhZd8Guhz5nfsiiYxXJmjzfZaxW3EQmd4Iqeu2FtjG5wW7mytYtHZpoZeAwvNmSFLqKI4mJLk8TfCcXCYl4wkefAZka9/shv0+jpTJ4/Vi2J1/rVTESrccZODALeyh1K+gQZ8Km+VphSGQncfh/ZgmU7gBZsro8sqw7wslsXcmqac5H+8GZ8E7eUmaQw7VSx1WgpB6g5Gvs1njDZZ6Ql1XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M/574YRC021P9YMuvZiJW49bZoNFoEp500MFyFh8mis=;
- b=M1I5KrdUdBK7zmg8aUG58DaTHiW5QHf2isKgeuVv9fGTLO5uBhkTpP5lBdRzFJ6QndnQO1bNmU23uyijZsiJPfFzevd3qJSnChAbN1XRj54LHQWdk9VD28+HRfzeeqvOH4y86m2u9KPf4cXbX/Yloxz4U4NsFYGhQvCi7oPjFLfflQZ30kvN+/3vcv6E0gY02AuAVEaeHRLQ01dYB6dQpxP0pSpIpPZMX72kRRGHmqXIx8dGsYfZ9SnGez+YgzTlIp4BLZQvHE/9i9dGRyXjc31cQ6ORx9nktE8xfh6uTG3Sx8jEdQVmSeAn/jGh1RFh7QLa2PgMhcTctsZcJ6/fWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=linaro.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M/574YRC021P9YMuvZiJW49bZoNFoEp500MFyFh8mis=;
- b=PslAfi3q56Xxvvgx5caXIXyE2bJC1/zbKsG4FAbEvLFis6LNA8sZOyIEWOEn2O3/80sUuqROIG9cvK+tJGh8oum2kejrWk96QSbLprDUkA7C69/jK2U1HtrcPRnicpWH5S1NIJE+5ZhveKeBcTAIZaT2+A6T30PGD2mK6AWEX8s=
-Received: from DM5PR13CA0022.namprd13.prod.outlook.com (2603:10b6:3:23::32) by
- CH0PR02MB8027.namprd02.prod.outlook.com (2603:10b6:610:108::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.18; Fri, 18 Feb
- 2022 22:00:23 +0000
-Received: from DM3NAM02FT043.eop-nam02.prod.protection.outlook.com
- (2603:10b6:3:23::4) by DM5PR13CA0022.outlook.office365.com
- (2603:10b6:3:23::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.8 via Frontend
- Transport; Fri, 18 Feb 2022 22:00:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- DM3NAM02FT043.mail.protection.outlook.com (10.13.4.237) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4995.19 via Frontend Transport; Fri, 18 Feb 2022 22:00:22 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Fri, 18 Feb 2022 14:00:17 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Fri, 18 Feb 2022 14:00:16 -0800
-Received: from [10.23.120.168] (port=55473 helo=localhost)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <edgar@xilinx.com>)
- id 1nLBIW-0001e5-IO; Fri, 18 Feb 2022 14:00:16 -0800
-Date: Fri, 18 Feb 2022 23:00:16 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 3/6] hw/misc: Add a model of the Xilinx ZynqMP CRF
-Message-ID: <20220218150649.GB7092@toto>
-References: <20220203140141.310870-1-edgar.iglesias@gmail.com>
- <20220203140141.310870-4-edgar.iglesias@gmail.com>
- <CAFEAcA9joHJr=tekZAV4fUX-y7nHcOq5JHTUFDFDhxpsFr1=ug@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nLCVa-00042w-Dt
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 18:17:50 -0500
+Received: from [2607:f8b0:4864:20::429] (port=35753
+ helo=mail-pf1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nLCUz-0003Fs-Sv
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 18:17:48 -0500
+Received: by mail-pf1-x429.google.com with SMTP id l19so3526958pfu.2
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 15:17:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=/1MV/cBkqKp9Y6QuM//D7wysmF/LMDW22u/28xsO8MQ=;
+ b=NjAG+KVe0PoD2M2JdAn1YVOS4sYnNlzx2dOWzTV79DZTQbGYg93+87vJ63RT5p4b2O
+ aZ8h6TkyagsWCD8hp5Faj2qww+C8czfbPiB5QdVaV8dBHwQmpSRrG9+akFz/sxSx1HKL
+ J5LTr+10IZsNn9egw5a0MwKYbmenKdv1C/tO62ExYRMiwBNekkwQeXJfLXaAea9ZQcT5
+ E50SMhGB9rbNhg2UzXEeyJx7pEP4HmH6lhmgHeTVfSxUr1Det7TNtEUDb4UxJGDleEJ3
+ gTKbgyJQJ0UkV+fNmjrcTQPUQ0dpHqjKVc5XrhVJ6aUasRWLRByjt8z6gXhMZ/lSDmbV
+ OWjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/1MV/cBkqKp9Y6QuM//D7wysmF/LMDW22u/28xsO8MQ=;
+ b=rrGrfQbd28lZ+Tq7e7ZPDW0EsnuXBl4XK4ch9xxrLgK+bhstkmxaxEl37BlyhMJ4tY
+ WGBuLZEnsp3dI3Efg9Ki02jdj6s/e4K6RcMbbDwxVjGVVmZ4vuUrTF+q+oiDHIxVdS/w
+ fR6GDAc57h6/PN30uUULtirulS0J62s8AebSWB+3veD++komDwi2cUW7RZUmdb+Kay0J
+ 21A6rzcZUrinVWRnFJ3IdrmUW6D033yoqCHrx6pLzycYTX155rKTRfP23acZJB4Om8tv
+ 3rnDEgRxyNjNh5uUKIMPuGTGyFp5eLBUdkDwOjy8vTzK64zKX1ezRPYqWuCXGR5ZkJqN
+ 4CKQ==
+X-Gm-Message-State: AOAM531smEHqII7qywyAP9zAuMVc4xXpqb94K18Yazy35pDEztq/tLxl
+ loQpjh/+SwLlzJq7HgJwGuKUag==
+X-Google-Smtp-Source: ABdhPJweJ/EHNc99FnyKmCatc0uEM5Aniy7hZq0UoJger7SGnMaJLK+UuYGMCojb+/B0PYYty+DkAg==
+X-Received: by 2002:a05:6a00:198e:b0:4e1:52be:877d with SMTP id
+ d14-20020a056a00198e00b004e152be877dmr9975412pfl.78.1645226231762; 
+ Fri, 18 Feb 2022 15:17:11 -0800 (PST)
+Received: from [10.2.47.129] ([203.47.94.50])
+ by smtp.gmail.com with ESMTPSA id j8sm4123755pfu.55.2022.02.18.15.17.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Feb 2022 15:17:11 -0800 (PST)
+Message-ID: <07ec6bea-154c-7a9d-78ee-69f5b926e75e@linaro.org>
+Date: Sat, 19 Feb 2022 10:17:03 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA9joHJr=tekZAV4fUX-y7nHcOq5JHTUFDFDhxpsFr1=ug@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8864b161-27bf-49f4-2a23-08d9f32a0f97
-X-MS-TrafficTypeDiagnostic: CH0PR02MB8027:EE_|MN2PR02MB6685:EE_
-X-Microsoft-Antispam-PRVS: <CH0PR02MB8027106BBCE15609D2F13CB2C2379@CH0PR02MB8027.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KP/zrI/4qjCgfV4MT45kOLY8C6ioOz2PTDM03aH7Ff40ecdyjD4DPshELIDGRjvIh4ohXpZ5TxxlR3xXL8Jc73j2th854e+qwfzFu8tMLoZG2Nlcl6gqeLrNhksv22VYI8Dz7Jc+6qBgKRXq2RqLbzFwosHQcV1+MiFl2cNBVMqvSTyOD+HqSW3Hn4JgtGTAC1wJsV1aKqNuZYDHBfFsvzecDPkQgTUlwZ7dCshjlyK4eBAh/SqiQ8k59r8laHL7Ec/FevkfmsxuBms2BIkgaHd0x4fEbtLSzqWisaxujJQcdH5g+VuTKIwfRLg43PdFoFW7Y4EMjZJiKZGq2IByXhO2NNOYMaUC+W7ONyt0FiIovtQ4nFOItGIBxsGXw6AMqXgxYZ6vgiaNfHNIj449f0V3WBb2t9A06WovHD9JWZ0eJ8GCYwV7D60uPeMQohq/KteKvOVqqiIHGqtDRk7cb7KacwpjZHMMx2LXLtALRbfR26aRS9rRdLuihJGV0ISv38+8LIHFDfYBv5WsqUUNvquUYlN1hUNBnYQPSolIqo7FlXMQ5j8gJfZKAgCE0ivQnnX7j7i7giXtJwj6GobttLSme0goKVi4Ng/tIFlj3LbIDE4NBIzCIF6dtesh4C39YBSshdAGOhkH3SWInTojX+8zQ2201fOAqo/TBCDnDsD4DJphWbCKcZ8xuOu0IMj8
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(13230001)(7916004)(4636009)(46966006)(40470700004)(36840700001)(4326008)(6916009)(54906003)(356005)(186003)(7416002)(70206006)(5660300002)(9786002)(33716001)(8676002)(2906002)(7636003)(82310400004)(33656002)(70586007)(9686003)(40460700003)(508600001)(26005)(426003)(8936002)(107886003)(47076005)(336012)(36860700001)(316002)(1076003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 22:00:22.4439 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8864b161-27bf-49f4-2a23-08d9f32a0f97
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT043.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR02MB8027
-X-OriginatorOrg: xilinx.com
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7ea9::60b
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: 'make check-acceptance' failing on s390 tests?
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAFEAcA9uVgPzkYHZk3jFNKj6d-rOh25gNFM_bKz=G7G+0B=1+A@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA9uVgPzkYHZk3jFNKj6d-rOh25gNFM_bKz=G7G+0B=1+A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7ea9::60b;
- envelope-from=edgar@xilinx.com;
- helo=NAM02-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -134,42 +92,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luc@lmichel.fr, sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com,
- alistair@alistair23.me, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- f4bug@amsat.org, francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 18, 2022 at 01:37:51PM +0000, Peter Maydell wrote:
-> On Thu, 3 Feb 2022 at 14:01, Edgar E. Iglesias <edgar.iglesias@gmail.com> wrote:
-> >
-> > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-> >
-> > Add a model of the Xilinx ZynqMP CRF. At the moment this
-> > is mostly a stub model.
-> >
-> > Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> > ---
+On 2/19/22 02:04, Peter Maydell wrote:
+> Hi; is anybody else seeing 'make check-acceptance' fail on some of
+> the s390 tests?
+> 
+>   (009/183) tests/avocado/boot_linux.py:BootLinuxS390X.test_s390_ccw_virtio_tcg:
+> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
+> Timeout reached\nOriginal status: ERROR\n{'name':
+> '009-tests/avocado/boot_linux.py:BootLinuxS390X.test_s390_ccw_virtio_tcg',
+> 'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/clang/tests/results/j...
+> (900.20 s)
 > 
 > 
-> > +#define TYPE_XLNX_ZYNQMP_CRF "xlnx.zynqmp_crf"
-> > +
-> > +#define XILINX_CRF(obj) \
-> > +     OBJECT_CHECK(XlnxZynqMPCRF, (obj), TYPE_XLNX_ZYNQMP_CRF)
-> 
-> We prefer the OBJECT_DECLARE_SIMPLE_TYPE rather than directly
-> defining a cast macro these days. (It also provides a typedef
-> for you, among other things.)
-> 
-> Apart from that, and dropping minimum_version_id_old,
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->
+>   (090/183) tests/avocado/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_fedora:
+> FAIL: b'1280 800\n' != b'1024 768\n' (26.79 s)
 
-Thanks Peter and Luc for review comments.
-Sorry, things have been very busy around here, I'll try to get a new version posted next week addressing all comments I've seen so far.
+FWIW, yes, I'm seeing those.
 
-Best regards,
-Edgar 
+
+r~
 
