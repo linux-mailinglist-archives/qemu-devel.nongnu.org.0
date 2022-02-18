@@ -2,91 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD864BAF3E
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 02:49:16 +0100 (CET)
-Received: from localhost ([::1]:46044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FC84BAF40
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 02:49:47 +0100 (CET)
+Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKsOZ-00042d-6P
-	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 20:49:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42556)
+	id 1nKsP4-0004ca-L9
+	for lists+qemu-devel@lfdr.de; Thu, 17 Feb 2022 20:49:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nKsLw-0002nf-Ed
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 20:46:34 -0500
-Received: from [2607:f8b0:4864:20::52e] (port=37842
- helo=mail-pg1-x52e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nKsLo-0004bp-UE
- for qemu-devel@nongnu.org; Thu, 17 Feb 2022 20:46:31 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id 75so6553489pgb.4
- for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 17:46:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=UzTa6FUzl9cUH8d4WDVf4JN6NZm4r4pOESta1Sw9U7M=;
- b=gNKqRzOlvXnKaY/E6MRDoy+iHxQaBNmF1+N6Evm1ygZ91YoKKI/oUgESBLlQ8Pb31B
- tu4sk5pB8HdqfAK2AiQ+AJ7ic/C+qJfX2YC7Im+RLt9SCtKOH6DlHGlkepCZY/GosT17
- fLZ0uzc+lf8jmczcrAFKFcj7rOrVwxrE28d4q0rS5yQ9YVBQZALZ4CxvgTb++hcWh5Vo
- hxlxZq6bbzpGjLcKc0UZYqenWienWnTI1woog11F+RTT3AofulQvxbJOKJuPAmf0COkH
- NjQFf3BG4MPFprM38qeJiBN2BgF3AyHmpoH9sICS/8MzTY1cFySEntHpGdPOafpKIHgM
- 4mMA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nKsNo-0003FN-Lg
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 20:48:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40929)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nKsNk-0004lj-Dn
+ for qemu-devel@nongnu.org; Thu, 17 Feb 2022 20:48:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645148887;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/FDdTeByvEGdAuKOwgsh5RaDyqHPkfOqgfXxzhEqk5Q=;
+ b=ZWTaIkoIT9VyDkCthfs+ZKWTvHzu6Ty4XPvjSiKx79Z3hEQ82ZiWbg+5LQvmF86bKNsKuJ
+ GlBxhdRr7uAqlVEd6AxdpjD68n0a4TfC+3DlTMzrB8cijmwg4mc/vXLBqH0KmdZTiAbZOi
+ o/FkiySmKekqaBjUG3gFpNZLrRLeh+w=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-27-9cWYOZ3OOfCmcogTUZW6Sw-1; Thu, 17 Feb 2022 20:48:06 -0500
+X-MC-Unique: 9cWYOZ3OOfCmcogTUZW6Sw-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ s10-20020a17090a948a00b001b96be201f6so4464606pjo.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Feb 2022 17:48:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UzTa6FUzl9cUH8d4WDVf4JN6NZm4r4pOESta1Sw9U7M=;
- b=Pb4x7ZdA9HBqBFeD5ZysW9m6FKMG7X5C2S5N5SkVUmZgtSLKOwYSrWJPMDBkTltg6M
- O7Jfk3lnFBGqFaomCHElYkhL9YQq4Xc1JwfJAx2P0UdLw31p7KJ5NQNHgobwamRwLwu/
- UxfygRgTiZGygNwx6QlNoQX6JbsqU2Dgz81bH89CtpWrrgAIvmnedFqw5noqInc3FS28
- flVvkI2wwhrDBHWu/OG7B+ABB1BMkif1j3UFAHZxTiBCyHaIrgjMhY0YTqvr3CPyix/I
- aKzqbgc4yei5ahVxkAnDwpOfw2uc8Wgm5zTTFGvdXolgeFZ6Shs8BaiPPzhA1I+3pCva
- 6oBg==
-X-Gm-Message-State: AOAM5336Xg+jGXeskti1ZOnNQ8ghYQq6WGvU98p1LDp1KbQGTNKmKV5A
- lUHGgwS9v1iCvQ4vIQCkOTEEaw==
-X-Google-Smtp-Source: ABdhPJw8/bhN3yVE34X2Pqs5Q8wC62sxQbgagcxg9Y3EzIHFyn86s6XMinhnNLnOCbEBpFTrWAbM1A==
-X-Received: by 2002:a63:ed4c:0:b0:373:1bea:2711 with SMTP id
- m12-20020a63ed4c000000b003731bea2711mr4473307pgk.178.1645148783263; 
- Thu, 17 Feb 2022 17:46:23 -0800 (PST)
-Received: from [192.168.15.44] (alanje.lnk.telstra.net. [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id j12sm8857695pgf.63.2022.02.17.17.46.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Feb 2022 17:46:22 -0800 (PST)
-Message-ID: <94417e74-a2e8-f23d-b4fd-e53c9d3c8323@linaro.org>
-Date: Fri, 18 Feb 2022 12:46:15 +1100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/FDdTeByvEGdAuKOwgsh5RaDyqHPkfOqgfXxzhEqk5Q=;
+ b=ZLuFgBxH/1WXapP1tozhr0WGys7tRXK+dbZztP8f5m85qmJ2IYUkOXbWD+rwx0R45Q
+ gBSNblUiym92REJiOzCXaYNPRGHfZG9kbBsulcAFHzyQUD4HLbSrfQxIWmyf3ANRqEU4
+ Dj59Si8orw8TRVN15HIcsLMoMJ8ouecvhRo4ZUlAQQre0HoUYNL1EbjQg4olykbZ8gd3
+ XBc89ocVMh7wosqkeoce0H1rmANChsjM6L2tirqmEE8mf5VVL7HYuxdGTNzjfLz8PF0o
+ wRnqoKV7z0vop/LJLVYIFc+KVNAo0lBCy9Nl72ydtskCfwfLO8SA15yl4V1+H2DYE6N/
+ a6OA==
+X-Gm-Message-State: AOAM532YECNO6LInFDgGnrMTePiKDtlYM4Z2uPV6fM4w5nog/OSB/ovT
+ 4cvP9l30lPbQqxAWaQvoU8FLFyhZKYS2ycla6VThsVsXTk58yjVshpc3GZJZbj5n36BwS+uOi5M
+ LY2kdvvVxgzdK2Qw=
+X-Received: by 2002:a17:90a:de85:b0:1b9:c9af:1335 with SMTP id
+ n5-20020a17090ade8500b001b9c9af1335mr5963125pjv.11.1645148884974; 
+ Thu, 17 Feb 2022 17:48:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxGu1BL0DVk6cyrKJBkQcIKTQjFqypjGnUeqRVpteuz7I9dUr+ClpjqaKghVXaXR2cBujGgMA==
+X-Received: by 2002:a17:90a:de85:b0:1b9:c9af:1335 with SMTP id
+ n5-20020a17090ade8500b001b9c9af1335mr5963101pjv.11.1645148884679; 
+ Thu, 17 Feb 2022 17:48:04 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.47])
+ by smtp.gmail.com with ESMTPSA id l16sm910173pjy.14.2022.02.17.17.48.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Feb 2022 17:48:04 -0800 (PST)
+Date: Fri, 18 Feb 2022 09:47:59 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH] migration: NULL transport_data after freeing
+Message-ID: <Yg76z1DYyu8DuJEM@xz-m1.local>
+References: <20220217170407.24906-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 4/8] configure: Disable out-of-line atomic operations
- on Aarch64
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220215170106.95848-1-f4bug@amsat.org>
- <20220215170106.95848-5-f4bug@amsat.org>
- <1872c662-9363-6d49-d057-9be7ab7c6e0b@linaro.org>
- <5356ac8a-cfbf-cfcb-13c5-872ecaf7bed2@amsat.org>
- <996032dd-4f00-6480-a485-80d49fb70c67@gmail.com>
- <02c7d441-815b-2fd8-21dc-8357b5cd6ebb@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <02c7d441-815b-2fd8-21dc-8357b5cd6ebb@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220217170407.24906-1-hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,50 +94,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Andrew Jones <drjones@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/22 04:18, Philippe Mathieu-Daudé wrote:
-> On 16/2/22 17:42, Akihiko Odaki wrote:
->> On 2022/02/17 0:08, Philippe Mathieu-Daudé wrote:
->>> On 16/2/22 11:19, Richard Henderson wrote:
->>>> These should have been supplied by libgcc.a, which we're supposed to be linking 
->>>> against. Something is wrong with your installation.
->>>
->>> I don't have gobjc/g++ installed, so ./configure defaulted to Clang to
->>> compile these languages, but compiled C files using GCC. At the end the
->>> Clang linker is used (the default c++ symlink).
-
-This is another form of compiler mis-configuration.
-If you don't have g++ to go with gcc, use --cxx=false to avoid picking up a different 
-compiler.
-
->>> Could there be a mismatch between Clang (-mno-outline-atomics) and GCC
->>> (-moutline-atomics)?
-
-I have no idea if those options do the same thing.
-
->> I think you have to instruct Clang to use libgcc instead of compiler-rt and link the 
->> objects with GCC. Here is the documentation of Clang about the runtime I could find:
->> https://clang.llvm.org/docs/Toolchain.html#libgcc-s-gnu
+On Thu, Feb 17, 2022 at 06:04:07PM +0100, Hanna Reitz wrote:
+> migration_incoming_state_destroy() NULLs all objects it frees after they
+> are freed, presumably so that a subsequent call to the same function
+> will not free them again, unless new objects have been created in the
+> meantime.
 > 
-> Thanks for the pointer. And the next section is
-> https://clang.llvm.org/docs/Toolchain.html#atomics-library :)
+> transport_data is the exception, and it shows exactly this problem: When
+> an incoming migration uses transport_cleanup() and transport_data, and a
+> subsequent incoming migration (e.g. loadvm) occurs that does not, then
+> when this second one is done, it will call transport_cleanup() on the
+> old transport_data again -- which has already been freed.  This is
+> sometimes visible in the iotest 201, though for some reason I can only
+> reproduce it with -m32.
 > 
->    Clang does not currently automatically link against libatomic when
->     using libgcc_s. You may need to manually add -latomic to support
->    this configuration when using non-native atomic operations (if you
->    see link errors referring to __atomic_* functions).
+> To fix this, call transport_cleanup() only when transport_data is not
+> NULL (otherwise there is nothing to clean up), and set transport_data to
+> NULL when it has been cleaned up (i.e. freed).
 > 
-> I'll try that.
+> (transport_cleanup() is used only by migration/socket.c, where
+> socket_start_incoming_migration_internal() sets both it and
+> transport_data to non-NULL values.)
+> 
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 
--moutline-atomics is *not* the same as libatomic.
-You should not need libatomic at all.
+I had a similar fix here:
 
+https://lore.kernel.org/qemu-devel/20220216062809.57179-15-peterx@redhat.com/
 
-r~
+Though there it was because I need migration_incoming_transport_cleanup()
+for other purposes, so the fix came along.
+
+My guess is this small fix will land earlier, if so I'll rebase. :)
+
+Thanks,
+
+-- 
+Peter Xu
+
 
