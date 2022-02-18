@@ -2,72 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FFD4BBEC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 18:56:06 +0100 (CET)
-Received: from localhost ([::1]:44694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507A84BBECB
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 18:56:26 +0100 (CET)
+Received: from localhost ([::1]:45328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL7UC-0001vR-Vc
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 12:56:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54688)
+	id 1nL7UX-0002M3-Ay
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 12:56:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nL7Rv-0008Uf-K2
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 12:53:43 -0500
-Received: from [2a00:1450:4864:20::136] (port=45770
- helo=mail-lf1-x136.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nL7SB-0000Vg-Gw; Fri, 18 Feb 2022 12:53:59 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=40575
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nL7Rs-0000PL-H1
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 12:53:43 -0500
-Received: by mail-lf1-x136.google.com with SMTP id b11so6823310lfb.12
- for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 09:53:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nL7SA-0000S8-38; Fri, 18 Feb 2022 12:53:59 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ n19-20020a17090ade9300b001b9892a7bf9so12989015pjv.5; 
+ Fri, 18 Feb 2022 09:53:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XMv/WI8vHVSALaf/aQ72wuip9IsIseAszN2rQFYB/dY=;
- b=CLegTFhlsFRU9LB+f7MdFq6cgFHBB65p6zshlUpGWA7zYxfeatcc1+FIDrbw8IybfC
- fjxlooO4hP6tr/4QIXa+n5V8dvCXSPe3V1qCLEAXd56Wh6hovTzbhvMMuG7NSNM0ilsW
- pUkZScxxxDIRvBJDFvow29wlFy3RMAUQfi0YluE73aqDieeNFmvTBVvIiA91VS9gfIZ7
- xrrkSg+wHoVpdWmbDt7K+8nQCoefha4kqoBzzGtsDbedbo11CJ3SVdjc6FWoRn5tN/NA
- Do7RIlHGMJAuFrYa93/t/dOaS7UHSPvLVzgV/J8KGNoS7JyqrbBjv0eClhRmUR4n0BoN
- OOLQ==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hd8HmaCVE496gy7VXq5twOnCgGTThaFR4iMq2E+A5VU=;
+ b=o+RM3s8lZFPFiFyHz+34rwI4CQcU81ant4xuGCrV6u8dyKMPeAUm9Xz+q+tGWt/733
+ ooYxk3tPFMhyjLM5TNMr+oXewqA49l+qeqKUJRfWL5RiF8PE1Fla34QXsYgBjh0iOtsl
+ VIML9ju4fueKzd0oHQp97EwpiaLFBDLx7jGlTFxrpA+/ZQhyX2S8VvG9SfMtquf6lARG
+ ej7uJwF7qlwxEaAohQ5cdRGIoABhDAmLiJDLyjAxVMte6xPXpt5TCC9tZoRsSsYlvn7N
+ aInnz6YTzy2S145A2brHxsyYw0ZCd3IPQflOt90DFYgTVGMQ14YbaX9LMwIHiImGLiBP
+ Uzxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XMv/WI8vHVSALaf/aQ72wuip9IsIseAszN2rQFYB/dY=;
- b=5a8pOyVWM+YEfrH54zqF4d5VbBUk2WvhjCI2lU0a3eUwpKbsVhD/RvH9KCn8pFAPEu
- 5CQqxAi+LzU7WFYTgk843cgPUfJlPKXBpSg54KagAUpPoCXmWCHLifCFP/g4Qgd3qY8a
- rQ6c+iJzo0a11A8t0g7wkC+8hV9X8kUiojs3Jw1BQZu7k0CJ2voMyE5y1glC45WPAEuK
- Pq27h3mPWjKWTQJ168lVkfDkaVKirTGypkWlfUTNu7z4qw2+ovkaeWzaZ4ERCqunZ83R
- ZBfnEsYhXUIRciO16fKGkxpesLXbFplJB4KbSVuSgT1iH/mnmiQ6Zec4D6F2XTlnA7ME
- bPaA==
-X-Gm-Message-State: AOAM532IJClJ26w8+diAyr93k7Y1gqfn4AD9O7QnkKJekFjfwFNAhV/A
- vNKtUdIiyS4I9ud+mBCNLoh5M6J/TYi8Cz6MZdE=
-X-Google-Smtp-Source: ABdhPJzqgWeNq3w6hG7LfPQ9WhCsUD/4hnYssjeo0Z2q2ldaiAtSrrjeP+/TCv5ayQCgIu4RpTHlneIglG5xv6NEqgU=
-X-Received: by 2002:a05:6512:c2:b0:443:3d36:970 with SMTP id
- c2-20020a05651200c200b004433d360970mr5925936lfp.46.1645206816517; Fri, 18 Feb
- 2022 09:53:36 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hd8HmaCVE496gy7VXq5twOnCgGTThaFR4iMq2E+A5VU=;
+ b=azyDajVnSJT66jIjS58M/qBIBfStHPSgRuRJHdQP1StuC3zkGuINuDQwlyA1P91Ugz
+ LNQHhCXcIy7vnA9jTWgwsHB94riTek8PmrWoCrP6U5t7OzSGYwc2L+45HQs9TowmUo26
+ FEq1k9qRvleF3HHo6NNVQ9ejAIa5mM+XXrgDaF1YEPWyh8D+rXK/8IdUtiYTuXv5nxqq
+ roManhlOkucYNIi0MT+qhn9lxt0E6ARwpTwE5TfAzMHMrNM38w9c3N6XHmdy/M4r0n3u
+ ZQVCfQ89h3Q5bn7Zh7Qa7itqwc7870Cy9YHym1By0WaPW/ek7YSzQcOb5w8xJ2IfsjVT
+ 6rAw==
+X-Gm-Message-State: AOAM531uEqHOK1V76m2kTh5XFolqfNq7SjvYk+zl+IDneTu2SRfel48Q
+ UR4sS11kyrR3P/kAggyJHao+nPMZNKI=
+X-Google-Smtp-Source: ABdhPJzrAA9M8p/As3+EfNA9R/S+dIxGwih1wwI8S6jQxLIJ9C07MuEsUiBwChrG8Jt6FzpeTI84mQ==
+X-Received: by 2002:a17:902:7285:b0:14d:7f5b:94d0 with SMTP id
+ d5-20020a170902728500b0014d7f5b94d0mr8325206pll.25.1645206835512; 
+ Fri, 18 Feb 2022 09:53:55 -0800 (PST)
+Received: from [192.168.209.175] (65.red-88-28-24.dynamicip.rima-tde.net.
+ [88.28.24.65])
+ by smtp.gmail.com with ESMTPSA id l21sm3927617pfu.120.2022.02.18.09.53.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Feb 2022 09:53:54 -0800 (PST)
+Message-ID: <7947da5e-b703-f18f-f8a0-3f4253de1e76@amsat.org>
+Date: Fri, 18 Feb 2022 18:53:50 +0100
 MIME-Version: 1.0
-References: <20220215190426.56130-1-wwcohen@gmail.com>
- <CAB26zV1v+bL4FskfRbpU5kWqRBxg4wKJBVXXsWnNzJo31_9O_A@mail.gmail.com>
- <24928693.zZ8iTCSeN7@silver>
-In-Reply-To: <24928693.zZ8iTCSeN7@silver>
-From: Will Cohen <wwcohen@gmail.com>
-Date: Fri, 18 Feb 2022 12:53:23 -0500
-Message-ID: <CAB26zV38pT=SXSKnpuXK9x_eS3REb3PbgRZ6-mRhuhFPO8vuQQ@mail.gmail.com>
-Subject: Re: [PATCH v7 00/11] 9p: Add support for darwin
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: multipart/alternative; boundary="000000000000e172ac05d84e8f24"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::136
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.0
+Subject: Re: [PATCH v2 5/7] aspeed: Introduce a create_pca9552() helper
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
+ <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
+References: <20220218081815.641169-1-clg@kaod.org>
+ <20220218081815.641169-6-clg@kaod.org>
+In-Reply-To: <20220218081815.641169-6-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=wwcohen@gmail.com; helo=mail-lf1-x136.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,251 +96,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Greg Kurz <groug@kaod.org>, qemu Developers <qemu-devel@nongnu.org>,
- hi@alyssa.is, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
---000000000000e172ac05d84e8f24
-Content-Type: text/plain; charset="UTF-8"
+On 18/2/22 09:18, Cédric Le Goater wrote:
+> This unifies the way we create the pca9552 devices on the different boards.
+> 
+> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>   hw/arm/aspeed.c | 49 +++++++++++++++++++++++++++----------------------
+>   1 file changed, 27 insertions(+), 22 deletions(-)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index f71a5d87473f..11558b327bc9 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -533,6 +533,12 @@ static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
+>       i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), "ds1338", 0x32);
+>   }
+>   
+> +static void create_pca9552(AspeedSoCState *soc, int bus_id, int addr)
+> +{
+> +    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, bus_id),
+> +                            TYPE_PCA9552, addr);
+> +}
 
-Excellent, thanks so much for the update. I'll wait till the other 9p pull
-gets integrated, then rebase and test!
-
-On Fri, Feb 18, 2022 at 12:45 PM Christian Schoenebeck <
-qemu_oss@crudebyte.com> wrote:
-
-> On Freitag, 18. Februar 2022 18:04:24 CET Will Cohen wrote:
-> > On Tue, Feb 15, 2022 at 2:04 PM Will Cohen <wwcohen@gmail.com> wrote:
-> > > This is a followup to
-> > > https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg02313.html,
-> > > adding 9p server support for Darwin.
-> > >
-> > > Since v6, the following changes have been made to the following
-> patches:
-> > >
-> > > Patch 9/11: 9p: darwin: Implement compatibility for mknodat
-> > > - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
-> > >
-> > >   presence in osdep.h and os-posix.c
-> > >
-> > > Keno Fischer (10):
-> > >   9p: linux: Fix a couple Linux assumptions
-> > >   9p: Rename 9p-util -> 9p-util-linux
-> > >   9p: darwin: Handle struct stat(fs) differences
-> > >   9p: darwin: Handle struct dirent differences
-> > >   9p: darwin: Ignore O_{NOATIME, DIRECT}
-> > >   9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
-> > >   9p: darwin: *xattr_nofollow implementations
-> > >   9p: darwin: Compatibility for f/l*xattr
-> > >   9p: darwin: Implement compatibility for mknodat
-> > >   9p: darwin: meson: Allow VirtFS on Darwin
-> > >
-> > > Will Cohen (1):
-> > >   9p: darwin: Adjust assumption on virtio-9p-test
-> > >
-> > >  fsdev/file-op-9p.h                     |  9 +++-
-> > >  fsdev/meson.build                      |  1 +
-> > >  hw/9pfs/9p-local.c                     | 27 ++++++++---
-> > >  hw/9pfs/9p-proxy.c                     | 38 +++++++++++++--
-> > >  hw/9pfs/9p-synth.c                     |  6 +++
-> > >  hw/9pfs/9p-util-darwin.c               | 64 ++++++++++++++++++++++++++
-> > >  hw/9pfs/{9p-util.c => 9p-util-linux.c} |  2 +-
-> > >  hw/9pfs/9p-util.h                      | 35 ++++++++++++++
-> > >  hw/9pfs/9p.c                           | 42 ++++++++++++++---
-> > >  hw/9pfs/9p.h                           | 18 ++++++++
-> > >  hw/9pfs/codir.c                        |  4 +-
-> > >  hw/9pfs/meson.build                    |  3 +-
-> > >  include/qemu/osdep.h                   | 12 +++++
-> > >  include/qemu/xattr.h                   |  4 +-
-> > >  meson.build                            | 15 ++++--
-> > >  os-posix.c                             | 35 ++++++++++++++
-> > >  tests/qtest/virtio-9p-test.c           |  2 +-
-> > >  17 files changed, 292 insertions(+), 25 deletions(-)
-> > >  create mode 100644 hw/9pfs/9p-util-darwin.c
-> > >  rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (97%)
-> > >
-> > > --
-> > > 2.34.1
-> >
-> > As a brief additional note, this patch set has gotten a moderate amount
-> of
-> > performance testing downstream by various end users of podman, with
-> > favorable results:
-> > https://github.com/containers/podman/issues/8016#issuecomment-1044843948
->
-> Thanks for sharing!
->
-> Additionally you might be interested to know what's pending in the
-> pipeline on
-> Linux kernel side which brings a huge performance improvement with 9p:
->
-> https://lore.kernel.org/netdev/cover.1640870037.git.linux_oss@crudebyte.com/
->
-> As for the status on this macOS series here: I will get back on it next
-> week.
-> From my PoV it looks fine now. So for the other gentlemen here: please
-> raise
-> your hand if you still find something.
->
-> Will, one more thing though: I just sent a PR with one particular patch
-> that I
-> would ask you to test in conjunction with this series:
->
->
-> https://github.com/cschoenebeck/qemu/commit/e64e27d5cb103b7764f1a05b6eda7e7fedd517c5
->
-> You might simply wait for the PR being merged (maybe monday?) and then
-> rebase
-> this series to master and test if this patch is not breaking anything for
-> macOS. Theoretically the new qemu_dirent_dup() function should fallback on
-> macOS to its portable branch, but it should be tested before merging this
-> series, just to be sure.
->
-> Best regards,
-> Christian Schoenebeck
->
->
->
-
---000000000000e172ac05d84e8f24
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Excellent, thanks so much for the update. I&#39;ll wait ti=
-ll the other 9p pull gets integrated, then rebase and test!<br></div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb =
-18, 2022 at 12:45 PM Christian Schoenebeck &lt;<a href=3D"mailto:qemu_oss@c=
-rudebyte.com">qemu_oss@crudebyte.com</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">On Freitag, 18. Februar 2022 18:04:24 C=
-ET Will Cohen wrote:<br>
-&gt; On Tue, Feb 15, 2022 at 2:04 PM Will Cohen &lt;<a href=3D"mailto:wwcoh=
-en@gmail.com" target=3D"_blank">wwcohen@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; This is a followup to<br>
-&gt; &gt; <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2022-02/=
-msg02313.html" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/a=
-rchive/html/qemu-devel/2022-02/msg02313.html</a>,<br>
-&gt; &gt; adding 9p server support for Darwin.<br>
-&gt; &gt; <br>
-&gt; &gt; Since v6, the following changes have been made to the following p=
-atches:<br>
-&gt; &gt; <br>
-&gt; &gt; Patch 9/11: 9p: darwin: Implement compatibility for mknodat<br>
-&gt; &gt; - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 =C2=A0presence in osdep.h and os-posix.c<br>
-&gt; &gt; <br>
-&gt; &gt; Keno Fischer (10):<br>
-&gt; &gt;=C2=A0 =C2=A09p: linux: Fix a couple Linux assumptions<br>
-&gt; &gt;=C2=A0 =C2=A09p: Rename 9p-util -&gt; 9p-util-linux<br>
-&gt; &gt;=C2=A0 =C2=A09p: darwin: Handle struct stat(fs) differences<br>
-&gt; &gt;=C2=A0 =C2=A09p: darwin: Handle struct dirent differences<br>
-&gt; &gt;=C2=A0 =C2=A09p: darwin: Ignore O_{NOATIME, DIRECT}<br>
-&gt; &gt;=C2=A0 =C2=A09p: darwin: Move XATTR_SIZE_MAX-&gt;P9_XATTR_SIZE_MAX=
-<br>
-&gt; &gt;=C2=A0 =C2=A09p: darwin: *xattr_nofollow implementations<br>
-&gt; &gt;=C2=A0 =C2=A09p: darwin: Compatibility for f/l*xattr<br>
-&gt; &gt;=C2=A0 =C2=A09p: darwin: Implement compatibility for mknodat<br>
-&gt; &gt;=C2=A0 =C2=A09p: darwin: meson: Allow VirtFS on Darwin<br>
-&gt; &gt; <br>
-&gt; &gt; Will Cohen (1):<br>
-&gt; &gt;=C2=A0 =C2=A09p: darwin: Adjust assumption on virtio-9p-test<br>
-&gt; &gt;=C2=A0 <br>
-&gt; &gt;=C2=A0 fsdev/file-op-9p.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 9 +++-<br>
-&gt; &gt;=C2=A0 fsdev/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
-&gt; &gt;=C2=A0 hw/9pfs/9p-local.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 27 ++++++++---<br>
-&gt; &gt;=C2=A0 hw/9pfs/9p-proxy.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 38 +++++++++++++--<br>
-&gt; &gt;=C2=A0 hw/9pfs/9p-synth.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 +++<br>
-&gt; &gt;=C2=A0 hw/9pfs/9p-util-darwin.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| 64 ++++++++++++++++++++++++++<br>
-&gt; &gt;=C2=A0 hw/9pfs/{9p-util.c =3D&gt; 9p-util-linux.c} |=C2=A0 2 +-<br=
->
-&gt; &gt;=C2=A0 hw/9pfs/9p-util.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 35 ++++++++++++++<br>
-&gt; &gt;=C2=A0 hw/9pfs/9p.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 42 ++++++++++++++---<=
-br>
-&gt; &gt;=C2=A0 hw/9pfs/9p.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 18 ++++++++<br>
-&gt; &gt;=C2=A0 hw/9pfs/codir.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 +-<br>
-&gt; &gt;=C2=A0 hw/9pfs/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +-<br>
-&gt; &gt;=C2=A0 include/qemu/osdep.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 12 +++++<br>
-&gt; &gt;=C2=A0 include/qemu/xattr.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +-<br>
-&gt; &gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 15 ++++--<br>
-&gt; &gt;=C2=A0 os-posix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 35 ++++++++++++++<=
-br>
-&gt; &gt;=C2=A0 tests/qtest/virtio-9p-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt; &gt;=C2=A0 17 files changed, 292 insertions(+), 25 deletions(-)<br>
-&gt; &gt;=C2=A0 create mode 100644 hw/9pfs/9p-util-darwin.c<br>
-&gt; &gt;=C2=A0 rename hw/9pfs/{9p-util.c =3D&gt; 9p-util-linux.c} (97%)<br=
->
-&gt; &gt; <br>
-&gt; &gt; --<br>
-&gt; &gt; 2.34.1<br>
-&gt; <br>
-&gt; As a brief additional note, this patch set has gotten a moderate amoun=
-t of<br>
-&gt; performance testing downstream by various end users of podman, with<br=
->
-&gt; favorable results:<br>
-&gt; <a href=3D"https://github.com/containers/podman/issues/8016#issuecomme=
-nt-1044843948" rel=3D"noreferrer" target=3D"_blank">https://github.com/cont=
-ainers/podman/issues/8016#issuecomment-1044843948</a><br>
-<br>
-Thanks for sharing!<br>
-<br>
-Additionally you might be interested to know what&#39;s pending in the pipe=
-line on<br>
-Linux kernel side which brings a huge performance improvement with 9p:<br>
-<a href=3D"https://lore.kernel.org/netdev/cover.1640870037.git.linux_oss@cr=
-udebyte.com/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.org/=
-netdev/cover.1640870037.git.linux_oss@crudebyte.com/</a><br>
-<br>
-As for the status on this macOS series here: I will get back on it next wee=
-k.<br>
-From my PoV it looks fine now. So for the other gentlemen here: please rais=
-e<br>
-your hand if you still find something.<br>
-<br>
-Will, one more thing though: I just sent a PR with one particular patch tha=
-t I<br>
-would ask you to test in conjunction with this series:<br>
-<br>
-<a href=3D"https://github.com/cschoenebeck/qemu/commit/e64e27d5cb103b7764f1=
-a05b6eda7e7fedd517c5" rel=3D"noreferrer" target=3D"_blank">https://github.c=
-om/cschoenebeck/qemu/commit/e64e27d5cb103b7764f1a05b6eda7e7fedd517c5</a><br=
->
-<br>
-You might simply wait for the PR being merged (maybe monday?) and then reba=
-se<br>
-this series to master and test if this patch is not breaking anything for<b=
-r>
-macOS. Theoretically the new qemu_dirent_dup() function should fallback on<=
-br>
-macOS to its portable branch, but it should be tested before merging this<b=
-r>
-series, just to be sure.<br>
-<br>
-Best regards,<br>
-Christian Schoenebeck<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000e172ac05d84e8f24--
+Hmm in case you respin, this is an opportunity to return the I2CSlave*
+pointer here.
 
