@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB884BBBD2
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 16:07:00 +0100 (CET)
-Received: from localhost ([::1]:36968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CB74BBBF2
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 16:15:29 +0100 (CET)
+Received: from localhost ([::1]:41032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL4qY-0005jd-Th
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 10:06:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49562)
+	id 1nL4yl-0000Oc-Pu
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 10:15:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nL4oX-0004BJ-3h
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 10:04:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59556)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nL4oT-0000wa-JA
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 10:04:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645196688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UdI0aokzyBoG5XxIKJLCIapks+NMg4zeKcoglkUycaE=;
- b=IyyhwiQWTDV3DjtkiDOoGrDg7uBIeVWxT064JYFX5xMghgH070BfRMreNPobDW/Zg969b2
- 1RRehQxd0g+nWM/mjma1f96uIUrtsyYbXuNupXHYSho7ZXYPLpAxP5UeiTXnX2sOC+3oT4
- s3xwHqzBSJIB396kAsR72gx7sKkWjcw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-NFJ62wBfNvGxh0NZlqXO9Q-1; Fri, 18 Feb 2022 10:04:47 -0500
-X-MC-Unique: NFJ62wBfNvGxh0NZlqXO9Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22DC91006AA0;
- Fri, 18 Feb 2022 15:04:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FEC0753C7;
- Fri, 18 Feb 2022 15:04:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C2ACD21A408E; Fri, 18 Feb 2022 16:04:42 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2] scripts/qapi: minor delinting
-References: <20220211183650.2946895-1-jsnow@redhat.com>
- <87r185imim.fsf@pond.sub.org>
-Date: Fri, 18 Feb 2022 16:04:42 +0100
-In-Reply-To: <87r185imim.fsf@pond.sub.org> (Markus Armbruster's message of
- "Mon, 14 Feb 2022 14:52:01 +0100")
-Message-ID: <87czjk8bcl.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nL4xY-0007ue-EH
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 10:14:12 -0500
+Received: from [2607:f8b0:4864:20::b32] (port=33515
+ helo=mail-yb1-xb32.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nL4xV-0002WK-CO
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 10:14:11 -0500
+Received: by mail-yb1-xb32.google.com with SMTP id j2so20336196ybu.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 07:14:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Tiv5i1NYKOriDeo+BHWEvt4iO+2QK/GYaQeFEQh8hbQ=;
+ b=DNIta3SHNP4pAMDlAu2fMmZTGsk2mMlcoVO1i65aYafT7LWQQCks7cTULcBxXYFHK5
+ 5Nyy7JToOPdoSHu9p6y2Su0DuUunoLbzxWjHiFT2VXWSPIrIDrOR++ulo7g6sEmfaNlZ
+ YY71yXYpbkdFf4x7FDKf3U0At/UFblC4l2sFAa1mxilmJJFGRm51KwLhfX5yJIjOFfyo
+ u+Rw5hqd7CWe5nxBhODnod5A3DJEw41NXXsH3yP4BAhTob+q2/zKhmr3Tz5+1x3GIbVy
+ 002Oqo1tpCBmP1t2BIxXNG8NprYrHpSOL6NCxlcXW2xYNv10o6STQN0fJuizrwlzme96
+ tOXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Tiv5i1NYKOriDeo+BHWEvt4iO+2QK/GYaQeFEQh8hbQ=;
+ b=3bKsEQ6fVmjtXqtAOULVDii1U9zucvrHlDczxUxOuJD0UsyrIQ+pERyp8ud5u6790C
+ qJRmkOsi5nadpAZpgB9mwG/Nxyc1SeBrHpJ0DXlIWb8S2BqVnxTfs+9qHZv03wWJdxfk
+ MxVq1YtJu/+YSQjPUFbJdadUvz+LVSaGDvsp8K3g+5ffywUnjFAdzIU5uNgLtStBpeHB
+ rZslATNcUOABXuXi/9bvTlCahbBuu+zRGLm98bDXZFOyGIJuu831iLTLLPCdm1GTsFw0
+ jwAD0Hn3qWbP1kuMf5pfh1q2ziXNdLbfLUQ++6VI8Yx4YKrYCRISRaXPEnlyr3RU7zmF
+ iW2Q==
+X-Gm-Message-State: AOAM533fgpWrW4seSSOLVgK02vlMGa/Ha8p8FNwx278G9+2ue8JRQEc3
+ sOysm/MUlc3NcmMzX/2wK/lZfEHt913IqaHq9mNnug==
+X-Google-Smtp-Source: ABdhPJwDqRmnFI5F1KqBXo1rJV4xgzb+dOUyRKaSf0iPSer5P6y1kMkrsTcCT8a2BKtJSmfuZ5DlfvXdGR9uo8hPCWo=
+X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
+ h3-20020a056902008300b0061a709bd841mr7628618ybs.140.1645197242877; Fri, 18
+ Feb 2022 07:14:02 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220208233104.284425-1-venture@google.com>
+In-Reply-To: <20220208233104.284425-1-venture@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Feb 2022 15:13:51 +0000
+Message-ID: <CAFEAcA8Zq-Unph4bRk3fsxAAtCnEpVmf4E9R=JgZ91gH8KXPpg@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm: add initial mori-bmc board
+To: Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,75 +81,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
+Cc: hskinnemoen@google.com, qemu-devel@nongnu.org, kfting@nuvoton.com,
+ qemu-arm@nongnu.org, Ilkyun Choi <ikchoi@google.com>,
+ Chris Rauer <crauer@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
-
-> John Snow <jsnow@redhat.com> writes:
+On Tue, 8 Feb 2022 at 23:31, Patrick Venture <venture@google.com> wrote:
 >
->> Get isort and pylint tools passing again.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  scripts/qapi/commands.py |  2 +-
->>  scripts/qapi/pylintrc    | 15 +++++----------
->>  scripts/qapi/types.py    |  6 +++++-
->>  scripts/qapi/visit.py    |  6 +++++-
->>  4 files changed, 16 insertions(+), 13 deletions(-)
->>
->> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
->> index 869d799ed22..38ca38a7b9d 100644
->> --- a/scripts/qapi/commands.py
->> +++ b/scripts/qapi/commands.py
->> @@ -25,8 +25,8 @@
->>      QAPIGenC,
->>      QAPISchemaModularCVisitor,
->>      build_params,
->> -    ifcontext,
->>      gen_special_features,
->> +    ifcontext,
->>  )
->>  from .schema import (
->>      QAPISchema,
->> diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
->> index b259531a726..1fed2e69620 100644
->> --- a/scripts/qapi/pylintrc
->> +++ b/scripts/qapi/pylintrc
->> @@ -34,16 +34,11 @@ disable=fixme,
->>  
->>  [BASIC]
->>  
->> -# Good variable names which should always be accepted, separated by a comma.
->> -good-names=i,
->> -           j,
->> -           k,
->> -           ex,
->> -           Run,
->> -           _,
->> -           fp,  # fp = open(...)
->> -           fd,  # fd = os.open(...)
->> -           ch,
->> +# Good variable names regexes, separated by a comma. If names match any regex,
->> +# they will always be accepted
->> +
->> +# Allow just about anything, as per Markus's preference.
+> This is the BMC attached to the OpenBMC Mori board.
 >
-> Does it still flag PEP-8 violations like all lower case class names?
+> Signed-off-by: Patrick Venture <venture@google.com>
+> Reviewed-by: Chris Rauer <crauer@google.com>
+> Reviewed-by: Ilkyun Choi <ikchoi@google.com>
+> ---
+>  docs/system/arm/nuvoton.rst |  1 +
+>  hw/arm/npcm7xx_boards.c     | 32 ++++++++++++++++++++++++++++++++
+>  2 files changed, 33 insertions(+)
 
-Looks like it in my tests.
 
-> If yes, "just about any length" is more precise.
 
-I'll change the comment if you don't mind:
+Applied to target-arm.next, thanks.
 
-    # Suppress complaints about short names.  PEP-8 is cool with them,
-    # and so are we.
-
-With that:
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
-No respin necessary.
-
+-- PMM
 
