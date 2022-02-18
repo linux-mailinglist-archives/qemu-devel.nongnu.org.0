@@ -2,64 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29DC84BBEE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 19:03:07 +0100 (CET)
-Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADE64BBF10
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 19:11:26 +0100 (CET)
+Received: from localhost ([::1]:60446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL7az-0000Ec-Qd
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 13:03:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56244)
+	id 1nL7j1-0004tu-Rg
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 13:11:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nL7ZD-0007Py-1Y
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:01:15 -0500
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:44863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nL7ZB-0001jJ-0P
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:01:14 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.173])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 9CA2321101;
- Fri, 18 Feb 2022 18:01:05 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 18 Feb
- 2022 19:01:04 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002ea735268-e1dc-41e9-83ba-ecf6fd7c75a2,
- 2ADC5E975130A5AC73D526B447F5AC0F6E2F692A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <0c846bc5-8fab-4227-df0a-26587a7a6c3d@kaod.org>
-Date: Fri, 18 Feb 2022 19:00:59 +0100
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nL7gN-0003WQ-7A
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:08:39 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=37546
+ helo=mail-pj1-x1032.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nL7gL-0002hj-K6
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:08:38 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ v5-20020a17090a4ec500b001b8b702df57so13065217pjl.2
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 10:08:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=EQRbb5SlIEmlxArByPR/4KxbKq08EqPQdxvSuIzGrE4=;
+ b=C5JlB5dM8bwYCqI/X0x0b7TPIqCANCtZN+rgDn4zTwOEd7Kpmc/h6s4pBY9y1BO5c3
+ daHBtHOfu+P8yioXPO3iflw6RyvW2xm5B8ElkemrSh/sE0nfByC6UKSA+RIysbboHV96
+ kHunzr5l5R2sB5+xKS9CrrIzb24Cl+8TfVnbRgUwp6xcIzMfjv5JNg+DzE0hs71Ilclm
+ Az21jyUMCd3Kscl/4Y7yTmLDag0izthsdz1JqTXZRW0dWgUunR+aaxJ5OebjJdadtExZ
+ SHi/NxH2NszwzwUq9tGSImuF3WXPrK7fN3SI5nYyKt4s4EVt3M9DTj+SAEVBWQaBGvB5
+ YL3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=EQRbb5SlIEmlxArByPR/4KxbKq08EqPQdxvSuIzGrE4=;
+ b=631qnfuUQuMTdRJruspTkWHZkwQjPPnv5hdiczvbWTOT/goyCZwJoWAggfVnDjagFv
+ ffqdaalbQ4aiVLufs8HWJ+PONVaiSLLY1qYfiXLxpV71YjMj/rwTiSqZRkgsypNzxHBZ
+ BAuW7KgXSbKBp9GU67LYNDRntPzq3XpGAwkDRr52nH37ChqiPExoUDx7o5N1roO74RMs
+ ycI9hjjXarpMkIgZ1pVyKQIOc2TJMLNLFNiQ73xUG1U9/MwgprZRcvKQ8C/2PH8ngr59
+ 9Dqt+RWyruhtmeVAS+IqkOEHYlLoyS/Io1AJ/OL+VVOp58Hf0somWN0FQx5sdnbGqdOD
+ H6ow==
+X-Gm-Message-State: AOAM531o2y8OfqYJj3n8Gq3CeXN4IPCs3vBCuciAOJ8kGSrAUrMkfCrk
+ Eqms5yJsBtCnrA3J7QNDp5M=
+X-Google-Smtp-Source: ABdhPJzOaokstqsS9qLMBzQeQlfC9Z1Mw2FkLu4t20TVitEtmvZOM60Bx4NhnVl+jBy/iHknw0x2wA==
+X-Received: by 2002:a17:90a:5505:b0:1b8:ebd4:d602 with SMTP id
+ b5-20020a17090a550500b001b8ebd4d602mr9464832pji.147.1645207716194; 
+ Fri, 18 Feb 2022 10:08:36 -0800 (PST)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ w198sm3867359pff.96.2022.02.18.10.08.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Feb 2022 10:08:35 -0800 (PST)
+Message-ID: <15f72069-bbf2-045b-ed0c-cd23a1ca844e@gmail.com>
+Date: Sat, 19 Feb 2022 03:08:31 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 7/7] aspeed/sdmc: Add trace events
+Subject: Re: [PATCH v6 02/15] configure: Allow passing extra Objective C
+ compiler flags
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220218081815.641169-1-clg@kaod.org>
- <20220218081815.641169-8-clg@kaod.org>
- <194ed308-000a-2198-958c-27bea13b64ee@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <194ed308-000a-2198-958c-27bea13b64ee@amsat.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ qemu-devel@nongnu.org
+References: <20220215080307.69550-1-f4bug@amsat.org>
+ <20220215080307.69550-3-f4bug@amsat.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <20220215080307.69550-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 8a4f7747-b878-47da-8740-af0f9bd4156d
-X-Ovh-Tracer-Id: 16060117747390319398
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrkedtgddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,41 +96,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/18/22 18:56, Philippe Mathieu-Daudé wrote:
-> On 18/2/22 09:18, Cédric Le Goater wrote:
->> This is useful to analyze changes in the U-Boot RAM driver when SDRAM
->> training is performed.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>   hw/misc/aspeed_sdmc.c | 2 ++
->>   hw/misc/trace-events  | 4 ++++
->>   2 files changed, 6 insertions(+)
->>
->> diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
->> index 08f856cbda7e..d2a3931033b3 100644
->> --- a/hw/misc/aspeed_sdmc.c
->> +++ b/hw/misc/aspeed_sdmc.c
->> @@ -130,6 +130,7 @@ static uint64_t aspeed_sdmc_read(void *opaque, hwaddr addr, unsigned size)
->>           return 0;
->>       }
-> 
->> +# aspeed_sdmc.c
->> +aspeed_sdmc_write(uint32_t reg, uint32_t data) "reg @0x%" PRIx32 " data: 0x%" PRIx32
->> +aspeed_sdmc_read(uint32_t reg, uint32_t data) "reg @0x%" PRIx32 " data: 0x%" PRIx32
-> 
-> I'm surprised by the uint32_t conversion, but why not.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Indeed. I might change that.
+On 2022/02/15 17:02, Philippe Mathieu-Daudé via wrote:
+> We can pass C/CPP/LD flags via CFLAGS/CXXFLAGS/LDFLAGS environment
+> variables, or via configure --extra-cflags / --extra-cxxflags /
+> --extra-ldflags options. Provide similar behavior for Objective C:
+> use existing flags from $OBJCFLAGS, or passed via --extra-objcflags.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   configure   | 8 ++++++++
+>   meson.build | 5 +++++
+>   2 files changed, 13 insertions(+)
+> 
+> diff --git a/configure b/configure
+> index 3a29eff5cc..06c03cebd3 100755
+> --- a/configure
+> +++ b/configure
+> @@ -287,6 +287,7 @@ done
+>   
+>   EXTRA_CFLAGS=""
+>   EXTRA_CXXFLAGS=""
+> +EXTRA_OBJCFLAGS=""
+>   EXTRA_LDFLAGS=""
+>   
+>   xen_ctrl_version="$default_feature"
+> @@ -391,9 +392,12 @@ for opt do
+>     --extra-cflags=*)
+>       EXTRA_CFLAGS="$EXTRA_CFLAGS $optarg"
+>       EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $optarg"
+> +    EXTRA_OBJCFLAGS="$EXTRA_OBJCFLAGS $optarg"
+>       ;;
+>     --extra-cxxflags=*) EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $optarg"
+>     ;;
+> +  --extra-objcflags=*) EXTRA_OBJCFLAGS="$EXTRA_OBJCFLAGS $optarg"
+> +  ;;
+>     --extra-ldflags=*) EXTRA_LDFLAGS="$EXTRA_LDFLAGS $optarg"
+>     ;;
+>     --enable-debug-info) debug_info="yes"
+> @@ -774,6 +778,8 @@ for opt do
+>     ;;
+>     --extra-cxxflags=*)
+>     ;;
+> +  --extra-objcflags=*)
+> +  ;;
+>     --extra-ldflags=*)
+>     ;;
+>     --enable-debug-info)
+> @@ -1312,6 +1318,7 @@ Advanced options (experts only):
+>     --objcc=OBJCC            use Objective-C compiler OBJCC [$objcc]
+>     --extra-cflags=CFLAGS    append extra C compiler flags CFLAGS
+>     --extra-cxxflags=CXXFLAGS append extra C++ compiler flags CXXFLAGS
+> +  --extra-objcflags=OBJCFLAGS append extra Objective C compiler flags OBJCFLAGS
+>     --extra-ldflags=LDFLAGS  append extra linker flags LDFLAGS
+>     --cross-cc-ARCH=CC       use compiler when building ARCH guest test cases
+>     --cross-cc-cflags-ARCH=  use compiler flags when building ARCH guest tests
+> @@ -3724,6 +3731,7 @@ if test "$skip_meson" = no; then
+>     echo "[built-in options]" >> $cross
+>     echo "c_args = [$(meson_quote $CFLAGS $EXTRA_CFLAGS)]" >> $cross
+>     echo "cpp_args = [$(meson_quote $CXXFLAGS $EXTRA_CXXFLAGS)]" >> $cross
+> +  test -n "$objcc" && echo "objc_args = [$(meson_quote $OBJCFLAGS $EXTRA_OBJCFLAGS)]" >> $cross
+>     echo "c_link_args = [$(meson_quote $CFLAGS $LDFLAGS $EXTRA_CFLAGS $EXTRA_LDFLAGS)]" >> $cross
+>     echo "cpp_link_args = [$(meson_quote $CXXFLAGS $LDFLAGS $EXTRA_CXXFLAGS $EXTRA_LDFLAGS)]" >> $cross
+>     echo "[binaries]" >> $cross
+> diff --git a/meson.build b/meson.build
+> index ae5f7eec6e..df25e7a5e7 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -3292,6 +3292,11 @@ if link_language == 'cpp'
+>                                                  + ['-O' + get_option('optimization')]
+>                                                  + (get_option('debug') ? ['-g'] : []))}
+>   endif
+> +if targetos == 'darwin'
+> +  summary_info += {'OBJCFLAGS':       ' '.join(get_option('objc_args')
+> +                                               + ['-O' + get_option('optimization')]
+> +                                               + (get_option('debug') ? ['-g'] : []))}
+> +endif
+>   link_args = get_option(link_language + '_link_args')
+>   if link_args.length() > 0
+>     summary_info += {'LDFLAGS':         ' '.join(link_args)}
 
-Thanks !
-
-C.
 
