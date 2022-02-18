@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB8C4BC155
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 21:44:52 +0100 (CET)
-Received: from localhost ([::1]:42250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C7A4BC158
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 21:46:08 +0100 (CET)
+Received: from localhost ([::1]:44188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLA7X-0005me-EG
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 15:44:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58546)
+	id 1nLA8k-00074z-JK
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 15:46:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1nLA5O-0004gZ-98; Fri, 18 Feb 2022 15:42:38 -0500
-Received: from [2a00:1450:4864:20::42b] (port=35626
- helo=mail-wr1-x42b.google.com)
+ id 1nLA5q-00058t-Iw; Fri, 18 Feb 2022 15:43:06 -0500
+Received: from [2a00:1450:4864:20::434] (port=41772
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1nLA5M-0008Vq-8i; Fri, 18 Feb 2022 15:42:37 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id v12so16471950wrv.2;
- Fri, 18 Feb 2022 12:42:35 -0800 (PST)
+ id 1nLA5o-000063-Qi; Fri, 18 Feb 2022 15:43:06 -0500
+Received: by mail-wr1-x434.google.com with SMTP id k1so16438484wrd.8;
+ Fri, 18 Feb 2022 12:43:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eTYAOlNG8UIZF5JvugdJ5/6WimTXw3TPiA91vcKvVn4=;
- b=HUpsnV7b54dZXEmBCcpV0fglRmd18AcNXWFNUYQoL+agEyFLHGmQNVKn1epjz535xR
- Ro5vkcd0Bfmp8AOxi6CylFPELOxCvFsPkgOgIFCTcokdAIUwQ6663hnYEvQxcXObtHrw
- KHbejDgGkrXT484g4GYeQnmOFa0bDpQsJWI9nUiWk749c5JDOvDzKfyU4JywXc+Kp1et
- 5jzZg2tKm1rqyixKdtVjfMx5plfcDIi01BDaU4A2E+LY5sWlV0ENJTrz+fnjAgsrJjdz
- RqGGi2Lz/a4jTsizuoL2xedRPRW5Eo+f1bXJd0VfCkZ/lZPXO2ehQarv6114qhmcAKhK
- wwGg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=HDIlYI/W0faEv1G28vO/TmPpURrrx1fyNxxtqZhHZ0s=;
+ b=YcDWoavDqqpw4MrvzMj8shl/nCPDeSglPmbeW9IcLmEpqUNKSfK0qnuHgxmFi9jkWW
+ nFNfl45yqo0qUiMVZRI9/ajM/DN+d8fZWnsPrXHyrZUiNjZtiJ+M96TwG24Ha2NPOesR
+ Xx3i8wuwrLeab1MxeMz9qkXcP5WCS1YhRuXf2mxUEfkxxqkoLVpkvOxz7pCshEd8CtSa
+ 7mAipYmbJndIhxnJMfWd8nsoJIs9m9U5oDSfppBdwHSKEwUnEKueCdYtIBJS5jHvFJU7
+ u0AptFGBXRmAsSv7piNBK/2VKn0oWn1nneN+pgUuUiRJ/i1ro+Gi40VwrjTnNt7s08q6
+ dcHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eTYAOlNG8UIZF5JvugdJ5/6WimTXw3TPiA91vcKvVn4=;
- b=SyDnCzfdEyNehPwwaMIqNLtpQ4CIKishCwOdvBh+pJAsq10C8QNjIXc2H9A7TRu9Cm
- AkJurefxkY1vcWNtsek0FajZzKedm2xcAIqZhomf8d85asx/4OdxVjRJgKjPQXmS13VD
- yH/3SL37Yxr0BuqKi9qGtO0iNLQXpziJeO9gISR34ROENNET8qycLE2FY3gDaG69NVek
- hQHgrtXmv5vA29f6s2YQBqRCmOw7xLE3Y1IQO7ABWtfj9ylv/NGzbePxJu+1bEJdoUIa
- pAG+LdAb0wrpgsU895twm/NnlP3twepP3bf21jvdfq6An3JoiK7x/1vz/rVtxf32QKOQ
- 1AhA==
-X-Gm-Message-State: AOAM533EZdroI2viebA+MRIn7840aEaS2BHDAixbR53pEfkbPMuYj1A9
- dI9RdXAI9MqCDLD6naFvsDoNku2FkLM=
-X-Google-Smtp-Source: ABdhPJwc0rEVujJBarY6t2fMbtMhYaNRN1rfFXL0gqbf8Wob4ym1jztvG6LPVvDRHbA272GJtS4NCQ==
-X-Received: by 2002:adf:f0c6:0:b0:1e7:13f7:74b9 with SMTP id
- x6-20020adff0c6000000b001e713f774b9mr7215028wro.361.1645216953241; 
- Fri, 18 Feb 2022 12:42:33 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=HDIlYI/W0faEv1G28vO/TmPpURrrx1fyNxxtqZhHZ0s=;
+ b=s6h9PS4YU2TtjvOtIVapXgmcnKCw5F/GnIpoxTzTX5ekumoAEzsDXQb7svKjcm9TDb
+ yCilAR2dZEhCMjmMRe/uV2goTbH7lEChBYrxbb2UVDGGSln15dNHWo8ZJKN4COrbCI6K
+ PvYdvNP5ajB9F3hkvvE5UlIUBPvQaX0x3jg/XoA+dkeyuAcGrJsQGtxTq5S5hz8t5UIv
+ 4qYwOEAxRCKWX06MCGq6fhLzFqRcgKKElyAmgDVA+l+7O4AE3ZlBnB6V4lH11RUCFsCA
+ WkkuSRrctsogboGhwvUV9EHyeQNI2iPKXgTGDFwTy6Uw6HM5UpIDvV6uOq/HIFsoTfvf
+ NZcA==
+X-Gm-Message-State: AOAM530tbJ28TDZ3Z+/im8FPzsi0zEpGybs5YL4O4zAyhmyHU8GB6sOl
+ 88RffM2w+PrIua3SxSt5z2Lu6NlTcKw=
+X-Google-Smtp-Source: ABdhPJxAV6cnIPJT/KDg3MZKT8/ZzcI+ZgN/1mdWoj7POwngrz4MwHxJyMw3CKqBaoH9ta2rJQu5xA==
+X-Received: by 2002:a05:6000:1081:b0:1e3:16d0:1c47 with SMTP id
+ y1-20020a056000108100b001e316d01c47mr7408654wrw.19.1645216982679; 
+ Fri, 18 Feb 2022 12:43:02 -0800 (PST)
 Received: from liavpc.localdomain ([2a10:800a:bb8:1:6510:42ac:bb55:9590])
  by smtp.gmail.com with ESMTPSA id
- n19-20020a05600c4f9300b0037c06fe68casm377432wmq.44.2022.02.18.12.42.31
+ n19-20020a05600c4f9300b0037c06fe68casm377432wmq.44.2022.02.18.12.43.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Feb 2022 12:42:32 -0800 (PST)
+ Fri, 18 Feb 2022 12:43:02 -0800 (PST)
 From: Liav Albani <liavalb@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] hw/ide: implement ich6 ide controller support
-Date: Fri, 18 Feb 2022 22:41:53 +0200
-Message-Id: <20220218204155.236611-1-liavalb@gmail.com>
+Subject: [PATCH v2 1/2] hw/ide: split bmdma read and write functions from
+ piix.c
+Date: Fri, 18 Feb 2022 22:41:54 +0200
+Message-Id: <20220218204155.236611-2-liavalb@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220218204155.236611-1-liavalb@gmail.com>
+References: <20220218204155.236611-1-liavalb@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=liavalb@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=liavalb@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,46 +91,228 @@ Cc: jsnow@redhat.com, Liav Albani <liavalb@gmail.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is version 2 of this patch, this time a patch series, after following
-the suggestions from BALATON Zoltan. I implemented this device because I have an
-old machine from 2009 which has the ICH7 south bridge in it, so when I tried to
-run Linux on it, it booted just fine (as you might expect), but when I tried to
-boot with the SerenityOS kernel, it struggled to initialize the IDE controller.
-Therefore, upstreaming these changes might be beneficial to other OS developers
-and hobbyists out there, and I will use this to fix the issues within the
-SerenityOS kernel, without the need of preparing a bare metal setup each time I
-need to test the code of the kernel.
+This is a preparation before implementing another PCI IDE controller
+that relies on these functions, so these can be shared between both
+implementations.
 
-Please keep in mind that while this is usable right now with the Q35 chipset,
-when trying to boot with an i440FX machine, SeaBIOS doesn't handle this device
-very well, so it tries no matter what type of IDE controller it sees to assign
-the IO ports to legacy values. I have a patch I wrote locally which I gladly
-will send to SeaBIOS, that fixes this problem by ensuring that when attaching a
-storage device to this controller, SeaBIOS will relocate the IO ports to other
-values so there's no collision with the default PIIX3/4 IDE controller. Even if
-SeaBIOS didn't configure this device correctly, Linux will relocate the IO ports
-and the user can still use the attached storage devices, given that the user
-managed to boot from a storage device that is not attached to the ICH6 IDE
-controller but to other storage controller in the system.
-
-Liav Albani (2):
-  hw/ide: split bmdma read and write functions from piix.c
-  hw/ide: add ich6 ide controller device emulation
-
- hw/i386/Kconfig          |   2 +
- hw/ide/Kconfig           |   5 +
- hw/ide/bmdma.c           |  84 ++++++++++++++++
- hw/ide/ich6.c            | 204 +++++++++++++++++++++++++++++++++++++++
- hw/ide/meson.build       |   3 +-
- hw/ide/piix.c            |  51 +---------
- include/hw/ide/bmdma.h   |  34 +++++++
- include/hw/ide/pci.h     |   1 +
- include/hw/pci/pci_ids.h |   1 +
- 9 files changed, 336 insertions(+), 49 deletions(-)
+Signed-off-by: Liav Albani <liavalb@gmail.com>
+---
+ hw/ide/bmdma.c         | 84 ++++++++++++++++++++++++++++++++++++++++++
+ hw/ide/meson.build     |  2 +-
+ hw/ide/piix.c          | 51 ++-----------------------
+ include/hw/ide/bmdma.h | 34 +++++++++++++++++
+ 4 files changed, 122 insertions(+), 49 deletions(-)
  create mode 100644 hw/ide/bmdma.c
- create mode 100644 hw/ide/ich6.c
  create mode 100644 include/hw/ide/bmdma.h
 
+diff --git a/hw/ide/bmdma.c b/hw/ide/bmdma.c
+new file mode 100644
+index 0000000000..d12ed730dd
+--- /dev/null
++++ b/hw/ide/bmdma.c
+@@ -0,0 +1,84 @@
++/*
++ * QEMU IDE Emulation: Intel PCI Bus master IDE support for PIIX3/4 and ICH6/7.
++ *
++ * Copyright (c) 2003 Fabrice Bellard
++ * Copyright (c) 2006 Openedhand Ltd.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/pci/pci.h"
++#include "migration/vmstate.h"
++#include "qapi/error.h"
++#include "qemu/module.h"
++#include "sysemu/block-backend.h"
++#include "sysemu/blockdev.h"
++#include "sysemu/dma.h"
++
++#include "hw/ide/bmdma.h"
++#include "hw/ide/pci.h"
++#include "trace.h"
++
++uint64_t intel_ide_bmdma_read(void *opaque, hwaddr addr, unsigned size)
++{
++    BMDMAState *bm = opaque;
++    uint32_t val;
++
++    if (size != 1) {
++        return ((uint64_t)1 << (size * 8)) - 1;
++    }
++
++    switch (addr & 3) {
++    case 0:
++        val = bm->cmd;
++        break;
++    case 2:
++        val = bm->status;
++        break;
++    default:
++        val = 0xff;
++        break;
++    }
++
++    trace_bmdma_read(addr, val);
++    return val;
++}
++
++void intel_ide_bmdma_write(void *opaque, hwaddr addr,
++                        uint64_t val, unsigned size)
++{
++    BMDMAState *bm = opaque;
++
++    if (size != 1) {
++        return;
++    }
++
++    trace_bmdma_write(addr, val);
++
++    switch (addr & 3) {
++    case 0:
++        bmdma_cmd_writeb(bm, val);
++        break;
++    case 2:
++        uint8_t cur_val = bm->status;
++        bm->status = (val & 0x60) | (cur_val & 1) | (cur_val & ~val & 0x06);
++        break;
++    }
++}
+diff --git a/hw/ide/meson.build b/hw/ide/meson.build
+index ddcb3b28d2..38f9ae7178 100644
+--- a/hw/ide/meson.build
++++ b/hw/ide/meson.build
+@@ -7,7 +7,7 @@ softmmu_ss.add(when: 'CONFIG_IDE_ISA', if_true: files('isa.c', 'ioport.c'))
+ softmmu_ss.add(when: 'CONFIG_IDE_MACIO', if_true: files('macio.c'))
+ softmmu_ss.add(when: 'CONFIG_IDE_MMIO', if_true: files('mmio.c'))
+ softmmu_ss.add(when: 'CONFIG_IDE_PCI', if_true: files('pci.c'))
+-softmmu_ss.add(when: 'CONFIG_IDE_PIIX', if_true: files('piix.c', 'ioport.c'))
++softmmu_ss.add(when: 'CONFIG_IDE_PIIX', if_true: files('piix.c', 'ioport.c', 'bmdma.c'))
+ softmmu_ss.add(when: 'CONFIG_IDE_QDEV', if_true: files('qdev.c'))
+ softmmu_ss.add(when: 'CONFIG_IDE_SII3112', if_true: files('sii3112.c'))
+ softmmu_ss.add(when: 'CONFIG_IDE_VIA', if_true: files('via.c'))
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index ce89fd0aa3..8f94809eee 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -33,57 +33,12 @@
+ #include "sysemu/dma.h"
+ 
+ #include "hw/ide/pci.h"
++#include "hw/ide/bmdma.h"
+ #include "trace.h"
+ 
+-static uint64_t bmdma_read(void *opaque, hwaddr addr, unsigned size)
+-{
+-    BMDMAState *bm = opaque;
+-    uint32_t val;
+-
+-    if (size != 1) {
+-        return ((uint64_t)1 << (size * 8)) - 1;
+-    }
+-
+-    switch(addr & 3) {
+-    case 0:
+-        val = bm->cmd;
+-        break;
+-    case 2:
+-        val = bm->status;
+-        break;
+-    default:
+-        val = 0xff;
+-        break;
+-    }
+-
+-    trace_bmdma_read(addr, val);
+-    return val;
+-}
+-
+-static void bmdma_write(void *opaque, hwaddr addr,
+-                        uint64_t val, unsigned size)
+-{
+-    BMDMAState *bm = opaque;
+-
+-    if (size != 1) {
+-        return;
+-    }
+-
+-    trace_bmdma_write(addr, val);
+-
+-    switch(addr & 3) {
+-    case 0:
+-        bmdma_cmd_writeb(bm, val);
+-        break;
+-    case 2:
+-        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
+-        break;
+-    }
+-}
+-
+ static const MemoryRegionOps piix_bmdma_ops = {
+-    .read = bmdma_read,
+-    .write = bmdma_write,
++    .read = intel_ide_bmdma_read,
++    .write = intel_ide_bmdma_write,
+ };
+ 
+ static void bmdma_setup_bar(PCIIDEState *d)
+diff --git a/include/hw/ide/bmdma.h b/include/hw/ide/bmdma.h
+new file mode 100644
+index 0000000000..ce76d395f5
+--- /dev/null
++++ b/include/hw/ide/bmdma.h
+@@ -0,0 +1,34 @@
++/*
++ * QEMU IDE Emulation: Intel PCI Bus master IDE support for PIIX3/4 and ICH6/7.
++ *
++ * Copyright (c) 2022 Liav Albani
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef HW_IDE_BMDMA_H
++#define HW_IDE_BMDMA_H
++
++#include "hw/ide/internal.h"
++
++uint64_t intel_ide_bmdma_read(void *opaque, hwaddr addr, unsigned size);
++void intel_ide_bmdma_write(void *opaque, hwaddr addr, uint64_t val,
++                           unsigned size);
++
++#endif
 -- 
 2.35.1
 
