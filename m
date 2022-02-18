@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9034BBC57
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 16:44:23 +0100 (CET)
-Received: from localhost ([::1]:57676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD6A4BBC61
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 16:47:40 +0100 (CET)
+Received: from localhost ([::1]:60498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL5Qj-0004RZ-Lw
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 10:44:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57222)
+	id 1nL5Tv-0006Vc-KH
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 10:47:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nL5PW-0003n8-63
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 10:43:06 -0500
-Received: from [2a00:1450:4864:20::32a] (port=44761
- helo=mail-wm1-x32a.google.com)
+ id 1nL5R2-00058T-O8
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 10:44:42 -0500
+Received: from [2a00:1450:4864:20::42c] (port=43528
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nL5PR-0006Wv-9v
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 10:43:05 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- d14-20020a05600c34ce00b0037bf4d14dc7so6684750wmq.3
- for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 07:43:00 -0800 (PST)
+ id 1nL5Qy-0006cz-Mk
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 10:44:40 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id i14so15238014wrc.10
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 07:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=yEDPNOLHcoUCVGLLRrg1qEOR0B2zD3ZMPLBEoLNn4bM=;
- b=UiPseQ5j3eAWfqheXcfnULIQ1q1far90VkJYQMmROcJF1uMq6gU6RLDa5mijp+G4oO
- 75tn+4NfeZyX2Grn1evd0KOJyxx2j9Ud10UHbK851smmxzA1u38rYLp74sBUmMyCLFUW
- DS2VMfcIltk/s+liSVT9XPsXOzT4kZxYKKt788g5THHJ/9oN0g1xU6XYlpJFU2QnG1fb
- DQ5EkRGxtuxpZQWUeqUO5d8Q/UXjsh8MVyByIgG02pp2J2vVHe8WEEETwT9NOSCaizc+
- 8KxZ+Vrvk8SFMs+ZUDHGiozYObY8K2fsExm8k1peq2fsmUHYRkyNxQNIT8wFIU23CnWE
- b0Mg==
+ bh=JN81EyOSyaX49sCdfpBZTXEmiXz7vvO+C/WfbW5YBvs=;
+ b=NcT60mHYfqXjtuu2tq3kcLg2Blm2xF8x1GD0wEKXMh2sbeXoSx/OfR+Pyj8EuABXPG
+ Ryue5cqazA4Q6XfMvaNoW901QwqlSs3fg2mjsN6zsRoTUH0oR9HmriUWtCLw6Y0yR0T7
+ Jv27P3c/qdodh+n2UgFyoEAX2NPoNctRRrAnzCJAC0I5upTxm+8l5qPRzSPlzEnJzZs+
+ w6AsOBfa9g247oaisXf971urPbpnBmZsFfpCa1UQ4WMW+gBozRsrofYlVV7bSUf/0DpM
+ ZR2/mBG4ihcWIH7fPnGKFL96ADcQiTiRpNFxJxNhXS43DfV2aVqZ4RddR3gkKA/maB1d
+ dpFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=yEDPNOLHcoUCVGLLRrg1qEOR0B2zD3ZMPLBEoLNn4bM=;
- b=o6YK4rsnE6Kl9vx38GuZf9jhRdyOpcnXoUwh8YGTnRVxVRSeZ+lTdn3zABwRHvxxwk
- Q9RlROf8sGPzB6aBCQUyeQ0mKc2S5yndxb7Vwe88yvCfxuR/zPcqvwykW6mam79fkRNW
- TNgHZUYOk75TwAPppxBM42XnO+y9aXq8G5W735UIRNYbj6a3AUA1AEbpkJ2u+cvWvAqt
- GlW27/Iiokd8dJPHSU/DcBPXm3iBu/HMAm4XRldC6264F4xSmbHQHgP3l6obJNjM992C
- evB/aHyMB0r3eaxt2bwiz1l6ybLL2Vs1pdgLK1VgfY/Sjwm++R62ujsBIrJ5PTAoDnEi
- w5yw==
-X-Gm-Message-State: AOAM531i7UuIvLZd4CX6rIEfHvsZZKFfdINSlTOF0z0UoOkvoG7wLfZj
- Ex1YqaFYJpkTRFX7YUTPiWo=
-X-Google-Smtp-Source: ABdhPJwjTanCtOZVS4YnAPPze+frjHAicOFiLUG7JRD0xP3o/70FokwJSiNiOXQoUoYrzMl4h04gFA==
-X-Received: by 2002:a1c:7303:0:b0:37c:9270:2ff4 with SMTP id
- d3-20020a1c7303000000b0037c92702ff4mr7675508wmb.99.1645198979804; 
- Fri, 18 Feb 2022 07:42:59 -0800 (PST)
+ bh=JN81EyOSyaX49sCdfpBZTXEmiXz7vvO+C/WfbW5YBvs=;
+ b=Fr2u9ODLlHki/rrDs0/u9xilsnjrwwrGYfXX1IsUKSNziEH+TD3VjeXizl+hXsXYcp
+ SGeykG6Kl5Ka6G+QR8gBrM7Nd0oBljwAbymEvf0MUxn1jDBVqa4YeF0jzuzlVpprZbHn
+ rDPljJfOE3GOHGcomhLj+y6n/uKLyeMtAZQYqloDUMdNNJsvQKruACuDYLzglwrFh1Lb
+ G4DGGCcPAcrtLt5g43Zk/HJuAV7YmXC1cjb4bB6Wdix7uQH7hKySrgwR+xoYP3SvTBoZ
+ wV9WbS1afHRbS+0iPMZ+789X08vBbtoiwtpt/VTwboNCzpSpu3tkxu0q/2uwTipQ8YTW
+ tsww==
+X-Gm-Message-State: AOAM533o49xickSQ14NC0dAXHcennbmR1D5eoFzVdGjXkxtxtah3HW6Z
+ JUKIHLRY3VRWWWHKLSTTydw=
+X-Google-Smtp-Source: ABdhPJyP2mXry+KVyAddsEvLjmW0qRmZ8aMnbhOM2QhxLqeTIWtqQCuqBhNUiQCai32xeU8Dk3Qv0Q==
+X-Received: by 2002:a5d:6110:0:b0:1e4:b3d1:f567 with SMTP id
+ v16-20020a5d6110000000b001e4b3d1f567mr6415798wrt.211.1645199072234; 
+ Fri, 18 Feb 2022 07:44:32 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id k5sm31223099wrw.117.2022.02.18.07.42.58
+ by smtp.googlemail.com with ESMTPSA id t16sm5123339wmq.43.2022.02.18.07.44.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Feb 2022 07:42:59 -0800 (PST)
-Message-ID: <d2275895-1c96-b89e-49a2-612f8656147f@redhat.com>
-Date: Fri, 18 Feb 2022 16:42:58 +0100
+ Fri, 18 Feb 2022 07:44:31 -0800 (PST)
+Message-ID: <c892e4b7-ea41-39ea-213f-0b980eef1106@redhat.com>
+Date: Fri, 18 Feb 2022 16:44:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 4/8] configure: Disable out-of-line atomic operations
- on Aarch64
+Subject: Re: [PATCH v2 6/8] configure: Pass filtered QEMU_OBJCFLAGS to meson
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220215170106.95848-1-f4bug@amsat.org>
- <20220215170106.95848-5-f4bug@amsat.org>
+ <20220215170106.95848-7-f4bug@amsat.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220215170106.95848-5-f4bug@amsat.org>
+In-Reply-To: <20220215170106.95848-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -101,23 +99,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/15/22 18:01, Philippe Mathieu-Daudé via wrote:
+> Filter unsupported Objective-C options, to avoid
+> 'unknown-warning-option' warnings when using Clang:
+> 
+>    [34/373] Compiling Objective-C object libcommon.fa.p/audio_coreaudio.m.o
+>    warning: unknown warning option '-Wold-style-declaration'; did you mean '-Wout-of-line-declaration'? [-Wunknown-warning-option]
+>    warning: unknown warning option '-Wimplicit-fallthrough=2'; did you mean '-Wimplicit-fallthrough'? [-Wunknown-warning-option]
+>    2 warnings generated.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+
+> ---
+>   configure   | 23 +++++++++++++++++++++++
+>   meson.build |  5 ++++-
+>   2 files changed, 27 insertions(+), 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index 3217aa22cb..df6eaec067 100755
+> --- a/configure
+> +++ b/configure
+> @@ -77,6 +77,7 @@ TMPB="qemu-conf"
+>   TMPC="${TMPDIR1}/${TMPB}.c"
+>   TMPO="${TMPDIR1}/${TMPB}.o"
+>   TMPCXX="${TMPDIR1}/${TMPB}.cxx"
+> +TMPM="${TMPDIR1}/${TMPB}.m"
+>   TMPE="${TMPDIR1}/${TMPB}.exe"
+>   
+>   rm -f config.log
+> @@ -148,6 +149,10 @@ do_cxx() {
+>       do_compiler "$cxx" $CPU_CFLAGS "$@"
+>   }
+>   
+> +do_objc() {
+> +    do_compiler "$objcc" $CPU_CFLAGS "$@"
+> +}
 > +
-> +case "$cpu" in
-> +  aarch64)
-> +    write_c_skeleton;
-> +    if compile_prog "$CPU_CFLAGS -Werror -mno-outline-atomics" "" ; then
-> +      CPU_CFLAGS="-mno-outline-atomics $CPU_CFLAGS"
+>   # Append $2 to the variable named $1, with space separation
+>   add_to() {
+>       eval $1=\${$1:+\"\$$1 \"}\$2
+> @@ -1616,10 +1621,27 @@ cc_has_warning_flag() {
+>       compile_prog "-Werror $optflag" ""
+>   }
+>   
+> +objcc_has_warning_flag() {
+> +    cat > $TMPM <<EOF
+> +int main(void) { return 0; }
+> +EOF
+> +
+> +    # Use the positive sense of the flag when testing for -Wno-wombat
+> +    # support (gcc will happily accept the -Wno- form of unknown
+> +    # warning options).
+> +    optflag="$(echo $1 | sed -e 's/^-Wno-/-W/')"
+> +    do_objc -Werror $optflag \
+> +      $OBJCFLAGS $EXTRA_OBJCFLAGS $CONFIGURE_OBJCFLAGS $QEMU_OBJCFLAGS \
+> +      -o $TMPE $TMPM $QEMU_LDFLAGS
+> +}
+> +
+>   for flag in $gcc_flags; do
+>       if cc_has_warning_flag $flag ; then
+>           QEMU_CFLAGS="$QEMU_CFLAGS $flag"
+>       fi
+> +    if objcc_has_warning_flag $flag ; then
+> +        QEMU_OBJCFLAGS="$QEMU_OBJCFLAGS $flag"
 > +    fi
-> +    ;;
+>   done
+>   
+>   if test "$stack_protector" != "no"; then
+> @@ -3579,6 +3601,7 @@ echo "LD=$ld" >> $config_host_mak
+>   echo "CFLAGS_NOPIE=$CFLAGS_NOPIE" >> $config_host_mak
+>   echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
+>   echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
+> +echo "QEMU_OBJCFLAGS=$QEMU_OBJCFLAGS" >> $config_host_mak
+>   echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
+>   echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
+>   echo "GLIB_VERSION=$(pkg-config --modversion glib-2.0)" >> $config_host_mak
+> diff --git a/meson.build b/meson.build
+> index 215c253683..7b78235a39 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -199,9 +199,11 @@ if get_option('fuzzing')
+>   endif
+>   
+>   add_global_arguments(config_host['QEMU_CFLAGS'].split(),
+> -                     native: false, language: ['c', 'objc'])
+> +                     native: false, language: ['c'])
+>   add_global_arguments(config_host['QEMU_CXXFLAGS'].split(),
+>                        native: false, language: 'cpp')
+> +add_global_arguments(config_host['QEMU_OBJCFLAGS'].split(),
+> +                     native: false, language: ['objc'])
+>   add_global_link_arguments(config_host['QEMU_LDFLAGS'].split(),
+>                             native: false, language: ['c', 'cpp', 'objc'])
+>   
+> @@ -3306,6 +3308,7 @@ if link_args.length() > 0
+>   endif
+>   summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
+>   summary_info += {'QEMU_CXXFLAGS':     config_host['QEMU_CXXFLAGS']}
+> +summary_info += {'QEMU_OBJCFLAGS':    config_host['QEMU_OBJCFLAGS']}
+>   summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
+>   summary_info += {'profiler':          config_host.has_key('CONFIG_PROFILER')}
+>   summary_info += {'link-time optimization (LTO)': get_option('b_lto')}
 
-Apart from the question of whether/how to work around this issue, this 
-should not be added to CPU_CFLAGS.  CPU_CFLAGS is only for things that 
-change the ABI.
-
-Paolo
 
