@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996C94BB455
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 09:34:45 +0100 (CET)
-Received: from localhost ([::1]:59634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034554BB43D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 09:32:55 +0100 (CET)
+Received: from localhost ([::1]:56798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nKyiy-0006Vh-KJ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 03:34:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40414)
+	id 1nKyhB-0004aw-O2
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 03:32:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nKyTd-0007CY-0K; Fri, 18 Feb 2022 03:18:53 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20044)
+ id 1nKyTS-00079T-Tc; Fri, 18 Feb 2022 03:18:49 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nKyTZ-0000aX-KG; Fri, 18 Feb 2022 03:18:52 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21I7b8J6016605; 
+ id 1nKyTP-0000Zp-VA; Fri, 18 Feb 2022 03:18:41 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21I88U7c008873; 
  Fri, 18 Feb 2022 08:18:27 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ea6dq9s4q-1
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ea5yhhu9y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 08:18:26 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21I8Dr4P020136;
+ Fri, 18 Feb 2022 08:18:27 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21I8E06k017919;
  Fri, 18 Feb 2022 08:18:24 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma02fra.de.ibm.com with ESMTP id 3e64hadx5b-1
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06fra.de.ibm.com with ESMTP id 3e645kdydy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 18 Feb 2022 08:18:24 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21I8ILGc44106208
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21I8IMe945875544
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Feb 2022 08:18:21 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9E2D34C04E;
- Fri, 18 Feb 2022 08:18:21 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4DA9C4C04A;
+ Fri, 18 Feb 2022 08:18:22 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3D8DFA4040;
+ Fri, 18 Feb 2022 08:18:22 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EDE4FA404D;
  Fri, 18 Feb 2022 08:18:21 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Fri, 18 Feb 2022 08:18:21 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.87.94])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 83A3D2201E5;
- Fri, 18 Feb 2022 09:18:20 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 3E4D922016E;
+ Fri, 18 Feb 2022 09:18:21 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 5/7] aspeed: Introduce a create_pca9552() helper
-Date: Fri, 18 Feb 2022 09:18:13 +0100
-Message-Id: <20220218081815.641169-6-clg@kaod.org>
+Subject: [PATCH v2 6/7] aspeed/smc: Add an address mask on segment registers
+Date: Fri, 18 Feb 2022 09:18:14 +0100
+Message-Id: <20220218081815.641169-7-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218081815.641169-1-clg@kaod.org>
 References: <20220218081815.641169-1-clg@kaod.org>
@@ -63,17 +63,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: BHFrB0_RhHW7lSZjQIegxFaCI72Ltmsd
-X-Proofpoint-GUID: BHFrB0_RhHW7lSZjQIegxFaCI72Ltmsd
+X-Proofpoint-GUID: d7APdcL1Rk9zmjZKSUqeHXwEwn0eY5Tp
+X-Proofpoint-ORIG-GUID: d7APdcL1Rk9zmjZKSUqeHXwEwn0eY5Tp
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-18_03,2022-02-17_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- mlxlogscore=752 clxscore=1034 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 bulkscore=0 adultscore=0 phishscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202180051
+ mlxlogscore=999 phishscore=0
+ malwarescore=0 suspectscore=0 priorityscore=1501 spamscore=0 adultscore=0
+ clxscore=1034 bulkscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202180051
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
@@ -95,196 +95,111 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This unifies the way we create the pca9552 devices on the different board=
-s.
+Only a limited set of bits are used for decoding the Start and End
+addresses of the mapping window of a flash device.
 
-Suggested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed.c | 49 +++++++++++++++++++++++++++----------------------
- 1 file changed, 27 insertions(+), 22 deletions(-)
+ include/hw/ssi/aspeed_smc.h |  1 +
+ hw/ssi/aspeed_smc.c         | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index f71a5d87473f..11558b327bc9 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -533,6 +533,12 @@ static void romulus_bmc_i2c_init(AspeedMachineState =
-*bmc)
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), "ds1338",=
- 0x32);
- }
+diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+index e26555581996..cad73ddc13f2 100644
+--- a/include/hw/ssi/aspeed_smc.h
++++ b/include/hw/ssi/aspeed_smc.h
+@@ -99,6 +99,7 @@ struct AspeedSMCClass {
+     uint8_t max_peripherals;
+     const uint32_t *resets;
+     const AspeedSegments *segments;
++    uint32_t segment_addr_mask;
+     hwaddr flash_window_base;
+     uint32_t flash_window_size;
+     uint32_t features;
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index ff154eb84f85..d899be17fd71 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -259,6 +259,10 @@ static void aspeed_smc_flash_set_segment_region(Aspe=
+edSMCState *s, int cs,
+     memory_region_set_enabled(&fl->mmio, !!seg.size);
+     memory_region_transaction_commit();
 =20
-+static void create_pca9552(AspeedSoCState *soc, int bus_id, int addr)
-+{
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, bus_id),
-+                            TYPE_PCA9552, addr);
-+}
++    if (asc->segment_addr_mask) {
++        regval &=3D asc->segment_addr_mask;
++    }
 +
- static void sonorapass_bmc_i2c_init(AspeedMachineState *bmc)
- {
-     AspeedSoCState *soc =3D &bmc->soc;
-@@ -549,9 +555,9 @@ static void sonorapass_bmc_i2c_init(AspeedMachineStat=
-e *bmc)
-     smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 4), 0x54,
-                           eeprom4_54);
-     /* PCA9539 @ 0x76, but PCA9552 is compatible */
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), "pca9552",=
- 0x76);
-+    create_pca9552(soc, 4, 0x76);
-     /* PCA9539 @ 0x77, but PCA9552 is compatible */
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), "pca9552",=
- 0x77);
-+    create_pca9552(soc, 4, 0x77);
-=20
-     /* bus 6 : */
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), "tmp105", =
-0x48);
-@@ -562,8 +568,8 @@ static void sonorapass_bmc_i2c_init(AspeedMachineStat=
-e *bmc)
-     uint8_t *eeprom8_56 =3D g_malloc0(8 * 1024);
-     smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 8), 0x56,
-                           eeprom8_56);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9552",=
- 0x60);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9552",=
- 0x61);
-+    create_pca9552(soc, 8, 0x60);
-+    create_pca9552(soc, 8, 0x61);
-     /* bus 8 : adc128d818 @ 0x1d */
-     /* bus 8 : adc128d818 @ 0x1f */
-=20
-@@ -701,8 +707,7 @@ static void fp5280g2_bmc_i2c_init(AspeedMachineState =
-*bmc)
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), "ds1338", =
-0x68);
-=20
-     /* It expects a pca9555 but a pca9552 is compatible */
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), TYPE_PCA95=
-52,
--                     0x20);
-+    create_pca9552(soc, 8, 0x30);
+     s->regs[R_SEG_ADDR0 + cs] =3D regval;
  }
 =20
- static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
-@@ -712,7 +717,7 @@ static void rainier_bmc_i2c_init(AspeedMachineState *=
-bmc)
-=20
-     aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 0), 0x51, 32 * KiB)=
-;
-=20
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 3), "pca9552",=
- 0x61);
-+    create_pca9552(soc, 3, 0x61);
-=20
-     /* The rainier expects a TMP275 but a TMP105 is compatible */
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), TYPE_TMP10=
-5,
-@@ -726,14 +731,14 @@ static void rainier_bmc_i2c_init(AspeedMachineState=
- *bmc)
-     aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
-     aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 1), 0x51, 64 * KiB);
-     aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 2), 0x52, 64 * KiB);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), "pca9552",=
- 0x60);
-+    create_pca9552(soc, 4, 0x60);
-=20
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5), TYPE_TMP10=
-5,
-                      0x48);
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5), TYPE_TMP10=
-5,
-                      0x49);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5), "pca9552",=
- 0x60);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5), "pca9552",=
- 0x61);
-+    create_pca9552(soc, 5, 0x60);
-+    create_pca9552(soc, 5, 0x61);
-     i2c_mux =3D i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5)=
-,
-                                       "pca9546", 0x70);
-     aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
-@@ -752,13 +757,13 @@ static void rainier_bmc_i2c_init(AspeedMachineState=
- *bmc)
-     aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 2), 0x50, 64 * KiB);
-     aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 3), 0x51, 64 * KiB);
-=20
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552",=
- 0x30);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552",=
- 0x31);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552",=
- 0x32);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552",=
- 0x33);
-+    create_pca9552(soc, 7, 0x30);
-+    create_pca9552(soc, 7, 0x31);
-+    create_pca9552(soc, 7, 0x32);
-+    create_pca9552(soc, 7, 0x33);
-     /* Bus 7: TODO max31785@52 */
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552",=
- 0x60);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552",=
- 0x61);
-+    create_pca9552(soc, 7, 0x60);
-+    create_pca9552(soc, 7, 0x61);
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "dps310", =
-0x76);
-     /* Bus 7: TODO si7021-a20@20 */
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), TYPE_TMP10=
-5,
-@@ -772,8 +777,8 @@ static void rainier_bmc_i2c_init(AspeedMachineState *=
-bmc)
-                      0x4a);
-     aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 8), 0x50, 64 * KiB)=
-;
-     aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 8), 0x51, 64 * KiB)=
-;
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9552",=
- 0x60);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8), "pca9552",=
- 0x61);
-+    create_pca9552(soc, 8, 0x60);
-+    create_pca9552(soc, 8, 0x61);
-     /* Bus 8: ucd90320@11 */
-     /* Bus 8: ucd90320@b */
-     /* Bus 8: ucd90320@c */
-@@ -794,17 +799,17 @@ static void rainier_bmc_i2c_init(AspeedMachineState=
- *bmc)
-                                       "pca9546", 0x70);
-     aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 0), 0x50, 64 * KiB);
-     aspeed_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 1), 0x51, 64 * KiB);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), "pca9552"=
-, 0x60);
-+    create_pca9552(soc, 11, 0x60);
-=20
-=20
-     aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 13), 0x50, 64 * KiB=
-);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 13), "pca9552"=
-, 0x60);
-+    create_pca9552(soc, 13, 0x60);
-=20
-     aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 14), 0x50, 64 * KiB=
-);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 14), "pca9552"=
-, 0x60);
-+    create_pca9552(soc, 14, 0x60);
-=20
-     aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x50, 64 * KiB=
-);
--    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 15), "pca9552"=
-, 0x60);
-+    create_pca9552(soc, 15, 0x60);
- }
-=20
- static void get_pca9548_channels(I2CBus *bus, uint8_t mux_addr,
+@@ -1364,6 +1368,7 @@ static void aspeed_2400_fmc_class_init(ObjectClass =
+*klass, void *data)
+     asc->conf_enable_w0    =3D CONF_ENABLE_W0;
+     asc->max_peripherals   =3D 5;
+     asc->segments          =3D aspeed_2400_fmc_segments;
++    asc->segment_addr_mask =3D 0xffff0000;
+     asc->resets            =3D aspeed_2400_fmc_resets;
+     asc->flash_window_base =3D 0x20000000;
+     asc->flash_window_size =3D 0x10000000;
+@@ -1446,6 +1451,7 @@ static void aspeed_2500_fmc_class_init(ObjectClass =
+*klass, void *data)
+     asc->conf_enable_w0    =3D CONF_ENABLE_W0;
+     asc->max_peripherals   =3D 3;
+     asc->segments          =3D aspeed_2500_fmc_segments;
++    asc->segment_addr_mask =3D 0xffff0000;
+     asc->resets            =3D aspeed_2500_fmc_resets;
+     asc->flash_window_base =3D 0x20000000;
+     asc->flash_window_size =3D 0x10000000;
+@@ -1483,6 +1489,7 @@ static void aspeed_2500_spi1_class_init(ObjectClass=
+ *klass, void *data)
+     asc->conf_enable_w0    =3D CONF_ENABLE_W0;
+     asc->max_peripherals   =3D 2;
+     asc->segments          =3D aspeed_2500_spi1_segments;
++    asc->segment_addr_mask =3D 0xffff0000;
+     asc->flash_window_base =3D 0x30000000;
+     asc->flash_window_size =3D 0x8000000;
+     asc->features          =3D 0x0;
+@@ -1517,6 +1524,7 @@ static void aspeed_2500_spi2_class_init(ObjectClass=
+ *klass, void *data)
+     asc->conf_enable_w0    =3D CONF_ENABLE_W0;
+     asc->max_peripherals   =3D 2;
+     asc->segments          =3D aspeed_2500_spi2_segments;
++    asc->segment_addr_mask =3D 0xffff0000;
+     asc->flash_window_base =3D 0x38000000;
+     asc->flash_window_size =3D 0x8000000;
+     asc->features          =3D 0x0;
+@@ -1598,6 +1606,7 @@ static void aspeed_2600_fmc_class_init(ObjectClass =
+*klass, void *data)
+     asc->conf_enable_w0    =3D CONF_ENABLE_W0;
+     asc->max_peripherals   =3D 3;
+     asc->segments          =3D aspeed_2600_fmc_segments;
++    asc->segment_addr_mask =3D 0x0ff00ff0;
+     asc->resets            =3D aspeed_2600_fmc_resets;
+     asc->flash_window_base =3D 0x20000000;
+     asc->flash_window_size =3D 0x10000000;
+@@ -1636,6 +1645,7 @@ static void aspeed_2600_spi1_class_init(ObjectClass=
+ *klass, void *data)
+     asc->conf_enable_w0    =3D CONF_ENABLE_W0;
+     asc->max_peripherals   =3D 2;
+     asc->segments          =3D aspeed_2600_spi1_segments;
++    asc->segment_addr_mask =3D 0x0ff00ff0;
+     asc->flash_window_base =3D 0x30000000;
+     asc->flash_window_size =3D 0x10000000;
+     asc->features          =3D ASPEED_SMC_FEATURE_DMA |
+@@ -1674,6 +1684,7 @@ static void aspeed_2600_spi2_class_init(ObjectClass=
+ *klass, void *data)
+     asc->conf_enable_w0    =3D CONF_ENABLE_W0;
+     asc->max_peripherals   =3D 3;
+     asc->segments          =3D aspeed_2600_spi2_segments;
++    asc->segment_addr_mask =3D 0x0ff00ff0;
+     asc->flash_window_base =3D 0x50000000;
+     asc->flash_window_size =3D 0x10000000;
+     asc->features          =3D ASPEED_SMC_FEATURE_DMA |
 --=20
 2.34.1
 
