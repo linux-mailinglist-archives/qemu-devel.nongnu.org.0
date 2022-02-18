@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D904BB85C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 12:39:57 +0100 (CET)
-Received: from localhost ([::1]:45234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB5A84BB80F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 12:29:57 +0100 (CET)
+Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL1cD-00034m-3A
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 06:39:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43704)
+	id 1nL1SW-0001Mb-Do
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 06:29:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nL0fq-00019o-Nl; Fri, 18 Feb 2022 05:39:38 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11598)
+ id 1nL0fp-00019O-H9; Fri, 18 Feb 2022 05:39:37 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nL0fg-0005i4-Pp; Fri, 18 Feb 2022 05:39:34 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21I9uhC5026018; 
- Fri, 18 Feb 2022 10:38:55 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ea995gxmn-1
+ id 1nL0fg-0005hX-S3; Fri, 18 Feb 2022 05:39:32 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21IAbMUk013532; 
+ Fri, 18 Feb 2022 10:38:56 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ea8kyhmgq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 10:38:55 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21IAcNqU014090;
+ Fri, 18 Feb 2022 10:38:56 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21IAbt70009391;
  Fri, 18 Feb 2022 10:38:53 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma05fra.de.ibm.com with ESMTP id 3e64haerds-1
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma02fra.de.ibm.com with ESMTP id 3e64haer0p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 10:38:52 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21IAcmGT44761354
+ Fri, 18 Feb 2022 10:38:53 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21IAcp1O39911700
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Feb 2022 10:38:48 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A1375A4051;
- Fri, 18 Feb 2022 10:38:48 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6727FA405B;
- Fri, 18 Feb 2022 10:38:48 +0000 (GMT)
+ Fri, 18 Feb 2022 10:38:51 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 473D852051;
+ Fri, 18 Feb 2022 10:38:51 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 18 Feb 2022 10:38:48 +0000 (GMT)
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 0436452054;
+ Fri, 18 Feb 2022 10:38:50 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.87.94])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id AB079220294;
- Fri, 18 Feb 2022 11:38:47 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 4A1BB220294;
+ Fri, 18 Feb 2022 11:38:50 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 27/39] target/ppc: cpu_init: Move 755 L2 cache SPRs into a
- function
-Date: Fri, 18 Feb 2022 11:38:15 +0100
-Message-Id: <20220218103827.682032-28-clg@kaod.org>
+Subject: [PULL 31/39] target/ppc: cpu_init: Reuse init_proc_604 for the 604e
+Date: Fri, 18 Feb 2022 11:38:19 +0100
+Message-Id: <20220218103827.682032-32-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218103827.682032-1-clg@kaod.org>
 References: <20220218103827.682032-1-clg@kaod.org>
@@ -64,15 +60,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: lm8IoLvfaGxPbgwUQhoIBlDwXhNhgtjR
-X-Proofpoint-GUID: lm8IoLvfaGxPbgwUQhoIBlDwXhNhgtjR
+X-Proofpoint-GUID: ukyVibj3KAfIGrzsev9709uKEqpJHsSO
+X-Proofpoint-ORIG-GUID: ukyVibj3KAfIGrzsev9709uKEqpJHsSO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-18_04,2022-02-18_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 mlxscore=0 spamscore=0
- clxscore=1034 phishscore=0 suspectscore=0 mlxlogscore=888 bulkscore=0
+ bulkscore=0 phishscore=0
+ adultscore=0 suspectscore=0 mlxscore=0 mlxlogscore=756 clxscore=1034
+ spamscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2202180067
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
@@ -104,62 +100,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Fabiano Rosas <farosas@linux.ibm.com>
 
-This is just to have 755-specific registers contained into a function,
-intead of leaving them open-coded in init_proc_755. It makes init_proc
-easier to read and keeps later patches that touch this code a bit
-cleaner.
-
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20220216162426.1885923-16-farosas@linux.ibm.com>
+Message-Id: <20220216162426.1885923-20-farosas@linux.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/cpu_init.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ target/ppc/cpu_init.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index d5c23785d727..ef9353a7fe43 100644
+index 794486dd3a4d..28e65ba20476 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -503,6 +503,20 @@ static void register_745_sprs(CPUPPCState *env)
-                  0x00000000);
+@@ -3922,18 +3922,8 @@ POWERPC_FAMILY(604)(ObjectClass *oc, void *data)
+=20
+ static void init_proc_604E(CPUPPCState *env)
+ {
+-    register_ne_601_sprs(env);
+-    register_sdr1_sprs(env);
+-    register_604_sprs(env);
++    init_proc_604(env);
+     register_604e_sprs(env);
+-
+-    /* Memory management */
+-    register_low_BATs(env);
+-    init_excp_604(env);
+-    env->dcache_line_size =3D 32;
+-    env->icache_line_size =3D 32;
+-    /* Allocate hardware IRQ controller */
+-    ppc6xx_irq_init(env_archcpu(env));
  }
 =20
-+static void register_755_sprs(CPUPPCState *env)
-+{
-+    /* L2 cache control */
-+    spr_register(env, SPR_L2CR, "L2CR",
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 &spr_read_generic, spr_access_nop,
-+                 0x00000000);
-+
-+    spr_register(env, SPR_L2PMCR, "L2PMCR",
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 &spr_read_generic, &spr_write_generic,
-+                 0x00000000);
-+}
-+
- /* SPR common to all 7xx PowerPC implementations */
- static void register_7xx_sprs(CPUPPCState *env)
- {
-@@ -4545,16 +4559,8 @@ static void init_proc_755(CPUPPCState *env)
-     register_sdr1_sprs(env);
-     register_7xx_sprs(env);
-     register_745_sprs(env);
--    /* L2 cache control */
--    spr_register(env, SPR_L2CR, "L2CR",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, spr_access_nop,
--                 0x00000000);
-+    register_755_sprs(env);
-=20
--    spr_register(env, SPR_L2PMCR, "L2PMCR",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, &spr_write_generic,
--                 0x00000000);
-     /* Thermal management */
-     register_thrm_sprs(env);
-=20
+ POWERPC_FAMILY(604E)(ObjectClass *oc, void *data)
 --=20
 2.34.1
 
