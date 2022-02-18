@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADE64BBF10
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 19:11:26 +0100 (CET)
-Received: from localhost ([::1]:60446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DC34BBF12
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 19:12:03 +0100 (CET)
+Received: from localhost ([::1]:60948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL7j1-0004tu-Rg
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 13:11:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57864)
+	id 1nL7jd-0005F9-55
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 13:12:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nL7gN-0003WQ-7A
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:08:39 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=37546
- helo=mail-pj1-x1032.google.com)
+ id 1nL7h6-0003jj-FA
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:09:28 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=51860
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nL7gL-0002hj-K6
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:08:38 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- v5-20020a17090a4ec500b001b8b702df57so13065217pjl.2
- for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 10:08:37 -0800 (PST)
+ id 1nL7h4-0002kf-KE
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:09:24 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id y9so9281982pjf.1
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 10:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=EQRbb5SlIEmlxArByPR/4KxbKq08EqPQdxvSuIzGrE4=;
- b=C5JlB5dM8bwYCqI/X0x0b7TPIqCANCtZN+rgDn4zTwOEd7Kpmc/h6s4pBY9y1BO5c3
- daHBtHOfu+P8yioXPO3iflw6RyvW2xm5B8ElkemrSh/sE0nfByC6UKSA+RIysbboHV96
- kHunzr5l5R2sB5+xKS9CrrIzb24Cl+8TfVnbRgUwp6xcIzMfjv5JNg+DzE0hs71Ilclm
- Az21jyUMCd3Kscl/4Y7yTmLDag0izthsdz1JqTXZRW0dWgUunR+aaxJ5OebjJdadtExZ
- SHi/NxH2NszwzwUq9tGSImuF3WXPrK7fN3SI5nYyKt4s4EVt3M9DTj+SAEVBWQaBGvB5
- YL3g==
+ bh=tmTohSHoe+JQPpzq470FgxtpAE0Jj7SepU34Mt/GbOw=;
+ b=hL0KIgnMVAVTR/xgA3o9+o4+FwuP1Eusgvv4a8IhcL1acXNTdjY/LCm6vAXwdurkRf
+ ztAHt1XAAjlFdLP3me931o5hw3L6MykE1sxLLHQghNNrlSgpQh+uRUPwByrQ9li5XyHR
+ +37c1y6NEdap6xHPSrrhAOU6hfDkI8ewLkj8F7MdVoYzfe2OdcvOGNz7f8Vz6DgZn5SC
+ WI0jqLYonRUUHvhYqB5AzPfLsE971Y08++z+asZWKULhm/0MRG2DH/frB10OefvkPZhK
+ kTWT1ywMe1kkskGEprKQh78k81MKdz1cRuffnLHxeRmKpTph7i41ywp6GvBhtPnTTq1R
+ 8ikA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=EQRbb5SlIEmlxArByPR/4KxbKq08EqPQdxvSuIzGrE4=;
- b=631qnfuUQuMTdRJruspTkWHZkwQjPPnv5hdiczvbWTOT/goyCZwJoWAggfVnDjagFv
- ffqdaalbQ4aiVLufs8HWJ+PONVaiSLLY1qYfiXLxpV71YjMj/rwTiSqZRkgsypNzxHBZ
- BAuW7KgXSbKBp9GU67LYNDRntPzq3XpGAwkDRr52nH37ChqiPExoUDx7o5N1roO74RMs
- ycI9hjjXarpMkIgZ1pVyKQIOc2TJMLNLFNiQ73xUG1U9/MwgprZRcvKQ8C/2PH8ngr59
- 9Dqt+RWyruhtmeVAS+IqkOEHYlLoyS/Io1AJ/OL+VVOp58Hf0somWN0FQx5sdnbGqdOD
- H6ow==
-X-Gm-Message-State: AOAM531o2y8OfqYJj3n8Gq3CeXN4IPCs3vBCuciAOJ8kGSrAUrMkfCrk
- Eqms5yJsBtCnrA3J7QNDp5M=
-X-Google-Smtp-Source: ABdhPJzOaokstqsS9qLMBzQeQlfC9Z1Mw2FkLu4t20TVitEtmvZOM60Bx4NhnVl+jBy/iHknw0x2wA==
-X-Received: by 2002:a17:90a:5505:b0:1b8:ebd4:d602 with SMTP id
- b5-20020a17090a550500b001b8ebd4d602mr9464832pji.147.1645207716194; 
- Fri, 18 Feb 2022 10:08:36 -0800 (PST)
+ bh=tmTohSHoe+JQPpzq470FgxtpAE0Jj7SepU34Mt/GbOw=;
+ b=4TyyRbQHJvDNhvYa3w5ECl/9r9ri3+DMV1gu7m19GezB0EgwUKSuwdVjcYzh/ihbGE
+ bolzVCKu2kzs8Vwn2sV8wvqJeGOVDNzMpPjQyza2emJKnrkzADQ5dD2cWZXxfvuL3LUw
+ DcnQXLMz7LUhett1NLloGWh6RG1rVpOR58XtWe2kcr9VwuI2nAtnxN4bEtTZzzez9O30
+ M1Pnmd/P2aj6b+2/DIf5dH/VOHI1v5i09XH67QU/FwafnUmd6KrOb59RLsDJADxFSVDd
+ 8I8cDjVNskI/pMhii0qpeVZJXAjGi0DA3x+65OPV9ire/fyI11C5LPF++UUUFtaHY/1E
+ JIlA==
+X-Gm-Message-State: AOAM5332Codm76B7qXERlFmYlAMEj5cPqf77aQtD9fJnkG7X1/OM/Lsd
+ u+DxpDk4KwWgWOtjiOrvuC4=
+X-Google-Smtp-Source: ABdhPJxyys2ylaiQXirqHcTtulp6M1X9hmBcopbuY+Z11tnJz6WbXDuk1CFj8AR3DicWXI9eXi+H+Q==
+X-Received: by 2002:a17:903:240a:b0:14e:dad4:5ce4 with SMTP id
+ e10-20020a170903240a00b0014edad45ce4mr8434735plo.125.1645207761239; 
+ Fri, 18 Feb 2022 10:09:21 -0800 (PST)
 Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
  by smtp.gmail.com with ESMTPSA id
- w198sm3867359pff.96.2022.02.18.10.08.34
+ q13sm4065587pfl.210.2022.02.18.10.09.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Feb 2022 10:08:35 -0800 (PST)
-Message-ID: <15f72069-bbf2-045b-ed0c-cd23a1ca844e@gmail.com>
-Date: Sat, 19 Feb 2022 03:08:31 +0900
+ Fri, 18 Feb 2022 10:09:20 -0800 (PST)
+Message-ID: <7eb3be1b-68a1-37e4-52f0-8a154d2f23be@gmail.com>
+Date: Sat, 19 Feb 2022 03:09:16 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v6 02/15] configure: Allow passing extra Objective C
- compiler flags
+Subject: Re: [PATCH v6 03/15] tests/fp/berkeley-testfloat-3: Ignore ignored
+ #pragma directives
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220215080307.69550-1-f4bug@amsat.org>
- <20220215080307.69550-3-f4bug@amsat.org>
+ <20220215080307.69550-4-f4bug@amsat.org>
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20220215080307.69550-3-f4bug@amsat.org>
+In-Reply-To: <20220215080307.69550-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -106,82 +105,37 @@ Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
 On 2022/02/15 17:02, Philippe Mathieu-Daudé via wrote:
-> We can pass C/CPP/LD flags via CFLAGS/CXXFLAGS/LDFLAGS environment
-> variables, or via configure --extra-cflags / --extra-cxxflags /
-> --extra-ldflags options. Provide similar behavior for Objective C:
-> use existing flags from $OBJCFLAGS, or passed via --extra-objcflags.
+> Since we already use -Wno-unknown-pragmas, we can also use
+> -Wno-ignored-pragmas. This silences hundred of warnings using
+> clang 13 on macOS Monterey:
+> 
+>    [409/771] Compiling C object tests/fp/libtestfloat.a.p/berkeley-testfloat-3_source_test_az_f128_rx.c.o
+>    ../tests/fp/berkeley-testfloat-3/source/test_az_f128_rx.c:49:14: warning: '#pragma FENV_ACCESS' is not supported on this target - ignored [-Wignored-pragmas]
+>    #pragma STDC FENV_ACCESS ON
+>                 ^
+>    1 warning generated.
+> 
+> Having:
+> 
+>    $ cc -v
+>    Apple clang version 13.0.0 (clang-1300.0.29.30)
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   configure   | 8 ++++++++
->   meson.build | 5 +++++
->   2 files changed, 13 insertions(+)
+>   tests/fp/meson.build | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/configure b/configure
-> index 3a29eff5cc..06c03cebd3 100755
-> --- a/configure
-> +++ b/configure
-> @@ -287,6 +287,7 @@ done
->   
->   EXTRA_CFLAGS=""
->   EXTRA_CXXFLAGS=""
-> +EXTRA_OBJCFLAGS=""
->   EXTRA_LDFLAGS=""
->   
->   xen_ctrl_version="$default_feature"
-> @@ -391,9 +392,12 @@ for opt do
->     --extra-cflags=*)
->       EXTRA_CFLAGS="$EXTRA_CFLAGS $optarg"
->       EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $optarg"
-> +    EXTRA_OBJCFLAGS="$EXTRA_OBJCFLAGS $optarg"
->       ;;
->     --extra-cxxflags=*) EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $optarg"
->     ;;
-> +  --extra-objcflags=*) EXTRA_OBJCFLAGS="$EXTRA_OBJCFLAGS $optarg"
-> +  ;;
->     --extra-ldflags=*) EXTRA_LDFLAGS="$EXTRA_LDFLAGS $optarg"
->     ;;
->     --enable-debug-info) debug_info="yes"
-> @@ -774,6 +778,8 @@ for opt do
->     ;;
->     --extra-cxxflags=*)
->     ;;
-> +  --extra-objcflags=*)
-> +  ;;
->     --extra-ldflags=*)
->     ;;
->     --enable-debug-info)
-> @@ -1312,6 +1318,7 @@ Advanced options (experts only):
->     --objcc=OBJCC            use Objective-C compiler OBJCC [$objcc]
->     --extra-cflags=CFLAGS    append extra C compiler flags CFLAGS
->     --extra-cxxflags=CXXFLAGS append extra C++ compiler flags CXXFLAGS
-> +  --extra-objcflags=OBJCFLAGS append extra Objective C compiler flags OBJCFLAGS
->     --extra-ldflags=LDFLAGS  append extra linker flags LDFLAGS
->     --cross-cc-ARCH=CC       use compiler when building ARCH guest test cases
->     --cross-cc-cflags-ARCH=  use compiler flags when building ARCH guest tests
-> @@ -3724,6 +3731,7 @@ if test "$skip_meson" = no; then
->     echo "[built-in options]" >> $cross
->     echo "c_args = [$(meson_quote $CFLAGS $EXTRA_CFLAGS)]" >> $cross
->     echo "cpp_args = [$(meson_quote $CXXFLAGS $EXTRA_CXXFLAGS)]" >> $cross
-> +  test -n "$objcc" && echo "objc_args = [$(meson_quote $OBJCFLAGS $EXTRA_OBJCFLAGS)]" >> $cross
->     echo "c_link_args = [$(meson_quote $CFLAGS $LDFLAGS $EXTRA_CFLAGS $EXTRA_LDFLAGS)]" >> $cross
->     echo "cpp_link_args = [$(meson_quote $CXXFLAGS $LDFLAGS $EXTRA_CXXFLAGS $EXTRA_LDFLAGS)]" >> $cross
->     echo "[binaries]" >> $cross
-> diff --git a/meson.build b/meson.build
-> index ae5f7eec6e..df25e7a5e7 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -3292,6 +3292,11 @@ if link_language == 'cpp'
->                                                  + ['-O' + get_option('optimization')]
->                                                  + (get_option('debug') ? ['-g'] : []))}
->   endif
-> +if targetos == 'darwin'
-> +  summary_info += {'OBJCFLAGS':       ' '.join(get_option('objc_args')
-> +                                               + ['-O' + get_option('optimization')]
-> +                                               + (get_option('debug') ? ['-g'] : []))}
-> +endif
->   link_args = get_option(link_language + '_link_args')
->   if link_args.length() > 0
->     summary_info += {'LDFLAGS':         ' '.join(link_args)}
+> diff --git a/tests/fp/meson.build b/tests/fp/meson.build
+> index 59776a00a7..5192264a08 100644
+> --- a/tests/fp/meson.build
+> +++ b/tests/fp/meson.build
+> @@ -30,6 +30,7 @@ tfcflags = [
+>     '-Wno-implicit-fallthrough',
+>     '-Wno-strict-prototypes',
+>     '-Wno-unknown-pragmas',
+> +  '-Wno-ignored-pragmas',
+>     '-Wno-uninitialized',
+>     '-Wno-missing-prototypes',
+>     '-Wno-return-type',
 
 
