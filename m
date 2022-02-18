@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6FD4BB6E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 11:28:56 +0100 (CET)
-Received: from localhost ([::1]:54644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE604BB6D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 11:27:01 +0100 (CET)
+Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL0VT-0004wH-HX
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 05:28:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40060)
+	id 1nL0Tc-0001EX-9o
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 05:27:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nL0Po-00074S-Ag
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 05:23:04 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2323)
+ id 1nL0QF-0007VO-5D
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 05:23:31 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2324)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nL0Pl-0003JF-6c
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 05:23:04 -0500
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4K0SMN388Bz686xb;
- Fri, 18 Feb 2022 18:18:24 +0800 (CST)
+ id 1nL0QD-0003MY-Kg
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 05:23:30 -0500
+Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4K0SSd09frz67QKq;
+ Fri, 18 Feb 2022 18:22:57 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
+ fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 18 Feb 2022 11:22:57 +0100
+ 15.1.2308.21; Fri, 18 Feb 2022 11:23:27 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Fri, 18 Feb 2022 10:22:56 +0000
+ 15.1.2308.21; Fri, 18 Feb 2022 10:23:27 +0000
 To: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
  . Tsirkin --cc=linuxarm @ huawei . com" <mst@redhat.com>
-Subject: [PATCH 1/2] pci-bridge/xio3130_upstream: Fix error handling
-Date: Fri, 18 Feb 2022 10:23:02 +0000
-Message-ID: <20220218102303.7061-1-Jonathan.Cameron@huawei.com>
+Subject: [PATCH 2/2] pci-bridge/xio3130_downstream: Fix error handling
+Date: Fri, 18 Feb 2022 10:23:03 +0000
+Message-ID: <20220218102303.7061-2-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220218102303.7061-1-Jonathan.Cameron@huawei.com>
+References: <20220218102303.7061-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -68,21 +70,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-Goto label is incorrect so msi cleanup would not occur if there is
+Wrong goto label, so msi cleanup would not occur if there is
 an error in the ssvid initialization.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
-Noticed whilst working on equivalent CXL upstream switch port.
-
- hw/pci-bridge/xio3130_upstream.c | 2 +-
+ hw/pci-bridge/xio3130_downstream.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/xio3130_upstream.c
-index 5cd3af4fbc..5ff46ef050 100644
---- a/hw/pci-bridge/xio3130_upstream.c
-+++ b/hw/pci-bridge/xio3130_upstream.c
-@@ -75,7 +75,7 @@ static void xio3130_upstream_realize(PCIDevice *d, Error **errp)
+diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
+index 04aae72cd6..080a6613fe 100644
+--- a/hw/pci-bridge/xio3130_downstream.c
++++ b/hw/pci-bridge/xio3130_downstream.c
+@@ -84,7 +84,7 @@ static void xio3130_downstream_realize(PCIDevice *d, Error **errp)
                                 XIO3130_SSVID_SVID, XIO3130_SSVID_SSID,
                                 errp);
      if (rc < 0) {
@@ -90,7 +90,7 @@ index 5cd3af4fbc..5ff46ef050 100644
 +        goto err_msi;
      }
  
-     rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_UPSTREAM,
+     rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_DOWNSTREAM,
 -- 
 2.32.0
 
