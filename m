@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599E44BBE00
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 18:07:02 +0100 (CET)
-Received: from localhost ([::1]:51304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4644BBE01
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 18:07:06 +0100 (CET)
+Received: from localhost ([::1]:51808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL6ii-0008SX-Re
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 12:07:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43668)
+	id 1nL6in-0000Mj-Oe
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 12:07:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nL6Zy-00089n-Rn
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:57:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57747)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nL6Zo-0000WS-Mr
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:57:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645203460;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZD4wFKoKIljH4JJpzSaYSiiiVluNhivyKYyxQc+zYOI=;
- b=E0ou3Ruv5HoKXe/TC/EAMlMxQr96Hc4D+jzefPN6z4uPlUZoclGlsoDRgipWjb3KSwIsnm
- ULBH1MPSpguOY64ZgHDO0e0qRnhKD3dSNzwIujPzsT2GtBNgFhVIdkfPqOUu19Zi/3uE17
- HTjYzNnxckAgCjFkGbHCWkG2+Nm0LuM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-298-hHVyft5iP2eDy1aqj5t8yg-1; Fri, 18 Feb 2022 11:57:38 -0500
-X-MC-Unique: hHVyft5iP2eDy1aqj5t8yg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- o5-20020a50c905000000b00410effbf65dso5841463edh.17
- for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 08:57:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nL6gU-0005pf-8D
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 12:04:42 -0500
+Received: from [2a00:1450:4864:20::12d] (port=41490
+ helo=mail-lf1-x12d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nL6gS-0001R2-D7
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 12:04:41 -0500
+Received: by mail-lf1-x12d.google.com with SMTP id f37so6601503lfv.8
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 09:04:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nhlNWFnE1iCr2ozZQHR9SnA6ErL3wirMOo+34M7V6Lc=;
+ b=LUkjIUD6jJKLJgKlVHJ9e9Kw1gX1UWuY1KQ7hwL83nZSxKZkGSpZ/gGTGezppdBcJM
+ RdaG5DhhkZwAflf5TTpjHpHLqX1L4E76LxwRyi/KiVB/d7YNJzMt/7XihE3om+MED7xQ
+ dnqbnFQ3LrPjoD+bTeQZI1XEGbRdW5M/KTXe8GFixcaFpvQ4ksVv2idlXRlNZzu5K9Dm
+ raWxwD7PHeVZP3w9+BsuzSZKMEp3mR/FxEHL+oejFztcyoHFJNdt4NeMnGekOZN8CoWB
+ LZvAzhxHhJOc0zF7XuzgXhMECTmqFByuVizQm1hy8gjJ8fUm2U7qiarS3ktyRiFymxlv
+ oeqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZD4wFKoKIljH4JJpzSaYSiiiVluNhivyKYyxQc+zYOI=;
- b=ukP8J4KtA7zOAl2QY8nWiRB0iJX2kgdnfDmYL/QPtjTFVVOV8+kupvX9m6jA6trgdA
- G5Pv04+qQHl1QntArgcWepvV3WiHhN/LUbSBRinQoEcrEntWiGytW4G3sRa4sMlou74U
- ddnC7hEkpGI+rTZ9EJV5tEyYxUytMV8dpK4Nrsz5BkLvHRs4+h2nKBXVzKxnc4TXTVSU
- +kUzXhJkqHTCzybQaAwdSfa6FzLmOf/ZPo3ZppyEMw7Ig+a0GBhYa/5mvjQefqe9PWKf
- 7xQPMGuEHyK5h2ryC9BmlH8XZRBvsjqgwwFyUELlOvOO+UizN1VWRMyjhVIaZkT+QvmX
- xZMQ==
-X-Gm-Message-State: AOAM530XelPZo52vTcfkKAlKYKCU5tWN6e6fW+wHWIuBldRYJ/xdG9EN
- kuMxF0HErqLTL5WnTdoNcAsA62S4mtVwk1IbTyRfgxIk1Igw8AYnrlR2f1c7lcmNrl0sjinKrcQ
- 5ZEMVvoMb0PzTgkA=
-X-Received: by 2002:aa7:c446:0:b0:410:9a8e:9b85 with SMTP id
- n6-20020aa7c446000000b004109a8e9b85mr8979302edr.319.1645203455745; 
- Fri, 18 Feb 2022 08:57:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzkCgKZ2KTGxRbmaOL0PKbEMiGHQJYQOVvLIIDqmysoZyRDW3c3VisxJCaMVVePDtnECxUTlQ==
-X-Received: by 2002:aa7:c446:0:b0:410:9a8e:9b85 with SMTP id
- n6-20020aa7c446000000b004109a8e9b85mr8979291edr.319.1645203455546; 
- Fri, 18 Feb 2022 08:57:35 -0800 (PST)
-Received: from sgarzare-redhat (host-95-248-229-156.retail.telecomitalia.it.
- [95.248.229.156])
- by smtp.gmail.com with ESMTPSA id go13sm2404449ejc.190.2022.02.18.08.57.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Feb 2022 08:57:35 -0800 (PST)
-Date: Fri, 18 Feb 2022 17:57:32 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Subject: Re: [PATCH 2/2] Allow VIRTIO_F_IN_ORDER to be negotiated for vdpa
- devices
-Message-ID: <20220218165732.47cvp7wshxfpi3nu@sgarzare-redhat>
-References: <20220215072231.2498-1-gdawar@xilinx.com>
- <20220215072231.2498-3-gdawar@xilinx.com>
- <20220217023150-mutt-send-email-mst@kernel.org>
- <20220217142910.eovyddvvpxkvzchf@sgarzare-redhat>
- <CAJaqyWe-FSKSVYyDr_cMzGWQreTi+bkY9O6eaOvF5NmJoTBx9w@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nhlNWFnE1iCr2ozZQHR9SnA6ErL3wirMOo+34M7V6Lc=;
+ b=x1/dG/HGVD1aIcQm3GJ+oNv6j/LZ3EmREVYxssLXpD6S0ALkJZ8fUL8HapIcDClps0
+ av70rPDyiemfLYkfqIFG1SQl9gcOrkhlST+IWWEb7NOF+AYEV3gq7LrbMzd0yIw1d1Ju
+ iZCd4onbbI2KddmBt/pWq9uwd/evUWERNfFpfj0H8dQobuzR0UDcNWftjkaKxlISbsPY
+ X0yPIdvGDuvYJ8TSvZEbX5DrrQfsKWaBkAmc67UTzO3PHEOly1GQFTVQonRp5YRIbfdu
+ +K4iRtz+soNpDMIiw6BYoW9o0cO7/njcI4e1L5QAIsYJ0BoOcThEvwKaotXmp47o1eLn
+ wKkQ==
+X-Gm-Message-State: AOAM530/bfuj2lPPG6/vhUMjv3RlUCpeItCchG+rGiYhKYqHTELpz0Gr
+ 57OD/RSU19OoE6QUJMeno9CU6/pQz2e+XYQeQx/8KqRsVUZdQg==
+X-Google-Smtp-Source: ABdhPJwaSHOqBZjW8XVIKET3SxdLoSOw7aayKCUT9WXZZW1nqW6xv1txEV3DPzNZwGE2nH3xMMaKobqMrF6x1et3JKc=
+X-Received: by 2002:a05:6512:3619:b0:443:1597:8293 with SMTP id
+ f25-20020a056512361900b0044315978293mr6080147lfs.439.1645203877576; Fri, 18
+ Feb 2022 09:04:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWe-FSKSVYyDr_cMzGWQreTi+bkY9O6eaOvF5NmJoTBx9w@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220215190426.56130-1-wwcohen@gmail.com>
+In-Reply-To: <20220215190426.56130-1-wwcohen@gmail.com>
+From: Will Cohen <wwcohen@gmail.com>
+Date: Fri, 18 Feb 2022 12:04:24 -0500
+Message-ID: <CAB26zV1v+bL4FskfRbpU5kWqRBxg4wKJBVXXsWnNzJo31_9O_A@mail.gmail.com>
+Subject: Re: [PATCH v7 00/11] 9p: Add support for darwin
+To: qemu Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000b4c51f05d84de0dc"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=wwcohen@gmail.com; helo=mail-lf1-x12d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,47 +79,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Martin Petrus Hubertus Habets <martinh@xilinx.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, tanujk@xilinx.com, pabloc@xilinx.com,
- Gautam Dawar <gautam.dawar@xilinx.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 18, 2022 at 11:24:23AM +0100, Eugenio Perez Martin wrote:
->On Thu, Feb 17, 2022 at 3:29 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
->>
->> On Thu, Feb 17, 2022 at 02:32:48AM -0500, Michael S. Tsirkin wrote:
->> >On Tue, Feb 15, 2022 at 12:52:31PM +0530, Gautam Dawar wrote:
->> >> This patch adds the ability to negotiate VIRTIO_F_IN_ORDER bit
->> >> for vhost-vdpa backend when the underlying device supports this
->> >> feature.
->> >> This would aid in reaping performance benefits with HW devices
->> >> that implement this feature. At the same time, it shouldn't have
->> >> any negative impact as vhost-vdpa backend doesn't involve any
->> >> userspace virtqueue operations.
->> >>
->> >> Signed-off-by: Gautam Dawar <gdawar@xilinx.com>
->> >
->> >Having features that hardware implements but qemu does not
->> >means we can't migrate between them.
->> >So I'd rather see a userspace implementation.
->>
->> FYI Jason proposed to support VIRTIO_F_IN_ORDER in QEMU/Linux as an idea
->> for the next GSoC/Outreachy. I offered to mentor and prepared a project
->> description [1], if anyone else is interested, it would be great to have
->> a co-mentor :-)
->>
+--000000000000b4c51f05d84de0dc
+Content-Type: text/plain; charset="UTF-8"
+
+On Tue, Feb 15, 2022 at 2:04 PM Will Cohen <wwcohen@gmail.com> wrote:
+
+> This is a followup to
+> https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg02313.html,
+> adding 9p server support for Darwin.
 >
->I'd be happy to co-mentor for sure, should I edit the wiki to reflect it?
+> Since v6, the following changes have been made to the following patches:
+>
+> Patch 9/11: 9p: darwin: Implement compatibility for mknodat
+> - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
+>   presence in osdep.h and os-posix.c
+>
+> Keno Fischer (10):
+>   9p: linux: Fix a couple Linux assumptions
+>   9p: Rename 9p-util -> 9p-util-linux
+>   9p: darwin: Handle struct stat(fs) differences
+>   9p: darwin: Handle struct dirent differences
+>   9p: darwin: Ignore O_{NOATIME, DIRECT}
+>   9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
+>   9p: darwin: *xattr_nofollow implementations
+>   9p: darwin: Compatibility for f/l*xattr
+>   9p: darwin: Implement compatibility for mknodat
+>   9p: darwin: meson: Allow VirtFS on Darwin
+>
+> Will Cohen (1):
+>   9p: darwin: Adjust assumption on virtio-9p-test
+>
+>  fsdev/file-op-9p.h                     |  9 +++-
+>  fsdev/meson.build                      |  1 +
+>  hw/9pfs/9p-local.c                     | 27 ++++++++---
+>  hw/9pfs/9p-proxy.c                     | 38 +++++++++++++--
+>  hw/9pfs/9p-synth.c                     |  6 +++
+>  hw/9pfs/9p-util-darwin.c               | 64 ++++++++++++++++++++++++++
+>  hw/9pfs/{9p-util.c => 9p-util-linux.c} |  2 +-
+>  hw/9pfs/9p-util.h                      | 35 ++++++++++++++
+>  hw/9pfs/9p.c                           | 42 ++++++++++++++---
+>  hw/9pfs/9p.h                           | 18 ++++++++
+>  hw/9pfs/codir.c                        |  4 +-
+>  hw/9pfs/meson.build                    |  3 +-
+>  include/qemu/osdep.h                   | 12 +++++
+>  include/qemu/xattr.h                   |  4 +-
+>  meson.build                            | 15 ++++--
+>  os-posix.c                             | 35 ++++++++++++++
+>  tests/qtest/virtio-9p-test.c           |  2 +-
+>  17 files changed, 292 insertions(+), 25 deletions(-)
+>  create mode 100644 hw/9pfs/9p-util-darwin.c
+>  rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (97%)
+>
+> --
+> 2.34.1
+>
+>
+As a brief additional note, this patch set has gotten a moderate amount of
+performance testing downstream by various end users of podman, with
+favorable results:
+https://github.com/containers/podman/issues/8016#issuecomment-1044843948
 
-Great :-)
+--000000000000b4c51f05d84de0dc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yes, please edit the wiki page here: 
-https://wiki.qemu.org/Internships/ProjectIdeas/VIRTIO_F_IN_ORDER
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Feb 15, 2022 at 2:04 PM Will Cohe=
+n &lt;<a href=3D"mailto:wwcohen@gmail.com">wwcohen@gmail.com</a>&gt; wrote:=
+<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">This is a followup to <a href=3D"https://lists.gnu.org/archive/=
+html/qemu-devel/2022-02/msg02313.html" rel=3D"noreferrer" target=3D"_blank"=
+>https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg02313.html</a>,<b=
+r>
+adding 9p server support for Darwin.<br>
+<br>
+Since v6, the following changes have been made to the following patches:<br=
+>
+<br>
+Patch 9/11: 9p: darwin: Implement compatibility for mknodat<br>
+- Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for<br>
+=C2=A0 presence in osdep.h and os-posix.c<br>
+<br>
+Keno Fischer (10):<br>
+=C2=A0 9p: linux: Fix a couple Linux assumptions<br>
+=C2=A0 9p: Rename 9p-util -&gt; 9p-util-linux<br>
+=C2=A0 9p: darwin: Handle struct stat(fs) differences<br>
+=C2=A0 9p: darwin: Handle struct dirent differences<br>
+=C2=A0 9p: darwin: Ignore O_{NOATIME, DIRECT}<br>
+=C2=A0 9p: darwin: Move XATTR_SIZE_MAX-&gt;P9_XATTR_SIZE_MAX<br>
+=C2=A0 9p: darwin: *xattr_nofollow implementations<br>
+=C2=A0 9p: darwin: Compatibility for f/l*xattr<br>
+=C2=A0 9p: darwin: Implement compatibility for mknodat<br>
+=C2=A0 9p: darwin: meson: Allow VirtFS on Darwin<br>
+<br>
+Will Cohen (1):<br>
+=C2=A0 9p: darwin: Adjust assumption on virtio-9p-test<br>
+<br>
+=C2=A0fsdev/file-op-9p.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 9 +++-<br>
+=C2=A0fsdev/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+=C2=A0hw/9pfs/9p-local.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0| 27 ++++++++---<br>
+=C2=A0hw/9pfs/9p-proxy.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0| 38 +++++++++++++--<br>
+=C2=A0hw/9pfs/9p-synth.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 +++<br>
+=C2=A0hw/9pfs/9p-util-darwin.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| 64 ++++++++++++++++++++++++++<br>
+=C2=A0hw/9pfs/{9p-util.c =3D&gt; 9p-util-linux.c} |=C2=A0 2 +-<br>
+=C2=A0hw/9pfs/9p-util.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | 35 ++++++++++++++<br>
+=C2=A0hw/9pfs/9p.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 42 ++++++++++++++---<br>
+=C2=A0hw/9pfs/9p.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 18 ++++++++<br>
+=C2=A0hw/9pfs/codir.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 +-<br>
+=C2=A0hw/9pfs/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +-<br>
+=C2=A0include/qemu/osdep.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| 12 +++++<br>
+=C2=A0include/qemu/xattr.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +-<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 15 ++++--<br>
+=C2=A0os-posix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 35 ++++++++++++++<br>
+=C2=A0tests/qtest/virtio-9p-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 2 +-<br>
+=C2=A017 files changed, 292 insertions(+), 25 deletions(-)<br>
+=C2=A0create mode 100644 hw/9pfs/9p-util-darwin.c<br>
+=C2=A0rename hw/9pfs/{9p-util.c =3D&gt; 9p-util-linux.c} (97%)<br>
+<br>
+-- <br>
+2.34.1<br>
+<br></blockquote><div><br></div><div>As a brief additional note, this patch=
+ set has gotten a moderate amount of performance testing downstream by vari=
+ous end users of podman, with favorable results:=C2=A0 <a href=3D"https://g=
+ithub.com/containers/podman/issues/8016#issuecomment-1044843948">https://gi=
+thub.com/containers/podman/issues/8016#issuecomment-1044843948</a></div></d=
+iv></div>
 
-Thanks,
-Stefano
-
+--000000000000b4c51f05d84de0dc--
 
