@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3394BBFD8
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 19:48:07 +0100 (CET)
-Received: from localhost ([::1]:34356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E76A4BC007
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 19:57:19 +0100 (CET)
+Received: from localhost ([::1]:40446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL8IX-0001hS-VC
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 13:48:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36218)
+	id 1nL8RS-0006A6-3S
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 13:57:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nL8DO-0000Hm-Ci; Fri, 18 Feb 2022 13:42:46 -0500
-Received: from [2607:f8b0:4864:20::1033] (port=50696
- helo=mail-pj1-x1033.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nL8QL-0005JG-6h
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:56:09 -0500
+Received: from [2607:f8b0:4864:20::b30] (port=40512
+ helo=mail-yb1-xb30.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nL8DK-0007oi-Mb; Fri, 18 Feb 2022 13:42:45 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id y16so1156335pjt.0;
- Fri, 18 Feb 2022 10:42:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=mMZ1gf+sJWLyy0weUMQG4qllNaVlQCHhtLXhqJTHYkI=;
- b=XSg3mE35F/aK/KQbGKT2Z8egvcqtRcFhXoE/vcfFB9Xo1BcXcwGfLUyv5MjT4Yqt48
- 4kBXAyE8/7Z46ee5dIeI5XIeVDJaCZq9FDXVwrDlkGquE5k/W8EfepnqEzI4wuuhZNjg
- At506jprEWO1iYMCmC3hS/xAAbbRkXUT1E56zhLeJ7LZlDkvukI0OL+rWkgD1n8dd4Tm
- CyEhoE88D2vrwMyqs5lXu+WuJAfbNONNR3en0dePsA2Y9SzeBdMB1i7QoQRdMrA0JA9D
- Cte/qyjvDQ+/yre9RXCdmSsoMhziu4UYVkoNhs82zKWgwflyHa8g4jQnnjh6iKOG9Bhc
- TlqA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nL8QH-0001GH-48
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:56:08 -0500
+Received: by mail-yb1-xb30.google.com with SMTP id u12so7345690ybd.7
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 10:55:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1K+XLeay82X1idSFmEf9t+nTAUwrbKwX8aXnKH4/rUA=;
+ b=GubIrwVvusDFrZkSixtv56rXEK9POQbPBUh9RTQshFLYWzVGmwzlA0F1GlnY0v+iN1
+ lNLCRoF1NOUzVikMCzgRPb/BpgVawdTlrFsGR+RDnhAlubXU7y/nU106M6xtoU1L9e1P
+ 9V+LShrPYNoTKKD4LIsrp1BNdj05GGjdP/bTGwW6eMlLxNufNfyhFXutrn9V0hjGFpmU
+ +jbaJn9VUAgac8BvLEZeD3pw1Z6DxYeP1wbaFtugwDJf/oHRp/uWqDgHq5S4mKqrrrkP
+ tywPQM/E1HM3GCzdlHoxBgFzkAWAg5iegLU4I5CF6EydgWpd8aqTYU40H1FnKg2ulLLX
+ QEbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mMZ1gf+sJWLyy0weUMQG4qllNaVlQCHhtLXhqJTHYkI=;
- b=LR+NZxEk2Zzu2HCLC9lXEKXHjrWy5X4NZkk9O/gTET0yF76Ap7GkQG8LNAipf+MnHG
- M1sclXiNCxa8CCisBNgt59cLCHl72fMA0axjtxX3PKLhDamF1nJ/RuMBagif7nReF4mH
- iS7LkNvjYvdP5pAY0x4NanJk4vUeBbjQPQ2gHBFlPX/zWPe8CnEP4HnlXkS5ZPlpCzJQ
- QKx332npjDIqPSBF8W4jR2dtt0iGj1tWJPHKoaXvBz+w7KpOjbphoNLIcDoZNcXfKVOk
- xg5MVmqK6c3ASnkQ1VphmXa3hhuHoIlIuh71bT7YQsb0s/nwQ7KcwXRvZxWEgbDcy6wg
- nAIg==
-X-Gm-Message-State: AOAM532viOD+ijM5hw5WQImU7n6ZhXn+JYlJOz2i7H5wXJqg+1N62P09
- uc045qFtpU8UKcVSm3d/Yz8=
-X-Google-Smtp-Source: ABdhPJxWrlq2bvFePosOmVoYlwM7K85IO92gU4QbBVGAi3zWWMkOnxftJk9cuVqWc36xpmQa6a70MA==
-X-Received: by 2002:a17:902:ccd2:b0:14f:8182:96c4 with SMTP id
- z18-20020a170902ccd200b0014f818296c4mr2434376ple.67.1645209740221; 
- Fri, 18 Feb 2022 10:42:20 -0800 (PST)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- a38sm3672689pfx.73.2022.02.18.10.42.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Feb 2022 10:42:19 -0800 (PST)
-Message-ID: <84cbfcca-648c-8e4c-9966-28086acfd5c0@gmail.com>
-Date: Sat, 19 Feb 2022 03:42:15 +0900
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1K+XLeay82X1idSFmEf9t+nTAUwrbKwX8aXnKH4/rUA=;
+ b=EBrN+5IwcwWV7WIZfkgFJscFXaDMV9Pel8tRO9Z+ymsrcK0xkpfplvvJYsR9Nb9O6I
+ LybL/lkoozt73X2NunC81sOF29ybkRtO+BpiWiaV1eLy1u2ECmo/3a2P5fRiIYs54epf
+ qs4vVse25+lNeBlV3E/WpasYZC40NTZROg8EIMbZFpJpGwCXuVJF2uHPkwXbg3ycsUfJ
+ Cw7e/xT5RC/BSH0FtnH9B2gqZbI+Vje9UcHJaPUwMQpot7yUJ76AFCy7YEMFDNZ5PMhI
+ mTIDjeZ2gZsoAZTO6gHUUshZCzCY5iYbXzT9SUWX/KoVqyzenxhdH13E1pd6N68/bgzu
+ 6cOw==
+X-Gm-Message-State: AOAM530Y2VG3H78YbLI9rfJDD+gDzq45RjNcNayXpGo69v6hvDdRQ3oP
+ nu3pkQtX5DjYcEcVgcdFELvdF7XKj57+nBF1+/h21w==
+X-Google-Smtp-Source: ABdhPJxoprCggt4dJgu3lv4056k42LaKixki/CuAAdBukXYvKcNu3SssenwifeWumUeS/rvAeE8tvzE2B+1f2xS+c3s=
+X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
+ s5-20020a5b0745000000b006221c463c19mr8761724ybq.479.1645210551345; Fri, 18
+ Feb 2022 10:55:51 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/1] ui/cocoa: show/hide menu in fullscreen on mouse
- ungrab/grab
-Content-Language: en-US
-To: Carwyn Ellis <carwynellis@gmail.com>, qemu-devel@nongnu.org
-References: <20220103114515.24020-1-carwynellis@gmail.com>
- <20220103114515.24020-2-carwynellis@gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20220103114515.24020-2-carwynellis@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+References: <20220102174153.70043-1-carwynellis@gmail.com>
+ <20220102174153.70043-2-carwynellis@gmail.com>
+In-Reply-To: <20220102174153.70043-2-carwynellis@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 18 Feb 2022 18:55:40 +0000
+Message-ID: <CAFEAcA9VDAOJf22RkF5nkKKcvDXWoJ=YmEKY13N_GULkZAwb-Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ui/cocoa: add option to disable left-command
+ forwarding to guest
+To: Carwyn Ellis <carwynellis@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,52 +83,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org
+Cc: qemu-trivial@nongnu.org, Michael Roth <michael.roth@amd.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/01/03 20:45, Carwyn Ellis wrote:
-> The menu bar is only accessible when the Cocoa UI is windowed. In order
-> to allow the menu bar to be accessible in fullscreen mode, this change
-> makes the menu visible when the mouse is ungrabbed.
-> 
-> When the mouse is grabbed the menu is hidden again.
-> 
+On Sun, 2 Jan 2022 at 17:42, Carwyn Ellis <carwynellis@gmail.com> wrote:
+>
+> When switching between guest and host on a Mac using command-tab the
+> command key is sent to the guest which can trigger functionality in the
+> guest OS. Specifying left-command-key=off disables forwarding this key
+> to the guest. Defaults to enabled.
+>
+> Also updated the cocoa display documentation to reference the new
+> left-command-key option along with the existing show-cursor option.
+>
 > Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
+
+Ccing the QAPI folks for review on the QAPI parts of this.
+
+-- PMM
+
 > ---
->   ui/cocoa.m | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
+>  qapi/ui.json    | 17 +++++++++++++++++
+>  qemu-options.hx | 12 ++++++++++++
+>  ui/cocoa.m      |  8 +++++++-
+>  3 files changed, 36 insertions(+), 1 deletion(-)
+>
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 2b4371da37..764480e145 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -1107,6 +1107,22 @@
+>    'data'    : { '*grab-on-hover' : 'bool',
+>                  '*zoom-to-fit'   : 'bool'  } }
+>
+> +##
+> +# @DisplayCocoa:
+> +#
+> +# Cocoa display options.
+> +#
+> +# @left-command-key: Enable/disable forwarding of left command key to
+> +#                    guest. Allows command-tab window switching on the
+> +#                    host without sending this key to the guest when
+> +#                    "off". Defaults to "on"
+> +#
+> +# Since: 6.2.50
+> +#
+> +##
+> +{ 'struct'  : 'DisplayCocoa',
+> +  'data'    : { '*left-command-key' : 'bool' } }
+> +
+>  ##
+>  # @DisplayEGLHeadless:
+>  #
+> @@ -1254,6 +1270,7 @@
+>    'discriminator' : 'type',
+>    'data'    : {
+>        'gtk': { 'type': 'DisplayGTK', 'if': 'CONFIG_GTK' },
+> +      'cocoa': { 'type': 'DisplayCocoa', 'if': 'CONFIG_COCOA' },
+>        'curses': { 'type': 'DisplayCurses', 'if': 'CONFIG_CURSES' },
+>        'egl-headless': { 'type': 'DisplayEGLHeadless',
+>                          'if': { 'all': ['CONFIG_OPENGL', 'CONFIG_GBM'] } },
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index fd1f8135fb..6fa9c38c83 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1912,6 +1912,9 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
+>  #if defined(CONFIG_DBUS_DISPLAY)
+>      "-display dbus[,addr=<dbusaddr>]\n"
+>      "             [,gl=on|core|es|off][,rendernode=<file>]\n"
+> +#endif
+> +#if defined(CONFIG_COCOA)
+> +    "-display cocoa[,show-cursor=on|off][,left-command-key=on|off]\n"
+>  #endif
+>      "-display none\n"
+>      "                select display backend type\n"
+> @@ -1999,6 +2002,15 @@ SRST
+>          ``charset=CP850`` for IBM CP850 encoding. The default is
+>          ``CP437``.
+>
+> +    ``cocoa``
+> +        Display video output in a Cocoa window. Mac only. This interface
+> +        provides drop-down menus and other UI elements to configure and
+> +        control the VM during runtime. Valid parameters are:
+> +
+> +        ``show-cursor=on|off`` :  Force showing the mouse cursor
+> +
+> +        ``left-command-key=on|off`` : Disable forwarding left command key to host
+> +
+>      ``egl-headless[,rendernode=<file>]``
+>          Offload all OpenGL operations to a local DRI device. For any
+>          graphical display, this display needs to be paired with either
 > diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index 69745c483b..42dcf47da4 100644
+> index 69745c483b..01045d6698 100644
 > --- a/ui/cocoa.m
 > +++ b/ui/cocoa.m
-> @@ -1037,7 +1037,9 @@ QemuCocoaView *cocoaView;
->   {
->       COCOA_DEBUG("QemuCocoaView: grabMouse\n");
->   
-> -    if (!isFullscreen) {
-> +    if (isFullscreen) {
-> +        [NSMenu setMenuBarVisible: FALSE];
-> +    } else {
->           if (qemu_name)
->               [normalWindow setTitle:[NSString stringWithFormat:@"QEMU %s - (Press ctrl + alt + g to release Mouse)", qemu_name]];
->           else
-> @@ -1052,7 +1054,9 @@ QemuCocoaView *cocoaView;
->   {
->       COCOA_DEBUG("QemuCocoaView: ungrabMouse\n");
->   
-> -    if (!isFullscreen) {
-> +    if (isFullscreen) {
-> +        [NSMenu setMenuBarVisible: TRUE];
-> +    } else {
->           if (qemu_name)
->               [normalWindow setTitle:[NSString stringWithFormat:@"QEMU %s", qemu_name]];
->           else
-
-[QemuCocoaView -toggleFullscreen:] also has the calls to [NSMenu 
-setMenuBarVisible:], which should be removed.
-
-Regards,
-Akihiko Odaki
+> @@ -95,6 +95,7 @@ static DisplayChangeListener dcl = {
+>  };
+>  static int last_buttons;
+>  static int cursor_hide = 1;
+> +static int left_command_key_enabled = 1;
+>
+>  static int gArgc;
+>  static char **gArgv;
+> @@ -834,7 +835,8 @@ QemuCocoaView *cocoaView;
+>                  /* Don't pass command key changes to guest unless mouse is grabbed */
+>                  case kVK_Command:
+>                      if (isMouseGrabbed &&
+> -                        !!(modifiers & NSEventModifierFlagCommand)) {
+> +                        !!(modifiers & NSEventModifierFlagCommand) &&
+> +                        left_command_key_enabled) {
+>                          [self toggleKey:Q_KEY_CODE_META_L];
+>                      }
+>                      break;
+> @@ -2054,6 +2056,10 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+>          cursor_hide = 0;
+>      }
+>
+> +    if (opts->u.cocoa.has_left_command_key && !opts->u.cocoa.left_command_key) {
+> +        left_command_key_enabled = 0;
+> +    }
+> +
+>      // register vga output callbacks
+>      register_displaychangelistener(&dcl);
 
