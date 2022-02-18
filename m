@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D1D4BB793
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 12:04:21 +0100 (CET)
-Received: from localhost ([::1]:47312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171724BB7EC
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 12:18:39 +0100 (CET)
+Received: from localhost ([::1]:43616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL13k-0006Ha-BL
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 06:04:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43752)
+	id 1nL1Ha-0007E5-5b
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 06:18:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nL0fq-0001CG-Oh; Fri, 18 Feb 2022 05:39:38 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18946)
+ id 1nL0fr-0001Ec-M4; Fri, 18 Feb 2022 05:39:39 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2522
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nL0fg-0005hx-So; Fri, 18 Feb 2022 05:39:36 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21I9udVs024111; 
+ id 1nL0fj-0005kD-MS; Fri, 18 Feb 2022 05:39:39 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21I8b7g8022381; 
  Fri, 18 Feb 2022 10:39:00 GMT
 Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
  [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ea995gxp5-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ea55jp8mt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 10:38:59 +0000
+ Fri, 18 Feb 2022 10:39:00 +0000
 Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21IAbttv004784;
- Fri, 18 Feb 2022 10:38:57 GMT
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21IAbttw004784;
+ Fri, 18 Feb 2022 10:38:58 GMT
 Received: from b06cxnps3075.portsmouth.uk.ibm.com
  (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03ams.nl.ibm.com with ESMTP id 3e64has7xt-1
+ by ppma03ams.nl.ibm.com with ESMTP id 3e64has7xx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 10:38:57 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
+ Fri, 18 Feb 2022 10:38:58 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
  by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21IAcs8w25100606
+ 21IAcuMR29950238
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Feb 2022 10:38:54 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B2C2611C077;
- Fri, 18 Feb 2022 10:38:54 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6FF3611C073;
- Fri, 18 Feb 2022 10:38:54 +0000 (GMT)
+ Fri, 18 Feb 2022 10:38:56 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 05CD64C07A;
+ Fri, 18 Feb 2022 10:38:56 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B5E684C072;
+ Fri, 18 Feb 2022 10:38:55 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 18 Feb 2022 10:38:54 +0000 (GMT)
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri, 18 Feb 2022 10:38:55 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.87.94])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 9C2072201F1;
- Fri, 18 Feb 2022 11:38:53 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 0679D2201F1;
+ Fri, 18 Feb 2022 11:38:54 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 36/39] target/ppc: cpu_init: Expose some SPR registration
- helpers
-Date: Fri, 18 Feb 2022 11:38:24 +0100
-Message-Id: <20220218103827.682032-37-clg@kaod.org>
+Subject: [PULL 38/39] target/ppc: cpu_init: Move check_pow and QOM macros to a
+ header
+Date: Fri, 18 Feb 2022 11:38:26 +0100
+Message-Id: <20220218103827.682032-39-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218103827.682032-1-clg@kaod.org>
 References: <20220218103827.682032-1-clg@kaod.org>
@@ -64,25 +65,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: u0dPy_pPhZs_Cb1y80B13NdVtotfGcA_
-X-Proofpoint-GUID: u0dPy_pPhZs_Cb1y80B13NdVtotfGcA_
+X-Proofpoint-GUID: dtPvo41czHaRk4JOVPbJjumg_ziHMDrl
+X-Proofpoint-ORIG-GUID: dtPvo41czHaRk4JOVPbJjumg_ziHMDrl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-18_04,2022-02-18_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  impostorscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 mlxscore=0 spamscore=0
- clxscore=1034 phishscore=0 suspectscore=0 mlxlogscore=797 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202180067
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 spamscore=0 mlxscore=0 phishscore=0 clxscore=1034
+ suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2201110000 definitions=main-2202180067
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.187,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,116 +105,174 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Fabiano Rosas <farosas@linux.ibm.com>
 
-The following patches will move CPU-specific code into separate files,
-so expose the most used SPR registration functions:
+These will need to be accessed from other files once we move the CPUs
+code to separate files.
 
-register_sdr1_sprs         | 22 callers
-register_low_BATs          | 20 callers
-register_non_embedded_sprs | 19 callers
-register_high_BATs         | 10 callers
-register_thrm_sprs         | 8 callers
-register_usprgh_sprs       | 6 callers
-register_6xx_7xx_soft_tlb  | only 3 callers, but it helps to
-                             keep the soft TLB code consistent.
+The check_pow_hid0 and check_pow_hid0_74xx are too specific to be
+moved to a header so I'll deal with them later when splitting this
+code between the multiple CPU families.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20220216162426.1885923-25-farosas@linux.ibm.com>
+Message-Id: <20220216162426.1885923-27-farosas@linux.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/spr_common.h |  8 ++++++++
- target/ppc/cpu_init.c   | 14 +++++++-------
- 2 files changed, 15 insertions(+), 7 deletions(-)
+ target/ppc/cpu.h      | 39 +++++++++++++++++++++++++++++++++++++++
+ target/ppc/cpu_init.c | 37 -------------------------------------
+ 2 files changed, 39 insertions(+), 37 deletions(-)
 
-diff --git a/target/ppc/spr_common.h b/target/ppc/spr_common.h
-index 5aec76ade4dd..329b7e91a23a 100644
---- a/target/ppc/spr_common.h
-+++ b/target/ppc/spr_common.h
-@@ -141,4 +141,12 @@ void spr_write_hmer(DisasContext *ctx, int sprn, int=
- gprn);
- void spr_write_lpcr(DisasContext *ctx, int sprn, int gprn);
- #endif
-=20
-+void register_low_BATs(CPUPPCState *env);
-+void register_high_BATs(CPUPPCState *env);
-+void register_sdr1_sprs(CPUPPCState *env);
-+void register_thrm_sprs(CPUPPCState *env);
-+void register_usprgh_sprs(CPUPPCState *env);
-+void register_non_embedded_sprs(CPUPPCState *env);
-+void register_6xx_7xx_soft_tlb(CPUPPCState *env, int nb_tlbs, int nb_way=
-s);
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 2baa750729fd..5b01d409b31a 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2732,4 +2732,43 @@ void dump_mmu(CPUPPCState *env);
+ void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int le=
+n);
+ void ppc_store_vscr(CPUPPCState *env, uint32_t vscr);
+ uint32_t ppc_get_vscr(CPUPPCState *env);
 +
- #endif
++/***********************************************************************=
+******/
++/* Power management enable checks                                       =
+     */
++static inline int check_pow_none(CPUPPCState *env)
++{
++    return 0;
++}
++
++static inline int check_pow_nocheck(CPUPPCState *env)
++{
++    return 1;
++}
++
++/***********************************************************************=
+******/
++/* PowerPC implementations definitions                                  =
+     */
++
++#define POWERPC_FAMILY(_name)                                           =
+    \
++    static void                                                         =
+    \
++    glue(glue(ppc_, _name), _cpu_family_class_init)(ObjectClass *, void =
+*); \
++                                                                        =
+    \
++    static const TypeInfo                                               =
+    \
++    glue(glue(ppc_, _name), _cpu_family_type_info) =3D {                =
+      \
++        .name =3D stringify(_name) "-family-" TYPE_POWERPC_CPU,         =
+      \
++        .parent =3D TYPE_POWERPC_CPU,                                   =
+      \
++        .abstract =3D true,                                             =
+      \
++        .class_init =3D glue(glue(ppc_, _name), _cpu_family_class_init),=
+      \
++    };                                                                  =
+    \
++                                                                        =
+    \
++    static void glue(glue(ppc_, _name), _cpu_family_register_types)(void=
+)   \
++    {                                                                   =
+    \
++        type_register_static(                                           =
+    \
++            &glue(glue(ppc_, _name), _cpu_family_type_info));           =
+    \
++    }                                                                   =
+    \
++                                                                        =
+    \
++    type_init(glue(glue(ppc_, _name), _cpu_family_register_types))      =
+    \
++                                                                        =
+    \
++    static void glue(glue(ppc_, _name), _cpu_family_class_init)
++
++
+ #endif /* PPC_CPU_H */
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index f0bbe340e4fd..40dd2c0fd813 100644
+index c17994ec5876..a435525ea32f 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -241,7 +241,7 @@ static void register_generic_sprs(PowerPCCPU *cpu)
-                  0x00000000);
+@@ -2480,18 +2480,6 @@ static void init_excp_POWER10(CPUPPCState *env)
+=20
+ #endif
+=20
+-/***********************************************************************=
+******/
+-/* Power management enable checks                                       =
+     */
+-static int check_pow_none(CPUPPCState *env)
+-{
+-    return 0;
+-}
+-
+-static int check_pow_nocheck(CPUPPCState *env)
+-{
+-    return 1;
+-}
+-
+ static int check_pow_hid0(CPUPPCState *env)
+ {
+     if (env->spr[SPR_HID0] & 0x00E00000) {
+@@ -2510,31 +2498,6 @@ static int check_pow_hid0_74xx(CPUPPCState *env)
+     return 0;
  }
 =20
--static void register_non_embedded_sprs(CPUPPCState *env)
-+void register_non_embedded_sprs(CPUPPCState *env)
+-/***********************************************************************=
+******/
+-/* PowerPC implementations definitions                                  =
+     */
+-
+-#define POWERPC_FAMILY(_name)                                           =
+    \
+-    static void                                                         =
+    \
+-    glue(glue(ppc_, _name), _cpu_family_class_init)(ObjectClass *, void =
+*); \
+-                                                                        =
+    \
+-    static const TypeInfo                                               =
+    \
+-    glue(glue(ppc_, _name), _cpu_family_type_info) =3D {                =
+      \
+-        .name =3D stringify(_name) "-family-" TYPE_POWERPC_CPU,         =
+      \
+-        .parent =3D TYPE_POWERPC_CPU,                                   =
+      \
+-        .abstract =3D true,                                             =
+      \
+-        .class_init =3D glue(glue(ppc_, _name), _cpu_family_class_init),=
+      \
+-    };                                                                  =
+    \
+-                                                                        =
+    \
+-    static void glue(glue(ppc_, _name), _cpu_family_register_types)(void=
+)   \
+-    {                                                                   =
+    \
+-        type_register_static(                                           =
+    \
+-            &glue(glue(ppc_, _name), _cpu_family_type_info));           =
+    \
+-    }                                                                   =
+    \
+-                                                                        =
+    \
+-    type_init(glue(glue(ppc_, _name), _cpu_family_register_types))      =
+    \
+-                                                                        =
+    \
+-    static void glue(glue(ppc_, _name), _cpu_family_class_init)
+-
+ static void init_proc_405(CPUPPCState *env)
  {
-     /* Exception processing */
-     spr_register_kvm(env, SPR_DSISR, "DSISR",
-@@ -260,7 +260,7 @@ static void register_non_embedded_sprs(CPUPPCState *e=
-nv)
- }
-=20
- /* Storage Description Register 1 */
--static void register_sdr1_sprs(CPUPPCState *env)
-+void register_sdr1_sprs(CPUPPCState *env)
- {
- #ifndef CONFIG_USER_ONLY
-     if (env->has_hv_mode) {
-@@ -283,7 +283,7 @@ static void register_sdr1_sprs(CPUPPCState *env)
- }
-=20
- /* BATs 0-3 */
--static void register_low_BATs(CPUPPCState *env)
-+void register_low_BATs(CPUPPCState *env)
- {
- #if !defined(CONFIG_USER_ONLY)
-     spr_register(env, SPR_IBAT0U, "IBAT0U",
-@@ -355,7 +355,7 @@ static void register_low_BATs(CPUPPCState *env)
- }
-=20
- /* BATs 4-7 */
--static void register_high_BATs(CPUPPCState *env)
-+void register_high_BATs(CPUPPCState *env)
- {
- #if !defined(CONFIG_USER_ONLY)
-     spr_register(env, SPR_IBAT4U, "IBAT4U",
-@@ -427,7 +427,7 @@ static void register_high_BATs(CPUPPCState *env)
- }
-=20
- /* Softare table search registers */
--static void register_6xx_7xx_soft_tlb(CPUPPCState *env, int nb_tlbs, int=
- nb_ways)
-+void register_6xx_7xx_soft_tlb(CPUPPCState *env, int nb_tlbs, int nb_way=
-s)
- {
- #if !defined(CONFIG_USER_ONLY)
-     env->nb_tlb =3D nb_tlbs;
-@@ -667,7 +667,7 @@ static void register_iamr_sprs(CPUPPCState *env)
- }
- #endif /* TARGET_PPC64 */
-=20
--static void register_thrm_sprs(CPUPPCState *env)
-+void register_thrm_sprs(CPUPPCState *env)
- {
-     /* Thermal management */
-     spr_register(env, SPR_THRM1, "THRM1",
-@@ -1072,7 +1072,7 @@ static void register_l3_ctrl(CPUPPCState *env)
-                  0x00000000);
- }
-=20
--static void register_usprgh_sprs(CPUPPCState *env)
-+void register_usprgh_sprs(CPUPPCState *env)
- {
-     spr_register(env, SPR_USPRG4, "USPRG4",
-                  &spr_read_ureg, SPR_NOACCESS,
+     register_40x_sprs(env);
 --=20
 2.34.1
 
