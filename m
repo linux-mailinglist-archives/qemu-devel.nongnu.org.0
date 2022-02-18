@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9723D4BBDA1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 17:38:46 +0100 (CET)
-Received: from localhost ([::1]:48956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A5C4BBDAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 17:40:21 +0100 (CET)
+Received: from localhost ([::1]:51224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL6HN-0003Za-Ne
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 11:38:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40338)
+	id 1nL6Iu-00056G-Rb
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 11:40:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nL6FB-0002e6-8l
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:36:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48775)
+ id 1nL6HL-000421-5S
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:38:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nL6F9-0005w6-NA
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:36:28 -0500
+ id 1nL6HJ-00069F-Lf
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:38:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645202187;
+ s=mimecast20190719; t=1645202317;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=MmlqaK94ucmVjOfGVmlu+cLYtIHuSc74u3lVDu13T6Q=;
- b=bCMxiHAIQAONKViER3JKsc4Le2sZvXG6ac+8KJscnDpYn61JA5+vrl3myPL5q2N/3/UIAb
- 9XFKJ5D4OoHTwlHGKIl/Uc5zHruxEuh1Q+kRIzC59J0m4gJ6qsezn6YXFaNt2TquCXvbCe
- UG03/2UFXa4ApBzG4Q6+h+VOsCifOCA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lXzFCd7En+3fvXTCCFOrYbQNsxzkBdEcH7CQrSmVGhM=;
+ b=cDD+D0EglUIZTmt1c2TvTEt+vHhiHJbjJBxQYr/0aaTBWyhKsjOzEAb8H8QvGvaKG3fmMx
+ mIJ/4vhHC00NA/LPG+gbUdsY2l/s8gLPFllYI0cddDXj7X9nDsThF2U62PO52sQHBJ2rBc
+ VanJu/4P+WnbCDQSbAkY+Mh0UdgwxtE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-47--dtS8lUUPNiOJB4GEFq--g-1; Fri, 18 Feb 2022 11:36:25 -0500
-X-MC-Unique: -dtS8lUUPNiOJB4GEFq--g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k30-20020a05600c1c9e00b0037d1bee4847so6140373wms.9
- for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 08:36:25 -0800 (PST)
+ us-mta-650-WX8Ng8lXOh2WOPPA142Ffg-1; Fri, 18 Feb 2022 11:38:36 -0500
+X-MC-Unique: WX8Ng8lXOh2WOPPA142Ffg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ a8-20020a7bc1c8000000b0037bc4c62e97so3052455wmj.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 08:38:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=MmlqaK94ucmVjOfGVmlu+cLYtIHuSc74u3lVDu13T6Q=;
- b=LuKvWL9pUspRVSPysH5CD2xwcXlbiLvhc3fAeeBpCNqaubK/dNzpeTadja3LmDwiof
- ZVmifWAU44o8xxwYDPfaFgin+D2aEblH9vjrS9vP2loJIlms5PMyl7CqoGVOaPB/qpK5
- 3fdWvPzPJ0Zp4A9qw0hd/KgCtCBxNUwa1p02qBf3lOFkRcUdL3K460v0qSD5ZWgh5nPO
- i9YSWNpQsvb4kIcpPb/SHHUFrKG4fRrGI7QhN+HAJcCsnqn9s0gH5IMtA1RynVdu6QrJ
- d4BDHdN8mggbDJVChZ/f+8fcAj0MtRHb6bUmzncKmP17fW9ISJOHZ0LcB4fVdoDxX0+A
- l2Cg==
-X-Gm-Message-State: AOAM531b6p7zpu05JTRRDTXdn/yOpOUHuGROz+4kzUBit3oadBUzNT+9
- 059uRZjd4vwlXV9fjQiCdThn5igb+yoEu1ZXJm5kXAa+su8EkAn0fzRTPYI/x/SMoCiQD9QHpsQ
- DYgpEfXizeWRXLP4=
-X-Received: by 2002:a1c:7704:0:b0:354:4d2b:9d5 with SMTP id
- t4-20020a1c7704000000b003544d2b09d5mr11281541wmi.155.1645202184708; 
- Fri, 18 Feb 2022 08:36:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw6CTuvfICu6V5w2Fjz77mEO4kVl9PTXbsQplijqAnn6cChFrna8LtkMDbsMkCYh91sdnuk4A==
-X-Received: by 2002:a1c:7704:0:b0:354:4d2b:9d5 with SMTP id
- t4-20020a1c7704000000b003544d2b09d5mr11281508wmi.155.1645202184438; 
- Fri, 18 Feb 2022 08:36:24 -0800 (PST)
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lXzFCd7En+3fvXTCCFOrYbQNsxzkBdEcH7CQrSmVGhM=;
+ b=uQklv6qnaxSjyl0QtZPt8hjbxkMAQkuKkhx2Rpm9DbxldJKrspgud1wi1aRbim3jBS
+ MvID9nvcx2naMch59BN/b+QCpZCQD7669IS48BVx69bo3efJbkehvpmXO+uImc/IcwvE
+ szR1OtLdH6n7mIwouaauNhX0zkejDxNsDRlgv7EB/rGofwu/6XIzKqL4tI2G+Y9hE3+C
+ f8MS9Xds9TV0Jm6VGcJdT3plZGdGoaoJWg99QfK2IXqJLydvGK6nZmzE+5bQh6IBKtqa
+ BNjZFQjSmQD0lQVgL1DipzZm3UrfGsStEs1wROijCLyTklho1rPvkdhF4/UXbZ1IeEnK
+ h7IA==
+X-Gm-Message-State: AOAM530CS6xrJMx16PyVSC0VbhAgImU4RWRtp3D3mACECqItIyuC5jGK
+ nOOr4u/VgYTgfGDwFEPLKUIKE7TmaxQ9BnTtoWPo7KY+kfcb71uyAHE/yL72vERDTqP6yGgYFQ6
+ +6Nn7o5++QXSOh+0=
+X-Received: by 2002:a7b:c341:0:b0:37b:c619:c9f4 with SMTP id
+ l1-20020a7bc341000000b0037bc619c9f4mr11406053wmj.38.1645202315190; 
+ Fri, 18 Feb 2022 08:38:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwfrd5C4Oq5+nhkMN8gznegXev7RzO3ISKeaEhlM6ujcZLVMw9igKkfdGnMRmcrcg/ZtkVbOQ==
+X-Received: by 2002:a7b:c341:0:b0:37b:c619:c9f4 with SMTP id
+ l1-20020a7bc341000000b0037bc619c9f4mr11406029wmj.38.1645202314954; 
+ Fri, 18 Feb 2022 08:38:34 -0800 (PST)
 Received: from localhost (nat-252.udc.es. [193.144.61.252])
- by smtp.gmail.com with ESMTPSA id g5sm4685441wmk.38.2022.02.18.08.36.23
+ by smtp.gmail.com with ESMTPSA id f18sm5224739wre.66.2022.02.18.08.38.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Feb 2022 08:36:24 -0800 (PST)
+ Fri, 18 Feb 2022 08:38:34 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v8 1/5] QIOChannel: Add flags on io_writev and introduce
- io_flush callback
-In-Reply-To: <20220201062901.428838-2-leobras@redhat.com> (Leonardo Bras's
- message of "Tue, 1 Feb 2022 03:28:59 -0300")
+Subject: Re: [PATCH v8 2/5] QIOChannelSocket: Implement io_writev zero copy
+ flag & io_flush for CONFIG_LINUX
+In-Reply-To: <20220201062901.428838-3-leobras@redhat.com> (Leonardo Bras's
+ message of "Tue, 1 Feb 2022 03:29:00 -0300")
 References: <20220201062901.428838-1-leobras@redhat.com>
- <20220201062901.428838-2-leobras@redhat.com>
+ <20220201062901.428838-3-leobras@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Fri, 18 Feb 2022 17:36:23 +0100
-Message-ID: <87v8xccet4.fsf@secure.mitica>
+Date: Fri, 18 Feb 2022 17:38:33 +0100
+Message-ID: <87o834cepi.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -113,31 +117,49 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Leonardo Bras <leobras@redhat.com> wrote:
-> Add flags to io_writev and introduce io_flush as optional callback to
-> QIOChannelClass, allowing the implementation of zero copy writes by
-> subclasses.
+> For CONFIG_LINUX, implement the new zero copy flag and the optional callb=
+ack
+> io_flush on QIOChannelSocket, but enables it only when MSG_ZEROCOPY
+> feature is available in the host kernel, which is checked on
+> qio_channel_socket_connect_sync()
 >
-> How to use them:
-> - Write data using qio_channel_writev*(...,QIO_CHANNEL_WRITE_FLAG_ZERO_COPY),
-> - Wait write completion with qio_channel_flush().
+> qio_channel_socket_flush() was implemented by counting how many times
+> sendmsg(...,MSG_ZEROCOPY) was successfully called, and then reading the
+> socket's error queue, in order to find how many of them finished sending.
+> Flush will loop until those counters are the same, or until some error oc=
+curs.
 >
-> Notes:
-> As some zero copy write implementations work asynchronously, it's
-> recommended to keep the write buffer untouched until the return of
-> qio_channel_flush(), to avoid the risk of sending an updated buffer
-> instead of the buffer state during write.
+> Notes on using writev() with QIO_CHANNEL_WRITE_FLAG_ZERO_COPY:
+> 1: Buffer
+> - As MSG_ZEROCOPY tells the kernel to use the same user buffer to avoid c=
+opying,
+> some caution is necessary to avoid overwriting any buffer before it's sen=
+t.
+> If something like this happen, a newer version of the buffer may be sent =
+instead.
+> - If this is a problem, it's recommended to call qio_channel_flush() befo=
+re freeing
+> or re-using the buffer.
 >
-> As io_flush callback is optional, if a subclass does not implement it, then:
-> - io_flush will return 0 without changing anything.
->
-> Also, some functions like qio_channel_writev_full_all() were adapted to
-> receive a flag parameter. That allows shared code between zero copy and
-> non-zero copy writev, and also an easier implementation on new flags.
+> 2: Locked memory
+> - When using MSG_ZERCOCOPY, the buffer memory will be locked after queued=
+, and
+> unlocked after it's sent.
+> - Depending on the size of each buffer, and how often it's sent, it may r=
+equire
+> a larger amount of locked memory than usually available to non-root user.
+> - If the required amount of locked memory is not available, writev_zero_c=
+opy
+> will return an error, which can abort an operation like migration,
+> - Because of this, when an user code wants to add zero copy as a feature,=
+ it
+> requires a mechanism to disable it, so it can still be accessible to less
+> privileged users.
 >
 > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-As everybody pointed out about the missing assertion...
 
 
