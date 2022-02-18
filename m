@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5264BBC72
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 16:48:49 +0100 (CET)
-Received: from localhost ([::1]:36628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 334B04BBCF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 17:04:15 +0100 (CET)
+Received: from localhost ([::1]:41208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL5V2-00014C-N1
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 10:48:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58098)
+	id 1nL5jx-0004r9-Pm
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 11:04:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nL5Tp-0007JH-1N; Fri, 18 Feb 2022 10:47:33 -0500
-Received: from [2a00:1450:4864:20::635] (port=38820
- helo=mail-ej1-x635.google.com)
+ id 1nL5j2-0004CV-IE
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:03:16 -0500
+Received: from [2a00:1450:4864:20::32a] (port=37726
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nL5Tm-0007ET-RW; Fri, 18 Feb 2022 10:47:32 -0500
-Received: by mail-ej1-x635.google.com with SMTP id k25so15979389ejp.5;
- Fri, 18 Feb 2022 07:47:30 -0800 (PST)
+ id 1nL5iz-00017S-Ub
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 11:03:16 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso8927501wmj.2
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 08:03:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=tUspLoosayPzAlzgOJvmnRsJVz3fYizL8nWqce0JyyQ=;
- b=LDxvp61kD/PRqbT4S6YI8/xznyFD1rOAhbb7JfEm91dPMAfeBG97KLFXMQZ6Ze+2ui
- HNvL3TnuhI50DueU11pd0tFllI+KiVrigDbQJ6wQ/OFyce4+1fPTTSN+ePf0rOT4A296
- Y6eL6/hZTJLP87EvJQWHyxnZWM7PKbhQQe1ABl/DXd1vQ97wj23Vizu9uzh6077BOt/p
- BQ8nDiEBoUn8ve1bDB6AcWeogoZhr5br0J5ucVuWUdZSr6lVsbxQCEbG43vICgEPzQQV
- 1GRToRrxO/smbIFjXR6qydkbq08tAzo4oGE9NhDvN7FMFO4At9J0h/q1/OSpgVgu5HRd
- h20Q==
+ bh=hdEBdEgMAGoMMquMfCuquQI2IgK+7lsvGYCzg23q+pY=;
+ b=HIbM9GEcPAdWel1GPQAYNkLrGCZXGJVyam9WRq5/TQ1aWf33WZGroJW9qfZcJtxp9X
+ cv6B0kg0SgPunT8uUkpNMGGVDOkuJiMSaTGijjkbC2Aqh6l+UmLm8DmfZeBiJuO5fJNv
+ bighsVOGhEoYFgW/n2hOZwZ0lYiyqJm+ShpTcr3fsNalw00g5ALeTdrFBpDPIotm7pxq
+ ceNT4uZtUsYDChPAjzpaWvGLqLANbckwESIp9fA1N5zROZ2iGNyW87rue+z2bq3U/6mw
+ D8/4rZG1M+44XOrfbReHp+bYXyK2u/G4a0/DNcKy06QGTA2rXSkJDTO2SJENeyZskPsk
+ TZtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=tUspLoosayPzAlzgOJvmnRsJVz3fYizL8nWqce0JyyQ=;
- b=x3oP9NGBbH1Amye+Ko8if3pJTE6Z5vhrcaS0LUajJlhcgcKzGOB+B9WY4HVlVjL0Wq
- MCFRG2NnoHNqxrwmSpnxYENvLRxMsNqFh7L/MF4N4uwlZB/le9p+QyZ9clfH0/xx3hgj
- 5RqZ4Xa0Hkzp1oVbhKITUgMYJTzXysxJJCRW7L1RF+WLM1b763qtCUT4Z2FlFNsqrT2U
- yw25v05hprW01piB2QjlDzymwSIfaHKHBPg4Vs2KU/qtjeW0FzWsZdSfhQJ0Z0cXOQKm
- iH6Cs9bogDTkvSPVJHd2ZBmtidSFLW90icumWUHxjb5Px3kJz2joAb4zv3K3IwG03Rf3
- Pqfw==
-X-Gm-Message-State: AOAM532Ofp5fSvgZEWsd4FvBTwzDAzk2LIMYn2tGJq33z1IcoqQulvqt
- KzLt2wb/e5oJYwYkchFLtukXCP3yihU=
-X-Google-Smtp-Source: ABdhPJz8kDA1/zUy21/H8i9WfClf4/uvf02mTUH2cv05uigulSvXk54Z8do63SX6uOKsjBaZwQb+EA==
-X-Received: by 2002:a17:906:2b93:b0:6cf:bb48:5a80 with SMTP id
- m19-20020a1709062b9300b006cfbb485a80mr6675524ejg.681.1645199249005; 
- Fri, 18 Feb 2022 07:47:29 -0800 (PST)
+ bh=hdEBdEgMAGoMMquMfCuquQI2IgK+7lsvGYCzg23q+pY=;
+ b=TlETNYlZCnXDRbY4KZwhcwNZksMC+plK+ZbKDex7SANvJNF6spsPv6QPLK8F8NiklQ
+ llPT2t94Fa9t/vwQAaUMAmbMX7AcZQKFNs2h4qLLv0SpzQaFZh6UZvxfpaC7jHdv3l7Q
+ gTXr2wkNQiWi+rOaD3PkjVlllRGmDdDCAxO8YmelcSf340Evv/43qQa71O/iuu3fP5fP
+ sXg3lj8LYl97vZ+QFGe1SFtKwq7NfPs27iVN4vo2Mvz2emn8VSzdFauA9VxEJ7XNcR/X
+ q36QlkTs61R53Q5r8UbTIoq13TLopyilB961DjxSC7UmfThkWxmKILLhuHZIguSPsc1j
+ 1kzg==
+X-Gm-Message-State: AOAM533YaT94LK/pzSgdnOMea45SViQ2eu576mHuzETNWDq3tx+y8a26
+ PP0/pYVaAX0vuOSoPq5kPfc=
+X-Google-Smtp-Source: ABdhPJwYk6wfmchLYpV2XOs1LZaJURYhlU3B+hmIdXZBD8/54KTr4qo/6KZ5BqIN9+dIxA6D2k1v4g==
+X-Received: by 2002:a1c:e915:0:b0:37b:d847:e127 with SMTP id
+ q21-20020a1ce915000000b0037bd847e127mr7758594wmc.180.1645200187157; 
+ Fri, 18 Feb 2022 08:03:07 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id v5sm4880911edb.15.2022.02.18.07.47.28
+ by smtp.googlemail.com with ESMTPSA id u15sm49790633wrs.18.2022.02.18.08.03.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Feb 2022 07:47:28 -0800 (PST)
-Message-ID: <335a7af3-b5af-3117-2647-783a217d75a2@redhat.com>
-Date: Fri, 18 Feb 2022 16:47:27 +0100
+ Fri, 18 Feb 2022 08:03:06 -0800 (PST)
+Message-ID: <ad4e6ea2-df38-005a-5d60-375ec9be8c0e@redhat.com>
+Date: Fri, 18 Feb 2022 17:03:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH] build: fix build failure with gcc 11.2 by disabling
- -fcf-protection
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
 Content-Language: en-US
-To: Vineet Gupta <vineetg@rivosinc.com>, qemu-devel@nongnu.org
-References: <20220208211937.79580-1-vineetg@rivosinc.com>
+To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ kvm <kvm@vger.kernel.org>, "libvir-list@redhat.com" <libvir-list@redhat.com>
+References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+ <f7dc638d-0de1-baa8-d883-fd8435ae13f2@redhat.com>
+ <bf97384a-2244-c997-ba75-e3680d576401@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220208211937.79580-1-vineetg@rivosinc.com>
+In-Reply-To: <bf97384a-2244-c997-ba75-e3680d576401@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -93,53 +99,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org,
- gnu-toolchain@rivosinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/22 22:19, Vineet Gupta wrote:
-> When doing RV qemu builds with host gcc 11.2, ran into following build failure
+On 2/18/22 12:39, Michal Prívozník wrote:
+> On 2/17/22 18:52, Paolo Bonzini wrote:
+>> I would like to co-mentor one or more projects about adding more
+>> statistics to Mark Kanda's newly-born introspectable statistics
+>> subsystem in QEMU
+>> (https://patchew.org/QEMU/20220215150433.2310711-1-mark.kanda@oracle.com/),
+>> for example integrating "info blockstats"; and/or, to add matching
+>> functionality to libvirt.
+>>
+>> However, I will only be available for co-mentoring unfortunately.
 > 
-> | cc -MMD -MP -MT linuxboot_dma.o -MF ./linuxboot_dma.d -O2 -g -march=i486 -Wall \
-> |   -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes \
-> |   -Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat-security \
-> |   -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs \
-> |   -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=2 -Wno-missing-include-dirs \
-> |   -Wno-shift-negative-value -Wno-psabi -fno-pie -ffreestanding -IQEMU/include \
-> |   -fno-stack-protector   -m16   -Wa,-32 \
-> |   -c QEMU/pc-bios/optionrom/linuxboot_dma.c -o linuxboot_dma.o
-> |cc1: error: ‘-fcf-protection’ is not compatible with this target
+> I'm happy to offer my helping hand in this. I mean the libvirt part,
+> since I am a libvirt developer.
 > 
-> Signed-off-by: Vineet Gupta <vineetg@rivosinc.com>
-> ---
-> This might be a crude fix to the problem
-> ---
->   pc-bios/optionrom/Makefile | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-> index 5d55d25acca2..8f843ee803c1 100644
-> --- a/pc-bios/optionrom/Makefile
-> +++ b/pc-bios/optionrom/Makefile
-> @@ -22,6 +22,9 @@ override CFLAGS += $(CFLAGS_NOPIE) -ffreestanding -I$(TOPSRC_DIR)/include
->   override CFLAGS += $(call cc-option, -fno-stack-protector)
->   override CFLAGS += $(call cc-option, -m16)
->   
-> +# issue with gcc 11.2
-> +override CFLAGS += $(call cc-option, -fcf-protection=none)
-> +
->   ifeq ($(filter -m16, $(CFLAGS)),)
->   # Attempt to work around compilers that lack -m16 (GCC <= 4.8, clang <= ??)
->   # On GCC we add -fno-toplevel-reorder to keep the order of asm blocks with
+> I believe this will be listed in QEMU's ideas list, right?
 
-This is a problem in the Ubuntu compiler that you're using.  If 
--fcf-protection is not compatible with -m16, Ubuntu should not enable it 
-instead of breaking -m16.
-
-Besides, QEMU is not at all compatible with -fcf-protection, not just 
-the ROMs.  So it should be added to QEMU_CFLAGS in configure as well.
+Does Libvirt participate to GSoC as an independent organization this 
+year?  If not, I'll add it as a Libvirt project on the QEMU ideas list.
 
 Paolo
 
