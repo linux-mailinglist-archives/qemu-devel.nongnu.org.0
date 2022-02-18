@@ -2,89 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5584BBF6D
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 19:25:22 +0100 (CET)
-Received: from localhost ([::1]:49364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D16414BBF73
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 19:28:14 +0100 (CET)
+Received: from localhost ([::1]:51490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL7wX-0000Cc-Iw
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 13:25:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60574)
+	id 1nL7zJ-0001oe-M6
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 13:28:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nL7uy-0007wN-VP
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:23:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30317)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nL7uu-0004xY-3f
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:23:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645208618;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DX9gWlY1w+Ignsim6/1LABW5x3BcSueJwpy+8O1B0ZI=;
- b=ZU2GU9fcSo8GI2YDL9yS8QeoyMV4ozHmnKampDbTxqSdM8k2MqHPIh2Z7cwWR59h5rzNS+
- GK0fHyOZfbHGIk5P8KuTCocpM3A0tTRJl/YpERSYvRzIj8vXokOxMyxkpB7b3z34j80kzZ
- M+NDdEZz5GCDLRIf2DgLU2/AVAMLRKQ=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-LDd7XmbBMVSQEDV3teUqvA-1; Fri, 18 Feb 2022 13:23:37 -0500
-X-MC-Unique: LDd7XmbBMVSQEDV3teUqvA-1
-Received: by mail-qv1-f72.google.com with SMTP id
- p4-20020a05621421e400b0042d006b2328so9672335qvj.15
- for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 10:23:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nL7yE-00018T-8S
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:27:06 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=52869
+ helo=mail-pj1-x1036.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nL7yC-0005Ww-BW
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 13:27:05 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id v4so9317694pjh.2
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 10:27:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=TKMN7bsdUw9+aLOGq7ATXjF7CFb22LcTZXWp9d/y4Xc=;
+ b=A2sqhmlQenYX5wCZrlQEjHjd3egUVOGhJcKw0fC6/fcHUfhudmEtXBVztVFNBG88mT
+ 4iS4zQwoMrMVAILEJL9h+XS8IGT8jvTHFMECBdp3YRyaRW4szw0i8GpYotzit50gmpAX
+ YUmHN8i1o/hnV0w6aOCRcIdlhZ8p/iPjjiSaQRY5z9M0Yzx/cR6Xj/7XRz3eACMF3hkO
+ F209a8CgZhCYQv4bevf1tVJ212JdenGuSWY4OWP/Kwawn13RR4baz6q9VeZnfMzwDX1+
+ 9uVUDCb+W1Pb0BEvuVoAOuR5GU7c9zOBGh+aeVxPOp3btZFycPH6QiJJvTD4pFc9Tk1E
+ 5w2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DX9gWlY1w+Ignsim6/1LABW5x3BcSueJwpy+8O1B0ZI=;
- b=WAWTKMNPQQjFy5x5j3juQGqgoDmM7VSPRZZ3XCG0mRlXtf+uuGwR+h2dmUtAkARXVV
- Re4C1hohGwL+okxwjnxq6GViN3Hv/inDLQwnRaK506t6i/hyzyhnUV0ji7oUuKXEhtY0
- r6N9LhdfYqQpPmKtXir6Gzhb7jRT/b99wIrN8sNCfjUCCv3aimArgp4Lyj7tM4eNWeJK
- iYrUCrL2Dp80KV1jZWsopS8j36nOFsP7RuNJ7YDASQYq8kLZe9bCkSuZihG6MhPuD2Yk
- pl85Tci81GlHrECJv/3mI29Y4tQVD1tUeEb1WWUsV7Lh8DV8wohG4ljMyUQzKRjMDRFX
- 39hA==
-X-Gm-Message-State: AOAM532IYUl0KP7p72soEx5xvw2X5KqSKttPjwPpfYx88yRoP+D95CJN
- tke1OZGnKxwufSXibJzbsxcyOicyKUlXBP3Fm6ey1wdNJQuUcODVjdGaBnskKP41E47M0fTM3bU
- kOSD3KeOGE+EzJ6qSgx3xGbovcGL07p8=
-X-Received: by 2002:a37:9fce:0:b0:506:ec02:15a6 with SMTP id
- i197-20020a379fce000000b00506ec0215a6mr5421844qke.406.1645208615593; 
- Fri, 18 Feb 2022 10:23:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx+XebCDZ1aXBemGg7lzQ0H1qQKfFC4fKTSo0I3CRrbnn3TNa7l7TPh/VPp1noIpYYFSRdbsTfocs9KMjmGev8=
-X-Received: by 2002:a37:9fce:0:b0:506:ec02:15a6 with SMTP id
- i197-20020a379fce000000b00506ec0215a6mr5421822qke.406.1645208615320; Fri, 18
- Feb 2022 10:23:35 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=TKMN7bsdUw9+aLOGq7ATXjF7CFb22LcTZXWp9d/y4Xc=;
+ b=uCQF/ktyHEkWSpGM5NITYcpASH+6GfAoeQjDWYV9gcuF1nflYcOJ2kTvHdh4g7cgu3
+ O8RW1vFPEGcwzmGwepvhNo2ZPP59Wcyamsm3kuGMT2zmna8jumLGEuc3El8Z7AMT3mz9
+ o1XWannyB0Bv2jJOSJeOqETs49p+EfqedRG0Wi806VWfvJfStDdB7+DNXUuypqZPct9J
+ yf0MNzHSXWbE01rLd7VZdaiJvW+f23bkZlTAX408mhgz3x8Dbxn+sr4Xnm5g0qnKLKd1
+ YV5NLIEOJSWbJyCUsl9tROk5Gy0rqBnAKipupnswBMDHCkx5B1cUa6ty7lwL/bb1XZdw
+ k+VA==
+X-Gm-Message-State: AOAM531OF6t31VRTmYoJ2ISFozpagJe/d301C1tfettOVDdXlkkytSK0
+ yASZyloPgh6daH9AL03HZ7c=
+X-Google-Smtp-Source: ABdhPJxwH6PajNyWCQMlxhJxLAFryKUAhlfJ3yvTh/Ojj9FjikfxInwvaxD0Mcu8Fcf9crfVhGRDBg==
+X-Received: by 2002:a17:90a:1a46:b0:1b9:2e0f:1e54 with SMTP id
+ 6-20020a17090a1a4600b001b92e0f1e54mr9633920pjl.37.1645208822960; 
+ Fri, 18 Feb 2022 10:27:02 -0800 (PST)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ e20sm3633742pfn.4.2022.02.18.10.27.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Feb 2022 10:27:02 -0800 (PST)
+Message-ID: <a33f36ba-0f22-af5d-b2d1-c0bd8ec281cb@gmail.com>
+Date: Sat, 19 Feb 2022 03:26:55 +0900
 MIME-Version: 1.0
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-5-eperezma@redhat.com>
- <e10a7631-f1f9-5597-dd74-0f5301a68e27@redhat.com>
- <CAJaqyWc7fbgN-W7y3=iFqHsJzj+1Mg0cuwSu+my=62nu9vGOqA@mail.gmail.com>
- <2c9e8791-9e0b-0e84-00c2-cb7e693194f1@redhat.com>
-In-Reply-To: <2c9e8791-9e0b-0e84-00c2-cb7e693194f1@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 18 Feb 2022 19:22:59 +0100
-Message-ID: <CAJaqyWcLMijcz7n_TW4iD2K6TVeYAUw9gbovFzuA3ws5Yn54-g@mail.gmail.com>
-Subject: Re: [PATCH 04/31] vdpa: Add vhost_svq_set_svq_kick_fd
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 08/15] audio/coreaudio: Remove a deprecation warning on
+ macOS 12
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220215080307.69550-1-f4bug@amsat.org>
+ <20220215080307.69550-9-f4bug@amsat.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <20220215080307.69550-9-f4bug@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,212 +95,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Roman Bolshakov <roman@roolebo.dev>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 8, 2022 at 9:48 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/1/31 =E4=B8=8B=E5=8D=886:18, Eugenio Perez Martin =E5=86=
-=99=E9=81=93:
-> > On Fri, Jan 28, 2022 at 7:29 AM Jason Wang <jasowang@redhat.com> wrote:
-> >>
-> >> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=86=
-=99=E9=81=93:
-> >>> This function allows the vhost-vdpa backend to override kick_fd.
-> >>>
-> >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>> ---
-> >>>    hw/virtio/vhost-shadow-virtqueue.h |  1 +
-> >>>    hw/virtio/vhost-shadow-virtqueue.c | 45 ++++++++++++++++++++++++++=
-++++
-> >>>    2 files changed, 46 insertions(+)
-> >>>
-> >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-sha=
-dow-virtqueue.h
-> >>> index 400effd9f2..a56ecfc09d 100644
-> >>> --- a/hw/virtio/vhost-shadow-virtqueue.h
-> >>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> >>> @@ -15,6 +15,7 @@
-> >>>
-> >>>    typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
-> >>>
-> >>> +void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_ki=
-ck_fd);
-> >>>    const EventNotifier *vhost_svq_get_dev_kick_notifier(
-> >>>                                                  const VhostShadowVir=
-tqueue *svq);
-> >>>
-> >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-sha=
-dow-virtqueue.c
-> >>> index bd87110073..21534bc94d 100644
-> >>> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> >>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> >>> @@ -11,6 +11,7 @@
-> >>>    #include "hw/virtio/vhost-shadow-virtqueue.h"
-> >>>
-> >>>    #include "qemu/error-report.h"
-> >>> +#include "qemu/main-loop.h"
-> >>>
-> >>>    /* Shadow virtqueue to relay notifications */
-> >>>    typedef struct VhostShadowVirtqueue {
-> >>> @@ -18,8 +19,20 @@ typedef struct VhostShadowVirtqueue {
-> >>>        EventNotifier hdev_kick;
-> >>>        /* Shadow call notifier, sent to vhost */
-> >>>        EventNotifier hdev_call;
-> >>> +
-> >>> +    /*
-> >>> +     * Borrowed virtqueue's guest to host notifier.
-> >>> +     * To borrow it in this event notifier allows to register on the=
- event
-> >>> +     * loop and access the associated shadow virtqueue easily. If we=
- use the
-> >>> +     * VirtQueue, we don't have an easy way to retrieve it.
-> >>> +     *
-> >>> +     * So shadow virtqueue must not clean it, or we would lose VirtQ=
-ueue one.
-> >>> +     */
-> >>> +    EventNotifier svq_kick;
-> >>>    } VhostShadowVirtqueue;
-> >>>
-> >>> +#define INVALID_SVQ_KICK_FD -1
-> >>> +
-> >>>    /**
-> >>>     * The notifier that SVQ will use to notify the device.
-> >>>     */
-> >>> @@ -29,6 +42,35 @@ const EventNotifier *vhost_svq_get_dev_kick_notifi=
-er(
-> >>>        return &svq->hdev_kick;
-> >>>    }
-> >>>
-> >>> +/**
-> >>> + * Set a new file descriptor for the guest to kick SVQ and notify fo=
-r avail
-> >>> + *
-> >>> + * @svq          The svq
-> >>> + * @svq_kick_fd  The new svq kick fd
-> >>> + */
-> >>> +void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_ki=
-ck_fd)
-> >>> +{
-> >>> +    EventNotifier tmp;
-> >>> +    bool check_old =3D INVALID_SVQ_KICK_FD !=3D
-> >>> +                     event_notifier_get_fd(&svq->svq_kick);
-> >>> +
-> >>> +    if (check_old) {
-> >>> +        event_notifier_set_handler(&svq->svq_kick, NULL);
-> >>> +        event_notifier_init_fd(&tmp, event_notifier_get_fd(&svq->svq=
-_kick));
-> >>> +    }
-> >>
-> >> It looks to me we don't do similar things in vhost-net. Any reason for
-> >> caring about the old svq_kick?
-> >>
-> > Do you mean to check for old kick_fd in case we miss notifications,
-> > and explicitly omit the INVALID_SVQ_KICK_FD?
->
->
-> Yes.
->
->
-> >
-> > If you mean qemu's vhost-net, I guess it's because the device's kick
-> > fd is never changed in all the vhost device lifecycle, it's only set
-> > at the beginning. Previous RFC also depended on that, but you
-> > suggested better vhost and SVQ in v4 feedback if I understood
-> > correctly [1]. Or am I missing something?
->
->
-> No, I forgot that. But in this case we should have a better dealing with
-> the the conversion from valid fd to -1 by disabling the handler.
->
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Sure, I will do it that way for the next version.
-
->
-> >
-> > Qemu's vhost-net does not need to use this because it is not polling
-> > it. For kernel's vhost, I guess the closest is the use of pollstop and
-> > pollstart at vhost_vring_ioctl.
-> >
-> > In my opinion, I think that SVQ code size can benefit from now
-> > allowing to override kick_fd from the start of the operation. Not from
-> > initialization, but start. But I can see the benefits of having the
-> > change into account from this moment so it's more resilient to the
-> > future.
-> >
-> >>> +
-> >>> +    /*
-> >>> +     * event_notifier_set_handler already checks for guest's notific=
-ations if
-> >>> +     * they arrive to the new file descriptor in the switch, so ther=
-e is no
-> >>> +     * need to explicitely check for them.
-> >>> +     */
-> >>> +    event_notifier_init_fd(&svq->svq_kick, svq_kick_fd);
-> >>> +
-> >>> +    if (!check_old || event_notifier_test_and_clear(&tmp)) {
-> >>> +        event_notifier_set(&svq->hdev_kick);
-> >>
-> >> Any reason we need to kick the device directly here?
-> >>
-> > At this point of the series only notifications are forwarded, not
-> > buffers. If kick_fd is set, we need to check the old one, the same way
-> > as vhost checks the masked notifier in case of change.
->
->
-> I meant we need to kick the svq instead of vhost-vdpa in this case?
->
-
-Actually, yes, you're right.
-
-At this moment of the series is not needed, since SVQ will only relay
-the kick to the device. But when SVQ starts to forward buffers that's
-needed, so thanks for the catch!
-
-> Thanks
->
->
-> >
-> > Thanks!
-> >
-> > [1] https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg03152.html
-> > , from "I'd suggest to not depend on this since it:"
-> >
-> >
-> >> Thanks
-> >>
-> >>
-> >>> +    }
-> >>> +}
-> >>> +
-> >>>    /**
-> >>>     * Creates vhost shadow virtqueue, and instruct vhost device to us=
-e the shadow
-> >>>     * methods and file descriptors.
-> >>> @@ -52,6 +94,9 @@ VhostShadowVirtqueue *vhost_svq_new(void)
-> >>>            goto err_init_hdev_call;
-> >>>        }
-> >>>
-> >>> +    /* Placeholder descriptor, it should be deleted at set_kick_fd *=
-/
-> >>> +    event_notifier_init_fd(&svq->svq_kick, INVALID_SVQ_KICK_FD);
-> >>> +
-> >>>        return g_steal_pointer(&svq);
-> >>>
-> >>>    err_init_hdev_call:
->
+On 2022/02/15 17:03, Philippe Mathieu-Daudé via wrote:
+> When building on macOS 12 we get:
+> 
+>    audio/coreaudio.c:50:5: error: 'kAudioObjectPropertyElementMaster' is deprecated: first deprecated in macOS 12.0 [-Werror,-Wdeprecated-declarations]
+>        kAudioObjectPropertyElementMaster
+>        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>        kAudioObjectPropertyElementMain
+>    /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/AudioHardwareBase.h:208:5: note: 'kAudioObjectPropertyElementMaster' has been explicitly marked deprecated here
+>        kAudioObjectPropertyElementMaster API_DEPRECATED_WITH_REPLACEMENT("kAudioObjectPropertyElementMain", macos(10.0, 12.0), ios(2.0, 15.0), watchos(1.0, 8.0), tvos(9.0, 15.0)) = kAudioObjectPropertyElementMain
+>        ^
+> 
+> Replace by kAudioObjectPropertyElementMain, redefining it to
+> kAudioObjectPropertyElementMaster if not available.
+> 
+> Suggested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Suggested-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Suggested-by: Roman Bolshakov <roman@roolebo.dev>
+> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   audio/coreaudio.c | 17 +++++++++++------
+>   1 file changed, 11 insertions(+), 6 deletions(-)
+> 
+> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+> index d8a21d3e50..1faef7fa7a 100644
+> --- a/audio/coreaudio.c
+> +++ b/audio/coreaudio.c
+> @@ -44,10 +44,15 @@ typedef struct coreaudioVoiceOut {
+>       bool enabled;
+>   } coreaudioVoiceOut;
+>   
+> +#if !defined(MAC_OS_VERSION_12_0) \
+> +    || (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_12_0)
+> +#define kAudioObjectPropertyElementMain kAudioObjectPropertyElementMaster
+> +#endif
+> +
+>   static const AudioObjectPropertyAddress voice_addr = {
+>       kAudioHardwarePropertyDefaultOutputDevice,
+>       kAudioObjectPropertyScopeGlobal,
+> -    kAudioObjectPropertyElementMaster
+> +    kAudioObjectPropertyElementMain
+>   };
+>   
+>   static OSStatus coreaudio_get_voice(AudioDeviceID *id)
+> @@ -69,7 +74,7 @@ static OSStatus coreaudio_get_framesizerange(AudioDeviceID id,
+>       AudioObjectPropertyAddress addr = {
+>           kAudioDevicePropertyBufferFrameSizeRange,
+>           kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>       };
+>   
+>       return AudioObjectGetPropertyData(id,
+> @@ -86,7 +91,7 @@ static OSStatus coreaudio_get_framesize(AudioDeviceID id, UInt32 *framesize)
+>       AudioObjectPropertyAddress addr = {
+>           kAudioDevicePropertyBufferFrameSize,
+>           kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>       };
+>   
+>       return AudioObjectGetPropertyData(id,
+> @@ -103,7 +108,7 @@ static OSStatus coreaudio_set_framesize(AudioDeviceID id, UInt32 *framesize)
+>       AudioObjectPropertyAddress addr = {
+>           kAudioDevicePropertyBufferFrameSize,
+>           kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>       };
+>   
+>       return AudioObjectSetPropertyData(id,
+> @@ -121,7 +126,7 @@ static OSStatus coreaudio_set_streamformat(AudioDeviceID id,
+>       AudioObjectPropertyAddress addr = {
+>           kAudioDevicePropertyStreamFormat,
+>           kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>       };
+>   
+>       return AudioObjectSetPropertyData(id,
+> @@ -138,7 +143,7 @@ static OSStatus coreaudio_get_isrunning(AudioDeviceID id, UInt32 *result)
+>       AudioObjectPropertyAddress addr = {
+>           kAudioDevicePropertyDeviceIsRunning,
+>           kAudioDevicePropertyScopeOutput,
+> -        kAudioObjectPropertyElementMaster
+> +        kAudioObjectPropertyElementMain
+>       };
+>   
+>       return AudioObjectGetPropertyData(id,
 
 
