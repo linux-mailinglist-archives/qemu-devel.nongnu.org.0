@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCF64BB762
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 11:58:45 +0100 (CET)
-Received: from localhost ([::1]:38636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DDE4BB757
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 11:56:13 +0100 (CET)
+Received: from localhost ([::1]:60280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL0yK-0000GX-BZ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 05:58:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43352)
+	id 1nL0vr-000492-VA
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 05:56:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nL0fT-00011u-9H; Fri, 18 Feb 2022 05:39:15 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35524
+ id 1nL0fq-0001CC-Pn; Fri, 18 Feb 2022 05:39:38 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35014
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nL0fN-0005gw-3O; Fri, 18 Feb 2022 05:39:12 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21IAcBB7023724; 
- Fri, 18 Feb 2022 10:38:44 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ea8py1byp-1
+ id 1nL0fg-0005gq-IJ; Fri, 18 Feb 2022 05:39:35 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21IAHCcr012035; 
+ Fri, 18 Feb 2022 10:38:45 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ea9jqgdd9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 10:38:43 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21IAc2vM006215;
- Fri, 18 Feb 2022 10:38:42 GMT
+ Fri, 18 Feb 2022 10:38:44 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21IAbtqA009392;
+ Fri, 18 Feb 2022 10:38:43 GMT
 Received: from b06avi18878370.portsmouth.uk.ibm.com
  (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3e64has9n0-1
+ by ppma02fra.de.ibm.com with ESMTP id 3e64haeqyv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 10:38:42 +0000
+ Fri, 18 Feb 2022 10:38:43 +0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
  by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 21IAcemV21692880
+ id 21IAceBs47055182
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 18 Feb 2022 10:38:40 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0083B4C072;
+ by IMSVA (Postfix) with ESMTP id AFA334C089;
  Fri, 18 Feb 2022 10:38:40 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B04FF4C07F;
- Fri, 18 Feb 2022 10:38:39 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6BE2F4C075;
+ Fri, 18 Feb 2022 10:38:40 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 18 Feb 2022 10:38:39 +0000 (GMT)
+ Fri, 18 Feb 2022 10:38:40 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.87.94])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id ECAF42201F1;
- Fri, 18 Feb 2022 11:38:38 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id A1A62220294;
+ Fri, 18 Feb 2022 11:38:39 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 14/39] target/ppc: cpu_init: Remove G2LE init code
-Date: Fri, 18 Feb 2022 11:38:02 +0100
-Message-Id: <20220218103827.682032-15-clg@kaod.org>
+Subject: [PULL 15/39] target/ppc: cpu_init: Group registration of generic SPRs
+Date: Fri, 18 Feb 2022 11:38:03 +0100
+Message-Id: <20220218103827.682032-16-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220218103827.682032-1-clg@kaod.org>
 References: <20220218103827.682032-1-clg@kaod.org>
@@ -64,17 +64,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: WE9S4edDsEi_5LbzBvB-Znq1P3rB98SF
-X-Proofpoint-GUID: WE9S4edDsEi_5LbzBvB-Znq1P3rB98SF
+X-Proofpoint-GUID: D5bNSn2K51XwY9FcHSyIDI2CfOYIsWXc
+X-Proofpoint-ORIG-GUID: D5bNSn2K51XwY9FcHSyIDI2CfOYIsWXc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-18_04,2022-02-18_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- bulkscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0
- mlxscore=0 mlxlogscore=769 priorityscore=1501 clxscore=1034 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202180067
+ clxscore=1034 malwarescore=0
+ spamscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 bulkscore=0
+ impostorscore=0 priorityscore=1501 adultscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202180067
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -10
@@ -104,76 +104,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Fabiano Rosas <farosas@linux.ibm.com>
 
-The G2LE CPU initialization code is the same as the G2. Use the latter
-for both.
+The top level init_proc calls register_generic_sprs but also registers
+some other SPRs outside of that function. Let's group everything into
+a single place.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20220216162426.1885923-3-farosas@linux.ibm.com>
+Message-Id: <20220216162426.1885923-4-farosas@linux.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/cpu_init.c | 42 +-----------------------------------------
- 1 file changed, 1 insertion(+), 41 deletions(-)
+ target/ppc/cpu_init.c | 58 ++++++++++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 26 deletions(-)
 
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 767994fb8f99..ec29ccf473e6 100644
+index ec29ccf473e6..1fb17a5e5112 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -2885,53 +2885,13 @@ POWERPC_FAMILY(G2)(ObjectClass *oc, void *data)
-                  POWERPC_FLAG_BE | POWERPC_FLAG_BUS_CLK;
+@@ -150,8 +150,11 @@ static void _spr_register(CPUPPCState *env, int num,=
+ const char *name,
+                      oea_read, oea_write, 0, ival)
+=20
+ /* Generic PowerPC SPRs */
+-static void register_generic_sprs(CPUPPCState *env)
++static void register_generic_sprs(PowerPCCPU *cpu)
+ {
++    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
++    CPUPPCState *env =3D &cpu->env;
++
+     /* Integer processing */
+     spr_register(env, SPR_XER, "XER",
+                  &spr_read_xer, &spr_write_xer,
+@@ -192,6 +195,32 @@ static void register_generic_sprs(CPUPPCState *env)
+                  SPR_NOACCESS, SPR_NOACCESS,
+                  &spr_read_generic, &spr_write_generic,
+                  0x00000000);
++
++    spr_register(env, SPR_PVR, "PVR",
++                 /* Linux permits userspace to read PVR */
++#if defined(CONFIG_LINUX_USER)
++                 &spr_read_generic,
++#else
++                 SPR_NOACCESS,
++#endif
++                 SPR_NOACCESS,
++                 &spr_read_generic, SPR_NOACCESS,
++                 pcc->pvr);
++
++    /* Register SVR if it's defined to anything else than POWERPC_SVR_NO=
+NE */
++    if (pcc->svr !=3D POWERPC_SVR_NONE) {
++        if (pcc->svr & POWERPC_SVR_E500) {
++            spr_register(env, SPR_E500_SVR, "SVR",
++                         SPR_NOACCESS, SPR_NOACCESS,
++                         &spr_read_generic, SPR_NOACCESS,
++                         pcc->svr & ~POWERPC_SVR_E500);
++        } else {
++            spr_register(env, SPR_SVR, "SVR",
++                         SPR_NOACCESS, SPR_NOACCESS,
++                         &spr_read_generic, SPR_NOACCESS,
++                         pcc->svr);
++        }
++    }
  }
 =20
--static void init_proc_G2LE(CPUPPCState *env)
--{
--    register_ne_601_sprs(env);
--    register_sdr1_sprs(env);
--    register_G2_755_sprs(env);
--    register_G2_sprs(env);
--    /* Time base */
--    register_tbl(env);
--    /* External access control */
--    spr_register(env, SPR_EAR, "EAR",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, &spr_write_generic,
--                 0x00000000);
--    /* Hardware implementation register */
--    spr_register(env, SPR_HID0, "HID0",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, &spr_write_generic,
--                 0x00000000);
--
--    spr_register(env, SPR_HID1, "HID1",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, &spr_write_generic,
--                 0x00000000);
--
--    spr_register(env, SPR_HID2, "HID2",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, &spr_write_generic,
--                 0x00000000);
--
--    /* Memory management */
--    register_low_BATs(env);
--    register_high_BATs(env);
--    register_6xx_7xx_soft_tlb(env, 64, 2);
--    init_excp_G2(env);
--    env->dcache_line_size =3D 32;
--    env->icache_line_size =3D 32;
--    /* Allocate hardware IRQ controller */
--    ppc6xx_irq_init(env_archcpu(env));
--}
--
- POWERPC_FAMILY(G2LE)(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(oc);
-     PowerPCCPUClass *pcc =3D POWERPC_CPU_CLASS(oc);
+ /* SPR common to all non-embedded PowerPC, including 601 */
+@@ -7237,31 +7266,8 @@ static void init_ppc_proc(PowerPCCPU *cpu)
+     env->tlb_type =3D TLB_NONE;
+ #endif
+     /* Register SPR common to all PowerPC implementations */
+-    register_generic_sprs(env);
+-    spr_register(env, SPR_PVR, "PVR",
+-                 /* Linux permits userspace to read PVR */
+-#if defined(CONFIG_LINUX_USER)
+-                 &spr_read_generic,
+-#else
+-                 SPR_NOACCESS,
+-#endif
+-                 SPR_NOACCESS,
+-                 &spr_read_generic, SPR_NOACCESS,
+-                 pcc->pvr);
+-    /* Register SVR if it's defined to anything else than POWERPC_SVR_NO=
+NE */
+-    if (pcc->svr !=3D POWERPC_SVR_NONE) {
+-        if (pcc->svr & POWERPC_SVR_E500) {
+-            spr_register(env, SPR_E500_SVR, "SVR",
+-                         SPR_NOACCESS, SPR_NOACCESS,
+-                         &spr_read_generic, SPR_NOACCESS,
+-                         pcc->svr & ~POWERPC_SVR_E500);
+-        } else {
+-            spr_register(env, SPR_SVR, "SVR",
+-                         SPR_NOACCESS, SPR_NOACCESS,
+-                         &spr_read_generic, SPR_NOACCESS,
+-                         pcc->svr);
+-        }
+-    }
++    register_generic_sprs(cpu);
++
+     /* PowerPC implementation specific initialisations (SPRs, timers, ..=
+.) */
+     (*pcc->init_proc)(env);
 =20
-     dc->desc =3D "PowerPC G2LE";
--    pcc->init_proc =3D init_proc_G2LE;
-+    pcc->init_proc =3D init_proc_G2;
-     pcc->check_pow =3D check_pow_hid0;
-     pcc->insns_flags =3D PPC_INSNS_BASE | PPC_STRING | PPC_MFTB |
-                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
 --=20
 2.34.1
 
