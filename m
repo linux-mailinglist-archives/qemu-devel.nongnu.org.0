@@ -2,85 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680494BBE88
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 18:38:25 +0100 (CET)
-Received: from localhost ([::1]:51530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBE84BBE99
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Feb 2022 18:45:24 +0100 (CET)
+Received: from localhost ([::1]:55166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nL7D6-0003lb-5S
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 12:38:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51672)
+	id 1nL7Jr-0006RX-9F
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 12:45:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nL7BE-0001RY-SF; Fri, 18 Feb 2022 12:36:28 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=55189
- helo=mail-pj1-x1036.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nL7BD-0006TM-1e; Fri, 18 Feb 2022 12:36:28 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id b8so9178742pjb.4;
- Fri, 18 Feb 2022 09:36:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BCrCh2lhmV+WVnUPXT+ce73rTawNEzcWj7AoriX1g+g=;
- b=OhWhRCSOgIAJ07x2S3MMvTB1elJz2xYO4gCvH77r5gRS0AoZX0a07UcYpAsoM3LhNb
- IAPNDuJcXC2IWGnPDUz1OILp8FbB1AFdwrOQgR/Rd+jth/O/VsBgRCfTCu8BA/NLnLnj
- zmwjfVPqOTPU0MtiwfzK93XmnZPN6acUWmSfrgGEP0AZcJrkvQGauva9m5PXYoE4Hb1e
- +UueV/gWP5ENkjdoE4Su2HLERP80zt+lQOPZLJQT3k2O6V6rCK5iErzOYUL+2Jg+OLZd
- E64ZfJuhDAhLbS6cHmDtP27BpNYPwrMe+j3Wa6DAHzgpcuFn8oKZHtDNIuBURsCWbOPE
- Zd5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BCrCh2lhmV+WVnUPXT+ce73rTawNEzcWj7AoriX1g+g=;
- b=A7vET6VmwhjYPzjOlNMRRJW0IrxNXp7VnsYLg+mtQ14egxqddaOxR8Uw6NIJNjBCrN
- mzwnLTKlPuWlBffE99DmB/SwAFuBUwE6+ZvAN5up7B2zeDIfW4TmUOt85TlI9zJj0loZ
- CSfk7q+sEkGTJUpPDH5024Md20xzqq0clFONB7Xtjf+ZiBzGXOwoaARvbyVmeLWGpQPg
- MAkqJK5Rybsi3AA/Zq19RTmNahqD5pKijjPTvE++zWa/poMqoR00wTB9KfR8ZGLkZtF2
- T9Rsr+UCn4rroaBp06LHBRhzknTAfxPJODrz1Dh5UTAHit8GOxk+oje+nmNWkqvfbz4P
- yUww==
-X-Gm-Message-State: AOAM532kwaLA1MeGqGP99SJbcW2PJE3ghoA2BjnwwvV1JaXlGOC6WcRo
- Nh6WycH3YqfZ92lbvCCqnxo=
-X-Google-Smtp-Source: ABdhPJzgeis6UfFN267qWEN6dBHn2Vf035bm5OfNIwWbvxbkPyJHt1ifz+PgtTgArBLapo2zFMOq5w==
-X-Received: by 2002:a17:903:244b:b0:14d:927d:10c8 with SMTP id
- l11-20020a170903244b00b0014d927d10c8mr8394408pls.51.1645205785282; 
- Fri, 18 Feb 2022 09:36:25 -0800 (PST)
-Received: from [192.168.209.175] (65.red-88-28-24.dynamicip.rima-tde.net.
- [88.28.24.65])
- by smtp.gmail.com with ESMTPSA id 16sm3854343pfl.99.2022.02.18.09.36.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Feb 2022 09:36:24 -0800 (PST)
-Message-ID: <8fb8e784-76fa-5320-1146-f0b30b68ce06@amsat.org>
-Date: Fri, 18 Feb 2022 18:36:20 +0100
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nL7ET-0005U3-L5; Fri, 18 Feb 2022 12:39:49 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:48626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nL7ER-0006qk-Fp; Fri, 18 Feb 2022 12:39:49 -0500
+Received: from [172.17.10.6] (unknown [172.17.10.6])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 9256420787;
+ Fri, 18 Feb 2022 17:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1645205984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uWeoInqSZS5MozSmhAv1VVZ93tdqpgyu7NG9FtytENM=;
+ b=pZQoep+wEiUguQW1Nz2yFeXUXN99Sul33G+EwphASvSEpr7JwdkMskscU4Lrn1AznyDdki
+ K0GW7oAvJfi4aANRbAFstaB4TVAvq0Xtpm8V+m9VJIDYz15VEa2jJUh8bfSYLf8YjQufKt
+ 1SPCMv1nHLWKAu2GDUiyvbcAtNdIaEk=
+Message-ID: <af1de21c-bccf-58f9-4941-e88eca6c1a5c@greensocs.com>
+Date: Fri, 18 Feb 2022 18:39:42 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: [PATCH v3] arm: Remove swift-bmc machine
-Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-References: <20220217103141.385345-1-joel@jms.id.au>
-In-Reply-To: <20220217103141.385345-1-joel@jms.id.au>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 1/5] hw/riscv/riscv_hart: free the harts array when the
+ object is finalized
+Content-Language: en-US-large
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220218164646.132112-1-damien.hedde@greensocs.com>
+ <20220218164646.132112-2-damien.hedde@greensocs.com>
+ <CAFEAcA_xtf-LtvhNqxMEtZs1Z6NePkVKOp6Kh+tN_HZTkFiuTQ@mail.gmail.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <CAFEAcA_xtf-LtvhNqxMEtZs1Z6NePkVKOp6Kh+tN_HZTkFiuTQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,24 +67,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 17/2/22 11:31, Joel Stanley wrote:
-> It was scheduled for removal in 7.0.
+
+
+On 2/18/22 18:23, Peter Maydell wrote:
+> On Fri, 18 Feb 2022 at 16:53, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>>
+>> The array is dynamically allocated by realize() depending on the
+>> number of harts.
+>>
+>> This clean-up removes memory leaks which would happen in the
+>> 'init->finalize' life-cycle use-case (happening when user creation
+>> is allowed).
 > 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> --
-> v2: also remove from docs/about/deprecated.rst
-> v3: remove strap define, add note to removed-features.rst
-> ---
->   docs/about/deprecated.rst       |  7 ----
->   docs/about/removed-features.rst |  5 +++
->   docs/system/arm/aspeed.rst      |  1 -
->   hw/arm/aspeed.c                 | 64 ---------------------------------
->   4 files changed, 5 insertions(+), 72 deletions(-)
+> If the allocation happens in realize, then it won't hapen
+> in an init->finalize cycle, only in init->realize->unrealize->finalize...
+> 
+> -- PMM
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+You're right. I was confused when re-writing the message.
+This leaks happen on
+init -> realize-failure -> finalize
+Because the array is allocated, then every cpu is initialized (and an 
+error failure may happen for any of them).
+
+Thanks,
+--
+Damien
+
 
