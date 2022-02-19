@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E9E4BC39A
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 01:47:09 +0100 (CET)
-Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CA34BC384
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 01:36:45 +0100 (CET)
+Received: from localhost ([::1]:52162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLDu0-0006UO-4Z
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 19:47:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49864)
+	id 1nLDjv-0001JS-UM
+	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 19:36:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nLDa6-0008V9-R7
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 19:26:34 -0500
-Received: from [2607:f8b0:4864:20::334] (port=39454
- helo=mail-ot1-x334.google.com)
+ id 1nLDa4-0008OW-Co
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 19:26:32 -0500
+Received: from [2607:f8b0:4864:20::32e] (port=40792
+ helo=mail-ot1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nLDZa-000737-1Q
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 19:26:34 -0500
-Received: by mail-ot1-x334.google.com with SMTP id
- r18-20020a05683001d200b005ac516aa180so3062761ota.6
- for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 16:25:47 -0800 (PST)
+ id 1nLDZY-00073d-3g
+ for qemu-devel@nongnu.org; Fri, 18 Feb 2022 19:26:31 -0500
+Received: by mail-ot1-x32e.google.com with SMTP id
+ k9-20020a056830242900b005ad25f8ebfdso3063959ots.7
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 16:25:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4YHpu3V23HtYWBE2HmHAjRE5/F4Z+36nI/DFNAdYk9c=;
- b=qm9mlVhc7SjdcsZ/yT59TEc4TOBZrM5NxSv5V5XMwnWSs3G+MxqixenYU8ebpdHkf0
- NPViDVbRlJ6FdtkkIEImgPX5UwJ6B3+04PzyXRJk9aeFw71LPFJeJuQmcY1KDSK3x0GN
- mRIR6e3ZLzFLxJSGxDcJ/V+2edO0ZZTqQpDOu1Xpcd/Zy1C5vjPphEXNJDAbxvp2Dqbe
- Ojfr4V5YccvUl12sb91U4X0+5D/qeFoACsmpyJBHd5JEAyfRiO8S6R2oqmbid2CAmfB9
- j0obOUrEtHzzmMqm/JXUWvpoYdwySzpGKyuOABiL2caMv8KB1uXu7zVGTf+pGPgvnmtF
- E+Kg==
+ bh=tpFslJQAFlqy+zdW73vFNNesvLll7Yi85SOhA9EniS8=;
+ b=AwHA4+l7qZf2C2cw29nEgNW8dHPVyvoozQhWMjxcqGj/GcxJ6uSAYGQBawznpP6hFz
+ EGn4l9HDW3lJPl+lcnlXit3kEQxELrhKjRE23oGD7Igvd0CM+QsZmy0QIv38QZLcRge0
+ zqyDhhoIEYQUxhqtayNsV+C8hvJej5tmLyk82UBnIGYrFmR6L/OzpaQz+fPmrTzArD7I
+ ZVeYMpaqEUryRmx/o7JEHsPvR77vU50pe3nv/h7pGYrE/1yC0VL4tAGqMvYUjJYH1N8n
+ vo+VPDsc5CSH8eGP4B9aNyGslWUESv6YZRpE5zkjap79PbIi0UqesXeCLgNeK/E+I62T
+ CBaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4YHpu3V23HtYWBE2HmHAjRE5/F4Z+36nI/DFNAdYk9c=;
- b=pz3lxzEOu0hNnSjYc//wEbuRHQqNBxa47yg6dIv6XTDNHhU8HDhclB3ffawNa+Mrf6
- 7TTEO3K6Y0VEpXq3Keyk9AjTfzFu2ObyPC7NI/gVG4LhVabdasVaKCjPOyKA5uHj9QEI
- 9vD1QFwuBNnVrNfj3Yj7LS8QPBV/ZPYWauFFbvksqP2WFLjtjA3tDNqxYo4KO4F2NExS
- /Lk2Gjq4DeGYSAM6M6dBRWf51NbXlSxOgwOibZxmCgUIFqAZCzpqZVg6jhnPK0DfjdsI
- n844bnqqY2LlSJsBCr2n+cgBf2gbWZSqPc+HGvujl+q+5OUcVwPvn3ZQj0/SdsLxDer9
- ENyw==
-X-Gm-Message-State: AOAM532arLNaEcilc7k9mQlF1kERXa3Qse/Us5l0fnxOv9oOG5OSaiJQ
- CgPk28O8FlKV1aFYnDGIPuEmZjGJBZECWDVT
-X-Google-Smtp-Source: ABdhPJwbVMW6qVVQHXnXogmFgVInXj+cCCUHhm6oKX2h/B5jnnV3gmI+TWLgL/mmzgpu00wWKyFfNA==
-X-Received: by 2002:a9d:da4:0:b0:5a1:8740:f395 with SMTP id
- 33-20020a9d0da4000000b005a18740f395mr3324463ots.46.1645230346611; 
- Fri, 18 Feb 2022 16:25:46 -0800 (PST)
+ bh=tpFslJQAFlqy+zdW73vFNNesvLll7Yi85SOhA9EniS8=;
+ b=qkh7TEfwHfuljj8E2g9fXO6grvQ2sb/6XnsZO1CedI7l/kf4c5lIoSZ0IShP4P5mJx
+ Ia6VX4HKl9fcAD/b9gHkbdvwtbGpy5SSiDig77baBIMP0QN3iB3XMco3TbM3eqlbsh5/
+ 0g3lTRdNnvqvZHbM62i6/B/l5UlRJ7Xevon7lklFv8f2Uy5wp46N6j6Kw48CR+TNvwSL
+ NoT0nHUl3r3jd7VTmfhoJNS5s7APNV1yHeG8dOLQovAJz7YabUjqh9wvFL/hAWUxTFJ1
+ UW0Oc8/Z3qveFNXZ1VhjavjdGPqLXnNwl+abehuFstOOuJbN7bNiF6jxv08o3+UtKUYZ
+ 0Icw==
+X-Gm-Message-State: AOAM530gcE8/1nKtRQclMChOu8aBg7o4N9qD3EPtbpyhufVrK3CtPIS7
+ 9QhAiWBGyogBw2xmIqGOlw5WVFPGIwJJDQ2n
+X-Google-Smtp-Source: ABdhPJx5bRFXZIHMB6rKxxulwUYRncJQmb3qDKclEzjso8uA+jMUcjFa8JcS+44RQxotiumTxr2v4g==
+X-Received: by 2002:a9d:3783:0:b0:5ad:32a6:b69a with SMTP id
+ x3-20020a9d3783000000b005ad32a6b69amr1572359otb.144.1645230348149; 
+ Fri, 18 Feb 2022 16:25:48 -0800 (PST)
 Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
  [70.228.75.190])
- by smtp.gmail.com with ESMTPSA id r38sm2315588otv.72.2022.02.18.16.25.45
+ by smtp.gmail.com with ESMTPSA id r38sm2315588otv.72.2022.02.18.16.25.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Feb 2022 16:25:46 -0800 (PST)
+ Fri, 18 Feb 2022 16:25:47 -0800 (PST)
 From: Atish Patra <atishp@rivosinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 09/12] target/riscv: Simplify counter predicate function
-Date: Fri, 18 Feb 2022 16:25:15 -0800
-Message-Id: <20220219002518.1936806-10-atishp@rivosinc.com>
+Subject: [PATCH v5 10/12] target/riscv: Add few cache related PMU events
+Date: Fri, 18 Feb 2022 16:25:16 -0800
+Message-Id: <20220219002518.1936806-11-atishp@rivosinc.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220219002518.1936806-1-atishp@rivosinc.com>
 References: <20220219002518.1936806-1-atishp@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::334
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=atishp@rivosinc.com; helo=mail-ot1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=atishp@rivosinc.com; helo=mail-ot1-x32e.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -89,169 +89,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- Atish Patra <atishp@rivosinc.com>, Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the hpmcounters and the fixed counters (CY, IR, TM) can be represented
-as a unified counter. Thus, the predicate function doesn't need handle each
-case separately.
+From: Atish Patra <atish.patra@wdc.com>
 
-Simplify the predicate function so that we just handle things differently
-between RV32/RV64 and S/HS mode.
+Qemu can monitor the following cache related PMU events through
+tlb_fill functions.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+1. DTLB load/store miss
+3. ITLB prefetch miss
+
+Increment the PMU counter in tlb_fill function.
+
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
 Signed-off-by: Atish Patra <atishp@rivosinc.com>
 ---
- target/riscv/csr.c | 111 ++++-----------------------------------------
- 1 file changed, 10 insertions(+), 101 deletions(-)
+ target/riscv/cpu_helper.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 0071b13bc50f..54966a770672 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -113,6 +113,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-     CPUState *cs = env_cpu(env);
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     int ctr_index;
-+    target_ulong ctr_mask;
-     int base_csrno = CSR_CYCLE;
-     bool rv32 = riscv_cpu_mxl(env) == MXL_RV32 ? true : false;
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 746335bfd6b9..094d41ba07f7 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -21,10 +21,13 @@
+ #include "qemu/log.h"
+ #include "qemu/main-loop.h"
+ #include "cpu.h"
++#include "pmu.h"
+ #include "exec/exec-all.h"
+ #include "tcg/tcg-op.h"
+ #include "trace.h"
+ #include "semihosting/common-semi.h"
++#include "cpu.h"
++#include "cpu_bits.h"
  
-@@ -121,122 +122,30 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-         base_csrno += 0x80;
-     }
-     ctr_index = csrno - base_csrno;
-+    ctr_mask = BIT(ctr_index);
+ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+ {
+@@ -1174,6 +1177,28 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+     riscv_raise_exception(env, cs->exception_index, retaddr);
+ }
  
-     if ((csrno >= CSR_CYCLE && csrno <= CSR_INSTRET) ||
-         (csrno >= CSR_CYCLEH && csrno <= CSR_INSTRETH)) {
-         goto skip_ext_pmu_check;
-     }
- 
--    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & BIT(ctr_index)))) {
-+    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & ctr_mask))) {
-         /* No counter is enabled in PMU or the counter is out of range */
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
- skip_ext_pmu_check:
- 
--    if (env->priv == PRV_S) {
--        switch (csrno) {
--        case CSR_CYCLE:
--            if (!get_field(env->mcounteren, COUNTEREN_CY)) {
--                return RISCV_EXCP_ILLEGAL_INST;
--            }
--            break;
--        case CSR_TIME:
--            if (!get_field(env->mcounteren, COUNTEREN_TM)) {
--                return RISCV_EXCP_ILLEGAL_INST;
--            }
--            break;
--        case CSR_INSTRET:
--            if (!get_field(env->mcounteren, COUNTEREN_IR)) {
--                return RISCV_EXCP_ILLEGAL_INST;
--            }
--            break;
--        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
--            if (!get_field(env->mcounteren, 1 << ctr_index)) {
--                return RISCV_EXCP_ILLEGAL_INST;
--            }
--            break;
--        }
--        if (rv32) {
--            switch (csrno) {
--            case CSR_CYCLEH:
--                if (!get_field(env->mcounteren, COUNTEREN_CY)) {
--                    return RISCV_EXCP_ILLEGAL_INST;
--                }
--                break;
--            case CSR_TIMEH:
--                if (!get_field(env->mcounteren, COUNTEREN_TM)) {
--                    return RISCV_EXCP_ILLEGAL_INST;
--                }
--                break;
--            case CSR_INSTRETH:
--                if (!get_field(env->mcounteren, COUNTEREN_IR)) {
--                    return RISCV_EXCP_ILLEGAL_INST;
--                }
--                break;
--            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
--                if (!get_field(env->mcounteren, 1 << ctr_index)) {
--                    return RISCV_EXCP_ILLEGAL_INST;
--                }
--                break;
--            }
--        }
-+    if ((env->priv == PRV_S) && (!get_field(env->mcounteren, ctr_mask))) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-     if (riscv_cpu_virt_enabled(env)) {
--        switch (csrno) {
--        case CSR_CYCLE:
--            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
--                get_field(env->mcounteren, COUNTEREN_CY)) {
--                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--            }
--            break;
--        case CSR_TIME:
--            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
--                get_field(env->mcounteren, COUNTEREN_TM)) {
--                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--            }
--            break;
--        case CSR_INSTRET:
--            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
--                get_field(env->mcounteren, COUNTEREN_IR)) {
--                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--            }
--            break;
--        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
--            if (!get_field(env->hcounteren, 1 << ctr_index) &&
--                 get_field(env->mcounteren, 1 << ctr_index)) {
--                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--            }
--            break;
--        }
--        if (rv32) {
--            switch (csrno) {
--            case CSR_CYCLEH:
--                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
--                    get_field(env->mcounteren, COUNTEREN_CY)) {
--                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--                }
--                break;
--            case CSR_TIMEH:
--                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
--                    get_field(env->mcounteren, COUNTEREN_TM)) {
--                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--                }
--                break;
--            case CSR_INSTRETH:
--                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
--                    get_field(env->mcounteren, COUNTEREN_IR)) {
--                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--                }
--                break;
--            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
--                if (!get_field(env->hcounteren, 1 << ctr_index) &&
--                     get_field(env->mcounteren, 1 << ctr_index)) {
--                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--                }
--                break;
--            }
-+        if (!get_field(env->mcounteren, ctr_mask)) {
-+            /* The bit must be set in mcountern for HS mode access */
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        } else if (!get_field(env->hcounteren, ctr_mask)) {
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
++
++static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MMUAccessType access_type)
++{
++    enum riscv_pmu_event_idx pmu_event_type;
++
++    switch (access_type) {
++    case MMU_INST_FETCH:
++        pmu_event_type = RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS;
++        break;
++    case MMU_DATA_LOAD:
++        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS;
++        break;
++    case MMU_DATA_STORE:
++        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS;
++        break;
++    default:
++        return;
++    }
++
++    riscv_pmu_incr_ctr(cpu, pmu_event_type);
++}
++
+ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         MMUAccessType access_type, int mmu_idx,
+                         bool probe, uintptr_t retaddr)
+@@ -1270,6 +1295,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+             }
          }
-     }
- #endif
+     } else {
++        pmu_tlb_fill_incr_ctr(cpu, access_type);
+         /* Single stage lookup */
+         ret = get_physical_address(env, &pa, &prot, address, NULL,
+                                    access_type, mmu_idx, true, false, false);
 -- 
 2.30.2
 
