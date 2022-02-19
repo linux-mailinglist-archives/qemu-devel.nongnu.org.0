@@ -2,73 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968EF4BC92B
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 16:35:29 +0100 (CET)
-Received: from localhost ([::1]:41722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C6B4BC941
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 17:02:34 +0100 (CET)
+Received: from localhost ([::1]:55488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLRlg-0002yj-8A
-	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 10:35:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55520)
+	id 1nLSBr-0005jf-0M
+	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 11:02:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nLRge-0000dT-RS
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 10:30:16 -0500
-Received: from [2607:f8b0:4864:20::936] (port=34392
- helo=mail-ua1-x936.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nLRfZ-0006un-II
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 10:30:15 -0500
-Received: by mail-ua1-x936.google.com with SMTP id 60so5730288uae.1
- for <qemu-devel@nongnu.org>; Sat, 19 Feb 2022 07:29:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8klJnrHZlO2sTN4AigPY1Gu3jhXFl/CbuNN8qW46dII=;
- b=pu+zxITKmGQ3n2mWpOtwwPgexVMkQ+IipQM2USA0qykQBeIOHW7bvlE9buEk1T92oG
- rxp3Ec/gy4gxfGMtdARK38dB+a1NjBMffcsL20Xhu/8NvHEh8DWFig4f2rcCo1yhOcyF
- lTJ4g75Qeb3C4taX3YsNUl6TI+/wwcrrwH2UA8TDxAiguViXKcwnvTGSMW6bCyt6f8IP
- CyrVvyUHh7ekb/MGowVn4GEuFaUwYM32fVOBQMgD4VCwCf18Coo2mwicpAdniPGbR83M
- zIv7ofgk3/4KGAf1KaKsOl+wrKj+kGlMzwkv9A1D34y24WTLoMN5TvytPJP5UZe2wtSo
- jNww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8klJnrHZlO2sTN4AigPY1Gu3jhXFl/CbuNN8qW46dII=;
- b=VS91Bk6yAJgPGOjFjGZdQxKLIPll0wKS7HKrRS620eO26vs4VhVh4Hx3nYV+V0/luc
- YJAoSPjXPnxQ5r8ElDTqi9ec8wjT1bXUYciVs0l/z/auaNqFHQNGYzPjxffi8RxfrSna
- 2PKFEuhLUOt0bbRHL8luFKqkY8xnPCCyIFKLb04J2x4R2PAl5KQolJ8+lEwi/eRCPRFs
- HYUdjALUnvcNyHCbtUF4y4wBOFPAwEug50iO+ulOsK9JFhbv/yEJK05sHH3Tpyxdwv31
- uZtptJmxNlZ07/YtTCkLtNmdSQa5uAugkpy6m9yEbxml+ozJmBeUxW45JpVQ/3CNOGxy
- d5vA==
-X-Gm-Message-State: AOAM530RyuSwZgYhiDOycZbWKk7zDQwiKCgI3Kxu6IlgJO7nUMIce99D
- CLi4rntoKH4efjs/By91QaESE9P8j0KuFLvyeW1DWco/L18=
-X-Google-Smtp-Source: ABdhPJwdtsTdEaw4u8U1+T4qrPqIUotiaVh2z/upHetBIhGjoJ4AZYTlfyFxowavP5T6i2X2EdiRRHsmIKcGjJEd2P4=
-X-Received: by 2002:a0d:d5c8:0:b0:2d5:e0a:56c0 with SMTP id
- x191-20020a0dd5c8000000b002d50e0a56c0mr12160886ywd.10.1645284124821; Sat, 19
- Feb 2022 07:22:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nLS84-0004lQ-6v; Sat, 19 Feb 2022 10:58:36 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:33658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nLS7Y-00027y-8A; Sat, 19 Feb 2022 10:58:35 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 05B3C745712;
+ Sat, 19 Feb 2022 16:58:00 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C9A967456FE; Sat, 19 Feb 2022 16:57:59 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C783A7456E3;
+ Sat, 19 Feb 2022 16:57:59 +0100 (CET)
+Date: Sat, 19 Feb 2022 16:57:59 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Liav Albani <liavalb@gmail.com>
+Subject: Re: [PATCH 1/1] hw/ide: share bmdma read and write functions between
+ piix.c and via.c
+In-Reply-To: <c0736fce-7f4b-7d7b-22a0-4eb102a8572@eik.bme.hu>
+Message-ID: <1066433-593c-c1c5-fa6d-1d30d1c5844@eik.bme.hu>
+References: <20220219080818.327683-1-liavalb@gmail.com>
+ <20220219080818.327683-2-liavalb@gmail.com>
+ <5b443413-5f5c-48f9-161-6573b79aa8e3@eik.bme.hu>
+ <ba8fb8ae-9af0-a740-6451-1e12dba14691@gmail.com>
+ <c0736fce-7f4b-7d7b-22a0-4eb102a8572@eik.bme.hu>
 MIME-Version: 1.0
-References: <cover.1645114783.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1645114783.git.qemu_oss@crudebyte.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 19 Feb 2022 15:21:53 +0000
-Message-ID: <CAFEAcA9e7-+tG-vWM=57xcCTQ584UZ5r=b=h=OnX9qxyKUjpEg@mail.gmail.com>
-Subject: Re: [PULL v2 0/5] 9p queue (previous 2022-02-10)
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::936;
- envelope-from=peter.maydell@linaro.org; helo=mail-ua1-x936.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: multipart/mixed; boundary="3866299591-50581734-1645286279=:96525"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,46 +60,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Feb 2022 at 16:38, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
->
-> The following changes since commit c13b8e9973635f34f3ce4356af27a311c993729c:
->
->   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220216' into staging (2022-02-16 09:57:11 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220217
->
-> for you to fetch changes up to e64e27d5cb103b7764f1a05b6eda7e7fedd517c5:
->
->   9pfs: Fix segfault in do_readdir_many caused by struct dirent overread (2022-02-17 16:57:58 +0100)
->
-> ----------------------------------------------------------------
-> 9pfs: fixes and cleanup
->
-> * Fifth patch fixes a 9pfs server crash that happened on some systems due
->   to incorrect (system dependant) handling of struct dirent size.
->
-> * Tests: Second patch fixes a test error that happened on some systems due
->   mkdir() being called twice for creating the test directory for the 9p
->   'local' tests.
->
-> * Tests: Third patch fixes a memory leak.
->
-> * Tests: The remaining two patches are code cleanup.
->
-> ----------------------------------------------------------------
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
+--3866299591-50581734-1645286279=:96525
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Applied, thanks.
+On Sat, 19 Feb 2022, BALATON Zoltan wrote:
+> On Sat, 19 Feb 2022, Liav Albani wrote:
+>> On 2/19/22 13:19, BALATON Zoltan wrote:
+>>> On Sat, 19 Feb 2022, Liav Albani wrote:
+>>>> Instead of letting each implementation to duplicate this code, we can
+>>>> share these functions between IDE PIIX3/4 and VIA implementations.
+>>> 
+>>> OK but there's a way to take this even further as cmd646 also uses similar 
+>>> functions just with more cases so you could remove the cases handled by 
+>>> these functions and only leave the difference and call the default 
+>>> function from the default case. E.g. (untested, just to show the idea):
+>>> 
+>>> hw/ide/cmd646.c:
+>>> static uint64_t bmdma_read(void *opaque, hwaddr addr,
+>>>                            unsigned size)
+>>> {
+>>>     BMDMAState *bm = opaque;
+>>>     PCIDevice *pci_dev = PCI_DEVICE(bm->pci_dev);
+>>>     uint32_t val;
+>>> 
+>>>     if (size != 1) {
+>>>         return ((uint64_t)1 << (size * 8)) - 1;
+>>>     }
+>>> 
+>>>     switch(addr & 3) {
+>>>     case 1:
+>>>         val = pci_dev->config[MRDMODE];
+>>>         break;
+>>>     case 3:
+>>>         if (bm == &bm->pci_dev->bmdma[0]) {
+>>>             val = pci_dev->config[UDIDETCR0];
+>>>         } else {
+>>>             val = pci_dev->config[UDIDETCR1];
+>>>         }
+>>>         break;
+>>>     default:
+>>>         val = bmdma_default_read(opaque, addr, size);
+>>>         break;
+>>>     }
+>>> 
+>>>     trace_bmdma_read_cmd646(addr, val);
+>>>     return val;
+>>> }
+>>> 
+>> Yeah, I see how I can do that for both bmdma write and read of cmd646. I'll 
+>> send a v2 right away with a fix.
+>
+> Maybe even the first if that's already contained in the default function 
+> could be avoided with some reorganisation like
+>
+> if (size == 1) {
+>    remaining switch cases to set val
+> } else {
+>    val = bmdma_default_read();
+> }
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+On second thought this misses the cases where size == 1 and addr is those 
+handeled in bmdma_default_read so one would still need the default case in 
+the if part and then it's not much better than duplicating the if. Maybe 
+calling the default first, then handling the remaining cases, like
 
--- PMM
+val = bmdma_default_read();
+if (size == 1) {
+     remaining switch cases to set val
+}
+return val;
+
+is the simplest and avoids the duplicated if. (Now we only have two trace 
+messages instead of one but that's probably not a problem as it's only a 
+debugging aid.
+
+Regards.
+BALATON Zoltan
+
+> but I wasn't sure that won't change anything so may need a bit more thought.
+>
+>>>> Signed-off-by: Liav Albani <liavalb@gmail.com>
+>>>> ---
+>>>> hw/ide/pci.c         | 47 ++++++++++++++++++++++++++++++++++++++++
+>>>> hw/ide/piix.c        | 50 ++-----------------------------------------
+>>>> hw/ide/via.c         | 51 ++------------------------------------------
+>>>> include/hw/ide/pci.h |  4 ++++
+>>>> 4 files changed, 55 insertions(+), 97 deletions(-)
+>>>> 
+>>>> diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+>>>> index 84ba733548..c8b867659a 100644
+>>>> --- a/hw/ide/pci.c
+>>>> +++ b/hw/ide/pci.c
+>>>> @@ -502,6 +502,53 @@ static const struct IDEDMAOps bmdma_ops = {
+>>>>     .reset = bmdma_reset,
+>>>> };
+>>>> 
+>>>> +uint64_t bmdma_default_read(void *opaque, hwaddr addr,
+>>>> +                           unsigned size)
+>>> 
+>>> Indentation off? Also everywhere else, usually we indent not with the 
+>>> parenthesis but with the list within. (Auto indent in most editors does 
+>>> that probably.)
+>>> 
+>> I guess you mean that it should be:
+>> 
+>> +uint64_t bmdma_default_read(void *opaque, hwaddr addr,
+>> +                                                unsigned size)
+>> 
+>> Like this?
+>
+> No, like the code you've moved had it. The split line should start after the 
+> ( not on the same column. So:
+>
+> uint64_t bmdma_default_read(void *opaque, hwaddr addr,
+>                             unsigned size)
+>
+> but this line does not need to be split at all as it fits within 80 chars so 
+> better to keep it one line and only split where needed.
+>
+>> I'm using Visual Studio Code, so I might not have the correct settings for 
+>> this editor with QEMU.
+>> The checkpatch script doesn't complain on style issues, so what can I do to 
+>> make this correct?
+>
+> If checkpatch is happy then probably not a problem but just look at how code 
+> is indented on other places and follow the same. The coding style doc may 
+> have some words on it too. I don't know what setting Visual Studio might 
+> need.
+>
+> Regards,
+> BALATON Zoltan
+--3866299591-50581734-1645286279=:96525--
 
