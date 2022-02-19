@@ -2,53 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9D84BC874
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 13:57:56 +0100 (CET)
-Received: from localhost ([::1]:48472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C0B4BC8B9
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 14:40:03 +0100 (CET)
+Received: from localhost ([::1]:46472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLPJD-00066x-Be
-	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 07:57:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39598)
+	id 1nLPxy-0000zw-AE
+	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 08:40:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nLPFR-00047y-5C; Sat, 19 Feb 2022 07:54:04 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:10204)
+ (Exim 4.90_1) (envelope-from <nikita.lapshin@virtuozzo.com>)
+ id 1nLPte-0008Pv-Pe; Sat, 19 Feb 2022 08:35:38 -0500
+Received: from [2a01:111:f400:fe05::725] (port=61153
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nLPEt-0006LC-RW; Sat, 19 Feb 2022 07:54:00 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B64D27457EF;
- Sat, 19 Feb 2022 13:53:23 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4DCD4745712; Sat, 19 Feb 2022 13:53:23 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4B955745706;
- Sat, 19 Feb 2022 13:53:23 +0100 (CET)
-Date: Sat, 19 Feb 2022 13:53:23 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Liav Albani <liavalb@gmail.com>
-Subject: Re: [PATCH v2 2/2] hw/ide: add ich6 ide controller device
- emulation
-In-Reply-To: <e905a1d1-c7e8-bf10-22e8-cd5382b93c11@gmail.com>
-Message-ID: <d9733c34-b770-4717-cc8f-10cdf17640a8@eik.bme.hu>
-References: <20220218204155.236611-1-liavalb@gmail.com>
- <20220218204155.236611-3-liavalb@gmail.com>
- <68413ab-d14c-f5c6-4baf-12e3a18a6a5@eik.bme.hu>
- <e905a1d1-c7e8-bf10-22e8-cd5382b93c11@gmail.com>
+ (Exim 4.90_1) (envelope-from <nikita.lapshin@virtuozzo.com>)
+ id 1nLPsk-0007df-G9; Sat, 19 Feb 2022 08:35:31 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hnkbrTzl/MggfHxwB6iK+1isd/yHGMjxD80uoWcF40/OahHZDxnBf/QI2ReXs3GFzYzzEq3B3NSjsnmnPTAZoNOqh/nPapq3Kb4P3mj8rMXD54YygiMb1ezZsjGVNkq+y+GeeIE9/BBOXNCqJaqp6jkvtYY/VCI6fijpoeriQTSNrKvexwlZFMGO5kcnRWTcjAE841QAKIGPtI3s8bw0NOTaKN7AGryMLCAv7JScWa2zG8nmG3h79Vu6Zw4SvWL3LK39GfVDLBtmeawLEbstfkz9+JF2JyfdBR/N9XafU7+68QurzzuqAG+a1aIL5cIqHO9jQFivYdZeLF+ENMvUfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DKjcAct6uE69ejHoXz8XnIBiwS+dGstjyxRvrs+wQuE=;
+ b=HmANVJDMVRkrPMCkbVFbncA1RUIwn5QcZE8B33fQcWpPkSeovnBp3Tl/2ki+8I3ZfiIPibOFklSUNuvASYYAYMIJY0eazAEaQsmmeTlnRdWLbqDxaZ46olm8k9DVZoEe5NXQp99L1Z5fQo/oFXByFszbjHmBAo91U86wjvvSo01mszzBRHOCaoD0TOfnbZMrl90TJThlVqJ18IUhw+SxIopdqMJq68V9CPFHrTnwcCRkHRuWRMnR6EMSOkl04YTcTBDF3LTfCDCnGXrC+zEcFaKWmChi5oR8rIZNw50JRGXZGYoC0bNI6qc659ekn81DpleAkfd/IujD87L669Of2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DKjcAct6uE69ejHoXz8XnIBiwS+dGstjyxRvrs+wQuE=;
+ b=KR9c7CfNJsuAAaRuim/YyGUgpOFcqmyunuosfDoeyhyfmH0JxPzKuexZDqhjp0Oa9aDZR5n8xGE/UjiKNKmLkqDqsO1YUS+ICoPDaw+9QK1LsJaUH5jlfi4Ks3K6TbHG+j1oSyL0iUvgiLGLUC9hlac1lMTPeq/LuiLJPpitCyQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from DB7PR08MB3484.eurprd08.prod.outlook.com (2603:10a6:10:45::25)
+ by AS8PR08MB6135.eurprd08.prod.outlook.com (2603:10a6:20b:29f::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.24; Sat, 19 Feb
+ 2022 11:04:40 +0000
+Received: from DB7PR08MB3484.eurprd08.prod.outlook.com
+ ([fe80::7484:a32f:3a89:cd47]) by DB7PR08MB3484.eurprd08.prod.outlook.com
+ ([fe80::7484:a32f:3a89:cd47%4]) with mapi id 15.20.4995.024; Sat, 19 Feb 2022
+ 11:04:40 +0000
+Content-Type: multipart/alternative;
+ boundary="------------qEV3Nu5SRM3Hjis0eDomHaPy"
+Message-ID: <fe21dd14-1387-87e4-73e5-5d7945a3103b@virtuozzo.com>
+Date: Sat, 19 Feb 2022 14:04:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 4/4] block: simplify handling of try to merge different
+ sized bitmaps
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
+ eblake@redhat.com, jsnow@redhat.com, hreitz@redhat.com, kwolf@redhat.com
+References: <20220215175310.68058-1-vsementsov@virtuozzo.com>
+ <20220215175310.68058-5-vsementsov@virtuozzo.com>
+From: Nikta Lapshin <nikita.lapshin@virtuozzo.com>
+In-Reply-To: <20220215175310.68058-5-vsementsov@virtuozzo.com>
+X-ClientProxiedBy: AM6P192CA0008.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:209:83::21) To DB7PR08MB3484.eurprd08.prod.outlook.com
+ (2603:10a6:10:45::25)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="3866299591-1110361184-1645271210=:23786"
-Content-ID: <65792d2c-37e6-50de-913-4dcbbc645df@eik.bme.hu>
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3aee20ac-2f1e-4701-8767-08d9f3979ffa
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6135:EE_
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6135E14850830AC542C43C4386389@AS8PR08MB6135.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MFkbzUJf8A4fAjS7pvl5Ab0LVi6nWVCb5D26k0KZfisqY9sO/EgS9QVFtG/5ZdmSqZ3V2iybsBF1fMmU527+ovBPr3CFbbRYmv5Sxt7H9KWOMz3o3Xh9hmAAzhtAT+1ZjNaF/AU0p9TjM0nkwwwc/1XoFfKVb0wXJ9//4xgVv83CLbJ+F0bnI09UDNjDVDN81OgLjW/qqpbrdaRDCM+wG7Zra5gu0cMOJHiCo0nq8QfCG/zfF4IhIgUD+oHLC34iGqfhCrw8/S+p6vrMiYzqVQ0lypLg8Nl2dz2WdpJ+ZT9dOEY1K21FOYe0kRCbDRKZ0ZG4S/7jn1K5TTkvdnWidURvKBGLjpJqS8RZyd3SetOrJdhMo2UZNIR8TNXUN3rdfb/lsqbzIEf3M57tvFS4n9QChEjKZ4oYgc69NpwWmuRPzWtDucgKzmurivGVNwAkEBZ+MRu1VeFaHD/7cYzWpWI8tvKv6JnDAMjkWaxeO1doUbXimRPZzmdOunoXjjRCaZP8EropifjBM9ltHxxyran3SazqQzGjuGxZqzdr67mPUJGMx0WsR4VZ2vWPXYTRh5jImg+3tEPIrnbA4MvqenwrIdBjkjCjHpQf8ce1iaDtTgDEJO+zFGiyXE23B5L+xk9z/wu63wva5/ZA2RKEc1SjGC5yUkh1745Kvav8wKBc0kQhPiwem1MjzSL1DQT7ngM/yZL9nnrx2RXnTpbymYB/GhWJy9W0G9WVY6Q7hfFhJAW8CVR+/DgazJpj0Ie5wU3X0iERarGpFVareBEdng==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB7PR08MB3484.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(86362001)(31696002)(38100700002)(38350700002)(8676002)(4326008)(66946007)(66476007)(66556008)(316002)(8936002)(30864003)(5660300002)(2906002)(186003)(26005)(83380400001)(2616005)(6486002)(508600001)(6512007)(53546011)(6666004)(6506007)(52116002)(33964004)(36756003)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2xGMUVKejhUZDdzM1Z1cDZEOHhtM1dsOVhwd0pQMy80VEVHRXhrZzNpNlZO?=
+ =?utf-8?B?Nlk4THNtOFhUd3hCR0ZtekprTHE4Z1JGLzFCMWlSTmhxY21yZERBVUZ0SzIy?=
+ =?utf-8?B?azEyR3V4YTBGQTdpbDQ2TktYS2Z0VWlwQnE1R2x6QjN3TG8wTWpmRWJQa0Fz?=
+ =?utf-8?B?TVQ2eTVSNmV3czFWUVA3YnR3NkgvV2JHVENvdlhsM0l1Q2x4elE0NHBjZ3Za?=
+ =?utf-8?B?dmdqZldnNEUvajZBelZTZW5uaFU2NFBWTkIvUjRGNjZXa2VSb1Z1c3FGODF0?=
+ =?utf-8?B?amFVUWNucXBPSmJteGJnSzlFVEV6cnNqeGZrY0ZhQnpwRW1XSllhTmdFS1hG?=
+ =?utf-8?B?YVphN0RTdlMyTm1TREF3WkErRXdSb1ArY0FuMURaeHBMQXBNS0RsMXoxeG44?=
+ =?utf-8?B?Z2UwYTkwektmbUt0b25sbWRncTFLL0oxWDNRVnJQNWZIVm82N2tzbG9TS0NK?=
+ =?utf-8?B?anZEV2FYSkRBL28zVVcyZVZRQWZvcm0vbUxsM1NNZHhCUkJsYm9ydzE5RkdX?=
+ =?utf-8?B?Q25UVVFHak5tWUNvcitiTTJUdkYrNUVTU3R1OWZmZlY5MTdyVzZvaHdNZFU5?=
+ =?utf-8?B?RnRyK3JqV2JHaHZqMWtydlRNa0ZSU1ppbHowNXRVVE94YUVSdUZhTGlpdW9P?=
+ =?utf-8?B?L3B4MjV0a2R3cTFjQ0pnYUt0TUJxNTdVQTRzY0g0OC9scWExc0lOYW56R2Vr?=
+ =?utf-8?B?YnN0RWltN3dqcE04SXludnNyekd3enljdTd6d3BWQzRBQU5lUmJ1M0Z3L3lk?=
+ =?utf-8?B?QXFFRjg3N1RlZU5KUVJabXhwb0pWWm5oTmlrUENXQXFYM2FtZVJvM3ZnT3NK?=
+ =?utf-8?B?a2NpdjQ0TjZsNnNiaDNEb1ZRWVZQYlB0b1MxdmFjWnBLemd6a3NFdHFldEpJ?=
+ =?utf-8?B?VGxPNGZyeHllNE5WTjBXZE1xTFAzZGdjcWlyVCs0R0hmalVoamFlYWkvQk9l?=
+ =?utf-8?B?SitZM0pETG9wR2w3VjUvZlFvb1MyYStyTzZnbXlzU3plMlN3MzhVSlM0Q2Va?=
+ =?utf-8?B?dFNCSjh5dGt3YUREWkxmWmtLNGtOQmRuV0FmbmdyYU1mMVZ5dzM0alQ0Ymtu?=
+ =?utf-8?B?SmtGNjRZNXhxREpUdUw1TS9DU2lueEdVOStxM0JlczBRc1JPaEdKdEJScU9Q?=
+ =?utf-8?B?aUJIY2QrTnJKWnJDMGc0MGxCUGd2N2hvUmgvT1lJYVlYUGFoRUw5ME05QXND?=
+ =?utf-8?B?eFdERDNIN0VJcHU1NERPTnp6K1VoSWlwK3Q5YSttVVZxeVpnRW9vUnVoZVVF?=
+ =?utf-8?B?a01aWFhta010aGxtTDZvQmM3RmF6TnJuZWs0MDVpbmVGeHZmU1poQ0UyR04z?=
+ =?utf-8?B?WjZyeHpCbjhieUFobmF0M1Bxd0gvWncvWXFQRVJlSHlWdGlZOHM1TVdyUFlv?=
+ =?utf-8?B?TnYzNS9iWHZVU3FBcWpXcWJmdUlXb1llUVBTK2g1OVpIWmlWSzZHOE9xMzZ6?=
+ =?utf-8?B?OCtaZjlXQ3V3MmwwUDZ5WldvWWxHZzViYUJyOGZnQk8rU3dXb1NyWG5IVnlG?=
+ =?utf-8?B?Z08zUE5DdFZvQ3pwZlFNQzVva1N1M3d1WElNZEV5b2RVai8yVHIzRUUxM1ZJ?=
+ =?utf-8?B?a0J4dStjT3h6bjJPUHJ4Z3J4RDBlVEZ3NFhCZC81S3F3MWI3Mk9jdzF5YkNv?=
+ =?utf-8?B?S1pXdmd4VXRBS2xhbUgraFRTN1I3UW1QZVRtem1EdTh5QW9wWGFhOXc5RFdF?=
+ =?utf-8?B?ZEdXSGVpY2hZcmY1cHdQNDRnZ0duRERoNGdhc014Y0FwOVJtVU9nSGI3bHAy?=
+ =?utf-8?B?SHdUcWNHUXpIWjQ3QUNwdTdpYnZ0Zzl4Z01RQlpvQVd1NUNaTmFtTGtUWWQw?=
+ =?utf-8?B?MTZpNHBaSjZQYkRBYUhQcnFLSVE5Z2htaFVkcUhuVXo4aHNydkZGU2xzbzRC?=
+ =?utf-8?B?QkdWN2lINnJFbEtZcHBWcFZpazNBTXBHSVRYaXVrbC9XWWhWcFFYK1NXMXJi?=
+ =?utf-8?B?cGlYZXU5YzNjZ1FaQWsraUdnRDZhNGVjTklkSWQrbThaRXFQQ1pMTjg0TVZ5?=
+ =?utf-8?B?WlFQYUY2TllMMkRydVZkVVVPbzFnWDZZYThsTnZ4YWpjL2FtMkRUMU84Q3JJ?=
+ =?utf-8?B?TkVkY0hOR3FNVm5HdVpxR3llWnRZT2s3di9XbFk5ZzVyVUNYbzRSVm9aRFFI?=
+ =?utf-8?B?NFpDWG1OanVZL1hVZWQ5UVhqYWtIZHRFRHd0ckx2QWxSSEpDMjEzbHMxUnNr?=
+ =?utf-8?B?SFZabXdwNmJUWmE4dTNJUE9NVHVwdXUwQVRyaW0xaVZQNU5ndlZwcVRHeFY2?=
+ =?utf-8?B?aVZWWFZaSjZ4czJyRlRyTnhvMXFnPT0=?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3aee20ac-2f1e-4701-8767-08d9f3979ffa
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR08MB3484.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2022 11:04:40.0961 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3gw4Anc5g8Fc1EVp4YdQ0N9FH8hXQSjD2LR2jnr+k0+8pikglOCD56d+roU+/jI0bnCsHV5dE9iBz4s8wlCJeFWripBnbuxQjlogzS2UfhQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6135
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe05::725
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f400:fe05::725;
+ envelope-from=nikita.lapshin@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,245 +151,527 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+--------------qEV3Nu5SRM3Hjis0eDomHaPy
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---3866299591-1110361184-1645271210=:23786
-Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <a11026e-9a56-1a9a-d8c9-9e94cc8e1531@eik.bme.hu>
+On 2/15/22 20:53, Vladimir Sementsov-Ogievskiy wrote:
 
-On Sat, 19 Feb 2022, Liav Albani wrote:
-> On 2/19/22 02:50, BALATON Zoltan wrote:
->>> +/*
->>> + * QEMU IDE Emulation: PCI ICH6/ICH7 IDE support.
->> 
->> This is a small thing, but if these two are the same maybe keeping this 
->> comment but using the ich7 name everywhere else would make it less likely 
->> to get it confused with ich9. I mean ich6 and ich9 is easily confused, 
->> while ich7 is clearly distinct. But maybe it's just me, calling it ich6 is 
->> also correct and can be preferred by someone else.
-> ICH6 and ICH7 IDE controllers are quite the same as far as I know. I could 
-> change it, but then one could argue that the name ich6-ide seems like 
-> "ich9-ide", so not sure if we can really go on this path.
-
-I think we don't actually have ich9-ide, we only have piix3, piix4 and 
-ahci, the latter is used by ich9. I just said that calling this new device 
-ich7-ide instead of ich6-ide would make it more clear it has nothing to do 
-with ich9. It's already clear with calling it ich6 unless somebody 
-misreads that which is easier with 6 than 7. Also according to 
-https://en.wikipedia.org/wiki/I/O_Controller_Hub the native mode PATA 
-controller first appeared in ICH3 but that says limited so maybe it was 
-changed later. I don't know anthing about these so can't tell which are 
-similar. Also if your reference system you're emulating is actually an 
-ICH7 then calling it that would make sense to me.
-
->>> +static void ich6_pci_config_write(PCIDevice *d, uint32_t addr, uint32_t 
->>> val,
->>> +                                    int l)
->>> +{
->>> +    uint32_t i;
->>> +
->>> +    pci_default_write_config(d, addr, val, l);
->>> +
->>> +    for (i = addr; i < addr + l; i++) {
->>> +        switch (i) {
->>> +        case 0x40:
->>> +            pci_default_write_config(d, i, 0x8000, 2);
->>> +            continue;
->>> +        case 0x42:
->>> +            pci_default_write_config(d, i, 0x8000, 2);
->>> +            continue;
->>> +        }
->>> +    }
->> 
->> I'm not sure what this tries to do but this for cycle looks suspicious 
->> here. It's also only calls pci_default_write_config() so why didn't the 
->> default worked and why was this override needed?
->> 
-> It's just a loop to ensure that if the guest OS tries to disable an IDE 
-> channel from the PCI config space, it seems "stuck" on enabled. I should 
-> probably put a comment on this to explain this, but I definitely don't want 
-> the guest OS to be able to disable any IDE channel for now (on real hardware, 
-> it does that, but I think we can either skip this feature or implement in a 
-> future patch, as Linux deals with the controller just fine).
-
-I still don't get what this tries to achieve but I think it's very likely 
-wrong so if it's not needed it's better to just drop it for now. It can 
-also be addressed in a follow up patch later.
-
->>> +}
->>> +
->>> +static void ich6_ide_reset(DeviceState *dev)
->>> +{
->>> +    PCIIDEState *d = PCI_IDE(dev);
->>> +    PCIDevice *pd = PCI_DEVICE(d);
->>> +    uint8_t *pci_conf = pd->config;
->>> +    int i;
->>> +
->>> +    for (i = 0; i < 2; i++) {
->>> +        ide_bus_reset(&d->bus[i]);
->>> +    }
->>> +
->>> +    /* TODO: this is the default. do not override. */
->>> +    pci_conf[PCI_COMMAND] = 0x00;
->>> +    /* TODO: this is the default. do not override. */
->>> +    pci_conf[PCI_COMMAND + 1] = 0x00;
->>> +    /* TODO: use pci_set_word */
->>> +    pci_conf[PCI_STATUS] = PCI_STATUS_FAST_BACK;
->>> +    pci_conf[PCI_STATUS + 1] = PCI_STATUS_DEVSEL_MEDIUM >> 8;
->>> +    pci_conf[0x20] = 0x01; /* BMIBA: 20-23h */
->>> +}
->>> +
->>> +static int pci_ich6_init_ports(PCIIDEState *d)
->>> +{
->>> +    int i;
->>> +
->>> +    for (i = 0; i < 2; i++) {
->>> +        ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
->>> +        ide_init2(&d->bus[i], d->native_irq);
->>> +
->>> +        bmdma_init(&d->bus[i], &d->bmdma[i], d);
->>> +        d->bmdma[i].bus = &d->bus[i];
->>> +        ide_register_restart_cb(&d->bus[i]);
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static void pci_ich6_ide_realize(PCIDevice *dev, Error **errp)
->>> +{
->>> +    PCIIDEState *d = PCI_IDE(dev);
->>> +    uint8_t *pci_conf = dev->config;
->>> +    int rc;
->> 
->> All in all this device looks very similar to piix ide devices with only 
->> some differentces so I wonder if ir could be implemented as another device 
->> in piix.c. We already have 3 variants there: piix3-ide, piix3-ide-xen, and 
->> piix4-ide so maybe putting this device in piix.c could avoid some code 
->> duplication. In that case moving out bmdma_{read,write} were not needed 
->> either although maybe that's a good idea anyway to share it with other 
->> devices.
->> 
-> As for putting the ich6-ide code in piix.c  - I'm not against it. Although,
-
-The real question if this controller is similiar enough to piix or it's 
-different just for this initial version it's reusing most code but this 
-will change in the future. If the latter then putting it in a separate 
-file is better, if it will stay like it then putting it in piix to share 
-code already there is better.
-
-> in the long run, if I send more patches to QEMU, I rather split the files a 
-> bit more in the /hw/ide directory as there's a lot of code duplication to 
-> solve.
-> So, what we could do instead, is to share more code between the devices and 
-> still keep them in separate files.
-
-I just wanted to avoid more code duplication by adding new files that will 
-look like the devices that's already there. But if this is just a first 
-step and you'll send more patches to implement more features that will 
-make it more different, then having it in a separate file is better. But I 
-could only judge from the patch so far which is almost identical to piix, 
-only differentce is irq and port handling so this could be a variant of 
-piix then as well if that's all you want for this device.
-
-> As for moving out the bmdma_{write,read} functions - I'm still in the 
-> previous mind that we need to move them out as via.c shares the same code but 
-> currently has code duplications for it, and that I want to solve as part of 
-> making the IDE code more clean and to add more features.
+> We have too much logic to simply check that bitmaps are of the same
+> size. Let's just define that hbitmap_merge() and
+> bdrv_dirty_bitmap_merge_internal() require their argument bitmaps be of
+> same size, this simplifies things.
 >
-> However, if it seems necessary to do this cleanup before implementing this 
-> ich6-ide controller, I'm more than happy to wait on this, send a patch to 
-> solve and clean up some issues in the IDE code, and then re-send this as v3.
-> I might even consider doing that now if nobody rejects this idea :)
-
-It can be in the same series but still good to have as separate patch so 
-it can be reviewed independently and maybe also merged independently. The 
-maintainer can always squash patches together later but separating them is 
-usually only the original contributor can easily and best do.
-
->>> +
->>> +    pci_conf[PCI_INTERRUPT_PIN] = 1; /* interrupt pin A */
->>> +
->>> +    /* PCI native mode-only controller, supports bus mastering */
->>> +    pci_conf[PCI_CLASS_PROG] = 0x85;
->>> +
->>> +    bmdma_setup_bar(d);
->>> +    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
->>> +
->>> +    d->native_irq = pci_allocate_irq(&d->parent_obj);
->> 
->> Is this irq and the new field in PCIIDEState really needed? If this device 
->> is using PCI interrupts could it do the same as CMD646 ide does instead?
->> 
-> I looked into how cmd646.c does that, but it creates that with the 
-> qdev_init_gpio_in function. The AHCI controller seems to use pci_allocate_irq 
-> function (in ich.c), as well as other hardware devices in QEMU, but the 
-> rtl8139 device doesn't have such field and still works, so not sure what to 
-> do and how to make it to work in the best, simple way here.
-
-The cmd646 is similar as it's a PCI device and shares the same PCIIDEState 
-so I think doing the same is best for cnosistency and to avoid needing to 
-change the shared PCIIDEState that should be a generic PCI IDE controller 
-model but still has one cmd646 specific field. Using qdev_init_gpio_in 
-attaches the irq to the device so it will be kept track of without needing 
-to store it anywhere so I think it's not a bad way to do it for this case. 
-AHCI has its own device state and stores the irq there, I don't know what 
-rtl8139 does. There may be multiple correct ways to do it but following 
-similar examples is probably a good idea.
-
->> That's all for now, I haven't checked the docs of these ide controllers so 
->> I'm not sure if these have switchable native and legacy modes like via has 
->> and we again getting the problem that we can't model that easily or these 
->> are really different with one having only legacy and the ich6/7 only native 
->> modes.
+> Let's look through the callers:
 >
-> If I recall correctly, on my ICH7 test machine you can switch between native 
-> and legacy mode, but it doesn't mean that there couldn't be a device on some 
-> motherboard in 2009 that doesn't allow you to switch between legacy and
+> For backup_init_bcs_bitmap() we already assert that merge can't fail.
+>
+> In bdrv_reclaim_dirty_bitmap_locked() we gracefully handle the error
+> that can't happen: successor always has same size as its parent, drop
+> this logic.
+>
+> In bdrv_merge_dirty_bitmap() we already has assertion and separate
+> check. Make the check explicit and improve error message.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
+> ---
+>   include/block/block_int.h |  2 +-
+>   include/qemu/hbitmap.h    | 15 ++-------------
+>   block/backup.c            |  6 ++----
+>   block/dirty-bitmap.c      | 25 ++++++++++---------------
+>   util/hbitmap.c            | 25 +++++++------------------
+>   5 files changed, 22 insertions(+), 51 deletions(-)
+>
+> diff --git a/include/block/block_int.h b/include/block/block_int.h
+> index 27008cfb22..cc40b6363d 100644
+> --- a/include/block/block_int.h
+> +++ b/include/block/block_int.h
+> @@ -1382,7 +1382,7 @@ void bdrv_set_dirty(BlockDriverState *bs, int64_t offset, int64_t bytes);
+>   
+>   void bdrv_clear_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap **out);
+>   void bdrv_restore_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap *backup);
+> -bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
+> +void bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
+>                                         const BdrvDirtyBitmap *src,
+>                                         HBitmap **backup, bool lock);
+>   
+> diff --git a/include/qemu/hbitmap.h b/include/qemu/hbitmap.h
+> index 5e71b6d6f7..4dc1c6ad14 100644
+> --- a/include/qemu/hbitmap.h
+> +++ b/include/qemu/hbitmap.h
+> @@ -76,20 +76,9 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size);
+>    *
+>    * Store result of merging @a and @b into @result.
+>    * @result is allowed to be equal to @a or @b.
+> - *
+> - * Return true if the merge was successful,
+> - *        false if it was not attempted.
+> + * All bitmaps must have same size.
+>    */
+> -bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result);
+> -
+> -/**
+> - * hbitmap_can_merge:
+> - *
+> - * hbitmap_can_merge(a, b) && hbitmap_can_merge(a, result) is sufficient and
+> - * necessary for hbitmap_merge will not fail.
+> - *
+> - */
+> -bool hbitmap_can_merge(const HBitmap *a, const HBitmap *b);
+> +void hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result);
+>   
+>   /**
+>    * hbitmap_empty:
+> diff --git a/block/backup.c b/block/backup.c
+> index 21d5983779..fb3d4b0e13 100644
+> --- a/block/backup.c
+> +++ b/block/backup.c
+> @@ -228,15 +228,13 @@ out:
+>   
+>   static void backup_init_bcs_bitmap(BackupBlockJob *job)
+>   {
+> -    bool ret;
+>       uint64_t estimate;
+>       BdrvDirtyBitmap *bcs_bitmap = block_copy_dirty_bitmap(job->bcs);
+>   
+>       if (job->sync_mode == MIRROR_SYNC_MODE_BITMAP) {
+>           bdrv_clear_dirty_bitmap(bcs_bitmap, NULL);
+> -        ret = bdrv_dirty_bitmap_merge_internal(bcs_bitmap, job->sync_bitmap,
+> -                                               NULL, true);
+> -        assert(ret);
+> +        bdrv_dirty_bitmap_merge_internal(bcs_bitmap, job->sync_bitmap, NULL,
+> +                                         true);
+>       } else if (job->sync_mode == MIRROR_SYNC_MODE_TOP) {
+>           /*
+>            * We can't hog the coroutine to initialize this thoroughly.
+> diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+> index d16b96ee62..9d803fcda3 100644
+> --- a/block/dirty-bitmap.c
+> +++ b/block/dirty-bitmap.c
+> @@ -309,10 +309,7 @@ BdrvDirtyBitmap *bdrv_reclaim_dirty_bitmap_locked(BdrvDirtyBitmap *parent,
+>           return NULL;
+>       }
+>   
+> -    if (!hbitmap_merge(parent->bitmap, successor->bitmap, parent->bitmap)) {
+> -        error_setg(errp, "Merging of parent and successor bitmap failed");
+> -        return NULL;
+> -    }
+> +    hbitmap_merge(parent->bitmap, successor->bitmap, parent->bitmap);
+>   
+>       parent->disabled = successor->disabled;
+>       parent->busy = false;
+> @@ -899,13 +896,14 @@ bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
+>           goto out;
+>       }
+>   
+> -    if (!hbitmap_can_merge(dest->bitmap, src->bitmap)) {
+> -        error_setg(errp, "Bitmaps are incompatible and can't be merged");
+> +    if (bdrv_dirty_bitmap_size(src) != bdrv_dirty_bitmap_size(dest)) {
+> +        error_setg(errp, "Bitmaps are of different sizes (destination size is %"
+> +                   PRId64 ", source size is %" PRId64 ") and can't be merged",
+> +                   bdrv_dirty_bitmap_size(dest), bdrv_dirty_bitmap_size(src));
+>           goto out;
+>       }
+>   
+> -    ret = bdrv_dirty_bitmap_merge_internal(dest, src, backup, false);
+> -    assert(ret);
+> +    bdrv_dirty_bitmap_merge_internal(dest, src, backup, false);
+>   
+>   out:
+>       bdrv_dirty_bitmaps_unlock(dest->bs);
+> @@ -919,18 +917,17 @@ out:
+>   /**
+>    * bdrv_dirty_bitmap_merge_internal: merge src into dest.
+>    * Does NOT check bitmap permissions; not suitable for use as public API.
+> + * @dest, @src and @backup (if not NULL) must have same size.
+>    *
+>    * @backup: If provided, make a copy of dest here prior to merge.
+>    * @lock: If true, lock and unlock bitmaps on the way in/out.
+>    * returns true if the merge succeeded; false if unattempted.
+>    */
 
-OK so we probably again have a case we had with via-ide which also has 
-legacy mode where it behaves like an ISA controller using legacy ports and 
-irq 14-15 or a native mode where ports can be set by PCI BARs and irqs may 
-or may not use PCI interrupt. Due to how ISA code is organised, which is 
-an old part of QEMU we can't easily implement this (the main problem is 
-once ISA ports are created we can't delete them so we're stuck in legacy 
-mode) so what we have is only emulating one mode for these controller 
-models. I think the cmd646 is completely PCI device (not sure it had a 
-legacy mode), the via-ide is native mode but with ISA interrupts and piix 
-is probably only legacy mode but not sure if it had a native mode. Maybe 
-this ich-ide is the native mode of piix? In that case could it be modelled 
-that way adding an option to piix so it can be set up in native mode or 
-legacy mode? We would still not be able to switch between them from the 
-guest as on real hardware but machines or users could decide when creating 
-the device what mode they want. Or is the ich ide completely different 
-from piix?
+There is no return value after this change.
 
-> native mode. However, I rather not put the option because I want software to 
-> deal with a PCI device that is free from legacy IO ports completely. Also, I 
-> am pretty sure that if I change the settings in the BIOS menu then it could 
-> be stuck to native mode (if for example, I enable both the PATA connector and 
-> the 4 SATA ports), but still not sure about this. This is a feature I'll look 
-> into it in the future, as I definitely want to improve on this and maybe 
-> allow the user to configure the ich6-ide device to have a different MAP 
-> register to simulate 4 SATA ports and 2 PATA connections.
+> -bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
+> +void bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
+>                                         const BdrvDirtyBitmap *src,
+>                                         HBitmap **backup,
+>                                         bool lock)
+>   {
+> -    bool ret;
+> -
+>       assert(!bdrv_dirty_bitmap_readonly(dest));
+>       assert(!bdrv_dirty_bitmap_inconsistent(dest));
+>       assert(!bdrv_dirty_bitmap_inconsistent(src));
+> @@ -945,9 +942,9 @@ bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
+>       if (backup) {
+>           *backup = dest->bitmap;
+>           dest->bitmap = hbitmap_alloc(dest->size, hbitmap_granularity(*backup));
+> -        ret = hbitmap_merge(*backup, src->bitmap, dest->bitmap);
+> +        hbitmap_merge(*backup, src->bitmap, dest->bitmap);
+>       } else {
+> -        ret = hbitmap_merge(dest->bitmap, src->bitmap, dest->bitmap);
+> +        hbitmap_merge(dest->bitmap, src->bitmap, dest->bitmap);
+>       }
+>   
+>       if (lock) {
+> @@ -956,6 +953,4 @@ bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
+>               bdrv_dirty_bitmaps_unlock(src->bs);
+>           }
+>       }
+> -
+> -    return ret;
+>   }
+> diff --git a/util/hbitmap.c b/util/hbitmap.c
+> index 305b894a63..d0aaf205ed 100644
+> --- a/util/hbitmap.c
+> +++ b/util/hbitmap.c
+> @@ -840,11 +840,6 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size)
+>       }
+>   }
+>   
+> -bool hbitmap_can_merge(const HBitmap *a, const HBitmap *b)
+> -{
+> -    return (a->orig_size == b->orig_size);
+> -}
+> -
+>   /**
+>    * hbitmap_sparse_merge: performs dst = dst | src
+>    * works with differing granularities.
+> @@ -868,28 +863,24 @@ static void hbitmap_sparse_merge(HBitmap *dst, const HBitmap *src)
+>    * Given HBitmaps A and B, let R := A (BITOR) B.
+>    * Bitmaps A and B will not be modified,
+>    *     except when bitmap R is an alias of A or B.
+> - *
+> - * @return true if the merge was successful,
+> - *         false if it was not attempted.
+> + * Bitmaps must have same size.
+>    */
+> -bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
+> +void hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
+>   {
+>       int i;
+>       uint64_t j;
+>   
+> -    if (!hbitmap_can_merge(a, b) || !hbitmap_can_merge(a, result)) {
+> -        return false;
+> -    }
+> -    assert(hbitmap_can_merge(b, result));
+> +    assert(a->orig_size == result->orig_size);
+> +    assert(b->orig_size == result->orig_size);
+>   
 
-OK then it will probably be different from piix so maybe this justifies it 
-putting it in a different file and code that is similar now will become 
-more different in the future.
+When hbitmap_merge() is called it is impossible to know if 'a' and 'b' have
+the same orig_size. Of course there is workaround as it is shown using
+bdrv_dirty_bitmap_size. However one function for checking looks to me better
+than workaround. May be I missed the idea so I don't insist on it moreover.
 
-> I'll wait a few more days to let other people send comments on this before 
-> sending v3. Thanks again for the valuable comments :)
+>       if ((!hbitmap_count(a) && result == b) ||
+>           (!hbitmap_count(b) && result == a)) {
+> -        return true;
+> +        return;
+>       }
+>   
+>       if (!hbitmap_count(a) && !hbitmap_count(b)) {
+>           hbitmap_reset_all(result);
+> -        return true;
+> +        return;
+>       }
+>   
+>       if (a->granularity != b->granularity) {
+> @@ -902,7 +893,7 @@ bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
+>           if (b != result) {
+>               hbitmap_sparse_merge(result, b);
+>           }
+> -        return true;
+> +        return;
+>       }
+>   
+>       /* This merge is O(size), as BITS_PER_LONG and HBITMAP_LEVELS are constant.
+> @@ -918,8 +909,6 @@ bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
+>   
+>       /* Recompute the dirty count */
+>       result->count = hb_count_between(result, 0, result->size - 1);
+> -
+> -    return true;
+>   }
+>   
+>   char *hbitmap_sha256(const HBitmap *bitmap, Error **errp)
 
-That's probably a good idea, I hope others will have some time to comment 
-as well. I'm trying to help but I can only give ideas, not definitive 
-answers for your questions.
+With changed description:
+Reviewed-by: Nikita Lapshin<nikita.lapshin@virtuozzo.com>
 
-Regards.
-BALATON Zoltan
---3866299591-1110361184-1645271210=:23786--
+--------------qEV3Nu5SRM3Hjis0eDomHaPy
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <pre>
+</pre>
+    <div class="moz-cite-prefix">
+      <pre>On 2/15/22 20:53, Vladimir Sementsov-Ogievskiy wrote:</pre>
+    </div>
+    <blockquote type="cite" cite="mid:20220215175310.68058-5-vsementsov@virtuozzo.com">
+      <pre class="moz-quote-pre" wrap="">We have too much logic to simply check that bitmaps are of the same
+size. Let's just define that hbitmap_merge() and
+bdrv_dirty_bitmap_merge_internal() require their argument bitmaps be of
+same size, this simplifies things.
+
+Let's look through the callers:
+
+For backup_init_bcs_bitmap() we already assert that merge can't fail.
+
+In bdrv_reclaim_dirty_bitmap_locked() we gracefully handle the error
+that can't happen: successor always has same size as its parent, drop
+this logic.
+
+In bdrv_merge_dirty_bitmap() we already has assertion and separate
+check. Make the check explicit and improve error message.
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <a class="moz-txt-link-rfc2396E" href="mailto:vsementsov@virtuozzo.com">&lt;vsementsov@virtuozzo.com&gt;</a>
+---
+ include/block/block_int.h |  2 +-
+ include/qemu/hbitmap.h    | 15 ++-------------
+ block/backup.c            |  6 ++----
+ block/dirty-bitmap.c      | 25 ++++++++++---------------
+ util/hbitmap.c            | 25 +++++++------------------
+ 5 files changed, 22 insertions(+), 51 deletions(-)
+
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 27008cfb22..cc40b6363d 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -1382,7 +1382,7 @@ void bdrv_set_dirty(BlockDriverState *bs, int64_t offset, int64_t bytes);
+ 
+ void bdrv_clear_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap **out);
+ void bdrv_restore_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap *backup);
+-bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
++void bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
+                                       const BdrvDirtyBitmap *src,
+                                       HBitmap **backup, bool lock);
+ 
+diff --git a/include/qemu/hbitmap.h b/include/qemu/hbitmap.h
+index 5e71b6d6f7..4dc1c6ad14 100644
+--- a/include/qemu/hbitmap.h
++++ b/include/qemu/hbitmap.h
+@@ -76,20 +76,9 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size);
+  *
+  * Store result of merging @a and @b into @result.
+  * @result is allowed to be equal to @a or @b.
+- *
+- * Return true if the merge was successful,
+- *        false if it was not attempted.
++ * All bitmaps must have same size.
+  */
+-bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result);
+-
+-/**
+- * hbitmap_can_merge:
+- *
+- * hbitmap_can_merge(a, b) &amp;&amp; hbitmap_can_merge(a, result) is sufficient and
+- * necessary for hbitmap_merge will not fail.
+- *
+- */
+-bool hbitmap_can_merge(const HBitmap *a, const HBitmap *b);
++void hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result);
+ 
+ /**
+  * hbitmap_empty:
+diff --git a/block/backup.c b/block/backup.c
+index 21d5983779..fb3d4b0e13 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -228,15 +228,13 @@ out:
+ 
+ static void backup_init_bcs_bitmap(BackupBlockJob *job)
+ {
+-    bool ret;
+     uint64_t estimate;
+     BdrvDirtyBitmap *bcs_bitmap = block_copy_dirty_bitmap(job-&gt;bcs);
+ 
+     if (job-&gt;sync_mode == MIRROR_SYNC_MODE_BITMAP) {
+         bdrv_clear_dirty_bitmap(bcs_bitmap, NULL);
+-        ret = bdrv_dirty_bitmap_merge_internal(bcs_bitmap, job-&gt;sync_bitmap,
+-                                               NULL, true);
+-        assert(ret);
++        bdrv_dirty_bitmap_merge_internal(bcs_bitmap, job-&gt;sync_bitmap, NULL,
++                                         true);
+     } else if (job-&gt;sync_mode == MIRROR_SYNC_MODE_TOP) {
+         /*
+          * We can't hog the coroutine to initialize this thoroughly.
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index d16b96ee62..9d803fcda3 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -309,10 +309,7 @@ BdrvDirtyBitmap *bdrv_reclaim_dirty_bitmap_locked(BdrvDirtyBitmap *parent,
+         return NULL;
+     }
+ 
+-    if (!hbitmap_merge(parent-&gt;bitmap, successor-&gt;bitmap, parent-&gt;bitmap)) {
+-        error_setg(errp, &quot;Merging of parent and successor bitmap failed&quot;);
+-        return NULL;
+-    }
++    hbitmap_merge(parent-&gt;bitmap, successor-&gt;bitmap, parent-&gt;bitmap);
+ 
+     parent-&gt;disabled = successor-&gt;disabled;
+     parent-&gt;busy = false;
+@@ -899,13 +896,14 @@ bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
+         goto out;
+     }
+ 
+-    if (!hbitmap_can_merge(dest-&gt;bitmap, src-&gt;bitmap)) {
+-        error_setg(errp, &quot;Bitmaps are incompatible and can't be merged&quot;);
++    if (bdrv_dirty_bitmap_size(src) != bdrv_dirty_bitmap_size(dest)) {
++        error_setg(errp, &quot;Bitmaps are of different sizes (destination size is %&quot;
++                   PRId64 &quot;, source size is %&quot; PRId64 &quot;) and can't be merged&quot;,
++                   bdrv_dirty_bitmap_size(dest), bdrv_dirty_bitmap_size(src));
+         goto out;
+     }
+ 
+-    ret = bdrv_dirty_bitmap_merge_internal(dest, src, backup, false);
+-    assert(ret);
++    bdrv_dirty_bitmap_merge_internal(dest, src, backup, false);
+ 
+ out:
+     bdrv_dirty_bitmaps_unlock(dest-&gt;bs);
+@@ -919,18 +917,17 @@ out:
+ /**
+  * bdrv_dirty_bitmap_merge_internal: merge src into dest.
+  * Does NOT check bitmap permissions; not suitable for use as public API.
++ * @dest, @src and @backup (if not NULL) must have same size.
+  *
+  * @backup: If provided, make a copy of dest here prior to merge.
+  * @lock: If true, lock and unlock bitmaps on the way in/out.
+  * returns true if the merge succeeded; false if unattempted.
+  */</pre>
+    </blockquote>
+    <pre>
+There is no return value after this change.
+
+</pre>
+    <blockquote type="cite" cite="mid:20220215175310.68058-5-vsementsov@virtuozzo.com">
+      <pre class="moz-quote-pre" wrap="">
+-bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
++void bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
+                                       const BdrvDirtyBitmap *src,
+                                       HBitmap **backup,
+                                       bool lock)
+ {
+-    bool ret;
+-
+     assert(!bdrv_dirty_bitmap_readonly(dest));
+     assert(!bdrv_dirty_bitmap_inconsistent(dest));
+     assert(!bdrv_dirty_bitmap_inconsistent(src));
+@@ -945,9 +942,9 @@ bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
+     if (backup) {
+         *backup = dest-&gt;bitmap;
+         dest-&gt;bitmap = hbitmap_alloc(dest-&gt;size, hbitmap_granularity(*backup));
+-        ret = hbitmap_merge(*backup, src-&gt;bitmap, dest-&gt;bitmap);
++        hbitmap_merge(*backup, src-&gt;bitmap, dest-&gt;bitmap);
+     } else {
+-        ret = hbitmap_merge(dest-&gt;bitmap, src-&gt;bitmap, dest-&gt;bitmap);
++        hbitmap_merge(dest-&gt;bitmap, src-&gt;bitmap, dest-&gt;bitmap);
+     }
+ 
+     if (lock) {
+@@ -956,6 +953,4 @@ bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
+             bdrv_dirty_bitmaps_unlock(src-&gt;bs);
+         }
+     }
+-
+-    return ret;
+ }
+diff --git a/util/hbitmap.c b/util/hbitmap.c
+index 305b894a63..d0aaf205ed 100644
+--- a/util/hbitmap.c
++++ b/util/hbitmap.c
+@@ -840,11 +840,6 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size)
+     }
+ }
+ 
+-bool hbitmap_can_merge(const HBitmap *a, const HBitmap *b)
+-{
+-    return (a-&gt;orig_size == b-&gt;orig_size);
+-}
+-
+ /**
+  * hbitmap_sparse_merge: performs dst = dst | src
+  * works with differing granularities.
+@@ -868,28 +863,24 @@ static void hbitmap_sparse_merge(HBitmap *dst, const HBitmap *src)
+  * Given HBitmaps A and B, let R := A (BITOR) B.
+  * Bitmaps A and B will not be modified,
+  *     except when bitmap R is an alias of A or B.
+- *
+- * @return true if the merge was successful,
+- *         false if it was not attempted.
++ * Bitmaps must have same size.
+  */
+-bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
++void hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
+ {
+     int i;
+     uint64_t j;
+ 
+-    if (!hbitmap_can_merge(a, b) || !hbitmap_can_merge(a, result)) {
+-        return false;
+-    }
+-    assert(hbitmap_can_merge(b, result));
++    assert(a-&gt;orig_size == result-&gt;orig_size);
++    assert(b-&gt;orig_size == result-&gt;orig_size);
+ </pre>
+    </blockquote>
+    <pre>
+When hbitmap_merge() is called it is impossible to know if 'a' and 'b' have
+the same orig_size. Of course there is workaround as it is shown using 
+bdrv_dirty_bitmap_size. However one function for checking looks to me better
+than workaround. May be I missed the idea so I don't insist on it moreover.
+
+</pre>
+    <blockquote type="cite" cite="mid:20220215175310.68058-5-vsementsov@virtuozzo.com">
+      <pre class="moz-quote-pre" wrap="">
+     if ((!hbitmap_count(a) &amp;&amp; result == b) ||
+         (!hbitmap_count(b) &amp;&amp; result == a)) {
+-        return true;
++        return;
+     }
+ 
+     if (!hbitmap_count(a) &amp;&amp; !hbitmap_count(b)) {
+         hbitmap_reset_all(result);
+-        return true;
++        return;
+     }
+ 
+     if (a-&gt;granularity != b-&gt;granularity) {
+@@ -902,7 +893,7 @@ bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
+         if (b != result) {
+             hbitmap_sparse_merge(result, b);
+         }
+-        return true;
++        return;
+     }
+ 
+     /* This merge is O(size), as BITS_PER_LONG and HBITMAP_LEVELS are constant.
+@@ -918,8 +909,6 @@ bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result)
+ 
+     /* Recompute the dirty count */
+     result-&gt;count = hb_count_between(result, 0, result-&gt;size - 1);
+-
+-    return true;
+ }
+ 
+ char *hbitmap_sha256(const HBitmap *bitmap, Error **errp)
+</pre>
+    </blockquote>
+    <pre>
+With changed description: 
+Reviewed-by: Nikita Lapshin <a class="moz-txt-link-rfc2396E" href="mailto:nikita.lapshin@virtuozzo.com">&lt;nikita.lapshin@virtuozzo.com&gt;</a></pre>
+  </body>
+</html>
+--------------qEV3Nu5SRM3Hjis0eDomHaPy--
 
