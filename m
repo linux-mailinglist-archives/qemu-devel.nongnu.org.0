@@ -2,53 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284E24BC416
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 02:02:36 +0100 (CET)
-Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C90E4BC619
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 07:54:41 +0100 (CET)
+Received: from localhost ([::1]:41634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLE8x-00073l-9F
-	for lists+qemu-devel@lfdr.de; Fri, 18 Feb 2022 20:02:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33294)
+	id 1nLJde-0000VB-8U
+	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 01:54:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nLDyF-0001Uo-6W
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 19:51:31 -0500
-Received: from [2001:738:2001:2001::2001] (port=55980 helo=zero.eik.bme.hu)
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nLJOi-0005nF-D1
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 01:39:13 -0500
+Received: from rn-mailsvcp-ppex-lapp14.rno.apple.com ([17.179.253.33]:32884
+ helo=rn-mailsvcp-ppex-lapp14.apple.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nLDxf-0008KH-Dj
- for qemu-devel@nongnu.org; Fri, 18 Feb 2022 19:51:30 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 72B92745712;
- Sat, 19 Feb 2022 01:50:48 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id DA5A47456FE; Sat, 19 Feb 2022 01:50:47 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id D85F77456E3;
- Sat, 19 Feb 2022 01:50:47 +0100 (CET)
-Date: Sat, 19 Feb 2022 01:50:47 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Liav Albani <liavalb@gmail.com>
-Subject: Re: [PATCH v2 2/2] hw/ide: add ich6 ide controller device
- emulation
-In-Reply-To: <20220218204155.236611-3-liavalb@gmail.com>
-Message-ID: <68413ab-d14c-f5c6-4baf-12e3a18a6a5@eik.bme.hu>
-References: <20220218204155.236611-1-liavalb@gmail.com>
- <20220218204155.236611-3-liavalb@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
- (failed)
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nLJOY-0005jn-8h
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 01:39:10 -0500
+Received: from pps.filterd (rn-mailsvcp-ppex-lapp14.rno.apple.com [127.0.0.1])
+ by rn-mailsvcp-ppex-lapp14.rno.apple.com (8.16.1.2/8.16.1.2) with
+ SMTP id 21J6ULtW017183; Fri, 18 Feb 2022 22:38:33 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
+ h=mime-version :
+ content-transfer-encoding : content-type : from : to : cc : subject : date
+ : message-id; s=20180706; bh=oaXv3wVkdGLQAuZ7w+/XlCmt1JSZ0lPtn+8v4hDIIoQ=;
+ b=Idn9mz8zHgI8amiCBPmL5NnBGg69MqKo/iUV+lYvI4HPJOwrW8wOBgGxktOXeZ3/R73a
+ xrmmP+0XivoRS6khi4AtcTNGNnAZKotuom5nhxwwDV6vzdwFMMJFn25NNwx2r0qu9ScD
+ Zd2elBTOzZ74RwpDdrkLpylfjhvw0a9+m1hCIaivF2qLC6bGIPqNwpnjQXKyUcUDjvJj
+ P/kqvQaIubZDig8i1AhOdj3DjswsZ2YnZI4xfDuLyevwdE7qZtMNEUjU5K4zRHjeEBsI
+ 0DHZjg1V7fbUTdjtPYPKlN23oxRAXj2zW8uc2/AyjiHkkjiOXikUb7BQ3BrizSsGxZ1c fg== 
+Received: from rn-mailsvcp-mta-lapp04.rno.apple.com
+ (rn-mailsvcp-mta-lapp04.rno.apple.com [10.225.203.152])
+ by rn-mailsvcp-ppex-lapp14.rno.apple.com with ESMTP id 3e8n96mqey-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+ Fri, 18 Feb 2022 22:38:33 -0800
+Received: from rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (rn-mailsvcp-mmp-lapp03.rno.apple.com [17.179.253.16])
+ by rn-mailsvcp-mta-lapp04.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
+ 2021)) with ESMTPS id <0R7J003QDH48TXA0@rn-mailsvcp-mta-lapp04.rno.apple.com>; 
+ Fri, 18 Feb 2022 22:38:33 -0800 (PST)
+Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp03.rno.apple.com by
+ rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
+ 2021)) id <0R7J00M00GQI2000@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Fri,
+ 18 Feb 2022 22:38:32 -0800 (PST)
+X-Va-A: 
+X-Va-T-CD: 51115aee971724d6ddf329fb28aa7ad5
+X-Va-E-CD: a0ba7d280f99f60e8be384013c14f3a8
+X-Va-R-CD: 4990798ec739126a18fe526a5e818c7f
+X-Va-CD: 0
+X-Va-ID: e8527a95-d0db-481f-8f9d-3ea2f7e8c815
+X-V-A: 
+X-V-T-CD: 51115aee971724d6ddf329fb28aa7ad5
+X-V-E-CD: a0ba7d280f99f60e8be384013c14f3a8
+X-V-R-CD: 4990798ec739126a18fe526a5e818c7f
+X-V-CD: 0
+X-V-ID: 2d6f927f-bd61-4874-914d-e6748ffd7e46
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
+ definitions=2022-02-19_02:2022-02-17,
+ 2022-02-19 signatures=0
+MIME-version: 1.0
+Content-transfer-encoding: 8BIT
+Content-type: text/plain; charset=UTF-8
+Received: from localhost.localdomain (unknown [17.11.185.55])
+ by rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
+ 2021))
+ with ESMTPSA id <0R7J00Q7AH47J900@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Fri,
+ 18 Feb 2022 22:38:32 -0800 (PST)
+From: Cameron Esfahani <dirty@apple.com>
+To: qemu-devel@nongnu.org
+Cc: r.bolshakov@yadro.com, f4bug@amsat.org
+Subject: [PATCH v2] hvf: Fix OOB write in RDTSCP instruction decode
+Date: Fri, 18 Feb 2022 22:38:31 -0800
+Message-id: <20220219063831.35356-1-dirty@apple.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
+ definitions=2022-02-19_02:2022-02-17,
+ 2022-02-19 signatures=0
+Received-SPF: pass client-ip=17.179.253.33; envelope-from=dirty@apple.com;
+ helo=rn-mailsvcp-ppex-lapp14.apple.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,345 +102,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Feb 2022, Liav Albani wrote:
-> This type of IDE controller has support for relocating the IO ports and
-> doesn't use IRQ 14 and 15 but one allocated PCI IRQ for the controller.
->
-> There's no x86 chipset in QEMU that will try to attach this device by
-> default. It is considered a legacy-free device in the aspect of PCI bus
-> resource management as the guest OS can relocate the IO ports as it sees
-> fit to its needs. However, this is still a legacy device that belongs to
-> chipsets from late 2000s.
->
-> Signed-off-by: Liav Albani <liavalb@gmail.com>
-> ---
-> hw/i386/Kconfig          |   2 +
-> hw/ide/Kconfig           |   5 +
-> hw/ide/ich6.c            | 204 +++++++++++++++++++++++++++++++++++++++
-> hw/ide/meson.build       |   1 +
-> include/hw/ide/pci.h     |   1 +
-> include/hw/pci/pci_ids.h |   1 +
-> 6 files changed, 214 insertions(+)
-> create mode 100644 hw/ide/ich6.c
->
-> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-> index d22ac4a4b9..a18de2d962 100644
-> --- a/hw/i386/Kconfig
-> +++ b/hw/i386/Kconfig
-> @@ -75,6 +75,7 @@ config I440FX
->     select PCI_I440FX
->     select PIIX3
->     select IDE_PIIX
-> +    select IDE_ICH6
->     select DIMM
->     select SMBIOS
->     select FW_CFG_DMA
-> @@ -101,6 +102,7 @@ config Q35
->     select PCI_EXPRESS_Q35
->     select LPC_ICH9
->     select AHCI_ICH9
-> +    select IDE_ICH6
->     select DIMM
->     select SMBIOS
->     select FW_CFG_DMA
-> diff --git a/hw/ide/Kconfig b/hw/ide/Kconfig
-> index dd85fa3619..63304325a5 100644
-> --- a/hw/ide/Kconfig
-> +++ b/hw/ide/Kconfig
-> @@ -38,6 +38,11 @@ config IDE_VIA
->     select IDE_PCI
->     select IDE_QDEV
->
-> +config IDE_ICH6
-> +    bool
-> +    select IDE_PCI
-> +    select IDE_QDEV
-> +
-> config MICRODRIVE
->     bool
->     select IDE_QDEV
-> diff --git a/hw/ide/ich6.c b/hw/ide/ich6.c
-> new file mode 100644
-> index 0000000000..8f46d3fce2
-> --- /dev/null
-> +++ b/hw/ide/ich6.c
-> @@ -0,0 +1,204 @@
-> +/*
-> + * QEMU IDE Emulation: PCI ICH6/ICH7 IDE support.
+A guest could craft a specific stream of instructions that will have QEMU
+write 0xF9 to inappropriate locations in memory.  Add additional asserts
+to check for this.  Generate a #UD if there are more than 14 prefix bytes.
 
-This is a small thing, but if these two are the same maybe keeping this 
-comment but using the ich7 name everywhere else would make it less likely 
-to get it confused with ich9. I mean ich6 and ich9 is easily confused, 
-while ich7 is clearly distinct. But maybe it's just me, calling it ich6 is 
-also correct and can be preferred by someone else.
+Found by Julian Stecklina <julian.stecklina@cyberus-technology.de>
 
-> + *
-> + * Copyright (c) 2022 Liav Albani
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> + * of this software and associated documentation files (the "Software"), to deal
-> + * in the Software without restriction, including without limitation the rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> + * THE SOFTWARE.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/pci/pci.h"
-> +#include "migration/vmstate.h"
-> +#include "qapi/error.h"
-> +#include "qemu/module.h"
-> +#include "sysemu/block-backend.h"
-> +#include "sysemu/blockdev.h"
-> +#include "sysemu/dma.h"
-> +
-> +#include "hw/ide/pci.h"
-> +#include "hw/ide/bmdma.h"
-> +#include "trace.h"
-> +
-> +static const MemoryRegionOps ich6_bmdma_ops = {
-> +    .read = intel_ide_bmdma_read,
-> +    .write = intel_ide_bmdma_write,
-> +};
-> +
-> +static void bmdma_setup_bar(PCIIDEState *d)
-> +{
-> +    int i;
-> +
-> +    memory_region_init(&d->bmdma_bar, OBJECT(d), "ich6-bmdma-container", 16);
-> +    for (i = 0; i < 2; i++) {
-> +        BMDMAState *bm = &d->bmdma[i];
-> +
-> +        memory_region_init_io(&bm->extra_io, OBJECT(d), &ich6_bmdma_ops, bm,
-> +                              "ich6-bmdma", 4);
-> +        memory_region_add_subregion(&d->bmdma_bar, i * 8, &bm->extra_io);
-> +        memory_region_init_io(&bm->addr_ioport, OBJECT(d),
-> +                              &bmdma_addr_ioport_ops, bm, "bmdma", 4);
-> +        memory_region_add_subregion(&d->bmdma_bar, i * 8 + 4, &bm->addr_ioport);
-> +    }
-> +}
-> +
-> +static void ich6_pci_config_write(PCIDevice *d, uint32_t addr, uint32_t val,
-> +                                    int l)
-> +{
-> +    uint32_t i;
-> +
-> +    pci_default_write_config(d, addr, val, l);
-> +
-> +    for (i = addr; i < addr + l; i++) {
-> +        switch (i) {
-> +        case 0x40:
-> +            pci_default_write_config(d, i, 0x8000, 2);
-> +            continue;
-> +        case 0x42:
-> +            pci_default_write_config(d, i, 0x8000, 2);
-> +            continue;
-> +        }
-> +    }
+Signed-off-by: Cameron Esfahani <dirty@apple.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/i386/hvf/x86_decode.c | 12 ++++++++++--
+ target/i386/hvf/x86hvf.c     |  8 ++++++++
+ target/i386/hvf/x86hvf.h     |  1 +
+ 3 files changed, 19 insertions(+), 2 deletions(-)
 
-I'm not sure what this tries to do but this for cycle looks suspicious 
-here. It's also only calls pci_default_write_config() so why didn't the 
-default worked and why was this override needed?
+diff --git a/target/i386/hvf/x86_decode.c b/target/i386/hvf/x86_decode.c
+index 062713b1a4..5d051252b4 100644
+--- a/target/i386/hvf/x86_decode.c
++++ b/target/i386/hvf/x86_decode.c
+@@ -24,8 +24,10 @@
+ #include "vmx.h"
+ #include "x86_mmu.h"
+ #include "x86_descr.h"
++#include "x86hvf.h"
+ 
+ #define OPCODE_ESCAPE   0xf
++#define X86_MAX_INSN_PREFIX_LENGTH (14)
+ 
+ static void decode_invalid(CPUX86State *env, struct x86_decode *decode)
+ {
+@@ -541,7 +543,8 @@ static void decode_lidtgroup(CPUX86State *env, struct x86_decode *decode)
+     };
+     decode->cmd = group[decode->modrm.reg];
+     if (0xf9 == decode->modrm.modrm) {
+-        decode->opcode[decode->len++] = decode->modrm.modrm;
++        VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
++        decode->opcode[decode->opcode_len++] = decode->modrm.modrm;
+         decode->cmd = X86_DECODE_CMD_RDTSCP;
+     }
+ }
+@@ -1847,7 +1850,8 @@ void calc_modrm_operand(CPUX86State *env, struct x86_decode *decode,
+ 
+ static void decode_prefix(CPUX86State *env, struct x86_decode *decode)
+ {
+-    while (1) {
++    /* At most X86_MAX_INSN_PREFIX_LENGTH prefix bytes. */
++    for (int i = 0; i < X86_MAX_INSN_PREFIX_LENGTH; i++) {
+         /*
+          * REX prefix must come after legacy prefixes.
+          * REX before legacy is ignored.
+@@ -1892,6 +1896,8 @@ static void decode_prefix(CPUX86State *env, struct x86_decode *decode)
+             return;
+         }
+     }
++    /* Too many prefixes!  Generate #UD. */
++    hvf_inject_ud(env);
+ }
+ 
+ void set_addressing_size(CPUX86State *env, struct x86_decode *decode)
+@@ -2090,11 +2096,13 @@ static void decode_opcodes(CPUX86State *env, struct x86_decode *decode)
+     uint8_t opcode;
+ 
+     opcode = decode_byte(env, decode);
++    VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
+     decode->opcode[decode->opcode_len++] = opcode;
+     if (opcode != OPCODE_ESCAPE) {
+         decode_opcode_1(env, decode, opcode);
+     } else {
+         opcode = decode_byte(env, decode);
++        VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
+         decode->opcode[decode->opcode_len++] = opcode;
+         decode_opcode_2(env, decode, opcode);
+     }
+diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
+index 05ec1bddc4..a805c125d9 100644
+--- a/target/i386/hvf/x86hvf.c
++++ b/target/i386/hvf/x86hvf.c
+@@ -425,6 +425,14 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
+             & (CPU_INTERRUPT_INIT | CPU_INTERRUPT_TPR));
+ }
+ 
++void hvf_inject_ud(CPUX86State *env)
++{
++    env->exception_nr = EXCP06_ILLOP;
++    env->exception_injected = 1;
++    env->has_error_code = false;
++    env->error_code = 0;
++}
++
+ int hvf_process_events(CPUState *cpu_state)
+ {
+     X86CPU *cpu = X86_CPU(cpu_state);
+diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
+index 99ed8d608d..ef472a32f9 100644
+--- a/target/i386/hvf/x86hvf.h
++++ b/target/i386/hvf/x86hvf.h
+@@ -22,6 +22,7 @@
+ 
+ int hvf_process_events(CPUState *);
+ bool hvf_inject_interrupts(CPUState *);
++void hvf_inject_ud(CPUX86State *);
+ void hvf_set_segment(struct CPUState *cpu, struct vmx_segment *vmx_seg,
+                      SegmentCache *qseg, bool is_tr);
+ void hvf_get_segment(SegmentCache *qseg, struct vmx_segment *vmx_seg);
+-- 
+2.32.0 (Apple Git-132)
 
-> +}
-> +
-> +static void ich6_ide_reset(DeviceState *dev)
-> +{
-> +    PCIIDEState *d = PCI_IDE(dev);
-> +    PCIDevice *pd = PCI_DEVICE(d);
-> +    uint8_t *pci_conf = pd->config;
-> +    int i;
-> +
-> +    for (i = 0; i < 2; i++) {
-> +        ide_bus_reset(&d->bus[i]);
-> +    }
-> +
-> +    /* TODO: this is the default. do not override. */
-> +    pci_conf[PCI_COMMAND] = 0x00;
-> +    /* TODO: this is the default. do not override. */
-> +    pci_conf[PCI_COMMAND + 1] = 0x00;
-> +    /* TODO: use pci_set_word */
-> +    pci_conf[PCI_STATUS] = PCI_STATUS_FAST_BACK;
-> +    pci_conf[PCI_STATUS + 1] = PCI_STATUS_DEVSEL_MEDIUM >> 8;
-> +    pci_conf[0x20] = 0x01; /* BMIBA: 20-23h */
-> +}
-> +
-> +static int pci_ich6_init_ports(PCIIDEState *d)
-> +{
-> +    int i;
-> +
-> +    for (i = 0; i < 2; i++) {
-> +        ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
-> +        ide_init2(&d->bus[i], d->native_irq);
-> +
-> +        bmdma_init(&d->bus[i], &d->bmdma[i], d);
-> +        d->bmdma[i].bus = &d->bus[i];
-> +        ide_register_restart_cb(&d->bus[i]);
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static void pci_ich6_ide_realize(PCIDevice *dev, Error **errp)
-> +{
-> +    PCIIDEState *d = PCI_IDE(dev);
-> +    uint8_t *pci_conf = dev->config;
-> +    int rc;
-
-All in all this device looks very similar to piix ide devices with only 
-some differentces so I wonder if ir could be implemented as another device 
-in piix.c. We already have 3 variants there: piix3-ide, piix3-ide-xen, and 
-piix4-ide so maybe putting this device in piix.c could avoid some code 
-duplication. In that case moving out bmdma_{read,write} were not needed 
-either although maybe that's a good idea anyway to share it with other 
-devices.
-
-> +
-> +    pci_conf[PCI_INTERRUPT_PIN] = 1; /* interrupt pin A */
-> +
-> +    /* PCI native mode-only controller, supports bus mastering */
-> +    pci_conf[PCI_CLASS_PROG] = 0x85;
-> +
-> +    bmdma_setup_bar(d);
-> +    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
-> +
-> +    d->native_irq = pci_allocate_irq(&d->parent_obj);
-
-Is this irq and the new field in PCIIDEState really needed? If this device 
-is using PCI interrupts could it do the same as CMD646 ide does instead?
-
-That's all for now, I haven't checked the docs of these ide controllers so 
-I'm not sure if these have switchable native and legacy modes like via has 
-and we again getting the problem that we can't model that easily or these 
-are really different with one having only legacy and the ich6/7 only 
-native modes.
-
-Regards.
-BALATON Zoltan
-
-> +    /* Address Map Register - Non Combined Mode, MAP.USCC = 0 */
-> +    pci_conf[0x90]   = 0;
-> +
-> +    /* IDE Decode enabled by default */
-> +    pci_set_long(pci_conf + 0x40, 0x80008000);
-> +
-> +    /* IDE Timing control - Disable UDMA controls */
-> +    pci_set_long(pci_conf + 0x48, 0x00000000);
-> +
-> +    vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
-> +
-> +    memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_le_ops,
-> +                          &d->bus[0], "ich6-ide0-data", 8);
-> +    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &d->data_bar[0]);
-> +
-> +    memory_region_init_io(&d->cmd_bar[0], OBJECT(d), &pci_ide_cmd_le_ops,
-> +                          &d->bus[0], "ich6-ide0-cmd", 4);
-> +    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[0]);
-> +
-> +    memory_region_init_io(&d->data_bar[1], OBJECT(d), &pci_ide_data_le_ops,
-> +                          &d->bus[1], "ich6-ide1-data", 8);
-> +    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &d->data_bar[1]);
-> +
-> +    memory_region_init_io(&d->cmd_bar[1], OBJECT(d), &pci_ide_cmd_le_ops,
-> +                          &d->bus[1], "ich6-ide1-cmd", 4);
-> +    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]);
-> +
-> +    rc = pci_ich6_init_ports(d);
-> +    if (rc) {
-> +        error_setg_errno(errp, -rc, "Failed to realize %s",
-> +                         object_get_typename(OBJECT(dev)));
-> +    }
-> +}
-> +
-> +static void pci_ich6_ide_exitfn(PCIDevice *dev)
-> +{
-> +    PCIIDEState *d = PCI_IDE(dev);
-> +    unsigned i;
-> +
-> +    for (i = 0; i < 2; ++i) {
-> +        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].extra_io);
-> +        memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].addr_ioport);
-> +    }
-> +}
-> +
-> +static void ich6_ide_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-> +
-> +    dc->reset = ich6_ide_reset;
-> +    k->realize = pci_ich6_ide_realize;
-> +    k->exit = pci_ich6_ide_exitfn;
-> +    k->vendor_id = PCI_VENDOR_ID_INTEL;
-> +    k->device_id = PCI_DEVICE_ID_INTEL_82801GB;
-> +    k->class_id = PCI_CLASS_STORAGE_IDE;
-> +    k->config_read = pci_default_read_config;
-> +    k->config_write = ich6_pci_config_write;
-> +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-> +    dc->hotpluggable = false;
-> +}
-> +
-> +static const TypeInfo ich6_ide_info = {
-> +    .name          = "ich6-ide",
-> +    .parent        = TYPE_PCI_IDE,
-> +    .class_init    = ich6_ide_class_init,
-> +};
-> +
-> +static void ich6_ide_register_types(void)
-> +{
-> +    type_register_static(&ich6_ide_info);
-> +}
-> +
-> +type_init(ich6_ide_register_types)
-> diff --git a/hw/ide/meson.build b/hw/ide/meson.build
-> index 38f9ae7178..6899e082db 100644
-> --- a/hw/ide/meson.build
-> +++ b/hw/ide/meson.build
-> @@ -1,5 +1,6 @@
-> softmmu_ss.add(when: 'CONFIG_AHCI', if_true: files('ahci.c'))
-> softmmu_ss.add(when: 'CONFIG_AHCI_ICH9', if_true: files('ich.c'))
-> +softmmu_ss.add(when: 'CONFIG_IDE_ICH6', if_true: files('ich6.c', 'bmdma.c'))
-> softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10', if_true: files('ahci-allwinner.c'))
-> softmmu_ss.add(when: 'CONFIG_IDE_CMD646', if_true: files('cmd646.c'))
-> softmmu_ss.add(when: 'CONFIG_IDE_CORE', if_true: files('core.c', 'atapi.c'))
-> diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-> index d8384e1c42..d8bf08e728 100644
-> --- a/include/hw/ide/pci.h
-> +++ b/include/hw/ide/pci.h
-> @@ -53,6 +53,7 @@ struct PCIIDEState {
->     MemoryRegion bmdma_bar;
->     MemoryRegion cmd_bar[2];
->     MemoryRegion data_bar[2];
-> +    qemu_irq native_irq; /* used only for ich6-ide */
-> };
->
-> static inline IDEState *bmdma_active_if(BMDMAState *bmdma)
-> diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-> index 11abe22d46..cf8767977c 100644
-> --- a/include/hw/pci/pci_ids.h
-> +++ b/include/hw/pci/pci_ids.h
-> @@ -244,6 +244,7 @@
-> #define PCI_DEVICE_ID_INTEL_82371AB      0x7111
-> #define PCI_DEVICE_ID_INTEL_82371AB_2    0x7112
-> #define PCI_DEVICE_ID_INTEL_82371AB_3    0x7113
-> +#define PCI_DEVICE_ID_INTEL_82801GB      0x27c0
->
-> #define PCI_DEVICE_ID_INTEL_ICH9_0       0x2910
-> #define PCI_DEVICE_ID_INTEL_ICH9_1       0x2917
->
 
