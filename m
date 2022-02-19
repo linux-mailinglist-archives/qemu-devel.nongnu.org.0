@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3574BC61D
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 07:57:07 +0100 (CET)
-Received: from localhost ([::1]:42890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D484BC62B
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 08:06:48 +0100 (CET)
+Received: from localhost ([::1]:49428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLJg0-0001Q8-O2
-	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 01:57:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59082)
+	id 1nLJpO-0006Mz-SH
+	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 02:06:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nLJTB-0006k1-NY
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 01:43:49 -0500
-Received: from [2607:f8b0:4864:20::52e] (port=44650
- helo=mail-pg1-x52e.google.com)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nLJTA-0006j1-8c
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 01:43:48 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=50735
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nLJS2-0007bD-SN
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 01:43:49 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id l73so9672476pge.11
- for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 22:42:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nLJRx-0007Ww-Pd
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 01:43:25 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id y16so2225215pjt.0
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 22:42:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3KoNPCveZijWzgoWR1Jelwb2/NfAqpI20Qrmg9Ja69A=;
- b=KNUxeMj46dkhMjIkb62TF08v8q7Dc0c29hE4aBOYET6A3EiLqwAnFQv8+Rk0N5ZeeS
- DMZfEb1SvCq8+bfsYPrly1GlRxzsBtKC6U8ov0twrMNLMnnoxfWc6J0HJ03jdb5KEQFW
- VUhnHzW8Q+KnuTfH4fmdDbeoE/qiDAWf32TaPyTOGGj3v1JTMP8F49PvKR+kwPajhTlg
- nOSIjxXfsN1t3xV9XldWdhB+fXM1CYHpd+8rM4gAkoXLnZheI0MpLjGlAmClcUmefTaO
- 01+m1X+bYWI7d8SLFOgvVTE4m5p9dER1r5v2dNx6wS6nNdW3KHpe1i9zGDH405LNhmPu
- UhFA==
+ bh=d/xPLWx+WAFUwG3ewQ6NqeIlc0rSfL6G+5HjvVKbLiE=;
+ b=dCpsvQ4QXVs7I9Nlof4TpSgeonmz00MxcTYTJqSKtbpzVTeuxY0mHh0D/8yu9m4Rek
+ waCDpf7XVhIxgZ48/snYEsa5H3Eru+F3VTjuKntCn5ez5SjpfKyZigeCSfU7cv0YHqWC
+ IJ4jatAMj7NXDlZDwmRuXaYsyh7Kf9nWHmhcmv2n+LWKoyhkmeewe3lyjCDnhs9jyv3L
+ hPsYa53eY4QwenVsQHEv31FiHO3XaRY7ryepwFxRRILnFxu3neIHEX+f5FvdCUyDvTEG
+ ZFgrh/DSUeIBdgM7S3+/WODf8zWLuKkrgMrjqzfVwoD/noxYC9Ha2dZl7Te2OdfqKjgS
+ ej9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3KoNPCveZijWzgoWR1Jelwb2/NfAqpI20Qrmg9Ja69A=;
- b=ihtbr8pzbdEdrBV2UbvjGfc9WRFf8av0vgykEWcPiYb6gC8XAxjBkkG6bXEEgVuRjH
- ZOftV8cHFXDag5w7eantgWUSPz7AjMxyEuGyU0Xgawt5EWzGqv0i3J/aPkhU/zxuON02
- Wzoh7zVfLhmVTvqYIKAgZtZUPTrTIcxER/n3h8l+KPgdAPlCiMoOvZqlNqCJHzVJma4e
- GNLTlqQIe55VORPPoTV4knR4+XfCvcY09xzbhOif+Y++PGGIfMkJylePvV8cRS7LYRC7
- l3Ibx4e3reeQCmd3Os14tnT/Hw7GDSBv7bEU7p/+PTLnrJ27a6qbdbaR7c23FWK0inHO
- 3NNw==
-X-Gm-Message-State: AOAM532R2VJun6szdj4aK5TyPM6TR5mrSF1+bvD1vCe3b3qnWiVs2ci+
- HHq9jdEIF3SA+rONvmThhPXSGPZy9C10wg==
-X-Google-Smtp-Source: ABdhPJy5AdZXCcVfnAYiZs2Dn0tdQIQuP49GRkIuCEtqycnltB8lv5zhBFqFcR/FvNV5GdjvK3YbGQ==
-X-Received: by 2002:a63:4d8:0:b0:373:cf6d:40e3 with SMTP id
- 207-20020a6304d8000000b00373cf6d40e3mr6090110pge.590.1645252953625; 
- Fri, 18 Feb 2022 22:42:33 -0800 (PST)
+ bh=d/xPLWx+WAFUwG3ewQ6NqeIlc0rSfL6G+5HjvVKbLiE=;
+ b=p4+BtR+GlrgLVgaVw6ZjQ7wOBKyiAg8tiRhq+P7PQQvJC6tQDjciEqCThlEWEGCLBu
+ cs0QCcLxv3FuXkvWvlHe71gpN4iTqgn2YK3q+duUAreKB80A9Dbzd4dL06ZIKfh9KHpB
+ qQUbJ7HjxyTL6Dirj1EHRsdfgbfH5gGDbd9ZCuAjUhAr0EPq0RNKqkJkPiilUE8peHWE
+ U4JD5zRb86rzY3vtueoB5591rED4wQUaIGFaHTD6Hg+K2fajgH6+OH085P5butQMpXBO
+ tpLmLDPOkWAUIAf6G130Cw6oN0DMuNwHRj7OweRO1LPboU4etTLuKtlmrxcpzrUE9FMO
+ lH1A==
+X-Gm-Message-State: AOAM532/BGoo4EquhYxoM+Az/nWYkpRlbPNVu8yIZKGP6rKK4GUn81h0
+ bmmy9oMrLYM3e+UoipwcEbXlMBnm3xW5Jw==
+X-Google-Smtp-Source: ABdhPJwXNKxMukEc8YVd7LKRgg0xD6iSNmJSLLvI2NTAzw7TIrw+q1P3G7OlJnnWvH98WzvmvahVng==
+X-Received: by 2002:a17:903:3053:b0:14d:2f71:3a61 with SMTP id
+ u19-20020a170903305300b0014d2f713a61mr10365385pla.47.1645252946117; 
+ Fri, 18 Feb 2022 22:42:26 -0800 (PST)
 Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id k14sm5096841pff.25.2022.02.18.22.42.32
+ by smtp.gmail.com with ESMTPSA id w15sm5334235pfu.2.2022.02.18.22.42.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Feb 2022 22:42:33 -0800 (PST)
+ Fri, 18 Feb 2022 22:42:25 -0800 (PST)
 From: Stafford Horne <shorne@gmail.com>
 To: QEMU Development <qemu-devel@nongnu.org>
-Subject: [PATCH v3 4/6] hw/openrisc/openrisc_sim: Increase max_cpus to 4
-Date: Sat, 19 Feb 2022 15:42:08 +0900
-Message-Id: <20220219064210.3145381-5-shorne@gmail.com>
+Subject: [PATCH v3 1/6] hw/openrisc/openrisc_sim: Create machine state for
+ or1ksim
+Date: Sat, 19 Feb 2022 15:42:05 +0900
+Message-Id: <20220219064210.3145381-2-shorne@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220219064210.3145381-1-shorne@gmail.com>
 References: <20220219064210.3145381-1-shorne@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=shorne@gmail.com; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=shorne@gmail.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,57 +88,73 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Stafford Horne <shorne@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we no longer have a limit of 2 CPUs due to fixing the
-IRQ routing issues we can increase the max.  Here we increase
-the limit to 4, we could go higher, but currently OMPIC has a
-limit of 4, so we align with that.
+This will allow us to attach machine state attributes like
+the device tree fdt.
 
 Signed-off-by: Stafford Horne <shorne@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/openrisc/openrisc_sim.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/openrisc/openrisc_sim.c | 30 ++++++++++++++++++++++++++++--
+ 1 file changed, 28 insertions(+), 2 deletions(-)
 
 diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-index 5bfbac00f8..8cfb92bec6 100644
+index 73fe383c2d..26d2370e60 100644
 --- a/hw/openrisc/openrisc_sim.c
 +++ b/hw/openrisc/openrisc_sim.c
-@@ -37,6 +37,8 @@
+@@ -37,6 +37,18 @@
  
  #define KERNEL_LOAD_ADDR 0x100
  
-+#define OR1KSIM_CPUS_MAX 4
++#define TYPE_OR1KSIM_MACHINE MACHINE_TYPE_NAME("or1k-sim")
++#define OR1KSIM_MACHINE(obj) \
++    OBJECT_CHECK(Or1ksimState, (obj), TYPE_OR1KSIM_MACHINE)
 +
- #define TYPE_OR1KSIM_MACHINE MACHINE_TYPE_NAME("or1k-sim")
- #define OR1KSIM_MACHINE(obj) \
-     OBJECT_CHECK(Or1ksimState, (obj), TYPE_OR1KSIM_MACHINE)
-@@ -197,12 +199,12 @@ static void openrisc_sim_init(MachineState *machine)
++typedef struct Or1ksimState {
++    /*< private >*/
++    MachineState parent_obj;
++
++    /*< public >*/
++
++} Or1ksimState;
++
+ static struct openrisc_boot_info {
+     uint32_t bootstrap_pc;
+ } boot_info;
+@@ -183,8 +195,10 @@ static void openrisc_sim_init(MachineState *machine)
+     openrisc_load_kernel(ram_size, kernel_filename);
+ }
+ 
+-static void openrisc_sim_machine_init(MachineClass *mc)
++static void openrisc_sim_machine_init(ObjectClass *oc, void *data)
  {
-     ram_addr_t ram_size = machine->ram_size;
-     const char *kernel_filename = machine->kernel_filename;
--    OpenRISCCPU *cpus[2] = {};
-+    OpenRISCCPU *cpus[OR1KSIM_CPUS_MAX] = {};
-     MemoryRegion *ram;
-     int n;
-     unsigned int smp_cpus = machine->smp.cpus;
- 
--    assert(smp_cpus >= 1 && smp_cpus <= 2);
-+    assert(smp_cpus >= 1 && smp_cpus <= OR1KSIM_CPUS_MAX);
-     for (n = 0; n < smp_cpus; n++) {
-         cpus[n] = OPENRISC_CPU(cpu_create(machine->cpu_type));
-         if (cpus[n] == NULL) {
-@@ -243,7 +245,7 @@ static void openrisc_sim_machine_init(ObjectClass *oc, void *data)
- 
++    MachineClass *mc = MACHINE_CLASS(oc);
++
      mc->desc = "or1k simulation";
      mc->init = openrisc_sim_init;
--    mc->max_cpus = 2;
-+    mc->max_cpus = OR1KSIM_CPUS_MAX;
-     mc->is_default = true;
+     mc->max_cpus = 2;
+@@ -192,4 +206,16 @@ static void openrisc_sim_machine_init(MachineClass *mc)
      mc->default_cpu_type = OPENRISC_CPU_TYPE_NAME("or1200");
  }
+ 
+-DEFINE_MACHINE("or1k-sim", openrisc_sim_machine_init)
++static const TypeInfo or1ksim_machine_typeinfo = {
++    .name       = TYPE_OR1KSIM_MACHINE,
++    .parent     = TYPE_MACHINE,
++    .class_init = openrisc_sim_machine_init,
++    .instance_size = sizeof(Or1ksimState),
++};
++
++static void or1ksim_machine_init_register_types(void)
++{
++    type_register_static(&or1ksim_machine_typeinfo);
++}
++
++type_init(or1ksim_machine_init_register_types)
 -- 
 2.31.1
 
