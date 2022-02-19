@@ -2,94 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C90E4BC619
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 07:54:41 +0100 (CET)
-Received: from localhost ([::1]:41634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FD14BC61E
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 07:57:15 +0100 (CET)
+Received: from localhost ([::1]:42986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLJde-0000VB-8U
-	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 01:54:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52710)
+	id 1nLJgA-0001Tt-PL
+	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 01:57:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nLJOi-0005nF-D1
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 01:39:13 -0500
-Received: from rn-mailsvcp-ppex-lapp14.rno.apple.com ([17.179.253.33]:32884
- helo=rn-mailsvcp-ppex-lapp14.apple.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1nLJOY-0005jn-8h
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 01:39:10 -0500
-Received: from pps.filterd (rn-mailsvcp-ppex-lapp14.rno.apple.com [127.0.0.1])
- by rn-mailsvcp-ppex-lapp14.rno.apple.com (8.16.1.2/8.16.1.2) with
- SMTP id 21J6ULtW017183; Fri, 18 Feb 2022 22:38:33 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
- h=mime-version :
- content-transfer-encoding : content-type : from : to : cc : subject : date
- : message-id; s=20180706; bh=oaXv3wVkdGLQAuZ7w+/XlCmt1JSZ0lPtn+8v4hDIIoQ=;
- b=Idn9mz8zHgI8amiCBPmL5NnBGg69MqKo/iUV+lYvI4HPJOwrW8wOBgGxktOXeZ3/R73a
- xrmmP+0XivoRS6khi4AtcTNGNnAZKotuom5nhxwwDV6vzdwFMMJFn25NNwx2r0qu9ScD
- Zd2elBTOzZ74RwpDdrkLpylfjhvw0a9+m1hCIaivF2qLC6bGIPqNwpnjQXKyUcUDjvJj
- P/kqvQaIubZDig8i1AhOdj3DjswsZ2YnZI4xfDuLyevwdE7qZtMNEUjU5K4zRHjeEBsI
- 0DHZjg1V7fbUTdjtPYPKlN23oxRAXj2zW8uc2/AyjiHkkjiOXikUb7BQ3BrizSsGxZ1c fg== 
-Received: from rn-mailsvcp-mta-lapp04.rno.apple.com
- (rn-mailsvcp-mta-lapp04.rno.apple.com [10.225.203.152])
- by rn-mailsvcp-ppex-lapp14.rno.apple.com with ESMTP id 3e8n96mqey-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Fri, 18 Feb 2022 22:38:33 -0800
-Received: from rn-mailsvcp-mmp-lapp03.rno.apple.com
- (rn-mailsvcp-mmp-lapp03.rno.apple.com [17.179.253.16])
- by rn-mailsvcp-mta-lapp04.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) with ESMTPS id <0R7J003QDH48TXA0@rn-mailsvcp-mta-lapp04.rno.apple.com>; 
- Fri, 18 Feb 2022 22:38:33 -0800 (PST)
-Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp03.rno.apple.com by
- rn-mailsvcp-mmp-lapp03.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021)) id <0R7J00M00GQI2000@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Fri,
- 18 Feb 2022 22:38:32 -0800 (PST)
-X-Va-A: 
-X-Va-T-CD: 51115aee971724d6ddf329fb28aa7ad5
-X-Va-E-CD: a0ba7d280f99f60e8be384013c14f3a8
-X-Va-R-CD: 4990798ec739126a18fe526a5e818c7f
-X-Va-CD: 0
-X-Va-ID: e8527a95-d0db-481f-8f9d-3ea2f7e8c815
-X-V-A: 
-X-V-T-CD: 51115aee971724d6ddf329fb28aa7ad5
-X-V-E-CD: a0ba7d280f99f60e8be384013c14f3a8
-X-V-R-CD: 4990798ec739126a18fe526a5e818c7f
-X-V-CD: 0
-X-V-ID: 2d6f927f-bd61-4874-914d-e6748ffd7e46
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
- definitions=2022-02-19_02:2022-02-17,
- 2022-02-19 signatures=0
-MIME-version: 1.0
-Content-transfer-encoding: 8BIT
-Content-type: text/plain; charset=UTF-8
-Received: from localhost.localdomain (unknown [17.11.185.55])
- by rn-mailsvcp-mmp-lapp03.rno.apple.com
- (Oracle Communications Messaging Server 8.1.0.12.20210903 64bit (built Sep 3
- 2021))
- with ESMTPSA id <0R7J00Q7AH47J900@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Fri,
- 18 Feb 2022 22:38:32 -0800 (PST)
-From: Cameron Esfahani <dirty@apple.com>
-To: qemu-devel@nongnu.org
-Cc: r.bolshakov@yadro.com, f4bug@amsat.org
-Subject: [PATCH v2] hvf: Fix OOB write in RDTSCP instruction decode
-Date: Fri, 18 Feb 2022 22:38:31 -0800
-Message-id: <20220219063831.35356-1-dirty@apple.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.816
- definitions=2022-02-19_02:2022-02-17,
- 2022-02-19 signatures=0
-Received-SPF: pass client-ip=17.179.253.33; envelope-from=dirty@apple.com;
- helo=rn-mailsvcp-ppex-lapp14.apple.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nLJTA-0006j7-Cy
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 01:43:48 -0500
+Received: from [2607:f8b0:4864:20::531] (port=37857
+ helo=mail-pg1-x531.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nLJRx-0007VM-Pc
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 01:43:42 -0500
+Received: by mail-pg1-x531.google.com with SMTP id 75so9695729pgb.4
+ for <qemu-devel@nongnu.org>; Fri, 18 Feb 2022 22:42:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YSDnws2jtvwOsh/6+WQ4L7j5CJeYUgtHCT0IriW0joE=;
+ b=p2lHD8rRIhSYRp5/qFn35MeJHCJXNf6Z52YmFWHytj8rcu8znsKmzip1Nr5VBrLeMB
+ yhj68wfunyKZufa642B58vBJUuTqT6h/cLoawXhBU7gEexaDvTrv1HVH/HdUg/R1t5rc
+ KNdl4SOTN069zIn/DXuW2EuzWF//NkiTLiclYCsMFRVMKbcasEXV1ynRYCdFJlGRPR6A
+ GaCu3C6Ni9e3tvsle0qlLfzut2PM5OlSRHIL/MT3dqlPhjlmHs7k+o4q7jftHHxe0JQv
+ xD+2E6ub7+8pzyc96bK/iUIMrfK4siD2d/XZ1c3JJ8n9jGwMNgASBDPcVS8IJiBO7Qyi
+ 694w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YSDnws2jtvwOsh/6+WQ4L7j5CJeYUgtHCT0IriW0joE=;
+ b=mJ2LavgTmIXTnbiWErUMMRJ5t8u3x1dJcTowkTemaseehs+P8+QijrC1r9b5ODY+NP
+ 8HxndxLZKBtcHZDSTDyKPtefyui4XjhR31xx6ognwooWAzS1fJBcap1RRIOkl7fRr+Up
+ YKAej6Z87PyB/vQ6BBm++olcy89bO2PxebQzEeMsvymEGXG/7nig4QYttKXrapf/8Cbr
+ CIcvwrkMZf/ZrZ+JLtCNNkqJ5iyCiDDc/8T+cpePtI4fxUSMGdE9LQlDDUO8EAyBAa2N
+ KF3OTBzYVseGcTlYpZZJzMrIkAqV3GdEf/CiJ6QA0BJpLTG49dUr9xJSIUE24JE9+4pb
+ fULg==
+X-Gm-Message-State: AOAM530B3Z26VsBsZU3lCYmmH14pKXytRJItGm/t5AsSiWmdsB0xRGLb
+ L1IYfjTQE8BCPseyYwYvvDiZK7wPkHLUxw==
+X-Google-Smtp-Source: ABdhPJzk6PHU2Z7NNq1sGcZm5Ckr6Oqfvc6l7HqtWXFboVMgi3sgQM2RGn033ZdwgKB4SNJuqGsDuw==
+X-Received: by 2002:a05:6a00:1c4f:b0:4e1:5bc:e63a with SMTP id
+ s15-20020a056a001c4f00b004e105bce63amr10834822pfw.53.1645252943605; 
+ Fri, 18 Feb 2022 22:42:23 -0800 (PST)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ by smtp.gmail.com with ESMTPSA id r12sm12652082pgn.6.2022.02.18.22.42.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Feb 2022 22:42:22 -0800 (PST)
+From: Stafford Horne <shorne@gmail.com>
+To: QEMU Development <qemu-devel@nongnu.org>
+Subject: [PATCH v3 0/6] OpenRISC Device Tree Generation
+Date: Sat, 19 Feb 2022 15:42:04 +0900
+Message-Id: <20220219064210.3145381-1-shorne@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=shorne@gmail.com; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,113 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stafford Horne <shorne@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A guest could craft a specific stream of instructions that will have QEMU
-write 0xF9 to inappropriate locations in memory.  Add additional asserts
-to check for this.  Generate a #UD if there are more than 14 prefix bytes.
+Changes since v2:
+ - Fix description to say devicetree "generation" not "support"
+ - Fix up various indentation issues.
+ - Use HWADDR_PRIx string formatting.
+ - Split device tree population out to device init.
+ - Do not load device tree or initrd if we have no kernel.
+ - Added patches to split uart initialization out to it's own function fix 2 CPU
+   limit.
 
-Found by Julian Stecklina <julian.stecklina@cyberus-technology.de>
+Changes since v1:
+ - Fixed typos pointed out by Philippe
+ - Moved usage of machine state to patch 3/4
+ - added config dependency on FDT
 
-Signed-off-by: Cameron Esfahani <dirty@apple.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/i386/hvf/x86_decode.c | 12 ++++++++++--
- target/i386/hvf/x86hvf.c     |  8 ++++++++
- target/i386/hvf/x86hvf.h     |  1 +
- 3 files changed, 19 insertions(+), 2 deletions(-)
+This series adds device tree generation for the OpenRISC SIM hardware.
 
-diff --git a/target/i386/hvf/x86_decode.c b/target/i386/hvf/x86_decode.c
-index 062713b1a4..5d051252b4 100644
---- a/target/i386/hvf/x86_decode.c
-+++ b/target/i386/hvf/x86_decode.c
-@@ -24,8 +24,10 @@
- #include "vmx.h"
- #include "x86_mmu.h"
- #include "x86_descr.h"
-+#include "x86hvf.h"
- 
- #define OPCODE_ESCAPE   0xf
-+#define X86_MAX_INSN_PREFIX_LENGTH (14)
- 
- static void decode_invalid(CPUX86State *env, struct x86_decode *decode)
- {
-@@ -541,7 +543,8 @@ static void decode_lidtgroup(CPUX86State *env, struct x86_decode *decode)
-     };
-     decode->cmd = group[decode->modrm.reg];
-     if (0xf9 == decode->modrm.modrm) {
--        decode->opcode[decode->len++] = decode->modrm.modrm;
-+        VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
-+        decode->opcode[decode->opcode_len++] = decode->modrm.modrm;
-         decode->cmd = X86_DECODE_CMD_RDTSCP;
-     }
- }
-@@ -1847,7 +1850,8 @@ void calc_modrm_operand(CPUX86State *env, struct x86_decode *decode,
- 
- static void decode_prefix(CPUX86State *env, struct x86_decode *decode)
- {
--    while (1) {
-+    /* At most X86_MAX_INSN_PREFIX_LENGTH prefix bytes. */
-+    for (int i = 0; i < X86_MAX_INSN_PREFIX_LENGTH; i++) {
-         /*
-          * REX prefix must come after legacy prefixes.
-          * REX before legacy is ignored.
-@@ -1892,6 +1896,8 @@ static void decode_prefix(CPUX86State *env, struct x86_decode *decode)
-             return;
-         }
-     }
-+    /* Too many prefixes!  Generate #UD. */
-+    hvf_inject_ud(env);
- }
- 
- void set_addressing_size(CPUX86State *env, struct x86_decode *decode)
-@@ -2090,11 +2096,13 @@ static void decode_opcodes(CPUX86State *env, struct x86_decode *decode)
-     uint8_t opcode;
- 
-     opcode = decode_byte(env, decode);
-+    VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
-     decode->opcode[decode->opcode_len++] = opcode;
-     if (opcode != OPCODE_ESCAPE) {
-         decode_opcode_1(env, decode, opcode);
-     } else {
-         opcode = decode_byte(env, decode);
-+        VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
-         decode->opcode[decode->opcode_len++] = opcode;
-         decode_opcode_2(env, decode, opcode);
-     }
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index 05ec1bddc4..a805c125d9 100644
---- a/target/i386/hvf/x86hvf.c
-+++ b/target/i386/hvf/x86hvf.c
-@@ -425,6 +425,14 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-             & (CPU_INTERRUPT_INIT | CPU_INTERRUPT_TPR));
- }
- 
-+void hvf_inject_ud(CPUX86State *env)
-+{
-+    env->exception_nr = EXCP06_ILLOP;
-+    env->exception_injected = 1;
-+    env->has_error_code = false;
-+    env->error_code = 0;
-+}
-+
- int hvf_process_events(CPUState *cpu_state)
- {
-     X86CPU *cpu = X86_CPU(cpu_state);
-diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
-index 99ed8d608d..ef472a32f9 100644
---- a/target/i386/hvf/x86hvf.h
-+++ b/target/i386/hvf/x86hvf.h
-@@ -22,6 +22,7 @@
- 
- int hvf_process_events(CPUState *);
- bool hvf_inject_interrupts(CPUState *);
-+void hvf_inject_ud(CPUX86State *);
- void hvf_set_segment(struct CPUState *cpu, struct vmx_segment *vmx_seg,
-                      SegmentCache *qseg, bool is_tr);
- void hvf_get_segment(SegmentCache *qseg, struct vmx_segment *vmx_seg);
+The simulator will generate an FDT and pass it to the kernel.
+
+For example:
+  qemu-system-or1k -cpu or1200 -M or1k-sim \
+    -kernel /home/shorne/work/linux/vmlinux \
+    -initrd /home/shorne/work/linux/initramfs.cpio.gz \
+    -serial mon:stdio -nographic -gdb tcp::10001 -m 32
+
+Using the linux kernel or1ksim_defconfig we can remove the built-in
+dts and the kernel will boot as expected.  The real benefit here is
+being able to specify an external initrd which qemu will load into
+memory and the device tree will tell the kernel where to find it.
+
+Tested this by booting single core and SMP kernels with 4x CPUs.
+
+Stafford Horne (6):
+  hw/openrisc/openrisc_sim: Create machine state for or1ksim
+  hw/openrisc/openrisc_sim: Parameterize initialization
+  hw/openrisc/openrisc_sim: Use IRQ splitter when connecting UART
+  hw/openrisc/openrisc_sim: Increase max_cpus to 4
+  hw/openrisc/openrisc_sim: Add automatic device tree generation
+  hw/openrisc/openrisc_sim: Add support for initrd loading
+
+ configs/targets/or1k-softmmu.mak |   1 +
+ hw/openrisc/openrisc_sim.c       | 308 ++++++++++++++++++++++++++++---
+ 2 files changed, 285 insertions(+), 24 deletions(-)
+
 -- 
-2.32.0 (Apple Git-132)
+2.31.1
 
 
