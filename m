@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA2F4BC883
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 14:18:14 +0100 (CET)
-Received: from localhost ([::1]:36986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBC54BC8C4
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 14:56:29 +0100 (CET)
+Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLPcr-0001sA-Om
-	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 08:18:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33548)
+	id 1nLQDr-0006jC-OZ
+	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 08:56:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nLPRo-00035o-Q1
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:06:49 -0500
-Received: from [2607:f8b0:4864:20::b2e] (port=38443
- helo=mail-yb1-xb2e.google.com)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nLQB2-0005Lm-QR
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:53:33 -0500
+Received: from [2607:f8b0:4864:20::234] (port=41763
+ helo=mail-oi1-x234.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nLPRQ-0003Uy-W5
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:06:48 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id y6so24814529ybc.5
- for <qemu-devel@nongnu.org>; Sat, 19 Feb 2022 05:06:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nLQAQ-0006lx-MA
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:53:32 -0500
+Received: by mail-oi1-x234.google.com with SMTP id ay7so6112994oib.8
+ for <qemu-devel@nongnu.org>; Sat, 19 Feb 2022 05:52:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=A9h+yD7KDGVzm01UiHYsJQCxIPzTdqd4F1p9OJJbWq4=;
- b=ratfBkbw+fDkXlSWmGrzh1XzyCMgYCHLO2eDNsV71hq15Iarqdme7HnMv99DFv1dgA
- HMhTpRb95vxFz8iHdaeqM+VvOEwXWF+EWfVniam7I9jx5gbR28/e4FQn2Yc3phKrCgGZ
- xIQ5QLwsk2w15xkZpv4ynsVfrWpwIVyDFY0xsSY/AwWZvuc7LB089HGqkDEwbSglQCTG
- LM+2/Z96I9vmEfuexVvcIuGXKa/BEXTqEJeNpRAWOzS9ctO4aeIj74+/UqsKk7V8sDVE
- 68mNbOTII7LZWwlXuWvIwSUxWdr+UklH7FNE2jd5JF0FS98+8gBzWSPpTaF4D+7kHgor
- xs9g==
+ :cc:content-transfer-encoding;
+ bh=r8JotbY5i2w4Zt7zHBdThDre/U54uU8dSMK/7cc5hDo=;
+ b=WE2uYkM2JntWwiDSJJmhmd4Rj3IylEredf0S7nyvKMKChoyDQ+tBi4OUjY71VnQkpr
+ O0Dh5pKyFf7c2dbVcTMvjASSYwTRVKFuaz7Y47ABnQS60FmGE1ZSKgVafiAaNWFruKPE
+ 2IQoOHgwzahbMl4OsuUGHlhsr2Em+CAy0YeBnYV0PPUQaEMatQ4bQsJ8MwYq/2lWKyyG
+ IUrIT4jStezKaAyBVEdU7qa4o429jtCQphjFcP5kyibZDITah7WBvcPyztBX1DEfE1DX
+ 8wsQp3gO153afwhFCAJN1Z4Y5niyBrHF2b4pVV6+IXFdmqu8ze4vICPIeqpfgMyviZg6
+ BvWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=A9h+yD7KDGVzm01UiHYsJQCxIPzTdqd4F1p9OJJbWq4=;
- b=csbuRuxQr0o5Cj+0UQXFMHPtHBqsVGD+R64+WZPggjWBxk/HWNNqdMSTyRKncB2dZH
- GRhJjrzYj4Xpb/RvCnUNHyWA9h5V76m69xcObSPQB3iN6f3E9FRmOMkIOKgrL70YCWnD
- ks5KKijfi2280oBWEXcKi/RPn/LF5Y66DjxqXRi8Tu39iL1zA1UpuCq/d2bJldWAo+SE
- XmfLJG9k/d8IB867f2uhfJdCoHRbD8zB2DWUri2Re3oSkqcQBBlmkizPq/IHaR32Qpsj
- Pu7w+FLEH4gz3xOqETjs9g+GelCMiioJ1vnCShQXZKLI4elAlAGond0jWlvWtx+MS5qz
- R3ew==
-X-Gm-Message-State: AOAM530g/XeeFVfkA6jJmMJiXE5wzWOq0Woi5GfwlibQuBkixREPjJ4p
- hPFAtnTPptW0A1XuPL2//IcNeF8hd7O6NvlG/KkATA==
-X-Google-Smtp-Source: ABdhPJx63rx6Qw1pgy471nrEDGdSZLDVh7yqmhXrF4KR2K/zyGMlb1XVzb2+Qv6gUSHhPgbpEycM42bjLsC35HFBd1g=
-X-Received: by 2002:a25:dc87:0:b0:624:4104:a331 with SMTP id
- y129-20020a25dc87000000b006244104a331mr8423507ybe.67.1645275982957; Sat, 19
- Feb 2022 05:06:22 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=r8JotbY5i2w4Zt7zHBdThDre/U54uU8dSMK/7cc5hDo=;
+ b=kXlqkkRLCHiO56UmJbOoDAkQ5mJey7MKsHT/hJNol/IUffsTY/CpHtkQvlBYPl9cZX
+ WBmbSUrTnLmoh6VyAnWu2E3mSvyYR9EZvfnb7sdQ3JfH1jFknxPly9/E3fI5EjbO6nwd
+ CqpaBZ7wv1QL+3VKsvFqrCs2B0oaT8Kk5hpZavny82xJfDMt+wbeF/Wd5h6ioxXPHDQk
+ sh82ifY6nZ7Aq0dbJicg/syB0Hi5k9Md/KF6BGDqgviNFtEzQzFq3lDH+KLO+6P+Roqa
+ m7gV4lGJb2YO90SLcKPDp9Q240qhe2pBYzzPOct2Dcv4eeMgW/TRQhTVcet+Gj5CbvI8
+ zMxg==
+X-Gm-Message-State: AOAM530G9UlIUf3QrSpR5Yq79HPCNDSOXYw98yPlUjGAt2G4itVcKL6L
+ 1djtP8OKMu0r7gRaA2KhWRfMi1nPn5CQuQULKspR+ZCC
+X-Google-Smtp-Source: ABdhPJzSmBwPqNDaIwav1DndGpgFXRQ2Hr/qn6Nad+yEtKdwLOkKZXRxvB6NKhUuJKL3XpVPfRTBd9RsXcsz6qSLdks=
+X-Received: by 2002:a17:90a:d3d0:b0:1bb:f5b3:2fbf with SMTP id
+ d16-20020a17090ad3d000b001bbf5b32fbfmr2977553pjw.87.1645278388162; Sat, 19
+ Feb 2022 05:46:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20220219064210.3145381-1-shorne@gmail.com>
- <20220219064210.3145381-6-shorne@gmail.com>
-In-Reply-To: <20220219064210.3145381-6-shorne@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 19 Feb 2022 13:06:12 +0000
-Message-ID: <CAFEAcA_O0rnZHMJViKVJEK8dkTjBBaH9H+QsKQyEGCSJgfxsyg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] hw/openrisc/openrisc_sim: Add automatic device
- tree generation
-To: Stafford Horne <shorne@gmail.com>
+References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+ <f7dc638d-0de1-baa8-d883-fd8435ae13f2@redhat.com>
+ <bf97384a-2244-c997-ba75-e3680d576401@redhat.com>
+ <ad4e6ea2-df38-005a-5d60-375ec9be8c0e@redhat.com>
+In-Reply-To: <ad4e6ea2-df38-005a-5d60-375ec9be8c0e@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Sat, 19 Feb 2022 13:46:16 +0000
+Message-ID: <CAJSP0QVNjdr+9GNr+EG75tv4SaenV0TSk3RiuLG01iqHxhY7gQ@mail.gmail.com>
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::234
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=stefanha@gmail.com; helo=mail-oi1-x234.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -83,27 +86,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Development <qemu-devel@nongnu.org>, Jia Liu <proljc@gmail.com>
+Cc: "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 19 Feb 2022 at 06:42, Stafford Horne <shorne@gmail.com> wrote:
+On Fri, 18 Feb 2022 at 16:03, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Using the device tree means that qemu can now directly tell
-> the kernel what hardware is configured rather than use having
-> to maintain and update a separate device tree file.
+> On 2/18/22 12:39, Michal Pr=C3=ADvozn=C3=ADk wrote:
+> > On 2/17/22 18:52, Paolo Bonzini wrote:
+> >> I would like to co-mentor one or more projects about adding more
+> >> statistics to Mark Kanda's newly-born introspectable statistics
+> >> subsystem in QEMU
+> >> (https://patchew.org/QEMU/20220215150433.2310711-1-mark.kanda@oracle.c=
+om/),
+> >> for example integrating "info blockstats"; and/or, to add matching
+> >> functionality to libvirt.
+> >>
+> >> However, I will only be available for co-mentoring unfortunately.
+> >
+> > I'm happy to offer my helping hand in this. I mean the libvirt part,
+> > since I am a libvirt developer.
+> >
+> > I believe this will be listed in QEMU's ideas list, right?
 >
-> This patch adds automatic device tree generation support for the
-> OpenRISC simulator.  A device tree is built up based on the state of the
-> configure openrisc simulator.
->
-> This is then dumped to memory and the load address is passed to the
-> kernel in register r3.
->
-> Signed-off-by: Stafford Horne <shorne@gmail.com>
+> Does Libvirt participate to GSoC as an independent organization this
+> year?  If not, I'll add it as a Libvirt project on the QEMU ideas list.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Libvirt participates as its own GSoC organization. If a project has
+overlap we could do it in either org, or have a QEMU project and a
+libvirt project if the amount of work is large enough.
 
-thanks
--- PMM
+Stefan
 
