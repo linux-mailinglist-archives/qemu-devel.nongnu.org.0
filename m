@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318FC4BC87D
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 14:11:36 +0100 (CET)
-Received: from localhost ([::1]:56174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE4C4BC881
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 14:16:59 +0100 (CET)
+Received: from localhost ([::1]:34888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLPWQ-0003eJ-V7
-	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 08:11:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54656)
+	id 1nLPbe-000093-3I
+	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 08:16:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nLPNV-0001em-3T
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:02:21 -0500
-Received: from mail-yb1-f182.google.com ([209.85.219.182]:47010)
+ id 1nLPOd-0002Md-Qf
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:03:32 -0500
+Received: from [2607:f8b0:4864:20::b2e] (port=40736
+ helo=mail-yb1-xb2e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nLPMq-0001XA-Rm
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:02:20 -0500
-Received: by mail-yb1-f182.google.com with SMTP id p5so24683166ybd.13
- for <qemu-devel@nongnu.org>; Sat, 19 Feb 2022 05:01:40 -0800 (PST)
+ id 1nLPNn-0001uQ-Uw
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:03:31 -0500
+Received: by mail-yb1-xb2e.google.com with SMTP id u12so10806671ybd.7
+ for <qemu-devel@nongnu.org>; Sat, 19 Feb 2022 05:02:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RgOaOkrcoZ67VXOknM6p9RoO/SIGgoe+lSs18g7y0fE=;
- b=zD1xGUF9SllWyyNKUFc8h5zKAb4Lfsj6I8yghLDs30ehDI8/nwzMyaN7i6zlav8wz9
- BrsXLCz1w2MbPfmCHCVzscEWIT7DEBfK1lAgaJJquZNV/OQ/fHD325ZUtmazx3SRChJb
- +B3+k0rPaFOCMZYjuJezMJ98Yke6UlRFOYyP9anRx6m+RjEAPMW7OZ4cgaIiXxrOODf0
- rW1t/zqkgRnb6KAfOlX34nCkaMmogoIlUWpDVVGNAYih2A/FJydca+yP4XX9XkyyABtB
- VDPE8GvM5GTHUcKxBVKxTGBim29FczUQRDL/jIpjwqLPoYyICKVlHYiPGRfKP/TGytT7
- jmpQ==
+ :cc; bh=zH70aBFr2SWkOUZhoBaMAp+/lFTrEF01bJqe0VaX/aA=;
+ b=wcfEmg49LxSKlBaEdnxIj1rXjVAbHM42wZM4Dd8RoWdyei3nZtbP+HguWEZScpEQcC
+ NG5qdla+2b35hmwPapPAwIwooYRnK8EWMzsTYzsIctzTza8RruMK7Dyd3ROXsHPQdYSH
+ 0V9Ryoij3lqpIPhztMsSYl67ms8j+dKpcza4XPuW7OkSbMvCd0ZC3hg0Zzop/hoYgylo
+ VAH/a2pBxjy/lINBBOdcy9QjOVKObq8exQnv1FF9U2CMLUcho3AleouIm3+5+CxXvJA/
+ GDtH1PlJn1AthSl+Qc5bzmp21Qhx7k/dbTgq4Zbne2Xcef+TR3Lnv0RIP/7njaDpe3Wz
+ MbNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RgOaOkrcoZ67VXOknM6p9RoO/SIGgoe+lSs18g7y0fE=;
- b=otc+Qk5evnQzAASyBbXyNtrFpTECRRSXLq4wZ8M1hJLJskCxRUm/4f1r3cEXHC2Rbe
- DOFz74sz6DyaZAJgOHKPvdpvlenL/MG2ZL+bntZLggmoldbY9ZV47xI4Z2Q/yB7HZkH5
- M9Wv2N8O5vLsBncUleaYZd2ECvHDzVe6hDznWA+GdKT+8e76jDFrfR/F8T6g2lNTYyIc
- ci58JjSiMa36v6lGjWAmZoyk5Vjh6HGpSIzhfz1DtfkZ97UnWaH7otQs87PutSQM9XWh
- x8wGLIaKYIQGe42kCHILVChHZsdxfzRi37oyXyC5NW8+0e7YJWvf6WtiSjfBsCum+vqW
- wjPA==
-X-Gm-Message-State: AOAM5324OZ/uIuqSrILaegOs+Wrb/wQXKRKfhnASd9cgnQEMuq86iEyh
- uGi9gTj9auYDNMtikygFFBvLPE1R4F737kaQ37qe5xa9FYI=
-X-Google-Smtp-Source: ABdhPJzR/waQ4EG/NG9hbsaQaCliBo+D4+VSw6cldxY7tO/jR3puSl22YqRnqrO7WK6S5LFMaB554tc5Rpc4kqK+X7o=
-X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
- h3-20020a056902008300b0061a709bd841mr11265718ybs.140.1645275699610; Sat, 19
- Feb 2022 05:01:39 -0800 (PST)
+ bh=zH70aBFr2SWkOUZhoBaMAp+/lFTrEF01bJqe0VaX/aA=;
+ b=QNe98j7cGOmqicxgD7LbzigB3HveDDJIgTcgL+JCGWjsR08YDQPpxR90hHljtTM4+W
+ lKjZeZORsiwpanufJ0dnrScBJepQn4dtieNykDhPU72rOvMAAwnQxAEnqvrE1yQL+2IN
+ l/HLnZQ1FWhkLpbeZWXVNnvKz4rFZblOa91hKDoJt+OYmorZo8JJD3A1DnQWJZZIUrqn
+ jkGKPoMePUolMI4Qnaz02mEYDT0Fyw+MxBif3dmTHfz3aOUEQ6LwpYG1GfYJuvmkwLnQ
+ r7s/kcZR3sQ7OGYI0ut0omx6h2Js8P9uHA/nTDJecBaC6CVVFF68d5e9nH8EyOCibu7e
+ 6fVw==
+X-Gm-Message-State: AOAM533LcPw5zPnN4me4ap8aWf6yqIR8bXlQEE39QzocdhLJgTwX74uk
+ KHbG2+setiKBPInMfimxbs5TVOSfSd4cSWpbWjBDfA==
+X-Google-Smtp-Source: ABdhPJzWkzzAgsEVP2Ydti/zPYrajTgD31CHZWyTgw8X7ch2Q8wgoxMhLXNTzvP/6odEGCilHUY1jToSKuY44sGFxZU=
+X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
+ s5-20020a5b0745000000b006221c463c19mr11574729ybq.479.1645275754368; Sat, 19
+ Feb 2022 05:02:34 -0800 (PST)
 MIME-Version: 1.0
 References: <20220219064210.3145381-1-shorne@gmail.com>
- <20220219064210.3145381-4-shorne@gmail.com>
-In-Reply-To: <20220219064210.3145381-4-shorne@gmail.com>
+ <20220219064210.3145381-5-shorne@gmail.com>
+In-Reply-To: <20220219064210.3145381-5-shorne@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 19 Feb 2022 13:01:28 +0000
-Message-ID: <CAFEAcA95vd49x05oOLqkwajwHYRphpeV51os-2XZex3TabTkGA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] hw/openrisc/openrisc_sim: Use IRQ splitter when
- connecting UART
+Date: Sat, 19 Feb 2022 13:02:23 +0000
+Message-ID: <CAFEAcA_0PF+R=1kDhYVeB18SA1VAeawFHgLetXSAXkbBjOvY+g@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] hw/openrisc/openrisc_sim: Increase max_cpus to 4
 To: Stafford Horne <shorne@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.219.182;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-f182.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,16 +88,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sat, 19 Feb 2022 at 06:42, Stafford Horne <shorne@gmail.com> wrote:
 >
-> Currently the OpenRISC SMP configuration only supports 2 cores due to
-> the UART IRQ routing being limited to 2 cores.  As was done in commit
-> 1eeffbeb11 ("hw/openrisc/openrisc_sim: Use IRQ splitter when connecting
-> IRQ to multiple CPUs") we can use a splitter to wire more than 2 CPUs.
->
-> This patch moves serial initialization out to it's own function and
-> uses a splitter to connect multiple CPU irq lines to the UART.
+> Now that we no longer have a limit of 2 CPUs due to fixing the
+> IRQ routing issues we can increase the max.  Here we increase
+> the limit to 4, we could go higher, but currently OMPIC has a
+> limit of 4, so we align with that.
 >
 > Signed-off-by: Stafford Horne <shorne@gmail.com>
 > ---
+>  hw/openrisc/openrisc_sim.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
