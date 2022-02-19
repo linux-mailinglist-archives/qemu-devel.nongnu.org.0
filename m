@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CBC54BC8C4
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 14:56:29 +0100 (CET)
-Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39AAD4BC8BF
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 14:53:53 +0100 (CET)
+Received: from localhost ([::1]:50938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLQDr-0006jC-OZ
-	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 08:56:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58620)
+	id 1nLQBL-0004wJ-PT
+	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 08:53:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nLQB2-0005Lm-QR
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:53:33 -0500
-Received: from [2607:f8b0:4864:20::234] (port=41763
- helo=mail-oi1-x234.google.com)
+ id 1nLQ7m-0003lc-T7
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:50:33 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=38843
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nLQAQ-0006lx-MA
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:53:32 -0500
-Received: by mail-oi1-x234.google.com with SMTP id ay7so6112994oib.8
- for <qemu-devel@nongnu.org>; Sat, 19 Feb 2022 05:52:54 -0800 (PST)
+ id 1nLQ7F-0005AY-IC
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 08:50:02 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ m1-20020a17090a668100b001bc023c6f34so905968pjj.3
+ for <qemu-devel@nongnu.org>; Sat, 19 Feb 2022 05:48:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=r8JotbY5i2w4Zt7zHBdThDre/U54uU8dSMK/7cc5hDo=;
- b=WE2uYkM2JntWwiDSJJmhmd4Rj3IylEredf0S7nyvKMKChoyDQ+tBi4OUjY71VnQkpr
- O0Dh5pKyFf7c2dbVcTMvjASSYwTRVKFuaz7Y47ABnQS60FmGE1ZSKgVafiAaNWFruKPE
- 2IQoOHgwzahbMl4OsuUGHlhsr2Em+CAy0YeBnYV0PPUQaEMatQ4bQsJ8MwYq/2lWKyyG
- IUrIT4jStezKaAyBVEdU7qa4o429jtCQphjFcP5kyibZDITah7WBvcPyztBX1DEfE1DX
- 8wsQp3gO153afwhFCAJN1Z4Y5niyBrHF2b4pVV6+IXFdmqu8ze4vICPIeqpfgMyviZg6
- BvWA==
+ bh=TMSny8Hb1/dj+Tg4cloLmwVkat85TCFFhtPIeBpg4qg=;
+ b=pEI5DA4H3nyYsQetFyyEgRvzQXP2CNIZpTo6L2RWZLMnNP8t+aHpFkHJWJNtwFxzjP
+ FyrzbI7oFcKD+/l3+xdincK/+TOEw4+5t0jw3AH1UPcDOWGyv8Z+jfrOlxnjoWoNj1Ya
+ kDs3WMQGbqXBNnWmSH9cBZRzwGSGgGcwBRF4Ni7EWrNRZiuOyzeJVKyf3C04dPMtwYpO
+ 8zIxuhiv8PAgTlMme0SvpBkNt7hp+NCoKy6xdyxV0D3iHhmrI9oIc7J/jb0qTR4TKN7a
+ rMZ+naEWS9O+3BU8EjLmoZjaGVpd1w9x66tQYwPRIOir2TsvweQ24kLoSJO4PxaeOkLI
+ ZOLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=r8JotbY5i2w4Zt7zHBdThDre/U54uU8dSMK/7cc5hDo=;
- b=kXlqkkRLCHiO56UmJbOoDAkQ5mJey7MKsHT/hJNol/IUffsTY/CpHtkQvlBYPl9cZX
- WBmbSUrTnLmoh6VyAnWu2E3mSvyYR9EZvfnb7sdQ3JfH1jFknxPly9/E3fI5EjbO6nwd
- CqpaBZ7wv1QL+3VKsvFqrCs2B0oaT8Kk5hpZavny82xJfDMt+wbeF/Wd5h6ioxXPHDQk
- sh82ifY6nZ7Aq0dbJicg/syB0Hi5k9Md/KF6BGDqgviNFtEzQzFq3lDH+KLO+6P+Roqa
- m7gV4lGJb2YO90SLcKPDp9Q240qhe2pBYzzPOct2Dcv4eeMgW/TRQhTVcet+Gj5CbvI8
- zMxg==
-X-Gm-Message-State: AOAM530G9UlIUf3QrSpR5Yq79HPCNDSOXYw98yPlUjGAt2G4itVcKL6L
- 1djtP8OKMu0r7gRaA2KhWRfMi1nPn5CQuQULKspR+ZCC
-X-Google-Smtp-Source: ABdhPJzSmBwPqNDaIwav1DndGpgFXRQ2Hr/qn6Nad+yEtKdwLOkKZXRxvB6NKhUuJKL3XpVPfRTBd9RsXcsz6qSLdks=
-X-Received: by 2002:a17:90a:d3d0:b0:1bb:f5b3:2fbf with SMTP id
- d16-20020a17090ad3d000b001bbf5b32fbfmr2977553pjw.87.1645278388162; Sat, 19
- Feb 2022 05:46:28 -0800 (PST)
+ bh=TMSny8Hb1/dj+Tg4cloLmwVkat85TCFFhtPIeBpg4qg=;
+ b=xDVC/WbZ3eyhk3uwPIPzSX7iA/cwgM8EG3dj+XmLrWNMbKqzQoJdCTF0i07Iz05oy9
+ vFSbhwiu1Bp4ZWZujcvSJXqc+Cb4B3S18vVdg27ZneC6s+QXc0aYM4R7ic6DRT533SDL
+ nXjLyBhcSYs8pl16vkkBqF9+TxMz3dth+J15ZV3U7qQ3ra7Rk3dVXxgb98HtX2ENFE76
+ psXBBjxIWO1cRqHNC2fR/8Yg6ZW82/H2cQdtSzjgRFpfVxfuSm2L1itiSqJ/RuDZKVQA
+ QYK/x/iXIhcTLZVymczp07BngS4UhXJAg4SCsYOoT2wFid1rDPFvqQPE5lfFmW0FDmzi
+ aOeg==
+X-Gm-Message-State: AOAM531uwCrfGS1Refw5OsK+VX0O7SBuekGk9wzwf/YmGwMB+29P7e8P
+ bacwB09/gi/KBWGgsrBD3p8RtS9dn60uPvXlRhM=
+X-Google-Smtp-Source: ABdhPJyE47hQVgA1q72jThE17dy2tEtzCHWvrzz2PSgzP3GXQcFrprR1DKCs5OoUeUiM+hddAnYZQy8ErlzDy/Qmh2g=
+X-Received: by 2002:a17:90a:f318:b0:1bb:c168:90ec with SMTP id
+ ca24-20020a17090af31800b001bbc16890ecmr11433360pjb.157.1645278520612; Sat, 19
+ Feb 2022 05:48:40 -0800 (PST)
 MIME-Version: 1.0
 References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
  <f7dc638d-0de1-baa8-d883-fd8435ae13f2@redhat.com>
  <bf97384a-2244-c997-ba75-e3680d576401@redhat.com>
- <ad4e6ea2-df38-005a-5d60-375ec9be8c0e@redhat.com>
-In-Reply-To: <ad4e6ea2-df38-005a-5d60-375ec9be8c0e@redhat.com>
+In-Reply-To: <bf97384a-2244-c997-ba75-e3680d576401@redhat.com>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Sat, 19 Feb 2022 13:46:16 +0000
-Message-ID: <CAJSP0QVNjdr+9GNr+EG75tv4SaenV0TSk3RiuLG01iqHxhY7gQ@mail.gmail.com>
+Date: Sat, 19 Feb 2022 13:48:29 +0000
+Message-ID: <CAJSP0QU1LgqbKXePwojKKZsyKeyAR=reuMUt8ecBH8B6bhVV8Q@mail.gmail.com>
 Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
-To: Paolo Bonzini <pbonzini@redhat.com>
+To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::234
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=stefanha@gmail.com; helo=mail-oi1-x234.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=stefanha@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,36 +87,46 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "libvir-list@redhat.com" <libvir-list@redhat.com>,
- =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ kvm <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Feb 2022 at 16:03, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Fri, 18 Feb 2022 at 11:40, Michal Pr=C3=ADvozn=C3=ADk <mprivozn@redhat.c=
+om> wrote:
 >
-> On 2/18/22 12:39, Michal Pr=C3=ADvozn=C3=ADk wrote:
-> > On 2/17/22 18:52, Paolo Bonzini wrote:
-> >> I would like to co-mentor one or more projects about adding more
-> >> statistics to Mark Kanda's newly-born introspectable statistics
-> >> subsystem in QEMU
-> >> (https://patchew.org/QEMU/20220215150433.2310711-1-mark.kanda@oracle.c=
-om/),
-> >> for example integrating "info blockstats"; and/or, to add matching
-> >> functionality to libvirt.
+> On 2/17/22 18:52, Paolo Bonzini wrote:
+> > On 1/28/22 16:47, Stefan Hajnoczi wrote:
+> >> Dear QEMU, KVM, and rust-vmm communities,
+> >> QEMU will apply for Google Summer of Code 2022
+> >> (https://summerofcode.withgoogle.com/) and has been accepted into
+> >> Outreachy May-August 2022 (https://www.outreachy.org/). You can now
+> >> submit internship project ideas for QEMU, KVM, and rust-vmm!
 > >>
-> >> However, I will only be available for co-mentoring unfortunately.
+> >> If you have experience contributing to QEMU, KVM, or rust-vmm you can
+> >> be a mentor. It's a great way to give back and you get to work with
+> >> people who are just starting out in open source.
+> >>
+> >> Please reply to this email by February 21st with your project ideas.
 > >
-> > I'm happy to offer my helping hand in this. I mean the libvirt part,
-> > since I am a libvirt developer.
+> > I would like to co-mentor one or more projects about adding more
+> > statistics to Mark Kanda's newly-born introspectable statistics
+> > subsystem in QEMU
+> > (https://patchew.org/QEMU/20220215150433.2310711-1-mark.kanda@oracle.co=
+m/),
+> > for example integrating "info blockstats"; and/or, to add matching
+> > functionality to libvirt.
 > >
-> > I believe this will be listed in QEMU's ideas list, right?
+> > However, I will only be available for co-mentoring unfortunately.
 >
-> Does Libvirt participate to GSoC as an independent organization this
-> year?  If not, I'll add it as a Libvirt project on the QEMU ideas list.
+> I'm happy to offer my helping hand in this. I mean the libvirt part,
+> since I am a libvirt developer.
+>
+> I believe this will be listed in QEMU's ideas list, right?
 
-Libvirt participates as its own GSoC organization. If a project has
-overlap we could do it in either org, or have a QEMU project and a
-libvirt project if the amount of work is large enough.
+You're welcome to co-mentor the QEMU project indepently of a separate
+libvirt project (if there is one). Your involvement would be great so
+you can give input on what APIs libvirt wants.
 
 Stefan
 
