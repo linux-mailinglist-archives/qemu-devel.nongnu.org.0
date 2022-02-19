@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A156F4BC6EC
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 09:14:41 +0100 (CET)
-Received: from localhost ([::1]:49070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D328B4BC726
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 10:40:34 +0100 (CET)
+Received: from localhost ([::1]:44644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLKt6-0003DO-N2
-	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 03:14:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55190)
+	id 1nLMED-0006UQ-9a
+	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 04:40:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1nLKpP-0001bX-EC; Sat, 19 Feb 2022 03:10:53 -0500
-Received: from [2a00:1450:4864:20::42a] (port=43928
- helo=mail-wr1-x42a.google.com)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nLMBY-0005d2-G8
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 04:37:48 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=53993
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>)
- id 1nLKoR-0002nk-Dm; Sat, 19 Feb 2022 03:10:45 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id i14so18145789wrc.10;
- Sat, 19 Feb 2022 00:09:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nLMAu-0005gc-CM
+ for qemu-devel@nongnu.org; Sat, 19 Feb 2022 04:37:48 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id qe15so10585456pjb.3
+ for <qemu-devel@nongnu.org>; Sat, 19 Feb 2022 01:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1ZUXssCLE4uYCmcYOb1P8/KGnx32KSVKOBHryyB/asE=;
- b=kLxFP+Blp+NIQ1nLNvw2GibXH2vrhl4ngSAFQxUzPWvHWAkHdMaQji6si+QXA8NzMj
- mnZxLs/KniFW0FDbuaJO0CY58Za006M1x+GOEmqwv/pg5mUNLLCqUN52BDPsma/KXdNG
- jR2GCiCOWRTsV7wqVJ7uSbASq9FdZ3FGonqJh23A3duimwsHM/yofqycJ1vu8wUCf+Zn
- 4tezzLtv4W7T+5WoXmTlp6WxgmAXfpbmJCal/FB1ABoUQ0g4Gw3O6KJc7uSL7HRL2iTZ
- 7ywyOZ74t49Z6y0mBQAbnq4mSrvUNeszc6CTBMm5OscLS7l5cjdRUWtMpVQPj0v7KrOZ
- 9MMw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iqehRaZ/IySJbkttcqrJhGWD2un0MeCB0ZrslGhubuQ=;
+ b=dGWNHqNAFDDFezo64afskyOkql/znAdfpXmfZZeMpPtNk3TBw0zL3mwzL9KDxBSUHS
+ VjxCsGPAplh4HapwGsajIs0LsjEhUvUvGL1YSDMqNopfvTIklH0WLv1DhXYPeQ9gwMF1
+ I3d0mLBlZzHc75pt3sb+aL/PpSnZsgbrk9VccmICCIkCTm3qclkc25dC8usSYVooLDFb
+ 2HCCRyOjCf0pZXo0UBxTlRJ5GSFmqSVpxw1qekMonL+0qYdsTyCMwR3B5jerYkAy8Mps
+ PndVXESYDRNNa37RFTz7ORp/84j7Y0RI/UDe8MGgPArxxEhG3aFR5Qn4n+8420HgK0yw
+ wb9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1ZUXssCLE4uYCmcYOb1P8/KGnx32KSVKOBHryyB/asE=;
- b=jUI+qJ+2sN3oH1PSDnK6FUOK2YQ8cpWzP6KuENpIZVHKdNWo8Y8RCu6wMK67+rrxLn
- e0v/64Q1funu/YxpnaDIRSexRCIaxnkxs7KHFbs6/I30yHNOaLMgmN0pWirOs76GXMOg
- qez3i8sjX+bHqDNlcWpNqAzLln7eovymTIcywlwxncXbllQkrvmTBIcFkg9xlOtlXx/s
- tZ5eYNcmEonrV8r8hzHU7BZHyjOOqJuHQrVeE9kwVZRX2VXa6voUtTwyqa6n0mzu1T5I
- BTe+9mB5LP5RI3DAh5b5K3KRSLc2FGYawfUTiat2EZLdWS0ZYQnMXNYIcLSsHfy0BuwQ
- Lv4Q==
-X-Gm-Message-State: AOAM530zls6q31MOghvRUfzUP1NGQDzGzL83NxoaU1MWSIfPqvG3CimR
- 1ayracM6kqZXx9P7qaBQPIn7jD0T0Fk/Kw==
-X-Google-Smtp-Source: ABdhPJzhnaUmCBeWnaKxVtVrEuszYVvSX0UINL1jmDxgdyT7JGzLm/mpZzcZX1ci087ffzyEm8YLCA==
-X-Received: by 2002:adf:e8c5:0:b0:1e4:7c8a:21a7 with SMTP id
- k5-20020adfe8c5000000b001e47c8a21a7mr8768647wrn.516.1645258189411; 
- Sat, 19 Feb 2022 00:09:49 -0800 (PST)
-Received: from liavpc.localdomain ([2a10:800a:bb8:1:6510:42ac:bb55:9590])
- by smtp.gmail.com with ESMTPSA id 12sm19940719wry.111.2022.02.19.00.09.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Feb 2022 00:09:49 -0800 (PST)
-From: Liav Albani <liavalb@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] hw/ide: share bmdma read and write functions between
- piix.c and via.c
-Date: Sat, 19 Feb 2022 10:08:18 +0200
-Message-Id: <20220219080818.327683-2-liavalb@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220219080818.327683-1-liavalb@gmail.com>
-References: <20220219080818.327683-1-liavalb@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iqehRaZ/IySJbkttcqrJhGWD2un0MeCB0ZrslGhubuQ=;
+ b=brhdSAmemaJSRoWtK/LefenToo841CKhkc2k2wysNVCVgs7j8PsdKDx7SsKVjERMXj
+ bskoFQu5jg9kgUJpGIzUGDF7NWIAIwI1Nn2rQy5PcirBO+NcnkTLUTy7BOFzzhMBotZn
+ 0PT94IVdnukANO0BCF5ICchlbNCUzJAPNl7CoTDqPcgDw1ODqL3nAYIEyfdFVX9to3th
+ HV95kNQ8wBVGEev7baIWZTKKmaqURl5ups6fxj+xi8MlLos+KPgwj/fl1kBEtLfTRZ7z
+ fcD8YxhVpOLW2su26xeqmPlMaXpkFXyeGO4ps8aXff7CbbGE3sVmw8G81QONt+SUnFm1
+ pNrA==
+X-Gm-Message-State: AOAM530nQtb8nVysRpNvuNDxfzLaq7ujndHayTXJOVq4U/gid/KZK/pf
+ g5opnJgHrgNQrkZSmGV7t9wdMtQTScr1JRFTCgs=
+X-Google-Smtp-Source: ABdhPJxY8hPZtV8KkysLrfS5pwQ/SUbtTJicDRvtyWp546oHsqt+zbkkwhqPdvFSb7XfPzwq+r2RXuC9wNpBOt73Mms=
+X-Received: by 2002:a17:902:e8c2:b0:14d:bc86:be4d with SMTP id
+ v2-20020a170902e8c200b0014dbc86be4dmr11093133plg.106.1645263426545; Sat, 19
+ Feb 2022 01:37:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+ <CACGkMEvtENvpubmZY3UKptD-T=c9+JJV1kRm-ZPhP08xOJv2fQ@mail.gmail.com>
+ <CAJSP0QX6JgCG7UdqaY=G8rc64ZqE912UzM7pQkSMBfzGywHaHg@mail.gmail.com>
+ <70c04ba7-d617-580d-deaa-97018192e8a6@redhat.com>
+In-Reply-To: <70c04ba7-d617-580d-deaa-97018192e8a6@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Sat, 19 Feb 2022 09:36:55 +0000
+Message-ID: <CAJSP0QXUiNLQmTap1EgX-fxc5N1OqpN=PY=6x9JdCGxMaMHk7Q@mail.gmail.com>
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=liavalb@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=stefanha@gmail.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,220 +84,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, Liav Albani <liavalb@gmail.com>, qemu-block@nongnu.org
+Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, Sergio Lopez <slp@redhat.com>,
+ kvm <kvm@vger.kernel.org>, Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+ Alex Agache <aagch@amazon.com>, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, "Florescu,
+ Andreea" <fandree@amazon.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, John Snow <jsnow@redhat.com>,
+ Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of letting each implementation to duplicate this code, we can
-share these functions between IDE PIIX3/4 and VIA implementations.
+On Thu, 17 Feb 2022 at 17:49, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> On 2/14/22 15:01, Stefan Hajnoczi wrote:
+> > Thanks for this idea. As a stretch goal we could add implementing the
+> > packed virtqueue layout in Linux vhost, QEMU's libvhost-user, and/or
+> > QEMU's virtio qtest code.
+>
+> Why not have a separate project for packed virtqueue layout?
 
-Signed-off-by: Liav Albani <liavalb@gmail.com>
----
- hw/ide/pci.c         | 47 ++++++++++++++++++++++++++++++++++++++++
- hw/ide/piix.c        | 50 ++-----------------------------------------
- hw/ide/via.c         | 51 ++------------------------------------------
- include/hw/ide/pci.h |  4 ++++
- 4 files changed, 55 insertions(+), 97 deletions(-)
+Sure, but we need mentors and they overlap with the VIRTIO_F_IN_ORDER
+project. Does anyone want to mentor a packed virtqueue layout project?
 
-diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-index 84ba733548..c8b867659a 100644
---- a/hw/ide/pci.c
-+++ b/hw/ide/pci.c
-@@ -502,6 +502,53 @@ static const struct IDEDMAOps bmdma_ops = {
-     .reset = bmdma_reset,
- };
- 
-+uint64_t bmdma_default_read(void *opaque, hwaddr addr,
-+                           unsigned size)
-+{
-+    BMDMAState *bm = opaque;
-+    uint32_t val;
-+
-+    if (size != 1) {
-+        return ((uint64_t)1 << (size * 8)) - 1;
-+    }
-+
-+    switch (addr & 3) {
-+    case 0:
-+        val = bm->cmd;
-+        break;
-+    case 2:
-+        val = bm->status;
-+        break;
-+    default:
-+        val = 0xff;
-+        break;
-+    }
-+
-+    trace_bmdma_read_via(addr, val);
-+    return val;
-+}
-+
-+void bmdma_default_write(void *opaque, hwaddr addr,
-+                        uint64_t val, unsigned size)
-+{
-+    BMDMAState *bm = opaque;
-+
-+    if (size != 1) {
-+        return;
-+    }
-+
-+    trace_bmdma_write_via(addr, val);
-+    switch (addr & 3) {
-+    case 0:
-+        bmdma_cmd_writeb(bm, val);
-+        break;
-+    case 2:
-+        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
-+        break;
-+    default:;
-+    }
-+}
-+
- void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d)
- {
-     if (bus->dma == &bm->dma) {
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index ce89fd0aa3..fdf3a04cb1 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -35,55 +35,9 @@
- #include "hw/ide/pci.h"
- #include "trace.h"
- 
--static uint64_t bmdma_read(void *opaque, hwaddr addr, unsigned size)
--{
--    BMDMAState *bm = opaque;
--    uint32_t val;
--
--    if (size != 1) {
--        return ((uint64_t)1 << (size * 8)) - 1;
--    }
--
--    switch(addr & 3) {
--    case 0:
--        val = bm->cmd;
--        break;
--    case 2:
--        val = bm->status;
--        break;
--    default:
--        val = 0xff;
--        break;
--    }
--
--    trace_bmdma_read(addr, val);
--    return val;
--}
--
--static void bmdma_write(void *opaque, hwaddr addr,
--                        uint64_t val, unsigned size)
--{
--    BMDMAState *bm = opaque;
--
--    if (size != 1) {
--        return;
--    }
--
--    trace_bmdma_write(addr, val);
--
--    switch(addr & 3) {
--    case 0:
--        bmdma_cmd_writeb(bm, val);
--        break;
--    case 2:
--        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
--        break;
--    }
--}
--
- static const MemoryRegionOps piix_bmdma_ops = {
--    .read = bmdma_read,
--    .write = bmdma_write,
-+    .read = bmdma_default_read,
-+    .write = bmdma_default_write,
- };
- 
- static void bmdma_setup_bar(PCIIDEState *d)
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index 82def819c4..13f27c9514 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -33,56 +33,9 @@
- #include "hw/ide/pci.h"
- #include "trace.h"
- 
--static uint64_t bmdma_read(void *opaque, hwaddr addr,
--                           unsigned size)
--{
--    BMDMAState *bm = opaque;
--    uint32_t val;
--
--    if (size != 1) {
--        return ((uint64_t)1 << (size * 8)) - 1;
--    }
--
--    switch (addr & 3) {
--    case 0:
--        val = bm->cmd;
--        break;
--    case 2:
--        val = bm->status;
--        break;
--    default:
--        val = 0xff;
--        break;
--    }
--
--    trace_bmdma_read_via(addr, val);
--    return val;
--}
--
--static void bmdma_write(void *opaque, hwaddr addr,
--                        uint64_t val, unsigned size)
--{
--    BMDMAState *bm = opaque;
--
--    if (size != 1) {
--        return;
--    }
--
--    trace_bmdma_write_via(addr, val);
--    switch (addr & 3) {
--    case 0:
--        bmdma_cmd_writeb(bm, val);
--        break;
--    case 2:
--        bm->status = (val & 0x60) | (bm->status & 1) | (bm->status & ~val & 0x06);
--        break;
--    default:;
--    }
--}
--
- static const MemoryRegionOps via_bmdma_ops = {
--    .read = bmdma_read,
--    .write = bmdma_write,
-+    .read = bmdma_default_read,
-+    .write = bmdma_default_write,
- };
- 
- static void bmdma_setup_bar(PCIIDEState *d)
-diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-index d8384e1c42..159136f055 100644
---- a/include/hw/ide/pci.h
-+++ b/include/hw/ide/pci.h
-@@ -62,6 +62,10 @@ static inline IDEState *bmdma_active_if(BMDMAState *bmdma)
- }
- 
- void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d);
-+uint64_t bmdma_default_read(void *opaque, hwaddr addr,
-+                           unsigned size);
-+void bmdma_default_write(void *opaque, hwaddr addr,
-+                        uint64_t val, unsigned size);
- void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
- extern MemoryRegionOps bmdma_addr_ioport_ops;
- void pci_ide_create_devs(PCIDevice *dev);
--- 
-2.35.1
-
+Stefan
 
