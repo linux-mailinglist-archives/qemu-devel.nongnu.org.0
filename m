@@ -2,62 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E794BD030
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 18:21:09 +0100 (CET)
-Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94FA74BD0E0
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 20:14:29 +0100 (CET)
+Received: from localhost ([::1]:45230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLptU-0003VW-7O
-	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 12:21:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56664)
+	id 1nLrfA-0003kV-28
+	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 14:14:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nLprC-0002nF-BW
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 12:18:48 -0500
-Received: from [2001:41c9:1:41f::167] (port=39878
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <amir.gonnen@neuroblade.ai>)
+ id 1nLrcJ-0002gH-QL
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 14:11:31 -0500
+Received: from [2a01:111:f400:fe08::722] (port=28558
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nLpr4-0004Is-Tq
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 12:18:45 -0500
-Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nLpqV-0009kI-KP; Sun, 20 Feb 2022 17:18:04 +0000
-Message-ID: <21104b5a-c895-337c-619d-e880836d5895@ilande.co.uk>
-Date: Sun, 20 Feb 2022 17:18:33 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
+ (Exim 4.90_1) (envelope-from <amir.gonnen@neuroblade.ai>)
+ id 1nLrcF-0003xk-N2
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 14:11:30 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HXA23DnmnRYz0Ze88rLTfbZ0cj7DHzA4ND3F4sRDpqjffNsFigvY25U37jRjtIGkPsk+Xa077cTPdB5k6du5jik4Dig811aM8tTVICzjH6ZEIeL+NyalZQH3pCGS7F8GTqXeoP9DdsjJGyGtLpguPrByhe51B27fAqPxOyFplSHt8pbdq8K0CAWtQm6aF/Sl8kjzU9ZaYunke/nZUt/XxexQJu49jRoKrmN+GTy0e9K6za8fnAHjq7GtjUoxYtUvz03YDXD1W0526+PL30yBUNaxbJcHN8O6Qf/95hwd/sGZcu50q4VXsMYyWg+JCGfSEU9SrA2BTCwiRWww4WpRFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B8j9SdF7Rh68Ii7Eh5zcDvbD5ERYtHzdi71rkRxUFRk=;
+ b=a6M372GqTvr5WiyfZNbAZZ3OedUVB7EmLRP7qLb5pWZj9GkJ0gXeAPMESnK/TGHrA4/26MOmHRgP/OKis1xTvpxGqcq02MmqNqC/1vxvbY26ZOW6Z3p7AYVBE30ZTe8GFNA5iXvEIm2sVxbKN/HIVby6G2GtL1/IibwrdyrN1y0fUhTNOSVQFSkqcr5r7SMdt+C62YKwcqKCQIVZFNBV1npr2IvmgOAigYnf9btp1Nno3TMXDFiKsC42noNNwMjy8EzpQ1thzS5w/PkKBY0sukTfabsLKwG3AmJXK5asOp1E7WaI+h/PhXYTPYetUG/iNaLL6EaeVZNrf2ws346UiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=neuroblade.ai; dmarc=pass action=none
+ header.from=neuroblade.ai; dkim=pass header.d=neuroblade.ai; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NeuroBlade.onmicrosoft.com; s=selector2-NeuroBlade-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B8j9SdF7Rh68Ii7Eh5zcDvbD5ERYtHzdi71rkRxUFRk=;
+ b=MtP5DdUK982YpFl5Lj3g4MFgWCM5xe9o6bbVfWzu6Qzsp6xS2Uw3/dm/ZnMQ3pl5PCyEyufVpWIt2OeUPgR6F8BqEGu2VQK00AHLjW8u/vt/JUzeXsMddku9ujKZJqpyHVAvS0IY4GuRdpLaOboeiBu4ZbsBhKJbEBU0PXVwIhA=
+Received: from PA4PR09MB4880.eurprd09.prod.outlook.com (2603:10a6:102:e0::15)
+ by AM6PR09MB2310.eurprd09.prod.outlook.com (2603:10a6:20b:45::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.24; Sun, 20 Feb
+ 2022 15:37:55 +0000
+Received: from PA4PR09MB4880.eurprd09.prod.outlook.com
+ ([fe80::4c3d:dc4c:6ad0:6e5e]) by PA4PR09MB4880.eurprd09.prod.outlook.com
+ ([fe80::4c3d:dc4c:6ad0:6e5e%5]) with mapi id 15.20.4995.026; Sun, 20 Feb 2022
+ 15:37:55 +0000
+From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: RE: [PATCH] target/nios2: Shadow register set, EIC and VIC
+Thread-Topic: [PATCH] target/nios2: Shadow register set, EIC and VIC
+Thread-Index: AQHYJlrEYpGI+4rFx0Sbw+zTMvvk+Kyci96AgAAAspA=
+Date: Sun, 20 Feb 2022 15:37:55 +0000
+Message-ID: <PA4PR09MB488001469F85B1B615B8864AEB399@PA4PR09MB4880.eurprd09.prod.outlook.com>
+References: <a0b237cd-8351-4389-bd7a-450586323e7a@VE1EUR02FT028.eop-EUR02.prod.protection.outlook.com>
+ <CAFEAcA_iv9Xm0c_CNzez4fQmXfWaA_dMjUOsgxqx9JoKFj_HGg@mail.gmail.com>
+In-Reply-To: <CAFEAcA_iv9Xm0c_CNzez4fQmXfWaA_dMjUOsgxqx9JoKFj_HGg@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
- <YgJWPzFczlDBJV/I@redhat.com>
- <77884339-2f51-1ad0-7461-abd79bb36ef1@ilande.co.uk>
- <YgJmz6neLsF2n2u3@redhat.com>
- <f2114228-2243-2b4f-1869-a50d78a5a8d7@ilande.co.uk>
- <YgJrx2ygQmiF4TYx@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <YgJrx2ygQmiF4TYx@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=neuroblade.ai;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 26366728-950c-49b7-0a71-08d9f486f6fa
+x-ms-traffictypediagnostic: AM6PR09MB2310:EE_
+x-microsoft-antispam-prvs: <AM6PR09MB231081C516D56465949E3E77EB399@AM6PR09MB2310.eurprd09.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fSdka/O+LNUmNMGQn2oOavuvaTAGkLiY9JJvWeNBojessWJdM+KuxX9XGhwT2Sw1m+BYRx1PvRa1gNYmO4tQFYx3IhsADMZFxmnWlogmDMWrY+E8bFv06fmQFUlEAvjux0zsboXA7T6FmaOUsgIKbWsIrnRBlC7QOZSpoh80gGysOUB2sm3GcDv7boI+sOGv7Qzk7q3lEk43Fmj7DIY2FKpLFAyuxGsE9LT8WMm4f6y2b+8bkjVWlpJqlWZrOq/LRDlY8vX71/C0URzVWXhCtmO1aDHUti0pQoPCx/0VNLn71hUL+zQkUb4eB6XJ3mavMylg4u3n8WAsMtRTBtbf+djLT2xDesVGWOMU6Ahl4PIXcvbAw/3mjVDxB32aO/X3/c2pxJtqytHNVbWeXsVj0oj/cybcGRkbm6EEzSVZrV7FZ3/EIIxL374gpm6oXGaJkW4yI+OK0zHqQl08nT/YYVA596yj1SWMGQYtENi6U/xKhOkHKPiKqnYrvWsqQwR2J/kof4IyN3pMmb8Bj+NQYXE9xeWORmOFyShxtZMjk4iU6GmLGyJRvbNzcVootPwqV68JvloDPJ+7fCxMlT3Lc9NvtOScu345VOYJ7S/2Cg7pO2FtuaxGqUjwPV++wBpiqL9jQS3YBrtb84nZrRLEHY7YTnPGnmITn3nD9SJGbFngn7/yPKWCVeloaDXJx/w8z9M3RwZ836lJWRZOOYvp7cG66Q80vF/hVMvCCerKpOaQVNkw6ReX3k1urDjI/nimBbx4SA5Bdqg+VIwIL/9zzDx9COMKvjNfhQICIRxstgQ=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR09MB4880.eurprd09.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(376002)(39840400004)(366004)(346002)(136003)(396003)(7696005)(9686003)(6506007)(8936002)(71200400001)(44832011)(53546011)(5660300002)(6916009)(54906003)(316002)(64756008)(66446008)(66946007)(76116006)(8676002)(86362001)(508600001)(38070700005)(66476007)(66556008)(52536014)(55016003)(966005)(4326008)(2906002)(83380400001)(122000001)(38100700002)(33656002)(186003)(26005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TXZaS1ZCbU5TUmp5SzNLa0xIbEE3MTI2K09JWDhtWERyYmNPM3ppb0plOXY0?=
+ =?utf-8?B?VXpxTHBVbjBUbHArbTNPSXpyTzIxUFlEUFE3RW1Zc1draCswN3l5VjFRTDBw?=
+ =?utf-8?B?dkg0VHplcStTa3BoeEtTZzRwUllzVE1TQ3d6YWY3aVZEb0lOcUhhR1hLODhs?=
+ =?utf-8?B?RnJSd2hKcmpOZHI3Yk8wUm9hU1BoWFJpSDExY3FsaW1FU2E2VnRKY1NVMlhI?=
+ =?utf-8?B?emIrK0lTeHYrTThUSFVWYTNTVm91Y29xakdrdzUwb0pHcXM1TGlOYmcwVi9h?=
+ =?utf-8?B?eHkxYWd4VU1kcmlYMFlsMm1mTmVpcDFUREkvaWRGMnhzekx3MU1keTRiSDB5?=
+ =?utf-8?B?WlBQSm04SytaaE1aYTExNUFTSUEyRmFrWVR1SXBKWlNXVmxveml4Uzd5WjJs?=
+ =?utf-8?B?d1lQbFR2Z0l6dEh4cW92L0s2cERKa1piOFZHTEs2Q0pLeS9CYVBha2M0N0Mw?=
+ =?utf-8?B?WTFJMzJDRmxmZXkxTXQ5WnZGVHpjRlROZzM0TUVIbTRtV0JjQXhYdE43akFY?=
+ =?utf-8?B?dFJlT3AyakY1NUdpcXc1T0RVQ0ZxSmpHdzNjSWt3OUo3d0FOa2ZiQTVtUDNF?=
+ =?utf-8?B?YU5GcENaTDVONCt5U3VDRHZGMWtZRjdYdkpuUkM2R1dKd3FWaE94bVZqSXNL?=
+ =?utf-8?B?aTlVYzVFSVpNVkVoOHBJMFNBV3k4RXJTTWNSWmRORExtT0NISW9xMzVydlJ4?=
+ =?utf-8?B?UzVIckNDdWEzRGFCV0NzTm1YaDhPNjV0dkpTWlJoSnYvSzdRTU9WSU5idkdD?=
+ =?utf-8?B?RHJhQ2R0Mm9MTFhGd1dGL1l1SjJsYUZoR09GRGZ1WWZkT29kYWZ4cUpkSzhs?=
+ =?utf-8?B?QURSbFNyUTl3cGhjR2tTY1lmMEZYUHZpNDhMSDhxZHRKbmRtR2EwdHlid0w4?=
+ =?utf-8?B?anpvWmVyL2ZFMWxQZDVRZ1hraXAyWkhoOHpTUDRtUmFVUENMSW9IWWJXTzN1?=
+ =?utf-8?B?R2xwWVVqVUg5U0RySzVyN3FNU1dYMFFJYXhRMHF1Z0NsZUswd3hUQk9MMllI?=
+ =?utf-8?B?akNqSVZrMkVhMVNod21nb2hubWFTajVweGlQWjFINHp6QU1wOHdjU0w0enFp?=
+ =?utf-8?B?emFjeTUvS2d4bmY3WHY2R3QrVW01QW5XQ3BvaVJDcGtENlh5bUFkQWt5ZlNQ?=
+ =?utf-8?B?R3J0UUpNRjZzYlN4VUlQQ3J1MmhZWmtDbm9aZXZRd3pzRjdRSmViVGVGZk9M?=
+ =?utf-8?B?ckZDZDEyZGphYnJNL0tLR2kxTHBNYjYxcUViVE9VYzE5V1Y0azhCMFRFTXF6?=
+ =?utf-8?B?TFlmQmZKaW9ncVFubmNPR2w0YVRIRkoxVjJjQlQ2bXIzOVYyenFRbXQvRERz?=
+ =?utf-8?B?SHE0YzdoQUdONHRTQmdnaU1uSXpKelpwdlF1QlVuSUl5S1haYnE5SGxYMis4?=
+ =?utf-8?B?Qk10eUhtMkhQNWFzVzFaL2orbzk2NU5kVFFFdzBUS3lnRC83YzdBRmpoSWU4?=
+ =?utf-8?B?OTRENXhXZmREblNTcGhFcFZVZjZuanFCbEZySGVVb0Q0aDcySnNrUlZ3UUZ5?=
+ =?utf-8?B?SG40aFhZMjJXVXhidWVSNVVBaWtLdWlVYS9HbzNmOC91Qk43UCtCRGE1dkVL?=
+ =?utf-8?B?UEtRMHNwcExlY2ZBTE9PS2hib1ZMZ2RUYnR6VnJnTmY2ZENpTmNoVTBEdVRE?=
+ =?utf-8?B?MkhTZXY3NWtta1pPUGxpZGVwWEMrQ0x1WEV5aStqQ2txUjFNL1pNTERkS0dN?=
+ =?utf-8?B?bUVEWWlIM0cxckpneWZ4WTJQd2NLUVNLY3lPZTFDNWlrbXppQmFQNlY0TFlG?=
+ =?utf-8?B?S0YzR3J5SldnZUNmNVZGSm04cVdDVDdsdGhtRUlvWk1XbHRCcytUUDJ0dFpj?=
+ =?utf-8?B?UzlSY3ZlTm9Va3M0S2NDb2x4czVDc04xellsWHRRZHp1a3hNUlBpd3N0ZmNh?=
+ =?utf-8?B?WWNLbmVveE5aOHJLY3UxVnVFWUtuWEJVUGxQTDZKdGY1RDhMTzFQbEx0c2F5?=
+ =?utf-8?B?d1lHcER0djB4NGZWS3NVUWt6T0YyTHcyMml0d0ZvYm52bURGK3dRNldxZGMv?=
+ =?utf-8?B?VjNuZEdDWFRjSFlZUlQ4U3dCaWVBV3hVeUE4YTFtMHNwdFBUNjhQc29PUldm?=
+ =?utf-8?B?bTRocWFaUzZvQ0FyVXpBQW9rTVliNkd0VHlIRThQTGFJM1d1ZWVJTTdLdEhP?=
+ =?utf-8?B?NUo1TmJJdHlvbFd4bHBPVEg4SzlUazBUSXA4bEZFUkZ4TUJuN29wYWgwclJ3?=
+ =?utf-8?B?TStpQ1VBWG9oTFc3RGtmQ3RHaU94ZWxMV0VLcGhBRGJkQ1BvWUVXMlRyWkdR?=
+ =?utf-8?B?VWdMZlhwVEVJeHcxRlRWTHlKZkRBPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: neuroblade.ai
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR09MB4880.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26366728-950c-49b7-0a71-08d9f486f6fa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2022 15:37:55.5387 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 63c61203-65af-4cf8-98e5-d12f35edaefa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JDMTNQq3Run5CGbEDFLkH4PQ9HHvH+Bzo8x6YGQb53nP43RbKjV9wYyiiZB1bdMfqaWeFvCrwqmxOLBnoDQbyutp9bm4FiR5kGx8gsR4CNw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR09MB2310
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe08::722
  (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a01:111:f400:fe08::722;
+ envelope-from=amir.gonnen@neuroblade.ai;
+ helo=EUR03-AM5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,203 +148,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/02/2022 13:10, Daniel P. Berrangé wrote:
-
-> On Tue, Feb 08, 2022 at 01:06:59PM +0000, Mark Cave-Ayland wrote:
->> On 08/02/2022 12:49, Daniel P. Berrangé wrote:
->>
->>>> I was under the impression that monitor_register_hmp_info_hrt() does all the
->>>> magic here i.e. it declares the underlying QMP command with an x- prefix and
->>>> effectively encapsulates the text field in a way that says "this is an
->>>> unreliable text opaque for humans"?
->>>
->>> The monitor_register_hmp_info_hrt only does the HMP glue side, and
->>> that's only needed if you must dynamically register the HMP command.
->>> For statically registered commands set '.cmd_info_hrt' directly in
->>> the hml-commands-info.hx for the HMP side.
->>>
->>>> If a qapi/ schema is needed could you explain what it should look like for
->>>> this example and where it should go? Looking at the existing .json files I
->>>> can't immediately see one which is the right place for this to live.
->>>
->>> Take a look in qapi/machine.json for anyof the 'x-query-XXXX' commands
->>> there. The QAPI bit is fairly simple.
->>>
->>> if you want to see an illustration of what's different from a previous
->>> pure HMP impl, look at:
->>>
->>>     commit dd98234c059e6bdb05a52998270df6d3d990332e
->>>     Author: Daniel P. Berrangé <berrange@redhat.com>
->>>     Date:   Wed Sep 8 10:35:43 2021 +0100
->>>
->>>       qapi: introduce x-query-roms QMP command
->>
->> I see, thanks for the reference. So qapi/machine.json would be the right
->> place to declare the QMP part even for a specific device?
->>
->> Even this approach still wouldn't work in its current form though, since as
->> mentioned in my previous email it seems that only the target CONFIG_*
->> defines and not the device CONFIG_* defines are present when processing
->> hmp-commands-info.hx.
-> 
-> Yeah, that's where the pain comes in.  While QAPI schema can be made
-> conditional on a few CONFIG_* parameters - basically those derived
-> from global configure time options, it is impossible for this to be
-> with with target specific options like the device CONFIG_* defines.
-> 
-> This is why I suggested in my othuer reply that it would need to be
-> done with a generic 'info dev-debug' / 'x-query-dev-debug' command
-> that can be registered unconditionally, and then individual devices
-> plug into it.
-
-After some more experiments this afternoon I still seem to be falling through the 
-gaps on this one. This is based upon my understanding that all new HMP commands 
-should use a QMP HumanReadableText implementation and the new command should be 
-restricted according to target.
-
-Currently I am working with this change to hmp-commands-info.hx and 
-qapi/misc-target.json:
-
-
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 7e6bd30395..aac86d5473 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -880,15 +880,15 @@ SRST
-      Show intel SGX information.
-  ERST
-
-#if defined(TARGET_M68K) || defined(TARGET_PPC)
-      {
-          .name         = "via",
-          .args_type    = "",
-          .params       = "",
-          .help         = "show guest mos6522 VIA devices",
-          .cmd_info_hrt = qmp_x_query_via,
-      },
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index 4bc45d2474..72bf71888e 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -2,6 +2,8 @@
-  # vim: filetype=python
-  #
-
-+{ 'include': 'common.json' }
-+
-  ##
-  # @RTC_CHANGE:
-  #
-@@ -424,3 +426,19 @@
-  #
-  ##
-  { 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
-+
-+##
-+# @x-query-via:
-+#
-+# Query information on the registered mos6522 VIAs
-+#
-+# Features:
-+# @unstable: This command is meant for debugging.
-+#
-+# Returns: internal mos6522 information
-+#
-+# Since: 7.0
-+##
-+{ 'command': 'x-query-via',
-+  'returns': 'HumanReadableText',
-+  'features': [ 'unstable' ], 'if': { 'any': [ 'TARGET_M68K', 'TARGET_PPC' ] } }
-
-
-The main problem with trying to restrict the new command to a target (or targets) is 
-that the autogenerated qapi/qapi-commands-misc-target.h QAPI header cannot be 
-included in a device header such as mos6522.h without getting poison errors like 
-below (which does actually make sense):
-
-
-In file included from ./qapi/qapi-commands-misc-target.h:17,
-                  from /home/build/src/qemu/git/qemu/include/hw/misc/mos6522.h:35,
-                  from ../hw/misc/mos6522.c:30:
-./qapi/qapi-types-misc-target.h:19:13: error: attempt to use poisoned "TARGET_ALPHA"
-
-
-I can work around that by declaring the prototype for qmp_x_query_via() manually i.e.:
-
-
-diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
-index 9c21da2ddd..9677293ad0 100644
---- a/include/hw/misc/mos6522.h
-+++ b/include/hw/misc/mos6522.h
-@@ -30,7 +30,7 @@
-  #include "exec/memory.h"
-  #include "hw/sysbus.h"
-  #include "hw/input/adb.h"
-+#include "qapi/qapi-commands-common.h"
-  #include "qom/object.h"
-
-  /* Bits in ACR */
-@@ -156,4 +156,6 @@ extern const VMStateDescription vmstate_mos6522;
-  uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size);
-  void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size);
-
-+HumanReadableText *qmp_x_query_via(Error **errp);
-+
-  #endif /* MOS6522_H */
-
-
-This works fine for targets where CONFIG_MOS6522 is defined, but if I try a target 
-such as x86_64 where the device isn't used then I hit another compilation error:
-
-
-qapi/qapi-commands-misc-target.c:598:13: error: 
-‘qmp_marshal_output_HumanReadableText’ defined but not used [-Werror=unused-function]
-  static void qmp_marshal_output_HumanReadableText(HumanReadableText *ret_in,
-              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
-
-
-Looking at the generated qapi/qapi-commands-misc-target.c file in question I see this:
-
-
-static void qmp_marshal_output_HumanReadableText(HumanReadableText *ret_in,
-                                 QObject **ret_out, Error **errp)
-{
-     Visitor *v;
-
-     v = qobject_output_visitor_new_qmp(ret_out);
-     if (visit_type_HumanReadableText(v, "unused", &ret_in, errp)) {
-         visit_complete(v, ret_out);
-     }
-     visit_free(v);
-     v = qapi_dealloc_visitor_new();
-     visit_type_HumanReadableText(v, "unused", &ret_in, NULL);
-     visit_free(v);
-}
-
-#if defined(TARGET_M68K) || defined(TARGET_PPC)
-void qmp_marshal_x_query_via(QDict *args, QObject **ret, Error **errp)
-{
-     ...
-     ...
-}
-#endif
-
-i.e. qmp_marshal_output_HumanReadableText() isn't protected by the #if TARGET guards 
-and since HumanReadableText is only used by the new qmp_x_query_via() functionality 
-then the compiler complains and aborts the compilation.
-
-Possibly this is an error in the QAPI generator for types hidden behind commands 
-using "if"? Otherwise I'm not sure what is the best way to proceed, so I'd be 
-grateful for some further pointers.
-
-
-ATB,
-
-Mark.
+SGkgUGV0ZXIsDQoNCkkgY2FuIHNwbGl0IHRoZSBWSUMgZnJvbSB0aGUgY29yZStFSUMgY2hhbmdl
+cywgYWx0aG91Z2ggdGhlIGNvcmUrRUlDIGNoYW5nZXMgbWFrZSBsaXR0bGUgc2Vuc2Ugd2l0aG91
+dCBhIFZJQyB0byBpbnRlcmFjdCB3aXRoIHRoZW0uDQpIb3dldmVyLCBJJ20gbm90IHN1cmUgaG93
+IHRvIHNwbGl0IHRoZSBjaGFuZ2VzIHRvIHRoZSBuaW9zMiBjb3JlIGludG8gbXVsdGlwbGUgcGF0
+Y2hlcy4NClRoZSBzaGFkb3cgcmVnaXN0ZXIgc2V0LCB0b2dldGhlciB3aXRoIHRoZSBFSUMgaW50
+ZXJmYWNlIGFuZCBpbnRlcnJ1cHQgaGFuZGxpbmcgYXJlIHZlcnkgbXVjaCB0aWVkIHRvZ2V0aGVy
+Lg0KDQpSZWdhcmRpbmcgdGhlICJmaXhlZCBlcmV0IiAtIHBlcmhhcHMgSSBkaWRuJ3QgcGhyYXNl
+IGl0IHJpZ2h0LiBXaGF0IEkgbWVhbnQgaXMgdGhhdCBlcmV0IHdhcyBjaGFuZ2VkIHRvIHdvcmsg
+Y29ycmVjdGx5IGluIHRoZSBwcmVzZW5jZSBvZiBhIHNoYWRvdyByZWdpc3RlciBzZXQuDQpTbywg
+dGhlIGNoYW5nZXMgdG8gZXJldCBhcmUgcGFydCBvZiB0aGUgc2hhZG93IHJlZ2lzdGVyIHNldCBz
+dXBwb3J0IG9uIHRoZSBjb3JlIGFuZCBjYW5ub3QgZXhpc3Qgb24gdGhlaXIgb3duLg0KDQpJIHRl
+c3RlZCB0aGlzIG9uIE5ldXJvYmxhZGUgYm9hcmQgd2l0aCBKVUFSVC4gSSBkaWQgbm90IHdpcmUg
+aXQgdG8gYW4gZXhpc3RpbmcgZGVtbyBib2FyZC4NCg0KPiBodHRwczovL3d3dy5xZW11Lm9yZy9k
+b2NzL21hc3Rlci9kZXZlbC9zdWJtaXR0aW5nLWEtcGF0Y2guaHRtbA0KPiBpcyBvdXIgZ3VpZGVs
+aW5lcyBvbiBwYXRjaCBmb3JtYXR0aW5nLg0KDQpJbiBmYWN0LCBJIHRyaWVkIHRvIGZvbGxvdyB0
+aGVtLiBJJ3ZlIGFsc28gcnVuIGNoZWNrcGF0Y2gucGwsIGV0Yy4NCkNvdWxkIHlvdSBwbGVhc2Ug
+cG9pbnQgb3V0IHdoZXJlIEkgZmFpbGVkIHRvIGZvbGxvdyB0aGVtIG9yIHdoYXQgSSdtIG1pc3Np
+bmc/DQoNClRoYW5rcywNCkFtaXINCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206
+IFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4NClNlbnQ6IFN1bmRheSwg
+RmVicnVhcnkgMjAsIDIwMjIgNToxMyBQTQ0KVG86IEFtaXIgR29ubmVuIDxhbWlyLmdvbm5lbkBu
+ZXVyb2JsYWRlLmFpPg0KQ2M6IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgQ2hyaXMgV3VsZmYgPGNy
+d3VsZmZAZ21haWwuY29tPjsgTWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+DQpTdWJqZWN0OiBS
+ZTogW1BBVENIXSB0YXJnZXQvbmlvczI6IFNoYWRvdyByZWdpc3RlciBzZXQsIEVJQyBhbmQgVklD
+DQoNCltFWFRFUk5BTF0NCg0KT24gU3VuLCAyMCBGZWIgMjAyMiBhdCAxMzowNywgPGFtaXIuZ29u
+bmVuQG5ldXJvYmxhZGUuYWk+IHdyb3RlOg0KPg0KPiBGcm9tIDk5ZWZjZDY1NWU4M2YwMzRiY2Uy
+NTI3MWZlNTkyZDg3ODk1MjllNTQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQo+IEZyb206IEFt
+aXIgR29ubmVuIDxhbWlyLmdvbm5lbkBuZXVyb2JsYWRlLmFpPg0KPiBEYXRlOiBUaHUsIDE3IEZl
+YiAyMDIyIDE1OjQzOjE0ICswMjAwDQo+IFN1YmplY3Q6IFtQQVRDSF0gdGFyZ2V0L25pb3MyOiBT
+aGFkb3cgcmVnaXN0ZXIgc2V0LCBFSUMgYW5kIFZJQw0KPg0KPiBJbXBsZW1lbnQgbmlvczIgVmVj
+dG9yZWQgSW50ZXJydXB0IENvbnRyb2xsZXIgKFZJQykuDQo+IFRoaXMgaW5jbHVkZXMgRXh0ZXJh
+bCBJbnRlcnJ1cHQgQ29udHJvbGxlciBpbnRlcmZhY2UgKEVJQykgYW5kIFNoYWRvdw0KPiBSZWdp
+c3RlciBzZXQgaW1wbGVtZW50YXRpb24gb24gdGhlIG5pb3MyIGNwdS4NCj4gSW1wbGVtZW50ZWQg
+bWlzc2luZyB3cnBycyBhbmQgcmRwcnMgaW5zdHJ1Y3Rpb25zLCBhbmQgZml4ZWQgZXJldC4NCj4g
+QWRkZWQgaW50Y19wcmVzZW50IHByb3BlcnR5LCB0cnVlIGJ5IGRlZmF1bHQuIFdoZW4gc2V0IHRv
+IGZhbHNlLCBuaW9zMg0KPiB1c2VzIHRoZSBFSUMgaW50ZXJmYWNlIHdoZW4gaGFuZGxpbmcgSVJR
+Lg0KDQpIaTsgdGhpcyBwYXRjaCBzZWVtcyB0byBiZSB0cnlpbmcgdG8gZml4IG11bHRpcGxlIHRo
+aW5ncyBhdCBvbmNlLiBDb3VsZCB5b3Ugc3BsaXQgaXQgdXAgaW50byBhIG11bHRpLXBhdGNoIHBh
+dGNoIHNlcmllcywgd2hlcmUgZWFjaCBwYXRjaCBkb2VzIG9uZSBsb2dpY2FsIHRoaW5nLCBwbGVh
+c2U/IEluIHBhcnRpY3VsYXIgYnVnIGZpeGVzIHRvIGV4aXN0aW5nIGNvZGUgKCJmaXhlZCBlcmV0
+Iikgc2hvdWxkIGJlIHRoZWlyIG93biBwYXRjaGVzLCBzZXBhcmF0ZSBmcm9tIHBhdGNoZXMgYWRk
+aW5nIG5ldyBmZWF0dXJlcy4NCg0KPiBUbyB1c2UgVklDLCB0aGUgbmlvczIgYm9hcmQgc2hvdWxk
+IHNldCBWSUMgY3B1IHByb3BlcnR5LCBkaXNhYmxlDQo+IGludGNfcHJlc2VudCwgY29ubmVjdCBW
+SUMgaXJxIHRvIGNwdSBhbmQgY29ubmVjdCBWSUMgZ3Bpb3MuDQoNCklzIHRoZXJlIGEgcGF0Y2gg
+d2hpY2ggd2lyZXMgdXAgb25lIG9mIHRoZSBuaW9zMiBib2FyZHMgdG8gZG8gdGhpcyA/DQoNCmh0
+dHBzOi8vd3d3LnFlbXUub3JnL2RvY3MvbWFzdGVyL2RldmVsL3N1Ym1pdHRpbmctYS1wYXRjaC5o
+dG1sDQppcyBvdXIgZ3VpZGVsaW5lcyBvbiBwYXRjaCBmb3JtYXR0aW5nLg0KDQp0aGFua3MNCi0t
+IFBNTQ0KDQpUaGUgY29udGVudHMgb2YgdGhpcyBlbWFpbCBtZXNzYWdlIGFuZCBhbnkgYXR0YWNo
+bWVudHMgYXJlIGludGVuZGVkIHNvbGVseSBmb3IgdGhlIGFkZHJlc3NlZShzKSBhbmQgbWF5IGNv
+bnRhaW4gY29uZmlkZW50aWFsIGFuZC9vciBwcml2aWxlZ2VkIGluZm9ybWF0aW9uIGFuZCBtYXkg
+YmUgbGVnYWxseSBwcm90ZWN0ZWQgZnJvbSBkaXNjbG9zdXJlLiBJZiB5b3UgYXJlIG5vdCB0aGUg
+aW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgbWVzc2FnZSBvciB0aGVpciBhZ2VudCwgb3IgaWYg
+dGhpcyBtZXNzYWdlIGhhcyBiZWVuIGFkZHJlc3NlZCB0byB5b3UgaW4gZXJyb3IsIHBsZWFzZSBp
+bW1lZGlhdGVseSBhbGVydCB0aGUgc2VuZGVyIGJ5IHJlcGx5IGVtYWlsIGFuZCB0aGVuIGRlbGV0
+ZSB0aGlzIG1lc3NhZ2UgYW5kIGFueSBhdHRhY2htZW50cy4gSWYgeW91IGFyZSBub3QgdGhlIGlu
+dGVuZGVkIHJlY2lwaWVudCwgeW91IGFyZSBoZXJlYnkgbm90aWZpZWQgdGhhdCBhbnkgdXNlLCBk
+aXNzZW1pbmF0aW9uLCBjb3B5aW5nLCBvciBzdG9yYWdlIG9mIHRoaXMgbWVzc2FnZSBvciBpdHMg
+YXR0YWNobWVudHMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4NCg==
 
