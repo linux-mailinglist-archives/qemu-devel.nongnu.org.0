@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13894BCFFC
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 17:55:53 +0100 (CET)
-Received: from localhost ([::1]:47406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4710D4BD00B
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 18:03:04 +0100 (CET)
+Received: from localhost ([::1]:55770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLpV2-0002EM-3Z
-	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 11:55:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49522)
+	id 1nLpbz-00081K-BZ
+	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 12:03:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQg-0007mj-9j
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:22 -0500
-Received: from [2607:f8b0:4864:20::730] (port=46964
- helo=mail-qk1-x730.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQe-0000Ck-Bc
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQc-0007mI-NB
  for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:21 -0500
-Received: by mail-qk1-x730.google.com with SMTP id f21so2416256qke.13
- for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 08:51:20 -0800 (PST)
+Received: from [2607:f8b0:4864:20::f30] (port=42629
+ helo=mail-qv1-xf30.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQa-0000Ab-7Q
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:18 -0500
+Received: by mail-qv1-xf30.google.com with SMTP id e22so26034578qvf.9
+ for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 08:51:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OQsJdOHddV75uy/z8dRcrVTvB6Zu5S1Fp/PXYFh99jk=;
- b=a3LhpXyPAV2GwBgJVvxtcWVHcRHULvuV5VRybyQ3Czv2HDNjRyyNjND75NXYfaaftJ
- UI6jaYx30ceW1NX29E1+vuiN1IS5/3fgdIcKVpAWbzxLAAS6cij5t7SBSFxo+O3RJfQh
- p48vz8zunZtfXlbAFZPXG3P5BJ0kT4O+Oo2i8DxiFNdu11anrJKO+umNsLAj6xNOUYXN
- 7+v8/nL00DQ64Rqi6G+uCYgj0n9c/bl8fXG+hhOAb3QBe2QEPtqlaBReEpelQXDano/F
- VI0iC5XXqAVrAzZaepwN+ySXCRqy5oPpl0WELw9hwC5bA7LxeO+Pw1EdkPMuwHow8bXy
- rjrg==
+ bh=NNqqtWfX+7r5Cvr34BgDX1k8to7b5IQs7giXGg/3I6o=;
+ b=SiWK77BjrBLGLsNF3tZNFfHWpcqFzwPJRl5GWPbefoU9BzNE9aS+ZrzIC5zKs3jbYq
+ hb5VGhYFSbekdhZ3uMTIMPm8hbXB9AY83/DEfIS4R8VznMIyd+jcefrfKY1QoW/tEVSw
+ 5S0sZVEQtI2NgTH4gMDium2VeS1pJdHhdjIPHGq+LSkPcp91Os0ZQKoUaloAowvoD5tE
+ UMVICI9K55kBDp9VdU69oUt7chOFOFgl9jU4rp2cTrqJPvhnuuGwtVwyRyOgemtJK2Nd
+ /evYLgW1FMh0XaCh/rThQcDLRndyRC5oD9iiKH6g4N6GZzjiMFyiS75GwyfoovW97ZJy
+ 7AKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OQsJdOHddV75uy/z8dRcrVTvB6Zu5S1Fp/PXYFh99jk=;
- b=f45ehzdi8+AijKY4wJrVw63TXWfmsZGVn4t7EcU5MKcKV1SEIjnuqUuXlM/6B2DNet
- aKuCSSlJ4iItqE6K0l0vopV6VZxMeN+P3mivQidYc7upZdrFHYdPau0x2/zFIPjhVXY2
- 4m2Ot0EwBfzHogqCz5hY3iO0L8qfdxNz646DWzk/TaW8JzPoGS5tZ7OhKOZOnhqi+F3Z
- NSPd1Soya+HoAuK/LGGRA3+N+YA++UFicvHDlhcTdsN9Nh1ZGJtbNO7cvE4OPUFNGN2P
- yWWj6IdohmTb3TgxxlicO1pmCZJ5ByOXYJ3e9yi0D0BarOJbWti4vH7pkZ9cRJWz9bnS
- PffA==
-X-Gm-Message-State: AOAM533+VW4eo+n5ej0jPN4cWZAJ3RSeDNmmOG+/RUe51J/pqdKRbmQk
- 8GJ55YKkCfVMva9QkIcLY5CElheamqAvfw==
-X-Google-Smtp-Source: ABdhPJxip9d0UjixHBhU86QilRuaSDSHobz6nBzlhvVxhLTUIb6JGtpI1zvVkBrE4ADRwmeJoBiqpw==
-X-Received: by 2002:a05:620a:13db:b0:62c:e591:fd9 with SMTP id
- g27-20020a05620a13db00b0062ce5910fd9mr6344278qkl.766.1645375879196; 
- Sun, 20 Feb 2022 08:51:19 -0800 (PST)
+ bh=NNqqtWfX+7r5Cvr34BgDX1k8to7b5IQs7giXGg/3I6o=;
+ b=Dj/SSNj/uZL41t+Tu/2fIs2hUmtF2LjBEWwj0gLrQazhp9e77w8Gp6hPtRo4m9TI1J
+ Yo2rCyaMCO4ZzV2StnCah7Q9wMkfnZOjeamSZX520TTYapMLxicsXoZrdwzBPEkltICk
+ ew8jIMOwfXMfj/v4LfC1DHWpMzgfOJqONyS6QRAGGW73agrljNwkVbE9gAwDOtWqfD+m
+ tH99FIxU56BOf9Sa8dCkLlAbLTkRDvUuLiajp/85ypSUMmpYJK7ZMcyc5F+iJuTeCfbg
+ iZm0+xr0Ya3KLLUzgCP352AuAj/BzpRizwXD5B5MD42LjfMaRUufUEEIW0IuwucOu3Lk
+ PLEA==
+X-Gm-Message-State: AOAM531DapyrdwMtUXXnD+oJDTY+b5WeBynEIb48+jK1PokHCoJfvbIG
+ eeeGJ4X6uFcftS9DVX5v5w8MooUUwC6/mA==
+X-Google-Smtp-Source: ABdhPJzzoNE/vWnaeHmIRrbidNJca7mHb0db3tlsFxyADlm2tSTQL072UkSsb3M3rNvkqIABdMM8ww==
+X-Received: by 2002:a05:6214:a8a:b0:430:8fbc:6be2 with SMTP id
+ ev10-20020a0562140a8a00b004308fbc6be2mr13042843qvb.7.1645375872649; 
+ Sun, 20 Feb 2022 08:51:12 -0800 (PST)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id n16sm3190995qkn.115.2022.02.20.08.51.17
+ by smtp.gmail.com with ESMTPSA id n16sm3190995qkn.115.2022.02.20.08.51.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Feb 2022 08:51:18 -0800 (PST)
+ Sun, 20 Feb 2022 08:51:12 -0800 (PST)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 05/11] 9p: darwin: Ignore O_{NOATIME, DIRECT}
-Date: Sun, 20 Feb 2022 11:50:50 -0500
-Message-Id: <20220220165056.72289-6-wwcohen@gmail.com>
+Subject: [PATCH v8 01/11] 9p: linux: Fix a couple Linux assumptions
+Date: Sun, 20 Feb 2022 11:50:46 -0500
+Message-Id: <20220220165056.72289-2-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220220165056.72289-1-wwcohen@gmail.com>
 References: <20220220165056.72289-1-wwcohen@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::730
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f30
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=wwcohen@gmail.com; helo=mail-qk1-x730.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
+ envelope-from=wwcohen@gmail.com; helo=mail-qv1-xf30.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,80 +99,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
-Darwin doesn't have either of these flags. Darwin does have
-F_NOCACHE, which is similar to O_DIRECT, but has different
-enough semantics that other projects don't generally map
-them automatically. In any case, we don't support O_DIRECT
-on Linux at the moment either.
+ - Guard Linux only headers.
+ - Add qemu/statfs.h header to abstract over the which
+   headers are needed for struct statfs
+ - Define `ENOATTR` only if not only defined
+   (it's defined in system headers on Darwin).
 
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
 [Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-[Will Cohen: - Adjust coding style]
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
----
- hw/9pfs/9p-util.h |  2 ++
- hw/9pfs/9p.c      | 13 ++++++++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index d41f37f085..0e445b5d52 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -41,6 +41,7 @@ again:
-     fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
-                 mode);
-     if (fd == -1) {
-+#ifndef CONFIG_DARWIN
-         if (errno == EPERM && (flags & O_NOATIME)) {
-             /*
-              * The client passed O_NOATIME but we lack permissions to honor it.
-@@ -53,6 +54,7 @@ again:
-             flags &= ~O_NOATIME;
-             goto again;
-         }
-+#endif
-         return -1;
-     }
+While it might at first appear that fsdev/virtfs-proxy-header.c would
+need similar adjustment for darwin as file-op-9p here, a later patch in
+this series disables virtfs-proxy-helper for non-Linux. Allowing
+virtfs-proxy-helper on darwin could potentially be an additional
+optimization later.
+
+[Will Cohen: - Fix headers for Alpine
+             - Integrate statfs.h back into file-op-9p.h
+             - Remove superfluous header guards from file-opt-9p
+             - Add note about virtfs-proxy-helper being disabled
+               on non-Linux for this patch series]
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+---
+ fsdev/file-op-9p.h   | 9 ++++++++-
+ hw/9pfs/9p-local.c   | 2 ++
+ hw/9pfs/9p.c         | 4 ++++
+ include/qemu/xattr.h | 4 +++-
+ 4 files changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+index 8fd89f0447..4997677460 100644
+--- a/fsdev/file-op-9p.h
++++ b/fsdev/file-op-9p.h
+@@ -16,10 +16,17 @@
  
+ #include <dirent.h>
+ #include <utime.h>
+-#include <sys/vfs.h>
+ #include "qemu-fsdev-throttle.h"
+ #include "p9array.h"
+ 
++#ifdef CONFIG_LINUX
++# include <sys/vfs.h>
++#endif
++#ifdef CONFIG_DARWIN
++# include <sys/param.h>
++# include <sys/mount.h>
++#endif
++
+ #define SM_LOCAL_MODE_BITS    0600
+ #define SM_LOCAL_DIR_MODE_BITS    0700
+ 
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 210d9e7705..1a5e3eed73 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -32,10 +32,12 @@
+ #include "qemu/error-report.h"
+ #include "qemu/option.h"
+ #include <libgen.h>
++#ifdef CONFIG_LINUX
+ #include <linux/fs.h>
+ #ifdef CONFIG_LINUX_MAGIC_H
+ #include <linux/magic.h>
+ #endif
++#endif
+ #include <sys/ioctl.h>
+ 
+ #ifndef XFS_SUPER_MAGIC
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index caf3b240fe..14e84c3bcf 100644
+index 15b3f4d385..9c63e14b28 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -138,11 +138,20 @@ static int dotl_to_open_flags(int flags)
-         { P9_DOTL_NONBLOCK, O_NONBLOCK } ,
-         { P9_DOTL_DSYNC, O_DSYNC },
-         { P9_DOTL_FASYNC, FASYNC },
-+#ifndef CONFIG_DARWIN
-+        { P9_DOTL_NOATIME, O_NOATIME },
-+        /*
-+         *  On Darwin, we could map to F_NOCACHE, which is
-+         *  similar, but doesn't quite have the same
-+         *  semantics. However, we don't support O_DIRECT
-+         *  even on linux at the moment, so we just ignore
-+         *  it here.
-+         */
-         { P9_DOTL_DIRECT, O_DIRECT },
+@@ -32,7 +32,11 @@
+ #include "migration/blocker.h"
+ #include "qemu/xxhash.h"
+ #include <math.h>
++#ifdef CONFIG_LINUX
+ #include <linux/limits.h>
++#else
++#include <limits.h>
 +#endif
-         { P9_DOTL_LARGEFILE, O_LARGEFILE },
-         { P9_DOTL_DIRECTORY, O_DIRECTORY },
-         { P9_DOTL_NOFOLLOW, O_NOFOLLOW },
--        { P9_DOTL_NOATIME, O_NOATIME },
-         { P9_DOTL_SYNC, O_SYNC },
-     };
  
-@@ -171,10 +180,12 @@ static int get_dotl_openflags(V9fsState *s, int oflags)
-      */
-     flags = dotl_to_open_flags(oflags);
-     flags &= ~(O_NOCTTY | O_ASYNC | O_CREAT);
-+#ifndef CONFIG_DARWIN
-     /*
-      * Ignore direct disk access hint until the server supports it.
-      */
-     flags &= ~O_DIRECT;
-+#endif
-     return flags;
- }
+ int open_fd_hw;
+ int total_open_fd;
+diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
+index a83fe8e749..f1d0f7be74 100644
+--- a/include/qemu/xattr.h
++++ b/include/qemu/xattr.h
+@@ -22,7 +22,9 @@
+ #ifdef CONFIG_LIBATTR
+ #  include <attr/xattr.h>
+ #else
+-#  define ENOATTR ENODATA
++#  if !defined(ENOATTR)
++#    define ENOATTR ENODATA
++#  endif
+ #  include <sys/xattr.h>
+ #endif
  
 -- 
 2.35.1
