@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004C04BD000
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 17:58:33 +0100 (CET)
-Received: from localhost ([::1]:51604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13894BCFFC
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 17:55:53 +0100 (CET)
+Received: from localhost ([::1]:47406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLpXc-0005GR-Vl
-	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 11:58:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49458)
+	id 1nLpV2-0002EM-3Z
+	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 11:55:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQe-0007mS-4T
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:21 -0500
-Received: from [2607:f8b0:4864:20::72c] (port=41759
- helo=mail-qk1-x72c.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQg-0007mj-9j
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:22 -0500
+Received: from [2607:f8b0:4864:20::730] (port=46964
+ helo=mail-qk1-x730.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQb-0000Bp-PS
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:19 -0500
-Received: by mail-qk1-x72c.google.com with SMTP id d84so13593046qke.8
- for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 08:51:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQe-0000Ck-Bc
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:21 -0500
+Received: by mail-qk1-x730.google.com with SMTP id f21so2416256qke.13
+ for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 08:51:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/9yV7bRN6OBkNxsaJNqx6IRx9uWTGL8PDPo9dIDyd0E=;
- b=UjHFNShv6QOelYZYkUVylFr1M2eMtHgJFZ5XbKdwiZecyL6Vq67BBvfS3DmQtiH8Ob
- 8X55r8r3MIjOFk67XDTCG5qi49TAygRiF1V0lpoWtbUiPTCRp4FSgmVqLOKiY+bm2eSO
- PqFhYzulKkLYQpOMXeArtODblpKPRzvQ051jA4FnOhpVDmAxMv4D+Ky+ToyDM/AwUANT
- /Wrdx52ZvROJztdAYPYg1xztkXuR8JdjXO2Ppg04xvUKg8gqtCOTsW6wiOdFCHUHYmIx
- 3o1T/KfVb3mbvd7HEu3YATBGyW/3odIm9OyXxG3Nge+kKK5nZAs5SFlKQsh2LS7BhvTS
- 3Lmw==
+ bh=OQsJdOHddV75uy/z8dRcrVTvB6Zu5S1Fp/PXYFh99jk=;
+ b=a3LhpXyPAV2GwBgJVvxtcWVHcRHULvuV5VRybyQ3Czv2HDNjRyyNjND75NXYfaaftJ
+ UI6jaYx30ceW1NX29E1+vuiN1IS5/3fgdIcKVpAWbzxLAAS6cij5t7SBSFxo+O3RJfQh
+ p48vz8zunZtfXlbAFZPXG3P5BJ0kT4O+Oo2i8DxiFNdu11anrJKO+umNsLAj6xNOUYXN
+ 7+v8/nL00DQ64Rqi6G+uCYgj0n9c/bl8fXG+hhOAb3QBe2QEPtqlaBReEpelQXDano/F
+ VI0iC5XXqAVrAzZaepwN+ySXCRqy5oPpl0WELw9hwC5bA7LxeO+Pw1EdkPMuwHow8bXy
+ rjrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/9yV7bRN6OBkNxsaJNqx6IRx9uWTGL8PDPo9dIDyd0E=;
- b=zxvzADVlB8wpfmdWrSwLWRgnWgiRSA4PSOcM/Bg8faX/EX9phcK6rHTJqtjdAu/RO+
- O+U26eS3o9NTVouMIEISv3gwFNfZYx67t/NLEOjVglXHRtvfNzWEpJw64lWfDtVLQRCI
- n+dokfqeamIeN6zc1KOMIXdCZq8SAT1TnchIMRkc4mjblPhyHNYS5BMqpPLEL0SN1nKI
- 0MiZ083BWPIFFUzLor4NUEMt8hwCqeJYEDXtjub0jhIXNke1bM60Bv6lOdIdRA0PcgQM
- VgsgpPTwt5uPpAzFJJpk8CVt0DoWFybrQn6aV4xr9Hu5dEpaI/yOTII7AHQIb+Sr4IqG
- QtSA==
-X-Gm-Message-State: AOAM531rsBhpvgiZUI8Fhh3nsnqJWW1pjHd1Ust+K87DfPFBaqAR+jk3
- BKnFvRKXddWJS5Qus2iLr4quXPuZ38duHg==
-X-Google-Smtp-Source: ABdhPJwp4OBRI3PQ8jRWcGFpZwagVOHoiZlPZ0Z1511ed/hZ68Ccy75XovxkJ3KzyXcw9HfEO56R2A==
-X-Received: by 2002:a05:620a:2699:b0:47d:753c:b8ff with SMTP id
- c25-20020a05620a269900b0047d753cb8ffmr9933561qkp.763.1645375876441; 
- Sun, 20 Feb 2022 08:51:16 -0800 (PST)
+ bh=OQsJdOHddV75uy/z8dRcrVTvB6Zu5S1Fp/PXYFh99jk=;
+ b=f45ehzdi8+AijKY4wJrVw63TXWfmsZGVn4t7EcU5MKcKV1SEIjnuqUuXlM/6B2DNet
+ aKuCSSlJ4iItqE6K0l0vopV6VZxMeN+P3mivQidYc7upZdrFHYdPau0x2/zFIPjhVXY2
+ 4m2Ot0EwBfzHogqCz5hY3iO0L8qfdxNz646DWzk/TaW8JzPoGS5tZ7OhKOZOnhqi+F3Z
+ NSPd1Soya+HoAuK/LGGRA3+N+YA++UFicvHDlhcTdsN9Nh1ZGJtbNO7cvE4OPUFNGN2P
+ yWWj6IdohmTb3TgxxlicO1pmCZJ5ByOXYJ3e9yi0D0BarOJbWti4vH7pkZ9cRJWz9bnS
+ PffA==
+X-Gm-Message-State: AOAM533+VW4eo+n5ej0jPN4cWZAJ3RSeDNmmOG+/RUe51J/pqdKRbmQk
+ 8GJ55YKkCfVMva9QkIcLY5CElheamqAvfw==
+X-Google-Smtp-Source: ABdhPJxip9d0UjixHBhU86QilRuaSDSHobz6nBzlhvVxhLTUIb6JGtpI1zvVkBrE4ADRwmeJoBiqpw==
+X-Received: by 2002:a05:620a:13db:b0:62c:e591:fd9 with SMTP id
+ g27-20020a05620a13db00b0062ce5910fd9mr6344278qkl.766.1645375879196; 
+ Sun, 20 Feb 2022 08:51:19 -0800 (PST)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id n16sm3190995qkn.115.2022.02.20.08.51.15
+ by smtp.gmail.com with ESMTPSA id n16sm3190995qkn.115.2022.02.20.08.51.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Feb 2022 08:51:15 -0800 (PST)
+ Sun, 20 Feb 2022 08:51:18 -0800 (PST)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 03/11] 9p: darwin: Handle struct stat(fs) differences
-Date: Sun, 20 Feb 2022 11:50:48 -0500
-Message-Id: <20220220165056.72289-4-wwcohen@gmail.com>
+Subject: [PATCH v8 05/11] 9p: darwin: Ignore O_{NOATIME, DIRECT}
+Date: Sun, 20 Feb 2022 11:50:50 -0500
+Message-Id: <20220220165056.72289-6-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220220165056.72289-1-wwcohen@gmail.com>
 References: <20220220165056.72289-1-wwcohen@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::730
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=wwcohen@gmail.com; helo=mail-qk1-x72c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=wwcohen@gmail.com; helo=mail-qk1-x730.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,120 +98,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
+Darwin doesn't have either of these flags. Darwin does have
+F_NOCACHE, which is similar to O_DIRECT, but has different
+enough semantics that other projects don't generally map
+them automatically. In any case, we don't support O_DIRECT
+on Linux at the moment either.
+
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+[Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-[Will Cohen: - Note lack of f_namelen and f_frsize on Darwin
-             - Ensure that tv_sec and tv_nsec are both
-               initialized for Darwin and non-Darwin]
+[Will Cohen: - Adjust coding style]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
 ---
- hw/9pfs/9p-proxy.c | 22 ++++++++++++++++++++--
- hw/9pfs/9p-synth.c |  2 ++
- hw/9pfs/9p.c       | 16 ++++++++++++++--
- 3 files changed, 36 insertions(+), 4 deletions(-)
+ hw/9pfs/9p-util.h |  2 ++
+ hw/9pfs/9p.c      | 13 ++++++++++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-index 09bd9f1464..b1664080d8 100644
---- a/hw/9pfs/9p-proxy.c
-+++ b/hw/9pfs/9p-proxy.c
-@@ -123,10 +123,16 @@ static void prstatfs_to_statfs(struct statfs *stfs, ProxyStatFS *prstfs)
-     stfs->f_bavail = prstfs->f_bavail;
-     stfs->f_files = prstfs->f_files;
-     stfs->f_ffree = prstfs->f_ffree;
-+#ifdef CONFIG_DARWIN
-+    /* f_namelen and f_frsize do not exist on Darwin */
-+    stfs->f_fsid.val[0] = prstfs->f_fsid[0] & 0xFFFFFFFFU;
-+    stfs->f_fsid.val[1] = prstfs->f_fsid[1] >> 32 & 0xFFFFFFFFU;
-+#else
-     stfs->f_fsid.__val[0] = prstfs->f_fsid[0] & 0xFFFFFFFFU;
-     stfs->f_fsid.__val[1] = prstfs->f_fsid[1] >> 32 & 0xFFFFFFFFU;
-     stfs->f_namelen = prstfs->f_namelen;
-     stfs->f_frsize = prstfs->f_frsize;
-+#endif
- }
- 
- /* Converts proxy_stat structure to VFS stat structure */
-@@ -143,12 +149,24 @@ static void prstat_to_stat(struct stat *stbuf, ProxyStat *prstat)
-    stbuf->st_size = prstat->st_size;
-    stbuf->st_blksize = prstat->st_blksize;
-    stbuf->st_blocks = prstat->st_blocks;
-+   stbuf->st_atime = prstat->st_atim_sec;
-+   stbuf->st_mtime = prstat->st_mtim_sec;
-+   stbuf->st_ctime = prstat->st_ctim_sec;
-+#ifdef CONFIG_DARWIN
-+   stbuf->st_atimespec.tv_sec = prstat->st_atim_sec;
-+   stbuf->st_mtimespec.tv_sec = prstat->st_mtim_sec;
-+   stbuf->st_ctimespec.tv_sec = prstat->st_ctim_sec;
-+   stbuf->st_atimespec.tv_nsec = prstat->st_atim_nsec;
-+   stbuf->st_mtimespec.tv_nsec = prstat->st_mtim_nsec;
-+   stbuf->st_ctimespec.tv_nsec = prstat->st_ctim_nsec;
-+#else
-    stbuf->st_atim.tv_sec = prstat->st_atim_sec;
-+   stbuf->st_mtim.tv_sec = prstat->st_mtim_sec;
-+   stbuf->st_ctim.tv_sec = prstat->st_ctim_sec;
-    stbuf->st_atim.tv_nsec = prstat->st_atim_nsec;
--   stbuf->st_mtime = prstat->st_mtim_sec;
-    stbuf->st_mtim.tv_nsec = prstat->st_mtim_nsec;
--   stbuf->st_ctime = prstat->st_ctim_sec;
-    stbuf->st_ctim.tv_nsec = prstat->st_ctim_nsec;
-+#endif
- }
- 
- /*
-diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-index 7a7cd5c5ba..bf9b0c5ddd 100644
---- a/hw/9pfs/9p-synth.c
-+++ b/hw/9pfs/9p-synth.c
-@@ -439,7 +439,9 @@ static int synth_statfs(FsContext *s, V9fsPath *fs_path,
-     stbuf->f_bsize = 512;
-     stbuf->f_blocks = 0;
-     stbuf->f_files = synth_node_count;
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index d41f37f085..0e445b5d52 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -41,6 +41,7 @@ again:
+     fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
+                 mode);
+     if (fd == -1) {
 +#ifndef CONFIG_DARWIN
-     stbuf->f_namelen = NAME_MAX;
+         if (errno == EPERM && (flags & O_NOATIME)) {
+             /*
+              * The client passed O_NOATIME but we lack permissions to honor it.
+@@ -53,6 +54,7 @@ again:
+             flags &= ~O_NOATIME;
+             goto again;
+         }
 +#endif
-     return 0;
- }
+         return -1;
+     }
  
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 9c63e14b28..1563d7b7c6 100644
+index caf3b240fe..14e84c3bcf 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -1313,11 +1313,17 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
-     v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
-     v9lstat->st_blocks = stbuf->st_blocks;
-     v9lstat->st_atime_sec = stbuf->st_atime;
--    v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
-     v9lstat->st_mtime_sec = stbuf->st_mtime;
--    v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
-     v9lstat->st_ctime_sec = stbuf->st_ctime;
-+#ifdef CONFIG_DARWIN
-+    v9lstat->st_atime_nsec = stbuf->st_atimespec.tv_nsec;
-+    v9lstat->st_mtime_nsec = stbuf->st_mtimespec.tv_nsec;
-+    v9lstat->st_ctime_nsec = stbuf->st_ctimespec.tv_nsec;
-+#else
-+    v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
-+    v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
-     v9lstat->st_ctime_nsec = stbuf->st_ctim.tv_nsec;
+@@ -138,11 +138,20 @@ static int dotl_to_open_flags(int flags)
+         { P9_DOTL_NONBLOCK, O_NONBLOCK } ,
+         { P9_DOTL_DSYNC, O_DSYNC },
+         { P9_DOTL_FASYNC, FASYNC },
++#ifndef CONFIG_DARWIN
++        { P9_DOTL_NOATIME, O_NOATIME },
++        /*
++         *  On Darwin, we could map to F_NOCACHE, which is
++         *  similar, but doesn't quite have the same
++         *  semantics. However, we don't support O_DIRECT
++         *  even on linux at the moment, so we just ignore
++         *  it here.
++         */
+         { P9_DOTL_DIRECT, O_DIRECT },
 +#endif
-     /* Currently we only support BASIC fields in stat */
-     v9lstat->st_result_mask = P9_STATS_BASIC;
+         { P9_DOTL_LARGEFILE, O_LARGEFILE },
+         { P9_DOTL_DIRECTORY, O_DIRECTORY },
+         { P9_DOTL_NOFOLLOW, O_NOFOLLOW },
+-        { P9_DOTL_NOATIME, O_NOATIME },
+         { P9_DOTL_SYNC, O_SYNC },
+     };
  
-@@ -3519,9 +3525,15 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
-     f_bavail = stbuf->f_bavail / bsize_factor;
-     f_files  = stbuf->f_files;
-     f_ffree  = stbuf->f_ffree;
-+#ifdef CONFIG_DARWIN
-+    fsid_val = (unsigned int)stbuf->f_fsid.val[0] |
-+               (unsigned long long)stbuf->f_fsid.val[1] << 32;
-+    f_namelen = NAME_MAX;
-+#else
-     fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
-                (unsigned long long)stbuf->f_fsid.__val[1] << 32;
-     f_namelen = stbuf->f_namelen;
+@@ -171,10 +180,12 @@ static int get_dotl_openflags(V9fsState *s, int oflags)
+      */
+     flags = dotl_to_open_flags(oflags);
+     flags &= ~(O_NOCTTY | O_ASYNC | O_CREAT);
++#ifndef CONFIG_DARWIN
+     /*
+      * Ignore direct disk access hint until the server supports it.
+      */
+     flags &= ~O_DIRECT;
 +#endif
+     return flags;
+ }
  
-     return pdu_marshal(pdu, offset, "ddqqqqqqd",
-                        f_type, f_bsize, f_blocks, f_bfree,
 -- 
 2.35.1
 
