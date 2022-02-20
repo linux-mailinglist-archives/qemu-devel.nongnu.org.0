@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F304BCF3B
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 16:07:10 +0100 (CET)
-Received: from localhost ([::1]:57010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DF84BCF45
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 16:14:56 +0100 (CET)
+Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLnno-0007nE-6z
-	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 10:07:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55074)
+	id 1nLnvL-0002kO-Fb
+	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 10:14:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nLnmU-0006xf-5A
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 10:05:46 -0500
-Received: from [2607:f8b0:4864:20::1136] (port=37273
- helo=mail-yw1-x1136.google.com)
+ id 1nLntJ-0001yI-Iv
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 10:12:53 -0500
+Received: from [2607:f8b0:4864:20::1132] (port=33308
+ helo=mail-yw1-x1132.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nLnmQ-0001Mo-VB
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 10:05:44 -0500
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-2d646fffcc2so113134317b3.4
- for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 07:05:42 -0800 (PST)
+ id 1nLntH-0002fw-HX
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 10:12:49 -0500
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-2d66f95f1d1so113076557b3.0
+ for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 07:12:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mfoaHmtYn7qQB93RGFLpowS77DV1zylNQFTokSnR44s=;
- b=mfJaFZA+WVxHnKlaKPES8d/dIVZ6cyh/NafzQm3btcrR9g2Vkt2A6W1W/OOkSbYVES
- rziXsDH6uEaiqcaJ+bG/R7BgVH5kAXyjxJmc7mreDIRh1NBW8xwRZL77XTbrRY+3qixQ
- f35oUB/1N+LyR/7eMeNUztALjkIKR8J+R+S/kC0eoPAyh0bZq0C+oA2yvfaeEOwuOumb
- ENEQnh56DYiIEtun95lxWyY1dWtXJXApJY+tHaYFtdbr1AKBG3tJqT2KTzsdLOXfqrk4
- 9sFWRcyb4WzuPqeHmMfwnN4IDUDwC+a05E2t2TRZH+wr7Vy1oYbxHodH+9zkNih/+GyY
- 1/Ww==
+ :cc; bh=tRUlGOszQrMqSwk2t0E5JOdSeW0lsRmTqY8L+bKCvJw=;
+ b=f1Dgo2ShOLMFc8Q5TkGx+2nZgE4jUDwtF/2JMDDLnWg4ImvFYfGefU8U/JaeUKavwq
+ iGQ5CionTQCG6hhzF7mIp4ngIlZxm86OG1GgJECbAwiS+aaOt6iqw77jA96W1b4IGN5+
+ rqPdUfXKaffcOcefPh2YE0cyAmnyBJmI/oOzHLXcfd+2QFwtbmmN6eFdSaln4mx9ptgb
+ V9yXR6SOImRl4XPWk+tkC911g+XGvgKoUk/W5Br/4vNr4EMNoQe8x5rTmqb0GsslDY9d
+ OlHbhEeyMvHPeRSOrEUDbbEsIsfxDCHBwzf2Q2ivwlNMZh/GYvfTbIX9+IRVvIJiSIkX
+ X4bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mfoaHmtYn7qQB93RGFLpowS77DV1zylNQFTokSnR44s=;
- b=JKKVlW/wEMWB1S6F3oVMwDNH+HUe6W8D4NJs76zhLuQ+tm67NkbN+Lm8/W9IFpdhEL
- bF3eWRTr5gcCspBEt0JoEenGD4dwzq71gstHI2BRawZh09Pq31QDZ545h/cCY7CmLQKa
- UXS18UyWM58fyJaTn1J9hRp6uoTHTY2xxkixxvJ9KD4m9ssUzBxe7Ja72q3EGIxW2EHT
- VU63qFIg+s8XYodmrLvGaz0S06023qLM4jmZFQQDn/KYKknQ56m3FNN0hYjzyj+GUZDo
- KycBp7cR/GKcriaeU4Cow0NFJxkFQjyQbo3wdSRWsViG+5Ho7NYZW+gWUx2fax3Y7Xnf
- BMKg==
-X-Gm-Message-State: AOAM533Xk/bTtVHa3CrJDVcN0iBdI6gNFdTnuBJAFFQF5ozUEp0McYvb
- w2xStjNC2YfsBBDJPc6u2d9UHSuvzwqEPXHlfC+LbA==
-X-Google-Smtp-Source: ABdhPJzyRjPos1gfVJBb9xHJvKRivCkFsIa38yuJ2t2+cpoJh7EMCSWe+udvmi5ookiA87/uGkevTaBT2M1Xemq9ptI=
-X-Received: by 2002:a81:3907:0:b0:2d2:dc34:44ee with SMTP id
- g7-20020a813907000000b002d2dc3444eemr16588900ywa.347.1645369541510; Sun, 20
- Feb 2022 07:05:41 -0800 (PST)
+ bh=tRUlGOszQrMqSwk2t0E5JOdSeW0lsRmTqY8L+bKCvJw=;
+ b=jMKUI60JpZNwNf/u1FywQnNTDyrTZSxJDK2ZQFbS8KzCalpi3r80CH4gq5N3tBcgKD
+ VNTXn7uJolOBLeXSbgdJ/9p4ZHguvy/Lfph5cNM+L1Wz/SxsJ1qoJIsgsEYvD1HsqY/y
+ de4yVm8fjI1sSxeLwhEJc8/R1ziLH1FAuZnyIpN93W/tpqUKapZmS5fUz0c7KJ4z/n2U
+ 6pHbeWelCJgG8b4YYrPcfcVES7EfbGyr5gB3JmGhK0vFsKat8UtestzFz/D5iak99S1H
+ pd2X88JWYGkuAyitASXXjjmvyV9piU89SclEcQhS1V5RUnT9g4HS34VeMIgOn/nRgdy8
+ fvPw==
+X-Gm-Message-State: AOAM533JW3Jhd+wQWFD2+f3qhuR6pvS/jbT/2GWu1jQGpaiUWUQnYph/
+ /zjNfjl+E/0pyrgDZXoXRp6vxS2cxaBLD1jNLRxN+g==
+X-Google-Smtp-Source: ABdhPJy6nr5BS+2h8m5Q1nOHT3K5B3viAKZdEeeMnXm8DNXokBoC7371zU4xjiuv4kPcpmqG8lbkP4feY3NhfzQpXT4=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr16061088ywb.257.1645369966601; Sun, 20
+ Feb 2022 07:12:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20220217172500.60500-1-dgilbert@redhat.com>
-In-Reply-To: <20220217172500.60500-1-dgilbert@redhat.com>
+References: <a0b237cd-8351-4389-bd7a-450586323e7a@VE1EUR02FT028.eop-EUR02.prod.protection.outlook.com>
+In-Reply-To: <a0b237cd-8351-4389-bd7a-450586323e7a@VE1EUR02FT028.eop-EUR02.prod.protection.outlook.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 20 Feb 2022 15:05:30 +0000
-Message-ID: <CAFEAcA8TQJ8Wx0+Ns4XoFCG3JKC8VrcnTJ-=Oo+WuBhtd_qkUg@mail.gmail.com>
-Subject: Re: [PULL 00/12] virtiofs queue
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Date: Sun, 20 Feb 2022 15:12:35 +0000
+Message-ID: <CAFEAcA_iv9Xm0c_CNzez4fQmXfWaA_dMjUOsgxqx9JoKFj_HGg@mail.gmail.com>
+Subject: Re: [PATCH] target/nios2: Shadow register set, EIC and VIC
+To: amir.gonnen@neuroblade.ai
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1136
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1132
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -81,47 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: slp@redhat.com, sebastian.hasler@stuvus.uni-stuttgart.de,
- qemu-devel@nongnu.org, groug@kaod.org, virtio-fs@redhat.com,
- stefanha@redhat.com, vgoyal@redhat.com
+Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Feb 2022 at 17:30, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
+On Sun, 20 Feb 2022 at 13:07, <amir.gonnen@neuroblade.ai> wrote:
 >
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> From 99efcd655e83f034bce25271fe592d8789529e54 Mon Sep 17 00:00:00 2001
+> From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+> Date: Thu, 17 Feb 2022 15:43:14 +0200
+> Subject: [PATCH] target/nios2: Shadow register set, EIC and VIC
 >
-> The following changes since commit c13b8e9973635f34f3ce4356af27a311c993729c:
->
->   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220216' into staging (2022-02-16 09:57:11 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20220217b
->
-> for you to fetch changes up to 45b04ef48dbbeb18d93c2631bf5584ac493de749:
->
->   virtiofsd: Add basic support for FUSE_SYNCFS request (2022-02-17 17:22:26 +0000)
->
-> ----------------------------------------------------------------
-> V3: virtiofs pull 2022-02-17
->
-> Security label improvements from Vivek
->   - includes a fix for building against new kernel headers
->   [V3: checkpatch style fixes]
->   [V2: Fix building on old Linux]
-> Blocking flock disable from Sebastian
-> SYNCFS support from Greg
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->
+> Implement nios2 Vectored Interrupt Controller (VIC).
+> This includes Exteral Interrupt Controller interface (EIC) and Shadow
+> Register set implementation on the nios2 cpu.
+> Implemented missing wrprs and rdprs instructions, and fixed eret.
+> Added intc_present property, true by default. When set to false, nios2
+> uses the EIC interface when handling IRQ.
 
+Hi; this patch seems to be trying to fix multiple things
+at once. Could you split it up into a multi-patch patch series,
+where each patch does one logical thing, please? In particular
+bug fixes to existing code ("fixed eret") should be their
+own patches, separate from patches adding new features.
 
-Applied, thanks.
+> To use VIC, the nios2 board should set VIC cpu property, disable
+> intc_present, connect VIC irq to cpu and connect VIC gpios.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+Is there a patch which wires up one of the nios2 boards to do this ?
 
+https://www.qemu.org/docs/master/devel/submitting-a-patch.html
+is our guidelines on patch formatting.
+
+thanks
 -- PMM
 
