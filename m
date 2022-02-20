@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553544BD01E
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 18:10:20 +0100 (CET)
-Received: from localhost ([::1]:40792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3D34BD01F
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 18:12:39 +0100 (CET)
+Received: from localhost ([::1]:47070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLpj1-0000Ot-E4
-	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 12:10:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49626)
+	id 1nLplG-0004eq-UX
+	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 12:12:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQo-0007zs-77
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:30 -0500
-Received: from [2607:f8b0:4864:20::f2e] (port=36695
- helo=mail-qv1-xf2e.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQp-00083b-4u
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:31 -0500
+Received: from [2607:f8b0:4864:20::f36] (port=41545
+ helo=mail-qv1-xf36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQm-0000Ef-9D
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:29 -0500
-Received: by mail-qv1-xf2e.google.com with SMTP id o5so26105801qvm.3
- for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 08:51:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nLpQn-0000GC-Gl
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 11:51:30 -0500
+Received: by mail-qv1-xf36.google.com with SMTP id x3so26032966qvd.8
+ for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 08:51:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sYK+uU7D+zXBtVgQvVfFVkY65lZgfTz3L/tbii2QHnA=;
- b=bt5fpsuLHvPkEmV74+n1rnjIdWcC42s/jHXEZmBcoxa5/R/AhyAHVFhH7VcDbeHM9j
- Lii81GwY36yOG7Hv+ZSr+P+4rqRQeEM0Hh75C5F6abBeqK7C1EuUEbXl6as1zUcDqgMG
- EbZFUZSquIQtEsI850d9cHr/JhnNqsj8d+xLbij7lAPPo72ebf3RC3BDZYwKDZZQ02RO
- RvB6G4t6fHoOl6zwd5IpK2GOhEZIySnD9aFsv8Va+rjeTbrWzzUylUvLLKM4rsyNMHEg
- 2635OQqqpMDUl5QJypqYuoqh1pd1sXlS+P17PDDML+IbNu0fXQi5D22Sn6zwvo/H5Vzl
- hsCA==
+ bh=1lSNKYTys5WwwDCa2B5w8TNgxukwfhzsKmBg6dB6bbw=;
+ b=lujAglyYZiiyZMlkQl4+ja5/Qn43Eou3nshJcbSEdGTLRInLWWiZb33Gho2lJCSrOM
+ vh/h8Tg2RiqKI6XzNZUOJI+MekxFVkRXR7obSb03XutagXHNG6NimMRQMuPrschR5UYN
+ B8lNzUJ1lnmUpdeBfJpB1Z2NBr9jJvRkkiw1eeyrrpun+KJuvLUhBdzEZ0Q97OuH4bg2
+ iXnlQnNTLQsUAtX0Q1M/yN4XsYR58vIy2YUtEEztOCA/0bs/pki3EhSkqgZ4ySlMVhSf
+ Wva5OS3X2Oe/W3hsK3uCYwF2gGa9eOLxnKh+kynJL4uUpgi2cq3Kvh0nKh2NfvBc+yhj
+ 7JMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sYK+uU7D+zXBtVgQvVfFVkY65lZgfTz3L/tbii2QHnA=;
- b=i5Hu9XLSvBVec8aTO+h/9JhkKEteRLoA0RwAQ7FdnJCos+yNlbHh3I8QPUkXDGaOvJ
- HmF96uaVIsgAKSMVLJAajos09AcCf+XpCP4RCG2NYgN9qTX5SG3E96Lxno/J2lZ0Ja42
- rBVVQHSzLJhXGLCuz0+ZDTcaWJpGJ7SvXp+ddnUY6symEvmRWUnAWHF+N78l5XBPQJ4g
- NiJWms7gO4PXqfCTDUFANh3ApQ0J0iWz6VzpVnJD0e4VGqk3N+forZMbMhMkZEB3Hym1
- paML9cu4fw8g2eWDy0jSKkU2ly1kjHMrfnwnjPOZNZPHL4T+UNrbAWyWkvTXeUCzBsTp
- C/tw==
-X-Gm-Message-State: AOAM532ETkurp37LEQ3czehF2IgW1wjw5B1d233S7g16QXTMchUSorgr
- dkXZOmII7h6p3vFU+E6OOwTv71OYXEDtTg==
-X-Google-Smtp-Source: ABdhPJwyidtnmyicUvdtFm0OI1KIp9QJtMlshF0exy+LboWTc4SE9do0SddFjgXd2irWcECYeiZwhg==
-X-Received: by 2002:a05:6214:1bc5:b0:42c:4d35:37e2 with SMTP id
- m5-20020a0562141bc500b0042c4d3537e2mr12700138qvc.90.1645375887043; 
- Sun, 20 Feb 2022 08:51:27 -0800 (PST)
+ bh=1lSNKYTys5WwwDCa2B5w8TNgxukwfhzsKmBg6dB6bbw=;
+ b=CaMINqQl5+Z4m4qAZrehjVAdlfuZuVUorE2v33Pt4MIFRrVABPY16ukucjfzbgXvp0
+ QMFOtGoJHReI+NrpgFtDFZA10O2fADGXXs6Psoe0JzSYBL6KwY0UMh1k540TUwy8sJtI
+ qMQrCJt+p2xFuWA5FZOVjqkXfEZaU8tcHMSdp7wG9fKuiB78Eerf293+Ys2moWHSP9PA
+ yVVUIq2rnIw+KlofuS3L1MMnNWR0kGfYHGv7wFES/DOGfOVGTIfPZwD97E8CfkDyOOyu
+ wHx/2o2qXY1v0aws5bNQ/Iid+/cAOewKAOTaar+e8ktcQAKwWs1D82GYQsVL93piTxCz
+ 0tkA==
+X-Gm-Message-State: AOAM5333PII4IYHNP2AP8vtEsO4Jrp8k23erJH0eDKQsh5pbF2VdPFr7
+ 2g8DYOx4OnaGK+6S/jAIQuxKRnTNbz0/ag==
+X-Google-Smtp-Source: ABdhPJyHAf5WED5WpSRSO9K1HWaMs8sXqQZsfQd9uxWEGacaQDwSpDy22XPrUqtuRCRCDPZFl0Z9jg==
+X-Received: by 2002:ad4:5d69:0:b0:42d:dc3e:951d with SMTP id
+ fn9-20020ad45d69000000b0042ddc3e951dmr12854653qvb.2.1645375888330; 
+ Sun, 20 Feb 2022 08:51:28 -0800 (PST)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219])
- by smtp.gmail.com with ESMTPSA id n16sm3190995qkn.115.2022.02.20.08.51.25
+ by smtp.gmail.com with ESMTPSA id n16sm3190995qkn.115.2022.02.20.08.51.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Feb 2022 08:51:25 -0800 (PST)
+ Sun, 20 Feb 2022 08:51:27 -0800 (PST)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 10/11] 9p: darwin: Adjust assumption on virtio-9p-test
-Date: Sun, 20 Feb 2022 11:50:55 -0500
-Message-Id: <20220220165056.72289-11-wwcohen@gmail.com>
+Subject: [PATCH v8 11/11] 9p: darwin: meson: Allow VirtFS on Darwin
+Date: Sun, 20 Feb 2022 11:50:56 -0500
+Message-Id: <20220220165056.72289-12-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220220165056.72289-1-wwcohen@gmail.com>
 References: <20220220165056.72289-1-wwcohen@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f36
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
- envelope-from=wwcohen@gmail.com; helo=mail-qv1-xf2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
+ envelope-from=wwcohen@gmail.com; helo=mail-qv1-xf36.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,57 +88,85 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Fabian Franz <fabianfranz.oss@gmail.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Greg Kurz <groug@kaod.org>, hi@alyssa.is, Will Cohen <wwcohen@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous test depended on the assumption that P9_DOTL_AT_REMOVEDIR
-and AT_REMOVEDIR have the same value.
+From: Keno Fischer <keno@juliacomputing.com>
 
-While this is true on Linux, it is not true everywhere, and leads to an
-incorrect test failure on unlink_at, noticed when adding 9p to darwin:
+To allow VirtFS on darwin, we need to check that pthread_fchdir_np is
+available, which has only been available since macOS 10.12.
 
-Received response 7 (RLERROR) instead of 77 (RUNLINKAT)
-Rlerror has errno 22 (Invalid argument)
-**
+Additionally, virtfs_proxy_helper is disabled on Darwin. This patch
+series does not currently provide an implementation of the proxy-helper,
+but this functionality could be implemented later on.
 
-ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
-failed (hdr.id == id): (7 == 77) Bail out!
-
-ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
-failed (hdr.id == id): (7 == 77)
-
-Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
-[Will Cohen: - Add explanation of patch and description
-               of pre-patch test failure]
+Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+[Michael Roitzsch: - Rebase for NixOS]
+Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+[Will Cohen: - Rebase to master]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-[Will Cohen: - Move this patch before 9p: darwin: meson
-               patch to avoid qtest breakage during
-               bisecting]
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+[Will Cohen: - Add check for pthread_fchdir_np to virtfs
+             - Add comments to patch commit
+             - Note that virtfs_proxy_helper does not work
+               on macOS
+             - Fully adjust meson virtfs error note to specify
+               macOS]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- tests/qtest/virtio-9p-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fsdev/meson.build |  1 +
+ meson.build       | 14 ++++++++++----
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 502e5ad0c7..01ca076afe 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -1253,7 +1253,7 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     /* ... and is actually a directory */
-     g_assert((st.st_mode & S_IFMT) == S_IFDIR);
+diff --git a/fsdev/meson.build b/fsdev/meson.build
+index adf57cc43e..b632b66348 100644
+--- a/fsdev/meson.build
++++ b/fsdev/meson.build
+@@ -7,6 +7,7 @@ fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
+   'qemu-fsdev.c',
+ ), if_false: files('qemu-fsdev-dummy.c'))
+ softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
++softmmu_ss.add_all(when: 'CONFIG_DARWIN', if_true: fsdev_ss)
  
--    do_unlinkat(v9p, "/", "02", AT_REMOVEDIR);
-+    do_unlinkat(v9p, "/", "02", P9_DOTL_AT_REMOVEDIR);
-     /* directory should be gone now */
-     g_assert(stat(new_dir, &st) != 0);
- }
+ if have_virtfs_proxy_helper
+   executable('virtfs-proxy-helper',
+diff --git a/meson.build b/meson.build
+index 6fdc0281ad..b6f5c57487 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1416,17 +1416,23 @@ if not get_option('dbus_display').disabled()
+   endif
+ endif
+ 
+-have_virtfs = (targetos == 'linux' and
++if targetos == 'darwin' and cc.has_function('pthread_fchdir_np')
++  have_virtfs = have_system
++else
++  have_virtfs = (targetos == 'linux' and
+     have_system and
+     libattr.found() and
+     libcap_ng.found())
++endif
+ 
+-have_virtfs_proxy_helper = have_virtfs and have_tools
++have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
+ 
+ if get_option('virtfs').enabled()
+   if not have_virtfs
+-    if targetos != 'linux'
+-      error('virtio-9p (virtfs) requires Linux')
++    if targetos != 'linux' and targetos != 'darwin'
++      error('virtio-9p (virtfs) requires Linux or macOS')
++    elif targetos == 'darwin' and not cc.has_function('pthread_fchdir_np')
++      error('virtio-9p (virtfs) on macOS requires the presence of pthread_fchdir_np')
+     elif not libcap_ng.found() or not libattr.found()
+       error('virtio-9p (virtfs) requires libcap-ng-devel and libattr-devel')
+     elif not have_system
 -- 
 2.35.1
 
