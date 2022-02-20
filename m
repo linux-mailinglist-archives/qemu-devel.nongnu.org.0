@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B226D4BD21C
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 22:52:33 +0100 (CET)
-Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5534BD2C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 01:01:01 +0100 (CET)
+Received: from localhost ([::1]:51524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLu88-0002tK-9B
-	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 16:52:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34010)
+	id 1nLw8S-00045S-0b
+	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 19:01:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nLu6t-0002Br-CM
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 16:51:16 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:41067)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nLu6q-0003Wq-HP
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 16:51:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=jRRVh0VrFbvUr4aLg9aurVLFW4gCPOgUXhOExpd5ne4=; b=k2RN0Lr7uqTR5Brpm3tSdN8VgS
- N76ayxDnxbqD6jPV4AIYpZ0hC5z+jxAu42upsXByuxeaGznexwfBijtjJ7Vqzz6Je9OKHujtMdiD5
- GE0CEkXLNEPEMVJ/cJ2hE/zB6b1eEuL7VXjCXhjtLsh907MygxV0gGdVRCmp9QdouDcrv1gUJKr/A
- 22KdUa2hjKgFAddBdQYIZI4hKuwKvfubmOkH/G29ozAqU75h6YfiUzoK0Llb2SXgGTzEGq5EG5n2w
- 9WtuVOzhEi10wHIptRi4NBBNNrOFYILA+cn/nLkLqvohr1inNG65qWJXlBvFFnuSC6RAFY2xqL1Qs
- FFf6YGucxONfWVH7fZh+p4fbAV9fSd+T5q9mNSjTo+CQi4S9B0OOYKNqDbz88WuSg6qfFqYsDY5bi
- qGjKkvT3dLbOMJ0W0lr7wMr8zUj5W58bwRy2mDSqvvQyY6CTFuC3MgWqI3NohOm3z8Y1HEUhP+FHj
- Gnx0EzU9BxS811+UF2YpKYS9jRM65ZbzGNInXbOhFbr+jiBvFtYh70aA58mqQaGFg1L8853jxIFlK
- lif5pUvrfbu//WFrFdTDbhWNrxeibQPblF0rYlHI2dVnFnmnA9MJsv/w4/U9n+BsD82EdS8CUA67k
- ovM3BP2QJQSMZfCmBhT8HzpkEmQd7EtqYgObxSlkQ=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Will Cohen <wwcohen@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Greg Kurz <groug@kaod.org>, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
-Subject: Re: [PATCH v8 09/11] 9p: darwin: Implement compatibility for mknodat
-Date: Sun, 20 Feb 2022 22:51:08 +0100
-Message-ID: <35009708.HEDLKCRaxn@silver>
-In-Reply-To: <20220220165056.72289-10-wwcohen@gmail.com>
-References: <20220220165056.72289-1-wwcohen@gmail.com>
- <20220220165056.72289-10-wwcohen@gmail.com>
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nLw74-0003PS-Qu
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 18:59:34 -0500
+Received: from [2607:f8b0:4864:20::635] (port=37486
+ helo=mail-pl1-x635.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nLw72-0004ov-Mf
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 18:59:34 -0500
+Received: by mail-pl1-x635.google.com with SMTP id q1so2953090plx.4
+ for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 15:59:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=wl3SnVj1f++wA/odp8PFAGCD/Lp37+pyd/bNCjzE7ko=;
+ b=DA/gFLS1rHhX88er62GTkqM19SCYr0n62ZPIZGmOZiMM/OuUvOgTZokh6oe3tqVn9V
+ Q5puIr+pp+s5MwXNUWc+KP5W0uAz9QwtfRpHyDqmdsBhd7EfYnO9UYz9hMt4kPbwjnRi
+ d8H5AwwjLHCbrNL4YBIdRVzPJw+lZ3kjb5ucqxeL/5lQ0witwWdFtBT6l35MKFRkUp40
+ tuG1UlnLTsmqM55IVTMnRAc/1xw+CUGxZZvLEU0VN+NZg6pP6glFhGbnpWKVDYWqBh8h
+ hPDThNepc3YWeD8JgsNUj086mYuZ4b7qCtsmw0K+gwIPU3MqMrsnZeARt6VYJWpDzFR6
+ NdDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=wl3SnVj1f++wA/odp8PFAGCD/Lp37+pyd/bNCjzE7ko=;
+ b=33ybyPjLPC0jVYXGcEV93XjGoGUXu6G96yc4c387lWqxUyKiY6p67QHkj1hyzZaYXc
+ ejXRjAd8cI0mWNrAA5ln63AxbLBLSH8Q+puHxLhLWbI1XNCnqEIeU86s4fi5mjL5yhtt
+ uSS0Ise3JugLBpyiZ3ozzlIyccODW/D0gvUUFhUUsEs2Aat2uKf44UN428B11AER+ehT
+ ORpiskurUTVbRvCLc8KZhXw3ZTqcgZOv4c2FRCf0tvxQMM3T6D/11fFOv1Sp6sxq/fRh
+ 2Q8SLZj8mzVUH6iIgNoqPlZOmGcMwu87XkPN1yoVLsPizRvNhfGNu+8lU221iUVRkA1w
+ fhXg==
+X-Gm-Message-State: AOAM531YS399Hf3m+w93fHiFqLbxbJ5ARiCrPTqxVxu873jnUjcNdkUn
+ H0DOK2ZTNhI/q5MPA3jtMNs=
+X-Google-Smtp-Source: ABdhPJxyd8HO12HzlNWzGeXzHVZyOll5U8Vg5AJJRQapiXx/LjGj+wL+sQo6b/0rLRjz5KWf/66auw==
+X-Received: by 2002:a17:90a:aa91:b0:1b9:19d6:95b6 with SMTP id
+ l17-20020a17090aaa9100b001b919d695b6mr18862157pjq.106.1645401570743; 
+ Sun, 20 Feb 2022 15:59:30 -0800 (PST)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ by smtp.gmail.com with ESMTPSA id a15sm15987017pgd.11.2022.02.20.15.59.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Feb 2022 15:59:29 -0800 (PST)
+Date: Mon, 21 Feb 2022 08:59:27 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?=
+ <philippe.mathieu.daude@gmail.com>
+Subject: Re: [PATCH v3 4/6] hw/openrisc/openrisc_sim: Increase max_cpus to 4
+Message-ID: <YhLV35HEfeAP55tE@antec>
+References: <20220219064210.3145381-1-shorne@gmail.com>
+ <20220219064210.3145381-5-shorne@gmail.com>
+ <d97c3f6f-e155-b257-552e-eebd0d8d2169@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d97c3f6f-e155-b257-552e-eebd0d8d2169@gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=shorne@gmail.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,168 +90,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Development <qemu-devel@nongnu.org>, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sonntag, 20. Februar 2022 17:50:54 CET Will Cohen wrote:
-> From: Keno Fischer <keno@juliacomputing.com>
+On Sun, Feb 20, 2022 at 09:07:17PM +0100, Philippe Mathieu-Daudé wrote:
+> On 19/2/22 07:42, Stafford Horne wrote:
+> > Now that we no longer have a limit of 2 CPUs due to fixing the
+> > IRQ routing issues we can increase the max.  Here we increase
+> > the limit to 4, we could go higher, but currently OMPIC has a
+> > limit of 4, so we align with that.
+> > 
+> > Signed-off-by: Stafford Horne <shorne@gmail.com>
+> > ---
+> >   hw/openrisc/openrisc_sim.c | 8 +++++---
+> >   1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> Darwin does not support mknodat. However, to avoid race conditions
-> with later setting the permissions, we must avoid using mknod on
-> the full path instead. We could try to fchdir, but that would cause
-> problems if multiple threads try to call mknodat at the same time.
-> However, luckily there is a solution: Darwin includes a function
-> that sets the cwd for the current thread only.
-> This should suffice to use mknod safely.
-> 
-> This function (pthread_fchdir_np) is protected by a check in
-> meson in a patch later in this series.
-> 
-> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> [Will Cohen: - Adjust coding style
->              - Replace clang references with gcc
->              - Note radar filed with Apple for missing syscall
->              - Replace direct syscall with pthread_fchdir_np and
->                adjust patch notes accordingly
->              - Move qemu_mknodat from 9p-util to osdep and os-posix
->              - Move pthread_fchdir_np declaration only to osdep
->              - Declare pthread_fchdir_np with
->              - __attribute__((weak_import)) to allow checking for
->                its presence before usage
->              - Move declarations above cplusplus guard
->              - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
->                presence in osdep.h and os-posix.c
->              - Rebase to apply cleanly on top of the 2022-02-10
->                changes to 9pfs]
-> Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> ---
->  hw/9pfs/9p-local.c   |  4 ++--
->  include/qemu/osdep.h | 12 ++++++++++++
->  meson.build          |  1 +
->  os-posix.c           | 35 +++++++++++++++++++++++++++++++++++
->  4 files changed, 50 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> index a0d08e5216..d42ce6d8b8 100644
-> --- a/hw/9pfs/9p-local.c
-> +++ b/hw/9pfs/9p-local.c
-> @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> *dir_path,
-> 
->      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
->          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-> -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-> +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
->          if (err == -1) {
->              goto out;
->          }
-> @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> *dir_path, }
->      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
->                 fs_ctx->export_flags & V9FS_SM_NONE) {
-> -        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
-> +        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
->          if (err == -1) {
->              goto out;
->          }
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index ce12f64853..c0f442d791 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -818,6 +818,18 @@ static inline int
-> platform_does_not_support_system(const char *command) */
->  struct dirent *qemu_dirent_dup(struct dirent *dent);
-> 
-> +/*
-> + * As long as mknodat is not available on macOS, this workaround
-> + * using pthread_fchdir_np is needed. qemu_mknodat is defined in
-> + * os-posix.c. pthread_fchdir_np is weakly linked here as a guard
-> + * in case it disappears in future macOS versions, because it is
-> + * is a private API.
-> + */
-> +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
-> +int pthread_fchdir_np(int fd) __attribute__((weak_import));
-> +#endif
-> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
-> +
->  #ifdef __cplusplus
->  }
->  #endif
-> diff --git a/meson.build b/meson.build
-> index ae5f7eec6e..6fdc0281ad 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1557,6 +1557,7 @@ config_host_data.set('CONFIG_POSIX_FALLOCATE',
-> cc.has_function('posix_fallocate'
-> config_host_data.set('CONFIG_POSIX_MEMALIGN',
-> cc.has_function('posix_memalign')) config_host_data.set('CONFIG_PPOLL',
-> cc.has_function('ppoll'))
->  config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix:
-> '#include <sys/uio.h>')) +config_host_data.set('CONFIG_PTHREAD_FCHDIR_NP',
-> cc.has_function('pthread_fchdir_np'))
-> config_host_data.set('CONFIG_SEM_TIMEDWAIT',
-> cc.has_function('sem_timedwait', dependencies: threads))
-> config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
-> config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and
-> cc.has_function('unshare')) diff --git a/os-posix.c b/os-posix.c
-> index ae6c9f2a5e..ccc3d1e9d3 100644
-> --- a/os-posix.c
-> +++ b/os-posix.c
-> @@ -332,3 +332,38 @@ int os_mlock(void)
->      return -ENOSYS;
->  #endif
->  }
-> +
-> +/*
-> + * As long as mknodat is not available on macOS, this workaround
-> + * using pthread_fchdir_np is needed.
-> + *
-> + * Radar filed with Apple for implementing mknodat:
-> + * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
-> + */
-> +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
-> +
-> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-> +{
-> +    int preserved_errno, err;
-> +    if (!pthread_fchdir_np) {
-> +        error_report_once("pthread_fchdir_np() is not available on this
-> version of macOS");
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Code style error:
+Thank you.
 
-ERROR: line over 90 characters
-#226: FILE: os-posix.c:349:
-+        error_report_once("pthread_fchdir_np() is not available on this 
-version of macOS");
-
-BTW, does anybody know what happened to our Patchew bot that used to 
-automatically report such errors to the list?
-
-Best regards,
-Christian Schoenebeck
-
-> +        return -ENOTSUP;
-> +    }
-> +    if (pthread_fchdir_np(dirfd) < 0) {
-> +        return -1;
-> +    }
-> +    err = mknod(filename, mode, dev);
-> +    preserved_errno = errno;
-> +    /* Stop using the thread-local cwd */
-> +    pthread_fchdir_np(-1);
-> +    if (err < 0) {
-> +        errno = preserved_errno;
-> +    }
-> +    return err;
-> +}
-> +#else
-> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-> +{
-> +    return mknodat(dirfd, filename, mode, dev);
-> +}
-> +#endif
-
-
+-Stafford
 
