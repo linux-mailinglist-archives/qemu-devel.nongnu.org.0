@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0C74BCAA7
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Feb 2022 22:00:37 +0100 (CET)
-Received: from localhost ([::1]:56812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB704BCD3D
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Feb 2022 09:30:24 +0100 (CET)
+Received: from localhost ([::1]:34920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLWqJ-0004Nx-UH
-	for lists+qemu-devel@lfdr.de; Sat, 19 Feb 2022 16:00:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52986)
+	id 1nLhbq-0001Bo-IH
+	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 03:30:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nLWpN-0003iC-Nu
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 15:59:37 -0500
-Received: from [2607:f8b0:4864:20::f31] (port=42984
- helo=mail-qv1-xf31.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nLhYi-0007uB-Ht
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 03:27:08 -0500
+Received: from [2a00:1450:4864:20::632] (port=42885
+ helo=mail-ej1-x632.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nLWpM-0008Ro-3w
- for qemu-devel@nongnu.org; Sat, 19 Feb 2022 15:59:37 -0500
-Received: by mail-qv1-xf31.google.com with SMTP id e22so21987050qvf.9
- for <qemu-devel@nongnu.org>; Sat, 19 Feb 2022 12:59:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=v2OsXBbUV/OTLtt1yXoIWU3sGDxdHGfFBjY+aQLOClo=;
- b=rON8QpMCY+2qgzhjfvp0beWU++ml2eq62qcTH+JGLWPly7SRSSlNH+SsDQixhIT7i+
- b/j9JHFlaejtVVv/qYwYQHKxkuZoGjH/IMHyXBvyA+SCfn3k/B78PVhNF9RtbHp9BB3z
- pOmzLtFefHcgsl6OI+i9U7CYlyxc1iivTn8+qx03dDFOJ1ypzWZqVlHucplyBi+QDeKY
- 3ls830lVXIURWT0KE8RlQ6I/wUjBCDTaj3D7rT8Fu8hLmmPzPpHsXExBSxfEDJFEhVs4
- Kn/Z3V166ZcGVFJEyGBwAOHDAvpOLFStbEPHsg5ID2SLpTZ2g4gmaoCuD8n0VizLxX3+
- /3uQ==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nLhYg-000623-DW
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 03:27:08 -0500
+Received: by mail-ej1-x632.google.com with SMTP id hw13so25245798ejc.9
+ for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 00:27:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=prpL2QE+XJfCu8Qk+I4mlYb/cVmtOjjhpu1Xupt8Wp8=;
+ b=Chv3WpKCgQQ88k3LwAmeAxRxodDxPhbV1s7syCg7n4nK+EQiaBTElEsr1KLM+/J4D+
+ 6hMVN2Mf+qNU/sxkA6JYgeIi5vgykSLInUwu3tQP4IqZwkuYX/J5Ibi5m8iOQyFGa418
+ 62zWznuwsnfEGt7SOmin4wIbmekwttnjd44a/04HzM0TQVqKRM5TQqDl1lftd8rKDjOf
+ q8LwvC4scCuwOcKZthZFhIrFlgSwY8Tw7mDza58tm1PEDtLlL+TEkQ//y4ICIilx1lGJ
+ NwKS8c1yDaW8XY7IMJjQ4RuwvNk8rFtKsl+iz+FbP1RaSvcDSPv+rEWVt6iXQk54h7nd
+ CZaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=v2OsXBbUV/OTLtt1yXoIWU3sGDxdHGfFBjY+aQLOClo=;
- b=CS3Vg5zaRw8QDEUGdNUX0Wnz2MZttOI5mzRziFdqDNBOwLpX84dacnwmLIUhvJq69/
- NJuWWqNS3ryzlpQ/wtsuuGMwLKX2wn2ngWwVdFnXhVvNbK9whC3lp7DPjpKmPOr7xL+/
- rtfbzSYssgBye/zWYnMF/Co99ZdUXrAjBRCHksmPFlDZ4qCNNvjPyf2eEaxxFRIPfHer
- GFfI/tOMBNz9L6NDmnOzpVLXICUlBSWUI1lZRzLEX/hgk+wKXqbutoKRp3zAHWTjKh/q
- UJlg9ja+K3NkSZTgCWvFs8x8hO8+UCN1bUvgT4Oy2V29qKDfcJu5+UoskYQJgtPnJ3Ft
- PVQA==
-X-Gm-Message-State: AOAM5322gNKRK6HeGmb7xhkv7j1OYPGpO9wgCw6TbK8vcK1gQU9j5N1u
- Z+abgoodbdlYjEVTZ7grnGwn4fEysrWW3T6VVTjyVRyq6VM=
-X-Google-Smtp-Source: ABdhPJz+7qrZA4TBJlNJA1vVqCV1nevgMbWcFV1aK7tgMB1fycZHOCP4XQJFWoYtGi0JPpNw3nCj2AtSFKk4JSdBghw=
-X-Received: by 2002:a67:c09a:0:b0:31a:9cc9:73b5 with SMTP id
- x26-20020a67c09a000000b0031a9cc973b5mr5282752vsi.36.1645304011152; Sat, 19
- Feb 2022 12:53:31 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=prpL2QE+XJfCu8Qk+I4mlYb/cVmtOjjhpu1Xupt8Wp8=;
+ b=z36qj1RKX8uS0VUdRBr3vx6EvZGqFHC/G6ZnfeYHcv4w9NFUI7DgNMbpdxWBbZFOUg
+ m/O/VdfZOA/THirkmOhS7u6RGrQdpTht8nD9Ncsr2mvaNqJxn4ScyRrnpWW4hP7JS4cR
+ NhE6BZToA/z+yM9xVgwS6NwifCwiIY2efJABg+SEptvAezwRlf5wk2hyFap6BkIEMB2I
+ aoNzIRzK5qWtVaN/w7hGIvzDr2qiHsYKSGb4otGFvIQO+mfUBT+0ILxW3dKEXBTFB5T6
+ +aLRkxL4klnIAKnADAZcRz8JTaFlerNWWsW3fApHEc2t55TZB6yJFq/YOLEiL+3KshCI
+ lffQ==
+X-Gm-Message-State: AOAM530qgrnAeWF2Op4qKrx3o7/0YUbiOQZjtFhjfiM6h5RcpEIiGQYa
+ pI1clPSEYTeRY91VZ7jkTK4=
+X-Google-Smtp-Source: ABdhPJwWt7GhbinmvVtK4SNDv79wpf1h+7Hzuxfe0OmxpMpaI4IlkoQPehiljEfyuN77AgVcMo9HLw==
+X-Received: by 2002:a17:906:b5b:b0:6b9:70ac:231b with SMTP id
+ v27-20020a1709060b5b00b006b970ac231bmr11907009ejg.132.1645345624530; 
+ Sun, 20 Feb 2022 00:27:04 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.googlemail.com with ESMTPSA id z8sm3881652ejc.151.2022.02.20.00.27.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 20 Feb 2022 00:27:03 -0800 (PST)
+Message-ID: <054f4b14-b523-35fc-acdc-024bbb2c13fd@redhat.com>
+Date: Sun, 20 Feb 2022 09:27:00 +0100
 MIME-Version: 1.0
-From: Patrick Venture <venture@google.com>
-Date: Sat, 19 Feb 2022 12:53:20 -0800
-Message-ID: <CAO=notzg5M6h2GrF5RaV6uJytxjcf_MawbK8eJGKEYaZmi_s3g@mail.gmail.com>
-Subject: at24c* device
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Corey Minyard <cminyard@mvista.com>, 
- Hao Wu <wuhaotsh@google.com>, Willy Tu <wltu@google.com>
-Content-Type: multipart/alternative; boundary="0000000000002261d805d8653171"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f31
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 01/19] configure, meson: override C compiler for cmake
+Content-Language: en-US
+To: Jag Raman <jag.raman@oracle.com>
+References: <cover.1645079934.git.jag.raman@oracle.com>
+ <4bef7bdd7309e128eca140a2324a126346c9f1f1.1645079934.git.jag.raman@oracle.com>
+ <CAFEAcA9JW0OyAyCk0zbnMMQbo=Q6vr7P4EhEHjrc=i0spCSGLw@mail.gmail.com>
+ <496E5796-7071-4C9E-B2AB-3C59CB3D50B5@oracle.com>
+ <fa4739f2-d6ab-9d01-6a4a-ab511bf0f89c@redhat.com>
+ <43467806-DBE0-4EAB-A7D0-46F46BE45958@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <43467806-DBE0-4EAB-A7D0-46F46BE45958@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
- envelope-from=venture@google.com; helo=mail-qv1-xf31.google.com
-X-Spam_score_int: -142
-X-Spam_score: -14.3
-X-Spam_bar: --------------
-X-Spam_report: (-14.3 / 5.0 requ) BAYES_20=-0.001, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,45 +99,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ John Johnson <john.g.johnson@oracle.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, John Levon <john.levon@nutanix.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>, Eric Blake <eblake@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002261d805d8653171
-Content-Type: text/plain; charset="UTF-8"
+On 2/18/22 15:49, Jag Raman wrote:
+> 
+> Concerning the generated files, I see the following in CMakeMesonToolchainFile.cmake:
+> Without patch: set(CMAKE_C_COMPILER "/opt/rh/devtoolset-9/root/usr/bin/cc" "-m64" "-mcx16”)
+> With patch: set(CMAKE_C_COMPILER "cc" "-m64" "-mcx16")
 
-Philippe;
+I don't understand why it works at all with the latter, but the right solution
+could be
 
-Looking at the at24c device, it doesn't support the c02 and other 1-byte
-addressable eeproms that are supported by the at24c driver in linux, and
-other compatible eeproms.  If I recall correctly, the smbus-eeprom device
-correctly handles the 1-byte addressable variants, and so maybe it's not
-required.  Before I add block device support to the smbus-eeprom device, I
-wanted to ask if you or anyone thought it made more sense to fix the at24c
-to have a address-length field that let it then operate for both versions.
+set(CMAKE_C_COMPILER "/opt/rh/devtoolset-9/root/usr/bin/cc")
+set(CMAKE_C_COMPILER_ARG1 "-m64")
+set(CMAKE_C_COMPILER_ARG2 "-mcx16")
 
-The other tweak is that a block is 512 bytes, and the smaller eeprom is
-256, so, there will be some other minor logic changes to allow it to
-basically have a file backing larger than its addressable contents.
+Perhaps you can try the following patch to meson (patch it in qemu's build
+directory and make sure to use --meson=internal):
+
+diff --git a/mesonbuild/cmake/toolchain.py b/mesonbuild/cmake/toolchain.py
+index 316f57cb5..9756864ee 100644
+--- a/mesonbuild/cmake/toolchain.py
++++ b/mesonbuild/cmake/toolchain.py
+@@ -191,11 +191,14 @@ class CMakeToolchain:
+                  continue
+  
+              if len(exe_list) >= 2 and not self.is_cmdline_option(comp_obj, exe_list[1]):
+-                defaults[prefix + 'COMPILER_LAUNCHER'] = [make_abs(exe_list[0])]
++                defaults[f'{prefix}COMPILER_LAUNCHER'] = [make_abs(exe_list[0])]
+                  exe_list = exe_list[1:]
+  
+              exe_list[0] = make_abs(exe_list[0])
+-            defaults[prefix + 'COMPILER'] = exe_list
++            defaults[f'{prefix}COMPILER'] = [exe_list[0]]
++            for i in range(1, len(exe_list)):
++                defaults[f'{prefix}COMPILER_ARG{i}'] = [exe_list[i]]
++
+              if comp_obj.get_id() == 'clang-cl':
+                  defaults['CMAKE_LINKER'] = comp_obj.get_linker_exelist()
+  
+
 
 Thanks,
-Patrick
 
---0000000000002261d805d8653171
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Philippe;<div><br></div><div>Looking at the at24c device, =
-it doesn&#39;t support the c02 and other 1-byte addressable eeproms that ar=
-e supported by the at24c driver in linux, and other compatible eeproms.=C2=
-=A0 If I recall correctly, the smbus-eeprom device correctly handles the 1-=
-byte addressable variants, and so maybe it&#39;s not required.=C2=A0 Before=
- I add block device support to the smbus-eeprom device, I wanted=C2=A0to as=
-k if you or anyone thought it made more sense to fix the at24c to have a ad=
-dress-length field that let it then operate for both versions.</div><div><b=
-r></div><div>The other tweak is that a block is 512 bytes, and the smaller =
-eeprom is 256, so, there will be some other minor logic changes to allow it=
- to basically have a file backing larger than its addressable contents.</di=
-v><div><br></div><div>Thanks,</div><div>Patrick</div></div>
-
---0000000000002261d805d8653171--
+Paolo
 
