@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB83B4BD98E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:08:26 +0100 (CET)
-Received: from localhost ([::1]:52790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BE64BD9AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:29:10 +0100 (CET)
+Received: from localhost ([::1]:54454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM7UP-0007C8-I1
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:08:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50456)
+	id 1nM7oT-0003cv-Ks
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:29:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7O1-0003wT-EI
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7O0-0003wM-HC
  for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59979)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Ny-0000sN-Li
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:49 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Ny-0000sJ-LX
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645444905;
+ s=mimecast20190719; t=1645444904;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bY8J1xHTTnvxZdPnU/flpfrWYHsmP2K7Is9R4CozFSk=;
- b=Y1RSZCH8EKdp+Gglp+D6fpmzWTRnHlhRRSV+VHc22y417md6KQmt3UgtgnQabLrncJuxbA
- 1O1bzHgwk2Y51TGL5pt7p5JTtxyNxBSf/gMonHzZCpV+k9Gxq8sHs3BI7rFkK6dKOFRdL0
- 5bdmRJZXT+zoWvUyopqTappi4Ns8ywI=
+ bh=W52uQ+9CMKaRb5Sd1RhbZAT4Z21h4CTZcfBSHccg4p0=;
+ b=TWaTEAuXlKs4xYZxVIXk47W7G7IAFtyX8TFxdSiiiD3as/2byWqXa84cJ/SX4hf8IeUI6Z
+ jsYO84ZXpCowaJ9bhnFjadth5uG/+AAQBai1eQNRSPX826d/sK7ELKtGhFX2L68z4XPSxE
+ uLk/OUFYL1fRPiufZ/eyvhYgswET1cw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-522-KnyJVzEnOTaUh9gxT_Oagg-1; Mon, 21 Feb 2022 07:01:42 -0500
-X-MC-Unique: KnyJVzEnOTaUh9gxT_Oagg-1
+ us-mta-570-bp-LfozyPHiIVP_rXFsDzA-1; Mon, 21 Feb 2022 07:01:43 -0500
+X-MC-Unique: bp-LfozyPHiIVP_rXFsDzA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D0DD100C661;
- Mon, 21 Feb 2022 12:01:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F370814246;
+ Mon, 21 Feb 2022 12:01:42 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.195.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E15E73162;
- Mon, 21 Feb 2022 12:01:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73F7E73162;
+ Mon, 21 Feb 2022 12:01:41 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/25] tests/qtest: failover: check migration with failover off
-Date: Mon, 21 Feb 2022 12:59:53 +0100
-Message-Id: <20220221120008.600114-11-thuth@redhat.com>
+Subject: [PULL 11/25] tests/qtest: failover: test migration if the guest
+ doesn't support failover
+Date: Mon, 21 Feb 2022 12:59:54 +0100
+Message-Id: <20220221120008.600114-12-thuth@redhat.com>
 In-Reply-To: <20220221120008.600114-1-thuth@redhat.com>
 References: <20220221120008.600114-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,33 +85,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <lvivier@redhat.com>
 
-If failover is off, the primary device is not plugged and
-the migration is done only with the standby device.
-
-On destination, the primary device must not be plugged.
+The primary device is not plugged and the migration is done only with
+the standby device
 
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20220203141537.972317-6-lvivier@redhat.com>
+Message-Id: <20220203141537.972317-7-lvivier@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/virtio-net-failover.c | 133 ++++++++++++++++++++++++++++++
- 1 file changed, 133 insertions(+)
+ tests/qtest/virtio-net-failover.c | 142 ++++++++++++++++++++++++++++++
+ 1 file changed, 142 insertions(+)
 
 diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-index cbd8585fa8..c99599bdcc 100644
+index c99599bdcc..54a0a03241 100644
 --- a/tests/qtest/virtio-net-failover.c
 +++ b/tests/qtest/virtio-net-failover.c
-@@ -815,6 +815,135 @@ static void test_migrate_in(gconstpointer opaque)
+@@ -944,6 +944,144 @@ static void test_off_migrate_in(gconstpointer opaque)
      machine_stop(qts);
  }
  
-+static void test_off_migrate_out(gconstpointer opaque)
++static void test_guest_off_migrate_out(gconstpointer opaque)
 +{
 +    QTestState *qts;
 +    QDict *resp, *args, *ret;
 +    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", (gchar *)opaque);
 +    const gchar *status;
 +    QVirtioPCIDevice *vdev;
++    uint64_t features;
 +
 +    qts = machine_start(BASE_MACHINE
 +                     "-netdev user,id=hs0 "
@@ -122,7 +122,7 @@ index cbd8585fa8..c99599bdcc 100644
 +
 +    qtest_qmp_device_add(qts, "virtio-net", "standby0",
 +                         "{'bus': 'root0',"
-+                         "'failover': 'off',"
++                         "'failover': 'on',"
 +                         "'netdev': 'hs0',"
 +                         "'mac': '"MAC_STANDBY0"'}");
 +
@@ -138,12 +138,17 @@ index cbd8585fa8..c99599bdcc 100644
 +                         "'mac': '"MAC_PRIMARY0"'}");
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
 +
-+    vdev = start_virtio_net(qts, 1, 0, "standby0", false);
++    features = ~(QVIRTIO_F_BAD_FEATURE |
++                 (1ull << VIRTIO_RING_F_INDIRECT_DESC) |
++                 (1ull << VIRTIO_RING_F_EVENT_IDX) |
++                 (1ull << VIRTIO_NET_F_STANDBY));
++
++    vdev = start_virtio_net_internal(qts, 1, 0, &features);
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
 +
 +    args = qdict_from_jsonf_nofail("{}");
 +    g_assert_nonnull(args);
@@ -169,11 +174,14 @@ index cbd8585fa8..c99599bdcc 100644
 +
 +    qtest_qmp_eventwait(qts, "STOP");
 +
++    check_one_card(qts, true, "standby0", MAC_STANDBY0);
++    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
++
 +    qos_object_destroy((QOSGraphObject *)vdev);
 +    machine_stop(qts);
 +}
 +
-+static void test_off_migrate_in(gconstpointer opaque)
++static void test_guest_off_migrate_in(gconstpointer opaque)
 +{
 +    QTestState *qts;
 +    QDict *resp, *args, *ret;
@@ -190,7 +198,7 @@ index cbd8585fa8..c99599bdcc 100644
 +
 +    qtest_qmp_device_add(qts, "virtio-net", "standby0",
 +                         "{'bus': 'root0',"
-+                         "'failover': 'off',"
++                         "'failover': 'on',"
 +                         "'netdev': 'hs0',"
 +                         "'mac': '"MAC_STANDBY0"'}");
 +
@@ -206,7 +214,7 @@ index cbd8585fa8..c99599bdcc 100644
 +                         "'mac': '"MAC_PRIMARY0"'}");
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
 +
 +    args = qdict_from_jsonf_nofail("{}");
 +    g_assert_nonnull(args);
@@ -222,7 +230,7 @@ index cbd8585fa8..c99599bdcc 100644
 +    qobject_unref(resp);
 +
 +    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
++    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
 +
 +    qtest_qmp_eventwait(qts, "RESUME");
 +
@@ -236,14 +244,14 @@ index cbd8585fa8..c99599bdcc 100644
  static void test_migrate_abort_wait_unplug(gconstpointer opaque)
  {
      QTestState *qts;
-@@ -1398,6 +1527,10 @@ int main(int argc, char **argv)
-                         test_migrate_out);
-     qtest_add_data_func("failover-virtio-net/migrate/on/in", tmpfile,
-                         test_migrate_in);
-+    qtest_add_data_func("failover-virtio-net/migrate/off/out", tmpfile,
-+                        test_off_migrate_out);
-+    qtest_add_data_func("failover-virtio-net/migrate/off/in", tmpfile,
-+                        test_off_migrate_in);
+@@ -1531,6 +1669,10 @@ int main(int argc, char **argv)
+                         test_off_migrate_out);
+     qtest_add_data_func("failover-virtio-net/migrate/off/in", tmpfile,
+                         test_off_migrate_in);
++    qtest_add_data_func("failover-virtio-net/migrate/guest_off/out", tmpfile,
++                        test_guest_off_migrate_out);
++    qtest_add_data_func("failover-virtio-net/migrate/guest_off/in", tmpfile,
++                        test_guest_off_migrate_in);
      qtest_add_data_func("failover-virtio-net/migrate/abort/wait-unplug",
                          tmpfile, test_migrate_abort_wait_unplug);
      qtest_add_data_func("failover-virtio-net/migrate/abort/active", tmpfile,
