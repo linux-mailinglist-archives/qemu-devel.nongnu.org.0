@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412F24BD9A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:20:27 +0100 (CET)
-Received: from localhost ([::1]:39082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C3A4BD9A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:24:15 +0100 (CET)
+Received: from localhost ([::1]:46140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM7g2-000195-1l
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:20:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50328)
+	id 1nM7ji-0006Bf-PS
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:24:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Ns-0003ud-Ob
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26147)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Ny-0003vv-Ui
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Nq-0000rM-G7
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:40 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Nw-0000rp-5j
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645444897;
+ s=mimecast20190719; t=1645444901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qUwhfqiMIQAnYaeboQzHlSFhtseZ+woaQE0w0yZnca4=;
- b=XM6XMOoQVBIibU47wMnNOblbbpR4kLjDAe+s+L++46d/EB46U04UTWOUgdtrb9f7YMxsoc
- FN9cTGbtYb6SMqIaZuUShGASo8KgatETEkszdY9dfrmEEw0+GHDL8pxTEj9M9s05RzL/bB
- /EHeCwC47yXx888foodlL48u4WwGf6s=
+ bh=wzILVnORyrCUAEcq9KcRbskLTX/U0oDc7w4lvZ/PRQ0=;
+ b=apTAmzF4KEcCmvsryUwZTPFoBy7tgR0R51yQg57sDs/Czh4RgZb4zn5IqYWOb0qyoqpZIa
+ ClG89P+nidulmPNWNknPJ876Wa4gjCuTMugrTgt0tCahS0y1wo+e3+OiNHRopnPQ6bDKDq
+ Tmxcx9S6En7mvv6Vhi42S7Uq9wYa4CA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-480-uegzA4BpNf-b0NtJjk88pw-1; Mon, 21 Feb 2022 07:01:36 -0500
-X-MC-Unique: uegzA4BpNf-b0NtJjk88pw-1
+ us-mta-145-gbDvowx5N7GRaBIYJHtYHg-1; Mon, 21 Feb 2022 07:01:38 -0500
+X-MC-Unique: gbDvowx5N7GRaBIYJHtYHg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 996D4814245;
- Mon, 21 Feb 2022 12:01:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F30271091DA2;
+ Mon, 21 Feb 2022 12:01:36 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.195.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A07AA73162;
- Mon, 21 Feb 2022 12:01:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F260073162;
+ Mon, 21 Feb 2022 12:01:35 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/25] tests/qtest: failover: clean up pathname of tests
-Date: Mon, 21 Feb 2022 12:59:49 +0100
-Message-Id: <20220221120008.600114-7-thuth@redhat.com>
+Subject: [PULL 07/25] tests/qtest: failover: use a macro for check_one_card()
+Date: Mon, 21 Feb 2022 12:59:50 +0100
+Message-Id: <20220221120008.600114-8-thuth@redhat.com>
 In-Reply-To: <20220221120008.600114-1-thuth@redhat.com>
 References: <20220221120008.600114-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,65 +84,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <lvivier@redhat.com>
 
-clearly indentify parameters, hotplug and migration tests
+This allows g_assert() to correctly report the line number of the error
+in the test case.
 
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20220203141537.972317-2-lvivier@redhat.com>
+Message-Id: <20220203141537.972317-3-lvivier@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/virtio-net-failover.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ tests/qtest/virtio-net-failover.c | 47 ++++++++++++++-----------------
+ 1 file changed, 21 insertions(+), 26 deletions(-)
 
 diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-index 22ad54bb95..207c133012 100644
+index 207c133012..070e53de12 100644
 --- a/tests/qtest/virtio-net-failover.c
 +++ b/tests/qtest/virtio-net-failover.c
-@@ -1315,6 +1315,7 @@ int main(int argc, char **argv)
-     g_assert_true(ret >= 0);
-     close(ret);
+@@ -224,32 +224,27 @@ static char *get_mac(QTestState *qts, const char *name)
+     return mac;
+ }
  
-+    /* parameters tests */
-     qtest_add_func("failover-virtio-net/params/error/id", test_error_id);
-     qtest_add_func("failover-virtio-net/params/error/pcie", test_error_pcie);
-     qtest_add_func("failover-virtio-net/params/on", test_on);
-@@ -1322,15 +1323,19 @@ int main(int argc, char **argv)
-                    test_on_mismatch);
-     qtest_add_func("failover-virtio-net/params/off", test_off);
-     qtest_add_func("failover-virtio-net/params/enabled", test_enabled);
--    qtest_add_func("failover-virtio-net/hotplug_1", test_hotplug_1);
--    qtest_add_func("failover-virtio-net/hotplug_1_reverse",
-+
-+    /* hotplug tests */
-+    qtest_add_func("failover-virtio-net/hotplug/1", test_hotplug_1);
-+    qtest_add_func("failover-virtio-net/hotplug/1_reverse",
-                    test_hotplug_1_reverse);
--    qtest_add_func("failover-virtio-net/hotplug_2", test_hotplug_2);
--    qtest_add_func("failover-virtio-net/hotplug_2_reverse",
-+    qtest_add_func("failover-virtio-net/hotplug/2", test_hotplug_2);
-+    qtest_add_func("failover-virtio-net/hotplug/2_reverse",
-                    test_hotplug_2_reverse);
--    qtest_add_data_func("failover-virtio-net/migrate/out", tmpfile,
-+
-+    /* migration tests */
-+    qtest_add_data_func("failover-virtio-net/migrate/on/out", tmpfile,
-                         test_migrate_out);
--    qtest_add_data_func("failover-virtio-net/migrate/in", tmpfile,
-+    qtest_add_data_func("failover-virtio-net/migrate/on/in", tmpfile,
-                         test_migrate_in);
-     qtest_add_data_func("failover-virtio-net/migrate/abort/wait-unplug",
-                         tmpfile, test_migrate_abort_wait_unplug);
-@@ -1340,9 +1345,9 @@ int main(int argc, char **argv)
-         qtest_add_data_func("failover-virtio-net/migrate/abort/timeout",
-                             tmpfile, test_migrate_abort_timeout);
-     }
--    qtest_add_data_func("failover-virtio-net/multi/out",
-+    qtest_add_data_func("failover-virtio-net/migrate/multi/out",
-                         tmpfile, test_multi_out);
--    qtest_add_data_func("failover-virtio-net/multi/in",
-+    qtest_add_data_func("failover-virtio-net/migrate/multi/in",
-                    tmpfile, test_multi_in);
+-static void check_one_card(QTestState *qts, bool present,
+-                           const char *id, const char *mac)
+-{
+-    QDict *device;
+-    QDict *bus;
+-    char *addr;
+-
+-    bus = get_bus(qts, 0);
+-    device = find_device(bus, id);
+-    if (present) {
+-        char *path;
+-
+-        g_assert_nonnull(device);
+-        qobject_unref(device);
+-
+-        path = g_strdup_printf("/machine/peripheral/%s", id);
+-        addr = get_mac(qts, path);
+-        g_free(path);
+-        g_assert_cmpstr(mac, ==, addr);
+-        g_free(addr);
+-    } else {
+-       g_assert_null(device);
+-    }
+-
+-    qobject_unref(bus);
+-}
++#define check_one_card(qts, present, id, mac)                   \
++do {                                                            \
++    QDict *device;                                              \
++    QDict *bus;                                                 \
++    char *addr;                                                 \
++    bus = get_bus(qts, 0);                                      \
++    device = find_device(bus, id);                              \
++    if (present) {                                              \
++        char *path;                                             \
++        g_assert_nonnull(device);                               \
++        qobject_unref(device);                                  \
++        path = g_strdup_printf("/machine/peripheral/%s", id);   \
++        addr = get_mac(qts, path);                              \
++        g_free(path);                                           \
++        g_assert_cmpstr(mac, ==, addr);                         \
++        g_free(addr);                                           \
++    } else {                                                    \
++       g_assert_null(device);                                   \
++    }                                                           \
++    qobject_unref(bus);                                         \
++} while (0)
  
-     ret = g_test_run();
+ static void test_on(void)
+ {
 -- 
 2.27.0
 
