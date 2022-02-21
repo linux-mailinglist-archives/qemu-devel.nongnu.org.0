@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987C44BD999
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:14:06 +0100 (CET)
-Received: from localhost ([::1]:60188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412F24BD9A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:20:27 +0100 (CET)
+Received: from localhost ([::1]:39082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM7Zt-0004Vh-MI
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:14:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50362)
+	id 1nM7g2-000195-1l
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:20:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Nw-0003un-2P
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57763)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Ns-0003ud-Ob
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Nr-0000rR-Fz
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:41 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Nq-0000rM-G7
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645444898;
+ s=mimecast20190719; t=1645444897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D4iU0Lo1ZUCPANSsG4BQ2oGgZ+KHVn0z1h3Ym/n+cZQ=;
- b=eIj6nKoE15mV50LE4sbmbYcdliwAWe4Np3Wrt450qGnvW/oWSf5aDMEbbSRgdkOQctUVFL
- kqJawVpiyil6EcEsU/K8uVYMhTKDGDww0utKSsW6SL3SoQ3LrIBzNb3rjn0/6seJyq9iIf
- rNWubEP/ERCTKaUKrQ3KYbMEHpp+7Ik=
+ bh=qUwhfqiMIQAnYaeboQzHlSFhtseZ+woaQE0w0yZnca4=;
+ b=XM6XMOoQVBIibU47wMnNOblbbpR4kLjDAe+s+L++46d/EB46U04UTWOUgdtrb9f7YMxsoc
+ FN9cTGbtYb6SMqIaZuUShGASo8KgatETEkszdY9dfrmEEw0+GHDL8pxTEj9M9s05RzL/bB
+ /EHeCwC47yXx888foodlL48u4WwGf6s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-435-uMGQLiuHMa2szT-z2ytIKg-1; Mon, 21 Feb 2022 07:01:35 -0500
-X-MC-Unique: uMGQLiuHMa2szT-z2ytIKg-1
+ us-mta-480-uegzA4BpNf-b0NtJjk88pw-1; Mon, 21 Feb 2022 07:01:36 -0500
+X-MC-Unique: uegzA4BpNf-b0NtJjk88pw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ABF51853020;
- Mon, 21 Feb 2022 12:01:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 996D4814245;
+ Mon, 21 Feb 2022 12:01:35 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.195.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EBFA73162;
- Mon, 21 Feb 2022 12:01:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A07AA73162;
+ Mon, 21 Feb 2022 12:01:34 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/25] tests/qtest/ide-test: Remove bad retry_isa test
-Date: Mon, 21 Feb 2022 12:59:48 +0100
-Message-Id: <20220221120008.600114-6-thuth@redhat.com>
+Subject: [PULL 06/25] tests/qtest: failover: clean up pathname of tests
+Date: Mon, 21 Feb 2022 12:59:49 +0100
+Message-Id: <20220221120008.600114-7-thuth@redhat.com>
 In-Reply-To: <20220221120008.600114-1-thuth@redhat.com>
 References: <20220221120008.600114-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,64 +77,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The retry_isa test is not doing what it was intended for: The
-test_retry_flush() function ignores the machine parameter completely
-and thus this test does not get run with the "isapc" machine.
-Moreover, in the course of time, the test_retry_flush() has been
-changed to depend on PCI-related functions, so this also cannot
-be fixed by simply using the machine parameter now. The correct
-fix would be to switch the whole test to libqos, but until someone
-has time to do this, let's simply drop the retry_isa test for now.
+From: Laurent Vivier <lvivier@redhat.com>
 
-Message-Id: <20220121120635.220644-1-thuth@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
+clearly indentify parameters, hotplug and migration tests
+
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Message-Id: <20220203141537.972317-2-lvivier@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/ide-test.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ tests/qtest/virtio-net-failover.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-index 84935578fb..19de3b4104 100644
---- a/tests/qtest/ide-test.c
-+++ b/tests/qtest/ide-test.c
-@@ -702,7 +702,7 @@ static void test_flush(void)
-     free_pci_device(dev);
- }
+diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
+index 22ad54bb95..207c133012 100644
+--- a/tests/qtest/virtio-net-failover.c
++++ b/tests/qtest/virtio-net-failover.c
+@@ -1315,6 +1315,7 @@ int main(int argc, char **argv)
+     g_assert_true(ret >= 0);
+     close(ret);
  
--static void test_retry_flush(const char *machine)
-+static void test_pci_retry_flush(void)
- {
-     QTestState *qts;
-     QPCIDevice *dev;
-@@ -791,16 +791,6 @@ static void test_flush_empty_drive(void)
-     ide_test_quit(qts);
- }
++    /* parameters tests */
+     qtest_add_func("failover-virtio-net/params/error/id", test_error_id);
+     qtest_add_func("failover-virtio-net/params/error/pcie", test_error_pcie);
+     qtest_add_func("failover-virtio-net/params/on", test_on);
+@@ -1322,15 +1323,19 @@ int main(int argc, char **argv)
+                    test_on_mismatch);
+     qtest_add_func("failover-virtio-net/params/off", test_off);
+     qtest_add_func("failover-virtio-net/params/enabled", test_enabled);
+-    qtest_add_func("failover-virtio-net/hotplug_1", test_hotplug_1);
+-    qtest_add_func("failover-virtio-net/hotplug_1_reverse",
++
++    /* hotplug tests */
++    qtest_add_func("failover-virtio-net/hotplug/1", test_hotplug_1);
++    qtest_add_func("failover-virtio-net/hotplug/1_reverse",
+                    test_hotplug_1_reverse);
+-    qtest_add_func("failover-virtio-net/hotplug_2", test_hotplug_2);
+-    qtest_add_func("failover-virtio-net/hotplug_2_reverse",
++    qtest_add_func("failover-virtio-net/hotplug/2", test_hotplug_2);
++    qtest_add_func("failover-virtio-net/hotplug/2_reverse",
+                    test_hotplug_2_reverse);
+-    qtest_add_data_func("failover-virtio-net/migrate/out", tmpfile,
++
++    /* migration tests */
++    qtest_add_data_func("failover-virtio-net/migrate/on/out", tmpfile,
+                         test_migrate_out);
+-    qtest_add_data_func("failover-virtio-net/migrate/in", tmpfile,
++    qtest_add_data_func("failover-virtio-net/migrate/on/in", tmpfile,
+                         test_migrate_in);
+     qtest_add_data_func("failover-virtio-net/migrate/abort/wait-unplug",
+                         tmpfile, test_migrate_abort_wait_unplug);
+@@ -1340,9 +1345,9 @@ int main(int argc, char **argv)
+         qtest_add_data_func("failover-virtio-net/migrate/abort/timeout",
+                             tmpfile, test_migrate_abort_timeout);
+     }
+-    qtest_add_data_func("failover-virtio-net/multi/out",
++    qtest_add_data_func("failover-virtio-net/migrate/multi/out",
+                         tmpfile, test_multi_out);
+-    qtest_add_data_func("failover-virtio-net/multi/in",
++    qtest_add_data_func("failover-virtio-net/migrate/multi/in",
+                    tmpfile, test_multi_in);
  
--static void test_pci_retry_flush(void)
--{
--    test_retry_flush("pc");
--}
--
--static void test_isa_retry_flush(void)
--{
--    test_retry_flush("isapc");
--}
--
- typedef struct Read10CDB {
-     uint8_t opcode;
-     uint8_t flags;
-@@ -1051,7 +1041,6 @@ int main(int argc, char **argv)
-     qtest_add_func("/ide/flush/nodev", test_flush_nodev);
-     qtest_add_func("/ide/flush/empty_drive", test_flush_empty_drive);
-     qtest_add_func("/ide/flush/retry_pci", test_pci_retry_flush);
--    qtest_add_func("/ide/flush/retry_isa", test_isa_retry_flush);
- 
-     qtest_add_func("/ide/cdrom/pio", test_cdrom_pio);
-     qtest_add_func("/ide/cdrom/pio_large", test_cdrom_pio_large);
+     ret = g_test_run();
 -- 
 2.27.0
 
