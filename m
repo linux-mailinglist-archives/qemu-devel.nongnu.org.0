@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AFE4BD897
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:38:43 +0100 (CET)
-Received: from localhost ([::1]:51606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095DF4BD8A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:45:20 +0100 (CET)
+Received: from localhost ([::1]:60258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM59W-0008GE-OL
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:38:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43758)
+	id 1nM5Fp-0005iy-VS
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:45:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM4zJ-0007wG-Uy
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:09 -0500
-Received: from [2a00:1450:4864:20::334] (port=53769
- helo=mail-wm1-x334.google.com)
+ id 1nM4zK-0007wM-2I
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:10 -0500
+Received: from [2a00:1450:4864:20::42b] (port=47054
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM4zG-0000zJ-SN
+ id 1nM4zH-0000zS-HU
  for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:09 -0500
-Received: by mail-wm1-x334.google.com with SMTP id n8so9111554wms.3
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:28:05 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id x5so21037179wrg.13
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:28:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=TBtemdBkPo64I0n22RSwP5PjcdlU1O1SUJPKco0jPDg=;
- b=mq2RP9QDsyV20XWZ3VldAxUqmxJg4IWFTmVrR1/q9VtwFNwXYHCKjQvwBsL7PHycZ9
- xKhlufx09DtnEy1vi3GmXL12waUr1ACr/VBu0lMNKOu80kOK8aNah98EYIx768KyWUY6
- zGjvPDUoCyrZ1qz3WNosbV7FoJqfUs3a0U9wTE/BF7G/ls57ePFq5aa//djpKdAXt3pC
- 5mwibDIIh7tvLzxEBJX4kyStLmBJGtB4asr2iO5aMTBIRkgEaGdnj0EQ+CREb7uV1T1u
- tmKhtuuskVrWdydos3zL2qgCB7DEo+e6d4JPhWWAFxJkbhYgt37thsEwYiL4F0Ltzb0J
- rwGw==
+ bh=5AoCux+aFBEAi+jbJxkDJWzNaBcRwPJ7SGnCp4qZ8wQ=;
+ b=n26BuIZk3bU2LcIxg10I6+DnqUknzZiTY7muhGmjCHz6UId0IupP+RhJ4Br1Qt+uji
+ tNxzeWmLxc5as7Ef0NE/NVChEDbbX08qBahLMN4s39eV4SnMQoRuz7JA6RyQ6GxhcVp9
+ g+gEp2qJTslRQwzDrQlE164DOSmMWbGvowV6B+sR+yvcb5zUt2GsZRAwPEnZOKcNSJvI
+ 78vIwc6wqCiXb2GPgV8u6Eaj2w2dqMfPreVoJvQkjjDDTZC/+pI4uyMzcYMpiad3ewEt
+ SQQlD9y8R6LqBmRlw+jieuuk5IwIty2fsMTdm+Bnw/qyNkwSbHBTSn7noOen50tG+sMr
+ 6/JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TBtemdBkPo64I0n22RSwP5PjcdlU1O1SUJPKco0jPDg=;
- b=UWEOFrJJryU38+JZm/y4eP1BxKVp9Sa/at2V6pZhEFfKf48pYyg1gA7Bj6ePl5Xa3l
- 9M6AJNpxMsD8hxd+vTPkFFWjruH/l4EacKy2/JNJbamzJtNc6PpeiF2XhpzY1mn7ZuhE
- KJ87uQONEZR0tmLk4aIYZz6MCeEpdEYeMYo2Wtjd5fsO3lD84e9FV43YES+CTX75IbZ/
- ABY0CczlNnSA1vM+E2zVu7AiPMTD+u7qeFswVMdmPcmsI9scB3WPrw3nyGc7JEFkeEis
- zcW09rUC2uznRvn45RlO1TlDL3xlUbMdt9zdpAIsIWaM1XnwsPV5dsXB12sE01W7upEu
- Vwsg==
-X-Gm-Message-State: AOAM532FJl7ilMvdRXyAnocVksPgTD570PwCK8sIRpCC8H1G74S28HsR
- BizkbN+zgSLAI1tF0ukVg+DUev9xI4uXkA==
-X-Google-Smtp-Source: ABdhPJxitTK1yrmjtH0S/yOhoaeXFOxOyDDeF8pyHP+l46TGn4lbh0ERkAhgM1Iq5lgCFOPitYk7qw==
-X-Received: by 2002:a05:600c:a4b:b0:37b:ea2b:5583 with SMTP id
- c11-20020a05600c0a4b00b0037bea2b5583mr20889659wmq.139.1645435685088; 
+ bh=5AoCux+aFBEAi+jbJxkDJWzNaBcRwPJ7SGnCp4qZ8wQ=;
+ b=20xKw7SmK8cdzBRWJ02D7G47zeio/cqp7aUbRl00Q+zWBnos3Dv355Fz1F54ekmSaq
+ smnEKy+xSm2c/bGboDKUbno5+kzH3n2BEqWacMyiQjLqPWJzh7PH/gcaJ+VM121ArC5J
+ OSDMhvSVsx8d7sjklmEZGP7sPCedBJW/TMaRUw2KD0BTXgpkzzyK/MxidqZ2B/OUe0wa
+ x9ZbueDCO4qo+CponyHj5u17nJEv8fK1252hC9TUcufI1IhkCRksKOkCCpEHIjYKP2ed
+ SXVWs1hkcvBVflSz0c47v5wpEodfAc12W6cXQRg7ZixJYY0WTxjfP2/9S/dWv4Eo3qy4
+ +6fA==
+X-Gm-Message-State: AOAM531XZw4G0yhCPiwT8i5zYo7xe3QkNSD1sfiiY0j+CihOE+pTnY4b
+ bdk35lDpHts5b6U6/jrijbgDWfQqDkbx5Q==
+X-Google-Smtp-Source: ABdhPJxLOL2wy2PWFyxBG/EG2XlhqS2Y6NUQ3faYOr9Njywjeog2x7axJ22yiV/bLJclAMUM57HFBQ==
+X-Received: by 2002:a5d:558f:0:b0:1e6:337b:a9e1 with SMTP id
+ i15-20020a5d558f000000b001e6337ba9e1mr14792559wrv.639.1645435685829; 
  Mon, 21 Feb 2022 01:28:05 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id q76sm7555778wme.1.2022.02.21.01.28.04
+ by smtp.gmail.com with ESMTPSA id q76sm7555778wme.1.2022.02.21.01.28.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Feb 2022 01:28:04 -0800 (PST)
+ Mon, 21 Feb 2022 01:28:05 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/26] hvf: arm: Use macros for sysreg shift/masking
-Date: Mon, 21 Feb 2022 09:27:37 +0000
-Message-Id: <20220221092800.404870-4-peter.maydell@linaro.org>
+Subject: [PULL 04/26] hvf: arm: Handle unknown ID registers as RES0
+Date: Mon, 21 Feb 2022 09:27:38 +0000
+Message-Id: <20220221092800.404870-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220221092800.404870-1-peter.maydell@linaro.org>
 References: <20220221092800.404870-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,131 +93,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Graf <agraf@csgraf.de>
 
-We are parsing the syndrome field for sysregs in multiple places across
-the hvf code, but repeat shift/mask operations with hard coded constants
-every time. This is an error prone approach and makes it harder to reason
-about the correctness of these operations.
+Recent Linux versions added support to read ID_AA64ISAR2_EL1. On M1,
+those reads trap into QEMU which handles them as faults.
 
-Let's introduce macros that allow us to unify the constants used as well
-as create new helpers to extract fields from the sysreg value.
+However, AArch64 ID registers should always read as RES0. Let's
+handle them accordingly.
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+This fixes booting Linux 5.17 guests.
+
+Cc: qemu-stable@nongnu.org
+Reported-by: Ivan Babrou <ivan@cloudflare.com>
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
-Reviewed-by: Cameron Esfahani <dirty@apple.com <mailto:dirty@apple.com>>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220209124135.69183-1-agraf@csgraf.de
+Message-id: 20220209124135.69183-2-agraf@csgraf.de
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/hvf/hvf.c | 69 ++++++++++++++++++++++++++++++--------------
- 1 file changed, 47 insertions(+), 22 deletions(-)
+ target/arm/hvf/hvf.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index 0dc96560d34..808c96da8cc 100644
+index 808c96da8cc..4d4ddab348a 100644
 --- a/target/arm/hvf/hvf.c
 +++ b/target/arm/hvf/hvf.c
-@@ -35,9 +35,34 @@
-         ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP, crn, crm, op0, op1, op2)
- #define PL1_WRITE_MASK 0x4
+@@ -754,6 +754,15 @@ static bool hvf_handle_psci_call(CPUState *cpu)
+     return true;
+ }
  
-+#define SYSREG_OP0_SHIFT      20
-+#define SYSREG_OP0_MASK       0x3
-+#define SYSREG_OP0(sysreg)    ((sysreg >> SYSREG_OP0_SHIFT) & SYSREG_OP0_MASK)
-+#define SYSREG_OP1_SHIFT      14
-+#define SYSREG_OP1_MASK       0x7
-+#define SYSREG_OP1(sysreg)    ((sysreg >> SYSREG_OP1_SHIFT) & SYSREG_OP1_MASK)
-+#define SYSREG_CRN_SHIFT      10
-+#define SYSREG_CRN_MASK       0xf
-+#define SYSREG_CRN(sysreg)    ((sysreg >> SYSREG_CRN_SHIFT) & SYSREG_CRN_MASK)
-+#define SYSREG_CRM_SHIFT      1
-+#define SYSREG_CRM_MASK       0xf
-+#define SYSREG_CRM(sysreg)    ((sysreg >> SYSREG_CRM_SHIFT) & SYSREG_CRM_MASK)
-+#define SYSREG_OP2_SHIFT      17
-+#define SYSREG_OP2_MASK       0x7
-+#define SYSREG_OP2(sysreg)    ((sysreg >> SYSREG_OP2_SHIFT) & SYSREG_OP2_MASK)
++static bool is_id_sysreg(uint32_t reg)
++{
++    return SYSREG_OP0(reg) == 3 &&
++           SYSREG_OP1(reg) == 0 &&
++           SYSREG_CRN(reg) == 0 &&
++           SYSREG_CRM(reg) >= 1 &&
++           SYSREG_CRM(reg) < 8;
++}
 +
- #define SYSREG(op0, op1, crn, crm, op2) \
--    ((op0 << 20) | (op2 << 17) | (op1 << 14) | (crn << 10) | (crm << 1))
--#define SYSREG_MASK           SYSREG(0x3, 0x7, 0xf, 0xf, 0x7)
-+    ((op0 << SYSREG_OP0_SHIFT) | \
-+     (op1 << SYSREG_OP1_SHIFT) | \
-+     (crn << SYSREG_CRN_SHIFT) | \
-+     (crm << SYSREG_CRM_SHIFT) | \
-+     (op2 << SYSREG_OP2_SHIFT))
-+#define SYSREG_MASK \
-+    SYSREG(SYSREG_OP0_MASK, \
-+           SYSREG_OP1_MASK, \
-+           SYSREG_CRN_MASK, \
-+           SYSREG_CRM_MASK, \
-+           SYSREG_OP2_MASK)
- #define SYSREG_OSLAR_EL1      SYSREG(2, 0, 1, 0, 4)
- #define SYSREG_OSLSR_EL1      SYSREG(2, 0, 1, 1, 4)
- #define SYSREG_OSDLR_EL1      SYSREG(2, 0, 1, 3, 4)
-@@ -783,21 +808,21 @@ static int hvf_sysreg_read(CPUState *cpu, uint32_t reg, uint32_t rt)
+ static int hvf_sysreg_read(CPUState *cpu, uint32_t reg, uint32_t rt)
+ {
+     ARMCPU *arm_cpu = ARM_CPU(cpu);
+@@ -806,6 +815,11 @@ static int hvf_sysreg_read(CPUState *cpu, uint32_t reg, uint32_t rt)
+         /* Dummy register */
+         break;
      default:
++        if (is_id_sysreg(reg)) {
++            /* ID system registers read as RES0 */
++            val = 0;
++            break;
++        }
          cpu_synchronize_state(cpu);
          trace_hvf_unhandled_sysreg_read(env->pc, reg,
--                                        (reg >> 20) & 0x3,
--                                        (reg >> 14) & 0x7,
--                                        (reg >> 10) & 0xf,
--                                        (reg >> 1) & 0xf,
--                                        (reg >> 17) & 0x7);
-+                                        SYSREG_OP0(reg),
-+                                        SYSREG_OP1(reg),
-+                                        SYSREG_CRN(reg),
-+                                        SYSREG_CRM(reg),
-+                                        SYSREG_OP2(reg));
-         hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
-         return 1;
-     }
- 
-     trace_hvf_sysreg_read(reg,
--                          (reg >> 20) & 0x3,
--                          (reg >> 14) & 0x7,
--                          (reg >> 10) & 0xf,
--                          (reg >> 1) & 0xf,
--                          (reg >> 17) & 0x7,
-+                          SYSREG_OP0(reg),
-+                          SYSREG_OP1(reg),
-+                          SYSREG_CRN(reg),
-+                          SYSREG_CRM(reg),
-+                          SYSREG_OP2(reg),
-                           val);
-     hvf_set_reg(cpu, rt, val);
- 
-@@ -886,11 +911,11 @@ static int hvf_sysreg_write(CPUState *cpu, uint32_t reg, uint64_t val)
-     CPUARMState *env = &arm_cpu->env;
- 
-     trace_hvf_sysreg_write(reg,
--                           (reg >> 20) & 0x3,
--                           (reg >> 14) & 0x7,
--                           (reg >> 10) & 0xf,
--                           (reg >> 1) & 0xf,
--                           (reg >> 17) & 0x7,
-+                           SYSREG_OP0(reg),
-+                           SYSREG_OP1(reg),
-+                           SYSREG_CRN(reg),
-+                           SYSREG_CRM(reg),
-+                           SYSREG_OP2(reg),
-                            val);
- 
-     switch (reg) {
-@@ -960,11 +985,11 @@ static int hvf_sysreg_write(CPUState *cpu, uint32_t reg, uint64_t val)
-     default:
-         cpu_synchronize_state(cpu);
-         trace_hvf_unhandled_sysreg_write(env->pc, reg,
--                                         (reg >> 20) & 0x3,
--                                         (reg >> 14) & 0x7,
--                                         (reg >> 10) & 0xf,
--                                         (reg >> 1) & 0xf,
--                                         (reg >> 17) & 0x7);
-+                                         SYSREG_OP0(reg),
-+                                         SYSREG_OP1(reg),
-+                                         SYSREG_CRN(reg),
-+                                         SYSREG_CRM(reg),
-+                                         SYSREG_OP2(reg));
-         hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
-         return 1;
-     }
+                                         SYSREG_OP0(reg),
 -- 
 2.25.1
 
