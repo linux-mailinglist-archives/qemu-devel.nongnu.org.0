@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977AF4BDA59
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 15:46:00 +0100 (CET)
-Received: from localhost ([::1]:35274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCEA4BDA43
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 15:35:02 +0100 (CET)
+Received: from localhost ([::1]:45544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM9wq-0002mY-12
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 09:45:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59030)
+	id 1nM9mG-0007Mb-OI
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 09:35:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nM9hQ-0004mg-67
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 09:30:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37813)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nM9hJ-0003UM-MX
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 09:29:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645453789;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YKyRJlhWijZAQl/G+XAwpjgnydnM+2Dax5jIraia9Kk=;
- b=cK/DWciQjAbVRrJwDlS8RccYKIiyHuL29bFDSEoXU1IBgESNPFJNzbDxfQfXajBr9S05G0
- FQupDTzKuuLGYfZqb6qqtv6h3qtoy34EuszSCzG6Q/XKiU3VCoeT79f3AMQOFxRODTtR7j
- wNOcvO6C4bGdSL+ojznuEgB8W2ZUfPM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-jv3wiu26PkiqiYD9JzyNxQ-1; Mon, 21 Feb 2022 09:29:48 -0500
-X-MC-Unique: jv3wiu26PkiqiYD9JzyNxQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB7522F45;
- Mon, 21 Feb 2022 14:29:46 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8160C7DE48;
- Mon, 21 Feb 2022 14:29:34 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/4] cpus: use coroutine TLS macros for iothread_locked
-Date: Mon, 21 Feb 2022 14:29:07 +0000
-Message-Id: <20220221142907.346035-5-stefanha@redhat.com>
-In-Reply-To: <20220221142907.346035-1-stefanha@redhat.com>
-References: <20220221142907.346035-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nM9gy-0004g0-LI
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 09:29:32 -0500
+Received: from [2a00:1450:4864:20::32a] (port=44960
+ helo=mail-wm1-x32a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nM9gv-0003Qq-1E
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 09:29:32 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ d14-20020a05600c34ce00b0037bf4d14dc7so11303237wmq.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 06:29:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=WBlWdZAoV60j2wakfauBqY8qFrlv2VTw2qHxYi/LKag=;
+ b=Eov9SPUrDcT/RZveSU+8xThulnOuQ2jpfAqxQkjC2A7qv5WWOSKYRwW1ibtLyNC/d8
+ PapwxBKQb+lJDnsZQt9NqU1bIKxBSPT9BOTw2mxWIuYyYRRzar3cOqk9gcldWXOXwj06
+ N9T7WUREP9jw+0iPCcCDWiHO/o+1FGj8N/RT8WC9TrXGD4a+GDVyZQBItrPlHsRMKFQ0
+ pVuBd9OcP96Q1gzd1I0udH/+yZ1Tf5CcVU6ckmI7m6WaOpN84ATTp9pZpK8mb0Ei3VJY
+ HLF9k8vV0bLkty9W9DHJ31g2/WM18WiClgB1LArIusvPoRtwoQ+WiuBKY7PYGThU8ZZR
+ nDzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WBlWdZAoV60j2wakfauBqY8qFrlv2VTw2qHxYi/LKag=;
+ b=1Ja0tbLFp8xttqHXzZ5stERCDKCmfPztOYl+2PzIu3EO0DvTgdnSxqyWmYr1sT7iDP
+ mae/BeyUW6Lqs6diRx/IlAXGz422fMMy6JgRlNBJRJfnaAq0SPLAjwfjfE0E0PpyTiF9
+ aVkpzuCXN4mHsJUej846W880NGQPcQxVPzQm66Onoj0We8j0bTiehgAy+sIZfmevkxdj
+ HfS//NfUmzyyEQjp3bCbM8EF7GpF3ht8Kakx1wDflyxWaMywFLhgC15nnvMqGfZ3pkZZ
+ chUSC4yGEnek8mB/KD5u0aUHUus+cUwfJZmAjOkPxb1LnQ4MxvBcX7BznTfHYDNAvJFs
+ 5UxQ==
+X-Gm-Message-State: AOAM531R3GWB1T+30Uo7M3O+uipUu6MsDc7ciyv9oUtKQAs3vlk0YPzZ
+ 2qwvGtyogVQ9JpY/j5OqZu4=
+X-Google-Smtp-Source: ABdhPJyJz/TaQ5lw+4ZwD/dTyo3dNt+Cg9KeNXqKkVaVA2nE+4/4ALt3pecdgJbN/Yca+mimdXFOzg==
+X-Received: by 2002:a1c:f003:0:b0:37b:d5fc:5c9e with SMTP id
+ a3-20020a1cf003000000b0037bd5fc5c9emr17972827wmb.154.1645453760675; 
+ Mon, 21 Feb 2022 06:29:20 -0800 (PST)
+Received: from [192.168.51.187] (static-180-27-86-188.ipcom.comunitel.net.
+ [188.86.27.180])
+ by smtp.gmail.com with ESMTPSA id l28sm53599156wrz.90.2022.02.21.06.29.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Feb 2022 06:29:20 -0800 (PST)
+Message-ID: <7d9779bf-252a-a810-81b1-ec27135cea83@gmail.com>
+Date: Mon, 21 Feb 2022 15:29:18 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.0
+Subject: Re: [PATCH 2/2] hw/misc/pvpanic: Use standard headers instead
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220221122717.1371010-1-pizhenwei@bytedance.com>
+ <20220221122717.1371010-2-pizhenwei@bytedance.com>
+ <89be0672-87e4-b0dc-5b36-0ab05f100e8a@gmail.com>
+ <CAFEAcA_kZkX7w+wxxYRbFxfXzaL7gc+Q0=ySEwE8Bg14=iVybA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <CAFEAcA_kZkX7w+wxxYRbFxfXzaL7gc+Q0=ySEwE8Bg14=iVybA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,58 +97,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Serge Guelton <sguelton@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
+ zhenwei pi <pizhenwei@bytedance.com>, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_mutex_iothread_locked() may be used from coroutines. Standard
-__thread variables cannot be used by coroutines. Use the coroutine TLS
-macros instead.
+On 21/2/22 15:11, Peter Maydell wrote:
+> On Mon, 21 Feb 2022 at 13:55, Philippe Mathieu-Daudé
+> <philippe.mathieu.daude@gmail.com> wrote:
+>>
+>> On 21/2/22 13:27, zhenwei pi wrote:
+>>> QEMU side has already imported pvpanic.h from linux, remove bit
+>>> definitions from include/hw/misc/pvpanic.h, and use
+>>> include/standard-headers/linux/pvpanic.h instead.
+>>> Also minor changes for PVPANIC_CRASHLOADED -> PVPANIC_CRASH_LOADED.
+>>
+>> It seems to fail to build, missing PVPANIC_CRASH_LOADED. On which
+>> tree is this patch based?
+> 
+> That's in patch 1/2.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- softmmu/cpus.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Sorry Google Mail is making my life harder, and this series not having
+a cover letter didn't help.
 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 035395ae13..005a5c31ef 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -473,11 +473,11 @@ bool qemu_in_vcpu_thread(void)
-     return current_cpu && qemu_cpu_is_self(current_cpu);
- }
- 
--static __thread bool iothread_locked = false;
-+QEMU_DEFINE_STATIC_CO_TLS(bool, iothread_locked)
- 
- bool qemu_mutex_iothread_locked(void)
- {
--    return iothread_locked;
-+    return get_iothread_locked();
- }
- 
- /*
-@@ -490,13 +490,13 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line)
- 
-     g_assert(!qemu_mutex_iothread_locked());
-     bql_lock(&qemu_global_mutex, file, line);
--    iothread_locked = true;
-+    set_iothread_locked(true);
- }
- 
- void qemu_mutex_unlock_iothread(void)
- {
-     g_assert(qemu_mutex_iothread_locked());
--    iothread_locked = false;
-+    set_iothread_locked(false);
-     qemu_mutex_unlock(&qemu_global_mutex);
- }
- 
--- 
-2.34.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
