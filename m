@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D384BDA7A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 16:11:43 +0100 (CET)
-Received: from localhost ([::1]:36406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C9B4BDA7B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 16:12:10 +0100 (CET)
+Received: from localhost ([::1]:36784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMALm-00072s-Oz
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 10:11:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40690)
+	id 1nMAMD-0007JJ-HW
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 10:12:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMAJN-00057p-Lm; Mon, 21 Feb 2022 10:09:13 -0500
-Received: from [2a00:1450:4864:20::42e] (port=41617
- helo=mail-wr1-x42e.google.com)
+ id 1nMAJe-0005JZ-Tq; Mon, 21 Feb 2022 10:09:30 -0500
+Received: from [2a00:1450:4864:20::32a] (port=55901
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMAJL-0001oT-Pz; Mon, 21 Feb 2022 10:09:13 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id k1so27612504wrd.8;
- Mon, 21 Feb 2022 07:09:08 -0800 (PST)
+ id 1nMAJd-0001s3-DI; Mon, 21 Feb 2022 10:09:30 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id i19so9694125wmq.5;
+ Mon, 21 Feb 2022 07:09:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VFrqoTCoTxb8Y7/bCTq8pyWkoZRMSpFsOtp809yOs04=;
- b=OPe04mKihkNQkhTerZ9WYu/K4ZdnKvZ1v6bvZQvnUYx5tFJGhN5b5Z8lE5xWd6eJV/
- iW5gqTBEp0cIHSH9MFFo1QwyvaOuOwXVqrqXnbOhehy1eKqwHHvyZar8S0JeSmdFubDa
- 1BPKjCppGukujRm/Z39OHMpb+aFMrdNDhMq3dsxEdaXDC2p/9kJqv/M1yPw9Pnk0Io+s
- 4CoJAJBwghcMYLK0Yaq4nh+PBJy6IkkiN5ml3kOhvFWnwnxflibL1AhpLgVWS35LAMMY
- Hst31W8hGs6j8m1sPLmYmsDjiDdiqKLtCYaDa8sDhLQ5TbNm8lLT2mT5cYBSc5Ghe2rq
- 0QqQ==
+ bh=b9aVAlZV+umJAt/j0hy7xgaprdzJZ2TGFS1PzsRJ1HQ=;
+ b=JUvt5l/HPdx0j0ttTDyZr0K1pvorM40/vgb0DG+ceCk2z46Yc1iaskhQ+piNZd/HV+
+ MduYXi1INaWNClzs32M5cesCJFuXCkK6nzlVxMMLBvUFrikc9tDG5p5Sc2WTxu0uyj0Z
+ 9yh2CM+BWojPCaySLVh03C/XJOHACjlelXTY/dWz5c3QSi1YE9puwrM+WkLQYNVPfqZq
+ 0MF/5/ftk8bO44vTDm6/7FNfO0w5DvOgKDzxfCuvYkVX3F9yKl5m38GeKubCX3JkOVMN
+ rINVeFZy6q4HSc7WLocwMdjDG8jHrgtntBHK9xUzorl2Z1VRDlt2pn5Qb5dwKvWU9tfr
+ xESA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=VFrqoTCoTxb8Y7/bCTq8pyWkoZRMSpFsOtp809yOs04=;
- b=Tvx/b31rsMUwgzEuumn25hnn83443dluk6hW7XHqkzlrO/YpwTC30zpzJ/OECHTFtO
- Km7IaFAfRkflSB3wUsIS+oA9tvlYnxwXVvCR8j0f13s9eNA8/N15Vvc6yo3mrarJ1GgA
- QXwoVXJaJ21qvH7NINFIQbW66WpWdVxa26JPnct4Jp7jbm2/XrmmwPDRsM7IR97ziOcp
- gp1/UfEj106qpVlL4COxxVlA9lRQXfATOUIAJB6XJt2qIAW87EDZfakQQZQbcKrMPGuB
- OQaNK28w5gmvvu67mXohFCsfuDNEg8CSZ41ygnWHwO8vsjPN6vujecmUuEDFKyB9t8Oa
- 1C3g==
-X-Gm-Message-State: AOAM533iBGFjPzKKRvAMZJwIkw1SI2wB7o0NXmKLGEp45TnBOeA/QNhN
- DPdopNyR8k4T7MMccIP3r74=
-X-Google-Smtp-Source: ABdhPJw08V1kP21bV8m3Tpg5rIqJt/QWVCek/hBMDiatHXRotN2861pRXrkF87VRo19EnbxBOnsl8Q==
-X-Received: by 2002:a5d:6d4c:0:b0:1e6:335f:6b65 with SMTP id
- k12-20020a5d6d4c000000b001e6335f6b65mr16930065wri.371.1645456147804; 
- Mon, 21 Feb 2022 07:09:07 -0800 (PST)
+ bh=b9aVAlZV+umJAt/j0hy7xgaprdzJZ2TGFS1PzsRJ1HQ=;
+ b=BgPFK7Ga4zbKpEyYMseJrZ7seV54WfWFIBQXuvmKWYalZvLMYX5CShH0RroejcAwdE
+ o2Qhc8JWTMBEWzRxVBapW04JtNcXtM9SjLv4LXdJOmYW+B1PE15K6g20sPILNQEtx/jU
+ RqIwBlIjqj/O8rrFpC8Zm+EQ0XC7TILFrNxce/K00mHO8I/LsyXqbtUoej/TR1tzQUYE
+ 7SgQ/7ACnYs+VFpyEVZDM/SDJGL2YTB/Q0bWnzM+YcxyqnyL7pe8sLcpK5xfIWbSZlWZ
+ Ac7bP1D2vSWlevo2zYPI55PR3U9Pl2jUKvA0BoE6t+g6te0GCTQeYRj8NEyj0zpa6G2q
+ 5NqA==
+X-Gm-Message-State: AOAM530LSQ/UYA6eb5uOFpAUS+Q/j0mnXcaZeA5FUib0Y2woPjiJ89HI
+ 1o+NtZQM4KhrtCc0D/1LWyo=
+X-Google-Smtp-Source: ABdhPJwMZiJk/jHXrN9OwxEoqm4Ke3RE1Uz+0vE3tqrMyaItpIKDV6GqGvxV4HC6xx/eubrbq5+vtw==
+X-Received: by 2002:a05:600c:3aca:b0:37c:533d:d296 with SMTP id
+ d10-20020a05600c3aca00b0037c533dd296mr18090381wms.147.1645456167871; 
+ Mon, 21 Feb 2022 07:09:27 -0800 (PST)
 Received: from [192.168.51.187] (static-180-27-86-188.ipcom.comunitel.net.
- [188.86.27.180]) by smtp.gmail.com with ESMTPSA id
- g6-20020a05600c4ec600b0037bf934bca3sm8736640wmq.17.2022.02.21.07.09.06
+ [188.86.27.180])
+ by smtp.gmail.com with ESMTPSA id p16sm8338585wmq.18.2022.02.21.07.09.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Feb 2022 07:09:07 -0800 (PST)
-Message-ID: <33126ecf-e70d-ce9f-1933-af781b5dc166@gmail.com>
-Date: Mon, 21 Feb 2022 16:09:06 +0100
+ Mon, 21 Feb 2022 07:09:27 -0800 (PST)
+Message-ID: <8c80e33b-df0f-a25e-5e3e-237fd3aa2f55@gmail.com>
+Date: Mon, 21 Feb 2022 16:09:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: [PATCH v4 4/4] cpus: use coroutine TLS macros for iothread_locked
+Subject: Re: [PATCH v4 2/4] util/async: replace __thread with QEMU TLS macros
 Content-Language: en-US
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 References: <20220221142907.346035-1-stefanha@redhat.com>
- <20220221142907.346035-5-stefanha@redhat.com>
+ <20220221142907.346035-3-stefanha@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220221142907.346035-5-stefanha@redhat.com>
+In-Reply-To: <20220221142907.346035-3-stefanha@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,26 +101,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 21/2/22 15:29, Stefan Hajnoczi wrote:
-> qemu_mutex_iothread_locked() may be used from coroutines. Standard
-> __thread variables cannot be used by coroutines. Use the coroutine TLS
-> macros instead.
+> QEMU TLS macros must be used to make TLS variables safe with coroutines.
 > 
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   softmmu/cpus.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index 035395ae13..005a5c31ef 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -473,11 +473,11 @@ bool qemu_in_vcpu_thread(void)
->       return current_cpu && qemu_cpu_is_self(current_cpu);
->   }
->   
-> -static __thread bool iothread_locked = false;
-> +QEMU_DEFINE_STATIC_CO_TLS(bool, iothread_locked)
+>   util/async.c | 12 +++++++-----
+>   1 file changed, 7 insertions(+), 5 deletions(-)
 
-While "qemu/coroutine-tls.h" is indirectly included by "rcu.h",
-please include it explicitly.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
