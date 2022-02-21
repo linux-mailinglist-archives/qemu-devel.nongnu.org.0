@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968E54BED50
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 23:41:20 +0100 (CET)
-Received: from localhost ([::1]:33516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397BD4BED4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 23:39:22 +0100 (CET)
+Received: from localhost ([::1]:56208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMHMt-0008OX-N5
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 17:41:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46170)
+	id 1nMHKz-0004he-AK
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 17:39:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMHGG-0007wY-EU
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 17:34:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50946)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMHGH-00081A-QJ
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 17:34:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMHGE-00088B-Ik
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 17:34:28 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMHGF-00088W-OC
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 17:34:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1645482866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DfPoBDBQIxQ64A+CX9kGUZoFtNLHvl7l7IlzedOfndY=;
- b=fyaydCK8f3eqj+jmFcMtKnrmgHqZQQHGTicsTw2JtRfyGC/kiAPgMhP6PvgJZcVJlCi/so
- 2ESUHz5RALoRtxxB6OeWT/SKL8ZBd55XiI6hts85hcJof3f/SDVjcKQA40UpHO7yx/A4a+
- AvQvpfLsHWKHvRe955yeF9/nQUUoOlY=
+ bh=dxwUROcozBuy9pQwmJ/gNNr5A1jRd8gT5aI4WeCLmO0=;
+ b=PZtTkKTRVPSyYCPtKz7U9ykGAaiHbRBbSR8X9Z4oSyU9J/8r9llC1wAMQ8V5kcnPWFD1W6
+ 4q3dpf1Bfi0vHmiC2IScyudoDPq8pc/Oid/r1+6QNFaAeKBDMJTmoZo/lcnRFIaPEXKGmz
+ rfTo5AD8wEN0Rjnxjg6EZ0eZGKqrpsM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-457-uVzO3uUdOCeyNr11qOG1Jw-1; Mon, 21 Feb 2022 17:34:24 -0500
-X-MC-Unique: uVzO3uUdOCeyNr11qOG1Jw-1
+ us-mta-272-PK4RKkOKPPq4iyQ10zhW1A-1; Mon, 21 Feb 2022 17:34:25 -0500
+X-MC-Unique: PK4RKkOKPPq4iyQ10zhW1A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80783814246;
- Mon, 21 Feb 2022 22:34:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4F891006AA0;
+ Mon, 21 Feb 2022 22:34:24 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 767481038AAF;
- Mon, 21 Feb 2022 22:34:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A80801038AAF;
+ Mon, 21 Feb 2022 22:34:23 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/18] iotests: fortify compare_images() against crashes
-Date: Mon, 21 Feb 2022 17:34:00 -0500
-Message-Id: <20220221223413.2123003-6-jsnow@redhat.com>
+Subject: [PATCH v2 06/18] iotests: add qemu_img_json()
+Date: Mon, 21 Feb 2022 17:34:01 -0500
+Message-Id: <20220221223413.2123003-7-jsnow@redhat.com>
 In-Reply-To: <20220221223413.2123003-1-jsnow@redhat.com>
 References: <20220221223413.2123003-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -64,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,48 +85,67 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make this helper function a little stricter about what it allows by
-default. If qemu_img returns some exit code that implies it didn't
-actually perform the comparison, treat that as an exceptional
-circumstance and force the caller to be aware of the peril.
+A little helper built on top of qemu_img() that tries to pull a valid
+JSON document out of the stdout stream.
+
+In the event that the return code is negative (the program crashed), or
+the code is greater than zero and did not produce valid JSON output, the
+VerboseProcessError raised by qemu_img is re-raised instead.
+
+In the event that the return code is zero but we can't parse valid JSON,
+allow the JSON deserialization error to be raised.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/iotests.py | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 546e5cb671b..24765de2e27 100644
+index 24765de2e27..1e6947b893b 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -507,11 +507,22 @@ def qemu_nbd_popen(*args):
-             p.kill()
-             p.wait()
+@@ -309,6 +309,41 @@ def ordered_qmp(qmsg, conv_keys=True):
+ def qemu_img_create(*args: str) -> subprocess.CompletedProcess[str]:
+     return qemu_img('create', *args)
  
--def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
--    '''Return True if two image files are identical'''
--    res = qemu_img('compare', '-f', fmt1,
--                   '-F', fmt2, img1, img2, check=False)
--    return res.returncode == 0
-+def compare_images(img1: str, img2: str,
-+                   fmt1: str = imgfmt, fmt2: str = imgfmt) -> bool:
++def qemu_img_json(*args: str) -> Any:
 +    """
-+    Compare two images with QEMU_IMG; return True if they are identical.
++    Run qemu-img and return its output as deserialized JSON.
 +
 +    :raise CalledProcessError:
-+        when qemu-img crashes or returns a status code of anything other
-+        than 0 (identical) or 1 (different).
++        When qemu-img crashes, or returns a non-zero exit code without
++        producing a valid JSON document to stdout.
++    :raise JSONDecoderError:
++        When qemu-img returns 0, but failed to produce a valid JSON document.
 +    """
++    json_data = ...  # json.loads can legitimately return 'None'.
++
 +    try:
-+        qemu_img('compare', '-f', fmt1, '-F', fmt2, img1, img2)
-+        return True
++        res = qemu_img(*args, combine_stdio=False)
 +    except subprocess.CalledProcessError as exc:
-+        if exc.returncode == 1:
-+            return False
-+        raise
++        # Terminated due to signal. Don't bother.
++        if exc.returncode < 0:
++            raise
++
++        # Commands like 'check' can return failure (exit codes 2 and 3)
++        # to indicate command completion, but with errors found. For
++        # multi-command flexibility, ignore the exact error codes and
++        # *try* to load JSON.
++        try:
++            json_data = json.loads(exc.stdout)
++        except json.JSONDecodeError:
++            pass  # Nope. This thing is toast.
++
++        if json_data is ...:
++            raise
++
++    if json_data is ...:
++        json_data = json.loads(res.stdout)
++    return json_data
++
+ def qemu_img_measure(*args):
+     return json.loads(qemu_img_pipe("measure", "--output", "json", *args))
  
- def create_image(name, size):
-     '''Create a fully-allocated raw image with sector markers'''
 -- 
 2.34.1
 
