@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F37B54BDB4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 18:32:16 +0100 (CET)
-Received: from localhost ([::1]:36782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8AF14BDB4F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 18:36:04 +0100 (CET)
+Received: from localhost ([::1]:45192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMCXn-00021g-5p
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 12:32:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49286)
+	id 1nMCbT-0007nr-O2
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 12:36:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMCPG-0007Xn-SC; Mon, 21 Feb 2022 12:23:26 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:58225)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMCPC-0007d2-Ir; Mon, 21 Feb 2022 12:23:25 -0500
-Received: from [192.168.100.1] ([82.142.17.50]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M7JrG-1nL70q3s1U-007jTw; Mon, 21 Feb 2022 18:23:17 +0100
-Message-ID: <2cff027b-408d-5d9f-acb8-320242f77bd7@vivier.eu>
-Date: Mon, 21 Feb 2022 18:23:15 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nMCPh-000069-89
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 12:23:53 -0500
+Received: from [2607:f8b0:4864:20::b2b] (port=37839
+ helo=mail-yb1-xb2b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nMCPe-0007ek-7o
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 12:23:52 -0500
+Received: by mail-yb1-xb2b.google.com with SMTP id y189so14208314ybe.4
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 09:23:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=2fpL+Cal7QkJiSrFq64Z2cpd4ZK+WikmQJm8V5Fcn6M=;
+ b=YgBme0PO1I0eXa96gAjW2kNrowsTk15waZBWoFPlWH+SNd8BdWeIxn6NzJrzV9ckcu
+ OPTWRI1QQsjGLUYmhiwqDdN+W8M9uVLX5t32aA4iSI4/S1f07hTvH+opsTqGCy7OtsHT
+ ZF4AT7Sc/qIjxq2jvbBPyxO5zwwk/ADeNuVSk5Z51PVSAQl+EqcioeqaudnT++XC3eYl
+ Qh8lHoViebD2DKAAIBG3IEDQW2nAzxtKNTooRiAw3oypzb1FPuKbueRRySWz6r6lzy81
+ AWZesvhCqmPPaO4Qf/V8YkjLwEvUAu73Sg0tYxvQKTVZjAKj/ih+Hw11fpuw76S7gZIc
+ w/nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=2fpL+Cal7QkJiSrFq64Z2cpd4ZK+WikmQJm8V5Fcn6M=;
+ b=7RAVcHay4ry4CqExWT59XzZzCX+KRSoh5ngB8kHYR3VfhtSIWaKEtQS/TnpLZQOth9
+ SeDby/+crxA3T7DWQ//9XCP58bZiJDOleE05B/zYfiIQtghq5Ma7w3xd0Sa2f9XeC+WH
+ Qz8VyiFCi4Ak5iR/SNFOvwqlXW305xqU/CruTiEe/ATLwPuYtzThESwQqLq3K+4rFdwm
+ qF9bGoxQ/YMAXTa7hFeSvs46FJH/26hJG1ZIK4faguaGtEL2X1v+P7YSPpdVKHmOAMNu
+ nv1fENppxHtTlvFU1PErnOOb77q1sPL+4WMsMJ4fFbGE0tlQ2M2KQLmOfD2f+bKFjGQk
+ JnDA==
+X-Gm-Message-State: AOAM531VXwBEiom1eWw9akQBH4MTvpeH4PZ2VEVAo5FGKBjuq2cha8yr
+ Ar8VsKQ7QZ00al5SUvySpiHDNG5QMTRlzvBf/Do0Jt5SsFs=
+X-Google-Smtp-Source: ABdhPJzVR+mskIRCjibUgka+hJJxNGYuP5JkJLOocdm4QLwY0CTDE1fwta63mp1/S33RYM+zrj/tNqEXroLbKbWVufs=
+X-Received: by 2002:a25:497:0:b0:624:8ba2:fc8e with SMTP id
+ 145-20020a250497000000b006248ba2fc8emr5846043ybe.39.1645464229105; Mon, 21
+ Feb 2022 09:23:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] hw/nvram: use at24 macro
-Content-Language: fr
-To: Paolo Bonzini <pbonzini@redhat.com>, Patrick Venture
- <venture@google.com>, philmd@redhat.com
-References: <20220119214329.2557049-1-venture@google.com>
- <b043c11d-a007-6579-180f-4dd8f0bcae5d@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <b043c11d-a007-6579-180f-4dd8f0bcae5d@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lBZmj4O8EDifppxdb2Umv8P50JgCpW4K6iS53ZfA6HVUqIphILq
- T6Lxfw7rk4ag+kzyMtESLOXYm2EB2N7j7SDpBPYzAL9vDab0qXwLabjGjA/Jo4N6pZfoEdt
- 9R7Oy4NGflTM6ooKamQdrXrfvpMdbUtp00xG0C15pei4gW1gm+4mWV9QK1vBj2mn4KdTECB
- sgdMH0bWcoXNXFRD0uvew==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kz+fCI0Vmmg=:BVj13kLa1kgl4wEjGCg3Ud
- kDKyiyfP9UTGHzxmEusAWtdN35kEf4+IaAP86bE1LgAKKdAQTP+mzXVAUXQi5yi2ylWiBQoSp
- a8ML0js4TVlT4U29KRsUKsmcx6BPN9TWeU88m50VP2gpnJkoA11CF/Enu13w119STesHNFeJ0
- TounOR8jx3EmcyFolRxtsZeF9xbGP2MKGC7tSRt+mLsL2e1Ge5vIelKQLBPCnfQcvnCwSXPvE
- 1UpgVyl4j7b7DKATMOOMtlGLt2MICqDgcYrjKCjeg9GH0MNM4qM0hQRfv9Yj8cyQF/7BDcL3l
- 8ylOHaEmMoLfdIcEPSwltZ2E52Z3XGCEqxk6wbV5k/GlbPmiHqp5qhZNBqLJf+w9zbMn59NV6
- 09tcSVuBDWoes71L+olUUs6FaWxubcCt0v9ji8QzrUduUdvOb52cHV7aCPafD/mHkBafUHufy
- E7lRbvP3x5V0hmc5MSIJwldXZUJ7BYMEE6MXVyte3dAfkRbuMQljuziXqtEloBM/Am+gt1pU/
- 0TjDSM4aWUpQKRNYovKiTF4PQr51aVaNmo0PNnXvFRLSzk/ooJGXCg9AdHcEem/gcqb2ssMbr
- 0P2sPipS2d8D4R7dta+/Ewu8wAG4lbGUNnuzN/kXYZ9FutcmB/sfs4VccjQV0IHRK5GGgZBo6
- IAH5v1mZ+2VWHPzV0yeBidLjIOra9crJq36Rp9TY1/Rwqms64BtsfOC5ZMzCTGRh5Ug0=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220221133131.505884-1-peter.maydell@linaro.org>
+In-Reply-To: <20220221133131.505884-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Feb 2022 17:23:38 +0000
+Message-ID: <CAFEAcA9yWyUqj_j1x1toc+22npT_Wz0KJt-45ZqBF+kE35HASA@mail.gmail.com>
+Subject: Re: [PULL v2 00/25] target-arm queue
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,38 +81,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/01/2022 à 10:20, Paolo Bonzini a écrit :
-> On 1/19/22 22:43, Patrick Venture wrote:
->> Use the macro for going from I2CSlave to EEPROMState.
->>
->> Signed-off-by: Patrick Venture <venture@google.com>
->> ---
->>   hw/nvram/eeprom_at24c.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
->> index af6f5dbb99..da435500ba 100644
->> --- a/hw/nvram/eeprom_at24c.c
->> +++ b/hw/nvram/eeprom_at24c.c
->> @@ -54,7 +54,7 @@ struct EEPROMState {
->>   static
->>   int at24c_eeprom_event(I2CSlave *s, enum i2c_event event)
->>   {
->> -    EEPROMState *ee = container_of(s, EEPROMState, parent_obj);
->> +    EEPROMState *ee = AT24C_EE(s);
->>       switch (event) {
->>       case I2C_START_SEND:
-> 
-> Cc: qemu-trivial@nongnu.org
-> 
+On Mon, 21 Feb 2022 at 13:31, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> v2: drop npcm7xx sdhci tests: new tests assert on some platforms.
+>
+> -- PMM
+>
+> The following changes since commit e670f6d825d4dee248b311197fd4048469d6772b:
+>
+>   Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220218' into staging (2022-02-20 15:05:41 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220221-1
+>
+> for you to fetch changes up to ca511604925eef8572e22ecbf0d3c758d7277924:
+>
+>   ui/cocoa: Fix the leak of qemu_console_get_label (2022-02-21 13:30:21 +0000)
+>
+> ----------------------------------------------------------------
+> arm, cocoa and misc:
+>  * MAINTAINERS file updates
+>  * Mark remaining global TypeInfo instances as const
+>  * checkpatch: Ensure that TypeInfos are const
+>  * arm hvf: Handle unknown ID registers as RES0
+>  * Make KVM -cpu max exactly like -cpu host
+>  * Fix '-cpu max' for HVF
+>  * Support PAuth extension for hvf
+>  * Kconfig: Add I2C_DEVICES device group
+>  * Kconfig: Add 'imply I2C_DEVICES' on boards with available i2c bus
+>  * hw/arm/armv7m: Handle disconnected clock inputs
+>  * osdep.h: pull out various things into new header files
+>  * hw/timer: fix a9gtimer vmstate
+>  * hw/arm: add initial mori-bmc board
+>  * ui/cocoa: Remove allowedFileTypes restriction in SavePanel
+>  * ui/cocoa: Do not alert even without block devices
+>  * ui/cocoa: Fix the leak of qemu_console_get_label
 
-Applied to my trivial-patches branch.
 
-Thanks,
-Laurent
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
