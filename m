@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391704BD8EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 11:05:39 +0100 (CET)
-Received: from localhost ([::1]:44464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCED4BD88C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:33:58 +0100 (CET)
+Received: from localhost ([::1]:44260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM5Za-00085i-4K
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 05:05:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44056)
+	id 1nM54v-00035a-R2
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:33:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM4zf-00006I-D9
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:31 -0500
-Received: from [2a00:1450:4864:20::32d] (port=44895
- helo=mail-wm1-x32d.google.com)
+ id 1nM4zq-0000ET-Uw
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:47 -0500
+Received: from [2a00:1450:4864:20::42a] (port=44922
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM4zZ-00012o-4v
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:31 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- d14-20020a05600c34ce00b0037bf4d14dc7so10726887wmq.3
+ id 1nM4zZ-000133-8V
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:42 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id u1so25877748wrg.11
  for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:28:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=eUdMWu06bcY55dS/XsZ8i6MlsWYYdQD9bxiTKRF3Fko=;
- b=hc0bS1xkNlepjaMBC0zbT6HGjw/soUjtVbaCHPO7O053Vuk10/48bfmleKMenOxnYu
- HJC3yEenXWMzgM9guZsg0ZbDThcT1XCD9TKeh+a/HOkBsLL30qXS8jMZZStJt2j6XC9s
- RufKFbYfP/rTGXaPX25Logqjwsq1C5tahBByQam85cf5Zg8SAMS3np0g49GJe+JdMbDL
- f6pCJQmnKptYDMW7xX9AUR0o+rrglP+wCHMsYD/rTz9GFDjCHAglVsPfGy+NgNogwwHz
- c8AAKUYf3kUH5oQ44+cJpqPfg95CovPc68MzmBq1iVDOxt8n37upQv9OI63aAWpf3Tfs
- pyRw==
+ bh=47kr7ialX2Tci80N2MGQK32MRACMf87J895zSjNeWJ0=;
+ b=q9vgzB1Wqqy0YGRP6+Z+ejb+tINwC7S2rd4XLFNm7C62oMI+CZ1C42YSF0SiPjUGXg
+ 3CeNB7jzf8Wt0Ft4oNQT5ybAhACVsud9JJZDGxnCEjY1h7D4Po1mBTstEYsuQRN4Z2Te
+ 9zUXc3TdYzWQStZCqmBRJty6qgYsPg5cNuyr6Ghanc80Q1TYTHQ93aamkZhVE5KHI8hC
+ v+46Af34pjpizw3lR/Mi7h4I+dmydmM4E5c1f85n95VjLq7zjRRR02CMQrd1N6P/X8GZ
+ ucKVnnWTLIN13n/4IFaRJdvkUIGASmjfe/m1UdyKFmGGKi08Es0dfAFYS3wrNDeJtH0H
+ BHjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eUdMWu06bcY55dS/XsZ8i6MlsWYYdQD9bxiTKRF3Fko=;
- b=LmdXavRWlyeACQg+MZ8Lyx7cCcaQ7ZqGQNfxu8ULdCC/l6yQakNuUQ/DZE3aEngE5Q
- WS3xvmW0qKLfbxytzftrWSeBQOqxaBTgcltHxNrgTZ4d1JREmxDMl9F8BAIbbGmYBvcC
- mpi0d0eNezD3t3KyQlkSQ+7QG2d65gV7Sl6zevJ9+MeYMJvd+8UBYCSTQWF5WbQJWeXC
- VYbIKT47+MEGPUZXQcB7xBRzbg6beVbahNVaxPhp1qmZtIpzmt2scr/8KQrQggRsdOBC
- tSErJeg2Yk7XVdzVoDTUPXz8yngwi+e2heAMVU2iYvokdS9/0OsJ4VJHqTUY2bmXlcqI
- 4h+g==
-X-Gm-Message-State: AOAM531H6+OSR8fKZKoD4gVfV6ozsU3d/c+0vcSc/VCIP8QiJ5yFrgT9
- 1jZ1AsG0aPDGEl99v6q7wki+dMRcFuGyfA==
-X-Google-Smtp-Source: ABdhPJwJmX9wLqu3NdoXR2vmFqaytNWoHfVT+2jajjU4B9TH6ioY/CQwWrZobgGQqIWUy/Ep2WZPUg==
-X-Received: by 2002:a7b:cb90:0:b0:37b:b88b:b4a2 with SMTP id
- m16-20020a7bcb90000000b0037bb88bb4a2mr17075674wmi.148.1645435696257; 
- Mon, 21 Feb 2022 01:28:16 -0800 (PST)
+ bh=47kr7ialX2Tci80N2MGQK32MRACMf87J895zSjNeWJ0=;
+ b=b5rfc+CIY631Ka5Zxo8ZhwdDtJ+0jK2UdJ3IbDSK5Wbs9DuMistfAP5m+45iz8LPT/
+ WEnOnbGwidLhMYuxa0zpi33Y3ik7x/FHLaeGntXroPko0jCDKZ41Vp8HlxKDQNZoEL4T
+ ZotIPZmwRhymzOPL9hE6E2fAWSmWVcEIhwXH108/VtqpIy8HG/DFNdDAj1L6iB6h4AfD
+ Ko5vPz0hzgL7yAN2PQyVf3bVNS4rR3axwLzEsf6bxV2w5buC2e+zDcaoi3MERNQtA1oJ
+ 8zWlyps8DBqUmBPrmuIFCCT7/+vhG8lkKcsOE49BvOFPFooDKUSw2owErsyK5yLheeI8
+ xKiA==
+X-Gm-Message-State: AOAM530tfd3+FDSsF4Ktt/ka9sSaCvw4cm0rqFc7pD7mT2C+yAF5OJg9
+ G4tM2srGDOg7wqCJG30Af7SNBy041GYikA==
+X-Google-Smtp-Source: ABdhPJzYNW0cWYxzbBFzVhG9IqhDNbHDmhc1NoSJlK6I5ot6bkGIfFK0J7+dmB9c6FAOrMujmKUGTA==
+X-Received: by 2002:adf:fb8e:0:b0:1e3:241b:218c with SMTP id
+ a14-20020adffb8e000000b001e3241b218cmr15087521wrr.359.1645435697023; 
+ Mon, 21 Feb 2022 01:28:17 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id q76sm7555778wme.1.2022.02.21.01.28.15
+ by smtp.gmail.com with ESMTPSA id q76sm7555778wme.1.2022.02.21.01.28.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Feb 2022 01:28:15 -0800 (PST)
+ Mon, 21 Feb 2022 01:28:16 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/26] include: Move qemu_mprotect_*() to new qemu/mprotect.h
-Date: Mon, 21 Feb 2022 09:27:51 +0000
-Message-Id: <20220221092800.404870-18-peter.maydell@linaro.org>
+Subject: [PULL 18/26] include: Move QEMU_MAP_* constants to mmap-alloc.h
+Date: Mon, 21 Feb 2022 09:27:52 +0000
+Message-Id: <20220221092800.404870-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220221092800.404870-1-peter.maydell@linaro.org>
 References: <20220221092800.404870-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,80 +92,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu_mprotect_*() family of functions are used in very few files;
-move them from osdep.h to a new qemu/mprotect.h.
+The QEMU_MAP_* constants are used only as arguments to the
+qemu_ram_mmap() function.  Move them to mmap-alloc.h, where that
+function's prototype is defined.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220208200856.3558249-3-peter.maydell@linaro.org
+Message-id: 20220208200856.3558249-4-peter.maydell@linaro.org
 ---
- include/qemu/mprotect.h | 14 ++++++++++++++
- include/qemu/osdep.h    |  4 ----
- tcg/region.c            |  1 +
- util/osdep.c            |  1 +
- 4 files changed, 16 insertions(+), 4 deletions(-)
- create mode 100644 include/qemu/mprotect.h
+ include/qemu/mmap-alloc.h | 23 +++++++++++++++++++++++
+ include/qemu/osdep.h      | 25 -------------------------
+ 2 files changed, 23 insertions(+), 25 deletions(-)
 
-diff --git a/include/qemu/mprotect.h b/include/qemu/mprotect.h
-new file mode 100644
-index 00000000000..1e83d1433ee
---- /dev/null
-+++ b/include/qemu/mprotect.h
-@@ -0,0 +1,14 @@
+diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
+index 90d0eee7053..5076695cc81 100644
+--- a/include/qemu/mmap-alloc.h
++++ b/include/qemu/mmap-alloc.h
+@@ -35,4 +35,27 @@ void *qemu_ram_mmap(int fd,
+ 
+ void qemu_ram_munmap(int fd, void *ptr, size_t size);
+ 
 +/*
-+ * QEMU mprotect functions
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * Abstraction of PROT_ and MAP_ flags as passed to mmap(), for example,
++ * consumed by qemu_ram_mmap().
 + */
-+#ifndef QEMU_MPROTECT_H
-+#define QEMU_MPROTECT_H
 +
-+int qemu_mprotect_rw(void *addr, size_t size);
-+int qemu_mprotect_rwx(void *addr, size_t size);
-+int qemu_mprotect_none(void *addr, size_t size);
++/* Map PROT_READ instead of PROT_READ | PROT_WRITE. */
++#define QEMU_MAP_READONLY   (1 << 0)
 +
-+#endif
++/* Use MAP_SHARED instead of MAP_PRIVATE. */
++#define QEMU_MAP_SHARED     (1 << 1)
++
++/*
++ * Use MAP_SYNC | MAP_SHARED_VALIDATE if supported. Ignored without
++ * QEMU_MAP_SHARED. If mapping fails, warn and fallback to !QEMU_MAP_SYNC.
++ */
++#define QEMU_MAP_SYNC       (1 << 2)
++
++/*
++ * Use MAP_NORESERVE to skip reservation of swap space (or huge pages if
++ * applicable). Bail out if not supported/effective.
++ */
++#define QEMU_MAP_NORESERVE  (1 << 3)
++
+ #endif
 diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 5ebd737aebb..ca00899bbd2 100644
+index ca00899bbd2..165448b12f8 100644
 --- a/include/qemu/osdep.h
 +++ b/include/qemu/osdep.h
-@@ -496,10 +496,6 @@ void sigaction_invoke(struct sigaction *action,
-                       struct qemu_signalfd_siginfo *info);
- #endif
+@@ -401,31 +401,6 @@ static inline void qemu_cleanup_generic_vfree(void *p)
+  */
+ #define QEMU_AUTO_VFREE __attribute__((cleanup(qemu_cleanup_generic_vfree)))
  
--int qemu_mprotect_rw(void *addr, size_t size);
--int qemu_mprotect_rwx(void *addr, size_t size);
--int qemu_mprotect_none(void *addr, size_t size);
+-/*
+- * Abstraction of PROT_ and MAP_ flags as passed to mmap(), for example,
+- * consumed by qemu_ram_mmap().
+- */
 -
- /*
-  * Don't introduce new usage of this function, prefer the following
-  * qemu_open/qemu_create that take an "Error **errp"
-diff --git a/tcg/region.c b/tcg/region.c
-index c46021d1604..7b4e65a52e8 100644
---- a/tcg/region.c
-+++ b/tcg/region.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "qemu/madvise.h"
-+#include "qemu/mprotect.h"
- #include "qapi/error.h"
- #include "exec/exec-all.h"
- #include "tcg/tcg.h"
-diff --git a/util/osdep.c b/util/osdep.c
-index 8c5cd6e4316..5181f86b82f 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -39,6 +39,7 @@ extern int madvise(char *, size_t, int);
- #include "qemu/sockets.h"
- #include "qemu/error-report.h"
- #include "qemu/madvise.h"
-+#include "qemu/mprotect.h"
- #include "monitor/monitor.h"
- 
- static bool fips_enabled = false;
+-/* Map PROT_READ instead of PROT_READ | PROT_WRITE. */
+-#define QEMU_MAP_READONLY   (1 << 0)
+-
+-/* Use MAP_SHARED instead of MAP_PRIVATE. */
+-#define QEMU_MAP_SHARED     (1 << 1)
+-
+-/*
+- * Use MAP_SYNC | MAP_SHARED_VALIDATE if supported. Ignored without
+- * QEMU_MAP_SHARED. If mapping fails, warn and fallback to !QEMU_MAP_SYNC.
+- */
+-#define QEMU_MAP_SYNC       (1 << 2)
+-
+-/*
+- * Use MAP_NORESERVE to skip reservation of swap space (or huge pages if
+- * applicable). Bail out if not supported/effective.
+- */
+-#define QEMU_MAP_NORESERVE  (1 << 3)
+-
+-
+-
+ #ifdef _WIN32
+ #define HAVE_CHARDEV_SERIAL 1
+ #elif defined(__linux__) || defined(__sun__) || defined(__FreeBSD__)    \
 -- 
 2.25.1
 
