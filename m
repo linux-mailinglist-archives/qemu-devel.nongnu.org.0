@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 337124BD874
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:17:33 +0100 (CET)
-Received: from localhost ([::1]:34134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D4D4BD87D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:21:57 +0100 (CET)
+Received: from localhost ([::1]:36976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM4p2-0003va-19
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:17:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38294)
+	id 1nM4tH-00068j-LG
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:21:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM4j3-0001Qm-FV
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:11:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22347)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM4p6-0004vJ-6o
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:17:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM4j0-0006Q8-8n
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:11:19 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM4p1-0007ak-Ar
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:17:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645434676;
+ s=mimecast20190719; t=1645435049;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PR1460gPX3U0eH0aOwHwGx7E+LjZTFaXfmoknotHHOQ=;
- b=iZNHqT1MxorU1vfNGWROoSSdjwQzbAirv+B9Q6qPe1cx2YO6UDCvAr4WpYG6WaKgaQxD82
- EB1o9XVJI7k9zxxiZytJ4N9jKdrNHozQa5ee7fFDDO0v4LHpUCn8S7DeUDHU5HOeNjG9pY
- frD63j+SuZ7wXwH1xomdpDWkZubu4NY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Bo0ubWtq1LqG5Rs9dm2qZ6uRUK+vz+ss4xzsp8u7Op4=;
+ b=U11iP2oJMSQl6OcL7A+9Gf7Tqo2IInvaUcMeHWD++OnrhqyNUCQMfTKBzL8r1cUSLXeTLu
+ sC8pIaz6z6Ipd5QR1K+fhz3i6AqZneWKLa0qQPvXakglgYYspYsbGGeMCffuWOfDGtcM/R
+ xTeVnLi4jnoga9S20mEOzryGAenDISg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-J9-E6NhcPXKH8xKtHa1j9g-1; Mon, 21 Feb 2022 04:11:15 -0500
-X-MC-Unique: J9-E6NhcPXKH8xKtHa1j9g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- v17-20020adfc5d1000000b001e6405c2b56so7167456wrg.7
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:11:15 -0800 (PST)
+ us-mta-477-_i9A-2-_MP2l1e6HZRWeog-1; Mon, 21 Feb 2022 04:17:27 -0500
+X-MC-Unique: _i9A-2-_MP2l1e6HZRWeog-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ p24-20020a05600c1d9800b0037be98d03a1so7792233wms.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:17:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PR1460gPX3U0eH0aOwHwGx7E+LjZTFaXfmoknotHHOQ=;
- b=pU43MN2CxOrNhNt5XqaQG75sZ7OlvZ9RJ0Sg0U0CYcqnNH9me9PtvLEY05iADgIm0m
- AFSlsTwlFKcVqasP93niXRR0NwA7WjgNf1E43hMLsfHBTeF4bPUYjuW/IyV6azKzGwls
- AQ/CHObmtBOFrNWWSNtTt94GD5dexzdQw5GtN1KhZm5jla5XvDdh9zySRTJZjRro+1aC
- SxeD1g6Jen/fuUNp12W/lMtTW2DK7aoVoRRSt0qzV+u2MDSoPh9cpUgF3IcFjNoYsZMH
- Vm/it8K4ItgLNgW3NxzHarC2y5xan2ifgYjqi8MHL5KxJDo1ny4smgDkjZpIsjWQv5H/
- 7OCg==
-X-Gm-Message-State: AOAM531aXiWwEPdZvokrhELsnZogZpWvvZgO31mTcnd0xvvErhrrZwOQ
- 1mhthWdMBVEb/uCQOomlo34SssfC+sDxR8c/KRk9hQ5AEfaRDfA4ejXPAUYKJVSJdliQCTItzcx
- fBNaICvmgPZemziQ=
-X-Received: by 2002:a7b:c94e:0:b0:37b:ea2f:788c with SMTP id
- i14-20020a7bc94e000000b0037bea2f788cmr16996781wml.14.1645434674372; 
- Mon, 21 Feb 2022 01:11:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyVTGRz4QTM1P8DV5su8Jemc9vWx3B4YaRR7TRgZyopLrauEVhwkIYUqtocLmGd9erfCut6FA==
-X-Received: by 2002:a7b:c94e:0:b0:37b:ea2f:788c with SMTP id
- i14-20020a7bc94e000000b0037bea2f788cmr16996760wml.14.1645434674132; 
- Mon, 21 Feb 2022 01:11:14 -0800 (PST)
+ bh=Bo0ubWtq1LqG5Rs9dm2qZ6uRUK+vz+ss4xzsp8u7Op4=;
+ b=yibaOyukFMGl/cCCwVLhehbEZJ3l3o50/nhG/tRdVpV72HfnXdjPE4EQ6iolB4EJ5i
+ 3fMhM3wsYtVzcvVW8CMvKW0kjXDURKt6ARpMfPGoOMGeCgUi0u7c8dkOKm7HSGFhT+On
+ p+B+ZlNnnDVxwoHeL+DZtdSEyI9gdCWDl/iv2620ah2ZLz4tRwXJHTGLPVd9IwvP9z7U
+ NK5oZjN3MBo0Ejzh6t6wkLJsHQMmmvXS0XbFdrQ2BV1yWrENUcCO07L/oVKnlCgKFp0D
+ bkdNaJUE5eg2tPdXrQGgwrP0o37zsH/twWML/3v7SNu4jrZ1dqUNwv9B1ii+tvL5FPRr
+ 2eYQ==
+X-Gm-Message-State: AOAM533tjtog61IKdAAC5ovc1aJBFkifA0QAD0ZQMSiMmtKNwXMmxwAh
+ XlnT2pQ/X1MX+uHwsq/1CzlgcZkgcEZISCvjkob+kPzj2A0koBFyl4N0pgMz4tBhF3UuybyvcoO
+ ImnBY83c4KD/QwhE=
+X-Received: by 2002:a5d:64e3:0:b0:1e4:a380:bb6f with SMTP id
+ g3-20020a5d64e3000000b001e4a380bb6fmr15418771wri.463.1645435046763; 
+ Mon, 21 Feb 2022 01:17:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxy7JFkQjdefuTUBDK8eZMh3sqsOYgny5/Espzr4pTGkf/DRDdI+bpI/4tk923U/nWcV0RkbA==
+X-Received: by 2002:a5d:64e3:0:b0:1e4:a380:bb6f with SMTP id
+ g3-20020a5d64e3000000b001e4a380bb6fmr15418756wri.463.1645435046544; 
+ Mon, 21 Feb 2022 01:17:26 -0800 (PST)
 Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- p6-20020a05600c358600b00354d399ef32sm7223771wmq.39.2022.02.21.01.11.13
+ by smtp.gmail.com with ESMTPSA id l11sm42400670wry.77.2022.02.21.01.17.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Feb 2022 01:11:13 -0800 (PST)
-Message-ID: <b3b8c372-e0c8-1814-fab4-a6f6f19ff10a@redhat.com>
-Date: Mon, 21 Feb 2022 10:11:12 +0100
+ Mon, 21 Feb 2022 01:17:25 -0800 (PST)
+Message-ID: <412599ca-c0ad-bbc1-cb9f-891a6c1dbcee@redhat.com>
+Date: Mon, 21 Feb 2022 10:17:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 4/4] tests/qtest/virtio-iommu-test: Check bypass config
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, eric.auger@redhat.com
-References: <20220214124356.872985-1-jean-philippe@linaro.org>
- <20220214124356.872985-5-jean-philippe@linaro.org>
+Subject: Re: [PATCH 0/7] tests/qtest: add some tests for virtio-net failover
+ (part 2)
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <20220203141537.972317-1-lvivier@redhat.com>
+ <b389e735-1802-890c-bb9e-7b5a84aa9095@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220214124356.872985-5-jean-philippe@linaro.org>
+In-Reply-To: <b389e735-1802-890c-bb9e-7b5a84aa9095@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -101,40 +101,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, mst@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com,
- pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/02/2022 13.43, Jean-Philippe Brucker wrote:
-> The bypass config field should be initialized to 1 by default.
-> 
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->   tests/qtest/virtio-iommu-test.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/tests/qtest/virtio-iommu-test.c b/tests/qtest/virtio-iommu-test.c
-> index 47e68388a0..068e7a9e6c 100644
-> --- a/tests/qtest/virtio-iommu-test.c
-> +++ b/tests/qtest/virtio-iommu-test.c
-> @@ -31,11 +31,13 @@ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
->       uint64_t input_range_end = qvirtio_config_readq(dev, 16);
->       uint32_t domain_range_start = qvirtio_config_readl(dev, 24);
->       uint32_t domain_range_end = qvirtio_config_readl(dev, 28);
-> +    uint8_t bypass = qvirtio_config_readb(dev, 36);
->   
->       g_assert_cmpint(input_range_start, ==, 0);
->       g_assert_cmphex(input_range_end, ==, UINT64_MAX);
->       g_assert_cmpint(domain_range_start, ==, 0);
->       g_assert_cmpint(domain_range_end, ==, UINT32_MAX);
-> +    g_assert_cmpint(bypass, ==, 1);
->   }
->   
->   static int read_tail_status(struct virtio_iommu_req_tail *buffer)
+On 15/02/2022 10.20, Laurent Vivier wrote:
+> Ping ?
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+Sorry for the delay, queued to my testing-next branch now:
+
+  https://gitlab.com/thuth/qemu/-/commits/testing-next
+
+  Thomas
+
+> On 03/02/2022 15:15, Laurent Vivier wrote:
+>> This series adds more qtest test cases to test virtio-net failover feature.
+>>
+>> New tests are focused on the behavior when the feature is not available.
+>>
+>> Laurent Vivier (7):
+>>    tests/qtest: failover: clean up pathname of tests
+>>    tests/qtest: failover: use a macro for check_one_card()
+>>    tests/qtest: failover: check the feature is correctly provided
+>>    tests/qtest: failover: check missing guest feature
+>>    tests/qtest: failover: check migration with failover off
+>>    tests/qtest: failover: test migration if the guest doesn't support
+>>      failover
+>>    tests/qtest: failover: migration abort test with failover off
+>>
+>>   tests/qtest/virtio-net-failover.c | 911 +++++++++++++++++++++++-------
+>>   1 file changed, 716 insertions(+), 195 deletions(-)
+>>
+> 
 
 
