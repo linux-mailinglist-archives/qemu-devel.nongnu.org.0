@@ -2,66 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F158F4BDCF2
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 18:43:13 +0100 (CET)
-Received: from localhost ([::1]:56884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB5A4BDE1F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 18:46:44 +0100 (CET)
+Received: from localhost ([::1]:60020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMCiP-0007VN-2r
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 12:43:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51350)
+	id 1nMCln-0001I8-6K
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 12:46:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nMCV4-0008Ny-P1
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 12:29:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51330)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nMCUz-00005j-JW
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 12:29:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645464556;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ImtiBC428P+YNahHgp+Ds6qw1HVV6KtD6d5QKJ/8+T0=;
- b=g4HS2SzzrIs4FlJsNuxRxWA+8PdF0fmARqVbny6PnjZx6Yos3gHmWdNICQXb933u18Uhmv
- 8g/Khd6y1nRRcOvIh/7/+Szp+AzUBjGi72X3FUgEiwVpKdahr1AmvqvnyI5Iy/2lpDw1ah
- ze306xxTiZq6PxyuHyF6gEP7K764NwE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-404-PPB-vlDTPy6MpjwXSoJv7A-1; Mon, 21 Feb 2022 12:29:13 -0500
-X-MC-Unique: PPB-vlDTPy6MpjwXSoJv7A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79785801B0D;
- Mon, 21 Feb 2022 17:29:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BA0C384D02;
- Mon, 21 Feb 2022 17:29:11 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2] iotests: Write test output to TEST_DIR
-Date: Mon, 21 Feb 2022 18:29:09 +0100
-Message-Id: <20220221172909.762858-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nMCV9-0000Ev-8C; Mon, 21 Feb 2022 12:29:31 -0500
+Received: from [187.72.171.209] (port=18349 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nMCV6-00007P-RY; Mon, 21 Feb 2022 12:29:30 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 21 Feb 2022 14:29:21 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 35AEA80009B;
+ Mon, 21 Feb 2022 14:29:21 -0300 (-03)
+Message-ID: <caa88b25-9609-2f46-10cb-318f05ca3a4e@eldorado.org.br>
+Date: Mon, 21 Feb 2022 14:29:20 -0300
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH 3/3] tests/tcg/ppc64le: Use vector types instead of
+ __int128
+Content-Language: en-US
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20220208203145.3844662-1-matheus.ferst@eldorado.org.br>
+ <20220208203145.3844662-4-matheus.ferst@eldorado.org.br>
+ <1646dc52-cab4-baa6-aac3-9c16b4f9d7d9@kaod.org>
+ <178c1bc8-49c8-2c03-8890-34c85d1b83f7@eldorado.org.br>
+In-Reply-To: <178c1bc8-49c8-2c03-8890-34c85d1b83f7@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 21 Feb 2022 17:29:21.0790 (UTC)
+ FILETIME=[903439E0:01D82748]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,186 +64,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: danielhb413@gmail.com, alex.bennee@linaro.org, groug@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop the use of OUTPUT_DIR (test/qemu-iotests under the build
-directory), and instead write test output files (.out.bad, .notrun, and
-.casenotrun) to TEST_DIR.
-
-With this, the same test can be run concurrently without the separate
-instances interfering, because they will need separate TEST_DIRs anyway.
-Running the same test separately is useful when running the iotests with
-various format/protocol combinations in parallel, or when you just want
-to aggressively exercise a single test (e.g. when it fails only
-sporadically).
-
-Putting this output into TEST_DIR means that it will stick around for
-inspection after the test run is done (though running the same test in
-the same TEST_DIR will overwrite it, just as it used to be); but given
-that TEST_DIR is a scratch directory, it should be clear that users can
-delete all of its content at any point.  (And if TEST_DIR is on tmpfs,
-it will just disappear on shutdown.)  Contrarily, alternative approaches
-that would put these output files into OUTPUT_DIR with some prefix to
-differentiate between separate test runs might easily lead to cluttering
-OUTPUT_DIR.
-
-(This change means OUTPUT_DIR is no longer written to by the iotests, so
-we can drop its usage altogether.)
-
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
-v1: https://lists.nongnu.org/archive/html/qemu-block/2022-02/msg00675.html
-
-v2:
-- Delete .casenotrun before running a test: Writes to this file only
-  append data, so if we do not delete it before a test run, it may still
-  contain stale data from a previous run
-- While at it, we might as well delete .notrun, because before this
-  patch, all of .out.bad, .notrun, and .casenotrun are deleted.  (Really
-  no need to delete .out.bad, though, given it is immediately
-  overwritten after where we delete .notrun and .casenotrun.)
----
- tests/qemu-iotests/common.rc     |  6 +++---
- tests/qemu-iotests/iotests.py    |  5 ++---
- tests/qemu-iotests/testenv.py    |  5 +----
- tests/qemu-iotests/testrunner.py | 15 +++++++++------
- 4 files changed, 15 insertions(+), 16 deletions(-)
-
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 9885030b43..5bde2415dc 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -726,7 +726,7 @@ _img_info()
- #
- _notrun()
- {
--    echo "$*" >"$OUTPUT_DIR/$seq.notrun"
-+    echo "$*" >"$TEST_DIR/$seq.notrun"
-     echo "$seq not run: $*"
-     status=0
-     exit
-@@ -738,14 +738,14 @@ _notrun()
- #
- _casenotrun()
- {
--    echo "    [case not run] $*" >>"$OUTPUT_DIR/$seq.casenotrun"
-+    echo "    [case not run] $*" >>"$TEST_DIR/$seq.casenotrun"
- }
- 
- # just plain bail out
- #
- _fail()
- {
--    echo "$*" | tee -a "$OUTPUT_DIR/$seq.full"
-+    echo "$*" | tee -a "$TEST_DIR/$seq.full"
-     echo "(see $seq.full for details)"
-     status=1
-     exit 1
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 6ba65eb1ff..1d157d1325 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -84,7 +84,6 @@
- 
- imgfmt = os.environ.get('IMGFMT', 'raw')
- imgproto = os.environ.get('IMGPROTO', 'file')
--output_dir = os.environ.get('OUTPUT_DIR', '.')
- 
- try:
-     test_dir = os.environ['TEST_DIR']
-@@ -1209,7 +1208,7 @@ def notrun(reason):
-     # Each test in qemu-iotests has a number ("seq")
-     seq = os.path.basename(sys.argv[0])
- 
--    with open('%s/%s.notrun' % (output_dir, seq), 'w', encoding='utf-8') \
-+    with open('%s/%s.notrun' % (test_dir, seq), 'w', encoding='utf-8') \
-             as outfile:
-         outfile.write(reason + '\n')
-     logger.warning("%s not run: %s", seq, reason)
-@@ -1224,7 +1223,7 @@ def case_notrun(reason):
-     # Each test in qemu-iotests has a number ("seq")
-     seq = os.path.basename(sys.argv[0])
- 
--    with open('%s/%s.casenotrun' % (output_dir, seq), 'a', encoding='utf-8') \
-+    with open('%s/%s.casenotrun' % (test_dir, seq), 'a', encoding='utf-8') \
-             as outfile:
-         outfile.write('    [case not run] ' + reason + '\n')
- 
-diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-index 0f32897fe8..b11e943c8a 100644
---- a/tests/qemu-iotests/testenv.py
-+++ b/tests/qemu-iotests/testenv.py
-@@ -66,7 +66,7 @@ class TestEnv(ContextManager['TestEnv']):
-     # pylint: disable=too-many-instance-attributes
- 
-     env_variables = ['PYTHONPATH', 'TEST_DIR', 'SOCK_DIR', 'SAMPLE_IMG_DIR',
--                     'OUTPUT_DIR', 'PYTHON', 'QEMU_PROG', 'QEMU_IMG_PROG',
-+                     'PYTHON', 'QEMU_PROG', 'QEMU_IMG_PROG',
-                      'QEMU_IO_PROG', 'QEMU_NBD_PROG', 'QSD_PROG',
-                      'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
-                      'QEMU_IO_OPTIONS', 'QEMU_IO_OPTIONS_NO_FMT',
-@@ -106,7 +106,6 @@ def init_directories(self) -> None:
-              TEST_DIR
-              SOCK_DIR
-              SAMPLE_IMG_DIR
--             OUTPUT_DIR
-         """
- 
-         # Path where qemu goodies live in this source tree.
-@@ -134,8 +133,6 @@ def init_directories(self) -> None:
-                                         os.path.join(self.source_iotests,
-                                                      'sample_images'))
- 
--        self.output_dir = os.getcwd()  # OUTPUT_DIR
--
-     def init_binaries(self) -> None:
-         """Init binary path variables:
-              PYTHON (for bash tests)
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 0eace147b8..262b13004d 100644
---- a/tests/qemu-iotests/testrunner.py
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -259,9 +259,6 @@ def do_run_test(self, test: str, mp: bool) -> TestResult:
-         """
- 
-         f_test = Path(test)
--        f_bad = Path(f_test.name + '.out.bad')
--        f_notrun = Path(f_test.name + '.notrun')
--        f_casenotrun = Path(f_test.name + '.casenotrun')
-         f_reference = Path(self.find_reference(test))
- 
-         if not f_test.exists():
-@@ -276,9 +273,6 @@ def do_run_test(self, test: str, mp: bool) -> TestResult:
-                               description='No qualified output '
-                                           f'(expected {f_reference})')
- 
--        for p in (f_bad, f_notrun, f_casenotrun):
--            silent_unlink(p)
--
-         args = [str(f_test.resolve())]
-         env = self.env.prepare_subprocess(args)
-         if mp:
-@@ -288,6 +282,15 @@ def do_run_test(self, test: str, mp: bool) -> TestResult:
-                 env[d] = os.path.join(env[d], f_test.name)
-                 Path(env[d]).mkdir(parents=True, exist_ok=True)
- 
-+        test_dir = env['TEST_DIR']
-+        f_bad = Path(os.path.join(test_dir, f_test.name + '.out.bad'))
-+        f_notrun = Path(os.path.join(test_dir, f_test.name + '.notrun'))
-+        f_casenotrun = Path(os.path.join(test_dir,
-+                                         f_test.name + '.casenotrun'))
-+
-+        for p in (f_notrun, f_casenotrun):
-+            silent_unlink(p)
-+
-         t0 = time.time()
-         with f_bad.open('w', encoding="utf-8") as f:
-             with subprocess.Popen(args, cwd=str(f_test.parent), env=env,
--- 
-2.34.1
-
+T24gMTcvMDIvMjAyMiAwOTo0NiwgTWF0aGV1cyBLLiBGZXJzdCB3cm90ZToNCj4gT24gMTcv
+MDIvMjAyMiAwNTowOSwgQ8OpZHJpYyBMZSBHb2F0ZXIgd3JvdGU6DQo+PiBPbiAyLzgvMjIg
+MjE6MzEsIG1hdGhldXMuZmVyc3RAZWxkb3JhZG8ub3JnLmJyIHdyb3RlOg0KPj4+IEZyb206
+IE1hdGhldXMgRmVyc3QgPG1hdGhldXMuZmVyc3RAZWxkb3JhZG8ub3JnLmJyPg0KPj4+DQo+
+Pj4gTExWTS9DbGFuZyBkb2Vzbid0IGxpa2UgaW5saW5lIGFzbSB3aXRoIF9faW50MTI4LCB1
+c2UgYSB2ZWN0b3IgdHlwZQ0KPj4+IGluc3RlYWQuDQo+Pj4NCj4+PiBTaWduZWQtb2ZmLWJ5
+OiBNYXRoZXVzIEZlcnN0IDxtYXRoZXVzLmZlcnN0QGVsZG9yYWRvLm9yZy5icj4NCj4+PiAt
+LS0NCj4+PiBBbHRlcm5hdGl2ZWx5LCB3ZSBjb3VsZCBwYXNzIFZTUiB2YWx1ZXMgaW4gR1BS
+IHBhaXJzLCBhcyB3ZSBkaWQgaW4NCj4+PiB0ZXN0cy90Y2cvcHBjNjRsZS9ub25fc2lnbmFs
+bGluZ194c2N2LmMNCj4+PiAtLS0NCj4+PiDCoCB0ZXN0cy90Y2cvcHBjNjRsZS9iY2RzdWIu
+YyB8IDkyICsrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tDQo+Pj4gwqAg
+MSBmaWxlIGNoYW5nZWQsIDUyIGluc2VydGlvbnMoKyksIDQwIGRlbGV0aW9ucygtKQ0KPj4+
+DQo+Pj4gZGlmZiAtLWdpdCBhL3Rlc3RzL3RjZy9wcGM2NGxlL2JjZHN1Yi5jIGIvdGVzdHMv
+dGNnL3BwYzY0bGUvYmNkc3ViLmMNCj4+PiBpbmRleCA4YzE4OGNhZTZkLi4xNzQwM2RhZjIy
+IDEwMDY0NA0KPj4+IC0tLSBhL3Rlc3RzL3RjZy9wcGM2NGxlL2JjZHN1Yi5jDQo+Pj4gKysr
+IGIvdGVzdHMvdGNnL3BwYzY0bGUvYmNkc3ViLmMNCj4+PiBAQCAtMSw2ICsxLDcgQEANCj4+
+PiDCoCAjaW5jbHVkZSA8YXNzZXJ0Lmg+DQo+Pj4gwqAgI2luY2x1ZGUgPHVuaXN0ZC5oPg0K
+Pj4+IMKgICNpbmNsdWRlIDxzaWduYWwuaD4NCj4+PiArI2luY2x1ZGUgPGFsdGl2ZWMuaD4N
+Cj4+Pg0KPj4+IMKgICNkZWZpbmUgQ1JGX0xUwqAgKDEgPDwgMykNCj4+PiDCoCAjZGVmaW5l
+IENSRl9HVMKgICgxIDw8IDIpDQo+Pj4gQEAgLTgsNiArOSwxNiBAQA0KPj4+IMKgICNkZWZp
+bmUgQ1JGX1NPwqAgKDEgPDwgMCkNCj4+PiDCoCAjZGVmaW5lIFVOREVGwqDCoCAwDQo+Pj4N
+Cj4+PiArI2lmZGVmIF9fTElUVExFX0VORElBTl9fDQo+Pg0KPj4gU2hvdWxkbid0IHdlIGJl
+IHVzaW5nIDoNCj4+DQo+PiAjaWYgQllURV9PUkRFUiA9PSBMSVRUTEVfRU5ESUFODQo+Pg0K
+Pj4gaW5zdGVhZCA/DQo+Pg0KPiANCj4gSSBndWVzcyBpdCBpcyBiZXR0ZXIsIEknbGwgc2Vu
+ZCBhIHYyLg0KPiANCg0KQWN0dWFsbHksIGl0IGRvZXNuJ3Qgd29yayBmb3IgTExWTSBhbmQg
+bmVlZHMgZW5kaWFuLmggZm9yIEdDQ1sxXS4gVGhpcyANCmNoZWNrIGlzIGFsc28gdXNlZCBp
+biBzaWdidXMgYW5kIHNoYTEgdGVzdHMuIFRoZSBmaXJzdCBzaG91bGRuJ3QgYmUgYSANCnBy
+b2JsZW0gKGFsbG93X2ZhaWwgaXMgemVybyBmb3IgcHBjKSwgYnV0IHNoYTEgZ2l2ZXMgdGhl
+IHdyb25nIHJlc3VsdCANCmZvciBCRToNCg0KJCAuL3FlbXUtcHBjNjRsZSB0ZXN0cy90Y2cv
+cHBjNjRsZS1saW51eC11c2VyL3NoYTENClNIQTE9MTVkZDk5YTE5OTFlMGIzODI2ZmVkZTNk
+ZWZmYzFmZWJhNDIyNzhlNg0KJCAuL3FlbXUtcHBjNjQgdGVzdHMvdGNnL3BwYzY0LWxpbnV4
+LXVzZXIvc2hhMQ0KU0hBMT03MGYxZDRkNjVlYjQ3MzA5ZmZhY2M1YTI4ZmYyODVhZDgyNjAw
+NmRhDQoNCmFuZCAnbWFrZSBjaGVjay10Y2cnIHN1Y2NlZWRzIGFueXdheS4uLg0KDQpbMV0g
+aHR0cHM6Ly9nb2Rib2x0Lm9yZy96L2ZZYnpiYmV4bg0KLS0gDQpNYXRoZXVzIEsuIEZlcnN0
+DQpJbnN0aXR1dG8gZGUgUGVzcXVpc2FzIEVMRE9SQURPIDxodHRwOi8vd3d3LmVsZG9yYWRv
+Lm9yZy5ici8+DQpBbmFsaXN0YSBkZSBTb2Z0d2FyZQ0KQXZpc28gTGVnYWwgLSBEaXNjbGFp
+bWVyIDxodHRwczovL3d3dy5lbGRvcmFkby5vcmcuYnIvZGlzY2xhaW1lci5odG1sPg0K
 
