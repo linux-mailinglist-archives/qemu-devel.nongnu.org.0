@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E8D4BDA1C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 15:14:37 +0100 (CET)
-Received: from localhost ([::1]:55612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5282D4BDA1F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 15:15:55 +0100 (CET)
+Received: from localhost ([::1]:57616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM9SV-0002DP-NS
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 09:14:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50868)
+	id 1nM9Tm-0003Xr-EA
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 09:15:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM9M5-0002jk-Kz
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 09:07:57 -0500
-Received: from [2a00:1450:4864:20::42b] (port=43894
- helo=mail-wr1-x42b.google.com)
+ id 1nM9PL-0007pM-ET
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 09:11:19 -0500
+Received: from [2607:f8b0:4864:20::b31] (port=36594
+ helo=mail-yb1-xb31.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM9M2-0007AX-Vs
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 09:07:57 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id s1so867940wrg.10
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 06:07:54 -0800 (PST)
+ id 1nM9PJ-0008Cm-BO
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 09:11:18 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id c6so34651139ybk.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 06:11:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lkWx7QGGS8WiDESf3HzDhqm0HFpYN0QbjJr4eJ5EUck=;
- b=MA+iHguQp6cxeUPl//YOmWMzt0KxwHN8hYOJlUrPiqGGfdfB5/YDsu2UPElvri19C/
- SodtW2Es+gQrDKmWR5up+mN7lY2rBxeb24qKh7YC+g+8alZ6+bF7jzFPtPzd8TfIszWC
- M8WtZ7V45C1wrtNv3n6ibg/Urcq6wQBXYny6Nm5EdELac1jtjG0SSXWMCyw91hpcBrT+
- Tqt8vpl0YqSodqMLgacelOX2j7etLniTyPz+sO4aCySVePEq5LvOMzmSWD0pkFFQC32o
- y4n27sD3+/qRlBkKSolJzTFyi8+tWZwvZr4VpQK9QtqKbaGkmW39QDKhCo7WCner+eZ4
- bJpA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=90k/twpJkUrg5duEJC6x7ObyR8Yo4HZt/6kgTXPFAhA=;
+ b=qyd69Rwww7c+4MpFbwmg+q9MrDBs5U6ga6dWo333mipl/ECOTaKkZh5Cg+ftnnFUX0
+ w4/uKdmnLm957DYq1XvTljJ3iwsqZ+XIjXLOhNZtDQmq0QR1oSqD3E2FE+TXkp+1Al3v
+ ZIWdUpe3z1eTfXMTK9Wuh1ohShhwSO17Ibv0gKpo8+zMa0alr9+bLf7W+U3U7CjKJok/
+ 7xTP7BWA7UWZMfbrzAMrIhqCeA1RpScD3+kqEnyr3Tz0e5Ma1YORX/gx9c6T3uUjH+OL
+ SSJFWnvMkzNHCQzfPHtncVqiCX29qQg83EaKeVFdm88sIAC6uDF64pweY/UCy1YtHNN1
+ bygw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lkWx7QGGS8WiDESf3HzDhqm0HFpYN0QbjJr4eJ5EUck=;
- b=ZwiUZKO4B7Vhbu4pibTT8QTRKpjbgBmZ/3/QW1Zly6GKJHs7iKg6mMe7ubqw7BmUog
- ZPRWgbNhP5pn044HOUIQw8QUc7KD0Z2xfETMc5CKMFcfitQdOg2QUDA8jlWagivkj66f
- rvTeLwNdhwcFVmtvB1+9Gi3YH3J51L6v20y8ojHHo808Rjz9oQlCs8K9SXoW90L4OIkE
- 12JY68N/AJBQjJa8VUF0/7S7yn0j61qiUyKISbIRk0OmvBt41gougfln+7cjVGU5bhOY
- SJzYAJoJeYXknhg0oShaYWO+hlOfYP81jWOoaVLkTQRkUQ3qBGWapoyyR0pdMMRjdFwk
- ZuYQ==
-X-Gm-Message-State: AOAM530HT78Sn1be1O+X36ACgVYBAhByF2wAAFrTu1/eV006DKtsLL4j
- xkpgXvQ1geUc/koZlS7jqWv+PQ==
-X-Google-Smtp-Source: ABdhPJxzu+n9BY+sqAMyjY9D+uYDZf81o0DKihDZTRbeKdhaN8WGwE2wEoNzagoz1ruBtnvazB4DcQ==
-X-Received: by 2002:a05:6000:23b:b0:1e4:a4d1:a9f3 with SMTP id
- l27-20020a056000023b00b001e4a4d1a9f3mr16143296wrz.278.1645452473046; 
- Mon, 21 Feb 2022 06:07:53 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id x10sm14024253wre.110.2022.02.21.06.07.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Feb 2022 06:07:52 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] hw/input/tsc210x: Don't abort on bad SPI word widths
-Date: Mon, 21 Feb 2022 14:07:50 +0000
-Message-Id: <20220221140750.514557-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=90k/twpJkUrg5duEJC6x7ObyR8Yo4HZt/6kgTXPFAhA=;
+ b=gYYS/N2Praaq2Y/PZ7IF0CoVrp0F6Vva7QP/aZYo+cFO0NQTD4C1POvNJjVUCHP0/E
+ k2hRqNyRnMKu3j0QEl3PH6xVoOEJMcafr4ibXyM7Dbi4SjPJz6sg9xQZS79Lnms7YH9P
+ 749xXjbfcQYyRwp1BiA7gwTEMtiH67OotmMpzQifi11GQfskqkurp/biix0A0gOKbZoo
+ pRHz9qu6rs7cY555MLouKRQYNB1qdUkBPT3oia6QhkuZUk+bGNx9t7m+p+cVbAn4jk4i
+ VToWyuthdLPCYTF2ZqV3+Lc7wIdOuRZ1HOzG/yuUlKu0ix5CNX1SFxvoogbiU3dMkoGC
+ 3fng==
+X-Gm-Message-State: AOAM532um/6kA/xdH31nHJ6ilNFJ5h+YTiqGTXjXY0PfM61F67lKyjGm
+ wpneauc5saL/uVZiwhlk7g3heMc5oMVmmhPdHrrfAQ==
+X-Google-Smtp-Source: ABdhPJywEFsOQGzZ8QxFm1gK/vex4QZbjn5cNP4Il9d96y6ziGYXu2iIFNs6yhae1yuKK2dWtEOUa4spWXiKE1Tenks=
+X-Received: by 2002:a25:dc87:0:b0:624:4104:a331 with SMTP id
+ y129-20020a25dc87000000b006244104a331mr15766709ybe.67.1645452676291; Mon, 21
+ Feb 2022 06:11:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+References: <20220221122717.1371010-1-pizhenwei@bytedance.com>
+ <20220221122717.1371010-2-pizhenwei@bytedance.com>
+ <89be0672-87e4-b0dc-5b36-0ab05f100e8a@gmail.com>
+In-Reply-To: <89be0672-87e4-b0dc-5b36-0ab05f100e8a@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Feb 2022 14:11:05 +0000
+Message-ID: <CAFEAcA_kZkX7w+wxxYRbFxfXzaL7gc+Q0=ySEwE8Bg14=iVybA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/misc/pvpanic: Use standard headers instead
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b31
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,68 +86,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
+ zhenwei pi <pizhenwei@bytedance.com>, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tsc210x doesn't support anything other than 16-bit reads on the
-SPI bus, but the guest can program the SPI controller to attempt
-them anyway. If this happens, don't abort QEMU, just log this as
-a guest error.
+On Mon, 21 Feb 2022 at 13:55, Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
+>
+> On 21/2/22 13:27, zhenwei pi wrote:
+> > QEMU side has already imported pvpanic.h from linux, remove bit
+> > definitions from include/hw/misc/pvpanic.h, and use
+> > include/standard-headers/linux/pvpanic.h instead.
+> > Also minor changes for PVPANIC_CRASHLOADED -> PVPANIC_CRASH_LOADED.
+>
+> It seems to fail to build, missing PVPANIC_CRASH_LOADED. On which
+> tree is this patch based?
 
-This fixes our machine_arm_n8x0.py:N8x0Machine.test_n800
-acceptance test, which hits this assertion.
+That's in patch 1/2.
 
-The reason we hit the assertion is because the guest kernel thinks
-there is a TSC2005 on this SPI bus address, not a TSC210x.  (The n810
-*does* have a TSC2005 at this address.) The TSC2005 supports the
-24-bit accesses which the guest driver makes, and the TSC210x does
-not (that is, our TSC210x emulation is not missing support for a word
-width the hardware can handle).  It's not clear whether the problem
-here is that the guest kernel incorrectly thinks the n800 has the
-same device at this SPI bus address as the n810, or that QEMU's n810
-board model doesn't get the SPI devices right.  At this late date
-there no longer appears to be any reliable information on the web
-about the hardware behaviour, but I am inclined to think this is a
-guest kernel bug.  In any case, we prefer not to abort QEMU for
-guest-triggerable conditions, so logging the error is the right thing
-to do.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/736
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/input/tsc210x.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/hw/input/tsc210x.c b/hw/input/tsc210x.c
-index 182d3725fc9..e0362d71719 100644
---- a/hw/input/tsc210x.c
-+++ b/hw/input/tsc210x.c
-@@ -23,6 +23,7 @@
- #include "hw/hw.h"
- #include "audio/audio.h"
- #include "qemu/timer.h"
-+#include "qemu/log.h"
- #include "sysemu/reset.h"
- #include "ui/console.h"
- #include "hw/arm/omap.h"            /* For I2SCodec */
-@@ -909,8 +910,11 @@ uint32_t tsc210x_txrx(void *opaque, uint32_t value, int len)
-     TSC210xState *s = opaque;
-     uint32_t ret = 0;
- 
--    if (len != 16)
--        hw_error("%s: FIXME: bad SPI word width %i\n", __func__, len);
-+    if (len != 16) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: bad SPI word width %i\n", __func__, len);
-+        return 0;
-+    }
- 
-     /* TODO: sequential reads etc - how do we make sure the host doesn't
-      * unintentionally read out a conversion result from a register while
--- 
-2.25.1
-
+-- PMM
 
