@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBEC4BD887
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:32:27 +0100 (CET)
-Received: from localhost ([::1]:43154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2AFE4BD897
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:38:43 +0100 (CET)
+Received: from localhost ([::1]:51606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM53S-0002KX-9Z
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:32:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43762)
+	id 1nM59W-0008GE-OL
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:38:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM4zJ-0007wH-Vx
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:10 -0500
-Received: from [2a00:1450:4864:20::42f] (port=42602
- helo=mail-wr1-x42f.google.com)
+ id 1nM4zJ-0007wG-Uy
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:09 -0500
+Received: from [2a00:1450:4864:20::334] (port=53769
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM4zF-0000zF-Mm
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:08 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id h6so25878117wrb.9
+ id 1nM4zG-0000zJ-SN
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:09 -0500
+Received: by mail-wm1-x334.google.com with SMTP id n8so9111554wms.3
  for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:28:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9tYZc8SFpVJlI6L3nF+15B/SWWzQNfcdLSbyoMOVDso=;
- b=mlAgnFp8t+DnGhGkXIcO1N2ZK7XylHlnJLYVtGO6rJUTixnj3f7n1GAnkNnqykTlTn
- IRAxn7ZkgUXikAYg1MzT8Za6y1BS6vflTJAP0+LZPLirFPultTUVpVRt9yggqvMErA5h
- 14QwWPRKVTaaEm1qjU3zWn0tYLsF8KXqu+CT8Slra0a5vVmKsRR7jBLf/1o1v4Blgc0h
- 1I4lxdq24wI/q7tHazi6+Zd5H5YnpQteclHTI/4u+BkKtMeKhYeYBfYBtKY4Croje/5w
- 0q4PZpHgGzOtAxRsr3eqpwOOOKxN8oV6Ie3EJDB+DnuGZQUS79itdQVBNgUTL60lCm/D
- 4DIg==
+ bh=TBtemdBkPo64I0n22RSwP5PjcdlU1O1SUJPKco0jPDg=;
+ b=mq2RP9QDsyV20XWZ3VldAxUqmxJg4IWFTmVrR1/q9VtwFNwXYHCKjQvwBsL7PHycZ9
+ xKhlufx09DtnEy1vi3GmXL12waUr1ACr/VBu0lMNKOu80kOK8aNah98EYIx768KyWUY6
+ zGjvPDUoCyrZ1qz3WNosbV7FoJqfUs3a0U9wTE/BF7G/ls57ePFq5aa//djpKdAXt3pC
+ 5mwibDIIh7tvLzxEBJX4kyStLmBJGtB4asr2iO5aMTBIRkgEaGdnj0EQ+CREb7uV1T1u
+ tmKhtuuskVrWdydos3zL2qgCB7DEo+e6d4JPhWWAFxJkbhYgt37thsEwYiL4F0Ltzb0J
+ rwGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9tYZc8SFpVJlI6L3nF+15B/SWWzQNfcdLSbyoMOVDso=;
- b=Pu2VLPefaqV8dNeNjmnn4Ioa2WLHu9Q4nk4w3npDy6s6Lg9KL5C564mRJKfxXEIdFc
- 5lAPJLFAKSFCr+eMjPsBnd0ukDBNQi7VEMyKd/aFISnyjWz3UsmXiDFoKBoMihgEei6c
- oFCe/e/EKrLMSeliM9enlXoCxPt82b6OUcshLxUHj/U5i//bBka2t5SDXSAm5Nh/uvX6
- p3y4TlIyYs1sdOKI4/bDRI1JdsfdZnRMYGUtNavVnvlyIFzqE9Yfxl5tNclL74po/ts4
- MUpcJH4AoMzYDcODHQ9/cKcx/PDac1Mvu1nDJH5/KkYHYM51EDTzxaMG9Fd/K+lt0V/f
- 6XBw==
-X-Gm-Message-State: AOAM531Z6mCdFaNIcA8IeD/Y8igJI4Yjp+beGOctGCgFOQ2OTKd+gs33
- CP/O2PdoNQjzL1ZdRvUOEQEG39pHMxFSog==
-X-Google-Smtp-Source: ABdhPJxo6DcsJq0Yal71WsvV1bDFvNfLd35OBfuTbZdv476EAR5C0II8DmW4j1UjTu38NfN0Ihjb/w==
-X-Received: by 2002:adf:e28f:0:b0:1e7:cf02:2d28 with SMTP id
- v15-20020adfe28f000000b001e7cf022d28mr15526468wri.232.1645435684276; 
- Mon, 21 Feb 2022 01:28:04 -0800 (PST)
+ bh=TBtemdBkPo64I0n22RSwP5PjcdlU1O1SUJPKco0jPDg=;
+ b=UWEOFrJJryU38+JZm/y4eP1BxKVp9Sa/at2V6pZhEFfKf48pYyg1gA7Bj6ePl5Xa3l
+ 9M6AJNpxMsD8hxd+vTPkFFWjruH/l4EacKy2/JNJbamzJtNc6PpeiF2XhpzY1mn7ZuhE
+ KJ87uQONEZR0tmLk4aIYZz6MCeEpdEYeMYo2Wtjd5fsO3lD84e9FV43YES+CTX75IbZ/
+ ABY0CczlNnSA1vM+E2zVu7AiPMTD+u7qeFswVMdmPcmsI9scB3WPrw3nyGc7JEFkeEis
+ zcW09rUC2uznRvn45RlO1TlDL3xlUbMdt9zdpAIsIWaM1XnwsPV5dsXB12sE01W7upEu
+ Vwsg==
+X-Gm-Message-State: AOAM532FJl7ilMvdRXyAnocVksPgTD570PwCK8sIRpCC8H1G74S28HsR
+ BizkbN+zgSLAI1tF0ukVg+DUev9xI4uXkA==
+X-Google-Smtp-Source: ABdhPJxitTK1yrmjtH0S/yOhoaeXFOxOyDDeF8pyHP+l46TGn4lbh0ERkAhgM1Iq5lgCFOPitYk7qw==
+X-Received: by 2002:a05:600c:a4b:b0:37b:ea2b:5583 with SMTP id
+ c11-20020a05600c0a4b00b0037bea2b5583mr20889659wmq.139.1645435685088; 
+ Mon, 21 Feb 2022 01:28:05 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id q76sm7555778wme.1.2022.02.21.01.28.03
+ by smtp.gmail.com with ESMTPSA id q76sm7555778wme.1.2022.02.21.01.28.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Feb 2022 01:28:03 -0800 (PST)
+ Mon, 21 Feb 2022 01:28:04 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/26] tests/qtest: add qtests for npcm7xx sdhci
-Date: Mon, 21 Feb 2022 09:27:36 +0000
-Message-Id: <20220221092800.404870-3-peter.maydell@linaro.org>
+Subject: [PULL 03/26] hvf: arm: Use macros for sysreg shift/masking
+Date: Mon, 21 Feb 2022 09:27:37 +0000
+Message-Id: <20220221092800.404870-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220221092800.404870-1-peter.maydell@linaro.org>
 References: <20220221092800.404870-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,254 +92,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shengtan Mao <stmao@google.com>
+From: Alexander Graf <agraf@csgraf.de>
 
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Chris Rauer <crauer@google.com>
-Signed-off-by: Shengtan Mao <stmao@google.com>
-Signed-off-by: Patrick Venture <venture@google.com>
-Message-id: 20220208181843.4003568-1-venture@google.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+We are parsing the syndrome field for sysregs in multiple places across
+the hvf code, but repeat shift/mask operations with hard coded constants
+every time. This is an error prone approach and makes it harder to reason
+about the correctness of these operations.
+
+Let's introduce macros that allow us to unify the constants used as well
+as create new helpers to extract fields from the sysreg value.
+
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Alexander Graf <agraf@csgraf.de>
+Reviewed-by: Cameron Esfahani <dirty@apple.com <mailto:dirty@apple.com>>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20220209124135.69183-1-agraf@csgraf.de
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qtest/npcm7xx_sdhci-test.c | 215 +++++++++++++++++++++++++++++++
- tests/qtest/meson.build          |   1 +
- 2 files changed, 216 insertions(+)
- create mode 100644 tests/qtest/npcm7xx_sdhci-test.c
+ target/arm/hvf/hvf.c | 69 ++++++++++++++++++++++++++++++--------------
+ 1 file changed, 47 insertions(+), 22 deletions(-)
 
-diff --git a/tests/qtest/npcm7xx_sdhci-test.c b/tests/qtest/npcm7xx_sdhci-test.c
-new file mode 100644
-index 00000000000..7de28f900bf
---- /dev/null
-+++ b/tests/qtest/npcm7xx_sdhci-test.c
-@@ -0,0 +1,215 @@
-+/*
-+ * QTests for NPCM7xx SD-3.0 / MMC-4.51 Host Controller
-+ *
-+ * Copyright (c) 2022 Google LLC
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
+diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+index 0dc96560d34..808c96da8cc 100644
+--- a/target/arm/hvf/hvf.c
++++ b/target/arm/hvf/hvf.c
+@@ -35,9 +35,34 @@
+         ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP, crn, crm, op0, op1, op2)
+ #define PL1_WRITE_MASK 0x4
+ 
++#define SYSREG_OP0_SHIFT      20
++#define SYSREG_OP0_MASK       0x3
++#define SYSREG_OP0(sysreg)    ((sysreg >> SYSREG_OP0_SHIFT) & SYSREG_OP0_MASK)
++#define SYSREG_OP1_SHIFT      14
++#define SYSREG_OP1_MASK       0x7
++#define SYSREG_OP1(sysreg)    ((sysreg >> SYSREG_OP1_SHIFT) & SYSREG_OP1_MASK)
++#define SYSREG_CRN_SHIFT      10
++#define SYSREG_CRN_MASK       0xf
++#define SYSREG_CRN(sysreg)    ((sysreg >> SYSREG_CRN_SHIFT) & SYSREG_CRN_MASK)
++#define SYSREG_CRM_SHIFT      1
++#define SYSREG_CRM_MASK       0xf
++#define SYSREG_CRM(sysreg)    ((sysreg >> SYSREG_CRM_SHIFT) & SYSREG_CRM_MASK)
++#define SYSREG_OP2_SHIFT      17
++#define SYSREG_OP2_MASK       0x7
++#define SYSREG_OP2(sysreg)    ((sysreg >> SYSREG_OP2_SHIFT) & SYSREG_OP2_MASK)
 +
-+#include "qemu/osdep.h"
-+#include "hw/sd/npcm7xx_sdhci.h"
-+
-+#include "libqos/libqtest.h"
-+#include "libqtest-single.h"
-+#include "libqos/sdhci-cmd.h"
-+
-+#define NPCM7XX_REG_SIZE 0x100
-+#define NPCM7XX_MMC_BA 0xF0842000
-+#define NPCM7XX_BLK_SIZE 512
-+#define NPCM7XX_TEST_IMAGE_SIZE (1 << 30)
-+
-+char *sd_path;
-+
-+static QTestState *setup_sd_card(void)
-+{
-+    QTestState *qts = qtest_initf(
-+        "-machine kudo-bmc "
-+        "-device sd-card,drive=drive0 "
-+        "-drive id=drive0,if=none,file=%s,format=raw,auto-read-only=off",
-+        sd_path);
-+
-+    qtest_writew(qts, NPCM7XX_MMC_BA + SDHC_SWRST, SDHC_RESET_ALL);
-+    qtest_writew(qts, NPCM7XX_MMC_BA + SDHC_CLKCON,
-+                 SDHC_CLOCK_SDCLK_EN | SDHC_CLOCK_INT_STABLE |
-+                     SDHC_CLOCK_INT_EN);
-+    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_APP_CMD);
-+    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0x41200000, 0, (41 << 8));
-+    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_ALL_SEND_CID);
-+    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_SEND_RELATIVE_ADDR);
-+    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0x45670000, 0,
-+                   SDHC_SELECT_DESELECT_CARD);
-+
-+    return qts;
-+}
-+
-+static void write_sdread(QTestState *qts, const char *msg)
-+{
-+    int fd, ret;
-+    size_t len = strlen(msg);
-+    char *rmsg = g_malloc(len);
-+
-+    /* write message to sd */
-+    fd = open(sd_path, O_WRONLY);
-+    g_assert(fd >= 0);
-+    ret = write(fd, msg, len);
-+    close(fd);
-+    g_assert(ret == len);
-+
-+    /* read message using sdhci */
-+    ret = sdhci_read_cmd(qts, NPCM7XX_MMC_BA, rmsg, len);
-+    g_assert(ret == len);
-+    g_assert(!strcmp(rmsg, msg));
-+
-+    g_free(rmsg);
-+}
-+
-+/* Check MMC can read values from sd */
-+static void test_read_sd(void)
-+{
-+    QTestState *qts = setup_sd_card();
-+
-+    write_sdread(qts, "hello world");
-+    write_sdread(qts, "goodbye");
-+
-+    qtest_quit(qts);
-+}
-+
-+static void sdwrite_read(QTestState *qts, const char *msg)
-+{
-+    int fd, ret;
-+    size_t len = strlen(msg);
-+    char *rmsg = g_malloc(len);
-+
-+    /* write message using sdhci */
-+    sdhci_write_cmd(qts, NPCM7XX_MMC_BA, msg, len, NPCM7XX_BLK_SIZE);
-+
-+    /* read message from sd */
-+    fd = open(sd_path, O_RDONLY);
-+    g_assert(fd >= 0);
-+    ret = read(fd, rmsg, len);
-+    close(fd);
-+    g_assert(ret == len);
-+
-+    g_assert(!strcmp(rmsg, msg));
-+
-+    g_free(rmsg);
-+}
-+
-+/* Check MMC can write values to sd */
-+static void test_write_sd(void)
-+{
-+    QTestState *qts = setup_sd_card();
-+
-+    sdwrite_read(qts, "hello world");
-+    sdwrite_read(qts, "goodbye");
-+
-+    qtest_quit(qts);
-+}
-+
-+/* Check SDHCI has correct default values. */
-+static void test_reset(void)
-+{
-+    QTestState *qts = qtest_init("-machine kudo-bmc");
-+    uint64_t addr = NPCM7XX_MMC_BA;
-+    uint64_t end_addr = addr + NPCM7XX_REG_SIZE;
-+    uint16_t prstvals_resets[] = {NPCM7XX_PRSTVALS_0_RESET,
-+                                  NPCM7XX_PRSTVALS_1_RESET,
-+                                  0,
-+                                  NPCM7XX_PRSTVALS_3_RESET,
-+                                  0,
-+                                  0};
-+    int i;
-+    uint32_t mask;
-+
-+    while (addr < end_addr) {
-+        switch (addr - NPCM7XX_MMC_BA) {
-+        case SDHC_PRNSTS:
-+            /*
-+             * ignores bits 20 to 24: they are changed when reading registers
-+             */
-+            mask = 0x1f00000;
-+            g_assert_cmphex(qtest_readl(qts, addr) | mask, ==,
-+                            NPCM7XX_PRSNTS_RESET | mask);
-+            addr += 4;
-+            break;
-+        case SDHC_BLKGAP:
-+            g_assert_cmphex(qtest_readb(qts, addr), ==, NPCM7XX_BLKGAP_RESET);
-+            addr += 1;
-+            break;
-+        case SDHC_CAPAB:
-+            g_assert_cmphex(qtest_readq(qts, addr), ==, NPCM7XX_CAPAB_RESET);
-+            addr += 8;
-+            break;
-+        case SDHC_MAXCURR:
-+            g_assert_cmphex(qtest_readq(qts, addr), ==, NPCM7XX_MAXCURR_RESET);
-+            addr += 8;
-+            break;
-+        case SDHC_HCVER:
-+            g_assert_cmphex(qtest_readw(qts, addr), ==, NPCM7XX_HCVER_RESET);
-+            addr += 2;
-+            break;
-+        case NPCM7XX_PRSTVALS:
-+            for (i = 0; i < NPCM7XX_PRSTVALS_SIZE; ++i) {
-+                g_assert_cmphex(qtest_readw(qts, addr + 2 * i), ==,
-+                                prstvals_resets[i]);
-+            }
-+            addr += NPCM7XX_PRSTVALS_SIZE * 2;
-+            break;
-+        default:
-+            g_assert_cmphex(qtest_readb(qts, addr), ==, 0);
-+            addr += 1;
-+        }
-+    }
-+
-+    qtest_quit(qts);
-+}
-+
-+static void drive_destroy(void)
-+{
-+    unlink(sd_path);
-+    g_free(sd_path);
-+}
-+
-+static void drive_create(void)
-+{
-+    int fd, ret;
-+    GError *error = NULL;
-+
-+    /* Create a temporary raw image */
-+    fd = g_file_open_tmp("sdhci_XXXXXX", &sd_path, &error);
-+    if (fd == -1) {
-+        fprintf(stderr, "unable to create sdhci file: %s\n", error->message);
-+        g_error_free(error);
-+    }
-+    g_assert(sd_path != NULL);
-+
-+    ret = ftruncate(fd, NPCM7XX_TEST_IMAGE_SIZE);
-+    g_assert_cmpint(ret, ==, 0);
-+    g_message("%s", sd_path);
-+    close(fd);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    int ret;
-+
-+    drive_create();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("npcm7xx_sdhci/reset", test_reset);
-+    qtest_add_func("npcm7xx_sdhci/write_sd", test_write_sd);
-+    qtest_add_func("npcm7xx_sdhci/read_sd", test_read_sd);
-+
-+    ret = g_test_run();
-+    drive_destroy();
-+    return ret;
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index f33d84d19bc..721eafad125 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -190,6 +190,7 @@ qtests_npcm7xx = \
-    'npcm7xx_gpio-test',
-    'npcm7xx_pwm-test',
-    'npcm7xx_rng-test',
-+   'npcm7xx_sdhci-test',
-    'npcm7xx_smbus-test',
-    'npcm7xx_timer-test',
-    'npcm7xx_watchdog_timer-test'] + \
+ #define SYSREG(op0, op1, crn, crm, op2) \
+-    ((op0 << 20) | (op2 << 17) | (op1 << 14) | (crn << 10) | (crm << 1))
+-#define SYSREG_MASK           SYSREG(0x3, 0x7, 0xf, 0xf, 0x7)
++    ((op0 << SYSREG_OP0_SHIFT) | \
++     (op1 << SYSREG_OP1_SHIFT) | \
++     (crn << SYSREG_CRN_SHIFT) | \
++     (crm << SYSREG_CRM_SHIFT) | \
++     (op2 << SYSREG_OP2_SHIFT))
++#define SYSREG_MASK \
++    SYSREG(SYSREG_OP0_MASK, \
++           SYSREG_OP1_MASK, \
++           SYSREG_CRN_MASK, \
++           SYSREG_CRM_MASK, \
++           SYSREG_OP2_MASK)
+ #define SYSREG_OSLAR_EL1      SYSREG(2, 0, 1, 0, 4)
+ #define SYSREG_OSLSR_EL1      SYSREG(2, 0, 1, 1, 4)
+ #define SYSREG_OSDLR_EL1      SYSREG(2, 0, 1, 3, 4)
+@@ -783,21 +808,21 @@ static int hvf_sysreg_read(CPUState *cpu, uint32_t reg, uint32_t rt)
+     default:
+         cpu_synchronize_state(cpu);
+         trace_hvf_unhandled_sysreg_read(env->pc, reg,
+-                                        (reg >> 20) & 0x3,
+-                                        (reg >> 14) & 0x7,
+-                                        (reg >> 10) & 0xf,
+-                                        (reg >> 1) & 0xf,
+-                                        (reg >> 17) & 0x7);
++                                        SYSREG_OP0(reg),
++                                        SYSREG_OP1(reg),
++                                        SYSREG_CRN(reg),
++                                        SYSREG_CRM(reg),
++                                        SYSREG_OP2(reg));
+         hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
+         return 1;
+     }
+ 
+     trace_hvf_sysreg_read(reg,
+-                          (reg >> 20) & 0x3,
+-                          (reg >> 14) & 0x7,
+-                          (reg >> 10) & 0xf,
+-                          (reg >> 1) & 0xf,
+-                          (reg >> 17) & 0x7,
++                          SYSREG_OP0(reg),
++                          SYSREG_OP1(reg),
++                          SYSREG_CRN(reg),
++                          SYSREG_CRM(reg),
++                          SYSREG_OP2(reg),
+                           val);
+     hvf_set_reg(cpu, rt, val);
+ 
+@@ -886,11 +911,11 @@ static int hvf_sysreg_write(CPUState *cpu, uint32_t reg, uint64_t val)
+     CPUARMState *env = &arm_cpu->env;
+ 
+     trace_hvf_sysreg_write(reg,
+-                           (reg >> 20) & 0x3,
+-                           (reg >> 14) & 0x7,
+-                           (reg >> 10) & 0xf,
+-                           (reg >> 1) & 0xf,
+-                           (reg >> 17) & 0x7,
++                           SYSREG_OP0(reg),
++                           SYSREG_OP1(reg),
++                           SYSREG_CRN(reg),
++                           SYSREG_CRM(reg),
++                           SYSREG_OP2(reg),
+                            val);
+ 
+     switch (reg) {
+@@ -960,11 +985,11 @@ static int hvf_sysreg_write(CPUState *cpu, uint32_t reg, uint64_t val)
+     default:
+         cpu_synchronize_state(cpu);
+         trace_hvf_unhandled_sysreg_write(env->pc, reg,
+-                                         (reg >> 20) & 0x3,
+-                                         (reg >> 14) & 0x7,
+-                                         (reg >> 10) & 0xf,
+-                                         (reg >> 1) & 0xf,
+-                                         (reg >> 17) & 0x7);
++                                         SYSREG_OP0(reg),
++                                         SYSREG_OP1(reg),
++                                         SYSREG_CRN(reg),
++                                         SYSREG_CRM(reg),
++                                         SYSREG_OP2(reg));
+         hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
+         return 1;
+     }
 -- 
 2.25.1
 
