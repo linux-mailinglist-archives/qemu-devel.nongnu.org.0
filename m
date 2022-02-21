@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358944BDA9B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 16:43:30 +0100 (CET)
-Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0304BDAA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 16:46:47 +0100 (CET)
+Received: from localhost ([::1]:53988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMAqX-0002m4-AN
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 10:43:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49608)
+	id 1nMAth-0005zz-13
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 10:46:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMAlC-0003dK-TI
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 10:38:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46723)
+ id 1nMAq3-0002gE-5R
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 10:42:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMAlB-0007S9-2C
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 10:37:58 -0500
+ id 1nMApz-0008PH-W7
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 10:42:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645457876;
+ s=mimecast20190719; t=1645458174;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=EO4p5UxfJEVUnsqgCiNpv/XfUPtfNwMB+y4qm4PzTd0=;
- b=PPXw3uY/F6xmgcEPENbiaK6Q2YdIY0vNmyZoyPsF+b3TZr5Iep8f9FUfLEtbZXAcWmhmdJ
- XrnScXcu1hPcIq3yVa+D0OHl+TOF93kOYr1jsHCfC7LUv51tO5I/DTtZUiAvgRd2GAumus
- 0dd6qnQjhRRmiuqmJd2jBPsCdiibjhI=
+ bh=nTfbv0VnxTfeydp3wqf9SqfmjKhVx5dvgv/BBVTm7JY=;
+ b=PKkq+5Jme5gqIIU9JJBQ0sQG0go323o52hGXYNKXkZpKKoBhOlq3ixoywZvxYrVG87SCZ4
+ 6UCQd4rdJMpQFRYcthNlQ4w3HAB1aGQI0K6k5GW222FXhcDw5Tp5MIQXNHzNx8R+n1FlOU
+ qf0bPBE3KP1Ijh1ecULpl9fozV9BvrA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-22-ZSAOJXiRM1ihDjGGjoqeZA-1; Mon, 21 Feb 2022 10:37:54 -0500
-X-MC-Unique: ZSAOJXiRM1ihDjGGjoqeZA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-668-9RDUGb7nMAKN1lwWRtCYgA-1; Mon, 21 Feb 2022 10:42:51 -0500
+X-MC-Unique: 9RDUGb7nMAKN1lwWRtCYgA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CE7B814243;
- Mon, 21 Feb 2022 15:37:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E257A100C661;
+ Mon, 21 Feb 2022 15:42:49 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08416108F844;
- Mon, 21 Feb 2022 15:37:26 +0000 (UTC)
-Date: Mon, 21 Feb 2022 15:37:25 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B3B772FA7;
+ Mon, 21 Feb 2022 15:42:36 +0000 (UTC)
+Date: Mon, 21 Feb 2022 15:42:34 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v6 07/19] vfio-user: define vfio-user-server object
-Message-ID: <YhOxteVSJd3GpqkK@stefanha-x1.localdomain>
+Subject: Re: [PATCH v6 08/19] vfio-user: instantiate vfio-user context
+Message-ID: <YhOy6l1mJf1HwwIG@stefanha-x1.localdomain>
 References: <cover.1645079934.git.jag.raman@oracle.com>
- <309a6afc6f47d7e812a6f18ce591dff092efbb06.1645079934.git.jag.raman@oracle.com>
+ <f299f4ceb5b3c49ee95176a7206bc1e63e190bc1.1645079934.git.jag.raman@oracle.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6VMLOrkecyPWe+p6"
+ protocol="application/pgp-signature"; boundary="TP/cXTAEvd58S8LQ"
 Content-Disposition: inline
-In-Reply-To: <309a6afc6f47d7e812a6f18ce591dff092efbb06.1645079934.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <f299f4ceb5b3c49ee95176a7206bc1e63e190bc1.1645079934.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -86,40 +86,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---6VMLOrkecyPWe+p6
+--TP/cXTAEvd58S8LQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 17, 2022 at 02:48:54AM -0500, Jagannathan Raman wrote:
-> +struct VfuObjectClass {
-> +    ObjectClass parent_class;
-> +
-> +    unsigned int nr_devs;
-> +
-> +    /*
-> +     * Can be set to shutdown automatically when all server object
-> +     * instances are destroyed
-> +     */
-> +    bool auto_shutdown;
+On Thu, Feb 17, 2022 at 02:48:55AM -0500, Jagannathan Raman wrote:
+> @@ -124,6 +190,11 @@ static void vfu_object_init(Object *obj)
+> =20
+>      k->nr_devs++;
+> =20
+> +    if (!phase_check(PHASE_MACHINE_READY)) {
+> +        o->machine_done.notify =3D vfu_object_machine_done;
+> +        qemu_add_machine_init_done_notifier(&o->machine_done);
 
-This field is introduced but it is hardcoded to true. Is there a way to
-set it to false?
+This probably has to happen after the next if statement since
+qemu_add_machine_init_done_notifier() can immediately call ->notify()
+and we'd try to initialize on a non-remote machine type.
 
---6VMLOrkecyPWe+p6
+--TP/cXTAEvd58S8LQ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmITsbUACgkQnKSrs4Gr
-c8ivowf7BlQrPh4q2r8yi0iNgoHW8cqg1Sk6scNY5PpqiU2VID/yxdlKPd4POp1I
-U7D7Vjrcs2TP9ngPAdcQQ/xZ2CFIrJYCTJToyMVLWbb3kZmBkYXoIvcI+FvRE8Tt
-12C2QdP6kTp7kKc9J4zvsJ3yyTBsy0p99gCjjKhy1fsMtoZNhdCKhvA395MQgw8D
-vK47ftX17kADcwJRSHnUR6pQv3orC1TZMZUMRXs0aJPaKr+5m8hATxhr7n0MHFiU
-QQKmO6MiY8+oBxQ0GUwSihg/y6MUZbTHptbfvSPnzzevR5nZkOjhxdbV2LABBLdG
-1uL/F+Iome/dsa7A1KHWrG8XlJGAtQ==
-=ChtN
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmITsuoACgkQnKSrs4Gr
+c8jFAAgAhWfx3N4mC0JJNQmSP3isPnPGfiPd9hI+PoH9rm1gxZkNe+vGwEdifGjQ
+4p6O494Hyb7EWiKCpinANSFsFvOLQdjME72q0RbM9ec5TyXPYi/0Qk+PnYmBD6H4
+gxEROq8jhnDlkYWQ78m4+4F89lPaxAZAiBhvXxcEy69zMRTdEZAPfA/l6Wh7FSOg
+7XpL4Pz6ZR5Bp4ejSDstZnbBHwZazs52VEgXTeI250JCIAmr8oZFjje22OeX8zFJ
+NGiUKuAPAzEf37j13fApT6j3oh5x6O1W+3maK0u01Sqtp+O1tFuPE+Gr1OObbDNW
+FlXIyjvPMOmUjhDsqQ4tHiFFpAZpqA==
+=6GJb
 -----END PGP SIGNATURE-----
 
---6VMLOrkecyPWe+p6--
+--TP/cXTAEvd58S8LQ--
 
 
