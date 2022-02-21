@@ -2,98 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4721B4BE2C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 18:55:57 +0100 (CET)
-Received: from localhost ([::1]:45732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8399A4BE9C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 19:08:15 +0100 (CET)
+Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMCui-0002ts-E3
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 12:55:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57908)
+	id 1nMD6c-0005ht-5L
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 13:08:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nMCtB-00029H-O2
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 12:54:22 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nMCt9-0004Lu-N8
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 12:54:21 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21LFo5Bd007500; 
- Mon, 21 Feb 2022 17:54:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=NHzCyMpmKro/jSczjnl7YduIpklPrCNUNZsPtzWyarY=;
- b=KzxfTmZxY79G3D8Ms51w+9qyzVkomodVHQHKwWkXg7KMZ7uwBOZB02DOj/9QGotoQBsn
- x7GBqqH/3RhFE97Dv4PQ45zwXhCbVYrYl+RSzcVeuUDQ8EQ0GH+MZAYg6JgBYGLBIb1f
- Y7zH9BUnFj60eEAcLMDng1E18oI26KbWzTkzXWTtwhL6NXSBH7ZBDh06wQfX6GxIjCu1
- ovsrOQBZ+aAIjP+N8h+FGS0xYiD9lochmZIDpwo9Of4VXAgh7MJTfjmL+0KiPaZSmhL6
- OtbJrrF+ZDEsKg5CkTKJfUH4pj9hpUh6rLtuDqzGMaBmrqa8jrMF5Xjg06qQy/nP1kgy yA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ebn09um50-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Feb 2022 17:54:15 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21LHiHXE018008;
- Mon, 21 Feb 2022 17:54:14 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ebn09um4q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Feb 2022 17:54:14 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21LHr6gs009132;
- Mon, 21 Feb 2022 17:54:13 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma05wdc.us.ibm.com with ESMTP id 3ear69bwx9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Feb 2022 17:54:13 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21LHsC5v26804620
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 21 Feb 2022 17:54:12 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D10A2112062;
- Mon, 21 Feb 2022 17:54:12 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 662FF112063;
- Mon, 21 Feb 2022 17:54:11 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.62.223])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 21 Feb 2022 17:54:11 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] analyze-migration.py: Fix instance_id signedness
-Date: Mon, 21 Feb 2022 14:53:57 -0300
-Message-Id: <20220221175357.2103775-1-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nMD4w-00050f-0G
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 13:06:31 -0500
+Received: from [2607:f8b0:4864:20::112b] (port=35712
+ helo=mail-yw1-x112b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nMD4t-0006WA-Ne
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 13:06:29 -0500
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c0so147143007b3.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 10:06:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1u4jol2QhctaDktmPmMeqFxLQ0MQw6GhG4sSDdjgD0o=;
+ b=clrS+1P9MF08WtA358FVqzcWJW1FF/BEwJBUq8QdK14PDNUEXlT6aTSo+i358x1bVy
+ qmLnM5LFDFz/B7L2OdW26gww4+wZ91MY7RmaODkv0F2trynnU3QwJdu7PFBnoaCR6uuk
+ QR3sCkUYhdX3q+wrIOSBWC+Mr0bx+vFEDXFS20/f4+nu4muld5P93PRS1rhpO9wQY5p+
+ xF3vdMbRPw1FwZRZ55zNITMPRLxmNbLXP67PoSsVVqh5kCU61Z8y0gQG6MW0HtpLHYHh
+ JEUUBLavhQKkAU6usbIDlZLrVWbGUMI4S9XMXJevDJXF3Sy7dyTy0Wg5JHkcLeDpdCDu
+ RTOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1u4jol2QhctaDktmPmMeqFxLQ0MQw6GhG4sSDdjgD0o=;
+ b=wNc9dLFyJywlYo6u8wXCmGtP6N27yOMR/eem5dfeSpiccM1WmD/zs2j+vP8tcmdUph
+ 2pw88hJih2h+YjA3NWCAJwspMhe/zNSpC5fktr7zQP8NDWE7O9LtkD6Mff8GSQPEAoJW
+ Liz5gR3unLQp4nMFwQUid/maP9D+KB94OsQaYL/yzX5c+NSKz7GYcB0EtXEx9dCXfrov
+ 9BJEvoeRhNpfXDm/F7PKvI6a55n4cugBZ3z+KPgn617t/DFhUsQnrBNMoP/LpL6R1eku
+ zheq6LmI0rxq//psXLbDHEdyXysJhvvnjcG5UjfDK1s+XdJCJMyBPHSf8JR03dCBnKk+
+ fgfA==
+X-Gm-Message-State: AOAM533mrwZIu/Y5sKlC2h4EqsZx9EDngdWQLZXUkSxcTW2vjMdkg4e/
+ qWCNbtwwRgZghiW4pkKSss3QOpo8oV4qS5mCAJMLWQ==
+X-Google-Smtp-Source: ABdhPJyd5aFDUu6jWxAUA1v69gNkdCKKKiHDVTM/L+xpx6foihWMDXczEpw/TKOg/svSoYQXYLD/DEB9a7Md6Se0f3I=
+X-Received: by 2002:a81:1006:0:b0:2d6:e14a:ca72 with SMTP id
+ 6-20020a811006000000b002d6e14aca72mr12909624ywq.455.1645466786048; Mon, 21
+ Feb 2022 10:06:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 91UkqsSj6v4doq37GeeVLC9fiSP220e-
-X-Proofpoint-GUID: 1Bq8T_OVwWkoXE2qqzlI2puUnMmIe0-1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-21_08,2022-02-21_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0
- bulkscore=0 clxscore=1011 priorityscore=1501 spamscore=0 adultscore=0
- lowpriorityscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202210103
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20210924140142.31398-1-peter.maydell@linaro.org>
+ <87v92pksln.fsf@dusky.pond.sub.org>
+In-Reply-To: <87v92pksln.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 21 Feb 2022 18:06:15 +0000
+Message-ID: <CAFEAcA-zXMxzBeEPpKYNGy+SSMgkhbLC-aTuYgSXQn7D=WJa2A@mail.gmail.com>
+Subject: Re: [PATCH 0/2] qapi: Move RTC_CHANGE back out of target schema
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,51 +83,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, crosa@redhat.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The instance_id field is uint32_t in the migration code, however the
-script currently handles it as a signed integer:
+On Sat, 25 Sept 2021 at 08:44, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > This patchset moves RTC_CHANGE back to misc.json, effectively
+> > reverting commit 183e4281a30962, which moved the RTC_CHANGE event to
+> > the target schema.  That change was an attempt to make the event
+> > target-specific to improve introspection, but the event isn't really
+> > target-specific: it's machine or device specific.  Putting RTC_CHANGE
+> > in the target schema with an ifdef list reduces maintainability (by
+> > adding an if: list with a long list of targets that needs to be
+> > manually updated as architectures are added or removed or as new
+> > devices gain the RTC_CHANGE functionality) and increases compile time
+> > (by preventing RTC devices which emit the event from being "compile
+> > once" rather than "compile once per target", because
+> > qapi-events-misc-target.h uses TARGET_* ifdefs, which are poisoned in
+> > "compile once" files.)
+> >
+> > Patch 2 fixes a minor documentation issue that I noticed while
+> > I was doing this -- we didn't document that the units used in
+> > the RTC_CHANGE event are seconds.
+>
+> Series
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-$ ./scripts/analyze-migration.py -f mig
- Traceback (most recent call last):
-   File "./scripts/analyze-migration.py", line 605, in <module>
-     dump.read(dump_memory = args.memory)
-   File "./scripts/analyze-migration.py", line 539, in read
-     classdesc = self.section_classes[section_key]
- KeyError: ('spapr_iommu', -2147483648)
+I realized that this patchset never got applied -- I think I was
+expecting it to be picked up via a QAPI related tree, and then
+it was a bit close to a release to be put in, or something.
+Anyway, I'm going to resend it in a moment.
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
- scripts/analyze-migration.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> An additional patch documenting that not all RTCs implement RTC_CHANGE
+> would be nice.  Listing them would be even nicer.
 
-diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
-index b82a1b0c58..713f645eea 100755
---- a/scripts/analyze-migration.py
-+++ b/scripts/analyze-migration.py
-@@ -40,8 +40,8 @@ def __init__(self, filename):
-     def read64(self):
-         return int.from_bytes(self.file.read(8), byteorder='big', signed=True)
- 
--    def read32(self):
--        return int.from_bytes(self.file.read(4), byteorder='big', signed=True)
-+    def read32(self, signed=True):
-+        return int.from_bytes(self.file.read(4), byteorder='big', signed=signed)
- 
-     def read16(self):
-         return int.from_bytes(self.file.read(2), byteorder='big', signed=True)
-@@ -533,7 +533,7 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
-             elif section_type == self.QEMU_VM_SECTION_START or section_type == self.QEMU_VM_SECTION_FULL:
-                 section_id = file.read32()
-                 name = file.readstr()
--                instance_id = file.read32()
-+                instance_id = file.read32(signed=False)
-                 version_id = file.read32()
-                 section_key = (name, instance_id)
-                 classdesc = self.section_classes[section_key]
--- 
-2.34.1
+I disagree that listing them would be nice -- the whole point of
+the series is to avoid having lists that get out of date when we
+add a new RTC implementation or fix the missing-feature in an
+existing one. I can add a sentence to the patch 2 docs change:
+"Note that it is not guaranteed that the RTC in a system implements
+this event, or even that the system has an RTC at all."
 
+> An additional patch adding @qom-path event argument would be nice.
+
+I don't understand what this would involve, so I'll leave it to you
+if you want it.
+
+thanks
+-- PMM
 
