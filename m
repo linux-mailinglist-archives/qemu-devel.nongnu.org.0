@@ -2,93 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F4F4BD9C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 14:08:25 +0100 (CET)
-Received: from localhost ([::1]:51748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A404BD9DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 14:17:05 +0100 (CET)
+Received: from localhost ([::1]:60656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM8QS-0005wj-K5
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 08:08:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55102)
+	id 1nM8Yq-0003jo-UD
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 08:17:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7ht-0005mS-SX
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:22:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22851)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nM7mJ-0002Ty-Va; Mon, 21 Feb 2022 07:26:56 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7hq-0004uU-5X
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:22:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645446136;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wznZDv6ewjz8+5i3JtQzn0raGVOmTEkXxTfBUmpBqCk=;
- b=HKGrJI6KL3W8TRW38fDwHDUhWhiob5b16WpJYTx4SuK4egu/w3oiaO6GspHiEG/k/9biD9
- 0D/I04h/b1iYSwCv1G6xReBsbTrQu1TlAZbqY2p9IqVE/zwjO74R31NldEZ1ozM9wjOEgM
- bRwVid34Hn2eCNoQwNNNiFncicwnF3I=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380-pXIR8PSpOBaYbSVHFR3vgg-1; Mon, 21 Feb 2022 07:22:14 -0500
-X-MC-Unique: pXIR8PSpOBaYbSVHFR3vgg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v17-20020adfc5d1000000b001e6405c2b56so7385553wrg.7
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 04:22:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wznZDv6ewjz8+5i3JtQzn0raGVOmTEkXxTfBUmpBqCk=;
- b=W93+7pGm4peMySHrpsTXiCRqjJb49EWz1sEfSl9EgJzGm+6c1Q9B7IAX1tw2UUr23B
- tcxBZubUYUKQBrwmvsaxXbELKdOFcbQHUFSSN57KsVMY/9z6lNpjWs4K5lgB0Wlvw0cw
- 5IwA/048+a862zme7dZFo8fHuMmbRN8OWlDB9pDrnny+13GDrSkVnONzGyq4axEZIw53
- B+Acg/D9+h2F/ZPzZFIz4mhjgt5G0DJEk54T7aAdCIJSSr0bRYE6eGWQhzyqw2fMO95/
- NNfCOMqYVMRvA7cGOc1LqXD46VX+TxywdJua3nOq9juv6VL5l7YWUKxhYWw7CHRCWHJR
- zmIA==
-X-Gm-Message-State: AOAM531pS4Ur8Ie18PdY955Mx+8R6rRPdozB92MGNgDPJCob297dDBOe
- hTP9q3gZLhE2Df69kIVkjbEgjuSG6EzP+hUUW5aSNaBk+Et88rXDaWfXN/CpybUdnfiP8A4xOg5
- 2agqBudTUkn6Z/IE=
-X-Received: by 2002:adf:dccc:0:b0:1e4:a588:4cb9 with SMTP id
- x12-20020adfdccc000000b001e4a5884cb9mr15528232wrm.461.1645446133687; 
- Mon, 21 Feb 2022 04:22:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw4wZpg7ZY7GPr2I+ejqu+AesdHDm1EkJe5d8UaFGIV/6JwbBRx2uPoAf0qksOxJP1wTvCW0w==
-X-Received: by 2002:adf:dccc:0:b0:1e4:a588:4cb9 with SMTP id
- x12-20020adfdccc000000b001e4a5884cb9mr15528223wrm.461.1645446133466; 
- Mon, 21 Feb 2022 04:22:13 -0800 (PST)
-Received: from [192.168.42.76] (tmo-080-215.customers.d1-online.com.
- [80.187.80.215]) by smtp.gmail.com with ESMTPSA id
- n19-20020a05600c4f9300b0037c06fe68casm7896601wmq.44.2022.02.21.04.22.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Feb 2022 04:22:12 -0800 (PST)
-Message-ID: <16022773-ad2c-23f2-f325-1f11d3423868@redhat.com>
-Date: Mon, 21 Feb 2022 13:22:11 +0100
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1nM7mF-0005ms-Df; Mon, 21 Feb 2022 07:26:53 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21LBlfWS023408; 
+ Mon, 21 Feb 2022 12:26:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=U5IOU4qbOm1Mi7v9E81brHyZYnmfljB6UUiWZ24r9/g=;
+ b=DucOlmvxTM/D9is+j5n4TWt8aTAvrg4G9ZNw+5qiqLtQi7w57KfCA1LCzDOHDIQbxp6L
+ xIN1qggPWVsJminGUZobquVKs3TPV+RJL5zvbuj5bBqO8CR37cLgHY0dFFHO5Qc6HH45
+ HroldOq0IWCV47aHu7XUtYGuB4Dvkv/0y73pgdm2B5eD5cFQ9TkB/goOglWheSW3V+r7
+ msCUcikkghAgnrH/+5PsGSw0dSqU8Id28akq/M1ASmXYG9vh/3B/bYTWo/vtKo+CaLwW
+ iuc1idsa/lcoisQbVhgiPc+VM34wAZt0MV1U4zh4QkZ6VpeL3MyVU6nPTKPFy9VVh8GQ oQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3eca668s5a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Feb 2022 12:26:39 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21LCOZTl031783;
+ Mon, 21 Feb 2022 12:26:39 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3eca668s4w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Feb 2022 12:26:39 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21LCIxlK017069;
+ Mon, 21 Feb 2022 12:26:36 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 3ear68tbf8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Feb 2022 12:26:36 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21LCQUSC29753738
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 21 Feb 2022 12:26:30 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 575BF4C040;
+ Mon, 21 Feb 2022 12:26:30 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BAD054C044;
+ Mon, 21 Feb 2022 12:26:29 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.53.190])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon, 21 Feb 2022 12:26:29 +0000 (GMT)
+Date: Mon, 21 Feb 2022 13:26:27 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/avocado/machine_s390_ccw_virtio: Adapt test to
+ new default resolution
+Message-ID: <20220221132627.78bbe5f2.pasic@linux.ibm.com>
+In-Reply-To: <20220221101933.307525-1-thuth@redhat.com>
+References: <20220221101933.307525-1-thuth@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 0/9] exec: Remove 'qemu/log.h' from 'exec-all.h'
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20220207082756.82600-1-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220207082756.82600-1-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Yp4S2RsD89YqbQpiv_M7P9Z-XnGGSW-m
+X-Proofpoint-ORIG-GUID: VeUPE13aD-hnXrjECEBGoqiJReX4BTpn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-21_06,2022-02-21_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ priorityscore=1501 mlxscore=0 malwarescore=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 spamscore=0 impostorscore=0 suspectscore=0
+ clxscore=1011 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202210072
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,37 +111,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/02/2022 09.27, Philippe Mathieu-Daudé via wrote:
-> Yet another noisy/boring refactor, but it will allow us to better
-> split exec/ includes as being target-agnostic/specific (the next
-> series).
-> 
-> Since v1:
-> - Remove unrelated "hw/s390x/virtio: missing 'cpu.h'" (thuth)
-> - Reword some commit descriptions (thuth)
-> 
-> Based-on: <20220207075426.81934-1-f4bug@amsat.org>
-> "softmmu: Make various objects target agnostic"
-> 
-> Philippe Mathieu-Daudé (9):
->    hw/tpm: Clean includes
->    hw/remote: Add missing include
->    hw/acpi/memory_hotplug: Remove unused 'hw/acpi/pc-hotplug.h' header
->    qtest: Add missing 'hw/qdev-core.h' include
->    exec/ramblock: Add missing includes
->    core/ptimers: Remove unnecessary 'sysemu/cpus.h' include
->    target: Add missing "qemu/timer.h" include
->    linux-user: Add missing "qemu/timer.h" include
->    exec/exec-all: Move 'qemu/log.h' include in units requiring it
+On Mon, 21 Feb 2022 11:19:33 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-FYI, since nobody else picked this up yet, I've added this series to my 
-qtests+misc pull request today.
+> QEMU's default screen resolution recently changed to 1280x800, so the
+> resolution in the screen shot header changed of course, too.
+> 
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes: de72c4b7cd ("edid: set default resolution to 1280x800 (WXGA)")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-  Thomas
+Looks good!
+
+Acked-by: Halil Pasic <pasic@linux.ibm.com>
+> ---
+>  tests/avocado/machine_s390_ccw_virtio.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/avocado/machine_s390_ccw_virtio.py b/tests/avocado/machine_s390_ccw_virtio.py
+> index bd03d7160b..438a6f4321 100644
+> --- a/tests/avocado/machine_s390_ccw_virtio.py
+> +++ b/tests/avocado/machine_s390_ccw_virtio.py
+> @@ -248,7 +248,7 @@ def test_s390x_fedora(self):
+>              line = ppmfile.readline()
+>              self.assertEqual(line, b"P6\n")
+>              line = ppmfile.readline()
+> -            self.assertEqual(line, b"1024 768\n")
+> +            self.assertEqual(line, b"1280 800\n")
+>              line = ppmfile.readline()
+>              self.assertEqual(line, b"255\n")
+>              line = ppmfile.readline(256)
 
 
