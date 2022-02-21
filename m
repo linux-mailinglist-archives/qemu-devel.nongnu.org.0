@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24844BD9DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 14:14:53 +0100 (CET)
-Received: from localhost ([::1]:58810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDA94BD9F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 14:37:32 +0100 (CET)
+Received: from localhost ([::1]:53752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM8Wi-0002WP-R7
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 08:14:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52278)
+	id 1nM8sd-0002KR-Fo
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 08:37:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nM7XE-0003zX-9z; Mon, 21 Feb 2022 07:11:21 -0500
-Received: from [2607:f8b0:4864:20::52e] (port=46885
- helo=mail-pg1-x52e.google.com)
+ id 1nM7Yj-0005CG-VP; Mon, 21 Feb 2022 07:12:53 -0500
+Received: from [2607:f8b0:4864:20::533] (port=37548
+ helo=mail-pg1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nM7XC-0003Ax-6s; Mon, 21 Feb 2022 07:11:20 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id s16so14098066pgs.13;
- Mon, 21 Feb 2022 04:11:17 -0800 (PST)
+ id 1nM7Yi-0003Kj-IL; Mon, 21 Feb 2022 07:12:53 -0500
+Received: by mail-pg1-x533.google.com with SMTP id 75so14120262pgb.4;
+ Mon, 21 Feb 2022 04:12:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=cUS96mvudsomXhwNWgC3EYduV0VZ7Kwwkf0TT8NGYWQ=;
- b=Pl3+slEELiOcIA2Mi5/CvlJTNa0YDhEFgBfbfo4n4SNdGFXB7jjl0w0fogjEMz0odU
- jxrUoySGUv84dBrZHzrbtnEufxYybTtYc4UKFEd/tsz8KFtn+iXTrpbATzNdtGtMZA4U
- bkj+KUqNmnQF+/MTeY79nrtDSqFhczeXSweeJEcyk1yUUPUetZ6ML+H4hwWoa7stJUFE
- 8YQOd05C/Lqi5186rhEdwt/tJWkxEsBGO4FPliP3xI800XLnfMVN/Z822NwMokkGRhQU
- 56fPma+w1rqQCzd/GS6p4e97sVXOVPq0r2c4Wfzx85VjdXPeY6wX0oO6OuxMqOhDifVM
- GA2Q==
+ bh=eStDs/QIT6YtrVtOO0bz7fDj0bXGodPs7RPThpwfNYo=;
+ b=XavBHwGTo8j0OnE4o0ASD2nD2tUcwV4cHpHtO8nldfUpdUBxaoxRtNYW53l0e/zBBO
+ cL0s2KjOMVoE4QNtUGbr3gtdHcXJ/rCtigO1dY5WT9WMZEUj5Qx54sILrA5WUMAZ0bRI
+ +yWc/KYjn10U0m0PzAkxWfPbEum0tZamtUFyjj3SiklL0WG7+XtX1ocUwOe4Q+v8fl3B
+ HzKUqJ/gQw5xHemecmQl9H+XHhFOdCwOvoqpsQnFgnj7q2ceQFusA4pv8zOOQnNw2oa4
+ mV8dFTvYHp+HZ8SPbGKTNS6gyZSXnCc21DNyKdcWv7fL2/zFNpPgZiLi6t0itQa6FsP8
+ TmQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cUS96mvudsomXhwNWgC3EYduV0VZ7Kwwkf0TT8NGYWQ=;
- b=36oVFUxvoG3CNAftbeJoE0OX65/7CQ6eGhTk9m5NPF+kKXnkP1F12+LtX5ObRrBcE7
- 9KuhUPDB/tpGXTltMJyl06nQc8c7/1HBE4FD6P3xONSyaMSNEADN/pbSq+OTBSil+XnZ
- fBPrVHb/xuDDeUbcSdIe9TEOxznJIWiprJS4I+Uc+BX5eKKvXpuzQjarFqGGpBc5FqRv
- 13ka93jlOEalMjqeGAr3CMbKpP9chIGz+M0WBpSteJAWSWiQEeeE+mJ+2Zqmy2SLs3NZ
- oWYgu9kUm2kiGShQ3GYlTn9stgkBopW+NRN7ZMAT44J2oyagLbW2cswwzDG1g0kjQ/0W
- vkfA==
-X-Gm-Message-State: AOAM531ReZ+tKsE2LfJ78rER+WhDg74u3chfcV2Gok6CczTxBg/LoR63
- QcOPd2M3OF50CH1XBkPMujQ=
-X-Google-Smtp-Source: ABdhPJwapFy/RZIvQKFqx5vnD9mFLd5+72T3U2NuCRa3UQNWrRQXbT8UkQOG1eDljbmJ8pW5sgtqeg==
-X-Received: by 2002:a05:6a00:21c7:b0:4e1:dba1:a3a6 with SMTP id
- t7-20020a056a0021c700b004e1dba1a3a6mr17935078pfj.59.1645445476477; 
- Mon, 21 Feb 2022 04:11:16 -0800 (PST)
+ bh=eStDs/QIT6YtrVtOO0bz7fDj0bXGodPs7RPThpwfNYo=;
+ b=Br8hQu/L4OGWH4sa4P8eKRcyX4vI5FeexHVdrVotE0m064tkDyfAcJ8a45eivlsDdM
+ FTxc0edwxiwIoFilFVu6c79qIY9PhVCh2H4GA9A9Wuq0FysX4aHdJC7if52vYcKgMOan
+ Yc30nKGSFN0tRrK3J6RlEj5y1IUQ2nkT6OrhyeWdg273TfHAC495R9ms1cu5JK38YvFV
+ 6WHRcr1nPAQ8IZvFKyccosPFqOUjVs3LWG7bacL0GzJuiW8BBWc0A9W5pyI1emdWaXPP
+ cCLyKuO9xUWZp7TgngWLSaqLBL04t2VKYMV/GbW7Z4ykklR6jPzvkq6vjPNpQqzhL8hD
+ 3jWQ==
+X-Gm-Message-State: AOAM53384mFk0Ff6c2phscUxBBGe/lfSnI212Dm+E1PNA4Upo2Stuwpe
+ s/FUsi4GwmAuFdQEAzGWUu+74+Z6Nb8=
+X-Google-Smtp-Source: ABdhPJw9EuvQr1+vSSTSs85F861e/QvhVuTC52EMJbwVMBYhDMUy9RePqr7mAGuc2Dfw5csY2tUUGg==
+X-Received: by 2002:a05:6a00:13aa:b0:4f1:1e5f:1c39 with SMTP id
+ t42-20020a056a0013aa00b004f11e5f1c39mr6880439pfg.24.1645445568079; 
+ Mon, 21 Feb 2022 04:12:48 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id h14sm14425338pfh.95.2022.02.21.04.11.12
+ by smtp.gmail.com with ESMTPSA id u17sm8912108pfi.99.2022.02.21.04.12.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Feb 2022 04:11:16 -0800 (PST)
-Message-ID: <98a71807-d91f-09b1-0584-42c02afa9db0@gmail.com>
-Date: Mon, 21 Feb 2022 13:11:10 +0100
+ Mon, 21 Feb 2022 04:12:47 -0800 (PST)
+Message-ID: <b3e0b93b-38db-1b29-d31d-b9998bfc26f4@gmail.com>
+Date: Mon, 21 Feb 2022 13:12:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: [PATCH] tests/avocado/machine_s390_ccw_virtio: Adapt test to new
- default resolution
+Subject: Re: [PATCH] hw/arm/mps2-tz.c: Update AN547 documentation URL
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220221101933.307525-1-thuth@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220221094144.426191-1-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220221101933.307525-1-thuth@redhat.com>
+In-Reply-To: <20220221094144.426191-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,27 +92,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Farman <farman@linux.ibm.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Jimmy Brisson <jimmy.brisson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/2/22 11:19, Thomas Huth wrote:
-> QEMU's default screen resolution recently changed to 1280x800, so the
-> resolution in the screen shot header changed of course, too.
+On 21/2/22 10:41, Peter Maydell wrote:
+> The AN547 application note URL has changed: update our comment
+> accordingly. (Rev B is still downloadable from the old URL,
+> but there is a new Rev C of the document now.)
 > 
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Fixes: de72c4b7cd ("edid: set default resolution to 1280x800 (WXGA)")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   tests/avocado/machine_s390_ccw_virtio.py | 2 +-
+>   hw/arm/mps2-tz.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
