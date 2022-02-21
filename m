@@ -2,103 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A404BD9DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 14:17:05 +0100 (CET)
-Received: from localhost ([::1]:60656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A365F4BD9F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 14:41:44 +0100 (CET)
+Received: from localhost ([::1]:59594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM8Yq-0003jo-UD
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 08:17:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55980)
+	id 1nM8wh-0006NO-Nz
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 08:41:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nM7mJ-0002Ty-Va; Mon, 21 Feb 2022 07:26:56 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59546)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nM7mF-0005ms-Df; Mon, 21 Feb 2022 07:26:53 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21LBlfWS023408; 
- Mon, 21 Feb 2022 12:26:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=U5IOU4qbOm1Mi7v9E81brHyZYnmfljB6UUiWZ24r9/g=;
- b=DucOlmvxTM/D9is+j5n4TWt8aTAvrg4G9ZNw+5qiqLtQi7w57KfCA1LCzDOHDIQbxp6L
- xIN1qggPWVsJminGUZobquVKs3TPV+RJL5zvbuj5bBqO8CR37cLgHY0dFFHO5Qc6HH45
- HroldOq0IWCV47aHu7XUtYGuB4Dvkv/0y73pgdm2B5eD5cFQ9TkB/goOglWheSW3V+r7
- msCUcikkghAgnrH/+5PsGSw0dSqU8Id28akq/M1ASmXYG9vh/3B/bYTWo/vtKo+CaLwW
- iuc1idsa/lcoisQbVhgiPc+VM34wAZt0MV1U4zh4QkZ6VpeL3MyVU6nPTKPFy9VVh8GQ oQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eca668s5a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Feb 2022 12:26:39 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21LCOZTl031783;
- Mon, 21 Feb 2022 12:26:39 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eca668s4w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Feb 2022 12:26:39 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21LCIxlK017069;
- Mon, 21 Feb 2022 12:26:36 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma04ams.nl.ibm.com with ESMTP id 3ear68tbf8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Feb 2022 12:26:36 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21LCQUSC29753738
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 21 Feb 2022 12:26:30 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 575BF4C040;
- Mon, 21 Feb 2022 12:26:30 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BAD054C044;
- Mon, 21 Feb 2022 12:26:29 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.53.190])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Mon, 21 Feb 2022 12:26:29 +0000 (GMT)
-Date: Mon, 21 Feb 2022 13:26:27 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] tests/avocado/machine_s390_ccw_virtio: Adapt test to
- new default resolution
-Message-ID: <20220221132627.78bbe5f2.pasic@linux.ibm.com>
-In-Reply-To: <20220221101933.307525-1-thuth@redhat.com>
-References: <20220221101933.307525-1-thuth@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nM7oK-00059m-6M
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:29:00 -0500
+Received: from [2607:f8b0:4864:20::435] (port=39893
+ helo=mail-pf1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nM7oF-00063E-HC
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:28:57 -0500
+Received: by mail-pf1-x435.google.com with SMTP id y11so8698255pfa.6
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 04:28:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CZZxO6gb/Im6sI82agTzQDGJVjuMb6aX7bhcvH1CHkM=;
+ b=hYuhLIhg7vPfRGCj8veUoP+9Q1X2O3mYeL5Lgpt/N2Kdm6zjX9Gr1QfWUvHlSZe6qD
+ xJwPKG9TT3dWI0dyzjDXejLMv45WjDR9MwEYamWVIUkj4eTsY3JGVIhmdxwxTfJkCM8q
+ uYXovq2tqmiI4SinChDzGsEO1/TN3e13nzFuyDdi8J1JH6F8fLeoUJFcfu749aTGN4o1
+ 2pWgmU4ExjCX8xYLk5xekknV6auMEDvhABfvDpJp9zA0TVR7X0UE3n+oeVwDficrSX4l
+ g4od0thoFIPSWu5B0mcu63aw96UA5sys7e1GHNXcVsgOv8qYJs36Lfp7wxBQYbXDWmgY
+ D2Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CZZxO6gb/Im6sI82agTzQDGJVjuMb6aX7bhcvH1CHkM=;
+ b=0u+OT1CGXsetcd2qWuUcOPObF+HtM4Y90vG8UMSwtX8I4/VSCem7CadkxUrLI0e66n
+ C8aNBIVgM7I6HNSQOH5/xAHtpWkkGEdsasW67tEWm98kLFDMi61FJveSvOP6YCOarcdK
+ XA/ROsBFzX51sDnDBTFQOkDTy4GKeALSokbIA98KbyoVlLQC2QeRwkFJu7Z2iWJSXBGN
+ daZ+ClWFst/vL08EDAo6ZB2fP1qhgRG0CSFkLDXmxuZuqyMi9N4dks8U9JWNR+Lj7lJI
+ 6WOErFPVQNFyi7iI849x57FKgAR23d2+oEKS4wy+WFvpqeNSnUbKNCmHTeiqkRUeTzAN
+ HEPA==
+X-Gm-Message-State: AOAM5308Kj+G55/DaPpv6b6HaffIKTdZ4DtCgYYChG6+JBW/mCqaOcyv
+ y2lSYkNe5gilEIHYaeFBxKvOJg==
+X-Google-Smtp-Source: ABdhPJxHsXpsVkU0fzTtf+XdGY1SWkxmPCrwqewv5rgcPCA3az3/Jje9vp8EXBI0oI3BCLc/egzpng==
+X-Received: by 2002:a05:6a00:1795:b0:4e1:6e1f:5aed with SMTP id
+ s21-20020a056a00179500b004e16e1f5aedmr19910512pfg.70.1645446533497; 
+ Mon, 21 Feb 2022 04:28:53 -0800 (PST)
+Received: from libai.bytedance.net ([61.120.150.72])
+ by smtp.gmail.com with ESMTPSA id c20sm4846609pfl.131.2022.02.21.04.28.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Feb 2022 04:28:52 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: pbonzini@redhat.com,
+	mst@redhat.com
+Subject: [PATCH 1/2] headers: Add pvpanic.h
+Date: Mon, 21 Feb 2022 20:27:16 +0800
+Message-Id: <20220221122717.1371010-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Yp4S2RsD89YqbQpiv_M7P9Z-XnGGSW-m
-X-Proofpoint-ORIG-GUID: VeUPE13aD-hnXrjECEBGoqiJReX4BTpn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-21_06,2022-02-21_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 mlxscore=0 malwarescore=0 lowpriorityscore=0
- bulkscore=0 phishscore=0 spamscore=0 impostorscore=0 suspectscore=0
- clxscore=1011 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202210072
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,46 +86,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eric Farman <farman@linux.ibm.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Feb 2022 11:19:33 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+Since 2020, linux kernel started to export pvpanic.h. Import the
+latest version from linux into QEMU.
 
-> QEMU's default screen resolution recently changed to 1280x800, so the
-> resolution in the screen shot header changed of course, too.
-> 
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Fixes: de72c4b7cd ("edid: set default resolution to 1280x800 (WXGA)")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+---
+ include/standard-headers/linux/pvpanic.h | 9 +++++++++
+ scripts/update-linux-headers.sh          | 3 ++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+ create mode 100644 include/standard-headers/linux/pvpanic.h
 
-Looks good!
-
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
-> ---
->  tests/avocado/machine_s390_ccw_virtio.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/avocado/machine_s390_ccw_virtio.py b/tests/avocado/machine_s390_ccw_virtio.py
-> index bd03d7160b..438a6f4321 100644
-> --- a/tests/avocado/machine_s390_ccw_virtio.py
-> +++ b/tests/avocado/machine_s390_ccw_virtio.py
-> @@ -248,7 +248,7 @@ def test_s390x_fedora(self):
->              line = ppmfile.readline()
->              self.assertEqual(line, b"P6\n")
->              line = ppmfile.readline()
-> -            self.assertEqual(line, b"1024 768\n")
-> +            self.assertEqual(line, b"1280 800\n")
->              line = ppmfile.readline()
->              self.assertEqual(line, b"255\n")
->              line = ppmfile.readline(256)
+diff --git a/include/standard-headers/linux/pvpanic.h b/include/standard-headers/linux/pvpanic.h
+new file mode 100644
+index 0000000000..54b7485390
+--- /dev/null
++++ b/include/standard-headers/linux/pvpanic.h
+@@ -0,0 +1,9 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++
++#ifndef __PVPANIC_H__
++#define __PVPANIC_H__
++
++#define PVPANIC_PANICKED	(1 << 0)
++#define PVPANIC_CRASH_LOADED	(1 << 1)
++
++#endif /* __PVPANIC_H__ */
+diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
+index fe850763c5..839a5ec614 100755
+--- a/scripts/update-linux-headers.sh
++++ b/scripts/update-linux-headers.sh
+@@ -214,7 +214,8 @@ for i in "$tmpdir"/include/linux/*virtio*.h \
+          "$tmpdir/include/linux/const.h" \
+          "$tmpdir/include/linux/kernel.h" \
+          "$tmpdir/include/linux/vhost_types.h" \
+-         "$tmpdir/include/linux/sysinfo.h"; do
++         "$tmpdir/include/linux/sysinfo.h" \
++         "$tmpdir/include/misc/pvpanic.h"; do
+     cp_portable "$i" "$output/include/standard-headers/linux"
+ done
+ mkdir -p "$output/include/standard-headers/drm"
+-- 
+2.25.1
 
 
