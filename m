@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A27E4BD9A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:20:30 +0100 (CET)
-Received: from localhost ([::1]:39156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08354BD9BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:55:34 +0100 (CET)
+Received: from localhost ([::1]:38100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM7g5-0001By-3N
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:20:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50454)
+	id 1nM8Dx-0003iB-4T
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:55:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7O0-0003wN-O2
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25505)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7O7-00040D-Eh
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Ny-0000sV-Lw
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:48 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7O5-0000uH-Mg
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645444905;
+ s=mimecast20190719; t=1645444911;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GClypgfm23IzHWCI6vQG4Tzss5iKBd3jNLj0NYQhd0A=;
- b=Frq07OHRHY87SUCbgTCGL2YmgzJAAFHksq5ksO2l8TTkZl7JggCc4fbCwrN83R2Ziukpua
- ow2fuCTbV8zUWuY04stXsooF3qi+SuOP4AV41joWAGgdWS4f5xBCZWt5G8ZkxHLuukm2ps
- 8X4Jgnfe3yr3syi6YjqFjbu36T01JE4=
+ bh=2zDxyUQCIYSBimr5MnShN2wZxhJ6OCFQSGm+jDm8kcg=;
+ b=bLp5JXgdCBeYo/aDoJrdtBe10VffDfF9gOmu6PU75njdXjwajcdyZVxx1WGdWxvV1qmvIJ
+ BtfLuIOhIuoHkRoN6BV20R1f/B5niNg5PGsihzzOcgaK6OMbD9vX9pT7Pbrd3sDhFZYMhz
+ boG+pGjuHF/KRWfmFaWMZF2iU79GX+s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-9BqBeQtwOfGq3o8k0m8eYw-1; Mon, 21 Feb 2022 07:01:44 -0500
-X-MC-Unique: 9BqBeQtwOfGq3o8k0m8eYw-1
+ us-mta-571-VUsHuQEFPO24RvyLz-hreA-1; Mon, 21 Feb 2022 07:01:47 -0500
+X-MC-Unique: VUsHuQEFPO24RvyLz-hreA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BED391091DA3;
- Mon, 21 Feb 2022 12:01:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F338801AC5;
+ Mon, 21 Feb 2022 12:01:46 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.195.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C354A73160;
- Mon, 21 Feb 2022 12:01:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F2B073160;
+ Mon, 21 Feb 2022 12:01:45 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/25] tests/qtest: failover: migration abort test with
- failover off
-Date: Mon, 21 Feb 2022 12:59:55 +0100
-Message-Id: <20220221120008.600114-13-thuth@redhat.com>
+Subject: [PULL 14/25] hw/tpm: Clean includes
+Date: Mon, 21 Feb 2022 12:59:57 +0100
+Message-Id: <20220221120008.600114-15-thuth@redhat.com>
 In-Reply-To: <20220221120008.600114-1-thuth@redhat.com>
 References: <20220221120008.600114-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -78,232 +77,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Test abort during active migration when failover is disabled from QEMU
-or from guest side.
+"tpm_ppi.h" only requires to include "exec/memory.h" to get
+the MemoryRegion declaration.
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20220203141537.972317-8-lvivier@redhat.com>
+tpm_ppi.c requires "hw/qdev-core.h" to use the DEVICE() macro,
+tpm_crb.c is the only source file requiring "exec/address-spaces.h".
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220207082756.82600-2-f4bug@amsat.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/virtio-net-failover.c | 180 ++++++++++++++++++++++++++++++
- 1 file changed, 180 insertions(+)
+ hw/tpm/tpm_crb.c | 1 +
+ hw/tpm/tpm_ppi.c | 4 ++--
+ hw/tpm/tpm_ppi.h | 4 ++--
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-index 54a0a03241..80292eecf6 100644
---- a/tests/qtest/virtio-net-failover.c
-+++ b/tests/qtest/virtio-net-failover.c
-@@ -1082,6 +1082,97 @@ static void test_guest_off_migrate_in(gconstpointer opaque)
-     machine_stop(qts);
+diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+index 58ebd1469c..aa9c00aad3 100644
+--- a/hw/tpm/tpm_crb.c
++++ b/hw/tpm/tpm_crb.c
+@@ -18,6 +18,7 @@
+ 
+ #include "qemu/module.h"
+ #include "qapi/error.h"
++#include "exec/address-spaces.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/pci/pci_ids.h"
+ #include "hw/acpi/tpm.h"
+diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
+index 274e9aa4b0..6dbb9f41e4 100644
+--- a/hw/tpm/tpm_ppi.c
++++ b/hw/tpm/tpm_ppi.c
+@@ -14,9 +14,9 @@
+ #include "qemu/osdep.h"
+ 
+ #include "qapi/error.h"
+-#include "cpu.h"
+ #include "sysemu/memory_mapping.h"
+ #include "migration/vmstate.h"
++#include "hw/qdev-core.h"
+ #include "hw/acpi/tpm.h"
+ #include "tpm_ppi.h"
+ #include "trace.h"
+@@ -44,7 +44,7 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
+     }
  }
  
-+static void test_migrate_guest_off_abort(gconstpointer opaque)
-+{
-+    QTestState *qts;
-+    QDict *resp, *args, *ret;
-+    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", (gchar *)opaque);
-+    const gchar *status;
-+    QVirtioPCIDevice *vdev;
-+    uint64_t features;
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-netdev user,id=hs1 ",
-+                     2);
-+
-+    check_one_card(qts, false, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "standby0",
-+                         "{'bus': 'root0',"
-+                         "'failover': 'on',"
-+                         "'netdev': 'hs0',"
-+                         "'mac': '"MAC_STANDBY0"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary0",
-+                         "{'bus': 'root1',"
-+                         "'failover_pair_id': 'standby0',"
-+                         "'netdev': 'hs1',"
-+                         "'rombar': 0,"
-+                         "'romfile': '',"
-+                         "'mac': '"MAC_PRIMARY0"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    features = ~(QVIRTIO_F_BAD_FEATURE |
-+                 (1ull << VIRTIO_RING_F_INDIRECT_DESC) |
-+                 (1ull << VIRTIO_RING_F_EVENT_IDX) |
-+                 (1ull << VIRTIO_NET_F_STANDBY));
-+
-+    vdev = start_virtio_net_internal(qts, 1, 0, &features);
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    args = qdict_from_jsonf_nofail("{}");
-+    g_assert_nonnull(args);
-+    qdict_put_str(args, "uri", uri);
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate', 'arguments': %p}", args);
-+    g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+
-+    while (true) {
-+        ret = migrate_status(qts);
-+
-+        status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "active") == 0) {
-+            qobject_unref(ret);
-+            break;
-+        }
-+        g_assert_cmpstr(status, !=, "failed");
-+        qobject_unref(ret);
-+    }
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate_cancel' }");
-+    g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+
-+    while (true) {
-+        ret = migrate_status(qts);
-+
-+        status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "cancelled") == 0) {
-+            qobject_unref(ret);
-+            break;
-+        }
-+        g_assert_cmpstr(status, !=, "failed");
-+        g_assert_cmpstr(status, !=, "active");
-+        qobject_unref(ret);
-+    }
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    qos_object_destroy((QOSGraphObject *)vdev);
-+    machine_stop(qts);
-+}
-+
- static void test_migrate_abort_wait_unplug(gconstpointer opaque)
+-void tpm_ppi_init(TPMPPI *tpmppi, struct MemoryRegion *m,
++void tpm_ppi_init(TPMPPI *tpmppi, MemoryRegion *m,
+                   hwaddr addr, Object *obj)
  {
-     QTestState *qts;
-@@ -1265,6 +1356,91 @@ static void test_migrate_abort_active(gconstpointer opaque)
-     machine_stop(qts);
- }
+     tpmppi->buf = qemu_memalign(qemu_real_host_page_size,
+diff --git a/hw/tpm/tpm_ppi.h b/hw/tpm/tpm_ppi.h
+index 6f773c25a0..bf5d4a300f 100644
+--- a/hw/tpm/tpm_ppi.h
++++ b/hw/tpm/tpm_ppi.h
+@@ -12,7 +12,7 @@
+ #ifndef TPM_TPM_PPI_H
+ #define TPM_TPM_PPI_H
  
-+static void test_migrate_off_abort(gconstpointer opaque)
-+{
-+    QTestState *qts;
-+    QDict *resp, *args, *ret;
-+    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", (gchar *)opaque);
-+    const gchar *status;
-+    QVirtioPCIDevice *vdev;
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-netdev user,id=hs1 ",
-+                     2);
-+
-+    check_one_card(qts, false, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "standby0",
-+                         "{'bus': 'root0',"
-+                         "'failover': 'off',"
-+                         "'netdev': 'hs0',"
-+                         "'mac': '"MAC_STANDBY0"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    vdev = start_virtio_net(qts, 1, 0, "standby0", false);
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, false, "primary0", MAC_PRIMARY0);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary0",
-+                         "{'bus': 'root1',"
-+                         "'failover_pair_id': 'standby0',"
-+                         "'netdev': 'hs1',"
-+                         "'rombar': 0,"
-+                         "'romfile': '',"
-+                         "'mac': '"MAC_PRIMARY0"'}");
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
-+
-+    args = qdict_from_jsonf_nofail("{}");
-+    g_assert_nonnull(args);
-+    qdict_put_str(args, "uri", uri);
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate', 'arguments': %p}", args);
-+    g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+
-+    while (true) {
-+        ret = migrate_status(qts);
-+
-+        status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "active") == 0) {
-+            qobject_unref(ret);
-+            break;
-+        }
-+        g_assert_cmpstr(status, !=, "failed");
-+        qobject_unref(ret);
-+    }
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate_cancel' }");
-+    g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+
-+    while (true) {
-+        ret = migrate_status(qts);
-+
-+        status = qdict_get_str(ret, "status");
-+        if (strcmp(status, "cancelled") == 0) {
-+            qobject_unref(ret);
-+            break;
-+        }
-+        g_assert_cmpstr(status, !=, "failed");
-+        g_assert_cmpstr(status, !=, "active");
-+        qobject_unref(ret);
-+    }
-+
-+    check_one_card(qts, true, "standby0", MAC_STANDBY0);
-+    check_one_card(qts, true, "primary0", MAC_PRIMARY0);
-+
-+    qos_object_destroy((QOSGraphObject *)vdev);
-+    machine_stop(qts);
-+}
-+
- static void test_migrate_abort_timeout(gconstpointer opaque)
- {
-     QTestState *qts;
-@@ -1669,10 +1845,14 @@ int main(int argc, char **argv)
-                         test_off_migrate_out);
-     qtest_add_data_func("failover-virtio-net/migrate/off/in", tmpfile,
-                         test_off_migrate_in);
-+    qtest_add_data_func("failover-virtio-net/migrate/off/abort", tmpfile,
-+                        test_migrate_off_abort);
-     qtest_add_data_func("failover-virtio-net/migrate/guest_off/out", tmpfile,
-                         test_guest_off_migrate_out);
-     qtest_add_data_func("failover-virtio-net/migrate/guest_off/in", tmpfile,
-                         test_guest_off_migrate_in);
-+    qtest_add_data_func("failover-virtio-net/migrate/guest_off/abort", tmpfile,
-+                        test_migrate_guest_off_abort);
-     qtest_add_data_func("failover-virtio-net/migrate/abort/wait-unplug",
-                         tmpfile, test_migrate_abort_wait_unplug);
-     qtest_add_data_func("failover-virtio-net/migrate/abort/active", tmpfile,
+-#include "exec/address-spaces.h"
++#include "exec/memory.h"
+ 
+ typedef struct TPMPPI {
+     MemoryRegion ram;
+@@ -29,7 +29,7 @@ typedef struct TPMPPI {
+  * Register the TPM PPI memory region at @addr on the given address
+  * space for the object @obj.
+  **/
+-void tpm_ppi_init(TPMPPI *tpmppi, struct MemoryRegion *m,
++void tpm_ppi_init(TPMPPI *tpmppi, MemoryRegion *m,
+                   hwaddr addr, Object *obj);
+ 
+ /**
 -- 
 2.27.0
 
