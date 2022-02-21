@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678354BD94A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 12:02:14 +0100 (CET)
-Received: from localhost ([::1]:33578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0B14BD95A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 12:16:21 +0100 (CET)
+Received: from localhost ([::1]:38044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM6SK-0005ev-Qs
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 06:02:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36612)
+	id 1nM6fz-0000o8-Kp
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 06:16:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nM6PO-0004Hf-8v
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 05:59:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45553)
+ id 1nM6bz-0007xo-Gc
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 06:12:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nM6PL-0006vt-0X
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 05:59:08 -0500
+ id 1nM6bv-0000mg-Sb
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 06:12:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645441145;
+ s=mimecast20190719; t=1645441926;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BEj3DHdsaiD9nxflcEnOTBxEwHUt9fIqWMWGT6IBg5E=;
- b=IO7rb80a46LzHdQyISM2oHdihhxfCPjOqYzm4b+aBydTGhoSZ1DH/j9AURREBYD4DC4Bxb
- 540WDkmwdBO3Gfysl39KNkANldDrBvxnsGD5as60h8MsBp2n7Nd0b4B5W6RuXfrqIaMZTt
- saxfcZQeEG7mvqYdJjFiKBNgWRfUBck=
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=T9Yv+kYSzkaMXXLe5cCWWbX9QfJoNtNAlxOI8Hjt4uo=;
+ b=NYbvoDNLzGcWyxzIhYNzhJ9gGPD1RMrNWRbA0bj9+vcfA32fFeeOltRhoj92VlgppfaroB
+ 93LR1IPAMQwcGUl1ITIEkE0RDhhmnCVjUeiBqeZXkFRgfVZIBh6qEGOal387mCXvN5GoRj
+ dTY0Z7X7BC4z23M4fYiEZgswEc5g9vQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-4zZs1wQLOMesbrDns9HQ-w-1; Mon, 21 Feb 2022 05:59:02 -0500
-X-MC-Unique: 4zZs1wQLOMesbrDns9HQ-w-1
+ us-mta-539-2dbrB4pdMSupIn7vMo4YJw-1; Mon, 21 Feb 2022 06:12:02 -0500
+X-MC-Unique: 2dbrB4pdMSupIn7vMo4YJw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 918451F2DA;
- Mon, 21 Feb 2022 10:59:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77D061091DA0;
+ Mon, 21 Feb 2022 11:12:01 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.195.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A86F17B03C;
- Mon, 21 Feb 2022 10:58:52 +0000 (UTC)
-Date: Mon, 21 Feb 2022 10:58:49 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B6707B9CF;
+ Mon, 21 Feb 2022 11:11:55 +0000 (UTC)
+Date: Mon, 21 Feb 2022 11:11:51 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] tests/avocado/machine_s390_ccw_virtio: Adapt test to new
- default resolution
-Message-ID: <YhNwaWH+DzPr4Gf2@redhat.com>
-References: <20220221101933.307525-1-thuth@redhat.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Subject: Re: [RFC 1/2] sem-posix: remove the posix semaphore support
+Message-ID: <YhNzd6bGT2ejTRLx@redhat.com>
+References: <20220221095617.1974-1-longpeng2@huawei.com>
+ <20220221095617.1974-2-longpeng2@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20220221101933.307525-1-thuth@redhat.com>
+In-Reply-To: <20220221095617.1974-2-longpeng2@huawei.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -61,7 +59,6 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -84,28 +81,74 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eric Farman <farman@linux.ibm.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: pbonzini@redhat.com, arei.gonglei@huawei.com, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 21, 2022 at 11:19:33AM +0100, Thomas Huth wrote:
-> QEMU's default screen resolution recently changed to 1280x800, so the
-> resolution in the screen shot header changed of course, too.
-> 
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Fixes: de72c4b7cd ("edid: set default resolution to 1280x800 (WXGA)")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/avocado/machine_s390_ccw_virtio.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Feb 21, 2022 at 05:56:16PM +0800, Longpeng(Mike) via wrote:
+> POSIX specifies an absolute time for sem_timedwait(), it would be
+> affected if the system time is changing, but there is not a relative
+> time or monotonic clock version of sem_timedwait, so we cannot gain
+> from POSIX semaphore anymore.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+It doesn't appear in any man pages on my systems, but there is a
+new-ish API  sem_clockwait() that accepts a choice of clock as a
+parameter.
+
+This is apparently a proposed POSIX standard API introduced in
+glibc 2.30, along with several others:
+
+https://sourceware.org/legacy-ml/libc-announce/2019/msg00001.html
+
+[quote]
+* Add new POSIX-proposed pthread_cond_clockwait, pthread_mutex_clocklock,
+  pthread_rwlock_clockrdlock, pthread_rwlock_clockwrlock and sem_clockwait
+  functions.  These behave similarly to their "timed" equivalents, but also
+  accept a clockid_t parameter to determine which clock their timeout should
+  be measured against.  All functions allow waiting against CLOCK_MONOTONIC
+  and CLOCK_REALTIME.  The decision of which clock to be used is made at the
+  time of the wait (unlike with pthread_condattr_setclock, which requires
+  the clock choice at initialization time).
+[/quote]
+
+> diff --git a/include/qemu/thread-posix.h b/include/qemu/thread-posix.h
+> index b792e6e..5466608 100644
+> --- a/include/qemu/thread-posix.h
+> +++ b/include/qemu/thread-posix.h
+> @@ -27,13 +27,9 @@ struct QemuCond {
+>  };
+>  
+>  struct QemuSemaphore {
+> -#ifndef CONFIG_SEM_TIMEDWAIT
+>      pthread_mutex_t lock;
+>      pthread_cond_t cond;
+>      unsigned int count;
+> -#else
+> -    sem_t sem;
+> -#endif
+>      bool initialized;
+>  };
+
+As a point of history, the original  code only used sem_t. The pthreads
+based fallback was introduced by Paolo in
+
+  commit c166cb72f1676855816340666c3b618beef4b976
+  Author: Paolo Bonzini <pbonzini@redhat.com>
+  Date:   Fri Nov 2 15:43:21 2012 +0100
+
+    semaphore: implement fallback counting semaphores with mutex+condvar
+    
+    OpenBSD and Darwin do not have sem_timedwait.  Implement a fallback
+    for them.
+    
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+    Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
+
+I'm going to assume this fallback impl is less efficient than the
+native sem_t impl as the reason for leaving the original impl, or
+maybe Paolo just want to risk accidental bugs by removing the
+existing usage ?
 
 
 Regards,
