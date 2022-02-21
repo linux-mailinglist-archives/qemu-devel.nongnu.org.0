@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03E54BEB94
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 21:07:18 +0100 (CET)
-Received: from localhost ([::1]:45524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96CC4BEBA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 21:12:46 +0100 (CET)
+Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMExp-0007xu-Cr
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 15:07:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38462)
+	id 1nMF37-0002II-II
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 15:12:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nMEwH-0006w9-Qd
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 15:05:41 -0500
-Received: from [2a00:1450:4864:20::32b] (port=35446
- helo=mail-wm1-x32b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nMEwF-00011z-UZ
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 15:05:41 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- l123-20020a1c2581000000b0037b9d960079so155306wml.0
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 12:05:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jKiVDjAdytrRCsOGelpBXe87wHWfDLyTZ41WUfxsQEs=;
- b=qUKXOoyailxY4ACYWlYvkUfa2Er1fI9ImRHgSmYm5DwfPBH215nwWgCq7oqEVtcPMS
- LTKKRyZDdIf/fnNl+uj+6slV6EACdiGVTeOWEofOds9036eEfF2xZ/4HPxJKa090JYC/
- HuKpgx7/5e0YGVE4nTppskNzCo0eCXL4/9Gdy7MI2TIWG7MejuARX1YO7q/X4Izsia77
- bh/3HxuAjo3CW2xPH+EJCztMrJety/Yq8J1ft2RGQ5JaJtDzCdVPDmOhUopf54YCu7Yv
- +MeUgFEwC09z/lzGcGgWaoa2SZQ/0sA5mIQcK5U88bdw8i26x0dzNdTuCVMHS6608kmm
- yD0g==
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1nMF1h-0001NA-9a
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 15:11:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31450)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1nMF1d-0001t2-2q
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 15:11:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645474272;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XcpQnC12mGMa0T6Sy35EF6aR7AjZ5NjU6XBGVlQnwro=;
+ b=S358Kt0oaHaMFB40r3hxwzBo9cxBEYjVoyA2TctLU6x43m+y+hZHLOaZmi/FeqZZvo2j6o
+ QVTlVrQNFjd1jTXZ4Zs6Z1H/72Y6Z/OhE32wzXqTOlaszcT2CB3CG61/jps6R06rsv+rhO
+ e5cImc1rMNWK5qJP8LTq9oUdbzW+nCs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-222-CG-xEBBTO3WWHf1LT0-hQg-1; Mon, 21 Feb 2022 15:11:11 -0500
+X-MC-Unique: CG-xEBBTO3WWHf1LT0-hQg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ a8-20020a7bc1c8000000b0037bc4c62e97so23985wmj.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 12:11:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jKiVDjAdytrRCsOGelpBXe87wHWfDLyTZ41WUfxsQEs=;
- b=N/KMsOd1geXBRH+9q25qT2WFRrSgbGUK1c58WbpN/UylVHEjLUeGiqF/Eorude2t4h
- bx/imhyImNxLfEro8aY4xcUwDu0i8TmyezZu82XreP/q8y2VWZN8tovlknULgAGQOMU5
- Syhjno/uNRWJwhfBLxJ0Kbh3RAlng/LkbjcAy9E3bUx262gPTx5kf5qa5A0NFnIN+uJS
- pyPV1in/TZqZ90OXRbAIGIgv5Fr/wEnVbYp/qRaGtlceZ4Icr2ZmX+ahem5rgKeKRJFq
- sZLzKIH6PckK4/UR5FWr3BQ0Cl4enPQGvLQzqvizKTuiy4fbVYVP8IyaZ4uF70Ig3HFW
- MdVA==
-X-Gm-Message-State: AOAM531jfXn9Qw2+N1RB4mzKqzsBptxpuUUmuoy+P9ZO5Dl8kZ8JB/p1
- DbQqoDuO8S4++Euyxmlwg9W/wX12EOhyvA==
-X-Google-Smtp-Source: ABdhPJzc19YrU2GKbK2boZolP+qJ5yFbvlgKlKyLbaWjT67/2JS0HdNbKJ1iNi8HLHpuSCPVmil46Q==
-X-Received: by 2002:a05:600c:2301:b0:37b:de9e:226d with SMTP id
- 1-20020a05600c230100b0037bde9e226dmr529513wmo.78.1645473937155; 
- Mon, 21 Feb 2022 12:05:37 -0800 (PST)
-Received: from ?IPV6:2a10:800a:bb8:1:6510:42ac:bb55:9590?
- ([2a10:800a:bb8:1:6510:42ac:bb55:9590])
- by smtp.gmail.com with ESMTPSA id l5sm390104wmq.7.2022.02.21.12.05.36
+ bh=XcpQnC12mGMa0T6Sy35EF6aR7AjZ5NjU6XBGVlQnwro=;
+ b=abGReAdZCSPUu4OFx+aHTl620RHmTkeGNUDYt9ikILmYPaEXVV6YF9+GL6unl8xOgC
+ VfvWJhQSdkHxhQby1M+yzIXW9+bInWdxT/0aDHdu+nDNZ/mqPkPM+pXW/hcl0Xjp6LBS
+ wNawyxS0/2BKcjxmHJo4QWqFqqX471MYHJRsmYUHaWbyanE1f6PswpxoI8eOlGzK6dhu
+ bPiw9o0QsMIvqGBmkvVcb18/U/rDg9fwhzj296cLQL9Q0FcfnQOhTOh4vVvHRVbcf5Vc
+ /qy+mMmu93lAM+NI2FVjWLNq4t1Tk+/mH7uSlyOW7aqadDHps6kbURJ7Kx4S0RVtldTn
+ 3InQ==
+X-Gm-Message-State: AOAM531MrIE6EQhEd9kE1G8r0K45rW9jEZt6RntwQglqnktzeiFauIuY
+ qbs6YMFyiKQC5JFxgTnDnndShoVlqDFtK4iYn0X0bUsQi8zmH0VYhWsvpg/UKClX051KwvH6mvJ
+ B/mOkACp0zbTR0tw=
+X-Received: by 2002:a5d:440b:0:b0:1e3:f66:bf59 with SMTP id
+ z11-20020a5d440b000000b001e30f66bf59mr16801338wrq.250.1645474269829; 
+ Mon, 21 Feb 2022 12:11:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwSZTIRmnmlSO+RmZ8W6lWQszk/FSU0ZfeZFYE3OpeE9bhlkj1bBXx4LQdAdxdMaQOZiATYzg==
+X-Received: by 2002:a5d:440b:0:b0:1e3:f66:bf59 with SMTP id
+ z11-20020a5d440b000000b001e30f66bf59mr16801322wrq.250.1645474269430; 
+ Mon, 21 Feb 2022 12:11:09 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id d13sm32897295wri.38.2022.02.21.12.11.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Feb 2022 12:05:36 -0800 (PST)
-Message-ID: <7755c7a6-6922-2834-2d93-979c39cb9aba@gmail.com>
-Date: Mon, 21 Feb 2022 22:05:35 +0200
+ Mon, 21 Feb 2022 12:11:08 -0800 (PST)
+Subject: Re: [PATCH v2 0/3] qapi: Move RTC_CHANGE back out of target schema
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220221192123.749970-1-peter.maydell@linaro.org>
+From: Eric Auger <eauger@redhat.com>
+Message-ID: <6875ffb9-da1c-7e58-4606-6bc15340e407@redhat.com>
+Date: Mon, 21 Feb 2022 21:11:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH v2 2/2] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
+In-Reply-To: <20220221192123.749970-1-peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-References: <20220221191323.617323-1-liavalb@gmail.com>
- <20220221191323.617323-3-liavalb@gmail.com>
-From: Liav Albani <liavalb@gmail.com>
-In-Reply-To: <20220221191323.617323-3-liavalb@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=liavalb@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,25 +101,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca, imammedo@redhat.com, mst@redhat.com
+Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index ebd47aa26f..5dc625b8d8 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -192,6 +192,11 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
->               .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
->           },
->       };
-> +    if (isa_check_device_existence("i8042")) {
-> +        /* Indicates if i8042 is present or not */
-> +        fadt.iapc_boot_arch = (1 << 1);
-> +    }
-> +
-Looking into this, it seems I messed up with the spaces here. So, I 
-could fix this and send a v3, but want to see if there are other 
-comments as well so we can get them fixed and this patch merged (or at 
-least in a pull request) before the soft feature freeze in 8.3.2022 :)
+Hi Peter,
+
+On 2/21/22 8:21 PM, Peter Maydell wrote:
+> This patchset moves RTC_CHANGE back to misc.json, effectively
+> reverting commit 183e4281a30962, which moved the RTC_CHANGE event to
+> the target schema.  That change was an attempt to make the event
+> target-specific to improve introspection, but the event isn't really
+> target-specific: it's machine or device specific.  Putting RTC_CHANGE
+> in the target schema with an ifdef list reduces maintainability (by
+> adding an if: list with a long list of targets that needs to be
+> manually updated as architectures are added or removed or as new
+> devices gain the RTC_CHANGE functionality) and increases compile time
+> (by preventing RTC devices which emit the event from being "compile
+> once" rather than "compile once per target", because
+> qapi-events-misc-target.h uses TARGET_* ifdefs, which are poisoned in
+> "compile once" files.)
+> 
+> Patch 2 fixes some minor documentation issues for the RTC_CHANGE
+> event, noticed during development of the patchset.
+> 
+> Patch 3 makes the pl031 a build-once file again, which was the
+> initial motivation for the series.
+> 
+> Changes v1->v2:
+>  * patch 1 needs to change the #include line for pl031.c, now that
+>    the change to make that device emit RTC_CHANGE has landed upstream
+>  * patch 2 now also notes in the RTC_CHANGE documentation that
+>    not all devices/systems will emit the event (suggested by Markus)
+>  * patch 3 is new
+
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Thanks!
+
+Eric
+> 
+> My default assumption is that this series will go in via the
+> qapi tree; let me know if you'd prefer me to take it via
+> target-arm instead.
+> 
+> thanks
+> -- PMM
+> 
+> Peter Maydell (3):
+>   qapi: Move RTC_CHANGE back out of target schema
+>   qapi: Document some missing details of RTC_CHANGE event
+>   hw/rtc: Compile pl031 once-only
+> 
+>  qapi/misc-target.json | 33 ---------------------------------
+>  qapi/misc.json        | 24 ++++++++++++++++++++++++
+>  hw/ppc/spapr_rtc.c    |  2 +-
+>  hw/rtc/mc146818rtc.c  |  2 +-
+>  hw/rtc/pl031.c        |  2 +-
+>  hw/rtc/meson.build    |  2 +-
+>  6 files changed, 28 insertions(+), 37 deletions(-)
+> 
+
 
