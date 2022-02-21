@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA724BD8C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:57:00 +0100 (CET)
-Received: from localhost ([::1]:58446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A464BD8A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:45:00 +0100 (CET)
+Received: from localhost ([::1]:60332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM5RD-0006jN-Pn
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:56:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43894)
+	id 1nM5FX-0005lo-BI
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:44:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM4zP-000873-Ca
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:15 -0500
-Received: from [2a00:1450:4864:20::333] (port=36703
- helo=mail-wm1-x333.google.com)
+ id 1nM4zQ-000892-DM
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:16 -0500
+Received: from [2a00:1450:4864:20::42c] (port=45649
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM4zN-00011P-HM
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:15 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- q198-20020a1ca7cf000000b0037bb52545c6so13077646wme.1
+ id 1nM4zO-00011c-BG
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:16 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id p9so25860020wra.12
  for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:28:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9uNHsCSBiyyY7VqKj99MP2CiA4TXNDtewjy7bEKnAE0=;
- b=x0OJWEP3PkkrmlmxIUYxo5YyvttK7BhvSIroXT6VB//6VZUGmv8C0QNSnE9rkJf/6a
- C7sAv/dt59kDQKN6dngDnEeLt116CcpFnd2H1rzwr4H77WDG9ZxVyS2roSGsNkzau5Pt
- y8g2g826sgngxOB2u5eMN2cBYKWd0lDvPv6gmwyq+2XofQ0Fui6XQLXSQQjjUxnbmgrS
- itzfNLk7xkbCqF/l3kagwEwAsp2L1k/IAhv5NfwVSVIg7YxxEhLHHdWgEiJvzU314aN0
- 4nd0u5PZLfhauNJwSqebIcEXXYLoCUxSscCArXpeHuVqkcVFHRr+ycPOP78Xmf8oIoWK
- hHCA==
+ bh=Jo4pFV4ykYDrN4qI9p9hUopFbfxsOOFztCVH63tiFRs=;
+ b=rmuNkrdVr6wQjOw7bWvZ+cFleWJNDUM6k9M7lPB9C5DmlNofzKe0Pef8VJlPOZlJPc
+ WtnRAPBlDEosdwfEH8ySD3WWtpVLYjXQGbKPaJZ2TwYCIMZzH4aW1aAgn/GQNfII94NA
+ BNBfB1jsAK46ER0pNh7lgOOrcNuK/9oyM4PVr9rHtszsW9u1VZCaJh47wd52OmJKHXte
+ ny2+r9oLy8AEPo/20WcPxb+4VCTPf49vRe0Qfo1MKx0ajuUb8FalsfEHKcbFqOQhtbP9
+ jPH8hzkd1/kagex7dKVqfI36DYzkFTCXnwLTsgF7W6kPimAmlM0ejuh182G9rg83BDYZ
+ ndkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9uNHsCSBiyyY7VqKj99MP2CiA4TXNDtewjy7bEKnAE0=;
- b=IPYkDLgd8QkkzH1lfefP8Yv4rQBJbtL2WOx2dGWMfydmA+J6uPARt6Qg7BVegu+Z8K
- V4HylHE4hNSorADW4wDn8gwZuOrza7sV/FrLHu6f8bJjKEOXyq6JiDX+RNccM/C1JcTi
- Y208Amw70dyJU1MABhbA2GZozULmGAsUoYrcNtU+8EHwHJDLwqxdYRYHU7EF/ZZPLA5W
- vF7a7FPkGS/FPUo1Jdr+7fsAan+UzCQtPlEdmFBUME5b9ehoUkgSToiDVLZ8HrPyxnKE
- HyEySJosZ+7IUm+hP4C7u5Acdhb3Hfx1Lr6qffQWz58662mA+1Xd9CMLHeujH+x5Tw+Q
- TM0w==
-X-Gm-Message-State: AOAM531+/n4lzJbpnEMV94/exUNFCVLd/l/oSUNabpAUSb4XmrdBGz9y
- 4aZX0OiQUFCp7goPIpNGmM7ULFRNMayOLg==
-X-Google-Smtp-Source: ABdhPJw6YV6nglOj2RCWv5qDq5tuVgm5nku7xUafJ2C8M6s0ZkZxw1xJo60Ccp5wTTjI7U2mH21THw==
-X-Received: by 2002:a05:600c:1f14:b0:37b:c475:2de0 with SMTP id
- bd20-20020a05600c1f1400b0037bc4752de0mr17233629wmb.70.1645435692332; 
- Mon, 21 Feb 2022 01:28:12 -0800 (PST)
+ bh=Jo4pFV4ykYDrN4qI9p9hUopFbfxsOOFztCVH63tiFRs=;
+ b=CduBRT+bsNWAmYqdY+LTNwLubAW7l+ElgVUt3g8oVBzyD+NNHEszXvyxFcz1tzCmnq
+ gYV/RmSYydaNoke+TnMppgx4VMPc32pk5PNIaoPByq04qGnBMfNZWf6YhKnQd3Sh2EMi
+ M64wLwfJcRlQhpm8yrXOvLqrcE0qiss/rHTbDjh+9/Cp3Oblv+UTihTRypYsuRE++NLd
+ FuIZBHj0+f9lQmDGUOaoKMDP6QUr/YQ9PusXSvh/4woJuMOhfaJk1LYpJZbI9HHb+xxE
+ wKGBL4D73SzLIuVRYod8sbr3lXBBQicgJrHyfrY0GK5EahAl9WJm0jiAxPxtBiQMFIsQ
+ xyzg==
+X-Gm-Message-State: AOAM533UPsx4XFzxU871DG/RjHBa7vaj21oOijKew0ELPoLKpbC17ZnY
+ k4X+v+iP/FEfnm+s1z3rNwSqrSs2HtiYjg==
+X-Google-Smtp-Source: ABdhPJyQf9uA0Dxmci9v4hlgfXzLFfOWYMUSFeEv9zI4mENvXSiUq6H3+5m2RapSrNQOg54S7Ds4bA==
+X-Received: by 2002:adf:e28f:0:b0:1e7:cf02:2d28 with SMTP id
+ v15-20020adfe28f000000b001e7cf022d28mr15526958wri.232.1645435693085; 
+ Mon, 21 Feb 2022 01:28:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id q76sm7555778wme.1.2022.02.21.01.28.11
+ by smtp.gmail.com with ESMTPSA id q76sm7555778wme.1.2022.02.21.01.28.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Feb 2022 01:28:11 -0800 (PST)
+ Mon, 21 Feb 2022 01:28:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/26] target/arm: Support PAuth extension for hvf
-Date: Mon, 21 Feb 2022 09:27:46 +0000
-Message-Id: <20220221092800.404870-13-peter.maydell@linaro.org>
+Subject: [PULL 13/26] Kconfig: Add I2C_DEVICES device group
+Date: Mon, 21 Feb 2022 09:27:47 +0000
+Message-Id: <20220221092800.404870-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220221092800.404870-1-peter.maydell@linaro.org>
 References: <20220221092800.404870-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,67 +92,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we don't allow guests under hvf to use the PAuth extension,
-because we didn't have any special code to handle that, and therefore
-in arm_cpu_pauth_finalize() we will sanitize the ID_AA64ISAR1 value
-the guest sees to clear the PAuth related fields.
+Currently there is no way for a board model's Kconfig stanza to
+say "I have an i2c bus which the user can plug an i2c device into,
+build all the free-standing i2c devices". The Kconfig mechanism
+for this is the "device group". Add an I2C_DEVICES group along
+the same lines as the existing PCI_DEVICES. Simple free-standing
+i2c devices which a user might plausibly want to be able to
+plug in on the QEMU commandline should have
+   default y if I2C_DEVICES
+and board models which have an i2c bus that is user-accessible
+should use
+   imply I2C_DEVICES
+to cause those pluggable devices to be built.
 
-Add support for this in the same way that KVM does it, by defaulting
-to "PAuth enabled" if the host CPU has it and allowing the user to
-disable it via '-cpu pauth=no' on the command line.
+In this commit we mark only a fairly conservative set of i2c devices
+as belonging to the I2C_DEVICES group: the simple sensors and RTCs
+(not including PMBus devices or devices which need GPIO lines to be
+connected).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Alexander Graf <agraf@csgraf.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220204165506.2846058-7-peter.maydell@linaro.org
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Message-id: 20220208155911.3408455-2-peter.maydell@linaro.org
 ---
- target/arm/cpu64.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ docs/devel/kconfig.rst | 8 ++++++--
+ hw/i2c/Kconfig         | 5 +++++
+ hw/rtc/Kconfig         | 2 ++
+ hw/sensor/Kconfig      | 5 +++++
+ 4 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 19330d9ee94..1171ab16b94 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -633,9 +633,10 @@ void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
-     uint64_t t;
+diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
+index a1cdbec7512..aa5042f1569 100644
+--- a/docs/devel/kconfig.rst
++++ b/docs/devel/kconfig.rst
+@@ -192,11 +192,15 @@ declares its dependencies in different ways:
+   no directive and are not used in the Makefile either; they only appear
+   as conditions for ``default y`` directives.
  
-     /* Exit early if PAuth is enabled, and fall through to disable it */
--    if (kvm_enabled() && cpu->prop_pauth) {
-+    if ((kvm_enabled() || hvf_enabled()) && cpu->prop_pauth) {
-         if (!cpu_isar_feature(aa64_pauth, cpu)) {
--            error_setg(errp, "'pauth' feature not supported by KVM on this host");
-+            error_setg(errp, "'pauth' feature not supported by %s on this host",
-+                       kvm_enabled() ? "KVM" : "hvf");
-         }
+-  QEMU currently has two device groups, ``PCI_DEVICES`` and
+-  ``TEST_DEVICES``.  PCI devices usually have a ``default y if
++  QEMU currently has three device groups, ``PCI_DEVICES``, ``I2C_DEVICES``,
++  and ``TEST_DEVICES``.  PCI devices usually have a ``default y if
+   PCI_DEVICES`` directive rather than just ``default y``.  This lets
+   some boards (notably s390) easily support a subset of PCI devices,
+   for example only VFIO (passthrough) and virtio-pci devices.
++  ``I2C_DEVICES`` is similar to ``PCI_DEVICES``. It contains i2c devices
++  that users might reasonably want to plug in to an i2c bus on any
++  board (and not ones which are very board-specific or that need
++  to be wired up in a way that can't be done on the command line).
+   ``TEST_DEVICES`` instead is used for devices that are rarely used on
+   production virtual machines, but provide useful hooks to test QEMU
+   or KVM.
+diff --git a/hw/i2c/Kconfig b/hw/i2c/Kconfig
+index 8217cb50411..9bb8870517f 100644
+--- a/hw/i2c/Kconfig
++++ b/hw/i2c/Kconfig
+@@ -1,6 +1,11 @@
+ config I2C
+     bool
  
-         return;
-@@ -672,10 +673,14 @@ void aarch64_add_pauth_properties(Object *obj)
++config I2C_DEVICES
++    # Device group for i2c devices which can reasonably be user-plugged
++    # to any board's i2c bus
++    bool
++
+ config SMBUS
+     bool
+     select I2C
+diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
+index f06e133b8a2..730c272bc54 100644
+--- a/hw/rtc/Kconfig
++++ b/hw/rtc/Kconfig
+@@ -1,10 +1,12 @@
+ config DS1338
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
  
-     /* Default to PAUTH on, with the architected algorithm on TCG. */
-     qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
--    if (kvm_enabled()) {
-+    if (kvm_enabled() || hvf_enabled()) {
-         /*
-          * Mirror PAuth support from the probed sysregs back into the
--         * property for KVM. Is it just a bit backward? Yes it is!
-+         * property for KVM or hvf. Is it just a bit backward? Yes it is!
-+         * Note that prop_pauth is true whether the host CPU supports the
-+         * architected QARMA5 algorithm or the IMPDEF one. We don't
-+         * provide the separate pauth-impdef property for KVM or hvf,
-+         * only for TCG.
-          */
-         cpu->prop_pauth = cpu_isar_feature(aa64_pauth, cpu);
-     } else {
-@@ -695,6 +700,7 @@ static void aarch64_host_initfn(Object *obj)
- #elif defined(CONFIG_HVF)
-     ARMCPU *cpu = ARM_CPU(obj);
-     hvf_arm_set_cpu_features_from_host(cpu);
-+    aarch64_add_pauth_properties(obj);
- #else
-     g_assert_not_reached();
- #endif
+ config M41T80
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config M48T59
+     bool
+diff --git a/hw/sensor/Kconfig b/hw/sensor/Kconfig
+index b317f91b7b4..215944decc7 100644
+--- a/hw/sensor/Kconfig
++++ b/hw/sensor/Kconfig
+@@ -1,18 +1,22 @@
+ config TMP105
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config TMP421
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config DPS310
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config EMC141X
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
+ 
+ config ADM1272
+     bool
+@@ -25,3 +29,4 @@ config MAX34451
+ config LSM303DLHC_MAG
+     bool
+     depends on I2C
++    default y if I2C_DEVICES
 -- 
 2.25.1
 
