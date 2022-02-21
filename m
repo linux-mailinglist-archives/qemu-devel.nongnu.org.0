@@ -2,74 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ADC74BD97A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 12:42:01 +0100 (CET)
-Received: from localhost ([::1]:35278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCA74BD97F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 12:46:54 +0100 (CET)
+Received: from localhost ([::1]:42696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM74q-0002Qx-2D
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 06:42:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44602)
+	id 1nM79Z-0007Uf-Bg
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 06:46:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nM6xO-0003ud-Jr
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 06:34:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nM6xJ-0004EI-PI
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 06:34:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645443247;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XI5BOGYeTDL+MiTLtMUe5vfV7hFtUANruBJwkt43pxw=;
- b=Jep95fM5kDw6Gdfv+A3Mfv88PoOGUymzZPsnv7szUMTMoAOuS4KhdBFw6Mwy4TuhkOiDnl
- C4YG9K8j5dxuEAZzVjcJJH/mpXhudEdTzIiz2qkztm8zJv4o4WM5HG4M495V1XDIePhq+W
- 9j/VwM/bMdz47wekeRgsgZuqPsAh6+A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-73-HWvpDGeaNGSpPcYF4FLWpg-1; Mon, 21 Feb 2022 06:34:02 -0500
-X-MC-Unique: HWvpDGeaNGSpPcYF4FLWpg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE767814246;
- Mon, 21 Feb 2022 11:34:00 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B6787314F;
- Mon, 21 Feb 2022 11:34:00 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 99B7B1800094; Mon, 21 Feb 2022 12:33:58 +0100 (CET)
-Date: Mon, 21 Feb 2022 12:33:58 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v2 2/2] hw/ide: add ich6 ide controller device emulation
-Message-ID: <20220221113358.3xxyoyg2bf64ln2x@sirius.home.kraxel.org>
-References: <20220218204155.236611-1-liavalb@gmail.com>
- <20220218204155.236611-3-liavalb@gmail.com>
- <68413ab-d14c-f5c6-4baf-12e3a18a6a5@eik.bme.hu>
- <e905a1d1-c7e8-bf10-22e8-cd5382b93c11@gmail.com>
- <d9733c34-b770-4717-cc8f-10cdf17640a8@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nM75N-0003UN-09
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 06:42:33 -0500
+Received: from [2a00:1450:4864:20::52e] (port=36626
+ helo=mail-ed1-x52e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nM75L-0005m6-5x
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 06:42:32 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id cm8so19141385edb.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 03:42:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=smEB8jJ/p8YGSlB5L0KXYHfzciKvvxl9S9yRNIVtzoc=;
+ b=EBJZiocDgHowLZ3EIM6+V3dV6zJA1eoUsg5kpKU2qVK5ENzlIPS2QyJ/qLXMjypZwK
+ qlwCr3zsfcXC4o2qkZwoAwiOdgbYz0vXTThNXevTLEFD/q7FWLSEnxj3GL8Lm+hoSMEH
+ 8hUj4FbyeOEsPHshUlqqwjBcjfcoV04SHmQl8Zp45w5crvI8+f3xfkXkBiCXTf7ptqxN
+ ZZ7eE364dgEg7FYCuaEVaCvjodyXItzY/TNZhbTzYv6Kac4qosbQpeFUAocf822cpwz1
+ lr/glJaEQZMskqcNcWFvH2BkOLn6NonuokvFQ9nRExpjF31lAQGrRxD0+kRvSU4y2jEw
+ 6TpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=smEB8jJ/p8YGSlB5L0KXYHfzciKvvxl9S9yRNIVtzoc=;
+ b=ndV74xyr7NJEdSBLVX0E1KPT87t16T+aKyIc1an6S6uNIQM4GXrdBF5iv+E9HLvHDg
+ oBg5DAHU7Zy2Xa8IZLwBJyz3Bbdeqgn47jJXjQNbxOpBgqO3lL2f7+o+LJb8tTyvmgPI
+ wP1TWAXRC6G86bntAvlX+g3RDpk73CXN51KBKiMt8DTKb1hIc+9oZQkqXVdOmH2sNgOe
+ /VISIvaFa+qbw63Sa9jho2wWsib7BuesEwgYbkTZ4DJ9OFBVQx1CiVuoP1N7oprL1hDW
+ KJpG8AnUqk8dU8FJH2VxpecIP6PMFeibXCjCUQ0BW+q4t4DXtSaGGvy4Eac8YrvXVnSz
+ NWjw==
+X-Gm-Message-State: AOAM530zFgMZNmU2n8D8prG/LejKc0EyOb0fhxxyH35PoRpuvDJGjR6/
+ cBzgXpwp9RhaHXD4IwUNzZM=
+X-Google-Smtp-Source: ABdhPJyYyiig5WAgqxNUqBkzCmo+P5VEbSIfdFaDOCJBe1CaCRNlS9eRtFHae+nONaubdxXK0qCFYg==
+X-Received: by 2002:a05:6402:3489:b0:412:897b:9bb2 with SMTP id
+ v9-20020a056402348900b00412897b9bb2mr20436707edc.73.1645443748885; 
+ Mon, 21 Feb 2022 03:42:28 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id f22sm5164796ejl.46.2022.02.21.03.42.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Feb 2022 03:42:28 -0800 (PST)
+Message-ID: <5e92a220-eb61-c510-0cdc-bf418b9025bc@redhat.com>
+Date: Mon, 21 Feb 2022 12:42:26 +0100
 MIME-Version: 1.0
-In-Reply-To: <d9733c34-b770-4717-cc8f-10cdf17640a8@eik.bme.hu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC 2/2] sem-posix: use monotonic clock instead
+Content-Language: en-US
+To: "Longpeng(Mike)" <longpeng2@huawei.com>, berrange@redhat.com,
+ mst@redhat.com
+References: <20220221095617.1974-1-longpeng2@huawei.com>
+ <20220221095617.1974-3-longpeng2@huawei.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220221095617.1974-3-longpeng2@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,39 +96,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, Liav Albani <liavalb@gmail.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
+Cc: arei.gonglei@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On 2/21/22 10:56, Longpeng(Mike) via wrote:
+> +    long now_nsec;
+> +#ifdef CONFIG_PTHREAD_CONDATTR_SETCLOCK
+> +    struct timespec now;
+> +    clock_gettime(CLOCK_MONOTONIC, &now);
+> +    now_sec = now.tv_sec;
+> +    now_nsec = now.tv_nsec;
+> +#else
+>       struct timeval tv;
+>       gettimeofday(&tv, NULL);
+> -    ts->tv_nsec = tv.tv_usec * 1000 + (ms % 1000) * 1000000;
+> -    ts->tv_sec = tv.tv_sec + ms / 1000;
+> +    now_sec = tv.tv_sec;
+> +    now_nsec = tv.tv_usec * 1000;
+> +#endif
+> +
 
-> > ICH6 and ICH7 IDE controllers are quite the same as far as I know. I
-> > could change it, but then one could argue that the name ich6-ide seems
-> > like "ich9-ide", so not sure if we can really go on this path.
-> 
-> I think we don't actually have ich9-ide, we only have piix3, piix4 and ahci,
-> the latter is used by ich9. I just said that calling this new device
-> ich7-ide instead of ich6-ide would make it more clear it has nothing to do
-> with ich9.
+Perhaps this might minimize the amount of conditional code, too:
 
-Well, there actually is ich9-ide in physical hardware.  And it's quite
-simliar for all ich6 -> ich9 (and possibly more) physical hardware.
+diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
+index 903fa33965..4743d7b714 100644
+--- a/util/qemu-thread-posix.c
++++ b/util/qemu-thread-posix.c
+@@ -40,10 +40,14 @@ static void error_exit(int err, const char *msg)
+  
+  static void compute_abs_deadline(struct timespec *ts, int ms)
+  {
+-    struct timeval tv;
+-    gettimeofday(&tv, NULL);
+-    ts->tv_nsec = tv.tv_usec * 1000 + (ms % 1000) * 1000000;
+-    ts->tv_sec = tv.tv_sec + ms / 1000;
++#ifdef CONFIG_PTHREAD_CONDATTR_SETCLOCK
++    clock_gettime(CLOCK_MONOTONIC, ts);
++#else
++    clock_gettime(CLOCK_REALTIME, ts);
++#endif
++
++    ts->tv_nsec += (ms % 1000) * 1000000;
++    ts->tv_sec += ms / 1000;
+      if (ts->tv_nsec >= 1000000000) {
+          ts->tv_sec++;
+          ts->tv_nsec -= 1000000000;
 
-The hardware implements both ide and sata.  Typically the bios setup
-offers to pick ide or sata mode for the storage controller, and on boot
-the chipset is configured accordingly by the firmware.
 
-qemu never bothered to implement ide mode for q35/ich9.  When a guest OS
-is so old that it doesn't come with a sata driver there is the option to
-just use the 'pc' machine type.  And usually that's the better choice
-anyway because these old guests tend to have problems with other q35
-components too.
+Finally, the conditional variables initialization qemu_cond_init must
+also use pthread_condattr_setclock.
 
-So I'm wondering why you implement ich{6,7,9}-ide in the first place?
-What is the use case / benefit?
-
-take care,
-  Gerd
-
+Paolo
 
