@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB74B4BEB4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 20:39:47 +0100 (CET)
-Received: from localhost ([::1]:47340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8600A4BEB51
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 20:42:48 +0100 (CET)
+Received: from localhost ([::1]:52276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMEXC-0005Va-Uj
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 14:39:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59002)
+	id 1nMEa7-0000Y4-ED
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 14:42:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMELY-0004Pv-AH; Mon, 21 Feb 2022 14:27:44 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=35407
- helo=mail-pl1-x62a.google.com)
+ id 1nMEMB-0004yO-J7; Mon, 21 Feb 2022 14:28:24 -0500
+Received: from [2607:f8b0:4864:20::536] (port=40503
+ helo=mail-pg1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMELW-0003SW-Cw; Mon, 21 Feb 2022 14:27:43 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id i10so13708023plr.2;
- Mon, 21 Feb 2022 11:27:40 -0800 (PST)
+ id 1nMEM3-0003Uh-65; Mon, 21 Feb 2022 14:28:22 -0500
+Received: by mail-pg1-x536.google.com with SMTP id w37so8721446pga.7;
+ Mon, 21 Feb 2022 11:28:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=qbxua3vSH5ftP1sSbsW8W5JmQTTxMq36rEIZymCJ+M0=;
- b=YIk7JeIPbtkIpx6zn7xXucG81k5FaUlRT9gN3J8dS7espZkAizVPHNl+VUpYrxNBM6
- yBsyeaOWX3qLTh7k+8U8X/f8SJyRYch/iHgP7rxIBunt0AMRnnYs2cWtjCWVKgQp7dFD
- lfieldlp6a7eAMTeHJMrbi0FPpDz4tnmzboQdxkz+E0Viho89VYC6+C5rP2g+su2VS1t
- SD3f1NTqFHY5sck7Ws6Ks/AIJL8fPcm8V9jH/ZU7DfndB5Bwno2zGsaVFIuBkDoJ6tO+
- R+KCii3jLb/QSjAXwpdaoqVsj24a4EP27uOoCr7xSnZybH50ogKKmPoKnHE7TddiPVR0
- p0Sw==
+ bh=G9ZtRisj5qdEyxbcjxfWjt6PCOG02wNAxTqLy7KlnoA=;
+ b=ipND2NSUAxJviPFgRAiHVXRsUJXfxtFmZ8HBcxjxcH+nvpMRHwo69qz1L94DOz4yfB
+ A0BpDSq9XEWMzLI6LQBjdpRj8IpZggy5jGfjEUX0lMvbkssPSbe36RQWhUuuLhxOD06+
+ dtNAZcyv/gbRpqk2Re+ZLRwlvXLwOF86Pq+D9HrVfwL9pFbAQ5FKr6srnOGLUS+IY2Yx
+ g1jtMxx+8MUPaBHdlOYlrx7Fd2IPyTlVOZenHS5KwCeS4HunEHON9va+VWY61ICTJrH+
+ xUKbSf66DUWJUOig9yHTd+3gLDRWBaafF3ofVnzJ073obnsnaCeZxLE3CoCJ9UZqSdrP
+ pYug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=qbxua3vSH5ftP1sSbsW8W5JmQTTxMq36rEIZymCJ+M0=;
- b=JzeG7oPS5UnmtPA+iUbLb+I6Wh69k6bHttmuLj6NcSHf+O5OyhOUn6A72jUTFtAAf7
- LJmFnJ782vSC2iF2cS4tGsQ1m7Hcxmxos1B81aLsLxppgcz3IsqFBFQ86vA40YIpQpjC
- N6HzrWy0xIlJwGngJY3RUf9eum6LOS3qAN0NrO9kF0EYcXFEd3IyHjATsJibcLFmFvoU
- hyl7Hjm90UV5IY8ffwL36eeST5ww/O14ukQfKDqmZt6HqgZofsHYgy6JZzUd+WU82RRw
- WBOs6cYYN99fk7ASTEuDm4hzcsu6NtyIEQGwqynjBE315H7pj0iCDuOQBiweAIB4qvFQ
- SCsg==
-X-Gm-Message-State: AOAM533taCBQMWrHNHi2BR6ETpMTTJvuRzRpZQuEgqZOLtsMhdA148jW
- 4fREjUc7ae/baQRk9GxwKs8=
-X-Google-Smtp-Source: ABdhPJwm2k5jmf0kWVd3ZdtvlPV5ZS3lEsxFiFupm2V1oU+HlH2RU4JnnOF/k4y/Bc7P0A8l1F9noQ==
-X-Received: by 2002:a17:903:2490:b0:14d:57a5:a472 with SMTP id
- p16-20020a170903249000b0014d57a5a472mr20371906plw.17.1645471659643; 
- Mon, 21 Feb 2022 11:27:39 -0800 (PST)
+ bh=G9ZtRisj5qdEyxbcjxfWjt6PCOG02wNAxTqLy7KlnoA=;
+ b=sj4j0Y7gphws8D34Y16MxTvWueHBr3l8sIqBwIM0ojqNSxHBesB3b0CnDLXMFq2b6m
+ FmIno/6YUiesyXaLNE8yJMyxHO6k3GUBrivtxKlx+q1fGRUlBKajtqbAlBnWvYfqVotr
+ bdgHEDpLR2T9GBG0Bh/kcpN7Zd2YVB2fPotOU9WrcW5uR0mbQJOYHLjQ3nICA24hXPfp
+ p8kLY6pUYijuhWwbXrHyaoY+LAg9SdUMggqjm8h1T4BhdILolGjs90pPLBKUabqb7Hp7
+ v1tI6C9UdbD/pJASIMB1lHpRR6nzM1O40/nVZA7EDl3abrcIzF4Do+2OA4qpjyhD5Jh3
+ 72ag==
+X-Gm-Message-State: AOAM531aOJwLQj/IoSyKpAk9nHf7Nz4oIyoO5HDd9ANOsusrKeyjpx5i
+ maGLAlyNWRnQ7M2GIPw4+Ho=
+X-Google-Smtp-Source: ABdhPJyWfkWOAuL5shE7nCaeIkVDNmVEtQawZ2NwINQcaVmocqgPT1QcWIbQ+p4PjeycsOHuZmdK4A==
+X-Received: by 2002:a65:41c3:0:b0:363:5711:e234 with SMTP id
+ b3-20020a6541c3000000b003635711e234mr17124152pgq.386.1645471692815; 
+ Mon, 21 Feb 2022 11:28:12 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- z11-20020a17090a1fcb00b001bc58804974sm130652pjz.27.2022.02.21.11.27.37
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id u39sm14647431pfg.195.2022.02.21.11.28.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Feb 2022 11:27:39 -0800 (PST)
-Message-ID: <3036ce6b-a201-4447-fd07-64516e0390fd@gmail.com>
-Date: Mon, 21 Feb 2022 20:27:36 +0100
+ Mon, 21 Feb 2022 11:28:12 -0800 (PST)
+Message-ID: <d292fa72-292c-99d4-9f45-8b15dde71edf@gmail.com>
+Date: Mon, 21 Feb 2022 20:28:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: [PATCH v2 1/3] qapi: Move RTC_CHANGE back out of target schema
+Subject: Re: [PATCH v2 2/3] qapi: Document some missing details of RTC_CHANGE
+ event
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220221192123.749970-1-peter.maydell@linaro.org>
- <20220221192123.749970-2-peter.maydell@linaro.org>
+ <20220221192123.749970-3-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220221192123.749970-2-peter.maydell@linaro.org>
+In-Reply-To: <20220221192123.749970-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,31 +99,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 21/2/22 20:21, Peter Maydell wrote:
-> This commit effectively reverts commit 183e4281a30962, which moved
-> the RTC_CHANGE event to the target schema.  That change was an
-> attempt to make the event target-specific to improve introspection,
-> but the event isn't really target-specific: it's machine or device
-> specific.  Putting RTC_CHANGE in the target schema with an ifdef list
-> reduces maintainability (by adding an if: list with a long list of
-> targets that needs to be manually updated as architectures are added
-> or removed or as new devices gain the RTC_CHANGE functionality) and
-> increases compile time (by preventing RTC devices which emit the
-> event from being "compile once" rather than "compile once per
-> target", because qapi-events-misc-target.h uses TARGET_* ifdefs,
-> which are poisoned in "compile once" files.)
-> 
-> Move RTC_CHANGE back to misc.json.
+> The RTC_CHANGE event's documentation is missing some details:
+>   * the offset argument is in units of seconds
+>   * it isn't guaranteed that the RTC will implement the event
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Acked-by: Greg Kurz <groug@kaod.org>
 > ---
->   qapi/misc-target.json | 33 ---------------------------------
->   qapi/misc.json        | 22 ++++++++++++++++++++++
->   hw/ppc/spapr_rtc.c    |  2 +-
->   hw/rtc/mc146818rtc.c  |  2 +-
->   hw/rtc/pl031.c        |  2 +-
->   5 files changed, 25 insertions(+), 36 deletions(-)
+> v1->v2: add the "RTC might not implement this" note
+> ---
+>   qapi/misc.json | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
