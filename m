@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DFB4BEA5B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 20:26:05 +0100 (CET)
-Received: from localhost ([::1]:58450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835EB4BEA5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 20:29:28 +0100 (CET)
+Received: from localhost ([::1]:33762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMEJw-0001ov-QD
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 14:26:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57878)
+	id 1nMEND-0004Jr-LF
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 14:29:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMEFn-0007hs-Ta
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 14:21:47 -0500
-Received: from [2a00:1450:4864:20::434] (port=46914
- helo=mail-wr1-x434.google.com)
+ id 1nMEFo-0007ik-5A
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 14:21:48 -0500
+Received: from [2a00:1450:4864:20::32b] (port=37774
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMEFi-0002dV-D8
+ id 1nMEFi-0002de-4Q
  for qemu-devel@nongnu.org; Mon, 21 Feb 2022 14:21:47 -0500
-Received: by mail-wr1-x434.google.com with SMTP id j22so2706407wrb.13
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 11:21:28 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ p14-20020a05600c1d8e00b0037f881182a8so67782wms.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 11:21:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8LxaYHsGrP1n2gu8fs/oq2UgPzeDfx1gMnABjk6F6VA=;
- b=pHj45sD9BdDX+F8PmIuOVjwWItzcDJ8z1k0UjUrQlfyau25fDmU5KaXu59FsJ+ISK2
- V8LX1NG3ceuyFmW0DGHsWjkIHmZ/F8YiXuAAWPdzwTBR31szOXiJQxE/aDnl+bbEYhLS
- NL5QXtzcDtwPgiqiXUttaHzm9cH0GtwQVf7ebS3rCuSu93gnuXHdM0cntQXa3WRaIrh2
- D8C9xsriTZaeWdYibV0/toSeOxDRFTePg1XD0STPWfINxIXXu8y+6RsM47rGuKRNe4v6
- R+3bGwK6qUcFD/QUD+UAEzTr9g7R+YHeCdNX/fvHfd/XQwzikWAsVCU/Mw8XqyAYirhf
- 1+yw==
+ bh=FYwSuEjvQcSL/9thHK2sjrgtlkbwAqldrJkzTwEeRVg=;
+ b=LVbumPSyaX7TrpD3kP5p4S/v9/R/teBm5aN9HJCEeQ5n3ogBXzFU0kiXJNokDn7UzU
+ O3x9H3IVqA3jlxR5Tl9DDKJoVrcbQOlWwY5ymX7a9BAkpwRNPvFGJRtjuJlqCyIisxsM
+ zN4VLc+tQL6C2Lb4ktpta4qnmBRFanQ18mKGDm2ayc5CMdkf0TbXUfhoTkWCeV/EGvBR
+ 2VdXB8LpTeqMriKKzhc84dmILW8k0aqJKJM/Isu0QwiyKTxpb+nImGMl+2IwI+zQ9Gce
+ bdFUnzFvnM1pKlPewqCkzAE4CvqJmw7zjByFvjUsgfN1pbZNdHUHJPLJub32sRTaMguQ
+ i0kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8LxaYHsGrP1n2gu8fs/oq2UgPzeDfx1gMnABjk6F6VA=;
- b=KBvIUH7WPJgYENeWPKo10+krqw0H2OBtJsGa7O9qM1c/Y0SI95kMhHJbTXJkJVK03P
- ZMEepPC5ngo4N2gAkMu0SfmBIF42AnApLOkTSYo0PkaSvdtIg+apAKxbz2oEeuSvNyjV
- s5pa6wGjd7CQJ3aBTVWdtqrjSpa6qSr6u8F6BYbKG9zJst+PgwhRTflw6cnFlKk5O4cp
- keyN6v7E35n9toDF457c//krunOLybKnTA/7XahcZjlmvp7D7ksYOFT1J2+3yCAlXcx4
- t8hpMdQAf1BX775pG+EwdxjgbV46IAECpvBJjxPgkUq8+EKrA43ShMbnm+Eq+qcXvanC
- wLig==
-X-Gm-Message-State: AOAM53310DrIT4kxDkz9pJm12wNpN4L2pB9l+15oC3HliLesMPAjluUu
- 05XkFJ5oQaf9AArLa72dl3hZc48PWzWSNw==
-X-Google-Smtp-Source: ABdhPJyTCrU7o2fMb8cLtxQh3esqckZPKoPzjZM+JxtvFXWDsDdv68mxOhcabirXSN2itG1L79NRfA==
-X-Received: by 2002:a5d:6d8c:0:b0:1ea:7d52:c05c with SMTP id
- l12-20020a5d6d8c000000b001ea7d52c05cmr1510354wrs.663.1645471287507; 
- Mon, 21 Feb 2022 11:21:27 -0800 (PST)
+ bh=FYwSuEjvQcSL/9thHK2sjrgtlkbwAqldrJkzTwEeRVg=;
+ b=6U5qeVkUsvkwAbqkEqHPRtNwp18jpiByFVV8cuY5+CwUW2YMbchv6lcW5GreOlRWMI
+ nWEwYtIiZwrLfNiLS3T3TWc8B2bBzAIPWes57HrJAfxZIKwro3wzwBRbLZsPcNpdoGvH
+ 3+sMjPKg0KaDgB50lBBmhk5V8r3E5y+DpAPc2ss38G3pQYYOLIQOeTbvZI2KpRoVSHkb
+ grdzt+FJm3+jtU/N7QDLzl8860tjsqIu1yWWP3aDsEG9aJ9RgGD0s1gWj+XjgCysCI8u
+ NvXLrEQSg5YZdS5fwp6x/z7Q2vmI/c3ozhwIZAA+MQ2DUTxZa+oU5272S6Qci6+y7ERe
+ zNlQ==
+X-Gm-Message-State: AOAM5317a3oSjDud/2KO8/KW3kIACE4nhv1URLTNZl9AyHanI1LCrZ/E
+ ibAsj1O58OQH3gKLHi9wCQVDZw==
+X-Google-Smtp-Source: ABdhPJyjNH7OqnZ1hQOub41nAN4tt0b546sUv2EQFIzbJLUGbIM6aR69qI0m763BSiCARFuPhB4r9w==
+X-Received: by 2002:a1c:2742:0:b0:37b:b481:321f with SMTP id
+ n63-20020a1c2742000000b0037bb481321fmr400745wmn.56.1645471288400; 
+ Mon, 21 Feb 2022 11:21:28 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id j6sm38958226wrt.70.2022.02.21.11.21.26
+ by smtp.gmail.com with ESMTPSA id j6sm38958226wrt.70.2022.02.21.11.21.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Feb 2022 11:21:27 -0800 (PST)
+ Mon, 21 Feb 2022 11:21:28 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] qapi: Document some missing details of RTC_CHANGE event
-Date: Mon, 21 Feb 2022 19:21:22 +0000
-Message-Id: <20220221192123.749970-3-peter.maydell@linaro.org>
+Subject: [PATCH v2 3/3] hw/rtc: Compile pl031 once-only
+Date: Mon, 21 Feb 2022 19:21:23 +0000
+Message-Id: <20220221192123.749970-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220221192123.749970-1-peter.maydell@linaro.org>
 References: <20220221192123.749970-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,36 +93,28 @@ Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The RTC_CHANGE event's documentation is missing some details:
- * the offset argument is in units of seconds
- * it isn't guaranteed that the RTC will implement the event
+Now that the RTC_CHANGE event is no longer target-specific,
+we can move the pl031 back to a compile-once source file
+rather than a compile-per-target one.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-v1->v2: add the "RTC might not implement this" note
----
- qapi/misc.json | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/rtc/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 7a70eaa3ffc..0ab235e41f7 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -533,10 +533,12 @@
- #
- # Emitted when the guest changes the RTC time.
- #
--# @offset: offset between base RTC clock (as specified by -rtc base), and
--#          new RTC clock value
-+# @offset: offset in seconds between base RTC clock (as specified
-+#          by -rtc base), and new RTC clock value
- #
- # Note: This event is rate-limited.
-+#       It is not guaranteed that the RTC in the system implements
-+#       this event, or even that the system has an RTC at all.
- #
- # Since: 0.13
- #
+diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
+index 8fd8d8f9a71..7cecdee5ddb 100644
+--- a/hw/rtc/meson.build
++++ b/hw/rtc/meson.build
+@@ -2,7 +2,7 @@
+ softmmu_ss.add(when: 'CONFIG_DS1338', if_true: files('ds1338.c'))
+ softmmu_ss.add(when: 'CONFIG_M41T80', if_true: files('m41t80.c'))
+ softmmu_ss.add(when: 'CONFIG_M48T59', if_true: files('m48t59.c'))
+-specific_ss.add(when: 'CONFIG_PL031', if_true: files('pl031.c'))
++softmmu_ss.add(when: 'CONFIG_PL031', if_true: files('pl031.c'))
+ softmmu_ss.add(when: 'CONFIG_TWL92230', if_true: files('twl92230.c'))
+ softmmu_ss.add(when: ['CONFIG_ISA_BUS', 'CONFIG_M48T59'], if_true: files('m48t59-isa.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-rtc.c'))
 -- 
 2.25.1
 
