@@ -2,99 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E974BDAD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 17:25:01 +0100 (CET)
-Received: from localhost ([::1]:40640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C734BDACD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 17:20:18 +0100 (CET)
+Received: from localhost ([::1]:35114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMBUi-0002uN-PS
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 11:25:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59320)
+	id 1nMBQ8-0007Vo-RN
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 11:20:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1nMBFY-0000Nf-6x
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 11:09:21 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30966
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nMBLf-0004uW-9M
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 11:15:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1nMBFV-0004Ix-9T
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 11:09:19 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21LF4V1c030842; 
- Mon, 21 Feb 2022 16:09:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=5dnQZCPwYio0eAddWhjU0tb34MYn/6qX8emnpmvMyd4=;
- b=sqBCDRReDs4xQkyJ5JgvPMSpmCXF9riQJAYSEEjoRAhHdkFvL9xSj4uKiOBd7FHyJDI/
- FROo6OLW6+WwE2kIi0J/1oiIaARA/Xsa6gUdXlhNuCX9L64/Wty9DsIFZHr1Yz07oXeq
- 8lzxDczYL0Fgh5x0vE/drK5eeBqD1j+zYNwagKJ4AvypT3Oxz/5ElMpdKoj6qQOnb6p/
- gca2MkL9SBks1YvjdmDXFwHYDVC1/JezB+3gKkdzcqAbaTrHHyctKetCEny17z7touyi
- J6RGf7dAIj/+bVMlaTtpTGZeaSOqipC8SdQjOJk/NXeVKmF+6iNxuNK4g36KN+fKZjnE oQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ec5bbcbmx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Feb 2022 16:09:12 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21LEF9FR008187;
- Mon, 21 Feb 2022 16:09:11 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ec5bbcbmn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Feb 2022 16:09:11 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21LG4wZ6027537;
- Mon, 21 Feb 2022 16:09:11 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma02wdc.us.ibm.com with ESMTP id 3ear69jknx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Feb 2022 16:09:11 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21LG99e330802410
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 21 Feb 2022 16:09:09 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A4D5BBE05A;
- Mon, 21 Feb 2022 16:09:09 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BBC05BE051;
- Mon, 21 Feb 2022 16:09:08 +0000 (GMT)
-Received: from amdrome3.watson.ibm.com (unknown [9.2.130.16])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 21 Feb 2022 16:09:08 +0000 (GMT)
-From: Dov Murik <dovmurik@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qapi, target/i386/sev: Add cpu0-id to query-sev-capabilities
-Date: Mon, 21 Feb 2022 16:08:50 +0000
-Message-Id: <20220221160850.1484364-1-dovmurik@linux.ibm.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nMBLY-0005VC-9X
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 11:15:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645460130;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zVvrhhyKrjZfp8O0uWsz2+kDtS7GYCwstBUcS4GNa/w=;
+ b=aoqX8pRGEfdlDMLjl5GfMFyJ+wIiTVgOu5Gz9jsO1WQeCePaAtdk9wOvOYz2QQRCHhYGCl
+ m8je79q5/cmqTUUyy9f0mJrNHXNAZSPiXWKwnvmQE0JKMKk792t4vMtKQQl3JlrR2IulPC
+ 3osH8stUlRLsHHUIkvr3RLxR8FP+bsc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-246-AKXD177cM_WtkRZ9ZWCjLA-1; Mon, 21 Feb 2022 11:15:28 -0500
+X-MC-Unique: AKXD177cM_WtkRZ9ZWCjLA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay41-20020a05600c1e2900b0037c5168b3c4so8209118wmb.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 08:15:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=zVvrhhyKrjZfp8O0uWsz2+kDtS7GYCwstBUcS4GNa/w=;
+ b=0TOGKSH+3p+nZE0VS3BLYxB5BmMwIJiXdBgnluFxlYWhKrJo4hOYVJMAFRVI8MBvKh
+ B97R9N5xmaB7uft/UYNTumvllp4WWrjygr3nfDtU++cgsZBwtFgLP2WZ5IQNysJzdB2e
+ 2LM2XImvfut6F8/SnVZeWayFBNqJyUpQQkM+hxudbfz9kYiy7o3gSbH59tuCSxLiAutd
+ aYgT9KM+6qNFgddJ42ToS5Q6Ai8c/o1Hg9ZLhb0DwWJU9na2O38aoTW4XoZcP64Gsf4t
+ o7o3nH4KmLdFDCFwBaf/w8PoZsb5sCroyNcJNUX0D5qwojVKi9Ox/YNUmlDsWrdvUZA0
+ B8Fw==
+X-Gm-Message-State: AOAM532D7+AHXjMNZjSPvPJlVIkBW2wBml3COzYseO+O5zBrDH+DfRLG
+ GjHbfwM2rrCNUYGJl/9BYII+no/T/H4EOF/o9ZuPsVkJ+TBM5fhhWN32TTfD88GotxLl9kBW/Fy
+ Pxm+oqiRTrFX9n9k=
+X-Received: by 2002:a5d:45c1:0:b0:1e6:1141:309b with SMTP id
+ b1-20020a5d45c1000000b001e61141309bmr16568547wrs.595.1645460127386; 
+ Mon, 21 Feb 2022 08:15:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxintkvx6Rd97cqxrA23L6gTRSjoARsIk2HNUd+NscLqVddsaGol9ND7agSyAmt/vlgm+Cznw==
+X-Received: by 2002:a5d:45c1:0:b0:1e6:1141:309b with SMTP id
+ b1-20020a5d45c1000000b001e61141309bmr16568521wrs.595.1645460127127; 
+ Mon, 21 Feb 2022 08:15:27 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id t187sm8039579wma.22.2022.02.21.08.15.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Feb 2022 08:15:26 -0800 (PST)
+Date: Mon, 21 Feb 2022 16:15:24 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 10/20] migration: Enlarge postcopy recovery to capture
+ !-EIO too
+Message-ID: <YhO6nJh3OLxOyLoO@work-vm>
+References: <20220216062809.57179-1-peterx@redhat.com>
+ <20220216062809.57179-11-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 14a6hhjNCPJ7id9XmpRZWJ8eIlZexadg
-X-Proofpoint-GUID: KtdwknW0RU-rS51rUBY62L1Kf2XeGIrh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-21_07,2022-02-21_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0
- phishscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
- suspectscore=0 malwarescore=0 priorityscore=1501 clxscore=1015 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202210095
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <20220216062809.57179-11-peterx@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,135 +100,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new field 'cpu0-id' to the response of query-sev-capabilities
-QMP command.  The value of the field is the hex-encoded 64-byte unique
-ID of the CPU0 (socket 0), which can be used to retrieve the signed CEK
-of the CPU from AMD's Key Distribution Service (KDS).
+* Peter Xu (peterx@redhat.com) wrote:
+> We used to have quite a few places making sure -EIO happened and that's the
+> only way to trigger postcopy recovery.  That's based on the assumption that
+> we'll only return -EIO for channel issues.
+> 
+> It'll work in 99.99% cases but logically that won't cover some corner cases.
+> One example is e.g. ram_block_from_stream() could fail with an interrupted
+> network, then -EINVAL will be returned instead of -EIO.
+> 
+> I remembered Dave Gilbert pointed that out before, but somehow this is
+> overlooked.  Neither did I encounter anything outside the -EIO error.
+> 
+> However we'd better touch that up before it triggers a rare VM data loss during
+> live migrating.
+> 
+> To cover as much those cases as possible, remove the -EIO restriction on
+> triggering the postcopy recovery, because even if it's not a channel failure,
+> we can't do anything better than halting QEMU anyway - the corpse of the
+> process may even be used by a good hand to dig out useful memory regions, or
+> the admin could simply kill the process later on.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
----
- qapi/misc-target.json |  4 ++++
- target/i386/sev.c     | 43 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index 4bc45d2474..d9b4991c86 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -177,6 +177,8 @@
- #
- # @cert-chain:  PDH certificate chain (base64 encoded)
- #
-+# @cpu0-id: 64-byte unique ID of CPU0 (hex encoded) (since 7.0)
-+#
- # @cbitpos: C-bit location in page table entry
- #
- # @reduced-phys-bits: Number of physical Address bit reduction when SEV is
-@@ -187,6 +189,7 @@
- { 'struct': 'SevCapability',
-   'data': { 'pdh': 'str',
-             'cert-chain': 'str',
-+            'cpu0-id': 'str',
-             'cbitpos': 'int',
-             'reduced-phys-bits': 'int'},
-   'if': 'TARGET_I386' }
-@@ -205,6 +208,7 @@
- #
- # -> { "execute": "query-sev-capabilities" }
- # <- { "return": { "pdh": "8CCDD8DDD", "cert-chain": "888CCCDDDEE",
-+#                  "cpu0-id": "5ea2e1...90ea39",
- #                  "cbitpos": 47, "reduced-phys-bits": 5}}
- #
- ##
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 025ff7a6f8..c87c69b2f3 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -82,6 +82,8 @@ struct SevGuestState {
- #define DEFAULT_GUEST_POLICY    0x1 /* disable debug */
- #define DEFAULT_SEV_DEVICE      "/dev/sev"
- 
-+#define SEV_UNIQUE_ID_LEN       64
-+
- #define SEV_INFO_BLOCK_GUID     "00f771de-1a7e-4fcb-890e-68c77e2fb44e"
- typedef struct __attribute__((__packed__)) SevInfoBlock {
-     /* SEV-ES Reset Vector Address */
-@@ -531,11 +533,47 @@ e_free:
-     return 1;
- }
- 
-+static int
-+sev_get_id(int fd, guchar *id_buf, size_t id_buf_len, Error **errp)
-+{
-+    struct sev_user_data_get_id2 id = {
-+        .address = (unsigned long)id_buf,
-+        .length = id_buf_len
-+    };
-+    int err, r;
-+
-+    r = sev_platform_ioctl(fd, SEV_GET_ID2, &id, &err);
-+    if (r < 0) {
-+        error_setg(errp, "SEV: Failed to get ID ret=%d fw_err=%d (%s)",
-+                   r, err, fw_error_to_str(err));
-+        return 1;
-+    }
-+
-+    return 0;
-+}
-+
-+static const char hex[] = "0123456789abcdef";
-+
-+static gchar *hex_encode(guchar *buf, size_t len)
-+{
-+    gchar *str = g_new0(gchar, (len * 2) + 1);
-+    size_t i;
-+
-+    for (i = 0; i < len; i++) {
-+        str[(i * 2)] = hex[(buf[i] >> 4) & 0xf];
-+        str[(i * 2) + 1] = hex[buf[i] & 0xf];
-+    }
-+    str[len * 2] = '\0';
-+
-+    return str;
-+}
-+
- static SevCapability *sev_get_capabilities(Error **errp)
- {
-     SevCapability *cap = NULL;
-     guchar *pdh_data = NULL;
-     guchar *cert_chain_data = NULL;
-+    guchar cpu0_id[SEV_UNIQUE_ID_LEN];
-     size_t pdh_len = 0, cert_chain_len = 0;
-     uint32_t ebx;
-     int fd;
-@@ -561,9 +599,14 @@ static SevCapability *sev_get_capabilities(Error **errp)
-         goto out;
-     }
- 
-+    if (sev_get_id(fd, cpu0_id, sizeof(cpu0_id), errp)) {
-+        goto out;
-+    }
-+
-     cap = g_new0(SevCapability, 1);
-     cap->pdh = g_base64_encode(pdh_data, pdh_len);
-     cap->cert_chain = g_base64_encode(cert_chain_data, cert_chain_len);
-+    cap->cpu0_id = hex_encode(cpu0_id, sizeof(cpu0_id));
- 
-     host_cpuid(0x8000001F, 0, NULL, &ebx, NULL, NULL);
-     cap->cbitpos = ebx & 0x3f;
+> ---
+>  migration/migration.c    | 4 ++--
+>  migration/postcopy-ram.c | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 6e4cc9cc87..67520d3105 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2877,7 +2877,7 @@ retry:
+>  out:
+>      res = qemu_file_get_error(rp);
+>      if (res) {
+> -        if (res == -EIO && migration_in_postcopy()) {
+> +        if (res && migration_in_postcopy()) {
+>              /*
+>               * Maybe there is something we can do: it looks like a
+>               * network down issue, and we pause for a recovery.
+> @@ -3478,7 +3478,7 @@ static MigThrError migration_detect_error(MigrationState *s)
+>          error_free(local_error);
+>      }
+>  
+> -    if (state == MIGRATION_STATUS_POSTCOPY_ACTIVE && ret == -EIO) {
+> +    if (state == MIGRATION_STATUS_POSTCOPY_ACTIVE && ret) {
+>          /*
+>           * For postcopy, we allow the network to be down for a
+>           * while. After that, it can be continued by a
+> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+> index d3ec22e6de..6be510fea4 100644
+> --- a/migration/postcopy-ram.c
+> +++ b/migration/postcopy-ram.c
+> @@ -1038,7 +1038,7 @@ retry:
+>                                          msg.arg.pagefault.address);
+>              if (ret) {
+>                  /* May be network failure, try to wait for recovery */
+> -                if (ret == -EIO && postcopy_pause_fault_thread(mis)) {
+> +                if (postcopy_pause_fault_thread(mis)) {
+>                      /* We got reconnected somehow, try to continue */
+>                      goto retry;
+>                  } else {
+> -- 
+> 2.32.0
+> 
 -- 
-2.25.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
