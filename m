@@ -2,99 +2,158 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB9F4BDA04
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 14:53:21 +0100 (CET)
-Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747D54BDA05
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 14:53:22 +0100 (CET)
+Received: from localhost ([::1]:44612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM97v-0007Yr-TX
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 08:53:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36972)
+	id 1nM97x-0007bS-IB
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 08:53:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nM8Xw-0005fA-C1
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 08:16:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51592)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1nM8ie-0003rs-11
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 08:27:15 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:11188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nM8Xq-0005JA-3F
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 08:16:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645449359;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/b+gfZGmss3foWf9qt0rVYBYfFuvnLsEyv7Q10/Ukfs=;
- b=DqoyBFziXYY9oHj4IygVsBXMmgoWwVvR7yZr6bquAUkPkGY0EQFFZA9OA7M0R2CIDgWIao
- 5lVVLIhCqHKuasKlS67iBFQV5gMw3Evlrztd8EfV5zwW7hCeoo4/ajh+SktMt7cVPQ9o1k
- jARpj06+WnrslJ29y4EvF8a3C9+RzvU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-313-uIls0KSHNmekKUPfgBB8fQ-1; Mon, 21 Feb 2022 08:15:45 -0500
-X-MC-Unique: uIls0KSHNmekKUPfgBB8fQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- k20-20020adfc714000000b001e305cd1597so7396625wrg.19
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 05:15:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=/b+gfZGmss3foWf9qt0rVYBYfFuvnLsEyv7Q10/Ukfs=;
- b=gXBQYzOttmXLgRWyv6RJLDi6CQ1k5e1Z54gSw102OF5imEWgfNODP4yE9dPJR6aKHQ
- WvhOYISh6oSqv2j58ALK7MDUm059W1X9c5vZI/2SQiEABpcPalalds3DhVnv7SL5Ga3A
- P7Vy/s4iyWPiZuiSmnaH04U7n28kmtTfDXiuP57UvbaOxrojuQ4/DXEHFs0NfSCj7AsK
- yzDWdVBm9lhXzXZYDv+jAbvxwvc/IgDfE+WhtgSe/OUejbDLYxkpMRSk2psmpsAigCFl
- ZrBkXtkUpcyaXo+iyCkgpq81xhj2IkKfJDhSwsdowTAzzRUPqN734Oba0s1hcgBiiT5f
- MrlA==
-X-Gm-Message-State: AOAM533Xu0N7MJ7c3c0nwCYVDcm/V050ncViDkbI3/dm19bMdJjbMZ8p
- hWPc+rZWMfHdEN7GyOayG9DhQ8NmZBKXjl6X7rX3MrxEUJUwluU4p3EyXWkOC9Y0qxFfKAnq0FN
- VrABanMfnSDH22DA=
-X-Received: by 2002:a05:600c:3650:b0:37b:dd89:2f01 with SMTP id
- y16-20020a05600c365000b0037bdd892f01mr21172606wmq.43.1645449344008; 
- Mon, 21 Feb 2022 05:15:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwdTLHHYXPSx1AOy5IafRlROMUpXqZRI1v5viLTEyT5NFL89Ki4S/X3w6IxyeItz2vwpYKAdg==
-X-Received: by 2002:a05:600c:3650:b0:37b:dd89:2f01 with SMTP id
- y16-20020a05600c365000b0037bdd892f01mr21172576wmq.43.1645449343696; 
- Mon, 21 Feb 2022 05:15:43 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id e3sm43631899wrr.94.2022.02.21.05.15.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Feb 2022 05:15:43 -0800 (PST)
-Date: Mon, 21 Feb 2022 13:15:40 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH RFCv2 2/4] i386/pc: relocate 4g start to 1T where
- applicable
-Message-ID: <YhOQfJ8x93+jDSZf@work-vm>
-References: <20220207202422.31582-1-joao.m.martins@oracle.com>
- <20220207202422.31582-3-joao.m.martins@oracle.com>
- <20220214155318.3ce80da0@redhat.com>
- <fa172a19-5db6-a844-27d7-8497d306024e@oracle.com>
- <20220214163158.4c4b210b@redhat.com>
- <20220215095358.5qcrgwlasheu63uj@sirius.home.kraxel.org>
- <YgzJE7ufEYm6OFyg@redhat.com>
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1nM8ib-00074v-0D
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 08:27:11 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21LCeB89008921; 
+ Mon, 21 Feb 2022 13:26:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : references : date : in-reply-to : message-id : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=DztYiQVcMo+nnexfMcIKqvFdDvDlmlRKrOrKfS6aIlE=;
+ b=K6eUU6mJl7wDlfMlUWBd3iNQCVdrqFgCKH1ZPhMHiqJiPTRTEN0c0KVgpylZ9wO95mOP
+ rBlhrd6/jksoKfvBkE7bdspMmBlq8of5nvfUdj6S+MxCuiSzwx323ad+xqUTsq8OFDYq
+ 7UG+f619TAyrtzhL1xS/6bA3IVCbY8wYPBKgT2D7j7wuzyZquCtqz49IAL05bMrY5XEs
+ iaOepMdxTKrT8Gwu7PtD2nJ+eSn092iyDH0f9OJnxO/qxIb7jf7BJk/L5a98wXV/6uKp
+ ap2XvJAYkV0dRG7ffy75DBzse9u/cu8iUAPc4o8h7PyaBkyqZaAapzRwlmcjV6dDrLo3 8Q== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3eaq52c69e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 21 Feb 2022 13:26:02 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21LDGmLT180627;
+ Mon, 21 Feb 2022 13:26:01 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
+ by aserp3030.oracle.com with ESMTP id 3eapkepwm1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 21 Feb 2022 13:26:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I9un3l+vlLxfuvgkSLabT/vRB+SZR+ZGMATMr9/tNcsIQmRoFYWcmjpklES8WtP6aWeK9N6tP1gqdi+vi4cMVyJ9nBI+cYH6jiXiXfhixO8YdyHqE1Yw3bci0vYKKhD8SPhYlPRuDLwHFjAHEH59d4Zi1nScpeycXt36X5WSjbBISdAxGyBVX9uBg+JPI7tQXMKqHfFPe8vlsQ6m4tvJUkCqP9kXBhtG1eMUGuEekJhKwpKpfM3kRmY0CC+V9AeE3MWMgMpAqdH354RKVBtcQWim38q1DWRdnIhnO1VZ1uLFMMqsR4L/kJpYHdJ+C4ojmT76CiJmCFUKzvWH3FJKaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DztYiQVcMo+nnexfMcIKqvFdDvDlmlRKrOrKfS6aIlE=;
+ b=XooC3RnjU6OqX2Ap2VssivRAGGCy+uBsSAjeydaci4dtodDm2eEZ5nldcjEbWHvo/t3Apy0XCP1JSlirKliM/q9RjY6FLqhKx0Uf4oDVjcMApM0ZAFhaG9WuDxYl4dED9DX6dBYqHGUHEbCI0otD1zZU+A/ece0kEEwqNyGg0OOaQ+tyZpaIkjrTg9GSmiJH7UFpMxQvmvGtHZ9KaPfAJFRWJ4X9PwlCIibg2mQI2Q9Dktv5724JcgMXy0VZa2YLbELdXicSN181qRmjmYY5gigTZ85S1hpX2ITazFKQrudHFhVjX5ufNtyBR9fJKITd1K79oJjqw/uwcb1Ky8aCuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DztYiQVcMo+nnexfMcIKqvFdDvDlmlRKrOrKfS6aIlE=;
+ b=nC6FGOUqTEpO+zMXxjbASJnFZwEDQY4SKWWayjox1hS+ulSUl97/GvYaDTd8V7JHFhp9v7hTVnECU36V90rEAlohXXECrXraSIBKzCxC2/IVuzysEQa3SGEdvqRYtWeaXOYcwy8CMnrAvSx1sKFreRQFbyFSEq1+xwG/LEd0dSk=
+Received: from DS7PR10MB4926.namprd10.prod.outlook.com (2603:10b6:5:3ac::20)
+ by PH0PR10MB4598.namprd10.prod.outlook.com (2603:10b6:510:34::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.24; Mon, 21 Feb
+ 2022 13:25:59 +0000
+Received: from DS7PR10MB4926.namprd10.prod.outlook.com
+ ([fe80::e429:a820:ef6e:98d9]) by DS7PR10MB4926.namprd10.prod.outlook.com
+ ([fe80::e429:a820:ef6e:98d9%6]) with mapi id 15.20.4995.027; Mon, 21 Feb 2022
+ 13:25:59 +0000
+From: David Edmondson <david.edmondson@oracle.com>
+To: Yang Zhong <yang.zhong@intel.com>
+Subject: Re: [PATCH v2 6/8] x86: add support for KVM_CAP_XSAVE2 and AMX
+ state migration
+References: <20220217060434.52460-1-yang.zhong@intel.com>
+ <20220217060434.52460-7-yang.zhong@intel.com>
+Date: Mon, 21 Feb 2022 13:25:53 +0000
+In-Reply-To: <20220217060434.52460-7-yang.zhong@intel.com> (Yang Zhong's
+ message of "Wed, 16 Feb 2022 22:04:32 -0800")
+Message-ID: <cunv8x8nyfy.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.0.50 (gnu/linux)
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P265CA0193.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:9e::13) To DS7PR10MB4926.namprd10.prod.outlook.com
+ (2603:10b6:5:3ac::20)
 MIME-Version: 1.0
-In-Reply-To: <YgzJE7ufEYm6OFyg@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b9368417-9380-41e0-8af0-08d9f53db2ce
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4598:EE_
+X-Microsoft-Antispam-PRVS: <PH0PR10MB4598B77E2292A3A0AEAB2BA9883A9@PH0PR10MB4598.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Z4IjQvwHc/CeWPlGXDY/CyQ9hmoENLFNCRu9BrOIIcsRgHuYmnYv9dtlPbmuWlPsOP0x4j3fga4LFMpj43ZtTnBpLCpyZsiYSQ2ejBI4B3xsdSUXrTefR+rV0YJxdAP7+7UQOACgHQfLpKAPPZmucr2iFO1QMbZU6Kg1pUDC/eYoK47LZmLKETtLlL4ZXvjb4+/mTtVr+AYr994OUZh3ZfqffVmWYyrzCMKXwEl9kc5PEQYnt66CLJnNaisRyPBpW5vqSNMLZwHuqE2HT+3y3CIggLtYAUqP5m0rRz0D6jQtzVzQXL00PvXqVcXP6bl9bTusnv5az7r4a2r9ZFWpkOS32vNhMYkjrPp6rz8sv8s/aDQml+0x4O9/CuRXJikDsOjeFUIlW4urK1Ggx5BXpmWLPhYwz3q0RVdwHRRcfdWBqJELaY3vJ1eQ1BfvHmeFDLhE/Z5rljQIrD3Sq5UMOTFIaSllu16ieSjk8lJbIXa1OZyK3X/E8S2a4V0I4xAnsBeMpxs5eU61aaT/o68Hqu60uoJzZf5srj5fTkrrwcLIvaoy7b+yqAu9ApwYpWHBYVyEE8BWBj8kivYXI9E1LNv1z44FgynmnEWNIKcfOedZkRFwXWfI8kGW2avLJD3EdCwz10G4AFDxrbxOQDeReQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR10MB4926.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(4326008)(66476007)(8676002)(66556008)(66946007)(83380400001)(6486002)(508600001)(6916009)(316002)(6512007)(8936002)(5660300002)(2616005)(52116002)(2906002)(6666004)(86362001)(186003)(6506007)(44832011)(38100700002)(36756003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lHYzfZxUfOpInS2QT9r3rShzYGEKQejCCbMYjrgPXHyNT0jztuAsmqCfKpGR?=
+ =?us-ascii?Q?wMPM0wjKD0imDA3p0ojGB35uhvRDxx6EXJy9o2Xd22kvhrg7Cg+8qlDipD5Y?=
+ =?us-ascii?Q?Isn3VM9UmvFxQrmqSos1bVxyX2OQTqh7klZYAqiMVtSx9OJjju+zuPSpmueP?=
+ =?us-ascii?Q?w+s+5IXXNjt7p2IJVXEh7m5tYbWmZncO76jziHKG9Cl/n2dxU18QcV6q8TjT?=
+ =?us-ascii?Q?U/f7wjkJL08jW+7PG92Ap3V/GJfK09NrE3xJZGngU4tBAlpAwoVtdo7mnU0H?=
+ =?us-ascii?Q?BABI5rguUqlDufp74oon+iv7QrS0mUZjXFopGCvYYQrxS99AwReoonQzHA9U?=
+ =?us-ascii?Q?r9KCEki40ZopwnLaAmGXwoE98aAFLeQy8PqMitaFxA3TJU1DxB+l8Shrcq/S?=
+ =?us-ascii?Q?7+sbpzEvrdmxZfvj00MlaPdJ3FfQyEFm0/ks2/drv67M7HIz4etRqEKEAF3m?=
+ =?us-ascii?Q?3HWhBZ9EBHXhjpfYG/Wl+1/dbJx7YNgIQDYwsqpGEdhmoMa+HZdLIFG0+aDb?=
+ =?us-ascii?Q?jZ1FbNKN6ydiPJ2RxA1E5VR5THTbq50ttcvPAA6OmA1H9CyZB7pUBUUtlA3V?=
+ =?us-ascii?Q?uZ/In51JjWSW2xfRY842kzLE7eci39mbKrMj7Y6d2bXVR7vXme5SBJ2R1q2j?=
+ =?us-ascii?Q?BaJeC+WVrhL8+KP+OZJNFRM/XlR5ojCbnwDbi/EReaglFRwEYLu00ZMNEGKh?=
+ =?us-ascii?Q?C+qdDvomjrD41A9Qp+jkEyRMCHpZVGyTlDVHBjeToU2mB1USuL760JkwPBRN?=
+ =?us-ascii?Q?4e4hX5DM5t5IWruPSUTRmx1dcCJYL/p9amYlU7cuY5nvI2aZQrmhVOpIEUMp?=
+ =?us-ascii?Q?3aecXeYKRkrLInpBIkx9QB39WuZfCUIg9AefFFFCdUajTxDv7Gqjg83rXZtO?=
+ =?us-ascii?Q?7j9jRh5NK91DJLWV3V7dNvK/wNYPt5OEKEABGelU9vwC2fG9MxTRyY9dHxRy?=
+ =?us-ascii?Q?fLQQXYAoNVLDEGbVAVDDP1YfBPDc36coRPCOxncirfifgNCSQS3j7H5Jk6DI?=
+ =?us-ascii?Q?OyPP+Evdx9CZPo1vR3eOpdX6PxHQzDZXzxqW+SGHyuvMaRtaOhBb0nnSINsu?=
+ =?us-ascii?Q?6vfrxVZw4vJ9LHNaqwlc3K82/FzQE9BpanfN7t1dsjAaBGK112PZio2WHM99?=
+ =?us-ascii?Q?rGYUH7ZxIJAObCiywGe0Lwrj9gN0et9buLISN3uUnmUWRTaErjmVcnFpBF18?=
+ =?us-ascii?Q?pWP2RGyBLbYiG3m8JU0PH/J5d6x27EEHFHrWauopcstimG078yBPHOb2SByy?=
+ =?us-ascii?Q?rKXuXq7DGXflSf45OSjYeCjJviUh2Y5ytTutB9GecYUS3cZgHoGtp5UUBKMh?=
+ =?us-ascii?Q?TbZwPKpfyp8/mRuawshQR/ZhMJ7HHVotknJ7E3uRF5ED7cEDcbY0zEVMzVV6?=
+ =?us-ascii?Q?ibIGBpH/q4aUOh+nI0pDlsL50dLVhppG+wtKDxIGxnn9+S0jCKMMYDN43gsr?=
+ =?us-ascii?Q?fLsGdZljksNoHnw4p1lU4WJ4R1/7iNvGgOoYGXM7/6uAHKxITROMMPFu1K/o?=
+ =?us-ascii?Q?EytN3KjReMEtdm6zI6w741vR4YNDCx3dgYOK3mg1uh90rSTQD/HWSO30kANQ?=
+ =?us-ascii?Q?KCheNZcLc3EE0gg/EI8bYbLzeb0CZB/kvellu/H/4FTReNvatoF/Dk8F1FNw?=
+ =?us-ascii?Q?gmsuzPh83Tsl/syPKxUQ5N20e5PUIKzI0FLl0P1OXOoouRTDm1K78FuGaxqB?=
+ =?us-ascii?Q?1CCvOZPWQbJYZY1ccg00LtmmM9rh5rsWeJ/o4ml4bBbuxwg8?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9368417-9380-41e0-8af0-08d9f53db2ce
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB4926.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2022 13:25:59.3513 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oacACJJpl4XyNX4GOX5N2XfKzDNmJUSjD/3GT7ZX22BHuoN/0lHD18/MLRgGSgQm2ibHLDc7N58I2WVfi4XBWm2C1XZ2BsZAQN0Ns2PCulo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4598
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10264
+ signatures=677614
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ suspectscore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 adultscore=0 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202210080
+X-Proofpoint-GUID: IjbA_M6oJFq1ZOprU3xTl5AB_kqh2_U8
+X-Proofpoint-ORIG-GUID: IjbA_M6oJFq1ZOprU3xTl5AB_kqh2_U8
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=david.edmondson@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,99 +167,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>, Joao Martins <joao.m.martins@oracle.com>
+Cc: kevin.tian@intel.com, seanjc@google.com, jing2.liu@linux.intel.com,
+ qemu-devel@nongnu.org, wei.w.wang@intel.com, pbonzini@redhat.com,
+ guang.zeng@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Tue, Feb 15, 2022 at 10:53:58AM +0100, Gerd Hoffmann wrote:
-> >   Hi,
-> > 
-> > > I don't know what behavior should be if firmware tries to program
-> > > PCI64 hole beyond supported phys-bits.
-> > 
-> > Well, you are basically f*cked.
-> > 
-> > Unfortunately there is no reliable way to figure what phys-bits actually
-> > is.  Because of that the firmware (both seabios and edk2) tries to place
-> > the pci64 hole as low as possible.
-> > 
-> > The long version:
-> > 
-> > qemu advertises phys-bits=40 to the guest by default.  Probably because
-> > this is what the first amd opteron processors had, assuming that it
-> > would be a safe default.  Then intel came, releasing processors with
-> > phys-bits=36, even recent (desktop-class) hardware has phys-bits=39.
-> > Boom.
-> > 
-> > End result is that edk2 uses a 32G pci64 window by default, which is
-> > placed at the first 32G border beyond normal ram.  So for virtual
-> > machines with up to ~ 30G ram (including reservations for memory
-> > hotplug) the pci64 hole covers 32G -> 64G in guest physical address
-> > space, which is low enough that it works on hardware with phys-bits=36.
-> > 
-> > If your VM has more than 32G of memory the pci64 hole will move and
-> > phys-bits=36 isn't enough any more, but given that you probably only do
-> > that on more beefy hosts which can take >= 64G of RAM and have a larger
-> > physical address space this heuristic works good enough in practice.
-> > 
-> > Changing phys-bits behavior has been discussed on and off since years.
-> > It's tricky to change for live migration compatibility reasons.
-> > 
-> > We got the host-phys-bits and host-phys-bits-limit properties, which
-> > solve some of the phys-bits problems.
-> > 
-> >  * host-phys-bits=on makes sure the phys-bits advertised to the guest
-> >    actually works.  It's off by default though for backward
-> >    compatibility reasons (except microvm).  Also because turning it on
-> >    breaks live migration of machines between hosts with different
-> >    phys-bits.
-> 
-> RHEL has shipped with host-phys-bits=on in its machine types
-> sinec RHEL-7. If it is good enough for RHEL machine types
-> for 8 years, IMHO, it is a sign that its reasonable to do the
-> same with upstream for new machine types.
+On Wednesday, 2022-02-16 at 22:04:32 -08, Yang Zhong wrote:
 
-And the upstream code is now pretty much identical except for the
-default;  note that for TCG you do need to keep to 40 I think.
+> From: Jing Liu <jing2.liu@intel.com>
+>
+> When dynamic xfeatures (e.g. AMX) are used by the guest, the xsave
+> area would be larger than 4KB. KVM_GET_XSAVE2 and KVM_SET_XSAVE
+> under KVM_CAP_XSAVE2 works with a xsave buffer larger than 4KB.
+> Always use the new ioctls under KVM_CAP_XSAVE2 when KVM supports it.
+>
+> Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> Signed-off-by: Zeng Guang <guang.zeng@intel.com>
+> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> ---
+>  target/i386/cpu.h          |  4 ++++
+>  target/i386/kvm/kvm.c      | 42 ++++++++++++++++++++++++--------------
+>  target/i386/xsave_helper.c | 33 ++++++++++++++++++++++++++++++
+>  3 files changed, 64 insertions(+), 15 deletions(-)
+>
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index f7fc2e97a6..de9da38e42 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1528,6 +1528,10 @@ typedef struct CPUX86State {
+>      uint64_t opmask_regs[NB_OPMASK_REGS];
+>      YMMReg zmmh_regs[CPU_NB_REGS];
+>      ZMMReg hi16_zmm_regs[CPU_NB_REGS];
+> +#ifdef TARGET_X86_64
+> +    uint8_t xtilecfg[64];
+> +    uint8_t xtiledata[8192];
+> +#endif
 
-Dave
-> 
-> >  * host-phys-bits-limit can be used to tweak phys-bits to
-> >    be lower than what the host supports.  Which can be used for
-> >    live migration compatibility, i.e. if you have a pool of machines
-> >    where some have 36 and some 39 you can limit phys-bits to 36 so
-> >    live migration from 39 hosts to 36 hosts works.
-> 
-> RHEL machine types have set this to host-phys-bits-limit=48
-> since RHEL-8 days, to avoid accidentally enabling 5-level
-> paging in guests without explicit user opt-in.
-> 
-> > What is missing:
-> > 
-> >  * Some way for the firmware to get a phys-bits value it can actually
-> >    use.  One possible way would be to have a paravirtual bit somewhere
-> >    telling whenever host-phys-bits is enabled or not.
-> 
-> 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
-> 
+Can we have defined constants for these sizes? They also appear in patch
+2.
+
+>
+>      /* sysenter registers */
+>      uint32_t sysenter_cs;
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index 8562d3d138..ff064e3d8f 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -122,6 +122,7 @@ static uint32_t num_architectural_pmu_gp_counters;
+>  static uint32_t num_architectural_pmu_fixed_counters;
+>
+>  static int has_xsave;
+> +static int has_xsave2;
+>  static int has_xcrs;
+>  static int has_pit_state2;
+>  static int has_sregs2;
+> @@ -1585,6 +1586,26 @@ static Error *invtsc_mig_blocker;
+>
+>  #define KVM_MAX_CPUID_ENTRIES  100
+>
+> +static void kvm_init_xsave(CPUX86State *env)
+> +{
+> +    if (has_xsave2) {
+> +        env->xsave_buf_len = QEMU_ALIGN_UP(has_xsave2, 4096);
+
+Idle curiosity - why do we round this up?
+
+> +    } else if (has_xsave) {
+> +        env->xsave_buf_len = sizeof(struct kvm_xsave);
+> +    } else {
+> +        return;
+> +    }
+> +
+> +    env->xsave_buf = qemu_memalign(4096, env->xsave_buf_len);
+> +    memset(env->xsave_buf, 0, env->xsave_buf_len);
+> +     /*
+> +      * The allocated storage must be large enough for all of the
+> +      * possible XSAVE state components.
+> +      */
+> +    assert(kvm_arch_get_supported_cpuid(kvm_state, 0xd, 0, R_ECX) <=
+> +           env->xsave_buf_len);
+> +}
+> +
+>  int kvm_arch_init_vcpu(CPUState *cs)
+>  {
+>      struct {
+> @@ -1614,6 +1635,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>
+>      cpuid_i = 0;
+>
+> +    has_xsave2 = kvm_check_extension(cs->kvm_state, KVM_CAP_XSAVE2);
+> +
+>      r = kvm_arch_set_tsc_khz(cs);
+>      if (r < 0) {
+>          return r;
+> @@ -2003,19 +2026,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>      if (r) {
+>          goto fail;
+>      }
+> -
+> -    if (has_xsave) {
+> -        env->xsave_buf_len = sizeof(struct kvm_xsave);
+> -        env->xsave_buf = qemu_memalign(4096, env->xsave_buf_len);
+> -        memset(env->xsave_buf, 0, env->xsave_buf_len);
+> -
+> -        /*
+> -         * The allocated storage must be large enough for all of the
+> -         * possible XSAVE state components.
+> -         */
+> -        assert(kvm_arch_get_supported_cpuid(kvm_state, 0xd, 0, R_ECX)
+> -               <= env->xsave_buf_len);
+> -    }
+> +    kvm_init_xsave(env);
+>
+>      max_nested_state_len = kvm_max_nested_state_length();
+>      if (max_nested_state_len > 0) {
+> @@ -3319,13 +3330,14 @@ static int kvm_get_xsave(X86CPU *cpu)
+>  {
+>      CPUX86State *env = &cpu->env;
+>      void *xsave = env->xsave_buf;
+> -    int ret;
+> +    int type, ret;
+>
+>      if (!has_xsave) {
+>          return kvm_get_fpu(cpu);
+>      }
+>
+> -    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE, xsave);
+> +    type = has_xsave2 ? KVM_GET_XSAVE2 : KVM_GET_XSAVE;
+> +    ret = kvm_vcpu_ioctl(CPU(cpu), type, xsave);
+>      if (ret < 0) {
+>          return ret;
+>      }
+> diff --git a/target/i386/xsave_helper.c b/target/i386/xsave_helper.c
+> index ac61a96344..b6a004505f 100644
+> --- a/target/i386/xsave_helper.c
+> +++ b/target/i386/xsave_helper.c
+> @@ -5,6 +5,7 @@
+>  #include "qemu/osdep.h"
+>
+>  #include "cpu.h"
+> +#include <asm/kvm.h>
+>
+>  void x86_cpu_xsave_all_areas(X86CPU *cpu, void *buf, uint32_t buflen)
+>  {
+> @@ -126,6 +127,22 @@ void x86_cpu_xsave_all_areas(X86CPU *cpu, void *buf, uint32_t buflen)
+>
+>          memcpy(pkru, &env->pkru, sizeof(env->pkru));
+>      }
+> +
+> +    e = &x86_ext_save_areas[XSTATE_XTILE_CFG_BIT];
+> +    if (e->size && e->offset) {
+> +        XSaveXTILECFG *tilecfg = buf + e->offset;
+> +
+> +        memcpy(tilecfg, &env->xtilecfg, sizeof(env->xtilecfg));
+> +    }
+> +
+> +    if (buflen > sizeof(struct kvm_xsave)) {
+> +        e = &x86_ext_save_areas[XSTATE_XTILE_DATA_BIT];
+> +        if (e->size && e->offset && buflen >= e->size + e->offset) {
+> +            XSaveXTILEDATA *tiledata = buf + e->offset;
+> +
+> +            memcpy(tiledata, &env->xtiledata, sizeof(env->xtiledata));
+> +        }
+> +    }
+>  #endif
+>  }
+>
+> @@ -247,5 +264,21 @@ void x86_cpu_xrstor_all_areas(X86CPU *cpu, const void *buf, uint32_t buflen)
+>          pkru = buf + e->offset;
+>          memcpy(&env->pkru, pkru, sizeof(env->pkru));
+>      }
+> +
+> +    e = &x86_ext_save_areas[XSTATE_XTILE_CFG_BIT];
+> +    if (e->size && e->offset) {
+> +        const XSaveXTILECFG *tilecfg = buf + e->offset;
+> +
+> +        memcpy(&env->xtilecfg, tilecfg, sizeof(env->xtilecfg));
+> +    }
+> +
+> +    if (buflen > sizeof(struct kvm_xsave)) {
+> +        e = &x86_ext_save_areas[XSTATE_XTILE_DATA_BIT];
+> +        if (e->size && e->offset && buflen >= e->size + e->offset) {
+> +            const XSaveXTILEDATA *tiledata = buf + e->offset;
+> +
+> +            memcpy(&env->xtiledata, tiledata, sizeof(env->xtiledata));
+> +        }
+> +    }
+>  #endif
+>  }
+
+dme.
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Why does it have to be like this? I can never tell.
 
