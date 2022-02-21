@@ -2,41 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336624BDABB
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 17:03:31 +0100 (CET)
-Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015AF4BDAB9
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 17:03:27 +0100 (CET)
+Received: from localhost ([::1]:44654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMB9t-0002YU-Mt
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 11:03:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55134)
+	id 1nMB9q-0002SE-DK
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 11:03:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMB2E-0006b9-Vx
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 10:55:35 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:35532)
+ id 1nMB2G-0006cb-PK
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 10:55:37 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:35542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMB2C-0002Am-5Z
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 10:55:34 -0500
+ id 1nMB2D-0002At-MO
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 10:55:36 -0500
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id E32702077F;
- Mon, 21 Feb 2022 15:55:29 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id B46CF21C36;
+ Mon, 21 Feb 2022 15:55:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1645458930;
+ s=mail; t=1645458931;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=WVPt5HYkW5rAf8ErdjsHa6yJcxx/aRccY80De5B7Q2Y=;
- b=SKV8MovPaV1Ij5lwWuCTROgEE5SIiOVOP8G6vzyaHH9TBOO5qr1HZAv3cE8XPNYaQDzE4F
- QQF+H3qTfzRSgdLVD4j5JgHOCudeTjroZuZBqAx/6N9VZnumH3XcBDa0M4fMeG0MhN/xFL
- uYoEplxRmWociWnwMesNtcwHevjTCEo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zDC9u9lt816558qvQ9zL3iwMJrJG4eLRj8Dgvj9bAM0=;
+ b=ROLmkmxqyOTK9XOTfCKXt5z7e61sPx4keR5EVNW6B3EoEbVRORcM2STu+0zThKaRU0U+SI
+ UgfTCRdRuak4AQlh07Hru6lJuLG/eD+aBSYQAty+6xqgfMTv3BP8tfV2rrIFxhxFxIA51W
+ TgG0Y/bt/9OV/M6BjgXxLXPQmxLXAac=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] qmp-shell modifications for non-interactive use
-Date: Mon, 21 Feb 2022 16:55:14 +0100
-Message-Id: <20220221155519.2367-1-damien.hedde@greensocs.com>
+Subject: [PATCH 1/5] python: qmp_shell: don't prompt when stdin is
+ non-interactive
+Date: Mon, 21 Feb 2022 16:55:15 +0100
+Message-Id: <20220221155519.2367-2-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220221155519.2367-1-damien.hedde@greensocs.com>
+References: <20220221155519.2367-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=5.135.226.135;
@@ -65,45 +69,27 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+In that case, there is no echo anyway. So the prompt is just
+garbage.
 
-The main idea of this series is to be a bit more user-friendly when
-using qmp-shell in a non-interactive way: with an input redirection
-from a file containing a list of commands.
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+---
+ python/qemu/aqmp/qmp_shell.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I'm working on dynamic qapi config of a qemu machine, this would
-be very useful to provide and reproduce small examples.
-
-This series proposes the following modifications:
-+ no prompt when input is non-interactive
-+ an --exit-on-error option so that the shell exits on first
-  error (disconnection, command parsing error, response is an error)
-+ support for comment lines and escaping eol to have more reability
-  in the source files.
-
-I tested this using QMPShell. I tried HMPShell but did not findout
-how to successfully use it with qemu. How do I setup an HMPShell ?.
-
-Another "issue" I have is the handling of integers. I
-deal with a lot of addresses and reading/writing them as decimal is
-a bit painful (json does not support hexadecimal integer format). Do
-you think of any reasonable workaround for this ? Maybe HMP shell
-support this ?
-
-Thanks for your comments,
---
-Damien
-
-Damien Hedde (5):
-  python: qmp_shell: don't prompt when stdin is non-interactive
-  python: qmp_shell: refactor the parsing error handling
-  python: qmp_shell: refactor disconnection handling
-  python: qmp_shell: add -e/--exit-on-error option
-  python: qmp_shell: handle comment lines and escaped eol
-
- python/qemu/aqmp/qmp_shell.py | 117 ++++++++++++++++++++++++----------
- 1 file changed, 83 insertions(+), 34 deletions(-)
-
+diff --git a/python/qemu/aqmp/qmp_shell.py b/python/qemu/aqmp/qmp_shell.py
+index d11bf54b00..a6e0f5af42 100644
+--- a/python/qemu/aqmp/qmp_shell.py
++++ b/python/qemu/aqmp/qmp_shell.py
+@@ -367,6 +367,8 @@ def prompt(self) -> str:
+         """
+         Return the current shell prompt, including a trailing space.
+         """
++        if not sys.stdin.isatty():
++            return ""
+         if self._transmode:
+             return 'TRANS> '
+         return '(QEMU) '
 -- 
 2.35.1
 
