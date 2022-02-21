@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B494BD98C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:08:18 +0100 (CET)
-Received: from localhost ([::1]:52614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4744BD99A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:14:12 +0100 (CET)
+Received: from localhost ([::1]:60338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM7UH-00072E-BF
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:08:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50176)
+	id 1nM7a0-0004dk-0T
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:14:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7NN-0003qY-Vp
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44853)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Np-0003uU-JR
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7NL-0000p7-GH
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:09 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Nn-0000r1-Lv
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645444866;
+ s=mimecast20190719; t=1645444895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YerZ32/3jtWzAtNH5XFDIJqtCOfQSUS9OebBdydGUfE=;
- b=Dg05+QWKPTX82I2gDnJZ44hfqvYQoUV5EcR70PCq64syN5lXaFkv8iDK5cPy9MVVaH8qeD
- lH0AH2Kadp7ZoHoZlIrUsOFlJGAS+81nWKEHSryRohL5Q9GVtMbNiK3rWey+6bJvRaORh0
- I4LU9lvThoDMqg3ng1g7Bf1pBkdqI0E=
+ bh=+3Lz1p644KgHVWMd3sekbEQdSNPLoUHGfUch3LfowgM=;
+ b=c/0fs81zzelhbdyfktMY3EMHh8C5EeZMTow3eKvGxrGQ3o34Eo2hGhAcym7I8InDbfBn1W
+ sna44xuvtfii42FgBvjRgbECmwZZ1Urdsx3YBnGs3giBPxVgDdICozOztn4322U9D/mZgm
+ IM/R10WanXMedyR7rsSlSYF3rbyUTW0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-382-vtdTlKofM4uiaTTmBG7Uww-1; Mon, 21 Feb 2022 07:01:03 -0500
-X-MC-Unique: vtdTlKofM4uiaTTmBG7Uww-1
+ us-mta-455-e0HCC17vO12EDPofDxKl5w-1; Mon, 21 Feb 2022 07:01:33 -0500
+X-MC-Unique: e0HCC17vO12EDPofDxKl5w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9071F1853026;
- Mon, 21 Feb 2022 12:01:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAFD41F2DB;
+ Mon, 21 Feb 2022 12:01:32 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.195.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5306373162;
- Mon, 21 Feb 2022 12:01:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF56573167;
+ Mon, 21 Feb 2022 12:01:02 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/25] erst: drop cast to long long
-Date: Mon, 21 Feb 2022 12:59:46 +0100
-Message-Id: <20220221120008.600114-4-thuth@redhat.com>
+Subject: [PULL 04/25] tests/qtest/vhost-user-test.c: Use vhostforce=on
+Date: Mon, 21 Feb 2022 12:59:47 +0100
+Message-Id: <20220221120008.600114-5-thuth@redhat.com>
 In-Reply-To: <20220221120008.600114-1-thuth@redhat.com>
 References: <20220221120008.600114-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +54,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,38 +78,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+ Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Michael S. Tsirkin" <mst@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
 
-The way to print uint64_t is with PRIx64, not with
-a cast to long long.
+-netdev vhost-user,vhostforce is deprecated and vhostforce=on
+should be used instead.
 
-Message-Id: <20220206093547.1282513-1-mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220210145254.157790-2-eric.auger@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/erst-test.c | 2 +-
+ tests/qtest/vhost-user-test.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/erst-test.c b/tests/qtest/erst-test.c
-index c6a0ae4013..f94cd8dd8e 100644
---- a/tests/qtest/erst-test.c
-+++ b/tests/qtest/erst-test.c
-@@ -75,7 +75,7 @@ static inline uint64_t in_reg64(ERSTState *s, unsigned reg)
-     uint64_t res;
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 2a4568cd7d..ee30f54796 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -42,7 +42,7 @@
+ #define QEMU_CMD_MEMFD  " -m %d -object memory-backend-memfd,id=mem,size=%dM," \
+                         " -numa node,memdev=mem"
+ #define QEMU_CMD_CHR    " -chardev socket,id=%s,path=%s%s"
+-#define QEMU_CMD_NETDEV " -netdev vhost-user,id=hs0,chardev=%s,vhostforce"
++#define QEMU_CMD_NETDEV " -netdev vhost-user,id=hs0,chardev=%s,vhostforce=on"
  
-     res = qpci_io_readq(s->dev, s->reg_bar, reg);
--    g_test_message("*%s -> %016llx", name, (unsigned long long)res);
-+    g_test_message("*%s -> %016" PRIx64, name, res);
+ #define HUGETLBFS_MAGIC       0x958458f6
  
-     return res;
- }
 -- 
 2.27.0
 
