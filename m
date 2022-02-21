@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BDBE4BECD9
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 22:59:12 +0100 (CET)
-Received: from localhost ([::1]:52766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DB24BED30
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 23:25:49 +0100 (CET)
+Received: from localhost ([::1]:36370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMGi7-00071z-BT
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 16:59:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39018)
+	id 1nMH7s-0007kl-2F
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 17:25:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nMGgB-0006DX-DM; Mon, 21 Feb 2022 16:57:11 -0500
-Received: from [2607:f8b0:4864:20::d32] (port=41479
- helo=mail-io1-xd32.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nMH6O-00074u-8g
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 17:24:16 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=39693
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nMGg9-0002of-DN; Mon, 21 Feb 2022 16:57:11 -0500
-Received: by mail-io1-xd32.google.com with SMTP id d19so7148201ioc.8;
- Mon, 21 Feb 2022 13:57:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nMH6J-0006lB-40
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 17:24:15 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ f19-20020a17090ac29300b001bc68ecce4aso447796pjt.4
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 14:24:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/s+LXxnF+Zm3dzPsQ23k7f2jRKOuj9sxj+aQltuK/2k=;
- b=Cc8NlHa+J0jnQtdn/Wc9Ctcc0q8tXrGxyRAbcGnp3q6pGDYjJ+EdPMkjv1uYSZ5m2K
- VemjgpFsN7zNIey4XnprmtEa95o1Z1PY0Hond6l7/eqnutP+b0/6S6JQVuhrw2NnkzV3
- aNXRpiRMwBfuAyOWOHL795b9JkbUkSL/KBjj9TDaU0qWGBICFYrngLgRgytO8cZ6JkQ2
- Fdh+FlA7F0bm5wvMXLwLccnLIcWDg8RsDfB0BMAnL9BGMt514aH8fXHOEU73Ny5Wg1dK
- CK2jQHDVwng3w+AUIGHirfWl83KKpHpCAg0jB2hMJq9UK7v7XXWC0RHshq3NM5jsD75Z
- uGxA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=j2+13RkfkfjHDkCabqK/bsuO7A4qDALPg/p57H1lAow=;
+ b=BdN3D+k9bIcE4CdZitVyIWa8rx7awDV6orS2Z+qszdRg7eNMi691sx8NHCYv74CT0T
+ 6j7AuIybMrMhMs2dW2mX5z40yc0lbRsQ3yYNpfrAgkkmtiHyqQOyp/Td/rqck1CzBAIr
+ GuDokpL99Ejl34OpUYfu0uJwqzur1O9R2megHtdC3kYHW4LLseT//lJIp/cbFWSXlfNG
+ 3WbW5ah4yPN9jC7Lik7JcWvDFN6xbJbST9wA11aPJIDISMPJZlWwgOfFp/6iq7BW2FVA
+ vN/I7kOJ6AjpOvTy6ZwNB/M6ycMp8LJgNQhXLkL3eCulMc+EKE/XlhXY/a3nYQA4u61+
+ Fb/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/s+LXxnF+Zm3dzPsQ23k7f2jRKOuj9sxj+aQltuK/2k=;
- b=jE8zxwG2tLrlZbpmh7uLd7vrVd+/+YYgBDdHOAD//2enaGwSyL1rCo3CdXtJIt3MXE
- HXVaReSjCALiG7cE6lTw4xA5Sx3U37+1B0i40wkpSVF6IOLHIPfp0nDsPMfM0p9bkH9w
- dADe5L4QcD33Z1ROoN72MBS/hL/trQqaCTmUHItZDhj/FArC6V7QRT6+edQoZCM/Twmd
- M1ZEZpkhHOpp+E9TTeGD9jzOXbfuTWAsrM+v6eI+Npdq/DK9/8ZMMWZZKzpbszgvqpUx
- T6DzJjN2Ob9CCMwabPBUkA4oCgKnvN/0f0SrS/KPfhsjXJYOCjihFYjvF01HBQZuvPIX
- HrXA==
-X-Gm-Message-State: AOAM532q87dhUTz2k2IC1LJMgbKy1dAOdo7GcaZ5YIQ9olk2uK4Iq9NJ
- D8FFG0GVDEOR+chUVRbaM4G6/5OO4gCKIOew7To=
-X-Google-Smtp-Source: ABdhPJwCCmngxhA6wUSQD+ues7vwAV4DMx5ck+1BPZqcHCifSXBjALIBxffXuw9wW1K4n19bPSG43Tx1n03HLtSBr7Y=
-X-Received: by 2002:a6b:d60a:0:b0:63a:be64:c652 with SMTP id
- w10-20020a6bd60a000000b0063abe64c652mr17120344ioa.27.1645480628165; Mon, 21
- Feb 2022 13:57:08 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=j2+13RkfkfjHDkCabqK/bsuO7A4qDALPg/p57H1lAow=;
+ b=2QSyR2fm36CmYnO/HbotHS6QLY2ZgGoJbeBYm/BId8ENuNKdAnqIgOy3hx/zAay3U1
+ VyYsDHXc6pkI7kWp+EyuB0mb0FEpUV2BrFmxtlw8DY8mAtNBGMX7kKoB+0blKyElRgwX
+ Elb5H1Ds+/7lFyyhUrGOBxHlfS2A2zqBnKoCFPln+EXMa3UawtEQQuaDSv/Ry/XmpRVB
+ Ay5Z3dskNvnhOOEBk5AiI30jbxAxc4PyVZkXu2zemHO2ctJdEMeuK6Emh+rhJrehfQzx
+ iarg1b5jEu0drWAQrySULCzRxbw6T6ChLL8YodUdj2m0BK1DnUn/BqAejd2e7y3FCDdL
+ sJ6w==
+X-Gm-Message-State: AOAM532DBs3UV5Fo0B5oMlRmQgGjTKcEkyjCIx03ZzhSfaeViq6V+Q+s
+ lbwfM8q7D/eWLHlV0NMhfs0=
+X-Google-Smtp-Source: ABdhPJwF0lIkGJlvdhqRlRtei+k/N7UGiTALeoIOlVKxNdBYKRLk2m2pKy4y3/7xIBaK1vojHxls4g==
+X-Received: by 2002:a17:90a:7e16:b0:1b8:2c11:73da with SMTP id
+ i22-20020a17090a7e1600b001b82c1173damr1021560pjl.156.1645482248492; 
+ Mon, 21 Feb 2022 14:24:08 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id il4sm311417pjb.28.2022.02.21.14.24.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Feb 2022 14:24:08 -0800 (PST)
+Message-ID: <9e5627e0-0cb9-e1be-40b6-9fdc67b3fd82@gmail.com>
+Date: Mon, 21 Feb 2022 23:24:05 +0100
 MIME-Version: 1.0
-References: <20220210061737.1171-1-frank.chang@sifive.com>
- <20220210061737.1171-3-frank.chang@sifive.com>
-In-Reply-To: <20220210061737.1171-3-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 22 Feb 2022 07:56:42 +1000
-Message-ID: <CAKmqyKOnXg=nc_4bUKkZrLWbn4nuxtDXa6o_mGNR8yE79-_ZSg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/3] hw/intc: Support 32/64-bit mtimecmp and mtime
- accesses in RISC-V ACLINT
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.0
+Subject: Re: [PATCH 1/2] hw/vfio/pci-quirks: Resolve redundant property getters
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+References: <20220217225351.140095-1-shentey@gmail.com>
+ <20220217225351.140095-2-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220217225351.140095-2-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,91 +95,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 10, 2022 at 4:22 PM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> RISC-V privilege spec defines that:
->
-> * In RV32, memory-mapped writes to mtimecmp modify only one 32-bit part
->   of the register.
-> * For RV64, naturally aligned 64-bit memory accesses to the mtime and
->   mtimecmp registers are additionally supported and are atomic.
->
-> It's possible to perform both 32/64-bit read/write accesses to both
-> mtimecmp and mtime registers.
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+On 17/2/22 23:53, Bernhard Beschow wrote:
+> The QOM API already provides getters for uint64 and uint32 values, so reuse
+> them.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->  hw/intc/riscv_aclint.c | 26 ++++++++++++++++----------
->  1 file changed, 16 insertions(+), 10 deletions(-)
->
-> diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c
-> index 3b598d8a7e..e7b103e83a 100644
-> --- a/hw/intc/riscv_aclint.c
-> +++ b/hw/intc/riscv_aclint.c
-> @@ -126,9 +126,9 @@ static uint64_t riscv_aclint_mtimer_read(void *opaque, hwaddr addr,
->              qemu_log_mask(LOG_GUEST_ERROR,
->                            "aclint-mtimer: invalid hartid: %zu", hartid);
->          } else if ((addr & 0x7) == 0) {
-> -            /* timecmp_lo */
-> +            /* timecmp_lo for RV32/RV64 or timecmp for RV64 */
->              uint64_t timecmp = env->timecmp;
-> -            return timecmp & 0xFFFFFFFF;
-> +            return (size == 4) ? (timecmp & 0xFFFFFFFF) : timecmp;
->          } else if ((addr & 0x7) == 4) {
->              /* timecmp_hi */
->              uint64_t timecmp = env->timecmp;
-> @@ -139,8 +139,9 @@ static uint64_t riscv_aclint_mtimer_read(void *opaque, hwaddr addr,
->              return 0;
->          }
->      } else if (addr == mtimer->time_base) {
-> -        /* time_lo */
-> -        return cpu_riscv_read_rtc(mtimer->timebase_freq) & 0xFFFFFFFF;
-> +        /* time_lo for RV32/RV64 or timecmp for RV64 */
-> +        uint64_t rtc = cpu_riscv_read_rtc(mtimer->timebase_freq);
-> +        return (size == 4) ? (rtc & 0xFFFFFFFF) : rtc;
->      } else if (addr == mtimer->time_base + 4) {
->          /* time_hi */
->          return (cpu_riscv_read_rtc(mtimer->timebase_freq) >> 32) & 0xFFFFFFFF;
-> @@ -167,12 +168,17 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
->              qemu_log_mask(LOG_GUEST_ERROR,
->                            "aclint-mtimer: invalid hartid: %zu", hartid);
->          } else if ((addr & 0x7) == 0) {
-> -            /* timecmp_lo */
-> -            uint64_t timecmp_hi = env->timecmp >> 32;
-> -            riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
-> -                timecmp_hi << 32 | (value & 0xFFFFFFFF),
-> -                mtimer->timebase_freq);
-> -            return;
-> +            if (size == 4) {
-> +                /* timecmp_lo for RV32/RV64 */
-> +                uint64_t timecmp_hi = env->timecmp >> 32;
-> +                riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
-> +                    timecmp_hi << 32 | (value & 0xFFFFFFFF),
-> +                    mtimer->timebase_freq);
-> +            } else {
-> +                /* timecmp for RV64 */
-> +                riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
-> +                                                  value, mtimer->timebase_freq);
-> +            }
->          } else if ((addr & 0x7) == 4) {
->              /* timecmp_hi */
->              uint64_t timecmp_lo = env->timecmp;
+>   hw/vfio/pci-quirks.c | 34 +++++++++-------------------------
+>   1 file changed, 9 insertions(+), 25 deletions(-)
 
-Should we check the other accesses to make sure the size == 4?
-
-Alistair
-
-> --
-> 2.31.1
->
->
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
