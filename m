@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A31D4BDB48
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 18:29:02 +0100 (CET)
-Received: from localhost ([::1]:58502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF3F4BDB4E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 18:33:48 +0100 (CET)
+Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMCUf-00064k-75
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 12:29:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47004)
+	id 1nMCZH-0004dH-9q
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 12:33:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMCG4-0001Yd-93; Mon, 21 Feb 2022 12:13:56 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:58183)
+ id 1nMCKT-0006tW-DI; Mon, 21 Feb 2022 12:18:30 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:40207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMCG2-00062N-5A; Mon, 21 Feb 2022 12:13:55 -0500
+ id 1nMCKQ-0006q4-PE; Mon, 21 Feb 2022 12:18:28 -0500
 Received: from [192.168.100.1] ([82.142.17.50]) by mrelayeu.kundenserver.de
  (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M3lkT-1nLNJB1B7j-000xQ8; Mon, 21 Feb 2022 18:13:46 +0100
-Message-ID: <3c91b56d-864c-4b58-b94e-27d209156a58@vivier.eu>
-Date: Mon, 21 Feb 2022 18:13:45 +0100
+ 1MvsR7-1oD4Lj123D-00sv1u; Mon, 21 Feb 2022 18:17:32 +0100
+Message-ID: <b5e604fa-47e1-de71-4684-90b5efd46f0f@vivier.eu>
+Date: Mon, 21 Feb 2022 18:17:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH] configure: Disable capstone and slirp in the
- --without-default-features mode
+Subject: Re: [PATCH] target/avr: Correct AVRCPUClass docstring
 Content-Language: fr
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220221090647.150184-1-thuth@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220122001036.83267-1-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220221090647.150184-1-thuth@redhat.com>
+In-Reply-To: <20220122001036.83267-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Bxw42vZjpdwzh7wNLuomxjH0NF6Kirq8WcQ26ToLgA1yEnc6bJy
- 5iukTk21Wc7CIHq9rfU4slj+TWGFTbTQMnAIyVPJ7ESTyCRA3gFklUmKPlWfFKtVf5bfm+Y
- YnPgyAiDTkkWHYHMXaR5IkarhcBSfqOFlFIAnpWg421+swAj4XaVamU0J4SsQ9eRwUes6NF
- yUPlDRtfGHIHmjZcGoc1w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Cbw+7c/l/oc=:b6av6/7GFadkXpilVSYbUf
- KQ/L7xaGh6xR9vMFb0usASK/42PkyoArgZHseZ5qhlQWvtg7oLiHk7kmSLZUNZxuTkO41jeWG
- 2iN3jYKDHCAEj0rm24MPqkeZqGYUuy9fw1dCvvRHqBqwW4dUOIqJLKYBPlqRbbljKScWEQgA7
- hqKRQR9HnqIa05Nd113dQcxwMFUme8GreTS3M1d2WNq04XXqKAXWyjPMmMYlSxw6bFIEIfKHM
- IdQFaibohtJmWRG+UD/iVMnOAcnrhCsJ8OTIZ0FylTb4HimsC2LDzcDNEpNwKTLf2SB9sc99G
- PUiVbfM2sBCQR/ACrKg4FkdHG1gvnI4ZWOXhSUrDvSfzVw7XMiNW85T6ui4JekUO9/0vfwIcY
- c7Jgv/52YdsBpTDGriIE4NkqakAaA5IfgKEKZo3Qb7JzDTnUK+upQyZ5p6KIb9kSBfy45rLpZ
- htSfJSmYQavuVBpOxKks19d37Hgnw+qVvVuHRqO3pohvRZsIGiZAjYAEKyAN7oo3TuqWAisJT
- JRb11+qDTzO8Ih2L1c8uLKWKYdZ3HUu3xpasT6oqwy4B6aGAABlK0GDMqhy8lZJDEta2LWdCN
- 2Z1zP+LCtzEIf7wx0qf8vFkqqykVF6BDDrZQ358kTGkYxWMD6qxzv1zMXN03ts0DQUIdhs3iv
- fl3dmCxO07T3xKQicoOqMa3WtBc5Fdw2kFNSecosb+YsQc8IWTL0pzRPr4FXAN3iw1c8=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:YkE5wvWT5mh17Yy32NeJIzxgpn91qzzurjKacOMB07DaFyW0AKi
+ SgDYsGnJ44mVlDbCHr0JacT8TevTRZ0bUzZYGpzsgH7REr4/KW0cZTd2obR913QO5NSBLqi
+ NhXE5rmRvp3wy8cyzG1KIQ/67F/G5NmA9UpbG5h9DVNZQFn2lBN7N1v9cHRxIYoY1ifoEzW
+ +EqjkZW8oYfU6M4IFsllw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:L/6gZOH8css=:pMUelgjygf0lHKstJvBH/J
+ 9QWd0I2f4kO5/gvD/6W5jYer1fLejIpCikjPDeweNdvnf2kz/i5P/O2h1aUE06VM0i3EcqeCl
+ 7WnSFkMy/A3ISdgcuT8mKeWbGkYgDaEaN9mop4c9dHpkTb9xQcnfy0uMrzsge6NbR9e8FVaMO
+ ufsQHm9S7geZROzwoxILMwL8MK7AnWrANzTnzY5WlVWsfMDRMUw+wy8hCLqMi6mx0SENi3Eiy
+ UHmYm3/QDStBju6nAxCZdWM/xgQfiv5U/yH8wckE7Kzb0O01cFvXcz4vPobZKnxiFdGFYKmj7
+ G3PFE7sBFTO3H8oAsleQJVA/am0PgqgC9NRDyrqv6XwzebMCvbVfy10tIoJ6nKc/7af3lpEbs
+ zpHxZsATtnRPqoyemHrK861dWvXcQ8o8HDAYv4YJ5sexreY35a6BzHnKSIoxiYh3sM0T68YGg
+ Lr4gOTY8Tyb7oCn/XTvOzPSGAapH4yM//MCoNfnn5cJ5O1IKMmmuCdIp9qeBxMTSk4Bj0heCV
+ LfM5AB3QRHsT4PMqoWnNn0Vqv1G0qcRb7/tVTn6rKg4W/rnCyP+wmK634qsgufL6xdPETRSBH
+ mlJfGbJiV5osX+QesM7lg0J7f7rOByzO0WCJmGKlo7M/nLnaI4i358tOosKkjjS9Q01VOsU5D
+ DlOXXZykLwi60tUHeKsf++fCHDzDgWVUdJJnKFwwodMI4iTcUiY4TSO0OmzXr6rw8wNU=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,54 +70,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-trivial@nongnu.org, Joaquin de Andres <me@xcancerberox.com.ar>,
+ Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 21/02/2022 à 10:06, Thomas Huth a écrit :
-> For the users, it looks a little bit weird that capstone and slirp are
-> not disabled automatically if they run the configure script with the
-> "--without-default-features" option, so let's do that now.
-> Note: fdt is *not* changed accordingly since this affects the targets
-> that we can build, so disabling fdt automatically here might have
-> unexpected side-effects for the users.
+Le 22/01/2022 à 01:10, Philippe Mathieu-Daudé via a écrit :
+> There is no 'vr' field in AVRCPUClass.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Likely a copy/paste typo from CRISCPUClass ;)
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   I thought I sent out that patch a couple of weeks ago already, but
->   I cannot find it in the archives, so I likely missed to send it
->   correctly. Anyway, sorry if you've got this twice!
+>   target/avr/cpu-qom.h | 1 -
+>   1 file changed, 1 deletion(-)
 > 
->   configure | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 3a29eff5cc..36d10d95bb 100755
-> --- a/configure
-> +++ b/configure
-> @@ -361,9 +361,14 @@ slirp_smbd="$default_feature"
->   # are included in the automatically generated help message)
->   
->   # 1. Track which submodules are needed
-> -capstone="auto"
-> +if test "$default_feature" = no ; then
-> +  capstone="disabled"
-> +  slirp="disabled"
-> +else
-> +  capstone="auto"
-> +  slirp="auto"
-> +fi
->   fdt="auto"
-> -slirp="auto"
->   
->   # 2. Support --with/--without option
->   default_devices="true"
+> diff --git a/target/avr/cpu-qom.h b/target/avr/cpu-qom.h
+> index 9fa6989c18..14e5b3ce72 100644
+> --- a/target/avr/cpu-qom.h
+> +++ b/target/avr/cpu-qom.h
+> @@ -33,7 +33,6 @@ OBJECT_DECLARE_TYPE(AVRCPU, AVRCPUClass,
+>    *  AVRCPUClass:
+>    *  @parent_realize: The parent class' realize handler.
+>    *  @parent_reset: The parent class' reset handler.
+> - *  @vr: Version Register value.
+>    *
+>    *  A AVR CPU model.
+>    */
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
-
 
 
