@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C714BD98B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:07:01 +0100 (CET)
-Received: from localhost ([::1]:50886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB084BD98D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:08:22 +0100 (CET)
+Received: from localhost ([::1]:52534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM7T2-0005je-Ay
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:07:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49892)
+	id 1nM7UL-0006tx-Nn
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:08:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7Mm-0003QZ-OX
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:00:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43150)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7NI-0003pv-NY
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7MV-0000ZD-FZ
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:00:17 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7NG-0000oJ-KT
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:01:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645444813;
+ s=mimecast20190719; t=1645444861;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=lkSIDK0Oauz+YUStUvQJ6P4N8qFnvbwOYMILTlHPw6I=;
- b=c1gV4QYaN0272rdwA9SxWs2NICusn3t/CxpP+Uh1ZQaHBn6mBHSh+hHC7ZNo9edokczwyw
- Fk7K85ppd7OySAXC8YFkXhGwTVq+w6afOAj5jpf1hsoWcmOF3yKl+H7WzRoAIuC98e7xbZ
- UGzBw75vZKIgdWEGyKcBkNjpJhAaIyY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YNT0pBewvhA5Sx8PCEFclNj9/bP2yNqt1mH6cJU4ZsI=;
+ b=F4VNQdn0dddfz4wtHlhSX2UtE+p4ZhLYcMl03Kn6+F2vIiffjyj7hLT6wWVVvYpdk3AZaG
+ 0rx3jbQhpqohZO60vkOhMycxbfb6yj8zduxFB7ya/TqFEpCLPvVFUABu507X9KYNtx8Ap2
+ 7x/Ksba3U0LviPrYPZGMR780aY3WT/M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-64-lBLmjtl9Pj-ACTSrHWhLpg-1; Mon, 21 Feb 2022 07:00:12 -0500
-X-MC-Unique: lBLmjtl9Pj-ACTSrHWhLpg-1
+ us-mta-474-9d-gIXs8PLKMOPpz_FR6Nw-1; Mon, 21 Feb 2022 07:01:00 -0500
+X-MC-Unique: 9d-gIXs8PLKMOPpz_FR6Nw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8538B8144E0;
- Mon, 21 Feb 2022 12:00:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85DD71853026;
+ Mon, 21 Feb 2022 12:00:59 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.195.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B10A773167;
- Mon, 21 Feb 2022 12:00:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F06BD73169;
+ Mon, 21 Feb 2022 12:00:11 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/25] qtest patches and misc header clean-ups
-Date: Mon, 21 Feb 2022 12:59:43 +0100
-Message-Id: <20220221120008.600114-1-thuth@redhat.com>
+Subject: [PULL 01/25] tests/x86: Use 'pc' machine type for old hardware tests
+Date: Mon, 21 Feb 2022 12:59:44 +0100
+Message-Id: <20220221120008.600114-2-thuth@redhat.com>
+In-Reply-To: <20220221120008.600114-1-thuth@redhat.com>
+References: <20220221120008.600114-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -74,142 +77,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi!
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-The following changes since commit e670f6d825d4dee248b311197fd4048469d6772b:
+For tests that rely on old hardware, e.g. floppies or IDE drives,
+explicitly select the 'pc' machine type.
 
-  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220218' into staging (2022-02-20 15:05:41 +0000)
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20220215162537.605030-2-dgilbert@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qtest/fdc-test.c    |  2 +-
+ tests/qtest/hd-geo-test.c | 12 +++++++++---
+ tests/qtest/i440fx-test.c |  2 +-
+ tests/qtest/ide-test.c    |  3 ++-
+ 4 files changed, 13 insertions(+), 6 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-02-21
-
-for you to fetch changes up to 975592f5523fdf8708e4b53da937cf4805b1b79a:
-
-  hw/tricore: Remove unused and incorrect header (2022-02-21 10:36:50 +0100)
-
-----------------------------------------------------------------
-* Improve virtio-net failover test
-* Some small fixes for the qtests
-* Misc header cleanups by Philippe
-
-----------------------------------------------------------------
-Dr. David Alan Gilbert (2):
-      tests/x86: Use 'pc' machine type for old hardware tests
-      tests/x86: Use 'pc' machine type for hotplug tests
-
-Eric Auger (1):
-      tests/qtest/vhost-user-test.c: Use vhostforce=on
-
-Laurent Vivier (7):
-      tests/qtest: failover: clean up pathname of tests
-      tests/qtest: failover: use a macro for check_one_card()
-      tests/qtest: failover: check the feature is correctly provided
-      tests/qtest: failover: check missing guest feature
-      tests/qtest: failover: check migration with failover off
-      tests/qtest: failover: test migration if the guest doesn't support failover
-      tests/qtest: failover: migration abort test with failover off
-
-Michael S. Tsirkin (1):
-      erst: drop cast to long long
-
-Philippe Mathieu-Daudé (12):
-      hw/tpm: Clean includes
-      hw/remote: Add missing include
-      hw/acpi/memory_hotplug: Remove unused 'hw/acpi/pc-hotplug.h' header
-      qtest: Add missing 'hw/qdev-core.h' include
-      exec/ramblock: Add missing includes
-      core/ptimers: Remove unnecessary 'sysemu/cpus.h' include
-      target: Add missing "qemu/timer.h" include
-      linux-user: Add missing "qemu/timer.h" include
-      softmmu/runstate: Clean headers
-      exec/exec-all: Move 'qemu/log.h' include in units requiring it
-      hw/m68k/mcf: Add missing 'exec/hwaddr.h' header
-      hw/tricore: Remove unused and incorrect header
-
-Thomas Huth (2):
-      tests/qtest/ide-test: Remove bad retry_isa test
-      scripts: Remove the old switch-timer-api script
-
- bsd-user/signal.c                       |   1 +
- hw/acpi/memory_hotplug.c                |   1 -
- hw/arm/omap1.c                          |   1 +
- hw/core/ptimer.c                        |   1 -
- hw/display/omap_dss.c                   |   1 +
- hw/gpio/omap_gpio.c                     |   1 +
- hw/input/tsc210x.c                      |   1 +
- hw/remote/proxy-memory-listener.c       |   1 +
- hw/tpm/tpm_crb.c                        |   1 +
- hw/tpm/tpm_ppi.c                        |   4 +-
- hw/tpm/tpm_ppi.h                        |   4 +-
- include/exec/exec-all.h                 |   2 -
- include/exec/ramblock.h                 |   2 +
- include/hw/m68k/mcf.h                   |   1 +
- include/hw/tricore/triboard.h           |   1 -
- linux-user/i386/cpu_loop.c              |   1 +
- linux-user/ppc/cpu_loop.c               |   1 +
- monitor/misc.c                          |   1 +
- plugins/api.c                           |   1 +
- scripts/switch-timer-api                | 178 -------
- softmmu/qtest.c                         |   1 +
- softmmu/runstate.c                      |   3 +-
- target/alpha/helper.c                   |   2 +-
- target/arm/cpu.c                        |   1 +
- target/arm/helper.c                     |   2 +
- target/arm/m_helper.c                   |   1 +
- target/arm/mte_helper.c                 |   1 +
- target/avr/helper.c                     |   1 +
- target/cris/helper.c                    |   1 +
- target/hexagon/internal.h               |   2 +
- target/hexagon/translate.h              |   1 +
- target/hppa/cpu.c                       |   1 +
- target/hppa/helper.c                    |   2 +-
- target/hppa/mem_helper.c                |   1 +
- target/hppa/op_helper.c                 |   1 +
- target/i386/helper.c                    |   1 +
- target/i386/tcg/int_helper.c            |   1 +
- target/i386/tcg/misc_helper.c           |   1 +
- target/i386/tcg/sysemu/seg_helper.c     |   1 +
- target/i386/tcg/sysemu/svm_helper.c     |   1 +
- target/m68k/op_helper.c                 |   1 +
- target/microblaze/cpu.c                 |   1 +
- target/microblaze/mmu.c                 |   1 +
- target/microblaze/op_helper.c           |   1 +
- target/mips/tcg/exception.c             |   1 +
- target/mips/tcg/sysemu/special_helper.c |   1 +
- target/mips/tcg/translate.h             |   1 +
- target/openrisc/interrupt.c             |   1 +
- target/openrisc/mmu.c                   |   1 +
- target/ppc/excp_helper.c                |   1 +
- target/ppc/misc_helper.c                |   1 +
- target/riscv/csr.c                      |   1 +
- target/s390x/tcg/excp_helper.c          |   1 +
- target/s390x/tcg/mem_helper.c           |   1 +
- target/sparc/helper.c                   |   1 +
- target/sparc/ldst_helper.c              |   1 +
- target/sparc/mmu_helper.c               |   1 +
- target/tricore/helper.c                 |   2 +-
- target/xtensa/dbg_helper.c              |   1 +
- target/xtensa/exc_helper.c              |   1 +
- target/xtensa/fpu_helper.c              |   1 +
- target/xtensa/helper.c                  |   1 +
- target/xtensa/mmu_helper.c              |   1 +
- target/xtensa/win_helper.c              |   1 +
- tests/qtest/device-plug-test.c          |  20 +-
- tests/qtest/drive_del-test.c            |  35 +-
- tests/qtest/erst-test.c                 |   2 +-
- tests/qtest/fdc-test.c                  |   2 +-
- tests/qtest/hd-geo-test.c               |  16 +-
- tests/qtest/i440fx-test.c               |   2 +-
- tests/qtest/ide-test.c                  |  16 +-
- tests/qtest/ivshmem-test.c              |   7 +-
- tests/qtest/vhost-user-test.c           |   2 +-
- tests/qtest/virtio-net-failover.c       | 911 +++++++++++++++++++++++++-------
- 74 files changed, 853 insertions(+), 416 deletions(-)
- delete mode 100755 scripts/switch-timer-api
+diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
+index 8f6eee84a4..b0d40012e6 100644
+--- a/tests/qtest/fdc-test.c
++++ b/tests/qtest/fdc-test.c
+@@ -598,7 +598,7 @@ int main(int argc, char **argv)
+     /* Run the tests */
+     g_test_init(&argc, &argv, NULL);
+ 
+-    qtest_start("-device floppy,id=floppy0");
++    qtest_start("-machine pc -device floppy,id=floppy0");
+     qtest_irq_intercept_in(global_qtest, "ioapic");
+     qtest_add_func("/fdc/cmos", test_cmos);
+     qtest_add_func("/fdc/no_media_on_start", test_no_media_on_start);
+diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
+index 771eaa741b..3554b5d500 100644
+--- a/tests/qtest/hd-geo-test.c
++++ b/tests/qtest/hd-geo-test.c
+@@ -178,9 +178,15 @@ static int append_arg(int argc, char *argv[], int argv_sz, char *arg)
+ 
+ static int setup_common(char *argv[], int argv_sz)
+ {
++    int new_argc;
+     memset(cur_ide, 0, sizeof(cur_ide));
+-    return append_arg(0, argv, argv_sz,
+-                      g_strdup("-nodefaults"));
++    new_argc = append_arg(0, argv, argv_sz,
++                          g_strdup("-nodefaults"));
++    new_argc = append_arg(new_argc, argv, argv_sz,
++                          g_strdup("-machine"));
++    new_argc = append_arg(new_argc, argv, argv_sz,
++                          g_strdup("pc"));
++    return new_argc;
+ }
+ 
+ static void setup_mbr(int img_idx, MBRcontents mbr)
+@@ -697,7 +703,7 @@ static void test_override(TestArgs *args, CHSResult expected[])
+ 
+     joined_args = g_strjoinv(" ", args->argv);
+ 
+-    qts = qtest_init(joined_args);
++    qts = qtest_initf("-machine pc %s", joined_args);
+     fw_cfg = pc_fw_cfg_init(qts);
+ 
+     read_bootdevices(fw_cfg, expected);
+diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
+index 1f57d9684b..6d7d4d8d8f 100644
+--- a/tests/qtest/i440fx-test.c
++++ b/tests/qtest/i440fx-test.c
+@@ -35,7 +35,7 @@ static QPCIBus *test_start_get_bus(const TestData *s)
+ {
+     char *cmdline;
+ 
+-    cmdline = g_strdup_printf("-smp %d", s->num_cpus);
++    cmdline = g_strdup_printf("-machine pc -smp %d", s->num_cpus);
+     qtest_start(cmdline);
+     g_free(cmdline);
+     return qpci_new_pc(global_qtest, NULL);
+diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
+index 3f8081e77d..84935578fb 100644
+--- a/tests/qtest/ide-test.c
++++ b/tests/qtest/ide-test.c
+@@ -128,10 +128,11 @@ static char debug_path[] = "/tmp/qtest-blkdebug.XXXXXX";
+ static QTestState *ide_test_start(const char *cmdline_fmt, ...)
+ {
+     QTestState *qts;
++    g_autofree char *full_fmt = g_strdup_printf("-machine pc %s", cmdline_fmt);
+     va_list ap;
+ 
+     va_start(ap, cmdline_fmt);
+-    qts = qtest_vinitf(cmdline_fmt, ap);
++    qts = qtest_vinitf(full_fmt, ap);
+     va_end(ap);
+ 
+     pc_alloc_init(&guest_malloc, qts, 0);
+-- 
+2.27.0
 
 
