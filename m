@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F47C4BEB56
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 20:48:27 +0100 (CET)
-Received: from localhost ([::1]:32860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44D74BEB5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 20:49:45 +0100 (CET)
+Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMEfa-0006iH-Ho
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 14:48:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34848)
+	id 1nMEgq-0000aS-U7
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 14:49:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMEcs-0004MP-MX
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 14:45:39 -0500
-Received: from [2607:f8b0:4864:20::b34] (port=42847
- helo=mail-yb1-xb34.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMEcq-0006R5-5t
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 14:45:38 -0500
-Received: by mail-yb1-xb34.google.com with SMTP id e140so36470163ybh.9
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 11:45:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=HgYWGh3DJ1sN5bnkKwSrDClqmpezuqVNmSHF1zVFOW0=;
- b=Y/xSY8W7LxjIAe8K9MryGhl0uIFNZ7wUjGJQ73McidDnZhJkppF01rV3GL9iayZhj4
- l7cUaCFVI82mLri2Wa0JkpfGIqqhUpZAt7udzHGMFU92BDYMeVN60ETwq4u3s4L+DBMm
- eysba68xbe6GaQUP8S8wYUkuigJ5cF5soVnOkmVJV/heG+1ZaS/ksIe8JLdauttSxG9K
- a1wjkaDJ9bnNMyIOF4sE8qi7Py1rfNSpfqb/AxFqZYzMtfbZaqohblVig2NYvDmwkrQz
- HQLYbsZmJVixNUvN3aFRuYBIVRlhK01YmkuWWgyqM0sj50J5eLQmN79JlJjzDkEgecXz
- 5mNQ==
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nMEfM-0007PT-TK
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 14:48:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nMEfK-0006kv-I8
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 14:48:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645472889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MlmC7N1UqyMNrC4kRGc6UvwAShG1Q/2M20NdTS3HQjM=;
+ b=WnjVKD70PMkTPr9jyWV3UL0WDADAtfp+SUoReiQfUQnMEqrIKh+Nb//Za8dI12mIgOp8So
+ 9sbmyKiOdbqWXZFBRrryF1L12zINLdSYBtM4lLhLUA9Rgvz9C5Iyme2sQoIWE7/JJIPQl1
+ FKMIoAYlvs6wjP5DYvBlR26CdTmVRUY=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-p7ujxKalPaabcu6BGdUdeA-1; Mon, 21 Feb 2022 14:48:08 -0500
+X-MC-Unique: p7ujxKalPaabcu6BGdUdeA-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ x8-20020a2ea7c8000000b00246215e0fc3so4504623ljp.8
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 11:48:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HgYWGh3DJ1sN5bnkKwSrDClqmpezuqVNmSHF1zVFOW0=;
- b=R5u6n9nMBSpxvzhR7OiVIqtBh/wsM5vVOC0gHE4wmsF26l9pRYyL2u5zlpYmhfdCtf
- nF6TaYDN6nUpGdDMMHOp8WOQnspnWqYXOiT8LxHQ7BwmX8z2InFugZj4E+9tvTuLU2hF
- pVQokLMIQedejG9NYP4tyXzxLcGNAbIHrxSjDbhRcRUwNoaSxzx02irmcHwJ6yEKFhlL
- pepOuAGhHlXK1WrDhgD8r3/QoYVHkx7CI9yKQ+ApLx3T4uSQOWvth9FZJUfTT7jE3a7k
- NKz/V7NpBb5C4/JX1uHblKGgt7CQQk0qRD+fwCa4wLoH2DoCCcfJEwLAzceMVjjwy7FP
- URAw==
-X-Gm-Message-State: AOAM531yD0b5ULdlpbn/08MA3rHmQE/r77pgiQ+2QI80cKUleR1tdLts
- RdsDvR7hoz6RaCpW0a1RnN/L4ET/aXobkIbHlOyaFw==
-X-Google-Smtp-Source: ABdhPJwrha46UPOy3ZlPG5EfhDwan2wBFC/rAqtQzVCrJnV3y0uSs41KP4CVov+INK0RY30auIJMVt2n+OuduZCX+gI=
-X-Received: by 2002:a25:5011:0:b0:61d:853e:ef96 with SMTP id
- e17-20020a255011000000b0061d853eef96mr20233563ybb.288.1645472734526; Mon, 21
- Feb 2022 11:45:34 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=MlmC7N1UqyMNrC4kRGc6UvwAShG1Q/2M20NdTS3HQjM=;
+ b=IEM2z5cwt0l+RsBU3x7TTnTQKuYkPVeiJH2e2sxi3Q1fTUR9xvF8yjl1AjWfDjT1wc
+ jF8IG1yEjeiFYbPPd/CLPMU7sIxs8djshO7S3hMbiSrWe+BJlNAK4llblfwNqmrQAMtw
+ ND7p+s0NuUD4buTl51FBptbOxs1j2YDhAbFTO8OBAvAvSFu3anfEthDW37H56o8tBdZJ
+ JmcOIGFVVI59Vn6y6TfkQJ5akIc6iCQXPkBjxnpwFiS+LH3Ba0l0tLqw9a9G2QfQfWbc
+ zC8KzK1K6TdrRD+iUByUf0643qxrxCRo4JBo4iyMQVw9V68ZadR1OD/JloFJUsn5eD1Y
+ GB+A==
+X-Gm-Message-State: AOAM531kCkgN56NxzB/rGfXmAfhJbMeeWfGnPSyQcnlgFIVrLpXTJ90u
+ wZCrEwOJee1d9MdQrnFZyqJFdPLhTWUAjs1fKbJf7E/Kwuz7q/wTsavrQiAvs3qdGqcPoJuVQGz
+ J0zx/ym+CD/rB3nBjCIQi4lLKUd5xwMI=
+X-Received: by 2002:a05:651c:1687:b0:241:113a:4093 with SMTP id
+ bd7-20020a05651c168700b00241113a4093mr16016376ljb.162.1645472887223; 
+ Mon, 21 Feb 2022 11:48:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzEU+FfZaEJQaTT79eG9fwwFXycpAWg9mv8HWV+OzFKLXQccJ79Cporha8rHq/uKQY7VG26nJllMVPP4mGqj5o=
+X-Received: by 2002:a05:651c:1687:b0:241:113a:4093 with SMTP id
+ bd7-20020a05651c168700b00241113a4093mr16016353ljb.162.1645472886918; Mon, 21
+ Feb 2022 11:48:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20220128165535.2550899-1-peter.maydell@linaro.org>
- <a26290d8-558c-ba85-ccf9-b56051a6dd75@redhat.com>
-In-Reply-To: <a26290d8-558c-ba85-ccf9-b56051a6dd75@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 21 Feb 2022 19:45:23 +0000
-Message-ID: <CAFEAcA8_=dTPqAAptA_Ua8fAr15d8PtVQP_TWxHzN7y7NXBhAw@mail.gmail.com>
-Subject: Re: [PATCH] block/curl.c: Check error return from curl_easy_setopt()
-To: Hanna Reitz <hreitz@redhat.com>
+References: <20220201062901.428838-1-leobras@redhat.com>
+ <20220201062901.428838-6-leobras@redhat.com>
+ <YgHT2AzvnHYun6j4@xz-m1.local>
+ <CAJ6HWG44WaWmCopWvF6-vbzMg8A-QWV85Vv2VmgEA7cs4CfM3Q@mail.gmail.com>
+ <87v8xcaxh8.fsf@secure.mitica>
+In-Reply-To: <87v8xcaxh8.fsf@secure.mitica>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Mon, 21 Feb 2022 16:47:56 -0300
+Message-ID: <CAJ6HWG7Agru1nwuo-b6BANL8qP6XhK6ksEziJ7PCwwoMG_oNWA@mail.gmail.com>
+Subject: Re: [PATCH v8 5/5] multifd: Implement zero copy write in multifd
+ migration (multifd-zero-copy)
+To: Juan Quintela <quintela@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,89 +96,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Feb 2022 at 11:25, Hanna Reitz <hreitz@redhat.com> wrote:
+On Fri, Feb 18, 2022 at 2:36 PM Juan Quintela <quintela@redhat.com> wrote:
 >
-> On 28.01.22 17:55, Peter Maydell wrote:
-> > Coverity points out that we aren't checking the return value
-> > from curl_easy_setopt() for any of the calls to it we make
-> > in block/curl.c.
+> Leonardo Bras Soares Passos <leobras@redhat.com> wrote:
+> > Hello Peter, thanks for reviewing!
 > >
-> > Fixes: Coverity CID 1459336, 1459482, 1460331
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > Big fat disclaimer: tested only with 'make check', which I suspect
-> > may not be exercising this block backend. Hints on how to test
-> > more thoroughly are welcome.
+> > On Mon, Feb 7, 2022 at 11:22 PM Peter Xu <peterx@redhat.com> wrote:
+> >>
+> >> On Tue, Feb 01, 2022 at 03:29:03AM -0300, Leonardo Bras wrote:
+> >> > -void multifd_send_sync_main(QEMUFile *f)
+> >> > +int multifd_send_sync_main(QEMUFile *f)
+> >> >  {
+> >> >      int i;
+> >> > +    bool flush_zero_copy;
+> >> >
+> >> >      if (!migrate_use_multifd()) {
+> >> > -        return;
+> >> > +        return 0;
+> >> >      }
+> >> >      if (multifd_send_state->pages->num) {
+> >> >          if (multifd_send_pages(f) < 0) {
+> >> >              error_report("%s: multifd_send_pages fail", __func__);
+> >> > -            return;
+> >> > +            return 0;
+> >>
+> >> I've not checked how it used to do if multifd_send_pages() failed, but.. should
+> >> it returns -1 rather than 0 when there will be a return code?
 > >
-> >   block/curl.c | 90 +++++++++++++++++++++++++++++++++------------------=
--
-> >   1 file changed, 58 insertions(+), 32 deletions(-)
+> > Yeah, that makes sense.
+> > The point here is that I was trying not to modify much of the current behavior.
 >
-> One problem I see in general is that most of the setopt functions are
-> (indirectly) called from `curl_open()`, which is supposed to return an
-> error message.  Its `out` label seems to expect some error description
-> in `state->errmsg`.  The error handling here doesn=E2=80=99t set such a d=
-escription.
-
-Ah, yes, I hadn't noticed that -- it's a pre-existing bug, where
-we do this:
-
-    if (curl_init_state(s, state) < 0) {
-        goto out;
-    }
-
-and curl_init_state() already has an error path (for when curl_easy_init()
-fails) that can take that goto without setting state->errmsg...
-
-> Then again, there are enough existing error paths that don=E2=80=99t set =
-this
-> description either, so it isn=E2=80=99t quite this patch=E2=80=99s duty t=
-o fix that
-> situation.
-
-...as you've already noticed :-)
-
-> I guess it would be nice if we had a wrapper for
-> `curl_easy_setopt()` with an `Error **` parameter, so we could easily
-> generate error messages that describe key and value (and then
-> `curl_init_state()` should have an `Error **` parameter, too).
+>     if (qatomic_read(&multifd_send_state->exiting)) {
+>         return -1;
+>     }
 >
-> But this patch doesn=E2=80=99t make anything worse than it already is, so=
- that=E2=80=99d
-> rather be an idea for future clean-up.
+>         if (p->quit) {
+>             error_report("%s: channel %d has already quit!", __func__, i);
+>             qemu_mutex_unlock(&p->mutex);
+>             return -1;
+>         }
 >
-> > diff --git a/block/curl.c b/block/curl.c
-> > index 6a6cd729758..aaee1b17bef 100644
-> > --- a/block/curl.c
-> > +++ b/block/curl.c
+> This are the only two cases where the current code can return one
+> error.  In the 1st case we are exiting, we are already in the middle of
+> finishing, so we don't really care.
+> In the second one, we have already quit, and error as already quite big.
 >
-> [...]
+> But I agree with both comments:
+> - we need to improve the error paths
+> - leonardo changes don't affect what is already there.
 >
-> > @@ -879,7 +902,10 @@ static void curl_setup_preadv(BlockDriverState *bs=
-, CURLAIOCB *acb)
+
+
+
+>
+> > I mean, multifd_send_sync_main() would previously return void, so any
+> > other errors would not matter to the caller of this function, which
+> > will continue to run as if nothing happened.
 > >
-> >       snprintf(state->range, 127, "%" PRIu64 "-%" PRIu64, start, end);
-> >       trace_curl_setup_preadv(acb->bytes, start, state->range);
-> > -    curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range);
-> > +    if (curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range)) {
-> > +        curl_clean_state(state);
-> > +        goto out;
+> > Now, if it fails with flush_zero_copy, the operation needs to be aborted.
+> >
+> > Maybe, I should make it different:
+> > - In any error, return -1.
+> > - Create/use a specific error code in the case of a failing
+> > flush_zero_copy, so I can test the return value for it on the caller
+> > function and return early.
 >
-> I think we need to mark the request as failed by setting `acb->ret` to a
-> negative value (and probably also clear `state->acb[0]` like the error
-> path below does).
+> We need to add the check.  It don't matter if the problem is zero_copy
+> or the existing one, we are under a minor catastrophe and migration has
+> to be aborted.
 
-OK; or I could roll the two curl calls into the same if:
+Ok, I will fix that so we can abort in case of any error.
+Maybe it's better to do that on a separated patch, before 5/5, right?
 
-    if (curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range) ||
-        curl_multi_add_handle(s->multi, state->curl) !=3D CURLM_OK) {
-        /* existing error handling and goto-out code */
-    }
+>
+> > Or alternatively, the other errors could also return early, but since
+> > this will change how the code currently works, I would probably need
+> > another patch for that change. (so it can be easily reverted if
+> > needed)
+> >
+> > What do you think is better?
+> >
+> >
+> >> >          }
+> >> >      }
+> >> > +
+> >> > +    /*
+> >> > +     * When using zero-copy, it's necessary to flush after each iteration to
+> >> > +     * make sure pages from earlier iterations don't end up replacing newer
+> >> > +     * pages.
+> >> > +     */
+> >> > +    flush_zero_copy = migrate_use_zero_copy_send();
+> >> > +
+> >> >      for (i = 0; i < migrate_multifd_channels(); i++) {
+> >> >          MultiFDSendParams *p = &multifd_send_state->params[i];
+> >> >
+> >> > @@ -591,7 +600,7 @@ void multifd_send_sync_main(QEMUFile *f)
+> >> >          if (p->quit) {
+> >> >              error_report("%s: channel %d has already quit", __func__, i);
+> >> >              qemu_mutex_unlock(&p->mutex);
+> >> > -            return;
+> >> > +            return 0;
+> >>
+> >> Same question here.
+> >
+> > Please see above,
+> >
+> >>
+> >> >          }
+> >>
+> >> The rest looks good.  Thanks,
+>
+> Later, Juan.
+>
 
-thanks
--- PMM
+Thanks for the feedback!
+
+Best regards,
+Leo
+
 
