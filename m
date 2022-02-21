@@ -2,153 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB6E4BDB0C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 18:01:19 +0100 (CET)
-Received: from localhost ([::1]:54750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2C54BDB13
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 18:06:34 +0100 (CET)
+Received: from localhost ([::1]:34748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMC3q-0007FT-Hm
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 12:01:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41442)
+	id 1nMC8w-0004RM-2Q
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 12:06:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1nMBt6-0007Fr-PG
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 11:50:15 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:25824)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nMBz2-0004A2-36
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 11:56:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1nMBsz-0002Jj-Gj
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 11:50:12 -0500
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21LGfwKx005346
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 16:49:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=corp-2021-07-09;
- bh=8kpAn7oiZOVCWcU/n02i4/BA3S3aX0RFLW7hMoCTxXk=;
- b=XRLys97Xobs5rd19fQw0J9ih3fwdbcDpj49M2f+ojzTeo5N++ueYf6p+ZKpE3lEH93B3
- KqG033a8sKF8JCSA9m803csNz0q+VgnccT1qoKMR1a6T5oZh4pyVUApvql36KI0jEb7p
- sepsP+BDo/gjkuuRohYZGSG+worTe3Ecb0Cfx3Y8+w+dAOt5m/QMCe6+OEvOhN96SIHF
- gooVjGoD1hJKrv/rT0SCt/83CTHZp9SkrmR7fmyylW8EUNyrU0ndEpZMs97JzZTKQwxz
- YCXaDY4dqCeP2t3r87kKz1nDNPA2OZ2zPYR06uEXnGosNxiBTnCPNkY8WeeGUjO9fdIs 9g== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3eas3v4jyy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 16:49:57 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21LGklsR126115
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 16:49:56 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
- by aserp3030.oracle.com with ESMTP id 3eapkevn74-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 16:49:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MSP8C8t2Xw6uTyZKzCggjQY4I/voC29TlSeWYXJCvFnC6FvdUOxKnLVI/B/UlXFMz3mx4WZuf86Ww3K/8ai9YWaV18VryNlWOiVcINGs34AHeh3TnK0j5ftoWLgCb6ytVL0EmfTZtdRzNJYn/kUzKCdCRg6S7rg69UgEOFbBRKQr8XW9YDuojLvRxNEKVPBD2A2AU+O48BBd7vK3PQ07MgLeumXisIio1ubY/7hbXpCI40COnkNKN6JbExhUwhhh0qzYJq40G85tbmPBFzUOyYHgUz1hXE6h5vTlnJDi6nrPNCJO31LD6PqfQeNHsg7pJTOSgxL3wiIS7bxQLVugWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8kpAn7oiZOVCWcU/n02i4/BA3S3aX0RFLW7hMoCTxXk=;
- b=D8RS/rP7C+WJyirA+Tr66G4UgSJGbxLDzJTEMd06U1WSj2TqKWIye61jk0eQWxyAL0woaFeuyIUqCqBj/Xj5dukGBnwh/F5vXOY3wl66SADJu0aAAGm0ZeUwgjSxtkDuDibSOJ7U6B4JaukTnRfW+A/A1R6HzbU9aWtgOPzyAWqROSq+EQVCQqUXtcgskOwg0mhQJhM4zVGEGfyaTGpFvxWu7PZNuQv945U966SsZD47ZqlhLSEg9HZObmXrhUFXnNJxVdiPugsOvUrS5Nogn9KBqLPtp1Oxjz0QgwYRzA9M4zW/HgXAxLZfO+1xn+8rq+KhUPz/5uSxIf6VP/wPmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8kpAn7oiZOVCWcU/n02i4/BA3S3aX0RFLW7hMoCTxXk=;
- b=q0Sy/9ihJBfvdYnbqQtTNQQIQzHtoOugIoabT3igSgKIv8C6gy8g7yRQ3nNxNWvtoJ/oVdGP9TrzBgLhoK663l3hWfnO+kv4Mmoikgzon2wDplTdBjROuvL7LOh/Y8SSo1d2XyY8JY+COVzLpUsevVL4rs1vW5sISBC/nYkFDAI=
-Received: from DS7PR10MB4926.namprd10.prod.outlook.com (2603:10b6:5:3ac::20)
- by DM6PR10MB3562.namprd10.prod.outlook.com (2603:10b6:5:17e::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.15; Mon, 21 Feb
- 2022 16:49:54 +0000
-Received: from DS7PR10MB4926.namprd10.prod.outlook.com
- ([fe80::e429:a820:ef6e:98d9]) by DS7PR10MB4926.namprd10.prod.outlook.com
- ([fe80::e429:a820:ef6e:98d9%6]) with mapi id 15.20.4995.027; Mon, 21 Feb 2022
- 16:49:54 +0000
-From: David Edmondson <david.edmondson@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Minor fixes for the Python GDB plugins
-Date: Mon, 21 Feb 2022 16:49:46 +0000
-Message-Id: <20220221164948.2873713-1-david.edmondson@oracle.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0461.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1aa::16) To DS7PR10MB4926.namprd10.prod.outlook.com
- (2603:10b6:5:3ac::20)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nMByy-0003Sq-59
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 11:56:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645462575;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=slQgboJnO3nbTKvRdAfr6iZC+oT3S+X9f9Y/XAxgMVg=;
+ b=LwjHTPeg1jQmMbdLWUnFuZB5dKZr3V48KnCcjl+z7ikRzu6o9lamQVHn+QDbtxDkPo1FfV
+ 9h3j59jIbrJZq5OBIl7XCRfhS8DxDHyQ8j8MuphWnuwasiEQBvMbrga45xq8xWNcYNVUae
+ h2TDjYqQUImcOxbU1EngGvg32+CfaIk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-628-9dchQdhCNxSkEoV-iYAS1Q-1; Mon, 21 Feb 2022 11:56:14 -0500
+X-MC-Unique: 9dchQdhCNxSkEoV-iYAS1Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ p9-20020adf9589000000b001e333885ac1so7643592wrp.10
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 08:56:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=slQgboJnO3nbTKvRdAfr6iZC+oT3S+X9f9Y/XAxgMVg=;
+ b=txVl9gPhCu5obPl3ZdTiMKkdVv4epaC1xlzUq7YQKGKQrV/47d6aJoPC7usKF/iy45
+ RWJHJzqjewMzoAFgtI/jf0nH2QfQ372JVCq9b39TUSLtxoo3A02+CdNYfQxWqqvR8HNR
+ PbZP2JjP/qnh2Mia7GtXS9oZmr/Xp/iT4ZBhPhZXRYmjbj6dNM748/jmJKAbOkdRgjZY
+ R9XAbY8dWuAEJWuqAfsHRR+f0BZ1jqo3BedRoc1OPJVrloyQADGUG9zY4trnb+qOMo8M
+ m9pJ0uwmZSIAlf+YRayYmFmU8vQlldfCeiUYzIS9Flrpjo1MHGauAPOvorSUB/hK4ndH
+ aHQg==
+X-Gm-Message-State: AOAM531SnWozmgxYxQ8yzjUKGG7VzZcjt5dcb+ktVRBRFKZfqamjU4JN
+ miVwj5taTR8WGy3BTrKEpTPANR0Q0L3zeIdpJf+9aFZczZ+sIm5pVmQbKx6eDpI8xgMTq+1tUiv
+ 16J1z136QiJ5IQFc=
+X-Received: by 2002:a5d:46d2:0:b0:1e4:b261:7e49 with SMTP id
+ g18-20020a5d46d2000000b001e4b2617e49mr16485022wrs.669.1645462573220; 
+ Mon, 21 Feb 2022 08:56:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxmyhJFhmfDqlaYBmvTm/ODRye/u2ZDi9zX5CwMZLYGwC/K9L8ICBAVg56xLsjaNNg27hGNMA==
+X-Received: by 2002:a5d:46d2:0:b0:1e4:b261:7e49 with SMTP id
+ g18-20020a5d46d2000000b001e4b2617e49mr16485005wrs.669.1645462572975; 
+ Mon, 21 Feb 2022 08:56:12 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id z7sm7979364wml.40.2022.02.21.08.56.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Feb 2022 08:56:12 -0800 (PST)
+Date: Mon, 21 Feb 2022 16:56:10 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 14/20] migration: Add
+ migration_incoming_transport_cleanup()
+Message-ID: <YhPEKvNc1ITGEU1I@work-vm>
+References: <20220216062809.57179-1-peterx@redhat.com>
+ <20220216062809.57179-15-peterx@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8b86fc17-c490-4c49-8e77-08d9f55a2f74
-X-MS-TrafficTypeDiagnostic: DM6PR10MB3562:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR10MB356280FE46EF32FC89F8BB97883A9@DM6PR10MB3562.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9WSV7jht2hBbNEW5SKbCovuPL49T9g6sQ+JomLuy0tqRy6ARh57+FaFtZx0KlkwWmOOHj+qVRHBNaXcVLZTIkgDyqesUcFApW//UoJrURCQmURENIEWWDRlKRW49Bhy57o5toUQkM67+J0nGzOoaXmljgYAtJAaapzup9vZcR/pOyphRsR1ELgcQ1pYN674n/v0l5lszOoP55IocJmaTHd4CSXh6JG5vMcrMY0Gxp8ShNYVQB9VMHa5m3HT1+fKShUc0+cHjeI4+TB/hdrHvowvLwDJSZ9jWEBbRfjhAwbNgqC1D772dLFQ4N1OZQdOxIltp76PZJaEB7jG9EqWn/4siascdW1iDaS/zHOHGZEBkkDGW6HgvvHiuG2XbXib1rn/NnkFLGCeb14Uz/nzefDQOUxNxo15efqY7Ix3SPNLm32q/5VvUj69BXATX4wHmiiTTvu3PVnVIWhfkLOt/PTP9OVYTdOacg/lQMyrNISF+IQ2+hGL/yTCEbXm3zwaeVSfB1yWuglD9XDrKrKyNgSUeEeoNSHOWbtof5MHexHBvptMsyFD48jRtCG6Et0rlZ2i4AE3Yd+zHaC33Ty8XE0/OUDXeBjpqN5z8/AQSRojdFEaDtx312vnpYtqEuy1Oz+f/x4J08L9dKGVMNGO6nA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR10MB4926.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(86362001)(66476007)(6486002)(38100700002)(66556008)(66946007)(8676002)(5660300002)(4326008)(6916009)(316002)(83380400001)(4744005)(8936002)(44832011)(2906002)(36756003)(2616005)(1076003)(107886003)(186003)(508600001)(6506007)(52116002)(6512007)(6666004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+PjGeoio40YNMLc8PwqJ5TdP6tAn6wE9cITnT6OlfjoYlZcl6Uy6Puq4Vn8i?=
- =?us-ascii?Q?2d2eUWwHl8s9rDSgx3fWKAdoh5w/C6tbPKPjcUzUV1obWYTdfFxAq6z40gCS?=
- =?us-ascii?Q?qgA9+3gGBDhwJ0hGiRiLxsT3G6/UNwyVhhE/l8s1brFKmbFa7Cdphw+BuKoR?=
- =?us-ascii?Q?rujF+7yXErOBez6cli30Oa72fSuLdAmIhUzfuNfgHaNc91YPLpyBgdC3L+RD?=
- =?us-ascii?Q?Cvu/XLK4ewffcKUjHsU3w8woTjJUx9B+6pGwJq0sqhZYiR/iW555GqzwUHNm?=
- =?us-ascii?Q?GNhRGrJq/LSXIpYJQcZcRvjBjWdL0syB26lgUnvjW2SJ9RLVLw25k3HxXtMd?=
- =?us-ascii?Q?UvlizV1RtX/Fh7o57vLa6HdcR8Xits68VcgZVWiE4dAbshkPyTm9BJWP3x79?=
- =?us-ascii?Q?KJ4WhwIgf7s1rdCwp8XcAUUHan0yiHeI2dhYLobKI2o6aHkMg4m59EROcevq?=
- =?us-ascii?Q?IQFMP4zqEQTh2j25YW55J0wj12SurfELDVkoH5s4PWqoIK0b4wmqHwQteT3s?=
- =?us-ascii?Q?uo19uVE8F+j2icSEg0SRyBBSr98qpGsQD36Lg4YLeoj8Ao6JzrEbfK4nKvgQ?=
- =?us-ascii?Q?b43NfnNwxTQRz77JK16+bWHA7kC1qHlFC4EMU7P/4wfu9DSVyBnuIgn+0x2W?=
- =?us-ascii?Q?NVOPQpv+83Yo7xaqTxMgkIoVP5RYIVNnvorTmr7ehTkiqYDnDVXiHy0sGJpq?=
- =?us-ascii?Q?2Fc80dXtyyjMs7wcHc4trihOAbwSuU0HvppjS7X+gVPgRoU0lcTjPZxVVzUJ?=
- =?us-ascii?Q?8ZCRp84UXVs6RhH3x48E4gkZyOEZQZVCaB/0+u6MYtnkBZJzFg3s7VQQur8X?=
- =?us-ascii?Q?9ZLlSojR/TVi6TS9NkI0iNQ/o9jq71jaPlfdkd6i83QnUEibTvGeh0CtAlgn?=
- =?us-ascii?Q?yh6wsVrRhRTgU1Ke224W+BQgRBvdQSC4CaDZzez9C1HYzfnoszuChZkjUQr+?=
- =?us-ascii?Q?3M5QVU6pustHuVKdeA8msUgEwqRCFkeDaZG4Gm4BZxPCyw3FkSou3DuSTi2+?=
- =?us-ascii?Q?oQiETcG923dh3bkdQta1ePf82wU3ODK9BR6LzYoxqrQz7Ri80GFH27plWhs+?=
- =?us-ascii?Q?pSIzs4jhi4AimXllogxnZdj6Xo3ViTPTfjbA77HJ7D6yh/sz4XMwbHVi2xIx?=
- =?us-ascii?Q?74G5vVmL4HUtQXc8Fn/PvKtjOO7oqBQN9w51qK24JMbH7FKWRGwcIi5n727F?=
- =?us-ascii?Q?m7PQQqf8+4tjHcmRKhT8NKWaw1SQsi+0FpjVGV/S41wzk4z59QIDdZc8fNdJ?=
- =?us-ascii?Q?j6yb3fZ4tYzb4Q+rTQk5RJHAwIhPpSjtJW8Wcs4meIvS3PoBtDzRxJWza5I2?=
- =?us-ascii?Q?3rWOmgIsrEGmEHvKAR8enxEXRSJ6RKg0/J1FEA+9v3uy2YUVD+2xDuPt7VAG?=
- =?us-ascii?Q?13LRDDJluUeLWYXtjKJm4XoYNfv7W3qOsPrjC9ruHiO7KPT+yf74QU0pMsM4?=
- =?us-ascii?Q?xRKBBIaSK+CzVdebJRFe/DXfyEtHvyISLrcP0/d9/D0wt8TNJI2+MmaYnxBy?=
- =?us-ascii?Q?e3nBWNP+wtmEfWrsSQk40AGlq2Qp0EyA9CaUH+z9bcSRDQ9IjveEJ5NOxqFw?=
- =?us-ascii?Q?CUBbk1ohk3fsDieyqo2oQg+hsWjHgmktgWYxX9sJj4NY62V7nsJ8KZSLwv9M?=
- =?us-ascii?Q?OvFwidIMTXg9bgciMiYGdBZpldF54VqleXZlSmwSOZK2p7NvQhlXn0kmYzvt?=
- =?us-ascii?Q?6cU3cNPzn6sWm6CeMzu3/Hb2l0O8SSt8mkxvr1RrJch2Fo+y?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b86fc17-c490-4c49-8e77-08d9f55a2f74
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB4926.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2022 16:49:54.4946 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w1W0HGBacMfZqyAmF/klaWPX4QfNm8AiHrceRYQW+PGyk1y+tIypz52nDAmljPSk+epjo5xINDWn/170TZ9wyC8ZJSLP3k1mevv8YLNflwc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3562
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10265
- signatures=677614
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0 mlxscore=0
- spamscore=0 mlxlogscore=859 adultscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202210099
-X-Proofpoint-GUID: ZYPN5bc2zb5wEQDpzw6U2-vCZqejfcCx
-X-Proofpoint-ORIG-GUID: ZYPN5bc2zb5wEQDpzw6U2-vCZqejfcCx
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=david.edmondson@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+In-Reply-To: <20220216062809.57179-15-peterx@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -162,22 +100,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In attempting to use the Python GDB plugins a couple of problems were
-encountered.
+* Peter Xu (peterx@redhat.com) wrote:
+> Add a helper to cleanup the transport listener.
+> 
+> When do it, we should also null-ify the cleanup hook and the data, then it's
+> even safe to call it multiple times.
+> 
+> Move the socket_address_list cleanup altogether, because that's a mirror of the
+> listener channels and only for the purpose of query-migrate.  Hence when
+> someone wants to cleanup the listener transport, it should also want to cleanup
+> the socket list too, always.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-David Edmondson (2):
-  scripts/qemu-gdb/mtree.py: Int128 are decimal rather than hex
-  scripts/qemu-gdb/timers.py: the 'last' attribute is no more
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
- scripts/qemugdb/mtree.py  | 2 +-
- scripts/qemugdb/timers.py | 5 ++---
- 2 files changed, 3 insertions(+), 4 deletions(-)
-
+> ---
+>  migration/migration.c | 22 ++++++++++++++--------
+>  migration/migration.h |  1 +
+>  2 files changed, 15 insertions(+), 8 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index b2e6446457..6bb321cdd3 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -279,6 +279,19 @@ MigrationIncomingState *migration_incoming_get_current(void)
+>      return current_incoming;
+>  }
+>  
+> +void migration_incoming_transport_cleanup(MigrationIncomingState *mis)
+> +{
+> +    if (mis->socket_address_list) {
+> +        qapi_free_SocketAddressList(mis->socket_address_list);
+> +        mis->socket_address_list = NULL;
+> +    }
+> +
+> +    if (mis->transport_cleanup) {
+> +        mis->transport_cleanup(mis->transport_data);
+> +        mis->transport_data = mis->transport_cleanup = NULL;
+> +    }
+> +}
+> +
+>  void migration_incoming_state_destroy(void)
+>  {
+>      struct MigrationIncomingState *mis = migration_incoming_get_current();
+> @@ -299,10 +312,8 @@ void migration_incoming_state_destroy(void)
+>          g_array_free(mis->postcopy_remote_fds, TRUE);
+>          mis->postcopy_remote_fds = NULL;
+>      }
+> -    if (mis->transport_cleanup) {
+> -        mis->transport_cleanup(mis->transport_data);
+> -    }
+>  
+> +    migration_incoming_transport_cleanup(mis);
+>      qemu_event_reset(&mis->main_thread_load_event);
+>  
+>      if (mis->page_requested) {
+> @@ -310,11 +321,6 @@ void migration_incoming_state_destroy(void)
+>          mis->page_requested = NULL;
+>      }
+>  
+> -    if (mis->socket_address_list) {
+> -        qapi_free_SocketAddressList(mis->socket_address_list);
+> -        mis->socket_address_list = NULL;
+> -    }
+> -
+>      yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+>  }
+>  
+> diff --git a/migration/migration.h b/migration/migration.h
+> index d677a750c9..f17ccc657c 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -166,6 +166,7 @@ struct MigrationIncomingState {
+>  
+>  MigrationIncomingState *migration_incoming_get_current(void);
+>  void migration_incoming_state_destroy(void);
+> +void migration_incoming_transport_cleanup(MigrationIncomingState *mis);
+>  /*
+>   * Functions to work with blocktime context
+>   */
+> -- 
+> 2.32.0
+> 
 -- 
-2.34.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
