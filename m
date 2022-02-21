@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0374BD2C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 01:10:49 +0100 (CET)
-Received: from localhost ([::1]:55422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474534BD4BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 05:29:15 +0100 (CET)
+Received: from localhost ([::1]:57954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nLwHw-0007BB-5c
-	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 19:10:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55548)
+	id 1nM0K2-0000tM-3H
+	for lists+qemu-devel@lfdr.de; Sun, 20 Feb 2022 23:29:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nLwFe-0005yE-7E
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 19:08:26 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=42620
- helo=mail-pj1-x1034.google.com)
+ (Exim 4.90_1) (envelope-from <dominik.b.czarnota@gmail.com>)
+ id 1nLz5G-000251-7T
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 22:09:54 -0500
+Received: from [2a00:1450:4864:20::12f] (port=41572
+ helo=mail-lf1-x12f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nLwFc-0006HF-BO
- for qemu-devel@nongnu.org; Sun, 20 Feb 2022 19:08:25 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- q8-20020a17090a178800b001bc299b8de1so2110024pja.1
- for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 16:08:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dominik.b.czarnota@gmail.com>)
+ id 1nLz5D-0006kQ-5q
+ for qemu-devel@nongnu.org; Sun, 20 Feb 2022 22:09:53 -0500
+Received: by mail-lf1-x12f.google.com with SMTP id f37so16020317lfv.8
+ for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 19:09:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=/aVBsxaKDQvUbbsz4hT1PcSV+6DAYRm1ACX9rjvu9A8=;
- b=hOdzwecVtnYD5I4HgD/8PXfjSFs1jYT8X83mbEovFtI6jGgUeWHkhwYh42DulT8zUS
- WsOtYmcXcef5lQpFCW/tVFUlKVaj38Hawrbvm66wUojZ+e9ywgT/jWm5UbqKKXcE9+Kn
- J95Yy2LNs4+Dp4cqp9JLUZXoBXTmlQB3IR8NudPqonCPZh0Hd/XgsyV8lo3VxrjvPgVU
- ZDIIyPEFKp5LPSIwv+x/2BjuBqxGPqWlxBq11umgz8ojK6Dg/KhplralzAS7Jvu+mfoc
- sUgujsi62lPeCqHdz3TGDbrYYfRTPIvW/BgjlSGsLeiH6Z3JWKSQgSg4r6NLFDYaCwQi
- QV7w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lzYEBKbUsL/D0+9ff6LjQ1qyGdes7js64wXpHKpIMLI=;
+ b=VCWjrOA3V6UjHNohxYnVFel8HB4EPNWS7loyFTekI9q9tFoWYR3cJ3YHSkoPvohoWs
+ e4llmJoCceNlCVS7YsxwEelhAh/LuqtMd7LNEIoxVpY4CHVD6bamlOCJivgr26vVzpfu
+ kz2zvESznCf4J13C5OM4OZLk0z3KPoqX9TiQXbdjkLhWukCEQUD14wWD+aZEuDQvLO0Y
+ KQMVT8njFw1ku1j+P+/UADK1AngghqcLdU7wyfX5N9RVvfazNpj2WcyZy3C2a3Rh8bFq
+ i/cVqFKZ1GjxjZHQjOS4Yienevd01UPK7dyEUVN9q0Zymj0gChQ4/OKLlWQUNjiadJk9
+ fimg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=/aVBsxaKDQvUbbsz4hT1PcSV+6DAYRm1ACX9rjvu9A8=;
- b=2XVvRDR3KGygKB5rnFwsg3qMvB0n1oTHmH7cXh4gZQgtr1YfLwwA+OmKlkJKks+ZVL
- wTyVy3jkbePDOWvXO85XsxKP9jOJEqQUNuBOs08dyvlqBvUDz9YN1OwGBdsqhHGGfZM4
- u4wyjfiuAZ0bhzleqAXf5c0gDM0BBaBCLPJxfI3Gx4TQ+4UyyxVfJFShL72+vPxL3az0
- HzqbGqRAvfIMO5vbc2Lao2PyzOoal0R0aCkzAvnH7aavjtqR6i4W2c++Qe1B690nnjOG
- FSYpjsX8SGcsWakKP+OtzhA2cJ80ggFj6gV19RE7RWNELAko7uDioHtz+lo1S4/BZc1u
- OhaA==
-X-Gm-Message-State: AOAM533sCD8GO0cc/dyk1AWrwFUR4cBbQSC8nCrjZu3UjEFNmE0P8omt
- 1n89tege11tvcPnI0ZITBuY=
-X-Google-Smtp-Source: ABdhPJzKd9o2OL14Um2vPBKjTFlm+O1tkNle1glbKaLG8zDTjpeeo8pDINUdxbzIUfPZ5H+owYghuQ==
-X-Received: by 2002:a17:90b:4f42:b0:1b9:5a43:2278 with SMTP id
- pj2-20020a17090b4f4200b001b95a432278mr22974619pjb.158.1645402103154; 
- Sun, 20 Feb 2022 16:08:23 -0800 (PST)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id d8sm10978089pfj.179.2022.02.20.16.08.21
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lzYEBKbUsL/D0+9ff6LjQ1qyGdes7js64wXpHKpIMLI=;
+ b=6rFs0ihJcFjCUbNzvzi7N51pNuAk7mBVQiCTXhelKT3AsZKdFXosrIDPokwd8W5CsB
+ 2XC0Mbl6lqZrqjHzRuRmotomMR52s+SUOHHbrVLhDW7CHYlz9QV2lBQVY0kJiA5xog2S
+ h+s3o+sh/oQoLAccP6i6EMPdatDGq5ovTG/hsKMVNwdlm7oZ2fDt+9nA3RDv3hZPuESh
+ EGs4P1n+J5us/T8EyhjdN4mUcNfOEjX6OWeZM5Q/zwGh5aGQUlDv/ohzNqEQui4jXlnp
+ XXYooVfhTCcQbb3GYqTCKGOFuk1KCLmhxRaUD+FykqeYgKEmIRJLNSJC0YMVxmoEADd/
+ KbVA==
+X-Gm-Message-State: AOAM530v0o0h2meJvVhs9YlC/qmAwEuD07g9ItA4Nzeg5gMxq6lzvz5D
+ O8dAfBh3jQLNr0+t/RsWq1FSbulalRQnQQ==
+X-Google-Smtp-Source: ABdhPJzIlTZS3MgS0ZOw4WiPUmLxvkBzyds6BCZRSFi+ZEtvexXUoY1fzFIralORKKQxXpGWpqi95A==
+X-Received: by 2002:ac2:5cd0:0:b0:443:b112:e512 with SMTP id
+ f16-20020ac25cd0000000b00443b112e512mr10459886lfq.118.1645412986497; 
+ Sun, 20 Feb 2022 19:09:46 -0800 (PST)
+Received: from dc.. (77-255-151-236.adsl.inetia.pl. [77.255.151.236])
+ by smtp.gmail.com with ESMTPSA id o10sm1102281ljg.92.2022.02.20.19.09.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Feb 2022 16:08:21 -0800 (PST)
-Date: Mon, 21 Feb 2022 09:08:19 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?=
- <philippe.mathieu.daude@gmail.com>
-Subject: Re: [PATCH v3 3/6] hw/openrisc/openrisc_sim: Use IRQ splitter when
- connecting UART
-Message-ID: <YhLX80Ygi1h1PPl4@antec>
-References: <20220219064210.3145381-1-shorne@gmail.com>
- <20220219064210.3145381-4-shorne@gmail.com>
- <b5009ed2-b53c-c985-6414-0804cd0db11b@gmail.com>
+ Sun, 20 Feb 2022 19:09:46 -0800 (PST)
+From: Disconnect3d <dominik.b.czarnota@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] gdbstub.c: add support for info proc mappings
+Date: Mon, 21 Feb 2022 04:09:10 +0100
+Message-Id: <20220221030910.3203063-1-dominik.b.czarnota@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b5009ed2-b53c-c985-6414-0804cd0db11b@gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=shorne@gmail.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=dominik.b.czarnota@gmail.com; helo=mail-lf1-x12f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -81,6 +75,7 @@ X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 20 Feb 2022 23:27:30 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,87 +87,471 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Development <qemu-devel@nongnu.org>, Jia Liu <proljc@gmail.com>
+Cc: alex.bennee@linaro.org, Disconnect3d <dominik.b.czarnota@gmail.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Feb 20, 2022 at 09:06:41PM +0100, Philippe Mathieu-Daudé wrote:
-> On 19/2/22 07:42, Stafford Horne wrote:
-> > Currently the OpenRISC SMP configuration only supports 2 cores due to
-> > the UART IRQ routing being limited to 2 cores.  As was done in commit
-> > 1eeffbeb11 ("hw/openrisc/openrisc_sim: Use IRQ splitter when connecting
-> > IRQ to multiple CPUs") we can use a splitter to wire more than 2 CPUs.
-> > 
-> > This patch moves serial initialization out to it's own function and
-> > uses a splitter to connect multiple CPU irq lines to the UART.
-> > 
-> > Signed-off-by: Stafford Horne <shorne@gmail.com>
-> > ---
-> >   hw/openrisc/openrisc_sim.c | 32 ++++++++++++++++++++++++--------
-> >   1 file changed, 24 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-> > index d12b3e0c5e..5bfbac00f8 100644
-> > --- a/hw/openrisc/openrisc_sim.c
-> > +++ b/hw/openrisc/openrisc_sim.c
-> > @@ -137,6 +137,28 @@ static void openrisc_sim_ompic_init(hwaddr base, int num_cpus,
-> >       sysbus_mmio_map(s, 0, base);
-> >   }
-> > +static void openrisc_sim_serial_init(hwaddr base, int num_cpus,
-> > +                                     OpenRISCCPU *cpus[], int irq_pin)
-> > +{
-> > +    qemu_irq serial_irq;
-> > +    int i;
-> > +
-> > +    if (num_cpus > 1) {
-> > +        DeviceState *splitter = qdev_new(TYPE_SPLIT_IRQ);
-> > +        qdev_prop_set_uint32(splitter, "num-lines", num_cpus);
-> > +        qdev_realize_and_unref(splitter, NULL, &error_fatal);
-> > +        for (i = 0; i < num_cpus; i++) {
-> > +            qdev_connect_gpio_out(splitter, i, get_cpu_irq(cpus, i, irq_pin));
-> > +        }
-> > +        serial_irq = qdev_get_gpio_in(splitter, 0);
-> > +    } else {
-> > +        serial_irq = get_cpu_irq(cpus, 0, irq_pin);
-> > +    }
-> 
-> Up to here the code seems a generic helper:
-> 
->   or1k_cpus_connect_device(OpenRISCCPU *cpus[],
->                            unsigned num_cpus,
->                            unsigned irq_pin);
+This commit adds support for `info proc mappings` and a few other commands into
+the QEMU user-mode emulation gdbstub.
 
-Right, this is similar to that used in openrisc_sim_net_init.  I thought about
-sharing the code but I didn't think it worth adding helper.
+For that, support for the following GDB remote protocol commands has been added:
+* vFile:setfs: pid
+* vFile:open: filename, flags, mode
+* vFile:pread: fd, count, offset
+* vFile:close: fd
+* qXfer:exec-file:read:annex:offset,length
 
-The main reason for me is that openrisc_sim_net_init doesn't expose the qemu_irq
-and just does sysbus_connect_irq.  While openrisc_sim_serial_init exposes the
-qemu_irq.
+Additionally, a `REMOTE_DEBUG_PRINT` macro has been added for printing remote debug logs.
+To enable it, set the `ENABLE_REMOTE_DEBUG` definition to 1.
 
-I think a generic function would have to look like:
+All this can be tested with the following steps (commands from Ubuntu 20.04):
+1. Compiling an example program, e.g. for ARM:
+    echo 'int main() {puts("Hello world");}' | arm-linux-gnueabihf-gcc -xc -
+2. Running qemu-arm with gdbstub:
+    qemu-arm -g 1234 -L /usr/arm-linux-gnueabihf/ ./a.out
+3. Connecting to the gdbstub with GDB:
+    gdb-multiarch -ex 'target remote localhost:1234'
+4. Executing `info proc mappings` in GDB.
 
-    qemu_irq openrisc_cpus_irq_pin_init(OpenRISCCPU *cpus[],
-                                        unsigned num_cpus,
-                                        unsigned irq_pin);
+The opening of files is done on behalf of the inferior by reusing the do_openat syscall.
+Note that the current solution is still imperfect: while it allows us to fetch procfs
+files like /proc/$pid/maps in the same way as the inferior is seeing them, there are
+two downsides to it. First of all, it is indeed performed on behalf of the inferior.
+Second of all, there are some files that the GDB tries to request like /lib/libc.so.6,
+but they are usually not available as they do not exist in those paths and may need to
+be served from the prefix provided in the -L flag to the qemu-user binary. I may try
+to add a support for this in another patch and maybe refactor the solution to not use
+the do_openat function directly.
 
-I would like to leave this as is for now as.
+Before this commit, one would get (except of amd64, but not i386 targets):
+```
+(gdb) info proc mappings
+process 1
+warning: unable to open /proc file '/proc/1/maps'
+```
 
-> > +    serial_mm_init(get_system_memory(), base, 0, serial_irq, 115200,
-> > +                   serial_hd(0), DEVICE_NATIVE_ENDIAN);
-> 
-> This part specific to UART.
+And after this commit, we should get something like:
+```
+(gdb) info proc mappings
+process 3167519
+Mapped address spaces:
 
-Right.
+	Start Addr   End Addr       Size     Offset objfile
+	0x3f7d0000 0x3f7d1000     0x1000        0x0
+	0x3f7d1000 0x3f7ed000    0x1c000        0x0 /usr/arm-linux-gnueabihf/lib/ld-2.33.so
+	0x3f7ed000 0x3f7fd000    0x10000        0x0
+	0x3f7fd000 0x3f7ff000     0x2000    0x1c000 /usr/arm-linux-gnueabihf/lib/ld-2.33.so
+	0x3f7ff000 0x3f800000     0x1000        0x0
+	0x3f800000 0x40000000   0x800000        0x0 [stack]
+	0x40000000 0x40001000     0x1000        0x0 /home/dc/src/qemu/a.out
+	0x40001000 0x40010000     0xf000        0x0
+	0x40010000 0x40012000     0x2000        0x0 /home/dc/src/qemu/a.out
+```
 
-> > +}
-> 
-> Anyhow,
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+However, on amd64 targets we would get and still get the following on the GDB side
+(even after this commit):
+```
+(gdb) info proc mappings
+Not supported on this target.
+```
 
-Thank you,
+The x64 behavior is related to the fact that the GDB client does not initialize
+some of its remote handlers properly when the gdbstub does not send an "orig_rax"
+register in the target.xml file that describes the target. This happens in GDB in the
+amd64_linux_init_abi function in the amd64-linux-tdep.c file [0]. The GDB tries to find
+the "org.gnu.gdb.i386.linux" feature and the "orig_rax" register in it and if it is not
+present, then it does not proceed with the `amd64_linux_init_abi_common (info, gdbarch, 2);` call
+which initializes whatever is needed so that GDB fetches `info proc mappings` properly.
 
-Adding this to the patch as is.
+I tried to fix this but just adding the orig_rax registry into the target.xml did not work
+(there was some mismatch between the expected and sent register values; I guess the QEMU stub
+would need to know how to send this register's value). On the other hand, this could also be
+fixed on the GDB side. I will discuss this with GDB maintainers or/and propose a patch to GDB
+related to this.
 
--Stafford
+[0] https://github.com/bminor/binutils-gdb/blob/dc5483c989f29fc9c7934965071ae1bb80cff902/gdb/amd64-linux-tdep.c#L1863-L1873
+
+Signed-off-by: Dominik 'Disconnect3d' Czarnota <dominik.b.czarnota@gmail.com>
+---
+ gdbstub.c            | 272 +++++++++++++++++++++++++++++++++++++++++++
+ linux-user/qemu.h    |   2 +
+ linux-user/syscall.c |   2 +-
+ 3 files changed, 275 insertions(+), 1 deletion(-)
+
+diff --git a/gdbstub.c b/gdbstub.c
+index 3c14c6a038..69cf8bbb0c 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -34,6 +34,10 @@
+ #include "exec/gdbstub.h"
+ #ifdef CONFIG_USER_ONLY
+ #include "qemu.h"
++#ifdef CONFIG_LINUX
++#include "linux-user/qemu.h"
++#include "linux-user/loader.h"
++#endif
+ #else
+ #include "monitor/monitor.h"
+ #include "chardev/char.h"
+@@ -62,6 +66,21 @@
+ static int phy_memory_mode;
+ #endif
+ 
++/*
++ *  Set to 1 to enable remote protocol debugging output. This output is similar
++ *  to the one produced by the gdbserver's --remote-debug flag with some
++ *  additions. Anyway, the main debug prints are:
++ * - getpkt ("...") which refers to received data (or, send by the GDB client)
++ * - putpkt ("...") which refers to sent data
++ */
++#define ENABLE_REMOTE_DEBUG 0
++
++#if ENABLE_REMOTE_DEBUG
++#define REMOTE_DEBUG_PRINT printf
++#else
++#define REMOTE_DEBUG_PRINT(...)
++#endif
++
+ static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
+                                          uint8_t *buf, int len, bool is_write)
+ {
+@@ -554,6 +573,7 @@ static int gdb_continue_partial(char *newstates)
+ 
+ static void put_buffer(const uint8_t *buf, int len)
+ {
++    REMOTE_DEBUG_PRINT("putpkt (\"%.*s\");\n", len, buf);
+ #ifdef CONFIG_USER_ONLY
+     int ret;
+ 
+@@ -1982,6 +2002,157 @@ static void handle_v_kill(GArray *params, void *user_ctx)
+     exit(0);
+ }
+ 
++#ifdef CONFIG_USER_ONLY
++/*
++ * Handles the `vFile:setfs: pid` command
++ *
++ * Example call: vFile:setfs:0
++ *
++ * --- From the GDB remote protocol documentation ---
++ * Select the filesystem on which vFile operations with filename arguments
++ * will operate. This is required for GDB to be able to access files on
++ * remote targets where the remote stub does not share a common filesystem with
++ * the inferior(s). If pid is nonzero, select the filesystem as seen by process
++ * pid. If pid is zero, select the filesystem as seen by the remote stub.
++ * Return 0 on success, or -1 if an error occurs. If vFile:setfs: indicates
++ * success, the selected filesystem remains selected until the next successful
++ * vFile:setfs: operation.
++*/
++static void handle_v_setfs(GArray *params, void *user_ctx)
++{
++    /*
++     * We do not support different filesystem view for different pids
++     * Return that all is OK, so that GDB can proceed
++     */
++    put_packet("F0");
++}
++
++/*
++ * Handle the `vFile:open: filename, flags, mode` command
++ *
++ * We try to serve the filesystem here from the inferior point of view
++
++ * Example call: vFile:open:6a7573742070726f62696e67,0,1c0
++ * (tries to open "just probing" with flags=0 mode=448)
++ *
++ * --- From the GDB remote protocol documentation ---
++ * Open a file at filename and return a file descriptor for it, or return
++ * -1 if an error occurs. The filename is a string, flags is an integer
++ * indicating a mask of open flags (see Open Flags), and mode is an integer
++ * indicating a mask of mode bits to use if the file is created
++ * (see mode_t Values). See open, for details of the open flags and mode
++ * values.
++ */
++static void handle_v_file_open(GArray *params, void *user_ctx)
++{
++    uint64_t flags = get_param(params, 1)->val_ull;
++    uint64_t mode = get_param(params, 2)->val_ull;
++    const char *hex_filename = get_param(params, 0)->data;
++
++    /* Decode the filename & append a null byte so we can use it later on */
++    hextomem(gdbserver_state.mem_buf, hex_filename, strlen(hex_filename));
++    const char *null_byte = "\0";
++    g_byte_array_append(gdbserver_state.mem_buf, (const guint8 *)null_byte, 1);
++
++    const char *filename = (const char *)gdbserver_state.mem_buf->data;
++
++    REMOTE_DEBUG_PRINT("vFile:open: filename=\"%s\" flags=%ld mode=%ld\n",
++                       filename, flags, mode);
++
++    /*
++     * On Linux we call the do_openat syscall on behalf of the inferior as it
++     * handles special filepaths properly like the /proc/$pid files, which are
++     * fetched by GDB for certain info (such as `info proc mappings`).
++     */
++#ifdef CONFIG_LINUX
++    int fd = do_openat(gdbserver_state.g_cpu->env_ptr,
++                       /* dirfd */ 0, filename, flags, mode);
++    REMOTE_DEBUG_PRINT("do_openat = %d\n", fd);
++#else
++    int fd = open(filename, flags, mode);
++    REMOTE_DEBUG_PRINT("open = %d\n", fd);
++#endif
++
++    g_string_printf(gdbserver_state.str_buf, "F%d", fd);
++    if (fd < 0) {
++        /* Append ENOENT result.
++         * TODO/FIXME: Can we retrieve errno from do_openat/open and return it here?
++         */
++        g_string_append(gdbserver_state.str_buf, ",2");
++    }
++    put_strbuf();
++}
++
++/*
++ * Handles the `vFile:pread: fd, count, offset` command
++ *
++ * Example call: vFile:pread:7,47ff,0
++ *
++ * --- From the GDB remote protocol documentation ---
++ * Read data from the open file corresponding to fd.
++ * Up to count bytes will be read from the file, starting at offset relative to
++ * the start of the file. The target may read fewer bytes; common reasons
++ * include packet size limits and an end-of-file condition. The number of bytes
++ * read is returned. Zero should only be returned for a successful read at the
++ * end of the file, or if count was zero.
++ *
++ * The data read should be returned as a binary attachment on success. If zero
++ * bytes were read, the response should include an empty binary attachment
++ * (i.e. a trailing semicolon). The return value is the number of target bytes
++ * read; the binary attachment may be longer if some characters were escaped.
++ */
++static void handle_v_file_pread(GArray *params, void *user_ctx)
++{
++    int fd = get_param(params, 0)->val_ul;
++    uint64_t count = get_param(params, 1)->val_ull;
++    uint64_t offset = get_param(params, 2)->val_ull;
++
++    g_autoptr(GString) file_content = g_string_new(NULL);
++
++    REMOTE_DEBUG_PRINT("vFile:read: fd=%d, count=%lu, offset=%lu\n",
++                       fd, count, offset);
++
++    while (count > 0) {
++        char buf[1024] = {0};
++        ssize_t n = pread(fd, buf, sizeof(buf), offset);
++        if (n <= 0) {
++            break;
++        }
++        g_string_append_len(file_content, buf, n);
++        count -= n;
++        offset += n;
++    }
++    g_string_printf(gdbserver_state.str_buf, "F%lx;", file_content->len);
++    /* Encode special chars */
++    memtox(gdbserver_state.str_buf, file_content->str, file_content->len);
++    put_packet_binary(gdbserver_state.str_buf->str,
++                      gdbserver_state.str_buf->len, true);
++}
++
++/*
++ * Handles the `vFile:close: fd` command
++ *
++ * Example call: vFile:close:7
++ *
++ * --- From the GDB remote protocol documentation ---
++ * Close the open file corresponding to fd and return 0, or -1 if an error occurs.
++ */
++static void handle_v_file_close(GArray *params, void *user_ctx)
++{
++    int fd = get_param(params, 0)->val_ul;
++    int res = close(fd);
++    if (res == 0) {
++        put_packet("F00");
++    } else {
++        /* This may happen only with a bugged GDB client or a bugged inferior */
++        REMOTE_DEBUG_PRINT("Warning: the vFile:close(fd=%d) operation returned %d\n",
++                           fd, res);
++        g_string_printf(gdbserver_state.str_buf, "F%d,%d", res, errno);
++        put_strbuf();
++    }
++}
++#endif /* CONFIG_USER_ONLY */
++
+ static const GdbCmdParseEntry gdb_v_commands_table[] = {
+     /* Order is important if has same prefix */
+     {
+@@ -2001,6 +2172,32 @@ static const GdbCmdParseEntry gdb_v_commands_table[] = {
+         .cmd_startswith = 1,
+         .schema = "l0"
+     },
++    #ifdef CONFIG_USER_ONLY
++    {
++        .handler = handle_v_setfs,
++        .cmd = "File:setfs:",
++        .cmd_startswith = 1,
++        .schema = "l0"
++    },
++    {
++        .handler = handle_v_file_open,
++        .cmd = "File:open:",
++        .cmd_startswith = 1,
++        .schema = "s,L,L0"
++    },
++    {
++        .handler = handle_v_file_pread,
++        .cmd = "File:pread:",
++        .cmd_startswith = 1,
++        .schema = "l,L,L0"
++    },
++    {
++        .handler = handle_v_file_close,
++        .cmd = "File:close:",
++        .cmd_startswith = 1,
++        .schema = "l0"
++    },
++    #endif
+     {
+         .handler = handle_v_kill,
+         .cmd = "Kill;",
+@@ -2197,6 +2394,8 @@ static void handle_query_supported(GArray *params, void *user_ctx)
+     if (gdbserver_state.c_cpu->opaque) {
+         g_string_append(gdbserver_state.str_buf, ";qXfer:auxv:read+");
+     }
++
++    g_string_append(gdbserver_state.str_buf, ";qXfer:exec-file:read+");
+ #endif
+ 
+     if (params->len &&
+@@ -2305,6 +2504,63 @@ static void handle_query_xfer_auxv(GArray *params, void *user_ctx)
+     put_packet_binary(gdbserver_state.str_buf->str,
+                       gdbserver_state.str_buf->len, true);
+ }
++
++/*
++ * Handle the `qXfer:exec-file:read:annex:offset,length` command
++ *
++ * Example call: qXfer:exec-file:read:241022:0,ffb
++ *
++ * --- From the GDB remote protocol documentation ---
++ * Return the full absolute name of the file that was executed to create a process
++ * running on the remote system. The annex specifies the numeric process ID of the
++ * process to query, encoded as a hexadecimal number. If the annex part is empty the
++ * remote stub should return the filename corresponding to the currently executing
++ * process.
++ *
++ * This packet is not probed by default; the remote stub must request it, by supplying
++ * an appropriate â€˜qSupportedâ€™ response (see qSupported).
++ */
++static void handle_query_xfer_exec_file(GArray *params, void *user_ctx)
++{
++    uint32_t pid = get_param(params, 0)->val_ul;
++    uint32_t offset = get_param(params, 1)->val_ul;
++    uint32_t length = get_param(params, 2)->val_ul;
++
++    GDBProcess *process = gdb_get_process(pid);
++    if (!process) {
++        put_packet("E01");
++        return;
++    }
++
++    CPUState *cpu = get_first_cpu_in_process(process);
++    if (!cpu) {
++        put_packet("E02");
++        return;
++    }
++
++    TaskState *ts = cpu->opaque;
++    /* Those should be there but lets sanity check them */
++    if (!ts || !ts->bprm || !ts->bprm->filename) {
++        put_packet("E03");
++        return;
++    }
++
++    /*
++     * This filename is an absolute path even when QEMU user-mode emulation is called
++     * with a symlink path so we do not have to resolve it with readlink(2)
++     */
++    const char *filename = ts->bprm->filename;
++
++    /* It does not make sense to return anything after the filename */
++    if (offset > strlen(filename)) {
++        put_packet("E04");
++        return;
++    }
++
++    g_string_printf(gdbserver_state.str_buf, "l%.*s", length, filename + offset);
++    put_strbuf();
++    return;
++}
+ #endif
+ 
+ static void handle_query_attached(GArray *params, void *user_ctx)
+@@ -2419,6 +2675,12 @@ static const GdbCmdParseEntry gdb_gen_query_table[] = {
+         .cmd_startswith = 1,
+         .schema = "l,l0"
+     },
++    {
++        .handler = handle_query_xfer_exec_file,
++        .cmd = "Xfer:exec-file:read:",
++        .cmd_startswith = 1,
++        .schema = "l:l,l0"
++    },
+ #endif
+     {
+         .handler = handle_query_attached,
+@@ -2516,6 +2778,7 @@ static int gdb_handle_packet(const char *line_buf)
+     const GdbCmdParseEntry *cmd_parser = NULL;
+ 
+     trace_gdbstub_io_command(line_buf);
++    REMOTE_DEBUG_PRINT("getpkt (\"%s\");\n", line_buf);
+ 
+     switch (line_buf[0]) {
+     case '!':
+@@ -3133,6 +3396,15 @@ static void create_default_process(GDBState *s)
+     GDBProcess *process;
+     int max_pid = 0;
+ 
++#if defined(CONFIG_USER_ONLY)
++    /*
++     * In QEMU user-mode emulation we want to return the real PID of the proces
++     * as this allows us to return proper view of /proc/$pid files as seen by
++     * the inferior
++     */
++    max_pid = getpid() - 1;
++#endif
++
+     if (gdbserver_state.process_num) {
+         max_pid = s->processes[s->process_num - 1].pid;
+     }
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 98dfbf2096..44a71b9740 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -182,6 +182,8 @@ static inline bool access_ok(CPUState *cpu, int type,
+     return access_ok_untagged(type, cpu_untagged_addr(cpu, addr), size);
+ }
+ 
++int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags, mode_t mode);
++
+ /* NOTE __get_user and __put_user use host pointers and don't check access.
+    These are usually used to access struct data members once the struct has
+    been locked - usually with lock_user_struct.  */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index b9b18a7eaf..bfc271b568 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8233,7 +8233,7 @@ static int open_hardware(void *cpu_env, int fd)
+ }
+ #endif
+ 
+-static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags, mode_t mode)
++int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags, mode_t mode)
+ {
+     struct fake_open {
+         const char *filename;
+-- 
+2.30.2
+
 
