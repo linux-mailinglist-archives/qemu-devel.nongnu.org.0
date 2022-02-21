@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FD94BED6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 23:52:00 +0100 (CET)
-Received: from localhost ([::1]:60192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C844BED66
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 23:49:13 +0100 (CET)
+Received: from localhost ([::1]:53578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMHXD-0001D9-AT
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 17:51:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46528)
+	id 1nMHUW-0005AG-8S
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 17:49:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMHGd-0000zZ-Ux
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMHGd-0000xw-Gs
  for qemu-devel@nongnu.org; Mon, 21 Feb 2022 17:34:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58433)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMHGc-0008Em-0o
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMHGb-0008ET-Gi
  for qemu-devel@nongnu.org; Mon, 21 Feb 2022 17:34:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645482889;
+ s=mimecast20190719; t=1645482888;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WMFwZBMAWGu7/ATBP97aW98pHpt3+LlIg4jxC2XFWOE=;
- b=fnSL8ioJ723cHKmgzqbYapNZOlyz18jf7M1oJr5RVnyt7GKoZ99X0LH7bfKTlHazWdqqwK
- MvgaD/b9Zwwejsx/gvumTpIDWJKQsXYK0+60qp/T1HJt9gtEPKAXuRIxc7pZ4D1DBtsxCg
- USQjuwPDS2fcyEe/EZr2fYsXW+rduzY=
+ bh=P+lm6rn9H/TN3qWnRxVPO6qqVdAE2mCA0B2AE+Mbv/A=;
+ b=KVjca69pYMUsmZzjrGamiQqWT11o9Lld/IrXBz0Xg99vyevI4MoJnlVp72hbuKaH9NgnA0
+ s/ayuia+SgMgAbyzNaAwyatqb9glnZ+MdGTmYaCpsBX774+vtlJPxIzw6qLOk7f24uzJFN
+ SjgDPdjeoAloF58FfIUBaLaJWHlZ1Mk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-4REDl7DlMyC-RQw2rGlKug-1; Mon, 21 Feb 2022 17:34:46 -0500
-X-MC-Unique: 4REDl7DlMyC-RQw2rGlKug-1
+ us-mta-466-xvstMlXuNHeyMW8f5MWiow-1; Mon, 21 Feb 2022 17:34:47 -0500
+X-MC-Unique: xvstMlXuNHeyMW8f5MWiow-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E524801B04;
- Mon, 21 Feb 2022 22:34:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0DB9104;
+ Mon, 21 Feb 2022 22:34:46 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 319DF1038AB6;
- Mon, 21 Feb 2022 22:34:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 741811038AAF;
+ Mon, 21 Feb 2022 22:34:45 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/18] iotests: remove qemu_img_log('create', ...) calls
-Date: Mon, 21 Feb 2022 17:34:10 -0500
-Message-Id: <20220221223413.2123003-16-jsnow@redhat.com>
+Subject: [PATCH v2 16/18] iotests: remove qemu_img_pipe()
+Date: Mon, 21 Feb 2022 17:34:11 -0500
+Message-Id: <20220221223413.2123003-17-jsnow@redhat.com>
 In-Reply-To: <20220221223413.2123003-1-jsnow@redhat.com>
 References: <20220221223413.2123003-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -64,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,243 +85,77 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_img_log() calls into qemu_img_pipe(), which always removes output
-for 'create' commands on success anyway. Replace all of these calls to
-the simpler qemu_img_create(...) which doesn't log, but raises a
-detailed exception object on failure instead.
+With the exceptional 'create' calls removed in the prior commit, change
+qemu_img_log() and img_info_log() to call qemu_img() directly
+instead.
 
-Blank lines are removed from output files where appropriate.
+In keeping with the spirit of diff-based tests, allow these calls to
+qemu_img() to return an unchecked non-zero status code -- because any
+error we'd see from the output is going into the log anyway.
+
+Every last call to qemu-img is now either checked for a return code of
+zero or has its output logged. It should be very hard to accidentally
+ignore the return code *or* output from qemu-img now; intentional malice
+remains unhandled.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/255     |  8 ++++----
- tests/qemu-iotests/255.out |  4 ----
- tests/qemu-iotests/274     | 17 ++++++++---------
- tests/qemu-iotests/274.out | 29 -----------------------------
- tests/qemu-iotests/280     |  2 +-
- tests/qemu-iotests/280.out |  1 -
- 6 files changed, 13 insertions(+), 48 deletions(-)
+ tests/qemu-iotests/iotests.py | 26 +++++++-------------------
+ 1 file changed, 7 insertions(+), 19 deletions(-)
 
-diff --git a/tests/qemu-iotests/255 b/tests/qemu-iotests/255
-index 3d6d0e80cb5..f86fa851b62 100755
---- a/tests/qemu-iotests/255
-+++ b/tests/qemu-iotests/255
-@@ -42,8 +42,8 @@ with iotests.FilePath('t.qcow2') as disk_path, \
-     size_str = str(size)
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 16bac5df969..6da6890596c 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -240,15 +240,6 @@ def qemu_img_create_prepare_args(args: List[str]) -> List[str]:
  
-     iotests.create_image(base_path, size)
--    iotests.qemu_img_log('create', '-f', iotests.imgfmt, mid_path, size_str)
--    iotests.qemu_img_log('create', '-f', iotests.imgfmt, disk_path, size_str)
-+    iotests.qemu_img_create('-f', iotests.imgfmt, mid_path, size_str)
-+    iotests.qemu_img_create('-f', iotests.imgfmt, disk_path, size_str)
+     return result
  
-     # Create a backing chain like this:
-     # base <- [throttled: bps-read=4096] <- mid <- overlay
-@@ -92,8 +92,8 @@ with iotests.FilePath('src.qcow2') as src_path, \
-     size = 128 * 1024 * 1024
-     size_str = str(size)
- 
--    iotests.qemu_img_log('create', '-f', iotests.imgfmt, src_path, size_str)
--    iotests.qemu_img_log('create', '-f', iotests.imgfmt, dst_path, size_str)
-+    iotests.qemu_img_create('-f', iotests.imgfmt, src_path, size_str)
-+    iotests.qemu_img_create('-f', iotests.imgfmt, dst_path, size_str)
- 
-     iotests.log(iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write 0 1M',
-                                 src_path),
-diff --git a/tests/qemu-iotests/255.out b/tests/qemu-iotests/255.out
-index 11a05a5213e..2e837cbb5f3 100644
---- a/tests/qemu-iotests/255.out
-+++ b/tests/qemu-iotests/255.out
-@@ -3,8 +3,6 @@ Finishing a commit job with background reads
- 
- === Create backing chain and start VM ===
- 
+-def qemu_img_pipe_and_status(*args: str) -> Tuple[str, int]:
+-    """
+-    Run qemu-img and return both its output and its exit code
+-    """
+-    is_create = bool(args and args[0] == 'create')
+-    full_args = qemu_img_args + qemu_img_create_prepare_args(list(args))
+-    return qemu_tool_pipe_and_status('qemu-img', full_args,
+-                                     drop_successful_output=is_create)
 -
+ def qemu_img(*args: str, check: bool = True, combine_stdio: bool = True
+              ) -> subprocess.CompletedProcess[str]:
+     """
+@@ -356,17 +347,14 @@ def qemu_img_info(*args: str) -> Any:
+ def qemu_img_map(*args: str) -> Any:
+     return qemu_img_json('map', "--output", "json", *args)
+ 
+-def qemu_img_pipe(*args: str) -> str:
+-    '''Run qemu-img and return its output'''
+-    return qemu_img_pipe_and_status(*args)[0]
 -
- === Start background read requests ===
+-def qemu_img_log(*args):
+-    result = qemu_img_pipe(*args)
+-    log(result, filters=[filter_testfiles])
++def qemu_img_log(*args: str) -> subprocess.CompletedProcess[str]:
++    result = qemu_img(*args, check=False)
++    log(result.stdout, filters=[filter_testfiles])
+     return result
  
- === Run a commit job ===
-@@ -21,8 +19,6 @@ Closing the VM while a job is being cancelled
+-def img_info_log(filename, filter_path=None, use_image_opts=False,
+-                 extra_args=()):
++def img_info_log(filename: str, filter_path: Optional[str] = None,
++                 use_image_opts: bool = False, extra_args: Sequence[str] = (),
++                 ) -> None:
+     args = ['info']
+     if use_image_opts:
+         args.append('--image-opts')
+@@ -375,7 +363,7 @@ def img_info_log(filename, filter_path=None, use_image_opts=False,
+     args += extra_args
+     args.append(filename)
  
- === Create images and start VM ===
- 
--
--
- wrote 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-diff --git a/tests/qemu-iotests/274 b/tests/qemu-iotests/274
-index 080a90f10f7..2495e051a22 100755
---- a/tests/qemu-iotests/274
-+++ b/tests/qemu-iotests/274
-@@ -31,12 +31,11 @@ size_long = 2 * 1024 * 1024
- size_diff = size_long - size_short
- 
- def create_chain() -> None:
--    iotests.qemu_img_log('create', '-f', iotests.imgfmt, base,
--                         str(size_long))
--    iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', base,
--                         '-F', iotests.imgfmt, mid, str(size_short))
--    iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', mid,
--                         '-F', iotests.imgfmt, top, str(size_long))
-+    iotests.qemu_img_create('-f', iotests.imgfmt, base, str(size_long))
-+    iotests.qemu_img_create('-f', iotests.imgfmt, '-b', base,
-+                            '-F', iotests.imgfmt, mid, str(size_short))
-+    iotests.qemu_img_create('-f', iotests.imgfmt, '-b', mid,
-+                            '-F', iotests.imgfmt, top, str(size_long))
- 
-     iotests.qemu_io_log('-c', 'write -P 1 0 %d' % size_long, base)
- 
-@@ -160,9 +159,9 @@ with iotests.FilePath('base') as base, \
-             ('off',      '512k', '256k', '500k', '436k')]:
- 
-         iotests.log('=== preallocation=%s ===' % prealloc)
--        iotests.qemu_img_log('create', '-f', iotests.imgfmt, base, base_size)
--        iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', base,
--                             '-F', iotests.imgfmt, top, top_size_old)
-+        iotests.qemu_img_create('-f', iotests.imgfmt, base, base_size)
-+        iotests.qemu_img_create('-f', iotests.imgfmt, '-b', base,
-+                                '-F', iotests.imgfmt, top, top_size_old)
-         iotests.qemu_io_log('-c', 'write -P 1 %s 64k' % off, base)
- 
-         # After this, top_size_old to base_size should be allocated/zeroed.
-diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
-index 1ce40d839a4..acd8b166a65 100644
---- a/tests/qemu-iotests/274.out
-+++ b/tests/qemu-iotests/274.out
-@@ -1,7 +1,4 @@
- == Commit tests ==
--
--
--
- wrote 2097152/2097152 bytes at offset 0
- 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -63,9 +60,6 @@ read 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
- === Testing HMP commit (top -> mid) ===
--
--
--
- wrote 2097152/2097152 bytes at offset 0
- 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -92,9 +86,6 @@ read 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
- === Testing QMP active commit (top -> mid) ===
--
--
--
- wrote 2097152/2097152 bytes at offset 0
- 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -127,9 +118,6 @@ read 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
- === Testing qemu-img commit (top -> base) ===
--
--
--
- wrote 2097152/2097152 bytes at offset 0
- 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -154,9 +142,6 @@ read 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
- === Testing QMP active commit (top -> base) ===
--
--
--
- wrote 2097152/2097152 bytes at offset 0
- 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -190,8 +175,6 @@ read 1048576/1048576 bytes at offset 1048576
- 
- == Resize tests ==
- === preallocation=off ===
--
--
- wrote 65536/65536 bytes at offset 5368709120
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -207,8 +190,6 @@ read 65536/65536 bytes at offset 5368709120
- { "start": 1073741824, "length": 7516192768, "depth": 0, "present": true, "zero": true, "data": false}]
- 
- === preallocation=metadata ===
--
--
- wrote 65536/65536 bytes at offset 33285996544
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -229,8 +210,6 @@ read 65536/65536 bytes at offset 33285996544
- { "start": 34896609280, "length": 536870912, "depth": 0, "present": true, "zero": true, "data": false, "offset": 2685075456}]
- 
- === preallocation=falloc ===
--
--
- wrote 65536/65536 bytes at offset 9437184
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -246,8 +225,6 @@ read 65536/65536 bytes at offset 9437184
- { "start": 5242880, "length": 10485760, "depth": 0, "present": true, "zero": false, "data": true, "offset": 327680}]
- 
- === preallocation=full ===
--
--
- wrote 65536/65536 bytes at offset 11534336
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -263,8 +240,6 @@ read 65536/65536 bytes at offset 11534336
- { "start": 8388608, "length": 4194304, "depth": 0, "present": true, "zero": false, "data": true, "offset": 327680}]
- 
- === preallocation=off ===
--
--
- wrote 65536/65536 bytes at offset 259072
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -281,8 +256,6 @@ read 65536/65536 bytes at offset 259072
- { "start": 262144, "length": 262144, "depth": 0, "present": true, "zero": true, "data": false}]
- 
- === preallocation=off ===
--
--
- wrote 65536/65536 bytes at offset 344064
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-@@ -298,8 +271,6 @@ read 65536/65536 bytes at offset 344064
- { "start": 262144, "length": 262144, "depth": 0, "present": true, "zero": true, "data": false}]
- 
- === preallocation=off ===
--
--
- wrote 65536/65536 bytes at offset 446464
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-diff --git a/tests/qemu-iotests/280 b/tests/qemu-iotests/280
-index 628f3c33cac..5f50500fdb8 100755
---- a/tests/qemu-iotests/280
-+++ b/tests/qemu-iotests/280
-@@ -33,7 +33,7 @@ with iotests.FilePath('base') as base_path , \
-      iotests.FilePath('top') as top_path, \
-      iotests.VM() as vm:
- 
--    iotests.qemu_img_log('create', '-f', iotests.imgfmt, base_path, '64M')
-+    iotests.qemu_img_create('-f', iotests.imgfmt, base_path, '64M')
- 
-     iotests.log('=== Launch VM ===')
-     vm.add_object('iothread,id=iothread0')
-diff --git a/tests/qemu-iotests/280.out b/tests/qemu-iotests/280.out
-index e39164c579f..c75f437c00e 100644
---- a/tests/qemu-iotests/280.out
-+++ b/tests/qemu-iotests/280.out
-@@ -1,4 +1,3 @@
--
- === Launch VM ===
- Enabling migration QMP events on VM...
- {"return": {}}
+-    output = qemu_img_pipe(*args)
++    output = qemu_img(*args, check=False).stdout
+     if not filter_path:
+         filter_path = filename
+     log(filter_img_info(output, filter_path))
 -- 
 2.34.1
 
