@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255BE4BD9B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:38:23 +0100 (CET)
-Received: from localhost ([::1]:34420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 695124BD9C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:59:23 +0100 (CET)
+Received: from localhost ([::1]:41730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM7xJ-0000tG-Dq
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:38:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50644)
+	id 1nM8Hi-00075K-6P
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:59:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7OJ-0004NS-4A
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:02:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39861)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7OK-0004RT-GZ
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:02:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7OH-0000wo-0j
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:02:06 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nM7OI-0000xq-9C
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:02:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645444924;
+ s=mimecast20190719; t=1645444925;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2f5TuqMDLl63qi5MelAUJwA0P80bG4KDuZy1oibWWB0=;
- b=dHOP6iA0Q9l3uT6zZ8YqmyqsrwwOKdR4RRp7BVF9aYWPt/x84p3ewyhXr8n5jVrnSDwjBP
- rp0yIZS9YxqPORV8dSntzuNXIM1Gh3vQnSSWilJipN0jU3EeDeXYS4NbsZEV0rTPISuw32
- xyQyQf64tjPL7gNKqCRnBY9dMwcdTY4=
+ bh=3SKUrD2tcuSxGW7XYT6Oiv7FEIGl4n5li/VYozanA0w=;
+ b=R+m+4nQeS0A3fftoOh6byf+DSjwQXTRiEjT0by549jAsHQ0g5OEGAxS5/gemCCyQhIM2L1
+ 0Y89y0t9uR0pM/tWOgep7pEh7jKvfNrvU4VvM435Svx2G7DTwgWt1t6roi1YH4wbjXxcMR
+ nm8XNiwYKsYUlECHRs5xfhaxM14WGME=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-340-srjjehNoNVWr_VIwsTr9MQ-1; Mon, 21 Feb 2022 07:02:01 -0500
-X-MC-Unique: srjjehNoNVWr_VIwsTr9MQ-1
+ us-mta-445-TGsuIum-OZCOKtEPHvgnHg-1; Mon, 21 Feb 2022 07:02:04 -0500
+X-MC-Unique: TGsuIum-OZCOKtEPHvgnHg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FFA61F2DC;
- Mon, 21 Feb 2022 12:02:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55F00814246;
+ Mon, 21 Feb 2022 12:02:03 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.195.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA7EC73160;
- Mon, 21 Feb 2022 12:01:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 275E773165;
+ Mon, 21 Feb 2022 12:02:01 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/25] softmmu/runstate: Clean headers
-Date: Mon, 21 Feb 2022 13:00:05 +0100
-Message-Id: <20220221120008.600114-23-thuth@redhat.com>
+Subject: [PULL 24/25] hw/m68k/mcf: Add missing 'exec/hwaddr.h' header
+Date: Mon, 21 Feb 2022 13:00:07 +0100
+Message-Id: <20220221120008.600114-25-thuth@redhat.com>
 In-Reply-To: <20220221120008.600114-1-thuth@redhat.com>
 References: <20220221120008.600114-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,45 +79,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Add the missing 'qemu/log.h' header and remove the
-unused 'exec/exec-all.h' one.
+hwaddr type is defined in "exec/hwaddr.h".
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220207075426.81934-14-f4bug@amsat.org>
+Message-Id: <20220209215446.58402-3-f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- softmmu/runstate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/m68k/mcf.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index 10d9b7365a..3cb2758b33 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -30,7 +30,6 @@
- #include "crypto/cipher.h"
- #include "crypto/init.h"
- #include "exec/cpu-common.h"
--#include "exec/exec-all.h"
- #include "exec/gdbstub.h"
- #include "hw/boards.h"
- #include "migration/misc.h"
-@@ -44,6 +43,7 @@
- #include "qemu-common.h"
- #include "qemu/error-report.h"
- #include "qemu/job.h"
-+#include "qemu/log.h"
- #include "qemu/module.h"
- #include "qemu/plugin.h"
- #include "qemu/sockets.h"
+diff --git a/include/hw/m68k/mcf.h b/include/hw/m68k/mcf.h
+index decf17ce42..8cbd587bbf 100644
+--- a/include/hw/m68k/mcf.h
++++ b/include/hw/m68k/mcf.h
+@@ -2,6 +2,7 @@
+ #define HW_MCF_H
+ /* Motorola ColdFire device prototypes.  */
+ 
++#include "exec/hwaddr.h"
+ #include "target/m68k/cpu-qom.h"
+ 
+ /* mcf_uart.c */
 -- 
 2.27.0
 
