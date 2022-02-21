@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0D64BD8AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:52:22 +0100 (CET)
-Received: from localhost ([::1]:47484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59CC4BD8C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:57:01 +0100 (CET)
+Received: from localhost ([::1]:58500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM5Mj-00083Z-3V
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:52:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46694)
+	id 1nM5RE-0006lJ-Pp
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:57:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM5CY-0004on-9K
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:41:50 -0500
-Received: from [2a00:1450:4864:20::42e] (port=46729
- helo=mail-wr1-x42e.google.com)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nM5ML-0000B1-8A
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:51:57 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=46894
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM5CW-0003F5-9l
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:41:49 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id x5so21101699wrg.13
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:41:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7VoKaf7Ak3GnWDSeqTu+jT8G56c8Do90Fo0z2JjU+DI=;
- b=qbtD7x6o9V33BSZRPvYk0pgmI7tCuRRtk+8pujO6Qhd4n7sQrlziPSxiDSx9feeeSc
- Jf4RpLJiHMb5EXrsGkhu1sTCube07+4VRLUc+FH1lIm+WFrYbZvGj3JslMq/U/w/F/j3
- V2UwZ+vvq7dApnj75vLDUxjWZ9baZtd3VpFIbqxw47yJYY0XVz3m2q5/VL+UsQp9y0mO
- vkwHUOxMHaHSmAduAwvKTQlucOs6FjQ97JBQZkcxjiY3MPfUfaSsoV9/shdGVlZqELh2
- wCKy3BhZn1VliT7hmMdw2+8kEjV6X8IpfbINbZJmInBGulmqWpiGbIpiYwo5o2wtl7y9
- h/zg==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1nM5MI-0004jj-Sa
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:51:56 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ j10-20020a17090a94ca00b001bc2a9596f6so3305289pjw.5
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:51:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LQH0oXYOtonMJ/YymHMO0iip6tbgo2yPt2wFBQnpQPs=;
+ b=XNWvK9S3nmEtvFBsP3LXBaxUCwjZOXwAkCFcPuTkxQxDO7C3fsigVPNu2UuKBxk9J6
+ H+7aEAGVVLOBMMPU/KUI3Z4lu/96YSBLpThoIBGlJdxz1foqj7V4X0tKup1OGLjCGKNx
+ U99TUt3ME5SEdOjrTmnv1EgKeV2Eqy+biejfqB3e+mBJvcPyYVb0lpVX4kT6bnboqoJh
+ 1DLizOA2TAa8HSn8z/wbeY3RdR76AxRktYdA+XQWGErJpq4l5MoUvaKoFtJuj5arhGoB
+ 1z1pdEW/lm2f5b0vSnjX6UUv80u0t2MfjW9xEDMQeaOCNS8zYwq4IhUSs9rEkVFo4tBD
+ M6Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7VoKaf7Ak3GnWDSeqTu+jT8G56c8Do90Fo0z2JjU+DI=;
- b=OMY0FLf3+TqNiN+RerGcye0xqA3JOiTAFS+1gDgQeAi1CSE1hLV+0TYxkt5xQcxgPW
- 3HJE2bvvUIx02pVoIYXtZPQrG1wMa/+EWFj/Ns6+IEaWNWwNheHn+S8Gm58arHsBQuha
- lShOXBnhA4RXUYVC9Fj1ww0mub3o5HYyrP6+C/ZP+Fo02nMpXETSwRGK7maCrDmzhdAA
- vWPvYPWgzi9fNd0y2unmJfG+Ha6MC7oscVA0/Rul1hV9nViC/3dTBwx+cv3ozUUxxg5D
- p8I7mc9ui7hsyjUFyri0kAt5jDPV9Cvq5u9Co7Ud5y587hlcND8pLf8mkntOEMAqPYbb
- AzOg==
-X-Gm-Message-State: AOAM533AfraqEfS3P62K53mBo4MZSfQoSTQQC1nORbRq3AowGjCzvD2S
- 7KWxM9NrDpZifZ1+OIMiZmw/Yw==
-X-Google-Smtp-Source: ABdhPJzC71eC4wRAQ0ylk/iKGOH0b0wcuk01dojpfNYLaifRAu33qbf4jXr86Pe7bNQIPY8uk7TUdA==
-X-Received: by 2002:adf:c382:0:b0:1e3:1be3:cc38 with SMTP id
- p2-20020adfc382000000b001e31be3cc38mr14941602wrf.368.1645436506679; 
- Mon, 21 Feb 2022 01:41:46 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- p6-20020a05600c358600b00354d399ef32sm7309517wmq.39.2022.02.21.01.41.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Feb 2022 01:41:46 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] hw/arm/mps2-tz.c: Update AN547 documentation URL
-Date: Mon, 21 Feb 2022 09:41:44 +0000
-Message-Id: <20220221094144.426191-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LQH0oXYOtonMJ/YymHMO0iip6tbgo2yPt2wFBQnpQPs=;
+ b=rtmlastNrwqXx1E5oyyRrpTS1Mw5NHRZkKWOv8KqcV0FyMYW7a2ChusFrWY7wM7j1Q
+ hh3tSpAncVloVxpY8yDXA2loTW8VQ0RR9ntI+F+GycQfOfc2OZGPpad21bZu1Hk7Zrdc
+ gb/pZkrFSc9Z83Y3QTb5BFJgdVU+qDqtjtm8xo6YFjZ2sPqnrDZ/lmx7yPDojnUteA2s
+ RKlfVAu96jAPDu8MzK/gXb9od2py4nxiuqdlzZxw4qqGx7meEuRYQStU43RD14FigNXB
+ +EV9Rm0ht7gBux35OP5yil5ZxNzaSSOUwWj8xgEgBYSFrX0kH+X4AyTpVIOTuW4JyHiJ
+ tUpg==
+X-Gm-Message-State: AOAM5325d3iIFYRtPc6Bv//FE4M0w6nFSSNeh725M9itGfp/ZU/rLCc4
+ UgdW2BxAmKwA3jRCNc1oascvAYtUpRNr/un/r7Q=
+X-Google-Smtp-Source: ABdhPJzj+ZuQk9cqdUsx94ps+dYux2wLeG8B+O6heHBti9pS88aj8InSxsgxxilaFe0Uhs7eDP8gW7FQ4DbiNTQeX+k=
+X-Received: by 2002:a17:902:e8c2:b0:14d:bc86:be4d with SMTP id
+ v2-20020a170902e8c200b0014dbc86be4dmr18375051plg.106.1645437113439; Mon, 21
+ Feb 2022 01:51:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
+ <YhMtxWcFMjdQTioe@apples>
+In-Reply-To: <YhMtxWcFMjdQTioe@apples>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 21 Feb 2022 09:51:42 +0000
+Message-ID: <CAJSP0QVNRYTOGDsjCJJLOT=7yo1EB6D9LBwgQ4-CE539HdgHNQ@mail.gmail.com>
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
+To: Klaus Jensen <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=stefanha@gmail.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -87,33 +83,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jimmy Brisson <jimmy.brisson@linaro.org>
+Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, kvm <kvm@vger.kernel.org>,
+ Sergio Lopez <slp@redhat.com>, Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+ John Snow <jsnow@redhat.com>, Alex Agache <aagch@amazon.com>,
+ qemu-devel <qemu-devel@nongnu.org>, "Florescu, Andreea" <fandree@amazon.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
+ Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AN547 application note URL has changed: update our comment
-accordingly. (Rev B is still downloadable from the old URL,
-but there is a new Rev C of the document now.)
+On Mon, 21 Feb 2022 at 06:14, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> On Jan 28 15:47, Stefan Hajnoczi wrote:
+> > Dear QEMU, KVM, and rust-vmm communities,
+> > QEMU will apply for Google Summer of Code 2022
+> > (https://summerofcode.withgoogle.com/) and has been accepted into
+> > Outreachy May-August 2022 (https://www.outreachy.org/). You can now
+> > submit internship project ideas for QEMU, KVM, and rust-vmm!
+> >
+> > If you have experience contributing to QEMU, KVM, or rust-vmm you can
+> > be a mentor. It's a great way to give back and you get to work with
+> > people who are just starting out in open source.
+> >
+> > Please reply to this email by February 21st with your project ideas.
+> >
+> > Good project ideas are suitable for remote work by a competent
+> > programmer who is not yet familiar with the codebase. In
+> > addition, they are:
+> > - Well-defined - the scope is clear
+> > - Self-contained - there are few dependencies
+> > - Uncontroversial - they are acceptable to the community
+> > - Incremental - they produce deliverables along the way
+> >
+> > Feel free to post ideas even if you are unable to mentor the project.
+> > It doesn't hurt to share the idea!
+> >
+> > I will review project ideas and keep you up-to-date on QEMU's
+> > acceptance into GSoC.
+> >
+> > Internship program details:
+> > - Paid, remote work open source internships
+> > - GSoC projects are 175 or 350 hours, Outreachy projects are 30
+> > hrs/week for 12 weeks
+> > - Mentored by volunteers from QEMU, KVM, and rust-vmm
+> > - Mentors typically spend at least 5 hours per week during the coding period
+> >
+> > Changes since last year: GSoC now has 175 or 350 hour project sizes
+> > instead of 12 week full-time projects. GSoC will accept applicants who
+> > are not students, before it was limited to students.
+> >
+> > For more background on QEMU internships, check out this video:
+> > https://www.youtube.com/watch?v=xNVCX7YMUL8
+> >
+> > Please let me know if you have any questions!
+> >
+> > Stefan
+> >
+>
+> Hi,
+>
+> I'd like to revive the "NVMe Performance" proposal from Paolo and Stefan
+> from two years ago.
+>
+>   https://wiki.qemu.org/Internships/ProjectIdeas/NVMePerformance
+>
+> I'd like to mentor, but since this is "iothread-heavy", I'd like to be
+> able to draw a bit on Stefan, Paolo if possible.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/mps2-tz.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Klaus,
+I can give input but I probably will not have enough time to
+participate as a full co-mentor or review every line of every patch.
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index f40e854dec7..5ff47e1dbae 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -32,7 +32,7 @@
-  * Application Note AN524:
-  * https://developer.arm.com/documentation/dai0524/latest/
-  * Application Note AN547:
-- * https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/DAI0547B_SSE300_PLUS_U55_FPGA_for_mps3.pdf
-+ * https://developer.arm.com/documentation/dai0547/latest/
-  *
-  * The AN505 defers to the Cortex-M33 processor ARMv8M IoT Kit FVP User Guide
-  * (ARM ECM0601256) for the details of some of the device layout:
--- 
-2.25.1
+If you want to go ahead with the project, please let me know and I'll post it.
 
+One thing I noticed about the project idea is that KVM ioeventfd
+doesn't have the right semantics to emulate the traditional Submission
+Queue Tail Doorbell register. The issue is that ioeventfd does not
+capture the value written by the driver to the MMIO register. eventfd
+is a simple counter so QEMU just sees that the guest has written but
+doesn't know which value. Although ioeventfd has modes for matching
+specific values, I don't think that can be used for NVMe Submission
+Queues because there are too many possible register values and each
+one requires a separate file descriptor. It might request 100s of
+ioeventfds per sq, which won't scale.
+
+The good news is that when the Shadow Doorbell Buffer is implemented
+and enabled by the driver, then I think it becomes possible to use
+ioeventfd for the Submission Queue Tail Doorbell.
+
+I wanted to mention this so applicants/interns don't go down a dead
+end trying to figure out how to use ioeventfd for the traditional
+Submission Queue Tail Doorbell register.
+
+Stefan
 
