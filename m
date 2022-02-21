@@ -2,89 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE394BD9A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 13:21:35 +0100 (CET)
-Received: from localhost ([::1]:37160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58F54BD9C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 14:01:24 +0100 (CET)
+Received: from localhost ([::1]:43120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM7h8-000878-D9
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 07:21:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50020)
+	id 1nM8Jf-0008B4-SV
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 08:01:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1nM7N8-0003kH-6C
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:00:55 -0500
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:56689)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1nM7N5-0000n0-Fi
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:00:53 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 170C32B001F2;
- Mon, 21 Feb 2022 07:00:47 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 21 Feb 2022 07:00:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=m9RDTgxTKqYt+6jxr8Sk+d3eU4/aav
- gnbsXbMAxCHtM=; b=P0cOI47h83ElvtCTj6OEfQb5iedIdDGuGlIv2kbwG4Sq5X
- bP3rwczB+AKxO1qaZjF21lajTD0Ts8dGzlllhwqWOolO0awXHN3RAWWKXWrvayPl
- gmYf5jZzQ2SbO7DQ0/XbOk9348NAjyHa3u6rBTAFSeiwh/yMm/0+GTDw77OaXx15
- vgP13SwS9/w5hlJGYb1yWWxIxzTFUIYxwv7b0i3mUm+FUh2hqp0N1N/EF3rgiJ3+
- qz8mmTJghmRBDq7qTJcqPdXynrdT74PmOrp6cNDuOd/mDxJQ0XCVcZqu0volSz3i
- YgPonsgolwdPJy8+2K2j+1ma3qSvhsV58HljpuRA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=m9RDTgxTKqYt+6jxr
- 8Sk+d3eU4/aavgnbsXbMAxCHtM=; b=GxIUyMtLpziJ4qPTXdmktdk2a6k2OBxkf
- Mzb/RwQ6Mr73HO1hu0PChtyVSgA4SPnL/Fl+1umA0U8nEPZA/eqToiRZnomBMe93
- lxHOLiH53ZCLz+38wvjPPFLGDuAvHd6LCYR3WpvZeKuuclRtslewF7vMJtPFArKl
- LtuXq2d/KoV5BcZ0pTMg9kSP8SqrrSM8w6/zHmf2IqL2HcooW4Owky90YB0Mp5vi
- C8VHf3+EgLmFDv+7lK66ZtZWPcvgtehIWJlQng6/EFeZp7s00pSh6ai+dZA6KZKo
- mIhO1Chpgy99KdVGx5ONEpC6mIZopYAcWBVAf9hmPZEurre6MTYVA==
-X-ME-Sender: <xms:7X4TYhf17PWPlibClTcIuczcYz4LTt88WyIJ49Ahp1LC_wlBktBQyA>
- <xme:7X4TYvMgQcVUp3fgrsutLQeaXujvJJ1SACQ1CsjdaJqm4eBjtx2qpVQVSUatbETDH
- hrGrFj53BH4WIU0duY>
-X-ME-Received: <xmr:7X4TYqixuZESF1idD9hkIAc8TeAKNrFIw2dinsr5Ka7PBzFarTSGstEPVMSoPOJ4CKxUQSL75vB-n9vzFQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigdefgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepkedvvdffheejuddtjeefhffggeejudefueevleeiteeihfefvefgjeelheffheek
- necuffhomhgrihhnpeifihhthhhgohhoghhlvgdrtghomhdpohhuthhrvggrtghhhidroh
- hrghdphihouhhtuhgsvgdrtghomhdpqhgvmhhurdhorhhgpdhkvghrnhgvlhdrohhrghen
- ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhsse
- hirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:7X4TYq8AcZ2nDnqEyOL-n9DmYhc-gy54ShT5KFzuR5dzHr2F5aaCpA>
- <xmx:7X4TYttIUi8IkpSOxAMpux3dMe0945FheR7U9AmWixOF-sNggLXOjQ>
- <xmx:7X4TYpFjSKiUfReephTeQS-xloZueIHPxmVvzj1HgxvcZI75NUX6bA>
- <xmx:7n4TYoltzT8nKAXp55v2H789qGq6w7rLU_itB7xa-LBXZe_EFzWRpBUjFbQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Feb 2022 07:00:40 -0500 (EST)
-Date: Mon, 21 Feb 2022 13:00:39 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
-Message-ID: <YhN+5wz3MXVm3vXU@apples>
-References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
- <YhMtxWcFMjdQTioe@apples>
- <CAJSP0QVNRYTOGDsjCJJLOT=7yo1EB6D9LBwgQ4-CE539HdgHNQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nM7gY-0003kR-1s
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:20:59 -0500
+Received: from [2607:f8b0:4864:20::62c] (port=46896
+ helo=mail-pl1-x62c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nM7gV-0004mO-6R
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 07:20:57 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id u12so12741111plf.13
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 04:20:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=xHRY3QZQQ1SnRKQ6l4jnEJePEtYwSw0ZUHwGRJwHsXk=;
+ b=PcrDk/SnKzWwqvTlediEGUvExczPjxSnQtux9q1oAIu+27/HI2RXDYuSwzay7c3MZm
+ koRXFktgSmkbkwhVvP8JWeZhoE1at4zS6hEAv2IqawsoHouKzmoYQeYaGl5XrjSd7EeU
+ ASgAH0Kx6CYOWHk8Le4eIpOu0mtUxdsdHKoldhWWB+7CAeaUa3EDx0jvsb1u9f/C5Lfh
+ 20EurWEzRsb1jyKwm6oQW6lbvSEcrYe4cVlrfomdDrsD4YGZtLbwLb0V+XJufcjBanO4
+ 7bjiaSr4wl1zsjcacDBG5dh59GzfCc0qo6bmGbd1gCYXXIy+NekHK27/eUuHfzX9esPv
+ NlrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xHRY3QZQQ1SnRKQ6l4jnEJePEtYwSw0ZUHwGRJwHsXk=;
+ b=qlld+mBDhHL7WkVZV8tQ2qy1rkvVkLgxQkuqpY1tRPm2C/R+81NGLTMgVMHm9Q81gK
+ /Zc1TSQaEudK9uXGYGOIaInIJ7lSQhdEkE59Fs/7mDHw57Bs5y98Fl6E6W/WBmMevbeO
+ JkjZmBangHuP6RDvUOeX0BL9DXs0QGQfHn3b4FWqEj01Fe9NLmMhg21ScVSOmun2mRqR
+ +zkvHcdlT8/hX7YiOov/jTKfd+UKKd5Pvmlg6DD0QOFXU96CI4MYB0rn+oj43/kkS9pl
+ JIyraWS1xphIFsgI6vP1godA+c+pSX5ezI2uILPp22LqtOMFCmOr4LgTw11Q92XSzQYL
+ 2wag==
+X-Gm-Message-State: AOAM533WreRHdvjju+FbFkd/tJOgXlmv4lWM5GCLzuCv2qAHzYjgs2/Y
+ Pvtu9ii+0mYaGy9VhOOCeGE=
+X-Google-Smtp-Source: ABdhPJx1N5SxC35rXPY+2DZtb5PzslXkzR6xFw7mcHjJjYWWKTXx0mhgScGKqotQkt4owKAWNHZJew==
+X-Received: by 2002:a17:902:8b87:b0:14b:47b3:c0a2 with SMTP id
+ ay7-20020a1709028b8700b0014b47b3c0a2mr18396609plb.51.1645446053507; 
+ Mon, 21 Feb 2022 04:20:53 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id z17sm18095612pgf.91.2022.02.21.04.20.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Feb 2022 04:20:53 -0800 (PST)
+Message-ID: <de61912e-55d4-7302-c758-6f32af621134@gmail.com>
+Date: Mon, 21 Feb 2022 13:20:48 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xRNUQAcNEbsEnVq1"
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QVNRYTOGDsjCJJLOT=7yo1EB6D9LBwgQ4-CE539HdgHNQ@mail.gmail.com>
-Received-SPF: pass client-ip=64.147.123.17; envelope-from=its@irrelevant.dk;
- helo=wnew3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.0
+Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
+ <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
+ <YgJWPzFczlDBJV/I@redhat.com>
+ <77884339-2f51-1ad0-7461-abd79bb36ef1@ilande.co.uk>
+ <YgJmz6neLsF2n2u3@redhat.com>
+ <f2114228-2243-2b4f-1869-a50d78a5a8d7@ilande.co.uk>
+ <YgJrx2ygQmiF4TYx@redhat.com>
+ <21104b5a-c895-337c-619d-e880836d5895@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <21104b5a-c895-337c-619d-e880836d5895@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,178 +102,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, kvm <kvm@vger.kernel.org>,
- Sergio Lopez <slp@redhat.com>, Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
- John Snow <jsnow@redhat.com>, Alex Agache <aagch@amazon.com>,
- qemu-devel <qemu-devel@nongnu.org>, "Florescu, Andreea" <fandree@amazon.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- Keith Busch <kbusch@kernel.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Hannes Reinecke <hare@suse.de>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu,
+ "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
++Thomas
 
---xRNUQAcNEbsEnVq1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 20/2/22 18:18, Mark Cave-Ayland wrote:
+> On 08/02/2022 13:10, Daniel P. Berrangé wrote:
+> 
+>> On Tue, Feb 08, 2022 at 01:06:59PM +0000, Mark Cave-Ayland wrote:
+>>> On 08/02/2022 12:49, Daniel P. Berrangé wrote:
+>>>
+>>>>> I was under the impression that monitor_register_hmp_info_hrt() 
+>>>>> does all the
+>>>>> magic here i.e. it declares the underlying QMP command with an x- 
+>>>>> prefix and
+>>>>> effectively encapsulates the text field in a way that says "this is an
+>>>>> unreliable text opaque for humans"?
+>>>>
+>>>> The monitor_register_hmp_info_hrt only does the HMP glue side, and
+>>>> that's only needed if you must dynamically register the HMP command.
+>>>> For statically registered commands set '.cmd_info_hrt' directly in
+>>>> the hml-commands-info.hx for the HMP side.
+>>>>
+>>>>> If a qapi/ schema is needed could you explain what it should look 
+>>>>> like for
+>>>>> this example and where it should go? Looking at the existing .json 
+>>>>> files I
+>>>>> can't immediately see one which is the right place for this to live.
+>>>>
+>>>> Take a look in qapi/machine.json for anyof the 'x-query-XXXX' commands
+>>>> there. The QAPI bit is fairly simple.
+>>>>
+>>>> if you want to see an illustration of what's different from a previous
+>>>> pure HMP impl, look at:
+>>>>
+>>>>     commit dd98234c059e6bdb05a52998270df6d3d990332e
+>>>>     Author: Daniel P. Berrangé <berrange@redhat.com>
+>>>>     Date:   Wed Sep 8 10:35:43 2021 +0100
+>>>>
+>>>>       qapi: introduce x-query-roms QMP command
+>>>
+>>> I see, thanks for the reference. So qapi/machine.json would be the right
+>>> place to declare the QMP part even for a specific device?
+>>>
+>>> Even this approach still wouldn't work in its current form though, 
+>>> since as
+>>> mentioned in my previous email it seems that only the target CONFIG_*
+>>> defines and not the device CONFIG_* defines are present when processing
+>>> hmp-commands-info.hx.
+>>
+>> Yeah, that's where the pain comes in.  While QAPI schema can be made
+>> conditional on a few CONFIG_* parameters - basically those derived
+>> from global configure time options, it is impossible for this to be
+>> with with target specific options like the device CONFIG_* defines.
+>>
+>> This is why I suggested in my othuer reply that it would need to be
+>> done with a generic 'info dev-debug' / 'x-query-dev-debug' command
+>> that can be registered unconditionally, and then individual devices
+>> plug into it.
+> 
+> After some more experiments this afternoon I still seem to be falling 
+> through the gaps on this one. This is based upon my understanding that 
+> all new HMP commands should use a QMP HumanReadableText implementation 
+> and the new command should be restricted according to target.
+> 
+> Currently I am working with this change to hmp-commands-info.hx and 
+> qapi/misc-target.json:
+> 
+> 
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index 7e6bd30395..aac86d5473 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -880,15 +880,15 @@ SRST
+>       Show intel SGX information.
+>   ERST
+> 
+> #if defined(TARGET_M68K) || defined(TARGET_PPC)
+>       {
+>           .name         = "via",
+>           .args_type    = "",
+>           .params       = "",
+>           .help         = "show guest mos6522 VIA devices",
+>           .cmd_info_hrt = qmp_x_query_via,
+>       },
+> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> index 4bc45d2474..72bf71888e 100644
+> --- a/qapi/misc-target.json
+> +++ b/qapi/misc-target.json
+> @@ -2,6 +2,8 @@
+>   # vim: filetype=python
+>   #
+> 
+> +{ 'include': 'common.json' }
+> +
+>   ##
+>   # @RTC_CHANGE:
+>   #
+> @@ -424,3 +426,19 @@
+>   #
+>   ##
+>   { 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 
+> 'TARGET_I386' }
+> +
+> +##
+> +# @x-query-via:
+> +#
+> +# Query information on the registered mos6522 VIAs
+> +#
+> +# Features:
+> +# @unstable: This command is meant for debugging.
+> +#
+> +# Returns: internal mos6522 information
+> +#
+> +# Since: 7.0
+> +##
+> +{ 'command': 'x-query-via',
+> +  'returns': 'HumanReadableText',
+> +  'features': [ 'unstable' ], 'if': { 'any': [ 'TARGET_M68K', 
+> 'TARGET_PPC' ] } }
+> 
+> 
+> The main problem with trying to restrict the new command to a target (or 
+> targets) is that the autogenerated qapi/qapi-commands-misc-target.h QAPI 
+> header cannot be included in a device header such as mos6522.h without 
+> getting poison errors like below (which does actually make sense):
+> 
+> 
+> In file included from ./qapi/qapi-commands-misc-target.h:17,
+>                   from 
+> /home/build/src/qemu/git/qemu/include/hw/misc/mos6522.h:35,
+>                   from ../hw/misc/mos6522.c:30:
+> ./qapi/qapi-types-misc-target.h:19:13: error: attempt to use poisoned 
+> "TARGET_ALPHA"
 
-On Feb 21 09:51, Stefan Hajnoczi wrote:
-> On Mon, 21 Feb 2022 at 06:14, Klaus Jensen <its@irrelevant.dk> wrote:
-> >
-> > On Jan 28 15:47, Stefan Hajnoczi wrote:
-> > > Dear QEMU, KVM, and rust-vmm communities,
-> > > QEMU will apply for Google Summer of Code 2022
-> > > (https://summerofcode.withgoogle.com/) and has been accepted into
-> > > Outreachy May-August 2022 (https://www.outreachy.org/). You can now
-> > > submit internship project ideas for QEMU, KVM, and rust-vmm!
-> > >
-> > > If you have experience contributing to QEMU, KVM, or rust-vmm you can
-> > > be a mentor. It's a great way to give back and you get to work with
-> > > people who are just starting out in open source.
-> > >
-> > > Please reply to this email by February 21st with your project ideas.
-> > >
-> > > Good project ideas are suitable for remote work by a competent
-> > > programmer who is not yet familiar with the codebase. In
-> > > addition, they are:
-> > > - Well-defined - the scope is clear
-> > > - Self-contained - there are few dependencies
-> > > - Uncontroversial - they are acceptable to the community
-> > > - Incremental - they produce deliverables along the way
-> > >
-> > > Feel free to post ideas even if you are unable to mentor the project.
-> > > It doesn't hurt to share the idea!
-> > >
-> > > I will review project ideas and keep you up-to-date on QEMU's
-> > > acceptance into GSoC.
-> > >
-> > > Internship program details:
-> > > - Paid, remote work open source internships
-> > > - GSoC projects are 175 or 350 hours, Outreachy projects are 30
-> > > hrs/week for 12 weeks
-> > > - Mentored by volunteers from QEMU, KVM, and rust-vmm
-> > > - Mentors typically spend at least 5 hours per week during the coding=
- period
-> > >
-> > > Changes since last year: GSoC now has 175 or 350 hour project sizes
-> > > instead of 12 week full-time projects. GSoC will accept applicants who
-> > > are not students, before it was limited to students.
-> > >
-> > > For more background on QEMU internships, check out this video:
-> > > https://www.youtube.com/watch?v=3DxNVCX7YMUL8
-> > >
-> > > Please let me know if you have any questions!
-> > >
-> > > Stefan
-> > >
-> >
-> > Hi,
-> >
-> > I'd like to revive the "NVMe Performance" proposal from Paolo and Stefan
-> > from two years ago.
-> >
-> >   https://wiki.qemu.org/Internships/ProjectIdeas/NVMePerformance
-> >
-> > I'd like to mentor, but since this is "iothread-heavy", I'd like to be
-> > able to draw a bit on Stefan, Paolo if possible.
->=20
-> Hi Klaus,
-> I can give input but I probably will not have enough time to
-> participate as a full co-mentor or review every line of every patch.
->=20
+Can be kludged by making this device target-specific:
 
-Of course Stefan, I understand - I did not expect you to co-mentor :)
+-- >8 --
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 6dcbe044f3..65837b1dfe 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -23 +23 @@ softmmu_ss.add(when: 'CONFIG_ARM_V7M', if_true: 
+files('armv7m_ras.c'))
+-softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
++specific_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
+---
 
-> If you want to go ahead with the project, please let me know and I'll pos=
-t it.
->=20
+I'd rather keep devices generic, but sometime we can't. In this case
+VIA is only used on m68k so it could be acceptable.
 
-Yes, I'll go ahead as mentor for this.
+> I can work around that by declaring the prototype for qmp_x_query_via() 
+> manually i.e.:
+> 
+> 
+> diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
+> index 9c21da2ddd..9677293ad0 100644
+> --- a/include/hw/misc/mos6522.h
+> +++ b/include/hw/misc/mos6522.h
+> @@ -30,7 +30,7 @@
+>   #include "exec/memory.h"
+>   #include "hw/sysbus.h"
+>   #include "hw/input/adb.h"
+> +#include "qapi/qapi-commands-common.h"
+>   #include "qom/object.h"
+> 
+>   /* Bits in ACR */
+> @@ -156,4 +156,6 @@ extern const VMStateDescription vmstate_mos6522;
+>   uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size);
+>   void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned 
+> size);
+> 
+> +HumanReadableText *qmp_x_query_via(Error **errp);
+> +
+>   #endif /* MOS6522_H */
+> 
+> 
+> This works fine for targets where CONFIG_MOS6522 is defined, but if I 
+> try a target such as x86_64 where the device isn't used then I hit 
+> another compilation error:
+> 
+> 
+> qapi/qapi-commands-misc-target.c:598:13: error: 
+> ‘qmp_marshal_output_HumanReadableText’ defined but not used 
+> [-Werror=unused-function]
+>   static void qmp_marshal_output_HumanReadableText(HumanReadableText 
+> *ret_in,
+>               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> cc1: all warnings being treated as errors
+> 
+> 
+> Looking at the generated qapi/qapi-commands-misc-target.c file in 
+> question I see this:
+> 
+> 
+> static void qmp_marshal_output_HumanReadableText(HumanReadableText *ret_in,
+>                                  QObject **ret_out, Error **errp)
+> {
+>      Visitor *v;
+> 
+>      v = qobject_output_visitor_new_qmp(ret_out);
+>      if (visit_type_HumanReadableText(v, "unused", &ret_in, errp)) {
+>          visit_complete(v, ret_out);
+>      }
+>      visit_free(v);
+>      v = qapi_dealloc_visitor_new();
+>      visit_type_HumanReadableText(v, "unused", &ret_in, NULL);
+>      visit_free(v);
+> }
+> 
+> #if defined(TARGET_M68K) || defined(TARGET_PPC)
+> void qmp_marshal_x_query_via(QDict *args, QObject **ret, Error **errp)
+> {
+>      ...
+>      ...
+> }
+> #endif
+> 
+> i.e. qmp_marshal_output_HumanReadableText() isn't protected by the #if 
+> TARGET guards and since HumanReadableText is only used by the new 
+> qmp_x_query_via() functionality then the compiler complains and aborts 
+> the compilation.
+> 
+> Possibly this is an error in the QAPI generator for types hidden behind 
+> commands using "if"? Otherwise I'm not sure what is the best way to 
+> proceed, so I'd be grateful for some further pointers.
+> 
+> 
+> ATB,
+> 
+> Mark.
+> 
 
-@Keith, if you want to join in, let us know :)
-
-> One thing I noticed about the project idea is that KVM ioeventfd
-> doesn't have the right semantics to emulate the traditional Submission
-> Queue Tail Doorbell register. The issue is that ioeventfd does not
-> capture the value written by the driver to the MMIO register. eventfd
-> is a simple counter so QEMU just sees that the guest has written but
-> doesn't know which value. Although ioeventfd has modes for matching
-> specific values, I don't think that can be used for NVMe Submission
-> Queues because there are too many possible register values and each
-> one requires a separate file descriptor. It might request 100s of
-> ioeventfds per sq, which won't scale.
->=20
-> The good news is that when the Shadow Doorbell Buffer is implemented
-> and enabled by the driver, then I think it becomes possible to use
-> ioeventfd for the Submission Queue Tail Doorbell.
->=20
-
-Yes, I agree.
-
-> I wanted to mention this so applicants/interns don't go down a dead
-> end trying to figure out how to use ioeventfd for the traditional
-> Submission Queue Tail Doorbell register.
->=20
-
-Yeah, thats what the Shadow Doorbell mechanic is for.
-
-Suggested updated summary:
-
-QEMU's NVMe emulation uses the traditional trap-and-emulation method to
-emulate I/Os, thus the performance suffers due to frequent VM-exits.
-Version 1.3 of the NVMe specification defines a new feature to update
-doorbell registers using a Shadow Doorbell Buffer. This can be utilized
-to enhance performance of emulated controllers by reducing the number of
-Submission Queue Tail Doorbell writes.
-
-Further more, it is possible to run emulation in a dedicated thread
-called an IOThread. Emulating NVMe in a separate thread allows the vcpu
-thread to continue execution and results in better performance.
-
-Finally, it is possible for the emulation code to watch for changes to
-the queue memory instead of waiting for doorbell writes. This technique
-is called polling and reduces notification latency at the expense of an
-another thread consuming CPU to detect queue activity.
-
-The goal of this project is to add implement these optimizations so
-QEMU's NVMe emulation performance becomes comparable to virtio-blk
-performance.
-
-Tasks include:
-
-    Add Shadow Doorbell Buffer support to reduce doorbell writes
-    Add Submission Queue polling
-    Add IOThread support so emulation can run in a dedicated thread
-
-Maybe add a link to this previous discussion as well:
-
-https://lore.kernel.org/qemu-devel/1447825624-17011-1-git-send-email-mlin@k=
-ernel.org/T/#u
-
-
-Klaus
-
---xRNUQAcNEbsEnVq1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmITfuQACgkQTeGvMW1P
-DemUogf/dtUu7PkK5dZhBVx9/mQ3eM1oaj76Aeum5ubskV1PPpSb7FvASOUs5k5K
-IbjYtm6464VXOcBImKKi3D72FCbmKX/BWLW1DXz7GPJRRVLd/nqlJbxoBAFITpmK
-OCANuO5nEfZ6T5Oh8cR5edvkEhknxH3LzppsXabh6e2Fv7581TsP7/SmcLc6Jzgm
-G5CDQiYpRxXkslwX2TGlG4qrKGDhT8ycJjd5IiRrBp/KWMWVLUQXdTmqnMio57n9
-2GWNP2EfxsEgQTJmnIYBvs6GvkF6t18RO5VZ1i4s4wb4e0uXwcMb2VRgRwuYOR1s
-i5XYX2YZ18jzF7YtBYkHzNxto9LABA==
-=nTiz
------END PGP SIGNATURE-----
-
---xRNUQAcNEbsEnVq1--
 
