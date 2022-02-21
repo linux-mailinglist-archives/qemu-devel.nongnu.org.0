@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DB24BED30
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 23:25:49 +0100 (CET)
-Received: from localhost ([::1]:36370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBC34BED31
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 23:28:12 +0100 (CET)
+Received: from localhost ([::1]:39616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMH7s-0007kl-2F
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 17:25:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44574)
+	id 1nMHAA-0001cZ-Fg
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 17:28:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMH6O-00074u-8g
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 17:24:16 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=39693
- helo=mail-pj1-x1035.google.com)
+ id 1nMH8Q-0000Wv-PA; Mon, 21 Feb 2022 17:26:22 -0500
+Received: from [2607:f8b0:4864:20::62f] (port=39516
+ helo=mail-pl1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMH6J-0006lB-40
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 17:24:15 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- f19-20020a17090ac29300b001bc68ecce4aso447796pjt.4
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 14:24:09 -0800 (PST)
+ id 1nMH8F-0007Dk-Ok; Mon, 21 Feb 2022 17:26:22 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id 4so5371997pll.6;
+ Mon, 21 Feb 2022 14:26:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=j2+13RkfkfjHDkCabqK/bsuO7A4qDALPg/p57H1lAow=;
- b=BdN3D+k9bIcE4CdZitVyIWa8rx7awDV6orS2Z+qszdRg7eNMi691sx8NHCYv74CT0T
- 6j7AuIybMrMhMs2dW2mX5z40yc0lbRsQ3yYNpfrAgkkmtiHyqQOyp/Td/rqck1CzBAIr
- GuDokpL99Ejl34OpUYfu0uJwqzur1O9R2megHtdC3kYHW4LLseT//lJIp/cbFWSXlfNG
- 3WbW5ah4yPN9jC7Lik7JcWvDFN6xbJbST9wA11aPJIDISMPJZlWwgOfFp/6iq7BW2FVA
- vN/I7kOJ6AjpOvTy6ZwNB/M6ycMp8LJgNQhXLkL3eCulMc+EKE/XlhXY/a3nYQA4u61+
- Fb/g==
+ bh=GHbfz0r8Y28K1MesD1D9GggjrFseJpN+GKKHQXwvpMQ=;
+ b=GBfbxOTjrqnnx3IocdocOOIWXN2XfKnLJgFne4MglodvsEKp7P8ccBumXnJKmIq5pe
+ R4Sc5pud/scKNcDa2U+tDHyLixTbt+sgJiiIO+t61pGsdYATwwQUwSsOXi8Y5JnkNuq/
+ 5lkPH7TfJZr5Rk7TnJ0B3KuCtUjBDXjkN5Vh4en8g0XNb8s9zcey6rWF5+UKEa41S/W8
+ dM8ox4KTWl5NZ7kJSZHKiaHc1aBHFZzr646O3WEA3uHXbodKTh0/9u3J1q81aF21GnlX
+ XP91Kw8o4OrHOqUbtHh0kMCCZGEQi6/6imsU+Kp3tjDnlB6dejhzfs0gWNBzkt3jxOrk
+ 190Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=j2+13RkfkfjHDkCabqK/bsuO7A4qDALPg/p57H1lAow=;
- b=2QSyR2fm36CmYnO/HbotHS6QLY2ZgGoJbeBYm/BId8ENuNKdAnqIgOy3hx/zAay3U1
- VyYsDHXc6pkI7kWp+EyuB0mb0FEpUV2BrFmxtlw8DY8mAtNBGMX7kKoB+0blKyElRgwX
- Elb5H1Ds+/7lFyyhUrGOBxHlfS2A2zqBnKoCFPln+EXMa3UawtEQQuaDSv/Ry/XmpRVB
- Ay5Z3dskNvnhOOEBk5AiI30jbxAxc4PyVZkXu2zemHO2ctJdEMeuK6Emh+rhJrehfQzx
- iarg1b5jEu0drWAQrySULCzRxbw6T6ChLL8YodUdj2m0BK1DnUn/BqAejd2e7y3FCDdL
- sJ6w==
-X-Gm-Message-State: AOAM532DBs3UV5Fo0B5oMlRmQgGjTKcEkyjCIx03ZzhSfaeViq6V+Q+s
- lbwfM8q7D/eWLHlV0NMhfs0=
-X-Google-Smtp-Source: ABdhPJwF0lIkGJlvdhqRlRtei+k/N7UGiTALeoIOlVKxNdBYKRLk2m2pKy4y3/7xIBaK1vojHxls4g==
-X-Received: by 2002:a17:90a:7e16:b0:1b8:2c11:73da with SMTP id
- i22-20020a17090a7e1600b001b82c1173damr1021560pjl.156.1645482248492; 
- Mon, 21 Feb 2022 14:24:08 -0800 (PST)
+ bh=GHbfz0r8Y28K1MesD1D9GggjrFseJpN+GKKHQXwvpMQ=;
+ b=McpP8YgP/tU6IpZpT7N3d4oEGruZ75oK74Bqm62sGYEPclbsAlVTg1/fKYBIagOvLM
+ g/mxLJocFWdf45D4BMfS1SgThJtxkTbL5dVlXQetiqhQ3+lfQK5t8jTrVPz0UkLCCypM
+ BLg+wATbYVIL4KJJapArd2lnAL46GUqXMut8pjU1XdE3kG4G18TANM0XIxOV+I8EwZwh
+ i+asn29BWJUlDeWl3urELhKuaos7enZbD3xpVgyX+BqSH+haDvmyADUnHwQSDMKH/llP
+ RjyuQLl6gDJ6T1PuTY9XYxE10MGMQUd+XZ+J7M7UYcb4gRtA2WPiAC4amR7xKmNB72TD
+ 2s7w==
+X-Gm-Message-State: AOAM533yJMtrzvy5yAYjzvSPdob6YoPgk2SN4cJcQ3GZCaPsMTlU9S2E
+ A1YoO8iLTnW7LtKi1PCLOBU=
+X-Google-Smtp-Source: ABdhPJxfBu7s/9V9agiYsNj3X64ieONaGcyB9rBbq6m3EqMdA+gq3ya9guN7Lx8qZgqdn3Ux7/YFlg==
+X-Received: by 2002:a17:902:6b0a:b0:14d:8ee9:3298 with SMTP id
+ o10-20020a1709026b0a00b0014d8ee93298mr20662439plk.125.1645482370013; 
+ Mon, 21 Feb 2022 14:26:10 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id il4sm311417pjb.28.2022.02.21.14.24.06
+ by smtp.gmail.com with ESMTPSA id r14sm4802440pfl.62.2022.02.21.14.26.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Feb 2022 14:24:08 -0800 (PST)
-Message-ID: <9e5627e0-0cb9-e1be-40b6-9fdc67b3fd82@gmail.com>
-Date: Mon, 21 Feb 2022 23:24:05 +0100
+ Mon, 21 Feb 2022 14:26:09 -0800 (PST)
+Message-ID: <a0319563-d019-79e7-f36a-9e89522f1edd@gmail.com>
+Date: Mon, 21 Feb 2022 23:26:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: [PATCH 1/2] hw/vfio/pci-quirks: Resolve redundant property getters
+Subject: Re: [PATCH 2/2] hw/riscv/sifive_u: Resolve redundant property
+ accessors
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 References: <20220217225351.140095-1-shentey@gmail.com>
- <20220217225351.140095-2-shentey@gmail.com>
+ <20220217225351.140095-4-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220217225351.140095-2-shentey@gmail.com>
+In-Reply-To: <20220217225351.140095-4-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,18 +93,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:SiFive Machines" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 17/2/22 23:53, Bernhard Beschow wrote:
-> The QOM API already provides getters for uint64 and uint32 values, so reuse
-> them.
+> The QOM API already provides accessors for uint32 values, so reuse them.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/vfio/pci-quirks.c | 34 +++++++++-------------------------
->   1 file changed, 9 insertions(+), 25 deletions(-)
+>   hw/riscv/sifive_u.c | 24 ++++--------------------
+>   1 file changed, 4 insertions(+), 20 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
