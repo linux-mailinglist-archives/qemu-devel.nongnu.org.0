@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D404BD8EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 11:05:35 +0100 (CET)
-Received: from localhost ([::1]:44410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E82D4BD8C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 10:57:00 +0100 (CET)
+Received: from localhost ([::1]:58392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM5ZW-00083a-DS
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 05:05:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44132)
+	id 1nM5RD-0006hI-Cp
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 04:56:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM4zq-0000ES-Ub
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:47 -0500
-Received: from [2a00:1450:4864:20::430] (port=38514
- helo=mail-wr1-x430.google.com)
+ id 1nM4zo-0000Dw-Ey
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:43 -0500
+Received: from [2a00:1450:4864:20::432] (port=42610
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nM4zZ-00013f-9M
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:42 -0500
-Received: by mail-wr1-x430.google.com with SMTP id d27so25926572wrb.5
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:28:23 -0800 (PST)
+ id 1nM4zZ-00013p-7c
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 04:28:36 -0500
+Received: by mail-wr1-x432.google.com with SMTP id h6so25879614wrb.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 01:28:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=shiikXU0x3kJ4rRPp+Q84tEp6CxEG3V5LoAvTu9ia4Y=;
- b=ktOsIhpQ4i6S/PqMh8IrilValkUrZX+aTHowsw7YT8FiM5TmmhhlNBJLnQceiuUBJa
- oA9+6nXp3FvDhHx+vyDw9fPl60jcdXQo/7ZKKpWxrgPR4to6GIbODXN84QGEMZLNoiki
- l/RLNllRGrX1WVW54/TvbnF4qwoeEiaNErCdXEqYJjNbE7whPiphlMowBhTiJCF3iTdo
- HRHXxB8KFalU7Z168sbDoYfAzoHgiBBa/iZRQTmtlRHUSEHhJhwLFLtARY/Ko2/Yx7/3
- 5e/CYCm9D+n0tg2pCPNkI0vYSHPH6w0k6NTpoDzMXvIxWMyx6H/Z7TkS6Qkt8E82dKny
- o38A==
+ bh=hGBHyIm/ItY31LIZrGmDJbF5fU6iafmLA90Y6AKoCU4=;
+ b=tmmD1k++Yf9uqY7ElITtBruD7iSNu6r8eLI72rujHqpX0id05bQKxA6tlDD3v3kknI
+ Bnu8DU8s3PP9k8BVjvaNQMUTqZAyxybJ/MVUdB9WQIfvhlmUFcxFd1C1Aw60kz7IRxtV
+ zgIca79GJG6wiWLRr7LZ74ug0HK7KH+BnWy8PKheSsjF0PImsiDoAn3Fwo52CRfPi1zb
+ Uq35HCD98KJDbPappgj/qDrmbrzbU0H8ote/VLee9DVq7srqpXpLKZ73f7bKrrnlqwbZ
+ 5Heeu9l2TdD3wSdD1r4oI6gTHtSAe5IpL5XACFv7KYB7Wo4KYOnSFSJdOBm8b9C3K9hD
+ INNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=shiikXU0x3kJ4rRPp+Q84tEp6CxEG3V5LoAvTu9ia4Y=;
- b=LTIIu3nm3M5uWDvDpfurr4eWw4aAn6cKrrUpihiX9mBLYWpFzPCjPTvT5ey8IsYN47
- sorGS3Jy1NICweV6M7WKy0F6EtyBQ7V8cks7/84FI21yyRaS5pK08YFBLWQFTOzDszvk
- wimg5s6z3Ebgieqt7zyYBx1iQqlTpo5E9/j08f4Sz/qpe4xjaxIROitCWgSHpFr8bEj2
- cV2KYrTjwEnCDyHInUj0h6ZpmGlqQvd6v1zNwAwGeu77xmAJ1hjH85Fz/6afm5b3RRcO
- YeS+c4h2PXRDrItrqKfoTkKkJi8D5Bg9PYbKEmBrBHb8YDXT7tFfWJr9a/llSkw4nJoc
- CvAA==
-X-Gm-Message-State: AOAM532GLiGD0+qC4tz7lfA5FMvHs+P3aj+noyAYvZSj/nQ4ewjqPAnd
- 8fCOVNJQFcb/sggCSPOTI0kQIXpt/qkEVw==
-X-Google-Smtp-Source: ABdhPJzFr12944VB24TyZW1ON43Y7p7RFyhGdHxzKXNWueGmPijWK0oY9LyyP7+j5OUGwSKKhLl1Mg==
-X-Received: by 2002:a05:6000:18ad:b0:1e8:cbe1:afd with SMTP id
- b13-20020a05600018ad00b001e8cbe10afdmr14676674wri.352.1645435702404; 
- Mon, 21 Feb 2022 01:28:22 -0800 (PST)
+ bh=hGBHyIm/ItY31LIZrGmDJbF5fU6iafmLA90Y6AKoCU4=;
+ b=K71tCrCmp3ipR1jH/L4sUr2GGYxDFndxD3fOf+Z3koxkhBhf2ijQ+KSXODiq/xPzK3
+ 3Gj9h/5B88TN2wJe2mhFYiL8wEAQSddHJmrSptoIv+x4QN4BxVBqxWgl/PHmGLSVACg7
+ d4VYYynV+XpJXPCsY1a46zzCZoXpJ/pPZx0urgjWJEfwB+qQc2dLRT8QJHYQKtSKS1dn
+ 9x8YSn8H1kfFfmx6EuLaC3YGJyuIOmOX33IPnyqKHgz4BVBhvxysCN7/OG4WkvTR/MAv
+ tTodPIt+LvEuH3b99lwk85KAvhLXRDzYBHLg6FcL9GoV+ZgDHZKN3BHhd/58yDxhGDke
+ X6jg==
+X-Gm-Message-State: AOAM530om92rJIB8mPIfEwqp38shkVZALYGEo3m99hrehSfsoLjgH7e/
+ CCgx6KlBfHEFgvZ5iefzg5DFvZ8Ntnl30g==
+X-Google-Smtp-Source: ABdhPJy/VoxJHYPK79LfYh49d7fFHF0c4F40nD+pOZ9lsQ/czro1MJOuXrBNxoXRrIsJ6+MbqqZrvQ==
+X-Received: by 2002:adf:9f45:0:b0:1e3:20e8:489a with SMTP id
+ f5-20020adf9f45000000b001e320e8489amr14457565wrg.602.1645435703096; 
+ Mon, 21 Feb 2022 01:28:23 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id q76sm7555778wme.1.2022.02.21.01.28.21
+ by smtp.gmail.com with ESMTPSA id q76sm7555778wme.1.2022.02.21.01.28.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 21 Feb 2022 01:28:22 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/26] ui/cocoa: Do not alert even without block devices
-Date: Mon, 21 Feb 2022 09:27:59 +0000
-Message-Id: <20220221092800.404870-26-peter.maydell@linaro.org>
+Subject: [PULL 26/26] ui/cocoa: Fix the leak of qemu_console_get_label
+Date: Mon, 21 Feb 2022 09:28:00 +0000
+Message-Id: <20220221092800.404870-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220221092800.404870-1-peter.maydell@linaro.org>
 References: <20220221092800.404870-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,30 +95,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-id: 20220215080307.69550-13-f4bug@amsat.org
-Message-Id: <20220213021418.2155-1-akihiko.odaki@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20220215080307.69550-14-f4bug@amsat.org
+Message-Id: <20220213021329.2066-1-akihiko.odaki@gmail.com>
+[PMD: Use g_autofree, suggested by Zoltan BALATON]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- ui/cocoa.m | 5 -----
- 1 file changed, 5 deletions(-)
+ ui/cocoa.m | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 7a1ddd4075f..f585a5c177d 100644
+index f585a5c177d..a8f1cdaf926 100644
 --- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -1709,11 +1709,6 @@ static void addRemovableDevicesMenuItems(void)
+@@ -1674,7 +1674,9 @@ static void create_initial_menus(void)
+ /* Returns a name for a given console */
+ static NSString * getConsoleName(QemuConsole * console)
+ {
+-    return [NSString stringWithFormat: @"%s", qemu_console_get_label(console)];
++    g_autofree char *label = qemu_console_get_label(console);
++
++    return [NSString stringWithUTF8String:label];
+ }
  
-     currentDevice = qmp_query_block(NULL);
-     pointerToFree = currentDevice;
--    if(currentDevice == NULL) {
--        NSBeep();
--        QEMU_Alert(@"Failed to query for block devices!");
--        return;
--    }
- 
-     menu = [[[NSApp mainMenu] itemWithTitle:@"Machine"] submenu];
- 
+ /* Add an entry to the View menu for each console */
 -- 
 2.25.1
 
