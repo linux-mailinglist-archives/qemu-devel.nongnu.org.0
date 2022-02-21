@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE364BD6C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 08:15:26 +0100 (CET)
-Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398A74BD6C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Feb 2022 08:15:22 +0100 (CET)
+Received: from localhost ([::1]:55610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nM2ur-0004vq-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 02:15:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46450)
+	id 1nM2um-0004so-Mv
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 02:15:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nM2rg-0002vr-K9; Mon, 21 Feb 2022 02:12:08 -0500
-Received: from [2607:f8b0:4864:20::d34] (port=38904
- helo=mail-io1-xd34.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nM2rd-00070C-Eb; Mon, 21 Feb 2022 02:12:07 -0500
-Received: by mail-io1-xd34.google.com with SMTP id w7so14920518ioj.5;
- Sun, 20 Feb 2022 23:12:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ncvz0MehaMYhM7DtHeUns9mADOZ/Bx9H62AvaYPt5Ec=;
- b=mdv+badxMYSVUKEHH7qJsrr+ni1Ktn+PDuA8jfsfclstZ+QW9nfzxjjKDVZf5lH66c
- 4AZfoDra+1xtFxsQY+nuR94QyqRMjGGtShzRJnzt1TaA3fG2a1HDC6ou9itoFDxY0fEl
- CbPhR/7YMmw4Tt66fUXpg5gQ0vbmq8VH9GtdYtstNm0CkSZt0IFd8YvDUB9Y9MowwoPa
- suIRN+9pguaLCSNsbrrfdJOuznPoVXgUjPf0kAH5iEUKhRgKRuQwEvxrtvSk1uR0FYc6
- rzp1Sw9phkF5HME3J888n3R0QKjYU0dnaaHb49dPhFjb1oVJmLcxEhPoK430QwBolxVZ
- KaAw==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nM2rr-0003H6-B7
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 02:12:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47294)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nM2rp-00077x-Bs
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 02:12:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645427536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZC5SfL83wXeYpTuy5adQCnP0atXaPGvbUoFVXmslJag=;
+ b=Vrv8WakE5fg6yuIjfKCAnlEvgcwpUEOsPwilAQjfAvkJpavJmPPtKlyLlkx6wayG4yHacb
+ sPYGM3wXwNg9Q7bRUltbF6jvDD0itttaKUhL4lLNmIWw7RNdMg2kpbwt/Ow4xsqvlsj2kd
+ /EC4FzBAbAPo7C125DwyzLfYMIWjNEI=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-587-HTf4fex4Of2VCkocBsNE3A-1; Mon, 21 Feb 2022 02:12:12 -0500
+X-MC-Unique: HTf4fex4Of2VCkocBsNE3A-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ gn20-20020a1709070d1400b006cf1fcb4c8dso4283559ejc.12
+ for <qemu-devel@nongnu.org>; Sun, 20 Feb 2022 23:12:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ncvz0MehaMYhM7DtHeUns9mADOZ/Bx9H62AvaYPt5Ec=;
- b=PbCyE5fm5U+p++PRId8Kswihbsp2j4W5Sc+BWsPMkZA9aM2zfBrHMF/vA/FhS4eM1m
- 6taJgSsPCrUxEKrg0GgC2o2nzxQugVVSwlQ7a5fE/Zv7brZphZpjqRXW9iEUOLiE/9PG
- kfMC2K5qor93Fp6ygYVdB7xluvC5y8qI1Pky624xvLlUUPhi1BHwQlaTm9RG7r8zaZb7
- fmxbUBZfpS6tPrv5QXMI/F6vwARaWLgtwfFVnUe4KTUEuNveSNI+V+oty+5dKqfQc6o6
- IT+2dUu44Sj25mUQO1l+0aWl3q2IMUsbzSir4+6LxFhq5YAhIRPUbYNwz2DwtZJzTaKS
- CgEg==
-X-Gm-Message-State: AOAM533I/kkNIPHEkTST8rP+d6OuBm0aQpNmJx2o51C9OnqqB20VYRo9
- 5FgGMI2EW8hpwzrXJqZ+PfY+NlucDU8bsere8Ew=
-X-Google-Smtp-Source: ABdhPJw2GIbx8kKzFQcyOiF9q1dlcSO29HAV41mBeib4J7J8V3NBBuy2EIGTxHLhtUqlBo7OelPfiF2N3MI51OefSW8=
-X-Received: by 2002:a05:6602:2988:b0:640:9fdc:752f with SMTP id
- o8-20020a056602298800b006409fdc752fmr8680998ior.31.1645427523575; Sun, 20 Feb
- 2022 23:12:03 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ZC5SfL83wXeYpTuy5adQCnP0atXaPGvbUoFVXmslJag=;
+ b=rV7fAbJ+9L+1ZPcIJBiTtP2sl/altITQYJAws/p4TzGHrohA1qIEsUGPtjJ412cYMI
+ 9+Rx/nRpGXiAflVlIEny/yKQEtGYsx0XTdxx9wBqP4srs50sywqDeKtaHWyOA3X0Inlh
+ INLBvsznC7zafOm/wmxZvuK01UsOvDjoeVGnR70HLKg2DOeFwYttsKIi5iCJJ5YHo/1E
+ L2MagkvithVnnmoHEAxH9pSESwuLkLEyr1pEQSFQlc0Fkw7RE3t+B61sqCUKZme5fwM5
+ /87oU+xdLybYVaaxVQlsxhYYj0DAFOuaL/qrS70K7dpyAj7RmeyTlSa7vk3q8uyqoDbQ
+ AQHw==
+X-Gm-Message-State: AOAM530tV6P2okqkT08gN3PaOfMom8oQg7XEQkIaCaM9FS8Q1BIahtQ8
+ ANvzRnaHWHwy2OhimN3Ddo5JZ772o7PxTTWDoRbeL1QlHlk8w0uzWJMP8o2O5IBtZYG2iDBApZ3
+ +Qean9WUF3gLaSJ8=
+X-Received: by 2002:a17:907:7618:b0:6cf:5756:26c4 with SMTP id
+ jx24-20020a170907761800b006cf575626c4mr14613431ejc.492.1645427530968; 
+ Sun, 20 Feb 2022 23:12:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxqfDLKL6IfjZBNkQiESZqqpKUKurovVhU99D+m8RlMV1OVXdRfTNfgC8elydExSP07u6Hgeg==
+X-Received: by 2002:a17:907:7618:b0:6cf:5756:26c4 with SMTP id
+ jx24-20020a170907761800b006cf575626c4mr14613425ejc.492.1645427530779; 
+ Sun, 20 Feb 2022 23:12:10 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id ci16sm4851238ejb.128.2022.02.20.23.12.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Feb 2022 23:12:10 -0800 (PST)
+Date: Mon, 21 Feb 2022 08:12:09 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v3 2/3] hw/smbios: fix table memory corruption with
+ large memory vms
+Message-ID: <20220221081209.4e12db9a@redhat.com>
+In-Reply-To: <alpine.DEB.2.22.394.2202171900100.294420@anisinha-lenovo>
+References: <20220214141237.47946-1-ani@anisinha.ca>
+ <20220214141237.47946-3-ani@anisinha.ca>
+ <20220217095430.38d2b6b7@redhat.com>
+ <alpine.DEB.2.22.394.2202171900100.294420@anisinha-lenovo>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220220085526.808674-1-anup@brainfault.org>
-In-Reply-To: <20220220085526.808674-1-anup@brainfault.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 21 Feb 2022 17:11:37 +1000
-Message-ID: <CAKmqyKPooZqF-mo3gNdj0rd-fGephzmX4OVAARGcwCL14dF2Ew@mail.gmail.com>
-Subject: Re: [PATCH v10 0/5] QEMU RISC-V AIA support
-To: Anup Patel <anup@brainfault.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,132 +102,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Feb 20, 2022 at 6:57 PM Anup Patel <anup@brainfault.org> wrote:
->
-> From: Anup Patel <anup.patel@wdc.com>
->
-> The advanced interrupt architecture (AIA) extends the per-HART local
-> interrupt support. Along with this, it also adds IMSIC (MSI contrllor)
-> and Advanced PLIC (wired interrupt controller).
->
-> The latest AIA draft specification can be found here:
-> https://github.com/riscv/riscv-aia/releases/download/0.2-draft.28/riscv-interrupts-028.pdf
->
-> This series adds RISC-V AIA support in QEMU which includes emulating all
-> AIA local CSRs, APLIC, and IMSIC. Only AIA local interrupt filtering is
-> not implemented because we don't have any local interrupt greater than 12.
->
-> To enable AIA in QEMU, use one of the following:
-> 1) Only AIA local interrupt CSRs: Pass "x-aia=true" as CPU paramenter
->    in the QEMU command-line
-> 2) Only APLIC for virt machine: Pass "aia=aplic" as machine parameter
->    in the QEMU command-line
-> 3) Both APLIC and IMSIC for virt machine: Pass "aia=aplic-imsic" as
->    machine parameter in the QEMU command-line
-> 4) Both APLIC and IMSIC with 2 guest files for virt machine: Pass
->    "aia=aplic-imsic,aia-guests=2" as machine parameter in the QEMU
->    command-line
->
-> To test series, we require Linux with AIA support which can be found in:
-> riscv_aia_v1 branch at https://github.com/avpatel/linux.git
->
-> This series can be found riscv_aia_v10 branch at:
-> https://github.com/avpatel/qemu.git
->
-> Changes since v9:
->  - Rebased on latest riscv-to-apply.next branch of Alistair's repo
->  - Removed first 18 PATCHs since these are already merged
->  - Fixed 32-bit system compile error in PATCH3
->
-> Changes since v8:
->  - Use error_setg() in riscv_imsic_realize() added by PATCH20
->
-> Changes since v7:
->  - Rebased on latest riscv-to-apply.next branch of Alistair's repo
->  - Improved default priority assignment in PATCH9
->
-> Changes since v6:
->  - Fixed priority comparison in riscv_cpu_pending_to_irq() of PATCH9
->  - Fixed typos in comments added by PATCH11
->  - Added "pend = true;" for CSR_MSETEIPNUM case of rmw_xsetclreinum()
->    in PATCH15
->  - Handle ithreshold == 0 case in riscv_aplic_idc_topi() of PATCH18
->  - Allow setting pending bit for Level0 or Level1 interrupts in
->    riscv_aplic_set_pending() of PATCH18
->  - Force DOMAINCFG[31:24] bits to 0x80 in riscv_aplic_read() of PATCH18
->  - For APLIC direct mode, set target.iprio to 1 when zero is writtern
->    in PATCH18
->  - Handle eithreshold == 0 case in riscv_imsic_topei() of PATCH20
->
-> Changes since v5:
->  - Moved VSTOPI_NUM_SRCS define to top of the file in PATCH13
->  - Fixed typo in PATCH16
->
-> Changes since v4:
->  - Changed IRQ_LOCAL_MAX to 16 in PATCH2
->  - Fixed typo in PATCH10
->  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH11
->  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH14
->  - Replaced TARGET_LONG_BITS with riscv_cpu_mxl_bits(env) in PATCH15
->  - Replaced TARGET_LONG_BITS with xlen passed via ireg callback in PATCH20
->  - Retrict maximum IMSIC guest files per-HART of virt machine to 7 in
->    PATCH21.
->  - Added separate PATCH23 to increase maximum number of allowed CPUs
->    for virt machine
->
-> Changes since v3:
->  - Replaced "aplic,xyz" and "imsic,xyz" DT properties with "riscv,xyz"
->    DT properties because "aplic" and "imsic" are not valid vendor names
->    required by Linux DT schema checker.
->
-> Changes since v2:
->  - Update PATCH4 to check and inject interrupt after V=1 when
->    transitioning from V=0 to V=1
->
-> Changes since v1:
->  - Revamped whole series and created more granular patches
->  - Added HGEIE and HGEIP CSR emulation for H-extension
->  - Added APLIC emulation
->  - Added IMSIC emulation
->
-> Anup Patel (5):
->   hw/riscv: virt: Add optional AIA APLIC support to virt machine
->   hw/intc: Add RISC-V AIA IMSIC device emulation
->   hw/riscv: virt: Add optional AIA IMSIC support to virt machine
->   docs/system: riscv: Document AIA options for virt machine
->   hw/riscv: virt: Increase maximum number of allowed CPUs
+On Thu, 17 Feb 2022 19:02:05 +0530 (IST)
+Ani Sinha <ani@anisinha.ca> wrote:
 
-Thanks!
+> On Thu, 17 Feb 2022, Igor Mammedov wrote:
+>=20
+> > On Mon, 14 Feb 2022 19:42:35 +0530 =20
+>=20
+> > >
+> > > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D2023977 =20
+> > s/buglink/Resolves/
+> > =20
+>=20
+> OK I am curious about this one.
+>=20
+> Per https://www.qemu.org/docs/master/devel/submitting-a-patch.html ,
+>=20
+> If your patch fixes a bug in the gitlab bug tracker, please add a line
+> with =E2=80=9CResolves: <URL-of-the-bug>=E2=80=9D to the commit message, =
+too. Gitlab can
+> close bugs automatically once commits with the =E2=80=9CResolved:=E2=80=
+=9D keyword get
+> merged into the master branch of the project. And if your patch addresses
+> a bug in another public bug tracker, you can also use a line with
+> =E2=80=9CBuglink: <URL-of-the-bug>=E2=80=9D for reference here, too.
+>=20
+> So I considered redhar BZ as a public bug tracker as well. Does the BZ
+> also automatically close bugs when we use "Resolves:"? Should we update
+> the instructions here?
 
-Applied to riscv-to-apply.next
+I might have been wrong suggesting "Resolves" tag, it will/should not affec=
+t bugzilla.
+Looking at history, shows a zoo of used tags in bugzilla case,
+so I'd guess Buglink is fine as any other.
 
-Alistair
-
->
->  docs/system/riscv/virt.rst    |  16 +
->  hw/intc/Kconfig               |   3 +
->  hw/intc/meson.build           |   1 +
->  hw/intc/riscv_imsic.c         | 448 ++++++++++++++++++++++
->  hw/riscv/Kconfig              |   2 +
->  hw/riscv/virt.c               | 698 ++++++++++++++++++++++++++++------
->  include/hw/intc/riscv_imsic.h |  68 ++++
->  include/hw/riscv/virt.h       |  41 +-
->  8 files changed, 1156 insertions(+), 121 deletions(-)
->  create mode 100644 hw/intc/riscv_imsic.c
->  create mode 100644 include/hw/intc/riscv_imsic.h
->
-> --
-> 2.25.1
->
->
 
