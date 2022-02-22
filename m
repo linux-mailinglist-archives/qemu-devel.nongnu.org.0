@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01AAB4BFF44
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:51:38 +0100 (CET)
-Received: from localhost ([::1]:48678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4AA64BFF2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:48:25 +0100 (CET)
+Received: from localhost ([::1]:40804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMYO1-0005Oh-3h
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:51:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41078)
+	id 1nMYKu-0008SV-OY
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:48:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMXqU-0008H7-3y; Tue, 22 Feb 2022 11:17:01 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:34303)
+ id 1nMXqE-00085w-BB; Tue, 22 Feb 2022 11:16:43 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:43053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMXqR-0005e6-0Y; Tue, 22 Feb 2022 11:16:57 -0500
+ id 1nMXqC-0005cv-Ph; Tue, 22 Feb 2022 11:16:42 -0500
 Received: from quad ([82.142.17.50]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M9nAB-1nGmfh3aVR-005paZ; Tue, 22
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mdv2u-1nvKQN1XfS-00b1fY; Tue, 22
  Feb 2022 17:16:29 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] target/rx: Remove unused ENV_OFFSET definition
-Date: Tue, 22 Feb 2022 17:16:20 +0100
-Message-Id: <20220222161624.382218-4-laurent@vivier.eu>
+Subject: [PULL 4/7] hw/nvram: use at24 macro
+Date: Tue, 22 Feb 2022 17:16:21 +0100
+Message-Id: <20220222161624.382218-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222161624.382218-1-laurent@vivier.eu>
 References: <20220222161624.382218-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:tOLTymzmv1rc+r+k7Jio9ZzNAhcV4CW/jkaYD4Dll2BsYXr/DJr
- i6Fqc4ypsAerqmMr0fdO1ST2RmPIP7gg7Po0FL3lJaLWddUionBC9/qq470Go+Yab7lGzGU
- BPL6r5+x7aqAefjg8CsI5lebyqGmyQqYsYT8wgFnunCxAb1ZG6aAsQ4MoAG4fZLM3S9HjZY
- +Z34tUJlhp3mqSYJwRtWA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GzvL5ChLAVc=:dtPDQCLp2KEzMQUcUNKK/c
- Z24b9LnxkDhO45L0cMGPCmPqbVBxD+48kQx2zfSkeiGGu+KbbozyvjGSSAsXVxtiwD9d+MNvs
- siRWQ9bS0DSYLtAT9TCltdNozb5U1zbePCexEBVO1vVkNUha12KYcuPNDxPkLvZiXCjCcIXE0
- 1mk/9DxRbyEV3mjvn9+Tx7KSqS0fauoWIPwcluE52tNMOEQty75LyeEapqW8P/1zym9VGGG81
- ngNEtY4qTX8DaoBkMYIYmR2HkdrbLbpwcZwgV05QEx2TI6k+yhEhmANHUgi1FuDU04WBjk7ST
- nUf2Jw/+RI42bEEJjbGNZUZhVwFjD+nuwYpF2fYycn/mpNfMAZhBmTF0J15Q/sswk0tiT36qN
- gokPX0PNazeko1A4rXn5VXks9MPoEzhG4sffkyCIWs+9XhgJlE9K9RXLjkWHdGIfOEZ3yc4Bv
- igNZPpI9omCEaDSSvjwTzRMt0YGVQ9ZFXV2oWNYpulXjmxZGpPXsXIJXpkAohsosT+KVKh/hg
- jaQ0ceFmZzodqsU+ex3mrXZPII9snL9deyArF01v/tlZAE4D1+co6Bvru5+6NO+wHHtyFOPAp
- CcvtZVKGN3BpkxcfSP8T1bdkdg6JszXWJ0OAXWpaJxfwyYz8ZB6bkEX5Hwk24V6Jqi3+CKQC2
- IG3zM3DwqxX3iUauHvWmvyBYWYvztNOL3IQxq4nAmSmLdZJMykEjb8ntp3jIn1dBq4BQ=
+X-Provags-ID: V03:K1:i6YXL2oOuSspIHI9tjBbj2CB3SS0ph6p4gtrAyOii/ZfInlyAAR
+ BXq/Y43MfmmGeWa4rYqTFByS3runjoTtLJ/nmX9aYPnn1+DUN10BYkWu4ny+si9lsRYanvf
+ 10X8jOnnyr2asKzJSjOicugXFZ0oHE2eD9tcBnMkawHzRSqv09Ir7gLggSYeQc59U+gGH2b
+ qUzq/YXKkjUt0xTHivicQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:v+knrSGZsUc=:yEjVVl5omTtj/RO95Uv7lW
+ p1RqHZUrbDiqveS3TmrLPY4qRtalpD/3YPTNOuYrdJHU6Xqm8OOd2sQGHBL9ledqs3pgkYfJ/
+ TWmMLL+5V4MWSEB8ebdnZwYyizQM87LVltTItBKKnAZNngBtCxjYv3J3ZyCmJiMzpANfKP9ek
+ GsUQ6I15skYr5eF3bmM6apt5OG61Q8hC2rd6Q4nJZgjmTWjnie4FKwSPUW8NnR/6v2TAY3V5o
+ bAiSCl9Gk+hAT0iPgYotAamFKVIixq3DA8+/P0czhGRJObLnKDe5OU1gfqPgOvVu08MH5FpYw
+ wyZjaBUbjweoyfOKWCjA5pV/VI/bhvV/o2lvz7btEVDjiuZP7LueYiUXP4ZkqIdGzHXFYrxOi
+ TukgfAzToMZhrEYVrhrrQA1PoapG55CuyZIcCgtD9Ip0em4T+6KVAgN1528hV4CuxJNDbTFGj
+ 0aWRbbe1gXqLl4orXO0kYsyECh90HxQuMVQr6WHJ4C7kuQpakUs7m39wkHRmZRQczakK2GUzE
+ N7ThBK8kXjQZMdPtDjdcqZtqldfXiwr33dSwMsTRF9uHAzb4xMq79Ziz03i0D8XlOcTi6dhHk
+ lM5cELO450acdZ+1Zb8aFY9PnO7XhbQeZfTCbbAZRjmV7323+DUPVd+28AdRLgDhULtvKJc0B
+ QFy0UCfKdbE+M2JOoVBWtNA0RX5Ym0LF5047izYrUlWgLKwFnzOLzdaZVTrPzmtq9+Rk=
 Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -66,41 +66,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+Cc: qemu-trivial@nongnu.org, Patrick Venture <venture@google.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Patrick Venture <venture@google.com>
 
-The last use of ENV_OFFSET was removed in 5e1401969b
-("cpu: Move icount_decr to CPUNegativeOffsetState");
-the commit of target/rx came in just afterward.
+Use the macro for going from I2CSlave to EEPROMState.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220203001252.37982-1-f4bug@amsat.org>
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220119214329.2557049-1-venture@google.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/rx/cpu.h | 2 --
- 1 file changed, 2 deletions(-)
+ hw/nvram/eeprom_at24c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-index 657db84ef0a5..58adf9edf692 100644
---- a/target/rx/cpu.h
-+++ b/target/rx/cpu.h
-@@ -116,8 +116,6 @@ struct RXCPU {
+diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+index af6f5dbb9984..da435500baca 100644
+--- a/hw/nvram/eeprom_at24c.c
++++ b/hw/nvram/eeprom_at24c.c
+@@ -54,7 +54,7 @@ struct EEPROMState {
+ static
+ int at24c_eeprom_event(I2CSlave *s, enum i2c_event event)
+ {
+-    EEPROMState *ee = container_of(s, EEPROMState, parent_obj);
++    EEPROMState *ee = AT24C_EE(s);
  
- typedef RXCPU ArchCPU;
- 
--#define ENV_OFFSET offsetof(RXCPU, env)
--
- #define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
- #define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
- #define CPU_RESOLVING_TYPE TYPE_RX_CPU
+     switch (event) {
+     case I2C_START_SEND:
 -- 
 2.35.1
 
