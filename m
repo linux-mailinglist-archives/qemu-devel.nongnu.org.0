@@ -2,89 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA8F4BF3C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 09:36:40 +0100 (CET)
-Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AE54BF413
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 09:51:58 +0100 (CET)
+Received: from localhost ([::1]:53786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMQf1-0000F0-0J
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 03:36:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33014)
+	id 1nMQtn-00059b-TH
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 03:51:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMQcx-0007qt-Aw
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 03:34:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35775)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nMQoS-0003aF-5e
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 03:46:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMQcs-000576-38
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 03:34:29 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nMQoO-0007ET-OM
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 03:46:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645518861;
+ s=mimecast20190719; t=1645519579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6W/Tgcex0Y7fVC7LK1gPqhw87/zTH3vooBLA477bTL4=;
- b=ZtRqFRngnR8ZfzzyzS78++sgCh4WfAD9a8ToAD1XCZqOYMiaFgJW3D35GmtOWGraisy82D
- SBV2/TlTTGacoRAoWQn3R0Gb9DF6k5LdpEKMeskj1aC5QjzvcnqIl0ImeZyw0WF11eCa8s
- FrWXWd4J90nViwLmTyulEWntr9pXLxo=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jhvu1TrWuxEHMJkr4eXlGUpKpXIjQxCPJlBqxtbQGNk=;
+ b=gXIIW6xV6QpN9z7S8ZVKw7KgqZebdh/ttpYr6mLcloz0bLN1yymTIVG1RcNs9Hvc+CG3dT
+ tYGyDCKn23qmkrdKTg3LvMtR84ORiIPA7gSTg/x/b4j7tEtHV2z4M8Egvkh7vEc4jC1ICF
+ tpSXfh8qiZhm9w8Aj8YVNX3ZTDg3ghU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-59-y4ODC6iLPB2DdKfnlOlWrQ-1; Tue, 22 Feb 2022 03:34:19 -0500
-X-MC-Unique: y4ODC6iLPB2DdKfnlOlWrQ-1
-Received: by mail-pf1-f200.google.com with SMTP id
- z20-20020aa791d4000000b004bd024eaf19so6563463pfa.16
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 00:34:19 -0800 (PST)
+ us-mta-175-ir2_PJv_ObiD_5iyZ5sxWg-1; Tue, 22 Feb 2022 03:46:06 -0500
+X-MC-Unique: ir2_PJv_ObiD_5iyZ5sxWg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ m12-20020a1709062acc00b006cfc98179e2so5454666eje.6
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 00:46:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=6W/Tgcex0Y7fVC7LK1gPqhw87/zTH3vooBLA477bTL4=;
- b=0cr83KtLNdKnmQ3gsStC11syRUKylnpKibTGzfqmiIWlBDrWEYHPIU5tmdeFagmV9b
- c0VXAtG95P1WsgkyWTZof6h+z03/wXS7O3zIiaLoQC4MeZIq1ZNN8x4I4QxZp6zSiK9J
- jwE+soRTSg2qtUKs9FyoL45XmOS+av3H67r4LjqMLThqRLZt1xp95AXy54cxKyUVtc63
- ZuYytg4rJuOTS3NgoTvld0NsxKSHe5EsIjpEXbINPms3vkGpvYKbJkYa1jPUz2gV1ceu
- fwjxMizbEOy1MlY1RUp/pvWl9r8+hxmnxXsaIP+zXIyjU6QKO3KS1EcvtD54+x9LTSVA
- lDCQ==
-X-Gm-Message-State: AOAM531uzatAsPoprJ4ajlLnIof3ZM7pHI/Bkme0m6ahy8bfW0yh/Q9e
- 2FvajhYqpEpzg1YzcfwsAy9lDkI8tlgUh7KFZ3YvY0otB77H67x/D0MmHN1dAlzyPl8heOkHYjM
- bAxkYOcVvut1MTWI=
-X-Received: by 2002:a05:6a00:1954:b0:4e1:7791:6a8e with SMTP id
- s20-20020a056a00195400b004e177916a8emr23967736pfk.77.1645518858433; 
- Tue, 22 Feb 2022 00:34:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzj7E0cHEtjZMmZ4FjnN9tIju0ySXmzGh45QAJg6EEjEpmwqsdrsBAxxoANvhFw4RBbqPqbEw==
-X-Received: by 2002:a05:6a00:1954:b0:4e1:7791:6a8e with SMTP id
- s20-20020a056a00195400b004e177916a8emr23967707pfk.77.1645518857955; 
- Tue, 22 Feb 2022 00:34:17 -0800 (PST)
-Received: from xz-m1.local ([64.64.123.101]) by smtp.gmail.com with ESMTPSA id
- q93-20020a17090a4fe600b001b9ba2a1dc3sm1736017pjh.25.2022.02.22.00.34.12
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=VSWn27mRbxsBNIZ4sBHL0ZjdDyjfra6tPH8ZO2QispQ=;
+ b=NNJxzKKcIfwevnSzoBBOY/+F9QWSB7qlFbNXTVfT5lrWt9xgWzZlvmtjVg+N1rGuHX
+ s7Q3XRFt1jlU91De/YgxA7zyzdYIcKII2iQrgCndw3AkK2w3MyHvlhLrRImfuQxVQphv
+ Ikzp3QejvQNe7DD8NkaqF3JPF1ePVod7urFMRqeMMArBIa5M3uk4z+WRAhHprzsJtMlC
+ 0VuatpHezQBr2W8ToUFwadciUL/1z+CH7RY3oWuCdjpPEU5XWy0s3QryEOa7jPOEpYqr
+ n6UXcC0zhbkF5wyHLw3GTTBSC7wNy81pyI92MLHFe6pbggJiIu5V81dIiRVyweRXAuHD
+ 0/jw==
+X-Gm-Message-State: AOAM531BXGJwH8StcNTg67vsAI7EQpzVGKbLI6V+tpDqFqs2Km8BS+gU
+ JPki2m+I9zq4rb8dmLSVTwKbvzpbSVhOL3VAsI3C3Gf8+MYIVMh1yu+C1v2S7k09lfllduDzLLc
+ Js0HIM8x1Jg1UD48=
+X-Received: by 2002:a05:6402:40c1:b0:412:b240:dfeb with SMTP id
+ z1-20020a05640240c100b00412b240dfebmr22713800edb.239.1645519564937; 
+ Tue, 22 Feb 2022 00:46:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJye7oapSjyMBfJjW9ZWCzvnQOVsQwWj+HvxbjISrrrK8NP7tpvwC7hwH6R3OxBAoO+UBLTPOg==
+X-Received: by 2002:a05:6402:40c1:b0:412:b240:dfeb with SMTP id
+ z1-20020a05640240c100b00412b240dfebmr22713771edb.239.1645519564641; 
+ Tue, 22 Feb 2022 00:46:04 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id c6sm5970980ejs.130.2022.02.22.00.46.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 00:34:17 -0800 (PST)
-Date: Tue, 22 Feb 2022 16:34:05 +0800
-From: Peter Xu <peterx@redhat.com>
+ Tue, 22 Feb 2022 00:46:04 -0800 (PST)
+Date: Tue, 22 Feb 2022 09:46:02 +0100
+From: Igor Mammedov <imammedo@redhat.com>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 17/20] migration: Postcopy preemption preparation on
- channel creation
-Message-ID: <YhSf/a9Fjc5rhKZ5@xz-m1.local>
-References: <20220216062809.57179-1-peterx@redhat.com>
- <20220216062809.57179-18-peterx@redhat.com>
- <YhPcaB4ju2gWTJPW@work-vm>
+Subject: Re: [PATCH RFCv2 2/4] i386/pc: relocate 4g start to 1T where
+ applicable
+Message-ID: <20220222094602.66d55613@redhat.com>
+In-Reply-To: <YhOQfJ8x93+jDSZf@work-vm>
+References: <20220207202422.31582-1-joao.m.martins@oracle.com>
+ <20220207202422.31582-3-joao.m.martins@oracle.com>
+ <20220214155318.3ce80da0@redhat.com>
+ <fa172a19-5db6-a844-27d7-8497d306024e@oracle.com>
+ <20220214163158.4c4b210b@redhat.com>
+ <20220215095358.5qcrgwlasheu63uj@sirius.home.kraxel.org>
+ <YgzJE7ufEYm6OFyg@redhat.com> <YhOQfJ8x93+jDSZf@work-vm>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YhPcaB4ju2gWTJPW@work-vm>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, URG_BIZ=0.573 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,321 +105,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 21, 2022 at 06:39:36PM +0000, Dr. David Alan Gilbert wrote:
-> * Peter Xu (peterx@redhat.com) wrote:
-> > Create a new socket for postcopy to be prepared to send postcopy requested
-> > pages via this specific channel, so as to not get blocked by precopy pages.
-> > 
-> > A new thread is also created on dest qemu to receive data from this new channel
-> > based on the ram_load_postcopy() routine.
-> > 
-> > The ram_load_postcopy(POSTCOPY) branch and the thread has not started to
-> > function, and that'll be done in follow up patches.
-> > 
-> > Cleanup the new sockets on both src/dst QEMUs, meanwhile look after the new
-> > thread too to make sure it'll be recycled properly.
-> > 
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> >  migration/migration.c    | 62 ++++++++++++++++++++++++----
-> >  migration/migration.h    |  8 ++++
-> >  migration/postcopy-ram.c | 88 ++++++++++++++++++++++++++++++++++++++--
-> >  migration/postcopy-ram.h | 10 +++++
-> >  migration/ram.c          | 25 ++++++++----
-> >  migration/ram.h          |  4 +-
-> >  migration/socket.c       | 22 +++++++++-
-> >  migration/socket.h       |  1 +
-> >  migration/trace-events   |  3 ++
-> >  9 files changed, 203 insertions(+), 20 deletions(-)
-> > 
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index 4c22bad304..3d7f897b72 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -321,6 +321,12 @@ void migration_incoming_state_destroy(void)
-> >          mis->page_requested = NULL;
-> >      }
-> >  
-> > +    if (mis->postcopy_qemufile_dst) {
-> > +        migration_ioc_unregister_yank_from_file(mis->postcopy_qemufile_dst);
-> > +        qemu_fclose(mis->postcopy_qemufile_dst);
-> > +        mis->postcopy_qemufile_dst = NULL;
-> > +    }
-> > +
-> >      yank_unregister_instance(MIGRATION_YANK_INSTANCE);
-> >  }
-> >  
-> > @@ -714,15 +720,21 @@ void migration_fd_process_incoming(QEMUFile *f, Error **errp)
-> >      migration_incoming_process();
-> >  }
-> >  
-> > +static bool migration_needs_multiple_sockets(void)
-> > +{
-> > +    return migrate_use_multifd() || migrate_postcopy_preempt();
-> > +}
-> > +
-> >  void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
-> >  {
-> >      MigrationIncomingState *mis = migration_incoming_get_current();
-> >      Error *local_err = NULL;
-> >      bool start_migration;
-> > +    QEMUFile *f;
-> >  
-> >      if (!mis->from_src_file) {
-> >          /* The first connection (multifd may have multiple) */
-> > -        QEMUFile *f = qemu_fopen_channel_input(ioc);
-> > +        f = qemu_fopen_channel_input(ioc);
-> >  
-> >          if (!migration_incoming_setup(f, errp)) {
-> >              return;
-> > @@ -730,13 +742,18 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
-> >  
-> >          /*
-> >           * Common migration only needs one channel, so we can start
-> > -         * right now.  Multifd needs more than one channel, we wait.
-> > +         * right now.  Some features need more than one channel, we wait.
-> >           */
-> > -        start_migration = !migrate_use_multifd();
-> > +        start_migration = !migration_needs_multiple_sockets();
-> >      } else {
-> >          /* Multiple connections */
-> > -        assert(migrate_use_multifd());
-> > -        start_migration = multifd_recv_new_channel(ioc, &local_err);
-> > +        assert(migration_needs_multiple_sockets());
-> > +        if (migrate_use_multifd()) {
-> > +            start_migration = multifd_recv_new_channel(ioc, &local_err);
-> > +        } else if (migrate_postcopy_preempt()) {
-> > +            f = qemu_fopen_channel_input(ioc);
-> > +            start_migration = postcopy_preempt_new_channel(mis, f);
-> > +        }
-> >          if (local_err) {
-> >              error_propagate(errp, local_err);
-> >              return;
-> > @@ -761,11 +778,20 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
-> >  bool migration_has_all_channels(void)
-> >  {
-> >      MigrationIncomingState *mis = migration_incoming_get_current();
-> > -    bool all_channels;
-> >  
-> > -    all_channels = multifd_recv_all_channels_created();
-> > +    if (!mis->from_src_file) {
-> > +        return false;
-> > +    }
-> > +
-> > +    if (migrate_use_multifd()) {
-> > +        return multifd_recv_all_channels_created();
-> > +    }
-> > +
-> > +    if (migrate_postcopy_preempt()) {
-> > +        return mis->postcopy_qemufile_dst != NULL;
-> > +    }
-> >  
-> > -    return all_channels && mis->from_src_file != NULL;
-> > +    return true;
-> >  }
-> >  
-> >  /*
-> > @@ -1858,6 +1884,12 @@ static void migrate_fd_cleanup(MigrationState *s)
-> >          qemu_fclose(tmp);
-> >      }
-> >  
-> > +    if (s->postcopy_qemufile_src) {
-> > +        migration_ioc_unregister_yank_from_file(s->postcopy_qemufile_src);
-> > +        qemu_fclose(s->postcopy_qemufile_src);
-> > +        s->postcopy_qemufile_src = NULL;
-> > +    }
-> > +
-> >      assert(!migration_is_active(s));
-> >  
-> >      if (s->state == MIGRATION_STATUS_CANCELLING) {
-> > @@ -3233,6 +3265,11 @@ static void migration_completion(MigrationState *s)
-> >          qemu_savevm_state_complete_postcopy(s->to_dst_file);
-> >          qemu_mutex_unlock_iothread();
-> >  
-> > +        /* Shutdown the postcopy fast path thread */
-> > +        if (migrate_postcopy_preempt()) {
-> > +            postcopy_preempt_shutdown_file(s);
-> > +        }
-> > +
-> >          trace_migration_completion_postcopy_end_after_complete();
-> >      } else {
-> >          goto fail;
-> > @@ -4120,6 +4157,15 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
-> >          }
-> >      }
-> >  
-> > +    /* This needs to be done before resuming a postcopy */
-> > +    if (postcopy_preempt_setup(s, &local_err)) {
-> > +        error_report_err(local_err);
-> > +        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-> > +                          MIGRATION_STATUS_FAILED);
-> > +        migrate_fd_cleanup(s);
-> > +        return;
-> > +    }
-> > +
-> >      if (resume) {
-> >          /* Wakeup the main migration thread to do the recovery */
-> >          migrate_set_state(&s->state, MIGRATION_STATUS_POSTCOPY_PAUSED,
-> > diff --git a/migration/migration.h b/migration/migration.h
-> > index af4bcb19c2..caa910d956 100644
-> > --- a/migration/migration.h
-> > +++ b/migration/migration.h
-> > @@ -23,6 +23,7 @@
-> >  #include "io/channel-buffer.h"
-> >  #include "net/announce.h"
-> >  #include "qom/object.h"
-> > +#include "postcopy-ram.h"
-> >  
-> >  struct PostcopyBlocktimeContext;
-> >  
-> > @@ -112,6 +113,11 @@ struct MigrationIncomingState {
-> >       * enabled.
-> >       */
-> >      unsigned int postcopy_channels;
-> > +    /* QEMUFile for postcopy only; it'll be handled by a separate thread */
-> > +    QEMUFile *postcopy_qemufile_dst;
-> > +    /* Postcopy priority thread is used to receive postcopy requested pages */
-> > +    QemuThread postcopy_prio_thread;
-> > +    bool postcopy_prio_thread_created;
-> >      /*
-> >       * An array of temp host huge pages to be used, one for each postcopy
-> >       * channel.
-> > @@ -192,6 +198,8 @@ struct MigrationState {
-> >      QEMUBH *cleanup_bh;
-> >      /* Protected by qemu_file_lock */
-> >      QEMUFile *to_dst_file;
-> > +    /* Postcopy specific transfer channel */
-> > +    QEMUFile *postcopy_qemufile_src;
-> >      QIOChannelBuffer *bioc;
-> >      /*
-> >       * Protects to_dst_file/from_dst_file pointers.  We need to make sure we
-> > diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> > index 738cc55fa6..30eddaacd1 100644
-> > --- a/migration/postcopy-ram.c
-> > +++ b/migration/postcopy-ram.c
-> > @@ -32,6 +32,9 @@
-> >  #include "trace.h"
-> >  #include "hw/boards.h"
-> >  #include "exec/ramblock.h"
-> > +#include "socket.h"
-> > +#include "qemu-file-channel.h"
-> > +#include "yank_functions.h"
-> >  
-> >  /* Arbitrary limit on size of each discard command,
-> >   * keeps them around ~200 bytes
-> > @@ -566,6 +569,11 @@ int postcopy_ram_incoming_cleanup(MigrationIncomingState *mis)
-> >  {
-> >      trace_postcopy_ram_incoming_cleanup_entry();
-> >  
-> > +    if (mis->postcopy_prio_thread_created) {
-> > +        qemu_thread_join(&mis->postcopy_prio_thread);
-> > +        mis->postcopy_prio_thread_created = false;
-> > +    }
-> > +
-> >      if (mis->have_fault_thread) {
-> >          Error *local_err = NULL;
-> >  
-> > @@ -1101,8 +1109,13 @@ static int postcopy_temp_pages_setup(MigrationIncomingState *mis)
-> >      int err, i, channels;
-> >      void *temp_page;
-> >  
-> > -    /* TODO: will be boosted when enable postcopy preemption */
-> > -    mis->postcopy_channels = 1;
-> > +    if (migrate_postcopy_preempt()) {
-> > +        /* If preemption enabled, need extra channel for urgent requests */
-> > +        mis->postcopy_channels = RAM_CHANNEL_MAX;
-> > +    } else {
-> > +        /* Both precopy/postcopy on the same channel */
-> > +        mis->postcopy_channels = 1;
-> > +    }
-> >  
-> >      channels = mis->postcopy_channels;
-> >      mis->postcopy_tmp_pages = g_malloc0_n(sizeof(PostcopyTmpPage), channels);
-> > @@ -1169,7 +1182,7 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
-> >          return -1;
-> >      }
-> >  
-> > -    postcopy_thread_create(mis, &mis->fault_thread, "postcopy/fault",
-> > +    postcopy_thread_create(mis, &mis->fault_thread, "qemu/fault-default",
-> 
-> That name is still too long; I'd lose the 'qemu/'
+On Mon, 21 Feb 2022 13:15:40 +0000
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-Sure.
+> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
+> > On Tue, Feb 15, 2022 at 10:53:58AM +0100, Gerd Hoffmann wrote: =20
+> > >   Hi,
+> > >  =20
+> > > > I don't know what behavior should be if firmware tries to program
+> > > > PCI64 hole beyond supported phys-bits. =20
+> > >=20
+> > > Well, you are basically f*cked.
+> > >=20
+> > > Unfortunately there is no reliable way to figure what phys-bits actua=
+lly
+> > > is.  Because of that the firmware (both seabios and edk2) tries to pl=
+ace
+> > > the pci64 hole as low as possible.
+> > >=20
+> > > The long version:
+> > >=20
+> > > qemu advertises phys-bits=3D40 to the guest by default.  Probably bec=
+ause
+> > > this is what the first amd opteron processors had, assuming that it
+> > > would be a safe default.  Then intel came, releasing processors with
+> > > phys-bits=3D36, even recent (desktop-class) hardware has phys-bits=3D=
+39.
+> > > Boom.
+> > >=20
+> > > End result is that edk2 uses a 32G pci64 window by default, which is
+> > > placed at the first 32G border beyond normal ram.  So for virtual
+> > > machines with up to ~ 30G ram (including reservations for memory
+> > > hotplug) the pci64 hole covers 32G -> 64G in guest physical address
+> > > space, which is low enough that it works on hardware with phys-bits=
+=3D36.
+> > >=20
+> > > If your VM has more than 32G of memory the pci64 hole will move and
+> > > phys-bits=3D36 isn't enough any more, but given that you probably onl=
+y do
+> > > that on more beefy hosts which can take >=3D 64G of RAM and have a la=
+rger
+> > > physical address space this heuristic works good enough in practice.
+> > >=20
+> > > Changing phys-bits behavior has been discussed on and off since years=
+.
+> > > It's tricky to change for live migration compatibility reasons.
+> > >=20
+> > > We got the host-phys-bits and host-phys-bits-limit properties, which
+> > > solve some of the phys-bits problems.
+> > >=20
+> > >  * host-phys-bits=3Don makes sure the phys-bits advertised to the gue=
+st
+> > >    actually works.  It's off by default though for backward
+> > >    compatibility reasons (except microvm).  Also because turning it o=
+n
+> > >    breaks live migration of machines between hosts with different
+> > >    phys-bits. =20
+> >=20
+> > RHEL has shipped with host-phys-bits=3Don in its machine types
+> > sinec RHEL-7. If it is good enough for RHEL machine types
+> > for 8 years, IMHO, it is a sign that its reasonable to do the
+> > same with upstream for new machine types. =20
+>=20
+> And the upstream code is now pretty much identical except for the
+> default;  note that for TCG you do need to keep to 40 I think.
 
-> 
-> >                             postcopy_ram_fault_thread, QEMU_THREAD_JOINABLE);
-> >      mis->have_fault_thread = true;
-> >  
-> > @@ -1184,6 +1197,16 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
-> >          return -1;
-> >      }
-> >  
-> > +    if (migrate_postcopy_preempt()) {
-> > +        /*
-> > +         * This thread needs to be created after the temp pages because it'll fetch
-> > +         * RAM_CHANNEL_POSTCOPY PostcopyTmpPage immediately.
-> > +         */
-> > +        postcopy_thread_create(mis, &mis->postcopy_prio_thread, "qemu/fault-fast",
-> 
-> and that one.
+will TCG work with 40bits on host that supports less than that?
 
-OK.
+Also quick look at host-phys-bits shows that it affects only 'host'
+cpu model and is NOP for all other models.
+If it's so than we probably need to expand it's scope to other cpu
+models to cap them at actually supported range.
 
-> 
-> > +                               postcopy_preempt_thread, QEMU_THREAD_JOINABLE);
-> > +        mis->postcopy_prio_thread_created = true;
-> > +    }
-> > +
-> >      trace_postcopy_ram_enable_notify();
-> >  
-> >      return 0;
-> > @@ -1513,3 +1536,62 @@ void postcopy_unregister_shared_ufd(struct PostCopyFD *pcfd)
-> >          }
-> >      }
-> >  }
-> > +
-> > +bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
-> > +{
-> > +    mis->postcopy_qemufile_dst = file;
-> > +
-> > +    trace_postcopy_preempt_new_channel();
-> > +
-> > +    /* Start the migration immediately */
-> > +    return true;
-> > +}
-> > +
-> > +int postcopy_preempt_setup(MigrationState *s, Error **errp)
-> > +{
-> > +    QIOChannel *ioc;
-> > +
-> > +    if (!migrate_postcopy_preempt()) {
-> > +        return 0;
-> > +    }
-> > +
-> > +    if (!migrate_multi_channels_is_allowed()) {
-> > +        error_setg(errp, "Postcopy preempt is not supported as current "
-> > +                   "migration stream does not support multi-channels.");
-> > +        return -1;
-> > +    }
-> > +
-> > +    ioc = socket_send_channel_create_sync(errp);
-> 
-> How do we get away with doing this sync here, but have to use async for
-> multifd?
-
-Ah right..  I think both will work?  But async (as what multifd is doing)
-is definitely more elegant because synced version can block the main thread
-for unexpected times.
-
-I'll add a new patch to support async channel creations (assuming that's
-better than squashing the change).
-
--- 
-Peter Xu
+>=20
+> Dave
+> >  =20
+> > >  * host-phys-bits-limit can be used to tweak phys-bits to
+> > >    be lower than what the host supports.  Which can be used for
+> > >    live migration compatibility, i.e. if you have a pool of machines
+> > >    where some have 36 and some 39 you can limit phys-bits to 36 so
+> > >    live migration from 39 hosts to 36 hosts works. =20
+> >=20
+> > RHEL machine types have set this to host-phys-bits-limit=3D48
+> > since RHEL-8 days, to avoid accidentally enabling 5-level
+> > paging in guests without explicit user opt-in.
+> >  =20
+> > > What is missing:
+> > >=20
+> > >  * Some way for the firmware to get a phys-bits value it can actually
+> > >    use.  One possible way would be to have a paravirtual bit somewher=
+e
+> > >    telling whenever host-phys-bits is enabled or not. =20
+> >=20
+> >=20
+> > Regards,
+> > Daniel
+> > --=20
+> > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberr=
+ange :|
+> > |: https://libvirt.org         -o-            https://fstop138.berrange=
+.com :|
+> > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberr=
+ange :|
+> >=20
+> >  =20
 
 
