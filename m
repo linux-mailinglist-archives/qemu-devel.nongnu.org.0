@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060D34BF996
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 14:41:20 +0100 (CET)
-Received: from localhost ([::1]:49502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82F004BF982
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 14:34:53 +0100 (CET)
+Received: from localhost ([::1]:41030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMVPq-0007Ba-H2
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 08:41:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46692)
+	id 1nMVJc-00019X-2H
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 08:34:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMV7O-0001u8-P4
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:22:15 -0500
-Received: from [2607:f8b0:4864:20::112e] (port=33703
- helo=mail-yw1-x112e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMV7I-00062i-Pj
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:22:10 -0500
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2d66f95f1d1so173179577b3.0
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 05:22:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PgWFmIdWPQO+Ta5768k+RQieYTjl2MqGegeCc2ifkHo=;
- b=ZPA3+AZk/mJP3qb/TG29FpY0kJ+/VRbU1vhil/vwdPwYnacGXVx/8BnqiDb2wfXZ7I
- b4p647MME5uEmktcB2CvikWWEYM0bviB7h4viRiP8NTv4t0JPypfXiLDgExfFqmENwFn
- a/aAgUvhYlg8HwuVpPoza9VGBRwJbGlY/7O0nu3o508jjsgCUCwL7axAH1dILlud1DlF
- jaD9l3zzHYI7E3iH9BE8PBOro6vgpeXQAT7oUNoISgcCqvI4TtAj9SDpFjukyMg0XdVz
- gOxaQ1Cr6t+pbofGjb5zlOxV8EOxJ8bSoIemzM+7AJ3rUu/y4zlHKKzTK6ryChvSNDrl
- Fhxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PgWFmIdWPQO+Ta5768k+RQieYTjl2MqGegeCc2ifkHo=;
- b=LQiShAwaTyiDZ3F4CwJAaBov3JQEBPkg7XGaKXFDV7RPv+GS9jNbR+bxQqYFTvZjUa
- uZAl/GeLls3+VyVz2cNd4qyBarMB9kLn+YFDHMnZ9TytY9JzEAK5bW+wlQaINKOlcAgl
- uaXH7RI/m+5CFzT2JT8P2C7F7q/umJUzBDsKv+KaNzEdqa0eF9cVTOfETSzBLeuAPE1S
- TxIpDz5ye9aGhTN2VBT1CWLoO8kjBlrqGWzFilU+dkd1tzyUDxdAh8vQIzbHFFLgVR9E
- G/A4JxlGz3+ACoLUv97JsHcROgH7IXEEczlGObSCqOvoBdLy8AQfefAuNm9ubNAKDziM
- UZiA==
-X-Gm-Message-State: AOAM531CWHLmlHcQ8EGXj2LzoKtNUFBM2Vrg0+SAFiK50PGaKavjFGOW
- 55VKb7RyqNkKe6TDOcVDql3HjSISDveVndrcR1PNv5Bfvyj2Xg==
-X-Google-Smtp-Source: ABdhPJx1Qn6AOmaOHvUjw6cFvbxqFuyW42K5k/Hc8Ze/ubjbSZrrhtSdzWi75bbqsbQYyc/ql3jKOeWaQsIj2OunY8M=
-X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
- e69-20020a81a748000000b002d61f8b23a9mr24176343ywh.329.1645536123273; Tue, 22
- Feb 2022 05:22:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nMVB6-0004t0-DY
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:26:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21875)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nMVB2-0006uP-Op
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:26:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645536360;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=31kPzqgOQwg446LhFg8ucOW9NW+H3bfnkRHQ7OGFDS4=;
+ b=Nud5/MnCn6JxplSRgQQOOIG9pfub5mmelCd84n1bgk4oAihqjqADNECoBo+L1DH3htB0eu
+ +CITu8g6nmIgooj5Twpmhok1CXv5LgVT7WecLMzcb2GtEQkvEUcMVbdgYKdJka1HKsezc/
+ VfNxs2WSs0ft4cl+hE86f9HvuaHMxug=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-658-iwl3oXSePgCRxouOlw9o8g-1; Tue, 22 Feb 2022 08:25:56 -0500
+X-MC-Unique: iwl3oXSePgCRxouOlw9o8g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B02E835DE0;
+ Tue, 22 Feb 2022 13:25:55 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61D817BCCB;
+ Tue, 22 Feb 2022 13:25:46 +0000 (UTC)
+Date: Tue, 22 Feb 2022 13:25:45 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?=
+ <philippe.mathieu.daude@gmail.com>
+Subject: Re: [PATCH v4 4/4] cpus: use coroutine TLS macros for iothread_locked
+Message-ID: <YhTkWZCdHvSOTZsy@stefanha-x1.localdomain>
+References: <20220221142907.346035-1-stefanha@redhat.com>
+ <20220221142907.346035-5-stefanha@redhat.com>
+ <33126ecf-e70d-ce9f-1933-af781b5dc166@gmail.com>
 MIME-Version: 1.0
-References: <cover.1645114783.git.qemu_oss@crudebyte.com>
- <e64e27d5cb103b7764f1a05b6eda7e7fedd517c5.1645114783.git.qemu_oss@crudebyte.com>
-In-Reply-To: <e64e27d5cb103b7764f1a05b6eda7e7fedd517c5.1645114783.git.qemu_oss@crudebyte.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Feb 2022 13:21:52 +0000
-Message-ID: <CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com>
-Subject: Re: [PULL v2 5/5] 9pfs: Fix segfault in do_readdir_many caused by
- struct dirent overread
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5mGxn91M0MLI2tvr"
+Content-Disposition: inline
+In-Reply-To: <33126ecf-e70d-ce9f-1933-af781b5dc166@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,47 +79,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Florian Weimer <fweimer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Feb 2022 at 16:43, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index d1660d67fa..ce12f64853 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -805,6 +805,19 @@ static inline int platform_does_not_support_system(const char *command)
->  }
->  #endif /* !HAVE_SYSTEM_FUNCTION */
->
-> +/**
-> + * Duplicate directory entry @dent.
-> + *
-> + * It is highly recommended to use this function instead of open coding
-> + * duplication of @c dirent objects, because the actual @c struct @c dirent
-> + * size may be bigger or shorter than @c sizeof(struct dirent) and correct
-> + * handling is platform specific (see gitlab issue #841).
-> + *
-> + * @dent - original directory entry to be duplicated
-> + * @returns duplicated directory entry which should be freed with g_free()
-> + */
-> +struct dirent *qemu_dirent_dup(struct dirent *dent);
 
-Hi; I just noticed this has landed in git recently.
-Please don't add new prototypes to osdep.h -- it is
-a header included by every single C file in the tree, so
-making it bigger slows down compilation. osdep.h is supposed
-to contain only:
- * things which everybody needs
- * things without which code would work on most platforms but
-   fail to compile or misbehave on a minority of host OSes
-   (ie system incompatibility handling)
+--5mGxn91M0MLI2tvr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This prototype is neither of those -- please find or create a more
-appropriate header file for it, that can be included only by the
-source files that actually need it.
+On Mon, Feb 21, 2022 at 04:09:06PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 21/2/22 15:29, Stefan Hajnoczi wrote:
+> > qemu_mutex_iothread_locked() may be used from coroutines. Standard
+> > __thread variables cannot be used by coroutines. Use the coroutine TLS
+> > macros instead.
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >   softmmu/cpus.c | 8 ++++----
+> >   1 file changed, 4 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> > index 035395ae13..005a5c31ef 100644
+> > --- a/softmmu/cpus.c
+> > +++ b/softmmu/cpus.c
+> > @@ -473,11 +473,11 @@ bool qemu_in_vcpu_thread(void)
+> >       return current_cpu && qemu_cpu_is_self(current_cpu);
+> >   }
+> > -static __thread bool iothread_locked =3D false;
+> > +QEMU_DEFINE_STATIC_CO_TLS(bool, iothread_locked)
+>=20
+> While "qemu/coroutine-tls.h" is indirectly included by "rcu.h",
+> please include it explicitly.
 
-thanks
--- PMM
+Thanks, will fix.
+
+Stefan
+
+--5mGxn91M0MLI2tvr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIU5FkACgkQnKSrs4Gr
+c8g4vAf9FYPhvNMOUwoJX7bxZr1fSbOER4T03JQxLMxMH5mbEXmuVkxZjcAjivSX
+ygK5sCvuQHzCB6QHDi+txki9OKcEU7iJImpsEjmJU/jx4hqXZaJju3j8xcmPtW5X
+I/5kfC5bNnhNRktE0Moy6Yp/SjTxBF/T8RWUWSXzseIka5uuQ6px9YRxJOS+i5O3
+V4Lnu8EtDQU4yPsiaGyALZk4mCpyf7kUFLo6HPcCDdTBPkRfYmcodykl0POKm46a
+RGmJKRc0beOKaM4NAex8JqSKMrifVICgTqLfNTDZkqNBnPlY+hvF7+O+e3KMgg5O
+tkP7wyjmlqNFXz+WzcafH7QrYyK7Zw==
+=NZn0
+-----END PGP SIGNATURE-----
+
+--5mGxn91M0MLI2tvr--
+
 
