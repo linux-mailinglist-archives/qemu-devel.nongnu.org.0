@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67994BFA9A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 15:14:05 +0100 (CET)
-Received: from localhost ([::1]:41010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B144BFA73
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 15:10:48 +0100 (CET)
+Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMVvY-0000Mu-EC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 09:14:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60742)
+	id 1nMVsM-0002wS-3N
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 09:10:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMVkp-0003OO-K8
+ id 1nMVkp-0003OI-EQ
  for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:03:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22549)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMVkj-00064Q-FO
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:02:59 -0500
+ id 1nMVki-00064Y-1n
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:02:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645538562;
+ s=mimecast20190719; t=1645538564;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AF5Sp/89TquTLE2+tiea8vAXBykqv2OvxpkhGk+W5+g=;
- b=a/fJb/QhYjLaFCrMtMSHAjz84EiZNBbrEXf/E2bbKrHNIZJW8lCP7rRPbE2HdZYtuFdfgi
- lxSZChWl3htSL2cP490/XUHjHUF+0rOnl2U0Kp6ivgMNayu/+trr0ccfIJwgQZLBc2SxIs
- XJwTaH4t8UEn3Ls/9YXiYNgdlznZZ6k=
+ bh=ydAFJulO1fktYGT+VeP4DNbUV9UD3tPDkgP+u0FXbQ0=;
+ b=T7vSJc4kP/3AM6ZaZeB9tyE4iQZfixcwV2Hh95dsjCoYayR4XMRHVKpO1lzarHpZsrxC9n
+ 7NZQVjnLg0p3H1L6yrd6iOEL2nYbcXJLFS5hpRs+oGof2TvDDt/4yImMDLgVa8ONl7O6Mp
+ YT40TjDY9+aqu2q5iLOnrH0egUBhRh0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-620-kPPTYBxMN_ydcNP3ZEhQaA-1; Tue, 22 Feb 2022 09:02:39 -0500
-X-MC-Unique: kPPTYBxMN_ydcNP3ZEhQaA-1
+ us-mta-118-WX21vylYO86HRzGIXMuDeA-1; Tue, 22 Feb 2022 09:02:41 -0500
+X-MC-Unique: WX21vylYO86HRzGIXMuDeA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 411A26C504;
- Tue, 22 Feb 2022 14:02:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26751193578B;
+ Tue, 22 Feb 2022 14:02:40 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.202])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C93657C3FD;
- Tue, 22 Feb 2022 14:02:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF10D832AF;
+ Tue, 22 Feb 2022 14:02:39 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 1/4] tls: add macros for coroutine-safe TLS variables
-Date: Tue, 22 Feb 2022 14:01:47 +0000
-Message-Id: <20220222140150.27240-2-stefanha@redhat.com>
+Subject: [PATCH v5 2/4] util/async: replace __thread with QEMU TLS macros
+Date: Tue, 22 Feb 2022 14:01:48 +0000
+Message-Id: <20220222140150.27240-3-stefanha@redhat.com>
 In-Reply-To: <20220222140150.27240-1-stefanha@redhat.com>
 References: <20220222140150.27240-1-stefanha@redhat.com>
 MIME-Version: 1.0
@@ -88,197 +88,51 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Compiler optimizations can cache TLS values across coroutine yield
-points, resulting in stale values from the previous thread when a
-coroutine is re-entered by a new thread.
+QEMU TLS macros must be used to make TLS variables safe with coroutines.
 
-Serge Guelton developed an __attribute__((noinline)) wrapper and tested
-it with clang and gcc. I formatted his idea according to QEMU's coding
-style and wrote documentation.
-
-The compiler can still optimize based on analyzing noinline code, so an
-asm volatile barrier with an output constraint is required to prevent
-unwanted optimizations.
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1952483
-Suggested-by: Serge Guelton <sguelton@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/qemu/coroutine-tls.h | 165 +++++++++++++++++++++++++++++++++++
- 1 file changed, 165 insertions(+)
- create mode 100644 include/qemu/coroutine-tls.h
+ util/async.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/include/qemu/coroutine-tls.h b/include/qemu/coroutine-tls.h
-new file mode 100644
-index 0000000000..1558a826aa
---- /dev/null
-+++ b/include/qemu/coroutine-tls.h
-@@ -0,0 +1,165 @@
-+/*
-+ * QEMU Thread Local Storage for coroutines
-+ *
-+ * Copyright Red Hat
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1-or-later
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ *
-+ * It is forbidden to access Thread Local Storage in coroutines because
-+ * compiler optimizations may cause values to be cached across coroutine
-+ * re-entry. Coroutines can run in more than one thread through the course of
-+ * their life, leading bugs when stale TLS values from the wrong thread are
-+ * used as a result of compiler optimization.
-+ *
-+ * An example is:
-+ *
-+ * ..code-block:: c
-+ *   :caption: A coroutine that may see the wrong TLS value
-+ *
-+ *   static __thread AioContext *current_aio_context;
-+ *   ...
-+ *   static void coroutine_fn foo(void)
-+ *   {
-+ *       aio_notify(current_aio_context);
-+ *       qemu_coroutine_yield();
-+ *       aio_notify(current_aio_context); // <-- may be stale after yielding!
-+ *   }
-+ *
-+ * This header provides macros for safely defining variables in Thread Local
-+ * Storage:
-+ *
-+ * ..code-block:: c
-+ *   :caption: A coroutine that safely uses TLS
-+ *
-+ *   QEMU_DEFINE_STATIC_CO_TLS(AioContext *, current_aio_context)
-+ *   ...
-+ *   static void coroutine_fn foo(void)
-+ *   {
-+ *       aio_notify(get_current_aio_context());
-+ *       qemu_coroutine_yield();
-+ *       aio_notify(get_current_aio_context()); // <-- safe
-+ *   }
-+ */
-+
-+#ifndef QEMU_COROUTINE_TLS_H
-+#define QEMU_COROUTINE_TLS_H
-+
-+/*
-+ * To stop the compiler from caching TLS values we define accessor functions
-+ * with __attribute__((noinline)) plus asm volatile("") to prevent
-+ * optimizations that override noinline.
-+ *
-+ * The compiler can still analyze noinline code and make optimizations based on
-+ * that knowledge, so an inline asm output operand is used to prevent
-+ * optimizations that make assumptions about the address of the TLS variable.
-+ *
-+ * This is fragile and ultimately needs to be solved by a mechanism that is
-+ * guaranteed to work by the compiler (e.g. stackless coroutines), but for now
-+ * we use this approach to prevent issues.
-+ */
-+
-+/**
-+ * QEMU_DECLARE_CO_TLS:
-+ * @type: the variable's C type
-+ * @var: the variable name
-+ *
-+ * Declare an extern variable in Thread Local Storage from a header file:
-+ *
-+ * .. code-block:: c
-+ *   :caption: Declaring an extern variable in Thread Local Storage
-+ *
-+ *   QEMU_DECLARE_CO_TLS(int, my_count)
-+ *   ...
-+ *   int c = get_my_count();
-+ *   set_my_count(c + 1);
-+ *   *get_ptr_my_count() = 0;
-+ *
-+ * This is a coroutine-safe replacement for the __thread keyword and is
-+ * equivalent to the following code:
-+ *
-+ * .. code-block:: c
-+ *   :caption: Declaring a TLS variable using __thread
-+ *
-+ *   extern __thread int my_count;
-+ *   ...
-+ *   int c = my_count;
-+ *   my_count = c + 1;
-+ *   *(&my_count) = 0;
-+ */
-+#define QEMU_DECLARE_CO_TLS(type, var)                                       \
-+    __attribute__((noinline)) type get_##var(void);                          \
-+    __attribute__((noinline)) void set_##var(type v);                        \
-+    __attribute__((noinline)) type *get_ptr_##var(void);
-+
-+/**
-+ * QEMU_DEFINE_CO_TLS:
-+ * @type: the variable's C type
-+ * @var: the variable name
-+ *
-+ * Define a variable in Thread Local Storage that was previously declared from
-+ * a header file with QEMU_DECLARE_CO_TLS():
-+ *
-+ * .. code-block:: c
-+ *   :caption: Defining a variable in Thread Local Storage
-+ *
-+ *   QEMU_DEFINE_CO_TLS(int, my_count)
-+ *
-+ * This is a coroutine-safe replacement for the __thread keyword and is
-+ * equivalent to the following code:
-+ *
-+ * .. code-block:: c
-+ *   :caption: Defining a TLS variable using __thread
-+ *
-+ *   __thread int my_count;
-+ */
-+#define QEMU_DEFINE_CO_TLS(type, var)                                        \
-+    static __thread type co_tls_##var;                                       \
-+    type get_##var(void) { asm volatile(""); return co_tls_##var; }          \
-+    void set_##var(type v) { asm volatile(""); co_tls_##var = v; }           \
-+    type *get_ptr_##var(void)                                                \
-+    { type *ptr = &co_tls_##var; asm volatile("" : "+rm" (ptr)); return ptr; }
-+
-+/**
-+ * QEMU_DEFINE_STATIC_CO_TLS:
-+ * @type: the variable's C type
-+ * @var: the variable name
-+ *
-+ * Define a static variable in Thread Local Storage:
-+ *
-+ * .. code-block:: c
-+ *   :caption: Defining a static variable in Thread Local Storage
-+ *
-+ *   QEMU_DEFINE_STATIC_CO_TLS(int, my_count)
-+ *   ...
-+ *   int c = get_my_count();
-+ *   set_my_count(c + 1);
-+ *   *get_ptr_my_count() = 0;
-+ *
-+ * This is a coroutine-safe replacement for the __thread keyword and is
-+ * equivalent to the following code:
-+ *
-+ * .. code-block:: c
-+ *   :caption: Defining a static TLS variable using __thread
-+ *
-+ *   static __thread int my_count;
-+ *   ...
-+ *   int c = my_count;
-+ *   my_count = c + 1;
-+ *   *(&my_count) = 0;
-+ */
-+#define QEMU_DEFINE_STATIC_CO_TLS(type, var)                                 \
-+    static __thread type co_tls_##var;                                       \
-+    static __attribute__((noinline, unused))                                 \
-+    type get_##var(void)                                                     \
-+    { asm volatile(""); return co_tls_##var; }                               \
-+    static __attribute__((noinline, unused))                                 \
-+    void set_##var(type v)                                                   \
-+    { asm volatile(""); co_tls_##var = v; }                                  \
-+    static __attribute__((noinline, unused))                                 \
-+    type *get_ptr_##var(void)                                                \
-+    { type *ptr = &co_tls_##var; asm volatile("" : "+rm" (ptr)); return ptr; }
-+
-+#endif /* QEMU_COROUTINE_TLS_H */
+diff --git a/util/async.c b/util/async.c
+index 08d25feef5..2ea1172f3e 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -32,6 +32,7 @@
+ #include "qemu/rcu_queue.h"
+ #include "block/raw-aio.h"
+ #include "qemu/coroutine_int.h"
++#include "qemu/coroutine-tls.h"
+ #include "trace.h"
+ 
+ /***********************************************************/
+@@ -675,12 +676,13 @@ void aio_context_release(AioContext *ctx)
+     qemu_rec_mutex_unlock(&ctx->lock);
+ }
+ 
+-static __thread AioContext *my_aiocontext;
++QEMU_DEFINE_STATIC_CO_TLS(AioContext *, my_aiocontext)
+ 
+ AioContext *qemu_get_current_aio_context(void)
+ {
+-    if (my_aiocontext) {
+-        return my_aiocontext;
++    AioContext *ctx = get_my_aiocontext();
++    if (ctx) {
++        return ctx;
+     }
+     if (qemu_mutex_iothread_locked()) {
+         /* Possibly in a vCPU thread.  */
+@@ -691,6 +693,6 @@ AioContext *qemu_get_current_aio_context(void)
+ 
+ void qemu_set_current_aio_context(AioContext *ctx)
+ {
+-    assert(!my_aiocontext);
+-    my_aiocontext = ctx;
++    assert(!get_my_aiocontext());
++    set_my_aiocontext(ctx);
+ }
 -- 
 2.34.1
 
