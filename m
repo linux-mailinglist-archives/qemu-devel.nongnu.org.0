@@ -2,72 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5624BFF0E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:42:27 +0100 (CET)
-Received: from localhost ([::1]:57380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5024BFF9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:04:16 +0100 (CET)
+Received: from localhost ([::1]:44182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMYF7-0000X8-Us
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:42:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46016)
+	id 1nMYaD-0004fh-Qi
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:04:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMY7m-00086K-FJ
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 11:34:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20061)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nMY6M-00061j-Sd; Tue, 22 Feb 2022 11:33:23 -0500
+Received: from [2a01:111:f400:7e1b::71b] (port=19495
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMY7i-0008Rf-HG
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 11:34:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645547682;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=lR2k7bKdcXua5Q+iGZLzfX6bYaOXrnRIkvziVnVYivg=;
- b=W65OzzhSYP2B9JVuquhsydyIX4TaodHvKiP9P0Va/V90LCj2+wXzDMUHt+alUs3c4/WT7B
- hY/+Pve2cfq06bmf9qP2glfIGyZzzTZH+9UwFKT0/meacy7Vfpblr3+ku9BgM5HDUjx436
- ZUiAgs9emqTbbaUwHd4VnTXmnMVgsxw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-287-m98AaQVkOKGczFFE2effrA-1; Tue, 22 Feb 2022 11:34:39 -0500
-X-MC-Unique: m98AaQVkOKGczFFE2effrA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8400F1006AA5;
- Tue, 22 Feb 2022 16:34:38 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65E727A55B;
- Tue, 22 Feb 2022 16:34:19 +0000 (UTC)
-Date: Tue, 22 Feb 2022 16:34:11 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kshitij Suri <kshitij.suri@nutanix.com>
-Subject: Re: [PATCH] Added parameter to take screenshot with screendump as PNG
-Message-ID: <YhUQg9gReZWiVhbS@redhat.com>
-References: <20220222152758.207415-1-kshitij.suri@nutanix.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nMY6K-0008Lc-3D; Tue, 22 Feb 2022 11:33:21 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CMLhl+zXHli5c3ntbIVvhLg3zpeM1rcva2cTD6WKGskuj41BL1mu0KK1goQ7iL4jaAqOkqVAHodT6iX25rY/TC398E7fITogGLBVS4rOjkw6mABr/BCb6J3guqG0RFv6aWiisQXn/G00j4McGmbMPB9p/DK6mNrJXjxTLwHgk0wY7r8NF/4OLHNAXYbSA9ySPR5Mv3ZFdyjqcYG4yXDXOcBfKRNcwV8T5oE6EuF5AMOGbMBdhvuk+zXnc7ya1uDRy5t9Fsd0qI5FPZ1rBWFsPSMHMtM2/cXqMoywRDQdI0evZx3YuVPE24/jLiuc//bi9YT1i4QZ1ZKjFHAumyYHfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rYCkIsx9+bhwl6XDNZ+n+3c2V2cwQDr4V3HIXM5vypM=;
+ b=IfwCZxAnBs/C/Q0OGAtRuPEiUczOqbPdbxW0nufSAxilGLbdZvwfn78uqBZz1aHBs2Y+MbsnXr3s2a8awh5u+cL+7KqzlCk9lSaRCSHw/Nl4aVsPHrZjwXmwU/TAuGDks5OYx9iYk4IQCBCc6h5YSciURHDIUloxfTRujE/2KuyzelSYokmZdLjAbXTq+UTk1Y35jSkJ/ODDoH2AvlCTvjwhmglcbM4to3sBZ1TJxSl/WMzWuhIzNyXDPN/HXbb5Kj+GDCaZU+EAuvl27IMVvCu55rzXpJDdlbGLCSxd7EEjueoOWO3kZyXzV1TowDCe/ZQkt/bCo8Tg+Yf+82Xlrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rYCkIsx9+bhwl6XDNZ+n+3c2V2cwQDr4V3HIXM5vypM=;
+ b=BSH3qc4fRLBJjM+8HqJyM0PTxkmxJhp7oYK1Y7KuozNO8M3EUvTcO0kHbjJfsEbNqzMpkxdaD7ozNSrZxHI06/Qe9zxrpyjVXalquxTTAqTHBLnhcwvSUqwd5tvffBKmmNZFK26l1CwqldDXU3aKZLZmQyuyLmVgpC1HVOYnKGI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by DB6PR0801MB1669.eurprd08.prod.outlook.com (2603:10a6:4:30::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Tue, 22 Feb
+ 2022 16:18:49 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.5017.021; Tue, 22 Feb 2022
+ 16:18:49 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, eblake@redhat.com,
+ kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
+ nikita.lapshin@virtuozzo.com
+Subject: [PATCH v2 1/4] block/dirty-bitmap: bdrv_merge_dirty_bitmap(): add
+ return value
+Date: Tue, 22 Feb 2022 17:18:30 +0100
+Message-Id: <20220222161833.1453641-2-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220222161833.1453641-1-vsementsov@virtuozzo.com>
+References: <20220222161833.1453641-1-vsementsov@virtuozzo.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: VI1PR0401CA0023.eurprd04.prod.outlook.com
+ (2603:10a6:800:4a::33) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
-In-Reply-To: <20220222152758.207415-1-kshitij.suri@nutanix.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c3bcca1e-9799-4481-fbe5-08d9f61f01f5
+X-MS-TrafficTypeDiagnostic: DB6PR0801MB1669:EE_
+X-Microsoft-Antispam-PRVS: <DB6PR0801MB1669840EF141DCADF0FD0788C13B9@DB6PR0801MB1669.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kzJLLutTWeMuPkii1iCsSuM3Q80tuAQR5Dh2Vkk9v7ZMV+UAjXYO7HMoydJzRGXyYwrV7BzcuTXxE6jHd+ltZ62BpVhKPBIJLiXN3fsr3fBfu201ptqMVqTMhthF5d/DWS5fnwr0cL4VuXQoH5aVH1WniM16MP8grfnMHI1N4Rmt48Px7EjThkFRpLySMSwNnr7wle/9x2IpgaI8ITfU/OWX5VdCtR3H/NAKTheAVE34YOSzroFPKDjYE2Lms5OLBi3AmZVxq4ffYb1wWZCC5QmfVYQhqRvggzJxTaskfOfZYNcTxh2NpJ80EOCPO+tltQxs9ddEufxUvCJPxaxmUpXpQpjqpgCQDJSoYKeRYRf7hMIYbG0s5YUwfmN8NmmEeJW7ZEn+2ITLzatxzIoSysEBExovg5/yP1GOICU3V9lo+nitS6iJUX7OO/PPV+XVXdjumpnkpd5ph+cAA3rZzgYw2FbP7kX+SCz742nEi0f7b6B/8Ee4GcwIhgDGLdl93qjIyDW5oMlWslfHgg30S0aN6kju3/KZQKTxd19D/hd03qXIQLmlEL707EY+ImvIbVbFMFuCle77Arr9fu5lhuFNR7IXM2p9WytJLkuCeOsH4l8df/JdiujxQASQiAZ1BC/CbiZMsfHgKMou2zby/mT/MLQSits1p3RDcjE22k5Px7oiu/w1BKezi13+UIBkV7cbo2cKP0ld8eYc6WRhHV53BpGC0jewUZxw6NXL1ig=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6506007)(86362001)(6666004)(8936002)(52116002)(66946007)(6512007)(66476007)(66556008)(8676002)(38100700002)(2906002)(4326008)(38350700002)(107886003)(36756003)(2616005)(26005)(6486002)(186003)(508600001)(83380400001)(1076003)(6916009)(5660300002)(316002)(14143004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RPcvgTCyiN/w6xtaHaWhTFviKN+t0VDK47WR+NFELS7gaA/zkS05rsaQUzF6?=
+ =?us-ascii?Q?PlIz9oxQlPVa/nBxkKOYmU7AlN03luZ9k2a6E9SZl9u9NaJLvn7SvfSjDGkr?=
+ =?us-ascii?Q?26QGqU0x6o/L9oKv7qUJxW1k/UnRTgW56lsoF3ee9n6R8uz4W9dkAFUfD/Oj?=
+ =?us-ascii?Q?ke1ZQS2tPLLZH6TLrGSJco9IN22p46Bclo2JpogRHpCSdEb7yqx5ErvM7fST?=
+ =?us-ascii?Q?rubWFCqJkfpiFN48z68LR1TQ1+5KehQSXbKf38orEThjQofWm8n4DdXK24/F?=
+ =?us-ascii?Q?I4kIxX9nMtimwciH8RXBKRv2M6TeChE0zdpJaFILvq/ZqIHGYOp5V85i3vfe?=
+ =?us-ascii?Q?a4Q29N8h0+QDd0jmTxu34/7ZNnhninzJZbdeRcsdx6ZgpCtAONgrXmE83vGG?=
+ =?us-ascii?Q?ZJ9/MhWy3HiaW8Eczx9y6Sn0mlN0wYooiGgOSvQhTJpqOcHW3ycI8zXlLL2E?=
+ =?us-ascii?Q?VY16/lhG0F2jgBhBjsPK0VUxz0DeGhNGemzW0Cmgi5tVhC6JKfOTDifZ9l4t?=
+ =?us-ascii?Q?FSjcs89+d/ZtFYjC+2DlCu5OhSW/GwImnYRVfafWW0TJkxoVk7Gf8A+c0MOz?=
+ =?us-ascii?Q?jqSCOO4h/O7bVupK5cyXW840EMTEzmJz4kizNkrv8rw0tcAyMojirr1G6ZUe?=
+ =?us-ascii?Q?FxePpDns4LP5cyqe6bbGP6f0avz8NQIS1oP+ZM3tamv5/kiYl6ftDMPhswpX?=
+ =?us-ascii?Q?VRKEy7ESI2V6ajxGGnjgSWZy3j8/0LDg6Fa/jVytAebn/4VO1IqU1E3SG5aE?=
+ =?us-ascii?Q?m3wmMHV90tVBtdjJvpsQ/Z2eJs8KjN31kUGniWPJfwhXioCKfoWc5anBA8/R?=
+ =?us-ascii?Q?VPlpal5EPPDKzmEvjMLGQEv2rXOsfEXvIdZL4PT0BzlMRT3CodYFTtPLsLzf?=
+ =?us-ascii?Q?GZ5OV6fBv9QxpuzBArGx5eP3iMq4n8eagl9XS+ySOK7E+1EqhBgWFG4oAUtB?=
+ =?us-ascii?Q?/iOpeFa5GogUkSfYMZ79IgrTLuG1Sjydqx9epM08RkC7aNlS3zTWkzD27ZKJ?=
+ =?us-ascii?Q?ygpvYzXVhObbso4DrbB6g02wDgdyhC6TFFSwnRdb3CzA38R1DZZSKPWDiZFN?=
+ =?us-ascii?Q?jJyJ3NPOoVp/yf7HEAzbKRqgjOOLcYk3SV2ELoQTYtQFTEyaosql3dPCEzl4?=
+ =?us-ascii?Q?Mg4oQVsrYXdqvStyR+ea35y54zmOf06F8odYzD0szxV4BRBrvrbeSh9l/x44?=
+ =?us-ascii?Q?Qz8023C+eJrf1+18aZbL9BuiY8WCKWBuq4l9Kt7MrSJDqJ1oTqk64frJUqci?=
+ =?us-ascii?Q?tIjtlcpYQe8BemDUkzttUY2vyMyQZedq0YcqMtg7ra9v7dC7q4nWMoUlRmvL?=
+ =?us-ascii?Q?izWLCOXxl2+Lxvl9TNOFwAw0ofPm0GTNfLcT/C7LsNcg/5yo0tFmsDgItYti?=
+ =?us-ascii?Q?at3SSi7Cc+dKxyW0R7mMSh+iQXZzLW/DMIKzNoZRDyWhPEx1IxMHQWckVBOs?=
+ =?us-ascii?Q?yrDGQR9tK5K4/uYCukOjzkavDHxM97yaKsv8tDsdr6K5s25HsZYN0O6YpT2N?=
+ =?us-ascii?Q?axHkbpSICgSrN4II9Dghva42CzjhpUSRFpRM8okcsV6jhDE+E3CWd+UsfPL4?=
+ =?us-ascii?Q?8sUqIHo6jiB+JCAd9VpHgXQG9RBgqhioor1PraXk+MODEcXyNAoBUGOaa/Ii?=
+ =?us-ascii?Q?UUjxXD1fBslhs2QiSJefp3vnpc5CMI1IsLwBClKzDM/y99HN779ARdNfF5oO?=
+ =?us-ascii?Q?y4IMOmpYE25CEqfko6Cnowham9U=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3bcca1e-9799-4481-fbe5-08d9f61f01f5
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2022 16:18:48.9608 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gh5bj9EedVY4v5+AmzOCiIzEHiAg+qLuS/rTPBoBvYPZklYVyvUxMDNA2eNLy4g+beZVndL0C81Fy0nhRcdxCY8tAOr6qdhf+Q8MwlEKR7w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0801MB1669
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e1b::71b
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f400:7e1b::71b;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,292 +139,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: soham.ghosh@nutanix.com, thuth@redhat.com, prerna.saxena@nutanix.com,
- armbru@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, eblake@redhat.com,
- dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 22, 2022 at 03:27:58PM +0000, Kshitij Suri wrote:
-> Currently screendump only supports PPM format, which is un-compressed and not
-> standard. Added an "format" parameter to qemu monitor screendump capabilites
-> to support PNG image capture using libpng. The param was added in QAPI schema
-> of screendump present in ui.json along with png_save() function which converts
-> pixman_image to PNG. HMP command equivalent was also modified to support the
-> feature.
-> 
-> Example usage:
-> { "execute": "screendump", "arguments": { "filename": "/tmp/image", "format":"png" } }
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/718
-> 
-> Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
-> ---
->  hmp-commands.hx    |  11 ++--
->  monitor/hmp-cmds.c |   4 +-
->  qapi/ui.json       |   7 ++-
->  ui/console.c       | 153 ++++++++++++++++++++++++++++++++++++++++++++-
->  4 files changed, 165 insertions(+), 10 deletions(-)
+That simplifies handling failure in existing code and in further new
+usage of bdrv_merge_dirty_bitmap().
 
-You're going to need to update configure here.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+---
+ include/block/dirty-bitmap.h    | 2 +-
+ block/dirty-bitmap.c            | 9 +++++++--
+ block/monitor/bitmap-qmp-cmds.c | 5 +----
+ 3 files changed, 9 insertions(+), 7 deletions(-)
 
-Currently libpng is only detected if VNC is enabled.
-
-This proposed change means we need to detect libpng
-any time the build of system emulators is enabled.
-
-The CONFIG_VNC_PNG option will also need renaming
-to CONFIG_PNG
-
-> +        .args_type  = "filename:F,device:s?,head:i?,format:f?",
-> +        .params     = "filename [device [head]] [format]",
-> +        .help       = "save screen from head 'head' of display device 'device'"
-> +                      "in specified format 'format' as image 'filename'."
-> +                      "Default format for screendump is PPM.",
-
-Mention what other formats are permitted, making it clear that
-the format is in fact 'png' and 'ppm', not 'PPM'
-
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 9354f4c467..9fdb56b60b 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -76,7 +76,7 @@
->  ##
->  # @screendump:
->  #
-> -# Write a PPM of the VGA screen to a file.
-> +# Write a screenshot of the VGA screen to a file.
->  #
->  # @filename: the path of a new PPM file to store the image
->  #
-> @@ -87,6 +87,9 @@
->  #        parameter is missing, head #0 will be used. Also note that the head
->  #        can only be specified in conjunction with the device ID. (Since 2.12)
->  #
-> +# @format: image format for screendump is specified. Currently only PNG and
-> +#             PPM are supported.
-> +#
->  # Returns: Nothing on success
->  #
->  # Since: 0.14
-> @@ -99,7 +102,7 @@
->  #
->  ##
->  { 'command': 'screendump',
-> -  'data': {'filename': 'str', '*device': 'str', '*head': 'int'},
-> +  'data': {'filename': 'str', '*device': 'str', '*head': 'int', '*format': 'str'},
-
-This 'format' should not be a string, it needs to be an enum type.
-
->    'coroutine': true }
->  
->  ##
-> diff --git a/ui/console.c b/ui/console.c
-> index 40eebb6d2c..7813b195ac 100644
-> --- a/ui/console.c
-> +++ b/ui/console.c
-> @@ -37,6 +37,9 @@
->  #include "exec/memory.h"
->  #include "io/channel-file.h"
->  #include "qom/object.h"
-> +#ifdef CONFIG_VNC_PNG
-> +#include "png.h"
-> +#endif
->  
->  #define DEFAULT_BACKSCROLL 512
->  #define CONSOLE_CURSOR_PERIOD 500
-> @@ -289,6 +292,137 @@ void graphic_hw_invalidate(QemuConsole *con)
->      }
->  }
->  
-> +#ifdef CONFIG_VNC_PNG
-> +/**
-> + * a8r8g8b8_to_rgba: Convert a8r8g8b8 to rgba format
-> + *
-> + * @dst: Destination pointer.
-> + * @src: Source pointer.
-> + * @n_pixels: Size of image.
-> + */
-> +static void a8r8g8b8_to_rgba(uint32_t *dst, uint32_t *src, int n_pixels)
-> +{
-> +    uint8_t *dst8 = (uint8_t *)dst;
-> +    int i;
-> +
-> +    for (i = 0; i < n_pixels; ++i) {
-> +        uint32_t p = src[i];
-> +        uint8_t a, r, g, b;
-> +
-> +        a = (p & 0xff000000) >> 24;
-> +        r = (p & 0x00ff0000) >> 16;
-> +        g = (p & 0x0000ff00) >> 8;
-> +        b = (p & 0x000000ff) >> 0;
-> +
-> +        if (a != 0) {
-> +            #define DIVIDE(c, a) \
-> +            do { \
-> +                int t = ((c) * 255) / a; \
-> +                (c) = t < 0 ? 0 : t > 255 ? 255 : t; \
-> +            } while (0)
-> +
-> +            DIVIDE(r, a);
-> +            DIVIDE(g, a);
-> +            DIVIDE(b, a);
-> +            #undef DIVIDE
-> +        }
-> +
-> +        *dst8++ = r;
-> +        *dst8++ = g;
-> +        *dst8++ = b;
-> +        *dst8++ = a;
-> +    }
-> +}
-> +
-> +/**
-> + * png_save: Take a screenshot as PNG
-> + *
-> + * Saves screendump as a PNG file
-> + *
-> + * Returns true for success or false for error.
-> + * Inspired from png test utils from https://github.com/aseprite/pixman
-> + *
-> + * @fd: File descriptor for PNG file.
-> + * @image: Image data in pixman format.
-> + * @errp: Pointer to an error.
-> + */
-> +static bool png_save(int fd, pixman_image_t *image, Error **errp)
-> +{
-> +    int width = pixman_image_get_width(image);
-> +    int height = pixman_image_get_height(image);
-> +    int stride = width * 4;
-> +    g_autofree uint32_t *src_data = g_malloc(height * stride);
-> +    g_autofree uint32_t *dest_data = g_malloc(height * stride);
-> +    g_autoptr(pixman_image_t) src_copy;
-> +    g_autoptr(pixman_image_t) dest_copy;
-> +    g_autofree png_struct *write_struct;
-> +    g_autofree png_info *info_struct;
-
-Anything declared with 'g_auto*' must always be explicitly initialized
-to NULL at time of declaration to avoid risk of gree'ing uninitialized
-memory
-
-> +    g_autofree png_bytep *row_pointers = g_malloc(height * sizeof(png_bytep));
-
-g_new(png_bytep, height) 
-
-> +    FILE *f = fdopen(fd, "wb");
-> +    int y;
-> +    if (!f) {
-> +        error_setg(errp, "Failed to create file from file descriptor");
-> +        return false;
-> +    }
-> +
-> +    src_copy = pixman_image_create_bits(PIXMAN_a8r8g8b8, width, height,
-> +                                        src_data, stride);
-> +
-> +    pixman_image_composite32(PIXMAN_OP_SRC, image, NULL, src_copy, 0, 0, 0, 0,
-> +                             0, 0, width, height);
-> +
-> +    memcpy(dest_data, src_data, sizeof(*src_data));
-> +
-> +    a8r8g8b8_to_rgba(dest_data, src_data, height * width);
-> +
-> +    for (y = 0; y < height; ++y) {
-> +        row_pointers[y] = (png_bytep)(src_data + y * width);
-> +    }
-> +
-> +    write_struct = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL,
-> +                                                 NULL, NULL);
-> +    if (!write_struct) {
-> +        error_setg(errp, "PNG creation failed. Unable to write struct");
-> +        return false;
-> +    }
-> +
-> +    info_struct = png_create_info_struct(write_struct);
-> +
-> +    if (!info_struct) {
-> +        error_setg(errp, "PNG creation failed. Unable to write info");
-> +        return false;
-> +    }
-> +
-> +    png_init_io(write_struct, f);
-> +
-> +    png_set_IHDR(write_struct, info_struct, width, height, 8,
-> +                 PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
-> +                 PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-> +
-> +    png_write_info(write_struct, info_struct);
-> +
-> +    png_write_image(write_struct, row_pointers);
-> +
-> +    png_write_end(write_struct, NULL);
-> +
-> +    if (fclose(f) != 0) {
-> +        error_setg(errp, "PNG creation failed. Unable to close file");
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
-> +#else /* no png support */
-> +
-> +static bool png_save(int fd, pixman_image_t *image, Error **errp)
-> +{
-> +    error_setg(errp, "Enable VNC PNG support for png screendump");
-> +    return false;
-> +}
-> +
-> +#endif /* CONFIG_VNC_PNG */
-> +
->  static bool ppm_save(int fd, pixman_image_t *image, Error **errp)
->  {
->      int width = pixman_image_get_width(image);
-> @@ -327,7 +461,8 @@ static void graphic_hw_update_bh(void *con)
->  /* Safety: coroutine-only, concurrent-coroutine safe, main thread only */
->  void coroutine_fn
->  qmp_screendump(const char *filename, bool has_device, const char *device,
-> -               bool has_head, int64_t head, Error **errp)
-> +               bool has_head, int64_t head, bool has_format,
-> +               const char *format, Error **errp)
->  {
->      g_autoptr(pixman_image_t) image = NULL;
->      QemuConsole *con;
-> @@ -383,8 +518,22 @@ qmp_screendump(const char *filename, bool has_device, const char *device,
->       * yields and releases the BQL. It could produce corrupted dump, but
->       * it should be otherwise safe.
->       */
-> -    if (!ppm_save(fd, image, errp)) {
-> +
-> +    if (has_format && strcmp(format, "png") == 0) {
-> +        /* PNG format specified for screendump */
-> +        if (!png_save(fd, image, errp)) {
-> +            qemu_unlink(filename);
-> +        }
-> +    } else if (!has_format || (has_format && strcmp(format, "ppm") == 0)) {
-> +        /* PPM format specified/default for screendump */
-> +        if (!ppm_save(fd, image, errp)) {
-> +            qemu_unlink(filename);
-> +        }
-> +    } else {
-> +        /* Invalid specified for screendump */
-> +        error_setg(errp, "Invalid format provided for screendump.");
->          qemu_unlink(filename);
-> +        return;
->      }
->  }
->  
-> -- 
-> 2.22.3
-> 
-> 
-
-Regards,
-Daniel
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index 40950ae3d5..f95d350b70 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -77,7 +77,7 @@ void bdrv_dirty_bitmap_set_persistence(BdrvDirtyBitmap *bitmap,
+                                        bool persistent);
+ void bdrv_dirty_bitmap_set_inconsistent(BdrvDirtyBitmap *bitmap);
+ void bdrv_dirty_bitmap_set_busy(BdrvDirtyBitmap *bitmap, bool busy);
+-void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
++bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
+                              HBitmap **backup, Error **errp);
+ void bdrv_dirty_bitmap_skip_store(BdrvDirtyBitmap *bitmap, bool skip);
+ bool bdrv_dirty_bitmap_get(BdrvDirtyBitmap *bitmap, int64_t offset);
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 0ef46163e3..94a0276833 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -880,11 +880,14 @@ bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
+  * Ensures permissions on bitmaps are reasonable; use for public API.
+  *
+  * @backup: If provided, make a copy of dest here prior to merge.
++ *
++ * Returns true on success, false on failure. In case of failure bitmaps are
++ * untouched.
+  */
+-void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
++bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
+                              HBitmap **backup, Error **errp)
+ {
+-    bool ret;
++    bool ret = false;
+ 
+     bdrv_dirty_bitmaps_lock(dest->bs);
+     if (src->bs != dest->bs) {
+@@ -912,6 +915,8 @@ out:
+     if (src->bs != dest->bs) {
+         bdrv_dirty_bitmaps_unlock(src->bs);
+     }
++
++    return ret;
+ }
+ 
+ /**
+diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
+index 9f11deec64..83970b22fa 100644
+--- a/block/monitor/bitmap-qmp-cmds.c
++++ b/block/monitor/bitmap-qmp-cmds.c
+@@ -259,7 +259,6 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+     BlockDriverState *bs;
+     BdrvDirtyBitmap *dst, *src, *anon;
+     BlockDirtyBitmapMergeSourceList *lst;
+-    Error *local_err = NULL;
+ 
+     dst = block_dirty_bitmap_lookup(node, target, &bs, errp);
+     if (!dst) {
+@@ -297,9 +296,7 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+             abort();
+         }
+ 
+-        bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++        if (!bdrv_merge_dirty_bitmap(anon, src, NULL, errp)) {
+             dst = NULL;
+             goto out;
+         }
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
 
 
