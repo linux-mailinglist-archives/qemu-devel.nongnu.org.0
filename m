@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC23C4C0580
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 00:45:36 +0100 (CET)
-Received: from localhost ([::1]:37444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A684C058D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 00:50:20 +0100 (CET)
+Received: from localhost ([::1]:40986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMeqd-0004bm-CT
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 18:45:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39636)
+	id 1nMevD-0007PE-Qm
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 18:50:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMepF-0003l9-Qu
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 18:44:09 -0500
-Received: from [2607:f8b0:4864:20::436] (port=38737
- helo=mail-pf1-x436.google.com)
+ id 1nMetG-0006WC-R7
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 18:48:18 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=43886
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMepC-0003Mg-I8
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 18:44:09 -0500
-Received: by mail-pf1-x436.google.com with SMTP id x18so13650086pfh.5
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 15:43:51 -0800 (PST)
+ id 1nMetE-0004sN-0W
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 18:48:18 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ iq13-20020a17090afb4d00b001bc4437df2cso1093300pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 15:48:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ouPWHxmmd0e7tXDWxOYhV3NPGB6VPAXh5IvkyATDUkg=;
- b=nQLxD6oR1rWhDBaHEXgtpiYudW1ogruwogDrqF0IWgHObaXy/WzN7ZxBtsq0rscM07
- RPQubcZneBm2YxhR1o8S5fuNqlqV2kO6/qBhozkpgGC58FYPnQTfmiuZsAvj1P8uMw8x
- +hwGQFFzQJng3fVX0VgMfm1Dt/mMld/LmRm/Xz/KQqhpW9AbEVfP1NH5EEW+Z6M0rLYw
- 0eAwZLY6FEXIJPBmEFYMF/GjXG1hKI18sW4mPmagxVok87SDNKRBf8Y+OWUrrW2EsQCu
- hs/k23FP1FMHBmabGrFTNZQEy0baDNLVZdGR4MJ+A+cd8bSJc3cDhKGUbGS9qjOfszrP
- ok3g==
+ bh=mXZ02MqhMAWk1cJgZJJPbeVj9Wi7KteYziG185g8Tzc=;
+ b=AGdQ/3/289VIBq5pIGZ9aSNHD0+AJS/gJji0EjHtAnIh72TE+GrKIwiYQFPJFBCBog
+ GMQ8Bic2Mh/xQ/5PSOqdP3onfK914NBg+E2DuOknp2mVmJtRvrgrEZC05Tb9gg7c0IM0
+ MuhhY6n5pgk4HKpuvu5GTjk9fXFk3Tp/hiuZMqczKEm+hH58ajENtusriIwS4KWg3inX
+ NWzsIYdjcaLvy1b83YSKNSVtqhdMBVZJ/0FeNZ8etSpArJF5zFmSR6eBezkVVcTOXBTt
+ O49m8rz4p264uk7THtPBTtTDnv2MiRjndrmxYvaRjn50DuEIAs+uCPq8HsC8KjMRe94E
+ eUgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ouPWHxmmd0e7tXDWxOYhV3NPGB6VPAXh5IvkyATDUkg=;
- b=St0Tjwe7IJmBRPk09tikKUeoG6uAbpA7xEl+STGh1n6p9szPnZg71ieUv3GbFSLplO
- 5bdUiAIBbNYKD5bhrKvITDsynXCMWf1i2loWasCi6nSXDQBYwXwNcBNFM2C4V150RA2K
- yIeM0lUKGmlX9Xj/uvwrCyvyIAO5Ft039+51CP/S2kPsFgL2fnwQKbimCVBhmjT0lYbl
- R+/Ktx28avCNtsibRlZLQ2NHn7hJH/62Z/wUpcW7mKoHuOxDdtA0/+2lAyLghHo5QB3R
- 4a4USg+65CzC2sXYPhgfADVfHy60Ekvf8HnSQgvBSIctkVMgvYHObGx1GGkpgzxB+fHx
- UzmA==
-X-Gm-Message-State: AOAM532wxUdK6gd7jlmoi1bQ/L0szTynwPBwLVD8YCmHhAPlQVTpjrSh
- V/q6GW5E6kG87x7f9QCZGCb8gA==
-X-Google-Smtp-Source: ABdhPJxBzwfJDVh1eelfT9nRzEksgPzBGajPUO13Sy1Y9TRCnnvgvFryk+m/dp/RZYNfxrjpnDMAEA==
-X-Received: by 2002:a63:130a:0:b0:372:e02a:5010 with SMTP id
- i10-20020a63130a000000b00372e02a5010mr21259374pgl.144.1645573430197; 
- Tue, 22 Feb 2022 15:43:50 -0800 (PST)
+ bh=mXZ02MqhMAWk1cJgZJJPbeVj9Wi7KteYziG185g8Tzc=;
+ b=IT3LmZ1iiyvg/VhT1M+1XKuN1GaqK1JHWc0w93WIGOVq9ZGZeGmiIL2GuyK67nI/ug
+ RhV7azFGZ06m/5OcR5QRI8xknN6T/q4Jaiu6LNOIsMUW5EF/cOybi0Z16g0Cv+hagbj2
+ 13muHUHoipxc2IOkuvYNjRc2b51QfyoNFk28KSF3K4Kmw3VJTMOyum96ABGsHqRrzFz2
+ saCghYF0Wh3OcZcaefrsq8jWRsEuLaUBxn5Tk/PEdZ9VDTilVxbfIuRgX1BmgXzuZlxq
+ M1Tjac6EL546HP2qSVK1+xiU8bB8tA3xw3E4VmXqCg5ObpBBSkkWmEex8SpaYR0aoQOf
+ brDA==
+X-Gm-Message-State: AOAM531Wg2EQDzzOp9ed33DRaThXHGfJef84i56WJ5g7KnHaWnNdS7nx
+ f1Gtp3T8YAZ0VMIYTIf9Z4uV1w==
+X-Google-Smtp-Source: ABdhPJySI4PW+o/5OWdcMmbyeWZySRwNPvDxT85Yfgl0OqjWKPzL6qeBwfSK/N2AmonZcrdnpksrtQ==
+X-Received: by 2002:a17:90b:228a:b0:1bc:7ca4:efaf with SMTP id
+ kx10-20020a17090b228a00b001bc7ca4efafmr4271806pjb.245.1645573694771; 
+ Tue, 22 Feb 2022 15:48:14 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110])
- by smtp.gmail.com with ESMTPSA id ck20sm711141pjb.27.2022.02.22.15.43.48
+ by smtp.gmail.com with ESMTPSA id f7sm14635768pfv.93.2022.02.22.15.48.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 15:43:49 -0800 (PST)
-Message-ID: <338d0236-8ced-6a15-a3d3-d1a7993fff3f@linaro.org>
-Date: Tue, 22 Feb 2022 13:43:45 -1000
+ Tue, 22 Feb 2022 15:48:14 -0800 (PST)
+Message-ID: <ab9f3513-a9ff-110d-44d9-4989276c4661@linaro.org>
+Date: Tue, 22 Feb 2022 13:48:11 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 32/47] target/ppc: Implement xxeval
+Subject: Re: [PATCH v4 33/47] target/ppc: Implement xxgenpcv[bhwd]m instruction
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
- <20220222143646.1268606-33-matheus.ferst@eldorado.org.br>
+ <20220222143646.1268606-34-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220222143646.1268606-33-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220222143646.1268606-34-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,45 +100,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/22/22 04:36, matheus.ferst@eldorado.org.br wrote:
-> +    tcg_gen_movi_i64(disj, 0);
+> +#define XXGENPCV(NAME, SZ) \
+> +void helper_##NAME(ppc_vsr_t *t, ppc_vsr_t *b, target_ulong imm)            \
+> +{                                                                           \
+> +    ppc_vsr_t tmp = { .u64 = { 0, 0 } };                                    \
+> +                                                                            \
+> +    switch (imm) {                                                          \
 
-The init here means there's one more OR generated than necessary.  Though perhaps it gets 
-folded away...
-
-> +
-> +    /* Iterate over set bits from the least to the most significant bit */
-> +    while (imm) {
-> +        /*
-> +         * Get the next bit to be processed with ctz64. Invert the result of
-> +         * ctz64 to match the indexing used by PowerISA.
-> +         */
-> +        bit = 7 - ctz64(imm);
-> +        if (bit & 0x4) {
-> +            tcg_gen_mov_i64(conj, a);
-> +        } else {
-> +            tcg_gen_not_i64(conj, a);
-> +        }
-> +        if (bit & 0x2) {
-> +            tcg_gen_and_i64(conj, conj, b);
-> +        } else {
-> +            tcg_gen_andc_i64(conj, conj, b);
-> +        }
-> +        if (bit & 0x1) {
-> +            tcg_gen_and_i64(conj, conj, c);
-> +        } else {
-> +            tcg_gen_andc_i64(conj, conj, c);
-> +        }
-> +        tcg_gen_or_i64(disj, disj, conj);
-> +
-> +        /* Unset the least significant bit that is set */
-> +        imm &= imm - 1;
-
-I guess this works, though it's not nearly optimal.
-It's certainly a good fallback for the out-of-line function.
-
-Table 145 has the folded equivalent functions.  Implementing all 256 of them as is, twice, 
-for both i64 and vec could be tedious.  But we could cherry-pick the easiest, or most 
-commonly used, or something, and let all other imm values go through to out-of-line function.
+You should split the helper and not pass down imm.
 
 
 r~
