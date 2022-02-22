@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F54D4BFED9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:35:20 +0100 (CET)
-Received: from localhost ([::1]:41996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 358D74BFE52
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:19:06 +0100 (CET)
+Received: from localhost ([::1]:37026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMY8E-00076g-N7
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:35:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40890)
+	id 1nMXsW-0002B0-Hb
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:19:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMXq7-0007tp-2T; Tue, 22 Feb 2022 11:16:35 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:57123)
+ id 1nMXq8-0007y3-H4; Tue, 22 Feb 2022 11:16:36 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:53079)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMXq4-0005Wm-Rd; Tue, 22 Feb 2022 11:16:34 -0500
+ id 1nMXq6-0005Y3-OS; Tue, 22 Feb 2022 11:16:36 -0500
 Received: from quad ([82.142.17.50]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M5gAG-1nKuCe2uLq-007DA8; Tue, 22
- Feb 2022 17:16:26 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N0nOF-1o7mrm1QUn-00wpmZ; Tue, 22
+ Feb 2022 17:16:27 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] Trivial branch for 7.0 patches
-Date: Tue, 22 Feb 2022 17:16:17 +0100
-Message-Id: <20220222161624.382218-1-laurent@vivier.eu>
+Subject: [PULL 1/7] configure: Disable capstone and slirp in the
+ --without-default-features mode
+Date: Tue, 22 Feb 2022 17:16:18 +0100
+Message-Id: <20220222161624.382218-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220222161624.382218-1-laurent@vivier.eu>
+References: <20220222161624.382218-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:lIchfWVqWlloEWuyT7oRKUpfhQjWAH/4SF5AhCztBezyvfWgTje
- dUe+ucHeixFH2pxA4D+Cs0175kmwMpBl5eh3V+9rBlsXD6YMfNOlvZTbeRt2qpJsTMLJ1vP
- XlN6MuBC0QAoBs+rV/gxHn1hGItXCn7qGS3AfR2lAfC+eE1qPbnaERYDV9gD2fqH1S0Tj0j
- uNjjSC/4+nwOXOPhRLhRA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xyJSD4xIq+E=:zgxJg7ll+5JncH7NRfc4Ua
- 0iLkHuaINFIzWwUU3VlNzY1uCq7gmCRp30loFjxR2dcgSKY6DLkeVahh+v8dRQZC0kyhMHz4D
- xLbwM/ASbsdExMOcym7Z1vurKzhYElcogAOf/yY+zgn+5F66xuD0Wj9MCk9EJmWfQ0r9f19E4
- r8On9bRibAa2p+T80nTraBLS7sZZuVdewcTQImDM+29k7qdj/ga6aiCtNoLH+l3JnRDEuDqXa
- jf3dAYTKhEaBGa8RNYlxAOxZ26vzp7wJVRUivJoH+Mj53LfprIzRYlekJNs0fFFkHgcm58y6i
- VnQG1sqcwTrSCEroTm6PQkeGhJVUy5ef8jyN+7c75ZP9n4puTzifRJ6UhwrhMdg0Zo9iWpgST
- P7fLpB6v0h7/9lpemt3SMej84LyyLyKUW3gD+Qx3jrcO4ymtOf9WoHOSJ2HYEeH13D5pnRInz
- k/b5PdUOP8Jr4z00XFDGeJLjVDTwxMWxdd/WHNKS9IKZzkz3z+ZKGH93mPD5azxV409EI/kko
- Xzgg9iSXFnyzrCO8b0bxulJwAYwHRnIxJSEsc0WXV5mMj3F+c/f2oojEjgMnJzw0HHPW15vii
- bxGO0v9yxve1lw/0nEAvmX5zTGsSaLv+tka6E1beN7cguoLioK0Ry0akLiXVS5gt0Z5/bswbA
- XvuPKSsvggm6OIsCMb9PMdyPVzi3XhGVuYfTYtA3Q8yu83OGFJGSCN/KbWIIrQPoyCck=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:jmiTSf0P/ZR2i25ZYJVT5r+IhDLNzMuFV+yrUmRkkmJAIoJ01nO
+ C5W0hSdwu43PbJctNt7yjvm8eN+IBflsyfkAWSCz+xAXDY1oJjO7ALI5ugat2E1GUBRzu0B
+ vWUk0GPL2T0eIuk19joHWl1erCKlb78mtAuBpUUBc1tXrrFOGnXsTevYpGVZvgZxAhS0qcf
+ VslxWW3YLEprh2wdKpVEw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2hJqmHtnbFk=:W5YJ4YAvU3LvPWOhFCl2QO
+ iaEHRX19T57IA/pIGF+usD3Wa4Bp8BTBxOAEGQTdKfUF4fqhpGszG8O0KBRu061zOuUkQ5fmN
+ cKUkpeG7VszAhGCKTtarHhWwV4od+bg3zmKc+x4AHU0rBS1pG5meK7sdQsH6q6W3vSxn1Chdz
+ T1djLgAnXkzZ1KEztVqjw1ciohApntV0wj0BvlS84u2lvhXkq2RTHI6RNDi+ehol6HMEsJZqN
+ wljxs2XTla9FqxGIQptqGyetXVnx1Hi4lLd9QNVyR9ezV2PNLZQTyO9v4hWeNLBukwkCB7SdT
+ x77KeVwhLnd4/8+7fF5lp1IGGZJQXfM9DrQ2NfVeEJ46VU8QneEHOSJa5yoTNCpWv1Ql2G85A
+ da6BqFWI1PKxgJt0eELD6fw7ArN4Y484wvy06WoqnLCxCi4GSiuo14o7O9uq8mulPW8Z5ox3A
+ jdxSiFFvPvj4LhKuJWTEdgBLp4lj4Y2ZQC0O+J+XwzX6EltzJNQwmyo8NmcQ9a7as1KvjwrL4
+ //Y7l5XRNIgxB73y43lixZv4SnvJzFUSGBDlfsi6VTHQer9SJJZumDZ6IfI2Qass6l12soJQx
+ LdxR1yQzDzePN2ouYekqJ4e9sDGqWOPeOGIZ48yakAADVNb7BBjPk/cME8YKJXLlig//Nf6ey
+ eWRLe3Uc22nlQVNNUfkW08mQrpscIKvP4QZej2j1N1/btqJhPejXyXakW+HTX+lF8Mgg=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,62 +66,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e670f6d825d4dee248b311197fd4048469d6772b=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220218' in=
-to staging (2022-02-20 15:05:41 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.0-pu=
-ll-request=0D
-=0D
-for you to fetch changes up to 1e2d555846226a9e5fb1052fe8ba6f30480f33a9:=0D
-=0D
-  hid: Implement support for side and extra buttons (2022-02-22 17:15:36 +0=
-100)=0D
-=0D
-----------------------------------------------------------------=0D
-Trivial branch pull request 20220222=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Eugenio P=C3=A9rez (1):=0D
-  vdpa: Make ncs autofree=0D
-=0D
-Laurent Vivier (1):=0D
-  qemu-options: fix incorrect description for '-drive index=3D'=0D
-=0D
-Noah Bergbauer (1):=0D
-  hid: Implement support for side and extra buttons=0D
-=0D
-Patrick Venture (1):=0D
-  hw/nvram: use at24 macro=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  target/avr: Correct AVRCPUClass docstring=0D
-  target/rx: Remove unused ENV_OFFSET definition=0D
-=0D
-Thomas Huth (1):=0D
-  configure: Disable capstone and slirp in the=0D
-    --without-default-features mode=0D
-=0D
- configure               | 9 +++++++--=0D
- hw/input/hid.c          | 2 ++=0D
- hw/nvram/eeprom_at24c.c | 2 +-=0D
- hw/usb/dev-hid.c        | 6 +++---=0D
- net/vhost-vdpa.c        | 5 ++---=0D
- qemu-options.hx         | 2 +-=0D
- target/avr/cpu-qom.h    | 1 -=0D
- target/rx/cpu.h         | 2 --=0D
- 8 files changed, 16 insertions(+), 13 deletions(-)=0D
-=0D
--- =0D
-2.35.1=0D
-=0D
+From: Thomas Huth <thuth@redhat.com>
+
+For the users, it looks a little bit weird that capstone and slirp are
+not disabled automatically if they run the configure script with the
+"--without-default-features" option, so let's do that now.
+Note: fdt is *not* changed accordingly since this affects the targets
+that we can build, so disabling fdt automatically here might have
+unexpected side-effects for the users.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20220221090647.150184-1-thuth@redhat.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ configure | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/configure b/configure
+index 3a29eff5cc16..36d10d95bba8 100755
+--- a/configure
++++ b/configure
+@@ -361,9 +361,14 @@ slirp_smbd="$default_feature"
+ # are included in the automatically generated help message)
+ 
+ # 1. Track which submodules are needed
+-capstone="auto"
++if test "$default_feature" = no ; then
++  capstone="disabled"
++  slirp="disabled"
++else
++  capstone="auto"
++  slirp="auto"
++fi
+ fdt="auto"
+-slirp="auto"
+ 
+ # 2. Support --with/--without option
+ default_devices="true"
+-- 
+2.35.1
+
 
