@@ -2,107 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176784BF21A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 07:31:05 +0100 (CET)
-Received: from localhost ([::1]:39424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB164BF245
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 07:57:02 +0100 (CET)
+Received: from localhost ([::1]:48770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMOhT-0001hu-Kw
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 01:31:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40012)
+	id 1nMP6b-0000t5-Cw
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 01:57:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1nMOfO-0000aZ-6D
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 01:28:54 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59834
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1nMOfL-0003B4-QR
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 01:28:53 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21M5BkvE015031; 
- Tue, 22 Feb 2022 06:28:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=qX6al6JoX2dEAl60UcgfyJq8F/c6WxmG/ShdOdTHn4Y=;
- b=T1jTMbxVJrrhLsnlEGJU8som5Vw17rnX57hIgQaX5Kzmu6rCYJqVXe/hGUO6bF8TesOY
- OCC0duWSXfyrtyu1VNPuh5tPmryCW1kThlGq5WklikU2kqvEmIcUnmVT7GV1cGa+S0Tv
- u+iDE5UtMdvaxXRggHTvpuM1sZHJZ5t5HESpXlFE3qi3YfP6NtKtAk4KvR8TLNhGCAf9
- n+b6MEoqYWchPzReqZpNe0wNlKNRkFmaO/2WahIQLtX+2OU6QFKZkTCB1gikwn5aY/b9
- xDawsagfpfiVA2mPQTNHWzbNSFlJ4DEDsZJh+IFY2+kYa2jDsjjkael9Pr1rAcNn/R/y Xg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ecsfc9ewd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 22 Feb 2022 06:28:41 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21M6Gdt5025133;
- Tue, 22 Feb 2022 06:28:41 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ecsfc9ew4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 22 Feb 2022 06:28:41 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21M6DNn8017118;
- Tue, 22 Feb 2022 06:28:40 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma02dal.us.ibm.com with ESMTP id 3ear6a4kr2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 22 Feb 2022 06:28:40 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21M6SXjE33620466
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 22 Feb 2022 06:28:33 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C00596A04F;
- Tue, 22 Feb 2022 06:28:33 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D0E066A05F;
- Tue, 22 Feb 2022 06:28:30 +0000 (GMT)
-Received: from [9.160.8.241] (unknown [9.160.8.241])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 22 Feb 2022 06:28:30 +0000 (GMT)
-Message-ID: <f83d9b15-f90f-78fc-d7fe-0df5282630f7@linux.ibm.com>
-Date: Tue, 22 Feb 2022 08:28:29 +0200
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMP5U-000088-Q5
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 01:55:52 -0500
+Received: from [2607:f8b0:4864:20::435] (port=37571
+ helo=mail-pf1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMP5S-0007RN-IW
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 01:55:52 -0500
+Received: by mail-pf1-x435.google.com with SMTP id y5so11024400pfe.4
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 22:55:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=vSJ7tv3YYNS51ayN48j27RQsxEIx8KFDC9sG6CYby4U=;
+ b=4F2Dl0upj4EMXDh6260U0QVTacbthxCn/AxAXRLU28d1eeAYkUe5H5BnwdO9D9OADy
+ oi7Cp3Z/hQTDsBRKmwuVMoWFhJl9BYhRWUKWoIjjW1+AMfRVBagOzVRrBwNZfNuF7/dR
+ 5l+HlOvoqcv19k+V+UsRqsxLMtrHsGq3rXp/jRwruh6XXpg5F5HQhFAlkOvpqjfKQo8G
+ m4BFRSs+tm6MoyKy7MztVlPnw43O5eljsIQl3Vl+tAQiGwsZRxBESszMdFL6RoWjObLj
+ iUtoyDee7JiyNZZv9V9Wkb/9g0jdt/Bzq25X69vWPc4+oNPU0Dci35k1ANADVZrlaMGB
+ IWMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=vSJ7tv3YYNS51ayN48j27RQsxEIx8KFDC9sG6CYby4U=;
+ b=Uep5Nw+uoexIYn/+WzbrFkJ+iumc0onKcHWaH9lsI7YrrtLCYzOiP2ph8X3t2AeArI
+ JNCnPe8cSjDf6n7+jBgChAiCd12Ed1NqlBhfbcdgnP0fybcO1aIM8opMxQWV6JUzjLVN
+ 0tXuJP6yKM4wAMukdMiMyBq0UNantWoCKK2kVgspuuujaIR9enAE8uvGiwTZfpcaekot
+ VeIJFPZTZ05DsmF4selH8Kp65ogGXwMvvA/OHzxRUFKZ1k25nJVYZMr7cEyhjL6Bcygx
+ zOqA4cW8U3WypL2yKde+U16jjBX3Mk7avU+5HMasLgVtcKs/zXOKRoZ36nAYfT99Tulf
+ Fdjg==
+X-Gm-Message-State: AOAM530QS6mpYwmtKJUo4D0xU4J174L1ByIKGfKQq66ORmYXBEXaTAlP
+ 87JSxPHW+jlfwLZAcpKHXY9LKA==
+X-Google-Smtp-Source: ABdhPJyOIudR9bFJM5ItzcK4lMp6qXhszRy+FE92Zurcu4Z4lB/bulRHNyrNDyYbMxAXIcs2uvgGUg==
+X-Received: by 2002:a62:754d:0:b0:4c7:f5db:5bd7 with SMTP id
+ q74-20020a62754d000000b004c7f5db5bd7mr23654097pfc.46.1645512948875; 
+ Mon, 21 Feb 2022 22:55:48 -0800 (PST)
+Received: from anisinha-lenovo ([115.96.128.14])
+ by smtp.googlemail.com with ESMTPSA id
+ b15sm15639148pfm.154.2022.02.21.22.55.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Feb 2022 22:55:48 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Tue, 22 Feb 2022 12:25:43 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Liav Albani <liavalb@gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/acpi: add indication for i8042 in IA-PC boot
+ flags of the FADT table
+In-Reply-To: <20220221191323.617323-3-liavalb@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2202221154300.697295@anisinha-lenovo>
+References: <20220221191323.617323-1-liavalb@gmail.com>
+ <20220221191323.617323-3-liavalb@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2] hw/i386: Improve bounds checking in OVMF table parsing
-Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220216064024.153423-1-dovmurik@linux.ibm.com>
- <YhPrug59i7U0BUao@work-vm>
-From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <YhPrug59i7U0BUao@work-vm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ROIO0uPPECjU6VUfjUrQxeGup2UcNwa9
-X-Proofpoint-ORIG-GUID: SSMpBYQcS27ojc6kpEBuGCkp4uVCEhu7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-22_02,2022-02-21_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- mlxlogscore=999 impostorscore=0 bulkscore=0 adultscore=0 spamscore=0
- clxscore=1015 suspectscore=0 malwarescore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202220035
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::435;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,143 +90,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Dov Murik <dovmurik@linux.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: ani@anisinha.ca, imammedo@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks Dave for reviewing.
 
 
-On 21/02/2022 21:44, Dr. David Alan Gilbert wrote:
-> * Dov Murik (dovmurik@linux.ibm.com) wrote:
->> When pc_system_parse_ovmf_flash() parses the optional GUIDed table in
->> the end of the OVMF flash memory area, the table length field is checked
->> for sizes that are too small, but doesn't error on sizes that are too
->> big (bigger than the flash content itself).
->>
->> Add a check for maximal size of the OVMF table, and add an error report
->> in case the size is invalid.  In such a case, an error like this will be
->> displayed during launch:
->>
->>     qemu-system-x86_64: OVMF table has invalid size 4047
->>
->> and the table parsing is skipped.
->>
->> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
->>
->> ---
->>
->> v2:
->> - add error message example to commit description
->> - replace magic numbers 48 and 50 with size calculations (thanks Phil MD)
->> ---
->>  hw/i386/pc_sysfw_ovmf.c | 20 ++++++++++++++++----
->>  1 file changed, 16 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/i386/pc_sysfw_ovmf.c b/hw/i386/pc_sysfw_ovmf.c
->> index f4dd92c588..1c9a16e9e6 100644
->> --- a/hw/i386/pc_sysfw_ovmf.c
->> +++ b/hw/i386/pc_sysfw_ovmf.c
->> @@ -24,11 +24,14 @@
->>   */
->>  
->>  #include "qemu/osdep.h"
->> +#include "qemu/error-report.h"
->>  #include "hw/i386/pc.h"
->>  #include "cpu.h"
->>  
->>  #define OVMF_TABLE_FOOTER_GUID "96b582de-1fb2-45f7-baea-a366c55a082d"
->>  
->> +static const int bytes_after_table_footer = 32;
->> +
->>  static bool ovmf_flash_parsed;
->>  static uint8_t *ovmf_table;
->>  static int ovmf_table_len;
->> @@ -38,6 +41,8 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
->>      uint8_t *ptr;
->>      QemuUUID guid;
->>      int tot_len;
->> +    int max_tot_len = flash_size - (bytes_after_table_footer +
->> +                                    sizeof(guid) + sizeof(uint16_t));
->>  
->>      /* should only be called once */
->>      if (ovmf_flash_parsed) {
->> @@ -52,12 +57,13 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
->>  
->>      /*
->>       * if this is OVMF there will be a table footer
->> -     * guid 48 bytes before the end of the flash file.  If it's
->> -     * not found, silently abort the flash parsing.
->> +     * guid 48 bytes before the end of the flash file
->> +     * (= 32 bytes after the table + 16 bytes the GUID itself).
->> +     * If it's not found, silently abort the flash parsing.
->>       */
->>      qemu_uuid_parse(OVMF_TABLE_FOOTER_GUID, &guid);
->>      guid = qemu_uuid_bswap(guid); /* guids are LE */
->> -    ptr = flash_ptr + flash_size - 48;
->> +    ptr = flash_ptr + flash_size - (bytes_after_table_footer + sizeof(guid));
->>      if (!qemu_uuid_is_equal((QemuUUID *)ptr, &guid)) {
->>          return;
->>      }
+On Mon, 21 Feb 2022, Liav Albani wrote:
+
+> This can allow the guest OS to determine more easily if i8042 controller
+> is present in the system or not, so it doesn't need to do probing of the
+> controller, but just initialize it immediately, before enumerating the
+> ACPI AML namespace.
+>
+> Signed-off-by: Liav Albani <liavalb@gmail.com>
+> ---
+>  hw/acpi/aml-build.c         | 7 ++++++-
+>  hw/i386/acpi-build.c        | 5 +++++
+>  hw/i386/acpi-microvm.c      | 5 +++++
+>  include/hw/acpi/acpi-defs.h | 1 +
+>  4 files changed, 17 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index 8966e16320..ef5f4cad87 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -2152,7 +2152,12 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>      build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
+>      build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
+>      build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
+> -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
+> +    /* IAPC_BOOT_ARCH */
+> +    if (f->rev == 1) {
+> +        build_append_int_noprefix(tbl, 0, 2);
+> +    } else {
+> +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
+> +    }
+
+So your change will only apply for q35 machines and not for pc types. You
+should write a comment saying that this is not defined in acpi spec 1.0
+where revision == 1 also applies.
+I see that IAPC boot arch is defined as
+old as ACPI version 2:
+
+https://uefi.org/sites/default/files/resources/ACPI_2.pdf
+Section 5.2.8
+
+On a unrelatd note, I see FADT revision is hardcoded to 3 even as old as
+ACPI version 2. *Except* in ACPI version 1b, it is hardcoded to 1 which
+w2k seems to like :-) (table 5-5 in
+https://uefi.org/sites/default/files/resources/ACPI_1_Errata_B.pdf) .
+I will add a comment in the code related to this.
 
 
-I'll probably split the two hunks above (without max_tot_len) to a
-separate patch "hw/i386: Replace magic number with field length
-calculation".
+>      build_append_int_noprefix(tbl, 0, 1); /* Reserved */
+>      build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
+>
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index ebd47aa26f..5dc625b8d8 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -192,6 +192,11 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+>              .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
+>          },
+>      };
+> +    if (isa_check_device_existence("i8042")) {
+> +        /* Indicates if i8042 is present or not */
+> +        fadt.iapc_boot_arch = (1 << 1);
+> +    }
+> +
+>      *data = fadt;
+>  }
+>
+> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+> index 68ca7e7fc2..756c69b3b0 100644
+> --- a/hw/i386/acpi-microvm.c
+> +++ b/hw/i386/acpi-microvm.c
+> @@ -189,6 +189,11 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
+>          .reset_val = ACPI_GED_RESET_VALUE,
+>      };
+>
+> +    if (isa_check_device_existence("i8042")) {
+> +        /* Indicates if i8042 is present or not */
+> +        pmfadt.iapc_boot_arch = (1 << 1);
+> +    }
+> +
+>      table_offsets = g_array_new(false, true /* clear */,
+>                                          sizeof(uint32_t));
 
 
-
->> @@ -66,7 +72,13 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
->>      ptr -= sizeof(uint16_t);
->>      tot_len = le16_to_cpu(*(uint16_t *)ptr) - sizeof(guid) - sizeof(uint16_t);
-> 
-> Instead of the max_tot_len calculation above, is it actually:
->    max_tot_len = ptr - flash_ptr;
-> 
-> I think that works out the same and avoids doing the calculation in two
-> places; it's also logically what you have - you can't read over the
-> structure you just read.
-
-Good call, it indeed gives the same result.
+We should do the same thing for arm architecture as well?
+hw/arm/virt-acpi-build.c .
 
 
-I'll change the condition below to:
-
-    if (tot_len < 0 || tot_len > (ptr - flash_ptr))
-
-and remove the max_tot_len variable, and put this in a separate patch
-that only adds this condition to solve the overflow problem.
-
-
-Thanks,
--Dov
-
-
-
-> 
-> Dave
-> 
->> -    if (tot_len <= 0) {
->> +    if (tot_len < 0 || tot_len > max_tot_len) {
->> +        error_report("OVMF table has invalid size %d", tot_len);
->> +        return;
->> +    }
->> +
->> +    if (tot_len == 0) {
->> +        /* no entries in the OVMF table */
->>          return;
->>      }
->>  
->>
->> base-commit: 48033ad678ae2def43bf0d543a2c4c3d2a93feaf
->> -- 
->> 2.25.1
->>
+>      bios_linker_loader_alloc(tables->linker,
+> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> index c97e8633ad..2b42e4192b 100644
+> --- a/include/hw/acpi/acpi-defs.h
+> +++ b/include/hw/acpi/acpi-defs.h
+> @@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
+>      uint16_t plvl2_lat;        /* P_LVL2_LAT */
+>      uint16_t plvl3_lat;        /* P_LVL3_LAT */
+>      uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
+> +    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
+>      uint8_t minor_ver;         /* FADT Minor Version */
+>
+>      /*
+> --
+> 2.35.1
+>
+>
 
