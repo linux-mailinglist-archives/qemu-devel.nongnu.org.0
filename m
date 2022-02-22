@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 212F74BFE44
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:15:47 +0100 (CET)
-Received: from localhost ([::1]:57678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B6E4BFDF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:00:17 +0100 (CET)
+Received: from localhost ([::1]:34116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMXpJ-0005G7-Nt
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:15:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56052)
+	id 1nMXaK-0005FM-BK
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:00:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMX17-0002LL-ES
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 10:23:53 -0500
-Received: from [2a00:1450:4864:20::434] (port=33321
- helo=mail-wr1-x434.google.com)
+ id 1nMX15-0002HH-0X
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 10:23:51 -0500
+Received: from [2a00:1450:4864:20::333] (port=54241
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMX10-0004kk-ID
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 10:23:52 -0500
-Received: by mail-wr1-x434.google.com with SMTP id j17so7291171wrc.0
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 07:23:44 -0800 (PST)
+ id 1nMX10-0004kq-Q5
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 10:23:50 -0500
+Received: by mail-wm1-x333.google.com with SMTP id i20so1415393wmc.3
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 07:23:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qfyRPgQZqNWOmMmZUBNoG+a8v7OPabSQK1leZNajt2g=;
- b=V0FcYyAAR35Fd+dGdVJB10nQMdBS+EeAMBxL29zeSJvPxAun/3ZHEBlN3YPScUwmEI
- lMvKIXt7x1a4b0GvmXY+R+HIu4cKnKzwowBUAXj4xfiQUm2uoVAZGtfuHJwgf6iyET1u
- OvATZvFrXeYi/oP+k0O5/ioj2Xys0jaFNwxH6w6VHSdCw1tuvfzjCGZeBh3ArTJZmud0
- ny26BkwhiOWN+p+bwe3MpnzLlgxFBsKBvsGJLVvgBmKWWcf4u1t4kOG17yIVcMS/cfsW
- KCkt57WnINx3phnZq0V4XEvgVyeaC+cwj5dJDIV3ic6hhSfBe5/ZNSXDDJjCNUwMaVkE
- PKfQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=iNk1GC4r1NZQkdGmiLeHYBRrv1/MHiJDaBIiSREAXLw=;
+ b=e0na0drayEal1qwFrGymC/ReP38XU/4GU1yRoHHjuVMCqw3z0syzOnubW2ZH/vLgk+
+ 9/T9wQr0S8ZmmnFHHMFePp2jpgHBm5vpOyGUAIbCG4lxPHSMLLX+dRxoRlp+bpqCTT3w
+ HgCvQosAQjTG2P36VnXCloGFG5n5E3a79ItwRZ+FyBmc22QJgHYyYq56K1fHfYpL8Xup
+ PvFiuWRYBXv6CxfFRdQedVKt9gatqSXn6XGGVJkVvQiCU/kNCOnTkpnmKEKJ8ggo2IZ4
+ 3QT7AZmsgqTXjjcfVdFwaSR+ivwJejFgzMOYS1l/MnVL63gXSyXz+GoLvnGPRyg08SKy
+ P/+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qfyRPgQZqNWOmMmZUBNoG+a8v7OPabSQK1leZNajt2g=;
- b=ufvDT2BXz3S56CtpJp3cVPVJLpzCOGT2xj4YytOGWWKYpSVLRUwQyWWlY/LOPFEIhG
- iIDMXvfI5VnFU1EYj/+3OqzruemphTv8Apl/QuXpd6cAvOJQUNdPR+0flZd7G5M6rz+Q
- udgF6FitSJhIg8NG5lwphkeqCbIhiMA3Gv88CvjsnuMLMWn0+xorI6qfsQQXqpvUbfP9
- 4dd2+3mdxXyULbjXFXxsCQYx0OrnUhfxlyaKErAuMuwTNgDRgaBvYN7AKGjZ+IBtw7mY
- t6tB4v0zmhVTJWBo6wSHVf9k48c94C3ArQN200h34KWuHSkb8Ts0tbWOYF2S/Pda25BG
- dShg==
-X-Gm-Message-State: AOAM5315ZOGZOfElgB58Obqx9ZFLQr7ephrAao/mOrbTa2JUUGq2wxWn
- 6NnjP2Jwz0F24GINqMWA9kn7uWdz3u2vCQ==
-X-Google-Smtp-Source: ABdhPJzLkxPdttnjoqCDgvkQN0aPCGFu5zeBCe7NLRBIL9bkJYWlHsdwP88sk3d/wB5zRK5gpoxQpw==
-X-Received: by 2002:adf:e804:0:b0:1ea:9c3b:8f41 with SMTP id
- o4-20020adfe804000000b001ea9c3b8f41mr1759262wrm.53.1645543423398; 
- Tue, 22 Feb 2022 07:23:43 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=iNk1GC4r1NZQkdGmiLeHYBRrv1/MHiJDaBIiSREAXLw=;
+ b=R3PYRVqhOzG0TIPqAHpgaC9tlAk/VWwAqBYPLQkZINTJJ1kegSaySkx0pOr1XtuXTz
+ WSLwjr0xlkj4H3dYOdzwtV6458CjqOGN8S8g3Bh7rhUxyWKWdsVs75LjoFCIlbsXr2Xt
+ qUe5cCmqSvswQCbBw4I99JyAMLBoY1PQYm/gseJEAVcQJoqhUv6b7YyBDYDZ6oCEkJL8
+ LXuSkMfN0jzdIFNbSjy8AMahcpM/2vLM0hDgGvqVzyhdjKQhvWacFk7u8bfaA9LHrykl
+ DprsHPtjJKEJ/tIBP1BmpWCSa5/f/Mm5lsJShJ12KxBo6bZU/aXDJKd1Qtekavesw262
+ 9OeA==
+X-Gm-Message-State: AOAM531spJV9xRjA8T8s8//DIatVc15svEiftXM3WgEt433V13J7sYn6
+ omg9TOf0qYxoe+IPByA0s8HUaq+b1ZuK0A==
+X-Google-Smtp-Source: ABdhPJwtbn12HfJqvybF7S8QmT7HPChRoeyKZTrUOXl8vIo5aU9Q7yu70aiHn0CO1nQR/a1iW5Fapw==
+X-Received: by 2002:a1c:7715:0:b0:37b:dc94:9eb4 with SMTP id
+ t21-20020a1c7715000000b0037bdc949eb4mr3778114wmi.61.1645543424306; 
+ Tue, 22 Feb 2022 07:23:44 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- g16-20020a7bc4d0000000b0037bbe255339sm2687403wmk.15.2022.02.22.07.23.42
+ g16-20020a7bc4d0000000b0037bbe255339sm2687403wmk.15.2022.02.22.07.23.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 07:23:42 -0800 (PST)
+ Tue, 22 Feb 2022 07:23:43 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] block/curl: check error return from curl_easy_setopt()
-Date: Tue, 22 Feb 2022 15:23:39 +0000
-Message-Id: <20220222152341.850419-1-peter.maydell@linaro.org>
+Subject: [PATCH v2 1/2] block/curl.c: Set error message string if
+ curl_init_state() fails
+Date: Tue, 22 Feb 2022 15:23:40 +0000
+Message-Id: <20220222152341.850419-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220222152341.850419-1-peter.maydell@linaro.org>
+References: <20220222152341.850419-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,36 +94,34 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity points out that we aren't checking the return value
-from curl_easy_setopt() for any of the calls to it we make
-in block/curl.c.
+In curl_open(), the 'out' label assumes that the state->errmsg string
+has been set (either by curl_easy_perform() or by manually copying a
+string into it); however if curl_init_state() fails we will jump to
+that label without setting the string.  Add the missing error string
+setup.
 
-Tested with 'make check' and with some basic smoke test command lines
-suggested by Dan:
+(We can't be specific about the cause of failure: the documentation
+of curl_easy_init() just says "If this function returns NULL,
+something went wrong".)
 
- qemu-img info https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
- qemu-img info --image-opts driver=qcow2,file.driver=https,file.url=https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ block/curl.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes v1->v2:
- * new patch 1 which fixes a missing "set the error string" for
-   when curl_init_state() returns failure, since we're about to
-   add more cases when that function can fail
- * set the error string in the failure path for the direct setopt
-   calls in curl_open()
- * fix the failure path in curl_setup_preadv() by putting
-   the curl_easy_setopt() call in the same if() condition
-   as the existing curl_multi_add_handle()
-
-thanks
--- PMM
-
-Peter Maydell (2):
-  block/curl.c: Set error message string if curl_init_state() fails
-  block/curl.c: Check error return from curl_easy_setopt()
-
- block/curl.c | 94 +++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 60 insertions(+), 34 deletions(-)
-
+diff --git a/block/curl.c b/block/curl.c
+index 6a6cd729758..95168529715 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -759,6 +759,8 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
+     // Get file size
+ 
+     if (curl_init_state(s, state) < 0) {
++        pstrcpy(state->errmsg, CURL_ERROR_SIZE,
++                "curl library initialization failed.");
+         goto out;
+     }
+ 
 -- 
 2.25.1
 
