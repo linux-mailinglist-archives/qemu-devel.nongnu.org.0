@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39CA24BF929
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 14:22:57 +0100 (CET)
-Received: from localhost ([::1]:56790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 819E44BF8F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 14:17:37 +0100 (CET)
+Received: from localhost ([::1]:51488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMV83-0000jg-Sl
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 08:22:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42648)
+	id 1nMV2u-0005DK-4S
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 08:17:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMUs8-0001RW-Tw
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:06:28 -0500
-Received: from [2607:f8b0:4864:20::112b] (port=45502
- helo=mail-yw1-x112b.google.com)
+ id 1nMUta-0001v0-7R
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:08:03 -0500
+Received: from [2607:f8b0:4864:20::112e] (port=43788
+ helo=mail-yw1-x112e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMUs3-0002uK-CT
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:06:28 -0500
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2d641c31776so172777307b3.12
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 05:06:21 -0800 (PST)
+ id 1nMUt5-00034b-Uw
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:07:48 -0500
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-2d6d0cb5da4so117811987b3.10
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 05:07:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Xr1h3zvISWjGsocXLvU64IU/Uu4YnNdWwlFS8pdh7b0=;
- b=dNvc6aKtVI6VAcDt2xpvwcYEmPTLXOSovhkNFyt6aaPK9U3/ENT+/dOue0+j75FpZg
- 367Bna9kICOOCXhPo0m3xQOoqrxaZWt6RoSrAoe+4vSlemLbjJvrz9mOyhc+XVjTli8v
- d8A1S0bZEb3eNWegqfdaCp75MhHvD1u3mPbuS6P6QekzBNeVek6UjDo0A76ZrTYgfRz8
- Ec1Hrt0u/YmvLxEGICJpJ8eQ3HKJFHTy2kOLzaqj7snO/X7HGDLYHyiFvIDwAYuwbmrg
- gUzGwIW17UPU8TkAACi5x33SO/0EG518DFcPA0+54BDDyIYLgeP5kKy1Ien9YLKmmZJV
- PVMg==
+ :cc; bh=lNs3v8uQD//dLCHYOd1cNoSEqbjEKFPQJkoZjbaxsUA=;
+ b=w0sr6Ed0ZjxL/iqjRe9EC+sLCcagjEg//p5A61SsuzdOKzS1IsZQuwran4fMn1LSh+
+ REHhQAhJm2zulqXhKIh0F1y/c3pdAx5Pa9Tzm0fYe+UIKMggh4ToTTq63y62Ib5Yq0mB
+ 08iuX0YE25AEA6vir1nJuFcSoIlrddr004D7Nvtv17/uIS/eSC6+7cPO/smk1jUZlvUN
+ C/Nt+64OUjTEWacFWu6mAbKp4iuKPTSC+3TdMALttIiZXqdWntQL2I1e+72n+VXQxi21
+ DHZoRhPfKBPUW2JC0Vs/Ntc5tP7FwYJdc2kUCjXDPkZ9Lc4sbxfokgzmSYjJaqZ2LDgJ
+ ntQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Xr1h3zvISWjGsocXLvU64IU/Uu4YnNdWwlFS8pdh7b0=;
- b=NFZoLWC8XGWLMhSNxzJgChCmWxjdYsLi5WAaOeVa7fsEUr7qkCwk2oMQHXyvKmZNaw
- 1iGg5sPB/q2CEUBNy7lzfY3B7OutFsnA+EZwnp7Hmhr0VuZGNYVgEzSGkNdh4J/nqXaN
- 3yeAzO+2VRtl6tafpBiM2bYemTBOUqD4hI/V7BXkTv7R/O0CLmo+Q7f1sMlPvQ85CLRT
- 3aAWe2otAbhe1IyjXAZp3NkQkFdGYeWbpgwyMnA7/3O9E/foYItoITzKArTPCspRdcc3
- G0Y1il/ORSFJUCOz47rHUapUBooNoZCjGTEmxmPJp8MN5ERc+6hs1EkhAgcGIyni+/IV
- 9LAw==
-X-Gm-Message-State: AOAM530BuYAjeBgiuxzPwb5zB6BtPwIwNCwk7lWv85A8enOiWn9JTbbz
- DybDQ671Ko8h/s9cI9whcu3lkIJe4XmdE3ucf21qOA==
-X-Google-Smtp-Source: ABdhPJw8hLBcUWADEFpk9ZDOVACD2Y3q794wD0BoG5AZzod8ZdwBy0YNwWgiF8qDbTX96KqSHzJRyGihxVLeyu668kQ=
-X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
- e69-20020a81a748000000b002d61f8b23a9mr24103994ywh.329.1645535180769; Tue, 22
- Feb 2022 05:06:20 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=lNs3v8uQD//dLCHYOd1cNoSEqbjEKFPQJkoZjbaxsUA=;
+ b=nYeqdP/BijpU3kIwv+CMrU1t+2X8x9h3apVQvJr7MFmeOnSKSza1SmKWAhM2YdUISS
+ OVUoOt6Wj6rgDJURNkVhVSDan9EsAK+wm/B8jtSA4ARvXE/DL1VJw2kEaZrMlYx/uuXS
+ OBaQWguwCBVZx+IMtdxgBWV5iv/ejXHZOwI4MnJavOqVHoRqhCLB1RBm9ztPNK8y/J04
+ U/Al6fmuVll2UyEky1hL7DRiOo390o/IewDnRD8hnb4ShI7OXW3L4cMw29hzCDPo2+th
+ J1wtHZx3jer3FNCTCCrfziYhGcQ8JkaAdcXj6WUyCtdtCSungxSebkhcogoVERzg+cvo
+ cVfQ==
+X-Gm-Message-State: AOAM53313smU6yZkPey57SoUlP/LjxLpL5vlVkmZzwVYQdC+zmcgMo8v
+ X7uO+mQpNiVfekebRF0aOxv00EGORt/gAfQYx8T6Kw==
+X-Google-Smtp-Source: ABdhPJyy0UsR+EI4+RJMvQpJPszsw4PT+qmzGZaTtX3KcluMWIIkq1cPYTyC2G75f1ekCQ+qdqCrMTTnFxnY0tc3sdw=
+X-Received: by 2002:a05:690c:314:b0:2d6:b95b:bf41 with SMTP id
+ bg20-20020a05690c031400b002d6b95bbf41mr20134465ywb.64.1645535246017; Tue, 22
+ Feb 2022 05:07:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20220221192123.749970-1-peter.maydell@linaro.org>
- <87a6ejnm80.fsf@pond.sub.org> <043096b3-aadf-4f2a-b5e2-c219d2344821@gmail.com>
-In-Reply-To: <043096b3-aadf-4f2a-b5e2-c219d2344821@gmail.com>
+References: <20220221103435.65501-1-pbonzini@redhat.com>
+In-Reply-To: <20220221103435.65501-1-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Feb 2022 13:06:09 +0000
-Message-ID: <CAFEAcA8OMB_+rxrS1pk4YJ0avj-ZSdyEROJyppOT1+0s6447MQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 4/4] rtc: Have event RTC_CHANGE identify the RTC by
- QOM path
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
+Date: Tue, 22 Feb 2022 13:07:15 +0000
+Message-ID: <CAFEAcA888__aRs6=R+kjqE3Kr4r2kgAJovzjLSPuwdTZwipckA@mail.gmail.com>
+Subject: Re: [PULL v3 00/29] Misc mostly build system patches for 2022-02-15
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,35 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Feb 2022 at 12:56, Philippe Mathieu-Daud=C3=A9
-<philippe.mathieu.daude@gmail.com> wrote:
-> On 22/2/22 13:02, Markus Armbruster wrote:
-> > Event RTC_CHANGE is "emitted when the guest changes the RTC time" (and
-> > the RTC supports the event).  What if there's more than one RTC?
+On Mon, 21 Feb 2022 at 10:39, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> w.r.t. RTC, a machine having multiple RTC devices is silly...
+> The following changes since commit ad38520bdeb2b1e0b487db317f29119e94c1c88d:
+>
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2022-02-15 19:30:33 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 5dc4618e781f36c4bea1b0cdd1bea75b48640c5a:
+>
+>   configure, meson: move CONFIG_IASL to a Meson option (2022-02-21 10:35:54 +0100)
+>
+> ----------------------------------------------------------------
+> * More Meson conversions (0.59.x now required rather than suggested)
+> * UMIP support for TCG x86
+> * Fix migration crash
+> * Restore error output for check-block
+>
 
-I don't think we have any examples in the tree currently, but
-I bet real hardware like that does exist: the most plausible
-thing would be a board where there's an RTC built into the SoC
-but the board designers put an external RTC on the board (perhaps
-because it was better/more accurate/easier to make battery-backed).
 
-In fact, here's an old bug report from a user trying to get
-their Debian system to use the battery-backed RTC as the
-"real" one rather than the non-battery-backed RTC device
-that's also part of the arm board they're using:
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D785445
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
 
 -- PMM
 
