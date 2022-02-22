@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE204BF751
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 12:38:35 +0100 (CET)
-Received: from localhost ([::1]:57446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742954BF7DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 13:08:56 +0100 (CET)
+Received: from localhost ([::1]:38706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMTV3-0006M9-Rm
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 06:38:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45236)
+	id 1nMTyR-0006Rw-0e
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 07:08:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMTSY-0005Vh-Em
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 06:35:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57494)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMTsR-0003gc-Sz
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 07:03:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMTSV-0001VT-SY
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 06:35:57 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMTsK-0007PD-4U
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 07:02:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645529755;
+ s=mimecast20190719; t=1645531335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DtdJSqwsmfurwPMOW90X72yycWnlwFSk6JnkKANxrJA=;
- b=ReKIbXJ5TTPPO4Z+Z4BsdzIHvi+L6hrCalSASeq9nENUqdT3QV5ka7B2HEyc9QSM/hEYEw
- HSHIS6Dd2AQA1lYlsdnrb8pYzYIyw6x/Cs6V6/AMZANhJRCRrX9vcSd0fa7h77JPZu0NBM
- ICzGjYeNbKcDQxvTFXN97U5CEqEkj+U=
+ bh=MRn/UueCSRqWV+WZjoRqNv6PQkOrFk+efUhVrJy/jnQ=;
+ b=Pv1k3MDK2jpv9tneb4DN5ZmL77nwSybsXULI/NZZY2zxxkGGoGH0UB+OcMNHvSR4SnSEQy
+ 4jbwvrXoXFVvblXQMxPYRt/BxHV8Z6gceLgAs8OQ25z+y+4zC5Ux8qFpm4pm7rvzBFsVNJ
+ zUIf+haAiNa1+YrGv+3A6O8aIEXk5v4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-78-xjvet4IRM2uEXxUyeqO8Ag-1; Tue, 22 Feb 2022 06:35:52 -0500
-X-MC-Unique: xjvet4IRM2uEXxUyeqO8Ag-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-627-JnX63StzMMmTQN_Aa6HuXA-1; Tue, 22 Feb 2022 07:02:14 -0500
+X-MC-Unique: JnX63StzMMmTQN_Aa6HuXA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD27B51D5;
- Tue, 22 Feb 2022 11:35:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D8471800D50;
+ Tue, 22 Feb 2022 12:02:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 689BE1060071;
- Tue, 22 Feb 2022 11:35:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD80E7C0DA;
+ Tue, 22 Feb 2022 12:02:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8C50B21A736E; Tue, 22 Feb 2022 12:35:48 +0100 (CET)
+ id 4EEE821A736E; Tue, 22 Feb 2022 13:02:07 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 0/2] qapi: Move RTC_CHANGE back out of target schema
-References: <20210924140142.31398-1-peter.maydell@linaro.org>
- <87v92pksln.fsf@dusky.pond.sub.org>
- <CAFEAcA-zXMxzBeEPpKYNGy+SSMgkhbLC-aTuYgSXQn7D=WJa2A@mail.gmail.com>
-Date: Tue, 22 Feb 2022 12:35:48 +0100
-In-Reply-To: <CAFEAcA-zXMxzBeEPpKYNGy+SSMgkhbLC-aTuYgSXQn7D=WJa2A@mail.gmail.com>
- (Peter Maydell's message of "Mon, 21 Feb 2022 18:06:15 +0000")
-Message-ID: <87mtijnnfv.fsf@pond.sub.org>
+Subject: [PATCH RFC 4/4] rtc: Have event RTC_CHANGE identify the RTC by QOM
+ path
+References: <20220221192123.749970-1-peter.maydell@linaro.org>
+Date: Tue, 22 Feb 2022 13:02:07 +0100
+In-Reply-To: <20220221192123.749970-1-peter.maydell@linaro.org> (Peter
+ Maydell's message of "Mon, 21 Feb 2022 19:21:20 +0000")
+Message-ID: <87a6ejnm80.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,70 +81,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Event RTC_CHANGE is "emitted when the guest changes the RTC time" (and
+the RTC supports the event).  What if there's more than one RTC?
+Which one changed?  New @qom-path identifies it.
 
-> On Sat, 25 Sept 2021 at 08:44, Markus Armbruster <armbru@redhat.com> wrote:
->>
->> Peter Maydell <peter.maydell@linaro.org> writes:
->>
->> > This patchset moves RTC_CHANGE back to misc.json, effectively
->> > reverting commit 183e4281a30962, which moved the RTC_CHANGE event to
->> > the target schema.  That change was an attempt to make the event
->> > target-specific to improve introspection, but the event isn't really
->> > target-specific: it's machine or device specific.  Putting RTC_CHANGE
->> > in the target schema with an ifdef list reduces maintainability (by
->> > adding an if: list with a long list of targets that needs to be
->> > manually updated as architectures are added or removed or as new
->> > devices gain the RTC_CHANGE functionality) and increases compile time
->> > (by preventing RTC devices which emit the event from being "compile
->> > once" rather than "compile once per target", because
->> > qapi-events-misc-target.h uses TARGET_* ifdefs, which are poisoned in
->> > "compile once" files.)
->> >
->> > Patch 2 fixes a minor documentation issue that I noticed while
->> > I was doing this -- we didn't document that the units used in
->> > the RTC_CHANGE event are seconds.
->>
->> Series
->> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->
-> I realized that this patchset never got applied -- I think I was
-> expecting it to be picked up via a QAPI related tree, and then
-> it was a bit close to a release to be put in, or something.
-> Anyway, I'm going to resend it in a moment.
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+RFC because it's compile-tested only.  Worthwhile?  Let me know what you
+think.
 
-Want me to take care of merging v2?
+ qapi/misc.json       | 4 +++-
+ hw/ppc/spapr_rtc.c   | 4 +++-
+ hw/rtc/mc146818rtc.c | 3 ++-
+ hw/rtc/pl031.c       | 3 ++-
+ 4 files changed, 10 insertions(+), 4 deletions(-)
 
->> An additional patch documenting that not all RTCs implement RTC_CHANGE
->> would be nice.  Listing them would be even nicer.
->
-> I disagree that listing them would be nice -- the whole point of
-> the series is to avoid having lists that get out of date when we
-> add a new RTC implementation or fix the missing-feature in an
-> existing one. I can add a sentence to the patch 2 docs change:
-> "Note that it is not guaranteed that the RTC in a system implements
-> this event, or even that the system has an RTC at all."
-
-For a user, "you can rely on RTC_CHANGE with RTCs x, y, z provided by
-machines a, b, c" is definitely nicer than "RTC_CHANGE may or may not
-work, good luck", which is in turn nicer than nothing at all.
-
-I think you're arguing for being as nice to users as we can without
-having to pay for it in maintenance, which is fair.
-
->> An additional patch adding @qom-path event argument would be nice.
->
-> I don't understand what this would involve, so I'll leave it to you
-> if you want it.
-
-Okay.
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 0ab235e41f..b83cc39029 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -536,6 +536,8 @@
+ # @offset: offset in seconds between base RTC clock (as specified
+ #          by -rtc base), and new RTC clock value
+ #
++# @qom-path: path to the RTC object in the QOM tree
++#
+ # Note: This event is rate-limited.
+ #       It is not guaranteed that the RTC in the system implements
+ #       this event, or even that the system has an RTC at all.
+@@ -550,4 +552,4 @@
+ #
+ ##
+ { 'event': 'RTC_CHANGE',
+-  'data': { 'offset': 'int' } }
++  'data': { 'offset': 'int', 'qom-path': 'str' } }
+diff --git a/hw/ppc/spapr_rtc.c b/hw/ppc/spapr_rtc.c
+index 79677cf550..d55b4b0c50 100644
+--- a/hw/ppc/spapr_rtc.c
++++ b/hw/ppc/spapr_rtc.c
+@@ -97,6 +97,7 @@ static void rtas_set_time_of_day(PowerPCCPU *cpu, SpaprMachineState *spapr,
+                                  uint32_t nret, target_ulong rets)
+ {
+     SpaprRtcState *rtc = &spapr->rtc;
++    g_autofree const char *qom_path = NULL;
+     struct tm tm;
+     time_t new_s;
+     int64_t host_ns;
+@@ -120,7 +121,8 @@ static void rtas_set_time_of_day(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     }
+ 
+     /* Generate a monitor event for the change */
+-    qapi_event_send_rtc_change(qemu_timedate_diff(&tm));
++    qom_path = object_get_canonical_path(OBJECT(rtc));
++    qapi_event_send_rtc_change(qemu_timedate_diff(&tm), qom_path);
+ 
+     host_ns = qemu_clock_get_ns(rtc_clock);
+ 
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index 57c514e15c..ac9a60c90e 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -611,12 +611,13 @@ static void rtc_get_time(RTCState *s, struct tm *tm)
+ static void rtc_set_time(RTCState *s)
+ {
+     struct tm tm;
++    g_autofree const char *qom_path = object_get_canonical_path(OBJECT(s));
+ 
+     rtc_get_time(s, &tm);
+     s->base_rtc = mktimegm(&tm);
+     s->last_update = qemu_clock_get_ns(rtc_clock);
+ 
+-    qapi_event_send_rtc_change(qemu_timedate_diff(&tm));
++    qapi_event_send_rtc_change(qemu_timedate_diff(&tm), qom_path);
+ }
+ 
+ static void rtc_set_cmos(RTCState *s, const struct tm *tm)
+diff --git a/hw/rtc/pl031.c b/hw/rtc/pl031.c
+index 60167c778f..b01d0e75d1 100644
+--- a/hw/rtc/pl031.c
++++ b/hw/rtc/pl031.c
+@@ -138,12 +138,13 @@ static void pl031_write(void * opaque, hwaddr offset,
+ 
+     switch (offset) {
+     case RTC_LR: {
++        g_autofree const char *qom_path = object_get_canonical_path(opaque);
+         struct tm tm;
+ 
+         s->tick_offset += value - pl031_get_count(s);
+ 
+         qemu_get_timedate(&tm, s->tick_offset);
+-        qapi_event_send_rtc_change(qemu_timedate_diff(&tm));
++        qapi_event_send_rtc_change(qemu_timedate_diff(&tm), qom_path);
+ 
+         pl031_set_alarm(s);
+         break;
+-- 
+2.35.1
 
 
