@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7859E4BF4A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 10:26:37 +0100 (CET)
-Received: from localhost ([::1]:52492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6270D4BF4B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 10:28:04 +0100 (CET)
+Received: from localhost ([::1]:54354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMRRM-0007eC-87
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 04:26:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42608)
+	id 1nMRSl-0000XU-8B
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 04:28:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMRPX-0006S6-Hp
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:24:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36192)
+ id 1nMRQX-0007Sr-3F
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:25:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMRPU-0004Xn-UB
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:24:42 -0500
+ id 1nMRQU-0004tu-U5
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:25:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645521880;
+ s=mimecast20190719; t=1645521942;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jjBG7eHWXDH5vxM7EdRaAeVHmNknrtWs2ik4wT/hi+A=;
- b=DsoxVTeV069OC69XOvSBgutqPfB2tojim/aZvl69DUIriK0UxmTVTSxpzZKSgNGwsD0qI6
- 8GTzoeoBQ3hbbVNly9V32LcMEbqfu9RtNsiYj97NSjqXZtVvwRsurqg+RL+Ae1b4i/F2MW
- hn7UoEjVg8yxIZbvvi8kj9UsYqeynZY=
+ bh=2P3pMFTBFIvf2CVJNoOh03aki1xuzT+ckpj9ESwxKFk=;
+ b=Jl2rY5jSxEKRWUQwDsuQPAK7sSg0IfDWaNvDFEZVXD0iMfhFhnCgGuToOUARi5q1Bxoynt
+ 3AKC58kASpxhVhkpBI4cdMjhncI4bl0gfSdOGU7tpSkxTItQfAcWXnoZ/k+JFvhdSDlpRb
+ VCgXyuHFGXzmg3Z2dTTebmOz9/xvsDw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-aZ2ztUUEOZm11wz1zW4YcA-1; Tue, 22 Feb 2022 04:24:34 -0500
-X-MC-Unique: aZ2ztUUEOZm11wz1zW4YcA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-211-xbH3itUoPE2ujHkY-AhKcA-1; Tue, 22 Feb 2022 04:25:39 -0500
+X-MC-Unique: xbH3itUoPE2ujHkY-AhKcA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B101A800425;
- Tue, 22 Feb 2022 09:24:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B80DA800425;
+ Tue, 22 Feb 2022 09:25:37 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.195.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF6357048B;
- Tue, 22 Feb 2022 09:24:02 +0000 (UTC)
-Date: Tue, 22 Feb 2022 09:23:59 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14E087B6C2;
+ Tue, 22 Feb 2022 09:25:14 +0000 (UTC)
+Date: Tue, 22 Feb 2022 09:25:11 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Dov Murik <dovmurik@linux.ibm.com>
-Subject: Re: [PATCH v3 1/2] hw/i386: Improve bounds checking in OVMF table
- parsing
-Message-ID: <YhSrrwlonNl4Qq0U@redhat.com>
+Subject: Re: [PATCH v3 2/2] hw/i386: Replace magic number with field length
+ calculation
+Message-ID: <YhSr94BmRocYnKQ5@redhat.com>
 References: <20220222071906.2632426-1-dovmurik@linux.ibm.com>
- <20220222071906.2632426-2-dovmurik@linux.ibm.com>
+ <20220222071906.2632426-3-dovmurik@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20220222071906.2632426-2-dovmurik@linux.ibm.com>
+In-Reply-To: <20220222071906.2632426-3-dovmurik@linux.ibm.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -63,7 +63,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -95,24 +95,17 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 22, 2022 at 07:19:05AM +0000, Dov Murik wrote:
-> When pc_system_parse_ovmf_flash() parses the optional GUIDed table in
-> the end of the OVMF flash memory area, the table length field is checked
-> for sizes that are too small, but doesn't error on sizes that are too
-> big (bigger than the flash content itself).
+On Tue, Feb 22, 2022 at 07:19:06AM +0000, Dov Murik wrote:
+> Replce the literal magic number 48 with length calculation (32 bytes at
+> the end of the firmware after the table footer + 16 bytes of the OVMF
+> table footer GUID).
 > 
-> Add a check for maximal size of the OVMF table, and add an error report
-> in case the size is invalid.  In such a case, an error like this will be
-> displayed during launch:
-> 
->     qemu-system-x86_64: OVMF table has invalid size 4047
-> 
-> and the table parsing is skipped.
+> No functional change intended.
 > 
 > Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
 > ---
->  hw/i386/pc_sysfw_ovmf.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  hw/i386/pc_sysfw_ovmf.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
