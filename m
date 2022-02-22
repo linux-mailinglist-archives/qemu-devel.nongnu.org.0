@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921774C0469
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 23:15:16 +0100 (CET)
-Received: from localhost ([::1]:50484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910454C046A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 23:15:18 +0100 (CET)
+Received: from localhost ([::1]:50556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMdRD-0004Hg-Jy
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 17:15:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48856)
+	id 1nMdRF-0004KV-BO
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 17:15:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nMdJY-0005lD-GL
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 17:07:20 -0500
-Received: from [2607:f8b0:4864:20::c33] (port=42680
- helo=mail-oo1-xc33.google.com)
+ id 1nMdJa-0005lj-2K
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 17:07:22 -0500
+Received: from [2607:f8b0:4864:20::c34] (port=40725
+ helo=mail-oo1-xc34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nMdJU-0005LZ-JR
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 17:07:19 -0500
-Received: by mail-oo1-xc33.google.com with SMTP id
- s203-20020a4a3bd4000000b003191c2dcbe8so19648061oos.9
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 14:07:10 -0800 (PST)
+ id 1nMdJV-0005Lk-2f
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 17:07:21 -0500
+Received: by mail-oo1-xc34.google.com with SMTP id
+ u47-20020a4a9732000000b00316d0257de0so19641916ooi.7
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 14:07:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3g5GZ+uk3CMbwQHosVUdX40FGxQGNQFTnUC30jSO2R8=;
- b=qTEQtAbukFJZMj15HrOKM9ejlBYxkJjKDZ2W0ycz2OvsK3/i1M0AwzMuSM5jcWjo3M
- 1b/mtfND4hAuBBGS67Ba+SCzGZ7nZGaemz++GNu2DzEITRQuojYcsGFhYfj8aDyRfUvm
- 3KiPR9CqnsIuTBIh5lZSrcuKKRUsR/m5OYEDYjlWMlfkVIfggjYlK14r7va1C/TjgEdv
- 2ngZZtdmaqtkttp6VvOBnv5N9VNbieus7tX1Y2p2Pk5J6BAa59HCbePbntbbsC5Mhwno
- yp4ri17/XLPIJVHv5IY0NkTP9MNGyDnKLJS6Tm6dBreToH2NVKHkOKbgBRpyAnCXazOq
- 6C6g==
+ bh=0fDRU9fUV36kn4c3Xnw7jDoaNqJ76Gr20/A1kgalcYo=;
+ b=dsa03m3hZRLah1dzxEvl17QOvRfgGEydYfVu3pZjcMShMYygQOVtPNFU1+6FxLKRHA
+ ILFQqGzWbbaBx8dwOj/I558xAhWzszLg46B3e/6EWOBEe2NAnyPhW8KqdaugFHtdLbt6
+ fD/+6cHcgazUdQLWkxw7Gr75lO2CHDLFoY7UyGzk02QRE9MwupQbQWQ3eJlWadqeJ+GU
+ 7a0GCLmHbcJ3WvGdu//kfPo8VvTyQaixdyyOCAbHK1bDVPGrmavsUIPeD1PspXhgLx22
+ I0/fZbudiOCrnxYDjbFo2EXfzsZtaj+TwtyzH3aUwovfAgP6SKfcYnEppAhYD4dZW2jZ
+ lc3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3g5GZ+uk3CMbwQHosVUdX40FGxQGNQFTnUC30jSO2R8=;
- b=3xchmVNCfHbvh7gmiSZHmvQTY0LGBbdVsogeF0QorUme6Z+1AvvFg+X9NacIjw2c2p
- 2chEguVNrfqs5KTzYMj5t7difjqscjflL35dPE1fMedRttOwcqHhsnKZv9h8F6aI2LXB
- +LxrQPr0N9fqU/cZlKinBM8bZ+Ut6bspsOL2jc2FrKMG7kBZNvnqxTHtHjhhbKIE9skS
- HO/f0WIYVvuMhcqUZ2iK76NT//xj1oiZFVOibdpSaWMmW/I/N4ohdVRmHzzMRXosuZsP
- t6K3B8sCSCEMGt8PN7vMUq+jghxRmPb8qAdjf7JSq+59UZvpatJhlj62Z00IgamHKWWb
- bGlg==
-X-Gm-Message-State: AOAM533qeTWt/EH42kaH0JIu7RMqb7bW1Acxqm+RwDOTohGrvMRTM1U2
- 44scZAh5xoG58KEWH2sAid6U0FNNg0y5Hw==
-X-Google-Smtp-Source: ABdhPJzzGlnsxVoUQHG+JSpuTHen+GjPm2PF4uYBy/8cauAULkQ+kQkabUdWFAs+NfYIjknUUotx3g==
-X-Received: by 2002:a05:6870:5d88:b0:d3:112c:3e2e with SMTP id
- fu8-20020a0568705d8800b000d3112c3e2emr2710763oab.230.1645567629482; 
- Tue, 22 Feb 2022 14:07:09 -0800 (PST)
+ bh=0fDRU9fUV36kn4c3Xnw7jDoaNqJ76Gr20/A1kgalcYo=;
+ b=M8gfV5tZStNun72RSP/Wq6seWC5uABUleI1rwaOITZEWViEwTTjPeEZc9MklJ5L3FV
+ BkunshB2YvmGyzx4DahydSyNzUNXoagYNd8bvqDZ2hwhpvfsoGN4v5eqtKTuBr+zRdmw
+ MAA6XBi+HnI2s/lkY1c+rnFPrFYv/tNKfHngfRksXQfyQu1yvRaHVAn37A8j5NarUtxN
+ Rdu00DKrIlSXqRqeIK5TCBT9z+Q75A4EnqDnplM638Gr5yojJZV5OLVTtCe0ikb8zWaF
+ sBLD5JuYHZ9qZXEe9Wl9rODIc7E4zvaK8DZEQC71WMKBqHusqFWV1y9Xxv1Fl9YzB+9D
+ A39g==
+X-Gm-Message-State: AOAM530gu9H+QRrZalOmjaxAM1liQSvzS1D9CwGddVi1DS2CyMqJauLW
+ Abe9kxSV0K6P+RpmekrnEbSO1/ACdH6V+Q==
+X-Google-Smtp-Source: ABdhPJwbR/XWxaGT4SN+/Nj4k0PFHF1hJUrmVuV8OBwj49r1BkU/F406ib1zgoUoGNiHekLIBU5Hdw==
+X-Received: by 2002:a05:6870:da0b:b0:d2:c66b:2e27 with SMTP id
+ go11-20020a056870da0b00b000d2c66b2e27mr2757157oab.142.1645567630974; 
+ Tue, 22 Feb 2022 14:07:10 -0800 (PST)
 Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
  [70.228.75.190])
- by smtp.gmail.com with ESMTPSA id n25sm4901913otq.78.2022.02.22.14.07.08
+ by smtp.gmail.com with ESMTPSA id n25sm4901913otq.78.2022.02.22.14.07.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 14:07:09 -0800 (PST)
+ Tue, 22 Feb 2022 14:07:10 -0800 (PST)
 From: Atish Patra <atishp@rivosinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/6] target/riscv: Define simpler privileged spec version
- numbering
-Date: Tue, 22 Feb 2022 14:06:59 -0800
-Message-Id: <20220222220704.2294924-2-atishp@rivosinc.com>
+Subject: [PATCH v4 2/6] target/riscv: Add the privileged spec version 1.12.0
+Date: Tue, 22 Feb 2022 14:07:00 -0800
+Message-Id: <20220222220704.2294924-3-atishp@rivosinc.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220222220704.2294924-1-atishp@rivosinc.com>
 References: <20220222220704.2294924-1-atishp@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c33
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c34
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
- envelope-from=atishp@rivosinc.com; helo=mail-oo1-xc33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c34;
+ envelope-from=atishp@rivosinc.com; helo=mail-oo1-xc34.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -90,44 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Atish Patra <atishp@rivosinc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the privileged specification version are defined in
-a complex manner for no benefit.
+Add the definition for ratified privileged specification version v1.12
 
-Simplify it by changing it to a simple enum based on.
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Atish Patra <atishp@rivosinc.com>
 ---
- target/riscv/cpu.h | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ target/riscv/cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 9d24d678e98a..e5ff4c134c86 100644
+index e5ff4c134c86..60b847141db2 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -82,8 +82,11 @@ enum {
-     RISCV_FEATURE_AIA
+@@ -86,6 +86,7 @@ enum {
+ enum {
+     PRIV_VERSION_1_10_0 = 0,
+     PRIV_VERSION_1_11_0,
++    PRIV_VERSION_1_12_0,
  };
  
--#define PRIV_VERSION_1_10_0 0x00011000
--#define PRIV_VERSION_1_11_0 0x00011100
-+/* Privileged specification version */
-+enum {
-+    PRIV_VERSION_1_10_0 = 0,
-+    PRIV_VERSION_1_11_0,
-+};
- 
  #define VEXT_VERSION_1_00_0 0x00010000
- 
 -- 
 2.30.2
 
