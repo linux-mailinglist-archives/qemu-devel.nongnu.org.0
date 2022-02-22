@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47574BFB80
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 16:01:10 +0100 (CET)
-Received: from localhost ([::1]:44516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351604BFE20
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:08:57 +0100 (CET)
+Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMWf6-0001FR-Gb
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 10:01:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44374)
+	id 1nMXig-0004m2-Im
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:08:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nMWLg-0007Qq-8v; Tue, 22 Feb 2022 09:41:05 -0500
-Received: from [187.72.171.209] (port=44457 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nMWLe-0005jA-DP; Tue, 22 Feb 2022 09:41:03 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 22 Feb 2022 11:37:43 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 86E868000A7;
- Tue, 22 Feb 2022 11:37:43 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v4 22/47] target/ppc: implement vsraq
-Date: Tue, 22 Feb 2022 11:36:20 -0300
-Message-Id: <20220222143646.1268606-23-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
-References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <fabian.holler@simplesurance.de>)
+ id 1nMVwG-0002pa-3G
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:14:48 -0500
+Received: from [2a00:1450:4864:20::630] (port=43995
+ helo=mail-ej1-x630.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <fabian.holler@simplesurance.de>)
+ id 1nMVwD-0000RB-3f
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:14:47 -0500
+Received: by mail-ej1-x630.google.com with SMTP id d10so43343665eje.10
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 06:14:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=simplesurance.de; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pO6MXMQ8u0jNeWFtnz/TZLj2XZ7uLqCdsBpUAQpIn2c=;
+ b=bbfHDbnBUvNVWbgWImx6K5MKVa6nmavP7Udm54pzuFPHmLjj/8b4HEd1NzIlU5HaIr
+ XIW6FXr1JHhRsOLqrVKVxatefqo3erK50JHnyfthTGANhwYtbF/NsGXgZn2rOnzY2RDE
+ l/Lq4pB3MaHRhF4xha4UtsTRUYhLnNb5lCeeE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pO6MXMQ8u0jNeWFtnz/TZLj2XZ7uLqCdsBpUAQpIn2c=;
+ b=nA3TaUUBdh+SZlaFyM+CMffhQv8OhubzLzTBLSzTPy4B0D1skqrTL0uuLpZkv5HFWn
+ exBZNivlwL5CaN82wq2n7WcDYJ8lco2Ojpr3DWkGSDwnjnltkj2RLopTBx/y81QV94I9
+ oAgHiHFv2NwSm7uEkDYnMBowPBySVGOjuK/qLBmZdmL1GsOoQ7BCRFy07ouxCHVRTo1b
+ kSXnSVIxs2UW3/V2RRGkSYmD1OZXRmqkXp8OJdDcZyngRJw/pHZTcADBrj1Ox5a1cmHk
+ /MUmFFQkd4YzSHlEBE4+CtV9NtUaskmS27vrxp2bdNAjfsX4XAl0Cyi534ilrTIhpENN
+ Zrhw==
+X-Gm-Message-State: AOAM533eRwx63i53feErRIXSDsSAOZVyl0BpZy180ALjTp08X7UFW0zB
+ OW6hH2rdYyJt3jIh/ihFEXV2rS6mrXxWURCi
+X-Google-Smtp-Source: ABdhPJwzS4exRojvUhUlmMpvwrGOtOX3+myQLbc4P1FAs2r7Sl1kvMBPEhUbrh8kE1ssQHwRI3fcQg==
+X-Received: by 2002:a17:906:60d6:b0:6cf:e577:c93f with SMTP id
+ f22-20020a17090660d600b006cfe577c93fmr19929908ejk.8.1645539282401; 
+ Tue, 22 Feb 2022 06:14:42 -0800 (PST)
+Received: from ltop.sisu.sh ([2001:16b8:5cfe:5500:ca5b:76ff:fe4b:bbaf])
+ by smtp.gmail.com with ESMTPSA id j23sm151622eje.78.2022.02.22.06.14.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Feb 2022 06:14:41 -0800 (PST)
+From: Fabian Holler <fabian.holler@simplesurance.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] schemas: fix: wrong field name 'data' in client snapshot msg
+ examples
+Date: Tue, 22 Feb 2022 15:14:31 +0100
+Message-Id: <20220222141431.43559-1-fabian.holler@simplesurance.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 22 Feb 2022 14:37:43.0978 (UTC)
- FILETIME=[C0A490A0:01D827F9]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=fabian.holler@simplesurance.de; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 22 Feb 2022 10:46:50 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,85 +85,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: Fabian Holler <fabian.holler@simplesurance.de>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+The examples for the snapshot-* commands documented that arguments for
+the commands must be passed in a 'data' field.
+This is wrong, passing them in a "data" field results in
+the error:
+  {"error": {"class": "GenericError", "desc": "QMP input member 'data'
+		       is unexpected"}}
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
-v4:
- -  New in v4.
----
- target/ppc/insn32.decode            |  1 +
- target/ppc/translate/vmx-impl.c.inc | 17 +++++++++++++----
- 2 files changed, 14 insertions(+), 4 deletions(-)
+Arguments are expected to be passed in an field called "arguments".
+Replace "data" with "arguments" in the snapshot-* command examples.
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 96ee730242..7a9fc1dffa 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -485,6 +485,7 @@ VSRAB           000100 ..... ..... ..... 01100000100    @VX
- VSRAH           000100 ..... ..... ..... 01101000100    @VX
- VSRAW           000100 ..... ..... ..... 01110000100    @VX
- VSRAD           000100 ..... ..... ..... 01111000100    @VX
-+VSRAQ           000100 ..... ..... ..... 01100000101    @VX
- 
- ## Vector Integer Arithmetic Instructions
- 
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index ec2b47b4aa..2eee187499 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -834,7 +834,8 @@ TRANS_FLAGS(ALTIVEC, VSRAH, do_vector_gvec3_VX, MO_16, tcg_gen_gvec_sarv);
- TRANS_FLAGS(ALTIVEC, VSRAW, do_vector_gvec3_VX, MO_32, tcg_gen_gvec_sarv);
- TRANS_FLAGS2(ALTIVEC_207, VSRAD, do_vector_gvec3_VX, MO_64, tcg_gen_gvec_sarv);
- 
--static bool do_vector_shift_quad(DisasContext *ctx, arg_VX *a, bool right)
-+static bool do_vector_shift_quad(DisasContext *ctx, arg_VX *a, bool right,
-+                                 bool alg)
- {
-     TCGv_i64 hi, lo, tmp, n, sf = tcg_constant_i64(64);
- 
-@@ -853,6 +854,9 @@ static bool do_vector_shift_quad(DisasContext *ctx, arg_VX *a, bool right)
- 
-     if (right) {
-         tcg_gen_movcond_i64(TCG_COND_GE, lo, n, sf, hi, lo);
-+        if (alg) {
-+            tcg_gen_sari_i64(tmp, lo, 63);
-+        }
-         tcg_gen_movcond_i64(TCG_COND_GE, hi, n, sf, tmp, hi);
-     } else {
-         tcg_gen_movcond_i64(TCG_COND_GE, hi, n, sf, lo, hi);
-@@ -861,7 +865,11 @@ static bool do_vector_shift_quad(DisasContext *ctx, arg_VX *a, bool right)
-     tcg_gen_andi_i64(n, n, ~64ULL);
- 
-     if (right) {
--        tcg_gen_shr_i64(tmp, hi, n);
-+        if (alg) {
-+            tcg_gen_sar_i64(tmp, hi, n);
-+        } else {
-+            tcg_gen_shr_i64(tmp, hi, n);
-+        }
-     } else {
-         tcg_gen_shl_i64(tmp, lo, n);
-     }
-@@ -891,8 +899,9 @@ static bool do_vector_shift_quad(DisasContext *ctx, arg_VX *a, bool right)
-     return true;
- }
- 
--TRANS_FLAGS2(ISA310, VSLQ, do_vector_shift_quad, false);
--TRANS_FLAGS2(ISA310, VSRQ, do_vector_shift_quad, true);
-+TRANS_FLAGS2(ISA310, VSLQ, do_vector_shift_quad, false, false);
-+TRANS_FLAGS2(ISA310, VSRQ, do_vector_shift_quad, true, false);
-+TRANS_FLAGS2(ISA310, VSRAQ, do_vector_shift_quad, true, true);
- 
- #define GEN_VXFORM_SAT(NAME, VECE, NORM, SAT, OPC2, OPC3)               \
- static void glue(glue(gen_, NAME), _vec)(unsigned vece, TCGv_vec t,     \
+Signed-off-by: Fabian Holler <fabian.holler@simplesurance.de>
+---
+ qapi/migration.json | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 5975a0e104..1c6296897d 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1888,7 +1888,7 @@
+ # Example:
+ #
+ # -> { "execute": "snapshot-save",
+-#      "data": {
++#      "arguments": {
+ #         "job-id": "snapsave0",
+ #         "tag": "my-snap",
+ #         "vmstate": "disk0",
+@@ -1949,7 +1949,7 @@
+ # Example:
+ #
+ # -> { "execute": "snapshot-load",
+-#      "data": {
++#      "arguments": {
+ #         "job-id": "snapload0",
+ #         "tag": "my-snap",
+ #         "vmstate": "disk0",
+@@ -2002,7 +2002,7 @@
+ # Example:
+ #
+ # -> { "execute": "snapshot-delete",
+-#      "data": {
++#      "arguments": {
+ #         "job-id": "snapdelete0",
+ #         "tag": "my-snap",
+ #         "devices": ["disk0", "disk1"]
 -- 
-2.25.1
+2.35.1
 
 
