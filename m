@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0FE4BF9C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 14:49:03 +0100 (CET)
-Received: from localhost ([::1]:59020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A40A4BFA0B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 14:59:12 +0100 (CET)
+Received: from localhost ([::1]:44036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMVXJ-0005bE-Ob
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 08:49:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52912)
+	id 1nMVh9-00077f-LQ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 08:59:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMVSr-0002sp-FA
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:44:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52059)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nMVcf-0004Dq-VV
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:54:34 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:55277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMVSj-0001da-0X
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:44:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645537454;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=w7YOik7Cd8HMXLfYHgyBt3/nMDch9NuXSl9gUxg6UHs=;
- b=MgG4zsbYa9gSjDd4pFVy/qo0T66oSYL04RNpOV8Vm9udwy4mKVQFfKhuDgmWZKYCgQzt07
- enBPUPWT3JDyCzsHkQA466J3uAnCzHpJrb+JjMt7FwRoh2OBBzSAH3/3Dl0PVIk0F30gqW
- jQuTFDFPYz7lq4OBCDOKIgwrdgYZTHs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-383-4QULIFP0OXO12hZ0zaFzsw-1; Tue, 22 Feb 2022 08:44:13 -0500
-X-MC-Unique: 4QULIFP0OXO12hZ0zaFzsw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11D801006AA5;
- Tue, 22 Feb 2022 13:44:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.202])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB274797E3;
- Tue, 22 Feb 2022 13:44:10 +0000 (UTC)
-Date: Tue, 22 Feb 2022 13:44:09 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 1/4] tls: add macros for coroutine-safe TLS variables
-Message-ID: <YhToqZ/nlq/t67gn@stefanha-x1.localdomain>
-References: <20220221142907.346035-1-stefanha@redhat.com>
- <20220221142907.346035-2-stefanha@redhat.com>
- <CAFEAcA-4p1rrDY3ynmwwYWpkeSqNEv2ak1fM2CYLbTddXOevjA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nMVcY-0003i9-MH
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 08:54:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=BBZ8DLF/C+hxPxaXgBWHyaEH1EG1Y3lIwuWTjg8JzAc=; b=afjckEJ57nVuYvWcmlN2wcrVWu
+ IHKkkzegXyjdEx7+fOKOKP4Ji0UOYnjFHM76AoDGP/ZBhFAje+n06euPX+fqBydM+QXxdPEpEEmMC
+ T5JgqnxUMDwqpo7mFTVTLEz8KnQHPXzYL82xjXpgad77IS+KzYphUhFbDSKZRQjFr8hlccyHa4kGh
+ aEydUfKWtYCvcXDnrmbvD/ltuUUwEuoAlL/6FMmpnNX8ue4/RYY+mOC3dTDMPQ0p8PKoywG1nEtLu
+ JqTiJ0NMrl+xBe0cBbH5+/YQy9yQUccG7LDTiWz2IUzsEqRfgC9dkMYEBoMfT6j3UgAeDQbBbe2Md
+ ztmB2GqjUZKwNcI1EHOusRWfgRYivVA3lKhbV14Zg7GNpy0D9Qmio8yeO8E32hgsSQhEZeAfgK3RM
+ cSUdKBVgVb7zuiEs/ZCI/bavoemh5F86Pz7bxkM86EdvnOqyPUyqKvnWM2gSMHyJojzlqpZSogiMi
+ 5QScaftih4OKiqfkOf6jIAjFMlfDaPb8yo6DEHGQZoVm2vPcLLT3ijnwEmBdbxdodV2lfswtyQFl2
+ NAc/eaq0Qvo0j9FosQkqZfZ1bz6FEDfaLRG+5exExoAXPiAzjT0NbbNB4np/9Kss5WgZqEF1Plfc/
+ kU8VMEi6RKhlwiJDu5kMoy2pmMMEKXT3Mf6AHflG8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PULL v2 5/5] 9pfs: Fix segfault in do_readdir_many caused by
+ struct dirent overread
+Date: Tue, 22 Feb 2022 14:54:17 +0100
+Message-ID: <3196572.21YWrCmDqH@silver>
+In-Reply-To: <CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com>
+References: <cover.1645114783.git.qemu_oss@crudebyte.com>
+ <e64e27d5cb103b7764f1a05b6eda7e7fedd517c5.1645114783.git.qemu_oss@crudebyte.com>
+ <CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Wv+lJej4ZTAz/AqR"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-4p1rrDY3ynmwwYWpkeSqNEv2ak1fM2CYLbTddXOevjA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,75 +67,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---Wv+lJej4ZTAz/AqR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Feb 21, 2022 at 03:16:22PM +0000, Peter Maydell wrote:
-> On Mon, 21 Feb 2022 at 14:29, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >
-> > Compiler optimizations can cache TLS values across coroutine yield
-> > points, resulting in stale values from the previous thread when a
-> > coroutine is re-entered by a new thread.
-> >
-> > Serge Guelton developed an __attribute__((noinline)) wrapper and tested
-> > it with clang and gcc. I formatted his idea according to QEMU's coding
-> > style and wrote documentation.
->=20
-> The commit message says "attribute noinline" but the code
-> opts for "attribute noinline plus asm-volatile barrier":
->=20
-> > +/*
-> > + * To stop the compiler from caching TLS values we define accessor fun=
-ctions
-> > + * with __attribute__((noinline)) plus asm volatile("") to prevent
-> > + * optimizations that override noinline. This is fragile and ultimatel=
-y needs
-> > + * to be solved by a mechanism that is guaranteed to work by the compi=
-ler (e.g.
-> > + * stackless coroutines), but for now we use this approach to prevent =
-issues.
+On Dienstag, 22. Februar 2022 14:21:52 CET Peter Maydell wrote:
+> On Thu, 17 Feb 2022 at 16:43, Christian Schoenebeck
+> 
+> <qemu_oss@crudebyte.com> wrote:
+> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > index d1660d67fa..ce12f64853 100644
+> > --- a/include/qemu/osdep.h
+> > +++ b/include/qemu/osdep.h
+> > @@ -805,6 +805,19 @@ static inline int
+> > platform_does_not_support_system(const char *command)> 
+> >  }
+> >  #endif /* !HAVE_SYSTEM_FUNCTION */
+> > 
+> > +/**
+> > + * Duplicate directory entry @dent.
+> > + *
+> > + * It is highly recommended to use this function instead of open coding
+> > + * duplication of @c dirent objects, because the actual @c struct @c
+> > dirent + * size may be bigger or shorter than @c sizeof(struct dirent)
+> > and correct + * handling is platform specific (see gitlab issue #841).
+> > + *
+> > + * @dent - original directory entry to be duplicated
+> > + * @returns duplicated directory entry which should be freed with
+> > g_free()
 > > + */
->=20
-> I thought we'd determined previously that noinline + asm-volatile wasn't
-> sufficient?
->=20
-> https://lore.kernel.org/qemu-devel/YbdUDkTkt5srNdW+@stefanha-x1.localdoma=
-in/
->=20
-> This version of the patchset does seem to include the asm input operand
-> you describe there (in one of the three wrappers, anyway), but if that's
-> necessary then we should document it in the comment here.
+> > +struct dirent *qemu_dirent_dup(struct dirent *dent);
+> 
+> Hi; I just noticed this has landed in git recently.
+> Please don't add new prototypes to osdep.h -- it is
+> a header included by every single C file in the tree, so
+> making it bigger slows down compilation. osdep.h is supposed
+> to contain only:
+>  * things which everybody needs
+>  * things without which code would work on most platforms but
+>    fail to compile or misbehave on a minority of host OSes
+>    (ie system incompatibility handling)
+> 
+> This prototype is neither of those -- please find or create a more
+> appropriate header file for it, that can be included only by the
+> source files that actually need it.
+> 
+> thanks
+> -- PMM
 
-Sorry, the message/comments are outdated. I'll change them to reflect
-the current approach.
+Good to know, because the pending Darwin series would have added stuff to 
+osdep.h as well:
+https://lore.kernel.org/qemu-devel/20220220165056.72289-10-wwcohen@gmail.com/
 
-Stefan
+We'll find a different place.
 
---Wv+lJej4ZTAz/AqR
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks!
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+Christian Schoenebeck
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIU6KgACgkQnKSrs4Gr
-c8hlQQgAhKiZpbh9i2ghRq178g4o7tG8Zcbzz2A+zJ9mRZVJmzwyUeDXV2G/RzbU
-qQ2q4+Ghvpyt8NyQFsUjJVdwF6c5RhUK5n3NuQoHId4FpAv7c5UvxSFV9Z9yS8Uh
-XeZxhkoC6q+ueETfgZBbOaabhy2t05eNe3GgRfnSvc88beSk4+0u1JwuSbk9zqFb
-+mG3iy0cyTL8ZeCuL6YND765blUWeMhSNYPB+BkJL7J7iAPeZYUedFxD3BDzG80t
-dKmUgdpEYwtSin33BpZvaq3tctVJY7hbFV/bs+YqObYBd5TJjfois706jT1ySSmZ
-tvjbrreUTracyv8Jpvkj/EP0VDD6Wg==
-=OgxX
------END PGP SIGNATURE-----
-
---Wv+lJej4ZTAz/AqR--
 
 
