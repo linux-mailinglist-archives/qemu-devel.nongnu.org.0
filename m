@@ -2,100 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B854BF2C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 08:44:46 +0100 (CET)
-Received: from localhost ([::1]:48910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 374634BF2DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 08:46:42 +0100 (CET)
+Received: from localhost ([::1]:51098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMPqn-00057v-9f
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 02:44:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52034)
+	id 1nMPsf-0006jm-B2
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 02:46:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nMPo1-0004LH-Jr
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 02:41:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33436)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nMPpQ-0004fo-UA
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 02:43:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nMPny-0005eM-5T
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 02:41:52 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nMPpL-0005oy-Vc
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 02:43:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645515708;
+ s=mimecast20190719; t=1645515792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IGrx4EtwRfyNbdr1Hsz29eiLereNmvESiiY5K98iiTU=;
- b=cuSKtWmPYxM5Za250Zhtiljr0LFoha86r8AL9sLwHV2ICG2mDLGgg2xvXAkfiBgvR8J7mo
- XA0Wh4Q5hGmprzpqqB6OdIB+t6bHs5lMyRlX+cVUhTFODZRojeLTfJ1blDoVqpdyP6x2kV
- FZuDZGEsGiHAnw5ZFAo9HK/cUxaalhs=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IuvQ3jheunmQH1WtbgP5r5+N6QkQt8+eFp+N6Cu+lHs=;
+ b=jQr0OXSJLuBI45I2M4dGgScGNps3Dh55RJRlcc3oNWoojGm0Xn0DkM1d6Sb3igWcnSqG3p
+ Zbp1q88pafMDlIzGhLbK4ySq3vlFzi56Gbv2VRtGfoAtBPu7/PKDfHJaqWUyI6IH+6tSAG
+ B8ngFzgrpF+nEqeZiinO3djYtDcd/AE=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-pWddIfonMqq470-iBWs7FQ-1; Tue, 22 Feb 2022 02:41:47 -0500
-X-MC-Unique: pWddIfonMqq470-iBWs7FQ-1
-Received: by mail-pg1-f197.google.com with SMTP id
- u17-20020a63a911000000b0037491401c44so12903pge.17
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 23:41:46 -0800 (PST)
+ us-mta-189-6ZizMVx0N1mA4QaYHKewGw-1; Tue, 22 Feb 2022 02:43:11 -0500
+X-MC-Unique: 6ZizMVx0N1mA4QaYHKewGw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ p4-20020a05621421e400b0042d006b2328so19997270qvj.15
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 23:43:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IGrx4EtwRfyNbdr1Hsz29eiLereNmvESiiY5K98iiTU=;
- b=CaqLjlgmLFCE+52vzhSt9deZsPSTSOPh9aVncItux9kiOCkCBDVnb2gqkKiPfwBriO
- a5izcxls9hym365bBh44lchiUD+ERHsGHZVcKqU+dNskyfUNK+dT/NZkLh5gVETg2bWj
- ma4h8m+dLfJ67+juoM0YExwT58bjtSqvelsUSTLpfkdziSl8t0mQnKvrODBALLG6qufH
- bwyYsqFeq8EChoVgtMNhlfsNPRVj/RjHNpOkOiRoi5X1N5+X5wF58q2cSIsRs/lwr1Xm
- etlIsqc5mXCwwImL8h5fOwKqNtfJueMCfBMdWkFoTstXAgitoj0ja4pAdwC6qgBrgbB3
- 7ELw==
-X-Gm-Message-State: AOAM530YDWZl5jGvLBm+9NFsA/GbdJu87ozqBOuQQxmOclQRxBxuUHsa
- eQrwqEf1/jtVvO79zqyLkWJoMMISY3rLbYOBmrai0T2qjrWpYNbSwrBLcNJ7S8V93bK50KwP+nA
- 18xk2To7PMpfgudE=
-X-Received: by 2002:a17:902:d508:b0:14f:dd5f:c8b2 with SMTP id
- b8-20020a170902d50800b0014fdd5fc8b2mr1911232plg.17.1645515706014; 
- Mon, 21 Feb 2022 23:41:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw2WX9ULvGmnVvPW8y6Y/A9jFQVM47Ch2DLAEyaR5PdCPEif0F457n1g98Ql7HwNUofmpiqBw==
-X-Received: by 2002:a17:902:d508:b0:14f:dd5f:c8b2 with SMTP id
- b8-20020a170902d50800b0014fdd5fc8b2mr1911197plg.17.1645515705673; 
- Mon, 21 Feb 2022 23:41:45 -0800 (PST)
-Received: from [10.72.13.199] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id q8sm14860810pfk.168.2022.02.21.23.41.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Feb 2022 23:41:45 -0800 (PST)
-Message-ID: <0f0204f1-8b7f-a21e-495e-24443a63f026@redhat.com>
-Date: Tue, 22 Feb 2022 15:41:36 +0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IuvQ3jheunmQH1WtbgP5r5+N6QkQt8+eFp+N6Cu+lHs=;
+ b=Lx8frugmYXlNGnVkg7KxEUzrZtl9Kt+s0SvwVqcGmbPr5Sk+tnbva6pbXgyAhZP5/2
+ HLGSEgkqZop4WXw8/ow+E2QlP32Flkeu8cX3hEcxxDhX4cI7JlihZAnsg4Mpt4Q6VQbK
+ IoYrdhIRPUvfZqUv+C/WBsoPjw9GHYRLg8De4FQ9lOiD3vu5F+3wQAPoZ8R6U5Ysvmj0
+ OjhZVk5eNGtkYPR36AaAAZSnPamciXOjjG6JSoTnaq97Koh1IdxmmO58YdFm3NKVgE+J
+ nZLlGfh7XK/ac2UwU+hjIjkY+O+xrmWGin1nmZ1b1317SuH5R0TvuR2XuMJG52vZGv3R
+ fz7w==
+X-Gm-Message-State: AOAM530vI7lhPF96YrdnAo5n3LawU6T+PwupUdGMLhEFq0MtHKqcw/6V
+ 6NC4EHoSSorxg8QOT2edAVeUu1X+Cf1TKloSbDInXzpyJ7AyQBcyFdGReKSN/uqln5K/BgrrxIt
+ z86i41YOc2B9vKH4EWn7/8VcV2hOyCzI=
+X-Received: by 2002:ac8:7dc6:0:b0:2de:708:3e3a with SMTP id
+ c6-20020ac87dc6000000b002de07083e3amr9084664qte.459.1645515790448; 
+ Mon, 21 Feb 2022 23:43:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzfcQamir4PF18pAiIAEQsExRv3Ap5rFfkpLQ9HRyBp6R8wJS1jDL0BDmIyDKYidIk447fmhlMcBG1NcuNR8Uk=
+X-Received: by 2002:ac8:7dc6:0:b0:2de:708:3e3a with SMTP id
+ c6-20020ac87dc6000000b002de07083e3amr9084644qte.459.1645515790109; Mon, 21
+ Feb 2022 23:43:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: [PATCH 28/31] vdpa: Expose VHOST_F_LOG_ALL on SVQ
-To: Eugenio Perez Martin <eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-29-eperezma@redhat.com>
- <42664143-6d0c-b107-ec90-8e6336bae29b@redhat.com>
- <CAJaqyWdBLU+maEhByepzeH7iwLmqUba0rRb8PM4VwBy2P8Vtow@mail.gmail.com>
- <9b32f664-56a9-3718-cf48-49003f87d430@redhat.com>
- <CAJaqyWcvWjPas0=xp+U-c-kG+e6k73jg=C4phFD7S-tZY=niSQ@mail.gmail.com>
- <CACGkMEtbd9RsE9f-HLnwmhJEFsK++uBHnqG4N0c6qJG0PxDdzw@mail.gmail.com>
- <CAJaqyWdhHmD+tB_bY_YEMnBU1p7-LW=LP8f+3e_ZXDcOfSRiNA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWdhHmD+tB_bY_YEMnBU1p7-LW=LP8f+3e_ZXDcOfSRiNA@mail.gmail.com>
+ <20220121202733.404989-18-eperezma@redhat.com>
+ <82b8c3bf-1b11-86c7-4fad-294f5ccf1278@redhat.com>
+ <CAJaqyWdRKZp6CwnE+HAr0JALhSRh-trJbZ01kddnLTuRX_tMKQ@mail.gmail.com>
+ <3d0dfaaa-a67c-6f48-fd03-45d2661ba92a@redhat.com>
+ <CAJaqyWfEEg2PKgxBAFwYhF9LD1oDtwVYXSjHHnCbstT3dvL2GA@mail.gmail.com>
+ <02f29b62-6656-ba2f-1475-251b16e0e978@redhat.com>
+ <CAJaqyWcoHgToqsR-bVRctTnhgufmarR_2hh4O_VoCbCGp8WNhg@mail.gmail.com>
+ <CACGkMEs+c8_TkrQ4rgtR9u5xYzhJfrzQ9Wuohs+Q_GXFLmOC7w@mail.gmail.com>
+In-Reply-To: <CACGkMEs+c8_TkrQ4rgtR9u5xYzhJfrzQ9Wuohs+Q_GXFLmOC7w@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 22 Feb 2022 08:42:33 +0100
+Message-ID: <CAJaqyWd2PQFedaEOV7YVZgp0m37snn-4LYYtNw7g4u+7hrtq=Q@mail.gmail.com>
+Subject: Re: [PATCH 17/31] vdpa: adapt vhost_ops callbacks to svq
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,190 +116,361 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/2/17 下午4:22, Eugenio Perez Martin 写道:
-> On Thu, Feb 17, 2022 at 7:02 AM Jason Wang <jasowang@redhat.com> wrote:
->> On Wed, Feb 16, 2022 at 11:54 PM Eugenio Perez Martin
->> <eperezma@redhat.com> wrote:
->>> On Tue, Feb 8, 2022 at 9:25 AM Jason Wang <jasowang@redhat.com> wrote:
->>>>
->>>> 在 2022/2/1 下午7:45, Eugenio Perez Martin 写道:
->>>>> On Sun, Jan 30, 2022 at 7:50 AM Jason Wang <jasowang@redhat.com> wrote:
->>>>>> 在 2022/1/22 上午4:27, Eugenio Pérez 写道:
->>>>>>> SVQ is able to log the dirty bits by itself, so let's use it to not
->>>>>>> block migration.
->>>>>>>
->>>>>>> Also, ignore set and clear of VHOST_F_LOG_ALL on set_features if SVQ is
->>>>>>> enabled. Even if the device supports it, the reports would be nonsense
->>>>>>> because SVQ memory is in the qemu region.
->>>>>>>
->>>>>>> The log region is still allocated. Future changes might skip that, but
->>>>>>> this series is already long enough.
->>>>>>>
->>>>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>>>>>> ---
->>>>>>>     hw/virtio/vhost-vdpa.c | 20 ++++++++++++++++++++
->>>>>>>     1 file changed, 20 insertions(+)
->>>>>>>
->>>>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>>>>>> index fb0a338baa..75090d65e8 100644
->>>>>>> --- a/hw/virtio/vhost-vdpa.c
->>>>>>> +++ b/hw/virtio/vhost-vdpa.c
->>>>>>> @@ -1022,6 +1022,9 @@ static int vhost_vdpa_get_features(struct vhost_dev *dev, uint64_t *features)
->>>>>>>         if (ret == 0 && v->shadow_vqs_enabled) {
->>>>>>>             /* Filter only features that SVQ can offer to guest */
->>>>>>>             vhost_svq_valid_guest_features(features);
->>>>>>> +
->>>>>>> +        /* Add SVQ logging capabilities */
->>>>>>> +        *features |= BIT_ULL(VHOST_F_LOG_ALL);
->>>>>>>         }
->>>>>>>
->>>>>>>         return ret;
->>>>>>> @@ -1039,8 +1042,25 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
->>>>>>>
->>>>>>>         if (v->shadow_vqs_enabled) {
->>>>>>>             uint64_t dev_features, svq_features, acked_features;
->>>>>>> +        uint8_t status = 0;
->>>>>>>             bool ok;
->>>>>>>
->>>>>>> +        ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
->>>>>>> +        if (unlikely(ret)) {
->>>>>>> +            return ret;
->>>>>>> +        }
->>>>>>> +
->>>>>>> +        if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
->>>>>>> +            /*
->>>>>>> +             * vhost is trying to enable or disable _F_LOG, and the device
->>>>>>> +             * would report wrong dirty pages. SVQ handles it.
->>>>>>> +             */
->>>>>> I fail to understand this comment, I'd think there's no way to disable
->>>>>> dirty page tracking for SVQ.
->>>>>>
->>>>> vhost_log_global_{start,stop} are called at the beginning and end of
->>>>> migration. To inform the device that it should start logging, they set
->>>>> or clean VHOST_F_LOG_ALL at vhost_dev_set_log.
->>>>
->>>> Yes, but for SVQ, we can't disable dirty page tracking, isn't it? The
->>>> only thing is to ignore or filter out the F_LOG_ALL and pretend to be
->>>> enabled and disabled.
->>>>
->>> Yes, that's what this patch does.
->>>
->>>>> While SVQ does not use VHOST_F_LOG_ALL, it exports the feature bit so
->>>>> vhost does not block migration. Maybe we need to look for another way
->>>>> to do this?
->>>>
->>>> I'm fine with filtering since it's much more simpler, but I fail to
->>>> understand why we need to check DRIVER_OK.
->>>>
->>> Ok maybe I can make that part more clear,
->>>
->>> Since both operations use vhost_vdpa_set_features we must just filter
->>> the one that actually sets or removes VHOST_F_LOG_ALL, without
->>> affecting other features.
->>>
->>> In practice, that means to not forward the set features after
->>> DRIVER_OK. The device is not expecting them anymore.
->> I wonder what happens if we don't do this.
->>
-> If we simply delete the check vhost_dev_set_features will return an
-> error, failing the start of the migration. More on this below.
-
-
-Ok.
-
-
+On Tue, Feb 22, 2022 at 4:16 AM Jason Wang <jasowang@redhat.com> wrote:
 >
->> So kernel had this check:
->>
->>          /*
->>           * It's not allowed to change the features after they have
->>           * been negotiated.
->>           */
->> if (ops->get_status(vdpa) & VIRTIO_CONFIG_S_FEATURES_OK)
->>          return -EBUSY;
->>
->> So is it FEATURES_OK actually?
->>
-> Yes, FEATURES_OK seems more appropriate actually so I will switch to
-> it for the next version.
+> On Tue, Feb 22, 2022 at 1:23 AM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+> >
+> > On Mon, Feb 21, 2022 at 8:15 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > >
+> > > =E5=9C=A8 2022/2/18 =E4=B8=8A=E5=8D=881:13, Eugenio Perez Martin =E5=
+=86=99=E9=81=93:
+> > > > On Tue, Feb 8, 2022 at 4:58 AM Jason Wang <jasowang@redhat.com> wro=
+te:
+> > > >>
+> > > >> =E5=9C=A8 2022/2/1 =E4=B8=8A=E5=8D=882:58, Eugenio Perez Martin =
+=E5=86=99=E9=81=93:
+> > > >>> On Sun, Jan 30, 2022 at 5:03 AM Jason Wang <jasowang@redhat.com> =
+wrote:
+> > > >>>> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =
+=E5=86=99=E9=81=93:
+> > > >>>>> First half of the buffers forwarding part, preparing vhost-vdpa
+> > > >>>>> callbacks to SVQ to offer it. QEMU cannot enable it at this mom=
+ent, so
+> > > >>>>> this is effectively dead code at the moment, but it helps to re=
+duce
+> > > >>>>> patch size.
+> > > >>>>>
+> > > >>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > >>>>> ---
+> > > >>>>>     hw/virtio/vhost-shadow-virtqueue.h |   2 +-
+> > > >>>>>     hw/virtio/vhost-shadow-virtqueue.c |  21 ++++-
+> > > >>>>>     hw/virtio/vhost-vdpa.c             | 133 ++++++++++++++++++=
+++++++++---
+> > > >>>>>     3 files changed, 143 insertions(+), 13 deletions(-)
+> > > >>>>>
+> > > >>>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vho=
+st-shadow-virtqueue.h
+> > > >>>>> index 035207a469..39aef5ffdf 100644
+> > > >>>>> --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > > >>>>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > > >>>>> @@ -35,7 +35,7 @@ size_t vhost_svq_device_area_size(const Vhost=
+ShadowVirtqueue *svq);
+> > > >>>>>
+> > > >>>>>     void vhost_svq_stop(VhostShadowVirtqueue *svq);
+> > > >>>>>
+> > > >>>>> -VhostShadowVirtqueue *vhost_svq_new(void);
+> > > >>>>> +VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize);
+> > > >>>>>
+> > > >>>>>     void vhost_svq_free(VhostShadowVirtqueue *vq);
+> > > >>>>>
+> > > >>>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vho=
+st-shadow-virtqueue.c
+> > > >>>>> index f129ec8395..7c168075d7 100644
+> > > >>>>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > > >>>>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > > >>>>> @@ -277,9 +277,17 @@ void vhost_svq_stop(VhostShadowVirtqueue *=
+svq)
+> > > >>>>>     /**
+> > > >>>>>      * Creates vhost shadow virtqueue, and instruct vhost devic=
+e to use the shadow
+> > > >>>>>      * methods and file descriptors.
+> > > >>>>> + *
+> > > >>>>> + * @qsize Shadow VirtQueue size
+> > > >>>>> + *
+> > > >>>>> + * Returns the new virtqueue or NULL.
+> > > >>>>> + *
+> > > >>>>> + * In case of error, reason is reported through error_report.
+> > > >>>>>      */
+> > > >>>>> -VhostShadowVirtqueue *vhost_svq_new(void)
+> > > >>>>> +VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize)
+> > > >>>>>     {
+> > > >>>>> +    size_t desc_size =3D sizeof(vring_desc_t) * qsize;
+> > > >>>>> +    size_t device_size, driver_size;
+> > > >>>>>         g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostSh=
+adowVirtqueue, 1);
+> > > >>>>>         int r;
+> > > >>>>>
+> > > >>>>> @@ -300,6 +308,15 @@ VhostShadowVirtqueue *vhost_svq_new(void)
+> > > >>>>>         /* Placeholder descriptor, it should be deleted at set_=
+kick_fd */
+> > > >>>>>         event_notifier_init_fd(&svq->svq_kick, INVALID_SVQ_KICK=
+_FD);
+> > > >>>>>
+> > > >>>>> +    svq->vring.num =3D qsize;
+> > > >>>> I wonder if this is the best. E.g some hardware can support up t=
+o 32K
+> > > >>>> queue size. So this will probably end up with:
+> > > >>>>
+> > > >>>> 1) SVQ use 32K queue size
+> > > >>>> 2) hardware queue uses 256
+> > > >>>>
+> > > >>> In that case SVQ vring queue size will be 32K and guest's vring c=
+an
+> > > >>> negotiate any number with SVQ equal or less than 32K,
+> > > >>
+> > > >> Sorry for being unclear what I meant is actually
+> > > >>
+> > > >> 1) SVQ uses 32K queue size
+> > > >>
+> > > >> 2) guest vq uses 256
+> > > >>
+> > > >> This looks like a burden that needs extra logic and may damage the
+> > > >> performance.
+> > > >>
+> > > > Still not getting this point.
+> > > >
+> > > > An available guest buffer, although contiguous in GPA/GVA, can expa=
+nd
+> > > > in multiple buffers if it's not contiguous in qemu's VA (by the whi=
+le
+> > > > loop in virtqueue_map_desc [1]). In that scenario it is better to h=
+ave
+> > > > "plenty" of SVQ buffers.
+> > >
+> > >
+> > > Yes, but this case should be rare. So in this case we should deal wit=
+h
+> > > overrun on SVQ, that is
+> > >
+> > > 1) SVQ is full
+> > > 2) guest VQ isn't
+> > >
+> > > We need to
+> > >
+> > > 1) check the available buffer slots
+> > > 2) disable guest kick and wait for the used buffers
+> > >
+> > > But it looks to me the current code is not ready for dealing with thi=
+s case?
+> > >
+> >
+> > Yes it deals, that's the meaning of svq->next_guest_avail_elem.
 >
-> But it should be functionally equivalent, since
-> vhost.c:vhost_dev_start sets both and the setting of _F_LOG_ALL cannot
-> be concurrent with it.
-
-
-Right.
-
-
+> Oh right, I missed that.
 >
->> For this patch, I wonder if the thing we need to do is to see whether
->> it is a enable/disable F_LOG_ALL and simply return.
->>
-> Yes, that's the intention of the patch.
+> >
+> > >
+> > > >
+> > > > I'm ok if we decide to put an upper limit though, or if we decide n=
+ot
+> > > > to handle this situation. But we would leave out valid virtio drive=
+rs.
+> > > > Maybe to set a fixed upper limit (1024?)? To add another parameter
+> > > > (x-svq-size-n=3DN)?
+> > > >
+> > > > If you mean we lose performance because memory gets more sparse I
+> > > > think the only possibility is to limit that way.
+> > >
+> > >
+> > > If guest is not using 32K, having a 32K for svq may gives extra stres=
+s
+> > > on the cache since we will end up with a pretty large working set.
+> > >
+> >
+> > That might be true. My guess is that it should not matter, since SVQ
+> > and the guest's vring will have the same numbers of scattered buffers
+> > and the avail / used / packed ring will be consumed more or less
+> > sequentially. But I haven't tested.
+> >
+> > I think it's better to add an upper limit (either fixed or in the
+> > qemu's backend's cmdline) later if we see that this is a problem.
 >
-> We have 4 cases here:
-> a) We're being called from vhost_dev_start, with enable_log = false
-> b) We're being called from vhost_dev_start, with enable_log = true
-
-
-And this case makes us can't simply return without calling vhost-vdpa.
-
-
-> c) We're being called from vhost_dev_set_log, with enable_log = false
-> d) We're being called from vhost_dev_set_log, with enable_log = true
+> I'd suggest using the same size as what the guest saw.
 >
-> The way to tell the difference between a/b and c/d is to check if
-> {FEATURES,DRIVER}_OK is set. And, as you point out in previous mails,
-> F_LOG_ALL must be filtered unconditionally since SVQ tracks dirty
-> memory through the memory unmapping, so we clear the bit
-> unconditionally if we detect that VHOST_SET_FEATURES will be called
-> (cases a and b).
+> > Another solution now would be to get the number from the frontend
+> > device cmdline instead of from the vdpa device. I'm ok with that, but
+> > it doesn't delete the svq->next_guest_avail_elem processing, and it
+> > comes with disadvantages in my opinion. More below.
 >
-> Another possibility is to track if features have been set with a bool
-> in vhost_vdpa or something like that. But it seems cleaner to me to
-> only store that in the actual device.
-
-
-So I suggest to make sure codes match the comment:
-
-         if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
-             /*
-              * vhost is trying to enable or disable _F_LOG, and the device
-              * would report wrong dirty pages. SVQ handles it.
-              */
-             return 0;
-         }
-
-It would be better to check whether the caller is toggling _F_LOG_ALL in 
-this case.
-
-Thanks
-
-
+> Right, we should keep next_guest_avail_elem. Using the same queue size
+> is a balance between:
 >
->> Thanks
->>
->>> Does that make more sense?
->>>
->>> Thanks!
->>>
->>>> Thanks
->>>>
->>>>
->>>>> Thanks!
->>>>>
->>>>>> Thanks
->>>>>>
->>>>>>
->>>>>>> +            return 0;
->>>>>>> +        }
->>>>>>> +
->>>>>>> +        /* We must not ack _F_LOG if SVQ is enabled */
->>>>>>> +        features &= ~BIT_ULL(VHOST_F_LOG_ALL);
->>>>>>> +
->>>>>>>             ret = vhost_vdpa_get_dev_features(dev, &dev_features);
->>>>>>>             if (ret != 0) {
->>>>>>>                 error_report("Can't get vdpa device features, got (%d)", ret);
+> 1) using next_guest_avail_elem (rare)
+> 2) not give too much stress on the cache
+>
+
+Ok I'll change the SVQ size for the frontend size then.
+
+> >
+> > >
+> > > >
+> > > >> And this can lead other interesting situation:
+> > > >>
+> > > >> 1) SVQ uses 256
+> > > >>
+> > > >> 2) guest vq uses 1024
+> > > >>
+> > > >> Where a lot of more SVQ logic is needed.
+> > > >>
+> > > > If we agree that a guest descriptor can expand in multiple SVQ
+> > > > descriptors, this should be already handled by the previous logic t=
+oo.
+> > > >
+> > > > But this should only happen in case that qemu is launched with a "b=
+ad"
+> > > > cmdline, isn't it?
+> > >
+> > >
+> > > This seems can happen when we use -device
+> > > virtio-net-pci,tx_queue_size=3D1024 with a 256 size vp_vdpa device at=
+ least?
+> > >
+> >
+> > I'm going to use the rx queue here since it's more accurate, tx has
+> > its own limit separately.
+> >
+> > If we use rx_queue_size=3D256 in L0 and rx_queue_size=3D1024 in L1 with=
+ no
+> > SVQ, L0 qemu will happily accept 1024 as size
+>
+> Interesting, looks like a bug (I guess it works since you enable vhost?):
+>
+
+No, emulated interfaces. More below.
+
+> Per virtio-spec:
+>
+> """
+> Queue Size. On reset, specifies the maximum queue size supported by
+> the device. This can be modified by the driver to reduce memory
+> requirements. A 0 means the queue is unavailable.
+> """
+>
+
+Yes but how should it fail? Drivers do not know how to check if the
+value was invalid. DEVICE_NEEDS_RESET?
+
+The L0 emulated device simply receives the write to pci and calls
+virtio_queue_set_num. I can try to add to the check "num <
+vdev->vq[n].vring.num_default", but there is no way to notify the
+guest that setting the value failed.
+
+> We can't increase the queue_size from 256 to 1024 actually. (Only
+> decrease is allowed).
+>
+> > when L1 qemu writes that
+> > value at vhost_virtqueue_start. I'm not sure what would happen with a
+> > real device, my guess is that the device will fail somehow. That's
+> > what I meant with a "bad cmdline", I should have been more specific.
+>
+> I should say that it's something that is probably unrelated to this
+> series but needs to be addressed.
+>
+
+I agree, I can start developing the patches for sure.
+
+> >
+> > If we add SVQ to the mix, the guest first negotiates the 1024 with the
+> > qemu device model. After that, vhost.c will try to write 1024 too but
+> > this is totally ignored by this patch's changes at
+> > vhost_vdpa_set_vring_num. Finally, SVQ will set 256 as a ring size to
+> > the device, since it's the read value from the device, leading to your
+> > scenario. So SVQ effectively isolates both sides and makes possible
+> > the communication, even with a device that does not support so many
+> > descriptors.
+> >
+> > But SVQ already handles this case: It's the same as if the buffers are
+> > fragmented in HVA and queue size is equal at both sides. That's why I
+> > think SVQ size should depend on the backend device's size, not
+> > frontend cmdline.
+>
+> Right.
+>
+> Thanks
+>
+> >
+> > Thanks!
+> >
+> > >
+> > > >
+> > > > If I run that example with vp_vdpa, L0 qemu will happily accept 102=
+4
+> > > > as a queue size [2]. But if the vdpa device maximum queue size is
+> > > > effectively 256, this will result in an error: We're not exposing i=
+t
+> > > > to the guest at any moment but with qemu's cmdline.
+> > > >
+> > > >>> including 256.
+> > > >>> Is that what you mean?
+> > > >>
+> > > >> I mean, it looks to me the logic will be much more simplified if w=
+e just
+> > > >> allocate the shadow virtqueue with the size what guest can see (gu=
+est
+> > > >> vring).
+> > > >>
+> > > >> Then we don't need to think if the difference of the queue size ca=
+n have
+> > > >> any side effects.
+> > > >>
+> > > > I think that we cannot avoid that extra logic unless we force GPA t=
+o
+> > > > be contiguous in IOVA. If we are sure the guest's buffers cannot be=
+ at
+> > > > more than one descriptor in SVQ, then yes, we can simplify things. =
+If
+> > > > not, I think we are forced to carry all of it.
+> > >
+> > >
+> > > Yes, I agree, the code should be robust to handle any case.
+> > >
+> > > Thanks
+> > >
+> > >
+> > > >
+> > > > But if we prove it I'm not opposed to simplifying things and making
+> > > > head at SVQ =3D=3D head at guest.
+> > > >
+> > > > Thanks!
+> > > >
+> > > > [1] https://gitlab.com/qemu-project/qemu/-/blob/17e31340/hw/virtio/=
+virtio.c#L1297
+> > > > [2] But that's not the whole story: I've been running limited in tx
+> > > > descriptors because of virtio_net_max_tx_queue_size, which predates
+> > > > vdpa. I'll send a patch to also un-limit it.
+> > > >
+> > > >>> If with hardware queues you mean guest's vring, not sure why it i=
+s
+> > > >>> "probably 256". I'd say that in that case with the virtio-net ker=
+nel
+> > > >>> driver the ring size will be the same as the device export, for
+> > > >>> example, isn't it?
+> > > >>>
+> > > >>> The implementation should support any combination of sizes, but t=
+he
+> > > >>> ring size exposed to the guest is never bigger than hardware one.
+> > > >>>
+> > > >>>> ? Or we SVQ can stick to 256 but this will this cause trouble if=
+ we want
+> > > >>>> to add event index support?
+> > > >>>>
+> > > >>> I think we should not have any problem with event idx. If you mea=
+n
+> > > >>> that the guest could mark more buffers available than SVQ vring's
+> > > >>> size, that should not happen because there must be less entries i=
+n the
+> > > >>> guest than SVQ.
+> > > >>>
+> > > >>> But if I understood you correctly, a similar situation could happ=
+en if
+> > > >>> a guest's contiguous buffer is scattered across many qemu's VA ch=
+unks.
+> > > >>> Even if that would happen, the situation should be ok too: SVQ kn=
+ows
+> > > >>> the guest's avail idx and, if SVQ is full, it will continue forwa=
+rding
+> > > >>> avail buffers when the device uses more buffers.
+> > > >>>
+> > > >>> Does that make sense to you?
+> > > >>
+> > > >> Yes.
+> > > >>
+> > > >> Thanks
+> > > >>
+> > >
+> >
+>
 
 
