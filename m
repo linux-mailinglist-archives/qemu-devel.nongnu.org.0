@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA93C4BFEFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:39:44 +0100 (CET)
-Received: from localhost ([::1]:51356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFDE4BFF0F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:42:36 +0100 (CET)
+Received: from localhost ([::1]:58196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMYCU-0004oN-4z
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:39:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40926)
+	id 1nMYFI-00014Y-0Q
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:42:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMXq8-0007yC-Hf; Tue, 22 Feb 2022 11:16:36 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:59401)
+ id 1nMXqR-0008EF-Dn; Tue, 22 Feb 2022 11:16:55 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:39911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMXq5-0005Xn-S3; Tue, 22 Feb 2022 11:16:36 -0500
+ id 1nMXqG-0005e2-6U; Tue, 22 Feb 2022 11:16:54 -0500
 Received: from quad ([82.142.17.50]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MfqCF-1ntPoC3cnx-00gGrj; Tue, 22
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MStT6-1nogXg2TbK-00UKZg; Tue, 22
  Feb 2022 17:16:30 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] qemu-options: fix incorrect description for '-drive index='
-Date: Tue, 22 Feb 2022 17:16:22 +0100
-Message-Id: <20220222161624.382218-6-laurent@vivier.eu>
+Subject: [PULL 6/7] vdpa: Make ncs autofree
+Date: Tue, 22 Feb 2022 17:16:23 +0100
+Message-Id: <20220222161624.382218-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222161624.382218-1-laurent@vivier.eu>
 References: <20220222161624.382218-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:W3be25eMGrIwj+ZQIR8oJ2BZ2AfhUMIDi7sSacHu7CJYPovVnGx
- jFdAZluKcjSouI9Pi1QjnLNU648IbcCldljXW686ZRxV8ePwI38yn5iDqwVTUpkIz2P2N2h
- E0qo3xDaU2Q9gjEws2NWak+xtbTHlryb/7StUWaL0PumctfTazoU5rweDe24zqazhVY/uvt
- X6tgtgcBIpwhFKaYqA7UQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9hxDYsm8f/s=:D2kqxTlZZxWjVIDaCAZG/l
- UPxdcPlTLMdBs9iNzquwDjWZg+59n85enF5PgZBnB9HRKB1pdl8UYnFdyTUQ4IuZVpJojQ47/
- INKtJnb6bALX0IMFRjqOZX01wirfOElDvw3kvagM4a6sohfRRMMUgC+0LpMtjejxGOJU6sqGt
- ztwfNLl926qWpd7DrIpIVL4eB1v4nbwW7T1BuZh5RaOKscRaXit7rgOQaQfIwwD/tIPy4gqot
- /MmQqe0eFT5UGmMFcOwTBADI7EmHCWTnTQbV+kEsx4VDGZtz0IVOAt2GKhKklko9VaRXgeYny
- EgWnPzzqQzs4UTtnjTht/DL22gTax6yjiP8pTT8I+g2silAcX2dd34/m7yUZKJCmDfqdI0Ghu
- Hhm/RyNfEpsjDQaSMYootZkrcqERPCmqfAW6jpCNqOJV6OFGEP4AQiVDjmRBClPWKwsPcoDAI
- 67O5xhapmgtMHVyQZT2l4LQ39l2cJOWGAmjDiuHzjjAtKZ4FIpW43+0Q1X7OX1AepimptWGlp
- nMBhMlyFioHOElcaL8q/ZmjSq85kqlG3aoI+5GZaP+vHg7Hk650cfJ4U5ARJMkOrluFcxIB3e
- sWrmG1hAkw01qzzUV2CabKXOAm3IA/Pzb48ANrhU2qOGxGe1HAUUbkZTSOhJNeUa2qE/TXiQi
- VGE8q4zcXqKMhExKVeSFVL3/SSy7k1TQTqHtTPEgMr82GO7D8wtHlKsPvZR9Odcc37NQ=
+X-Provags-ID: V03:K1:rmVM5WGWPKasarRE3cpUe12de7fpmIbq4i52tAPE+lQ15mx1sYF
+ UWDj/tDHZ3fhK28aDqJGrTRZkirUd2FB/CR0yNT01m5H/iVlndvH+777gOVUga5cpERCQTb
+ uAMdwmAt6Fn43wN6B2QxyRcPicY09HxcPjIK+i97wnGdZpMeqbzRSK48gmV+JF3UPwZ9xFj
+ EPD9D3QKJ+00cnEu3q8xg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:izCHUsKb+jU=:I7vHYsEujlmpe5AxNd5JCS
+ 7Mlw7tvd8n62z4pRvS4tclfSzQUxDHmU0XzuvYblLS5bUSs6zv6SVBoTz04+J1WWaxZHX9H0f
+ T/QGyaCU6lAXlXcyxzTVMpB38KfoWdzbBaFwubfRHicFuH4zb3XqQ5zhfuCkrglwvBotq8/nd
+ FYtFlmnmYIup0JyjiN/rr9Hc44bQ6MteB7+SNryyD890JEL3MBNKBs9pWuf9B+4lFChS4yD/D
+ +oEkAUf2A38IWcRYvILTUHWJ+hH2+PW7AgQ4I0WFq8SxyTCGe5UFFW600lIMlrhQs2hn1DxXy
+ hTpcd+Y8/cSME0BnSzPHX5Uczk8T889I9IC8OmcT7SBy8WlCe5lu3jEThZDs0iEcFOtT19Lzz
+ el+JsoPCXyuHI+ph5xwN/mHRWbdO8YxNzYzALqHUd/29pby88jboERCKu4j3N+4VZ9rDpNnC1
+ X/yKbQZysjye0It0+xSqLY4a9QJbdGX93JJXnplJVhlfeSbvvODuo29ax03UYQrOXayG1WggA
+ Ehglax6x2JdoOxBRUwnTTEQntTzeEVn4lMwVDyQ0xYGHQI0nPnHRVIAv9ZTtz+48OEcmM7JKZ
+ DsEbvD0ndOJGc2Bw1eX6La3h31HhcYATe31xUi1maM1p3Am31/7RJFmBTWErM56sMAzcjHK5I
+ 95ZUYmdyGwwiKTt2MQLM0JFhIxOIqWQqlMoK/SMV9RTdDP0SXv2NcBT0GU8uLQymSs4M=
 Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -65,41 +66,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
-qemu-options.hx contains grammar that a native English-speaking
-person would never use.
+Simplifying memory management.
 
-Replace "This option defines where is connected the drive" by
-"This option defines where the drive is connected".
-
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/853
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220202143422.912070-1-lvivier@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220214193415.1606752-2-eperezma@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- qemu-options.hx | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/vhost-vdpa.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index ba3ae6a42aa3..094a6c1d7c28 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1377,7 +1377,7 @@ SRST
-         the bus number and the unit id.
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 25dd6dd97547..1e9fe47c033d 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -263,7 +263,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+ {
+     const NetdevVhostVDPAOptions *opts;
+     int vdpa_device_fd;
+-    NetClientState **ncs, *nc;
++    g_autofree NetClientState **ncs = NULL;
++    NetClientState *nc;
+     int queue_pairs, i, has_cvq = 0;
  
-     ``index=index``
--        This option defines where is connected the drive by using an
-+        This option defines where the drive is connected by using an
-         index in the list of available connectors of a given interface
-         type.
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+@@ -301,7 +302,6 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+             goto err;
+     }
  
+-    g_free(ncs);
+     return 0;
+ 
+ err:
+@@ -309,7 +309,6 @@ err:
+         qemu_del_net_client(ncs[0]);
+     }
+     qemu_close(vdpa_device_fd);
+-    g_free(ncs);
+ 
+     return -1;
+ }
 -- 
 2.35.1
 
