@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742954BF7DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 13:08:56 +0100 (CET)
-Received: from localhost ([::1]:38706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833654BF803
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 13:24:31 +0100 (CET)
+Received: from localhost ([::1]:45030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMTyR-0006Rw-0e
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 07:08:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57658)
+	id 1nMUDV-0003YE-LE
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 07:24:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMTsR-0003gc-Sz
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 07:03:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53610)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMTsK-0007PD-4U
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 07:02:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645531335;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MRn/UueCSRqWV+WZjoRqNv6PQkOrFk+efUhVrJy/jnQ=;
- b=Pv1k3MDK2jpv9tneb4DN5ZmL77nwSybsXULI/NZZY2zxxkGGoGH0UB+OcMNHvSR4SnSEQy
- 4jbwvrXoXFVvblXQMxPYRt/BxHV8Z6gceLgAs8OQ25z+y+4zC5Ux8qFpm4pm7rvzBFsVNJ
- zUIf+haAiNa1+YrGv+3A6O8aIEXk5v4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-JnX63StzMMmTQN_Aa6HuXA-1; Tue, 22 Feb 2022 07:02:14 -0500
-X-MC-Unique: JnX63StzMMmTQN_Aa6HuXA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D8471800D50;
- Tue, 22 Feb 2022 12:02:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD80E7C0DA;
- Tue, 22 Feb 2022 12:02:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4EEE821A736E; Tue, 22 Feb 2022 13:02:07 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH RFC 4/4] rtc: Have event RTC_CHANGE identify the RTC by QOM
- path
-References: <20220221192123.749970-1-peter.maydell@linaro.org>
-Date: Tue, 22 Feb 2022 13:02:07 +0100
-In-Reply-To: <20220221192123.749970-1-peter.maydell@linaro.org> (Peter
- Maydell's message of "Mon, 21 Feb 2022 19:21:20 +0000")
-Message-ID: <87a6ejnm80.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMUA7-0002im-V7
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 07:21:00 -0500
+Received: from [2607:f8b0:4864:20::52a] (port=36774
+ helo=mail-pg1-x52a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMUA5-0002ff-QH
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 07:20:59 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id h125so16871263pgc.3
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 04:20:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=MEifxELebUrqKzT4PDfLWOJqkave+d2/vAABByMug5g=;
+ b=tmVs8vu2t+NyrS6iqRkps3klSKYQpA2VihyO/Pl2J5jESPjjOg2UO6jwRS2jiuOWiS
+ 9v6arBFp5FL/75F7mfR2LXJgS1huI5yvlR/KrnsVu/fe42HpcCKqv1etzUjVq3NyehVZ
+ MdBmGhCXXtqzny8UnDdjiOCBEWf/rPArMoBGK/ck8Syw+qjFBDr1CY0dSn+CQ01T63rW
+ tvroW7qAWt30yGwzD2oWvtxaiHc4fjpol4SF9KN/8CI3XEvV3HxL3mQ2Bu8uFJvj9l3M
+ B/7coZqTxgypfyjWGAMSzh4GOSchQop/7JZLsggNfSydRPTo6KVPaKHyuHAMCc84/Cjn
+ CASw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=MEifxELebUrqKzT4PDfLWOJqkave+d2/vAABByMug5g=;
+ b=P5fYQYW9QaxXkPYFIaPSqY5D0Smcj7vnfELo4dhQY4faoRLgFQURQhQlT17/iNfHr6
+ OUWesn3akS1UbX6jTec5IXfZMols06u9P/WXUmoXXDTo2WhjQEJroOAQ+Y/+1789G2in
+ NNKbnvErqZ9Pj544qQpmbLhrf5Fb6P0v2ky2V4Ll8L6pjO7QsvJXmdTC5H+w2Wzu4V+M
+ j5IDEUsqfjGFhnA8Fi1PDJs2Ora4124D8r02puJA43lHaNd9MRIgIpAxnvkTrG8Rf3/V
+ o7CzNsUCswblIks3QMyPZleWuFwB2T0J76aMlMh4x9TwK86z6h2ctIMXyT0jmL4oAcMk
+ 1mgw==
+X-Gm-Message-State: AOAM532+sKgK0+ggoa/udbK3ReFEBTropLAvTDNWaqHMMuASPY19HNQ1
+ F8e6WE37YuapC7jESsLGfHw1HQ==
+X-Google-Smtp-Source: ABdhPJz6H1PEjEjO5oLo4NZEXgcXU3yoBv4d8WwQf3aRGBXjrPv6yW+Gr1Tsc3YE+cDEpNwV0nO/Rg==
+X-Received: by 2002:a05:6a00:1943:b0:4cb:79c9:fa48 with SMTP id
+ s3-20020a056a00194300b004cb79c9fa48mr24560476pfk.47.1645532453979; 
+ Tue, 22 Feb 2022 04:20:53 -0800 (PST)
+Received: from anisinha-lenovo ([115.96.128.14])
+ by smtp.googlemail.com with ESMTPSA id h4sm16565256pfv.166.2022.02.22.04.20.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Feb 2022 04:20:53 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Tue, 22 Feb 2022 17:50:48 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Liav Albani <liavalb@gmail.com>
+Subject: Re: [PATCH v2 0/2] hw/acpi: add indication for i8042 in IA-PC boot
+ flags of the FADT table
+In-Reply-To: <20220221191323.617323-1-liavalb@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2202221746460.728317@anisinha-lenovo>
+References: <20220221191323.617323-1-liavalb@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,111 +88,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- =?utf-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: ani@anisinha.ca, imammedo@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Event RTC_CHANGE is "emitted when the guest changes the RTC time" (and
-the RTC supports the event).  What if there's more than one RTC?
-Which one changed?  New @qom-path identifies it.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
-RFC because it's compile-tested only.  Worthwhile?  Let me know what you
-think.
 
- qapi/misc.json       | 4 +++-
- hw/ppc/spapr_rtc.c   | 4 +++-
- hw/rtc/mc146818rtc.c | 3 ++-
- hw/rtc/pl031.c       | 3 ++-
- 4 files changed, 10 insertions(+), 4 deletions(-)
+On Mon, 21 Feb 2022, Liav Albani wrote:
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 0ab235e41f..b83cc39029 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -536,6 +536,8 @@
- # @offset: offset in seconds between base RTC clock (as specified
- #          by -rtc base), and new RTC clock value
- #
-+# @qom-path: path to the RTC object in the QOM tree
-+#
- # Note: This event is rate-limited.
- #       It is not guaranteed that the RTC in the system implements
- #       this event, or even that the system has an RTC at all.
-@@ -550,4 +552,4 @@
- #
- ##
- { 'event': 'RTC_CHANGE',
--  'data': { 'offset': 'int' } }
-+  'data': { 'offset': 'int', 'qom-path': 'str' } }
-diff --git a/hw/ppc/spapr_rtc.c b/hw/ppc/spapr_rtc.c
-index 79677cf550..d55b4b0c50 100644
---- a/hw/ppc/spapr_rtc.c
-+++ b/hw/ppc/spapr_rtc.c
-@@ -97,6 +97,7 @@ static void rtas_set_time_of_day(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                                  uint32_t nret, target_ulong rets)
- {
-     SpaprRtcState *rtc = &spapr->rtc;
-+    g_autofree const char *qom_path = NULL;
-     struct tm tm;
-     time_t new_s;
-     int64_t host_ns;
-@@ -120,7 +121,8 @@ static void rtas_set_time_of_day(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     }
- 
-     /* Generate a monitor event for the change */
--    qapi_event_send_rtc_change(qemu_timedate_diff(&tm));
-+    qom_path = object_get_canonical_path(OBJECT(rtc));
-+    qapi_event_send_rtc_change(qemu_timedate_diff(&tm), qom_path);
- 
-     host_ns = qemu_clock_get_ns(rtc_clock);
- 
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index 57c514e15c..ac9a60c90e 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -611,12 +611,13 @@ static void rtc_get_time(RTCState *s, struct tm *tm)
- static void rtc_set_time(RTCState *s)
- {
-     struct tm tm;
-+    g_autofree const char *qom_path = object_get_canonical_path(OBJECT(s));
- 
-     rtc_get_time(s, &tm);
-     s->base_rtc = mktimegm(&tm);
-     s->last_update = qemu_clock_get_ns(rtc_clock);
- 
--    qapi_event_send_rtc_change(qemu_timedate_diff(&tm));
-+    qapi_event_send_rtc_change(qemu_timedate_diff(&tm), qom_path);
- }
- 
- static void rtc_set_cmos(RTCState *s, const struct tm *tm)
-diff --git a/hw/rtc/pl031.c b/hw/rtc/pl031.c
-index 60167c778f..b01d0e75d1 100644
---- a/hw/rtc/pl031.c
-+++ b/hw/rtc/pl031.c
-@@ -138,12 +138,13 @@ static void pl031_write(void * opaque, hwaddr offset,
- 
-     switch (offset) {
-     case RTC_LR: {
-+        g_autofree const char *qom_path = object_get_canonical_path(opaque);
-         struct tm tm;
- 
-         s->tick_offset += value - pl031_get_count(s);
- 
-         qemu_get_timedate(&tm, s->tick_offset);
--        qapi_event_send_rtc_change(qemu_timedate_diff(&tm));
-+        qapi_event_send_rtc_change(qemu_timedate_diff(&tm), qom_path);
- 
-         pl031_set_alarm(s);
-         break;
--- 
-2.35.1
+> This can allow the guest OS to determine more easily if i8042 controller
+> is present in the system or not, so it doesn't need to do probing of the
+> controller, but just initialize it immediately, before enumerating the
+> ACPI AML namespace.
+>
+> To allow "flexible" indication, I don't hardcode the bit at location 1
+> as on in the IA-PC boot flags, but try to search for i8042 on the ISA
+> bus to verify it exists in the system.
+>
+> Why this is useful you might ask - this patch allows the guest OS to
+> probe and use the i8042 controller without decoding the ACPI AML blob
+> at all. For example, as a developer of the SerenityOS kernel, I might
+> want to allow people to not try to decode the ACPI AML namespace (for
+> now, we still don't support ACPI AML as it's a work in progress), but
+> still to not probe for the i8042 but just use it after looking in the
+> IA-PC boot flags in the ACPI FADT table.
+>
+> A note about this version of the patch series: I changed the assertion
+> checking if the ISA bus exists to a if statement, because I can see how
+> in the future someone might want to run a x86 machine without an ISA bus
+> so we should not assert if someone calls the ISA check device existence
+> function but return FALSE gracefully.
+> If someone thinks this is wrong, I'm more than happy to discuss and fix
+> the code :)
+>
+> Liav Albani (2):
+>   hw/isa: add function to check for existence of device by its type
+>   hw/acpi: add indication for i8042 in IA-PC boot flags of the FADT
+>     table
+>
+>  hw/acpi/aml-build.c         |  7 ++++++-
+>  hw/i386/acpi-build.c        |  5 +++++
+>  hw/i386/acpi-microvm.c      |  5 +++++
+>  hw/isa/isa-bus.c            | 23 +++++++++++++++++++++++
+>  include/hw/acpi/acpi-defs.h |  1 +
+>  include/hw/isa/isa.h        |  1 +
+>  6 files changed, 41 insertions(+), 1 deletion(-)
+>
+
+This change breaks bios-tables-test.c:
+
+-[06Dh 0109   2]   Boot Flags (decoded below) : 0000
++[06Dh 0109   2]   Boot Flags (decoded below) : 0002
+                Legacy Devices Supported (V2) : 0
+-            8042 Present on ports 60/64 (V2) : 0
++            8042 Present on ports 60/64 (V2) : 1
+
+
+acpi-test: Warning! FACP binary file mismatch. Actual
+[aml:/tmp/aml-QXU0H1], Expected [aml:tests/data/acpi/q35/FACP].
+See source file tests/qtest/bios-tables-test.c for instructions on how to
+update expected files.
+# GLib-DEBUG: posix_spawn avoided (fd close requested)
+# GLib-DEBUG: posix_spawn avoided (fd close requested)
+acpi-test: Warning! FACP mismatch. Actual [asl:/tmp/asl-9AV0H1.dsl,
+aml:/tmp/aml-QXU0H1], Expected [asl:/tmp/asl-03P0H1.dsl,
+aml:tests/data/acpi/q35/FACP].
+**
+ERROR:../tests/qtest/bios-tables-test.c:532:test_acpi_asl: assertion
+failed: (all_tables_match)
+Bail out! ERROR:../tests/qtest/bios-tables-test.c:532:test_acpi_asl:
+assertion failed: (all_tables_match)
+Aborted (core dumped)
+
+Please fix it. The instrctions are in the header of
+tests/test/bios-tables-test.c as the above indicates.
+
+You can check the failure by running it something like this:
+
+QTEST_QEMU_BINARY=/home/ani/workspace/qemu/build/qemu-system-x86_64
+V=1 ./tests/qtest/bios-tables-test
+
+V=1 will dump the asl diff between expected and actual.
 
 
