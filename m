@@ -2,95 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356804BFBF4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 16:09:07 +0100 (CET)
-Received: from localhost ([::1]:57870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134364BFD7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 16:50:55 +0100 (CET)
+Received: from localhost ([::1]:35936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMWmo-0002MH-AH
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 10:09:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44242)
+	id 1nMXRC-0004KP-L3
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 10:50:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nMWLa-0007NF-I3
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:40:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36311)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nMWP1-0001ik-9d
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:44:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nMWLL-0005jW-FO
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:40:46 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nMWOt-0006C5-Ug
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:44:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645540841;
+ s=mimecast20190719; t=1645541062;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gi5dFAaZXhTFEwQgoorsXH4QohyBD+5OYkcR2N/1Jkw=;
- b=hOj60Dz5LisZw7LelxuSXdcaLAm+tyu5eoI59Q0WQWN7f+9EvS/wTA5YoBExhJnXtodJck
- CQ7DDUSZdYe0OrNFq+65aVNSjX3mTucYNzhmLNTHiAN1eft6LlLiLU8BBMHVgkDJj/5JQA
- R9WdHJ2ELPCO0cGT+j6Pq6cv7Vco+pc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XU7jD/KsOrS8ZPn8r7lOHaeTG1Zq/jzqhevHAK/FZXw=;
+ b=Ctti2a34FNwPZiWJMLtxW+F/3r8Cb7P1A1BFi7i7o+Tqdahf5InxObiozaqoLmg6mBMIcV
+ XiRNrBhpzpKoTdqTR0KJDyOP4KJWDI/YIZYYMwlrvDIZIAMH3yxn0+XyA+zk0OrdPIHuci
+ NxEd3fmdZHsL2jhzmXvqprhQqqfrHfM=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-482-jPCse1TXM4OTfVlNlVcz3w-1; Tue, 22 Feb 2022 09:40:38 -0500
-X-MC-Unique: jPCse1TXM4OTfVlNlVcz3w-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p9-20020adf9589000000b001e333885ac1so9020852wrp.10
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 06:40:38 -0800 (PST)
+ us-mta-385-Ga0Vh1w1P2W_xCfKUl7rJQ-1; Tue, 22 Feb 2022 09:44:20 -0500
+X-MC-Unique: Ga0Vh1w1P2W_xCfKUl7rJQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ sa22-20020a1709076d1600b006ce78cacb85so5877756ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 06:44:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Gi5dFAaZXhTFEwQgoorsXH4QohyBD+5OYkcR2N/1Jkw=;
- b=ot+g6i8Xxyewucbps0UjiVQ75qVtt4yJJkbP7Ih+SF78jyTPiZMrSlvrMwnvKxeETf
- pEREXhsXbNRYvd6MPl4/8Qbqk6Pl0D/EwEukaQAcYqswOkaljBrchvNPphZYrlM2WFEE
- YNbijE0ZZ2RYI5uE79oIca7TkN11U6hgTf9Uefl+Tbg/C1jY0u5dbyR6e91giUSIGJDo
- VJTRblXxa4p9ExT6No9aX+98pzYoiSHM6aCjWPCbC4QyPP71ILLVOMKzvRY5bKOrBDO8
- lt1GSr0sk+wFpJgoL8C2eQX8WvvXYDAor+pwW8cJuSDxa5k0YOOp3r/Tn3us3sCC6XmN
- OAAw==
-X-Gm-Message-State: AOAM532yr2rIg+vgybS4Wwr30B8bWOfN/iJKQ+JvGLUnHjKzUIJxWI9Q
- nGaHeqLo7vc2VG3UOSXACFp+9HxOdzllqvyQiBx2R1YGOxRFZf5YkBnQMFUEDjDizJ6RU3jHaym
- L9jgC33MDlNSzByI=
-X-Received: by 2002:adf:f68d:0:b0:1e1:db49:a721 with SMTP id
- v13-20020adff68d000000b001e1db49a721mr20023471wrp.297.1645540836691; 
- Tue, 22 Feb 2022 06:40:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz97q4t+z06lZXOqGnUX8G+YQZAtoZqv+VIjgT4oX4o/jSnZ0g35rNDDxSwKfMs0UAaTlGjrw==
-X-Received: by 2002:adf:f68d:0:b0:1e1:db49:a721 with SMTP id
- v13-20020adff68d000000b001e1db49a721mr20023453wrp.297.1645540836394; 
- Tue, 22 Feb 2022 06:40:36 -0800 (PST)
-Received: from redhat.com ([2.55.129.240])
- by smtp.gmail.com with ESMTPSA id o12sm4234330wrh.89.2022.02.22.06.40.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 06:40:34 -0800 (PST)
-Date: Tue, 22 Feb 2022 09:40:32 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-Message-ID: <20220222094021-mutt-send-email-mst@kernel.org>
-References: <20211108130934.59B48748F52@zero.eik.bme.hu>
- <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
- <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
- <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
- <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
- <20220119041842-mutt-send-email-mst@kernel.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XU7jD/KsOrS8ZPn8r7lOHaeTG1Zq/jzqhevHAK/FZXw=;
+ b=voxkIeZIuBIOD0RDKdNReb0L/TC/njtuP6NwRyVi6/GadhsmoEhvmUzciJUvMjHfpx
+ wfHDtvD1gCAAi+XVjKvAqtIXeyhTFnjAP3kDy37xz2pzcqNRF4zrVJdkiIfXhJVY7tBf
+ Fc6oQNjrqT3HfKpp2iNDbLi5CAW/ZRtP7mB/cmHLfVXkHwYjYjQj7L6L1FADj/JuCin0
+ nY1SninlYGTmgWqPEhPaC5KZhQaiFmSsvEtqpNTPwAdbOzljX5swiqvlZXuQPJP1Dkeq
+ lTs2kVgEzljlEOd+LAG0774bQsXN0PXzgsQJraF6hqxPVZKtaUMat8umAkMLKuT/yaW1
+ ezPg==
+X-Gm-Message-State: AOAM530F1mV6MCGIS+F3nFShu9z+EgnNzSqy36UPCo57aGkV3xtnfYvY
+ deFPHv36JWDEqHLnRODe7aaY7dVHJ0+5UEzE5qbHZ98ysDk/iI5K4FD/X/BtKbJCaMWimja7XFn
+ +KNhKv1LSwSUDQlI=
+X-Received: by 2002:a17:906:cc12:b0:6b5:ec8f:fdf2 with SMTP id
+ ml18-20020a170906cc1200b006b5ec8ffdf2mr19265100ejb.579.1645541059611; 
+ Tue, 22 Feb 2022 06:44:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzt7vV2g2I1ajmNykwfS6E+6F5cbeOhpEIcFy95eR28MKfGExlh33o6lHTx/GdJWRV90Cg4GQ==
+X-Received: by 2002:a17:906:cc12:b0:6b5:ec8f:fdf2 with SMTP id
+ ml18-20020a170906cc1200b006b5ec8ffdf2mr19265081ejb.579.1645541059317; 
+ Tue, 22 Feb 2022 06:44:19 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:ca91:ec4d:49ff:d0d1?
+ ([2a02:8071:5055:3f20:ca91:ec4d:49ff:d0d1])
+ by smtp.gmail.com with ESMTPSA id fn5sm6324944ejc.179.2022.02.22.06.44.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Feb 2022 06:44:18 -0800 (PST)
+Message-ID: <0467c1a2-222c-0382-88da-3872a99231bb@redhat.com>
+Date: Tue, 22 Feb 2022 15:44:18 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220119041842-mutt-send-email-mst@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2] iotests: Write test output to TEST_DIR
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20220221172909.762858-1-hreitz@redhat.com>
+ <4be7a117-3928-5366-52ef-58eaefad528e@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <4be7a117-3928-5366-52ef-58eaefad528e@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,117 +103,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 19, 2022 at 04:19:14AM -0500, Michael S. Tsirkin wrote:
-> On Sat, Nov 13, 2021 at 07:47:20PM +0100, BALATON Zoltan wrote:
-> > On Mon, 8 Nov 2021, BALATON Zoltan wrote:
-> > > On Mon, 8 Nov 2021, Paolo Bonzini wrote:
-> > > > On 11/8/21 15:30, Paolo Bonzini wrote:
-> > > > > On 11/8/21 14:05, BALATON Zoltan wrote:
-> > > > > > When using ACPI on big endian machine (such as ppc/pegasos2 which has
-> > > > > > a VT8231 south bridge with ACPI) writes to ACPI registers come out
-> > > > > > byte swapped. This may be caused by a bug in memory subsystem but
-> > > > > > until that is fixed setting the ACPI memory regions to native endian
-> > > > > > makes it usable for big endian machines. This fixes ACPI shutdown with
-> > > > > > pegasos2 when using the board firmware for now.
-> > > > > > This could be reverted when the memory layer is fixed.
-> > > > > 
-> > > > > What is the path to the swapped writes?� Even just a backtrace
-> > > > > might be enough to understand what's going on, and especially
-> > > > > where the bug is.
-> > > > 
-> > > > Ok, Michael pointed me at https://lore.kernel.org/all/20211011080528-mutt-send-email-mst@kernel.org/.
-> > 
-> > Ping? I haven't seen an alternative fix yet. If you don't have time now this
-> > could be postponed to next version with the native endian work around for
-> > now.
-> > 
-> > Regards,
-> > BALATON Zoltan
-> 
-> Paolo, ping?
+On 22.02.22 15:39, Vladimir Sementsov-Ogievskiy wrote:
+> 21.02.2022 20:29, Hanna Reitz wrote:
+>> Drop the use of OUTPUT_DIR (test/qemu-iotests under the build
+>> directory), and instead write test output files (.out.bad, .notrun, and
+>> .casenotrun) to TEST_DIR.
+>>
+>> With this, the same test can be run concurrently without the separate
+>> instances interfering, because they will need separate TEST_DIRs anyway.
+>> Running the same test separately is useful when running the iotests with
+>> various format/protocol combinations in parallel, or when you just want
+>> to aggressively exercise a single test (e.g. when it fails only
+>> sporadically).
+>>
+>> Putting this output into TEST_DIR means that it will stick around for
+>> inspection after the test run is done (though running the same test in
+>> the same TEST_DIR will overwrite it, just as it used to be); but given
+>> that TEST_DIR is a scratch directory, it should be clear that users can
+>> delete all of its content at any point.  (And if TEST_DIR is on tmpfs,
+>> it will just disappear on shutdown.)  Contrarily, alternative approaches
+>> that would put these output files into OUTPUT_DIR with some prefix to
+>> differentiate between separate test runs might easily lead to cluttering
+>> OUTPUT_DIR.
+>>
+>> (This change means OUTPUT_DIR is no longer written to by the iotests, so
+>> we can drop its usage altogether.)
+>>
+>> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+>> ---
+>> v1: 
+>> https://lists.nongnu.org/archive/html/qemu-block/2022-02/msg00675.html
+>>
+>> v2:
+>> - Delete .casenotrun before running a test: Writes to this file only
+>>    append data, so if we do not delete it before a test run, it may 
+>> still
+>>    contain stale data from a previous run
+>> - While at it, we might as well delete .notrun, because before this
+>>    patch, all of .out.bad, .notrun, and .casenotrun are deleted.  
+>> (Really
+>>    no need to delete .out.bad, though, given it is immediately
+>>    overwritten after where we delete .notrun and .casenotrun.)
+>> ---
+>>   tests/qemu-iotests/common.rc     |  6 +++---
+>>   tests/qemu-iotests/iotests.py    |  5 ++---
+>>   tests/qemu-iotests/testenv.py    |  5 +----
+>>   tests/qemu-iotests/testrunner.py | 15 +++++++++------
+>>   4 files changed, 15 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+>> index 9885030b43..5bde2415dc 100644
+>> --- a/tests/qemu-iotests/common.rc
+>> +++ b/tests/qemu-iotests/common.rc
+>> @@ -726,7 +726,7 @@ _img_info()
+>>   #
+>>   _notrun()
+>>   {
+>> -    echo "$*" >"$OUTPUT_DIR/$seq.notrun"
+>> +    echo "$*" >"$TEST_DIR/$seq.notrun"
+>>       echo "$seq not run: $*"
+>>       status=0
+>>       exit
+>> @@ -738,14 +738,14 @@ _notrun()
+>>   #
+>>   _casenotrun()
+>>   {
+>> -    echo "    [case not run] $*" >>"$OUTPUT_DIR/$seq.casenotrun"
+>> +    echo "    [case not run] $*" >>"$TEST_DIR/$seq.casenotrun"
+>>   }
+>>     # just plain bail out
+>>   #
+>>   _fail()
+>>   {
+>> -    echo "$*" | tee -a "$OUTPUT_DIR/$seq.full"
+>> +    echo "$*" | tee -a "$TEST_DIR/$seq.full"
+>>       echo "(see $seq.full for details)"
+>>       status=1
+>>       exit 1
+>> diff --git a/tests/qemu-iotests/iotests.py 
+>> b/tests/qemu-iotests/iotests.py
+>> index 6ba65eb1ff..1d157d1325 100644
+>> --- a/tests/qemu-iotests/iotests.py
+>> +++ b/tests/qemu-iotests/iotests.py
+>> @@ -84,7 +84,6 @@
+>>     imgfmt = os.environ.get('IMGFMT', 'raw')
+>>   imgproto = os.environ.get('IMGPROTO', 'file')
+>> -output_dir = os.environ.get('OUTPUT_DIR', '.')
+>>     try:
+>>       test_dir = os.environ['TEST_DIR']
+>> @@ -1209,7 +1208,7 @@ def notrun(reason):
+>>       # Each test in qemu-iotests has a number ("seq")
+>>       seq = os.path.basename(sys.argv[0])
+>>   -    with open('%s/%s.notrun' % (output_dir, seq), 'w', 
+>> encoding='utf-8') \
+>> +    with open('%s/%s.notrun' % (test_dir, seq), 'w', 
+>> encoding='utf-8') \
+>>               as outfile:
+>>           outfile.write(reason + '\n')
+>>       logger.warning("%s not run: %s", seq, reason)
+>> @@ -1224,7 +1223,7 @@ def case_notrun(reason):
+>>       # Each test in qemu-iotests has a number ("seq")
+>>       seq = os.path.basename(sys.argv[0])
+>>   -    with open('%s/%s.casenotrun' % (output_dir, seq), 'a', 
+>> encoding='utf-8') \
+>> +    with open('%s/%s.casenotrun' % (test_dir, seq), 'a', 
+>> encoding='utf-8') \
+>>               as outfile:
+>>           outfile.write('    [case not run] ' + reason + '\n')
+>>   diff --git a/tests/qemu-iotests/testenv.py 
+>> b/tests/qemu-iotests/testenv.py
+>> index 0f32897fe8..b11e943c8a 100644
+>> --- a/tests/qemu-iotests/testenv.py
+>> +++ b/tests/qemu-iotests/testenv.py
+>> @@ -66,7 +66,7 @@ class TestEnv(ContextManager['TestEnv']):
+>>       # pylint: disable=too-many-instance-attributes
+>>         env_variables = ['PYTHONPATH', 'TEST_DIR', 'SOCK_DIR', 
+>> 'SAMPLE_IMG_DIR',
+>> -                     'OUTPUT_DIR', 'PYTHON', 'QEMU_PROG', 
+>> 'QEMU_IMG_PROG',
+>> +                     'PYTHON', 'QEMU_PROG', 'QEMU_IMG_PROG',
+>>                        'QEMU_IO_PROG', 'QEMU_NBD_PROG', 'QSD_PROG',
+>>                        'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
+>>                        'QEMU_IO_OPTIONS', 'QEMU_IO_OPTIONS_NO_FMT',
+>> @@ -106,7 +106,6 @@ def init_directories(self) -> None:
+>>                TEST_DIR
+>>                SOCK_DIR
+>>                SAMPLE_IMG_DIR
+>> -             OUTPUT_DIR
+>>           """
+>>             # Path where qemu goodies live in this source tree.
+>> @@ -134,8 +133,6 @@ def init_directories(self) -> None:
+>> os.path.join(self.source_iotests,
+>> 'sample_images'))
+>>   -        self.output_dir = os.getcwd()  # OUTPUT_DIR
+>> -
+>>       def init_binaries(self) -> None:
+>>           """Init binary path variables:
+>>                PYTHON (for bash tests)
+>> diff --git a/tests/qemu-iotests/testrunner.py 
+>> b/tests/qemu-iotests/testrunner.py
+>> index 0eace147b8..262b13004d 100644
+>> --- a/tests/qemu-iotests/testrunner.py
+>> +++ b/tests/qemu-iotests/testrunner.py
+>> @@ -259,9 +259,6 @@ def do_run_test(self, test: str, mp: bool) -> 
+>> TestResult:
+>>           """
+>>             f_test = Path(test)
+>> -        f_bad = Path(f_test.name + '.out.bad')
+>> -        f_notrun = Path(f_test.name + '.notrun')
+>> -        f_casenotrun = Path(f_test.name + '.casenotrun')
+>>           f_reference = Path(self.find_reference(test))
+>>             if not f_test.exists():
+>> @@ -276,9 +273,6 @@ def do_run_test(self, test: str, mp: bool) -> 
+>> TestResult:
+>>                                 description='No qualified output '
+>>                                             f'(expected {f_reference})')
+>>   -        for p in (f_bad, f_notrun, f_casenotrun):
+>> -            silent_unlink(p)
+>> -
+>>           args = [str(f_test.resolve())]
+>>           env = self.env.prepare_subprocess(args)
+>>           if mp:
+>> @@ -288,6 +282,15 @@ def do_run_test(self, test: str, mp: bool) -> 
+>> TestResult:
+>>                   env[d] = os.path.join(env[d], f_test.name)
+>>                   Path(env[d]).mkdir(parents=True, exist_ok=True)
+>>   +        test_dir = env['TEST_DIR']
+>> +        f_bad = Path(os.path.join(test_dir, f_test.name + '.out.bad'))
+>> +        f_notrun = Path(os.path.join(test_dir, f_test.name + 
+>> '.notrun'))
+>> +        f_casenotrun = Path(os.path.join(test_dir,
+>> +                                         f_test.name + '.casenotrun'))
+>
+> You don't need os.path.join inside Path(), simple
+>
+>  Path(test_dir, f_test.name + '...')
+>
+> should work.
 
-ping
+Oh, good!
 
-> > > I was about to say that here's the original thread:
-> > > 
-> > > https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg01972.html
-> > > 
-> > > and here's the backtrace:
-> > > 
-> > > #0  acpi_pm1_cnt_write (val=40, ar=0x55555695f340) at ../hw/acpi/core.c:556
-> > > #1  acpi_pm_cnt_write (opaque=0x55555695f340, addr=1, val=40, width=2)
-> > > at ../hw/acpi/core.c:602
-> > > #2  0x0000555555b3a82f in memory_region_write_accessor
-> > >    (mr=mr@entry=0x55555695f590, addr=1,
-> > > value=value@entry=0x7fffefffdd08, size=size@entry=2, shift=<optimized
-> > > out>, mask=mask@entry=65535, attrs=...)
-> > >    at ../softmmu/memory.c:492
-> > > #3  0x0000555555b3813e in access_with_adjusted_size
-> > >    (addr=addr@entry=1, value=value@entry=0x7fffefffdd08,
-> > > size=size@entry=1, access_size_min=<optimized out>,
-> > > access_size_max=<optimized out>, access_fn=
-> > >    0x555555b3a7b0 <memory_region_write_accessor>, mr=0x55555695f590,
-> > > attrs=...) at ../softmmu/memory.c:554
-> > > #4  0x0000555555b3c449 in memory_region_dispatch_write
-> > > (mr=mr@entry=0x55555695f590, addr=1, data=<optimized out>, op=<optimized
-> > > out>, attrs=attrs@entry=...)
-> > >    at ../softmmu/memory.c:1511
-> > > #5  0x0000555555b2c121 in flatview_write_continue
-> > >    (fv=fv@entry=0x7fff84d23b30, addr=addr@entry=4261416709,
-> > > attrs=attrs@entry=..., ptr=ptr@entry=0x7fffefffdec0, len=len@entry=1,
-> > > addr1=<optimized out>,
-> > >     l=<optimized out>, mr=0x55555695f590) at host-utils.h:165
-> > > #6  0x0000555555b2c399 in flatview_write (len=1, buf=0x7fffefffdec0,
-> > > attrs=..., addr=4261416709, fv=0x7fff84d23b30) at
-> > > ../softmmu/physmem.c:2822
-> > > #7  subpage_write (opaque=<optimized out>, addr=<optimized out>,
-> > > value=<optimized out>, len=1, attrs=...) at ../softmmu/physmem.c:2488
-> > > #8  0x0000555555b380de in access_with_adjusted_size
-> > >    (addr=addr@entry=3845, value=value@entry=0x7fffefffdf88,
-> > > size=size@entry=1, access_size_min=<optimized out>,
-> > > access_size_max=<optimized out>, access_fn=
-> > >    0x555555b3aa80 <memory_region_write_with_attrs_accessor>,
-> > > mr=0x7fff84710bb0, attrs=...) at ../softmmu/memory.c:549
-> > > #9  0x0000555555b3c449 in memory_region_dispatch_write
-> > > (mr=mr@entry=0x7fff84710bb0, addr=addr@entry=3845, data=<optimized out>,
-> > > data@entry=40, op=op@entry=MO_8, attrs=...)
-> > >    at ../softmmu/memory.c:1511
-> > > #10 0x0000555555c07b4c in io_writex
-> > >    (env=env@entry=0x55555666a820,
-> > > iotlbentry=iotlbentry@entry=0x7fff843367f0, mmu_idx=1, val=val@entry=40,
-> > > addr=addr@entry=4261416709,
-> > >     retaddr=retaddr@entry=140736116523268, op=MO_8) at
-> > > ../accel/tcg/cputlb.c:1420
-> > > #11 0x0000555555c0b5df in store_helper (op=MO_8, retaddr=<optimized
-> > > out>, oi=<optimized out>, val=40, addr=4261416709, env=0x55555666a820)
-> > > at ../accel/tcg/cputlb.c:2355
-> > > #12 full_stb_mmu (env=0x55555666a820, addr=4261416709, val=40,
-> > > oi=<optimized out>, retaddr=140736116523268) at
-> > > ../accel/tcg/cputlb.c:2404
-> > > #13 0x00007fffae3b8104 in code_gen_buffer ()
-> > > #14 0x0000555555bfcfab in cpu_tb_exec (cpu=cpu@entry=0x555556661360,
-> > > itb=itb@entry=0x7fffae3b7fc0 <code_gen_buffer+56197011>,
-> > > tb_exit=tb_exit@entry=0x7fffefffe668)
-> > >    at ../accel/tcg/cpu-exec.c:357
-> > > #15 0x0000555555bfe089 in cpu_loop_exec_tb (tb_exit=0x7fffefffe668,
-> > > last_tb=<synthetic pointer>, tb=0x7fffae3b7fc0
-> > > <code_gen_buffer+56197011>, cpu=0x555556661360)
-> > >    at ../accel/tcg/cpu-exec.c:833
-> > > #16 cpu_exec (cpu=cpu@entry=0x555556661360) at ../accel/tcg/cpu-exec.c:992
-> > > #17 0x0000555555c1bba0 in tcg_cpus_exec (cpu=cpu@entry=0x555556661360)
-> > > at ../accel/tcg/tcg-accel-ops.c:67
-> > > #18 0x0000555555c1c3d7 in rr_cpu_thread_fn
-> > > (arg=arg@entry=0x555556661360) at ../accel/tcg/tcg-accel-ops-rr.c:214
-> > > #19 0x0000555555d5c049 in qemu_thread_start (args=0x7fffefffe750) at
-> > > ../util/qemu-thread-posix.c:556
-> > > #20 0x00007ffff6a95dea in start_thread () at /lib64/libpthread.so.0
-> > > #21 0x00007ffff69c8fdf in clone () at /lib64/libc.so.6
-> > > 
-> 
+>> +
+>> +        for p in (f_notrun, f_casenotrun):
+>> +            silent_unlink(p)
+>
+> Why don't you want to remove old f_bad too, like pre-patch?
+
+Mainly because...
+
+>> +
+>>           t0 = time.time()
+>>           with f_bad.open('w', encoding="utf-8") as f:
+
+I found it’d look just a bit silly when we immediately overwrite it here 
+anyway.  But if you prefer to keep the pre-patch list for completeness’ 
+sake, I won’t mind.
+
+>>               with subprocess.Popen(args, cwd=str(f_test.parent), 
+>> env=env,
+>
+>
 
 
