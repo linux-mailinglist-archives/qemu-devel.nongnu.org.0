@@ -2,61 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764674BEE72
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 01:36:35 +0100 (CET)
-Received: from localhost ([::1]:43438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF944BEEE6
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 02:20:04 +0100 (CET)
+Received: from localhost ([::1]:56376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMJAQ-0007f5-4V
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 19:36:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37134)
+	id 1nMJqV-0001VO-Fg
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 20:20:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMJ8m-0006gR-BL; Mon, 21 Feb 2022 19:34:52 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:42581)
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1nMJoW-0000of-Ms
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 20:18:00 -0500
+Received: from vps-vb.mhejs.net ([37.28.154.113]:41634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMJ8k-0000fq-LH; Mon, 21 Feb 2022 19:34:52 -0500
-Received: from [192.168.100.1] ([82.142.17.50]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M730b-1nJplp0C3r-008cve; Tue, 22 Feb 2022 01:34:46 +0100
-Message-ID: <96592c2c-0fd3-443a-80b6-ac5b6d1e6bd5@vivier.eu>
-Date: Tue, 22 Feb 2022 01:34:44 +0100
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1nMJoU-00077Q-Oq
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 20:18:00 -0500
+Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <mail@maciej.szmigiero.name>)
+ id 1nMJnQ-0005kk-S3; Tue, 22 Feb 2022 02:16:52 +0100
+Message-ID: <45148f5f-fe79-b452-f3b2-482c5c3291c4@maciej.szmigiero.name>
+Date: Tue, 22 Feb 2022 02:16:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 1/1] vdpa: Make ncs autofree
-Content-Language: fr
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-References: <20220214193415.1606752-1-eperezma@redhat.com>
- <20220214193415.1606752-2-eperezma@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220214193415.1606752-2-eperezma@redhat.com>
+ Thunderbird/91.6.1
+Content-Language: en-US
+To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+ <20220118132121.31388-13-chao.p.peng@linux.intel.com>
+ <a121e766-900d-2135-1516-e1d3ba716834@maciej.szmigiero.name>
+ <20220217134548.GA33836@chaop.bj.intel.com>
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Subject: Re: [PATCH v4 12/12] KVM: Expose KVM_MEM_PRIVATE
+In-Reply-To: <20220217134548.GA33836@chaop.bj.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2vip0x3L8odmZYzCPSYr8nnqquOISQ6OpkgLGWYiNEqK5QWMPkM
- NQNP9nj1FxBP7HpYDpvr0RgHE/hTWa4an3sIVt1taLvlVX2keKdx9NoK5/qxMO38r78oEXp
- pe9EEgetFvhQ8mJdy1HFZAEiG55X/DpEHgEUas83bYNQm/65blwhaiGIEmVUCnourSzzifk
- Z2ECelK/riDdRkfUwsK6Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+ii3IkOvuNc=:Zcf60wPbb1CUAZHaKmYMVs
- e5q+Waq0UYR4zM/Xhb4ZvI8jBtBhtsk01jPeXscGQcRnHmLoozl11486jBJT3QGYUiTQD09zq
- 1pDAz148ilfgK7qzptYVBU3YH88/wNJd9ZQyUg10aFlUEBg5+kosyQlavzQ1/x9sQuAvTcyzk
- Q432xP/9dsVmc1pc8IGIGNmLJDYgHFt4JVBC+RJkK9KQ7/JuyY8ewxVa6nGbTGHgA53V5YjJj
- 3zG5O7sMbYOZflixzHAEkmHrQPQ4GzD8eNNoDdrOnMvwGIMplAbAPH3dCPqYTPlCiMNE3opXI
- NtJjV+rANN/eqm6L2m6anIBUhOgHtn9cndERk31NQHGigqPHE0LQ+PCCpMdIPGjjN9NsqiMa8
- 6w4w12jUWPx53/lu+UzuHVhVhiUO8d87ygoJLo9i8qa64Wg3G4uVJO9bALe85BRZcV1Dzcsoj
- Euu3IvXXMNhlt50tPIRxspLUE3wChDr13acad2Gvc2zxa51m2E/r5eowgF2eRRSP5ob6HrL0W
- R2VmGWvMMvSexJZ6lXxmhE9qKqn7qBd+RozQupw2BW2TtTMUCpLzbfyd8wUpjCqsqys34Y3Wb
- Bj+ucTZiRpkHD6XFI+Jst7ebRzqTqBNZclnXIWDTiBBHG1O2QXiB/ZaZEihqB/Ovpcx02SbPj
- phJUoAOE2dBJLUsKxKq4mdjp9dJDEEiS84ysOiy7XSCAezFI32GpcDDyno7X6k1eoVio=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=37.28.154.113;
+ envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,54 +59,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 14/02/2022 à 20:34, Eugenio Pérez a écrit :
-> Simplifying memory management.
+On 17.02.2022 14:45, Chao Peng wrote:
+> On Tue, Jan 25, 2022 at 09:20:39PM +0100, Maciej S. Szmigiero wrote:
+>> On 18.01.2022 14:21, Chao Peng wrote:
+>>> KVM_MEM_PRIVATE is not exposed by default but architecture code can turn
+>>> on it by implementing kvm_arch_private_memory_supported().
+>>>
+>>> Also private memslot cannot be movable and the same file+offset can not
+>>> be mapped into different GFNs.
+>>>
+>>> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+>>> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+>>> ---
+>> (..)
+>>>    static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
+>>> -				      gfn_t start, gfn_t end)
+>>> +				      struct file *file,
+>>> +				      gfn_t start, gfn_t end,
+>>> +				      loff_t start_off, loff_t end_off)
+>>>    {
+>>>    	struct kvm_memslot_iter iter;
+>>> +	struct kvm_memory_slot *slot;
+>>> +	struct inode *inode;
+>>> +	int bkt;
+>>>    	kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
+>>>    		if (iter.slot->id != id)
+>>>    			return true;
+>>>    	}
+>>> +	/* Disallow mapping the same file+offset into multiple gfns. */
+>>> +	if (file) {
+>>> +		inode = file_inode(file);
+>>> +		kvm_for_each_memslot(slot, bkt, slots) {
+>>> +			if (slot->private_file &&
+>>> +			     file_inode(slot->private_file) == inode &&
+>>> +			     !(end_off <= slot->private_offset ||
+>>> +			       start_off >= slot->private_offset
+>>> +					     + (slot->npages >> PAGE_SHIFT)))
+>>> +				return true;
+>>> +		}
+>>> +	}
+>>
+>> That's a linear scan of all memslots on each CREATE (and MOVE) operation
+>> with a fd - we just spent more than a year rewriting similar linear scans
+>> into more efficient operations in KVM.
 > 
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
->   net/vhost-vdpa.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 4125d13118..4befba5cc7 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -264,7 +264,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->   {
->       const NetdevVhostVDPAOptions *opts;
->       int vdpa_device_fd;
-> -    NetClientState **ncs, *nc;
-> +    g_autofree NetClientState **ncs = NULL;
-> +    NetClientState *nc;
->       int queue_pairs, i, has_cvq = 0;
->   
->       assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-> @@ -302,7 +303,6 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->               goto err;
->       }
->   
-> -    g_free(ncs);
->       return 0;
->   
->   err:
-> @@ -310,7 +310,6 @@ err:
->           qemu_del_net_client(ncs[0]);
->       }
->       qemu_close(vdpa_device_fd);
-> -    g_free(ncs);
->   
->       return -1;
->   }
+> In the last version I tried to solve this problem by using interval tree
+> (just like existing hva_tree), but finally we realized that in one VM we
+> can have multiple fds with overlapped offsets so that approach is
+> incorrect. See https://lkml.org/lkml/2021/12/28/480 for the discussion.
 
-Applied to my trivial-patches branch.
+That's right, in this case a two-level structure would be necessary:
+the first level matching a file, then the second level matching that
+file ranges.
+However, if such data is going to be used just for checking possible
+overlap at memslot add or move time it is almost certainly an overkill.
+
+> So linear scan is used before I can find a better way.
+
+Another option would be to simply not check for overlap at add or move
+time, declare such configuration undefined behavior under KVM API and
+make sure in MMU notifiers that nothing bad happens to the host kernel
+if it turns out somebody actually set up a VM this way (it could be
+inefficient in this case, since it's not supposed to ever happen
+unless there is a bug somewhere in the userspace part).
+
+> Chao
 
 Thanks,
-Laurent
-
-
+Maciej
 
