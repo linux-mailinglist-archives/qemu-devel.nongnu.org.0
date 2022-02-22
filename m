@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37844BFC88
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 16:27:55 +0100 (CET)
-Received: from localhost ([::1]:56266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB024BFBE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 16:05:12 +0100 (CET)
+Received: from localhost ([::1]:50046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMX50-0004Wl-Dc
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 10:27:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44144)
+	id 1nMWj1-0005Gy-1I
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 10:05:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nMWLJ-00077I-QQ; Tue, 22 Feb 2022 09:40:41 -0500
-Received: from [187.72.171.209] (port=44457 helo=outlook.eldorado.org.br)
+ id 1nMWLX-0007NG-Em; Tue, 22 Feb 2022 09:40:57 -0500
+Received: from [187.72.171.209] (port=46527 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nMWLI-0005jA-6o; Tue, 22 Feb 2022 09:40:41 -0500
+ id 1nMWLL-0005jB-RO; Tue, 22 Feb 2022 09:40:45 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 22 Feb 2022 11:37:41 -0300
+ Tue, 22 Feb 2022 11:37:42 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 81E5380047A;
- Tue, 22 Feb 2022 11:37:41 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 1748480047A;
+ Tue, 22 Feb 2022 11:37:42 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 15/47] target/ppc: implement vclrlb
-Date: Tue, 22 Feb 2022 11:36:13 -0300
-Message-Id: <20220222143646.1268606-16-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 17/47] target/ppc: implement vcntmb[bhwd]
+Date: Tue, 22 Feb 2022 11:36:15 -0300
+Message-Id: <20220222143646.1268606-18-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
 References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 22 Feb 2022 14:37:41.0881 (UTC)
- FILETIME=[BF649690:01D827F9]
+X-OriginalArrivalTime: 22 Feb 2022 14:37:42.0446 (UTC)
+ FILETIME=[BFBACCE0:01D827F9]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -65,79 +65,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
-v4:
- - Branchless implementation (rth)
----
- target/ppc/insn32.decode            |  2 ++
- target/ppc/translate/vmx-impl.c.inc | 40 +++++++++++++++++++++++++++++
- 2 files changed, 42 insertions(+)
+ target/ppc/insn32.decode            |  8 ++++++++
+ target/ppc/translate/vmx-impl.c.inc | 32 +++++++++++++++++++++++++++++
+ 2 files changed, 40 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index d844d86829..31cdbba86b 100644
+index b20f1eaa8e..31a3c3b508 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -529,6 +529,8 @@ VSTRIBR         000100 ..... 00001 ..... . 0000001101   @VX_tb_rc
- VSTRIHL         000100 ..... 00010 ..... . 0000001101   @VX_tb_rc
- VSTRIHR         000100 ..... 00011 ..... . 0000001101   @VX_tb_rc
+@@ -63,6 +63,9 @@
+ &VX_bf          bf vra vrb
+ @VX_bf          ...... bf:3 .. vra:5 vrb:5 ...........          &VX_bf
  
-+VCLRLB          000100 ..... ..... ..... 00110001101    @VX
++&VX_mp          rt mp:bool vrb
++@VX_mp          ...... rt:5 .... mp:1 vrb:5 ...........         &VX_mp
 +
- # VSX Load/Store Instructions
+ &VX_tb_rc       vrt vrb rc:bool
+ @VX_tb_rc       ...... vrt:5 ..... vrb:5 rc:1 ..........        &VX_tb_rc
  
- LXV             111101 ..... ..... ............ . 001   @DQ_TSX
+@@ -489,6 +492,11 @@ VEXTRACTWM      000100 ..... 01010 ..... 11001000010    @VX_tb
+ VEXTRACTDM      000100 ..... 01011 ..... 11001000010    @VX_tb
+ VEXTRACTQM      000100 ..... 01100 ..... 11001000010    @VX_tb
+ 
++VCNTMBB         000100 ..... 1100 . ..... 11001000010   @VX_mp
++VCNTMBH         000100 ..... 1101 . ..... 11001000010   @VX_mp
++VCNTMBW         000100 ..... 1110 . ..... 11001000010   @VX_mp
++VCNTMBD         000100 ..... 1111 . ..... 11001000010   @VX_mp
++
+ ## Vector Multiply Instruction
+ 
+ VMULESB         000100 ..... ..... ..... 01100001000    @VX
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 1a69931d36..8f12d78071 100644
+index 4510b4ecde..17fc25d1bd 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1940,6 +1940,46 @@ TRANS(VSTRIBR, do_vstri, gen_helper_VSTRIBR)
- TRANS(VSTRIHL, do_vstri, gen_helper_VSTRIHL)
- TRANS(VSTRIHR, do_vstri, gen_helper_VSTRIHR)
+@@ -1910,6 +1910,38 @@ static bool trans_MTVSRBMI(DisasContext *ctx, arg_DX_b *a)
+     return true;
+ }
  
-+static bool trans_VCLRLB(DisasContext *ctx, arg_VX *a)
++static bool do_vcntmb(DisasContext *ctx, arg_VX_mp *a, int vece)
 +{
-+    TCGv_i64 rb, mh, ml, tmp,
-+             ones = tcg_constant_i64(-1),
-+             zero = tcg_constant_i64(0);
++    TCGv_i64 rt, vrb, mask;
++    rt = tcg_const_i64(0);
++    vrb = tcg_temp_new_i64();
++    mask = tcg_constant_i64(dup_const(vece, 1ULL << ((8 << vece) - 1)));
 +
-+    rb = tcg_temp_new_i64();
-+    mh = tcg_temp_new_i64();
-+    ml = tcg_temp_new_i64();
-+    tmp = tcg_temp_new_i64();
++    for (int i = 0; i < 2; i++) {
++        get_avr64(vrb, a->vrb, i);
++        if (a->mp) {
++            tcg_gen_and_i64(vrb, mask, vrb);
++        } else {
++            tcg_gen_andc_i64(vrb, mask, vrb);
++        }
++        tcg_gen_ctpop_i64(vrb, vrb);
++        tcg_gen_add_i64(rt, rt, vrb);
++    }
 +
-+    tcg_gen_extu_tl_i64(rb, cpu_gpr[a->vrb]);
-+    tcg_gen_andi_i64(tmp, rb, 7);
-+    tcg_gen_shli_i64(tmp, tmp, 3);
-+    tcg_gen_shl_i64(tmp, tcg_constant_i64(-1), tmp);
-+    tcg_gen_not_i64(tmp, tmp);
++    tcg_gen_shli_i64(rt, rt, TARGET_LONG_BITS - 8 + vece);
++    tcg_gen_trunc_i64_tl(cpu_gpr[a->rt], rt);
 +
-+    tcg_gen_movcond_i64(TCG_COND_LTU, ml, rb, tcg_constant_i64(8),
-+                        tmp, ones);
-+    tcg_gen_movcond_i64(TCG_COND_LTU, mh, rb, tcg_constant_i64(8),
-+                        zero, tmp);
-+    tcg_gen_movcond_i64(TCG_COND_LTU, mh, rb, tcg_constant_i64(16),
-+                        mh, ones);
-+
-+    get_avr64(tmp, a->vra, true);
-+    tcg_gen_and_i64(tmp, tmp, mh);
-+    set_avr64(a->vrt, tmp, true);
-+
-+    get_avr64(tmp, a->vra, false);
-+    tcg_gen_and_i64(tmp, tmp, ml);
-+    set_avr64(a->vrt, tmp, false);
-+
-+    tcg_temp_free_i64(rb);
-+    tcg_temp_free_i64(mh);
-+    tcg_temp_free_i64(ml);
-+    tcg_temp_free_i64(tmp);
++    tcg_temp_free_i64(vrb);
++    tcg_temp_free_i64(rt);
 +
 +    return true;
 +}
 +
- #define GEN_VAFORM_PAIRED(name0, name1, opc2)                           \
- static void glue(gen_, name0##_##name1)(DisasContext *ctx)              \
-     {                                                                   \
++TRANS(VCNTMBB, do_vcntmb, MO_8)
++TRANS(VCNTMBH, do_vcntmb, MO_16)
++TRANS(VCNTMBW, do_vcntmb, MO_32)
++TRANS(VCNTMBD, do_vcntmb, MO_64)
++
+ static bool do_vstri(DisasContext *ctx, arg_VX_tb_rc *a,
+                      void (*gen_helper)(TCGv_i32, TCGv_ptr, TCGv_ptr))
+ {
 -- 
 2.25.1
 
