@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790B34C0285
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 20:56:37 +0100 (CET)
-Received: from localhost ([::1]:38024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CDB4C028F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 20:58:13 +0100 (CET)
+Received: from localhost ([::1]:42120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMbH2-0006wZ-JJ
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 14:56:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46872)
+	id 1nMbIa-0001LV-E3
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 14:58:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawJ-0003Oe-No
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawK-0003Oo-Lb
  for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:13 -0500
-Received: from [2a00:1450:4864:20::635] (port=46955
- helo=mail-ej1-x635.google.com)
+Received: from [2a00:1450:4864:20::632] (port=42908
+ helo=mail-ej1-x632.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawH-000748-Jp
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:11 -0500
-Received: by mail-ej1-x635.google.com with SMTP id qx21so45966154ejb.13
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 11:35:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawI-00074L-H4
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:12 -0500
+Received: by mail-ej1-x632.google.com with SMTP id hw13so45829926ejc.9
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 11:35:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/3j29R7lXMdrMKGnt5++sE1+VglPHaZYEgL5oGNi9kU=;
- b=G5ps2Ug6i1TeGmXMFb8EWZksfkoK1GrvrS8E/LRDGfIJxJTAMmW9fLvBk+n4FsEqcG
- Y6IoG9fwJEti3tJAVaK/pEXNquWgColYeGyAO3R63b2/dqU5KnLwZ9W3kRSBy8tITPLQ
- B8VqQj+pNbNtXmY3wIW4l8QK8whMnuSCyeLs+ojmTf09qM84ArNA5QsNbbtt+BwloD6z
- dHjRCjUVBSJaGzKIPJ3uanZZRTc1PQ1ULE9WmZEyjFcBtRdhW5k030WYM8VqdrqB2yIz
- fFrKIvb9Q6RQXeeNumMkHTwDNhGd6Hq7KcnWxX3GxVccDhFIUFY1q4Lq16hy9xKoksEG
- isXA==
+ bh=M0VwRAVUenlZUvRbc1a5N4xtILg9Nv9mnMQHhVnmjwI=;
+ b=OQy7tOKkZx/Tue37ieC6XXMXrqFyoKkOvZNRec/V8jizzbw/WQtPhg1dQnmhTaY5XM
+ 5PPidRcph+L8SxALIEYchgkx1EnlcZsHu6lxbDYiUDifJ1gwOo3LiOpBML2CrT6h04Yj
+ 8GQMV05cptmOMrEw6gOXdbq+6V7/6xXuEvTIoQwmwrZVheqxW8mYPI7lLQ0j0brgX2e3
+ MAzr58JM5t0OAEyRdyAkajPRtWB88TkN3xkhTGrmGlkNLAwRHylqTOh0Jlc/T2WTrYuG
+ lkP0xRfKM82DKAjxvkdQ8OaXWoEOKMsvV3Yut4mRgzWGWrV1NhGllrPJ5SawjdSBbuJy
+ RRzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/3j29R7lXMdrMKGnt5++sE1+VglPHaZYEgL5oGNi9kU=;
- b=ML08XVATSmsaKgT/xCABFgjG8MpGPUFgeMEbV+Q3PxC1URzszbEdsRk0euZtPMkgGw
- /srB7ZyG19PGsmzN51PrFk/DlMIFZGL4+sJh9vVqNpHfUjD5UGq0OwIhx5f24e0CUqy/
- 5iHWJYmC26k8kYVKAXnS+mHw10//6TlHsDlKE6E8LgMIZ9HoMReCXMpGQ9Ds0mp0fmKA
- Q434ekbzafDjwV1b2zeA1eoqannsgVScT2kWsinHrUfzoits6mRTzdtIGZOXBhF4FYAT
- 07da1aT1FpJWOp2zZdMvMOWLWmYfMdwkvVgBejSA1WSVPilZE/Yo0RWC7OsDf+9khzb0
- NMEw==
-X-Gm-Message-State: AOAM531Go7N3t36j0ceyCZ4KI/XJLVhGjlG7dBnpN0GKVpKq2vxuocZB
- zQZvEFQWPtp9kN+OkT7vKJ6HHG4l7Uk=
-X-Google-Smtp-Source: ABdhPJxX00lVbOpHzuMj79FIFA74Uty8nc1peB1bt72w7qzk219EdisjBdSnM8GPePlDSSw5uZCrvg==
-X-Received: by 2002:a17:906:364d:b0:6cd:9109:cfd4 with SMTP id
- r13-20020a170906364d00b006cd9109cfd4mr20402697ejb.198.1645558508242; 
- Tue, 22 Feb 2022 11:35:08 -0800 (PST)
+ bh=M0VwRAVUenlZUvRbc1a5N4xtILg9Nv9mnMQHhVnmjwI=;
+ b=qq3lwQ1c/L8sYtgODNMvP2+Z4fN8EDodJi9QmGiOHa0sQSBI3lsXl32og2ICw+EzvK
+ mKBG/1RnSHT+xK9en/NZPbbj7Qh9H7WmVMVKynYLoHLfdZQ+lwGtp/RONzH+kfjq7nxe
+ B1Ba6oRdWYgvMliRA6KFIQM2Wav1jIXe4AYBEwPVIfWyTl2yIv9qQ4EJzUoZNCkgdvbJ
+ i6v5b+ySvSPGwVXmoJu4G3xtOFU07Lj+TbYXiOciLvgvlaLMSqhOVh8Q9Kqgr8RI5G+1
+ oBq+t7+OfTdKDMZ+UzgZESXd49JJWoN09YA4XAoFprLt3w1LF55ydB0HEKjDqIoBDTuz
+ lHHQ==
+X-Gm-Message-State: AOAM530Jjjq2+XbSazzcyiRzHfXD0nz6itVnHyOzHSaSg2dhv30tlaRZ
+ 8FFwyfvMdDU92vQPG99v5M8XDz3IvtY=
+X-Google-Smtp-Source: ABdhPJzKFiLzdzJ9Dplzp3+JxjddBNiyUW0sSw5hY2Ctbv3oshCfxo42X19AcPXnkZFFYmnHkxGLdw==
+X-Received: by 2002:a17:907:766a:b0:6cf:bb20:70c with SMTP id
+ kk10-20020a170907766a00b006cfbb20070cmr20072612ejc.94.1645558509093; 
+ Tue, 22 Feb 2022 11:35:09 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-089-012-227-088.89.12.pool.telefonica.de. [89.12.227.88])
- by smtp.gmail.com with ESMTPSA id i1sm766532edj.84.2022.02.22.11.35.07
+ by smtp.gmail.com with ESMTPSA id i1sm766532edj.84.2022.02.22.11.35.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 11:35:07 -0800 (PST)
+ Tue, 22 Feb 2022 11:35:08 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/22] hw/isa/piix4: Disuse isa_init_irq()
-Date: Tue, 22 Feb 2022 20:34:41 +0100
-Message-Id: <20220222193446.156717-18-shentey@gmail.com>
+Subject: [PATCH v2 18/22] hw/net/ne2000-isa: Disuse isa_init_irq()
+Date: Tue, 22 Feb 2022 20:34:42 +0100
+Message-Id: <20220222193446.156717-19-shentey@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222193446.156717-1-shentey@gmail.com>
 References: <20220222193446.156717-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,10 +86,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Jason Wang <jasowang@redhat.com>, Bernhard Beschow <shentey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,22 +96,22 @@ eventually.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/piix4.c | 2 +-
+ hw/net/ne2000-isa.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index cb291d121c..0fd6756dcf 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -197,7 +197,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
-         return;
-     }
--    isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc.irq, s->rtc.isairq);
-+    s->rtc.irq = isa_get_irq(ISA_DEVICE(&s->rtc), s->rtc.isairq);
+diff --git a/hw/net/ne2000-isa.c b/hw/net/ne2000-isa.c
+index dd6f6e34d3..6ced6775ff 100644
+--- a/hw/net/ne2000-isa.c
++++ b/hw/net/ne2000-isa.c
+@@ -68,7 +68,7 @@ static void isa_ne2000_realizefn(DeviceState *dev, Error **errp)
+     ne2000_setup_io(s, DEVICE(isadev), 0x20);
+     isa_register_ioport(isadev, &s->io, isa->iobase);
  
-     piix4_dev = dev;
- }
+-    isa_init_irq(isadev, &s->irq, isa->isairq);
++    s->irq = isa_get_irq(isadev, isa->isairq);
+ 
+     qemu_macaddr_default_if_unset(&s->c.macaddr);
+     ne2000_reset(s);
 -- 
 2.35.1
 
