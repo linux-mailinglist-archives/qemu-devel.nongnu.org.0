@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90EA34BFB0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 15:46:29 +0100 (CET)
-Received: from localhost ([::1]:49518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5884BFB38
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 15:52:17 +0100 (CET)
+Received: from localhost ([::1]:59160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMWQu-0001kA-Jy
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 09:46:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43834)
+	id 1nMWWW-000053-34
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 09:52:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nMWKG-0005Ub-3v; Tue, 22 Feb 2022 09:39:36 -0500
-Received: from [187.72.171.209] (port=25868 helo=outlook.eldorado.org.br)
+ id 1nMWKE-0005QH-FW; Tue, 22 Feb 2022 09:39:34 -0500
+Received: from [187.72.171.209] (port=64269 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nMWKC-0005Ic-HF; Tue, 22 Feb 2022 09:39:35 -0500
+ id 1nMWKC-0005Id-H3; Tue, 22 Feb 2022 09:39:34 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Tue, 22 Feb 2022 11:37:40 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 530EA80047A;
+ by p9ibm (Postfix) with ESMTP id 9E4318000A7;
  Tue, 22 Feb 2022 11:37:40 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 11/47] target/ppc: Implement Vector Compare Equal Quadword
-Date: Tue, 22 Feb 2022 11:36:09 -0300
-Message-Id: <20220222143646.1268606-12-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 12/47] target/ppc: Implement Vector Compare Greater Than
+ Quadword
+Date: Tue, 22 Feb 2022 11:36:10 -0300
+Message-Id: <20220222143646.1268606-13-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
 References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 22 Feb 2022 14:37:40.0705 (UTC)
- FILETIME=[BEB12510:01D827F9]
+X-OriginalArrivalTime: 22 Feb 2022 14:37:41.0004 (UTC)
+ FILETIME=[BEDEC4C0:01D827F9]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,39 +67,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-vcmpequq: Vector Compare Equal Quadword
+vcmpgtsq: Vector Compare Greater Than Signed Quadword
+vcmpgtuq: Vector Compare Greater Than Unsigned Quadword
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
 v4:
  - Branchless implementation (rth)
 ---
- target/ppc/insn32.decode            |  1 +
- target/ppc/translate/vmx-impl.c.inc | 36 +++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
+ target/ppc/insn32.decode            |  2 ++
+ target/ppc/translate/vmx-impl.c.inc | 39 +++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index be9e05cc73..437a3e29e0 100644
+index 437a3e29e0..07a4ef9103 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -382,6 +382,7 @@ VCMPEQUB        000100 ..... ..... ..... . 0000000110   @VC
- VCMPEQUH        000100 ..... ..... ..... . 0001000110   @VC
- VCMPEQUW        000100 ..... ..... ..... . 0010000110   @VC
- VCMPEQUD        000100 ..... ..... ..... . 0011000111   @VC
-+VCMPEQUQ        000100 ..... ..... ..... . 0111000111   @VC
- 
- VCMPGTSB        000100 ..... ..... ..... . 1100000110   @VC
+@@ -388,11 +388,13 @@ VCMPGTSB        000100 ..... ..... ..... . 1100000110   @VC
  VCMPGTSH        000100 ..... ..... ..... . 1101000110   @VC
+ VCMPGTSW        000100 ..... ..... ..... . 1110000110   @VC
+ VCMPGTSD        000100 ..... ..... ..... . 1111000111   @VC
++VCMPGTSQ        000100 ..... ..... ..... . 1110000111   @VC
+ 
+ VCMPGTUB        000100 ..... ..... ..... . 1000000110   @VC
+ VCMPGTUH        000100 ..... ..... ..... . 1001000110   @VC
+ VCMPGTUW        000100 ..... ..... ..... . 1010000110   @VC
+ VCMPGTUD        000100 ..... ..... ..... . 1011000111   @VC
++VCMPGTUQ        000100 ..... ..... ..... . 1010000111   @VC
+ 
+ VCMPNEB         000100 ..... ..... ..... . 0000000111   @VC
+ VCMPNEH         000100 ..... ..... ..... . 0001000111   @VC
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index d7f807b81d..d66a642b67 100644
+index d66a642b67..4a76e370fc 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1107,6 +1107,42 @@ TRANS(VCMPNEZB, do_vcmpnez, MO_8)
- TRANS(VCMPNEZH, do_vcmpnez, MO_16)
- TRANS(VCMPNEZW, do_vcmpnez, MO_32)
+@@ -1143,6 +1143,45 @@ static bool trans_VCMPEQUQ(DisasContext *ctx, arg_VC *a)
+     return true;
+ }
  
-+static bool trans_VCMPEQUQ(DisasContext *ctx, arg_VC *a)
++static bool do_vcmpgtq(DisasContext *ctx, arg_VC *a, bool sign)
 +{
 +    TCGv_i64 t0, t1, t2;
 +
@@ -106,16 +113,16 @@ index d7f807b81d..d66a642b67 100644
 +    t1 = tcg_temp_new_i64();
 +    t2 = tcg_temp_new_i64();
 +
-+    get_avr64(t0, a->vra, true);
-+    get_avr64(t1, a->vrb, true);
-+    tcg_gen_xor_i64(t2, t0, t1);
-+
 +    get_avr64(t0, a->vra, false);
 +    get_avr64(t1, a->vrb, false);
-+    tcg_gen_xor_i64(t1, t0, t1);
++    tcg_gen_setcond_i64(TCG_COND_GTU, t2, t0, t1);
++
++    get_avr64(t0, a->vra, true);
++    get_avr64(t1, a->vrb, true);
++    tcg_gen_movcond_i64(TCG_COND_EQ, t2, t0, t1, t2, tcg_constant_i64(0));
++    tcg_gen_setcond_i64(sign ? TCG_COND_GT : TCG_COND_GTU, t1, t0, t1);
 +
 +    tcg_gen_or_i64(t1, t1, t2);
-+    tcg_gen_setcondi_i64(TCG_COND_EQ, t1, t1, 0);
 +    tcg_gen_neg_i64(t1, t1);
 +
 +    set_avr64(a->vrt, t1, true);
@@ -133,6 +140,9 @@ index d7f807b81d..d66a642b67 100644
 +
 +    return true;
 +}
++
++TRANS(VCMPGTSQ, do_vcmpgtq, true)
++TRANS(VCMPGTUQ, do_vcmpgtq, false)
 +
  GEN_VXRFORM(vcmpeqfp, 3, 3)
  GEN_VXRFORM(vcmpgefp, 3, 7)
