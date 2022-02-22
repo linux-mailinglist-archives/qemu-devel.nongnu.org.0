@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A468C4BFD51
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 16:46:44 +0100 (CET)
-Received: from localhost ([::1]:56400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA754BFD40
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 16:41:41 +0100 (CET)
+Received: from localhost ([::1]:51112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMXND-0006v1-LB
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 10:46:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44998)
+	id 1nMXIK-0003IM-52
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 10:41:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nMWOn-0001dQ-QF; Tue, 22 Feb 2022 09:44:17 -0500
+ id 1nMWOt-0001fH-UE; Tue, 22 Feb 2022 09:44:24 -0500
 Received: from [187.72.171.209] (port=14718 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nMWOl-0006Am-JY; Tue, 22 Feb 2022 09:44:17 -0500
+ id 1nMWOq-0006Am-Ug; Tue, 22 Feb 2022 09:44:22 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Tue, 22 Feb 2022 11:37:48 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id F376D8000A7;
- Tue, 22 Feb 2022 11:37:47 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 52AE380047A;
+ Tue, 22 Feb 2022 11:37:48 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 36/47] target/ppc: Implement xvtlsbb instruction
-Date: Tue, 22 Feb 2022 11:36:34 -0300
-Message-Id: <20220222143646.1268606-37-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 37/47] target/ppc: Remove xscmpnedp instruction
+Date: Tue, 22 Feb 2022 11:36:35 -0300
+Message-Id: <20220222143646.1268606-38-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
 References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 22 Feb 2022 14:37:48.0369 (UTC)
- FILETIME=[C3429410:01D827F9]
+X-OriginalArrivalTime: 22 Feb 2022 14:37:48.0759 (UTC)
+ FILETIME=[C37E1670:01D827F9]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,86 +67,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
+xscmpnedp was added in ISA v3.0 but removed in v3.0B. This patch
+removes this instruction as it was not in the final version of v3.0.
+
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Acked-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode            |  7 ++++++
- target/ppc/translate/vsx-impl.c.inc | 37 +++++++++++++++++++++++++++++
- 2 files changed, 44 insertions(+)
+ target/ppc/fpu_helper.c             | 1 -
+ target/ppc/helper.h                 | 1 -
+ target/ppc/translate/vsx-impl.c.inc | 1 -
+ target/ppc/translate/vsx-ops.c.inc  | 1 -
+ 4 files changed, 4 deletions(-)
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 1395a91c44..2617ab8ca4 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -155,6 +155,9 @@
- &XX2            xt xb uim:uint8_t
- @XX2            ...... ..... ... uim:2 ..... ......... ..       &XX2 xt=%xx_xt xb=%xx_xb
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 98e9576608..9b034d1fe4 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -2313,7 +2313,6 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
+ VSX_SCALAR_CMP_DP(xscmpeqdp, eq, 1, 0)
+ VSX_SCALAR_CMP_DP(xscmpgedp, le, 1, 1)
+ VSX_SCALAR_CMP_DP(xscmpgtdp, lt, 1, 1)
+-VSX_SCALAR_CMP_DP(xscmpnedp, eq, 0, 0)
  
-+&XX2_bf_xb      bf xb
-+@XX2_bf_xb      ...... bf:3 .. ..... ..... ......... . .        &XX2_bf_xb xb=%xx_xb
-+
- &XX3            xt xa xb
- @XX3            ...... ..... ..... ..... ........ ...           &XX3 xt=%xx_xt xa=%xx_xa xb=%xx_xb
- 
-@@ -664,6 +667,10 @@ XSMINJDP        111100 ..... ..... ..... 10011000 ...   @XX3
- 
- XSCVQPDP        111111 ..... 10100 ..... 1101000100 .   @X_tb_rc
- 
-+## VSX Vector Test Least-Significant Bit by Byte Instruction
-+
-+XVTLSBB         111100 ... -- 00010 ..... 111011011 . - @XX2_bf_xb
-+
- ### rfebb
- &XL_s           s:uint8_t
- @XL_s           ......-------------- s:1 .......... -   &XL_s
+ void helper_xscmpexpdp(CPUPPCState *env, uint32_t opcode,
+                        ppc_vsr_t *xa, ppc_vsr_t *xb)
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 1649fffff8..ee2a89b89d 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -364,7 +364,6 @@ DEF_HELPER_5(XSNMSUBDP, void, env, vsr, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpeqdp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpgtdp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpgedp, void, env, vsr, vsr, vsr)
+-DEF_HELPER_4(xscmpnedp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpexpdp, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscmpexpqp, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscmpodp, void, env, i32, vsr, vsr)
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 9128407365..2aecaa8021 100644
+index 2aecaa8021..751b941bac 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1690,6 +1690,43 @@ static bool trans_LXVKQ(DisasContext *ctx, arg_X_uim5 *a)
-     return true;
- }
- 
-+static bool trans_XVTLSBB(DisasContext *ctx, arg_XX2_bf_xb *a)
-+{
-+    TCGv_i64 xb, tmp, all_true, all_false, mask, zero;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VSX(ctx);
-+
-+    xb = tcg_temp_new_i64();
-+    tmp = tcg_temp_new_i64();
-+    all_true = tcg_const_i64(0b1000);
-+    all_false = tcg_const_i64(0b0010);
-+    mask = tcg_constant_i64(dup_const(MO_8, 1));
-+    zero = tcg_constant_i64(0);
-+
-+    for (int dw = 0; dw < 2; dw++) {
-+        get_cpu_vsr(xb, a->xb, dw);
-+
-+        tcg_gen_and_i64(tmp, mask, xb);
-+        tcg_gen_movcond_i64(TCG_COND_EQ, all_true, tmp,
-+                            mask, all_true, zero);
-+
-+        tcg_gen_andc_i64(tmp, mask, xb);
-+        tcg_gen_movcond_i64(TCG_COND_EQ, all_false, tmp,
-+                            mask, all_false, zero);
-+    }
-+
-+    tcg_gen_or_i64(tmp, all_false, all_true);
-+    tcg_gen_extrl_i64_i32(cpu_crf[a->bf], tmp);
-+
-+    tcg_temp_free_i64(xb);
-+    tcg_temp_free_i64(tmp);
-+    tcg_temp_free_i64(all_true);
-+    tcg_temp_free_i64(all_false);
-+
-+    return true;
-+}
-+
- static void gen_xxsldwi(DisasContext *ctx)
- {
-     TCGv_i64 xth, xtl;
+@@ -1055,7 +1055,6 @@ GEN_VSX_HELPER_X1(xstsqrtdp, 0x14, 0x06, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X3(xscmpeqdp, 0x0C, 0x00, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X3(xscmpgtdp, 0x0C, 0x01, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X3(xscmpgedp, 0x0C, 0x02, 0, PPC2_ISA300)
+-GEN_VSX_HELPER_X3(xscmpnedp, 0x0C, 0x03, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X2_AB(xscmpexpdp, 0x0C, 0x07, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_R2_AB(xscmpexpqp, 0x04, 0x05, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X2_AB(xscmpodp, 0x0C, 0x05, 0, PPC2_VSX)
+diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
+index 9cfec53df0..34310c1fb5 100644
+--- a/target/ppc/translate/vsx-ops.c.inc
++++ b/target/ppc/translate/vsx-ops.c.inc
+@@ -189,7 +189,6 @@ GEN_XX2FORM(xstsqrtdp,  0x14, 0x06, PPC2_VSX),
+ GEN_XX3FORM(xscmpeqdp, 0x0C, 0x00, PPC2_ISA300),
+ GEN_XX3FORM(xscmpgtdp, 0x0C, 0x01, PPC2_ISA300),
+ GEN_XX3FORM(xscmpgedp, 0x0C, 0x02, PPC2_ISA300),
+-GEN_XX3FORM(xscmpnedp, 0x0C, 0x03, PPC2_ISA300),
+ GEN_XX3FORM(xscmpexpdp, 0x0C, 0x07, PPC2_ISA300),
+ GEN_VSX_XFORM_300(xscmpexpqp, 0x04, 0x05, 0x00600001),
+ GEN_XX2IFORM(xscmpodp,  0x0C, 0x05, PPC2_VSX),
 -- 
 2.25.1
 
