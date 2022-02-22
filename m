@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F26814C01E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 20:17:08 +0100 (CET)
-Received: from localhost ([::1]:59060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD6D4C01ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 20:19:39 +0100 (CET)
+Received: from localhost ([::1]:37224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMaep-0005U8-Ii
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 14:17:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41806)
+	id 1nMahG-00016H-Lb
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 14:19:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMabS-0003l8-SO
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:13:42 -0500
-Received: from [2607:f8b0:4864:20::534] (port=38530
- helo=mail-pg1-x534.google.com)
+ id 1nMadr-0006iC-FC
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:16:09 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=55093
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMabN-0003Xh-1Z
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:13:38 -0500
-Received: by mail-pg1-x534.google.com with SMTP id 132so17831196pga.5
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 11:13:16 -0800 (PST)
+ id 1nMadl-00043R-0d
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:16:07 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id b8so538049pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 11:15:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=G2m3Id1VjYJHZxzksTO7CBjZt3GpZCNxvt8OMQ7TgGk=;
- b=cJoxKD6lSaX5wSEKUAuYMRZsY2wbC1cFPDJIXy9Jgtp4QkgZM/THxeae0eQ29RQY53
- gMAW621pFcxaP10WA/Ex7ilVYNRl7JfbDfV3GDo+tGwUdWC9+QCHRhgg6ZA9GAWs3HT2
- 9l/0pcsi7nj4zEjFGZ7hp63aKQ1MMwiq6Ly5C5pKN/E1rMSUJ3He3xLJpWMlS5sxCe13
- zjorDj5KTKlrgVTg0K1OYIc+sS5Jz1TN5CViw/UQ+p7hGUSQisR3iDdeKIy2x3Ke15iz
- N+wM51VMUzAeJedRs8tC3I7x3fxoN3F9wxHGdFByWH6w5pvkn63v6P1vyIx58lPtn7B3
- w+EA==
+ bh=nPC7Gl5Tj/Cxyt+vAxeyibW75cydwNjJP6sC8gynMv8=;
+ b=oCyh0Ajn6OFCZaFoP/vHkCgklF6AxqfJ+eCO+EARm/rp9l0qnKSH5U21SMZnT/LUXx
+ bX1iDNVVBxXFg8ktk+oX98HLZNu1uoDx80LYLne3c+yvsCnouhuoDWF7satcuaXJYAAs
+ d6BDpOx0frQb9OUMCkn9ZgTXKLcKE2+neJij05nbBYrXVY/M66OI4fyWq3SLgGCYhg7/
+ eMek6YRY9+NPP754TpTNrMZsrRYJA2Rejx65eAf58sp60lGqvqpOY7pn2FnHs+G4iNTj
+ XQzUyQYRnF1Bw0QiqCne3R+JfJadJte+eTuOkIDoZjQgxYulyqnh6ppgtIn1IiQNoqFN
+ WLlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=G2m3Id1VjYJHZxzksTO7CBjZt3GpZCNxvt8OMQ7TgGk=;
- b=elRqq/m69JxVzKumFI8makcDuL5rqoHVSi7odzdlFfLuLUEeSjnIPgeziY97m/egSa
- EPJ9dGRGEEXqQzAzglNtigo6BMgPWk13KhEdzo5eukI8+Yo8WjKJlmoeX+n7+WTHJLT8
- 53iovsWGZCJGIvbwciZAKoLe4VwV5i9lHLRZts/Ur/Imv7QTwH9/KklqlDJU4vpPVw4g
- S5E9gpe8TWDivSSBH2qVhUKrNSgTDh2lZ4oezKMA9x9hHOnPa2oyhpVRFP0vDF8GxmXU
- GF61sXQT1oBkITESU1O335qjkk7br8M5aYf6JReaK+oljfClaDYwVxYrzf2t/a16U/4c
- N2oA==
-X-Gm-Message-State: AOAM5323T2XU1HOu72zajeuO+xcM8uwxI3syzX1hbzl4Hh5h45SD5f9K
- Xd6AlYVabUqCIcVOQTOuXsWLTA==
-X-Google-Smtp-Source: ABdhPJzvL09mtVK0GjwB0+VUEWY8a6XKT6XDbvtcXvMrzwiAPqg5PjV3MS2p46xOyIRi8Ycqi1V0Ew==
-X-Received: by 2002:a63:10c:0:b0:36c:6dd0:44af with SMTP id
- 12-20020a63010c000000b0036c6dd044afmr20942552pgb.41.1645557195669; 
- Tue, 22 Feb 2022 11:13:15 -0800 (PST)
+ bh=nPC7Gl5Tj/Cxyt+vAxeyibW75cydwNjJP6sC8gynMv8=;
+ b=AHAMuE0foUTOED/yz4viW9UgJ3gXjnpmLtMMV6O+zHSoffbdHSlr3rFO7OtglCDlR6
+ lounRuaM/X7wqNWJu/qdgaHB1rlyZnLUcoQbaL9amI+nWHC7TZ1/rdDLsjlMc52ekbqe
+ vU3QpIzRGLibxtcT9w9lAsFM0JoyysNHZA3DVVBlZZRyFZsr0kVlo+ne/McyG5zib//+
+ 9We5K9ag0eNnkO/VT64hwdPQrD2FI1cyG39gNA2DJwyLEpAVE0gSiSUv5miiOsujmpDc
+ C7ce3cKqB/1RZUXhoNV5Hokw5Jlp+nDB2YjIJHsvoDulXlxlTrIZR7b8nI3hbd3g/x7q
+ vooA==
+X-Gm-Message-State: AOAM5323U/Zv8fu9Ls83acWfZQNdRw6or2N+fmUb7eYzeNYgVQOMt0M7
+ ttADPVOQ2t1kKfv8zAVn0WGF4g==
+X-Google-Smtp-Source: ABdhPJz8w8EWyzfn/FNaad6kqwlI98ONNgA4ZwkuAz1phJl7RMPftBaMaG7rhwZoiEUQvGzR4CNy8g==
+X-Received: by 2002:a17:90a:354:b0:1bb:cfdc:c84e with SMTP id
+ 20-20020a17090a035400b001bbcfdcc84emr5604315pjf.213.1645557355152; 
+ Tue, 22 Feb 2022 11:15:55 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- z11-20020a17090a1fcb00b001bc58804974sm282709pjz.27.2022.02.22.11.13.14
+ [50.113.46.110])
+ by smtp.gmail.com with ESMTPSA id c20sm10189084pfl.131.2022.02.22.11.15.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 11:13:15 -0800 (PST)
-Message-ID: <9cb63e9a-a4cf-dc11-6c02-f10191a3d85b@linaro.org>
-Date: Tue, 22 Feb 2022 09:13:11 -1000
+ Tue, 22 Feb 2022 11:15:54 -0800 (PST)
+Message-ID: <48ec423c-9fcd-dc5d-2647-02e311ca784d@linaro.org>
+Date: Tue, 22 Feb 2022 09:15:51 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 14/47] target/ppc: implement vstri[bh][lr]
+Subject: Re: [PATCH v4 15/47] target/ppc: implement vclrlb
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
- <20220222143646.1268606-15-matheus.ferst@eldorado.org.br>
+ <20220222143646.1268606-16-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220222143646.1268606-15-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220222143646.1268606-16-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,37 +99,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/22/22 04:36, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> 
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
-> v4:
->   - vstri helpers return CR field (rth)
-> ---
->   target/ppc/helper.h                 |  4 ++++
->   target/ppc/insn32.decode            | 10 ++++++++++
->   target/ppc/int_helper.c             | 28 +++++++++++++++++++++++++++
->   target/ppc/translate/vmx-impl.c.inc | 30 +++++++++++++++++++++++++++++
->   4 files changed, 72 insertions(+)
-> 
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index 303a29fb5a..269150b197 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -211,6 +211,10 @@ DEF_HELPER_4(VINSBLX, void, env, avr, i64, tl)
->   DEF_HELPER_4(VINSHLX, void, env, avr, i64, tl)
->   DEF_HELPER_4(VINSWLX, void, env, avr, i64, tl)
->   DEF_HELPER_4(VINSDLX, void, env, avr, i64, tl)
-> +DEF_HELPER_2(VSTRIBL, i32, avr, avr)
-> +DEF_HELPER_2(VSTRIBR, i32, avr, avr)
-> +DEF_HELPER_2(VSTRIHL, i32, avr, avr)
-> +DEF_HELPER_2(VSTRIHR, i32, avr, avr)
+> +static bool trans_VCLRLB(DisasContext *ctx, arg_VX *a)
+> +{
+> +    TCGv_i64 rb, mh, ml, tmp,
+> +             ones = tcg_constant_i64(-1),
+> +             zero = tcg_constant_i64(0);
+> +
+> +    rb = tcg_temp_new_i64();
+> +    mh = tcg_temp_new_i64();
+> +    ml = tcg_temp_new_i64();
+> +    tmp = tcg_temp_new_i64();
+> +
+> +    tcg_gen_extu_tl_i64(rb, cpu_gpr[a->vrb]);
+> +    tcg_gen_andi_i64(tmp, rb, 7);
+> +    tcg_gen_shli_i64(tmp, tmp, 3);
+> +    tcg_gen_shl_i64(tmp, tcg_constant_i64(-1), tmp);
 
-Oh, DEF_HELPER_FLAGS_2 with TCG_CALL_NO_RWG.
-I should have thought of this wrt the other helpers you're touching in this series -- 
-those that only modify vector registers should use this.
+Reuse ones here.  Otherwise,
 
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
