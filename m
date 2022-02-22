@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01DE4BF2A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 08:30:46 +0100 (CET)
-Received: from localhost ([::1]:42694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B854BF2C7
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 08:44:46 +0100 (CET)
+Received: from localhost ([::1]:48910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMPdF-0000Ek-Kx
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 02:30:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49148)
+	id 1nMPqn-00057v-9f
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 02:44:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nMPZR-0006kH-UB
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 02:26:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41186)
+ id 1nMPo1-0004LH-Jr
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 02:41:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nMPZP-0003Or-5C
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 02:26:48 -0500
+ id 1nMPny-0005eM-5T
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 02:41:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645514805;
+ s=mimecast20190719; t=1645515708;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lSgLTHt2PShYy/c40Sx83Rs/A6YQkQ1rRo49MyA5y1c=;
- b=Jj0UkdBr4Jz1IkpvNHym2Hi9Nbh9dajNy86ckPgt+/1Y7P3p8msfTBH08FMcWA8UqLM42r
- y/L33PBdb1jLWjPbtA/tL3Stz9UxaD370uAbWb2C3nSEYe86yhCFuL+mf0OmIAeLo4wKKw
- d+FXMA6yHozegHTILaNKl2kXVQ++A28=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IGrx4EtwRfyNbdr1Hsz29eiLereNmvESiiY5K98iiTU=;
+ b=cuSKtWmPYxM5Za250Zhtiljr0LFoha86r8AL9sLwHV2ICG2mDLGgg2xvXAkfiBgvR8J7mo
+ XA0Wh4Q5hGmprzpqqB6OdIB+t6bHs5lMyRlX+cVUhTFODZRojeLTfJ1blDoVqpdyP6x2kV
+ FZuDZGEsGiHAnw5ZFAo9HK/cUxaalhs=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261-2SpWeweKM5SOg-yTKIne7Q-1; Tue, 22 Feb 2022 02:26:44 -0500
-X-MC-Unique: 2SpWeweKM5SOg-yTKIne7Q-1
-Received: by mail-pl1-f197.google.com with SMTP id
- d7-20020a170902654700b0014fd2313fd2so758668pln.13
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 23:26:44 -0800 (PST)
+ us-mta-663-pWddIfonMqq470-iBWs7FQ-1; Tue, 22 Feb 2022 02:41:47 -0500
+X-MC-Unique: pWddIfonMqq470-iBWs7FQ-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ u17-20020a63a911000000b0037491401c44so12903pge.17
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 23:41:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=lSgLTHt2PShYy/c40Sx83Rs/A6YQkQ1rRo49MyA5y1c=;
- b=0arPWe38Zp/nmgfgrofy8gxUv8f23Sw6pPx5edm2aD8awyf3kATojQWeHT9yZjmvgU
- mLv5dIF9NwMabGVJYwnKVv+yz+9jicbQpTaeEVrz//fTEx+UjtKKqlCcTFhN5Rr+f42c
- cC+qVttlV4yjnjarUM8a42+rpN1TX0bf1oehiIDP5L9tUi/nOIsDwX5gTE0eUUdwgUer
- lZGR6Q9/z6Gqt21VMHnG+QeudvYIh4uPnjFlskMri0H7munnpCUE7SY35POIqx8UFEaO
- EJx/g3j0a2x8JkpWxkBpChDiBWho051C03PfQDEq84KeeC7LAqKZotffbN7uXWG8zM1t
- gRKA==
-X-Gm-Message-State: AOAM5304GG6l/s7lsbvMXJsDOM5AUqp6stAwaRfzvmDWpi48BuaWeyCm
- 1TiNidiwmMV5YiB7M2RwTphku15Q6JKSP6RWoP3eXSWt5Z3qDwjVzYKZkiJOpvtvzvFN224Kq7s
- PbU2JDjL+BaE7M2w=
-X-Received: by 2002:a17:903:31cd:b0:14d:bb40:2a17 with SMTP id
- v13-20020a17090331cd00b0014dbb402a17mr21733818ple.1.1645514803408; 
- Mon, 21 Feb 2022 23:26:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwvVYyyfok9o/m2xgJK+AvfLAkwo4kCJOT5iqgb7ZlXLCMRgUCTTprxVoojziuhwzxQBNlr3A==
-X-Received: by 2002:a17:903:31cd:b0:14d:bb40:2a17 with SMTP id
- v13-20020a17090331cd00b0014dbb402a17mr21733784ple.1.1645514803117; 
- Mon, 21 Feb 2022 23:26:43 -0800 (PST)
+ bh=IGrx4EtwRfyNbdr1Hsz29eiLereNmvESiiY5K98iiTU=;
+ b=CaqLjlgmLFCE+52vzhSt9deZsPSTSOPh9aVncItux9kiOCkCBDVnb2gqkKiPfwBriO
+ a5izcxls9hym365bBh44lchiUD+ERHsGHZVcKqU+dNskyfUNK+dT/NZkLh5gVETg2bWj
+ ma4h8m+dLfJ67+juoM0YExwT58bjtSqvelsUSTLpfkdziSl8t0mQnKvrODBALLG6qufH
+ bwyYsqFeq8EChoVgtMNhlfsNPRVj/RjHNpOkOiRoi5X1N5+X5wF58q2cSIsRs/lwr1Xm
+ etlIsqc5mXCwwImL8h5fOwKqNtfJueMCfBMdWkFoTstXAgitoj0ja4pAdwC6qgBrgbB3
+ 7ELw==
+X-Gm-Message-State: AOAM530YDWZl5jGvLBm+9NFsA/GbdJu87ozqBOuQQxmOclQRxBxuUHsa
+ eQrwqEf1/jtVvO79zqyLkWJoMMISY3rLbYOBmrai0T2qjrWpYNbSwrBLcNJ7S8V93bK50KwP+nA
+ 18xk2To7PMpfgudE=
+X-Received: by 2002:a17:902:d508:b0:14f:dd5f:c8b2 with SMTP id
+ b8-20020a170902d50800b0014fdd5fc8b2mr1911232plg.17.1645515706014; 
+ Mon, 21 Feb 2022 23:41:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw2WX9ULvGmnVvPW8y6Y/A9jFQVM47Ch2DLAEyaR5PdCPEif0F457n1g98Ql7HwNUofmpiqBw==
+X-Received: by 2002:a17:902:d508:b0:14f:dd5f:c8b2 with SMTP id
+ b8-20020a170902d50800b0014fdd5fc8b2mr1911197plg.17.1645515705673; 
+ Mon, 21 Feb 2022 23:41:45 -0800 (PST)
 Received: from [10.72.13.199] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id b21sm1554336pji.22.2022.02.21.23.26.36
+ by smtp.gmail.com with ESMTPSA id q8sm14860810pfk.168.2022.02.21.23.41.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Feb 2022 23:26:42 -0800 (PST)
-Message-ID: <24717b73-7aca-dd75-22d4-2b8d9e6bd737@redhat.com>
-Date: Tue, 22 Feb 2022 15:26:34 +0800
+ Mon, 21 Feb 2022 23:41:45 -0800 (PST)
+Message-ID: <0f0204f1-8b7f-a21e-495e-24443a63f026@redhat.com>
+Date: Tue, 22 Feb 2022 15:41:36 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: [PATCH 18/31] vhost: Shadow virtqueue buffers forwarding
+Subject: Re: [PATCH 28/31] vdpa: Expose VHOST_F_LOG_ALL on SVQ
 To: Eugenio Perez Martin <eperezma@redhat.com>
 References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-19-eperezma@redhat.com>
- <62e877ca-51d7-da85-13c9-d469a85f33c9@redhat.com>
- <CAJaqyWfF01k3LntM7RLEmFcej=EY2d4+2MARKXPptQ2J7VnB9A@mail.gmail.com>
- <7c52e50a-4c8e-7865-1c3d-8b156986c13a@redhat.com>
- <CAJaqyWedqtzRW=ur7upchneSc-oOkvkr3FUph_BfphV3zTmnkw@mail.gmail.com>
- <7e72def5-a1e9-ad92-2c83-fda72ffd7b60@redhat.com>
- <CAJaqyWcHhMpjJ4kde1ejV5c_vP7_8PvfXpi5u9rdWuaORFt_zg@mail.gmail.com>
+ <20220121202733.404989-29-eperezma@redhat.com>
+ <42664143-6d0c-b107-ec90-8e6336bae29b@redhat.com>
+ <CAJaqyWdBLU+maEhByepzeH7iwLmqUba0rRb8PM4VwBy2P8Vtow@mail.gmail.com>
+ <9b32f664-56a9-3718-cf48-49003f87d430@redhat.com>
+ <CAJaqyWcvWjPas0=xp+U-c-kG+e6k73jg=C4phFD7S-tZY=niSQ@mail.gmail.com>
+ <CACGkMEtbd9RsE9f-HLnwmhJEFsK++uBHnqG4N0c6qJG0PxDdzw@mail.gmail.com>
+ <CAJaqyWdhHmD+tB_bY_YEMnBU1p7-LW=LP8f+3e_ZXDcOfSRiNA@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWcHhMpjJ4kde1ejV5c_vP7_8PvfXpi5u9rdWuaORFt_zg@mail.gmail.com>
+In-Reply-To: <CAJaqyWdhHmD+tB_bY_YEMnBU1p7-LW=LP8f+3e_ZXDcOfSRiNA@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -124,101 +124,189 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/2/21 下午4:15, Eugenio Perez Martin 写道:
-> On Mon, Feb 21, 2022 at 8:44 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2022/2/17 下午8:48, Eugenio Perez Martin 写道:
->>> On Tue, Feb 8, 2022 at 9:16 AM Jason Wang <jasowang@redhat.com> wrote:
->>>> 在 2022/2/1 下午7:25, Eugenio Perez Martin 写道:
->>>>> On Sun, Jan 30, 2022 at 7:47 AM Jason Wang <jasowang@redhat.com> wrote:
+在 2022/2/17 下午4:22, Eugenio Perez Martin 写道:
+> On Thu, Feb 17, 2022 at 7:02 AM Jason Wang <jasowang@redhat.com> wrote:
+>> On Wed, Feb 16, 2022 at 11:54 PM Eugenio Perez Martin
+>> <eperezma@redhat.com> wrote:
+>>> On Tue, Feb 8, 2022 at 9:25 AM Jason Wang <jasowang@redhat.com> wrote:
+>>>>
+>>>> 在 2022/2/1 下午7:45, Eugenio Perez Martin 写道:
+>>>>> On Sun, Jan 30, 2022 at 7:50 AM Jason Wang <jasowang@redhat.com> wrote:
 >>>>>> 在 2022/1/22 上午4:27, Eugenio Pérez 写道:
->>>>>>> @@ -272,6 +590,28 @@ void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd)
->>>>>>>      void vhost_svq_stop(VhostShadowVirtqueue *svq)
->>>>>>>      {
->>>>>>>          event_notifier_set_handler(&svq->svq_kick, NULL);
->>>>>>> +    g_autofree VirtQueueElement *next_avail_elem = NULL;
+>>>>>>> SVQ is able to log the dirty bits by itself, so let's use it to not
+>>>>>>> block migration.
+>>>>>>>
+>>>>>>> Also, ignore set and clear of VHOST_F_LOG_ALL on set_features if SVQ is
+>>>>>>> enabled. Even if the device supports it, the reports would be nonsense
+>>>>>>> because SVQ memory is in the qemu region.
+>>>>>>>
+>>>>>>> The log region is still allocated. Future changes might skip that, but
+>>>>>>> this series is already long enough.
+>>>>>>>
+>>>>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>>>>>> ---
+>>>>>>>     hw/virtio/vhost-vdpa.c | 20 ++++++++++++++++++++
+>>>>>>>     1 file changed, 20 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>>>>>>> index fb0a338baa..75090d65e8 100644
+>>>>>>> --- a/hw/virtio/vhost-vdpa.c
+>>>>>>> +++ b/hw/virtio/vhost-vdpa.c
+>>>>>>> @@ -1022,6 +1022,9 @@ static int vhost_vdpa_get_features(struct vhost_dev *dev, uint64_t *features)
+>>>>>>>         if (ret == 0 && v->shadow_vqs_enabled) {
+>>>>>>>             /* Filter only features that SVQ can offer to guest */
+>>>>>>>             vhost_svq_valid_guest_features(features);
 >>>>>>> +
->>>>>>> +    if (!svq->vq) {
->>>>>>> +        return;
->>>>>>> +    }
+>>>>>>> +        /* Add SVQ logging capabilities */
+>>>>>>> +        *features |= BIT_ULL(VHOST_F_LOG_ALL);
+>>>>>>>         }
+>>>>>>>
+>>>>>>>         return ret;
+>>>>>>> @@ -1039,8 +1042,25 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
+>>>>>>>
+>>>>>>>         if (v->shadow_vqs_enabled) {
+>>>>>>>             uint64_t dev_features, svq_features, acked_features;
+>>>>>>> +        uint8_t status = 0;
+>>>>>>>             bool ok;
+>>>>>>>
+>>>>>>> +        ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
+>>>>>>> +        if (unlikely(ret)) {
+>>>>>>> +            return ret;
+>>>>>>> +        }
 >>>>>>> +
->>>>>>> +    /* Send all pending used descriptors to guest */
->>>>>>> +    vhost_svq_flush(svq, false);
->>>>>> Do we need to wait for all the pending descriptors to be completed here?
+>>>>>>> +        if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
+>>>>>>> +            /*
+>>>>>>> +             * vhost is trying to enable or disable _F_LOG, and the device
+>>>>>>> +             * would report wrong dirty pages. SVQ handles it.
+>>>>>>> +             */
+>>>>>> I fail to understand this comment, I'd think there's no way to disable
+>>>>>> dirty page tracking for SVQ.
 >>>>>>
->>>>> No, this function does not wait, it only completes the forwarding of
->>>>> the *used* descriptors.
->>>>>
->>>>> The best example is the net rx queue in my opinion. This call will
->>>>> check SVQ's vring used_idx and will forward the last used descriptors
->>>>> if any, but all available descriptors will remain as available for
->>>>> qemu's VQ code.
->>>>>
->>>>> To skip it would miss those last rx descriptors in migration.
->>>>>
->>>>> Thanks!
->>>> So it's probably to not the best place to ask. It's more about the
->>>> inflight descriptors so it should be TX instead of RX.
+>>>>> vhost_log_global_{start,stop} are called at the beginning and end of
+>>>>> migration. To inform the device that it should start logging, they set
+>>>>> or clean VHOST_F_LOG_ALL at vhost_dev_set_log.
 >>>>
->>>> I can imagine the migration last phase, we should stop the vhost-vDPA
->>>> before calling vhost_svq_stop(). Then we should be fine regardless of
->>>> inflight descriptors.
+>>>> Yes, but for SVQ, we can't disable dirty page tracking, isn't it? The
+>>>> only thing is to ignore or filter out the F_LOG_ALL and pretend to be
+>>>> enabled and disabled.
 >>>>
->>> I think I'm still missing something here.
+>>> Yes, that's what this patch does.
 >>>
->>> To be on the same page. Regarding tx this could cause repeated tx
->>> frames (one at source and other at destination), but never a missed
->>> buffer not transmitted. The "stop before" could be interpreted as "SVQ
->>> is not forwarding available buffers anymore". Would that work?
+>>>>> While SVQ does not use VHOST_F_LOG_ALL, it exports the feature bit so
+>>>>> vhost does not block migration. Maybe we need to look for another way
+>>>>> to do this?
+>>>>
+>>>> I'm fine with filtering since it's much more simpler, but I fail to
+>>>> understand why we need to check DRIVER_OK.
+>>>>
+>>> Ok maybe I can make that part more clear,
+>>>
+>>> Since both operations use vhost_vdpa_set_features we must just filter
+>>> the one that actually sets or removes VHOST_F_LOG_ALL, without
+>>> affecting other features.
+>>>
+>>> In practice, that means to not forward the set features after
+>>> DRIVER_OK. The device is not expecting them anymore.
+>> I wonder what happens if we don't do this.
 >>
->> Right, but this only work if
->>
->> 1) a flush to make sure TX DMA for inflight descriptors are all completed
->>
->> 2) just mark all inflight descriptor used
->>
-> It currently trusts on the reverse: Buffers not marked as used (by the
-> device) will be available in the destination, so expect
-> retransmissions.
+> If we simply delete the check vhost_dev_set_features will return an
+> error, failing the start of the migration. More on this below.
 
 
-I may miss something but I think we do migrate last_avail_idx. So there 
-won't be a re-transmission, since we depend on qemu virtqueue code to 
-deal with vring base?
+Ok.
+
+
+>
+>> So kernel had this check:
+>>
+>>          /*
+>>           * It's not allowed to change the features after they have
+>>           * been negotiated.
+>>           */
+>> if (ops->get_status(vdpa) & VIRTIO_CONFIG_S_FEATURES_OK)
+>>          return -EBUSY;
+>>
+>> So is it FEATURES_OK actually?
+>>
+> Yes, FEATURES_OK seems more appropriate actually so I will switch to
+> it for the next version.
+>
+> But it should be functionally equivalent, since
+> vhost.c:vhost_dev_start sets both and the setting of _F_LOG_ALL cannot
+> be concurrent with it.
+
+
+Right.
+
+
+>
+>> For this patch, I wonder if the thing we need to do is to see whether
+>> it is a enable/disable F_LOG_ALL and simply return.
+>>
+> Yes, that's the intention of the patch.
+>
+> We have 4 cases here:
+> a) We're being called from vhost_dev_start, with enable_log = false
+> b) We're being called from vhost_dev_start, with enable_log = true
+
+
+And this case makes us can't simply return without calling vhost-vdpa.
+
+
+> c) We're being called from vhost_dev_set_log, with enable_log = false
+> d) We're being called from vhost_dev_set_log, with enable_log = true
+>
+> The way to tell the difference between a/b and c/d is to check if
+> {FEATURES,DRIVER}_OK is set. And, as you point out in previous mails,
+> F_LOG_ALL must be filtered unconditionally since SVQ tracks dirty
+> memory through the memory unmapping, so we clear the bit
+> unconditionally if we detect that VHOST_SET_FEATURES will be called
+> (cases a and b).
+>
+> Another possibility is to track if features have been set with a bool
+> in vhost_vdpa or something like that. But it seems cleaner to me to
+> only store that in the actual device.
+
+
+So I suggest to make sure codes match the comment:
+
+         if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
+             /*
+              * vhost is trying to enable or disable _F_LOG, and the device
+              * would report wrong dirty pages. SVQ handles it.
+              */
+             return 0;
+         }
+
+It would be better to check whether the caller is toggling _F_LOG_ALL in 
+this case.
 
 Thanks
 
 
 >
-> Thanks!
->
->> Otherwise there could be buffers that is inflight forever.
->>
 >> Thanks
 >>
->>
+>>> Does that make more sense?
+>>>
 >>> Thanks!
 >>>
 >>>> Thanks
 >>>>
 >>>>
+>>>>> Thanks!
+>>>>>
 >>>>>> Thanks
 >>>>>>
 >>>>>>
->>>>>>> +
->>>>>>> +    for (unsigned i = 0; i < svq->vring.num; ++i) {
->>>>>>> +        g_autofree VirtQueueElement *elem = NULL;
->>>>>>> +        elem = g_steal_pointer(&svq->ring_id_maps[i]);
->>>>>>> +        if (elem) {
->>>>>>> +            virtqueue_detach_element(svq->vq, elem, elem->len);
+>>>>>>> +            return 0;
 >>>>>>> +        }
->>>>>>> +    }
 >>>>>>> +
->>>>>>> +    next_avail_elem = g_steal_pointer(&svq->next_guest_avail_elem);
->>>>>>> +    if (next_avail_elem) {
->>>>>>> +        virtqueue_detach_element(svq->vq, next_avail_elem,
->>>>>>> +                                 next_avail_elem->len);
->>>>>>> +    }
->>>>>>>      }
+>>>>>>> +        /* We must not ack _F_LOG if SVQ is enabled */
+>>>>>>> +        features &= ~BIT_ULL(VHOST_F_LOG_ALL);
+>>>>>>> +
+>>>>>>>             ret = vhost_vdpa_get_dev_features(dev, &dev_features);
+>>>>>>>             if (ret != 0) {
+>>>>>>>                 error_report("Can't get vdpa device features, got (%d)", ret);
 
 
