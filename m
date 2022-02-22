@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833654BF803
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 13:24:31 +0100 (CET)
-Received: from localhost ([::1]:45030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683A84BF87A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 13:57:25 +0100 (CET)
+Received: from localhost ([::1]:36132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMUDV-0003YE-LE
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 07:24:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60770)
+	id 1nMUjL-00024G-LY
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 07:57:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMUA7-0002im-V7
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 07:21:00 -0500
-Received: from [2607:f8b0:4864:20::52a] (port=36774
- helo=mail-pg1-x52a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMUA5-0002ff-QH
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 07:20:59 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id h125so16871263pgc.3
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 04:20:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=MEifxELebUrqKzT4PDfLWOJqkave+d2/vAABByMug5g=;
- b=tmVs8vu2t+NyrS6iqRkps3klSKYQpA2VihyO/Pl2J5jESPjjOg2UO6jwRS2jiuOWiS
- 9v6arBFp5FL/75F7mfR2LXJgS1huI5yvlR/KrnsVu/fe42HpcCKqv1etzUjVq3NyehVZ
- MdBmGhCXXtqzny8UnDdjiOCBEWf/rPArMoBGK/ck8Syw+qjFBDr1CY0dSn+CQ01T63rW
- tvroW7qAWt30yGwzD2oWvtxaiHc4fjpol4SF9KN/8CI3XEvV3HxL3mQ2Bu8uFJvj9l3M
- B/7coZqTxgypfyjWGAMSzh4GOSchQop/7JZLsggNfSydRPTo6KVPaKHyuHAMCc84/Cjn
- CASw==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nMUeL-0000uf-T6
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 07:52:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nMUeH-0008Pt-PG
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 07:52:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645534327;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=W7ElI3grEr0PYWSxl9Yx4xe8lFimWrLAXdDDXGXsodc=;
+ b=HR3Izmx0DNJXC3aALlSuFZv/jZ6uoVXZUMaOHBAKoHwLm7eIvGAywInFssGK5qVn9WByQD
+ YVT408oxzIdTOR+NKB9ajaF6HGAWinuYiti3DGntnWjg5lppfulyjmZhNhdWiziyadFyKJ
+ X0BLHWVD7+KUde1ZhAfIyxAtnB2Wdeo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-416-Nh5nuqiaOOia36-_d1Se5g-1; Tue, 22 Feb 2022 07:52:06 -0500
+X-MC-Unique: Nh5nuqiaOOia36-_d1Se5g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h24-20020adfaa98000000b001e33eb81e71so8923824wrc.9
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 04:52:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=MEifxELebUrqKzT4PDfLWOJqkave+d2/vAABByMug5g=;
- b=P5fYQYW9QaxXkPYFIaPSqY5D0Smcj7vnfELo4dhQY4faoRLgFQURQhQlT17/iNfHr6
- OUWesn3akS1UbX6jTec5IXfZMols06u9P/WXUmoXXDTo2WhjQEJroOAQ+Y/+1789G2in
- NNKbnvErqZ9Pj544qQpmbLhrf5Fb6P0v2ky2V4Ll8L6pjO7QsvJXmdTC5H+w2Wzu4V+M
- j5IDEUsqfjGFhnA8Fi1PDJs2Ora4124D8r02puJA43lHaNd9MRIgIpAxnvkTrG8Rf3/V
- o7CzNsUCswblIks3QMyPZleWuFwB2T0J76aMlMh4x9TwK86z6h2ctIMXyT0jmL4oAcMk
- 1mgw==
-X-Gm-Message-State: AOAM532+sKgK0+ggoa/udbK3ReFEBTropLAvTDNWaqHMMuASPY19HNQ1
- F8e6WE37YuapC7jESsLGfHw1HQ==
-X-Google-Smtp-Source: ABdhPJz6H1PEjEjO5oLo4NZEXgcXU3yoBv4d8WwQf3aRGBXjrPv6yW+Gr1Tsc3YE+cDEpNwV0nO/Rg==
-X-Received: by 2002:a05:6a00:1943:b0:4cb:79c9:fa48 with SMTP id
- s3-20020a056a00194300b004cb79c9fa48mr24560476pfk.47.1645532453979; 
- Tue, 22 Feb 2022 04:20:53 -0800 (PST)
-Received: from anisinha-lenovo ([115.96.128.14])
- by smtp.googlemail.com with ESMTPSA id h4sm16565256pfv.166.2022.02.22.04.20.51
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=W7ElI3grEr0PYWSxl9Yx4xe8lFimWrLAXdDDXGXsodc=;
+ b=AFIUWqqpIbMpQTQt1Cn4ZRdbyatj/Fx35e9vWfRsI8I4gIRgcq1KR7piTkJQSYr5E7
+ rMNHRtHbprqEVRmOZCYHkk8A8ABwenyfVUMH+l+ewRfbH0UQezSQFsLj+LqAbe3yshaz
+ +n+lbY8yZmAbcGE1VzWkProwi9NQciORJz/U6cVBcyfP6kmyI1I8FSPbO8ReeFMEitSB
+ Vh4C8hvs0aWmU5RA1qoZcu2cpqLhWlMj8rOoFaFh1m4+JOgPL7osF0t5cqlAdYkUA1xL
+ 7rDsoxmZpSAGSd/RXpfI8tcMJdyEOpwENNNblYsa1sfCJuCnkkrVpgauv4C6xZuAs3ZG
+ 37qg==
+X-Gm-Message-State: AOAM531B+HmcZH5vuBkdAcUEkNllZRRJUQfpyLW+Pb2deZwrnImHDiMC
+ 6HaYexaH5N9BDTcmvHO4vNpVId0QlzyDSA5Wq/sbd47LvMWp6AKmjBOnW37C/A8+/BYvxy27L43
+ mJUFXdPT6Fl+cdcM=
+X-Received: by 2002:a5d:59ab:0:b0:1e3:2576:215 with SMTP id
+ p11-20020a5d59ab000000b001e325760215mr19848826wrr.496.1645534325337; 
+ Tue, 22 Feb 2022 04:52:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+Vr3qChVOZecl/TQUfRpNVdbyNTSjVzira9SJKV4GfbOBUZys8SnXAp0SgDfRS2LR113uYQ==
+X-Received: by 2002:a5d:59ab:0:b0:1e3:2576:215 with SMTP id
+ p11-20020a5d59ab000000b001e325760215mr19848805wrr.496.1645534325063; 
+ Tue, 22 Feb 2022 04:52:05 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id c17sm2237848wmh.31.2022.02.22.04.52.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 04:20:53 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Tue, 22 Feb 2022 17:50:48 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Liav Albani <liavalb@gmail.com>
-Subject: Re: [PATCH v2 0/2] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-In-Reply-To: <20220221191323.617323-1-liavalb@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2202221746460.728317@anisinha-lenovo>
-References: <20220221191323.617323-1-liavalb@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ Tue, 22 Feb 2022 04:52:01 -0800 (PST)
+Date: Tue, 22 Feb 2022 12:51:59 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 20/20] tests: Add postcopy preempt test
+Message-ID: <YhTcb9o1d1gCQ3rm@work-vm>
+References: <20220216062809.57179-1-peterx@redhat.com>
+ <20220216062809.57179-21-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::52a;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220216062809.57179-21-peterx@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,86 +100,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca, imammedo@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Peter Xu (peterx@redhat.com) wrote:
+> Two tests are added: a normal postcopy preempt test, and a recovery test.
+
+Yes, this is difficult; without hugepages the tests are limited; did you
+see if this test actually causes pages to go down the fast path?
 
 
-On Mon, 21 Feb 2022, Liav Albani wrote:
 
-> This can allow the guest OS to determine more easily if i8042 controller
-> is present in the system or not, so it doesn't need to do probing of the
-> controller, but just initialize it immediately, before enumerating the
-> ACPI AML namespace.
->
-> To allow "flexible" indication, I don't hardcode the bit at location 1
-> as on in the IA-PC boot flags, but try to search for i8042 on the ISA
-> bus to verify it exists in the system.
->
-> Why this is useful you might ask - this patch allows the guest OS to
-> probe and use the i8042 controller without decoding the ACPI AML blob
-> at all. For example, as a developer of the SerenityOS kernel, I might
-> want to allow people to not try to decode the ACPI AML namespace (for
-> now, we still don't support ACPI AML as it's a work in progress), but
-> still to not probe for the i8042 but just use it after looking in the
-> IA-PC boot flags in the ACPI FADT table.
->
-> A note about this version of the patch series: I changed the assertion
-> checking if the ISA bus exists to a if statement, because I can see how
-> in the future someone might want to run a x86 machine without an ISA bus
-> so we should not assert if someone calls the ISA check device existence
-> function but return FALSE gracefully.
-> If someone thinks this is wrong, I'm more than happy to discuss and fix
-> the code :)
->
-> Liav Albani (2):
->   hw/isa: add function to check for existence of device by its type
->   hw/acpi: add indication for i8042 in IA-PC boot flags of the FADT
->     table
->
->  hw/acpi/aml-build.c         |  7 ++++++-
->  hw/i386/acpi-build.c        |  5 +++++
->  hw/i386/acpi-microvm.c      |  5 +++++
->  hw/isa/isa-bus.c            | 23 +++++++++++++++++++++++
->  include/hw/acpi/acpi-defs.h |  1 +
->  include/hw/isa/isa.h        |  1 +
->  6 files changed, 41 insertions(+), 1 deletion(-)
->
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-This change breaks bios-tables-test.c:
-
--[06Dh 0109   2]   Boot Flags (decoded below) : 0000
-+[06Dh 0109   2]   Boot Flags (decoded below) : 0002
-                Legacy Devices Supported (V2) : 0
--            8042 Present on ports 60/64 (V2) : 0
-+            8042 Present on ports 60/64 (V2) : 1
-
-
-acpi-test: Warning! FACP binary file mismatch. Actual
-[aml:/tmp/aml-QXU0H1], Expected [aml:tests/data/acpi/q35/FACP].
-See source file tests/qtest/bios-tables-test.c for instructions on how to
-update expected files.
-# GLib-DEBUG: posix_spawn avoided (fd close requested)
-# GLib-DEBUG: posix_spawn avoided (fd close requested)
-acpi-test: Warning! FACP mismatch. Actual [asl:/tmp/asl-9AV0H1.dsl,
-aml:/tmp/aml-QXU0H1], Expected [asl:/tmp/asl-03P0H1.dsl,
-aml:tests/data/acpi/q35/FACP].
-**
-ERROR:../tests/qtest/bios-tables-test.c:532:test_acpi_asl: assertion
-failed: (all_tables_match)
-Bail out! ERROR:../tests/qtest/bios-tables-test.c:532:test_acpi_asl:
-assertion failed: (all_tables_match)
-Aborted (core dumped)
-
-Please fix it. The instrctions are in the header of
-tests/test/bios-tables-test.c as the above indicates.
-
-You can check the failure by running it something like this:
-
-QTEST_QEMU_BINARY=/home/ani/workspace/qemu/build/qemu-system-x86_64
-V=1 ./tests/qtest/bios-tables-test
-
-V=1 will dump the asl diff between expected and actual.
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  tests/qtest/migration-test.c | 39 ++++++++++++++++++++++++++++++++++--
+>  1 file changed, 37 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 7b42f6fd90..5053b40589 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -470,6 +470,7 @@ typedef struct {
+>       */
+>      bool hide_stderr;
+>      bool use_shmem;
+> +    bool postcopy_preempt;
+>      /* only launch the target process */
+>      bool only_target;
+>      /* Use dirty ring if true; dirty logging otherwise */
+> @@ -673,6 +674,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>      migrate_set_capability(to, "postcopy-ram", true);
+>      migrate_set_capability(to, "postcopy-blocktime", true);
+>  
+> +    if (args->postcopy_preempt) {
+> +        migrate_set_capability(from, "postcopy-preempt", true);
+> +        migrate_set_capability(to, "postcopy-preempt", true);
+> +    }
+> +
+>      /* We want to pick a speed slow enough that the test completes
+>       * quickly, but that it doesn't complete precopy even on a slow
+>       * machine, so also set the downtime.
+> @@ -719,13 +725,29 @@ static void test_postcopy(void)
+>      migrate_postcopy_complete(from, to);
+>  }
+>  
+> -static void test_postcopy_recovery(void)
+> +static void test_postcopy_preempt(void)
+> +{
+> +    MigrateStart *args = migrate_start_new();
+> +    QTestState *from, *to;
+> +
+> +    args->postcopy_preempt = true;
+> +
+> +    if (migrate_postcopy_prepare(&from, &to, args)) {
+> +        return;
+> +    }
+> +    migrate_postcopy_start(from, to);
+> +    migrate_postcopy_complete(from, to);
+> +}
+> +
+> +/* @preempt: whether to use postcopy-preempt */
+> +static void test_postcopy_recovery(bool preempt)
+>  {
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to;
+>      g_autofree char *uri = NULL;
+>  
+>      args->hide_stderr = true;
+> +    args->postcopy_preempt = preempt;
+>  
+>      if (migrate_postcopy_prepare(&from, &to, args)) {
+>          return;
+> @@ -781,6 +803,16 @@ static void test_postcopy_recovery(void)
+>      migrate_postcopy_complete(from, to);
+>  }
+>  
+> +static void test_postcopy_recovery_normal(void)
+> +{
+> +    test_postcopy_recovery(false);
+> +}
+> +
+> +static void test_postcopy_recovery_preempt(void)
+> +{
+> +    test_postcopy_recovery(true);
+> +}
+> +
+>  static void test_baddest(void)
+>  {
+>      MigrateStart *args = migrate_start_new();
+> @@ -1458,7 +1490,10 @@ int main(int argc, char **argv)
+>      module_call_init(MODULE_INIT_QOM);
+>  
+>      qtest_add_func("/migration/postcopy/unix", test_postcopy);
+> -    qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
+> +    qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery_normal);
+> +    qtest_add_func("/migration/postcopy/preempt/unix", test_postcopy_preempt);
+> +    qtest_add_func("/migration/postcopy/preempt/recovery",
+> +                   test_postcopy_recovery_preempt);
+>      qtest_add_func("/migration/bad_dest", test_baddest);
+>      qtest_add_func("/migration/precopy/unix", test_precopy_unix);
+>      qtest_add_func("/migration/precopy/tcp", test_precopy_tcp);
+> -- 
+> 2.32.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
