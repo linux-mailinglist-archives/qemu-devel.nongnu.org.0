@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0674BEFF4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 04:18:06 +0100 (CET)
-Received: from localhost ([::1]:53480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEAEF4BF0D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 05:12:25 +0100 (CET)
+Received: from localhost ([::1]:33650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMLgj-0007eD-4j
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 22:18:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34546)
+	id 1nMMXI-0007X2-Lh
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 23:12:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nMLfU-0006wI-PS
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 22:16:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59617)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nMMUo-0006Zb-7Y
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 23:09:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nMLfR-00006e-Bp
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 22:16:47 -0500
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1nMMUk-0007k7-1K
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 23:09:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645499798;
+ s=mimecast20190719; t=1645502984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gHY8uuapAXsf5KULdO4mEh+Xne/2fBaTYxBgL4rXrS8=;
- b=NzCWF168EQDkJYuu0TSDcatQPI6yJmp+gqq0kmw8NyX0r8QhnHdtmqx2XRb8s+DPwiHxe9
- hN7b38+1Eyt7zK0MlkHfPe/JrOL5y3aqlDzKoWqY3qMsYW+e2oXxxeWoPxyPwFS3PHCjPK
- /JPMIZ3ehSInX1TXJWZP8aBnWPD0HKQ=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RVqQd6zCVKRbqjrM30rLfCDoW74SJMf6Ra5FT0NivNI=;
+ b=IC1LMwF4doy9Mjgq2jCFH6nGxYw1IasNelUM0bBGLLk2nrUWNOKh6sarfsjK5su/wsphrZ
+ 7SZsQrjWMMl0n2eQah161lhSHMthtvxu0ZlzWQOVxbmJ1+ekDwT7Mhs0RV8lZS485oT32M
+ u8xAuDSH6p9KDVyoKYZXCxSqdb5C9c8=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-477-OeoXBTxuPPOc2RRmOCVsmQ-1; Mon, 21 Feb 2022 22:16:37 -0500
-X-MC-Unique: OeoXBTxuPPOc2RRmOCVsmQ-1
-Received: by mail-lj1-f200.google.com with SMTP id
- h21-20020a05651c125500b002464536cf4eso1624591ljh.23
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 19:16:36 -0800 (PST)
+ us-mta-561-_Gk6-kHaMQG0AGGhpOUC5g-1; Mon, 21 Feb 2022 23:09:42 -0500
+X-MC-Unique: _Gk6-kHaMQG0AGGhpOUC5g-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ j17-20020a2e8011000000b002463682ffd5so3134593ljg.6
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 20:09:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gHY8uuapAXsf5KULdO4mEh+Xne/2fBaTYxBgL4rXrS8=;
- b=llCB8siKDXhd/fgsAgf2Gj+oOcuyohrLQSVC24Z0GACwp8DmDsuZEt5bS6zGzgqEFf
- ihtFQ3VGp+vpMbjzVV0IYO/umE6byqNjCbpjiBsncM10S+ePV9zNuR9nSHdeM5h2muQK
- COZiyXPItwjBImkP247s4OSZF2klAEVhHRAoLAlFTmzCLhhFYNDbdyHaI2oZBCNfuUx/
- vQ5teVs49nKOJ/8IWYDLh8MeObEG6674VibGLhmDfc6OBtkpY1lF5GcXyBHIaAhBMgCO
- Bnj6MEtt8e+EeDswDK9RjRceMydOJqve2cnTAWq5bwv2pdozsU7qmPhp/z91djXsuUzc
- 4b6Q==
-X-Gm-Message-State: AOAM531G2wGhMPO2DXDV5ZfSByuo306o81YcYrOWlP6oyP69pfHjkDkp
- 3dNuYYt+SSjv4ojhePw3P6Mzeupo5Yq4D5AmpnJzLQDbAYetrytsfgG6p7gwilAWk2VLhqBY3ln
- d0zBlgzVhBoTrvtNBUkOePbUIjcXaiLo=
-X-Received: by 2002:ac2:4194:0:b0:442:ed9e:4a25 with SMTP id
- z20-20020ac24194000000b00442ed9e4a25mr15714990lfh.629.1645499795430; 
- Mon, 21 Feb 2022 19:16:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzFQXM4KXylMKw7WbdxhpVZyCLXX/jI0XWCwc7r24OEqocGHtKuqW/T+EEktOtw/EgdVyRb88GzMPXSR/TEEqw=
-X-Received: by 2002:ac2:4194:0:b0:442:ed9e:4a25 with SMTP id
- z20-20020ac24194000000b00442ed9e4a25mr15714952lfh.629.1645499795020; Mon, 21
- Feb 2022 19:16:35 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=RVqQd6zCVKRbqjrM30rLfCDoW74SJMf6Ra5FT0NivNI=;
+ b=KwfGqEuR1kxUwlIpkzaet35pYdWBaZyGIVw0yFyNF2oYgiVHA0zSB8LiUGnhzx6qXC
+ edowSJEdg1Ms9B/6XOkcT4IefroM/jwxYslC/jo5AJPk5Q2YkckQYYAS7IaCHq7AVDDe
+ FVnuC/1hWhvPtv3G2JxRmVRBzB7Y2Q6LSyemGxuhYHr5qw8c0EOaiJ50LHXcOp5+LC3v
+ oKA0lad/6C7wyefj/YONKjjRgz++DHS7ymbQ1u/+uhxmZvvpl8pDBtSzsFCWbDRO9nBG
+ 7oukituahBx8dLbZyw+N9jzyhs13H46qmHqoZIi7Cq1XjneR9UbeY2NxrsA4u/T5+SuU
+ OyLA==
+X-Gm-Message-State: AOAM532LEoyOkxdoLnd97wJQqp8q30/bAs1UqkIdqRM7ZeuMmwaF0C4B
+ LMIdH+kWiRJtktzHU3zB6/6T2Q6/LM2QRdoSzM+J4eg/f0Pz9/rrzZ5UpmKbCjuahwnWzAzyOwv
+ Dx4ruK6wTZX8MO0aKwAUKBQfxHk3iZJU=
+X-Received: by 2002:ac2:55a9:0:b0:443:6764:7b40 with SMTP id
+ y9-20020ac255a9000000b0044367647b40mr16153995lfg.370.1645502981359; 
+ Mon, 21 Feb 2022 20:09:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxV3XeuQ8Yc7g1uVowBa3jt37IINNh9ZgX9vD1kuDmT3cMiixgd7hsHmyAxol5AcHtV4xGJKLhfZj8uJ2noTLg=
+X-Received: by 2002:ac2:55a9:0:b0:443:6764:7b40 with SMTP id
+ y9-20020ac255a9000000b0044367647b40mr16153971lfg.370.1645502981044; Mon, 21
+ Feb 2022 20:09:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-18-eperezma@redhat.com>
- <82b8c3bf-1b11-86c7-4fad-294f5ccf1278@redhat.com>
- <CAJaqyWdRKZp6CwnE+HAr0JALhSRh-trJbZ01kddnLTuRX_tMKQ@mail.gmail.com>
- <3d0dfaaa-a67c-6f48-fd03-45d2661ba92a@redhat.com>
- <CAJaqyWfEEg2PKgxBAFwYhF9LD1oDtwVYXSjHHnCbstT3dvL2GA@mail.gmail.com>
- <02f29b62-6656-ba2f-1475-251b16e0e978@redhat.com>
- <CAJaqyWcoHgToqsR-bVRctTnhgufmarR_2hh4O_VoCbCGp8WNhg@mail.gmail.com>
-In-Reply-To: <CAJaqyWcoHgToqsR-bVRctTnhgufmarR_2hh4O_VoCbCGp8WNhg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 22 Feb 2022 11:16:23 +0800
-Message-ID: <CACGkMEs+c8_TkrQ4rgtR9u5xYzhJfrzQ9Wuohs+Q_GXFLmOC7w@mail.gmail.com>
-Subject: Re: [PATCH 17/31] vdpa: adapt vhost_ops callbacks to svq
-To: Eugenio Perez Martin <eperezma@redhat.com>
+References: <20220201062901.428838-1-leobras@redhat.com>
+ <20220201062901.428838-6-leobras@redhat.com>
+ <87fsogcdue.fsf@secure.mitica>
+ <CAJ6HWG76LHf+1U=qkyk-Se90Q1MVWvS-SyezqfGBYuM3L1GnAg@mail.gmail.com>
+In-Reply-To: <CAJ6HWG76LHf+1U=qkyk-Se90Q1MVWvS-SyezqfGBYuM3L1GnAg@mail.gmail.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Tue, 22 Feb 2022 01:09:30 -0300
+Message-ID: <CAJ6HWG61mSap=MEsghdU8=DHDnANzoaAZLiA1bfvxt6a1Di7wA@mail.gmail.com>
+Subject: Re: [PATCH v8 5/5] multifd: Implement zero copy write in multifd
+ migration (multifd-zero-copy)
+To: Juan Quintela <quintela@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -100,342 +95,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 22, 2022 at 1:23 AM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
+On Mon, Feb 21, 2022 at 4:41 PM Leonardo Bras Soares Passos
+<leobras@redhat.com> wrote:
 >
-> On Mon, Feb 21, 2022 at 8:15 AM Jason Wang <jasowang@redhat.com> wrote:
+> Hello Juan, thanks for the feedback!
+>
+> On Fri, Feb 18, 2022 at 1:57 PM Juan Quintela <quintela@redhat.com> wrote:
 > >
-> >
-> > =E5=9C=A8 2022/2/18 =E4=B8=8A=E5=8D=881:13, Eugenio Perez Martin =E5=86=
-=99=E9=81=93:
-> > > On Tue, Feb 8, 2022 at 4:58 AM Jason Wang <jasowang@redhat.com> wrote=
-:
-> > >>
-> > >> =E5=9C=A8 2022/2/1 =E4=B8=8A=E5=8D=882:58, Eugenio Perez Martin =E5=
-=86=99=E9=81=93:
-> > >>> On Sun, Jan 30, 2022 at 5:03 AM Jason Wang <jasowang@redhat.com> wr=
-ote:
-> > >>>> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=
-=86=99=E9=81=93:
-> > >>>>> First half of the buffers forwarding part, preparing vhost-vdpa
-> > >>>>> callbacks to SVQ to offer it. QEMU cannot enable it at this momen=
-t, so
-> > >>>>> this is effectively dead code at the moment, but it helps to redu=
-ce
-> > >>>>> patch size.
-> > >>>>>
-> > >>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > >>>>> ---
-> > >>>>>     hw/virtio/vhost-shadow-virtqueue.h |   2 +-
-> > >>>>>     hw/virtio/vhost-shadow-virtqueue.c |  21 ++++-
-> > >>>>>     hw/virtio/vhost-vdpa.c             | 133 ++++++++++++++++++++=
-++++++---
-> > >>>>>     3 files changed, 143 insertions(+), 13 deletions(-)
-> > >>>>>
-> > >>>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost=
--shadow-virtqueue.h
-> > >>>>> index 035207a469..39aef5ffdf 100644
-> > >>>>> --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > >>>>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > >>>>> @@ -35,7 +35,7 @@ size_t vhost_svq_device_area_size(const VhostSh=
-adowVirtqueue *svq);
-> > >>>>>
-> > >>>>>     void vhost_svq_stop(VhostShadowVirtqueue *svq);
-> > >>>>>
-> > >>>>> -VhostShadowVirtqueue *vhost_svq_new(void);
-> > >>>>> +VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize);
-> > >>>>>
-> > >>>>>     void vhost_svq_free(VhostShadowVirtqueue *vq);
-> > >>>>>
-> > >>>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost=
--shadow-virtqueue.c
-> > >>>>> index f129ec8395..7c168075d7 100644
-> > >>>>> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > >>>>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > >>>>> @@ -277,9 +277,17 @@ void vhost_svq_stop(VhostShadowVirtqueue *sv=
-q)
-> > >>>>>     /**
-> > >>>>>      * Creates vhost shadow virtqueue, and instruct vhost device =
-to use the shadow
-> > >>>>>      * methods and file descriptors.
-> > >>>>> + *
-> > >>>>> + * @qsize Shadow VirtQueue size
-> > >>>>> + *
-> > >>>>> + * Returns the new virtqueue or NULL.
-> > >>>>> + *
-> > >>>>> + * In case of error, reason is reported through error_report.
-> > >>>>>      */
-> > >>>>> -VhostShadowVirtqueue *vhost_svq_new(void)
-> > >>>>> +VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize)
-> > >>>>>     {
-> > >>>>> +    size_t desc_size =3D sizeof(vring_desc_t) * qsize;
-> > >>>>> +    size_t device_size, driver_size;
-> > >>>>>         g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShad=
-owVirtqueue, 1);
-> > >>>>>         int r;
-> > >>>>>
-> > >>>>> @@ -300,6 +308,15 @@ VhostShadowVirtqueue *vhost_svq_new(void)
-> > >>>>>         /* Placeholder descriptor, it should be deleted at set_ki=
-ck_fd */
-> > >>>>>         event_notifier_init_fd(&svq->svq_kick, INVALID_SVQ_KICK_F=
-D);
-> > >>>>>
-> > >>>>> +    svq->vring.num =3D qsize;
-> > >>>> I wonder if this is the best. E.g some hardware can support up to =
-32K
-> > >>>> queue size. So this will probably end up with:
-> > >>>>
-> > >>>> 1) SVQ use 32K queue size
-> > >>>> 2) hardware queue uses 256
-> > >>>>
-> > >>> In that case SVQ vring queue size will be 32K and guest's vring can
-> > >>> negotiate any number with SVQ equal or less than 32K,
-> > >>
-> > >> Sorry for being unclear what I meant is actually
-> > >>
-> > >> 1) SVQ uses 32K queue size
-> > >>
-> > >> 2) guest vq uses 256
-> > >>
-> > >> This looks like a burden that needs extra logic and may damage the
-> > >> performance.
-> > >>
-> > > Still not getting this point.
+> > Leonardo Bras <leobras@redhat.com> wrote:
+> > > Implement zero copy send on nocomp_send_write(), by making use of QIOChannel
+> > > writev + flags & flush interface.
 > > >
-> > > An available guest buffer, although contiguous in GPA/GVA, can expand
-> > > in multiple buffers if it's not contiguous in qemu's VA (by the while
-> > > loop in virtqueue_map_desc [1]). In that scenario it is better to hav=
-e
-> > > "plenty" of SVQ buffers.
-> >
-> >
-> > Yes, but this case should be rare. So in this case we should deal with
-> > overrun on SVQ, that is
-> >
-> > 1) SVQ is full
-> > 2) guest VQ isn't
-> >
-> > We need to
-> >
-> > 1) check the available buffer slots
-> > 2) disable guest kick and wait for the used buffers
-> >
-> > But it looks to me the current code is not ready for dealing with this =
-case?
-> >
->
-> Yes it deals, that's the meaning of svq->next_guest_avail_elem.
-
-Oh right, I missed that.
-
->
-> >
+> > > Change multifd_send_sync_main() so flush_zero_copy() can be called
+> > > after each iteration in order to make sure all dirty pages are sent before
+> > > a new iteration is started. It will also flush at the beginning and at the
+> > > end of migration.
 > > >
-> > > I'm ok if we decide to put an upper limit though, or if we decide not
-> > > to handle this situation. But we would leave out valid virtio drivers=
-.
-> > > Maybe to set a fixed upper limit (1024?)? To add another parameter
-> > > (x-svq-size-n=3DN)?
+> > > Also make it return -1 if flush_zero_copy() fails, in order to cancel
+> > > the migration process, and avoid resuming the guest in the target host
+> > > without receiving all current RAM.
 > > >
-> > > If you mean we lose performance because memory gets more sparse I
-> > > think the only possibility is to limit that way.
-> >
-> >
-> > If guest is not using 32K, having a 32K for svq may gives extra stress
-> > on the cache since we will end up with a pretty large working set.
-> >
->
-> That might be true. My guess is that it should not matter, since SVQ
-> and the guest's vring will have the same numbers of scattered buffers
-> and the avail / used / packed ring will be consumed more or less
-> sequentially. But I haven't tested.
->
-> I think it's better to add an upper limit (either fixed or in the
-> qemu's backend's cmdline) later if we see that this is a problem.
-
-I'd suggest using the same size as what the guest saw.
-
-> Another solution now would be to get the number from the frontend
-> device cmdline instead of from the vdpa device. I'm ok with that, but
-> it doesn't delete the svq->next_guest_avail_elem processing, and it
-> comes with disadvantages in my opinion. More below.
-
-Right, we should keep next_guest_avail_elem. Using the same queue size
-is a balance between:
-
-1) using next_guest_avail_elem (rare)
-2) not give too much stress on the cache
-
->
-> >
+> > > This will work fine on RAM migration because the RAM pages are not usually freed,
+> > > and there is no problem on changing the pages content between writev_zero_copy() and
+> > > the actual sending of the buffer, because this change will dirty the page and
+> > > cause it to be re-sent on a next iteration anyway.
 > > >
-> > >> And this can lead other interesting situation:
-> > >>
-> > >> 1) SVQ uses 256
-> > >>
-> > >> 2) guest vq uses 1024
-> > >>
-> > >> Where a lot of more SVQ logic is needed.
-> > >>
-> > > If we agree that a guest descriptor can expand in multiple SVQ
-> > > descriptors, this should be already handled by the previous logic too=
-.
-> > >
-> > > But this should only happen in case that qemu is launched with a "bad=
-"
-> > > cmdline, isn't it?
+> > > A lot of locked memory may be needed in order to use multid migration
+> >                                                        ^^^^^^
+> > multifd.
+> >
+> > I can fix it on the commit.
+>
+> No worries, fixed for v9.
+>
 > >
 > >
-> > This seems can happen when we use -device
-> > virtio-net-pci,tx_queue_size=3D1024 with a 256 size vp_vdpa device at l=
-east?
+> > > @@ -1479,7 +1479,16 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+> > >          error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
+> > >          return false;
+> > >      }
+> > > -
+> > > +#ifdef CONFIG_LINUX
+> > > +    if (params->zero_copy_send &&
+> > > +        (!migrate_use_multifd() ||
+> > > +         params->multifd_compression != MULTIFD_COMPRESSION_NONE ||
+> > > +         (params->tls_creds && *params->tls_creds))) {
+> > > +        error_setg(errp,
+> > > +                   "Zero copy only available for non-compressed non-TLS multifd migration");
+> > > +        return false;
+> > > +    }
+> > > +#endif
+> > >      return true;
+> > >  }
 > >
->
-> I'm going to use the rx queue here since it's more accurate, tx has
-> its own limit separately.
->
-> If we use rx_queue_size=3D256 in L0 and rx_queue_size=3D1024 in L1 with n=
-o
-> SVQ, L0 qemu will happily accept 1024 as size
-
-Interesting, looks like a bug (I guess it works since you enable vhost?):
-
-Per virtio-spec:
-
-"""
-Queue Size. On reset, specifies the maximum queue size supported by
-the device. This can be modified by the driver to reduce memory
-requirements. A 0 means the queue is unavailable.
-"""
-
-We can't increase the queue_size from 256 to 1024 actually. (Only
-decrease is allowed).
-
-> when L1 qemu writes that
-> value at vhost_virtqueue_start. I'm not sure what would happen with a
-> real device, my guess is that the device will fail somehow. That's
-> what I meant with a "bad cmdline", I should have been more specific.
-
-I should say that it's something that is probably unrelated to this
-series but needs to be addressed.
-
->
-> If we add SVQ to the mix, the guest first negotiates the 1024 with the
-> qemu device model. After that, vhost.c will try to write 1024 too but
-> this is totally ignored by this patch's changes at
-> vhost_vdpa_set_vring_num. Finally, SVQ will set 256 as a ring size to
-> the device, since it's the read value from the device, leading to your
-> scenario. So SVQ effectively isolates both sides and makes possible
-> the communication, even with a device that does not support so many
-> descriptors.
->
-> But SVQ already handles this case: It's the same as if the buffers are
-> fragmented in HVA and queue size is equal at both sides. That's why I
-> think SVQ size should depend on the backend device's size, not
-> frontend cmdline.
-
-Right.
-
-Thanks
-
+> > Test is long, but it is exactly what we need.  Good.
 >
 > Thanks!
 >
-> >
-> > >
-> > > If I run that example with vp_vdpa, L0 qemu will happily accept 1024
-> > > as a queue size [2]. But if the vdpa device maximum queue size is
-> > > effectively 256, this will result in an error: We're not exposing it
-> > > to the guest at any moment but with qemu's cmdline.
-> > >
-> > >>> including 256.
-> > >>> Is that what you mean?
-> > >>
-> > >> I mean, it looks to me the logic will be much more simplified if we =
-just
-> > >> allocate the shadow virtqueue with the size what guest can see (gues=
-t
-> > >> vring).
-> > >>
-> > >> Then we don't need to think if the difference of the queue size can =
-have
-> > >> any side effects.
-> > >>
-> > > I think that we cannot avoid that extra logic unless we force GPA to
-> > > be contiguous in IOVA. If we are sure the guest's buffers cannot be a=
-t
-> > > more than one descriptor in SVQ, then yes, we can simplify things. If
-> > > not, I think we are forced to carry all of it.
-> >
-> >
-> > Yes, I agree, the code should be robust to handle any case.
-> >
-> > Thanks
-> >
-> >
-> > >
-> > > But if we prove it I'm not opposed to simplifying things and making
-> > > head at SVQ =3D=3D head at guest.
-> > >
-> > > Thanks!
-> > >
-> > > [1] https://gitlab.com/qemu-project/qemu/-/blob/17e31340/hw/virtio/vi=
-rtio.c#L1297
-> > > [2] But that's not the whole story: I've been running limited in tx
-> > > descriptors because of virtio_net_max_tx_queue_size, which predates
-> > > vdpa. I'll send a patch to also un-limit it.
-> > >
-> > >>> If with hardware queues you mean guest's vring, not sure why it is
-> > >>> "probably 256". I'd say that in that case with the virtio-net kerne=
-l
-> > >>> driver the ring size will be the same as the device export, for
-> > >>> example, isn't it?
-> > >>>
-> > >>> The implementation should support any combination of sizes, but the
-> > >>> ring size exposed to the guest is never bigger than hardware one.
-> > >>>
-> > >>>> ? Or we SVQ can stick to 256 but this will this cause trouble if w=
-e want
-> > >>>> to add event index support?
-> > >>>>
-> > >>> I think we should not have any problem with event idx. If you mean
-> > >>> that the guest could mark more buffers available than SVQ vring's
-> > >>> size, that should not happen because there must be less entries in =
-the
-> > >>> guest than SVQ.
-> > >>>
-> > >>> But if I understood you correctly, a similar situation could happen=
- if
-> > >>> a guest's contiguous buffer is scattered across many qemu's VA chun=
-ks.
-> > >>> Even if that would happen, the situation should be ok too: SVQ know=
-s
-> > >>> the guest's avail idx and, if SVQ is full, it will continue forward=
-ing
-> > >>> avail buffers when the device uses more buffers.
-> > >>>
-> > >>> Does that make sense to you?
-> > >>
-> > >> Yes.
-> > >>
-> > >> Thanks
-> > >>
-> >
 >
+> >
+> >
+> > >
+> > > diff --git a/migration/multifd.c b/migration/multifd.c
+> > > index 43998ad117..2d68b9cf4f 100644
+> > > --- a/migration/multifd.c
+> > > +++ b/migration/multifd.c
+> > > @@ -568,19 +568,28 @@ void multifd_save_cleanup(void)
+> > >      multifd_send_state = NULL;
+> > >  }
+> > >
+> > > -void multifd_send_sync_main(QEMUFile *f)
+> > > +int multifd_send_sync_main(QEMUFile *f)
+> > >  {
+> > >      int i;
+> > > +    bool flush_zero_copy;
+> > >
+> > >      if (!migrate_use_multifd()) {
+> > > -        return;
+> > > +        return 0;
+> > >      }
+> > >      if (multifd_send_state->pages->num) {
+> > >          if (multifd_send_pages(f) < 0) {
+> > >              error_report("%s: multifd_send_pages fail", __func__);
+> > > -            return;
+> > > +            return 0;
+> > >          }
+> > >      }
+> > > +
+> > > +    /*
+> > > +     * When using zero-copy, it's necessary to flush after each iteration to
+> > > +     * make sure pages from earlier iterations don't end up replacing newer
+> > > +     * pages.
+> > > +     */
+> > > +    flush_zero_copy = migrate_use_zero_copy_send();
+> > > +
+> > >      for (i = 0; i < migrate_multifd_channels(); i++) {
+> > >          MultiFDSendParams *p = &multifd_send_state->params[i];
+> > >
+> > > @@ -591,7 +600,7 @@ void multifd_send_sync_main(QEMUFile *f)
+> > >          if (p->quit) {
+> > >              error_report("%s: channel %d has already quit", __func__, i);
+> > >              qemu_mutex_unlock(&p->mutex);
+> > > -            return;
+> > > +            return 0;
+> > >          }
+> > >
+> > >          p->packet_num = multifd_send_state->packet_num++;
+> > > @@ -602,6 +611,17 @@ void multifd_send_sync_main(QEMUFile *f)
+> > >          ram_counters.transferred += p->packet_len;
+> > >          qemu_mutex_unlock(&p->mutex);
+> > >          qemu_sem_post(&p->sem);
+> > > +
+> > > +        if (flush_zero_copy) {
+> > > +            int ret;
+> > > +            Error *err = NULL;
+> > > +
+> > > +            ret = qio_channel_flush(p->c, &err);
+> > > +            if (ret < 0) {
+> > > +                error_report_err(err);
+> > > +                return -1;
+> > > +            }
+> > > +        }
+> > >      }
+> > >      for (i = 0; i < migrate_multifd_channels(); i++) {
+> > >          MultiFDSendParams *p = &multifd_send_state->params[i];
+> > > @@ -610,6 +630,8 @@ void multifd_send_sync_main(QEMUFile *f)
+> > >          qemu_sem_wait(&p->sem_sync);
+> > >      }
+> > >      trace_multifd_send_sync_main(multifd_send_state->packet_num);
+> > > +
+> > > +    return 0;
+> > >  }
+> >
+> > We are leaving pages is flight for potentially a lot of time. I *think*
+> > that we can sync shorter than that.
+> >
+> > >  static void *multifd_send_thread(void *opaque)
+> > > @@ -668,8 +690,8 @@ static void *multifd_send_thread(void *opaque)
+> > >              p->iov[0].iov_len = p->packet_len;
+> > >              p->iov[0].iov_base = p->packet;
+> > >
+> > > -            ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
+> > > -                                         &local_err);
+> > > +            ret = qio_channel_writev_full_all(p->c, p->iov, p->iovs_num, NULL,
+> > > +                                              0, p->write_flags, &local_err);
+> > >              if (ret != 0) {
+> > >                  break;
+> > >              }
+> >
+> > I still think that it would be better to have a sync here in each
+> > thread.  I don't know the size, but once every couple megabytes of RAM
+> > or so.
+>
+> This seems a good idea, since the first iteration may take a while,
+> and we may take a lot of time to fail if something goes wrong with
+> zerocopy at the start of iteration 1.
+>
+> On the other hand, flushing takes some time, and doing it a lot may
+> take away some of the performance improvements.
+>
+> Maybe we could move the flushing to a thread of it's own, if it
+> becomes a problem.
+>
+>
+> >
+> > I did a change on:
+> >
+> > commit d48c3a044537689866fe44e65d24c7d39a68868a
+> > Author: Juan Quintela <quintela@redhat.com>
+> > Date:   Fri Nov 19 15:35:58 2021 +0100
+> >
+> >     multifd: Use a single writev on the send side
+> >
+> >     Until now, we wrote the packet header with write(), and the rest of the
+> >     pages with writev().  Just increase the size of the iovec and do a
+> >     single writev().
+> >
+> >     Signed-off-by: Juan Quintela <quintela@redhat.com>
+> >     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >
+> > And now we need to "perserve" this header until we do the sync,
+> > otherwise we are overwritting it with other things.
+>
+> Yeah, that is a problem I faced on non-multifd migration, and a reason
+> why I choose to implement directly in multifd.
+>
+> >
+> > What testing have you done after this commit?
+>
+> Not much, but this will probably become an issue with bigger guests.
+>
+> >
+> > Notice that it is not _complicated_ to fix it, I will try to come with
+> > some idea on monday, but basically is having an array of buffers for
+> > each thread, and store them until we call a sync().
+>
+> That will probably work, we can use MultiFDRecvParams->packet as this
+> array, right?
+> We can start with a somehow small buffer size and grow if it ever gets full.
+> (Full means a sync + g_try_malloc0 + g_free)
+
+Or maybe use the array size as a size limiter before flushing, so it
+will always flush after BUFFSIZE headers are sent.
+
+>
+> By my calculations, it should take 1,8kB each element on a 4k PAGESIZE.
+>
+> What do you think?
+>
+> Best regards,
+> Leo
 
 
