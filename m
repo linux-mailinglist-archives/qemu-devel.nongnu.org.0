@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1674C0474
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 23:17:51 +0100 (CET)
-Received: from localhost ([::1]:57216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5348A4C0478
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 23:20:38 +0100 (CET)
+Received: from localhost ([::1]:35516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMdTi-0000EF-JL
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 17:17:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50740)
+	id 1nMdWP-0003xv-EK
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 17:20:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMdRh-0006df-Tr
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 17:15:45 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=38751
- helo=mail-pj1-x1032.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMdRg-0006p9-C3
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 17:15:45 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- nh8-20020a17090b364800b001bc023c6f34so332396pjb.3
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 14:15:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vFYzBQTNeVA799/OQ4R6Wm5sV13oQqknj+bb67C4PgQ=;
- b=c2bu2iBTpDfQdiLuN36R2BRfzlX2Y5J0qDs+7yBz7Shb47aY59bWUxWCAUSAUJtkF5
- ffuYuAJlnKGgY7bouz5TOCFMm4vUT61RumuZa8Qv9vatrdb7SQjVlyclB4NE76Th97Qz
- iTF6ycq60lbKVOIGX2zN6s8P59LTviZQ9O9eaqPx4yd6ctj/ElG7u3j/Rg2RAYRAbZ3f
- 5KE9pusxA1eiMcCBuVGyLhB4jqD5rbuRmxcauIHVtdCstbayyNEUeAAgo4koLy/hckxQ
- 1KXjiIcQ2CxEWXcVHrdvsGSAw1lKDgS0kGzB8knfJaONNAaZxfSMKosR+5fD299y920Z
- 7mLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vFYzBQTNeVA799/OQ4R6Wm5sV13oQqknj+bb67C4PgQ=;
- b=m2O95QCPcKWNxQ2/NMfAOKn4saKq/CtjXngcXv0k3oH6RTrf9j6BR28ArdajlssLfb
- NNE1x+33CuA2fqrdOqy8lWZIrX2Gnfxr5t55CKvtWSspmi0HQYjoLHD3RuIr1Jd4rihu
- XwfevQ9gQab8ZY8AikQkMGs3nKJmsGKvg+IcwrHnDjjSevcTluijUO3RRgGxeP9OLZkr
- XAsCVWY0L4zWz78+ojTH1je+8WUP39wEOSSWfdIkdgji263EEnWB4BcJmb0A5Ec+Z9XR
- JFVD/ilZIsUbr58Yg681YgTCy3+HslgN6Hkv+eAP1tH6HpQdBDMV3ugNwmc50XVFmcK9
- qx1A==
-X-Gm-Message-State: AOAM533X0yMu1bnbSd3mx7tF97nTEoMD8bVLMSAjOKKEfI4zhZ7NDy9+
- ButpSgtQsDtv8w70L0zVRi71/w==
-X-Google-Smtp-Source: ABdhPJykWvjPW3/U+WHjxntr/F0F/4T8tpWcs+p0Zldbq36aC48Q6FEWTwMa5AyYpntydR808OhCSw==
-X-Received: by 2002:a17:90b:4b0b:b0:1b9:2295:1d6c with SMTP id
- lx11-20020a17090b4b0b00b001b922951d6cmr6208055pjb.126.1645568141612; 
- Tue, 22 Feb 2022 14:15:41 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110])
- by smtp.gmail.com with ESMTPSA id z14sm20149141pfh.173.2022.02.22.14.15.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 14:15:41 -0800 (PST)
-Message-ID: <e12e0f7f-987c-c925-6238-97324ba17f10@linaro.org>
-Date: Tue, 22 Feb 2022 12:15:38 -1000
+ (Exim 4.90_1)
+ (envelope-from <SRS0=KWfY=TF=zx2c4.com=Jason@kernel.org>)
+ id 1nMdTU-0000q2-AU
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 17:17:36 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:58072)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=KWfY=TF=zx2c4.com=Jason@kernel.org>)
+ id 1nMdTR-0006xL-AI
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 17:17:35 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 705C5617F5
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 22:17:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF297C340F4
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 22:17:30 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="lXMDj8r4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1645568244;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vCnYHLy2ZxLW1+1wKyxbDfmohEew3lEiJPknv0zMRYw=;
+ b=lXMDj8r4Yr5uWWxTJyy9JlZE8dPd9P561SOdb0cphGNYx4uYOF0/QjtLjtN93FcOp6uNlQ
+ VupvtVgoxdsTRr0yiFFc/3WGr0DAPUbxmounmYEQjVl0cokQYpe4Am0KzYJUUjkCaqDOIk
+ WVlMfbOqLv3Owc1ux6xbpSelgoQb0Mw=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 1bba6feb
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Tue, 22 Feb 2022 22:17:23 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id d21so21882209yba.11
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 14:17:22 -0800 (PST)
+X-Gm-Message-State: AOAM532CIMjRV8Vfngn2oWQb7EjTEYBfsWJ5sOUIcsUu/B5l2eYJarDN
+ TKlsHEvtlPxsYrzy4uAAks75Cyfv4wQMDVazS+Q=
+X-Google-Smtp-Source: ABdhPJwlIOwo+38zIXLd6Qx86vOEC2pTybWrAlF+D1no8DxGsVb1DkoOkHcofqIhHbVsWXHFvpYK/Ea3CPmEoMWT/g0=
+X-Received: by 2002:a05:6902:693:b0:613:7f4f:2e63 with SMTP id
+ i19-20020a056902069300b006137f4f2e63mr24281380ybt.271.1645568240101; Tue, 22
+ Feb 2022 14:17:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 21/47] target/ppc: implement vsrq
-Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
- <20220222143646.1268606-22-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220222143646.1268606-22-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <1614156452-17311-1-git-send-email-acatan@amazon.com>
+ <1614156452-17311-3-git-send-email-acatan@amazon.com>
+ <CAHmME9o6cjZT1Cj1g5w5WQE83YxJNqB7eUCWn74FA9Pbb3Y6nQ@mail.gmail.com>
+In-Reply-To: <CAHmME9o6cjZT1Cj1g5w5WQE83YxJNqB7eUCWn74FA9Pbb3Y6nQ@mail.gmail.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Tue, 22 Feb 2022 23:17:09 +0100
+X-Gmail-Original-Message-ID: <CAHmME9poYgfoniexZ2dvpEEvnWGLQTOjOvB2bck-Whhy9h+Hjw@mail.gmail.com>
+Message-ID: <CAHmME9poYgfoniexZ2dvpEEvnWGLQTOjOvB2bck-Whhy9h+Hjw@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] drivers/virt: vmgenid: add vm generation id driver
+To: adrian@parity.io
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=KWfY=TF=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,24 +85,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: areber@redhat.com, KVM list <kvm@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, ghammer@redhat.com,
+ vijaysun@ca.ibm.com, 0x7f454c46@gmail.com,
+ QEMU Developers <qemu-devel@nongnu.org>, Michal Hocko <mhocko@kernel.org>,
+ dgunigun@redhat.com, avagin@gmail.com, Pavel Machek <pavel@ucw.cz>,
+ ptikhomirov@virtuozzo.com, linux-s390@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
+ borntraeger@de.ibm.com, "Singh, Balbir" <sblbir@amazon.com>, bonzini@gnu.org,
+ Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>, "Weiss,
+ Radu" <raduweis@amazon.com>, asmehra@redhat.com,
+ Adrian Catangiu <acatan@amazon.com>, graf@amazon.com,
+ Mike Rapoport <rppt@kernel.org>, Andrew Lutomirski <luto@kernel.org>,
+ gil@azul.com, oridgar@gmail.com, Colm MacCarthaigh <colmmacc@amazon.com>,
+ Theodore Ts'o <tytso@mit.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, ovzxemul@gmail.com,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Willy Tarreau <w@1wt.eu>, "Woodhouse,
+ David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/22/22 04:36, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> 
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> ---
-> v4:
->   -  New in v4.
-> ---
->   target/ppc/insn32.decode            |  1 +
->   target/ppc/translate/vmx-impl.c.inc | 40 +++++++++++++++++++++--------
->   2 files changed, 31 insertions(+), 10 deletions(-)
+Hey again,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, Feb 22, 2022 at 10:24 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> This thread seems to be long dead, but I couldn't figure out what
+> happened to the ideas in it. I'm specifically interested in this part:
+>
+> On Wed, Feb 24, 2021 at 9:48 AM Adrian Catangiu <acatan@amazon.com> wrote:
+> > +static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
+> > +{
+> > +       uuid_t old_uuid;
+> > +
+> > +       if (!device || acpi_driver_data(device) != &vmgenid_data) {
+> > +               pr_err("VMGENID notify with unexpected driver private data\n");
+> > +               return;
+> > +       }
+> > +
+> > +       /* update VM Generation UUID */
+> > +       old_uuid = vmgenid_data.uuid;
+> > +       memcpy_fromio(&vmgenid_data.uuid, vmgenid_data.uuid_iomap, sizeof(uuid_t));
+> > +
+> > +       if (memcmp(&old_uuid, &vmgenid_data.uuid, sizeof(uuid_t))) {
+> > +               /* HW uuid updated */
+> > +               sysgenid_bump_generation();
+> > +               add_device_randomness(&vmgenid_data.uuid, sizeof(uuid_t));
+> > +       }
+> > +}
+>
+> As Jann mentioned in an earlier email, we probably want this to
+> immediately reseed the crng, not just dump it into
+> add_device_randomness alone. But either way, the general idea seems
+> interesting to me. As far as I can tell, QEMU still supports this. Was
+> it not deemed to be sufficiently interesting?
+>
+> Thanks,
+> Jason
 
-r~
+Well I cleaned up this v7 and refactored it into something along the
+lines of what I'm thinking. I don't yet know enough about this general
+problem space to propose the patch and I haven't tested it either, but
+in case you're curious, something along the lines of what I'm thinking
+about lives at https://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git/commit/?h=jd/vmgenid
+if you (or somebody else) feels inclined to pick this up.
+
+Looking forward to learning more from you in general, though, about
+what the deal is with the VM gen ID, and if this is a real thing or
+not.
+
+Regards,
+Jason
 
