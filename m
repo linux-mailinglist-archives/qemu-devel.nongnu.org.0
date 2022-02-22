@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015304BF4FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 10:49:05 +0100 (CET)
-Received: from localhost ([::1]:41682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606FF4BF4F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 10:46:45 +0100 (CET)
+Received: from localhost ([::1]:38098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMRn6-0003LQ-0c
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 04:49:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46226)
+	id 1nMRkq-0000om-3P
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 04:46:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nMRi7-0008Pg-HF
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:43:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20443)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nMRhu-0008E7-H8
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:43:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nMRi3-0007Zk-Ks
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:43:53 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nMRhq-0007Yu-K6
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:43:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645523031;
+ s=mimecast20190719; t=1645523016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=p3DfDu4Qu5XnREaaKmzUMogBNWwiJXbn7T8dCL5QE8g=;
- b=SXqdeykwqtnRt3YqykqT5jxNTi3DWw5dUeGWu0uSbIjXclfeOrNpdxdsGkTQQIb8bBWLvB
- fWJKTpmMTKkS4ThT/4wZrwQMNliPYmhtxQVtuwzm30Z5UFmtrA+PWbMAFMVZ5L9K4R5UMe
- SnjhWVoL5Bpe9DSDaVmQdzX5tWoje3E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fFzOD2aY1W50GZYLtPF5NzZwXL5V14ps+qkKaFGWlXo=;
+ b=Tm3TzyxcaDfMKjlSd8BX0kOMwO1nVOBhxJ34oy/slbjy+CjKIkaBSeDMtKekXKqtAkPwaq
+ P88O1TT3Oj10dEUAFGAVPZEoPimJvCWMIehSKmKCk0KdUhxXitHP6B1ezIHvEBZISmVuUl
+ B9C1uzn2JwT8vY12twOUNGMq35jVitM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-BZ1Fqg3DP8-pUj5d38qfYA-1; Tue, 22 Feb 2022 04:43:50 -0500
-X-MC-Unique: BZ1Fqg3DP8-pUj5d38qfYA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCE8C80A5C5;
- Tue, 22 Feb 2022 09:43:48 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.195.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AA967554B;
- Tue, 22 Feb 2022 09:42:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 70BE218007A2; Tue, 22 Feb 2022 10:42:55 +0100 (CET)
-Date: Tue, 22 Feb 2022 10:42:55 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH RFCv2 2/4] i386/pc: relocate 4g start to 1T where
- applicable
-Message-ID: <20220222094255.as2alzu65rhateml@sirius.home.kraxel.org>
-References: <20220207202422.31582-1-joao.m.martins@oracle.com>
- <20220207202422.31582-3-joao.m.martins@oracle.com>
- <20220214155318.3ce80da0@redhat.com>
- <fa172a19-5db6-a844-27d7-8497d306024e@oracle.com>
- <20220214163158.4c4b210b@redhat.com>
- <20220215095358.5qcrgwlasheu63uj@sirius.home.kraxel.org>
- <YgzJE7ufEYm6OFyg@redhat.com> <YhOQfJ8x93+jDSZf@work-vm>
- <20220222094602.66d55613@redhat.com>
+ us-mta-284-pUMVppE3Ny6lig4OFN7hAw-1; Tue, 22 Feb 2022 04:43:35 -0500
+X-MC-Unique: pUMVppE3Ny6lig4OFN7hAw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i20-20020a05600c051400b00380d5eb51a7so311137wmc.3
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 01:43:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=fFzOD2aY1W50GZYLtPF5NzZwXL5V14ps+qkKaFGWlXo=;
+ b=3+z9h6rRmKLRhOl+yUhfdfk2EnMXkQiTE68IqS6HyYqw+PYs28R35oxPCa7xP12m8i
+ RRlVp4277y55M2qBT7LNthg60Yqm4wFXzgYH4q6DlybjaegAcIp+20qwyIJBmj+hH+E8
+ ud27o+P2JFy5qQqjYRTWLiYhg/8TwZd4Z9igByaTkqCoYqisWb377Ckn2BIdcl+j1GkM
+ 7vyhQ74f8L49/z+ElgsyULx1/wHmUiEZxV/5qN9X7IREaBuvnIVt1tLP4apmn2rJ+w29
+ Uoz/SqprbpwQwB0mEghzmtOTGuGlBs6/x0ZtIcwE/A72qo1odK2FSpS58SsZVpzX0n3I
+ bZpQ==
+X-Gm-Message-State: AOAM530l74rQqVxP4XGQzxKzURubz8TZHuWqmwv/CLt5oNqKklR6RBeN
+ 2doVatAxqXyimski1kVO2x5m3bLejCbe3fR3YLm3rW2TJRx1wF5C8J+yetqjHB3p1GrsApI1dND
+ RMf02yLwszyVLZCc=
+X-Received: by 2002:a05:600c:3d06:b0:37b:a5ea:a61b with SMTP id
+ bh6-20020a05600c3d0600b0037ba5eaa61bmr2618655wmb.32.1645523014194; 
+ Tue, 22 Feb 2022 01:43:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzCWTvyF6qHWWkpe1SkFkkd/S7EuJnSaPbrwhmyn3nzLhTpI766mkyZXyIO8G0V4XEfKY1lfA==
+X-Received: by 2002:a05:600c:3d06:b0:37b:a5ea:a61b with SMTP id
+ bh6-20020a05600c3d0600b0037ba5eaa61bmr2618624wmb.32.1645523013992; 
+ Tue, 22 Feb 2022 01:43:33 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ i22-20020a05600c355600b0037bee3a4e00sm2045402wmq.47.2022.02.22.01.43.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Feb 2022 01:43:33 -0800 (PST)
+Date: Tue, 22 Feb 2022 09:43:31 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
+Subject: Re: [PATCH v3 1/2] hw/i386: Improve bounds checking in OVMF table
+ parsing
+Message-ID: <YhSwQ36N9nq+9n9f@work-vm>
+References: <20220222071906.2632426-1-dovmurik@linux.ibm.com>
+ <20220222071906.2632426-2-dovmurik@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20220222094602.66d55613@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20220222071906.2632426-2-dovmurik@linux.ibm.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -86,42 +100,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Daniel Jordan <daniel.m.jordan@oracle.com>
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> > And the upstream code is now pretty much identical except for the
-> > default;  note that for TCG you do need to keep to 40 I think.
+* Dov Murik (dovmurik@linux.ibm.com) wrote:
+> When pc_system_parse_ovmf_flash() parses the optional GUIDed table in
+> the end of the OVMF flash memory area, the table length field is checked
+> for sizes that are too small, but doesn't error on sizes that are too
+> big (bigger than the flash content itself).
 > 
-> will TCG work with 40bits on host that supports less than that?
+> Add a check for maximal size of the OVMF table, and add an error report
+> in case the size is invalid.  In such a case, an error like this will be
+> displayed during launch:
+> 
+>     qemu-system-x86_64: OVMF table has invalid size 4047
+> 
+> and the table parsing is skipped.
+> 
+> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
 
-When I understand things correctly the problem is that the phys-bits
-limit applies to the npt/ept tables too, effectively restricting guest
-physical address space to host physical address space.
+Thanks,
 
-TCG is not affected by that and should work just fine.
 
-Not sure what happens if you turn off npt/ept and run on softmmu.
-Possibly that works fine too.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> Also quick look at host-phys-bits shows that it affects only 'host'
-> cpu model and is NOP for all other models.
-
-I don't think so.  microvm forces host-phys-bits=on and that works with
-all cpu models.
-
-take care,
-  Gerd
+> ---
+>  hw/i386/pc_sysfw_ovmf.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/i386/pc_sysfw_ovmf.c b/hw/i386/pc_sysfw_ovmf.c
+> index f4dd92c588..df15c9737b 100644
+> --- a/hw/i386/pc_sysfw_ovmf.c
+> +++ b/hw/i386/pc_sysfw_ovmf.c
+> @@ -24,6 +24,7 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "qemu/error-report.h"
+>  #include "hw/i386/pc.h"
+>  #include "cpu.h"
+>  
+> @@ -66,7 +67,13 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
+>      ptr -= sizeof(uint16_t);
+>      tot_len = le16_to_cpu(*(uint16_t *)ptr) - sizeof(guid) - sizeof(uint16_t);
+>  
+> -    if (tot_len <= 0) {
+> +    if (tot_len < 0 || tot_len > (ptr - flash_ptr)) {
+> +        error_report("OVMF table has invalid size %d", tot_len);
+> +        return;
+> +    }
+> +
+> +    if (tot_len == 0) {
+> +        /* no entries in the OVMF table */
+>          return;
+>      }
+>  
+> -- 
+> 2.25.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
