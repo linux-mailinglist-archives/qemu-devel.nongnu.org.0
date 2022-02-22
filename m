@@ -2,76 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0C54C03C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 22:27:05 +0100 (CET)
-Received: from localhost ([::1]:33480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B884C03D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 22:28:41 +0100 (CET)
+Received: from localhost ([::1]:37628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMcga-0005fn-Ec
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 16:27:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41172)
+	id 1nMci7-0008Ss-VQ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 16:28:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=KWfY=TF=zx2c4.com=Jason@kernel.org>)
- id 1nMceK-00044o-QL
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 16:24:44 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:59572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=KWfY=TF=zx2c4.com=Jason@kernel.org>)
- id 1nMceF-00077e-0G
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 16:24:44 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6CC5B61760
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 21:24:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B207C340E8
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 21:24:35 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="EueXSbd0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1645565071;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JVDKbWuQaqEUhqppE+Xa9vvhTXzWjrw/6DnshvBmlO0=;
- b=EueXSbd0k16szyLN73y9HJfysgFUJiIHVswrPMWNrYRY6DSrL5971Q3dVdSYQcGyvJlkst
- OJMI0oJIvOIRFrUs6GqimeXgSP78X+s1DC6JKc32HKjpnfajWyhD3j8xf/Js7/UF41rncC
- 34sgNZxkDMef47lk62MFWgnnDKw4Tk8=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 36867f32
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Tue, 22 Feb 2022 21:24:30 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id v186so44025889ybg.1
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 13:24:30 -0800 (PST)
-X-Gm-Message-State: AOAM5314DdLPnPZlmGMt2buobeLmhqiuel3Sw3cR+M+AZXBBTX8qAuMV
- kdITh4xPQnf3AlxRhRVqS/Yfv0+vWerCNj6xTVY=
-X-Google-Smtp-Source: ABdhPJwvfehACY5olNLdLYWx+1mbRCA/UudBhvxotju5WcW8qrMaLZ7L0JYyK5Hf2olVo7SAOkvPTIjxZVLW1My2qho=
-X-Received: by 2002:a5b:d11:0:b0:623:fbda:40f4 with SMTP id
- y17-20020a5b0d11000000b00623fbda40f4mr25771486ybp.398.1645565070061; Tue, 22
- Feb 2022 13:24:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nMcfq-00063L-72
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 16:26:18 -0500
+Received: from [2a00:1450:4864:20::434] (port=43726
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nMcfo-0007dI-38
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 16:26:17 -0500
+Received: by mail-wr1-x434.google.com with SMTP id s1so9478800wrg.10
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 13:26:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=z2SRibBdQhixFwba0M71V19LMVqOX8fCQkoDOJttA1Q=;
+ b=ecV4SYfhCEOC4Yl5NdHsUrMQNzpop6nR8V3EfNZ5BTNGDCf/qLBiJA+1CEoyx17z+x
+ sddKKpSQMtY4Hq4plNYEzUul7bKn759mrQ440PZfSbLUjnjxkXFIq7mH8yzGy6Ty1I9c
+ M/K9IFgZVvFm4AGMIbvCWVbhxvFUfov+I6IWtI1z8Ee7vyLe5Apn+4pxRR0GcO4zUytI
+ X4MYT/JfBb6eEA+26jxkBfcrO739xF+qfTey0IYMnQbq16PLS6//djG8rehs7O/1zB6D
+ 8kCd+E5OU9xX+V5kwjI72ufan74a8vf9GN3TxZSDIEd2XznzJjmbTzDL994ZAYGEasEm
+ 0+tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=z2SRibBdQhixFwba0M71V19LMVqOX8fCQkoDOJttA1Q=;
+ b=62Bg9LC+eW5XiOKgRpkn1w2S7Oukg5q8oCn7qrBTEDaeZChP/X6Kt8q2/cVjBtHWCo
+ R5G7AL+w2yQGhi+QxUkOBN1MisjYuXhXVAyXGyplQMnr3439nncqQGOYWQNeTI4bI7Fu
+ zS5YbOprbTUUL79xp0vvTt2orbY98oqOmkMF20JvmuUi/wNQKuc8vhnfQ+5AEpqxsqN6
+ LGASF4JhLe3MH74plo2waQ82J9xb9HaPnXS9+ta7jm5ZDgE7YDtlyw7DYJ1m+HfhIE8+
+ +5CyAB9DPvvvXf9Z4T6IxiKG/1qFi02NG6LYjUyVR9BXaueJ8bTsJ9IuUDPOgiGvq9Mk
+ yGsw==
+X-Gm-Message-State: AOAM533eX8tnpwMePt6C0gWOLdnlg7ufYNRqpZ5szRSHOlwsKwQe0UYk
+ auaeaaPrKxxQHhVpD4IG9Io=
+X-Google-Smtp-Source: ABdhPJyLM4imgXml+VjaL9XxSKV7gJLmrllhozK9S7czpuje1Jn8YNcJ5523zJ8mWKsdmOPQLkkk0g==
+X-Received: by 2002:adf:f14e:0:b0:1e4:a64c:c1f8 with SMTP id
+ y14-20020adff14e000000b001e4a64cc1f8mr21319100wro.512.1645565174237; 
+ Tue, 22 Feb 2022 13:26:14 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id b2sm35533609wri.35.2022.02.22.13.26.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Feb 2022 13:26:13 -0800 (PST)
+Message-ID: <cdd60bac-f425-4d51-3ec0-5daa59decf8f@gmail.com>
+Date: Tue, 22 Feb 2022 22:26:12 +0100
 MIME-Version: 1.0
-References: <1614156452-17311-1-git-send-email-acatan@amazon.com>
- <1614156452-17311-3-git-send-email-acatan@amazon.com>
-In-Reply-To: <1614156452-17311-3-git-send-email-acatan@amazon.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Tue, 22 Feb 2022 22:24:19 +0100
-X-Gmail-Original-Message-ID: <CAHmME9o6cjZT1Cj1g5w5WQE83YxJNqB7eUCWn74FA9Pbb3Y6nQ@mail.gmail.com>
-Message-ID: <CAHmME9o6cjZT1Cj1g5w5WQE83YxJNqB7eUCWn74FA9Pbb3Y6nQ@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] drivers/virt: vmgenid: add vm generation id driver
-To: Adrian Catangiu <acatan@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=KWfY=TF=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.0
+Subject: Re: [PATCH 7/8] Drop qemu_foo() socket API wrapper
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20220222194008.610377-1-marcandre.lureau@redhat.com>
+ <20220222194008.610377-8-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220222194008.610377-8-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,59 +94,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: areber@redhat.com, KVM list <kvm@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, ghammer@redhat.com,
- vijaysun@ca.ibm.com, 0x7f454c46@gmail.com,
- QEMU Developers <qemu-devel@nongnu.org>, Michal Hocko <mhocko@kernel.org>,
- dgunigun@redhat.com, avagin@gmail.com, Pavel Machek <pavel@ucw.cz>,
- ptikhomirov@virtuozzo.com, linux-s390@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
- borntraeger@de.ibm.com, "Singh, Balbir" <sblbir@amazon.com>, bonzini@gnu.org,
- Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>, "Weiss,
- Radu" <raduweis@amazon.com>, asmehra@redhat.com, graf@amazon.com,
- Mike Rapoport <rppt@kernel.org>, Andrew Lutomirski <luto@kernel.org>,
- gil@azul.com, oridgar@gmail.com, Colm MacCarthaigh <colmmacc@amazon.com>,
- Theodore Ts'o <tytso@mit.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>, ovzxemul@gmail.com,
- "Rafael J. Wysocki" <rafael@kernel.org>, Willy Tarreau <w@1wt.eu>, "Woodhouse,
- David" <dwmw@amazon.co.uk>
+Cc: peter.maydell@linaro.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Adrian,
+On 22/2/22 20:40, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> The socket API wrappers were initially introduced in commit
+> 00aa0040 ("Wrap recv to avoid warnings"), but made redundatant with
+> commit a2d96af4 ("osdep: add wrappers for socket functions") which fixes
+> the win32 declarations and thus removed the earlier warnings.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   include/qemu-common.h                | 19 -------------------
+>   crypto/cipher-afalg.c                |  4 ++--
+>   crypto/hash-afalg.c                  |  4 ++--
+>   gdbstub.c                            |  2 +-
+>   io/channel-socket.c                  |  6 +++---
+>   net/socket.c                         | 24 ++++++++++++------------
+>   tests/qtest/e1000e-test.c            |  4 ++--
+>   tests/qtest/libqtest.c               |  4 ++--
+>   tests/qtest/npcm7xx_emc-test.c       |  4 ++--
+>   tests/qtest/test-filter-mirror.c     |  4 ++--
+>   tests/qtest/test-filter-redirector.c |  8 ++++----
+>   tests/qtest/virtio-net-test.c        | 10 +++++-----
+>   tests/unit/socket-helpers.c          |  2 +-
+>   util/osdep.c                         |  4 ++--
+>   util/qemu-sockets.c                  | 10 +++++-----
+>   15 files changed, 45 insertions(+), 64 deletions(-)
 
-This thread seems to be long dead, but I couldn't figure out what
-happened to the ideas in it. I'm specifically interested in this part:
-
-On Wed, Feb 24, 2021 at 9:48 AM Adrian Catangiu <acatan@amazon.com> wrote:
-> +static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
-> +{
-> +       uuid_t old_uuid;
-> +
-> +       if (!device || acpi_driver_data(device) != &vmgenid_data) {
-> +               pr_err("VMGENID notify with unexpected driver private data\n");
-> +               return;
-> +       }
-> +
-> +       /* update VM Generation UUID */
-> +       old_uuid = vmgenid_data.uuid;
-> +       memcpy_fromio(&vmgenid_data.uuid, vmgenid_data.uuid_iomap, sizeof(uuid_t));
-> +
-> +       if (memcmp(&old_uuid, &vmgenid_data.uuid, sizeof(uuid_t))) {
-> +               /* HW uuid updated */
-> +               sysgenid_bump_generation();
-> +               add_device_randomness(&vmgenid_data.uuid, sizeof(uuid_t));
-> +       }
-> +}
-
-As Jann mentioned in an earlier email, we probably want this to
-immediately reseed the crng, not just dump it into
-add_device_randomness alone. But either way, the general idea seems
-interesting to me. As far as I can tell, QEMU still supports this. Was
-it not deemed to be sufficiently interesting?
-
-Thanks,
-Jason
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
