@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDEF94C0009
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:19:25 +0100 (CET)
-Received: from localhost ([::1]:45058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93BD4C003A
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:36:02 +0100 (CET)
+Received: from localhost ([::1]:38670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMYov-0007yE-26
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:19:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55548)
+	id 1nMZ4z-0006UK-EY
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:36:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMYlM-0005Mt-NR
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 12:15:44 -0500
-Received: from [2a00:1450:4864:20::32c] (port=52848
- helo=mail-wm1-x32c.google.com)
+ id 1nMZ2o-0005QH-EJ; Tue, 22 Feb 2022 12:33:46 -0500
+Received: from [2a00:1450:4864:20::336] (port=55965
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMYlK-0006pR-Ut
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 12:15:44 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id w13so11533989wmi.2
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 09:15:42 -0800 (PST)
+ id 1nMZ2n-0001Pj-0M; Tue, 22 Feb 2022 12:33:46 -0500
+Received: by mail-wm1-x336.google.com with SMTP id i19so12037754wmq.5;
+ Tue, 22 Feb 2022 09:33:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=oJ2YD2NRxjMG5gE2Rf4NThtMzw1kf/D06xwOakry2io=;
- b=JugPc3p2tFWZDXyJfKdkUJIMcVFB57Yqr4jSQhD8Xisb8J7kFO3N47CJPKRHGfZxqR
- LRqQVnEK9GoNrQ1ra0ypPReRNRdwdqgMpMNFEfmVj31IC8aZBB3PyxlxA7xI+5liVHEY
- dmiyj7vkKcH0uVURZyZw76r4e7GwOig9Pje7OOeXiQsaebXC+Pf78PveyqSN/I4j0SYv
- /EPGzPAECoorKiz4J4PQCUvk8zUzHzMHZzrWDTJtxMbRgd3YeOFfwej0UwZ9a36xuJte
- 1y8cNp9Lbo9IPnH0RhmKAywBVJVMaX1BI3hwifcaaoDYtTs8WZ2/irhkHgMXIzGwk+Wh
- sAqA==
+ bh=qZLmnfjrVWGUsUh3atQSO7JD7Pzw6Vtie5hI2woz6dI=;
+ b=acT60s1lSiIGzhyqvZorD1b69R4aBJSZ+QAnwADjvGVMECGa50/CE3Sq70tclgN6+D
+ eY0Ene6yPWxAFVxUAY4tfAig5R1VSoZ2x4YItuj7j3zyFlgZeasANCGGvbNq+0oQzuYl
+ RtZFrPF7nvAQOYrFIumyTnhNmIxgj5yhMcNHtYhpEsY3jeXwVk5sRhdH/CQ3tfvRgirT
+ UnEEsudpNRvwX6/I/iHJDugXLkcmJjYdjouB7J61wIEVSE5PLL60CXGK9LSdRzglGOkd
+ ANaBhOgFqhBn1hrPXXG7FXKSaMUBa9LzEbiNLHp6WVYqPrUtFhVPq8ZiioWsS1jiFVy2
+ Zp+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=oJ2YD2NRxjMG5gE2Rf4NThtMzw1kf/D06xwOakry2io=;
- b=az+59+g3OvalPPB7AMHFjw0Qbo2bcfcc1f+0yvSBMTdpDxaQSRmVQWIzO0yxUfG6OS
- yyigHfgDCvKA7rDWRzNR2S7g0DzHajeyEi4lkoAposm5jTBdoEuremIAlvKxPZohK9o+
- 7JKyoq1+N7/vITwnob0qFY6qPHWHdFg9qhvL8wuQHFLB5svjhAvu9PK8I2AaNhlMpp66
- bHzcm4XWCtKLmV6021NtEV8jGEZ6bbAT54L7xKyR1uoACwheZHIIWv73Z5wEApdmN9Om
- yf5FmfS2F987c/YwygxIA4wjpeiNnEhCYfXbVKdjSQFDdu5NQjOmJ2b45REg792v8Mht
- vAvg==
-X-Gm-Message-State: AOAM530vk6bdsd7CRXchr59MsjrJ6+BfbVhKfxdBIuGS/WSR1NdhcTVo
- wIVgCf6CMhdGFLCEfWUtV74=
-X-Google-Smtp-Source: ABdhPJxo8O2oUZuNGJb3f2L1ZYwiFIoeFWouKJjpmwgFAJHyZrv6PIeMgfWzT2aFHS4la0sRQTPYfw==
-X-Received: by 2002:a1c:6a18:0:b0:380:dec5:7f05 with SMTP id
- f24-20020a1c6a18000000b00380dec57f05mr2513288wmc.129.1645550140876; 
- Tue, 22 Feb 2022 09:15:40 -0800 (PST)
+ bh=qZLmnfjrVWGUsUh3atQSO7JD7Pzw6Vtie5hI2woz6dI=;
+ b=kdrltltDHVY93EVCuG9HiuGB3inR65mRkmfMdGsiDrfk+TZ1Uz2/tH/B99B1ra4RAm
+ 5/ZkA4gO1ZEuq9j9rA0oAgP9bKiXzMjdSsDkEsfnvABHvJ2YxPRIOEDVmR2fWGFAyO45
+ Uh7JDcxEGuV7XFT1Lxx5ydrbRa0YJ/tEqm4Shnep7zEvlZNSpgy2Fg/X6DmhESy0nPHY
+ V7g1AHq4I5v+hx7y1kT7un9+hy4crd4xYeqVUlvOr/ngzazR9CkfeOSf0zwv59txsLPv
+ GPYaxLslPjXEtRm2vUdksBYYH+YwBpOKC/t+zCKB5O/Klny09lkLYwMJnxzz34s9boCF
+ 6RPg==
+X-Gm-Message-State: AOAM532pd476amxRVDnCERP6SVD177RC01oQUUpvpck/5yaBLthAL3xZ
+ UHdRZUh3t3p8bSudpsMpBi4=
+X-Google-Smtp-Source: ABdhPJx2QZMXe6tpcpZ30/gE56mY+F/lIGiBc9njhTNS7xX2No62I1ck7SjkOaA33z3q/mLtUYLz/w==
+X-Received: by 2002:a05:600c:240a:b0:34d:c8ad:dc07 with SMTP id
+ 10-20020a05600c240a00b0034dc8addc07mr4214655wmp.145.1645551222836; 
+ Tue, 22 Feb 2022 09:33:42 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id u25sm2802973wmm.15.2022.02.22.09.15.39
+ by smtp.gmail.com with ESMTPSA id i9sm33308870wrf.79.2022.02.22.09.33.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 09:15:40 -0800 (PST)
-Message-ID: <c35a9dd9-a65b-8690-669b-db94e8629c62@gmail.com>
-Date: Tue, 22 Feb 2022 18:15:39 +0100
+ Tue, 22 Feb 2022 09:33:42 -0800 (PST)
+Message-ID: <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
+Date: Tue, 22 Feb 2022 18:33:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: [PATCH 1/4] softmmu/cpus: Free cpu->thread in cpu_remove_sync()
+Subject: Re: Analysis of slow distro boots in check-avocado
+ (BootLinuxAarch64.test_virt_tcg*)
 Content-Language: en-US
-To: Mark Kanda <mark.kanda@oracle.com>, qemu-devel@nongnu.org
-References: <20220126142946.667782-1-mark.kanda@oracle.com>
- <20220126142946.667782-2-mark.kanda@oracle.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <874k4xbqvp.fsf@linaro.org> <878ru2nacq.fsf@linaro.org>
+ <YhURfqMvRT4xbiz6@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220126142946.667782-2-mark.kanda@oracle.com>
+In-Reply-To: <YhURfqMvRT4xbiz6@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,45 +95,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Oleg Vasilev <me@svin.in>, Idan Horowitz <idan.horowitz@gmail.com>,
+ Cleber Rosa <cleber@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Emilio Cota <cota@braap.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/1/22 15:29, Mark Kanda wrote:
-> vCPU hotunplug related leak reported by Valgrind:
-> 
-> ==377357== 8 bytes in 1 blocks are definitely lost in loss record 1,029 of 8,471
-> ==377357==    at 0x4C3ADBB: calloc (vg_replace_malloc.c:1117)
-> ==377357==    by 0x65C14CD: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.5600.4)
-> ==377357==    by 0x8B5AC8: kvm_start_vcpu_thread (kvm-accel-ops.c:68)
-> ==377357==    by 0x7817AF: qemu_init_vcpu (cpus.c:634)
-> ==377357==    by 0x7185A3: x86_cpu_realizefn (cpu.c:6447)
-> ==377357==    by 0x8E46B7: device_set_realized (qdev.c:531)
-> ==377357==    by 0x8EE36F: property_set_bool (object.c:2268)
-> ==377357==    by 0x8EC3C5: object_property_set (object.c:1403)
-> ==377357==    by 0x8F075D: object_property_set_qobject (qom-qobject.c:28)
-> ==377357==    by 0x8EC72C: object_property_set_bool (object.c:1472)
-> ==377357==    by 0x8E3F7F: qdev_realize (qdev.c:333)
-> ==377357==    by 0x43F3A2: qdev_device_add_from_qdict (qdev-monitor.c:711)
-> 
-> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
-> ---
->   softmmu/cpus.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index 23bca46b07..1d8380d4aa 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -603,6 +603,7 @@ void cpu_remove_sync(CPUState *cpu)
->       qemu_mutex_unlock_iothread();
->       qemu_thread_join(cpu->thread);
->       qemu_mutex_lock_iothread();
-> +    g_free(cpu->thread);
++Igor/MST for UEFI tests.
 
-Shouldn't we free that in a dedicated AccelOpsClass::destroy_vcpu_thread
-handler instead? (Similarly to free CPUState::halt_cond, next patch).
+On 22/2/22 17:38, Daniel P. Berrangé wrote:
+> On Tue, Feb 22, 2022 at 04:17:23PM +0000, Alex Bennée wrote:
+>>
+>> Alex Bennée <alex.bennee@linaro.org> writes:
+>>
+>>> Hi,
+>>>
+>>> TL;DR:
+>>>
+>>>    - pc-bios/edk2-aarch64-code.fd should be rebuilt without debug
+>>
+>> Laszlo,
+>>
+>> Would it be possible to do a less debug enabled version of EDK2 on the
+>> next update to pc-bios/edk2-*?
+> 
+> NB, Laszlo is no longer  maintaining EDK2 in QEMU, it was handed
+> over to Philippe.  I'm CC'ing Gerd too since he's a reviewer and
+> an EDK2 contributor taking over from Lazslo in EDK2 community
 
->   }
+We need the DEBUG profile to ensure the bios-tables-tests work.
 
+If you want to boot a guest using EDK2, you should use the images
+build by your distribution (/usr/share/qemu/edk2-aarch64-code.fd),
+not these images.
+
+Regards,
+
+Phil.
 
