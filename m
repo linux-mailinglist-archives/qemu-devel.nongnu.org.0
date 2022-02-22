@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73AA4BF4DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 10:37:32 +0100 (CET)
-Received: from localhost ([::1]:60708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45FB4BF4E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 10:44:04 +0100 (CET)
+Received: from localhost ([::1]:35884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMRbv-00053Q-Ac
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 04:37:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44548)
+	id 1nMRiF-0007gT-Kz
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 04:44:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMRXa-0003NH-VP; Tue, 22 Feb 2022 04:33:02 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:41917)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nMRce-0006ch-5D
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:38:16 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:41588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMRXY-0005zh-TQ; Tue, 22 Feb 2022 04:33:02 -0500
-Received: from [192.168.100.1] ([82.142.17.50]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N4R0a-1oLNpK2xGg-011Pa2; Tue, 22 Feb 2022 10:32:53 +0100
-Message-ID: <610ad47e-b991-1502-5197-cf8040989ed4@vivier.eu>
-Date: Tue, 22 Feb 2022 10:32:49 +0100
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nMRcb-0006lc-Jh
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:38:15 -0500
+Received: from [192.168.13.13] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id E44F921C36;
+ Tue, 22 Feb 2022 09:38:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1645522691;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5sFhqQmBB2u0n1pnUE10iLYaJd2c71EvGvnQmvYFTaw=;
+ b=oam0fDOBV9tGdjk6KkZpHgVjzGhAEIzWOxqmxevfKTfc7oSOIHJAGYmfIcYlOYGjeGRH2Q
+ 4CUk/p9cEcLqBwAPF9LG/beYT97TEpsTyN4irDm/eIu4SrH8wv9aDUnjdnGev11bKbWfCS
+ bUtaP7iJFsWTKEyUcJfhz0dbO9rV+6M=
+Message-ID: <c3fb1a44-29ac-00a0-47f4-7f152977f4a5@greensocs.com>
+Date: Tue, 22 Feb 2022 10:38:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] hid: trivial change to support side and extra buttons
-Content-Language: fr
-To: kraxel@redhat.com
-References: <20211126140437.79745-1-noah@statshelix.com>
- <CABjy+RiwQLNmdSYop1zWq40Jp2HRvf_z5xtDTmKT1R3ff0bHdg@mail.gmail.com>
- <CABjy+Ri7Cnnnkn8PqhNwfDeNYo8y526TnTanAwV+DuLZWGQ-9g@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <CABjy+Ri7Cnnnkn8PqhNwfDeNYo8y526TnTanAwV+DuLZWGQ-9g@mail.gmail.com>
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 0/5] qmp-shell modifications for non-interactive use
+Content-Language: en-US-large
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220221155519.2367-1-damien.hedde@greensocs.com>
+ <87bkyzzb1q.fsf@pond.sub.org>
+ <3656609c-522d-a0e8-e6ef-465cdc9d6c88@greensocs.com>
+ <YhSrD/gmlMkumkah@redhat.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <YhSrD/gmlMkumkah@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:k+hgf3Uqc4MkDdAvofs2vZ8Rlj2jgPekn9TOlWj3/geAV7JQDOs
- eAh4i7+fM47+hrHgOl5khEf+dUnPVerS4bYqbsVCnPl+Ea7zRGrv/yGh7XVDvj0V5A8oqNL
- xakXz0ByeNhdyLhxTFuBdlaydizareHYhHQjpCtTbObaZdXtpc/9noGCkvE2AqAHnCI9LMS
- tE56zD4xAwpWoA3xkY4Yg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MUl3bFSaf0E=:t40hYXCgnZSqY9D9fyZw23
- hkK4NdvkEGBvbozJ+AIs6bz39NO7gH5pfduEoRcI8eVFyt6ccsgv63PX8gE80UEM4c/Hl9Jzw
- Y7njM/wsv7cJwr+bpxHzRk09VzPl40gK6nY6bJPnNNtlA47BVOloY3HtEAUPwZkzvMTZ7qAlD
- PTinuNrFEHyc1LrJiV/r/zriIONDuOrrQrLj24bukOcJOhRpY9F5NlQJ8ieUlgo2MAuVW4vjU
- wDYrzZPQeNzOsrFQIZHGOKeq3lw04dm3oH7lu30GEMn4PjWhfdEAWVG8b+pfIcfnhfMYSGYAx
- EfwL+XyMlAzV3nNb06NvRrUUOHHXRyv1Hv3ZNZi7NaAxjmEWZrhGwLonsAFYcjgw3SAGwGsVH
- EzvG1XyKhRFMJJ/Dhv1NeCGy+3OyHp4+d7k4g8BsVAztdKjxG5zJQshDKEAo36sOoD82bucSX
- YDTaHVUj1kvM1pSMwG1nyIjwCQ9zVqcNlbXx+h8VvajxRhqopB+X3p2tTrLQChLpOekSEFedO
- 0eqT4qDbeob2rbJQqDZGo1GQovNHB1hZAoJrboitFAGjOusDxRLbtak78jDNvCeQmlgG4JdIS
- 8G/pKjYWKgR4nu5Zf4J/IYE09XqsLz0thUtEeaQ2gSJobhlGPG0hSjx+/bSjc7gYaxXm2PJQf
- kkLoApNgDpwXL8NQY0prr5mKQsdSop5eynJBmy8BVfHw2ExwFu4fetO5ypuVhMXZLROM=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,79 +69,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, mjt@tls.msk.ru, qemu-devel@nongnu.org,
- Noah Bergbauer <noah@statshelix.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gerd,
 
-if you acknowledge the patch I can merge it via the trivial branch.
 
-Thanks,
-Laurent
+On 2/22/22 10:21, Daniel P. Berrangé wrote:
+> On Tue, Feb 22, 2022 at 08:57:03AM +0100, Damien Hedde wrote:
+>>
+>>
+>> On 2/22/22 07:10, Markus Armbruster wrote:
+>>> Damien Hedde <damien.hedde@greensocs.com> writes:
+>>>
+>>>> Hi,
+>>>>
+>>>> The main idea of this series is to be a bit more user-friendly when
+>>>> using qmp-shell in a non-interactive way: with an input redirection
+>>>> from a file containing a list of commands.
+>>>>
+>>>> I'm working on dynamic qapi config of a qemu machine, this would
+>>>> be very useful to provide and reproduce small examples.
+>>>
+>>> Why not use plain QMP for that?
+>>>
+>>> [...]
+>>>
+>> What do you mean by plain QMP ?
+> 
+> Directly connect to the socket and send the QMP JSON commands you have.
+> 
+> Essentially qmp-shell is designed for adhoc interactive human usage.
+> For automated / scripted, non-interactive usage, it is expected that
+> QMP is simple enough that tools just directly connect to the QMP
+> socket instead of using a wrapper layer.
+> 
+> What is the reason you want to use qmp-shell for this instead of
+> directly using the socket from your scripts ?
+> 
+> Regards,
+> Daniel
 
-Le 22/01/2022 à 10:57, Noah Bergbauer a écrit :
-> ping https://patchew.org/QEMU/20211126140437.79745-1-noah@statshelix.com/ 
-> <https://patchew.org/QEMU/20211126140437.79745-1-noah@statshelix.com/>
-> 
-> This patch is really small because all of the necessary functionality is already in place. It's just 
-> a matter of setting the respective flags (instead of just ignoring the buttons) and allocating these 
-> bits in the HID descriptor.
-> 
-> On Sat, Dec 4, 2021 at 12:20 PM Noah Bergbauer <noah@statshelix.com <mailto:noah@statshelix.com>> wrote:
-> 
->     ping https://patchew.org/QEMU/20211126140437.79745-1-noah@statshelix.com/
->     <https://patchew.org/QEMU/20211126140437.79745-1-noah@statshelix.com/>
-> 
->     On Fri, Nov 26, 2021 at 3:04 PM Noah Bergbauer <noah@statshelix.com
->     <mailto:noah@statshelix.com>> wrote:
-> 
->         Simply set the respective bits and update the descriptor accordingly.
-> 
->         Signed-off-by: Noah Bergbauer <noah@statshelix.com <mailto:noah@statshelix.com>>
->         ---
->           hw/input/hid.c   | 2 ++
->           hw/usb/dev-hid.c | 6 +++---
->           2 files changed, 5 insertions(+), 3 deletions(-)
-> 
->         diff --git a/hw/input/hid.c b/hw/input/hid.c
->         index 8aab0521f4..e7ecebdf8f 100644
->         --- a/hw/input/hid.c
->         +++ b/hw/input/hid.c
->         @@ -114,6 +114,8 @@ static void hid_pointer_event(DeviceState *dev, QemuConsole *src,
->                   [INPUT_BUTTON_LEFT]   = 0x01,
->                   [INPUT_BUTTON_RIGHT]  = 0x02,
->                   [INPUT_BUTTON_MIDDLE] = 0x04,
->         +        [INPUT_BUTTON_SIDE] = 0x08,
->         +        [INPUT_BUTTON_EXTRA] = 0x10,
->               };
->               HIDState *hs = (HIDState *)dev;
->               HIDPointerEvent *e;
->         diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c
->         index 1c7ae97c30..bdd6d1ffaf 100644
->         --- a/hw/usb/dev-hid.c
->         +++ b/hw/usb/dev-hid.c
->         @@ -461,14 +461,14 @@ static const uint8_t qemu_mouse_hid_report_descriptor[] = {
->               0xa1, 0x00,                /*   Collection (Physical) */
->               0x05, 0x09,                /*     Usage Page (Button) */
->               0x19, 0x01,                /*     Usage Minimum (1) */
->         -    0x29, 0x03,                /*     Usage Maximum (3) */
->         +    0x29, 0x05,                /*     Usage Maximum (5) */
->               0x15, 0x00,                /*     Logical Minimum (0) */
->               0x25, 0x01,                /*     Logical Maximum (1) */
->         -    0x95, 0x03,                /*     Report Count (3) */
->         +    0x95, 0x05,                /*     Report Count (5) */
->               0x75, 0x01,                /*     Report Size (1) */
->               0x81, 0x02,                /*     Input (Data, Variable, Absolute) */
->               0x95, 0x01,                /*     Report Count (1) */
->         -    0x75, 0x05,                /*     Report Size (5) */
->         +    0x75, 0x03,                /*     Report Size (3) */
->               0x81, 0x01,                /*     Input (Constant) */
->               0x05, 0x01,                /*     Usage Page (Generic Desktop) */
->               0x09, 0x30,                /*     Usage (X) */
->         -- 
->         2.34.0
-> 
+We have such scripts that interface with QMP directly for our own use.
+
+Here I just wanted to propose a simple way to just send a
+bunch of commands from a source file and stop if something unexpected 
+happens.
+Only goal is to be able to share a file on the ml and allow people to 
+reproduce easily.
+We can already redirect the input, but it is almost impossible to see
+if something failed.
+
+--
+Damien
 
 
