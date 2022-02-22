@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7E64C004F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:44:38 +0100 (CET)
-Received: from localhost ([::1]:60488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D292F4C004E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:44:23 +0100 (CET)
+Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMZDJ-0004Y9-FZ
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:44:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36300)
+	id 1nMZD4-0003lv-Um
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:44:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMZ7V-0003VE-Ko
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMZ7V-0003Vl-Pa
  for qemu-devel@nongnu.org; Tue, 22 Feb 2022 12:38:37 -0500
-Received: from [2a00:1450:4864:20::633] (port=44603
- helo=mail-ej1-x633.google.com)
+Received: from [2a00:1450:4864:20::536] (port=35744
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMZ7T-0002m4-4r
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMZ7T-0002mO-Rt
  for qemu-devel@nongnu.org; Tue, 22 Feb 2022 12:38:37 -0500
-Received: by mail-ej1-x633.google.com with SMTP id p14so45076816ejf.11
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 09:38:34 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id bq11so17423130edb.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 09:38:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NSkH+rZ7LIEEh7cIevAxKcBEWeFcCPnBblGfAJiA4f4=;
- b=Ggob4pzkG1UvrEaNDh+ue5L9H5SeNzadxF0CPT1mJHasMrdi6S+2wEjmLHrDJ3diMF
- DucIJ9R73KPfN/pOJ8QOyh4uK2q44NhRIs34dlZRESGzGrI5SqODd25XIQKqo0lm6NVN
- MTotg9xBMSJVPYZOi9zwGlcVBQHaIA3aulEu2ndzMcAvAxi8bJj9eAS8buEg07BMh9fi
- oMZ+BWZEWNwsYsSpWapLbaHCMQ/2kAXj8fc9FNVkBN8ys2PXK1rdp0pSBddksB97ecTH
- 4Q00yybOdLffUZ0Mx7u+eKLzf2OPruhPTxlvAehxxvdWUBPIzt7mXxFEHRJvxRmCUrvh
- AGkQ==
+ bh=v+v6TfEZmb9wwuiX3YkPxG5IdVxlkTReFcgd8M252ME=;
+ b=gL0hMcdBN8hz7YtN9uApjaH9NflMXfBsOVJngeYQicRnNyhpVq+pusx1vp379aZEYc
+ fWKT4rhThPnp1Hq5BRlAr4iacUhrtrZAtqEOJAm+SusJXE0bCPPMmQUqdZCN6Nha6t+F
+ NSMB12opEQHAg24QGswiDpaneIkiXMDkP9nQl3tTZUZxBcfRPxJDD/WofnjGc4OUoEYM
+ cQRgKfxcFgl1Cg4cpQHazT9Rf5mHtLAeYviFQZSny4VE/up4XRPO0yncMR5lELBx7Ysy
+ E2epMKmiLgxbNjbZgvQQfnJKd5snVVlhKX/qqyDoHCiiO9m3MITCiNU8NHBojkVindf5
+ lP4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NSkH+rZ7LIEEh7cIevAxKcBEWeFcCPnBblGfAJiA4f4=;
- b=BpqoSQjwYT6YYr5NmqRpSs0tn3tIffXa/E/wUdal8K8r7toHFEDE7T+8PGxWPSJVY1
- bMTl+PCr9STcjXjZs+R0wJUsh04KBVoqKJweHucrhTpPxMioG696kD+33agrVHOe1Ml4
- DJmRgOdV1XwSEuiPO5jcLoY+DgEG7Bih4UogCQWiDa5JvxgvG0uMSTbKK5/A8HCLEDNj
- p5zVbc7Z26lIp5nM67LreVtpTheGw1te6AyIDVMUyqA5ZjOPvLdDlGh2LsJPDddr3vXU
- MRSqCKiJ6ZMtrOpXWhSVEkZoKOWsOXMt6cm+ktYL0uw6cy4Ukcpo8L/zEfmqePQCHRq7
- xk2g==
-X-Gm-Message-State: AOAM532mOb0/C1t2mVtVU4mCr7okhUgj7hsmviqWKgYJ4kNQGyjkzl6P
- 4FWHo/XuiY6AvUojYnz4OyKxd5Y1EV4=
-X-Google-Smtp-Source: ABdhPJzskGPCQNMPoIFqGE93CBMncUXZ/EtHUwaV8Kvs/nfr+CCS9eftbpgJhcD38aJx1mFEjtU3XQ==
-X-Received: by 2002:a17:906:6b8e:b0:6cf:8e6e:609a with SMTP id
- l14-20020a1709066b8e00b006cf8e6e609amr20193328ejr.243.1645551513751; 
- Tue, 22 Feb 2022 09:38:33 -0800 (PST)
+ bh=v+v6TfEZmb9wwuiX3YkPxG5IdVxlkTReFcgd8M252ME=;
+ b=nUWmQxtwZewIK9A5FE4o1Sq1gbWOV/uxvaEqcUEmSMckSvSF0zQxv6ae4K2GCHZhti
+ hEWKfPj4pmF39G5qMZ0GXNEpMOgQurKVBn8yMbMM202eMQg+SN4mCk6bL9Z8+ycgtdBR
+ afBBv0pdQQeiMoWB9Q8MyLHzzRSGqQvQLAv0JEHlMhEK6LBPYH1sP2FWa9wN506KHT6O
+ k9Lze4ffRoWidHFIQiJQPnitFGRKFZcscOs3trFOCFoj9dxmo+gNoOBEht8toUNBeQM1
+ 4m3/lNy3iPLrEgH4xPFQqahWUKaW2uxIMNgqqmk3jQ/WzW6ItK5Xf3iOT4JZJmpn4ux9
+ EKMQ==
+X-Gm-Message-State: AOAM531bT8XFeyucp6gl17JI31utYOlzkes0QeCda6lQRD04ytEP1URt
+ fiLXZoIPDHL+BZ5tLjuJ2Vzplt1wyv4=
+X-Google-Smtp-Source: ABdhPJwIfUhN9czetpkqoSZb2bYbVkfSGf/mMOMkODcmaHW/WRm6Bf7RM0cpNkIN10XaGS9lEgtUQg==
+X-Received: by 2002:aa7:d3d9:0:b0:410:7a81:c0cf with SMTP id
+ o25-20020aa7d3d9000000b004107a81c0cfmr27598085edr.177.1645551514535; 
+ Tue, 22 Feb 2022 09:38:34 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-089-012-227-088.89.12.pool.telefonica.de. [89.12.227.88])
  by smtp.gmail.com with ESMTPSA id et2sm6449382ejc.101.2022.02.22.09.38.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 09:38:33 -0800 (PST)
+ Tue, 22 Feb 2022 09:38:34 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/22] isa: Drop unused attributes from ISADevice
-Date: Tue, 22 Feb 2022 18:38:03 +0100
-Message-Id: <20220222173819.76568-7-shentey@gmail.com>
+Subject: [PATCH 07/22] hw/audio/cs4231a: Disuse isa_init_irq()
+Date: Tue, 22 Feb 2022 18:38:04 +0100
+Message-Id: <20220222173819.76568-8-shentey@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222173819.76568-1-shentey@gmail.com>
 References: <20220222173819.76568-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,70 +86,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bernhard Beschow <shentey@gmail.com>
+Cc: Bernhard Beschow <shentey@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the last users of ISADevice::isairq[] have been resolved during the
-previous commits, it can be removed for good.
+isa_init_irq() has become a trivial one-line wrapper for isa_get_irq().
+Use the original instead such that isa_init_irq() can be removed
+eventually.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/isa-bus.c     | 13 -------------
- include/hw/isa/isa.h |  2 --
- 2 files changed, 15 deletions(-)
+ hw/audio/cs4231a.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index af5add6a26..c64a14120b 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -87,11 +87,7 @@ qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
+diff --git a/hw/audio/cs4231a.c b/hw/audio/cs4231a.c
+index 7d60ce6f0e..0723e39430 100644
+--- a/hw/audio/cs4231a.c
++++ b/hw/audio/cs4231a.c
+@@ -677,7 +677,7 @@ static void cs4231a_realizefn (DeviceState *dev, Error **errp)
+         return;
+     }
  
- void isa_init_irq(ISADevice *dev, qemu_irq *p, unsigned isairq)
- {
--    assert(dev->nirqs < ARRAY_SIZE(dev->isairq));
--    assert(isairq < ISA_NUM_IRQS);
--    dev->isairq[dev->nirqs] = isairq;
-     *p = isa_get_irq(dev, isairq);
--    dev->nirqs++;
- }
- 
- void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
-@@ -150,14 +146,6 @@ int isa_register_portio_list(ISADevice *dev,
-     return 0;
- }
- 
--static void isa_device_init(Object *obj)
--{
--    ISADevice *dev = ISA_DEVICE(obj);
--
--    dev->isairq[0] = -1;
--    dev->isairq[1] = -1;
--}
--
- ISADevice *isa_new(const char *name)
- {
-     return ISA_DEVICE(qdev_new(name));
-@@ -244,7 +232,6 @@ static const TypeInfo isa_device_type_info = {
-     .name = TYPE_ISA_DEVICE,
-     .parent = TYPE_DEVICE,
-     .instance_size = sizeof(ISADevice),
--    .instance_init = isa_device_init,
-     .abstract = true,
-     .class_size = sizeof(ISADeviceClass),
-     .class_init = isa_device_class_init,
-diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index d4417b34b6..d80cab5b79 100644
---- a/include/hw/isa/isa.h
-+++ b/include/hw/isa/isa.h
-@@ -83,8 +83,6 @@ struct ISADevice {
-     DeviceState parent_obj;
-     /*< public >*/
- 
--    int8_t isairq[2];      /* -1 = unassigned */
--    int nirqs;
-     int ioport_id;
- };
+-    isa_init_irq(d, &s->pic, s->irq);
++    s->pic = isa_get_irq(d, s->irq);
+     k = ISADMA_GET_CLASS(s->isa_dma);
+     k->register_channel(s->isa_dma, s->dma, cs_dma_read, s);
  
 -- 
 2.35.1
