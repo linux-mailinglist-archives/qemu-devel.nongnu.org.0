@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDFDE4BFF0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:42:36 +0100 (CET)
-Received: from localhost ([::1]:58196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19F34BFF19
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:43:39 +0100 (CET)
+Received: from localhost ([::1]:59774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMYFI-00014Y-0Q
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:42:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41044)
+	id 1nMYGJ-00027T-0a
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:43:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMXqR-0008EF-Dn; Tue, 22 Feb 2022 11:16:55 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:39911)
+ id 1nMXqA-00083f-V0; Tue, 22 Feb 2022 11:16:38 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:52993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nMXqG-0005e2-6U; Tue, 22 Feb 2022 11:16:54 -0500
+ id 1nMXq8-0005Yv-Tk; Tue, 22 Feb 2022 11:16:38 -0500
 Received: from quad ([82.142.17.50]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MStT6-1nogXg2TbK-00UKZg; Tue, 22
- Feb 2022 17:16:30 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mz9EL-1o9RYi393D-00wHY9; Tue, 22
+ Feb 2022 17:16:32 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/7] vdpa: Make ncs autofree
-Date: Tue, 22 Feb 2022 17:16:23 +0100
-Message-Id: <20220222161624.382218-7-laurent@vivier.eu>
+Subject: [PULL 7/7] hid: Implement support for side and extra buttons
+Date: Tue, 22 Feb 2022 17:16:24 +0100
+Message-Id: <20220222161624.382218-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222161624.382218-1-laurent@vivier.eu>
 References: <20220222161624.382218-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:rmVM5WGWPKasarRE3cpUe12de7fpmIbq4i52tAPE+lQ15mx1sYF
- UWDj/tDHZ3fhK28aDqJGrTRZkirUd2FB/CR0yNT01m5H/iVlndvH+777gOVUga5cpERCQTb
- uAMdwmAt6Fn43wN6B2QxyRcPicY09HxcPjIK+i97wnGdZpMeqbzRSK48gmV+JF3UPwZ9xFj
- EPD9D3QKJ+00cnEu3q8xg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:izCHUsKb+jU=:I7vHYsEujlmpe5AxNd5JCS
- 7Mlw7tvd8n62z4pRvS4tclfSzQUxDHmU0XzuvYblLS5bUSs6zv6SVBoTz04+J1WWaxZHX9H0f
- T/QGyaCU6lAXlXcyxzTVMpB38KfoWdzbBaFwubfRHicFuH4zb3XqQ5zhfuCkrglwvBotq8/nd
- FYtFlmnmYIup0JyjiN/rr9Hc44bQ6MteB7+SNryyD890JEL3MBNKBs9pWuf9B+4lFChS4yD/D
- +oEkAUf2A38IWcRYvILTUHWJ+hH2+PW7AgQ4I0WFq8SxyTCGe5UFFW600lIMlrhQs2hn1DxXy
- hTpcd+Y8/cSME0BnSzPHX5Uczk8T889I9IC8OmcT7SBy8WlCe5lu3jEThZDs0iEcFOtT19Lzz
- el+JsoPCXyuHI+ph5xwN/mHRWbdO8YxNzYzALqHUd/29pby88jboERCKu4j3N+4VZ9rDpNnC1
- X/yKbQZysjye0It0+xSqLY4a9QJbdGX93JJXnplJVhlfeSbvvODuo29ax03UYQrOXayG1WggA
- Ehglax6x2JdoOxBRUwnTTEQntTzeEVn4lMwVDyQ0xYGHQI0nPnHRVIAv9ZTtz+48OEcmM7JKZ
- DsEbvD0ndOJGc2Bw1eX6La3h31HhcYATe31xUi1maM1p3Am31/7RJFmBTWErM56sMAzcjHK5I
- 95ZUYmdyGwwiKTt2MQLM0JFhIxOIqWQqlMoK/SMV9RTdDP0SXv2NcBT0GU8uLQymSs4M=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:OzCb64N2cYd1R9aWeQovsMhFwuGsr/13GRgXaFfJYXJoFhxThrH
+ JBHEklgBYyJkEffxRB9zW764V8htsJiuuKeshRViz8bwmf7fuGVjnKkQllO5Qw6r7PN5G02
+ 0MI9R49vKzaBDBChcT2cA4eIICvpib7XhMnrxBVo8gS4FXvqoMit+y5JYOvsnid/xb6Chp5
+ e9AyO6yLFgYowlwrmTNLg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Xe0ZHh8ssmU=:XVy3KHCi1zIk0bvocYY72n
+ dbtF8IPX0Zfj9Z20bXzeqgOBeFOpzOLw37JRZcHWzzd+ml81yjeQLPVQ2myPTaFyWyBicvD78
+ e4O2VUMA2dGHI6GCx15CDPl3fP84bGSCphEdoqQqQ3bqn1ybJev98hN2Q/li5WD8thUTE8Bf7
+ 0NhCdKbZldPMp71Pgm3XY3zUI4M7mo2E1VaR+rkICYUojlzcPYo39XadlWodoiS++J3kfb8lu
+ hqG2w4rfBt0ACmIvSMSXj+Gc08yNrowmZTZz6TsFm+V4JqOApEE81Y/BLGv2poP+dj2kDfbrA
+ cXjfqz8+NRf2cZl36fnmc0ismBoAK6Fu9yN7aMq9YeJVHhhoSVPItwJj7mzxE2u+jJWnCosxV
+ zR3dY8m22LoNWEWRP4rGbu3hzTsU7vmOPRVpcZIhUXeoKAromKIrnBAqggYBjUd6xXbSX9+fR
+ QcUFR8Fg0z62UOlO1qa9rcKt9RPfX87k7JvoUHqcE5IT5PIFKjT9eKZcoHuOFo733tD5ytsa5
+ VD+3hnFlJnJWV2JEUAefyxdcJsGPblaSQ1bQsEVwsMQWFbTwbZK1kXjUCi59gyEYFbrhE42mi
+ oxeX6KcFeMTPgFZLcIh+NzjHUjEuZLPuOz4VP1WD1elJvAhdbpqhgNa5VNCP7+NUeFFL0lmfc
+ CMmuk0YBcOO2gYZqAK89Se1jeEcbEluBFn0/8IB7yuQ/+FOC4I20V/ZfGZZU3OQ+SB18=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,58 +65,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Gerd Hoffmann <kraxel@redhat.com>, Noah Bergbauer <noah@statshelix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eugenio Pérez <eperezma@redhat.com>
+From: Noah Bergbauer <noah@statshelix.com>
 
-Simplifying memory management.
+Simply set the respective bits and update the descriptor accordingly.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220214193415.1606752-2-eperezma@redhat.com>
+Signed-off-by: Noah Bergbauer <noah@statshelix.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20211126140437.79745-1-noah@statshelix.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- net/vhost-vdpa.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/input/hid.c   | 2 ++
+ hw/usb/dev-hid.c | 6 +++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 25dd6dd97547..1e9fe47c033d 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -263,7 +263,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
- {
-     const NetdevVhostVDPAOptions *opts;
-     int vdpa_device_fd;
--    NetClientState **ncs, *nc;
-+    g_autofree NetClientState **ncs = NULL;
-+    NetClientState *nc;
-     int queue_pairs, i, has_cvq = 0;
- 
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-@@ -301,7 +302,6 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-             goto err;
-     }
- 
--    g_free(ncs);
-     return 0;
- 
- err:
-@@ -309,7 +309,6 @@ err:
-         qemu_del_net_client(ncs[0]);
-     }
-     qemu_close(vdpa_device_fd);
--    g_free(ncs);
- 
-     return -1;
- }
+diff --git a/hw/input/hid.c b/hw/input/hid.c
+index 8aab0521f405..e7ecebdf8f88 100644
+--- a/hw/input/hid.c
++++ b/hw/input/hid.c
+@@ -114,6 +114,8 @@ static void hid_pointer_event(DeviceState *dev, QemuConsole *src,
+         [INPUT_BUTTON_LEFT]   = 0x01,
+         [INPUT_BUTTON_RIGHT]  = 0x02,
+         [INPUT_BUTTON_MIDDLE] = 0x04,
++        [INPUT_BUTTON_SIDE] = 0x08,
++        [INPUT_BUTTON_EXTRA] = 0x10,
+     };
+     HIDState *hs = (HIDState *)dev;
+     HIDPointerEvent *e;
+diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c
+index 1c7ae97c3033..bdd6d1ffafe4 100644
+--- a/hw/usb/dev-hid.c
++++ b/hw/usb/dev-hid.c
+@@ -461,14 +461,14 @@ static const uint8_t qemu_mouse_hid_report_descriptor[] = {
+     0xa1, 0x00,		/*   Collection (Physical) */
+     0x05, 0x09,		/*     Usage Page (Button) */
+     0x19, 0x01,		/*     Usage Minimum (1) */
+-    0x29, 0x03,		/*     Usage Maximum (3) */
++    0x29, 0x05,		/*     Usage Maximum (5) */
+     0x15, 0x00,		/*     Logical Minimum (0) */
+     0x25, 0x01,		/*     Logical Maximum (1) */
+-    0x95, 0x03,		/*     Report Count (3) */
++    0x95, 0x05,		/*     Report Count (5) */
+     0x75, 0x01,		/*     Report Size (1) */
+     0x81, 0x02,		/*     Input (Data, Variable, Absolute) */
+     0x95, 0x01,		/*     Report Count (1) */
+-    0x75, 0x05,		/*     Report Size (5) */
++    0x75, 0x03,		/*     Report Size (3) */
+     0x81, 0x01,		/*     Input (Constant) */
+     0x05, 0x01,		/*     Usage Page (Generic Desktop) */
+     0x09, 0x30,		/*     Usage (X) */
 -- 
 2.35.1
 
