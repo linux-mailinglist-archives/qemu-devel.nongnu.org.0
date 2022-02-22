@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2498A4BEFAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 03:52:55 +0100 (CET)
-Received: from localhost ([::1]:46782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0674BEFF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 04:18:06 +0100 (CET)
+Received: from localhost ([::1]:53480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMLIL-0001pH-VJ
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 21:52:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58650)
+	id 1nMLgj-0007eD-4j
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 22:18:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMLGl-000157-KS
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 21:51:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41231)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nMLfU-0006wI-PS
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 22:16:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMLGh-0004Ta-Nc
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 21:51:13 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nMLfR-00006e-Bp
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 22:16:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645498270;
+ s=mimecast20190719; t=1645499798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0ZiD9ZVkag8On0/5Sk358Cgkystgw34N3Es+Wf8LPEc=;
- b=dn2kHvpci0TApoP1T7S2oIbQDGZL8biH0NoMU8bnGp+HT6bW8haqrBlcrqoc8wdP4fDW23
- l8nd7n88YLDjda3J1XlgXsARwIR8wbCaHSiPMiJKcnZStSWGha44jneCmzzxNWIePxWtx7
- aNcrnm2slS1m+dvCnnuT4aW2SMFRtkQ=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gHY8uuapAXsf5KULdO4mEh+Xne/2fBaTYxBgL4rXrS8=;
+ b=NzCWF168EQDkJYuu0TSDcatQPI6yJmp+gqq0kmw8NyX0r8QhnHdtmqx2XRb8s+DPwiHxe9
+ hN7b38+1Eyt7zK0MlkHfPe/JrOL5y3aqlDzKoWqY3qMsYW+e2oXxxeWoPxyPwFS3PHCjPK
+ /JPMIZ3ehSInX1TXJWZP8aBnWPD0HKQ=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-363-h8EZrh6xONWwvZoDBbRbcA-1; Mon, 21 Feb 2022 21:51:06 -0500
-X-MC-Unique: h8EZrh6xONWwvZoDBbRbcA-1
-Received: by mail-pf1-f198.google.com with SMTP id
- y127-20020a626485000000b004f1027d72a7so4025925pfb.6
- for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 18:51:06 -0800 (PST)
+ us-mta-477-OeoXBTxuPPOc2RRmOCVsmQ-1; Mon, 21 Feb 2022 22:16:37 -0500
+X-MC-Unique: OeoXBTxuPPOc2RRmOCVsmQ-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ h21-20020a05651c125500b002464536cf4eso1624591ljh.23
+ for <qemu-devel@nongnu.org>; Mon, 21 Feb 2022 19:16:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0ZiD9ZVkag8On0/5Sk358Cgkystgw34N3Es+Wf8LPEc=;
- b=Hiv2x7VYZg6S4Jh/QpQLkOstRZ3Zb9+79zXhJ4gkcr8Lx3o92s/bwVRCymCTFQv3Om
- S6J5Y57TVytvdpSO8jhtGcenHVM3r4H5Q33d8CaUNhrCukn+R0J+r3gJFZeu2k97CqAe
- cK4QYDVd+QTM8fNyf00yjKeXJqu+bH+lo6XGL3iYiLzQaRxjwYzt7DiaJw+QSoflrLpE
- EfplLns8o3OA/G5CdG5iMsdk/Q1mf24lYa7cebdbTV/K4rh2YAisrtbC4MMbKth7fT9h
- 8clv4UvZdoPQDTOf1x7PeFEfCHbdTMdPEyDCE1DhR2Ec84grmWPjW66YQgz+wkIVCJYz
- oWHg==
-X-Gm-Message-State: AOAM530/OXTi66HaVmz26ehazWzZtyKY6OBTJqKy0JqSbL7aCgtDgqJD
- qe6Z5i3lY9Eow7b+whaFdNKrMcHdtfSopItlY1wChVIo4vRW3MyQoUE19A/9No5gmr+LKagcWlp
- uuxbPXo9y3oKHRno=
-X-Received: by 2002:a63:7781:0:b0:372:ba7b:c894 with SMTP id
- s123-20020a637781000000b00372ba7bc894mr18227466pgc.458.1645498265805; 
- Mon, 21 Feb 2022 18:51:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxUP+ZL8bEX0hAoxFDYZ4wSm8TYpQ4+wBM0Ecc2v6eGPxa7TcL2TwsLjuFSLpKw28nqgpw1ew==
-X-Received: by 2002:a63:7781:0:b0:372:ba7b:c894 with SMTP id
- s123-20020a637781000000b00372ba7bc894mr18227453pgc.458.1645498265557; 
- Mon, 21 Feb 2022 18:51:05 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.96]) by smtp.gmail.com with ESMTPSA id
- r4-20020a17090a438400b001bc6d52de70sm541453pjg.24.2022.02.21.18.51.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Feb 2022 18:51:05 -0800 (PST)
-Date: Tue, 22 Feb 2022 10:51:00 +0800
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 15/20] migration: Allow migrate-recover to run multiple
- times
-Message-ID: <YhRPlGKebn/JaZAk@xz-m1.local>
-References: <20220216062809.57179-1-peterx@redhat.com>
- <20220216062809.57179-16-peterx@redhat.com>
- <YhPF3PS260va9sC9@work-vm>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gHY8uuapAXsf5KULdO4mEh+Xne/2fBaTYxBgL4rXrS8=;
+ b=llCB8siKDXhd/fgsAgf2Gj+oOcuyohrLQSVC24Z0GACwp8DmDsuZEt5bS6zGzgqEFf
+ ihtFQ3VGp+vpMbjzVV0IYO/umE6byqNjCbpjiBsncM10S+ePV9zNuR9nSHdeM5h2muQK
+ COZiyXPItwjBImkP247s4OSZF2klAEVhHRAoLAlFTmzCLhhFYNDbdyHaI2oZBCNfuUx/
+ vQ5teVs49nKOJ/8IWYDLh8MeObEG6674VibGLhmDfc6OBtkpY1lF5GcXyBHIaAhBMgCO
+ Bnj6MEtt8e+EeDswDK9RjRceMydOJqve2cnTAWq5bwv2pdozsU7qmPhp/z91djXsuUzc
+ 4b6Q==
+X-Gm-Message-State: AOAM531G2wGhMPO2DXDV5ZfSByuo306o81YcYrOWlP6oyP69pfHjkDkp
+ 3dNuYYt+SSjv4ojhePw3P6Mzeupo5Yq4D5AmpnJzLQDbAYetrytsfgG6p7gwilAWk2VLhqBY3ln
+ d0zBlgzVhBoTrvtNBUkOePbUIjcXaiLo=
+X-Received: by 2002:ac2:4194:0:b0:442:ed9e:4a25 with SMTP id
+ z20-20020ac24194000000b00442ed9e4a25mr15714990lfh.629.1645499795430; 
+ Mon, 21 Feb 2022 19:16:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzFQXM4KXylMKw7WbdxhpVZyCLXX/jI0XWCwc7r24OEqocGHtKuqW/T+EEktOtw/EgdVyRb88GzMPXSR/TEEqw=
+X-Received: by 2002:ac2:4194:0:b0:442:ed9e:4a25 with SMTP id
+ z20-20020ac24194000000b00442ed9e4a25mr15714952lfh.629.1645499795020; Mon, 21
+ Feb 2022 19:16:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YhPF3PS260va9sC9@work-vm>
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-18-eperezma@redhat.com>
+ <82b8c3bf-1b11-86c7-4fad-294f5ccf1278@redhat.com>
+ <CAJaqyWdRKZp6CwnE+HAr0JALhSRh-trJbZ01kddnLTuRX_tMKQ@mail.gmail.com>
+ <3d0dfaaa-a67c-6f48-fd03-45d2661ba92a@redhat.com>
+ <CAJaqyWfEEg2PKgxBAFwYhF9LD1oDtwVYXSjHHnCbstT3dvL2GA@mail.gmail.com>
+ <02f29b62-6656-ba2f-1475-251b16e0e978@redhat.com>
+ <CAJaqyWcoHgToqsR-bVRctTnhgufmarR_2hh4O_VoCbCGp8WNhg@mail.gmail.com>
+In-Reply-To: <CAJaqyWcoHgToqsR-bVRctTnhgufmarR_2hh4O_VoCbCGp8WNhg@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 22 Feb 2022 11:16:23 +0800
+Message-ID: <CACGkMEs+c8_TkrQ4rgtR9u5xYzhJfrzQ9Wuohs+Q_GXFLmOC7w@mail.gmail.com>
+Subject: Re: [PATCH 17/31] vdpa: adapt vhost_ops callbacks to svq
+To: Eugenio Perez Martin <eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,41 +100,342 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 21, 2022 at 05:03:24PM +0000, Dr. David Alan Gilbert wrote:
-> * Peter Xu (peterx@redhat.com) wrote:
-> > Previously migration didn't have an easy way to cleanup the listening
-> > transport, migrate recovery only allows to execute once.  That's done with a
-> > trick flag in postcopy_recover_triggered.
-> > 
-> > Now the facility is already there.
-> > 
-> > Drop postcopy_recover_triggered and instead allows a new migrate-recover to
-> > release the previous listener transport.
-> > 
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> 
-> OK, was that the only reason you couldn't recover twice?
+On Tue, Feb 22, 2022 at 1:23 AM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Mon, Feb 21, 2022 at 8:15 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > =E5=9C=A8 2022/2/18 =E4=B8=8A=E5=8D=881:13, Eugenio Perez Martin =E5=86=
+=99=E9=81=93:
+> > > On Tue, Feb 8, 2022 at 4:58 AM Jason Wang <jasowang@redhat.com> wrote=
+:
+> > >>
+> > >> =E5=9C=A8 2022/2/1 =E4=B8=8A=E5=8D=882:58, Eugenio Perez Martin =E5=
+=86=99=E9=81=93:
+> > >>> On Sun, Jan 30, 2022 at 5:03 AM Jason Wang <jasowang@redhat.com> wr=
+ote:
+> > >>>> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=
+=86=99=E9=81=93:
+> > >>>>> First half of the buffers forwarding part, preparing vhost-vdpa
+> > >>>>> callbacks to SVQ to offer it. QEMU cannot enable it at this momen=
+t, so
+> > >>>>> this is effectively dead code at the moment, but it helps to redu=
+ce
+> > >>>>> patch size.
+> > >>>>>
+> > >>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >>>>> ---
+> > >>>>>     hw/virtio/vhost-shadow-virtqueue.h |   2 +-
+> > >>>>>     hw/virtio/vhost-shadow-virtqueue.c |  21 ++++-
+> > >>>>>     hw/virtio/vhost-vdpa.c             | 133 ++++++++++++++++++++=
+++++++---
+> > >>>>>     3 files changed, 143 insertions(+), 13 deletions(-)
+> > >>>>>
+> > >>>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost=
+-shadow-virtqueue.h
+> > >>>>> index 035207a469..39aef5ffdf 100644
+> > >>>>> --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > >>>>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > >>>>> @@ -35,7 +35,7 @@ size_t vhost_svq_device_area_size(const VhostSh=
+adowVirtqueue *svq);
+> > >>>>>
+> > >>>>>     void vhost_svq_stop(VhostShadowVirtqueue *svq);
+> > >>>>>
+> > >>>>> -VhostShadowVirtqueue *vhost_svq_new(void);
+> > >>>>> +VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize);
+> > >>>>>
+> > >>>>>     void vhost_svq_free(VhostShadowVirtqueue *vq);
+> > >>>>>
+> > >>>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost=
+-shadow-virtqueue.c
+> > >>>>> index f129ec8395..7c168075d7 100644
+> > >>>>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > >>>>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > >>>>> @@ -277,9 +277,17 @@ void vhost_svq_stop(VhostShadowVirtqueue *sv=
+q)
+> > >>>>>     /**
+> > >>>>>      * Creates vhost shadow virtqueue, and instruct vhost device =
+to use the shadow
+> > >>>>>      * methods and file descriptors.
+> > >>>>> + *
+> > >>>>> + * @qsize Shadow VirtQueue size
+> > >>>>> + *
+> > >>>>> + * Returns the new virtqueue or NULL.
+> > >>>>> + *
+> > >>>>> + * In case of error, reason is reported through error_report.
+> > >>>>>      */
+> > >>>>> -VhostShadowVirtqueue *vhost_svq_new(void)
+> > >>>>> +VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize)
+> > >>>>>     {
+> > >>>>> +    size_t desc_size =3D sizeof(vring_desc_t) * qsize;
+> > >>>>> +    size_t device_size, driver_size;
+> > >>>>>         g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShad=
+owVirtqueue, 1);
+> > >>>>>         int r;
+> > >>>>>
+> > >>>>> @@ -300,6 +308,15 @@ VhostShadowVirtqueue *vhost_svq_new(void)
+> > >>>>>         /* Placeholder descriptor, it should be deleted at set_ki=
+ck_fd */
+> > >>>>>         event_notifier_init_fd(&svq->svq_kick, INVALID_SVQ_KICK_F=
+D);
+> > >>>>>
+> > >>>>> +    svq->vring.num =3D qsize;
+> > >>>> I wonder if this is the best. E.g some hardware can support up to =
+32K
+> > >>>> queue size. So this will probably end up with:
+> > >>>>
+> > >>>> 1) SVQ use 32K queue size
+> > >>>> 2) hardware queue uses 256
+> > >>>>
+> > >>> In that case SVQ vring queue size will be 32K and guest's vring can
+> > >>> negotiate any number with SVQ equal or less than 32K,
+> > >>
+> > >> Sorry for being unclear what I meant is actually
+> > >>
+> > >> 1) SVQ uses 32K queue size
+> > >>
+> > >> 2) guest vq uses 256
+> > >>
+> > >> This looks like a burden that needs extra logic and may damage the
+> > >> performance.
+> > >>
+> > > Still not getting this point.
+> > >
+> > > An available guest buffer, although contiguous in GPA/GVA, can expand
+> > > in multiple buffers if it's not contiguous in qemu's VA (by the while
+> > > loop in virtqueue_map_desc [1]). In that scenario it is better to hav=
+e
+> > > "plenty" of SVQ buffers.
+> >
+> >
+> > Yes, but this case should be rare. So in this case we should deal with
+> > overrun on SVQ, that is
+> >
+> > 1) SVQ is full
+> > 2) guest VQ isn't
+> >
+> > We need to
+> >
+> > 1) check the available buffer slots
+> > 2) disable guest kick and wait for the used buffers
+> >
+> > But it looks to me the current code is not ready for dealing with this =
+case?
+> >
+>
+> Yes it deals, that's the meaning of svq->next_guest_avail_elem.
 
-We could recover twice, but we couldn't specify the listening port twice
-because AFAIU previously we don't have a good way to clean the existing
-listener.
+Oh right, I missed that.
 
-IOW we could always run pause->recover->pause->recover sequence even before
-this patch[set], but we can never run continuous recover->recover because
-the 2nd one will fail telling that we've already setup a recovery port.
+>
+> >
+> > >
+> > > I'm ok if we decide to put an upper limit though, or if we decide not
+> > > to handle this situation. But we would leave out valid virtio drivers=
+.
+> > > Maybe to set a fixed upper limit (1024?)? To add another parameter
+> > > (x-svq-size-n=3DN)?
+> > >
+> > > If you mean we lose performance because memory gets more sparse I
+> > > think the only possibility is to limit that way.
+> >
+> >
+> > If guest is not using 32K, having a 32K for svq may gives extra stress
+> > on the cache since we will end up with a pretty large working set.
+> >
+>
+> That might be true. My guess is that it should not matter, since SVQ
+> and the guest's vring will have the same numbers of scattered buffers
+> and the avail / used / packed ring will be consumed more or less
+> sequentially. But I haven't tested.
+>
+> I think it's better to add an upper limit (either fixed or in the
+> qemu's backend's cmdline) later if we see that this is a problem.
 
-> 
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+I'd suggest using the same size as what the guest saw.
 
-Thanks!
+> Another solution now would be to get the number from the frontend
+> device cmdline instead of from the vdpa device. I'm ok with that, but
+> it doesn't delete the svq->next_guest_avail_elem processing, and it
+> comes with disadvantages in my opinion. More below.
 
--- 
-Peter Xu
+Right, we should keep next_guest_avail_elem. Using the same queue size
+is a balance between:
+
+1) using next_guest_avail_elem (rare)
+2) not give too much stress on the cache
+
+>
+> >
+> > >
+> > >> And this can lead other interesting situation:
+> > >>
+> > >> 1) SVQ uses 256
+> > >>
+> > >> 2) guest vq uses 1024
+> > >>
+> > >> Where a lot of more SVQ logic is needed.
+> > >>
+> > > If we agree that a guest descriptor can expand in multiple SVQ
+> > > descriptors, this should be already handled by the previous logic too=
+.
+> > >
+> > > But this should only happen in case that qemu is launched with a "bad=
+"
+> > > cmdline, isn't it?
+> >
+> >
+> > This seems can happen when we use -device
+> > virtio-net-pci,tx_queue_size=3D1024 with a 256 size vp_vdpa device at l=
+east?
+> >
+>
+> I'm going to use the rx queue here since it's more accurate, tx has
+> its own limit separately.
+>
+> If we use rx_queue_size=3D256 in L0 and rx_queue_size=3D1024 in L1 with n=
+o
+> SVQ, L0 qemu will happily accept 1024 as size
+
+Interesting, looks like a bug (I guess it works since you enable vhost?):
+
+Per virtio-spec:
+
+"""
+Queue Size. On reset, specifies the maximum queue size supported by
+the device. This can be modified by the driver to reduce memory
+requirements. A 0 means the queue is unavailable.
+"""
+
+We can't increase the queue_size from 256 to 1024 actually. (Only
+decrease is allowed).
+
+> when L1 qemu writes that
+> value at vhost_virtqueue_start. I'm not sure what would happen with a
+> real device, my guess is that the device will fail somehow. That's
+> what I meant with a "bad cmdline", I should have been more specific.
+
+I should say that it's something that is probably unrelated to this
+series but needs to be addressed.
+
+>
+> If we add SVQ to the mix, the guest first negotiates the 1024 with the
+> qemu device model. After that, vhost.c will try to write 1024 too but
+> this is totally ignored by this patch's changes at
+> vhost_vdpa_set_vring_num. Finally, SVQ will set 256 as a ring size to
+> the device, since it's the read value from the device, leading to your
+> scenario. So SVQ effectively isolates both sides and makes possible
+> the communication, even with a device that does not support so many
+> descriptors.
+>
+> But SVQ already handles this case: It's the same as if the buffers are
+> fragmented in HVA and queue size is equal at both sides. That's why I
+> think SVQ size should depend on the backend device's size, not
+> frontend cmdline.
+
+Right.
+
+Thanks
+
+>
+> Thanks!
+>
+> >
+> > >
+> > > If I run that example with vp_vdpa, L0 qemu will happily accept 1024
+> > > as a queue size [2]. But if the vdpa device maximum queue size is
+> > > effectively 256, this will result in an error: We're not exposing it
+> > > to the guest at any moment but with qemu's cmdline.
+> > >
+> > >>> including 256.
+> > >>> Is that what you mean?
+> > >>
+> > >> I mean, it looks to me the logic will be much more simplified if we =
+just
+> > >> allocate the shadow virtqueue with the size what guest can see (gues=
+t
+> > >> vring).
+> > >>
+> > >> Then we don't need to think if the difference of the queue size can =
+have
+> > >> any side effects.
+> > >>
+> > > I think that we cannot avoid that extra logic unless we force GPA to
+> > > be contiguous in IOVA. If we are sure the guest's buffers cannot be a=
+t
+> > > more than one descriptor in SVQ, then yes, we can simplify things. If
+> > > not, I think we are forced to carry all of it.
+> >
+> >
+> > Yes, I agree, the code should be robust to handle any case.
+> >
+> > Thanks
+> >
+> >
+> > >
+> > > But if we prove it I'm not opposed to simplifying things and making
+> > > head at SVQ =3D=3D head at guest.
+> > >
+> > > Thanks!
+> > >
+> > > [1] https://gitlab.com/qemu-project/qemu/-/blob/17e31340/hw/virtio/vi=
+rtio.c#L1297
+> > > [2] But that's not the whole story: I've been running limited in tx
+> > > descriptors because of virtio_net_max_tx_queue_size, which predates
+> > > vdpa. I'll send a patch to also un-limit it.
+> > >
+> > >>> If with hardware queues you mean guest's vring, not sure why it is
+> > >>> "probably 256". I'd say that in that case with the virtio-net kerne=
+l
+> > >>> driver the ring size will be the same as the device export, for
+> > >>> example, isn't it?
+> > >>>
+> > >>> The implementation should support any combination of sizes, but the
+> > >>> ring size exposed to the guest is never bigger than hardware one.
+> > >>>
+> > >>>> ? Or we SVQ can stick to 256 but this will this cause trouble if w=
+e want
+> > >>>> to add event index support?
+> > >>>>
+> > >>> I think we should not have any problem with event idx. If you mean
+> > >>> that the guest could mark more buffers available than SVQ vring's
+> > >>> size, that should not happen because there must be less entries in =
+the
+> > >>> guest than SVQ.
+> > >>>
+> > >>> But if I understood you correctly, a similar situation could happen=
+ if
+> > >>> a guest's contiguous buffer is scattered across many qemu's VA chun=
+ks.
+> > >>> Even if that would happen, the situation should be ok too: SVQ know=
+s
+> > >>> the guest's avail idx and, if SVQ is full, it will continue forward=
+ing
+> > >>> avail buffers when the device uses more buffers.
+> > >>>
+> > >>> Does that make sense to you?
+> > >>
+> > >> Yes.
+> > >>
+> > >> Thanks
+> > >>
+> >
+>
 
 
