@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B884C03D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 22:28:41 +0100 (CET)
-Received: from localhost ([::1]:37628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2064C03EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 22:33:24 +0100 (CET)
+Received: from localhost ([::1]:42694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMci7-0008Ss-VQ
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 16:28:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41416)
+	id 1nMcmg-0003aG-Tl
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 16:33:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMcfq-00063L-72
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 16:26:18 -0500
-Received: from [2a00:1450:4864:20::434] (port=43726
- helo=mail-wr1-x434.google.com)
+ id 1nMckH-0001Zf-Od; Tue, 22 Feb 2022 16:30:56 -0500
+Received: from [2a00:1450:4864:20::332] (port=39559
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMcfo-0007dI-38
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 16:26:17 -0500
-Received: by mail-wr1-x434.google.com with SMTP id s1so9478800wrg.10
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 13:26:15 -0800 (PST)
+ id 1nMckF-0008IG-Sj; Tue, 22 Feb 2022 16:30:53 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ n13-20020a05600c3b8d00b0037bff8a24ebso149196wms.4; 
+ Tue, 22 Feb 2022 13:30:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=z2SRibBdQhixFwba0M71V19LMVqOX8fCQkoDOJttA1Q=;
- b=ecV4SYfhCEOC4Yl5NdHsUrMQNzpop6nR8V3EfNZ5BTNGDCf/qLBiJA+1CEoyx17z+x
- sddKKpSQMtY4Hq4plNYEzUul7bKn759mrQ440PZfSbLUjnjxkXFIq7mH8yzGy6Ty1I9c
- M/K9IFgZVvFm4AGMIbvCWVbhxvFUfov+I6IWtI1z8Ee7vyLe5Apn+4pxRR0GcO4zUytI
- X4MYT/JfBb6eEA+26jxkBfcrO739xF+qfTey0IYMnQbq16PLS6//djG8rehs7O/1zB6D
- 8kCd+E5OU9xX+V5kwjI72ufan74a8vf9GN3TxZSDIEd2XznzJjmbTzDL994ZAYGEasEm
- 0+tA==
+ bh=H/lGyZHCThlIaxbQCZDRjeZ+Uas4srk8vvVhn+BB0mI=;
+ b=O6Gd76w0SFlVEkH+2t/WDQ89SDqyfTO3dcETj5p3LN7L7scyn9+AM9rF0P7/OBElVI
+ IaCqOLDtBdqcTChZ0zHFbaXuLNq31y9Bk812+OjmJZgtdoywZ24ZfDQnpgBs6HD4110V
+ T9aXaxGJxRK7A618Gr0nJq2wWk/lH2KoRRdySAOOm4qPIV0a2n3Ky2xFwgY3uCN5Fqr8
+ IdANbqrvmSIs1bfIieHk3LcDGMoXG4uX61KdHIMMf95aEdFfMX5KdaqQqFCR0vMJhVdL
+ SogH+6moYJOItMq9q1yGUGgJvvLGMMdDRe3++yGcbCC36klJmNtGw9xc+GJGfXup0pXw
+ vCwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=z2SRibBdQhixFwba0M71V19LMVqOX8fCQkoDOJttA1Q=;
- b=62Bg9LC+eW5XiOKgRpkn1w2S7Oukg5q8oCn7qrBTEDaeZChP/X6Kt8q2/cVjBtHWCo
- R5G7AL+w2yQGhi+QxUkOBN1MisjYuXhXVAyXGyplQMnr3439nncqQGOYWQNeTI4bI7Fu
- zS5YbOprbTUUL79xp0vvTt2orbY98oqOmkMF20JvmuUi/wNQKuc8vhnfQ+5AEpqxsqN6
- LGASF4JhLe3MH74plo2waQ82J9xb9HaPnXS9+ta7jm5ZDgE7YDtlyw7DYJ1m+HfhIE8+
- +5CyAB9DPvvvXf9Z4T6IxiKG/1qFi02NG6LYjUyVR9BXaueJ8bTsJ9IuUDPOgiGvq9Mk
- yGsw==
-X-Gm-Message-State: AOAM533eX8tnpwMePt6C0gWOLdnlg7ufYNRqpZ5szRSHOlwsKwQe0UYk
- auaeaaPrKxxQHhVpD4IG9Io=
-X-Google-Smtp-Source: ABdhPJyLM4imgXml+VjaL9XxSKV7gJLmrllhozK9S7czpuje1Jn8YNcJ5523zJ8mWKsdmOPQLkkk0g==
-X-Received: by 2002:adf:f14e:0:b0:1e4:a64c:c1f8 with SMTP id
- y14-20020adff14e000000b001e4a64cc1f8mr21319100wro.512.1645565174237; 
- Tue, 22 Feb 2022 13:26:14 -0800 (PST)
+ bh=H/lGyZHCThlIaxbQCZDRjeZ+Uas4srk8vvVhn+BB0mI=;
+ b=PHI0yqMepBnWrhpjWe+AEmV8PGlx9nrOXjT7+Xagj+tC2IhRtPuAkJwAGTXY+IBTG+
+ ZlE3Jue644QFJn2e0Nel635+RMofeg5299152N034ddxKAGtOV2/MWGTbTXCqic//z0X
+ Bp23KMTLqU8gFUDwov7C2fKQFWE7DMI6jX1kEC4srMw6x9h6R/XFInTl6EMByWil6j4a
+ PKRF4uybptOAVAaLNK8JzCXNoRJRbleVpPKpKicIAqkWACPjOzHymbowApwePE6KCvvg
+ y3hbklkWG9Sv2L+739ABIf3aAtbxWLC9vNmuNd4sLci/3KDO/D238dLbyaUPgy6Js+hU
+ Tt5w==
+X-Gm-Message-State: AOAM531IGZw5e79gvYW3K7oVvh7IVq5GPVowXkw4pA5yhAf2JtTqjcbk
+ 0JT+72+1saLDuJ7Guiz8GyQ=
+X-Google-Smtp-Source: ABdhPJyC9bhugV1MOWnPbPQ76eOiEMlwlSKUlSpDTQE45Vf4GpYg2n3yM23h35D461WWY2Y00zQuNA==
+X-Received: by 2002:a05:600c:3ba6:b0:37c:dea9:581e with SMTP id
+ n38-20020a05600c3ba600b0037cdea9581emr4804490wms.128.1645565449905; 
+ Tue, 22 Feb 2022 13:30:49 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id b2sm35533609wri.35.2022.02.22.13.26.13
+ [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
+ 11-20020a05600c26cb00b0037ff53511f2sm3183071wmv.31.2022.02.22.13.30.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 13:26:13 -0800 (PST)
-Message-ID: <cdd60bac-f425-4d51-3ec0-5daa59decf8f@gmail.com>
-Date: Tue, 22 Feb 2022 22:26:12 +0100
+ Tue, 22 Feb 2022 13:30:49 -0800 (PST)
+Message-ID: <a72bf878-09a4-e3df-18e2-4c4e47016632@gmail.com>
+Date: Tue, 22 Feb 2022 22:30:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: [PATCH 7/8] Drop qemu_foo() socket API wrapper
+Subject: Re: [PATCH v2 1/2] block/curl.c: Set error message string if
+ curl_init_state() fails
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220222194008.610377-1-marcandre.lureau@redhat.com>
- <20220222194008.610377-8-marcandre.lureau@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20220222152341.850419-1-peter.maydell@linaro.org>
+ <20220222152341.850419-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220222194008.610377-8-marcandre.lureau@redhat.com>
+In-Reply-To: <20220222152341.850419-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,36 +94,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/2/22 20:40, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 22/2/22 16:23, Peter Maydell wrote:
+> In curl_open(), the 'out' label assumes that the state->errmsg string
+> has been set (either by curl_easy_perform() or by manually copying a
+> string into it); however if curl_init_state() fails we will jump to
+> that label without setting the string.  Add the missing error string
+> setup.
 > 
-> The socket API wrappers were initially introduced in commit
-> 00aa0040 ("Wrap recv to avoid warnings"), but made redundatant with
-> commit a2d96af4 ("osdep: add wrappers for socket functions") which fixes
-> the win32 declarations and thus removed the earlier warnings.
+> (We can't be specific about the cause of failure: the documentation
+> of curl_easy_init() just says "If this function returns NULL,
+> something went wrong".)
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   include/qemu-common.h                | 19 -------------------
->   crypto/cipher-afalg.c                |  4 ++--
->   crypto/hash-afalg.c                  |  4 ++--
->   gdbstub.c                            |  2 +-
->   io/channel-socket.c                  |  6 +++---
->   net/socket.c                         | 24 ++++++++++++------------
->   tests/qtest/e1000e-test.c            |  4 ++--
->   tests/qtest/libqtest.c               |  4 ++--
->   tests/qtest/npcm7xx_emc-test.c       |  4 ++--
->   tests/qtest/test-filter-mirror.c     |  4 ++--
->   tests/qtest/test-filter-redirector.c |  8 ++++----
->   tests/qtest/virtio-net-test.c        | 10 +++++-----
->   tests/unit/socket-helpers.c          |  2 +-
->   util/osdep.c                         |  4 ++--
->   util/qemu-sockets.c                  | 10 +++++-----
->   15 files changed, 45 insertions(+), 64 deletions(-)
+>   block/curl.c | 2 ++
+>   1 file changed, 2 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
