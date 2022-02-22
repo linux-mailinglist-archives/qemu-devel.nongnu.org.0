@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E404BF65D
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 11:44:11 +0100 (CET)
-Received: from localhost ([::1]:48238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCEA4BF6B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 11:54:15 +0100 (CET)
+Received: from localhost ([::1]:53330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMSeP-0003l8-UM
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 05:44:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57638)
+	id 1nMSo9-0007ff-RC
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 05:54:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMSb2-00020F-Eu
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 05:40:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49733)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1nMSlD-0006Uc-AS; Tue, 22 Feb 2022 05:51:11 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:56341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMSay-0008Ad-4T
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 05:40:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645526434;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hqEyOCwI1FCqIKT916GkmsZA/309P6FPS8E6BybcFd4=;
- b=HUJDSwmBx+uHlaEOFUYRQcdOafKdtTKDLl1F8LG4ubxb+8W7yep+0P+GksS6MjCThxk+Wj
- c+gd23FCOYObbbis35Oe5DsYkKseIYIxjecpvCmKXDSBuEPSWIlC1lK7fH1womxZ4fp0oy
- iq9Cbw/+9QGv0IEexjgCuuSF0BTGsuA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-457-6pAIS0IvOpeUnBN47_MfpA-1; Tue, 22 Feb 2022 05:40:30 -0500
-X-MC-Unique: 6pAIS0IvOpeUnBN47_MfpA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9211801AB2;
- Tue, 22 Feb 2022 10:40:28 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.202])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EA447A431;
- Tue, 22 Feb 2022 10:40:03 +0000 (UTC)
-Date: Tue, 22 Feb 2022 10:40:02 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v6 12/19] vfio-user: IOMMU support for remote device
-Message-ID: <YhS9gvErGeGVPcwk@stefanha-x1.localdomain>
-References: <cover.1645079934.git.jag.raman@oracle.com>
- <f6dc62f6957a6ae2d289a5810d48c717eefff861.1645079934.git.jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1nMSlB-0001mQ-8s; Tue, 22 Feb 2022 05:51:11 -0500
+Received: from [192.168.100.1] ([82.142.17.50]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MVdUQ-1nljQ53qi4-00RWKY; Tue, 22 Feb 2022 11:51:06 +0100
+Message-ID: <8bd75e7b-f7e2-7177-949e-097cdf0c77a3@vivier.eu>
+Date: Tue, 22 Feb 2022 11:51:05 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0el0T+TWUExaPEQC"
-Content-Disposition: inline
-In-Reply-To: <f6dc62f6957a6ae2d289a5810d48c717eefff861.1645079934.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] hid: Implement support for side and extra buttons
+Content-Language: fr
+To: Noah Bergbauer <noah@statshelix.com>, qemu-devel@nongnu.org
+References: <20211126140437.79745-1-noah@statshelix.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20211126140437.79745-1-noah@statshelix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:PdtOyLYPlxHH5bGkkJZCkVPFYj9pM/I43/zjOrLagPPhaNyJ9Ns
+ BrMVjtyxQcO9Zzy4aHM8D0dZiWe24qVDK71K3XSkbGSGN72AR79DU16ur2dMqOOo++pK47O
+ x6YB8QszpGtiKIdiAYX2AyZPeY7zsa1KIMwTYv8hRFPz7YiTlbYJW2p1BEnZngIaNirkfHK
+ 1DQ/4iitmW8DBEOWYzKfg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Mx1XoDbINpA=:o/8WotANv9zYE37kqRgjVv
+ hONjqiMTzkLqTxEJfFn1X5yGPeYhGEh2iyFXPRGpaq4vMPtEvqnDFxEWHaBcGiC6zDlld2AIe
+ x/PkMoGf7BlcUrOJmZ0fVDU7vabR7ntJkUlqMMedNmzP37PxPBXw0G6dHfgqBqjRWXDmbFln7
+ KrSHa8dFwWXASGimaZ1+2Htja9hG3BtLLeJYxwVqxr1hMEQ86ax2N7whnehPtji8uprlce3AE
+ YXAbpCyOsW517yHSJNKBXzVR7pZf0Xpv9r2cbgKY7QnTO00bbCQ12wKuFOOYb3o9Ba6hFWymu
+ K9hOu20lSTmjFIFezopQF0otAY7XhcfF87S9kBbm54fbQnitQHwm+lCQCglrJBjuI2TcECF5Z
+ N0DfASeeMAwNQDpUHOw0BulxHI/7YeSZBmTcuZJYxrZJ+UfQYdQxlj9QtdRqUtySVvZyNgApb
+ a+NbIYE+L7Xf/WWsmZUO14QSPfG9fbzpOcYnKmA6WuJlK02e6fqJ1PppunsnCaDmb3FxLkv+J
+ hkru9Kuox6p1GJ0HME7XRZvNLt3sN5mT+CQUTuceuZgtYTQ2s9XMtxXsjtmoMg2Hij8lasc/A
+ suFoqqsLPktqL+Amq7S8Oo4FMf1RG0iVMqO/UZ0E7sG1mBy/IlLJVN8b0f0n1qbgclKfqm2ae
+ 71pahzR64nFf294mW4aH0voKUglGG23ndJItHMvu6L264Z72teQi4NJbqEc46keOcYs8=
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,66 +69,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
- berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
- armbru@redhat.com, quintela@redhat.com, f4bug@amsat.org, qemu-devel@nongnu.org,
- alex.williamson@redhat.com, kanth.ghatraju@oracle.com,
- thanos.makatos@nutanix.com, pbonzini@redhat.com, eblake@redhat.com,
- dgilbert@redhat.com
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 26/11/2021 à 15:04, Noah Bergbauer a écrit :
+> Simply set the respective bits and update the descriptor accordingly.
+> 
+> Signed-off-by: Noah Bergbauer <noah@statshelix.com>
+> ---
+>   hw/input/hid.c   | 2 ++
+>   hw/usb/dev-hid.c | 6 +++---
+>   2 files changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/input/hid.c b/hw/input/hid.c
+> index 8aab0521f4..e7ecebdf8f 100644
+> --- a/hw/input/hid.c
+> +++ b/hw/input/hid.c
+> @@ -114,6 +114,8 @@ static void hid_pointer_event(DeviceState *dev, QemuConsole *src,
+>           [INPUT_BUTTON_LEFT]   = 0x01,
+>           [INPUT_BUTTON_RIGHT]  = 0x02,
+>           [INPUT_BUTTON_MIDDLE] = 0x04,
+> +        [INPUT_BUTTON_SIDE] = 0x08,
+> +        [INPUT_BUTTON_EXTRA] = 0x10,
+>       };
+>       HIDState *hs = (HIDState *)dev;
+>       HIDPointerEvent *e;
+> diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c
+> index 1c7ae97c30..bdd6d1ffaf 100644
+> --- a/hw/usb/dev-hid.c
+> +++ b/hw/usb/dev-hid.c
+> @@ -461,14 +461,14 @@ static const uint8_t qemu_mouse_hid_report_descriptor[] = {
+>       0xa1, 0x00,		/*   Collection (Physical) */
+>       0x05, 0x09,		/*     Usage Page (Button) */
+>       0x19, 0x01,		/*     Usage Minimum (1) */
+> -    0x29, 0x03,		/*     Usage Maximum (3) */
+> +    0x29, 0x05,		/*     Usage Maximum (5) */
+>       0x15, 0x00,		/*     Logical Minimum (0) */
+>       0x25, 0x01,		/*     Logical Maximum (1) */
+> -    0x95, 0x03,		/*     Report Count (3) */
+> +    0x95, 0x05,		/*     Report Count (5) */
+>       0x75, 0x01,		/*     Report Size (1) */
+>       0x81, 0x02,		/*     Input (Data, Variable, Absolute) */
+>       0x95, 0x01,		/*     Report Count (1) */
+> -    0x75, 0x05,		/*     Report Size (5) */
+> +    0x75, 0x03,		/*     Report Size (3) */
+>       0x81, 0x01,		/*     Input (Constant) */
+>       0x05, 0x01,		/*     Usage Page (Generic Desktop) */
+>       0x09, 0x30,		/*     Usage (X) */
 
---0el0T+TWUExaPEQC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to my trivial-patches branch.
 
-On Thu, Feb 17, 2022 at 02:48:59AM -0500, Jagannathan Raman wrote:
-> +struct RemoteIommuElem {
-> +    AddressSpace  as;
-> +    MemoryRegion  mr;
-> +};
-> +
-> +GHashTable *remote_iommu_elem_by_bdf;
-
-A mutable global hash table requires synchronization when device
-emulation runs in multiple threads.
-
-I suggest using pci_setup_iommu()'s iommu_opaque argument to avoid the
-global. If there is only 1 device per remote PCI bus, then there are no
-further synchronization concerns.
-
-> +
-> +#define INT2VOIDP(i) (void *)(uintptr_t)(i)
-> +
-> +static AddressSpace *remote_iommu_find_add_as(PCIBus *pci_bus,
-> +                                              void *opaque, int devfn)
-> +{
-> +    struct RemoteIommuElem *elem = NULL;
-> +    int pci_bdf = PCI_BUILD_BDF(pci_bus_num(pci_bus), devfn);
-> +
-> +    if (!remote_iommu_elem_by_bdf) {
-> +        return &address_space_memory;
-> +    }
-
-When can this happen? remote_configure_iommu() allocates
-remote_iommu_elem_by_bdf so it should always be non-NULL.
-
---0el0T+TWUExaPEQC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIUvYIACgkQnKSrs4Gr
-c8gtKQf8D6bQNx8qrs5+QZKOmz9/JlUqOFnm8ityu6+zQeeTYUUayHkwcBVo0dHr
-kM46tmqKMRK0fgYh1+XfvAnBwpb+wgxZeBKV+91i9a+M55ZL0ZBwkERz44JDKGwp
-8jfIuawX+wSbDXb0h3+psXehsT03GG8rBmp8xZFnoWyMA1QSq/6J/zfcZH0sd5d2
-wKsCJe5/FlMPWJo0R1TKSphiH4PpmIz5FU60pDxG3xLIiGV4Ys4hGsHCXr7oadws
-NbzuU6bWX5wmFxvZU3T2visz23/0XqMlvlF/0HTv3XX2IPxv3jop9r/JEMCKTSGk
-k75KX4SozeZgvGPvcEEbtMnYOJ4/2Q==
-=cgb8
------END PGP SIGNATURE-----
-
---0el0T+TWUExaPEQC--
+Thanks,
+Laurent
 
 
