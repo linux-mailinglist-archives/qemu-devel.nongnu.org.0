@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B4E4C0270
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 20:52:46 +0100 (CET)
-Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23EB84C0294
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 20:59:08 +0100 (CET)
+Received: from localhost ([::1]:46604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMbDJ-00018T-SZ
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 14:52:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46906)
+	id 1nMbJT-0004JS-3c
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 14:59:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nMawL-0003Op-Gs; Tue, 22 Feb 2022 14:35:13 -0500
-Received: from [2a00:1450:4864:20::530] (port=44984
- helo=mail-ed1-x530.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawM-0003Pu-BU
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:15 -0500
+Received: from [2a00:1450:4864:20::632] (port=44787
+ helo=mail-ej1-x632.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nMawJ-00074h-Nh; Tue, 22 Feb 2022 14:35:13 -0500
-Received: by mail-ed1-x530.google.com with SMTP id x5so39337329edd.11;
- Tue, 22 Feb 2022 11:35:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawK-000759-9L
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:14 -0500
+Received: by mail-ej1-x632.google.com with SMTP id p14so45963669ejf.11
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 11:35:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I7puGt2s3b15Sv26Fv0lRYePOTVn0bOsnqCEUxcw0JI=;
- b=bTuebAb5eNwsmNAFKp2HUpAvGgnfwjE468lOlitrrCGsBANVJ6U8vR0/5z8HOR0dt+
- 4DojKPKL9mVyYT0y2cR/4ijeuPS76l8quSVTmEQvU/xYIgVmtQXLk2E+e0VGVV46y+CM
- brIQ+PyPUIKDvbeF0nSRuK6VN9WNtpWUhA+zz6DUkCKGRFng9d8WL5dAGCN8aLjCehgS
- CJ1oHZqqji8UEU4sgo01jllgdzwvPAMYrKImHyIcNIy+ci8+uFqpJz5jgxr+aChvjytK
- kWmI/PZ1JYxKvFcQeOP232VGTT33FHOQhBMpPecz2JA7iEAOmeYtAPoMgH3Fxk/lSQ1m
- FsXA==
+ bh=i9gsYbLS+oFxHUewZXteoSpkAOteqQtXYimRXD0P1Ec=;
+ b=CeyTrCEUZxu7JjXGW3XMN0TdC4JtPLd7GzYpQpashWeiOxSCDCKKStNPf/1yC4aVdB
+ qqZIcx0HJMPLJkpvgxP5tLMMFP1AyYbmV/x6fpRhISfe8Wk3qzyg9cDIzGQ6zKka1Jlx
+ kfDIiUTAdtDpciL91tCuJ98d2Cet9zN0PlSw//MxlQc1WqdRUIvXygrvPvN2LdDZxuFR
+ 289gtAccJ6pLT5fiJvdtc1OMN3poF2HO/CJdEb0pzNibU6a6QDbTgd6Sdw/MVs6Em7QX
+ QlVrjBTgy6U78s+SE+QBsZjH0SrJlaJRErRQ+13c/TJq0dHC4+eMxOhsLv66Ha/nNIhy
+ cgEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I7puGt2s3b15Sv26Fv0lRYePOTVn0bOsnqCEUxcw0JI=;
- b=fogsPrGpwuDhy/sorM80FjN+hOrn92cqnPnHtez8Kf2OGE9Pbmg8JtFgw93hd9hKCZ
- PqbiJOTMKlhA1IUpM6c3dSQvzp6pbELExG1SDgipJO+h8V6Z8/KxjCEFlJmiparni5nR
- /EMYNp84eCdp6cDoJuPhZKe6dC93XtWPVkd3mZAKCM/MmFT2/gmvq/3GuFEgdmKwgICA
- vSUHoMVXJ/65dwmjG0L+/9Fznalh31CWiiAkTE06TCWVlXfog7JY6fFJqzFZEV0Vd9Qa
- 8i82SUZeIFK34x8vDdF6FA0rQNkyI7k1UsizYR9WVufC8WAhfKQ1YFqp8tJoCGaQaf1A
- AYXQ==
-X-Gm-Message-State: AOAM532iIPeibw97qudkX/Pz0MSJ1Bo+DDW1VFpEhU83TX2CStXDulur
- VZMehBJJnrUBxwXxJU5WwsBvUe23ii4=
-X-Google-Smtp-Source: ABdhPJy8P7kplq9JM4YhPbvbzp+2Qf6PzRvuKW4JEQVP/A06HdyZlR/iywCZfFqSOZQ9rx82asJq/Q==
-X-Received: by 2002:a05:6402:13cb:b0:410:820f:4e8 with SMTP id
- a11-20020a05640213cb00b00410820f04e8mr27151645edx.352.1645558509937; 
- Tue, 22 Feb 2022 11:35:09 -0800 (PST)
+ bh=i9gsYbLS+oFxHUewZXteoSpkAOteqQtXYimRXD0P1Ec=;
+ b=b2ABRIAhnWaI/7d8iucOjKIhOFjrnCWW3z00V6tpp/+hUNhH3Z02U2hRsdaX1cyAxf
+ 7AILfoDDaBTxofxK5creWkrvcjtD+sq2nIzjNxeVi5iecleoKIGrIEiMTlirkgpHyxmz
+ IQ7fn/eKHG25IEaotATTlLn2EAlnesNKV0UGS909khyss/UHNkufx7QWMut4E9Brq3vQ
+ 4kK/lL5sQxB3YtKmA6h6FwltKKK9BGrPpPU8IEMJ3uOc80Y/LY1zhtRh/HNI0ttkcHS5
+ D9ytrHfAiMkzQeZOPYZa/w2efPQ57up75NMcyF0H22qExcWTgd2RbkIje11yD+M4syFi
+ waMg==
+X-Gm-Message-State: AOAM530GVBLOQRa2FOX9Rl2GhQstDqYoGruRnsJf1h8Ixu8T08vaoE5U
+ su0GOk6drKFWvsyXs5WinEzGlXHnWos=
+X-Google-Smtp-Source: ABdhPJxV0B9ON9jtbddBSa4Rxd/5vfIQN1pKrJ3pkdGe4b+5XjK9iJ1lIqe0a2D9/0viB70s4K6sXw==
+X-Received: by 2002:a17:906:b287:b0:6ce:98af:3f6e with SMTP id
+ q7-20020a170906b28700b006ce98af3f6emr19629246ejz.216.1645558510975; 
+ Tue, 22 Feb 2022 11:35:10 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-089-012-227-088.89.12.pool.telefonica.de. [89.12.227.88])
- by smtp.gmail.com with ESMTPSA id i1sm766532edj.84.2022.02.22.11.35.09
+ by smtp.gmail.com with ESMTPSA id i1sm766532edj.84.2022.02.22.11.35.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 11:35:09 -0800 (PST)
+ Tue, 22 Feb 2022 11:35:10 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/22] hw/rtc/m48t59-isa: Disuse isa_init_irq()
-Date: Tue, 22 Feb 2022 20:34:43 +0100
-Message-Id: <20220222193446.156717-20-shentey@gmail.com>
+Subject: [PATCH v2 20/22] hw/tpm/tpm_tis_isa: Disuse isa_init_irq()
+Date: Tue, 22 Feb 2022 20:34:44 +0100
+Message-Id: <20220222193446.156717-21-shentey@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222193446.156717-1-shentey@gmail.com>
 References: <20220222193446.156717-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,9 +86,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:PReP" <qemu-ppc@nongnu.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Bernhard Beschow <shentey@gmail.com>
+Cc: Bernhard Beschow <shentey@gmail.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,22 +97,22 @@ eventually.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/rtc/m48t59-isa.c | 2 +-
+ hw/tpm/tpm_tis_isa.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/rtc/m48t59-isa.c b/hw/rtc/m48t59-isa.c
-index cd63138e1e..990ea15bce 100644
---- a/hw/rtc/m48t59-isa.c
-+++ b/hw/rtc/m48t59-isa.c
-@@ -106,7 +106,7 @@ static void m48t59_isa_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/tpm/tpm_tis_isa.c b/hw/tpm/tpm_tis_isa.c
+index 10d8a14f19..3477afd735 100644
+--- a/hw/tpm/tpm_tis_isa.c
++++ b/hw/tpm/tpm_tis_isa.c
+@@ -127,7 +127,7 @@ static void tpm_tis_isa_realizefn(DeviceState *dev, Error **errp)
+         return;
+     }
  
-     s->model = u->info.model;
-     s->size = u->info.size;
--    isa_init_irq(isadev, &s->IRQ, d->isairq);
-+    s->IRQ = isa_get_irq(isadev, d->isairq);
-     m48t59_realize_common(s, errp);
-     memory_region_init_io(&d->io, OBJECT(dev), &m48t59_io_ops, s, "m48t59", 4);
-     if (d->io_base != 0) {
+-    isa_init_irq(ISA_DEVICE(dev), &s->irq, s->irq_num);
++    s->irq = isa_get_irq(ISA_DEVICE(dev), s->irq_num);
+ 
+     memory_region_add_subregion(isa_address_space(ISA_DEVICE(dev)),
+                                 TPM_TIS_ADDR_BASE, &s->mmio);
 -- 
 2.35.1
 
