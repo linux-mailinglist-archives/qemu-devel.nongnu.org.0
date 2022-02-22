@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1234BF468
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 10:10:04 +0100 (CET)
-Received: from localhost ([::1]:39586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524B84BF48D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 10:20:38 +0100 (CET)
+Received: from localhost ([::1]:47508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMRBJ-0006tQ-3E
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 04:10:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39232)
+	id 1nMRLZ-00047v-Bx
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 04:20:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nMR6x-0004pU-Ie
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:05:31 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:5105)
+ id 1nMR7A-0004yr-Hu
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:05:46 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nMR6h-0001fu-HC
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:05:23 -0500
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4K2tW51zYLz9snB;
- Tue, 22 Feb 2022 17:03:29 +0800 (CST)
+ id 1nMR74-0001jF-7Z
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 04:05:43 -0500
+Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4K2tWj22GFzcn1L;
+ Tue, 22 Feb 2022 17:04:01 +0800 (CST)
 Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 22 Feb 2022 17:05:11 +0800
+ 15.1.2308.21; Tue, 22 Feb 2022 17:05:12 +0800
 Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
  dggpeml100016.china.huawei.com (7.185.36.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -33,9 +33,10 @@ Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
 To: <pbonzini@redhat.com>, <berrange@redhat.com>, <mst@redhat.com>
 CC: <qemu-devel@nongnu.org>, <arei.gonglei@huawei.com>,
  <wangxinxin.wang@huawei.com>, "Longpeng(Mike)" <longpeng2@huawei.com>
-Subject: [PATCH v2 2/3] sem-posix: use monotonic clock instead
-Date: Tue, 22 Feb 2022 17:05:05 +0800
-Message-ID: <20220222090507.2028-3-longpeng2@huawei.com>
+Subject: [PATCH v2 3/3] sem-posix: refactor qemu-sem with qemu-cond and
+ qemu-mutex
+Date: Tue, 22 Feb 2022 17:05:06 +0800
+Message-ID: <20220222090507.2028-4-longpeng2@huawei.com>
 X-Mailer: git-send-email 2.25.0.windows.1
 In-Reply-To: <20220222090507.2028-1-longpeng2@huawei.com>
 References: <20220222090507.2028-1-longpeng2@huawei.com>
@@ -71,127 +72,198 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
 From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
-Use CLOCK_MONOTONIC, so the timeout isn't affected by changes to
-the system time. It depends on the pthread_condattr_setclock(),
-while some systems(e.g. mac os) does not support it, so the behavior
-won't change in these systems.
+Now, qemu-sem is based on the pthread_cond only, we can use
+qemu-cond and qemu-mutex to make the code neater and the mutex
+trace can be supported in qemu-sem naturally.
 
 Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
 ---
- meson.build              | 11 +++++++++++
- util/qemu-thread-posix.c | 49 +++++++++++++++++++++++++++++++++++++++++-------
- 2 files changed, 53 insertions(+), 7 deletions(-)
+ include/qemu/thread-posix.h |   5 +--
+ util/qemu-thread-posix.c    | 103 ++++++++++++++------------------------------
+ 2 files changed, 34 insertions(+), 74 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 3ccb110..2bab94f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1688,6 +1688,17 @@ config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links(gnu_source_pre
-     pthread_create(&thread, 0, f, 0);
-     return 0;
-   }''', dependencies: threads))
-+config_host_data.set('CONFIG_PTHREAD_CONDATTR_SETCLOCK', cc.links(gnu_source_prefix + '''
-+  #include <pthread.h>
-+  #include <time.h>
-+
-+  int main(void)
-+  {
-+    pthread_condattr_t attr
-+    pthread_condattr_init(&attr);
-+    pthread_condattr_setclock(&attr, CLOCK_MONOTONIC);
-+    return 0;
-+  }''', dependencies: threads))
+diff --git a/include/qemu/thread-posix.h b/include/qemu/thread-posix.h
+index 5466608..5f2f3d1 100644
+--- a/include/qemu/thread-posix.h
++++ b/include/qemu/thread-posix.h
+@@ -27,10 +27,9 @@ struct QemuCond {
+ };
  
- config_host_data.set('CONFIG_SIGNALFD', cc.links(gnu_source_prefix + '''
-   #include <sys/signalfd.h>
+ struct QemuSemaphore {
+-    pthread_mutex_t lock;
+-    pthread_cond_t cond;
++    QemuMutex mutex;
++    QemuCond cond;
+     unsigned int count;
+-    bool initialized;
+ };
+ 
+ struct QemuEvent {
 diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index 1ad2503..44446ce 100644
+index 44446ce..f2ce47d 100644
 --- a/util/qemu-thread-posix.c
 +++ b/util/qemu-thread-posix.c
-@@ -38,12 +38,20 @@ static void error_exit(int err, const char *msg)
-     abort();
+@@ -220,16 +220,15 @@ void qemu_cond_wait_impl(QemuCond *cond, QemuMutex *mutex, const char *file, con
+         error_exit(err, __func__);
  }
  
-+static inline clockid_t qemu_timedwait_clockid(void)
+-bool qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
+-                              const char *file, const int line)
++static bool
++qemu_cond_timedwait_ts(QemuCond *cond, QemuMutex *mutex, struct timespec *ts,
++                       const char *file, const int line)
+ {
+     int err;
+-    struct timespec ts;
+ 
+     assert(cond->initialized);
+     trace_qemu_mutex_unlock(mutex, file, line);
+-    compute_abs_deadline(&ts, ms);
+-    err = pthread_cond_timedwait(&cond->cond, &mutex->lock, &ts);
++    err = pthread_cond_timedwait(&cond->cond, &mutex->lock, ts);
+     trace_qemu_mutex_locked(mutex, file, line);
+     if (err && err != ETIMEDOUT) {
+         error_exit(err, __func__);
+@@ -237,111 +236,73 @@ bool qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
+     return err != ETIMEDOUT;
+ }
+ 
++bool qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
++                              const char *file, const int line)
 +{
-+#ifdef CONFIG_PTHREAD_CONDATTR_SETCLOCK
-+    return CLOCK_MONOTONIC;
-+#else
-+    return CLOCK_REALTIME;
-+#endif
++    struct timespec ts;
++
++    compute_abs_deadline(&ts, ms);
++    return qemu_cond_timedwait_ts(cond, mutex, &ts, file, line);
 +}
 +
- static void compute_abs_deadline(struct timespec *ts, int ms)
- {
--    struct timeval tv;
--    gettimeofday(&tv, NULL);
--    ts->tv_nsec = tv.tv_usec * 1000 + (ms % 1000) * 1000000;
--    ts->tv_sec = tv.tv_sec + ms / 1000;
-+    clock_gettime(qemu_timedwait_clockid(), ts);
-+    ts->tv_nsec += (ms % 1000) * 1000000;
-+    ts->tv_sec += ms / 1000;
-     if (ts->tv_nsec >= 1000000000) {
-         ts->tv_sec++;
-         ts->tv_nsec -= 1000000000;
-@@ -147,11 +155,25 @@ void qemu_rec_mutex_unlock_impl(QemuRecMutex *mutex, const char *file, int line)
- 
- void qemu_cond_init(QemuCond *cond)
- {
-+    pthread_condattr_t attr;
-     int err;
- 
--    err = pthread_cond_init(&cond->cond, NULL);
--    if (err)
-+    err = pthread_condattr_init(&attr);
-+    if (err) {
-+        error_exit(err, __func__);
-+    }
-+    err = pthread_condattr_setclock(&attr, qemu_timedwait_clockid());
-+    if (err) {
-+        error_exit(err, __func__);
-+    }
-+    err = pthread_cond_init(&cond->cond, &attr);
-+    if (err) {
-         error_exit(err, __func__);
-+    }
-+    err = pthread_condattr_destroy(&attr);
-+    if (err) {
-+        error_exit(err, __func__);
-+    }
-     cond->initialized = true;
- }
- 
-@@ -217,16 +239,29 @@ bool qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
- 
  void qemu_sem_init(QemuSemaphore *sem, int init)
  {
-+    pthread_condattr_t attr;
-     int rc;
+-    pthread_condattr_t attr;
+-    int rc;
++    qemu_mutex_init(&sem->mutex);
++    qemu_cond_init(&sem->cond);
  
-     rc = pthread_mutex_init(&sem->lock, NULL);
-     if (rc != 0) {
-         error_exit(rc, __func__);
-     }
--    rc = pthread_cond_init(&sem->cond, NULL);
-+    rc = pthread_condattr_init(&attr);
-+    if (rc != 0) {
-+        error_exit(rc, __func__);
-+    }
-+    rc = pthread_condattr_setclock(&attr, qemu_timedwait_clockid());
-     if (rc != 0) {
-         error_exit(rc, __func__);
-     }
-+    rc = pthread_cond_init(&sem->cond, &attr);
-+    if (rc != 0) {
-+        error_exit(rc, __func__);
-+    }
-+    rc = pthread_condattr_destroy(&attr);
-+    if (rc < 0) {
-+        error_exit(rc, __func__);
-+    }
+-    rc = pthread_mutex_init(&sem->lock, NULL);
+-    if (rc != 0) {
+-        error_exit(rc, __func__);
+-    }
+-    rc = pthread_condattr_init(&attr);
+-    if (rc != 0) {
+-        error_exit(rc, __func__);
+-    }
+-    rc = pthread_condattr_setclock(&attr, qemu_timedwait_clockid());
+-    if (rc != 0) {
+-        error_exit(rc, __func__);
+-    }
+-    rc = pthread_cond_init(&sem->cond, &attr);
+-    if (rc != 0) {
+-        error_exit(rc, __func__);
+-    }
+-    rc = pthread_condattr_destroy(&attr);
+-    if (rc < 0) {
+-        error_exit(rc, __func__);
+-    }
      if (init < 0) {
          error_exit(EINVAL, __func__);
      }
+     sem->count = init;
+-    sem->initialized = true;
+ }
+ 
+ void qemu_sem_destroy(QemuSemaphore *sem)
+ {
+-    int rc;
+-
+-    assert(sem->initialized);
+-    sem->initialized = false;
+-    rc = pthread_cond_destroy(&sem->cond);
+-    if (rc < 0) {
+-        error_exit(rc, __func__);
+-    }
+-    rc = pthread_mutex_destroy(&sem->lock);
+-    if (rc < 0) {
+-        error_exit(rc, __func__);
+-    }
++    qemu_cond_destroy(&sem->cond);
++    qemu_mutex_destroy(&sem->mutex);
+ }
+ 
+ void qemu_sem_post(QemuSemaphore *sem)
+ {
+-    int rc;
+-
+-    assert(sem->initialized);
+-    pthread_mutex_lock(&sem->lock);
++    qemu_mutex_lock(&sem->mutex);
+     if (sem->count == UINT_MAX) {
+-        rc = EINVAL;
++        error_exit(EINVAL, __func__);
+     } else {
+         sem->count++;
+-        rc = pthread_cond_signal(&sem->cond);
+-    }
+-    pthread_mutex_unlock(&sem->lock);
+-    if (rc != 0) {
+-        error_exit(rc, __func__);
++        qemu_cond_signal(&sem->cond);
+     }
++    qemu_mutex_unlock(&sem->mutex);
+ }
+ 
+ int qemu_sem_timedwait(QemuSemaphore *sem, int ms)
+ {
+-    int rc;
++    bool rc = true;
+     struct timespec ts;
+ 
+-    assert(sem->initialized);
+-    rc = 0;
+     compute_abs_deadline(&ts, ms);
+-    pthread_mutex_lock(&sem->lock);
++    qemu_mutex_lock(&sem->mutex);
+     while (sem->count == 0) {
+-        rc = pthread_cond_timedwait(&sem->cond, &sem->lock, &ts);
+-        if (rc == ETIMEDOUT) {
++        rc = qemu_cond_timedwait_ts(&sem->cond, &sem->mutex, &ts,
++                                    __FILE__, __LINE__);
++        if (!rc) { /* timeout */
+             break;
+         }
+-        if (rc != 0) {
+-            error_exit(rc, __func__);
+-        }
+     }
+-    if (rc != ETIMEDOUT) {
++    if (rc) {
+         --sem->count;
+     }
+-    pthread_mutex_unlock(&sem->lock);
+-    return (rc == ETIMEDOUT ? -1 : 0);
++    qemu_mutex_unlock(&sem->mutex);
++    return (rc ? 0 : -1);
+ }
+ 
+ void qemu_sem_wait(QemuSemaphore *sem)
+ {
+-    int rc;
+-
+-    assert(sem->initialized);
+-    pthread_mutex_lock(&sem->lock);
++    qemu_mutex_lock(&sem->mutex);
+     while (sem->count == 0) {
+-        rc = pthread_cond_wait(&sem->cond, &sem->lock);
+-        if (rc != 0) {
+-            error_exit(rc, __func__);
+-        }
++        qemu_cond_wait(&sem->cond, &sem->mutex);
+     }
+     --sem->count;
+-    pthread_mutex_unlock(&sem->lock);
++    qemu_mutex_unlock(&sem->mutex);
+ }
+ 
+ #ifdef __linux__
 -- 
 1.8.3.1
 
