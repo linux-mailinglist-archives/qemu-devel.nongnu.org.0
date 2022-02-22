@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C38B4C02BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 21:01:56 +0100 (CET)
-Received: from localhost ([::1]:54768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 790B34C0285
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 20:56:37 +0100 (CET)
+Received: from localhost ([::1]:38024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMbMB-0001P4-4P
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 15:01:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46854)
+	id 1nMbH2-0006wZ-JJ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 14:56:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawI-0003MQ-OU
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:10 -0500
-Received: from [2a00:1450:4864:20::62b] (port=44779
- helo=mail-ej1-x62b.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawJ-0003Oe-No
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:13 -0500
+Received: from [2a00:1450:4864:20::635] (port=46955
+ helo=mail-ej1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawG-00073i-KF
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:10 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id p14so45963164ejf.11
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 11:35:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawH-000748-Jp
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:11 -0500
+Received: by mail-ej1-x635.google.com with SMTP id qx21so45966154ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 11:35:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zjmSFcMWhfofmPFxlk/r2EeC0P+Uw+dEJELYLF9MjVo=;
- b=QzdP5bVXL3QMwH6VngtYWeflY53x8h+jNGHy5y1QaLqJ/ry8j78qn45T8jZOEbBCsm
- VIKIozL+VBnAW/RF/x6yTE8rcmzam3oRs8wOqs0nXdarqnTOQPgzC/yTAKcytE8MMeDI
- o8l3Gxzr25Ylu+j1uqFiQUnEu4EGjhhfIDBcjuvesc6Wf3Tkg/thf/P9457LFIO7A+QU
- crJhwwfZNKwLb9wREFDMKp/lrA2b6qs0xSGoWOX/TQAk6dMDvKL23HsXEnhbZzQ/r0iY
- XlJbCZZskuYsQB7PeSpfnkWG6FNx6zTb7/gju/+r3RxPFa8yqqN6UUQ4xAa3qQJ/x6g8
- eIFg==
+ bh=/3j29R7lXMdrMKGnt5++sE1+VglPHaZYEgL5oGNi9kU=;
+ b=G5ps2Ug6i1TeGmXMFb8EWZksfkoK1GrvrS8E/LRDGfIJxJTAMmW9fLvBk+n4FsEqcG
+ Y6IoG9fwJEti3tJAVaK/pEXNquWgColYeGyAO3R63b2/dqU5KnLwZ9W3kRSBy8tITPLQ
+ B8VqQj+pNbNtXmY3wIW4l8QK8whMnuSCyeLs+ojmTf09qM84ArNA5QsNbbtt+BwloD6z
+ dHjRCjUVBSJaGzKIPJ3uanZZRTc1PQ1ULE9WmZEyjFcBtRdhW5k030WYM8VqdrqB2yIz
+ fFrKIvb9Q6RQXeeNumMkHTwDNhGd6Hq7KcnWxX3GxVccDhFIUFY1q4Lq16hy9xKoksEG
+ isXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zjmSFcMWhfofmPFxlk/r2EeC0P+Uw+dEJELYLF9MjVo=;
- b=ZBLCoOQsuomicCxdiH4Fm+Wl2fUr5gtlpxXU3/6Nu5//qnDdRP+TJ1cpDaCjVghkhj
- L1+OEIQGz63PH4MnCp0xvVdEP0eH8t0ZXIVA6GrHLsou20IT54QpTj+PnIInpj63pwjp
- zs9Hrsb8Ksa+lVqd/P3hvf5RqXebAVDx5Sk+XXNOG4Y55qgn0bR7Q4jCNO8HXWuCzDBC
- Sic0pthEMfshM5krcPsqpnbCk1JCV0u+MZKQd4rCj1/gSGhHJbzR4O+iIeBnjwDLnpjA
- qZvOiX1ZbORrvBj603/QuE/f/tZwwtd8jzA3xe3ThcYxgAGYPYy58MisZ0TyIzJX/VFO
- OaiA==
-X-Gm-Message-State: AOAM532TQDi/VN+CRU27KyUQAZ3R7MFZUOTr+f60g4FCoBXZvQvbD1qe
- m98AQiWSR70EQt2GTnUyPcfjEvmarl4=
-X-Google-Smtp-Source: ABdhPJwvxIIPr1fP8GJcSBBa3nrw4/aliHZcZr0+i2PGUaSwhXvTDRD1Q/AHvjnqsGicQ4lCnTC+vw==
-X-Received: by 2002:a17:906:6158:b0:6ce:61d6:f243 with SMTP id
- p24-20020a170906615800b006ce61d6f243mr20249958ejl.268.1645558507321; 
- Tue, 22 Feb 2022 11:35:07 -0800 (PST)
+ bh=/3j29R7lXMdrMKGnt5++sE1+VglPHaZYEgL5oGNi9kU=;
+ b=ML08XVATSmsaKgT/xCABFgjG8MpGPUFgeMEbV+Q3PxC1URzszbEdsRk0euZtPMkgGw
+ /srB7ZyG19PGsmzN51PrFk/DlMIFZGL4+sJh9vVqNpHfUjD5UGq0OwIhx5f24e0CUqy/
+ 5iHWJYmC26k8kYVKAXnS+mHw10//6TlHsDlKE6E8LgMIZ9HoMReCXMpGQ9Ds0mp0fmKA
+ Q434ekbzafDjwV1b2zeA1eoqannsgVScT2kWsinHrUfzoits6mRTzdtIGZOXBhF4FYAT
+ 07da1aT1FpJWOp2zZdMvMOWLWmYfMdwkvVgBejSA1WSVPilZE/Yo0RWC7OsDf+9khzb0
+ NMEw==
+X-Gm-Message-State: AOAM531Go7N3t36j0ceyCZ4KI/XJLVhGjlG7dBnpN0GKVpKq2vxuocZB
+ zQZvEFQWPtp9kN+OkT7vKJ6HHG4l7Uk=
+X-Google-Smtp-Source: ABdhPJxX00lVbOpHzuMj79FIFA74Uty8nc1peB1bt72w7qzk219EdisjBdSnM8GPePlDSSw5uZCrvg==
+X-Received: by 2002:a17:906:364d:b0:6cd:9109:cfd4 with SMTP id
+ r13-20020a170906364d00b006cd9109cfd4mr20402697ejb.198.1645558508242; 
+ Tue, 22 Feb 2022 11:35:08 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-089-012-227-088.89.12.pool.telefonica.de. [89.12.227.88])
- by smtp.gmail.com with ESMTPSA id i1sm766532edj.84.2022.02.22.11.35.06
+ by smtp.gmail.com with ESMTPSA id i1sm766532edj.84.2022.02.22.11.35.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 11:35:06 -0800 (PST)
+ Tue, 22 Feb 2022 11:35:07 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/22] hw/ipmi/isa_ipmi_kcs: Disuse isa_init_irq()
-Date: Tue, 22 Feb 2022 20:34:40 +0100
-Message-Id: <20220222193446.156717-17-shentey@gmail.com>
+Subject: [PATCH v2 17/22] hw/isa/piix4: Disuse isa_init_irq()
+Date: Tue, 22 Feb 2022 20:34:41 +0100
+Message-Id: <20220222193446.156717-18-shentey@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222193446.156717-1-shentey@gmail.com>
 References: <20220222193446.156717-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,7 +86,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bernhard Beschow <shentey@gmail.com>, Corey Minyard <minyard@acm.org>
+Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -96,22 +99,22 @@ eventually.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/ipmi/isa_ipmi_kcs.c | 2 +-
+ hw/isa/piix4.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ipmi/isa_ipmi_kcs.c b/hw/ipmi/isa_ipmi_kcs.c
-index 3b23ad08b3..afabb95ebe 100644
---- a/hw/ipmi/isa_ipmi_kcs.c
-+++ b/hw/ipmi/isa_ipmi_kcs.c
-@@ -91,7 +91,7 @@ static void ipmi_isa_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index cb291d121c..0fd6756dcf 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -197,7 +197,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+         return;
      }
+-    isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc.irq, s->rtc.isairq);
++    s->rtc.irq = isa_get_irq(ISA_DEVICE(&s->rtc), s->rtc.isairq);
  
-     if (iik->isairq > 0) {
--        isa_init_irq(isadev, &iik->irq, iik->isairq);
-+        iik->irq = isa_get_irq(isadev, iik->isairq);
-         iik->kcs.use_irq = 1;
-         iik->kcs.raise_irq = isa_ipmi_kcs_raise_irq;
-         iik->kcs.lower_irq = isa_ipmi_kcs_lower_irq;
+     piix4_dev = dev;
+ }
 -- 
 2.35.1
 
