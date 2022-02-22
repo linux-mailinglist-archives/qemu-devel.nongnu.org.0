@@ -2,62 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0954BFAF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 15:32:19 +0100 (CET)
-Received: from localhost ([::1]:36574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646CA4BFB20
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 15:49:28 +0100 (CET)
+Received: from localhost ([::1]:54782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMWDC-0000UN-6x
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 09:32:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40668)
+	id 1nMWTn-0005VE-FT
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 09:49:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nMW8Q-0005vP-4F
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:27:22 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:35189)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nMW8L-0003I3-RD
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:27:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=ZTfq0jIHasylWhYbaLGDmnqV7MWZmPPSEQnnwIxNMv4=; b=ChIv1xGZF15Psnc2hEqLAYTclZ
- GvxgbaFlUEfZdXqmIJZN2+X5vP1BJD6aw3FG6EKXgRpdXE0sdatfHa4hjTQ42bIyGjr4vfAi6YEwd
- JRFpl0PmApo+w1NJDKJeUHX43fTenCT2QkPYm6MAxzIOHXfKFGYnVNMynqVR40Po/5HG7wb1yn0pz
- ri2AgPvIAVzFd374JRrfHNCKGnWxo7OuM2ji8k3KTmjqfxEFzPniAyFbqz6c6jkmqoBfCDeC913LN
- swENT1odqGAkQ2ZB4mQLsSfXHUuU5fZ15uhOadb7lGbaETLEAPtuVIf4gJEAxpAxZA1+Em+pDe1jv
- teSDDHDVBarMl3Q5QXjl3FD9LjZj+qVXwEjvVkrr0gFL9HeUUd2VbFaGLB+QsgT6L/aghwAc6kvzq
- XRuKOjOi5EN/7Z/mWhA99Cgzr3KPp1h2Kv7AOm8ohESTu/W6d/VmNEs7uzO1kOk2Bho4VuQh1ssJ7
- 3dK7MZzV3LxqQgEyxKWyWqd55Co3UDiX1vFOkWoeqB0ljZ163P57KDnOo4zSGEz5BhK+BpGcP19r5
- H5FU/IBzLUDeZkngG15SGUMl/SEehC5699AlOMZJTF07f4JWTKs/H1kT6Ykd/+aCRXHuEdvnyegtH
- bTZDHKiLe8MZlyHKI3mGtPX1sOYHPBZg+S8i578LU=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Will Cohen <wwcohen@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Greg Kurz <groug@kaod.org>, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
-Subject: Re: [PATCH v8 09/11] 9p: darwin: Implement compatibility for mknodat
-Date: Tue, 22 Feb 2022 15:27:13 +0100
-Message-ID: <8571874.GWnKUVsiaS@silver>
-In-Reply-To: <20220220165056.72289-10-wwcohen@gmail.com>
-References: <20220220165056.72289-1-wwcohen@gmail.com>
- <20220220165056.72289-10-wwcohen@gmail.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nMWJa-0004bJ-JS; Tue, 22 Feb 2022 09:38:54 -0500
+Received: from [187.72.171.209] (port=54027 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nMWJW-00057B-V2; Tue, 22 Feb 2022 09:38:54 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Tue, 22 Feb 2022 11:37:37 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id AB7BC8000A7;
+ Tue, 22 Feb 2022 11:37:36 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v4 00/47] target/ppc: PowerISA Vector/VSX instruction batch
+Date: Tue, 22 Feb 2022 11:35:58 -0300
+Message-Id: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 22 Feb 2022 14:37:37.0093 (UTC)
+ FILETIME=[BC89FF50:01D827F9]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,160 +56,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sonntag, 20. Februar 2022 17:50:54 CET Will Cohen wrote:
-> From: Keno Fischer <keno@juliacomputing.com>
-> 
-> Darwin does not support mknodat. However, to avoid race conditions
-> with later setting the permissions, we must avoid using mknod on
-> the full path instead. We could try to fchdir, but that would cause
-> problems if multiple threads try to call mknodat at the same time.
-> However, luckily there is a solution: Darwin includes a function
-> that sets the cwd for the current thread only.
-> This should suffice to use mknod safely.
-> 
-> This function (pthread_fchdir_np) is protected by a check in
-> meson in a patch later in this series.
-> 
-> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> [Will Cohen: - Adjust coding style
->              - Replace clang references with gcc
->              - Note radar filed with Apple for missing syscall
->              - Replace direct syscall with pthread_fchdir_np and
->                adjust patch notes accordingly
->              - Move qemu_mknodat from 9p-util to osdep and os-posix
->              - Move pthread_fchdir_np declaration only to osdep
->              - Declare pthread_fchdir_np with
->              - __attribute__((weak_import)) to allow checking for
->                its presence before usage
->              - Move declarations above cplusplus guard
->              - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
->                presence in osdep.h and os-posix.c
->              - Rebase to apply cleanly on top of the 2022-02-10
->                changes to 9pfs]
-> Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> ---
->  hw/9pfs/9p-local.c   |  4 ++--
->  include/qemu/osdep.h | 12 ++++++++++++
->  meson.build          |  1 +
->  os-posix.c           | 35 +++++++++++++++++++++++++++++++++++
->  4 files changed, 50 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> index a0d08e5216..d42ce6d8b8 100644
-> --- a/hw/9pfs/9p-local.c
-> +++ b/hw/9pfs/9p-local.c
-> @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> *dir_path,
-> 
->      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
->          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-> -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-> +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
->          if (err == -1) {
->              goto out;
->          }
-> @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> *dir_path, }
->      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
->                 fs_ctx->export_flags & V9FS_SM_NONE) {
-> -        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
-> +        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
->          if (err == -1) {
->              goto out;
->          }
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index ce12f64853..c0f442d791 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -818,6 +818,18 @@ static inline int
-> platform_does_not_support_system(const char *command) */
->  struct dirent *qemu_dirent_dup(struct dirent *dent);
-> 
-> +/*
-> + * As long as mknodat is not available on macOS, this workaround
-> + * using pthread_fchdir_np is needed. qemu_mknodat is defined in
-> + * os-posix.c. pthread_fchdir_np is weakly linked here as a guard
-> + * in case it disappears in future macOS versions, because it is
-> + * is a private API.
-> + */
-> +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
-> +int pthread_fchdir_np(int fd) __attribute__((weak_import));
-> +#endif
-> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
-> +
->  #ifdef __cplusplus
->  }
->  #endif
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Peter just informed me that osdep.h is not the right place to add something
-like this:
-https://lore.kernel.org/qemu-devel/CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com/
+This patch series implements 5 missing instructions from PowerISA v3.0
+and 56 new instructions from PowerISA v3.1, moving 87 other instructions
+to decodetree along the way.
 
-So this should be moved into a different header file.
+Patches without review: 2-5, 7, 9-12, 14-16, 18-36, 38-47.
 
-> diff --git a/meson.build b/meson.build
-> index ae5f7eec6e..6fdc0281ad 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1557,6 +1557,7 @@ config_host_data.set('CONFIG_POSIX_FALLOCATE',
-> cc.has_function('posix_fallocate'
-> config_host_data.set('CONFIG_POSIX_MEMALIGN',
-> cc.has_function('posix_memalign')) config_host_data.set('CONFIG_PPOLL',
-> cc.has_function('ppoll'))
->  config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix:
-> '#include <sys/uio.h>')) +config_host_data.set('CONFIG_PTHREAD_FCHDIR_NP',
-> cc.has_function('pthread_fchdir_np'))
-> config_host_data.set('CONFIG_SEM_TIMEDWAIT',
-> cc.has_function('sem_timedwait', dependencies: threads))
-> config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
-> config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and
-> cc.has_function('unshare')) diff --git a/os-posix.c b/os-posix.c
-> index ae6c9f2a5e..ccc3d1e9d3 100644
-> --- a/os-posix.c
-> +++ b/os-posix.c
-> @@ -332,3 +332,38 @@ int os_mlock(void)
->      return -ENOSYS;
->  #endif
->  }
-> +
-> +/*
-> + * As long as mknodat is not available on macOS, this workaround
-> + * using pthread_fchdir_np is needed.
-> + *
-> + * Radar filed with Apple for implementing mknodat:
-> + * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
-> + */
-> +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
-> +
-> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-> +{
-> +    int preserved_errno, err;
-> +    if (!pthread_fchdir_np) {
-> +        error_report_once("pthread_fchdir_np() is not available on this
-> version of macOS"); +        return -ENOTSUP;
-> +    }
-> +    if (pthread_fchdir_np(dirfd) < 0) {
-> +        return -1;
-> +    }
-> +    err = mknod(filename, mode, dev);
-> +    preserved_errno = errno;
-> +    /* Stop using the thread-local cwd */
-> +    pthread_fchdir_np(-1);
-> +    if (err < 0) {
-> +        errno = preserved_errno;
-> +    }
-> +    return err;
-> +}
-> +#else
-> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-> +{
-> +    return mknodat(dirfd, filename, mode, dev);
-> +}
-> +#endif
+This series can also be found at:
+https://github.com/PPC64/qemu/tree/ppc-isa31-2112-v4
 
+v4:
+ - Rebase on master;
+ - 16 new instructions: vs[lr]q, vrlq, vextsd2q, lxvr[bhwd]x/stxvr[bhwd]x,
+   plxssp/pstxssp and plxsd/pstxsd;
+ - Multiple fixes/optimizations (rth)
+
+v3:
+ - Dropped patch 33, which caused a regression in xxperm[r]
+
+v2:
+ - New patch (30) to remove xscmpnedp
+
+Leandro Lupori (2):
+  target/ppc: implement plxsd/pstxsd
+  target/ppc: implement plxssp/pstxssp
+
+Lucas Coutinho (3):
+  target/ppc: Move vexts[bhw]2[wd] to decodetree
+  target/ppc: Implement vextsd2q
+  target/ppc: implement lxvr[bhwd]/stxvr[bhwd]x
+
+Lucas Mateus Castro (alqotel) (3):
+  target/ppc: moved vector even and odd multiplication to decodetree
+  target/ppc: Moved vector multiply high and low to decodetree
+  target/ppc: vmulh* instructions without helpers
+
+Luis Pires (1):
+  target/ppc: Introduce TRANS*FLAGS macros
+
+Matheus Ferst (27):
+  target/ppc: Move Vector Compare Equal/Not Equal/Greater Than to
+    decodetree
+  target/ppc: Move Vector Compare Not Equal or Zero to decodetree
+  target/ppc: Implement Vector Compare Equal Quadword
+  target/ppc: Implement Vector Compare Greater Than Quadword
+  target/ppc: Implement Vector Compare Quadword
+  target/ppc: implement vstri[bh][lr]
+  target/ppc: implement vclrlb
+  target/ppc: implement vclrrb
+  target/ppc: implement vcntmb[bhwd]
+  target/ppc: implement vgnb
+  target/ppc: move vs[lr][a][bhwd] to decodetree
+  target/ppc: implement vslq
+  target/ppc: implement vsrq
+  target/ppc: implement vsraq
+  target/ppc: move vrl[bhwd] to decodetree
+  target/ppc: move vrl[bhwd]nm/vrl[bhwd]mi to decodetree
+  target/ppc: implement vrlq
+  target/ppc: Move vsel and vperm/vpermr to decodetree
+  target/ppc: Move xxsel to decodetree
+  target/ppc: move xxperm/xxpermr to decodetree
+  target/ppc: Move xxpermdi to decodetree
+  target/ppc: Implement xxpermx instruction
+  tcg/tcg-op-gvec.c: Introduce tcg_gen_gvec_4i
+  target/ppc: Implement xxeval
+  target/ppc: Implement xxgenpcv[bhwd]m instruction
+  target/ppc: move xs[n]madd[am][ds]p/xs[n]msub[am][ds]p to decodetree
+  target/ppc: implement xs[n]maddqp[o]/xs[n]msubqp[o]
+
+Víctor Colombo (11):
+  target/ppc: Implement vmsumcud instruction
+  target/ppc: Implement vmsumudm instruction
+  target/ppc: Implement xvtlsbb instruction
+  target/ppc: Remove xscmpnedp instruction
+  target/ppc: Refactor VSX_SCALAR_CMP_DP
+  target/ppc: Implement xscmp{eq,ge,gt}qp
+  target/ppc: Move xscmp{eq,ge,gt}dp to decodetree
+  target/ppc: Move xs{max, min}[cj]dp to use do_helper_XX3
+  target/ppc: Refactor VSX_MAX_MINC helper
+  target/ppc: Implement xs{max,min}cqp
+  target/ppc: Implement xvcvbf16spn and xvcvspbf16 instructions
+
+ include/tcg/tcg-op-gvec.h           |   22 +
+ target/ppc/fpu_helper.c             |  171 ++--
+ target/ppc/helper.h                 |  147 ++--
+ target/ppc/insn32.decode            |  232 ++++-
+ target/ppc/insn64.decode            |   56 +-
+ target/ppc/int_helper.c             |  419 +++++----
+ target/ppc/translate.c              |   58 +-
+ target/ppc/translate/vmx-impl.c.inc | 1272 ++++++++++++++++++++++++---
+ target/ppc/translate/vmx-ops.c.inc  |   59 +-
+ target/ppc/translate/vsx-impl.c.inc |  726 ++++++++++++---
+ target/ppc/translate/vsx-ops.c.inc  |   67 --
+ tcg/ppc/tcg-target.c.inc            |    6 +
+ tcg/tcg-op-gvec.c                   |  146 +++
+ 13 files changed, 2632 insertions(+), 749 deletions(-)
+
+-- 
+2.25.1
 
 
