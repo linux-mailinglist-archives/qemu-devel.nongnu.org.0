@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76A84BF70B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 12:16:01 +0100 (CET)
-Received: from localhost ([::1]:45032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02034BF735
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 12:24:45 +0100 (CET)
+Received: from localhost ([::1]:51426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMT9E-0005DV-Ex
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 06:16:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36846)
+	id 1nMTHg-0001g1-KS
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 06:24:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMT4C-00023F-HL
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 06:10:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54370)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMTFC-0000mo-6T
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 06:22:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMT4A-000593-LU
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 06:10:48 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMTF9-0007LC-6u
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 06:22:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645528244;
+ s=mimecast20190719; t=1645528926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1ZkGbRi4kK4FwCzFBiH28+49ILyP5kiY7Z5lJoSCaqo=;
- b=Yg2lx0zcTvaAim1YuqANbbariU9ingrRE+whecoIIHnLlxtKAkVV6TAIEL4PbB843tTg/G
- TTO+oJqCfAAfp8rTJ0JKK50jd/3w+QsNJ4C53AZLHZhTrzwsESNq2RE1jNK04cLMnOFy4G
- h5MXspraXPgtBJHFYymwTPEhW3QceeI=
+ bh=EuU57THBz2qYAGgc2mBmccRUJmQWboiTovPVXqZ0Xt0=;
+ b=I4aCLwUudtVjtpMqx4O3Qw3XYcqKPEWxeWDHCF5P9Ba9VUaoTb7sahqipdmKA4fKm/wb5x
+ w4Aiab0lyruxOjID9FG+pgeyexsR/pjmrixs88DHFQzFWaUiKM9nsRZsZk2HgwQergzM29
+ K9EjfAmLxwmxAHod3Bo/vpSTKYLeOAs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-340-hf0Qyn3CPrqI_oOt-fZobw-1; Tue, 22 Feb 2022 06:10:41 -0500
-X-MC-Unique: hf0Qyn3CPrqI_oOt-fZobw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-122-zHBnY4bKMeG4h3NmtQP7kQ-1; Tue, 22 Feb 2022 06:22:05 -0500
+X-MC-Unique: zHBnY4bKMeG4h3NmtQP7kQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB28F80DDE2;
- Tue, 22 Feb 2022 11:10:39 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.202])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45A40106222F;
- Tue, 22 Feb 2022 11:09:48 +0000 (UTC)
-Date: Tue, 22 Feb 2022 11:09:46 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v6 11/19] vfio-user: handle PCI config space accesses
-Message-ID: <YhTEehuOC5SXXBA9@stefanha-x1.localdomain>
-References: <cover.1645079934.git.jag.raman@oracle.com>
- <435dad76ebf552f1b155c8ebb2becdefdb9edd10.1645079934.git.jag.raman@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2278D824FA6;
+ Tue, 22 Feb 2022 11:22:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD20D7B5EA;
+ Tue, 22 Feb 2022 11:22:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4897521608D6; Tue, 22 Feb 2022 12:22:02 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 2/3] qapi: Document some missing details of
+ RTC_CHANGE event
+References: <20220221192123.749970-1-peter.maydell@linaro.org>
+ <20220221192123.749970-3-peter.maydell@linaro.org>
+Date: Tue, 22 Feb 2022 12:22:02 +0100
+In-Reply-To: <20220221192123.749970-3-peter.maydell@linaro.org> (Peter
+ Maydell's message of "Mon, 21 Feb 2022 19:21:22 +0000")
+Message-ID: <87sfsbno2t.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fCY7jbG9t7Ez2Chj"
-Content-Disposition: inline
-In-Reply-To: <435dad76ebf552f1b155c8ebb2becdefdb9edd10.1645079934.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -76,54 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
- berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
- armbru@redhat.com, quintela@redhat.com, f4bug@amsat.org, qemu-devel@nongnu.org,
- alex.williamson@redhat.com, kanth.ghatraju@oracle.com,
- thanos.makatos@nutanix.com, pbonzini@redhat.com, eblake@redhat.com,
- dgilbert@redhat.com
+Cc: qemu-arm@nongnu.org, Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
---fCY7jbG9t7Ez2Chj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Feb 17, 2022 at 02:48:58AM -0500, Jagannathan Raman wrote:
-> Define and register handlers for PCI config space accesses
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> The RTC_CHANGE event's documentation is missing some details:
+>  * the offset argument is in units of seconds
+>  * it isn't guaranteed that the RTC will implement the event
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/remote/vfio-user-obj.c | 45 +++++++++++++++++++++++++++++++++++++++
->  hw/remote/trace-events    |  2 ++
->  2 files changed, 47 insertions(+)
+> v1->v2: add the "RTC might not implement this" note
+> ---
+>  qapi/misc.json | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index 7a70eaa3ffc..0ab235e41f7 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -533,10 +533,12 @@
+>  #
+>  # Emitted when the guest changes the RTC time.
+>  #
+> -# @offset: offset between base RTC clock (as specified by -rtc base), and
+> -#          new RTC clock value
+> +# @offset: offset in seconds between base RTC clock (as specified
+> +#          by -rtc base), and new RTC clock value
+>  #
+>  # Note: This event is rate-limited.
+> +#       It is not guaranteed that the RTC in the system implements
+> +#       this event, or even that the system has an RTC at all.
+>  #
+>  # Since: 0.13
+>  #
 
-hw/pci/pci.c:pci_update_mappings() will unmap/map BARs when the
-vfio-user client touches BARs. Please add a comment that the remote
-machine type never dispatches memory accesses in the global memory address
-space and therefore we don't care that multiple remote devices may set
-up conflicting Memory and I/O Space BARs.
-
---fCY7jbG9t7Ez2Chj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIUxHoACgkQnKSrs4Gr
-c8i2iQgAqxaa80M77jJaMn/sm4f5Xh1YalQp/ZQZ02IAMTsX+8c5ketMxB5ZbvOO
-g0RCjjPws8KqpNaXsfXleoSSFB/sjEw3rj/wvVbLLdnGf7VwQaByBltgTWA1L85U
-nY2tB7HVe4fz5wdItRMJC4OSn2tpAqcXgWYaYVA0PJcvYG9l24VA52TfrxHeZgnJ
-fHl7vAf38Ap6vwyfhf4XJyAX01568WX/Bw62uh+k0yfvkvHL7hGWMvXBBnKRKRHv
-WKUObMzN8o6ThW7GS0/gV+bixyLF/BhdhVgJUpHaZDMrK2GFMzpZgdOusm/hdk1+
-r1GrpGfcBcvf11xLwV9Yb5rJSPBj9g==
-=/D0W
------END PGP SIGNATURE-----
-
---fCY7jbG9t7Ez2Chj--
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
