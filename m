@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8654BFDF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:00:02 +0100 (CET)
-Received: from localhost ([::1]:33676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5224BFE07
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 17:03:26 +0100 (CET)
+Received: from localhost ([::1]:39974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMXa5-0004w4-R1
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:00:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49776)
+	id 1nMXdN-0000qT-EW
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 11:03:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1nMWhh-00062k-H8
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 10:03:49 -0500
-Received: from [2604:1380:4641:c500::1] (port=48712 helo=dfw.source.kernel.org)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMWiL-0006Zo-Hu
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 10:04:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1nMWhf-0001Dx-0F
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 10:03:49 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMWiJ-0001Ie-DW
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 10:04:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645542266;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/SDfuA+pPUQIM+fN2f6KBI6TQOQHGoI1LD8IlgGppV8=;
+ b=V0pivBxk84re2FS8XqZAkJRULM/oQ6Gt5T3RXGn+z6MtsCJ417RZe3yY9us7Br5dhrdYjc
+ n3UqOTeirsDrvmUzqeM4rO4kT56X880EOSqlbuT5xf2wV8OW1+AWB5qizkT7pZe2sMUa5l
+ K07gS4+O5uqmYb07rtkxIGYJ/L/Su/o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-12-CNMsG4OuPT6atuVWPCDWgw-1; Tue, 22 Feb 2022 10:04:21 -0500
+X-MC-Unique: CNMsG4OuPT6atuVWPCDWgw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E0B3861589;
- Tue, 22 Feb 2022 15:03:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE1CC340E8;
- Tue, 22 Feb 2022 15:03:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645542218;
- bh=sF29agGyHsX8Udu48FPCpvs/QyXfpzPgjgx5kraSddQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=f3dsrr0hoHdYTBf6UbJFOKQ+S+xQzLXMxVRXUzG1yPzzaz8CIqigtGy7weXYheNW+
- ha4/yrxPLMPW5w0NsBZ66wlB5D9/zq7n+hKDbBmT+HudU2/6lxUryeSUbFuB9p4T8D
- 3euJoh+8xmA7a102HjWhUks7/FPGlzMArzkyTIPJFd5e4ha05TcBRKOSHje+57a1Be
- aaGXMV5b9+UcoVPx5Xq+3tySqxTuEofCjivfWck2TwmmjtLF/ltpRH8EqmI9cKCbpu
- y9RGo2LpA6XLf3XyhEkS3VK3fjDIh07KqFwThMwLoWoIcnziACpri9Ar450kvLj5Lv
- hqJtwdE2TGvZQ==
-Date: Tue, 22 Feb 2022 07:03:35 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
-Message-ID: <20220222150335.GA1497257@dhcp-10-100-145-180.wdc.com>
-References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
- <YhMtxWcFMjdQTioe@apples>
- <CAJSP0QVNRYTOGDsjCJJLOT=7yo1EB6D9LBwgQ4-CE539HdgHNQ@mail.gmail.com>
- <YhN+5wz3MXVm3vXU@apples>
- <CAJSP0QXz6kuwx6mycYz_xzxiVjdVR_AqHnpygwV4Ht-7B9pYmw@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17AF71091DA0;
+ Tue, 22 Feb 2022 15:04:20 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F0D57A540;
+ Tue, 22 Feb 2022 15:04:04 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0AE0121B9F8B; Tue, 22 Feb 2022 16:04:03 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: Re: [PATCH RFC 4/4] rtc: Have event RTC_CHANGE identify the RTC by
+ QOM path
+References: <20220221192123.749970-1-peter.maydell@linaro.org>
+ <87a6ejnm80.fsf@pond.sub.org>
+ <043096b3-aadf-4f2a-b5e2-c219d2344821@gmail.com>
+Date: Tue, 22 Feb 2022 16:04:03 +0100
+In-Reply-To: <043096b3-aadf-4f2a-b5e2-c219d2344821@gmail.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 22 Feb 2022 13:56:01
+ +0100")
+Message-ID: <877d9nkknw.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QXz6kuwx6mycYz_xzxiVjdVR_AqHnpygwV4Ht-7B9pYmw@mail.gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4641:c500::1
- (failed)
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=kbusch@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,70 +86,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, Sergio Lopez <slp@redhat.com>,
- kvm <kvm@vger.kernel.org>, Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
- John Snow <jsnow@redhat.com>, Alex Agache <aagch@amazon.com>,
- qemu-devel <qemu-devel@nongnu.org>, "Florescu, Andreea" <fandree@amazon.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- Klaus Jensen <its@irrelevant.dk>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Hannes Reinecke <hare@suse.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 22, 2022 at 09:48:06AM +0000, Stefan Hajnoczi wrote:
-> On Mon, 21 Feb 2022 at 12:00, Klaus Jensen <its@irrelevant.dk> wrote:
-> >
-> > Yes, I'll go ahead as mentor for this.
-> >
-> > @Keith, if you want to join in, let us know :)
+Philippe Mathieu-Daud=C3=A9 <philippe.mathieu.daude@gmail.com> writes:
 
-Thank you for setting this up, I would be happy assist with the cause!
+> Hi Markus,
+>
+> On 22/2/22 13:02, Markus Armbruster wrote:
+>> Event RTC_CHANGE is "emitted when the guest changes the RTC time" (and
+>> the RTC supports the event).  What if there's more than one RTC?
+>
+> w.r.t. RTC, a machine having multiple RTC devices is silly...
+>
+> Assuming one wants to emulate that; shouldn't all QMP events have a
+> qom-path by default? Or have a generic "event-from-multiple-sources"
+> flag which automatically add this field?
 
-> > Suggested updated summary:
-> >
-> > QEMU's NVMe emulation uses the traditional trap-and-emulation method to
-> > emulate I/Os, thus the performance suffers due to frequent VM-exits.
-> > Version 1.3 of the NVMe specification defines a new feature to update
-> > doorbell registers using a Shadow Doorbell Buffer. This can be utilized
-> > to enhance performance of emulated controllers by reducing the number of
-> > Submission Queue Tail Doorbell writes.
-> >
-> > Further more, it is possible to run emulation in a dedicated thread
-> > called an IOThread. Emulating NVMe in a separate thread allows the vcpu
-> > thread to continue execution and results in better performance.
-> >
-> > Finally, it is possible for the emulation code to watch for changes to
-> > the queue memory instead of waiting for doorbell writes. This technique
-> > is called polling and reduces notification latency at the expense of an
-> > another thread consuming CPU to detect queue activity.
-> >
-> > The goal of this project is to add implement these optimizations so
-> > QEMU's NVMe emulation performance becomes comparable to virtio-blk
-> > performance.
-> >
-> > Tasks include:
-> >
-> >     Add Shadow Doorbell Buffer support to reduce doorbell writes
-> >     Add Submission Queue polling
-> >     Add IOThread support so emulation can run in a dedicated thread
-> >
-> > Maybe add a link to this previous discussion as well:
-> >
-> > https://lore.kernel.org/qemu-devel/1447825624-17011-1-git-send-email-mlin@kernel.org/T/#u
-> 
-> Great, I have added the project idea. I left in the sq doorbell
-> ioeventfd task but moved it after the Shadow Doorbell Buffer support
-> task and made it clear that the ioeventfd can only be used when the
-> Shadow Doorbell Buffer is enabled:
-> https://wiki.qemu.org/Google_Summer_of_Code_2022#NVMe_Emulation_Performance_Optimization
+Not all events originate from a device, or even a QOM object.
 
-Looks great, this seems like a very useful addition to have. I like that
-the feature can be broken down into two parts. Hopefully that makes it
-more approachable.
+The ones that do could all use a qom-path member, I guess.
+
+[...]
+
 
