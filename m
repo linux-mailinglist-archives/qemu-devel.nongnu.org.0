@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFF94BFFC5
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:08:33 +0100 (CET)
-Received: from localhost ([::1]:53368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F754BFFAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:07:04 +0100 (CET)
+Received: from localhost ([::1]:51212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMYeO-0002Ph-L2
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:08:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47234)
+	id 1nMYcw-0000xN-VG
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:07:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMYBa-000625-Rw
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 11:38:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46878)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMYBZ-0000v8-3D
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 11:38:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645547924;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LYa4rHDhYe14xmC6555n1VmRCeOY76oa4WNCVke9MWk=;
- b=ffauRHi48s4E06LIgugjg/LTT95gFvP3LPtbhRxW3/OvnmuXaFsFgFXR8QcdX+4/LZobBt
- jqum/onCTju/9PhxLal4oiyjp8DKD0ROUZKvuC5oS8nxqLQsWttVVGvd1xeNNPRTi1hBTS
- /mb7Xqlk8ospjeUKtWS0q6c2PZ030cc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-146-n-nHbnUDOoC3-ZeOPZv5AQ-1; Tue, 22 Feb 2022 11:38:31 -0500
-X-MC-Unique: n-nHbnUDOoC3-ZeOPZv5AQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3624D100CC84;
- Tue, 22 Feb 2022 16:38:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD182348B8;
- Tue, 22 Feb 2022 16:38:25 +0000 (UTC)
-Date: Tue, 22 Feb 2022 16:38:22 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: Analysis of slow distro boots in check-avocado
- (BootLinuxAarch64.test_virt_tcg*)
-Message-ID: <YhURfqMvRT4xbiz6@redhat.com>
-References: <874k4xbqvp.fsf@linaro.org>
- <878ru2nacq.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <fabian.holler@simplesurance.de>)
+ id 1nMYXh-0002Vu-09
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 12:01:37 -0500
+Received: from [2a00:1450:4864:20::631] (port=45015
+ helo=mail-ej1-x631.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <fabian.holler@simplesurance.de>)
+ id 1nMYXe-0004Yy-TY
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 12:01:36 -0500
+Received: by mail-ej1-x631.google.com with SMTP id p14so44770813ejf.11
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 09:01:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=simplesurance.de; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n7LThoxwgNhXbXQngOYHR1is0bGv0n34kYyWGpi7lvY=;
+ b=is83LrTSQl0/uMxse1Yl3o4cJ64NFSg2pwNvCSFKU/gNLdeCcX7BrF6ClUCr0P4wIv
+ 5iRNXHKrJyPdGy72A+Mg0P8/2wPOJDxBxwaoVnStiSNjBrMe7LA7U6R85U5vA+4fB15Q
+ vpm+TL3gpIXtpyEq0kxwHf+4lC8UtYrZYW2XQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n7LThoxwgNhXbXQngOYHR1is0bGv0n34kYyWGpi7lvY=;
+ b=glHUvyPFeFiu83EcYu9t58bL19tbhOM04Nh4z1lwr3K/eC4pmzNVRlaMZPk4Go0NZt
+ q2FBH09DSOfJ2zdUgwZbmTjewCPyT8dnpuJqGyoB1b4FNcF/IBXFGb4D8iceTHP8WyiJ
+ /n7NAvLjGUlCFszz99j9Asu525+EhCQcxgCAVZTHDKzCx/bRIFGXsebeu8nGPMpGOqj4
+ KALCiMvLAY0Pz+F/JhSYlRoUqyJfr+HvE4iZa4YudGwKek8iELz3piUIfWWSJUwVZ6YM
+ RuesX37o7kW3QT0JyIkz4LoHDNFamOIWJRrD+q5ZoqMKDXoAr6zk7E9rcUUp2FJT1SGZ
+ 8Ytw==
+X-Gm-Message-State: AOAM530EAd+sdqvPf2tD0L5WYcv2CIUkVV0sVvPJ2enAVkWIi4O8TW+1
+ 2esRuF/svG3ev5kUGnuDqUtbg3BhaOF7oRpF
+X-Google-Smtp-Source: ABdhPJxZ+b3CiKG9826ifY0IbDQ55hRYMbeyHPGbX40UpvodtgTwU5anAO7TfSgYbSznSC/6wupf4w==
+X-Received: by 2002:a17:906:dd7:b0:6b8:783f:a49d with SMTP id
+ p23-20020a1709060dd700b006b8783fa49dmr19718841eji.623.1645549292506; 
+ Tue, 22 Feb 2022 09:01:32 -0800 (PST)
+Received: from ltop.sisu.sh ([2001:16b8:5cfe:5500:f68c:50ff:fe0d:5386])
+ by smtp.gmail.com with ESMTPSA id p18sm6495540ejm.63.2022.02.22.09.01.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Feb 2022 09:01:31 -0800 (PST)
+From: Fabian Holler <fabian.holler@simplesurance.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] qapi/migration: Fix examples document wrong field name for
+ arguments
+Date: Tue, 22 Feb 2022 18:01:16 +0100
+Message-Id: <20220222170116.63105-1-fabian.holler@simplesurance.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <878ru2nacq.fsf@linaro.org>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=fabian.holler@simplesurance.de; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,62 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Oleg Vasilev <me@svin.in>,
- Idan Horowitz <idan.horowitz@gmail.com>, Cleber Rosa <cleber@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Emilio Cota <cota@braap.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Fabian Holler <fabian.holler@simplesurance.de>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 22, 2022 at 04:17:23PM +0000, Alex Bennée wrote:
-> 
-> Alex Bennée <alex.bennee@linaro.org> writes:
-> 
-> > Hi,
-> >
-> > TL;DR:
-> >
-> >   - pc-bios/edk2-aarch64-code.fd should be rebuilt without debug
-> 
-> Laszlo,
-> 
-> Would it be possible to do a less debug enabled version of EDK2 on the
-> next update to pc-bios/edk2-*?
+The examples for the snapshot-* and calc-dirty-rate commands document
+that arguments for the commands are passed in a 'data' field.
+This is wrong, passing them in a "data" field results in
+the error:
+  {"error": {"class": "GenericError", "desc": "QMP input member 'data'
+		       is unexpected"}}
+Arguments are expected to be passed in an field called "arguments".
 
-NB, Laszlo is no longer  maintaining EDK2 in QEMU, it was handed
-over to Philippe.  I'm CC'ing Gerd too since he's a reviewer and
-an EDK2 contributor taking over from Lazslo in EDK2 community
+Replace "data" with "arguments" in the snapshot-* and calc-dirty-rate
+command examples.
 
-> 
-> >
-> > So my working theory is:
-> >
-> >   - booting with EFI leaves a number stale code pages
-> >   - as the kernel boots it clears these pages triggering lots of
-> >     slow-path writes
-> >   - result very slow boot
-> >
-> > I think the only real solution is to improve our TB invalidation code
-> > but perhaps another approach would be to detect a high TB invalidation
-> > churn and just tb_flush the whole thing and start again?
-> >
-> > Any thoughts or ideas?
-> 
-> 
-> -- 
-> Alex Bennée
-> 
+Signed-off-by: Fabian Holler <fabian.holler@simplesurance.de>
+---
+v2:
+  - adapted to Markus Armbruster's suggestions:
+    - fix same issue in calc-dirty-rate example
+    - improve commit message
+v1: 
+  https://lists.nongnu.org/archive/html/qemu-devel/2022-02/msg04818.html
+---
+ qapi/migration.json | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Regards,
-Daniel
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 5975a0e104..18e2610e88 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1843,8 +1843,8 @@
+ # Since: 5.2
+ #
+ # Example:
+-#   {"command": "calc-dirty-rate", "data": {"calc-time": 1,
+-#                                           'sample-pages': 512} }
++#   {"command": "calc-dirty-rate", "arguments": {"calc-time": 1,
++#                                                'sample-pages': 512} }
+ #
+ ##
+ { 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64',
+@@ -1888,7 +1888,7 @@
+ # Example:
+ #
+ # -> { "execute": "snapshot-save",
+-#      "data": {
++#      "arguments": {
+ #         "job-id": "snapsave0",
+ #         "tag": "my-snap",
+ #         "vmstate": "disk0",
+@@ -1949,7 +1949,7 @@
+ # Example:
+ #
+ # -> { "execute": "snapshot-load",
+-#      "data": {
++#      "arguments": {
+ #         "job-id": "snapload0",
+ #         "tag": "my-snap",
+ #         "vmstate": "disk0",
+@@ -2002,7 +2002,7 @@
+ # Example:
+ #
+ # -> { "execute": "snapshot-delete",
+-#      "data": {
++#      "arguments": {
+ #         "job-id": "snapdelete0",
+ #         "tag": "my-snap",
+ #         "devices": ["disk0", "disk1"]
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.35.1
 
 
