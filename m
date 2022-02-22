@@ -2,49 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF944BEEE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 02:20:04 +0100 (CET)
-Received: from localhost ([::1]:56376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC5F4BEFA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 03:47:55 +0100 (CET)
+Received: from localhost ([::1]:44578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMJqV-0001VO-Fg
-	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 20:20:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43448)
+	id 1nMLDW-00007R-2n
+	for lists+qemu-devel@lfdr.de; Mon, 21 Feb 2022 21:47:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1nMJoW-0000of-Ms
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 20:18:00 -0500
-Received: from vps-vb.mhejs.net ([37.28.154.113]:41634)
+ (Exim 4.90_1) (envelope-from <wangxinxin.wang@huawei.com>)
+ id 1nMLBq-0007nK-6z
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 21:46:10 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:4182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1nMJoU-00077Q-Oq
- for qemu-devel@nongnu.org; Mon, 21 Feb 2022 20:18:00 -0500
-Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <mail@maciej.szmigiero.name>)
- id 1nMJnQ-0005kk-S3; Tue, 22 Feb 2022 02:16:52 +0100
-Message-ID: <45148f5f-fe79-b452-f3b2-482c5c3291c4@maciej.szmigiero.name>
-Date: Tue, 22 Feb 2022 02:16:46 +0100
+ (Exim 4.90_1) (envelope-from <wangxinxin.wang@huawei.com>)
+ id 1nMLBl-0003uW-JX
+ for qemu-devel@nongnu.org; Mon, 21 Feb 2022 21:46:09 -0500
+Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4K2k3N17Z6z9s7b;
+ Tue, 22 Feb 2022 10:42:24 +0800 (CST)
+Received: from dggpeml100023.china.huawei.com (7.185.36.151) by
+ dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 22 Feb 2022 10:45:49 +0800
+Received: from canpemm500006.china.huawei.com (7.192.105.130) by
+ dggpeml100023.china.huawei.com (7.185.36.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 22 Feb 2022 10:45:49 +0800
+Received: from canpemm500006.china.huawei.com ([7.192.105.130]) by
+ canpemm500006.china.huawei.com ([7.192.105.130]) with mapi id 15.01.2308.021; 
+ Tue, 22 Feb 2022 10:45:49 +0800
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "dgilbert@redhat.com" <dgilbert@redhat.com>, "quintela@redhat.com"
+ <quintela@redhat.com>, "Huangweidong (C)" <weidong.huang@huawei.com>,
+ zhaihuanyu <zhaihuanyu@huawei.com>
+Subject: RE: [PATCH] multifd: ensure multifd threads are terminated before
+ cleanup params
+Thread-Topic: [PATCH] multifd: ensure multifd threads are terminated before
+ cleanup params
+Thread-Index: AQHYIBGCWsTkOTsUOkm6vQwR6td196ye7C7w
+Date: Tue, 22 Feb 2022 02:45:48 +0000
+Message-ID: <6a046f02114f4c0383e92deece109b2c@huawei.com>
+References: <20220212130735.3236-1-wangxinxin.wang@huawei.com>
+In-Reply-To: <20220212130735.3236-1-wangxinxin.wang@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.151.225]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Content-Language: en-US
-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
- <20220118132121.31388-13-chao.p.peng@linux.intel.com>
- <a121e766-900d-2135-1516-e1d3ba716834@maciej.szmigiero.name>
- <20220217134548.GA33836@chaop.bj.intel.com>
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Subject: Re: [PATCH v4 12/12] KVM: Expose KVM_MEM_PRIVATE
-In-Reply-To: <20220217134548.GA33836@chaop.bj.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.28.154.113;
- envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangxinxin.wang@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -59,89 +75,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Wangxin (Alexander)" <wangxinxin.wang@huawei.com>
+From:  "Wangxin (Alexander)" via <qemu-devel@nongnu.org>
 
-On 17.02.2022 14:45, Chao Peng wrote:
-> On Tue, Jan 25, 2022 at 09:20:39PM +0100, Maciej S. Szmigiero wrote:
->> On 18.01.2022 14:21, Chao Peng wrote:
->>> KVM_MEM_PRIVATE is not exposed by default but architecture code can turn
->>> on it by implementing kvm_arch_private_memory_supported().
->>>
->>> Also private memslot cannot be movable and the same file+offset can not
->>> be mapped into different GFNs.
->>>
->>> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
->>> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
->>> ---
->> (..)
->>>    static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
->>> -				      gfn_t start, gfn_t end)
->>> +				      struct file *file,
->>> +				      gfn_t start, gfn_t end,
->>> +				      loff_t start_off, loff_t end_off)
->>>    {
->>>    	struct kvm_memslot_iter iter;
->>> +	struct kvm_memory_slot *slot;
->>> +	struct inode *inode;
->>> +	int bkt;
->>>    	kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
->>>    		if (iter.slot->id != id)
->>>    			return true;
->>>    	}
->>> +	/* Disallow mapping the same file+offset into multiple gfns. */
->>> +	if (file) {
->>> +		inode = file_inode(file);
->>> +		kvm_for_each_memslot(slot, bkt, slots) {
->>> +			if (slot->private_file &&
->>> +			     file_inode(slot->private_file) == inode &&
->>> +			     !(end_off <= slot->private_offset ||
->>> +			       start_off >= slot->private_offset
->>> +					     + (slot->npages >> PAGE_SHIFT)))
->>> +				return true;
->>> +		}
->>> +	}
->>
->> That's a linear scan of all memslots on each CREATE (and MOVE) operation
->> with a fd - we just spent more than a year rewriting similar linear scans
->> into more efficient operations in KVM.
-> 
-> In the last version I tried to solve this problem by using interval tree
-> (just like existing hva_tree), but finally we realized that in one VM we
-> can have multiple fds with overlapped offsets so that approach is
-> incorrect. See https://lkml.org/lkml/2021/12/28/480 for the discussion.
+Ping.
 
-That's right, in this case a two-level structure would be necessary:
-the first level matching a file, then the second level matching that
-file ranges.
-However, if such data is going to be used just for checking possible
-overlap at memslot add or move time it is almost certainly an overkill.
+>=20
+> In multifd_save_cleanup(), we terminate all multifd threads and destroy
+> the 'p->mutex', while the mutex may still be held by multifd send thread,
+> this causes qemu to crash.
+>=20
+> It's because the multifd_send_thread maybe scheduled out after setting
+> 'p->running' to false. To reproduce the problem, we put
+> 'multifd_send_thread' to sleep seconds before unlock 'p->mutex':
+>=20
+> function multifd_send_thread()
+> {
+>     ...
+>     qemu_mutex_lock(&p->mutex);
+>     p->running =3D false;
+>     usleep(5000000);
+>     ^^^^^^^^^^^^^^^^
+>     qemu_mutex_unlock(&p->mutex);
+>     ...
+> }
+>=20
+> As the 'p->running' is used to indicate whether the multifd_send/recv thr=
+ead
+> is created, it should be set to false after the thread terminate.
+>=20
+> Signed-off-by: Wang Xin <wangxinxin.wang@huawei.com>
+> Signed-off-by: Huangyu Zhai <zhaihuanyu@huawei.com>
+>=20
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 76b57a7177..d8fc7d319e 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -526,6 +526,7 @@ void multifd_save_cleanup(void)
+>=20
+>          if (p->running) {
+>              qemu_thread_join(&p->thread);
+> +            p->running =3D false;
+>          }
+>      }
+>      for (i =3D 0; i < migrate_multifd_channels(); i++) {
+> @@ -707,10 +708,6 @@ out:
+>          qemu_sem_post(&multifd_send_state->channels_ready);
+>      }
+>=20
+> -    qemu_mutex_lock(&p->mutex);
+> -    p->running =3D false;
+> -    qemu_mutex_unlock(&p->mutex);
+> -
+>      rcu_unregister_thread();
+>      trace_multifd_send_thread_end(p->id, p->num_packets, p->total_normal=
+_pages);
+>=20
+> @@ -995,6 +992,7 @@ int multifd_load_cleanup(Error **errp)
+>               */
+>              qemu_sem_post(&p->sem_sync);
+>              qemu_thread_join(&p->thread);
+> +            p->running =3D false;
+>          }
+>      }
+>      for (i =3D 0; i < migrate_multifd_channels(); i++) {
+> @@ -1110,9 +1108,6 @@ static void *multifd_recv_thread(void *opaque)
+>          multifd_recv_terminate_threads(local_err);
+>          error_free(local_err);
+>      }
+> -    qemu_mutex_lock(&p->mutex);
+> -    p->running =3D false;
+> -    qemu_mutex_unlock(&p->mutex);
+>=20
+>      rcu_unregister_thread();
+>      trace_multifd_recv_thread_end(p->id, p->num_packets, p->total_normal=
+_pages);
+> --
+> 2.26.0.windows.1
 
-> So linear scan is used before I can find a better way.
-
-Another option would be to simply not check for overlap at add or move
-time, declare such configuration undefined behavior under KVM API and
-make sure in MMU notifiers that nothing bad happens to the host kernel
-if it turns out somebody actually set up a VM this way (it could be
-inefficient in this case, since it's not supposed to ever happen
-unless there is a bug somewhere in the userspace part).
-
-> Chao
-
-Thanks,
-Maciej
 
