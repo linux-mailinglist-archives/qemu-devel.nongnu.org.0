@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44C64C02C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 21:05:08 +0100 (CET)
-Received: from localhost ([::1]:33306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 569A14C02D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 21:08:30 +0100 (CET)
+Received: from localhost ([::1]:39646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMbPH-000633-PF
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 15:05:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47970)
+	id 1nMbSX-000200-83
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 15:08:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nMb1W-0007rp-W7
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:40:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55623)
+ id 1nMb1e-0008Fy-5z
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:40:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nMb1T-00080a-1q
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:40:34 -0500
+ id 1nMb1c-00082K-1v
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:40:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645558825;
+ s=mimecast20190719; t=1645558839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rSESw2B9YtkSPumdF/JVLh1UotaxwApvHyO+vHsYoXg=;
- b=GrDRxhzVAFofH7DEcFx0P3WKt4+tiFSntAsS5CcVg1VT2o+Y+4M0CWlOlHC1lQazAK34U2
- QFfQ5pYNURlKA4+tV5goKYFJc/rNPG9CrCGtcdfOhLYOMSxr/qZpk/mWYDZ74rhifr+SDB
- NrfNfgvBKsZ7w01oummEfWxvYINdL6k=
+ bh=BDLpDgWFXIATN0OhWc55h0ZASnSriQOlym6oIVYm4Lw=;
+ b=PlzPbUvgsWCqVLQw8W1D801n7Mq1KsYZVFKq99ewHYkpb8HpeJClyKS5RSBHZhbVbbpoRi
+ 9Aaz5m7u2Xy+GF/dLmJ1MkqkftiD8j8mxaEYaR2/yIlg2CL33szt2cwhIe5fLaIFwYgav1
+ RYB2SXEgoSfbtWCpWvmJA6pQcKhtPpU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-fCt7dkLfNPyIjdo5CJHVjg-1; Tue, 22 Feb 2022 14:40:24 -0500
-X-MC-Unique: fCt7dkLfNPyIjdo5CJHVjg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-385-TwX-py8jNvqOeXP6moSHQQ-1; Tue, 22 Feb 2022 14:40:36 -0500
+X-MC-Unique: TwX-py8jNvqOeXP6moSHQQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B00EC1854E32;
- Tue, 22 Feb 2022 19:40:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E4301091DA0;
+ Tue, 22 Feb 2022 19:40:35 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6DCE5DB83;
- Tue, 22 Feb 2022 19:40:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C72C75F4E1;
+ Tue, 22 Feb 2022 19:40:26 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/8] qga/vss-win32: check old VSS SDK headers
-Date: Tue, 22 Feb 2022 23:40:02 +0400
-Message-Id: <20220222194008.610377-3-marcandre.lureau@redhat.com>
+Subject: [PATCH 3/8] qga/vss: update informative message about MinGW
+Date: Tue, 22 Feb 2022 23:40:03 +0400
+Message-Id: <20220222194008.610377-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20220222194008.610377-1-marcandre.lureau@redhat.com>
 References: <20220222194008.610377-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,88 +89,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The VssCoordinator & VssAdmin interfaces have been moved to vsadmin.h in
-the Windows SDK.
+The headers are now all available in MinGW master branch.
+(commit 13390dbbf885f and earlier) aiming for 10.0.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- meson.build                | 3 +++
- qga/vss-win32/vss-common.h | 3 ++-
- qga/vss-win32/install.cpp  | 4 ++++
- qga/vss-win32/provider.cpp | 4 ++++
- 4 files changed, 13 insertions(+), 1 deletion(-)
+ qga/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index b871098dbba0..101a3f2d31ee 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1933,12 +1933,15 @@ config_host_data.set('CONFIG_AF_VSOCK', cc.compiles(gnu_source_prefix + '''
-   }'''))
- 
- have_vss = false
-+have_vss_sdk = false # old xp/2003 SDK
- if targetos == 'windows' and link_language == 'cpp'
-   have_vss = cxx.compiles('''
-     #define __MIDL_user_allocate_free_DEFINED__
-     #include <vss.h>
-     int main(void) { return VSS_CTX_BACKUP; }''')
-+  have_vss_sdk = cxx.has_header('vscoordint.h')
- endif
-+config_host_data.set('HAVE_VSS_SDK', have_vss_sdk)
- 
- have_ntddscsi = false
- if targetos == 'windows'
-diff --git a/qga/vss-win32/vss-common.h b/qga/vss-win32/vss-common.h
-index 54f8de8c8851..0e67e7822ce6 100644
---- a/qga/vss-win32/vss-common.h
-+++ b/qga/vss-win32/vss-common.h
-@@ -64,12 +64,13 @@ const CLSID CLSID_QGAVSSProvider = { 0x6e6a3492, 0x8d4d, 0x440c,
- const TCHAR g_szClsid[] = TEXT("{6E6A3492-8D4D-440C-9619-5E5D0CC31CA8}");
- const TCHAR g_szProgid[] = TEXT("QGAVSSProvider");
- 
-+#ifdef HAVE_VSS_SDK
- /* Enums undefined in VSS SDK 7.2 but defined in newer Windows SDK */
- enum __VSS_VOLUME_SNAPSHOT_ATTRIBUTES {
-     VSS_VOLSNAP_ATTR_NO_AUTORECOVERY       = 0x00000002,
-     VSS_VOLSNAP_ATTR_TXF_RECOVERY          = 0x02000000
- };
--
-+#endif
- 
- /* COM pointer utility; call ->Release() when it goes out of scope */
- template <class T>
-diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
-index efc5bb9909c0..8076efe3cbb5 100644
---- a/qga/vss-win32/install.cpp
-+++ b/qga/vss-win32/install.cpp
-@@ -13,7 +13,11 @@
- #include "qemu/osdep.h"
- 
- #include "vss-common.h"
-+#ifdef HAVE_VSS_SDK
- #include <vscoordint.h>
-+#else
-+#include <vsadmin.h>
-+#endif
- #include "install.h"
- #include <wbemidl.h>
- #include <comdef.h>
-diff --git a/qga/vss-win32/provider.cpp b/qga/vss-win32/provider.cpp
-index fd187fb66f67..1b885e24ee17 100644
---- a/qga/vss-win32/provider.cpp
-+++ b/qga/vss-win32/provider.cpp
-@@ -12,7 +12,11 @@
- 
- #include "qemu/osdep.h"
- #include "vss-common.h"
-+#ifdef HAVE_VSS_SDK
- #include <vscoordint.h>
-+#else
-+#include <vsadmin.h>
-+#endif
- #include <vsprov.h>
- 
- #define VSS_TIMEOUT_MSEC (60*1000)
+diff --git a/qga/meson.build b/qga/meson.build
+index 54f2da5b0763..62472747f1bb 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -15,7 +15,7 @@ have_qga_vss = get_option('qga_vss') \
+     If your Visual Studio installation doesn't have the VSS headers,
+     Please download and install Microsoft VSS SDK:
+     http://www.microsoft.com/en-us/download/details.aspx?id=23490
+-    On POSIX-systems, MinGW doesn't yet provide working headers.
++    On POSIX-systems, MinGW should provide headers in >=10.0 releases.
+     you can extract the SDK headers by:
+     $ scripts/extract-vsssdk-headers setup.exe
+     The headers are extracted in the directory 'inc/win2003'.
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
