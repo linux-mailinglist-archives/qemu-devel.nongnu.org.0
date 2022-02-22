@@ -2,72 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1254C4BFA74
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 15:11:07 +0100 (CET)
-Received: from localhost ([::1]:34352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7564BFABE
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 15:17:36 +0100 (CET)
+Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMVsg-0004Ew-3q
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 09:11:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60810)
+	id 1nMVyx-0004Zm-SW
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 09:17:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMVks-0003T2-Rk
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:03:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48875)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1nMVt9-0007ua-IL
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:11:35 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:3274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMVkj-00064y-Fm
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:03:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645538568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HUSjxCrDCeqlhp8/+at1/lehFiV3FaCXK/bIdJiCV9M=;
- b=Ix8YU5xkMOWAT2andNR8igq73F+FKNU8+/lSiLQ1/FhNmHIJMuQDjlwOcvWC/6HzHlJLfx
- cKaBkPWB1GvDAtn+zY78/2QxckBdQlP6FgSTMdtOrJIqcvkpR4kD7rfVu4puISbCk9MdLI
- Az4cvOdCX6BUXByWVQoL+Q5vhoKUjZA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-417-fadd5xn0NES-Hmhh_0uc0w-1; Tue, 22 Feb 2022 09:02:45 -0500
-X-MC-Unique: fadd5xn0NES-Hmhh_0uc0w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A7611091DA0;
- Tue, 22 Feb 2022 14:02:44 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.202])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9401D7C0F9;
- Tue, 22 Feb 2022 14:02:43 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/4] cpus: use coroutine TLS macros for iothread_locked
-Date: Tue, 22 Feb 2022 14:01:50 +0000
-Message-Id: <20220222140150.27240-5-stefanha@redhat.com>
-In-Reply-To: <20220222140150.27240-1-stefanha@redhat.com>
-References: <20220222140150.27240-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1nMVt4-0008OC-W0
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:11:35 -0500
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.53])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4K31F64DVSz1FDJN;
+ Tue, 22 Feb 2022 22:06:50 +0800 (CST)
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 22 Feb 2022 22:11:20 +0800
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
+ dggpeml100016.china.huawei.com (7.185.36.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 22 Feb 2022 22:11:19 +0800
+To: <pbonzini@redhat.com>
+CC: <qemu-devel@nongnu.org>, <alex.williamson@redhat.com>, <mst@redhat.com>,
+ <mtosatti@redhat.com>, <arei.gonglei@huawei.com>, Longpeng
+ <longpeng2@huawei.com>
+Subject: [PATCH resend 0/2] kvm/msi: do explicit commit when adding msi routes
+Date: Tue, 22 Feb 2022 22:11:14 +0800
+Message-ID: <20220222141116.2091-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml100016.china.huawei.com (7.185.36.216)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
+ helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,66 +65,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Florian Weimer <fweimer@redhat.com>, qemu-block@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
+From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
-qemu_mutex_iothread_locked() may be used from coroutines. Standard
-__thread variables cannot be used by coroutines. Use the coroutine TLS
-macros instead.
+From: Longpeng <longpeng2@huawei.com>
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- softmmu/cpus.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+This patchset moves the call to kvm_irqchip_commit_routes() out of
+kvm_irqchip_add_msi_route(). An optimization of vfio migration [1]
+depends on this changes.
 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 035395ae13..d1ff3cfea1 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "monitor/monitor.h"
-+#include "qemu/coroutine-tls.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
-@@ -473,11 +474,11 @@ bool qemu_in_vcpu_thread(void)
-     return current_cpu && qemu_cpu_is_self(current_cpu);
- }
- 
--static __thread bool iothread_locked = false;
-+QEMU_DEFINE_STATIC_CO_TLS(bool, iothread_locked)
- 
- bool qemu_mutex_iothread_locked(void)
- {
--    return iothread_locked;
-+    return get_iothread_locked();
- }
- 
- /*
-@@ -490,13 +491,13 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line)
- 
-     g_assert(!qemu_mutex_iothread_locked());
-     bql_lock(&qemu_global_mutex, file, line);
--    iothread_locked = true;
-+    set_iothread_locked(true);
- }
- 
- void qemu_mutex_unlock_iothread(void)
- {
-     g_assert(qemu_mutex_iothread_locked());
--    iothread_locked = false;
-+    set_iothread_locked(false);
-     qemu_mutex_unlock(&qemu_global_mutex);
- }
- 
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg00968.html
+
+Longpeng (Mike) (2):
+  kvm-irqchip: introduce new API to support route change
+  kvm/msi: do explicit commit when adding msi routes
+
+ accel/kvm/kvm-all.c    |  7 ++++---
+ accel/stubs/kvm-stub.c |  2 +-
+ hw/misc/ivshmem.c      |  5 ++++-
+ hw/vfio/pci.c          |  5 ++++-
+ hw/virtio/virtio-pci.c |  4 +++-
+ include/sysemu/kvm.h   | 23 +++++++++++++++++++++--
+ target/i386/kvm/kvm.c  |  4 +++-
+ 7 files changed, 40 insertions(+), 10 deletions(-)
+
 -- 
-2.34.1
+2.23.0
 
 
