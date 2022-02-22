@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1A84BFD3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 16:40:26 +0100 (CET)
-Received: from localhost ([::1]:47794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9E44BFD4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 16:44:57 +0100 (CET)
+Received: from localhost ([::1]:55124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMXH7-00017E-J1
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 10:40:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44638)
+	id 1nMXLU-00063e-Dr
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 10:44:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nMWND-0000IQ-S3; Tue, 22 Feb 2022 09:42:39 -0500
+ id 1nMWNH-0000Pn-4u; Tue, 22 Feb 2022 09:42:43 -0500
 Received: from [187.72.171.209] (port=44973 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nMWNB-0005xE-Io; Tue, 22 Feb 2022 09:42:39 -0500
+ id 1nMWNE-0005xE-RM; Tue, 22 Feb 2022 09:42:42 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Tue, 22 Feb 2022 11:37:47 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id A3C0A8000A7;
+ by p9ibm (Postfix) with ESMTP id F382980047A;
  Tue, 22 Feb 2022 11:37:46 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 32/47] target/ppc: Implement xxeval
-Date: Tue, 22 Feb 2022 11:36:30 -0300
-Message-Id: <20220222143646.1268606-33-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 33/47] target/ppc: Implement xxgenpcv[bhwd]m instruction
+Date: Tue, 22 Feb 2022 11:36:31 -0300
+Message-Id: <20220222143646.1268606-34-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
 References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 22 Feb 2022 14:37:47.0072 (UTC)
- FILETIME=[C27CAC00:01D827F9]
+X-OriginalArrivalTime: 22 Feb 2022 14:37:47.0447 (UTC)
+ FILETIME=[C2B5E470:01D827F9]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,242 +67,190 @@ From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/helper.h                 |   1 +
- target/ppc/insn64.decode            |   8 ++
- target/ppc/int_helper.c             |  42 ++++++++++
- target/ppc/translate/vsx-impl.c.inc | 121 ++++++++++++++++++++++++++++
- 4 files changed, 172 insertions(+)
+ target/ppc/helper.h                 |  4 ++
+ target/ppc/insn32.decode            | 10 ++++
+ target/ppc/int_helper.c             | 84 +++++++++++++++++++++++++++++
+ target/ppc/translate/vsx-impl.c.inc | 29 ++++++++++
+ 4 files changed, 127 insertions(+)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 85a13057ca..b8c818f573 100644
+index b8c818f573..9751871370 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -500,6 +500,7 @@ DEF_HELPER_4(xxextractuw, void, env, vsr, vsr, i32)
+@@ -496,6 +496,10 @@ DEF_HELPER_3(xvrspic, void, env, vsr, vsr)
+ DEF_HELPER_3(xvrspim, void, env, vsr, vsr)
+ DEF_HELPER_3(xvrspip, void, env, vsr, vsr)
+ DEF_HELPER_3(xvrspiz, void, env, vsr, vsr)
++DEF_HELPER_3(XXGENPCVBM, void, vsr, avr, tl)
++DEF_HELPER_3(XXGENPCVHM, void, vsr, avr, tl)
++DEF_HELPER_3(XXGENPCVWM, void, vsr, avr, tl)
++DEF_HELPER_3(XXGENPCVDM, void, vsr, avr, tl)
+ DEF_HELPER_4(xxextractuw, void, env, vsr, vsr, i32)
  DEF_HELPER_5(XXPERMX, void, vsr, vsr, vsr, vsr, tl)
  DEF_HELPER_4(xxinsertw, void, env, vsr, vsr, i32)
- DEF_HELPER_3(xvxsigsp, void, env, vsr, vsr)
-+DEF_HELPER_5(XXEVAL, void, vsr, vsr, vsr, vsr, i32)
- DEF_HELPER_5(XXBLENDVB, void, vsr, vsr, vsr, vsr, i32)
- DEF_HELPER_5(XXBLENDVH, void, vsr, vsr, vsr, vsr, i32)
- DEF_HELPER_5(XXBLENDVW, void, vsr, vsr, vsr, vsr, i32)
-diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 0963e064b1..fdb859f62d 100644
---- a/target/ppc/insn64.decode
-+++ b/target/ppc/insn64.decode
-@@ -54,6 +54,11 @@
-                 ...... ..... ..... ..... ..... .. .... \
-                 &8RR_XX4 xt=%8rr_xx_xt xa=%8rr_xx_xa xb=%8rr_xx_xb xc=%8rr_xx_xc
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 185d697458..b11a3ee29a 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -119,6 +119,9 @@
+ @X_bfl          ...... bf:3 - l:1 ra:5 rb:5 ..........- &X_bfl
  
-+&8RR_XX4_imm    xt xa xb xc imm
-+@8RR_XX4_imm    ........ ........ ........ imm:8 \
-+                ...... ..... ..... ..... ..... .. .... \
-+                &8RR_XX4_imm xt=%8rr_xx_xt xa=%8rr_xx_xa xb=%8rr_xx_xb xc=%8rr_xx_xc
+ %x_xt           0:1 21:5
++&X_imm5         xt imm:uint8_t vrb
++@X_imm5         ...... ..... imm:5 vrb:5 .......... .           &X_imm5 xt=%x_xt
 +
- &8RR_XX4_uim3   xt xa xb xc uim3
- @8RR_XX4_uim3   ...... .. .... .. ............... uim3:3 \
-                 ...... ..... ..... ..... ..... .. ....   \
-@@ -184,6 +189,9 @@ PLXVP           000001 00 0--.-- .................. \
- PSTXVP          000001 00 0--.-- .................. \
-                 111110 ..... ..... ................     @8LS_D_TSXP
+ &X_imm8         xt imm:uint8_t
+ @X_imm8         ...... ..... .. imm:8 .......... .              &X_imm8 xt=%x_xt
  
-+XXEVAL          000001 01 0000 -- ---------- ........ \
-+                100010 ..... ..... ..... ..... 01 ....  @8RR_XX4_imm
+@@ -613,6 +616,13 @@ XXPERMDI        111100 ..... ..... ..... 0 .. 01010 ... @XX3_dm
+ 
+ XXSEL           111100 ..... ..... ..... ..... 11 ....  @XX4
+ 
++## VSX Vector Generate PCV
 +
- XXSPLTIDP       000001 01 0000 -- -- ................ \
-                 100000 ..... 0010 . ................    @8RR_D
- XXSPLTIW        000001 01 0000 -- -- ................ \
++XXGENPCVBM      111100 ..... ..... ..... 1110010100 .   @X_imm5
++XXGENPCVHM      111100 ..... ..... ..... 1110010101 .   @X_imm5
++XXGENPCVWM      111100 ..... ..... ..... 1110110100 .   @X_imm5
++XXGENPCVDM      111100 ..... ..... ..... 1110110101 .   @X_imm5
++
+ ## VSX Vector Load Special Value Instruction
+ 
+ LXVKQ           111100 ..... 11111 ..... 0101101000 .   @X_uim5
 diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index a92a006c6d..255645ef1d 100644
+index 255645ef1d..dc106aaab9 100644
 --- a/target/ppc/int_helper.c
 +++ b/target/ppc/int_helper.c
-@@ -28,6 +28,7 @@
- #include "fpu/softfloat.h"
- #include "qapi/error.h"
- #include "qemu/guest-random.h"
-+#include "tcg/tcg-gvec-desc.h"
- 
- #include "helper_regs.h"
- /*****************************************************************************/
-@@ -1588,6 +1589,47 @@ void helper_xxinsertw(CPUPPCState *env, ppc_vsr_t *xt,
-     *xt = t;
+@@ -1088,6 +1088,90 @@ void helper_VPERMR(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
+     *r = result;
  }
  
-+void helper_XXEVAL(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c,
-+                   uint32_t desc)
-+{
-+    /*
-+     * Instead of processing imm bit-by-bit, we'll skip the computation of
-+     * conjunctions whose corresponding bit is unset.
-+     */
-+    int bit, imm = simd_data(desc);
-+    Int128 conj, disj = int128_zero();
-+
-+    /* Iterate over set bits from the least to the most significant bit */
-+    while (imm) {
-+        /*
-+         * Get the next bit to be processed with ctz64. Invert the result of
-+         * ctz64 to match the indexing used by PowerISA.
-+         */
-+        bit = 7 - ctzl(imm);
-+        if (bit & 0x4) {
-+            conj = a->s128;
-+        } else {
-+            conj = int128_not(a->s128);
-+        }
-+        if (bit & 0x2) {
-+            conj = int128_and(conj, b->s128);
-+        } else {
-+            conj = int128_and(conj, int128_not(b->s128));
-+        }
-+        if (bit & 0x1) {
-+            conj = int128_and(conj, c->s128);
-+        } else {
-+            conj = int128_and(conj, int128_not(c->s128));
-+        }
-+        disj = int128_or(disj, conj);
-+
-+        /* Unset the least significant bit that is set */
-+        imm &= imm - 1;
-+    }
-+
-+    t->s128 = disj;
++#define XXGENPCV(NAME, SZ) \
++void helper_##NAME(ppc_vsr_t *t, ppc_vsr_t *b, target_ulong imm)            \
++{                                                                           \
++    ppc_vsr_t tmp = { .u64 = { 0, 0 } };                                    \
++                                                                            \
++    switch (imm) {                                                          \
++    case 0b00000: /* Big-Endian expansion */                                \
++        /* Initialize tmp with the result of an all-zeros mask */           \
++        tmp.VsrD(0) = 0x1011121314151617;                                   \
++        tmp.VsrD(1) = 0x18191A1B1C1D1E1F;                                   \
++                                                                            \
++        /* Iterate over the most significant byte of each element */        \
++        for (int i = 0, j = 0; i < ARRAY_SIZE(b->u8); i += SZ) {            \
++            if (b->VsrB(i) & 0x80) {                                        \
++                /* Update each byte of the element */                       \
++                for (int k = 0; k < SZ; k++) {                              \
++                    tmp.VsrB(i + k) = j + k;                                \
++                }                                                           \
++                j += SZ;                                                    \
++            }                                                               \
++        }                                                                   \
++                                                                            \
++        break;                                                              \
++    case 0b00001: /* Big-Endian compression */                              \
++        /* Iterate over the most significant byte of each element */        \
++        for (int i = 0, j = 0; i < ARRAY_SIZE(b->u8); i += SZ) {            \
++            if (b->VsrB(i) & 0x80) {                                        \
++                /* Update each byte of the element */                       \
++                for (int k = 0; k < SZ; k++) {                              \
++                    tmp.VsrB(j + k) = i + k;                                \
++                }                                                           \
++                j += SZ;                                                    \
++            }                                                               \
++        }                                                                   \
++                                                                            \
++        break;                                                              \
++    case 0b00010: /* Little-Endian expansion */                             \
++        /* Initialize tmp with the result of an all-zeros mask */           \
++        tmp.VsrD(0) = 0x1F1E1D1C1B1A1918;                                   \
++        tmp.VsrD(1) = 0x1716151413121110;                                   \
++                                                                            \
++        /* Iterate over the most significant byte of each element */        \
++        for (int i = 0, j = 0; i < ARRAY_SIZE(b->u8); i += SZ) {            \
++            /* Reverse indexing of "i" */                                   \
++            const int idx = ARRAY_SIZE(b->u8) - i - SZ;                     \
++            if (b->VsrB(idx) & 0x80) {                                      \
++                /* Update each byte of the element */                       \
++                for (int k = 0, rk = SZ - 1; k < SZ; k++, rk--) {           \
++                    tmp.VsrB(idx + rk) = j + k;                             \
++                }                                                           \
++                j += SZ;                                                    \
++            }                                                               \
++        }                                                                   \
++                                                                            \
++        break;                                                              \
++    case 0b00011: /* Little-Endian compression */                           \
++        /* Iterate over the most significant byte of each element */        \
++        for (int i = 0, j = 0; i < ARRAY_SIZE(b->u8); i += SZ) {            \
++            if (b->VsrB(ARRAY_SIZE(b->u8) - i - SZ) & 0x80) {               \
++                /* Update each byte of the element */                       \
++                for (int k = 0, rk = SZ - 1; k < SZ; k++, rk--) {           \
++                    /* Reverse indexing of "j" */                           \
++                    const int idx = ARRAY_SIZE(b->u8) - j - SZ;             \
++                    tmp.VsrB(idx + rk) = i + k;                             \
++                }                                                           \
++                j += SZ;                                                    \
++            }                                                               \
++        }                                                                   \
++                                                                            \
++        break;                                                              \
++    default:                                                                \
++        /* Translation code validates IMM before calling this helper */     \
++        g_assert_not_reached();                                             \
++        break;                                                              \
++    }                                                                       \
++                                                                            \
++    *t = tmp;                                                               \
 +}
++XXGENPCV(XXGENPCVBM, 1)
++XXGENPCV(XXGENPCVHM, 2)
++XXGENPCV(XXGENPCVWM, 4)
++XXGENPCV(XXGENPCVDM, 8)
++#undef XXGENPCV
 +
- #define XXBLEND(name, sz) \
- void glue(helper_XXBLENDV, name)(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b,  \
-                                  ppc_avr_t *c, uint32_t desc)               \
+ #if defined(HOST_WORDS_BIGENDIAN)
+ #define VBPERMQ_INDEX(avr, i) ((avr)->u8[(i)])
+ #define VBPERMD_INDEX(i) (i)
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 92851b8926..d389ca2a83 100644
+index d389ca2a83..a75c4e68f8 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -2167,6 +2167,127 @@ TRANS64_FLAGS2(ISA310, PLXV, do_lstxv_PLS_D, false, false)
- TRANS64_FLAGS2(ISA310, PSTXVP, do_lstxv_PLS_D, true, true)
- TRANS64_FLAGS2(ISA310, PLXVP, do_lstxv_PLS_D, false, true)
+@@ -1256,6 +1256,35 @@ static bool trans_XXPERMX(DisasContext *ctx, arg_8RR_XX4_uim3 *a)
+     return true;
+ }
  
-+static void gen_xxeval_i64(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b, TCGv_i64 c,
-+                           int64_t imm)
++static bool do_xxgenpcv(DisasContext *ctx, arg_X_imm5 *a,
++                        void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv))
 +{
-+    /*
-+     * Instead of processing imm bit-by-bit, we'll skip the computation of
-+     * conjunctions whose corresponding bit is unset.
-+     */
-+    int bit;
-+    TCGv_i64 conj, disj;
++    TCGv_ptr xt, vrb;
 +
-+    conj = tcg_temp_new_i64();
-+    disj = tcg_temp_new_i64();
-+
-+    tcg_gen_movi_i64(disj, 0);
-+
-+    /* Iterate over set bits from the least to the most significant bit */
-+    while (imm) {
-+        /*
-+         * Get the next bit to be processed with ctz64. Invert the result of
-+         * ctz64 to match the indexing used by PowerISA.
-+         */
-+        bit = 7 - ctz64(imm);
-+        if (bit & 0x4) {
-+            tcg_gen_mov_i64(conj, a);
-+        } else {
-+            tcg_gen_not_i64(conj, a);
-+        }
-+        if (bit & 0x2) {
-+            tcg_gen_and_i64(conj, conj, b);
-+        } else {
-+            tcg_gen_andc_i64(conj, conj, b);
-+        }
-+        if (bit & 0x1) {
-+            tcg_gen_and_i64(conj, conj, c);
-+        } else {
-+            tcg_gen_andc_i64(conj, conj, c);
-+        }
-+        tcg_gen_or_i64(disj, disj, conj);
-+
-+        /* Unset the least significant bit that is set */
-+        imm &= imm - 1;
-+    }
-+
-+    tcg_gen_mov_i64(t, disj);
-+
-+    tcg_temp_free_i64(conj);
-+    tcg_temp_free_i64(disj);
-+}
-+
-+static void gen_xxeval_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b,
-+                           TCGv_vec c, int64_t imm)
-+{
-+    /*
-+     * Instead of processing imm bit-by-bit, we'll skip the computation of
-+     * conjunctions whose corresponding bit is unset.
-+     */
-+    int bit;
-+    TCGv_vec disj, conj;
-+
-+    disj = tcg_temp_new_vec_matching(t);
-+    conj = tcg_temp_new_vec_matching(t);
-+
-+    tcg_gen_dupi_vec(vece, disj, 0);
-+
-+    /* Iterate over set bits from the least to the most significant bit */
-+    while (imm) {
-+        /*
-+         * Get the next bit to be processed with ctz64. Invert the result of
-+         * ctz64 to match the indexing used by PowerISA.
-+         */
-+        bit = 7 - ctz64(imm);
-+        if (bit & 0x4) {
-+            tcg_gen_mov_vec(conj, a);
-+        } else {
-+            tcg_gen_not_vec(vece, conj, a);
-+        }
-+        if (bit & 0x2) {
-+            tcg_gen_and_vec(vece, conj, conj, b);
-+        } else {
-+            tcg_gen_andc_vec(vece, conj, conj, b);
-+        }
-+        if (bit & 0x1) {
-+            tcg_gen_and_vec(vece, conj, conj, c);
-+        } else {
-+            tcg_gen_andc_vec(vece, conj, conj, c);
-+        }
-+        tcg_gen_or_vec(vece, disj, disj, conj);
-+
-+        /* Unset the least significant bit that is set */
-+        imm &= imm - 1;
-+    }
-+
-+    tcg_gen_mov_vec(t, disj);
-+
-+    tcg_temp_free_vec(disj);
-+    tcg_temp_free_vec(conj);
-+}
-+
-+static bool trans_XXEVAL(DisasContext *ctx, arg_8RR_XX4_imm *a)
-+{
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VSX(ctx);
 +
-+    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_andc_vec, 0
-+    };
-+    static const GVecGen4i op = {
-+        .fniv = gen_xxeval_vec,
-+        .fno = gen_helper_XXEVAL,
-+        .fni8 = gen_xxeval_i64,
-+        .opt_opc = vecop_list,
-+        .vece = MO_64
-+    };
++    if (a->imm & ~0x3) {
++        gen_invalid(ctx);
++        return true;
++    }
 +
-+    tcg_gen_gvec_4i(vsr_full_offset(a->xt), vsr_full_offset(a->xa),
-+                    vsr_full_offset(a->xb), vsr_full_offset(a->xc),
-+                    16, 16, a->imm, &op);
++    xt = gen_vsr_ptr(a->xt);
++    vrb = gen_avr_ptr(a->vrb);
++
++    gen_helper(xt, vrb, tcg_constant_tl(a->imm));
++
++    tcg_temp_free_ptr(xt);
++    tcg_temp_free_ptr(vrb);
 +
 +    return true;
 +}
 +
- static void gen_xxblendv_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b,
-                              TCGv_vec c)
- {
++TRANS(XXGENPCVBM, do_xxgenpcv, gen_helper_XXGENPCVBM)
++TRANS(XXGENPCVHM, do_xxgenpcv, gen_helper_XXGENPCVHM)
++TRANS(XXGENPCVWM, do_xxgenpcv, gen_helper_XXGENPCVWM)
++TRANS(XXGENPCVDM, do_xxgenpcv, gen_helper_XXGENPCVDM)
++
+ #define GEN_VSX_HELPER_VSX_MADD(name, op1, aop, mop, inval, type)             \
+ static void gen_##name(DisasContext *ctx)                                     \
+ {                                                                             \
 -- 
 2.25.1
 
