@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C43E4BFAC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 15:21:14 +0100 (CET)
-Received: from localhost ([::1]:54732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A0954BFAF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 15:32:19 +0100 (CET)
+Received: from localhost ([::1]:36574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMW2T-0001Mf-Nx
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 09:21:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36030)
+	id 1nMWDC-0000UN-6x
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 09:32:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nMVtF-0008D0-Nn
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:11:42 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:4183)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nMW8Q-0005vP-4F
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:27:22 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:35189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nMVt5-0008OW-El
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:11:41 -0500
-Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.55])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4K31GM31Gpz9sBv;
- Tue, 22 Feb 2022 22:07:55 +0800 (CST)
-Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 22 Feb 2022 22:11:21 +0800
-Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
- dggpeml100016.china.huawei.com (7.185.36.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 22 Feb 2022 22:11:20 +0800
-To: <pbonzini@redhat.com>
-CC: <qemu-devel@nongnu.org>, <alex.williamson@redhat.com>, <mst@redhat.com>,
- <mtosatti@redhat.com>, <arei.gonglei@huawei.com>, Longpeng
- <longpeng2@huawei.com>
-Subject: [PATCH resend 2/2] kvm/msi: do explicit commit when adding msi routes
-Date: Tue, 22 Feb 2022 22:11:16 +0800
-Message-ID: <20220222141116.2091-3-longpeng2@huawei.com>
-X-Mailer: git-send-email 2.25.0.windows.1
-In-Reply-To: <20220222141116.2091-1-longpeng2@huawei.com>
-References: <20220222141116.2091-1-longpeng2@huawei.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nMW8L-0003I3-RD
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 09:27:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=ZTfq0jIHasylWhYbaLGDmnqV7MWZmPPSEQnnwIxNMv4=; b=ChIv1xGZF15Psnc2hEqLAYTclZ
+ GvxgbaFlUEfZdXqmIJZN2+X5vP1BJD6aw3FG6EKXgRpdXE0sdatfHa4hjTQ42bIyGjr4vfAi6YEwd
+ JRFpl0PmApo+w1NJDKJeUHX43fTenCT2QkPYm6MAxzIOHXfKFGYnVNMynqVR40Po/5HG7wb1yn0pz
+ ri2AgPvIAVzFd374JRrfHNCKGnWxo7OuM2ji8k3KTmjqfxEFzPniAyFbqz6c6jkmqoBfCDeC913LN
+ swENT1odqGAkQ2ZB4mQLsSfXHUuU5fZ15uhOadb7lGbaETLEAPtuVIf4gJEAxpAxZA1+Em+pDe1jv
+ teSDDHDVBarMl3Q5QXjl3FD9LjZj+qVXwEjvVkrr0gFL9HeUUd2VbFaGLB+QsgT6L/aghwAc6kvzq
+ XRuKOjOi5EN/7Z/mWhA99Cgzr3KPp1h2Kv7AOm8ohESTu/W6d/VmNEs7uzO1kOk2Bho4VuQh1ssJ7
+ 3dK7MZzV3LxqQgEyxKWyWqd55Co3UDiX1vFOkWoeqB0ljZ163P57KDnOo4zSGEz5BhK+BpGcP19r5
+ H5FU/IBzLUDeZkngG15SGUMl/SEehC5699AlOMZJTF07f4JWTKs/H1kT6Ykd/+aCRXHuEdvnyegtH
+ bTZDHKiLe8MZlyHKI3mGtPX1sOYHPBZg+S8i578LU=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PATCH v8 09/11] 9p: darwin: Implement compatibility for mknodat
+Date: Tue, 22 Feb 2022 15:27:13 +0100
+Message-ID: <8571874.GWnKUVsiaS@silver>
+In-Reply-To: <20220220165056.72289-10-wwcohen@gmail.com>
+References: <20220220165056.72289-1-wwcohen@gmail.com>
+ <20220220165056.72289-10-wwcohen@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml100016.china.huawei.com (7.185.36.216)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189; envelope-from=longpeng2@huawei.com;
- helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,195 +72,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
-From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 
-From: Longpeng <longpeng2@huawei.com>
+On Sonntag, 20. Februar 2022 17:50:54 CET Will Cohen wrote:
+> From: Keno Fischer <keno@juliacomputing.com>
+> 
+> Darwin does not support mknodat. However, to avoid race conditions
+> with later setting the permissions, we must avoid using mknod on
+> the full path instead. We could try to fchdir, but that would cause
+> problems if multiple threads try to call mknodat at the same time.
+> However, luckily there is a solution: Darwin includes a function
+> that sets the cwd for the current thread only.
+> This should suffice to use mknod safely.
+> 
+> This function (pthread_fchdir_np) is protected by a check in
+> meson in a patch later in this series.
+> 
+> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> [Will Cohen: - Adjust coding style
+>              - Replace clang references with gcc
+>              - Note radar filed with Apple for missing syscall
+>              - Replace direct syscall with pthread_fchdir_np and
+>                adjust patch notes accordingly
+>              - Move qemu_mknodat from 9p-util to osdep and os-posix
+>              - Move pthread_fchdir_np declaration only to osdep
+>              - Declare pthread_fchdir_np with
+>              - __attribute__((weak_import)) to allow checking for
+>                its presence before usage
+>              - Move declarations above cplusplus guard
+>              - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
+>                presence in osdep.h and os-posix.c
+>              - Rebase to apply cleanly on top of the 2022-02-10
+>                changes to 9pfs]
+> Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> ---
+>  hw/9pfs/9p-local.c   |  4 ++--
+>  include/qemu/osdep.h | 12 ++++++++++++
+>  meson.build          |  1 +
+>  os-posix.c           | 35 +++++++++++++++++++++++++++++++++++
+>  4 files changed, 50 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> index a0d08e5216..d42ce6d8b8 100644
+> --- a/hw/9pfs/9p-local.c
+> +++ b/hw/9pfs/9p-local.c
+> @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> *dir_path,
+> 
+>      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+>          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+> +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+>          if (err == -1) {
+>              goto out;
+>          }
+> @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> *dir_path, }
+>      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+>                 fs_ctx->export_flags & V9FS_SM_NONE) {
+> -        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+> +        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+>          if (err == -1) {
+>              goto out;
+>          }
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index ce12f64853..c0f442d791 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -818,6 +818,18 @@ static inline int
+> platform_does_not_support_system(const char *command) */
+>  struct dirent *qemu_dirent_dup(struct dirent *dent);
+> 
+> +/*
+> + * As long as mknodat is not available on macOS, this workaround
+> + * using pthread_fchdir_np is needed. qemu_mknodat is defined in
+> + * os-posix.c. pthread_fchdir_np is weakly linked here as a guard
+> + * in case it disappears in future macOS versions, because it is
+> + * is a private API.
+> + */
+> +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
+> +int pthread_fchdir_np(int fd) __attribute__((weak_import));
+> +#endif
+> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
+> +
+>  #ifdef __cplusplus
+>  }
+>  #endif
 
-We invoke the kvm_irqchip_commit_routes() for each addition to MSI route
-table, which is not efficient if we are adding lots of routes in some cases.
+Peter just informed me that osdep.h is not the right place to add something
+like this:
+https://lore.kernel.org/qemu-devel/CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com/
 
-This patch lets callers invoke the kvm_irqchip_commit_routes(), so the
-callers can decide how to optimize.
+So this should be moved into a different header file.
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg00967.html
+> diff --git a/meson.build b/meson.build
+> index ae5f7eec6e..6fdc0281ad 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1557,6 +1557,7 @@ config_host_data.set('CONFIG_POSIX_FALLOCATE',
+> cc.has_function('posix_fallocate'
+> config_host_data.set('CONFIG_POSIX_MEMALIGN',
+> cc.has_function('posix_memalign')) config_host_data.set('CONFIG_PPOLL',
+> cc.has_function('ppoll'))
+>  config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix:
+> '#include <sys/uio.h>')) +config_host_data.set('CONFIG_PTHREAD_FCHDIR_NP',
+> cc.has_function('pthread_fchdir_np'))
+> config_host_data.set('CONFIG_SEM_TIMEDWAIT',
+> cc.has_function('sem_timedwait', dependencies: threads))
+> config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
+> config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and
+> cc.has_function('unshare')) diff --git a/os-posix.c b/os-posix.c
+> index ae6c9f2a5e..ccc3d1e9d3 100644
+> --- a/os-posix.c
+> +++ b/os-posix.c
+> @@ -332,3 +332,38 @@ int os_mlock(void)
+>      return -ENOSYS;
+>  #endif
+>  }
+> +
+> +/*
+> + * As long as mknodat is not available on macOS, this workaround
+> + * using pthread_fchdir_np is needed.
+> + *
+> + * Radar filed with Apple for implementing mknodat:
+> + * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
+> + */
+> +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
+> +
+> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+> +{
+> +    int preserved_errno, err;
+> +    if (!pthread_fchdir_np) {
+> +        error_report_once("pthread_fchdir_np() is not available on this
+> version of macOS"); +        return -ENOTSUP;
+> +    }
+> +    if (pthread_fchdir_np(dirfd) < 0) {
+> +        return -1;
+> +    }
+> +    err = mknod(filename, mode, dev);
+> +    preserved_errno = errno;
+> +    /* Stop using the thread-local cwd */
+> +    pthread_fchdir_np(-1);
+> +    if (err < 0) {
+> +        errno = preserved_errno;
+> +    }
+> +    return err;
+> +}
+> +#else
+> +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+> +{
+> +    return mknodat(dirfd, filename, mode, dev);
+> +}
+> +#endif
 
-Signed-off-by: Longpeng <longpeng2@huawei.com>
----
- accel/kvm/kvm-all.c    | 7 ++++---
- accel/stubs/kvm-stub.c | 2 +-
- hw/misc/ivshmem.c      | 5 ++++-
- hw/vfio/pci.c          | 5 ++++-
- hw/virtio/virtio-pci.c | 4 +++-
- include/sysemu/kvm.h   | 4 ++--
- target/i386/kvm/kvm.c  | 4 +++-
- 7 files changed, 21 insertions(+), 10 deletions(-)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 0e66ebb497..27864dfaea 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -1961,10 +1961,11 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
-     return kvm_set_irq(s, route->kroute.gsi, 1);
- }
- 
--int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
-+int kvm_irqchip_add_msi_route(KVMRouteChange *c, int vector, PCIDevice *dev)
- {
-     struct kvm_irq_routing_entry kroute = {};
-     int virq;
-+    KVMState *s = c->s;
-     MSIMessage msg = {0, 0};
- 
-     if (pci_available && dev) {
-@@ -2004,7 +2005,7 @@ int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
- 
-     kvm_add_routing_entry(s, &kroute);
-     kvm_arch_add_msi_route_post(&kroute, vector, dev);
--    kvm_irqchip_commit_routes(s);
-+    c->changes++;
- 
-     return virq;
- }
-@@ -2162,7 +2163,7 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
-     abort();
- }
- 
--int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
-+int kvm_irqchip_add_msi_route(KVMRouteChange *c, int vector, PCIDevice *dev)
- {
-     return -ENOSYS;
- }
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 5319573e00..ae6e8e9aa7 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -81,7 +81,7 @@ int kvm_on_sigbus(int code, void *addr)
- }
- 
- #ifndef CONFIG_USER_ONLY
--int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
-+int kvm_irqchip_add_msi_route(KVMRouteChange *c, int vector, PCIDevice *dev)
- {
-     return -ENOSYS;
- }
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index 299837e5c1..2307f4a513 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -424,16 +424,19 @@ static void ivshmem_add_kvm_msi_virq(IVShmemState *s, int vector,
-                                      Error **errp)
- {
-     PCIDevice *pdev = PCI_DEVICE(s);
-+    KVMRouteChange c;
-     int ret;
- 
-     IVSHMEM_DPRINTF("ivshmem_add_kvm_msi_virq vector:%d\n", vector);
-     assert(!s->msi_vectors[vector].pdev);
- 
--    ret = kvm_irqchip_add_msi_route(kvm_state, vector, pdev);
-+    c = kvm_irqchip_begin_route_changes(kvm_state);
-+    ret = kvm_irqchip_add_msi_route(&c, vector, pdev);
-     if (ret < 0) {
-         error_setg(errp, "kvm_irqchip_add_msi_route failed");
-         return;
-     }
-+    kvm_irqchip_commit_route_changes(&c);
- 
-     s->msi_vectors[vector].virq = ret;
-     s->msi_vectors[vector].pdev = pdev;
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 7b45353ce2..d07a4e99b1 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -412,6 +412,7 @@ static int vfio_enable_vectors(VFIOPCIDevice *vdev, bool msix)
- static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
-                                   int vector_n, bool msix)
- {
-+    KVMRouteChange c;
-     int virq;
- 
-     if ((msix && vdev->no_kvm_msix) || (!msix && vdev->no_kvm_msi)) {
-@@ -422,11 +423,13 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
-         return;
-     }
- 
--    virq = kvm_irqchip_add_msi_route(kvm_state, vector_n, &vdev->pdev);
-+    c = kvm_irqchip_begin_route_changes(kvm_state);
-+    virq = kvm_irqchip_add_msi_route(&c, vector_n, &vdev->pdev);
-     if (virq < 0) {
-         event_notifier_cleanup(&vector->kvm_interrupt);
-         return;
-     }
-+    kvm_irqchip_commit_route_changes(&c);
- 
-     if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state, &vector->kvm_interrupt,
-                                        NULL, virq) < 0) {
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 373e26d7c3..80d8c2ea11 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -758,10 +758,12 @@ static int kvm_virtio_pci_vq_vector_use(VirtIOPCIProxy *proxy,
-     int ret;
- 
-     if (irqfd->users == 0) {
--        ret = kvm_irqchip_add_msi_route(kvm_state, vector, &proxy->pci_dev);
-+        KVMRouteChange c = kvm_irqchip_begin_route_changes(kvm_state);
-+        ret = kvm_irqchip_add_msi_route(&c, vector, &proxy->pci_dev);
-         if (ret < 0) {
-             return ret;
-         }
-+        kvm_irqchip_commit_route_changes(&c);
-         irqfd->virq = ret;
-     }
-     irqfd->users++;
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 6f8a43dea4..097b3c79d5 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -486,7 +486,7 @@ void kvm_init_cpu_signals(CPUState *cpu);
- 
- /**
-  * kvm_irqchip_add_msi_route - Add MSI route for specific vector
-- * @s:      KVM state
-+ * @c:      KVMRouteChange instance.
-  * @vector: which vector to add. This can be either MSI/MSIX
-  *          vector. The function will automatically detect whether
-  *          MSI/MSIX is enabled, and fetch corresponding MSI
-@@ -495,7 +495,7 @@ void kvm_init_cpu_signals(CPUState *cpu);
-  *          as @NULL, an empty MSI message will be inited.
-  * @return: virq (>=0) when success, errno (<0) when failed.
-  */
--int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev);
-+int kvm_irqchip_add_msi_route(KVMRouteChange *c, int vector, PCIDevice *dev);
- int kvm_irqchip_update_msi_route(KVMState *s, int virq, MSIMessage msg,
-                                  PCIDevice *dev);
- void kvm_irqchip_commit_routes(KVMState *s);
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 2c8feb4a6f..cfef36a14e 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -4939,16 +4939,18 @@ void kvm_arch_init_irq_routing(KVMState *s)
-     kvm_gsi_routing_allowed = true;
- 
-     if (kvm_irqchip_is_split()) {
-+        KVMRouteChange c = kvm_irqchip_begin_route_changes(s);
-         int i;
- 
-         /* If the ioapic is in QEMU and the lapics are in KVM, reserve
-            MSI routes for signaling interrupts to the local apics. */
-         for (i = 0; i < IOAPIC_NUM_PINS; i++) {
--            if (kvm_irqchip_add_msi_route(s, 0, NULL) < 0) {
-+            if (kvm_irqchip_add_msi_route(&c, 0, NULL) < 0) {
-                 error_report("Could not enable split IRQ mode.");
-                 exit(1);
-             }
-         }
-+        kvm_irqchip_commit_route_changes(&c);
-     }
- }
- 
--- 
-2.23.0
 
 
