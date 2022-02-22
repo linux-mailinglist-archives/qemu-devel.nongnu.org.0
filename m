@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010594C0293
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 20:59:01 +0100 (CET)
-Received: from localhost ([::1]:46128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108F44C026E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 20:52:28 +0100 (CET)
+Received: from localhost ([::1]:57184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMbJM-00040N-1U
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 14:59:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46812)
+	id 1nMbD1-0000nm-5p
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 14:52:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nMawG-0003Ls-MP; Tue, 22 Feb 2022 14:35:10 -0500
-Received: from [2a00:1450:4864:20::536] (port=36400
- helo=mail-ed1-x536.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawH-0003Lt-Dc
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:10 -0500
+Received: from [2a00:1450:4864:20::62d] (port=45865
+ helo=mail-ej1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nMawE-00072y-Sm; Tue, 22 Feb 2022 14:35:08 -0500
-Received: by mail-ed1-x536.google.com with SMTP id cm8so29845879edb.3;
- Tue, 22 Feb 2022 11:35:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMawE-00073B-UK
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 14:35:09 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id lw4so46077646ejb.12
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 11:35:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hODc348sDBOJP+v8u2lpOm8duN5QJTp75AGojk1OzEo=;
- b=iMQ+2BebXmeemEq7qYIKlZTSSYQ7ibxs9dpG0JSQHqczMmvEm160B4VsCyWLW35cN5
- c/6mcC6rVDpZZ4jRGycsh1Guh74D/WmERxCCbC5IJS3bywPxSLNqhoq5uVWKURJ7lKZU
- MGHb4ydnerJ8q20DwBBCMRXPsDt31ZH32PIdeSaUv7FTfTXtD5p+pVsCfo6kyh2I0bvK
- EDi31242+RYcEV4a3xMyuNeYbg3/xygdN5cABkxOiHKyJ2Wc5FSX5hBNl3PTfkI4GDcn
- FjNoAAt5sZNtlrega2BRo23rcY9yB1q7UabJPsaGgt6Yx7oTWYKIXDBkQi83TH//x/c5
- Q1Dg==
+ bh=c6cdzjjbLoYOkQYojNxxx+ivRGMWbBCNjSa2aZRS9GE=;
+ b=CMQ1xJ1rM7yYSIlFF04h4Xy3XI8Ze1qs37CxsIZ8x96l/OcBGuMZH4UjPil42ecs85
+ b4LRd04bynIqM1crbSC76BPC2NujsCvLJ6VzHudiHCK6XVmvikf9C0eDkztTFg3GIRya
+ wGRHepFAcsbqysbkmluQ2MmA15PUW1sbwGiGs4ZeVpz+9hdEKBc2iFGiAYprnmE0qd3q
+ 4R5uM6pNH2WIsT2cOIsVorIo/gdPrOOIiioqao98lpnwauT8yzeQoWpC2kXZnx+7GVGG
+ OUTFjf/lirhLCWdnpuMqTHMD1E4v6qLHLuYkQ85bYcYUlUeq/G41URBXFoqC6lGUQlZz
+ 7Fag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hODc348sDBOJP+v8u2lpOm8duN5QJTp75AGojk1OzEo=;
- b=YnWNKjT9drkUQODOEjOFuoruTMBmqUYgClfXDoz/HfV+W8hVmvpBqbDmzLtkO8NIYK
- 0vKtrtNMAcJWUvkhAFZmhtzkXf1YloHcyY3Vjzdht0H8Z7c83YQ2wLO6kD940YH28bfD
- uDe+6b5vqju+6rgIwIsu3NeQJBgripIn6mgiec18EhAJA6shdR1ok0l+aeBjszemqHKc
- nU+CTq7+QZxHJmiagaimyMqn98no8YqhYbZAhr3qlRUT3FQk3gxFpdxG3AvMRGgCjrir
- JJh2RsXnvgicHFvYKGELv6is+nZQJdfn2YZEOLIpBnD8WHbPy4aa8uNTYx+dvESqD1xU
- vdcQ==
-X-Gm-Message-State: AOAM530gTZ4Y7nkIu6Ba/SheufFie+o+1PYc9L6wgCiGGPIt0imTqFvn
- zyQmFxDIybzdE0xKpc5r/xjs5adM9m0=
-X-Google-Smtp-Source: ABdhPJwbNwRzvuhOb0L0xwQl6k/tXWKcXJ0wj11YPwO/kBPA75Z3Yv040O0FJ+Rc6ZzVyjlW9YAE/w==
-X-Received: by 2002:a50:c048:0:b0:410:a2e6:eb66 with SMTP id
- u8-20020a50c048000000b00410a2e6eb66mr28586520edd.156.1645558504825; 
- Tue, 22 Feb 2022 11:35:04 -0800 (PST)
+ bh=c6cdzjjbLoYOkQYojNxxx+ivRGMWbBCNjSa2aZRS9GE=;
+ b=CUqlP5hC6tCARDtBmaijaJtTLlMj+cnNOrhTP/DU9jt+28Wq1dDjWXgQ41gHjlIPuI
+ OV7f/WXR7C9oqgTvlmDCvDl4+AkDuuA588P1TXQnDtpKl4HJ5dhqD7AT2azhprHywfju
+ izsvWghvwr94+wK2rgjmGX4MGUkoOponM8aFEbWwnY7jSuiNBaml9bI1kuvO7La3xwqZ
+ jTAn4PHd3TEpFm4wCC/8gUKAvJuwNuVFFToYxn22Lt/emfD+U+qll2DbjXRIPwlVHla+
+ 06IlOqGbOqeNfq4bSQS17E7alz0vG73dyIMjJfjislods7n1OgNeliB7+fHtFahsmD2P
+ SOhw==
+X-Gm-Message-State: AOAM532oAYA6yudH9sWFOx6Rl1dvYXSKHyYhQ5M+CKoiSoE8qiIKbhYA
+ v/qWv4p9lJiZ82PjPP2/HLHiiVxySOw=
+X-Google-Smtp-Source: ABdhPJzNxzNHpyy3+F7JHqpwPSakDAWFBLZA0PmrpwYGBB0fS4jiLQxhBIbX9ZOqyIJEvuxwAPkD6w==
+X-Received: by 2002:a17:906:19c6:b0:6ce:98a4:5ee6 with SMTP id
+ h6-20020a17090619c600b006ce98a45ee6mr19773735ejd.567.1645558505640; 
+ Tue, 22 Feb 2022 11:35:05 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-089-012-227-088.89.12.pool.telefonica.de. [89.12.227.88])
- by smtp.gmail.com with ESMTPSA id i1sm766532edj.84.2022.02.22.11.35.04
+ by smtp.gmail.com with ESMTPSA id i1sm766532edj.84.2022.02.22.11.35.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 11:35:04 -0800 (PST)
+ Tue, 22 Feb 2022 11:35:05 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/22] hw/ide/isa: Disuse isa_init_irq()
-Date: Tue, 22 Feb 2022 20:34:37 +0100
-Message-Id: <20220222193446.156717-14-shentey@gmail.com>
+Subject: [PATCH v2 14/22] hw/input/pckbd: Disuse isa_init_irq()
+Date: Tue, 22 Feb 2022 20:34:38 +0100
+Message-Id: <20220222193446.156717-15-shentey@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220222193446.156717-1-shentey@gmail.com>
 References: <20220222193446.156717-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,8 +86,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
- "open list:IDE" <qemu-block@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -97,22 +97,24 @@ eventually.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/ide/isa.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/input/pckbd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ide/isa.c b/hw/ide/isa.c
-index 24bbde24c2..8bedbd13f1 100644
---- a/hw/ide/isa.c
-+++ b/hw/ide/isa.c
-@@ -75,7 +75,7 @@ static void isa_ide_realizefn(DeviceState *dev, Error **errp)
+diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+index 56c55c5768..4988403f7c 100644
+--- a/hw/input/pckbd.c
++++ b/hw/input/pckbd.c
+@@ -749,8 +749,8 @@ static void i8042_realizefn(DeviceState *dev, Error **errp)
+         return;
+     }
  
-     ide_bus_init(&s->bus, sizeof(s->bus), dev, 0, 2);
-     ide_init_ioport(&s->bus, isadev, s->iobase, s->iobase2);
--    isa_init_irq(isadev, &s->irq, s->isairq);
-+    s->irq = isa_get_irq(isadev, s->isairq);
-     ide_init2(&s->bus, s->irq);
-     vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_isa, s);
-     ide_register_restart_cb(&s->bus);
+-    isa_init_irq(isadev, &s->irq_kbd, isa_s->kbd_irq);
+-    isa_init_irq(isadev, &s->irq_mouse, isa_s->mouse_irq);
++    s->irq_kbd = isa_get_irq(isadev, isa_s->kbd_irq);
++    s->irq_mouse = isa_get_irq(isadev, isa_s->mouse_irq);
+ 
+     isa_register_ioport(isadev, isa_s->io + 0, 0x60);
+     isa_register_ioport(isadev, isa_s->io + 1, 0x64);
 -- 
 2.35.1
 
