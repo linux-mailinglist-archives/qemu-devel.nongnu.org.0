@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1B54C059A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 00:54:29 +0100 (CET)
-Received: from localhost ([::1]:44100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7368E4C05AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 00:57:23 +0100 (CET)
+Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMezE-0001OW-Ml
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 18:54:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45472)
+	id 1nMf22-000466-B6
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 18:57:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMexX-0000Tt-6j
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 18:52:43 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=38728
- helo=mail-pl1-x62c.google.com)
+ id 1nMf10-00031H-NQ
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 18:56:18 -0500
+Received: from [2607:f8b0:4864:20::429] (port=40642
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMexV-00063g-Rr
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 18:52:42 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id m11so13542696pls.5
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 15:52:41 -0800 (PST)
+ id 1nMf0y-0006oc-V5
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 18:56:18 -0500
+Received: by mail-pf1-x429.google.com with SMTP id z15so7915466pfe.7
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 15:56:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=pza9QY5ebZlVlPfc4S7Dsyi2Cv7DoCaBAKWgybMdDg4=;
- b=XTojtEyGUiRk8a6+P3I65leGop0t1Z+7j4itHVQvKBUfVG+d1AYBqoVIF4rI2mWFks
- PUHUIM1r3mQo6MgZTfbY9aR8zHa1Q/qtbXK053e9fhg2A8x9SlmMAE9h0gA0hrjzPhvz
- I4rHpJw5LQAQQMy08z2/G7sPXuwXxyVuE6Zl5jbbulqT6k/cJ9ss+SWW3OUNOCKM0Cpw
- OtdOJtJcxfAYavVPtgK3YCUZYGTZygh9tIZeUfeqx3CaQ/Wtx6T73LtK19LpmA10XdwG
- lIzT9DlNMoKdWlkJcdKjfg6fEQmYYBLnvaUjm+SBxkkqUgZ0B7jfIaWL0I21WYWEj6B4
- IAaw==
+ bh=e+IiydRQko5ZfaVSzUVlD9Tt37eqM6Jo9IBAyCTLhZA=;
+ b=BFvSWhig8nIFwiJafl7tnBDVRDdI9MroLU29P/64n+BRJdmXOWNpxDxiQjF2pg9IMv
+ FmhTnk+DTZyaqhN+H81CcMsHVTnWOl9F/NSfCpFhrkUCLKFShmRuTfEvUcGQEsZg7A8K
+ wftqyfCmcL3MdAZYiNGWxTa51T2yTlEvIrOTspZX65ozduQjsvYX/AZ/HiEhphjh+x7X
+ cffoWlE94oePd0w2WT0+m/REV61hMhKYJV372dNC9EqB2Tj1LF6+v9IZcYOlXhL6QlTu
+ bUTpkb1JfMtPdQknPs7myHecgFP/jbTQSGSsOnp7IsN813tQkcjz7OV8cXHEpmlo/CAj
+ Tawg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=pza9QY5ebZlVlPfc4S7Dsyi2Cv7DoCaBAKWgybMdDg4=;
- b=RM1cfvK/mUUit/dtKZ5TJEynafa0Sv8Ax00sjDtmp6HsaYjFwzpt9K4GV6BSye6xHi
- PuN8NVkd4o6MQJpvHyKPHIbPhJihHGHYXm8+t8Ah4rRNPr8DQh4nheVmGFGqMvNSs7V6
- jH9ryDKPazvfN81pAE2IJDTmMKHzM3Dq/BQGWDQLoSLGYPtCR7KliPibVjGfwxcNkCD4
- O77t7/M6nCoie9GJpeYB1m44z3l4ydgNQMuDwy2gl5rt2PlCVfgxBwnLreJ4JkalZiSL
- KZSBSz01u18wSvisrtjjDhP4hg0KT1QZYnFnHT5XKq2oOqTLUyk2oohEwbVqHFvRMwTk
- Ps7w==
-X-Gm-Message-State: AOAM533DLunym+CRvgr5g7OJZyULFRPRULaXE5JpjHlnXDZEiNxDT/FY
- 7mFtQE/ipKBpHvdLLamxyGY+zA==
-X-Google-Smtp-Source: ABdhPJx7cABmrvCrNlnSvVFVQ1EwxIA3PUjI4eCHJQzQ8OVy0OTjzYskTaeRpYvMzO4NluYfO7xcjQ==
-X-Received: by 2002:a17:902:d647:b0:14e:ec42:2d86 with SMTP id
- y7-20020a170902d64700b0014eec422d86mr24751917plh.38.1645573960158; 
- Tue, 22 Feb 2022 15:52:40 -0800 (PST)
+ bh=e+IiydRQko5ZfaVSzUVlD9Tt37eqM6Jo9IBAyCTLhZA=;
+ b=ySd+UOtm685Q3By/x6e23Bopi6SA+oUfdDH6G2EYQmy4e+218x1RF1DZv0pv/yDF8s
+ 0zZEgaE8e4k0+E938QO+EqyhAJPkub+nFKq0/zlhOT0FbbGOvFjrk4mo/OrOc0kBTaNQ
+ 5PsraaueeP54sXFj3nXhNpGwRhg2Sw+r5ukTHaUGem/UnrnjHRvx6aY0E522oa/tqbiY
+ sBvCcawO4ZkzAJuibi2rzk+xCj33laZXzrgQfCD4yW/xOfu4vTpuUWxVDp/BIz8agc5A
+ noFltygfdQlsCZVTihL3CjkXS89cghJ29CcDFe/s1NvXPlkF87S/gbLTURshe0ZfsJ2i
+ QDrg==
+X-Gm-Message-State: AOAM530HwAbyWtF3OuSj95PlPIX9qu+C65e30iEAyLHw0qC4+iFiu/C8
+ IINP2SyLV+0zimh7tzA8zVv1eg==
+X-Google-Smtp-Source: ABdhPJyzUhQxuy27SMU8+21/ZwFWqspLDvAEtCdtbmyudKSGGrANQhShHbt0QeSLnjkGFux+ITn6hw==
+X-Received: by 2002:a63:4d60:0:b0:36c:8803:b92d with SMTP id
+ n32-20020a634d60000000b0036c8803b92dmr21587004pgl.179.1645574175606; 
+ Tue, 22 Feb 2022 15:56:15 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- r4-20020a17090a438400b001bc6d52de70sm742466pjg.24.2022.02.22.15.52.38
+ [50.113.46.110])
+ by smtp.gmail.com with ESMTPSA id v10sm19273510pfu.38.2022.02.22.15.56.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 15:52:39 -0800 (PST)
-Message-ID: <e7e75d69-024f-d4da-d1b2-420e7a017c26@linaro.org>
-Date: Tue, 22 Feb 2022 13:52:35 -1000
+ Tue, 22 Feb 2022 15:56:15 -0800 (PST)
+Message-ID: <9a9b87a4-9f91-56d8-d9f8-0e3cb818b991@linaro.org>
+Date: Tue, 22 Feb 2022 13:56:11 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 34/47] target/ppc: move
- xs[n]madd[am][ds]p/xs[n]msub[am][ds]p to decodetree
+Subject: Re: [PATCH v4 35/47] target/ppc: implement
+ xs[n]maddqp[o]/xs[n]msubqp[o]
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
- <20220222143646.1268606-35-matheus.ferst@eldorado.org.br>
+ <20220222143646.1268606-36-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220222143646.1268606-35-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220222143646.1268606-36-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,19 +100,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/22/22 04:36, matheus.ferst@eldorado.org.br wrote:
-> +static bool do_xsmadd(DisasContext *ctx, int tgt, int src1, int src2, int src3,
-> +        void (gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr))
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> 
+> Implement the following PowerISA v3.0 instuctions:
+> xsmaddqp[o]: VSX Scalar Multiply-Add Quad-Precision [using round to Odd]
+> xsmsubqp[o]: VSX Scalar Multiply-Subtract Quad-Precision [using round
+>               to Odd]
+> xsnmaddqp[o]: VSX Scalar Negative Multiply-Add Quad-Precision [using
+>                round to Odd]
+> xsnmsubqp[o]: VSX Scalar Negative Multiply-Subtract Quad-Precision
+>                [using round to Odd]
+> 
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> ---
+>   target/ppc/fpu_helper.c             | 42 +++++++++++++++++++++++++++++
+>   target/ppc/helper.h                 |  9 +++++++
+>   target/ppc/insn32.decode            |  4 +++
+>   target/ppc/translate/vsx-impl.c.inc | 25 +++++++++++++++++
+>   4 files changed, 80 insertions(+)
 
-Missing a * before gen_helper.  Somewhat surprised this compiled...
-
-> +static bool do_xsmadd_XX3(DisasContext *ctx, arg_XX3 *a, bool type_a,
-> +        void (gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr))
-
-Likewise.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
