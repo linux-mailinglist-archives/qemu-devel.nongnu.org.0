@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93BD4C003A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:36:02 +0100 (CET)
-Received: from localhost ([::1]:38670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86E94C003C
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:37:52 +0100 (CET)
+Received: from localhost ([::1]:42746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMZ4z-0006UK-EY
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:36:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60564)
+	id 1nMZ6l-0000vn-Fn
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:37:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMZ2o-0005QH-EJ; Tue, 22 Feb 2022 12:33:46 -0500
-Received: from [2a00:1450:4864:20::336] (port=55965
- helo=mail-wm1-x336.google.com)
+ (Exim 4.90_1) (envelope-from <josh.a.seaton@gmail.com>)
+ id 1nMZ4o-0007LG-Vm; Tue, 22 Feb 2022 12:35:51 -0500
+Received: from [2a00:1450:4864:20::634] (port=38513
+ helo=mail-ej1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMZ2n-0001Pj-0M; Tue, 22 Feb 2022 12:33:46 -0500
-Received: by mail-wm1-x336.google.com with SMTP id i19so12037754wmq.5;
- Tue, 22 Feb 2022 09:33:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <josh.a.seaton@gmail.com>)
+ id 1nMZ4k-00021s-Hw; Tue, 22 Feb 2022 12:35:50 -0500
+Received: by mail-ej1-x634.google.com with SMTP id r13so22097346ejd.5;
+ Tue, 22 Feb 2022 09:35:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=qZLmnfjrVWGUsUh3atQSO7JD7Pzw6Vtie5hI2woz6dI=;
- b=acT60s1lSiIGzhyqvZorD1b69R4aBJSZ+QAnwADjvGVMECGa50/CE3Sq70tclgN6+D
- eY0Ene6yPWxAFVxUAY4tfAig5R1VSoZ2x4YItuj7j3zyFlgZeasANCGGvbNq+0oQzuYl
- RtZFrPF7nvAQOYrFIumyTnhNmIxgj5yhMcNHtYhpEsY3jeXwVk5sRhdH/CQ3tfvRgirT
- UnEEsudpNRvwX6/I/iHJDugXLkcmJjYdjouB7J61wIEVSE5PLL60CXGK9LSdRzglGOkd
- ANaBhOgFqhBn1hrPXXG7FXKSaMUBa9LzEbiNLHp6WVYqPrUtFhVPq8ZiioWsS1jiFVy2
- Zp+A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j8t+4q8YxwuhQRgVVqsUokHtGIlX/Uz4ryzQ1HlRcnU=;
+ b=Xa6+FxtPQ2FxNRNF+3Y0MXr7ncUc16i8feo3QK5eDcJDjU9lsb15+o/t8pNW+fmsRM
+ 4wyTimemQ+7GnlLvbfYjEjbc105zJhNnZNx/r1EWAN2XPfNydCwc6zVcDnORTdejHS/3
+ PCHbPkaU6B/OttHrqy5Gp4QvB7T5hqs48UplXMHn9Kkr1t5tYF1hu07DImoNjixsxOVV
+ 3w/jJV5XC1QsCnI9AtH3gJPK0qPRtsaNhm+e3OfoPFmRfjfbUHqTBR5xRg0O/fVHTBvo
+ R4uCtSLJpFDIGePmAo0XCkUrsQAnCzJwVYdOaJyZ2SwcPDoMQNnEHx3ax50zxjx7M4f7
+ V8cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qZLmnfjrVWGUsUh3atQSO7JD7Pzw6Vtie5hI2woz6dI=;
- b=kdrltltDHVY93EVCuG9HiuGB3inR65mRkmfMdGsiDrfk+TZ1Uz2/tH/B99B1ra4RAm
- 5/ZkA4gO1ZEuq9j9rA0oAgP9bKiXzMjdSsDkEsfnvABHvJ2YxPRIOEDVmR2fWGFAyO45
- Uh7JDcxEGuV7XFT1Lxx5ydrbRa0YJ/tEqm4Shnep7zEvlZNSpgy2Fg/X6DmhESy0nPHY
- V7g1AHq4I5v+hx7y1kT7un9+hy4crd4xYeqVUlvOr/ngzazR9CkfeOSf0zwv59txsLPv
- GPYaxLslPjXEtRm2vUdksBYYH+YwBpOKC/t+zCKB5O/Klny09lkLYwMJnxzz34s9boCF
- 6RPg==
-X-Gm-Message-State: AOAM532pd476amxRVDnCERP6SVD177RC01oQUUpvpck/5yaBLthAL3xZ
- UHdRZUh3t3p8bSudpsMpBi4=
-X-Google-Smtp-Source: ABdhPJx2QZMXe6tpcpZ30/gE56mY+F/lIGiBc9njhTNS7xX2No62I1ck7SjkOaA33z3q/mLtUYLz/w==
-X-Received: by 2002:a05:600c:240a:b0:34d:c8ad:dc07 with SMTP id
- 10-20020a05600c240a00b0034dc8addc07mr4214655wmp.145.1645551222836; 
- Tue, 22 Feb 2022 09:33:42 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id i9sm33308870wrf.79.2022.02.22.09.33.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Feb 2022 09:33:42 -0800 (PST)
-Message-ID: <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
-Date: Tue, 22 Feb 2022 18:33:41 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j8t+4q8YxwuhQRgVVqsUokHtGIlX/Uz4ryzQ1HlRcnU=;
+ b=E6kNDGsfKBsI0qBaJXtJSMXCFqElt2q7+tEPuEV1rFt3s4irRcD+MjIT0K66OHGxYh
+ S2GRjFqSf42BCZ+Y4XyApBKnuu61Wh2l/BG5Srly5xU2yKWzetJtegp51Uur4c3YPLMs
+ +SbIX0VFnenS4BEwetV/ndXLX6EWtIS/QUPr/ZpTnKmj1GAWDYfG2dm7jSwiH/sNQoSx
+ 1rn9lH+hS9zgHRC5xmoSawI4t5pu2m35bjE0J6r4+BaROsgLhjjD6xRNlpQFsbRt0Lcb
+ DoofYfnV+lT6MegBPIhGhmW+2NWIokuUktRQtJya7CWYtzUaeMv/wPQgDudPEBzzBJse
+ /w5Q==
+X-Gm-Message-State: AOAM530lNC282yNYO6USQntNhdUjiNVpjXCo2LCEt4Kyzq8LbUByRq+l
+ JZz/hgDeVP8j6owm+4PL9CcDZLCG6SKavwlrkzj128KUHX+P4A==
+X-Google-Smtp-Source: ABdhPJzVRXK562X9XZsQVrSMOiY5M2XNEsLT/0YKP4OqE5AWiVFPY1J5ONyLWJhfywAtrLrHmK5ZfJGAtJX8KBlY7+s=
+X-Received: by 2002:a17:906:4d8d:b0:6ce:8c3d:6e81 with SMTP id
+ s13-20020a1709064d8d00b006ce8c3d6e81mr19459589eju.205.1645551335521; Tue, 22
+ Feb 2022 09:35:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: Analysis of slow distro boots in check-avocado
- (BootLinuxAarch64.test_virt_tcg*)
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <874k4xbqvp.fsf@linaro.org> <878ru2nacq.fsf@linaro.org>
- <YhURfqMvRT4xbiz6@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <YhURfqMvRT4xbiz6@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+References: <CAPbYy+_14jeLBzihGjY-v0L1inZ1CGc+8TFu7NuPiaZie8skyg@mail.gmail.com>
+ <eb099ea1-f88e-8b4f-22ab-863952c04f32@redhat.com>
+In-Reply-To: <eb099ea1-f88e-8b4f-22ab-863952c04f32@redhat.com>
+From: Joshua Seaton <josh.a.seaton@gmail.com>
+Date: Tue, 22 Feb 2022 09:35:24 -0800
+Message-ID: <CAPbYy+8MLLjZbeDarG9o5Dc=zLg7F17jwojEg8w41DkaruxCjg@mail.gmail.com>
+Subject: Re: [PATCH] configure: Support empty prefixes
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=josh.a.seaton@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,47 +80,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Oleg Vasilev <me@svin.in>, Idan Horowitz <idan.horowitz@gmail.com>,
- Cleber Rosa <cleber@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Emilio Cota <cota@braap.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Igor/MST for UEFI tests.
+Hi Paolo,
 
-On 22/2/22 17:38, Daniel P. Berrangé wrote:
-> On Tue, Feb 22, 2022 at 04:17:23PM +0000, Alex Bennée wrote:
->>
->> Alex Bennée <alex.bennee@linaro.org> writes:
->>
->>> Hi,
->>>
->>> TL;DR:
->>>
->>>    - pc-bios/edk2-aarch64-code.fd should be rebuilt without debug
->>
->> Laszlo,
->>
->> Would it be possible to do a less debug enabled version of EDK2 on the
->> next update to pc-bios/edk2-*?
-> 
-> NB, Laszlo is no longer  maintaining EDK2 in QEMU, it was handed
-> over to Philippe.  I'm CC'ing Gerd too since he's a reviewer and
-> an EDK2 contributor taking over from Lazslo in EDK2 community
+Thanks for the quick response (and apologies about my delayed one).
 
-We need the DEBUG profile to ensure the bios-tables-tests work.
+My project has automated scripts to build a number of other tools. The
+way we conventionally go about it is
+```
+path/to/configure '--prefix=' ...
+make
+make install DEST_DIR=$destdir
+```
 
-If you want to boot a guest using EDK2, you should use the images
-build by your distribution (/usr/share/qemu/edk2-aarch64-code.fd),
-not these images.
+We currently build an earlier v5 version of QEMU this way. I am trying
+to update things to start building v6 and hit the empty-prefix issue
+in doing so.
+You are of course right though that this is easily worked around:
+```
+path/to/configure "--prefix=$destdir" ...
+make
+make install
+```
+works fine and I've happily updated things on my side to reflect that.
 
-Regards,
+My particular use-case aside, my understanding is that accepting empty
+`--prefix` values is a widespread convention for configure scripts,
+one which was previously supported by this project too (at least
+unofficially). Is that accurate?
+If the patch/feature is unwanted, that's completely okay by me;
+although I'd be curious to hear why it might be regarded as
+undesirable.
 
-Phil.
+
+Joshua.
+
+
+
+
+
+On Thu, Feb 17, 2022 at 3:50 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 2/17/22 19:42, Joshua Seaton wrote:
+> > At least as of v5 (before the meson build), empty `--prefix` values were
+> > supported; this seems to have fallen out along the way. This change
+> > reintroduces support.
+>
+> What is the usecase exactly?  QEMU supports relocatable installation so
+> if you want you can use --prefix=/nonexistent and then move the
+> resulting tree wherever you want.
+>
+> Paolo
+>
+> > Tested locally with empty and non-empty values of `--prefix`.
+> >
+> > Signed-off-by: Joshua Seaton <josh.a.seaton@gmail.com>
+> > ---
+> >   configure | 33 ++++++++++++++++++++++++---------
+> >   1 file changed, 24 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/configure b/configure
+> > index 3a29eff5cc..87a32e52e4 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -1229,20 +1229,30 @@ case $git_submodules_action in
+> >       ;;
+> >   esac
+> >
+> > -libdir="${libdir:-$prefix/lib}"
+> > -libexecdir="${libexecdir:-$prefix/libexec}"
+> > -includedir="${includedir:-$prefix/include}"
+> > +# Emits a relative path in the case of an empty prefix.
+> > +prefix_subdir() {
+> > +    dir="$1"
+> > +    if test -z "$prefix" ; then
+> > +        echo "$dir"
+> > +    else
+> > +        echo "$prefix/$dir"
+> > +    fi
+> > +}
+> > +
+> > +libdir="${libdir:-$(prefix_subdir lib)}"
+> > +libexecdir="${libexecdir:-$(prefix_subdir libexec)}"
+> > +includedir="${includedir:-$(prefix_subdir include)}"
+> >
+> >   if test "$mingw32" = "yes" ; then
+> >       bindir="${bindir:-$prefix}"
+> >   else
+> > -    bindir="${bindir:-$prefix/bin}"
+> > +    bindir="${bindir:-$(prefix_subdir bin)}"
+> >   fi
+> > -mandir="${mandir:-$prefix/share/man}"
+> > -datadir="${datadir:-$prefix/share}"
+> > -docdir="${docdir:-$prefix/share/doc}"
+> > -sysconfdir="${sysconfdir:-$prefix/etc}"
+> > -local_statedir="${local_statedir:-$prefix/var}"
+> > +mandir="${mandir:-$(prefix_subdir share/man)}"
+> > +datadir="${datadir:-$(prefix_subdir share)}"
+> > +docdir="${docdir:-$(prefix_subdir share/doc)}"
+> > +sysconfdir="${sysconfdir:-$(prefix_subdir etc)}"
+> > +local_statedir="${local_statedir:-$(prefix_subdir var)}"
+> >   firmwarepath="${firmwarepath:-$datadir/qemu-firmware}"
+> >   localedir="${localedir:-$datadir/locale}"
+> >
+> > @@ -3763,6 +3773,11 @@ if test "$skip_meson" = no; then
+> >     mv $cross config-meson.cross
+> >
+> >     rm -rf meson-private meson-info meson-logs
+> > +
+> > +  # Workaround for a meson bug preventing empty prefixes:
+> > +  # see https://github.com/mesonbuild/meson/issues/6946.
+> > +  prefix="${prefix:-/}"
+> > +
+> >     run_meson() {
+> >       NINJA=$ninja $meson setup \
+> >           --prefix "$prefix" \
+> > --
+> > 2.35.1.265.g69c8d7142f-goog
+> >
+>
 
