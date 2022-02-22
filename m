@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921AD4C003D
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:39:34 +0100 (CET)
-Received: from localhost ([::1]:46354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64994C0044
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Feb 2022 18:41:35 +0100 (CET)
+Received: from localhost ([::1]:52158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMZ8P-0003KL-Hm
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:39:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35090)
+	id 1nMZAM-0007LR-NJ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 12:41:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMZ6C-0001Jq-25
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 12:37:16 -0500
-Received: from [2607:f8b0:4864:20::b34] (port=44885
- helo=mail-yb1-xb34.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMZ7Q-0003J7-Ja
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 12:38:32 -0500
+Received: from [2a00:1450:4864:20::535] (port=40917
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMZ6A-0002SK-DL
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 12:37:15 -0500
-Received: by mail-yb1-xb34.google.com with SMTP id d21so20434200yba.11
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 09:37:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Qtf3YU+TcowGaCHniWgPODEI9mzHGWZEUHJkd8vFmQ4=;
- b=hX8AVPmLdnmgAm9Mp7TDpgorj+E8XR10pURakQlp8AnPWlgvg0kMqngO857J/DuEUo
- L4tjCl0QH0rR7jZl6bMJI2M0BcLhFauK7PaX+Hej5Ci39C87+8oJtlfylAqFYw6IrlRJ
- KlW+gHmzOHyk++gYPYv5XW1GjbqAHuy2a+fQoB4VxO+A/kDyT6rd+cdhtwQ07l4Yk6y6
- gEGGuyeBLZuQjMM/Z66XLR8XcODERIw9HohE8RomHh2Z3chKQ58u9GJbYAPgZV8F7Y+w
- /lxyDp+KZSEs/W7N6RPcLQm6E8Ly1SIxlZWFhURChfASzcfuqzFRPcCmoL+uyqkmXR6M
- 7s7Q==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nMZ7O-0002kh-DF
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 12:38:32 -0500
+Received: by mail-ed1-x535.google.com with SMTP id h15so21727944edv.7
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 09:38:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uLE7zkddQ8lhLWvaSZxVJiXfnyCZqkzM+zwMZ+8o5bY=;
+ b=pPsI/ZDVPmJZJsTizTPoEihcm9SAGv0o0ySvVCp76G3nkWCbM6RJSCkoma7dOWhbg4
+ D4MazWTMKQgnB4Kvjlkf4rmJxgvZCuc5dMqHRM+/aM38aohtJFWixz79GrDT6BLt79Cm
+ e77tfN1oEQn6okocMJ3pNpQRYWrx1pMCWHc6adGpsDFPmQZYUXdZ+7kUOxhHISjGl5qy
+ T6CMNsSXF0bsVrh+hNWj09z8Kl9GNdp1ATmlCPKtvx6zkFqJhjXHXX6woeHJtpT39NGL
+ IhRJabTzfgu8KZ3b9WcTaA9foi6PwLgkVtvXLiqJui1berhc7vqSTOdC0TY8Vi9B9IAN
+ 73ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Qtf3YU+TcowGaCHniWgPODEI9mzHGWZEUHJkd8vFmQ4=;
- b=p99DupFOxI0mJw9mimGRl3RVe+erIajRCrKUqJrLxyMt6jgWWx/i5rFSCmx6xZWz8z
- 27pJAQjEiMmIhzEWHAEyPgRfZ3xy9gLd5OZvCoymt85LrYMZYMDCVRtLzgHecJTyCt0z
- guLuCN7QUwyBsc+tbxu/l9W8ClJqKZaPUc1ojpJf/5DSiUvt6E3cYMA3cNNzx/T0wh1R
- YwOaoyNWIULKRUOYDQCrq6odiGU4GHbyBW+rYmeA5osiGc7fGeyNdAVU8QRkIxaqLSBE
- 0G+gPdOSZ5Q1VNsr8dUJ0N1V+deUiXJuVwLopUMvZ0edoP6mRlKxaRMRA2U/6GC+gQ1c
- r+TA==
-X-Gm-Message-State: AOAM533gwnFePFSLOmmZHByRMVYeJQVAfNlKN37Y5StrCAAlrCV3lXtg
- Nk6CY2Tk9KeGRXyEh/rMJ5Rj6jb8C9j4xOI0c/KJYA==
-X-Google-Smtp-Source: ABdhPJzEPYI+NqxJzpRTH/JfEovOWiHMhUgQu+/oSynLrXk24DbGAjD/q+O+1Si+UMlSEn68PxmeXkgjE5F/MFDfFms=
-X-Received: by 2002:a25:5011:0:b0:61d:853e:ef96 with SMTP id
- e17-20020a255011000000b0061d853eef96mr24511965ybb.288.1645551432548; Tue, 22
- Feb 2022 09:37:12 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uLE7zkddQ8lhLWvaSZxVJiXfnyCZqkzM+zwMZ+8o5bY=;
+ b=CJaZmF6f92I8cip7p1S1zbTB7WBTU+envx/TZkLPOSjPfH2zm85TcLJTRLzAzhMR4d
+ nhyDyiMnltVmzz5cXuWpY6hRTapN84TzfM3ng2wUPZsKe0jzW8LLxWO1zG4GFXWZrP/e
+ 6PNwk9EYOSBp5tVDqe+D9olxa3WvqivHR653KkEPtrtTxQsXAc45UbEv1GT1I6/rShJy
+ rt5+c6nrs6SZaRs01MiTZ3G84zdVLaV1pqxxsWLJN7ykssNKgfbQN6723EUrw/GJzJn2
+ zMWBKJ5aVnkdfofOHwRy7yYGR2IXmaT49xzjicr8KWU4TP67smDhSk0GECQKmnL0o44Q
+ ZTHA==
+X-Gm-Message-State: AOAM532t0NfGF8E2vj31QWfnjwi7DtkOsgnSdAqZM9d35sbzJfM2ygDJ
+ a0VnHRMuZHhHvYghduQICZ6mDLIgnJ8=
+X-Google-Smtp-Source: ABdhPJx5q2bJkFLFRECWdYjPZAaXm7dQaHRuCGbwl5swIq6ml/Pdq6/xX9CJbQr2m5T7FL//y73EcQ==
+X-Received: by 2002:a50:cc89:0:b0:400:8f82:99e8 with SMTP id
+ q9-20020a50cc89000000b004008f8299e8mr26864626edi.7.1645551508471; 
+ Tue, 22 Feb 2022 09:38:28 -0800 (PST)
+Received: from Provence.localdomain
+ (dynamic-089-012-227-088.89.12.pool.telefonica.de. [89.12.227.88])
+ by smtp.gmail.com with ESMTPSA id et2sm6449382ejc.101.2022.02.22.09.38.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Feb 2022 09:38:28 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/22] isa: Resolve unneeded IRQ attributes from ISADevice
+Date: Tue, 22 Feb 2022 18:37:57 +0100
+Message-Id: <20220222173819.76568-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <874k4xbqvp.fsf@linaro.org> <878ru2nacq.fsf@linaro.org>
- <YhURfqMvRT4xbiz6@redhat.com> <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
-In-Reply-To: <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 22 Feb 2022 17:37:01 +0000
-Message-ID: <CAFEAcA8ggE0HHXwLAu4vCA=kLwo4moN1CvTJbjph=OTmnfOONg@mail.gmail.com>
-Subject: Re: Analysis of slow distro boots in check-avocado
- (BootLinuxAarch64.test_virt_tcg*)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -86,51 +84,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Oleg Vasilev <me@svin.in>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Cleber Rosa <cleber@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Idan Horowitz <idan.horowitz@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Emilio Cota <cota@braap.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Bernhard Beschow <shentey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Feb 2022 at 17:33, Philippe Mathieu-Daud=C3=A9
-<philippe.mathieu.daude@gmail.com> wrote:
->
-> +Igor/MST for UEFI tests.
->
-> On 22/2/22 17:38, Daniel P. Berrang=C3=A9 wrote:
-> > On Tue, Feb 22, 2022 at 04:17:23PM +0000, Alex Benn=C3=A9e wrote:
-> >>
-> >> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-> >>
-> >>> Hi,
-> >>>
-> >>> TL;DR:
-> >>>
-> >>>    - pc-bios/edk2-aarch64-code.fd should be rebuilt without debug
-> >>
-> >> Laszlo,
-> >>
-> >> Would it be possible to do a less debug enabled version of EDK2 on the
-> >> next update to pc-bios/edk2-*?
+The IRQ attributes of ISADevice are hardcoded to support up to two IRQs per
+device which creates an artificial limit. By not having the attributes in the
+first place, this limitation can be avoided altogether.
 
-> We need the DEBUG profile to ensure the bios-tables-tests work.
->
-> If you want to boot a guest using EDK2, you should use the images
-> build by your distribution (/usr/share/qemu/edk2-aarch64-code.fd),
-> not these images.
+The IRQ attributes are mostly used for printing ('info qtree') and there is one
+user, hw/ppc/pnv, to use the attributes directly. As it turns out, the printing
+is redundant if the IRQ numbers are exposed as QOM properties and hw/ppc/pnv
+can be easily ported away.
 
-But we're booting guests using EDK2 as part of our avocado tests:
-if we say "booting guests with EDK2 should be done with non-debug
-images" we need to also be building and providing those in
-pc-bios for the avocado tests.
+The patch series is structured as follows: Patch 1-3 QOM'ify the last devices
+which rely on printing their IRQ numbers via the ISADevice attributes. Patch
+4 and 5 remove the last users of the ISADevice attributes such that they can be
+removed in patch 6. The remainder of the patch series is cleanup.
 
--- PMM
+Patch 6 turns isa_init_irq() into a trivial wrapper for isa_get_irq(). That is,
+the former function becomes redundant. All users are therefore converted to use
+isa_get_irq() directly. Finally, the last patch removes the now unused
+isa_init_irq().
+
+Bernhard Beschow (22):
+  hw/rtc/mc146818rtc: QOM'ify IRQ number
+  hw/rtc/m48t59-isa: QOM'ify IRQ number
+  hw/input/pckbd: QOM'ify IRQ numbers
+  hw/isa/isa-bus: Remove isabus_dev_print()
+  hw/ppc/pnv: Determine ns16550's IRQ number from QOM property
+  isa: Drop unused attributes from ISADevice
+  hw/audio/cs4231a: Disuse isa_init_irq()
+  hw/audio/gus: Disuse isa_init_irq()
+  hw/audio/sb16: Disuse isa_init_irq()
+  hw/block/fdc-isa: Disuse isa_init_irq()
+  hw/char/parallel: Disuse isa_init_irq()
+  hw/char/serial-isa: Disuse isa_init_irq()
+  hw/ide/isa: Disuse isa_init_irq()
+  hw/input/pckbd: Disuse isa_init_irq()
+  hw/ipmi/isa_ipmi_bt: Disuse isa_init_irq()
+  hw/ipmi/isa_ipmi_kcs: Disuse isa_init_irq()
+  hw/isa/piix4: Disuse isa_init_irq()
+  hw/net/ne2000-isa: Disuse isa_init_irq()
+  hw/rtc/m48t59-isa: Disuse isa_init_irq()
+  hw/tpm/tpm_tis_isa: Disuse isa_init_irq()
+  hw/isa/isa-bus: Disuse isa_init_irq()
+  isa: Remove unused isa_init_irq()
+
+ hw/audio/cs4231a.c           |  2 +-
+ hw/audio/gus.c               |  2 +-
+ hw/audio/sb16.c              |  2 +-
+ hw/block/fdc-isa.c           |  2 +-
+ hw/char/parallel.c           |  2 +-
+ hw/char/serial-isa.c         |  2 +-
+ hw/ide/isa.c                 |  2 +-
+ hw/input/pckbd.c             | 13 +++++++++----
+ hw/ipmi/isa_ipmi_bt.c        |  2 +-
+ hw/ipmi/isa_ipmi_kcs.c       |  2 +-
+ hw/isa/isa-bus.c             | 37 +-----------------------------------
+ hw/isa/piix4.c               |  2 +-
+ hw/net/ne2000-isa.c          |  2 +-
+ hw/ppc/pnv.c                 |  5 ++++-
+ hw/rtc/m48t59-isa.c          |  4 +++-
+ hw/rtc/mc146818rtc.c         |  8 ++++++--
+ hw/tpm/tpm_tis_isa.c         |  2 +-
+ include/hw/isa/isa.h         |  3 ---
+ include/hw/rtc/mc146818rtc.h |  1 +
+ tests/qemu-iotests/172.out   | 26 -------------------------
+ 20 files changed, 36 insertions(+), 85 deletions(-)
+
+-- 
+2.35.1
+
 
