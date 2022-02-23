@@ -2,87 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6EC04C1452
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 14:39:08 +0100 (CET)
-Received: from localhost ([::1]:36402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D149C4C1474
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 14:44:14 +0100 (CET)
+Received: from localhost ([::1]:41318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMrrH-0003yz-3U
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 08:39:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35152)
+	id 1nMrwD-0007c3-LV
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 08:44:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMrmr-0001Vx-B4; Wed, 23 Feb 2022 08:34:36 -0500
-Received: from [2607:f8b0:4864:20::533] (port=40923
- helo=mail-pg1-x533.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMrmp-0001a4-FH; Wed, 23 Feb 2022 08:34:33 -0500
-Received: by mail-pg1-x533.google.com with SMTP id w37so13554779pga.7;
- Wed, 23 Feb 2022 05:34:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VCh4vuuX/P112tsW9ayY6uH9gaq3mhObhMfWnbW5l8w=;
- b=g7pjR9JlYrhGzhIa0SerGNXPZdANzlA7BE2vCJgY0lZbxr5ZpE1zEF4iDDjFnrJyp5
- gH+9zN+JoAAEdRehLlh2DPgWp1raJIZZPUZqNcw2dWCjdgKo0tVlXkLu7oDOeYyatcgQ
- SrBFRL2gaUMVYIA29YCWCZzWA2EzWCkvHJeNukqut5e7rHnz+2pMG/7FUbRd+DKXf+bX
- YVcN4fM32BnLUPBQac+VZ75nLoBJaeb1W03q7LhnxRY5mWD19mtbx3Jce7B3BVHBSYWL
- 913mroboYdwmF2KNMLsdDoDK7mWMJX/fXDxU7iorzDT4GzmRJpKMOB/bCaVheZ5aretN
- kQ6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=VCh4vuuX/P112tsW9ayY6uH9gaq3mhObhMfWnbW5l8w=;
- b=oMssbvuOTf24SXoCSpeA40ecNOlZEaesMDAQ4IDx2HJKfyzgW8gnOAlxciymJEVTdC
- 8oMUF+DUa6SO7JsPuWiG4hQzrWm8wQ5AL/UfiFJr2c1f+zeYQaGUMBxWFir3OLqOt91r
- 4m7VIhm8PM/pvAxrW+k2jtxgEBPX7XzZQAxx9QDxFVUzwSzFPNJtsh0Qgvkcr+NNZKK8
- sWZLM3ifeSgWZO5HeP9EU/MD0ju2NUAwa9oA9D2lsmH8bPJ9UwiNyO/UK7+u3qsJpVud
- 3cHshwHiL1ltVAPWvS5Udmi39TQAAM33df/84Hcr8kVKQr+H9FZaAF5UeCpg4KYjd3i5
- HR6Q==
-X-Gm-Message-State: AOAM530FpGQLpzFR7ZJtGvZM1Dw74wwx5pqXbPtEkql8Zd2+vOxN5SzA
- IorwEUwN66pS6T7/vnUk6OU=
-X-Google-Smtp-Source: ABdhPJx2tnTh5YTLqmhumTeKL6wRqtrXXGxVCFrFM9//rJsBJYnT24j9FwRy71fC8a4pPm5HoGHVVw==
-X-Received: by 2002:a63:f60a:0:b0:373:4c34:1aaf with SMTP id
- m10-20020a63f60a000000b003734c341aafmr23776819pgh.268.1645623269918; 
- Wed, 23 Feb 2022 05:34:29 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id kk13sm2569269pjb.44.2022.02.23.05.34.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 05:34:29 -0800 (PST)
-Message-ID: <e9f70381-03f2-9582-8ad6-e9252d3195ab@gmail.com>
-Date: Wed, 23 Feb 2022 14:34:23 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: Analysis of slow distro boots in check-avocado
- (BootLinuxAarch64.test_virt_tcg*)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nMrsg-00064B-86; Wed, 23 Feb 2022 08:40:35 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:23070
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nMrsX-0003Dt-GU; Wed, 23 Feb 2022 08:40:27 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21NBklx0005481; 
+ Wed, 23 Feb 2022 13:40:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=XxF2VZloN8B/d2q0QlWm/kC0XaPTUbMuq6BoxH9WTYE=;
+ b=ahX0qAeqWhgSaHvJZpqWR48iyOwcD+YQxp5VlS7kEjXRg5YibeD00TKXeFTWOIq5/YoR
+ sT8QtC/jcHW4Ex4SiNgEhudDgJglpVZCFUTdi90wsp+KbQCJkt3OcF2peYv+CN/TXKaD
+ UomQcML6oFb3nqwaySlhZ2gLbf91tpvwP+u3LKFbmC+2Wlsq8r9I4TE+H43yNjaIfZib
+ PEUn35yDzuwupTvRLxj257QGGCo0VChRpe5srbBiARMEiNAr+3ZGg06Nstpy/jdEfeTq
+ 4ni+3NtD617q6j0C7pOm5JJ9W0guQSy31RmK4dyMrM6S2ISbSMoZEo5Y49qwy5zJGvQW Kg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3edmbracp7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Feb 2022 13:40:22 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21NDabE1028218;
+ Wed, 23 Feb 2022 13:40:21 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3edmbracnr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Feb 2022 13:40:21 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21NDWUKj030319;
+ Wed, 23 Feb 2022 13:40:19 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 3eaqtjac8w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 23 Feb 2022 13:40:19 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21NDeG5S49217870
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 23 Feb 2022 13:40:16 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 82BCC4C044;
+ Wed, 23 Feb 2022 13:40:16 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1726D4C040;
+ Wed, 23 Feb 2022 13:40:16 +0000 (GMT)
+Received: from [9.171.70.253] (unknown [9.171.70.253])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 23 Feb 2022 13:40:16 +0000 (GMT)
+Message-ID: <3db47aeb-a57e-55e3-92f2-620845fe00df@linux.ibm.com>
+Date: Wed, 23 Feb 2022 14:40:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 1/4] s390x/tcg: Implement
+ Miscellaneous-Instruction-Extensions Facility 3 for the s390x
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <874k4xbqvp.fsf@linaro.org> <878ru2nacq.fsf@linaro.org>
- <YhURfqMvRT4xbiz6@redhat.com>
- <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
- <YhYVVnVSL8K1S4MC@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <YhYVVnVSL8K1S4MC@redhat.com>
+To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220217231728.13932-1-dmiller423@gmail.com>
+ <20220217231728.13932-2-dmiller423@gmail.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20220217231728.13932-2-dmiller423@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: p0clgdjUKkkiJY--zT6k1NGAw9PKXPYc
+X-Proofpoint-GUID: vLw1cnuIsvjKaFdfxYfGppmF9_Adibsz
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-02-23_06,2022-02-23_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ impostorscore=0 phishscore=0 adultscore=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 mlxlogscore=911 bulkscore=0 malwarescore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202230077
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,72 +116,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Cleber Rosa <cleber@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Oleg Vasilev <me@svin.in>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Idan Horowitz <idan.horowitz@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Emilio Cota <cota@braap.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, farman@linux.ibm.com, pasic@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/2/22 12:07, Daniel P. Berrangé wrote:
-> On Tue, Feb 22, 2022 at 06:33:41PM +0100, Philippe Mathieu-Daudé wrote:
->> +Igor/MST for UEFI tests.
->>
->> On 22/2/22 17:38, Daniel P. Berrangé wrote:
->>> On Tue, Feb 22, 2022 at 04:17:23PM +0000, Alex Bennée wrote:
->>>>
->>>> Alex Bennée <alex.bennee@linaro.org> writes:
->>>>
->>>>> Hi,
->>>>>
->>>>> TL;DR:
->>>>>
->>>>>     - pc-bios/edk2-aarch64-code.fd should be rebuilt without debug
->>>>
->>>> Laszlo,
->>>>
->>>> Would it be possible to do a less debug enabled version of EDK2 on the
->>>> next update to pc-bios/edk2-*?
->>>
->>> NB, Laszlo is no longer  maintaining EDK2 in QEMU, it was handed
->>> over to Philippe.  I'm CC'ing Gerd too since he's a reviewer and
->>> an EDK2 contributor taking over from Lazslo in EDK2 community
->>
->> We need the DEBUG profile to ensure the bios-tables-tests work.
+
+Am 18.02.22 um 00:17 schrieb David Miller:
+> resolves: https://gitlab.com/qemu-project/qemu/-/issues/737
+> implements:
+> AND WITH COMPLEMENT   (NCRK, NCGRK)
+> NAND                  (NNRK, NNGRK)
+> NOT EXCLUSIVE OR      (NXRK, NXGRK)
+> NOR                   (NORK, NOGRK)
+> OR WITH COMPLEMENT    (OCRK, OCGRK)
+> SELECT                (SELR, SELGR)
+> SELECT HIGH           (SELFHR)
+> MOVE RIGHT TO LEFT    (MVCRL)
+> POPULATION COUNT      (POPCNT)
 > 
-> Can you elaborate on what bios-tables-tests needs this for, and
-> what coverage we would loose by disabling DEBUG.
+> Signed-off-by: David Miller <dmiller423@gmail.com>
 
-Maybe it was only required when the tests were developed...
-I'll defer that question to Igor.
-
-> It may well be a better tradeoff to sacrifice part of bios-tables-tests
-> in favour of shipping more broadly usable images without DEBUG.
-
-Why not, if users are aware/happy to use a unsafe image with various
-unfixed CVEs.
-
-Removing the debug profile is as simple as this one-line patch:
-
--- >8 --
-diff --git a/roms/edk2-build.sh b/roms/edk2-build.sh
-index d5391c7637..ea79dc27a2 100755
---- a/roms/edk2-build.sh
-+++ b/roms/edk2-build.sh
-@@ -50,6 +50,6 @@ qemu_edk2_set_cross_env "$emulation_target"
-  build \
-    --cmd-len=65536 \
-    -n "$edk2_thread_count" \
--  --buildtarget=DEBUG \
-+  --buildtarget=RELEASE \
-    --tagname="$edk2_toolchain" \
-    "${args[@]}"
----
-
+For your next patches, feel free to add previous Reviewed-by: tags so that others
+can see what review has already happened.
 
