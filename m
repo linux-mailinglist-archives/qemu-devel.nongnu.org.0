@@ -2,100 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2A94C0F88
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 10:49:37 +0100 (CET)
-Received: from localhost ([::1]:57824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2C24C0FC4
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:03:05 +0100 (CET)
+Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMoH9-0008FT-JH
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 04:49:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50868)
+	id 1nMoUC-0005yL-Ma
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:03:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nMnmS-0006YQ-Vm
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:17:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36347)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nMnmN-0003oR-Nr
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:17:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645607857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B8q1URPfwAjEsMpocjz8hxjP4ZCcIPx2PwLRnv+Iadw=;
- b=J3hsHD539jY21gU5OaNNxznGj+3wNQGe+zN9Bf1NfqlWfQBWpzEUM+8tkfs1jvO8BgPoGg
- tIC1rUQ7mxWJniMkDC0JZnxaJXI/vQXNpLEGxYS8DVEWVl0Omb35g8TbpFheFQBe7UBh+0
- QSBI+wKmKBA+Ex5zKiBWDWS6zgif9S4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-456-XWgfy-eBNwGTKNnQe18c5g-1; Wed, 23 Feb 2022 04:16:55 -0500
-X-MC-Unique: XWgfy-eBNwGTKNnQe18c5g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- w2-20020adfbac2000000b001ea99ca4c50so1717903wrg.11
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:16:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nMnoe-0007xp-F5
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:20:08 -0500
+Received: from [2607:f8b0:4864:20::1129] (port=43070
+ helo=mail-yw1-x1129.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nMnob-0003y9-PA
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:20:07 -0500
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2d6d0cb5da4so147989797b3.10
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:19:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nXCLXxB6HCrscA7vtjaiHnkKr4QrAkuVD/lkEVxIKbQ=;
+ b=UaQxdwj5S87gVF8hhKphMX9feVRNS3B/SQYGSeSld9mFvZyTcbDJt1S4aD+ZECTuby
+ tiUxdGddedY2/AyxRLqRVVqNZQkoj+vonwzSq3ahQKVvy15C7VBkrUxKXq2xdr19yAfb
+ PjMdJbeV58AS30Iy/nc7uX3wpEN0lWQoWtcX3O0kvBYPry27zv6qz42neodsQ2F9huYC
+ z8xaXsbiJ1O2G4xV9wM4vuOMhP0KZPrjhhezTl764reuLyvc6sKG6QoF798rKO7iFTSk
+ LzQBRyAWYIwGXlVSMzdeJNWkBNT+4Hn9qupAMyVB/rjjy4Xq5y0YNN/9sI7vWE7iW7u0
+ yhkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=B8q1URPfwAjEsMpocjz8hxjP4ZCcIPx2PwLRnv+Iadw=;
- b=EjaWsyOkOCRfzYcjiRu4c3VZtRqGs+dcBzy1ajkUSJrw7ewCwNTdYQknxCsvy3i67K
- bBT6isdz10fmL5MulyxqkFkd998G7xlzTPQzc8x++XJ2CH2g/dOQFqSzcncQVcltaokI
- 3ViGxfpBS4fIReqAZ6tFmpk6FPRAQQQbufzNtELo6ezBTF/NTfEkNXkd76YPZ9JyUY8Z
- dhknXGNaRxdXNooF6dOa6mZn4nhwJcx+KTwdjGKdPac/WQblo4glFy2YdOO+WRY/nE4D
- 0mdtUxjT6/R5wRFyNZkxB3kDZ1x/J3vWRrR6tGQFZz/3mOjXX2CRJBJ/d9sI5G4CPwkj
- Ziwg==
-X-Gm-Message-State: AOAM531kCzplOX//yj3lku1UDKX/Zv/LynIt347x1DyHGlKFn9L+bij5
- ehYhR7NYBBNu+6YjAwNEiz1NablNlDNYh+qgFUYaHD/a41lXxcMfjQ37mA3WS1f1QNVIB4dP3WI
- AgphHZ78ve1/tt44=
-X-Received: by 2002:adf:de85:0:b0:1e3:31ab:5981 with SMTP id
- w5-20020adfde85000000b001e331ab5981mr21982110wrl.18.1645607814598; 
- Wed, 23 Feb 2022 01:16:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy/RkTndzDa6pjpz/0A5t22z96RKEVFr+f4tqwMkHscRnILOjdJuqzwHpq/laSTdummHJKnEQ==
-X-Received: by 2002:adf:de85:0:b0:1e3:31ab:5981 with SMTP id
- w5-20020adfde85000000b001e331ab5981mr21982087wrl.18.1645607814350; 
- Wed, 23 Feb 2022 01:16:54 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id ay12sm39357200wrb.73.2022.02.23.01.16.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Feb 2022 01:16:53 -0800 (PST)
-Date: Wed, 23 Feb 2022 09:16:51 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH RFCv2 2/4] i386/pc: relocate 4g start to 1T where
- applicable
-Message-ID: <YhX7g0GjwE5u7+vf@work-vm>
-References: <20220207202422.31582-3-joao.m.martins@oracle.com>
- <20220214155318.3ce80da0@redhat.com>
- <fa172a19-5db6-a844-27d7-8497d306024e@oracle.com>
- <20220214163158.4c4b210b@redhat.com>
- <20220215095358.5qcrgwlasheu63uj@sirius.home.kraxel.org>
- <YgzJE7ufEYm6OFyg@redhat.com> <YhOQfJ8x93+jDSZf@work-vm>
- <20220222094602.66d55613@redhat.com>
- <20220222094255.as2alzu65rhateml@sirius.home.kraxel.org>
- <20220223094343.2e600a22@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nXCLXxB6HCrscA7vtjaiHnkKr4QrAkuVD/lkEVxIKbQ=;
+ b=Wf8nCdZeiLddqfutOzSSWpF/R/i/CwM6F+5ymf+yx7TKcPHjINFqCb8eMCZl/IUmO/
+ /83gZApXzxGNU+vjBGrxMxPXAWEs/GcFkgXpnphZ4ic4I0eGJZxarNOV2KkHNw1khZM8
+ bzMPRdizsL+qNkQV7h35BR/GJwMhPrFOgIT59Zzk6nVXcoHt154ebHJFWhd0fDEwFZAj
+ 5wa6LAwdR9oAHMWKN+cYsLpTTeSzkvbUoQsAUvinRhQvRGHqEnT9NaGxOB39yAhHa6ug
+ FQd2OtGG/5j7Pym+q2rCew08+aT2rrZ+LGffWVchm+Hjx1pIYwGkuV/txpZc1WMizrsn
+ JZgQ==
+X-Gm-Message-State: AOAM530gIJOmDAhUuFZYrZw1/Cjgj/EcCtw/RVHvOxHH+i9mY+fTe8Eg
+ cI/JeXWXlQ36g/vHzW/yGu2qy2uk9tJJ+4svgWeFjQ==
+X-Google-Smtp-Source: ABdhPJxDgGmwRBqn1ahZJ0PCC2VvSxMzsYtzf26mSUSYz7qFYhAWXzEZL9V2rTXOh6EmJtJNzX6KEEg6ubNXVCJDfb0=
+X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
+ e69-20020a81a748000000b002d61f8b23a9mr28274883ywh.329.1645607994047; Wed, 23
+ Feb 2022 01:19:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220223094343.2e600a22@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <874k4xbqvp.fsf@linaro.org> <878ru2nacq.fsf@linaro.org>
+ <YhURfqMvRT4xbiz6@redhat.com> <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
+In-Reply-To: <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 23 Feb 2022 09:19:43 +0000
+Message-ID: <CAFEAcA8mNt_-nZoV7RL4_UQUV=nPQsDM8KBTA8qAGmiNtXWx9g@mail.gmail.com>
+Subject: Re: Analysis of slow distro boots in check-avocado
+ (BootLinuxAarch64.test_virt_tcg*)
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,77 +87,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>
+Cc: Oleg Vasilev <me@svin.in>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Cleber Rosa <cleber@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Idan Horowitz <idan.horowitz@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Emilio Cota <cota@braap.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Igor Mammedov (imammedo@redhat.com) wrote:
-> On Tue, 22 Feb 2022 10:42:55 +0100
-> Gerd Hoffmann <kraxel@redhat.com> wrote:
-> 
-> >   Hi,
-> > 
-> > > > And the upstream code is now pretty much identical except for the
-> > > > default;  note that for TCG you do need to keep to 40 I think.  
-> > > 
-> > > will TCG work with 40bits on host that supports less than that?  
-> > 
-> > When I understand things correctly the problem is that the phys-bits
-> > limit applies to the npt/ept tables too, effectively restricting guest
-> > physical address space to host physical address space.
-> > 
-> > TCG is not affected by that and should work just fine.
-> > 
-> > Not sure what happens if you turn off npt/ept and run on softmmu.
-> > Possibly that works fine too.
-> > 
-> > > Also quick look at host-phys-bits shows that it affects only 'host'
-> > > cpu model and is NOP for all other models.  
-> > 
-> > I don't think so.  microvm forces host-phys-bits=on and that works with
-> > all cpu models.
-> 
-> I just don't see how host-phys-bits can work for other than 'host' cpu model.
-> It's true that property is available for all cpu models, but the field it sets
-> is only used in target/i386/host-cpu.c, the same applies to host-phys-bits-limit.
-> Am I missing something?
+On Tue, 22 Feb 2022 at 17:33, Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
+> We need the DEBUG profile to ensure the bios-tables-tests work.
+>
+> If you want to boot a guest using EDK2, you should use the images
+> build by your distribution (/usr/share/qemu/edk2-aarch64-code.fd),
+> not these images.
 
-The hook in kvm/kvm-cpu.c kvm_cpu_realizefn:
+Do we have any other images in pc-bios that are silently
+"do not use these images, they are only for a very specific
+test case and nothing else" ?
 
-    /*
-     * The realize order is important, since x86_cpu_realize() checks if
-     * nothing else has been set by the user (or by accelerators) in
-     * cpu->ucode_rev and cpu->phys_bits, and updates the CPUID results in
-     * mwait.ecx.
-     * This accel realization code also assumes cpu features are already expanded.
-     *
-     * realize order:
-     *
-     * x86_cpu_realize():
-     *  -> x86_cpu_expand_features()
-     *  -> cpu_exec_realizefn():
-     *            -> accel_cpu_realizefn()
-     *               kvm_cpu_realizefn() -> host_cpu_realizefn()
-     *  -> check/update ucode_rev, phys_bits, mwait
-     */
+Also, "make install" installs these EDK2 images, which doesn't
+seem like the right thing for "this is only for one test case".
 
-Dave
-
-> > 
-> > take care,
-> >   Gerd
-> > 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+thanks
+-- PMM
 
