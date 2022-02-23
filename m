@@ -2,95 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDC44C0AB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 04:48:34 +0100 (CET)
-Received: from localhost ([::1]:60736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A37184C0AD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 05:12:45 +0100 (CET)
+Received: from localhost ([::1]:38564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMidl-0002sB-1H
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 22:48:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40170)
+	id 1nMj1A-0008VY-9h
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 23:12:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nMicR-0002Ak-A6
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 22:47:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56381)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nMicM-00020O-L8
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 22:47:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645588025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1mQfvcL2jz6bjxuBt9OWYUuZAHEjpnh9YgPxGBsGS1Y=;
- b=IWJpARNKzfrPRQUoVdWcTcEKi+Wjzci3hvFDqjAKs2Fsz7DTA9zwciWg+OpG78Djp4bN2B
- SGY6N9DNML3HA6qy4ZZ+ZSrTJNGgirTe5Rof0lngsCB+X58xtw9ggzbJOTd/j3RgCtME75
- C9uKiTYv6anzxde/JhCgTpW+pErYlkw=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-196-V_z52v7ENp22O_C2ESY25w-1; Tue, 22 Feb 2022 22:46:59 -0500
-X-MC-Unique: V_z52v7ENp22O_C2ESY25w-1
-Received: by mail-lf1-f69.google.com with SMTP id
- m24-20020a056512359800b00442b6ff7a0eso3065763lfr.1
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 19:46:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nMizr-0007gk-6X; Tue, 22 Feb 2022 23:11:23 -0500
+Received: from [2607:f8b0:4864:20::d31] (port=42578
+ helo=mail-io1-xd31.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nMizo-0005yY-SC; Tue, 22 Feb 2022 23:11:22 -0500
+Received: by mail-io1-xd31.google.com with SMTP id s1so22927678iob.9;
+ Tue, 22 Feb 2022 20:11:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0jmhNPavDJ9m+8YZSwq3BOe11DHLtcHArdDwVTLv8JA=;
+ b=Yn8YJSjieLC7GrxKXRD5qM4iGuQMFbccXvzUxIjeX7/Ua0RRhEayzY7eBtt2yqpBcr
+ b5ZjsugAUP3jRzc3BDCQKHpqactLzABXm3GGmveFtb9RqZwp4Wbfb9308MpIxcV1G1Xy
+ WgD1WdlvqtHfzybHZrWcHujXx/esPyza99/kouWDnerGc1I1nqvvrN9GvzdBCvAZlyTL
+ ZDnBUvGTQdzQ7vmU2lTAEFyJIE5xrKsrS2jwoaIKUz5YsP2eodvaOY12a1DjLH5HrFAR
+ 4QECKI/XCsl0j1I/cdcIh5OIGxozcv6oSP440RXeIDnBSJSe5+p5GW2lsiGd2WY7B3EX
+ W27Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1mQfvcL2jz6bjxuBt9OWYUuZAHEjpnh9YgPxGBsGS1Y=;
- b=Sg5CSq9S948ip0HSTeGtbSqWQOAU97sjd3KeZhvgvrlVEUa7z6pUqAW1N2UYBlrfCo
- qpSes0qF/LJmWZHcBGPheg8tKAGIC4jdWV7acBxsDyLWAhYdnDZWb05Q1FgYprZH99Lv
- XnBi7IGNL+D/7Ze42X5eKfBsXkq0WTonxHwjrimK6iMAFVjNPBsDdcLUuFd1bLYpEkg9
- buMlXJLvutekeJSnz9T5SEqBAIhY9zEdi/OZ0VCprl0JRGrtyYqVxePVun53MH0fJNu+
- 9pmfqhPgOhZ0T9XPMm6x0QC2hSeDWvfBBfWNhtaeiZK+3YoCTSOsrDjGEiSCraAT0hiS
- ZG4w==
-X-Gm-Message-State: AOAM53298LNYz9QoQ3kjLvCX16WQidC5C7I0ZI2N5cUg6YFv1N+N73sF
- HoA+0IQcGTaLH+2qg7pKZmah7C1qeNrfm9izZTX642EsVzKVIxqMguuf3IME7nIGbGKxeQYp5KK
- bvJ/SRbrDKHJDBKU0Ad8N6c0mLn1revY=
-X-Received: by 2002:a2e:7a15:0:b0:236:deb2:1f74 with SMTP id
- v21-20020a2e7a15000000b00236deb21f74mr19608620ljc.315.1645588018076; 
- Tue, 22 Feb 2022 19:46:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxcfX+yBYN+2Z6qy2ssD7tpMJc7DPW0wfx8zQgbYWkML1Wtwob09Sh0xvyzjmIN6s4zqrF7u69rqnh56fWD/zo=
-X-Received: by 2002:a2e:7a15:0:b0:236:deb2:1f74 with SMTP id
- v21-20020a2e7a15000000b00236deb21f74mr19608590ljc.315.1645588017693; Tue, 22
- Feb 2022 19:46:57 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=0jmhNPavDJ9m+8YZSwq3BOe11DHLtcHArdDwVTLv8JA=;
+ b=7lYoVNyU2G0JIw67+T3EZi52nCwMavwD3h9ad/S6rSgf4HPYlWT3S3p1Ag15uxK6pH
+ F4nIsH6nkwOKF7h1DtpxG0kXdMk3l8+67pu7kBSARPQ1zXWRIIKGDvONBIxMOx/LQXTD
+ e7ztS0ju6n1xMi4AMWv+rAWIiRFifDHkj8lzb5gUCZtYh/lO0lFeikQbjxZ0asFgO2dq
+ pXD3ncpdJTiDjujtfSJ4+HjgpOstNe6OKU3P41kpQIx5OehO+Aft1Sg/lxqupZ1tbYiN
+ gyJAPIwXzg4Dq1UZn4j0scGC11zzfUT6fSR4+1lgBqEdJvDeCa5UubtJ6u9zCdIEiKMl
+ 7soQ==
+X-Gm-Message-State: AOAM533O5THMRf7wIoGTm0A5fKE54DBPHOzfHhmqwQvFhhCc4AuhMJSH
+ XI4c1kXR5qI7fLeIUvI2EwqIEMHAC3F1baad7BE=
+X-Google-Smtp-Source: ABdhPJzialorh7arW6rfKgDmPlWzE24SVNggUQSZ8SB+E/mAzjBcqxUUg/I1l2Ozd9QoO5ryGtKnMXXKen1oDoTAwN4=
+X-Received: by 2002:a5e:8714:0:b0:641:600f:8778 with SMTP id
+ y20-20020a5e8714000000b00641600f8778mr4985820ioj.31.1645589478976; Tue, 22
+ Feb 2022 20:11:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20220121202733.404989-1-eperezma@redhat.com>
- <20220121202733.404989-29-eperezma@redhat.com>
- <42664143-6d0c-b107-ec90-8e6336bae29b@redhat.com>
- <CAJaqyWdBLU+maEhByepzeH7iwLmqUba0rRb8PM4VwBy2P8Vtow@mail.gmail.com>
- <9b32f664-56a9-3718-cf48-49003f87d430@redhat.com>
- <CAJaqyWcvWjPas0=xp+U-c-kG+e6k73jg=C4phFD7S-tZY=niSQ@mail.gmail.com>
- <CACGkMEtbd9RsE9f-HLnwmhJEFsK++uBHnqG4N0c6qJG0PxDdzw@mail.gmail.com>
- <CAJaqyWdhHmD+tB_bY_YEMnBU1p7-LW=LP8f+3e_ZXDcOfSRiNA@mail.gmail.com>
- <0f0204f1-8b7f-a21e-495e-24443a63f026@redhat.com>
- <CAJaqyWfFC4SgxQ4zQeHgtDDJSd0tBa-W4HmtW0UASA2cVDWDUg@mail.gmail.com>
-In-Reply-To: <CAJaqyWfFC4SgxQ4zQeHgtDDJSd0tBa-W4HmtW0UASA2cVDWDUg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 23 Feb 2022 11:46:46 +0800
-Message-ID: <CACGkMEukmf35163EDFQ2YQo2g2N0Diby7ffr9=UmOwGPEKj-Eg@mail.gmail.com>
-Subject: Re: [PATCH 28/31] vdpa: Expose VHOST_F_LOG_ALL on SVQ
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220222220704.2294924-1-atishp@rivosinc.com>
+ <20220222220704.2294924-6-atishp@rivosinc.com>
+In-Reply-To: <20220222220704.2294924-6-atishp@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 23 Feb 2022 14:10:52 +1000
+Message-ID: <CAKmqyKN5jaJSQC05Dt4XsEi0S4iOawm5U5BdGiW7c0Lfs-3nGA@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6] target/riscv: Add *envcfg* CSRs support
+To: Atish Patra <atishp@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d31
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,267 +80,290 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 22, 2022 at 4:06 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
+On Wed, Feb 23, 2022 at 8:09 AM Atish Patra <atishp@rivosinc.com> wrote:
 >
-> On Tue, Feb 22, 2022 at 8:41 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2022/2/17 =E4=B8=8B=E5=8D=884:22, Eugenio Perez Martin =E5=86=
-=99=E9=81=93:
-> > > On Thu, Feb 17, 2022 at 7:02 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > >> On Wed, Feb 16, 2022 at 11:54 PM Eugenio Perez Martin
-> > >> <eperezma@redhat.com> wrote:
-> > >>> On Tue, Feb 8, 2022 at 9:25 AM Jason Wang <jasowang@redhat.com> wro=
-te:
-> > >>>>
-> > >>>> =E5=9C=A8 2022/2/1 =E4=B8=8B=E5=8D=887:45, Eugenio Perez Martin =
-=E5=86=99=E9=81=93:
-> > >>>>> On Sun, Jan 30, 2022 at 7:50 AM Jason Wang <jasowang@redhat.com> =
-wrote:
-> > >>>>>> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =
-=E5=86=99=E9=81=93:
-> > >>>>>>> SVQ is able to log the dirty bits by itself, so let's use it to=
- not
-> > >>>>>>> block migration.
-> > >>>>>>>
-> > >>>>>>> Also, ignore set and clear of VHOST_F_LOG_ALL on set_features i=
-f SVQ is
-> > >>>>>>> enabled. Even if the device supports it, the reports would be n=
-onsense
-> > >>>>>>> because SVQ memory is in the qemu region.
-> > >>>>>>>
-> > >>>>>>> The log region is still allocated. Future changes might skip th=
-at, but
-> > >>>>>>> this series is already long enough.
-> > >>>>>>>
-> > >>>>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > >>>>>>> ---
-> > >>>>>>>     hw/virtio/vhost-vdpa.c | 20 ++++++++++++++++++++
-> > >>>>>>>     1 file changed, 20 insertions(+)
-> > >>>>>>>
-> > >>>>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > >>>>>>> index fb0a338baa..75090d65e8 100644
-> > >>>>>>> --- a/hw/virtio/vhost-vdpa.c
-> > >>>>>>> +++ b/hw/virtio/vhost-vdpa.c
-> > >>>>>>> @@ -1022,6 +1022,9 @@ static int vhost_vdpa_get_features(struct=
- vhost_dev *dev, uint64_t *features)
-> > >>>>>>>         if (ret =3D=3D 0 && v->shadow_vqs_enabled) {
-> > >>>>>>>             /* Filter only features that SVQ can offer to guest=
- */
-> > >>>>>>>             vhost_svq_valid_guest_features(features);
-> > >>>>>>> +
-> > >>>>>>> +        /* Add SVQ logging capabilities */
-> > >>>>>>> +        *features |=3D BIT_ULL(VHOST_F_LOG_ALL);
-> > >>>>>>>         }
-> > >>>>>>>
-> > >>>>>>>         return ret;
-> > >>>>>>> @@ -1039,8 +1042,25 @@ static int vhost_vdpa_set_features(struc=
-t vhost_dev *dev,
-> > >>>>>>>
-> > >>>>>>>         if (v->shadow_vqs_enabled) {
-> > >>>>>>>             uint64_t dev_features, svq_features, acked_features=
-;
-> > >>>>>>> +        uint8_t status =3D 0;
-> > >>>>>>>             bool ok;
-> > >>>>>>>
-> > >>>>>>> +        ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s=
-tatus);
-> > >>>>>>> +        if (unlikely(ret)) {
-> > >>>>>>> +            return ret;
-> > >>>>>>> +        }
-> > >>>>>>> +
-> > >>>>>>> +        if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
-> > >>>>>>> +            /*
-> > >>>>>>> +             * vhost is trying to enable or disable _F_LOG, an=
-d the device
-> > >>>>>>> +             * would report wrong dirty pages. SVQ handles it.
-> > >>>>>>> +             */
-> > >>>>>> I fail to understand this comment, I'd think there's no way to d=
-isable
-> > >>>>>> dirty page tracking for SVQ.
-> > >>>>>>
-> > >>>>> vhost_log_global_{start,stop} are called at the beginning and end=
- of
-> > >>>>> migration. To inform the device that it should start logging, the=
-y set
-> > >>>>> or clean VHOST_F_LOG_ALL at vhost_dev_set_log.
-> > >>>>
-> > >>>> Yes, but for SVQ, we can't disable dirty page tracking, isn't it? =
-The
-> > >>>> only thing is to ignore or filter out the F_LOG_ALL and pretend to=
- be
-> > >>>> enabled and disabled.
-> > >>>>
-> > >>> Yes, that's what this patch does.
-> > >>>
-> > >>>>> While SVQ does not use VHOST_F_LOG_ALL, it exports the feature bi=
-t so
-> > >>>>> vhost does not block migration. Maybe we need to look for another=
- way
-> > >>>>> to do this?
-> > >>>>
-> > >>>> I'm fine with filtering since it's much more simpler, but I fail t=
-o
-> > >>>> understand why we need to check DRIVER_OK.
-> > >>>>
-> > >>> Ok maybe I can make that part more clear,
-> > >>>
-> > >>> Since both operations use vhost_vdpa_set_features we must just filt=
-er
-> > >>> the one that actually sets or removes VHOST_F_LOG_ALL, without
-> > >>> affecting other features.
-> > >>>
-> > >>> In practice, that means to not forward the set features after
-> > >>> DRIVER_OK. The device is not expecting them anymore.
-> > >> I wonder what happens if we don't do this.
-> > >>
-> > > If we simply delete the check vhost_dev_set_features will return an
-> > > error, failing the start of the migration. More on this below.
-> >
-> >
-> > Ok.
-> >
-> >
-> > >
-> > >> So kernel had this check:
-> > >>
-> > >>          /*
-> > >>           * It's not allowed to change the features after they have
-> > >>           * been negotiated.
-> > >>           */
-> > >> if (ops->get_status(vdpa) & VIRTIO_CONFIG_S_FEATURES_OK)
-> > >>          return -EBUSY;
-> > >>
-> > >> So is it FEATURES_OK actually?
-> > >>
-> > > Yes, FEATURES_OK seems more appropriate actually so I will switch to
-> > > it for the next version.
-> > >
-> > > But it should be functionally equivalent, since
-> > > vhost.c:vhost_dev_start sets both and the setting of _F_LOG_ALL canno=
-t
-> > > be concurrent with it.
-> >
-> >
-> > Right.
-> >
-> >
-> > >
-> > >> For this patch, I wonder if the thing we need to do is to see whethe=
-r
-> > >> it is a enable/disable F_LOG_ALL and simply return.
-> > >>
-> > > Yes, that's the intention of the patch.
-> > >
-> > > We have 4 cases here:
-> > > a) We're being called from vhost_dev_start, with enable_log =3D false
-> > > b) We're being called from vhost_dev_start, with enable_log =3D true
-> >
-> >
-> > And this case makes us can't simply return without calling vhost-vdpa.
-> >
+> The RISC-V privileged specification v1.12 defines few execution
+> environment configuration CSRs that can be used enable/disable
+> extensions per privilege levels.
 >
-> It calls because {FEATURES,DRIVER}_OK is still not set at that point.
+> Add the basic support for these CSRs.
 >
-> >
-> > > c) We're being called from vhost_dev_set_log, with enable_log =3D fal=
-se
-> > > d) We're being called from vhost_dev_set_log, with enable_log =3D tru=
-e
-> > >
-> > > The way to tell the difference between a/b and c/d is to check if
-> > > {FEATURES,DRIVER}_OK is set. And, as you point out in previous mails,
-> > > F_LOG_ALL must be filtered unconditionally since SVQ tracks dirty
-> > > memory through the memory unmapping, so we clear the bit
-> > > unconditionally if we detect that VHOST_SET_FEATURES will be called
-> > > (cases a and b).
-> > >
-> > > Another possibility is to track if features have been set with a bool
-> > > in vhost_vdpa or something like that. But it seems cleaner to me to
-> > > only store that in the actual device.
-> >
-> >
-> > So I suggest to make sure codes match the comment:
-> >
-> >          if (status & VIRTIO_CONFIG_S_DRIVER_OK) {
-> >              /*
-> >               * vhost is trying to enable or disable _F_LOG, and the de=
-vice
-> >               * would report wrong dirty pages. SVQ handles it.
-> >               */
-> >              return 0;
-> >          }
-> >
-> > It would be better to check whether the caller is toggling _F_LOG_ALL i=
-n
-> > this case.
-> >
->
-> How to detect? We can save feature flags and compare, but ignoring all
-> set_features after FEATURES_OK seems simpler to me.
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
 
-Something like:
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-(status ^ status_old =3D=3D _F_LOG_ALL) ?
+Alistair
 
-It helps us to return errors on wrong features set during DRIVER_OK.
-
-Thanks
-
+> ---
+>  target/riscv/cpu.h      |   5 ++
+>  target/riscv/cpu_bits.h |  39 +++++++++++++++
+>  target/riscv/csr.c      | 107 ++++++++++++++++++++++++++++++++++++++++
+>  target/riscv/machine.c  |  24 +++++++++
+>  4 files changed, 175 insertions(+)
 >
-> Would changing the comment work? Something like "set_features after
-> _S_FEATURES_OK means vhost is trying to enable or disable _F_LOG, and
-> the device would report wrong dirty pages. SVQ handles it."
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0741f9822cf0..e5c8694cf081 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -303,6 +303,11 @@ struct CPURISCVState {
+>      target_ulong spmbase;
+>      target_ulong upmmask;
+>      target_ulong upmbase;
+> +
+> +    /* CSRs for execution enviornment configuration */
+> +    uint64_t menvcfg;
+> +    target_ulong senvcfg;
+> +    uint64_t henvcfg;
+>  #endif
 >
-> Thanks!
+>      float_status fp_status;
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 89440241632a..58a0a8d69f72 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -202,6 +202,9 @@
+>  #define CSR_STVEC           0x105
+>  #define CSR_SCOUNTEREN      0x106
 >
-> > Thanks
-> >
-> >
-> > >
-> > >> Thanks
-> > >>
-> > >>> Does that make more sense?
-> > >>>
-> > >>> Thanks!
-> > >>>
-> > >>>> Thanks
-> > >>>>
-> > >>>>
-> > >>>>> Thanks!
-> > >>>>>
-> > >>>>>> Thanks
-> > >>>>>>
-> > >>>>>>
-> > >>>>>>> +            return 0;
-> > >>>>>>> +        }
-> > >>>>>>> +
-> > >>>>>>> +        /* We must not ack _F_LOG if SVQ is enabled */
-> > >>>>>>> +        features &=3D ~BIT_ULL(VHOST_F_LOG_ALL);
-> > >>>>>>> +
-> > >>>>>>>             ret =3D vhost_vdpa_get_dev_features(dev, &dev_featu=
-res);
-> > >>>>>>>             if (ret !=3D 0) {
-> > >>>>>>>                 error_report("Can't get vdpa device features, g=
-ot (%d)", ret);
-> >
+> +/* Supervisor Configuration CSRs */
+> +#define CSR_SENVCFG         0x10A
+> +
+>  /* Supervisor Trap Handling */
+>  #define CSR_SSCRATCH        0x140
+>  #define CSR_SEPC            0x141
+> @@ -247,6 +250,10 @@
+>  #define CSR_HTIMEDELTA      0x605
+>  #define CSR_HTIMEDELTAH     0x615
 >
-
+> +/* Hypervisor Configuration CSRs */
+> +#define CSR_HENVCFG         0x60A
+> +#define CSR_HENVCFGH        0x61A
+> +
+>  /* Virtual CSRs */
+>  #define CSR_VSSTATUS        0x200
+>  #define CSR_VSIE            0x204
+> @@ -290,6 +297,10 @@
+>  #define CSR_VSIEH           0x214
+>  #define CSR_VSIPH           0x254
+>
+> +/* Machine Configuration CSRs */
+> +#define CSR_MENVCFG         0x30A
+> +#define CSR_MENVCFGH        0x31A
+> +
+>  /* Enhanced Physical Memory Protection (ePMP) */
+>  #define CSR_MSECCFG         0x747
+>  #define CSR_MSECCFGH        0x757
+> @@ -654,6 +665,34 @@ typedef enum RISCVException {
+>  #define PM_EXT_CLEAN    0x00000002ULL
+>  #define PM_EXT_DIRTY    0x00000003ULL
+>
+> +/* Execution enviornment configuration bits */
+> +#define MENVCFG_FIOM                       BIT(0)
+> +#define MENVCFG_CBIE                       (3UL << 4)
+> +#define MENVCFG_CBCFE                      BIT(6)
+> +#define MENVCFG_CBZE                       BIT(7)
+> +#define MENVCFG_PBMTE                      BIT(62)
+> +#define MENVCFG_STCE                       BIT(63)
+> +
+> +/* For RV32 */
+> +#define MENVCFGH_PBMTE                     BIT(30)
+> +#define MENVCFGH_STCE                      BIT(31)
+> +
+> +#define SENVCFG_FIOM                       MENVCFG_FIOM
+> +#define SENVCFG_CBIE                       MENVCFG_CBIE
+> +#define SENVCFG_CBCFE                      MENVCFG_CBCFE
+> +#define SENVCFG_CBZE                       MENVCFG_CBZE
+> +
+> +#define HENVCFG_FIOM                       MENVCFG_FIOM
+> +#define HENVCFG_CBIE                       MENVCFG_CBIE
+> +#define HENVCFG_CBCFE                      MENVCFG_CBCFE
+> +#define HENVCFG_CBZE                       MENVCFG_CBZE
+> +#define HENVCFG_PBMTE                      MENVCFG_PBMTE
+> +#define HENVCFG_STCE                       MENVCFG_STCE
+> +
+> +/* For RV32 */
+> +#define HENVCFGH_PBMTE                      MENVCFGH_PBMTE
+> +#define HENVCFGH_STCE                       MENVCFGH_STCE
+> +
+>  /* Offsets for every pair of control bits per each priv level */
+>  #define XS_OFFSET    0ULL
+>  #define U_OFFSET     2ULL
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 18fe17b62f51..ff7e36596447 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1366,6 +1366,101 @@ static RISCVException write_mtval(CPURISCVState *env, int csrno,
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> +/* Execution environment configuration setup */
+> +static RISCVException read_menvcfg(CPURISCVState *env, int csrno,
+> +                                 target_ulong *val)
+> +{
+> +    *val = env->menvcfg;
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
+> +                                  target_ulong val)
+> +{
+> +    uint64_t mask = MENVCFG_FIOM | MENVCFG_CBIE | MENVCFG_CBCFE | MENVCFG_CBZE;
+> +
+> +    if (riscv_cpu_mxl(env) == MXL_RV64) {
+> +        mask |= MENVCFG_PBMTE | MENVCFG_STCE;
+> +    }
+> +    env->menvcfg = (env->menvcfg & ~mask) | (val & mask);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException read_menvcfgh(CPURISCVState *env, int csrno,
+> +                                 target_ulong *val)
+> +{
+> +    *val = env->menvcfg >> 32;
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
+> +                                  target_ulong val)
+> +{
+> +    uint64_t mask = MENVCFG_PBMTE | MENVCFG_STCE;
+> +    uint64_t valh = (uint64_t)val << 32;
+> +
+> +    env->menvcfg = (env->menvcfg & ~mask) | (valh & mask);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
+> +                                 target_ulong *val)
+> +{
+> +    *val = env->senvcfg;
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
+> +                                  target_ulong val)
+> +{
+> +    uint64_t mask = SENVCFG_FIOM | SENVCFG_CBIE | SENVCFG_CBCFE | SENVCFG_CBZE;
+> +
+> +    env->senvcfg = (env->senvcfg & ~mask) | (val & mask);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
+> +                                 target_ulong *val)
+> +{
+> +    *val = env->henvcfg;
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
+> +                                  target_ulong val)
+> +{
+> +    uint64_t mask = HENVCFG_FIOM | HENVCFG_CBIE | HENVCFG_CBCFE | HENVCFG_CBZE;
+> +
+> +    if (riscv_cpu_mxl(env) == MXL_RV64) {
+> +        mask |= HENVCFG_PBMTE | HENVCFG_STCE;
+> +    }
+> +
+> +    env->henvcfg = (env->henvcfg & ~mask) | (val & mask);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
+> +                                 target_ulong *val)
+> +{
+> +    *val = env->henvcfg >> 32;
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
+> +                                  target_ulong val)
+> +{
+> +    uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
+> +    uint64_t valh = (uint64_t)val << 32;
+> +
+> +    env->henvcfg = (env->henvcfg & ~mask) | (valh & mask);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
+>                                  uint64_t *ret_val,
+>                                  uint64_t new_val, uint64_t wr_mask)
+> @@ -3069,6 +3164,18 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_MVIPH]    = { "mviph",    aia_any32, read_zero,  write_ignore },
+>      [CSR_MIPH]     = { "miph",     aia_any32, NULL, NULL, rmw_miph     },
+>
+> +    /* Execution environment configuration */
+> +    [CSR_MENVCFG]  = { "menvcfg",  any,   read_menvcfg,  write_menvcfg,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+> +    [CSR_MENVCFGH] = { "menvcfgh", any32, read_menvcfgh, write_menvcfgh,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+> +    [CSR_SENVCFG]  = { "senvcfg",  smode, read_senvcfg,  write_senvcfg,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+> +    [CSR_HENVCFG]  = { "henvcfg",  hmode, read_henvcfg, write_henvcfg,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+> +    [CSR_HENVCFGH] = { "henvcfgh", hmode32, read_henvcfgh, write_henvcfgh,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+> +
+>      /* Supervisor Trap Setup */
+>      [CSR_SSTATUS]    = { "sstatus",    smode, read_sstatus,    write_sstatus, NULL,
+>                                                read_sstatus_i128                 },
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index 9895930b2976..4a50a05937fa 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -220,6 +220,29 @@ static const VMStateDescription vmstate_kvmtimer = {
+>      }
+>  };
+>
+> +/* TODO: henvcfg need both hyper_needed & envcfg_needed */
+> +static bool envcfg_needed(void *opaque)
+> +{
+> +    RISCVCPU *cpu = opaque;
+> +    CPURISCVState *env = &cpu->env;
+> +
+> +    return (env->priv_ver >= PRIV_VERSION_1_12_0 ? 1 : 0);
+> +}
+> +
+> +static const VMStateDescription vmstate_envcfg = {
+> +    .name = "cpu/envcfg",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = envcfg_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT64(env.menvcfg, RISCVCPU),
+> +        VMSTATE_UINTTL(env.senvcfg, RISCVCPU),
+> +        VMSTATE_UINT64(env.henvcfg, RISCVCPU),
+> +
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  const VMStateDescription vmstate_riscv_cpu = {
+>      .name = "cpu",
+>      .version_id = 3,
+> @@ -280,6 +303,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+>          &vmstate_pointermasking,
+>          &vmstate_rv128,
+>          &vmstate_kvmtimer,
+> +        &vmstate_envcfg,
+>          NULL
+>      }
+>  };
+> --
+> 2.30.2
+>
+>
 
