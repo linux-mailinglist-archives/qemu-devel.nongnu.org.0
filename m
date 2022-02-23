@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B6044C183A
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 17:10:02 +0100 (CET)
-Received: from localhost ([::1]:36198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965DA4C185B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 17:18:37 +0100 (CET)
+Received: from localhost ([::1]:39348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMuDI-00062j-KX
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 11:10:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47446)
+	id 1nMuLc-0000Dq-6m
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 11:18:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org>)
- id 1nMuBj-0005Kt-ND
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:08:23 -0500
-Received: from [2604:1380:4641:c500::1] (port=52370 helo=dfw.source.kernel.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org>)
- id 1nMuBh-0004jV-84
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:08:23 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 89A1461926
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 16:08:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA846C340EB
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 16:08:18 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="fp8CajXh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1645632494;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KIfU5+oFhsOwMYUUwLOIak3Q1ZR1ObTglPpSCZ1RML0=;
- b=fp8CajXhg/qqnzjg/+OKoKtXE7i8z7f2ykur7nX/GB/hD+f7/dV1RY9KKe4G1DxwKh6DK5
- cqo8wAQC1pRcZmVtHctFFglh0DpHTv+MLl3DOX6VZabKMGwj0jD3qeGhHbhyao9/VfbV8E
- JSbLF/0HVctMQO6V/BCKxqwnWMp9lRQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b1127d47
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Wed, 23 Feb 2022 16:08:14 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-2d625082ae2so216389387b3.1
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 08:08:14 -0800 (PST)
-X-Gm-Message-State: AOAM5308ofmsqPNudUBuw0qtSv6kVPYBCqnRXKnANK7T9jf+dsPpti4M
- QX6r5SQCtlt9me5tEwRXNEDuE7BkodaQJEU6olw=
-X-Google-Smtp-Source: ABdhPJy33A74qQdK52dpScB33s7jynPhLN4qjTE0dJTavDUA51Mn+CllONCLBg2IducogWoxWZTIJEkJ7l0DRx6DAd8=
-X-Received: by 2002:a81:7d04:0:b0:2d0:d0e2:126f with SMTP id
- y4-20020a817d04000000b002d0d0e2126fmr288331ywc.485.1645632492376; Wed, 23 Feb
- 2022 08:08:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nMuIi-0007mn-QC
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:15:36 -0500
+Received: from [2607:f8b0:4864:20::436] (port=47036
+ helo=mail-pf1-x436.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nMuIg-00068r-Ld
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:15:36 -0500
+Received: by mail-pf1-x436.google.com with SMTP id i21so15762490pfd.13
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 08:15:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=rHD0uA5h/ZI8RcIC7Z+cBe/FhPFaff0CVsDFIJp9VK8=;
+ b=XTLdOLkSg5O8fFJMdMBHcqiZj0gao4ABOTGPY2HQuQH1rTFZ2XcB8DuIx505wPaG9p
+ RGG7ZeboGU5WEht2VyDHv1C7RiI7Ca+tZkb3qdjpW8Gld3LRSBhTDB1QXpY4ZgPG1jnZ
+ 9qZDrv8QyXhE5DiGVLFVh32z0wC7APRzh09JJDYZb69Ep2HnXfpqtAq9o1sGLsz0Ephq
+ FjSXHltWJ50REwHVuoTWKGZ3fuxwts3j5BS7MFklZ77wqqXwxRRBUNXDSAYBLGEKvUqf
+ YY//4huofGktr6Nn//O5TBbnOX+omqxZmK9ebk9UX0UzFQfN8T1kSKV/oUnHwAX2FMtS
+ 3dXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=rHD0uA5h/ZI8RcIC7Z+cBe/FhPFaff0CVsDFIJp9VK8=;
+ b=Gk4K27PBhq00r3uiV2gDOMfEx/i7bm7vnAS0NjO4IfbEEqc9yoz8l5EF19djd13aO0
+ juKlIm4RLP4XS1Wr9XEw706khdeMcv6c5id18/6NNsgoTdxQn6RxUrh3abtB/KOJC7J1
+ JsZtVV4876JlCqaMVVPCFzPDgZDFthBhEmW469dc//cYQ9JScwFwAtgyWcCDx69Lgtqv
+ G4U9EQE74tBFqCRwPPsv6fVK78+0zR0LRcP7DOpk9fKAXfnltVbtskCksXIOyxWsKaaM
+ 017G5irtGtU4E+Buet3F427+9DzocxORPiDv+mDwFc1mHwHJyABEu3UocAdQc7gf6fs7
+ pIdQ==
+X-Gm-Message-State: AOAM531cb4mJIpB4ii5ZLujDYq7cAsFxpE+7bzILt1x0ct0t5uGsgNs3
+ Wx3SkVyaoHt/p37/CBlpXfk=
+X-Google-Smtp-Source: ABdhPJyXj2jRc8phTBqj+m+2jEFAadVd1e8qCM9QooJzkVQ+8RXA9WRveDxCHfkvvllO0eSRjrix3w==
+X-Received: by 2002:a63:ec13:0:b0:373:aa37:193b with SMTP id
+ j19-20020a63ec13000000b00373aa37193bmr202013pgh.535.1645632929733; 
+ Wed, 23 Feb 2022 08:15:29 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71])
+ by smtp.gmail.com with ESMTPSA id d18sm22454856pfv.204.2022.02.23.08.15.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Feb 2022 08:15:29 -0800 (PST)
+Message-ID: <c91392a4-f75b-4e5d-9e6c-04777fb7ca79@gmail.com>
+Date: Wed, 23 Feb 2022 17:15:26 +0100
 MIME-Version: 1.0
-References: <20220223131231.403386-1-Jason@zx2c4.com>
-In-Reply-To: <20220223131231.403386-1-Jason@zx2c4.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Wed, 23 Feb 2022 17:08:01 +0100
-X-Gmail-Original-Message-ID: <CAHmME9ogH_mx724n_deFfva7-xPCmma1-=2Mv0JdnZ-fC4JCjg@mail.gmail.com>
-Message-ID: <CAHmME9ogH_mx724n_deFfva7-xPCmma1-=2Mv0JdnZ-fC4JCjg@mail.gmail.com>
-Subject: Re: [PATCH RFC v1 0/2] VM fork detection for RNG
-To: LKML <linux-kernel@vger.kernel.org>, 
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- KVM list <kvm@vger.kernel.org>, linux-s390@vger.kernel.org, adrian@parity.io
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4641:c500::1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: Fix a potential memory leak bug in write_boot_rom() (v6.2.0).
+Content-Language: en-US
+To: wliang@stu.xidian.edu.cn, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <6e7748f1.25d8.17f2705c420.Coremail.wliang@stu.xidian.edu.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <6e7748f1.25d8.17f2705c420.Coremail.wliang@stu.xidian.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,41 +94,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Theodore Ts'o <tytso@mit.edu>, ehabkost@redhat.com, ben@skyportsystems.com,
- Jann Horn <jannh@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, "Weiss, Radu" <raduweis@amazon.com>,
- lersek@redhat.com, "Catangiu, Adrian Costin" <acatan@amazon.com>,
- graf@amazon.com, Igor Mammedov <imammedo@redhat.com>,
- Colm MacCarthaigh <colmmacc@amazon.com>, "Singh, Balbir" <sblbir@amazon.com>,
- "Woodhouse, David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 23, 2022 at 2:12 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> second patch is the reason this is just an RFC: it's a cleanup of the
-> ACPI driver from last year, and I don't really have much experience
-> writing, testing, debugging, or maintaining these types of drivers.
-> Ideally this thread would yield somebody saying, "I see the intent of
-> this; I'm happy to take over ownership of this part." That way, I can
-> focus on the RNG part, and whoever steps up for the paravirt ACPI part
-> can focus on that.
+On 23/2/22 15:39, wliang@stu.xidian.edu.cn wrote:
+> Hi all,
+> 
+> I find a memory leak bug in QEMU 6.2.0, which is in 
+> write_boot_rom()(./hw/arm/aspeed.c).
+> 
+> Specifically, at line 276, a memory chunk is allocated with g_new0() and 
+> assigned to the variable 'storage'. However, if the branch takes true at 
+> line 277, there will be only an error report at line 278 but not a free 
+> operation for 'storage' before function returns. As a result, a memory 
+> leak bug is triggered.
+> 
+> 
+> 259    BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
+> ...
+> 276    storage = g_new0(uint8_t, rom_size);
+> 277    if (blk_pread(blk, 0, storage, rom_size) < 0) {
+> 278        error_setg(errp, "failed to read the initial flash content");
+> 279        return;
+> 280    }
+> 
+> 
+> I believe that the problem can be fixed by adding a g_free() before the 
+> function returns.
+> 
+> 
+> 277    if (blk_pread(blk, 0, storage, rom_size) < 0) {
+> 278        error_setg(errp, "failed to read the initial flash content");
+> +++    g_free(storage);
+> 279        return;
+> 280    }
+> 
+> 
+> I'm looking forward to your confirmation.
 
-I actually managed to test this in QEMU, and it seems to work quite well. Steps:
+Correct.
 
-$ qemu-system-x86_64 ... -device vmgenid,guid=auto -monitor stdio
-(qemu) savevm blah
-(qemu) quit
-$ qemu-system-x86_64 ... -device vmgenid,guid=auto -monitor stdio
-(qemu) loadvm blah
+Or using g_autofree:
 
-Doing this successfully triggers the function to reinitialize the RNG
-with the new GUID. (It appears there's a bug in QEMU which prevents
-the GUID from being reinitialized when running `loadvm` without
-quitting first; I suppose this should be discussed with QEMU
-upstream.)
+-- >8 --
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index d911dc904f..170e773ef8 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -257,7 +257,7 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr 
+addr, size_t rom_size,
+                             Error **errp)
+  {
+      BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
+-    uint8_t *storage;
++    g_autofree void *storage = NULL;
+      int64_t size;
 
-So that's very positive. But I would appreciate hearing from some
-ACPI/Virt/Amazon people about this.
+      /* The block backend size should have already been 'validated' by
+@@ -273,14 +273,13 @@ static void write_boot_rom(DriveInfo *dinfo, 
+hwaddr addr, size_t rom_size,
+          rom_size = size;
+      }
 
-Jason
+-    storage = g_new0(uint8_t, rom_size);
++    storage = g_malloc0(rom_size);
+      if (blk_pread(blk, 0, storage, rom_size) < 0) {
+          error_setg(errp, "failed to read the initial flash content");
+          return;
+      }
+
+      rom_add_blob_fixed("aspeed.boot_rom", storage, rom_size, addr);
+-    g_free(storage);
+  }
+---
 
