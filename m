@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2619B4C1A41
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 18:53:03 +0100 (CET)
-Received: from localhost ([::1]:55950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 191694C1A7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 19:02:21 +0100 (CET)
+Received: from localhost ([::1]:59988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMvoz-0004HK-D4
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 12:53:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58618)
+	id 1nMvxz-0007YX-Pd
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 13:02:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMvmk-0003Mk-VO
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 12:50:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45476)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nMvwM-0006K5-Kr
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 13:00:38 -0500
+Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:60755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMvmh-00087b-5t
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 12:50:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645638634;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N5jGTYNSXOCq4CE1enF/iv/YJCBaFV9teD3yyV+LOjA=;
- b=YtTsfuo6ZNE7lEIb/GDXmqO19zMCdUIJbo/oTHGqKngkzgnLiEXe015joW0Im0MuA41cqI
- aVhaklJPOp4XsnrciiRYhFyfJErtHwPp64ku9GEgG/pQD4sethizwDeOo7Q+UoBoJpNBN0
- ftQKKyD6ztlfP/wHZuW3MXFc9ekwC54=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-258-IkjWXgs6MxGjdYyhZQMOXA-1; Wed, 23 Feb 2022 12:50:26 -0500
-X-MC-Unique: IkjWXgs6MxGjdYyhZQMOXA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6342F1091DA1;
- Wed, 23 Feb 2022 17:50:25 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E7AB84772;
- Wed, 23 Feb 2022 17:50:08 +0000 (UTC)
-Date: Wed, 23 Feb 2022 17:50:05 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 4/5] python: qmp_shell: add -e/--exit-on-error option
-Message-ID: <YhZzzbL6MFhMz7vx@redhat.com>
-References: <20220221155519.2367-1-damien.hedde@greensocs.com>
- <20220221155519.2367-5-damien.hedde@greensocs.com>
- <CAFn=p-ZErejiw7mn_kN6c+57ya4OgS3ANpUa=BtS3Be=vcSOvg@mail.gmail.com>
- <YhZST1fCU54OgoP2@redhat.com>
- <CAFn=p-bo39LEvQhKBZZ6ZcEfhaaZ7eQDgDFMOEZtDkCV_XH54w@mail.gmail.com>
- <YhZWcFY1sGSV/OX8@redhat.com>
- <CAFn=p-aSbkdzqZQAZYKX2mPo9BVmX0U5s+huXQH-JcD5N6+WCA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nMvwK-00012l-Ci
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 13:00:38 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.98])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 0340423CA8;
+ Wed, 23 Feb 2022 18:00:23 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Wed, 23 Feb
+ 2022 19:00:22 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G00100310ca7-9ec1-402b-aaac-cfe6068dea7a,
+ B99DB1D1B0B873888386AAA9583771E84E582508) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.58.215.209
+Message-ID: <47a30c46-a3ef-72b0-0834-79f1547c6e45@kaod.org>
+Date: Wed, 23 Feb 2022 19:00:20 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-aSbkdzqZQAZYKX2mPo9BVmX0U5s+huXQH-JcD5N6+WCA@mail.gmail.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH RFC 4/4] rtc: Have event RTC_CHANGE identify the RTC by
+ QOM path
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>
+References: <20220221192123.749970-1-peter.maydell@linaro.org>
+ <87a6ejnm80.fsf@pond.sub.org>
+ <043096b3-aadf-4f2a-b5e2-c219d2344821@gmail.com>
+ <CAFEAcA8OMB_+rxrS1pk4YJ0avj-ZSdyEROJyppOT1+0s6447MQ@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CAFEAcA8OMB_+rxrS1pk4YJ0avj-ZSdyEROJyppOT1+0s6447MQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 51562f3d-fc7e-42ec-958c-1273ba1dcf91
+X-Ovh-Tracer-Id: 8518277220518235128
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrledtgddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeejuedutdetteeljeekudeiffehgeekhffffeejffegheefheefieduudeuheevnecuffhomhgrihhnpeguvggsihgrnhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
+ helo=7.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,191 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Eduardo Habkost <eduardo@habkost.net>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 23, 2022 at 11:18:26AM -0500, John Snow wrote:
-> On Wed, Feb 23, 2022 at 10:44 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Wed, Feb 23, 2022 at 10:41:11AM -0500, John Snow wrote:
-> > > On Wed, Feb 23, 2022 at 10:27 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > >
-> > > > On Wed, Feb 23, 2022 at 10:22:11AM -0500, John Snow wrote:
-> > > > > On Mon, Feb 21, 2022 at 10:55 AM Damien Hedde
-> > > > > <damien.hedde@greensocs.com> wrote:
-> > > > > >
-> > > > > > This option makes qmp_shell exit (with error code 1)
-> > > > > > as soon as one of the following error occurs:
-> > > > > > + command parsing error
-> > > > > > + disconnection
-> > > > > > + command failure (response is an error)
-> > > > > >
-> > > > > > _execute_cmd() method now returns None or the response
-> > > > > > so that read_exec_command() can do the last check.
-> > > > > >
-> > > > > > This is meant to be used in combination with an input file
-> > > > > > redirection. It allows to store a list of commands
-> > > > > > into a file and try to run them by qmp_shell and easily
-> > > > > > see if it failed or not.
-> > > > > >
-> > > > > > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> > > > >
-> > > > > Based on this patch, it looks like you really want something
-> > > > > scriptable, so I think the qemu-send idea that Dan has suggested might
-> > > > > be the best way to go. Are you still hoping to use the interactive
-> > > > > "short" QMP command format? That might be a bad idea, given how flaky
-> > > > > the parsing is -- and how we don't actually have a published standard
-> > > > > for that format. We've *never* liked the bad parsing here, so I have a
-> > > > > reluctance to use it in more places.
-> > > > >
-> > > > > I'm having the naive idea that a script file could be as simple as a
-> > > > > list of QMP commands to send:
-> > > > >
-> > > > > [
-> > > > >     {"execute": "block-dirty-bitmap-add", "arguments": { ... }},
-> > > > >     ...
-> > > > > ]
-> > > >
-> > > > I'd really recommend against creating a new format for the script
-> > > > file, especially one needing opening & closing  [] like this, as
-> > > > that isn't so amenable to dynamic usage/creation. ie you can't
-> > > > just append an extcra command to an existing file.
-> > > >
-> > > > IMHO, the "file" format should be identical to the result of
-> > > > capturing the socket data off the wire. ie just a concatenation
-> > > > of QMP commands, with no extra wrapping / change in format.
-> > > >
-> > >
-> > > Eugh. That's just so hard to parse, because there's no off-the-shelf
-> > > tooling for "load a sequence of JSON documents". Nothing in Python
-> > > does it. :\
-> >
-> > It isn't that hard if you require each JSON doc to be followed by
-> > a newline.
-> >
-> > Feed one line at a time to the JSON parser, until you get a complete
-> > JSON doc, process that, then re-init the parser and carry on feeding
-> > it lines until it emits the next JSON doc, and so on.
-> >
+On 2/22/22 14:06, Peter Maydell wrote:
+> On Tue, 22 Feb 2022 at 12:56, Philippe Mathieu-Daudé
+> <philippe.mathieu.daude@gmail.com> wrote:
+>> On 22/2/22 13:02, Markus Armbruster wrote:
+>>> Event RTC_CHANGE is "emitted when the guest changes the RTC time" (and
+>>> the RTC supports the event).  What if there's more than one RTC?
+>>
+>> w.r.t. RTC, a machine having multiple RTC devices is silly...
 > 
-> There's two interfaces in Python:
+> I don't think we have any examples in the tree currently, but
+> I bet real hardware like that does exist: the most plausible
+> thing would be a board where there's an RTC built into the SoC
+> but the board designers put an external RTC on the board (perhaps
+> because it was better/more accurate/easier to make battery-backed).
+
+Yes. like Aspeed machines.
+
+C.
+
+
 > 
-> (1) json.load(), which takes a file pointer and either returns a
-> single, complete JSON document or it raises an Exception. It's not
-> useful here at all.
-> (2) json.JSONDecoder().raw_decode(strbuf), which takes a string buffer
-> and returns a 2-tuple of a JSON Document and the position at which it
-> stopped decoding.
-
-Yes, the latter would do it, but you can also be lazy and just
-repeatedly call json.loads() until you get a valid parse
-
-$ cat demo.py
-import json
-
-cmds = []
-bits = []
-with open("qmp.txt", "r") as fh:
-    for line in fh:
-        bits.append(line)
-        try:
-            cmdstr = "".join(bits)
-            cmds.append(json.loads(cmdstr))
-            bits = []
-        except json.JSONDecodeError:
-            pass
-
-
-for cmd in cmds:
-    print("Command: %s" % cmd)
-
-
-$ cat qmp.txt
-{ "execute": "qmp_capabilities" }
-{ "execute": "blockdev-add",
-    "arguments": {
-        "node-name": "drive0",
-        "driver": "file",
-        "filename": "$TEST_IMG"
-    }
-}
-{ "execute": "blockdev-add",
-    "arguments": {
-        "driver": "$IMGFMT",
-        "node-name": "drive0-debug",
-        "file": {
-            "driver": "blkdebug",
-            "image": "drive0",
-            "inject-error": [{
-                "event": "l2_load"
-            }]
-        }
-    }
-}
-{ "execute": "human-monitor-command",
-    "arguments": {
-        "command-line": "qemu-io drive0-debug \"read 0 512\""
-    }
-}
-{ "execute": "quit" }
-
-
-$ python demo.py
-Command: {'execute': 'qmp_capabilities'}
-Command: {'execute': 'blockdev-add', 'arguments': {'node-name': 'drive0', 'driver': 'file', 'filename': '$TEST_IMG'}}
-Command: {'execute': 'blockdev-add', 'arguments': {'driver': '$IMGFMT', 'node-name': 'drive0-debug', 'file': {'driver': 'blkdebug', 'image': 'drive0', 'inject-error': [{'event': 'l2_load'}]}}}
-Command: {'execute': 'human-monitor-command', 'arguments': {'command-line': 'qemu-io drive0-debug "read 0 512"'}}
-Command: {'execute': 'quit'}
-
-
-> Wanting to keep the script easy to append to is legitimate. I'm keen
-> to hear a bit more about the use case here before I press extremely
-> hard in any given direction, but those are my impulses here.
-
-We can see examples of where this could be used in the I/O tests
-
-eg in tests/qemu-iotests/071, a frequent pattern is:
-
-run_qemu <<EOF
-{ "execute": "qmp_capabilities" }
-{ "execute": "blockdev-add",
-    "arguments": {
-        "node-name": "drive0",
-        "driver": "file",
-        "filename": "$TEST_IMG"
-    }
-}
-{ "execute": "blockdev-add",
-    "arguments": {
-        "driver": "$IMGFMT",
-        "node-name": "drive0-debug",
-        "file": {
-            "driver": "blkdebug",
-            "image": "drive0",
-            "inject-error": [{
-                "event": "l2_load"
-            }]
-        }
-    }
-}
-{ "execute": "human-monitor-command",
-    "arguments": {
-        "command-line": 'qemu-io drive0-debug "read 0 512"'
-    }
-}
-{ "execute": "quit" }
-EOF
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> In fact, here's an old bug report from a user trying to get
+> their Debian system to use the battery-backed RTC as the
+> "real" one rather than the non-battery-backed RTC device
+> that's also part of the arm board they're using:
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=785445
+> 
+> -- PMM
 
 
