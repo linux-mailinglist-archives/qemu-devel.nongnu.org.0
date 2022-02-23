@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC5E4C1C6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 20:43:55 +0100 (CET)
-Received: from localhost ([::1]:38640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C5F4C1C8A
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 20:48:16 +0100 (CET)
+Received: from localhost ([::1]:43648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMxYH-0003Ud-Oq
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 14:43:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52572)
+	id 1nMxcV-000772-Ip
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 14:48:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMxVY-0001Ip-Mx
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 14:41:04 -0500
-Received: from [2607:f8b0:4864:20::534] (port=38431
- helo=mail-pg1-x534.google.com)
+ id 1nMxZp-0005tJ-41
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 14:45:29 -0500
+Received: from [2607:f8b0:4864:20::633] (port=43773
+ helo=mail-pl1-x633.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMxVV-0007uI-2k
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 14:41:04 -0500
-Received: by mail-pg1-x534.google.com with SMTP id 132so21107779pga.5
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 11:41:00 -0800 (PST)
+ id 1nMxZn-0000Ex-Ll
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 14:45:28 -0500
+Received: by mail-pl1-x633.google.com with SMTP id x11so19694962pll.10
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 11:45:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5/Vf75MRtqlHOjIapay+ut/y0587ribcS+2oIHMMnhE=;
- b=qcP1gXxfSEYx6Nr6zBqDUsf0v3VWypC6WA6tnJ9ntL+/8RT3oIrn0TSAXvIyQcNSAD
- 945VWXD8K+jAw6NT8eULYyldO2nC5ta8H5dox35884oStX7phuE2chaggtuIxsQcj19r
- YVU8BJmbOadOWUXAEawYPugT2ZZH3a9Mg2v/7dpiOJekDpSqAn18YIYciNNj2msfyW7O
- nnUpmCyyppa22TyHIwkQoW3qK63QysKuoAuGYmshubKakfPqmHkdSdhenStuWsPFblva
- csBpoMpADnX6lE/Jdnx0rBQNXklOXHaLvN/L43UPSvvaI8LK9DSb7ixFqZrBBwpEy/Mb
- Mo3Q==
+ bh=PapYiWhZMiTpqU95r7ClvP5PHgcp3ArSPztRz9A56Fw=;
+ b=eZFN/v+SEXKzcolyDpS7BG1Q37HIMIlr5rWkHemaKNG7CPoA3bRDHIMyJBT0wMyvJE
+ EP7069lYSXzWj/eR1CqvBHwRITRxl6kMKOBYwLafdDGQAHlH1Uxrw+oVkpp35zeHfPIV
+ WOO0sRT6gP2+EkJExwwieD6r+/Ldjr3ahNaZz5OzPdPqWJvQCSgRrRowW6TdbxrjEEcT
+ z7Hgm6A0b4PWq8RCePqDDr6yh7oxrW5WoTwWQ/VAWpomrzHXhvHcxhn3j22lvg4YGbNT
+ cHmaOuH96Nc6nl7RH7smofHKI6ciz3M/zt6COyBVUEf0O5PNtDSzwJr0GG8PhGhEXL62
+ Bj4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=5/Vf75MRtqlHOjIapay+ut/y0587ribcS+2oIHMMnhE=;
- b=0FDR+I1XBMJBkJebZt96vl0++XJvU97KX/krxVABQAWA4126VPN8wlbdM+Af0CwrIv
- RKAQpvE5PhnQNg2sSQ9by8UU7m3I3M+qu4nEVWFoppN3NmVvxL8b5L0slR8tHI/MsaDb
- I/YmjYR8dU2XlgPCYA1g76Ed3Woy6hkB7c4hPufxvetRcKMKarSTarobfBk2sdQNHYY7
- MNoWQvVUwZtYsTI0isbGxErBWLBvNPMmf2SfoOa/Kszbmr189hiofkSlwRNCrLejl3qs
- XrX13Hy6/Sh8FfZ3QWMTm5J8XRp1b5w7wPdzn3N8rXDT+BOJ8L3WLDjdwmCoUknvurba
- h/xg==
-X-Gm-Message-State: AOAM5302VH30id0jREj2XYAsWx8hFbUsfWzIAWijMtD/U56Q/epyx4Ez
- qDz/bPQZgqKi0A83CjrDuI3ohQ==
-X-Google-Smtp-Source: ABdhPJxEbLD+VzflHdITh2Zqe85ZNpH0sjiJxlqjuGDSQwCgW6+rfgNVfLk5DYcIp2O/G7h5pOsghQ==
-X-Received: by 2002:a63:f551:0:b0:36c:54bd:da32 with SMTP id
- e17-20020a63f551000000b0036c54bdda32mr869908pgk.285.1645645259721; 
- Wed, 23 Feb 2022 11:40:59 -0800 (PST)
+ bh=PapYiWhZMiTpqU95r7ClvP5PHgcp3ArSPztRz9A56Fw=;
+ b=y9HgxbLi/T0yhT5zPRJDs37ppngXT4Q1NBtMtm9+/SsM92t2nPb6QQqkibUiGERC6A
+ vJOzDHBp/2wwf+NS7whAvsgS2RT95BS3vda5OWjtWA3+YzvfzkLPLZqMTxyepw/IN5Nr
+ EhvINwKA3FXfhSlfASLAuev5AC4A7hxOAGO8XtOxHv+NSjIVwywMVrpTMySlHYFqQXJ7
+ 8N3W0G+1VXVVX6I6riR7c6CA+htyg+z5P2lNGyfPN/Y/jU6jHJL6MYeZaxck87/qqab9
+ C2sN6SFeCYAQbgU2wM3t2LINzH3FNQJ+mhqLd0tQJyeqF/1sTqBVQGHn7eEKVrMjkopE
+ pNmg==
+X-Gm-Message-State: AOAM532tG1P3/K4Qp54ZmczB3vAriNSKUvX1gRDJE3OgqsGhEB87udWQ
+ 0B4pBL0PfaUz+GyVbfEFqY9ngg==
+X-Google-Smtp-Source: ABdhPJzuHG/0dBm5v9WW+kN4RNz83qQyhHLNYKtXXQDKFQCTOCyNSRc6twSsmwUbR1jT3Yw5syyXVA==
+X-Received: by 2002:a17:902:7c01:b0:14f:44f2:4fa with SMTP id
+ x1-20020a1709027c0100b0014f44f204famr1196790pll.36.1645645526277; 
+ Wed, 23 Feb 2022 11:45:26 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- d5-20020a17090acd0500b001b9c05b075dsm3746065pju.44.2022.02.23.11.40.57
+ [50.113.46.110])
+ by smtp.gmail.com with ESMTPSA id g14sm371976pfj.80.2022.02.23.11.45.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 11:40:59 -0800 (PST)
-Message-ID: <66f97111-6ac5-2061-f72c-9bf6d3a2b723@linaro.org>
-Date: Wed, 23 Feb 2022 09:40:55 -1000
+ Wed, 23 Feb 2022 11:45:25 -0800 (PST)
+Message-ID: <93ff22ad-ca20-e009-d8eb-12ca0ba63668@linaro.org>
+Date: Wed, 23 Feb 2022 09:45:22 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v6 1/4] s390x/tcg: Implement
- Miscellaneous-Instruction-Extensions Facility 3 for the s390x
+Subject: Re: [PATCH v6 3/4] tests/tcg/s390x: Tests for
+ Miscellaneous-Instruction-Extensions Facility 3
 Content-Language: en-US
 To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220217231728.13932-1-dmiller423@gmail.com>
- <20220217231728.13932-2-dmiller423@gmail.com>
+ <20220217231728.13932-4-dmiller423@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220217231728.13932-2-dmiller423@gmail.com>
+In-Reply-To: <20220217231728.13932-4-dmiller423@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,20 +101,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/17/22 13:17, David Miller wrote:
-> +/* SELECT HIGH */
-> +    C(0xb9c0, SELFHR,  RRF_a, MIE3, r3, r2, new, r1_32h, loc, 0)
-
-This stores the low part of r[23] in the high part of r1.
-You need to select the high part of r[23].
-
->   static DisasJumpType op_popcnt(DisasContext *s, DisasOps *o)
->   {
-> -    gen_helper_popcnt(o->out, o->in2);
-> +    const uint8_t m3 = get_field(s, m3);
+> +#define F_PRO    asm ( \
+> +    "lg %%r2, %[a]\n"  \
+> +    "lg %%r3, %[b]\n"  \
+> +    "lg %%r0, %[c]\n"  \
+> +    "ltgr %%r0, %%r0"  \
+> +    : : [a] "m" (a),   \
+> +        [b] "m" (b),   \
+> +        [c] "m" (c)    \
+> +    : "r0", "r2", "r3", "r4")
 > +
-> +    if ((m3 & 1) && s390_has_feat(S390_FEAT_MISC_INSTRUCTION_EXT3)) {
+> +
+> +
+> +#define Fi3(S, ASM) uint64_t S(uint64_t a, uint64_t b, uint64_t c) \
+> +{ uint64_t res = 0; F_PRO ; ASM ; return res; }
+> +
+> +
+> +Fi3 (_selre,     asm("selre    %%r0, %%r3, %%r2\n" F_EPI))
+> +Fi3 (_selgrz,    asm("selgrz   %%r0, %%r3, %%r2\n" F_EPI))
+> +Fi3 (_selfhrnz,  asm("selfhrnz %%r0, %%r3, %%r2\n" F_EPI))
 
-Bit 0 controls this, and recall that IBM uses big-bit numbering, so "8".
+You can't split these two asm, lest the ltgr and sel not be adjacent, and the flags not 
+having the correct value when we arrive at the sel.
+
+No test for popcnt, seeing as there's a bug in m3?
 
 
 r~
