@@ -2,74 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF304C0FDB
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:08:23 +0100 (CET)
-Received: from localhost ([::1]:59364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FFE94C0FDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:10:56 +0100 (CET)
+Received: from localhost ([::1]:38282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMoZK-0003km-AY
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:08:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52230)
+	id 1nMobn-0000Hf-FX
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:10:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMntL-0002HE-VF
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:25:00 -0500
-Received: from [2607:f8b0:4864:20::112e] (port=38890
- helo=mail-yw1-x112e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMntJ-0004fR-C1
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:24:59 -0500
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2d79394434dso60298097b3.5
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:24:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h0MuX52Q+muXKaiQy3XFqF8eMrYwugIxgvBoFwop9AA=;
- b=WWoTJTAGygDay3JxOTJVX2W9WL6XBn5oJPsGjktOPFspmyT3aDPI8+lkmZOjHe1340
- U7upoVbm9vB1YH1YjgrQ5zYCFoJ2ErborzQ3d+BjE0p4YLtJENdJVOgDRabPmCy4H5q6
- Yql22OPmuoJdVSTsczvJGH5pWKLONZCU2GX3W0z4Np3EErNFqAYdFm0V94EzSKHvQIFs
- nbpjNhpjTE4oJTgAnCHkV+GaH+pFoILMNHtAX0iHB9YxWbl2DRQ5Lk3SxkSHpeC0/U+N
- IOq+ygo/aWnuMHE3faVVZhGFYHqfvqtO8tU47bFJhfANxGbq3WZO+0txvdkqG5fu7/je
- iMFQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nMo0C-0006TX-0s
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:32:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21841)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nMo06-0005pJ-JW
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:32:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645608715;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2dda9byN7utgFEloSUJi3H8yFCE26T8hUuTOjc+rleI=;
+ b=YU5C0kEjF/dMuuQJttGC20fN4yIe9xBLPBWtwotr8wdgEDavcaz/0piAcsW23Nd2lVVDiP
+ bPXlz6SYfnuW+D4EVi2e0pPDYupr+iE5YYP9/RW9PFoH+6iXwIj0QzAODFS/Ytvdbwz6Av
+ OX8YmI+j61JKNx1cx0K0FFqjDaH9b80=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-457-9vCfsDg4ME-OdP4Xd4E3Sw-1; Wed, 23 Feb 2022 04:31:54 -0500
+X-MC-Unique: 9vCfsDg4ME-OdP4Xd4E3Sw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ nb1-20020a1709071c8100b006d03c250b6fso6757368ejc.11
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:31:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h0MuX52Q+muXKaiQy3XFqF8eMrYwugIxgvBoFwop9AA=;
- b=HNPdWhwxsNDcvvof2tk8wBcdXzDLGU9pY7FUtqhHBzQJa3AOJD06ZBMl+0KN7A3vYm
- baHgEImjC/x0K3AgpzgOnHkyEsZJqKa4Jx0hPn5dAnVEx/uJ17xQ1S7oQPgiIgmau2kT
- MHB7+6KgCk6c7pdBOXbQjayS90gnTGLMdQJS9LiLDmi2+M7HwJnC04y/NOSQXVgwJXej
- aIB2Grabn1hsDUDWiRAKhVmxX+PG+kypovOqRrd+mr/wDUo4ZC8m3At0GWCaLUCo7LR9
- yhYRWUtQpYH9ub0TQr+JCwj4VSnKfL4wQ4B7yoafmikez1vAyoKx4CVjfZ+narlNnEHS
- z+zA==
-X-Gm-Message-State: AOAM5322quQuuKqCM9mmGGyuqaBAAbFMs5zhagwVt1syBvct3jlTo99I
- VI/3l1KhL3ZxQI5B40TC85U7uMzGy++6eNKPBUx2AQ==
-X-Google-Smtp-Source: ABdhPJwOtHSOgtM8dMzxPMMh+3YTa03PCntT3j2ixJtX62Fva4qtdKt5mATvmYxFr1D4bG48beKl61BbNUyhe2EziUA=
-X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
- e69-20020a81a748000000b002d61f8b23a9mr28287357ywh.329.1645608296376; Wed, 23
- Feb 2022 01:24:56 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2dda9byN7utgFEloSUJi3H8yFCE26T8hUuTOjc+rleI=;
+ b=IRJFXV0JzuTxiOYJnBE7fb6Pst6ASPas2A7e2dQAiBDQ05bHZSoSNjTCvWGeJOKbRm
+ T8DZdhdd5iuOEDpYN4d5WPoJ+C1ecge55kID9Dy/APH02O7nWW3t8+ntOU01xFxubNjL
+ Rl332IX8MCMsiGAGloGEvttVt7yoM/EwDkhFwZ+pOOnVNOCNPfX3Z97s4U4M0IJnJOoQ
+ XtVlav88gDAG4p2jKyRZZYtkenZMSpXuLfUgu4mO79ZwtDN6tSg5cgWSvIQTyEWqJ5YX
+ ajWeEeWFpiGJVkeCEeWFvY7xFwCA9maE1gg9TG0/UidSSPFgCIdtsb+Bk/MJ95aJ8UY5
+ O9gw==
+X-Gm-Message-State: AOAM530uYxLpnutQB8uetjF3aqMEj1GoSE81ZyuzIFxDmJsCLSq9rcZd
+ SLjP0GCXldQC6yAzhiddqDi5AEIXNWS949LBaHjreJho8x0ZialuAuOw9sErAs3P4P8r6VJ5xFN
+ XGoSoLVNAnLJAxGA=
+X-Received: by 2002:a17:907:8a04:b0:6b6:1f22:a5e with SMTP id
+ sc4-20020a1709078a0400b006b61f220a5emr22218165ejc.528.1645608712763; 
+ Wed, 23 Feb 2022 01:31:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyrdUrTU5myj8QangZYhWtJq4l199/nKKtBixc3Lw6JBb57ftLCsdp2vSPghdoTNnUBGrm+NA==
+X-Received: by 2002:a17:907:8a04:b0:6b6:1f22:a5e with SMTP id
+ sc4-20020a1709078a0400b006b61f220a5emr22218139ejc.528.1645608712476; 
+ Wed, 23 Feb 2022 01:31:52 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id o9sm7213780ejn.16.2022.02.23.01.31.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Feb 2022 01:31:52 -0800 (PST)
+Date: Wed, 23 Feb 2022 10:31:51 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RFCv2 2/4] i386/pc: relocate 4g start to 1T where
+ applicable
+Message-ID: <20220223103151.70f70410@redhat.com>
+In-Reply-To: <YhX7g0GjwE5u7+vf@work-vm>
+References: <20220207202422.31582-3-joao.m.martins@oracle.com>
+ <20220214155318.3ce80da0@redhat.com>
+ <fa172a19-5db6-a844-27d7-8497d306024e@oracle.com>
+ <20220214163158.4c4b210b@redhat.com>
+ <20220215095358.5qcrgwlasheu63uj@sirius.home.kraxel.org>
+ <YgzJE7ufEYm6OFyg@redhat.com> <YhOQfJ8x93+jDSZf@work-vm>
+ <20220222094602.66d55613@redhat.com>
+ <20220222094255.as2alzu65rhateml@sirius.home.kraxel.org>
+ <20220223094343.2e600a22@redhat.com> <YhX7g0GjwE5u7+vf@work-vm>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220222161624.382218-1-laurent@vivier.eu>
-In-Reply-To: <20220222161624.382218-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 23 Feb 2022 09:24:45 +0000
-Message-ID: <CAFEAcA_pPdzydMyua_95OHW7FJ-JTiJF5dgmyxPMFuF+6HesRA@mail.gmail.com>
-Subject: Re: [PULL 0/7] Trivial branch for 7.0 patches
-To: Laurent Vivier <Laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,33 +108,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Feb 2022 at 16:35, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit e670f6d825d4dee248b311197fd4048469d6772b:
->
->   Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220218' into staging (2022-02-20 15:05:41 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.0-pull-request
->
-> for you to fetch changes up to 1e2d555846226a9e5fb1052fe8ba6f30480f33a9:
->
->   hid: Implement support for side and extra buttons (2022-02-22 17:15:36 +0100)
->
-> ----------------------------------------------------------------
-> Trivial branch pull request 20220222
->
+On Wed, 23 Feb 2022 09:16:51 +0000
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
+> * Igor Mammedov (imammedo@redhat.com) wrote:
+> > On Tue, 22 Feb 2022 10:42:55 +0100
+> > Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >   
+> > >   Hi,
+> > >   
+> > > > > And the upstream code is now pretty much identical except for the
+> > > > > default;  note that for TCG you do need to keep to 40 I think.    
+> > > > 
+> > > > will TCG work with 40bits on host that supports less than that?    
+> > > 
+> > > When I understand things correctly the problem is that the phys-bits
+> > > limit applies to the npt/ept tables too, effectively restricting guest
+> > > physical address space to host physical address space.
+> > > 
+> > > TCG is not affected by that and should work just fine.
+> > > 
+> > > Not sure what happens if you turn off npt/ept and run on softmmu.
+> > > Possibly that works fine too.
+> > >   
+> > > > Also quick look at host-phys-bits shows that it affects only 'host'
+> > > > cpu model and is NOP for all other models.    
+> > > 
+> > > I don't think so.  microvm forces host-phys-bits=on and that works with
+> > > all cpu models.  
+> > 
+> > I just don't see how host-phys-bits can work for other than 'host' cpu model.
+> > It's true that property is available for all cpu models, but the field it sets
+> > is only used in target/i386/host-cpu.c, the same applies to host-phys-bits-limit.
+> > Am I missing something?  
+> 
+> The hook in kvm/kvm-cpu.c kvm_cpu_realizefn:
+> 
+>     /*
+>      * The realize order is important, since x86_cpu_realize() checks if
+>      * nothing else has been set by the user (or by accelerators) in
+>      * cpu->ucode_rev and cpu->phys_bits, and updates the CPUID results in
+>      * mwait.ecx.
+>      * This accel realization code also assumes cpu features are already expanded.
+>      *
+>      * realize order:
+>      *
+>      * x86_cpu_realize():
+>      *  -> x86_cpu_expand_features()
+>      *  -> cpu_exec_realizefn():
+>      *            -> accel_cpu_realizefn()
+>      *               kvm_cpu_realizefn() -> host_cpu_realizefn()
+>      *  -> check/update ucode_rev, phys_bits, mwait
+>      */
 
-Applied, thanks.
+Thanks,
+I didn't expect host_cpu_realizefn being called from elsewhere
+beside of cpu model it belongs to or models inherited from it.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+> 
+> Dave
+> 
+> > > 
+> > > take care,
+> > >   Gerd
+> > >   
+> >   
 
--- PMM
 
