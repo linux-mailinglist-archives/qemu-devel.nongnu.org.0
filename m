@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9331E4C104D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:29:54 +0100 (CET)
-Received: from localhost ([::1]:41100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E3B4C105B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:35:18 +0100 (CET)
+Received: from localhost ([::1]:47974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMou9-0005tJ-Lr
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:29:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57556)
+	id 1nMozN-0002RB-Ad
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:35:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nMoEq-0000A5-Hc; Wed, 23 Feb 2022 04:47:14 -0500
-Received: from [2a00:1450:4864:20::62d] (port=34722
- helo=mail-ej1-x62d.google.com)
+ id 1nMoFU-0000bQ-MD
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:47:52 -0500
+Received: from [2a00:1450:4864:20::634] (port=38892
+ helo=mail-ej1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nMoEo-0008NP-4z; Wed, 23 Feb 2022 04:47:12 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id gb39so51283338ejc.1;
- Wed, 23 Feb 2022 01:47:09 -0800 (PST)
+ id 1nMoFT-0008Rn-44
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:47:52 -0500
+Received: by mail-ej1-x634.google.com with SMTP id r13so28090950ejd.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:47:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=qQRE/0cs6IXwI7PHRGZffKNPBRqbCR89em/BJcXIF/0=;
- b=YSEozZmZmwCWYohy9gxfWoRlurS+M4xsuVbRm8ZITKfQvAZmYlC1iu84I6HeTypz5v
- E2juAZZ4OkRuk+PRsR3O3P5/BYRp3Y7i5ei90O5+lcGlwspLfGrzN2GRd1XVjviT/x7V
- C+ht5HRW7bR9DStOCbIyfUvKm9o1DvrlNG6mp+/illSIuqbIhmX9oXdhknhYvf5ksueP
- g5f9x2qAAbHJpMHq5ajn8dBZid9VgXUN0Wnluk8ShXS+L63uYuKsg+JAJM4yF5YaqcUI
- bY14w2M+BCPfUwJTBHo/vBbAcUj8ZpOypf4KW8KP/0T4wDV5ix2AvOWHNBmpx1ZUL6R9
- /QLA==
+ bh=c36kTk5zf1a+UWL/uQH112pFJ6iLpdREukza2koxiaA=;
+ b=ocSTLNGhJpPxLpC8EDTrbpkEPLCEiSKn74UmlnDnQ7xWmhWj3wM62f/M7UTb3ocfaf
+ LOuDYRK3LOJ/PGXcs9SUSeYAeTGBkpC5xiwNLE43sDcM4aN6qQ9FUwzEvVTyRiQNtMqY
+ U8VPbxXe5ojvmUgoqxQcqKRgXfLm8CFj3lxizN1+Kt9KNdA8nue4Oj6e13g0iL4Kjxih
+ TfhBZdL+PyGhF3P/+UKukJcPYT8TP2GqpnavD+seFbexyPiRb6Io/mibW3fiPDF0pchF
+ z3hS+cKXE86I7qR9P3+kMvMI60V66bYx1UXbwyPsUJhCB4mRR3Ouy1TLE9D6RHhtOSxu
+ je4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=qQRE/0cs6IXwI7PHRGZffKNPBRqbCR89em/BJcXIF/0=;
- b=TH0sIqFb8UDWfWTeTCBS1BgqgdoeiRY4ThXP5ib9EWRIl5kYDSeu4P+dqWLrQZ52eZ
- F4Gz2wtl/UJSpVNQRfHwX+BNyt30pltNBVM1469ssQqPbnnmZ2fcp+ZoWc/vkbV7VzBd
- Jk1uuFQIOgEQlSMSVxGs2f5Wr+Xt4QsyXg3fn4vXKCL5LVo2rMuhqYtQRGIF3I8jtJte
- 7yCVdMz2yE0TNBALTqvJYstEr2gSilvuiS7MkD6fONgO7dGEArIG5I+9v6Yei1PQ9LnZ
- 5+xWF/bMVphW7YtZv9/wH2TJ68o4VXGtu5sBXtQ62lh/ceDtOMGTjloCK0wMoPCIgrKl
- eJJQ==
-X-Gm-Message-State: AOAM533LScztKVkhVYMO5G7vn7RUBfNMydKo/wnhKnF+FrUAmPwyzLtd
- cQLBNytA1kkooaCgm7xBj/4=
-X-Google-Smtp-Source: ABdhPJwZIkO5+XKrDVN45Mhep7oZ4GWbzxVQATMPckUatHwjT/CEqkOT5BuY4EO/dLIcqiWXOIy5eA==
-X-Received: by 2002:a17:906:4c46:b0:6cf:5489:da5b with SMTP id
- d6-20020a1709064c4600b006cf5489da5bmr22291457ejw.203.1645609628023; 
- Wed, 23 Feb 2022 01:47:08 -0800 (PST)
+ bh=c36kTk5zf1a+UWL/uQH112pFJ6iLpdREukza2koxiaA=;
+ b=A4n4U7GvOFJiKNlHkla5SRHVOTDdWcjOOZdkuGF3qf2erlaDpMsvsbMDXwJgZPKB3M
+ I2bjrSLF2RUVkvcaybq0DNBFC4brHhsm/JcTUDdiUjH+bTbQLtOkFm3QylvR9gG37X9j
+ /nEu00hhIzBpm3xPQplp/yl7CW7mTm/NG5WWrJegdUe7aBKfm0T42u/bpF6QEiONqZyl
+ iaublQAmRQ3adjuzRFFBneTapWt4x2MPMGzoAN7/EqOopyiNtyIYvwWQ+j8t/N32ONFc
+ E+Ffgz5BWR2NcMX3HCd1A5rlk6k+mLY38bytaXoUI6vrkwuHsqX4PbXiDJkHkbo1Uv4m
+ Eolg==
+X-Gm-Message-State: AOAM532nB3HNNi8oBj+1WPehupV5ucH1CtYneu2oPr/Vl0s5iYJP794o
+ Urdzhalz4lhOAR2inonRmqE=
+X-Google-Smtp-Source: ABdhPJxOpT0Oe6FjtU4UCLm4EUG8DogbiJhAvCroa7vHBiMAn2hldz8Q9hdg7RbIe/UI8RiNoP5Jgw==
+X-Received: by 2002:a17:907:2954:b0:6cf:7634:c6b7 with SMTP id
+ et20-20020a170907295400b006cf7634c6b7mr21801131ejc.683.1645609669063; 
+ Wed, 23 Feb 2022 01:47:49 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id p18sm7252923ejm.63.2022.02.23.01.47.07
+ by smtp.googlemail.com with ESMTPSA id fn5sm7191652ejc.179.2022.02.23.01.47.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 01:47:07 -0800 (PST)
-Message-ID: <1988379c-9adb-ec6a-64f6-3fd22df74a82@redhat.com>
-Date: Wed, 23 Feb 2022 10:47:06 +0100
+ Wed, 23 Feb 2022 01:47:48 -0800 (PST)
+Message-ID: <c3bffd7c-0f03-b843-befc-d22b83bb010e@redhat.com>
+Date: Wed, 23 Feb 2022 10:47:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 1/4] tls: add macros for coroutine-safe TLS variables
+Subject: Re: [PATCH 2/2] vmxcap: Add 5-level EPT bit
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20220221142907.346035-1-stefanha@redhat.com>
- <20220221142907.346035-2-stefanha@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
+References: <20220221145316.576138-1-vkuznets@redhat.com>
+ <20220221145316.576138-2-vkuznets@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220221142907.346035-2-stefanha@redhat.com>
+In-Reply-To: <20220221145316.576138-2-vkuznets@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -93,23 +95,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Florian Weimer <fweimer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, Fam Zheng <fam@euphon.net>,
- Serge Guelton <sguelton@redhat.com>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/22 15:29, Stefan Hajnoczi wrote:
-> +#define QEMU_DEFINE_CO_TLS(type, var)                                        \
-> +    static __thread type co_tls_##var;                                       \
-> +    type get_##var(void) { asm volatile(""); return co_tls_##var; }          \
-> +    void set_##var(type v) { asm volatile(""); co_tls_##var = v; }           \
-> +    type *get_ptr_##var(void)                                                \
-> +    { type *ptr = &co_tls_##var; asm volatile("" : "+rm" (ptr)); return ptr; }
-> +
+On 2/21/22 15:53, Vitaly Kuznetsov wrote:
+> 5-level EPT is present in Icelake Server CPUs and is supported by QEMU
+> ('vmx-page-walk-5').
+> 
+> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> ---
+>   scripts/kvm/vmxcap | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/scripts/kvm/vmxcap b/scripts/kvm/vmxcap
+> index 6fe66d5f5753..f140040104bf 100755
+> --- a/scripts/kvm/vmxcap
+> +++ b/scripts/kvm/vmxcap
+> @@ -249,6 +249,7 @@ controls = [
+>           bits = {
+>               0: 'Execute-only EPT translations',
+>               6: 'Page-walk length 4',
+> +            7: 'Page-walk length 5',
+>               8: 'Paging-structure memory type UC',
+>               14: 'Paging-structure memory type WB',
+>               16: '2MB EPT pages',
 
-Is noinline needed here too in case LTO is used?
+Queued both, thanks.
 
 Paolo
 
