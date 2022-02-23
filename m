@@ -2,89 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714694C1400
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 14:21:54 +0100 (CET)
-Received: from localhost ([::1]:51288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE8C4C1451
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 14:39:08 +0100 (CET)
+Received: from localhost ([::1]:36356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMrab-0001fc-Fs
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 08:21:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52916)
+	id 1nMrrG-0003xQ-QE
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 08:39:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMrTg-0006iD-Gw
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 08:14:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29771)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org>)
+ id 1nMraT-0003gp-HT
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 08:21:45 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:44928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMrTc-00054Y-St
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 08:14:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645622079;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org>)
+ id 1nMraR-0007Cy-Ix
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 08:21:45 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2EE556154E
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 13:21:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7414C340F6
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 13:21:40 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="B1edNqIi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1645622496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=v3fvYTNE1dAKk/TdUTSJdhFSiKcgVU8zPFWZDsqv4rg=;
- b=EseF+cH2m/B83Pnr8eQvQ8erYm3PFVUTAQplqveajhL5wMy3HVD1XwxoMQwElWwvQsBU/6
- l3tASOeYjP7AjOjjgr17cwtMKGz/U+RHip4DgJYDG3JhqmxCCErZcPydEGIuSeIPLeg+94
- 5s0J/honiBkNstqtDUCeBzLbbdjo2I4=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-56-x0Gfp8BwOZicMPo7H2Si-Q-1; Wed, 23 Feb 2022 08:14:38 -0500
-X-MC-Unique: x0Gfp8BwOZicMPo7H2Si-Q-1
-Received: by mail-pf1-f198.google.com with SMTP id
- z28-20020aa79f9c000000b004e10449d919so9020325pfr.4
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 05:14:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=v3fvYTNE1dAKk/TdUTSJdhFSiKcgVU8zPFWZDsqv4rg=;
- b=RSrS436QwAhOReZWZRRWwCS+4Ndo8vR22CG9xYaWhcEC+RxbuH083d/IHPUl7hKk2y
- rEaodollmkAs5MepTYcAHeQtLgQVH9BoZ6f4FP+Z0drQZh4ILzZ6hg0dKRBQIj4n3sMH
- NNffSWSRPvDRBVifL54GsdVj6uaZKM0AMlEuy/T9+5Fm4TcBzypGYWpRJm/oJlJ5t7bD
- paUklL2hDhFVuJ7rXpaqhWQ7begGxNehqtJXeFnpxfxI/2nDzYGm+vOy/8JVUKpl7kL2
- cROde+V6zvjzqCmcrWj5svVxJXaRXBbQjXMyTLzmiHwQ0jCGrE4ye5KQLEv5n2yt0HT7
- OClQ==
-X-Gm-Message-State: AOAM531vyZ0p6nNu9XUSQqs2EN0yUvNillajCN8nlUcZrCXo8yxqeuYL
- MwXW0Bff+xXCXgaDVKArPI9zXHtRSDFz1crGQJxA2XOTAhsJzMF0SAHiWJ7WrLZbdtwQ1N5TTYy
- cPvZpsjUoI4B+chM=
-X-Received: by 2002:a17:902:e743:b0:14f:c274:cc2a with SMTP id
- p3-20020a170902e74300b0014fc274cc2amr12488445plf.70.1645622076866; 
- Wed, 23 Feb 2022 05:14:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzBNzTNAjNssMKlK3jF5sCEpaQKTCaKXF83pNjaoegjrw3gx5bCX59VLGeoMRVk4fBsB7ONKA==
-X-Received: by 2002:a17:902:e743:b0:14f:c274:cc2a with SMTP id
- p3-20020a170902e74300b0014fc274cc2amr12488414plf.70.1645622076443; 
- Wed, 23 Feb 2022 05:14:36 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.100])
- by smtp.gmail.com with ESMTPSA id s48sm19921020pfw.111.2022.02.23.05.14.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Feb 2022 05:14:36 -0800 (PST)
-Date: Wed, 23 Feb 2022 21:14:31 +0800
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 19/20] migration: Postcopy recover with preempt enabled
-Message-ID: <YhYzN3upm62HEnTm@xz-m1.local>
-References: <20220216062809.57179-1-peterx@redhat.com>
- <20220216062809.57179-20-peterx@redhat.com>
- <YhTJuvhEvdxnINPu@work-vm> <YhXmIBwbZoTErHSR@xz-m1.local>
- <YhYDyAf7+khF8Fkv@work-vm>
+ bh=jNCqwRVwwnl2Hzkwee6ETCjLUlSGOZ/h+OLPPjOrc0Y=;
+ b=B1edNqIi5b5HctHZNPAaowU88lVryawcFNGYjSp85vHovokqADjt+gCUWQtoL8L26HfDe3
+ nl8aJAMIZYBIy8qi3ZYXwTdRr82nWHV60r4P2Uyim3JETbtJFhkxCHI+ueWTYKGJ0iBXol
+ RuYemuRnCCuF1yTAFE6Dp8d6Oaed8fM=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 243735bb
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Wed, 23 Feb 2022 13:21:35 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id g6so26567128ybe.12
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 05:21:34 -0800 (PST)
+X-Gm-Message-State: AOAM531JBxl8MdBFK0mgbtLeg4xwMLAL4fs6nGviU3GukaDb1G7bSlPF
+ qQB2ku446n9YSyEN++yUbFdL2ZB9r+jx7ezyymU=
+X-Google-Smtp-Source: ABdhPJyPz4I/fVrE2hAwlxEjASOoJgctbxsl4Sw1b3At1gDlRAwGMq/v/jtx+mRgcRGA5d7YgSWANySbbRg9ZZzPO00=
+X-Received: by 2002:a05:6902:693:b0:613:7f4f:2e63 with SMTP id
+ i19-20020a056902069300b006137f4f2e63mr26519604ybt.271.1645622492226; Wed, 23
+ Feb 2022 05:21:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YhYDyAf7+khF8Fkv@work-vm>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <1614156452-17311-1-git-send-email-acatan@amazon.com>
+ <1614156452-17311-3-git-send-email-acatan@amazon.com>
+ <CAHmME9o6cjZT1Cj1g5w5WQE83YxJNqB7eUCWn74FA9Pbb3Y6nQ@mail.gmail.com>
+ <CAHmME9poYgfoniexZ2dvpEEvnWGLQTOjOvB2bck-Whhy9h+Hjw@mail.gmail.com>
+In-Reply-To: <CAHmME9poYgfoniexZ2dvpEEvnWGLQTOjOvB2bck-Whhy9h+Hjw@mail.gmail.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Wed, 23 Feb 2022 14:21:21 +0100
+X-Gmail-Original-Message-ID: <CAHmME9pFZKtBP7R8St03544nHc=7ztFsK1q9fKPGKXZgjHckVw@mail.gmail.com>
+Message-ID: <CAHmME9pFZKtBP7R8St03544nHc=7ztFsK1q9fKPGKXZgjHckVw@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] drivers/virt: vmgenid: add vm generation id driver
+To: adrian@parity.io
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,226 +86,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: areber@redhat.com, KVM list <kvm@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, ghammer@redhat.com,
+ vijaysun@ca.ibm.com, 0x7f454c46@gmail.com,
+ QEMU Developers <qemu-devel@nongnu.org>, Michal Hocko <mhocko@kernel.org>,
+ dgunigun@redhat.com, avagin@gmail.com, Pavel Machek <pavel@ucw.cz>,
+ ptikhomirov@virtuozzo.com, linux-s390@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
+ borntraeger@de.ibm.com, "Singh, Balbir" <sblbir@amazon.com>, bonzini@gnu.org,
+ Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>, "Weiss,
+ Radu" <raduweis@amazon.com>, asmehra@redhat.com,
+ Adrian Catangiu <acatan@amazon.com>, graf@amazon.com,
+ Mike Rapoport <rppt@kernel.org>, Andrew Lutomirski <luto@kernel.org>,
+ gil@azul.com, oridgar@gmail.com, Colm MacCarthaigh <colmmacc@amazon.com>,
+ Theodore Ts'o <tytso@mit.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, ovzxemul@gmail.com,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Willy Tarreau <w@1wt.eu>, "Woodhouse,
+ David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 23, 2022 at 09:52:08AM +0000, Dr. David Alan Gilbert wrote:
-> * Peter Xu (peterx@redhat.com) wrote:
-> > On Tue, Feb 22, 2022 at 11:32:10AM +0000, Dr. David Alan Gilbert wrote:
-> > > * Peter Xu (peterx@redhat.com) wrote:
-> > > > To allow postcopy recovery, the ram fast load (preempt-only) dest QEMU thread
-> > > > needs similar handling on fault tolerance.  When ram_load_postcopy() fails,
-> > > > instead of stopping the thread it halts with a semaphore, preparing to be
-> > > > kicked again when recovery is detected.
-> > > > 
-> > > > A mutex is introduced to make sure there's no concurrent operation upon the
-> > > > socket.  To make it simple, the fast ram load thread will take the mutex during
-> > > > its whole procedure, and only release it if it's paused.  The fast-path socket
-> > > > will be properly released by the main loading thread safely when there's
-> > > > network failures during postcopy with that mutex held.
-> > > 
-> > > I *think* this is mostly OK; but I worry I don't understand all the
-> > > cases; e.g.
-> > >   a) If the postcopy channel errors first
-> > >   b) If the main channel errors first
-> > 
-> > Ah right, I don't think I handled all the cases.  Sorry.
-> > 
-> > We always check the main channel, but if the postcopy channel got faulted,
-> > we may not fall into paused mode as expected.
-> > 
-> > I'll fix that up.
-> 
-> Thanks.
-> 
-> > > 
-> > > Can you add some docs to walk through those and explain the locking ?
-> > 
-> > Sure.
-> > 
-> > The sem is mentioned in the last sentence of paragraph 1, where it's purely
-> > used for a way to yield the fast ram load thread so that when something
-> > wrong happens it can sleep on that semaphore.  Then when we recover we'll
-> > post to the semaphore to kick it up.  We used it like that in many places,
-> > e.g. postcopy_pause_sem_dst to yield the main load thread.
-> > 
-> > The 2nd paragraph above was for explaining why we need the mutex; it's
-> > basically the same as rp_mutex protecting to_src_file, so that we won't
-> > accidentally close() the qemufile during some other thread using it.  So
-> > the fast ram load thread needs to take that new mutex for mostly the whole
-> > lifecycle of itself (because it's loading from that qemufile), meanwhile
-> > only drop the mutex when it prepares to sleep.  Then the main load thread
-> > can recycle the postcopy channel using qemu_fclose() safely.
-> 
-> Yes, that feels like it needs to go in the code somewhere.
+On Tue, Feb 22, 2022 at 11:17 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> Well I cleaned up this v7 and refactored it into something along the
+> lines of what I'm thinking. I don't yet know enough about this general
+> problem space to propose the patch and I haven't tested it either
 
-Sure, I'll further squash below comment update into the same patch.  I
-reworded some places but mostly it should be telling the same thing:
+A little further along, there's now this series:
+https://lore.kernel.org/lkml/20220223131231.403386-1-Jason@zx2c4.com/T/
+We can resume discussion there.
 
----8<---
-diff --git a/migration/migration.h b/migration/migration.h
-index 945088064a..91f845e9e4 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -118,7 +118,17 @@ struct MigrationIncomingState {
-     /* Postcopy priority thread is used to receive postcopy requested pages */
-     QemuThread postcopy_prio_thread;
-     bool postcopy_prio_thread_created;
--    /* Used to sync with the prio thread */
-+    /*
-+     * Used to sync between the ram load main thread and the fast ram load
-+     * thread.  It protects postcopy_qemufile_dst, which is the postcopy
-+     * fast channel.
-+     *
-+     * The ram fast load thread will take it mostly for the whole lifecycle
-+     * because it needs to continuously read data from the channel, and
-+     * it'll only release this mutex if postcopy is interrupted, so that
-+     * the ram load main thread will take this mutex over and properly
-+     * release the broken channel.
-+     */
-     QemuMutex postcopy_prio_thread_mutex;
-     /*
-      * An array of temp host huge pages to be used, one for each postcopy
-@@ -149,6 +159,12 @@ struct MigrationIncomingState {
-     /* notify PAUSED postcopy incoming migrations to try to continue */
-     QemuSemaphore postcopy_pause_sem_dst;
-     QemuSemaphore postcopy_pause_sem_fault;
-+    /*
-+     * This semaphore is used to allow the ram fast load thread (only when
-+     * postcopy preempt is enabled) fall into sleep when there's network
-+     * interruption detected.  When the recovery is done, the main load
-+     * thread will kick the fast ram load thread using this semaphore.
-+     */
-     QemuSemaphore postcopy_pause_sem_fast_load;
- 
-     /* List of listening socket addresses  */
----8<---
-
-> 
-> > [...]
-> > 
-> > > > @@ -3466,6 +3468,17 @@ static MigThrError postcopy_pause(MigrationState *s)
-> > > >          qemu_file_shutdown(file);
-> > > >          qemu_fclose(file);
-> > > >  
-> > > > +        /*
-> > > > +         * Do the same to postcopy fast path socket too if there is.  No
-> > > > +         * locking needed because no racer as long as we do this before setting
-> > > > +         * status to paused.
-> > > > +         */
-> > > > +        if (s->postcopy_qemufile_src) {
-> > > > +            migration_ioc_unregister_yank_from_file(s->postcopy_qemufile_src);
-> > > 
-> > > Shouldn't this do a qemu_file_shutdown on here first?
-> > 
-> > Yes I probably should.
-> > 
-> > With all above, I plan to squash below changes into this patch:
-> > 
-> > ---8<---
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index c68a281406..69778cab23 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -3475,6 +3475,7 @@ static MigThrError postcopy_pause(MigrationState *s)
-> >           */
-> >          if (s->postcopy_qemufile_src) {
-> >              migration_ioc_unregister_yank_from_file(s->postcopy_qemufile_src);
-> > +            qemu_file_shutdown(s->postcopy_qemufile_src);
-> >              qemu_fclose(s->postcopy_qemufile_src);
-> >              s->postcopy_qemufile_src = NULL;
-> >          }
-> > @@ -3534,8 +3535,13 @@ static MigThrError migration_detect_error(MigrationState *s)
-> >          return MIG_THR_ERR_FATAL;
-> >      }
-> > 
-> > -    /* Try to detect any file errors */
-> > -    ret = qemu_file_get_error_obj(s->to_dst_file, &local_error);
-> > +    /*
-> > +     * Try to detect any file errors.  Note that postcopy_qemufile_src will
-> > +     * be NULL when postcopy preempt is not enabled.
-> > +     */
-> > +    ret = qemu_file_get_error_obj_any(s->to_dst_file,
-> > +                                      s->postcopy_qemufile_src,
-> > +                                      &local_error);
-> >      if (!ret) {
-> >          /* Everything is fine */
-> >          assert(!local_error);
-> > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> > index 1479cddad9..397652f0ba 100644
-> > --- a/migration/qemu-file.c
-> > +++ b/migration/qemu-file.c
-> > @@ -139,6 +139,33 @@ int qemu_file_get_error_obj(QEMUFile *f, Error **errp)
-> >      return f->last_error;
-> >  }
-> > 
-> > +/*
-> > + * Get last error for either stream f1 or f2 with optional Error*.
-> > + * The error returned (non-zero) can be either from f1 or f2.
-> > + *
-> > + * If any of the qemufile* is NULL, then skip the check on that file.
-> > + *
-> > + * When there is no error on both qemufile, zero is returned.
-> > + */
-> > +int qemu_file_get_error_obj_any(QEMUFile *f1, QEMUFile *f2, Error **errp)
-> > +{
-> > +    int ret = 0;
-> > +
-> > +    if (f1) {
-> > +        ret = qemu_file_get_error_obj(f1, errp);
-> > +        /* If there's already error detected, return */
-> > +        if (ret) {
-> > +            return ret;
-> > +        }
-> > +    }
-> > +
-> > +    if (f2) {
-> > +        ret = qemu_file_get_error_obj(f2, errp);
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> >  /*
-> >   * Set the last error for stream f with optional Error*
-> >   */
-> > diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-> > index 3f36d4dc8c..2564e5e1c7 100644
-> > --- a/migration/qemu-file.h
-> > +++ b/migration/qemu-file.h
-> > @@ -156,6 +156,7 @@ void qemu_file_update_transfer(QEMUFile *f, int64_t len);
-> >  void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
-> >  int64_t qemu_file_get_rate_limit(QEMUFile *f);
-> >  int qemu_file_get_error_obj(QEMUFile *f, Error **errp);
-> > +int qemu_file_get_error_obj_any(QEMUFile *f1, QEMUFile *f2, Error **errp);
-> >  void qemu_file_set_error_obj(QEMUFile *f, int ret, Error *err);
-> >  void qemu_file_set_error(QEMUFile *f, int ret);
-> >  int qemu_file_shutdown(QEMUFile *f);
-> > diff --git a/migration/savevm.c b/migration/savevm.c
-> > index 2d32340d28..24b69a1008 100644
-> > --- a/migration/savevm.c
-> > +++ b/migration/savevm.c
-> > @@ -2651,8 +2651,8 @@ retry:
-> >      while (true) {
-> >          section_type = qemu_get_byte(f);
-> > 
-> > -        if (qemu_file_get_error(f)) {
-> > -            ret = qemu_file_get_error(f);
-> > +        ret = qemu_file_get_error_obj_any(f, mis->postcopy_qemufile_dst, NULL);
-> > +        if (ret) {
-> >              break;
-> >          }
-> > ---8<---
-> > 
-> > Does it look sane?  Let me know if there's still things missing.
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-Thanks!
-
--- 
-Peter Xu
-
+Jason
 
