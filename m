@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9475D4C0F97
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 10:52:14 +0100 (CET)
-Received: from localhost ([::1]:58048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76CCD4C0F54
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 10:40:08 +0100 (CET)
+Received: from localhost ([::1]:48738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMoJg-0008OY-20
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 04:52:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48228)
+	id 1nMo7y-0001Zo-Qx
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 04:40:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMncc-0001Tx-FH
+ id 1nMncc-0001U1-V3
  for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:07:48 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:50198)
+Received: from beetle.greensocs.com ([5.135.226.135]:50210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMncP-0001zS-Qc
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:07:36 -0500
+ id 1nMncR-0001za-DF
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:07:42 -0500
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 1EE4921C6C;
+ by beetle.greensocs.com (Postfix) with ESMTPS id 83DFF21EB7;
  Wed, 23 Feb 2022 09:07:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1645607238;
@@ -28,18 +28,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fK//uTVRDEVguoVlIYMceoQvqPjIUKZhtPzueFDLdN8=;
- b=RyF1Y2XrrYTdeCE6ex2l5r4njs1SWF+Ew2G0Pk4uiLXvDtQYoMZ4TXkNgR6aPWvqZkDZ/Y
- 1Nb615lGzed7PoPOv5wBiX9WrNMr3aZwlkcIg/Mj+aDUCoxhgDUrN8lcMM+II34SRqtICy
- P/ApJZpEDoLkrxc84N3SZxPi8VwRyZA=
+ bh=leheYCudOea9CxkF8jZtbqwtNcoRlV8wZddLLXZ7QCE=;
+ b=fDF4R8kwR7lmcowzSBEv0RjHLt78+/fpaGJx+GavXlVpGWRt3o/nPKG0UWR4o9MvAAjObZ
+ HdB290gvrrAJqkVkmWjfzXb5cukes4oVBWs9bRnVKT0/9qiGHtPmsT4gs35HIDobhiEU9u
+ 9YAoLs9X7vlykKRnZJZIDoWmG3ZwpTo=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org,
 	mark.burton@greensocs.com,
 	edgari@xilinx.com
-Subject: [PATCH v4 03/14] vl: support machine-initialized target in
- phase_until()
-Date: Wed, 23 Feb 2022 10:06:55 +0100
-Message-Id: <20220223090706.4888-4-damien.hedde@greensocs.com>
+Subject: [PATCH v4 04/14] qapi/device_add: compute is_hotplug flag
+Date: Wed, 23 Feb 2022 10:06:56 +0100
+Message-Id: <20220223090706.4888-5-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220223090706.4888-1-damien.hedde@greensocs.com>
 References: <20220223090706.4888-1-damien.hedde@greensocs.com>
@@ -66,59 +65,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-phase_until() now supports the following transitions:
-+ accel-created -> machine-initialized
-+ machine-initialized -> machine-ready
-
-As a consequence we can now support the use of qmp_exit_preconfig()
-from phases _accel-created_ and _machine-initialized_.
-
-This commit is a preparation to support cold plugging a device
-using qapi (which will be introduced in a following commit). For this
-we need fine grain control of the phase.
+Instead of checking the phase everytime, just store the result
+in a flag. We will use more of it in the following commit.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- softmmu/vl.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ softmmu/qdev-monitor.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 5689d0be88..50337d68b9 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2737,8 +2737,8 @@ static void qemu_machine_creation_done(void)
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 01f3834db5..47a89aee20 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -617,6 +617,7 @@ DeviceState *qdev_device_add_from_qdict(const QDict *opts,
+     char *id;
+     DeviceState *dev = NULL;
+     BusState *bus = NULL;
++    bool is_hotplug = phase_check(PHASE_MACHINE_READY);
  
- void qmp_x_exit_preconfig(Error **errp)
- {
--    if (phase_check(PHASE_MACHINE_INITIALIZED)) {
--        error_setg(errp, "The command is permitted only before machine initialization");
-+    if (phase_check(PHASE_MACHINE_READY)) {
-+        error_setg(errp, "The command is permitted only before machine is ready");
-         return;
+     driver = qdict_get_try_str(opts, "driver");
+     if (!driver) {
+@@ -660,7 +661,7 @@ DeviceState *qdev_device_add_from_qdict(const QDict *opts,
+         return NULL;
      }
-     phase_until(PHASE_MACHINE_READY, errp);
-@@ -2759,7 +2759,17 @@ bool phase_until(MachineInitPhase phase, Error **errp)
-         case PHASE_ACCEL_CREATED:
-             qemu_init_board();
-             /* We are now in PHASE_MACHINE_INITIALIZED. */
-+            /*
-+             * Handle CLI devices now in order leave the function in a state
-+             * where we can cold plug devices with QMP. The following call
-+             * handles the CLI options:
-+             * + -fw_cfg (has side effects on device cold plug)
-+             * + -device
-+             */
-             qemu_create_cli_devices();
-+            break;
-+
-+        case PHASE_MACHINE_INITIALIZED:
-             /*
-              * At this point all CLI options are handled apart:
-              * + -S (autostart)
+ 
+-    if (phase_check(PHASE_MACHINE_READY) && bus && !qbus_is_hotpluggable(bus)) {
++    if (is_hotplug && bus && !qbus_is_hotpluggable(bus)) {
+         error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
+         return NULL;
+     }
+@@ -674,7 +675,7 @@ DeviceState *qdev_device_add_from_qdict(const QDict *opts,
+     dev = qdev_new(driver);
+ 
+     /* Check whether the hotplug is allowed by the machine */
+-    if (phase_check(PHASE_MACHINE_READY)) {
++    if (is_hotplug) {
+         if (!qdev_hotplug_allowed(dev, errp)) {
+             goto err_del_dev;
+         }
 -- 
 2.35.1
 
