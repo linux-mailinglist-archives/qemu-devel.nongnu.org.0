@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1439E4C0CC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 07:50:11 +0100 (CET)
-Received: from localhost ([::1]:48188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9274C0CCD
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 07:53:48 +0100 (CET)
+Received: from localhost ([::1]:50806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMlTV-0001G9-KX
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 01:50:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44836)
+	id 1nMlX0-00038r-1Z
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 01:53:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMlKe-0007YD-7j
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 01:41:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23987)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMlKY-0003Ry-Ry
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 01:40:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645598450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nU3SgC3ZFOA8lTaFLv90S+Qn32vTOHBc0cbhCPW9CH4=;
- b=eBj6411+CVGFbUagDeY/UI3aIz8GC5ahAYKEc00gq97yWKtillrnqGS9k79L1IuCmuprHc
- 1dbqBC9uISDh3yKQ18xiMG5FbZIfRESm5qX36k9corSpHEi5Cz1yCu8xU2wcu2ovr5yUlX
- lO4HcHn7wxFam0Go1Hjaq/tmU5FJQK8=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-343-Mgv8BYspPDW5dXfuYdb9dA-1; Wed, 23 Feb 2022 01:40:48 -0500
-X-MC-Unique: Mgv8BYspPDW5dXfuYdb9dA-1
-Received: by mail-pg1-f200.google.com with SMTP id
- k13-20020a65434d000000b00342d8eb46b4so12686333pgq.23
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 22:40:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nMlNz-0000Hk-J5
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 01:44:27 -0500
+Received: from [2a00:1450:4864:20::431] (port=33735
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1nMlNv-00040F-6o
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 01:44:26 -0500
+Received: by mail-wr1-x431.google.com with SMTP id j17so11221388wrc.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 22:44:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HpQ6Uq/fRTVdqVXz+QpJO36cY9eJmY/BvWw+xYmzHMs=;
+ b=HOi57t2nu1a2RfYGlLua0iIw4Jjrn9HpR219LI7GLbNenhlSPsXpDRQKCYGMBIHrzq
+ PPmRAYj211QMfWxke3Yw/641W06SAc0aqM6dwuenmFtfEv7UZS/B0fM+UginbXyW+YrQ
+ BRiJAfhCp4Lp+UDARUjGhU9zrp5DiGMIUwemQ7DSIf4FiDiJfR9YcP1fhrF3pvQOFw2L
+ Mo3u4/yRBmVzEC3Fbg1md4DIg/QVBdeuCblKh6b676FB+4qB0B3pxkttdxDUxQmsd8bb
+ E102mLU4jzeoWe/gLZJuKTk1IPthKfyK7fDiMkG82DGTNqvx3gXUIPISkw2efzbTvj/V
+ FwlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nU3SgC3ZFOA8lTaFLv90S+Qn32vTOHBc0cbhCPW9CH4=;
- b=G/Boz3VLEvvTrKVw3x5xHDe5k4dpuTs9ruLWR4PqdJyyug50A/ePtQg8y6OUdfnBfU
- hngj6DD1aFuEb4uhCwiekZAEjY/dbAY+b8CnaQkvY50j5FS7LRcGC1RHluGJMulykwYN
- KcdvHXMEth3nKJ0GvmYOzuObqLXHOpGe1pRE5SacVUy2B46Sw/WKJ1RQFyHYnSTDFSdd
- IWw2blpbkyRtCYK+WLYWbk2ZtLRKfuO35LIAJe6GFpd4WuOdolu3jdG150i2A69aBurA
- OPTQsMVDz5Kn9TjFiOyaJFKGm5tTYNFZS3RTuuqBtEKjJAoEo9SslmxRcyGhMRTZT/fK
- LBJA==
-X-Gm-Message-State: AOAM531FKYbxELS+DC4ZsOGNPPXkgZlaj8xV3noVys3GD5+I3tJW3JTz
- LFL7JhZPWC/Vxp7OFWMv3aqMK9fWGJIYmaP/ms2OouJsAuWudGDr8yRDJuH+tq1RTplJWSpV30E
- 4jEPTydRV8jBuKps=
-X-Received: by 2002:a05:6a00:b51:b0:4c7:c1a3:3911 with SMTP id
- p17-20020a056a000b5100b004c7c1a33911mr28287057pfo.13.1645598447734; 
- Tue, 22 Feb 2022 22:40:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy7LhCsF5mUd/+uyO0Jr+UYPb8aFB90IDIfxIaoiTxBfKUwT8yOlzS4NcJFCdf/wV7w7vWHhw==
-X-Received: by 2002:a05:6a00:b51:b0:4c7:c1a3:3911 with SMTP id
- p17-20020a056a000b5100b004c7c1a33911mr28287042pfo.13.1645598447454; 
- Tue, 22 Feb 2022 22:40:47 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.100])
- by smtp.gmail.com with ESMTPSA id 14sm17265792pgd.2.2022.02.22.22.40.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 22:40:47 -0800 (PST)
-Date: Wed, 23 Feb 2022 14:40:42 +0800
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 13/20] migration: Move channel setup out of
- postcopy_try_recover()
-Message-ID: <YhXW6t4pfmhAJyZS@xz-m1.local>
-References: <20220216062809.57179-1-peterx@redhat.com>
- <20220216062809.57179-14-peterx@redhat.com>
- <YhTBnqF7Z2DLsjhY@work-vm>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HpQ6Uq/fRTVdqVXz+QpJO36cY9eJmY/BvWw+xYmzHMs=;
+ b=WpQ/XmdVW8Wx9Er3sLg/NgDPU81siGjIf30UhaYZ/7nl5TQnPXG/Ud6Wo9l+aQiwzy
+ 2a/LeKa226w4iv+QNrS/kAOpWtlGQgcpEsNRmTLHQE1fij9ZDU4jHHyuO3GVmv7U84Yq
+ g1SJJiDNxGFjNMxRMbQWzy6BvlDn4Ce9b5E4qUyfPAYen8Xz5asu1dh+zzukX0YscmXf
+ zyZM83rWv6VQjy/ppHFJzSrBagDJ/kYsHjTrf0tKj1Exh36UpwFQccrO/oFLYQ+yys3t
+ pW0P0SYdQ5vUDP30KwYuWG1333yCPO1HShaVWBxOu4D7OHLt3u3OgltuIezyevYWeZsb
+ 74PQ==
+X-Gm-Message-State: AOAM5339DtaLdJDZgaIXkhXkWT4OHVbS4+dxzyGKRvkCLK/Pn4Om3xIY
+ pqS0nD4d/N74ig9/i5Q3iXNkT06ErfPHejiarKHJLA==
+X-Google-Smtp-Source: ABdhPJz9KtJ5xNzftce4Bvy2YNTMON+d3essYwuoGw2X2XbCe8esYCcDIMpdlBp4vLmt/l/aiJwAbLxcizYJzWKn3dw=
+X-Received: by 2002:a05:6000:11c5:b0:1ed:9e98:20b0 with SMTP id
+ i5-20020a05600011c500b001ed9e9820b0mr2337563wrx.214.1645598658064; Tue, 22
+ Feb 2022 22:44:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YhTBnqF7Z2DLsjhY@work-vm>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220222223830.2319856-1-atishp@rivosinc.com>
+In-Reply-To: <20220222223830.2319856-1-atishp@rivosinc.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Wed, 23 Feb 2022 12:14:05 +0530
+Message-ID: <CAAhSdy0rW-UGUaeTcMYLjLn-197stWbNiF8xAh9WusSzVhjXOw@mail.gmail.com>
+Subject: Re: [PATCH v3] target/riscv: Add isa extenstion strings to the device
+ tree
+To: Atish Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::431;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,83 +82,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stubner <heiko@sntech.de>,
+ Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 22, 2022 at 10:57:34AM +0000, Dr. David Alan Gilbert wrote:
-> * Peter Xu (peterx@redhat.com) wrote:
-> > We used to use postcopy_try_recover() to replace migration_incoming_setup() to
-> > setup incoming channels.  That's fine for the old world, but in the new world
-> > there can be more than one channels that need setup.  Better move the channel
-> > setup out of it so that postcopy_try_recover() only handles the last phase of
-> > switching to the recovery phase.
-> > 
-> > To do that in migration_fd_process_incoming(), move the postcopy_try_recover()
-> > call to be after migration_incoming_setup(), which will setup the channels.
-> > While in migration_ioc_process_incoming(), postpone the recover() routine right
-> > before we'll jump into migration_incoming_process().
-> > 
-> > A side benefit is we don't need to pass in QEMUFile* to postcopy_try_recover()
-> > anymore.  Remove it.
-> > 
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> 
-> OK, but note one question below:
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On Wed, Feb 23, 2022 at 4:09 AM Atish Patra <atishp@rivosinc.com> wrote:
+>
+> The Linux kernel parses the ISA extensions from "riscv,isa" DT
+> property. It used to parse only the single letter base extensions
+> until now. A generic ISA extension parsing framework was proposed[1]
+> recently that can parse multi-letter ISA extensions as well.
+>
+> Generate the extended ISA string by appending  the available ISA extensions
+> to the "riscv,isa" string if it is enabled so that kernel can process it.
+>
+> [1] https://lkml.org/lkml/2022/2/15/263
+>
+> Suggested-by: Heiko Stubner <heiko@sntech.de>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
 
-Thanks.
+Looks good to me.
 
-> 
-> > ---
-> >  migration/migration.c | 23 +++++++++++------------
-> >  1 file changed, 11 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index 67520d3105..b2e6446457 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -665,19 +665,20 @@ void migration_incoming_process(void)
-> >  }
-> >  
-> >  /* Returns true if recovered from a paused migration, otherwise false */
-> > -static bool postcopy_try_recover(QEMUFile *f)
-> > +static bool postcopy_try_recover(void)
-> >  {
-> >      MigrationIncomingState *mis = migration_incoming_get_current();
-> >  
-> >      if (mis->state == MIGRATION_STATUS_POSTCOPY_PAUSED) {
-> >          /* Resumed from a paused postcopy migration */
-> >  
-> > -        mis->from_src_file = f;
-> > +        /* This should be set already in migration_incoming_setup() */
-> > +        assert(mis->from_src_file);
-> >          /* Postcopy has standalone thread to do vm load */
-> > -        qemu_file_set_blocking(f, true);
-> > +        qemu_file_set_blocking(mis->from_src_file, true);
-> 
-> Does that set_blocking happen on the 2nd channel somewhere?
+Reviewed-by: Anup Patel <anup@brainfault.org>
 
-Nop.  I think the rational is that by default all channels are blocking.
+Regards,
+Anup
 
-Then what happened is: migration code only sets the main channel to
-non-blocking on incoming, that's in migration_incoming_setup().  Hence for
-postcopy recovery we need to tweak it to blocking here.
-
-The 2nd new channel is not operated by migration_incoming_setup(), but by
-postcopy_preempt_new_channel(), so it keeps the original blocking state,
-which should be blocking.
-
-If we want to make that clear, we can proactively set non-blocking too in
-postcopy_preempt_new_channel() on the 2nd channel.  It's just that it
-should be optional as long as blocking is the default for any new fd of a
-socket.
-
-Thanks,
-
--- 
-Peter Xu
-
+> ---
+> Changes from v2->v3:
+> 1. Used g_strconcat to replace snprintf & a max isa string length as
+> suggested by Anup.
+> 2. I have not included the Tested-by Tag from Heiko because the
+> implementation changed from v2 to v3.
+>
+> Changes from v1->v2:
+> 1. Improved the code redability by using arrays instead of individual check
+> ---
+>  target/riscv/cpu.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index b0a40b83e7a8..2c7ff6ef555a 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -34,6 +34,12 @@
+>
+>  /* RISC-V CPU definitions */
+>
+> +/* This includes the null terminated character '\0' */
+> +struct isa_ext_data {
+> +        const char *name;
+> +        bool enabled;
+> +};
+> +
+>  static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
+>
+>  const char * const riscv_int_regnames[] = {
+> @@ -881,6 +887,28 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+>      device_class_set_props(dc, riscv_cpu_properties);
+>  }
+>
+> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+> +{
+> +    char *old = *isa_str;
+> +    char *new = *isa_str;
+> +    int i;
+> +    struct isa_ext_data isa_edata_arr[] = {
+> +        { "svpbmt", cpu->cfg.ext_svpbmt   },
+> +        { "svinval", cpu->cfg.ext_svinval },
+> +        { "svnapot", cpu->cfg.ext_svnapot },
+> +    };
+> +
+> +    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+> +        if (isa_edata_arr[i].enabled) {
+> +            new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+> +            g_free(old);
+> +            old = new;
+> +        }
+> +    }
+> +
+> +    *isa_str = new;
+> +}
+> +
+>  char *riscv_isa_string(RISCVCPU *cpu)
+>  {
+>      int i;
+> @@ -893,6 +921,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
+>          }
+>      }
+>      *p = '\0';
+> +    riscv_isa_string_ext(cpu, &isa_str, maxlen);
+>      return isa_str;
+>  }
+>
+> --
+> 2.30.2
+>
+>
 
