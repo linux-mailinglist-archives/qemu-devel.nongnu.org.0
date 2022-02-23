@@ -2,80 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33214C06E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 02:30:34 +0100 (CET)
-Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47C34C0794
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 03:06:28 +0100 (CET)
+Received: from localhost ([::1]:46086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMgUD-0004Q9-HZ
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 20:30:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38054)
+	id 1nMh2x-0005Ll-GI
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 21:06:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nMgSI-0003K5-Pa
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 20:28:36 -0500
-Received: from [2607:f8b0:4864:20::932] (port=35546
- helo=mail-ua1-x932.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nMgSF-0004hp-9z
- for qemu-devel@nongnu.org; Tue, 22 Feb 2022 20:28:34 -0500
-Received: by mail-ua1-x932.google.com with SMTP id k5so696525uao.2
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 17:28:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W5ezsdS0pLZ4SGO0Mgn7JeEjqq51cR5iAp6s1yIj4cA=;
- b=hX0s90jTMm/9d9MQkQUOm2R8cUz/1ZU8v71CNlfBSIwz7XZ4J63dGhie1cMAkJzYJz
- OpoDTJxHxkDBP4tBdQ7G9NaqD0ajCYxVh1Ct5um5YYpIm5DUULe/S7fq3VzX4YJR7+ie
- mrELEXkqCSOfznYf0X18cYBYcqvv6ylkLbFneOfSxkw/68C/t0G2QfuDHKkJvFkagTns
- 3R8Le/lOJsIDUK4FO4RXj5SF1ikbAgSp3xPv5f9yCtUSeoElh0rSxAvrfKBzpzdEQ8LQ
- LUgOadhnS+IRn3wuDe5tlQxvMrsZzTfj2W7942G5SA+IaYICbmkVHTCXPqUe2hhVHirn
- PzEA==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nMh0u-0004TR-VV
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 21:04:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20252)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nMh0m-0001jb-11
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 21:04:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645581850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qKehpGX8N3Zv2mECHng3CbLXmSkX7YEgc+QoYwmB+x0=;
+ b=JXMIfliwT5bRj4pZN4rJNs9Pc4zJlrj531TEXiOsAHvKKKR2zIQtFCdIPNPEVWOlrfe/Tx
+ LjloDin6MMH5WZEngqDm5fMAxxM/vVrnTTPTOXeqzY9c7cmbUB0sGh621dAg1HfzwopEL/
+ bk/xExETd+VEtbs/YSR2u3ckgppYsBc=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-199-ZT8NIPuLPIq4m3iil95hBA-1; Tue, 22 Feb 2022 21:04:06 -0500
+X-MC-Unique: ZT8NIPuLPIq4m3iil95hBA-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ 20-20020a2e0914000000b0024635d136ddso4800882ljj.22
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 18:04:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W5ezsdS0pLZ4SGO0Mgn7JeEjqq51cR5iAp6s1yIj4cA=;
- b=5G7LyRKA2Fsceh00GAMpAd8PE/AyawY25lFVz8MB5cwdnLQn9V8galeNQjt1klF9ML
- XnP4JUsi085coZM0tQWhuYEQOmqwBCUOLuVajd2+Da1o3+XbW57vJmTar3PP+1UYKhRM
- qXNSxdFu17GesKZvWRIJBnvD1gDVIABRXH7uFiQXEAlJYBrEdK1eyR4PGzKEFd+i97ZM
- jR8L0CdiO04W2fBJsthLjSmvIXQDz8Up8R0t2mdLF8wBjpUajRwky8a3n0zuwe2Wp0TX
- DmK+W9uo18DFykXOmEp3Yxnd0oaKVTnJ9yZIBYnL3b7FJum4sXv3+yC55YHwhX4DBC9V
- 5RhA==
-X-Gm-Message-State: AOAM533IlsG+ArGQJZZFnOk5bagfpJ/H/I+Afo2yfyb3f3dp7MQBuQZF
- qgGJRCphKaEhOySYndQwHCsnV6jttxsY359m/miZNw==
-X-Google-Smtp-Source: ABdhPJwXj6+1Rlp/y0wAezErDdLn4WN/HBsmBCNC7SFfi5GV5uUfn5CDHTcZuzkm7ISfgrYluxLc/ZwQT+t5P58lkik=
-X-Received: by 2002:ab0:3343:0:b0:33c:defc:82b0 with SMTP id
- h3-20020ab03343000000b0033cdefc82b0mr10520560uap.46.1645579708948; Tue, 22
- Feb 2022 17:28:28 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qKehpGX8N3Zv2mECHng3CbLXmSkX7YEgc+QoYwmB+x0=;
+ b=idFmXeqW5IT80JAnrcqIMzIaydJUyBzOycESF/oR4/7RsNB4pq/65wR8f9oGVHgGGm
+ ze//8uM4zh6kjpW2m68MHadeIO6Vh7PEVOk1XNSxdBBpq1OhsiDE2+SikoH9/LrFBSGs
+ kLlcVdeaVCDSn2KnixY0bWXYeLrzu7jp1ngkKy6NUqmXbdqO2PlcEDh7SMTIaqlnvJco
+ UIe0YU14/6dFDO7BqzowjLPyD5WAQr2GgftMtyQAdyTnR6VlrPk1okpYY6rkMXrkC78X
+ F4jAJMok8kQ4S86G+pF+mNUaF9Se2DimEtnPCKhZsf7OIvu+8Lv161Igb/+r/PoXoxzU
+ o81A==
+X-Gm-Message-State: AOAM531UvqaTmpBmmzZ+2PUdN4rRtqzYDRUBMz/nOonABRC+OnhwM/Bp
+ ZinvU64qFlX+/eKHaw2fjp5bizMeM2eAejscbDAtz3Ht0/uJazXnzdLkveU8zM2EqtHXokgv3bb
+ dtnHGCed+8lH6FplsPruMZNcemE7h4u8=
+X-Received: by 2002:a05:651c:982:b0:244:c35d:b1ef with SMTP id
+ b2-20020a05651c098200b00244c35db1efmr19548032ljq.243.1645581842933; 
+ Tue, 22 Feb 2022 18:04:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxbc0Hi1KK6AAjiWX4JAIIKqQVmpzwKozIPTs/mQQS1xZEoI5AqJfUM9Tlf6lTc/TpxuE6Ym9mtKLfWE19dXXA=
+X-Received: by 2002:a05:651c:982:b0:244:c35d:b1ef with SMTP id
+ b2-20020a05651c098200b00244c35db1efmr19547989ljq.243.1645581842379; Tue, 22
+ Feb 2022 18:04:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20220208181843.4003568-1-venture@google.com>
- <CAFEAcA8m2yhtih_+XCOJPUzAwtLuF2exF+vaa1woC7bYoryVXA@mail.gmail.com>
- <CAFEAcA_zfd=5bSMKwVbSk0LStcWcYxFosazhiGz0nb2z=upSHQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_zfd=5bSMKwVbSk0LStcWcYxFosazhiGz0nb2z=upSHQ@mail.gmail.com>
-From: Patrick Venture <venture@google.com>
-Date: Tue, 22 Feb 2022 17:28:18 -0800
-Message-ID: <CAO=notx69LpfY2uHUaPeFSrRyNkoiATZ6-JQQrATT8jXGEfQWw@mail.gmail.com>
-Subject: Re: [PATCH v3] tests/qtest: add qtests for npcm7xx sdhci
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>, 
- qemu-arm <qemu-arm@nongnu.org>, Shengtan Mao <stmao@google.com>,
- Hao Wu <wuhaotsh@google.com>, Chris Rauer <crauer@google.com>
-Content-Type: multipart/alternative; boundary="00000000000000d10f05d8a562e8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::932
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::932;
- envelope-from=venture@google.com; helo=mail-ua1-x932.google.com
-X-Spam_score_int: -161
-X-Spam_score: -16.2
-X-Spam_bar: ----------------
-X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+References: <20220121202733.404989-1-eperezma@redhat.com>
+ <20220121202733.404989-19-eperezma@redhat.com>
+ <6c98f4e8-8695-ab83-ae37-2d6293a1fafa@redhat.com>
+ <CAJaqyWdDax2+e3ZUEYyYNe5xAL=Oocu+72n89ygayrzYrQz2Yw@mail.gmail.com>
+ <75e2fd97-1e34-2b1a-cca4-ceb1aa440479@redhat.com>
+ <CAJaqyWfRWexq7jrCkJrPzLB4g_fK42pE8BarMhZwKNYtNXi7XA@mail.gmail.com>
+In-Reply-To: <CAJaqyWfRWexq7jrCkJrPzLB4g_fK42pE8BarMhZwKNYtNXi7XA@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 23 Feb 2022 10:03:51 +0800
+Message-ID: <CACGkMEu02W72VEMCGp9CO=4binjZ6QAoxLf83k_CZWDYi+sc6w@mail.gmail.com>
+Subject: Re: [PATCH 18/31] vhost: Shadow virtqueue buffers forwarding
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,119 +99,863 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Peter Xu <peterx@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eric Blake <eblake@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000000d10f05d8a562e8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+On Wed, Feb 23, 2022 at 3:01 AM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Tue, Feb 8, 2022 at 9:11 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > =E5=9C=A8 2022/2/2 =E4=B8=8A=E5=8D=881:08, Eugenio Perez Martin =E5=86=
+=99=E9=81=93:
+> > > On Sun, Jan 30, 2022 at 5:43 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> > >>
+> > >> =E5=9C=A8 2022/1/22 =E4=B8=8A=E5=8D=884:27, Eugenio P=C3=A9rez =E5=
+=86=99=E9=81=93:
+> > >>> Initial version of shadow virtqueue that actually forward buffers. =
+There
+> > >>> is no iommu support at the moment, and that will be addressed in fu=
+ture
+> > >>> patches of this series. Since all vhost-vdpa devices use forced IOM=
+MU,
+> > >>> this means that SVQ is not usable at this point of the series on an=
+y
+> > >>> device.
+> > >>>
+> > >>> For simplicity it only supports modern devices, that expects vring
+> > >>> in little endian, with split ring and no event idx or indirect
+> > >>> descriptors. Support for them will not be added in this series.
+> > >>>
+> > >>> It reuses the VirtQueue code for the device part. The driver part i=
+s
+> > >>> based on Linux's virtio_ring driver, but with stripped functionalit=
+y
+> > >>> and optimizations so it's easier to review.
+> > >>>
+> > >>> However, forwarding buffers have some particular pieces: One of the=
+ most
+> > >>> unexpected ones is that a guest's buffer can expand through more th=
+an
+> > >>> one descriptor in SVQ. While this is handled gracefully by qemu's
+> > >>> emulated virtio devices, it may cause unexpected SVQ queue full. Th=
+is
+> > >>> patch also solves it by checking for this condition at both guest's
+> > >>> kicks and device's calls. The code may be more elegant in the futur=
+e if
+> > >>> SVQ code runs in its own iocontext.
+> > >>>
+> > >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >>> ---
+> > >>>    hw/virtio/vhost-shadow-virtqueue.h |   2 +
+> > >>>    hw/virtio/vhost-shadow-virtqueue.c | 365 +++++++++++++++++++++++=
++++++-
+> > >>>    hw/virtio/vhost-vdpa.c             | 111 ++++++++-
+> > >>>    3 files changed, 462 insertions(+), 16 deletions(-)
+> > >>>
+> > >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-s=
+hadow-virtqueue.h
+> > >>> index 39aef5ffdf..19c934af49 100644
+> > >>> --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > >>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > >>> @@ -33,6 +33,8 @@ uint16_t vhost_svq_get_num(const VhostShadowVirtq=
+ueue *svq);
+> > >>>    size_t vhost_svq_driver_area_size(const VhostShadowVirtqueue *sv=
+q);
+> > >>>    size_t vhost_svq_device_area_size(const VhostShadowVirtqueue *sv=
+q);
+> > >>>
+> > >>> +void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev=
+,
+> > >>> +                     VirtQueue *vq);
+> > >>>    void vhost_svq_stop(VhostShadowVirtqueue *svq);
+> > >>>
+> > >>>    VhostShadowVirtqueue *vhost_svq_new(uint16_t qsize);
+> > >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-s=
+hadow-virtqueue.c
+> > >>> index 7c168075d7..a1a404f68f 100644
+> > >>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > >>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > >>> @@ -9,6 +9,8 @@
+> > >>>
+> > >>>    #include "qemu/osdep.h"
+> > >>>    #include "hw/virtio/vhost-shadow-virtqueue.h"
+> > >>> +#include "hw/virtio/vhost.h"
+> > >>> +#include "hw/virtio/virtio-access.h"
+> > >>>    #include "standard-headers/linux/vhost_types.h"
+> > >>>
+> > >>>    #include "qemu/error-report.h"
+> > >>> @@ -36,6 +38,33 @@ typedef struct VhostShadowVirtqueue {
+> > >>>
+> > >>>        /* Guest's call notifier, where SVQ calls guest. */
+> > >>>        EventNotifier svq_call;
+> > >>> +
+> > >>> +    /* Virtio queue shadowing */
+> > >>> +    VirtQueue *vq;
+> > >>> +
+> > >>> +    /* Virtio device */
+> > >>> +    VirtIODevice *vdev;
+> > >>> +
+> > >>> +    /* Map for returning guest's descriptors */
+> > >>> +    VirtQueueElement **ring_id_maps;
+> > >>> +
+> > >>> +    /* Next VirtQueue element that guest made available */
+> > >>> +    VirtQueueElement *next_guest_avail_elem;
+> > >>> +
+> > >>> +    /* Next head to expose to device */
+> > >>> +    uint16_t avail_idx_shadow;
+> > >>> +
+> > >>> +    /* Next free descriptor */
+> > >>> +    uint16_t free_head;
+> > >>> +
+> > >>> +    /* Last seen used idx */
+> > >>> +    uint16_t shadow_used_idx;
+> > >>> +
+> > >>> +    /* Next head to consume from device */
+> > >>> +    uint16_t last_used_idx;
+> > >>> +
+> > >>> +    /* Cache for the exposed notification flag */
+> > >>> +    bool notification;
+> > >>>    } VhostShadowVirtqueue;
+> > >>>
+> > >>>    #define INVALID_SVQ_KICK_FD -1
+> > >>> @@ -148,30 +177,294 @@ bool vhost_svq_ack_guest_features(uint64_t d=
+ev_features,
+> > >>>        return true;
+> > >>>    }
+> > >>>
+> > >>> -/* Forward guest notifications */
+> > >>> -static void vhost_handle_guest_kick(EventNotifier *n)
+> > >>> +/**
+> > >>> + * Number of descriptors that SVQ can make available from the gues=
+t.
+> > >>> + *
+> > >>> + * @svq   The svq
+> > >>> + */
+> > >>> +static uint16_t vhost_svq_available_slots(const VhostShadowVirtque=
+ue *svq)
+> > >>>    {
+> > >>> -    VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtq=
+ueue,
+> > >>> -                                             svq_kick);
+> > >>> +    return svq->vring.num - (svq->avail_idx_shadow - svq->shadow_u=
+sed_idx);
+> > >>> +}
+> > >>> +
+> > >>> +static void vhost_svq_set_notification(VhostShadowVirtqueue *svq, =
+bool enable)
+> > >>> +{
+> > >>> +    uint16_t notification_flag;
+> > >>>
+> > >>> -    if (unlikely(!event_notifier_test_and_clear(n))) {
+> > >>> +    if (svq->notification =3D=3D enable) {
+> > >>> +        return;
+> > >>> +    }
+> > >>> +
+> > >>> +    notification_flag =3D cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+> > >>> +
+> > >>> +    svq->notification =3D enable;
+> > >>> +    if (enable) {
+> > >>> +        svq->vring.avail->flags &=3D ~notification_flag;
+> > >>> +    } else {
+> > >>> +        svq->vring.avail->flags |=3D notification_flag;
+> > >>> +    }
+> > >>> +}
+> > >>> +
+> > >>> +static void vhost_vring_write_descs(VhostShadowVirtqueue *svq,
+> > >>> +                                    const struct iovec *iovec,
+> > >>> +                                    size_t num, bool more_descs, b=
+ool write)
+> > >>> +{
+> > >>> +    uint16_t i =3D svq->free_head, last =3D svq->free_head;
+> > >>> +    unsigned n;
+> > >>> +    uint16_t flags =3D write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0=
+;
+> > >>> +    vring_desc_t *descs =3D svq->vring.desc;
+> > >>> +
+> > >>> +    if (num =3D=3D 0) {
+> > >>> +        return;
+> > >>> +    }
+> > >>> +
+> > >>> +    for (n =3D 0; n < num; n++) {
+> > >>> +        if (more_descs || (n + 1 < num)) {
+> > >>> +            descs[i].flags =3D flags | cpu_to_le16(VRING_DESC_F_NE=
+XT);
+> > >>> +        } else {
+> > >>> +            descs[i].flags =3D flags;
+> > >>> +        }
+> > >>> +        descs[i].addr =3D cpu_to_le64((hwaddr)iovec[n].iov_base);
+> > >>> +        descs[i].len =3D cpu_to_le32(iovec[n].iov_len);
+> > >>> +
+> > >>> +        last =3D i;
+> > >>> +        i =3D cpu_to_le16(descs[i].next);
+> > >>> +    }
+> > >>> +
+> > >>> +    svq->free_head =3D le16_to_cpu(descs[last].next);
+> > >>> +}
+> > >>> +
+> > >>> +static unsigned vhost_svq_add_split(VhostShadowVirtqueue *svq,
+> > >>> +                                    VirtQueueElement *elem)
+> > >>> +{
+> > >>> +    int head;
+> > >>> +    unsigned avail_idx;
+> > >>> +    vring_avail_t *avail =3D svq->vring.avail;
+> > >>> +
+> > >>> +    head =3D svq->free_head;
+> > >>> +
+> > >>> +    /* We need some descriptors here */
+> > >>> +    assert(elem->out_num || elem->in_num);
+> > >>
+> > >> Looks like this could be triggered by guest, we need fail instead as=
+sert
+> > >> here.
+> > >>
+> > > My understanding was that virtqueue_pop already sanitized that case,
+> > > but I'm not able to find where now. I will recheck and, in case it's
+> > > not, I will move to a failure.
+> > >
+> > >>> +
+> > >>> +    vhost_vring_write_descs(svq, elem->out_sg, elem->out_num,
+> > >>> +                            elem->in_num > 0, false);
+> > >>> +    vhost_vring_write_descs(svq, elem->in_sg, elem->in_num, false,=
+ true);
+> > >>> +
+> > >>> +    /*
+> > >>> +     * Put entry in available array (but don't update avail->idx u=
+ntil they
+> > >>> +     * do sync).
+> > >>> +     */
+> > >>> +    avail_idx =3D svq->avail_idx_shadow & (svq->vring.num - 1);
+> > >>> +    avail->ring[avail_idx] =3D cpu_to_le16(head);
+> > >>> +    svq->avail_idx_shadow++;
+> > >>> +
+> > >>> +    /* Update avail index after the descriptor is wrote */
+> > >>> +    smp_wmb();
+> > >>> +    avail->idx =3D cpu_to_le16(svq->avail_idx_shadow);
+> > >>> +
+> > >>> +    return head;
+> > >>> +}
+> > >>> +
+> > >>> +static void vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElem=
+ent *elem)
+> > >>> +{
+> > >>> +    unsigned qemu_head =3D vhost_svq_add_split(svq, elem);
+> > >>> +
+> > >>> +    svq->ring_id_maps[qemu_head] =3D elem;
+> > >>> +}
+> > >>> +
+> > >>> +static void vhost_svq_kick(VhostShadowVirtqueue *svq)
+> > >>> +{
+> > >>> +    /* We need to expose available array entries before checking u=
+sed flags */
+> > >>> +    smp_mb();
+> > >>> +    if (svq->vring.used->flags & VRING_USED_F_NO_NOTIFY) {
+> > >>>            return;
+> > >>>        }
+> > >>>
+> > >>>        event_notifier_set(&svq->hdev_kick);
+> > >>>    }
+> > >>>
+> > >>> -/* Forward vhost notifications */
+> > >>> +/**
+> > >>> + * Forward available buffers.
+> > >>> + *
+> > >>> + * @svq Shadow VirtQueue
+> > >>> + *
+> > >>> + * Note that this function does not guarantee that all guest's ava=
+ilable
+> > >>> + * buffers are available to the device in SVQ avail ring. The gues=
+t may have
+> > >>> + * exposed a GPA / GIOVA congiuous buffer, but it may not be conti=
+guous in qemu
+> > >>> + * vaddr.
+> > >>> + *
+> > >>> + * If that happens, guest's kick notifications will be disabled un=
+til device
+> > >>> + * makes some buffers used.
+> > >>> + */
+> > >>> +static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
+> > >>> +{
+> > >>> +    /* Clear event notifier */
+> > >>> +    event_notifier_test_and_clear(&svq->svq_kick);
+> > >>> +
+> > >>> +    /* Make available as many buffers as possible */
+> > >>> +    do {
+> > >>> +        if (virtio_queue_get_notification(svq->vq)) {
+> > >>> +            virtio_queue_set_notification(svq->vq, false);
+> > >>
+> > >> This looks like an optimization the should belong to
+> > >> virtio_queue_set_notification() itself.
+> > >>
+> > > Sure we can move.
+> > >
+> > >>> +        }
+> > >>> +
+> > >>> +        while (true) {
+> > >>> +            VirtQueueElement *elem;
+> > >>> +
+> > >>> +            if (svq->next_guest_avail_elem) {
+> > >>> +                elem =3D g_steal_pointer(&svq->next_guest_avail_el=
+em);
+> > >>> +            } else {
+> > >>> +                elem =3D virtqueue_pop(svq->vq, sizeof(*elem));
+> > >>> +            }
+> > >>> +
+> > >>> +            if (!elem) {
+> > >>> +                break;
+> > >>> +            }
+> > >>> +
+> > >>> +            if (elem->out_num + elem->in_num >
+> > >>> +                vhost_svq_available_slots(svq)) {
+> > >>> +                /*
+> > >>> +                 * This condition is possible since a contiguous b=
+uffer in GPA
+> > >>> +                 * does not imply a contiguous buffer in qemu's VA
+> > >>> +                 * scatter-gather segments. If that happen, the bu=
+ffer exposed
+> > >>> +                 * to the device needs to be a chain of descriptor=
+s at this
+> > >>> +                 * moment.
+> > >>> +                 *
+> > >>> +                 * SVQ cannot hold more available buffers if we ar=
+e here:
+> > >>> +                 * queue the current guest descriptor and ignore f=
+urther kicks
+> > >>> +                 * until some elements are used.
+> > >>> +                 */
+> > >>> +                svq->next_guest_avail_elem =3D elem;
+> > >>> +                return;
+> > >>> +            }
+> > >>> +
+> > >>> +            vhost_svq_add(svq, elem);
+> > >>> +            vhost_svq_kick(svq);
+> > >>> +        }
+> > >>> +
+> > >>> +        virtio_queue_set_notification(svq->vq, true);
+> > >>> +    } while (!virtio_queue_empty(svq->vq));
+> > >>> +}
+> > >>> +
+> > >>> +/**
+> > >>> + * Handle guest's kick.
+> > >>> + *
+> > >>> + * @n guest kick event notifier, the one that guest set to notify =
+svq.
+> > >>> + */
+> > >>> +static void vhost_handle_guest_kick_notifier(EventNotifier *n)
+> > >>> +{
+> > >>> +    VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtq=
+ueue,
+> > >>> +                                             svq_kick);
+> > >>> +    vhost_handle_guest_kick(svq);
+> > >>> +}
+> > >>> +
+> > >>> +static bool vhost_svq_more_used(VhostShadowVirtqueue *svq)
+> > >>> +{
+> > >>> +    if (svq->last_used_idx !=3D svq->shadow_used_idx) {
+> > >>> +        return true;
+> > >>> +    }
+> > >>> +
+> > >>> +    svq->shadow_used_idx =3D cpu_to_le16(svq->vring.used->idx);
+> > >>> +
+> > >>> +    return svq->last_used_idx !=3D svq->shadow_used_idx;
+> > >>> +}
+> > >>> +
+> > >>> +static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *s=
+vq)
+> > >>> +{
+> > >>> +    vring_desc_t *descs =3D svq->vring.desc;
+> > >>> +    const vring_used_t *used =3D svq->vring.used;
+> > >>> +    vring_used_elem_t used_elem;
+> > >>> +    uint16_t last_used;
+> > >>> +
+> > >>> +    if (!vhost_svq_more_used(svq)) {
+> > >>> +        return NULL;
+> > >>> +    }
+> > >>> +
+> > >>> +    /* Only get used array entries after they have been exposed by=
+ dev */
+> > >>> +    smp_rmb();
+> > >>> +    last_used =3D svq->last_used_idx & (svq->vring.num - 1);
+> > >>> +    used_elem.id =3D le32_to_cpu(used->ring[last_used].id);
+> > >>> +    used_elem.len =3D le32_to_cpu(used->ring[last_used].len);
+> > >>> +
+> > >>> +    svq->last_used_idx++;
+> > >>> +    if (unlikely(used_elem.id >=3D svq->vring.num)) {
+> > >>> +        error_report("Device %s says index %u is used", svq->vdev-=
+>name,
+> > >>> +                     used_elem.id);
+> > >>> +        return NULL;
+> > >>> +    }
+> > >>> +
+> > >>> +    if (unlikely(!svq->ring_id_maps[used_elem.id])) {
+> > >>> +        error_report(
+> > >>> +            "Device %s says index %u is used, but it was not avail=
+able",
+> > >>> +            svq->vdev->name, used_elem.id);
+> > >>> +        return NULL;
+> > >>> +    }
+> > >>> +
+> > >>> +    descs[used_elem.id].next =3D svq->free_head;
+> > >>> +    svq->free_head =3D used_elem.id;
+> > >>> +
+> > >>> +    svq->ring_id_maps[used_elem.id]->len =3D used_elem.len;
+> > >>> +    return g_steal_pointer(&svq->ring_id_maps[used_elem.id]);
+> > >>> +}
+> > >>> +
+> > >>> +static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+> > >>> +                            bool check_for_avail_queue)
+> > >>> +{
+> > >>> +    VirtQueue *vq =3D svq->vq;
+> > >>> +
+> > >>> +    /* Make as many buffers as possible used. */
+> > >>> +    do {
+> > >>> +        unsigned i =3D 0;
+> > >>> +
+> > >>> +        vhost_svq_set_notification(svq, false);
+> > >>> +        while (true) {
+> > >>> +            g_autofree VirtQueueElement *elem =3D vhost_svq_get_bu=
+f(svq);
+> > >>> +            if (!elem) {
+> > >>> +                break;
+> > >>> +            }
+> > >>> +
+> > >>> +            if (unlikely(i >=3D svq->vring.num)) {
+> > >>> +                virtio_error(svq->vdev,
+> > >>> +                         "More than %u used buffers obtained in a =
+%u size SVQ",
+> > >>> +                         i, svq->vring.num);
+> > >>> +                virtqueue_fill(vq, elem, elem->len, i);
+> > >>> +                virtqueue_flush(vq, i);
+> > >>
+> > >> Let's simply use virtqueue_push() here?
+> > >>
+> > > virtqueue_push support to fill and flush only one element, instead of
+> > > batch. I'm fine with either but I think the less updates to the used
+> > > idx, the better.
+> >
+> >
+> > Fine.
+> >
+> >
+> > >
+> > >>> +                i =3D 0;
+> > >>
+> > >> Do we need to bail out here?
+> > >>
+> > > Yes I guess we can simply return.
+> > >
+> > >>> +            }
+> > >>> +            virtqueue_fill(vq, elem, elem->len, i++);
+> > >>> +        }
+> > >>> +
+> > >>> +        virtqueue_flush(vq, i);
+> > >>> +        event_notifier_set(&svq->svq_call);
+> > >>> +
+> > >>> +        if (check_for_avail_queue && svq->next_guest_avail_elem) {
+> > >>> +            /*
+> > >>> +             * Avail ring was full when vhost_svq_flush was called=
+, so it's a
+> > >>> +             * good moment to make more descriptors available if p=
+ossible
+> > >>> +             */
+> > >>> +            vhost_handle_guest_kick(svq);
+> > >>
+> > >> Is there better to have a similar check as vhost_handle_guest_kick()=
+ did?
+> > >>
+> > >>               if (elem->out_num + elem->in_num >
+> > >>                   vhost_svq_available_slots(svq)) {
+> > >>
+> > > It will be duplicated when we call vhost_handle_guest_kick, won't it?
+> >
+> >
+> > Right, I mis-read the code.
+> >
+> >
+> > >
+> > >>> +        }
+> > >>> +
+> > >>> +        vhost_svq_set_notification(svq, true);
+> > >>
+> > >> A mb() is needed here? Otherwise we may lost a call here (where
+> > >> vhost_svq_more_used() is run before vhost_svq_set_notification()).
+> > >>
+> > > I'm confused here then, I thought you said this is just a hint so
+> > > there was no need? [1]. I think the memory barrier is needed too.
+> >
+> >
+> > Yes, it's a hint but:
+> >
+> > 1) When we disable the notification, consider the notification disable
+> > is just a hint, device can still raise an interrupt, so the ordering is
+> > meaningless and a memory barrier is not necessary (the
+> > vhost_svq_set_notification(svq, false))
+> >
+> > 2) When we enable the notification, though it's a hint, the device can
+> > choose to implement it by enabling the interrupt, in this case, the
+> > notification enable should be done before checking the used. Otherwise,
+> > the checking of more used might be done before enable the notification:
+> >
+> > 1) driver check more used
+> > 2) device add more used but no notification
+> > 3) driver enable the notification then we lost a notification here
+> >
+>
+> That was my understanding too. So the right way is to only add the
+> memory barrier in case 2), when setting the flag, right?
 
-T24gTW9uLCBGZWIgMjEsIDIwMjIgYXQgNTozMCBBTSBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlk
-ZWxsQGxpbmFyby5vcmc+DQp3cm90ZToNCg0KPiBPbiBXZWQsIDE2IEZlYiAyMDIyIGF0IDE3OjMw
-LCBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+DQo+IHdyb3RlOg0KPiA+
-DQo+ID4gT24gVHVlLCA4IEZlYiAyMDIyIGF0IDE4OjE4LCBQYXRyaWNrIFZlbnR1cmUgPHZlbnR1
-cmVAZ29vZ2xlLmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gRnJvbTogU2hlbmd0YW4gTWFvIDxz
-dG1hb0Bnb29nbGUuY29tPg0KPiA+ID4NCj4gPiA+IFJldmlld2VkLWJ5OiBIYW8gV3UgPHd1aGFv
-dHNoQGdvb2dsZS5jb20+DQo+ID4gPiBSZXZpZXdlZC1ieTogQ2hyaXMgUmF1ZXIgPGNyYXVlckBn
-b29nbGUuY29tPg0KPiA+ID4gU2lnbmVkLW9mZi1ieTogU2hlbmd0YW4gTWFvIDxzdG1hb0Bnb29n
-bGUuY29tPg0KPiA+ID4gU2lnbmVkLW9mZi1ieTogUGF0cmljayBWZW50dXJlIDx2ZW50dXJlQGdv
-b2dsZS5jb20+DQo+ID4gPiAtLS0NCj4gPg0KPiA+DQo+ID4NCj4gPiBBcHBsaWVkIHRvIHRhcmdl
-dC1hcm0ubmV4dCwgdGhhbmtzLg0KPg0KPiBUaGlzIGhpdHMgYXNzZXJ0aW9ucyBpbiBzb21lIG9m
-IHRoZSBDSSBqb2JzLCBlZzoNCj4gaHR0cHM6Ly9naXRsYWIuY29tL3FlbXUtcHJvamVjdC9xZW11
-Ly0vam9icy8yMTE2OTMyNzY5DQo+DQo+IDI1OC83MTcgcWVtdTpxdGVzdCtxdGVzdC1hcm0gLyBx
-dGVzdC1hcm0vbnBjbTd4eF9zZGhjaS10ZXN0IElOVEVSUlVQVA0KPiA2NDMuMTZzIGtpbGxlZCBi
-eSBzaWduYWwgNiBTSUdBQlJUDQo+IOKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKA
-leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKA
-leKAleKAleKAleKAleKAleKAlSDinIANCj4g4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVDQo+IHN0ZGVycjoNCj4gKiogTWVzc2FnZTogMDY6MDY6
-NTAuMjA1OiAvdG1wL3NkaGNpX0Y3RVRIMQ0KPiAqKg0KPiBFUlJPUjouLi90ZXN0cy9xdGVzdC9u
-cGNtN3h4X3NkaGNpLXRlc3QuYzoxMDE6c2R3cml0ZV9yZWFkOiBhc3NlcnRpb24NCj4gZmFpbGVk
-OiAoIXN0cmNtcChybXNnLCBtc2cpKQ0KPg0KPiDigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJUNCj4gLi4udGVybWluYXRlZC4NCj4N
-Cj4gc28gSSd2ZSBkcm9wcGVkIGl0IGFnYWluLg0KPg0KDQpJJ20gc29ycnkgdG8gaGVhciB0aGF0
-LCBJJ2xsIGhhdmUgdG8gcGljayB1cCBzb21lIGN5Y2xlcyBpbiBhIHdlZWsgb3Igc28NCmFuZCBz
-ZWUgaWYgSSBjYW4gcmVwcm9kdWNlIHRoZSBpc3N1ZS4NCg0KDQo+DQo+IHRoYW5rcw0KPiAtLSBQ
-TU0NCj4NCg==
---00000000000000d10f05d8a562e8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Yes.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 21, 2022 at 5:30 AM Peter=
- Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Wed, 16 Feb 2022 at 17:30, Peter Maydell &lt;<a href=3D"mailto:pet=
-er.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; w=
-rote:<br>
-&gt;<br>
-&gt; On Tue, 8 Feb 2022 at 18:18, Patrick Venture &lt;<a href=3D"mailto:ven=
-ture@google.com" target=3D"_blank">venture@google.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; From: Shengtan Mao &lt;<a href=3D"mailto:stmao@google.com" target=
-=3D"_blank">stmao@google.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" ta=
-rget=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
-&gt; &gt; Reviewed-by: Chris Rauer &lt;<a href=3D"mailto:crauer@google.com"=
- target=3D"_blank">crauer@google.com</a>&gt;<br>
-&gt; &gt; Signed-off-by: Shengtan Mao &lt;<a href=3D"mailto:stmao@google.co=
-m" target=3D"_blank">stmao@google.com</a>&gt;<br>
-&gt; &gt; Signed-off-by: Patrick Venture &lt;<a href=3D"mailto:venture@goog=
-le.com" target=3D"_blank">venture@google.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; Applied to target-arm.next, thanks.<br>
-<br>
-This hits assertions in some of the CI jobs, eg:<br>
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/2116932769" rel=3D"n=
-oreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jobs/21=
-16932769</a><br>
-<br>
-258/717 qemu:qtest+qtest-arm / qtest-arm/npcm7xx_sdhci-test INTERRUPT<br>
-643.16s killed by signal 6 SIGABRT<br>
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95<br>
-stderr:<br>
-** Message: 06:06:50.205: /tmp/sdhci_F7ETH1<br>
-**<br>
-ERROR:../tests/qtest/npcm7xx_sdhci-test.c:101:sdwrite_read: assertion<br>
-failed: (!strcmp(rmsg, msg))<br>
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95<br>
-...terminated.<br>
-<br>
-so I&#39;ve dropped it again.<br></blockquote><div><br></div><div>I&#39;m s=
-orry to hear that, I&#39;ll have to pick up some cycles in a week or so and=
- see if I can reproduce the issue.</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div></div>
+>
+> >
+> > >>> +    } while (vhost_svq_more_used(svq));
+> > >>> +}
+> > >>> +
+> > >>> +/**
+> > >>> + * Forward used buffers.
+> > >>> + *
+> > >>> + * @n hdev call event notifier, the one that device set to notify =
+svq.
+> > >>> + *
+> > >>> + * Note that we are not making any buffers available in the loop, =
+there is no
+> > >>> + * way that it runs more than virtqueue size times.
+> > >>> + */
+> > >>>    static void vhost_svq_handle_call(EventNotifier *n)
+> > >>>    {
+> > >>>        VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVir=
+tqueue,
+> > >>>                                                 hdev_call);
+> > >>>
+> > >>> -    if (unlikely(!event_notifier_test_and_clear(n))) {
+> > >>> -        return;
+> > >>> -    }
+> > >>> +    /* Clear event notifier */
+> > >>> +    event_notifier_test_and_clear(n);
+> > >>
+> > >> Any reason that we remove the above check?
+> > >>
+> > > This comes from the previous versions, where this made sure we missed
+> > > no used buffers in the process of switching to SVQ mode.
+> >
+> >
+> > I'm not sure I get here. Even if for the switching, it should be more
+> > safe the handle the flush unconditionally?
+> >
+>
+> Yes, I also think it's better to forward and kick/call unconditionally.
+>
+> Thanks!
 
---00000000000000d10f05d8a562e8--
+Ok.
+
+Thanks
+
+>
+> > Thanks
+> >
+> >
+> > >
+> > > If we enable SVQ from the beginning I think we can rely on getting al=
+l
+> > > the device's used buffer notifications, so let me think a little bit
+> > > and I can move to check the eventfd.
+> > >
+> > >>> -    event_notifier_set(&svq->svq_call);
+> > >>> +    vhost_svq_flush(svq, true);
+> > >>>    }
+> > >>>
+> > >>>    /**
+> > >>> @@ -258,13 +551,38 @@ void vhost_svq_set_svq_kick_fd(VhostShadowVir=
+tqueue *svq, int svq_kick_fd)
+> > >>>         * need to explicitely check for them.
+> > >>>         */
+> > >>>        event_notifier_init_fd(&svq->svq_kick, svq_kick_fd);
+> > >>> -    event_notifier_set_handler(&svq->svq_kick, vhost_handle_guest_=
+kick);
+> > >>> +    event_notifier_set_handler(&svq->svq_kick,
+> > >>> +                               vhost_handle_guest_kick_notifier);
+> > >>>
+> > >>>        if (!check_old || event_notifier_test_and_clear(&tmp)) {
+> > >>>            event_notifier_set(&svq->hdev_kick);
+> > >>>        }
+> > >>>    }
+> > >>>
+> > >>> +/**
+> > >>> + * Start shadow virtqueue operation.
+> > >>> + *
+> > >>> + * @svq Shadow Virtqueue
+> > >>> + * @vdev        VirtIO device
+> > >>> + * @vq          Virtqueue to shadow
+> > >>> + */
+> > >>> +void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev=
+,
+> > >>> +                     VirtQueue *vq)
+> > >>> +{
+> > >>> +    svq->next_guest_avail_elem =3D NULL;
+> > >>> +    svq->avail_idx_shadow =3D 0;
+> > >>> +    svq->shadow_used_idx =3D 0;
+> > >>> +    svq->last_used_idx =3D 0;
+> > >>> +    svq->vdev =3D vdev;
+> > >>> +    svq->vq =3D vq;
+> > >>> +
+> > >>> +    memset(svq->vring.avail, 0, sizeof(*svq->vring.avail));
+> > >>> +    memset(svq->vring.used, 0, sizeof(*svq->vring.avail));
+> > >>> +    for (unsigned i =3D 0; i < svq->vring.num - 1; i++) {
+> > >>> +        svq->vring.desc[i].next =3D cpu_to_le16(i + 1);
+> > >>> +    }
+> > >>> +}
+> > >>> +
+> > >>>    /**
+> > >>>     * Stop shadow virtqueue operation.
+> > >>>     * @svq Shadow Virtqueue
+> > >>> @@ -272,6 +590,28 @@ void vhost_svq_set_svq_kick_fd(VhostShadowVirt=
+queue *svq, int svq_kick_fd)
+> > >>>    void vhost_svq_stop(VhostShadowVirtqueue *svq)
+> > >>>    {
+> > >>>        event_notifier_set_handler(&svq->svq_kick, NULL);
+> > >>> +    g_autofree VirtQueueElement *next_avail_elem =3D NULL;
+> > >>> +
+> > >>> +    if (!svq->vq) {
+> > >>> +        return;
+> > >>> +    }
+> > >>> +
+> > >>> +    /* Send all pending used descriptors to guest */
+> > >>> +    vhost_svq_flush(svq, false);
+> > >>> +
+> > >>> +    for (unsigned i =3D 0; i < svq->vring.num; ++i) {
+> > >>> +        g_autofree VirtQueueElement *elem =3D NULL;
+> > >>> +        elem =3D g_steal_pointer(&svq->ring_id_maps[i]);
+> > >>> +        if (elem) {
+> > >>> +            virtqueue_detach_element(svq->vq, elem, elem->len);
+> > >>> +        }
+> > >>> +    }
+> > >>> +
+> > >>> +    next_avail_elem =3D g_steal_pointer(&svq->next_guest_avail_ele=
+m);
+> > >>> +    if (next_avail_elem) {
+> > >>> +        virtqueue_detach_element(svq->vq, next_avail_elem,
+> > >>> +                                 next_avail_elem->len);
+> > >>> +    }
+> > >>>    }
+> > >>>
+> > >>>    /**
+> > >>> @@ -316,7 +656,7 @@ VhostShadowVirtqueue *vhost_svq_new(uint16_t qs=
+ize)
+> > >>>        memset(svq->vring.desc, 0, driver_size);
+> > >>>        svq->vring.used =3D qemu_memalign(qemu_real_host_page_size, =
+device_size);
+> > >>>        memset(svq->vring.used, 0, device_size);
+> > >>> -
+> > >>> +    svq->ring_id_maps =3D g_new0(VirtQueueElement *, qsize);
+> > >>>        event_notifier_set_handler(&svq->hdev_call, vhost_svq_handle=
+_call);
+> > >>>        return g_steal_pointer(&svq);
+> > >>>
+> > >>> @@ -335,6 +675,7 @@ void vhost_svq_free(VhostShadowVirtqueue *vq)
+> > >>>        event_notifier_cleanup(&vq->hdev_kick);
+> > >>>        event_notifier_set_handler(&vq->hdev_call, NULL);
+> > >>>        event_notifier_cleanup(&vq->hdev_call);
+> > >>> +    g_free(vq->ring_id_maps);
+> > >>>        qemu_vfree(vq->vring.desc);
+> > >>>        qemu_vfree(vq->vring.used);
+> > >>>        g_free(vq);
+> > >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > >>> index 53e14bafa0..0e5c00ed7e 100644
+> > >>> --- a/hw/virtio/vhost-vdpa.c
+> > >>> +++ b/hw/virtio/vhost-vdpa.c
+> > >>> @@ -752,9 +752,9 @@ static int vhost_vdpa_set_vring_call(struct vho=
+st_dev *dev,
+> > >>>     * Note that this function does not rewind kick file descriptor =
+if cannot set
+> > >>>     * call one.
+> > >>>     */
+> > >>> -static bool vhost_vdpa_svq_setup(struct vhost_dev *dev,
+> > >>> -                                VhostShadowVirtqueue *svq,
+> > >>> -                                unsigned idx)
+> > >>> +static int vhost_vdpa_svq_set_fds(struct vhost_dev *dev,
+> > >>> +                                  VhostShadowVirtqueue *svq,
+> > >>> +                                  unsigned idx)
+> > >>>    {
+> > >>>        struct vhost_vring_file file =3D {
+> > >>>            .index =3D dev->vq_index + idx,
+> > >>> @@ -767,7 +767,7 @@ static bool vhost_vdpa_svq_setup(struct vhost_d=
+ev *dev,
+> > >>>        r =3D vhost_vdpa_set_vring_dev_kick(dev, &file);
+> > >>>        if (unlikely(r !=3D 0)) {
+> > >>>            error_report("Can't set device kick fd (%d)", -r);
+> > >>> -        return false;
+> > >>> +        return r;
+> > >>>        }
+> > >>>
+> > >>>        event_notifier =3D vhost_svq_get_svq_call_notifier(svq);
+> > >>> @@ -777,6 +777,99 @@ static bool vhost_vdpa_svq_setup(struct vhost_=
+dev *dev,
+> > >>>            error_report("Can't set device call fd (%d)", -r);
+> > >>>        }
+> > >>>
+> > >>> +    return r;
+> > >>> +}
+> > >>> +
+> > >>> +/**
+> > >>> + * Unmap SVQ area in the device
+> > >>> + */
+> > >>> +static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v, hwaddr=
+ iova,
+> > >>> +                                      hwaddr size)
+> > >>> +{
+> > >>> +    int r;
+> > >>> +
+> > >>> +    size =3D ROUND_UP(size, qemu_real_host_page_size);
+> > >>> +    r =3D vhost_vdpa_dma_unmap(v, iova, size);
+> > >>> +    return r =3D=3D 0;
+> > >>> +}
+> > >>> +
+> > >>> +static bool vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
+> > >>> +                                       const VhostShadowVirtqueue =
+*svq)
+> > >>> +{
+> > >>> +    struct vhost_vdpa *v =3D dev->opaque;
+> > >>> +    struct vhost_vring_addr svq_addr;
+> > >>> +    size_t device_size =3D vhost_svq_device_area_size(svq);
+> > >>> +    size_t driver_size =3D vhost_svq_driver_area_size(svq);
+> > >>> +    bool ok;
+> > >>> +
+> > >>> +    vhost_svq_get_vring_addr(svq, &svq_addr);
+> > >>> +
+> > >>> +    ok =3D vhost_vdpa_svq_unmap_ring(v, svq_addr.desc_user_addr, d=
+river_size);
+> > >>> +    if (unlikely(!ok)) {
+> > >>> +        return false;
+> > >>> +    }
+> > >>> +
+> > >>> +    return vhost_vdpa_svq_unmap_ring(v, svq_addr.used_user_addr, d=
+evice_size);
+> > >>> +}
+> > >>> +
+> > >>> +/**
+> > >>> + * Map shadow virtqueue rings in device
+> > >>> + *
+> > >>> + * @dev   The vhost device
+> > >>> + * @svq   The shadow virtqueue
+> > >>> + */
+> > >>> +static bool vhost_vdpa_svq_map_rings(struct vhost_dev *dev,
+> > >>> +                                     const VhostShadowVirtqueue *s=
+vq)
+> > >>> +{
+> > >>> +    struct vhost_vdpa *v =3D dev->opaque;
+> > >>> +    struct vhost_vring_addr svq_addr;
+> > >>> +    size_t device_size =3D vhost_svq_device_area_size(svq);
+> > >>> +    size_t driver_size =3D vhost_svq_driver_area_size(svq);
+> > >>> +    int r;
+> > >>> +
+> > >>> +    vhost_svq_get_vring_addr(svq, &svq_addr);
+> > >>> +
+> > >>> +    r =3D vhost_vdpa_dma_map(v, svq_addr.desc_user_addr, driver_si=
+ze,
+> > >>> +                           (void *)svq_addr.desc_user_addr, true);
+> > >>> +    if (unlikely(r !=3D 0)) {
+> > >>> +        return false;
+> > >>> +    }
+> > >>> +
+> > >>> +    r =3D vhost_vdpa_dma_map(v, svq_addr.used_user_addr, device_si=
+ze,
+> > >>> +                           (void *)svq_addr.used_user_addr, false)=
+;
+> > >>
+> > >> Do we need unmap the driver area if we fail here?
+> > >>
+> > > Yes, this used to trust in unmap them at the disabling of SVQ. Now I
+> > > think we need to unmap as you say.
+> > >
+> > > Thanks!
+> > >
+> > > [1] https://lists.linuxfoundation.org/pipermail/virtualization/2021-M=
+arch/053322.html
+> > >
+> > >> Thanks
+> > >>
+> > >>
+> > >>> +    return r =3D=3D 0;
+> > >>> +}
+> > >>> +
+> > >>> +static bool vhost_vdpa_svq_setup(struct vhost_dev *dev,
+> > >>> +                                VhostShadowVirtqueue *svq,
+> > >>> +                                unsigned idx)
+> > >>> +{
+> > >>> +    uint16_t vq_index =3D dev->vq_index + idx;
+> > >>> +    struct vhost_vring_state s =3D {
+> > >>> +        .index =3D vq_index,
+> > >>> +    };
+> > >>> +    int r;
+> > >>> +    bool ok;
+> > >>> +
+> > >>> +    r =3D vhost_vdpa_set_dev_vring_base(dev, &s);
+> > >>> +    if (unlikely(r)) {
+> > >>> +        error_report("Can't set vring base (%d)", r);
+> > >>> +        return false;
+> > >>> +    }
+> > >>> +
+> > >>> +    s.num =3D vhost_svq_get_num(svq);
+> > >>> +    r =3D vhost_vdpa_set_dev_vring_num(dev, &s);
+> > >>> +    if (unlikely(r)) {
+> > >>> +        error_report("Can't set vring num (%d)", r);
+> > >>> +        return false;
+> > >>> +    }
+> > >>> +
+> > >>> +    ok =3D vhost_vdpa_svq_map_rings(dev, svq);
+> > >>> +    if (unlikely(!ok)) {
+> > >>> +        return false;
+> > >>> +    }
+> > >>> +
+> > >>> +    r =3D vhost_vdpa_svq_set_fds(dev, svq, idx);
+> > >>>        return r =3D=3D 0;
+> > >>>    }
+> > >>>
+> > >>> @@ -788,14 +881,24 @@ static int vhost_vdpa_dev_start(struct vhost_=
+dev *dev, bool started)
+> > >>>        if (started) {
+> > >>>            vhost_vdpa_host_notifiers_init(dev);
+> > >>>            for (unsigned i =3D 0; i < v->shadow_vqs->len; ++i) {
+> > >>> +            VirtQueue *vq =3D virtio_get_queue(dev->vdev, dev->vq_=
+index + i);
+> > >>>                VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->s=
+hadow_vqs, i);
+> > >>>                bool ok =3D vhost_vdpa_svq_setup(dev, svq, i);
+> > >>>                if (unlikely(!ok)) {
+> > >>>                    return -1;
+> > >>>                }
+> > >>> +            vhost_svq_start(svq, dev->vdev, vq);
+> > >>>            }
+> > >>>            vhost_vdpa_set_vring_ready(dev);
+> > >>>        } else {
+> > >>> +        for (unsigned i =3D 0; i < v->shadow_vqs->len; ++i) {
+> > >>> +            VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->sha=
+dow_vqs,
+> > >>> +                                                          i);
+> > >>> +            bool ok =3D vhost_vdpa_svq_unmap_rings(dev, svq);
+> > >>> +            if (unlikely(!ok)) {
+> > >>> +                return -1;
+> > >>> +            }
+> > >>> +        }
+> > >>>            vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+> > >>>        }
+> > >>>
+> >
+>
+
 
