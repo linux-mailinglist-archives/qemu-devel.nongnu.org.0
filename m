@@ -2,108 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D149C4C1474
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 14:44:14 +0100 (CET)
-Received: from localhost ([::1]:41318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A97F4C14A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 14:48:33 +0100 (CET)
+Received: from localhost ([::1]:45108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMrwD-0007c3-LV
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 08:44:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37740)
+	id 1nMs0O-0001vP-66
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 08:48:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1nMrsg-00064B-86; Wed, 23 Feb 2022 08:40:35 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:23070
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nMrwI-0008PB-Mj
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 08:44:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1nMrsX-0003Dt-GU; Wed, 23 Feb 2022 08:40:27 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21NBklx0005481; 
- Wed, 23 Feb 2022 13:40:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=XxF2VZloN8B/d2q0QlWm/kC0XaPTUbMuq6BoxH9WTYE=;
- b=ahX0qAeqWhgSaHvJZpqWR48iyOwcD+YQxp5VlS7kEjXRg5YibeD00TKXeFTWOIq5/YoR
- sT8QtC/jcHW4Ex4SiNgEhudDgJglpVZCFUTdi90wsp+KbQCJkt3OcF2peYv+CN/TXKaD
- UomQcML6oFb3nqwaySlhZ2gLbf91tpvwP+u3LKFbmC+2Wlsq8r9I4TE+H43yNjaIfZib
- PEUn35yDzuwupTvRLxj257QGGCo0VChRpe5srbBiARMEiNAr+3ZGg06Nstpy/jdEfeTq
- 4ni+3NtD617q6j0C7pOm5JJ9W0guQSy31RmK4dyMrM6S2ISbSMoZEo5Y49qwy5zJGvQW Kg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3edmbracp7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Feb 2022 13:40:22 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21NDabE1028218;
- Wed, 23 Feb 2022 13:40:21 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3edmbracnr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Feb 2022 13:40:21 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21NDWUKj030319;
- Wed, 23 Feb 2022 13:40:19 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 3eaqtjac8w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 23 Feb 2022 13:40:19 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21NDeG5S49217870
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Feb 2022 13:40:16 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 82BCC4C044;
- Wed, 23 Feb 2022 13:40:16 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1726D4C040;
- Wed, 23 Feb 2022 13:40:16 +0000 (GMT)
-Received: from [9.171.70.253] (unknown [9.171.70.253])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 23 Feb 2022 13:40:16 +0000 (GMT)
-Message-ID: <3db47aeb-a57e-55e3-92f2-620845fe00df@linux.ibm.com>
-Date: Wed, 23 Feb 2022 14:40:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 1/4] s390x/tcg: Implement
- Miscellaneous-Instruction-Extensions Facility 3 for the s390x
-Content-Language: en-US
-To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220217231728.13932-1-dmiller423@gmail.com>
- <20220217231728.13932-2-dmiller423@gmail.com>
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20220217231728.13932-2-dmiller423@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: p0clgdjUKkkiJY--zT6k1NGAw9PKXPYc
-X-Proofpoint-GUID: vLw1cnuIsvjKaFdfxYfGppmF9_Adibsz
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nMrwF-00044v-Rv
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 08:44:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645623855;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gvRF6Bk2Hdl11kNRsEVHwxmqlwLQr1+buD9hdb+CiuQ=;
+ b=QJBN8C6Tj0Snk0vPItKdkuF1cUsGDuLQICtJQBXbUBNEpeDEyPQF66kQftmUV1xJQlfoqs
+ 2SUestdHZ1RKqcd7Z7DWwRw+BMa5s7hf0GDf3LQ6Hfi6ExiY2WKN2wMJlhRjzON5JcUvSp
+ WsEhuWsjIpbu7Bwn0yz2FAM8uWYijHE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-259-dEL1MJ0-NnalQwfY-YFTDQ-1; Wed, 23 Feb 2022 08:43:55 -0500
+X-MC-Unique: dEL1MJ0-NnalQwfY-YFTDQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DE2510247A6;
+ Wed, 23 Feb 2022 13:43:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E7FF84974;
+ Wed, 23 Feb 2022 13:43:07 +0000 (UTC)
+Date: Wed, 23 Feb 2022 13:43:04 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: Re: Analysis of slow distro boots in check-avocado
+ (BootLinuxAarch64.test_virt_tcg*)
+Message-ID: <YhY56KLLPrqGWtBM@redhat.com>
+References: <874k4xbqvp.fsf@linaro.org> <878ru2nacq.fsf@linaro.org>
+ <YhURfqMvRT4xbiz6@redhat.com>
+ <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
+ <YhYVVnVSL8K1S4MC@redhat.com>
+ <e9f70381-03f2-9582-8ad6-e9252d3195ab@gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-02-23_06,2022-02-23_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- impostorscore=0 phishscore=0 adultscore=0 clxscore=1015 suspectscore=0
- priorityscore=1501 mlxlogscore=911 bulkscore=0 malwarescore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202230077
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <e9f70381-03f2-9582-8ad6-e9252d3195ab@gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,27 +88,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org, farman@linux.ibm.com, pasic@linux.ibm.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Cleber Rosa <cleber@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Oleg Vasilev <me@svin.in>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Idan Horowitz <idan.horowitz@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Emilio Cota <cota@braap.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Am 18.02.22 um 00:17 schrieb David Miller:
-> resolves: https://gitlab.com/qemu-project/qemu/-/issues/737
-> implements:
-> AND WITH COMPLEMENT   (NCRK, NCGRK)
-> NAND                  (NNRK, NNGRK)
-> NOT EXCLUSIVE OR      (NXRK, NXGRK)
-> NOR                   (NORK, NOGRK)
-> OR WITH COMPLEMENT    (OCRK, OCGRK)
-> SELECT                (SELR, SELGR)
-> SELECT HIGH           (SELFHR)
-> MOVE RIGHT TO LEFT    (MVCRL)
-> POPULATION COUNT      (POPCNT)
+On Wed, Feb 23, 2022 at 02:34:23PM +0100, Philippe Mathieu-Daudé wrote:
+> On 23/2/22 12:07, Daniel P. Berrangé wrote:
+> > On Tue, Feb 22, 2022 at 06:33:41PM +0100, Philippe Mathieu-Daudé wrote:
+> > > +Igor/MST for UEFI tests.
+> > > 
+> > > On 22/2/22 17:38, Daniel P. Berrangé wrote:
+> > > > On Tue, Feb 22, 2022 at 04:17:23PM +0000, Alex Bennée wrote:
+> > > > > 
+> > > > > Alex Bennée <alex.bennee@linaro.org> writes:
+> > > > > 
+> > > > > > Hi,
+> > > > > > 
+> > > > > > TL;DR:
+> > > > > > 
+> > > > > >     - pc-bios/edk2-aarch64-code.fd should be rebuilt without debug
+> > > > > 
+> > > > > Laszlo,
+> > > > > 
+> > > > > Would it be possible to do a less debug enabled version of EDK2 on the
+> > > > > next update to pc-bios/edk2-*?
+> > > > 
+> > > > NB, Laszlo is no longer  maintaining EDK2 in QEMU, it was handed
+> > > > over to Philippe.  I'm CC'ing Gerd too since he's a reviewer and
+> > > > an EDK2 contributor taking over from Lazslo in EDK2 community
+> > > 
+> > > We need the DEBUG profile to ensure the bios-tables-tests work.
+> > 
+> > Can you elaborate on what bios-tables-tests needs this for, and
+> > what coverage we would loose by disabling DEBUG.
 > 
-> Signed-off-by: David Miller <dmiller423@gmail.com>
+> Maybe it was only required when the tests were developed...
+> I'll defer that question to Igor.
+> 
+> > It may well be a better tradeoff to sacrifice part of bios-tables-tests
+> > in favour of shipping more broadly usable images without DEBUG.
+> 
+> Why not, if users are aware/happy to use a unsafe image with various
+> unfixed CVEs.
 
-For your next patches, feel free to add previous Reviewed-by: tags so that others
-can see what review has already happened.
+Note there's nothing special about EDK2 in regard of CVE fixes (or lack
+thereof). The same applies to every other firmware we ship, as well as
+QEMU code itself.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
