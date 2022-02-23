@@ -2,55 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE834C17C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 16:51:18 +0100 (CET)
-Received: from localhost ([::1]:43360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C184C1613
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 16:03:33 +0100 (CET)
+Received: from localhost ([::1]:57898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMtvB-0007c1-AY
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 10:51:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54968)
+	id 1nMtAy-0004be-Dw
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 10:03:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wliang@stu.xidian.edu.cn>)
- id 1nMsnk-00075M-84
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 09:39:32 -0500
-Received: from azure-sdnproxy.icoremail.net ([52.237.72.81]:34503
- helo=azure-sdnproxy-1.icoremail.net)
- by eggs.gnu.org with smtp (Exim 4.90_1)
- (envelope-from <wliang@stu.xidian.edu.cn>) id 1nMsnh-0006QZ-0V
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 09:39:30 -0500
-Received: by ajax-webmail-sr0414.icoremail.net (Coremail) ; Wed, 23 Feb 2022
- 22:39:23 +0800 (GMT+08:00)
-X-Originating-IP: [39.130.79.173]
-Date: Wed, 23 Feb 2022 22:39:23 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: wliang@stu.xidian.edu.cn
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Fix a potential memory leak bug in write_boot_rom() (v6.2.0).
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210401(fdb522e2)
- Copyright (c) 2002-2022 www.mailtech.cn
- mispb-ac60dc67-ddbe-4478-9127-1d3314495f10-icoremail.net
-Content-Type: multipart/mixed; 
- boundary="----=_Part_34349_1801648404.1645627163653"
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMt9C-0003dO-Ar
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 10:01:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMt8u-0002Ag-Cm
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 10:01:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645628480;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=da2fO6Fqgf/GTIc/nnVeZuFJU9TerpSF4TSOlYDM6E4=;
+ b=hGCCE5prCIai/jXu7l94ytSdIya7VVOmxM21QoAlKyUD7c42LHYNcqa267XYHNu/p+xdLd
+ Ry95ZSX+VOBX2WcLVl1QQX0ADjCQ94HxI9g3W7hPB4EJchlbDr4aCqOmmGxQaGSy2y2pUq
+ IaYQmfR1XIO2PXVkhQJzML7hoj2axc8=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-609-_gSyOFcvO2usVmhislW4MA-1; Wed, 23 Feb 2022 10:01:17 -0500
+X-MC-Unique: _gSyOFcvO2usVmhislW4MA-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ i127-20020a1f5485000000b0032c6189ea3eso2792016vkb.2
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 07:01:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=da2fO6Fqgf/GTIc/nnVeZuFJU9TerpSF4TSOlYDM6E4=;
+ b=hDEEiyCcowkchkOLTJuJgbgp5G8Z3EZHHd1OjDCdsNYwwlsZn7IuFLwspwMrmwNFTk
+ CNI1pE6FJ6FT4WGUVQWPPHx5+l3k86hUJ5bRmQAfJZkFndbYOArmJDKvB6SLeMrxUUM8
+ AZinm44QN8JwwgAHiWUhghqrlquspcYBoSW6aqQLstYToybEbmJoabDNCnnvaKJ/Br9S
+ zYp+1Z2uRPx77nYoeIvI0p7WBAAWyd86DI7UhRiVHe8fS9vMSsSvahdrG1Er2BDLIFqA
+ N7T3ZWfuWRKAOk778rQIgvP24fdjfQ+32JC3jNAd+RwrCdimmN3YPjBVW15C5STkQpeA
+ p2Tw==
+X-Gm-Message-State: AOAM533ng+gOeWpcSj/5LOwrbrQKeoW37NlPB1inDjtMcWqohAUnjDpv
+ vxUFVG2zrw5jNdcLh9dbQnxxmiQJVqG0BKYK2TPqQq6f0UBecoCf5B5fuO2lkx19FdD8UnGWrVQ
+ KbyHHyZ7aK6nsJCi28T5u4HpVL1jLxOU=
+X-Received: by 2002:a67:fc13:0:b0:31c:5602:12f with SMTP id
+ o19-20020a67fc13000000b0031c5602012fmr6277942vsq.38.1645628477046; 
+ Wed, 23 Feb 2022 07:01:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw0OjSM7xsUMxOP2tU7cJ4KdH24EtqJ/JCSXjmNHA/BsaqKff9aK6y2epn7ay9jCrjlu7eyuts7k0OThY3/rwU=
+X-Received: by 2002:a67:fc13:0:b0:31c:5602:12f with SMTP id
+ o19-20020a67fc13000000b0031c5602012fmr6277927vsq.38.1645628476807; Wed, 23
+ Feb 2022 07:01:16 -0800 (PST)
 MIME-Version: 1.0
-Message-ID: <6e7748f1.25d8.17f2705c420.Coremail.wliang@stu.xidian.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: AQAAfwBXSwIbRxZiPMsKAA--.4027W
-X-CM-SenderInfo: pzolt0vj6v33wo0lvxldqovvfxof0/1tbiAQMMA1wR-vU9jgADs7
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=52.237.72.81;
- envelope-from=wliang@stu.xidian.edu.cn; helo=azure-sdnproxy-1.icoremail.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+References: <20220221155519.2367-1-damien.hedde@greensocs.com>
+ <87bkyzzb1q.fsf@pond.sub.org>
+ <3656609c-522d-a0e8-e6ef-465cdc9d6c88@greensocs.com>
+ <YhSrD/gmlMkumkah@redhat.com>
+ <c3fb1a44-29ac-00a0-47f4-7f152977f4a5@greensocs.com>
+ <YhS7nE+6++YN4exZ@redhat.com>
+ <eb1d52ef-d358-57bd-1468-cff84ace8d20@greensocs.com>
+ <YhYW562k1IBTlHag@redhat.com>
+In-Reply-To: <YhYW562k1IBTlHag@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 23 Feb 2022 10:01:05 -0500
+Message-ID: <CAFn=p-aQhj4xgPq9fkz5f34vWdJQraPsXY33Qw1KmebdMFsDog@mail.gmail.com>
+Subject: Re: [PATCH 0/5] qmp-shell modifications for non-interactive use
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 23 Feb 2022 10:48:08 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,142 +99,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Cleber Rosa <crosa@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_34349_1801648404.1645627163653
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_34351_1578602266.1645627163653"
+On Wed, Feb 23, 2022 at 6:13 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Wed, Feb 23, 2022 at 10:57:29AM +0100, Damien Hedde wrote:
+> >
+> >
+> > On 2/22/22 11:31, Daniel P. Berrang=C3=A9 wrote:
+> > > On Tue, Feb 22, 2022 at 10:38:09AM +0100, Damien Hedde wrote:
+> > > >
+> > > >
+> > > > Here I just wanted to propose a simple way to just send a
+> > > > bunch of commands from a source file and stop if something unexpect=
+ed
+> > > > happens.
+> > > > Only goal is to be able to share a file on the ml and allow people =
+to
+> > > > reproduce easily.
+> > > > We can already redirect the input, but it is almost impossible to s=
+ee
+> > > > if something failed.
+> > >
+> > > Yes, I see what you mean. So the problem with using 'socat' or simila=
+r
+> > > is that we fill the input with commands and response appear asynchron=
+ously,
+> > > so we can't match them up easily. This is actually a problem seen in =
+the
+> > > block I/O tests which just send QMP stuff in a batch.
+> > >
+> > > While you could do this by invoking socat once for each command, that
+> > > gets silly with the repeated QMP handshake for each command.
+> > >
+> > > The thing about using qmp-shell is that it does a bunch of extra stuf=
+f
+> > > targetted at humans on top, and history tells us it isn't a good idea
+> > > to mix stuff for humans and machines in the same tool/interface.
+> > >
+> > > How about instead creating a separate 'qmp-send' command that is not
+> > > much more than a "QMP-aware socat".  By which I mean, it just reads
+> > > raw QMP commands from stdin, sends each one to the server, but
+> > > crucially waits for a reply after sending each, and stops on first
+> > > error reponse.
+> >
+> > By 'qmp-send' command, you mean another script in scripts/qmp ?
+> > Yes
+>
+> Yep.
+>
+> > If we go for another script, I would rather do one with wrap
+> > feature (like your series) to start qemu as well.
+>
+> Sure, that would certainly make sense.  I actually wanted to add
+> the wrap feature directly into the existing qmp-shell, but it was
+> not viable while maintaining back compat. With a new qmp-send
+> command you can easily make "wrap mode" supported from the start.
+>
 
-------=_Part_34351_1578602266.1645627163653
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+I'm also wary of adding scriptable interfaces to qmp-shell, but I can
+see them having some value.
 
-SGkgYWxsLAoKSSBmaW5kIGEgbWVtb3J5IGxlYWsgYnVnIGluIFFFTVUgNi4yLjAsIHdoaWNoIGlz
-IGluIHdyaXRlX2Jvb3Rfcm9tKCkoLi9ody9hcm0vYXNwZWVkLmMpLgoKU3BlY2lmaWNhbGx5LCBh
-dCBsaW5lIDI3NiwgYSBtZW1vcnkgY2h1bmsgaXMgYWxsb2NhdGVkIHdpdGggZ19uZXcwKCkgYW5k
-IGFzc2lnbmVkIHRvIHRoZSB2YXJpYWJsZSAnc3RvcmFnZScuIEhvd2V2ZXIsIGlmIHRoZSBicmFu
-Y2ggdGFrZXMgdHJ1ZSBhdCBsaW5lIDI3NywgdGhlcmUgd2lsbCBiZSBvbmx5IGFuIGVycm9yIHJl
-cG9ydCBhdCBsaW5lIDI3OCBidXQgbm90IGEgZnJlZSBvcGVyYXRpb24gZm9yICdzdG9yYWdlJyBi
-ZWZvcmUgZnVuY3Rpb24gcmV0dXJucy4gQXMgYSByZXN1bHQsIGEgbWVtb3J5IGxlYWsgYnVnIGlz
-IHRyaWdnZXJlZC4KCgoyNTkgICAgQmxvY2tCYWNrZW5kICpibGsgPSBibGtfYnlfbGVnYWN5X2Rp
-bmZvKGRpbmZvKTsKLi4uCjI3NiAgICBzdG9yYWdlID0gZ19uZXcwKHVpbnQ4X3QsIHJvbV9zaXpl
-KTsKMjc3ICAgIGlmIChibGtfcHJlYWQoYmxrLCAwLCBzdG9yYWdlLCByb21fc2l6ZSkgPCAwKSB7
-CjI3OCAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiZmFpbGVkIHRvIHJlYWQgdGhlIGluaXRpYWwg
-Zmxhc2ggY29udGVudCIpOwoyNzkgICAgICAgIHJldHVybjsKMjgwICAgIH0KCgpJIGJlbGlldmUg
-dGhhdCB0aGUgcHJvYmxlbSBjYW4gYmUgZml4ZWQgYnkgYWRkaW5nIGEgZ19mcmVlKCkgYmVmb3Jl
-IHRoZSBmdW5jdGlvbiByZXR1cm5zLgoKCjI3NyAgICBpZiAoYmxrX3ByZWFkKGJsaywgMCwgc3Rv
-cmFnZSwgcm9tX3NpemUpIDwgMCkgewoyNzggICAgICAgIGVycm9yX3NldGcoZXJycCwgImZhaWxl
-ZCB0byByZWFkIHRoZSBpbml0aWFsIGZsYXNoIGNvbnRlbnQiKTsKKysrICAgIGdfZnJlZShzdG9y
-YWdlKTsKMjc5ICAgICAgICByZXR1cm47CjI4MCAgICB9CgoKSSdtIGxvb2tpbmcgZm9yd2FyZCB0
-byB5b3VyIGNvbmZpcm1hdGlvbi4KCkJlc3QsCldlbnRhbwo=
-------=_Part_34351_1578602266.1645627163653
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
+I'm not against the ability to add some kind of "load commands from
+file" interactive command to qmp-shell, for instance. (/LOAD or /PLAY
+or something?) ... but then we need to worry about what the format of
+the file is and how exactly that scripting language works. It's a
+design minefield.
 
-PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90OzsiPjxz
-cGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtUaW1lcyBOZXcgUm9tYW4mcXVvdDs7Zm9udC1z
-aXplOjE2cHg7Ij5IaSBhbGwsPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTpTaW1TdW47
-Ij48YnI+Cjwvc3Bhbj48YnI+CjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTpTaW1TdW47Ij48c3Bh
-biBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6
-ZToxNnB4OyI+SSBmaW5kIGEgbWVtb3J5IGxlYWsgYnVnIGluIFFFTVUgNi4yLjAsIHdoaWNoIGlz
-IGluIHdyaXRlX2Jvb3Rfcm9tKCkoPC9zcGFuPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmU7
-Ij4gPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtUaW1lcyBOZXcgUm9tYW4m
-cXVvdDs7Zm9udC1zaXplOjE2cHg7Ij4uL2h3L2FybS9hc3BlZWQuYykuPC9zcGFuPjwvc3Bhbj48
-YnI+Cjxicj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZx
-dW90Oztmb250LXNpemU6MTZweDsiPlNwZWNpZmljYWxseSwgYXQgbGluZSAyNzYsIGEgbWVtb3J5
-IGNodW5rIGlzIGFsbG9jYXRlZCB3aXRoIGdfbmV3MCgpIGFuZCBhc3NpZ25lZCB0byB0aGUgdmFy
-aWFibGUgJ3N0b3JhZ2UnLiBIb3dldmVyLCBpZiB0aGUgYnJhbmNoIHRha2VzIHRydWUgYXQgbGlu
-ZSAyNzcsIHRoZXJlIHdpbGwgYmUgb25seSBhbiBlcnJvciByZXBvcnQgYXQgbGluZSAyNzggYnV0
-IG5vdCBhIGZyZWUgb3BlcmF0aW9uIGZvciAnc3RvcmFnZScgYmVmb3JlIGZ1bmN0aW9uIHJldHVy
-bnMuIEFzIGEgcmVzdWx0LCBhIG1lbW9yeSBsZWFrIGJ1ZyBpcyB0cmlnZ2VyZWQuPC9zcGFuPjxi
-cj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OlNpbVN1bjsiPjxicj4KPC9zcGFuPjxicj4KPHNw
-YW4gc3R5bGU9ImZvbnQtZmFtaWx5OlNpbVN1bjsiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTom
-cXVvdDtUaW1lcyBOZXcgUm9tYW4mcXVvdDs7Zm9udC1zaXplOjE2cHg7Ij4yNTk8L3NwYW4+PHNw
-YW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZTsiPiA8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtZmFt
-aWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPiZuYnNwOyAm
-bmJzcDsgQmxvY2tCYWNrZW5kICpibGsgPSBibGtfYnlfbGVnYWN5X2RpbmZvKGRpbmZvKTs8L3Nw
-YW4+PC9zcGFuPjxicj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBS
-b21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPi4uLjwvc3Bhbj48YnI+CjxzcGFuIHN0eWxlPSJm
-b250LWZhbWlseTpTaW1TdW47Ij48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMg
-TmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+Mjc2PC9zcGFuPjxzcGFuIHN0eWxlPSJ3
-aGl0ZS1zcGFjZTpwcmU7Ij4gPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtU
-aW1lcyBOZXcgUm9tYW4mcXVvdDs7Zm9udC1zaXplOjE2cHg7Ij4mbmJzcDsgJm5ic3A7IHN0b3Jh
-Z2UgPSBnX25ldzAodWludDhfdCwgcm9tX3NpemUpOzwvc3Bhbj48L3NwYW4+PGJyPgo8c3BhbiBz
-dHlsZT0iZm9udC1mYW1pbHk6U2ltU3VuOyI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90
-O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPjI3Nzwvc3Bhbj48c3BhbiBz
-dHlsZT0id2hpdGUtc3BhY2U6cHJlOyI+IDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6
-JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+Jm5ic3A7ICZuYnNw
-OyBpZiAoYmxrX3ByZWFkKGJsaywgMCwgc3RvcmFnZSwgcm9tX3NpemUpICZsdDsgMCkgezwvc3Bh
-bj48L3NwYW4+PGJyPgo8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6U2ltU3VuOyI+PHNwYW4gc3R5
-bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZw
-eDsiPjI3ODwvc3Bhbj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlOyI+IDwvc3Bhbj48c3Bh
-biBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6
-ZToxNnB4OyI+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGVycm9yX3NldGcoZXJycCwgImZh
-aWxlZCB0byByZWFkIHRoZSBpbml0aWFsIGZsYXNoIGNvbnRlbnQiKTs8L3NwYW4+PC9zcGFuPjxi
-cj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OlNpbVN1bjsiPjxzcGFuIHN0eWxlPSJmb250LWZh
-bWlseTomcXVvdDtUaW1lcyBOZXcgUm9tYW4mcXVvdDs7Zm9udC1zaXplOjE2cHg7Ij4yNzk8L3Nw
-YW4+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZTsiPiA8L3NwYW4+PHNwYW4gc3R5bGU9ImZv
-bnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPiZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyByZXR1cm47PC9zcGFuPjwvc3Bhbj48YnI+CjxzcGFu
-IHN0eWxlPSJmb250LWZhbWlseTpTaW1TdW47Ij48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1
-b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+MjgwPC9zcGFuPjxzcGFu
-IHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmU7Ij4gPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LWZhbWls
-eTomcXVvdDtUaW1lcyBOZXcgUm9tYW4mcXVvdDs7Zm9udC1zaXplOjE2cHg7Ij4mbmJzcDsgJm5i
-c3A7IH08L3NwYW4+PC9zcGFuPjxicj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OlNpbVN1bjsi
-Pjxicj4KPC9zcGFuPjxicj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5l
-dyBSb21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPkkgYmVsaWV2ZSB0aGF0IHRoZSBwcm9ibGVt
-IGNhbiBiZSBmaXhlZCBieSBhZGRpbmcgYSBnX2ZyZWUoKSBiZWZvcmUgdGhlIGZ1bmN0aW9uIHJl
-dHVybnMuPC9zcGFuPjxicj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OlNpbVN1bjsiPjxicj4K
-PC9zcGFuPjxicj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OlNpbVN1bjsiPjxzcGFuIHN0eWxl
-PSJmb250LWZhbWlseTomcXVvdDtUaW1lcyBOZXcgUm9tYW4mcXVvdDs7Zm9udC1zaXplOjE2cHg7
-Ij4yNzc8L3NwYW4+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZTsiPiA8L3NwYW4+PHNwYW4g
-c3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6
-MTZweDsiPiZuYnNwOyAmbmJzcDsgaWYgKGJsa19wcmVhZChibGssIDAsIHN0b3JhZ2UsIHJvbV9z
-aXplKSAmbHQ7IDApIHs8L3NwYW4+PC9zcGFuPjxicj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5
-OlNpbVN1bjsiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtUaW1lcyBOZXcgUm9tYW4m
-cXVvdDs7Zm9udC1zaXplOjE2cHg7Ij4yNzg8L3NwYW4+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNl
-OnByZTsiPiA8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBS
-b21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBl
-cnJvcl9zZXRnKGVycnAsICJmYWlsZWQgdG8gcmVhZCB0aGUgaW5pdGlhbCBmbGFzaCBjb250ZW50
-Iik7PC9zcGFuPjwvc3Bhbj48YnI+CjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTpTaW1TdW47Ij48
-c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQt
-c2l6ZToxNnB4OyI+KysrPC9zcGFuPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmU7Ij4gPC9z
-cGFuPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtUaW1lcyBOZXcgUm9tYW4mcXVvdDs7
-Zm9udC1zaXplOjE2cHg7Ij4mbmJzcDsgJm5ic3A7IGdfZnJlZShzdG9yYWdlKTs8L3NwYW4+PC9z
-cGFuPjxicj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OlNpbVN1bjsiPjxzcGFuIHN0eWxlPSJm
-b250LWZhbWlseTomcXVvdDtUaW1lcyBOZXcgUm9tYW4mcXVvdDs7Zm9udC1zaXplOjE2cHg7Ij4y
-Nzk8L3NwYW4+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZTsiPiA8L3NwYW4+PHNwYW4gc3R5
-bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZw
-eDsiPiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyByZXR1cm47PC9zcGFuPjwvc3Bhbj48YnI+
-CjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTpTaW1TdW47Ij48c3BhbiBzdHlsZT0iZm9udC1mYW1p
-bHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+MjgwPC9zcGFu
-PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmU7Ij4gPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250
-LWZhbWlseTomcXVvdDtUaW1lcyBOZXcgUm9tYW4mcXVvdDs7Zm9udC1zaXplOjE2cHg7Ij4mbmJz
-cDsgJm5ic3A7IH08L3NwYW4+PC9zcGFuPjxicj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OlNp
-bVN1bjsiPjxicj4KPC9zcGFuPjxicj4KPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1Rp
-bWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPkknbSBsb29raW5nIGZvcndhcmQg
-dG8geW91ciBjb25maXJtYXRpb24uPC9zcGFuPjxicj4KPGJyPgo8c3BhbiBzdHlsZT0iZm9udC1m
-YW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+QmVzdCw8
-L3NwYW4+PGJyPgo8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFu
-JnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+V2VudGFvPC9zcGFuPjxicj4KPHNwYW4gc3R5bGU9ImZv
-bnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPjwv
-c3Bhbj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7
-O2ZvbnQtc2l6ZToxNnB4OyI+PC9zcGFuPjwvc3Bhbj4=
-------=_Part_34351_1578602266.1645627163653--
+I can also see the use in having qmp-shell autoplay a script file at
+startup and then resume interactive function (Saves you some typing!),
+but that opens the door to people using it as a script in and of
+itself and coming to rely on it, which I really would not like to see.
+A standalone qemu-send that supports launching QEMU (with args) and
+taking a script file from the CLI sounds great, though.
 
-------=_Part_34349_1801648404.1645627163653
-Content-Type: text/x-patch; name=aspeed.c.patch
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="aspeed.c.patch"
+There's still some design questions I have, though: What features do
+you need out of the script file? What syntax do you intend to use?
+Does it need event waits? How complex do they need to be? I'm fine
+with something simple, but I can see cases where we might begin to
+want slightly more power out of it. I see good utility for test
+reproductions shared on the ML and in bug trackers, though.
 
-LS0tIC4vaHcvYXJtL2FzcGVlZC5jCTIwMjItMDItMjMgMTU6MDY6MzEuOTI4NzA4MDgzICswODAw
-CisrKyAuL2h3L2FybS9hc3BlZWQtUEFUQ0guYwkyMDIyLTAyLTIzIDIxOjIyOjI4LjIwMDgwMjgw
-MSArMDgwMApAQCAtMjc2LDYgKzI3Niw3IEBACiAgICAgc3RvcmFnZSA9IGdfbmV3MCh1aW50OF90
-LCByb21fc2l6ZSk7CiAgICAgaWYgKGJsa19wcmVhZChibGssIDAsIHN0b3JhZ2UsIHJvbV9zaXpl
-KSA8IDApIHsKICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiZmFpbGVkIHRvIHJlYWQgdGhlIGlu
-aXRpYWwgZmxhc2ggY29udGVudCIpOworICAgICAgICBnX2ZyZWUoc3RvcmFnZSk7CiAgICAgICAg
-IHJldHVybjsKICAgICB9CiAK
-------=_Part_34349_1801648404.1645627163653--
+--js
 
 
