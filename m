@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0EB4C1270
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 13:08:28 +0100 (CET)
-Received: from localhost ([::1]:51934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C194C127F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 13:11:59 +0100 (CET)
+Received: from localhost ([::1]:58580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMqRW-0008Co-VH
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 07:08:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37492)
+	id 1nMqUw-0004vt-Vb
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 07:11:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMqKA-0005JH-AD
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 07:00:54 -0500
-Received: from [2a00:1450:4864:20::52c] (port=42872
- helo=mail-ed1-x52c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMqK8-0007X1-4s
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 07:00:49 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id i11so42054536eda.9
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 04:00:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q9kJsMl025djWNk+9lnX+zMTDWyxwGPEjeGARgOQfBU=;
- b=n9h3Q9rV9WY3vIi60OWndKR+8fHxef0Xf01/wlzyaC/rA9SrVmPEP1ELWBDfyOOWpv
- VQ+ECGqsgMrDAakkrHUFLm8ODoav0HNkB/pKDtBJp920kdXg8KKWMEP+D3H3jtdrZUoF
- AFN2RFZZA5lh/qcB22grRP5r7vUHzua1cLTsCh6whODz8vn2/Fnkvwz3SsAYAy+p4Gwz
- ELq0ZYtVw7CfCYt+DO8gVpNSrTzH9Unp+ymciN3epTMWHPy+Cgi88TLFnsV0/i81DnWu
- R1tp8u37bgiFGfcgBBV1Vc01CQFVjZ40t/ASt/x2W0eHVrdx6n4QocFpvf0HLn1YuMM4
- w9OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q9kJsMl025djWNk+9lnX+zMTDWyxwGPEjeGARgOQfBU=;
- b=GnlPFMOyX/HV+NblsWhIICtQ10xPhYBVRrfJl4aNEuKzUgP1rEkJIKOXy82x4kpY7J
- ty7dIHGFAZHFmaNFSv8PLzkcZ0eNf6SImUKexGflPH1dRFjMB2SWhphnZnb2dfpfFAU0
- Y9mqyuI6s06Ir0opLk6PzpvCAaDBxwhWNBDU0m1KCPUKDoovvjRdXgHw85tivPBctXWm
- e72T+3kTHnlnAIAhIN+l2zFxrROilCBPuERxV05PL0d69zCbd4e7Nnh7Nje0HwN+vsEx
- Zs+H9AdfotLhSdWkWxo2PYsH3E0I6eylWUzPJc9EVK3A0LhvrfqVmzMnfOWgQBF/gtJZ
- Q8yQ==
-X-Gm-Message-State: AOAM532B5ej6W8MnUcViqWu48GiXoX1XQ0/Fo7NZbL2rSJRojUu1I5eG
- MHfIO6RDXXTfb3gwsr7z0DaoPqwq4/CT6DC08aV0rw==
-X-Google-Smtp-Source: ABdhPJxrLmF0e2U+hJ01u62ElgRrkozOjHzVVcILQFem3YV34/TK6zTt/jcAcqCSuikhJ4u126dJCPG6FW5FCy8K8M4=
-X-Received: by 2002:aa7:d6c3:0:b0:40f:405a:fbf8 with SMTP id
- x3-20020aa7d6c3000000b0040f405afbf8mr30524718edr.447.1645617645152; Wed, 23
- Feb 2022 04:00:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nMqKi-0005li-Lc
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 07:01:24 -0500
+Received: from mga06.intel.com ([134.134.136.31]:5071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nMqKg-0007h7-6z
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 07:01:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645617682; x=1677153682;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=eoV+NoqJpfdApzLIf0eBSfJu/vs2jcIFT1WCrSXOtdw=;
+ b=fFV3ILo6wRTrrTSLDlJID/JNNhA/hs3g4OY+OaKozjEXHcuEVkoOwLWM
+ jnv5yCA4PDKnGon6AglaWP6dO1I53DVUmqTVaBOEKkktqnNe5Czg/waC5
+ imVbCYohaDZ7fSo3kyDFk5w7EP4xNF3XkdiRM+zxkafhJpCCin7pzz4Of
+ AEWX8WLOh0QV4gGQUSqeuiybocwoA1fLGu3MWvhBa3ys+qBekv7Z/qsDd
+ ZHEYRUIvVrl+u93y10U74O1vkI0S9QLSBtsB1R1hSkQ1SOpqLDyweanaq
+ wkJ2r1eMiZlLJi+nsQMacyjopMTUYmpGlvYisqcxQcuuuW7QLzuk0ABFX g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="312663111"
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="312663111"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2022 04:01:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="532653565"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by orsmga007.jf.intel.com with ESMTP; 23 Feb 2022 04:01:07 -0800
+Date: Wed, 23 Feb 2022 20:00:47 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Subject: Re: [PATCH v4 12/12] KVM: Expose KVM_MEM_PRIVATE
+Message-ID: <20220223120047.GB53733@chaop.bj.intel.com>
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+ <20220118132121.31388-13-chao.p.peng@linux.intel.com>
+ <a121e766-900d-2135-1516-e1d3ba716834@maciej.szmigiero.name>
+ <20220217134548.GA33836@chaop.bj.intel.com>
+ <45148f5f-fe79-b452-f3b2-482c5c3291c4@maciej.szmigiero.name>
 MIME-Version: 1.0
-References: <20220210132822.2969324-1-ani@anisinha.ca>
- <20220223100410.756ffe35@redhat.com>
-In-Reply-To: <20220223100410.756ffe35@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Wed, 23 Feb 2022 17:30:34 +0530
-Message-ID: <CAARzgwxXAn83xE80o8+YNUeQJVn6NdtAGjC0e+KjEgbYAQaUkw@mail.gmail.com>
-Subject: Re: [PATCH] hw/i386/pc: when adding reserved E820 entries do not
- allocate dynamic entries
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::52c;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <45148f5f-fe79-b452-f3b2-482c5c3291c4@maciej.szmigiero.name>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=134.134.136.31;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga06.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,53 +76,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 23, 2022 at 2:34 PM Igor Mammedov <imammedo@redhat.com> wrote:
->
-> On Thu, 10 Feb 2022 18:58:21 +0530
-> Ani Sinha <ani@anisinha.ca> wrote:
->
-> > When adding E820_RESERVED entries we also accidentally allocate dynamic
-> > entries. This is incorrect. We should simply return early with the count of
-> > the number of reserved entries added.
->
-> can you expand commit message to explain what's wrong and
-> how problem manifests ... etc.
+On Tue, Feb 22, 2022 at 02:16:46AM +0100, Maciej S. Szmigiero wrote:
+> On 17.02.2022 14:45, Chao Peng wrote:
+> > On Tue, Jan 25, 2022 at 09:20:39PM +0100, Maciej S. Szmigiero wrote:
+> > > On 18.01.2022 14:21, Chao Peng wrote:
+> > > > KVM_MEM_PRIVATE is not exposed by default but architecture code can turn
+> > > > on it by implementing kvm_arch_private_memory_supported().
+> > > > 
+> > > > Also private memslot cannot be movable and the same file+offset can not
+> > > > be mapped into different GFNs.
+> > > > 
+> > > > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > > > ---
+> > > (..)
+> > > >    static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
+> > > > -				      gfn_t start, gfn_t end)
+> > > > +				      struct file *file,
+> > > > +				      gfn_t start, gfn_t end,
+> > > > +				      loff_t start_off, loff_t end_off)
+> > > >    {
+> > > >    	struct kvm_memslot_iter iter;
+> > > > +	struct kvm_memory_slot *slot;
+> > > > +	struct inode *inode;
+> > > > +	int bkt;
+> > > >    	kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
+> > > >    		if (iter.slot->id != id)
+> > > >    			return true;
+> > > >    	}
+> > > > +	/* Disallow mapping the same file+offset into multiple gfns. */
+> > > > +	if (file) {
+> > > > +		inode = file_inode(file);
+> > > > +		kvm_for_each_memslot(slot, bkt, slots) {
+> > > > +			if (slot->private_file &&
+> > > > +			     file_inode(slot->private_file) == inode &&
+> > > > +			     !(end_off <= slot->private_offset ||
+> > > > +			       start_off >= slot->private_offset
+> > > > +					     + (slot->npages >> PAGE_SHIFT)))
+> > > > +				return true;
+> > > > +		}
+> > > > +	}
+> > > 
+> > > That's a linear scan of all memslots on each CREATE (and MOVE) operation
+> > > with a fd - we just spent more than a year rewriting similar linear scans
+> > > into more efficient operations in KVM.
+> > 
+> > In the last version I tried to solve this problem by using interval tree
+> > (just like existing hva_tree), but finally we realized that in one VM we
+> > can have multiple fds with overlapped offsets so that approach is
+> > incorrect. See https://lkml.org/lkml/2021/12/28/480 for the discussion.
+> 
+> That's right, in this case a two-level structure would be necessary:
+> the first level matching a file, then the second level matching that
+> file ranges.
+> However, if such data is going to be used just for checking possible
+> overlap at memslot add or move time it is almost certainly an overkill.
 
-The issue has been present for the last 8 years without apparent
-visible issues. I think the only issue is that the bug allocates more
-memory in the firmware than is actually needed.
+Yes, that is also what I'm seeing.
 
->
-> >
-> > fixes: 7d67110f2d9a6("pc: add etc/e820 fw_cfg file")
-> > cc: kraxel@redhat.com
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > ---
-> >  hw/i386/e820_memory_layout.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/hw/i386/e820_memory_layout.c b/hw/i386/e820_memory_layout.c
-> > index bcf9eaf837..afb08253a4 100644
-> > --- a/hw/i386/e820_memory_layout.c
-> > +++ b/hw/i386/e820_memory_layout.c
-> > @@ -31,6 +31,8 @@ int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
-> >          entry->type = cpu_to_le32(type);
-> >
-> >          e820_reserve.count = cpu_to_le32(index);
-> > +
-> > +        return index;
-> >      }
->
-> this changes e820_table size/content, which is added by fw_cfg_add_file() to fwcfg,
-> as result it breaks ABI in case of migration.
+> 
+> > So linear scan is used before I can find a better way.
+> 
+> Another option would be to simply not check for overlap at add or move
+> time, declare such configuration undefined behavior under KVM API and
+> make sure in MMU notifiers that nothing bad happens to the host kernel
+> if it turns out somebody actually set up a VM this way (it could be
+> inefficient in this case, since it's not supposed to ever happen
+> unless there is a bug somewhere in the userspace part).
 
-Ugh. So should we keep the bug? or do we add config setting to handle
-the ABI breakage.
+Specific to TDX case, SEAMMODULE will fail the overlapping case and then
+KVM prints a message to the kernel log. It will not cause any other side
+effect, it does look weird however. Yes warn that in the API document
+can help to some extent.
+
+Thanks,
+Chao
+> 
+> > Chao
+> 
+> Thanks,
+> Maciej
 
