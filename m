@@ -2,43 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2880D4C0C0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 06:27:10 +0100 (CET)
-Received: from localhost ([::1]:36204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1439E4C0CC4
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 07:50:11 +0100 (CET)
+Received: from localhost ([::1]:48188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMkBA-0004ui-Q1
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 00:27:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58348)
+	id 1nMlTV-0001G9-KX
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 01:50:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan@sysprogs.com>) id 1nMkA2-0003xV-Hx
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 00:25:58 -0500
-Received: from sysprogs.com ([45.79.83.98]:50458)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMlKe-0007YD-7j
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 01:41:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan@sysprogs.com>) id 1nMk9y-0000Rd-Rr
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 00:25:58 -0500
-Received: from sys2 (unknown [174.1.100.17])
- by sysprogs.com (Postfix) with ESMTPSA id 5B35611A357;
- Wed, 23 Feb 2022 05:25:53 +0000 (UTC)
-From: "Ivan Shcherbakov" <ivan@sysprogs.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH 3/3] whpx: Added support for breakpoints and stepping
-Date: Tue, 22 Feb 2022 21:25:51 -0800
-Message-ID: <010e01d82875$d3cc0ec0$7b642c40$@sysprogs.com>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMlKY-0003Ry-Ry
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 01:40:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645598450;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nU3SgC3ZFOA8lTaFLv90S+Qn32vTOHBc0cbhCPW9CH4=;
+ b=eBj6411+CVGFbUagDeY/UI3aIz8GC5ahAYKEc00gq97yWKtillrnqGS9k79L1IuCmuprHc
+ 1dbqBC9uISDh3yKQ18xiMG5FbZIfRESm5qX36k9corSpHEi5Cz1yCu8xU2wcu2ovr5yUlX
+ lO4HcHn7wxFam0Go1Hjaq/tmU5FJQK8=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-343-Mgv8BYspPDW5dXfuYdb9dA-1; Wed, 23 Feb 2022 01:40:48 -0500
+X-MC-Unique: Mgv8BYspPDW5dXfuYdb9dA-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ k13-20020a65434d000000b00342d8eb46b4so12686333pgq.23
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 22:40:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nU3SgC3ZFOA8lTaFLv90S+Qn32vTOHBc0cbhCPW9CH4=;
+ b=G/Boz3VLEvvTrKVw3x5xHDe5k4dpuTs9ruLWR4PqdJyyug50A/ePtQg8y6OUdfnBfU
+ hngj6DD1aFuEb4uhCwiekZAEjY/dbAY+b8CnaQkvY50j5FS7LRcGC1RHluGJMulykwYN
+ KcdvHXMEth3nKJ0GvmYOzuObqLXHOpGe1pRE5SacVUy2B46Sw/WKJ1RQFyHYnSTDFSdd
+ IWw2blpbkyRtCYK+WLYWbk2ZtLRKfuO35LIAJe6GFpd4WuOdolu3jdG150i2A69aBurA
+ OPTQsMVDz5Kn9TjFiOyaJFKGm5tTYNFZS3RTuuqBtEKjJAoEo9SslmxRcyGhMRTZT/fK
+ LBJA==
+X-Gm-Message-State: AOAM531FKYbxELS+DC4ZsOGNPPXkgZlaj8xV3noVys3GD5+I3tJW3JTz
+ LFL7JhZPWC/Vxp7OFWMv3aqMK9fWGJIYmaP/ms2OouJsAuWudGDr8yRDJuH+tq1RTplJWSpV30E
+ 4jEPTydRV8jBuKps=
+X-Received: by 2002:a05:6a00:b51:b0:4c7:c1a3:3911 with SMTP id
+ p17-20020a056a000b5100b004c7c1a33911mr28287057pfo.13.1645598447734; 
+ Tue, 22 Feb 2022 22:40:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy7LhCsF5mUd/+uyO0Jr+UYPb8aFB90IDIfxIaoiTxBfKUwT8yOlzS4NcJFCdf/wV7w7vWHhw==
+X-Received: by 2002:a05:6a00:b51:b0:4c7:c1a3:3911 with SMTP id
+ p17-20020a056a000b5100b004c7c1a33911mr28287042pfo.13.1645598447454; 
+ Tue, 22 Feb 2022 22:40:47 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.100])
+ by smtp.gmail.com with ESMTPSA id 14sm17265792pgd.2.2022.02.22.22.40.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Feb 2022 22:40:47 -0800 (PST)
+Date: Wed, 23 Feb 2022 14:40:42 +0800
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 13/20] migration: Move channel setup out of
+ postcopy_try_recover()
+Message-ID: <YhXW6t4pfmhAJyZS@xz-m1.local>
+References: <20220216062809.57179-1-peterx@redhat.com>
+ <20220216062809.57179-14-peterx@redhat.com>
+ <YhTBnqF7Z2DLsjhY@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdgodMiRbkVogzS4Qm6TA7Q8ejvz3Q==
-Content-Language: en-us
-Received-SPF: pass client-ip=45.79.83.98; envelope-from=ivan@sysprogs.com;
- helo=sysprogs.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <YhTBnqF7Z2DLsjhY@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -51,937 +98,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, mst@redhat.com
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds support for breakpoints and stepping when debugging
-WHPX-accelerated guests with gdb.
-It enables reliable debugging of the Linux kernel in both single-CPU and SMP
-modes.
+On Tue, Feb 22, 2022 at 10:57:34AM +0000, Dr. David Alan Gilbert wrote:
+> * Peter Xu (peterx@redhat.com) wrote:
+> > We used to use postcopy_try_recover() to replace migration_incoming_setup() to
+> > setup incoming channels.  That's fine for the old world, but in the new world
+> > there can be more than one channels that need setup.  Better move the channel
+> > setup out of it so that postcopy_try_recover() only handles the last phase of
+> > switching to the recovery phase.
+> > 
+> > To do that in migration_fd_process_incoming(), move the postcopy_try_recover()
+> > call to be after migration_incoming_setup(), which will setup the channels.
+> > While in migration_ioc_process_incoming(), postpone the recover() routine right
+> > before we'll jump into migration_incoming_process().
+> > 
+> > A side benefit is we don't need to pass in QEMUFile* to postcopy_try_recover()
+> > anymore.  Remove it.
+> > 
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> 
+> OK, but note one question below:
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Signed-off-by: Ivan Shcherbakov <ivan@sysprogs.com>
----
- gdbstub.c                        |  10 +
- include/exec/gdbstub.h           |   8 +
- target/i386/whpx/whpx-all.c      | 689 ++++++++++++++++++++++++++++++-
- target/i386/whpx/whpx-internal.h |  29 ++
- 4 files changed, 721 insertions(+), 15 deletions(-)
+Thanks.
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 3c14c6a038..d30cbfa478 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -373,6 +373,12 @@ typedef struct GDBState {
- } GDBState;
- 
- static GDBState gdbserver_state;
-+static bool gdbserver_is_connected;
-+
-+bool gdb_is_connected(void)
-+{
-+    return gdbserver_is_connected;
-+}
- 
- static void init_gdbserver_state(void)
- {
-@@ -3410,6 +3416,10 @@ static void gdb_chr_event(void *opaque, QEMUChrEvent
-event)
-         vm_stop(RUN_STATE_PAUSED);
-         replay_gdb_attached();
-         gdb_has_xml = false;
-+        gdbserver_is_connected = true;
-+        break;
-+    case CHR_EVENT_CLOSED:
-+        gdbserver_is_connected = false;
-         break;
-     default:
-         break;
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index a024a0350d..0ef54cdeb5 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -188,4 +188,12 @@ extern bool gdb_has_xml;
- /* in gdbstub-xml.c, generated by scripts/feature_to_c.sh */
- extern const char *const xml_builtin[][2];
- 
-+/**
-+ * gdb_is_connected: Check whether gdb is currently connected.
-+ * This function is used to determine if gdb is currently connected to
-qemu.
-+ * It is used by the WHPX engine to enable interception of debug-related
-+ * exceptions, when debugging with gdb, and pass them to the guest
-otherwise.
-+ */
-+bool gdb_is_connected(void);
-+
- #endif
-diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-index 8a8b5d55d1..030988fa51 100644
---- a/target/i386/whpx/whpx-all.c
-+++ b/target/i386/whpx/whpx-all.c
-@@ -12,6 +12,7 @@
- #include "cpu.h"
- #include "exec/address-spaces.h"
- #include "exec/ioport.h"
-+#include "exec/gdbstub.h"
- #include "qemu-common.h"
- #include "qemu/accel.h"
- #include "sysemu/whpx.h"
-@@ -148,6 +149,12 @@ struct whpx_register_set {
-     WHV_REGISTER_VALUE values[RTL_NUMBER_OF(whpx_register_names)];
- };
- 
-+enum whpx_step_mode {
-+    whpx_step_none = 0,
-+    /* Halt other VCPUs */
-+    whpx_step_exclusive,
-+};
-+
- struct whpx_vcpu {
-     WHV_EMULATOR_HANDLE emulator;
-     bool window_registered;
-@@ -156,7 +163,6 @@ struct whpx_vcpu {
-     uint64_t tpr;
-     uint64_t apic_base;
-     bool interruption_pending;
--
-     /* Must be the last field as it may have a tail */
-     WHV_RUN_VP_EXIT_CONTEXT exit_ctx;
- };
-@@ -793,6 +799,515 @@ static int whpx_handle_portio(CPUState *cpu,
-     return 0;
- }
- 
-+/*
-+ * Controls whether we should intercept various exceptions on the guest,
-+ * namely breakpoint/single-step events.
-+ *
-+ * The 'exceptions' argument accepts a bitmask, e.g:
-+ * (1 << WHvX64ExceptionTypeDebugTrapOrFault) | (...)
-+ */
-+static HRESULT whpx_set_exception_exit_bitmap(UINT64 exceptions)
-+{
-+    struct whpx_state *whpx = &whpx_global;
-+    WHV_PARTITION_PROPERTY prop = { 0, };
-+    HRESULT hr;
-+
-+    if (exceptions == whpx->exception_exit_bitmap) {
-+        return S_OK;
-+    }
-+
-+    prop.ExceptionExitBitmap = exceptions;
-+
-+    hr = whp_dispatch.WHvSetPartitionProperty(
-+        whpx->partition,
-+        WHvPartitionPropertyCodeExceptionExitBitmap,
-+        &prop,
-+        sizeof(WHV_PARTITION_PROPERTY));
-+
-+    if (SUCCEEDED(hr)) {
-+        whpx->exception_exit_bitmap = exceptions;
-+    }
-+
-+    return hr;
-+}
-+
-+
-+/*
-+ * This function is called before/after stepping over a single instruction.
-+ * It will update the CPU registers to arm/disarm the instruction stepping
-+ * accordingly.
-+ */
-+static HRESULT whpx_vcpu_configure_single_stepping(CPUState *cpu,
-+    bool set,
-+    uint64_t *exit_context_rflags)
-+{
-+    WHV_REGISTER_NAME reg_name;
-+    WHV_REGISTER_VALUE reg_value;
-+    HRESULT hr;
-+    struct whpx_state *whpx = &whpx_global;
-+
-+    /*
-+     * If we are trying to step over a single instruction, we need to set
-the
-+     * TF bit in rflags. Otherwise, clear it.
-+     */
-+    reg_name = WHvX64RegisterRflags;
-+    hr = whp_dispatch.WHvGetVirtualProcessorRegisters(
-+        whpx->partition,
-+        cpu->cpu_index,
-+        &reg_name,
-+        1,
-+        &reg_value);
-+
-+    if (FAILED(hr)) {
-+        error_report("WHPX: Failed to get rflags, hr=%08lx", hr);
-+        return hr;
-+    }
-+
-+    if (exit_context_rflags) {
-+        assert(*exit_context_rflags == reg_value.Reg64);
-+    }
-+
-+    if (set) {
-+        /* Raise WHvX64ExceptionTypeDebugTrapOrFault after each instruction
-*/
-+        reg_value.Reg64 |= TF_MASK;
-+    } else {
-+        reg_value.Reg64 &= ~TF_MASK;
-+    }
-+
-+    if (exit_context_rflags) {
-+        *exit_context_rflags = reg_value.Reg64;
-+    }
-+
-+    hr = whp_dispatch.WHvSetVirtualProcessorRegisters(
-+        whpx->partition,
-+        cpu->cpu_index,
-+        &reg_name,
-+        1,
-+        &reg_value);
-+
-+    if (FAILED(hr)) {
-+        error_report("WHPX: Failed to set rflags,"
-+            " hr=%08lx",
-+            hr);
-+        return hr;
-+    }
-+
-+    reg_name = WHvRegisterInterruptState;
-+    reg_value.Reg64 = 0;
-+
-+    /* Suspend delivery of hardware interrupts during single-stepping. */
-+    reg_value.InterruptState.InterruptShadow = set != 0;
-+
-+    hr = whp_dispatch.WHvSetVirtualProcessorRegisters(
-+    whpx->partition,
-+        cpu->cpu_index,
-+        &reg_name,
-+        1,
-+        &reg_value);
-+
-+    if (FAILED(hr)) {
-+        error_report("WHPX: Failed to set InterruptState,"
-+            " hr=%08lx",
-+            hr);
-+        return hr;
-+    }
-+
-+    if (!set) {
-+        /*
-+         * We have just finished stepping over a single instruction,
-+         * and intercepted the INT1 generated by it.
-+         * We need to now hide the INT1 from the guest,
-+         * as it would not be expecting it.
-+         */
-+
-+        reg_name = WHvX64RegisterPendingDebugException;
-+        hr = whp_dispatch.WHvGetVirtualProcessorRegisters(
-+        whpx->partition,
-+            cpu->cpu_index,
-+            &reg_name,
-+            1,
-+            &reg_value);
-+
-+        if (FAILED(hr)) {
-+            error_report("WHPX: Failed to get pending debug exceptions,"
-+                         "hr=%08lx", hr);
-+            return hr;
-+        }
-+
-+        if (reg_value.PendingDebugException.SingleStep) {
-+            reg_value.PendingDebugException.SingleStep = 0;
-+
-+            hr = whp_dispatch.WHvSetVirtualProcessorRegisters(
-+                whpx->partition,
-+                cpu->cpu_index,
-+                &reg_name,
-+                1,
-+                &reg_value);
-+
-+            if (FAILED(hr)) {
-+                error_report("WHPX: Failed to clear pending debug
-exceptions,"
-+                             "hr=%08lx", hr);
-+             return hr;
-+            }
-+        }
-+
-+    }
-+
-+    return S_OK;
-+}
-+
-+/* Tries to find a breakpoint at the specified address. */
-+static struct whpx_breakpoint *whpx_lookup_breakpoint_by_addr(uint64_t
-address)
-+{
-+    struct whpx_state *whpx = &whpx_global;
-+    int i;
-+
-+    if (whpx->breakpoints.breakpoints) {
-+        for (i = 0; i < whpx->breakpoints.breakpoints->used; i++) {
-+            if (address == whpx->breakpoints.breakpoints->data[i].address)
-{
-+                return &whpx->breakpoints.breakpoints->data[i];
-+            }
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+/*
-+ * Linux uses int3 (0xCC) during startup (see int3_selftest()) and for
-+ * debugging user-mode applications. Since the WHPX API does not offer
-+ * an easy way to pass the intercepted exception back to the guest, we
-+ * resort to using INT1 instead, and let the guest always handle INT3.
-+ */
-+static const uint8_t whpx_breakpoint_instruction = 0xF1;
-+
-+/*
-+ * The WHPX QEMU backend implements breakpoints by writing the INT1
-+ * instruction into memory (ignoring the DRx registers). This raises a few
-+ * issues that need to be carefully handled:
-+ *
-+ * 1. Although unlikely, other parts of QEMU may set multiple breakpoints
-+ *    at the same location, and later remove them in arbitrary order.
-+ *    This should not cause memory corruption, and should only remove the
-+ *    physical breakpoint instruction when the last QEMU breakpoint is
-gone.
-+ *
-+ * 2. Writing arbitrary virtual memory may fail if it's not mapped to a
-valid
-+ *    physical location. Hence, physically adding/removing a breakpoint can
-+ *    theoretically fail at any time. We need to keep track of it.
-+ *
-+ * The function below rebuilds a list of low-level breakpoints (one per
-+ * address, tracking the original instruction and any errors) from the list
-of
-+ * high-level breakpoints (set via cpu_breakpoint_insert()).
-+ *
-+ * In order to optimize performance, this function stores the list of
-+ * high-level breakpoints (a.k.a. CPU breakpoints) used to compute the
-+ * low-level ones, so that it won't be re-invoked until these breakpoints
-+ * change.
-+ *
-+ * Note that this function decides which breakpoints should be inserted
-into,
-+ * memory, but doesn't actually do it. The memory accessing is done in
-+ * whpx_apply_breakpoints().
-+ */
-+static void whpx_translate_cpu_breakpoints(
-+    struct whpx_breakpoints *breakpoints,
-+    CPUState *cpu,
-+    int cpu_breakpoint_count)
-+{
-+    CPUBreakpoint *bp;
-+    int cpu_bp_index = 0;
-+
-+    breakpoints->original_addresses =
-+        g_renew(vaddr, breakpoints->original_addresses,
-cpu_breakpoint_count);
-+
-+    breakpoints->original_address_count = cpu_breakpoint_count;
-+
-+    int max_breakpoints = cpu_breakpoint_count +
-+        (breakpoints->breakpoints ? breakpoints->breakpoints->used : 0);
-+
-+    struct whpx_breakpoint_collection *new_breakpoints =
-+        (struct whpx_breakpoint_collection *)g_malloc0(
-+        sizeof(struct whpx_breakpoint_collection) +
-+            max_breakpoints * sizeof(struct whpx_breakpoint));
-+
-+    new_breakpoints->allocated = max_breakpoints;
-+    new_breakpoints->used = 0;
-+
-+    /*
-+     * 1. Preserve all old breakpoints that could not be automatically
-+     * cleared when the CPU got stopped.
-+     */
-+    if (breakpoints->breakpoints) {
-+        int i;
-+        for (i = 0; i < breakpoints->breakpoints->used; i++) {
-+            if (breakpoints->breakpoints->data[i].state != whpx_bp_cleared)
-{
-+                new_breakpoints->data[new_breakpoints->used++] =
-+                    breakpoints->breakpoints->data[i];
-+            }
-+        }
-+    }
-+
-+    /* 2. Map all CPU breakpoints to WHPX breakpoints */
-+    QTAILQ_FOREACH(bp, &cpu->breakpoints, entry) {
-+        int i;
-+        bool found = false;
-+
-+        /* This will be used to detect changed CPU breakpoints later. */
-+        breakpoints->original_addresses[cpu_bp_index++] = bp->pc;
-+
-+        for (i = 0; i < new_breakpoints->used; i++) {
-+            /*
-+             * WARNING: This loop has O(N^2) complexity, where N is the
-+             * number of breakpoints. It should not be a bottleneck in
-+             * real-world scenarios, since it only needs to run once after
-+             * the breakpoints have been modified.
-+             * If this ever becomes a concern, it can be optimized by
-storing
-+             * high-level breakpoint objects in a tree or hash map.
-+             */
-+
-+            if (new_breakpoints->data[i].address == bp->pc) {
-+                /* There was already a breakpoint at this address. */
-+                if (new_breakpoints->data[i].state ==
-whpx_bp_clear_pending) {
-+                    new_breakpoints->data[i].state = whpx_bp_set;
-+                } else if (new_breakpoints->data[i].state == whpx_bp_set) {
-+                    new_breakpoints->data[i].state = whpx_bp_set_pending;
-+                }
-+
-+                found = true;
-+                break;
-+            }
-+        }
-+
-+        if (!found && new_breakpoints->used < new_breakpoints->allocated) {
-+            /* No WHPX breakpoint at this address. Create one. */
-+            new_breakpoints->data[new_breakpoints->used].address = bp->pc;
-+            new_breakpoints->data[new_breakpoints->used].state =
-+                whpx_bp_set_pending;
-+            new_breakpoints->used++;
-+        }
-+    }
-+
-+    if (breakpoints->breakpoints) {
-+        /*
-+         * Free the previous breakpoint list. This can be optimized by
-keeping
-+         * it as shadow buffer for the next computation instead of freeing
-+         * it immediately.
-+         */
-+        g_free(breakpoints->breakpoints);
-+    }
-+
-+    breakpoints->breakpoints = new_breakpoints;
-+}
-+
-+/*
-+ * Physically inserts/removes the breakpoints by reading and writing the
-+ * physical memory, keeping a track of the failed attempts.
-+ *
-+ * Passing resuming=true  will try to set all previously unset breakpoints.
-+ * Passing resuming=false will remove all inserted ones.
-+ */
-+static void whpx_apply_breakpoints(
-+    struct whpx_breakpoint_collection *breakpoints,
-+    CPUState *cpu,
-+    bool resuming)
-+{
-+    int i, rc;
-+    if (!breakpoints) {
-+        return;
-+    }
-+
-+    for (i = 0; i < breakpoints->used; i++) {
-+        /* Decide what to do right now based on the last known state. */
-+        enum whpx_breakpoint_state state = breakpoints->data[i].state;
-+        switch (state) {
-+        case whpx_bp_cleared:
-+            if (resuming) {
-+                state = whpx_bp_set_pending;
-+            }
-+            break;
-+        case whpx_bp_set_pending:
-+            if (!resuming) {
-+                state = whpx_bp_cleared;
-+            }
-+            break;
-+        case whpx_bp_set:
-+            if (!resuming) {
-+                state = whpx_bp_clear_pending;
-+            }
-+            break;
-+        case whpx_bp_clear_pending:
-+            if (resuming) {
-+                state = whpx_bp_set;
-+            }
-+            break;
-+        }
-+
-+        if (state == whpx_bp_set_pending) {
-+            /* Remember the original instruction. */
-+            rc = cpu_memory_rw_debug(cpu,
-+                breakpoints->data[i].address,
-+                &breakpoints->data[i].original_instruction,
-+                1,
-+                false);
-+
-+            if (!rc) {
-+                /* Write the breakpoint instruction. */
-+                rc = cpu_memory_rw_debug(cpu,
-+                    breakpoints->data[i].address,
-+                    (void *)&whpx_breakpoint_instruction,
-+                    1,
-+                    true);
-+            }
-+
-+            if (!rc) {
-+                state = whpx_bp_set;
-+            }
-+
-+        }
-+
-+        if (state == whpx_bp_clear_pending) {
-+            /* Restore the original instruction. */
-+            rc = cpu_memory_rw_debug(cpu,
-+                breakpoints->data[i].address,
-+                &breakpoints->data[i].original_instruction,
-+                1,
-+                true);
-+
-+            if (!rc) {
-+                state = whpx_bp_cleared;
-+            }
-+        }
-+
-+        breakpoints->data[i].state = state;
-+    }
-+}
-+
-+/*
-+ * This function is called when the a VCPU is about to start and no other
-+ * VCPUs have been started so far. Since the VCPU start order could be
-+ * arbitrary, it doesn't have to be VCPU#0.
-+ *
-+ * It is used to commit the breakpoints into memory, and configure WHPX
-+ * to intercept debug exceptions.
-+ *
-+ * Note that whpx_set_exception_exit_bitmap() cannot be called if one or
-+ * more VCPUs are already running, so this is the best place to do it.
-+ */
-+static int whpx_first_vcpu_starting(CPUState *cpu)
-+{
-+    struct whpx_state *whpx = &whpx_global;
-+    HRESULT hr;
-+
-+    g_assert(qemu_mutex_iothread_locked());
-+
-+    if (!QTAILQ_EMPTY(&cpu->breakpoints) ||
-+            (whpx->breakpoints.breakpoints &&
-+             whpx->breakpoints.breakpoints->used)) {
-+        CPUBreakpoint *bp;
-+        int i = 0;
-+        bool update_pending = false;
-+
-+        QTAILQ_FOREACH(bp, &cpu->breakpoints, entry) {
-+            if (i >= whpx->breakpoints.original_address_count ||
-+                bp->pc != whpx->breakpoints.original_addresses[i]) {
-+                update_pending = true;
-+            }
-+
-+            i++;
-+        }
-+
-+        if (i != whpx->breakpoints.original_address_count) {
-+            update_pending = true;
-+        }
-+
-+        if (update_pending) {
-+            /*
-+             * The CPU breakpoints have changed since the last call to
-+             * whpx_translate_cpu_breakpoints(). WHPX breakpoints must
-+             * now be recomputed.
-+             */
-+            whpx_translate_cpu_breakpoints(&whpx->breakpoints, cpu, i);
-+        }
-+
-+        /* Actually insert the breakpoints into the memory. */
-+        whpx_apply_breakpoints(whpx->breakpoints.breakpoints, cpu, true);
-+    }
-+
-+    uint64_t exception_mask;
-+    if (gdb_is_connected()) {
-+        /*
-+         * GDB is connected. Intercept breakpoint/step events.
-+         * Since we are using INT1 rather than INT3 for breakpoints,
-+         * we don't need to intercept WHvX64ExceptionTypeBreakpointTrap.
-+         */
-+
-+        exception_mask = 1UL << WHvX64ExceptionTypeDebugTrapOrFault;
-+    } else {
-+        /* GDB is not connected. Let the guest handle all exceptions. */
-+        exception_mask = 0;
-+    }
-+
-+    hr = whpx_set_exception_exit_bitmap(exception_mask);
-+    if (!SUCCEEDED(hr)) {
-+        error_report("WHPX: Failed to update exception exit mask,"
-+                     "hr=%08lx.", hr);
-+        return 1;
-+    }
-+
-+    return 0;
-+}
-+
-+/*
-+ * This function is called when the last VCPU has finished running.
-+ * It is used to remove any previously set breakpoints from memory.
-+ */
-+static int whpx_last_vcpu_stopping(CPUState *cpu)
-+{
-+    whpx_apply_breakpoints(whpx_global.breakpoints.breakpoints, cpu,
-false);
-+    return 0;
-+}
-+
-+/* Returns the address of the next instruction that is about to be
-executed. */
-+static vaddr whpx_vcpu_get_pc(CPUState *cpu, bool exit_context_valid)
-+{
-+    if (cpu->vcpu_dirty) {
-+        /* The CPU registers have been modified by other parts of QEMU. */
-+        struct CPUX86State *env = (CPUArchState *)(cpu->env_ptr);
-+        return env->eip;
-+    } else if (exit_context_valid) {
-+        /*
-+         * The CPU registers have not been modified by neither other parts
-+         * of QEMU, nor this port by calling
-WHvSetVirtualProcessorRegisters().
-+         * This is the most common case.
-+         */
-+        struct whpx_vcpu *vcpu = get_whpx_vcpu(cpu);
-+        return vcpu->exit_ctx.VpContext.Rip;
-+    } else {
-+        /*
-+         * The CPU registers have been modified by a call to
-+         * WHvSetVirtualProcessorRegisters() and must be re-queried from
-+         * the target.
-+         */
-+        WHV_REGISTER_VALUE reg_value;
-+        WHV_REGISTER_NAME reg_name = WHvX64RegisterRip;
-+        HRESULT hr;
-+        struct whpx_state *whpx = &whpx_global;
-+
-+        hr = whp_dispatch.WHvGetVirtualProcessorRegisters(
-+            whpx->partition,
-+            cpu->cpu_index,
-+            &reg_name,
-+            1,
-+            &reg_value);
-+
-+        if (FAILED(hr)) {
-+            error_report("WHPX: Failed to get PC, hr=%08lx", hr);
-+            return 0;
-+        }
-+
-+        return reg_value.Reg64;
-+    }
-+}
-+
- static int whpx_handle_halt(CPUState *cpu)
- {
-     struct CPUX86State *env = (CPUArchState *)(cpu->env_ptr);
-@@ -1004,17 +1519,75 @@ static int whpx_vcpu_run(CPUState *cpu)
-     HRESULT hr;
-     struct whpx_state *whpx = &whpx_global;
-     struct whpx_vcpu *vcpu = get_whpx_vcpu(cpu);
-+    struct whpx_breakpoint *stepped_over_bp = NULL;
-+    enum whpx_step_mode exclusive_step_mode = whpx_step_none;
-     int ret;
- 
--    whpx_vcpu_process_async_events(cpu);
--    if (cpu->halted && !whpx_apic_in_platform()) {
--        cpu->exception_index = EXCP_HLT;
--        qatomic_set(&cpu->exit_request, false);
--        return 0;
-+    g_assert(qemu_mutex_iothread_locked());
-+
-+    if (whpx->running_cpus++ == 0) {
-+        /* Insert breakpoints into memory, update exception exit bitmap. */
-+        ret = whpx_first_vcpu_starting(cpu);
-+        if (ret != 0) {
-+            return ret;
-+        }
-+    }
-+
-+    if (whpx->breakpoints.breakpoints &&
-+        whpx->breakpoints.breakpoints->used > 0)
-+    {
-+        uint64_t pc = whpx_vcpu_get_pc(cpu, true);
-+        stepped_over_bp = whpx_lookup_breakpoint_by_addr(pc);
-+        if (stepped_over_bp && stepped_over_bp->state != whpx_bp_set) {
-+            stepped_over_bp = NULL;
-+        }
-+
-+        if (stepped_over_bp) {
-+            /*
-+             * We are trying to run the instruction overwritten by an
-active
-+             * breakpoint. We will temporarily disable the breakpoint,
-suspend
-+             * other CPUs, and step over the instruction.
-+             */
-+            exclusive_step_mode = whpx_step_exclusive;
-+        }
-+    }
-+
-+    if (exclusive_step_mode == whpx_step_none) {
-+        whpx_vcpu_process_async_events(cpu);
-+        if (cpu->halted && !whpx_apic_in_platform()) {
-+            cpu->exception_index = EXCP_HLT;
-+            qatomic_set(&cpu->exit_request, false);
-+            return 0;
-+        }
-     }
- 
-     qemu_mutex_unlock_iothread();
--    cpu_exec_start(cpu);
-+
-+    if (exclusive_step_mode != whpx_step_none) {
-+        start_exclusive();
-+        g_assert(cpu == current_cpu);
-+        g_assert(!cpu->running);
-+        cpu->running = true;
-+
-+        hr = whpx_set_exception_exit_bitmap(
-+            1UL << WHvX64ExceptionTypeDebugTrapOrFault);
-+        if (!SUCCEEDED(hr)) {
-+            error_report("WHPX: Failed to update exception exit mask, "
-+                         "hr=%08lx.", hr);
-+            return 1;
-+        }
-+
-+        if (stepped_over_bp) {
-+            /* Temporarily disable the triggered breakpoint. */
-+            cpu_memory_rw_debug(cpu,
-+                stepped_over_bp->address,
-+                &stepped_over_bp->original_instruction,
-+                1,
-+                true);
-+        }
-+    } else {
-+        cpu_exec_start(cpu);
-+    }
- 
-     do {
-         if (cpu->vcpu_dirty) {
-@@ -1022,10 +1595,16 @@ static int whpx_vcpu_run(CPUState *cpu)
-             cpu->vcpu_dirty = false;
-         }
- 
--        whpx_vcpu_pre_run(cpu);
-+        if (exclusive_step_mode == whpx_step_none) {
-+            whpx_vcpu_pre_run(cpu);
-+
-+            if (qatomic_read(&cpu->exit_request)) {
-+                whpx_vcpu_kick(cpu);
-+            }
-+        }
- 
--        if (qatomic_read(&cpu->exit_request)) {
--            whpx_vcpu_kick(cpu);
-+        if (exclusive_step_mode != whpx_step_none ||
-cpu->singlestep_enabled) {
-+            whpx_vcpu_configure_single_stepping(cpu, true, NULL);
-         }
- 
-         hr = whp_dispatch.WHvRunVirtualProcessor(
-@@ -1039,6 +1618,12 @@ static int whpx_vcpu_run(CPUState *cpu)
-             break;
-         }
- 
-+        if (exclusive_step_mode != whpx_step_none ||
-cpu->singlestep_enabled) {
-+            whpx_vcpu_configure_single_stepping(cpu,
-+                false,
-+                &vcpu->exit_ctx.VpContext.Rflags);
-+        }
-+
-         whpx_vcpu_post_run(cpu);
- 
-         switch (vcpu->exit_ctx.ExitReason) {
-@@ -1062,6 +1647,10 @@ static int whpx_vcpu_run(CPUState *cpu)
-             break;
- 
-         case WHvRunVpExitReasonX64Halt:
-+            /*
-+             * WARNING: as of build 19043.1526 (21H1), this exit reason is
-no
-+             * longer used.
-+             */
-             ret = whpx_handle_halt(cpu);
-             break;
- 
-@@ -1160,10 +1749,19 @@ static int whpx_vcpu_run(CPUState *cpu)
-         }
- 
-         case WHvRunVpExitReasonCanceled:
--            cpu->exception_index = EXCP_INTERRUPT;
--            ret = 1;
-+            if (exclusive_step_mode != whpx_step_none) {
-+                /*
-+                 * We are trying to step over a single instruction, and
-+                 * likely got a request to stop from another thread.
-+                 * Delay it until we are done stepping
-+                 * over.
-+                 */
-+                ret = 0;
-+            } else {
-+                cpu->exception_index = EXCP_INTERRUPT;
-+                ret = 1;
-+            }
-             break;
--
-         case WHvRunVpExitReasonX64MsrAccess: {
-             WHV_REGISTER_VALUE reg_values[3] = {0};
-             WHV_REGISTER_NAME reg_names[3];
-@@ -1267,11 +1865,36 @@ static int whpx_vcpu_run(CPUState *cpu)
-             ret = 0;
-             break;
-         }
-+        case WHvRunVpExitReasonException:
-+            whpx_get_registers(cpu);
-+
-+            if ((vcpu->exit_ctx.VpException.ExceptionType ==
-+                 WHvX64ExceptionTypeDebugTrapOrFault) &&
-+                (vcpu->exit_ctx.VpException.InstructionByteCount >= 1) &&
-+                (vcpu->exit_ctx.VpException.InstructionBytes[0] ==
-+                 whpx_breakpoint_instruction)) {
-+                /* Stopped at a software breakpoint. */
-+                cpu->exception_index = EXCP_DEBUG;
-+            } else if ((vcpu->exit_ctx.VpException.ExceptionType ==
-+                        WHvX64ExceptionTypeDebugTrapOrFault) &&
-+                       !cpu->singlestep_enabled) {
-+                /*
-+                 * Just finished stepping over a breakpoint, but the
-+                 * gdb does not expect us to do single-stepping.
-+                 * Don't do anything special.
-+                 */
-+                cpu->exception_index = EXCP_INTERRUPT;
-+            } else {
-+                /* Another exception or debug event. Report it to GDB. */
-+                cpu->exception_index = EXCP_DEBUG;
-+            }
-+
-+            ret = 1;
-+            break;
-         case WHvRunVpExitReasonNone:
-         case WHvRunVpExitReasonUnrecoverableException:
-         case WHvRunVpExitReasonInvalidVpRegisterValue:
-         case WHvRunVpExitReasonUnsupportedFeature:
--        case WHvRunVpExitReasonException:
-         default:
-             error_report("WHPX: Unexpected VP exit code %d",
-                          vcpu->exit_ctx.ExitReason);
-@@ -1284,10 +1907,32 @@ static int whpx_vcpu_run(CPUState *cpu)
- 
-     } while (!ret);
- 
--    cpu_exec_end(cpu);
-+    if (stepped_over_bp) {
-+        /* Restore the breakpoint we stepped over */
-+        cpu_memory_rw_debug(cpu,
-+            stepped_over_bp->address,
-+            (void *)&whpx_breakpoint_instruction,
-+            1,
-+            true);
-+    }
-+
-+    if (exclusive_step_mode != whpx_step_none) {
-+        g_assert(cpu_in_exclusive_context(cpu));
-+        cpu->running = false;
-+        end_exclusive();
-+
-+        exclusive_step_mode = whpx_step_none;
-+    } else {
-+        cpu_exec_end(cpu);
-+    }
-+
-     qemu_mutex_lock_iothread();
-     current_cpu = cpu;
- 
-+    if (--whpx->running_cpus == 0) {
-+        whpx_last_vcpu_stopping(cpu);
-+    }
-+
-     qatomic_set(&cpu->exit_request, false);
- 
-     return ret < 0;
-@@ -1846,6 +2491,7 @@ static int whpx_accel_init(MachineState *ms)
-     memset(&prop, 0, sizeof(WHV_PARTITION_PROPERTY));
-     prop.ExtendedVmExits.X64MsrExit = 1;
-     prop.ExtendedVmExits.X64CpuidExit = 1;
-+    prop.ExtendedVmExits.ExceptionExit = 1;
-     if (whpx_apic_in_platform()) {
-         prop.ExtendedVmExits.X64ApicInitSipiExitTrap = 1;
-     }
-@@ -1874,6 +2520,19 @@ static int whpx_accel_init(MachineState *ms)
-         goto error;
-     }
- 
-+    /*
-+     * We do not want to intercept any exceptions from the guest,
-+     * until we actually start debugging with gdb.
-+     */
-+    whpx->exception_exit_bitmap = -1;
-+    hr = whpx_set_exception_exit_bitmap(0);
-+
-+    if (FAILED(hr)) {
-+        error_report("WHPX: Failed to set exception exit bitmap, hr=%08lx",
-hr);
-+        ret = -EINVAL;
-+        goto error;
-+    }
-+
-     hr = whp_dispatch.WHvSetupPartition(whpx->partition);
-     if (FAILED(hr)) {
-         error_report("WHPX: Failed to setup partition, hr=%08lx", hr);
-diff --git a/target/i386/whpx/whpx-internal.h
-b/target/i386/whpx/whpx-internal.h
-index 908ababf6d..8f8e02cf9a 100644
---- a/target/i386/whpx/whpx-internal.h
-+++ b/target/i386/whpx/whpx-internal.h
-@@ -5,9 +5,38 @@
- #include <WinHvPlatform.h>
- #include <WinHvEmulation.h>
- 
-+enum whpx_breakpoint_state {
-+    whpx_bp_cleared = 0,
-+    whpx_bp_set_pending,
-+    whpx_bp_set,
-+    whpx_bp_clear_pending,
-+};
-+
-+struct whpx_breakpoint {
-+    vaddr address;
-+    enum whpx_breakpoint_state state;
-+    uint8_t original_instruction;
-+};
-+
-+struct whpx_breakpoint_collection {
-+    int allocated, used;
-+    struct whpx_breakpoint data[0];
-+};
-+
-+struct whpx_breakpoints {
-+    int original_address_count;
-+    vaddr *original_addresses;
-+
-+    struct whpx_breakpoint_collection *breakpoints;
-+};
-+
- struct whpx_state {
-     uint64_t mem_quota;
-     WHV_PARTITION_HANDLE partition;
-+    uint64_t exception_exit_bitmap;
-+    int32_t running_cpus;
-+    struct whpx_breakpoints breakpoints;
-+
-     bool kernel_irqchip_allowed;
-     bool kernel_irqchip_required;
-     bool apic_in_platform;
+> 
+> > ---
+> >  migration/migration.c | 23 +++++++++++------------
+> >  1 file changed, 11 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/migration/migration.c b/migration/migration.c
+> > index 67520d3105..b2e6446457 100644
+> > --- a/migration/migration.c
+> > +++ b/migration/migration.c
+> > @@ -665,19 +665,20 @@ void migration_incoming_process(void)
+> >  }
+> >  
+> >  /* Returns true if recovered from a paused migration, otherwise false */
+> > -static bool postcopy_try_recover(QEMUFile *f)
+> > +static bool postcopy_try_recover(void)
+> >  {
+> >      MigrationIncomingState *mis = migration_incoming_get_current();
+> >  
+> >      if (mis->state == MIGRATION_STATUS_POSTCOPY_PAUSED) {
+> >          /* Resumed from a paused postcopy migration */
+> >  
+> > -        mis->from_src_file = f;
+> > +        /* This should be set already in migration_incoming_setup() */
+> > +        assert(mis->from_src_file);
+> >          /* Postcopy has standalone thread to do vm load */
+> > -        qemu_file_set_blocking(f, true);
+> > +        qemu_file_set_blocking(mis->from_src_file, true);
+> 
+> Does that set_blocking happen on the 2nd channel somewhere?
+
+Nop.  I think the rational is that by default all channels are blocking.
+
+Then what happened is: migration code only sets the main channel to
+non-blocking on incoming, that's in migration_incoming_setup().  Hence for
+postcopy recovery we need to tweak it to blocking here.
+
+The 2nd new channel is not operated by migration_incoming_setup(), but by
+postcopy_preempt_new_channel(), so it keeps the original blocking state,
+which should be blocking.
+
+If we want to make that clear, we can proactively set non-blocking too in
+postcopy_preempt_new_channel() on the 2nd channel.  It's just that it
+should be optional as long as blocking is the default for any new fd of a
+socket.
+
+Thanks,
+
 -- 
-
+Peter Xu
 
 
