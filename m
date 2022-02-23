@@ -2,98 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAAF4C11F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 12:53:09 +0100 (CET)
-Received: from localhost ([::1]:60830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D614C11F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 12:54:47 +0100 (CET)
+Received: from localhost ([::1]:36470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMqCh-0002fj-Jz
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 06:53:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34698)
+	id 1nMqEI-0005No-H5
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 06:54:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMq9d-0001Qy-IV
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 06:49:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39223)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nMqAm-0002hk-Ba
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 06:51:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMq9a-0005ZY-LA
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 06:49:56 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nMqAd-000614-Ub
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 06:51:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645616993;
+ s=mimecast20190719; t=1645617059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9XmNASTnRslCn5tUx2+rHIzIpNTGKd2t/Vfe83bLd3s=;
- b=bf6YBv5WEnMQ2LBCeUOwm7SBGSZ+a/x2pTkprs3HK6KMGrntlRZKObrLgoiiUY8iXkou4j
- q+dMvSrDy5bQR8sW+vzpGAMrxK3UPyL4lrzpAdmH1kuk4yzjJWoX9rqRgM8F51d6hxx/wQ
- 4uRdpHK3ikRpP0b2AF0b/GmjHJczMwk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DmzzM/vCeQ0ZUM6X/5YN8emb+k4deFyY9B4wLefJIPY=;
+ b=TfKZfoRIsf5KTcahOMsAUyunmk5sgStiIPixd13dHBfWiOUNY4OemOpJjyq07Pdmis+ZjX
+ GfT750P3BuUGJMxjPLYIqO88ePl0Ike8GWbF89udxqXehAo5+OydaVP1vLWnEHpQhq+h90
+ EKY/cZMfdjB7FfsJ0JWFJfmR9Qn/XgI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-522-9P212hwJNu6yNOuiQfmfBQ-1; Wed, 23 Feb 2022 06:49:50 -0500
-X-MC-Unique: 9P212hwJNu6yNOuiQfmfBQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- m2-20020adff382000000b001edbdae0527so270283wro.2
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 03:49:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=9XmNASTnRslCn5tUx2+rHIzIpNTGKd2t/Vfe83bLd3s=;
- b=1LLbYFt4akKjbg/OM94y3kd0s4sGTmpex9dmQEX7idl1GlVk4/nEQBdIxXVSekS/TN
- HyVDFnyKYZuwgkIr5dIUZKa0cnwl3djstVGgCR1yVQJkEVKBVvJjyiql0TBfBPoWO33B
- a1nK/Ep0oUpxZnisuh/7EgEtU5rehGbE6AdMY9oRNq5XhQyf78nHyUwPy0lj7NUVQ8Hr
- 7DCa9D8lmnt8Gn635d0c3u2gBHcwSGNHMAScYitA4vLNowFJDVUsSBwFRXfEfTaPAXXM
- E10+xhb6+anJu4v02znbfqSv+vFAH2WlLKaSWmuU8xiW+U8Ye2cKoNOfCmcFSuxz1S78
- 7jnA==
-X-Gm-Message-State: AOAM533MMcjs0bcTXob6j6x1QLw41LNIJA6IdqibnTiYAmxrPSOb5s/A
- 9Jyx1f9ElAac7IEloxfzOjaARYWpMwt3QW+cQxbNtskvfcJG3umgkwWW4pugl/6kv7h0Y59nltl
- ooCY0N8+XCns2kgw=
-X-Received: by 2002:a1c:f415:0:b0:37f:ab4d:1df2 with SMTP id
- z21-20020a1cf415000000b0037fab4d1df2mr7214376wma.75.1645616989714; 
- Wed, 23 Feb 2022 03:49:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxoAzkrbAJws/P/g+U0ptBKl0+vFtG0ttuDlXrMdXl4uYuPXVof0SDDbYy+ZoqJHqkOG59LFQ==
-X-Received: by 2002:a1c:f415:0:b0:37f:ab4d:1df2 with SMTP id
- z21-20020a1cf415000000b0037fab4d1df2mr7214344wma.75.1645616989406; 
- Wed, 23 Feb 2022 03:49:49 -0800 (PST)
-Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- m62-20020a1c2641000000b00380d0cff5f3sm5023554wmm.8.2022.02.23.03.49.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 03:49:48 -0800 (PST)
-Message-ID: <14eaf7fe-78f7-438e-1502-c646965c024d@redhat.com>
-Date: Wed, 23 Feb 2022 12:49:47 +0100
+ us-mta-586-LTAHW7oJP9a190NvBGt9xw-1; Wed, 23 Feb 2022 06:50:56 -0500
+X-MC-Unique: LTAHW7oJP9a190NvBGt9xw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72B728145EE;
+ Wed, 23 Feb 2022 11:50:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.195.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B9246767B;
+ Wed, 23 Feb 2022 11:50:44 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7934818003BA; Wed, 23 Feb 2022 12:50:42 +0100 (CET)
+Date: Wed, 23 Feb 2022 12:50:42 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: Re: Analysis of slow distro boots in check-avocado
+ (BootLinuxAarch64.test_virt_tcg*)
+Message-ID: <20220223115042.lvxgrjirr5avzkzw@sirius.home.kraxel.org>
+References: <874k4xbqvp.fsf@linaro.org> <878ru2nacq.fsf@linaro.org>
+ <YhURfqMvRT4xbiz6@redhat.com>
+ <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
+ <CAFEAcA8mNt_-nZoV7RL4_UQUV=nPQsDM8KBTA8qAGmiNtXWx9g@mail.gmail.com>
+ <afd92ed6-4392-3181-5875-5e42ad5f41b9@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 4/4] tests/tcg/s390x: changed to using .insn for tests
- requiring z15
-To: David Hildenbrand <david@redhat.com>, David Miller
- <dmiller423@gmail.com>, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-References: <20220217231728.13932-1-dmiller423@gmail.com>
- <20220217231728.13932-5-dmiller423@gmail.com>
- <e0b1e009-6684-6a4a-a8f3-1fd6048a89ad@redhat.com>
- <12e026c0-1c27-db38-2404-85d572ae2bd9@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <12e026c0-1c27-db38-2404-85d572ae2bd9@redhat.com>
+In-Reply-To: <afd92ed6-4392-3181-5875-5e42ad5f41b9@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,38 +84,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pasic@linux.ibm.com, borntraeger@linux.ibm.com, farman@linux.ibm.com,
- cohuck@redhat.com, richard.henderson@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Oleg Vasilev <me@svin.in>, Cleber Rosa <cleber@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Idan Horowitz <idan.horowitz@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Emilio Cota <cota@braap.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/02/2022 11.54, David Hildenbrand wrote:
-> On 23.02.22 11:44, Thomas Huth wrote:
->> On 18/02/2022 00.17, David Miller wrote:
->>> Signed-off-by: David Miller <dmiller423@gmail.com>
->>> ---
->>>    tests/tcg/s390x/mie3-compl.c | 21 +++++++++++----------
->>>    tests/tcg/s390x/mie3-mvcrl.c |  2 +-
->>>    tests/tcg/s390x/mie3-sel.c   |  6 +++---
->>>    3 files changed, 15 insertions(+), 14 deletions(-)
-...
->>
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>
->> ... maybe best to squash this into the previous patch, though (I can do that
->> when picking up the patch if you agree - no need to resend for this).
->>
+  Hi,
+
+> > Also, "make install" installs these EDK2 images, which doesn't
+> > seem like the right thing for "this is only for one test case".
 > 
-> Do we need this with my debian11 container change?
+> Well I'd prefer we never had them installed. Today I don't remember
+> why it ended that way.
 
-I just tried without, but this breaks on s390x hosts with older compilers, 
-where the TCG tests are run without a container:
+Probably to behave simliar to other firmware, which makes sense to me.
 
-https://app.travis-ci.com/github/huth/qemu/jobs/560854945#L12875
+So maybe do non-debug builds for install and debug builds for the test
+cases?  Why do the test cases need debug builds btw?
 
-Since Ubuntu 20.04 is still a supported s390x build system for QEMU, I 
-assume it's best if we squash the .insn patch?
-
-  Thomas
+take care,
+  Gerd
 
 
