@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39F24C0FEA
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C7A4C0FE9
 	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:14:32 +0100 (CET)
-Received: from localhost ([::1]:45466 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:45422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMofH-0005RF-Vs
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:14:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55438)
+	id 1nMofH-0005PG-H3
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:14:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMo6p-0003aI-1W
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:38:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25133)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMo73-0003hz-Sm
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:39:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMo6m-0006qH-2q
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:38:54 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMo6n-0006rE-9q
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:39:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645609131;
+ s=mimecast20190719; t=1645609132;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CcHd9pVKdoKEPO8W6j0oOilwiCIhJpkEUTcnEJb0VKE=;
- b=NCD9aCYYG3egUAxKS0yiUYi0gKQWnC1MJJUoAXNFEKaCVhZdgjJxxTySKkVz/ID6SkWlEO
- ytcLzJhhrP1lanfajEYq+nAKat5Ci1eeDKb53UWroOxfj+3WNNBCcRVASQ2O9+QeTTc+fV
- 3N733c/dVPrYnC8fs7ekasi/dOzMnL4=
+ bh=S8ew1PBtrjnnwvDGKmcp6L/l+r15vz6y4Mrs4U+PNhM=;
+ b=LE2M7IfLOvaIbVCWaw6q1gy9OvTq3HOaxi/OFxk35vPLtpTVAHuvR9RMMY5crByjgh1uvZ
+ XpWB156a4hrd8/Jvv5H723kjRUy4WFBKkFtbqzjISrHdq639SCijbzWyNF/75atTUfQRcj
+ zzqeWCiDVQCk6ZeRQnmw8jdm8tnPSj8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-JyiMgKDeMLOBJmVfNewvjw-1; Wed, 23 Feb 2022 04:38:49 -0500
-X-MC-Unique: JyiMgKDeMLOBJmVfNewvjw-1
+ us-mta-631-ZWPtOoTcPMGMbMpK-HfdNA-1; Wed, 23 Feb 2022 04:38:51 -0500
+X-MC-Unique: ZWPtOoTcPMGMbMpK-HfdNA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AE441091DA2;
- Wed, 23 Feb 2022 09:38:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 698D71854E21;
+ Wed, 23 Feb 2022 09:38:50 +0000 (UTC)
 Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E78937610F;
- Wed, 23 Feb 2022 09:38:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51F647610F;
+ Wed, 23 Feb 2022 09:38:49 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH v3 3/4] tests/qemu-iotests: Move the bash and sanitizer checks
- to meson.build
-Date: Wed, 23 Feb 2022 10:38:39 +0100
-Message-Id: <20220223093840.2515281-4-thuth@redhat.com>
+Subject: [PATCH v3 4/4] tests: Do not treat the iotests as separate meson test
+ target anymore
+Date: Wed, 23 Feb 2022 10:38:40 +0100
+Message-Id: <20220223093840.2515281-5-thuth@redhat.com>
 In-Reply-To: <20220223093840.2515281-1-thuth@redhat.com>
 References: <20220223093840.2515281-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,82 +83,75 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to get rid of check-block.sh in the long run, so let's move
-the checks for the bash version and sanitizers from check-block.sh
-into the meson.build file instead.
+If there is a failing iotest, the output is currently not logged to
+the console anymore. To get this working again, we need to run the
+meson test runner with --print-errorlogs (and without --verbose).
+We could update the "meson test" call in tests/Makefile.include,
+but actually it's nicer and easier if we simply do not treat the
+iotests as separate test target anymore and integrate them along
+with the other test suites.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/check-block.sh           | 26 --------------------------
- tests/qemu-iotests/meson.build | 14 ++++++++++++++
- 2 files changed, 14 insertions(+), 26 deletions(-)
+ meson.build            | 6 +++---
+ scripts/mtest2make.py  | 4 ----
+ tests/Makefile.include | 9 +--------
+ 3 files changed, 4 insertions(+), 15 deletions(-)
 
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index f59496396c..5de2c1ba0b 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -18,36 +18,10 @@ skip() {
-     exit 0
- }
+diff --git a/meson.build b/meson.build
+index 8df40bfac4..556479c785 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3,9 +3,9 @@ project('qemu', ['c'], meson_version: '>=0.59.3',
+                           'b_staticpic=false', 'stdsplit=false'],
+         version: files('VERSION'))
  
--# Disable tests with any sanitizer except for specific ones
--SANITIZE_FLAGS=$( grep "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null )
--ALLOWED_SANITIZE_FLAGS="safe-stack cfi-icall"
--#Remove all occurrencies of allowed Sanitize flags
--for j in ${ALLOWED_SANITIZE_FLAGS}; do
--    TMP_FLAGS=${SANITIZE_FLAGS}
--    SANITIZE_FLAGS=""
--    for i in ${TMP_FLAGS}; do
--        if ! echo ${i} | grep -q "${j}" 2>/dev/null; then
--            SANITIZE_FLAGS="${SANITIZE_FLAGS} ${i}"
--        fi
--    done
--done
--if echo ${SANITIZE_FLAGS} | grep -q "\-fsanitize" 2>/dev/null; then
--    # Have a sanitize flag that is not allowed, stop
--    skip "Sanitizers are enabled ==> Not running the qemu-iotests."
--fi
+-add_test_setup('quick', exclude_suites: ['block', 'slow', 'thorough'], is_default: true)
+-add_test_setup('slow', exclude_suites: ['block', 'thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
+-add_test_setup('thorough', exclude_suites: ['block'], env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
++add_test_setup('quick', exclude_suites: ['slow', 'thorough'], is_default: true)
++add_test_setup('slow', exclude_suites: ['thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
++add_test_setup('thorough', env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
+ 
+ not_found = dependency('', required: false)
+ keyval = import('keyval')
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+index 4d542e8aaa..304634b71e 100644
+--- a/scripts/mtest2make.py
++++ b/scripts/mtest2make.py
+@@ -101,10 +101,6 @@ def emit_suite(name, suite, prefix):
+ testsuites = defaultdict(Suite)
+ for test in introspect['tests']:
+     process_tests(test, targets, testsuites)
+-# HACK: check-block is a separate target so that it runs with --verbose;
+-# only write the dependencies
+-emit_suite_deps('block', testsuites['block'], 'check')
+-del testsuites['block']
+ emit_prolog(testsuites, 'check')
+ for name, suite in testsuites.items():
+     emit_suite(name, suite, 'check')
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index e7153c8e91..b89018cdcc 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -147,16 +147,9 @@ check-acceptance: check-acceptance-deprecated-warning | check-avocado
+ 
+ # Consolidated targets
+ 
+-.PHONY: check-block check check-clean get-vm-images
++.PHONY: check check-clean get-vm-images
+ check:
+ 
+-ifneq ($(.check-block.deps),)
+-check: check-block
+-check-block: run-ninja
+-	$(if $(MAKE.n),,+)$(MESON) test $(MTESTARGS) $(.mtestargs) --verbose \
+-		--logbase iotestslog $(call .speed.$(SPEED), block block-slow block-thorough)
+-endif
 -
- if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
-     skip "No qemu-system binary available ==> Not running the qemu-iotests."
- fi
+ check-build: run-ninja
  
--if ! command -v bash >/dev/null 2>&1 ; then
--    skip "bash not available ==> Not running the qemu-iotests."
--fi
--
--if LANG=C bash --version | grep -q 'GNU bash, version [123]' ; then
--    skip "bash version too old ==> Not running the qemu-iotests."
--fi
--
- cd tests/qemu-iotests
- 
- # QEMU_CHECK_BLOCK_AUTO is used to disable some unstable sub-tests
-diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-index 92f09251a6..323a4acb6a 100644
---- a/tests/qemu-iotests/meson.build
-+++ b/tests/qemu-iotests/meson.build
-@@ -2,6 +2,20 @@ if not have_tools or targetos == 'windows' or get_option('gprof')
-   subdir_done()
- endif
- 
-+foreach cflag: config_host['QEMU_CFLAGS'].split()
-+  if cflag.startswith('-fsanitize') and \
-+     not cflag.contains('safe-stack') and not cflag.contains('cfi-icall')
-+    message('Sanitizers are enabled ==> Disabled the qemu-iotests.')
-+    subdir_done()
-+  endif
-+endforeach
-+
-+bash = find_program('bash', required: false, version: '>= 4.0')
-+if not bash.found()
-+  message('bash >= v4.0 not available ==> Disabled the qemu-iotests.')
-+  subdir_done()
-+endif
-+
- qemu_iotests_binaries = [qemu_img, qemu_io, qemu_nbd, qsd]
- qemu_iotests_env = {'PYTHON': python.full_path()}
- qemu_iotests_formats = {
+ check-clean:
 -- 
 2.27.0
 
