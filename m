@@ -2,88 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2353E4C1024
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:19:35 +0100 (CET)
-Received: from localhost ([::1]:52654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B9E4C1031
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:20:36 +0100 (CET)
+Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMok6-0002Kz-EJ
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:19:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56454)
+	id 1nMol8-0003KR-8N
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:20:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nMoAO-0004xX-9g
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:42:36 -0500
-Received: from [2a00:1450:4864:20::632] (port=38803
- helo=mail-ej1-x632.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nMoAM-0007ep-4y
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:42:35 -0500
-Received: by mail-ej1-x632.google.com with SMTP id r13so28064612ejd.5
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:42:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BnEM0OKY57nCjm+a2WF6SfInsuS82SA4NLH3u/TKzVk=;
- b=YZZyPmxFdtHXixRRGoR/a45WUVjSoTUhBFM1OUAC5XlMc2tpIUQE4TS8bVPiiuEp6I
- M9y2vyAcUmPPBnwaKolymVcT2OFIO81tFXAVILemZeT5fdTMi27gzeBEuHYb0gJNTO6e
- OY8py/KYbuJgH7BlrcAdOY2NMpawcOAwxDTNcCfyQ9KMHYqJEs86IBQxL+OzTwgGol1M
- 0Hex0fm5uKvGFFX9qQzL4kn+3Z3K/TAyCLME3w2M/lAHAP+ab0JQ6LuFTg17viEGcFtu
- Y5iUPUOXAr9kUSkFHX8rLoJA8G4SAul4pX9iMoK0tmWonKd0R/za16g9Z1d80cqeGLU7
- 8xiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BnEM0OKY57nCjm+a2WF6SfInsuS82SA4NLH3u/TKzVk=;
- b=g7xb2yOjm1Nis+lyJU9kCMYHHji/lEiRzTw2oWjiD+dfYFYp1M2jydoE7YthYKnYTc
- ASlMvTSrpM8sR9w9WVSRFOf3nb12KhuXTD78qotrMtptVN7kyb+TSMerus+5uR4Yls8U
- SbDM17sHuK3rpTKfYmCeukHDMfqCyvVS8i35UX89qriv101ZhH3vIRJyOwRDr6oBGl2h
- 4rL4kmGPOQ0JGQjKkVkKKGYVRU7y5yqfFSvI+qn9pgBaKZBJ0ipZeFvzr1QmbLp281gi
- cN1ZrLd81oaBBb46QCZ5fGqlEmObzvPJHTvIR7NHGepP5NTcruRhRzIqERdaUwRK+kgg
- XEWQ==
-X-Gm-Message-State: AOAM532hZhCCrExu8JtmEpFVDycZ0oaLIZy7efFpXYCEKqNHp8l5sYS2
- JyvHkBG/7swGckTSd68/Va0=
-X-Google-Smtp-Source: ABdhPJzqXxSSqIQSmgdUGgPaJftiDd9t8LRBvZMYMSi2fdRbPxepwQTYnZFOCw6got/cQDxHbn5NQA==
-X-Received: by 2002:a17:906:d7aa:b0:6cf:1fb3:2986 with SMTP id
- pk10-20020a170906d7aa00b006cf1fb32986mr22723378ejb.594.1645609352698; 
- Wed, 23 Feb 2022 01:42:32 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id m12sm8168297edl.74.2022.02.23.01.42.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 01:42:32 -0800 (PST)
-Message-ID: <56a79999-afea-763c-46d1-633299b1f562@redhat.com>
-Date: Wed, 23 Feb 2022 10:42:31 +0100
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1nMoH8-0001O0-93
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:49:34 -0500
+Received: from mga02.intel.com ([134.134.136.20]:18654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1nMoH2-00009b-JB
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:49:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645609768; x=1677145768;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MosHCLQkztoi+/gQMY276jfWG0DSP80nXPrW+RpjOOE=;
+ b=V1K/FiZSumHTKPnvHO9/aymx5IuddM3YQaeDdG/92YQHb+XFhJJvs4J5
+ weTRunIAi7J9aNnKJ4qRiLn7DBCoLOHik1ElLZQxEkl+ASWserYNb4xSA
+ GIt0vk2ke73Uwyl9KDi2KjceYSR9AHd79KrWdpzqtzZb5JYVO5zS8N83p
+ R2xSTpbUdZqziJgDcIkj74SWX5wtFC0DgPMmzWs6Vol2KYN3hR5gn8F5y
+ 4UIP2dxtCM3jrOKtIqHa4+zC4NhS9JOkzLmz7jEc2TObkBZFJYUmmRg+o
+ uLPP36wNCMlXla3FxV8O1MxR/zQEp8KyUUIPPFYK0YewbFZQIJ/1FRXCq A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10266"; a="239315848"
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="239315848"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2022 01:49:22 -0800
+X-IronPort-AV: E=Sophos;i="5.88,390,1635231600"; d="scan'208";a="532610264"
+Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.123])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2022 01:49:21 -0800
+From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] pci: show id info when pci BDF conflict
+Date: Wed, 23 Feb 2022 17:44:35 +0800
+Message-Id: <20220223094435.64495-1-zhenzhong.duan@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC 1/2] sem-posix: remove the posix semaphore support
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Longpeng(Mike)" <longpeng2@huawei.com>
-References: <20220221095617.1974-1-longpeng2@huawei.com>
- <20220221095617.1974-2-longpeng2@huawei.com> <YhNzd6bGT2ejTRLx@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YhNzd6bGT2ejTRLx@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=zhenzhong.duan@intel.com; helo=mga02.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,35 +70,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arei.gonglei@huawei.com, qemu-devel@nongnu.org, mst@redhat.com
+Cc: mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/22 12:11, Daniel P. Berrangé wrote:
-> As a point of history, the original  code only used sem_t. The pthreads
-> based fallback was introduced by Paolo in
-> 
->    commit c166cb72f1676855816340666c3b618beef4b976
->    Author: Paolo Bonzini <pbonzini@redhat.com>
->    Date:   Fri Nov 2 15:43:21 2012 +0100
-> 
->      semaphore: implement fallback counting semaphores with mutex+condvar
->      
->      OpenBSD and Darwin do not have sem_timedwait.  Implement a fallback
->      for them.
->      
->      Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->      Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
-> 
-> I'm going to assume this fallback impl is less efficient than the
-> native sem_t impl as the reason for leaving the original impl, or
-> maybe Paolo just want to risk accidental bugs by removing the
-> existing usage ?
+During qemu init stage, when there is pci BDF conflicts, qemu print
+a warning but not showing which device the BDF is occupied by. E.x:
 
-Yes, it is a bit less efficient.  But really there aren't any places 
-where semaphores vs. mutex+condvar will make a difference.  The original 
-reason to use semaphores was that Windows had a hand-written condition 
-variable implementation that didn't support cond_timedwait.
+"PCI: slot 2 function 0 not available for virtio-scsi-pci, in use by virtio-scsi-pci"
 
-Paolo
+To facilitate user knowing the offending device and fixing it, showing
+the id info in the warning.
+
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+---
+ hw/pci/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 5d30f9ca60e5..0103a2c36ca2 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1078,9 +1078,9 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+         return NULL;
+     } else if (!pci_bus_devfn_available(bus, devfn)) {
+         error_setg(errp, "PCI: slot %d function %d not available for %s,"
+-                   " in use by %s",
++                   " in use by %s,id=%s",
+                    PCI_SLOT(devfn), PCI_FUNC(devfn), name,
+-                   bus->devices[devfn]->name);
++                   bus->devices[devfn]->name, bus->devices[devfn]->qdev.id);
+         return NULL;
+     } else if (dev->hotplugged &&
+                pci_get_function_0(pci_dev)) {
+-- 
+2.25.1
+
 
