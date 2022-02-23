@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0ED4C1E7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:31:29 +0100 (CET)
-Received: from localhost ([::1]:56316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96C94C1E87
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:34:27 +0100 (CET)
+Received: from localhost ([::1]:34932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nN0AS-0005C9-4G
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:31:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58592)
+	id 1nN0DK-0001XF-Vu
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:34:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nN08u-0004Sk-AR; Wed, 23 Feb 2022 17:29:52 -0500
-Received: from [2607:f8b0:4864:20::236] (port=36405
- helo=mail-oi1-x236.google.com)
+ id 1nN0AY-00064B-MQ; Wed, 23 Feb 2022 17:31:34 -0500
+Received: from [2607:f8b0:4864:20::f34] (port=45848
+ helo=mail-qv1-xf34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nN08r-0000fG-MX; Wed, 23 Feb 2022 17:29:51 -0500
-Received: by mail-oi1-x236.google.com with SMTP id p15so591371oip.3;
- Wed, 23 Feb 2022 14:29:48 -0800 (PST)
+ id 1nN0AW-00014Q-Os; Wed, 23 Feb 2022 17:31:34 -0500
+Received: by mail-qv1-xf34.google.com with SMTP id h13so621588qvk.12;
+ Wed, 23 Feb 2022 14:31:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3TvadqmyKbj6nZtFWECmj/hcnJsiLYYIzvkR+/YviTY=;
- b=prF8flWn5vlgG8hmXJsLkNw6BoM+++V60lxAYb/biDO6AGD7DX+Is+RbSuM71Pl/dg
- YjXsfZansqBXCVJTZuIgB/g2MbiOepsSO/ivJF/zyQCVYgdFiG5oDRsuI0PBkRvOT6YG
- +n33N9niuWTxfgSm5symgAfu7xLbMtEQep4KVMrQfHrfT7jDfgzGSvm0StoLVa5au+Ce
- iYLnVqiIXDBGeEThRo0k/E402gY+yGaGFDvM1znLZV/5EO2ebacG5+CtSTCJ/HyyZCxn
- a0WjpokgKanjaiTuUQYNCzCKFTnbtZcE6WqBEr04A/7FyqJXY4RqmMz5hvyHWZotE1ND
- XkTg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Bqu/RE/AV1hfWYNmv/cvyczx2fjTlpjyT9PCbLLfeGs=;
+ b=QYh8xZLgU/K/9i/gi1TQ12SKCkt/T4DZr/1LyE7QJu3ponCY8d9CdtUwBP6oyOQ4Z4
+ lSxBu2cWSdXFnPziMGnFTEdzWOSLNcgN9f6B4LpSXZH0oC184dX11pyvW+tSxJH6VUec
+ kcyaUnQ5/vQ16Dg2HbQEVoltXHVPkc3GWhgbj6QAARf/fa1YdY98yrLfKuLAAFB2xrh1
+ 6uMeFMDn4cKry11dnC/6zxUBFSGq1a5iriiqm537G81Zp9zPl9sjcdlseiIPqpinPcxO
+ E82h05N32qIGZK8n/cX+34aBesDP/vhF40Agi5wDNV5e9/cMGXxbKnAekRzS3HFsy06r
+ oFRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3TvadqmyKbj6nZtFWECmj/hcnJsiLYYIzvkR+/YviTY=;
- b=PLzL+RgpZcgxiSk7PJgrzBRfcjbDkNMcHVfhcelfnRgNocb3Gm0ZFwc1YQuBuxVkSX
- y4MW0/KQuVCrcLiBTxpr8lw/DKBrFstaYTmMPcO374QzVaJZAJV568eysdWueji24bFP
- 8n6IMGJL2TgFL2QfwNDzSdAQmq+iCD7BhNgD3vS7Gr5wzZOALz+gQ+8sJLUD/jWvJUXx
- WzxiFAzkJw4VXQ8ibmY3+Qqnz3wkBBD4d0OUO7Dfjsud/KDXrY8K3sCeCoM7EhdV/JTN
- K9IK1FuZXqj2JmmhF/8BuM5vYL2qc00g1u4kiPVQEH5eKHwfA9fzHfRUP/g/ljtxY6xI
- Q6dw==
-X-Gm-Message-State: AOAM532ie0a2k1uEn5lwUE9s19/bEG1ztCYWwzrTIpg/FLUFsna1Rqez
- mRVzfciruWhlP/YH8oMKMolWoRtyb/IASLHPl6E=
-X-Google-Smtp-Source: ABdhPJxLmg+a0g8beBlU5Go1lpl0ifHoRys4hcPKPm0/6v/oqr1fCbGwlDCF/gbd4NjXxtvvCP9aU5412w0MbZvPr7U=
-X-Received: by 2002:a05:6808:2006:b0:2d5:11f8:d69d with SMTP id
- q6-20020a056808200600b002d511f8d69dmr6047153oiw.218.1645655388185; Wed, 23
- Feb 2022 14:29:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20220217231728.13932-1-dmiller423@gmail.com>
- <20220217231728.13932-2-dmiller423@gmail.com>
- <3db47aeb-a57e-55e3-92f2-620845fe00df@linux.ibm.com>
-In-Reply-To: <3db47aeb-a57e-55e3-92f2-620845fe00df@linux.ibm.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Bqu/RE/AV1hfWYNmv/cvyczx2fjTlpjyT9PCbLLfeGs=;
+ b=YMpmCCggUjDo/F3ou0k3Qu9SRvKRkeEzv0ClK16iuV5ucgZ6DIsIP8AALy7Syog6hE
+ 41SYF9H/mJNZYZ/m6TDmB9PbSvqyaydjdorTtmrs20NJfJzktf9U89RNhzTGS6ga8Q4Y
+ fYpfWE4rQScWCfW7GHsfTc2iD4zv+Zf5bTPkelwKpl7JMc1aCLYGvztEBI4Crzu/qvzE
+ QZ6pwUUCH4vecUnHYGTBa2Nq2gJZgr7DXQz0RxIUnZN242F+uTGJz8FGtKI9IFhEfw8D
+ AilUEqmF2TCORR8Pobq5bXSryEfk16VTm9yP4z7B7JD0DTp1zhkTK+H2XKst38W0P2Q2
+ F5rQ==
+X-Gm-Message-State: AOAM531KAaFamJqDK6unrpOCuQnrgIVrQc0O+5JFU0yCRq/B4H/ys8Y6
+ cL+0ygJwVERXotBmTNl9avnGPmZgHHeh36lAj7o=
+X-Google-Smtp-Source: ABdhPJyxjv9aw6yR7UGOzAGDCXSk0E4DbEVcAiyHf2lHdxkSqW3lvVeH7Z4bKqU813f4CfeyOSTe9w==
+X-Received: by 2002:ac8:5bc6:0:b0:2cf:7606:f32b with SMTP id
+ b6-20020ac85bc6000000b002cf7606f32bmr1930021qtb.335.1645655491387; 
+ Wed, 23 Feb 2022 14:31:31 -0800 (PST)
+Received: from rygar.pwrtc.com (mont-dyn-147-119.pwrtc.com. [205.174.147.119])
+ by smtp.gmail.com with ESMTPSA id
+ o18sm618968qtv.26.2022.02.23.14.31.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Feb 2022 14:31:31 -0800 (PST)
 From: David Miller <dmiller423@gmail.com>
-Date: Wed, 23 Feb 2022 17:29:35 -0500
-Message-ID: <CAEgyohWaRVAfaFcoEBzgps-=u1UiTWLeHs6M7gLp_ONjLDpNmQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] s390x/tcg: Implement
- Miscellaneous-Instruction-Extensions Facility 3 for the s390x
-To: Christian Borntraeger <borntraeger@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::236
+To: qemu-s390x@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v7 0/4] s390x: Add partial z15 support and tests 
+Date: Wed, 23 Feb 2022 17:31:13 -0500
+Message-Id: <20220223223117.66660-1-dmiller423@gmail.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f34
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=dmiller423@gmail.com; helo=mail-oi1-x236.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
+ envelope-from=dmiller423@gmail.com; helo=mail-qv1-xf34.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -82,40 +85,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, David Hildenbrand <david@redhat.com>,
- farman@linux.ibm.com, cohuck@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, qemu-s390x@nongnu.org
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, farman@linux.ibm.com,
+ David Miller <dmiller423@gmail.com>, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes I'm adding to this patch,  I haven't quite figured out where to
-put them,  they are inline to various things in the patch themselves
-so I'm putting in the cover letter under the patch they go to.
-I hope that's correct.
+Add partial support for s390x z15 ga1 and specific tests for mie3 
 
-Thanks
-- David Miller
 
-On Wed, Feb 23, 2022 at 8:40 AM Christian Borntraeger
-<borntraeger@linux.ibm.com> wrote:
->
->
-> Am 18.02.22 um 00:17 schrieb David Miller:
-> > resolves: https://gitlab.com/qemu-project/qemu/-/issues/737
-> > implements:
-> > AND WITH COMPLEMENT   (NCRK, NCGRK)
-> > NAND                  (NNRK, NNGRK)
-> > NOT EXCLUSIVE OR      (NXRK, NXGRK)
-> > NOR                   (NORK, NOGRK)
-> > OR WITH COMPLEMENT    (OCRK, OCGRK)
-> > SELECT                (SELR, SELGR)
-> > SELECT HIGH           (SELFHR)
-> > MOVE RIGHT TO LEFT    (MVCRL)
-> > POPULATION COUNT      (POPCNT)
-> >
-> > Signed-off-by: David Miller <dmiller423@gmail.com>
->
-> For your next patches, feel free to add previous Reviewed-by: tags so that others
-> can see what review has already happened.
+v6 -> v7:
+* Modified SELFHR insn-data + test to ensure high 32bits are copied.
+* Changed m3 mask test value for popcnt to fix mie3 variant.
+
+v5 -> v6:
+* Swap operands for sel* instructions
+* Use .insn in tests for z15 arch instructions
+
+v4 -> v5:
+* Readd missing tests/tcg/s390x/mie3-*.c to patch
+
+v3 -> v4:
+* Change popcnt encoding RRE -> RRF_c
+* Remove redundant code op_sel -> op_loc
+* Cleanup for checkpatch.pl
+* Readded mie3-* to Makefile.target
+
+v2 -> v3:
+* Moved tests to separate patch.
+* Combined patches into series.
+
+David Miller (4):
+  s390x/tcg: Implement Miscellaneous-Instruction-Extensions Facility 3
+    for the s390x
+   * Reviewed-by: David Hildenbrand <david@redhat.com>
+  s390x/cpumodel: Bump up QEMU model to a stripped-down IBM z15 GA1
+   * Reviewed-by: David Hildenbrand <david@redhat.com>
+  tests/tcg/s390x: Tests for Miscellaneous-Instruction-Extensions
+    Facility 3
+  tests/tcg/s390x: changed to using .insn for tests requiring z15
+   * Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+ hw/s390x/s390-virtio-ccw.c      |  3 ++
+ target/s390x/cpu_models.c       |  6 ++--
+ target/s390x/gen-features.c     |  6 +++-
+ target/s390x/helper.h           |  1 +
+ target/s390x/tcg/insn-data.def  | 30 +++++++++++++++--
+ target/s390x/tcg/mem_helper.c   | 20 +++++++++++
+ target/s390x/tcg/translate.c    | 60 +++++++++++++++++++++++++++++++--
+ tests/tcg/s390x/Makefile.target |  5 ++-
+ tests/tcg/s390x/mie3-compl.c    | 56 ++++++++++++++++++++++++++++++
+ tests/tcg/s390x/mie3-mvcrl.c    | 31 +++++++++++++++++
+ tests/tcg/s390x/mie3-sel.c      | 42 +++++++++++++++++++++++
+ 11 files changed, 250 insertions(+), 10 deletions(-)
+ create mode 100644 tests/tcg/s390x/mie3-compl.c
+ create mode 100644 tests/tcg/s390x/mie3-mvcrl.c
+ create mode 100644 tests/tcg/s390x/mie3-sel.c
+
+-- 
+2.32.0
+
 
