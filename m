@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965DA4C185B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 17:18:37 +0100 (CET)
-Received: from localhost ([::1]:39348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29964C186E
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 17:21:11 +0100 (CET)
+Received: from localhost ([::1]:42088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMuLc-0000Dq-6m
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 11:18:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49396)
+	id 1nMuO6-00027t-Iv
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 11:21:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMuIi-0007mn-QC
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:15:36 -0500
-Received: from [2607:f8b0:4864:20::436] (port=47036
- helo=mail-pf1-x436.google.com)
+ id 1nMuLS-0000fA-T3
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:18:26 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=39610
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMuIg-00068r-Ld
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:15:36 -0500
-Received: by mail-pf1-x436.google.com with SMTP id i21so15762490pfd.13
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 08:15:31 -0800 (PST)
+ id 1nMuLQ-0006Vd-L3
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:18:26 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ h17-20020a17090acf1100b001bc68ecce4aso2756848pju.4
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 08:18:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=rHD0uA5h/ZI8RcIC7Z+cBe/FhPFaff0CVsDFIJp9VK8=;
- b=XTLdOLkSg5O8fFJMdMBHcqiZj0gao4ABOTGPY2HQuQH1rTFZ2XcB8DuIx505wPaG9p
- RGG7ZeboGU5WEht2VyDHv1C7RiI7Ca+tZkb3qdjpW8Gld3LRSBhTDB1QXpY4ZgPG1jnZ
- 9qZDrv8QyXhE5DiGVLFVh32z0wC7APRzh09JJDYZb69Ep2HnXfpqtAq9o1sGLsz0Ephq
- FjSXHltWJ50REwHVuoTWKGZ3fuxwts3j5BS7MFklZ77wqqXwxRRBUNXDSAYBLGEKvUqf
- YY//4huofGktr6Nn//O5TBbnOX+omqxZmK9ebk9UX0UzFQfN8T1kSKV/oUnHwAX2FMtS
- 3dXw==
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=398plGivOsK6ge8WsrtVBdb3UVDGBk8vyQJLsAcowOE=;
+ b=QMVhl5sU7//1SNP2V2T/kBw01atcKlhersVyJOoS0odT0wC0HEiTa9A2fatV2MBrMP
+ 9FzbDYnIfEqDed9ZR1bqQzRso2s9+6aCDqbhgnfaziwou5RZmYIEIEz32Ill5Oczo947
+ WxvtoBY2kV14XYuL9+9L/1oIiZpW0d0EZSeyBLQPJ9YlWggDbfWCS+9Ag8GOT+TyiS1j
+ ldGbn+hAI6hik78Fvwh2IY3KhyvygHkhNjTT6fCyHqiQHw3JyakTm0l88K/ComdHlMIn
+ 9ENanp8JK4bB6TWrviImWKnsp4sLbMXY6nGwNTGvqd4JLcmbgOvCTUVffpBqcuBbYCgu
+ TNNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rHD0uA5h/ZI8RcIC7Z+cBe/FhPFaff0CVsDFIJp9VK8=;
- b=Gk4K27PBhq00r3uiV2gDOMfEx/i7bm7vnAS0NjO4IfbEEqc9yoz8l5EF19djd13aO0
- juKlIm4RLP4XS1Wr9XEw706khdeMcv6c5id18/6NNsgoTdxQn6RxUrh3abtB/KOJC7J1
- JsZtVV4876JlCqaMVVPCFzPDgZDFthBhEmW469dc//cYQ9JScwFwAtgyWcCDx69Lgtqv
- G4U9EQE74tBFqCRwPPsv6fVK78+0zR0LRcP7DOpk9fKAXfnltVbtskCksXIOyxWsKaaM
- 017G5irtGtU4E+Buet3F427+9DzocxORPiDv+mDwFc1mHwHJyABEu3UocAdQc7gf6fs7
- pIdQ==
-X-Gm-Message-State: AOAM531cb4mJIpB4ii5ZLujDYq7cAsFxpE+7bzILt1x0ct0t5uGsgNs3
- Wx3SkVyaoHt/p37/CBlpXfk=
-X-Google-Smtp-Source: ABdhPJyXj2jRc8phTBqj+m+2jEFAadVd1e8qCM9QooJzkVQ+8RXA9WRveDxCHfkvvllO0eSRjrix3w==
-X-Received: by 2002:a63:ec13:0:b0:373:aa37:193b with SMTP id
- j19-20020a63ec13000000b00373aa37193bmr202013pgh.535.1645632929733; 
- Wed, 23 Feb 2022 08:15:29 -0800 (PST)
+ bh=398plGivOsK6ge8WsrtVBdb3UVDGBk8vyQJLsAcowOE=;
+ b=54n4yvcymq+d7X6e+eH50b328tGOPDhKkeainbzIhODm2/Pq5pyibfrusHZeIKcLka
+ ij5t2i7wyKGaXsuMplZn0XEjcqPrRHQgOZPpDz9zSI2CdvU6je0T5YN3EDUR+SNWzvnS
+ aX1Myfcmy5+jYbJd03Ci/f9QxHw2wpU0l5Yc/shOIfKSOoTEDrqdpXSwkcj+bdcC6wZq
+ CQB2HuOqbDe/1cQvyY3+D8suXYh2rkD0QMIIEK64Af3USFr309I2ofepbdWxV3MBqiNv
+ WkIdaOx2jKsNkw6i3ehBAmCPRYr+VyeSRyJYlVyT8/suaEq8YgjM4hok3DzJcrWWu3Ax
+ Rhvw==
+X-Gm-Message-State: AOAM530QpkEg2X6O21VjG6F+M6KuGJLC7BepVwNPsR4ip3Z5APUElhPC
+ r/e4ogIi1yMWFO5NhFz32Ws=
+X-Google-Smtp-Source: ABdhPJwYwJYP/qdzYffXjhDEtdqt4daC1lSOFnCl72nvx7Yd+suMT/gLQMADWfaKWfDcJia4Y16IYw==
+X-Received: by 2002:a17:90a:9b08:b0:1bc:9b4f:8dff with SMTP id
+ f8-20020a17090a9b0800b001bc9b4f8dffmr3193412pjp.159.1645633101469; 
+ Wed, 23 Feb 2022 08:18:21 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id d18sm22454856pfv.204.2022.02.23.08.15.28
+ by smtp.gmail.com with ESMTPSA id d15sm23054077pfu.72.2022.02.23.08.18.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 08:15:29 -0800 (PST)
-Message-ID: <c91392a4-f75b-4e5d-9e6c-04777fb7ca79@gmail.com>
-Date: Wed, 23 Feb 2022 17:15:26 +0100
+ Wed, 23 Feb 2022 08:18:21 -0800 (PST)
+Message-ID: <6381b8e6-c0d6-03aa-7b30-a47c724a6747@gmail.com>
+Date: Wed, 23 Feb 2022 17:18:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: Fix a potential memory leak bug in write_boot_rom() (v6.2.0).
+Subject: Re: Fix a potential Use-after-free in virtio_iommu_handle_command()
+ (v6.2.0).
 Content-Language: en-US
-To: wliang@stu.xidian.edu.cn, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <6e7748f1.25d8.17f2705c420.Coremail.wliang@stu.xidian.edu.cn>
+To: Thomas Huth <thuth@redhat.com>, wliang@stu.xidian.edu.cn,
+ Eric Auger <eric.auger@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+References: <1b79118e.25c5.17f2702b9d5.Coremail.wliang@stu.xidian.edu.cn>
+ <3ce08bdb-fecd-549a-5c09-0b5fa65de4ba@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <6e7748f1.25d8.17f2705c420.Coremail.wliang@stu.xidian.edu.cn>
+In-Reply-To: <3ce08bdb-fecd-549a-5c09-0b5fa65de4ba@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,77 +97,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/2/22 15:39, wliang@stu.xidian.edu.cn wrote:
-> Hi all,
-> 
-> I find a memory leak bug in QEMU 6.2.0, which is in 
-> write_boot_rom()(./hw/arm/aspeed.c).
-> 
-> Specifically, at line 276, a memory chunk is allocated with g_new0() and 
-> assigned to the variable 'storage'. However, if the branch takes true at 
-> line 277, there will be only an error report at line 278 but not a free 
-> operation for 'storage' before function returns. As a result, a memory 
-> leak bug is triggered.
-> 
-> 
-> 259    BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
-> ...
-> 276    storage = g_new0(uint8_t, rom_size);
-> 277    if (blk_pread(blk, 0, storage, rom_size) < 0) {
-> 278        error_setg(errp, "failed to read the initial flash content");
-> 279        return;
-> 280    }
-> 
-> 
-> I believe that the problem can be fixed by adding a g_free() before the 
-> function returns.
-> 
-> 
-> 277    if (blk_pread(blk, 0, storage, rom_size) < 0) {
-> 278        error_setg(errp, "failed to read the initial flash content");
-> +++    g_free(storage);
-> 279        return;
-> 280    }
-> 
-> 
-> I'm looking forward to your confirmation.
+On 23/2/22 17:02, Thomas Huth wrote:
+> On 23/02/2022 15.36, wliang@stu.xidian.edu.cn wrote:
+>> Hi all,
+>>
+>> I find a potential Use-after-free in QEMU 6.2.0, which is in 
+>> virtio_iommu_handle_command() (./hw/virtio/virtio-iommu.c).
 
-Correct.
+>> I'm looking forward to your confirmation.
+> 
+>   Hi,
+> 
+> thanks for your report and patch - but to make sure that the right 
+> people get attention, please use the scripts/get_maintainer.pl script to 
+> get a list of people who should be on CC:, or look into the MAINTAINERS 
+> file directly (for the next time - this time, I've CC:ed them now already).
 
-Or using g_autofree:
-
--- >8 --
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index d911dc904f..170e773ef8 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -257,7 +257,7 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr 
-addr, size_t rom_size,
-                             Error **errp)
-  {
-      BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
--    uint8_t *storage;
-+    g_autofree void *storage = NULL;
-      int64_t size;
-
-      /* The block backend size should have already been 'validated' by
-@@ -273,14 +273,13 @@ static void write_boot_rom(DriveInfo *dinfo, 
-hwaddr addr, size_t rom_size,
-          rom_size = size;
-      }
-
--    storage = g_new0(uint8_t, rom_size);
-+    storage = g_malloc0(rom_size);
-      if (blk_pread(blk, 0, storage, rom_size) < 0) {
-          error_setg(errp, "failed to read the initial flash content");
-          return;
-      }
-
-      rom_add_blob_fixed("aspeed.boot_rom", storage, rom_size, addr);
--    g_free(storage);
-  }
----
+You can find the contribution guidelines here:
+https://www.qemu.org/docs/master/devel/submitting-a-patch.html
 
