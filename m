@@ -2,63 +2,167 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C794C19B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 18:15:28 +0100 (CET)
-Received: from localhost ([::1]:36204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FFA4C19D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 18:21:12 +0100 (CET)
+Received: from localhost ([::1]:43168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMvEc-0005cN-T0
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 12:15:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46574)
+	id 1nMvKA-0002I1-FA
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 12:21:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMv8U-0002F5-BZ
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 12:09:07 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:54534)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1nMvIQ-0001YC-3R
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 12:19:23 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:29044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMv8R-0000lE-Fa
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 12:09:05 -0500
-Received: from [172.17.10.6] (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 6D80A21C2B;
- Wed, 23 Feb 2022 17:09:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1645636140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bWW4Me2U1Mc0fB19umOBkazsoLiKVGzPIPYIjbQamEE=;
- b=kcIldblrn1xOzsj1M2rPlZ5mzOAd8E4MlTQ4hki1eNcadAP5F8CJfUtvSOPNU1ve7R71FE
- UZ1uqaGoFUL1rhOa+krpCCltHlxjm/zVQYrm+LLdXLUuB8+SacQhM7A7k08r3ZO1Pewsbs
- WssASMfRayVbaYj1crlFYuwA2okecbU=
-Message-ID: <4d5d4192-2e60-af23-dcfa-2e76e9b5f71d@greensocs.com>
-Date: Wed, 23 Feb 2022 18:09:00 +0100
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1nMvIJ-0002ai-Rm
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 12:19:20 -0500
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21NH72NM018680; 
+ Wed, 23 Feb 2022 17:19:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ subject : from : to : cc : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=Qw2VU5+BY4wrGBJdIaerKEpdhHHF2ngZpgfjt+QYxK0=;
+ b=EWg8hwvgExDZyVEneRGiPQWLDe+RCxBS1PTU82iT9z4pPrebpBx4OntZ4lH2atT1NNgC
+ 1MI50pUy7q3CfSmSQNgODkkMlBpLMQSqypPrvgrdIS+6xgIsNZHkGpDWINF5TkT99Q9I
+ EJ1dRJ3RJrI5zUsxD3ByJ2qBS3wV8erGkfwhj67sA0zDeftofxO/YEm7TUns/oV4ZD7y
+ Cz5qlaLogF1UZPNkvVD/biCX7E8fld/L2svCF0LE0FeOZQOsyFZQhYogzgue2O/94x8/
+ fcXMUkDFZqYQZtE3j7f3HrVPkllfTowhVhweVNoj7M+7y7VDFLG9/B51xNGDR/+ZB0hx wQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ectsx4ymp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 23 Feb 2022 17:19:06 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21NHBdN6182877;
+ Wed, 23 Feb 2022 17:19:05 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2109.outbound.protection.outlook.com [104.47.58.109])
+ by userp3030.oracle.com with ESMTP id 3eannw68f5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 23 Feb 2022 17:19:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fRpugmNId+9qJqAzw3/XGRwMxMENGJA1o3xKmRSntCbeN/Y8Y7MAnfEl36L3c7UZ9aUcyZUOJyW06sNbJ2AuQX6sR6sVTRtFBgPZxFsaxZ9Plf0v2Z7IvjADP0yrodfzYJeoID+qU/bjIqU+PliDPxKRMmHo59hcT7DXuqJ9dbS36tGlNnRFGIbVai2j27b8ZkdQXsY1aoS3Wy5cGOomOOtdIiCuiHAsofRqfzfJYzIXqPW3i4Dai1Quy0OCDj0e/+spd1vMbX9Y04vViaw6VeIPEKGR3OcoWXVZ8mTaKDFFu4L7HdKJvk87M45Oewc6z6LO47rHNCz5az3VQRIp2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qw2VU5+BY4wrGBJdIaerKEpdhHHF2ngZpgfjt+QYxK0=;
+ b=hMOXKdJNY8eIRzOv1aaH+TeWwI8OPd8ttJCMQlggDJvreGEESyzRraILgq96ajfEEUUwt+1yA5lGh0ju4ClsoAwjR/kX2HRnZxxTvSM63RktwoA8d92qDgKOG7ckHmYQr1PLKM0V8Fy91qRSsIBDvUSz/L1KItzCS1pOyVLXf5LhjsPL07a+7yDwHW6UdbQGxmEFpi6ZhORe91LR49RYnN+fTYnKoqsTvrGTBiFWREniPoCFEhoif+vAXO6jsJfQrX4UO+L53vBcVPxcFGNFTetcYf52pvqqc/+22alzWCyNH2kmjVCexkKjzhowgSqT5zxvVmCbSeXvZEZiDqARKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qw2VU5+BY4wrGBJdIaerKEpdhHHF2ngZpgfjt+QYxK0=;
+ b=cuwiU28EGUqutv+016Vc/LvgiWVJMjBAoGquEjVpdpNfRtnhp4RIEuYfsZilGhqkCs1sYYl2QDDsrk8zqejpjYItge0HowAAN3kqY6aeGcU7KY5DkxqTCjTzmzH5K2Dtz8OkTxRaY5zmNs8KfVNMU3CSOifygMZNWbrtSxLv1Eg=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by CH2PR10MB3912.namprd10.prod.outlook.com (2603:10b6:610:a::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Wed, 23 Feb
+ 2022 17:19:03 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::750f:bf1d:1599:3406]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::750f:bf1d:1599:3406%6]) with mapi id 15.20.5017.024; Wed, 23 Feb 2022
+ 17:19:03 +0000
+Message-ID: <04efb316-e231-7abd-0eb6-5b0241afd5f2@oracle.com>
+Date: Wed, 23 Feb 2022 17:18:55 +0000
+Subject: Re: [PATCH RFCv2 3/4] i386/pc: warn if phys-bits is too low
+Content-Language: en-US
+From: Joao Martins <joao.m.martins@oracle.com>
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20220207202422.31582-1-joao.m.martins@oracle.com>
+ <20220207202422.31582-4-joao.m.martins@oracle.com>
+ <20220214160325.62b6436d@redhat.com>
+ <f627c202-5281-affb-c439-ea394c3ab70a@oracle.com>
+In-Reply-To: <f627c202-5281-affb-c439-ea394c3ab70a@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM3PR03CA0056.eurprd03.prod.outlook.com
+ (2603:10a6:207:5::14) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 4/5] python: qmp_shell: add -e/--exit-on-error option
-Content-Language: en-US-large
-To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20220221155519.2367-1-damien.hedde@greensocs.com>
- <20220221155519.2367-5-damien.hedde@greensocs.com>
- <CAFn=p-ZErejiw7mn_kN6c+57ya4OgS3ANpUa=BtS3Be=vcSOvg@mail.gmail.com>
- <YhZST1fCU54OgoP2@redhat.com>
- <CAFn=p-bo39LEvQhKBZZ6ZcEfhaaZ7eQDgDFMOEZtDkCV_XH54w@mail.gmail.com>
- <YhZWcFY1sGSV/OX8@redhat.com>
- <CAFn=p-aSbkdzqZQAZYKX2mPo9BVmX0U5s+huXQH-JcD5N6+WCA@mail.gmail.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <CAFn=p-aSbkdzqZQAZYKX2mPo9BVmX0U5s+huXQH-JcD5N6+WCA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0f71fbf6-7ef2-4140-0d0c-08d9f6f09675
+X-MS-TrafficTypeDiagnostic: CH2PR10MB3912:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR10MB3912D8C14DDCBABA89AE291EBB3C9@CH2PR10MB3912.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EYVvVTroheqtZjP7ofZ0iQ1/VgJW7WsGpa9t/NymU8GqcMSFzSo6o0hUgPhnyqnPKQ06tUtypfRxUzZ0/pQpirDtOPKKohx2da/bH/2Iq+fc0g8uqPFriwY6gWEnk0NltsuA48TZkqkMY6WulrXmzMnG/eu+Mt6x8ab533ogzfvSI/O1bcouY/dXX/84PGry2aRt4wx7QySx4w2MP5sjk7OVUXrIKlb7RYUboDrxiwhmoYBhUuooGQL6aCNeX9ejKJ3bYtvTNibEO/1DEjDskolXPpS7BtGg5GcC1DDXE55FEafgfvpSCGJl+T3MzzoUXGbWWd/PEMMJHNvg13tbAgJeiv+hEZ3U7i7wjtzPeqOJCJQ6D1Qaj5FkhvKT03EMYjIWre+njvH0+Zulgu4d3LTRBEWFe1J041VHtE7fan+CqVdlTDJ7I9zTKfuaJ7piZHjUfBjpFLwa3WVWF8oh5JcAZ939T3FIW9z68SIVE4V/SQPm04nNHXFIA+nFtq515To5Cosu3khFn06b05ZUXYM6xy+jkxSiHLMErjtImokV+JYQlXHJfZFx368av7/WubB9lFAD3WECf99glManqkRBanLpBEeCFYn9Z0haFVxXM8A1xL0KNeMfcJ6lemZfk40gWiH6YXUhyntqhtVnC9ZFsg+XYpa31GEyY/hNYOX0Oxu1/WRQpQX5ksCgkGayZPo899QI8wWTGQIO9qJVGw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(5660300002)(26005)(6512007)(36756003)(186003)(6486002)(31686004)(2616005)(2906002)(83380400001)(31696002)(8936002)(4326008)(6916009)(54906003)(508600001)(86362001)(38100700002)(316002)(66946007)(53546011)(8676002)(6666004)(66476007)(66556008)(6506007)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YUtIdy9vMTM4emwrc3pWcW9rUGxmRmlJYjQ0dVh1SEV2OWJBbVRUcTlpblVx?=
+ =?utf-8?B?RjgzdUhkbHc0RHZhSUcySFBEYWd4TVRKYWhJQjRnWTh1YUxuWnAycGZJNGlr?=
+ =?utf-8?B?dGxYT1lQWmR0WlJlN3B2dTI4am9ZS2JPWjlvbzN0aXEyM3YzZnl4T2FtRTR1?=
+ =?utf-8?B?NGZZVlFyMWsyNk42WU0xVTBoNjFVMkZnSEk4RG0wMU5GQzZ3d3hSZWt3Nlh6?=
+ =?utf-8?B?MXFrS3pWVVJUN3lsajRLMFpNR3dITndPeHZJNUthYW5aQjNWcGVzVCs4VjRY?=
+ =?utf-8?B?bE9tSmMvUzI3aW1La1ZjWjVVTEpBYTQ0UWFOc0dGeDB3SWZ4eDdtRVFFMWM0?=
+ =?utf-8?B?Nk1HdkhZVUdFYStSbUs3UXdVSDRnQnI0b2Q4eVQ3ME1sYVhhdnpmREpGTmJB?=
+ =?utf-8?B?YkZ5RHpDbUM2WEFpU3RpYU1ObEVVVEpWQjVaMUpES2ZEUXZlSkY0ZUZGakNT?=
+ =?utf-8?B?MHl1T2J6eVAwc2c2TG8wWVF4cWNxclpud2JTRnB2YXEyVzFGZlFtUUE2ejB5?=
+ =?utf-8?B?UnRQMGNlTm1JeWpvcGVZUm5Mak5EODlUTVp1dFkwZ0hLSitVbkZNZjk1aDZZ?=
+ =?utf-8?B?Wms2a1VwR0REZTJMd09mQXhnc1JlbHRGTmlEamJpSTd5RHFHZWxBK3kzZFI2?=
+ =?utf-8?B?YVBGTkIzbnZpcDc1VUxLY0o5SndGUGUwdHZoVlBNRW8yQjZvd1grL3ljRmtx?=
+ =?utf-8?B?UHZZNFNFNkRXT1VRSDhjQlFib0dvWVQyRnc1NkxRK1puV1NoV29rNVVGR1Yx?=
+ =?utf-8?B?allqakI5Z2tzWGoyTXo3SUJlekQycWl3V09QZm9QZnFoY3k3bzFVM3NscWFj?=
+ =?utf-8?B?VnFQdHhWL1lwZmtqMWJXWHJySWFzcUpyZmJuclBiWkxxRXVlS2pleDh1Vi9W?=
+ =?utf-8?B?eE40N2lDSTdsdGxaUThsRW80UWFOaXQ1OFpLNmlYbi9ubmFCY0w4akYvdlpD?=
+ =?utf-8?B?eVN4bkxtOUFCZVRZVzJGK1dyeE8wR1ZXbTI4aXFHME5BSU0zSFlkQ1Y2TkFa?=
+ =?utf-8?B?bjZHK1lGYzMwUVVuNjB0YmdEYmtOdjJTalYwVVdzdGo4RDIzdVhhS29rQU11?=
+ =?utf-8?B?K29neHJRbE1IL29IRDFPR0VOOElQaWFZay8xVlRLUjF3ZHBXajFTbnlpVThl?=
+ =?utf-8?B?MnB1UmhmQ1BqMDhxU2FWdHphYzBac3JUdFFGOGdsVHpjUjNrL1hrR0IzTnJD?=
+ =?utf-8?B?bzZ2dk1UL2pmVkNXUEFlTWFCNnRLbDNlU0FncjlVL3JuSWNaVW85a0FneVFx?=
+ =?utf-8?B?YkhLTGVMMTE2bUw2MnpFR2FOT0k4ZnYxOW1VQ3NNTkxMMWdxT0xvZDlqUlY3?=
+ =?utf-8?B?ZFhkOEZ1OXkvVVJrWG9nODNXV2tzcGUzSHNPa0RVWldJckNJQXBrRml1dnNN?=
+ =?utf-8?B?Y3dsTjdiSFJoQm5pazhldnVGem93ZUFKeXBNRnIwOVk5VW05UVpSTkU4RDFH?=
+ =?utf-8?B?ZXp4M2xKdlNxaWFHS2ZNTEJQakVSMFZsOTcvcDdyNm9VZVdBYUxwUUQyVE9L?=
+ =?utf-8?B?eWhFZVZYMUo5SmhTR2JiRFd2NFFYdWwrMmtPcUJ6TG1RdzZLOXAwSDZpdFNQ?=
+ =?utf-8?B?VlNrUE15MzZJRDFDT0J4U2QyVlUrWGE0eTNhU1BYaU8rVW9HRDhhMmRGOXZt?=
+ =?utf-8?B?dVBsQVFwWERTb2ZXQnVZMlNaL0RaNWNCKys5Zm5leFFPRnJtak1xVFF2NGxI?=
+ =?utf-8?B?eDRURWhIRitDM2RBOCtZTU40V1lNREpzS1NGOE1sbnYrYk5vbmk4YjRzUmxy?=
+ =?utf-8?B?VkRCalhBbVIvWC9VdUQ4My9yRTg0UUdFa3BVWFBrTWN2cW9WbWcvcC9KYnBt?=
+ =?utf-8?B?N1RQMFZ3bGY3YmhwdEVUZG5uUEVWMjE0bEpIV3JPN2s3MVZTakxDcWNtbVEx?=
+ =?utf-8?B?TWluREk1bEJoK0NnbUZXZUYydGtnVGdpbVJpbTBJSUJZWHBMa0tEai9nRkZt?=
+ =?utf-8?B?L1Q3Q1RaUmVpYURJelV4Wm1DNVQzSXBabDFQOFp4bUNwTEE4UTZwam0vcXAx?=
+ =?utf-8?B?b3RHeXRCNjBiYWJaSk14R0dLWVdFUVN0cWMyOTdWY1ZxeTRTMVpWSjA3a1BK?=
+ =?utf-8?B?SkFpcVU4UmRnY0R4L1RVdStrN3VyWGVjMndJaCtEd0pYQ251S1lrdkx3VWkv?=
+ =?utf-8?B?bDdGSnFWU3VxblJ4RU1ERHdHQ1hISHd6dHpVODlJVTlZSGZFY3RKa1REbkU0?=
+ =?utf-8?B?NWhtcjlsR0ZBNnRGZ1pxdUYzSEhvYlFVcU1DdEg0M0wzWndQbzhiRiszQTBj?=
+ =?utf-8?B?SUJlR0Z4VXpmYnZhYktFRDRaNStRPT0=?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f71fbf6-7ef2-4140-0d0c-08d9f6f09675
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 17:19:02.9279 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ELPBynt03lWhrRdCfDGZVV420nyLLdjFfJCR7fhvlVGv+J6WSgte2l3i8NOcct83q77hRNZpZ+Fwv7v/uaumDCmM8vezN5osNvhQLYgAkh4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB3912
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10267
+ signatures=681306
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ suspectscore=0 adultscore=0
+ malwarescore=0 phishscore=0 mlxlogscore=999 mlxscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202230098
+X-Proofpoint-ORIG-GUID: vkiMLLKB4u_NK-4X1QR2beKO4we7B2hN
+X-Proofpoint-GUID: vkiMLLKB4u_NK-4X1QR2beKO4we7B2hN
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -73,112 +177,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 2/23/22 17:18, John Snow wrote:
-> On Wed, Feb 23, 2022 at 10:44 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+On 2/14/22 15:18, Joao Martins wrote:
+> On 2/14/22 15:03, Igor Mammedov wrote:
+>> On Mon,  7 Feb 2022 20:24:21 +0000
+>> Joao Martins <joao.m.martins@oracle.com> wrote:
 >>
->> On Wed, Feb 23, 2022 at 10:41:11AM -0500, John Snow wrote:
->>> On Wed, Feb 23, 2022 at 10:27 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
->>>>
->>>> On Wed, Feb 23, 2022 at 10:22:11AM -0500, John Snow wrote:
->>>>> On Mon, Feb 21, 2022 at 10:55 AM Damien Hedde
->>>>> <damien.hedde@greensocs.com> wrote:
->>>>>>
->>>>>> This option makes qmp_shell exit (with error code 1)
->>>>>> as soon as one of the following error occurs:
->>>>>> + command parsing error
->>>>>> + disconnection
->>>>>> + command failure (response is an error)
->>>>>>
->>>>>> _execute_cmd() method now returns None or the response
->>>>>> so that read_exec_command() can do the last check.
->>>>>>
->>>>>> This is meant to be used in combination with an input file
->>>>>> redirection. It allows to store a list of commands
->>>>>> into a file and try to run them by qmp_shell and easily
->>>>>> see if it failed or not.
->>>>>>
->>>>>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->>>>>
->>>>> Based on this patch, it looks like you really want something
->>>>> scriptable, so I think the qemu-send idea that Dan has suggested might
->>>>> be the best way to go. Are you still hoping to use the interactive
->>>>> "short" QMP command format? That might be a bad idea, given how flaky
->>>>> the parsing is -- and how we don't actually have a published standard
->>>>> for that format. We've *never* liked the bad parsing here, so I have a
->>>>> reluctance to use it in more places.
->>>>>
->>>>> I'm having the naive idea that a script file could be as simple as a
->>>>> list of QMP commands to send:
->>>>>
->>>>> [
->>>>>      {"execute": "block-dirty-bitmap-add", "arguments": { ... }},
->>>>>      ...
->>>>> ]
->>>>
->>>> I'd really recommend against creating a new format for the script
->>>> file, especially one needing opening & closing  [] like this, as
->>>> that isn't so amenable to dynamic usage/creation. ie you can't
->>>> just append an extcra command to an existing file.
->>>>
->>>> IMHO, the "file" format should be identical to the result of
->>>> capturing the socket data off the wire. ie just a concatenation
->>>> of QMP commands, with no extra wrapping / change in format.
->>>>
->>>
->>> Eugh. That's just so hard to parse, because there's no off-the-shelf
->>> tooling for "load a sequence of JSON documents". Nothing in Python
->>> does it. :\
+>>> Default phys-bits on Qemu is TCG_PHYS_BITS (40) which is enough
+>>> to address 1Tb (0xff ffff ffff). On AMD platforms, if a
+>>> ram-above-4g relocation happens and the CPU wasn't configured
+>>> with a big enough phys-bits, warn the user. There isn't a
+>>> catastrophic failure exactly, the guest will still boot, but
+>>> most likely won't be able to use more than ~4G of RAM.
 >>
->> It isn't that hard if you require each JSON doc to be followed by
->> a newline.
+>> how 'unable to use" would manifest?
+>> It might be better to prevent QEMU startup with broken setup (CLI)
+>> rather then letting guest run and trying to figure out what's
+>> going wrong when users start to complain. 
 >>
->> Feed one line at a time to the JSON parser, until you get a complete
->> JSON doc, process that, then re-init the parser and carry on feeding
->> it lines until it emits the next JSON doc, and so on.
->>
+> Sounds better to be conservative here.
 > 
-> There's two interfaces in Python:
-> 
-> (1) json.load(), which takes a file pointer and either returns a
-> single, complete JSON document or it raises an Exception. It's not
-> useful here at all.
-> (2) json.JSONDecoder().raw_decode(strbuf), which takes a string buffer
-> and returns a 2-tuple of a JSON Document and the position at which it
-> stopped decoding.
-> 
-> The second is what we need here, but it does require buffering the
-> entire file into a string first, and then iteratively calling it. It
-> feels like working against the grain a little bit. We also can't use
-> the QAPI parser, as that parser has intentionally removed support for
-> constructs we don't use in the qapi schema language. Boo. (Not that I
-> want more non-standard configuration files like that propagating,
-> either.)
-> 
-> It would be possible to generate a JSON-Schema document to describe a
-> script file that used a containing list construct, but impossible for
-> a concatenation of JSON documents. This is one of the reasons I
-> instinctively shy away from non-standard file formats, they tend to
-> cut off support for this sort of thing.
-> 
-> Wanting to keep the script easy to append to is legitimate. I'm keen
-> to hear a bit more about the use case here before I press extremely
-> hard in any given direction, but those are my impulses here.
+> I will change from warn_report() to error_report()
+> and exit.
 > 
 
-The use case is to be able to feed qemu with a bunch of commands we 
-expect to succeed and let qemu continue (unlike Daniel's wrap use case, 
-we don't want to quit qemu after the last command).
+I was running through x86_64 qtests prior to submission
+and it seems that the inclusion of a pci_hole64_size in
+the check added by this patch would break tests if we were
+to error out. So far, I'm keeping it as a warning over
+compatibility concerns, not limited these 5 test failures
+below. Let me know otherwise if you disagree, or if you
+prefer another way.
 
-Typically it's the use case I present in the following cover-letter:
-https://lore.kernel.org/qemu-devel/20220223090706.4888-1-damien.hedde@greensocs.com/
+Summary of Failures:
 
---
-Damien
+ 1/56 qemu:qtest+qtest-x86_64 / qtest-x86_64/qom-test               ERROR           0.07s
+  killed by signal 6 SIGABRT
+ 4/56 qemu:qtest+qtest-x86_64 / qtest-x86_64/test-hmp               ERROR           0.07s
+  killed by signal 6 SIGABRT
+ 7/56 qemu:qtest+qtest-x86_64 / qtest-x86_64/boot-serial-test       ERROR           0.07s
+  killed by signal 6 SIGABRT
+44/56 qemu:qtest+qtest-x86_64 / qtest-x86_64/test-x86-cpuid-compat  ERROR           0.09s
+  killed by signal 6 SIGABRT
+45/56 qemu:qtest+qtest-x86_64 / qtest-x86_64/numa-test              ERROR           0.17s
+  killed by signal 6 SIGABRT
 
