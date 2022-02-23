@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F804C141D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 14:27:10 +0100 (CET)
-Received: from localhost ([::1]:55122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714694C1400
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 14:21:54 +0100 (CET)
+Received: from localhost ([::1]:51288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMrfg-0004lz-SC
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 08:27:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52414)
+	id 1nMrab-0001fc-Fs
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 08:21:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org>)
- id 1nMrS7-000506-AL
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 08:13:07 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:34610)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMrTg-0006iD-Gw
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 08:14:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org>)
- id 1nMrS3-0004u0-TN
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 08:13:06 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9649C614FE;
- Wed, 23 Feb 2022 13:13:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8155C340E7;
- Wed, 23 Feb 2022 13:12:59 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="kP/TNLRo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1645621979;
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMrTc-00054Y-St
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 08:14:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645622079;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=lgLtq+lfYFesl4+M3nDQfreFYpTzpLlZU30SsFv1B9I=;
- b=kP/TNLRoQCYE16+kAQxyXUKZW27z79tNX+j9khdmnW/pHUrLp5TsQg+Sst5dY0RUvma5Mv
- bQflcE8AP3p/qcnEe0Ytn5tTaN6qKbYLfiX7li7x4NV/wK5zU/k/H2vnZMaPw50Tc8hoNc
- F6CVnKlFZJXSeHIRZPpAohvSylF0vbk=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 25ac14b1
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Wed, 23 Feb 2022 13:12:58 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
- qemu-devel@nongnu.org, kvm@vger.kernel.org, linux-s390@vger.kernel.org,
- adrian@parity.io
-Subject: [PATCH RFC v1 2/2] drivers/virt: add vmgenid driver for
- reinitializing RNG
-Date: Wed, 23 Feb 2022 14:12:31 +0100
-Message-Id: <20220223131231.403386-3-Jason@zx2c4.com>
-In-Reply-To: <20220223131231.403386-1-Jason@zx2c4.com>
-References: <20220223131231.403386-1-Jason@zx2c4.com>
+ bh=v3fvYTNE1dAKk/TdUTSJdhFSiKcgVU8zPFWZDsqv4rg=;
+ b=EseF+cH2m/B83Pnr8eQvQ8erYm3PFVUTAQplqveajhL5wMy3HVD1XwxoMQwElWwvQsBU/6
+ l3tASOeYjP7AjOjjgr17cwtMKGz/U+RHip4DgJYDG3JhqmxCCErZcPydEGIuSeIPLeg+94
+ 5s0J/honiBkNstqtDUCeBzLbbdjo2I4=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-56-x0Gfp8BwOZicMPo7H2Si-Q-1; Wed, 23 Feb 2022 08:14:38 -0500
+X-MC-Unique: x0Gfp8BwOZicMPo7H2Si-Q-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ z28-20020aa79f9c000000b004e10449d919so9020325pfr.4
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 05:14:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=v3fvYTNE1dAKk/TdUTSJdhFSiKcgVU8zPFWZDsqv4rg=;
+ b=RSrS436QwAhOReZWZRRWwCS+4Ndo8vR22CG9xYaWhcEC+RxbuH083d/IHPUl7hKk2y
+ rEaodollmkAs5MepTYcAHeQtLgQVH9BoZ6f4FP+Z0drQZh4ILzZ6hg0dKRBQIj4n3sMH
+ NNffSWSRPvDRBVifL54GsdVj6uaZKM0AMlEuy/T9+5Fm4TcBzypGYWpRJm/oJlJ5t7bD
+ paUklL2hDhFVuJ7rXpaqhWQ7begGxNehqtJXeFnpxfxI/2nDzYGm+vOy/8JVUKpl7kL2
+ cROde+V6zvjzqCmcrWj5svVxJXaRXBbQjXMyTLzmiHwQ0jCGrE4ye5KQLEv5n2yt0HT7
+ OClQ==
+X-Gm-Message-State: AOAM531vyZ0p6nNu9XUSQqs2EN0yUvNillajCN8nlUcZrCXo8yxqeuYL
+ MwXW0Bff+xXCXgaDVKArPI9zXHtRSDFz1crGQJxA2XOTAhsJzMF0SAHiWJ7WrLZbdtwQ1N5TTYy
+ cPvZpsjUoI4B+chM=
+X-Received: by 2002:a17:902:e743:b0:14f:c274:cc2a with SMTP id
+ p3-20020a170902e74300b0014fc274cc2amr12488445plf.70.1645622076866; 
+ Wed, 23 Feb 2022 05:14:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzBNzTNAjNssMKlK3jF5sCEpaQKTCaKXF83pNjaoegjrw3gx5bCX59VLGeoMRVk4fBsB7ONKA==
+X-Received: by 2002:a17:902:e743:b0:14f:c274:cc2a with SMTP id
+ p3-20020a170902e74300b0014fc274cc2amr12488414plf.70.1645622076443; 
+ Wed, 23 Feb 2022 05:14:36 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.100])
+ by smtp.gmail.com with ESMTPSA id s48sm19921020pfw.111.2022.02.23.05.14.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Feb 2022 05:14:36 -0800 (PST)
+Date: Wed, 23 Feb 2022 21:14:31 +0800
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 19/20] migration: Postcopy recover with preempt enabled
+Message-ID: <YhYzN3upm62HEnTm@xz-m1.local>
+References: <20220216062809.57179-1-peterx@redhat.com>
+ <20220216062809.57179-20-peterx@redhat.com>
+ <YhTJuvhEvdxnINPu@work-vm> <YhXmIBwbZoTErHSR@xz-m1.local>
+ <YhYDyAf7+khF8Fkv@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <YhYDyAf7+khF8Fkv@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,217 +98,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, tytso@mit.edu, jannh@google.com,
- gregkh@linuxfoundation.org, raduweis@amazon.com, acatan@amazon.com,
- graf@amazon.com, colmmacc@amazon.com, sblbir@amazon.com, dwmw@amazon.co.uk
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VM Generation ID is a feature from Microsoft, described at
-<https://go.microsoft.com/fwlink/?LinkId=260709>, and supported by
-Hyper-V and QEMU. Its usage is described in Microsoft's RNG whitepaper,
-<https://aka.ms/win10rng>, as:
+On Wed, Feb 23, 2022 at 09:52:08AM +0000, Dr. David Alan Gilbert wrote:
+> * Peter Xu (peterx@redhat.com) wrote:
+> > On Tue, Feb 22, 2022 at 11:32:10AM +0000, Dr. David Alan Gilbert wrote:
+> > > * Peter Xu (peterx@redhat.com) wrote:
+> > > > To allow postcopy recovery, the ram fast load (preempt-only) dest QEMU thread
+> > > > needs similar handling on fault tolerance.  When ram_load_postcopy() fails,
+> > > > instead of stopping the thread it halts with a semaphore, preparing to be
+> > > > kicked again when recovery is detected.
+> > > > 
+> > > > A mutex is introduced to make sure there's no concurrent operation upon the
+> > > > socket.  To make it simple, the fast ram load thread will take the mutex during
+> > > > its whole procedure, and only release it if it's paused.  The fast-path socket
+> > > > will be properly released by the main loading thread safely when there's
+> > > > network failures during postcopy with that mutex held.
+> > > 
+> > > I *think* this is mostly OK; but I worry I don't understand all the
+> > > cases; e.g.
+> > >   a) If the postcopy channel errors first
+> > >   b) If the main channel errors first
+> > 
+> > Ah right, I don't think I handled all the cases.  Sorry.
+> > 
+> > We always check the main channel, but if the postcopy channel got faulted,
+> > we may not fall into paused mode as expected.
+> > 
+> > I'll fix that up.
+> 
+> Thanks.
+> 
+> > > 
+> > > Can you add some docs to walk through those and explain the locking ?
+> > 
+> > Sure.
+> > 
+> > The sem is mentioned in the last sentence of paragraph 1, where it's purely
+> > used for a way to yield the fast ram load thread so that when something
+> > wrong happens it can sleep on that semaphore.  Then when we recover we'll
+> > post to the semaphore to kick it up.  We used it like that in many places,
+> > e.g. postcopy_pause_sem_dst to yield the main load thread.
+> > 
+> > The 2nd paragraph above was for explaining why we need the mutex; it's
+> > basically the same as rp_mutex protecting to_src_file, so that we won't
+> > accidentally close() the qemufile during some other thread using it.  So
+> > the fast ram load thread needs to take that new mutex for mostly the whole
+> > lifecycle of itself (because it's loading from that qemufile), meanwhile
+> > only drop the mutex when it prepares to sleep.  Then the main load thread
+> > can recycle the postcopy channel using qemu_fclose() safely.
+> 
+> Yes, that feels like it needs to go in the code somewhere.
 
-    If the OS is running in a VM, there is a problem that most
-    hypervisors can snapshot the state of the machine and later rewind
-    the VM state to the saved state. This results in the machine running
-    a second time with the exact same RNG state, which leads to serious
-    security problems.  To reduce the window of vulnerability, Windows
-    10 on a Hyper-V VM will detect when the VM state is reset, retrieve
-    a unique (not random) value from the hypervisor, and reseed the root
-    RNG with that unique value.  This does not eliminate the
-    vulnerability, but it greatly reduces the time during which the RNG
-    system will produce the same outputs as it did during a previous
-    instantiation of the same VM state.
+Sure, I'll further squash below comment update into the same patch.  I
+reworded some places but mostly it should be telling the same thing:
 
-Linux has the same issue, and given that vmgenid is supported already by
-multiple hypervisors, we can implement more or less the same solution.
-So this commit wires up the vmgenid ACPI notification to the RNG's newly
-added add_vmfork_randomness() function.
-
-This driver builds on prior work from Adrian Catangiu at Amazon, and it
-is my hope that that team can resume maintenance of this driver.
-
-Cc: Adrian Catangiu <adrian@parity.io>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- drivers/virt/Kconfig   |   8 +++
- drivers/virt/Makefile  |   1 +
- drivers/virt/vmgenid.c | 133 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 142 insertions(+)
- create mode 100644 drivers/virt/vmgenid.c
-
-diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-index 8061e8ef449f..e7f9c1bca02b 100644
---- a/drivers/virt/Kconfig
-+++ b/drivers/virt/Kconfig
-@@ -13,6 +13,14 @@ menuconfig VIRT_DRIVERS
+---8<---
+diff --git a/migration/migration.h b/migration/migration.h
+index 945088064a..91f845e9e4 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -118,7 +118,17 @@ struct MigrationIncomingState {
+     /* Postcopy priority thread is used to receive postcopy requested pages */
+     QemuThread postcopy_prio_thread;
+     bool postcopy_prio_thread_created;
+-    /* Used to sync with the prio thread */
++    /*
++     * Used to sync between the ram load main thread and the fast ram load
++     * thread.  It protects postcopy_qemufile_dst, which is the postcopy
++     * fast channel.
++     *
++     * The ram fast load thread will take it mostly for the whole lifecycle
++     * because it needs to continuously read data from the channel, and
++     * it'll only release this mutex if postcopy is interrupted, so that
++     * the ram load main thread will take this mutex over and properly
++     * release the broken channel.
++     */
+     QemuMutex postcopy_prio_thread_mutex;
+     /*
+      * An array of temp host huge pages to be used, one for each postcopy
+@@ -149,6 +159,12 @@ struct MigrationIncomingState {
+     /* notify PAUSED postcopy incoming migrations to try to continue */
+     QemuSemaphore postcopy_pause_sem_dst;
+     QemuSemaphore postcopy_pause_sem_fault;
++    /*
++     * This semaphore is used to allow the ram fast load thread (only when
++     * postcopy preempt is enabled) fall into sleep when there's network
++     * interruption detected.  When the recovery is done, the main load
++     * thread will kick the fast ram load thread using this semaphore.
++     */
+     QemuSemaphore postcopy_pause_sem_fast_load;
  
- if VIRT_DRIVERS
- 
-+config VMGENID
-+	bool "Virtual Machine Generation ID driver"
-+	default y
-+	depends on ACPI
-+	help
-+	  Say Y here to use the hypervisor provided Virtual Machine Generation ID
-+	  to reseed the RNG when the VM is cloned.
-+
- config FSL_HV_MANAGER
- 	tristate "Freescale hypervisor management driver"
- 	depends on FSL_SOC
-diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-index 3e272ea60cd9..108d0ffcc9aa 100644
---- a/drivers/virt/Makefile
-+++ b/drivers/virt/Makefile
-@@ -4,6 +4,7 @@
- #
- 
- obj-$(CONFIG_FSL_HV_MANAGER)	+= fsl_hypervisor.o
-+obj-$(CONFIG_VMGENID)		+= vmgenid.o
- obj-y				+= vboxguest/
- 
- obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
-diff --git a/drivers/virt/vmgenid.c b/drivers/virt/vmgenid.c
-new file mode 100644
-index 000000000000..11ed7f668bb1
---- /dev/null
-+++ b/drivers/virt/vmgenid.c
-@@ -0,0 +1,133 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Virtual Machine Generation ID driver
-+ *
-+ * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-+ * Copyright (C) 2020 Amazon. All rights reserved.
-+ * Copyright (C) 2018 Red Hat Inc. All rights reserved.
-+ */
-+
-+#define pr_fmt(fmt) "vmgenid: " fmt
-+
-+#include <linux/acpi.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/random.h>
-+#include <linux/uuid.h>
-+
-+#define DEV_NAME "vmgenid"
-+ACPI_MODULE_NAME(DEV_NAME);
-+
-+static struct {
-+	uuid_t uuid;
-+	void *uuid_iomap;
-+} vmgenid_data;
-+
-+static int vmgenid_acpi_map(acpi_handle handle)
-+{
-+	phys_addr_t phys_addr = 0;
-+	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-+	acpi_status status;
-+	union acpi_object *pss;
-+	union acpi_object *element;
-+	int i;
-+
-+	status = acpi_evaluate_object(handle, "ADDR", NULL, &buffer);
-+	if (ACPI_FAILURE(status)) {
-+		ACPI_EXCEPTION((AE_INFO, status, "Evaluating ADDR"));
-+		return -ENODEV;
-+	}
-+	pss = buffer.pointer;
-+	if (!pss || pss->type != ACPI_TYPE_PACKAGE || pss->package.count != 2)
-+		return -EINVAL;
-+
-+	for (i = 0; i < pss->package.count; ++i) {
-+		element = &pss->package.elements[i];
-+		if (element->type != ACPI_TYPE_INTEGER)
-+			return -EINVAL;
-+		phys_addr |= element->integer.value << i * 32;
-+	}
-+
-+	vmgenid_data.uuid_iomap = acpi_os_map_memory(phys_addr, sizeof(vmgenid_data.uuid));
-+	if (!vmgenid_data.uuid_iomap) {
-+		pr_err("failed to map memory at %pa, size %zu\n",
-+			&phys_addr, sizeof(vmgenid_data.uuid));
-+		return -ENOMEM;
-+	}
-+
-+	memcpy_fromio(&vmgenid_data.uuid, vmgenid_data.uuid_iomap, sizeof(vmgenid_data.uuid));
-+
-+	return 0;
-+}
-+
-+static int vmgenid_acpi_add(struct acpi_device *device)
-+{
-+	int ret;
-+
-+	if (!device)
-+		return -EINVAL;
-+	ret = vmgenid_acpi_map(device->handle);
-+	if (ret < 0) {
-+		pr_err("failed to map acpi device: %d\n", ret);
-+		return ret;
-+	}
-+	device->driver_data = &vmgenid_data;
-+	add_device_randomness(&vmgenid_data.uuid, sizeof(vmgenid_data.uuid));
-+	return 0;
-+}
-+
-+static int vmgenid_acpi_remove(struct acpi_device *device)
-+{
-+	if (!device || acpi_driver_data(device) != &vmgenid_data)
-+		return -EINVAL;
-+	device->driver_data = NULL;
-+	if (vmgenid_data.uuid_iomap)
-+		acpi_os_unmap_memory(vmgenid_data.uuid_iomap, sizeof(vmgenid_data.uuid));
-+	vmgenid_data.uuid_iomap = NULL;
-+	return 0;
-+}
-+
-+static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
-+{
-+	uuid_t old_uuid = vmgenid_data.uuid;
-+
-+	if (!device || acpi_driver_data(device) != &vmgenid_data)
-+		return;
-+	memcpy_fromio(&vmgenid_data.uuid, vmgenid_data.uuid_iomap, sizeof(vmgenid_data.uuid));
-+	if (!memcmp(&old_uuid, &vmgenid_data.uuid, sizeof(vmgenid_data.uuid)))
-+		return;
-+	add_vmfork_randomness(&vmgenid_data.uuid, sizeof(vmgenid_data.uuid));
-+}
-+
-+static const struct acpi_device_id vmgenid_ids[] = {
-+	{"VMGENID", 0},
-+	{"QEMUVGID", 0},
-+	{"", 0},
-+};
-+
-+static struct acpi_driver acpi_vmgenid_driver = {
-+	.name = "vm_generation_id",
-+	.ids = vmgenid_ids,
-+	.owner = THIS_MODULE,
-+	.ops = {
-+		.add = vmgenid_acpi_add,
-+		.remove = vmgenid_acpi_remove,
-+		.notify = vmgenid_acpi_notify,
-+	}
-+};
-+
-+static int __init vmgenid_init(void)
-+{
-+	return acpi_bus_register_driver(&acpi_vmgenid_driver);
-+}
-+
-+static void __exit vmgenid_exit(void)
-+{
-+	acpi_bus_unregister_driver(&acpi_vmgenid_driver);
-+}
-+
-+module_init(vmgenid_init);
-+module_exit(vmgenid_exit);
-+
-+MODULE_DESCRIPTION("Virtual Machine Generation ID");
-+MODULE_LICENSE("GPL");
+     /* List of listening socket addresses  */
+---8<---
+
+> 
+> > [...]
+> > 
+> > > > @@ -3466,6 +3468,17 @@ static MigThrError postcopy_pause(MigrationState *s)
+> > > >          qemu_file_shutdown(file);
+> > > >          qemu_fclose(file);
+> > > >  
+> > > > +        /*
+> > > > +         * Do the same to postcopy fast path socket too if there is.  No
+> > > > +         * locking needed because no racer as long as we do this before setting
+> > > > +         * status to paused.
+> > > > +         */
+> > > > +        if (s->postcopy_qemufile_src) {
+> > > > +            migration_ioc_unregister_yank_from_file(s->postcopy_qemufile_src);
+> > > 
+> > > Shouldn't this do a qemu_file_shutdown on here first?
+> > 
+> > Yes I probably should.
+> > 
+> > With all above, I plan to squash below changes into this patch:
+> > 
+> > ---8<---
+> > diff --git a/migration/migration.c b/migration/migration.c
+> > index c68a281406..69778cab23 100644
+> > --- a/migration/migration.c
+> > +++ b/migration/migration.c
+> > @@ -3475,6 +3475,7 @@ static MigThrError postcopy_pause(MigrationState *s)
+> >           */
+> >          if (s->postcopy_qemufile_src) {
+> >              migration_ioc_unregister_yank_from_file(s->postcopy_qemufile_src);
+> > +            qemu_file_shutdown(s->postcopy_qemufile_src);
+> >              qemu_fclose(s->postcopy_qemufile_src);
+> >              s->postcopy_qemufile_src = NULL;
+> >          }
+> > @@ -3534,8 +3535,13 @@ static MigThrError migration_detect_error(MigrationState *s)
+> >          return MIG_THR_ERR_FATAL;
+> >      }
+> > 
+> > -    /* Try to detect any file errors */
+> > -    ret = qemu_file_get_error_obj(s->to_dst_file, &local_error);
+> > +    /*
+> > +     * Try to detect any file errors.  Note that postcopy_qemufile_src will
+> > +     * be NULL when postcopy preempt is not enabled.
+> > +     */
+> > +    ret = qemu_file_get_error_obj_any(s->to_dst_file,
+> > +                                      s->postcopy_qemufile_src,
+> > +                                      &local_error);
+> >      if (!ret) {
+> >          /* Everything is fine */
+> >          assert(!local_error);
+> > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> > index 1479cddad9..397652f0ba 100644
+> > --- a/migration/qemu-file.c
+> > +++ b/migration/qemu-file.c
+> > @@ -139,6 +139,33 @@ int qemu_file_get_error_obj(QEMUFile *f, Error **errp)
+> >      return f->last_error;
+> >  }
+> > 
+> > +/*
+> > + * Get last error for either stream f1 or f2 with optional Error*.
+> > + * The error returned (non-zero) can be either from f1 or f2.
+> > + *
+> > + * If any of the qemufile* is NULL, then skip the check on that file.
+> > + *
+> > + * When there is no error on both qemufile, zero is returned.
+> > + */
+> > +int qemu_file_get_error_obj_any(QEMUFile *f1, QEMUFile *f2, Error **errp)
+> > +{
+> > +    int ret = 0;
+> > +
+> > +    if (f1) {
+> > +        ret = qemu_file_get_error_obj(f1, errp);
+> > +        /* If there's already error detected, return */
+> > +        if (ret) {
+> > +            return ret;
+> > +        }
+> > +    }
+> > +
+> > +    if (f2) {
+> > +        ret = qemu_file_get_error_obj(f2, errp);
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> >  /*
+> >   * Set the last error for stream f with optional Error*
+> >   */
+> > diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+> > index 3f36d4dc8c..2564e5e1c7 100644
+> > --- a/migration/qemu-file.h
+> > +++ b/migration/qemu-file.h
+> > @@ -156,6 +156,7 @@ void qemu_file_update_transfer(QEMUFile *f, int64_t len);
+> >  void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
+> >  int64_t qemu_file_get_rate_limit(QEMUFile *f);
+> >  int qemu_file_get_error_obj(QEMUFile *f, Error **errp);
+> > +int qemu_file_get_error_obj_any(QEMUFile *f1, QEMUFile *f2, Error **errp);
+> >  void qemu_file_set_error_obj(QEMUFile *f, int ret, Error *err);
+> >  void qemu_file_set_error(QEMUFile *f, int ret);
+> >  int qemu_file_shutdown(QEMUFile *f);
+> > diff --git a/migration/savevm.c b/migration/savevm.c
+> > index 2d32340d28..24b69a1008 100644
+> > --- a/migration/savevm.c
+> > +++ b/migration/savevm.c
+> > @@ -2651,8 +2651,8 @@ retry:
+> >      while (true) {
+> >          section_type = qemu_get_byte(f);
+> > 
+> > -        if (qemu_file_get_error(f)) {
+> > -            ret = qemu_file_get_error(f);
+> > +        ret = qemu_file_get_error_obj_any(f, mis->postcopy_qemufile_dst, NULL);
+> > +        if (ret) {
+> >              break;
+> >          }
+> > ---8<---
+> > 
+> > Does it look sane?  Let me know if there's still things missing.
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+Thanks!
+
 -- 
-2.35.1
+Peter Xu
 
 
