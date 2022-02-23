@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36CD4C1F14
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:49:08 +0100 (CET)
-Received: from localhost ([::1]:46230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8179C4C1F15
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:49:29 +0100 (CET)
+Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nN0RX-0002sJ-PA
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:49:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59486)
+	id 1nN0Rs-0003nz-LF
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:49:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nN0B3-00078S-Er
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:32:05 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=40522
- helo=mail-pj1-x1036.google.com)
+ id 1nN0B5-00079z-Sr
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:32:09 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=55291
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nN0Az-0001Ge-TS
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:32:04 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- em10-20020a17090b014a00b001bc3071f921so3970800pjb.5
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 14:32:00 -0800 (PST)
+ id 1nN0B1-0001Gr-DQ
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:32:05 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id b8so295351pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 14:32:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Uavi3yQmU7TEij7jJpcySVBC3+TVvlm3sHX3b1s1W6c=;
- b=E4feHmkw/CmFwD/8fElw2/hS3oCNmfdUHVZDn3IWXTB7dIjgwUZi0XJAmOQNRegIrz
- 28lSFtVcpbFJhChctH0KvNC6hhURRAY5Y+axEGoOwMJNodSBAsf25ZxjXk81nUgVgeGy
- vB8IvZTfWPkecl0hniL82TztDa6Uhpn1wtVqm8sRb5PVVGnJfDP70d0ewDYpgY0Oalaz
- EDD2JnlE3+OOfSXF5Wsoea459gs7XrxGteBsSFR+WrrcOx5Pcovx23uz3tAFri6Z8I05
- k5kUIvFx7L9vInfJi69uv8Wg1ZdFiqH/jy6zrk3Ht9qmwQkxv2V8nIQ760oIyzeUyDDv
- Vr0A==
+ bh=iuG8ohkKwqyyIJ7svsXNRHI3s70BPYfliw43HdSQEsk=;
+ b=WddS2ivjSWfNCTiD1OOwywbmtXYERS9f9cKw9sBPsqwsdwF13gXFDZQXznIoHcZ6Z6
+ VQyCOG8v3AIC8azqObcb5p1dJP4zfkF31qkZiNoGUpICs1dEeyge0k0egcw27mUk+1+G
+ ZonCBG9cj/spNu8efQYMwJO0gZAVWYP/+ThksB3Cr9G0xgYPv1QrNAPT7iGieyS+nKsp
+ wuHI/Aa+rIX+6PdRKmlm7b/toLTQ2r1sQtyJM2bckxJXM3t4BDGO53Albqq2N5sRin+n
+ 1F6vAsntLlGT/B78qOj2I3pbAG6husIZN2qPjs23rJMvmvKC4pKBZgyP/cUmjzIvHWL9
+ nkIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Uavi3yQmU7TEij7jJpcySVBC3+TVvlm3sHX3b1s1W6c=;
- b=ITX5ud7LzKTbrRHC/3bXvhfCyXf3atnL/QzA3lEPD2yUmPlyLo3BFFazsiT4axZdJ+
- iRNEVuIXxBtbk6FvQlc0E+SpSbgnXF0GyxJhVoJxrP57MB8RI/sN2346WFu2AF4m0pMg
- LGwfjpXU1LNvK5sSy4JuIcMdicLIw5cdyVTHgsJhfT/f/Cx3FiRpzkjSL+ExHQiXhSFH
- 2E3n7ONnPVFQBEKfzaanjpnee6gjawIFyrMPbXmTe5zIBx6x1nJ1cjMuigHdzSMb19bP
- RQDlWj0e63eJOaHZwau6m7RvejRgFaaru/vE/XBK1ZrCuRq98u14xds486KLKpzeQsI9
- toPQ==
-X-Gm-Message-State: AOAM531waA4L92CuXj6OnWyviyBVtVJ+OA/JoKHx7sllRXzEO9mx23CL
- uLMLtPF+1nRd/Zj2SQ9X31AYKbeq9AwM5g==
-X-Google-Smtp-Source: ABdhPJxb4tQh/Aqc00UJdkf3ZPWL5HdNfaPw1YifBNDGI05bexFevqqPyY+XrbGa6GviaQhGQvIuog==
-X-Received: by 2002:a17:90b:d91:b0:1bc:ade1:54e3 with SMTP id
- bg17-20020a17090b0d9100b001bcade154e3mr3020272pjb.8.1645655520073; 
- Wed, 23 Feb 2022 14:32:00 -0800 (PST)
+ bh=iuG8ohkKwqyyIJ7svsXNRHI3s70BPYfliw43HdSQEsk=;
+ b=00mG6k8VeAgJ/34NIommAhV/CbuURrmKhHpLr6t+Mh3kpvr7izp7tBLmgituKJQBEW
+ XnO6n3n6qEcZWGnhDzG5aYkYTDznP7br5aZ9UCxBAC9lA8Ix6a/BFrXC3/QpAMg7/4Ta
+ lOZE59yFiFrTyQ06MsCGiFlkG3YUHJ+AqZy0qVcMIYm1DXlOUda/VFFTURPrWwcZk9WF
+ eUVRF9ct9F/vFFVA0Aysjx3LtIWP9Eq4kk9PB/Bpuc+QFG51JmVvMXfX+21GER/GQU+h
+ fq77csLWqfAq4b1J3+nT104wjguZMloaJ+QcbDzkS5B2y7Y/cB7hagV3n+E0Oh4Famqg
+ tFWw==
+X-Gm-Message-State: AOAM531MzTjarjewntJjU2xt86NU171pmcUm4plTwDdS0uZJobOzzsPP
+ msAMD4hklPZGlEwObuG2koyYvsRsqg3s8w==
+X-Google-Smtp-Source: ABdhPJwmGB7nO0T90zWZHjoGI3XAZh3emi1m3aJnIDJp2hxS6HdgwuBWUC4k9XZj+LAFEjQl4fbZrg==
+X-Received: by 2002:a17:90a:4043:b0:1bc:450:df68 with SMTP id
+ k3-20020a17090a404300b001bc0450df68mr11308406pjg.120.1645655521450; 
+ Wed, 23 Feb 2022 14:32:01 -0800 (PST)
 Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110])
- by smtp.gmail.com with ESMTPSA id f8sm533815pfv.100.2022.02.23.14.31.58
+ by smtp.gmail.com with ESMTPSA id f8sm533815pfv.100.2022.02.23.14.32.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Feb 2022 14:31:59 -0800 (PST)
+ Wed, 23 Feb 2022 14:32:01 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/17] target/arm: Introduce tlbi_aa64_get_range
-Date: Wed, 23 Feb 2022 12:31:32 -1000
-Message-Id: <20220223223137.114264-13-richard.henderson@linaro.org>
+Subject: [PATCH v3 13/17] target/arm: Fix TLBIRange.base for 16k and 64k pages
+Date: Wed, 23 Feb 2022 12:31:33 -1000
+Message-Id: <20220223223137.114264-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220223223137.114264-1-richard.henderson@linaro.org>
 References: <20220223223137.114264-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,118 +92,35 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Merge tlbi_aa64_range_get_length and tlbi_aa64_range_get_base,
-returning a structure containing both results.  Pass in the
-ARMMMUIdx, rather than the digested two_ranges boolean.
+The shift of the BaseADDR field depends on the translation
+granule in use.
 
-This is in preparation for FEAT_LPA2, where the interpretation
-of 'value' depends on the effective value of DS for the regime.
-
+Fixes: 84940ed8255 ("target/arm: Add support for FEAT_TLBIRANGE")
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 58 +++++++++++++++++++--------------------------
- 1 file changed, 24 insertions(+), 34 deletions(-)
+ target/arm/helper.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 950f56599e..31c2a716f2 100644
+index 31c2a716f2..e455397fb5 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -4511,70 +4511,60 @@ static void tlbi_aa64_vae3is_write(CPUARMState *env, const ARMCPRegInfo *ri,
- }
+@@ -4538,10 +4538,11 @@ static TLBIRange tlbi_aa64_get_range(CPUARMState *env, ARMMMUIdx mmuidx,
+     ret.length = (num + 1) << (exponent + page_shift);
  
- #ifdef TARGET_AARCH64
--static uint64_t tlbi_aa64_range_get_length(CPUARMState *env,
--                                           uint64_t value)
--{
--    unsigned int page_shift;
--    unsigned int page_size_granule;
--    uint64_t num;
--    uint64_t scale;
--    uint64_t exponent;
-+typedef struct {
-+    uint64_t base;
-     uint64_t length;
-+} TLBIRange;
-+
-+static TLBIRange tlbi_aa64_get_range(CPUARMState *env, ARMMMUIdx mmuidx,
-+                                     uint64_t value)
-+{
-+    unsigned int page_size_granule, page_shift, num, scale, exponent;
-+    TLBIRange ret = { };
- 
--    num = extract64(value, 39, 5);
--    scale = extract64(value, 44, 2);
-     page_size_granule = extract64(value, 46, 2);
- 
-     if (page_size_granule == 0) {
-         qemu_log_mask(LOG_GUEST_ERROR, "Invalid page size granule %d\n",
-                       page_size_granule);
--        return 0;
-+        return ret;
-     }
- 
-     page_shift = (page_size_granule - 1) * 2 + 12;
--
-+    num = extract64(value, 39, 5);
-+    scale = extract64(value, 44, 2);
-     exponent = (5 * scale) + 1;
--    length = (num + 1) << (exponent + page_shift);
- 
--    return length;
--}
-+    ret.length = (num + 1) << (exponent + page_shift);
- 
--static uint64_t tlbi_aa64_range_get_base(CPUARMState *env, uint64_t value,
--                                        bool two_ranges)
--{
--    /* TODO: ARMv8.7 FEAT_LPA2 */
--    uint64_t pageaddr;
--
--    if (two_ranges) {
--        pageaddr = sextract64(value, 0, 37) << TARGET_PAGE_BITS;
-+    if (regime_has_2_ranges(mmuidx)) {
-+        ret.base = sextract64(value, 0, 37) << TARGET_PAGE_BITS;
+     if (regime_has_2_ranges(mmuidx)) {
+-        ret.base = sextract64(value, 0, 37) << TARGET_PAGE_BITS;
++        ret.base = sextract64(value, 0, 37);
      } else {
--        pageaddr = extract64(value, 0, 37) << TARGET_PAGE_BITS;
-+        ret.base = extract64(value, 0, 37) << TARGET_PAGE_BITS;
+-        ret.base = extract64(value, 0, 37) << TARGET_PAGE_BITS;
++        ret.base = extract64(value, 0, 37);
      }
++    ret.base <<= page_shift;
  
--    return pageaddr;
-+    return ret;
+     return ret;
  }
- 
- static void do_rvae_write(CPUARMState *env, uint64_t value,
-                           int idxmap, bool synced)
- {
-     ARMMMUIdx one_idx = ARM_MMU_IDX_A | ctz32(idxmap);
--    bool two_ranges = regime_has_2_ranges(one_idx);
--    uint64_t baseaddr, length;
-+    TLBIRange range;
-     int bits;
- 
--    baseaddr = tlbi_aa64_range_get_base(env, value, two_ranges);
--    length = tlbi_aa64_range_get_length(env, value);
--    bits = tlbbits_for_regime(env, one_idx, baseaddr);
-+    range = tlbi_aa64_get_range(env, one_idx, value);
-+    bits = tlbbits_for_regime(env, one_idx, range.base);
- 
-     if (synced) {
-         tlb_flush_range_by_mmuidx_all_cpus_synced(env_cpu(env),
--                                                  baseaddr,
--                                                  length,
-+                                                  range.base,
-+                                                  range.length,
-                                                   idxmap,
-                                                   bits);
-     } else {
--        tlb_flush_range_by_mmuidx(env_cpu(env), baseaddr,
--                                  length, idxmap, bits);
-+        tlb_flush_range_by_mmuidx(env_cpu(env), range.base,
-+                                  range.length, idxmap, bits);
-     }
- }
- 
 -- 
 2.25.1
 
