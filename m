@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 413144C0FDC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:09:23 +0100 (CET)
-Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F234C1003
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:16:23 +0100 (CET)
+Received: from localhost ([::1]:48164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMoaI-0005xR-2l
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:09:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54542)
+	id 1nMoh4-0007K1-Jz
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:16:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nMo4a-0001Go-Qd
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:36:38 -0500
-Received: from [2a00:1450:4864:20::529] (port=42573
- helo=mail-ed1-x529.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nMo4X-0006Pv-5Q
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:36:36 -0500
-Received: by mail-ed1-x529.google.com with SMTP id i11so41454991eda.9
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:36:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tlDVXyqQ3vQesf3io0TBXqCgPAJM7vpijbGnEykKrQc=;
- b=c6bujDHrgE0N4ps89rFrO0MVX5TkUC5qNglxtLUj1eRfDFIX77BdPWXBJrwOK52A4L
- 4WI23oQ3NIkTdBgCl2Hz0HG6SRV5seAMUp2BeYEtczmyqPNXVbtDBu9Bj4Wa1cJ9ZOXM
- vD23UjP76lA7SROTz67XRku4HOboJ7dsT48pBqu8YcgaLujo+JTYmXVN0VP3YeF9yDRb
- 5UTmb2Xu2ImfwTrIHbxg0VMFyB4/w8fB4wsU4Al0c9lQNSDZ+wguKPNwahZ8u2rhWBOb
- lMZP/ssu67C9+SLV2HDeDsZ2ZPsiCSnMOAV88NO8OZQ/uyMmmAH7R39frm/EtkLCkrbz
- lXUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tlDVXyqQ3vQesf3io0TBXqCgPAJM7vpijbGnEykKrQc=;
- b=4Fxn4Oi2jTqW5dtYAc8L0ASuMe6GQPXch+jzIrl6Y1eOYixP/gfzzECvMQJDAK2VdZ
- 0CnBwr+TGq+Fgf/Sr/h210mNGT14MB1TGrUOn+4v4h9hNIul1g9s+rP49sjACyAg1Qs+
- 0zGpCy5NCcVpLPnXm+WClpnctwlV9sS+QdBUDMBJ976gNZz6kCzxpR1YHLPoXEhCfsWJ
- Nrp5m2crhM7IWChu8SOog+z5tkiju6ze6bRnXABvVGsrXSBeuEYrOpW8nv2TCLsNKDn4
- ANUI++nERYR3Q7mdq9noFh66GXsLG322DFHXO6xlw12ySRxefZUxUQGGRnN71BV+PsJy
- gK5Q==
-X-Gm-Message-State: AOAM531MzuVc60aZKzi9iWHATLxw1vs00IHG+338wIcxuXGoGqFrKAWk
- mTSZA8OvHS0R9h2rtt956Wg=
-X-Google-Smtp-Source: ABdhPJwpAoA/3ICzXCzSeHzyVf34tSBJtnJMivd39VWskCV9v9YhKWo3P+esO6aQFpAAGiWevbcqNg==
-X-Received: by 2002:aa7:d403:0:b0:40f:739c:cbae with SMTP id
- z3-20020aa7d403000000b0040f739ccbaemr31086556edq.267.1645608986671; 
- Wed, 23 Feb 2022 01:36:26 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id y21sm7076441ejq.185.2022.02.23.01.36.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 01:36:26 -0800 (PST)
-Message-ID: <93318cc1-bf62-34dd-190c-1961a4716f75@redhat.com>
-Date: Wed, 23 Feb 2022 10:36:25 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMo6r-0003eo-W2
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:38:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55309)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMo6n-0006rU-SC
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:38:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645609133;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ClKv5aI1185sOcUapStoqDQ0OM8XIkzzqJvY2T3NcoY=;
+ b=YDnqJYP1cckpaCFk/rOYGBAWUshJHFvd+3vqkMdUnYLR0F8q4bdYiEeX9rdxuRyBqtO1kH
+ 8LF45gi1OGN8QspvXmaoWMtydzgdBZuz6943oqb+bYbfA5HzdAMtgyKAeVw9ligPLx4S5K
+ +XP9Jn+1rbZpV/7AhU4+jvomj9r35aI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-433-kyYt_YR-PTqiReVTb6KgWg-1; Wed, 23 Feb 2022 04:38:45 -0500
+X-MC-Unique: kyYt_YR-PTqiReVTb6KgWg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B29A8801AAD;
+ Wed, 23 Feb 2022 09:38:44 +0000 (UTC)
+Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC7217A3EE;
+ Wed, 23 Feb 2022 09:38:41 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Subject: [PATCH v3 0/4] Improve integration of iotests in the meson test
+ harness
+Date: Wed, 23 Feb 2022 10:38:36 +0100
+Message-Id: <20220223093840.2515281-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/3] whpx: Added support for breakpoints and stepping
-Content-Language: en-US
-To: Ivan Shcherbakov <ivan@sysprogs.com>, qemu-devel@nongnu.org
-References: <010e01d82875$d3cc0ec0$7b642c40$@sysprogs.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <010e01d82875$d3cc0ec0$7b642c40$@sysprogs.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,103 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, mst@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/22 06:25, Ivan Shcherbakov wrote:
-> This adds support for breakpoints and stepping when debugging
-> WHPX-accelerated guests with gdb.
-> It enables reliable debugging of the Linux kernel in both single-CPU and SMP
-> modes.
-> 
-> Signed-off-by: Ivan Shcherbakov <ivan@sysprogs.com>
+Though "make check-block" is currently already run via the meson test
+runner, it still looks like an oddball in the output of "make check". It
+would be nicer if the iotests would show up like the other tests suites.
 
-Hi,
+My original plan was to add each iotests individually from meson.build,
+but I did not get that done reliably yet [*], so here's now a cut-down
+version to improve the situation at least a little bit: The first three
+patches are preparation for the clean-up (long-term goal is to get rid
+of check-block.sh, though we're not quite there yet), and the final
+patch adds the iotests not as separate test target in the meson test
+harness anymore. This way, we can now finally get the output of failed
+tests on the console again (unless you're running meson test in verbose
+mode, where meson only puts this to the log file - for incomprehensible
+reasons), so this should hopefully help to diagnose problems with the
+iotests in most cases more easily.
 
-in general this patch is really good work, thanks for contributing it!
+[*] See v2 here:
+    https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg01942.html
 
-Just a couple notes:
+Thomas Huth (4):
+  tests/qemu-iotests: Rework the checks and spots using GNU sed
+  tests/qemu-iotests/meson.build: Improve the indentation
+  tests/qemu-iotests: Move the bash and sanitizer checks to meson.build
+  tests: Do not treat the iotests as separate meson test target anymore
 
-> +enum whpx_step_mode {
-> +    whpx_step_none = 0,
-> +    /* Halt other VCPUs */
-> +    whpx_step_exclusive,
-> +};
+ meson.build                      |  6 +--
+ scripts/mtest2make.py            |  4 --
+ tests/Makefile.include           |  9 +---
+ tests/check-block.sh             | 38 -----------------
+ tests/qemu-iotests/271           |  2 +-
+ tests/qemu-iotests/common.filter | 65 ++++++++++++++--------------
+ tests/qemu-iotests/common.rc     | 45 ++++++++++----------
+ tests/qemu-iotests/meson.build   | 73 ++++++++++++++++++++------------
+ 8 files changed, 106 insertions(+), 136 deletions(-)
 
-Please use
+-- 
+2.27.0
 
-typedef enum WhpxStepMode {
-     WHPX_STEP_NONE,
-     WHPX_STEP_EXCLUSIVE,
-} WhpxStepMode;
-
-and likewise for WhpxBreakpointState.  (In the case of WhpxStepMode I 
-would also consider simply a "bool exclusive" in whpx_cpu_run).
-
->   struct whpx_vcpu {
->       WHV_EMULATOR_HANDLE emulator;
->       bool window_registered;
-> @@ -156,7 +163,6 @@ struct whpx_vcpu {
->       uint64_t tpr;
->       uint64_t apic_base;
->       bool interruption_pending;
-> -
-
-Please leave the empty line.
-
-> +    if (set) {
-> +        /* Raise WHvX64ExceptionTypeDebugTrapOrFault after each instruction
-> */
-> +        reg_value.Reg64 |= TF_MASK;
-> +    } else {
-> +        reg_value.Reg64 &= ~TF_MASK;
-> +    }
-
-Out of curiosity, does the guest see TF=1 if it single steps through a 
-PUSHF (and then break horribly on POPF :))?
-
-> +/*
-> + * Linux uses int3 (0xCC) during startup (see int3_selftest()) and for
-> + * debugging user-mode applications. Since the WHPX API does not offer
-> + * an easy way to pass the intercepted exception back to the guest, we
-> + * resort to using INT1 instead, and let the guest always handle INT3.
-> + */
-> +static const uint8_t whpx_breakpoint_instruction = 0xF1;
-
-Makes sense.
-
-> +    breakpoints->original_addresses =
-> +        g_renew(vaddr, breakpoints->original_addresses,
-> cpu_breakpoint_count);
-> +
-> +    breakpoints->original_address_count = cpu_breakpoint_count;
-> +
-> +    int max_breakpoints = cpu_breakpoint_count +
-> +        (breakpoints->breakpoints ? breakpoints->breakpoints->used : 0);
-> +
-> +    struct whpx_breakpoint_collection *new_breakpoints =
-> +        (struct whpx_breakpoint_collection *)g_malloc0(
-> +        sizeof(struct whpx_breakpoint_collection) +
-> +            max_breakpoints * sizeof(struct whpx_breakpoint));
-
-> +    new_breakpoints->allocated = max_breakpoints;
-
-Why separate the original addresses in a different array (and why the 
-different logic, with used/allocated for one array and an exact size for 
-the other)
-
-> +        enum whpx_breakpoint_state state = breakpoints->data[i].state;
-
-Same comment on coding style applies to this enum.
-
-I would have done most changes for you, but I didn't really understand 
-the breakpoints vs breakpoint collection part, so I would like your 
-input on that.
-
-I have queued the first two patches already.
-
-Thanks!
-
-Paolo
 
