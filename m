@@ -2,69 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8369A4C17F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 16:59:23 +0100 (CET)
-Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310364C1816
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 17:04:07 +0100 (CET)
+Received: from localhost ([::1]:59222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMu30-0000IZ-Ku
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 10:59:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44662)
+	id 1nMu7Z-00027t-JY
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 11:04:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMu1O-00071a-W4
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 10:57:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34704)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMu5x-0001RL-BL
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:02:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nMu1F-00035w-EM
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 10:57:42 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMu5v-0003tN-1Z
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:02:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645631852;
+ s=mimecast20190719; t=1645632142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bFX6I6Zco2OnlKD5mCsWjbTnHqtoaa0seYWQbKqIhRY=;
- b=K6kEddnM9HZU+4NufS7VKaC4uPVow/DtstgQoplyUlYk9HFGS3rms3Wsa4B1kHz6G/75pv
- R0DKZaKSpRITgaEK1GMyUs5IucP7PQUDlUH8M3GIpcveXzAMJFkv8HUDV9MQE00/5s2c3u
- KG+M2CnYfPyf8ig5/nw3ggHnI2IGCqs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9szfKI9mu4hY88mOZwLsZEYVLqTaf2Kuwo36LY75FS0=;
+ b=fDcJt7xGJ1q/+dWnSQWEBHLobkjODCCUUL/rI2ZPi1XZP01noc8Evwhhzncdt6le8yfOn5
+ 3g9bKbF8f959jTkOaJBTjn9dKVF9LOloP1Sqt2mH6hXM5SKZOI1o+HSBUZv71F/s3ofmx0
+ yrSLmEu/hrTISjYM7YU/NuHkaa7F74s=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-439-sLtOB-OlNO60NvVdvF_TUQ-1; Wed, 23 Feb 2022 10:57:30 -0500
-X-MC-Unique: sLtOB-OlNO60NvVdvF_TUQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B32C21091DA2;
- Wed, 23 Feb 2022 15:57:29 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B5AC83790;
- Wed, 23 Feb 2022 15:57:04 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] aio-posix: fix spurious ->poll_ready() callbacks in main loop
-Date: Wed, 23 Feb 2022 15:57:03 +0000
-Message-Id: <20220223155703.136833-1-stefanha@redhat.com>
+ us-mta-532-6-_tcX0ROXC9CDnDe-SaKA-1; Wed, 23 Feb 2022 11:02:20 -0500
+X-MC-Unique: 6-_tcX0ROXC9CDnDe-SaKA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ l24-20020a056402231800b00410f19a3103so13846437eda.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 08:02:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:cc:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9szfKI9mu4hY88mOZwLsZEYVLqTaf2Kuwo36LY75FS0=;
+ b=WSzgSKSJZLEeUp3sEtzjR0IfpCPc8pfv9qeqmknVe0+/r9p/AyfN1sZiiOKxFsbi7N
+ 6AjMdga9pUgtaKm79rp7TMfR4FQuzC+68LI1P8nv2CAJevo8mLODiiLQ3V2SR8MLZXr/
+ Zdl9wK205wnbK8RMHyJNJ49z8oh3SVcChgL/Ge76MyVaZrfcU0iDo9TOLM9zHUNxnzFU
+ ux+kx93L/s98o3gKadusjr30Od73b2kYEbOEt20heINokDDvTO422s1IE46Wh43ziro4
+ +kgL5VScHaqZtMqrVznuY5mlQWDTURDdanBhnx1wARcXf1ZatkveQ42aVAHyNbzoDc9j
+ smqw==
+X-Gm-Message-State: AOAM533Q6KuWC7OXRMwB/i1vA8AU3tOumQgdU/bf/6D3o08rZSQq16r3
+ q9fw9n7tLsuxHeJsgOUSaD1/ZrIDNEpCWOh2HSfUS+ct+qlj+2OW5Rj7E3ejzVdM32DZyWCcUxT
+ xX2qg+WhCoEdDKek=
+X-Received: by 2002:a17:906:53c7:b0:6ce:6f32:ce53 with SMTP id
+ p7-20020a17090653c700b006ce6f32ce53mr338215ejo.352.1645632139680; 
+ Wed, 23 Feb 2022 08:02:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+E1Jtw4+1r+Ti9NhCk6OwcxJFiI6F3FFPaKTDJwlvkDluu1821Txwhfl3dSo9E69CPTpi+A==
+X-Received: by 2002:a17:906:53c7:b0:6ce:6f32:ce53 with SMTP id
+ p7-20020a17090653c700b006ce6f32ce53mr338186ejo.352.1645632139400; 
+ Wed, 23 Feb 2022 08:02:19 -0800 (PST)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218])
+ by smtp.gmail.com with ESMTPSA id mb23sm30668ejb.62.2022.02.23.08.02.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Feb 2022 08:02:18 -0800 (PST)
+Message-ID: <3ce08bdb-fecd-549a-5c09-0b5fa65de4ba@redhat.com>
+Date: Wed, 23 Feb 2022 17:02:17 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Fix a potential Use-after-free in virtio_iommu_handle_command()
+ (v6.2.0).
+To: wliang@stu.xidian.edu.cn, Eric Auger <eric.auger@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <1b79118e.25c5.17f2702b9d5.Coremail.wliang@stu.xidian.edu.cn>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <1b79118e.25c5.17f2702b9d5.Coremail.wliang@stu.xidian.edu.cn>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,157 +103,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When ->poll() succeeds the AioHandler is placed on the ready list with
-revents set to the magic value 0. This magic value causes
-aio_dispatch_handler() to invoke ->poll_ready() instead of ->io_read()
-for G_IO_IN or ->io_write() for G_IO_OUT.
+On 23/02/2022 15.36, wliang@stu.xidian.edu.cn wrote:
+> Hi all,
+> 
+> I find a potential Use-after-free in QEMU 6.2.0, which is in 
+> virtio_iommu_handle_command() (./hw/virtio/virtio-iommu.c).
+> 
+> Specifically, in the loop body, the variable 'buf' allocated at line 639 can 
+> be freed by g_free() at line 659. However, if the execution path enters the 
+> loop body again and the if branch takes true at line 616, the control will 
+> directly jump to 'out' at line 651. At this time, 'buf' is a freed pointer, 
+> which is not assigned with an allocated memory but used at line 653. As a 
+> result, a UAF bug is triggered.
+> 
+> 
+> 
+> 599    for (;;) {
+> ...
+> 615        sz = iov_to_buf(iov, iov_cnt, 0, &head, sizeof(head));
+> 616        if (unlikely(sz != sizeof(head))) {
+> 617            tail.status = VIRTIO_IOMMU_S_DEVERR;
+> 618            goto out;
+> 619        }
+> ...
+> 639            buf = g_malloc0(output_size);
+> ...
+> 651out:
+> 652        sz = iov_from_buf(elem->in_sg, elem->in_num, 0,
+> 653                          buf ? buf : &tail, output_size);
+> ...
+> 659        g_free(buf);
+> 660    }
+> 
+> 
+> We can fix it by set ‘buf‘ to NULL after freeing it:
+> 
+> 
+> 
+> 651out:
+> 652        sz = iov_from_buf(elem->in_sg, elem->in_num, 0,
+> 653                          buf ? buf : &tail, output_size);
+> ...
+> 659        g_free(buf);
+> +++buf = NULL;
+> 660    }
+> 
+> 
+> I'm looking forward to your confirmation.
 
-This magic value 0 hack works for the IOThread where AioHandlers are
-placed on ->ready_list and processed by aio_dispatch_ready_handlers().
-It does not work for the main loop where all AioHandlers are processed
-by aio_dispatch_handlers(), even those that are not ready and have a
-revents value of 0.
+  Hi,
 
-As a result the main loop invokes ->poll_ready() on AioHandlers that are
-not ready. These spurious ->poll_ready() calls waste CPU cycles and
-could lead to crashes if the code assumes ->poll() must have succeeded
-before ->poll_ready() is called (a reasonable asumption but I haven't
-seen it in practice).
+thanks for your report and patch - but to make sure that the right people 
+get attention, please use the scripts/get_maintainer.pl script to get a list 
+of people who should be on CC:, or look into the MAINTAINERS file directly 
+(for the next time - this time, I've CC:ed them now already).
 
-Stop using revents to track whether ->poll_ready() will be called on an
-AioHandler. Introduce a separate AioHandler->poll_ready field instead.
-This eliminates spurious ->poll_ready() calls in the main loop.
-
-Fixes: 826cc32423db2a99d184dbf4f507c737d7e7a4ae ("aio-posix: split poll check from ready handler")
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- util/aio-posix.h |  1 +
- util/aio-posix.c | 32 ++++++++++++++++++--------------
- 2 files changed, 19 insertions(+), 14 deletions(-)
-
-diff --git a/util/aio-posix.h b/util/aio-posix.h
-index 7f2c37a684..80b927c7f4 100644
---- a/util/aio-posix.h
-+++ b/util/aio-posix.h
-@@ -37,6 +37,7 @@ struct AioHandler {
-     unsigned flags; /* see fdmon-io_uring.c */
- #endif
-     int64_t poll_idle_timeout; /* when to stop userspace polling */
-+    bool poll_ready; /* has polling detected an event? */
-     bool is_external;
- };
- 
-diff --git a/util/aio-posix.c b/util/aio-posix.c
-index 7b9f629218..be0182a3c6 100644
---- a/util/aio-posix.c
-+++ b/util/aio-posix.c
-@@ -23,15 +23,6 @@
- #include "trace.h"
- #include "aio-posix.h"
- 
--/*
-- * G_IO_IN and G_IO_OUT are not appropriate revents values for polling, since
-- * the handler may not need to access the file descriptor. For example, the
-- * handler doesn't need to read from an EventNotifier if it polled a memory
-- * location and a read syscall would be slow. Define our own unique revents
-- * value to indicate that polling determined this AioHandler is ready.
-- */
--#define REVENTS_POLL_READY 0
--
- /* Stop userspace polling on a handler if it isn't active for some time */
- #define POLL_IDLE_INTERVAL_NS (7 * NANOSECONDS_PER_SECOND)
- 
-@@ -49,6 +40,14 @@ void aio_add_ready_handler(AioHandlerList *ready_list,
-     QLIST_INSERT_HEAD(ready_list, node, node_ready);
- }
- 
-+static void aio_add_poll_ready_handler(AioHandlerList *ready_list,
-+                                       AioHandler *node)
-+{
-+    QLIST_SAFE_REMOVE(node, node_ready); /* remove from nested parent's list */
-+    node->poll_ready = true;
-+    QLIST_INSERT_HEAD(ready_list, node, node_ready);
-+}
-+
- static AioHandler *find_aio_handler(AioContext *ctx, int fd)
- {
-     AioHandler *node;
-@@ -76,6 +75,7 @@ static bool aio_remove_fd_handler(AioContext *ctx, AioHandler *node)
-     }
- 
-     node->pfd.revents = 0;
-+    node->poll_ready = false;
- 
-     /* If the fd monitor has already marked it deleted, leave it alone */
-     if (QLIST_IS_INSERTED(node, node_deleted)) {
-@@ -247,7 +247,7 @@ static bool poll_set_started(AioContext *ctx, AioHandlerList *ready_list,
- 
-         /* Poll one last time in case ->io_poll_end() raced with the event */
-         if (!started && node->io_poll(node->opaque)) {
--            aio_add_ready_handler(ready_list, node, REVENTS_POLL_READY);
-+            aio_add_poll_ready_handler(ready_list, node);
-             progress = true;
-         }
-     }
-@@ -282,6 +282,7 @@ bool aio_pending(AioContext *ctx)
-     QLIST_FOREACH_RCU(node, &ctx->aio_handlers, node) {
-         int revents;
- 
-+        /* TODO should this check poll ready? */
-         revents = node->pfd.revents & node->pfd.events;
-         if (revents & (G_IO_IN | G_IO_HUP | G_IO_ERR) && node->io_read &&
-             aio_node_check(ctx, node->is_external)) {
-@@ -323,11 +324,15 @@ static void aio_free_deleted_handlers(AioContext *ctx)
- static bool aio_dispatch_handler(AioContext *ctx, AioHandler *node)
- {
-     bool progress = false;
-+    bool poll_ready;
-     int revents;
- 
-     revents = node->pfd.revents & node->pfd.events;
-     node->pfd.revents = 0;
- 
-+    poll_ready = node->poll_ready;
-+    node->poll_ready = false;
-+
-     /*
-      * Start polling AioHandlers when they become ready because activity is
-      * likely to continue.  Note that starvation is theoretically possible when
-@@ -344,7 +349,7 @@ static bool aio_dispatch_handler(AioContext *ctx, AioHandler *node)
-         QLIST_INSERT_HEAD(&ctx->poll_aio_handlers, node, node_poll);
-     }
-     if (!QLIST_IS_INSERTED(node, node_deleted) &&
--        revents == 0 &&
-+        poll_ready && revents == 0 &&
-         aio_node_check(ctx, node->is_external) &&
-         node->io_poll_ready) {
-         node->io_poll_ready(node->opaque);
-@@ -432,7 +437,7 @@ static bool run_poll_handlers_once(AioContext *ctx,
-     QLIST_FOREACH_SAFE(node, &ctx->poll_aio_handlers, node_poll, tmp) {
-         if (aio_node_check(ctx, node->is_external) &&
-             node->io_poll(node->opaque)) {
--            aio_add_ready_handler(ready_list, node, REVENTS_POLL_READY);
-+            aio_add_poll_ready_handler(ready_list, node);
- 
-             node->poll_idle_timeout = now + POLL_IDLE_INTERVAL_NS;
- 
-@@ -491,8 +496,7 @@ static bool remove_idle_poll_handlers(AioContext *ctx,
-                  * this causes progress.
-                  */
-                 if (node->io_poll(node->opaque)) {
--                    aio_add_ready_handler(ready_list, node,
--                                          REVENTS_POLL_READY);
-+                    aio_add_poll_ready_handler(ready_list, node);
-                     progress = true;
-                 }
-             }
--- 
-2.34.1
+  Thanks,
+   Thomas
 
 
