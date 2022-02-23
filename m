@@ -2,59 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B4174C0F61
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 10:41:39 +0100 (CET)
-Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C854C0FBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:02:43 +0100 (CET)
+Received: from localhost ([::1]:48986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMo9R-0002G2-RD
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 04:41:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49460)
+	id 1nMoTq-0004zx-MJ
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:02:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMnh9-0004NL-5e
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:12:26 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:50446)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nMnjO-0005PS-Vh
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:14:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMnh6-0002vN-V1
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:12:22 -0500
-Received: from [172.17.10.6] (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPSA id B6E0B21C2B;
- Wed, 23 Feb 2022 09:12:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1645607538;
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nMnjM-0003DS-4w
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:14:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645607671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VxurO+Taaelw6ptsfaXOdh+WlTM1bjPDCyZKCuw9kFM=;
- b=e3O0HLNZ4oOZCmFzpn6CNirVySdwk3JEOymMGH2Kge570g3AXJHJUnau5fBIEszkAoe6Wq
- etBl+2zP+E6JSRTMUvsQe2EQguVquAwirSXJLWsdhbhI1LDaA0sg4Un4JZ+NaTu5lYc5hy
- KbhSr2pV/b9wSKlWTm7DfimIdxBzg5U=
-Message-ID: <bd6f884e-a150-88d8-4b8c-9ec76171b275@greensocs.com>
-Date: Wed, 23 Feb 2022 10:12:18 +0100
+ bh=cXyJaV+cI0Myh2go7WYykLDLMeijKaW3dTh/CQgWrPc=;
+ b=X+orI2BVnnJJZmO+PqX+kSpTjp+B1WoGz2L/Ht9dn1bDQuinn1wEaCKefx33Ue4fWJDaFG
+ DcLMV21PC9WcJXofj6v6C6AIXH/ZXPFRtqNE/J2eh8ftMOLo79skIvPl05beGvf8vOCjqT
+ +TOGRO2wLp4HBPtrqHIMAmXE/gew5WA=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611-_I7tdh-0MV2yYKg0enNE0w-1; Wed, 23 Feb 2022 04:14:30 -0500
+X-MC-Unique: _I7tdh-0MV2yYKg0enNE0w-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ r14-20020a5b018e000000b00624f6f97bf4so741064ybl.12
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:14:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cXyJaV+cI0Myh2go7WYykLDLMeijKaW3dTh/CQgWrPc=;
+ b=g8+AUdo4DiSgJqkYSQy54vITPzrC0tekWby4BRs2cgl3KyGDQGlafMCilDm27Nb6zx
+ Owc+lz1tIzgUQ9jr8RfQWwsg1Pg6G9EsRRtkKB6uG72UYpyir3feU86ez1kZNb4pR2K5
+ q7UQD41xapfyd89b5J/M2sXwOeUVAOsKdXxJ0+56Qa1/0PPoCjtDzsVolg+tfI763F8F
+ 2KyrMDdE9fCmbaDh/JS3VekwIJlIE5sTs5xE5rVB1UzofZaAedMRQUzwyo0zbv+RdSPT
+ b0wJ+9PqKnbVa16Iu7MwmVajrpPvh1W9+1oPTtFbiI2qwYmAn4NEvcj9jqIebHXES2v1
+ WiYw==
+X-Gm-Message-State: AOAM532OTrQlCLNq0EgdHFkb1NxmJ0uR6IC2IYCOVLFYI8hSwL9UWVn5
+ WzXPfZqbgR9X9X+30xOF999HedkSJCHO0R9Mp9ihr24szTSzP4yh1qKYKS134WeiccoiWvJoSna
+ bG0P1jDlipxIKnYn1oQTEQAQBCdYiybo=
+X-Received: by 2002:a25:d792:0:b0:624:c76:e824 with SMTP id
+ o140-20020a25d792000000b006240c76e824mr26337351ybg.343.1645607669601; 
+ Wed, 23 Feb 2022 01:14:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzZa3F1JKeqhYCVq7bM6aXyJccyMUqKg0PkKHsON7ZIZEICZlV0wdMJyLK7BIjW7BeFyqscDhfUH5IJQDTnA6s=
+X-Received: by 2002:a25:d792:0:b0:624:c76:e824 with SMTP id
+ o140-20020a25d792000000b006240c76e824mr26337343ybg.343.1645607669424; Wed, 23
+ Feb 2022 01:14:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v4 11/14] softmmu/memory: add
- memory_region_try_add_subregion function
-Content-Language: en-US-large
-To: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20220223090706.4888-1-damien.hedde@greensocs.com>
- <20220223090706.4888-12-damien.hedde@greensocs.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <20220223090706.4888-12-damien.hedde@greensocs.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220222194008.610377-1-marcandre.lureau@redhat.com>
+ <20220222194008.610377-5-marcandre.lureau@redhat.com>
+ <9cdd93f2-af65-ba5c-c5df-8f9e4d42eeaf@redhat.com>
+In-Reply-To: <9cdd93f2-af65-ba5c-c5df-8f9e4d42eeaf@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 23 Feb 2022 13:14:18 +0400
+Message-ID: <CAMxuvaykS_4tbQwz=EFWATRVdhabwDdM4x-uH-efXUfw3DcEbQ@mail.gmail.com>
+Subject: Re: [PATCH 4/8] meson: drop the .fa library suffix
+To: Paolo Bonzini <pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -69,122 +94,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+Hi
 
-I suppose it is ok if I change your mail in the reviewed by ?
+On Wed, Feb 23, 2022 at 1:08 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 2/22/22 20:40, marcandre.lureau@redhat.com wrote:
+> >
+> > The .fa suffix was a temporary hack introduced in commit
+> > 1f0a1d8a51 ("build-sys hack: link with whole .fa archives") when the
+> > build system was mixed between meson & makefiles. It is no longer
+> > needed.
+>
+> It is still needed to separate internal and system archives, otherwise
+> the oss-fuzz build fails.  Meson adds a --start-group/--end-group pair
 
-Thanks,
-Damien
+Ah, but gitlab oss-fuzz build passed
+https://gitlab.com/marcandre.lureau/qemu/-/pipelines/476763089
 
-On 2/23/22 10:07, Damien Hedde wrote:
-> It allows adding a subregion to a memory region with error handling.
-> Like memory_region_add_subregion_overlap(), it handles priority as
-> well. Apart from the error handling, the behavior is the same. It
-> can be used to do the simple memory_region_add_subregion() (with no
-> overlap) by setting the priority parameter to 0.
-> 
-> This commit is a preparation to further use of this function in the
-> context of qapi command which needs error handling support.
-> 
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   include/exec/memory.h | 22 ++++++++++++++++++++++
->   softmmu/memory.c      | 23 +++++++++++++++--------
->   2 files changed, 37 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 4d5997e6bb..070dcb5255 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -2215,6 +2215,28 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
->                                            MemoryRegion *subregion,
->                                            int priority);
->   
-> +/**
-> + * memory_region_try_add_subregion: Add a subregion to a container
-> + *                                  with error handling.
-> + *
-> + * Behaves like memory_region_add_subregion_overlap(), but errors are
-> + * reported if the subregion cannot be added.
-> + *
-> + * @mr: the region to contain the new subregion; must be a container
-> + *      initialized with memory_region_init().
-> + * @offset: the offset relative to @mr where @subregion is added.
-> + * @subregion: the subregion to be added.
-> + * @priority: used for resolving overlaps; highest priority wins.
-> + * @errp: pointer to Error*, to store an error if it happens.
-> + *
-> + * Returns: True in case of success, false otherwise.
-> + */
-> +bool memory_region_try_add_subregion(MemoryRegion *mr,
-> +                                     hwaddr offset,
-> +                                     MemoryRegion *subregion,
-> +                                     int priority,
-> +                                     Error **errp);
-> +
->   /**
->    * memory_region_get_ram_addr: Get the ram address associated with a memory
->    *                             region
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 678dc62f06..6bc76bf6da 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -2541,27 +2541,34 @@ done:
->       memory_region_transaction_commit();
->   }
->   
-> -static void memory_region_add_subregion_common(MemoryRegion *mr,
-> -                                               hwaddr offset,
-> -                                               MemoryRegion *subregion)
-> +bool memory_region_try_add_subregion(MemoryRegion *mr,
-> +                                     hwaddr offset,
-> +                                     MemoryRegion *subregion,
-> +                                     int priority,
-> +                                     Error **errp)
->   {
->       MemoryRegion *alias;
->   
-> -    assert(!subregion->container);
-> +    if (subregion->container) {
-> +        error_setg(errp, "The memory region is already in another region");
-> +        return false;
-> +    }
-> +
-> +    subregion->priority = priority;
->       subregion->container = mr;
->       for (alias = subregion->alias; alias; alias = alias->alias) {
->           alias->mapped_via_alias++;
->       }
->       subregion->addr = offset;
->       memory_region_update_container_subregions(subregion);
-> +    return true;
->   }
->   
->   void memory_region_add_subregion(MemoryRegion *mr,
->                                    hwaddr offset,
->                                    MemoryRegion *subregion)
->   {
-> -    subregion->priority = 0;
-> -    memory_region_add_subregion_common(mr, offset, subregion);
-> +    memory_region_try_add_subregion(mr, offset, subregion, 0, &error_abort);
->   }
->   
->   void memory_region_add_subregion_overlap(MemoryRegion *mr,
-> @@ -2569,8 +2576,8 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
->                                            MemoryRegion *subregion,
->                                            int priority)
->   {
-> -    subregion->priority = priority;
-> -    memory_region_add_subregion_common(mr, offset, subregion);
-> +    memory_region_try_add_subregion(mr, offset, subregion, priority,
-> +                                    &error_abort);
->   }
->   
->   void memory_region_del_subregion(MemoryRegion *mr,
+> around all libraries, and the fork-fuzz.ld linker script should be
+> outside it.  If the libraries are named .a, the --start-group is placed
+> much earlier.
+>
+> This is of course a very ugly workaround; Meson should just use the
+> objects instead of the archives when link_whole is used with an internal
+> convenience archive.
+
+Any meson github issue we can point to?
+
 
