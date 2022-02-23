@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8514C1884
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 17:23:55 +0100 (CET)
-Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B485D4C188F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 17:24:23 +0100 (CET)
+Received: from localhost ([::1]:47728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMuQk-0004pr-K6
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 11:23:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50590)
+	id 1nMuRC-00065I-RR
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 11:24:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org>)
- id 1nMuN9-0002gh-IP
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:20:11 -0500
-Received: from [2604:1380:4601:e00::1] (port=42816 helo=ams.source.kernel.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org>)
- id 1nMuN4-0006qI-6c
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:20:08 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id F296EB820CC
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 16:20:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78468C340EB
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 16:20:02 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="UStiHDap"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1645633199;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mnNQghKSAwgVNaMKLb/7Trnd/MlpODo5RAJNJEkv+10=;
- b=UStiHDapBFGqlKj1XnAopIV0s/o4/wZAQt9kfn6UaRkkAF7dlnJ3QqN5tRoz/ZORj1iyB8
- vZrQhcosPVD9IGzkANuD0g+v6mzrFASmeIaYq1MLaU1R7pw64al2PYmaHQo/tzRlnilQV3
- twyhhu3J7BJ8itNYnKzpSPL2yJlYi2o=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4911cbc0
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Wed, 23 Feb 2022 16:19:58 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-2d68d519a33so215812517b3.7
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 08:19:58 -0800 (PST)
-X-Gm-Message-State: AOAM532Lm4kXq8GmaTAjx/PNbMAVHQNdyT4L+sHzrs5CkyhwEJiLsdNr
- tD0gcSQfhLmUBv1AMxst3u/3Jl2XsPPKdaCJniU=
-X-Google-Smtp-Source: ABdhPJzwqPvYWBp9LmD+Jha02PrV5WLBK/ki8ek/2uyVWgeaMR+4EcGUKMupw6bI8EUKZpQFGjPwDZfx/kujcdtLLBc=
-X-Received: by 2002:a81:5c83:0:b0:2d2:c136:70f3 with SMTP id
- q125-20020a815c83000000b002d2c13670f3mr401327ywb.404.1645633196792; Wed, 23
- Feb 2022 08:19:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <josh.a.seaton@gmail.com>)
+ id 1nMuOZ-0004Gb-5S
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:21:40 -0500
+Received: from [2a00:1450:4864:20::535] (port=38866
+ helo=mail-ed1-x535.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <josh.a.seaton@gmail.com>)
+ id 1nMuOX-00078P-4x
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:21:38 -0500
+Received: by mail-ed1-x535.google.com with SMTP id s24so38579541edr.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 08:21:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xwmcOaBnUoN55DPONtuXZ8IK9pvCjkpUu6C5cW2q6Yg=;
+ b=kcJkDF6LWknYgq1z8yGDCN4iY+CGaK5Ye/QoYc9QerXfskzI4HHtp7TeciPYhOW9ep
+ SarGsRLfSIPXmYrc5v6i7v/RM8woJTFgVvDrdt71EPwwBtRjbgLJptTc3CetAS/cvKX6
+ Eu/pPFERsBPO0ttnJksADp8vQdPeff614px/Rk+7piyFjTKBLVbC9KY+1OzAnWLKPIdC
+ Jiy0UPvefpkR09IX9W+EYfA3YinmI252EmzWawISoizH4gQltKOmUPAdGuBSpKjpNA23
+ tQ1vIVZt5EGVFFobVzV7W/ttze1CapUqwNVpmZi9ByZPFmTVt8ywBuum3Gki9COOKpye
+ UJiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xwmcOaBnUoN55DPONtuXZ8IK9pvCjkpUu6C5cW2q6Yg=;
+ b=MlSEdHthkjcBcqFUPjqprHcAsVcEaTpJXMXEhbycHvKNbSfl7guH3yoW8DSpVchGmQ
+ UIfTpv+z51RXap4bxTKgsiJXkYdloBTlLoheofXRk0s3M2Aq5UV8pG2mohk7yi0dKihT
+ D+t/AbIxwjhxreKv73McPI0BaCP1j994xCkfcLe37e+4uwg73QMEXhhvzUs3vsDhNSLn
+ eX/aCvRw3QzMfYMgxfVnYecb29/QhcbBZuBP0JgDaBq1ofn0P6d9Jm/cDy4J0RJS+2ji
+ MJFMzPtPwc5xANGB8hQNzPcF8cDWR3gf/zPlN3y9lVEXr9oSkDRdIKIrT8e9o1El8L9I
+ FtHQ==
+X-Gm-Message-State: AOAM530iHwHpRBVnhn6PPqI79g9bzsCr1zHKDupiI6yjGApXmTQaIB6b
+ 8OSzCsP5EO6kJS7rEUCFtK+Xf+wA7ZUfwG4oV2o=
+X-Google-Smtp-Source: ABdhPJwNBaJa9IqDsK7U6rwBZmITcLXP4nhmQPe4cy+4Pw8ULD4DyLAZYVON2Jn6NQ9fEoBSQyyr11xZPw9oQQWQXUU=
+X-Received: by 2002:a50:d61b:0:b0:413:373c:5206 with SMTP id
+ x27-20020a50d61b000000b00413373c5206mr150828edi.289.1645633295573; Wed, 23
+ Feb 2022 08:21:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20220223131231.403386-1-Jason@zx2c4.com>
- <CAHmME9ogH_mx724n_deFfva7-xPCmma1-=2Mv0JdnZ-fC4JCjg@mail.gmail.com>
-In-Reply-To: <CAHmME9ogH_mx724n_deFfva7-xPCmma1-=2Mv0JdnZ-fC4JCjg@mail.gmail.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Wed, 23 Feb 2022 17:19:45 +0100
-X-Gmail-Original-Message-ID: <CAHmME9o9-eBCcjJMrJSdr23VfUEfvx12e4qRdtE5Sv3+Qcf-Bg@mail.gmail.com>
-Message-ID: <CAHmME9o9-eBCcjJMrJSdr23VfUEfvx12e4qRdtE5Sv3+Qcf-Bg@mail.gmail.com>
-Subject: Re: [PATCH RFC v1 0/2] VM fork detection for RNG
-To: LKML <linux-kernel@vger.kernel.org>, 
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- KVM list <kvm@vger.kernel.org>, linux-s390@vger.kernel.org, adrian@parity.io
+References: <CAPbYy+_XEvLYuPa5jgMde7YAgk2Cx4wDi=QnJiLn9zT5ALjROA@mail.gmail.com>
+ <59b4fb65-10b6-8d4b-e257-cea50381f168@amsat.org>
+ <CAPbYy+9ksqwk04EfiFGcebsgwGjjJz9GO48oekYVbybbJZUiSQ@mail.gmail.com>
+ <37ee69c4-885d-b94f-fa57-b8b17363ebaa@redhat.com>
+In-Reply-To: <37ee69c4-885d-b94f-fa57-b8b17363ebaa@redhat.com>
+From: Joshua Seaton <josh.a.seaton@gmail.com>
+Date: Wed, 23 Feb 2022 08:21:24 -0800
+Message-ID: <CAPbYy+_opG==TQZSe8vhN6qTCTPHnTrTxHOPFkcWhp_ZgBq81A@mail.gmail.com>
+Subject: Re: configure: How to pass flags to the Objective-C compiler?
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4601:e00::1
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=pbN1=TG=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=josh.a.seaton@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,47 +84,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Theodore Ts'o <tytso@mit.edu>, ehabkost@redhat.com, ben@skyportsystems.com,
- Jann Horn <jannh@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, "Weiss, Radu" <raduweis@amazon.com>,
- lersek@redhat.com, "Catangiu, Adrian Costin" <acatan@amazon.com>,
- graf@amazon.com, Igor Mammedov <imammedo@redhat.com>,
- Colm MacCarthaigh <colmmacc@amazon.com>, "Singh, Balbir" <sblbir@amazon.com>,
- "Woodhouse, David" <dwmw@amazon.co.uk>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 23, 2022 at 5:08 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> On Wed, Feb 23, 2022 at 2:12 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> > second patch is the reason this is just an RFC: it's a cleanup of the
-> > ACPI driver from last year, and I don't really have much experience
-> > writing, testing, debugging, or maintaining these types of drivers.
-> > Ideally this thread would yield somebody saying, "I see the intent of
-> > this; I'm happy to take over ownership of this part." That way, I can
-> > focus on the RNG part, and whoever steps up for the paravirt ACPI part
-> > can focus on that.
->
-> I actually managed to test this in QEMU, and it seems to work quite well. Steps:
->
-> $ qemu-system-x86_64 ... -device vmgenid,guid=auto -monitor stdio
-> (qemu) savevm blah
-> (qemu) quit
-> $ qemu-system-x86_64 ... -device vmgenid,guid=auto -monitor stdio
-> (qemu) loadvm blah
->
-> Doing this successfully triggers the function to reinitialize the RNG
-> with the new GUID. (It appears there's a bug in QEMU which prevents
-> the GUID from being reinitialized when running `loadvm` without
-> quitting first; I suppose this should be discussed with QEMU
-> upstream.)
->
-> So that's very positive. But I would appreciate hearing from some
-> ACPI/Virt/Amazon people about this.
+> You can use this patch (which is going to be merged soon):
+Any ETA on when this will merge?
 
-Because something something picture thousand words something, here's a
-gif to see this working as expected:
-https://data.zx2c4.com/vmgenid-appears-to-work.gif
+> This entry in the machine file affects the compilation steps:
+>
+> +  test -n "$objcc" && echo "objc_args = [$(meson_quote $OBJCFLAGS $EXTRA_OBJCFLAGS)]" >> $cross
+Great! I had naively assumed that there was more plumbing involved
+than merely defining the variable`objc_args`.
 
-Jason
+
+Joshua.
 
