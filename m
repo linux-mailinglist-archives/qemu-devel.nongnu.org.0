@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F104C1795
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 16:46:51 +0100 (CET)
-Received: from localhost ([::1]:38990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DFD44C17E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 16:58:12 +0100 (CET)
+Received: from localhost ([::1]:54164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMtqs-0004Wf-86
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 10:46:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40924)
+	id 1nMu1r-0006oT-8e
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 10:58:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMtpC-0003kM-Kc
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 10:45:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36023)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nMtzV-0005N8-H3
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 10:55:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMtp9-0000di-9U
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 10:45:05 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nMtzR-0002nl-KN
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 10:55:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645631101;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1645631737;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3mcU1dexf4fFxrnA+vUxz/3NwFAGakXfMGeEwuKmv0E=;
- b=SNxA+giCPDhVMc41sQjaYrTsHQV8IpmrIGJMZ1PgFEZIibUQjbvk9W7MRfLEZeN5uMYNA1
- Zxlcwey9LX0+TzNqsMfRHf7klV45LQcFlTlIj7q4xybT+kqDdcBfyLOAj7kG3w9G1ORBjv
- DVxxIgMp73/HKlsvrf5l9Owc+fI+Wxc=
+ bh=xCgK7Y0toJ4NGDJzOXAZMg571ydlJp/jwgzV5rjqkHg=;
+ b=Nwd8c43HuLrsCpJyRfsAge4y66wZzr14ebPAM7+Yo12fvw7P6lJfgoqsX186V9hYQEaThK
+ smrl/AVTxgSB/xO0pzkIkQ61rzXja38Dcnm20tJJxu0Yww6/cEPUIcAj3J0Qo24+v4Ih5K
+ /aLJjfZ4v9Mmz53kr3omm7vC5VbRe3g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-dYcj_2IZNU6Vrx3me5PRhQ-1; Wed, 23 Feb 2022 10:44:55 -0500
-X-MC-Unique: dYcj_2IZNU6Vrx3me5PRhQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-140-PI-816RkNvK-An1lWfsvTg-1; Wed, 23 Feb 2022 10:55:35 -0500
+X-MC-Unique: PI-816RkNvK-An1lWfsvTg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14E161854E27;
- Wed, 23 Feb 2022 15:44:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B84C8276B;
- Wed, 23 Feb 2022 15:44:52 +0000 (UTC)
-Date: Wed, 23 Feb 2022 15:44:48 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 4/5] python: qmp_shell: add -e/--exit-on-error option
-Message-ID: <YhZWcFY1sGSV/OX8@redhat.com>
-References: <20220221155519.2367-1-damien.hedde@greensocs.com>
- <20220221155519.2367-5-damien.hedde@greensocs.com>
- <CAFn=p-ZErejiw7mn_kN6c+57ya4OgS3ANpUa=BtS3Be=vcSOvg@mail.gmail.com>
- <YhZST1fCU54OgoP2@redhat.com>
- <CAFn=p-bo39LEvQhKBZZ6ZcEfhaaZ7eQDgDFMOEZtDkCV_XH54w@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF248835DE0
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 15:55:34 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48AEE832B1;
+ Wed, 23 Feb 2022 15:55:34 +0000 (UTC)
+Date: Wed, 23 Feb 2022 15:55:33 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: virtio-blk issue with vIOMMU
+Message-ID: <YhZY9dnAvBmiakgw@stefanha-x1.localdomain>
+References: <7ef3d447-1ee5-dbeb-b1c8-4b471d556e2a@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-bo39LEvQhKBZZ6ZcEfhaaZ7eQDgDFMOEZtDkCV_XH54w@mail.gmail.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1NyJzGn4EQFiguJv"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <7ef3d447-1ee5-dbeb-b1c8-4b471d556e2a@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -73,8 +62,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,79 +76,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Eduardo Habkost <eduardo@habkost.net>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 23, 2022 at 10:41:11AM -0500, John Snow wrote:
-> On Wed, Feb 23, 2022 at 10:27 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Wed, Feb 23, 2022 at 10:22:11AM -0500, John Snow wrote:
-> > > On Mon, Feb 21, 2022 at 10:55 AM Damien Hedde
-> > > <damien.hedde@greensocs.com> wrote:
-> > > >
-> > > > This option makes qmp_shell exit (with error code 1)
-> > > > as soon as one of the following error occurs:
-> > > > + command parsing error
-> > > > + disconnection
-> > > > + command failure (response is an error)
-> > > >
-> > > > _execute_cmd() method now returns None or the response
-> > > > so that read_exec_command() can do the last check.
-> > > >
-> > > > This is meant to be used in combination with an input file
-> > > > redirection. It allows to store a list of commands
-> > > > into a file and try to run them by qmp_shell and easily
-> > > > see if it failed or not.
-> > > >
-> > > > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> > >
-> > > Based on this patch, it looks like you really want something
-> > > scriptable, so I think the qemu-send idea that Dan has suggested might
-> > > be the best way to go. Are you still hoping to use the interactive
-> > > "short" QMP command format? That might be a bad idea, given how flaky
-> > > the parsing is -- and how we don't actually have a published standard
-> > > for that format. We've *never* liked the bad parsing here, so I have a
-> > > reluctance to use it in more places.
-> > >
-> > > I'm having the naive idea that a script file could be as simple as a
-> > > list of QMP commands to send:
-> > >
-> > > [
-> > >     {"execute": "block-dirty-bitmap-add", "arguments": { ... }},
-> > >     ...
-> > > ]
-> >
-> > I'd really recommend against creating a new format for the script
-> > file, especially one needing opening & closing  [] like this, as
-> > that isn't so amenable to dynamic usage/creation. ie you can't
-> > just append an extcra command to an existing file.
-> >
-> > IMHO, the "file" format should be identical to the result of
-> > capturing the socket data off the wire. ie just a concatenation
-> > of QMP commands, with no extra wrapping / change in format.
-> >
-> 
-> Eugh. That's just so hard to parse, because there's no off-the-shelf
-> tooling for "load a sequence of JSON documents". Nothing in Python
-> does it. :\
 
-It isn't that hard if you require each JSON doc to be followed by
-a newline.
+--1NyJzGn4EQFiguJv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Feed one line at a time to the JSON parser, until you get a complete
-JSON doc, process that, then re-init the parser and carry on feeding
-it lines until it emits the next JSON doc, and so on.
+On Wed, Feb 23, 2022 at 12:37:03PM +0800, Jason Wang wrote:
+> Hi Stefan:
+>=20
+> Recently I found intel vIOMMU gives the following warning when using
+> virtio-blk:
+>=20
+> qemu-system-x86_64: vtd_iova_to_slpte: detected slpte permission error
+> (iova=3D0x7ffde000, level=3D0x3, slpte=3D0x0, write=3D0)
+> qemu-system-x86_64: vtd_iommu_translate: detected translation failure
+> (dev=3D01:00:00, iova=3D0x7ffde000)
+> qemu-system-x86_64: New fault is not recorded due to compression of faults
+> qemu-system-x86_64: virtio: zero sized buffers are not allowed
+>=20
+> It happens on the boot (device start), and virtio-blk works well after th=
+is.
+> A quick stack trace is:
+>=20
+> Thread 1 "qemu-system-x86" hit Breakpoint 1, vtd_iova_to_slpte
+> (s=3D0x555557a9f710, ce=3D0x7fffffffd6e0, iova=3D2147344384, is_write=3Df=
+alse,
+> slptep=3D0x7fffffffd6b8,
+> =A0=A0=A0 slpte_level=3D0x7fffffffd6b0, reads=3D0x7fffffffd6aa, writes=3D=
+0x7fffffffd6ab,
+> aw_bits=3D39 '\'') at ../hw/i386/intel_iommu.c:1055
+> 1055=A0=A0=A0 =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 error_report_once("%s: de=
+tected slpte permission error "
+> (gdb) bt
+> #0=A0 vtd_iova_to_slpte
+> =A0=A0=A0 (s=3D0x555557a9f710, ce=3D0x7fffffffd6e0, iova=3D2147344384, is=
+_write=3Dfalse,
+> slptep=3D0x7fffffffd6b8, slpte_level=3D0x7fffffffd6b0, reads=3D0x7fffffff=
+d6aa,
+> writes=3D0x7fffffffd6ab, aw_bits=3D39 '\'') at ../hw/i386/intel_iommu.c:1=
+055
+> #1=A0 0x0000555555b45734 in vtd_do_iommu_translate (vtd_as=3D0x5555574cd0=
+00,
+> bus=3D0x55555766e700, devfn=3D0 '\000', addr=3D2147344384, is_write=3Dfal=
+se,
+> entry=3D0x7fffffffd780)
+> =A0=A0=A0 at ../hw/i386/intel_iommu.c:1785
+> #2=A0 0x0000555555b48543 in vtd_iommu_translate (iommu=3D0x5555574cd070,
+> addr=3D2147344384, flag=3DIOMMU_RO, iommu_idx=3D0) at
+> ../hw/i386/intel_iommu.c:2996
+> #3=A0 0x0000555555bd3f4d in address_space_translate_iommu
+> =A0=A0=A0 (iommu_mr=3D0x5555574cd070, xlat=3D0x7fffffffd9f0, plen_out=3D0=
+x7fffffffd9e8,
+> page_mask_out=3D0x0, is_write=3Dfalse, is_mmio=3Dtrue, target_as=3D0x7fff=
+ffffd938,
+> attrs=3D...)
+> =A0=A0=A0 at ../softmmu/physmem.c:433
+> #4=A0 0x0000555555bdbdd1 in address_space_translate_cached
+> (cache=3D0x7fffed3d02e0, addr=3D0, xlat=3D0x7fffffffd9f0, plen=3D0x7fffff=
+ffd9e8,
+> is_write=3Dfalse, attrs=3D...)
+> =A0=A0=A0 at ../softmmu/physmem.c:3388
+> #5=A0 0x0000555555bdc519 in address_space_lduw_internal_cached_slow
+> (cache=3D0x7fffed3d02e0, addr=3D0, attrs=3D..., result=3D0x0,
+> endian=3DDEVICE_LITTLE_ENDIAN)
+> =A0=A0=A0 at /home/devel/git/qemu/memory_ldst.c.inc:209
+> #6=A0 0x0000555555bdc6ac in address_space_lduw_le_cached_slow
+> (cache=3D0x7fffed3d02e0, addr=3D0, attrs=3D..., result=3D0x0) at
+> /home/devel/git/qemu/memory_ldst.c.inc:253
+> #7=A0 0x0000555555c71719 in address_space_lduw_le_cached
+> (cache=3D0x7fffed3d02e0, addr=3D0, attrs=3D..., result=3D0x0)
+> =A0=A0=A0 at /home/devel/git/qemu/include/exec/memory_ldst_cached.h.inc:35
+> #8=A0 0x0000555555c7196a in lduw_le_phys_cached (cache=3D0x7fffed3d02e0, =
+addr=3D0)
+> at /home/devel/git/qemu/include/exec/memory_ldst_phys.h.inc:67
+> #9=A0 0x0000555555c728fd in virtio_lduw_phys_cached (vdev=3D0x55555774372=
+0,
+> cache=3D0x7fffed3d02e0, pa=3D0) at
+> /home/devel/git/qemu/include/hw/virtio/virtio-access.h:166
+> #10 0x0000555555c73485 in vring_used_flags_set_bit (vq=3D0x7ffff4ee5010,
+> mask=3D1) at ../hw/virtio/virtio.c:383
+> #11 0x0000555555c736a8 in virtio_queue_split_set_notification
+> (vq=3D0x7ffff4ee5010, enable=3D0) at ../hw/virtio/virtio.c:433
+> #12 0x0000555555c73896 in virtio_queue_set_notification (vq=3D0x7ffff4ee5=
+010,
+> enable=3D0) at ../hw/virtio/virtio.c:490
+> #13 0x0000555555c19064 in virtio_blk_handle_vq (s=3D0x555557743720,
+> vq=3D0x7ffff4ee5010) at ../hw/block/virtio-blk.c:782
+> #14 0x0000555555c191f5 in virtio_blk_handle_output (vdev=3D0x555557743720,
+> vq=3D0x7ffff4ee5010) at ../hw/block/virtio-blk.c:819
+> #15 0x0000555555c78453 in virtio_queue_notify_vq (vq=3D0x7ffff4ee5010) at
+> ../hw/virtio/virtio.c:2315
+> #16 0x0000555555c7b523 in virtio_queue_host_notifier_aio_poll_ready
+> (n=3D0x7ffff4ee5084) at ../hw/virtio/virtio.c:3516
+> #17 0x0000555555eff158 in aio_dispatch_handler (ctx=3D0x55555680fac0,
+> node=3D0x7fffeca5bbe0) at ../util/aio-posix.c:350
+> #18 0x0000555555eff390 in aio_dispatch_handlers (ctx=3D0x55555680fac0) at
+> ../util/aio-posix.c:406
+> #19 0x0000555555eff3ea in aio_dispatch (ctx=3D0x55555680fac0) at
+> ../util/aio-posix.c:416
+> #20 0x0000555555f184eb in aio_ctx_dispatch (source=3D0x55555680fac0,
+> callback=3D0x0, user_data=3D0x0) at ../util/async.c:311
+> #21 0x00007ffff7b6b17d in g_main_context_dispatch () at
+> /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
+> #22 0x0000555555f299ed in glib_pollfds_poll () at ../util/main-loop.c:232
+> #23 0x0000555555f29a6b in os_host_main_loop_wait (timeout=3D0) at
+> ../util/main-loop.c:255
+> #24 0x0000555555f29b7c in main_loop_wait (nonblocking=3D0) at
+> ../util/main-loop.c:531
+> #25 0x0000555555be097c in qemu_main_loop () at ../softmmu/runstate.c:727
+> #26 0x00005555558367fa in main (argc=3D26, argv=3D0x7fffffffe058,
+> envp=3D0x7fffffffe130) at ../softmmu/main.c:50
+>=20
+> The slpte is 0x0 and level is 3 which probably means the device is kicked
+> before it was attached to any IOMMU domain.
+>=20
+> Bisecting points to the first bad commit:
+>=20
+> commit 826cc32423db2a99d184dbf4f507c737d7e7a4ae
+> Author: Stefan Hajnoczi <stefanha@redhat.com>
+> Date:=A0=A0 Tue Dec 7 13:23:31 2021 +0000
+>=20
+> =A0=A0=A0 aio-posix: split poll check from ready handler
+>=20
+> A wild guess is that this lead some false kick to the device, any thought=
+ on
+> this?
 
+Funny, I hit the same bug but a different symptom today. I'm sending a
+fix and will CC you.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Stefan
+
+--1NyJzGn4EQFiguJv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIWWPUACgkQnKSrs4Gr
+c8hHUwgAk4HCkVCEpaBbfeQcKbqkphYpjXfxDXRFcz3ZsntzYUcdmNIfF6Ziu6X6
+gfbLj7+SBy04aGh9WKaq90N9jIH5hyOucrYkO3RyuRJC0lBqbUDBNdc7vCKhr80Y
+6DYirlz0GdmLgEnRMFjZqVT8+iMwdL+gKeTAW+jFEPuRUyd80rpunWZTAZ7ESVOq
+ln0xaB5Z68/Im8TEAvYiRvkPE3Q1YP+/JW2QSHBgIVEUCRL03ybc1xMDNE6Clqua
+/Ff1B31LR+EluzJbhQYnCfT3jrTN6SpEZRLSVuw8GxKckGeNFgKNxMLTtnjxPrUR
+ptIEUhYxK9KXMWpk61d7F2r1xqGhhQ==
+=HlJd
+-----END PGP SIGNATURE-----
+
+--1NyJzGn4EQFiguJv--
 
 
