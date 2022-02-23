@@ -2,51 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAB74C1B02
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 19:35:22 +0100 (CET)
-Received: from localhost ([::1]:50178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3B04C1B14
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 19:43:04 +0100 (CET)
+Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMwTw-0004h2-Nf
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 13:35:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39788)
+	id 1nMwbO-0000Uf-V0
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 13:43:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1nMwSO-0003iY-Sl
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 13:33:44 -0500
-Received: from vps-vb.mhejs.net ([37.28.154.113]:44438)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nMwW9-0007MI-5N
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 13:37:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1nMwSM-0006DV-Mk
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 13:33:44 -0500
-Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <mail@maciej.szmigiero.name>)
- id 1nMwRP-0003AV-QA; Wed, 23 Feb 2022 19:32:43 +0100
-Message-ID: <7822c00f-5a2d-b6a2-2f81-cf3330801ad3@maciej.szmigiero.name>
-Date: Wed, 23 Feb 2022 19:32:37 +0100
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nMwW5-0006qB-P0
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 13:37:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645641452;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=secfnCCluSyfSNKwwAxMrWbCmNJ72DL+wlfAdJq++wo=;
+ b=V0qw/YPlDVC6v2B5u93Ssuhnmov+Udv1A1ayaarNtvgoEFXuoy680yj0Tl91gv2+bM4v6j
+ J+zm5K+SF4NPxg8dtIRXDf/f1u6Z/7Wr1jn5E4h8FSOZcsqpvYwJL1OO7JkXWnRnHRy/sH
+ f8ImX1PReUWFyOM9+7A5wb8EQREFgeY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-458-TvySmVvJPHC2NEg5gvRPrQ-1; Wed, 23 Feb 2022 13:37:30 -0500
+X-MC-Unique: TvySmVvJPHC2NEg5gvRPrQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ v17-20020adfa1d1000000b001ed9d151569so1799771wrv.21
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 10:37:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=secfnCCluSyfSNKwwAxMrWbCmNJ72DL+wlfAdJq++wo=;
+ b=DiOa1TjNmUav9whPDQ2BjQ2D3DX8rgSgKAqhnUjkcPLD0yOEVp4yjDDx+e7/Z5xHY4
+ iDNBLaIqRwxVSToDY07cO5BDZ4YIzNtNgR6Yyn4MRUxL8mKLL/mdLLgTCnNs1Rs6SF/M
+ /0g4l3Vm49HGgWcIrr3CDFuXSt/bSrTffD9lY+DQVE/Tzbt2lNNdCcmA9EO1en0ntQww
+ IyAeAtCpgK/AwjBe2P+hnEofcD3ILulIzxwbAArvO3VFbnh9YBxR0swo1zqRU/0BfUAc
+ GNFV0sSOj05CRLy7/cl7Kxb0XOXw0J6+o8Nfczx3gZE/ZMuSsbw+bm1rBAm8QfBzIfVv
+ NHLQ==
+X-Gm-Message-State: AOAM530evNM5sM4ZWPZ10vYsoZsjPAushl78XkdpUpICTCtCVzqiq0gM
+ xTFM5Hx6y7oyU9jNprSIzuEntIPkCpD85FJ2twL0iceJ0nX7TEkl0gfgv/XmCnnHOVKGvOp/d9d
+ NoZBrctWGWw5usm4=
+X-Received: by 2002:adf:edd1:0:b0:1ed:c019:2f23 with SMTP id
+ v17-20020adfedd1000000b001edc0192f23mr708821wro.11.1645641449768; 
+ Wed, 23 Feb 2022 10:37:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxD3sSnTC6YpI94auGrN7wHwsluPisCVBzKbzWDzUugre93bZ9y4twV9S+u6yIwA1896BckAA==
+X-Received: by 2002:adf:edd1:0:b0:1ed:c019:2f23 with SMTP id
+ v17-20020adfedd1000000b001edc0192f23mr708804wro.11.1645641449567; 
+ Wed, 23 Feb 2022 10:37:29 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id o10sm377127wrc.98.2022.02.23.10.37.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Feb 2022 10:37:29 -0800 (PST)
+Date: Wed, 23 Feb 2022 18:37:27 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] qapi: fix mistake in example command illustration
+Message-ID: <YhZ+562Zrz5NNgiK@work-vm>
+References: <20220223180418.2098303-1-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Content-Language: en-US
-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
- <20220118132121.31388-13-chao.p.peng@linux.intel.com>
- <a121e766-900d-2135-1516-e1d3ba716834@maciej.szmigiero.name>
- <20220217134548.GA33836@chaop.bj.intel.com>
- <45148f5f-fe79-b452-f3b2-482c5c3291c4@maciej.szmigiero.name>
- <20220223120047.GB53733@chaop.bj.intel.com>
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Subject: Re: [PATCH v4 12/12] KVM: Expose KVM_MEM_PRIVATE
-In-Reply-To: <20220223120047.GB53733@chaop.bj.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.28.154.113;
- envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+In-Reply-To: <20220223180418.2098303-1-berrange@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -61,96 +102,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.02.2022 13:00, Chao Peng wrote:
-> On Tue, Feb 22, 2022 at 02:16:46AM +0100, Maciej S. Szmigiero wrote:
->> On 17.02.2022 14:45, Chao Peng wrote:
->>> On Tue, Jan 25, 2022 at 09:20:39PM +0100, Maciej S. Szmigiero wrote:
->>>> On 18.01.2022 14:21, Chao Peng wrote:
->>>>> KVM_MEM_PRIVATE is not exposed by default but architecture code can turn
->>>>> on it by implementing kvm_arch_private_memory_supported().
->>>>>
->>>>> Also private memslot cannot be movable and the same file+offset can not
->>>>> be mapped into different GFNs.
->>>>>
->>>>> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
->>>>> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
->>>>> ---
->>>> (..)
->>>>>     static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
->>>>> -				      gfn_t start, gfn_t end)
->>>>> +				      struct file *file,
->>>>> +				      gfn_t start, gfn_t end,
->>>>> +				      loff_t start_off, loff_t end_off)
->>>>>     {
->>>>>     	struct kvm_memslot_iter iter;
->>>>> +	struct kvm_memory_slot *slot;
->>>>> +	struct inode *inode;
->>>>> +	int bkt;
->>>>>     	kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
->>>>>     		if (iter.slot->id != id)
->>>>>     			return true;
->>>>>     	}
->>>>> +	/* Disallow mapping the same file+offset into multiple gfns. */
->>>>> +	if (file) {
->>>>> +		inode = file_inode(file);
->>>>> +		kvm_for_each_memslot(slot, bkt, slots) {
->>>>> +			if (slot->private_file &&
->>>>> +			     file_inode(slot->private_file) == inode &&
->>>>> +			     !(end_off <= slot->private_offset ||
->>>>> +			       start_off >= slot->private_offset
->>>>> +					     + (slot->npages >> PAGE_SHIFT)))
->>>>> +				return true;
->>>>> +		}
->>>>> +	}
->>>>
->>>> That's a linear scan of all memslots on each CREATE (and MOVE) operation
->>>> with a fd - we just spent more than a year rewriting similar linear scans
->>>> into more efficient operations in KVM.
->>>
-(..)
->>> So linear scan is used before I can find a better way.
->>
->> Another option would be to simply not check for overlap at add or move
->> time, declare such configuration undefined behavior under KVM API and
->> make sure in MMU notifiers that nothing bad happens to the host kernel
->> if it turns out somebody actually set up a VM this way (it could be
->> inefficient in this case, since it's not supposed to ever happen
->> unless there is a bug somewhere in the userspace part).
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> The snapshot-load/save/delete commands illustrated their usage, but
+> mistakenly used 'data' rather than 'arguments' as the field name.
 > 
-> Specific to TDX case, SEAMMODULE will fail the overlapping case and then
-> KVM prints a message to the kernel log. It will not cause any other side
-> effect, it does look weird however. Yes warn that in the API document
-> can help to some extent.
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-So for the functionality you are adding this code for (TDX) this scan
-isn't necessary and the overlapping case (not supported anyway) is safely
-handled by the hardware (or firmware)?
-Then I would simply remove the scan and, maybe, add a comment instead
-that the overlap check is done by the hardware.
+Fabian Holler's patch from yesterday beat you to it slightly;
+I think Markus has it queued.
 
-By the way, if a kernel log message could be triggered by (misbehaving)
-userspace then it should be rate limited (if it isn't already).
+(20220222170116.63105-1-fabian.holler@simplesurance.de )
+> ---
+>  qapi/migration.json | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 5975a0e104..1c6296897d 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1888,7 +1888,7 @@
+>  # Example:
+>  #
+>  # -> { "execute": "snapshot-save",
+> -#      "data": {
+> +#      "arguments": {
+>  #         "job-id": "snapsave0",
+>  #         "tag": "my-snap",
+>  #         "vmstate": "disk0",
+> @@ -1949,7 +1949,7 @@
+>  # Example:
+>  #
+>  # -> { "execute": "snapshot-load",
+> -#      "data": {
+> +#      "arguments": {
+>  #         "job-id": "snapload0",
+>  #         "tag": "my-snap",
+>  #         "vmstate": "disk0",
+> @@ -2002,7 +2002,7 @@
+>  # Example:
+>  #
+>  # -> { "execute": "snapshot-delete",
+> -#      "data": {
+> +#      "arguments": {
+>  #         "job-id": "snapdelete0",
+>  #         "tag": "my-snap",
+>  #         "devices": ["disk0", "disk1"]
+> -- 
+> 2.34.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-> Thanks,
-> Chao
-
-Thanks,
-Maciej
 
