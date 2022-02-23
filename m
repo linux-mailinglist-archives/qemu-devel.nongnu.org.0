@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29964C186E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 17:21:11 +0100 (CET)
-Received: from localhost ([::1]:42088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763614C1878
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 17:21:58 +0100 (CET)
+Received: from localhost ([::1]:42940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMuO6-00027t-Iv
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 11:21:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50104)
+	id 1nMuOr-0002iJ-80
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 11:21:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMuLS-0000fA-T3
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:18:26 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=39610
- helo=mail-pj1-x1035.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nMuLQ-0006Vd-L3
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:18:26 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- h17-20020a17090acf1100b001bc68ecce4aso2756848pju.4
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 08:18:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=398plGivOsK6ge8WsrtVBdb3UVDGBk8vyQJLsAcowOE=;
- b=QMVhl5sU7//1SNP2V2T/kBw01atcKlhersVyJOoS0odT0wC0HEiTa9A2fatV2MBrMP
- 9FzbDYnIfEqDed9ZR1bqQzRso2s9+6aCDqbhgnfaziwou5RZmYIEIEz32Ill5Oczo947
- WxvtoBY2kV14XYuL9+9L/1oIiZpW0d0EZSeyBLQPJ9YlWggDbfWCS+9Ag8GOT+TyiS1j
- ldGbn+hAI6hik78Fvwh2IY3KhyvygHkhNjTT6fCyHqiQHw3JyakTm0l88K/ComdHlMIn
- 9ENanp8JK4bB6TWrviImWKnsp4sLbMXY6nGwNTGvqd4JLcmbgOvCTUVffpBqcuBbYCgu
- TNNA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMuLo-00016w-15
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:18:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMuLk-0006XI-5K
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 11:18:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645633122;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qf56R+o+f5rnj3gy1XufJP+Z7XCSsizyuKebQN0Mroo=;
+ b=EDq7oenHza9omQYiHG6DC+J/2Dip0gAwViOpAyzB5jRGK6OmuSywphVoLN4hD4hark9tFu
+ AT8F/J2PbTNxE5chMej1Bj29WghBVxUVN6H3XM3LwQSNTOPrNrK9Rox7dq6xjqmptbfQ7t
+ FcEsSwncQVEN5DgFO9L52jsTkU59F4o=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-201-N9Nc79KaMCC5ruGCafBJTQ-1; Wed, 23 Feb 2022 11:18:40 -0500
+X-MC-Unique: N9Nc79KaMCC5ruGCafBJTQ-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ n19-20020ab03b13000000b00342ad041b5fso1716823uaw.13
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 08:18:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=398plGivOsK6ge8WsrtVBdb3UVDGBk8vyQJLsAcowOE=;
- b=54n4yvcymq+d7X6e+eH50b328tGOPDhKkeainbzIhODm2/Pq5pyibfrusHZeIKcLka
- ij5t2i7wyKGaXsuMplZn0XEjcqPrRHQgOZPpDz9zSI2CdvU6je0T5YN3EDUR+SNWzvnS
- aX1Myfcmy5+jYbJd03Ci/f9QxHw2wpU0l5Yc/shOIfKSOoTEDrqdpXSwkcj+bdcC6wZq
- CQB2HuOqbDe/1cQvyY3+D8suXYh2rkD0QMIIEK64Af3USFr309I2ofepbdWxV3MBqiNv
- WkIdaOx2jKsNkw6i3ehBAmCPRYr+VyeSRyJYlVyT8/suaEq8YgjM4hok3DzJcrWWu3Ax
- Rhvw==
-X-Gm-Message-State: AOAM530QpkEg2X6O21VjG6F+M6KuGJLC7BepVwNPsR4ip3Z5APUElhPC
- r/e4ogIi1yMWFO5NhFz32Ws=
-X-Google-Smtp-Source: ABdhPJwYwJYP/qdzYffXjhDEtdqt4daC1lSOFnCl72nvx7Yd+suMT/gLQMADWfaKWfDcJia4Y16IYw==
-X-Received: by 2002:a17:90a:9b08:b0:1bc:9b4f:8dff with SMTP id
- f8-20020a17090a9b0800b001bc9b4f8dffmr3193412pjp.159.1645633101469; 
- Wed, 23 Feb 2022 08:18:21 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71])
- by smtp.gmail.com with ESMTPSA id d15sm23054077pfu.72.2022.02.23.08.18.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 08:18:21 -0800 (PST)
-Message-ID: <6381b8e6-c0d6-03aa-7b30-a47c724a6747@gmail.com>
-Date: Wed, 23 Feb 2022 17:18:18 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qf56R+o+f5rnj3gy1XufJP+Z7XCSsizyuKebQN0Mroo=;
+ b=sJzjIyvCgtgFSTREy2k9/oKhrPPkuzTiFYzLfeKoPcbwiE2kNPIEp+y2oZUqCRpcxz
+ 8DUUmjCarXNF1IvHkPpgdnp9Gk4ONjtZi1T4QKfYD+z+VKopdsaOlDyfeOchkD+PXNBt
+ v5QZzopvprOyzcSjjnkrkYl01vQVg34LWldNZqo0VHPMz2+u3XiR0a8irS8srz8UUTF3
+ 10N5IfsdUVvmjwuk8A9LFtd4fUk+/abZJqyO/z7hT+24OfXVUlILWzJ6OLhbI7tnnPqC
+ +S17NaxiH4FSXnymQyanrpQmk+dd7eJbyX3vq77FgXUNamhM6E1h9Y2gqxaZ+YeLb1FJ
+ NG4w==
+X-Gm-Message-State: AOAM530hGbdu4pXn3qacOkhXY0Ntpp0ZovyzRQASIgWwspsdaMG+vukO
+ YTYgfZ/ErMWYu0gZhN1U1D+Lb+dTAaLrLV/Mea9QSoSyfQDqHc+RWTXydUSdCPZrcRVi2wcsQdU
+ yMluw5YuBKhkyvXddKL/ou1RSfLlYw4I=
+X-Received: by 2002:a67:4382:0:b0:31c:598:b659 with SMTP id
+ q124-20020a674382000000b0031c0598b659mr106101vsa.11.1645633118074; 
+ Wed, 23 Feb 2022 08:18:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzBZljUX6iMEhIlcL5gi6Xt7pb/nPU0rG5a+3uQImxtOX5dXdhgeTmLLV+UuY1sEIC5keAxamr7KcTq2KRMnls=
+X-Received: by 2002:a67:4382:0:b0:31c:598:b659 with SMTP id
+ q124-20020a674382000000b0031c0598b659mr106091vsa.11.1645633117798; Wed, 23
+ Feb 2022 08:18:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: Fix a potential Use-after-free in virtio_iommu_handle_command()
- (v6.2.0).
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, wliang@stu.xidian.edu.cn,
- Eric Auger <eric.auger@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <1b79118e.25c5.17f2702b9d5.Coremail.wliang@stu.xidian.edu.cn>
- <3ce08bdb-fecd-549a-5c09-0b5fa65de4ba@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <3ce08bdb-fecd-549a-5c09-0b5fa65de4ba@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220221155519.2367-1-damien.hedde@greensocs.com>
+ <20220221155519.2367-5-damien.hedde@greensocs.com>
+ <CAFn=p-ZErejiw7mn_kN6c+57ya4OgS3ANpUa=BtS3Be=vcSOvg@mail.gmail.com>
+ <YhZST1fCU54OgoP2@redhat.com>
+ <CAFn=p-bo39LEvQhKBZZ6ZcEfhaaZ7eQDgDFMOEZtDkCV_XH54w@mail.gmail.com>
+ <YhZWcFY1sGSV/OX8@redhat.com>
+In-Reply-To: <YhZWcFY1sGSV/OX8@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 23 Feb 2022 11:18:26 -0500
+Message-ID: <CAFn=p-aSbkdzqZQAZYKX2mPo9BVmX0U5s+huXQH-JcD5N6+WCA@mail.gmail.com>
+Subject: Re: [PATCH 4/5] python: qmp_shell: add -e/--exit-on-error option
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,26 +97,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Eduardo Habkost <eduardo@habkost.net>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/2/22 17:02, Thomas Huth wrote:
-> On 23/02/2022 15.36, wliang@stu.xidian.edu.cn wrote:
->> Hi all,
->>
->> I find a potential Use-after-free in QEMU 6.2.0, which is in 
->> virtio_iommu_handle_command() (./hw/virtio/virtio-iommu.c).
+On Wed, Feb 23, 2022 at 10:44 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
+>
+> On Wed, Feb 23, 2022 at 10:41:11AM -0500, John Snow wrote:
+> > On Wed, Feb 23, 2022 at 10:27 AM Daniel P. Berrang=C3=A9 <berrange@redh=
+at.com> wrote:
+> > >
+> > > On Wed, Feb 23, 2022 at 10:22:11AM -0500, John Snow wrote:
+> > > > On Mon, Feb 21, 2022 at 10:55 AM Damien Hedde
+> > > > <damien.hedde@greensocs.com> wrote:
+> > > > >
+> > > > > This option makes qmp_shell exit (with error code 1)
+> > > > > as soon as one of the following error occurs:
+> > > > > + command parsing error
+> > > > > + disconnection
+> > > > > + command failure (response is an error)
+> > > > >
+> > > > > _execute_cmd() method now returns None or the response
+> > > > > so that read_exec_command() can do the last check.
+> > > > >
+> > > > > This is meant to be used in combination with an input file
+> > > > > redirection. It allows to store a list of commands
+> > > > > into a file and try to run them by qmp_shell and easily
+> > > > > see if it failed or not.
+> > > > >
+> > > > > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> > > >
+> > > > Based on this patch, it looks like you really want something
+> > > > scriptable, so I think the qemu-send idea that Dan has suggested mi=
+ght
+> > > > be the best way to go. Are you still hoping to use the interactive
+> > > > "short" QMP command format? That might be a bad idea, given how fla=
+ky
+> > > > the parsing is -- and how we don't actually have a published standa=
+rd
+> > > > for that format. We've *never* liked the bad parsing here, so I hav=
+e a
+> > > > reluctance to use it in more places.
+> > > >
+> > > > I'm having the naive idea that a script file could be as simple as =
+a
+> > > > list of QMP commands to send:
+> > > >
+> > > > [
+> > > >     {"execute": "block-dirty-bitmap-add", "arguments": { ... }},
+> > > >     ...
+> > > > ]
+> > >
+> > > I'd really recommend against creating a new format for the script
+> > > file, especially one needing opening & closing  [] like this, as
+> > > that isn't so amenable to dynamic usage/creation. ie you can't
+> > > just append an extcra command to an existing file.
+> > >
+> > > IMHO, the "file" format should be identical to the result of
+> > > capturing the socket data off the wire. ie just a concatenation
+> > > of QMP commands, with no extra wrapping / change in format.
+> > >
+> >
+> > Eugh. That's just so hard to parse, because there's no off-the-shelf
+> > tooling for "load a sequence of JSON documents". Nothing in Python
+> > does it. :\
+>
+> It isn't that hard if you require each JSON doc to be followed by
+> a newline.
+>
+> Feed one line at a time to the JSON parser, until you get a complete
+> JSON doc, process that, then re-init the parser and carry on feeding
+> it lines until it emits the next JSON doc, and so on.
+>
 
->> I'm looking forward to your confirmation.
-> 
->   Hi,
-> 
-> thanks for your report and patch - but to make sure that the right 
-> people get attention, please use the scripts/get_maintainer.pl script to 
-> get a list of people who should be on CC:, or look into the MAINTAINERS 
-> file directly (for the next time - this time, I've CC:ed them now already).
+There's two interfaces in Python:
 
-You can find the contribution guidelines here:
-https://www.qemu.org/docs/master/devel/submitting-a-patch.html
+(1) json.load(), which takes a file pointer and either returns a
+single, complete JSON document or it raises an Exception. It's not
+useful here at all.
+(2) json.JSONDecoder().raw_decode(strbuf), which takes a string buffer
+and returns a 2-tuple of a JSON Document and the position at which it
+stopped decoding.
+
+The second is what we need here, but it does require buffering the
+entire file into a string first, and then iteratively calling it. It
+feels like working against the grain a little bit. We also can't use
+the QAPI parser, as that parser has intentionally removed support for
+constructs we don't use in the qapi schema language. Boo. (Not that I
+want more non-standard configuration files like that propagating,
+either.)
+
+It would be possible to generate a JSON-Schema document to describe a
+script file that used a containing list construct, but impossible for
+a concatenation of JSON documents. This is one of the reasons I
+instinctively shy away from non-standard file formats, they tend to
+cut off support for this sort of thing.
+
+Wanting to keep the script easy to append to is legitimate. I'm keen
+to hear a bit more about the use case here before I press extremely
+hard in any given direction, but those are my impulses here.
+
+--js
+
 
