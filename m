@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958404C1215
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 13:00:59 +0100 (CET)
-Received: from localhost ([::1]:47532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0EB4C1270
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 13:08:28 +0100 (CET)
+Received: from localhost ([::1]:51934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMqKI-0004XO-K0
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 07:00:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36558)
+	id 1nMqRW-0008Co-VH
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 07:08:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1nMqHx-0003lQ-MZ
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 06:58:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51204)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1nMqHv-00075h-Sq
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 06:58:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645617511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wQ3b/OqmX7k5uUOnPAbqMVD8iX83XPV9Sh9vTgh3MDw=;
- b=ZuFWi51aBnIEDga6gEbE/F69EkfWSfGcW1PG/n6JWe1UfgjCez9JNNp1wXp0QY68fpcn2s
- R2X2LV6fscdww3KfbSU+kj0k4uzSfXIG2fEbsHIbPAjZU7nD2NouPpRnusdDX54o0TrHhZ
- mLMCYzNoG24rU7kR6otU38ggEBa2j98=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-LmdPGS0vNeGZi15rI9yNlA-1; Wed, 23 Feb 2022 06:58:29 -0500
-X-MC-Unique: LmdPGS0vNeGZi15rI9yNlA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6059501E1
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 11:58:28 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.195.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4000A2AAB5;
- Wed, 23 Feb 2022 11:58:25 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] KVM: SVM: always set MSR_AMD64_TSC_RATIO to default value
-Date: Wed, 23 Feb 2022 13:58:24 +0200
-Message-Id: <20220223115824.319821-1-mlevitsk@redhat.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMqKA-0005JH-AD
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 07:00:54 -0500
+Received: from [2a00:1450:4864:20::52c] (port=42872
+ helo=mail-ed1-x52c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMqK8-0007X1-4s
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 07:00:49 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id i11so42054536eda.9
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 04:00:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=q9kJsMl025djWNk+9lnX+zMTDWyxwGPEjeGARgOQfBU=;
+ b=n9h3Q9rV9WY3vIi60OWndKR+8fHxef0Xf01/wlzyaC/rA9SrVmPEP1ELWBDfyOOWpv
+ VQ+ECGqsgMrDAakkrHUFLm8ODoav0HNkB/pKDtBJp920kdXg8KKWMEP+D3H3jtdrZUoF
+ AFN2RFZZA5lh/qcB22grRP5r7vUHzua1cLTsCh6whODz8vn2/Fnkvwz3SsAYAy+p4Gwz
+ ELq0ZYtVw7CfCYt+DO8gVpNSrTzH9Unp+ymciN3epTMWHPy+Cgi88TLFnsV0/i81DnWu
+ R1tp8u37bgiFGfcgBBV1Vc01CQFVjZ40t/ASt/x2W0eHVrdx6n4QocFpvf0HLn1YuMM4
+ w9OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=q9kJsMl025djWNk+9lnX+zMTDWyxwGPEjeGARgOQfBU=;
+ b=GnlPFMOyX/HV+NblsWhIICtQ10xPhYBVRrfJl4aNEuKzUgP1rEkJIKOXy82x4kpY7J
+ ty7dIHGFAZHFmaNFSv8PLzkcZ0eNf6SImUKexGflPH1dRFjMB2SWhphnZnb2dfpfFAU0
+ Y9mqyuI6s06Ir0opLk6PzpvCAaDBxwhWNBDU0m1KCPUKDoovvjRdXgHw85tivPBctXWm
+ e72T+3kTHnlnAIAhIN+l2zFxrROilCBPuERxV05PL0d69zCbd4e7Nnh7Nje0HwN+vsEx
+ Zs+H9AdfotLhSdWkWxo2PYsH3E0I6eylWUzPJc9EVK3A0LhvrfqVmzMnfOWgQBF/gtJZ
+ Q8yQ==
+X-Gm-Message-State: AOAM532B5ej6W8MnUcViqWu48GiXoX1XQ0/Fo7NZbL2rSJRojUu1I5eG
+ MHfIO6RDXXTfb3gwsr7z0DaoPqwq4/CT6DC08aV0rw==
+X-Google-Smtp-Source: ABdhPJxrLmF0e2U+hJ01u62ElgRrkozOjHzVVcILQFem3YV34/TK6zTt/jcAcqCSuikhJ4u126dJCPG6FW5FCy8K8M4=
+X-Received: by 2002:aa7:d6c3:0:b0:40f:405a:fbf8 with SMTP id
+ x3-20020aa7d6c3000000b0040f405afbf8mr30524718edr.447.1645617645152; Wed, 23
+ Feb 2022 04:00:45 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220210132822.2969324-1-ani@anisinha.ca>
+ <20220223100410.756ffe35@redhat.com>
+In-Reply-To: <20220223100410.756ffe35@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 23 Feb 2022 17:30:34 +0530
+Message-ID: <CAARzgwxXAn83xE80o8+YNUeQJVn6NdtAGjC0e+KjEgbYAQaUkw@mail.gmail.com>
+Subject: Re: [PATCH] hw/i386/pc: when adding reserved E820 entries do not
+ allocate dynamic entries
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::52c;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,35 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Even when the feature is not supported in guest CPUID,
-still set the msr to the default value which will
-be the only value KVM will accept in this case
+On Wed, Feb 23, 2022 at 2:34 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Thu, 10 Feb 2022 18:58:21 +0530
+> Ani Sinha <ani@anisinha.ca> wrote:
+>
+> > When adding E820_RESERVED entries we also accidentally allocate dynamic
+> > entries. This is incorrect. We should simply return early with the count of
+> > the number of reserved entries added.
+>
+> can you expand commit message to explain what's wrong and
+> how problem manifests ... etc.
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- target/i386/cpu.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+The issue has been present for the last 8 years without apparent
+visible issues. I think the only issue is that the bug allocates more
+memory in the firmware than is actually needed.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6c7ef1099b..3475e9fa46 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5930,9 +5930,7 @@ static void x86_cpu_reset(DeviceState *dev)
- 
-     x86_cpu_set_sgxlepubkeyhash(env);
- 
--    if (env->features[FEAT_SVM] & CPUID_SVM_TSCSCALE) {
--        env->amd_tsc_scale_msr =  MSR_AMD64_TSC_RATIO_DEFAULT;
--    }
-+    env->amd_tsc_scale_msr =  MSR_AMD64_TSC_RATIO_DEFAULT;
- 
- #endif
- }
--- 
-2.26.3
+>
+> >
+> > fixes: 7d67110f2d9a6("pc: add etc/e820 fw_cfg file")
+> > cc: kraxel@redhat.com
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >  hw/i386/e820_memory_layout.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/hw/i386/e820_memory_layout.c b/hw/i386/e820_memory_layout.c
+> > index bcf9eaf837..afb08253a4 100644
+> > --- a/hw/i386/e820_memory_layout.c
+> > +++ b/hw/i386/e820_memory_layout.c
+> > @@ -31,6 +31,8 @@ int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
+> >          entry->type = cpu_to_le32(type);
+> >
+> >          e820_reserve.count = cpu_to_le32(index);
+> > +
+> > +        return index;
+> >      }
+>
+> this changes e820_table size/content, which is added by fw_cfg_add_file() to fwcfg,
+> as result it breaks ABI in case of migration.
 
+Ugh. So should we keep the bug? or do we add config setting to handle
+the ABI breakage.
 
