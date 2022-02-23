@@ -2,91 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20A94C106B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:37:43 +0100 (CET)
-Received: from localhost ([::1]:53396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C49C4C1099
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:46:27 +0100 (CET)
+Received: from localhost ([::1]:33110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMp1i-0006FR-Nz
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:37:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59508)
+	id 1nMpAA-0003ac-7U
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:46:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nMoNe-0007PP-2p
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:56:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38825)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nMoOs-0000Km-Bd
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:57:34 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:51096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nMoNb-0001Me-EU
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:56:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645610173;
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nMoOq-0001Wx-EZ
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:57:33 -0500
+Received: from [172.17.10.6] (unknown [172.17.10.6])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id E0C6021C2B;
+ Wed, 23 Feb 2022 09:57:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1645610250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pRXplA+BjvSzMPOrtcY9bsjNklrTlMx5Tt3aSHkXU0o=;
- b=JY4RCcjg3sWRAjjWOcerAKN3ujW30bB1+obhlk/j3b1yeFLWx1pKUKNZiEoaH0iMVNFN7v
- UjM73+YGVHdqalAf5A4FsV36/Xy8XEpKVBQqQ5qoPGNwA8JJ2y0CLafFJ+MnZKuBb6vFhx
- 8mN8RyxrnxNKN+qdCPVwdrK48I+L2NY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-212-yVzunXS3N6CPBTSbqa2t2Q-1; Wed, 23 Feb 2022 04:56:12 -0500
-X-MC-Unique: yVzunXS3N6CPBTSbqa2t2Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v17-20020adfa1d1000000b001ed9d151569so1235892wrv.21
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:56:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=pRXplA+BjvSzMPOrtcY9bsjNklrTlMx5Tt3aSHkXU0o=;
- b=xNFo9hhYFtVAb/TYEMfeVfN2faU8+tQl2ofOiHQ7YjnXsOtcFBU2okXfvhdeNg4RPK
- 7+iJJ5Qygjqbjk4WrtcbfdkkKyJZaljLzZEe7mMOxmTaGSQCpI/MHLSd5bwgVEmE+q16
- 3woWUb60PoEVZxUG6v8FX0oUBUyvl+hfwXSszz10KPyqLKmHnCdhq8Ko27FTAqhDHDwL
- B8zeMi9hq74vxBYBIfTLjQ9Nz9iuPhMzjpZGrzRk+offuLlNNuxNjBn1z/piRHbGIEU4
- RANayx9veDxp3uMzlgKE5VvxBnYFogI2T1qui8LlenjCR0zeXCe0Bzg35ThULkxZrDHM
- w3eA==
-X-Gm-Message-State: AOAM533TbUljQfNzzBlDKif79H2gD5P6m317AShnyrcIUawOfDKewW0A
- bhLm1EkUFFqJulIDiVYT5jEb4DlmWKG9ChJgSfAaPC8gYxAAD+uEaVpadippK2Cz9aeGQ444nXf
- 3ttwmkc72/qqM8wo=
-X-Received: by 2002:adf:8b85:0:b0:1ed:b97b:493d with SMTP id
- o5-20020adf8b85000000b001edb97b493dmr1087648wra.108.1645610171070; 
- Wed, 23 Feb 2022 01:56:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwwqRq+xGW7KHSPVHXSV+Q27VgvzT7fw4kLoNjs2eKzuNJnNYugrauBgKMeMmjkin2dK6jfIg==
-X-Received: by 2002:adf:8b85:0:b0:1ed:b97b:493d with SMTP id
- o5-20020adf8b85000000b001edb97b493dmr1087639wra.108.1645610170885; 
- Wed, 23 Feb 2022 01:56:10 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id n9sm36413638wrx.76.2022.02.23.01.56.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Feb 2022 01:56:10 -0800 (PST)
-Date: Wed, 23 Feb 2022 09:56:08 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 18/20] migration: Postcopy preemption enablement
-Message-ID: <YhYEuI+immRJZh78@work-vm>
-References: <20220216062809.57179-1-peterx@redhat.com>
- <20220216062809.57179-19-peterx@redhat.com>
- <YhTAZzuAEyEHGjea@work-vm> <YhXbsyXAXhNLRVsq@xz-m1.local>
+ bh=nr6xFW2zI/TufDPm1qAEUX0ZHWmzTRo7sN6ZjJNVH3Y=;
+ b=Ns4eVpcinFrgQpHvgG70RBxGWwyinQHaskR+gE9oqgD2mCKBFRX2QfMoytq6eVLwbEglVo
+ W77i4JmZ7jCUUDfSpTGfzoe1NPMxbL8t4ZEwskETMxxjv5S65ngBD5DsVlqSFytlG/kE59
+ tKazw6nByST4v295+0YtnsZAlouKIK8=
+Message-ID: <eb1d52ef-d358-57bd-1468-cff84ace8d20@greensocs.com>
+Date: Wed, 23 Feb 2022 10:57:29 +0100
 MIME-Version: 1.0
-In-Reply-To: <YhXbsyXAXhNLRVsq@xz-m1.local>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 0/5] qmp-shell modifications for non-interactive use
+Content-Language: en-US-large
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220221155519.2367-1-damien.hedde@greensocs.com>
+ <87bkyzzb1q.fsf@pond.sub.org>
+ <3656609c-522d-a0e8-e6ef-465cdc9d6c88@greensocs.com>
+ <YhSrD/gmlMkumkah@redhat.com>
+ <c3fb1a44-29ac-00a0-47f4-7f152977f4a5@greensocs.com>
+ <YhS7nE+6++YN4exZ@redhat.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <YhS7nE+6++YN4exZ@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,54 +71,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> On Tue, Feb 22, 2022 at 10:52:23AM +0000, Dr. David Alan Gilbert wrote:
-> > This does get a bit complicated, which worries me a bit; the code here
-> > is already quite complicated.
-> 
-> Right, it's the way I chose in this patchset on solving this problem.  Not
-> sure whether there's any better and easier way.
-> 
-> For example, we could have used a new thread to send requested pages, and
-> synchronize it with the main thread.  But that'll need other kind of
-> complexity, and I can't quickly tell whether that'll be better.
-> 
-> For this single patch, more than half of the complexity comes from the
-> ability to interrupt sending one huge page half-way.  It's a bit of a pity
-> that, that part will be noop ultimately when with doublemap.
 
-How does that huge-page interruption interact with recovery?
-i.e. do we know the start of that hugepage arrived?
 
+On 2/22/22 11:31, Daniel P. Berrangé wrote:
+> On Tue, Feb 22, 2022 at 10:38:09AM +0100, Damien Hedde wrote:
+>>
+>>
+>> Here I just wanted to propose a simple way to just send a
+>> bunch of commands from a source file and stop if something unexpected
+>> happens.
+>> Only goal is to be able to share a file on the ml and allow people to
+>> reproduce easily.
+>> We can already redirect the input, but it is almost impossible to see
+>> if something failed.
 > 
-> However I kept those only because we don't know when doublemap will be
-> ready, not to say, landing.  Meanwhile we can't assume all kernels will
-> have doublemap even in the future.
+> Yes, I see what you mean. So the problem with using 'socat' or similar
+> is that we fill the input with commands and response appear asynchronously,
+> so we can't match them up easily. This is actually a problem seen in the
+> block I/O tests which just send QMP stuff in a batch.
+> 
+> While you could do this by invoking socat once for each command, that
+> gets silly with the repeated QMP handshake for each command.
+> 
+> The thing about using qmp-shell is that it does a bunch of extra stuff
+> targetted at humans on top, and history tells us it isn't a good idea
+> to mix stuff for humans and machines in the same tool/interface.
+> 
+> How about instead creating a separate 'qmp-send' command that is not
+> much more than a "QMP-aware socat".  By which I mean, it just reads
+> raw QMP commands from stdin, sends each one to the server, but
+> crucially waits for a reply after sending each, and stops on first
+> error reponse.
 
-Yeh, if doublemap was already here you could make it a condition of
-allowing you to set the option.
+By 'qmp-send' command, you mean another script in scripts/qmp ?
+Yes
 
-Dave
+If we go for another script, I would rather do one with wrap
+feature (like your series) to start qemu as well.
 
-> > (If you repost, there are a few 'channel' variables that could probably
-> > be 'unsigned' rather than int)
-> 
-> That I can do for sure.
-> 
-> > 
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> Thanks,
-> 
-> -- 
-> Peter Xu
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+--
+Damien
 
