@@ -2,69 +2,155 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C288A4C112D
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 12:22:41 +0100 (CET)
-Received: from localhost ([::1]:49384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCE04C115C
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 12:35:15 +0100 (CET)
+Received: from localhost ([::1]:53428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMpjE-0001K8-TY
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 06:22:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56570)
+	id 1nMpvN-0004qu-LA
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 06:35:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMphS-0000Wx-H5
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 06:20:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29845)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1nMprM-0003bI-0X
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 06:31:04 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:59604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nMphP-0000Zz-Bc
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 06:20:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645615246;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=n8CX4F7qEY7/QOEsB4zyqz2QaPebzt7pF5+zeQzBGLQ=;
- b=DQ7PBybJwOx3q7PoYnbU2cFV66CYIVHripYf8kMZdtm7l+MU9EbILboaqhbfhrpwKV4ylB
- DqsGdRYSMZvtCUrh8u43MNIBmjNOoNULWYufmrHr0Z+QK8/Dm3CvyUPcvh7TQhuIpNmLCt
- sJyXyEIUUKPib6pa1oxIZ7Y46yQGCXE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-F4mbApxYN5uEBZSjYyZUHQ-1; Wed, 23 Feb 2022 06:20:45 -0500
-X-MC-Unique: F4mbApxYN5uEBZSjYyZUHQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 774A81006AA6;
- Wed, 23 Feb 2022 11:20:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF0941053B31;
- Wed, 23 Feb 2022 11:20:41 +0000 (UTC)
-Date: Wed, 23 Feb 2022 11:20:38 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kshitij Suri <kshitij.suri@nutanix.com>
-Subject: Re: [PATCH] Added parameter to take screenshot with screendump as PNG
-Message-ID: <YhYYho6m53uu9/yk@redhat.com>
-References: <20220222152758.207415-1-kshitij.suri@nutanix.com>
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1nMprH-0002SI-KZ
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 06:31:01 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21N9K0GA006168; 
+ Wed, 23 Feb 2022 11:30:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : references : date : in-reply-to : message-id : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=1HO9mp7kgFUP25NSx+OOafHbzZ0RchuK60TRJYtaYXg=;
+ b=VBkkiNyXHQn/sdYHDmX04IMj3CR/P0A2Wvz1QZnG6Fwg6WY/W8MQ0k5p3HNhb+BUbVaS
+ v7PUT2rfyvTLtuJOj99XpNl/c4l8tKCw9XGS/qdJhc0BROrJc+YoeJPrVhfmBy4q6Jn4
+ DVrytUJWHLutlms5KUbQYGHsy3sYSoHmnjSGiW+2sWP+h0W3hFbDpa0iaHjrCmE2kQ4y
+ YFUzbRxQ0KklQ4RLzrW0hq2HZn/epWrUlkjV1TTUYoxgmERpeU+44Si6lMzwviFGbmSr
+ qWSSIrE30SLeO+GTWqz2FZcREzQG6gZvnHGsUNkGP/XTNahO0JmmqX6L5kPylXCxmhiE Ng== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ect7akyq0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 23 Feb 2022 11:30:50 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21NBUVZa018124;
+ Wed, 23 Feb 2022 11:30:49 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02lp2049.outbound.protection.outlook.com [104.47.57.49])
+ by aserp3020.oracle.com with ESMTP id 3eb482bdaw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 23 Feb 2022 11:30:49 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mweCNFmncf/+H5+XYw+PgwaZA0+m1Cdk5rWRsKV/DgcOTZruvKIySf4ll/YbSbYNjA4Qspvoft7t1TSHg/RskxDzlAMDE9fnCMhSE8knlgquGPtjQx4ZcNuoa0DLIoj9momVCTKFCN6UUfjvY/7adSHlD0DIBNjolJQ99Iq6OyySBkJz9BOk/FOGBJzS8xoglzU7T0Khuy/Zr79hGsRUafWsatG6FLnhB8ljbr3HqtBJL4VOqmb7bnJzOtSjD+NLjeyIhwyosSrFTMpDTzo3irsB24F391nr5jEbQTg9xcoWnkJiloAq0RUlR/bwhF27gjKha0b4px0ardbz/jx65g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1HO9mp7kgFUP25NSx+OOafHbzZ0RchuK60TRJYtaYXg=;
+ b=jo1VRI60AhIjbOVWp/mzHtZpHKKP8G8u9lFlz4oh9//g4iJHEUYe5XIEv7SnaYG3vyyxJqct8EvVgDmPxy2zZdnWZVWtM+r5oZxdgrBAsUsocpydz50+FjFCmg8vPqgihsRyAl223PiNYvaaIxd/cpx7ZK39UByPfqZr0n4vDvfec9pzX9Gl523vPRKWoPXoP6sqYAfCwvLHZgd8k4cixSX3kn5undtaa3BA/xkFhF7r0YVdj7B4d1wMdIGVbnLu9moPJwEYyfJIA9Axei4xjE+5C2dEps0qkLPsdOKE4qc5MkDoVoy0BM/9v9kPTaSzpg9r9/nAQ0d6F9q1Y7swYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1HO9mp7kgFUP25NSx+OOafHbzZ0RchuK60TRJYtaYXg=;
+ b=nnERrQ0d7kt9hddBcOgkRCer5e4oNj1IcZwlVwO+ucegpDmesum4eOouc5ss7saFcyQv87PgLb6hATyNapb7ATcj8QYsgk3VuTKtfvw2sPowGBoVlH2LBKWDcJnG4zxxnSqRtAggabh4YTd5HVkvOl/h6QYKQSsotWmMcEgdOw8=
+Received: from DS7PR10MB4926.namprd10.prod.outlook.com (2603:10b6:5:3ac::20)
+ by SA2PR10MB4763.namprd10.prod.outlook.com (2603:10b6:806:117::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16; Wed, 23 Feb
+ 2022 11:30:48 +0000
+Received: from DS7PR10MB4926.namprd10.prod.outlook.com
+ ([fe80::e429:a820:ef6e:98d9]) by DS7PR10MB4926.namprd10.prod.outlook.com
+ ([fe80::e429:a820:ef6e:98d9%7]) with mapi id 15.20.5017.022; Wed, 23 Feb 2022
+ 11:30:48 +0000
+From: David Edmondson <david.edmondson@oracle.com>
+To: Yang Zhong <yang.zhong@intel.com>
+Subject: Re: [PATCH v2 5/8] x86: Add AMX CPUIDs enumeration
+References: <20220217060434.52460-1-yang.zhong@intel.com>
+ <20220217060434.52460-6-yang.zhong@intel.com>
+Date: Wed, 23 Feb 2022 11:30:44 +0000
+In-Reply-To: <20220217060434.52460-6-yang.zhong@intel.com> (Yang Zhong's
+ message of "Wed, 16 Feb 2022 22:04:31 -0800")
+Message-ID: <cunilt5om57.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.0.50 (gnu/linux)
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0347.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18d::10) To DS7PR10MB4926.namprd10.prod.outlook.com
+ (2603:10b6:5:3ac::20)
 MIME-Version: 1.0
-In-Reply-To: <20220222152758.207415-1-kshitij.suri@nutanix.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 19159eeb-304c-4193-b79a-08d9f6bff024
+X-MS-TrafficTypeDiagnostic: SA2PR10MB4763:EE_
+X-Microsoft-Antispam-PRVS: <SA2PR10MB4763F7040F6EA3038C50A627883C9@SA2PR10MB4763.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: v91BsYxeFxfj4PKqADgqWD1p1TwII7vfI03hBrUJENbSuta1g/+i/BIJjy5uYeJr/KMXwvT0PS8+sLYSby18jmlxwmJ5/bbj25ERDYrrigcxM/9dMA0Kuo+Jr8Fz/NQlUIKKUNgBoWQVczqF05ZLnvJUB+3cm2ebWyGG5LuqhU9qFAVyplbQ9U6qBZCos6JqnGdjfUr9dzH1xtUMzz15Db2Fe9JA9VJI8jCecFF0NaeYT616AZrjYrDzWsy5BCau4n7xVsoh/QCbLPwEkV3DSEXLF7W3XRSP3TmhsWRWw4iVpkOlblgQd7fsbhq3y3DNDVT+7H9q2VIcy9P7rTuTQcAM4f6v7ln3OmK/ao4P7yiw6ep1H8cSctj5oYfnAx2Ro5wISpor75mifa1lg18ujiKvnGeA2iUTmVTiqmeb88Xqf0TYkK6BuZKpTCMOzSSgUhBKq9TxuhCibvvxXkUA6IFNrFWbGeS/+z0cSA4yxtAfbgZ0jzkrx5ofiqhWufBFXSyYEQ9vb34dmDKm7ufzh6avlBXabJ4mN9fahssF1QoZ6yV6+YG8WZCxYCVDqT5T32I5zITtoe+yqJLIj1mQMdvXb4gIgnWLxEmv1k/5L/hmeo+rMgNM9ue8tgk8BV3C77WV0AdP0FSQZ1KsrX8VeA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR10MB4926.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(4326008)(83380400001)(8676002)(316002)(6916009)(508600001)(66476007)(6486002)(66556008)(66946007)(6512007)(8936002)(5660300002)(2616005)(38100700002)(2906002)(6666004)(36756003)(186003)(86362001)(6506007)(44832011)(52116002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vJHlSk/r6R0MIcIdgvjjY2uw2TWBA9Cms2xv7c4W1FJRZKGrfmLdOc7IJSqM?=
+ =?us-ascii?Q?RPKHVaxaxf2AMp9N61HO5HgKZNMQDWMAT7i/KPjn04WqsqNI5AuWvaFGmNXO?=
+ =?us-ascii?Q?gjs1Rqj9GRXACaCTDDfV5reSmyps8iAOgW3TfLHifFBziZJbnNPYr6kebOPJ?=
+ =?us-ascii?Q?S3T9XKECyFCflQLpxpVQpO6pc5bZWlhkiEvq7ITHdOq4FrgFdEmYBhkKtIbP?=
+ =?us-ascii?Q?TvINbrex+3GekCUAqLMpi7tvjKW6HiNLQ0cOx787csKps6LCgp4LvhW7xIu5?=
+ =?us-ascii?Q?E04LpjxdeObJv8n+/QNlOGhzLJdqM8sep9prCWMCAIo00WqtvQOiPv1JQE9n?=
+ =?us-ascii?Q?dP0JeFflxJ3+ry7ob+kMQ3URbcRm6cbc1PkEbp0ecKGo1reM9C+LUpgpQnXP?=
+ =?us-ascii?Q?ta004orEfupPuGrXHHYBJwmTxOgLsYJQEgSLGQ8rdDFIHI/b19lx0CtkURLd?=
+ =?us-ascii?Q?UIw/eCCrvu7rv2NsyctLKqjRWVSx5IVRmx6mJCEZHOx9TXzyPGb0/v2Cuf1D?=
+ =?us-ascii?Q?nMJf7x79go1akMSo2EKG2iwPKjx9/NeiB+24vCWi45y1anAKnLxtJIbGpvaY?=
+ =?us-ascii?Q?pZAP/zRzoTEOzc7ZVqflQUq4+Iay+UFmJIXZ5WvEw/BIOtr59ppAJa4r7xhK?=
+ =?us-ascii?Q?IEV71MvKzX8X3bmIXgKoYU8XFEx34UR3vT+4Xq7UlA5TEhrCkZnBew5NpKu1?=
+ =?us-ascii?Q?QCLRi7HCdZrbl/AJ7AFO60pTXge/3N330mi3pRI7qqjBLP8Y3fmAdK2cK0RS?=
+ =?us-ascii?Q?OZA8wPrIn602gyd1YLuIMPnQjlX0XTJmoHeuhxv7AhutZWikF92FOZ2FiA7r?=
+ =?us-ascii?Q?I9U2xPAWd+5urbo7vPgWsuuxNp0/9rt9ClNlajeMmS0jngSGRa3/c1pVOIt0?=
+ =?us-ascii?Q?EnILuyJcJkcP8Ve8Me3++BAIOQUKIJyf8m+cxfAEsMoupmRvKLCbqf1VS6mL?=
+ =?us-ascii?Q?JomRCJ1PIzTlbH+3uRV7MELX3XDixtwq//RVt5tFHgcc+tCHcUni1AG+pF/z?=
+ =?us-ascii?Q?ZCgbv55zBPM+rkJUNUtkJi/EJaJRo2w0bKCPvG0vO1fINs8SEBZJZN5fjcYw?=
+ =?us-ascii?Q?XTdJni9jaTu69LlEkNmmll51DofWY2y92RcBg/jfMTjCAXFBIaiJpisiqT/U?=
+ =?us-ascii?Q?dWimkvi/HLt3XGH6ItRZqZuBwy4z1/uTCLFY80q2/JiFzQRPM7kXfxto0N3W?=
+ =?us-ascii?Q?7/k86mTjBVn0AlSxrjLTaMPW1jDrp421QPU7Z6RvxVy/ng0ed+MpuXiiA1t1?=
+ =?us-ascii?Q?l5K3QRXJrOP+gfWlaJnss0aFdwHZa9qIiKW641n7r87cS//U0juQ3NvjBh3D?=
+ =?us-ascii?Q?2hJClTCcNMdkg2/j53Cu0fy6fFFtwPobRiJt/xkBoWoivfogBRGrDMlWjUcn?=
+ =?us-ascii?Q?+96NPmUVclJjxjwNN6ff3RH7LOYG99AmiRaAj/bqMQUJINRV6aqVZN007Scf?=
+ =?us-ascii?Q?i3tuWvppySUwi2lqRwXaTmfR1KWxMLtu1L/ynGkI6TgxwehHBC93LOhNXczh?=
+ =?us-ascii?Q?vY36HKTAw1mzXr17idRHmdU0OxJY9fIsMAZOK0CWr9Ki6adLv0Nnm7m+ZZ8s?=
+ =?us-ascii?Q?ItM/bnq4pwZGDCRui7vfxNov55GMlqaHt2w6fAp6gqMIW44WeperbtmTodsZ?=
+ =?us-ascii?Q?ZIipioilotZ5OLZNyIiFH7VL7oTyjvDgWnPnTsMad3pXm5pnOE2pY3pNufPk?=
+ =?us-ascii?Q?+GCYjgohHSV4jjrR0wEkqaG642plXX2wvysCcvMZp6l1NoLE?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19159eeb-304c-4193-b79a-08d9f6bff024
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB4926.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 11:30:47.9409 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: E3AXUpwY+Bcn9TgBBYSg07JHtgTukhmsYiuJu+j5IOjnXswipa6TeJegoyquAVCklaHEvRPg8Q8lJ0+E3TpK0AjBrriSvWrjQhFN+DFpzXY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4763
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10266
+ signatures=677939
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ malwarescore=0
+ mlxlogscore=999 adultscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202230064
+X-Proofpoint-GUID: VFVg651COxV_Ki88VZSjc6-wOwclXTSo
+X-Proofpoint-ORIG-GUID: VFVg651COxV_Ki88VZSjc6-wOwclXTSo
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=david.edmondson@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
@@ -80,265 +166,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: soham.ghosh@nutanix.com, thuth@redhat.com, prerna.saxena@nutanix.com,
- armbru@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, eblake@redhat.com,
- dgilbert@redhat.com
+Cc: kevin.tian@intel.com, seanjc@google.com, jing2.liu@linux.intel.com,
+ qemu-devel@nongnu.org, wei.w.wang@intel.com, pbonzini@redhat.com,
+ guang.zeng@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 22, 2022 at 03:27:58PM +0000, Kshitij Suri wrote:
-> Currently screendump only supports PPM format, which is un-compressed and not
-> standard. Added an "format" parameter to qemu monitor screendump capabilites
-> to support PNG image capture using libpng. The param was added in QAPI schema
-> of screendump present in ui.json along with png_save() function which converts
-> pixman_image to PNG. HMP command equivalent was also modified to support the
-> feature.
-> 
-> Example usage:
-> { "execute": "screendump", "arguments": { "filename": "/tmp/image", "format":"png" } }
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/718
-> 
-> Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
+On Wednesday, 2022-02-16 at 22:04:31 -08, Yang Zhong wrote:
+
+> From: Jing Liu <jing2.liu@intel.com>
+>
+> Add AMX primary feature bits XFD and AMX_TILE to
+> enumerate the CPU's AMX capability. Meanwhile, add
+> AMX TILE and TMUL CPUID leaf and subleaves which
+> exist when AMX TILE is present to provide the maximum
+> capability of TILE and TMUL.
+>
+> Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+
 > ---
->  hmp-commands.hx    |  11 ++--
->  monitor/hmp-cmds.c |   4 +-
->  qapi/ui.json       |   7 ++-
->  ui/console.c       | 153 ++++++++++++++++++++++++++++++++++++++++++++-
->  4 files changed, 165 insertions(+), 10 deletions(-)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index 70a9136ac2..2163337f35 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -244,17 +244,18 @@ ERST
->  
->      {
->          .name       = "screendump",
-> -        .args_type  = "filename:F,device:s?,head:i?",
-> -        .params     = "filename [device [head]]",
-> -        .help       = "save screen from head 'head' of display device 'device' "
-> -                      "into PPM image 'filename'",
-> +        .args_type  = "filename:F,device:s?,head:i?,format:f?",
-> +        .params     = "filename [device [head]] [format]",
-> +        .help       = "save screen from head 'head' of display device 'device'"
-> +                      "in specified format 'format' as image 'filename'."
-> +                      "Default format for screendump is PPM.",
->          .cmd        = hmp_screendump,
->          .coroutine  = true,
->      },
->  
->  SRST
->  ``screendump`` *filename*
-> -  Save screen into PPM image *filename*.
-> +  Save screen as image *filename*.
->  ERST
->  
->      {
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 2669156b28..3fb1394561 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1665,9 +1665,11 @@ hmp_screendump(Monitor *mon, const QDict *qdict)
->      const char *filename = qdict_get_str(qdict, "filename");
->      const char *id = qdict_get_try_str(qdict, "device");
->      int64_t head = qdict_get_try_int(qdict, "head", 0);
-> +    const char *format  = qdict_get_str(qdict, "format");
->      Error *err = NULL;
->  
-> -    qmp_screendump(filename, id != NULL, id, id != NULL, head, &err);
-> +    qmp_screendump(filename, id != NULL, id, id != NULL, head,
-> +                   format != NULL, format, &err);
->      hmp_handle_error(mon, err);
->  }
->  
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 9354f4c467..9fdb56b60b 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -76,7 +76,7 @@
->  ##
->  # @screendump:
->  #
-> -# Write a PPM of the VGA screen to a file.
-> +# Write a screenshot of the VGA screen to a file.
->  #
->  # @filename: the path of a new PPM file to store the image
->  #
-> @@ -87,6 +87,9 @@
->  #        parameter is missing, head #0 will be used. Also note that the head
->  #        can only be specified in conjunction with the device ID. (Since 2.12)
->  #
-> +# @format: image format for screendump is specified. Currently only PNG and
-> +#             PPM are supported.
-> +#
->  # Returns: Nothing on success
->  #
->  # Since: 0.14
-> @@ -99,7 +102,7 @@
->  #
->  ##
->  { 'command': 'screendump',
-> -  'data': {'filename': 'str', '*device': 'str', '*head': 'int'},
-> +  'data': {'filename': 'str', '*device': 'str', '*head': 'int', '*format': 'str'},
->    'coroutine': true }
->  
->  ##
-> diff --git a/ui/console.c b/ui/console.c
-> index 40eebb6d2c..7813b195ac 100644
-> --- a/ui/console.c
-> +++ b/ui/console.c
-> @@ -37,6 +37,9 @@
->  #include "exec/memory.h"
->  #include "io/channel-file.h"
->  #include "qom/object.h"
-> +#ifdef CONFIG_VNC_PNG
-> +#include "png.h"
-> +#endif
->  
->  #define DEFAULT_BACKSCROLL 512
->  #define CONSOLE_CURSOR_PERIOD 500
-> @@ -289,6 +292,137 @@ void graphic_hw_invalidate(QemuConsole *con)
+>  target/i386/cpu.c     | 55 ++++++++++++++++++++++++++++++++++++++++---
+>  target/i386/kvm/kvm.c |  4 +++-
+>  2 files changed, 55 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 5a7ee8c7e1..2465bed5df 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -576,6 +576,18 @@ static CPUCacheInfo legacy_l3_cache = {
+>  #define INTEL_PT_CYCLE_BITMAP    0x1fff         /* Support 0,2^(0~11) */
+>  #define INTEL_PT_PSB_BITMAP      (0x003f << 16) /* Support 2K,4K,8K,16K,32K,64K */
+>
+> +/* CPUID Leaf 0x1D constants: */
+> +#define INTEL_AMX_TILE_MAX_SUBLEAF     0x1
+> +#define INTEL_AMX_TOTAL_TILE_BYTES     0x2000
+> +#define INTEL_AMX_BYTES_PER_TILE       0x400
+> +#define INTEL_AMX_BYTES_PER_ROW        0x40
+> +#define INTEL_AMX_TILE_MAX_NAMES       0x8
+> +#define INTEL_AMX_TILE_MAX_ROWS        0x10
+> +
+> +/* CPUID Leaf 0x1E constants: */
+> +#define INTEL_AMX_TMUL_MAX_K           0x10
+> +#define INTEL_AMX_TMUL_MAX_N           0x40
+> +
+>  void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+>                                uint32_t vendor2, uint32_t vendor3)
+>  {
+> @@ -845,8 +857,8 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>              "avx512-vp2intersect", NULL, "md-clear", NULL,
+>              NULL, NULL, "serialize", NULL,
+>              "tsx-ldtrk", NULL, NULL /* pconfig */, NULL,
+> -            NULL, NULL, NULL, "avx512-fp16",
+> -            NULL, NULL, "spec-ctrl", "stibp",
+> +            NULL, NULL, "amx-bf16", "avx512-fp16",
+> +            "amx-tile", "amx-int8", "spec-ctrl", "stibp",
+>              NULL, "arch-capabilities", "core-capability", "ssbd",
+>          },
+>          .cpuid = {
+> @@ -911,7 +923,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>          .type = CPUID_FEATURE_WORD,
+>          .feat_names = {
+>              "xsaveopt", "xsavec", "xgetbv1", "xsaves",
+> -            NULL, NULL, NULL, NULL,
+> +            "xfd", NULL, NULL, NULL,
+>              NULL, NULL, NULL, NULL,
+>              NULL, NULL, NULL, NULL,
+>              NULL, NULL, NULL, NULL,
+> @@ -5587,6 +5599,43 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>          }
+>          break;
 >      }
->  }
->  
-> +#ifdef CONFIG_VNC_PNG
-> +/**
-> + * a8r8g8b8_to_rgba: Convert a8r8g8b8 to rgba format
-> + *
-> + * @dst: Destination pointer.
-> + * @src: Source pointer.
-> + * @n_pixels: Size of image.
-> + */
-> +static void a8r8g8b8_to_rgba(uint32_t *dst, uint32_t *src, int n_pixels)
-> +{
-> +    uint8_t *dst8 = (uint8_t *)dst;
-> +    int i;
-> +
-> +    for (i = 0; i < n_pixels; ++i) {
-> +        uint32_t p = src[i];
-> +        uint8_t a, r, g, b;
-> +
-> +        a = (p & 0xff000000) >> 24;
-> +        r = (p & 0x00ff0000) >> 16;
-> +        g = (p & 0x0000ff00) >> 8;
-> +        b = (p & 0x000000ff) >> 0;
-> +
-> +        if (a != 0) {
-> +            #define DIVIDE(c, a) \
-> +            do { \
-> +                int t = ((c) * 255) / a; \
-> +                (c) = t < 0 ? 0 : t > 255 ? 255 : t; \
-> +            } while (0)
-> +
-> +            DIVIDE(r, a);
-> +            DIVIDE(g, a);
-> +            DIVIDE(b, a);
-> +            #undef DIVIDE
+> +    case 0x1D: {
+> +        /* AMX TILE */
+> +        *eax = 0;
+> +        *ebx = 0;
+> +        *ecx = 0;
+> +        *edx = 0;
+> +        if (!(env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_AMX_TILE)) {
+> +            break;
 > +        }
 > +
-> +        *dst8++ = r;
-> +        *dst8++ = g;
-> +        *dst8++ = b;
-> +        *dst8++ = a;
+> +        if (count == 0) {
+> +            /* Highest numbered palette subleaf */
+> +            *eax = INTEL_AMX_TILE_MAX_SUBLEAF;
+> +        } else if (count == 1) {
+> +            *eax = INTEL_AMX_TOTAL_TILE_BYTES |
+> +                   (INTEL_AMX_BYTES_PER_TILE << 16);
+> +            *ebx = INTEL_AMX_BYTES_PER_ROW | (INTEL_AMX_TILE_MAX_NAMES << 16);
+> +            *ecx = INTEL_AMX_TILE_MAX_ROWS;
+> +        }
+> +        break;
 > +    }
-> +}
+> +    case 0x1E: {
+> +        /* AMX TMUL */
+> +        *eax = 0;
+> +        *ebx = 0;
+> +        *ecx = 0;
+> +        *edx = 0;
+> +        if (!(env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_AMX_TILE)) {
+> +            break;
+> +        }
 > +
-> +/**
-> + * png_save: Take a screenshot as PNG
-> + *
-> + * Saves screendump as a PNG file
-> + *
-> + * Returns true for success or false for error.
-> + * Inspired from png test utils from https://github.com/aseprite/pixman
-> + *
-> + * @fd: File descriptor for PNG file.
-> + * @image: Image data in pixman format.
-> + * @errp: Pointer to an error.
-> + */
-> +static bool png_save(int fd, pixman_image_t *image, Error **errp)
-> +{
-> +    int width = pixman_image_get_width(image);
-> +    int height = pixman_image_get_height(image);
-> +    int stride = width * 4;
-> +    g_autofree uint32_t *src_data = g_malloc(height * stride);
-> +    g_autofree uint32_t *dest_data = g_malloc(height * stride);
-> +    g_autoptr(pixman_image_t) src_copy;
-> +    g_autoptr(pixman_image_t) dest_copy;
-> +    g_autofree png_struct *write_struct;
-> +    g_autofree png_info *info_struct;
-> +    g_autofree png_bytep *row_pointers = g_malloc(height * sizeof(png_bytep));
-> +    FILE *f = fdopen(fd, "wb");
-> +    int y;
-> +    if (!f) {
-> +        error_setg(errp, "Failed to create file from file descriptor");
-> +        return false;
+> +        if (count == 0) {
+> +            /* Highest numbered palette subleaf */
+> +            *ebx = INTEL_AMX_TMUL_MAX_K | (INTEL_AMX_TMUL_MAX_N << 8);
+> +        }
+> +        break;
 > +    }
-> +
-> +    src_copy = pixman_image_create_bits(PIXMAN_a8r8g8b8, width, height,
-> +                                        src_data, stride);
-> +
-> +    pixman_image_composite32(PIXMAN_OP_SRC, image, NULL, src_copy, 0, 0, 0, 0,
-> +                             0, 0, width, height);
-> +
-> +    memcpy(dest_data, src_data, sizeof(*src_data));
-> +
-> +    a8r8g8b8_to_rgba(dest_data, src_data, height * width);
+>      case 0x40000000:
+>          /*
+>           * CPUID code in kvm_arch_init_vcpu() ignores stuff
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index 3bdcd724c4..8562d3d138 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -1779,7 +1779,9 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>                  c = &cpuid_data.entries[cpuid_i++];
+>              }
+>              break;
+> -        case 0x14: {
+> +        case 0x14:
+> +        case 0x1d:
+> +        case 0x1e: {
+>              uint32_t times;
+>
+>              c->function = i;
 
-dest_data is not used after this point...
-
-> +
-> +    for (y = 0; y < height; ++y) {
-> +        row_pointers[y] = (png_bytep)(src_data + y * width);
-
-Here you are setting things up for libpng to write out 'src_data'.
-
-So what was the point in the dest_data allocation & conversion ?
-
-> +    }
-> +
-> +    write_struct = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL,
-> +                                                 NULL, NULL);
-> +    if (!write_struct) {
-> +        error_setg(errp, "PNG creation failed. Unable to write struct");
-> +        return false;
-> +    }
-> +
-> +    info_struct = png_create_info_struct(write_struct);
-> +
-> +    if (!info_struct) {
-> +        error_setg(errp, "PNG creation failed. Unable to write info");
-> +        return false;
-> +    }
-> +
-> +    png_init_io(write_struct, f);
-> +
-> +    png_set_IHDR(write_struct, info_struct, width, height, 8,
-> +                 PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
-> +                 PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-> +
-> +    png_write_info(write_struct, info_struct);
-> +
-> +    png_write_image(write_struct, row_pointers);
-> +
-> +    png_write_end(write_struct, NULL);
-> +
-> +    if (fclose(f) != 0) {
-> +        error_setg(errp, "PNG creation failed. Unable to close file");
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-
-
-
-Regards,
-Daniel
+dme.
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Why does it have to be like this? I can never tell.
 
