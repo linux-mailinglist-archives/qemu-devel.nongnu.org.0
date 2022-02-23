@@ -2,70 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5E04C1E5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:21:41 +0100 (CET)
-Received: from localhost ([::1]:49896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6024C1E52
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:16:02 +0100 (CET)
+Received: from localhost ([::1]:39800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nN00z-0000X1-2E
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:21:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54956)
+	id 1nMzvV-00021G-1F
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:16:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMzpA-00019l-Er
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:09:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23941)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMzp7-0005tG-2s
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:09:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645654164;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aUmnzZkKV58ZBWtghCKNhrDKnNDeqKz8FA+X4A4me2s=;
- b=HdH9UqsyTDYJiVRppXbGkXYRyFt1iVsrYtZy0Tf76sNiLBSPkSFVHPBuSilWq8PAiad2pQ
- zUwVwXDe+aheMKkTzBxmzJP2HVjTEjkJNMSYB+FIJMbDLIHALatTnqXMiRRPP/odDEHDqV
- +DG51N/KCNuNQbH85l2/ag+TXRo5Fng=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-an9j7q1WOnOxCAFk2PI33Q-1; Wed, 23 Feb 2022 17:09:21 -0500
-X-MC-Unique: an9j7q1WOnOxCAFk2PI33Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 771321854E26;
- Wed, 23 Feb 2022 22:09:20 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.16.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 71BD7709E5;
- Wed, 23 Feb 2022 22:09:19 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] MAINTAINERS: python - remove ehabkost and add bleal
-Date: Wed, 23 Feb 2022 17:09:00 -0500
-Message-Id: <20220223220900.2226630-7-jsnow@redhat.com>
-In-Reply-To: <20220223220900.2226630-1-jsnow@redhat.com>
-References: <20220223220900.2226630-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nMzsd-0008C4-GN
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:13:03 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=36566
+ helo=mail-pj1-x1033.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nMzsZ-0006Wq-CC
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:13:03 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ g7-20020a17090a708700b001bb78857ccdso3961739pjk.1
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 14:12:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=jZbwozJWx+rmj3JyP+jtP8sb3jTjrAsw17x5WS8uQrY=;
+ b=MIDPx+r/nuhREcgfP8eDfoa9oTkxPtLpDtbr9+aNIjbU4XrBln8jrOwStIricvfYaJ
+ VzpXVRH+e3IebcK6BRxLzHZgVZQG5JUfdQkPv1jfp1szSZu899zTcNaHspaySzQD+Ph+
+ 7iaDD01DPaMbb7/FGGgvVqV3aE/ztvS0/vkpXWFf1FSCaN282g1uJo2b/pIcgyhmpNyC
+ GXXeNw0okYNfldWVdD1VPjswSUaJDnSa7YjuJYTEgunfcJ1g5Y5bjKeTLGtUwJgO09jg
+ iUd0ofAdcmRFtbfIy2zo5UcnBME5RBje+hIXYZNJ0XV0U1mL8rQBIMyBV5s3DAwUTejZ
+ K6cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jZbwozJWx+rmj3JyP+jtP8sb3jTjrAsw17x5WS8uQrY=;
+ b=oipzuvOup5IYt0Q+h/YniQobiZ5dPSUq34Y+SPDyDk39ddbVZEA+zM1HNr9JhSRiXL
+ yOoDgFrN9MkQz66zVEmoAjBt5xGJduWGB+PqcbZMfI7crQRcWgXKE7qe4dADspbnbOX9
+ UEh3Oj6H03UFzwV0lMZ0+rWnr5Vu5tO7RHJZIcdI+VciX4zL8sRap8Do/TB5gD+ywum3
+ RA27w8dpWG5woO/qMTMFfjro7q6N2DVY03mxOr07HucQNHe5B2ea9vqNOzEXCCzOUy4u
+ RJK2JNetXV0kvm9RNgpqxJ/qcTsJMQEixtwpE50bWIFsXuvtlkyGTxguDQ/zFbXmAzhI
+ 1aHA==
+X-Gm-Message-State: AOAM5339Zcywl1dVOJndNcpePMCC5iLZN0sh2cQUiQFpEXZDKkR5vncr
+ OJajC865gkHxToXPBDj/rw7Ezw==
+X-Google-Smtp-Source: ABdhPJxF1GQNN2f/NFNOR+8HFgMgxn4giAlIghffsq+DzG5n4xCL1wqg+xQ9bNxWcD/ZIpL5XSWgMg==
+X-Received: by 2002:a17:90b:1b45:b0:1bb:f956:4799 with SMTP id
+ nv5-20020a17090b1b4500b001bbf9564799mr1467276pjb.132.1645654377860; 
+ Wed, 23 Feb 2022 14:12:57 -0800 (PST)
+Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
+ [50.113.46.110])
+ by smtp.gmail.com with ESMTPSA id k11sm513672pff.169.2022.02.23.14.12.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Feb 2022 14:12:57 -0800 (PST)
+Message-ID: <7f1caabb-997a-86a3-97ff-e89db93cc424@linaro.org>
+Date: Wed, 23 Feb 2022 12:12:53 -1000
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 20/47] target/ppc: implement vslq
+Content-Language: en-US
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
+ <20220222143646.1268606-21-matheus.ferst@eldorado.org.br>
+ <42d348af-e15c-00e4-8670-a2a17902b9e8@linaro.org>
+ <da1eab47-8c32-ef20-a7e9-e9c7d5bcc094@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <da1eab47-8c32-ef20-a7e9-e9c7d5bcc094@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,55 +97,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Eduardo Habkost <eduardo@habkost.net>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost has left Red Hat and has other daily responsibilities to
-attend to. In order to stop spamming him on every series, remove him as
-"Reviewer" for the python/ library dir and add Beraldo Leal instead.
+On 2/23/22 11:53, Matheus K. Ferst wrote:
+> On 22/02/2022 19:14, Richard Henderson wrote:
+>> On 2/22/22 04:36, matheus.ferst@eldorado.org.br wrote:
+>>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>>
+>>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>> ---
+>>> v4:
+>>>   -  New in v4.
+>>> ---
+>>>   target/ppc/insn32.decode            |  1 +
+>>>   target/ppc/translate/vmx-impl.c.inc | 40 +++++++++++++++++++++++++++++
+>>>   2 files changed, 41 insertions(+)
+>>>
+>>> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+>>> index 88baebe35e..3799065508 100644
+>>> --- a/target/ppc/insn32.decode
+>>> +++ b/target/ppc/insn32.decode
+>>> @@ -473,6 +473,7 @@ VSLB            000100 ..... ..... ..... 00100000100    @VX
+>>>   VSLH            000100 ..... ..... ..... 00101000100    @VX
+>>>   VSLW            000100 ..... ..... ..... 00110000100    @VX
+>>>   VSLD            000100 ..... ..... ..... 10111000100    @VX
+>>> +VSLQ            000100 ..... ..... ..... 00100000101    @VX
+>>>
+>>>   VSRB            000100 ..... ..... ..... 01000000100    @VX
+>>>   VSRH            000100 ..... ..... ..... 01001000100    @VX
+>>> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+>>> index ec4f0e7654..ca98a545ef 100644
+>>> --- a/target/ppc/translate/vmx-impl.c.inc
+>>> +++ b/target/ppc/translate/vmx-impl.c.inc
+>>> @@ -834,6 +834,46 @@ TRANS_FLAGS(ALTIVEC, VSRAH, do_vector_gvec3_VX, MO_16, 
+>>> tcg_gen_gvec_sarv);
+>>>   TRANS_FLAGS(ALTIVEC, VSRAW, do_vector_gvec3_VX, MO_32, tcg_gen_gvec_sarv);
+>>>   TRANS_FLAGS2(ALTIVEC_207, VSRAD, do_vector_gvec3_VX, MO_64, tcg_gen_gvec_sarv);
+>>>
+>>> +static bool trans_VSLQ(DisasContext *ctx, arg_VX *a)
+>>> +{
+>>> +    TCGv_i64 hi, lo, tmp, n, sf = tcg_constant_i64(64);
+>>> +
+>>> +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+>>> +    REQUIRE_VECTOR(ctx);
+>>> +
+>>> +    n = tcg_temp_new_i64();
+>>> +    hi = tcg_temp_new_i64();
+>>> +    lo = tcg_temp_new_i64();
+>>> +    tmp = tcg_const_i64(0);
+>>> +
+>>> +    get_avr64(lo, a->vra, false);
+>>> +    get_avr64(hi, a->vra, true);
+>>> +
+>>> +    get_avr64(n, a->vrb, true);
+>>> +    tcg_gen_andi_i64(n, n, 0x7F);
+>>> +
+>>> +    tcg_gen_movcond_i64(TCG_COND_GE, hi, n, sf, lo, hi);
+>>> +    tcg_gen_movcond_i64(TCG_COND_GE, lo, n, sf, tmp, lo);
+>>
+>> Since you have to mask twice anyway, better use (n & 64) != 0.
+>>
+> 
+> Hmm, I'm not sure if I understood. To check != 0 we'll need a temp to hold n&64. We could 
+> use tmp here, but we'll need another one in patch 22. Is that right?
 
-For the "python scripts" stanza (which is separate due to level of
-support), replace Eduardo as maintainer with myself.
+Yes.
 
-(Thanks for all of your hard work, Eduardo!)
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Beraldo Leal <bleal@redhat.com>
-Acked-by: Eduardo Habkost <eduardo@habkost.net>
-Message-id: 20220208000525.2601011-1-jsnow@redhat.com
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c3b500345c..62bc185d10 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2747,13 +2747,13 @@ F: backends/cryptodev*.c
- Python library
- M: John Snow <jsnow@redhat.com>
- M: Cleber Rosa <crosa@redhat.com>
--R: Eduardo Habkost <eduardo@habkost.net>
-+R: Beraldo Leal <bleal@redhat.com>
- S: Maintained
- F: python/
- T: git https://gitlab.com/jsnow/qemu.git python
- 
- Python scripts
--M: Eduardo Habkost <eduardo@habkost.net>
-+M: John Snow <jsnow@redhat.com>
- M: Cleber Rosa <crosa@redhat.com>
- S: Odd Fixes
- F: scripts/*.py
--- 
-2.34.1
-
+r~
 
