@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A9B4C0FBD
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:02:33 +0100 (CET)
-Received: from localhost ([::1]:44068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409644C0EFF
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 10:19:06 +0100 (CET)
+Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMoTf-0001ea-Oz
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:02:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48338)
+	id 1nMnnc-000582-5U
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 04:19:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMnch-0001UB-JF
+ id 1nMnch-0001UC-Js
  for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:07:48 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:50378)
+Received: from beetle.greensocs.com ([5.135.226.135]:50380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMnce-00022u-Pg
+ id 1nMnce-00022t-PP
  for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:07:47 -0500
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 12D8721EBD;
+ by beetle.greensocs.com (Postfix) with ESMTPS id 7D48821EC0;
  Wed, 23 Feb 2022 09:07:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1645607240;
@@ -28,17 +28,17 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gaNB2TsWb8LnUxC0b8QE1vl0YRpFNbVBSRKKXrGk7SU=;
- b=a4eWfCz8NYAq91dTRS2o3vC21NfN3SZEYjYKIkCrrgGpEfuqympcdcTWgQFCDkjYHn+3NL
- TywpLsJxK8f/57GIthmSdLOFcfaEQcIOglYO6czm97TXbw8TAuz0gW0I4Szxyce95LkUgx
- 6mJbQazOk7OwQMhdl5UOs+kyArWaIRo=
+ bh=Zxn5NdwFOT4UPyXGAHs+RBbnTzq323hI5ry9yIbKUDI=;
+ b=RmXUjX6Vlv7TqKVDF6kpFtjlTzJnwmS6kFLFMSLLP0g3k1vZLzzznJYwBEm6rPs1xsg+Br
+ 3XAe3ir26+8yd6bTkWjSfsu2cIVSQ1tH4dVYelFnpXykk5CSdS5W1wDhis5rnpdgHWoE3a
+ 0YngfEZ/7O48Yf+sc/+bMiTEzqu0mx4=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org,
 	mark.burton@greensocs.com,
 	edgari@xilinx.com
-Subject: [PATCH v4 07/14] none-machine: add the NoneMachineState structure
-Date: Wed, 23 Feb 2022 10:06:59 +0100
-Message-Id: <20220223090706.4888-8-damien.hedde@greensocs.com>
+Subject: [PATCH v4 08/14] none-machine: add 'ram-addr' property
+Date: Wed, 23 Feb 2022 10:07:00 +0100
+Message-Id: <20220223090706.4888-9-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220223090706.4888-1-damien.hedde@greensocs.com>
 References: <20220223090706.4888-1-damien.hedde@greensocs.com>
@@ -71,61 +71,99 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The none machine was using the parent state structure.
-We'll need a custom state to add a field in the following commit.
+Add the property to configure a the base address of the ram.
+The default value remains zero.
+
+This commit is needed to use the 'none' machine as a base, and
+subsequently to dynamically populate it using qapi commands. Having
+a non null 'ram' is really hard to workaround because of the actual
+constraints on the generic loader: it prevents loading binaries
+bigger than ram_size (with a null ram, we cannot load anything).
+For now we need to be able to use the existing ram creation
+feature of the none machine with a configurable base address.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/core/null-machine.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ hw/core/null-machine.c | 34 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
 
 diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
-index f586a4bef5..7eb258af07 100644
+index 7eb258af07..5fd1cc0218 100644
 --- a/hw/core/null-machine.c
 +++ b/hw/core/null-machine.c
-@@ -17,6 +17,13 @@
+@@ -16,9 +16,11 @@
+ #include "hw/boards.h"
  #include "exec/address-spaces.h"
  #include "hw/core/cpu.h"
++#include "qapi/visitor.h"
  
-+struct NoneMachineState {
-+    MachineState parent;
-+};
-+
-+#define TYPE_NONE_MACHINE MACHINE_TYPE_NAME("none")
-+OBJECT_DECLARE_SIMPLE_TYPE(NoneMachineState, NONE_MACHINE)
-+
+ struct NoneMachineState {
+     MachineState parent;
++    uint64_t ram_addr;
+ };
+ 
+ #define TYPE_NONE_MACHINE MACHINE_TYPE_NAME("none")
+@@ -26,6 +28,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(NoneMachineState, NONE_MACHINE)
+ 
  static void machine_none_init(MachineState *mch)
  {
++    NoneMachineState *nms = NONE_MACHINE(mch);
      CPUState *cpu = NULL;
-@@ -42,8 +49,10 @@ static void machine_none_init(MachineState *mch)
+ 
+     /* Initialize CPU (if user asked for it) */
+@@ -37,9 +40,13 @@ static void machine_none_init(MachineState *mch)
+         }
+     }
+ 
+-    /* RAM at address zero */
++    /* RAM at configured address (default: 0) */
+     if (mch->ram) {
+-        memory_region_add_subregion(get_system_memory(), 0, mch->ram);
++        memory_region_add_subregion(get_system_memory(), nms->ram_addr,
++                                    mch->ram);
++    } else if (nms->ram_addr) {
++        error_report("'ram-addr' has been specified but the size is zero");
++        exit(1);
+     }
+ 
+     if (mch->kernel_filename) {
+@@ -49,6 +56,22 @@ static void machine_none_init(MachineState *mch)
      }
  }
  
--static void machine_none_machine_init(MachineClass *mc)
-+static void machine_none_class_init(ObjectClass *oc, void *data)
- {
-+    MachineClass *mc = MACHINE_CLASS(oc);
++static void machine_none_get_ram_addr(Object *obj, Visitor *v, const char *name,
++                                      void *opaque, Error **errp)
++{
++    NoneMachineState *nms = NONE_MACHINE(obj);
 +
-     mc->desc = "empty machine";
-     mc->init = machine_none_init;
-     mc->max_cpus = 1;
-@@ -56,4 +65,15 @@ static void machine_none_machine_init(MachineClass *mc)
++    visit_type_uint64(v, name, &nms->ram_addr, errp);
++}
++
++static void machine_none_set_ram_addr(Object *obj, Visitor *v, const char *name,
++                                      void *opaque, Error **errp)
++{
++    NoneMachineState *nms = NONE_MACHINE(obj);
++
++    visit_type_uint64(v, name, &nms->ram_addr, errp);
++}
++
+ static void machine_none_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -63,6 +86,13 @@ static void machine_none_class_init(ObjectClass *oc, void *data)
+     mc->no_floppy = 1;
+     mc->no_cdrom = 1;
      mc->no_sdcard = 1;
++
++    object_class_property_add(oc, "ram-addr", "int",
++        machine_none_get_ram_addr,
++        machine_none_set_ram_addr,
++        NULL, NULL);
++    object_class_property_set_description(oc, "ram-addr",
++        "Base address of the RAM (default is 0)");
  }
  
--DEFINE_MACHINE("none", machine_none_machine_init)
-+static const TypeInfo none_machine_info = {
-+    .name          = TYPE_NONE_MACHINE,
-+    .parent        = TYPE_MACHINE,
-+    .instance_size = sizeof(NoneMachineState),
-+    .class_init    = machine_none_class_init,
-+};
-+
-+static void none_machine_register_types(void)
-+{
-+    type_register_static(&none_machine_info);
-+}
-+type_init(none_machine_register_types);
+ static const TypeInfo none_machine_info = {
 -- 
 2.35.1
 
