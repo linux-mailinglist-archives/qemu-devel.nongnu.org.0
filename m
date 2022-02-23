@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D404C1F21
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:52:22 +0100 (CET)
-Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1424C1F2B
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:56:01 +0100 (CET)
+Received: from localhost ([::1]:59768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nN0Uf-0007Lg-Cw
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:52:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59592)
+	id 1nN0YC-0003sR-OF
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:56:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nN0B9-0007DB-Nd
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:32:12 -0500
-Received: from [2607:f8b0:4864:20::42c] (port=36527
- helo=mail-pf1-x42c.google.com)
+ id 1nN0BE-0007EU-Bv
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:32:17 -0500
+Received: from [2607:f8b0:4864:20::430] (port=45919
+ helo=mail-pf1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nN0B5-0001Hk-Io
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:32:10 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id z16so212474pfh.3
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 14:32:05 -0800 (PST)
+ id 1nN0BA-0001K9-Ht
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:32:14 -0500
+Received: by mail-pf1-x430.google.com with SMTP id u16so178385pfg.12
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 14:32:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/ncep1+pfaj4VrhFhzBJtvktsI7eesl8NO/EGk2kyoM=;
- b=NVeSSx7n9c7TYeAr0xNMSrZxIH+iXkMzh4tFFfdzOVote81ikFS6NSu1zhrfEj2MWR
- qW45y7kATahxyn7cv09cn6Z9+CQhvDeOgIo7UGiRY8T1cUG1/5pB+Iu3LCj7fJXzvDi2
- AdS+ILB/CGxaJTnwMMZD+nCzqGnLUXybvc7h9LYAz3YcSSA94mAsC7qr0E5Kz4iR7s8N
- QfGrLjcQBT6hL1BdXyLknqwbAmq7MPEx4b+JlHhXL/Bxj5tped3DHZjMx2vh41uP0oq+
- Md+3Y19yOF3EobkZq3Cu+8RSUN/QZ2mz4Ti1LrmI8cNfqBWF8NPrTH8TqvfhCregF5fC
- Cg4w==
+ bh=mWBxuwt8V3FGFQ5JHqGb8ST2XOZhCQVYfBFh0OJ1LZY=;
+ b=hTKynpU4Atz5CQAPq4e1VBoM/n3yAK6l9EAAFoCfoay8cSuB4Tqvb+K72ISi9BSJX1
+ XlWvYbk560KMVvprHxfct4DKelHCbncfqoPiUZxmBCw24AmTFEc7KP6s9+gWrUF/HpsK
+ bsHc7w82jzDe5F6HmTRYqE5YeHrhTQL5XdcI6tkzcqCTlwcvLTOUv1+wTxqAQyVUZPKB
+ jlyFXmdAYAwET/LhRgq9Y39iL4ACpgUdwOpGMzPQeuv6P7bPjOjiHz+N1bxuS/+37dyu
+ Eaz878KttbQb6ZKenbSz1RJYdghtWV6NA7yMI3KPVMbKXHGXNEx7PrHnfuVvWqtVqT0r
+ RKnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/ncep1+pfaj4VrhFhzBJtvktsI7eesl8NO/EGk2kyoM=;
- b=tBSmatJjLGJ0pt2bMSYWMCJ089ThpCHVLUrETp5pSm5/rI2tQxFZ83VhI3pA+AF0Ca
- aPGp5N5LOwtPAOrKtYrqddb+Z+n3IkHcKY8ybLR+TDNErvdgToZY1zJHI4dW35zdiFeq
- kB3IPQSNVZf5PcC4/h5ibcyuM5PA5f9XTPu44FuYyLYjU7bfFj9cEqdsqxMfSdflNS7d
- xAtcYjg9CNyDLC6i/PJoyopMnquY9dk36g8gx6OrfwuBNxgSy+CN1mIrPxD0MeWIiOAH
- dtIxIlifHeClU+09fvpSOGcKf/A3hGVIZYQiovG5dZaBzg0RkQC6TTVVJtbRPJXQA66K
- SlSA==
-X-Gm-Message-State: AOAM531RR40CypDTzYsdl3TQsh030WogydHUE0orZ3W7llzAa/zM6f80
- 1RpUHsZvDaHAlGvkMMWUIa0O7/eWdu7Ksw==
-X-Google-Smtp-Source: ABdhPJzo92NBvI/eoVpVPvAH3E8aPZ2mHsYr7A8A2kRBfn2GYD+693QiWuuV57oPiTDhldbzGMkZsw==
-X-Received: by 2002:a63:7709:0:b0:36c:8c3c:1199 with SMTP id
- s9-20020a637709000000b0036c8c3c1199mr1389383pgc.580.1645655524524; 
- Wed, 23 Feb 2022 14:32:04 -0800 (PST)
+ bh=mWBxuwt8V3FGFQ5JHqGb8ST2XOZhCQVYfBFh0OJ1LZY=;
+ b=G+Bbjszok4ILOLKyjc8Y4lhQYHHTYRJKsoLv+kmOgk3fIy2KVvhbqS2YkXYPnfKFf/
+ 5QyLuAWDiNHOVjhLwYTiCoweBF2wI2+3fAhN9gf1ah5r8aRIGgsM0T6ab+S8D3QZnFOZ
+ 1lJOD6y7ahODp4hABVeI1v+tlJsYPexamSpOPq3o4JAU7LAaMD5XHjHxRZNU145+P/Is
+ FdV+Fv6DnQ3ydMNDxqpDOcsy+NiQOm2YGpWwT49EFJuv6Uarapx1PlPFV6FLYAVcr+cQ
+ m0U+XGviiuUYpCflKIBPTsZOGCw0diiylUhzSVdOz0jtng9Xp8n7SK3ZcipioH1plDZ5
+ 5gbg==
+X-Gm-Message-State: AOAM532TqsWyL5+XkCjTk7UbAyYMKeSpS9xUXb+9wblfOyXFIB1AZCrT
+ rYobae/ToDcakAHOhcDsSJllHuKod8b0IQ==
+X-Google-Smtp-Source: ABdhPJyDa/xjUALxa1rvwS6unEKstiVIJF/hykpcKCeCxQVD+2aJpKco1a33yBn+3TYwlVNX+bGNlw==
+X-Received: by 2002:a63:9d44:0:b0:374:a18a:17fa with SMTP id
+ i65-20020a639d44000000b00374a18a17famr1383122pgd.293.1645655526475; 
+ Wed, 23 Feb 2022 14:32:06 -0800 (PST)
 Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110])
- by smtp.gmail.com with ESMTPSA id f8sm533815pfv.100.2022.02.23.14.32.03
+ by smtp.gmail.com with ESMTPSA id f8sm533815pfv.100.2022.02.23.14.32.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Feb 2022 14:32:04 -0800 (PST)
+ Wed, 23 Feb 2022 14:32:06 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/17] target/arm: Advertise all page sizes for -cpu max
-Date: Wed, 23 Feb 2022 12:31:35 -1000
-Message-Id: <20220223223137.114264-16-richard.henderson@linaro.org>
+Subject: [PATCH v3 16/17] tests/avocado: Limit test_virt_tcg_gicv[23] to
+ cortex-a72
+Date: Wed, 23 Feb 2022 12:31:36 -1000
+Message-Id: <20220223223137.114264-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220223223137.114264-1-richard.henderson@linaro.org>
 References: <20220223223137.114264-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,36 +90,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
+Cc: peter.maydell@linaro.org, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We support 16k pages, but do not advertize that in ID_AA64MMFR0.
-
-The value 0 in the TGRAN*_2 fields indicates that stage2 lookups defer
-to the same support as stage1 lookups.  This setting is deprecated, so
-indicate support for all stage2 page sizes directly.
+These tests currently use Fedora Core 31, with a v5.3.7 kernel,
+which is broken vs FEAT_LPA2.  Before we can re-enable these tests
+for -cpu max, we need to advance to at least a v5.12 kernel.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu64.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index d88662cef6..2fdc16bf18 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -796,6 +796,10 @@ static void aarch64_max_initfn(Object *obj)
- 
-     t = cpu->isar.id_aa64mmfr0;
-     t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 6); /* FEAT_LPA: 52 bits */
-+    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN16, 1);   /* 16k pages supported */
-+    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN16_2, 2); /* 16k stage2 supported */
-+    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN64_2, 2); /* 64k stage2 supported */
-+    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN4_2, 2);  /*  4k stage2 supported */
-     cpu->isar.id_aa64mmfr0 = t;
- 
-     t = cpu->isar.id_aa64mmfr1;
+Fedora Cloud 35 uses a v5.14 kernel, and does work with FEAT_LPA2.
+However, I have no idea how to update the makefile/avocado combo
+to get that to happen.
+
+Cc: Cleber Rosa <crosa@redhat.com>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Beraldo Leal <bleal@redhat.com>
+---
+ tests/avocado/boot_linux.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+index ab19146d1e..a79c1578a6 100644
+--- a/tests/avocado/boot_linux.py
++++ b/tests/avocado/boot_linux.py
+@@ -74,7 +74,7 @@ def add_common_args(self):
+     def test_virt_tcg_gicv2(self):
+         """
+         :avocado: tags=accel:tcg
+-        :avocado: tags=cpu:max
++        :avocado: tags=cpu:cortex-a72
+         :avocado: tags=device:gicv2
+         """
+         self.require_accelerator("tcg")
+@@ -86,7 +86,7 @@ def test_virt_tcg_gicv2(self):
+     def test_virt_tcg_gicv3(self):
+         """
+         :avocado: tags=accel:tcg
+-        :avocado: tags=cpu:max
++        :avocado: tags=cpu:cortex-a72
+         :avocado: tags=device:gicv3
+         """
+         self.require_accelerator("tcg")
 -- 
 2.25.1
 
