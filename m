@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD654C1083
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:42:15 +0100 (CET)
-Received: from localhost ([::1]:57430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3914C10AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:48:10 +0100 (CET)
+Received: from localhost ([::1]:37098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMp66-0000hq-Gj
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:42:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38102)
+	id 1nMpBn-0006V2-KD
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:48:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMokW-0004OO-6S
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 05:19:56 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:51364)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1nMori-000571-Sg
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 05:27:23 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMokS-0005aL-1F
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 05:19:55 -0500
-Received: from [172.17.10.6] (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 679F520770;
- Wed, 23 Feb 2022 10:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1645611589;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g3o85eFJu+njvTLj1FH1kiqqFZe3ydGpYZmpKt4Y1zA=;
- b=4L746Ox3y5h0mooz2WOqSGnX5019ESWOV9+4f+rI/BONhgKDALEWSqH5C3vrKuAR/U4VD6
- DY0k0qFyarw8FZsvzSzp+oNM7xENlRZl9oXFxj2uCWq34xAqHgJy8s7gXpSQH8gq7V6yBX
- TJ5sjSpcZvFpannW4k9on//eyFKW4cA=
-Message-ID: <9d0cfe90-01bc-6008-664f-74bdaa9c145c@greensocs.com>
-Date: Wed, 23 Feb 2022 11:19:49 +0100
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1nMorf-0006qF-JO
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 05:27:22 -0500
+Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4K3XHv3kZFzcmvt;
+ Wed, 23 Feb 2022 18:26:03 +0800 (CST)
+Received: from dggpeml100015.china.huawei.com (7.185.36.168) by
+ dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 23 Feb 2022 18:27:15 +0800
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggpeml100015.china.huawei.com (7.185.36.168) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 23 Feb 2022 18:27:15 +0800
+Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
+ dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.021;
+ Wed, 23 Feb 2022 18:27:15 +0800
+To: Paolo Bonzini <pbonzini@redhat.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH] thread-posix: optimize qemu_sem_timedwait with zero
+ timeout
+Thread-Topic: [PATCH] thread-posix: optimize qemu_sem_timedwait with zero
+ timeout
+Thread-Index: AQHYKJB3N0CGBKbxVU6HuNeLjZ3ej6yg7kKA
+Date: Wed, 23 Feb 2022 10:27:15 +0000
+Message-ID: <c6dfa9c045a746eeac77f28f71992bbc@huawei.com>
+References: <20220223083628.231589-1-pbonzini@redhat.com>
+In-Reply-To: <20220223083628.231589-1-pbonzini@redhat.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.148.223]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v4 13/14] hw/mem/system-memory: add a memory sysbus device
-Content-Language: en-US-large
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20220223090706.4888-1-damien.hedde@greensocs.com>
- <20220223090706.4888-14-damien.hedde@greensocs.com>
- <20220223104450.196e9624@redhat.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <20220223104450.196e9624@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,182 +73,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, edgari@xilinx.com, mark.burton@greensocs.com,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 
 
 
-On 2/23/22 10:44, Igor Mammedov wrote:
-> On Wed, 23 Feb 2022 10:07:05 +0100
-> Damien Hedde <damien.hedde@greensocs.com> wrote:
-> 
->> This device can be used to create a memory wrapped into a
->> sysbus device.
->> This device has one property 'readonly' which allows
->> to choose between a ram or a rom.
->>
-> 
->> The purpose for this device is to be used with qapi command
->> device_add.
-> that's the way to add a device to QEMU but a don't actual
-> purpose described here, i.e. how board will use this
-> device/actual usecase and how it will be wired to board
-> and why it does have to be a sysbus device.
-> 
-Sorry, this was unclear.
+> -----Original Message-----
+> From: Paolo Bonzini [mailto:paolo.bonzini@gmail.com] On Behalf Of Paolo B=
+onzini
+> Sent: Wednesday, February 23, 2022 4:36 PM
+> To: qemu-devel@nongnu.org
+> Cc: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> <longpeng2@huawei.com>
+> Subject: [PATCH] thread-posix: optimize qemu_sem_timedwait with zero time=
+out
+>=20
+> In this case there is no need to call pthread_cond_timedwait; the
+> function is just a trywait and waiting on the condition variable would
+> always time out.
+>=20
+> Based-on: <20220222090507.2028-1-longpeng2@huawei.com>
+> Cc: "Longpeng(Mike)" <longpeng2@huawei.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  util/qemu-thread-posix.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
+> index f2ce47d36b..89c23f1d64 100644
+> --- a/util/qemu-thread-posix.c
+> +++ b/util/qemu-thread-posix.c
+> @@ -282,8 +282,12 @@ int qemu_sem_timedwait(QemuSemaphore *sem, int ms)
+>      compute_abs_deadline(&ts, ms);
+>      qemu_mutex_lock(&sem->mutex);
+>      while (sem->count =3D=3D 0) {
+> -        rc =3D qemu_cond_timedwait_ts(&sem->cond, &sem->mutex, &ts,
+> -                                    __FILE__, __LINE__);
+> +        if (ms =3D=3D 0) {
+> +            rc =3D false;
+> +        } else {
+> +            rc =3D qemu_cond_timedwait_ts(&sem->cond, &sem->mutex, &ts,
+> +                                        __FILE__, __LINE__);
+> +        }
+>          if (!rc) { /* timeout */
+>              break;
+>          }
+> --
+> 2.34.1
 
-It is a sysbus device in order to use it like any other sysbus device. 
-The memory region it contains is exposed as a sysbus mmio.
+Reviewed-by: Longpeng <longpeng2@huawei.com>
 
-I can replace the commit message by the following paragraph:
-
-Boards instantiate memories by creating memory region objects which is 
-not possible using QAPI commands.
-To create a memory, the user can instantiate and map this device by 
-issuing the following commands:
-device_add driver=sysbus-memory size=0x1000 id=someram
-sysbus-mmio-map device=someram addr=0
-
->> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->> ---
->>   include/hw/mem/sysbus-memory.h | 28 ++++++++++++
->>   hw/mem/sysbus-memory.c         | 80 ++++++++++++++++++++++++++++++++++
->>   hw/mem/meson.build             |  2 +
->>   3 files changed, 110 insertions(+)
->>   create mode 100644 include/hw/mem/sysbus-memory.h
->>   create mode 100644 hw/mem/sysbus-memory.c
->>
->> diff --git a/include/hw/mem/sysbus-memory.h b/include/hw/mem/sysbus-memory.h
->> new file mode 100644
->> index 0000000000..5c596f8b4f
->> --- /dev/null
->> +++ b/include/hw/mem/sysbus-memory.h
->> @@ -0,0 +1,28 @@
->> +/*
->> + * SPDX-License-Identifier: GPL-2.0-or-later
->> + *
->> + * SysBusDevice Memory
->> + *
->> + * Copyright (c) 2021 Greensocs
->> + */
->> +
->> +#ifndef HW_SYSBUS_MEMORY_H
->> +#define HW_SYSBUS_MEMORY_H
->> +
->> +#include "hw/sysbus.h"
->> +#include "qom/object.h"
->> +
->> +#define TYPE_SYSBUS_MEMORY "sysbus-memory"
->> +OBJECT_DECLARE_SIMPLE_TYPE(SysBusMemoryState, SYSBUS_MEMORY)
->> +
->> +struct SysBusMemoryState {
->> +    /* <private> */
->> +    SysBusDevice parent_obj;
->> +    uint64_t size;
->> +    bool readonly;
->> +
->> +    /* <public> */
->> +    MemoryRegion mem;
->> +};
->> +
->> +#endif /* HW_SYSBUS_MEMORY_H */
->> diff --git a/hw/mem/sysbus-memory.c b/hw/mem/sysbus-memory.c
->> new file mode 100644
->> index 0000000000..f1ad7ba7ec
->> --- /dev/null
->> +++ b/hw/mem/sysbus-memory.c
->> @@ -0,0 +1,80 @@
->> +/*
->> + * SPDX-License-Identifier: GPL-2.0-or-later
->> + *
->> + * SysBusDevice Memory
->> + *
->> + * Copyright (c) 2021 Greensocs
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "hw/mem/sysbus-memory.h"
->> +#include "hw/qdev-properties.h"
->> +#include "qemu/log.h"
->> +#include "qemu/module.h"
->> +#include "qapi/error.h"
->> +
->> +static Property sysbus_memory_properties[] = {
->> +    DEFINE_PROP_UINT64("size", SysBusMemoryState, size, 0),
->> +    DEFINE_PROP_BOOL("readonly", SysBusMemoryState, readonly, false),
->> +    DEFINE_PROP_END_OF_LIST(),
->> +};
->> +
->> +static void sysbus_memory_realize(DeviceState *dev, Error **errp)
->> +{
->> +    SysBusMemoryState *s = SYSBUS_MEMORY(dev);
->> +    gchar *name;
->> +
->> +    if (!s->size) {
->> +        error_setg(errp, "'size' must be non-zero.");
->> +        return;
->> +    }
->> +
->> +    /*
->> +     * We impose having an id (which is unique) because we need to generate
->> +     * a unique name for the memory region.
->> +     * memory_region_init_ram/rom() will abort() (in qemu_ram_set_idstr()
->> +     * function if 2 system-memory devices are created with the same name
->> +     * for the memory region).
->> +     */
->> +    if (!dev->id) {
->> +        error_setg(errp, "system-memory device must have an id.");
->> +        return;
->> +    }
->> +    name = g_strdup_printf("%s.region", dev->id);
->> +
->> +    if (s->readonly) {
->> +        memory_region_init_rom(&s->mem, OBJECT(dev), name, s->size, errp);
->> +    } else {
->> +        memory_region_init_ram(&s->mem, OBJECT(dev), name, s->size, errp);
->> +    }
->> +
->> +    g_free(name);
->> +    if (*errp) {
->> +        return;
->> +    }
->> +
->> +    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mem);
->> +}
->> +
->> +static void sysbus_memory_class_init(ObjectClass *klass, void *data)
->> +{
->> +    DeviceClass *dc = DEVICE_CLASS(klass);
->> +
->> +    dc->user_creatable = true;
->> +    dc->realize = sysbus_memory_realize;
->> +    device_class_set_props(dc, sysbus_memory_properties);
->> +}
->> +
->> +static const TypeInfo sysbus_memory_info = {
->> +    .name          = TYPE_SYSBUS_MEMORY,
->> +    .parent        = TYPE_SYS_BUS_DEVICE,
->> +    .instance_size = sizeof(SysBusMemoryState),
->> +    .class_init    = sysbus_memory_class_init,
->> +};
->> +
->> +static void sysbus_memory_register_types(void)
->> +{
->> +    type_register_static(&sysbus_memory_info);
->> +}
->> +
->> +type_init(sysbus_memory_register_types)
->> diff --git a/hw/mem/meson.build b/hw/mem/meson.build
->> index 82f86d117e..04c74e12f2 100644
->> --- a/hw/mem/meson.build
->> +++ b/hw/mem/meson.build
->> @@ -7,3 +7,5 @@ mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
->>   softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
->>   
->>   softmmu_ss.add(when: 'CONFIG_SPARSE_MEM', if_true: files('sparse-mem.c'))
->> +
->> +softmmu_ss.add(files('sysbus-memory.c'))
-> 
+Thanks.
 
