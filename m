@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C7A4C0FE9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:14:32 +0100 (CET)
-Received: from localhost ([::1]:45422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1C84C1032
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:20:48 +0100 (CET)
+Received: from localhost ([::1]:54680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMofH-0005PG-H3
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:14:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55588)
+	id 1nMolL-0003lQ-2p
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:20:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMo73-0003hz-Sm
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:39:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nMo6n-0006rE-9q
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:39:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645609132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S8ew1PBtrjnnwvDGKmcp6L/l+r15vz6y4Mrs4U+PNhM=;
- b=LE2M7IfLOvaIbVCWaw6q1gy9OvTq3HOaxi/OFxk35vPLtpTVAHuvR9RMMY5crByjgh1uvZ
- XpWB156a4hrd8/Jvv5H723kjRUy4WFBKkFtbqzjISrHdq639SCijbzWyNF/75atTUfQRcj
- zzqeWCiDVQCk6ZeRQnmw8jdm8tnPSj8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-ZWPtOoTcPMGMbMpK-HfdNA-1; Wed, 23 Feb 2022 04:38:51 -0500
-X-MC-Unique: ZWPtOoTcPMGMbMpK-HfdNA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 698D71854E21;
- Wed, 23 Feb 2022 09:38:50 +0000 (UTC)
-Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51F647610F;
- Wed, 23 Feb 2022 09:38:49 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH v3 4/4] tests: Do not treat the iotests as separate meson test
- target anymore
-Date: Wed, 23 Feb 2022 10:38:40 +0100
-Message-Id: <20220223093840.2515281-5-thuth@redhat.com>
-In-Reply-To: <20220223093840.2515281-1-thuth@redhat.com>
-References: <20220223093840.2515281-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nMo7W-0003nZ-I2
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:39:39 -0500
+Received: from [2a00:1450:4864:20::535] (port=44904
+ helo=mail-ed1-x535.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nMo7Q-00072Q-0Z
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:39:38 -0500
+Received: by mail-ed1-x535.google.com with SMTP id x5so43082206edd.11
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:39:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AdLKcArwc56L9HlSSWEAqX1kgfhU2IX6KlygRpHQZsw=;
+ b=GfdgIE/3HqzQIgyOVtkVf/TIATN1gj11lB5GAF8hKeQzF+cKiPXUJC+VbCOtFBvKiM
+ NZvg7OICC7Nm37vPYjvcs7SqqELnqLy8btNE8npHpABwrou75Fug7lS42eRTXW6pNlbo
+ URtsWsTvS/Gw7RFqmE6ffhBckR78VMvFBXljZRGEQ2BPd9BpV0oCD0+NsjAJYHN67+P0
+ kBsilt3xiO8NadtFm4j0fXrx29JQqbezJHhqA1k/fV21zVbzksq0tSchAawoCMtaIqJt
+ DgGoHJrol25qjdkbeh7Ct8VmfnB+53E8a+VtaO3ELIgTHP2KaQxk0I9Qk7mdtjGbpJLN
+ nv/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AdLKcArwc56L9HlSSWEAqX1kgfhU2IX6KlygRpHQZsw=;
+ b=6lhmb/zdiegVT7Fsl+gStZZZv2Qudi9j3fJ6oPJeAYpiqrDm3lo8nH5Auq8byyye9H
+ skY50WI8ihkh0AwQrNNI8UefbVayfjWklpHzRMW71lP3KJeUxB/Wnv78fIrPp8iS/7q/
+ ryw5uYyoBpti4uQMIfMPYaN1+7Z+a9dYIJDSPeeBPW9Q+Td6jJUppsDH3UrCibrPn3Qy
+ vBfGeY2ByeXhyPuj83/f5jd3xxBExWYnhtrHmhU5Dxrc9GToL3NTZF/BqGxoMOBI8vGT
+ 0MgH8XZcvvfFi7xKM8d7fa2AOxLkmnDGbmOedSm7Tds69WsnsjOuGvWZQn+h7Xv3Njrz
+ frBQ==
+X-Gm-Message-State: AOAM530MqquXoyZjpoU+04XoR86/Focm0KDOSPXfHV7VW8gUY6cvVC+T
+ 9WtGC1vswOXE6l+gAv6JjmW3FEv5cpM=
+X-Google-Smtp-Source: ABdhPJzuylY8qP//54DNKA84ClSfwm0LGubxV6kqXLovO6Xc8bwcJhjABGkNgF/sjK9MxDt8zKTx5A==
+X-Received: by 2002:aa7:d7da:0:b0:40f:f16f:dc25 with SMTP id
+ e26-20020aa7d7da000000b0040ff16fdc25mr29418789eds.17.1645609170744; 
+ Wed, 23 Feb 2022 01:39:30 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id ay16sm4601884ejb.61.2022.02.23.01.39.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Feb 2022 01:39:30 -0800 (PST)
+Message-ID: <e0933369-9c40-8b6c-2090-13e1027d82ed@redhat.com>
+Date: Wed, 23 Feb 2022 10:39:29 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 0/3] qemu-sem-posix: use monotonic clock instead
+Content-Language: en-US
+To: "Longpeng(Mike)" <longpeng2@huawei.com>, berrange@redhat.com,
+ mst@redhat.com
+References: <20220222090507.2028-1-longpeng2@huawei.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220222090507.2028-1-longpeng2@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,80 +95,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: wangxinxin.wang@huawei.com, arei.gonglei@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If there is a failing iotest, the output is currently not logged to
-the console anymore. To get this working again, we need to run the
-meson test runner with --print-errorlogs (and without --verbose).
-We could update the "meson test" call in tests/Makefile.include,
-but actually it's nicer and easier if we simply do not treat the
-iotests as separate test target anymore and integrate them along
-with the other test suites.
+On 2/22/22 10:05, Longpeng(Mike) via wrote:
+> The qemu_sem_timedwait() uses system time as default, it would be affected by
+> changes to the system time. In the real scenario, the time that goes faster or
+> slower is a common case and the NTP service could help us to sync time
+> periodically.
+> 
+> This patchset uses monotonic clock instead of the realtime clock, this could
+> make sure we would not be affected by the system time anymore.
+> 
+> Changes v1(RFC) -> v2:
+>   Patch 2:
+>    - clean the code [Paolo]
+>    - use pthread_condattr_setclock when initializing qemu-cond. [Paolo]
+>   Patch 3:
+>    - new added, make the qemu-sem code neater. [Longpeng]
+> 
+> Longpeng (Mike) (3):
+>    sem-posix: remove the posix semaphore support
+>    sem-posix: use monotonic clock instead
+>    sem-posix: refactor qemu-sem with qemu-cond and qemu-mutex
+> 
+>   include/qemu/thread-posix.h |   9 +--
+>   meson.build                 |  12 ++-
+>   util/qemu-thread-posix.c    | 178 +++++++++++++++-----------------------------
+>   3 files changed, 73 insertions(+), 126 deletions(-)
+> 
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- meson.build            | 6 +++---
- scripts/mtest2make.py  | 4 ----
- tests/Makefile.include | 9 +--------
- 3 files changed, 4 insertions(+), 15 deletions(-)
+Queued, thanks!  I also sent a small optimization patch on top.
 
-diff --git a/meson.build b/meson.build
-index 8df40bfac4..556479c785 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3,9 +3,9 @@ project('qemu', ['c'], meson_version: '>=0.59.3',
-                           'b_staticpic=false', 'stdsplit=false'],
-         version: files('VERSION'))
- 
--add_test_setup('quick', exclude_suites: ['block', 'slow', 'thorough'], is_default: true)
--add_test_setup('slow', exclude_suites: ['block', 'thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
--add_test_setup('thorough', exclude_suites: ['block'], env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
-+add_test_setup('quick', exclude_suites: ['slow', 'thorough'], is_default: true)
-+add_test_setup('slow', exclude_suites: ['thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
-+add_test_setup('thorough', env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
- 
- not_found = dependency('', required: false)
- keyval = import('keyval')
-diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
-index 4d542e8aaa..304634b71e 100644
---- a/scripts/mtest2make.py
-+++ b/scripts/mtest2make.py
-@@ -101,10 +101,6 @@ def emit_suite(name, suite, prefix):
- testsuites = defaultdict(Suite)
- for test in introspect['tests']:
-     process_tests(test, targets, testsuites)
--# HACK: check-block is a separate target so that it runs with --verbose;
--# only write the dependencies
--emit_suite_deps('block', testsuites['block'], 'check')
--del testsuites['block']
- emit_prolog(testsuites, 'check')
- for name, suite in testsuites.items():
-     emit_suite(name, suite, 'check')
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index e7153c8e91..b89018cdcc 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -147,16 +147,9 @@ check-acceptance: check-acceptance-deprecated-warning | check-avocado
- 
- # Consolidated targets
- 
--.PHONY: check-block check check-clean get-vm-images
-+.PHONY: check check-clean get-vm-images
- check:
- 
--ifneq ($(.check-block.deps),)
--check: check-block
--check-block: run-ninja
--	$(if $(MAKE.n),,+)$(MESON) test $(MTESTARGS) $(.mtestargs) --verbose \
--		--logbase iotestslog $(call .speed.$(SPEED), block block-slow block-thorough)
--endif
--
- check-build: run-ninja
- 
- check-clean:
--- 
-2.27.0
-
+Paolo
 
