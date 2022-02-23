@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A9D4C0B28
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 05:35:46 +0100 (CET)
-Received: from localhost ([::1]:46960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9492D4C0B2D
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 05:38:54 +0100 (CET)
+Received: from localhost ([::1]:50350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMjNR-0006wP-6j
-	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 23:35:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47732)
+	id 1nMjQT-0000zE-ET
+	for lists+qemu-devel@lfdr.de; Tue, 22 Feb 2022 23:38:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nMjLj-0005Z2-Ai; Tue, 22 Feb 2022 23:33:59 -0500
-Received: from [2607:f8b0:4864:20::d35] (port=33403
- helo=mail-io1-xd35.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nMjLh-0000lw-1S; Tue, 22 Feb 2022 23:33:58 -0500
-Received: by mail-io1-xd35.google.com with SMTP id 195so12818560iou.0;
- Tue, 22 Feb 2022 20:33:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5/idmmEmQBlrcywWa3OO3ziM7haTVY4RZD6OM/lUS24=;
- b=GhonPsBv2BSFHzdpkSHDnAg7zzxRPVeSngNm5ZabzDD9ASZwLqmkySiglVXmRKBs3b
- jBT76QH7cbBMT4iAKmvB5Pt88tciLwAXFOuAt8TCrKBne9frOrcUGLPVHhjqbntH5fRm
- P/G/xXHfqaVpY3cz2xFdx58BElwuQBwS1yEzZo/qYD/2l690eag90ngSN+kcvMQ1Yh21
- cJL0Fa7ymTvvXl9WMeQr7bhmV5+rQKtUhwjV/TIiSslggj9U6ZBE9O0BzpkYjvzzjKKs
- I7EH1CVkApQVSOlkJnvZ2WhgJVACWfcKEWajsRwbGWMHwymkydSRWR0uQC52aQLbl9ku
- jWUA==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nMjOu-0000GV-Cx
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 23:37:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nMjOq-0001Lv-9v
+ for qemu-devel@nongnu.org; Tue, 22 Feb 2022 23:37:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645591030;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LZAW4hOnd+sZQru3bZ8LmmtWQWOZ729pCn0fa2pH/4E=;
+ b=OJQM/WKoH52qfmxMK6TxjvvK74A1jssn3WW+YGHTviQAyxegMt4S0BaZmjvqais5G2Eun0
+ qy3AcP6XNbEr5tK7BX+PTHvqE/tn6MO6nTKUGuLGOYAzgQmpWEkK82Usj+2T10M9LJbovH
+ HZKEFrKJ38f4ww0SbybYHT37R9e1l3g=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-468-y4UzOQLDPjS0Ap7VNtCF5Q-1; Tue, 22 Feb 2022 23:37:09 -0500
+X-MC-Unique: y4UzOQLDPjS0Ap7VNtCF5Q-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ dw23-20020a17090b095700b001bc4ebc7285so737143pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 20:37:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5/idmmEmQBlrcywWa3OO3ziM7haTVY4RZD6OM/lUS24=;
- b=vc84Y248zyke4vmueMxcXspEgkpn7F1wV8bYRlE3z4KMC1gP4ggTAUZCWhunKX662v
- EDdssOX9FG+QiUiENgpDpXN+3LaCq79tQnYN9tqO/qo75pXAbsKi0pi9+Dsbd7BhC9hR
- XLOvMjt7XKEMvyCAF5owVO7i1CwLfWMp7FYQ7sDFanZCMxBIQ8fvULBv6L5xdz4dXgVY
- J0ALPYNj9yN829M39j0N7I4pseKUBSDp+x7XSVBqqMwuE0YJyeBWmido2lh3nS4ZQINt
- 6cjS9DTUFf19M9f2ywpqMdCx5LSZtwNtjvbFbRS/Cx5S4JBtoFR4Z0QmrHxBB+LmCvXT
- rSEQ==
-X-Gm-Message-State: AOAM531/rucs9Rf0BpEkXRQzCPAUIklRbdFs3s4/bzi9WyesQvpR1k3X
- 0zZUFbbavVv2rKFC7GLCGtww3oRoPHlnD4Vp6EE=
-X-Google-Smtp-Source: ABdhPJyD27HIfsj6qILYDe4Mhex1kvEBkl3sU1F1kpyE33K+F/sYpvgwNzFJGMsS8K5IsS8gcU00hYbETPXLwkRkTKw=
-X-Received: by 2002:a05:6638:218a:b0:30f:ade1:d2e0 with SMTP id
- s10-20020a056638218a00b0030fade1d2e0mr21378311jaj.267.1645590835558; Tue, 22
- Feb 2022 20:33:55 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:from:subject:content-transfer-encoding;
+ bh=LZAW4hOnd+sZQru3bZ8LmmtWQWOZ729pCn0fa2pH/4E=;
+ b=MktgNhSCI7wrQejA4pl3opMHv1M3SzvHptIxTyWRwt8KhTvouUa2X0WvPpN7BJZLlI
+ GZU/vkvYoWsOT7BNvSjL54kYmHqCSivlbi/LpgCvc6CW8IGmRgbaT/zPzYj+ONlIpnYu
+ /F3qDZ/ZUYc2waLY5JSlAaW6eMw4j4t/P59QeI9qFRdouzX3lmVVixlrzjjx90UK9m3B
+ aspOeoyybItC3DfojPXRtU6KeZ+8LgD4pE7/rkoalF7/Dr15IKd7OtX66/s0i26IwTpy
+ 1Tn8LyvG7NCm+cFe0+E30iqW1aW+VNi1MoNoJ6YFqXuz9A+iV1lRWKEN0AMnAkF4yAih
+ qc/Q==
+X-Gm-Message-State: AOAM53049VjLLu0GN2KM7QGSQFPvxyavLzvObUFmOIx2j7ik6jGD+TqL
+ ZLIMWUeA90JSbtd/qAxoCLrXbCfXoBg8cHC2QZDnIVfThWimtOU4WoYe5vYG9r/lneDvalv/u90
+ hzq5PyTgeNbG8/4Q=
+X-Received: by 2002:a17:90a:bf91:b0:1b9:bda3:10ff with SMTP id
+ d17-20020a17090abf9100b001b9bda310ffmr7445875pjs.38.1645591028248; 
+ Tue, 22 Feb 2022 20:37:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxT+u4Trr6CX4y+a4mGzD/9xZnpyKcUqCVdt0yZmJEd+41YNqvAqufKpAcdL02nwkVawOCOfg==
+X-Received: by 2002:a17:90a:bf91:b0:1b9:bda3:10ff with SMTP id
+ d17-20020a17090abf9100b001b9bda310ffmr7445855pjs.38.1645591027920; 
+ Tue, 22 Feb 2022 20:37:07 -0800 (PST)
+Received: from [10.72.13.161] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id e13sm18471620pfv.190.2022.02.22.20.37.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Feb 2022 20:37:07 -0800 (PST)
+Message-ID: <7ef3d447-1ee5-dbeb-b1c8-4b471d556e2a@redhat.com>
+Date: Wed, 23 Feb 2022 12:37:03 +0800
 MIME-Version: 1.0
-References: <20220222220704.2294924-1-atishp@rivosinc.com>
- <20220222220704.2294924-6-atishp@rivosinc.com>
-In-Reply-To: <20220222220704.2294924-6-atishp@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 23 Feb 2022 14:33:29 +1000
-Message-ID: <CAKmqyKM4LxJvE+4KOVQzJAxJYDFfrnQe9KKcv4o9OiKULXTBvQ@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] target/riscv: Add *envcfg* CSRs support
-To: Atish Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d35
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.0
+To: Stefan Hajnoczi <stefanha@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Subject: virtio-blk issue with vIOMMU
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,292 +98,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 23, 2022 at 8:09 AM Atish Patra <atishp@rivosinc.com> wrote:
->
-> The RISC-V privileged specification v1.12 defines few execution
-> environment configuration CSRs that can be used enable/disable
-> extensions per privilege levels.
->
-> Add the basic support for these CSRs.
->
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+Hi Stefan:
 
-Do you mind rebasing this on:
+Recently I found intel vIOMMU gives the following warning when using 
+virtio-blk:
 
-https://github.com/alistair23/qemu/tree/riscv-to-apply.next
+qemu-system-x86_64: vtd_iova_to_slpte: detected slpte permission error 
+(iova=0x7ffde000, level=0x3, slpte=0x0, write=0)
+qemu-system-x86_64: vtd_iommu_translate: detected translation failure 
+(dev=01:00:00, iova=0x7ffde000)
+qemu-system-x86_64: New fault is not recorded due to compression of faults
+qemu-system-x86_64: virtio: zero sized buffers are not allowed
 
-Alistair
+It happens on the boot (device start), and virtio-blk works well after 
+this. A quick stack trace is:
 
-> ---
->  target/riscv/cpu.h      |   5 ++
->  target/riscv/cpu_bits.h |  39 +++++++++++++++
->  target/riscv/csr.c      | 107 ++++++++++++++++++++++++++++++++++++++++
->  target/riscv/machine.c  |  24 +++++++++
->  4 files changed, 175 insertions(+)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0741f9822cf0..e5c8694cf081 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -303,6 +303,11 @@ struct CPURISCVState {
->      target_ulong spmbase;
->      target_ulong upmmask;
->      target_ulong upmbase;
-> +
-> +    /* CSRs for execution enviornment configuration */
-> +    uint64_t menvcfg;
-> +    target_ulong senvcfg;
-> +    uint64_t henvcfg;
->  #endif
->
->      float_status fp_status;
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 89440241632a..58a0a8d69f72 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -202,6 +202,9 @@
->  #define CSR_STVEC           0x105
->  #define CSR_SCOUNTEREN      0x106
->
-> +/* Supervisor Configuration CSRs */
-> +#define CSR_SENVCFG         0x10A
-> +
->  /* Supervisor Trap Handling */
->  #define CSR_SSCRATCH        0x140
->  #define CSR_SEPC            0x141
-> @@ -247,6 +250,10 @@
->  #define CSR_HTIMEDELTA      0x605
->  #define CSR_HTIMEDELTAH     0x615
->
-> +/* Hypervisor Configuration CSRs */
-> +#define CSR_HENVCFG         0x60A
-> +#define CSR_HENVCFGH        0x61A
-> +
->  /* Virtual CSRs */
->  #define CSR_VSSTATUS        0x200
->  #define CSR_VSIE            0x204
-> @@ -290,6 +297,10 @@
->  #define CSR_VSIEH           0x214
->  #define CSR_VSIPH           0x254
->
-> +/* Machine Configuration CSRs */
-> +#define CSR_MENVCFG         0x30A
-> +#define CSR_MENVCFGH        0x31A
-> +
->  /* Enhanced Physical Memory Protection (ePMP) */
->  #define CSR_MSECCFG         0x747
->  #define CSR_MSECCFGH        0x757
-> @@ -654,6 +665,34 @@ typedef enum RISCVException {
->  #define PM_EXT_CLEAN    0x00000002ULL
->  #define PM_EXT_DIRTY    0x00000003ULL
->
-> +/* Execution enviornment configuration bits */
-> +#define MENVCFG_FIOM                       BIT(0)
-> +#define MENVCFG_CBIE                       (3UL << 4)
-> +#define MENVCFG_CBCFE                      BIT(6)
-> +#define MENVCFG_CBZE                       BIT(7)
-> +#define MENVCFG_PBMTE                      BIT(62)
-> +#define MENVCFG_STCE                       BIT(63)
-> +
-> +/* For RV32 */
-> +#define MENVCFGH_PBMTE                     BIT(30)
-> +#define MENVCFGH_STCE                      BIT(31)
-> +
-> +#define SENVCFG_FIOM                       MENVCFG_FIOM
-> +#define SENVCFG_CBIE                       MENVCFG_CBIE
-> +#define SENVCFG_CBCFE                      MENVCFG_CBCFE
-> +#define SENVCFG_CBZE                       MENVCFG_CBZE
-> +
-> +#define HENVCFG_FIOM                       MENVCFG_FIOM
-> +#define HENVCFG_CBIE                       MENVCFG_CBIE
-> +#define HENVCFG_CBCFE                      MENVCFG_CBCFE
-> +#define HENVCFG_CBZE                       MENVCFG_CBZE
-> +#define HENVCFG_PBMTE                      MENVCFG_PBMTE
-> +#define HENVCFG_STCE                       MENVCFG_STCE
-> +
-> +/* For RV32 */
-> +#define HENVCFGH_PBMTE                      MENVCFGH_PBMTE
-> +#define HENVCFGH_STCE                       MENVCFGH_STCE
-> +
->  /* Offsets for every pair of control bits per each priv level */
->  #define XS_OFFSET    0ULL
->  #define U_OFFSET     2ULL
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 18fe17b62f51..ff7e36596447 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1366,6 +1366,101 @@ static RISCVException write_mtval(CPURISCVState *env, int csrno,
->      return RISCV_EXCP_NONE;
->  }
->
-> +/* Execution environment configuration setup */
-> +static RISCVException read_menvcfg(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    *val = env->menvcfg;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    uint64_t mask = MENVCFG_FIOM | MENVCFG_CBIE | MENVCFG_CBCFE | MENVCFG_CBZE;
-> +
-> +    if (riscv_cpu_mxl(env) == MXL_RV64) {
-> +        mask |= MENVCFG_PBMTE | MENVCFG_STCE;
-> +    }
-> +    env->menvcfg = (env->menvcfg & ~mask) | (val & mask);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_menvcfgh(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    *val = env->menvcfg >> 32;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    uint64_t mask = MENVCFG_PBMTE | MENVCFG_STCE;
-> +    uint64_t valh = (uint64_t)val << 32;
-> +
-> +    env->menvcfg = (env->menvcfg & ~mask) | (valh & mask);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    *val = env->senvcfg;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    uint64_t mask = SENVCFG_FIOM | SENVCFG_CBIE | SENVCFG_CBCFE | SENVCFG_CBZE;
-> +
-> +    env->senvcfg = (env->senvcfg & ~mask) | (val & mask);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    *val = env->henvcfg;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    uint64_t mask = HENVCFG_FIOM | HENVCFG_CBIE | HENVCFG_CBCFE | HENVCFG_CBZE;
-> +
-> +    if (riscv_cpu_mxl(env) == MXL_RV64) {
-> +        mask |= HENVCFG_PBMTE | HENVCFG_STCE;
-> +    }
-> +
-> +    env->henvcfg = (env->henvcfg & ~mask) | (val & mask);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
-> +                                 target_ulong *val)
-> +{
-> +    *val = env->henvcfg >> 32;
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
-> +                                  target_ulong val)
-> +{
-> +    uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
-> +    uint64_t valh = (uint64_t)val << 32;
-> +
-> +    env->henvcfg = (env->henvcfg & ~mask) | (valh & mask);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
->  static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
->                                  uint64_t *ret_val,
->                                  uint64_t new_val, uint64_t wr_mask)
-> @@ -3069,6 +3164,18 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_MVIPH]    = { "mviph",    aia_any32, read_zero,  write_ignore },
->      [CSR_MIPH]     = { "miph",     aia_any32, NULL, NULL, rmw_miph     },
->
-> +    /* Execution environment configuration */
-> +    [CSR_MENVCFG]  = { "menvcfg",  any,   read_menvcfg,  write_menvcfg,
-> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_MENVCFGH] = { "menvcfgh", any32, read_menvcfgh, write_menvcfgh,
-> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_SENVCFG]  = { "senvcfg",  smode, read_senvcfg,  write_senvcfg,
-> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_HENVCFG]  = { "henvcfg",  hmode, read_henvcfg, write_henvcfg,
-> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_HENVCFGH] = { "henvcfgh", hmode32, read_henvcfgh, write_henvcfgh,
-> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +
->      /* Supervisor Trap Setup */
->      [CSR_SSTATUS]    = { "sstatus",    smode, read_sstatus,    write_sstatus, NULL,
->                                                read_sstatus_i128                 },
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index 9895930b2976..4a50a05937fa 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -220,6 +220,29 @@ static const VMStateDescription vmstate_kvmtimer = {
->      }
->  };
->
-> +/* TODO: henvcfg need both hyper_needed & envcfg_needed */
-> +static bool envcfg_needed(void *opaque)
-> +{
-> +    RISCVCPU *cpu = opaque;
-> +    CPURISCVState *env = &cpu->env;
-> +
-> +    return (env->priv_ver >= PRIV_VERSION_1_12_0 ? 1 : 0);
-> +}
-> +
-> +static const VMStateDescription vmstate_envcfg = {
-> +    .name = "cpu/envcfg",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = envcfg_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT64(env.menvcfg, RISCVCPU),
-> +        VMSTATE_UINTTL(env.senvcfg, RISCVCPU),
-> +        VMSTATE_UINT64(env.henvcfg, RISCVCPU),
-> +
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  const VMStateDescription vmstate_riscv_cpu = {
->      .name = "cpu",
->      .version_id = 3,
-> @@ -280,6 +303,7 @@ const VMStateDescription vmstate_riscv_cpu = {
->          &vmstate_pointermasking,
->          &vmstate_rv128,
->          &vmstate_kvmtimer,
-> +        &vmstate_envcfg,
->          NULL
->      }
->  };
-> --
-> 2.30.2
->
->
+Thread 1 "qemu-system-x86" hit Breakpoint 1, vtd_iova_to_slpte 
+(s=0x555557a9f710, ce=0x7fffffffd6e0, iova=2147344384, is_write=false, 
+slptep=0x7fffffffd6b8,
+     slpte_level=0x7fffffffd6b0, reads=0x7fffffffd6aa, 
+writes=0x7fffffffd6ab, aw_bits=39 '\'') at ../hw/i386/intel_iommu.c:1055
+1055                error_report_once("%s: detected slpte permission error "
+(gdb) bt
+#0  vtd_iova_to_slpte
+     (s=0x555557a9f710, ce=0x7fffffffd6e0, iova=2147344384, 
+is_write=false, slptep=0x7fffffffd6b8, slpte_level=0x7fffffffd6b0, 
+reads=0x7fffffffd6aa, writes=0x7fffffffd6ab, aw_bits=39 '\'') at 
+../hw/i386/intel_iommu.c:1055
+#1  0x0000555555b45734 in vtd_do_iommu_translate (vtd_as=0x5555574cd000, 
+bus=0x55555766e700, devfn=0 '\000', addr=2147344384, is_write=false, 
+entry=0x7fffffffd780)
+     at ../hw/i386/intel_iommu.c:1785
+#2  0x0000555555b48543 in vtd_iommu_translate (iommu=0x5555574cd070, 
+addr=2147344384, flag=IOMMU_RO, iommu_idx=0) at 
+../hw/i386/intel_iommu.c:2996
+#3  0x0000555555bd3f4d in address_space_translate_iommu
+     (iommu_mr=0x5555574cd070, xlat=0x7fffffffd9f0, 
+plen_out=0x7fffffffd9e8, page_mask_out=0x0, is_write=false, 
+is_mmio=true, target_as=0x7fffffffd938, attrs=...)
+     at ../softmmu/physmem.c:433
+#4  0x0000555555bdbdd1 in address_space_translate_cached 
+(cache=0x7fffed3d02e0, addr=0, xlat=0x7fffffffd9f0, plen=0x7fffffffd9e8, 
+is_write=false, attrs=...)
+     at ../softmmu/physmem.c:3388
+#5  0x0000555555bdc519 in address_space_lduw_internal_cached_slow 
+(cache=0x7fffed3d02e0, addr=0, attrs=..., result=0x0, 
+endian=DEVICE_LITTLE_ENDIAN)
+     at /home/devel/git/qemu/memory_ldst.c.inc:209
+#6  0x0000555555bdc6ac in address_space_lduw_le_cached_slow 
+(cache=0x7fffed3d02e0, addr=0, attrs=..., result=0x0) at 
+/home/devel/git/qemu/memory_ldst.c.inc:253
+#7  0x0000555555c71719 in address_space_lduw_le_cached 
+(cache=0x7fffed3d02e0, addr=0, attrs=..., result=0x0)
+     at /home/devel/git/qemu/include/exec/memory_ldst_cached.h.inc:35
+#8  0x0000555555c7196a in lduw_le_phys_cached (cache=0x7fffed3d02e0, 
+addr=0) at /home/devel/git/qemu/include/exec/memory_ldst_phys.h.inc:67
+#9  0x0000555555c728fd in virtio_lduw_phys_cached (vdev=0x555557743720, 
+cache=0x7fffed3d02e0, pa=0) at 
+/home/devel/git/qemu/include/hw/virtio/virtio-access.h:166
+#10 0x0000555555c73485 in vring_used_flags_set_bit (vq=0x7ffff4ee5010, 
+mask=1) at ../hw/virtio/virtio.c:383
+#11 0x0000555555c736a8 in virtio_queue_split_set_notification 
+(vq=0x7ffff4ee5010, enable=0) at ../hw/virtio/virtio.c:433
+#12 0x0000555555c73896 in virtio_queue_set_notification 
+(vq=0x7ffff4ee5010, enable=0) at ../hw/virtio/virtio.c:490
+#13 0x0000555555c19064 in virtio_blk_handle_vq (s=0x555557743720, 
+vq=0x7ffff4ee5010) at ../hw/block/virtio-blk.c:782
+#14 0x0000555555c191f5 in virtio_blk_handle_output (vdev=0x555557743720, 
+vq=0x7ffff4ee5010) at ../hw/block/virtio-blk.c:819
+#15 0x0000555555c78453 in virtio_queue_notify_vq (vq=0x7ffff4ee5010) at 
+../hw/virtio/virtio.c:2315
+#16 0x0000555555c7b523 in virtio_queue_host_notifier_aio_poll_ready 
+(n=0x7ffff4ee5084) at ../hw/virtio/virtio.c:3516
+#17 0x0000555555eff158 in aio_dispatch_handler (ctx=0x55555680fac0, 
+node=0x7fffeca5bbe0) at ../util/aio-posix.c:350
+#18 0x0000555555eff390 in aio_dispatch_handlers (ctx=0x55555680fac0) at 
+../util/aio-posix.c:406
+#19 0x0000555555eff3ea in aio_dispatch (ctx=0x55555680fac0) at 
+../util/aio-posix.c:416
+#20 0x0000555555f184eb in aio_ctx_dispatch (source=0x55555680fac0, 
+callback=0x0, user_data=0x0) at ../util/async.c:311
+#21 0x00007ffff7b6b17d in g_main_context_dispatch () at 
+/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
+#22 0x0000555555f299ed in glib_pollfds_poll () at ../util/main-loop.c:232
+#23 0x0000555555f29a6b in os_host_main_loop_wait (timeout=0) at 
+../util/main-loop.c:255
+#24 0x0000555555f29b7c in main_loop_wait (nonblocking=0) at 
+../util/main-loop.c:531
+#25 0x0000555555be097c in qemu_main_loop () at ../softmmu/runstate.c:727
+#26 0x00005555558367fa in main (argc=26, argv=0x7fffffffe058, 
+envp=0x7fffffffe130) at ../softmmu/main.c:50
+
+The slpte is 0x0 and level is 3 which probably means the device is 
+kicked before it was attached to any IOMMU domain.
+
+Bisecting points to the first bad commit:
+
+commit 826cc32423db2a99d184dbf4f507c737d7e7a4ae
+Author: Stefan Hajnoczi <stefanha@redhat.com>
+Date:   Tue Dec 7 13:23:31 2021 +0000
+
+     aio-posix: split poll check from ready handler
+
+A wild guess is that this lead some false kick to the device, any 
+thought on this?
+
+Thanks
+
 
