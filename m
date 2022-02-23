@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2164C158C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 15:38:41 +0100 (CET)
-Received: from localhost ([::1]:34730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310064C159A
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 15:42:02 +0100 (CET)
+Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMsmu-00043i-7A
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 09:38:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53580)
+	id 1nMsq9-0000nl-7X
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 09:42:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMsiP-00012m-Jm
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 09:34:01 -0500
-Received: from [2607:f8b0:4864:20::52e] (port=37733
- helo=mail-pg1-x52e.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMsiQ-000153-KD
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 09:34:02 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=56053
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMsiI-0005Zf-Tm
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 09:33:59 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id 75so20095638pgb.4
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 06:33:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nMsiL-0005Zz-Qo
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 09:34:02 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id gb21so630868pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 06:33:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9nW3dJhmSQhG3M6kqU0a3KQ7eK6smKGtYqopq0anLWg=;
- b=cMGIDiYQuDIoUwsWiorsaQ7mwJXbgHViY9X0q+yIZKroopYJZnSClAYl0Wb57NiqFG
- /AG8bX3uzVaHMsbvxTkt3HUFZsgsMJxxG77xri5Lfc9Nq016YE1uucASPZbLOiITmi9e
- hfoVcvs7zG+QWSwf7YhFJQa6koku0458AQ6BCl4DvW9/lTioEhC2DBh5nTs56dtnWeXQ
- x+ayYP81NOTal0+at/2w3rz95zOktbWP47y6EySJM5FoLOMbzzxgA/OMnd704UeIO2xc
- b2UJtwceFFW6p1elmFYpNV3qKEoZONZ/A69VBgdyKtkMI0PTPxW/FIIjB3bMOEpLU7yR
- j4KA==
+ bh=6k7dzw+wjQP6xMRbpFIU+8O7iNbBQrw6ndM2cloE9Fs=;
+ b=rP8IoseEoxTNvAnSull9oOQeqmwWMbYLpgvFtES0YvNlEjIfWB3htwgfbE0I4AwoQZ
+ KD+KvW1ZJOvAtbf21aX/I1CupCcf8+7eawJcBskbF2Pu3ibbJzuzfUGIo/LZwBJ6UdFX
+ D/WzdsippH4sA9Lc0mbcVsFdLwG/rpJdFVlFI1CgEsmucAzaQnLa9vkQAj6Cd4eJeYmb
+ BFp20d9KKMxPdbjA4V4leod1qh42yYPmTeLxHNNviUvcX4o7Ke6zEpAxvR8JvdRSmDQX
+ 6+yXfCFTWjuvqoAEPY3iuROMkancm8yrHGIXVwLOdrdFb+q7UpQLHHZaEfoT6902l0ei
+ 2jzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9nW3dJhmSQhG3M6kqU0a3KQ7eK6smKGtYqopq0anLWg=;
- b=ir8VQ7UWj7VwIHB+cxyVYGtfgcChvGYFa+gNKozE7PpqdH5kMMWVIyaKJF9oqTLSrj
- n3a3I6zxa1aek/ye17qFzTRa4MnlYh+zDDuIB1yvmeoNjX8hB49+HCuxpoTr4H6xPlWw
- CsQK3p8j5RvqdXzqT2hvsmHYSid17BzKEwKuw+hhLJN0XnjtDxBG4DsrAgxH26jwT9Jz
- +uL3j6LEZ41E45xcEO3CtkjJkLZb/ZuhZ4GYBSNBG8+KL9fXljm5pZFHYo05goF/KpXU
- 3Oif/ZSpGQ8ImuP0I3Pp5BhpIPKpyHxu32gApSXlkoqqBKnPe8Jze4pZ709sq0GzbqAL
- eqXw==
-X-Gm-Message-State: AOAM532l5QYDwZ1Wa3yot1jYWAj5Ox//xBuN5pxk+NqiyNjrVu3XGNy9
- q5MExUPLuNXI1MHI8AKiOPKqCkkPYFvZDw==
-X-Google-Smtp-Source: ABdhPJzTnSBkwA0q15k7AOLfUTjZ5XlQ/X0s8KnC+jlW5Nziu1cdLLLpewZXWuCn12GdDXZqZenJrA==
-X-Received: by 2002:a63:fb44:0:b0:372:9ec8:745a with SMTP id
- w4-20020a63fb44000000b003729ec8745amr24044981pgj.551.1645626833380; 
- Wed, 23 Feb 2022 06:33:53 -0800 (PST)
+ bh=6k7dzw+wjQP6xMRbpFIU+8O7iNbBQrw6ndM2cloE9Fs=;
+ b=hARI5/3pkrJB9CwLNTqYkZrXd4wW2hv9OiUd44XC7aL9cjeHAPJsGacgwqfWKmLdf/
+ qPuk2GhDNg63ei+Audkf74oOCEI2Hl3nY/W48NywnoknH4IJ5GdjxxELDyXZheOWWANf
+ HwM/cu0qOEEWRJOepkR4n+gvVjOdvmCOvdqaD4YbC/RAtuWZMpo8d8ubI5GIVPRf1PXf
+ lmoZIOGeKbNkk8Etqj3rRcmWmhT30B6FOSZm1K+7bgjuQBath+up5O+KeVG/sBz6GstA
+ dI9N5tOeA8/coOcG0+jk/8v1S9w8lg2G/JdC/6PXuV5x0qQOdpTJiLu2CY8kttEECM7L
+ OCsw==
+X-Gm-Message-State: AOAM531pcBWL0jPUlgN8ukSK5AjfWBHBoOgTMWjEr/TLhv+WWffRI+1t
+ 5ml7hh2/dwLAV0zWjV08avUhi9NKZAKKQQ==
+X-Google-Smtp-Source: ABdhPJxJIyPPDyeCb4Pu7/RO24mFAaHdz3382MSfzucU9ZYx2AWZ56UJKAxOOUZbCqTTUQnavwcfhQ==
+X-Received: by 2002:a17:90a:6043:b0:1bb:e73f:9640 with SMTP id
+ h3-20020a17090a604300b001bbe73f9640mr9450193pjm.65.1645626836188; 
+ Wed, 23 Feb 2022 06:33:56 -0800 (PST)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.242.81])
  by smtp.googlemail.com with ESMTPSA id
- l21sm22929583pfu.120.2022.02.23.06.33.51
+ l21sm22929583pfu.120.2022.02.23.06.33.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Feb 2022 06:33:53 -0800 (PST)
+ Wed, 23 Feb 2022 06:33:55 -0800 (PST)
 From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org,
-	mst@redhat.com
-Subject: [PATCH 2/7] MAINTAINERS: no need to add my name explicitly as a
- reviewer for VIOT tables
-Date: Wed, 23 Feb 2022 20:03:17 +0530
-Message-Id: <20220223143322.927136-3-ani@anisinha.ca>
+To: qemu-devel@nongnu.org, mst@redhat.com,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH 3/7] docs/acpi/erst: add device id for ACPI ERST device in
+ pci-ids.txt
+Date: Wed, 23 Feb 2022 20:03:18 +0530
+Message-Id: <20220223143322.927136-4-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220223143322.927136-1-ani@anisinha.ca>
 References: <20220223143322.927136-1-ani@anisinha.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::52e;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x52e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -89,32 +88,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Ani Sinha <ani@anisinha.ca>, Eric DeVolder <eric.devolder@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I am already listed as a reviewer for ACPI/SMBIOS subsystem. There is no need to
-again add me as a reviewer for ACPI/VIOT.
+Adding device ID for ERST device in pci-ids.txt. It was missed when ERST
+related patches were reviewed.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+CC: Eric DeVolder <eric.devolder@oracle.com>
+Reviewed-by: Eric DeVolder <eric.devolder@oracle.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+ docs/specs/pci-ids.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 81aa31b5e1..60e2f1951f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1819,7 +1819,6 @@ F: docs/specs/acpi_hw_reduced_hotplug.rst
+diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
+index 5e407a6f32..dd6859d039 100644
+--- a/docs/specs/pci-ids.txt
++++ b/docs/specs/pci-ids.txt
+@@ -65,6 +65,7 @@ PCI devices (other than virtio):
+ 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
+ 1b36:0010  PCIe NVMe device (-device nvme)
+ 1b36:0011  PCI PVPanic device (-device pvpanic-pci)
++1b36:0012  PCI ACPI ERST device (-device acpi-erst)
  
- ACPI/VIOT
- M: Jean-Philippe Brucker <jean-philippe@linaro.org>
--R: Ani Sinha <ani@anisinha.ca>
- S: Supported
- F: hw/acpi/viot.c
- F: hw/acpi/viot.h
+ All these devices are documented in docs/specs.
+ 
 -- 
 2.25.1
 
