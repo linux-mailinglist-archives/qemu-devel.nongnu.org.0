@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6024C1E52
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:16:02 +0100 (CET)
-Received: from localhost ([::1]:39800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4404C1E5C
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:21:42 +0100 (CET)
+Received: from localhost ([::1]:49972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMzvV-00021G-1F
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:16:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55912)
+	id 1nN00z-0000a7-IE
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:21:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMzsd-0008C4-GN
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:13:03 -0500
-Received: from [2607:f8b0:4864:20::1033] (port=36566
- helo=mail-pj1-x1033.google.com)
+ id 1nMzz7-00072k-KX
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:19:45 -0500
+Received: from [2607:f8b0:4864:20::102b] (port=54260
+ helo=mail-pj1-x102b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nMzsZ-0006Wq-CC
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:13:03 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- g7-20020a17090a708700b001bb78857ccdso3961739pjk.1
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 14:12:58 -0800 (PST)
+ id 1nMzz2-0007Od-8Z
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:19:45 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id bx5so278149pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 14:19:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jZbwozJWx+rmj3JyP+jtP8sb3jTjrAsw17x5WS8uQrY=;
- b=MIDPx+r/nuhREcgfP8eDfoa9oTkxPtLpDtbr9+aNIjbU4XrBln8jrOwStIricvfYaJ
- VzpXVRH+e3IebcK6BRxLzHZgVZQG5JUfdQkPv1jfp1szSZu899zTcNaHspaySzQD+Ph+
- 7iaDD01DPaMbb7/FGGgvVqV3aE/ztvS0/vkpXWFf1FSCaN282g1uJo2b/pIcgyhmpNyC
- GXXeNw0okYNfldWVdD1VPjswSUaJDnSa7YjuJYTEgunfcJ1g5Y5bjKeTLGtUwJgO09jg
- iUd0ofAdcmRFtbfIy2zo5UcnBME5RBje+hIXYZNJ0XV0U1mL8rQBIMyBV5s3DAwUTejZ
- K6cw==
+ bh=B8D6UODZk6JfMql9QTNIR7QN6ZKf2Qqgn85qheMV4r0=;
+ b=OGyd4t8PBXo2jdUFVoh+JidBoiN2pIwtr2cH96h7o/EB+u9425eojhzpQqWIQLtWD+
+ 3tKaBRSzQAGx7UHbHAfcL/BTfrcW0C3wnrX+92pa6Dm0f3tsXv34CiE++BdRVkSdOSTf
+ ORbIxlHqCMMUvrpCvBq5kM3Kzi6XwqEE19+qPiprL8IJ2QJgH3zxJ5FgV0Dr9U2PwnkO
+ G/9u37yBTEtIseY11hzrfvre8aBm46zUeNXmzF9i5CSte981zLvsCxstsDlZR9xpA6kV
+ M03UKHkMbreC5pzCB7EITuedfAfz4aWGms7KKuLfnNcygHW5vr8goI15Sal8njZM9tIv
+ UnOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jZbwozJWx+rmj3JyP+jtP8sb3jTjrAsw17x5WS8uQrY=;
- b=oipzuvOup5IYt0Q+h/YniQobiZ5dPSUq34Y+SPDyDk39ddbVZEA+zM1HNr9JhSRiXL
- yOoDgFrN9MkQz66zVEmoAjBt5xGJduWGB+PqcbZMfI7crQRcWgXKE7qe4dADspbnbOX9
- UEh3Oj6H03UFzwV0lMZ0+rWnr5Vu5tO7RHJZIcdI+VciX4zL8sRap8Do/TB5gD+ywum3
- RA27w8dpWG5woO/qMTMFfjro7q6N2DVY03mxOr07HucQNHe5B2ea9vqNOzEXCCzOUy4u
- RJK2JNetXV0kvm9RNgpqxJ/qcTsJMQEixtwpE50bWIFsXuvtlkyGTxguDQ/zFbXmAzhI
- 1aHA==
-X-Gm-Message-State: AOAM5339Zcywl1dVOJndNcpePMCC5iLZN0sh2cQUiQFpEXZDKkR5vncr
- OJajC865gkHxToXPBDj/rw7Ezw==
-X-Google-Smtp-Source: ABdhPJxF1GQNN2f/NFNOR+8HFgMgxn4giAlIghffsq+DzG5n4xCL1wqg+xQ9bNxWcD/ZIpL5XSWgMg==
-X-Received: by 2002:a17:90b:1b45:b0:1bb:f956:4799 with SMTP id
- nv5-20020a17090b1b4500b001bbf9564799mr1467276pjb.132.1645654377860; 
- Wed, 23 Feb 2022 14:12:57 -0800 (PST)
+ bh=B8D6UODZk6JfMql9QTNIR7QN6ZKf2Qqgn85qheMV4r0=;
+ b=DlHeQA2/d9CcbB/yYNyTL+9TwMhqQXlaVk+1PVtuf7iKJDzT3HLQGLs+omXZaNjq7O
+ todNERcwuQR9W8nIu/DVinGOo79hMeULbOjP00hwURGIK7xKTBqfw94G4w5MhZn68X2K
+ jXS2NdwJ3UWe1HvB3bAi8tbsKhRI25iXCxaVv/RzPIPRCb/TlD9F7hBo0KStt5aHGXwo
+ I24LpePgJ1rl0sBIUl44gzGltBRwC603S++KhQ43cCjypMAm8rrdwYHSvVkqhXE7YwUK
+ +qOpeyCbdB+z1wExIn5EeoY9GjuFLlactQsQ3yCeN4tl6zLpVJB2JhSa/XkiIgCNuVoB
+ i44Q==
+X-Gm-Message-State: AOAM5334NXndP5+6Lo/leGAATzpVUKRbA1Qq1WiItJJtyrVOvX0/PUcl
+ nbT1CfP33nUis3awWzGK3amIRQ==
+X-Google-Smtp-Source: ABdhPJzoy5qSkDyepoN/3vXyn89OsDI7i6B57Vm72EK42bqCh0drD34Ld93imHg04huonTNLFUU49g==
+X-Received: by 2002:a17:902:7041:b0:14f:c724:42c7 with SMTP id
+ h1-20020a170902704100b0014fc72442c7mr1645351plt.11.1645654777793; 
+ Wed, 23 Feb 2022 14:19:37 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110])
- by smtp.gmail.com with ESMTPSA id k11sm513672pff.169.2022.02.23.14.12.56
+ by smtp.gmail.com with ESMTPSA id m14sm437875pgd.75.2022.02.23.14.19.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 14:12:57 -0800 (PST)
-Message-ID: <7f1caabb-997a-86a3-97ff-e89db93cc424@linaro.org>
-Date: Wed, 23 Feb 2022 12:12:53 -1000
+ Wed, 23 Feb 2022 14:19:37 -0800 (PST)
+Message-ID: <cf26c57f-ec5e-daec-b129-cd3f49112c3b@linaro.org>
+Date: Wed, 23 Feb 2022 12:19:34 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 20/47] target/ppc: implement vslq
+Subject: Re: [PATCH v4 24/47] target/ppc: move vrl[bhwd]nm/vrl[bhwd]mi to
+ decodetree
 Content-Language: en-US
 To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
- <20220222143646.1268606-21-matheus.ferst@eldorado.org.br>
- <42d348af-e15c-00e4-8670-a2a17902b9e8@linaro.org>
- <da1eab47-8c32-ef20-a7e9-e9c7d5bcc094@eldorado.org.br>
+ <20220222143646.1268606-25-matheus.ferst@eldorado.org.br>
+ <9111db3b-f238-7780-a5dd-4350721146b3@linaro.org>
+ <a77fcbaa-6810-ada8-3aef-2beb140c00d3@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <da1eab47-8c32-ef20-a7e9-e9c7d5bcc094@eldorado.org.br>
+In-Reply-To: <a77fcbaa-6810-ada8-3aef-2beb140c00d3@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -102,69 +102,40 @@ Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/22 11:53, Matheus K. Ferst wrote:
-> On 22/02/2022 19:14, Richard Henderson wrote:
->> On 2/22/22 04:36, matheus.ferst@eldorado.org.br wrote:
->>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>>
->>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>> ---
->>> v4:
->>>   -  New in v4.
->>> ---
->>>   target/ppc/insn32.decode            |  1 +
->>>   target/ppc/translate/vmx-impl.c.inc | 40 +++++++++++++++++++++++++++++
->>>   2 files changed, 41 insertions(+)
->>>
->>> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
->>> index 88baebe35e..3799065508 100644
->>> --- a/target/ppc/insn32.decode
->>> +++ b/target/ppc/insn32.decode
->>> @@ -473,6 +473,7 @@ VSLB            000100 ..... ..... ..... 00100000100    @VX
->>>   VSLH            000100 ..... ..... ..... 00101000100    @VX
->>>   VSLW            000100 ..... ..... ..... 00110000100    @VX
->>>   VSLD            000100 ..... ..... ..... 10111000100    @VX
->>> +VSLQ            000100 ..... ..... ..... 00100000101    @VX
->>>
->>>   VSRB            000100 ..... ..... ..... 01000000100    @VX
->>>   VSRH            000100 ..... ..... ..... 01001000100    @VX
->>> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
->>> index ec4f0e7654..ca98a545ef 100644
->>> --- a/target/ppc/translate/vmx-impl.c.inc
->>> +++ b/target/ppc/translate/vmx-impl.c.inc
->>> @@ -834,6 +834,46 @@ TRANS_FLAGS(ALTIVEC, VSRAH, do_vector_gvec3_VX, MO_16, 
->>> tcg_gen_gvec_sarv);
->>>   TRANS_FLAGS(ALTIVEC, VSRAW, do_vector_gvec3_VX, MO_32, tcg_gen_gvec_sarv);
->>>   TRANS_FLAGS2(ALTIVEC_207, VSRAD, do_vector_gvec3_VX, MO_64, tcg_gen_gvec_sarv);
->>>
->>> +static bool trans_VSLQ(DisasContext *ctx, arg_VX *a)
->>> +{
->>> +    TCGv_i64 hi, lo, tmp, n, sf = tcg_constant_i64(64);
->>> +
->>> +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
->>> +    REQUIRE_VECTOR(ctx);
->>> +
->>> +    n = tcg_temp_new_i64();
->>> +    hi = tcg_temp_new_i64();
->>> +    lo = tcg_temp_new_i64();
->>> +    tmp = tcg_const_i64(0);
->>> +
->>> +    get_avr64(lo, a->vra, false);
->>> +    get_avr64(hi, a->vra, true);
->>> +
->>> +    get_avr64(n, a->vrb, true);
->>> +    tcg_gen_andi_i64(n, n, 0x7F);
->>> +
->>> +    tcg_gen_movcond_i64(TCG_COND_GE, hi, n, sf, lo, hi);
->>> +    tcg_gen_movcond_i64(TCG_COND_GE, lo, n, sf, tmp, lo);
+On 2/23/22 11:43, Matheus K. Ferst wrote:
+>> Note that rotlv does the masking itself:
 >>
->> Since you have to mask twice anyway, better use (n & 64) != 0.
+>> /*
+>>   * Expand D = A << (B % element bits)
+>>   *
+>>   * Unlike scalar shifts, where it is easy for the target front end
+>>   * to include the modulo as part of the expansion.  If the target
+>>   * naturally includes the modulo as part of the operation, great!
+>>   * If the target has some other behaviour from out-of-range shifts,
+>>   * then it could not use this function anyway, and would need to
+>>   * do it's own expansion with custom functions.
+>>   */
 >>
 > 
-> Hmm, I'm not sure if I understood. To check != 0 we'll need a temp to hold n&64. We could 
-> use tmp here, but we'll need another one in patch 22. Is that right?
+> Using tcg_gen_rotlv_vec(vece, vrt, vra, vrb) works on PPC but fails on x86. It looks like 
+> a problem on the i386 backend. It's using VPS[RL]LV[DQ], but instead of this modulo 
+> behavior, these instructions write zero to the element[1]. I'm not sure how to fix that. 
 
-Yes.
+You don't want to use tcg_gen_rotlv_vec directly, but tcg_gen_rotlv_vec.
+
+The generic modulo is being applied here:
+
+static void tcg_gen_rotlv_mod_vec(unsigned vece, TCGv_vec d,
+                                   TCGv_vec a, TCGv_vec b)
+{
+     TCGv_vec t = tcg_temp_new_vec_matching(d);
+     TCGv_vec m = tcg_constant_vec_matching(d, vece, (8 << vece) - 1);
+
+     tcg_gen_and_vec(vece, t, b, m);
+     tcg_gen_rotlv_vec(vece, d, a, t);
+     tcg_temp_free_vec(t);
+}
+
 
 r~
 
