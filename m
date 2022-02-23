@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F3B4C0F6B
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 10:43:13 +0100 (CET)
-Received: from localhost ([::1]:50746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A9B4C0FBD
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:02:33 +0100 (CET)
+Received: from localhost ([::1]:44068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMoAy-0002zc-DI
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 04:43:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48344)
+	id 1nMoTf-0001ea-Oz
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:02:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMnch-0001UD-Me
+ id 1nMnch-0001UB-JF
  for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:07:48 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:50376)
+Received: from beetle.greensocs.com ([5.135.226.135]:50378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nMnce-00022r-Oy
+ id 1nMnce-00022u-Pg
  for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:07:47 -0500
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 7B97B21EBA;
- Wed, 23 Feb 2022 09:07:19 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 12D8721EBD;
+ Wed, 23 Feb 2022 09:07:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1645607239;
+ s=mail; t=1645607240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=saHwrJRZtMfgZkanr0jmyHUux2j0Im+vXN3vMdIgf10=;
- b=rruXzPzRg2p5VTQK7T0MwHeKrfTraehCcD2PdtKZ5zthw0+k7i55/wZ8LFtOwG9+WaxF4e
- 4xkOZdBWQyRWKUumeSlUov87GSIw8poSJ+elh516AwKJeY+fqQ29opdsHGzQCbw0af7W2Z
- 2U0MUIqSawsKWEBVzyTzurc8vTbaMSg=
+ bh=gaNB2TsWb8LnUxC0b8QE1vl0YRpFNbVBSRKKXrGk7SU=;
+ b=a4eWfCz8NYAq91dTRS2o3vC21NfN3SZEYjYKIkCrrgGpEfuqympcdcTWgQFCDkjYHn+3NL
+ TywpLsJxK8f/57GIthmSdLOFcfaEQcIOglYO6czm97TXbw8TAuz0gW0I4Szxyce95LkUgx
+ 6mJbQazOk7OwQMhdl5UOs+kyArWaIRo=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org,
 	mark.burton@greensocs.com,
 	edgari@xilinx.com
-Subject: [PATCH v4 06/14] qapi/device_add: Allow execution in machine
- initialized phase
-Date: Wed, 23 Feb 2022 10:06:58 +0100
-Message-Id: <20220223090706.4888-7-damien.hedde@greensocs.com>
+Subject: [PATCH v4 07/14] none-machine: add the NoneMachineState structure
+Date: Wed, 23 Feb 2022 10:06:59 +0100
+Message-Id: <20220223090706.4888-8-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220223090706.4888-1-damien.hedde@greensocs.com>
 References: <20220223090706.4888-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 Received-SPF: pass client-ip=5.135.226.135;
  envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
 X-Spam_score_int: -20
@@ -66,95 +66,66 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+ Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mirela Grujic <mirela.grujic@greensocs.com>
+The none machine was using the parent state structure.
+We'll need a custom state to add a field in the following commit.
 
-This commit allows to use the QMP command to add a cold-plugged
-device like we can do with the CLI option -device.
-
-Note: for device_add command in qdev.json adding the 'allow-preconfig'
-option has no effect because the command appears to bypass QAPI (see
-TODO at qapi/qdev.json:61). The option is added there solely to
-document the intent.
-For the same reason, the flags have to be explicitly set in
-monitor_init_qmp_commands() when the device_add command is registered.
-
-Signed-off-by: Mirela Grujic <mirela.grujic@greensocs.com>
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
+ hw/core/null-machine.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
-v4:
- + use phase_until()
- + add missing flag in hmp-commands.hx
----
- qapi/qdev.json         | 3 ++-
- monitor/misc.c         | 2 +-
- softmmu/qdev-monitor.c | 4 ++++
- hmp-commands.hx        | 1 +
- 4 files changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index 26cd10106b..2e2de41499 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -77,7 +77,8 @@
- { 'command': 'device_add',
-   'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
-   'gen': false, # so we can get the additional arguments
--  'features': ['json-cli', 'json-cli-hotplug'] }
-+  'features': ['json-cli', 'json-cli-hotplug'],
-+  'allow-preconfig': true }
+diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
+index f586a4bef5..7eb258af07 100644
+--- a/hw/core/null-machine.c
++++ b/hw/core/null-machine.c
+@@ -17,6 +17,13 @@
+ #include "exec/address-spaces.h"
+ #include "hw/core/cpu.h"
  
- ##
- # @device_del:
-diff --git a/monitor/misc.c b/monitor/misc.c
-index a3a6e47844..fd56dd8f08 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -233,7 +233,7 @@ static void monitor_init_qmp_commands(void)
-     qmp_init_marshal(&qmp_commands);
- 
-     qmp_register_command(&qmp_commands, "device_add",
--                         qmp_device_add, 0, 0);
-+                         qmp_device_add, QCO_ALLOW_PRECONFIG, 0);
- 
-     QTAILQ_INIT(&qmp_cap_negotiation_commands);
-     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 9ec3e0ebff..ec0eddaf72 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -853,6 +853,10 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
-     QemuOpts *opts;
-     DeviceState *dev;
- 
-+    if (!phase_until(PHASE_MACHINE_INITIALIZED, errp)) {
-+        return;
-+    }
++struct NoneMachineState {
++    MachineState parent;
++};
 +
-     opts = qemu_opts_from_qdict(qemu_find_opts("device"), qdict, errp);
-     if (!opts) {
-         return;
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 70a9136ac2..3237085e22 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -668,6 +668,7 @@ ERST
-         .help       = "add device, like -device on the command line",
-         .cmd        = hmp_device_add,
-         .command_completion = device_add_completion,
-+        .flags      = "p",
-     },
++#define TYPE_NONE_MACHINE MACHINE_TYPE_NAME("none")
++OBJECT_DECLARE_SIMPLE_TYPE(NoneMachineState, NONE_MACHINE)
++
+ static void machine_none_init(MachineState *mch)
+ {
+     CPUState *cpu = NULL;
+@@ -42,8 +49,10 @@ static void machine_none_init(MachineState *mch)
+     }
+ }
  
- SRST
+-static void machine_none_machine_init(MachineClass *mc)
++static void machine_none_class_init(ObjectClass *oc, void *data)
+ {
++    MachineClass *mc = MACHINE_CLASS(oc);
++
+     mc->desc = "empty machine";
+     mc->init = machine_none_init;
+     mc->max_cpus = 1;
+@@ -56,4 +65,15 @@ static void machine_none_machine_init(MachineClass *mc)
+     mc->no_sdcard = 1;
+ }
+ 
+-DEFINE_MACHINE("none", machine_none_machine_init)
++static const TypeInfo none_machine_info = {
++    .name          = TYPE_NONE_MACHINE,
++    .parent        = TYPE_MACHINE,
++    .instance_size = sizeof(NoneMachineState),
++    .class_init    = machine_none_class_init,
++};
++
++static void none_machine_register_types(void)
++{
++    type_register_static(&none_machine_info);
++}
++type_init(none_machine_register_types);
 -- 
 2.35.1
 
