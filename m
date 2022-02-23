@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D424C1F0F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:46:32 +0100 (CET)
-Received: from localhost ([::1]:39308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2E34C1EB1
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 23:38:51 +0100 (CET)
+Received: from localhost ([::1]:48732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nN0P1-0006XN-HN
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:46:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59334)
+	id 1nN0Ha-0002Kt-4z
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 17:38:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nN0Av-0006xC-CX
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:31:57 -0500
-Received: from [2607:f8b0:4864:20::631] (port=42754
- helo=mail-pl1-x631.google.com)
+ id 1nN0Aw-000713-W3
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:31:59 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=50904
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nN0At-0001Ej-8z
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:31:57 -0500
-Received: by mail-pl1-x631.google.com with SMTP id p17so62072plo.9
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 14:31:54 -0800 (PST)
+ id 1nN0Au-0001FE-Kr
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 17:31:58 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id m22so344425pja.0
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 14:31:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TmxawEn4TT//u8dncYbu6ycL9fZfNNpmMP+qU1HcQZ0=;
- b=WMB2EruxU8tOMv86xci1GCeZnQzzwlFrwKXA+WdpfLvaDMd4xi/hu+S3AJHqEVLv1M
- +1UJLNqZFjVUepZCpdlhMwT90DX7tPPYe65gi3PjkJbfQNpvq+oNB9utjhfCC/3W7aPu
- Op7qkuVLuKUejRkOh+zXzw1WaeTNaTD1MImlfuGaWb5HNjKHt5PwGaoFE6YzE8X14cQ1
- MP9lGdodL2GHUzi6ndbYxwCLOGcwBKXjc58ZtnyG2pAHW12HKc79UQ9MNk7zfXChoO5W
- 9HKe+obfwnr6YGnN/WzxJHMUNJu9Qe/TQLpUBNz9RDIMV1qoKX+l64PGyvlEYlsElYo5
- fLsg==
+ bh=rots8gM6WyEhatQucngAjy7J8H2b6HMDpJoYQByRIgE=;
+ b=ZpoPYSDCvEQDMS1P7yEcbhrbx3dWfntgn6mAVNCH3+EO8Xf2jcrSOb80Lld9QtVn5X
+ j/gD+wwU0Kdn/A+5TDoQRsSRAFphb9b/ef8ZtA719/RBqDjp8dqQOMj8GKzZuUvKlKAP
+ ur3AdWq7ntsyT0KpAlJM1mas3YPDvYSsBO7AnomTyzdROva1gdpwM+wkLhtpR1clql+6
+ dqWe6UUIvLUcuXmC1OlpaRvbVAaPt8/gG1wcnfryD5IIfJMLyhpY/Fi7WXCsUfBWCCUo
+ pjUxff+5qZ6gSO9pXjRXHqMDFUxsWgnkvclK7jzMSLa0WpwwzYh2RKI0jY4/pKkoZXsZ
+ +fyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TmxawEn4TT//u8dncYbu6ycL9fZfNNpmMP+qU1HcQZ0=;
- b=lsFtU74vyVVoJR4feAlaDCrlxS+WYYC8KJBH7YAxBiOMojuEG+o7iHsWbBqMwckpcW
- 1+W3HPvZJrfhPDaK5mDB/z7H6OHUYj/rytrUHONXvsiWx7/7S/+/z8aq64KztogN0lzm
- sYT5Us3pibvtT/AnIvUUlddUSy4xqUWnaEVQU3SmA7z+j5uhdUi/BnFVKwSrvAgg4lqQ
- It2rmrIe/IV44e6MYCYQXHcUGpYOLYGfN21aZq+mFuChxhsD7K1rMd6l/KvCoSTL1Qu4
- /kMIL9TR4NJKYNMciYsVFKvwhelofUZUolWPnsI/loqQ+RnzniXQep2M1tm/dg7m0CFQ
- 7SyQ==
-X-Gm-Message-State: AOAM530CjSxOPxifevbvStA3+LQ3lNvMBJ/Ql9ZMa5SbosR60FmZSutL
- Y612KkJrWSRHSb7kTQi0/hPKlprBF9VuTg==
-X-Google-Smtp-Source: ABdhPJzrsrFx4RwHA0FAUSMfgVojhBCkRGPrQipXIYF3e0RTh/NJOVeTkxz70Z2rDG4IC9foRPFxpg==
-X-Received: by 2002:a17:90a:4149:b0:1bc:ba63:247e with SMTP id
- m9-20020a17090a414900b001bcba63247emr964850pjg.173.1645655513960; 
- Wed, 23 Feb 2022 14:31:53 -0800 (PST)
+ bh=rots8gM6WyEhatQucngAjy7J8H2b6HMDpJoYQByRIgE=;
+ b=wiUW3DFLI8IcfdY+RQK5veU7tUfj/mLkYRBJTikZnUksldgOkVlU7NR0KKy6bggfmK
+ Phzp7TzsVEKnd1DqX+1Q263jHwR2zPIo5nvSD/x/s7O7WgVcEsNRQLIGiwnpTH0fXF0r
+ uPIHWDclvaYpMLpNsBwvEl29X840pyemUFnC4tmMS9BUjOnP43QckugOAY+xYGUPUfLn
+ 67ub/o1r53J/FDJEFMqOa9kYbLYDT+S2keDhex5myUj0bKuTIex+u049fpxAukfYQXUt
+ 5uNOrrQPOo7MFC4l7w6OGKoY/iroXi9xvyb2yTR9ykXsXDiHMtzQ3+g4ou/HmB7hv/+g
+ XPDg==
+X-Gm-Message-State: AOAM530xIHqEkTe+w53RYGnu4lH1Y3M47chnrBWdUnIBAI4yuTphFLo9
+ Oc7oXHK+3zfrWgGUHiqjLegpPRM+FJwc1A==
+X-Google-Smtp-Source: ABdhPJyYSbN9htu/ksuJumzYFl+DuGid5n2rv5qDLFCgoHji1Px/cqytToY6kD2gQDjCvqM8ao2Bvw==
+X-Received: by 2002:a17:90b:124c:b0:1bc:369b:7db5 with SMTP id
+ gx12-20020a17090b124c00b001bc369b7db5mr11448650pjb.179.1645655515389; 
+ Wed, 23 Feb 2022 14:31:55 -0800 (PST)
 Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110])
- by smtp.gmail.com with ESMTPSA id f8sm533815pfv.100.2022.02.23.14.31.52
+ by smtp.gmail.com with ESMTPSA id f8sm533815pfv.100.2022.02.23.14.31.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Feb 2022 14:31:53 -0800 (PST)
+ Wed, 23 Feb 2022 14:31:55 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/17] target/arm: Prepare DBGBVR and DBGWVR for FEAT_LVA
-Date: Wed, 23 Feb 2022 12:31:28 -1000
-Message-Id: <20220223223137.114264-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 09/17] target/arm: Implement FEAT_LVA
+Date: Wed, 23 Feb 2022 12:31:29 -1000
+Message-Id: <20220223223137.114264-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220223223137.114264-1-richard.henderson@linaro.org>
 References: <20220223223137.114264-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,81 +92,98 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The original A.a revision of the AArch64 ARM required that we
-force-extend the addresses in these registers from 49 bits.
-This language has been loosened via a combination of IMPLEMENTATION
-DEFINED and CONSTRAINTED UNPREDICTABLE to allow consideration of
-the entire aligned address.
+This feature is relatively small, as it applies only to
+64k pages and thus requires no additional changes to the
+table descriptor walking algorithm, only a change to the
+minimum TSZ (which is the inverse of the maximum virtual
+address space size).
 
-This means that we do not have to consider whether or not FEAT_LVA
-is enabled, and decide from which bit an address might need to be
-extended.
+Note that this feature widens VBAR_ELx, but we already
+treat the register as being 64 bits wide.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 32 ++++++++++++++++++++++++--------
- 1 file changed, 24 insertions(+), 8 deletions(-)
+ docs/system/arm/emulation.rst | 1 +
+ target/arm/cpu-param.h        | 2 +-
+ target/arm/cpu.h              | 5 +++++
+ target/arm/cpu64.c            | 1 +
+ target/arm/helper.c           | 9 ++++++++-
+ 5 files changed, 16 insertions(+), 2 deletions(-)
 
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index 144dc491d9..f3eabddfb5 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -27,6 +27,7 @@ the following architecture extensions:
+ - FEAT_LRCPC (Load-acquire RCpc instructions)
+ - FEAT_LRCPC2 (Load-acquire RCpc instructions v2)
+ - FEAT_LSE (Large System Extensions)
++- FEAT_LVA (Large Virtual Address space)
+ - FEAT_MTE (Memory Tagging Extension)
+ - FEAT_MTE2 (Memory Tagging Extension)
+ - FEAT_MTE3 (MTE Asymmetric Fault Handling)
+diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+index 7f38d33b8e..5f9c288b1a 100644
+--- a/target/arm/cpu-param.h
++++ b/target/arm/cpu-param.h
+@@ -11,7 +11,7 @@
+ #ifdef TARGET_AARCH64
+ # define TARGET_LONG_BITS             64
+ # define TARGET_PHYS_ADDR_SPACE_BITS  48
+-# define TARGET_VIRT_ADDR_SPACE_BITS  48
++# define TARGET_VIRT_ADDR_SPACE_BITS  52
+ #else
+ # define TARGET_LONG_BITS             32
+ # define TARGET_PHYS_ADDR_SPACE_BITS  40
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index c6a4d50e82..c52d56f669 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -4289,6 +4289,11 @@ static inline bool isar_feature_aa64_ccidx(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, CCIDX) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_lva(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, VARANGE) != 0;
++}
++
+ static inline bool isar_feature_aa64_tts2uxn(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, XNX) != 0;
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 1171ab16b9..1de31ffb40 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -811,6 +811,7 @@ static void aarch64_max_initfn(Object *obj)
+     t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
+     t = FIELD_DP64(t, ID_AA64MMFR2, CNP, 1); /* TTCNP */
+     t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1); /* TTST */
++    t = FIELD_DP64(t, ID_AA64MMFR2, VARANGE, 1); /* FEAT_LVA */
+     cpu->isar.id_aa64mmfr2 = t;
+ 
+     t = cpu->isar.id_aa64zfr0;
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c002100979..2eff30d18c 100644
+index 2eff30d18c..28b4347213 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6423,11 +6423,18 @@ static void dbgwvr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     ARMCPU *cpu = env_archcpu(env);
-     int i = ri->crm;
+@@ -11271,7 +11271,14 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+     } else {
+         max_tsz = 39;
+     }
+-    min_tsz = 16;  /* TODO: ARMv8.2-LVA  */
++
++    min_tsz = 16;
++    if (using64k) {
++        if (cpu_isar_feature(aa64_lva, env_archcpu(env))) {
++            min_tsz = 12;
++        }
++    }
++    /* TODO: FEAT_LPA2 */
  
--    /* Bits [63:49] are hardwired to the value of bit [48]; that is, the
--     * register reads and behaves as if values written are sign extended.
-+    /*
-      * Bits [1:0] are RES0.
-+     *
-+     * It is IMPLEMENTATION DEFINED whether [63:49] ([63:53] with FEAT_LVA)
-+     * are hardwired to the value of bit [48] ([52] with FEAT_LVA), or if
-+     * they contain the value written.  It is CONSTRAINED UNPREDICTABLE
-+     * whether the RESS bits are ignored when comparing an address.
-+     *
-+     * Therefore we are allowed to compare the entire register, which lets
-+     * us avoid considering whether or not FEAT_LVA is actually enabled.
-      */
--    value = sextract64(value, 0, 49) & ~3ULL;
-+    value &= ~3ULL;
- 
-     raw_write(env, ri, value);
-     hw_watchpoint_update(cpu, i);
-@@ -6473,10 +6480,19 @@ void hw_breakpoint_update(ARMCPU *cpu, int n)
-     case 0: /* unlinked address match */
-     case 1: /* linked address match */
-     {
--        /* Bits [63:49] are hardwired to the value of bit [48]; that is,
--         * we behave as if the register was sign extended. Bits [1:0] are
--         * RES0. The BAS field is used to allow setting breakpoints on 16
--         * bit wide instructions; it is CONSTRAINED UNPREDICTABLE whether
-+        /*
-+         * Bits [1:0] are RES0.
-+         *
-+         * It is IMPLEMENTATION DEFINED whether bits [63:49]
-+         * ([63:53] for FEAT_LVA) are hardwired to a copy of the sign bit
-+         * of the VA field ([48] or [52] for FEAT_LVA), or whether the
-+         * value is read as written.  It is CONSTRAINED UNPREDICTABLE
-+         * whether the RESS bits are ignored when comparing an address.
-+         * Therefore we are allowed to compare the entire register, which
-+         * lets us avoid considering whether FEAT_LVA is actually enabled.
-+         *
-+         * The BAS field is used to allow setting breakpoints on 16-bit
-+         * wide instructions; it is CONSTRAINED UNPREDICTABLE whether
-          * a bp will fire if the addresses covered by the bp and the addresses
-          * covered by the insn overlap but the insn doesn't start at the
-          * start of the bp address range. We choose to require the insn and
-@@ -6489,7 +6505,7 @@ void hw_breakpoint_update(ARMCPU *cpu, int n)
-          * See also figure D2-3 in the v8 ARM ARM (DDI0487A.c).
-          */
-         int bas = extract64(bcr, 5, 4);
--        addr = sextract64(bvr, 0, 49) & ~3ULL;
-+        addr = bvr & ~3ULL;
-         if (bas == 0) {
-             return;
-         }
+     if (tsz > max_tsz) {
+         tsz = max_tsz;
 -- 
 2.25.1
 
