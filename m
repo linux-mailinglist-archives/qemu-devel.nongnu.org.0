@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B2C24C0FC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:03:05 +0100 (CET)
-Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A52C4C0FDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 11:07:24 +0100 (CET)
+Received: from localhost ([::1]:56736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMoUC-0005yL-Ma
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:03:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51322)
+	id 1nMoYM-0001tX-Hq
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 05:07:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMnoe-0007xp-F5
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:20:08 -0500
-Received: from [2607:f8b0:4864:20::1129] (port=43070
- helo=mail-yw1-x1129.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nMnob-0003y9-PA
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:20:07 -0500
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2d6d0cb5da4so147989797b3.10
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 01:19:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nXCLXxB6HCrscA7vtjaiHnkKr4QrAkuVD/lkEVxIKbQ=;
- b=UaQxdwj5S87gVF8hhKphMX9feVRNS3B/SQYGSeSld9mFvZyTcbDJt1S4aD+ZECTuby
- tiUxdGddedY2/AyxRLqRVVqNZQkoj+vonwzSq3ahQKVvy15C7VBkrUxKXq2xdr19yAfb
- PjMdJbeV58AS30Iy/nc7uX3wpEN0lWQoWtcX3O0kvBYPry27zv6qz42neodsQ2F9huYC
- z8xaXsbiJ1O2G4xV9wM4vuOMhP0KZPrjhhezTl764reuLyvc6sKG6QoF798rKO7iFTSk
- LzQBRyAWYIwGXlVSMzdeJNWkBNT+4Hn9qupAMyVB/rjjy4Xq5y0YNN/9sI7vWE7iW7u0
- yhkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nXCLXxB6HCrscA7vtjaiHnkKr4QrAkuVD/lkEVxIKbQ=;
- b=Wf8nCdZeiLddqfutOzSSWpF/R/i/CwM6F+5ymf+yx7TKcPHjINFqCb8eMCZl/IUmO/
- /83gZApXzxGNU+vjBGrxMxPXAWEs/GcFkgXpnphZ4ic4I0eGJZxarNOV2KkHNw1khZM8
- bzMPRdizsL+qNkQV7h35BR/GJwMhPrFOgIT59Zzk6nVXcoHt154ebHJFWhd0fDEwFZAj
- 5wa6LAwdR9oAHMWKN+cYsLpTTeSzkvbUoQsAUvinRhQvRGHqEnT9NaGxOB39yAhHa6ug
- FQd2OtGG/5j7Pym+q2rCew08+aT2rrZ+LGffWVchm+Hjx1pIYwGkuV/txpZc1WMizrsn
- JZgQ==
-X-Gm-Message-State: AOAM530gIJOmDAhUuFZYrZw1/Cjgj/EcCtw/RVHvOxHH+i9mY+fTe8Eg
- cI/JeXWXlQ36g/vHzW/yGu2qy2uk9tJJ+4svgWeFjQ==
-X-Google-Smtp-Source: ABdhPJxDgGmwRBqn1ahZJ0PCC2VvSxMzsYtzf26mSUSYz7qFYhAWXzEZL9V2rTXOh6EmJtJNzX6KEEg6ubNXVCJDfb0=
-X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
- e69-20020a81a748000000b002d61f8b23a9mr28274883ywh.329.1645607994047; Wed, 23
- Feb 2022 01:19:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nMnsG-0001R9-8g
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:23:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44159)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nMnsC-0004al-9r
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 04:23:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645608227;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cxnL4SBgi6AqDoZt5Zfx3M7MmF8f22jIPL4CGMXoeQ0=;
+ b=Ok1VoeLw4q3zGeo4pitbncIEw1ou+ebQfzzwVLCvDiM/IKSN2T7BaMSJ3dxhGtnFeL/svZ
+ A07cdJLItNwg7CG75doUTEvtYpdIpsoJ1PnHvhIPbnth4uQ4kdouW4gmU12vIJKtOPOcyK
+ 6+xqoy7beRkZxIk5J+27muebZE7UkHM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-131-panNuRbjOK6fjSdm_5CXxA-1; Wed, 23 Feb 2022 04:23:43 -0500
+X-MC-Unique: panNuRbjOK6fjSdm_5CXxA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B11B21006AA7
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 09:23:42 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 532618089D;
+ Wed, 23 Feb 2022 09:23:41 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-devel@nongnu.org,
+	virtio-fs@redhat.com
+Subject: [PATCH] virtiofsd: Let meson check for statx.stx_mnt_id
+Date: Wed, 23 Feb 2022 10:23:40 +0100
+Message-Id: <20220223092340.9043-1-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <874k4xbqvp.fsf@linaro.org> <878ru2nacq.fsf@linaro.org>
- <YhURfqMvRT4xbiz6@redhat.com> <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
-In-Reply-To: <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 23 Feb 2022 09:19:43 +0000
-Message-ID: <CAFEAcA8mNt_-nZoV7RL4_UQUV=nPQsDM8KBTA8qAGmiNtXWx9g@mail.gmail.com>
-Subject: Re: Analysis of slow distro boots in check-avocado
- (BootLinuxAarch64.test_virt_tcg*)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,35 +76,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Oleg Vasilev <me@svin.in>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Cleber Rosa <cleber@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Idan Horowitz <idan.horowitz@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Emilio Cota <cota@braap.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Hanna Reitz <hreitz@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 22 Feb 2022 at 17:33, Philippe Mathieu-Daud=C3=A9
-<philippe.mathieu.daude@gmail.com> wrote:
-> We need the DEBUG profile to ensure the bios-tables-tests work.
->
-> If you want to boot a guest using EDK2, you should use the images
-> build by your distribution (/usr/share/qemu/edk2-aarch64-code.fd),
-> not these images.
+In virtiofsd, we assume that the presence of the STATX_MNT_ID macro
+implies existence of the statx.stx_mnt_id field.  Unfortunately, that is
+not necessarily the case: glibc has introduced the macro in its commit
+88a2cf6c4bab6e94a65e9c0db8813709372e9180, but the statx.stx_mnt_id field
+is still missing from its own headers.
 
-Do we have any other images in pc-bios that are silently
-"do not use these images, they are only for a very specific
-test case and nothing else" ?
+Let meson.build actually chek for both STATX_MNT_ID and
+statx.stx_mnt_id, and set CONFIG_STATX_MNT_ID if both are present.
+Then, use this config macro in virtiofsd.
 
-Also, "make install" installs these EDK2 images, which doesn't
-seem like the right thing for "this is only for one test case".
+Closes: https://gitlab.com/qemu-project/qemu/-/issues/882
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+ meson.build                      | 13 +++++++++++++
+ tools/virtiofsd/passthrough_ll.c |  2 +-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-thanks
--- PMM
+diff --git a/meson.build b/meson.build
+index 8df40bfac4..a5b63e62cd 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1306,6 +1306,18 @@ statx_test = gnu_source_prefix + '''
+ 
+ has_statx = cc.links(statx_test)
+ 
++# Check whether statx() provides mount ID information
++
++statx_mnt_id_test = gnu_source_prefix + '''
++  #include <sys/stat.h>
++  int main(void) {
++    struct statx statxbuf;
++    statx(0, "", 0, STATX_BASIC_STATS | STATX_MNT_ID, &statxbuf);
++    return statxbuf.stx_mnt_id;
++  }'''
++
++has_statx_mnt_id = cc.links(statx_mnt_id_test)
++
+ have_vhost_user_blk_server = get_option('vhost_user_blk_server') \
+   .require(targetos == 'linux',
+            error_message: 'vhost_user_blk_server requires linux') \
+@@ -1553,6 +1565,7 @@ config_host_data.set('CONFIG_NETTLE', nettle.found())
+ config_host_data.set('CONFIG_QEMU_PRIVATE_XTS', xts == 'private')
+ config_host_data.set('CONFIG_MALLOC_TRIM', has_malloc_trim)
+ config_host_data.set('CONFIG_STATX', has_statx)
++config_host_data.set('CONFIG_STATX_MNT_ID', has_statx_mnt_id)
+ config_host_data.set('CONFIG_ZSTD', zstd.found())
+ config_host_data.set('CONFIG_FUSE', fuse.found())
+ config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index dfa2fc250d..028dacdd8f 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1039,7 +1039,7 @@ static int do_statx(struct lo_data *lo, int dirfd, const char *pathname,
+ {
+     int res;
+ 
+-#if defined(CONFIG_STATX) && defined(STATX_MNT_ID)
++#if defined(CONFIG_STATX) && defined(CONFIG_STATX_MNT_ID)
+     if (lo->use_statx) {
+         struct statx statxbuf;
+ 
+-- 
+2.34.1
+
 
