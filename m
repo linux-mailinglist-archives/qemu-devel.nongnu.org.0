@@ -2,86 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3A14C1ADC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 19:22:58 +0100 (CET)
-Received: from localhost ([::1]:42740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D92BF4C1AE0
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 19:23:19 +0100 (CET)
+Received: from localhost ([::1]:43772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMwHw-0007dS-FA
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 13:22:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36982)
+	id 1nMwII-0008Jr-Na
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 13:23:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nMwFp-0006KR-Nl
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 13:20:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24932)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMwGI-0006wU-Bu
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 13:21:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nMwFl-0004Nw-47
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 13:20:43 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nMwGG-0004WP-0b
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 13:21:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645640439;
+ s=mimecast20190719; t=1645640469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VbreC3iHKH//UqxxnLi19XmWNDUJrFhwSZ+XFZ1nv4Y=;
- b=YC26a5WQELP1CRK0Awqkk87YUWMp+nDR+rcDfC9N9RCHD4vigczT/B69J9sG0Se5XtHCmR
- +B0F1CKujM0YpQc3l9c7mXX4JA/pUpuxa5E9I5u6KSetFJH8qbYCQIZeibT1B9g60cFHJM
- GpiXpRoT227d6uj5riisn9G0XDPcEtg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=82cPc1JufU+VGSx5CCAZ5GbBd48V3KockAQB6EA9lWU=;
+ b=A+Tk7QD14xPgnm4ASDmMWlvy4sNHE8xTDDf7QrZFLlEOyIHwmr7cMOY7k7pDA10lKnC0W6
+ EG8b4Zh0xTFIHnmwWCuQXDGgd1rU2LXPlYAL4rR0MIix28MPeFpxDJzzn0h9xFaL7prRBV
+ kjOd3BBUxOvPmO+yPOTvuKdABob0kwU=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-534-zcgqwY14Po-yxATXASzfxA-1; Wed, 23 Feb 2022 13:20:21 -0500
-X-MC-Unique: zcgqwY14Po-yxATXASzfxA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 187-20020a1c19c4000000b0037cc0d56524so1473913wmz.2
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 10:20:21 -0800 (PST)
+ us-mta-612-zVbeeeejM-OrFu518it3uw-1; Wed, 23 Feb 2022 13:21:08 -0500
+X-MC-Unique: zVbeeeejM-OrFu518it3uw-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ n1-20020ab07481000000b0033bd83da484so1881513uap.20
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 10:21:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=VbreC3iHKH//UqxxnLi19XmWNDUJrFhwSZ+XFZ1nv4Y=;
- b=emEYzYeKGCIcoe0W8+7jt9ZIRirpay0ec0zBCUWvma6ZsylSQ5O1A13034j1yOmM5g
- /zoHTFYNTr9BusizwcyXR77hyxtZRymHrriOXvhs3yvoSYEoXL7Pl9jpZjPUxFkEBuza
- Hy0cSpIHuzWofdyXL594LzXCi+O8CXPRT4osrK/d31NWBz89uxbq839eUaT2WKl3CLOb
- iaORVuMy6Eo3chA0sa0uD9U1UEN43vi8W4oH0Dxof928o2mYgk/CE7iICvZGSTMPaIS5
- Som2CNGhfdXVCUh+oCAuWvpGnt5dkEFkC6LtWBMz/fcN1DXKb0ECg7w/dqqCoHqxaoA4
- P/tA==
-X-Gm-Message-State: AOAM533rRTqN2U0nwtoYgmJc5jGnc8DPPuSZGOpyG0Bi4LhTNRqudJCO
- EQWUHHUNd5oxnl2f7IPJWYSwXF/78xcXcxCb6HNZ3Jo2vgmcn2p/kKZtq3JHV00KICILbKcdK64
- DGLYyf/X1vIn3BX4=
-X-Received: by 2002:a1c:a78b:0:b0:380:683a:d01c with SMTP id
- q133-20020a1ca78b000000b00380683ad01cmr775151wme.8.1645640420351; 
- Wed, 23 Feb 2022 10:20:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxMeNS6kYHA50wisiThdMVO1SWSREZzAfLwb1yVRwxOCy8JjglN7/VQioc2KTo94LideR6qPg==
-X-Received: by 2002:a1c:a78b:0:b0:380:683a:d01c with SMTP id
- q133-20020a1ca78b000000b00380683ad01cmr775127wme.8.1645640420052; 
- Wed, 23 Feb 2022 10:20:20 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id m9sm230020wmq.40.2022.02.23.10.20.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Feb 2022 10:20:19 -0800 (PST)
-Date: Wed, 23 Feb 2022 18:20:17 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Dov Murik <dovmurik@linux.ibm.com>
-Subject: Re: [PATCH v3] docs/system/i386: Add measurement calculation details
- to amd-memory-encryption
-Message-ID: <YhZ64Vmvsymz3wKS@work-vm>
-References: <20220217110059.2320497-1-dovmurik@linux.ibm.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=82cPc1JufU+VGSx5CCAZ5GbBd48V3KockAQB6EA9lWU=;
+ b=P+jf9xJRAVmkAkh6gDnyAgJsMeZkJyg/uDuVD8yzJLC3ghRoXbhevbjNacdkQcm/Lz
+ rmVk6RJ40Iw/1uBL24lSCTsmxmLhPeaNhaTpvesVh77iY2GNNa36hhqkkK/vL1OLHLKZ
+ kX9fr3re+HWPuf+DBLW2wScNsUg72JoboTf/NN9FPqBA6Wk5zWhI5CkmfrXoAJZLCO8I
+ yC45uWM3EevP5LdpCLT0FgiirtF20bchP6uR4VBOPeax5x7UaJmdRq1Dfqnx/oTza3F2
+ Mq6kBlGWNw63/rVPkopiw4P0ogwRwJcRWs2Dm9Lai0Q/7h/ZEs96AV1wcMirJ3ujHPAd
+ WOoQ==
+X-Gm-Message-State: AOAM5326xqPxKmRDt8lzNvO0D90FvVmq12DTX2kJ9s4XTtnFtS/pgCyI
+ lbV/WK4fLyjm2Hu4WRoMO4ue8VyitEpf7PW8AS3eJ+wOMGMS9738ivFGou59FCCpYuPIVfxgCNr
+ 1XN2URtfrrXprhoNojZS+GFBAcwMl1N4=
+X-Received: by 2002:ab0:48b2:0:b0:30b:883e:d88a with SMTP id
+ x47-20020ab048b2000000b0030b883ed88amr390786uac.87.1645640467361; 
+ Wed, 23 Feb 2022 10:21:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwgYb+D3lwUN+8S8JFI+zbhY/g2BNTFqDm2ZnLRb4Ob5A3DOPN8kqnBI/NWw07hHHRZZKCySQOEeweCES31ZQU=
+X-Received: by 2002:ab0:48b2:0:b0:30b:883e:d88a with SMTP id
+ x47-20020ab048b2000000b0030b883ed88amr390778uac.87.1645640466984; Wed, 23 Feb
+ 2022 10:21:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220217110059.2320497-1-dovmurik@linux.ibm.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+References: <20220221155519.2367-1-damien.hedde@greensocs.com>
+ <20220221155519.2367-5-damien.hedde@greensocs.com>
+ <CAFn=p-ZErejiw7mn_kN6c+57ya4OgS3ANpUa=BtS3Be=vcSOvg@mail.gmail.com>
+ <YhZST1fCU54OgoP2@redhat.com>
+ <CAFn=p-bo39LEvQhKBZZ6ZcEfhaaZ7eQDgDFMOEZtDkCV_XH54w@mail.gmail.com>
+ <YhZWcFY1sGSV/OX8@redhat.com>
+ <CAFn=p-aSbkdzqZQAZYKX2mPo9BVmX0U5s+huXQH-JcD5N6+WCA@mail.gmail.com>
+ <4d5d4192-2e60-af23-dcfa-2e76e9b5f71d@greensocs.com>
+In-Reply-To: <4d5d4192-2e60-af23-dcfa-2e76e9b5f71d@greensocs.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 23 Feb 2022 13:20:56 -0500
+Message-ID: <CAFn=p-ZKe4AN7g9fSbJVaP6iG1kikkkeAa5nHvT-cXdGdEqEnw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] python: qmp_shell: add -e/--exit-on-error option
+To: Damien Hedde <damien.hedde@greensocs.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -103,132 +99,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dov Murik (dovmurik@linux.ibm.com) wrote:
-> Add a section explaining how the Guest Owner should calculate the
-> expected guest launch measurement for SEV and SEV-ES.
-> 
-> Also update the name and links to the SEV API Spec document.
-> 
-> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> 
+On Wed, Feb 23, 2022 at 12:09 PM Damien Hedde
+<damien.hedde@greensocs.com> wrote:
+>
+>
+>
+> On 2/23/22 17:18, John Snow wrote:
+> > On Wed, Feb 23, 2022 at 10:44 AM Daniel P. Berrang=C3=A9 <berrange@redh=
+at.com> wrote:
+> >>
+> >> On Wed, Feb 23, 2022 at 10:41:11AM -0500, John Snow wrote:
+> >>> On Wed, Feb 23, 2022 at 10:27 AM Daniel P. Berrang=C3=A9 <berrange@re=
+dhat.com> wrote:
+> >>>>
+> >>>> On Wed, Feb 23, 2022 at 10:22:11AM -0500, John Snow wrote:
+> >>>>> On Mon, Feb 21, 2022 at 10:55 AM Damien Hedde
+> >>>>> <damien.hedde@greensocs.com> wrote:
+> >>>>>>
+> >>>>>> This option makes qmp_shell exit (with error code 1)
+> >>>>>> as soon as one of the following error occurs:
+> >>>>>> + command parsing error
+> >>>>>> + disconnection
+> >>>>>> + command failure (response is an error)
+> >>>>>>
+> >>>>>> _execute_cmd() method now returns None or the response
+> >>>>>> so that read_exec_command() can do the last check.
+> >>>>>>
+> >>>>>> This is meant to be used in combination with an input file
+> >>>>>> redirection. It allows to store a list of commands
+> >>>>>> into a file and try to run them by qmp_shell and easily
+> >>>>>> see if it failed or not.
+> >>>>>>
+> >>>>>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> >>>>>
+> >>>>> Based on this patch, it looks like you really want something
+> >>>>> scriptable, so I think the qemu-send idea that Dan has suggested mi=
+ght
+> >>>>> be the best way to go. Are you still hoping to use the interactive
+> >>>>> "short" QMP command format? That might be a bad idea, given how fla=
+ky
+> >>>>> the parsing is -- and how we don't actually have a published standa=
+rd
+> >>>>> for that format. We've *never* liked the bad parsing here, so I hav=
+e a
+> >>>>> reluctance to use it in more places.
+> >>>>>
+> >>>>> I'm having the naive idea that a script file could be as simple as =
+a
+> >>>>> list of QMP commands to send:
+> >>>>>
+> >>>>> [
+> >>>>>      {"execute": "block-dirty-bitmap-add", "arguments": { ... }},
+> >>>>>      ...
+> >>>>> ]
+> >>>>
+> >>>> I'd really recommend against creating a new format for the script
+> >>>> file, especially one needing opening & closing  [] like this, as
+> >>>> that isn't so amenable to dynamic usage/creation. ie you can't
+> >>>> just append an extcra command to an existing file.
+> >>>>
+> >>>> IMHO, the "file" format should be identical to the result of
+> >>>> capturing the socket data off the wire. ie just a concatenation
+> >>>> of QMP commands, with no extra wrapping / change in format.
+> >>>>
+> >>>
+> >>> Eugh. That's just so hard to parse, because there's no off-the-shelf
+> >>> tooling for "load a sequence of JSON documents". Nothing in Python
+> >>> does it. :\
+> >>
+> >> It isn't that hard if you require each JSON doc to be followed by
+> >> a newline.
+> >>
+> >> Feed one line at a time to the JSON parser, until you get a complete
+> >> JSON doc, process that, then re-init the parser and carry on feeding
+> >> it lines until it emits the next JSON doc, and so on.
+> >>
+> >
+> > There's two interfaces in Python:
+> >
+> > (1) json.load(), which takes a file pointer and either returns a
+> > single, complete JSON document or it raises an Exception. It's not
+> > useful here at all.
+> > (2) json.JSONDecoder().raw_decode(strbuf), which takes a string buffer
+> > and returns a 2-tuple of a JSON Document and the position at which it
+> > stopped decoding.
+> >
+> > The second is what we need here, but it does require buffering the
+> > entire file into a string first, and then iteratively calling it. It
+> > feels like working against the grain a little bit. We also can't use
+> > the QAPI parser, as that parser has intentionally removed support for
+> > constructs we don't use in the qapi schema language. Boo. (Not that I
+> > want more non-standard configuration files like that propagating,
+> > either.)
+> >
+> > It would be possible to generate a JSON-Schema document to describe a
+> > script file that used a containing list construct, but impossible for
+> > a concatenation of JSON documents. This is one of the reasons I
+> > instinctively shy away from non-standard file formats, they tend to
+> > cut off support for this sort of thing.
+> >
+> > Wanting to keep the script easy to append to is legitimate. I'm keen
+> > to hear a bit more about the use case here before I press extremely
+> > hard in any given direction, but those are my impulses here.
+> >
+>
+> The use case is to be able to feed qemu with a bunch of commands we
+> expect to succeed and let qemu continue (unlike Daniel's wrap use case,
+> we don't want to quit qemu after the last command).
+>
+> Typically it's the use case I present in the following cover-letter:
+> https://lore.kernel.org/qemu-devel/20220223090706.4888-1-damien.hedde@gre=
+ensocs.com/
+>
 
-Thanks; my guess is we're going to need to document the expected VMSA
-values at some point.
+OK (Sorry for blowing this out into a bigger ordeal than you had maybe
+hoped for. I want to get you happy and on your way ASAP, I promise)
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+So, I see comments and simple QMP commands using the short-hand
+format. If I understand correctly, you want this script upstream so
+that you don't have to re-engineer the hack every time I shift
+something around in qmp-shell, and so that examples can be easily
+shared and reproduced between parties. Good reasons, so I want to help
+you out and get something merged. (An aside: In the past I have just
+copy-pasted stuff into my qmp-shell terminal. It's less reproducible
+for people who aren't used to using the tool, but it's been just
+enough juice for me in the past. I empathize with wanting to give
+someone a single-shot command they can copy-paste and have it Just
+Work.)
 
-> ---
-> 
-> v2:
-> - Explain that firmware must be built without NVRAM store.
-> 
-> v3:
-> - rstify
-> ---
->  docs/system/i386/amd-memory-encryption.rst | 54 ++++++++++++++++++++--
->  1 file changed, 50 insertions(+), 4 deletions(-)
-> 
-> diff --git a/docs/system/i386/amd-memory-encryption.rst b/docs/system/i386/amd-memory-encryption.rst
-> index 215946f813..dcf4add0e7 100644
-> --- a/docs/system/i386/amd-memory-encryption.rst
-> +++ b/docs/system/i386/amd-memory-encryption.rst
-> @@ -47,7 +47,7 @@ The guest policy is passed as plaintext. A hypervisor may choose to read it,
->  but should not modify it (any modification of the policy bits will result
->  in bad measurement). The guest policy is a 4-byte data structure containing
->  several flags that restricts what can be done on a running SEV guest.
-> -See KM Spec section 3 and 6.2 for more details.
-> +See SEV API Spec ([SEVAPI]_) section 3 and 6.2 for more details.
->  
->  The guest policy can be provided via the ``policy`` property::
->  
-> @@ -92,7 +92,7 @@ expects.
->  ``LAUNCH_FINISH`` finalizes the guest launch and destroys the cryptographic
->  context.
->  
-> -See SEV KM API Spec ([SEVKM]_) 'Launching a guest' usage flow (Appendix A) for the
-> +See SEV API Spec ([SEVAPI]_) 'Launching a guest' usage flow (Appendix A) for the
->  complete flow chart.
->  
->  To launch a SEV guest::
-> @@ -118,6 +118,49 @@ a SEV-ES guest:
->   - Requires in-kernel irqchip - the burden is placed on the hypervisor to
->     manage booting APs.
->  
-> +Calculating expected guest launch measurement
-> +---------------------------------------------
-> +
-> +In order to verify the guest launch measurement, The Guest Owner must compute
-> +it in the exact same way as it is calculated by the AMD-SP.  SEV API Spec
-> +([SEVAPI]_) section 6.5.1 describes the AMD-SP operations:
-> +
-> +    GCTX.LD is finalized, producing the hash digest of all plaintext data
-> +    imported into the guest.
-> +
-> +    The launch measurement is calculated as:
-> +
-> +    HMAC(0x04 || API_MAJOR || API_MINOR || BUILD || GCTX.POLICY || GCTX.LD || MNONCE; GCTX.TIK)
-> +
-> +    where "||" represents concatenation.
-> +
-> +The values of API_MAJOR, API_MINOR, BUILD, and GCTX.POLICY can be obtained
-> +from the ``query-sev`` qmp command.
-> +
-> +The value of MNONCE is part of the response of ``query-sev-launch-measure``: it
-> +is the last 16 bytes of the base64-decoded data field (see SEV API Spec
-> +([SEVAPI]_) section 6.5.2 Table 52: LAUNCH_MEASURE Measurement Buffer).
-> +
-> +The value of GCTX.LD is
-> +``SHA256(firmware_blob || kernel_hashes_blob || vmsas_blob)``, where:
-> +
-> +* ``firmware_blob`` is the content of the entire firmware flash file (for
-> +  example, ``OVMF.fd``).  Note that you must build a stateless firmware file
-> +  which doesn't use an NVRAM store, because the NVRAM area is not measured, and
-> +  therefore it is not secure to use a firmware which uses state from an NVRAM
-> +  store.
-> +* if kernel is used, and ``kernel-hashes=on``, then ``kernel_hashes_blob`` is
-> +  the content of PaddedSevHashTable (including the zero padding), which itself
-> +  includes the hashes of kernel, initrd, and cmdline that are passed to the
-> +  guest.  The PaddedSevHashTable struct is defined in ``target/i386/sev.c``.
-> +* if SEV-ES is enabled (``policy & 0x4 != 0``), ``vmsas_blob`` is the
-> +  concatenation of all VMSAs of the guest vcpus.  Each VMSA is 4096 bytes long;
-> +  its content is defined inside Linux kernel code as ``struct vmcb_save_area``,
-> +  or in AMD APM Volume 2 ([APMVOL2]_) Table B-2: VMCB Layout, State Save Area.
-> +
-> +If kernel hashes are not used, or SEV-ES is disabled, use empty blobs for
-> +``kernel_hashes_blob`` and ``vmsas_blob`` as needed.
-> +
->  Debugging
->  ---------
->  
-> @@ -142,8 +185,11 @@ References
->  `AMD Memory Encryption whitepaper
->  <https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf>`_
->  
-> -.. [SEVKM] `Secure Encrypted Virtualization Key Management
-> -   <http://developer.amd.com/wordpress/media/2017/11/55766_SEV-KM-API_Specification.pdf>`_
-> +.. [SEVAPI] `Secure Encrypted Virtualization API
-> +   <https://www.amd.com/system/files/TechDocs/55766_SEV-KM_API_Specification.pdf>`_
-> +
-> +.. [APMVOL2] `AMD64 Architecture Programmer's Manual Volume 2: System Programming
-> +   <https://www.amd.com/system/files/TechDocs/24593.pdf>`_
->  
->  KVM Forum slides:
->  
-> 
-> base-commit: c13b8e9973635f34f3ce4356af27a311c993729c
-> -- 
-> 2.25.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Some observations:
+
+(1) Comments we don't have in JSON, but we could use YAML instead, I'm
+fine with that personally. It does mean a new format (We don't have
+QMP-as-YAML anywhere in-tree), but it's one that maps so directly to
+JSON that I don't really consider it a problem. We might need to add a
+YAML dependency to the Python tools, but we can make the feature
+optional based on the presence of the yaml parser package. We can make
+it print a nice error explaining why it's not supported when pyyaml
+isn't found. It's an extremely common library. However, using YAML
+*requires* you to use a parsing tool (qmp-shell, qmp-send, whichever)
+to translate it to the wire format. Slight downside, but then again:
+It seems likely that we'll have different design priorities that
+separate a human-readable script file from the actual wire protocol
+format.
+
+We could also use JSON5, although that doesn't have native support in
+Python, so I am somewhat against it for that reason.
+We could also use the same "custom" format we use in qapi-gen for the
+QAPI schema, since at least we already use it in the tree. I'm not a
+big fan, but hey, there's precedent. (The custom QAPI parser would
+need to be expanded to allow the full spectrum of JSON value types and
+split out from the QAPI generator. It's possible to do, and I've
+thought about doing it before.)
+
+Using Dan's suggestion and storing commands as a sequence of JSON
+documents works (And avoids irritating anyone over a new format), but
+doesn't allow us the chance to use comments. That's slightly less
+useful for sharing little examples that are also human-readable on the
+ML. A plus side is that it's easy to just copy-paste the commands and
+toss them into socat if you're used to testing QMP that way, which a
+lot of QEMU devs seem to be. A downside is that anything that exceeds
+the complexity of just "pasting QMP straight into the socket" is not
+possible with this format, see point #3 below.
+
+(2) The short-hand format qmp-shell uses is problematic because it's
+non-standard and doesn't handle nested data very well. block device
+commands in particular are a bit fragile -- again because we don't
+have a parser in Python that is capable of starting from '{' and
+reading until the closing '}', so we require that embedded JSON
+arguments have no spaces at all. It's not the best, but we've never
+come up with anything better. A saving grace has been that at least
+this syntax was limited to the interactive interface. This is probably
+the main reason people wince when extending this format to a script
+we'll need to maintain backwards compatibility for.
+
+(3) The main benefit to using a script file like this is to be able to
+stop at the first error. Valid. Do you anticipate needing more
+advanced "waiting" constructs, though? For instance, calling a block
+formatting command and waiting until the formatting is complete before
+continuing; calling any block job, etc. I am wondering if we need to
+consider event-waits as part of this design space or not. Obviously
+including them will complicate things a bit, but I might want to leave
+open the option for future inclusion if we want to expand in that
+direction.
+
+Basically, we just don't have a good syntax for "human readable QMP"
+and we've never agreed on one. The one we have in qmp-shell is fairly
+widely disliked, but at least confined to human usage.
+
+So, ways out of the swamp:
+
+(A) I'm completely fine with adding an interactive command to
+qmp-shell ("/play file.txt") or even --play-script file.txt to the
+command line so long as the qmp-shell doesn't actually exit
+automatically. I.e., it stays interactive. Then I don't really care
+what the file format is, because it's not a scripting interface. It's
+just a neat little feature for convenience.
+
+(B) qemu-send is a good idea, but we need to decide on the storage
+format. Dan's idea involves the absolute least amount of design work.
+You could possibly add comments by pre-filtering the input and then
+passing it off to json.loads(), but it does preclude any more advanced
+constructs like timed waits, event waits, etc. Even so, this approach
+is *really* easy for me to accept into the tree.
+
+(C) qemu-send, but with a "custom" script format. YAML, JSON5, the
+QAPI JSON dialect. Opens Pandora's Box, but has merit.
+
+
+As an FYI, I am likely to embark on option (C) myself for separate
+reasons for the aqmp-tui tool that I am still working on. I want to
+add some advanced features to that tool:
+- Save command history as a playback file
+- Load playback files and re-play them at the server
+- Generate an iotest stub based on the current history / a playback file
+
+That's a bigger design problem and I have no intention of burdening
+you with it, but it does make me wonder if we choose the simplest
+option right now that I'll have another problem dealing with obsoleted
+script files in the future when I want to deprecate qmp-shell. Eh, I
+can always augment a theoretical qmp-send tool to "upgrade" in the
+future to be able to read either "v1" or "v2" formats based on what it
+sees. Making that kind of behavior very easy to perform in the future
+somehow would be greatly appreciated.
+
+*exhale*
+
+Alright, so which way should we head?
+
+--js
 
 
