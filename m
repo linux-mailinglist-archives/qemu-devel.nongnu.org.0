@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29184C0DA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 08:53:30 +0100 (CET)
-Received: from localhost ([::1]:46120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF6C4C0DA8
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Feb 2022 08:54:40 +0100 (CET)
+Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nMmSn-0005vZ-OK
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 02:53:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60444)
+	id 1nMmTv-00087A-LY
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 02:54:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMmQ1-00057n-BC
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 02:50:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50041)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMmRB-0006A4-PQ
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 02:51:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21118)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nMmPw-0006hS-EV
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 02:50:35 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nMmRA-0006q3-AO
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 02:51:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645602631;
+ s=mimecast20190719; t=1645602706;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rmIKVUXY6Ex7Fr+Hzz+S2tHYd6oxZVxFZ9OJ/MY0RLs=;
- b=HnOzfNmIMIjt/27irfuLZ+QcS+Jj81qbJrj276J98GcY63EYKz93Dks4ZY4LLt4lAMNpat
- AjNZhxIGsOPXucZDQrRVkiI7UvW5n4DHRAm2lwT9ijAGChmy1Zq+i7LJvXo8SRhUAcmclV
- XvGCrwD3AsnXKTHzIms5Bhz3P2RiYvQ=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BP/ENfiUrhNuqUXtdh/B7Xe85zgsokP2TITJn7Vy+1E=;
+ b=Q0L6Nft6xqaCDF8CMNO+CVhGN3cV7EWcWP5U00ji+GQQKAs1qBobvcWUb5lTgAk2HoF74G
+ bOu674qbdhU4jhVYCQr4IstpEybYdKn8yvWCyqt5auJebahj0FNb5IrXsqvR6jBmzyvzhp
+ u1gxra2zAGh/90roseX9ELFUB/JsQiU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-p1LpQTiAM9Kw7bgSFI9PnA-1; Wed, 23 Feb 2022 02:50:30 -0500
-X-MC-Unique: p1LpQTiAM9Kw7bgSFI9PnA-1
-Received: by mail-pf1-f200.google.com with SMTP id
- a22-20020aa79716000000b004e16e3cc5fcso8590045pfg.11
- for <qemu-devel@nongnu.org>; Tue, 22 Feb 2022 23:50:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rmIKVUXY6Ex7Fr+Hzz+S2tHYd6oxZVxFZ9OJ/MY0RLs=;
- b=UhGw2lotiY0sZTLyrwPTdN5cHI4j84BtKlU4/D8orjZbBAbgsgwnbpQkRTn9EB7ccd
- h6pDx3gieuu1fNXDBYbJJDIGBbKUKtZRFvrgAkNVXtHMTLJJfn5lGrmDoXtasZ49/jHn
- 1G187isgJf+0QxaAH94cHA0QqFuO55tObvIAbrTpF2mz9MFQkO8ZonDX58w/tgUfJX3X
- XDC+cyW/HYIlkrkMSZam7B+eEC5FMkWMEAUONKBJcGhqM2Bs7JKBwlN+QCOjyCLRgP1s
- NACjHF/b8XgpxYkTNFLGAMSXcEPOOYA1jwCrO10PL2TD8zh8nlb9kG8rEoXFTbj3nH6k
- eVYA==
-X-Gm-Message-State: AOAM532h7tqKmOz27PxL63taKsSk5NZ8swQldmVCAaPErKeEr1g27aEV
- fUn6uFVhMBK34X2YX2ZitYJ8GOBfgczlcxqT6W8F5TCZetogz+QYDExfVyCtnPuGqGvYdN1zyix
- /ufcnaDKx7leNvIM=
-X-Received: by 2002:a17:902:d892:b0:14e:e074:7ff7 with SMTP id
- b18-20020a170902d89200b0014ee0747ff7mr26311476plz.29.1645602629210; 
- Tue, 22 Feb 2022 23:50:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx2d5eBYY2Np5Grn6pW1D5M4e9TnzjDr6aQPXukxjJBTN4bHEAqpAcWW2MkPs+YuOEtOLNg4g==
-X-Received: by 2002:a17:902:d892:b0:14e:e074:7ff7 with SMTP id
- b18-20020a170902d89200b0014ee0747ff7mr26311465plz.29.1645602628936; 
- Tue, 22 Feb 2022 23:50:28 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.100])
- by smtp.gmail.com with ESMTPSA id s24sm23430267pgq.51.2022.02.22.23.50.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Feb 2022 23:50:28 -0800 (PST)
-Date: Wed, 23 Feb 2022 15:50:24 +0800
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 20/20] tests: Add postcopy preempt test
-Message-ID: <YhXnQLY4/b3V2+VL@xz-m1.local>
-References: <20220216062809.57179-1-peterx@redhat.com>
- <20220216062809.57179-21-peterx@redhat.com>
- <YhTcb9o1d1gCQ3rm@work-vm>
+ us-mta-421-E4tSaFHCNxWNZVa2zNKsTQ-1; Wed, 23 Feb 2022 02:51:45 -0500
+X-MC-Unique: E4tSaFHCNxWNZVa2zNKsTQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 977811091DA8;
+ Wed, 23 Feb 2022 07:51:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 538CA103BAC7;
+ Wed, 23 Feb 2022 07:51:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D63B721608D8; Wed, 23 Feb 2022 08:51:31 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Fabian Holler <fabian.holler@simplesurance.de>
+Subject: Re: [PATCH v2] qapi/migration: Fix examples document wrong field
+ name for arguments
+References: <20220222170116.63105-1-fabian.holler@simplesurance.de>
+Date: Wed, 23 Feb 2022 08:51:31 +0100
+In-Reply-To: <20220222170116.63105-1-fabian.holler@simplesurance.de> (Fabian
+ Holler's message of "Tue, 22 Feb 2022 18:01:16 +0100")
+Message-ID: <875yp6ggvw.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <YhTcb9o1d1gCQ3rm@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,36 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 22, 2022 at 12:51:59PM +0000, Dr. David Alan Gilbert wrote:
-> * Peter Xu (peterx@redhat.com) wrote:
-> > Two tests are added: a normal postcopy preempt test, and a recovery test.
-> 
-> Yes, this is difficult; without hugepages the tests are limited; did you
-> see if this test actually causes pages to go down the fast path?
+Fabian Holler <fabian.holler@simplesurance.de> writes:
 
-I didn't observe the test case explicitly, but I did observe in my own test
-that I ran that it goes with the fast path, or I can't get a huge speed up.
+> The examples for the snapshot-* and calc-dirty-rate commands document
+> that arguments for the commands are passed in a 'data' field.
+> This is wrong, passing them in a "data" field results in
+> the error:
+>   {"error": {"class": "GenericError", "desc": "QMP input member 'data'
+> 		       is unexpected"}}
+> Arguments are expected to be passed in an field called "arguments".
+>
+> Replace "data" with "arguments" in the snapshot-* and calc-dirty-rate
+> command examples.
+>
+> Signed-off-by: Fabian Holler <fabian.holler@simplesurance.de>
 
-Meanwhile my own test is only using 2M huge pages, and I can observe
-interruptions of huge page sendings frequently.
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-But yeah let me try to capture something in this test too, at least to make
-sure the standalone socket is being used.  Covering of huge pages might be
-doable but obviously requires host privileges, so I'll leave that for later.
-
-> 
-> 
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-Thanks,
-
--- 
-Peter Xu
+Queued, thanks!
 
 
