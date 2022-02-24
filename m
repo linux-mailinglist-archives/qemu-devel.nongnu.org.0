@@ -2,93 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716044C3548
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:05:04 +0100 (CET)
-Received: from localhost ([::1]:53418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8834C3563
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:10:54 +0100 (CET)
+Received: from localhost ([::1]:36496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNJQF-0006JP-GB
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:05:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55998)
+	id 1nNJVt-0005ZY-AS
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:10:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nNJK3-0005cu-ML; Thu, 24 Feb 2022 13:58:43 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50666)
+ id 1nNJKA-0005kv-UD; Thu, 24 Feb 2022 13:58:47 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nNJK1-0006Q3-7p; Thu, 24 Feb 2022 13:58:39 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21OIGYUv010089; 
- Thu, 24 Feb 2022 18:58:30 GMT
+ id 1nNJK8-0006RY-Rp; Thu, 24 Feb 2022 13:58:46 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21OIa5a8016542; 
+ Thu, 24 Feb 2022 18:58:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=iTMRQi/iweOfP4GiDnHB9q6xHW8rySQdndGuWXp0vtQ=;
- b=ZCeXYk2lQgGepFGx3Ls32rbKwvRNgvN8iVquyPodnP+zqSYUsD/6jPKsmExUPcZ8NjQK
- 04kNzfZR7OHN5qsRdgcyDR9/t2qU+3PufWY77LaaYc8TV/9esl2iYrZCgV4YpGzlNAyI
- qWRKi1Bf7g3sgoZBld5qD+uq0g0h5zzIe8MKLeeZXtwCP88WitamMQb6ZRQVH3H3BMcN
- Eda/Trhc+NIM776bod5DVELpyEOPquR/T90NV0o2KUXAX/F0zNcC8W1RlIjffUaA5ik7
- TPOPT4SXxURmQkaRpa+G1kubj0i8KRGyVU7cAMGCRnIjXTVmB7K1pnUx68WMDinJqIEn gg== 
+ bh=+OLMEFlc9ii3IEAQZh3JSePrf8F+Yh0cx/2Hzq4ols0=;
+ b=JctTP9ec2Nm90hCF1JC8zeT/EpnKypTzwhh072yecf/Ewz5l23Pi7In2SUBX4wshXnp8
+ R2PYUPREL7+MebmDMKtKPo/x+AFsZL0QmJaf+MIWX6N2or4F0pJUxFJp2yevWYQgx2Kq
+ w/KfFeEZRaM97vcSRJn++vqDwMzMQJGAnCv59+vTnY6OGkKEjhlsaKmqTm/ZSgF0dxhL
+ p8SZNR/of3lPGwmtE0lpuOsizTFA0oBFtZi2FUYilu5cFbus/N7JgGd3BZEhq0mxHj4t
+ rA8l6Y5Cct20rxwZBL9pPnzu0kc25qx10hg+9+KcgNs6MWONGggLCn5x/mQaz6+X2SRe KQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3edq0k17hb-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3edxfe6x4b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Feb 2022 18:58:32 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21OIwVeP029300;
+ Thu, 24 Feb 2022 18:58:31 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3edxfe6x43-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Feb 2022 18:58:31 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21OIcWsK025980;
+ Thu, 24 Feb 2022 18:58:31 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma03dal.us.ibm.com with ESMTP id 3ear6cn1fk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 24 Feb 2022 18:58:30 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21OIkS0T002199;
- Thu, 24 Feb 2022 18:58:29 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3edq0k17h1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Feb 2022 18:58:29 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21OIcYVd017175;
- Thu, 24 Feb 2022 18:58:28 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma05wdc.us.ibm.com with ESMTP id 3edr92v7ws-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Feb 2022 18:58:28 +0000
 Received: from b03ledav006.gho.boulder.ibm.com
  (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21OIwRqu30277946
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21OIwT1e33095978
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Feb 2022 18:58:27 GMT
+ Thu, 24 Feb 2022 18:58:29 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7BF7CC6055;
+ by IMSVA (Postfix) with ESMTP id BF275C605D;
+ Thu, 24 Feb 2022 18:58:29 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF693C6057;
  Thu, 24 Feb 2022 18:58:27 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9930AC6065;
- Thu, 24 Feb 2022 18:58:25 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.135.43])
  by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 24 Feb 2022 18:58:25 +0000 (GMT)
+ Thu, 24 Feb 2022 18:58:27 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/4] target/ppc: TCG: Migrate tb_offset and decr
-Date: Thu, 24 Feb 2022 15:58:14 -0300
-Message-Id: <20220224185817.2207228-2-farosas@linux.ibm.com>
+Subject: [RFC PATCH 2/4] spapr: TCG: Migrate spapr_cpu->prod
+Date: Thu, 24 Feb 2022 15:58:15 -0300
+Message-Id: <20220224185817.2207228-3-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220224185817.2207228-1-farosas@linux.ibm.com>
 References: <20220224185817.2207228-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 8Rk_D-S0RRxv-yGdPSEAFjOrBhOMjan1
-X-Proofpoint-GUID: d0uEoR33GiE0mVkOwmm-3QXo0mNYtsr3
+X-Proofpoint-ORIG-GUID: YpqVO1nrTLv2S5IFcy-ApujKvVlcmoM7
+X-Proofpoint-GUID: PnM7HAdCJBrsUvygqat_MaT4pTO2UkeK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-02-24_03,2022-02-24_01,2022-02-23_01
+ definitions=2022-02-24_04,2022-02-24_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- priorityscore=1501 phishscore=0 adultscore=0 lowpriorityscore=0
- malwarescore=0 bulkscore=0 clxscore=1015 mlxscore=0 impostorscore=0
- spamscore=0 mlxlogscore=955 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2201110000 definitions=main-2202240104
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ suspectscore=0 malwarescore=0
+ mlxlogscore=999 spamscore=0 priorityscore=1501 phishscore=0 bulkscore=0
+ mlxscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202240104
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -113,66 +113,41 @@ Cc: aik@ozlabs.ru, danielhb413@gmail.com, npiggin@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These two were not migrated so the remote end was starting with the
-decrementer expired.
-
-I am seeing less frequent crashes with this patch (tested with -smp 4
-and -smp 32). It certainly doesn't fix all issues but it looks like it
-helps.
+I'm seeing some stack traces in the migrated guest going through cede
+and some hangs at the plpar_hcall_norets so let's make sure everything
+related to cede/prod is being migrated just in case.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 ---
- target/ppc/machine.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ hw/ppc/spapr_cpu_core.c         | 1 +
+ include/hw/ppc/spapr_cpu_core.h | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-index 1b63146ed1..7ee1984500 100644
---- a/target/ppc/machine.c
-+++ b/target/ppc/machine.c
-@@ -9,6 +9,7 @@
- #include "qemu/main-loop.h"
- #include "kvm_ppc.h"
- #include "power8-pmu.h"
-+#include "hw/ppc/ppc.h"
- 
- static void post_load_update_msr(CPUPPCState *env)
- {
-@@ -666,6 +667,18 @@ static const VMStateDescription vmstate_compat = {
-     }
- };
- 
-+static const VMStateDescription vmstate_tb_env = {
-+    .name = "cpu/env/tb_env",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_INT64(tb_offset, ppc_tb_t),
-+        VMSTATE_UINT64(decr_next, ppc_tb_t),
-+        VMSTATE_TIMER_PTR(decr_timer, ppc_tb_t),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- const VMStateDescription vmstate_ppc_cpu = {
-     .name = "cpu",
-     .version_id = 5,
-@@ -696,12 +709,16 @@ const VMStateDescription vmstate_ppc_cpu = {
-         /* Backward compatible internal state */
-         VMSTATE_UINTTL(env.hflags_compat_nmsr, PowerPCCPU),
- 
-+        VMSTATE_STRUCT_POINTER_V(env.tb_env, PowerPCCPU, 1,
-+                                 vmstate_tb_env, ppc_tb_t),
-+
-         /* Sanity checking */
-         VMSTATE_UINTTL_TEST(mig_msr_mask, PowerPCCPU, cpu_pre_2_8_migration),
-         VMSTATE_UINT64_TEST(mig_insns_flags, PowerPCCPU, cpu_pre_2_8_migration),
-         VMSTATE_UINT64_TEST(mig_insns_flags2, PowerPCCPU,
-                             cpu_pre_2_8_migration),
-         VMSTATE_UINT32_TEST(mig_nb_BATs, PowerPCCPU, cpu_pre_2_8_migration),
-+
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index ed84713960..efda7730f1 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -179,6 +179,7 @@ static const VMStateDescription vmstate_spapr_cpu_state = {
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
++        VMSTATE_BOOL(prod, SpaprCpuState),
          VMSTATE_END_OF_LIST()
      },
-     .subsections = (const VMStateDescription*[]) {
+     .subsections = (const VMStateDescription * []) {
+diff --git a/include/hw/ppc/spapr_cpu_core.h b/include/hw/ppc/spapr_cpu_core.h
+index b560514560..2772689c84 100644
+--- a/include/hw/ppc/spapr_cpu_core.h
++++ b/include/hw/ppc/spapr_cpu_core.h
+@@ -45,7 +45,7 @@ typedef struct SpaprCpuState {
+     uint64_t vpa_addr;
+     uint64_t slb_shadow_addr, slb_shadow_size;
+     uint64_t dtl_addr, dtl_size;
+-    bool prod; /* not migrated, only used to improve dispatch latencies */
++    bool prod;
+     struct ICPState *icp;
+     struct XiveTCTX *tctx;
+ 
 -- 
 2.34.1
 
