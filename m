@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D9A4C28C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 11:03:24 +0100 (CET)
-Received: from localhost ([::1]:44974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DEF4C28D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 11:08:14 +0100 (CET)
+Received: from localhost ([::1]:48310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNAy3-0002ie-JM
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 05:03:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43158)
+	id 1nNB2j-0005GB-2l
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 05:08:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nNAwB-0001jr-MP
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:01:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50573)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nNB0X-0003x9-By
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:05:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nNAw9-000682-Pn
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:01:27 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nNB0V-0006qn-PB
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:05:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645696885;
+ s=mimecast20190719; t=1645697154;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=f+/uZmUlUmwIbcHwqdk/cqR3zsjY5DR6yznwd5+XZv0=;
- b=gDLHcyjcdim8op+EDfIAboKmER5o41K2hnYB6E3TtwopTm/ohhEXJM3rFJNeQ+I2NjcuHc
- 5u6F4bmb3oEwr+Wb8hSmqfCY0W7VkpuJjgikBbmTHngJoEtd7RraxR1pA7UQQYY48D6S4Y
- FU3z6WlWPyhKjXNLStDlgdq13Z+UC6U=
+ bh=o9/wPFKHRsuXBXaTXhVUeAaiExOAQfkrl8LU4prJwIg=;
+ b=XrvBYghSUBeSFK07PWMclHQPt3B0hqVwtkg8sxUkKBBBMQKvYLpyO/9++wCs8tFTV4d5YW
+ lTHdNbyisADSwrpJW0BOempInXRFLJU2f9+etu339BKgiVFeeJZaAF04oJT9RSK2uWIMo8
+ ngeVYFmE9fBgEf81ZhoSbXxqtJ6Xh90=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-dO1bcN1sPQCEY98TAFgG3A-1; Thu, 24 Feb 2022 05:01:21 -0500
-X-MC-Unique: dO1bcN1sPQCEY98TAFgG3A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-329-iMXCikMbN5GXFShweX68Vg-1; Thu, 24 Feb 2022 05:05:53 -0500
+X-MC-Unique: iMXCikMbN5GXFShweX68Vg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EA71100C609;
- Thu, 24 Feb 2022 10:01:20 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3B606C92D;
- Thu, 24 Feb 2022 10:01:19 +0000 (UTC)
-Date: Thu, 24 Feb 2022 10:01:18 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Subject: Re: [PATCH 2/3] util/main-loop: Introduce the main loop into QOM
-Message-ID: <YhdXbtLpdXrL2rve@stefanha-x1.localdomain>
-References: <20220221170843.849084-1-nsaenzju@redhat.com>
- <20220221170843.849084-3-nsaenzju@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DC1E1006AA6;
+ Thu, 24 Feb 2022 10:05:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 55C5A2308A;
+ Thu, 24 Feb 2022 10:04:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CB28D21E6A00; Thu, 24 Feb 2022 11:04:56 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Fabian Ebner <f.ebner@proxmox.com>
+Subject: Re: [PATCH v8 1/3] monitor/hmp: add support for flag argument with
+ value
+References: <20220204101220.343526-1-f.ebner@proxmox.com>
+ <20220204101220.343526-2-f.ebner@proxmox.com>
+ <87tud8f7t0.fsf@pond.sub.org>
+ <40352d01-3577-088d-23c6-1ab5f062d8a9@proxmox.com>
+Date: Thu, 24 Feb 2022 11:04:56 +0100
+In-Reply-To: <40352d01-3577-088d-23c6-1ab5f062d8a9@proxmox.com> (Fabian
+ Ebner's message of "Thu, 24 Feb 2022 10:17:21 +0100")
+Message-ID: <87zgmgvauv.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OBuOrYBN/OdftshA"
-Content-Disposition: inline
-In-Reply-To: <20220221170843.849084-3-nsaenzju@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,97 +84,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com,
- qemu-block@nongnu.org, michael.roth@amd.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, eduardo@habkost.net,
- hreitz@redhat.com, pbonzini@redhat.com, eblake@redhat.com
+Cc: w.bumiller@proxmox.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, marcandre.lureau@gmail.com, kraxel@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, eblake@redhat.com,
+ t.lamprecht@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fabian Ebner <f.ebner@proxmox.com> writes:
 
---OBuOrYBN/OdftshA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Am 09.02.22 um 15:12 schrieb Markus Armbruster:
+>> Fabian Ebner <f.ebner@proxmox.com> writes:
+>
+> ----8<----
+>
+>>> diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+>>> index 3da3f86c6a..a4cb307c8a 100644
+>>> --- a/monitor/monitor-internal.h
+>>> +++ b/monitor/monitor-internal.h
+>>> @@ -63,7 +63,8 @@
+>>>   * '.'          other form of optional type (for 'i' and 'l')
+>>>   * 'b'          boolean
+>>>   *              user mode accepts "on" or "off"
+>>> - * '-'          optional parameter (eg. '-f')
+>>> + * '-'          optional parameter (eg. '-f'); if followed by a 'V', it
+>>> + *              specifies an optional string param (e.g. '-fV' allows '-f foo')
+>>>   *
+>>>   */
+>> 
+>> For what it's worth, getopt() uses ':' after the option character for
+>> "takes an argument".
+>> 
+>
+> Doing that leads to e.g.
+>     .args_type  = "protocol:s,password:s,display:-d:,connected:s?",
+> so there's two different kinds of colons now.
 
-On Mon, Feb 21, 2022 at 06:08:44PM +0100, Nicolas Saenz Julienne wrote:
-> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-> index 8dbc6fcb89..fea5a3e9d4 100644
-> --- a/include/qemu/main-loop.h
-> +++ b/include/qemu/main-loop.h
-> @@ -26,9 +26,20 @@
->  #define QEMU_MAIN_LOOP_H
-> =20
->  #include "block/aio.h"
-> +#include "qom/object.h"
-> +#include "util/event-loop.h"
-> =20
->  #define SIG_IPI SIGUSR1
-> =20
-> +#define TYPE_MAIN_LOOP "main-loop"
-> +
-> +struct MainLoop {
-> +    EventLoopBackend parent_obj;
-> +};
-> +typedef struct MainLoop MainLoop;
-> +
-> +DECLARE_INSTANCE_CHECKER(MainLoop, MAIN_LOOP, TYPE_MAIN_LOOP)
+Point.
 
- * Direct usage of this macro should be avoided, and the complete
- * OBJECT_DECLARE_TYPE macro is recommended instead.
+>                                               It's not a problem
+> functionality-wise AFAICT, but it might not be ideal. Should I still go
+> for it?
+>
+> Also, wouldn't future non-string flag parameters need their own letter
+> too? What about re-using 's' here instead?
 
-Is there a reason for using DECLARE_INSTANCE_CHECKER() instead of
-OBJECT_DECLARE_TYPE()?
+Another good point.
 
-> @@ -882,7 +883,8 @@
->        'input-barrier':              'InputBarrierProperties',
->        'input-linux':                { 'type': 'InputLinuxProperties',
->                                        'if': 'CONFIG_LINUX' },
-> -      'iothread':                   'IothreadProperties',
-> +      'iothread':                   'EventLoopBackendProperties',
-> +      'main-loop':                  'EventLoopBackendProperties',
->        'memory-backend-epc':         { 'type': 'MemoryBackendEpcPropertie=
-s',
->                                        'if': 'CONFIG_LINUX' },
->        'memory-backend-file':        'MemoryBackendFileProperties',
+Dave, what do you think?
 
-Does this commit the QAPI schema to keeping iothread and main-loop
-properties identical or can they diverge over time, if necessary?
-
-I think we have the freedom to switch the QAPI schema to different
-structs for iothread and main-loop in the future because QMP clients
-aren't supposed to rely on the exact type, but I wanted to double-check.
-
-> diff --git a/qga/meson.build b/qga/meson.build
-> index 1ee9dca60b..3051473e04 100644
-> --- a/qga/meson.build
-> +++ b/qga/meson.build
-> @@ -52,7 +52,7 @@ qga_ss =3D qga_ss.apply(config_host, strict: false)
-> =20
->  qga =3D executable('qemu-ga', qga_ss.sources(),
->                   link_args: config_host['LIBS_QGA'].split(),
-> -                 dependencies: [qemuutil, libudev],
-> +                 dependencies: [qemuutil, libudev, qom],
-
-Looks like a change because the first patch added the base class to qom
-instead of qemuutil. Maybe this can be undone if the base class is added
-to qemuutil instead.
-
---OBuOrYBN/OdftshA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIXV24ACgkQnKSrs4Gr
-c8g4OAf+OJZIY7Tf/acbe1NqdV5a7zCEfS0BoSrPmUISIJcLI/GvCf5pjq1UOpqD
-zbCogk5wobcRUK7jlOFa0qTRB9SC7mkFCXdHaijeH2737V6NuDeiuf/xhZjgXoJD
-tsdIBJ2rn3+pGUXMo3ER2v02LDGMxEExMu0LpkTS+hwie5FosFQx3YUFHYRoZzWe
-k/AhM+ZVu+tqIJe/WYexe+FmMu80UHOsXcUUs5jxiP9lSFPD7HWjIJBxflCgMaBr
-M+9oBOsoZS0AB7ISqRvyP+g9APkGuKdxuEUVo706uM9eQ3+xIhc5hCDMNIrrm+s0
-92gxqtgP309P/oVP5TQ+zVpqMSw+wg==
-=d7eX
------END PGP SIGNATURE-----
-
---OBuOrYBN/OdftshA--
+>> Happy to make that tweak in my tree.  But see my review of PATCH 3
+>> first.
 
 
