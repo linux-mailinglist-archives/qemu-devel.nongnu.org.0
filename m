@@ -2,84 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A831C4C34C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 19:31:55 +0100 (CET)
-Received: from localhost ([::1]:46482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2384C3500
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 19:47:29 +0100 (CET)
+Received: from localhost ([::1]:53216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNIuA-0006R8-Py
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 13:31:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50424)
+	id 1nNJ9D-0003A3-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 13:47:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nNIsw-0005Re-Rt
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:30:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30217)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nNIzb-0008Sw-V7
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:37:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nNIsr-00022D-Lj
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:30:35 -0500
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nNIzX-0003EM-Op
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:37:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645727432;
+ s=mimecast20190719; t=1645727845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mm+6SUt5WNuzv49pj/mIF6KmZzVIi+BL+BSl2ghB+Pg=;
- b=F8nb0AI+9a8Z34UV3S96jUSY9413MMZHWFdKXVq3WUsvU8DvABWfgS1cQzZybERKBHhGQC
- hHHLn7upNbv3Kj8WDoZw1QPg37QG5M8kGWsp1pFVE5wWjitB/Xzjmm6O9O81sTKpJtTHRN
- NKlP2HFrp1T+2psLpMI/hwM2LjeZPUg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ra9/VksLqOX52lg6wn9OeJIwPpklxLbiHNk9U+dyIWM=;
+ b=XAi336qQ1lsLhN8O4tweA0FphqI1AHsXRQvv4pUUS1GcEmyGD35pwFSb51j3hctz52ySJ+
+ nqlbCULWJBcZCJHKFC8vcRNWjeX0GvqeMusdJ3DVhdGexH1eXzlN46qLbmWvgKcfAnCvJB
+ tCX1B0jKom4uP4fadwNhawNc9eqrj8k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-327-r7SvSLBsOIWuXgUWQfZYVA-1; Thu, 24 Feb 2022 13:30:31 -0500
-X-MC-Unique: r7SvSLBsOIWuXgUWQfZYVA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j8-20020adfc688000000b001e3322ced69so242037wrg.13
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:30:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mm+6SUt5WNuzv49pj/mIF6KmZzVIi+BL+BSl2ghB+Pg=;
- b=qHWZJrzY2pbWbiEq+6hPlm6pMVei5p6mkUCx/KarzGjh++Ihy/TQ+rTnUSw8HpFDlZ
- JMHmMLmWiq93v27g3zLzOJNfH8aGn/V8jzTRQ4wXtMkn2oPQJttsXmMmval1j325NJiV
- Brs0KK3fIJcfCXwOU7dxnBd3R9kFPqpYm0SU/4W83JgnleaYfYvLcLBgYzYZ2CQh+RTX
- OmRqWSlcDlGSo1usY2Wyp9CKE39OexiBejp5LBI1f0CbEe+FnrvJD3vForsm5lrmB159
- 3yt0v7VrYkV6YMtma7OfeRL15ZsWKR/y2mS6AwpFhaG419HjxDM84g18DocIxljvlFwE
- gXWg==
-X-Gm-Message-State: AOAM533v6cXHZm110ubwZD9y2ggdXNPvBwwmJqGwCX4ROa0ebqgl46AH
- RWlfbLXuNFNugc7srCClb2WNe3jfXA9COe9WqVyRNHpjZGQtZkw/oSwwsX1HX4L1ud8G1UiE43W
- j0iQsb2UtmqQ8mLc=
-X-Received: by 2002:a5d:4391:0:b0:1ee:df66:265e with SMTP id
- i17-20020a5d4391000000b001eedf66265emr1774256wrq.300.1645727430528; 
- Thu, 24 Feb 2022 10:30:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx0BWKgrjPR3zlLd1KNYESOyMBAVjeIgT0SLe/3MxAsX0GzmYwKvQ2d0iisCDqi+UAjHxoY2w==
-X-Received: by 2002:a5d:4391:0:b0:1ee:df66:265e with SMTP id
- i17-20020a5d4391000000b001eedf66265emr1774225wrq.300.1645727430248; 
- Thu, 24 Feb 2022 10:30:30 -0800 (PST)
-Received: from redhat.com ([2.55.145.157]) by smtp.gmail.com with ESMTPSA id
- s189-20020a1ca9c6000000b0037ee648fbc4sm118008wme.45.2022.02.24.10.30.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 10:30:29 -0800 (PST)
-Date: Thu, 24 Feb 2022 13:30:24 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v3 4/6] i386/pc: relocate 4g start to 1T where applicable
-Message-ID: <20220224131607-mutt-send-email-mst@kernel.org>
-References: <20220223184455.9057-1-joao.m.martins@oracle.com>
- <20220223184455.9057-5-joao.m.martins@oracle.com>
- <20220223161744-mutt-send-email-mst@kernel.org>
- <5fee0e05-e4d1-712b-9ad1-f009aba431ea@oracle.com>
- <c28ade30-fbea-4d3a-3b11-356c02abaabb@oracle.com>
- <20220224122146-mutt-send-email-mst@kernel.org>
- <7afb8caf-5c98-d6db-d3e5-6e08b2832d57@oracle.com>
+ us-mta-447-jw7KgMfMMDKuCtXFAi8pBw-1; Thu, 24 Feb 2022 13:37:19 -0500
+X-MC-Unique: jw7KgMfMMDKuCtXFAi8pBw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB06B801AAD;
+ Thu, 24 Feb 2022 18:37:17 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 05C3787533;
+ Thu, 24 Feb 2022 18:37:04 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/12] Misc cleanups
+Date: Thu, 24 Feb 2022 22:36:49 +0400
+Message-Id: <20220224183701.608720-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <7afb8caf-5c98-d6db-d3e5-6e08b2832d57@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,172 +78,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Cc: peter.maydell@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 24, 2022 at 05:54:58PM +0000, Joao Martins wrote:
-> On 2/24/22 17:23, Michael S. Tsirkin wrote:
-> > On Thu, Feb 24, 2022 at 04:07:22PM +0000, Joao Martins wrote:
-> >> On 2/23/22 23:35, Joao Martins wrote:
-> >>> On 2/23/22 21:22, Michael S. Tsirkin wrote:
-> >>>>> +static void x86_update_above_4g_mem_start(PCMachineState *pcms,
-> >>>>> +                                          uint64_t pci_hole64_size)
-> >>>>> +{
-> >>>>> +    X86MachineState *x86ms = X86_MACHINE(pcms);
-> >>>>> +    uint32_t eax, vendor[3];
-> >>>>> +
-> >>>>> +    host_cpuid(0x0, 0, &eax, &vendor[0], &vendor[2], &vendor[1]);
-> >>>>> +    if (!IS_AMD_VENDOR(vendor)) {
-> >>>>> +        return;
-> >>>>> +    }
-> >>>>
-> >>>> Wait a sec, should this actually be tying things to the host CPU ID?
-> >>>> It's really about what we present to the guest though,
-> >>>> isn't it?
-> >>>
-> >>> It was the easier catch all to use cpuid without going into
-> >>> Linux UAPI specifics. But it doesn't have to tie in there, it is only
-> >>> for systems with an IOMMU present.
-> >>>
-> >>>> Also, can't we tie this to whether the AMD IOMMU is present?
-> >>>>
-> >>> I think so, I can add that. Something like a amd_iommu_exists() helper
-> >>> in util/vfio-helpers.c which checks if there's any sysfs child entries
-> >>> that start with ivhd in /sys/class/iommu/. Given that this HT region is
-> >>> hardcoded in iommu reserved regions since >=4.11 (to latest) I don't think it's
-> >>> even worth checking the range exists in:
-> >>>
-> >>> 	/sys/kernel/iommu_groups/0/reserved_regions
-> >>>
-> >>> (Also that sysfs ABI is >= 4.11 only)
-> >>
-> >> Here's what I have staged in local tree, to address your comment.
-> >>
-> >> Naturally the first chunk is what's affected by this patch the rest is a
-> >> precedessor patch to introduce qemu_amd_iommu_is_present(). Seems to pass
-> >> all the tests and what not.
-> >>
-> >> I am not entirely sure this is the right place to put such a helper, open
-> >> to suggestions. wrt to the naming of the helper, I tried to follow the rest
-> >> of the file's style.
-> >>
-> >> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> >> index a9be5d33a291..2ea4430d5dcc 100644
-> >> --- a/hw/i386/pc.c
-> >> +++ b/hw/i386/pc.c
-> >> @@ -868,10 +868,8 @@ static void x86_update_above_4g_mem_start(PCMachineState *pcms,
-> >>                                            uint64_t pci_hole64_size)
-> >>  {
-> >>      X86MachineState *x86ms = X86_MACHINE(pcms);
-> >> -    uint32_t eax, vendor[3];
-> >>
-> >> -    host_cpuid(0x0, 0, &eax, &vendor[0], &vendor[2], &vendor[1]);
-> >> -    if (!IS_AMD_VENDOR(vendor)) {
-> >> +    if (!qemu_amd_iommu_is_present()) {
-> >>          return;
-> >>      }
-> >>
-> >> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> >> index 7bcce3bceb0f..eb4ea071ecec 100644
-> >> --- a/include/qemu/osdep.h
-> >> +++ b/include/qemu/osdep.h
-> >> @@ -637,6 +637,15 @@ char *qemu_get_host_name(Error **errp);
-> >>   */
-> >>  size_t qemu_get_host_physmem(void);
-> >>
-> >> +/**
-> >> + * qemu_amd_iommu_is_present:
-> >> + *
-> >> + * Operating system agnostic way of querying if an AMD IOMMU
-> >> + * is present.
-> >> + *
-> >> + */
-> >> +bool qemu_amd_iommu_is_present(void);
-> >> +
-> >>  /*
-> >>   * Toggle write/execute on the pages marked MAP_JIT
-> >>   * for the current thread.
-> >> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> >> index f2be7321c59f..54cef21217c4 100644
-> >> --- a/util/oslib-posix.c
-> >> +++ b/util/oslib-posix.c
-> >> @@ -982,3 +982,32 @@ size_t qemu_get_host_physmem(void)
-> >>  #endif
-> >>      return 0;
-> >>  }
-> >> +
-> >> +bool qemu_amd_iommu_is_present(void)
-> >> +{
-> >> +    bool found = false;
-> >> +#ifdef CONFIG_LINUX
-> >> +    struct dirent *entry;
-> >> +    char *path;
-> >> +    DIR *dir;
-> >> +
-> >> +    path = g_strdup_printf("/sys/class/iommu");
-> >> +    dir = opendir(path);
-> >> +    if (!dir) {
-> >> +        g_free(path);
-> >> +        return found;
-> >> +    }
-> >> +
-> >> +    do {
-> >> +            entry = readdir(dir);
-> >> +            if (entry && !strncmp(entry->d_name, "ivhd", 4)) {
-> >> +                found = true;
-> >> +                break;
-> >> +            }
-> >> +    } while (entry);
-> >> +
-> >> +    g_free(path);
-> >> +    closedir(dir);
-> >> +#endif
-> >> +    return found;
-> >> +}
-> > 
-> > why are we checking whether an AMD IOMMU is present
-> > on the host? 
-> > Isn't what we care about whether it's
-> > present in the VM? What we are reserving after all
-> > is a range of GPAs, not actual host PA's ...
-> > 
-> Right.
-> 
-> But any DMA map done by VFIO/IOMMU using those GPA ranges will fail,
-> and so we need to not map that portion of address space entirely
-> and use some other portion of the GPA-space. This has to
-> do with host IOMMU which is where the DMA mapping of guest PA takes
-> place. So, if you do not have an host IOMMU, you can't
-> service guest DMA/PCIe services via VFIO through the host IOMMU, therefore you
-> don't need this problem.
-> 
-> Whether one uses a guest IOMMU or not does not affect the result,
-> it would be more of a case of mimicking real hardware not fixing
-> the issue of this series.
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
-
-Hmm okay ... my first reaction was to say let's put it under VFIO then.
-And ideally move the logic reporting reserved ranges there too.
-However, I think vdpa has the same issue too.
-CC Jason for an opinion.
-Also, some concerns
-- I think this changes memory layout for working VMs not using VFIO.
-  Better preserve the old layout for old machine types?
-
-- You mention the phys bits issue very briefly, and it's pretty
-  concerning.  Do we maybe want to also disable the work around if phys
-  bits is too small? Also, we'd need to test a bunch of old
-  guests to see what happens. Which guests were tested? 
-
--- 
-MST
+Hi,=0D
+=0D
+A small collection of patches gleaned while working on different things (mo=
+re=0D
+specifically, I am looking at making qapi code usable outside of qemu, many=
+=0D
+things are twisted together, it takes effort but it is hopefully worth it)=
+=0D
+=0D
+Based-on: <20220222194008.610377-1-marcandre.lureau@redhat.com>=0D
+=0D
+Marc-Andr=C3=A9 Lureau (12):=0D
+  compiler.h: replace QEMU_WARN_UNUSED_RESULT with=0D
+    G_GNUC_WARN_UNUSED_RESULT=0D
+  compiler.h: replace QEMU_SENTINEL with G_GNUC_NULL_TERMINATED=0D
+  osdep.h: move qemu_build_not_reached()=0D
+  compiler.h: replace QEMU_NORETURN with G_NORETURN=0D
+  compiler.h: drop __printf__ macro MinGW/glib workaround=0D
+  Replace config-time define HOST_WORDS_BIGENDIAN=0D
+  Simplify HOST_LONG_BITS=0D
+  Move HOST_LONG_BITS to compiler.h=0D
+  scripts/modinfo-collect: remove unused/dead code=0D
+  util: remove needless includes=0D
+  util: remove the net/net.h dependency=0D
+  qapi: remove needless include=0D
+=0D
+ meson.build                             |  1 -=0D
+ accel/tcg/atomic_template.h             |  4 +-=0D
+ accel/tcg/internal.h                    |  3 +-=0D
+ audio/audio.h                           |  2 +-=0D
+ hw/display/pl110_template.h             |  6 +--=0D
+ hw/net/can/ctucan_core.h                |  2 +-=0D
+ hw/net/vmxnet3.h                        |  4 +-=0D
+ include/exec/cpu-all.h                  |  4 +-=0D
+ include/exec/cpu-common.h               |  2 +-=0D
+ include/exec/exec-all.h                 | 20 ++++-----=0D
+ include/exec/helper-head.h              |  2 +-=0D
+ include/exec/memop.h                    |  2 +-=0D
+ include/exec/memory.h                   |  2 +-=0D
+ include/fpu/softfloat-types.h           |  2 +-=0D
+ include/glib-compat.h                   |  4 ++=0D
+ include/hw/core/cpu.h                   |  4 +-=0D
+ include/hw/core/tcg-cpu-ops.h           |  6 +--=0D
+ include/hw/hw.h                         |  2 +-=0D
+ include/hw/i386/intel_iommu.h           |  6 +--=0D
+ include/hw/i386/x86-iommu.h             |  4 +-=0D
+ include/hw/virtio/virtio-access.h       |  6 +--=0D
+ include/hw/virtio/virtio-gpu-bswap.h    |  2 +-=0D
+ include/libdecnumber/dconfig.h          |  2 +-=0D
+ include/net/eth.h                       |  2 +-=0D
+ include/qemu-common.h                   |  3 +-=0D
+ include/qemu/bswap.h                    |  8 ++--=0D
+ include/qemu/compiler.h                 | 35 +++-------------=0D
+ include/qemu/host-utils.h               |  2 +-=0D
+ include/qemu/int128.h                   |  2 +-=0D
+ include/qemu/osdep.h                    | 25 +++++++-----=0D
+ include/qemu/range.h                    |  4 +-=0D
+ include/qemu/thread.h                   |  2 +-=0D
+ include/qom/object.h                    |  6 +--=0D
+ include/tcg/tcg-ldst.h                  |  4 +-=0D
+ include/tcg/tcg.h                       |  2 +-=0D
+ include/ui/qemu-pixman.h                |  2 +-=0D
+ linux-user/user-internals.h             |  2 +-=0D
+ net/util.h                              |  2 +-=0D
+ scripts/cocci-macro-file.h              |  6 +--=0D
+ target/alpha/cpu.h                      | 10 ++---=0D
+ target/arm/cpu.h                        |  8 ++--=0D
+ target/arm/internals.h                  | 12 +++---=0D
+ target/arm/translate-a64.h              |  2 +-=0D
+ target/arm/vec_internal.h               |  2 +-=0D
+ target/hppa/cpu.h                       |  2 +-=0D
+ target/i386/cpu.h                       |  2 +-=0D
+ target/i386/tcg/helper-tcg.h            | 24 +++++------=0D
+ target/microblaze/cpu.h                 |  6 +--=0D
+ target/mips/cpu.h                       |  2 +-=0D
+ target/mips/tcg/tcg-internal.h          | 16 ++++----=0D
+ target/nios2/cpu.h                      |  6 +--=0D
+ target/openrisc/exception.h             |  2 +-=0D
+ target/ppc/cpu.h                        | 16 ++++----=0D
+ target/ppc/internal.h                   |  6 +--=0D
+ target/riscv/cpu.h                      | 10 ++---=0D
+ target/s390x/s390x-internal.h           |  6 +--=0D
+ target/s390x/tcg/tcg_s390x.h            | 12 +++---=0D
+ target/s390x/tcg/vec.h                  |  2 +-=0D
+ target/sh4/cpu.h                        |  6 +--=0D
+ target/sparc/cpu.h                      | 10 ++---=0D
+ target/xtensa/cpu.h                     |  4 +-=0D
+ tests/fp/platform.h                     |  4 +-=0D
+ accel/kvm/kvm-all.c                     |  4 +-=0D
+ accel/stubs/tcg-stub.c                  |  4 +-=0D
+ audio/dbusaudio.c                       |  2 +-=0D
+ block/qcow2-refcount.c                  | 20 ++++-----=0D
+ bsd-user/signal.c                       |  2 +-=0D
+ disas.c                                 |  2 +-=0D
+ hw/core/loader.c                        |  4 +-=0D
+ hw/display/artist.c                     |  6 +--=0D
+ hw/display/pxa2xx_lcd.c                 |  2 +-=0D
+ hw/display/vga.c                        | 12 +++---=0D
+ hw/display/virtio-gpu-gl.c              |  2 +-=0D
+ hw/misc/mips_itu.c                      |  2 +-=0D
+ hw/s390x/event-facility.c               |  2 +-=0D
+ hw/virtio/vhost.c                       |  2 +-=0D
+ linux-user/arm/nwfpe/double_cpdo.c      |  4 +-=0D
+ linux-user/arm/nwfpe/fpa11_cpdt.c       |  4 +-=0D
+ linux-user/ppc/signal.c                 |  3 +-=0D
+ linux-user/signal.c                     |  2 +-=0D
+ linux-user/syscall.c                    |  6 +--=0D
+ monitor/hmp.c                           |  2 +-=0D
+ net/announce.c                          | 13 ++++++=0D
+ net/net.c                               |  4 +-=0D
+ qapi/qmp-dispatch.c                     |  1 -=0D
+ qemu-img.c                              |  9 +++--=0D
+ target/alpha/helper.c                   | 10 ++---=0D
+ target/alpha/translate.c                |  2 +-=0D
+ target/arm/crypto_helper.c              |  2 +-=0D
+ target/arm/helper.c                     |  2 +-=0D
+ target/arm/kvm64.c                      |  4 +-=0D
+ target/arm/neon_helper.c                |  2 +-=0D
+ target/arm/pauth_helper.c               |  4 +-=0D
+ target/arm/sve_helper.c                 |  4 +-=0D
+ target/arm/tlb_helper.c                 |  6 +--=0D
+ target/arm/translate-sve.c              |  6 +--=0D
+ target/arm/translate-vfp.c              |  2 +-=0D
+ target/arm/translate.c                  |  2 +-=0D
+ target/hexagon/op_helper.c              |  8 ++--=0D
+ target/hppa/cpu.c                       |  2 +-=0D
+ target/hppa/op_helper.c                 |  4 +-=0D
+ target/hppa/translate.c                 |  2 +-=0D
+ target/i386/tcg/bpt_helper.c            |  2 +-=0D
+ target/i386/tcg/excp_helper.c           | 30 +++++++-------=0D
+ target/i386/tcg/misc_helper.c           |  6 +--=0D
+ target/i386/tcg/sysemu/misc_helper.c    |  6 +--=0D
+ target/i386/tcg/translate.c             |  2 +-=0D
+ target/mips/tcg/lmmi_helper.c           |  2 +-=0D
+ target/mips/tcg/msa_helper.c            | 54 ++++++++++++-------------=0D
+ target/openrisc/exception.c             |  2 +-=0D
+ target/openrisc/exception_helper.c      |  2 +-=0D
+ target/ppc/arch_dump.c                  |  2 +-=0D
+ target/ppc/int_helper.c                 | 22 +++++-----=0D
+ target/ppc/kvm.c                        |  4 +-=0D
+ target/ppc/mem_helper.c                 |  2 +-=0D
+ target/riscv/op_helper.c                |  4 +-=0D
+ target/riscv/vector_helper.c            |  2 +-=0D
+ target/rx/op_helper.c                   | 20 ++++-----=0D
+ target/s390x/tcg/excp_helper.c          | 20 ++++-----=0D
+ target/s390x/tcg/translate.c            |  2 +-=0D
+ target/sh4/op_helper.c                  |  4 +-=0D
+ target/sparc/mmu_helper.c               |  8 ++--=0D
+ target/sparc/vis_helper.c               |  4 +-=0D
+ target/tricore/op_helper.c              |  2 +-=0D
+ tcg/tcg-op.c                            |  4 +-=0D
+ tcg/tcg.c                               | 14 +++----=0D
+ tests/fp/fp-bench.c                     |  2 +-=0D
+ tests/fp/fp-test.c                      |  2 +-=0D
+ tests/qtest/vhost-user-blk-test.c       |  2 +-=0D
+ tests/qtest/virtio-blk-test.c           |  2 +-=0D
+ ui/vdagent.c                            |  2 +-=0D
+ ui/vnc.c                                |  2 +-=0D
+ util/bitmap.c                           |  2 +-=0D
+ util/cutils.c                           | 16 --------=0D
+ util/host-utils.c                       |  2 +-=0D
+ target/ppc/translate/vmx-impl.c.inc     |  4 +-=0D
+ target/ppc/translate/vsx-impl.c.inc     |  2 +-=0D
+ target/riscv/insn_trans/trans_rvv.c.inc |  4 +-=0D
+ target/s390x/tcg/translate_vx.c.inc     |  2 +-=0D
+ tcg/aarch64/tcg-target.c.inc            |  4 +-=0D
+ tcg/arm/tcg-target.c.inc                |  4 +-=0D
+ tcg/mips/tcg-target.c.inc               |  2 +-=0D
+ tcg/ppc/tcg-target.c.inc                | 10 ++---=0D
+ tcg/riscv/tcg-target.c.inc              |  4 +-=0D
+ scripts/checkpatch.pl                   |  6 +--=0D
+ scripts/modinfo-collect.py              |  5 ---=0D
+ 146 files changed, 410 insertions(+), 434 deletions(-)=0D
+=0D
+--=20=0D
+2.35.1.273.ge6ebfd0e8cbb=0D
+=0D
 
 
