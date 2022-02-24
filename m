@@ -2,88 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FB14C2037
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 00:46:45 +0100 (CET)
-Received: from localhost ([::1]:52796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027574C20D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 01:56:09 +0100 (CET)
+Received: from localhost ([::1]:36486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nN1LJ-0003gn-1g
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 18:46:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45474)
+	id 1nN2QR-0006tu-It
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 19:56:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nN1JC-0001ol-7E
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 18:44:34 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=56054
- helo=mail-pj1-x1035.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nN1JA-0003vE-K4
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 18:44:33 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id gb21so430936pjb.5
- for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 15:44:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=Bvd/1yYAbAjGvblVepNDOBOAkDj2/ZftCBfKQGXiTp8=;
- b=G3GGZ3UOVyOpEJH4LcGK17BXTvKsLDepGcM7neml32GoKzUwQLfAVLj7D/tElgG/JC
- NuRz9aA2Hd8K2rLYWsBnAnnfFwUPFjRvKb9VQwukEYtxlo6uaG4CNqGxy0ASkfYCacNb
- BmBknDKySsxNbB4/fyeobHNUb0A+l6mGoPqEvB3IvEMWw977wK1ZH07NanBCP48lNKbP
- ehwTngcsAVCqYOyVghsZATpm9Cmu9ckX/cyHDSI+MAo1+jDjSjVAE/JG8uYhRVK7GAeT
- 4H3l3UoR3MzidNGxK8rzgbadytSxKlupt5H9Vkl6lTw/T3GSyFWVjAwFlVjWdy5B781E
- EvGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=Bvd/1yYAbAjGvblVepNDOBOAkDj2/ZftCBfKQGXiTp8=;
- b=p86R13UMtGZMCZUxnQDpJp1aFs+HvN1r23ZSOqV6+B9exALaMQXBsE0pUAUyjVGSE8
- wwQnwtnuAEZLiKXKMo7rHzhgFnibSHCPJXpYDxVcjp/LbKP1nXWVY40h8JbWR2NBs+LF
- hRXUVlZpgLTV2Q671Rs4D+u84EL4TYYa88pYcmp4Xa6T0KMugw1bzYpeqHJeDNkMxhXL
- 1nTvLxd4R6wUdckTnN1EFRWtZyIey6gNGALv6BignZcJADGzyFthXp1YynL6hQhViZ7o
- NmrxEl2sQ1OAolEzg0XTDE3tY1NeHBfs/DoP6RJzvNe828d16vrnvRkUdIyIcidkx7q0
- J3Bg==
-X-Gm-Message-State: AOAM531aoY5p2I/xyxWA+Lb8iMpfYCn3Sj3eSKmHxzeVw526RCGfcGmM
- BnP778gZQg/aZgQ3gHaWWeSI1A==
-X-Google-Smtp-Source: ABdhPJwduwuKLaYvoowm8HOJcB8QdJHySqeYsN30e9HvsTs/pH8TRxRN2dFs9nON98kjnVuuqP36Uw==
-X-Received: by 2002:a17:902:780f:b0:14f:d765:b6f1 with SMTP id
- p15-20020a170902780f00b0014fd765b6f1mr1906532pll.85.1645659871099; 
- Wed, 23 Feb 2022 15:44:31 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110])
- by smtp.gmail.com with ESMTPSA id p1sm623024pfo.212.2022.02.23.15.44.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Feb 2022 15:44:30 -0800 (PST)
-Message-ID: <6d3c7045-f99a-22d0-46e3-f1020f1297f3@linaro.org>
-Date: Wed, 23 Feb 2022 13:44:27 -1000
+ (Exim 4.90_1)
+ (envelope-from <SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org>)
+ id 1nN2PS-0006Cm-UW
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 19:55:06 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:55644)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org>)
+ id 1nN2PQ-0005gD-I2
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 19:55:06 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CC6BB60FBE
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 00:55:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 047F6C340F4
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 00:55:00 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="FSpfXdb0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1645664096;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8d3NsRpLI4kLFf8ojDpxr98Y5eh/F8jlee00Sd/p97I=;
+ b=FSpfXdb0mio/K+YeKHAc5ruauL0zhqUyymqZV52V7rS6k6d2klkxEq3QVUwbe8Zwe4V1Jc
+ BnqGH7gywjeMVWeaEtIrNElbmMf5kaoU83NO7UIIN2aapJV6ffmsNklODO/uc1B34KmJlq
+ gDKati3IRaSt/BoK2ZDfG7gBmg9dKh8=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 61ec339d
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Thu, 24 Feb 2022 00:54:56 +0000 (UTC)
+Received: by mail-yb1-f176.google.com with SMTP id y6so747868ybc.5
+ for <qemu-devel@nongnu.org>; Wed, 23 Feb 2022 16:54:55 -0800 (PST)
+X-Gm-Message-State: AOAM530cVtVf6pnHvKjjcu7c2N33Bmq9GIfV+BAIdvXGXww3+xEi+gQs
+ 0m8Fm9W5UGz8AS1AGbvo+ES7Si/631ZvZsIleto=
+X-Google-Smtp-Source: ABdhPJwfDEOGrwvFQMit980tZnx7EEjBFOfs3eOMVbdbLdqcKU9trvqOuAKoUTWJYW+779nIWzk+clEPXGo/K05LQLA=
+X-Received: by 2002:a25:b905:0:b0:61e:23e4:949f with SMTP id
+ x5-20020a25b905000000b0061e23e4949fmr299097ybj.373.1645664094735; Wed, 23 Feb
+ 2022 16:54:54 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v7 3/4] tests/tcg/s390x: Tests for
- Miscellaneous-Instruction-Extensions Facility 3
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220223223117.66660-1-dmiller423@gmail.com>
- <20220223223117.66660-4-dmiller423@gmail.com>
- <382e2a24-6483-ba0d-08d3-ced00173dc1a@linaro.org>
-In-Reply-To: <382e2a24-6483-ba0d-08d3-ced00173dc1a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received: by 2002:a05:7110:71a8:b0:167:24f9:2d40 with HTTP; Wed, 23 Feb 2022
+ 16:54:54 -0800 (PST)
+In-Reply-To: <YhbAOW/KbFW1CFkQ@sol.localdomain>
+References: <20220223131231.403386-1-Jason@zx2c4.com>
+ <20220223131231.403386-2-Jason@zx2c4.com>
+ <YhbAOW/KbFW1CFkQ@sol.localdomain>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Thu, 24 Feb 2022 01:54:54 +0100
+X-Gmail-Original-Message-ID: <CAHmME9oa_wE8_n8e5b=iM5v-s5dgyibm4vXMhwzc8zGd6VWZMQ@mail.gmail.com>
+Message-ID: <CAHmME9oa_wE8_n8e5b=iM5v-s5dgyibm4vXMhwzc8zGd6VWZMQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v1 1/2] random: add mechanism for VM forks to
+ reinitialize crng
+To: Eric Biggers <ebiggers@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,16 +88,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, farman@linux.ibm.com,
- pasic@linux.ibm.com, borntraeger@linux.ibm.com
+Cc: linux-s390@vger.kernel.org, tytso@mit.edu, kvm@vger.kernel.org,
+ adrian@parity.io, jannh@google.com, gregkh@linuxfoundation.org,
+ raduweis@amazon.com, qemu-devel@nongnu.org, linux-kernel@vger.kernel.org,
+ acatan@amazon.com, graf@amazon.com, linux-crypto@vger.kernel.org,
+ colmmacc@amazon.com, sblbir@amazon.com, dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/22 13:43, Richard Henderson wrote:
-> Although none of this is going to work with .insn...
+On 2/24/22, Eric Biggers <ebiggers@kernel.org> wrote:
+> I think we should be removing cases where the base_crng key is changed
+> directly
+> besides extraction from the input_pool, not adding new ones.  Why not
+> implement
+> this as add_device_randomness() followed by crng_reseed(force=true), where
+> the
+> 'force' argument forces a reseed to occur even if the entropy_count is too
+> low?
 
-I beg your pardon, this is incorrect: .insn does have fields for the register arguments.
-
-
-r~
+Because that induces a "premature next" condition which can let that
+entropy, potentially newly acquired by a storm of IRQs at power-on, be
+bruteforced by unprivileged userspace. I actually had it exactly the
+way you describe at first, but decided that this here is the lesser of
+evils and doesn't really complicate things the way an intentional
+premature next would. The only thing we care about here is branching
+the crng stream, and so this does explicitly that, without having to
+interfere with how we collect entropy. Of course we *also* add it as
+non-credited "device randomness" so that it's part of the next
+reseeding, whenever that might occur.
 
