@@ -2,78 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F0E4C2E16
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 15:20:14 +0100 (CET)
-Received: from localhost ([::1]:57722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 355AA4C2C75
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 14:03:00 +0100 (CET)
+Received: from localhost ([::1]:60922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNEya-000102-Sk
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 09:20:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43320)
+	id 1nNDlp-0008BW-4p
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 08:02:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <evgeny.v.ermakov@gmail.com>)
- id 1nND92-0000wG-LG; Thu, 24 Feb 2022 07:22:52 -0500
-Received: from [2607:f8b0:4864:20::102c] (port=46048
- helo=mail-pj1-x102c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <evgeny.v.ermakov@gmail.com>)
- id 1nND90-0004l4-Ox; Thu, 24 Feb 2022 07:22:52 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- bx9-20020a17090af48900b001bc64ee7d3cso1851321pjb.4; 
- Thu, 24 Feb 2022 04:22:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hyDWDe7knO7uvZaUog/qaJc4SkmPv1+byRb7VcuSGIs=;
- b=GXU7f+bUXtrrTGLTOJYAmmMTLqczd24eA4Tj9+NK995PxqYIyoqgP+r3dB24L/4jfh
- UhDOSosZvW+PxXNCC7QfRTUYQPNJkjG07wfB+7fTSDdIo2K5XPrr0GteoUeWuqs1nN8H
- G7S9hbDGmvxeca4TqE10rMUj2MZvtOUqH8VPXhZUinB6UGcGGebncpVxPDlCvolbEepo
- XAcbHjRC7Njv6m7Ute5Ro2V2RAp+oUWb6zXelfNu+ojZTArmZaebH4/TuAAfXzs5g63M
- sFR7oxJBo7l8t6PlXlsWBNo7fayA6oyeU9wQICu7+y4/4iFIFV+JeBqUa9a/Em+Pacj7
- cI8g==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNDbw-00051a-9K
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:52:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55618)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNDbj-0001bZ-KH
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:52:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645707150;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mSSjY1D5V8/gvDWIk2McNOUzjIYxZJ0PAGKwIWECdfA=;
+ b=OXOjnVNU7WlsHv6xmZ5Re0FrpBhFRWSmZaFV0b+EMvvUiJjMOrUgfiirvkrZK2mvKt26dy
+ ZkDSSOwdMWb1s0nl3xTC0F2jiNvCXsYchYJFi1QKJHJDatxo7Vd5Wx4CGSltsnKMQgy1R/
+ dbuyL7bHzLVsqQfx5qVAbgOkE3wjsK4=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-537-FFNlZ_ElM3WOLU1j1EPHiQ-1; Thu, 24 Feb 2022 07:52:27 -0500
+X-MC-Unique: FFNlZ_ElM3WOLU1j1EPHiQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ qa30-20020a170907869e00b006cee5e080easo1168832ejc.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 04:52:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hyDWDe7knO7uvZaUog/qaJc4SkmPv1+byRb7VcuSGIs=;
- b=xpACSKReitdsxbSewkG9pwaKUSn30nd7nNUo7dtrh/V4WrRGDbLbIBJzhPcfjacA3w
- NAyAW1kXBrzbiBzFqKEt99rVnneYMAJaMLia5b/kHgtAtLF4+gJ7KYxPaZJHLqOVKILT
- 9DKX8L79U3NKi5rixRiawG4NTZzsm8a9Q0bGbfQc2an6mPx47qJ9KD8WCyxfsi7XKlwW
- tXL0Z5rlp/Qp3258MUWyZKHxcnWgm+6lx/K4cwqJ9nkImEnwCEP+Su/uMVsOYy6LaKmB
- +QdXYAXY2PIm/cSwpVJ0c2Dfe4QNBQwN/e9G7+AxAtmXomueQqW54kjiB8D3gQaNEqAv
- +blw==
-X-Gm-Message-State: AOAM530tetJ7vE4HVYdKvxo5F4wxb3zudTB7vSwmNOuulDqlJx8wqHjy
- yXUNtt1HP1ki2CkcaV5HOr+Isyf4hxidPliwFf4=
-X-Google-Smtp-Source: ABdhPJzhv9Fj9eabgJadeBTESTUlsWobM1f0287BHcAtTv9mpjsM2tXP/3or7CaA2a9+WtASnMRDJA==
-X-Received: by 2002:a17:903:2306:b0:14f:c265:a8fd with SMTP id
- d6-20020a170903230600b0014fc265a8fdmr2308596plh.157.1645705367367; 
- Thu, 24 Feb 2022 04:22:47 -0800 (PST)
-Received: from front.loc ([185.230.126.2])
- by smtp.googlemail.com with ESMTPSA id h21sm3318722pfo.12.2022.02.24.04.22.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 04:22:46 -0800 (PST)
-From: Evgeny Ermakov <evgeny.v.ermakov@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/intc/armv7m_nvic: Fix typo in comment
-Date: Thu, 24 Feb 2022 23:21:10 +1100
-Message-Id: <20220224122110.22371-1-evgeny.v.ermakov@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ bh=mSSjY1D5V8/gvDWIk2McNOUzjIYxZJ0PAGKwIWECdfA=;
+ b=1ANVqnG9aorojvtx8CFzhtfqf1oqJqYB0mUdYChVaip745SJhfYv2isPOeAcAf+Tje
+ 2YsEdLFnaAF2ra09gP3uRjXWJQGBM+dgu8mn6+CfadMiSCzXRhsMggdT03240J8FSIn2
+ BbjOIgb7LOITopA8U9kp6EPlIFMe/MsABE1JWqJEBs8tMNK/A4jtoLGYZHyQqijue/PX
+ TbP2TJH1WZkXTemke1JNF9EBHDCS//FDg5cseIoP3syEcoQOzatzy3tzxWTm3zjOnIrW
+ uKLgibBbK5lSxk4Z4zS3s+PvJ6j20uj/Yk4bxXqV526Amlmo6wq5QQxCz1tZdQhqSGVD
+ xVPw==
+X-Gm-Message-State: AOAM530EFjIghK+DngER+ZOLBh2CPRZfB7rOajFpIlbtSuW28x/qNVcn
+ fcIm65cZgEmxriN32C1XJ8hqyeUFqF/tKh6Ulnp61I43DsPFUeEot/Sjgol5CedBNuhhOU+Sq9v
+ ZDMdXFVxZXu+2OTg=
+X-Received: by 2002:a17:907:8186:b0:6d0:33e6:b4c8 with SMTP id
+ iy6-20020a170907818600b006d033e6b4c8mr2134433ejc.724.1645707146432; 
+ Thu, 24 Feb 2022 04:52:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx4hYBqvRANKWyGHZDgcDLwfFen8RG3KgNw7Jj/ZVRWZFfYPYg+nIo3ElGirhEnZl2ZJVs2qA==
+X-Received: by 2002:a17:907:8186:b0:6d0:33e6:b4c8 with SMTP id
+ iy6-20020a170907818600b006d033e6b4c8mr2134403ejc.724.1645707146179; 
+ Thu, 24 Feb 2022 04:52:26 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id z12sm1378253edb.77.2022.02.24.04.52.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Feb 2022 04:52:25 -0800 (PST)
+Message-ID: <1f402acf-5732-8df6-4d44-aac59db0f55a@redhat.com>
+Date: Thu, 24 Feb 2022 13:52:25 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 14/18] iotests.py: add qemu_io_pipe_and_status()
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20220216194617.126484-1-vsementsov@virtuozzo.com>
+ <20220216194617.126484-15-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220216194617.126484-15-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=evgeny.v.ermakov@gmail.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 24 Feb 2022 09:18:46 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,30 +103,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Evgeny Ermakov <evgeny.v.ermakov@gmail.com>
+Cc: fam@euphon.net, kwolf@redhat.com, wencongyang2@huawei.com,
+ xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, nikita.lapshin@virtuozzo.com, stefanha@redhat.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Evgeny Ermakov <evgeny.v.ermakov@gmail.com>
----
- hw/intc/armv7m_nvic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 16.02.22 20:46, Vladimir Sementsov-Ogievskiy wrote:
+> Add helper that returns both status and output, to be used in the
+> following commit
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/iotests.py | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 6ba65eb1ff..23bc6f686f 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -278,6 +278,10 @@ def qemu_io(*args):
+>       '''Run qemu-io and return the stdout data'''
+>       return qemu_tool_pipe_and_status('qemu-io', qemu_io_wrap_args(args))[0]
+>   
+> +def qemu_io_pipe_and_status(*args):
+> +    args = qemu_io_args + list(args)
+> +    return qemu_tool_pipe_and_status('qemu-io', args)
 
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 13df002ce4..a08a0fdc50 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -97,7 +97,7 @@ static int nvic_pending_prio(NVICState *s)
-  * this is only different in the obscure corner case where guest
-  * code has manually deactivated an exception and is about
-  * to fail an exception-return integrity check. The definition
-- * above is the one from the v8M ARM ARM and is also in line
-+ * above is the one from the v8M ARM and is also in line
-  * with the behaviour documented for the Cortex-M3.
-  */
- static bool nvic_rettobase(NVICState *s)
--- 
-2.35.1
+Shouldn’t we use qemu_io_wrap_args() here, like above?  The next patch 
+adds a caller that passes `'-f', 'raw'` to it, which kind of implies to 
+me that qemu_io_wrap_args() would be better.
+
+> +
+>   def qemu_io_log(*args):
+>       result = qemu_io(*args)
+>       log(result, filters=[filter_testfiles, filter_qemu_io])
 
 
