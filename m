@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D8B4C3450
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 19:08:05 +0100 (CET)
-Received: from localhost ([::1]:44116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A604C3458
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 19:11:29 +0100 (CET)
+Received: from localhost ([::1]:50358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNIX6-0001lz-Hi
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 13:08:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44080)
+	id 1nNIaN-000681-Mj
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 13:11:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nNIUg-00004x-6K
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:05:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45292)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nNIXO-0003jx-7s
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:08:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nNIUN-0005rv-OE
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:05:29 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nNIXL-0006QM-CJ
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:08:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645725914;
+ s=mimecast20190719; t=1645726097;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9LkhU9tRpXxovko+Mu2kLKeZ2QGmMQUVQtWADPzd2BQ=;
- b=G6MRUbgtmwom5hAKCUa8ZlkxWEm0t5HpegneYG6P0kyCoqFx7xtrKiZcjQTUkMNjFIfKxw
- GuyNoqCrwkb3jYr+8DKgLNfgneE01RO2dHF5Q525/Gsq/8fmTDpzEXgvZ7Q4xvKcULTzLp
- IMwCfgbY7V0ZEXEUSGh9Yqkvy5JvuSM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=L1foLbYE3Ru2gqLlkjiY0ehvHJRzEbV3WjfasQ8f9O0=;
+ b=Q6ICoRhYg5oQZY8TOsFX3i1nbJlYvMHEAVsoVieBNjB+4uHar1+7mG3TsiKwdR+O6XnWHh
+ dj4qSAsnZTjfYVe+xrchRqY/OpcZIXNxJhXVTJPLpkcqwgECJ0ZHlxSmsR83Uf8lw1zeOw
+ v/ZcfUKPELVQ8d8WKhGX265ak+3/LCY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-611-pCWCWfujMV2Fweomb-NeGQ-1; Thu, 24 Feb 2022 13:05:13 -0500
-X-MC-Unique: pCWCWfujMV2Fweomb-NeGQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- r9-20020a05640251c900b00412d54ea618so1070103edd.3
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:05:12 -0800 (PST)
+ us-mta-625-86r7xv57NY2CXfbTDncHng-1; Thu, 24 Feb 2022 13:08:16 -0500
+X-MC-Unique: 86r7xv57NY2CXfbTDncHng-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hc39-20020a17090716a700b006ce88cf89dfso1575743ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:08:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=9LkhU9tRpXxovko+Mu2kLKeZ2QGmMQUVQtWADPzd2BQ=;
- b=n28VEEr+puhh4JTFAf2I3M4TIP3g1qCvxXMtyiD6MaX87Zmoe4rhVgtcBCpvqA7VQr
- VtUfiPWovXlQo4r0n4w0NoUH2zFM949c68wRgtX3k4EryMURS3VO4bpMLa29yhkgsvNY
- U1Q3s3SrQTPJf2QZXoDpi3F+MUfqVMlAHvp/3F+uR5YPn8EEfjkJzD7GiqXa+1yrnJIf
- m8B98obcLWlhkyHAdanJ1Vy32QKQ2gKZ7y0kUx6yTYMfZKXeYBB6BnZI2V5Jz//6lXkm
- N70+2+A+r7+YsxJMJ8vqoHJG7Z6S1Sxkvei7oZ9lSaPBkfnJq2rw5xktJbmfETURrYRJ
- BHwQ==
-X-Gm-Message-State: AOAM532+QO03lmAAtQSHrEWoEmmVIF0TirMwxv9qZkxA3FImZrFURfu4
- scM5tg/t2GsfIz62sfh5Dxv7QRVQHxelecQ0w/tS+kDZQdwqkyrdEEnE339wAPwmGW7DNxkp65x
- 1VrqQzZMGkaavO/Q=
-X-Received: by 2002:a17:906:7745:b0:6b5:fe2b:4827 with SMTP id
- o5-20020a170906774500b006b5fe2b4827mr3175699ejn.628.1645725911943; 
- Thu, 24 Feb 2022 10:05:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzZAQYJSwQCHhHhLWbYDbzfs0XlHC3kUsNfV+w9Tx55Z0Mk2jE4uQN/0Rr7IFEP32tV+JrFJQ==
-X-Received: by 2002:a17:906:7745:b0:6b5:fe2b:4827 with SMTP id
- o5-20020a170906774500b006b5fe2b4827mr3175678ejn.628.1645725911667; 
- Thu, 24 Feb 2022 10:05:11 -0800 (PST)
+ bh=L1foLbYE3Ru2gqLlkjiY0ehvHJRzEbV3WjfasQ8f9O0=;
+ b=o5/EOG2dlWIGXSj9EAT6eVN74cuAwWKwA5B0Ff6cgoz5RzgWJcfiOZoeliGGqOQpcP
+ jl2t6yqP8pugq5dAPZZdcX+NP0YdfCSHkPjuUU90qQFEXnh6rWNKgCKjsDDynYBoCZMO
+ 2zp1R8bcEdXuRoAL+PickCToL41cvqjvKfnwV4cXmD8FBptmt4rsocRSgzgEiW8livmS
+ 1ZpeZhAs3bIs8zDGaCDp3kY/01T9TaBD7TEEissqKa1nkcCd+0vzc3BA0OtWh4cS1Hd+
+ WIDU/wPN/pwOvYkd1B5BThN3DEOI+xLIIn//aX+0RkkMBj6ES6nV1GekJ/Ez+r6/GkwV
+ wOng==
+X-Gm-Message-State: AOAM5329ntkuQJIuLu/3K1kfk1Rc8xY9lxXS3Z/bmTFFC3kxru5Andmi
+ 7qcxRX22yBxbgFLBBJ0pilcjNxMhD+stU58qZF8gyjh9OYnDX3zrU2Qc4HFTEI3qX/t9wufa5eS
+ Wn98MDDDwoXN0kQc=
+X-Received: by 2002:a50:fa93:0:b0:40f:d482:ef63 with SMTP id
+ w19-20020a50fa93000000b0040fd482ef63mr3426056edr.348.1645726095476; 
+ Thu, 24 Feb 2022 10:08:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxuQdKw6wRIxVbBSjJW2nhq5sQLcuHjwpfcgcwBisff8KhVIztOzjaVs3258+JtC7RHMNvr7Q==
+X-Received: by 2002:a50:fa93:0:b0:40f:d482:ef63 with SMTP id
+ w19-20020a50fa93000000b0040fd482ef63mr3426039edr.348.1645726095253; 
+ Thu, 24 Feb 2022 10:08:15 -0800 (PST)
 Received: from redhat.com ([2.55.145.157]) by smtp.gmail.com with ESMTPSA id
- m13-20020a170906234d00b006cf86bb0652sm4964eja.121.2022.02.24.10.05.10
+ j21-20020aa7c415000000b004127ac9ddc3sm95349edq.50.2022.02.24.10.08.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 10:05:11 -0800 (PST)
-Date: Thu, 24 Feb 2022 13:05:07 -0500
+ Thu, 24 Feb 2022 10:08:14 -0800 (PST)
+Date: Thu, 24 Feb 2022 13:08:11 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 2/4] pcie: update slot power status only is power control
- is enabled
-Message-ID: <20220224125928-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH 0/4] Fix broken PCIe device after migration
+Message-ID: <20220224130708-mutt-send-email-mst@kernel.org>
 References: <20220224174411.3296848-1-imammedo@redhat.com>
- <20220224174411.3296848-3-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220224174411.3296848-3-imammedo@redhat.com>
+In-Reply-To: <20220224174411.3296848-1-imammedo@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,83 +99,56 @@ Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 24, 2022 at 12:44:09PM -0500, Igor Mammedov wrote:
-> on creation a PCIDevice has power turned on at the end of pci_qdev_realize()
-> however later on if PCIe slot isn't populated with any children
-> it's power is turned off. It's fine if native hotplug is used
-> as plug callback will power slot on among other things.
-> However when ACPI hotplug is enabled it replaces native PCIe plug
-> callbacks with ACPI specific ones (acpi_pcihp_device_*plug_cb) and
-> as result slot stays powered off. It works fine as ACPI hotplug
-> on guest side takes care of enumerating/initializing hotplugged
-> device. But when later guest is migrated, call chain introduced by [1]
+On Thu, Feb 24, 2022 at 12:44:07PM -0500, Igor Mammedov wrote:
+> Currently ACPI PCI hotplug is enabled by default for Q35 machine
+> type and overrides native PCIe hotplug. It works as expected when
+> a PCIe device is hotplugged into slot, however the device becomes
+> in-operational after migration. Which is caused by BARs being
+> disabled on target due to powered off status of the slot.
 > 
->    pcie_cap_slot_post_load()
->        -> pcie_cap_update_power()
->            -> pcie_set_power_device()
->                -> pci_set_power()
->                    -> pci_update_mappings()
+> Proposed fix disables power control on PCIe slot when ACPI pcihp
+> takes over hotplug control and makes PCIe slot check if power
+> control is enabled before trying to change slot's power. Which
+> leaves slot always powered on and that makes PCI core keep BARs
+> enabled.
 > 
-> will disable earlier initialized BARs for the hotplugged device
-> in powered off slot due to commit [2] which disables BARs if
-> power is off. As result guest OS after migration will be very
-> much confused [3], still thinking that it has working device,
-> which isn't true anymore due to disabled BARs.
+> PS:
+> it's still hacky approach as all ACPI PCI hotplug is, but it's
+> the least intrusive one. Alternative, I've considered, could be
+> chaining hotplug callbacks and making pcihp ones call overriden
+> native callbacks while inhibiting hotplug event in native callbacks
+> somehow. But that were a bit more intrusive and spills over to SHPC
+> if implemented systematically, so I ditched that for now. It could
+> be resurrected later on if current approach turns out to be
+> insufficient.
+
+Yes, I am wondering about this myself. Replace callbacks with
+some kind of notifier, so instead of overrides we add things?
+I will ponder this over the weekend.
+
+> RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
+> CC: mst@redhat.com
+> CC: kraxel@redhat.com
 > 
-> Fix it by honoring PCI_EXP_SLTCAP_PCP and updating power status
-> only if capability is enabled. Follow up patch will disable
-> PCI_EXP_SLTCAP_PCP overriding COMPAT_PROP_PCP property when
-> PCIe slot is under ACPI PCI hotplug control.
+> Igor Mammedov (4):
+>   pci: expose TYPE_XIO3130_DOWNSTREAM name
+>   pcie: update slot power status only is power control is enabled
+>   acpi: pcihp: disable power control on PCIe slot
+>   q35: compat: keep hotplugged PCIe device broken after migration for
+>     6.2-older machine types
 > 
-> See [3] for reproducer.
+>  include/hw/acpi/pcihp.h                    |  4 +++-
+>  include/hw/pci-bridge/xio3130_downstream.h | 15 +++++++++++++++
+>  hw/acpi/acpi-pci-hotplug-stub.c            |  3 ++-
+>  hw/acpi/ich9.c                             | 21 ++++++++++++++++++++-
+>  hw/acpi/pcihp.c                            | 16 +++++++++++++++-
+>  hw/acpi/piix4.c                            |  3 ++-
+>  hw/core/machine.c                          |  4 +++-
+>  hw/pci-bridge/xio3130_downstream.c         |  3 ++-
+>  hw/pci/pcie.c                              |  5 ++---
+>  9 files changed, 64 insertions(+), 10 deletions(-)
+>  create mode 100644 include/hw/pci-bridge/xio3130_downstream.h
 > 
-> 1)
-> Fixes: commit d5daff7d312 (pcie: implement slot power control for pcie root ports)
-> 2)
->        commit 23786d13441 (pci: implement power state)
-> 3)
-> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
-> 
-
-
-Correct format for the last paragraph:
-
-
-Fixes: d5daff7d312 ("pcie: implement slot power control for pcie root ports")
-Fixes: 23786d13441 ("pci: implement power state")
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
-
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->  hw/pci/pcie.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index d7d73a31e4..2339729a7c 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -383,10 +383,9 @@ static void pcie_cap_update_power(PCIDevice *hotplug_dev)
->  
->      if (sltcap & PCI_EXP_SLTCAP_PCP) {
->          power = (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON;
-> +        pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
-> +                            pcie_set_power_device, &power);
->      }
-> -
-> -    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
-> -                        pcie_set_power_device, &power);
-
-I think this is correct. However, I wonder whether for 6.2 compatiblity
-as a hack we should sometimes skip the power update even when
-PCI_EXP_SLTCAP_PCP exists. Will that not work around the issue for
-these machine types?
-
-And assuming we want bug for bug compat anyway, why not just put
-it here? It seems easier to reason about frankly ...
-
->  }
->  
->  /*
 > -- 
 > 2.31.1
 
