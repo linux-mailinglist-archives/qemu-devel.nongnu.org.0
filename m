@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271964C2923
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 11:18:19 +0100 (CET)
-Received: from localhost ([::1]:53692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 094274C2945
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 11:24:08 +0100 (CET)
+Received: from localhost ([::1]:34044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNBCT-0000x6-Rg
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 05:18:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45728)
+	id 1nNBI6-0006tA-TX
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 05:24:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNB82-0007Gq-Nb
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:13:42 -0500
-Received: from [2a00:1450:4864:20::436] (port=38694
- helo=mail-wr1-x436.google.com)
+ id 1nNBCx-0002Xk-V1
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:18:48 -0500
+Received: from [2607:f8b0:4864:20::1129] (port=40970
+ helo=mail-yw1-x1129.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNB80-0008BK-Ac
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:13:41 -0500
-Received: by mail-wr1-x436.google.com with SMTP id v21so2161993wrv.5
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 02:13:37 -0800 (PST)
+ id 1nNBCs-0000Sd-Bh
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:18:47 -0500
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2d62593ad9bso19037747b3.8
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 02:18:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HDY8iSmjWZtODpYAMTqlTmfmqbL61NXt9ThdYmBOFvo=;
- b=EnOeXBLEBo7VztDRL/DdhJaj2OsgLRFzpYhg3Teh1JRa4djuWXQMBkc+JAVrENnsap
- 2v1kIpCAXmExRFVf9g0CCPwiONI6VaLuElhAwHQIJ9R1a4G1jQI5EmJ8iYGcjgUIQhDF
- ZQLGSDI+BkoaByg+z0njBeieQje2GsPx+AfTpJk3871EKczmhDxn2fTYGvX9/cJXKP4F
- 0qZxEzZM5DXgflRmzMExSctGVoKHubEPa4MmjSzK97vM64pDzfTBNwRNQB/aL5aWzm1g
- kYR3k91VE1rQrRvrdaRA+6EOnGJSh0oZaSIBM9atOFo0jvF3UhxPU10xpbH5ujhmPoGd
- Kptw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UJYn3pOS3/msclUqYjE7wllJeGnng9iJtqC8LQBqdh8=;
+ b=bX2Ss4VuUKVOd7qYN562iGgZgjDx7ySUxSeyMapX9qUZAYobMrX1+E4oYNodLskz6U
+ mgTlwLqYQgy3o4UNHdyYKX/bhYab36Ce5VXJNAqksH11JvR+4ZSS+/K6lgc+R3p5lEiu
+ x4E0ByuSXQooA+JcCM1qo5xujvAPuwttefRuGHQDPMfxU7o1SAbISP9NmZComaTHKtY0
+ Q5QadHf1mDR2DxkTLsA6sydjdQvNBry3G674s9x1mTpn6b18S0DPy0fI0UzSqDWjIxcB
+ TT1mYySZQSt0c733VC7Rs0rnnBHhxZjdKOnC2ATStE9h/QFJi9Gsu8iccYa/9Sc1IXvp
+ HNUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HDY8iSmjWZtODpYAMTqlTmfmqbL61NXt9ThdYmBOFvo=;
- b=zJ+MG9xvuuJrEqKeO680HephSRZ1y6FRTTdYnhkjio1WqaZG6VX89V9KsrYgi6BYFr
- 7SIb4K9T/0KhcZ2+d12Nv3P0TZGDR9Q1j81xqRFa7+DgjepzuY68L58B/pB+RV2MqADu
- sWfNLCCLd/MPjBzqq1JqodkVOZDglYiS8MNBOJVWmC46jZtazF8lC00HgyPR1KM67c4d
- pFneg2f983JfD++10SRP0qGOyoWnxtVOhzf6AKhoTsYf4xWExruFT1/CdMh5fMrZuuZJ
- E1NW2Wae9gge/hkelJx8bB3ExhwFjwAJlSdeOlNaiJJfOLiNwTwhAOhYMofVRwmLqyWw
- 12yw==
-X-Gm-Message-State: AOAM533kko21rSG9d2M+QqMqRtGmLoNi5xZYkarw7R2B1TLg/csOOTQ+
- wL9tY3/iV8+CQ2zJDgRRW5n4+OGmmCT8WQ==
-X-Google-Smtp-Source: ABdhPJy9pUFck6oz0tzSFVqtc3SC6tyEgDn+yXshIO4qpsetjMMRwoM7h8njwdbVBLtwk1+DXCd3Nw==
-X-Received: by 2002:adf:fcca:0:b0:1ed:a0ee:f7a1 with SMTP id
- f10-20020adffcca000000b001eda0eef7a1mr1631138wrs.492.1645697616826; 
- Thu, 24 Feb 2022 02:13:36 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id y12sm2667688wrl.81.2022.02.24.02.13.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 02:13:36 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] ui/cocoa.m: Remove unnecessary NSAutoreleasePools
-Date: Thu, 24 Feb 2022 10:13:30 +0000
-Message-Id: <20220224101330.967429-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220224101330.967429-1-peter.maydell@linaro.org>
-References: <20220224101330.967429-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UJYn3pOS3/msclUqYjE7wllJeGnng9iJtqC8LQBqdh8=;
+ b=Ej8ES9iAu+8Myy/VBE+T+lsx9ABfHbOvwS4JBvK7bavNMlkbR3NStbiyt9Q4Mon6AH
+ aTtQIpR6Z8si7nVW3WGcJpDsKyhp4xW8ZgNeXV9k5ePwp8yANQ+XXfO7MgaQaLVSBQMr
+ BgLYXbsT5wLZAMw4iklX3WSSzswopbbODdy15PXgncLdlUGEL/aji5XbRQHKonED36qh
+ upvMi89et2qy3Y9hLrxH6AymnK2wXxSv0zugfuOCiTBEolE8uYNiPqvQ0+slq8PKNl8W
+ pCKsU+xFH4zJUIE8Wlwp3L04s1nUftJrOQz0PVlezzivNgtRK3IlbWzPO1T83sByhjNy
+ fQBw==
+X-Gm-Message-State: AOAM530+sF4lScepSrF6kgEmlQfy4Mb1OPEuBSYbfao/kLzC3S0BR5xv
+ 0fIJpOM1Nc3Ut9M02aGIzlkAaIETGd45drQIELL8tA==
+X-Google-Smtp-Source: ABdhPJwR3XdGmOMZ946gw0ekvRFZpWB30DrFnnOvm5qL6kL1/YSLvqJIBsNxKYtcL23I1+TR85LjXKEqlW2B9J9P9TM=
+X-Received: by 2002:a0d:f603:0:b0:2d1:57e5:234 with SMTP id
+ g3-20020a0df603000000b002d157e50234mr1707535ywf.469.1645697921500; Thu, 24
+ Feb 2022 02:18:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+References: <20220210210227.3203883-1-jimmy.brisson@linaro.org>
+In-Reply-To: <20220210210227.3203883-1-jimmy.brisson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 24 Feb 2022 10:18:30 +0000
+Message-ID: <CAFEAcA8YSWNzwBS0eCkMD933O3QGT5XejGKXZYkfyeWc8M_vVg@mail.gmail.com>
+Subject: Re: [PATCH] mps3-an547: Add missing user ahb interfaces
+To: Jimmy Brisson <jimmy.brisson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,63 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: "open list:MPS2" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 6e657e64cdc478 in 2013 we added some autorelease pools to
-deal with complaints from macOS when we made calls into Cocoa from
-threads that didn't have automatically created autorelease pools.
-Later on, macOS got stricter about forbidding cross-thread Cocoa
-calls, and in commit 5588840ff77800e839d8 we restructured the code to
-avoid them.  This left the autorelease pool creation in several
-functions without any purpose; delete it.
+On Thu, 10 Feb 2022 at 21:02, Jimmy Brisson <jimmy.brisson@linaro.org> wrote:
+>
+> With these interfaces missing, TFM would delegate peripherals 0, 1,
+> 2, 3 and 8, and qemu would ignore the delegation of interface 8, as
+> it thought interface 4 was eth & USB.
+>
+> This patch corrects this behavior and allows TFM to delegate the
+> eth & USB peripheral to NS mode.
+>
+> Signed-off-by: Jimmy Brisson <jimmy.brisson@linaro.org>
+> ---
+>  hw/arm/mps2-tz.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+> index f40e854dec..e287ad4d06 100644
+> --- a/hw/arm/mps2-tz.c
+> +++ b/hw/arm/mps2-tz.c
+> @@ -1078,6 +1078,10 @@ static void mps2tz_common_init(MachineState *machine)
+>                  { "gpio1", make_unimp_dev, &mms->gpio[1], 0x41101000, 0x1000 },
+>                  { "gpio2", make_unimp_dev, &mms->gpio[2], 0x41102000, 0x1000 },
+>                  { "gpio3", make_unimp_dev, &mms->gpio[3], 0x41103000, 0x1000 },
+> +                { /* port 4 USER AHB interface 0 */ },
+> +                { /* port 5 USER AHB interface 1 */ },
+> +                { /* port 6 USER AHB interface 2 */ },
+> +                { /* port 7 USER AHB interface 3 */ },
+>                  { "eth-usb", make_eth_usb, NULL, 0x41400000, 0x200000, { 49 } },
+>              },
 
-We still need the pool in cocoa_refresh() for the clipboard related
-code which is called directly there.
+Yes; we implemented this against the revision B of the AN547
+AppNote, which had an error in the relevant table. Revision C
+of the AppNote corrects the docs to follow the FPGA image behaviour,
+which is to have eth-usb on port 8. (I sent a patch the other day
+that updates the URL in this source file to point to the latest
+pdf rather than the old rev B.)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- ui/cocoa.m | 6 ------
- 1 file changed, 6 deletions(-)
+Applied to target-arm.next, thanks.
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 5ed1495552a..b6e70e9134d 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1976,8 +1976,6 @@ int main (int argc, char **argv) {
- static void cocoa_update(DisplayChangeListener *dcl,
-                          int x, int y, int w, int h)
- {
--    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
--
-     COCOA_DEBUG("qemu_cocoa: cocoa_update\n");
- 
-     dispatch_async(dispatch_get_main_queue(), ^{
-@@ -1993,14 +1991,11 @@ static void cocoa_update(DisplayChangeListener *dcl,
-         }
-         [cocoaView setNeedsDisplayInRect:rect];
-     });
--
--    [pool release];
- }
- 
- static void cocoa_switch(DisplayChangeListener *dcl,
-                          DisplaySurface *surface)
- {
--    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-     pixman_image_t *image = surface->image;
- 
-     COCOA_DEBUG("qemu_cocoa: cocoa_switch\n");
-@@ -2015,7 +2010,6 @@ static void cocoa_switch(DisplayChangeListener *dcl,
-         [cocoaView updateUIInfo];
-         [cocoaView switchSurface:image];
-     });
--    [pool release];
- }
- 
- static void cocoa_refresh(DisplayChangeListener *dcl)
--- 
-2.25.1
-
+-- PMM
 
