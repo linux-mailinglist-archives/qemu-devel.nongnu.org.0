@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D68894C2A0D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 11:59:06 +0100 (CET)
-Received: from localhost ([::1]:59532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF7C4C2AB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 12:19:37 +0100 (CET)
+Received: from localhost ([::1]:38384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNBpy-00007k-06
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 05:59:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54972)
+	id 1nNC9m-00060M-0g
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 06:19:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org>)
- id 1nNBon-0006qC-Uu
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:57:54 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:46368)
+ id 1nNC6L-0004lT-6P
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 06:16:01 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:55178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org>)
- id 1nNBom-0006sh-8J
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:57:53 -0500
+ id 1nNC6F-0001S4-37
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 06:16:00 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0E22F616A7
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:57:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A5E8C340EB
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:57:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E4D3A6162C
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 11:15:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1420CC340EB
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 11:15:46 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Aev4oP76"
+ header.b="K0Ba/2BM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1645700268;
+ t=1645701345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l9uFhoNHD0ubvFpgP+CfgQfLWDk0rbzVcNs9eAAzOOE=;
- b=Aev4oP76SM7Ky5tVHBurpSFk24ePStDVbpz4sUcYrWj/NVQsvMbzkZERrzKlvWiREIkUjg
- pns/T3HQBI1W+E7V4L0ZxLhtdwhTycvyPky5RJ4kmyYS40PqhCMFfq2I7AWj1l2AbnW3gZ
- 2IoA6U4VwICTXSzBigeWX4GouwiGKE4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id fb84d94a
+ bh=tSMJNlgM3iQSZttf3O5yP1K/Zb4cUmNelvTABLfdcOs=;
+ b=K0Ba/2BM/9pExBbaS5Oj8SCJvlvp0LQGyiNAiXDyooG/U9BeyX+5o7RLqsETF26O3Q8oLJ
+ fCsXilmRI7pxc/CYm3kU+fXPDMl1Uchh4ynDmuSO5MbVs6Ufz3QiiawdfSIvm5FepEXDsh
+ cYBAB6wdHUlLLl0Wob5vRSfu6n86I28=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 089ac83c
  (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Thu, 24 Feb 2022 10:57:48 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-2d68d519a33so20226077b3.7
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 02:57:46 -0800 (PST)
-X-Gm-Message-State: AOAM531J9c4/RGNptzi/mF7H9sLDduxaohPoojv0kjm6//jkzOT4Ga4Z
- qO4Ul4h5QHoiPvl9StOtYIzk1xyD6N3WtNAVI0c=
-X-Google-Smtp-Source: ABdhPJwN40erEHMdIbnTWhaEGW2JI+hoWIa30mje4icqtRKOBfnV+2qG9wPZOdlYssF87EiAylHOO7YqwwX1PQC4yTE=
-X-Received: by 2002:a81:5a83:0:b0:2ca:287c:6b5d with SMTP id
- o125-20020a815a83000000b002ca287c6b5dmr1747645ywb.2.1645700265594; Thu, 24
- Feb 2022 02:57:45 -0800 (PST)
+ Thu, 24 Feb 2022 11:15:45 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id b35so3000487ybi.13
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 03:15:44 -0800 (PST)
+X-Gm-Message-State: AOAM533FntAuCuH33qjkqdQzTh9LujvQJHg+zIGyt8OZP+7ydvA1hBGQ
+ UPPR48wVuZMUVmbseTWp5HNx73sWpl63QLw4uyw=
+X-Google-Smtp-Source: ABdhPJwcyLWv29eKkR/4qn6wxUASneof9Mw7kmR85HjE16vurz2uO8LCL0/vq/6Jg597pXgN7D3peAt9nzCkEAyuvVw=
+X-Received: by 2002:a25:d116:0:b0:61d:e8c9:531e with SMTP id
+ i22-20020a25d116000000b0061de8c9531emr1860406ybg.637.1645701342951; Thu, 24
+ Feb 2022 03:15:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20220223131231.403386-1-Jason@zx2c4.com>
- <CAHmME9ogH_mx724n_deFfva7-xPCmma1-=2Mv0JdnZ-fC4JCjg@mail.gmail.com>
- <2653b6c7-a851-7a48-f1f8-3bde742a0c9f@redhat.com>
- <YhdkD4S7Erzl98So@redhat.com>
-In-Reply-To: <YhdkD4S7Erzl98So@redhat.com>
+ <20220223131231.403386-2-Jason@zx2c4.com>
+ <YhbAOW/KbFW1CFkQ@sol.localdomain>
+ <CAHmME9oa_wE8_n8e5b=iM5v-s5dgyibm4vXMhwzc8zGd6VWZMQ@mail.gmail.com>
+ <YhbfDQ2ernjrRNRX@sol.localdomain>
+In-Reply-To: <YhbfDQ2ernjrRNRX@sol.localdomain>
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Thu, 24 Feb 2022 11:57:34 +0100
-X-Gmail-Original-Message-ID: <CAHmME9qRrLHwOjD+_xkGC7-BMVdzO95=DzhCo8KvDNa0JXVybA@mail.gmail.com>
-Message-ID: <CAHmME9qRrLHwOjD+_xkGC7-BMVdzO95=DzhCo8KvDNa0JXVybA@mail.gmail.com>
-Subject: Re: [PATCH RFC v1 0/2] VM fork detection for RNG
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Date: Thu, 24 Feb 2022 12:15:32 +0100
+X-Gmail-Original-Message-ID: <CAHmME9rUD5QrgQMpoOCjv3crWFwn+BXXx9Dm0e2Kv4cJCYS+AQ@mail.gmail.com>
+Message-ID: <CAHmME9rUD5QrgQMpoOCjv3crWFwn+BXXx9Dm0e2Kv4cJCYS+AQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v1 1/2] random: add mechanism for VM forks to
+ reinitialize crng
+To: Eric Biggers <ebiggers@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=139.178.84.217;
  envelope-from=SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org;
  helo=dfw.source.kernel.org
@@ -89,35 +88,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Theodore Ts'o <tytso@mit.edu>, adrian@parity.io,
- KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>, "Singh,
- Balbir" <sblbir@amazon.com>, ben@skyportsystems.com, "Weiss,
+Cc: linux-s390@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+ KVM list <kvm@vger.kernel.org>, adrian@parity.io, Jann Horn <jannh@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Weiss,
  Radu" <raduweis@amazon.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Richard W.M. Jones" <rjones@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
- "Catangiu, Adrian Costin" <acatan@amazon.com>, graf@amazon.com,
+ LKML <linux-kernel@vger.kernel.org>, "Catangiu,
+ Adrian Costin" <acatan@amazon.com>, graf@amazon.com,
  Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Igor Mammedov <imammedo@redhat.com>, Colm MacCarthaigh <colmmacc@amazon.com>,
- Laszlo Ersek <lersek@redhat.com>, "Woodhouse, David" <dwmw@amazon.co.uk>,
- ehabkost@redhat.com
+ Colm MacCarthaigh <colmmacc@amazon.com>, "Singh, Balbir" <sblbir@amazon.com>,
+ "Woodhouse, David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 24, 2022 at 11:56 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
-> IIRC this part of the QEMU doc was making an implicit assumption
-> about the way QEMU is to be used by mgmt apps doing snapshots.
->
-> Instead of using the 'loadvm' command on the existing running QEMU
-> process, the doc seems to tacitly expect the management app will
-> throwaway the existing QEMU process and spawn a brand new QEMU
-> process to load the snapshot into, thus getting the new GUID on
-> the QEMU command line.
+Hey Eric,
 
-Right, exactly. The "there are no known use cases" bit I think just
-forgot about one very common use case that perhaps just wasn't in use
-by the original author. So I'm pretty sure this remains a QEMU bug.
+On Thu, Feb 24, 2022 at 2:27 AM Eric Biggers <ebiggers@kernel.org> wrote:
+>
+> On Thu, Feb 24, 2022 at 01:54:54AM +0100, Jason A. Donenfeld wrote:
+> > On 2/24/22, Eric Biggers <ebiggers@kernel.org> wrote:
+> > > I think we should be removing cases where the base_crng key is changed
+> > > directly
+> > > besides extraction from the input_pool, not adding new ones.  Why not
+> > > implement
+> > > this as add_device_randomness() followed by crng_reseed(force=true), where
+> > > the
+> > > 'force' argument forces a reseed to occur even if the entropy_count is too
+> > > low?
+> >
+> > Because that induces a "premature next" condition which can let that
+> > entropy, potentially newly acquired by a storm of IRQs at power-on, be
+> > bruteforced by unprivileged userspace. I actually had it exactly the
+> > way you describe at first, but decided that this here is the lesser of
+> > evils and doesn't really complicate things the way an intentional
+> > premature next would. The only thing we care about here is branching
+> > the crng stream, and so this does explicitly that, without having to
+> > interfere with how we collect entropy. Of course we *also* add it as
+> > non-credited "device randomness" so that it's part of the next
+> > reseeding, whenever that might occur.
+>
+> Can you make sure to properly explain this in the code?
+
+The carousel keeps turning, and after I wrote to you last night I kept
+thinking about the matter. Here's how it breaks down:
+
+Injection method:
+- Assumes existing pool of entropy is still sacred.
+- Assumes base_crng timestamp is representative of pool age.
+- Result: Mixes directly into base_crng to avoid premature-next of pool.
+
+Input pool method:
+- Assumes existing pool of entropy is old / out of date / used by a
+different fork, so not sacred.
+- Assumes base_crng timestamp is tied to irrelevant entropy pool.
+- Result: Force-drains input pool, causing intentional premature-next.
+
+Which of these assumptions better models the situation? I started in
+the input pool method camp, then by the time I posted v1, was
+concerned about power-on IRQs, but now I think relying at all on
+snapshotted entropy represents the biggest issue. And judging from
+your email, it appears that you do too. So v3 of this patchset will
+switch back to the input pool method, per your suggestion.
+
+As a plus, it means we go through the RDSEED'd extraction algorithm
+too, which always helps.
 
 Jason
 
