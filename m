@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2DC84C3859
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 23:06:11 +0100 (CET)
-Received: from localhost ([::1]:54148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF664C38BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 23:28:08 +0100 (CET)
+Received: from localhost ([::1]:60100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNMFW-0008LI-0M
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 17:06:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46236)
+	id 1nNMal-0005QU-Es
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 17:28:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNM9O-0006aA-GW
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 16:59:50 -0500
-Received: from [2607:f8b0:4864:20::1029] (port=38888
- helo=mail-pj1-x1029.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nNMZW-0004j9-UJ; Thu, 24 Feb 2022 17:26:50 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=54265
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNM9M-0005Dw-EN
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 16:59:50 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- ge19-20020a17090b0e1300b001bcca16e2e7so2387002pjb.3
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 13:59:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nNMZU-0001Jl-2U; Thu, 24 Feb 2022 17:26:50 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id bx5so3194314pjb.3;
+ Thu, 24 Feb 2022 14:26:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=TE/mODfiCUKTnc4XJV/lwSXiOvLUITycvDZpEwgtveQ=;
- b=gRaDCnZ1MS/L0NUS7LzWaMWLMdhI7W2Bf4AiahKXVdIECaEYNErkyKdPrHHuz/2J9s
- X+r1mmd2wPRYUJ2iFFZEOIE+p6M3hRxVk5JVnPFamPiJzrsZyCYFkrq3ASWMAt0qjsb5
- h5xGh0UQohY94K9gNMBipLoyObVnI7WnlHg9jYGEh8aCOrsH4S5vxV+6PffsU5kl6Ur9
- J/RnFS4FYsUrpjA/opoyf0jTdL5kvrduOvqCgVPxJ7XXVWOtTPW9R7+lBPy1MZMgMi8r
- P9w9j48H/Jj0VrcJLwxnAaymYZ50sExeUoTZMtqsSfOzSNLMqCOmEdk20nRaVSuYOHi7
- tCGw==
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=/dPJyWR8LcKeP/06zvKmJ2+ZLd74mSMc4tDaEiqHodg=;
+ b=SM+qfrK1uNUiqO8VWPtKk/i5sA1X7X5I4Ex7SI5Wtz6kZeednsmSRBI3m0OYFRqoEp
+ lh143zpLPCnlLfGItaPv8jeiYSdTJyEzqENdjRIHnNo5B7V7sHS+fFjRR4opP/u+2AbM
+ ZE2Zo7O02LVhkSv4z0vQL2+CrV/KL7PcvvSlTWRGIMA/h9sJQkVfVEEiWdNwUOxqCiT3
+ msJlCPfPLE5vG7SG0evXCxxxQHYjvvuRpliCBUNM3QCBN5iOa8xSdM6EPFA8+dh7YNHm
+ 3phLwZnPpYdMcDcq0nhoqml59eIO0SmvOlUjGbVPAYueAs1H1TC5RHMngHErGltCZ7qf
+ SodQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=TE/mODfiCUKTnc4XJV/lwSXiOvLUITycvDZpEwgtveQ=;
- b=YabQyOGT57Xt7AcZALfN/rmefEmz1P5xw+MJhPM+zYxI1s4wfmoexRhOY7Esp61Nk8
- Oo5lpDHu/gW5stQ+LGfztygyBsZo3q9+F48iBMd2k9hXTLdzaOQqKifFOKR6Ba36yfZ4
- 2Vjwa0+4COz/yKRSXMMXdVRgFIK1YRBGMSs10s6vuWh+poPz1lRULuV52x9D/Qv2Bs6z
- j8bWr+Zn+ASGgl4Z2ObjeTOwCy/7XHsNiTl1MlpbIJs7LKSN1IG2DTDmy0SeB3w/vY5+
- eakcbBo9+tGgGNOQNdIL6zVgC9TKh/emo3yelaIiUjh4GKKkgfBz82OyfsY4sAHAt+tz
- 2FNA==
-X-Gm-Message-State: AOAM530oXCsh4FvOBYyQ+rgZQDSWSLfyeD9Aapqq90nEsfDLwcXI0QyP
- F8u30/FKZwtxN/JWcroJvwUc/w==
-X-Google-Smtp-Source: ABdhPJwZj0cIgrSbxzK9YVPgNGkGfHLIcSL8G07gy+rEOT/6U2XwZb87vzATIh7kK6N1uesOfOSSCw==
-X-Received: by 2002:a17:902:694c:b0:14f:bb61:e7bf with SMTP id
- k12-20020a170902694c00b0014fbb61e7bfmr4254708plt.159.1645739986783; 
- Thu, 24 Feb 2022 13:59:46 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- o3-20020a056a0015c300b004e17afd9af9sm474173pfu.92.2022.02.24.13.59.45
+ bh=/dPJyWR8LcKeP/06zvKmJ2+ZLd74mSMc4tDaEiqHodg=;
+ b=c1G+oN0JhiTlkkgnSV3CCrEAyosTgZLnnbLwTra3r3hChy9UMlfgR0FyAa/XJKCP7K
+ GaVoRZfsHmP5poERA72o5laf9RN1BnGF/G53+CxLCubxXSlVSQoRyU1eixQvz9LzCI8O
+ bIdLZ7F1PdHs9o0AXHDzb1tJFHxm4Z2lPv4HuIK4EOUxHHuOXUb61TqzwEPn27B9cLWe
+ 38l2yWxKs1r/W+qdnbMNABZbluZ8Yh383zC71LdDCuQ5j92DDReGEdGwFDyCS0VOJBqb
+ 8j75cAsIsdl/HKelfdzzcBFY0Cz6hGIeunBBQhJExwfzy7k+uh9iVApx91Ag/F5hG9Ru
+ lKmQ==
+X-Gm-Message-State: AOAM531lSCimM8nmBpiEfK4Nks1+h8STG8u+W4XPwa5Xo83hxNNi6zsT
+ U8zoBWlJjbI48HHKMG7gilo=
+X-Google-Smtp-Source: ABdhPJzA30UVltUflbww4aPb381ExdGebVgnR2OHyJntVztoXEZeyquxbhkiygkLT/YI9Jsr9WGAsQ==
+X-Received: by 2002:a17:90a:a44:b0:1bc:275c:796e with SMTP id
+ o62-20020a17090a0a4400b001bc275c796emr231718pjo.3.1645741606431; 
+ Thu, 24 Feb 2022 14:26:46 -0800 (PST)
+Received: from [192.168.223.175] (21.red-88-28-25.dynamicip.rima-tde.net.
+ [88.28.25.21]) by smtp.gmail.com with ESMTPSA id
+ lk9-20020a17090b33c900b001bc7c2dfcdbsm321019pjb.37.2022.02.24.14.26.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 13:59:46 -0800 (PST)
-Message-ID: <ee30da51-bb2a-8309-6405-e2951559e3b0@linaro.org>
-Date: Thu, 24 Feb 2022 11:59:42 -1000
+ Thu, 24 Feb 2022 14:26:45 -0800 (PST)
+Message-ID: <c34a05c2-e2aa-81b6-dd64-a9f921cc6f8b@gmail.com>
+Date: Thu, 24 Feb 2022 23:26:40 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/4] target/nios2: Shadow register set
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH] libvhost-user: Fix wrong type of argument to formatting
+ function (reported by LGTM)
 Content-Language: en-US
-To: Amir Gonnen <amir.gonnen@neuroblade.ai>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- Marek Vasut <marex@denx.de>
-References: <20220224134901.500007-1-amir.gonnen@neuroblade.ai>
- <20220224134901.500007-2-amir.gonnen@neuroblade.ai>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220224134901.500007-2-amir.gonnen@neuroblade.ai>
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+References: <20220107154930.505075-1-sw@weilnetz.de>
+ <44e29af1-6d6b-5613-d4c3-aec1f133e931@weilnetz.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <44e29af1-6d6b-5613-d4c3-aec1f133e931@weilnetz.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,47 +93,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/22 03:48, Amir Gonnen wrote:
-> @@ -88,7 +93,9 @@ struct Nios2CPUClass {
->   #define   CR_STATUS_IH   (1 << 3)
->   #define   CR_STATUS_IL   (63 << 4)
->   #define   CR_STATUS_CRS  (63 << 10)
-> +#define   CR_STATUS_CRS_OFFSET 10
->   #define   CR_STATUS_PRS  (63 << 16)
-> +#define   CR_STATUS_PRS_OFFSET 16
->   #define   CR_STATUS_NMI  (1 << 22)
->   #define   CR_STATUS_RSIE (1 << 23)
->   #define CR_ESTATUS   (CR_BASE + 1)
+On 24/2/22 22:22, Stefan Weil wrote:
+> Am 07.01.22 um 16:49 schrieb Stefan Weil:
+> 
+>> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+>> ---
+>>
+>> LGTM has some more alerts which need attention:
+>> https://lgtm.com/projects/g/qemu/qemu/
+>>
+>> Regards,
+>> Stefan
+>>
+>>   subprojects/libvhost-user/libvhost-user.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/subprojects/libvhost-user/libvhost-user.c 
+>> b/subprojects/libvhost-user/libvhost-user.c
+>> index 787f4d2d4f..6eb72c4200 100644
+>> --- a/subprojects/libvhost-user/libvhost-user.c
+>> +++ b/subprojects/libvhost-user/libvhost-user.c
+>> @@ -651,7 +651,7 @@ generate_faults(VuDev *dev) {
+>>           if (ioctl(dev->postcopy_ufd, UFFDIO_REGISTER, &reg_struct)) {
+>>               vu_panic(dev, "%s: Failed to userfault region %d "
+>> -                          "@%p + size:%zx offset: %zx: (ufd=%d)%s\n",
+>> +                          "@%" PRIx64 " + size:%zx offset: %zx: 
+>> (ufd=%d)%s\n",
+>>                        __func__, i,
+>>                        dev_region->mmap_addr,
+>>                        dev_region->size, dev_region->mmap_offset,
+> 
+> 
+> Up to now I did not see any response to this patch, and it is also still 
+> missing in the latest code.
+> 
+> dev_region->mmap_addr is an uint64_t value, so the current format string 
+> "%p" won't work on any platform where pointers are not 64 bit value.
+> 
+> Stefan
+> 
+> 
+> 
 
-It would be preferable to use hw/registerfields.h:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-FIELD(CR_STATUS, IL, 4, 6)
-FIELD(CR_STATUS, CRS, 10, 6)
-FIELD(CR_STATUS, PRS, 16, 6)
-
-> +static inline uint32_t cpu_get_crs(const CPUNios2State *env)
-> +{
-> +    return (env->regs[CR_STATUS] & CR_STATUS_CRS)
-> +                    >> CR_STATUS_CRS_OFFSET;
-> +}
-
-This becomes
-
-     return FIELD_EX32(env->regs[CR_STATUS], CR_STATUS, CRS);
-
-> +    env->regs[CR_STATUS] = (env->regs[CR_STATUS] & (~CR_STATUS_PRS))
-> +                       | ((prev_set << CR_STATUS_PRS_OFFSET) & CR_STATUS_PRS);
-
-This becomes
-
-     env->regs[CR_STATUS] = FIELD_DP32(env->regs[CR_STATUS],
-                                       CR_STATUS, PRS, prev_set);
-
-etc.
-
-
-r~
 
