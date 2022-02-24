@@ -2,67 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7F24C2BBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 13:29:44 +0100 (CET)
-Received: from localhost ([::1]:58052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A39A4C2BC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 13:33:14 +0100 (CET)
+Received: from localhost ([::1]:33184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNDFf-0002M2-Kd
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 07:29:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43930)
+	id 1nNDJ3-0004l1-6h
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 07:33:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nNDCG-0006im-Jz
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:26:12 -0500
-Received: from [2001:41c9:1:41f::167] (port=45586
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNDFo-0003fm-HD
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:29:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nNDCE-0005Jg-D5
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:26:12 -0500
-Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nNDBa-0003Ri-5V; Thu, 24 Feb 2022 12:25:34 +0000
-Message-ID: <665eff07-9a99-1536-b416-fc20974ea697@ilande.co.uk>
-Date: Thu, 24 Feb 2022 12:26:02 +0000
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNDFj-0005hQ-Rf
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:29:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645705787;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FW+JYYyRK2rpa7HF9BLZpHNLQGQgyJJ6Q0BOpZTLxBg=;
+ b=M+C/n48jsGZEpsC6SMTJfOt0+KLaaj7eFxQDJWgSpQuo188RQhoacskyTBaBe3yQjznK5w
+ XKVg1CgpCWbrUoSQARDGHNhEgSHe4jxmqPmjw+moLPqIDV/kCPeyUi1QnBSJGBYBJlrc3a
+ K4xBswbBhmU8pRT1dNHwf3e3nSWtZiQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-554-2jKp2VDsOYGoL73NV0TE2g-1; Thu, 24 Feb 2022 07:29:46 -0500
+X-MC-Unique: 2jKp2VDsOYGoL73NV0TE2g-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ l24-20020a056402231800b00410f19a3103so677239eda.5
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 04:29:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FW+JYYyRK2rpa7HF9BLZpHNLQGQgyJJ6Q0BOpZTLxBg=;
+ b=XLXHJoRD/nwHHFjpLGXQMtNo5TV/9izYU/YZJhcVHDSwy9rgUwqWpeAPk0Z08fKhod
+ syocBspXIyLwDNzA9FePAE+Imol4v1HuLa5LIeZlozTIzUe7fSxRG9GpeLw02dwXE1mI
+ U9roH6vaO8A4U+GDGDcehgzl0NhBJu5nHT3e59394qyscJG2JuMrgNBMeWpTGI1dxEtK
+ X5xPWDTKmVSrXgm5wSEqyyZzpHTRh/p4JBcridNX6blI70xeIt9nENYfMKC9wHpkTSph
+ WQd45SGwaYgW7EOqvDgRuYKS2EnNL++5a+jlDov39FcPnOz7Tzimx3EMFI9+axwh5GDk
+ gP1A==
+X-Gm-Message-State: AOAM531jDQJgHcZ7Q/wHISdB95aj4YJ7nBZ/oE0Nc6TsZjEPZbyKbeLA
+ kmF6myVebdZUaX++T8ZnFlIKek09VAVdt3mafSVlPmrz0mlkUG9bCzM4osBujz+ZEUfoS0FE40R
+ jYKVUa2U67JHjibY=
+X-Received: by 2002:a05:6402:375:b0:404:c2be:3b8c with SMTP id
+ s21-20020a056402037500b00404c2be3b8cmr2037581edw.247.1645705785022; 
+ Thu, 24 Feb 2022 04:29:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyUskChmJ6P5oNC44PnmxZ0ZxUhfRU/ewT+qiHO0PlNWf46F2kFFcZO+d27ZK0U5KPtR16mfA==
+X-Received: by 2002:a05:6402:375:b0:404:c2be:3b8c with SMTP id
+ s21-20020a056402037500b00404c2be3b8cmr2037550edw.247.1645705784736; 
+ Thu, 24 Feb 2022 04:29:44 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id y21sm1331652eda.38.2022.02.24.04.29.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Feb 2022 04:29:44 -0800 (PST)
+Message-ID: <c95ea305-683d-42d5-13ba-ba239db5d7c6@redhat.com>
+Date: Thu, 24 Feb 2022 13:29:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 11/18] block: introduce snapshot-access filter
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20220216194617.126484-1-vsementsov@virtuozzo.com>
+ <20220216194617.126484-12-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220216194617.126484-12-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220127205405.23499-1-mark.cave-ayland@ilande.co.uk>
- <20220127205405.23499-9-mark.cave-ayland@ilande.co.uk>
- <YgJWPzFczlDBJV/I@redhat.com>
- <77884339-2f51-1ad0-7461-abd79bb36ef1@ilande.co.uk>
- <YgJmz6neLsF2n2u3@redhat.com>
- <f2114228-2243-2b4f-1869-a50d78a5a8d7@ilande.co.uk>
- <YgJrx2ygQmiF4TYx@redhat.com>
- <21104b5a-c895-337c-619d-e880836d5895@ilande.co.uk>
- <YhPH1BYRetB0Ks9C@redhat.com>
- <972e0e9d-1d4c-335b-139c-bb5230f2419f@ilande.co.uk>
- <YhT7K43xgXVS7YlL@work-vm>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <YhT7K43xgXVS7YlL@work-vm>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 08/11] mos6522: add "info via" HMP command for debugging
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,116 +103,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- laurent@vivier.eu, qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, wencongyang2@huawei.com,
+ xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, nikita.lapshin@virtuozzo.com, stefanha@redhat.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/02/2022 15:03, Dr. David Alan Gilbert wrote:
+On 16.02.22 20:46, Vladimir Sementsov-Ogievskiy wrote:
+> The filter simply utilizes snapshot-access API of underlying block
 
-> * Mark Cave-Ayland (mark.cave-ayland@ilande.co.uk) wrote:
->> On 21/02/2022 17:11, Daniel P. Berrangé wrote:
->>
->>> On Sun, Feb 20, 2022 at 05:18:33PM +0000, Mark Cave-Ayland wrote:
->>>> On 08/02/2022 13:10, Daniel P. Berrangé wrote:
->>>>
->>>>> On Tue, Feb 08, 2022 at 01:06:59PM +0000, Mark Cave-Ayland wrote:
->>>>>> On 08/02/2022 12:49, Daniel P. Berrangé wrote:
->>>>>>
->>>>>>>> I was under the impression that monitor_register_hmp_info_hrt() does all the
->>>>>>>> magic here i.e. it declares the underlying QMP command with an x- prefix and
->>>>>>>> effectively encapsulates the text field in a way that says "this is an
->>>>>>>> unreliable text opaque for humans"?
->>>>>>>
->>>>>>> The monitor_register_hmp_info_hrt only does the HMP glue side, and
->>>>>>> that's only needed if you must dynamically register the HMP command.
->>>>>>> For statically registered commands set '.cmd_info_hrt' directly in
->>>>>>> the hml-commands-info.hx for the HMP side.
->>>>>>>
->>>>>>>> If a qapi/ schema is needed could you explain what it should look like for
->>>>>>>> this example and where it should go? Looking at the existing .json files I
->>>>>>>> can't immediately see one which is the right place for this to live.
->>>>>>>
->>>>>>> Take a look in qapi/machine.json for anyof the 'x-query-XXXX' commands
->>>>>>> there. The QAPI bit is fairly simple.
->>>>>>>
->>>>>>> if you want to see an illustration of what's different from a previous
->>>>>>> pure HMP impl, look at:
->>>>>>>
->>>>>>>       commit dd98234c059e6bdb05a52998270df6d3d990332e
->>>>>>>       Author: Daniel P. Berrangé <berrange@redhat.com>
->>>>>>>       Date:   Wed Sep 8 10:35:43 2021 +0100
->>>>>>>
->>>>>>>         qapi: introduce x-query-roms QMP command
->>>>>>
->>>>>> I see, thanks for the reference. So qapi/machine.json would be the right
->>>>>> place to declare the QMP part even for a specific device?
->>>>>>
->>>>>> Even this approach still wouldn't work in its current form though, since as
->>>>>> mentioned in my previous email it seems that only the target CONFIG_*
->>>>>> defines and not the device CONFIG_* defines are present when processing
->>>>>> hmp-commands-info.hx.
->>>>>
->>>>> Yeah, that's where the pain comes in.  While QAPI schema can be made
->>>>> conditional on a few CONFIG_* parameters - basically those derived
->>>>> from global configure time options, it is impossible for this to be
->>>>> with with target specific options like the device CONFIG_* defines.
->>>>>
->>>>> This is why I suggested in my othuer reply that it would need to be
->>>>> done with a generic 'info dev-debug' / 'x-query-dev-debug' command
->>>>> that can be registered unconditionally, and then individual devices
->>>>> plug into it.
->>>>
->>>> After some more experiments this afternoon I still seem to be falling
->>>> through the gaps on this one. This is based upon my understanding that all
->>>> new HMP commands should use a QMP HumanReadableText implementation and the
->>>> new command should be restricted according to target.
->>>>
->>>> Currently I am working with this change to hmp-commands-info.hx and
->>>> qapi/misc-target.json:
->>>
->>> [snip]
->>>> i.e. qmp_marshal_output_HumanReadableText() isn't protected by the #if
->>>> TARGET guards and since HumanReadableText is only used by the new
->>>> qmp_x_query_via() functionality then the compiler complains and aborts the
->>>> compilation.
->>>>
->>>> Possibly this is an error in the QAPI generator for types hidden behind
->>>> commands using "if"? Otherwise I'm not sure what is the best way to proceed,
->>>> so I'd be grateful for some further pointers.
->>>
->>> Yes, this is pretty much what I expect and exactly what I hit with
->>> other target specific commands.
->>>
->>> That's why I suggested something like a general 'x-device-debug' command
->>> that is NOT conditionalized in QAPI, against which dev impls can register
->>> a callback to provide detailed reporting, instead of a device type specific
->>> command.
->>
->> Ah so this is a known issue with this approach then. David mentioned earlier
->> in the thread that he'd be okay with a HMP command if it was useful and
->> restricted to the required targets, so would it be okay to add "info via"
->> for now as just a (non-QMP wrapped) HMP info command if I can get that to
->> work?
-> 
-> I still am from an HMP point of view; it sounds like the right way in
-> the future is to get the info devices or whatever;  I suggest you keep
-> it as close to a QMP implementation as possible, still with the
-> HumanReadableText stuff.
-> (Others might still be nervous about an HMP special; but I don't see
-> it's worth holding this trivial stuff up for it).
+Nit picking: Well, it isn’t really a filter.  I understand where you’re 
+coming from, but by definition it isn’t a filter driver.
 
-I've just posted a v2 and what I've done there is to manually add a hmp_info_via() 
-wrapper (taken almost verbatim from 
-https://www.qemu.org/docs/master/devel/writing-monitor-commands.html#id1) and added 
-it to both include/monitor/hmp-target.h and include/hw/misc/mos6522.h which passes a 
-Gitlab run.
+> node.
+>
+> In further patches we want to use it like this:
+>
+> [guest]                   [NBD export]
+>     |                            |
+>     | root                       | root
+>     v                 file       v
+> [copy-before-write]<------[snapshot-access]
+>     |           |
+>     | file      | target
+>     v           v
+> [active-disk] [temp.img]
+>
+> This way, NBD client will be able to read snapshotted state of active
+> disk, when active disk is continued to be written by guest. This is
+> known as "fleecing", and currently uses another scheme based on qcow2
+> temporary image which backing file is active-disk. New scheme comes
+> with benefits - see next commit.
+>
+> The other possible application is exporting internal snapshots of
+> qcow2, like this:
+>
+> [guest]          [NBD export]
+>     |                  |
+>     | root             | root
+>     v       file       v
+> [qcow2]<---------[snapshot-access]
+>
+> For this, we'll need to implement snapshot-access API handlers in
+> qcow2 driver, and improve snapshot-access filter (and API) to make it
+> possibele to select snapshot by name.
 
-I think it's worth having as an in-tree reference for when a more formal HMP/QMP 
-per-device as opposed to per-target infrastructure arrives.
+s/possibele/possible/
 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   qapi/block-core.json    |   4 +-
+>   block/snapshot-access.c | 132 ++++++++++++++++++++++++++++++++++++++++
+>   MAINTAINERS             |   1 +
+>   block/meson.build       |   1 +
+>   4 files changed, 137 insertions(+), 1 deletion(-)
+>   create mode 100644 block/snapshot-access.c
 
-ATB,
+Again, I like this very much, not least because it provides a clean way 
+to solve the long-standing question of how to nicely export qcow2 snapshots.
 
-Mark.
+[...]
+
+> diff --git a/block/snapshot-access.c b/block/snapshot-access.c
+> new file mode 100644
+> index 0000000000..77b87c1946
+> --- /dev/null
+> +++ b/block/snapshot-access.c
+
+[...]
+
+> +static int snapshot_access_open(BlockDriverState *bs, QDict *options, int flags,
+> +                                Error **errp)
+> +{
+> +    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+> +                               BDRV_CHILD_DATA | BDRV_CHILD_PRIMARY,
+> +                               false, errp);
+> +    if (!bs->file) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    bs->total_sectors = bs->file->bs->total_sectors;
+
+(qcow2) snapshots can have a size that differs from the image’s current 
+(active layer) size.  We should accommodate for that here (I guess I’d 
+be fine with a FIXME, too, but introducing FIXMEs is always not exactly 
+great), I think.
+
+> +
+> +    return 0;
+> +}
+> +
+
 
