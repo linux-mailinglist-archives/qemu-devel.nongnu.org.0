@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DE94C3656
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:59:07 +0100 (CET)
-Received: from localhost ([::1]:48490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3254C3670
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 21:02:21 +0100 (CET)
+Received: from localhost ([::1]:54042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNKGT-0001fM-RX
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:59:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41638)
+	id 1nNKJf-0004Wm-W7
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 15:02:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nNKF9-00010Z-S7
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:57:39 -0500
-Received: from [2a00:1450:4864:20::431] (port=42973
- helo=mail-wr1-x431.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nNKG6-0001r8-Dr
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:58:38 -0500
+Received: from [2607:f8b0:4864:20::431] (port=45881
+ helo=mail-pf1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nNKF7-00081I-SP
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:57:39 -0500
-Received: by mail-wr1-x431.google.com with SMTP id d17so1289053wrc.9
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 11:57:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cOFcCJCSUCU9TcFcBgiP7JgPkXIaBLPnBT5tuGxMrBg=;
- b=fh/quB4sc9Nz3ITbcCOGAh786phq1iqtvIswYSX87wO4HL4Od7Yh2cdGVyNyEHxNwM
- Iqw6uuSsS9XdsAjUpuz1L9RXSdvD6EDDmZHXYeASpjOUFc4UchKoJgxePniVn/K2PCb+
- fw/lI+Ntku3J/wrITBZjq2tYwe5l56q4GXSYjku5fhY3Oiwr+yJW6yQq26PCiRnPzFmq
- 4BaYFdoVkxAd90Blb0Ac5GJhGhNm74gJvk9b0SetZkJNMmW3MKCZuL5NuxiRYWWuH5TQ
- Iio93U711VGU2Sijsh4Mvo6DF3JG1Y/1pk8Nl1WeRHzfE0/UIPKVI8t8eSupWbKubXPZ
- dv1g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nNKG4-00086s-6q
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:58:37 -0500
+Received: by mail-pf1-x431.google.com with SMTP id u16so2772396pfg.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 11:58:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=vlYjsnm+SCjtznd/+pUWifqqEevjASZVzMhG2Deu4AY=;
+ b=uYXIC7k4j/ZwstfLuD3i3MLyC+JXUiDFF6nKbB8Zs92FA9gwCQo4nTNvzCDCi+mYpL
+ /tcHHEwxXHQkmBtUdm/hJdT+pRnycWJHpdkJNHdBTdpo7yGUYOq1j/d1cpQvOZWg5W9e
+ cZN0NtYi1Q6CE7B7NBE3ufllxtkwKK3hJVX34db0JVI/nVnoj/TDQ/TycMys8bDKY8DN
+ EchrGodoz+OB/JRNnWIBAoBqgso4kf+tfAeBNTMcNo1zC9g4AOdwJwGJTIIBGcXQHpt/
+ CLSWjBfG0c9GPn/GxzI5zcNDGb5V90nBZaZ5NOO03U+GthX9vWCTXoAdW8kFyD1KJ12e
+ kcFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cOFcCJCSUCU9TcFcBgiP7JgPkXIaBLPnBT5tuGxMrBg=;
- b=UYuvwFCX7Aze25ZRYo5fLo0yVDXoaiLfYe3XM9t6my5aaSekGVeU0IKrk+fTyQBT4w
- ex3Smz1a6GwjwzM97cM7ShHRBC7N4dvOt9yIgY/uhcYFW7fI2PhHw/FV/6Em28/rKYyZ
- +RDUB0pxNA5npucN8KA+tFSSyQZohZJpGg1IBKI2nGfKGa4J82qxhzsITBYzdYOQF9kT
- fJ1kkLeewNOcIHAIv5cHN41ApZ1WOB0T8cBf2A1xAJadadw6eRLdzP/rvL4baKEZg1Oo
- nrcxI9qq7K2zPT6hSsXMuGEwKrI2o5xnPjZC6d0xjV+bpmAP0U45VnfVCDjMKDNxhkYa
- HkrA==
-X-Gm-Message-State: AOAM530r8qw3WsKu8322cVyJQEDwyOR4WNA3Gi6TnCkvIoIJhEgB1f9o
- W2WgyAp1jtKkFIGW8tFE0AB4aBNGXfpWh8SnmqU=
-X-Google-Smtp-Source: ABdhPJzeIBOmwjUo3gItct/YjffgDt3a2RnuI1qbHx/Tgse8Trr2b8V+imcyvhNBZ039pjYHkcAX9hUMOe24/FaU1Zg=
-X-Received: by 2002:a5d:6d87:0:b0:1e3:ed2:cf4e with SMTP id
- l7-20020a5d6d87000000b001e30ed2cf4emr3628644wrs.326.1645732656050; Thu, 24
- Feb 2022 11:57:36 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vlYjsnm+SCjtznd/+pUWifqqEevjASZVzMhG2Deu4AY=;
+ b=Xyh2omP+OcL7+bJ/wgEwgZRQbFJrqMFAF2g9ELX1/goQ/2pcpt8/o31VYH0+A6f++f
+ STtCUMkDXWLr+Ab92/RRY73bJPx1JFhkcQhR9nXm5qduwGKTCfFQLWFAFpTMASljiPgW
+ MJ5xPi+x0F+VxG6xUs7YiB0TqP7t6F/X7gw2zG6hPWpM27Pk1JcxuU4HHXhKZ+b+1bwI
+ 7XeN2N/15eYmZFpZ4tlUQ3kAMo4XByfDdwG4Qm0Ohzny/kmyPYEcoCJAhewvmerFuL+f
+ 5oetgIhlBi3BbDcWzLq+kRd9ZDwtk9e1P8IUop14ZXd9QdiZInTa0AppGsi8dOWFM0AC
+ FwXw==
+X-Gm-Message-State: AOAM5329VoubhdxLtf2Nxz25znFCjRg34DRbBopzWG2WJvOz9yOC/sZR
+ p50VVMNiUozEmKE5w16bWU51zQ==
+X-Google-Smtp-Source: ABdhPJy7LeYHt7Qn3LmJddrAZx5ssN7UFMOOZV0ZVJdOyawC7rooAfXkd6LJOKh2YZHUBV1YwY3Nlg==
+X-Received: by 2002:a05:6a00:158c:b0:4cc:ed28:f9a1 with SMTP id
+ u12-20020a056a00158c00b004cced28f9a1mr4358710pfk.48.1645732714716; 
+ Thu, 24 Feb 2022 11:58:34 -0800 (PST)
+Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
+ [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
+ t11-20020a056a0021cb00b004ce1a7d5ce8sm295115pfj.113.2022.02.24.11.58.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Feb 2022 11:58:34 -0800 (PST)
+Message-ID: <33dc7d92-d15e-e42b-d00d-520a35585a2b@linaro.org>
+Date: Thu, 24 Feb 2022 09:58:31 -1000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 07/12] Simplify HOST_LONG_BITS
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 References: <20220224183701.608720-1-marcandre.lureau@redhat.com>
- <20220224183701.608720-5-marcandre.lureau@redhat.com>
- <6af27303-1a30-991e-570f-1d594846738a@linaro.org>
-In-Reply-To: <6af27303-1a30-991e-570f-1d594846738a@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 24 Feb 2022 23:57:23 +0400
-Message-ID: <CAJ+F1CLzWO7-AeM7sXZ-rgN3Rva3_wTvsAg53E9OtX0GL+Pf+Q@mail.gmail.com>
-Subject: Re: [PATCH 04/12] compiler.h: replace QEMU_NORETURN with G_NORETURN
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000005bf71b05d8c8fe72"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ <20220224183701.608720-8-marcandre.lureau@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220224183701.608720-8-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,134 +93,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, f4bug@amsat.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005bf71b05d8c8fe72
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2/24/22 08:36, marcandre.lureau@redhat.com wrote:
+> -#if UINTPTR_MAX == UINT32_MAX
+> -# define HOST_LONG_BITS 32
+> -#elif UINTPTR_MAX == UINT64_MAX
+> -# define HOST_LONG_BITS 64
+> -#else
+> -# error Unknown pointer size
+> -#endif
+> +#define HOST_LONG_BITS (__SIZEOF_POINTER__ * 8)
 
-Hi
+I guess.  I'll note that there are 128-bit pointers on the horizon, but that UINTPTR_MAX 
+would not necessarily change to match __SIZEOF_POINTER__ [1].
 
-On Thu, Feb 24, 2022 at 11:37 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 2/24/22 08:36, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > G_NORETURN was introduced in glib 2.68, fallback to G_GNUC_NORETURN in
-> > glib-compat.
-> >
-> > Note that this attribute must be placed before the function declaration
-> > (bringing a bit of consistency in qemu codebase usage).
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> For C11, G_NORETURN is a wrapper for _Noreturn.
-> Since we're using C11, we should just use _Noreturn.
->
-
-G_NORETURN has several flavours, one of them is the c++ [[noreturn]], but
-also MSVC specific etc.
-
-Might be worth considering if we think about making code usable in
-different contexts.
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
 
->
-> >   void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
-> >                                       MMUAccessType access_type, int
-> mmu_idx,
-> > -                                    uintptr_t retaddr) QEMU_NORETURN;
-> > +                                    uintptr_t retaddr) G_NORETURN;
->
-> Incorrect placement.  I didn't scan the whole patch; I assume that using
-> _Noreturn will
-> flag this up as an error.
->
-
-Right, bad regexp search, will fix.
+r~
 
 
->
-> > -static void QEMU_NORETURN dump_core_and_abort(int target_sig)
-> > +G_NORETURN static void dump_core_and_abort(int target_sig)
->
-> I guess this can go either place, but I think I prefer the scope specifie=
-r
-> first.
->
+[1] https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-947.pdf
 
-Ok, I'll change it to "static G_NORETURN"
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000005bf71b05d8c8fe72
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 24, 2022 at 11:37 PM Ri=
-chard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard=
-.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">On 2/24/22 08:36, <a href=3D"mailto:marcandre.lureau@r=
-edhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> wrote:<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; G_NORETURN was introduced in glib 2.68, fallback to G_GNUC_NORETURN in=
-<br>
-&gt; glib-compat.<br>
-&gt; <br>
-&gt; Note that this attribute must be placed before the function declaratio=
-n<br>
-&gt; (bringing a bit of consistency in qemu codebase usage).<br>
-&gt; <br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-<br>
-For C11, G_NORETURN is a wrapper for _Noreturn.<br>
-Since we&#39;re using C11, we should just use _Noreturn.<br></blockquote><d=
-iv><br></div><div>G_NORETURN has several flavours, one of them is the c++ [=
-[noreturn]], but also MSVC specific etc.</div><div><br></div><div>Might be =
-worth considering if we think about making code usable in different context=
-s.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">
-<br>
-&gt;=C2=A0 =C2=A0void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr a=
-ddr,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MMUAcc=
-essType access_type, int mmu_idx,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uintptr_t retaddr)=
- QEMU_NORETURN;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uintptr_t retaddr)=
- G_NORETURN;<br>
-<br>
-Incorrect placement.=C2=A0 I didn&#39;t scan the whole patch; I assume that=
- using _Noreturn will <br>
-flag this up as an error.<br></blockquote><div><br></div><div>Right, bad re=
-gexp search, will fix.</div><div>=C2=A0<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
-<br>
-&gt; -static void QEMU_NORETURN dump_core_and_abort(int target_sig)<br>
-&gt; +G_NORETURN static void dump_core_and_abort(int target_sig)<br>
-<br>
-I guess this can go either place, but I think I prefer the scope specifier =
-first.<br>
-</blockquote></div><div><br></div><div>Ok, I&#39;ll change it to &quot;stat=
-ic G_NORETURN&quot;<br></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_sig=
-nature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000005bf71b05d8c8fe72--
 
