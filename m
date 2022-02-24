@@ -2,65 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E614C217D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 03:05:54 +0100 (CET)
-Received: from localhost ([::1]:47568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684E64C2156
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 02:50:46 +0100 (CET)
+Received: from localhost ([::1]:41688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nN3Vw-0001BG-V0
-	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 21:05:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60830)
+	id 1nN3HJ-0004sj-29
+	for lists+qemu-devel@lfdr.de; Wed, 23 Feb 2022 20:50:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ebiggers@kernel.org>)
- id 1nN2v9-0001oI-U3
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 20:27:53 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:43928)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ebiggers@kernel.org>)
- id 1nN2v7-0002FH-AC
- for qemu-devel@nongnu.org; Wed, 23 Feb 2022 20:27:51 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B8EDEB82353;
- Thu, 24 Feb 2022 01:27:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E42EFC340E7;
- Thu, 24 Feb 2022 01:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645666063;
- bh=GaCSlaHuoL4PTPpbJsCAbmTac306bb0289J4Jyt/cCk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uTcgqSuvreJcrt+GI6FBVbHvqWaCYHfJMDVKh298DN/yG74ijBRZPbgCEPe1SSnv/
- OWNZlqtpLMmtebO+jSPT2tI79bq0YuNY7TCpcI7JVvUMWiHVkyw4QJyvs554PKS8Y9
- yeoFqkpu8MIeywz1nC153jIcoBKg6MXsMzAJ7xfWz40z9BIrTiWEfyXzLNkkTmH71d
- VxV/se8WZF+3WlgLYOMUMoHBb8hqKl+jGYfrM0Apzfdb6Xs36lYJNKbnGn2Y0EWJ5g
- SkQ2b3jZVI8c5Be1KZMj0x+5uwbjyWJc1KApfl5lz867/+dPA75kgtSOxLR7uH/Cu6
- b7PtrA5RYslfw==
-Date: Wed, 23 Feb 2022 17:27:41 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH RFC v1 1/2] random: add mechanism for VM forks to
- reinitialize crng
-Message-ID: <YhbfDQ2ernjrRNRX@sol.localdomain>
-References: <20220223131231.403386-1-Jason@zx2c4.com>
- <20220223131231.403386-2-Jason@zx2c4.com>
- <YhbAOW/KbFW1CFkQ@sol.localdomain>
- <CAHmME9oa_wE8_n8e5b=iM5v-s5dgyibm4vXMhwzc8zGd6VWZMQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <wliang@stu.xidian.edu.cn>)
+ id 1nN3Fo-0004Cx-4e
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 20:49:12 -0500
+Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net ([209.97.182.222]:38339)
+ by eggs.gnu.org with smtp (Exim 4.90_1)
+ (envelope-from <wliang@stu.xidian.edu.cn>) id 1nN3Fl-00054P-6D
+ for qemu-devel@nongnu.org; Wed, 23 Feb 2022 20:49:11 -0500
+Received: by ajax-webmail-sr0414.icoremail.net (Coremail) ; Thu, 24 Feb 2022
+ 09:49:00 +0800 (GMT+08:00)
+X-Originating-IP: [39.128.6.192]
+Date: Thu, 24 Feb 2022 09:49:00 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: wliang@stu.xidian.edu.cn
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: Re: Fix a potential Use-after-free in virtio_iommu_handle_command()
+ (v6.2.0).
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210401(fdb522e2)
+ Copyright (c) 2002-2022 www.mailtech.cn
+ mispb-ac60dc67-ddbe-4478-9127-1d3314495f10-icoremail.net
+In-Reply-To: <6381b8e6-c0d6-03aa-7b30-a47c724a6747@gmail.com>
+References: <1b79118e.25c5.17f2702b9d5.Coremail.wliang@stu.xidian.edu.cn>
+ <3ce08bdb-fecd-549a-5c09-0b5fa65de4ba@redhat.com>
+ <6381b8e6-c0d6-03aa-7b30-a47c724a6747@gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHmME9oa_wE8_n8e5b=iM5v-s5dgyibm4vXMhwzc8zGd6VWZMQ@mail.gmail.com>
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=ebiggers@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Message-ID: <37bb38c6.324.17f296acf3d.Coremail.wliang@stu.xidian.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: AQAAfwAnTFwN5BZiCB0EAA--.357W
+X-CM-SenderInfo: pzolt0vj6v33wo0lvxldqovvfxof0/1tbiAQMMA1wR-vU9jgAKsy
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW7Jw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+Received-SPF: pass client-ip=209.97.182.222;
+ envelope-from=wliang@stu.xidian.edu.cn;
+ helo=zg8tmja5ljk3lje4mi4ymjia.icoremail.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 23 Feb 2022 21:03:44 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,37 +65,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, tytso@mit.edu, kvm@vger.kernel.org,
- adrian@parity.io, jannh@google.com, gregkh@linuxfoundation.org,
- raduweis@amazon.com, qemu-devel@nongnu.org, linux-kernel@vger.kernel.org,
- acatan@amazon.com, graf@amazon.com, linux-crypto@vger.kernel.org,
- colmmacc@amazon.com, sblbir@amazon.com, dwmw@amazon.co.uk
+Cc: Eric Auger <eric.auger@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 24, 2022 at 01:54:54AM +0100, Jason A. Donenfeld wrote:
-> On 2/24/22, Eric Biggers <ebiggers@kernel.org> wrote:
-> > I think we should be removing cases where the base_crng key is changed
-> > directly
-> > besides extraction from the input_pool, not adding new ones.  Why not
-> > implement
-> > this as add_device_randomness() followed by crng_reseed(force=true), where
-> > the
-> > 'force' argument forces a reseed to occur even if the entropy_count is too
-> > low?
-> 
-> Because that induces a "premature next" condition which can let that
-> entropy, potentially newly acquired by a storm of IRQs at power-on, be
-> bruteforced by unprivileged userspace. I actually had it exactly the
-> way you describe at first, but decided that this here is the lesser of
-> evils and doesn't really complicate things the way an intentional
-> premature next would. The only thing we care about here is branching
-> the crng stream, and so this does explicitly that, without having to
-> interfere with how we collect entropy. Of course we *also* add it as
-> non-credited "device randomness" so that it's part of the next
-> reseeding, whenever that might occur.
-
-Can you make sure to properly explain this in the code?
-
-- Eric
+Cj4gPiB0aGFua3MgZm9yIHlvdXIgcmVwb3J0IGFuZCBwYXRjaCAtIGJ1dCB0byBtYWtlIHN1cmUg
+dGhhdCB0aGUgcmlnaHQgCj4gPiBwZW9wbGUgZ2V0IGF0dGVudGlvbiwgcGxlYXNlIHVzZSB0aGUg
+c2NyaXB0cy9nZXRfbWFpbnRhaW5lci5wbCBzY3JpcHQgdG8gCj4gPiBnZXQgYSBsaXN0IG9mIHBl
+b3BsZSB3aG8gc2hvdWxkIGJlIG9uIENDOiwgb3IgbG9vayBpbnRvIHRoZSBNQUlOVEFJTkVSUyAK
+PiA+IGZpbGUgZGlyZWN0bHkgKGZvciB0aGUgbmV4dCB0aW1lIC0gdGhpcyB0aW1lLCBJJ3ZlIEND
+OmVkIHRoZW0gbm93IGFscmVhZHkpLgo+IAo+IFlvdSBjYW4gZmluZCB0aGUgY29udHJpYnV0aW9u
+IGd1aWRlbGluZXMgaGVyZToKPiBodHRwczovL3d3dy5xZW11Lm9yZy9kb2NzL21hc3Rlci9kZXZl
+bC9zdWJtaXR0aW5nLWEtcGF0Y2guaHRtbAoKCgpUaGFuayB5b3Ugc28gbXVjaCEKWW91IGd1eXMg
+YXJlIHNvIGtpZCEgVGhhdCByZW1pbmRzIG1lIGhvdyBiZWF1dGlmdWwgdGhlIHdvcmxkIGlzLgpI
+YXZlIGEgZ29vZCBkYXkhCgpUaGFua3MsCldlbnRhbwo=
 
