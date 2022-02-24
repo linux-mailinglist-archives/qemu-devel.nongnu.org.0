@@ -2,85 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8894C37E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 22:34:07 +0100 (CET)
-Received: from localhost ([::1]:36704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05554C37F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 22:42:17 +0100 (CET)
+Received: from localhost ([::1]:39896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNLkT-0003On-Sw
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 16:34:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37542)
+	id 1nNLsO-00065g-8u
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 16:42:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNLir-0002W6-GL
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 16:32:25 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=53082
- helo=mail-pj1-x1031.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNLip-0008DJ-9T
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 16:32:25 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id v4so3105467pjh.2
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 13:32:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8F+Dsxy0RVuXgRQ6Y5ZUwC3XyP+w5EMnQYbLXvL49/I=;
- b=Ghbkow3WiI72l0YDOSNhM3YTLn/NYW5P+1+T+eKEZfClivwwCYwc5GionGQ8ttil3y
- TO2FOKbFV38gkKG0EOC9uXLfvVcLQqx0ejVsygqNpJT6eSDq/67lklVq+Q/t0FVtP03i
- aS1oZVpjbDV6acBK0nnv+f2f+mGZsUouQDeCPV1wbA3symGgFXRmX3wI6M8UoD+pb1tM
- K++kkwYPvFuwWFQaSdY+vXQvEtk+Gv3e/F4fyHmoc9NeurZioiv7Ei5EKlbBKYskBfb5
- 7tXvxVN05J3aPVq/YRZJOLAC9+Hm9krBbB6yYlxwdIg/AbY8TSfY11w4KOQOS5xYphBX
- ZkLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8F+Dsxy0RVuXgRQ6Y5ZUwC3XyP+w5EMnQYbLXvL49/I=;
- b=e9vpG0KHB6wHdvPbZaFC83kFMlygWEXpDZYgOoa8RTdNKriUDm9eFExKPEP9NOQ2Dv
- IUAElUdLe7yOgnDVFrbvQfFXAkmCwJuPSeMNbvshtLCdrLm6Ob87UphUa854uVn0RPkg
- DPtpyuReVw8SdjLE7fHQc/RNv9zUR2ar11mnuc9R6HvHjzbrxEF/L7WlmZJT9JbvH2OO
- ZwxRkVLGHUgbX4IFElaVJ64mzuc5a7uT0DY2LViU4d7psl0a2kH9NXQjRf7C34d3bb/h
- yCUITbzozMak6gQc8ft6lhDqQT+iz1nZBnxyUSsuH4j25sibkIFns/RaWYkI6r3myu+m
- ncTw==
-X-Gm-Message-State: AOAM530bahqfNCRQPhNCkJ9Q+coz8Q8uj+YgRLo11hg/JpJlYpt17eFX
- P9ZUUSm/KRiJgq4n5eHQekuQ4w==
-X-Google-Smtp-Source: ABdhPJy6mBZPv9SldouvHk3IfFPkcLVH1XwaT1c087JsGVgP95E7CJJs8k6253hg9zH3lZGjr6bK1w==
-X-Received: by 2002:a17:903:3092:b0:14f:9c1c:45a4 with SMTP id
- u18-20020a170903309200b0014f9c1c45a4mr4293466plc.126.1645738341809; 
- Thu, 24 Feb 2022 13:32:21 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- u19-20020a056a00159300b004e1590f88c1sm388497pfk.220.2022.02.24.13.32.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 13:32:21 -0800 (PST)
-Message-ID: <b485cf47-32c5-fead-6aef-7e8c9ffbe558@linaro.org>
-Date: Thu, 24 Feb 2022 11:32:18 -1000
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1nNLqQ-0005GQ-C0
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 16:40:15 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:46996
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1nNLqM-0001dR-BY
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 16:40:13 -0500
+Received: from [192.168.178.59] (p5b1510d9.dip0.t-ipconnect.de [91.21.16.217])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id D4253DA07B4;
+ Thu, 24 Feb 2022 22:40:06 +0100 (CET)
+Message-ID: <05804c4b-690c-4fda-aaac-5a1bcb144024@weilnetz.de>
+Date: Thu, 24 Feb 2022 22:40:06 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v13 1/4] target/ppc: make power8-pmu.c CONFIG_TCG only
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20220224201900.1037465-1-danielhb413@gmail.com>
- <20220224201900.1037465-2-danielhb413@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220224201900.1037465-2-danielhb413@gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+To: Peter Maydell <peter.maydell@linaro.org>, marcandre.lureau@redhat.com
+References: <20220224183701.608720-1-marcandre.lureau@redhat.com>
+ <20220224183701.608720-6-marcandre.lureau@redhat.com>
+ <CAFEAcA9FDt0Y6W4zBLG3ciGe8M7TERimzD_4gX-y7pAv2G+=ag@mail.gmail.com>
+From: Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH 05/12] compiler.h: drop __printf__ macro MinGW/glib
+ workaround
+In-Reply-To: <CAFEAcA9FDt0Y6W4zBLG3ciGe8M7TERimzD_4gX-y7pAv2G+=ag@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,29 +59,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/22 10:18, Daniel Henrique Barboza wrote:
-> This is an exclusive TCG helper. Gating it with CONFIG_TCG and changing
-> meson.build accordingly will prevent problems --disable-tcg and
-> --disable-linux-user later on.
-> 
-> We're also changing the uses of !kvm_enabled() to tcg_enabled() to avoid
-> adding "defined(CONFIG_TCG)" ifdefs, since tcg_enabled() will be
-> defaulted to false with --disable-tcg and the block will always be
-> skipped.
-> 
-> Signed-off-by: Daniel Henrique Barboza<danielhb413@gmail.com>
-> ---
->   target/ppc/cpu_init.c   | 16 +++++++---------
->   target/ppc/machine.c    |  6 +++++-
->   target/ppc/meson.build  |  2 +-
->   target/ppc/power8-pmu.h |  4 ++--
->   4 files changed, 15 insertions(+), 13 deletions(-)
+Am 24.02.22 um 20:12 schrieb Peter Maydell:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> On Thu, 24 Feb 2022 at 18:38, <marcandre.lureau@redhat.com> wrote:
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>
+>> This workaround was added in commit 95df51a4 ("w32: Always use standard
+>> instead of native format strings"), as it claimed glib was using
+>> __printf__ attribute. This is surprising, since glib has always used
+>> G_GNUC_PRINTF which, as the name implies, uses __gnu_printf__ when
+>> possible.
+> This was not always true: before this commit from 2018
+> https://github.com/GNOME/glib/commit/98a0ab929d8c59ee27e5f470f11d077bb6a56749
+> G_GNUC_PRINTF used always used __printf__.
+> I think that change only landed in glib 2.58, so since our current
+> minimum glib version is 2.56 we need to retain this workaround.
+>
+>> Apparently, the workaound is no longer relevant though, I don't see
+>> the warnings.
+> You're probably building with a newer glib, and possibly also
+> a newer mingw.
+>
+> I've cc'd Stefan Weil who might know whether we can drop this
+> workaround as far as the mingw part is concerned.
 
-r~
+
+My latest builds of QEMU for Windows still used glib 2.54 because that 
+still is the "newest" version which is provided by Cygwin's mingw64:
+
+https://cygwin.com/cgi-bin2/package-grep.cgi?grep=mingw64-.*-glib2.0
+
+So I even had to downgrade the minimum glib version.
+
+A hard requirement of a newer glib would mean that Cygwin mingw64 
+packages can no longer be used for building QEMU unless someone updates 
+those packages.
+
+Stefan
+
+
 
