@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353024C340B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 18:52:33 +0100 (CET)
-Received: from localhost ([::1]:48226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48FB4C33FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 18:48:06 +0100 (CET)
+Received: from localhost ([::1]:39176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNII2-0001UZ-RK
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 12:52:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39152)
+	id 1nNIDl-0003hp-Hf
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 12:48:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nNIBW-0001Ur-Cc
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 12:45:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53023)
+ id 1nNIC2-0001lQ-93
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 12:46:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nNIBU-0002TG-AE
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 12:45:46 -0500
+ id 1nNIBt-0002VQ-ED
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 12:46:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645724743;
+ s=mimecast20190719; t=1645724758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QI9X/zpXFUd7V6NniMez8SnNpm4htCxFv7oefly+mkg=;
- b=XYkmo9NBhP8iAzO4KP24P1pDTwUIh9+cZRTozw2+mxMQFwzc11bAfRyZMsa8IbkFrRD7P/
- XWbHTL1Bv/N5RHl4GWQvHJneSfcDWEiVYg4WuNkURBkDf3deV9qNgEeJa/GOrrQHP0zqEk
- SxoaKSIXNZjfrFHAtV10jaKKtHSC1Bo=
+ bh=dHYpuN/ALkxd3ga2HMxALEv4o/lFFAEjKJ81OR2oV/4=;
+ b=Jr1twSYVHJ1/h7ZuDXXsA7hdFRuxh/wY2s4tugABnmxKrz9gvpwUQh/bvmPUSMslVhnMQJ
+ CrLiuP96bgh+qhrns/pMArvVzBMqzj67IPsMu1VBBLvuRp8pS8S0wMx6GMvELmK1ijrhIr
+ piEvDDoqAr3UkUDlzWVBZk0q9AJLlFM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-496-KTQF9CdCMC6h3Sqp00PJyA-1; Thu, 24 Feb 2022 12:45:42 -0500
-X-MC-Unique: KTQF9CdCMC6h3Sqp00PJyA-1
+ us-mta-657-o0lNQ3VNPaaU0YHVo20y6g-1; Thu, 24 Feb 2022 12:45:57 -0500
+X-MC-Unique: o0lNQ3VNPaaU0YHVo20y6g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 914B051D5
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 17:45:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61E54180FD73
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 17:45:56 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C317710AC;
- Thu, 24 Feb 2022 17:44:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D94F9710AC;
+ Thu, 24 Feb 2022 17:45:41 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] pci: expose TYPE_XIO3130_DOWNSTREAM name
-Date: Thu, 24 Feb 2022 12:44:08 -0500
-Message-Id: <20220224174411.3296848-2-imammedo@redhat.com>
+Subject: [PATCH 2/4] pcie: update slot power status only is power control is
+ enabled
+Date: Thu, 24 Feb 2022 12:44:09 -0500
+Message-Id: <20220224174411.3296848-3-imammedo@redhat.com>
 In-Reply-To: <20220224174411.3296848-1-imammedo@redhat.com>
 References: <20220224174411.3296848-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -85,58 +86,64 @@ Cc: kraxel@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Type name will be used in followup patch for cast check
-in pcihp code.
+on creation a PCIDevice has power turned on at the end of pci_qdev_realize()
+however later on if PCIe slot isn't populated with any children
+it's power is turned off. It's fine if native hotplug is used
+as plug callback will power slot on among other things.
+However when ACPI hotplug is enabled it replaces native PCIe plug
+callbacks with ACPI specific ones (acpi_pcihp_device_*plug_cb) and
+as result slot stays powered off. It works fine as ACPI hotplug
+on guest side takes care of enumerating/initializing hotplugged
+device. But when later guest is migrated, call chain introduced by [1]
+
+   pcie_cap_slot_post_load()
+       -> pcie_cap_update_power()
+           -> pcie_set_power_device()
+               -> pci_set_power()
+                   -> pci_update_mappings()
+
+will disable earlier initialized BARs for the hotplugged device
+in powered off slot due to commit [2] which disables BARs if
+power is off. As result guest OS after migration will be very
+much confused [3], still thinking that it has working device,
+which isn't true anymore due to disabled BARs.
+
+Fix it by honoring PCI_EXP_SLTCAP_PCP and updating power status
+only if capability is enabled. Follow up patch will disable
+PCI_EXP_SLTCAP_PCP overriding COMPAT_PROP_PCP property when
+PCIe slot is under ACPI PCI hotplug control.
+
+See [3] for reproducer.
+
+1)
+Fixes: commit d5daff7d312 (pcie: implement slot power control for pcie root ports)
+2)
+       commit 23786d13441 (pci: implement power state)
+3)
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- include/hw/pci-bridge/xio3130_downstream.h | 15 +++++++++++++++
- hw/pci-bridge/xio3130_downstream.c         |  3 ++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
- create mode 100644 include/hw/pci-bridge/xio3130_downstream.h
+ hw/pci/pcie.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/pci-bridge/xio3130_downstream.h b/include/hw/pci-bridge/xio3130_downstream.h
-new file mode 100644
-index 0000000000..1d10139aea
---- /dev/null
-+++ b/include/hw/pci-bridge/xio3130_downstream.h
-@@ -0,0 +1,15 @@
-+/*
-+ * TI X3130 pci express downstream port switch
-+ *
-+ * Copyright (C) 2022 Igor Mammedov <imammedo@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef HW_PCI_BRIDGE_XIO3130_DOWNSTREAM_H
-+#define HW_PCI_BRIDGE_XIO3130_DOWNSTREAM_H
-+
-+#define TYPE_XIO3130_DOWNSTREAM "xio3130-downstream"
-+
-+#endif
-+
-diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
-index 04aae72cd6..b17cafd359 100644
---- a/hw/pci-bridge/xio3130_downstream.c
-+++ b/hw/pci-bridge/xio3130_downstream.c
-@@ -28,6 +28,7 @@
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
-+#include "hw/pci-bridge/xio3130_downstream.h"
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index d7d73a31e4..2339729a7c 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -383,10 +383,9 @@ static void pcie_cap_update_power(PCIDevice *hotplug_dev)
  
- #define PCI_DEVICE_ID_TI_XIO3130D       0x8233  /* downstream port */
- #define XIO3130_REVISION                0x1
-@@ -173,7 +174,7 @@ static void xio3130_downstream_class_init(ObjectClass *klass, void *data)
+     if (sltcap & PCI_EXP_SLTCAP_PCP) {
+         power = (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON;
++        pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
++                            pcie_set_power_device, &power);
+     }
+-
+-    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+-                        pcie_set_power_device, &power);
  }
  
- static const TypeInfo xio3130_downstream_info = {
--    .name          = "xio3130-downstream",
-+    .name          = TYPE_XIO3130_DOWNSTREAM,
-     .parent        = TYPE_PCIE_SLOT,
-     .class_init    = xio3130_downstream_class_init,
-     .interfaces = (InterfaceInfo[]) {
+ /*
 -- 
 2.31.1
 
