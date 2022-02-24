@@ -2,76 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9B74C382F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 22:52:15 +0100 (CET)
-Received: from localhost ([::1]:47602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DC84C3859
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 23:06:11 +0100 (CET)
+Received: from localhost ([::1]:54148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNM21-0003Kk-Vl
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 16:52:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44420)
+	id 1nNMFW-0008LI-0M
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 17:06:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nNLzq-0002FQ-5J
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 16:49:58 -0500
-Received: from [2a00:1450:4864:20::42f] (port=42517
- helo=mail-wr1-x42f.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nNM9O-0006aA-GW
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 16:59:50 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=38888
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nNLzm-0003e0-HN
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 16:49:56 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id d17so1653240wrc.9
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 13:49:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=njeMfMJfZyTJ3s1nMVeWV34BQ2Vprs/d4ZFCyjc1zcM=;
- b=LNM500VQDpMaemU2QSWUmQqZvmcx/i8PGVYZF8SJaF7b69Bb+v/uZuJyzpSGObCb1P
- dEmI5R4Ch7f9g9ZgQGfKATXwOl09sSzfgqsPSGEZIzArFs4pEw2w9R9wqkpSj/1V0WOI
- XCZCgzGwPlay+mveSRQJKGCHTfuP+AJzxjkuYPgNZ+l0A2AZo7owQTswB+szZfuZH+on
- j4oeZkmaJGZCbINtu3OEcE2ifG0Y4cqiLyt+bVpXJweBntcgXFZLpjg3o5SUGLoKmgay
- hFtmDLIPQupDqUBOfKNOzjCe5cj4YCIJt5YoC34b0K5WkVNG95SbxRqu2m1N9a/T31SX
- SD9g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nNM9M-0005Dw-EN
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 16:59:50 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ ge19-20020a17090b0e1300b001bcca16e2e7so2387002pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 13:59:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=TE/mODfiCUKTnc4XJV/lwSXiOvLUITycvDZpEwgtveQ=;
+ b=gRaDCnZ1MS/L0NUS7LzWaMWLMdhI7W2Bf4AiahKXVdIECaEYNErkyKdPrHHuz/2J9s
+ X+r1mmd2wPRYUJ2iFFZEOIE+p6M3hRxVk5JVnPFamPiJzrsZyCYFkrq3ASWMAt0qjsb5
+ h5xGh0UQohY94K9gNMBipLoyObVnI7WnlHg9jYGEh8aCOrsH4S5vxV+6PffsU5kl6Ur9
+ J/RnFS4FYsUrpjA/opoyf0jTdL5kvrduOvqCgVPxJ7XXVWOtTPW9R7+lBPy1MZMgMi8r
+ P9w9j48H/Jj0VrcJLwxnAaymYZ50sExeUoTZMtqsSfOzSNLMqCOmEdk20nRaVSuYOHi7
+ tCGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=njeMfMJfZyTJ3s1nMVeWV34BQ2Vprs/d4ZFCyjc1zcM=;
- b=zmjEwomDgE4U77trbWS1rzCoO8fIT/gZMt6oZIqVYk/YHePHrJRmW9cYtEFcv910la
- 8NTiWKPVxI5QPfbl7ysV6gUn9cJsfQjNbAWKJEnlVeU0bfhD2nst9GsCdaNfCHt2kdHo
- xhxZ03FwinET8CIsynWQdtpqu9l41s0WKAYK1Gs8ECH8UQU5BJ3mzU+eIlpjCcFWxINp
- /KTbuINnvncJ45cfxdvO2IwJBno6TKNdg570TzGoMeUnaDnuwqLpjR8p9IoNFV2YdAP0
- I3kUwJQ7TVamGqqrz/YM1BHLV2PWYaqEsXABzspj/gXtDDWFfugd7HnIb4Qvt22JXzBj
- W7zA==
-X-Gm-Message-State: AOAM53129B5odna2mu6nM7h51oTyHvFjtU12QSlMCuHUuxCiPH06uxiV
- eDjk6Jt2fdUqeMQ7AU2BNGsog/OZw9J1Fg2+Zos=
-X-Google-Smtp-Source: ABdhPJxBNHqfVHJMFXXRYYcJ036Pwvd3RaqUX1TGNDd2kSNtg95pND/QYPapYU+CHcTkLgAo0bVB3obE+e5sUQSahxo=
-X-Received: by 2002:adf:c3cc:0:b0:1ed:b641:6ee2 with SMTP id
- d12-20020adfc3cc000000b001edb6416ee2mr3751830wrg.529.1645739371331; Thu, 24
- Feb 2022 13:49:31 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=TE/mODfiCUKTnc4XJV/lwSXiOvLUITycvDZpEwgtveQ=;
+ b=YabQyOGT57Xt7AcZALfN/rmefEmz1P5xw+MJhPM+zYxI1s4wfmoexRhOY7Esp61Nk8
+ Oo5lpDHu/gW5stQ+LGfztygyBsZo3q9+F48iBMd2k9hXTLdzaOQqKifFOKR6Ba36yfZ4
+ 2Vjwa0+4COz/yKRSXMMXdVRgFIK1YRBGMSs10s6vuWh+poPz1lRULuV52x9D/Qv2Bs6z
+ j8bWr+Zn+ASGgl4Z2ObjeTOwCy/7XHsNiTl1MlpbIJs7LKSN1IG2DTDmy0SeB3w/vY5+
+ eakcbBo9+tGgGNOQNdIL6zVgC9TKh/emo3yelaIiUjh4GKKkgfBz82OyfsY4sAHAt+tz
+ 2FNA==
+X-Gm-Message-State: AOAM530oXCsh4FvOBYyQ+rgZQDSWSLfyeD9Aapqq90nEsfDLwcXI0QyP
+ F8u30/FKZwtxN/JWcroJvwUc/w==
+X-Google-Smtp-Source: ABdhPJwZj0cIgrSbxzK9YVPgNGkGfHLIcSL8G07gy+rEOT/6U2XwZb87vzATIh7kK6N1uesOfOSSCw==
+X-Received: by 2002:a17:902:694c:b0:14f:bb61:e7bf with SMTP id
+ k12-20020a170902694c00b0014fbb61e7bfmr4254708plt.159.1645739986783; 
+ Thu, 24 Feb 2022 13:59:46 -0800 (PST)
+Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
+ [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
+ o3-20020a056a0015c300b004e17afd9af9sm474173pfu.92.2022.02.24.13.59.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Feb 2022 13:59:46 -0800 (PST)
+Message-ID: <ee30da51-bb2a-8309-6405-e2951559e3b0@linaro.org>
+Date: Thu, 24 Feb 2022 11:59:42 -1000
 MIME-Version: 1.0
-References: <20220224183701.608720-1-marcandre.lureau@redhat.com>
- <20220224183701.608720-6-marcandre.lureau@redhat.com>
- <CAFEAcA9FDt0Y6W4zBLG3ciGe8M7TERimzD_4gX-y7pAv2G+=ag@mail.gmail.com>
- <05804c4b-690c-4fda-aaac-5a1bcb144024@weilnetz.de>
-In-Reply-To: <05804c4b-690c-4fda-aaac-5a1bcb144024@weilnetz.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 25 Feb 2022 01:49:19 +0400
-Message-ID: <CAJ+F1CJr+Opho0pZbXLa0i7OABSu5LieEfvo4QkQqy7xUTiDyg@mail.gmail.com>
-Subject: Re: [PATCH 05/12] compiler.h: drop __printf__ macro MinGW/glib
- workaround
-To: Stefan Weil <sw@weilnetz.de>
-Content-Type: multipart/alternative; boundary="0000000000009f04b005d8ca8e44"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/4] target/nios2: Shadow register set
+Content-Language: en-US
+To: Amir Gonnen <amir.gonnen@neuroblade.ai>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ Marek Vasut <marex@denx.de>
+References: <20220224134901.500007-1-amir.gonnen@neuroblade.ai>
+ <20220224134901.500007-2-amir.gonnen@neuroblade.ai>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220224134901.500007-2-amir.gonnen@neuroblade.ai>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,136 +96,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009f04b005d8ca8e44
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2/24/22 03:48, Amir Gonnen wrote:
+> @@ -88,7 +93,9 @@ struct Nios2CPUClass {
+>   #define   CR_STATUS_IH   (1 << 3)
+>   #define   CR_STATUS_IL   (63 << 4)
+>   #define   CR_STATUS_CRS  (63 << 10)
+> +#define   CR_STATUS_CRS_OFFSET 10
+>   #define   CR_STATUS_PRS  (63 << 16)
+> +#define   CR_STATUS_PRS_OFFSET 16
+>   #define   CR_STATUS_NMI  (1 << 22)
+>   #define   CR_STATUS_RSIE (1 << 23)
+>   #define CR_ESTATUS   (CR_BASE + 1)
 
-Hi
+It would be preferable to use hw/registerfields.h:
 
-On Fri, Feb 25, 2022 at 1:41 AM Stefan Weil <sw@weilnetz.de> wrote:
+FIELD(CR_STATUS, IL, 4, 6)
+FIELD(CR_STATUS, CRS, 10, 6)
+FIELD(CR_STATUS, PRS, 16, 6)
 
-> Am 24.02.22 um 20:12 schrieb Peter Maydell:
->
-> > On Thu, 24 Feb 2022 at 18:38, <marcandre.lureau@redhat.com> wrote:
-> >> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >>
-> >> This workaround was added in commit 95df51a4 ("w32: Always use standar=
-d
-> >> instead of native format strings"), as it claimed glib was using
-> >> __printf__ attribute. This is surprising, since glib has always used
-> >> G_GNUC_PRINTF which, as the name implies, uses __gnu_printf__ when
-> >> possible.
-> > This was not always true: before this commit from 2018
-> >
-> https://github.com/GNOME/glib/commit/98a0ab929d8c59ee27e5f470f11d077bb6a5=
-6749
-> > G_GNUC_PRINTF used always used __printf__.
-> > I think that change only landed in glib 2.58, so since our current
-> > minimum glib version is 2.56 we need to retain this workaround.
-> >
-> >> Apparently, the workaound is no longer relevant though, I don't see
-> >> the warnings.
-> > You're probably building with a newer glib, and possibly also
-> > a newer mingw.
-> >
-> > I've cc'd Stefan Weil who might know whether we can drop this
-> > workaround as far as the mingw part is concerned.
->
->
-> My latest builds of QEMU for Windows still used glib 2.54 because that
-> still is the "newest" version which is provided by Cygwin's mingw64:
->
-> https://cygwin.com/cgi-bin2/package-grep.cgi?grep=3Dmingw64-.*-glib2.0
->
-> So I even had to downgrade the minimum glib version.
->
-> A hard requirement of a newer glib would mean that Cygwin mingw64
-> packages can no longer be used for building QEMU unless someone updates
-> those packages.
->
+> +static inline uint32_t cpu_get_crs(const CPUNios2State *env)
+> +{
+> +    return (env->regs[CR_STATUS] & CR_STATUS_CRS)
+> +                    >> CR_STATUS_CRS_OFFSET;
+> +}
 
-That sounds doable, I can take a look.
+This becomes
 
-Why not build with msys2 though? It is quite actively maintained and most
-people recommended it these days. My understanding is that msys2 is closer
-to native Windows (whereas cygwin tries to bring more POSIX compatiblity:
-https://www.msys2.org/wiki/How-does-MSYS2-differ-from-Cygwin/)
+     return FIELD_EX32(env->regs[CR_STATUS], CR_STATUS, CRS);
 
---=20
-Marc-Andr=C3=A9 Lureau
+> +    env->regs[CR_STATUS] = (env->regs[CR_STATUS] & (~CR_STATUS_PRS))
+> +                       | ((prev_set << CR_STATUS_PRS_OFFSET) & CR_STATUS_PRS);
 
---0000000000009f04b005d8ca8e44
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This becomes
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 25, 2022 at 1:41 AM Ste=
-fan Weil &lt;<a href=3D"mailto:sw@weilnetz.de">sw@weilnetz.de</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Am 24.02.22 um=
- 20:12 schrieb Peter Maydell:<br>
-<br>
-&gt; On Thu, 24 Feb 2022 at 18:38, &lt;<a href=3D"mailto:marcandre.lureau@r=
-edhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:<br>
-&gt;&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; This workaround was added in commit 95df51a4 (&quot;w32: Always us=
-e standard<br>
-&gt;&gt; instead of native format strings&quot;), as it claimed glib was us=
-ing<br>
-&gt;&gt; __printf__ attribute. This is surprising, since glib has always us=
-ed<br>
-&gt;&gt; G_GNUC_PRINTF which, as the name implies, uses __gnu_printf__ when=
-<br>
-&gt;&gt; possible.<br>
-&gt; This was not always true: before this commit from 2018<br>
-&gt; <a href=3D"https://github.com/GNOME/glib/commit/98a0ab929d8c59ee27e5f4=
-70f11d077bb6a56749" rel=3D"noreferrer" target=3D"_blank">https://github.com=
-/GNOME/glib/commit/98a0ab929d8c59ee27e5f470f11d077bb6a56749</a><br>
-&gt; G_GNUC_PRINTF used always used __printf__.<br>
-&gt; I think that change only landed in glib 2.58, so since our current<br>
-&gt; minimum glib version is 2.56 we need to retain this workaround.<br>
-&gt;<br>
-&gt;&gt; Apparently, the workaound is no longer relevant though, I don&#39;=
-t see<br>
-&gt;&gt; the warnings.<br>
-&gt; You&#39;re probably building with a newer glib, and possibly also<br>
-&gt; a newer mingw.<br>
-&gt;<br>
-&gt; I&#39;ve cc&#39;d Stefan Weil who might know whether we can drop this<=
-br>
-&gt; workaround as far as the mingw part is concerned.<br>
-<br>
-<br>
-My latest builds of QEMU for Windows still used glib 2.54 because that <br>
-still is the &quot;newest&quot; version which is provided by Cygwin&#39;s m=
-ingw64:<br>
-<br>
-<a href=3D"https://cygwin.com/cgi-bin2/package-grep.cgi?grep=3Dmingw64-.*-g=
-lib2.0" rel=3D"noreferrer" target=3D"_blank">https://cygwin.com/cgi-bin2/pa=
-ckage-grep.cgi?grep=3Dmingw64-.*-glib2.0</a><br>
-<br>
-So I even had to downgrade the minimum glib version.<br>
-<br>
-A hard requirement of a newer glib would mean that Cygwin mingw64 <br>
-packages can no longer be used for building QEMU unless someone updates <br=
->
-those packages.<br>
-</blockquote></div><div><br></div><div>That sounds doable, I can take a loo=
-k.</div><div><br></div><div>Why not build with msys2 though? It is quite ac=
-tively maintained and most people recommended it these days. My understandi=
-ng is that msys2 is closer to native Windows (whereas cygwin tries to bring=
- more POSIX compatiblity: <a href=3D"https://www.msys2.org/wiki/How-does-MS=
-YS2-differ-from-Cygwin/">https://www.msys2.org/wiki/How-does-MSYS2-differ-f=
-rom-Cygwin/</a>)<br></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signat=
-ure">Marc-Andr=C3=A9 Lureau<br></div></div>
+     env->regs[CR_STATUS] = FIELD_DP32(env->regs[CR_STATUS],
+                                       CR_STATUS, PRS, prev_set);
 
---0000000000009f04b005d8ca8e44--
+etc.
+
+
+r~
 
