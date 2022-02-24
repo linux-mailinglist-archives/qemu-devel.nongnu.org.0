@@ -2,109 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E59E4C2F86
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 16:24:10 +0100 (CET)
-Received: from localhost ([::1]:43704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBBC4C2EDE
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 16:03:40 +0100 (CET)
+Received: from localhost ([::1]:34644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNFyT-0008NI-31
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 10:24:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36402)
+	id 1nNFec-0000u8-R6
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 10:03:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <amir.gonnen@neuroblade.ai>)
- id 1nNFxE-0007gh-E3
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:22:52 -0500
-Received: from [2a01:111:f400:7e1a::717] (port=59009
- helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <amir.gonnen@neuroblade.ai>)
- id 1nNFxC-00053C-1n
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:22:51 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FZxBpeEhBuzsvLNk1ajdt5F0Nkl/nkXUYMfadnnEkRJT+GIO8De0sf7moJpSrRqPk8mbZctXLzqaKv4Tr/8O9BxQnbAaZVtpYp4v1iTSs82SWMQ8IUYzk0iiuI3QJ18gimchrUo2yu5QpVu4E3dA/wcVLQybfAdfaAh62KqSGE3cpYZTtIvuXz3/HI+TOcVlHrcSOQPDOXJ1jvOJu307bawmaeGaXIJCOEPPCKMl194F4DMdLZ/roG1qcpzcRauF/eD3mAVgsPu8tcsEEHllvSTZrnK40bwZ32+kkeWOwG5FbSl0tLxBwDxRFN4kg8oGO/2fBoMw5ILc5L2Mr1v/bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mjewZbVmKPn+2JRLJtP2Ac2d9LZgQIb+onVi0OVsfwE=;
- b=euIzV0TxP47Zcz6Qaa+zGOLqcWD91XveKwWhR82YERFR1tm/9ApmsR90zsX0O3RV5N2G/jJzGRcKvj0JLP4aolrBd/wYDdz839MhD1HglBdkXWQ3fSZcMRxximdGyDJs4Ucpau6IwtMWeWb4DpG5+ZY6QmDO8ColJLA/TS14cjwcINQA3JuvkjhZLHGCfscTORejnuMRGeL5lInXwTwE6OT2X0unMomQzteMk8AlvNJGv6Lv4oLikBV2dSoTkSmBdvD6fSJ8a3UKieCekJ9LIYke/TsytptREporVXtuMSxs+IgPDqY+Zcvs1sh0EhWEpVFqOGNgSewtO3j32Dfvlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 192.116.190.34) smtp.rcpttodomain=denx.de smtp.mailfrom=neuroblade.ai;
- dmarc=none action=none header.from=neuroblade.ai; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NeuroBlade.onmicrosoft.com; s=selector2-NeuroBlade-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mjewZbVmKPn+2JRLJtP2Ac2d9LZgQIb+onVi0OVsfwE=;
- b=PYYPP4Yo0Z17B5U1FrcJX+dr3hwijnvKPxDXTJEMaMkb5SmPnW5PR4GsPQEdtDRpGt9ffqrErmgHLGdQINRJ1CpVHJYe/+IlziryN64cM0/RBGY3pTggHln8xcSjwjRoDkIQIt80mNkv5SkQLPBBgG260i2qAifngAp1VWzc0uo=
-Received: from FR0P281CA0069.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:49::22)
- by AS8PR09MB5355.eurprd09.prod.outlook.com (2603:10a6:20b:37a::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Thu, 24 Feb
- 2022 13:49:47 +0000
-Received: from VE1EUR02FT060.eop-EUR02.prod.protection.outlook.com
- (2603:10a6:d10:49:cafe::5a) by FR0P281CA0069.outlook.office365.com
- (2603:10a6:d10:49::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.9 via Frontend
- Transport; Thu, 24 Feb 2022 13:49:47 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 192.116.190.34)
- smtp.mailfrom=neuroblade.ai; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=neuroblade.ai;
-Received-SPF: Fail (protection.outlook.com: domain of neuroblade.ai does not
- designate 192.116.190.34 as permitted sender)
- receiver=protection.outlook.com; client-ip=192.116.190.34;
- helo=nb-o365.localdomain;
-Received: from nb-o365.localdomain (192.116.190.34) by
- VE1EUR02FT060.mail.protection.outlook.com (10.152.13.140) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5017.23 via Frontend Transport; Thu, 24 Feb 2022 13:49:46 +0000
-Received: from amirgonnen-vm.neuroblade.corp (amirgonnen-vm.neuroblade.corp
- [192.168.3.87])
- by nb-o365.localdomain (Postfix) with ESMTP id 1E2431F6C1;
- Thu, 24 Feb 2022 15:49:25 +0200 (IST)
-From: Amir Gonnen <amir.gonnen@neuroblade.ai>
-To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>
-Subject: [PATCH v2 0/4] target/nios2: Shadow register set, EIC and VIC
-Date: Thu, 24 Feb 2022 15:48:57 +0200
-Message-Id: <20220224134901.500007-1-amir.gonnen@neuroblade.ai>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nNFbj-0007jp-IH; Thu, 24 Feb 2022 10:00:39 -0500
+Received: from [2607:f8b0:4864:20::32f] (port=36355
+ helo=mail-ot1-x32f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nNFbg-0000z8-Od; Thu, 24 Feb 2022 10:00:38 -0500
+Received: by mail-ot1-x32f.google.com with SMTP id
+ w3-20020a056830060300b005ad10e3becaso1437669oti.3; 
+ Thu, 24 Feb 2022 07:00:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=03N28jHQ46fEPh4xWfL9UL8XyFGWHbWPwqvyqcTEH38=;
+ b=PPWc2N8S2WJSct1gnltouwactNH8cTC6yiPHh+TgH/yTP2tdXqajpWkegfekenZ+wP
+ XAcYhGkB48jdov2XMlAOlD4KWxuwYL4Q1vPaTBiH3VOhVkDZlPN4NqsIaT72HdVGrxEF
+ vNXCQnheogyQ8LyNL575qZPjvipe68z/xqmrvBcvPMyj9sL2/BwTfCKStDcNvyj2S3Ru
+ kLhv8PRxiYX1c9iqVoLXYCvz8s/BfgDH3aWzifZ7Jv89LdcwOCOHtsMgy9237A4DYqBG
+ ERpVsFvyJbr6822zgVGJ63yUoIRNL+UngWU9d3ryjB78orq3l7j5+FAMxxhiH2qYCeo1
+ /IwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=03N28jHQ46fEPh4xWfL9UL8XyFGWHbWPwqvyqcTEH38=;
+ b=d/tF3Mjq07ouH/gune9nBrnKa05/7BWnpjNDO/b6J67SXSmq5MnrrWaQgjnt73tPqV
+ DjFAwCVdqyahqpYSgaZoZUypzkEO+iIVg+laksI8VHXFdgSKtK6TYY1ZPTTbdyfhVS1Y
+ mj1QiwWNC1gC1/WgT7cwe9smUn9tdBSJWFcbd7jPYrOplsd2+Ady5jVqCW9LupUbEkyZ
+ 0WDnwU/tI6dn8n6hwLTzAd8b7P8m1VGb2ylkiYrMB8RTnWJRvsw6tAszPA9nsyAQ2PPr
+ YxJQOLaJLeU5h5AIL6jq5WIoz3RiawFpSMbpfx9neN7EIVnUbVbdAwyb5UkoUI9M5l61
+ 3JnA==
+X-Gm-Message-State: AOAM530xbyX/fqSLUpZDFxkeL/vMwEBXPuuf1gOj0OJdX+lDOXTh5Fg5
+ o4qkdAvuQz2Cjpr8Hzs1Y2xhpwWHZEbLGoqtAVw=
+X-Google-Smtp-Source: ABdhPJwOVeAhZN/BFWGiw1nJJKuJzAxtdKtsuHjxQK2eIW/xt/7ci1d6ivlxT5pjKEDMqSJ7m1painF1fv9gr17jfkA=
+X-Received: by 2002:a05:6830:2908:b0:5ad:1ed7:70ea with SMTP id
+ z8-20020a056830290800b005ad1ed770eamr1034270otu.186.1645714834339; Thu, 24
+ Feb 2022 07:00:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: cacb9983-1576-42e0-882e-08d9f79c852f
-X-MS-TrafficTypeDiagnostic: AS8PR09MB5355:EE_
-X-Microsoft-Antispam-PRVS: <AS8PR09MB53555BACBF0C4F6609010C9EEB3D9@AS8PR09MB5355.eurprd09.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0ZezJTRVEt9jytqv9dSrqOewOzl+QzRFQLcaFgkaKL107IVpLJKhMRqRqTg6PPd0j6lNMaJ3JNDbodib8sZzIxHmZ0GSEv0aNhoD5rD16+dFs5Tw3yGiWvTvpwrMaIpnLWcEgHAurXdeCgF1O0FxlEfgSO4a3udZ2dw8ySb6r/vbLmAna+HNsj2Bo/5lk07Ab8r6ITY7YtIKxgL7DPszgGaunEEyXZY9Q0VuJyBq7MR+huHje2HzcAk8biM9NBT9IMueekAzC8iylK4sG9C/gPYzo6no9MFmz41mP66fQfQxPBZ62vXkz52fNSMdHTP6XrA0rPUR71rbQ/WpspoNU5IBLQ9YAmwkcMtmTntwK171DnbfFzzTeIenlZE7AxYc39HvhkAZEhiWBLG6Q9P9LKTEqmNq3kz/M/Rx9gzZg/JSQgJRWhzefvQdgnsZmwLZ4Jj33fCxna0pkPSeWOmEjHqrutSxVuyT0SwrHxvOpd2xLrrDbPBwe9NN8XPwLvgenwzwKP8mF7rHKlv9QcmDwmmBcRam63cWy3xgq1agI8+y7OjjandlkESMgU0HPJPsY2DwBrRcaka7HwHMReciq2uKfAE9vjc9ZGMDY9Vx0uW7fKG4EqFxQzNdl7YINOo6NbF8EGabufB0aV0kRWYpzIV3DunS24jNLp3g878/4eSFEVoJj7mCF0bSfu3z44Q4AfrOKGA0mULi1QiH4tVUm9QR7c95b9cFlsYUP7P3k4A=
-X-Forefront-Antispam-Report: CIP:192.116.190.34; CTRY:IL; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:nb-o365.localdomain; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(376002)(39840400004)(34036004)(396003)(136003)(346002)(46966006)(36840700001)(36756003)(6266002)(8676002)(2906002)(8936002)(44832011)(5660300002)(4326008)(70586007)(70206006)(83380400001)(316002)(336012)(40480700001)(81166007)(508600001)(2616005)(186003)(107886003)(1076003)(47076005)(82310400004)(26005)(86362001)(356005)(6666004)(36860700001)(110136005)(36900700001)(27056005);
- DIR:OUT; SFP:1102; 
-X-OriginatorOrg: neuroblade.ai
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 13:49:46.9829 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cacb9983-1576-42e0-882e-08d9f79c852f
-X-MS-Exchange-CrossTenant-Id: 63c61203-65af-4cf8-98e5-d12f35edaefa
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=63c61203-65af-4cf8-98e5-d12f35edaefa; Ip=[192.116.190.34];
- Helo=[nb-o365.localdomain]
-X-MS-Exchange-CrossTenant-AuthSource: VE1EUR02FT060.eop-EUR02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR09MB5355
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e1a::717
+References: <20220224134655.1207865-1-peter.maydell@linaro.org>
+In-Reply-To: <20220224134655.1207865-1-peter.maydell@linaro.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Fri, 25 Feb 2022 00:00:23 +0900
+Message-ID: <CAMVc7JVOvgeYU-1hZn9Mcm86oPi=t8+BiSUfRj2QsXMQsUM4yQ@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Report KVM's actual PSCI version to guest in
+ dtb
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7e1a::717;
- envelope-from=amir.gonnen@neuroblade.ai;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ot1-x32f.google.com
+X-Spam_score_int: 3
+X-Spam_score: 0.3
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001, FREEMAIL_REPLY=1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,63 +81,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Amir Gonnen <amir.gonnen@neuroblade.ai>
+Cc: qemu-arm@nongnu.org, qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement nios2 Shadow register set, EIC and VIC.
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Currently nios2 on QEMU contains an internal Interrupt Controller.
-The nios2 architecture can support a more powerful External Interrupt
-Controller (EIC) instead of the internal, and implements special cpu
-features to support it: Shadow register set and External Interrupt
-Controller Interface.
-
-This patch series introduces the necessary changes to the nios2 cpu to
-support an External Interrupt Controller, and includes a Vectored
-Interrupt Controller (VIC) device that can be attach to the EIC.
-
-Following Peter's suggestion in the previous version, I've splitted this
-into several independant patches that rely on each other incrementally
-and added a board that wires up the VIC:
-
-1. Shadow Register Set support on the nios2 core
-2. External Interrupt Controller interface on the nios2 core
-3. Vectored Interrupt Controller
-4. A board that uses the VIC instead of the default internal interrupt
-   controller
-
-Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
-
-Amir Gonnen (4):
-  target/nios2: Shadow register set
-  target/nios2: Exteral Interrupt Controller (EIC)
-  hw/intc: Vectored Interrupt Controller (VIC)
-  hw/nios2: Machine with a Vectored Interrupt Controller
-
- hw/intc/Kconfig           |   4 +
- hw/intc/meson.build       |   1 +
- hw/intc/nios2_vic.c       | 327 ++++++++++++++++++++++++++++++++++++++
- hw/nios2/10m50_devboard.c |  64 +++++++-
- target/nios2/cpu.c        |  59 +++++--
- target/nios2/cpu.h        |  69 +++++++-
- target/nios2/helper.c     |  33 +++-
- target/nios2/helper.h     |   3 +
- target/nios2/op_helper.c  |  31 +++-
- target/nios2/translate.c  |  32 +++-
- 10 files changed, 597 insertions(+), 26 deletions(-)
- create mode 100644 hw/intc/nios2_vic.c
-
---
-2.25.1
-
-
-The contents of this email message and any attachments are intended solely =
-for the addressee(s) and may contain confidential and/or privileged informa=
-tion and may be legally protected from disclosure. If you are not the inten=
-ded recipient of this message or their agent, or if this message has been a=
-ddressed to you in error, please immediately alert the sender by reply emai=
-l and then delete this message and any attachments. If you are not the inte=
-nded recipient, you are hereby notified that any use, dissemination, copyin=
-g, or storage of this message or its attachments is strictly prohibited.
+On Thu, Feb 24, 2022 at 10:46 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> When we're using KVM, the PSCI implementation is provided by the
+> kernel, but QEMU has to tell the guest about it via the device tree.
+> Currently we look at the KVM_CAP_ARM_PSCI_0_2 capability to determine
+> if the kernel is providing at least PSCI 0.2, but if the kernel
+> provides a newer version than that we will still only tell the guest
+> it has PSCI 0.2.  (This is fairly harmless; it just means the guest
+> won't use newer parts of the PSCI API.)
+>
+> The kernel exposes the specific PSCI version it is implementing via
+> the ONE_REG API; use this to report in the dtb that the PSCI
+> implementation is 1.0-compatible if appropriate.  (The device tree
+> binding currently only distinguishes "pre-0.2", "0.2-compatible" and
+> "1.0-compatible".)
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Based-on: 20220213035753.34577-1-akihiko.odaki@gmail.com
+> ("[PATCH v2] target/arm: Support PSCI 1.1 and SMCCC 1.0")
+> though note that to compile on arm hosts you'll need the
+> bugfix to that patch from which I describe in a reply to it.
+>
+>  target/arm/kvm-consts.h |  1 +
+>  hw/arm/boot.c           |  5 ++---
+>  target/arm/kvm64.c      | 12 ++++++++++++
+>  3 files changed, 15 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/arm/kvm-consts.h b/target/arm/kvm-consts.h
+> index e770921ddc2..faacf96fdc7 100644
+> --- a/target/arm/kvm-consts.h
+> +++ b/target/arm/kvm-consts.h
+> @@ -95,6 +95,7 @@ MISMATCH_CHECK(QEMU_PSCI_1_0_FN_PSCI_FEATURES, PSCI_1_0_FN_PSCI_FEATURES);
+>
+>  #define QEMU_PSCI_VERSION_0_1                     0x00001
+>  #define QEMU_PSCI_VERSION_0_2                     0x00002
+> +#define QEMU_PSCI_VERSION_1_0                     0x10000
+>  #define QEMU_PSCI_VERSION_1_1                     0x10001
+>
+>  MISMATCH_CHECK(QEMU_PSCI_0_2_RET_TOS_MIGRATION_NOT_REQUIRED, PSCI_0_2_TOS_MP);
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index 0eeef94ceb5..a47f38dfc90 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -488,9 +488,8 @@ static void fdt_add_psci_node(void *fdt)
+>      }
+>
+>      qemu_fdt_add_subnode(fdt, "/psci");
+> -    if (armcpu->psci_version == QEMU_PSCI_VERSION_0_2 ||
+> -        armcpu->psci_version == QEMU_PSCI_VERSION_1_1) {
+> -        if (armcpu->psci_version == QEMU_PSCI_VERSION_0_2) {
+> +    if (armcpu->psci_version >= QEMU_PSCI_VERSION_0_2) {
+> +        if (armcpu->psci_version < QEMU_PSCI_VERSION_1_0) {
+>              const char comp[] = "arm,psci-0.2\0arm,psci";
+>              qemu_fdt_setprop(fdt, "/psci", "compatible", comp, sizeof(comp));
+>          } else {
+> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> index 64d48bfb19d..ccadfbbe72b 100644
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -849,6 +849,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>      uint64_t mpidr;
+>      ARMCPU *cpu = ARM_CPU(cs);
+>      CPUARMState *env = &cpu->env;
+> +    uint64_t psciver;
+>
+>      if (cpu->kvm_target == QEMU_KVM_ARM_TARGET_NONE ||
+>          !object_dynamic_cast(OBJECT(cpu), TYPE_AARCH64_CPU)) {
+> @@ -904,6 +905,17 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>          }
+>      }
+>
+> +    /*
+> +     * KVM reports the exact PSCI version it is implementing via a
+> +     * special sysreg. If it is present, use its contents to determine
+> +     * what to report to the guest in the dtb (it is the PSCI version,
+> +     * in the same 15-bits major 16-bits minor format that PSCI_VERSION
+> +     * returns).
+> +     */
+> +    if (!kvm_get_one_reg(cs, KVM_REG_ARM_PSCI_VERSION, &psciver)) {
+> +        cpu->psci_version = psciver;
+> +    }
+> +
+>      /*
+>       * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
+>       * Currently KVM has its own idea about MPIDR assignment, so we
+> --
+> 2.25.1
+>
 
