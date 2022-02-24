@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAED4C2922
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 11:18:19 +0100 (CET)
-Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CC44C2935
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 11:21:18 +0100 (CET)
+Received: from localhost ([::1]:58486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNBCT-0000w5-SY
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 05:18:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45730)
+	id 1nNBFN-0004Dx-Sg
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 05:21:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNB82-0007Gr-K9
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:13:42 -0500
-Received: from [2a00:1450:4864:20::431] (port=37498
- helo=mail-wr1-x431.google.com)
+ id 1nNB84-0007HJ-Bv
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:13:44 -0500
+Received: from [2a00:1450:4864:20::42b] (port=41632
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNB80-0008B9-9F
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:13:41 -0500
-Received: by mail-wr1-x431.google.com with SMTP id d28so2168860wra.4
+ id 1nNB80-0008BF-AZ
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:13:43 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id x15so2144923wrg.8
  for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 02:13:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EsyiBPgCFC6wledU7ZEnsllUL+n5oPFr3d0oI4Sfhe4=;
- b=eKA6c4g9b6hjeEAc5gRtQP1T6AAtpSYG4LHafnXffo2oOte7wNiDBN5vnGdDZycA72
- sf5JRQY6rAKlFsqmYh/Cnlz3fJf4n255infE/6jHCruaQFObZQDRoHlK8qbwbLNr2H5M
- JHHo+pVThhBnysET7vuPSAWVkqIk6Or6bemKNeQn7X6wSaHXOB2avx9XdbNIVLHPq9X/
- aJh63E6o42qEWzbu7SMGlbBw8LZkqNwvSQpYeDAd6+7N3fryAqDSpqrTsgrU+yt4/AyK
- wJfSxhyRr6+D3JJfRa55UQ7fhVc3FuHX/N/Px9J68dtE3VhySn+V1zHRjV2aSmF4hUi7
- TM5A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lDwTA/7iM7KovdEVdTm8TUVtlltYAGebQy7UbB1w5os=;
+ b=bdI+Az9QiXjzZZ7w9l3kC9w+Trbou85V4TehmO2hTF3DsSrNPWzSMM7NKID00vhcjJ
+ 3BHK8fhDi4jE7LTWhXkIERlvw1KekEtU/yxS9a7uaxjDUR60R9Pq75i/TVmwjxflW+bR
+ uedvd7H+g5RkoUHSA8ORdtzWPPp+fyKjyrJBBKdsOk6OTiTdiK5sC5dxyIpqpNSM87rw
+ 4TTxuwlNSO+pKZ71Gl9DrE8JuJ7uV6M04hkio/ROzSLKGJGuWAssBw7n8ZS8kXi9oAG1
+ +b5fd+yAynnMXun0QqHXzUyxJ0q2XfYAdsaC8qdLLWu1Q3xvdc2p8gepPicHA2Cs2mNH
+ sETQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EsyiBPgCFC6wledU7ZEnsllUL+n5oPFr3d0oI4Sfhe4=;
- b=JheurHarsiH0Ot2LpPWEgrjHNw3y752/8q2Hfs+FAkzpbvMQE6bhxlGo3Pdm+3Zrs+
- AHNxAQszuYFE/TWWd7scbpJ+GQq3HDudEie6WEOCqZEvE9WCiWcxnPad/B1Mdr4rQMg4
- +4Vnu5rBzm+/rzpwEN/IC01R4QzanKkIkjQuHzL8o2pDxBLooKPe6e7yqkVz4sqRUrLk
- HZ/cB4U7uBZxmKk/aFvwXdM6r/zEF6asMwIQJiqNut4xWgekK5b9FliUQhr1NvvDmbkD
- EC+tfvM6MdATMl2ngpjOwwBbXhdq1nLieNeTzqVxuQCcPSpuGUOdon7aO98Z2rldDRWs
- OH7A==
-X-Gm-Message-State: AOAM5306Q8k0wW4SyN5VfAZb0U7LEryQ3nf0XgURLriNWKDBQF41r9Aa
- LwKdlvSRKLHW5GhyNg+95/GcYWQrfhGWEQ==
-X-Google-Smtp-Source: ABdhPJzrsdY4epZNkGrLAA50PCYHlE6As2psOMk18ndQ1h0jnO5JJ7KIWx3qWgYcaHWdUHqmigyYTw==
-X-Received: by 2002:a05:6000:2c8:b0:1ea:972b:5476 with SMTP id
- o8-20020a05600002c800b001ea972b5476mr1661576wry.278.1645697615051; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lDwTA/7iM7KovdEVdTm8TUVtlltYAGebQy7UbB1w5os=;
+ b=Etis6tzthniJfEECuJ3QKp5UGbX3cEgAwmwyKQJRfCerB4yr4dO+DIKSKj1sVL5Dfc
+ aJEjla7jjJ5ytsLU5ZsJOnrpgFJPkepWvzN7iGdnOuW+Tco7QY/IS3O7E2Xqz2qkyorH
+ Ej+5HoyHXHRaFviHa1sxDfSK/3nEMxcBvgqYyXneiKA6Pe9bWnZRlNSQK+9cqpbCHfL+
+ OErbKkA95dVSNbdDq1BqTrJoXnUpPA09GFUQnUMzd9cB7rwSJfvDOLu9BsY/mThHyqdu
+ N4FdWyNKFbTjI5g640K7eE+PC1gWKEA479F0CbfKwJ3O4rwVTAGj2fk5xGgi/N1k7IXa
+ emdw==
+X-Gm-Message-State: AOAM533B2/fuqgUg8TLBb+IjADLxs9ZCZQNGsMpbDfxrP7ue/+IRH8P5
+ 8oNqGaF840Sy8xxjQtTbdRIPPL3kftG/0w==
+X-Google-Smtp-Source: ABdhPJx0jgKyFB3qrf5+vIb3puPIJUKlisjhG+8aSHVFhK41JUcUYuRIIF9FvUPDvVC6jO06SLRAEA==
+X-Received: by 2002:a5d:44ce:0:b0:1ed:d3dc:47e with SMTP id
+ z14-20020a5d44ce000000b001edd3dc047emr1634893wrr.7.1645697615940; 
  Thu, 24 Feb 2022 02:13:35 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id y12sm2667688wrl.81.2022.02.24.02.13.34
+ by smtp.gmail.com with ESMTPSA id y12sm2667688wrl.81.2022.02.24.02.13.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 02:13:34 -0800 (PST)
+ Thu, 24 Feb 2022 02:13:35 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] ui/cocoa: updateUIInfo threading, autorelease pools
-Date: Thu, 24 Feb 2022 10:13:28 +0000
-Message-Id: <20220224101330.967429-1-peter.maydell@linaro.org>
+Subject: [PATCH v2 1/2] ui/cocoa.m: Fix updateUIInfo threading issues
+Date: Thu, 24 Feb 2022 10:13:29 +0000
+Message-Id: <20220224101330.967429-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220224101330.967429-1-peter.maydell@linaro.org>
+References: <20220224101330.967429-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,29 +91,97 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset was originally provoked by Akihiko Odaki noting
-that we have some unnecessary creation and deletion of autorelease
-pools in the Cocoa UI code. Patch 2 deletes them; but to get there
-we need to do a bit of cleanup of the updateUIInfo support,
-which wasn't considering threads.
+The updateUIInfo method makes Cocoa API calls.  It also calls back
+into QEMU functions like dpy_set_ui_info().  To do this safely, we
+need to follow two rules:
+ * Cocoa API calls are made on the Cocoa UI thread
+ * When calling back into QEMU we must hold the iothread lock
 
-Tested only very lightly.
+Fix the places where we got this wrong, by taking the iothread lock
+while executing updateUIInfo, and moving the call in cocoa_switch()
+inside the dispatch_async block.
 
-v1->v2 changes:
+Some of the Cocoa UI methods which call updateUIInfo are invoked as
+part of the initial application startup, while we're still doing the
+little cross-thread dance described in the comment just above
+call_qemu_main().  This meant they were calling back into the QEMU UI
+layer before we'd actually finished initializing our display and
+registered the DisplayChangeListener, which isn't really valid.  Once
+updateUIInfo takes the iothread lock, we no longer get away with
+this, because during this startup phase the iothread lock is held by
+the QEMU main-loop thread which is waiting for us to finish our
+display initialization.  So we must suppress updateUIInfo until
+applicationDidFinishLaunching allows the QEMU main-loop thread to
+continue.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+v1->v2:
  * name method updateUIInfoLocked, to match existing handleEventLocked
  * don't call updateUIInfo in cocoa_display_init() -- this happens
    indirectly as a result of register_displaychangelistener()
+---
+ ui/cocoa.m | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-thanks
--- PMM
-
-Peter Maydell (2):
-  ui/cocoa.m: Fix updateUIInfo threading issues
-  ui/cocoa.m: Remove unnecessary NSAutoreleasePools
-
- ui/cocoa.m | 31 ++++++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 9 deletions(-)
-
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index a8f1cdaf926..5ed1495552a 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -522,8 +522,9 @@ QemuCocoaView *cocoaView;
+     }
+ }
+ 
+-- (void) updateUIInfo
++- (void) updateUIInfoLocked
+ {
++    /* Must be called with the iothread lock, i.e. via updateUIInfo */
+     NSSize frameSize;
+     QemuUIInfo info;
+ 
+@@ -554,6 +555,25 @@ QemuCocoaView *cocoaView;
+     dpy_set_ui_info(dcl.con, &info, TRUE);
+ }
+ 
++- (void) updateUIInfo
++{
++    if (!allow_events) {
++        /*
++         * Don't try to tell QEMU about UI information in the application
++         * startup phase -- we haven't yet registered dcl with the QEMU UI
++         * layer, and also trying to take the iothread lock would deadlock.
++         * When cocoa_display_init() does register the dcl, the UI layer
++         * will call cocoa_switch(), which will call updateUIInfo, so
++         * we don't lose any information here.
++         */
++        return;
++    }
++
++    with_iothread_lock(^{
++        [self updateUIInfoLocked];
++    });
++}
++
+ - (void)viewDidMoveToWindow
+ {
+     [self updateUIInfo];
+@@ -1985,8 +2005,6 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+ 
+     COCOA_DEBUG("qemu_cocoa: cocoa_switch\n");
+ 
+-    [cocoaView updateUIInfo];
+-
+     // The DisplaySurface will be freed as soon as this callback returns.
+     // We take a reference to the underlying pixman image here so it does
+     // not disappear from under our feet; the switchSurface method will
+@@ -1994,6 +2012,7 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+     pixman_image_ref(image);
+ 
+     dispatch_async(dispatch_get_main_queue(), ^{
++        [cocoaView updateUIInfo];
+         [cocoaView switchSurface:image];
+     });
+     [pool release];
 -- 
 2.25.1
 
