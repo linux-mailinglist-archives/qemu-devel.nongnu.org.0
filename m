@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E70DA4C29D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 11:46:47 +0100 (CET)
-Received: from localhost ([::1]:46736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260944C29E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 11:54:52 +0100 (CET)
+Received: from localhost ([::1]:53000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNBe2-0008AF-VB
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 05:46:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52510)
+	id 1nNBlq-00041W-Ox
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 05:54:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org>)
- id 1nNBbW-0006m9-9B
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:44:10 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:57164)
+ id 1nNBkO-0002ok-6s
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:53:20 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:37116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org>)
- id 1nNBbS-0004bY-LV
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:44:09 -0500
+ id 1nNBkG-0006BL-Sf
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 05:53:19 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id C239FCE1DBF
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:43:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06A4AC340EB
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:43:56 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8A04EB82195;
+ Thu, 24 Feb 2022 10:53:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9397C340E9;
+ Thu, 24 Feb 2022 10:53:07 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="aA5wG47c"
+ header.b="g1QXx2ES"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1645699433;
+ t=1645699986;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sL/kUSLvWygB2PavSQ97uF3uxu/r6EDQi5d4jb1S2zQ=;
- b=aA5wG47c2lh8t6hZNg1Q+cys1VOtxBvH+eG8osg/gqGS56Lj0LpNmxcLD4SOX2YzPRVhlG
- VGmW3G12lBzd7xR02TM5GlFLz+MBrOWgbpeI5sltt2hVVLGj6lWbC/5L0aNSYREBnV10rH
- IWnXhG3aRPY5gCC/cZL+L8qrmAdnSgo=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4b5cd2fd
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Thu, 24 Feb 2022 10:43:53 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id j2so3008948ybu.0
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 02:43:52 -0800 (PST)
-X-Gm-Message-State: AOAM532e4PE2P/M44H34TSa8wBQyt2TDEBfYKf0dPVXleFgBKJ/Qy+wv
- ahN5QCEWvVbGAe5pY/lmTGEb3iA3YzGUndPfqs4=
-X-Google-Smtp-Source: ABdhPJyD6AgYJgfomnQ4h/8Dt+RdkCcpIpTKOhmvVM8csH9TSR/juMBC9kj7EYCe29IQJZix5mE0qLTy0v0jwO0zL24=
-X-Received: by 2002:a25:b905:0:b0:61e:23e4:949f with SMTP id
- x5-20020a25b905000000b0061e23e4949fmr1827124ybj.373.1645699431569; Thu, 24
- Feb 2022 02:43:51 -0800 (PST)
-MIME-Version: 1.0
-References: <20220223131231.403386-1-Jason@zx2c4.com>
- <CAHmME9ogH_mx724n_deFfva7-xPCmma1-=2Mv0JdnZ-fC4JCjg@mail.gmail.com>
- <2653b6c7-a851-7a48-f1f8-3bde742a0c9f@redhat.com>
-In-Reply-To: <2653b6c7-a851-7a48-f1f8-3bde742a0c9f@redhat.com>
+ bh=qJQbqpgTaOg8/vz4RU4R/Zyt33JoVSORCtRKA9BH80s=;
+ b=g1QXx2ESzo2gs168k0660qWPcFbrYqN8feVSqkQM+KGMitKZDZZbiDmC+8lfNSWovzr9Rm
+ a87Zi6YUrByAEeQUxMFRQj724QStsPZey8EwtZJaHYmWqO/8sbtywUWykhRwLrtfAFdt5a
+ ksWR20+MaJYUa7bnYhHZoFIeZE1+AvA=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 1ff307f2
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Thu, 24 Feb 2022 10:53:05 +0000 (UTC)
+Date: Thu, 24 Feb 2022 11:53:02 +0100
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Thu, 24 Feb 2022 11:43:40 +0100
-X-Gmail-Original-Message-ID: <CAHmME9ogtK-iS7Szodbf47iGGJJ7TAxtico4P_-VRRYkUtUKgw@mail.gmail.com>
-Message-ID: <CAHmME9ogtK-iS7Szodbf47iGGJJ7TAxtico4P_-VRRYkUtUKgw@mail.gmail.com>
+To: Alexander Graf <graf@amazon.com>
 Subject: Re: [PATCH RFC v1 0/2] VM fork detection for RNG
-To: Laszlo Ersek <lersek@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=145.40.73.55;
+Message-ID: <YhdjjgGgS7SBhSvu@zx2c4.com>
+References: <20220223131231.403386-1-Jason@zx2c4.com>
+ <234d7952-0379-e3d9-5e02-5eba171024a0@amazon.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <234d7952-0379-e3d9-5e02-5eba171024a0@amazon.com>
+Received-SPF: pass client-ip=145.40.68.75;
  envelope-from=SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org;
- helo=sin.source.kernel.org
+ helo=ams.source.kernel.org
 X-Spam_score_int: -67
 X-Spam_score: -6.8
 X-Spam_bar: ------
@@ -85,96 +78,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Theodore Ts'o <tytso@mit.edu>,
- KVM list <kvm@vger.kernel.org>, adrian@parity.io, Jann Horn <jannh@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ben@skyportsystems.com,
- "Weiss, Radu" <raduweis@amazon.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Richard W.M. Jones" <rjones@redhat.com>, LKML <linux-kernel@vger.kernel.org>,
- "Catangiu, Adrian Costin" <acatan@amazon.com>, graf@amazon.com,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Igor Mammedov <imammedo@redhat.com>, Colm MacCarthaigh <colmmacc@amazon.com>,
- "Singh, Balbir" <sblbir@amazon.com>, "Woodhouse, David" <dwmw@amazon.co.uk>,
- ehabkost@redhat.com
+Cc: linux-s390@vger.kernel.org, tytso@mit.edu, kvm@vger.kernel.org,
+ adrian@parity.io, jannh@google.com, gregkh@linuxfoundation.org,
+ raduweis@amazon.com, qemu-devel@nongnu.org, linux-kernel@vger.kernel.org,
+ acatan@amazon.com, linux-crypto@vger.kernel.org, colmmacc@amazon.com,
+ sblbir@amazon.com, dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Lazlo,
+Hi Alex,
 
-Thanks for your reply.
+Strangely your message never made it to me, and I had to pull this out
+of Lore after seeing Daniel's reply to it. I wonder what's up.
 
-On Thu, Feb 24, 2022 at 9:23 AM Laszlo Ersek <lersek@redhat.com> wrote:
-> QEMU's related design is documented in
-> <https://git.qemu.org/?p=qemu.git;a=blob;f=docs/specs/vmgenid.txt>.
+On Thu, Feb 24, 2022 at 09:53:59AM +0100, Alexander Graf wrote:
+> The main problem with VMGenID is that it is inherently racy. There will 
+> always be a (short) amount of time where the ACPI notification is not 
+> processed, but the VM could use its RNG to for example establish TLS 
+> connections.
+> 
+> Hence we as the next step proposed a multi-stage quiesce/resume 
+> mechanism where the system is aware that it is going into suspend - can 
+> block network connections for example - and only returns to a fully 
+> functional state after an unquiesce phase:
+> 
+>    https://github.com/systemd/systemd/issues/20222
+> 
+> Looking at the issue again, it seems like we completely missed to follow 
+> up with a PR to implement that functionality :(.
+> 
+> What exact use case do you have in mind for the RNG/VMGenID update? Can 
+> you think of situations where the race is not an actual concern?
 
-I'll link to this document on the 2/2 patch next to the other ones.
-
-> "they can also use the data provided in the 128-bit identifier as a high
-> entropy random data source"
->
-> So reinitializing an RNG from it is an express purpose.
-
-It seems like this is indeed meant to be used for RNG purposes, but
-the Windows 10 RNG document says: "Windows 10 on a Hyper-V VM will
-detect when the VM state is reset, retrieve a unique (not random)
-value from the hypervisor." I gather from that that it's not totally
-clear what the "quality" of those 128 bits are. So this patchset mixes
-them into the entropy pool, but does not credit it, which is
-consistent with how the RNG deals with other data where the conclusion
-is, "probably pretty good but maybe not," erring on the side of
-caution. Either way, it's certainly being used -- and combined with
-what was there before -- to reinitialize the RNG following a VM fork.
-
->
-> More info in the libvirt docs (see "genid"):
->
-> https://libvirt.org/formatdomain.html#general-metadata
-
-Thanks, noted in the 2/2 patch too.
-
-> QEMU's interpretation of the VMGENID specifically as a UUID (which I
-> believe comes from me) has received (valid) criticism since:
->
-> https://github.com/libguestfs/virt-v2v/blob/master/docs/vm-generation-id-across-hypervisors.txt
->
-> (This document also investigates VMGENID on other hypervisors, which I
-> think pertains to your other message.)
-
-Thank you very much for this reference! You're absolutely right here.
-v3 will treat this as just an opaque 128-bit binary blob. There's no
-point, anyway, in treating it as a UUID in the kernel, since it never
-should be printed or exposed to anywhere except random.c (and my gifs,
-of course :-P).
-
->
-> > (It appears there's a bug in QEMU which prevents
-> > the GUID from being reinitialized when running `loadvm` without
-> > quitting first; I suppose this should be discussed with QEMU
-> > upstream.)
->
-> That's not (necessarily) a bug; see the end of the above-linked QEMU
-> document:
->
-> "There are no known use cases for changing the GUID once QEMU is
-> running, and adding this capability would greatly increase the complexity."
-
-I read that, and I think I might disagree? If you're QEMUing with the
-monitor and are jumping back and forth and all around between saved
-snapshots, probably those snapshots should have their RNG
-reinitialized through this mechanism, right? It seems like doing that
-would be the proper behavior for `guid=auto`, but not for
-`guid={some-fixed-thing}`.
-
-> > So that's very positive. But I would appreciate hearing from some
-> > ACPI/Virt/Amazon people about this.
->
-> I've only made some random comments; I didn't see a question so I
-> couldn't attempt to answer :)
-
-"Am I on the right track," I guess, and your reply has been very
-informative. Thanks for your feedback. I'll have a v3 sent out not
-before long.
+No, I think the race is something that remains a problem for the
+situations I care about. There are simpler ways of fixing that -- just
+expose a single incrementing integer so that it can be checked every
+time the RNG does something, without being expensive, via the same
+mechanism -- and then you don't need any complexity. But anyway, that
+doesn't exist right now, so this series tries to implement something for
+what does exist and is already supported by multiple hypervisors. I'd
+suggest sending a proposal for an improved mechanism as part of a
+different thread, and pull the various parties into that, and we can
+make something good for the future. I'm happy to implement whatever the
+virtual hardware exposes.
 
 Jason
 
