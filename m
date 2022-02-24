@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53ACD4C35FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:38:25 +0100 (CET)
-Received: from localhost ([::1]:55520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7AB4C3609
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:43:54 +0100 (CET)
+Received: from localhost ([::1]:37114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNJwV-0003Mn-EV
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:38:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35550)
+	id 1nNK1p-0001jP-Pe
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:43:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNJq6-0006VU-5R
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:31:47 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=35486
- helo=mail-pj1-x102b.google.com)
+ id 1nNJrP-0007Xq-3G
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:33:09 -0500
+Received: from [2607:f8b0:4864:20::633] (port=35738
+ helo=mail-pl1-x633.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNJq3-0003aH-Li
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:31:45 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- v5-20020a17090ac90500b001bc40b548f9so6568649pjt.0
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 11:31:42 -0800 (PST)
+ id 1nNJrK-0003gD-VX
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:33:04 -0500
+Received: by mail-pl1-x633.google.com with SMTP id i1so2720876plr.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 11:33:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=bVPk/Lq1GLU+69eOfHyd7jKuisIcw+w8uQ4Os2s21Cw=;
- b=zOxqKs9vNvMed2KogB0RDruPrT4+3JpFRT/ziQp8ixAc1bFwYToeY9YfVaqMGED31R
- f6fOKWGpdN5rO5dowzRByNy6Yt9fWpYOzK1tkaU66bG3UUGy5VTgm3jOxjOFHoSr9Fqr
- 33dHb8s/5+fUsWhKxp8IpzYWd7eC6i7lb6DtPICaT5TJyotKCoE6KcVJ5Iw7zjxyvXyM
- WhFsvKt39mAeOYS9LV4VIpO5RX85rerODKr+mQFJgh9iQp5Ty4ucqFGCjwc0DkuVEPuR
- ALGC1ZM4XIuiaiMphkjo59Ndew0tB4m0IPhLFkWPvhM6k9nZrJyySO5I7+702HoW/M0U
- da+Q==
+ bh=jjfp4EomP1XQlyh4+nAjYguKBouJwUOVZnlE1nlJ4VM=;
+ b=wN6N5PtfNBmWwS7Yfz3K0N75IfzRfCxFwK0Hsnffw66NMNQfi6jgyQkVa939eWBHiI
+ Rv1ht8YzUKEGOpNDUfdatZKp6asL3WmaSBl8RCbqU6xUC5WYXjzKPky81AtVbwxrNP5s
+ Zpx86IeuSwNwwxrfnSbWbE5c1VlOVijUnVQ+USLX9/EbFDmGxAua+F9Y5AJAt012vqFQ
+ nuns9bcDRPHl6BsB7hIr4C9lCfEvhhuzBJCx5N77Bb6fGmOMHp0bJqV1GQRtiMkHMVOo
+ gqw2fE8ARf5QET1Cf8wjoMkO4vr38pwaNdZqZF0zR7FyUkZOlA8Z4TlcWkzioJieipno
+ 4sRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=bVPk/Lq1GLU+69eOfHyd7jKuisIcw+w8uQ4Os2s21Cw=;
- b=i0SQnLZzrEmjy75Q72fRREW+ehRMs0y9o9z3asfV8wXgXD7lFDEmmGRJjtVrDnSg3K
- YvQYZmF+SDS5unXdoJzLDwYVs1xKVq/CHfwwAcVbp5/w2F7q05qSl4pQaVawuKGLSdgT
- SvUTtdHhAsFlINvdxDg54+SDI/OPSgqjt0buGssyQNchQXs0fwE4Vx5bLd4qhwsenFZO
- FwSjTOO/AgVXn08YH7n5Kg/Xgx1LygqXpRy543KfPW218CLGJeJRBJDvv1nHiamoWHaL
- Ws7RnZMvdOezxCVI5c3JpIViLAKo5O6rUSxYSVCOxkKaxXhvePho4FlB3N+GgwnhJh4n
- UeSA==
-X-Gm-Message-State: AOAM530UPFC2J22LiBxU8dLqeCr1CzujBV2k9xM7rYrZvkMrytkskq8g
- iatWMG8FecZCrqkGaku7RrzS/Q==
-X-Google-Smtp-Source: ABdhPJyKIemhqeDTU9GHKDFCvwQzuoilNGJUoi69oUptqLd9FMeGpn5MQuQAxAm5Adlzrc5Z9GMKcg==
-X-Received: by 2002:a17:903:3092:b0:14f:9c1c:45a4 with SMTP id
- u18-20020a170903309200b0014f9c1c45a4mr3922640plc.126.1645731101301; 
- Thu, 24 Feb 2022 11:31:41 -0800 (PST)
+ bh=jjfp4EomP1XQlyh4+nAjYguKBouJwUOVZnlE1nlJ4VM=;
+ b=Pil6YUfK9umM00lkNCPQFMHwOb85DDQiGHo/+viqKarRKVrc4p45V3LzfItv9Ys/Vr
+ AEIsGpo/03Q+1xm82CKMEdNRPrJ+YtX06QTjYSUfSII67nGVv6vgp5p1Zefe5ol+Ucbs
+ WxqIoOM5LD7pS/ulFRRngteG60KfZQRUEwD7bUC/JtqB/HEQrFMz3Q2oxIoiMfMah//l
+ y37D/qaTEy/nqX5LvuQIdyq4/zUYx/NDvG8pQ1N1qU4pT9bfA/0DrldwwS4bFq1z92BB
+ BUcXLEQz0zNq5ymHQ7VPXO8dUKSaXVcfi0UG76oE6VgWC74XUIGeo4CXmzkZ358TpxNX
+ rJJQ==
+X-Gm-Message-State: AOAM531FOcFCwZMnwLHJZfnFKa1OIBgMLvOg0CPMogkxecaL9dCpy/9N
+ bNcgDALHlLA3PylG7b/eguScxA==
+X-Google-Smtp-Source: ABdhPJyNr9144/GoguJ0286jThi4oPHwDSqmO4hy4c3i7RLZ7O8YSwbJYSAUZWqZiBzD3eaYxjRb+Q==
+X-Received: by 2002:a17:90a:bf91:b0:1b9:bda3:10ff with SMTP id
+ d17-20020a17090abf9100b001b9bda310ffmr4289546pjs.38.1645731181404; 
+ Thu, 24 Feb 2022 11:33:01 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- x3-20020a17090ad68300b001b8bcd47c35sm7081380pju.6.2022.02.24.11.31.39
+ o17-20020a056a0015d100b004c59f7dc606sm306742pfu.28.2022.02.24.11.33.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 11:31:40 -0800 (PST)
-Message-ID: <6af27303-1a30-991e-570f-1d594846738a@linaro.org>
-Date: Thu, 24 Feb 2022 09:31:37 -1000
+ Thu, 24 Feb 2022 11:33:00 -0800 (PST)
+Message-ID: <3dc1bb04-a749-34df-87da-c6c99d3ecd73@linaro.org>
+Date: Thu, 24 Feb 2022 09:32:58 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 04/12] compiler.h: replace QEMU_NORETURN with G_NORETURN
+Subject: Re: [PATCH 03/12] osdep.h: move qemu_build_not_reached()
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 References: <20220224183701.608720-1-marcandre.lureau@redhat.com>
- <20220224183701.608720-5-marcandre.lureau@redhat.com>
+ <20220224183701.608720-4-marcandre.lureau@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220224183701.608720-5-marcandre.lureau@redhat.com>
+In-Reply-To: <20220224183701.608720-4-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,31 +98,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/24/22 08:36, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> From: Marc-André Lureau<marcandre.lureau@redhat.com>
 > 
-> G_NORETURN was introduced in glib 2.68, fallback to G_GNUC_NORETURN in
-> glib-compat.
+> Move the macro and declaration so it can use glib in the following
+> patch.
 > 
-> Note that this attribute must be placed before the function declaration
-> (bringing a bit of consistency in qemu codebase usage).
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Marc-André Lureau<marcandre.lureau@redhat.com>
+> ---
+>   include/qemu/compiler.h | 16 ----------------
+>   include/qemu/osdep.h    | 16 ++++++++++++++++
+>   2 files changed, 16 insertions(+), 16 deletions(-)
 
-For C11, G_NORETURN is a wrapper for _Noreturn.
-Since we're using C11, we should just use _Noreturn.
-
->   void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
->                                       MMUAccessType access_type, int mmu_idx,
-> -                                    uintptr_t retaddr) QEMU_NORETURN;
-> +                                    uintptr_t retaddr) G_NORETURN;
-
-Incorrect placement.  I didn't scan the whole patch; I assume that using _Noreturn will 
-flag this up as an error.
-
-> -static void QEMU_NORETURN dump_core_and_abort(int target_sig)
-> +G_NORETURN static void dump_core_and_abort(int target_sig)
-
-I guess this can go either place, but I think I prefer the scope specifier first.
+Would this be obviated by a change to _Noreturn?
 
 
 r~
