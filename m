@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A724C2B91
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 13:21:11 +0100 (CET)
-Received: from localhost ([::1]:37748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A2A4C2B9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 13:25:34 +0100 (CET)
+Received: from localhost ([::1]:46894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nND7O-00055V-Hr
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 07:21:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40618)
+	id 1nNDBd-000335-I9
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 07:25:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNCuX-0006dn-CJ
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:07:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30930)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNCv9-0007hm-3X
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:08:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNCuU-0001nT-E8
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:07:52 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNCv4-0001sf-N9
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:08:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645704469;
+ s=mimecast20190719; t=1645704503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FoR1fHwFpRou2RnMaE6kN04keiVR0Xc221G2NtZY/dw=;
- b=RDkeiMKVON/9AqLBgICtHmOIXKzqhp/JZhXXyy9T+NaKlxVKcnMgPFNEYNKE9esVayn+EO
- Zpp58L+L/aJ+Sa+SgqB+iZ3DdRYzoif0sSQ7U7EI6jvW+hZDojpAGWQwV0Mgjs1VBiF9pC
- YddXSRFymPiJOJP7F2ISOAfC0dx8Ixk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WMQpiR3cmdruUSMO+rBoDbf2IqIqJgU5Iw5gchJWmno=;
+ b=I6I4sUD/GFCZm3/7aXKweshezKlw0ouo0HIWL4TfVxFlPKKspaHmq6o1oXSo9iZD0v420S
+ TSL5wnVCxGVz5q3FzIMnOyy0ztOCfhoOSDHynVDQvuTKmdENF9YKdkqT9C8HXkeoZQ5Cbj
+ PIrcv15k5NDn9XClhSixLC5NwWrmmVg=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-fP28F5dvNkGGJtARUHbq1Q-1; Thu, 24 Feb 2022 07:07:48 -0500
-X-MC-Unique: fP28F5dvNkGGJtARUHbq1Q-1
-Received: by mail-ed1-f71.google.com with SMTP id
- j9-20020a056402238900b004128085d906so625085eda.19
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 04:07:47 -0800 (PST)
+ us-mta-663-ZFLtffKJNdSQFPOA5kUTHA-1; Thu, 24 Feb 2022 07:08:20 -0500
+X-MC-Unique: ZFLtffKJNdSQFPOA5kUTHA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ m4-20020a170906160400b006be3f85906eso1110722ejd.23
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 04:08:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=FoR1fHwFpRou2RnMaE6kN04keiVR0Xc221G2NtZY/dw=;
- b=jYHfY7z4JLpFCRfK1ptWqe6mETAabIIZbt1R42M4I365aCeUlxFMyM98KCtoDjK2Ii
- 8V+VTLXYzJOTGXPGwL0cPvlb1hgHhU7IIy5xK0PVV87lwhqLHVK98q06BiCDjbyqDKxT
- 3v4yuFGHK3NNZ0jE+9WTP1PqI1MwUgrVWp8hCXVXDut2oAOEwKPHIK+hvqoYLXkHQGwD
- 4ick2ANbI+v3wvbuiOhfQaKx9MCreGxWIUTB94PNCsAjBE4ulszu91A7qHr5uDIIT71V
- dikzBvqXYTBjUHObGA3Iv51XUjUlMtLz/ChIcgmE+SpBmx9wPiM+wQGI2ruq1C4IYDKm
- fK1w==
-X-Gm-Message-State: AOAM533nZ48zgc6iPqDdEeGEOclIZfP+gFL2XWfAP391DWZPFv4Qa23j
- PgkTpt3ho90CsLZOB600xtD9ZRNjcgTn9kgL6WgJt47PCvkcTHI10ZBnr12CfCM6j+446Yjjog/
- R54MPoccQFqrQ3VA=
-X-Received: by 2002:a50:baaa:0:b0:410:a098:2a7f with SMTP id
- x39-20020a50baaa000000b00410a0982a7fmr2001138ede.53.1645704466899; 
- Thu, 24 Feb 2022 04:07:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzzp/GXIKvnn+/5K40fRhRgzxU1M7HOKfSpd2kVh0YGcbdEHm+Mi6GvfD0fpo4xREFnVI9r6w==
-X-Received: by 2002:a50:baaa:0:b0:410:a098:2a7f with SMTP id
- x39-20020a50baaa000000b00410a0982a7fmr2001084ede.53.1645704466360; 
- Thu, 24 Feb 2022 04:07:46 -0800 (PST)
+ bh=WMQpiR3cmdruUSMO+rBoDbf2IqIqJgU5Iw5gchJWmno=;
+ b=VjH7yEwDibzbx44/TeEfV2/iHRhlfBi4agfZxWFeuz/MyCx4LoGCGImOGG8lTNHgXx
+ sbRwvKYgEdUMLsAaoD0nJ7JSiiHHDCSCcQGIhOn+qgtL4I3qOD9nFo1UQfo5tbQxeZOw
+ 6RRg6oAdrn6B64rV3DtDuuZMTMuSLEpAk8OJUFCKJz6aVa4c5MsEp9nfgUl3KOzBybA6
+ TAmz87/YP8uiuvEEYqvwrkHf6KgQGrUw+8Hi4q4dB+XcXyUqt1KaOXusr9Wku3ZF3obq
+ azUUB6Ax/XScmm2CfIcyL59IOuyugLUrit2fB6+wsNvrjxwI4cld8Z9LfsO1rgjA3h0b
+ FApw==
+X-Gm-Message-State: AOAM5309ToVagQpyzcWT8r+knYKmZ36jHxyMWdnJ7awHpT9SETXuHTtS
+ cnW0zU12u0qwy68w01d7Ng0C2jwlsSv+Pd9vFq8hMPQUwKi4YzVuoXYQDO+yZboeXuS6u2l7YV7
+ cPtV1XogWkkr3sgI=
+X-Received: by 2002:a17:906:8557:b0:6cf:2730:b5cf with SMTP id
+ h23-20020a170906855700b006cf2730b5cfmr2037920ejy.368.1645704499003; 
+ Thu, 24 Feb 2022 04:08:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw0yJUOGdAlfUMBSLh0QHT+ErvQUZIEWtM/5lfoDQgBAGhhtaVN9Qiu8mfYE8llvGkdTwUwKA==
+X-Received: by 2002:a17:906:8557:b0:6cf:2730:b5cf with SMTP id
+ h23-20020a170906855700b006cf2730b5cfmr2037900ejy.368.1645704498780; 
+ Thu, 24 Feb 2022 04:08:18 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id x7sm1240064edr.12.2022.02.24.04.07.45
+ by smtp.gmail.com with ESMTPSA id bt6sm1268453ejb.222.2022.02.24.04.08.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 04:07:46 -0800 (PST)
-Message-ID: <681b2420-e4c3-5849-3d08-c85711243fa1@redhat.com>
-Date: Thu, 24 Feb 2022 13:07:45 +0100
+ Thu, 24 Feb 2022 04:08:18 -0800 (PST)
+Message-ID: <60044973-30ee-e896-c2d5-bdea3eef9814@redhat.com>
+Date: Thu, 24 Feb 2022 13:08:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 04/18] block/copy-before-write: add bitmap open
- parameter
+Subject: Re: [PATCH v4 06/18] block: intoduce reqlist
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20220216194617.126484-1-vsementsov@virtuozzo.com>
- <20220216194617.126484-5-vsementsov@virtuozzo.com>
+ <20220216194617.126484-7-vsementsov@virtuozzo.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220216194617.126484-5-vsementsov@virtuozzo.com>
+In-Reply-To: <20220216194617.126484-7-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -112,135 +111,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 16.02.22 20:46, Vladimir Sementsov-Ogievskiy wrote:
-> This brings "incremental" mode to copy-before-write filter: user can
-> specify bitmap so that filter will copy only "dirty" areas.
+> Split intersecting-requests functionality out of block-copy to be
+> reused in copy-before-write filter.
+>
+> Note: while being here, fix tiny typo in MAINTAINERS.
 >
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   qapi/block-core.json      | 10 +++++++-
->   block/copy-before-write.c | 51 ++++++++++++++++++++++++++++++++++++++-
->   2 files changed, 59 insertions(+), 2 deletions(-)
->
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 9a5a3641d0..3bab597506 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -4171,11 +4171,19 @@
->   #
->   # @target: The target for copy-before-write operations.
->   #
-> +# @bitmap: If specified, copy-before-write filter will do
-> +#          copy-before-write operations only for dirty regions of the
-> +#          bitmap. Bitmap size must be equal to length of file and
-> +#          target child of the filter. Note also, that bitmap is used
-> +#          only to initialize internal bitmap of the process, so further
-> +#          modifications (or removing) of specified bitmap doesn't
-> +#          influence the filter.
+>   include/block/reqlist.h |  67 +++++++++++++++++++++++
+>   block/block-copy.c      | 116 +++++++++++++---------------------------
+>   block/reqlist.c         |  76 ++++++++++++++++++++++++++
+>   MAINTAINERS             |   4 +-
+>   block/meson.build       |   1 +
+>   5 files changed, 184 insertions(+), 80 deletions(-)
+>   create mode 100644 include/block/reqlist.h
+>   create mode 100644 block/reqlist.c
 
-Sorry, missed this last time: There should be a “since: 7.0” here.
-
-> +#
->   # Since: 6.2
->   ##
->   { 'struct': 'BlockdevOptionsCbw',
->     'base': 'BlockdevOptionsGenericFormat',
-> -  'data': { 'target': 'BlockdevRef' } }
-> +  'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap' } }
->   
->   ##
->   # @BlockdevOptions:
-> diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-> index 799223e3fb..91a2288b66 100644
-> --- a/block/copy-before-write.c
-> +++ b/block/copy-before-write.c
-> @@ -34,6 +34,8 @@
->   
->   #include "block/copy-before-write.h"
->   
-> +#include "qapi/qapi-visit-block-core.h"
-> +
->   typedef struct BDRVCopyBeforeWriteState {
->       BlockCopyState *bcs;
->       BdrvChild *target;
-> @@ -145,10 +147,53 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
->       }
->   }
->   
-> +static bool cbw_parse_bitmap_option(QDict *options, BdrvDirtyBitmap **bitmap,
-> +                                    Error **errp)
-> +{
-> +    QDict *bitmap_qdict = NULL;
-> +    BlockDirtyBitmap *bmp_param = NULL;
-> +    Visitor *v = NULL;
-> +    bool ret = false;
-> +
-> +    *bitmap = NULL;
-> +
-> +    qdict_extract_subqdict(options, &bitmap_qdict, "bitmap.");
-> +    if (!qdict_size(bitmap_qdict)) {
-> +        ret = true;
-> +        goto out;
-> +    }
-> +
-> +    v = qobject_input_visitor_new_flat_confused(bitmap_qdict, errp);
-> +    if (!v) {
-> +        goto out;
-> +    }
-> +
-> +    visit_type_BlockDirtyBitmap(v, NULL, &bmp_param, errp);
-> +    if (!bmp_param) {
-> +        goto out;
-> +    }
-> +
-> +    *bitmap = block_dirty_bitmap_lookup(bmp_param->node, bmp_param->name, NULL,
-> +                                        errp);
-> +    if (!*bitmap) {
-> +        goto out;
-> +    }
-> +
-> +    ret = true;
-> +
-> +out:
-> +    qapi_free_BlockDirtyBitmap(bmp_param);
-> +    visit_free(v);
-> +    qobject_unref(bitmap_qdict);
-> +
-> +    return ret;
-> +}
-> +
->   static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
->                       Error **errp)
->   {
->       BDRVCopyBeforeWriteState *s = bs->opaque;
-> +    BdrvDirtyBitmap *bitmap = NULL;
->   
->       bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
->                                  BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
-> @@ -163,6 +208,10 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
->           return -EINVAL;
->       }
->   
-> +    if (!cbw_parse_bitmap_option(options, &bitmap, errp)) {
-> +        return -EINVAL;
-
-Hm...  Just to get a second opinion on this: We don’t need to close 
-s->target here, because the failure paths of bdrv_open_inherit() and 
-bdrv_new_open_driver_opts() both call bdrv_unref(), which will call 
-bdrv_close(), which will close all children including s->target, right?
-
-> +    }
-> +
->       bs->total_sectors = bs->file->bs->total_sectors;
->       bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
->               (BDRV_REQ_FUA & bs->file->bs->supported_write_flags);
-> @@ -170,7 +219,7 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
->               ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
->                bs->file->bs->supported_zero_flags);
->   
-> -    s->bcs = block_copy_state_new(bs->file, s->target, NULL, errp);
-> +    s->bcs = block_copy_state_new(bs->file, s->target, bitmap, errp);
->       if (!s->bcs) {
->           error_prepend(errp, "Cannot create block-copy-state: ");
->           return -EINVAL;
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
