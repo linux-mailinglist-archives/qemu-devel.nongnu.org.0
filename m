@@ -2,89 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7124C2C39
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 13:55:50 +0100 (CET)
-Received: from localhost ([::1]:48046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DD44C2C2C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 13:52:59 +0100 (CET)
+Received: from localhost ([::1]:41826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNDev-0007k4-AF
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 07:55:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48296)
+	id 1nNDcA-0003WM-3d
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 07:52:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nNDVO-0000R2-08
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:45:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60892)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNDVb-0000Ua-UX
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:46:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nNDVK-0000Uw-QJ
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:45:56 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNDVY-0000WC-G7
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:46:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645706753;
+ s=mimecast20190719; t=1645706767;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bOujF0/zB9S4zcRc1q5vMzSBiCYrRRjuoC6dFEIQzAM=;
- b=HS/29NHfObZqWu5mE+E4rlnhEIppaOJRyqlpVWLEQqLQELodxxy1Y7AFrzBr4QB2PA6YSk
- GBqVcGT/utyKRs3e7ZgoD+vexOUr/5+jR/mWiTIwLZ7g3Q9ELL2i0cle3wDTAp9DNmjpmc
- O+E0KCc/w3qIwbwdftEYmoebtqlkYBs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AITjYj7VuVl8FexmU/wq+n+iCvBKgI3XGwlkHx0MaoU=;
+ b=aD7WhTNLRklOBKSXMjMzt4/utwLcqOky2EXkjnm+jQ0M7ySBTyaFL6g0N4WtDwSXunredC
+ 2d1MmWjIAEm8uy3F1t8ungd5tGh5Wsqp0Wx7nC95yJAHPrU8DImpxuWRQU3U4lB8U5Dor3
+ KvuiTVaQAVNSuvkEqqyLVqD0ku4yJ3U=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-519-z9EjuodaOESM4zfdhYxQrg-1; Thu, 24 Feb 2022 07:45:52 -0500
-X-MC-Unique: z9EjuodaOESM4zfdhYxQrg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- e26-20020adfa45a000000b001ea860cd35cso719116wra.4
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 04:45:51 -0800 (PST)
+ us-mta-652-wTql20qsO-iHKLWqTbDHcQ-1; Thu, 24 Feb 2022 07:46:04 -0500
+X-MC-Unique: wTql20qsO-iHKLWqTbDHcQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ qa30-20020a170907869e00b006cee5e080easo1161984ejc.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 04:46:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=bOujF0/zB9S4zcRc1q5vMzSBiCYrRRjuoC6dFEIQzAM=;
- b=ZUeSTEezVQ7Zlx2G7VeRmIGzzIFVNwlTL0u64xVsGzzq90+KyiBe1fvFEHlB0VFskW
- IAdSh1XUEsmA1Goa0JC9YuK/prnzX5edmITaKvxbVEpsj5XftrnbI/7qDtKGrP0LKwoM
- m9y3iJEXioRKMSm1wvch80JKgZqn2NPTdyODBkQh8tc+vFTcIYKS62yyyx7RrllQXrhY
- TvdINYpii8rGGXFCBlU6wc8atYK2XrIhAYAzZN3QdFPGjEJRN3nZyxSbl/YKHt7KmDGg
- Xmj0Bswm8BslC4C+WB47t588CZosOzzBDC5FVOQUMy6S8mCOnfoCaT8lnsIuHaZ84ZZO
- oGaA==
-X-Gm-Message-State: AOAM533EAP8yA/Lk+eZpqsoXngSq446H4gwZGGakpgrrspyT6bg70Lcp
- ftOcreV97ktju83b8A/bh/lIoL5t0Cu8h4ueGco0FogFYOVnSIUSFwztQprJG8AwTGJwhgQSc8Y
- /6zRY0fJHqX+s7T4=
-X-Received: by 2002:a5d:5983:0:b0:1e5:7dd6:710 with SMTP id
- n3-20020a5d5983000000b001e57dd60710mr2184047wri.392.1645706750575; 
- Thu, 24 Feb 2022 04:45:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwaPaSRx8K4diqBcvweRYxpVQI1CwW+XQEbN44pquZ1UsmFF1pPuD8Hlb83elmuXLzBwyNZqA==
-X-Received: by 2002:a5d:5983:0:b0:1e5:7dd6:710 with SMTP id
- n3-20020a5d5983000000b001e57dd60710mr2184023wri.392.1645706750334; 
- Thu, 24 Feb 2022 04:45:50 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- r2-20020a05600c35c200b00352cdcdd7b2sm12260333wmq.0.2022.02.24.04.45.49
+ bh=AITjYj7VuVl8FexmU/wq+n+iCvBKgI3XGwlkHx0MaoU=;
+ b=vKhuWhv6LsshEbqUI5IUdURPme3QG9xryJegWwkhzzjCgbvOwf8rCr5FjOkUI4CKSF
+ v9CCxHCnkpyf2a5ytsds/3Xn6bAVIyAFR6o8jbvFfuXrQaGrzn/SBGysOaV7Ldysws2z
+ xraCy3jtLrg4Qi+wvaed4eARnwlQKNoVltUqks20U2mT0BvaMoc4d13zJ/vOr7dmoQr+
+ CP8jZmkj0d6xpn6AHtUgD6W0Tmf+hRA4nTmhY+F/iKBZxzj1x88I1yxfmLsGN0Z6Eemu
+ HMBRZptog/AIcDDD0vG+6e9SLq2rs9wJHlyjZQ65KlpIaaea+0NocpHp0eR7s7gHydq2
+ OwSQ==
+X-Gm-Message-State: AOAM532IOZ32pBwgEauLtaaZBClrhtP6sog7ZWpg/do//b0TwV+RtHZP
+ KyjIOdLkX92oyK51rg3/kDofND+u4D9g4PPGCmM2px9BKwasPL43sAqCS8N44sllJ7JRy9PJc5F
+ ROWEbm0dIuryQ+8I=
+X-Received: by 2002:a05:6402:1d4f:b0:412:81a5:8bef with SMTP id
+ dz15-20020a0564021d4f00b0041281a58befmr2102268edb.163.1645706763707; 
+ Thu, 24 Feb 2022 04:46:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxQTykGketNnl8GCD5gvx9QShOAXZ+9S7O3+kwwGmSsr4FT6kiIkVnZ8lchhJLjUxaHowOsAw==
+X-Received: by 2002:a05:6402:1d4f:b0:412:81a5:8bef with SMTP id
+ dz15-20020a0564021d4f00b0041281a58befmr2102240edb.163.1645706763444; 
+ Thu, 24 Feb 2022 04:46:03 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id s1sm1289093edd.100.2022.02.24.04.46.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 04:45:50 -0800 (PST)
-Message-ID: <fe90032a-0fe1-a368-8ce9-084b338623e6@redhat.com>
-Date: Thu, 24 Feb 2022 13:45:48 +0100
+ Thu, 24 Feb 2022 04:46:03 -0800 (PST)
+Message-ID: <cb3f088b-5d6a-84cb-58bf-14bd740085d3@redhat.com>
+Date: Thu, 24 Feb 2022 13:46:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v5 08/20] jobs: protect jobs with job_lock/unlock
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220208143513.1077229-1-eesposit@redhat.com>
- <20220208143513.1077229-9-eesposit@redhat.com>
- <Yg5gTbnNsbUpwD7P@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <Yg5gTbnNsbUpwD7P@stefanha-x1.localdomain>
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 12/18] block: copy-before-write: realize
+ snapshot-access API
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20220216194617.126484-1-vsementsov@virtuozzo.com>
+ <20220216194617.126484-13-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220216194617.126484-13-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -93,7 +91,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,121 +104,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, wencongyang2@huawei.com,
+ xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, nikita.lapshin@virtuozzo.com, stefanha@redhat.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 16.02.22 20:46, Vladimir Sementsov-Ogievskiy wrote:
+> Current scheme of image fleecing looks like this:
+>
+> [guest]                    [NBD export]
+>    |                              |
+>    |root                          | root
+>    v                              v
+> [copy-before-write] -----> [temp.qcow2]
+>    |                 target  |
+>    |file                     |backing
+>    v                         |
+> [active disk] <-------------+
+>
+>   - On guest writes copy-before-write filter copies old data from active
+>     disk to temp.qcow2. So fleecing client (NBD export) when reads
+>     changed regions from temp.qcow2 image and unchanged from active disk
+>     through backing link.
+>
+> This patch makes possible new image fleecing scheme:
+>
+> [guest]                   [NBD export]
+>     |                            |
+>     | root                       | root
+>     v                 file       v
+> [copy-before-write]<------[x-snapshot-access]
+>     |           |
+>     | file      | target
+>     v           v
+> [active-disk] [temp.img]
+>
+>   - copy-before-write does CBW operations and also provides
+>     snapshot-access API. The API may be accessed through
+>     x-snapshot-access driver.
 
+The “x-” prefix seems like a relic from an earlier version.
 
-On 17/02/2022 15:48, Stefan Hajnoczi wrote:
-> On Tue, Feb 08, 2022 at 09:35:01AM -0500, Emanuele Giuseppe Esposito wrote:
->> diff --git a/block/replication.c b/block/replication.c
->> index 55c8f894aa..a03b28726e 100644
->> --- a/block/replication.c
->> +++ b/block/replication.c
->> @@ -149,7 +149,9 @@ static void replication_close(BlockDriverState *bs)
->>      if (s->stage == BLOCK_REPLICATION_FAILOVER) {
->>          commit_job = &s->commit_job->job;
->>          assert(commit_job->aio_context == qemu_get_current_aio_context());
-> 
-> Is it safe to access commit_job->aio_context outside job_mutex?
+(I agree with what I assume is your opinion now, that we don’t need an 
+x- prefix.  I can’t imagine why we’d need to change the snapshot-access 
+interface in an incompatible way.)
 
-No, but it is currently not done. Patch 18 takes care of protecting
-aio_context. Remember again that job lock API is still nop.
-> 
->> @@ -1838,7 +1840,9 @@ static void drive_backup_abort(BlkActionState *common)
->>          aio_context = bdrv_get_aio_context(state->bs);
->>          aio_context_acquire(aio_context);
->>  
->> -        job_cancel_sync(&state->job->job, true);
->> +        WITH_JOB_LOCK_GUARD() {
->> +            job_cancel_sync(&state->job->job, true);
->> +        }
-> 
-> Maybe job_cancel_sync() should take the lock internally since all
-> callers in this patch seem to need the lock?
+> Benefits of new scheme:
+>
+> 1. Access control: if remote client try to read data that not covered
+>     by original dirty bitmap used on copy-before-write open, client gets
+>     -EACCES.
+>
+> 2. Discard support: if remote client do DISCARD, this additionally to
+>     discarding data in temp.img informs block-copy process to not copy
+>     these clusters. Next read from discarded area will return -EACCES.
+>     This is significant thing: when fleecing user reads data that was
+>     not yet copied to temp.img, we can avoid copying it on further guest
+>     write.
+>
+> 3. Synchronisation between client reads and block-copy write is more
+>     efficient. In old scheme we just rely on BDRV_REQ_SERIALISING flag
+>     used for writes to temp.qcow2. New scheme is less blocking:
+>       - fleecing reads are never blocked: if data region is untouched or
+>         in-flight, we just read from active-disk, otherwise we read from
+>         temp.img
+>       - writes to temp.img are not blocked by fleecing reads
+>       - still, guest writes of-course are blocked by in-flight fleecing
+>         reads, that currently read from active-disk - it's the minimum
+>         necessary blocking
+>
+> 4. Temporary image may be of any format, as we don't rely on backing
+>     feature.
+>
+> 5. Permission relation are simplified. With old scheme we have to share
+>     write permission on target child of copy-before-write, otherwise
+>     backing link conflicts with copy-before-write file child write
+>     permissions. With new scheme we don't have backing link, and
+>     copy-before-write node may have unshared access to temporary node.
+>     (Not realized in this commit, will be in future).
+>
+> 6. Having control on fleecing reads we'll be able to implement
+>     alternative behavior on failed copy-before-write operations.
+>     Currently we just break guest request (that's a historical behavior
+>     of backup). But in some scenarios it's a bad behavior: better
+>     is to drop the backup as failed but don't break guest request.
+>     With new scheme we can simply unset some bits in a bitmap on CBW
+>     failure and further fleecing reads will -EACCES, or something like
+>     this. (Not implemented in this commit, will be in future)
+>     Additional application for this is implementing timeout for CBW
+>     operations.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   block/copy-before-write.c | 212 +++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 211 insertions(+), 1 deletion(-)
+>
+> diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+> index 91a2288b66..a8c88f64eb 100644
+> --- a/block/copy-before-write.c
+> +++ b/block/copy-before-write.c
 
-The _locked version is useful because it is used when lock guards are
-already present, and cover multiple operations. There are only 3 places
-where a lock guard is added to cover job_cance_sync_locked. Is it worth
-defining another additional function?
+[...]
 
+> +static int coroutine_fn
+> +cbw_co_snapshot_block_status(BlockDriverState *bs,
+> +                             bool want_zero, int64_t offset, int64_t bytes,
+> +                             int64_t *pnum, int64_t *map,
+> +                             BlockDriverState **file)
+> +{
+> +    BDRVCopyBeforeWriteState *s = bs->opaque;
+> +    BlockReq *req;
+> +    int ret;
+> +    int64_t cur_bytes;
+> +    BdrvChild *child;
+> +
+> +    req = cbw_snapshot_read_lock(bs, offset, bytes, &cur_bytes, &child);
+> +    if (!req) {
+> +        return -EACCES;
+> +    }
+> +
+> +    ret = bdrv_block_status(bs, offset, cur_bytes, pnum, map, file);
 
-> 
-> I noticed this patch does not add WITH_JOB_LOCK_GUARD() to
-> tests/unit/test-blockjob.c:cancel_common(). Was that an oversight or is
-> there a reason why job_mutex is not needed around the job_cancel_sync()
-> call there?
+This looks like an infinite recursion.  Shouldn’t this be s/bs/child->bs/?
 
-No, locks in unit tests are added in patch 10 "jobs: protect jobs with
-job_lock/unlock".
+> +    if (child == s->target) {
+> +        /*
+> +         * We refer to s->target only for areas that we've written to it.
+> +         * And we can not report unallocated blocks in s->target: this will
+> +         * break generic block-status-above logic, that will go to
+> +         * copy-before-write filtered child in this case.
+> +         */
+> +        assert(ret & BDRV_BLOCK_ALLOCATED);
+> +    }
+> +
+> +    cbw_snapshot_read_unlock(bs, req);
+> +
+> +    return ret;
+> +}
 
-> 
->> @@ -252,7 +258,13 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
->>  
->>  static void block_job_on_idle(Notifier *n, void *opaque)
->>  {
->> +    /*
->> +     * we can't kick with job_mutex held, but we also want
->> +     * to protect the notifier list.
->> +     */
->> +    job_unlock();
->>      aio_wait_kick();
->> +    job_lock();
-> 
-> I don't understand this. aio_wait_kick() looks safe to call with a mutex
-> held?
-You are right. It should be safe.
+[...]
 
-> 
->> @@ -292,7 +304,9 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
->>      job->speed = speed;
->>  
->>      if (drv->set_speed) {
->> +        job_unlock();
->>          drv->set_speed(job, speed);
->> +        job_lock();
-> 
-> What guarantees that job stays alive during drv->set_speed(job)? We
-> don't hold a ref here. Maybe the assumption is that
-> block_job_set_speed() only gets called from the main loop thread and
-> nothing else will modify the jobs list while we're in drv->set_speed()?
+> @@ -225,6 +407,27 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+>           return -EINVAL;
+>       }
+>   
+> +    cluster_size = block_copy_cluster_size(s->bcs);
+> +
+> +    s->done_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
+> +    if (!s->done_bitmap) {
+> +        return -EINVAL;
 
-What guaranteed this before? I am not sure.
+Hmm, similarly to my question on patch 4, I assume cbw_close() will free 
+s->bcs (and also s->done_bitmap in the error case below)?
 
-> 
->> @@ -545,10 +566,15 @@ BlockErrorAction block_job_error_action(BlockJob *job, BlockdevOnError on_err,
->>                                          action);
->>      }
->>      if (action == BLOCK_ERROR_ACTION_STOP) {
->> -        if (!job->job.user_paused) {
->> -            job_pause(&job->job);
->> -            /* make the pause user visible, which will be resumed from QMP. */
->> -            job->job.user_paused = true;
->> +        WITH_JOB_LOCK_GUARD() {
->> +            if (!job->job.user_paused) {
->> +                job_pause(&job->job);
->> +                /*
->> +                 * make the pause user visible, which will be
->> +                 * resumed from QMP.
->> +                 */
->> +                job->job.user_paused = true;
->> +            }
->>          }
->>          block_job_iostatus_set_err(job, error);
-> 
-> Does this need the lock? If not, why is block_job_iostatus_reset()
-> called with the hold?
-> 
-block_job_iostatus_set_err does not touch any Job fields. On the other
-hand block_job_iostatus_reset reads job.user_paused and job.pause_count.
-
-Emanuele
+> +    }
+> +    bdrv_disable_dirty_bitmap(s->done_bitmap);
+> +
+> +    /* s->access_bitmap starts equal to bcs bitmap */
+> +    s->access_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
+> +    if (!s->access_bitmap) {
+> +        return -EINVAL;
+> +    }
+> +    bdrv_disable_dirty_bitmap(s->access_bitmap);
+> +    bdrv_dirty_bitmap_merge_internal(s->access_bitmap,
+> +                                     block_copy_dirty_bitmap(s->bcs), NULL,
+> +                                     true);
+> +
+> +    qemu_co_mutex_init(&s->lock);
+> +    QLIST_INIT(&s->frozen_read_reqs);
+> +
+>       return 0;
+>   }
 
 
