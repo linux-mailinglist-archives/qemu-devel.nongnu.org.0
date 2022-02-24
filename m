@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309384C3359
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 18:17:24 +0100 (CET)
-Received: from localhost ([::1]:50248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAAD64C335A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 18:17:43 +0100 (CET)
+Received: from localhost ([::1]:51818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNHk3-0007rx-AA
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 12:17:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60870)
+	id 1nNHkM-0000a1-Qb
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 12:17:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nNHgt-0005do-3p; Thu, 24 Feb 2022 12:14:07 -0500
+ id 1nNHgw-0005jp-B6; Thu, 24 Feb 2022 12:14:10 -0500
 Received: from [2a01:111:f400:fe1e::726] (port=14723
  helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nNHgq-0005pu-NX; Thu, 24 Feb 2022 12:14:06 -0500
+ id 1nNHgt-0005pu-QC; Thu, 24 Feb 2022 12:14:09 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IaCIlnQLjIDvnYpF1D+w37nBWUHK1S/i4EQruM1EOn6BYZUMVyH8CXbHVa3waZhK3I++BtwO/xrWstgaQ7hSal5swzvZVDGUGpVymfALDMwV3fxrtGhzUYZnVUzaACSnvwD1pQgNFyOo6F4RjdoLme8yZ06HCuKzFmqF+O/I3kNUQtjlkKEzUYp4vMktqvKfMgYZzt8A/mftWesi1U+FVHxLrJlpx3An1wfpZucx5lvn8uXd55/sAUTXod5EweAn91ZqZxHXlwyM39ao0QFbrERXsunIkm3OyPeo4BypkeJRyHnTRi60E0bEBIMxQLOcteMDN3tfaCgfJxMKa0J1YA==
+ b=RmwMtwIPWSvJas60ySqjbIsx3KCSGprCBNObKb8ysZV6dHQHpstKtsC979sHZQxx5nVm/0824XmiupGz0yh/NkiNzcbyi3/Q/3CzRBvBGEFzMWOXVCzIdoycxqIHG3U61Qw2h/aAaT9GNpA1PvA30tGy2+RPQmyXbjKk8MK0eIrowU91lLEgaJGc96I15O/uypb2PZ99ksc8mTonJSvkLsyW0vBkuNrsp7UxAWOgov5wFJ6gIsmfXtyOKehO3Jnk0R5FiIY1ydhqfGMIz0OwT6Ob5DOn2GLvn6ETqLxCUydfD0gjGBkGA0Epvj+uuwOAOvdeo0OLbrFzyi6FeTpUgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5PEIUGCBX9t1e2g5owSOOuCbnMvA4gr6n9U2JaJhar8=;
- b=WgSSSjaljyuLLC6sT3xl1LbeTjDSH2jMMeKQu//wb9O8JjC9UDTJlwojSaNfvcnyD+leWLf3Qo/Olq63Ycb3lkTmtvY5U21uvDc/8zwIvdnwvfyuAItMFULYzmtXaTGmKtJPvYklaDs0+DDaHh12T0xZ2PlFQb7MEPIFwYXvWbOWUEtqcbJM46YVbwefOZi/0WUI757xEfXc93UlSBiSRFYajKYSWATkGpqKxcguKBJkS+YFvwYjEMUcuojZzqTkfHTrihfi+coOvAHTUglDm7ehDfzP8SOSwiC4+wG+tGFTYmFDFUPZIpaWcyrqs66/OuugCIe+sRvcLlD6NNkQYA==
+ bh=G47iRQIOgfT0wAzgPUnf4mXbZDrHrM3d/9Bijf+gOsQ=;
+ b=G3CFctxGgoizKVflYG/OqzjEBOwwr6zfQsSEnDniiDLY2S/3F2xY+zvAzTTS9mGI/xHYRNvQJzR/8FvxRU0QubczBkE0YVot/DFP2jgcCu/vt8bHTUsVPZsYrHoYZFfqeguJjECFZdUFDd9VAKB2NmNKPe5wgx9+oUVLhEToltp7cFmMr0lqVvifJl/QJcCp0bUFxYkC3YLWAQb5VsN2akdLpuuJMkgMX3gRnvbGTY3yk/Cfbig7xeWV3ebXNy5LNK5TspsRIrx8ZOsq2TGVMo1B+i8imI6z1QdpX1Gp8MspeBJ1bJNxGdi+cf9HB/Na9QkUYnMZ1osBPSWOpm7TDA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5PEIUGCBX9t1e2g5owSOOuCbnMvA4gr6n9U2JaJhar8=;
- b=JFG7tZ/TGCabAx1APmw0x1lX5YLk5k1AWI1N7cAEdg6zXEFNB/xtWab39bkJl4rrmTAvgj3/M9M8wtbxcFpgj0TTSTMP7t6z2w48WKO+jXN5hyoNK00lvhDcpKrunXNCZ910cUPWO1+zEoc7Uz2EbH3r/7XwgvqxO2Ngj7DD8jQ=
+ bh=G47iRQIOgfT0wAzgPUnf4mXbZDrHrM3d/9Bijf+gOsQ=;
+ b=pjPfquiVZuqpejuPVizCj7j2jle4ch4lp5hnuOdoLv8mHPEwVUcHaie1sKY3PjwX5jBmLcbYTtCxhqXHeyv4A/t/ccBTYDvNQkjzNdhzzkslQBDMUKBoEFzFwaMR3ibbeBWsmMyGDpi+fTlVt8jwayUPVcf1RNpkaTqYvVaabyg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
@@ -49,9 +49,9 @@ To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  hreitz@redhat.com, kwolf@redhat.com,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: [PATCH 1/2] block: transaction support for blockdev-add
-Date: Thu, 24 Feb 2022 18:13:27 +0100
-Message-Id: <20220224171328.1628047-2-vsementsov@virtuozzo.com>
+Subject: [PATCH 2/2] iotests: add blockdev-add-transaction
+Date: Thu, 24 Feb 2022 18:13:28 +0100
+Message-Id: <20220224171328.1628047-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220224171328.1628047-1-vsementsov@virtuozzo.com>
 References: <20220224171328.1628047-1-vsementsov@virtuozzo.com>
@@ -62,56 +62,56 @@ X-ClientProxiedBy: VI1P195CA0016.EURP195.PROD.OUTLOOK.COM
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1acca4f6-453c-48a7-1624-08d9f7b908cd
+X-MS-Office365-Filtering-Correlation-Id: 476cda8b-9da4-47b6-1a26-08d9f7b90942
 X-MS-TrafficTypeDiagnostic: VI1PR08MB3197:EE_
-X-Microsoft-Antispam-PRVS: <VI1PR08MB319700F0F43540393BC4B662C13D9@VI1PR08MB3197.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <VI1PR08MB319735F17E0ED20EFB238BEEC13D9@VI1PR08MB3197.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9NiMzOWQ/OmwpMnhLJAdx2BT3RaGamphQB/Lv0VXp7c2UMfmktkDSWLntn5MlIHAuKvjC9XQFT+ziVd1H7pkM8J/vUP3eFuNvqiOzD6kOwTAXcfhxRTs9VK3YGtKRuESlmnRLAxK3r7zleMm5qnA7QqsBOBT8/76K5VphBobpzMeDma7BNkumxVxc94faM9P5s1ZfCxtC9/urCuNpM0x87Xe4jW2z9idYUtC/dPSQGRgINRQAxSTX/odzPKkPW7DNAf+7NPHFaRbpGEnb+xGYF7r6F16TlKDHKhpclCMYmBKCtZH5gev3RqaJ8+ZYUqs5od4d5Q1uDIjfHxRew/c8a07KjbaFYc0Pmxf9HOB1wFrlA/CI/bxn8bNgJEzU2IToH8PxSsAxz1NdQPVA5viIKsGM0wedEaHQoFWKheWsQTAzWETimR8Wp8EW9qJX9iexrThq4iiViLcVq85kBxlvMHo4TnR/TT7B0tt8dbKrgd2CK01x2mxGsBUEBYGJqA9jaBQTCFAwQD3QzSnyz8LqTPK1P1S6dqo4nUiuCOfMIYyT4uPG5inI/Lp+QxNjEhOH4X40JyjrWxAxntGsSzbni7zE1YngvENtXfwrJ1cO22+m2EksZw6JVxvAxyl1fe9Ml/lRyuMQa6DWoTJQgttNzJmEUwuSP54ITmhBa+u9AST0esAUHhIXW4RzSw+bimOTEwQO95PBHEKmm/069SEww==
+X-Microsoft-Antispam-Message-Info: 7bTDAfPYbHiifpnX3PyExjjziZhHQkTqBrLD6Hp6rF/G7f15nk8hU6vp/Zse/LlxEJOLEu3iVfdWT1Dib5/Ci51Q4kk6u69uvFPBnQf0xgiYQoENvdNR40tcYti+DVCsQRhKkbMsSV3HLwRmvm2Hj21FEMV9vXtC9BsteQBuodXCNlQx3H458OlZUXaL6L6PovMSwKa1VuPSj8C2gTu9w69dcnKJo/2yRkm1m1XgmKrco/vLPOLtNrdYpiReyWl/ZYxFrcBl522uHRimycGfNuMa1LH3RWoyvcJL1bJZpwTiWC/Nv/V1Dt2t9LgLJ0ircUXEonVlfkO24MwlH7fM34kxEFPSPrA0g8/vv1ufck9lEMJJyyufFnSTfm3tbVBIS3yUpq+UgNArg8FLSwR5F1zJBFiKBOpHGtOvemAIjepRqy7DSsqo+ZpeFPFjkXaMPUlgI4991ChW5GMhsilfGnLKBjrpkWG3Mjk4LGZfYfeWFTLJ7MvBQ2bXS1EM9NlAW/AkYSkWdxDae594Oz7NH6EHiB3P1e9WGjMvpR/eSGHfFStOY9+V+nlL3qnBjsHysNn1J0myySHY/Y3c7oMBwbl5CuuOqI+ObzprO3M7qogezBUj2rSDLFvpcucU7R2JCYi1O+OhEMfjSs5wbXjTyqTwXLNZJoYSHPkp26KyEYLPtjuq90r1vtCFxj+7NSG01srpzqBBe4xcsMbLsmxxEYkMe1DwQqSm+umVj0HXV1qShfNhBIesRwO0w+Ug6OXaA3Sv3XqqsaIUgjkp8K7CE/3HwGF/qEeQa4oQecTqtM4l9kjoO0SGOtsB1pEDqdzM
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6506007)(52116002)(508600001)(6666004)(2616005)(86362001)(38100700002)(38350700002)(6486002)(4326008)(8676002)(66476007)(66556008)(66946007)(6916009)(316002)(1076003)(8936002)(107886003)(26005)(2906002)(83380400001)(186003)(6512007)(5660300002)(36756003);
+ SFS:(13230001)(4636009)(366004)(6506007)(52116002)(508600001)(6666004)(2616005)(86362001)(38100700002)(38350700002)(6486002)(4326008)(8676002)(66476007)(66556008)(66946007)(6916009)(316002)(1076003)(8936002)(107886003)(26005)(2906002)(83380400001)(186003)(6512007)(5660300002)(36756003)(2004002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?R0xRfNxtJ5CG+y4lC9i6HttCA4nOH7rEJ36RVfbNGDuLhv7MldvxvZsooiV0?=
- =?us-ascii?Q?3q1fwLMkeWEjMfTb2pz/WgfjnvfNUjDVOTsWNJm41UrD8imoNdkfVY7lPIG6?=
- =?us-ascii?Q?eSvFFFlvTShFUNsv+Ow+qiR84/ycbMvgy05VyQsbeZuxznInHglpYRndxoQU?=
- =?us-ascii?Q?7hFbq7DHyykTDR/ltosY+VUx4T9UQZCMnps1migkkMCmTFNRBQhuhsId6n2V?=
- =?us-ascii?Q?JYd07Rb9TpJXvhBr/QwM+w5JboR4mwkjqqNf+hR6NxHNcTFoAQzkerrjWsek?=
- =?us-ascii?Q?JF2dKzc1ZsqqNtOOMpjtgjJ6RlQecfI75bQ9StP7VDrM2kbSNkJ9EBEe6J4y?=
- =?us-ascii?Q?TeAQJ82jKf9nxBIurZqhGFX8T5IKZ2bddBuntcKF7YsUEL5+2UN2A6/F1CWa?=
- =?us-ascii?Q?UJFw5MSp33HSi2T7X+hg/YN0rK0DM5DPagqAhG34UTJ2sEVKhUXsNajckwRv?=
- =?us-ascii?Q?Tmjat5vcm1PaZz9MUtseBEMsUWSdzi/NkBUKOUeRJ4CDbWyWgTuRY335qNHP?=
- =?us-ascii?Q?OdkNRn8dFYEaCKc7yIIICsEJqsTYzYV1j6+xNUJj0IBG8qynf5n8+bqVboFR?=
- =?us-ascii?Q?QaSNLBioDfxSKPzwLvKOZCvbm15whGBEMMGqUNjrDjpFdWTUrxYF0jEVZ8Gq?=
- =?us-ascii?Q?05DbA0mseIDfexMEaSTLPc3chMaR1o7SiLSkgUlvj0ZosbGFcj6G4xMksnFo?=
- =?us-ascii?Q?UFQMOEVCoeI4EbVxHRHAtIJcFnjgjSNbt0jD3aSzbgpw838HoqKf4psL6Nwl?=
- =?us-ascii?Q?WekKMG+YxQslX3KF4gJ4aNiZZOoCb0ySMGd0Ym3N5KK/TmTv9AM6TWdMtaEF?=
- =?us-ascii?Q?Azf4TTAelnZEaiIy0bZ0OihSZs7/KCWwapvc03LAF0Yb3BSRbWuihFF1BZRZ?=
- =?us-ascii?Q?FeOTMMWxe3saKkLvdjijBHNVlplvLTJEDbhf3UWzvGUBuEICSC4J2OovzxLo?=
- =?us-ascii?Q?9kRDj7wfG6wfFSp715MmEREVGeeFYA8w3R5xwRPmiQHKQRTdz3kQucRrggZ5?=
- =?us-ascii?Q?IisFWzvGChbppkdCGq1Xv45q3xxcV6YMEzMuxCT+xeHqb2qX2w7J5+noDalL?=
- =?us-ascii?Q?1vJoh7rF/IobiFiJJmNDV++hNDYswKqTuoHR8OkisE993KohO2/Wm8UfovoQ?=
- =?us-ascii?Q?2Gn8ZkcN442Txd7vK1xXD0JriGBQ7iI3J60xOn89zRT8JTuBRkMMTwgZL84Y?=
- =?us-ascii?Q?EieBmifVQD0ehu1MH2ekk2VO6BiU4OROdbuDhWvVobViOPLcAzejkwQVyCOC?=
- =?us-ascii?Q?6OYYtt5VQfTYYNZCve00qRQq8dd8rU6dDMo6Pnl23D6Xnus+WPP2FD9sQnNB?=
- =?us-ascii?Q?kLtt5HCclv/e3ZNWcVr4pCOpu48jWCTAnkeF+4hh5mMBebUbcOwF3wOVhiMe?=
- =?us-ascii?Q?6Qj6e4uttlqs6wte5F2zPJmmI0YEmwMFgzZ48fT4DK10sTrFUCCMIDT7zsAG?=
- =?us-ascii?Q?ergEbHSKI/69JrfSdjfOajd20ptfGgcgU2fJB6ZJmoswxDvmAuG0uNsjXG8V?=
- =?us-ascii?Q?JK+T2ZMn/3gtOe2eCn1JED+intl2u+MdV5pg4pgnUtcZcz9JaRDLG1UVYJq7?=
- =?us-ascii?Q?mfy0X7+NOW8BzzA8N2CMktkvDotihwBWJNy+ET3w7G8KzyF5tedk4E+wsQup?=
- =?us-ascii?Q?fgaoQTvQmn1JBk5S+SNAPb2bnPsKy4+GiSQu6WXDbdgSp3rKPQT3hehFJI1L?=
- =?us-ascii?Q?CNZEajT+UWeUtTnMLpfx9Nzz7F0=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?reBzyBXVdB2kJCs7qRkyXslQMm7s1v9bexhEDPnN2fF+fTyEnVSd6QmFkaZ3?=
+ =?us-ascii?Q?eVWS/UOjB03WcU2gV5ughvDiwhEfc9mPXQ7Kvumjm3uUySudJnrrTiKdmusb?=
+ =?us-ascii?Q?KLPVfJQp0N6jx2f9lBj1Lfu+Vcx3RwE7W3JWOyUX32N3AfG+n128RUp7gXN9?=
+ =?us-ascii?Q?C6yWNELQamjQJhj9TFBMGiUXgmXGG4bJ2FxD1MWmxGKACd6BCbZ/OC96Ti5M?=
+ =?us-ascii?Q?lrHOLvLAp013l8nDfEKrm4UrKotmcWkSFNalU46Rb1wK1QVViwscw67+UtGy?=
+ =?us-ascii?Q?PBJVY+UW+k0rQm/WBkAb0e3rSzF4xLUiVbQvDsIG1FojxGJxe5SgD4/dI1hj?=
+ =?us-ascii?Q?eM7LjibQ6ZtJz7eACBKk63tNmRN91eiGU82K8Aon8R1eZlsLjHchOmmw8UyY?=
+ =?us-ascii?Q?Lt7rT3PEefsYg03OSD/FxTiI+15OSi+MuIkqiCE0BTXO6vXkvCmbGxL5fdOW?=
+ =?us-ascii?Q?o1uJgoZDPMWIrDaS/uxz2JfQ5dx4WxpkoZqM+bOTbu4CFI8wYnjdoKef+H0z?=
+ =?us-ascii?Q?7IjErsdSyC6y6uMliPrjGLcmg0dwiW6kLQfCh8/pZgIODC4l6Sy602orqRnF?=
+ =?us-ascii?Q?QVwOAaseaiCkwY3x1JADy2Ewlh5/Y1dbaVx0utm/o6StnQ4oDS7THGyk5L6c?=
+ =?us-ascii?Q?5UIup7xUE0mjSvTrzYQbesmWmE9ZVuQynbBVUtrHwc/yV41XsVqL7ifDrfGC?=
+ =?us-ascii?Q?OewlnvSq0zmgAjd3K1lvdal3x1Y+SnsspBTva9LIgO76uZVK60Vu9a0cP2ja?=
+ =?us-ascii?Q?cgoFLtDSgcf5RSYpNaydUVoYBhFV8mOXqH7E3FqKKWSNtsP+57KXae9MbDIX?=
+ =?us-ascii?Q?5rE5Y5suN5QSDA+U7XP4IKukRZuA8B24kG7GK9I38jMnN+5I/m22PFQKYw3N?=
+ =?us-ascii?Q?8D5tjMEA+P6mMIY9J9xhQSsxs/i0uDoSCW80Vbjy53MZkhxkE0VMx8dIqiIW?=
+ =?us-ascii?Q?6T8LqSHdAOBadBAFylQazadTOfEbXG9theDRs/T0e3TkPkGojIvUZsGd2866?=
+ =?us-ascii?Q?WxfUiq74OpmLM3H8w0LujA+f0xB9Jm838OsqlxKV+2PBv9ekv3y4Y1XNWD1l?=
+ =?us-ascii?Q?0CTehqey2ujQE/Ex8oGgqtELeu65nkz9G7V0+sJiA/rHtYnCsKK788ZFMjkH?=
+ =?us-ascii?Q?0OYJkFdfBuRtbOq+A0bg2qA6cuNPMQFkNFdFc0+mTTMpBcGT6E6ax+jheGJi?=
+ =?us-ascii?Q?6G24B6fiOUOHfX0RI6fNkrsu9ecu263ITXgpeuaHGRAiSulhs9AUG9c1XB8x?=
+ =?us-ascii?Q?mDxurWNIZARDspB7z3h74hQqtIqQZPMPXgmbETAMyX/J0OYZgSz7wIKcR38s?=
+ =?us-ascii?Q?qyitlYLQP+Yfa9PNf0OFUDZUtLOy1xQjlR9ADHBtojlDMt7ddqiXQtotkflp?=
+ =?us-ascii?Q?jxhzLhhDLND0VpnGjwAmRpRV2dHdwBWY14jp4iPVoVi6A2cLWtgIWONJ5GXW?=
+ =?us-ascii?Q?Tmhx6xLGQ0luZruJEmR+UgaBLQnQWJoxslKO6g3N6ft5rQ1hf885LEN/taCM?=
+ =?us-ascii?Q?0mWtvD5vxocOD60AHqRH2UvYxrxRL59mWbaCCcxOfemjbau2KZ5gOzChgFaW?=
+ =?us-ascii?Q?G15jtPxV4DKTet387tkQ6tbODq4Ou9A/3HS25tZto1AlUi5mVsW2PGL4HBbE?=
+ =?us-ascii?Q?O+tCIqOj/GM/vvKWDhYg1O9RJ7pOIVnTelD6hnK+MO7obaUw9F0obU0MePPe?=
+ =?us-ascii?Q?qDh289PA4+C1D5egEsR3dTgoaGw=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1acca4f6-453c-48a7-1624-08d9f7b908cd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 476cda8b-9da4-47b6-1a26-08d9f7b90942
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 17:13:54.0022 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 17:13:54.6910 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0LhGpf/sR+RwTS/iJl06bTOFENUSWs4uXlJzaopt9UKLG9RxCrmYt5oyGubqUMsuDLvhNY03F6NGvc9D516WfKcoFiDlywXMC/9c6HuPHc8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: RQiytWTxV8lXaMG9JSfc5J8j6nB17m2o/ZvGy4oRqsfH8Til7CNXVeOCNXyGPicaY2jm+AxupBxA8/LtZJL2QVpao8ks8mizIu/Ia5Uyn9E=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3197
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe1e::726
  (failed)
@@ -140,163 +140,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simply do blockdev_add() in .prepare() and bdrv_unref() in .abort() and
-that's it.
+Add a test for transaction support of blockdev-add.
+
+Test is format-agnostic, so limit it to qcow2 to avoid extra test runs.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qapi/transaction.json | 11 ++++++
- blockdev.c            | 80 +++++++++++++++++++++++++++++--------------
- 2 files changed, 66 insertions(+), 25 deletions(-)
+ .../tests/blockdev-add-transaction            | 52 +++++++++++++++++++
+ .../tests/blockdev-add-transaction.out        |  6 +++
+ 2 files changed, 58 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/blockdev-add-transaction
+ create mode 100644 tests/qemu-iotests/tests/blockdev-add-transaction.out
 
-diff --git a/qapi/transaction.json b/qapi/transaction.json
-index 381a2df782..a938dc7d10 100644
---- a/qapi/transaction.json
-+++ b/qapi/transaction.json
-@@ -53,6 +53,7 @@
- # @blockdev-snapshot-internal-sync: Since 1.7
- # @blockdev-snapshot-sync: since 1.1
- # @drive-backup: Since 1.6
-+# @blockdev-add: since 7.0
- #
- # Features:
- # @deprecated: Member @drive-backup is deprecated.  Use member
-@@ -66,6 +67,7 @@
-             'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
-             'blockdev-backup', 'blockdev-snapshot',
-             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
-+            'blockdev-add',
-             { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
- 
- ##
-@@ -140,6 +142,14 @@
- { 'struct': 'DriveBackupWrapper',
-   'data': { 'data': 'DriveBackup' } }
- 
-+##
-+# @BlockdevAddWrapper:
+diff --git a/tests/qemu-iotests/tests/blockdev-add-transaction b/tests/qemu-iotests/tests/blockdev-add-transaction
+new file mode 100755
+index 0000000000..ce3c1c069b
+--- /dev/null
++++ b/tests/qemu-iotests/tests/blockdev-add-transaction
+@@ -0,0 +1,52 @@
++#!/usr/bin/env python3
 +#
-+# Since: 7.0
-+##
-+{ 'struct': 'BlockdevAddWrapper',
-+  'data': { 'data': 'BlockdevOptions' } }
++# Test blockdev-add transaction action
++#
++# Copyright (c) 2022 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
- ##
- # @TransactionAction:
- #
-@@ -163,6 +173,7 @@
-        'blockdev-snapshot': 'BlockdevSnapshotWrapper',
-        'blockdev-snapshot-internal-sync': 'BlockdevSnapshotInternalWrapper',
-        'blockdev-snapshot-sync': 'BlockdevSnapshotSyncWrapper',
-+       'blockdev-add': 'BlockdevAddWrapper',
-        'drive-backup': 'DriveBackupWrapper'
-    } }
- 
-diff --git a/blockdev.c b/blockdev.c
-index 42e098b458..eb9ad9cb89 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2180,6 +2180,55 @@ static void abort_commit(BlkActionState *common)
-     g_assert_not_reached(); /* this action never succeeds */
- }
- 
-+static BlockDriverState *blockdev_add(BlockdevOptions *options, Error **errp)
-+{
-+    BlockDriverState *bs = NULL;
-+    QObject *obj;
-+    Visitor *v = qobject_output_visitor_new(&obj);
-+    QDict *qdict;
++import iotests
++from iotests import log
 +
-+    visit_type_BlockdevOptions(v, NULL, &options, &error_abort);
-+    visit_complete(v, &obj);
-+    qdict = qobject_to(QDict, obj);
++iotests.script_initialize(supported_fmts=['qcow2'])
 +
-+    qdict_flatten(qdict);
++with iotests.VM() as vm:
++    vm.launch()
 +
-+    if (!qdict_get_try_str(qdict, "node-name")) {
-+        error_setg(errp, "'node-name' must be specified for the root node");
-+        goto fail;
-+    }
++    # Use same node-name for nodes, neither one should appear.
++    vm.qmp_log('transaction', actions=[
++        {'type': 'blockdev-add',
++         'data': {'node-name': 'node0', 'driver': 'null-co',
++                  'size': 1024 * 1024}},
++        {'type': 'blockdev-add',
++         'data': {'node-name': 'node0', 'driver': 'null-co',
++                  'size': 1024 * 1024}}
++    ])
 +
-+    bs = bds_tree_init(qdict, errp);
-+    if (!bs) {
-+        goto fail;
-+    }
++    n = len(vm.qmp('query-named-block-nodes')['return'])
++    log(f'Created {n} nodes')
 +
-+    bdrv_set_monitor_owned(bs);
++    vm.qmp_log('transaction', actions=[
++        {'type': 'blockdev-add',
++         'data': {'node-name': 'node0', 'driver': 'null-co',
++                  'size': 1024 * 1024}},
++        {'type': 'blockdev-add',
++         'data': {'node-name': 'node1', 'driver': 'null-co',
++                  'size': 1024 * 1024}}
++    ])
 +
-+fail:
-+    visit_free(v);
-+    return bs;
-+}
-+
-+typedef struct BlockdevAddState {
-+    BlkActionState common;
-+    BlockDriverState *bs;
-+} BlockdevAddState;
-+
-+static void blockdev_add_prepare(BlkActionState *common, Error **errp)
-+{
-+    BlockdevAddState *s = DO_UPCAST(BlockdevAddState, common, common);
-+
-+    s->bs = blockdev_add(common->action->u.blockdev_add.data, errp);
-+}
-+
-+static void blockdev_add_abort(BlkActionState *common)
-+{
-+    BlockdevAddState *s = DO_UPCAST(BlockdevAddState, common, common);
-+
-+    bdrv_unref(s->bs);
-+}
-+
- static const BlkActionOps actions[] = {
-     [TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT] = {
-         .instance_size = sizeof(ExternalSnapshotState),
-@@ -2253,6 +2302,11 @@ static const BlkActionOps actions[] = {
-         .commit = block_dirty_bitmap_remove_commit,
-         .abort = block_dirty_bitmap_remove_abort,
-     },
-+    [TRANSACTION_ACTION_KIND_BLOCKDEV_ADD] = {
-+        .instance_size = sizeof(BlockdevAddState),
-+        .prepare = blockdev_add_prepare,
-+        .abort = blockdev_add_abort,
-+    },
-     /* Where are transactions for MIRROR, COMMIT and STREAM?
-      * Although these blockjobs use transaction callbacks like the backup job,
-      * these jobs do not necessarily adhere to transaction semantics.
-@@ -3499,31 +3553,7 @@ out:
- 
- void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
- {
--    BlockDriverState *bs;
--    QObject *obj;
--    Visitor *v = qobject_output_visitor_new(&obj);
--    QDict *qdict;
--
--    visit_type_BlockdevOptions(v, NULL, &options, &error_abort);
--    visit_complete(v, &obj);
--    qdict = qobject_to(QDict, obj);
--
--    qdict_flatten(qdict);
--
--    if (!qdict_get_try_str(qdict, "node-name")) {
--        error_setg(errp, "'node-name' must be specified for the root node");
--        goto fail;
--    }
--
--    bs = bds_tree_init(qdict, errp);
--    if (!bs) {
--        goto fail;
--    }
--
--    bdrv_set_monitor_owned(bs);
--
--fail:
--    visit_free(v);
-+    blockdev_add(options, errp);
- }
- 
- void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
++    n = len(vm.qmp('query-named-block-nodes')['return'])
++    log(f'Created {n} nodes')
+diff --git a/tests/qemu-iotests/tests/blockdev-add-transaction.out b/tests/qemu-iotests/tests/blockdev-add-transaction.out
+new file mode 100644
+index 0000000000..7e6cd5a9a3
+--- /dev/null
++++ b/tests/qemu-iotests/tests/blockdev-add-transaction.out
+@@ -0,0 +1,6 @@
++{"execute": "transaction", "arguments": {"actions": [{"data": {"driver": "null-co", "node-name": "node0", "size": 1048576}, "type": "blockdev-add"}, {"data": {"driver": "null-co", "node-name": "node0", "size": 1048576}, "type": "blockdev-add"}]}}
++{"error": {"class": "GenericError", "desc": "Duplicate nodes with node-name='node0'"}}
++Created 0 nodes
++{"execute": "transaction", "arguments": {"actions": [{"data": {"driver": "null-co", "node-name": "node0", "size": 1048576}, "type": "blockdev-add"}, {"data": {"driver": "null-co", "node-name": "node1", "size": 1048576}, "type": "blockdev-add"}]}}
++{"return": {}}
++Created 2 nodes
 -- 
 2.31.1
 
