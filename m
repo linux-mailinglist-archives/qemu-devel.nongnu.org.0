@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A830D4C3069
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 16:55:35 +0100 (CET)
-Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284F04C30EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 17:07:12 +0100 (CET)
+Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNGSs-0002rP-ON
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 10:55:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44066)
+	id 1nNGe6-0001lR-Q6
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 11:07:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan@sysprogs.com>) id 1nNGRg-0000vt-NB
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:54:21 -0500
-Received: from sysprogs.com ([45.79.83.98]:38006)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nNGaU-00010F-V8
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 11:03:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan@sysprogs.com>) id 1nNGRZ-0001fz-E5
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:54:15 -0500
-Received: from sys2 (unknown [174.1.100.17])
- by sysprogs.com (Postfix) with ESMTPSA id 8663211A358;
- Thu, 24 Feb 2022 15:54:10 +0000 (UTC)
-From: "Ivan Shcherbakov" <ivan@sysprogs.com>
-To: =?UTF-8?Q?'Alex_Benn=C3=A9e'?= <alex.bennee@linaro.org>,
- "'Peter Maydell'" <peter.maydell@linaro.org>
-References: <010e01d82875$d3cc0ec0$7b642c40$@sysprogs.com>
- <93318cc1-bf62-34dd-190c-1961a4716f75@redhat.com>
- <01e801d828f0$b58a6e40$209f4ac0$@sysprogs.com>
- <CAFEAcA_y=xRhBoStyxa+UZcyibAzgcJSf+kQO4e0BMrdq4j6Jg@mail.gmail.com>
- <87v8x433o2.fsf@linaro.org>
-In-Reply-To: <87v8x433o2.fsf@linaro.org>
-Subject: RE: [PATCH 3/3] whpx: Added support for breakpoints and stepping
-Date: Thu, 24 Feb 2022 07:54:08 -0800
-Message-ID: <030301d82996$c385f900$4a91eb00$@sysprogs.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nNGaN-0003AO-46
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 11:03:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645718597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TESTGZ9k+3gzgL2e9khsAassiPcsyRrbXm59eKejbdU=;
+ b=G7CQv48JYHEc9I6KhumagyihrYJMgBn7yWY21kTrwhQZI+ygLHmbou4YvmAvW5C0pakCZW
+ pX3Y+coygcZbmlLRaxLO3eaajgFsdn1z/FYGVqlbT3gdK6PtTz65mbHjNHQQBuqCyZ8+dS
+ hDw+TZokXQ2P/oE7gX+WKQSzoO6BzIc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-628-8gjpbV9uN7Oea0QN5PHk9Q-1; Thu, 24 Feb 2022 11:02:48 -0500
+X-MC-Unique: 8gjpbV9uN7Oea0QN5PHk9Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1B9E801AAD;
+ Thu, 24 Feb 2022 16:02:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59CFF866C0;
+ Thu, 24 Feb 2022 16:02:30 +0000 (UTC)
+Date: Thu, 24 Feb 2022 10:02:28 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Kshitij Suri <kshitij.suri@nutanix.com>
+Subject: Re: [PATCH v2] Added parameter to take screenshot with screendump as
+ PNG
+Message-ID: <20220224160228.qpeh6vd2257gqfku@redhat.com>
+References: <20220224115908.102285-1-kshitij.suri@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQNIFN5a+FOAvRiv4eJOlcn7oK8VcgKLbPilArczCsgBeoy2sQJTpbLJqXp5u8A=
-Content-Language: en-us
-Received-SPF: pass client-ip=45.79.83.98; envelope-from=ivan@sysprogs.com;
- helo=sysprogs.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220224115908.102285-1-kshitij.suri@nutanix.com>
+User-Agent: NeoMutt/20211029-364-42e4ad
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,44 +79,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 'Paolo Bonzini' <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- armbru@redhat.com, mst@redhat.com
+Cc: soham.ghosh@nutanix.com, thuth@redhat.com, prerna.saxena@nutanix.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ prachatos.mitra@nutanix.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> I haven't looked at the rest of the patch -- but can you explain where =
+On Thu, Feb 24, 2022 at 11:59:08AM +0000, Kshitij Suri wrote:
+> Currently screendump only supports PPM format, which is un-compressed and not
+> standard. Added a "format" parameter to qemu monitor screendump capabilites
+> to support PNG image capture using libpng. The param was added in QAPI schema
+> of screendump present in ui.json along with png_save() function which converts
+> pixman_image to PNG. HMP command equivalent was also modified to support the
+> feature.
+> 
+> Example usage:
+> { "execute": "screendump", "arguments": { "filename": "/tmp/image", "format":"png" } }
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/718
+> 
+> Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
+> ---
+> diff to v1:
+>   - Removed repeated alpha conversion operation.
+>   - Modified logic to mirror png conversion in vnc-enc-tight.c file.
+>   - Added a new CONFIG_PNG parameter for libpng support.
+>   - Changed input format to enum instead of string.
+> 
 
-> whpx is different from how other accelerators handle debug such that=20
-> it needs to know whether gdb is connected or not ?
-This mainly comes from the way single-stepping is handled. WHPX needs to =
-know whether you want to trap INT1 before starting the first VCPU. The =
-current gdbstub implementation doesn=E2=80=99t make it easy. Assume the =
-scenario:
+> +++ b/qapi/ui.json
+> @@ -73,12 +73,27 @@
+>  ##
+>  { 'command': 'expire_password', 'data': {'protocol': 'str', 'time': 'str'} }
+>  
+> +##
+> +# @ImageFormat:
+> +#
+> +# Available list of supported types.
+> +#
+> +# @png: PNG format
+> +#
+> +# @ppm: PPM format
+> +#
+> +# Since: 6.3
 
-1. You have 2 VCPUs. You run the first one and step the second one.
-2. gdb_continue_partial() calls cpu_resume(0)
-3. gdb_continue_partial() calls cpu_single_step(1).
+The next release is 7.0, not 6.3.
 
-WHPX needs to know whether to trap INT1 at step #2 (starting the first =
-CPU), but it won't know it until step #3. So, the current logic simply =
-checks if gdb is connected at all in step #2.
+> +#
+> +##
+> +{ 'enum': 'ImageFormat',
+> +  'data': ['ppm', 'png'] }
+> +
+>  ##
+>  # @screendump:
+>  #
+> -# Write a PPM of the VGA screen to a file.
+> +# Write a screenshot of the VGA screen to a file.
+>  #
+> -# @filename: the path of a new PPM file to store the image
+> +# @filename: the path of a new file to store the image
+>  #
+>  # @device: ID of the display device that should be dumped. If this parameter
+>  #          is missing, the primary display will be used. (Since 2.12)
+> @@ -87,6 +102,9 @@
+>  #        parameter is missing, head #0 will be used. Also note that the head
+>  #        can only be specified in conjunction with the device ID. (Since 2.12)
+>  #
+> +# @format: image format for screendump is specified. Currently only PNG and
+> +#             PPM are supported.
 
->Just the fact you have connected to the gdbserver shouldn't affect how =
-you run WHPX up until the point there are things you need to trap - i.e.
->handling installed breakpoints.
+The second sentence is no longer necessary, as the documentation for
+the enum type covers that information now.  Missing a '(since 7.0)' tag.
 
-This can be addressed by adding a "bool stepping_expected" argument to =
-vm_prepare_start(). It will be set to true if gdb_continue_partial() =
-expects ANY thread to be stepped, and will be false otherwise. It will =
-also require a new callback in AccelOpsClass (e.g. on_vm_starting(bool =
-stepping_expected)) that will be called from vm_prepare_start(). The =
-WHPX implementation will then check if any breakpoints are set, and if =
-the last call to this function expected stepping, and use it to decide =
-whether to trap INT1.
+> +#
+>  # Returns: Nothing on success
+>  #
+>  # Since: 0.14
+> @@ -99,7 +117,7 @@
+>  #
+>  ##
+>  { 'command': 'screendump',
+> -  'data': {'filename': 'str', '*device': 'str', '*head': 'int'},
+> +  'data': {'filename': 'str', '*device': 'str', '*head': 'int', '*format': 'ImageFormat'},
 
-Let me know if this will work better.
+Please wrap the long line.
 
-Best,
-Ivan
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
