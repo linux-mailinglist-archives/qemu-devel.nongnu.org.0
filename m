@@ -2,95 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA944C2EF7
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 16:08:29 +0100 (CET)
-Received: from localhost ([::1]:37274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973194C3035
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 16:46:28 +0100 (CET)
+Received: from localhost ([::1]:50302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNFjH-00034I-U6
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 10:08:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60598)
+	id 1nNGK3-00064u-1M
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 10:46:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNFhp-0002AY-6k
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:06:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNFhk-000261-NV
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:06:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645715211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=swHTv3HYIELjhsARurMZL1nZD4Z9JqzCABCRczFGATQ=;
- b=YK+1Tmu63fgUHdLzY3GrtljR9LZD588OxHqoCi/pwB85jQzE76G8TIhEcJZ4O4JQ53H+N3
- 1LjcP2N4ahEjeU/5o8OjAxl3aw8gd+7OI/IRbxSdnD0rifKwwwXtbrcSOEzCY4PqxDBiOo
- Kdfa5XrFsxMqgZi8MPrJVjw4zAsDQA0=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-299-GBIMUnfUNNi7VUccjHkyqQ-1; Thu, 24 Feb 2022 10:06:50 -0500
-X-MC-Unique: GBIMUnfUNNi7VUccjHkyqQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- r18-20020a17090609d200b006a6e943d09eso1331629eje.20
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 07:06:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nNGHM-0003HI-KE
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:43:40 -0500
+Received: from [2607:f8b0:4864:20::42b] (port=38586
+ helo=mail-pf1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nNGHJ-0008IM-Mw
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:43:39 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id x18so2214126pfh.5
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 07:43:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZMg8wr6hrIc7UXHm2m/IOpdeLyp2sc/RFVgQkHdE07c=;
+ b=MmO/0uIuEs4JJ2KJV7nrIBqzBNUQiviE2VPn8eYC2CcORG8wxwxu7q0Yy9dXdBZs4n
+ BnDaSBRoUvpzD13oITUc4/c8OJJ+wHomAMVIyRrYKDyGueB4Vzj4bmuJVrOR4tt5Y8iS
+ AjRN1c8eEoNI/pmablV3SvCJhbxX+V+jxeP/rNYqsD3zsmK4wcd9GSVc9w6eiviLWndt
+ 0jszRijiFN/MVF1kCYRurzLiMNtu54mdOtDRuHZWH0ODEw7dmVH6PQhVSV19eSd6fmCq
+ PqWOu5SW8tJOaLB/Q/vUpzHcFjOMG8KStNelma4pjQV7PliRNyoINgaxcW5RBqEwqN3O
+ FG9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=swHTv3HYIELjhsARurMZL1nZD4Z9JqzCABCRczFGATQ=;
- b=nJ97uL3+8TlqOqKKdmjOBVxCbQujQSc+RMotc2mZ/iE1ULSn70QLP8T4Kr0l45qZPl
- j0FQz4G9mNSQIbQCUmPOUBOeQs/S+eBuNBGCyGeuM3yB+OHEIhfthaiqJWTRslNiOsrr
- REFqAyjQZxkbQQNda18TIEKVRZCN+H08hGlkB/cQMuSfLc5gfG6NL5wZbg/jt3a0duCk
- cHQgeRxbyFLCg9alrTWaX6m4P7tbY5s+kTsGBGjFVnZHyoE2omxVz+9SQONDYPwsbUFi
- DilVFBMdE/Y6qLIP8L/xKa1PFQFYCb8lScsXCSrITget3MuBLJIil8BEeQZ6gpqnemiy
- 5oiA==
-X-Gm-Message-State: AOAM531uNPlA1PJ8UdCq/9mkW5ziVRv2KtqU9rnnMU6kEbK6JpaB/t4O
- wKKVfVAX1WrpS290w31w7OpDyo5CFGlo014zDffeA2YGoOx+3lbSczu5dN+zfHLtnROIzft+P1/
- hwmgavnt6vyZC9lU=
-X-Received: by 2002:a17:906:7b91:b0:6cd:19b4:edfa with SMTP id
- s17-20020a1709067b9100b006cd19b4edfamr2544070ejo.227.1645715208759; 
- Thu, 24 Feb 2022 07:06:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy698fukESR5cGG2npDu9IbvXIXjr+bVOBu5Y/yf4atqaKQ2Z9guan2f/LrR4KNbzoncbedpA==
-X-Received: by 2002:a17:906:7b91:b0:6cd:19b4:edfa with SMTP id
- s17-20020a1709067b9100b006cd19b4edfamr2544035ejo.227.1645715208403; 
- Thu, 24 Feb 2022 07:06:48 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id x6sm1509767edv.109.2022.02.24.07.06.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 07:06:47 -0800 (PST)
-Message-ID: <62b4181d-7188-cb24-a947-1c68fb3b8d4b@redhat.com>
-Date: Thu, 24 Feb 2022 16:06:46 +0100
+ bh=ZMg8wr6hrIc7UXHm2m/IOpdeLyp2sc/RFVgQkHdE07c=;
+ b=OH3ELApUcTAj7yodHQ2/aNfzN2Q4w99cizqD/Gv/KtKg4XYKnoHyzq0g9FpUBCN8Ze
+ EYmF6Mjrk70g58edNlQMU4ZAwMQ6ZcTkWkF2GuFwFGIUzwfhTfFyw9k9BY/UTk+K78EM
+ d3MiwCJS/SR9Sk5udR8V8vdJkxBhjXflqhbl3P8kQdWpZIs6QBa7Hq5OR4s86QRVH+Lr
+ aJPRiW4TwA2b0iH3u4vzdXAQUtK1jUifRx6orXboQJtzwQ+Tr1QmLhg2Y4Ru/bNwRJLS
+ 8bsgmgbLJDmLnfk6fWS/Fq9veQDdz9K3KCDD1dTwHMk8T01G8XnMLfNXUxEBM5ks9b2u
+ qAFw==
+X-Gm-Message-State: AOAM531u4RQIeXuTv5yeNoo+CGCoRDc2EtIETrOeA5biaaczZppR1d+0
+ H1y/GCccoxH5r6Luio3b1IEWkgMMdq4M9g==
+X-Google-Smtp-Source: ABdhPJyPx+LN/Dx8+5Aq3wmCT98OS57bB8xf6V8h1+qmcrisRbI/RJGdSKhF7aH5uJSWR0/oOx+2aw==
+X-Received: by 2002:a63:4913:0:b0:373:cf7f:6cd1 with SMTP id
+ w19-20020a634913000000b00373cf7f6cd1mr2797686pga.296.1645717416134; 
+ Thu, 24 Feb 2022 07:43:36 -0800 (PST)
+Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
+ [50.113.46.110])
+ by smtp.gmail.com with ESMTPSA id v20sm3198062pju.9.2022.02.24.07.43.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Feb 2022 07:43:35 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/10] tcg/s390x: updates for mie2 and mie3
+Date: Thu, 24 Feb 2022 05:43:23 -1000
+Message-Id: <20220224154333.125185-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] block: fix preallocate filter: don't do unaligned
- preallocate requests
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20220215121609.38570-1-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220215121609.38570-1-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,36 +86,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, qemu-devel@nongnu.org,
- stefanha@redhat.com, "Denis V . Lunev" <den@openvz.org>
+Cc: qemu-s390x@nongnu.org, david@redhat.com, dmiller423@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15.02.22 13:16, Vladimir Sementsov-Ogievskiy wrote:
-> There is a bug in handling BDRV_REQ_NO_WAIT flag: we still may wait in
-> wait_serialising_requests() if request is unaligned. And this is
-> possible for the only user of this flag (preallocate filter) if
-> underlying file is unaligned to its request_alignment on start.
->
-> So, we have to fix preallocate filter to do only aligned preallocate
-> requests.
->
-> Next, we should fix generic block/io.c somehow. Keeping in mind that
-> preallocate is the only user of BDRV_REQ_NO_WAIT and that we have to
-> fix its behavior now, it seems more safe to just assert that we never
-> use BDRV_REQ_NO_WAIT with unaligned requests and add corresponding
-> comment. Let's do so.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Denis V. Lunev <den@openvz.org>
-> ---
->   include/block/block.h |  3 ++-
->   block/io.c            |  4 ++++
->   block/preallocate.c   | 15 ++++++++++++---
->   3 files changed, 18 insertions(+), 4 deletions(-)
+While reviewing David Miller's updates for mie3 for target/s390x,
+I realized that most of those are useful on the code generation
+side as well.  Then I stepped back and looked at what other
+feature extensions had been missed.
 
-Thanks, applied to my block branch:
+Our new s390x ci host is a z15, so this new code gets exercised,
+at least minimally.  I need to get some other bits configured to
+do more comprehensive testing, e.g. avocado and risu.  But in the
+meantime...
 
-https://gitlab.com/hreitz/qemu/-/commits/block
+
+r~
+
+
+Richard Henderson (10):
+  tcg/s390x: Distinguish RRF-a and RRF-c formats
+  tcg/s390x: Distinguish RIE formats
+  tcg/s390x: Support MIE2 multiply single instructions
+  tcg/s390x: Support MIE2 MGRK instruction
+  tcg/s390x: Support MIE3 logical operations
+  tcg/s390x: Create tgen_cmp2 to simplify movcond
+  tcg/s390x: Support SELGR instruction in MOVCOND
+  tcg/s390x: Use tgen_movcond_int in tgen_clz
+  tcg/s390x: Use vector ctz for integer ctz
+  tcg/s390x: Implement ctpop operation
+
+ tcg/s390x/tcg-target-con-set.h |   7 +-
+ tcg/s390x/tcg-target.h         |  37 +--
+ tcg/s390x/tcg-target.c.inc     | 469 ++++++++++++++++++++++++++-------
+ 3 files changed, 404 insertions(+), 109 deletions(-)
+
+-- 
+2.25.1
 
 
