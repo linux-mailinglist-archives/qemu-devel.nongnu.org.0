@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD7B4C24DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 09:10:02 +0100 (CET)
-Received: from localhost ([::1]:56210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2214C2542
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 09:12:55 +0100 (CET)
+Received: from localhost ([::1]:58402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nN9CJ-0006Jo-K8
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 03:09:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38384)
+	id 1nN9F8-0007ub-PI
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 03:12:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nN9AY-0005LH-HX
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 03:08:10 -0500
-Received: from mga18.intel.com ([134.134.136.126]:31722)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nN9DG-00077u-Jt
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 03:10:58 -0500
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:51009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nN9AW-0002Zi-5O
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 03:08:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645690088; x=1677226088;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=zEoJWzKmpcYe9rSTl+BlseiX6qsVqXPhxybFv18kU3Y=;
- b=a2bbjLh4OpyzkDyqhkfAXqwvrGLUXdhoW8zXVM49AVmpPP79M+lVdEDn
- VWEEMI2jgbGym3ITPOXQwcIXaJa//n3z6sM27Dwj+lj2LPV4cSDYY/217
- +4XA6TBRx7wwEG/MnG1BIVIp3hIfnEXMMsq3RqZ9R4nmtd0j/whvYYsiZ
- bTrMdBBroU71kXmcASAOnvCIDM9hD9ftJkFBbGN2m+QNFOewjuQr9znKD
- Jjn3YNfNUSq2qgkMV2JUXO+HU+U2oiBHC9M56uZQVCA/OgyIVIZ+u6nNz
- 6MhaLZgGzHWvIKSwnf4TV5Nu+mVBYNe+CzxteZL7w04kGOIFQog+yMX9r A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="235685174"
-X-IronPort-AV: E=Sophos;i="5.88,393,1635231600"; d="scan'208";a="235685174"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2022 00:08:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,393,1635231600"; d="scan'208";a="637745308"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by fmsmga002.fm.intel.com with ESMTP; 24 Feb 2022 00:07:58 -0800
-Date: Thu, 24 Feb 2022 16:07:39 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Subject: Re: [PATCH v4 12/12] KVM: Expose KVM_MEM_PRIVATE
-Message-ID: <20220224080739.GA6672@chaop.bj.intel.com>
-References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
- <20220118132121.31388-13-chao.p.peng@linux.intel.com>
- <a121e766-900d-2135-1516-e1d3ba716834@maciej.szmigiero.name>
- <20220217134548.GA33836@chaop.bj.intel.com>
- <45148f5f-fe79-b452-f3b2-482c5c3291c4@maciej.szmigiero.name>
- <20220223120047.GB53733@chaop.bj.intel.com>
- <7822c00f-5a2d-b6a2-2f81-cf3330801ad3@maciej.szmigiero.name>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nN9DD-0003AP-Nv
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 03:10:58 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.2])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id F2AD9240E1;
+ Thu, 24 Feb 2022 08:10:52 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 24 Feb
+ 2022 09:10:52 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004780a8a74-ecec-4d5e-a7f1-f6943c97dc04,
+ 2C0FAB1A59FC2EFD04F2AC9235B2D2637189D3E8) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.58.215.209
+Message-ID: <ae217469-9f0f-5f1e-f01b-4a6f525f1ff2@kaod.org>
+Date: Thu, 24 Feb 2022 09:10:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7822c00f-5a2d-b6a2-2f81-cf3330801ad3@maciej.szmigiero.name>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=134.134.136.126;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga18.intel.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Fix a potential memory leak bug in write_boot_rom() (v6.2.0).
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, <wliang@stu.xidian.edu.cn>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <6e7748f1.25d8.17f2705c420.Coremail.wliang@stu.xidian.edu.cn>
+ <c91392a4-f75b-4e5d-9e6c-04777fb7ca79@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <c91392a4-f75b-4e5d-9e6c-04777fb7ca79@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 25628b8f-6106-48f4-9927-5451cc4e791a
+X-Ovh-Tracer-Id: 4434919735754525661
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrledugdduudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,108 +72,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 23, 2022 at 07:32:37PM +0100, Maciej S. Szmigiero wrote:
-> On 23.02.2022 13:00, Chao Peng wrote:
-> > On Tue, Feb 22, 2022 at 02:16:46AM +0100, Maciej S. Szmigiero wrote:
-> > > On 17.02.2022 14:45, Chao Peng wrote:
-> > > > On Tue, Jan 25, 2022 at 09:20:39PM +0100, Maciej S. Szmigiero wrote:
-> > > > > On 18.01.2022 14:21, Chao Peng wrote:
-> > > > > > KVM_MEM_PRIVATE is not exposed by default but architecture code can turn
-> > > > > > on it by implementing kvm_arch_private_memory_supported().
-> > > > > > 
-> > > > > > Also private memslot cannot be movable and the same file+offset can not
-> > > > > > be mapped into different GFNs.
-> > > > > > 
-> > > > > > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > > > > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > > > > > ---
-> > > > > (..)
-> > > > > >     static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
-> > > > > > -				      gfn_t start, gfn_t end)
-> > > > > > +				      struct file *file,
-> > > > > > +				      gfn_t start, gfn_t end,
-> > > > > > +				      loff_t start_off, loff_t end_off)
-> > > > > >     {
-> > > > > >     	struct kvm_memslot_iter iter;
-> > > > > > +	struct kvm_memory_slot *slot;
-> > > > > > +	struct inode *inode;
-> > > > > > +	int bkt;
-> > > > > >     	kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
-> > > > > >     		if (iter.slot->id != id)
-> > > > > >     			return true;
-> > > > > >     	}
-> > > > > > +	/* Disallow mapping the same file+offset into multiple gfns. */
-> > > > > > +	if (file) {
-> > > > > > +		inode = file_inode(file);
-> > > > > > +		kvm_for_each_memslot(slot, bkt, slots) {
-> > > > > > +			if (slot->private_file &&
-> > > > > > +			     file_inode(slot->private_file) == inode &&
-> > > > > > +			     !(end_off <= slot->private_offset ||
-> > > > > > +			       start_off >= slot->private_offset
-> > > > > > +					     + (slot->npages >> PAGE_SHIFT)))
-> > > > > > +				return true;
-> > > > > > +		}
-> > > > > > +	}
-> > > > > 
-> > > > > That's a linear scan of all memslots on each CREATE (and MOVE) operation
-> > > > > with a fd - we just spent more than a year rewriting similar linear scans
-> > > > > into more efficient operations in KVM.
-> > > > 
-> (..)
-> > > > So linear scan is used before I can find a better way.
-> > > 
-> > > Another option would be to simply not check for overlap at add or move
-> > > time, declare such configuration undefined behavior under KVM API and
-> > > make sure in MMU notifiers that nothing bad happens to the host kernel
-> > > if it turns out somebody actually set up a VM this way (it could be
-> > > inefficient in this case, since it's not supposed to ever happen
-> > > unless there is a bug somewhere in the userspace part).
-> > 
-> > Specific to TDX case, SEAMMODULE will fail the overlapping case and then
-> > KVM prints a message to the kernel log. It will not cause any other side
-> > effect, it does look weird however. Yes warn that in the API document
-> > can help to some extent.
+Hello Wentao,
+
+On 2/23/22 17:15, Philippe Mathieu-Daudé wrote:
+> On 23/2/22 15:39, wliang@stu.xidian.edu.cn wrote:
+>> Hi all,
+>>
+>> I find a memory leak bug in QEMU 6.2.0, which is in write_boot_rom()(./hw/arm/aspeed.c).
+>>
+>> Specifically, at line 276, a memory chunk is allocated with g_new0() and assigned to the variable 'storage'. However, if the branch takes true at line 277, there will be only an error report at line 278 but not a free operation for 'storage' before function returns. As a result, a memory leak bug is triggered.
+>>
+>>
+>> 259    BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
+>> ...
+>> 276    storage = g_new0(uint8_t, rom_size);
+>> 277    if (blk_pread(blk, 0, storage, rom_size) < 0) {
+>> 278        error_setg(errp, "failed to read the initial flash content");
+>> 279        return;
+>> 280    }
+>>
+>>
+>> I believe that the problem can be fixed by adding a g_free() before the function returns.
+>>
+>>
+>> 277    if (blk_pread(blk, 0, storage, rom_size) < 0) {
+>> 278        error_setg(errp, "failed to read the initial flash content");
+>> +++    g_free(storage);
+>> 279        return;
+>> 280    }
+>>
+>>
+>> I'm looking forward to your confirmation.
 > 
-> So for the functionality you are adding this code for (TDX) this scan
-> isn't necessary and the overlapping case (not supported anyway) is safely
-> handled by the hardware (or firmware)?
+> Correct.
+> 
+> Or using g_autofree:
 
-Yes, it will be handled by the firmware.
+yes. Could you please send a patch using  g_autofree ?
 
-> Then I would simply remove the scan and, maybe, add a comment instead
-> that the overlap check is done by the hardware.
+Thanks,
 
-Sure.
+C.
 
 > 
-> By the way, if a kernel log message could be triggered by (misbehaving)
-> userspace then it should be rate limited (if it isn't already).
-
-Thanks for mention.
-
-Chao
+> -- >8 --
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index d911dc904f..170e773ef8 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -257,7 +257,7 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
+>                              Error **errp)
+>   {
+>       BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
+> -    uint8_t *storage;
+> +    g_autofree void *storage = NULL;
+>       int64_t size;
 > 
-> > Thanks,
-> > Chao
+>       /* The block backend size should have already been 'validated' by
+> @@ -273,14 +273,13 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
+>           rom_size = size;
+>       }
 > 
-> Thanks,
-> Maciej
+> -    storage = g_new0(uint8_t, rom_size);
+> +    storage = g_malloc0(rom_size);
+>       if (blk_pread(blk, 0, storage, rom_size) < 0) {
+>           error_setg(errp, "failed to read the initial flash content");
+>           return;
+>       }
+> 
+>       rom_add_blob_fixed("aspeed.boot_rom", storage, rom_size, addr);
+> -    g_free(storage);
+>   }
+> ---
+
 
