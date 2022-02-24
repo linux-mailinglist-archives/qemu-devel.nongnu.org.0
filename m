@@ -2,77 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1C74C2C3A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 13:56:33 +0100 (CET)
-Received: from localhost ([::1]:49188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D471B4C2C34
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 13:54:49 +0100 (CET)
+Received: from localhost ([::1]:45978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNDfc-0008UJ-Nj
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 07:56:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49152)
+	id 1nNDdw-0006Ll-Qf
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 07:54:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNDXg-0001Y2-0e
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:48:20 -0500
-Received: from [2607:f8b0:4864:20::b2a] (port=36758
- helo=mail-yb1-xb2a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNDXZ-0000oQ-AM
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:48:19 -0500
-Received: by mail-yb1-xb2a.google.com with SMTP id c6so3580952ybk.3
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 04:48:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QhGaq9nn9n1l5XrHXInGW4eWR65uXJplxUiSy6cl8wE=;
- b=oQ7plYDGbrlZ1MLB/fqPdi1Kf2jTd2Npu+iFfHQ8MKcs+BJYXb23sQwl2UxVR7XMXV
- XmezP/9N3z3Zdbv/hx+Q1cz2npRWogxGJtuYS27wyKPmKMR+fUiUuPbBb8zY1pK8O4L8
- S8EQ+tkLPYgch3HEnhcIT2MtJ5EJs6JmR8aqQ987X8hStRpKqyv3fHv0Uuua0Az1ucHa
- jzKlVCbPuX07ZoyYgicFliUI3ggENbMiRLbWoGcUr8NYcrvXrlrC48irywbY7Dm5MIij
- iufzs+DglK5bz1rqp0uasEQ6jKxXl6+cfMsEgdVGxfe6rFXvm5q0g7O70WoOCRGyqes1
- lAmQ==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNDY9-00023E-EL
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:48:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24112)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNDY6-0000su-IR
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:48:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645706926;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=miiCEC55rq9WuCWlwQ/P1bFP9bZeMHlu67v+FIFr56A=;
+ b=g/8kTDFXqQsee+lWu3vUHbkqqPrdySYgTtxP2pwCP0Nj/iM7xRHTn7f7WSE4uJ55Csgiwk
+ 0vH+d8bIA08e6P8Lg9iYMkOqcvMDTZ0JazbUvsWF/rBMOmvHEaHMCA6474SB3iXkJH6JJV
+ C5z7Ddqc5muJM2nKZbBpjBnHzkbpEYk=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611-ipV5VOVtMNGqOdtpe53xNg-1; Thu, 24 Feb 2022 07:48:44 -0500
+X-MC-Unique: ipV5VOVtMNGqOdtpe53xNg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ i20-20020a17090671d400b006d0ed9c68c1so1159949ejk.14
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 04:48:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QhGaq9nn9n1l5XrHXInGW4eWR65uXJplxUiSy6cl8wE=;
- b=TUFevCwEkluiuzfv+ryC4l5Nj5XB0wfre1Q18Iucl8iNZzT5KA8UMsBgDU6+GQJZGd
- a97N2vkizmavuXWNyjzlZe+nCxCbrNepiTIBfW1bzTWx9vrcBLrVx1fa4gLobcJLFIDt
- 1tt7eVi2VXDM4Ipsp+1G++DqNKgY2oRcO7/QAADqaz+POldCZpluWmBpZfzIJO1XsUph
- RXnOta6CGoVcC5FDiKRh2nSNi0K/cT9sPgDvkqZtAhcPyegAYBIXe0kka0A49FBP6ZXg
- kDt8oEOCrEVMl26wjtUnLneVqVUFbwEuQG8hLn0hDkXST3i+tV3n0icfe0lTGrxAIAha
- scng==
-X-Gm-Message-State: AOAM531otYCmC+sV6zKSgn1wokXJO4pz5Sny3/svt1maSx0Qf594oHWG
- tP2hynecFtOTrMZ2Gwnbpe+/FeMjbbeTsjTMGo/E+8hcfqQ=
-X-Google-Smtp-Source: ABdhPJxj1uObRwsx8MUXCRT5bCSjgO73bZwrUeYAN2hCsM3EzpE+p3ZAScdrTDFm361GmxAZ2VbIdqefyJHT4x8PNS4=
-X-Received: by 2002:a25:8084:0:b0:5fe:cadd:2532 with SMTP id
- n4-20020a258084000000b005fecadd2532mr2171187ybk.193.1645706892182; Thu, 24
- Feb 2022 04:48:12 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=miiCEC55rq9WuCWlwQ/P1bFP9bZeMHlu67v+FIFr56A=;
+ b=1thbUc650LXIfUn8IBG+WwNI54hIfA65Lm9Z97K/tL9r14S2TyhvkaITXClQzoLpcc
+ ieSZ6CMe5V4/ZxfL7Ec+dCmYRbJxlTlS0jXbnbAR56PuG5dx7vRaKnf/PVbjpMKSeoMP
+ 5FVKeGFRginaj7Ll8t6romaX+D48NaoIwi3KkTZF73CX3zhXlsKwzgwJjJPZISEIHbjq
+ /ccjGPJm/STRYbLbnasVhWqnsihHMu0Dcrzcjh3Qt11nXAbZFk4osE3D+baUi7x0jbTS
+ 4vFMRFmSG0bG6gWO8Nagfh+2czVDeR39G6ahP6SfshcCyfDoGPl2zXNl0/o8EnoX9Bfg
+ Lvwg==
+X-Gm-Message-State: AOAM531XfbhG81BezkphMdGEyYHXLihuZJTrPux7k8ivJuBBPJIgoeXT
+ //4+JUq59O986UXZ5Q3glDXCMhGuZwCpo+ONRupbfsWvtL9seAAouYUKEE0dOor9f4+xvXm4fBV
+ tOCjNpgi5oc+TilM=
+X-Received: by 2002:a05:6402:430f:b0:410:a082:c6da with SMTP id
+ m15-20020a056402430f00b00410a082c6damr2115794edc.438.1645706923644; 
+ Thu, 24 Feb 2022 04:48:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwd7L3KbKp/PzLPRjHOdkGR6KY6OWHQZssO5GHagUc3xCMkPw2wcV1WnPgaN9XVf1ntObAWAA==
+X-Received: by 2002:a05:6402:430f:b0:410:a082:c6da with SMTP id
+ m15-20020a056402430f00b00410a082c6damr2115781edc.438.1645706923439; 
+ Thu, 24 Feb 2022 04:48:43 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id u26sm1310104ejg.196.2022.02.24.04.48.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Feb 2022 04:48:43 -0800 (PST)
+Message-ID: <f66b3c82-130a-e39f-7b28-572cb070eaf3@redhat.com>
+Date: Thu, 24 Feb 2022 13:48:42 +0100
 MIME-Version: 1.0
-References: <20220217115723.1782616-1-berrange@redhat.com>
- <CAFEAcA9vQUAYPHU6KOwVJRxY=SOa2iipPR-5s0JU79MPEmvQBA@mail.gmail.com>
- <YhPlWnkN5Nf009yC@redhat.com>
-In-Reply-To: <YhPlWnkN5Nf009yC@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 24 Feb 2022 12:48:01 +0000
-Message-ID: <CAFEAcA8d2hyGNHEP9O_ewmf8QgxdH2Nn1P4i6wFbKyeE3zs_uQ@mail.gmail.com>
-Subject: Re: [PULL 00/10] Misc next patches
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 13/18] iotests/image-fleecing: add test-case for
+ fleecing format node
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20220216194617.126484-1-vsementsov@virtuozzo.com>
+ <20220216194617.126484-14-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220216194617.126484-14-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,35 +104,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org,
- "Richard W.M. Jones" <rjones@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, wencongyang2@huawei.com,
+ xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ jsnow@redhat.com, nikita.lapshin@virtuozzo.com, stefanha@redhat.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Feb 2022 at 19:18, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
-> AFAIK, the block jobs run in CI don't cover the SSH driver at all.
->
-> I had a CI pipeline before submitting, which covered Free BSD 13
-> which passed. To be sure I just rebased to git master and tried
-> another pipeline which passed too:
->
->   https://gitlab.com/berrange/qemu/-/jobs/2119118096
->
-> so I'm thinking the failure you got is a transient. Could you retry
-> this PULL
+On 16.02.22 20:46, Vladimir Sementsov-Ogievskiy wrote:
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/tests/image-fleecing     | 64 ++++++++++++-----
+>   tests/qemu-iotests/tests/image-fleecing.out | 76 ++++++++++++++++++++-
+>   2 files changed, 120 insertions(+), 20 deletions(-)
 
-Does seem to have been a transient. (We have way too many of those
-at the moment for a variety of reasons.)
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
--- PMM
 
