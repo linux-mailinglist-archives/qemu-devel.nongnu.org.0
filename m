@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FE84C3556
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:07:05 +0100 (CET)
-Received: from localhost ([::1]:59180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0316F4C35E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:27:42 +0100 (CET)
+Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNJSC-0001is-AL
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:07:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55236)
+	id 1nNJmA-0007y1-2X
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:27:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1nNJEN-0000kE-F3
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:52:48 -0500
-Received: from [2a00:1450:4864:20::12f] (port=35729
- helo=mail-lf1-x12f.google.com)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1nNJF1-00011f-Uq
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:53:27 -0500
+Received: from [2607:f8b0:4864:20::929] (port=41953
+ helo=mail-ua1-x929.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1nNJEH-0005dF-Ev
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:52:44 -0500
-Received: by mail-lf1-x12f.google.com with SMTP id u20so5505647lff.2
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:52:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1nNJEz-0005fo-Bs
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:53:27 -0500
+Received: by mail-ua1-x929.google.com with SMTP id p33so1346650uap.8
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:53:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XEVh0qYl2wjyoSlsQM6sqo6q6J5iBf3QJv+wJFYmofc=;
- b=lsrJ8U+O9rcKG+n8xn80/wvTu+QLPWdfnChWihPL17eYfllBspeVAk0C1jrFId5O6M
- FmLzWfF0/1pGorUyxYnyTEP6y3Ldp7zIhk8/L5CVjyGyBzhqOZcbWIwMaKCjLxYJsGvK
- B7IWHPb/8RnT07tjz3wLqXM30LB1F17PhSNWvpRS45zKSUkXQ82js+1+QcdYMe3T+T0S
- 8iw8zyeeTWDmslFAT6NUtdh12osc2Trm0e7CFiv5V2GvpetXRS6GBqpyoEIDlxZnuf2S
- c1Wl1PV2KBuE2FUomLu6BxEeSqK0EiE9GcIJN7yBVmmvZUivyLa1xgmP+9Jh/9gi6Xr0
- apLA==
+ :cc; bh=sxbecDWTldQJfZSWILXPWbTuhYQKtcnyt0EPg5HjEpk=;
+ b=pixN94ku/AgY5XMTXOupVqld6oAC3MJGDlxYpUHxuqAXPComsdjliQ/RECQir6E0vV
+ cCOjUDGfJWU0p6IYkXem8cWQ2EKr39aJu6WuFDbgGlNue8WDNkPgtdPEwDq8tQ2HohPe
+ r1WMthtCwq+VLo4Ebusu1aVzeslSBXUDL+ZgE8K0qt0mtPD83OCaLoggbGfMTKA0UJUd
+ PHQLduhlwa046MZTbMhSGM44KSkre/Zt451oStle63n4PGidkZWFiPaCgS6kRkF/6XI7
+ iEGm0CCF3MZ2IZtLHpiWrSb3OyKdUeT0J1ZtuoF008vXCxznXnke24wzE0S0xIk/TUfL
+ wuyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XEVh0qYl2wjyoSlsQM6sqo6q6J5iBf3QJv+wJFYmofc=;
- b=GUFJ3m3GuacJhNCI0Yop9+GkHwPvl8WbyWrl7D8nMd7TWc0N/u1f/7+CQimgSy/9D3
- omWc4vO4cbv8geETQZhF4O7FL3fkqkeqrCTxyitDLUq/gzjryVWRj2CM8lDoCI7W+ikk
- FkgGPfZuZCwgq41O4hBG5Dw+ZmP9EPfvpGJNknu6CwegBlIG8YTvNgnwzzRdtS/CdYt/
- u8Hz5Car72W4vFNpW6eSUs2SMnV4N/465NhlfI4q1rLyzyW6a5e3ya0SGkWIVDrRu/MN
- OYD45qANuzhEW/agEhdR2pedaVKGm+KdEuE4oVmaK4S7fsbZFsOmhVVJJ5B27330aeW1
- vYag==
-X-Gm-Message-State: AOAM530axhzT5Pe8fWVckBu32by12kL+U+x1xY8z0RZrRp2CA6A5sl/d
- ZyffXknw6oq989Zb1B2gESeQHsNouf9TmdeDiyYqPw==
-X-Google-Smtp-Source: ABdhPJzQFoUhJwg2x49uxBQpoIPBG6sMkDR7Pq5TVcTI44amrMxmqOJ7AcLHCqUP3F3OjSdRBGsOfrQ5eqFHc0Fwqe4=
-X-Received: by 2002:a19:f519:0:b0:443:e008:3df7 with SMTP id
- j25-20020a19f519000000b00443e0083df7mr2534754lfb.95.1645728756568; Thu, 24
- Feb 2022 10:52:36 -0800 (PST)
+ bh=sxbecDWTldQJfZSWILXPWbTuhYQKtcnyt0EPg5HjEpk=;
+ b=SaY0nSkM1cCmKXUuvQv0Mq2AsguBWZ+nCAthgMyXlou06226JnrNNXj6SuiPGpxe7u
+ eRjndEWXcLTvTf9DIbAcxO5wy1Ycd+Ttawh8SuzuDBmt2Lb9ZOHBQ1ocobeS282/IFvf
+ CVUgMw5ZAz3K+4NxABslj7qfsZ3uzvqbob9yLD5rx/epFsvGkU9ST8o7VZvtjcCXWFDR
+ XwLJzjm79nMNdOjzSblMigByJPVWWQqcr5J0j3LS5uqP9lc6d0sLKsE74pURffVHj35F
+ r2s3CsfiYTMOB7SShrZYE12qGTaenEfOdDLgWPX82Fv8bmdg7vqWmdo6Cr1twTHfitgE
+ WWDg==
+X-Gm-Message-State: AOAM531wywRZfQO104D9dMvwg0pbDIy0aoWgjMzo9NmCPeBwD6VEOaCh
+ 3KZq8/5O+p1j/ESZ251c0PuSgy3ebe5W6/SpmjKsNw==
+X-Google-Smtp-Source: ABdhPJyAvaSC2/DzJUewKfS7GEfJ/UOzm0/MCAdQhoWiWGDnjtRzoyhrPBw1WFHW6X+YM3lCzkVc9VRqkgganOj6zPU=
+X-Received: by 2002:ab0:3046:0:b0:33c:7679:3141 with SMTP id
+ x6-20020ab03046000000b0033c76793141mr1754591ual.15.1645728783616; Thu, 24 Feb
+ 2022 10:53:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20220208181843.4003568-1-venture@google.com>
- <CAFEAcA8m2yhtih_+XCOJPUzAwtLuF2exF+vaa1woC7bYoryVXA@mail.gmail.com>
- <CAFEAcA_zfd=5bSMKwVbSk0LStcWcYxFosazhiGz0nb2z=upSHQ@mail.gmail.com>
- <CAO=notx69LpfY2uHUaPeFSrRyNkoiATZ6-JQQrATT8jXGEfQWw@mail.gmail.com>
-In-Reply-To: <CAO=notx69LpfY2uHUaPeFSrRyNkoiATZ6-JQQrATT8jXGEfQWw@mail.gmail.com>
-From: Hao Wu <wuhaotsh@google.com>
-Date: Thu, 24 Feb 2022 10:52:24 -0800
-Message-ID: <CAGcCb12Se254JJcKbnfyaMUTf=ym5TqOY41r4YNmvype6ozV-Q@mail.gmail.com>
-Subject: Re: [PATCH v3] tests/qtest: add qtests for npcm7xx sdhci
-To: Patrick Venture <venture@google.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>, 
- Shengtan Mao <stmao@google.com>, Chris Rauer <crauer@google.com>
-Content-Type: multipart/alternative; boundary="000000000000ef87ac05d8c81582"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12f
+References: <20220202164533.1283668-1-venture@google.com>
+ <CAFEAcA8gV5_cAyh9UVuN06tj5+0QietF-aDMAbvY-eW3kmFy0A@mail.gmail.com>
+In-Reply-To: <CAFEAcA8gV5_cAyh9UVuN06tj5+0QietF-aDMAbvY-eW3kmFy0A@mail.gmail.com>
+From: Patrick Venture <venture@google.com>
+Date: Thu, 24 Feb 2022 10:52:52 -0800
+Message-ID: <CAO=notxEN9ZC0iLtHa5uvs_3cFQKYZGoMxBLkH7f0svsx4kLkQ@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/i2c: flatten pca954x mux device
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>
+Content-Type: multipart/alternative; boundary="0000000000008bd9d705d8c81783"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=wuhaotsh@google.com; helo=mail-lf1-x12f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
+ envelope-from=venture@google.com; helo=mail-ua1-x929.google.com
 X-Spam_score_int: -161
 X-Spam_score: -16.2
 X-Spam_bar: ----------------
@@ -92,138 +89,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ef87ac05d8c81582
+--0000000000008bd9d705d8c81783
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 
-VGhlIHByb2JsZW0gaXMgcHJvYmFibHkgYmVjYXVzZSB3ZSByZWFkIGl0IGluIHVzaW5nICJzdHJj
-bXAiLiBzdHJjbXANCmNvbXBhcmVzIHR3byBzdHJpbmdzIHRoYXQgZW5kIHdpdGggIlwwIi4gQnV0
-IG9uZSBvZiB0aGUgc3RyaW5nIGlzIHJlYWQgaW4NCnVzaW5nIHJlYWQoKSBzbyBpdCBkaWRuJ3Qg
-cmVhZCBpbiB0aGUgZW5kaW5nICdcMCcgY2hhcmFjdGVyLg0KDQpXZSBzaG91bGQgdXNlIHN0cm5j
-bXAgdG8gY29tcGFyZSB0aGUgdHdvIHN0cmluZ3MuIEl0IHByb2JhYmx5IGF2b2lkcyB0aGUNCmlz
-c3VlLg0KDQpPbiBUdWUsIEZlYiAyMiwgMjAyMiBhdCA1OjI4IFBNIFBhdHJpY2sgVmVudHVyZSA8
-dmVudHVyZUBnb29nbGUuY29tPiB3cm90ZToNCg0KPg0KPg0KPiBPbiBNb24sIEZlYiAyMSwgMjAy
-MiBhdCA1OjMwIEFNIFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4NCj4g
-d3JvdGU6DQo+DQo+PiBPbiBXZWQsIDE2IEZlYiAyMDIyIGF0IDE3OjMwLCBQZXRlciBNYXlkZWxs
-IDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+DQo+PiB3cm90ZToNCj4+ID4NCj4+ID4gT24gVHVl
-LCA4IEZlYiAyMDIyIGF0IDE4OjE4LCBQYXRyaWNrIFZlbnR1cmUgPHZlbnR1cmVAZ29vZ2xlLmNv
-bT4NCj4+IHdyb3RlOg0KPj4gPiA+DQo+PiA+ID4gRnJvbTogU2hlbmd0YW4gTWFvIDxzdG1hb0Bn
-b29nbGUuY29tPg0KPj4gPiA+DQo+PiA+ID4gUmV2aWV3ZWQtYnk6IEhhbyBXdSA8d3VoYW90c2hA
-Z29vZ2xlLmNvbT4NCj4+ID4gPiBSZXZpZXdlZC1ieTogQ2hyaXMgUmF1ZXIgPGNyYXVlckBnb29n
-bGUuY29tPg0KPj4gPiA+IFNpZ25lZC1vZmYtYnk6IFNoZW5ndGFuIE1hbyA8c3RtYW9AZ29vZ2xl
-LmNvbT4NCj4+ID4gPiBTaWduZWQtb2ZmLWJ5OiBQYXRyaWNrIFZlbnR1cmUgPHZlbnR1cmVAZ29v
-Z2xlLmNvbT4NCj4+ID4gPiAtLS0NCj4+ID4NCj4+ID4NCj4+ID4NCj4+ID4gQXBwbGllZCB0byB0
-YXJnZXQtYXJtLm5leHQsIHRoYW5rcy4NCj4+DQo+PiBUaGlzIGhpdHMgYXNzZXJ0aW9ucyBpbiBz
-b21lIG9mIHRoZSBDSSBqb2JzLCBlZzoNCj4+IGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2pl
-Y3QvcWVtdS8tL2pvYnMvMjExNjkzMjc2OQ0KPj4NCj4+IDI1OC83MTcgcWVtdTpxdGVzdCtxdGVz
-dC1hcm0gLyBxdGVzdC1hcm0vbnBjbTd4eF9zZGhjaS10ZXN0IElOVEVSUlVQVA0KPj4gNjQzLjE2
-cyBraWxsZWQgYnkgc2lnbmFsIDYgU0lHQUJSVA0KPj4g4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVIOKcgA0KPj4g4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVDQo+PiBzdGRlcnI6DQo+PiAqKiBN
-ZXNzYWdlOiAwNjowNjo1MC4yMDU6IC90bXAvc2RoY2lfRjdFVEgxDQo+PiAqKg0KPj4gRVJST1I6
-Li4vdGVzdHMvcXRlc3QvbnBjbTd4eF9zZGhjaS10ZXN0LmM6MTAxOnNkd3JpdGVfcmVhZDogYXNz
-ZXJ0aW9uDQo+PiBmYWlsZWQ6ICghc3RyY21wKHJtc2csIG1zZykpDQo+Pg0KPj4g4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVDQo+
-PiAuLi50ZXJtaW5hdGVkLg0KPj4NCj4+IHNvIEkndmUgZHJvcHBlZCBpdCBhZ2Fpbi4NCj4+DQo+
-DQo+IEknbSBzb3JyeSB0byBoZWFyIHRoYXQsIEknbGwgaGF2ZSB0byBwaWNrIHVwIHNvbWUgY3lj
-bGVzIGluIGEgd2VlayBvciBzbw0KPiBhbmQgc2VlIGlmIEkgY2FuIHJlcHJvZHVjZSB0aGUgaXNz
-dWUuDQo+DQo+DQo+Pg0KPj4gdGhhbmtzDQo+PiAtLSBQTU0NCj4+DQo+DQo=
---000000000000ef87ac05d8c81582
+On Thu, Feb 24, 2022 at 2:56 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Wed, 2 Feb 2022 at 17:57, Patrick Venture <venture@google.com> wrote:
+> >
+> > Previously this device created N subdevices which each owned an i2c bus=
+.
+> > Now this device simply owns the N i2c busses directly.
+> >
+> > Tested: Verified devices behind mux are still accessible via qmp and i2=
+c
+> > from within an arm32 SoC.
+> >
+> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> > Signed-off-by: Patrick Venture <venture@google.com>
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > ---
+> > v2: explicitly create an incrementing name for the i2c busses (channels=
+).
+> > ---
+>
+> Applied to target-arm.next, thanks.
+>
+> Apologies for not picking this up earlier, the v2 got lost in the
+> side-conversation about spam filtering. (Blame gmail for not
+> doing email threading properly if you like :-))
+>
+
+Thanks, and no problem.  This v2 is what we have downstream for this.
+
+I'm working on a further improvement to it (separate feature change)
+that'll allow setting an id on the device so that all its channels have
+that the id embedded in them.  This'll handle some of the situations we're
+observing where the qdev paths aren't great for command line added i2c
+devices.  There's a side conversation going on about how best to accomplish
+this.
+
+
+>
+> -- PMM
+>
+
+--0000000000008bd9d705d8c81783
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">The problem is probably because we read it in using &quot;=
-strcmp&quot;.=C2=A0<span style=3D"color:rgb(32,33,36);font-family:Roboto,Ar=
-ial,sans-serif;font-size:13px;letter-spacing:0.185714px">strcmp compares tw=
-o strings that end with &quot;\0&quot;. But one of the string is read in us=
-ing read() so it didn&#39;t read in the ending &#39;\0&#39; character.</spa=
-n><p style=3D"letter-spacing:0.185714px;font-size:13px;line-height:1.38462;=
-margin:0px;border:0px;font-family:Roboto,Arial,sans-serif;vertical-align:ba=
-seline;word-break:break-word;outline-width:0px;color:rgb(32,33,36)">We shou=
-ld use strncmp to compare the two strings. It probably avoids the issue.</p=
-></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Tue, Feb 22, 2022 at 5:28 PM Patrick Venture &lt;<a href=3D"mailto:vent=
-ure@google.com" target=3D"_blank">venture@google.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div d=
-ir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, Feb 21, 2022 at 5:30 AM Peter Maydell &lt;<a href=
-=3D"mailto:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro=
-.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">On Wed, 16 Feb 2022 at 17:30, Peter Maydell &lt;<a href=3D"mailto:peter=
-.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; wro=
-te:<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 24, 2022 at 2:56 AM Peter=
+ Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
+ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Wed, 2 Feb 2022 at 17:57, Patrick Venture &lt;<a href=3D"mailto:ve=
+nture@google.com" target=3D"_blank">venture@google.com</a>&gt; wrote:<br>
 &gt;<br>
-&gt; On Tue, 8 Feb 2022 at 18:18, Patrick Venture &lt;<a href=3D"mailto:ven=
-ture@google.com" target=3D"_blank">venture@google.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; From: Shengtan Mao &lt;<a href=3D"mailto:stmao@google.com" target=
-=3D"_blank">stmao@google.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" ta=
-rget=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
-&gt; &gt; Reviewed-by: Chris Rauer &lt;<a href=3D"mailto:crauer@google.com"=
- target=3D"_blank">crauer@google.com</a>&gt;<br>
-&gt; &gt; Signed-off-by: Shengtan Mao &lt;<a href=3D"mailto:stmao@google.co=
-m" target=3D"_blank">stmao@google.com</a>&gt;<br>
-&gt; &gt; Signed-off-by: Patrick Venture &lt;<a href=3D"mailto:venture@goog=
-le.com" target=3D"_blank">venture@google.com</a>&gt;<br>
-&gt; &gt; ---<br>
+&gt; Previously this device created N subdevices which each owned an i2c bu=
+s.<br>
+&gt; Now this device simply owns the N i2c busses directly.<br>
 &gt;<br>
+&gt; Tested: Verified devices behind mux are still accessible via qmp and i=
+2c<br>
+&gt; from within an arm32 SoC.<br>
 &gt;<br>
-&gt;<br>
-&gt; Applied to target-arm.next, thanks.<br>
+&gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=
+=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
+&gt; Signed-off-by: Patrick Venture &lt;<a href=3D"mailto:venture@google.co=
+m" target=3D"_blank">venture@google.com</a>&gt;<br>
+&gt; Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@a=
+msat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+&gt; Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@ams=
+at.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+&gt; ---<br>
+&gt; v2: explicitly create an incrementing name for the i2c busses (channel=
+s).<br>
+&gt; ---<br>
 <br>
-This hits assertions in some of the CI jobs, eg:<br>
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/2116932769" rel=3D"n=
-oreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jobs/21=
-16932769</a><br>
+Applied to target-arm.next, thanks.<br>
 <br>
-258/717 qemu:qtest+qtest-arm / qtest-arm/npcm7xx_sdhci-test INTERRUPT<br>
-643.16s killed by signal 6 SIGABRT<br>
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95<br>
-stderr:<br>
-** Message: 06:06:50.205: /tmp/sdhci_F7ETH1<br>
-**<br>
-ERROR:../tests/qtest/npcm7xx_sdhci-test.c:101:sdwrite_read: assertion<br>
-failed: (!strcmp(rmsg, msg))<br>
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95<br>
-...terminated.<br>
+Apologies for not picking this up earlier, the v2 got lost in the<br>
+side-conversation about spam filtering. (Blame gmail for not<br>
+doing email threading properly if you like :-))<br></blockquote><div><br></=
+div><div>Thanks, and no problem.=C2=A0 This v2 is what we have downstream f=
+or this.</div><div><br></div><div>I&#39;m working on a further improvement =
+to it (separate feature change) that&#39;ll allow setting an id on the devi=
+ce so that all its channels have that the id embedded in them.=C2=A0 This&#=
+39;ll handle some of the situations we&#39;re observing where the qdev path=
+s aren&#39;t great for command line added i2c devices.=C2=A0 There&#39;s a =
+side conversation going on about how best to accomplish this.</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
-so I&#39;ve dropped it again.<br></blockquote><div><br></div><div>I&#39;m s=
-orry to hear that, I&#39;ll have to pick up some cycles in a week or so and=
- see if I can reproduce the issue.</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-thanks<br>
 -- PMM<br>
 </blockquote></div></div>
-</blockquote></div>
 
---000000000000ef87ac05d8c81582--
+--0000000000008bd9d705d8c81783--
 
