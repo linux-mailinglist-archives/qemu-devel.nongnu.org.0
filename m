@@ -2,86 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B90CD4C35F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:36:39 +0100 (CET)
-Received: from localhost ([::1]:52162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8887B4C35E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:30:59 +0100 (CET)
+Received: from localhost ([::1]:40502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNJuo-0000u3-Ji
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:36:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60300)
+	id 1nNJpK-0002n6-1E
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:30:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNJbB-0004nT-1m
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:16:21 -0500
-Received: from [2607:f8b0:4864:20::533] (port=40760
- helo=mail-pg1-x533.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNJb8-0000xZ-Fq
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:16:20 -0500
-Received: by mail-pg1-x533.google.com with SMTP id w37so2548454pga.7
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 11:16:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5oPEjlC9TIcWZgxaFX/NhWfLlYHLKj/hJ+r9HWm++vc=;
- b=PP7tCiBmOjpovXuSYQhkixpzJvAP2dYKEbN0UO8X0RTqg1Ui3floOgWvAVbMbqFGjZ
- rHRKPK6LEBGUHqyRJxtFGOSq5HZ/zjbnKc53Nt+azXgGgOaKeMUZ/kFmPWXjqh0BscYq
- D4MzhNvBVn37rxbIwDM1Le5394Gq/hwejZE8SxFo/SeIzEEvS0NX0WQqSLGxZ9cmCGaU
- Y6r+LLmf2C4StbjcBrFJfthpdEVyDawpswXbJJA6gk6qtsNNdohYJ29kR3CwcPzL9YJZ
- dWNvk7Y5tfY5JfPSKUMU+H1lV2SpVtU2gQ+B2l03nqQEAKdsnZw0sQYnCzcmIk+pl3xo
- lYoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5oPEjlC9TIcWZgxaFX/NhWfLlYHLKj/hJ+r9HWm++vc=;
- b=f3rlYC/96KPj8iSwcxIQX5fi8bNCRoi3SFTypvMHDAkP3LZMWPbzDsqaEpa53++Aj+
- 6vGzSY3dJDH41xLg9aTbHseT9dbH0FQJKlPtpUoQuAh5A1TgOOtArgv8TNgqtQ7CMIk6
- KM7pCRHbFWU6jXCgO2jqATOJ0QwGm0Qey4qotqhl+7qPHyVJ3Wa2dVp/XHtlnjZwRmL0
- gDCR8yelGb/S5fdvNPDdmLSR2gZPoYhMq+Ni4kuk9JLjIrnLkhliiYJTmQViayuTGI0K
- krqXymsjB/+DWOkHKYL7qPRmIO0SvFB0iDQ6kbJZotlD71MTbGUn+sg46UAqx0mwE/4/
- 9x/w==
-X-Gm-Message-State: AOAM530XynMDKttmhHGxP3nlDAbnsaHWyzB8oZ1hFCrrujIy5ttk/NPl
- rv+aG92KcJiQx+8RxQHt94Stuw==
-X-Google-Smtp-Source: ABdhPJw1mkIljMtAnmEkRza53u2CHEZsg+8aeyJwE2iWwLIYgXCFEpIDAQTmqSjr0Rqsrk7yRhpzbw==
-X-Received: by 2002:a65:6842:0:b0:375:983d:7e5b with SMTP id
- q2-20020a656842000000b00375983d7e5bmr2104049pgt.496.1645730168003; 
- Thu, 24 Feb 2022 11:16:08 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- j8-20020a056a00174800b004f26d3f5b03sm286790pfc.39.2022.02.24.11.16.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 11:16:07 -0800 (PST)
-Message-ID: <57482894-73e4-7bd5-b38b-fe73c3a63637@linaro.org>
-Date: Thu, 24 Feb 2022 09:16:04 -1000
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nNJbH-00052D-Sx; Thu, 24 Feb 2022 14:16:28 -0500
+Received: from [187.72.171.209] (port=31082 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nNJbF-0000yM-4I; Thu, 24 Feb 2022 14:16:27 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 24 Feb 2022 16:16:18 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id EDE2E8001D4;
+ Thu, 24 Feb 2022 16:16:17 -0300 (-03)
+Message-ID: <b8280b17-4124-92ce-c647-95de039f31d3@eldorado.org.br>
+Date: Thu, 24 Feb 2022 16:16:17 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 01/12] compiler.h: replace QEMU_WARN_UNUSED_RESULT with
- G_GNUC_WARN_UNUSED_RESULT
+Subject: Re: [PATCH v4 38/47] target/ppc: Refactor VSX_SCALAR_CMP_DP
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220224183701.608720-1-marcandre.lureau@redhat.com>
- <20220224183701.608720-2-marcandre.lureau@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220224183701.608720-2-marcandre.lureau@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
+ <20220222143646.1268606-39-matheus.ferst@eldorado.org.br>
+ <c4e1ed69-62a7-dfa8-302e-c74845803098@linaro.org>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <c4e1ed69-62a7-dfa8-302e-c74845803098@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+X-OriginalArrivalTime: 24 Feb 2022 19:16:18.0412 (UTC)
+ FILETIME=[000C4AC0:01D829B3]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,27 +62,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, f4bug@amsat.org, pbonzini@redhat.com
+Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/22 08:36, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau<marcandre.lureau@redhat.com>
+On 22/02/2022 21:20, Richard Henderson wrote:> On 2/22/22 04:36, 
+matheus.ferst@eldorado.org.br wrote:
+>> From: Víctor Colombo <victor.colombo@eldorado.org.br>
+>>
+>> Refactor VSX_SCALAR_CMP_DP, changing its name to VSX_SCALAR_CMP and
+>> prepare the helper to be used for quadword comparisons.
+>>
+>> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>> ---
+>>   target/ppc/fpu_helper.c | 31 ++++++++++++++-----------------
+>>   1 file changed, 14 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+>> index 9b034d1fe4..5ebbcfe3b7 100644
+>> --- a/target/ppc/fpu_helper.c
+>> +++ b/target/ppc/fpu_helper.c
+>> @@ -2265,28 +2265,30 @@ VSX_MADDQ(XSNMSUBQP, NMSUB_FLGS, 0)
+>>   VSX_MADDQ(XSNMSUBQPO, NMSUB_FLGS, 0)
+>>
+>>   /*
+>> - * VSX_SCALAR_CMP_DP - VSX scalar floating point compare double 
+>> precision
+>> + * VSX_SCALAR_CMP - VSX scalar floating point compare
+>>    *   op    - instruction mnemonic
+>> + *   tp    - type
+>>    *   cmp   - comparison operation
+>>    *   exp   - expected result of comparison
+>> + *   fld   - vsr_t field
+>>    *   svxvc - set VXVC bit
+>>    */
+>> -#define VSX_SCALAR_CMP_DP(op, cmp, exp, 
+>> svxvc)                                \
+>> +#define VSX_SCALAR_CMP(op, tp, cmp, fld, exp, 
+>> svxvc)                          \
+>>   void helper_##op(CPUPPCState *env, ppc_vsr_t 
+>> *xt,                             \
+>>                    ppc_vsr_t *xa, ppc_vsr_t 
+>> *xb)                                \
+>>   
+>> {                                                                             
+>> \
+>> -    ppc_vsr_t t = 
+>> *xt;                                                        \
+>> +    ppc_vsr_t t = { 
+>> };                                                        \
+>>       bool vxsnan_flag = false, vxvc_flag = false, vex_flag = 
+>> false;            \
+>>                                                                                 
+>> \
+>> -    if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) 
+>> ||             \
+>> -        float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) 
+>> {             \
+>> +    if (tp##_is_signaling_nan(xa->fld, &env->fp_status) 
+>> ||                    \
+>> +        tp##_is_signaling_nan(xb->fld, &env->fp_status)) 
+>> {                    \
+>>           vxsnan_flag = 
+>> true;                                                   \
+>>           if (fpscr_ve == 0 && svxvc) 
+>> {                                         \
+>>               vxvc_flag = 
+>> true;                                                 \
+>>           
+>> }                                                                     \
+>>       } else if (svxvc) 
+>> {                                                       \
+>> -        vxvc_flag = float64_is_quiet_nan(xa->VsrD(0), 
+>> &env->fp_status) ||     \
+>> -            float64_is_quiet_nan(xb->VsrD(0), 
+>> &env->fp_status);               \
+>> +        vxvc_flag = tp##_is_quiet_nan(xa->fld, &env->fp_status) 
+>> ||            \
+>> +            tp##_is_quiet_nan(xb->fld, 
+>> &env->fp_status);                      \
+>>       }
 > 
-> One less qemu-specific macro. It also helps to make some headers/units
-> only depend on glib, and thus moved in standalone projects eventually.
+> Note that this can be simplified further, using the full FloatRelation 
+> result and
+> float_flag_invalid_snan.
 > 
-> Signed-off-by: Marc-André Lureau<marcandre.lureau@redhat.com>
-> ---
->   include/qemu-common.h      |  2 +-
->   include/qemu/compiler.h    |  2 --
->   include/qemu/range.h       |  4 ++--
->   scripts/cocci-macro-file.h |  2 +-
->   block/qcow2-refcount.c     | 20 +++++++++++---------
->   scripts/checkpatch.pl      |  2 +-
->   6 files changed, 16 insertions(+), 16 deletions(-)
+> Note that do_scalar_cmp gets half-way there, only checking for NaNs once 
+> we have
+> float_relation_unordered as a comparision result.  But it could go 
+> further and check
+> float_flag_invalid_snan and drop all of the other checks vs snan and qnan.
+> 
+> 
+> r~
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hello Richard! Thanks for your review
 
-r~
+Could you please elaborate more on how do you think using
+float*_compare and its FloatRelation result would work here?
+I noticed do_scalar_cmp modifies CR and sets FPCC flag, which
+is not what VSX_SCALAR_CMP do. Using that function would require a
+rework.
+
+An option I though would be to bring into VSX_SCALAR_CMP the
+important necessary parts, something like this:
+
+#define VSX_SCALAR_CMP(op, tp, cmp, fld, svxvc, expr) 
+       ...
+     r = tp##_compare(xa->fld, xb->fld, &env->fp_status); 
+        \
+     if (expr) { 
+        \
+         memset(&t.fld, 0xFF, sizeof(t.fld)); 
+        \
+     } else if (r == float_relation_unordered) { 
+        \
+         if (env->fp_status.float_exception_flags & 
+float_flag_invalid_snan) { \
+             float_invalid_op_vxsnan(env, GETPC()); 
+        \
+             if (fpscr_ve == 0 && svxvc) { 
+        \
+                 float_invalid_op_vxvc(env, 0, GETPC()); 
+        \
+             } 
+        \
+         } else if (svxvc) { 
+        \
+             if (tp##_is_quiet_nan(xa->fld, &env->fp_status) || 
+        \
+                 tp##_is_quiet_nan(xb->fld, &env->fp_status)) { 
+        \
+                     float_invalid_op_vxvc(env, 0, GETPC()); 
+        \
+                 } 
+        \
+         } 
+        \
+     } 
+        \
+...
+VSX_SCALAR_CMP(XSCMPEQDP, float64, eq, VsrD(0), 0, r == 
+float_relation_equal)
+VSX_SCALAR_CMP(XSCMPGEDP, float64, le, VsrD(0), 1, \
+     r == float_relation_equal || r == float_relation_greater)
+VSX_SCALAR_CMP(XSCMPGTDP, float64, lt, VsrD(0), 1, r == 
+float_relation_greater)
+
+But this still looks convoluted. Another option I came with would be:
+
+     ppc_vsr_t t = { }; 
+        \
+ 
+        \
+     helper_reset_fpstatus(env); 
+        \
+ 
+        \
+     if (tp##_##cmp##_quiet(xb->fld, xa->fld, &env->fp_status)) { 
+        \
+         memset(&t.fld, 0xFF, sizeof(t.fld)); 
+        \
+     } 
+        \
+ 
+        \
+     if (env->fp_status.float_exception_flags & float_flag_invalid_snan) 
+{     \
+         float_invalid_op_vxsnan(env, GETPC()); 
+        \
+         if (fpscr_ve == 0 && svxvc) { 
+        \
+             float_invalid_op_vxvc(env, 0, GETPC()); 
+        \
+         } 
+        \
+     } else if (svxvc) { 
+        \
+         if (tp##_is_quiet_nan(xa->fld, &env->fp_status) || 
+        \
+             tp##_is_quiet_nan(xb->fld, &env->fp_status)) { 
+        \
+                 float_invalid_op_vxvc(env, 0, GETPC()); 
+        \
+             } 
+        \
+     } 
+        \
+
+Is this close to what you were thinking?
+
+Thank you very much!
+
+-- Víctor
 
