@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B9D4C2D71
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 14:43:49 +0100 (CET)
-Received: from localhost ([::1]:59304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077C54C2D8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 14:47:11 +0100 (CET)
+Received: from localhost ([::1]:37488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNEPM-00039L-8U
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 08:43:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35086)
+	id 1nNESb-0007Xe-SA
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 08:47:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org>)
- id 1nNELG-0000qT-Qz
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 08:39:38 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:46398)
+ id 1nNELY-00011c-WA
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 08:39:56 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:46522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org>)
- id 1nNELE-0001yH-HC
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 08:39:34 -0500
+ id 1nNELW-0001zi-BO
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 08:39:52 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6E898B825CD;
- Thu, 24 Feb 2022 13:39:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78D31C340E9;
- Thu, 24 Feb 2022 13:39:25 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 5C2DDB825D9;
+ Thu, 24 Feb 2022 13:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719BFC340E9;
+ Thu, 24 Feb 2022 13:39:32 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="OBkhNZ+u"
+ header.b="F16u3hqk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1645709964;
+ t=1645709971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pLZQWdHZ8lpp8TrT2AHt2rKbsHEeRqBQfQFSJqzrY8E=;
- b=OBkhNZ+uMvd78P2oRT7NxwjwEr+PYhqcJwHUQqt5K75dEo1gIq3vq5xsa25GTvs1vjpkLf
- BO7LAEOmd2wr0w5/w5+h6XBc6xiubOUTwFoGiQgdNJ5VaImu6Q7Vhdi2/ypFX2rCdQv4Uo
- PjJYMjSP6xSjmZ5UXklxzYUmHh9e1N4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 3e2bbf8d
+ bh=lYbQlfYwy3SS5X0HOdFFYvoNBz5G3sVCk/xavGBSEMs=;
+ b=F16u3hqk6rgXMYjXwJovbqFW0rcAe8BXY7ibheND+y5a4f7/AF4I7irMImUvxyjZqPC0IN
+ GR1vGcuyrut6eAtUpPu1USrzJkmRdM3C1fvKGp4uILAXOuEgOTO2ZLig7mWvztBV6P+e0s
+ RSp5TuonuY11VJe8LCEC49BtAbpOszA=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 09e92e51
  (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Thu, 24 Feb 2022 13:39:24 +0000 (UTC)
+ Thu, 24 Feb 2022 13:39:31 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
  linux-crypto@vger.kernel.org, qemu-devel@nongnu.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/2] random: add mechanism for VM forks to reinitialize crng
-Date: Thu, 24 Feb 2022 14:39:05 +0100
-Message-Id: <20220224133906.751587-2-Jason@zx2c4.com>
+Subject: [PATCH v3 2/2] virt: vmgenid: introduce driver for reinitializing RNG
+ on VM fork
+Date: Thu, 24 Feb 2022 14:39:06 +0100
+Message-Id: <20220224133906.751587-3-Jason@zx2c4.com>
 In-Reply-To: <20220224133906.751587-1-Jason@zx2c4.com>
 References: <20220224133906.751587-1-Jason@zx2c4.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=145.40.68.75;
  envelope-from=SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org;
@@ -80,182 +82,226 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, mst@redhat.com, raduweis@amazon.com,
  linux@dominikbrodowski.net, kys@microsoft.com, ardb@kernel.org,
  wei.liu@kernel.org, sthemmin@microsoft.com, ben@skyportsystems.com,
- Eric Biggers <ebiggers@google.com>, decui@microsoft.com, ebiggers@kernel.org,
- lersek@redhat.com, ehabkost@redhat.com, adrian@parity.io, jannh@google.com,
+ decui@microsoft.com, ebiggers@kernel.org, lersek@redhat.com,
+ ehabkost@redhat.com, adrian@parity.io, jannh@google.com,
  haiyangz@microsoft.com, graf@amazon.com, tytso@mit.edu, colmmacc@amazon.com,
  berrange@redhat.com, gregkh@linuxfoundation.org, imammedo@redhat.com,
  dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a VM forks, we must immediately mix in additional information to
-the stream of random output so that two forks or a rollback don't
-produce the same stream of random numbers, which could have catastrophic
-cryptographic consequences. This commit adds a simple API, add_vmfork_
-randomness(), for that, by force reseeding the crng.
+VM Generation ID is a feature from Microsoft, described at
+<https://go.microsoft.com/fwlink/?LinkId=260709>, and supported by
+Hyper-V and QEMU. Its usage is described in Microsoft's RNG whitepaper,
+<https://aka.ms/win10rng>, as:
 
-This has the added benefit of also draining the entropy pool and setting
-its timer back, so that any old entropy that was there prior -- which
-could have already been used by a different fork, or generally gone
-stale -- does not contribute to the accounting of the next 256 bits.
+    If the OS is running in a VM, there is a problem that most
+    hypervisors can snapshot the state of the machine and later rewind
+    the VM state to the saved state. This results in the machine running
+    a second time with the exact same RNG state, which leads to serious
+    security problems.  To reduce the window of vulnerability, Windows
+    10 on a Hyper-V VM will detect when the VM state is reset, retrieve
+    a unique (not random) value from the hypervisor, and reseed the root
+    RNG with that unique value.  This does not eliminate the
+    vulnerability, but it greatly reduces the time during which the RNG
+    system will produce the same outputs as it did during a previous
+    instantiation of the same VM state.
 
+Linux has the same issue, and given that vmgenid is supported already by
+multiple hypervisors, we can implement more or less the same solution.
+So this commit wires up the vmgenid ACPI notification to the RNG's newly
+added add_vmfork_randomness() function.
+
+It can be used from qemu via the `-device vmgenid,guid=auto` parameter.
+After setting that, use `savevm` in the monitor to save the VM state,
+then quit QEMU, start it again, and use `loadvm`. That will trigger this
+driver's notify function, which hands the new UUID to the RNG. This is
+described in <https://git.qemu.org/?p=qemu.git;a=blob;f=docs/specs/vmgenid.txt>.
+And there are hooks for this in libvirt as well, described in
+<https://libvirt.org/formatdomain.html#general-metadata>.
+
+Note, however, that the treatment of this as a UUID is considered to be
+an accidental QEMU nuance, per
+<https://github.com/libguestfs/virt-v2v/blob/master/docs/vm-generation-id-across-hypervisors.txt>,
+so this driver simply treats these bytes as an opaque 128-bit binary
+blob, as per the spec. This doesn't really make a difference anyway,
+considering that's how it ends up when handed to the RNG in the end.
+
+This driver builds on prior work from Adrian Catangiu at Amazon, and it
+is my hope that that team can resume maintenance of this driver.
+
+Cc: Adrian Catangiu <adrian@parity.io>
+Cc: Laszlo Ersek <lersek@redhat.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
 Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-Cc: Theodore Ts'o <tytso@mit.edu>
-Cc: Jann Horn <jannh@google.com>
-Cc: Eric Biggers <ebiggers@google.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- drivers/char/random.c  | 50 +++++++++++++++++++++++++++++-------------
- include/linux/random.h |  1 +
- 2 files changed, 36 insertions(+), 15 deletions(-)
+ drivers/virt/Kconfig   |   9 +++
+ drivers/virt/Makefile  |   1 +
+ drivers/virt/vmgenid.c | 121 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 131 insertions(+)
+ create mode 100644 drivers/virt/vmgenid.c
 
-diff --git a/drivers/char/random.c b/drivers/char/random.c
-index 9fb06fc298d3..e8b84791cefe 100644
---- a/drivers/char/random.c
-+++ b/drivers/char/random.c
-@@ -289,14 +289,14 @@ static DEFINE_PER_CPU(struct crng, crngs) = {
- };
+diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
+index 8061e8ef449f..d3276dc2095c 100644
+--- a/drivers/virt/Kconfig
++++ b/drivers/virt/Kconfig
+@@ -13,6 +13,15 @@ menuconfig VIRT_DRIVERS
  
- /* Used by crng_reseed() to extract a new seed from the input pool. */
--static bool drain_entropy(void *buf, size_t nbytes);
-+static bool drain_entropy(void *buf, size_t nbytes, bool force);
+ if VIRT_DRIVERS
  
- /*
-  * This extracts a new crng key from the input pool, but only if there is a
-- * sufficient amount of entropy available, in order to mitigate bruteforcing
-- * of newly added bits.
-+ * sufficient amount of entropy available or force is true, in order to
-+ * mitigate bruteforcing of newly added bits.
-  */
--static void crng_reseed(void)
-+static void crng_reseed(bool force)
- {
- 	unsigned long flags;
- 	unsigned long next_gen;
-@@ -304,7 +304,7 @@ static void crng_reseed(void)
- 	bool finalize_init = false;
- 
- 	/* Only reseed if we can, to prevent brute forcing a small amount of new bits. */
--	if (!drain_entropy(key, sizeof(key)))
-+	if (!drain_entropy(key, sizeof(key), force))
- 		return;
- 
- 	/*
-@@ -406,7 +406,7 @@ static void crng_make_state(u32 chacha_state[CHACHA_STATE_WORDS],
- 	 * in turn bumps the generation counter that we check below.
- 	 */
- 	if (unlikely(time_after(jiffies, READ_ONCE(base_crng.birth) + CRNG_RESEED_INTERVAL)))
--		crng_reseed();
-+		crng_reseed(false);
- 
- 	local_lock_irqsave(&crngs.lock, flags);
- 	crng = raw_cpu_ptr(&crngs);
-@@ -771,10 +771,10 @@ EXPORT_SYMBOL(get_random_bytes_arch);
-  *
-  * Finally, extract entropy via these two, with the latter one
-  * setting the entropy count to zero and extracting only if there
-- * is POOL_MIN_BITS entropy credited prior:
-+ * is POOL_MIN_BITS entropy credited prior or force is true:
-  *
-  *     static void extract_entropy(void *buf, size_t nbytes)
-- *     static bool drain_entropy(void *buf, size_t nbytes)
-+ *     static bool drain_entropy(void *buf, size_t nbytes, bool force)
-  *
-  **********************************************************************/
- 
-@@ -832,7 +832,7 @@ static void credit_entropy_bits(size_t nbits)
- 	} while (cmpxchg(&input_pool.entropy_count, orig, entropy_count) != orig);
- 
- 	if (crng_init < 2 && entropy_count >= POOL_MIN_BITS)
--		crng_reseed();
-+		crng_reseed(false);
- }
- 
- /*
-@@ -882,16 +882,16 @@ static void extract_entropy(void *buf, size_t nbytes)
- }
- 
- /*
-- * First we make sure we have POOL_MIN_BITS of entropy in the pool, and then we
-- * set the entropy count to zero (but don't actually touch any data). Only then
-- * can we extract a new key with extract_entropy().
-+ * First we make sure we have POOL_MIN_BITS of entropy in the pool unless force
-+ * is true, and then we set the entropy count to zero (but don't actually touch
-+ * any data). Only then can we extract a new key with extract_entropy().
-  */
--static bool drain_entropy(void *buf, size_t nbytes)
-+static bool drain_entropy(void *buf, size_t nbytes, bool force)
- {
- 	unsigned int entropy_count;
- 	do {
- 		entropy_count = READ_ONCE(input_pool.entropy_count);
--		if (entropy_count < POOL_MIN_BITS)
-+		if (!force && entropy_count < POOL_MIN_BITS)
- 			return false;
- 	} while (cmpxchg(&input_pool.entropy_count, entropy_count, 0) != entropy_count);
- 	extract_entropy(buf, nbytes);
-@@ -915,6 +915,7 @@ static bool drain_entropy(void *buf, size_t nbytes)
-  *	void add_hwgenerator_randomness(const void *buffer, size_t count,
-  *					size_t entropy);
-  *	void add_bootloader_randomness(const void *buf, size_t size);
-+ *	void add_vmfork_randomness(const void *unique_vm_id, size_t size);
-  *	void add_interrupt_randomness(int irq);
-  *
-  * add_device_randomness() adds data to the input pool that
-@@ -946,6 +947,10 @@ static bool drain_entropy(void *buf, size_t nbytes)
-  * add_device_randomness(), depending on whether or not the configuration
-  * option CONFIG_RANDOM_TRUST_BOOTLOADER is set.
-  *
-+ * add_vmfork_randomness() adds a unique (but not necessarily secret) ID
-+ * representing the current instance of a VM to the pool, without crediting,
-+ * and then force-reseeds the crng so that it takes effect immediately.
-+ *
-  * add_interrupt_randomness() uses the interrupt timing as random
-  * inputs to the entropy pool. Using the cycle counters and the irq source
-  * as inputs, it feeds the input pool roughly once a second or after 64
-@@ -1175,6 +1180,21 @@ void add_bootloader_randomness(const void *buf, size_t size)
- }
- EXPORT_SYMBOL_GPL(add_bootloader_randomness);
- 
-+/*
-+ * Handle a new unique VM ID, which is unique, not secret, so we
-+ * don't credit it, but we do immediately force a reseed after so
-+ * that it's used by the crng posthaste.
-+ */
-+void add_vmfork_randomness(const void *unique_vm_id, size_t size)
-+{
-+	add_device_randomness(unique_vm_id, size);
-+	if (crng_ready()) {
-+		crng_reseed(true);
-+		pr_notice("crng reseeded due to virtual machine fork\n");
-+	}
-+}
-+EXPORT_SYMBOL_GPL(add_vmfork_randomness);
++config VMGENID
++	tristate "Virtual Machine Generation ID driver"
++	default y
++	depends on ACPI
++	help
++	  Say Y here to use the hypervisor-provided Virtual Machine Generation ID
++	  to reseed the RNG when the VM is cloned. This is highly recommended if
++	  you intend to do any rollback / cloning / snapshotting of VMs.
 +
- struct fast_pool {
- 	union {
- 		u32 pool32[4];
-@@ -1564,7 +1584,7 @@ static long random_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
- 			return -EPERM;
- 		if (crng_init < 2)
- 			return -ENODATA;
--		crng_reseed();
-+		crng_reseed(false);
- 		return 0;
- 	default:
- 		return -EINVAL;
-diff --git a/include/linux/random.h b/include/linux/random.h
-index 6148b8d1ccf3..51b8ed797732 100644
---- a/include/linux/random.h
-+++ b/include/linux/random.h
-@@ -34,6 +34,7 @@ extern void add_input_randomness(unsigned int type, unsigned int code,
- extern void add_interrupt_randomness(int irq) __latent_entropy;
- extern void add_hwgenerator_randomness(const void *buffer, size_t count,
- 				       size_t entropy);
-+extern void add_vmfork_randomness(const void *unique_vm_id, size_t size);
+ config FSL_HV_MANAGER
+ 	tristate "Freescale hypervisor management driver"
+ 	depends on FSL_SOC
+diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
+index 3e272ea60cd9..108d0ffcc9aa 100644
+--- a/drivers/virt/Makefile
++++ b/drivers/virt/Makefile
+@@ -4,6 +4,7 @@
+ #
  
- extern void get_random_bytes(void *buf, size_t nbytes);
- extern int wait_for_random_bytes(void);
+ obj-$(CONFIG_FSL_HV_MANAGER)	+= fsl_hypervisor.o
++obj-$(CONFIG_VMGENID)		+= vmgenid.o
+ obj-y				+= vboxguest/
+ 
+ obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
+diff --git a/drivers/virt/vmgenid.c b/drivers/virt/vmgenid.c
+new file mode 100644
+index 000000000000..5da4dc8f25e3
+--- /dev/null
++++ b/drivers/virt/vmgenid.c
+@@ -0,0 +1,121 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Virtual Machine Generation ID driver
++ *
++ * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
++ * Copyright (C) 2020 Amazon. All rights reserved.
++ * Copyright (C) 2018 Red Hat Inc. All rights reserved.
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/acpi.h>
++#include <linux/random.h>
++
++ACPI_MODULE_NAME("vmgenid");
++
++enum { VMGENID_SIZE = 16 };
++
++static struct {
++	u8 this_id[VMGENID_SIZE];
++	u8 *next_id;
++} state;
++
++static int vmgenid_acpi_add(struct acpi_device *device)
++{
++	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER };
++	union acpi_object *pss;
++	phys_addr_t phys_addr;
++	acpi_status status;
++	int ret = 0;
++
++	if (!device)
++		return -EINVAL;
++
++	status = acpi_evaluate_object(device->handle, "ADDR", NULL, &buffer);
++	if (ACPI_FAILURE(status)) {
++		ACPI_EXCEPTION((AE_INFO, status, "Evaluating ADDR"));
++		return -ENODEV;
++	}
++	pss = buffer.pointer;
++	if (!pss || pss->type != ACPI_TYPE_PACKAGE || pss->package.count != 2 ||
++	    pss->package.elements[0].type != ACPI_TYPE_INTEGER ||
++	    pss->package.elements[1].type != ACPI_TYPE_INTEGER) {
++		ret = -EINVAL;
++		goto out;
++	}
++
++	phys_addr = (pss->package.elements[0].integer.value << 0) |
++		    (pss->package.elements[1].integer.value << 32);
++	state.next_id = acpi_os_map_memory(phys_addr, VMGENID_SIZE);
++	if (!state.next_id) {
++		ret = -ENOMEM;
++		goto out;
++	}
++	device->driver_data = &state;
++
++	memcpy(state.this_id, state.next_id, sizeof(state.this_id));
++	add_device_randomness(state.this_id, sizeof(state.this_id));
++
++out:
++	ACPI_FREE(buffer.pointer);
++	return ret;
++}
++
++static int vmgenid_acpi_remove(struct acpi_device *device)
++{
++	if (!device || acpi_driver_data(device) != &state)
++		return -EINVAL;
++	device->driver_data = NULL;
++	if (state.next_id)
++		acpi_os_unmap_memory(state.next_id, VMGENID_SIZE);
++	state.next_id = NULL;
++	return 0;
++}
++
++static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
++{
++	u8 old_id[VMGENID_SIZE];
++
++	if (!device || acpi_driver_data(device) != &state)
++		return;
++	memcpy(old_id, state.this_id, sizeof(old_id));
++	memcpy(state.this_id, state.next_id, sizeof(state.this_id));
++	if (!memcmp(old_id, state.this_id, sizeof(old_id)))
++		return;
++	add_vmfork_randomness(state.this_id, sizeof(state.this_id));
++}
++
++static const struct acpi_device_id vmgenid_ids[] = {
++	{"VMGENID", 0},
++	{"QEMUVGID", 0},
++	{ },
++};
++
++static struct acpi_driver acpi_driver = {
++	.name = "vm_generation_id",
++	.ids = vmgenid_ids,
++	.owner = THIS_MODULE,
++	.ops = {
++		.add = vmgenid_acpi_add,
++		.remove = vmgenid_acpi_remove,
++		.notify = vmgenid_acpi_notify,
++	}
++};
++
++static int __init vmgenid_init(void)
++{
++	return acpi_bus_register_driver(&acpi_driver);
++}
++
++static void __exit vmgenid_exit(void)
++{
++	acpi_bus_unregister_driver(&acpi_driver);
++}
++
++module_init(vmgenid_init);
++module_exit(vmgenid_exit);
++
++MODULE_DEVICE_TABLE(acpi, vmgenid_ids);
++MODULE_DESCRIPTION("Virtual Machine Generation ID");
++MODULE_LICENSE("GPL v2");
 -- 
 2.35.1
 
