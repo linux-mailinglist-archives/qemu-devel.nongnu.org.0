@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442B74C2DFE
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 15:15:07 +0100 (CET)
-Received: from localhost ([::1]:47828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D3B4C2E10
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 15:17:54 +0100 (CET)
+Received: from localhost ([::1]:52874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNEte-0002TI-35
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 09:15:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42754)
+	id 1nNEwL-00062V-0R
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 09:17:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNEqf-0000DX-6N
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 09:12:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42589)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNErp-0001p0-Lr
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 09:13:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNEqc-0008KN-5M
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 09:12:00 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNErn-0008US-FN
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 09:13:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645711914;
+ s=mimecast20190719; t=1645711990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IfERO4PGiXKDwH1mOEbhTwULdMiFaPR3Qj+9DsLW7uU=;
- b=Q29a8Y3oWdUtHl/+7P20uE2f+qMXynRuxVxOj3xMZe8u+7yjdxLXJwsKGujmZZqE6G3oT1
- xOBZzQtzuGudVp47Fhp/zriVT6Z6k5cvcKexZyfj9Izl/oTvqOJAtEdRF5VQ6MyEUp+KzE
- tdNpL30/Yln1rJCs/PeAYqIz0pg6toc=
+ bh=bDph96NGkcKcK95Vzi25n3Smi97waIy8gCtSblNjA2g=;
+ b=WN6vKsUgfNff7qxNZvDhzHCYH3+xvA6kwmjSSSEOJLbPsMJ+yTqmKgJBudRN1if6Z+4CJ5
+ COrda/sAwkAeGx7EdXYEolq/FcUPTlwIAer4oWXq8f1W5Xa2RB9v91Evd8539jtpDp8Nzh
+ 5hukiZKf0QwpGPk8Jj+MUiIgxwjpWog=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-348-MXYkbO-xNmO3cgHy_DqDvA-1; Thu, 24 Feb 2022 09:11:52 -0500
-X-MC-Unique: MXYkbO-xNmO3cgHy_DqDvA-1
+ us-mta-518-hL2suF0gMbyrrY8tzjwcoA-1; Thu, 24 Feb 2022 09:13:09 -0500
+X-MC-Unique: hL2suF0gMbyrrY8tzjwcoA-1
 Received: by mail-ed1-f70.google.com with SMTP id
- g5-20020a056402090500b0040f28e1da47so792451edz.8
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 06:11:52 -0800 (PST)
+ h17-20020a05640250d100b004133863d836so813156edb.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 06:13:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=IfERO4PGiXKDwH1mOEbhTwULdMiFaPR3Qj+9DsLW7uU=;
- b=1CXs7KPRkciWqhM+9PRkNbdcpZMiuhtUiOMcRQ3f14zFol5H4ZclcKh3Q3o5RFo51R
- RA3fp5OTTXKsqF72mfpLJSbjaDVq9vd4/CghyOD+SNB0/6OBNbjYlb3Ezx8KDyyxX3nE
- fq6qH0bQv5iJqc+p0CXY174C1wRxMHvtD1WBpJ1jFe8SkbA8DVW41EAIYVYFoFupPu3B
- bjl0zp5UoYgtxUEWIxL9oKwMonNcwilcr677aO0s+6xExN8U3kVE/FlVbi/YPOdnrtek
- BIs0ijo510lModcybdp7+B1jIiR72r8wLhFdhVk/+z8jycc3MNZuef/T63Y7o/QobXBX
- hdhA==
-X-Gm-Message-State: AOAM5319Bgf3o51q1zfjhZYp3Q6+5HagC8UmxThAwlmGXyTZUlSDIc9u
- JapHm6OSvv6ZxVd1f9FoOInYW16SAwfW+37jqpcNuqZ6u2lJU97Gt4VfhaqziOKzZIZBLlIwkxd
- PC25yU/ZrREDlq4A=
-X-Received: by 2002:a05:6402:90d:b0:412:d3fe:8460 with SMTP id
- g13-20020a056402090d00b00412d3fe8460mr2442001edz.316.1645711911740; 
- Thu, 24 Feb 2022 06:11:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwA7u6A3KuJnvlnZP6Bu4L0LbEQaV1b9XPqQnDYtFjbq82Q7gWutuxVb5uDQedZEvKPb7Otlw==
-X-Received: by 2002:a05:6402:90d:b0:412:d3fe:8460 with SMTP id
- g13-20020a056402090d00b00412d3fe8460mr2441980edz.316.1645711911545; 
- Thu, 24 Feb 2022 06:11:51 -0800 (PST)
+ bh=bDph96NGkcKcK95Vzi25n3Smi97waIy8gCtSblNjA2g=;
+ b=DcEA0Fr35qc/FsGgchTOOUax28WkNTUxz0y2zHUm7/UQwGH06mXAFwKXFqmXgySbzX
+ E43vxKEOw6X3sdslspS3QvGdyRNV1qhiqbNWVJvutBx+awxS7YZQ2wm8Qod2SSIiVhHn
+ xVyc3QyJASs5ce8TAasvghzNKD8CwpITryvf/BWMyWUHdpA4fqx8yEzgv6wnRPARZgPU
+ chLrIRWrXIjGhlIWg7gxXmYUTSjvdjkJ8J+tdQ+svB7sdRaZCQ7nhGvigceTZ/WrUzg3
+ elLbcqrAq9lZn2xQsnfUwbn3bGiaHIlieu9G3vMMtYLFXIZ0tg8GQbVrWyr9hrlDyHhY
+ 3DFw==
+X-Gm-Message-State: AOAM532IFfwCHpqP/fAYpH6EcwY1GyBAwEc/ShLEBTAMBJoDKDJHwtaN
+ i7LD5XcILzdUM2mut65ZMxDJ6Mp72/POhdMOls00nbaEVBYZug5z6vRFtw0cPY9MQ/WY2uw9NSR
+ 1UWRld47t+tYaLzI=
+X-Received: by 2002:aa7:d8cb:0:b0:406:3135:51c7 with SMTP id
+ k11-20020aa7d8cb000000b00406313551c7mr2425894eds.233.1645711988056; 
+ Thu, 24 Feb 2022 06:13:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJytibFEWcRvFny1vxdRS5GKKq/XOnPiKqYXGzrn9tnLgUTsaIrk9S3pohDbA8JoOFmbIKOQ2w==
+X-Received: by 2002:aa7:d8cb:0:b0:406:3135:51c7 with SMTP id
+ k11-20020aa7d8cb000000b00406313551c7mr2425877eds.233.1645711987842; 
+ Thu, 24 Feb 2022 06:13:07 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id a18sm1395939edu.31.2022.02.24.06.11.50
+ by smtp.gmail.com with ESMTPSA id m7sm1422839ejq.10.2022.02.24.06.13.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 06:11:51 -0800 (PST)
-Message-ID: <90aa45dd-9fe2-cb66-281a-1e397f8cbeed@redhat.com>
-Date: Thu, 24 Feb 2022 15:11:50 +0100
+ Thu, 24 Feb 2022 06:13:07 -0800 (PST)
+Message-ID: <3f45bd0b-2c31-92ba-c840-014b833fb495@redhat.com>
+Date: Thu, 24 Feb 2022 15:13:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/2] block/curl.c: Check error return from
+Subject: Re: [PATCH v2 0/2] block/curl: check error return from
  curl_easy_setopt()
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20220222152341.850419-1-peter.maydell@linaro.org>
- <20220222152341.850419-3-peter.maydell@linaro.org>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220222152341.850419-3-peter.maydell@linaro.org>
+In-Reply-To: <20220222152341.850419-1-peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,7 +89,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,24 +111,26 @@ On 22.02.22 16:23, Peter Maydell wrote:
 > from curl_easy_setopt() for any of the calls to it we make
 > in block/curl.c.
 >
-> Some of these options are documented as always succeeding (e.g.
-> CURLOPT_VERBOSE) but others have documented failure cases (e.g.
-> CURLOPT_URL).  For consistency we check every call, even the ones
-> that theoretically cannot fail.
+> Tested with 'make check' and with some basic smoke test command lines
+> suggested by Dan:
 >
-> Fixes: Coverity CID 1459336, 1459482, 1460331
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
+>   qemu-img info https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
+>   qemu-img info --image-opts driver=qcow2,file.driver=https,file.url=https://cloud.debian.org/images/cloud/buster/daily/latest/debian-10-nocloud-amd64-daily.qcow2
+>
 > Changes v1->v2:
->   * set the error string in the failure path for the
->     direct setopt calls in curl_open()
+>   * new patch 1 which fixes a missing "set the error string" for
+>     when curl_init_state() returns failure, since we're about to
+>     add more cases when that function can fail
+>   * set the error string in the failure path for the direct setopt
+>     calls in curl_open()
 >   * fix the failure path in curl_setup_preadv() by putting
 >     the curl_easy_setopt() call in the same if() condition
 >     as the existing curl_multi_add_handle()
-> ---
->   block/curl.c | 92 +++++++++++++++++++++++++++++++++-------------------
->   1 file changed, 58 insertions(+), 34 deletions(-)
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Thanks, applied to my block branch:
+
+https://gitlab.com/hreitz/qemu/-/commits/block
+
+Hanna
 
 
