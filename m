@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261CC4C3358
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 18:17:20 +0100 (CET)
-Received: from localhost ([::1]:49886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309384C3359
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 18:17:24 +0100 (CET)
+Received: from localhost ([::1]:50248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNHjy-0007cO-Nz
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 12:17:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60842)
+	id 1nNHk3-0007rx-AA
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 12:17:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nNHgr-0005dU-NS; Thu, 24 Feb 2022 12:14:05 -0500
+ id 1nNHgt-0005do-3p; Thu, 24 Feb 2022 12:14:07 -0500
 Received: from [2a01:111:f400:fe1e::726] (port=14723
  helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nNHgl-0005pu-T1; Thu, 24 Feb 2022 12:14:03 -0500
+ id 1nNHgq-0005pu-NX; Thu, 24 Feb 2022 12:14:06 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fYG4ZGBaTtxHiIAbpRpx1xUY0IatgXgatSt+O+zzkRySPcNTVm87VkdqMfkKpzPvtkTOGfWtz6pUW0HgOePJHgpe/WFpmormI797etwA7TuCxbpF4qciD3zvirSQXEkwVi0b7wnrW5IM18KwdaTCTFuZraVqUqNdnhUyQ2Due1G4aAelckHmnzAPb9vjtyDTkb7lrhdHd/OkI5T2Na9598ChaJDtNhCMpB6O6VZE1Urs6mW0LBWONQFPRr+BBC4Tp3acSSFdFVD0k6PdWRsOABpA6m7CC7eytQG1HVfImJWecpbCQvKTUb2oNqs1hTXety45j6I42vYOsPCa9Ut3mA==
+ b=IaCIlnQLjIDvnYpF1D+w37nBWUHK1S/i4EQruM1EOn6BYZUMVyH8CXbHVa3waZhK3I++BtwO/xrWstgaQ7hSal5swzvZVDGUGpVymfALDMwV3fxrtGhzUYZnVUzaACSnvwD1pQgNFyOo6F4RjdoLme8yZ06HCuKzFmqF+O/I3kNUQtjlkKEzUYp4vMktqvKfMgYZzt8A/mftWesi1U+FVHxLrJlpx3An1wfpZucx5lvn8uXd55/sAUTXod5EweAn91ZqZxHXlwyM39ao0QFbrERXsunIkm3OyPeo4BypkeJRyHnTRi60E0bEBIMxQLOcteMDN3tfaCgfJxMKa0J1YA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ifYmVaYWPh1rQSxCgXL+RFMTLItkIDhGj/xwJNUgB5A=;
- b=MHks0/Pztdl00oNzYdHn0RxvitUnaKUbXeJjCkNrcablVqyW5Y5T662hSdEjezjjRunuazeriZy0q229ZBlLFAcpprhG7AG94vOSeeyaBIsJw/6KmEmdaURkEEbAz59A5qU1GMNbpKFEoTjhCMkCXFPHflYzIH/35w+CPO6BW6H9iCeg1MgYC2znexTO/avCXNsv+20hwNLYRIiqPDWgQ4XZb7L+ohu7dVxuqx/V+Yl5m61afSZKRcD/bPHFPCCw6eL0+VIbhnF6QWkQ5ZMTqcP1fZM97M5w2N3yUAjcFaFlPCPmSrfVXuhge53mfguLRmXZCsd0iI34ahofrqX7kQ==
+ bh=5PEIUGCBX9t1e2g5owSOOuCbnMvA4gr6n9U2JaJhar8=;
+ b=WgSSSjaljyuLLC6sT3xl1LbeTjDSH2jMMeKQu//wb9O8JjC9UDTJlwojSaNfvcnyD+leWLf3Qo/Olq63Ycb3lkTmtvY5U21uvDc/8zwIvdnwvfyuAItMFULYzmtXaTGmKtJPvYklaDs0+DDaHh12T0xZ2PlFQb7MEPIFwYXvWbOWUEtqcbJM46YVbwefOZi/0WUI757xEfXc93UlSBiSRFYajKYSWATkGpqKxcguKBJkS+YFvwYjEMUcuojZzqTkfHTrihfi+coOvAHTUglDm7ehDfzP8SOSwiC4+wG+tGFTYmFDFUPZIpaWcyrqs66/OuugCIe+sRvcLlD6NNkQYA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ifYmVaYWPh1rQSxCgXL+RFMTLItkIDhGj/xwJNUgB5A=;
- b=NSuAueiBkAo5b6lra6s7UL85NuaKyG2ggkkNJez0dXQCQ2Xn5ETqHJcGnT62ENSR3rreKnZXur4Fa6Jj4Drv94wzDaP64+TiRlIUdRWIGW2sJIo0lrgeT0ELLhhtbdbc+meSjcFA1wDkkW2qJ4J1CI2xYtCX+hiVEAZ4HfiD9BY=
+ bh=5PEIUGCBX9t1e2g5owSOOuCbnMvA4gr6n9U2JaJhar8=;
+ b=JFG7tZ/TGCabAx1APmw0x1lX5YLk5k1AWI1N7cAEdg6zXEFNB/xtWab39bkJl4rrmTAvgj3/M9M8wtbxcFpgj0TTSTMP7t6z2w48WKO+jXN5hyoNK00lvhDcpKrunXNCZ910cUPWO1+zEoc7Uz2EbH3r/7XwgvqxO2Ngj7DD8jQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by VI1PR08MB3197.eurprd08.prod.outlook.com (2603:10a6:803:3e::27)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Thu, 24 Feb
- 2022 17:13:53 +0000
+ 2022 17:13:54 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.5017.021; Thu, 24 Feb 2022
- 17:13:53 +0000
+ 17:13:54 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  hreitz@redhat.com, kwolf@redhat.com,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: [PATCH 0/2] blockdev-add transaction
-Date: Thu, 24 Feb 2022 18:13:26 +0100
-Message-Id: <20220224171328.1628047-1-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/2] block: transaction support for blockdev-add
+Date: Thu, 24 Feb 2022 18:13:27 +0100
+Message-Id: <20220224171328.1628047-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220224171328.1628047-1-vsementsov@virtuozzo.com>
+References: <20220224171328.1628047-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: VI1P195CA0016.EURP195.PROD.OUTLOOK.COM
@@ -60,56 +62,56 @@ X-ClientProxiedBy: VI1P195CA0016.EURP195.PROD.OUTLOOK.COM
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9e7bc7c9-1ceb-4eb7-9ba8-08d9f7b9085f
+X-MS-Office365-Filtering-Correlation-Id: 1acca4f6-453c-48a7-1624-08d9f7b908cd
 X-MS-TrafficTypeDiagnostic: VI1PR08MB3197:EE_
-X-Microsoft-Antispam-PRVS: <VI1PR08MB3197878E1A800D2C6599EDA1C13D9@VI1PR08MB3197.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <VI1PR08MB319700F0F43540393BC4B662C13D9@VI1PR08MB3197.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Gn1QkPAUIE+WZfnyZ12VlvqBkscl0B8o3Htja//GgRKE4lzkqGNYEz3wJfb4zD2R8jA5mDMt4EbeeOvDVKHk5X6cGuD6EA58ZCgbWbR2mflSz4LAl8xWWsX9XCZAP7gzQO0mCgWaDawSutgOpQOyEXGuwAdacdkjb+ObyMwLRrkEinvXMbpLzvjD4Ba95jvl2lkQGUBOEjcjGlj+JfBCli6ECvWMecT/KmueNhxwf8XQX5Ci5/bCYmr7EtoFgHCN+5rTrQBV9SGHuDo92ZWAhQvVsFX2+e1/ZRrUS2GnF1nHSAl25cvcK5WoYfRedcqsRXy48dmfwrpqgMzzwpSht/aV09TtJ4XQHQdhW4kzcyH04qtajufFjCrvmt7D9RwWdOwjMjaBKQ8xGa2bnlV6zHvZQrqsZkQueCr82ROJlgltoI95qaCGZnU5/I+0m5KBuIAREMIXbbVYwKjqKpfjbixWTMJLpwimZNvPQJBGJ2HLPWMLkBpi1D2tOtX2Ee+9ejej0yf/rU4WayxHeJD88MhSwnDBoU5ExB9JFxgN1hFg22KVAceJW5TIuRbSsOuYHTtQmrc/8DzVzDUc+fb+cCdeSkSsTTdJRRI6KL3qwKZquCapUVtbrm65OibZvYznCO0VkXPceBF8RUhHgcmSx8B+79d6F/DIhfMUfjIfvCFSjFxPNZU+RpDF3c8eRQfQzHvTRjOmOFyKT42dPV+fpQ==
+X-Microsoft-Antispam-Message-Info: 9NiMzOWQ/OmwpMnhLJAdx2BT3RaGamphQB/Lv0VXp7c2UMfmktkDSWLntn5MlIHAuKvjC9XQFT+ziVd1H7pkM8J/vUP3eFuNvqiOzD6kOwTAXcfhxRTs9VK3YGtKRuESlmnRLAxK3r7zleMm5qnA7QqsBOBT8/76K5VphBobpzMeDma7BNkumxVxc94faM9P5s1ZfCxtC9/urCuNpM0x87Xe4jW2z9idYUtC/dPSQGRgINRQAxSTX/odzPKkPW7DNAf+7NPHFaRbpGEnb+xGYF7r6F16TlKDHKhpclCMYmBKCtZH5gev3RqaJ8+ZYUqs5od4d5Q1uDIjfHxRew/c8a07KjbaFYc0Pmxf9HOB1wFrlA/CI/bxn8bNgJEzU2IToH8PxSsAxz1NdQPVA5viIKsGM0wedEaHQoFWKheWsQTAzWETimR8Wp8EW9qJX9iexrThq4iiViLcVq85kBxlvMHo4TnR/TT7B0tt8dbKrgd2CK01x2mxGsBUEBYGJqA9jaBQTCFAwQD3QzSnyz8LqTPK1P1S6dqo4nUiuCOfMIYyT4uPG5inI/Lp+QxNjEhOH4X40JyjrWxAxntGsSzbni7zE1YngvENtXfwrJ1cO22+m2EksZw6JVxvAxyl1fe9Ml/lRyuMQa6DWoTJQgttNzJmEUwuSP54ITmhBa+u9AST0esAUHhIXW4RzSw+bimOTEwQO95PBHEKmm/069SEww==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(4636009)(366004)(6506007)(52116002)(508600001)(6666004)(2616005)(86362001)(38100700002)(38350700002)(6486002)(4326008)(8676002)(66476007)(66556008)(66946007)(6916009)(316002)(1076003)(8936002)(107886003)(26005)(2906002)(83380400001)(186003)(6512007)(5660300002)(36756003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fPrgtqAnsVfGd5BmwMq0CkHh5oXHeEOTuLWvFBGMDbzS6sa8p7m065OCTI8h?=
- =?us-ascii?Q?32r2pXZvQTEjvbua5WJ+Iab+6VkD7VQuDOKrEt8ybcjnlj62UKp0olwQTRli?=
- =?us-ascii?Q?QresT6TVxFGaf1SXvHWejpBp+zRu7rioyAznEDW0JwDUGIXSatD1p6Mmcdmh?=
- =?us-ascii?Q?MfV6WZRfPB4N8bb8O3sroLnEaiGog1C2OIfQrxgZAwgYBO7U5ImFs6DP57RE?=
- =?us-ascii?Q?+hs2f43T42BFAz/rQsi1ZmjNjFJUGte9/x5UUtt0Fg4cO/C6QKjxDYyHWoE4?=
- =?us-ascii?Q?pLBlGliKZjwMIyboJuti69W8bA5pEQ7N8IRJi8vSn+DiEulU6e1q2dEBPOTz?=
- =?us-ascii?Q?cUtuSlWPW4xcQchd7jzRk/zFZnRJ5yKoQR8Mf/Q7chvtYx8hok+SQ3hUaG2A?=
- =?us-ascii?Q?uTCPw9ygLY5E8KkUTXgSVzLeYjA5GOsa/FN6SCDkpDsfQYddnHHGdGFyr9PJ?=
- =?us-ascii?Q?N98Jcpurv51nIkeVBBjG+3JQeYRv9xh00jDbONKpk6dgra+dDwv/oqCN899a?=
- =?us-ascii?Q?NX/yxDmmRVwdKPjWj7+dtFBTpQg1kFqgTQAv0/pK93vPe5lo2N5VkdeogTPD?=
- =?us-ascii?Q?bkwizXZym++sGZBJLkge5v8jOvovCfsniqnvp6s4DeIXScy5l8URhTn7m1gS?=
- =?us-ascii?Q?RYvkbp31j+xHqwo9oBpXYXghEYVX4Aw+YABB4ZvioYbvlbGK+/vd6U4sHrvo?=
- =?us-ascii?Q?llUGA4866zfKlG0YHFEtvHC9ziecUkBLqYKvTpP7uv52ZDaJWTar2xWU8v21?=
- =?us-ascii?Q?jOml8+mS6NeSKJryNbIM80T5DsT2tbHimW8o7mBRtsmg01+rVKHk7lXQlgMJ?=
- =?us-ascii?Q?7nyAYP52fDVBe0xVjdRYyeSqQaUUTqAoKz6/otPDowAT4K2aXI/IDdPuPT2m?=
- =?us-ascii?Q?UZlmVCwIFTXPHLyjV4vSb+W8+5nGMQfaPWxJI9GvSJiRwmXoax6ZbfdeAdJH?=
- =?us-ascii?Q?Gdv9+L0tQ6zEDRrOWptVDG4AI+miW5JP6fTOcSmApzv+UE5o6DsnXUulaJRQ?=
- =?us-ascii?Q?tv9+QFKAZZeVjn2KJKUJkmotopZKYe0vaIN/HOLO7pU+FWkuiaSHKKuzv8NW?=
- =?us-ascii?Q?yUNarEW2t5PfAi3gcy3T+C1aYLyAOKzf6uCUUEUlMPwrpyu6yrdd8fclZWFO?=
- =?us-ascii?Q?8shKTHEPUa7rwam0h6/29W4RGofLTCwcm+UVD6e9SlGyJdRD/CqrCyWk2fCu?=
- =?us-ascii?Q?VUbHsPGbawtwRcoMDmvgHxb1dbaQlJFRLPM8Ar6Ljiv3kDEGq1VafJuzgnBP?=
- =?us-ascii?Q?gED7Kiyfz5lUC/6mHlRqCZ9SZg6xQM6FBMPH5QAo3+rHcGDTIplsh4nMm4R6?=
- =?us-ascii?Q?JcpzSAhokvUFv+pqRg1P6oP7I5AXSfHHZwdUIYo1KNHUwkrl+35zZLnvBtFD?=
- =?us-ascii?Q?B0wKj7uzFwNRTNZ4CH1g7SgRe7tjUHgl3ErZo9sSlYcFz4jzZtix6qZd/+PG?=
- =?us-ascii?Q?/7tmq4ClaTZP9iv3k2nqlZEfTwdUn9yOvvd8sxdZSbMaoLEHp0uWXejXwyTq?=
- =?us-ascii?Q?d5rOa7M4vDhTG+H26tithS11wX8v0ubnseiYtYTe7COni2tujXib5+rrahNY?=
- =?us-ascii?Q?BW94hM/hyfFTIrArPYq8nnxIf4KN2qG2/3+dAPhGYoGN5EP1REjW5I38A94I?=
- =?us-ascii?Q?duRSpImYGSLanah72YLScK/YE40al9g0HQbBmQkyuC5CwE2DYrPZO7mxwCTZ?=
- =?us-ascii?Q?Q9OhbA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?R0xRfNxtJ5CG+y4lC9i6HttCA4nOH7rEJ36RVfbNGDuLhv7MldvxvZsooiV0?=
+ =?us-ascii?Q?3q1fwLMkeWEjMfTb2pz/WgfjnvfNUjDVOTsWNJm41UrD8imoNdkfVY7lPIG6?=
+ =?us-ascii?Q?eSvFFFlvTShFUNsv+Ow+qiR84/ycbMvgy05VyQsbeZuxznInHglpYRndxoQU?=
+ =?us-ascii?Q?7hFbq7DHyykTDR/ltosY+VUx4T9UQZCMnps1migkkMCmTFNRBQhuhsId6n2V?=
+ =?us-ascii?Q?JYd07Rb9TpJXvhBr/QwM+w5JboR4mwkjqqNf+hR6NxHNcTFoAQzkerrjWsek?=
+ =?us-ascii?Q?JF2dKzc1ZsqqNtOOMpjtgjJ6RlQecfI75bQ9StP7VDrM2kbSNkJ9EBEe6J4y?=
+ =?us-ascii?Q?TeAQJ82jKf9nxBIurZqhGFX8T5IKZ2bddBuntcKF7YsUEL5+2UN2A6/F1CWa?=
+ =?us-ascii?Q?UJFw5MSp33HSi2T7X+hg/YN0rK0DM5DPagqAhG34UTJ2sEVKhUXsNajckwRv?=
+ =?us-ascii?Q?Tmjat5vcm1PaZz9MUtseBEMsUWSdzi/NkBUKOUeRJ4CDbWyWgTuRY335qNHP?=
+ =?us-ascii?Q?OdkNRn8dFYEaCKc7yIIICsEJqsTYzYV1j6+xNUJj0IBG8qynf5n8+bqVboFR?=
+ =?us-ascii?Q?QaSNLBioDfxSKPzwLvKOZCvbm15whGBEMMGqUNjrDjpFdWTUrxYF0jEVZ8Gq?=
+ =?us-ascii?Q?05DbA0mseIDfexMEaSTLPc3chMaR1o7SiLSkgUlvj0ZosbGFcj6G4xMksnFo?=
+ =?us-ascii?Q?UFQMOEVCoeI4EbVxHRHAtIJcFnjgjSNbt0jD3aSzbgpw838HoqKf4psL6Nwl?=
+ =?us-ascii?Q?WekKMG+YxQslX3KF4gJ4aNiZZOoCb0ySMGd0Ym3N5KK/TmTv9AM6TWdMtaEF?=
+ =?us-ascii?Q?Azf4TTAelnZEaiIy0bZ0OihSZs7/KCWwapvc03LAF0Yb3BSRbWuihFF1BZRZ?=
+ =?us-ascii?Q?FeOTMMWxe3saKkLvdjijBHNVlplvLTJEDbhf3UWzvGUBuEICSC4J2OovzxLo?=
+ =?us-ascii?Q?9kRDj7wfG6wfFSp715MmEREVGeeFYA8w3R5xwRPmiQHKQRTdz3kQucRrggZ5?=
+ =?us-ascii?Q?IisFWzvGChbppkdCGq1Xv45q3xxcV6YMEzMuxCT+xeHqb2qX2w7J5+noDalL?=
+ =?us-ascii?Q?1vJoh7rF/IobiFiJJmNDV++hNDYswKqTuoHR8OkisE993KohO2/Wm8UfovoQ?=
+ =?us-ascii?Q?2Gn8ZkcN442Txd7vK1xXD0JriGBQ7iI3J60xOn89zRT8JTuBRkMMTwgZL84Y?=
+ =?us-ascii?Q?EieBmifVQD0ehu1MH2ekk2VO6BiU4OROdbuDhWvVobViOPLcAzejkwQVyCOC?=
+ =?us-ascii?Q?6OYYtt5VQfTYYNZCve00qRQq8dd8rU6dDMo6Pnl23D6Xnus+WPP2FD9sQnNB?=
+ =?us-ascii?Q?kLtt5HCclv/e3ZNWcVr4pCOpu48jWCTAnkeF+4hh5mMBebUbcOwF3wOVhiMe?=
+ =?us-ascii?Q?6Qj6e4uttlqs6wte5F2zPJmmI0YEmwMFgzZ48fT4DK10sTrFUCCMIDT7zsAG?=
+ =?us-ascii?Q?ergEbHSKI/69JrfSdjfOajd20ptfGgcgU2fJB6ZJmoswxDvmAuG0uNsjXG8V?=
+ =?us-ascii?Q?JK+T2ZMn/3gtOe2eCn1JED+intl2u+MdV5pg4pgnUtcZcz9JaRDLG1UVYJq7?=
+ =?us-ascii?Q?mfy0X7+NOW8BzzA8N2CMktkvDotihwBWJNy+ET3w7G8KzyF5tedk4E+wsQup?=
+ =?us-ascii?Q?fgaoQTvQmn1JBk5S+SNAPb2bnPsKy4+GiSQu6WXDbdgSp3rKPQT3hehFJI1L?=
+ =?us-ascii?Q?CNZEajT+UWeUtTnMLpfx9Nzz7F0=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e7bc7c9-1ceb-4eb7-9ba8-08d9f7b9085f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1acca4f6-453c-48a7-1624-08d9f7b908cd
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 17:13:53.2691 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 17:13:54.0022 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KWm3cZRko0g+l3iS2noe7u1SLmiJT7GeUn7YmOIfMY0suqBPibGeJc4WPcWeMgJSLS1BCoYRhtA57Asp7BtfIloniYDApdV3yDnccITTU9k=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0LhGpf/sR+RwTS/iJl06bTOFENUSWs4uXlJzaopt9UKLG9RxCrmYt5oyGubqUMsuDLvhNY03F6NGvc9D516WfKcoFiDlywXMC/9c6HuPHc8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3197
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe1e::726
  (failed)
@@ -138,42 +140,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Simply do blockdev_add() in .prepare() and bdrv_unref() in .abort() and
+that's it.
 
-If we want to do incremental backups with help of copy-before-write
-filter bitmap parameter introduced in my in-flight series
-"[PATCH v4 00/18] Make image fleecing more usable", we actually need to
-create filter, insert it into graph and do some operations with bitmaps
-in one transaction.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ qapi/transaction.json | 11 ++++++
+ blockdev.c            | 80 +++++++++++++++++++++++++++++--------------
+ 2 files changed, 66 insertions(+), 25 deletions(-)
 
-So, here is basic support for blockdev-add transaction, which may be
-useful for any scenarios.
-
-Also, I'll need to resend my "[PATCH RFC v2 0/4] blockdev-replace" with
-transaction support as well.
-
-Why I say that support is "basic"? Ideally we want an ability to call
-several blockdev-add / blockdev-replace commands not updating the
-permission and only then update permissions for all touched nodes. That
-is more flexible and will allow more strict and simple permission
-requirements in filter drivers. Still this means to implement
-bdrv_open() transaction action (using Transaction API) which doesn't
-update permissions (like most of internal graph update functions works
-now). That's of course is more complicated than this patch. So, let's
-start with something simple.
-
-Vladimir Sementsov-Ogievskiy (2):
-  block: transaction support for blockdev-add
-  iotests: add blockdev-add-transaction
-
- qapi/transaction.json                         | 11 +++
- blockdev.c                                    | 80 +++++++++++++------
- .../tests/blockdev-add-transaction            | 52 ++++++++++++
- .../tests/blockdev-add-transaction.out        |  6 ++
- 4 files changed, 124 insertions(+), 25 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/blockdev-add-transaction
- create mode 100644 tests/qemu-iotests/tests/blockdev-add-transaction.out
-
+diff --git a/qapi/transaction.json b/qapi/transaction.json
+index 381a2df782..a938dc7d10 100644
+--- a/qapi/transaction.json
++++ b/qapi/transaction.json
+@@ -53,6 +53,7 @@
+ # @blockdev-snapshot-internal-sync: Since 1.7
+ # @blockdev-snapshot-sync: since 1.1
+ # @drive-backup: Since 1.6
++# @blockdev-add: since 7.0
+ #
+ # Features:
+ # @deprecated: Member @drive-backup is deprecated.  Use member
+@@ -66,6 +67,7 @@
+             'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
+             'blockdev-backup', 'blockdev-snapshot',
+             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
++            'blockdev-add',
+             { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
+ 
+ ##
+@@ -140,6 +142,14 @@
+ { 'struct': 'DriveBackupWrapper',
+   'data': { 'data': 'DriveBackup' } }
+ 
++##
++# @BlockdevAddWrapper:
++#
++# Since: 7.0
++##
++{ 'struct': 'BlockdevAddWrapper',
++  'data': { 'data': 'BlockdevOptions' } }
++
+ ##
+ # @TransactionAction:
+ #
+@@ -163,6 +173,7 @@
+        'blockdev-snapshot': 'BlockdevSnapshotWrapper',
+        'blockdev-snapshot-internal-sync': 'BlockdevSnapshotInternalWrapper',
+        'blockdev-snapshot-sync': 'BlockdevSnapshotSyncWrapper',
++       'blockdev-add': 'BlockdevAddWrapper',
+        'drive-backup': 'DriveBackupWrapper'
+    } }
+ 
+diff --git a/blockdev.c b/blockdev.c
+index 42e098b458..eb9ad9cb89 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2180,6 +2180,55 @@ static void abort_commit(BlkActionState *common)
+     g_assert_not_reached(); /* this action never succeeds */
+ }
+ 
++static BlockDriverState *blockdev_add(BlockdevOptions *options, Error **errp)
++{
++    BlockDriverState *bs = NULL;
++    QObject *obj;
++    Visitor *v = qobject_output_visitor_new(&obj);
++    QDict *qdict;
++
++    visit_type_BlockdevOptions(v, NULL, &options, &error_abort);
++    visit_complete(v, &obj);
++    qdict = qobject_to(QDict, obj);
++
++    qdict_flatten(qdict);
++
++    if (!qdict_get_try_str(qdict, "node-name")) {
++        error_setg(errp, "'node-name' must be specified for the root node");
++        goto fail;
++    }
++
++    bs = bds_tree_init(qdict, errp);
++    if (!bs) {
++        goto fail;
++    }
++
++    bdrv_set_monitor_owned(bs);
++
++fail:
++    visit_free(v);
++    return bs;
++}
++
++typedef struct BlockdevAddState {
++    BlkActionState common;
++    BlockDriverState *bs;
++} BlockdevAddState;
++
++static void blockdev_add_prepare(BlkActionState *common, Error **errp)
++{
++    BlockdevAddState *s = DO_UPCAST(BlockdevAddState, common, common);
++
++    s->bs = blockdev_add(common->action->u.blockdev_add.data, errp);
++}
++
++static void blockdev_add_abort(BlkActionState *common)
++{
++    BlockdevAddState *s = DO_UPCAST(BlockdevAddState, common, common);
++
++    bdrv_unref(s->bs);
++}
++
+ static const BlkActionOps actions[] = {
+     [TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT] = {
+         .instance_size = sizeof(ExternalSnapshotState),
+@@ -2253,6 +2302,11 @@ static const BlkActionOps actions[] = {
+         .commit = block_dirty_bitmap_remove_commit,
+         .abort = block_dirty_bitmap_remove_abort,
+     },
++    [TRANSACTION_ACTION_KIND_BLOCKDEV_ADD] = {
++        .instance_size = sizeof(BlockdevAddState),
++        .prepare = blockdev_add_prepare,
++        .abort = blockdev_add_abort,
++    },
+     /* Where are transactions for MIRROR, COMMIT and STREAM?
+      * Although these blockjobs use transaction callbacks like the backup job,
+      * these jobs do not necessarily adhere to transaction semantics.
+@@ -3499,31 +3553,7 @@ out:
+ 
+ void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
+ {
+-    BlockDriverState *bs;
+-    QObject *obj;
+-    Visitor *v = qobject_output_visitor_new(&obj);
+-    QDict *qdict;
+-
+-    visit_type_BlockdevOptions(v, NULL, &options, &error_abort);
+-    visit_complete(v, &obj);
+-    qdict = qobject_to(QDict, obj);
+-
+-    qdict_flatten(qdict);
+-
+-    if (!qdict_get_try_str(qdict, "node-name")) {
+-        error_setg(errp, "'node-name' must be specified for the root node");
+-        goto fail;
+-    }
+-
+-    bs = bds_tree_init(qdict, errp);
+-    if (!bs) {
+-        goto fail;
+-    }
+-
+-    bdrv_set_monitor_owned(bs);
+-
+-fail:
+-    visit_free(v);
++    blockdev_add(options, errp);
+ }
+ 
+ void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
 -- 
 2.31.1
 
