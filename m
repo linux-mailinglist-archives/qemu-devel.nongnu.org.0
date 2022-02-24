@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73424C2B9A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 13:25:02 +0100 (CET)
-Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7602B4C2B92
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 13:21:16 +0100 (CET)
+Received: from localhost ([::1]:38384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNDB7-0002ja-Nk
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 07:25:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39322)
+	id 1nND7T-0005YL-IC
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 07:21:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nNCne-0001LO-8d
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:00:46 -0500
-Received: from [2001:41c9:1:41f::167] (port=45514
+ id 1nNCnu-0001f2-C2
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:01:02 -0500
+Received: from [2001:41c9:1:41f::167] (port=45518
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nNCnb-0000Af-Nu
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:00:45 -0500
+ id 1nNCnq-0000B1-IF
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 07:01:02 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nNCn2-0003GS-Am; Thu, 24 Feb 2022 12:00:08 +0000
+ id 1nNCn2-0003GS-Ty; Thu, 24 Feb 2022 12:00:09 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Thu, 24 Feb 2022 11:59:55 +0000
-Message-Id: <20220224115956.29997-12-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 24 Feb 2022 11:59:56 +0000
+Message-Id: <20220224115956.29997-13-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220224115956.29997-1-mark.cave-ayland@ilande.co.uk>
 References: <20220224115956.29997-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 11/12] mos6522: implement edge-triggering for CA1/2 and
- CB1/2 control line IRQs
+Subject: [PATCH v2 12/12] macio/pmu.c: remove redundant code
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -67,256 +66,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The mos6522 datasheet describes how the control lines IRQs are edge-triggered
-according to the configuration in the PCR register. Implement the logic according
-to the datasheet so that the interrupt bits in IFR are latched when the edge is
-detected, and cleared when reading portA/portB or writing to IFR as necessary.
-
-To maintain bisectibility this change also updates the SCSI, SCSI data, Nubus
-and VIA2 60Hz/1Hz clocks in the q800 machine to be negative edge-triggered as
-confirmed by the PCR programming in all of Linux, NetBSD and MacOS.
+Now that the logic related to edge-triggered interrupts is all contained within
+the mos6522 device the redundant implementation for the mac99 PMU device can
+be removed.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/m68k/q800.c            |  9 +++--
- hw/misc/mac_via.c         | 15 +++++--
- hw/misc/mos6522.c         | 82 +++++++++++++++++++++++++++++++++++++--
- include/hw/misc/mos6522.h | 15 +++++++
- 4 files changed, 109 insertions(+), 12 deletions(-)
+ hw/misc/macio/pmu.c         | 33 ---------------------------------
+ include/hw/misc/macio/pmu.h |  2 --
+ 2 files changed, 35 deletions(-)
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 55dfe5036f..66ca5c0df6 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -533,10 +533,11 @@ static void q800_init(MachineState *machine)
+diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
+index 5b1ec100e2..336502a84b 100644
+--- a/hw/misc/macio/pmu.c
++++ b/hw/misc/macio/pmu.c
+@@ -57,19 +57,6 @@
  
-     sysbus = SYS_BUS_DEVICE(dev);
-     sysbus_realize_and_unref(sysbus, &error_fatal);
--    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(via2_dev,
--                                                   VIA2_IRQ_SCSI_BIT));
--    sysbus_connect_irq(sysbus, 1, qdev_get_gpio_in(via2_dev,
--                                                   VIA2_IRQ_SCSI_DATA_BIT));
-+    /* SCSI and SCSI data IRQs are negative edge triggered */
-+    sysbus_connect_irq(sysbus, 0, qemu_irq_invert(qdev_get_gpio_in(via2_dev,
-+                                                  VIA2_IRQ_SCSI_BIT)));
-+    sysbus_connect_irq(sysbus, 1, qemu_irq_invert(qdev_get_gpio_in(via2_dev,
-+                                                  VIA2_IRQ_SCSI_DATA_BIT)));
-     sysbus_mmio_map(sysbus, 0, ESP_BASE);
-     sysbus_mmio_map(sysbus, 1, ESP_PDMA);
+ #define VIA_TIMER_FREQ (4700000 / 6)
  
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index d8b35e6ca6..525e38ce93 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -327,7 +327,9 @@ static void via1_sixty_hz(void *opaque)
-     MOS6522State *s = MOS6522(v1s);
-     qemu_irq irq = qdev_get_gpio_in(DEVICE(s), VIA1_IRQ_60HZ_BIT);
+-static void via_update_irq(PMUState *s)
+-{
+-    MOS6522PMUState *mps = MOS6522_PMU(&s->mos6522_pmu);
+-    MOS6522State *ms = MOS6522(mps);
+-
+-    bool new_state = !!(ms->ifr & ms->ier & (SR_INT | T1_INT | T2_INT));
+-
+-    if (new_state != s->via_irq_state) {
+-        s->via_irq_state = new_state;
+-        qemu_set_irq(s->via_irq, new_state);
+-    }
+-}
+-
+ static void via_set_sr_int(void *opaque)
+ {
+     PMUState *s = opaque;
+@@ -808,28 +795,9 @@ static void mos6522_pmu_portB_write(MOS6522State *s)
+     MOS6522PMUState *mps = container_of(s, MOS6522PMUState, parent_obj);
+     PMUState *ps = container_of(mps, PMUState, mos6522_pmu);
  
--    qemu_set_irq(irq, 1);
-+    /* Negative edge trigger */
-+    qemu_irq_lower(irq);
-+    qemu_irq_raise(irq);
- 
-     via1_sixty_hz_update(v1s);
- }
-@@ -338,7 +340,9 @@ static void via1_one_second(void *opaque)
-     MOS6522State *s = MOS6522(v1s);
-     qemu_irq irq = qdev_get_gpio_in(DEVICE(s), VIA1_IRQ_ONE_SECOND_BIT);
- 
--    qemu_set_irq(irq, 1);
-+    /* Negative edge trigger */
-+    qemu_irq_lower(irq);
-+    qemu_irq_raise(irq);
- 
-     via1_one_second_update(v1s);
- }
-@@ -917,9 +921,11 @@ static uint64_t mos6522_q800_via2_read(void *opaque, hwaddr addr, unsigned size)
-          * On a Q800 an emulated VIA2 is integrated into the onboard logic. The
-          * expectation of most OSs is that the DRQ bit is live, rather than
-          * latched as it would be on a real VIA so do the same here.
-+         *
-+         * Note: DRQ is negative edge triggered
-          */
-         val &= ~VIA2_IRQ_SCSI_DATA;
--        val |= (ms->last_irq_levels & VIA2_IRQ_SCSI_DATA);
-+        val |= (~ms->last_irq_levels & VIA2_IRQ_SCSI_DATA);
-         break;
-     }
- 
-@@ -1146,7 +1152,8 @@ static void via2_nubus_irq_request(void *opaque, int n, int level)
-         s->a |= (1 << n);
-     }
- 
--    qemu_set_irq(irq, level);
-+    /* Negative edge trigger */
-+    qemu_set_irq(irq, !level);
+-    if ((s->pcr & 0xe0) == 0x20 || (s->pcr & 0xe0) == 0x60) {
+-        s->ifr &= ~CB2_INT;
+-    }
+-    s->ifr &= ~CB1_INT;
+-
+-    via_update_irq(ps);
+     pmu_update(ps);
  }
  
- static void mos6522_q800_via2_init(Object *obj)
-diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index 60b3b693d0..2af32b68ef 100644
---- a/hw/misc/mos6522.c
-+++ b/hw/misc/mos6522.c
-@@ -64,14 +64,62 @@ static void mos6522_update_irq(MOS6522State *s)
- static void mos6522_set_irq(void *opaque, int n, int level)
+-static void mos6522_pmu_portA_write(MOS6522State *s)
+-{
+-    MOS6522PMUState *mps = container_of(s, MOS6522PMUState, parent_obj);
+-    PMUState *ps = container_of(mps, PMUState, mos6522_pmu);
+-
+-    if ((s->pcr & 0x0e) == 0x02 || (s->pcr & 0x0e) == 0x06) {
+-        s->ifr &= ~CA2_INT;
+-    }
+-    s->ifr &= ~CA1_INT;
+-
+-    via_update_irq(ps);
+-}
+-
+ static void mos6522_pmu_reset(DeviceState *dev)
  {
-     MOS6522State *s = MOS6522(opaque);
-+    int last_level = !!(s->last_irq_levels & (1 << n));
-+    uint8_t last_ifr = s->ifr;
-+    bool positive_edge = true;
-+    int ctrl;
-+
-+    /*
-+     * SR_INT is managed by mos6522 instances and cleared upon SR
-+     * read. It is only the external CA1/2 and CB1/2 lines that
-+     * are edge-triggered and latched in IFR
-+     */
-+    if (n != SR_INT_BIT && level == last_level) {
-+        return;
-+    }
+     MOS6522State *ms = MOS6522(dev);
+@@ -853,7 +821,6 @@ static void mos6522_pmu_class_init(ObjectClass *oc, void *data)
+     device_class_set_parent_reset(dc, mos6522_pmu_reset,
+                                   &mdc->parent_reset);
+     mdc->portB_write = mos6522_pmu_portB_write;
+-    mdc->portA_write = mos6522_pmu_portA_write;
+ }
  
--    if (level) {
-+    /* Detect negative edge trigger */
-+    if (last_level == 1 && level == 0) {
-+        positive_edge = false;
-+    }
-+
-+    switch (n) {
-+    case CA2_INT_BIT:
-+        ctrl = (s->pcr & CA2_CTRL_MASK) >> CA2_CTRL_SHIFT;
-+        if ((positive_edge && (ctrl & C2_POS)) ||
-+             (!positive_edge && !(ctrl & C2_POS))) {
-+            s->ifr |= 1 << n;
-+        }
-+        break;
-+    case CA1_INT_BIT:
-+        ctrl = (s->pcr & CA1_CTRL_MASK) >> CA1_CTRL_SHIFT;
-+        if ((positive_edge && (ctrl & C1_POS)) ||
-+             (!positive_edge && !(ctrl & C1_POS))) {
-+            s->ifr |= 1 << n;
-+        }
-+        break;
-+    case SR_INT_BIT:
-         s->ifr |= 1 << n;
--    } else {
--        s->ifr &= ~(1 << n);
-+        break;
-+    case CB2_INT_BIT:
-+        ctrl = (s->pcr & CB2_CTRL_MASK) >> CB2_CTRL_SHIFT;
-+        if ((positive_edge && (ctrl & C2_POS)) ||
-+             (!positive_edge && !(ctrl & C2_POS))) {
-+            s->ifr |= 1 << n;
-+        }
-+        break;
-+    case CB1_INT_BIT:
-+        ctrl = (s->pcr & CB1_CTRL_MASK) >> CB1_CTRL_SHIFT;
-+        if ((positive_edge && (ctrl & C1_POS)) ||
-+             (!positive_edge && !(ctrl & C1_POS))) {
-+            s->ifr |= 1 << n;
-+        }
-+        break;
-     }
+ static const TypeInfo mos6522_pmu_type_info = {
+diff --git a/include/hw/misc/macio/pmu.h b/include/hw/misc/macio/pmu.h
+index 78237d99a2..00fcdd23f5 100644
+--- a/include/hw/misc/macio/pmu.h
++++ b/include/hw/misc/macio/pmu.h
+@@ -193,8 +193,6 @@ struct PMUState {
  
--    mos6522_update_irq(s);
-+    if (s->ifr != last_ifr) {
-+        mos6522_update_irq(s);
-+    }
+     MemoryRegion mem;
+     uint64_t frequency;
+-    qemu_irq via_irq;
+-    bool via_irq_state;
  
-     if (level) {
-         s->last_irq_levels |= 1 << n;
-@@ -250,6 +298,7 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
- {
-     MOS6522State *s = opaque;
-     uint32_t val;
-+    int ctrl;
-     int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
- 
-     if (now >= s->timers[0].next_irq_time) {
-@@ -263,12 +312,24 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
-     switch (addr) {
-     case VIA_REG_B:
-         val = s->b;
-+        ctrl = (s->pcr & CB2_CTRL_MASK) >> CB2_CTRL_SHIFT;
-+        if (!(ctrl & C2_IND)) {
-+            s->ifr &= ~CB2_INT;
-+        }
-+        s->ifr &= ~CB1_INT;
-+        mos6522_update_irq(s);
-         break;
-     case VIA_REG_A:
-        qemu_log_mask(LOG_UNIMP, "Read access to register A with handshake");
-        /* fall through */
-     case VIA_REG_ANH:
-         val = s->a;
-+        ctrl = (s->pcr & CA2_CTRL_MASK) >> CA2_CTRL_SHIFT;
-+        if (!(ctrl & C2_IND)) {
-+            s->ifr &= ~CA2_INT;
-+        }
-+        s->ifr &= ~CA1_INT;
-+        mos6522_update_irq(s);
-         break;
-     case VIA_REG_DIRB:
-         val = s->dirb;
-@@ -335,6 +396,7 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
- {
-     MOS6522State *s = opaque;
-     MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
-+    int ctrl;
- 
-     trace_mos6522_write(addr, mos6522_reg_names[addr], val);
- 
-@@ -342,6 +404,12 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-     case VIA_REG_B:
-         s->b = (s->b & ~s->dirb) | (val & s->dirb);
-         mdc->portB_write(s);
-+        ctrl = (s->pcr & CB2_CTRL_MASK) >> CB2_CTRL_SHIFT;
-+        if (!(ctrl & C2_IND)) {
-+            s->ifr &= ~CB2_INT;
-+        }
-+        s->ifr &= ~CB1_INT;
-+        mos6522_update_irq(s);
-         break;
-     case VIA_REG_A:
-        qemu_log_mask(LOG_UNIMP, "Write access to register A with handshake");
-@@ -349,6 +417,12 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-     case VIA_REG_ANH:
-         s->a = (s->a & ~s->dira) | (val & s->dira);
-         mdc->portA_write(s);
-+        ctrl = (s->pcr & CA2_CTRL_MASK) >> CA2_CTRL_SHIFT;
-+        if (!(ctrl & C2_IND)) {
-+            s->ifr &= ~CA2_INT;
-+        }
-+        s->ifr &= ~CA1_INT;
-+        mos6522_update_irq(s);
-         break;
-     case VIA_REG_DIRB:
-         s->dirb = val;
-diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
-index 9ec9b57239..0d4724777b 100644
---- a/include/hw/misc/mos6522.h
-+++ b/include/hw/misc/mos6522.h
-@@ -63,6 +63,21 @@
- #define T1MODE             0xc0    /* Timer 1 mode */
- #define T1MODE_CONT        0x40    /*  continuous interrupts */
- 
-+/* Bits in PCR */
-+#define CB2_CTRL_MASK      0xe0
-+#define CB2_CTRL_SHIFT     5
-+#define CB1_CTRL_MASK      0x10
-+#define CB1_CTRL_SHIFT     4
-+#define CA2_CTRL_MASK      0x0e
-+#define CA2_CTRL_SHIFT     1
-+#define CA1_CTRL_MASK      0x1
-+#define CA1_CTRL_SHIFT     0
-+
-+#define C2_POS             0x2
-+#define C2_IND             0x1
-+
-+#define C1_POS             0x1
-+
- /* VIA registers */
- #define VIA_REG_B       0x00
- #define VIA_REG_A       0x01
+     /* PMU state */
+     MOS6522PMUState mos6522_pmu;
 -- 
 2.20.1
 
