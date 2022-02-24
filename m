@@ -2,77 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24BE4C36DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 21:24:06 +0100 (CET)
-Received: from localhost ([::1]:37036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666FD4C36E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 21:27:14 +0100 (CET)
+Received: from localhost ([::1]:41354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNKek-0006E9-0U
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 15:24:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46504)
+	id 1nNKhl-0000ky-D9
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 15:27:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nNKaA-0008L1-Li; Thu, 24 Feb 2022 15:19:22 -0500
-Received: from [2607:f8b0:4864:20::230] (port=33630
- helo=mail-oi1-x230.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nNKa8-00030y-6u; Thu, 24 Feb 2022 15:19:22 -0500
-Received: by mail-oi1-x230.google.com with SMTP id x193so4809578oix.0;
- Thu, 24 Feb 2022 12:19:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FHMjOWoXpSix0c7XyJJy5kRiGq/j5RDb7UL4ykUpzGE=;
- b=KnMK6YHlRi+FwqwUtAP1KHrbsiQr8It1xu7r3UTJgPcA8ay8IUV64Hw22j/sahYx6S
- lVKt6I5+ebLtKAou/KIaHSlfh1zCE2FJypL/WwdR6t3dT1CToWyKsS/jDB79jF9fZmXr
- KpSnGvHeKy2acBjTfiIIFLNr7tBuRCf3+ssZeXngxnuif52rbFr7p1FoW1XJAAAPsDzm
- 5zjpCY1DTdBB38oeQUoTCBiX8pRxmYgmlyDZfW3C/AV6wYUuYWmwTW9/gfUHrAaGNj3P
- 7mhoi1yY+mAiDaRZsgmi7ym7hO2K6Ohv4VpWIFruDQcIgZ/PDn2mi4HgxAZ8lOL5CGor
- LSFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FHMjOWoXpSix0c7XyJJy5kRiGq/j5RDb7UL4ykUpzGE=;
- b=Z8i6kY/hj2/Nt3jJ/4Gkv2b41tqfh9KdSIFwCWBtRWy56xsTv9szampywJWJfbvg54
- 5facKGV1cuRlUo1P8UsoUcTqcxDPV0o2rTNgauiVBZ5b2D0jmg+s6ktBJSIlfFW8hZ62
- E6XNBfmYqyJVPq0044lFi3JlZAldSBDuink03FtbMhmkd12kxju/efaOw7rhuVn84iKo
- aPERiIWzPcUgHq0ZLogrdhbUkS/OuGTJmalWkmLR59z+QmQ6iyJLouzWkgEzJ/u9VbpU
- I6lOMlheSah7fb2UtOkYQ332uuJXp43M+7Da+oUEjL1Yd0ITiK6dIuIcmEu1Zo9jPLn/
- 3aIQ==
-X-Gm-Message-State: AOAM530pWDF7kIkQ9234CXMATsYnCzUkO+/t81B5GDeqmLyzOMjQwdns
- CKlNFtdj2QBnWUqrJUPTFop4cylQwk8=
-X-Google-Smtp-Source: ABdhPJzPmoJucLYyUxylTGRnIh3uwKDmcNDg6lNx8pMOulaqkh7h65xkIWeGKXF5tGekfBTcNT2UVQ==
-X-Received: by 2002:a05:6870:6706:b0:c4:7dc0:d6f0 with SMTP id
- gb6-20020a056870670600b000c47dc0d6f0mr2023110oab.195.1645733958654; 
- Thu, 24 Feb 2022 12:19:18 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
- by smtp.gmail.com with ESMTPSA id
- bh42-20020a056808182a00b002d538a8d5afsm305775oib.7.2022.02.24.12.19.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 12:19:18 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v13 4/4] target/ppc: trigger PERFM EBBs from power8-pmu.c
-Date: Thu, 24 Feb 2022 17:19:00 -0300
-Message-Id: <20220224201900.1037465-5-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220224201900.1037465-1-danielhb413@gmail.com>
-References: <20220224201900.1037465-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nNKeA-000689-0b; Thu, 24 Feb 2022 15:23:30 -0500
+Received: from [187.72.171.209] (port=56564 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nNKe6-0003l9-HT; Thu, 24 Feb 2022 15:23:29 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 24 Feb 2022 17:23:19 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 9FA718001D4;
+ Thu, 24 Feb 2022 17:23:18 -0300 (-03)
+Message-ID: <ad35a0d1-c11d-ee5f-8ef3-922f581de607@eldorado.org.br>
+Date: Thu, 24 Feb 2022 17:23:18 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 24/47] target/ppc: move vrl[bhwd]nm/vrl[bhwd]mi to
+ decodetree
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20220222143646.1268606-1-matheus.ferst@eldorado.org.br>
+ <20220222143646.1268606-25-matheus.ferst@eldorado.org.br>
+ <9111db3b-f238-7780-a5dd-4350721146b3@linaro.org>
+ <a77fcbaa-6810-ada8-3aef-2beb140c00d3@eldorado.org.br>
+ <cf26c57f-ec5e-daec-b129-cd3f49112c3b@linaro.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <cf26c57f-ec5e-daec-b129-cd3f49112c3b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 24 Feb 2022 20:23:19.0011 (UTC)
+ FILETIME=[5C830330:01D829BC]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,117 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds the EBB exception support that are triggered by
-Performance Monitor alerts. This happens when a Performance Monitor
-alert occurs and MMCR0_EBE, BESCR_PME and BESCR_GE are set.
-
-fire_PMC_interrupt() will execute a new ebb_perfm_excp() helper that
-will check for MMCR0_EBE, BESCR_PME and BESCR_GE bits. If all bits are
-set, do_ebb() will attempt to trigger a PERFM EBB event.
-
-If the EBB facility is enabled in both FSCR and HFSCR we consider that
-the EBB is valid and set BESCR_PMEO. After that, if we're running in
-problem state, fire a POWERPC_EXCP_PERM_EBB immediately. Otherwise we'll
-queue a PPC_INTERRUPT_EBB.
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/excp_helper.c | 48 ++++++++++++++++++++++++++++++++++++++++
- target/ppc/helper.h      |  1 +
- target/ppc/power8-pmu.c  |  3 +--
- 3 files changed, 50 insertions(+), 2 deletions(-)
-
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 5e7d29ae00..89b7b3ac00 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -2066,6 +2066,54 @@ void helper_rfebb(CPUPPCState *env, target_ulong s)
-         env->spr[SPR_BESCR] &= ~BESCR_GE;
-     }
- }
-+
-+/*
-+ * Triggers or queues an 'ebb_excp' EBB exception. All checks
-+ * but FSCR, HFSCR and msr_pr must be done beforehand.
-+ *
-+ * PowerISA v3.1 isn't clear about whether an EBB should be
-+ * postponed or cancelled if the EBB facility is unavailable.
-+ * Our assumption here is that the EBB is cancelled if both
-+ * FSCR and HFSCR EBB facilities aren't available.
-+ */
-+static void do_ebb(CPUPPCState *env, int ebb_excp)
-+{
-+    PowerPCCPU *cpu = env_archcpu(env);
-+    CPUState *cs = CPU(cpu);
-+
-+    /*
-+     * FSCR_EBB and FSCR_IC_EBB are the same bits used with
-+     * HFSCR.
-+     */
-+    helper_fscr_facility_check(env, FSCR_EBB, 0, FSCR_IC_EBB);
-+    helper_hfscr_facility_check(env, FSCR_EBB, "EBB", FSCR_IC_EBB);
-+
-+    if (ebb_excp == POWERPC_EXCP_PERFM_EBB) {
-+        env->spr[SPR_BESCR] |= BESCR_PMEO;
-+    } else if (ebb_excp == POWERPC_EXCP_EXTERNAL_EBB) {
-+        env->spr[SPR_BESCR] |= BESCR_EEO;
-+    }
-+
-+    if (msr_pr == 1) {
-+        powerpc_excp(cpu, ebb_excp);
-+    } else {
-+        env->pending_interrupts |= 1 << PPC_INTERRUPT_EBB;
-+        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-+    }
-+}
-+
-+void helper_ebb_perfm_excp(CPUPPCState *env)
-+{
-+    bool perfm_ebb_enabled = env->spr[SPR_POWER_MMCR0] & MMCR0_EBE &&
-+                             env->spr[SPR_BESCR] & BESCR_PME &&
-+                             env->spr[SPR_BESCR] & BESCR_GE;
-+
-+    if (!perfm_ebb_enabled) {
-+        return;
-+    }
-+
-+    do_ebb(env, POWERPC_EXCP_PERFM_EBB);
-+}
- #endif
- 
- /*****************************************************************************/
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index ab008c9d4e..8c2c03fd48 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -18,6 +18,7 @@ DEF_HELPER_1(rfid, void, env)
- DEF_HELPER_1(rfscv, void, env)
- DEF_HELPER_1(hrfid, void, env)
- DEF_HELPER_2(rfebb, void, env, tl)
-+DEF_HELPER_1(ebb_perfm_excp, void, env)
- DEF_HELPER_2(store_lpcr, void, env, tl)
- DEF_HELPER_2(store_pcr, void, env, tl)
- DEF_HELPER_2(store_mmcr0, void, env, tl)
-diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index d245663158..38e1ecb782 100644
---- a/target/ppc/power8-pmu.c
-+++ b/target/ppc/power8-pmu.c
-@@ -307,8 +307,7 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
-         env->spr[SPR_POWER_MMCR0] |= MMCR0_PMAO;
-     }
- 
--    /* PMC interrupt not implemented yet */
--    return;
-+    helper_ebb_perfm_excp(env);
- }
- 
- /* This helper assumes that the PMC is running. */
--- 
-2.35.1
-
+T24gMjMvMDIvMjAyMiAxOToxOSwgUmljaGFyZCBIZW5kZXJzb24gd3JvdGU6DQo+IE9uIDIv
+MjMvMjIgMTE6NDMsIE1hdGhldXMgSy4gRmVyc3Qgd3JvdGU6DQo+Pj4gTm90ZSB0aGF0IHJv
+dGx2IGRvZXMgdGhlIG1hc2tpbmcgaXRzZWxmOg0KPj4+DQo+Pj4gLyoNCj4+PiDCoCAqIEV4
+cGFuZCBEID0gQSA8PCAoQiAlIGVsZW1lbnQgYml0cykNCj4+PiDCoCAqDQo+Pj4gwqAgKiBV
+bmxpa2Ugc2NhbGFyIHNoaWZ0cywgd2hlcmUgaXQgaXMgZWFzeSBmb3IgdGhlIHRhcmdldCBm
+cm9udCBlbmQNCj4+PiDCoCAqIHRvIGluY2x1ZGUgdGhlIG1vZHVsbyBhcyBwYXJ0IG9mIHRo
+ZSBleHBhbnNpb24uwqAgSWYgdGhlIHRhcmdldA0KPj4+IMKgICogbmF0dXJhbGx5IGluY2x1
+ZGVzIHRoZSBtb2R1bG8gYXMgcGFydCBvZiB0aGUgb3BlcmF0aW9uLCBncmVhdCENCj4+PiDC
+oCAqIElmIHRoZSB0YXJnZXQgaGFzIHNvbWUgb3RoZXIgYmVoYXZpb3VyIGZyb20gb3V0LW9m
+LXJhbmdlIHNoaWZ0cywNCj4+PiDCoCAqIHRoZW4gaXQgY291bGQgbm90IHVzZSB0aGlzIGZ1
+bmN0aW9uIGFueXdheSwgYW5kIHdvdWxkIG5lZWQgdG8NCj4+PiDCoCAqIGRvIGl0J3Mgb3du
+IGV4cGFuc2lvbiB3aXRoIGN1c3RvbSBmdW5jdGlvbnMuDQo+Pj4gwqAgKi8NCj4+Pg0KPj4N
+Cj4+IFVzaW5nIHRjZ19nZW5fcm90bHZfdmVjKHZlY2UsIHZydCwgdnJhLCB2cmIpIHdvcmtz
+IG9uIFBQQyBidXQgZmFpbHMgb24gDQo+PiB4ODYuIEl0IGxvb2tzIGxpa2UNCj4+IGEgcHJv
+YmxlbSBvbiB0aGUgaTM4NiBiYWNrZW5kLiBJdCdzIHVzaW5nIFZQU1tSTF1MVltEUV0sIGJ1
+dCBpbnN0ZWFkIA0KPj4gb2YgdGhpcyBtb2R1bG8NCj4+IGJlaGF2aW9yLCB0aGVzZSBpbnN0
+cnVjdGlvbnMgd3JpdGUgemVybyB0byB0aGUgZWxlbWVudFsxXS4gSSdtIG5vdCANCj4+IHN1
+cmUgaG93IHRvIGZpeCB0aGF0Lg0KPiANCj4gWW91IGRvbid0IHdhbnQgdG8gdXNlIHRjZ19n
+ZW5fcm90bHZfdmVjIGRpcmVjdGx5LCBidXQgdGNnX2dlbl9yb3Rsdl92ZWMuDQo+IA0KDQpJ
+IGd1ZXNzIHRoZXJlIGlzIGEgdHlwbyBoZXJlLiBEaWQgeW91IG1lYW4gdGNnX2dlbl9ndmVj
+X3JvdGx2PyBPciANCnRjZ19nZW5fcm90bHZfbW9kX3ZlYz8NCg0KPiBUaGUgZ2VuZXJpYyBt
+b2R1bG8gaXMgYmVpbmcgYXBwbGllZCBoZXJlOg0KPiANCj4gc3RhdGljIHZvaWQgdGNnX2dl
+bl9yb3Rsdl9tb2RfdmVjKHVuc2lnbmVkIHZlY2UsIFRDR3ZfdmVjIGQsDQo+ICDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgVENHdl92ZWMgYSwgVENHdl92ZWMgYikNCj4gew0KPiAgwqDCoMKgIFRDR3ZfdmVj
+IHQgPSB0Y2dfdGVtcF9uZXdfdmVjX21hdGNoaW5nKGQpOw0KPiAgwqDCoMKgIFRDR3ZfdmVj
+IG0gPSB0Y2dfY29uc3RhbnRfdmVjX21hdGNoaW5nKGQsIHZlY2UsICg4IDw8IHZlY2UpIC0g
+MSk7DQo+IA0KPiAgwqDCoMKgIHRjZ19nZW5fYW5kX3ZlYyh2ZWNlLCB0LCBiLCBtKTsNCj4g
+IMKgwqDCoCB0Y2dfZ2VuX3JvdGx2X3ZlYyh2ZWNlLCBkLCBhLCB0KTsNCj4gIMKgwqDCoCB0
+Y2dfdGVtcF9mcmVlX3ZlYyh0KTsNCj4gfQ0KDQpJIGNhbiBzZWUgdGhhdCB0aGlzIG1ldGhv
+ZCBpcyBjYWxsZWQgd2hlbiB3ZSB1c2UgdGNnX2dlbl9ndmVjX3JvdGx2IHRvIA0KaW1wbGVt
+ZW50IHZybFtiaHdkXSwgYW5kIHRoZXkgYXJlIHdvcmtpbmcgYXMgZXhwZWN0ZWQuIEZvciB2
+cmxbd2Rdbm0gYW5kIA0KdnJsW3dkXW1pLCBob3dldmVyLCB3ZSBjYW4ndCBjYWxsIHRjZ19n
+ZW5fcm90bHZfbW9kX3ZlYyBkaXJlY3RseSBpbiB0aGUgDQouZm5pdiBpbXBsZW1lbnRhdGlv
+biBiZWNhdXNlIGl0IGlzIG5vdCBleHBvc2VkIGluIHRjZy1vcC5oLiBJcyB0aGVyZSBhbnkg
+DQpvdGhlciB3YXkgdG8gdXNlIHRoaXMgbWV0aG9kPyBTaG91bGQgd2UgYWRkIGl0IHRvIHRo
+ZSBoZWFkZXIgZmlsZT8NCg0KVGhhbmtzLA0KTWF0aGV1cyBLLiBGZXJzdA0KSW5zdGl0dXRv
+IGRlIFBlc3F1aXNhcyBFTERPUkFETyA8aHR0cDovL3d3dy5lbGRvcmFkby5vcmcuYnIvPg0K
+QW5hbGlzdGEgZGUgU29mdHdhcmUNCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6
+Ly93d3cuZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
 
