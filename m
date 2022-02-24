@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6192E4C2344
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 06:17:39 +0100 (CET)
-Received: from localhost ([::1]:59980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EB514C23F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 07:13:49 +0100 (CET)
+Received: from localhost ([::1]:38982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nN6VV-0003Ox-Vw
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 00:17:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39570)
+	id 1nN7Nr-00030k-S4
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 01:13:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nN6Uc-0002WT-I3; Thu, 24 Feb 2022 00:16:42 -0500
-Received: from [2607:f8b0:4864:20::12f] (port=47018
- helo=mail-il1-x12f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nN6Ua-0002Fu-UT; Thu, 24 Feb 2022 00:16:42 -0500
-Received: by mail-il1-x12f.google.com with SMTP id y5so865985ill.13;
- Wed, 23 Feb 2022 21:16:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IJ/uvy+ww0R6it1WI/gBZ5V1QrY4fHT8Ge4yp2ivhqs=;
- b=X9iZ1ZZQFULyWPK7fOmL9T8BSXoLt4j9Oy5Ef0DAoZgmmFK2cSJwlgIBC4n6TKWht2
- Z1WADD9u2V62MWAEOclmgjtlWvtAOj0/fl6WFBrgkVErMox4gbKANF1cT3PLjBHfX82e
- UO9mdX9APA5uwqnDz3X7hrNLcDeL4w8nPdORkPtDVHFU6yoIRDE+PMaTb4MMtUBZGhKk
- Z0A/UMa5e6U4tEQF2/HCXzXdLn/8LGh/XOTk55bM2wlz2IKex4qJsklBIXrh1FDmJOqm
- gdx9p2mj7APTlZ/H+vqPgJvl2krwL3X2K4Dz/p2/0oXbDREniwGV6FRJyBmv1jJELvic
- FzcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IJ/uvy+ww0R6it1WI/gBZ5V1QrY4fHT8Ge4yp2ivhqs=;
- b=5C+jB8x5mu0f5f5v8AKMb0jn/X8GjvjAvDfc1MN2+upO31XH1gHqWIfGPie6mkyc9j
- w4jxqstDRfCcO2Z+JQ2ftcBRzoqDQytOCnkKJoxH+dLHKCSkEL0d0tDMVW/oVCQ5j8GH
- +3FM/haf3MAnyZAyCANIj4SKFkE+tBIhM4h5ZLeK1EUUDABg0mmw3gXT+6VxAXazfT0q
- ha6xxd1rVA/7305VSK56phlhN2jin/eQwaAmoHN6EX72vVf0pYmsxdazr2aQDPG9H+YL
- RxHds9W8or8PSRpUCxsrgcp4zxJxFtgRBZZB+EVdChUkAP88ql9chIT19mY9N72BXOoG
- ywzA==
-X-Gm-Message-State: AOAM533ECTCG2XIAxVdnLYwInkwtJAnJOsPhVrI0dnW8SFDBIeNFujpZ
- 3ET54VnrmXUg0SFdthollHnL5hcaGsnqiCB5gXw=
-X-Google-Smtp-Source: ABdhPJzgVj1uVZWUOIjZA5LtPrAkpYC0IqksXgDZHV9mMfWvY1htXx/CoNh4U845CMqk7cEwPqHsa8jyVRjvH9CTS34=
-X-Received: by 2002:a92:ca4b:0:b0:2bf:20a9:d19c with SMTP id
- q11-20020a92ca4b000000b002bf20a9d19cmr907628ilo.260.1645679799125; Wed, 23
- Feb 2022 21:16:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1nN7MI-0002E5-RD
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 01:12:10 -0500
+Received: from mga01.intel.com ([192.55.52.88]:54147)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1nN7MF-0001lN-CJ
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 01:12:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1645683127; x=1677219127;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Ajz0t7TjE2NXbXhSkbD13mhzzoqMwB3n9oDcXjMkoMQ=;
+ b=ZMl9/81P+lbY5P+PcSn3doNiC2zncG5iAdtZ64TzrM7RiMHuWcVLRZ8e
+ loBptGxqJWgGnC2ca82b7avL8EhsikvCtoFtRz7bJCeMP8sPXArsHCImU
+ HJsFoZhw6+smOdoTgmcOtb3CRDj5bHMyF+lNn0HDJq13WRmsU7qXVqR4w
+ O2zrudnuAT6BR8uXZLrkP22pzoDgrbaAFOXLQpYxFa/a4N+ZulaYxxyQ+
+ bm+NNacUjBBsglclNPHHoxPtRNn+yTJbHGoXXA7lKTrqRiRbn/rHVjRj2
+ QbIWobD7ysKF6GsUjssuzNnqilbl9pfuzGAJOaJcKRsZCocMI7jsc5Cpj g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10267"; a="276785084"
+X-IronPort-AV: E=Sophos;i="5.88,393,1635231600"; d="scan'208";a="276785084"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2022 22:12:04 -0800
+X-IronPort-AV: E=Sophos;i="5.88,393,1635231600"; d="scan'208";a="548597322"
+Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.123])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2022 22:12:01 -0800
+From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] vl: transform QemuOpts device to JSON syntax device
+Date: Thu, 24 Feb 2022 14:06:53 +0800
+Message-Id: <20220224060653.74229-1-zhenzhong.duan@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220222223830.2319856-1-atishp@rivosinc.com>
-In-Reply-To: <20220222223830.2319856-1-atishp@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 24 Feb 2022 15:16:12 +1000
-Message-ID: <CAKmqyKPOGM_V68J06igOZOT6p+9kPU+SY-L_1q_ZyXtYasYZHw@mail.gmail.com>
-Subject: Re: [PATCH v3] target/riscv: Add isa extenstion strings to the device
- tree
-To: Atish Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.88;
+ envelope-from=zhenzhong.duan@intel.com; helo=mga01.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,102 +70,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stubner <heiko@sntech.de>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: kwolf@redhat.com, pkrempa@redhat.com, mst@redhat.com, lersek@redhat.com,
+ pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 23, 2022 at 8:39 AM Atish Patra <atishp@rivosinc.com> wrote:
->
-> The Linux kernel parses the ISA extensions from "riscv,isa" DT
-> property. It used to parse only the single letter base extensions
-> until now. A generic ISA extension parsing framework was proposed[1]
-> recently that can parse multi-letter ISA extensions as well.
->
-> Generate the extended ISA string by appending  the available ISA extensions
-> to the "riscv,isa" string if it is enabled so that kernel can process it.
->
-> [1] https://lkml.org/lkml/2022/2/15/263
->
-> Suggested-by: Heiko Stubner <heiko@sntech.de>
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+While there are mixed use of traditional -device option and JSON
+syntax option, QEMU reports conflict, e.x:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+/usr/libexec/qemu-kvm -nodefaults \
+  -device '{"driver":"virtio-scsi-pci","id":"scsi0","bus":"pci.0","addr":"0x02.0"}' \
+  -device virtio-scsi-pci,id=scsi1,bus=pci.0
 
-Alistair
+It breaks with:
 
-> ---
-> Changes from v2->v3:
-> 1. Used g_strconcat to replace snprintf & a max isa string length as
-> suggested by Anup.
-> 2. I have not included the Tested-by Tag from Heiko because the
-> implementation changed from v2 to v3.
->
-> Changes from v1->v2:
-> 1. Improved the code redability by using arrays instead of individual check
-> ---
->  target/riscv/cpu.c | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index b0a40b83e7a8..2c7ff6ef555a 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -34,6 +34,12 @@
->
->  /* RISC-V CPU definitions */
->
-> +/* This includes the null terminated character '\0' */
-> +struct isa_ext_data {
-> +        const char *name;
-> +        bool enabled;
-> +};
-> +
->  static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
->
->  const char * const riscv_int_regnames[] = {
-> @@ -881,6 +887,28 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
->      device_class_set_props(dc, riscv_cpu_properties);
->  }
->
-> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
-> +{
-> +    char *old = *isa_str;
-> +    char *new = *isa_str;
-> +    int i;
-> +    struct isa_ext_data isa_edata_arr[] = {
-> +        { "svpbmt", cpu->cfg.ext_svpbmt   },
-> +        { "svinval", cpu->cfg.ext_svinval },
-> +        { "svnapot", cpu->cfg.ext_svnapot },
-> +    };
-> +
-> +    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-> +        if (isa_edata_arr[i].enabled) {
-> +            new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
-> +            g_free(old);
-> +            old = new;
-> +        }
-> +    }
-> +
-> +    *isa_str = new;
-> +}
-> +
->  char *riscv_isa_string(RISCVCPU *cpu)
->  {
->      int i;
-> @@ -893,6 +921,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
->          }
->      }
->      *p = '\0';
-> +    riscv_isa_string_ext(cpu, &isa_str, maxlen);
->      return isa_str;
->  }
->
-> --
-> 2.30.2
->
->
+qemu-kvm: -device {"driver":"virtio-scsi-pci","id":"scsi0","bus":"pci.0","addr":"0x02.0"}: PCI: slot 2 function 0 not available for virtio-scsi-pci, in use by virtio-scsi-pci
+
+But if we reformat first -device same as the second, so only same kind
+of option for all the devices, it succeeds, vice versa. e.x:
+
+/usr/libexec/qemu-kvm -nodefaults \
+  -device virtio-scsi-pci,id=scsi0,bus=pci.0,addr=02.0 \
+  -device virtio-scsi-pci,id=scsi1,bus=pci.0
+
+Succeed!
+
+Because both kind of options are inserted into their own list and
+break the order in QEMU command line during BDF auto assign. Fix it
+by transform QemuOpts into JSON syntax and insert in JSON device
+list, so the order in QEMU command line kept.
+
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+---
+ softmmu/vl.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
+
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 1fe028800fdf..3def40b5405e 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3394,21 +3394,26 @@ void qemu_init(int argc, char **argv, char **envp)
+                 qdict_put_str(machine_opts_dict, "usb", "on");
+                 add_device_config(DEV_USB, optarg);
+                 break;
+-            case QEMU_OPTION_device:
++            case QEMU_OPTION_device: {
++                QObject *obj;
+                 if (optarg[0] == '{') {
+-                    QObject *obj = qobject_from_json(optarg, &error_fatal);
+-                    DeviceOption *opt = g_new0(DeviceOption, 1);
+-                    opt->opts = qobject_to(QDict, obj);
+-                    loc_save(&opt->loc);
+-                    assert(opt->opts != NULL);
+-                    QTAILQ_INSERT_TAIL(&device_opts, opt, next);
++                    obj = qobject_from_json(optarg, &error_fatal);
+                 } else {
+-                    if (!qemu_opts_parse_noisily(qemu_find_opts("device"),
+-                                                 optarg, true)) {
++                    opts = qemu_opts_parse_noisily(qemu_find_opts("device"),
++                                                   optarg, true);
++                    if (!opts) {
+                         exit(1);
+                     }
++                    obj = QOBJECT(qemu_opts_to_qdict(opts, NULL));
++                    qemu_opts_del(opts);
+                 }
++                DeviceOption *opt = g_new0(DeviceOption, 1);
++                opt->opts = qobject_to(QDict, obj);
++                loc_save(&opt->loc);
++                assert(opt->opts != NULL);
++                QTAILQ_INSERT_TAIL(&device_opts, opt, next);
+                 break;
++            }
+             case QEMU_OPTION_smp:
+                 machine_parse_property_opt(qemu_find_opts("smp-opts"),
+                                            "smp", optarg);
+-- 
+2.25.1
+
 
