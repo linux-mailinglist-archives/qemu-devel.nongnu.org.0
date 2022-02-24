@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90D44C303A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 16:47:00 +0100 (CET)
-Received: from localhost ([::1]:51074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFDA14C3036
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 16:46:28 +0100 (CET)
+Received: from localhost ([::1]:50422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNGKZ-0006aA-O7
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 10:46:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41240)
+	id 1nNGK3-0006A6-SP
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 10:46:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNGHR-0003Tq-Mm
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:43:45 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=35359
- helo=mail-pj1-x1034.google.com)
+ id 1nNGHO-0003KL-I0
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:43:42 -0500
+Received: from [2607:f8b0:4864:20::52a] (port=35761
+ helo=mail-pg1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNGHK-0008IX-UW
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:43:45 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- v5-20020a17090ac90500b001bc40b548f9so6068554pjt.0
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 07:43:38 -0800 (PST)
+ id 1nNGHM-0008Ij-6C
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 10:43:42 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id e6so652209pgn.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 07:43:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KMXJInF9ZPVHQDzGiyA7uwA9d5Cdj1thl1LcQZwqB1s=;
- b=KkHFsTJRy0LjWNvZ8w8trx8dpGwc8mAW5RqX7/y6JtMupIxnX270hxHXsvr6PWAQkx
- BxqEKNf0UmnsDfipL9gAWPCDaZio7usWdAQsXV196GJc/kJBBqS03NucX05HbKZEu0YI
- rFccGMy8QCLAbjUgdk2kP6DGaVvA+4E0YjINIf6+86AYYeAAWQOleYzUjwrlSDr19bpq
- iqxR70v9yRrw70vZPuKmrJOgw1ihO3WAE/JX7w0g8iF4TDYRr5qfhSUDt8TCE+LUvM3M
- mp3WdlL2POAL5S7hIO0HyLrgQnwc1g6RqygS7J7TxxaKYUSvpp77lTMiKT6Mw2Uu0UQo
- yV0Q==
+ bh=YTdK1uFf1oD/KGoQHOijSrzYKID7dMtbz7KPdNZzw4M=;
+ b=Ec6d2mMVgBijXOWvHAmiAA8H1Iopag89DE/A8zvBKD6wM4koAXsjRN5kBHzTVRLUVT
+ hyhWvKWM7n6uTZCfsvRRGeyzHfrNGX8csN0wOW6l0HRxpbAgrXAPwJjQcTctVgJtyuNv
+ k//i7eXn7tROyvMoMmWASZsy01/nGRENzjtWk5YVf56O/xN2gJHeaU3nWgYIXuRUCPwT
+ eDKAEMHyFQ1NB72He3SavAKs2zzESIiHT7s84qXQSqq+wUf8J8aPQDztw2yyeJkMpPpb
+ cadOZwbC3+3EnVnz1AknHRYHwaENhMFJv1tObLa+Os6tOCKkHhZWubZiio1o1ToeGSIc
+ GJNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KMXJInF9ZPVHQDzGiyA7uwA9d5Cdj1thl1LcQZwqB1s=;
- b=y9BTzxoxmDK2VY1mBdw8UuYTbBUMB6mNMAnIaVtY8148M+94zCR6BVouysykdcqKe2
- 5CDqb1n6YgFDgrsdcduYLlfVb4eDfPDH98FIUFnA28vP07O20u+MneapUHJHnNJCM9ne
- /bc49lU8qkCundn2zADLbH+7VdpBQkgO9Bgg5LaadIbfizl2pL4wEVMd+4f0aW/KTzXV
- dwl+0Ys/pVE97pqpMfdf/gjTxvY1Kb9BHWRWfLLsfZVBiqJ/JYDHeTJDnQY1TugGip7m
- DlA0BRcGTP4XlN1gQPMfF247NZ2m32mpQkFtR5/660JIu09McYtjw5oqGBZ89kuAGTIK
- S3oA==
-X-Gm-Message-State: AOAM531t3kwIGpp1/NTduDZ9Vfhavx2fx5nO6QM3TxPGH342uPHycfzX
- 5hibQJKi5O/4AiF/0BXo1PMYDrDVgoKFGQ==
-X-Google-Smtp-Source: ABdhPJzS33KHKoXlcbCqhYcT0N4kEpASGzBaR+BavwTRo0i1b75m2TB3zXnYpOAOdlbGIsF5w/cFsw==
-X-Received: by 2002:a17:903:1249:b0:14e:e477:5019 with SMTP id
- u9-20020a170903124900b0014ee4775019mr3409130plh.53.1645717417568; 
- Thu, 24 Feb 2022 07:43:37 -0800 (PST)
+ bh=YTdK1uFf1oD/KGoQHOijSrzYKID7dMtbz7KPdNZzw4M=;
+ b=CRPdKy1KXOIFdkETidHOuxwYtCgYc4IWHjYXZ+APymieJeSgUBWtJyvZRKwqB9Pe2+
+ a38RLh6eHv8KBIFHF5aurc4ODub+dlyEa78ISnXik5nGzfS5PKwEQBauHN8+m+AWMaJ0
+ RPqIIUAZrc+TT8EM15BCTBBBaCchyjasnhFwfy6cuHKMWOVf0C4RKborJ0hlVFdYcVWk
+ nAE2Q5yl9XAry4jwyLac0iBQbyZrJLG7nz4lxuXhqXq1cRV/kE2hreZQ9QdpwkPjHOnv
+ eZfWO4xWXBxKxHbvQgazubPZXj5FPpP8I8MyqjE8xhu8pw6vIkJ/snU8p9dv+xFQThPX
+ ryjw==
+X-Gm-Message-State: AOAM533Nm7n87ZzlUcFODPe/5+f/6w0WjtbTp8FfdWpeYyssvg2MkUOB
+ RyRpHV+i6ghMczdX9rxL0WOtWLmyNEevlg==
+X-Google-Smtp-Source: ABdhPJyhKUbNcc8BMnPVlgVwedsIg/Ux45+d6uoI1MBNmI0bQ3DSVfh+BQwkkAL+uufqdIL/kAfRoA==
+X-Received: by 2002:a63:a510:0:b0:375:7af2:9c87 with SMTP id
+ n16-20020a63a510000000b003757af29c87mr2711849pgf.498.1645717418999; 
+ Thu, 24 Feb 2022 07:43:38 -0800 (PST)
 Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110])
- by smtp.gmail.com with ESMTPSA id v20sm3198062pju.9.2022.02.24.07.43.36
+ by smtp.gmail.com with ESMTPSA id v20sm3198062pju.9.2022.02.24.07.43.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 07:43:37 -0800 (PST)
+ Thu, 24 Feb 2022 07:43:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/10] tcg/s390x: Distinguish RRF-a and RRF-c formats
-Date: Thu, 24 Feb 2022 05:43:24 -1000
-Message-Id: <20220224154333.125185-2-richard.henderson@linaro.org>
+Subject: [PATCH 02/10] tcg/s390x: Distinguish RIE formats
+Date: Thu, 24 Feb 2022 05:43:25 -1000
+Message-Id: <20220224154333.125185-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220224154333.125185-1-richard.henderson@linaro.org>
 References: <20220224154333.125185-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,165 +92,136 @@ Cc: qemu-s390x@nongnu.org, david@redhat.com, dmiller423@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One has 3 register arguments; the other has 2 plus an m3 field.
+There are multiple variations, with different fields.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.c.inc | 57 +++++++++++++++++++++-----------------
- 1 file changed, 32 insertions(+), 25 deletions(-)
+ tcg/s390x/tcg-target.c.inc | 47 +++++++++++++++++++++-----------------
+ 1 file changed, 26 insertions(+), 21 deletions(-)
 
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index d56c1e51e4..b9859251a4 100644
+index b9859251a4..c1cea8b1fe 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -183,18 +183,19 @@ typedef enum S390Opcode {
-     RRE_SLBGR   = 0xb989,
-     RRE_XGR     = 0xb982,
+@@ -139,16 +139,19 @@ typedef enum S390Opcode {
+     RI_OILL     = 0xa50b,
+     RI_TMLL     = 0xa701,
  
--    RRF_LOCR    = 0xb9f2,
--    RRF_LOCGR   = 0xb9e2,
--    RRF_NRK     = 0xb9f4,
--    RRF_NGRK    = 0xb9e4,
--    RRF_ORK     = 0xb9f6,
--    RRF_OGRK    = 0xb9e6,
--    RRF_SRK     = 0xb9f9,
--    RRF_SGRK    = 0xb9e9,
--    RRF_SLRK    = 0xb9fb,
--    RRF_SLGRK   = 0xb9eb,
--    RRF_XRK     = 0xb9f7,
--    RRF_XGRK    = 0xb9e7,
-+    RRFa_NRK    = 0xb9f4,
-+    RRFa_NGRK   = 0xb9e4,
-+    RRFa_ORK    = 0xb9f6,
-+    RRFa_OGRK   = 0xb9e6,
-+    RRFa_SRK    = 0xb9f9,
-+    RRFa_SGRK   = 0xb9e9,
-+    RRFa_SLRK   = 0xb9fb,
-+    RRFa_SLGRK  = 0xb9eb,
-+    RRFa_XRK    = 0xb9f7,
-+    RRFa_XGRK   = 0xb9e7,
+-    RIE_CGIJ    = 0xec7c,
+-    RIE_CGRJ    = 0xec64,
+-    RIE_CIJ     = 0xec7e,
+-    RIE_CLGRJ   = 0xec65,
+-    RIE_CLIJ    = 0xec7f,
+-    RIE_CLGIJ   = 0xec7d,
+-    RIE_CLRJ    = 0xec77,
+-    RIE_CRJ     = 0xec76,
+-    RIE_LOCGHI  = 0xec46,
+-    RIE_RISBG   = 0xec55,
++    RIEb_CGRJ    = 0xec64,
++    RIEb_CLGRJ   = 0xec65,
++    RIEb_CLRJ    = 0xec77,
++    RIEb_CRJ     = 0xec76,
 +
-+    RRFc_LOCR   = 0xb9f2,
-+    RRFc_LOCGR  = 0xb9e2,
++    RIEc_CGIJ    = 0xec7c,
++    RIEc_CIJ     = 0xec7e,
++    RIEc_CLGIJ   = 0xec7d,
++    RIEc_CLIJ    = 0xec7f,
++
++    RIEf_RISBG   = 0xec55,
++
++    RIEg_LOCGHI  = 0xec46,
  
-     RR_AR       = 0x1a,
-     RR_ALR      = 0x1e,
-@@ -547,8 +548,14 @@ static void tcg_out_insn_RRE(TCGContext *s, S390Opcode op,
-     tcg_out32(s, (op << 16) | (r1 << 4) | r2);
+     RRE_AGR     = 0xb908,
+     RRE_ALGR    = 0xb90a,
+@@ -565,7 +568,7 @@ static void tcg_out_insn_RI(TCGContext *s, S390Opcode op, TCGReg r1, int i2)
+     tcg_out32(s, (op << 16) | (r1 << 20) | (i2 & 0xffff));
  }
  
--static void tcg_out_insn_RRF(TCGContext *s, S390Opcode op,
--                             TCGReg r1, TCGReg r2, int m3)
-+static void tcg_out_insn_RRFa(TCGContext *s, S390Opcode op,
-+                              TCGReg r1, TCGReg r2, TCGReg r3)
-+{
-+    tcg_out32(s, (op << 16) | (r3 << 12) | (r1 << 4) | r2);
-+}
-+
-+static void tcg_out_insn_RRFc(TCGContext *s, S390Opcode op,
-+                              TCGReg r1, TCGReg r2, int m3)
+-static void tcg_out_insn_RIE(TCGContext *s, S390Opcode op, TCGReg r1,
++static void tcg_out_insn_RIEg(TCGContext *s, S390Opcode op, TCGReg r1,
+                              int i2, int m3)
  {
-     tcg_out32(s, (op << 16) | (m3 << 12) | (r1 << 4) | r2);
+     tcg_out16(s, (op & 0xff00) | (r1 << 4) | m3);
+@@ -1058,9 +1061,9 @@ static inline void tcg_out_risbg(TCGContext *s, TCGReg dest, TCGReg src,
+                                  int msb, int lsb, int ofs, int z)
+ {
+     /* Format RIE-f */
+-    tcg_out16(s, (RIE_RISBG & 0xff00) | (dest << 4) | src);
++    tcg_out16(s, (RIEf_RISBG & 0xff00) | (dest << 4) | src);
+     tcg_out16(s, (msb << 8) | (z << 7) | lsb);
+-    tcg_out16(s, (ofs << 8) | (RIE_RISBG & 0xff));
++    tcg_out16(s, (ofs << 8) | (RIEf_RISBG & 0xff));
  }
-@@ -1520,7 +1527,7 @@ static void tgen_setcond(TCGContext *s, TCGType type, TCGCond cond,
-         /* Emit: d = 0, t = 1, d = (cc ? t : d).  */
+ 
+ static void tgen_ext8s(TCGContext *s, TCGType type, TCGReg dest, TCGReg src)
+@@ -1451,7 +1454,7 @@ static void tgen_setcond(TCGContext *s, TCGType type, TCGCond cond,
+         /* Emit: d = 0, d = (cc ? 1 : d).  */
+         cc = tgen_cmp(s, type, cond, c1, c2, c2const, false);
          tcg_out_movi(s, TCG_TYPE_I64, dest, 0);
-         tcg_out_movi(s, TCG_TYPE_I64, TCG_TMP0, 1);
--        tcg_out_insn(s, RRF, LOCGR, dest, TCG_TMP0, cc);
-+        tcg_out_insn(s, RRFc, LOCGR, dest, TCG_TMP0, cc);
-     } else {
-         /* Emit: d = 1; if (cc) goto over; d = 0; over:  */
-         tcg_out_movi(s, type, dest, 1);
-@@ -1539,7 +1546,7 @@ static void tgen_movcond(TCGContext *s, TCGType type, TCGCond c, TCGReg dest,
+-        tcg_out_insn(s, RIE, LOCGHI, dest, 1, cc);
++        tcg_out_insn(s, RIEg, LOCGHI, dest, 1, cc);
+         return;
+     }
+ 
+@@ -1544,7 +1547,7 @@ static void tgen_movcond(TCGContext *s, TCGType type, TCGCond c, TCGReg dest,
+     if (HAVE_FACILITY(LOAD_ON_COND)) {
+         cc = tgen_cmp(s, type, c, c1, c2, c2const, false);
          if (v3const) {
-             tcg_out_insn(s, RIE, LOCGHI, dest, v3, cc);
+-            tcg_out_insn(s, RIE, LOCGHI, dest, v3, cc);
++            tcg_out_insn(s, RIEg, LOCGHI, dest, v3, cc);
          } else {
--            tcg_out_insn(s, RRF, LOCGR, dest, v3, cc);
-+            tcg_out_insn(s, RRFc, LOCGR, dest, v3, cc);
+             tcg_out_insn(s, RRFc, LOCGR, dest, v3, cc);
          }
-     } else {
-         c = tcg_invert_cond(c);
-@@ -1569,7 +1576,7 @@ static void tgen_clz(TCGContext *s, TCGReg dest, TCGReg a1,
-         }
-         if (HAVE_FACILITY(LOAD_ON_COND)) {
-             /* Emit: if (one bit found) dest = r0.  */
--            tcg_out_insn(s, RRF, LOCGR, dest, TCG_REG_R0, 2);
-+            tcg_out_insn(s, RRFc, LOCGR, dest, TCG_REG_R0, 2);
-         } else {
-             /* Emit: if (no one bit found) goto over; dest = r0; over:  */
-             tcg_out_insn(s, RI, BRC, 8, (4 + 4) >> 1);
-@@ -2201,7 +2208,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         } else if (a0 == a1) {
-             tcg_out_insn(s, RR, SR, a0, a2);
-         } else {
--            tcg_out_insn(s, RRF, SRK, a0, a1, a2);
-+            tcg_out_insn(s, RRFa, SRK, a0, a1, a2);
-         }
-         break;
+@@ -1631,6 +1634,7 @@ static void tgen_compare_branch(TCGContext *s, S390Opcode opc, int cc,
+                                 TCGReg r1, TCGReg r2, TCGLabel *l)
+ {
+     tcg_out_reloc(s, s->code_ptr + 1, R_390_PC16DBL, l, 2);
++    /* Format RIE-b */
+     tcg_out16(s, (opc & 0xff00) | (r1 << 4) | r2);
+     tcg_out16(s, 0);
+     tcg_out16(s, cc << 12 | (opc & 0xff));
+@@ -1640,6 +1644,7 @@ static void tgen_compare_imm_branch(TCGContext *s, S390Opcode opc, int cc,
+                                     TCGReg r1, int i2, TCGLabel *l)
+ {
+     tcg_out_reloc(s, s->code_ptr + 1, R_390_PC16DBL, l, 2);
++    /* Format RIE-c */
+     tcg_out16(s, (opc & 0xff00) | (r1 << 4) | cc);
+     tcg_out16(s, 0);
+     tcg_out16(s, (i2 << 8) | (opc & 0xff));
+@@ -1659,8 +1664,8 @@ static void tgen_brcond(TCGContext *s, TCGType type, TCGCond c,
  
-@@ -2213,7 +2220,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         } else if (a0 == a1) {
-             tcg_out_insn(s, RR, NR, a0, a2);
-         } else {
--            tcg_out_insn(s, RRF, NRK, a0, a1, a2);
-+            tcg_out_insn(s, RRFa, NRK, a0, a1, a2);
+         if (!c2const) {
+             opc = (type == TCG_TYPE_I32
+-                   ? (is_unsigned ? RIE_CLRJ : RIE_CRJ)
+-                   : (is_unsigned ? RIE_CLGRJ : RIE_CGRJ));
++                   ? (is_unsigned ? RIEb_CLRJ : RIEb_CRJ)
++                   : (is_unsigned ? RIEb_CLGRJ : RIEb_CGRJ));
+             tgen_compare_branch(s, opc, cc, r1, c2, l);
+             return;
          }
-         break;
-     case INDEX_op_or_i32:
-@@ -2224,7 +2231,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         } else if (a0 == a1) {
-             tcg_out_insn(s, RR, OR, a0, a2);
+@@ -1671,18 +1676,18 @@ static void tgen_brcond(TCGContext *s, TCGType type, TCGCond c,
+            larger comparison range afforded by COMPARE IMMEDIATE.  */
+         if (type == TCG_TYPE_I32) {
+             if (is_unsigned) {
+-                opc = RIE_CLIJ;
++                opc = RIEc_CLIJ;
+                 in_range = (uint32_t)c2 == (uint8_t)c2;
+             } else {
+-                opc = RIE_CIJ;
++                opc = RIEc_CIJ;
+                 in_range = (int32_t)c2 == (int8_t)c2;
+             }
          } else {
--            tcg_out_insn(s, RRF, ORK, a0, a1, a2);
-+            tcg_out_insn(s, RRFa, ORK, a0, a1, a2);
+             if (is_unsigned) {
+-                opc = RIE_CLGIJ;
++                opc = RIEc_CLGIJ;
+                 in_range = (uint64_t)c2 == (uint8_t)c2;
+             } else {
+-                opc = RIE_CGIJ;
++                opc = RIEc_CGIJ;
+                 in_range = (int64_t)c2 == (int8_t)c2;
+             }
          }
-         break;
-     case INDEX_op_xor_i32:
-@@ -2235,7 +2242,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         } else if (a0 == a1) {
-             tcg_out_insn(s, RR, XR, args[0], args[2]);
-         } else {
--            tcg_out_insn(s, RRF, XRK, a0, a1, a2);
-+            tcg_out_insn(s, RRFa, XRK, a0, a1, a2);
-         }
-         break;
- 
-@@ -2455,7 +2462,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         } else if (a0 == a1) {
-             tcg_out_insn(s, RRE, SGR, a0, a2);
-         } else {
--            tcg_out_insn(s, RRF, SGRK, a0, a1, a2);
-+            tcg_out_insn(s, RRFa, SGRK, a0, a1, a2);
-         }
-         break;
- 
-@@ -2467,7 +2474,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         } else if (a0 == a1) {
-             tcg_out_insn(s, RRE, NGR, args[0], args[2]);
-         } else {
--            tcg_out_insn(s, RRF, NGRK, a0, a1, a2);
-+            tcg_out_insn(s, RRFa, NGRK, a0, a1, a2);
-         }
-         break;
-     case INDEX_op_or_i64:
-@@ -2478,7 +2485,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         } else if (a0 == a1) {
-             tcg_out_insn(s, RRE, OGR, a0, a2);
-         } else {
--            tcg_out_insn(s, RRF, OGRK, a0, a1, a2);
-+            tcg_out_insn(s, RRFa, OGRK, a0, a1, a2);
-         }
-         break;
-     case INDEX_op_xor_i64:
-@@ -2489,7 +2496,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         } else if (a0 == a1) {
-             tcg_out_insn(s, RRE, XGR, a0, a2);
-         } else {
--            tcg_out_insn(s, RRF, XGRK, a0, a1, a2);
-+            tcg_out_insn(s, RRFa, XGRK, a0, a1, a2);
-         }
-         break;
- 
 -- 
 2.25.1
 
