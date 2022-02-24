@@ -2,71 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077C54C2D8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 14:47:11 +0100 (CET)
-Received: from localhost ([::1]:37488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 215164C2D97
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 14:51:30 +0100 (CET)
+Received: from localhost ([::1]:43320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNESb-0007Xe-SA
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 08:47:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35138)
+	id 1nNEWn-0003Ev-1m
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 08:51:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org>)
- id 1nNELY-00011c-WA
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 08:39:56 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:46522)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nNEO8-0003nv-Jc; Thu, 24 Feb 2022 08:42:32 -0500
+Received: from [2a01:111:f400:7e1a::706] (port=61921
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org>)
- id 1nNELW-0001zi-BO
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 08:39:52 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5C2DDB825D9;
- Thu, 24 Feb 2022 13:39:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719BFC340E9;
- Thu, 24 Feb 2022 13:39:32 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="F16u3hqk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1645709971;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lYbQlfYwy3SS5X0HOdFFYvoNBz5G3sVCk/xavGBSEMs=;
- b=F16u3hqk6rgXMYjXwJovbqFW0rcAe8BXY7ibheND+y5a4f7/AF4I7irMImUvxyjZqPC0IN
- GR1vGcuyrut6eAtUpPu1USrzJkmRdM3C1fvKGp4uILAXOuEgOTO2ZLig7mWvztBV6P+e0s
- RSp5TuonuY11VJe8LCEC49BtAbpOszA=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 09e92e51
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Thu, 24 Feb 2022 13:39:31 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
- linux-crypto@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] virt: vmgenid: introduce driver for reinitializing RNG
- on VM fork
-Date: Thu, 24 Feb 2022 14:39:06 +0100
-Message-Id: <20220224133906.751587-3-Jason@zx2c4.com>
-In-Reply-To: <20220224133906.751587-1-Jason@zx2c4.com>
-References: <20220224133906.751587-1-Jason@zx2c4.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nNENp-0002X1-VL; Thu, 24 Feb 2022 08:42:16 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bIk+NTHW5xkajaFUIB1lGHZJUlZkUEOYbv/4rA0dA1kV8kOBnqhdIT5qv5rkgfCdX9u02N+x5zTv/wT9z5sh5bPVFTWjwuL1U2nL93i3PfTjiDq6R52dYXl1kKBBzQ0mq45+qu2tlTVieKtAvZLIcrN13tGQnWTvb40zh5jzD6b33fSCRQFLI5TZJWBbUNa395kf83o5NDsvEAnH4H3WUYnIThQprC7OIwblhtXDywBpUnCvhvkjTUWJMbusS+XRCzR2/zOOdvDJgW2B9OYvLPRt5cLRD6vPU+x5cx7zfnoL1pWRTPQfAwJ6vd4g0fMc6WsbX+Z+lrwXxXnv95Qsig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vKp5+J9zKbmtSx2UpMVnJ5nuCHx7WEMqw6by84pWvq4=;
+ b=n7HQs/x+lUWzl75Cctb8G/389NOMC1oGoPRqxUSf8TVCIcUQVKE9Bnyxk8JRJyJtydQgnbVonfNawY3y12WZVY2Q9y1DZT7N6l5IJeqb2l7QEa05XvCmidHONzoDwdcoi288+MFhlb3n4nHA2YX90y3gCFlrD9e6GNjKaVmi124H+ra8FoDFVjxhGbD4c5wl5uJXpsJKpkRQUL99NppFQ3nGYUyBTmM61eQgVruDk8I+TQQF2sX8hkqL33jaDsMb1vn1RCrWPMMWbeJe6elpQ3u5QXT98AuesT8jFkCqecMQnUwijpYcPEKCp7GLImyC2pFI+rV5HcAXnCVBcr93YA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vKp5+J9zKbmtSx2UpMVnJ5nuCHx7WEMqw6by84pWvq4=;
+ b=VSXu3QvOHYekVSko9limWeCVFt+9ojfEWgIt9kVrJ7Lf8gMTrGS5G9MWfQT+4nr8BPcceLBB2wFmuGHHO+FJjfOuWAKQ7tUM6xB6fulXa58/bR8vcH2+5SNAGuajmEV6wqICvd+3c3uL3oRHc7RSQt1QZuddQiKQHx5GXEPZknQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by VI1PR08MB4144.eurprd08.prod.outlook.com (2603:10a6:803:e2::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Thu, 24 Feb
+ 2022 13:42:09 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.5017.021; Thu, 24 Feb 2022
+ 13:42:09 +0000
+Message-ID: <0ce5d0d5-ac42-c448-3751-9262b890cb5f@virtuozzo.com>
+Date: Thu, 24 Feb 2022 16:42:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 12/18] block: copy-before-write: realize
+ snapshot-access API
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, xiechanglong.d@gmail.com,
+ wencongyang2@huawei.com, fam@euphon.net, stefanha@redhat.com,
+ eblake@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
+ nikita.lapshin@virtuozzo.com
+References: <20220216194617.126484-1-vsementsov@virtuozzo.com>
+ <20220216194617.126484-13-vsementsov@virtuozzo.com>
+ <cb3f088b-5d6a-84cb-58bf-14bd740085d3@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <cb3f088b-5d6a-84cb-58bf-14bd740085d3@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=7c/N=TH=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-ClientProxiedBy: FR0P281CA0014.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:15::19) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 44efdbcc-2d11-437b-bfa0-08d9f79b743c
+X-MS-TrafficTypeDiagnostic: VI1PR08MB4144:EE_
+X-Microsoft-Antispam-PRVS: <VI1PR08MB4144AB5B45FFB98EF56A9AD8C13D9@VI1PR08MB4144.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kJ0P94aHxLgJTkRIZ3oyaCpuYRK/Ah5a4540RX9LDKnjyVdQwBeJyxe8ylXbub9G00W/ZkZRTZGBxlGeK4UHdoQojd8bvVjxN3s04r2M54rKmJly89k4ybURiXEokXHHuoGJZ31l1YlLm8E0OKPadfMY/074+XB9Sqw2ALj2ka6IwuEpzLNBx2Xp4VN151MOouQ3YUlMtO0UeNxeayZHfwFtEL0cthZRhDUJS2v6qcqVqYWHG7nvmsMOKggyfLT+7chPiw3+wImVR3euSRAiINiCzvP6jj/sl9ETQf4LCKrZHpH7qDBonyHhntZqqGm4BXRtPXWWBgf6oBSpdU2JLpAao2vGFveOh5zFy0aoXyZL1vWKze4Y2CydyEimuopCPBK82M3UiQNpYMWRVnseY4v9iWasWeZX9vo/+08LhCMMG8g7svzqACCWIlAMMQsGDtgxNXw7Sw2Ep74dAFZS+qNoPpT7KcvXZK2rNrJFXKELjBJDZkRHKjVVzGUahz9ow5c6Y+SjZPUt7fjpVbjMwD4nKvJwSaz5zVLF5PYJOOWPs6AZe5VBW38CzvGQucnpP/rkr8spIQ3jIIN6rQXXnlOPrUbgHa6HpbU3yoLGtMU41GgVjC9SIWvxciRF2MaWip20uStcyDMfatkw5T2Fsik5fc1bGaM1i0fRMWoy/D41AyAPsFBvICiGAdrNXWB00Q8ttqI0Sjbfrmh84s/Xz/Onm8dBID6QBFxLQAjPSULCVLHZPjhGeTJrYI6cL+SNqRt18fi6nFD4yNa5JbLyuw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(66476007)(86362001)(36756003)(5660300002)(6506007)(38350700002)(6666004)(4326008)(6512007)(186003)(107886003)(52116002)(2906002)(8676002)(31696002)(508600001)(31686004)(6486002)(38100700002)(2616005)(53546011)(66556008)(26005)(8936002)(66946007)(83380400001)(316002)(7416002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0J1RWZsYkRNSW1QenJPYXA4enFDcU0xNitLekgrMG9OUGZxT05wWUpYcXRD?=
+ =?utf-8?B?T21TSUdmQXJXY0h2NjFZSEpIK2hsVCs0N3F2UXFNemx1aFBqV3ZkSit3ZXdM?=
+ =?utf-8?B?RSt0OXBIOVBrSXIvcmwzOWppeXpRQkF6MDMvY0pzd0p6d0kyZ080cnRYKzdE?=
+ =?utf-8?B?WUkyazZ5K3ltSlN2U3BZNXFXTGVLbE1vRTVSMlVJTC9LVlJYSlpaV05iNENG?=
+ =?utf-8?B?SUlXUWZkNjNLUFN2eHZGclV5UGgrMm5hSngrODloeEE4SnBhOWJ5RlRlV0dq?=
+ =?utf-8?B?SndBeE95WkxPakdETm1Pa1hhMFR5bCs1bUEwMUQxQmJaWnRqKzVWYU4yRE9s?=
+ =?utf-8?B?YmNPYmNPSnUxMkgySExNZkhCU0Rsa1hIZWhXOWg0ajUwaXJzcmRzS09RN3ZG?=
+ =?utf-8?B?d1NrazNpRVo0WHVKTCtKN2V5eEZ4RjB3bjJSanY4YW9seGVXUlYzUUZYcndL?=
+ =?utf-8?B?blBpSDZZS3o2TWliS3pyMTJPSFhrMCthd3BjV0pWUjlVL01MQk5wcElTSE0x?=
+ =?utf-8?B?WXliVmlpTWFxaXdkbVdieWgxVlZMMk1MdFhWUFJkTjc0MzJBajZPNEJHRlFa?=
+ =?utf-8?B?aUZyQXBta2Ria1VjT2ltQUsxdGlCZTVTb0pJWm9KNGYvYmMxWWxZZ1kvTUxk?=
+ =?utf-8?B?Q3lhYW5ObTM0MnU5S0hRNHRnbnlKaHZ2MnRWTmpIZkl2VUlFeDk3VEFYMFdk?=
+ =?utf-8?B?dzJ6NnRzci8vR2d0bzhFMk1mMnlGaHYyenlJMlFZNFgyR2xNK3JmQ2NZWGVU?=
+ =?utf-8?B?MWRZSEZCaWdTMWVibFFzUDkzQncva3NyZFpQbXg3UDZCb21TZmNIUmNzWTFj?=
+ =?utf-8?B?RlF2SHBCc3QzRUkwMlY4VHB6SWYwV2pMVEQ0dDVhNTJPUTFwVU1XZEFwVVZZ?=
+ =?utf-8?B?SC9tRmNIR1JRRXA2UE5WUFRLdmY3dVF0UUkrZDJ1Yk90L2JHVTlaNzFpb0pO?=
+ =?utf-8?B?aFBTWllTeGxsMzBDUmFCVDZJWlc2cDhubkd3RElxQnJuUFF3TzduYTRMQUc3?=
+ =?utf-8?B?enFnTU9rZHZBWVZXdkl3ZTBjekcrclJwU2dqZFQyWnNOVGdIMzRIbzRjTlhy?=
+ =?utf-8?B?cmNXSkt6U2pNNWdCVFdzUmNyWmRJbnl4ZFBESjlqSzVPd2x4RFVuTjErYzFT?=
+ =?utf-8?B?b0ZDSkdDcDc2Zmd0WFUvdlkzSGd2OEkrQUpYWGwwN3dXblFtV2VNcTcrZ2JN?=
+ =?utf-8?B?ZHBLS0hEa29xdG1mbGFWeU1XSk01c2hEMUoyelR4WEVTZENWS1VYMkd1UkpP?=
+ =?utf-8?B?ZDkzYk5qWDhaakdtTXl0aG5hd3FhK1RMYTJMMnBpVGpqTjIrMThyeTN5RFNN?=
+ =?utf-8?B?UFI5V3dxYW1WZlEzYUtsalEvMjNvekZEclFUSHR1ZHYyNUVQTXpDOGpYUHJt?=
+ =?utf-8?B?dDlROHl2RGF0T3ZmT3M0VzRmK0FnMEs0bFVsaDFEaHVtUXBQdE1heTRhTlBV?=
+ =?utf-8?B?SkkzUG1uNnpPelRxK0V2Y0w2TTkxTUdmU1NrbkExb3g4emhKK0lZTGEvYUp0?=
+ =?utf-8?B?OXY1RVpIZmZ1VlhKbGdkY3I5UVlkdk80WmRQenNDNnM2cC9hNHNoVzIxN2hy?=
+ =?utf-8?B?MWI3TG9XcDlrOVZoKzZTdTE5akFIbGl1QTEvcFlvc0lyc2xpTTd3aUh0VmV0?=
+ =?utf-8?B?ZjRPekNtK2Ixb1hqL3Jvb3VGN3dqTmgwcjNodkpKT2c5SENMVEw0aHZNOTdI?=
+ =?utf-8?B?MFNSaGFwU2t3VGtkVnVUQnVMak1mUlB1aElqcFNoT1JBTFRmbXRrZjhETUlo?=
+ =?utf-8?B?T3hkODZZeHhOYmtoaW9ma2puZHplS1N4T1M0R0hQcHhmUW9JeHZTZHRYclh3?=
+ =?utf-8?B?NkpoQVhiODBJOGdFRnhOYVZvb2JvMVl6LzZIbjZnRlBOVTNRM3l3ZEU0OHZu?=
+ =?utf-8?B?eTBpRXBOVnlwSmFJV1VSdDNwMXY2NW1PZjFieXlYSTFrbFN1cTFzS21QSXJa?=
+ =?utf-8?B?K0plS0FwWmZjbGdZK0JyMUx5MUl5dHVHZ2FKblJSZG5xQmVmbWtSQjE2bWZ2?=
+ =?utf-8?B?cERCU1cvT2pqdkNsWC9BbFlydmkzYW9uZEZCNGFGUTNBU3RFYzF2b1ByZEx2?=
+ =?utf-8?B?dGc3MnltYkZ4VDBUdjhXeDlqYmY4Y2ltL205NHRySFNZUFQ2NDl4Qk1RTm8z?=
+ =?utf-8?B?NzhHWVByTlAwMVBvTG9aakFVZ0hVbjVsVTFrK0tnNjNaWEVFQTdYR0NtK1pI?=
+ =?utf-8?B?L1RQSUp5UnRiWkZ5TnY3SXhzRTg5d3I3U3RheGU1WGxBRVlubVVJSExnc2NF?=
+ =?utf-8?Q?Bg3cfM7htTDl/8Pvl7LbEXchSYuXgZ/RgKQT0CQ80E=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44efdbcc-2d11-437b-bfa0-08d9f79b743c
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 13:42:09.2859 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 52bnW1ZLRe5yKhRBPNGiLY4X0fcKoF7W49YNVkhqMkm+SjMCYF0cmGZa5bvYlu2V+Pw1YPyIl2q8eX6naJTCM1RcxI0ioMJlh8yIps33m4M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4144
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e1a::706
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f400:7e1a::706;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,230 +153,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, mst@redhat.com, raduweis@amazon.com,
- linux@dominikbrodowski.net, kys@microsoft.com, ardb@kernel.org,
- wei.liu@kernel.org, sthemmin@microsoft.com, ben@skyportsystems.com,
- decui@microsoft.com, ebiggers@kernel.org, lersek@redhat.com,
- ehabkost@redhat.com, adrian@parity.io, jannh@google.com,
- haiyangz@microsoft.com, graf@amazon.com, tytso@mit.edu, colmmacc@amazon.com,
- berrange@redhat.com, gregkh@linuxfoundation.org, imammedo@redhat.com,
- dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VM Generation ID is a feature from Microsoft, described at
-<https://go.microsoft.com/fwlink/?LinkId=260709>, and supported by
-Hyper-V and QEMU. Its usage is described in Microsoft's RNG whitepaper,
-<https://aka.ms/win10rng>, as:
+24.02.2022 15:46, Hanna Reitz wrote:
+> On 16.02.22 20:46, Vladimir Sementsov-Ogievskiy wrote:
+>> Current scheme of image fleecing looks like this:
+>>
+>> [guest]                    [NBD export]
+>>    |                              |
+>>    |root                          | root
+>>    v                              v
+>> [copy-before-write] -----> [temp.qcow2]
+>>    |                 target  |
+>>    |file                     |backing
+>>    v                         |
+>> [active disk] <-------------+
+>>
+>>   - On guest writes copy-before-write filter copies old data from active
+>>     disk to temp.qcow2. So fleecing client (NBD export) when reads
+>>     changed regions from temp.qcow2 image and unchanged from active disk
+>>     through backing link.
+>>
+>> This patch makes possible new image fleecing scheme:
+>>
+>> [guest]                   [NBD export]
+>>     |                            |
+>>     | root                       | root
+>>     v                 file       v
+>> [copy-before-write]<------[x-snapshot-access]
+>>     |           |
+>>     | file      | target
+>>     v           v
+>> [active-disk] [temp.img]
+>>
+>>   - copy-before-write does CBW operations and also provides
+>>     snapshot-access API. The API may be accessed through
+>>     x-snapshot-access driver.
+> 
+> The “x-” prefix seems like a relic from an earlier version.
+> 
+> (I agree with what I assume is your opinion now, that we don’t need an x- prefix.  I can’t imagine why we’d need to change the snapshot-access interface in an incompatible way.)
+> 
+>> Benefits of new scheme:
+>>
+>> 1. Access control: if remote client try to read data that not covered
+>>     by original dirty bitmap used on copy-before-write open, client gets
+>>     -EACCES.
+>>
+>> 2. Discard support: if remote client do DISCARD, this additionally to
+>>     discarding data in temp.img informs block-copy process to not copy
+>>     these clusters. Next read from discarded area will return -EACCES.
+>>     This is significant thing: when fleecing user reads data that was
+>>     not yet copied to temp.img, we can avoid copying it on further guest
+>>     write.
+>>
+>> 3. Synchronisation between client reads and block-copy write is more
+>>     efficient. In old scheme we just rely on BDRV_REQ_SERIALISING flag
+>>     used for writes to temp.qcow2. New scheme is less blocking:
+>>       - fleecing reads are never blocked: if data region is untouched or
+>>         in-flight, we just read from active-disk, otherwise we read from
+>>         temp.img
+>>       - writes to temp.img are not blocked by fleecing reads
+>>       - still, guest writes of-course are blocked by in-flight fleecing
+>>         reads, that currently read from active-disk - it's the minimum
+>>         necessary blocking
+>>
+>> 4. Temporary image may be of any format, as we don't rely on backing
+>>     feature.
+>>
+>> 5. Permission relation are simplified. With old scheme we have to share
+>>     write permission on target child of copy-before-write, otherwise
+>>     backing link conflicts with copy-before-write file child write
+>>     permissions. With new scheme we don't have backing link, and
+>>     copy-before-write node may have unshared access to temporary node.
+>>     (Not realized in this commit, will be in future).
+>>
+>> 6. Having control on fleecing reads we'll be able to implement
+>>     alternative behavior on failed copy-before-write operations.
+>>     Currently we just break guest request (that's a historical behavior
+>>     of backup). But in some scenarios it's a bad behavior: better
+>>     is to drop the backup as failed but don't break guest request.
+>>     With new scheme we can simply unset some bits in a bitmap on CBW
+>>     failure and further fleecing reads will -EACCES, or something like
+>>     this. (Not implemented in this commit, will be in future)
+>>     Additional application for this is implementing timeout for CBW
+>>     operations.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block/copy-before-write.c | 212 +++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 211 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+>> index 91a2288b66..a8c88f64eb 100644
+>> --- a/block/copy-before-write.c
+>> +++ b/block/copy-before-write.c
+> 
+> [...]
+> 
+>> +static int coroutine_fn
+>> +cbw_co_snapshot_block_status(BlockDriverState *bs,
+>> +                             bool want_zero, int64_t offset, int64_t bytes,
+>> +                             int64_t *pnum, int64_t *map,
+>> +                             BlockDriverState **file)
+>> +{
+>> +    BDRVCopyBeforeWriteState *s = bs->opaque;
+>> +    BlockReq *req;
+>> +    int ret;
+>> +    int64_t cur_bytes;
+>> +    BdrvChild *child;
+>> +
+>> +    req = cbw_snapshot_read_lock(bs, offset, bytes, &cur_bytes, &child);
+>> +    if (!req) {
+>> +        return -EACCES;
+>> +    }
+>> +
+>> +    ret = bdrv_block_status(bs, offset, cur_bytes, pnum, map, file);
+> 
+> This looks like an infinite recursion.  Shouldn’t this be s/bs/child->bs/?
 
-    If the OS is running in a VM, there is a problem that most
-    hypervisors can snapshot the state of the machine and later rewind
-    the VM state to the saved state. This results in the machine running
-    a second time with the exact same RNG state, which leads to serious
-    security problems.  To reduce the window of vulnerability, Windows
-    10 on a Hyper-V VM will detect when the VM state is reset, retrieve
-    a unique (not random) value from the hypervisor, and reseed the root
-    RNG with that unique value.  This does not eliminate the
-    vulnerability, but it greatly reduces the time during which the RNG
-    system will produce the same outputs as it did during a previous
-    instantiation of the same VM state.
+Oh, yes, right
 
-Linux has the same issue, and given that vmgenid is supported already by
-multiple hypervisors, we can implement more or less the same solution.
-So this commit wires up the vmgenid ACPI notification to the RNG's newly
-added add_vmfork_randomness() function.
+> 
+>> +    if (child == s->target) {
+>> +        /*
+>> +         * We refer to s->target only for areas that we've written to it.
+>> +         * And we can not report unallocated blocks in s->target: this will
+>> +         * break generic block-status-above logic, that will go to
+>> +         * copy-before-write filtered child in this case.
+>> +         */
+>> +        assert(ret & BDRV_BLOCK_ALLOCATED);
+>> +    }
+>> +
+>> +    cbw_snapshot_read_unlock(bs, req);
+>> +
+>> +    return ret;
+>> +}
+> 
+> [...]
+> 
+>> @@ -225,6 +407,27 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+>>           return -EINVAL;
+>>       }
+>> +    cluster_size = block_copy_cluster_size(s->bcs);
+>> +
+>> +    s->done_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
+>> +    if (!s->done_bitmap) {
+>> +        return -EINVAL;
+> 
+> Hmm, similarly to my question on patch 4, I assume cbw_close() will free s->bcs (and also s->done_bitmap in the error case below)?
 
-It can be used from qemu via the `-device vmgenid,guid=auto` parameter.
-After setting that, use `savevm` in the monitor to save the VM state,
-then quit QEMU, start it again, and use `loadvm`. That will trigger this
-driver's notify function, which hands the new UUID to the RNG. This is
-described in <https://git.qemu.org/?p=qemu.git;a=blob;f=docs/specs/vmgenid.txt>.
-And there are hooks for this in libvirt as well, described in
-<https://libvirt.org/formatdomain.html#general-metadata>.
+Honestly, I don't remember did I think of it really. But I think it should work as you describe.
 
-Note, however, that the treatment of this as a UUID is considered to be
-an accidental QEMU nuance, per
-<https://github.com/libguestfs/virt-v2v/blob/master/docs/vm-generation-id-across-hypervisors.txt>,
-so this driver simply treats these bytes as an opaque 128-bit binary
-blob, as per the spec. This doesn't really make a difference anyway,
-considering that's how it ends up when handed to the RNG in the end.
+Interesting that in qcow2 we have code in the end of qcow2_do_open on "fail:" path, mostly duplicating what we have in qcow2_close(). Seems it may be simplified.
 
-This driver builds on prior work from Adrian Catangiu at Amazon, and it
-is my hope that that team can resume maintenance of this driver.
+> 
+>> +    }
+>> +    bdrv_disable_dirty_bitmap(s->done_bitmap);
+>> +
+>> +    /* s->access_bitmap starts equal to bcs bitmap */
+>> +    s->access_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
+>> +    if (!s->access_bitmap) {
+>> +        return -EINVAL;
+>> +    }
+>> +    bdrv_disable_dirty_bitmap(s->access_bitmap);
+>> +    bdrv_dirty_bitmap_merge_internal(s->access_bitmap,
+>> +                                     block_copy_dirty_bitmap(s->bcs), NULL,
+>> +                                     true);
+>> +
+>> +    qemu_co_mutex_init(&s->lock);
+>> +    QLIST_INIT(&s->frozen_read_reqs);
+>> +
+>>       return 0;
+>>   }
+> 
 
-Cc: Adrian Catangiu <adrian@parity.io>
-Cc: Laszlo Ersek <lersek@redhat.com>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- drivers/virt/Kconfig   |   9 +++
- drivers/virt/Makefile  |   1 +
- drivers/virt/vmgenid.c | 121 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 131 insertions(+)
- create mode 100644 drivers/virt/vmgenid.c
 
-diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-index 8061e8ef449f..d3276dc2095c 100644
---- a/drivers/virt/Kconfig
-+++ b/drivers/virt/Kconfig
-@@ -13,6 +13,15 @@ menuconfig VIRT_DRIVERS
- 
- if VIRT_DRIVERS
- 
-+config VMGENID
-+	tristate "Virtual Machine Generation ID driver"
-+	default y
-+	depends on ACPI
-+	help
-+	  Say Y here to use the hypervisor-provided Virtual Machine Generation ID
-+	  to reseed the RNG when the VM is cloned. This is highly recommended if
-+	  you intend to do any rollback / cloning / snapshotting of VMs.
-+
- config FSL_HV_MANAGER
- 	tristate "Freescale hypervisor management driver"
- 	depends on FSL_SOC
-diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-index 3e272ea60cd9..108d0ffcc9aa 100644
---- a/drivers/virt/Makefile
-+++ b/drivers/virt/Makefile
-@@ -4,6 +4,7 @@
- #
- 
- obj-$(CONFIG_FSL_HV_MANAGER)	+= fsl_hypervisor.o
-+obj-$(CONFIG_VMGENID)		+= vmgenid.o
- obj-y				+= vboxguest/
- 
- obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
-diff --git a/drivers/virt/vmgenid.c b/drivers/virt/vmgenid.c
-new file mode 100644
-index 000000000000..5da4dc8f25e3
---- /dev/null
-+++ b/drivers/virt/vmgenid.c
-@@ -0,0 +1,121 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Virtual Machine Generation ID driver
-+ *
-+ * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-+ * Copyright (C) 2020 Amazon. All rights reserved.
-+ * Copyright (C) 2018 Red Hat Inc. All rights reserved.
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/acpi.h>
-+#include <linux/random.h>
-+
-+ACPI_MODULE_NAME("vmgenid");
-+
-+enum { VMGENID_SIZE = 16 };
-+
-+static struct {
-+	u8 this_id[VMGENID_SIZE];
-+	u8 *next_id;
-+} state;
-+
-+static int vmgenid_acpi_add(struct acpi_device *device)
-+{
-+	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER };
-+	union acpi_object *pss;
-+	phys_addr_t phys_addr;
-+	acpi_status status;
-+	int ret = 0;
-+
-+	if (!device)
-+		return -EINVAL;
-+
-+	status = acpi_evaluate_object(device->handle, "ADDR", NULL, &buffer);
-+	if (ACPI_FAILURE(status)) {
-+		ACPI_EXCEPTION((AE_INFO, status, "Evaluating ADDR"));
-+		return -ENODEV;
-+	}
-+	pss = buffer.pointer;
-+	if (!pss || pss->type != ACPI_TYPE_PACKAGE || pss->package.count != 2 ||
-+	    pss->package.elements[0].type != ACPI_TYPE_INTEGER ||
-+	    pss->package.elements[1].type != ACPI_TYPE_INTEGER) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	phys_addr = (pss->package.elements[0].integer.value << 0) |
-+		    (pss->package.elements[1].integer.value << 32);
-+	state.next_id = acpi_os_map_memory(phys_addr, VMGENID_SIZE);
-+	if (!state.next_id) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+	device->driver_data = &state;
-+
-+	memcpy(state.this_id, state.next_id, sizeof(state.this_id));
-+	add_device_randomness(state.this_id, sizeof(state.this_id));
-+
-+out:
-+	ACPI_FREE(buffer.pointer);
-+	return ret;
-+}
-+
-+static int vmgenid_acpi_remove(struct acpi_device *device)
-+{
-+	if (!device || acpi_driver_data(device) != &state)
-+		return -EINVAL;
-+	device->driver_data = NULL;
-+	if (state.next_id)
-+		acpi_os_unmap_memory(state.next_id, VMGENID_SIZE);
-+	state.next_id = NULL;
-+	return 0;
-+}
-+
-+static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
-+{
-+	u8 old_id[VMGENID_SIZE];
-+
-+	if (!device || acpi_driver_data(device) != &state)
-+		return;
-+	memcpy(old_id, state.this_id, sizeof(old_id));
-+	memcpy(state.this_id, state.next_id, sizeof(state.this_id));
-+	if (!memcmp(old_id, state.this_id, sizeof(old_id)))
-+		return;
-+	add_vmfork_randomness(state.this_id, sizeof(state.this_id));
-+}
-+
-+static const struct acpi_device_id vmgenid_ids[] = {
-+	{"VMGENID", 0},
-+	{"QEMUVGID", 0},
-+	{ },
-+};
-+
-+static struct acpi_driver acpi_driver = {
-+	.name = "vm_generation_id",
-+	.ids = vmgenid_ids,
-+	.owner = THIS_MODULE,
-+	.ops = {
-+		.add = vmgenid_acpi_add,
-+		.remove = vmgenid_acpi_remove,
-+		.notify = vmgenid_acpi_notify,
-+	}
-+};
-+
-+static int __init vmgenid_init(void)
-+{
-+	return acpi_bus_register_driver(&acpi_driver);
-+}
-+
-+static void __exit vmgenid_exit(void)
-+{
-+	acpi_bus_unregister_driver(&acpi_driver);
-+}
-+
-+module_init(vmgenid_init);
-+module_exit(vmgenid_exit);
-+
-+MODULE_DEVICE_TABLE(acpi, vmgenid_ids);
-+MODULE_DESCRIPTION("Virtual Machine Generation ID");
-+MODULE_LICENSE("GPL v2");
 -- 
-2.35.1
-
+Best regards,
+Vladimir
 
