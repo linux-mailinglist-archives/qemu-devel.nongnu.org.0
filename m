@@ -2,94 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9954C2CB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 14:10:38 +0100 (CET)
-Received: from localhost ([::1]:39134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9808B4C2CE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 14:24:49 +0100 (CET)
+Received: from localhost ([::1]:46388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNDtE-0004Uf-Nq
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 08:10:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55096)
+	id 1nNE6y-0001v8-4o
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 08:24:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNDoB-0002Ht-Tt
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 08:05:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47688)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nNE42-0000aA-82
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 08:21:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nNDo9-00045u-67
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 08:05:22 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nNE3y-0007Ts-I2
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 08:21:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645707920;
+ s=mimecast20190719; t=1645708901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I3cYh0chQmSQ02OTyxxnh80v3EY4PsxBsT7BlVlqt1E=;
- b=gNZX8wrXtx4+yfkDp9wBAndICgCPyn97K3AbPBRUc4uGNsF/cnxwgvmF2pos1gz3M9F9XP
- bTor0mQnDZArywqAk94zBfI54vlBfSX7MlAA0dTcrT0zuOG0PVDbuR6NMoBX7cZsBjj7jm
- L7F5XCr4x+2Oysiqzp5BUGasq5bC2Q8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=S4Ar2h/8kbyBcTZzdA42id5FZONTwO0pc2nVol1EuV8=;
+ b=O8/9gkIFKtUqTxjGvzkkIDZcoIi7mfUzbEGThTpzkzV7tA0iI8mh0CBqO5scxKCbc+C9gY
+ tRsiQ6/Fdmy2WeNNvQZz4Bi7L64gMrv5ZTjEiVGlWZtrJ7oXZH7B2kAyuAqgTNBdR+4zXR
+ gyWyuvZQHb+n0Y5DqLngFWszyG+RYuk=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-257-MNNIQbIZO4-8scmPPkeqSQ-1; Thu, 24 Feb 2022 08:05:19 -0500
-X-MC-Unique: MNNIQbIZO4-8scmPPkeqSQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- mp5-20020a1709071b0500b0069f2ba47b20so1158882ejc.19
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 05:05:18 -0800 (PST)
+ us-mta-453-g9XgvzGjPMKY5VnVVz-X4g-1; Thu, 24 Feb 2022 08:21:38 -0500
+X-MC-Unique: g9XgvzGjPMKY5VnVVz-X4g-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ eq13-20020a056402298d00b00412cfa4bb0eso727428edb.7
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 05:21:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=I3cYh0chQmSQ02OTyxxnh80v3EY4PsxBsT7BlVlqt1E=;
- b=LDDml6lrIito69N+eMWVLDPl+eFWI43CydcOKL7UqCm3LdJDd3//yecffM8oRQUGIP
- svL2pczowslqEFksN0vcTCO22JxuuKgAscPJW5Fr1xB43Fs3bBIMduTL8IJwBct/0dJ1
- Vn6czYaVdY0T8LsBrvbDjvicvg16g7qQ6w7a099c28DkjkRoAwcATcNIkSPsLL/bdR4f
- XXOVpO0w0WWCcBVJ3CICvsi96/244XzBOksdn63ZfF09NPwP3lGtZhF/kMx3pdrKigIb
- LO8ZqCuXHz0cuwwRwg2TiLh1TfVqeCHUsPH+cmWg0Z20MZAKcIPeLWl6tSmWchviCBrx
- rZ2w==
-X-Gm-Message-State: AOAM530zwBhhcYykIhD6frn1NPDqIJw0YI5IrTa4A2QhkdJDQKZga7Wk
- wFha2sQs5sYFrAk2onU2hq10TqmmLq+SGXAUPLy93lIXKi6mXvpxbtr3mH9q/8lxP5pbqfIKnqx
- KDebpB96P+y16obE=
-X-Received: by 2002:a17:906:52c7:b0:6ce:a880:50a3 with SMTP id
- w7-20020a17090652c700b006cea88050a3mr2152247ejn.437.1645707917746; 
- Thu, 24 Feb 2022 05:05:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJypZjCBpV2+E3H8jmCReO/ZT7BReLEvfgNNm/4QCLvxJ4sAx+0PCPxvUUHuHXp0Nroa41xuYw==
-X-Received: by 2002:a17:906:52c7:b0:6ce:a880:50a3 with SMTP id
- w7-20020a17090652c700b006cea88050a3mr2152205ejn.437.1645707917434; 
- Thu, 24 Feb 2022 05:05:17 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id gs35sm1330486ejc.208.2022.02.24.05.05.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 05:05:16 -0800 (PST)
-Message-ID: <4170577f-bd93-49f3-0f80-7fa41a6cfabc@redhat.com>
-Date: Thu, 24 Feb 2022 14:05:16 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=S4Ar2h/8kbyBcTZzdA42id5FZONTwO0pc2nVol1EuV8=;
+ b=QQJIVCCOjsncNSA5aWqE7hi4ZHOCorY8sYFP/hQXxz+l47jqinEqch/bLd4//FxKUL
+ ZQYzZIb4w3BDzIy2rdwrgywZ7+/X2pK7NZvvILw1SjuzjoAiqx3Z+IzDguqyA+kSnl2k
+ qJDPtqm++AC9+d5Y5dAMWDrg1uNtCxHhTRSRR8gc0+o7jK+E1hzBxFC3qXA9SMShlxUJ
+ AES0IDR+KE6E2JjSQpRhdUP3mllfqSwVFzMF9q67H6y11WCAsIlxxIKoIOL7ZY8rd22i
+ SlVQ+D0vGN+mA+fHGajXc0g3uVcC4WgeygCLFMLX91bWnFSDyU4B5euF+8bnt7XEo+4s
+ Y+ZQ==
+X-Gm-Message-State: AOAM531b5YxcTOB/M+7VgRtIK69w2Ilgw/qboE2Wn//0VR5l5/QVXNrw
+ hprkTWNW2+xZACO5fN0C/fOx21K9FRTvOTuhUQ1sCakNFTO/oy4axDXfcW1/KVPKpeWqFuy63qh
+ KHW5L994RtqLv4w0=
+X-Received: by 2002:aa7:c90c:0:b0:410:a178:319f with SMTP id
+ b12-20020aa7c90c000000b00410a178319fmr2251530edt.451.1645708896774; 
+ Thu, 24 Feb 2022 05:21:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx0era9+GAoLQ/hyCEeaw9DolsfxL6KFO7hx0ZLTCjfWIvrwJ9axl1Yptv+OzE7ALrqIPsL6Q==
+X-Received: by 2002:aa7:c90c:0:b0:410:a178:319f with SMTP id
+ b12-20020aa7c90c000000b00410a178319fmr2251503edt.451.1645708896535; 
+ Thu, 24 Feb 2022 05:21:36 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id z6sm1364584ejd.96.2022.02.24.05.21.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Feb 2022 05:21:36 -0800 (PST)
+Date: Thu, 24 Feb 2022 14:21:35 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH] hw/i386/pc: when adding reserved E820 entries do not
+ allocate dynamic entries
+Message-ID: <20220224142135.69fa8a0b@redhat.com>
+In-Reply-To: <CAARzgwyTsbpxHAko9iLE1RSeuJCAEvRywdQ25e93oLkvSWP8GA@mail.gmail.com>
+References: <20220210132822.2969324-1-ani@anisinha.ca>
+ <20220223100410.756ffe35@redhat.com>
+ <CAARzgwxXAn83xE80o8+YNUeQJVn6NdtAGjC0e+KjEgbYAQaUkw@mail.gmail.com>
+ <20220224100345.2bdfc9d9@redhat.com>
+ <CAARzgwyTsbpxHAko9iLE1RSeuJCAEvRywdQ25e93oLkvSWP8GA@mail.gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 17/18] qapi: backup: add immutable-source parameter
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20220216194617.126484-1-vsementsov@virtuozzo.com>
- <20220216194617.126484-18-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220216194617.126484-18-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,39 +104,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, wencongyang2@huawei.com,
- xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
- jsnow@redhat.com, nikita.lapshin@virtuozzo.com, stefanha@redhat.com,
- eblake@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ kraxel@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.02.22 20:46, Vladimir Sementsov-Ogievskiy wrote:
-> We are on the way to implement internal-backup with fleecing scheme,
-> which includes backup job copying from fleecing block driver node
-> (which is target of copy-before-write filter) to final target of
-> backup. This job doesn't need own filter, as fleecing block driver node
-> is a kind of snapshot, it's immutable from reader point of view.
->
-> Let's add a parameter for backup to not insert filter but instead
-> unshare writes on source. This way backup job becomes a simple copying
-> process.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   qapi/block-core.json      | 11 ++++++-
->   include/block/block_int.h |  1 +
->   block/backup.c            | 61 +++++++++++++++++++++++++++++++++++----
->   block/replication.c       |  2 +-
->   blockdev.c                |  1 +
->   5 files changed, 69 insertions(+), 7 deletions(-)
+On Thu, 24 Feb 2022 18:14:35 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-I’m not really technically opposed to this, but I wonder what the actual 
-benefit of this is.  It sounds like the only benefit is that we don’t 
-need a filter driver, but what’s the problem with such a filter driver?
+> On Thu, Feb 24, 2022 at 2:33 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > On Wed, 23 Feb 2022 17:30:34 +0530
+> > Ani Sinha <ani@anisinha.ca> wrote:
+> >  
+> > > On Wed, Feb 23, 2022 at 2:34 PM Igor Mammedov <imammedo@redhat.com> wrote:  
+> > > >
+> > > > On Thu, 10 Feb 2022 18:58:21 +0530
+> > > > Ani Sinha <ani@anisinha.ca> wrote:
+> > > >  
+> > > > > When adding E820_RESERVED entries we also accidentally allocate dynamic
+> > > > > entries. This is incorrect. We should simply return early with the count of
+> > > > > the number of reserved entries added.  
+> > > >
+> > > > can you expand commit message to explain what's wrong and
+> > > > how problem manifests ... etc.  
+> > >
+> > > The issue has been present for the last 8 years without apparent
+> > > visible issues. I think the only issue is that the bug allocates more
+> > > memory in the firmware than is actually needed.  
+> >
+> > let me repeat: Why do you think it's an issue or why it's wrong  
+> 
+> Allocating more memory than what we need unnecessarily bloats up the
+> rom. We should not be allocating memory that we do not use.
 
-(And if we just want to copy data off of a immutable node, I personally 
-would go for the mirror job instead, but it isn’t like I could give good 
-technical reasons for that personal bias.)
+see how firmware uses "etc/e820" fwcfg file first, to make up
+mind on 'need' part.
+
+> 
+> >  
+> > >  
+> > > >  
+> > > > >
+> > > > > fixes: 7d67110f2d9a6("pc: add etc/e820 fw_cfg file")
+> > > > > cc: kraxel@redhat.com
+> > > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > > > ---
+> > > > >  hw/i386/e820_memory_layout.c | 2 ++
+> > > > >  1 file changed, 2 insertions(+)
+> > > > >
+> > > > > diff --git a/hw/i386/e820_memory_layout.c b/hw/i386/e820_memory_layout.c
+> > > > > index bcf9eaf837..afb08253a4 100644
+> > > > > --- a/hw/i386/e820_memory_layout.c
+> > > > > +++ b/hw/i386/e820_memory_layout.c
+> > > > > @@ -31,6 +31,8 @@ int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
+> > > > >          entry->type = cpu_to_le32(type);
+> > > > >
+> > > > >          e820_reserve.count = cpu_to_le32(index);
+> > > > > +
+> > > > > +        return index;
+> > > > >      }  
+> > > >
+> > > > this changes e820_table size/content, which is added by fw_cfg_add_file() to fwcfg,
+> > > > as result it breaks ABI in case of migration.  
+> > >
+> > > Ugh. So should we keep the bug? or do we add config setting to handle
+> > > the ABI breakage.
+> > >  
+> >  
+> 
 
 
