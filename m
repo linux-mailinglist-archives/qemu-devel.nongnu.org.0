@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7AB4C3609
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:43:54 +0100 (CET)
-Received: from localhost ([::1]:37114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6204C3606
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:42:26 +0100 (CET)
+Received: from localhost ([::1]:33622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNK1p-0001jP-Pe
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:43:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35832)
+	id 1nNK0P-0007ft-UE
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:42:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNJrP-0007Xq-3G
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:33:09 -0500
-Received: from [2607:f8b0:4864:20::633] (port=35738
- helo=mail-pl1-x633.google.com)
+ id 1nNJw2-0004kv-PY
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:37:55 -0500
+Received: from [2607:f8b0:4864:20::635] (port=33498
+ helo=mail-pl1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNJrK-0003gD-VX
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:33:04 -0500
-Received: by mail-pl1-x633.google.com with SMTP id i1so2720876plr.2
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 11:33:02 -0800 (PST)
+ id 1nNJw0-0004UY-8E
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:37:54 -0500
+Received: by mail-pl1-x635.google.com with SMTP id c9so2758971pll.0
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 11:37:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jjfp4EomP1XQlyh4+nAjYguKBouJwUOVZnlE1nlJ4VM=;
- b=wN6N5PtfNBmWwS7Yfz3K0N75IfzRfCxFwK0Hsnffw66NMNQfi6jgyQkVa939eWBHiI
- Rv1ht8YzUKEGOpNDUfdatZKp6asL3WmaSBl8RCbqU6xUC5WYXjzKPky81AtVbwxrNP5s
- Zpx86IeuSwNwwxrfnSbWbE5c1VlOVijUnVQ+USLX9/EbFDmGxAua+F9Y5AJAt012vqFQ
- nuns9bcDRPHl6BsB7hIr4C9lCfEvhhuzBJCx5N77Bb6fGmOMHp0bJqV1GQRtiMkHMVOo
- gqw2fE8ARf5QET1Cf8wjoMkO4vr38pwaNdZqZF0zR7FyUkZOlA8Z4TlcWkzioJieipno
- 4sRQ==
+ bh=IhuSkatiC/z4hNSIlEaOlUU5RqAe8lSz/9c5SSCsd7M=;
+ b=fLZ7ObrwZpAd5bj5pSL9GhehvZ7f6xlaEHyNBtWlN59mwBrpbRP0C2tqAARMvs/IeG
+ DDYHeyCPDBiOI8VnXzdtOZmfZscaNgXac/K1PMqtz7aaxkwLZAZyDiIXVHjxnQiUeaon
+ LgGbkozWwTg39dQuFT7NWPD4bPrvj1p5CTHPgT0IxQq2n9xtHl8aUgIlVLP1r+HtAf4W
+ cg4r5YGnIdq9KT/mgb+rvqNziPu8jZLVEuEUDq0kpxHw+2sRmoVzsD2OWx0kD8R1Bb1F
+ yKdwQ3iZeO7shqdaQXe5kOWpk3j9GfNPgcR7ZdYhdKNrYTRKuRJYRH+N3ei0cxEUjtZH
+ H6tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jjfp4EomP1XQlyh4+nAjYguKBouJwUOVZnlE1nlJ4VM=;
- b=Pil6YUfK9umM00lkNCPQFMHwOb85DDQiGHo/+viqKarRKVrc4p45V3LzfItv9Ys/Vr
- AEIsGpo/03Q+1xm82CKMEdNRPrJ+YtX06QTjYSUfSII67nGVv6vgp5p1Zefe5ol+Ucbs
- WxqIoOM5LD7pS/ulFRRngteG60KfZQRUEwD7bUC/JtqB/HEQrFMz3Q2oxIoiMfMah//l
- y37D/qaTEy/nqX5LvuQIdyq4/zUYx/NDvG8pQ1N1qU4pT9bfA/0DrldwwS4bFq1z92BB
- BUcXLEQz0zNq5ymHQ7VPXO8dUKSaXVcfi0UG76oE6VgWC74XUIGeo4CXmzkZ358TpxNX
- rJJQ==
-X-Gm-Message-State: AOAM531FOcFCwZMnwLHJZfnFKa1OIBgMLvOg0CPMogkxecaL9dCpy/9N
- bNcgDALHlLA3PylG7b/eguScxA==
-X-Google-Smtp-Source: ABdhPJyNr9144/GoguJ0286jThi4oPHwDSqmO4hy4c3i7RLZ7O8YSwbJYSAUZWqZiBzD3eaYxjRb+Q==
-X-Received: by 2002:a17:90a:bf91:b0:1b9:bda3:10ff with SMTP id
- d17-20020a17090abf9100b001b9bda310ffmr4289546pjs.38.1645731181404; 
- Thu, 24 Feb 2022 11:33:01 -0800 (PST)
+ bh=IhuSkatiC/z4hNSIlEaOlUU5RqAe8lSz/9c5SSCsd7M=;
+ b=PnXbeRNWg7dnzPkbzU+e5PLQVy+7P0QGhsj/IV08PedPt49Y8hfgAfhe8FZH/0fkcg
+ keGL63MF7gv8q3pQsFtfBDtbrV5ElrpafdTRAuhBPCUDhvD3kOMGYc9W3ta+H9mOCorv
+ L1ggH93LWVvW2jnBawc7fvM4uQrP+yTYz9bHgDklNjMJpMPWm1yGGwXf5q9gvn6yFlj/
+ Ks2HJ+7AIGOFA0nfRvpSozlNh0XLNsCBc5eXtywaOQs+SijHpqXqvemiE0mA2mtPzA0V
+ ASG/PTxinckfxoHdTTvYSFS5mrurv2xljG8FLY4AiQUYUMNXsg3dfhzYsjRycNN5mO4Q
+ MMIA==
+X-Gm-Message-State: AOAM533GsX8yZUWIzw1cnP9TFH42RdP/KZsmE6wLlSdQ1dgSrSwBZiSc
+ wKAB3gxdA2bivxowIRzqtPrJgQ==
+X-Google-Smtp-Source: ABdhPJxTTBso9Xz5LOHLQIu8j48fqPlbgdmhi3jUOGvaM2YH1ssFVCJJKNY0zj5ap7eO/JCaXzfnyw==
+X-Received: by 2002:a17:903:2341:b0:150:2371:ee59 with SMTP id
+ c1-20020a170903234100b001502371ee59mr1221760plh.57.1645731468782; 
+ Thu, 24 Feb 2022 11:37:48 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- o17-20020a056a0015d100b004c59f7dc606sm306742pfu.28.2022.02.24.11.33.00
+ n34-20020a056a000d6200b004e1ba1016absm311779pfv.31.2022.02.24.11.37.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 11:33:00 -0800 (PST)
-Message-ID: <3dc1bb04-a749-34df-87da-c6c99d3ecd73@linaro.org>
-Date: Thu, 24 Feb 2022 09:32:58 -1000
+ Thu, 24 Feb 2022 11:37:48 -0800 (PST)
+Message-ID: <98773975-c448-879a-eea6-58a7fe6a1707@linaro.org>
+Date: Thu, 24 Feb 2022 09:37:45 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 03/12] osdep.h: move qemu_build_not_reached()
+Subject: Re: [PATCH 06/12] Replace config-time define HOST_WORDS_BIGENDIAN
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 References: <20220224183701.608720-1-marcandre.lureau@redhat.com>
- <20220224183701.608720-4-marcandre.lureau@redhat.com>
+ <20220224183701.608720-7-marcandre.lureau@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220224183701.608720-4-marcandre.lureau@redhat.com>
+In-Reply-To: <20220224183701.608720-7-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,16 +100,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 2/24/22 08:36, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau<marcandre.lureau@redhat.com>
 > 
-> Move the macro and declaration so it can use glib in the following
-> patch.
+> Replace a config-time define with a compile time condition
+> define (compatible with clang and gcc) that must be declared prior to
+> its usage. This avoids having a global configure time define, but also
+> prevents from bad usage, if the config header wasn't included before.
+> 
+> This can help to make some code independent from qemu too.
+> 
+> gcc supports __BYTE_ORDER__ from about 4.6 and clang from 3.2.
 > 
 > Signed-off-by: Marc-André Lureau<marcandre.lureau@redhat.com>
-> ---
->   include/qemu/compiler.h | 16 ----------------
->   include/qemu/osdep.h    | 16 ++++++++++++++++
->   2 files changed, 16 insertions(+), 16 deletions(-)
 
-Would this be obviated by a change to _Noreturn?
+Looks ok.  I'd like HOST_WORDS_BIGENDIAN to be poisoned, so that we're assured that we've 
+caught all uses and new ones don't creep back in.
 
 
 r~
