@@ -2,87 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384F04C3493
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 19:21:39 +0100 (CET)
-Received: from localhost ([::1]:34268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CABF4C3499
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 19:23:13 +0100 (CET)
+Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNIkD-0006LL-ST
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 13:21:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48346)
+	id 1nNIlj-0008Ak-V6
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 13:23:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNIiJ-00057l-LR
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:19:39 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=40928
- helo=mail-pj1-x1036.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNIiI-0008WJ-36
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:19:39 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- em10-20020a17090b014a00b001bc3071f921so6385232pjb.5
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:19:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3IxVseU8l7XDXRxTi9N1V8Pou/lNos7YBlEUolAvfns=;
- b=Fht8bSa4B2VXnHnqa8wOJub4zfZb7EiKg2nf25HByvMbLQfmcH8UJjkAkfW3+IL940
- tEfvSW84BV8z4VNjILNHLamJBPQMwjEoXFMM496JloS7lyXyaxRnLBXEZ8s6qKqcrNc1
- mhnsFsOe1RybgWHfX6UKwHIoSjPovMWoMJ2ftsFDiGQKOQs4E2Qw/X5/ZomPtpBPCUVh
- /gxa8uX322pkrOQHS83jt4UQs6h9pWJS/AOA2n1RqOHz+3nXSFGPkpe782jExCI5L8ZY
- +gNtwnOPaEEpmTxnM7dDWmhvhHB+RpNmZc40rwXjm29Hl/7T8TbYg4IRfTWja3JKqB8l
- wfDQ==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nNIkV-0007Ub-1o
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:21:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59297)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nNIkR-0000eH-F0
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:21:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645726910;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=v+Qn807+I2UP3CWuYgSk/ni9WfA/jR3oLsZ9nqToy3Y=;
+ b=GlETcsEONbBXZeNZwmEP0Lc496eYuRUHbeNpICc20Bdb3PEzd54RL70adrAn6VFKmU6hwe
+ JqDIaLdnqF919ZWCocHoqkWdkMxmSYWtNVf5aRAZPA6kBpcPo7aFC+p+PAxYwuKAvO/Czj
+ Y9n/MDJRkhfXuNmgJJ0JknUEwb/KNPk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-332-Xrlk6fq6MZ-Kyk6BnWbkCA-1; Thu, 24 Feb 2022 13:21:48 -0500
+X-MC-Unique: Xrlk6fq6MZ-Kyk6BnWbkCA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 10-20020a1c020a000000b0037fae68fcc2so207568wmc.8
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:21:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3IxVseU8l7XDXRxTi9N1V8Pou/lNos7YBlEUolAvfns=;
- b=EOFHCuMOnOAEvXNMYssO6gwhG6VY2p+yMl8YwHC/e+4qBAXj1jTWNzRsutQo8lYUym
- x6p+DBReFR9l64lzKcl3VdckJnFg+bzHEvJYSxoDcvcyUW3wRTEluNNw5/3/yvB0s/4W
- i68+i44v+1e2qFjzcKi5Yuh7aeOgKBGbctnxnKbedDR6zK/eynPy15+/s+DHkKfPOyxx
- IHv8t57oSxi9p7ecdeserO4jmuVwlidZjfLivECxFq2CQAjiHpGatYkCOpgR1eaxVNRq
- KgRxdrZHn9q8HWdEFxp26kD4L/a0UzBpUlD+mQtDF4ywsDcdC/wbq7kGKjM1DVAxFXR0
- O+pg==
-X-Gm-Message-State: AOAM533/vSV+7MK3/4Z3v93PdJ6ieCkJIbkqgi67DB9OvbQYbbZEXU87
- wLIaUI9/2cawi68gApq91gmpxg==
-X-Google-Smtp-Source: ABdhPJzcdsoRauC8hfxgYD5h9dJ8v7dd4qQUn1hKEpRA0y4WF7AAirJRGWXE7OmVFx1Vor+TxRY0XA==
-X-Received: by 2002:a17:902:e5c3:b0:14f:a4ff:34b8 with SMTP id
- u3-20020a170902e5c300b0014fa4ff34b8mr3751617plf.24.1645726775954; 
- Thu, 24 Feb 2022 10:19:35 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- s9-20020a056a00194900b004e1583f88a2sm189577pfk.0.2022.02.24.10.19.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 10:19:35 -0800 (PST)
-Message-ID: <f820b1ca-53de-08bc-e886-e1be157b8da5@linaro.org>
-Date: Thu, 24 Feb 2022 08:19:32 -1000
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=v+Qn807+I2UP3CWuYgSk/ni9WfA/jR3oLsZ9nqToy3Y=;
+ b=b3BYQqEI6Nln+UA/lPJGvKHhkJn1smxuVpZyyUB6/KZwMEl+VwDj0E24uuUEb8CnkJ
+ x0DvohpNFdHMR6TqiyjL/Ruo73ZZV5rGwgQP39hg/0rhkEqnnYYrntbvAR12au1F0zZH
+ Zcu7u7xzGtAl0+MONJ5VRIiJQJTPyEbPas5mEuptRrvqPnapG0Nhx+FpxYhMUEHcnB7l
+ zz6iJooKNJSj2j9FuB8aVGSwKff82svPQgOcWsmn/R0XDWaxGPwocVYN8dFWjtTZlRFN
+ 29q1C5GUb210NEuBsSDSirJ1KBQ9iKehsOs210oqUSIwiJObWQWaJFZOi85jHvRgXkRN
+ 8Ezg==
+X-Gm-Message-State: AOAM533Qh1UVdpEl16tzpZWOvsU/4IwRPSbWwxd4mAmjfQu3jYqxtLIj
+ VGZ4yoBkh06RMCIxthK8UoB/BOY4w1jO4hVWbBqjGqBqrCe+5LY0cGVXfpweUYIS2Wmc8V4HPNC
+ oid12+j3rqVbKQcc=
+X-Received: by 2002:a05:6000:2a2:b0:1e8:6dd5:767b with SMTP id
+ l2-20020a05600002a200b001e86dd5767bmr3133160wry.444.1645726905732; 
+ Thu, 24 Feb 2022 10:21:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwOvQB2qUjElVYJJNcOY7Eehbu4JZBnkqe73KHss74z2I2ql/MNsFB9MN9aiP5eWDxEWa03/Q==
+X-Received: by 2002:a05:6000:2a2:b0:1e8:6dd5:767b with SMTP id
+ l2-20020a05600002a200b001e86dd5767bmr3133143wry.444.1645726905458; 
+ Thu, 24 Feb 2022 10:21:45 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ t14-20020a5d460e000000b001edc107e4f7sm96345wrq.81.2022.02.24.10.21.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Feb 2022 10:21:44 -0800 (PST)
+Date: Thu, 24 Feb 2022 18:21:42 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Steve Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V7 03/29] migration: qemu file wrappers
+Message-ID: <YhfMtliUYxGDsDwx@work-vm>
+References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-4-git-send-email-steven.sistare@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] target/arm: Report KVM's actual PSCI version to guest in
- dtb
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220224134655.1207865-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220224134655.1207865-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <1640199934-455149-4-git-send-email-steven.sistare@oracle.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,38 +100,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Zheng Chuan <zhengchuan@huawei.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/22 03:46, Peter Maydell wrote:
-> When we're using KVM, the PSCI implementation is provided by the
-> kernel, but QEMU has to tell the guest about it via the device tree.
-> Currently we look at the KVM_CAP_ARM_PSCI_0_2 capability to determine
-> if the kernel is providing at least PSCI 0.2, but if the kernel
-> provides a newer version than that we will still only tell the guest
-> it has PSCI 0.2.  (This is fairly harmless; it just means the guest
-> won't use newer parts of the PSCI API.)
+* Steve Sistare (steven.sistare@oracle.com) wrote:
+> Add qemu_file_open and qemu_fd_open to create QEMUFile objects for unix
+> files and file descriptors.
 > 
-> The kernel exposes the specific PSCI version it is implementing via
-> the ONE_REG API; use this to report in the dtb that the PSCI
-> implementation is 1.0-compatible if appropriate.  (The device tree
-> binding currently only distinguishes "pre-0.2", "0.2-compatible" and
-> "1.0-compatible".)
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 > ---
-> Based-on:20220213035753.34577-1-akihiko.odaki@gmail.com
-> ("[PATCH v2] target/arm: Support PSCI 1.1 and SMCCC 1.0")
-> though note that to compile on arm hosts you'll need the
-> bugfix to that patch from which I describe in a reply to it.
+>  migration/qemu-file-channel.c | 36 ++++++++++++++++++++++++++++++++++++
+>  migration/qemu-file-channel.h |  6 ++++++
+>  2 files changed, 42 insertions(+)
 > 
->   target/arm/kvm-consts.h |  1 +
->   hw/arm/boot.c           |  5 ++---
->   target/arm/kvm64.c      | 12 ++++++++++++
->   3 files changed, 15 insertions(+), 3 deletions(-)
+> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+> index bb5a575..afb16d7 100644
+> --- a/migration/qemu-file-channel.c
+> +++ b/migration/qemu-file-channel.c
+> @@ -27,8 +27,10 @@
+>  #include "qemu-file.h"
+>  #include "io/channel-socket.h"
+>  #include "io/channel-tls.h"
+> +#include "io/channel-file.h"
+>  #include "qemu/iov.h"
+>  #include "qemu/yank.h"
+> +#include "qapi/error.h"
+>  #include "yank_functions.h"
+>  
+>  
+> @@ -192,3 +194,37 @@ QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
+>      object_ref(OBJECT(ioc));
+>      return qemu_fopen_ops(ioc, &channel_output_ops, true);
+>  }
+> +
+> +QEMUFile *qemu_file_open(const char *path, int flags, int mode,
+> +                         const char *name, Error **errp)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Can you please make that qemu_fopen_file
 
-r~
+> +{
+> +    g_autoptr(QIOChannelFile) fioc = NULL;
+> +    QIOChannel *ioc;
+> +    QEMUFile *f;
+> +
+> +    if (flags & O_RDWR) {
+> +        error_setg(errp, "qemu_file_open %s: O_RDWR not supported", path);
+> +        return NULL;
+> +    }
+> +
+> +    fioc = qio_channel_file_new_path(path, flags, mode, errp);
+> +    if (!fioc) {
+> +        return NULL;
+> +    }
+> +
+> +    ioc = QIO_CHANNEL(fioc);
+> +    qio_channel_set_name(ioc, name);
+> +    f = (flags & O_WRONLY) ? qemu_fopen_channel_output(ioc) :
+> +                             qemu_fopen_channel_input(ioc);
+> +    return f;
+> +}
+> +
+> +QEMUFile *qemu_fd_open(int fd, bool writable, const char *name)
+> +{
+
+Can you please make that qemu_fopen_fd
+
+> +    g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
+
+Can you use qio_channel_new_fd for that? Then it creates either
+a socket or file subclass depending what type of fd is passed
+(and gives you a QIOChannel without needing to cast).
+
+> +    QIOChannel *ioc = QIO_CHANNEL(fioc);
+> +    QEMUFile *f = writable ? qemu_fopen_channel_output(ioc) :
+> +                             qemu_fopen_channel_input(ioc);
+> +    qio_channel_set_name(ioc, name);
+> +    return f;
+> +}
+> diff --git a/migration/qemu-file-channel.h b/migration/qemu-file-channel.h
+> index 0028a09..324ae2d 100644
+> --- a/migration/qemu-file-channel.h
+> +++ b/migration/qemu-file-channel.h
+> @@ -29,4 +29,10 @@
+>  
+>  QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc);
+>  QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc);
+> +
+> +QEMUFile *qemu_file_open(const char *path, int flags, int mode,
+> +                         const char *name, Error **errp);
+> +
+> +QEMUFile *qemu_fd_open(int fd, bool writable, const char *name);
+> +
+>  #endif
+> -- 
+> 1.8.3.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
