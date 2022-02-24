@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817AD4C3684
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 21:07:02 +0100 (CET)
-Received: from localhost ([::1]:38400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4244C368A
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 21:07:56 +0100 (CET)
+Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNKOD-0004A6-HA
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 15:07:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42716)
+	id 1nNKP5-0006Qn-DZ
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 15:07:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNKKz-0000Bx-T2
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 15:03:44 -0500
-Received: from [2607:f8b0:4864:20::532] (port=43594
- helo=mail-pg1-x532.google.com)
+ id 1nNKLq-0001ac-3C
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 15:04:34 -0500
+Received: from [2607:f8b0:4864:20::433] (port=45917
+ helo=mail-pf1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNKKy-0000VX-0U
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 15:03:41 -0500
-Received: by mail-pg1-x532.google.com with SMTP id 27so2636568pgk.10
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 12:03:38 -0800 (PST)
+ id 1nNKLo-0000Yj-9Y
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 15:04:33 -0500
+Received: by mail-pf1-x433.google.com with SMTP id u16so2785200pfg.12
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 12:04:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=gxrZWwHsfQofBmGElc59aYYGwbkZw4wfzwhydFb6WE8=;
- b=tPdVdvUWg82SExe6VZuKuKcNtG9rnSJJHAuWhR8p/CiD4OuLnG7QYP/xiClx2iMPjE
- vICB139BKFESUZRQXbwMjhVvI6zchg0oDS1tP1sXrqbXaEJ0qkVsAmw/NHfeZ25Z4KhM
- kS9K67fsk4Y3xMjQBJvuQsMd+xdt8XMTMDzo9sFUrTfS4I5tn+yCQCvHV2aoCHgiHXVO
- 1rSc5owPekmwB4qE8XcQA89MPywtHhs4nAol7x0d3ViEJ8b9NVY6G+80G5tyzlMmZSTR
- Nl8JWRAXIodiUNuZMdSjBG4lPFfjCa9zQvXL35EHQEQsrn9fKz4OcLgHuIyWVYQ/QexM
- aKcA==
+ bh=/EwSmjJ9zlhwXDp6Ern1jtjrEg2oMO6zrs3EUifqQg4=;
+ b=sXpxiRDqxZl3nweLz7ZsW1+N790+kh4Xc95tkI6cGi4vbYaYZ3wW7zotYW9OyHoFAf
+ gLshJQmMDvc81GPsOxbUGNT3CGRe4EX2EM6YaEojc8QxOIpkZzuYXdw4ixggBlz4F6Vv
+ U6q3RZ+r7ZccbD7xvM6mezE3XN5yu7zL+Ql8CxFUKkGusu9Bs7tIeVYbectpifZfGSC9
+ a7LGMlNdcV25vc8QMFjkvtHjbp+xl0K3QUgMbqiZBTpNxDFKqYKQGXYgaJFnFLlipJmt
+ YpquHgptv7yowwalsIxTOq61J9xVzFZPeSDVlP/aUI4U7apZQ1LpL1eOKezJNzLHzhte
+ jITQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gxrZWwHsfQofBmGElc59aYYGwbkZw4wfzwhydFb6WE8=;
- b=2gkao/ZvIhD0ivDcNqAyYACx6n2BbU2UMTKEeh++7ooxvg5AyFqz0mkK8LgeEYh8uw
- 5TVMgtHFB3RVHcpJkttf3iLb/JnwqeJ5QZimWcKxaGPO0d2p9yMA4AOBd85qLSHXO3em
- ypnoy9lOrHTXfBxf/BZsyVf6FcsUJLUUr6989nQIPrZKsSJXqbhzEgBf3MU7QmFYq2y0
- d6fzlFXKI/Svm+bMrFxfkZI18mnSZ/YddFfTK2k9Y4NXZnfyAYOSr+BicJXStL/tHItM
- cnANRqkpI5j1asHZ2NW77MrfYua84/2LfKdKyCua2CeKedN3emiAUgH8u806LRlbKY9F
- NRMQ==
-X-Gm-Message-State: AOAM533zJ/2GFuhdSdYSbQR+rpVbBfoywVZDUptxQzpqDBnv2BXe8axm
- ImoxmxbHDq3jrKGWiX1jpav8jA==
-X-Google-Smtp-Source: ABdhPJzgUvy5Pfx7NPznXaFtcd6jGwitYpOILZfr/04jKef78rwnLGYPIvDJCw9xJvM7rBGz0HGMkQ==
-X-Received: by 2002:a05:6a00:1494:b0:4f0:ece9:a01c with SMTP id
- v20-20020a056a00149400b004f0ece9a01cmr4141682pfu.58.1645733017161; 
- Thu, 24 Feb 2022 12:03:37 -0800 (PST)
+ bh=/EwSmjJ9zlhwXDp6Ern1jtjrEg2oMO6zrs3EUifqQg4=;
+ b=khTGw/3yM3fXEzl7CSxZWyZxEzgWXsSNhdE42qklX4Xx5k0xr9YN9o6se8wr7kvbkN
+ QjK3rMaNqUYAiJhByDbkJu8Ub/xR53068hnz8LlTfMxJpp8k1GCPnZEwVbKdfcEXV5xJ
+ NqAXj3hLoPg6tdTVImoVmUUO96CuWqKIQi0PfAz6IBQ6lFffbF7wtTWFGOQDDg6QdnOh
+ i/I5r4zMISIyhtSbMZVSCyMHVcKLbdNLpYdCf0T6bdn09ozioEt+f7+6q3n6ffZL7FQc
+ BGSuxZGHRN6PN8Ig8KwlRUFTt42ZpL/l1wN/eD7nXULgMg+zXXtc17SOd4rMs7bN94o/
+ FB8g==
+X-Gm-Message-State: AOAM5335ieyVR2QVOvAVs2YEGVe3WqVrd2BCVJtMzZUcg1xgss+QQ3Ln
+ zqr/gOrW7jEJ1p90NrZH2kpS/Q==
+X-Google-Smtp-Source: ABdhPJyynQQFVudqRHhgCt8KaER0AiEux+kRu86yTJ6in71OCJ2vk6mssiKwo/sL6GszuHEyui89gw==
+X-Received: by 2002:a63:f0d:0:b0:374:916e:52a4 with SMTP id
+ e13-20020a630f0d000000b00374916e52a4mr3441985pgl.457.1645733070963; 
+ Thu, 24 Feb 2022 12:04:30 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- g15-20020a056a0023cf00b004e17e11cb17sm322132pfc.111.2022.02.24.12.03.35
+ d7-20020a056a0024c700b004bd03c5045asm298314pfv.138.2022.02.24.12.04.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 12:03:36 -0800 (PST)
-Message-ID: <f10a471c-cb1d-2cc6-103b-0eed07b31326@linaro.org>
-Date: Thu, 24 Feb 2022 10:03:33 -1000
+ Thu, 24 Feb 2022 12:04:30 -0800 (PST)
+Message-ID: <9134e09c-8dbc-3668-7f77-bb5398de4f6f@linaro.org>
+Date: Thu, 24 Feb 2022 10:04:27 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 10/12] util: remove needless includes
+Subject: Re: [PATCH 11/12] util: remove the net/net.h dependency
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 References: <20220224183701.608720-1-marcandre.lureau@redhat.com>
- <20220224183701.608720-11-marcandre.lureau@redhat.com>
+ <20220224183701.608720-12-marcandre.lureau@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220224183701.608720-11-marcandre.lureau@redhat.com>
+In-Reply-To: <20220224183701.608720-12-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,15 +97,20 @@ Cc: peter.maydell@linaro.org, f4bug@amsat.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/22 08:36, marcandre.lureau@redhat.com wrote:
+On 2/24/22 08:37, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau<marcandre.lureau@redhat.com>
+> 
+> Move qemu_ether_ntoa() which is only needed in net/.
 > 
 > Signed-off-by: Marc-André Lureau<marcandre.lureau@redhat.com>
 > ---
->   util/cutils.c | 2 --
->   1 file changed, 2 deletions(-)
+>   include/qemu-common.h |  1 -
+>   net/announce.c        | 13 +++++++++++++
+>   util/cutils.c         | 14 --------------
+>   3 files changed, 13 insertions(+), 15 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
