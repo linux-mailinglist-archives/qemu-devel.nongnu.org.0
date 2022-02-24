@@ -2,78 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0316F4C35E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:27:42 +0100 (CET)
-Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CA44C356E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:12:51 +0100 (CET)
+Received: from localhost ([::1]:40434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNJmA-0007y1-2X
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:27:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55346)
+	id 1nNJXm-0008Mc-3Z
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:12:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nNJF1-00011f-Uq
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:53:27 -0500
-Received: from [2607:f8b0:4864:20::929] (port=41953
- helo=mail-ua1-x929.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nNJEz-0005fo-Bs
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:53:27 -0500
-Received: by mail-ua1-x929.google.com with SMTP id p33so1346650uap.8
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:53:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sxbecDWTldQJfZSWILXPWbTuhYQKtcnyt0EPg5HjEpk=;
- b=pixN94ku/AgY5XMTXOupVqld6oAC3MJGDlxYpUHxuqAXPComsdjliQ/RECQir6E0vV
- cCOjUDGfJWU0p6IYkXem8cWQ2EKr39aJu6WuFDbgGlNue8WDNkPgtdPEwDq8tQ2HohPe
- r1WMthtCwq+VLo4Ebusu1aVzeslSBXUDL+ZgE8K0qt0mtPD83OCaLoggbGfMTKA0UJUd
- PHQLduhlwa046MZTbMhSGM44KSkre/Zt451oStle63n4PGidkZWFiPaCgS6kRkF/6XI7
- iEGm0CCF3MZ2IZtLHpiWrSb3OyKdUeT0J1ZtuoF008vXCxznXnke24wzE0S0xIk/TUfL
- wuyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sxbecDWTldQJfZSWILXPWbTuhYQKtcnyt0EPg5HjEpk=;
- b=SaY0nSkM1cCmKXUuvQv0Mq2AsguBWZ+nCAthgMyXlou06226JnrNNXj6SuiPGpxe7u
- eRjndEWXcLTvTf9DIbAcxO5wy1Ycd+Ttawh8SuzuDBmt2Lb9ZOHBQ1ocobeS282/IFvf
- CVUgMw5ZAz3K+4NxABslj7qfsZ3uzvqbob9yLD5rx/epFsvGkU9ST8o7VZvtjcCXWFDR
- XwLJzjm79nMNdOjzSblMigByJPVWWQqcr5J0j3LS5uqP9lc6d0sLKsE74pURffVHj35F
- r2s3CsfiYTMOB7SShrZYE12qGTaenEfOdDLgWPX82Fv8bmdg7vqWmdo6Cr1twTHfitgE
- WWDg==
-X-Gm-Message-State: AOAM531wywRZfQO104D9dMvwg0pbDIy0aoWgjMzo9NmCPeBwD6VEOaCh
- 3KZq8/5O+p1j/ESZ251c0PuSgy3ebe5W6/SpmjKsNw==
-X-Google-Smtp-Source: ABdhPJyAvaSC2/DzJUewKfS7GEfJ/UOzm0/MCAdQhoWiWGDnjtRzoyhrPBw1WFHW6X+YM3lCzkVc9VRqkgganOj6zPU=
-X-Received: by 2002:ab0:3046:0:b0:33c:7679:3141 with SMTP id
- x6-20020ab03046000000b0033c76793141mr1754591ual.15.1645728783616; Thu, 24 Feb
- 2022 10:53:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nNJK2-0005Zr-E2; Thu, 24 Feb 2022 13:58:38 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48874
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nNJK0-0006Pv-4s; Thu, 24 Feb 2022 13:58:38 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21OIBiRx002103; 
+ Thu, 24 Feb 2022 18:58:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=+wjPKc7e40UCxNx2BOJVLdu/uQpjDDNWeu5guvmQlBI=;
+ b=NlGLS5a59TS1C+wqhBUcWUNrPx76zKdU6nLKcTQRzhyqwZMgys4s/q563osv5HpbNNuE
+ E2n0t7qveIeY0xFD8Kgrm0swT+izhvHYwdn0Ynd3z3mYiF7Y8K0lY58Vex6PXWc3vioj
+ NudVm3Rn3TP5KzFGRMIa0daQnT/MwDUXcBUq9PZz7Gj5YToWLvwhH8wYlzwcHghJ2xgr
+ Iz/31JX5DtGLSGHawO8YkwlKiH7mmuRt3SLt0JvIBgpAsq08RXM33hEurkXp7T/5NMvY
+ 9AN2wPzuEyFkQN1AYCmFkvttgJghqRFakv4d6S9xXy8QfAjRy5UmidYE8onwrMYrg6Uk YA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3edsjtnc0n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Feb 2022 18:58:27 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21OHk5av026394;
+ Thu, 24 Feb 2022 18:58:26 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3edsjtnc0k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Feb 2022 18:58:26 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21OIc6eP007962;
+ Thu, 24 Feb 2022 18:58:26 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma01wdc.us.ibm.com with ESMTP id 3eeb06csv8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 24 Feb 2022 18:58:26 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21OIwPNS30998942
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 24 Feb 2022 18:58:25 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 352D6C605D;
+ Thu, 24 Feb 2022 18:58:25 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4AD7BC6059;
+ Thu, 24 Feb 2022 18:58:23 +0000 (GMT)
+Received: from farosas.linux.ibm.com.com (unknown [9.211.135.43])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 24 Feb 2022 18:58:23 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/4] ppc: nested TCG migration (KVM-on-TCG)
+Date: Thu, 24 Feb 2022 15:58:13 -0300
+Message-Id: <20220224185817.2207228-1-farosas@linux.ibm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220202164533.1283668-1-venture@google.com>
- <CAFEAcA8gV5_cAyh9UVuN06tj5+0QietF-aDMAbvY-eW3kmFy0A@mail.gmail.com>
-In-Reply-To: <CAFEAcA8gV5_cAyh9UVuN06tj5+0QietF-aDMAbvY-eW3kmFy0A@mail.gmail.com>
-From: Patrick Venture <venture@google.com>
-Date: Thu, 24 Feb 2022 10:52:52 -0800
-Message-ID: <CAO=notxEN9ZC0iLtHa5uvs_3cFQKYZGoMxBLkH7f0svsx4kLkQ@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/i2c: flatten pca954x mux device
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Corey Minyard <cminyard@mvista.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>
-Content-Type: multipart/alternative; boundary="0000000000008bd9d705d8c81783"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=venture@google.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: -161
-X-Spam_score: -16.2
-X-Spam_bar: ----------------
-X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Z29JQKqm08tgAf0LXhll-6YV0EsfeZyX
+X-Proofpoint-GUID: TiMlzdCy7y7KzZG--_rTWHQq8ZYzDIW_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-02-24_04,2022-02-24_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 clxscore=1015 adultscore=0 phishscore=0
+ bulkscore=0 priorityscore=1501 mlxlogscore=885 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202240104
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,106 +106,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: aik@ozlabs.ru, danielhb413@gmail.com, npiggin@gmail.com,
+ qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008bd9d705d8c81783
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This series implements the migration for a TCG pseries guest running a
+nested KVM guest. This is just like migrating a pseries TCG guest, but
+with some extra state to allow a nested guest to continue to run on
+the destination.
 
-On Thu, Feb 24, 2022 at 2:56 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+Unfortunately the regular TCG migration scenario (not nested) is not
+fully working so I cannot be entirely sure the nested migration is
+correct. I have included a couple of patches for the general migration
+case that (I think?) improve the situation a bit, but I'm still seeing
+hard lockups and other issues with more than 1 vcpu.
 
-> On Wed, 2 Feb 2022 at 17:57, Patrick Venture <venture@google.com> wrote:
-> >
-> > Previously this device created N subdevices which each owned an i2c bus=
-.
-> > Now this device simply owns the N i2c busses directly.
-> >
-> > Tested: Verified devices behind mux are still accessible via qmp and i2=
-c
-> > from within an arm32 SoC.
-> >
-> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> > Signed-off-by: Patrick Venture <venture@google.com>
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > ---
-> > v2: explicitly create an incrementing name for the i2c busses (channels=
-).
-> > ---
->
-> Applied to target-arm.next, thanks.
->
-> Apologies for not picking this up earlier, the v2 got lost in the
-> side-conversation about spam filtering. (Blame gmail for not
-> doing email threading properly if you like :-))
->
+This is more of an early RFC to see if anyone spots something right
+away. I haven't made much progress in debugging the general TCG
+migration case so if anyone has any input there as well I'd appreciate
+it.
 
-Thanks, and no problem.  This v2 is what we have downstream for this.
+Thanks
 
-I'm working on a further improvement to it (separate feature change)
-that'll allow setting an id on the device so that all its channels have
-that the id embedded in them.  This'll handle some of the situations we're
-observing where the qdev paths aren't great for command line added i2c
-devices.  There's a side conversation going on about how best to accomplish
-this.
+Fabiano Rosas (4):
+  target/ppc: TCG: Migrate tb_offset and decr
+  spapr: TCG: Migrate spapr_cpu->prod
+  hw/ppc: Take nested guest into account when saving timebase
+  spapr: Add KVM-on-TCG migration support
 
+ hw/ppc/ppc.c                    | 17 +++++++-
+ hw/ppc/spapr.c                  | 19 ++++++++
+ hw/ppc/spapr_cpu_core.c         | 77 +++++++++++++++++++++++++++++++++
+ include/hw/ppc/spapr_cpu_core.h |  2 +-
+ target/ppc/machine.c            | 61 ++++++++++++++++++++++++++
+ 5 files changed, 174 insertions(+), 2 deletions(-)
 
->
-> -- PMM
->
+-- 
+2.34.1
 
---0000000000008bd9d705d8c81783
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 24, 2022 at 2:56 AM Peter=
- Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Wed, 2 Feb 2022 at 17:57, Patrick Venture &lt;<a href=3D"mailto:ve=
-nture@google.com" target=3D"_blank">venture@google.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Previously this device created N subdevices which each owned an i2c bu=
-s.<br>
-&gt; Now this device simply owns the N i2c busses directly.<br>
-&gt;<br>
-&gt; Tested: Verified devices behind mux are still accessible via qmp and i=
-2c<br>
-&gt; from within an arm32 SoC.<br>
-&gt;<br>
-&gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=
-=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
-&gt; Signed-off-by: Patrick Venture &lt;<a href=3D"mailto:venture@google.co=
-m" target=3D"_blank">venture@google.com</a>&gt;<br>
-&gt; Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@a=
-msat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-&gt; Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@ams=
-at.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-&gt; ---<br>
-&gt; v2: explicitly create an incrementing name for the i2c busses (channel=
-s).<br>
-&gt; ---<br>
-<br>
-Applied to target-arm.next, thanks.<br>
-<br>
-Apologies for not picking this up earlier, the v2 got lost in the<br>
-side-conversation about spam filtering. (Blame gmail for not<br>
-doing email threading properly if you like :-))<br></blockquote><div><br></=
-div><div>Thanks, and no problem.=C2=A0 This v2 is what we have downstream f=
-or this.</div><div><br></div><div>I&#39;m working on a further improvement =
-to it (separate feature change) that&#39;ll allow setting an id on the devi=
-ce so that all its channels have that the id embedded in them.=C2=A0 This&#=
-39;ll handle some of the situations we&#39;re observing where the qdev path=
-s aren&#39;t great for command line added i2c devices.=C2=A0 There&#39;s a =
-side conversation going on about how best to accomplish this.</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
--- PMM<br>
-</blockquote></div></div>
-
---0000000000008bd9d705d8c81783--
 
