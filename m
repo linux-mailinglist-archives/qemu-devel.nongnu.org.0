@@ -2,100 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED704C35BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:20:14 +0100 (CET)
-Received: from localhost ([::1]:52034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C34F64C35ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:32:41 +0100 (CET)
+Received: from localhost ([::1]:46234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNJev-00086i-EG
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:20:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56062)
+	id 1nNJqy-0005ir-Tb
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:32:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nNJKF-0005v4-BA; Thu, 24 Feb 2022 13:58:51 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59284)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nNJKD-0006SD-9M; Thu, 24 Feb 2022 13:58:51 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21OHq2ep030326; 
- Thu, 24 Feb 2022 18:58:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=hB7YXwzh4Tx+sRdVNmT/eGf3ri1RtthXBaISHOCZab0=;
- b=iVEtodhpc7rPAaSghL3tHgtVSI8Cnetp+9PFDaYUlm9yuLwcNK5+zbZ1f3635UVy1ib0
- cVSfATVA+2iu2Kn4gAkafLo3IwL0R5khFhtfrZAsoXFih5AhV8eguLvKQYzWXDUAlB+X
- uQlOIGZWVecTGG+RqKSMbEIp5RiA3zrs2G1n38OVRwDrIeIF6Qvy/AXTmtoXb3loAn6L
- sh/rmh5/e6Mav6xFOaEhwUqP5ZRh639HOqRVwO/L95Xm7PHftzkufHdIzuCaJpf8TSss
- C86wYqabnovLsGsb+R59C85eA6IM/8LN9NA3Ne7zqTpvCItgXzdjYSCdqZMDReQKko05 vw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eds79wum3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Feb 2022 18:58:37 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21OIfQLS008800;
- Thu, 24 Feb 2022 18:58:36 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eds79wukr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Feb 2022 18:58:36 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21OIcaw6016649;
- Thu, 24 Feb 2022 18:58:36 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02dal.us.ibm.com with ESMTP id 3ear6bw928-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 24 Feb 2022 18:58:35 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21OIwY6g29819292
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Feb 2022 18:58:34 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6A7A8C6065;
- Thu, 24 Feb 2022 18:58:34 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 804B3C605F;
- Thu, 24 Feb 2022 18:58:32 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.135.43])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 24 Feb 2022 18:58:32 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 4/4] spapr: Add KVM-on-TCG migration support
-Date: Thu, 24 Feb 2022 15:58:17 -0300
-Message-Id: <20220224185817.2207228-5-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220224185817.2207228-1-farosas@linux.ibm.com>
-References: <20220224185817.2207228-1-farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1nNJRN-00020P-SU
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:06:15 -0500
+Received: from [2607:f8b0:4864:20::634] (port=42934
+ helo=mail-pl1-x634.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1nNJRL-0007jw-Uo
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 14:06:13 -0500
+Received: by mail-pl1-x634.google.com with SMTP id p17so2632682plo.9
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 11:06:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wDSBMYcb6tkoi0hrlkLAMkcZIEKb67DacdYnNK1Yf40=;
+ b=Nf9UcntKzaAaAODI5RM0dZGM9wvf1d+J9RcPWePEfxGVDqQO9dTSuKBZPz9Ix5dPU8
+ TgbNLXsn4GRQVWD64h/O9n/+r7AxDb/fswbpK8OuUGMZAULmRWaumBnQxRc81ujXHmoc
+ FcgpFKx6BC062x8YCskQqi2PpWVwlD0vfFoD87CIQibEdCpPFFME5aDiUR95GptCuyoo
+ MHxFKHQ2c+6FYpFBx3k2/8qYHbTtDHs9uUaNkn65fm+incWOyvcC6P4iW+mTjqIpQyrO
+ rO9V9bJC0MpqO3kKsiwgMoSTPcY/e0mcTUEJPORCjEctvU2gS0T8I9vUI+mEnLVMQbe8
+ Uf1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wDSBMYcb6tkoi0hrlkLAMkcZIEKb67DacdYnNK1Yf40=;
+ b=I0sk/XzxMej2MPT3NG4y+ieaX9O1yl3+T1oRMjCvwDQLDIoEdiJY/xkWNnPGmbCEag
+ uR63WRJr6bD+AZXCWLMZ0rsCBPieWL2yqRlvM9nn8+E5s48+q3b9GLBTANUpjdP8kOSC
+ YCEjqGJNUq49rJsQwg81xoBTqfbk7px/mAfTeL1ixvPUggH6qesWMfqRvir3LziS57Zv
+ 9mQYiypQtDYAQ9RfnRvd6Yb3AVx8h+8VB+nb+XxTMPWVTLi5NUX/IZNWKwpVLUDvgIXe
+ o5JYXRr65jUSCW9dV7rhMC5Rm3+AhjSJBGeZqwUxJG7mWNaAD+DZbgaNNpZcn1kMiP1f
+ FllA==
+X-Gm-Message-State: AOAM531DjlNBxl1lymodgPlnCksK8UGK5JGyfOnYvcE+50avrt3gspo3
+ NuyzLgEShyHDQk7UUTORPhi3U7k5rimm3M69JY7Vr4LyN4c=
+X-Google-Smtp-Source: ABdhPJwIp7J0sJdaDTXolbLBZk5s8OWI6kBLRQAwIAdC4n10FcT6WkGVUPfTIN3LX8Hzyu+gUHkLPfmHlmv5fzJV3IM=
+X-Received: by 2002:a05:6102:356c:b0:31a:fb45:b81c with SMTP id
+ bh12-20020a056102356c00b0031afb45b81cmr1700255vsb.35.1645729143422; Thu, 24
+ Feb 2022 10:59:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: n3GCtEqbhqQSRzhkmoAej0M0o3bgYk0K
-X-Proofpoint-ORIG-GUID: IW7OpOQKknPGTNBdPVcS8J_koaZMwxl3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-02-24_03,2022-02-24_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 suspectscore=0 malwarescore=0 phishscore=0 adultscore=0
- bulkscore=0 impostorscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202240104
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220106230936.417020-1-titusr@google.com>
+In-Reply-To: <20220106230936.417020-1-titusr@google.com>
+From: Patrick Venture <venture@google.com>
+Date: Thu, 24 Feb 2022 10:58:52 -0800
+Message-ID: <CAO=notwF3TYULgZn_w_1g-4Tq=7Fros8-jvwvm4XKaODu30ZEw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Fixups for PMBus and new sensors
+To: Titus Rwantare <titusr@google.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Corey Minyard <minyard@acm.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000fe0f3f05d8c82c56"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=venture@google.com; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -161
+X-Spam_score: -16.2
+X-Spam_bar: ----------------
+X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,248 +85,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, danielhb413@gmail.com, npiggin@gmail.com,
- qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds migration support for TCG pseries machines running a KVM-HV
-guest.
+--000000000000fe0f3f05d8c82c56
+Content-Type: text/plain; charset="UTF-8"
 
-The state that needs to be migrated is:
+On Thu, Jan 6, 2022 at 3:09 PM Titus Rwantare <titusr@google.com> wrote:
 
-- the nested PTCR value;
-- the in_nested flag;
-- the nested_tb_offset.
-- the saved host CPUPPCState structure;
+> This patch series contains updates to PMBus in QEMU along with some PMBus
+> device models for Renesas regulators.
+> I have also added myself to MAINTAINERS as this code is in use daily,
+> where I am responsible for it.
+>
+> Shengtan Mao (1):
+>   hw/i2c: Added linear mode translation for pmbus devices
+>
+> Titus Rwantare (4):
+>   hw/i2c: pmbus updates
+>   hw/sensor: add Intersil ISL69260 device model
+>   hw/sensor: add Renesas raa229004 PMBus device
+>   hw/misc: add Renesas raa228000 device
+>
+>  MAINTAINERS                   |  15 +-
+>  hw/arm/Kconfig                |   1 +
+>  hw/i2c/pmbus_device.c         | 106 +++++++-
+>  hw/sensor/Kconfig             |   5 +
+>  hw/sensor/isl_pmbus.c         | 278 ++++++++++++++++++++
+>  hw/sensor/meson.build         |   1 +
+>  include/hw/i2c/pmbus_device.h |  23 +-
+>  include/hw/sensor/isl_pmbus.h |  52 ++++
+>  tests/qtest/isl_pmbus-test.c  | 460 ++++++++++++++++++++++++++++++++++
+>  tests/qtest/meson.build       |   1 +
+>  10 files changed, 930 insertions(+), 12 deletions(-)
+>  create mode 100644 hw/sensor/isl_pmbus.c
+>  create mode 100644 include/hw/sensor/isl_pmbus.h
+>  create mode 100644 tests/qtest/isl_pmbus-test.c
+>
+>
+Friendly ping - I believe I saw some of these have picked up Reviewer tags,
+but ideally this will get into 7.0 before next month's soft-freeze.
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
----
-(this migrates just fine with L2 running stress and 1 VCPU in L1. With
-32 VCPUs in L1 there's crashes which I still don't understand. They might
-be related to L1 migration being flaky right now)
----
- hw/ppc/spapr.c          | 19 +++++++++++
- hw/ppc/spapr_cpu_core.c | 76 +++++++++++++++++++++++++++++++++++++++++
- target/ppc/machine.c    | 44 ++++++++++++++++++++++++
- 3 files changed, 139 insertions(+)
+> --
+> 2.34.1.448.ga2b2bfdf31-goog
+>
+>
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index f0b75b22bb..6e87c515db 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1934,6 +1934,13 @@ static bool spapr_patb_entry_needed(void *opaque)
-     return !!spapr->patb_entry;
- }
- 
-+static bool spapr_nested_ptcr_needed(void *opaque)
-+{
-+    SpaprMachineState *spapr = opaque;
-+
-+    return !!spapr->nested_ptcr;
-+}
-+
- static const VMStateDescription vmstate_spapr_patb_entry = {
-     .name = "spapr_patb_entry",
-     .version_id = 1,
-@@ -1945,6 +1952,17 @@ static const VMStateDescription vmstate_spapr_patb_entry = {
-     },
- };
- 
-+static const VMStateDescription vmstate_spapr_nested_ptcr = {
-+    .name = "spapr_nested_ptcr",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = spapr_nested_ptcr_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(nested_ptcr, SpaprMachineState),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
- static bool spapr_irq_map_needed(void *opaque)
- {
-     SpaprMachineState *spapr = opaque;
-@@ -2069,6 +2087,7 @@ static const VMStateDescription vmstate_spapr = {
-         &vmstate_spapr_cap_fwnmi,
-         &vmstate_spapr_fwnmi,
-         &vmstate_spapr_cap_rpt_invalidate,
-+        &vmstate_spapr_nested_ptcr,
-         NULL
-     }
- };
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index efda7730f1..3ec13c0660 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -25,6 +25,7 @@
- #include "sysemu/reset.h"
- #include "sysemu/hw_accel.h"
- #include "qemu/error-report.h"
-+#include "migration/cpu.h"
- 
- static void spapr_reset_vcpu(PowerPCCPU *cpu)
- {
-@@ -174,6 +175,80 @@ static const VMStateDescription vmstate_spapr_cpu_vpa = {
-     }
- };
- 
-+static bool nested_needed(void *opaque)
-+{
-+    SpaprCpuState *spapr_cpu = opaque;
-+
-+    return spapr_cpu->in_nested;
-+}
-+
-+static int nested_state_pre_save(void *opaque)
-+{
-+    CPUPPCState *env = opaque;
-+
-+    env->spr[SPR_LR] = env->lr;
-+    env->spr[SPR_CTR] = env->ctr;
-+    env->spr[SPR_XER] = cpu_read_xer(env);
-+    env->spr[SPR_CFAR] = env->cfar;
-+
-+    return 0;
-+}
-+
-+static int nested_state_post_load(void *opaque, int version_id)
-+{
-+    CPUPPCState *env = opaque;
-+
-+    env->lr = env->spr[SPR_LR];
-+    env->ctr = env->spr[SPR_CTR];
-+    cpu_write_xer(env, env->spr[SPR_XER]);
-+    env->cfar = env->spr[SPR_CFAR];
-+
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_nested_host_state = {
-+    .name = "spapr_nested_host_state",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .pre_save = nested_state_pre_save,
-+    .post_load = nested_state_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINTTL_ARRAY(gpr, CPUPPCState, 32),
-+        VMSTATE_UINTTL_ARRAY(spr, CPUPPCState, 1024),
-+        VMSTATE_UINT32_ARRAY(crf, CPUPPCState, 8),
-+        VMSTATE_UINTTL(nip, CPUPPCState),
-+        VMSTATE_UINTTL(msr, CPUPPCState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static int nested_cpu_pre_load(void *opaque)
-+{
-+    SpaprCpuState *spapr_cpu = opaque;
-+
-+    spapr_cpu->nested_host_state = g_try_malloc(sizeof(CPUPPCState));
-+    if (!spapr_cpu->nested_host_state) {
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_spapr_cpu_nested = {
-+    .name = "spapr_cpu/nested",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = nested_needed,
-+    .pre_load = nested_cpu_pre_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_BOOL(in_nested, SpaprCpuState),
-+        VMSTATE_INT64(nested_tb_offset, SpaprCpuState),
-+        VMSTATE_STRUCT_POINTER_V(nested_host_state, SpaprCpuState, 1,
-+                                 vmstate_nested_host_state, CPUPPCState),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
- static const VMStateDescription vmstate_spapr_cpu_state = {
-     .name = "spapr_cpu",
-     .version_id = 1,
-@@ -184,6 +259,7 @@ static const VMStateDescription vmstate_spapr_cpu_state = {
-     },
-     .subsections = (const VMStateDescription * []) {
-         &vmstate_spapr_cpu_vpa,
-+        &vmstate_spapr_cpu_nested,
-         NULL
-     }
- };
-diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-index 7ee1984500..ae09b1bcfe 100644
---- a/target/ppc/machine.c
-+++ b/target/ppc/machine.c
-@@ -10,6 +10,7 @@
- #include "kvm_ppc.h"
- #include "power8-pmu.h"
- #include "hw/ppc/ppc.h"
-+#include "hw/ppc/spapr_cpu_core.h"
- 
- static void post_load_update_msr(CPUPPCState *env)
- {
-@@ -679,6 +680,48 @@ static const VMStateDescription vmstate_tb_env = {
-     }
- };
- 
-+static const VMStateDescription vmstate_hdecr = {
-+    .name = "cpu/hdecr",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(hdecr_next, ppc_tb_t),
-+        VMSTATE_TIMER_PTR(hdecr_timer, ppc_tb_t),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static bool nested_needed(void *opaque)
-+{
-+    PowerPCCPU *cpu = opaque;
-+    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
-+
-+    return spapr_cpu->in_nested;
-+}
-+
-+static int nested_pre_load(void *opaque)
-+{
-+    PowerPCCPU *cpu = opaque;
-+    CPUPPCState *env = &cpu->env;
-+
-+    cpu_ppc_hdecr_init(env);
-+
-+    return 0;
-+}
-+
-+static const VMStateDescription vmstate_nested = {
-+    .name = "cpu/nested-guest",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = nested_needed,
-+    .pre_load = nested_pre_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_STRUCT_POINTER_V(env.tb_env, PowerPCCPU, 1,
-+                                 vmstate_hdecr, ppc_tb_t),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- const VMStateDescription vmstate_ppc_cpu = {
-     .name = "cpu",
-     .version_id = 5,
-@@ -734,6 +777,7 @@ const VMStateDescription vmstate_ppc_cpu = {
-         &vmstate_tlbemb,
-         &vmstate_tlbmas,
-         &vmstate_compat,
-+        &vmstate_nested,
-         NULL
-     }
- };
--- 
-2.34.1
+--000000000000fe0f3f05d8c82c56
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 6, 2022 at 3:09 PM Titus =
+Rwantare &lt;<a href=3D"mailto:titusr@google.com" target=3D"_blank">titusr@=
+google.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">This patch series contains updates to PMBus in QEMU along with s=
+ome PMBus<br>
+device models for Renesas regulators.<br>
+I have also added myself to MAINTAINERS as this code is in use daily,<br>
+where I am responsible for it.<br>
+<br>
+Shengtan Mao (1):<br>
+=C2=A0 hw/i2c: Added linear mode translation for pmbus devices<br>
+<br>
+Titus Rwantare (4):<br>
+=C2=A0 hw/i2c: pmbus updates<br>
+=C2=A0 hw/sensor: add Intersil ISL69260 device model<br>
+=C2=A0 hw/sensor: add Renesas raa229004 PMBus device<br>
+=C2=A0 hw/misc: add Renesas raa228000 device<br>
+<br>
+=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 15 +-<br>
+=C2=A0hw/arm/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ |=C2=A0 =C2=A01 +<br>
+=C2=A0hw/i2c/pmbus_device.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 106 +++++++-=
+<br>
+=C2=A0hw/sensor/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A05 +<br>
+=C2=A0hw/sensor/isl_pmbus.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 278 ++++++++=
+++++++++++++<br>
+=C2=A0hw/sensor/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0=
+1 +<br>
+=C2=A0include/hw/i2c/pmbus_device.h |=C2=A0 23 +-<br>
+=C2=A0include/hw/sensor/isl_pmbus.h |=C2=A0 52 ++++<br>
+=C2=A0tests/qtest/isl_pmbus-test.c=C2=A0 | 460 ++++++++++++++++++++++++++++=
+++++++<br>
+=C2=A0tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<b=
+r>
+=C2=A010 files changed, 930 insertions(+), 12 deletions(-)<br>
+=C2=A0create mode 100644 hw/sensor/isl_pmbus.c<br>
+=C2=A0create mode 100644 include/hw/sensor/isl_pmbus.h<br>
+=C2=A0create mode 100644 tests/qtest/isl_pmbus-test.c<br>
+<br></blockquote><div><br></div><div>Friendly ping - I believe I saw some o=
+f these have picked up Reviewer tags, but ideally this will get into 7.0 be=
+fore next month&#39;s soft-freeze.</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+-- <br>
+2.34.1.448.ga2b2bfdf31-goog<br>
+<br>
+</blockquote></div></div>
+
+--000000000000fe0f3f05d8c82c56--
 
