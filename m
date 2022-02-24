@@ -2,74 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077AA4C332C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 18:07:39 +0100 (CET)
-Received: from localhost ([::1]:40344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 261CC4C3358
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 18:17:20 +0100 (CET)
+Received: from localhost ([::1]:49886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNHab-0001Lf-Ko
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 12:07:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58968)
+	id 1nNHjy-0007cO-Nz
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 12:17:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nNHXT-0006tq-A9
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 12:04:24 -0500
-Received: from [2a00:1450:4864:20::42f] (port=44954
- helo=mail-wr1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nNHXQ-0004FA-H5
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 12:04:22 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id u1so623374wrg.11
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 09:04:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FenyVt1+zFwDzWuwYVIPLHFEQOvFulP8E0ajb/bofuY=;
- b=IFaFAZe5KzFzIvmFA8rax2J83nJqdUPFPoO3r1cfkGOWhnGT9y9hyX06S7fd3eGs9+
- PdE5dxecFkClzXIPBbPbQ3eBxDKZTOt3mWGOEJiwUgc2z7C5rBKofGb4FiCrcQuYkbIL
- tNZssDoVCpn1JguePf/4/8vTSMGjXT/vltTje8fta0z707hj+ojzfnz6AvVH7GZm9y57
- XhJb5csdt66d/5ePQGzO7WvrZDI/5xvUs7jj3Te9ui/0V+y6Raa3HpVT2ej8b/+TXQC8
- qHKS1KD8G79blDn+k8zXGatNMWIp/91JjrS2Or1RGUcG5XWU+XVazVs4awpwMcSM9d+D
- EsSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FenyVt1+zFwDzWuwYVIPLHFEQOvFulP8E0ajb/bofuY=;
- b=rnjCcXRXnQeRfV0PLHVe04erJk18Tj4Nwpyb2x8aHzQnjV7jvUeK4b2M9OlhfimJ7W
- jWRhXSOD+GwUSdUECZKBRFM2VBBaNIV5umu4GSCIFC23pIP0d0SsleEM7eXf0g685PVO
- gbFnMX3wUcoXHgk6mq0/+Or6gh/5BvhGl2zWXxfBiuww8wCioMQel5K0AEZaBe5+n8tL
- nrL1yq5T+S9H9h/QizgdAGXl/WuFppuUsK96iQq10VQwRtFGPu8rNBSs4V6ROjBWzlMo
- wXzuGmUCeJU7txlbbTtT89jPm0xRmAgz8kpKjXKjOUSX0ifJ1exwXQu6VtTHPJJa57Gv
- FFpA==
-X-Gm-Message-State: AOAM532ZcVVc01K8Ty7tHeo47x7A9tcddJX73RD9HC/buZnqEWcNEviV
- eAIjQ8MbcxUXs8QhFvq9ErlWuBwXIZGN6wMd7yLEbRNMmMo=
-X-Google-Smtp-Source: ABdhPJwknDWaF8ZBkc2e96tz5/nqNb/5++7axfKBuD192HNjZHFgodH4CVz8sOPpmm2GC22jfsM5j8xpieERwCeeJio=
-X-Received: by 2002:adf:f508:0:b0:1e4:a6f6:5b79 with SMTP id
- q8-20020adff508000000b001e4a6f65b79mr2973706wro.562.1645722254426; Thu, 24
- Feb 2022 09:04:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nNHgr-0005dU-NS; Thu, 24 Feb 2022 12:14:05 -0500
+Received: from [2a01:111:f400:fe1e::726] (port=14723
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nNHgl-0005pu-T1; Thu, 24 Feb 2022 12:14:03 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fYG4ZGBaTtxHiIAbpRpx1xUY0IatgXgatSt+O+zzkRySPcNTVm87VkdqMfkKpzPvtkTOGfWtz6pUW0HgOePJHgpe/WFpmormI797etwA7TuCxbpF4qciD3zvirSQXEkwVi0b7wnrW5IM18KwdaTCTFuZraVqUqNdnhUyQ2Due1G4aAelckHmnzAPb9vjtyDTkb7lrhdHd/OkI5T2Na9598ChaJDtNhCMpB6O6VZE1Urs6mW0LBWONQFPRr+BBC4Tp3acSSFdFVD0k6PdWRsOABpA6m7CC7eytQG1HVfImJWecpbCQvKTUb2oNqs1hTXety45j6I42vYOsPCa9Ut3mA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ifYmVaYWPh1rQSxCgXL+RFMTLItkIDhGj/xwJNUgB5A=;
+ b=MHks0/Pztdl00oNzYdHn0RxvitUnaKUbXeJjCkNrcablVqyW5Y5T662hSdEjezjjRunuazeriZy0q229ZBlLFAcpprhG7AG94vOSeeyaBIsJw/6KmEmdaURkEEbAz59A5qU1GMNbpKFEoTjhCMkCXFPHflYzIH/35w+CPO6BW6H9iCeg1MgYC2znexTO/avCXNsv+20hwNLYRIiqPDWgQ4XZb7L+ohu7dVxuqx/V+Yl5m61afSZKRcD/bPHFPCCw6eL0+VIbhnF6QWkQ5ZMTqcP1fZM97M5w2N3yUAjcFaFlPCPmSrfVXuhge53mfguLRmXZCsd0iI34ahofrqX7kQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ifYmVaYWPh1rQSxCgXL+RFMTLItkIDhGj/xwJNUgB5A=;
+ b=NSuAueiBkAo5b6lra6s7UL85NuaKyG2ggkkNJez0dXQCQ2Xn5ETqHJcGnT62ENSR3rreKnZXur4Fa6Jj4Drv94wzDaP64+TiRlIUdRWIGW2sJIo0lrgeT0ELLhhtbdbc+meSjcFA1wDkkW2qJ4J1CI2xYtCX+hiVEAZ4HfiD9BY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by VI1PR08MB3197.eurprd08.prod.outlook.com (2603:10a6:803:3e::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Thu, 24 Feb
+ 2022 17:13:53 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.5017.021; Thu, 24 Feb 2022
+ 17:13:53 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
+ hreitz@redhat.com, kwolf@redhat.com,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: [PATCH 0/2] blockdev-add transaction
+Date: Thu, 24 Feb 2022 18:13:26 +0100
+Message-Id: <20220224171328.1628047-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: VI1P195CA0016.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:800:d0::26) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
-References: <20220222194008.610377-1-marcandre.lureau@redhat.com>
- <20220222194008.610377-7-marcandre.lureau@redhat.com>
-In-Reply-To: <20220222194008.610377-7-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 24 Feb 2022 21:04:02 +0400
-Message-ID: <CAJ+F1C+QOAcjAiAY=7jcYgjJTQ79PTUDBRoJ3fzyHha2Syw4tA@mail.gmail.com>
-Subject: Re: [PATCH 6/8] char: move qemu_openpty_raw from util/ to char/
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000005fc7fd05d8c692d3"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9e7bc7c9-1ceb-4eb7-9ba8-08d9f7b9085f
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3197:EE_
+X-Microsoft-Antispam-PRVS: <VI1PR08MB3197878E1A800D2C6599EDA1C13D9@VI1PR08MB3197.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Gn1QkPAUIE+WZfnyZ12VlvqBkscl0B8o3Htja//GgRKE4lzkqGNYEz3wJfb4zD2R8jA5mDMt4EbeeOvDVKHk5X6cGuD6EA58ZCgbWbR2mflSz4LAl8xWWsX9XCZAP7gzQO0mCgWaDawSutgOpQOyEXGuwAdacdkjb+ObyMwLRrkEinvXMbpLzvjD4Ba95jvl2lkQGUBOEjcjGlj+JfBCli6ECvWMecT/KmueNhxwf8XQX5Ci5/bCYmr7EtoFgHCN+5rTrQBV9SGHuDo92ZWAhQvVsFX2+e1/ZRrUS2GnF1nHSAl25cvcK5WoYfRedcqsRXy48dmfwrpqgMzzwpSht/aV09TtJ4XQHQdhW4kzcyH04qtajufFjCrvmt7D9RwWdOwjMjaBKQ8xGa2bnlV6zHvZQrqsZkQueCr82ROJlgltoI95qaCGZnU5/I+0m5KBuIAREMIXbbVYwKjqKpfjbixWTMJLpwimZNvPQJBGJ2HLPWMLkBpi1D2tOtX2Ee+9ejej0yf/rU4WayxHeJD88MhSwnDBoU5ExB9JFxgN1hFg22KVAceJW5TIuRbSsOuYHTtQmrc/8DzVzDUc+fb+cCdeSkSsTTdJRRI6KL3qwKZquCapUVtbrm65OibZvYznCO0VkXPceBF8RUhHgcmSx8B+79d6F/DIhfMUfjIfvCFSjFxPNZU+RpDF3c8eRQfQzHvTRjOmOFyKT42dPV+fpQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6506007)(52116002)(508600001)(6666004)(2616005)(86362001)(38100700002)(38350700002)(6486002)(4326008)(8676002)(66476007)(66556008)(66946007)(6916009)(316002)(1076003)(8936002)(107886003)(26005)(2906002)(83380400001)(186003)(6512007)(5660300002)(36756003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fPrgtqAnsVfGd5BmwMq0CkHh5oXHeEOTuLWvFBGMDbzS6sa8p7m065OCTI8h?=
+ =?us-ascii?Q?32r2pXZvQTEjvbua5WJ+Iab+6VkD7VQuDOKrEt8ybcjnlj62UKp0olwQTRli?=
+ =?us-ascii?Q?QresT6TVxFGaf1SXvHWejpBp+zRu7rioyAznEDW0JwDUGIXSatD1p6Mmcdmh?=
+ =?us-ascii?Q?MfV6WZRfPB4N8bb8O3sroLnEaiGog1C2OIfQrxgZAwgYBO7U5ImFs6DP57RE?=
+ =?us-ascii?Q?+hs2f43T42BFAz/rQsi1ZmjNjFJUGte9/x5UUtt0Fg4cO/C6QKjxDYyHWoE4?=
+ =?us-ascii?Q?pLBlGliKZjwMIyboJuti69W8bA5pEQ7N8IRJi8vSn+DiEulU6e1q2dEBPOTz?=
+ =?us-ascii?Q?cUtuSlWPW4xcQchd7jzRk/zFZnRJ5yKoQR8Mf/Q7chvtYx8hok+SQ3hUaG2A?=
+ =?us-ascii?Q?uTCPw9ygLY5E8KkUTXgSVzLeYjA5GOsa/FN6SCDkpDsfQYddnHHGdGFyr9PJ?=
+ =?us-ascii?Q?N98Jcpurv51nIkeVBBjG+3JQeYRv9xh00jDbONKpk6dgra+dDwv/oqCN899a?=
+ =?us-ascii?Q?NX/yxDmmRVwdKPjWj7+dtFBTpQg1kFqgTQAv0/pK93vPe5lo2N5VkdeogTPD?=
+ =?us-ascii?Q?bkwizXZym++sGZBJLkge5v8jOvovCfsniqnvp6s4DeIXScy5l8URhTn7m1gS?=
+ =?us-ascii?Q?RYvkbp31j+xHqwo9oBpXYXghEYVX4Aw+YABB4ZvioYbvlbGK+/vd6U4sHrvo?=
+ =?us-ascii?Q?llUGA4866zfKlG0YHFEtvHC9ziecUkBLqYKvTpP7uv52ZDaJWTar2xWU8v21?=
+ =?us-ascii?Q?jOml8+mS6NeSKJryNbIM80T5DsT2tbHimW8o7mBRtsmg01+rVKHk7lXQlgMJ?=
+ =?us-ascii?Q?7nyAYP52fDVBe0xVjdRYyeSqQaUUTqAoKz6/otPDowAT4K2aXI/IDdPuPT2m?=
+ =?us-ascii?Q?UZlmVCwIFTXPHLyjV4vSb+W8+5nGMQfaPWxJI9GvSJiRwmXoax6ZbfdeAdJH?=
+ =?us-ascii?Q?Gdv9+L0tQ6zEDRrOWptVDG4AI+miW5JP6fTOcSmApzv+UE5o6DsnXUulaJRQ?=
+ =?us-ascii?Q?tv9+QFKAZZeVjn2KJKUJkmotopZKYe0vaIN/HOLO7pU+FWkuiaSHKKuzv8NW?=
+ =?us-ascii?Q?yUNarEW2t5PfAi3gcy3T+C1aYLyAOKzf6uCUUEUlMPwrpyu6yrdd8fclZWFO?=
+ =?us-ascii?Q?8shKTHEPUa7rwam0h6/29W4RGofLTCwcm+UVD6e9SlGyJdRD/CqrCyWk2fCu?=
+ =?us-ascii?Q?VUbHsPGbawtwRcoMDmvgHxb1dbaQlJFRLPM8Ar6Ljiv3kDEGq1VafJuzgnBP?=
+ =?us-ascii?Q?gED7Kiyfz5lUC/6mHlRqCZ9SZg6xQM6FBMPH5QAo3+rHcGDTIplsh4nMm4R6?=
+ =?us-ascii?Q?JcpzSAhokvUFv+pqRg1P6oP7I5AXSfHHZwdUIYo1KNHUwkrl+35zZLnvBtFD?=
+ =?us-ascii?Q?B0wKj7uzFwNRTNZ4CH1g7SgRe7tjUHgl3ErZo9sSlYcFz4jzZtix6qZd/+PG?=
+ =?us-ascii?Q?/7tmq4ClaTZP9iv3k2nqlZEfTwdUn9yOvvd8sxdZSbMaoLEHp0uWXejXwyTq?=
+ =?us-ascii?Q?d5rOa7M4vDhTG+H26tithS11wX8v0ubnseiYtYTe7COni2tujXib5+rrahNY?=
+ =?us-ascii?Q?BW94hM/hyfFTIrArPYq8nnxIf4KN2qG2/3+dAPhGYoGN5EP1REjW5I38A94I?=
+ =?us-ascii?Q?duRSpImYGSLanah72YLScK/YE40al9g0HQbBmQkyuC5CwE2DYrPZO7mxwCTZ?=
+ =?us-ascii?Q?Q9OhbA=3D=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e7bc7c9-1ceb-4eb7-9ba8-08d9f7b9085f
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 17:13:53.2691 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KWm3cZRko0g+l3iS2noe7u1SLmiJT7GeUn7YmOIfMY0suqBPibGeJc4WPcWeMgJSLS1BCoYRhtA57Asp7BtfIloniYDApdV3yDnccITTU9k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3197
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe1e::726
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a01:111:f400:fe1e::726;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,764 +135,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005fc7fd05d8c692d3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi all!
 
-Paolo,
+If we want to do incremental backups with help of copy-before-write
+filter bitmap parameter introduced in my in-flight series
+"[PATCH v4 00/18] Make image fleecing more usable", we actually need to
+create filter, insert it into graph and do some operations with bitmaps
+in one transaction.
 
-This patch is ok, but in some (new?) circumstances it fails with freebsd
-and reveals that -lutil was missing for kinfo_getproc() in
-util/oslib-posix.c. Please add:
+So, here is basic support for blockdev-add transaction, which may be
+useful for any scenarios.
 
--util_ss.add(when: 'CONFIG_POSIX', if_true: files('oslib-posix.c'))
-+util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), util])
+Also, I'll need to resend my "[PATCH RFC v2 0/4] blockdev-replace" with
+transaction support as well.
 
-(even better if we made this specific to freebsd I guess, but not strictly
-necessary)
+Why I say that support is "basic"? Ideally we want an ability to call
+several blockdev-add / blockdev-replace commands not updating the
+permission and only then update permissions for all touched nodes. That
+is more flexible and will allow more strict and simple permission
+requirements in filter drivers. Still this means to implement
+bdrv_open() transaction action (using Transaction API) which doesn't
+update permissions (like most of internal graph update functions works
+now). That's of course is more complicated than this patch. So, let's
+start with something simple.
 
-On Tue, Feb 22, 2022 at 11:53 PM <marcandre.lureau@redhat.com> wrote:
+Vladimir Sementsov-Ogievskiy (2):
+  block: transaction support for blockdev-add
+  iotests: add blockdev-add-transaction
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> It is only needed by char-pty.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  include/qemu-common.h |   2 -
->  chardev/char-pty.c    | 104 +++++++++++++++++++++++++++++++
->  util/qemu-openpty.c   | 139 ------------------------------------------
->  chardev/meson.build   |   4 +-
->  util/meson.build      |   1 -
->  5 files changed, 106 insertions(+), 144 deletions(-)
->  delete mode 100644 util/qemu-openpty.c
->
-> diff --git a/include/qemu-common.h b/include/qemu-common.h
-> index 68b2e3bc1091..0248a324cdcd 100644
-> --- a/include/qemu-common.h
-> +++ b/include/qemu-common.h
-> @@ -33,8 +33,6 @@ ssize_t qemu_write_full(int fd, const void *buf, size_t
-> count)
->
->  #ifndef _WIN32
->  int qemu_pipe(int pipefd[2]);
-> -/* like openpty() but also makes it raw; return master fd */
-> -int qemu_openpty_raw(int *aslave, char *pty_name);
->  #endif
->
->  #ifdef _WIN32
-> diff --git a/chardev/char-pty.c b/chardev/char-pty.c
-> index a2d1e7c985bc..f28779bcc9d2 100644
-> --- a/chardev/char-pty.c
-> +++ b/chardev/char-pty.c
-> @@ -197,6 +197,110 @@ static void char_pty_finalize(Object *obj)
->      qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
->  }
->
-> +#if defined HAVE_PTY_H
-> +# include <pty.h>
-> +#elif defined CONFIG_BSD
-> +# include <termios.h>
-> +# if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) ||
-> defined(__DragonFly__)
-> +#  include <libutil.h>
-> +# else
-> +#  include <util.h>
-> +# endif
-> +#elif defined CONFIG_SOLARIS
-> +# include <termios.h>
-> +# include <stropts.h>
-> +#else
-> +# include <termios.h>
-> +#endif
-> +
-> +#ifdef __sun__
-> +
-> +#if !defined(HAVE_OPENPTY)
-> +/* Once illumos has openpty(), this is going to be removed. */
-> +static int openpty(int *amaster, int *aslave, char *name,
-> +                   struct termios *termp, struct winsize *winp)
-> +{
-> +        const char *slave;
-> +        int mfd =3D -1, sfd =3D -1;
-> +
-> +        *amaster =3D *aslave =3D -1;
-> +
-> +        mfd =3D open("/dev/ptmx", O_RDWR | O_NOCTTY);
-> +        if (mfd < 0)
-> +                goto err;
-> +
-> +        if (grantpt(mfd) =3D=3D -1 || unlockpt(mfd) =3D=3D -1)
-> +                goto err;
-> +
-> +        if ((slave =3D ptsname(mfd)) =3D=3D NULL)
-> +                goto err;
-> +
-> +        if ((sfd =3D open(slave, O_RDONLY | O_NOCTTY)) =3D=3D -1)
-> +                goto err;
-> +
-> +        if (ioctl(sfd, I_PUSH, "ptem") =3D=3D -1 ||
-> +            (termp !=3D NULL && tcgetattr(sfd, termp) < 0))
-> +                goto err;
-> +
-> +        *amaster =3D mfd;
-> +        *aslave =3D sfd;
-> +
-> +        if (winp)
-> +                ioctl(sfd, TIOCSWINSZ, winp);
-> +
-> +        return 0;
-> +
-> +err:
-> +        if (sfd !=3D -1)
-> +                close(sfd);
-> +        close(mfd);
-> +        return -1;
-> +}
-> +#endif
-> +
-> +static void cfmakeraw (struct termios *termios_p)
-> +{
-> +        termios_p->c_iflag &=3D
-> +                ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL|IXON);
-> +        termios_p->c_oflag &=3D ~OPOST;
-> +        termios_p->c_lflag &=3D ~(ECHO|ECHONL|ICANON|ISIG|IEXTEN);
-> +        termios_p->c_cflag &=3D ~(CSIZE|PARENB);
-> +        termios_p->c_cflag |=3D CS8;
-> +
-> +        termios_p->c_cc[VMIN] =3D 0;
-> +        termios_p->c_cc[VTIME] =3D 0;
-> +}
-> +#endif
-> +
-> +/* like openpty() but also makes it raw; return master fd */
-> +static int qemu_openpty_raw(int *aslave, char *pty_name)
-> +{
-> +    int amaster;
-> +    struct termios tty;
-> +#if defined(__OpenBSD__) || defined(__DragonFly__)
-> +    char pty_buf[PATH_MAX];
-> +#define q_ptsname(x) pty_buf
-> +#else
-> +    char *pty_buf =3D NULL;
-> +#define q_ptsname(x) ptsname(x)
-> +#endif
-> +
-> +    if (openpty(&amaster, aslave, pty_buf, NULL, NULL) < 0) {
-> +        return -1;
-> +    }
-> +
-> +    /* Set raw attributes on the pty. */
-> +    tcgetattr(*aslave, &tty);
-> +    cfmakeraw(&tty);
-> +    tcsetattr(*aslave, TCSAFLUSH, &tty);
-> +
-> +    if (pty_name) {
-> +        strcpy(pty_name, q_ptsname(amaster));
-> +    }
-> +
-> +    return amaster;
-> +}
-> +
->  static void char_pty_open(Chardev *chr,
->                            ChardevBackend *backend,
->                            bool *be_opened,
-> diff --git a/util/qemu-openpty.c b/util/qemu-openpty.c
-> deleted file mode 100644
-> index 427f43a76973..000000000000
-> --- a/util/qemu-openpty.c
-> +++ /dev/null
-> @@ -1,139 +0,0 @@
-> -/*
-> - * qemu-openpty.c
-> - *
-> - * Copyright (c) 2003-2008 Fabrice Bellard
-> - * Copyright (c) 2010 Red Hat, Inc.
-> - *
-> - * Wrapper function qemu_openpty() implementation.
-> - *
-> - * Permission is hereby granted, free of charge, to any person obtaining
-> a copy
-> - * of this software and associated documentation files (the "Software"),
-> to deal
-> - * in the Software without restriction, including without limitation the
-> rights
-> - * to use, copy, modify, merge, publish, distribute, sublicense, and/or
-> sell
-> - * copies of the Software, and to permit persons to whom the Software is
-> - * furnished to do so, subject to the following conditions:
-> - *
-> - * The above copyright notice and this permission notice shall be
-> included in
-> - * all copies or substantial portions of the Software.
-> - *
-> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-> EXPRESS OR
-> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-> MERCHANTABILITY,
-> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL
-> - * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> OTHER
-> - * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> ARISING FROM,
-> - * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S
-> IN
-> - * THE SOFTWARE.
-> - */
-> -
-> -/*
-> - * This is not part of oslib-posix.c because this function
-> - * uses openpty() which often in -lutil, and if we add this
-> - * dependency to oslib-posix.o, every app will have to be
-> - * linked with -lutil.
-> - */
-> -
-> -#include "qemu/osdep.h"
-> -#include "qemu-common.h"
-> -
-> -#if defined HAVE_PTY_H
-> -# include <pty.h>
-> -#elif defined CONFIG_BSD
-> -# include <termios.h>
-> -# if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) ||
-> defined(__DragonFly__)
-> -#  include <libutil.h>
-> -# else
-> -#  include <util.h>
-> -# endif
-> -#elif defined CONFIG_SOLARIS
-> -# include <termios.h>
-> -# include <stropts.h>
-> -#else
-> -# include <termios.h>
-> -#endif
-> -
-> -#ifdef __sun__
-> -
-> -#if !defined(HAVE_OPENPTY)
-> -/* Once illumos has openpty(), this is going to be removed. */
-> -static int openpty(int *amaster, int *aslave, char *name,
-> -                   struct termios *termp, struct winsize *winp)
-> -{
-> -        const char *slave;
-> -        int mfd =3D -1, sfd =3D -1;
-> -
-> -        *amaster =3D *aslave =3D -1;
-> -
-> -        mfd =3D open("/dev/ptmx", O_RDWR | O_NOCTTY);
-> -        if (mfd < 0)
-> -                goto err;
-> -
-> -        if (grantpt(mfd) =3D=3D -1 || unlockpt(mfd) =3D=3D -1)
-> -                goto err;
-> -
-> -        if ((slave =3D ptsname(mfd)) =3D=3D NULL)
-> -                goto err;
-> -
-> -        if ((sfd =3D open(slave, O_RDONLY | O_NOCTTY)) =3D=3D -1)
-> -                goto err;
-> -
-> -        if (ioctl(sfd, I_PUSH, "ptem") =3D=3D -1 ||
-> -            (termp !=3D NULL && tcgetattr(sfd, termp) < 0))
-> -                goto err;
-> -
-> -        *amaster =3D mfd;
-> -        *aslave =3D sfd;
-> -
-> -        if (winp)
-> -                ioctl(sfd, TIOCSWINSZ, winp);
-> -
-> -        return 0;
-> -
-> -err:
-> -        if (sfd !=3D -1)
-> -                close(sfd);
-> -        close(mfd);
-> -        return -1;
-> -}
-> -#endif
-> -
-> -static void cfmakeraw (struct termios *termios_p)
-> -{
-> -        termios_p->c_iflag &=3D
-> -                ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL|IXON);
-> -        termios_p->c_oflag &=3D ~OPOST;
-> -        termios_p->c_lflag &=3D ~(ECHO|ECHONL|ICANON|ISIG|IEXTEN);
-> -        termios_p->c_cflag &=3D ~(CSIZE|PARENB);
-> -        termios_p->c_cflag |=3D CS8;
-> -
-> -        termios_p->c_cc[VMIN] =3D 0;
-> -        termios_p->c_cc[VTIME] =3D 0;
-> -}
-> -#endif
-> -
-> -int qemu_openpty_raw(int *aslave, char *pty_name)
-> -{
-> -    int amaster;
-> -    struct termios tty;
-> -#if defined(__OpenBSD__) || defined(__DragonFly__)
-> -    char pty_buf[PATH_MAX];
-> -#define q_ptsname(x) pty_buf
-> -#else
-> -    char *pty_buf =3D NULL;
-> -#define q_ptsname(x) ptsname(x)
-> -#endif
-> -
-> -    if (openpty(&amaster, aslave, pty_buf, NULL, NULL) < 0) {
-> -        return -1;
-> -    }
-> -
-> -    /* Set raw attributes on the pty. */
-> -    tcgetattr(*aslave, &tty);
-> -    cfmakeraw(&tty);
-> -    tcsetattr(*aslave, TCSAFLUSH, &tty);
-> -
-> -    if (pty_name) {
-> -        strcpy(pty_name, q_ptsname(amaster));
-> -    }
-> -
-> -    return amaster;
-> -}
-> diff --git a/chardev/meson.build b/chardev/meson.build
-> index 325ba2bdb97d..664f77b8879a 100644
-> --- a/chardev/meson.build
-> +++ b/chardev/meson.build
-> @@ -12,11 +12,11 @@ chardev_ss.add(files(
->    'char-udp.c',
->    'char.c',
->  ))
-> -chardev_ss.add(when: 'CONFIG_POSIX', if_true: files(
-> +chardev_ss.add(when: 'CONFIG_POSIX', if_true: [files(
->    'char-fd.c',
->    'char-parallel.c',
->    'char-pty.c',
-> -))
-> +), util])
->  chardev_ss.add(when: 'CONFIG_WIN32', if_true: files(
->    'char-console.c',
->    'char-win-stdio.c',
-> diff --git a/util/meson.build b/util/meson.build
-> index 3736988b9f6e..d6263ccc1b82 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -12,7 +12,6 @@ util_ss.add(when: 'CONFIG_POSIX', if_true:
-> files('compatfd.c'))
->  util_ss.add(when: 'CONFIG_POSIX', if_true:
-> files('event_notifier-posix.c'))
->  util_ss.add(when: 'CONFIG_POSIX', if_true: files('mmap-alloc.c'))
->  util_ss.add(when: 'CONFIG_POSIX', if_true: files('oslib-posix.c'))
-> -util_ss.add(when: 'CONFIG_POSIX', if_true: [files('qemu-openpty.c'),
-> util])
->  util_ss.add(when: 'CONFIG_POSIX', if_true: files('qemu-thread-posix.c'))
->  util_ss.add(when: 'CONFIG_POSIX', if_true: files('memfd.c'))
->  util_ss.add(when: 'CONFIG_WIN32', if_true: files('aio-win32.c'))
-> --
-> 2.35.1.273.ge6ebfd0e8cbb
->
->
->
+ qapi/transaction.json                         | 11 +++
+ blockdev.c                                    | 80 +++++++++++++------
+ .../tests/blockdev-add-transaction            | 52 ++++++++++++
+ .../tests/blockdev-add-transaction.out        |  6 ++
+ 4 files changed, 124 insertions(+), 25 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/blockdev-add-transaction
+ create mode 100644 tests/qemu-iotests/tests/blockdev-add-transaction.out
 
---=20
-Marc-Andr=C3=A9 Lureau
+-- 
+2.31.1
 
---0000000000005fc7fd05d8c692d3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Paolo,</div><div dir=3D"ltr"><br></div><d=
-iv>This patch is ok, but in some (new?) circumstances it fails with freebsd=
- and reveals that -lutil was missing for kinfo_getproc() in util/oslib-posi=
-x.c. Please add:</div><div><br></div><div>-util_ss.add(when: &#39;CONFIG_PO=
-SIX&#39;, if_true: files(&#39;oslib-posix.c&#39;))</div><div>+util_ss.add(w=
-hen: &#39;CONFIG_POSIX&#39;, if_true: [files(&#39;oslib-posix.c&#39;), util=
-])</div><div><br></div><div>(even better if we made this specific to freebs=
-d I guess, but not strictly necessary)<br></div><div><br></div><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 22, 2022=
- at 11:53 PM &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.l=
-ureau@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandr=
-e.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<=
-br>
-<br>
-It is only needed by char-pty.<br>
-<br>
-Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
----<br>
-=C2=A0include/qemu-common.h |=C2=A0 =C2=A02 -<br>
-=C2=A0chardev/char-pty.c=C2=A0 =C2=A0 | 104 +++++++++++++++++++++++++++++++=
-<br>
-=C2=A0util/qemu-openpty.c=C2=A0 =C2=A0| 139 -------------------------------=
------------<br>
-=C2=A0chardev/meson.build=C2=A0 =C2=A0|=C2=A0 =C2=A04 +-<br>
-=C2=A0util/meson.build=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 -<br>
-=C2=A05 files changed, 106 insertions(+), 144 deletions(-)<br>
-=C2=A0delete mode 100644 util/qemu-openpty.c<br>
-<br>
-diff --git a/include/qemu-common.h b/include/qemu-common.h<br>
-index 68b2e3bc1091..0248a324cdcd 100644<br>
---- a/include/qemu-common.h<br>
-+++ b/include/qemu-common.h<br>
-@@ -33,8 +33,6 @@ ssize_t qemu_write_full(int fd, const void *buf, size_t c=
-ount)<br>
-<br>
-=C2=A0#ifndef _WIN32<br>
-=C2=A0int qemu_pipe(int pipefd[2]);<br>
--/* like openpty() but also makes it raw; return master fd */<br>
--int qemu_openpty_raw(int *aslave, char *pty_name);<br>
-=C2=A0#endif<br>
-<br>
-=C2=A0#ifdef _WIN32<br>
-diff --git a/chardev/char-pty.c b/chardev/char-pty.c<br>
-index a2d1e7c985bc..f28779bcc9d2 100644<br>
---- a/chardev/char-pty.c<br>
-+++ b/chardev/char-pty.c<br>
-@@ -197,6 +197,110 @@ static void char_pty_finalize(Object *obj)<br>
-=C2=A0 =C2=A0 =C2=A0qemu_chr_be_event(chr, CHR_EVENT_CLOSED);<br>
-=C2=A0}<br>
-<br>
-+#if defined HAVE_PTY_H<br>
-+# include &lt;pty.h&gt;<br>
-+#elif defined CONFIG_BSD<br>
-+# include &lt;termios.h&gt;<br>
-+# if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__Drag=
-onFly__)<br>
-+#=C2=A0 include &lt;libutil.h&gt;<br>
-+# else<br>
-+#=C2=A0 include &lt;util.h&gt;<br>
-+# endif<br>
-+#elif defined CONFIG_SOLARIS<br>
-+# include &lt;termios.h&gt;<br>
-+# include &lt;stropts.h&gt;<br>
-+#else<br>
-+# include &lt;termios.h&gt;<br>
-+#endif<br>
-+<br>
-+#ifdef __sun__<br>
-+<br>
-+#if !defined(HAVE_OPENPTY)<br>
-+/* Once illumos has openpty(), this is going to be removed. */<br>
-+static int openpty(int *amaster, int *aslave, char *name,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struc=
-t termios *termp, struct winsize *winp)<br>
-+{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *slave;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int mfd =3D -1, sfd =3D -1;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *amaster =3D *aslave =3D -1;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mfd =3D open(&quot;/dev/ptmx&quot;, O_RDWR | O=
-_NOCTTY);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (mfd &lt; 0)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (grantpt(mfd) =3D=3D -1 || unlockpt(mfd) =
-=3D=3D -1)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((slave =3D ptsname(mfd)) =3D=3D NULL)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((sfd =3D open(slave, O_RDONLY | O_NOCTTY))=
- =3D=3D -1)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ioctl(sfd, I_PUSH, &quot;ptem&quot;) =3D=
-=3D -1 ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (termp !=3D NULL &amp;&amp; tcge=
-tattr(sfd, termp) &lt; 0))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *amaster =3D mfd;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *aslave =3D sfd;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (winp)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ioctl(sfd, TIOCSWI=
-NSZ, winp);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+<br>
-+err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sfd !=3D -1)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(sfd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(mfd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+}<br>
-+#endif<br>
-+<br>
-+static void cfmakeraw (struct termios *termios_p)<br>
-+{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_iflag &amp;=3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ~(IGNBRK|BRKINT|PA=
-RMRK|ISTRIP|INLCR|IGNCR|ICRNL|IXON);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_oflag &amp;=3D ~OPOST;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_lflag &amp;=3D ~(ECHO|ECHONL|I=
-CANON|ISIG|IEXTEN);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_cflag &amp;=3D ~(CSIZE|PARENB)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_cflag |=3D CS8;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_cc[VMIN] =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_cc[VTIME] =3D 0;<br>
-+}<br>
-+#endif<br>
-+<br>
-+/* like openpty() but also makes it raw; return master fd */<br>
-+static int qemu_openpty_raw(int *aslave, char *pty_name)<br>
-+{<br>
-+=C2=A0 =C2=A0 int amaster;<br>
-+=C2=A0 =C2=A0 struct termios tty;<br>
-+#if defined(__OpenBSD__) || defined(__DragonFly__)<br>
-+=C2=A0 =C2=A0 char pty_buf[PATH_MAX];<br>
-+#define q_ptsname(x) pty_buf<br>
-+#else<br>
-+=C2=A0 =C2=A0 char *pty_buf =3D NULL;<br>
-+#define q_ptsname(x) ptsname(x)<br>
-+#endif<br>
-+<br>
-+=C2=A0 =C2=A0 if (openpty(&amp;amaster, aslave, pty_buf, NULL, NULL) &lt; =
-0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 /* Set raw attributes on the pty. */<br>
-+=C2=A0 =C2=A0 tcgetattr(*aslave, &amp;tty);<br>
-+=C2=A0 =C2=A0 cfmakeraw(&amp;tty);<br>
-+=C2=A0 =C2=A0 tcsetattr(*aslave, TCSAFLUSH, &amp;tty);<br>
-+<br>
-+=C2=A0 =C2=A0 if (pty_name) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 strcpy(pty_name, q_ptsname(amaster));<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return amaster;<br>
-+}<br>
-+<br>
-=C2=A0static void char_pty_open(Chardev *chr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0ChardevBackend *backend,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0bool *be_opened,<br>
-diff --git a/util/qemu-openpty.c b/util/qemu-openpty.c<br>
-deleted file mode 100644<br>
-index 427f43a76973..000000000000<br>
---- a/util/qemu-openpty.c<br>
-+++ /dev/null<br>
-@@ -1,139 +0,0 @@<br>
--/*<br>
-- * qemu-openpty.c<br>
-- *<br>
-- * Copyright (c) 2003-2008 Fabrice Bellard<br>
-- * Copyright (c) 2010 Red Hat, Inc.<br>
-- *<br>
-- * Wrapper function qemu_openpty() implementation.<br>
-- *<br>
-- * Permission is hereby granted, free of charge, to any person obtaining a=
- copy<br>
-- * of this software and associated documentation files (the &quot;Software=
-&quot;), to deal<br>
-- * in the Software without restriction, including without limitation the r=
-ights<br>
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
-ll<br>
-- * copies of the Software, and to permit persons to whom the Software is<b=
-r>
-- * furnished to do so, subject to the following conditions:<br>
-- *<br>
-- * The above copyright notice and this permission notice shall be included=
- in<br>
-- * all copies or substantial portions of the Software.<br>
-- *<br>
-- * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIN=
-D, EXPRESS OR<br>
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
-,<br>
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL=
-<br>
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
-HER<br>
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
- FROM,<br>
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
-IN<br>
-- * THE SOFTWARE.<br>
-- */<br>
--<br>
--/*<br>
-- * This is not part of oslib-posix.c because this function<br>
-- * uses openpty() which often in -lutil, and if we add this<br>
-- * dependency to oslib-posix.o, every app will have to be<br>
-- * linked with -lutil.<br>
-- */<br>
--<br>
--#include &quot;qemu/osdep.h&quot;<br>
--#include &quot;qemu-common.h&quot;<br>
--<br>
--#if defined HAVE_PTY_H<br>
--# include &lt;pty.h&gt;<br>
--#elif defined CONFIG_BSD<br>
--# include &lt;termios.h&gt;<br>
--# if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__Drag=
-onFly__)<br>
--#=C2=A0 include &lt;libutil.h&gt;<br>
--# else<br>
--#=C2=A0 include &lt;util.h&gt;<br>
--# endif<br>
--#elif defined CONFIG_SOLARIS<br>
--# include &lt;termios.h&gt;<br>
--# include &lt;stropts.h&gt;<br>
--#else<br>
--# include &lt;termios.h&gt;<br>
--#endif<br>
--<br>
--#ifdef __sun__<br>
--<br>
--#if !defined(HAVE_OPENPTY)<br>
--/* Once illumos has openpty(), this is going to be removed. */<br>
--static int openpty(int *amaster, int *aslave, char *name,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struc=
-t termios *termp, struct winsize *winp)<br>
--{<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *slave;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 int mfd =3D -1, sfd =3D -1;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *amaster =3D *aslave =3D -1;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mfd =3D open(&quot;/dev/ptmx&quot;, O_RDWR | O=
-_NOCTTY);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (mfd &lt; 0)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (grantpt(mfd) =3D=3D -1 || unlockpt(mfd) =
-=3D=3D -1)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((slave =3D ptsname(mfd)) =3D=3D NULL)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((sfd =3D open(slave, O_RDONLY | O_NOCTTY))=
- =3D=3D -1)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ioctl(sfd, I_PUSH, &quot;ptem&quot;) =3D=
-=3D -1 ||<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (termp !=3D NULL &amp;&amp; tcge=
-tattr(sfd, termp) &lt; 0))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto err;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *amaster =3D mfd;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *aslave =3D sfd;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (winp)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ioctl(sfd, TIOCSWI=
-NSZ, winp);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
--<br>
--err:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sfd !=3D -1)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(sfd);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(mfd);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
--}<br>
--#endif<br>
--<br>
--static void cfmakeraw (struct termios *termios_p)<br>
--{<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_iflag &amp;=3D<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ~(IGNBRK|BRKINT|PA=
-RMRK|ISTRIP|INLCR|IGNCR|ICRNL|IXON);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_oflag &amp;=3D ~OPOST;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_lflag &amp;=3D ~(ECHO|ECHONL|I=
-CANON|ISIG|IEXTEN);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_cflag &amp;=3D ~(CSIZE|PARENB)=
-;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_cflag |=3D CS8;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_cc[VMIN] =3D 0;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 termios_p-&gt;c_cc[VTIME] =3D 0;<br>
--}<br>
--#endif<br>
--<br>
--int qemu_openpty_raw(int *aslave, char *pty_name)<br>
--{<br>
--=C2=A0 =C2=A0 int amaster;<br>
--=C2=A0 =C2=A0 struct termios tty;<br>
--#if defined(__OpenBSD__) || defined(__DragonFly__)<br>
--=C2=A0 =C2=A0 char pty_buf[PATH_MAX];<br>
--#define q_ptsname(x) pty_buf<br>
--#else<br>
--=C2=A0 =C2=A0 char *pty_buf =3D NULL;<br>
--#define q_ptsname(x) ptsname(x)<br>
--#endif<br>
--<br>
--=C2=A0 =C2=A0 if (openpty(&amp;amaster, aslave, pty_buf, NULL, NULL) &lt; =
-0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 /* Set raw attributes on the pty. */<br>
--=C2=A0 =C2=A0 tcgetattr(*aslave, &amp;tty);<br>
--=C2=A0 =C2=A0 cfmakeraw(&amp;tty);<br>
--=C2=A0 =C2=A0 tcsetattr(*aslave, TCSAFLUSH, &amp;tty);<br>
--<br>
--=C2=A0 =C2=A0 if (pty_name) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 strcpy(pty_name, q_ptsname(amaster));<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 return amaster;<br>
--}<br>
-diff --git a/chardev/meson.build b/chardev/meson.build<br>
-index 325ba2bdb97d..664f77b8879a 100644<br>
---- a/chardev/meson.build<br>
-+++ b/chardev/meson.build<br>
-@@ -12,11 +12,11 @@ chardev_ss.add(files(<br>
-=C2=A0 =C2=A0&#39;char-udp.c&#39;,<br>
-=C2=A0 =C2=A0&#39;char.c&#39;,<br>
-=C2=A0))<br>
--chardev_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(<br>
-+chardev_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: [files(<br>
-=C2=A0 =C2=A0&#39;char-fd.c&#39;,<br>
-=C2=A0 =C2=A0&#39;char-parallel.c&#39;,<br>
-=C2=A0 =C2=A0&#39;char-pty.c&#39;,<br>
--))<br>
-+), util])<br>
-=C2=A0chardev_ss.add(when: &#39;CONFIG_WIN32&#39;, if_true: files(<br>
-=C2=A0 =C2=A0&#39;char-console.c&#39;,<br>
-=C2=A0 =C2=A0&#39;char-win-stdio.c&#39;,<br>
-diff --git a/util/meson.build b/util/meson.build<br>
-index 3736988b9f6e..d6263ccc1b82 100644<br>
---- a/util/meson.build<br>
-+++ b/util/meson.build<br>
-@@ -12,7 +12,6 @@ util_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(=
-&#39;compatfd.c&#39;))<br>
-=C2=A0util_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(&#39;event_n=
-otifier-posix.c&#39;))<br>
-=C2=A0util_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(&#39;mmap-al=
-loc.c&#39;))<br>
-=C2=A0util_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(&#39;oslib-p=
-osix.c&#39;))<br>
--util_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: [files(&#39;qemu-openpt=
-y.c&#39;), util])<br>
-=C2=A0util_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(&#39;qemu-th=
-read-posix.c&#39;))<br>
-=C2=A0util_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(&#39;memfd.c=
-&#39;))<br>
-=C2=A0util_ss.add(when: &#39;CONFIG_WIN32&#39;, if_true: files(&#39;aio-win=
-32.c&#39;))<br>
--- <br>
-2.35.1.273.ge6ebfd0e8cbb<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000005fc7fd05d8c692d3--
 
