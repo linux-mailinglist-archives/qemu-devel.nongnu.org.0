@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23034C36CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 21:21:37 +0100 (CET)
-Received: from localhost ([::1]:58590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD03A4C36DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 21:23:54 +0100 (CET)
+Received: from localhost ([::1]:36246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNKcK-0001dO-Rh
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 15:21:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46432)
+	id 1nNKeX-0005fE-TH
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 15:23:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nNKa1-00083L-RJ; Thu, 24 Feb 2022 15:19:13 -0500
-Received: from [2607:f8b0:4864:20::22f] (port=34676
- helo=mail-oi1-x22f.google.com)
+ id 1nNKa4-00085k-Dw; Thu, 24 Feb 2022 15:19:16 -0500
+Received: from [2607:f8b0:4864:20::230] (port=38693
+ helo=mail-oi1-x230.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nNKZz-0002zy-Ng; Thu, 24 Feb 2022 15:19:13 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id i5so4758768oih.1;
- Thu, 24 Feb 2022 12:19:11 -0800 (PST)
+ id 1nNKa2-000305-Ey; Thu, 24 Feb 2022 15:19:16 -0500
+Received: by mail-oi1-x230.google.com with SMTP id y7so4744893oih.5;
+ Thu, 24 Feb 2022 12:19:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VsXyd7RRGOaiMkJWEYgks0YhH8612nBhCItmI78T/lA=;
- b=Y/aVd+YatQKgsyG5CWS1/t+SaKJiYf7l90krut2/i/V2whKhQjkUEjh36FIg2rDLIA
- 4jY4iCOhT0mS52Gw5jilYfc/kTTRS55YBsRSFG15ujACrcwM9P7pdoa9zzaSULkTFCkE
- 0iAObQfzWEdW4yUsG7ReNlbWiOMDWmlUp+mB7AGVlIMGrA0No/PTU7jfXJCEkx5A5m4P
- IMmrwNxxWJu0QFPo9RiHxRgOpsNk/FJ0njH9Ccuo4iPj/j9/jaGlasbKk4EFoZG7aGWC
- PDhqrnG1upYe4JUKaXrQWuQpgb/K1LPROtQl3+dYwZ4t+uW+vv/R3Ls8+HYo1YWQKs0m
- Zojg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=y522670yPReb9dPlaPl6X8HKDCE4uL62kHfCdRfbumE=;
+ b=Im6oWDOQ6Vg3D+XP2JntGeKUiw9f9QyXUq8/2uyr6mSctt8Pxfet7xV+AZFGEEd1Za
+ fwI1hNdawCgqQc3Ts29W3HmQ49pzdYoQ0iXBKcHmcYeOzZF4IxQLARBmOQZ+A47n8ydq
+ aWv7Q4P8QZGLeGlQi61JWOyA/M2QthFqyRtHGJqaz99hTIqYzbr+wRmGsa5bLE2KADT4
+ dXnfH9A2v72kiDdWuRG+PhRAaUvq2xF3iTI/RDd4CBzWkt0CV9yay8PBI+js22EJXrg3
+ kEVmtxcIedX22KE6hyD3ZCPR3hfEMUSRQdwRgyEGAZqdxZhJaFUJgiSoJ1uvqCcg4s68
+ uogg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VsXyd7RRGOaiMkJWEYgks0YhH8612nBhCItmI78T/lA=;
- b=QjK0hcnOtbv2Je7lSxlVWAw58s81RtEV2M1jQO/EZih007AnB6alSny6E3hNdpLKtb
- BZeWx4w8nCv1f8Fin/iAzhYl725O3wApw0moRGWmJghOPb7H2yboN71MJhFJAIgXkEvZ
- 6W0CRzJhLr+uF/QUMb43FClouu8574cfzupoYim6+X0RrSc+6S/lZlKswKyBNxam947w
- 8IcRWss+A+hDgqtAr0fWBGBY09wpwwcdfA19rHBpoEpN9dnAz2DJ2sE5LMstzkUaHUHA
- lsl2CkKj3VYvf1GK78jVZwT0a/48xVPQCMfgGZK7agp75Dw3V86dJLhUHfFSYGN0YMVp
- x0VA==
-X-Gm-Message-State: AOAM5333yY1nwALa2EI4HP+7gruhLA9tkdM49irtVKdpmO0WaEdET3ci
- Nxg2618l2sXvVt/BlqVhLpi28NS0dAs=
-X-Google-Smtp-Source: ABdhPJwX/QQHxuK7ykfHL6Gc1siPZMnJN63DvGeXAN2EPGw/8JdH+1RvDizXX19aZ03Rt7gT2OzVQQ==
-X-Received: by 2002:a05:6870:610d:b0:d6:ccb0:39cb with SMTP id
- s13-20020a056870610d00b000d6ccb039cbmr1972875oae.231.1645733950096; 
- Thu, 24 Feb 2022 12:19:10 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=y522670yPReb9dPlaPl6X8HKDCE4uL62kHfCdRfbumE=;
+ b=bW/Mgsv7P1/KxmIOVLS0G7C0cvSYx1qgvhMHaHqDG9pWtdgDYtOFFZy9ETlYs6lrOm
+ +AX6g3OfXGy1zP7cVP9ccXfGVmtwTAbv83gZ9/cy3dd5JOQ8vaJhv+J4R5XY5/HjbEnB
+ MPtFlYwnOJqTAKc8W6TL8ZNAvh1v7A8t653/29c++Gs2x5Pb1Mc8aEaEpDyvU5VWsIp2
+ SF/cEArhhGl55Wijzyq+uO9LlQeuZ9ycBGQvouNjAEr2oGDtxbZN8r4RQstShVMaDa+4
+ QuVgNZozrNwthTReFWsxb94XjuMpZxBxIubOdQHZiTBxK8hxkAJxKgQMYE/qP2VvNxsk
+ H/NA==
+X-Gm-Message-State: AOAM532qsaGFpKqFDqyk/bT4xBfUvtuAhl2dRHvU2ImXF/tHvZyyUJSL
+ AJ4nHFkoEs9xCwR5Omgps9JQxFUCPyI=
+X-Google-Smtp-Source: ABdhPJzJO40rz+U0iWe+WjUj0DH62txLMO54vnXx4P4bZkRKvfmYDwf5H2ZJ/L74/W2Fktosqa3yrA==
+X-Received: by 2002:a05:6808:1396:b0:2d5:38a8:d5b2 with SMTP id
+ c22-20020a056808139600b002d538a8d5b2mr8183589oiw.243.1645733952390; 
+ Thu, 24 Feb 2022 12:19:12 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
  by smtp.gmail.com with ESMTPSA id
- bh42-20020a056808182a00b002d538a8d5afsm305775oib.7.2022.02.24.12.19.08
+ bh42-20020a056808182a00b002d538a8d5afsm305775oib.7.2022.02.24.12.19.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 12:19:09 -0800 (PST)
+ Thu, 24 Feb 2022 12:19:12 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v13 0/4] PMU-EBB support for PPC64 TCG
-Date: Thu, 24 Feb 2022 17:18:56 -0300
-Message-Id: <20220224201900.1037465-1-danielhb413@gmail.com>
+Subject: [PATCH v13 1/4] target/ppc: make power8-pmu.c CONFIG_TCG only
+Date: Thu, 24 Feb 2022 17:18:57 -0300
+Message-Id: <20220224201900.1037465-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220224201900.1037465-1-danielhb413@gmail.com>
+References: <20220224201900.1037465-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -90,34 +91,124 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This is an exclusive TCG helper. Gating it with CONFIG_TCG and changing
+meson.build accordingly will prevent problems --disable-tcg and
+--disable-linux-user later on.
 
-This new version contains a change in patch 1 (former 2) that was
-proposed by Richard in the v12 review.
+We're also changing the uses of !kvm_enabled() to tcg_enabled() to avoid
+adding "defined(CONFIG_TCG)" ifdefs, since tcg_enabled() will be
+defaulted to false with --disable-tcg and the block will always be
+skipped.
 
-Changes from v12:
-- former patch 1: dropped, no longer applicable
-- patch 1 (former 2):
-  * use tcg_enabled() instead of !kvm_enabled() to avoid defined(CONFIG_TCG)
-  ifdefs
-- v12 link: https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg03622.html
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ target/ppc/cpu_init.c   | 16 +++++++---------
+ target/ppc/machine.c    |  6 +++++-
+ target/ppc/meson.build  |  2 +-
+ target/ppc/power8-pmu.h |  4 ++--
+ 4 files changed, 15 insertions(+), 13 deletions(-)
 
-Daniel Henrique Barboza (4):
-  target/ppc: make power8-pmu.c CONFIG_TCG only
-  target/ppc: finalize pre-EBB PMU logic
-  target/ppc: add PPC_INTERRUPT_EBB and EBB exceptions
-  target/ppc: trigger PERFM EBBs from power8-pmu.c
-
- target/ppc/cpu.h         |  5 ++-
- target/ppc/cpu_init.c    | 20 +++++-----
- target/ppc/excp_helper.c | 81 ++++++++++++++++++++++++++++++++++++++++
- target/ppc/helper.h      |  1 +
- target/ppc/machine.c     |  6 ++-
- target/ppc/meson.build   |  2 +-
- target/ppc/power8-pmu.c  | 39 +++++++++++++++++--
- target/ppc/power8-pmu.h  |  4 +-
- 8 files changed, 140 insertions(+), 18 deletions(-)
-
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 61d36b11a0..544e052290 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -5698,12 +5698,10 @@ static void register_power9_mmu_sprs(CPUPPCState *env)
+  */
+ static void init_tcg_pmu_power8(CPUPPCState *env)
+ {
+-#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+     /* Init PMU overflow timers */
+-    if (!kvm_enabled()) {
++    if (tcg_enabled()) {
+         cpu_ppc_pmu_init(env);
+     }
+-#endif
+ }
+ 
+ static void init_proc_book3s_common(CPUPPCState *env)
+@@ -7167,14 +7165,14 @@ static void ppc_cpu_reset(DeviceState *dev)
+ 
+ #if !defined(CONFIG_USER_ONLY)
+     env->nip = env->hreset_vector | env->excp_prefix;
+-#if defined(CONFIG_TCG)
+-    if (env->mmu_model != POWERPC_MMU_REAL) {
+-        ppc_tlb_invalidate_all(env);
++
++    if (tcg_enabled()) {
++        if (env->mmu_model != POWERPC_MMU_REAL) {
++            ppc_tlb_invalidate_all(env);
++        }
++        pmu_update_summaries(env);
+     }
+-#endif /* CONFIG_TCG */
+ #endif
+-
+-    pmu_update_summaries(env);
+     hreg_compute_hflags(env);
+     env->reserve_addr = (target_ulong)-1ULL;
+     /* Be sure no exception or interrupt is pending */
+diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+index 1b63146ed1..e673944597 100644
+--- a/target/ppc/machine.c
++++ b/target/ppc/machine.c
+@@ -2,6 +2,7 @@
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/tcg.h"
+ #include "helper_regs.h"
+ #include "mmu-hash64.h"
+ #include "migration/cpu.h"
+@@ -20,7 +21,10 @@ static void post_load_update_msr(CPUPPCState *env)
+      */
+     env->msr ^= env->msr_mask & ~((1ULL << MSR_TGPR) | MSR_HVB);
+     ppc_store_msr(env, msr);
+-    pmu_update_summaries(env);
++
++    if (tcg_enabled()) {
++        pmu_update_summaries(env);
++    }
+ }
+ 
+ static int get_avr(QEMUFile *f, void *pv, size_t size,
+diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+index a49a8911e0..79beaff147 100644
+--- a/target/ppc/meson.build
++++ b/target/ppc/meson.build
+@@ -16,6 +16,7 @@ ppc_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'misc_helper.c',
+   'timebase_helper.c',
+   'translate.c',
++  'power8-pmu.c',
+ ))
+ 
+ ppc_ss.add(libdecnumber)
+@@ -51,7 +52,6 @@ ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
+   'mmu-book3s-v3.c',
+   'mmu-hash64.c',
+   'mmu-radix64.c',
+-  'power8-pmu.c',
+ ))
+ 
+ target_arch += {'ppc': ppc_ss}
+diff --git a/target/ppc/power8-pmu.h b/target/ppc/power8-pmu.h
+index a839199561..256d90f523 100644
+--- a/target/ppc/power8-pmu.h
++++ b/target/ppc/power8-pmu.h
+@@ -13,11 +13,11 @@
+ #ifndef POWER8_PMU
+ #define POWER8_PMU
+ 
+-void cpu_ppc_pmu_init(CPUPPCState *env);
+-
+ #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++void cpu_ppc_pmu_init(CPUPPCState *env);
+ void pmu_update_summaries(CPUPPCState *env);
+ #else
++static inline void cpu_ppc_pmu_init(CPUPPCState *env) { }
+ static inline void pmu_update_summaries(CPUPPCState *env) { }
+ #endif
+ 
 -- 
 2.35.1
 
