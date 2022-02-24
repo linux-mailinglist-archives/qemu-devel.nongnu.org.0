@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB384C3417
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 18:55:05 +0100 (CET)
-Received: from localhost ([::1]:54034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CBF4C33FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 18:48:13 +0100 (CET)
+Received: from localhost ([::1]:39640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNIKV-0005TO-T5
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 12:55:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39224)
+	id 1nNIDs-00040r-C1
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 12:48:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nNIC3-0001lP-VI
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 12:46:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42908)
+ id 1nNICB-0001yb-1X
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 12:46:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nNIBy-0002Z7-Ne
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 12:46:17 -0500
+ id 1nNIC8-0002bq-UH
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 12:46:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645724771;
+ s=mimecast20190719; t=1645724784;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Aj9T10glahEHERQa7XalzUZWUCHxTU7/MVvMSBEwek=;
- b=Fqafj7IrLsw1Z/QfwnKVv365TS+QJMHPoB+XXoMzu+I5xjMD6abYr3CgZ1Kvp+NQoMaBzT
- tvV9NfWrqFtGKc0fMsuPtAF+9/70xPBPdqxR+fGaIbMfM0aBqaZ897SegT6R29Ddxf92Xs
- Kt+7+qYbWlRF3x7PdIDanHfbXBasB2I=
+ bh=vriZp6BD32M3Unm0N7ZbBok++Lc8htWYCM6k1uQTT/I=;
+ b=CL+8QKuhSKo+LliRHW1UfN0ZYyKTv8psQD4D3LELyuzDDn9rgyCiiZEcicKrRPqomISDrU
+ u+S+3qlFbNv5/CeFYBcCNkYbJVlOUL8wqJQQKdG9vIyYVyyHVW/CvACX/l33RNCvb+xQdy
+ 1DeJItHrLIEvJ4Cn6Uv+GLEg6seqrUg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-PSotJuvKN6OaPbYqCuiFcQ-1; Thu, 24 Feb 2022 12:46:08 -0500
-X-MC-Unique: PSotJuvKN6OaPbYqCuiFcQ-1
+ us-mta-15-aBN1JwD_Mhmss4JDeiJBrA-1; Thu, 24 Feb 2022 12:46:23 -0500
+X-MC-Unique: aBN1JwD_Mhmss4JDeiJBrA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 712D0100C610
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 17:46:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1D5551E6
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 17:46:21 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA56C710AC;
- Thu, 24 Feb 2022 17:45:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA23F710AC;
+ Thu, 24 Feb 2022 17:46:07 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] acpi: pcihp: disable power control on PCIe slot
-Date: Thu, 24 Feb 2022 12:44:10 -0500
-Message-Id: <20220224174411.3296848-4-imammedo@redhat.com>
+Subject: [PATCH 4/4] q35: compat: keep hotplugged PCIe device broken after
+ migration for 6.2-older machine types
+Date: Thu, 24 Feb 2022 12:44:11 -0500
+Message-Id: <20220224174411.3296848-5-imammedo@redhat.com>
 In-Reply-To: <20220224174411.3296848-1-imammedo@redhat.com>
 References: <20220224174411.3296848-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -85,54 +86,183 @@ Cc: kraxel@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous patch [1] fixed unconditional power handling on a PCIe
-slot, and make it honor PCI_EXP_SLTCAP_PCP capability.
+Q35 switched to ACPI PCI hotplug by default in since 6.1
+machine type and migration worked as expected (with BARs
+on target being the same as on source)
 
-Use COMPAT_PROP_PCP to disable power control (PCI_EXP_SLTCAP_PCP)
-on PCIe slot when its plug callbacks are wired to ACPI pcihp,
-which effectively leaves stop always powered.
+However native PCIe fixes [1] merged in 6.2 time, regressed
+migration part, resulting in disabled BARs on target. The
+issue affects pc-q35-6.2 and pc-q35-6.1 machine types (and
+older if qemu-6.2 binary is used on source with manually
+enabled ACPI PCI hotplug).
 
-PS:
-See [1] for detailed description of the issue [2] and how it's
-being addressed.
+Introduce x-pcihp-enable-pcie-pcp-cap compat property to
+keep 6.2 and older machine types in broken state when ACPI
+PCI hotplug is enabled to make sure that guest does see the
+same PCIe device and slot on  rc & dst (i.e. with or without
+power control present/configured).
 
-1) "pcie: update slot power status only is power control is enabled"
+1) commit d5daff7d312 (pcie: implement slot power control for pcie root ports)
 
-2)
-Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/pcihp.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/hw/acpi/pcihp.h         |  4 +++-
+ hw/acpi/acpi-pci-hotplug-stub.c |  3 ++-
+ hw/acpi/ich9.c                  | 21 ++++++++++++++++++++-
+ hw/acpi/pcihp.c                 | 20 ++++++++++++--------
+ hw/acpi/piix4.c                 |  3 ++-
+ hw/core/machine.c               |  4 +++-
+ 6 files changed, 42 insertions(+), 13 deletions(-)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 6befd23e16..bc47d1bf64 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -32,6 +32,7 @@
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_host.h"
- #include "hw/pci/pcie_port.h"
-+#include "hw/pci-bridge/xio3130_downstream.h"
- #include "hw/i386/acpi-build.h"
- #include "hw/acpi/acpi.h"
- #include "hw/pci/pci_bus.h"
-@@ -329,6 +330,15 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                  GINT_TO_POINTER(pdev->acpi_index),
-                                  g_cmp_uint32, NULL);
-     }
-+
-+    /*
-+     * since acpi_pcihp manages hotplug, disable PCI-E power control on slot
-+     */
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_ROOT_PORT) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_XIO3130_DOWNSTREAM)) {
-+        object_property_set_bool(OBJECT(dev), COMPAT_PROP_PCP, false,
-+                                 &error_abort);
-+    }
+diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+index af1a169fc3..06466dd2a8 100644
+--- a/include/hw/acpi/pcihp.h
++++ b/include/hw/acpi/pcihp.h
+@@ -52,6 +52,7 @@ typedef struct AcpiPciHpState {
+     bool legacy_piix;
+     uint16_t io_base;
+     uint16_t io_len;
++    bool enable_pcie_pcp_cap;
+ } AcpiPciHpState;
+ 
+ void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
+@@ -59,7 +60,8 @@ void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
+                      uint16_t io_base);
+ 
+ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+-                                   DeviceState *dev, Error **errp);
++                                   AcpiPciHpState *s, DeviceState *dev,
++                                   Error **errp);
+ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
+                                DeviceState *dev, Error **errp);
+ void acpi_pcihp_device_unplug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
+diff --git a/hw/acpi/acpi-pci-hotplug-stub.c b/hw/acpi/acpi-pci-hotplug-stub.c
+index 734e4c5986..6904b772b3 100644
+--- a/hw/acpi/acpi-pci-hotplug-stub.c
++++ b/hw/acpi/acpi-pci-hotplug-stub.c
+@@ -18,7 +18,8 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
  }
  
- void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
+ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+-                                   DeviceState *dev, Error **errp)
++                                   AcpiPciHpState *s, DeviceState *dev,
++                                   Error **errp)
+ {
+     return;
+ }
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index bd9bbade70..928d5c101c 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -430,6 +430,21 @@ static void ich9_pm_set_keep_pci_slot_hpc(Object *obj, bool value, Error **errp)
+     s->pm.keep_pci_slot_hpc = value;
+ }
+ 
++static bool ich9_pm_get_enable_pcie_pcp_cap(Object *obj, Error **errp)
++{
++    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
++
++    return s->pm.acpi_pci_hotplug.enable_pcie_pcp_cap;
++}
++
++static void ich9_pm_set_enable_pcie_pcp_cap(Object *obj, bool value,
++                                             Error **errp)
++{
++    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
++
++    s->pm.acpi_pci_hotplug.enable_pcie_pcp_cap = value;
++}
++
+ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
+ {
+     static const uint32_t gpe0_len = ICH9_PMIO_GPE0_LEN;
+@@ -469,6 +484,9 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
+     object_property_add_bool(obj, "x-keep-pci-slot-hpc",
+                              ich9_pm_get_keep_pci_slot_hpc,
+                              ich9_pm_set_keep_pci_slot_hpc);
++    object_property_add_bool(obj, "x-pcihp-enable-pcie-pcp-cap",
++                             ich9_pm_get_enable_pcie_pcp_cap,
++                             ich9_pm_set_enable_pcie_pcp_cap);
+ }
+ 
+ void ich9_pm_device_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+@@ -477,7 +495,8 @@ void ich9_pm_device_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+     ICH9LPCState *lpc = ICH9_LPC_DEVICE(hotplug_dev);
+ 
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
+-        acpi_pcihp_device_pre_plug_cb(hotplug_dev, dev, errp);
++        acpi_pcihp_device_pre_plug_cb(hotplug_dev, &lpc->pm.acpi_pci_hotplug,
++                                      dev, errp);
+         return;
+     }
+ 
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index bc47d1bf64..4c1fdb2211 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -291,7 +291,8 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
+ #define ONBOARD_INDEX_MAX (16 * 1024 - 1)
+ 
+ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+-                                   DeviceState *dev, Error **errp)
++                                   AcpiPciHpState *s, DeviceState *dev,
++                                   Error **errp)
+ {
+     PCIDevice *pdev = PCI_DEVICE(dev);
+ 
+@@ -331,13 +332,16 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                  g_cmp_uint32, NULL);
+     }
+ 
+-    /*
+-     * since acpi_pcihp manages hotplug, disable PCI-E power control on slot
+-     */
+-    if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_ROOT_PORT) ||
+-        object_dynamic_cast(OBJECT(dev), TYPE_XIO3130_DOWNSTREAM)) {
+-        object_property_set_bool(OBJECT(dev), COMPAT_PROP_PCP, false,
+-                                 &error_abort);
++    /* compat knob to preserve pci_config as in 6.2 & older when pcihp in use */
++    if (s->enable_pcie_pcp_cap == false) {
++        /*
++         * since acpi_pcihp manages hotplug, disable PCI-E power control on slot
++         */
++        if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_ROOT_PORT) ||
++            object_dynamic_cast(OBJECT(dev), TYPE_XIO3130_DOWNSTREAM)) {
++            object_property_set_bool(OBJECT(dev), COMPAT_PROP_PCP, false,
++                                     &error_abort);
++        }
+     }
+ }
+ 
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index cc37fa3416..0d25f75112 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -350,7 +350,8 @@ static void piix4_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+     PIIX4PMState *s = PIIX4_PM(hotplug_dev);
+ 
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
+-        acpi_pcihp_device_pre_plug_cb(hotplug_dev, dev, errp);
++        acpi_pcihp_device_pre_plug_cb(hotplug_dev, &s->acpi_pci_hotplug, dev,
++                                      errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+         if (!s->acpi_memory_hotplug.is_enabled) {
+             error_setg(errp,
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index d856485cb4..48ffc85f8d 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -37,7 +37,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
+ 
+-GlobalProperty hw_compat_6_2[] = {};
++GlobalProperty hw_compat_6_2[] = {
++    { "ICH9-LPC", "x-pcihp-enable-pcie-pcp-cap", "on" },
++};
+ const size_t hw_compat_6_2_len = G_N_ELEMENTS(hw_compat_6_2);
+ 
+ GlobalProperty hw_compat_6_1[] = {
 -- 
 2.31.1
 
