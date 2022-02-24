@@ -2,93 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267A34C35BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:22:05 +0100 (CET)
-Received: from localhost ([::1]:54452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FE84C3556
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:07:05 +0100 (CET)
+Received: from localhost ([::1]:59180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNJgi-0001NK-8b
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:22:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55110)
+	id 1nNJSC-0001is-AL
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:07:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nNJDp-0000Oi-ER
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:52:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nNJDY-0005bD-97
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:52:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645728714;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FthvWchKXm9IpyhtMqLcXivvpMpOFSZ5e+6s5mJ8wlA=;
- b=RxXh57geqI0TOV4gGNib5AVOmO922C6Cqf9rqBGLU3bzr6hAhqzf/+ND7dgszepcii9+H4
- IVAk5P7R+KeDWSrs/iDMoHsPSum/WuOXqcxWL7e8ZOILs81MmK1weKrF1y2LbLz+3aMnCY
- i12wduIviiBKT63nRbSsYEcspZzB6kA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-m6y6ABEuNWeeL16fVSbvmQ-1; Thu, 24 Feb 2022 13:51:52 -0500
-X-MC-Unique: m6y6ABEuNWeeL16fVSbvmQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- m3-20020adfa3c3000000b001ea95eb48abso279552wrb.3
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:51:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1nNJEN-0000kE-F3
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:52:48 -0500
+Received: from [2a00:1450:4864:20::12f] (port=35729
+ helo=mail-lf1-x12f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1nNJEH-0005dF-Ev
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:52:44 -0500
+Received: by mail-lf1-x12f.google.com with SMTP id u20so5505647lff.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:52:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XEVh0qYl2wjyoSlsQM6sqo6q6J5iBf3QJv+wJFYmofc=;
+ b=lsrJ8U+O9rcKG+n8xn80/wvTu+QLPWdfnChWihPL17eYfllBspeVAk0C1jrFId5O6M
+ FmLzWfF0/1pGorUyxYnyTEP6y3Ldp7zIhk8/L5CVjyGyBzhqOZcbWIwMaKCjLxYJsGvK
+ B7IWHPb/8RnT07tjz3wLqXM30LB1F17PhSNWvpRS45zKSUkXQ82js+1+QcdYMe3T+T0S
+ 8iw8zyeeTWDmslFAT6NUtdh12osc2Trm0e7CFiv5V2GvpetXRS6GBqpyoEIDlxZnuf2S
+ c1Wl1PV2KBuE2FUomLu6BxEeSqK0EiE9GcIJN7yBVmmvZUivyLa1xgmP+9Jh/9gi6Xr0
+ apLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=FthvWchKXm9IpyhtMqLcXivvpMpOFSZ5e+6s5mJ8wlA=;
- b=s84SNBgoEKqe6RkGNd0oBLpLHWOGlGZTtbve2qK2pKbmG8kXVbAymCP3O0SQC0HfuT
- X72uVAoZj0ozXAvQlNjHEwihCLJcikHl7OjdRYpwHwzdZxMGoqtoGfJaD+Cftnf68mqB
- woCc8RhJVKbRBMKo/15POoYRU3L11gTZj7oBXj6AmgKchSwwsmvcuq+F3hm+WkGuLpT4
- MPzZdsZTtEG6ujZdq1WSwyA7zMMBiCrI2qL0iw4y0nHyJGFw9B/ioHjBZ9z7LQPto2y+
- PZnv9fekUaxP/3HXRwLj8G+ZwpyBfk/Y5YqIvj3ySWA2+F/CKQVBULwsAgxwiZnXt/Fc
- wNnw==
-X-Gm-Message-State: AOAM5327hnQbDif8N0tz6+s3oswnwrI3WMtyezXUR6MNcxRRv9TYw2xi
- gE7CsBh+ooSP8tBuYqB3WFo2nNOC3kAAS+45wIuQT9dEQn8TZ1cqh4g0PoYMNXKPdO76nPoRqAq
- 6WPM51Is+CCAtmoo=
-X-Received: by 2002:a05:600c:3046:b0:380:d5d3:930e with SMTP id
- n6-20020a05600c304600b00380d5d3930emr11883636wmh.12.1645728711708; 
- Thu, 24 Feb 2022 10:51:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwuxn70py9Okg8cjvFddBziZqzh3xkdReOgqsqecfKRCh3tJQzAqf7ELZnsbU2BbkhoiDVN8g==
-X-Received: by 2002:a05:600c:3046:b0:380:d5d3:930e with SMTP id
- n6-20020a05600c304600b00380d5d3930emr11883607wmh.12.1645728711419; 
- Thu, 24 Feb 2022 10:51:51 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- u9-20020a05600c19c900b0037c050d73dcsm3868175wmq.46.2022.02.24.10.51.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 10:51:50 -0800 (PST)
-Date: Thu, 24 Feb 2022 18:51:48 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH V7 05/29] vl: start on wakeup request
-Message-ID: <YhfTxBKb7IIqpsj1@work-vm>
-References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-6-git-send-email-steven.sistare@oracle.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XEVh0qYl2wjyoSlsQM6sqo6q6J5iBf3QJv+wJFYmofc=;
+ b=GUFJ3m3GuacJhNCI0Yop9+GkHwPvl8WbyWrl7D8nMd7TWc0N/u1f/7+CQimgSy/9D3
+ omWc4vO4cbv8geETQZhF4O7FL3fkqkeqrCTxyitDLUq/gzjryVWRj2CM8lDoCI7W+ikk
+ FkgGPfZuZCwgq41O4hBG5Dw+ZmP9EPfvpGJNknu6CwegBlIG8YTvNgnwzzRdtS/CdYt/
+ u8Hz5Car72W4vFNpW6eSUs2SMnV4N/465NhlfI4q1rLyzyW6a5e3ya0SGkWIVDrRu/MN
+ OYD45qANuzhEW/agEhdR2pedaVKGm+KdEuE4oVmaK4S7fsbZFsOmhVVJJ5B27330aeW1
+ vYag==
+X-Gm-Message-State: AOAM530axhzT5Pe8fWVckBu32by12kL+U+x1xY8z0RZrRp2CA6A5sl/d
+ ZyffXknw6oq989Zb1B2gESeQHsNouf9TmdeDiyYqPw==
+X-Google-Smtp-Source: ABdhPJzQFoUhJwg2x49uxBQpoIPBG6sMkDR7Pq5TVcTI44amrMxmqOJ7AcLHCqUP3F3OjSdRBGsOfrQ5eqFHc0Fwqe4=
+X-Received: by 2002:a19:f519:0:b0:443:e008:3df7 with SMTP id
+ j25-20020a19f519000000b00443e0083df7mr2534754lfb.95.1645728756568; Thu, 24
+ Feb 2022 10:52:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1640199934-455149-6-git-send-email-steven.sistare@oracle.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+References: <20220208181843.4003568-1-venture@google.com>
+ <CAFEAcA8m2yhtih_+XCOJPUzAwtLuF2exF+vaa1woC7bYoryVXA@mail.gmail.com>
+ <CAFEAcA_zfd=5bSMKwVbSk0LStcWcYxFosazhiGz0nb2z=upSHQ@mail.gmail.com>
+ <CAO=notx69LpfY2uHUaPeFSrRyNkoiATZ6-JQQrATT8jXGEfQWw@mail.gmail.com>
+In-Reply-To: <CAO=notx69LpfY2uHUaPeFSrRyNkoiATZ6-JQQrATT8jXGEfQWw@mail.gmail.com>
+From: Hao Wu <wuhaotsh@google.com>
+Date: Thu, 24 Feb 2022 10:52:24 -0800
+Message-ID: <CAGcCb12Se254JJcKbnfyaMUTf=ym5TqOY41r4YNmvype6ozV-Q@mail.gmail.com>
+Subject: Re: [PATCH v3] tests/qtest: add qtests for npcm7xx sdhci
+To: Patrick Venture <venture@google.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ Shengtan Mao <stmao@google.com>, Chris Rauer <crauer@google.com>
+Content-Type: multipart/alternative; boundary="000000000000ef87ac05d8c81582"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=wuhaotsh@google.com; helo=mail-lf1-x12f.google.com
+X-Spam_score_int: -161
+X-Spam_score: -16.2
+X-Spam_bar: ----------------
+X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,110 +89,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Zeng <jason.zeng@linux.intel.com>,
- Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Zheng Chuan <zhengchuan@huawei.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Steve Sistare (steven.sistare@oracle.com) wrote:
-> If qemu starts and loads a VM in the suspended state, then a later wakeup
-> request will set the state to running, which is not sufficient to initialize
-> the vm, as vm_start was never called during this invocation of qemu.  See
-> qemu_system_wakeup_request().
-> 
-> Define the start_on_wakeup_requested() hook to cause vm_start() to be called
-> when processing the wakeup request.
-> 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> ---
->  include/sysemu/runstate.h |  1 +
->  softmmu/runstate.c        | 17 ++++++++++++++++-
->  2 files changed, 17 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
-> index a535691..b655c7b 100644
-> --- a/include/sysemu/runstate.h
-> +++ b/include/sysemu/runstate.h
-> @@ -51,6 +51,7 @@ void qemu_system_reset_request(ShutdownCause reason);
->  void qemu_system_suspend_request(void);
->  void qemu_register_suspend_notifier(Notifier *notifier);
->  bool qemu_wakeup_suspend_enabled(void);
-> +void qemu_system_start_on_wakeup_request(void);
->  void qemu_system_wakeup_request(WakeupReason reason, Error **errp);
->  void qemu_system_wakeup_enable(WakeupReason reason, bool enabled);
->  void qemu_register_wakeup_notifier(Notifier *notifier);
-> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-> index 10d9b73..3d344c9 100644
-> --- a/softmmu/runstate.c
-> +++ b/softmmu/runstate.c
-> @@ -115,6 +115,8 @@ static const RunStateTransition runstate_transitions_def[] = {
->      { RUN_STATE_PRELAUNCH, RUN_STATE_RUNNING },
->      { RUN_STATE_PRELAUNCH, RUN_STATE_FINISH_MIGRATE },
->      { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
-> +    { RUN_STATE_PRELAUNCH, RUN_STATE_SUSPENDED },
-> +    { RUN_STATE_PRELAUNCH, RUN_STATE_PAUSED },
+--000000000000ef87ac05d8c81582
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-This seems separate? Is this the bit that allows you to load the VM into
-suspended?
-But I note you're allowing PAUSED or SUSPENDED here, but the wake up
-code only handles suspended - is that expected?
+VGhlIHByb2JsZW0gaXMgcHJvYmFibHkgYmVjYXVzZSB3ZSByZWFkIGl0IGluIHVzaW5nICJzdHJj
+bXAiLiBzdHJjbXANCmNvbXBhcmVzIHR3byBzdHJpbmdzIHRoYXQgZW5kIHdpdGggIlwwIi4gQnV0
+IG9uZSBvZiB0aGUgc3RyaW5nIGlzIHJlYWQgaW4NCnVzaW5nIHJlYWQoKSBzbyBpdCBkaWRuJ3Qg
+cmVhZCBpbiB0aGUgZW5kaW5nICdcMCcgY2hhcmFjdGVyLg0KDQpXZSBzaG91bGQgdXNlIHN0cm5j
+bXAgdG8gY29tcGFyZSB0aGUgdHdvIHN0cmluZ3MuIEl0IHByb2JhYmx5IGF2b2lkcyB0aGUNCmlz
+c3VlLg0KDQpPbiBUdWUsIEZlYiAyMiwgMjAyMiBhdCA1OjI4IFBNIFBhdHJpY2sgVmVudHVyZSA8
+dmVudHVyZUBnb29nbGUuY29tPiB3cm90ZToNCg0KPg0KPg0KPiBPbiBNb24sIEZlYiAyMSwgMjAy
+MiBhdCA1OjMwIEFNIFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4NCj4g
+d3JvdGU6DQo+DQo+PiBPbiBXZWQsIDE2IEZlYiAyMDIyIGF0IDE3OjMwLCBQZXRlciBNYXlkZWxs
+IDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+DQo+PiB3cm90ZToNCj4+ID4NCj4+ID4gT24gVHVl
+LCA4IEZlYiAyMDIyIGF0IDE4OjE4LCBQYXRyaWNrIFZlbnR1cmUgPHZlbnR1cmVAZ29vZ2xlLmNv
+bT4NCj4+IHdyb3RlOg0KPj4gPiA+DQo+PiA+ID4gRnJvbTogU2hlbmd0YW4gTWFvIDxzdG1hb0Bn
+b29nbGUuY29tPg0KPj4gPiA+DQo+PiA+ID4gUmV2aWV3ZWQtYnk6IEhhbyBXdSA8d3VoYW90c2hA
+Z29vZ2xlLmNvbT4NCj4+ID4gPiBSZXZpZXdlZC1ieTogQ2hyaXMgUmF1ZXIgPGNyYXVlckBnb29n
+bGUuY29tPg0KPj4gPiA+IFNpZ25lZC1vZmYtYnk6IFNoZW5ndGFuIE1hbyA8c3RtYW9AZ29vZ2xl
+LmNvbT4NCj4+ID4gPiBTaWduZWQtb2ZmLWJ5OiBQYXRyaWNrIFZlbnR1cmUgPHZlbnR1cmVAZ29v
+Z2xlLmNvbT4NCj4+ID4gPiAtLS0NCj4+ID4NCj4+ID4NCj4+ID4NCj4+ID4gQXBwbGllZCB0byB0
+YXJnZXQtYXJtLm5leHQsIHRoYW5rcy4NCj4+DQo+PiBUaGlzIGhpdHMgYXNzZXJ0aW9ucyBpbiBz
+b21lIG9mIHRoZSBDSSBqb2JzLCBlZzoNCj4+IGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2pl
+Y3QvcWVtdS8tL2pvYnMvMjExNjkzMjc2OQ0KPj4NCj4+IDI1OC83MTcgcWVtdTpxdGVzdCtxdGVz
+dC1hcm0gLyBxdGVzdC1hcm0vbnBjbTd4eF9zZGhjaS10ZXN0IElOVEVSUlVQVA0KPj4gNjQzLjE2
+cyBraWxsZWQgYnkgc2lnbmFsIDYgU0lHQUJSVA0KPj4g4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVIOKcgA0KPj4g4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVDQo+PiBzdGRlcnI6DQo+PiAqKiBN
+ZXNzYWdlOiAwNjowNjo1MC4yMDU6IC90bXAvc2RoY2lfRjdFVEgxDQo+PiAqKg0KPj4gRVJST1I6
+Li4vdGVzdHMvcXRlc3QvbnBjbTd4eF9zZGhjaS10ZXN0LmM6MTAxOnNkd3JpdGVfcmVhZDogYXNz
+ZXJ0aW9uDQo+PiBmYWlsZWQ6ICghc3RyY21wKHJtc2csIG1zZykpDQo+Pg0KPj4g4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
+4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVDQo+
+PiAuLi50ZXJtaW5hdGVkLg0KPj4NCj4+IHNvIEkndmUgZHJvcHBlZCBpdCBhZ2Fpbi4NCj4+DQo+
+DQo+IEknbSBzb3JyeSB0byBoZWFyIHRoYXQsIEknbGwgaGF2ZSB0byBwaWNrIHVwIHNvbWUgY3lj
+bGVzIGluIGEgd2VlayBvciBzbw0KPiBhbmQgc2VlIGlmIEkgY2FuIHJlcHJvZHVjZSB0aGUgaXNz
+dWUuDQo+DQo+DQo+Pg0KPj4gdGhhbmtzDQo+PiAtLSBQTU0NCj4+DQo+DQo=
+--000000000000ef87ac05d8c81582
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->      { RUN_STATE_FINISH_MIGRATE, RUN_STATE_RUNNING },
->      { RUN_STATE_FINISH_MIGRATE, RUN_STATE_PAUSED },
-> @@ -335,6 +337,7 @@ void vm_state_notify(bool running, RunState state)
->      }
->  }
->  
-> +static bool start_on_wakeup_requested;
->  static ShutdownCause reset_requested;
->  static ShutdownCause shutdown_requested;
->  static int shutdown_signal;
-> @@ -562,6 +565,11 @@ void qemu_register_suspend_notifier(Notifier *notifier)
->      notifier_list_add(&suspend_notifiers, notifier);
->  }
->  
-> +void qemu_system_start_on_wakeup_request(void)
-> +{
-> +    start_on_wakeup_requested = true;
-> +}
+<div dir=3D"ltr">The problem is probably because we read it in using &quot;=
+strcmp&quot;.=C2=A0<span style=3D"color:rgb(32,33,36);font-family:Roboto,Ar=
+ial,sans-serif;font-size:13px;letter-spacing:0.185714px">strcmp compares tw=
+o strings that end with &quot;\0&quot;. But one of the string is read in us=
+ing read() so it didn&#39;t read in the ending &#39;\0&#39; character.</spa=
+n><p style=3D"letter-spacing:0.185714px;font-size:13px;line-height:1.38462;=
+margin:0px;border:0px;font-family:Roboto,Arial,sans-serif;vertical-align:ba=
+seline;word-break:break-word;outline-width:0px;color:rgb(32,33,36)">We shou=
+ld use strncmp to compare the two strings. It probably avoids the issue.</p=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Tue, Feb 22, 2022 at 5:28 PM Patrick Venture &lt;<a href=3D"mailto:vent=
+ure@google.com" target=3D"_blank">venture@google.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div d=
+ir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Feb 21, 2022 at 5:30 AM Peter Maydell &lt;<a href=
+=3D"mailto:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro=
+.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">On Wed, 16 Feb 2022 at 17:30, Peter Maydell &lt;<a href=3D"mailto:peter=
+.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; wro=
+te:<br>
+&gt;<br>
+&gt; On Tue, 8 Feb 2022 at 18:18, Patrick Venture &lt;<a href=3D"mailto:ven=
+ture@google.com" target=3D"_blank">venture@google.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; From: Shengtan Mao &lt;<a href=3D"mailto:stmao@google.com" target=
+=3D"_blank">stmao@google.com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" ta=
+rget=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
+&gt; &gt; Reviewed-by: Chris Rauer &lt;<a href=3D"mailto:crauer@google.com"=
+ target=3D"_blank">crauer@google.com</a>&gt;<br>
+&gt; &gt; Signed-off-by: Shengtan Mao &lt;<a href=3D"mailto:stmao@google.co=
+m" target=3D"_blank">stmao@google.com</a>&gt;<br>
+&gt; &gt; Signed-off-by: Patrick Venture &lt;<a href=3D"mailto:venture@goog=
+le.com" target=3D"_blank">venture@google.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; Applied to target-arm.next, thanks.<br>
+<br>
+This hits assertions in some of the CI jobs, eg:<br>
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/2116932769" rel=3D"n=
+oreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jobs/21=
+16932769</a><br>
+<br>
+258/717 qemu:qtest+qtest-arm / qtest-arm/npcm7xx_sdhci-test INTERRUPT<br>
+643.16s killed by signal 6 SIGABRT<br>
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95<br>
+stderr:<br>
+** Message: 06:06:50.205: /tmp/sdhci_F7ETH1<br>
+**<br>
+ERROR:../tests/qtest/npcm7xx_sdhci-test.c:101:sdwrite_read: assertion<br>
+failed: (!strcmp(rmsg, msg))<br>
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95<br>
+...terminated.<br>
+<br>
+so I&#39;ve dropped it again.<br></blockquote><div><br></div><div>I&#39;m s=
+orry to hear that, I&#39;ll have to pick up some cycles in a week or so and=
+ see if I can reproduce the issue.</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div></div>
+</blockquote></div>
 
-Markus: Is this OK, or should this actually be another runstate
-(PRELAUNCH_SUSPENDED??? or the like??) - is there an interaction here
-with the commandline change ideas for a build-the-guest at runtime?
-
-Dave
-
->  void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
->  {
->      trace_system_wakeup_request(reason);
-> @@ -574,7 +582,14 @@ void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
->      if (!(wakeup_reason_mask & (1 << reason))) {
->          return;
->      }
-> -    runstate_set(RUN_STATE_RUNNING);
-> +
-> +    if (start_on_wakeup_requested) {
-> +        start_on_wakeup_requested = false;
-> +        vm_start();
-> +    } else {
-> +        runstate_set(RUN_STATE_RUNNING);
-> +    }
-> +
->      wakeup_reason = reason;
->      qemu_notify_event();
->  }
-> -- 
-> 1.8.3.1
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+--000000000000ef87ac05d8c81582--
 
