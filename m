@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABFF74C34BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 19:26:53 +0100 (CET)
-Received: from localhost ([::1]:41410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E6B4C34C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 19:30:36 +0100 (CET)
+Received: from localhost ([::1]:44274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNIpI-0002qL-H6
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 13:26:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49488)
+	id 1nNIst-0004sc-3h
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 13:30:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nNInx-000203-Hs
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:25:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32485)
+ id 1nNIrR-0004CH-8M
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:29:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nNInq-0001F8-KL
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:25:24 -0500
+ id 1nNIrP-0001j9-EU
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:29:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645727121;
+ s=mimecast20190719; t=1645727342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CKTylu+r9+7DPQYppfeq/wQ7KQRNwX3ZdF4ulIGzKdM=;
- b=etrdoUwBxoezsKqnp7puBsMJyAdryn3ppH1L7K+DtywcbESybE0ieQTKrnET1rOE/5rLVo
- Dvf3IvGMa1EVoZ7keMCe8vEaqct0Ysncxj5GA+BOSL8bEQak0E8Lbp+8UlhR6OOanNnTDG
- 4IQhUT/TOzZqfc2XrOdHuRO8w9UB6po=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9TsmSG+MpOIqaQspx9w13t2GEUxs//Yqv3t+L7HaaoM=;
+ b=d6cLiw6DKVZZMSFxJydUTQA8PdhuPpH1Iz32vFJ9k3Gos2g1eiHeatL/LsEBwO7oc5Slqw
+ nKIcGybOGKUwHLipOOTfNZpLaQ6hrJBYOuqoDdx+OpHIxhiMAwVSrtd/Q+yG9OEPdrWO/A
+ SqCcEXAxH2txeyekevjvkII1LaxXucs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-QKbIY7GtOKyga1dq_ostlg-1; Thu, 24 Feb 2022 13:25:19 -0500
-X-MC-Unique: QKbIY7GtOKyga1dq_ostlg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f189-20020a1c38c6000000b0037d1bee4847so209101wma.9
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:25:19 -0800 (PST)
+ us-mta-572-K2G0wA6QPyGofWTYWoDOQg-1; Thu, 24 Feb 2022 13:29:01 -0500
+X-MC-Unique: K2G0wA6QPyGofWTYWoDOQg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u9-20020adfae49000000b001e89793bcb0so233408wrd.17
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 10:29:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=CKTylu+r9+7DPQYppfeq/wQ7KQRNwX3ZdF4ulIGzKdM=;
- b=GhmJUoLSJjKmET8Zhgv37qbZWugo75cROTRlO5hym4NfFOXuWrPzePa8sGOCHVBVux
- 0CZiz76EkkXfS13WiYz+ZCsSrDZpdBaMGYMy0Wx72BwBP+WZKVgGCsyHIkEAOl7err0I
- ZdcFaAx1ucDZD+vfAPkUz0YrEVDSFccN0olQmgCQcwuUbnSsyl4h2j53a0fAXE45KiB9
- 5s0RTzI/OnCuzFShYj3iPpeuPSdRNsRXTvZsALg6K7KinPSjzbWFb4cZxFTzxZaESIhU
- 3aqOwhJfZkHDEHZpYaO3iPQt+1UKQB3RYxgzQnn6Fx0XT9x0YONmEDyjFzELWW7JsMza
- MczQ==
-X-Gm-Message-State: AOAM531ze6iuHy/IUQgW9ZVQ3mCerIpSSjp62k8JawFCWU6yiUg5IEGX
- hmtt2ipSAtculcpzMR0pPcEczZWRZxtMoAYlZBYcb4OVW00nwywDU1Q2+daJYPTM3KTh5xRjzAY
- FP+TFjm7nfTkwHU8=
-X-Received: by 2002:a05:600c:1c1a:b0:37b:ead2:8e6d with SMTP id
- j26-20020a05600c1c1a00b0037bead28e6dmr13002444wms.94.1645727118586; 
- Thu, 24 Feb 2022 10:25:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJykzKQVjYZZlLymzKps6JXLMZDeF396ZqYoPK7uHUK+awn/vtkMOi2N8VHGTU+Iz5eAx+hW6Q==
-X-Received: by 2002:a05:600c:1c1a:b0:37b:ead2:8e6d with SMTP id
- j26-20020a05600c1c1a00b0037bead28e6dmr13002420wms.94.1645727118375; 
- Thu, 24 Feb 2022 10:25:18 -0800 (PST)
+ bh=9TsmSG+MpOIqaQspx9w13t2GEUxs//Yqv3t+L7HaaoM=;
+ b=RoEro4bLfpVtis7Ma9/6OCokHZ3qp976oXFirXqocAiyNdV+ozWYeC6ObngQmMAgvA
+ Lpj56DhtBWr+dq0y22tKlM4S4WtWZKMMRVBv4sf6hHH0FowTmS+LwMOfeynLAHfVNNLm
+ kNmxo+ASW1pHA52kS+3ZWknz1Wp1j0uLLM9GEUMOPJgqerNdlrsUwguK65OWRUWstM30
+ 5CWboS8jUqIPxbOl0eCe85baPfxH48ilbMkok/xoe/z0gAchlTw2tEY/rtTomCf89cS5
+ LRLiiawbuhmLSRf+/AngSjuK8FMpcqJxvDOaOU1SeWxm/76AiNvonOdYeMLjgM/zYOne
+ Y5cw==
+X-Gm-Message-State: AOAM533z7xoWjR0mjbITSn4gq3PRpAMP76ui7jQoA/8VEJmvbd9bDoa3
+ R4dNevDKPSmrDFn36a+lpAR2TomD6sZlKW3c/5IwzLxV4PkrsFx29SqpG/CoK5ylZdJgHxNv+HL
+ 92cuUic2trB9fSXY=
+X-Received: by 2002:a05:600c:4e8a:b0:37d:1c28:20fc with SMTP id
+ f10-20020a05600c4e8a00b0037d1c2820fcmr3390944wmq.166.1645727340034; 
+ Thu, 24 Feb 2022 10:29:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxlLrWk0quMXKyeY7o89x019VAAzLECL0crZuoLp4ZtpkTeWAS3tdlM+ysjKquSs8suY5upNQ==
+X-Received: by 2002:a05:600c:4e8a:b0:37d:1c28:20fc with SMTP id
+ f10-20020a05600c4e8a00b0037d1c2820fcmr3390917wmq.166.1645727339808; 
+ Thu, 24 Feb 2022 10:28:59 -0800 (PST)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- e22-20020adf9bd6000000b001eda1017861sm82992wrc.64.2022.02.24.10.25.17
+ h2-20020a05600c350200b0037c8ff59e58sm151370wmq.28.2022.02.24.10.28.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Feb 2022 10:25:17 -0800 (PST)
-Date: Thu, 24 Feb 2022 18:25:15 +0000
+ Thu, 24 Feb 2022 10:28:59 -0800 (PST)
+Date: Thu, 24 Feb 2022 18:28:57 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V7 04/29] migration: simplify savevm
-Message-ID: <YhfNi9gPdmDcdTLK@work-vm>
+Subject: Re: [PATCH V7 01/29] memory: qemu_check_ram_volatile
+Message-ID: <YhfOaab2tT6SDWnN@work-vm>
 References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-5-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-2-git-send-email-steven.sistare@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <1640199934-455149-5-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1640199934-455149-2-git-send-email-steven.sistare@oracle.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -78,7 +78,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -108,88 +108,86 @@ Cc: Jason Zeng <jason.zeng@linux.intel.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
  "Daniel P. Berrange" <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
  Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Steve Sistare (steven.sistare@oracle.com) wrote:
-> Use qemu_file_open to simplify a few functions in savevm.c.
-> No functional change.
+> Add a function that returns an error if any ram_list block represents
+> volatile memory.
 > 
 > Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> ---
+>  include/exec/memory.h |  8 ++++++++
+>  softmmu/memory.c      | 26 ++++++++++++++++++++++++++
+>  2 files changed, 34 insertions(+)
+> 
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 20f1b27..137f5f3 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -2981,6 +2981,14 @@ bool ram_block_discard_is_disabled(void);
+>   */
+>  bool ram_block_discard_is_required(void);
+>  
+> +/**
+> + * qemu_ram_check_volatile: return 1 if any memory regions are writable and not
+> + * backed by shared memory, else return 0.
+> + *
+> + * @errp: returned error message identifying the first volatile region found.
+> + */
+> +int qemu_check_ram_volatile(Error **errp);
+> +
+>  #endif
+>  
+>  #endif
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 7340e19..30b2f68 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -2837,6 +2837,32 @@ void memory_global_dirty_log_stop(unsigned int flags)
+>      memory_global_dirty_log_do_stop(flags);
+>  }
+>  
+> +static int check_volatile(RAMBlock *rb, void *opaque)
+> +{
+> +    MemoryRegion *mr = rb->mr;
+> +
+> +    if (mr &&
+> +        memory_region_is_ram(mr) &&
+> +        !memory_region_is_ram_device(mr) &&
+> +        !memory_region_is_rom(mr) &&
+> +        (rb->fd == -1 || !qemu_ram_is_shared(rb))) {
+> +        *(const char **)opaque = memory_region_name(mr);
+> +        return -1;
+> +    }
+> +    return 0;
+> +}
+> +
+> +int qemu_check_ram_volatile(Error **errp)
+> +{
+> +    char *name;
 
-So I think this is mostly OK, but a couple of minor tidyups below;
-so with the tidies and the renames from the previous patch:
+Does that need to be const char *name for safety since you're casting
+it to it below?
+
+Other than that,
+
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> ---
->  migration/savevm.c | 21 +++++++--------------
->  1 file changed, 7 insertions(+), 14 deletions(-)
-> 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 0bef031..c71d525 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -2910,8 +2910,9 @@ bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
->  void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
->                                  Error **errp)
+> +
+> +    if (qemu_ram_foreach_block(check_volatile, &name)) {
+> +        error_setg(errp, "Memory region %s is volatile", name);
+> +        return -1;
+> +    }
+> +    return 0;
+> +}
+> +
+>  static void listener_add_address_space(MemoryListener *listener,
+>                                         AddressSpace *as)
 >  {
-> +    const char *ioc_name = "migration-xen-save-state";
-> +    int flags = O_WRONLY | O_CREAT | O_TRUNC;
-
-I don't see why to take these (or the matching ones in load) as separate
-variables; just keep them as is, and be parameters.
-
->      QEMUFile *f;
-> -    QIOChannelFile *ioc;
->      int saved_vm_running;
->      int ret;
->  
-> @@ -2925,14 +2926,10 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
->      vm_stop(RUN_STATE_SAVE_VM);
->      global_state_store_running();
->  
-> -    ioc = qio_channel_file_new_path(filename, O_WRONLY | O_CREAT | O_TRUNC,
-> -                                    0660, errp);
-> -    if (!ioc) {
-> +    f = qemu_file_open(filename, flags, 0660, ioc_name, errp);
-> +    if (!f) {
->          goto the_end;
->      }
-> -    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-save-state");
-> -    f = qemu_fopen_channel_output(QIO_CHANNEL(ioc));
-> -    object_unref(OBJECT(ioc));
->      ret = qemu_save_device_state(f);
->      if (ret < 0 || qemu_fclose(f) < 0) {
->          error_setg(errp, QERR_IO_ERROR);
-> @@ -2960,8 +2957,8 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
->  
->  void qmp_xen_load_devices_state(const char *filename, Error **errp)
->  {
-> +    const char *ioc_name = "migration-xen-load-state";
->      QEMUFile *f;
-> -    QIOChannelFile *ioc;
->      int ret;
->  
->      /* Guest must be paused before loading the device state; the RAM state
-> @@ -2973,14 +2970,10 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
->      }
->      vm_stop(RUN_STATE_RESTORE_VM);
->  
-> -    ioc = qio_channel_file_new_path(filename, O_RDONLY | O_BINARY, 0, errp);
-> -    if (!ioc) {
-> +    f = qemu_file_open(filename, O_RDONLY | O_BINARY, 0, ioc_name, errp);
-> +    if (!f) {
->          return;
->      }
-> -    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-load-state");
-> -    f = qemu_fopen_channel_input(QIO_CHANNEL(ioc));
-> -    object_unref(OBJECT(ioc));
-> -
->      ret = qemu_loadvm_state(f);
->      qemu_fclose(f);
->      if (ret < 0) {
 > -- 
 > 1.8.3.1
 > 
