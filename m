@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB534C3540
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:01:30 +0100 (CET)
-Received: from localhost ([::1]:43500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9B14C3541
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 20:02:13 +0100 (CET)
+Received: from localhost ([::1]:44918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNJMn-0007tH-NV
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:01:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52850)
+	id 1nNJNU-0000WX-BT
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 14:02:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nNJ15-0001Cx-9u
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:39:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25513)
+ id 1nNIzx-0000Z4-DN
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:37:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nNJ13-0003TQ-Fd
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:39:02 -0500
+ id 1nNIzv-0003NQ-S0
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 13:37:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645727926;
+ s=mimecast20190719; t=1645727871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ugp1mdgJb26JDdeFglnw+DikYi1b0WF4j+loVws/Ih4=;
- b=BAJpL/2lLt6JAUcThokPudC3Bxn4INGoAXkumfSsLc6+8R3mKENKUgrf8lkSRyWa5gT1qv
- CS7UOk3yT2l423Nh9TYWnuiF2HetAexClez0sER+LT/+4DbXMjZEjg6CAR6c/u2tjMIbhG
- CKKGy/HuRrValf99BlNp41t8ffTzBLM=
+ bh=MrKuDEU/6LjpVnJf1BPKI/F7HDjtqs4rOhpxMKDt7fk=;
+ b=f4q1HB4g9bDTSPVTtEpiAmhqoQJl61HL8FljwkDmwJsfRMPm99XzoE7NpddxfoY23oXGFD
+ 6MMFgFEqwl3Zh/ae82DejQBZPVOETI2NGcvu2TXiHZ93o3cKbRLAXRTXf3icPAyWRaYDRh
+ 6+YB3/YEhJHPOyLo3ykVjTQZ8fr/Wm8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-570-HVJZw08zOVuBYi6QlsanPw-1; Thu, 24 Feb 2022 13:38:45 -0500
-X-MC-Unique: HVJZw08zOVuBYi6QlsanPw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-250-gcB0kXxrPpCTWkJhikYWxw-1; Thu, 24 Feb 2022 13:37:48 -0500
+X-MC-Unique: gcB0kXxrPpCTWkJhikYWxw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12849801AAD;
- Thu, 24 Feb 2022 18:38:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDF8F1091DA1;
+ Thu, 24 Feb 2022 18:37:46 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4569D818FA;
- Thu, 24 Feb 2022 18:38:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D5F622B476;
+ Thu, 24 Feb 2022 18:37:39 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/12] scripts/modinfo-collect: remove unused/dead code
-Date: Thu, 24 Feb 2022 22:36:58 +0400
-Message-Id: <20220224183701.608720-10-marcandre.lureau@redhat.com>
+Subject: [PATCH 03/12] osdep.h: move qemu_build_not_reached()
+Date: Thu, 24 Feb 2022 22:36:52 +0400
+Message-Id: <20220224183701.608720-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20220224183701.608720-1-marcandre.lureau@redhat.com>
 References: <20220224183701.608720-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,29 +89,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Move the macro and declaration so it can use glib in the following
+patch.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- scripts/modinfo-collect.py | 5 -----
- 1 file changed, 5 deletions(-)
+ include/qemu/compiler.h | 16 ----------------
+ include/qemu/osdep.h    | 16 ++++++++++++++++
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/scripts/modinfo-collect.py b/scripts/modinfo-collect.py
-index 61b90688c6dc..4e7584df6676 100755
---- a/scripts/modinfo-collect.py
-+++ b/scripts/modinfo-collect.py
-@@ -18,13 +18,8 @@ def find_command(src, target, compile_commands):
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index 0a5e67fb970e..a2d2d48dcf34 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -151,22 +151,6 @@
+ #define QEMU_ALWAYS_INLINE
+ #endif
  
- def process_command(src, command):
-     skip = False
--    arg = False
-     out = []
-     for item in shlex.split(command):
--        if arg:
--            out.append(x)
--            arg = False
--            continue
-         if skip:
-             skip = False
-             continue
+-/**
+- * qemu_build_not_reached()
+- *
+- * The compiler, during optimization, is expected to prove that a call
+- * to this function cannot be reached and remove it.  If the compiler
+- * supports QEMU_ERROR, this will be reported at compile time; otherwise
+- * this will be reported at link time due to the missing symbol.
+- */
+-extern void QEMU_NORETURN QEMU_ERROR("code path is reachable")
+-    qemu_build_not_reached_always(void);
+-#if defined(__OPTIMIZE__) && !defined(__NO_INLINE__)
+-#define qemu_build_not_reached()  qemu_build_not_reached_always()
+-#else
+-#define qemu_build_not_reached()  g_assert_not_reached()
+-#endif
+-
+ /**
+  * In most cases, normal "fallthrough" comments are good enough for
+  * switch-case statements, but sometimes the compiler has problems
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 7bcce3bceb0f..fb72b0006d5c 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -157,6 +157,22 @@ extern "C" {
+ #define assert(x)  g_assert(x)
+ #endif
+ 
++/**
++ * qemu_build_not_reached()
++ *
++ * The compiler, during optimization, is expected to prove that a call
++ * to this function cannot be reached and remove it.  If the compiler
++ * supports QEMU_ERROR, this will be reported at compile time; otherwise
++ * this will be reported at link time due to the missing symbol.
++ */
++extern void QEMU_NORETURN QEMU_ERROR("code path is reachable")
++    qemu_build_not_reached_always(void);
++#if defined(__OPTIMIZE__) && !defined(__NO_INLINE__)
++#define qemu_build_not_reached()  qemu_build_not_reached_always()
++#else
++#define qemu_build_not_reached()  g_assert_not_reached()
++#endif
++
+ /*
+  * According to waitpid man page:
+  * WCOREDUMP
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
