@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FFB4C38FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Feb 2022 23:48:14 +0100 (CET)
-Received: from localhost ([::1]:37062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754EC4C3A02
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 00:57:56 +0100 (CET)
+Received: from localhost ([::1]:45258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNMuC-0001c9-PE
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 17:48:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56606)
+	id 1nNNzf-0002Sk-21
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 18:57:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNMt6-0000we-2N
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 17:47:04 -0500
-Received: from [2607:f8b0:4864:20::62f] (port=33460
- helo=mail-pl1-x62f.google.com)
+ id 1nNNyO-0001lp-R9
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 18:56:36 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=36421
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNMsw-0004p6-9s
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 17:47:03 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id c9so3201394pll.0
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 14:46:53 -0800 (PST)
+ id 1nNNyK-0007CX-1h
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 18:56:34 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ g7-20020a17090a708700b001bb78857ccdso7025242pjk.1
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 15:56:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=XfcBg6aeHAWMYmU3+3oggTYtOPlCkqsLFEQdc+epOts=;
- b=LDGdKvfvPjlpLCrJAEm8+XawO48ArVRmUYq0Abk+Z49H2QVnsnPeQKdX1YOzAOc/nu
- gsYcZIH98+J/1pzaRcyuUd+fGe6CkUsgev6i9lrzj5Scbdo7VTyGClNstNQOiluytwzL
- 9NZNRkVoPg08ST6w9DjzZEqvaNcKxgGe80+xb1w73r7towW2GN1H4fOgxwdImZwIdafp
- aEvFVcH+2Q7lppIcZcTjs3f9FK/j1Td5roRbQKPz3qzRiTyyk1d+Ij1fPF1guFTmnfk5
- RrlIi4QQ6D1EiKfBimKLMw1xYZHPnORJXv7kcoPXB5/oFIqXVZeYNKmNbQszduE1+uGC
- AyJA==
+ bh=g9nRoZjIUu8SfWbwQVYepMFbNFe8F3fJd478UpCi+C8=;
+ b=oPLhGVZGzczjPRCh7KWXD4Q7L1FqvzonIqmlF4EhuLXKuMmyQqvvAh6y9Lep+WXaRq
+ xT3v6P8WbKixpZ0VzTTcGZs5AH5ZtNZHWkW78OyYTGQJSKR/M+QPoIyLEwlDKqmHiGDG
+ e4V8qKPkW8niFI+Nv/tP+QFy/iE3XgiApUqydZEcPPpDrTi6G8snOUzmdYE0oWqehPi4
+ FjFuUuOCl3MuY2vWY42VzPc2Ow8Op9zerbuvXEE408wt9uaoDnBK+/sDjNKbAs/6Kbbq
+ d5qj+yGx2CMscgm9Jp1mmsMGWysbsMa0gQJ8vRWtmdFiC+iHZ5dMYPeCzrDXabvsjyor
+ oPXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=XfcBg6aeHAWMYmU3+3oggTYtOPlCkqsLFEQdc+epOts=;
- b=iC4AXiy9LdpyqW2sRrRqbToqlYlzmM3snTTmuuLlX/8fJUmGHopGrMjZKkzFP4u5FB
- 2adBWFEdxSovDV3L+uY/+Ai/v19CwFSFwN6HFM0lwUkRILVPyOlWahTt4KXAl00QUVWO
- qcDdiEry9hVRh65PHXPRG/g5mkE9jpX3xCeSiUuMgGr/b/spTaJu1Ib7lt+T0ZJNfgww
- VukjjCKbjfR2OBr9BJiXhpyrxxvK3OigKwIbNhT10JW6ex74fV2OyNiqfnKL2HiASeZ1
- NHKKERfyDTFmWq5ckKLqkg7fO5ADTcVKpvU2zg1dEDM4AbgNk4kNZIUMeoIqsB5eoPlR
- B6xQ==
-X-Gm-Message-State: AOAM530nOg67QNWUn4PqVezoSyFRigU+aBvlj+veSkeND8xtE3r1bFNz
- 9Poicgbl1WQ3hVN53nzOO7v9iw==
-X-Google-Smtp-Source: ABdhPJwgZJtvtEX90eWAXqpXkEPo9JZ5CkcTrZ2jZJ0jNBH08Dl2aFb7PFjwTR7Klfdt9hjP/CVlCg==
-X-Received: by 2002:a17:90a:bb0d:b0:1b8:a958:543d with SMTP id
- u13-20020a17090abb0d00b001b8a958543dmr285833pjr.51.1645742811756; 
- Thu, 24 Feb 2022 14:46:51 -0800 (PST)
+ bh=g9nRoZjIUu8SfWbwQVYepMFbNFe8F3fJd478UpCi+C8=;
+ b=svfFS1O/WNZPMk50XSPhZr6y7sMPLk+bt6SPTPf5RySxEXXxzMD4ai2ZETxCk6g9g8
+ ASDNLEi1Kkj77IkPySmJzGlLLloCo2iAXwCKIlaIeHgHea52gzFLqV/uhgQC6ipDxUey
+ CIHceVDW/vKKhsLJ8P5s5NWbUZA+h8tCPfcSRFEYSapU54SufVw1Mooau1OUsZCaEjKw
+ dzStMYUubQGUKybRTh+I7sEg6WIXSeRJoXUMRLGh12GBrfeNwugfqDmpKIfo4RK7/e/m
+ lEvSei9yyr8YJEwGhWK6QCRhVOnnAYUs2wl1Rl3hyGo9iLm5vD5R5BmtvvEZSGN/4zgh
+ Anqw==
+X-Gm-Message-State: AOAM5327AHYA9r2gOGhwAAMbIxQimqPXc1QinOlTXqQWp0rucrXOsVsG
+ TcRQdjvVrFroDTtzIIuF75ahqw==
+X-Google-Smtp-Source: ABdhPJxL6QS5GPBmazjALHYnM4xdvNh0o02VaeZGOu7HVmLd/hIzI6I35CQFOKltbdj+f3Qj+ash5A==
+X-Received: by 2002:a17:902:f78d:b0:14f:ce61:eaf2 with SMTP id
+ q13-20020a170902f78d00b0014fce61eaf2mr5079811pln.124.1645746989138; 
+ Thu, 24 Feb 2022 15:56:29 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- f16-20020a056a00229000b004a818f896b4sm537240pfe.53.2022.02.24.14.46.49
+ u6-20020a056a00098600b004e1ca129e1csm590755pfg.196.2022.02.24.15.56.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 14:46:51 -0800 (PST)
-Message-ID: <60ce1408-c219-7a02-e993-442bb254fe7c@linaro.org>
-Date: Thu, 24 Feb 2022 12:46:47 -1000
+ Thu, 24 Feb 2022 15:56:28 -0800 (PST)
+Message-ID: <bc2f558f-ae52-34ef-6901-3192f1d2fc45@linaro.org>
+Date: Thu, 24 Feb 2022 13:56:25 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/4] target/nios2: Shadow register set
+Subject: Re: [PATCH v2 2/4] target/nios2: Exteral Interrupt Controller (EIC)
 Content-Language: en-US
 To: Amir Gonnen <amir.gonnen@neuroblade.ai>, qemu-devel@nongnu.org,
  Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
  Marek Vasut <marex@denx.de>
 References: <20220224134901.500007-1-amir.gonnen@neuroblade.ai>
- <20220224134901.500007-2-amir.gonnen@neuroblade.ai>
+ <20220224134901.500007-3-amir.gonnen@neuroblade.ai>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220224134901.500007-2-amir.gonnen@neuroblade.ai>
+In-Reply-To: <20220224134901.500007-3-amir.gonnen@neuroblade.ai>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,72 +100,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/24/22 03:48, Amir Gonnen wrote:
-> +void helper_eret(CPUNios2State *env, uint32_t new_pc)
+> +static void nios2_cpu_set_eic_irq(Nios2CPU *cpu, int level)
 > +{
-> +    uint32_t crs = cpu_get_crs(env);
-> +    if (crs == 0) {
-> +        env->regs[CR_STATUS] = env->regs[CR_ESTATUS];
-> +    } else {
-> +        env->regs[CR_STATUS] = env->regs[R_SSTATUS];
-> +    }
-> +    cpu_change_reg_set(env, crs, cpu_get_crs(env));
-
-Hmm.  This could probably use a comment that the second computation of cpu_get_crs is 
-using the value just restored into CR_STATUS.
-
-
-> +void helper_wrprs(CPUNios2State *env, uint32_t reg_index, uint32_t value)
-> +{
-> +    uint32_t prs = cpu_get_prs(env);
-> +    env->shadow_regs[prs][reg_index] = value;
-> +}
+> +    CPUNios2State *env = &cpu->env;
+> +    CPUState *cs = CPU(cpu);
 > +
-> +uint32_t helper_rdprs(CPUNios2State *env, uint32_t reg_index)
-> +{
-> +    uint32_t prs = cpu_get_prs(env);
-> +    return env->shadow_regs[prs][reg_index];
+> +    env->irq_pending = level;
+> +
+> +    if (env->irq_pending && nios2_take_eic_irq(cpu)) {
+> +        env->irq_pending = 0;
+> +        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+> +    } else if (!env->irq_pending) {
+> +        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+> +    }
 > +}
 
-These are fairly easy to compute inline, e.g. for rdprs:
+This looks wrong.  Of course, so does nios2_cpu_set_irq, from which you've cribbed this.
 
-     TCGv_i32 t = tcg_temp_i32_new();
-     TCGv_ptr p = tcg_temp_ptr_new();
+(1) The unset of irq_pending looks wrong, though come to think of it, it's existence also 
+looks wrong.  I think that it's completely redundant with cpu->interrupt_request, and that 
+you should only use cpu_interrupt/cpu_reset_interrupt from this level.
 
-     tcg_gen_extract_i32(t, cpu_R[CR_STATUS],
-                         R_CR_STATUS_CRS_SHIFT,
-                         R_CR_STATUS_CRS_LENGTH);
-     tcg_gen_muli_i32(t, t, sizeof(uint32_t) * NUM_GP_REGS);
-     tcg_gen_ext_i32_ptr(p, t);
+Which also means that nios2_check_interrupts and callers all the way back up are also 
+incorrect.  All that should be required from wrctl status is the return to the main loop 
+that you get from DISAS_UPDATE and tcg_gen_exit_tb.
 
-     tcg_gen_add_ptr(p, p, cpu_env);
-     tcg_gen_ld_i32(t, p, offsetof(CPUNios2State, shadow_regs)
-                     + sizeof(uint32_t) * instr.a);
-     tcg_gen_addi_i32(cpu_R[instr.b], t, instr.imm16.s);
+Which also means that ipending is implemented incorrectly.  The current manipulation of 
+CR_IPENDING in nios2_cpu_set_irc should instead be manipulating an internal "external hw 
+request", per Figure 3-2 in NII51003.
 
-     tcg_temp_free_ptr(p);
-     tcg_temp_free_i32(o);
+For our purposes, I think simply re-using env->regs[CR_IPENDING] as the external hw 
+request word is the right thing to do.   But we need to update RDCTL to compute the 
+correct value from CR_IPENDING & CR_IENABLE, and update WRCTL to ignore writes.
 
-> +static void rdprs(DisasContext *dc, uint32_t code, uint32_t flags)
-> +{
-> +    I_TYPE(instr, code);
-> +    TCGv t = tcg_temp_new();
-> +    gen_helper_rdprs(t, cpu_env, tcg_const_i32(instr.a));
 
-You're missing a gen_check_supervisor here and in wrprs.
+(2) Checking nios2_take_eic_irq here, or CR_STATUS_PIE in nios2_cpu_set_irq is incorrect. 
+  If you check this here, then you'll miss the interrupt when the interrupt enable bit is 
+reset.  These checks belong in nios2_cpu_exec_interrupt.
 
->  static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
->  {
-> -    tcg_gen_mov_tl(cpu_R[CR_STATUS], cpu_R[CR_ESTATUS]);
-> -    tcg_gen_mov_tl(cpu_R[R_PC], cpu_R[R_EA]);
-> +    gen_helper_eret(cpu_env, cpu_R[R_EA]);
+> +    if (cpu->rnmi) {
+> +        return !(env->regs[CR_STATUS] & CR_STATUS_NMI);
+> +    }
 
-As an existing bug to be fixed by a separate patch, eret should also check for supervisor.
+I think this should be a separate
 
-> 
-> The contents of this email message and any attachments are intended solely for the addressee(s) and may contain confidential and/or privileged information and may be legally protected from disclosure. If you are not the intended recipient of this message or their agent, or if this message has been addressed to you in error, please immediately alert the sender by reply email and then delete this message and any attachments. If you are not the intended recipient, you are hereby notified that any use, dissemination, copying, or storage of this message or its attachments is strictly prohibited.
-> 
-
-You really need to suppress these footers when posting to a public mailing list.
+     #define CPU_INTERRUPT_NMI  CPU_INTERRUPT_TGT_EXT_0
 
 
 r~
