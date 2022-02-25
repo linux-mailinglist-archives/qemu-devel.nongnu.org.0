@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E335F4C4884
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 16:16:47 +0100 (CET)
-Received: from localhost ([::1]:42954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BC74C4851
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 16:08:26 +0100 (CET)
+Received: from localhost ([::1]:59608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNcKq-0006eL-03
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 10:16:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58090)
+	id 1nNcCm-00079V-V5
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 10:08:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=hxd0=TI=zx2c4.com=Jason@kernel.org>)
- id 1nNbzl-0005be-Gp
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 09:54:58 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:51038)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1nNc85-00048E-Rk
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 10:03:44 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:55644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=hxd0=TI=zx2c4.com=Jason@kernel.org>)
- id 1nNbzj-00029r-4o
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 09:54:57 -0500
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1nNc83-00041e-62
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 10:03:33 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6617E61607;
- Fri, 25 Feb 2022 14:54:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C72C340E7;
- Fri, 25 Feb 2022 14:54:49 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="KVOaVkaO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1645800888;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qE/ZWcS5laWbFfe6kS3CgvY+YPQ7FFHc3k15fj0mrEI=;
- b=KVOaVkaOu3r+Qp1WdK0zyPpBT7r2AjT2IjT7Nm8mLR9n6CbR5EX/G0eCvR9zZrR/5zSaHt
- /CZ+FaIO3789sgokItbqLEaLPJzLMHdPLARsfw8JqihocjrbnYc3X9aXUtF6jGn8nERzXw
- g2JWnL04850ISzo0Unco/uXtXvPFQBY=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 3e8c7660
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Fri, 25 Feb 2022 14:54:47 +0000 (UTC)
-Date: Fri, 25 Feb 2022 15:54:44 +0100
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Alexander Graf <graf@amazon.com>
-Subject: Re: [PATCH v4] virt: vmgenid: introduce driver for reinitializing
- RNG on VM fork
-Message-ID: <YhjttNadaaJzVa5X@zx2c4.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 238B461534
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 15:03:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A015C340F3
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 15:03:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645801407;
+ bh=8tgY1YkBbYTWTXyYR4O+XbrJwoQVpT2+sYNnsPtqvH0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=dw9ap3JVLMMql71K82hI4mKsP/7YHWQoyfv72bwQlBiAVWxaiwD1wRw3F+VZXEvvx
+ WQ875mGxuzYNn9YOGvOVhfM48/vJmXWbVWzJawe9/qtylmFhRFKzi/WIlticaLs2cM
+ AIsKthZYoQsa2oyxoCpZ4YjBqEKyMb9wcdQRk1xHNA53poMUthPP4xAVhwDjyRsWdQ
+ zUiWsfTNGn4gtWhCXAbO3yoH2GxxQrng0fLO7xpjNZyfrFAeZaNLFEQf/aFqJSVq2Q
+ N6ip6YngC/8NKzFuprepndLFjNKU7KXIMlZ5Hj7GkAhONkklJjut0MRGVV52yDZV2+
+ 8foGTd4vToHxA==
+Received: by mail-yb1-f176.google.com with SMTP id j2so6511025ybu.0
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 07:03:27 -0800 (PST)
+X-Gm-Message-State: AOAM530Q5e+m6BEd5zLiPw8TDnpZoyNoAbVHD6JH9mRekj9RoTxE8xI9
+ eFbB7KNmHoucoa22s1y1W+KIiUtyXrATpcygrGs=
+X-Google-Smtp-Source: ABdhPJwozR+tvIwdArnwynmJXvOgvPU8UZYk0FrDkdJKmQOdPasCTGp0ANalFhRoBVSWGK5vHEFvk0JS4lVatY3R8aA=
+X-Received: by 2002:a25:24ce:0:b0:61e:1276:bfcf with SMTP id
+ k197-20020a2524ce000000b0061e1276bfcfmr7488253ybk.299.1645801406586; Fri, 25
+ Feb 2022 07:03:26 -0800 (PST)
+MIME-Version: 1.0
 References: <CAHmME9pJ3wb=EbUErJrCRC=VYGhFZqj2ar_AkVPsUvAnqGtwwg@mail.gmail.com>
  <20220225124848.909093-1-Jason@zx2c4.com>
  <05c9f2a9-accb-e0de-aac7-b212adac7eb2@amazon.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 In-Reply-To: <05c9f2a9-accb-e0de-aac7-b212adac7eb2@amazon.com>
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=hxd0=TI=zx2c4.com=Jason@kernel.org;
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 25 Feb 2022 16:03:15 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGbP+NGjqLndPS7EO_sazyoN7ot5siCR5hPTJfNYU2SaQ@mail.gmail.com>
+Message-ID: <CAMj1kXGbP+NGjqLndPS7EO_sazyoN7ot5siCR5hPTJfNYU2SaQ@mail.gmail.com>
+Subject: Re: [PATCH v4] virt: vmgenid: introduce driver for reinitializing RNG
+ on VM fork
+To: Alexander Graf <graf@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=ardb@kernel.org;
  helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,45 +77,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org, mst@redhat.com,
- raduweis@amazon.com, qemu-devel@nongnu.org, linux@dominikbrodowski.net,
- kys@microsoft.com, ardb@kernel.org, wei.liu@kernel.org, sthemmin@microsoft.com,
- ben@skyportsystems.com, decui@microsoft.com, ebiggers@kernel.org,
- lersek@redhat.com, ehabkost@redhat.com, adrian@parity.io, jannh@google.com,
- haiyangz@microsoft.com, tytso@mit.edu, colmmacc@amazon.com,
- berrange@redhat.com, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-crypto@vger.kernel.org, imammedo@redhat.com, dwmw@amazon.co.uk
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, KVM list <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Weiss, Radu" <raduweis@amazon.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ KY Srinivasan <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, ben@skyportsystems.com,
+ Dexuan Cui <decui@microsoft.com>, Eric Biggers <ebiggers@kernel.org>,
+ Laszlo Ersek <lersek@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ adrian@parity.io, Jann Horn <jannh@google.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, "Theodore Y. Ts'o" <tytso@mit.edu>,
+ Colm MacCarthaigh <colmmacc@amazon.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-hyperv@vger.kernel.org,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Igor Mammedov <imammedo@redhat.com>, "Woodhouse, David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On Fri, 25 Feb 2022 at 14:58, Alexander Graf <graf@amazon.com> wrote:
+>
+>
+> On 25.02.22 13:48, Jason A. Donenfeld wrote:
+> >
+> > VM Generation ID is a feature from Microsoft, described at
+> > <https://go.microsoft.com/fwlink/?LinkId=3D260709>, and supported by
+> > Hyper-V and QEMU. Its usage is described in Microsoft's RNG whitepaper,
+> > <https://aka.ms/win10rng>, as:
+> >
+> >      If the OS is running in a VM, there is a problem that most
+> >      hypervisors can snapshot the state of the machine and later rewind
+> >      the VM state to the saved state. This results in the machine runni=
+ng
+> >      a second time with the exact same RNG state, which leads to seriou=
+s
+> >      security problems.  To reduce the window of vulnerability, Windows
+> >      10 on a Hyper-V VM will detect when the VM state is reset, retriev=
+e
+> >      a unique (not random) value from the hypervisor, and reseed the ro=
+ot
+> >      RNG with that unique value.  This does not eliminate the
+> >      vulnerability, but it greatly reduces the time during which the RN=
+G
+> >      system will produce the same outputs as it did during a previous
+> >      instantiation of the same VM state.
+> >
+> > Linux has the same issue, and given that vmgenid is supported already b=
+y
+> > multiple hypervisors, we can implement more or less the same solution.
+> > So this commit wires up the vmgenid ACPI notification to the RNG's newl=
+y
+> > added add_vmfork_randomness() function.
+> >
+> > It can be used from qemu via the `-device vmgenid,guid=3Dauto` paramete=
+r.
+> > After setting that, use `savevm` in the monitor to save the VM state,
+> > then quit QEMU, start it again, and use `loadvm`. That will trigger thi=
+s
+> > driver's notify function, which hands the new UUID to the RNG. This is
+> > described in <https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Ddocs/spec=
+s/vmgenid.txt>.
+> > And there are hooks for this in libvirt as well, described in
+> > <https://libvirt.org/formatdomain.html#general-metadata>.
+> >
+> > Note, however, that the treatment of this as a UUID is considered to be
+> > an accidental QEMU nuance, per
+> > <https://github.com/libguestfs/virt-v2v/blob/master/docs/vm-generation-=
+id-across-hypervisors.txt>,
+> > so this driver simply treats these bytes as an opaque 128-bit binary
+> > blob, as per the spec. This doesn't really make a difference anyway,
+> > considering that's how it ends up when handed to the RNG in the end.
+> >
+> > Cc: Adrian Catangiu <adrian@parity.io>
+> > Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> > Cc: Ard Biesheuvel <ardb@kernel.org>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > ---
+...
+> > +
+> > +       device->driver_data =3D state;
+> > +
+> > +out:
+> > +       ACPI_FREE(parsed.pointer);
+> > +       return ret;
+> > +}
+> > +
+> > +static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
+> > +{
+> > +       struct vmgenid_state *state =3D acpi_driver_data(device);
+> > +       u8 old_id[VMGENID_SIZE];
+> > +
+> > +       memcpy(old_id, state->this_id, sizeof(old_id));
+> > +       memcpy(state->this_id, state->next_id, sizeof(state->this_id));
+> > +       if (!memcmp(old_id, state->this_id, sizeof(old_id)))
+> > +               return;
+> > +       add_vmfork_randomness(state->this_id, sizeof(state->this_id));
+> > +}
+> > +
+> > +static const struct acpi_device_id vmgenid_ids[] =3D {
+> > +       { "VMGENID", 0 },
+> > +       { "QEMUVGID", 0 },
+>
+>
+> According to the VMGenID spec[1], you can only rely on _CID and _DDN for
+> matching. They both contain "VM_Gen_Counter". The list above contains
+> _HID values which are not an official identifier for the VMGenID device.
+>
+> IIRC the ACPI device match logic does match _CID in addition to _HID.
+> However, it is limited to 8 characters. Let me paste an experimental
+> hack I did back then to do the _CID matching instead.
+>
+> [1]
+> https://download.microsoft.com/download/3/1/C/31CFC307-98CA-4CA5-914C-D97=
+72691E214/VirtualMachineGenerationID.docx
+>
 
-Missed this remark before:
+I think matching on the HIDs of two known existing implementations is
+fine, as opposed to matching on the (broken) CID of any implementation
+that claims to be compatible with it. And dumping random strings into
+the _CID property doesn't mesh well with the ACPI spec either, which
+is why we don't currently support it.
 
-On Fri, Feb 25, 2022 at 02:57:38PM +0100, Alexander Graf wrote:
-> Please expose the vmgenid via /sysfs so that user space even remotely 
-> has a chance to check if it's been cloned.
-
-No. Did you read the 0/2 cover letter? I'll quote it for you here:
-
-> As a side note, this series intentionally does _not_ focus on
-> notification of these events to userspace or to other kernel consumers.
-> Since these VM fork detection events first need to hit the RNG, we can
-> later talk about what sorts of notifications or mmap'd counters the RNG
-> should be making accessible to elsewhere. But that's a different sort of
-> project and ties into a lot of more complicated concerns beyond this
-> more basic patchset. So hopefully we can keep the discussion rather
-> focused here to this ACPI business.
-
-What about that was unclear to you?
-
-Anyway, it's a different thing that will have to be designed and
-considered carefully, and that design doesn't have a whole lot to do
-with this little driver here, except insofar as it could build on top of
-it in one way or another. Yes, it's an important thing to do. No, I'm
-not going to do it in this patch here. If you want to have a discussion
-about that, start a different thread.
-
-Thanks,
-Jason
+We could still check _DDN if we wanted to, but I don't think this is
+necessary. Other implementations that want to target his driver
+explicitly can always put VMGENID or QEMUVGID into the _CID.
 
