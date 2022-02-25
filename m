@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3C94C45AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 14:16:06 +0100 (CET)
-Received: from localhost ([::1]:43644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929DD4C46A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 14:36:52 +0100 (CET)
+Received: from localhost ([::1]:60604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNaS1-0006ZJ-HU
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 08:16:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59846)
+	id 1nNam8-0001pj-NT
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 08:36:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNa8r-0002JA-0I
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:56:14 -0500
-Received: from [2607:f8b0:4864:20::b2b] (port=33662
- helo=mail-yb1-xb2b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNa8n-0000kA-E0
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:56:12 -0500
-Received: by mail-yb1-xb2b.google.com with SMTP id j2so5783017ybu.0
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 04:56:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=S5ibQE5YsoAV9Hk7A0sBJlrtaY8slmsUqz0JqJ2qUns=;
- b=hAy+LIKbUtKxGkoyY5Gqjc5GGPU6fxB/i0zR3VFiKA97Ur0yKGW1tyNOKiXbfEmNAE
- MCmmVUYvVBfd6CX6FFvuobN9psxuhWur9h0S7Nd4cz12yTLvdPuTR6X24EPgJORA9apt
- BIfH+mhqfk92Od+qApr/qZgFzs2xDHkYJhp3iHaEwQD09spAjmEbXg5Pbb9oxqob5bRg
- 37+bNNOndGxJdRB7Z5mayz9K6jx9KgzP7l2ha6IOBIFmclNtkn6av8hFXQuQ25el1QOS
- 787j30FOnFa4WZRNKQsLa45aAd/+NMDQM0PwCS6Fn0xpABXz5W8EI+HwhNWlZAZ8XoQV
- O2qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=S5ibQE5YsoAV9Hk7A0sBJlrtaY8slmsUqz0JqJ2qUns=;
- b=AQwx1pJpRgrI+W0+DA3Wzo0GbjzBDHU/P+xVvss04MDQsTkHew68VIoqGJERRL+MpT
- qO5DP3VCkZtGNgPwpC2ydi8awZ0CjwoigzYppmU0W00cfXuQH9UTAoRT6Sfji+aCwAIP
- Ins0HEJ5kIQHBGQQ/DW6VO8Fv4uUnKFVtl0Kc/izYHymQG1PtzgmltYobrQtZzIKyxWb
- WfXZEJ4bNPHeuMjD8B3vE1clM/7frZGBjWCmFdcqHro3vm8SwAz5GfoDaZYPp5m850WW
- WhAUd511VfOxuWP6Cczq3yR61/4MZfAmTI5ezl0aG26GnnQgllwzRvOs5ztaPuLaedo4
- BgxQ==
-X-Gm-Message-State: AOAM5336eo2lSXqPmCRcmm6uWa7JF6rqDouVn3U50rouAQoeYBjY082T
- Gotp4CqGtcRnOybaXL08vz2dQnm2mSE1w6qPf69kHA==
-X-Google-Smtp-Source: ABdhPJx+lNilzW/pjELS6u7Kb4IkncAvxL3TeD+jpd+dUgctoLc5syQKRIkGmSMnqQK3dobKy+Vh9UE+siR45BNx42A=
-X-Received: by 2002:a25:8084:0:b0:5fe:cadd:2532 with SMTP id
- n4-20020a258084000000b005fecadd2532mr7064249ybk.193.1645793768607; Fri, 25
- Feb 2022 04:56:08 -0800 (PST)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hxd0=TI=zx2c4.com=Jason@kernel.org>)
+ id 1nNa9Y-0003J2-Nd
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:56:56 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:54956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hxd0=TI=zx2c4.com=Jason@kernel.org>)
+ id 1nNa9V-0000oz-Uc
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:56:56 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 12DB061C03
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 12:56:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394C9C340E8
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 12:56:52 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="enMYkBkI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1645793808;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XssgunSt6iK78jyshO3hMq9+wDKO/OCGHO1mFFLrZQQ=;
+ b=enMYkBkIudB/0krPIVVLhzRClwGqp92bzymz3GlaPY/CynpKIXYX03wKBGZ52ZVCe9Eujn
+ kgPdqeLrCuQURxB1lO3tnKlABuuou7tz8M7L/27vzfUSx9/E+GZStDwJkrdcK/PldDBDFn
+ 5MO5bLzFBsxUJCj89tpuB1ncnSfIF98=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b88a2751
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Fri, 25 Feb 2022 12:56:48 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id e140so5677760ybh.9
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 04:56:47 -0800 (PST)
+X-Gm-Message-State: AOAM531UC1YFAB7lU4+UZXMqufW0H/ZxZoSrGSjpvkgvvHhFeuyeuP65
+ cmxGTuyiaecHpgOhU/zMi7Zbs4FTAPUS0y8BzYI=
+X-Google-Smtp-Source: ABdhPJy+bf9nC/iTENWy4XIXFN5EQ0KO9hqlk22myA/sDhwpstQSK4hOUUQQu7RToXFr7rymY6Q0NMRfSY8co9VWFh4=
+X-Received: by 2002:a25:d116:0:b0:61d:e8c9:531e with SMTP id
+ i22-20020a25d116000000b0061de8c9531emr7032586ybg.637.1645793805904; Fri, 25
+ Feb 2022 04:56:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20220214185605.28087-1-f4bug@amsat.org>
- <20220214185605.28087-16-f4bug@amsat.org>
-In-Reply-To: <20220214185605.28087-16-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Feb 2022 12:55:57 +0000
-Message-ID: <CAFEAcA-jDpukrey8mpbA+5MJ9kzT5nJ+LJCWybf9aPkN_G=6Sw@mail.gmail.com>
-Subject: Re: [PATCH v5 15/16] lcitool: refresh
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+References: <CAHmME9pJ3wb=EbUErJrCRC=VYGhFZqj2ar_AkVPsUvAnqGtwwg@mail.gmail.com>
+ <20220225124848.909093-1-Jason@zx2c4.com> <YhjRVz2184xhkZK3@kroah.com>
+In-Reply-To: <YhjRVz2184xhkZK3@kroah.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Fri, 25 Feb 2022 13:56:35 +0100
+X-Gmail-Original-Message-ID: <CAHmME9pGuPEWjr+RLFQi-kKcRuPxmCYyzAJOJtgx+5phwmkZ6Q@mail.gmail.com>
+Message-ID: <CAHmME9pGuPEWjr+RLFQi-kKcRuPxmCYyzAJOJtgx+5phwmkZ6Q@mail.gmail.com>
+Subject: Re: [PATCH v4] virt: vmgenid: introduce driver for reinitializing RNG
+ on VM fork
+To: Greg KH <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=hxd0=TI=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,72 +85,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <lizhang@suse.de>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: linux-hyperv@vger.kernel.org, KVM list <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Weiss, Radu" <raduweis@amazon.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "K . Y . Srinivasan" <kys@microsoft.com>, Ard Biesheuvel <ardb@kernel.org>,
+ Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ ben@skyportsystems.com, Dexuan Cui <decui@microsoft.com>,
+ Eric Biggers <ebiggers@kernel.org>, Laszlo Ersek <lersek@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, adrian@parity.io,
+ Jann Horn <jannh@google.com>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Alexander Graf <graf@amazon.com>, Theodore Ts'o <tytso@mit.edu>,
+ Colm MacCarthaigh <colmmacc@amazon.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Igor Mammedov <imammedo@redhat.com>, "Woodhouse, David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Feb 2022 at 18:58, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Fri, Feb 25, 2022 at 1:53 PM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  tests/docker/dockerfiles/ubuntu1804.docker | 2 --
->  tests/docker/dockerfiles/ubuntu2004.docker | 2 --
->  2 files changed, 4 deletions(-)
+> On Fri, Feb 25, 2022 at 01:48:48PM +0100, Jason A. Donenfeld wrote:
+> > +static struct acpi_driver acpi_driver = {
+> > +     .name = "vmgenid",
+> > +     .ids = vmgenid_ids,
+> > +     .owner = THIS_MODULE,
+> > +     .ops = {
+> > +             .add = vmgenid_acpi_add,
+> > +             .notify = vmgenid_acpi_notify,
+> > +     }
+> > +};
+> > +
+> > +static int __init vmgenid_init(void)
+> > +{
+> > +     return acpi_bus_register_driver(&acpi_driver);
+> > +}
+> > +
+> > +static void __exit vmgenid_exit(void)
+> > +{
+> > +     acpi_bus_unregister_driver(&acpi_driver);
+> > +}
+> > +
+> > +module_init(vmgenid_init);
+> > +module_exit(vmgenid_exit);
+>
+> Nit, you could use module_acpi_driver() to make this even smaller if you
+> want to.
 
-What's happening here? The commit message only has a very brief
-subject and the patch changes don't seem to match up with it.
+Nice! Will do.
 
-> diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/do=
-ckerfiles/ubuntu1804.docker
-> index 699f2dfc6a..040938277a 100644
-> --- a/tests/docker/dockerfiles/ubuntu1804.docker
-> +++ b/tests/docker/dockerfiles/ubuntu1804.docker
-> @@ -65,7 +65,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
->              libpam0g-dev \
->              libpcre2-dev \
->              libpixman-1-dev \
-> -            libpmem-dev \
->              libpng-dev \
->              libpulse-dev \
->              librbd-dev \
-> @@ -89,7 +88,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
->              libvdeplug-dev \
->              libvirglrenderer-dev \
->              libvte-2.91-dev \
-> -            libxen-dev \
->              libzstd-dev \
->              llvm \
->              locales \
-> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/do=
-ckerfiles/ubuntu2004.docker
-> index 87513125b8..159e7f60c9 100644
-> --- a/tests/docker/dockerfiles/ubuntu2004.docker
-> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
-> @@ -66,7 +66,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
->              libpam0g-dev \
->              libpcre2-dev \
->              libpixman-1-dev \
-> -            libpmem-dev \
->              libpng-dev \
->              libpulse-dev \
->              librbd-dev \
-> @@ -91,7 +90,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
->              libvdeplug-dev \
->              libvirglrenderer-dev \
->              libvte-2.91-dev \
-> -            libxen-dev \
->              libzstd-dev \
->              llvm \
->              locales \
-> --
-> 2.34.1
-
-thanks
--- PMM
+Jason
 
