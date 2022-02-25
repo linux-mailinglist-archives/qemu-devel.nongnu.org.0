@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027DE4C4167
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:26:22 +0100 (CET)
-Received: from localhost ([::1]:36142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E40B4C4181
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:34:29 +0100 (CET)
+Received: from localhost ([::1]:43768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNWrj-00081H-Qp
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:26:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52418)
+	id 1nNWzb-00050t-Tx
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:34:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nNW1s-0004ca-J3
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nNW1t-0004cl-Nd
  for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:32:50 -0500
-Received: from [2607:f8b0:4864:20::436] (port=46955
- helo=mail-pf1-x436.google.com)
+Received: from [2607:f8b0:4864:20::102c] (port=34511
+ helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nNW1o-0002uv-K5
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:32:43 -0500
-Received: by mail-pf1-x436.google.com with SMTP id i21so4068157pfd.13
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 00:32:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nNW1q-0002v3-5W
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:32:45 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ gl14-20020a17090b120e00b001bc2182c3d5so7056315pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 00:32:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+a1/AvqQIHRNVAxSn1EGU2MopJ+WOc+lm0G/tKcRReY=;
- b=JRJZdVx74yTmLburHoDuQ0mq7ttaVuLJ5HoAFlFRlzm6+3EFdpHSHEZG/ZH6mRqGPK
- y6bnTY3RJ+PMd1KUGvqm786p2IYjLgM34FoZ+iGaXMPXglxRB0DLqayHXqUXd7fEUIoy
- a4/J0xuT9yBvQz4/4FZfz+eGt78uDyDaj6PP7k37m3t/6RxZI/gEpMe5FAWMIAcsGIkX
- qEfe0l/qA3KGQP9oE61v7b02V1O5pCJ6J13T/PLECmJs9Y3XjlIXiEV9QItM9o99TINI
- d20GKJVr3dO80v1hi2pEFc4nWinEUpfgIQIY5vjByyR41gD+GMi0Cn0hf7G3qvHFO6p3
- 4ydg==
+ bh=IRWwYIpH79WnXrvA95iIW6INZqQLTad2HjWVVpgkLC0=;
+ b=d2vYCXBUwAUdtwRb8+lixc3GqHHLg5JstEinwApB7pgg23hA8rbgY0Sy17Fe+1vcAp
+ VyJorYTrC5Og/KD6fgDnaHQMc+ya/DbkcQzu68eVzb3OrnzcWaNLHbF+SPJdktzXsCz/
+ UTOp+JJ5RGvhF6Thay3qOipiF1ZsQNdexr6J8Sm26RLTJw4afkTA7gFcw7vXuxgfZwej
+ M8d3zAjyVlI+y5NWAsTJtgjB6agV9KW3NRIJy0dJtPcdIdvD+43GpsSddQSOV0nbbI+f
+ 9t3S43z742ziQYOBcmM863oZNVUnu8AR5DD/zrbDgjYPKZTByBO5NykVbnMKiqfjcwtB
+ Udeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+a1/AvqQIHRNVAxSn1EGU2MopJ+WOc+lm0G/tKcRReY=;
- b=PxmDv17y5tltYQqm33VlNEO2V7R+gFcwZqKvGirA//1aISqueF9kgwEyG7OjAXe83o
- mFU7d7qzaBnpdyB/BjuJcalnDiDuB3y59EYjKD2h5B9RRX8+bpUyECxo4Q8D05zgxmUq
- PZsh7WzZJlwM43AyU14CdvVJ6CA/7q9VwbbhxxY9bvXdcUeD5WeULZXNLOuBSgIZipgl
- 5KQunPJIVuUO8Q7th0M6p5azBbx38un9o365cXJFi2dLpTIDpfh7KMYSE7mZv6RE+lk9
- kg02BVd/HHOolpXPPOwZHzn5RiPDuwbbhRkmWkW9HQwR5xXIy8NGEz/Ua9IIePS5YPw3
- hS2A==
-X-Gm-Message-State: AOAM5334HB3yqYh3xdXzEFleC+JQF5FmA4mEgYV43H0/pGeF+Vbzi3Br
- NGo1xCQqwsf6Msu5eiw0ch9mTuSkIffHrRRp
-X-Google-Smtp-Source: ABdhPJyfHqfDUriPxysx1Mcrw/PKeNd6vTiWag5H91FJzVOPjjsB6Q3vo2Tvc8PjdR+eSWYBWkXAtQ==
-X-Received: by 2002:a65:5941:0:b0:375:9bfd:473d with SMTP id
- g1-20020a655941000000b003759bfd473dmr3825378pgu.348.1645777956936; 
- Fri, 25 Feb 2022 00:32:36 -0800 (PST)
+ bh=IRWwYIpH79WnXrvA95iIW6INZqQLTad2HjWVVpgkLC0=;
+ b=ey1V9nESJr1BKxfyBUafoIPlYgR2te4M5jtAKlrnZ8yVSrIzJk7o47k7hpRXy6uoZn
+ jBRUR3e6+sDierJHqUyUE88iBBd7SWRObCbRaiSFsJ1yGOJbVVzZUK86wnw8lMyij7VK
+ zao95CXY+o/nv0gK1AzSztNqc/A8QnJ1wwpLRZ6wD7sIdasfUgy3ujoLeXXPj/z93nH6
+ h7k26iBoOGL4OM//okowwejV5uZ74aAJ4A7P5RwKked8M+qT7tMZP1kvUjbm38NYRB9V
+ Hg3JXwvyYfxF3y58k+8df4oulOP1YjHogKn/b7iYb+U/DyytNlo4FXyrH1QonNnt63QL
+ dHjg==
+X-Gm-Message-State: AOAM531hYUJwoupIH5/pqa4tueJJA/OWZYbLzDwNMMNC5/LE6gub2QH6
+ xaGM4l45OwkB3m1+rLXVoxntIDoomqWhWeL0
+X-Google-Smtp-Source: ABdhPJzIAaq/Fp1ckAgbgC7UMnjuCx9aGEB4S91f68yiwsDDMTY0MgigZKSEbQNAMNS5S0a8LNvujg==
+X-Received: by 2002:a17:902:e289:b0:14f:ffd3:29bc with SMTP id
+ o9-20020a170902e28900b0014fffd329bcmr6463021plc.35.1645777959979; 
+ Fri, 25 Feb 2022 00:32:39 -0800 (PST)
 Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
  by smtp.gmail.com with ESMTPSA id
- j9-20020a056a00174900b004dff2f1526fsm1505235pfc.122.2022.02.25.00.32.35
+ o7-20020a63f147000000b00373facf1083sm1769463pgk.57.2022.02.25.00.32.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 00:32:36 -0800 (PST)
+ Fri, 25 Feb 2022 00:32:39 -0800 (PST)
 From: Stafford Horne <shorne@gmail.com>
 To: QEMU Development <qemu-devel@nongnu.org>
-Subject: [PULL 2/6] hw/openrisc/openrisc_sim: Parameterize initialization
-Date: Fri, 25 Feb 2022 17:32:18 +0900
-Message-Id: <20220225083222.1174517-3-shorne@gmail.com>
+Subject: [PULL 3/6] hw/openrisc/openrisc_sim: Use IRQ splitter when connecting
+ UART
+Date: Fri, 25 Feb 2022 17:32:19 +0900
+Message-Id: <20220225083222.1174517-4-shorne@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220225083222.1174517-1-shorne@gmail.com>
 References: <20220225083222.1174517-1-shorne@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=shorne@gmail.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=shorne@gmail.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,84 +89,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stafford Horne <shorne@gmail.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stafford Horne <shorne@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move magic numbers to variables and enums. These will be reused for
-upcoming fdt initialization.
+Currently the OpenRISC SMP configuration only supports 2 cores due to
+the UART IRQ routing being limited to 2 cores.  As was done in commit
+1eeffbeb11 ("hw/openrisc/openrisc_sim: Use IRQ splitter when connecting
+IRQ to multiple CPUs") we can use a splitter to wire more than 2 CPUs.
+
+This patch moves serial initialization out to it's own function and
+uses a splitter to connect multiple CPU irq lines to the UART.
 
 Signed-off-by: Stafford Horne <shorne@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/openrisc/openrisc_sim.c | 42 ++++++++++++++++++++++++++++++--------
- 1 file changed, 34 insertions(+), 8 deletions(-)
+ hw/openrisc/openrisc_sim.c | 32 ++++++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 8 deletions(-)
 
 diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-index 26d2370e60..d12b3e0c5e 100644
+index d12b3e0c5e..5bfbac00f8 100644
 --- a/hw/openrisc/openrisc_sim.c
 +++ b/hw/openrisc/openrisc_sim.c
-@@ -49,6 +49,29 @@ typedef struct Or1ksimState {
+@@ -137,6 +137,28 @@ static void openrisc_sim_ompic_init(hwaddr base, int num_cpus,
+     sysbus_mmio_map(s, 0, base);
+ }
  
- } Or1ksimState;
- 
-+enum {
-+    OR1KSIM_DRAM,
-+    OR1KSIM_UART,
-+    OR1KSIM_ETHOC,
-+    OR1KSIM_OMPIC,
-+};
++static void openrisc_sim_serial_init(hwaddr base, int num_cpus,
++                                     OpenRISCCPU *cpus[], int irq_pin)
++{
++    qemu_irq serial_irq;
++    int i;
 +
-+enum {
-+    OR1KSIM_OMPIC_IRQ = 1,
-+    OR1KSIM_UART_IRQ = 2,
-+    OR1KSIM_ETHOC_IRQ = 4,
-+};
++    if (num_cpus > 1) {
++        DeviceState *splitter = qdev_new(TYPE_SPLIT_IRQ);
++        qdev_prop_set_uint32(splitter, "num-lines", num_cpus);
++        qdev_realize_and_unref(splitter, NULL, &error_fatal);
++        for (i = 0; i < num_cpus; i++) {
++            qdev_connect_gpio_out(splitter, i, get_cpu_irq(cpus, i, irq_pin));
++        }
++        serial_irq = qdev_get_gpio_in(splitter, 0);
++    } else {
++        serial_irq = get_cpu_irq(cpus, 0, irq_pin);
++    }
++    serial_mm_init(get_system_memory(), base, 0, serial_irq, 115200,
++                   serial_hd(0), DEVICE_NATIVE_ENDIAN);
++}
 +
-+static const struct MemmapEntry {
-+    hwaddr base;
-+    hwaddr size;
-+} or1ksim_memmap[] = {
-+    [OR1KSIM_DRAM] =      { 0x00000000,          0 },
-+    [OR1KSIM_UART] =      { 0x90000000,      0x100 },
-+    [OR1KSIM_ETHOC] =     { 0x92000000,      0x800 },
-+    [OR1KSIM_OMPIC] =     { 0x98000000,         16 },
-+};
 +
- static struct openrisc_boot_info {
-     uint32_t bootstrap_pc;
- } boot_info;
-@@ -176,21 +199,24 @@ static void openrisc_sim_init(MachineState *machine)
-     memory_region_add_subregion(get_system_memory(), 0, ram);
+ static void openrisc_load_kernel(ram_addr_t ram_size,
+                                  const char *kernel_filename)
+ {
+@@ -177,7 +199,6 @@ static void openrisc_sim_init(MachineState *machine)
+     const char *kernel_filename = machine->kernel_filename;
+     OpenRISCCPU *cpus[2] = {};
+     MemoryRegion *ram;
+-    qemu_irq serial_irq;
+     int n;
+     unsigned int smp_cpus = machine->smp.cpus;
  
-     if (nd_table[0].used) {
--        openrisc_sim_net_init(0x92000000, 0x92000400, smp_cpus,
--                              cpus, 4, nd_table);
-+        openrisc_sim_net_init(or1ksim_memmap[OR1KSIM_ETHOC].base,
-+                              or1ksim_memmap[OR1KSIM_ETHOC].base + 0x400,
-+                              smp_cpus, cpus,
-+                              OR1KSIM_ETHOC_IRQ, nd_table);
-     }
- 
+@@ -208,15 +229,10 @@ static void openrisc_sim_init(MachineState *machine)
      if (smp_cpus > 1) {
--        openrisc_sim_ompic_init(0x98000000, smp_cpus, cpus, 1);
-+        openrisc_sim_ompic_init(or1ksim_memmap[OR1KSIM_OMPIC].base, smp_cpus,
-+                                cpus, OR1KSIM_OMPIC_IRQ);
- 
--        serial_irq = qemu_irq_split(get_cpu_irq(cpus, 0, 2),
--                                    get_cpu_irq(cpus, 1, 2));
-+        serial_irq = qemu_irq_split(get_cpu_irq(cpus, 0, OR1KSIM_UART_IRQ),
-+                                    get_cpu_irq(cpus, 1, OR1KSIM_UART_IRQ));
-     } else {
--        serial_irq = get_cpu_irq(cpus, 0, 2);
-+        serial_irq = get_cpu_irq(cpus, 0, OR1KSIM_UART_IRQ);
+         openrisc_sim_ompic_init(or1ksim_memmap[OR1KSIM_OMPIC].base, smp_cpus,
+                                 cpus, OR1KSIM_OMPIC_IRQ);
+-
+-        serial_irq = qemu_irq_split(get_cpu_irq(cpus, 0, OR1KSIM_UART_IRQ),
+-                                    get_cpu_irq(cpus, 1, OR1KSIM_UART_IRQ));
+-    } else {
+-        serial_irq = get_cpu_irq(cpus, 0, OR1KSIM_UART_IRQ);
      }
  
--    serial_mm_init(get_system_memory(), 0x90000000, 0, serial_irq,
--                   115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
-+    serial_mm_init(get_system_memory(), or1ksim_memmap[OR1KSIM_UART].base, 0,
-+                   serial_irq, 115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
+-    serial_mm_init(get_system_memory(), or1ksim_memmap[OR1KSIM_UART].base, 0,
+-                   serial_irq, 115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
++    openrisc_sim_serial_init(or1ksim_memmap[OR1KSIM_UART].base, smp_cpus, cpus,
++                             OR1KSIM_UART_IRQ);
  
      openrisc_load_kernel(ram_size, kernel_filename);
  }
