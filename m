@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EAD4C4FB1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 21:33:15 +0100 (CET)
-Received: from localhost ([::1]:42852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598DA4C4FBD
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 21:37:55 +0100 (CET)
+Received: from localhost ([::1]:46694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNhH8-0003Yj-U2
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 15:33:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53422)
+	id 1nNhLd-0006Hx-W5
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 15:37:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNhDH-0001It-2z
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:29:15 -0500
-Received: from [2607:f8b0:4864:20::529] (port=38583
- helo=mail-pg1-x529.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nNhKX-000560-6M
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:36:45 -0500
+Received: from [2a00:1450:4864:20::536] (port=46764
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNhDE-00036m-V2
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:29:14 -0500
-Received: by mail-pg1-x529.google.com with SMTP id 132so5616293pga.5
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 12:29:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=UlZKqpYTL5W3qKjYU35tLGjDJd8c9HVJH4OUgD1WjWg=;
- b=WT9ZYefAlKxr+RMKN0U3e3B8NbTwk0aQPHelzHRW4FoqN69GhIVrLFgLGc3OtgTgkG
- Uo9Rm2aC+Xng0MhLHRf2HEJpKFfFEoHCTtnpz4mEFt1zxsxAUhnSxrxoi1Z+Q1XENrek
- b5W2KlwFemJVldNx4PeivjJDoJCCE+Ek6353nqoI3SZ+rm095scOnXVwRZ+8rCZPk4Pi
- i6swnM4KXmvI5dXdGaWTer+mA3IwSILN8Kg2N71LhtMzTID1YnGwtHsSTOIowV98zS+W
- Y2B1aqao7f4wPjbkN/ZwwKSC5XyTUelNQrj2BBl+wBLuu7k6Zk7a7yke6PlW5Lzo3TwX
- PAMQ==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nNhKI-0004FM-9U
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:36:44 -0500
+Received: by mail-ed1-x536.google.com with SMTP id s1so8955441edd.13
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 12:36:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:subject:in-reply-to:references:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eZ6TNOVAhwmuFXFNsmYwOvZi5IK7cgRUR/v9Ql8N3es=;
+ b=po+SViT1FnzqdZuiLc+WioFfCZYiJ+I4uze/l9ptFrFP9OwpiqmOg8WZXRssll1AZY
+ TYt0ThvuGfbPMtpWhwJE4JnJ/A3uC5JTyI8DtJhdbuR0CEV+J4yAJSS7UPlUgOKZkTF3
+ rPcpT17IY7Wtv/LVxZJDvlwn84jZt3LGsOgUftsESPBa/num6TG8BcgqthZB2C+dS+F1
+ zn6mIczrjgQ1mczcgf5E0hcQD2RzDe3Ro7R2cKvRDnlr1uPn4KxmX/+zeOdwJvGExH/z
+ TYBc1uaymTK4l3XCpOUnppde+iNRZqRHhF0Tmzui/EWDQhEbsZqVLRPLlu7Or+GxFrbM
+ DQGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UlZKqpYTL5W3qKjYU35tLGjDJd8c9HVJH4OUgD1WjWg=;
- b=tTzfVvlP15h45Hepy1ZgNoNBE1uNxltH/e9mL3xJ9W0IQiMlvr+TEiV2bJH9+W2L1q
- iQbjVNYJOwJaZ3KkMr+QQtQajTPgZBRhIVWbmDQj6eB8tCeA6uKHys0lG7nF5BJYM4Ko
- w1pNfdi6gPqA3VFLqYgDsu6E3AgcnBkDmbatbwI7KFapXjLI3Fg+6y/NJxhtSrXVS6AM
- NDRT2EtFAZA0AOc2p7KczM/Ew/KyzmgsVQ0h99MMkw9dp8daoqN1+y0udXllQhqWZSzW
- ugHy2TTmA5Lp/tOCaWMnhqBimKUtfcrguyaBdbd0eZ6WWoZyMLTjI0kRWclsQK5QUWh8
- ARqQ==
-X-Gm-Message-State: AOAM531yG7g6y9VJsZfnjMZVlgIjTQ4bjZXRaleUonvlcNCVFcGsmmwh
- xCLSxGm82LevKdzIWfKtH4IbJg==
-X-Google-Smtp-Source: ABdhPJzxerlQkWWfuI9uiOPMHIYb5TUZ9w9DbSoxX53NQl9dlgvpB41k/E9iYKtuYuCrSSUmeBpj7w==
-X-Received: by 2002:a05:6a00:148f:b0:4bc:fb2d:4b6f with SMTP id
- v15-20020a056a00148f00b004bcfb2d4b6fmr9290408pfu.62.1645820951410; 
- Fri, 25 Feb 2022 12:29:11 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- d3-20020a056a00244300b004bc9397d3d0sm4105791pfj.103.2022.02.25.12.29.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 12:29:10 -0800 (PST)
-Message-ID: <646ce3cb-6320-92c0-fc6f-c3c6e2581266@linaro.org>
-Date: Fri, 25 Feb 2022 10:29:08 -1000
+ h=x-gm-message-state:date:from:to:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=eZ6TNOVAhwmuFXFNsmYwOvZi5IK7cgRUR/v9Ql8N3es=;
+ b=m7MWJ6q2hp+AQq4oxPgS6xS7doKr7xS/VLxQsJDwfW4wh2SdkfV+ooYh5FGjdBbhPd
+ S+D075S2carvVCEpNjTMGF0u5o+aYWbI7x7+JptU15Y9iQud3xXZNXb3rMDE4/N/uH80
+ rub0MKd/qZ4hcP8cLtxtZxtCDDeZ+fg0XTxnqI0FTTzWGThZ1AxVMWhHbVdEj73wpAEj
+ gjBTDSf67gh4KOuz2wWeztqajyD49FiomRuyecmdFUGINfJz1LB/r6RhJmAVTHbKWj2F
+ 8Q6keITmlWU72lb6H12xAXA7mmf+C1aIiB3mIvdHm7XybzInUzkSISG6JemiYPmWJRd8
+ z5RA==
+X-Gm-Message-State: AOAM530Kh3Qh2YxH0q7KLtf2+Hx+/SRJN/t165ZJZArnIHIa9Ctnh/Gy
+ 11abI8CCrWxfrpvxv0wI0Zi+JHYS4aE=
+X-Google-Smtp-Source: ABdhPJy1dpqdh4ZaQedoFiHGerEe9NZSpmU3oEs/0CAH9UNu618L+8xG20ox2IBv9NylxPKC3BQtkA==
+X-Received: by 2002:a50:d5d6:0:b0:413:4be5:8ec1 with SMTP id
+ g22-20020a50d5d6000000b004134be58ec1mr8815701edj.383.1645821380112; 
+ Fri, 25 Feb 2022 12:36:20 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-078-054-087-117.78.54.pool.telefonica.de.
+ [78.54.87.117]) by smtp.gmail.com with ESMTPSA id
+ b6-20020a50e386000000b00410d64cb3e4sm1933790edm.75.2022.02.25.12.36.19
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 25 Feb 2022 12:36:19 -0800 (PST)
+Date: Fri, 25 Feb 2022 20:36:16 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_0/7=5D_malta=3A_Fix_PCI_IRQ_level?=
+ =?US-ASCII?Q?s_to_be_preserved_during_migration=2C_cleanup?=
+In-Reply-To: <20220217101924.15347-1-shentey@gmail.com>
+References: <20220217101924.15347-1-shentey@gmail.com>
+Message-ID: <2F99BEF0-8E45-40C6-B143-1976938E9E9C@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 16/18] tests/tcg: completely disable threadcount for sh4
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220225172021.3493923-1-alex.bennee@linaro.org>
- <20220225172021.3493923-17-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220225172021.3493923-17-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::529
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,17 +91,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/22 07:20, Alex Bennée wrote:
-> The previous disabling of threadcount 3bdc19af00 ("tests/tcg/sh4:
-> disable another unreliable test") just for plugins was being too
-> conservative. It's all broken so skip it.
-> 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   tests/tcg/sh4/Makefile.target | 2 ++
->   1 file changed, 2 insertions(+)
+Am 17=2E Februar 2022 10:19:17 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>Tested with [1]:
+>
+>  qemu-system-mipsel -M malta -kernel vmlinux-3=2E2=2E0-4-4kc-malta -hda =
+\
+>  debian_wheezy_mipsel_standard=2Eqcow2 -append "root=3D/dev/sda1 console=
+=3Dtty0"
+>
+>It was possible to log in as root and `poweroff` the machine=2E
+>
+>[1] https://people=2Edebian=2Eorg/~aurel32/qemu/mips/
+>
+>
+>v4:
+>  As suggested by BALATON Zoltan, gt64120_register() is now resolved by
+>    sysbus_create_simple() etc=2E This also fixes the nitpick pointed out=
+ by
+>    Philippe=2E
+>
+>v3:
+>  The migration bug now gets fixed in gt64xxx_pci before any cleanup=2E A=
+s
+>    suggested by PMM the patch is based on commit e735b55a8c11=2E
+>  The code movement patch now moves the already fixed code=2E I might be =
+a bit
+>    too conservative here by removing Philippe's Reviewed-By tag=2E
+>  As suggested by BALATON Zoltan, the redundant i8259[] attribute is now
+>    resolved immediately after the code movement=2E As a side effect, it =
+also
+>    removes moved code which doesn't adhere to the coding style (local lo=
+op
+>    variable)=2E
+>  To address BALATON Zoltan's comment and to reduce the number of require=
+d
+>    Reviewed-By's, only piix4_set_irq() is modified to expect own DeviceS=
+tate
+>    paremeter=2E Up to v2, all remaining set_irq() functions were changed=
+ this
+>    way=2E
+>  The patch resolving piix4's singleton variable got split into two patch=
+es:
+>    One which resolves the singleton variable and one which replaces magi=
+c
+>    constants=2E The split patches should be more comprehensible=2E
+>  Suggested by BALATON Zoltan, I took a chance to resolve gt64120_registe=
+r(),
+>    a method akin to the legacy init functions we're trying to get rid of=
+=2E
+>
+>v2:
+>  isa/piix4: Fix PCI IRQ levels to be preserved in VMState
+>  isa/piix4: Resolve redundant i8259[] attribute
+>
+>Bernhard Beschow (7):
+>  hw/mips/gt64xxx_pci: Fix PCI IRQ levels to be preserved during
+>    migration
+>  malta: Move PCI interrupt handling from gt64xxx_pci to piix4
+>  hw/isa/piix4: Resolve redundant i8259[] attribute
+>  hw/isa/piix4: Pass PIIX4State as opaque parameter for piix4_set_irq()
+>  hw/isa/piix4: Resolve global instance variable
+>  hw/isa/piix4: Replace some magic IRQ constants
+>  hw/mips/gt64xxx_pci: Resolve gt64120_register()
+>
+> hw/isa/piix4=2Ec                | 54 +++++++++++++++++++++--
+> hw/mips/gt64xxx_pci=2Ec         | 80 +++--------------------------------
+> hw/mips/malta=2Ec               |  7 +--
+> include/hw/mips/mips=2Eh        |  3 --
+> include/hw/southbridge/piix=2Eh |  2 -
+> 5 files changed, 59 insertions(+), 87 deletions(-)
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi,
 
-r~
+all patches have at least one Reviewed-by tag=2E What's missing for mergin=
+g?
+
+Best regards,
+Bernhard
 
