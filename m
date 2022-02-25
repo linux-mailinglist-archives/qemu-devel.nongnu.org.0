@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81ABD4C3FFF
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 09:23:19 +0100 (CET)
-Received: from localhost ([::1]:53756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE394C400E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 09:27:19 +0100 (CET)
+Received: from localhost ([::1]:59634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNVsi-0002H7-Vi
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 03:23:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47140)
+	id 1nNVwc-0006HO-Bg
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 03:27:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nNVZl-000816-Fv
+ id 1nNVZm-00081N-Gr
  for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:03:43 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:41858 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:41888 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVZO-0002Rc-JA
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:03:41 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVZd-0002Rm-GM
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:03:42 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S11; 
- Fri, 25 Feb 2022 16:03:15 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S13; 
+ Fri, 25 Feb 2022 16:03:18 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v6 09/29] target/loongarch: Add TLB instruction support
-Date: Fri, 25 Feb 2022 03:02:48 -0500
-Message-Id: <20220225080308.1405-10-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v6 11/29] target/loongarch: Add LoongArch interrupt and
+ exception handle
+Date: Fri, 25 Feb 2022 03:02:50 -0500
+Message-Id: <20220225080308.1405-12-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S11
-X-Coremail-Antispam: 1UD129KBjvAXoW3CF4DWF47JFWxGF48tr4xZwb_yoW8Aw18Go
- WfAa1rta1fGr4S9FnrZw1vqa1jqryDAan7Kr9Y9ws8Wa48Cry7KryrKa4Yva1fGF10qFy8
- Aa1Iq3ZxJay3Zr9xn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S13
+X-Coremail-Antispam: 1UD129KBjvAXoW3tr1xXr1xZF1kJF1xJrWUArb_yoW8JF4Uuo
+ W7Ca1rA3W5Xr1FkFyDArnYqa1jqFykCw4vkr98ZwsxWa18C345G348K34rt3y3ZF4rXFWr
+ AFyI9Fn5XFZrJryfn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
  AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -61,621 +62,414 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes:
-- TLBSRCH
-- TLBRD
-- TLBWR
-- TLBFILL
-- TLBCLR
-- TLBFLUSH
-- INVTLB
+1.This patch Add loongarch interrupt and exception handle.
+2.Rename the user excp to the exccode from the csr defintions.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                      |  17 +
- target/loongarch/helper.h                     |  12 +
- .../insn_trans/trans_privileged.c.inc         | 112 ++++++
- target/loongarch/insns.decode                 |  11 +
- target/loongarch/tlb_helper.c                 | 358 ++++++++++++++++++
- 5 files changed, 510 insertions(+)
+ linux-user/loongarch64/cpu_loop.c             |   8 +-
+ target/loongarch/cpu.c                        | 251 +++++++++++++++++-
+ target/loongarch/cpu.h                        |  11 -
+ target/loongarch/fpu_helper.c                 |   2 +-
+ target/loongarch/insn_trans/trans_extra.c.inc |   4 +-
+ target/loongarch/translate.c                  |   2 +-
+ 6 files changed, 252 insertions(+), 26 deletions(-)
 
-diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 90f469bdc0..9b13554904 100644
---- a/target/loongarch/disas.c
-+++ b/target/loongarch/disas.c
-@@ -217,6 +217,16 @@ static void output_rr_csr(DisasContext *ctx, arg_rr_csr *a,
-     output(ctx, mnemonic, "r%d, r%d, %d", a->rd, a->rj, a->csr);
+diff --git a/linux-user/loongarch64/cpu_loop.c b/linux-user/loongarch64/cpu_loop.c
+index 6628d215ca..dd58eb048f 100644
+--- a/linux-user/loongarch64/cpu_loop.c
++++ b/linux-user/loongarch64/cpu_loop.c
+@@ -28,7 +28,7 @@ void cpu_loop(CPULoongArchState *env)
+         case EXCP_INTERRUPT:
+             /* just indicate that signals should be handled asap */
+             break;
+-        case EXCP_SYSCALL:
++        case EXCCODE_SYS:
+             env->pc += 4;
+             ret = do_syscall(env, env->gpr[11],
+                              env->gpr[4], env->gpr[5],
+@@ -48,10 +48,10 @@ void cpu_loop(CPULoongArchState *env)
+             }
+             env->gpr[4] = ret;
+             break;
+-        case EXCP_INE:
++        case EXCCODE_INE:
+             force_sig_fault(TARGET_SIGILL, 0, env->pc);
+             break;
+-        case EXCP_FPE:
++        case EXCCODE_FPE:
+             si_code = TARGET_FPE_FLTUNK;
+             if (GET_FP_CAUSE(env->fcsr0) & FP_INVALID) {
+                 si_code = TARGET_FPE_FLTINV;
+@@ -67,7 +67,7 @@ void cpu_loop(CPULoongArchState *env)
+             force_sig_fault(TARGET_SIGFPE, si_code, env->pc);
+             break;
+         case EXCP_DEBUG:
+-        case EXCP_BREAK:
++        case EXCCODE_BRK:
+             force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
+             break;
+         case EXCP_ATOMIC:
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 880801fa51..c56673ec47 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -31,11 +31,23 @@ const char * const fregnames[32] = {
+     "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31",
+ };
+ 
+-static const char * const excp_names[EXCP_LAST + 1] = {
+-    [EXCP_SYSCALL] = "Syscall",
+-    [EXCP_BREAK] = "Break",
+-    [EXCP_INE] = "Instruction Non-Existent",
+-    [EXCP_FPE] = "Floating Point Exception",
++static const char * const excp_names[] = {
++    [EXCCODE_INT] = "Interrupt",
++    [EXCCODE_PIL] = "Page invalid exception for load",
++    [EXCCODE_PIS] = "Page invalid exception for store",
++    [EXCCODE_PIF] = "Page invalid exception for fetch",
++    [EXCCODE_PME] = "Page modified exception",
++    [EXCCODE_PNR] = "Page Not Readable exception",
++    [EXCCODE_PNX] = "Page Not Executable exception",
++    [EXCCODE_PPI] = "Page Privilege error",
++    [EXCCODE_ADEF] = "Address error for instruction fetch",
++    [EXCCODE_ADEM] = "Address error for Memory access",
++    [EXCCODE_SYS] = "Syscall",
++    [EXCCODE_BRK] = "Break",
++    [EXCCODE_INE] = "Instruction Non-Existent",
++    [EXCCODE_IPE] = "Instruction privilege error",
++    [EXCCODE_FPE] = "Floating Point Exception",
++    [EXCCODE_DBP] = "Debug breakpoint",
+ };
+ 
+ const char *loongarch_exception_name(int32_t exception)
+@@ -67,6 +79,216 @@ static void loongarch_cpu_set_pc(CPUState *cs, vaddr value)
+     env->pc = value;
  }
  
-+static void output_empty(DisasContext *ctx, arg_empty *a,
-+                         const char *mnemonic)
++#if !defined(CONFIG_USER_ONLY)
++static inline bool cpu_loongarch_hw_interrupts_enabled(CPULoongArchState *env)
 +{
++    bool ret = 0;
++
++    ret = (FIELD_EX64(env->CSR_CRMD, CSR_CRMD, IE) &&
++          !(FIELD_EX64(env->CSR_DBG, CSR_DBG, DST)));
++
++    return ret;
 +}
 +
-+static void output_i_rr(DisasContext *ctx, arg_i_rr *a, const char *mnemonic)
++/* Check if there is pending and not masked out interrupt */
++static inline bool cpu_loongarch_hw_interrupts_pending(CPULoongArchState *env)
 +{
-+    output(ctx, mnemonic, "%d, r%d, r%d", a->imm, a->rj, a->rk);
++    uint32_t pending;
++    uint32_t status;
++    bool r;
++
++    pending = FIELD_EX64(env->CSR_ESTAT, CSR_ESTAT, IS);
++    status  = FIELD_EX64(env->CSR_ECFG, CSR_ECFG, LIE);
++
++    r = (pending & status) != 0;
++    return r;
 +}
 +
- #define INSN(insn, type)                                    \
- static bool trans_##insn(DisasContext *ctx, arg_##type * a) \
- {                                                           \
-@@ -540,6 +550,13 @@ INSN(iocsrwr_b,    rr)
- INSN(iocsrwr_h,    rr)
- INSN(iocsrwr_w,    rr)
- INSN(iocsrwr_d,    rr)
-+INSN(tlbsrch,      empty)
-+INSN(tlbrd,        empty)
-+INSN(tlbwr,        empty)
-+INSN(tlbfill,      empty)
-+INSN(tlbclr,       empty)
-+INSN(tlbflush,     empty)
-+INSN(invtlb,       i_rr)
- 
- #define output_fcmp(C, PREFIX, SUFFIX)                                         \
- {                                                                              \
-diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 1bcd082858..97af7ac8aa 100644
---- a/target/loongarch/helper.h
-+++ b/target/loongarch/helper.h
-@@ -100,4 +100,16 @@ DEF_HELPER_3(csr_wrq, i64, env, tl, i64)
- DEF_HELPER_4(csr_xchgq, i64, env, tl, tl, i64)
- DEF_HELPER_3(iocsr_read, i64, env, tl, i32)
- DEF_HELPER_4(iocsr_write, void, env, tl, tl, i32)
-+
-+DEF_HELPER_1(tlbwr, void, env)
-+DEF_HELPER_1(tlbfill, void, env)
-+DEF_HELPER_1(tlbsrch, void, env)
-+DEF_HELPER_1(tlbrd, void, env)
-+DEF_HELPER_1(tlbclr, void, env)
-+DEF_HELPER_1(tlbflush, void, env)
-+DEF_HELPER_1(invtlb_all, void, env)
-+DEF_HELPER_2(invtlb_all_g, void, env, i32)
-+DEF_HELPER_2(invtlb_all_asid, void, env, tl)
-+DEF_HELPER_3(invtlb_page_asid, void, env, tl, tl)
-+DEF_HELPER_3(invtlb_page_asid_or_g, void, env, tl, tl)
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
-index 30f1e688e8..8bc6dd6e51 100644
---- a/target/loongarch/insn_trans/trans_privileged.c.inc
-+++ b/target/loongarch/insn_trans/trans_privileged.c.inc
-@@ -26,6 +26,13 @@ GEN_FALSE_TRANS(iocsrwr_b)
- GEN_FALSE_TRANS(iocsrwr_h)
- GEN_FALSE_TRANS(iocsrwr_w)
- GEN_FALSE_TRANS(iocsrwr_d)
-+GEN_FALSE_TRANS(tlbsrch)
-+GEN_FALSE_TRANS(tlbrd)
-+GEN_FALSE_TRANS(tlbwr)
-+GEN_FALSE_TRANS(tlbfill)
-+GEN_FALSE_TRANS(tlbclr)
-+GEN_FALSE_TRANS(tlbflush)
-+GEN_FALSE_TRANS(invtlb)
- 
- #else
- 
-@@ -225,4 +232,109 @@ static bool trans_iocsrwr_d(DisasContext *ctx, arg_iocsrwr_d *a)
-     gen_helper_iocsr_write(cpu_env, addr, val, tcg_constant_i32(8));
-     return true;
- }
-+
-+static bool trans_tlbsrch(DisasContext *ctx, arg_tlbsrch *a)
++static inline unsigned int get_vint_size(CPULoongArchState *env)
 +{
-+    if (check_plv(ctx)) {
-+        return false;
++    uint64_t vs = FIELD_EX64(env->CSR_ECFG, CSR_ECFG, VS);
++    uint64_t size = 0;
++
++    if (vs == 0) {
++        return 0;
 +    }
-+    gen_helper_tlbsrch(cpu_env);
-+    return true;
++
++    if (vs < 8) {
++        size = 1 << (vs + 2);
++    }
++
++    if (vs > 8) {
++        qemu_log("%s: unexpected value", __func__);
++        assert(0);
++    }
++
++    return size;
 +}
 +
-+static bool trans_tlbrd(DisasContext *ctx, arg_tlbrd *a)
++static void loongarch_cpu_do_interrupt(CPUState *cs)
 +{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbrd(cpu_env);
-+    return true;
-+}
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++    bool update_badinstr = 1;
++    int cause = -1;
++    const char *name;
++    bool tlbfill = FIELD_EX64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR);
 +
-+static bool trans_tlbwr(DisasContext *ctx, arg_tlbwr *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbwr(cpu_env);
++    if (cs->exception_index != EXCCODE_INT) {
++        if (cs->exception_index < 0 ||
++            cs->exception_index > ARRAY_SIZE(excp_names)) {
++            name = "unknown";
++        } else {
++            name = excp_names[cs->exception_index];
++        }
 +
-+    if (ctx->mem_idx != MMU_DA_IDX) {
-+        tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
-+        ctx->base.is_jmp = DISAS_EXIT;
-+    }
-+    return true;
-+}
-+
-+static bool trans_tlbfill(DisasContext *ctx, arg_tlbfill *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbfill(cpu_env);
-+
-+    if (ctx->mem_idx != MMU_DA_IDX) {
-+        tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
-+        ctx->base.is_jmp = DISAS_EXIT;
-+    }
-+    return true;
-+}
-+
-+static bool trans_tlbclr(DisasContext *ctx, arg_tlbclr *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbclr(cpu_env);
-+    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
-+    ctx->base.is_jmp = DISAS_EXIT;
-+    return true;
-+}
-+
-+static bool trans_tlbflush(DisasContext *ctx, arg_tlbflush *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_tlbflush(cpu_env);
-+    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
-+    ctx->base.is_jmp = DISAS_EXIT;
-+    return true;
-+}
-+
-+static bool trans_invtlb(DisasContext *ctx, arg_invtlb *a)
-+{
-+    TCGv rj = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv rk = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    if (check_plv(ctx)) {
-+        return false;
++        qemu_log_mask(CPU_LOG_INT,
++                     "%s enter: pc " TARGET_FMT_lx " ERA " TARGET_FMT_lx
++                     " TLBRERA " TARGET_FMT_lx " %s exception\n", __func__,
++                     env->pc, env->CSR_ERA, env->CSR_TLBRERA, name);
 +    }
 +
-+    switch (a->imm) {
-+    case 0:
-+    case 1:
-+        gen_helper_invtlb_all(cpu_env);
++    switch (cs->exception_index) {
++    case EXCCODE_DBP:
++        env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, DCL, 1);
++        env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, ECODE, 0xC);
++        env->CSR_DERA = env->pc;
++        env->CSR_DBG = FIELD_DP64(env->CSR_DBG, CSR_DBG, DST, 1);
++        env->pc = env->CSR_EENTRY + 0x480;
 +        break;
-+    case 2:
-+        gen_helper_invtlb_all_g(cpu_env, tcg_constant_i32(1));
++    case EXCCODE_INT:
++    case EXCCODE_PIF:
++        cause = cs->exception_index;
++        update_badinstr = 0;
 +        break;
-+    case 3:
-+        gen_helper_invtlb_all_g(cpu_env, tcg_constant_i32(0));
-+        break;
-+    case 4:
-+        gen_helper_invtlb_all_asid(cpu_env, rj);
-+        break;
-+    case 5:
-+        gen_helper_invtlb_page_asid(cpu_env, rj, rk);
-+        break;
-+    case 6:
-+        gen_helper_invtlb_page_asid_or_g(cpu_env, rj, rk);
++    case EXCCODE_ADEM:
++    case EXCCODE_SYS:
++    case EXCCODE_BRK:
++    case EXCCODE_PIL:
++    case EXCCODE_PIS:
++    case EXCCODE_PME:
++    case EXCCODE_PNR:
++    case EXCCODE_PNX:
++    case EXCCODE_PPI:
++    case EXCCODE_INE:
++    case EXCCODE_IPE:
++    case EXCCODE_FPE:
++        cause = cs->exception_index;
 +        break;
 +    default:
-+        return false;
++        qemu_log("Error: exception(%d) '%s' has not been supported\n",
++                 cs->exception_index, excp_names[cs->exception_index]);
++        abort();
 +    }
-+    ctx->base.is_jmp = DISAS_STOP;
-+    return true;
++
++    if (update_badinstr) {
++        env->CSR_BADI = cpu_ldl_code(env, env->pc);
++    }
++
++    /* Save PLV and IE */
++    if (tlbfill) {
++        env->CSR_TLBRPRMD = FIELD_DP64(env->CSR_TLBRPRMD, CSR_TLBRPRMD, PPLV,
++                                       FIELD_EX64(env->CSR_CRMD,
++                                       CSR_CRMD, PLV));
++        env->CSR_TLBRPRMD = FIELD_DP64(env->CSR_TLBRPRMD, CSR_TLBRPRMD, PIE,
++                                       FIELD_EX64(env->CSR_CRMD, CSR_CRMD, IE));
++        /* set the DA mode */
++        env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, DA, 1);
++        env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, PG, 0);
++        env->CSR_TLBRERA = FIELD_DP64(env->CSR_TLBRERA, CSR_TLBRERA,
++                                      PC, (env->pc >> 2));
++    } else {
++        env->CSR_PRMD = FIELD_DP64(env->CSR_PRMD, CSR_PRMD, PPLV,
++                                   FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PLV));
++        env->CSR_PRMD = FIELD_DP64(env->CSR_PRMD, CSR_PRMD, PIE,
++                                   FIELD_EX64(env->CSR_CRMD, CSR_CRMD, IE));
++        env->CSR_ERA = env->pc;
++    }
++
++    env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, PLV, 0);
++    env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, IE, 0);
++
++    uint32_t vec_size = get_vint_size(env);
++    env->pc = env->CSR_EENTRY;
++    env->pc += cause * vec_size;
++    if (tlbfill) {
++        /* TLB Refill */
++        env->pc = env->CSR_TLBRENTRY;
++    }
++    if  (cs->exception_index == EXCCODE_INT) {
++        /* Interrupt */
++        uint32_t vector = 0;
++        uint32_t pending = FIELD_EX64(env->CSR_ESTAT, CSR_ESTAT, IS);
++        pending &= FIELD_EX64(env->CSR_ECFG, CSR_ECFG, LIE);
++
++        /* Find the highest-priority interrupt. */
++        while (pending >>= 1) {
++            vector++;
++        }
++        env->pc = env->CSR_EENTRY + (EXCCODE_EXTERNAL_INT + vector) * vec_size;
++        qemu_log_mask(CPU_LOG_INT,
++                      "%s: PC " TARGET_FMT_lx " ERA " TARGET_FMT_lx
++                      " cause %d\n" "    A " TARGET_FMT_lx " D "
++                      TARGET_FMT_lx " vector = %d ExC %08lx ExS %08lx\n",
++                      __func__, env->pc, env->CSR_ERA,
++                      cause, env->CSR_BADV, env->CSR_DERA, vector,
++                      env->CSR_ECFG, env->CSR_ESTAT);
++    }
++
++    env->CSR_ESTAT = FIELD_DP64(env->CSR_ESTAT, CSR_ESTAT, ECODE, cause);
++
++    if (cs->exception_index != EXCCODE_INT) {
++        qemu_log_mask(CPU_LOG_INT,
++                      "%s: PC " TARGET_FMT_lx " ERA " TARGET_FMT_lx
++                      " cause %d%s\n, ESTAT " TARGET_FMT_lx
++                      " EXCFG " TARGET_FMT_lx " BADVA " TARGET_FMT_lx
++                      "BADI " TARGET_FMT_lx " SYS_NUM " TARGET_FMT_lu
++                      " cpu %d asid 0x%lx" "\n", __func__, env->pc,
++                      tlbfill ? env->CSR_TLBRERA : env->CSR_ERA,
++                      cause, tlbfill ? "(refill)" : "", env->CSR_ESTAT,
++                      env->CSR_ECFG,
++                      tlbfill ? env->CSR_TLBRBADV : env->CSR_BADV,
++                      env->CSR_BADI, env->gpr[11], cs->cpu_index,
++                      env->CSR_ASID);
++    }
++    cs->exception_index = -1;
 +}
 +
++static void loongarch_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
++                                                vaddr addr, unsigned size,
++                                                MMUAccessType access_type,
++                                                int mmu_idx, MemTxAttrs attrs,
++                                                MemTxResult response,
++                                                uintptr_t retaddr)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++
++    if (access_type == MMU_INST_FETCH) {
++        do_raise_exception(env, EXCCODE_ADEF, retaddr);
++    } else {
++        do_raise_exception(env, EXCCODE_ADEM, retaddr);
++    }
++}
++
++static bool loongarch_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
++{
++    if (interrupt_request & CPU_INTERRUPT_HARD) {
++        LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++        CPULoongArchState *env = &cpu->env;
++
++        if (cpu_loongarch_hw_interrupts_enabled(env) &&
++            cpu_loongarch_hw_interrupts_pending(env)) {
++            /* Raise it */
++            cs->exception_index = EXCCODE_INT;
++            loongarch_cpu_do_interrupt(cs);
++            return true;
++        }
++    }
++    return false;
++}
++#endif
++
+ #ifdef CONFIG_TCG
+ static void loongarch_cpu_synchronize_from_tb(CPUState *cs,
+                                               const TranslationBlock *tb)
+@@ -83,7 +305,16 @@ static bool loongarch_cpu_has_work(CPUState *cs)
+ #ifdef CONFIG_USER_ONLY
+     return true;
+ #else
+-#error System emulation TODO
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++    bool has_work = false;
++
++    if ((cs->interrupt_request & CPU_INTERRUPT_HARD) &&
++        cpu_loongarch_hw_interrupts_pending(env)) {
++        has_work = true;
++    }
++
++    return has_work;
  #endif
-diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 9a43f288c3..6f2a814195 100644
---- a/target/loongarch/insns.decode
-+++ b/target/loongarch/insns.decode
-@@ -47,6 +47,8 @@
- &rr_offs      rj rd offs
- &r_csr        rd csr
- &rr_csr       rd rj csr
-+&empty
-+&i_rr         imm rj rk
- 
- #
- # Formats
-@@ -89,6 +91,8 @@
- @rr_offs16         .... .. ................ rj:5 rd:5    &rr_offs     offs=%offs16
- @r_csr                    .... .... csr:14 ..... rd:5    &r_csr
- @rr_csr                    .... .... csr:14 rj:5 rd:5    &rr_csr
-+@empty          .... ........ ..... ..... ..... .....    &empty
-+@i_rr             ...... ...... ..... rk:5 rj:5 imm:5    &i_rr
- 
- #
- # Fixed point arithmetic operation instruction
-@@ -462,3 +466,10 @@ iocsrwr_b        0000 01100100 10000 00100 ..... .....    @rr
- iocsrwr_h        0000 01100100 10000 00101 ..... .....    @rr
- iocsrwr_w        0000 01100100 10000 00110 ..... .....    @rr
- iocsrwr_d        0000 01100100 10000 00111 ..... .....    @rr
-+tlbsrch          0000 01100100 10000 01010 00000 00000    @empty
-+tlbrd            0000 01100100 10000 01011 00000 00000    @empty
-+tlbwr            0000 01100100 10000 01100 00000 00000    @empty
-+tlbfill          0000 01100100 10000 01101 00000 00000    @empty
-+tlbclr           0000 01100100 10000 01000 00000 00000    @empty
-+tlbflush         0000 01100100 10000 01001 00000 00000    @empty
-+invtlb           0000 01100100 10011 ..... ..... .....    @i_rr
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-index 992d87493a..899b4d700c 100644
---- a/target/loongarch/tlb_helper.c
-+++ b/target/loongarch/tlb_helper.c
-@@ -7,9 +7,11 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/guest-random.h"
- 
- #include "cpu.h"
- #include "internals.h"
-+#include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- #include "exec/log.h"
-@@ -280,6 +282,362 @@ static void raise_mmu_exception(CPULoongArchState *env, target_ulong address,
-    }
  }
  
-+static void loongarch_invalidate_tlb_entry(CPULoongArchState *env,
-+                                           int index)
-+{
-+    target_ulong addr, mask, pagesize;
-+    uint8_t tlb_ps;
-+    LoongArchTLB *tlb = &env->tlb[index];
-+
-+    int mmu_idx = cpu_mmu_index(env, false);
-+    uint8_t tlb_v0 = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, V);
-+    uint8_t tlb_v1 = FIELD_EX64(tlb->tlb_entry1, TLBENTRY, V);
-+    uint64_t tlb_vppn = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN);
-+
-+    if (index >= LOONGARCH_STLB) {
-+        tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
-+    } else {
-+        tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+    }
-+    pagesize = 1 << tlb_ps;
-+    mask = MAKE_64BIT_MASK(0, tlb_ps + 1);
-+
-+    if (tlb_v0) {
-+        addr = (tlb_vppn << R_TLB_MISC_VPPN_SHIFT) & ~mask;    /* even */
-+        tlb_flush_range_by_mmuidx(env_cpu(env), addr, pagesize,
-+                                  mmu_idx, TARGET_LONG_BITS);
-+    }
-+
-+    if (tlb_v1) {
-+        addr = (tlb_vppn << R_TLB_MISC_VPPN_SHIFT) & pagesize;    /* odd */
-+        tlb_flush_range_by_mmuidx(env_cpu(env), addr, pagesize,
-+                                  mmu_idx, TARGET_LONG_BITS);
-+    }
-+}
-+
-+static void loongarch_invalidate_tlb(CPULoongArchState *env, int index)
-+{
-+    LoongArchTLB *tlb;
-+    uint16_t csr_asid, tlb_asid, tlb_g;
-+
-+    csr_asid = FIELD_EX64(env->CSR_ASID, CSR_ASID, ASID);
-+    tlb = &env->tlb[index];
-+    tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+    tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+    if (tlb_g == 0 && tlb_asid != csr_asid) {
-+        return;
-+    }
-+    loongarch_invalidate_tlb_entry(env, index);
-+}
-+
-+static void loongarch_fill_tlb_entry(CPULoongArchState *env, int index)
-+{
-+    LoongArchTLB *tlb = &env->tlb[index];
-+    uint64_t lo0, lo1, csr_vppn;
-+    uint16_t csr_asid;
-+    uint8_t csr_ps;
-+
-+    if (FIELD_EX64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR)) {
-+        csr_ps = FIELD_EX64(env->CSR_TLBREHI, CSR_TLBREHI, PS);
-+        csr_vppn = FIELD_EX64(env->CSR_TLBREHI, CSR_TLBREHI, VPPN);
-+        lo0 = env->CSR_TLBRELO0;
-+        lo1 = env->CSR_TLBRELO1;
-+    } else {
-+        csr_ps = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, PS);
-+        csr_vppn = FIELD_EX64(env->CSR_TLBEHI, CSR_TLBEHI, VPPN);
-+        lo0 = env->CSR_TLBELO0;
-+        lo1 = env->CSR_TLBELO1;
-+    }
-+
-+    if (csr_ps == 0) {
-+        qemu_log_mask(CPU_LOG_MMU, "page size is 0\n");
-+    }
-+
-+    /* Only MTLB has the ps fields */
-+    if (index >= LOONGARCH_STLB) {
-+        tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, PS, csr_ps);
-+    }
-+
-+    tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, VPPN, csr_vppn);
-+    tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 1);
-+    csr_asid = FIELD_EX64(env->CSR_ASID, CSR_ASID, ASID);
-+    tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, ASID, csr_asid);
-+
-+    tlb->tlb_entry0 = lo0;
-+    tlb->tlb_entry1 = lo1;
-+}
-+
-+/* Return an random value between low and high */
-+static uint32_t cpu_loongarch_get_random_loongarch_tlb(uint32_t low,
-+                                                       uint32_t high)
-+{
-+    uint32_t val;
-+
-+    qemu_guest_getrandom_nofail(&val, sizeof(val));
-+    return val % (high - low + 1) + low;
-+}
-+
-+void helper_tlbsrch(CPULoongArchState *env)
-+{
-+    int index, match;
-+
-+    if (FIELD_EX64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR)) {
-+        match = loongarch_tlb_search(env, env->CSR_TLBREHI, &index);
-+    } else {
-+        match = loongarch_tlb_search(env, env->CSR_TLBEHI, &index);
-+    }
-+
-+    if (match) {
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX, index);
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, NE, 0);
-+        return;
-+    }
-+
-+    env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, NE, 1);
-+}
-+
-+void helper_tlbrd(CPULoongArchState *env)
-+{
-+    LoongArchTLB *tlb;
-+    int index;
-+    uint8_t tlb_ps, tlb_e;
-+
-+    index = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX);
-+    tlb = &env->tlb[index];
-+
-+    if (index >= LOONGARCH_STLB) {
-+        tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
-+    } else {
-+        tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+    }
-+    tlb_e = FIELD_EX64(tlb->tlb_misc, TLB_MISC, E);
-+
-+    if (!tlb_e) {
-+        /* Invalid TLB entry */
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, NE, 1);
-+        env->CSR_ASID  = FIELD_DP64(env->CSR_ASID, CSR_ASID, ASID, 0);
-+        env->CSR_TLBEHI = 0;
-+        env->CSR_TLBELO0 = 0;
-+        env->CSR_TLBELO1 = 0;
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, PS, 0);
-+    } else {
-+        /* Valid TLB entry */
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, NE, 0);
-+        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX,
-+                                     PS, (tlb_ps & 0x3f));
-+        env->CSR_TLBEHI = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN) <<
-+                                     R_TLB_MISC_VPPN_SHIFT;
-+        env->CSR_TLBELO0 = tlb->tlb_entry0;
-+        env->CSR_TLBELO1 = tlb->tlb_entry1;
-+    }
-+}
-+
-+void helper_tlbwr(CPULoongArchState *env)
-+{
-+    int index = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX);
-+
-+    loongarch_invalidate_tlb(env, index);
-+
-+    if (FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, NE)) {
-+        env->tlb[index].tlb_misc = FIELD_DP64(env->tlb[index].tlb_misc,
-+                                              TLB_MISC, E, 0);
-+        return;
-+    }
-+
-+    loongarch_fill_tlb_entry(env, index);
-+}
-+
-+void helper_tlbfill(CPULoongArchState *env)
-+{
-+    uint64_t address, entryhi;
-+    int index, set, stlb_idx;
-+    uint16_t pagesize, stlb_ps;
-+
-+    if (FIELD_EX64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR)) {
-+        entryhi = env->CSR_TLBREHI;
-+        pagesize = FIELD_EX64(env->CSR_TLBREHI, CSR_TLBREHI, PS);
-+    } else {
-+        entryhi = env->CSR_TLBEHI;
-+        pagesize = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, PS);
-+    }
-+
-+    stlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+
-+    if (pagesize == stlb_ps) {
-+        /* Only write into STLB bits [47:13] */
-+        address = entryhi & ~MAKE_64BIT_MASK(0, R_CSR_TLBEHI_VPPN_SHIFT);
-+
-+        /* Choose one set ramdomly */
-+        set = cpu_loongarch_get_random_loongarch_tlb(0, 7);
-+
-+        /* Index in one set */
-+        stlb_idx = (address >> (stlb_ps + 1)) & 0xff; /* [0,255] */
-+
-+        index = set * 256 + stlb_idx;
-+    } else {
-+        /* Only write into MTLB */
-+        index = cpu_loongarch_get_random_loongarch_tlb(
-+                LOONGARCH_STLB, LOONGARCH_TLB_MAX - 1);
-+    }
-+
-+    loongarch_invalidate_tlb(env, index);
-+    loongarch_fill_tlb_entry(env, index);
-+}
-+
-+void helper_tlbclr(CPULoongArchState *env)
-+{
-+    LoongArchTLB *tlb;
-+    int i, index;
-+    uint16_t csr_asid, tlb_asid, tlb_g;
-+
-+    csr_asid = FIELD_EX64(env->CSR_ASID, CSR_ASID, ASID);
-+    index = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX);
-+
-+    if (index < LOONGARCH_STLB) {
-+        /* STLB. One line per operation */
-+        for (i = 0; i < 8; i++) {
-+            tlb = &env->tlb[i * 256 + (index % 256)];
-+            tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+            tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+            if (!tlb_g && tlb_asid == csr_asid) {
-+                tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+            }
-+        }
-+    } else if (index < LOONGARCH_TLB_MAX) {
-+        /* All MTLB entries */
-+        for (i = LOONGARCH_STLB; i < LOONGARCH_TLB_MAX; i++) {
-+            tlb = &env->tlb[i];
-+            tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+            tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+            if (!tlb_g && tlb_asid == csr_asid) {
-+                tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+            }
-+        }
-+    }
-+
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_tlbflush(CPULoongArchState *env)
-+{
-+    int i, index;
-+
-+    index = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX);
-+
-+    if (index < LOONGARCH_STLB) {
-+        /* STLB. One line per operation */
-+        for (i = 0; i < 8; i++) {
-+            int index = i * 256 + (index % 256);
-+            env->tlb[index].tlb_misc = FIELD_DP64(env->tlb[index].tlb_misc,
-+                                                 TLB_MISC, E, 0);
-+        }
-+    } else if (index < LOONGARCH_TLB_MAX) {
-+        /* All MTLB entries */
-+        for (i = LOONGARCH_STLB; i < LOONGARCH_TLB_MAX; i++) {
-+            env->tlb[i].tlb_misc = FIELD_DP64(env->tlb[i].tlb_misc,
-+                                              TLB_MISC, E, 0);
-+        }
-+    }
-+
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_invtlb_all(CPULoongArchState *env)
-+{
-+    for (int i = 0; i < LOONGARCH_TLB_MAX; i++) {
-+        env->tlb[i].tlb_misc = FIELD_DP64(env->tlb[i].tlb_misc,
-+                                          TLB_MISC, E, 0);
-+    }
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_invtlb_all_g(CPULoongArchState *env, uint32_t g)
-+{
-+    for (int i = 0; i < LOONGARCH_TLB_MAX; i++) {
-+        LoongArchTLB *tlb = &env->tlb[i];
-+        uint8_t tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+
-+        if (tlb_g == g) {
-+            tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+        }
-+    }
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_invtlb_all_asid(CPULoongArchState *env, target_ulong info)
-+{
-+    uint16_t asid = info & R_CSR_ASID_ASID_MASK;
-+
-+    for (int i = 0; i < LOONGARCH_TLB_MAX; i++) {
-+        LoongArchTLB *tlb = &env->tlb[i];
-+        uint8_t tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+        uint16_t tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+
-+        if (!tlb_g && (tlb_asid == asid)) {
-+            tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+        }
-+    }
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_invtlb_page_asid(CPULoongArchState *env, target_ulong info,
-+                             target_ulong addr)
-+{
-+    uint16_t asid = info & 0x3ff;
-+
-+    for (int i = 0; i < LOONGARCH_TLB_MAX; i++) {
-+        LoongArchTLB *tlb = &env->tlb[i];
-+        uint8_t tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+        uint16_t tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+        uint64_t vpn, tlb_vppn;
-+        uint8_t tlb_ps, compare_shift;
-+
-+        if (i >= LOONGARCH_STLB) {
-+            tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
-+        } else {
-+            tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+        }
-+        tlb_vppn = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN);
-+        vpn = (addr & TARGET_VIRT_MASK) >> (tlb_ps + 1);
-+        compare_shift = tlb_ps + 1 - R_TLB_MISC_VPPN_SHIFT;
-+
-+        if (!tlb_g && (tlb_asid == asid) &&
-+           (vpn == (tlb_vppn >> compare_shift))) {
-+            tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+        }
-+    }
-+    tlb_flush(env_cpu(env));
-+}
-+
-+void helper_invtlb_page_asid_or_g(CPULoongArchState *env,
-+                                  target_ulong info, target_ulong addr)
-+{
-+    uint16_t asid = info & 0x3ff;
-+
-+    for (int i = 0; i < LOONGARCH_TLB_MAX; i++) {
-+        LoongArchTLB *tlb = &env->tlb[i];
-+        uint8_t tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+        uint16_t tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+        uint64_t vpn, tlb_vppn;
-+        uint8_t tlb_ps, compare_shift;
-+
-+        if (i >= LOONGARCH_STLB) {
-+            tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
-+        } else {
-+            tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+        }
-+        tlb_vppn = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN);
-+        vpn = (addr & TARGET_VIRT_MASK) >> (tlb_ps + 1);
-+        compare_shift = tlb_ps + 1 - R_TLB_MISC_VPPN_SHIFT;
-+
-+        if ((tlb_g || (tlb_asid == asid)) &&
-+            (vpn == (tlb_vppn >> compare_shift))) {
-+            tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 0);
-+        }
-+    }
-+    tlb_flush(env_cpu(env));
-+}
-+
- bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                             MMUAccessType access_type, int mmu_idx,
-                             bool probe, uintptr_t retaddr)
+@@ -228,8 +459,11 @@ static void loongarch_cpu_reset(DeviceState *dev)
+         env->CSR_DMW[n] = FIELD_DP64(env->CSR_DMW[n], CSR_DMW, PLV3, 0);
+     }
+ 
++#ifndef CONFIG_USER_ONLY
++    env->pc = 0x1c000000;
++#endif
+     restore_fp_status(env);
+-    cs->exception_index = EXCP_NONE;
++    cs->exception_index = -1;
+ }
+ 
+ static void loongarch_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+@@ -331,6 +565,9 @@ static struct TCGCPUOps loongarch_tcg_ops = {
+ 
+ #if !defined(CONFIG_USER_ONLY)
+     .tlb_fill = loongarch_cpu_tlb_fill,
++    .cpu_exec_interrupt = loongarch_cpu_exec_interrupt,
++    .do_interrupt = loongarch_cpu_do_interrupt,
++    .do_transaction_failed = loongarch_cpu_do_transaction_failed,
+ #endif /* !CONFIG_USER_ONLY */
+ };
+ #endif /* CONFIG_TCG */
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index 4442a8a776..01453e1192 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -423,17 +423,6 @@ typedef LoongArchCPU ArchCPU;
+ 
+ #include "exec/cpu-all.h"
+ 
+-/* Exceptions */
+-enum {
+-    EXCP_NONE          = -1,
+-    EXCP_SYSCALL       = 0,
+-    EXCP_BREAK,
+-    EXCP_INE,
+-    EXCP_FPE,
+-
+-    EXCP_LAST = EXCP_FPE,
+-};
+-
+ #define CPU_INTERRUPT_WAKE CPU_INTERRUPT_TGT_INT_0
+ 
+ #define LOONGARCH_CPU_TYPE_SUFFIX "-" TYPE_LOONGARCH_CPU
+diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
+index 9f5235c4f8..1baf012ef7 100644
+--- a/target/loongarch/fpu_helper.c
++++ b/target/loongarch/fpu_helper.c
+@@ -74,7 +74,7 @@ static void update_fcsr0_mask(CPULoongArchState *env, uintptr_t pc, int mask)
+     }
+ 
+     if (GET_FP_ENABLES(env->fcsr0) & flags) {
+-        do_raise_exception(env, EXCP_FPE, pc);
++        do_raise_exception(env, EXCCODE_FPE, pc);
+     } else {
+         UPDATE_FP_FLAGS(env->fcsr0, flags);
+     }
+diff --git a/target/loongarch/insn_trans/trans_extra.c.inc b/target/loongarch/insn_trans/trans_extra.c.inc
+index bc622ced23..2ce95d3382 100644
+--- a/target/loongarch/insn_trans/trans_extra.c.inc
++++ b/target/loongarch/insn_trans/trans_extra.c.inc
+@@ -5,13 +5,13 @@
+ 
+ static bool trans_break(DisasContext *ctx, arg_break *a)
+ {
+-    generate_exception(ctx, EXCP_BREAK);
++    generate_exception(ctx, EXCCODE_BRK);
+     return true;
+ }
+ 
+ static bool trans_syscall(DisasContext *ctx, arg_syscall *a)
+ {
+-    generate_exception(ctx, EXCP_SYSCALL);
++    generate_exception(ctx, EXCCODE_SYS);
+     return true;
+ }
+ 
+diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
+index 438a3cb515..c1cac2f006 100644
+--- a/target/loongarch/translate.c
++++ b/target/loongarch/translate.c
+@@ -185,7 +185,7 @@ static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     if (!decode(ctx, ctx->opcode)) {
+         qemu_log_mask(LOG_UNIMP, "Error: unknown opcode. 0x%lx: 0x%x\n",
+                       ctx->base.pc_next, ctx->opcode);
+-        generate_exception(ctx, EXCP_INE);
++        generate_exception(ctx, EXCCODE_INE);
+     }
+ 
+     for (int i = ctx->ntemp - 1; i >= 0; --i) {
 -- 
 2.27.0
 
