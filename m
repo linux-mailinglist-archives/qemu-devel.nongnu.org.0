@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9D84C505C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 22:09:24 +0100 (CET)
-Received: from localhost ([::1]:50608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4A54C5058
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 22:08:55 +0100 (CET)
+Received: from localhost ([::1]:49714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNhq7-0003tS-II
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 16:09:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59602)
+	id 1nNhpe-0003Jh-FF
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 16:08:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nNhhy-0003Dm-Gr
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nNhhy-0003Dn-Kc
  for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:01:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36452)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nNhhv-0005BJ-Q0
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nNhhx-0005Bc-1v
  for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:00:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645822855;
+ s=mimecast20190719; t=1645822856;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S0paPOxauK37bfDsuaHmAZ5y+/SHZYIm5TxPmZk7jns=;
- b=fYz2sXukyiRZJFsJxch7aKLFJ/l2N7Ae+0yqm1PmWdsqCjf0ZyUOs8N8JgZCImDUPH2Ynf
- sC4WCkz1y+BugNnOx2pv4mWGu855Hpl0zMjfGZhPl5jQmoRoUbo5750IWaWDZdoe9tNeq9
- me+OnamsvQAtSK+4cZyLbZOGGl7bBOM=
+ bh=PUHyLcEL8PTiTf0/NdX9eymLiCzi7YGdO0ul3Aso6z0=;
+ b=hZb++qSZ/7lbtCPGyRcdto/9rZUD+a7GtMkpvRTGwbvbnhIR3vssfVTSWH5C9DdLe2LY33
+ uQsf9bcXC/ibOoW1l9diI2aXUbLCfn6afCOlxOKxseOwjfFp2x6rud9X1YYoPJ9JFBjHMR
+ mrMLgOErWae9aPyvfU/18dJygcyO7nE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-mG6LivKkMDezP_YtLRmbvQ-1; Fri, 25 Feb 2022 16:00:51 -0500
-X-MC-Unique: mG6LivKkMDezP_YtLRmbvQ-1
+ us-mta-629-SY8RoGpRMu6Ltm4Je3CQDw-1; Fri, 25 Feb 2022 16:00:53 -0500
+X-MC-Unique: SY8RoGpRMu6Ltm4Je3CQDw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA267824FA9;
- Fri, 25 Feb 2022 21:00:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06FCF180FD73;
+ Fri, 25 Feb 2022 21:00:52 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.34.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 443081081302;
- Fri, 25 Feb 2022 21:00:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 235F11081302;
+ Fri, 25 Feb 2022 21:00:51 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/10] python/aqmp: split _client_connected_cb() out as
- _incoming()
-Date: Fri, 25 Feb 2022 15:59:42 -0500
-Message-Id: <20220225205948.3693480-5-jsnow@redhat.com>
+Subject: [PATCH 05/10] python/aqmp: squelch pylint warning for too many lines
+Date: Fri, 25 Feb 2022 15:59:43 -0500
+Message-Id: <20220225205948.3693480-6-jsnow@redhat.com>
 In-Reply-To: <20220225205948.3693480-1-jsnow@redhat.com>
 References: <20220225205948.3693480-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,141 +84,28 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As part of disentangling the monolithic nature of _do_accept(), split
-out the incoming callback to prepare for factoring out the "wait for a
-peer" step. Namely, this means using an event signal we can wait on from
-outside of this method.
+I would really like to keep this under 1000 lines, I promise. Doesn't
+look like it's gonna happen.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/protocol.py | 83 +++++++++++++++++++++++++-----------
- 1 file changed, 58 insertions(+), 25 deletions(-)
+ python/qemu/aqmp/protocol.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
-index b7e5e635d8..56f05b9030 100644
+index 56f05b9030..631bcdaa55 100644
 --- a/python/qemu/aqmp/protocol.py
 +++ b/python/qemu/aqmp/protocol.py
-@@ -242,6 +242,10 @@ def __init__(self, name: Optional[str] = None) -> None:
-         # Workaround for bind()
-         self._sock: Optional[socket.socket] = None
+@@ -10,6 +10,9 @@
+ class.
+ """
  
-+        # Server state for start_server() and _incoming()
-+        self._server: Optional[asyncio.AbstractServer] = None
-+        self._accepted: Optional[asyncio.Event] = None
++# It's all the docstrings ... ! It's long for a good reason ^_^;
++# pylint: disable=too-many-lines
 +
-     def __repr__(self) -> str:
-         cls_name = type(self).__name__
-         tokens = []
-@@ -425,6 +429,54 @@ def _set_state(self, state: Runstate) -> None:
-         self._runstate_event.set()
-         self._runstate_event.clear()
- 
-+    @bottom_half  # However, it does not run from the R/W tasks.
-+    async def _stop_server(self) -> None:
-+        """
-+        Stop listening for / accepting new incoming connections.
-+        """
-+        if self._server is None:
-+            return
-+
-+        try:
-+            self.logger.debug("Stopping server.")
-+            self._server.close()
-+            await self._server.wait_closed()
-+            self.logger.debug("Server stopped.")
-+        finally:
-+            self._server = None
-+
-+    @bottom_half  # However, it does not run from the R/W tasks.
-+    async def _incoming(self,
-+                        reader: asyncio.StreamReader,
-+                        writer: asyncio.StreamWriter) -> None:
-+        """
-+        Accept an incoming connection and signal the upper_half.
-+
-+        This method does the minimum necessary to accept a single
-+        incoming connection. It signals back to the upper_half ASAP so
-+        that any errors during session initialization can occur
-+        naturally in the caller's stack.
-+
-+        :param reader: Incoming `asyncio.StreamReader`
-+        :param writer: Incoming `asyncio.StreamWriter`
-+        """
-+        peer = writer.get_extra_info('peername', 'Unknown peer')
-+        self.logger.debug("Incoming connection from %s", peer)
-+
-+        if self._reader or self._writer:
-+            # Sadly, we can have more than one pending connection
-+            # because of https://bugs.python.org/issue46715
-+            # Close any extra connections we don't actually want.
-+            self.logger.warning("Extraneous connection inadvertently accepted")
-+            writer.close()
-+            return
-+
-+        # A connection has been accepted; stop listening for new ones.
-+        assert self._accepted is not None
-+        await self._stop_server()
-+        self._reader, self._writer = (reader, writer)
-+        self._accepted.set()
-+
-     def _bind_hack(self, address: Union[str, Tuple[str, int]]) -> None:
-         """
-         Used to create a socket in advance of accept().
-@@ -469,30 +521,11 @@ async def _do_accept(self, address: SocketAddrT,
-         self._set_state(Runstate.CONNECTING)
- 
-         self.logger.debug("Awaiting connection on %s ...", address)
--        connected = asyncio.Event()
--        server: Optional[asyncio.AbstractServer] = None
--
--        async def _client_connected_cb(reader: asyncio.StreamReader,
--                                       writer: asyncio.StreamWriter) -> None:
--            """Used to accept a single incoming connection, see below."""
--            nonlocal server
--            nonlocal connected
--
--            # A connection has been accepted; stop listening for new ones.
--            assert server is not None
--            server.close()
--            await server.wait_closed()
--            server = None
--
--            # Register this client as being connected
--            self._reader, self._writer = (reader, writer)
--
--            # Signal back: We've accepted a client!
--            connected.set()
-+        self._accepted = asyncio.Event()
- 
-         if isinstance(address, tuple):
-             coro = asyncio.start_server(
--                _client_connected_cb,
-+                self._incoming,
-                 host=None if self._sock else address[0],
-                 port=None if self._sock else address[1],
-                 ssl=ssl,
-@@ -502,7 +535,7 @@ async def _client_connected_cb(reader: asyncio.StreamReader,
-             )
-         else:
-             coro = asyncio.start_unix_server(
--                _client_connected_cb,
-+                self._incoming,
-                 path=None if self._sock else address,
-                 ssl=ssl,
-                 backlog=1,
-@@ -515,9 +548,9 @@ async def _client_connected_cb(reader: asyncio.StreamReader,
-         # otherwise yield.
-         await asyncio.sleep(0)
- 
--        server = await coro     # Starts listening
--        await connected.wait()  # Waits for the callback to fire (and finish)
--        assert server is None
-+        self._server = await coro    # Starts listening
-+        await self._accepted.wait()  # Waits for the callback to finish
-+        assert self._server is None
-         self._sock = None
- 
-         self.logger.debug("Connection accepted.")
+ import asyncio
+ from asyncio import StreamReader, StreamWriter
+ from enum import Enum
 -- 
 2.34.1
 
