@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0750C4C47D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 15:44:59 +0100 (CET)
-Received: from localhost ([::1]:58458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3546A4C47CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 15:40:13 +0100 (CET)
+Received: from localhost ([::1]:51620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNbq5-0002pE-It
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 09:44:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50514)
+	id 1nNblU-0006Zs-3P
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 09:40:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=048cb90a0=graf@amazon.de>)
- id 1nNbRS-00040e-Ii
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 09:19:30 -0500
-Received: from smtp-fw-9103.amazon.com ([207.171.188.200]:58828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=048cb90a0=graf@amazon.de>)
- id 1nNbRH-0003fN-Q0
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 09:19:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1645798759; x=1677334759;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=JS5wUTydEragTkrDUV+gfvs0YlNNXnR6VSN786T+J8s=;
- b=P2YLDj3wjm6a4VEp1XvzUb7i/dFzB86NgxXGkwVbtxaaUbrXRJI9crjQ
- umQ6pRP/WS5qnP3+hH1wgqrqRVmc24ARiLTnGCB5SUCw2d2h2kd7fod7l
- Kgd5v8z9JZ8wIJDk8Kl4wuruNQQu7XWPHLr+LmvfISAb+RjEiMnewu2wC 0=;
-X-IronPort-AV: E=Sophos;i="5.90,136,1643673600"; d="scan'208";a="994982949"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO
- email-inbound-relay-iad-1a-b27d4a00.us-east-1.amazon.com) ([10.25.36.210])
- by smtp-border-fw-9103.sea19.amazon.com with ESMTP; 25 Feb 2022 14:18:59 +0000
-Received: from EX13MTAUWC002.ant.amazon.com
- (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
- by email-inbound-relay-iad-1a-b27d4a00.us-east-1.amazon.com (Postfix) with
- ESMTPS id 503638152A; Fri, 25 Feb 2022 14:18:53 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
- id 15.0.1497.28; Fri, 25 Feb 2022 14:18:51 +0000
-Received: from [0.0.0.0] (10.43.162.43) by EX13D20UWC001.ant.amazon.com
- (10.43.162.244) with Microsoft SMTP Server (TLS) id 15.0.1497.28; Fri, 25 Feb
- 2022 14:18:45 +0000
-Message-ID: <88ebdc32-2e94-ef28-37ed-1c927c12af43@amazon.com>
-Date: Fri, 25 Feb 2022 15:18:43 +0100
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nNbR2-0003mM-QN; Fri, 25 Feb 2022 09:19:04 -0500
+Received: from [2607:f8b0:4864:20::231] (port=45597
+ helo=mail-oi1-x231.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nNbR0-0003eF-KE; Fri, 25 Feb 2022 09:19:04 -0500
+Received: by mail-oi1-x231.google.com with SMTP id 12so7519537oix.12;
+ Fri, 25 Feb 2022 06:19:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=FYLGg05STa+yB3dQbrIoSYZXKdMg3w0mGvJDYvOTeeA=;
+ b=NAniPtqePTHAZi7hYGq0bzXwIWQyDT1OSl8MhsJFrNExo70YPvZ7bPYPffp3DeKh1P
+ NLnX1ZKLb/pj4rYmHzcscQRo9I8/bQ17Kj6dwAj12WJ1ZofkA9QX40d49F1aBBNTM6Tg
+ wFDLkBBMJ5lDZ2AQEcB212M1TCWeYl5rT1C3DNjJk851nRT4kbAmOkeOAPk+aE5+g9FK
+ S7Sa7io/4RMiY3V8fzwMxtiqVH92+0u0w5StZn0rLxnaUXfeZLqcYEjg9ZOuKZWDY4bz
+ 9lCOccBeo7mLPKGBR/VLBxy9mGKlvAWBcDttPwYO8acnydRkjJxImZbuABUtj8phHPPw
+ 7bfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FYLGg05STa+yB3dQbrIoSYZXKdMg3w0mGvJDYvOTeeA=;
+ b=2DFQRX+KduaR1XoREJZtrINBDZluHNbDDvT7DIx6iJiSb7iW222gk7k4IX67vr640R
+ 96OoP69XQ6nPf1qIazKW0J5PloVO4j+S+fhPutmnKzIX4HdCfEgFclPixovhS1Nlt6eU
+ rO5WyxsDrAr7DSfZlfEGbBcKdaO5Z5N9r9FhQproKScs8jSR2C0EewdO3+4nECYljViI
+ 70yuo8A656ESb0MnQH1OcFR4OLiLVyrCBSz6drPgoonIuVJu54XLEy11x6ceHkuMwcW+
+ CTzQcWdyDPTtg89i/jO6beXMrv0pFERjGQ/6gyHi+dUdhTFbr+3OfPBHPxPQtxrjNQnY
+ LwYQ==
+X-Gm-Message-State: AOAM5306wAPdqjxAAHGrA4RjPDxdpc8t8aTsvPWHr1tK3CBqkqBtbF9J
+ hXFtU3gEZJz0nAsl4szOyGQ=
+X-Google-Smtp-Source: ABdhPJzwr7I/GdFnxw1B4rT6SBzpmmzusRAb6tiqovUCfi/nVfe2nyNXwPNagv47rBnYFcfSyHtHiw==
+X-Received: by 2002:a05:6808:488:b0:2d4:fb86:6fed with SMTP id
+ z8-20020a056808048800b002d4fb866fedmr1699944oid.133.1645798741165; 
+ Fri, 25 Feb 2022 06:19:01 -0800 (PST)
+Received: from ?IPV6:2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377?
+ ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
+ by smtp.gmail.com with ESMTPSA id
+ x7-20020a4a8687000000b003191a2edc67sm1181792ooh.7.2022.02.25.06.18.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Feb 2022 06:19:00 -0800 (PST)
+Message-ID: <e73bf445-09e4-39e2-9f11-b2f091e2efaf@gmail.com>
+Date: Fri, 25 Feb 2022 11:18:51 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v4] virt: vmgenid: introduce driver for reinitializing RNG
- on VM fork
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-CC: <kvm@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
- <linux-hyperv@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <adrian@parity.io>, <ardb@kernel.org>, <ben@skyportsystems.com>,
- <berrange@redhat.com>, <colmmacc@amazon.com>, <decui@microsoft.com>,
- <dwmw@amazon.co.uk>, <ebiggers@kernel.org>, <ehabkost@redhat.com>,
- <gregkh@linuxfoundation.org>, <haiyangz@microsoft.com>,
- <imammedo@redhat.com>, <jannh@google.com>, <kys@microsoft.com>,
- <lersek@redhat.com>, <linux@dominikbrodowski.net>, <mst@redhat.com>,
- <qemu-devel@nongnu.org>, <raduweis@amazon.com>, <sthemmin@microsoft.com>,
- <tytso@mit.edu>, <wei.liu@kernel.org>
-References: <CAHmME9pJ3wb=EbUErJrCRC=VYGhFZqj2ar_AkVPsUvAnqGtwwg@mail.gmail.com>
- <20220225124848.909093-1-Jason@zx2c4.com>
- <05c9f2a9-accb-e0de-aac7-b212adac7eb2@amazon.com>
- <YhjjuMOeV7+T7thS@zx2c4.com>
-From: Alexander Graf <graf@amazon.com>
-In-Reply-To: <YhjjuMOeV7+T7thS@zx2c4.com>
-X-Originating-IP: [10.43.162.43]
-X-ClientProxiedBy: EX13d09UWA001.ant.amazon.com (10.43.160.247) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
-Precedence: Bulk
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.171.188.200;
- envelope-from=prvs=048cb90a0=graf@amazon.de; helo=smtp-fw-9103.amazon.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 09/18] ppc/xive2: Add support for notification
+ injection on ESB pages
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211126115349.2737605-1-clg@kaod.org>
+ <20211126115349.2737605-10-clg@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20211126115349.2737605-10-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::231
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x231.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -94,64 +95,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ck9uIDI1LjAyLjIyIDE1OjEyLCBKYXNvbiBBLiBEb25lbmZlbGQgd3JvdGU6Cj4gSGkgQWxleCwK
-Pgo+IE9uIEZyaSwgRmViIDI1LCAyMDIyIGF0IDAyOjU3OjM4UE0gKzAxMDAsIEFsZXhhbmRlciBH
-cmFmIHdyb3RlOgo+Pj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgYWNwaV9kZXZpY2VfaWQgdm1nZW5p
-ZF9pZHNbXSA9IHsKPj4+ICsgICAgICAgeyAiVk1HRU5JRCIsIDAgfSwKPj4+ICsgICAgICAgeyAi
-UUVNVVZHSUQiLCAwIH0sCj4+Cj4+IEFjY29yZGluZyB0byB0aGUgVk1HZW5JRCBzcGVjWzFdLCB5
-b3UgY2FuIG9ubHkgcmVseSBvbiBfQ0lEIGFuZCBfREROIGZvcgo+PiBtYXRjaGluZy4gVGhleSBi
-b3RoIGNvbnRhaW4gIlZNX0dlbl9Db3VudGVyIi4gVGhlIGxpc3QgYWJvdmUgY29udGFpbnMKPj4g
-X0hJRCB2YWx1ZXMgd2hpY2ggYXJlIG5vdCBhbiBvZmZpY2lhbCBpZGVudGlmaWVyIGZvciB0aGUg
-Vk1HZW5JRCBkZXZpY2UuCj4+Cj4+IElJUkMgdGhlIEFDUEkgZGV2aWNlIG1hdGNoIGxvZ2ljIGRv
-ZXMgbWF0Y2ggX0NJRCBpbiBhZGRpdGlvbiB0byBfSElELgo+PiBIb3dldmVyLCBpdCBpcyBsaW1p
-dGVkIHRvIDggY2hhcmFjdGVycy4gTGV0IG1lIHBhc3RlIGFuIGV4cGVyaW1lbnRhbAo+PiBoYWNr
-IEkgZGlkIGJhY2sgdGhlbiB0byBkbyB0aGUgX0NJRCBtYXRjaGluZyBpbnN0ZWFkLgo+Pgo+PiBb
-MV0KPj4gaHR0cHM6Ly9kb3dubG9hZC5taWNyb3NvZnQuY29tL2Rvd25sb2FkLzMvMS9DLzMxQ0ZD
-MzA3LTk4Q0EtNENBNS05MTRDLUQ5NzcyNjkxRTIxNC9WaXJ0dWFsTWFjaGluZUdlbmVyYXRpb25J
-RC5kb2N4Cj4+Cj4+Cj4+IEFsZXgKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvYWNwaS9idXMu
-YyBiL2RyaXZlcnMvYWNwaS9idXMuYwo+PiBpbmRleCAxNjgyZjhiNDU0YTIuLjQ1MjQ0M2Q3OWQ4
-NyAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9hY3BpL2J1cy5jCj4+ICsrKyBiL2RyaXZlcnMvYWNw
-aS9idXMuYwo+PiBAQCAtNzQ4LDcgKzc0OCw3IEBAIHN0YXRpYyBib29sIF9fYWNwaV9tYXRjaF9k
-ZXZpY2Uoc3RydWN0IGFjcGlfZGV2aWNlCj4+ICpkZXZpY2UsCj4+ICAgICAgICAgICAgLyogRmly
-c3QsIGNoZWNrIHRoZSBBQ1BJL1BOUCBJRHMgcHJvdmlkZWQgYnkgdGhlIGNhbGxlci4gKi8KPj4g
-ICAgICAgICAgICBpZiAoYWNwaV9pZHMpIHsKPj4gICAgICAgICAgICAgICAgZm9yIChpZCA9IGFj
-cGlfaWRzOyBpZC0+aWRbMF0gfHwgaWQtPmNsczsgaWQrKykgewo+PiAtICAgICAgICAgICAgICAg
-IGlmIChpZC0+aWRbMF0gJiYgIXN0cmNtcCgoY2hhciAqKWlkLT5pZCwgaHdpZC0+aWQpKQo+PiAr
-ICAgICAgICAgICAgICAgIGlmIChpZC0+aWRbMF0gJiYgIXN0cm5jbXAoKGNoYXIgKilpZC0+aWQs
-IGh3aWQtPmlkLAo+PiBBQ1BJX0lEX0xFTiAtIDEpKQo+PiAgICAgICAgICAgICAgICAgICAgICAg
-IGdvdG8gb3V0X2FjcGlfbWF0Y2g7Cj4+ICAgICAgICAgICAgICAgICAgICBpZiAoaWQtPmNscyAm
-JiBfX2FjcGlfbWF0Y2hfZGV2aWNlX2NscyhpZCwgaHdpZCkpCj4+ICAgICAgICAgICAgICAgICAg
-ICAgICAgZ290byBvdXRfYWNwaV9tYXRjaDsKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlydC92
-bWdlbmlkLmMgYi9kcml2ZXJzL3ZpcnQvdm1nZW5pZC5jCj4+IGluZGV4IDc1YTc4N2RhOGFhZC4u
-MGJmYTQyMmNmMDk0IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL3ZpcnQvdm1nZW5pZC5jCj4+ICsr
-KyBiL2RyaXZlcnMvdmlydC92bWdlbmlkLmMKPj4gQEAgLTM1Niw3ICszNTYsOCBAQCBzdGF0aWMg
-dm9pZCB2bWdlbmlkX2FjcGlfbm90aWZ5KHN0cnVjdCBhY3BpX2RldmljZQo+PiAqZGV2aWNlLCB1
-MzIgZXZlbnQpCj4+ICAgIH0KPj4KPj4gICAgc3RhdGljIGNvbnN0IHN0cnVjdCBhY3BpX2Rldmlj
-ZV9pZCB2bWdlbmlkX2lkc1tdID0gewo+PiAtICAgIHsiUUVNVVZHSUQiLCAwfSwKPj4gKyAgICAv
-KiBUaGlzIHJlYWxseSBpcyBWTV9HZW5fQ291bnRlciwgYnV0IHdlIGNhbiBvbmx5IG1hdGNoIDgg
-Y2hhcmFjdGVycyAqLwo+PiArICAgIHsiVk1fR0VOX0MiLCAwfSwKPj4gICAgICAgIHsiIiwgMH0s
-Cj4+ICAgIH07Cj4gSSByZWNhbGwgdGhpcyBwYXJ0IG9mIHRoZSBvbGQgdGhyZWFkLiBGcm9tIHdo
-YXQgSSB1bmRlcnN0b29kLCB1c2luZwo+ICJWTUdFTklEIiArICJRRU1VVkdJRCIgd29ya2VkIC93
-ZWxsIGVub3VnaC8sIGV2ZW4gaWYgdGhhdCB3YXNuJ3QKPiB0ZWNobmljYWxseSBpbi1zcGVjLiBB
-cmQgbm90ZWQgdGhhdCByZWx5aW5nIG9uIF9DSUQgbGlrZSB0aGF0IGlzCj4gdGVjaG5pY2FsbHkg
-YW4gQUNQSSBzcGVjIG5vdGlmaWNhdGlvbi4gU28gd2UncmUgYmV0d2VlbiBvbmUgc3BlYyBhbmQK
-PiBhbm90aGVyLCBiYXNpY2FsbHksIGFuZCBkb2luZyAiVk1HRU5JRCIgKyAiUUVNVVZHSUQiIHJl
-cXVpcmVzIGZld2VyCj4gY2hhbmdlcywgYXMgbWVudGlvbmVkLCBhcHBlYXJzIHRvIHdvcmsgZmlu
-ZSBpbiBteSB0ZXN0aW5nLgo+Cj4gSG93ZXZlciwgd2l0aCB0aGF0IHNhaWQsIEkgdGhpbmsgc3Vw
-cG9ydGluZyB0aGlzIHZpYSAiVk1fR2VuX0NvdW50ZXIiCj4gd291bGQgYmUgYSBiZXR0ZXIgZXZl
-bnR1YWwgdGhpbmcgdG8gZG8sIGJ1dCB3aWxsIHJlcXVpcmUgYWNrcyBhbmQKPiBjaGFuZ2VzIGZy
-b20gdGhlIEFDUEkgbWFpbnRhaW5lcnMuIERvIHlvdSB0aGluayB5b3UgY291bGQgcHJlcGFyZSB5
-b3VyCj4gcGF0Y2ggcHJvcG9zYWwgYWJvdmUgYXMgc29tZXRoaW5nIG9uLXRvcCBvZiBteSB0cmVl
-IFsxXT8gQW5kIGlmIHlvdSBjYW4KPiBjb252aW5jZSB0aGUgQUNQSSBtYWludGFpbmVycyB0aGF0
-IHRoYXQncyBva2F5LCB0aGVuIEknbGwgaGFwcGlseSB0YWtlCj4gdGhlIHBhdGNoLgoKClN1cmUs
-IGxldCBtZSBzZW5kIHRoZSBBQ1BJIHBhdGNoIHN0YW5kIGFsb25lLiBObyBuZWVkIHRvIGluY2x1
-ZGUgdGhlIApWTUdlbklEIGNoYW5nZSBpbiB0aGVyZS4KCgpBbGV4CgoKCgoKQW1hem9uIERldmVs
-b3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKS3JhdXNlbnN0ci4gMzgKMTAxMTcgQmVybGluCkdl
-c2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRoYW4gV2Vpc3MKRWlu
-Z2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIgSFJCIDE0OTE3MyBC
-ClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDI4OSAyMzcgODc5CgoK
 
+
+On 11/26/21 08:53, Cédric Le Goater wrote:
+> This is an internal offset used to inject triggers when the PQ state
+> bits are not controlled locally. Such as for LSIs when the PHB5 are
+> using the Address-Based Interrupt Trigger mode and on the END.
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   include/hw/ppc/xive.h |  1 +
+>   hw/intc/xive.c        |  9 +++++++++
+>   hw/intc/xive2.c       | 10 ++++++++++
+>   3 files changed, 20 insertions(+)
+> 
+> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> index b8ab0bf7490f..875c7f639689 100644
+> --- a/include/hw/ppc/xive.h
+> +++ b/include/hw/ppc/xive.h
+> @@ -278,6 +278,7 @@ uint8_t xive_esb_set(uint8_t *pq, uint8_t value);
+>   #define XIVE_ESB_STORE_EOI      0x400 /* Store */
+>   #define XIVE_ESB_LOAD_EOI       0x000 /* Load */
+>   #define XIVE_ESB_GET            0x800 /* Load */
+> +#define XIVE_ESB_INJECT         0x800 /* Store */
+>   #define XIVE_ESB_SET_PQ_00      0xc00 /* Load */
+>   #define XIVE_ESB_SET_PQ_01      0xd00 /* Load */
+>   #define XIVE_ESB_SET_PQ_10      0xe00 /* Load */
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index 190194d27f84..2c73ab5ca9d6 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -1061,6 +1061,15 @@ static void xive_source_esb_write(void *opaque, hwaddr addr,
+>           notify = xive_source_esb_eoi(xsrc, srcno);
+>           break;
+>   
+> +    /*
+> +     * This is an internal offset used to inject triggers when the PQ
+> +     * state bits are not controlled locally. Such as for LSIs when
+> +     * under ABT mode.
+> +     */
+> +    case XIVE_ESB_INJECT ... XIVE_ESB_INJECT + 0x3FF:
+> +        notify = true;
+> +        break;
+> +
+>       case XIVE_ESB_SET_PQ_00 ... XIVE_ESB_SET_PQ_00 + 0x0FF:
+>       case XIVE_ESB_SET_PQ_01 ... XIVE_ESB_SET_PQ_01 + 0x0FF:
+>       case XIVE_ESB_SET_PQ_10 ... XIVE_ESB_SET_PQ_10 + 0x0FF:
+> diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
+> index 9e186bbb6cd9..d474476b5a55 100644
+> --- a/hw/intc/xive2.c
+> +++ b/hw/intc/xive2.c
+> @@ -658,6 +658,16 @@ static void xive2_end_source_write(void *opaque, hwaddr addr,
+>           notify = xive_esb_eoi(&pq);
+>           break;
+>   
+> +    case XIVE_ESB_INJECT ... XIVE_ESB_INJECT + 0x3FF:
+> +        if (end_esmask == END2_W1_ESe) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "XIVE: END %x/%x can not EQ inject on ESe\n",
+> +                           end_blk, end_idx);
+> +            return;
+> +        }
+> +        notify = true;
+> +        break;
+> +
+>       default:
+>           qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid END ESB write addr %d\n",
+>                         offset);
 
