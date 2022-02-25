@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED6F4C41F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:08:43 +0100 (CET)
-Received: from localhost ([::1]:47220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829B74C41F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:05:55 +0100 (CET)
+Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNXWk-0002kz-1h
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:08:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55686)
+	id 1nNXU2-00087q-6X
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:05:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1nNWIa-0008Qj-W4
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:50:01 -0500
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:58856)
+ id 1nNWIa-0008QH-If
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:50:00 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:53096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1nNWIY-0007aP-7C
+ id 1nNWIY-0007aO-8z
  for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:50:00 -0500
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id ABB3F46E2F;
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 45BD740B5F;
  Fri, 25 Feb 2022 09:49:55 +0100 (CET)
 From: Fabian Ebner <f.ebner@proxmox.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 0/3] VNC-related HMP/QMP fixes
-Date: Fri, 25 Feb 2022 09:49:46 +0100
-Message-Id: <20220225084949.35746-1-f.ebner@proxmox.com>
+Subject: [PATCH v9 1/3] monitor/hmp: add support for flag argument with value
+Date: Fri, 25 Feb 2022 09:49:47 +0100
+Message-Id: <20220225084949.35746-2-f.ebner@proxmox.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220225084949.35746-1-f.ebner@proxmox.com>
+References: <20220225084949.35746-1-f.ebner@proxmox.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
  helo=proxmox-new.maurer-it.com
@@ -57,83 +58,85 @@ Cc: w.bumiller@proxmox.com, berrange@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Original cover letter by Stefan R.:
+From: Stefan Reiter <s.reiter@proxmox.com>
 
-Since the removal of the generic 'qmp_change' command, one can no
-longer replace the 'default' VNC display listen address at runtime
-(AFAIK). For our users who need to set up a secondary VNC access port,
-this means configuring a second VNC display (in addition to our
-standard one for web-access), but it turns out one cannot set a
-password on this second display at the moment, as the 'set_password'
-call only operates on the 'default' display.
+Adds support for the "-xs" parameter type, where "-x" denotes a flag
+name and the "s" suffix indicates that this flag is supposed to take
+an arbitrary string parameter.
 
-Additionally, using secret objects, the password is only read once at
-startup. This could be considered a bug too, but is not touched in
-this series and left for a later date.
+These parameters are always optional, the entry in the qdict will be
+omitted if the flag is not given.
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+[FE: fixed typo pointed out by Eric Blake
+     use s instead of V to indicate string parameter]
+Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+---
 
 v8 -> v9:
-* use s instead of V to indicate when a flag takes a string parameter
-* make @connected a common member of @SetPasswordOptions
+* Use s rather than V to indicate that the flag takes a value.
 
-v7 -> v8:
-* drop last patch deprecating SetPasswordAction values besides 'keep'
-  for VNC (unfortunately, I don't have enough time to try implementing
-  'disconnect' and 'fail' for VNC in the near future)
-* drop if conditionals for DisplayProtocol enum to make compilation
-  with --disable-spice and/or --disable-vnc work
-* order 'keep' first in enum, to fix how patch #3 uses it as an
-  implicit default
-* also set connected and has_connected for the VNC options in
-  hmp_set_password
-* fix typo in patch #1
-* add missing '#' for description in patch #3
+ monitor/hmp.c              | 19 ++++++++++++++++++-
+ monitor/monitor-internal.h |  3 ++-
+ 2 files changed, 20 insertions(+), 2 deletions(-)
 
-v6 -> v7:
-* remove g_strdup and g_free, use strings directly
-* squash in last patch
-
-v5 -> v6:
-* consider feedback from Markus' review, mainly:
-  * fix crash bug in patch 1 (sorry, artifact of patch-splitting)
-  * rely on '!has_param => param == NULL' to shorten code
-  * add note to 'docs/about/deprecated.rst' and touch up comments a bit
-* go back to g_free instead of qapi_free_* since the latter apparently tries to
-  free the passed in pointer which lives on the stack...
-* fix bug in HMP parsing (see patch 1)
-
-v4 -> v5:
-* add comment to patch 1 in "monitor-internal.h"
-* use qapi_free_SetPasswordOptions and friends, don't leak strdups
-* split QAPI change into 3 seperate patches
-
-v3 -> v4:
-* drop previously patch 1, this was fixed here instead:
-  https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02529.html
-* patch 1: add Eric's R-b
-* patch 2: remove if-assignment, use 'deprecated' feature in schema
-
-v2 -> v3:
-* refactor QMP schema for set/expire_password as suggested by Eric Blake and
-  Markus Armbruster
-
-v1 -> v2:
-* add Marc-André's R-b on patch 1
-* use '-d' flag as suggested by Eric Blake and Gerd Hoffmann
-  * I didn't see a way to do this yet, so I added a "flags with values" arg type
-
-Stefan Reiter (3):
-  monitor/hmp: add support for flag argument with value
-  qapi/monitor: refactor set/expire_password with enums
-  qapi/monitor: allow VNC display id in set/expire_password
-
- hmp-commands.hx            |  24 ++++----
- monitor/hmp-cmds.c         |  47 ++++++++++++++-
- monitor/hmp.c              |  19 +++++-
- monitor/monitor-internal.h |   3 +-
- monitor/qmp-cmds.c         |  49 +++++----------
- qapi/ui.json               | 120 +++++++++++++++++++++++++++++++------
- 6 files changed, 194 insertions(+), 68 deletions(-)
-
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index b20737e63c..569066036d 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -981,6 +981,7 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+             {
+                 const char *tmp = p;
+                 int skip_key = 0;
++                int ret;
+                 /* option */
+ 
+                 c = *typestr++;
+@@ -1003,11 +1004,27 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+                     }
+                     if (skip_key) {
+                         p = tmp;
++                    } else if (*typestr == 's') {
++                        /* has option with string value */
++                        typestr++;
++                        tmp = p++;
++                        while (qemu_isspace(*p)) {
++                            p++;
++                        }
++                        ret = get_str(buf, sizeof(buf), &p);
++                        if (ret < 0) {
++                            monitor_printf(mon, "%s: value expected for -%c\n",
++                                           cmd->name, *tmp);
++                            goto fail;
++                        }
++                        qdict_put_str(qdict, key, buf);
+                     } else {
+-                        /* has option */
++                        /* has boolean option */
+                         p++;
+                         qdict_put_bool(qdict, key, true);
+                     }
++                } else if (*typestr == 's') {
++                    typestr++;
+                 }
+             }
+             break;
+diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+index 3da3f86c6a..caa2e90ef2 100644
+--- a/monitor/monitor-internal.h
++++ b/monitor/monitor-internal.h
+@@ -63,7 +63,8 @@
+  * '.'          other form of optional type (for 'i' and 'l')
+  * 'b'          boolean
+  *              user mode accepts "on" or "off"
+- * '-'          optional parameter (eg. '-f')
++ * '-'          optional parameter (eg. '-f'); if followed by a 's', it
++ *              specifies an optional string param (e.g. '-fs' allows '-f foo')
+  *
+  */
+ 
 -- 
 2.30.2
 
