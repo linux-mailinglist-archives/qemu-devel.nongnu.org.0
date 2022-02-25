@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1AA4C51E8
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 00:05:31 +0100 (CET)
-Received: from localhost ([::1]:44514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164564C521C
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 00:35:31 +0100 (CET)
+Received: from localhost ([::1]:46020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNjeU-0004ib-63
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 18:05:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45152)
+	id 1nNk7V-00022U-Jj
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 18:35:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNije-0004jP-T0
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 17:06:47 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=44697
- helo=mail-pj1-x1032.google.com)
+ id 1nNinS-0008VT-A6
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 17:10:42 -0500
+Received: from [2607:f8b0:4864:20::42d] (port=39757
+ helo=mail-pf1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNijc-0001p4-AL
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 17:06:45 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- cp23-20020a17090afb9700b001bbfe0fbe94so6030917pjb.3
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 14:06:43 -0800 (PST)
+ id 1nNinO-0005NR-Qn
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 17:10:41 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id y11so5863268pfa.6
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 14:10:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=buBatmqkrbjC/58oXnJPX68i0y4ccQgKvsZDkfkhbpY=;
- b=MIYJAGrVSGYvmNLOY/G6EYJIgKkkjfOOVYfAG8wiMl9wFycfZW0TuS5oNVYglAiE/s
- GldDsU0onJwOSdo/FejvxmwcSIjAC/bD/iKVMwRnj4G4JUTSbO9rju4OJ/eUvXSCsLqt
- tBCs3GqBVYrvoRysRKmhvwdLtR8qJCWPSzl11GmSieJPAP+FcEqzS+Gw1VRhDJA1DLyy
- hdXUJJEdc9Tr1X9KJEos8mRgVMeBSCN6i1b+4r+E+5/TU/+IBaeLQkTpRYiYM+g+9t1s
- 5JeC5gzfNhjUn5qiNcT2G9UScJ4usudnqzqs8TgtxTGFAS5JvFSvPvRZ97nFdZWlbbhi
- OHog==
+ bh=yD+4WyRFT2NIkfZgNALBF7TysjbpgXn3DO0cpT5wgO4=;
+ b=j/RgyS5Cet3loPjdpQlGrM1mmNcsCG32gmRWndWD4DhEwifhso3dxuqLEXt9wSER7y
+ vEoBOExPW6yJ0Ra4SqvYf1eiSwJ9//couWvFRHbdQrvoZrDAlcPhH5Rpb7O+e39J4321
+ i9UiYEicqnFqAT8dTShv2gWbO8DaHMrFUBjWSc+q69hfzITJCD+dXHRD2bt/Wxt0+Kz5
+ ZxHs+UMfh4MiI8eUWwPa4ZOHdUGZqwO6pmNnan8CJN/5sNqWe9gl6qEVoL/3qia2uhmd
+ LOAJa5/hiPYnpBLeDZXpPbCS0FQ1AjB2NHmMz4ksczhUQ2BqROH44cNTVmT6U10BoTpa
+ 4CgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=buBatmqkrbjC/58oXnJPX68i0y4ccQgKvsZDkfkhbpY=;
- b=mg5Q8aKnKPU0WxX7NWpWUPPy++HZayhcJ+OdqNu/h1CeiRZdYyny+UPO7mL3x/VTTR
- szM76bD5CKe+pkLrKWoGyo4HztXGz7rKm57JrVTGeIj+8lnd0mMnq6/OzWZDiUqUBGkr
- h14ce/NIK7EyyIpIvgw0c9Wv2C1rIMlhOtDfkCMeiASMHdS/YYfBWMUEFkg4BDYFZFKS
- ygK4oJX6cB89j1yRXmjZ+H55yxZjL9i3GQqWPK8ywtek0BXgOzdLVrpaKOppVMApf/Ow
- vfvEjxKUhE7JFmxgX0Xb5G2Vo4xySqMDTB9OBNWsEjPfh8pl7d3kutcWZY59vbq0aBnd
- swEg==
-X-Gm-Message-State: AOAM530gkETtufUQrm7wol4AY60u7Ju4kM/GmUYZZiyZuuW0gJHvC/yw
- a0wESU1G1OLsdvEc9m4milJWUg==
-X-Google-Smtp-Source: ABdhPJwlHMYOfoeQl/jgm5FByJFeA9+JrmmNtiG+0ORF+vERB2LHBUmDUbHmmqRX0RM1HtnviwvgHg==
-X-Received: by 2002:a17:902:7285:b0:14d:7f5b:94d0 with SMTP id
- d5-20020a170902728500b0014d7f5b94d0mr9109999pll.25.1645826802978; 
- Fri, 25 Feb 2022 14:06:42 -0800 (PST)
+ bh=yD+4WyRFT2NIkfZgNALBF7TysjbpgXn3DO0cpT5wgO4=;
+ b=Y8lUZnSRR3yN/oiuwjMvgM2gQW/K6/J+4osAGbM+qC07m1lI6gc2ATvT5LOhBCo8Gx
+ xppIqQQ+DFEpcwmDXKmyrHk783kglixsRmMi3tfJZ9swm8CVdFKSkf/3mTTRQo8hk8JO
+ auurc2z2MxuvZHnzsFZyaVMT/vDXjabCZW1g9OW14ZD0/LNbIgXn+0gmpzRn68LZ3NGe
+ cRR5CmJpS5OQESp09bjqiQX+AvOHmeul0tbmHikPy8aCwGPRonQ4VS4NkiXUNG/PrI9j
+ KFMOVqB4VD0oES0CWzam7lb++IE+PRdLsas0Bmb2509+Fn8H4EQj907sKz1iCCaidSQ/
+ f06g==
+X-Gm-Message-State: AOAM531Ej8Xrjep2PJzvA1U4vdOSfxKcOnEIt2DepQ4mR64rLDBF/SYz
+ 73OaciFl56lXssTJ66UYMpx7ig==
+X-Google-Smtp-Source: ABdhPJzcun23zMaCk789kArmEMSYMiFt62Xq1qbedYauFuheKGGvCFhp8dr85Pws2+SvrPINutyunQ==
+X-Received: by 2002:a63:1456:0:b0:373:c08c:124d with SMTP id
+ 22-20020a631456000000b00373c08c124dmr7877317pgu.363.1645827036392; 
+ Fri, 25 Feb 2022 14:10:36 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- z13-20020a63e10d000000b003733d6c90e4sm3368935pgh.82.2022.02.25.14.04.12
+ q13-20020aa7982d000000b004cb98a2ca35sm4667232pfl.211.2022.02.25.14.10.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 14:06:42 -0800 (PST)
-Message-ID: <69cb98af-b4ac-b1f4-1d6e-b0a474aa227d@linaro.org>
-Date: Fri, 25 Feb 2022 12:04:10 -1000
+ Fri, 25 Feb 2022 14:10:36 -0800 (PST)
+Message-ID: <dcad7f45-098d-edaf-c061-970aa0353603@linaro.org>
+Date: Fri, 25 Feb 2022 12:10:31 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v5 40/49] target/ppc: Refactor VSX_SCALAR_CMP_DP
+Subject: Re: [PATCH v5 44/49] target/ppc: Refactor VSX_MAX_MINC helper
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
- <20220225210936.1749575-41-matheus.ferst@eldorado.org.br>
+ <20220225210936.1749575-45-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220225210936.1749575-41-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220225210936.1749575-45-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,22 +100,82 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/25/22 11:09, matheus.ferst@eldorado.org.br wrote:
-> From: Víctor Colombo<victor.colombo@eldorado.org.br>
+> From: Víctor Colombo <victor.colombo@eldorado.org.br>
 > 
-> Refactor VSX_SCALAR_CMP_DP, changing its name to VSX_SCALAR_CMP and
-> prepare the helper to be used for quadword comparisons.
+> Refactor xs{max,min}cdp VSX_MAX_MINC helper to prepare for
+> xs{max,min}cqp implementation.
 > 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > ---
 > changes for v5:
-> - Improve refactor as suggested by Richard Henderson
+> - use float_flag_invalid_snan as suggested by Richard Henderson
 > ---
->   target/ppc/fpu_helper.c | 66 +++++++++++++++++++----------------------
->   1 file changed, 30 insertions(+), 36 deletions(-)
+>   target/ppc/fpu_helper.c | 41 +++++++++++++++++------------------------
+>   1 file changed, 17 insertions(+), 24 deletions(-)
+> 
+> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> index 4bfa1c4283..0aaf529ac8 100644
+> --- a/target/ppc/fpu_helper.c
+> +++ b/target/ppc/fpu_helper.c
+> @@ -2533,40 +2533,33 @@ VSX_MAX_MIN(xsmindp, minnum, 1, float64, VsrD(0))
+>   VSX_MAX_MIN(xvmindp, minnum, 2, float64, VsrD(i))
+>   VSX_MAX_MIN(xvminsp, minnum, 4, float32, VsrW(i))
+>   
+> -#define VSX_MAX_MINC(name, max)                                               \
+> +#define VSX_MAX_MINC(name, max, tp, fld)                                      \
+>   void helper_##name(CPUPPCState *env,                                          \
+>                      ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)               \
+>   {                                                                             \
+>       ppc_vsr_t t = { };                                                        \
+> -    bool vxsnan_flag = false, vex_flag = false;                               \
+> +    bool first;                                                               \
+>                                                                                 \
+> -    if (unlikely(float64_is_any_nan(xa->VsrD(0)) ||                           \
+> -                 float64_is_any_nan(xb->VsrD(0)))) {                          \
+> -        if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||         \
+> -            float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {         \
+> -            vxsnan_flag = true;                                               \
+> -        }                                                                     \
+> -        t.VsrD(0) = xb->VsrD(0);                                              \
+> -    } else if ((max &&                                                        \
+> -               !float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) ||     \
+> -               (!max &&                                                       \
+> -               float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status))) {      \
+> -        t.VsrD(0) = xa->VsrD(0);                                              \
+> +    if (max) {                                                                \
+> +        first = tp##_le_quiet(xb->fld, xa->fld, &env->fp_status);             \
+>       } else {                                                                  \
+> -        t.VsrD(0) = xb->VsrD(0);                                              \
+> +        first = tp##_lt_quiet(xa->fld, xb->fld, &env->fp_status);             \
+>       }                                                                         \
+>                                                                                 \
+> -    vex_flag = fpscr_ve & vxsnan_flag;                                        \
+> -    if (vxsnan_flag) {                                                        \
+> -        float_invalid_op_vxsnan(env, GETPC());                                \
+> +    if (first) {                                                              \
+> +        t.fld = xa->fld;                                                      \
+> +    } else {                                                                  \
+> +        t.fld = xb->fld;                                                      \
+> +        if (env->fp_status.float_exception_flags & float_flag_invalid_snan) { \
+> +            float_invalid_op_vxsnan(env, GETPC());                            \
+> +        }                                                                     \
+>       }                                                                         \
+> -    if (!vex_flag) {                                                          \
+> -        *xt = t;                                                              \
+> -    }                                                                         \
+> -}                                                                             \
+> +                                                                              \
+> +    *xt = t;                                                                  \
+> +}
 
+I just noticed that we're missing reset_fpstatus at the beginning here.
+Since invalid via snan is the only possible exception for min/max, we do not need 
+do_float_check_status at the end.
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
