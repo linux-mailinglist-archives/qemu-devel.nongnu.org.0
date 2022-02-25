@@ -2,76 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFAB4C4717
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 15:09:38 +0100 (CET)
-Received: from localhost ([::1]:36014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5400A4C4700
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 14:58:39 +0100 (CET)
+Received: from localhost ([::1]:47774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNbHt-0000zc-8m
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 09:09:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35298)
+	id 1nNb7G-0005Js-0g
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 08:58:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNaPl-000895-TX
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 08:13:41 -0500
-Received: from [2607:f8b0:4864:20::b32] (port=35337
- helo=mail-yb1-xb32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNaPj-0004wA-Js
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 08:13:41 -0500
-Received: by mail-yb1-xb32.google.com with SMTP id bt13so5810542ybb.2
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 05:13:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lGI1mogxhwryDLW4ABCiVDctbRe9KiKX94lviyCFJwI=;
- b=M/c2/p9AiTa6DO22Xc0Ham/paoyPPSbPjb3NJliU7mCVwDraFyo4ygg9TtfsxI+lqS
- SvfWHmnyAj6Xu8OiUGtQ2973st/vhV77sgv8/3y+Wr7cqBwdB98/R1xIFVg0QdHJ7TUZ
- zeLjhlE6lMAT5PA4KU6ozkHvjbthk8DfbprTEEjl0D6snVfGY1J/KhaFf8EW36IguiYu
- 6nM6Al9wQAmN5YJCtiqrNE+bQk5KZF2Cl1ThebJkPdsmYf4/YlHiw6vrl6gLf0fo/int
- FW9JkHafTtIZtRAKT08Pw5NDwqgF/vbIoe3DEaLRFmU/Q6LH9jBVdTf5ODs0R5CZAwaj
- i13g==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nNaUS-0001Rw-CZ
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 08:18:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nNaUO-0007lV-HY
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 08:18:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645795107;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DZ+JtX46Lv8k8onMmGapind6TZ37wG9EC4Ms6h0kljI=;
+ b=evCVXN2M+ISKbHrlSllsYIiEdZMqATsqnx/lQ2v3+Bmd1H7O5cjMtjQaOyO+6FdZoI1+W4
+ 3DboRP0lQUeO63S5yOT1gpy4xH5qHJSBcNk4dpSIV62MXl7frk7e8dPaswq6MASSvsdqzV
+ JsOM+C9cd5HqCqLLJ9M4Yf+u8cB1bQw=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-219-y-LcOVngM52tCumh1QEZEw-1; Fri, 25 Feb 2022 08:18:25 -0500
+X-MC-Unique: y-LcOVngM52tCumh1QEZEw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ hc39-20020a17090716a700b006ce88cf89dfso2656632ejc.10
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 05:18:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lGI1mogxhwryDLW4ABCiVDctbRe9KiKX94lviyCFJwI=;
- b=mxSBwMec8+Futrc8YvVdmxh6rTOj5U4gRyYE8GjOTH22stki7G5vEGUnhZ138Kslvo
- aXN6dSBIKwJtFMKzmRE/8Ij2YGDXL8EG/6Kx8n/kWZjLbnO2XXR67SbqfnNeOeLAOJ/g
- CCMbmVBB/AlEAiSn6tjWJ32h4V//01/yMMDkND8RHHUIJD9xH43NeLArz9y1uS69PRTR
- kqeu0qWyUheI0d8zcuyuW0e/DiUBmjQ2vV8E+qyCJ9/89dYUXt81AoAn3v+5Kw0g6/RK
- iL34RRfB+fVuj3dj0yPS6Wx4LYG57GQHXQriObZW7uO9jSISooRD3HxYIr2jXyrrb7+1
- Zg/Q==
-X-Gm-Message-State: AOAM533mzysxpSl7UBunB0QWpL36oExOhs9OpLCw8E0Jq5DHAjMbUId7
- zGQ7ZPT1Ro/AncVi3vZb+1P45MuizWf7LeSfBA+Mww==
-X-Google-Smtp-Source: ABdhPJxZs0Zb9e/wJlhSYsZBac42tEwTL+W3joDV5JrgtSXd41fyvSbMsPhKROjB5iU6zcvJjzQJ7z3wRo9IdkAwKnk=
-X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
- h3-20020a056902008300b0061a709bd841mr6903546ybs.140.1645794818017; Fri, 25
- Feb 2022 05:13:38 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=DZ+JtX46Lv8k8onMmGapind6TZ37wG9EC4Ms6h0kljI=;
+ b=lNwal6ORDtVQlTxvscIoV1oxdWHlSZTduspZl8NpaqL1XKbORx/XwNWVLJrfgF3uH4
+ muTpmTppziNrP1DWsbU983unv2r+/7TsrAUWhs31UDdnlf0sKiZ4YtxEb4owwbXFOaiR
+ NgJWiiZGWLYw04z+G2VH+dI9YlV9S/SNQ4qnUbZPASySV14lF9AUgqzcR2qPoNbFypl+
+ ardPUghyhCdjaSmODRdN5DiJmG+UD3bKDArNlNE4ICNc1pHpso/0AkeTOhTp1URTS9hf
+ cOuAyZlb6U1NAa1Vf+4A09mMWvE3u9ksVXyKxRG0ePMaYnZsVJLVVl2zFxjiI7rzRqJc
+ z22w==
+X-Gm-Message-State: AOAM532um0u8iON9REsD8K3Qj3U/JyKbAwBns+qUk4uRngjUrAKyQbpV
+ rf1BBX7/di5piYR7G42PidcSmPj8MjV1F9UX6TbTCD6SsOANkaN0iODg1c2/UY8IcKnsrJyLRMS
+ fhe0abdLGjZ1rk3E=
+X-Received: by 2002:a05:6402:228d:b0:410:d437:293a with SMTP id
+ cw13-20020a056402228d00b00410d437293amr6970322edb.245.1645795104490; 
+ Fri, 25 Feb 2022 05:18:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxi5dFKPKv8NWa0MGPRp9aI/MGNLhcMTDoxdbflVt7lK0Y0nFh+rKIo4Enc21dXrLqL0wkzlA==
+X-Received: by 2002:a05:6402:228d:b0:410:d437:293a with SMTP id
+ cw13-20020a056402228d00b00410d437293amr6970303edb.245.1645795104243; 
+ Fri, 25 Feb 2022 05:18:24 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ d6-20020a056402144600b00412a7d10c20sm1296030edx.60.2022.02.25.05.18.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Feb 2022 05:18:23 -0800 (PST)
+Date: Fri, 25 Feb 2022 14:18:23 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 0/4] Fix broken PCIe device after migration
+Message-ID: <20220225141823.5ee12954@redhat.com>
+In-Reply-To: <20220225045327-mutt-send-email-mst@kernel.org>
+References: <20220224174411.3296848-1-imammedo@redhat.com>
+ <20220225045327-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220214185605.28087-1-f4bug@amsat.org>
- <20220214185605.28087-6-f4bug@amsat.org>
-In-Reply-To: <20220214185605.28087-6-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Feb 2022 13:13:26 +0000
-Message-ID: <CAFEAcA8yaBOD3KXc-DY94oqzC5wkCENPkePgVCybqR=9NmdQFQ@mail.gmail.com>
-Subject: Re: [PATCH v5 05/16] hvf: Fix OOB write in RDTSCP instruction decode
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,72 +101,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <lizhang@suse.de>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Feb 2022 at 18:57, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> From: Cameron Esfahani <dirty@apple.com>
->
-> A guest could craft a specific stream of instructions that will have QEMU
-> write 0xF9 to inappropriate locations in memory.  Add additional asserts
-> to check for this.  Generate a #UD if there are more than 14 prefix bytes=
-.
->
-> Found by Julian Stecklina <julian.stecklina@cyberus-technology.de>
->
-> Signed-off-by: Cameron Esfahani <dirty@apple.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  target/i386/hvf/x86_decode.c | 11 +++++++++--
->  target/i386/hvf/x86hvf.c     |  8 ++++++++
->  target/i386/hvf/x86hvf.h     |  1 +
->  3 files changed, 18 insertions(+), 2 deletions(-)
+On Fri, 25 Feb 2022 04:58:46 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-I'm not a huge fan of the VM_PANIC_ON() macro, which appears to be
-essentially an obfuscated assert(), but it's the existing code style
-in this decoder I guess.
+> On Thu, Feb 24, 2022 at 12:44:07PM -0500, Igor Mammedov wrote:
+> > Currently ACPI PCI hotplug is enabled by default for Q35 machine
+> > type and overrides native PCIe hotplug. It works as expected when
+> > a PCIe device is hotplugged into slot, however the device becomes
+> > in-operational after migration. Which is caused by BARs being
+> > disabled on target due to powered off status of the slot.
+> > 
+> > Proposed fix disables power control on PCIe slot when ACPI pcihp
+> > takes over hotplug control and makes PCIe slot check if power
+> > control is enabled before trying to change slot's power. Which
+> > leaves slot always powered on and that makes PCI core keep BARs
+> > enabled.  
+> 
+> 
+> I thought some more about this. One of the reasons we
+> did not remove the hotplug capability is really so
+> it's easier to layer acpi on top of pcihp if we
+> want to do it down the road. And it would be quite annoying
+> if we had to add more hack to go back to having capability.
+> 
+> How about instead of patch 3 we call pci_set_power(dev, true) for all
+> devices where ACPI is managing hotplug immediately on plug?  This will
+> fix the bug avoiding headache with migration.
 
-> @@ -1847,7 +1849,8 @@ void calc_modrm_operand(CPUX86State *env, struct x8=
-6_decode *decode,
->
->  static void decode_prefix(CPUX86State *env, struct x86_decode *decode)
->  {
-> -    while (1) {
-> +    /* At most 14 prefix bytes. */
-> +    for (int i =3D 0; i < 14; i++) {
->          /*
->           * REX prefix must come after legacy prefixes.
->           * REX before legacy is ignored.
-> @@ -1892,6 +1895,8 @@ static void decode_prefix(CPUX86State *env, struct =
-x86_decode *decode)
->              return;
->          }
->      }
-> +    /* Too many prefixes!  Generate #UD. */
-> +    hvf_inject_ud(env);
+true it would be more migration friendly (v6.2 still broken
+but that can't be helped), since we won't alter pci_config at all.
+Although it's still more hackish compared to disabling SLTCAP_PCP
+(though it seems guest OSes have no issues with SLTCAP_PCP being
+present but not really operational, at least for ~6months the thing
+was released (6.1-6.2-now)).
 
-This doesn't look right. This is the decoder, so it shouldn't be
-actively affecting the state of the CPU. Also, we don't do anything
-here to cause us to stop trying to decode this instruction, so we'll
-carry on through the rest of decode and then the caller will call
-exec_instruction() on whatever results.
+Let me play with this idea and see if it works and at what cost,
+though I still prefer cleaner SLTCAP_PCP disabling to make sure
+guest OS won't get wrong idea about power control being present
+when it's not actually not.
 
-I think if you want to say "this instruction should cause a #UD"
-you should emit an X86_DECODE_CMD_* for "raise #UD", stop decode
-of the insn at that point, and then handle that in exec_instruction().
 
-You probably also need to take special care to avoid tripping the
-assert(ins_len =3D=3D decode.len) at one of the callsites in hvf.c
-(or else just drop or modify that assert).
+> Patch 2 does seem like a good idea.
+> 
+> > PS:
+> > it's still hacky approach as all ACPI PCI hotplug is, but it's
+> > the least intrusive one. Alternative, I've considered, could be
+> > chaining hotplug callbacks and making pcihp ones call overriden
+> > native callbacks while inhibiting hotplug event in native callbacks
+> > somehow. But that were a bit more intrusive and spills over to SHPC
+> > if implemented systematically, so I ditched that for now. It could
+> > be resurrected later on if current approach turns out to be
+> > insufficient.
+> > 
+> > RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
+> > CC: mst@redhat.com
+> > CC: kraxel@redhat.com
+> > 
+> > Igor Mammedov (4):
+> >   pci: expose TYPE_XIO3130_DOWNSTREAM name
+> >   pcie: update slot power status only is power control is enabled
+> >   acpi: pcihp: disable power control on PCIe slot
+> >   q35: compat: keep hotplugged PCIe device broken after migration for
+> >     6.2-older machine types
+> > 
+> >  include/hw/acpi/pcihp.h                    |  4 +++-
+> >  include/hw/pci-bridge/xio3130_downstream.h | 15 +++++++++++++++
+> >  hw/acpi/acpi-pci-hotplug-stub.c            |  3 ++-
+> >  hw/acpi/ich9.c                             | 21 ++++++++++++++++++++-
+> >  hw/acpi/pcihp.c                            | 16 +++++++++++++++-
+> >  hw/acpi/piix4.c                            |  3 ++-
+> >  hw/core/machine.c                          |  4 +++-
+> >  hw/pci-bridge/xio3130_downstream.c         |  3 ++-
+> >  hw/pci/pcie.c                              |  5 ++---
+> >  9 files changed, 64 insertions(+), 10 deletions(-)
+> >  create mode 100644 include/hw/pci-bridge/xio3130_downstream.h
+> > 
+> > -- 
+> > 2.31.1  
+> 
 
-thanks
--- PMM
 
