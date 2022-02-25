@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E04F4C51BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:52:09 +0100 (CET)
-Received: from localhost ([::1]:49232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F50E4C51D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:58:20 +0100 (CET)
+Received: from localhost ([::1]:35282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNjRU-0005CS-Hy
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:52:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46754)
+	id 1nNjXX-0006qE-DL
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:58:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNitr-0008Dh-D9
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 17:17:19 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=44738
- helo=mail-pj1-x1030.google.com)
+ id 1nNjS9-000890-4i
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 17:52:45 -0500
+Received: from [2607:f8b0:4864:20::62c] (port=43909
+ helo=mail-pl1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNitp-0001du-2c
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 17:17:18 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- cp23-20020a17090afb9700b001bbfe0fbe94so6052878pjb.3
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 14:17:16 -0800 (PST)
+ id 1nNjS7-0004Cf-BU
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 17:52:44 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id x11so5960025pll.10
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 14:52:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0bc4Qf96hEudF7BwtPBA0RFw4OOkdlqXJnpHL3uCA3s=;
- b=pw1hxtrg4FVJsQ98Dse71FDamDbVJKrdgQMm+9vyMD9gWlJfCZWNf6Z5GeDfBEBWmE
- Txgd/JJX6EFG9wC1e5NM5hBoRdxD6gDSoiQ/+0+w1nT/E0HYC/As4aMc0uv5OQxxn7N7
- 1ZaZCTj+iY3jA0KzRYz6Cx+tJsG0XUt+6yS2spR9t/sB3NFH/RwP5BcAyQWU4fQYr/6j
- JhEYwddWtv57zJP0pxNaKKThYvQO7MISC3k739C2yduLV4VeUpnSXQPwVl5ZYet+wbov
- 0+8OFkA83ebvFgcE1gXBnSeasyU08eRv+6EiiR/YS3CUBzfFioXRiKwAoFb+UfCTvkxy
- PaWA==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=rr6XKenPDqeGvuLBHRpUrvcd/808x2uckqCdYlKEiXE=;
+ b=CLJJOqPQeZaqDV1c0nk6sZOsDab+1f99xnQdNs0Sa4Ma9Ok2p6KPC5uxtS4/2DtwXV
+ w/Ac6+Q3DTzfPRO1/lOMA9M2b86HVX9+dZde8ZXdiSHFhSs0grNNQM3+/nZS8s3B+C89
+ f/7gC8+onEHX6LDWO6JiCxMWq4cTmpLFy0pMpIg60NPQigegfQVYi3x2vriftLtWmwia
+ zcvi/Dzt3qCNheAYdPgnvwHOa9QShmPJ3cfAC0mgVemdPh2hmAM4Z0IdPWY5sgpU5Ev0
+ fe6oAMz/VbBpTezSgiT7uNK7CmaC/qAV6rmBddO6NUZb/v3egb1zyK4ohcsIEjS4H0YA
+ F2TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0bc4Qf96hEudF7BwtPBA0RFw4OOkdlqXJnpHL3uCA3s=;
- b=sXppxJoLhGH3p/kx3Dqcpb2OGXZSMASO9xEyr6i9Mc3XrNA+um/tMSJpl6nQkbcZMW
- qYmZKY+8sla1fCf1lj1Hx5ZBFDnz3WjA3xcErOzVISYsUAntkOisiygLLA4EbrCMWIAR
- QWsEEhaGwDdqdPYc+69URnIe94vSrXWeHH5XnWUJaSuUEysVWa+WhumgIEFY2bkbJV8O
- Zq4GoKZTp1MVR1Uq/V6Dn4bj9/aaDuayCU4I32Mq/5kBj5b6U8B4U7I8mOOJz8OBAPkE
- 86EgwcTp/D57xPBYNluGVkghLZHAW6J9D1O8TbBCBWUF7HQOzVVcF7zly6GlflkbSqXU
- W82A==
-X-Gm-Message-State: AOAM533ksVm2n0rffHstHnqBRoOvINDSPlPw4bqIeb27SroXr6dv5clY
- 6IOcIZcKoE75/2HhbJbsOFoqtg==
-X-Google-Smtp-Source: ABdhPJyKE2qDZy4x0SAAJ8mTqtc+FY3V24fXZqW5M2Bcy8Z021OUtYg20ugL1TcsKXQKMXInVxjMHw==
-X-Received: by 2002:a17:902:8ec9:b0:14f:11f7:db77 with SMTP id
- x9-20020a1709028ec900b0014f11f7db77mr9194844plo.136.1645827434993; 
- Fri, 25 Feb 2022 14:17:14 -0800 (PST)
+ bh=rr6XKenPDqeGvuLBHRpUrvcd/808x2uckqCdYlKEiXE=;
+ b=Hp+pRTCWKkeAjl5kngHNASCaeklXDLvpwviWbSQTHElpJPk9Tmnq3G1fBffAEr3e2a
+ klu0ypjMbmhujV/bqiWV/RoculJX3v+n80rFPrFkh9nA1cd9puSULp4QjXL1vnMdon8k
+ 8Z46mJDFldQDSiive873T6LEIyAw3MudNRVwA/+LNmaI3YDhM0eQUPM747P+KCo0jd4F
+ ZS+UsK+xmul69pkLb6VvYiA4gkds4a3cTU9O40rq5qzDWo+dKIzTh6217ilPfB4+Kdv1
+ dyL9fwZiPaG9MG2liwwXaEsT36ZJtsyE4aDh7f4IdkD8FmeN/1xw34BlRPafzM4NYaB2
+ lszg==
+X-Gm-Message-State: AOAM5309YxGyg4idL4ZFJVyDNbfIxORJjeavddnOdFGXsOq9mi0wflcu
+ stO8k2kVL87u5V4bh3mLSLGTwA==
+X-Google-Smtp-Source: ABdhPJzbLqOBJ+2co9KxoVJK7LvWSBHRdmUf1RG2BbrTpHB91cqK7rpEqpaa3Y/3goxWfZ0i2k9a8g==
+X-Received: by 2002:a17:902:e805:b0:14f:d33b:b769 with SMTP id
+ u5-20020a170902e80500b0014fd33bb769mr9582273plg.24.1645829561742; 
+ Fri, 25 Feb 2022 14:52:41 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- y5-20020a056a00180500b004e1bea9c587sm4521936pfa.67.2022.02.25.14.17.13
+ f16-20020a056a00229000b004a818f896b4sm4534051pfe.53.2022.02.25.14.52.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 14:17:14 -0800 (PST)
-Message-ID: <d53ae7ea-83bd-f26b-28ce-20e22930a7f3@linaro.org>
-Date: Fri, 25 Feb 2022 12:17:10 -1000
+ Fri, 25 Feb 2022 14:52:41 -0800 (PST)
+Message-ID: <61d197db-c44e-3354-f1e5-bea48019bb1e@linaro.org>
+Date: Fri, 25 Feb 2022 12:52:38 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v5 46/49] target/ppc: Implement xvcvbf16spn and xvcvspbf16
- instructions
+Subject: Re: [PATCH v2 13/18] tests/tcg: add vectorised sha512 versions
 Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
- <20220225210936.1749575-47-matheus.ferst@eldorado.org.br>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20220225172021.3493923-1-alex.bennee@linaro.org>
+ <20220225172021.3493923-14-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220225210936.1749575-47-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220225172021.3493923-14-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,41 +94,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/22 11:09, matheus.ferst@eldorado.org.br wrote:
-> +void helper_XVCVSPBF16(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)
-> +{
-> +    ppc_vsr_t t = { };
-> +    int i, status;
+On 2/25/22 07:20, Alex Bennée wrote:
+> +++ b/tests/tcg/i386/Makefile.target
+> @@ -71,3 +71,9 @@ TESTS=$(MULTIARCH_TESTS) $(I386_TESTS)
+>   
+>   # On i386 and x86_64 Linux only supports 4k pages (large pages are a different hack)
+>   EXTRA_RUNS+=run-test-mmap-4096
 > +
-> +    for (i = 0; i < 4; i++) {
-> +        t.VsrH(2 * i + 1) = float32_to_bfloat16(xb->VsrW(i), &env->fp_status);
-> +    }
+> +sha512-sse: CFLAGS=-msse4.1 -O3
+> +sha512-sse: sha512.c
+> +	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
 > +
-> +    status = get_float_exception_flags(&env->fp_status);
-> +    if (unlikely(status & float_flag_invalid_snan)) {
-> +        float_invalid_op_vxsnan(env, GETPC());
-> +    }
-> +
-> +    *xt = t;
-> +    do_float_check_status(env, GETPC());
-> +}
+> +TESTS+=sha512-sse
 
-Missing reset_fpstatus.  Otherwise.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The default cpu, qemu32, only implements sse3, not sse4.1, so we get a guest SIGILL.  We 
+can execute this with -cpu max, or we could limit the vectorization.
 
 
 r~
-
-
-PS: Which is reminding me that cleaning that up has been on the to-do list for a long 
-time. We should be able to rely on env->fp_status.float_exception_flags being 0 between 
-and at the start of each fp operation. In do_float_check_status, we would reset 
-float_exception_flags in the expected unlikely case that it is ever non-zero.
 
