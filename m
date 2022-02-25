@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0394C4A92
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 17:23:22 +0100 (CET)
-Received: from localhost ([::1]:42534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F07B04C4A52
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 17:16:03 +0100 (CET)
+Received: from localhost ([::1]:33058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNdNJ-00084J-Cb
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 11:23:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49742)
+	id 1nNdGE-0000wx-Vh
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 11:16:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nNd9X-0002Md-1z; Fri, 25 Feb 2022 11:09:07 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7854)
+ id 1nNdBi-00052C-Qy; Fri, 25 Feb 2022 11:11:23 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nNd9T-0004PH-8y; Fri, 25 Feb 2022 11:09:04 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21PFoJG1002753; 
- Fri, 25 Feb 2022 16:08:52 GMT
+ id 1nNdBg-0005WC-FM; Fri, 25 Feb 2022 11:11:22 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21PG4kW6002136; 
+ Fri, 25 Feb 2022 16:11:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=SV6fylpNNeY1Jqo0ncSWW/quM4cMvIiXGxS1xZWw0FA=;
- b=IgOvZRd5p4ElmFPAR+TAVKa+RhtNbhptA00+z8nuZZx6ceizAhMyLxUX4dFfScV0+Sxf
- Wi9p0REwAFZ1xen5mHtWSTsWyz7++aUeFIM1qdUxyTUptkWGc1JvrihzlFtKcHPR0w/G
- KzD3SKR/dJw2EWXnk5DV/0xf3c7frBORGjqAk/dDL50PDGDuWOY8KqZcHyCOKwRNX4L0
- BjEJoNGOXYsprGXEfxYoLJvX6brIw8jdgUSM1Zno/0XMqoiGEHRazb5RnHJKZS/UYWBu
- cQPS+GAaYRD/3oTlt855TZ0qFDOAmfvgIWdojE+Gor+S3KTU9kVY628JpmVIugf4UnMq tw== 
+ : in-reply-to : references : date : message-id : content-type :
+ mime-version; s=pp1; bh=zI3iG2Hz+dnDGY57G3ONYBgzH/zgYRYmOOpni995/6g=;
+ b=tSUDr31yGhAFLyz8iG+6OcvGaEflAqolXgVcwsipgXgEHssGsVarCVptWjMLnhfVq4EB
+ +s28M9GuW6+OosVw//QG16bSkVE+IsHkJy3nu1GWHPrz5JQoioNle/Tgqm1mJr1FS3cI
+ HmSZ3HWMx4pdmKOrCF+/9VmW4LWDoGaWkVY8bb9nLKQ8S4I4DS2wQsCPrQ+B3QEDRLlh
+ V0WiY5NKZFY7CZqGupT7k242qiKA2DwevRWGdOmtXvLas26ytBLuP+3MJLz+D95MEBu0
+ pofEWma2QkdBDwEdYijMo9fYLsbNwWjfVTxmXFVGOw4ubqvtJ/oRkjy8q621ECuUOMwa aQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eeytf4tcf-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ef2ap85v2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Feb 2022 16:08:51 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21PFuXi7026028;
- Fri, 25 Feb 2022 16:08:51 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eeytf4tbu-1
+ Fri, 25 Feb 2022 16:11:08 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21PG6x1I010050;
+ Fri, 25 Feb 2022 16:11:08 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ef2ap85uh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Feb 2022 16:08:51 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21PFwK2C007871;
- Fri, 25 Feb 2022 16:08:50 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 3ear6br9vd-1
+ Fri, 25 Feb 2022 16:11:08 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21PG8hdr004666;
+ Fri, 25 Feb 2022 16:11:07 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma02dal.us.ibm.com with ESMTP id 3ear6cg054-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Feb 2022 16:08:50 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21PG8n0248693610
+ Fri, 25 Feb 2022 16:11:07 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21PGB5Xe31392108
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 25 Feb 2022 16:08:49 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ABB93AC05E;
- Fri, 25 Feb 2022 16:08:49 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C9144AC05B;
- Fri, 25 Feb 2022 16:08:48 +0000 (GMT)
+ Fri, 25 Feb 2022 16:11:05 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 733F778067;
+ Fri, 25 Feb 2022 16:11:05 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C27C678060;
+ Fri, 25 Feb 2022 16:11:04 +0000 (GMT)
 Received: from localhost (unknown [9.211.119.70])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Fri, 25 Feb 2022 16:08:48 +0000 (GMT)
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Fri, 25 Feb 2022 16:11:04 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [RFC PATCH 3/4] hw/ppc: Take nested guest into account when
- saving timebase
-In-Reply-To: <YhhLNVXO/Uj7XpVi@yekko>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 0/4] ppc: nested TCG migration (KVM-on-TCG)
+In-Reply-To: <7a64b078-a11e-0e5a-e7ae-104052442d88@ilande.co.uk>
 References: <20220224185817.2207228-1-farosas@linux.ibm.com>
- <20220224185817.2207228-4-farosas@linux.ibm.com> <YhhLNVXO/Uj7XpVi@yekko>
-Date: Fri, 25 Feb 2022 13:08:46 -0300
-Message-ID: <87zgmf2ak1.fsf@linux.ibm.com>
-MIME-Version: 1.0
+ <7a64b078-a11e-0e5a-e7ae-104052442d88@ilande.co.uk>
+Date: Fri, 25 Feb 2022 13:11:02 -0300
+Message-ID: <87wnhj2ag9.fsf@linux.ibm.com>
 Content-Type: text/plain
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: daonBAxV16T-PXqXVu9Jfirc8jvkUGrM
-X-Proofpoint-ORIG-GUID: MTQxvn1xPJvf8vU-iaiJicPsTP6rLUBK
+X-Proofpoint-ORIG-GUID: 8mUZ3JWjVjDoNfmtCqYNU7hviRQxaafE
+X-Proofpoint-GUID: pRpXgbK8V-tcwrml7GghOfrEciT23JcU
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-02-25_09,2022-02-25_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015
- spamscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0
- malwarescore=0 priorityscore=1501 mlxlogscore=999 phishscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202250095
+ spamscore=0
+ lowpriorityscore=0 clxscore=1015 mlxscore=0 bulkscore=0 malwarescore=0
+ priorityscore=1501 phishscore=0 mlxlogscore=962 impostorscore=0
+ adultscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2201110000 definitions=main-2202250095
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -107,88 +108,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- npiggin@gmail.com, clg@kaod.org
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org, npiggin@gmail.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Gibson <david@gibson.dropbear.id.au> writes:
+Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
 
-> On Thu, Feb 24, 2022 at 03:58:16PM -0300, Fabiano Rosas wrote:
->> When saving the guest "timebase" we look to the first_cpu for its
->> tb_offset. If that CPU happens to be running a nested guest at this
->> time, the tb_offset will have the nested guest value.
->> 
->> This was caught by code inspection.
+> On 24/02/2022 18:58, Fabiano Rosas wrote:
 >
-> This doesn't seem right.  Isn't the real problem that nested_tb_offset
-> isn't being migrated?  If you migrate that, shouldn't everything be
-> fixed up when the L1 cpu leaves the nested guest on the destination
-> host?
-
-This uses first_cpu, so after we introduced the nested guest code, this
-value has become dependent on what the first_cpu is doing. If it happens
-to be running the nested guest when we migrate, then guest_timebase here
-will have a different value from the one it would have if we had used
-another cpu's tb_offset.
-
-Now, we might have a bug or at least an inefficiency here because
-timebase_load is never called for the TCG migration case. The
-cpu_ppc_clock_vm_state_change callback is only registered for KVM. So in
-TCG we call timebase_save during pre_save, migrate the guest_timebase,
-but never do anything with it on the remote side.
-
+>> This series implements the migration for a TCG pseries guest running a
+>> nested KVM guest. This is just like migrating a pseries TCG guest, but
+>> with some extra state to allow a nested guest to continue to run on
+>> the destination.
 >> 
->> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->> ---
->>  hw/ppc/ppc.c | 17 ++++++++++++++++-
->>  1 file changed, 16 insertions(+), 1 deletion(-)
+>> Unfortunately the regular TCG migration scenario (not nested) is not
+>> fully working so I cannot be entirely sure the nested migration is
+>> correct. I have included a couple of patches for the general migration
+>> case that (I think?) improve the situation a bit, but I'm still seeing
+>> hard lockups and other issues with more than 1 vcpu.
 >> 
->> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
->> index 9e99625ea9..093cd87014 100644
->> --- a/hw/ppc/ppc.c
->> +++ b/hw/ppc/ppc.c
->> @@ -36,6 +36,7 @@
->>  #include "kvm_ppc.h"
->>  #include "migration/vmstate.h"
->>  #include "trace.h"
->> +#include "hw/ppc/spapr_cpu_core.h"
->>  
->>  static void cpu_ppc_tb_stop (CPUPPCState *env);
->>  static void cpu_ppc_tb_start (CPUPPCState *env);
->> @@ -961,19 +962,33 @@ static void timebase_save(PPCTimebase *tb)
->>  {
->>      uint64_t ticks = cpu_get_host_ticks();
->>      PowerPCCPU *first_ppc_cpu = POWERPC_CPU(first_cpu);
->> +    int64_t tb_offset;
->>  
->>      if (!first_ppc_cpu->env.tb_env) {
->>          error_report("No timebase object");
->>          return;
->>      }
->>  
->> +    tb_offset = first_ppc_cpu->env.tb_env->tb_offset;
->> +
->> +    if (first_ppc_cpu->vhyp && vhyp_cpu_in_nested(first_ppc_cpu)) {
->> +        SpaprCpuState *spapr_cpu = spapr_cpu_state(first_ppc_cpu);
->> +
->> +        /*
->> +         * If the first_cpu happens to be running a nested guest at
->> +         * this time, tb_env->tb_offset will contain the nested guest
->> +         * offset.
->> +         */
->> +        tb_offset -= spapr_cpu->nested_tb_offset;
->> +    }
->> +
->>      /* not used anymore, we keep it for compatibility */
->>      tb->time_of_the_day_ns = qemu_clock_get_ns(QEMU_CLOCK_HOST);
->>      /*
->>       * tb_offset is only expected to be changed by QEMU so
->>       * there is no need to update it from KVM here
->>       */
->> -    tb->guest_timebase = ticks + first_ppc_cpu->env.tb_env->tb_offset;
->> +    tb->guest_timebase = ticks + tb_offset;
->>  
->>      tb->runstate_paused =
->>          runstate_check(RUN_STATE_PAUSED) || runstate_check(RUN_STATE_SAVE_VM);
+>> This is more of an early RFC to see if anyone spots something right
+>> away. I haven't made much progress in debugging the general TCG
+>> migration case so if anyone has any input there as well I'd appreciate
+>> it.
+>> 
+>> Thanks
+>> 
+>> Fabiano Rosas (4):
+>>    target/ppc: TCG: Migrate tb_offset and decr
+>>    spapr: TCG: Migrate spapr_cpu->prod
+>>    hw/ppc: Take nested guest into account when saving timebase
+>>    spapr: Add KVM-on-TCG migration support
+>> 
+>>   hw/ppc/ppc.c                    | 17 +++++++-
+>>   hw/ppc/spapr.c                  | 19 ++++++++
+>>   hw/ppc/spapr_cpu_core.c         | 77 +++++++++++++++++++++++++++++++++
+>>   include/hw/ppc/spapr_cpu_core.h |  2 +-
+>>   target/ppc/machine.c            | 61 ++++++++++++++++++++++++++
+>>   5 files changed, 174 insertions(+), 2 deletions(-)
+>
+> FWIW I noticed there were some issues with migrating the decrementer on Mac machines 
+> a while ago which causes a hang on the destination with TCG (for MacOS on a x86 host 
+> in my case). Have a look at the following threads for reference:
+>
+> https://lists.gnu.org/archive/html/qemu-devel/2016-01/msg00546.html
+> https://lists.gnu.org/archive/html/qemu-devel/2016-01/msg04622.html
+
+Thanks, Mark! There's a lot of helpful information in these threads.
+
+> IIRC there is code that assumes any migration in PPC is being done
+>live, and so adjusts the timebase on the destination to reflect wall
+>clock time by recalculating tb_offset. I haven't looked at the code for
+>a while but I think the outcome was that there needs to be 2 phases in
+>migration: the first is to migrate the timebase as-is for guests that
+>are paused during migration, whilst the second is to notify
+>hypervisor-aware guest OSs such as Linux to make the timebase
+>adjustment if required if the guest is running.
+
+
+>
+>
+> ATB,
+>
+> Mark.
 
