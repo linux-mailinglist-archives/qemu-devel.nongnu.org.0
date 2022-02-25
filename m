@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741434C41B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:45:34 +0100 (CET)
-Received: from localhost ([::1]:55354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C486E4C40DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:02:46 +0100 (CET)
+Received: from localhost ([::1]:36564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNXAL-00053M-0K
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:45:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52464)
+	id 1nNWUu-0005Ag-MZ
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:02:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nNW1z-0004cv-0a
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nNW20-0004d4-J9
  for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:32:53 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=55182
- helo=mail-pj1-x1035.google.com)
+Received: from [2607:f8b0:4864:20::102c] (port=56173
+ helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nNW1w-0002vt-58
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:32:50 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id b8so4182178pjb.4
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 00:32:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1nNW1y-0002wA-Qt
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:32:52 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id gb21so4189237pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 00:32:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U6bYxsAh3+guLnp4fMGAdftsYRKJtOjCH26W44rqWsE=;
- b=q3bOQxP+c0RXVhmLsGaTM3IPSxX7ZJ6Yx7GxEEc76BNT6knNHFKaO2kmej4itIP3Q8
- 9r7obgZPcf7dz0vdaQ2IfkSrvfbJou7cPVHgPKpGHZUzTyLMT3Ala+sH2QIjWqrCnZSw
- GVbUHZwJVPIJqBHBwtwPd4NqtYuMd5cehSAOtHkrJeD4Gyi9XmnM/u1c86B0/biu9JAK
- wntpvV8e8z1vGEQgwpWdZUMT1V0ZfWo4mrZcE7BEBIuMuiO24FKLt8CSZ/6XMkIe+Ifg
- Oyqv8QHbJQQ3st1vGgg98gyIQ3YiRi69pbfk88ODFI5N9wLEzEqFt+iCMfdyE726Z/1B
- 9NMw==
+ bh=2Yn04nvZkiqD9e5fzaG3S3X/4FZpuR1OsLhndKT3BtA=;
+ b=mpqGE9uMg7sW7MF5Cbm8/IKuVdqADRZx+gElgRze6d5yMEobvs9izQrxExX/p8oXU7
+ k53/6zx+iSk+BaZhT9+b2QO4BiB+erqG+7lmpESLMJ4iW/PsbeGu2sinFQqbjY/fpRNv
+ Ksora34nksW0hx/ywW6EfLE5fOw0PNa2KP0sws7jRlvdru5TD/p7QDcTr/rAU4xss8ur
+ eHRqhw54SUiOqr9Kf7JNaFAPfQo4H/OYMrgl/Ji6Y5LtIseJWrAnLKekXxgjM2BWNlvU
+ 3Yt5RG/hesS2/B045hwDxZK8jWFYXYJxGezvHOsaV6EZZeo1kYSD/Cq7a8DMRZk9TOew
+ C/cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U6bYxsAh3+guLnp4fMGAdftsYRKJtOjCH26W44rqWsE=;
- b=HnlTkpVp6gY8+HEhPXnfot9W2IKQ+JjfjS05lzK+caG/MUtbNfgE4HIPxMi2hT8Aeb
- z2ldboXzButu0+xs0V3x9I+iipg8R54KUkl6p9iyfXUqa0xrW3Nb4ROish/7aGRWGib/
- NVxaoL5nbV8aBFcST5IHVRYa2wdnN/7XdagtHAJRrweT44+mkWiueMYFaHWVjx6kQfpt
- 4nSpIumPQzPEER0TdVZrv49MtEsWxy2HXBk7RuXQat2Ok5I1l1ll8jpBPF1gL5Ax1cRE
- CY1VDQ8qfiwTE4l2LwQ0uG28qVCNjsSBvb4Va8nz5xy2+lLJgTopJqJUJSjRskylyOBx
- Teow==
-X-Gm-Message-State: AOAM530wLWiadZXsEW5T5uFbPq4bAQpC+e2GH39Wrr+a2q+61e8ekFYJ
- K94nyBxVYvZqRaJJBzfJFA+SWARO7zy3XiJ9
-X-Google-Smtp-Source: ABdhPJwBu/Llboq1ePh5rxZvBRmcW1g+7RW1VvNOAfMT9g/S5lrJYJ+1KYFQcrEL0ScyjwrYm5gW4w==
-X-Received: by 2002:a17:90b:3ce:b0:1bc:7783:4ce0 with SMTP id
- go14-20020a17090b03ce00b001bc77834ce0mr2142653pjb.60.1645777966216; 
- Fri, 25 Feb 2022 00:32:46 -0800 (PST)
+ bh=2Yn04nvZkiqD9e5fzaG3S3X/4FZpuR1OsLhndKT3BtA=;
+ b=JR2+8dwbNhfwCmdzwb+HMVwYfZn1jwH2iODs0pSZ2QKKZEw0ozD0rwOMVZBDUwVKbI
+ kBq5DWrYTh2xmN6UGb0nsW8Qmz5Qt5hI8jwvZtx6Zat72XioNrun/3LKvjyVITyTxRWw
+ RcD6xgO3ltvtbnYlvpK9TZcH9h0eS1x/P8BQYZ1jIywDD7+pVlwpL/WnOaa6q1LSqiKl
+ rj20tFk0eb6fyHzlRW0jFlsr6167DIU7dN9TQ/jRECueAeUz4nWcDsoCKn+cILNHsLgM
+ 35IrBod4zsSX++MjU/1fQBMlJsf4+uKCmZGf2jRjpuTMbaDC2gd1YEfawWqcHj5OQPz5
+ pNlA==
+X-Gm-Message-State: AOAM530CjR46r6cqIQuzWU9Z1SmEwqEdUvzAcD6mMLFfAa6mji7lZqz4
+ +n0p2DbtvehtHHimI9OIRMx2GZelvaZSqM0e
+X-Google-Smtp-Source: ABdhPJyJ5fbRxuXg4nqW/bywO5QsoiUEw7eT5cxJdr69iGOVKMlEtQ2Aff2gnRz/bZ0pmBah4O+j5Q==
+X-Received: by 2002:a17:902:f711:b0:14d:61ba:8baf with SMTP id
+ h17-20020a170902f71100b0014d61ba8bafmr6360556plo.39.1645777969255; 
+ Fri, 25 Feb 2022 00:32:49 -0800 (PST)
 Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
  by smtp.gmail.com with ESMTPSA id
- g5-20020a63fa45000000b0037407b6ffdasm1891405pgk.5.2022.02.25.00.32.45
+ d7-20020a056a00244700b004e1300a2f7csm2070324pfj.212.2022.02.25.00.32.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 00:32:45 -0800 (PST)
+ Fri, 25 Feb 2022 00:32:48 -0800 (PST)
 From: Stafford Horne <shorne@gmail.com>
 To: QEMU Development <qemu-devel@nongnu.org>
-Subject: [PULL 5/6] hw/openrisc/openrisc_sim: Add automatic device tree
- generation
-Date: Fri, 25 Feb 2022 17:32:21 +0900
-Message-Id: <20220225083222.1174517-6-shorne@gmail.com>
+Subject: [PULL 6/6] hw/openrisc/openrisc_sim: Add support for initrd loading
+Date: Fri, 25 Feb 2022 17:32:22 +0900
+Message-Id: <20220225083222.1174517-7-shorne@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220225083222.1174517-1-shorne@gmail.com>
 References: <20220225083222.1174517-1-shorne@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=shorne@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=shorne@gmail.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,356 +90,65 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Stafford Horne <shorne@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using the device tree means that qemu can now directly tell
-the kernel what hardware is configured rather than use having
-to maintain and update a separate device tree file.
-
-This patch adds automatic device tree generation support for the
-OpenRISC simulator.  A device tree is built up based on the state of the
-configure openrisc simulator.
-
-This is then dumped to memory and the load address is passed to the
-kernel in register r3.
+The initrd passed via the command line is loaded into memory.  It's
+location and size is then added to the device tree so the kernel knows
+where to find it.
 
 Signed-off-by: Stafford Horne <shorne@gmail.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- configs/targets/or1k-softmmu.mak |   1 +
- hw/openrisc/openrisc_sim.c       | 189 ++++++++++++++++++++++++++++---
- 2 files changed, 175 insertions(+), 15 deletions(-)
+ hw/openrisc/openrisc_sim.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/configs/targets/or1k-softmmu.mak b/configs/targets/or1k-softmmu.mak
-index 1dfb93e46d..9e1d4a1fb1 100644
---- a/configs/targets/or1k-softmmu.mak
-+++ b/configs/targets/or1k-softmmu.mak
-@@ -1,2 +1,3 @@
- TARGET_ARCH=openrisc
- TARGET_WORDS_BIGENDIAN=y
-+TARGET_NEED_FDT=y
 diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-index 8cfb92bec6..e0e71c0faa 100644
+index e0e71c0faa..8184caa60b 100644
 --- a/hw/openrisc/openrisc_sim.c
 +++ b/hw/openrisc/openrisc_sim.c
-@@ -29,15 +29,20 @@
- #include "net/net.h"
- #include "hw/loader.h"
- #include "hw/qdev-properties.h"
-+#include "exec/address-spaces.h"
-+#include "sysemu/device_tree.h"
- #include "sysemu/sysemu.h"
- #include "hw/sysbus.h"
- #include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "hw/core/split-irq.h"
- 
-+#include <libfdt.h>
-+
- #define KERNEL_LOAD_ADDR 0x100
- 
- #define OR1KSIM_CPUS_MAX 4
-+#define OR1KSIM_CLK_MHZ 20000000
- 
- #define TYPE_OR1KSIM_MACHINE MACHINE_TYPE_NAME("or1k-sim")
- #define OR1KSIM_MACHINE(obj) \
-@@ -48,6 +53,8 @@ typedef struct Or1ksimState {
-     MachineState parent_obj;
- 
-     /*< public >*/
-+    void *fdt;
-+    int fdt_size;
- 
- } Or1ksimState;
- 
-@@ -76,6 +83,7 @@ static const struct MemmapEntry {
- 
- static struct openrisc_boot_info {
-     uint32_t bootstrap_pc;
-+    uint32_t fdt_addr;
- } boot_info;
- 
- static void main_cpu_reset(void *opaque)
-@@ -86,6 +94,7 @@ static void main_cpu_reset(void *opaque)
-     cpu_reset(CPU(cpu));
- 
-     cpu_set_pc(cs, boot_info.bootstrap_pc);
-+    cpu_set_gpr(&cpu->env, 3, boot_info.fdt_addr);
+@@ -315,6 +315,33 @@ static hwaddr openrisc_load_kernel(ram_addr_t ram_size,
+     return 0;
  }
  
- static qemu_irq get_cpu_irq(OpenRISCCPU *cpus[], int cpunum, int irq_pin)
-@@ -93,12 +102,77 @@ static qemu_irq get_cpu_irq(OpenRISCCPU *cpus[], int cpunum, int irq_pin)
-     return qdev_get_gpio_in_named(DEVICE(cpus[cpunum]), "IRQ", irq_pin);
- }
- 
--static void openrisc_sim_net_init(hwaddr base, hwaddr descriptors,
-+static void openrisc_create_fdt(Or1ksimState *state,
-+                                const struct MemmapEntry *memmap,
-+                                int num_cpus, uint64_t mem_size,
-+                                const char *cmdline)
-+{
-+    void *fdt;
-+    int cpu;
-+    char *nodename;
-+    int pic_ph;
-+
-+    fdt = state->fdt = create_device_tree(&state->fdt_size);
-+    if (!fdt) {
-+        error_report("create_device_tree() failed");
-+        exit(1);
-+    }
-+
-+    qemu_fdt_setprop_string(fdt, "/", "compatible", "opencores,or1ksim");
-+    qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x1);
-+    qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x1);
-+
-+    nodename = g_strdup_printf("/memory@%" HWADDR_PRIx,
-+                               memmap[OR1KSIM_DRAM].base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-+                           memmap[OR1KSIM_DRAM].base, mem_size);
-+    qemu_fdt_setprop_string(fdt, nodename, "device_type", "memory");
-+    g_free(nodename);
-+
-+    qemu_fdt_add_subnode(fdt, "/cpus");
-+    qemu_fdt_setprop_cell(fdt, "/cpus", "#size-cells", 0x0);
-+    qemu_fdt_setprop_cell(fdt, "/cpus", "#address-cells", 0x1);
-+
-+    for (cpu = 0; cpu < num_cpus; cpu++) {
-+        nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
-+        qemu_fdt_add_subnode(fdt, nodename);
-+        qemu_fdt_setprop_string(fdt, nodename, "compatible",
-+                                "opencores,or1200-rtlsvn481");
-+        qemu_fdt_setprop_cell(fdt, nodename, "reg", cpu);
-+        qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
-+                              OR1KSIM_CLK_MHZ);
-+        g_free(nodename);
-+    }
-+
-+    nodename = (char *)"/pic";
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    pic_ph = qemu_fdt_alloc_phandle(fdt);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible",
-+                            "opencores,or1k-pic-level");
-+    qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 1);
-+    qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(fdt, nodename, "phandle", pic_ph);
-+
-+    qemu_fdt_setprop_cell(fdt, "/", "interrupt-parent", pic_ph);
-+
-+    qemu_fdt_add_subnode(fdt, "/chosen");
-+    if (cmdline) {
-+        qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
-+    }
-+
-+    /* Create aliases node for use by devices. */
-+    qemu_fdt_add_subnode(fdt, "/aliases");
-+}
-+
-+static void openrisc_sim_net_init(Or1ksimState *state, hwaddr base, hwaddr size,
-                                   int num_cpus, OpenRISCCPU *cpus[],
-                                   int irq_pin, NICInfo *nd)
- {
-+    void *fdt = state->fdt;
-     DeviceState *dev;
-     SysBusDevice *s;
-+    char *nodename;
-     int i;
- 
-     dev = qdev_new("open_eth");
-@@ -118,14 +192,28 @@ static void openrisc_sim_net_init(hwaddr base, hwaddr descriptors,
-         sysbus_connect_irq(s, 0, get_cpu_irq(cpus, 0, irq_pin));
-     }
-     sysbus_mmio_map(s, 0, base);
--    sysbus_mmio_map(s, 1, descriptors);
-+    sysbus_mmio_map(s, 1, base + 0x400);
-+
-+    /* Init device tree node for ethoc. */
-+    nodename = g_strdup_printf("/ethoc@%" HWADDR_PRIx, base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "opencores,ethoc");
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg", base, size);
-+    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", irq_pin);
-+    qemu_fdt_setprop(fdt, nodename, "big-endian", NULL, 0);
-+
-+    qemu_fdt_setprop_string(fdt, "/aliases", "enet0", nodename);
-+    g_free(nodename);
- }
- 
--static void openrisc_sim_ompic_init(hwaddr base, int num_cpus,
-+static void openrisc_sim_ompic_init(Or1ksimState *state, hwaddr base,
-+                                    hwaddr size, int num_cpus,
-                                     OpenRISCCPU *cpus[], int irq_pin)
- {
-+    void *fdt = state->fdt;
-     DeviceState *dev;
-     SysBusDevice *s;
-+    char *nodename;
-     int i;
- 
-     dev = qdev_new("or1k-ompic");
-@@ -137,11 +225,24 @@ static void openrisc_sim_ompic_init(hwaddr base, int num_cpus,
-         sysbus_connect_irq(s, i, get_cpu_irq(cpus, i, irq_pin));
-     }
-     sysbus_mmio_map(s, 0, base);
-+
-+    /* Add device tree node for ompic. */
-+    nodename = g_strdup_printf("/ompic@%" HWADDR_PRIx, base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "openrisc,ompic");
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg", base, size);
-+    qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 0);
-+    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", irq_pin);
-+    g_free(nodename);
- }
- 
--static void openrisc_sim_serial_init(hwaddr base, int num_cpus,
-+static void openrisc_sim_serial_init(Or1ksimState *state, hwaddr base,
-+                                     hwaddr size, int num_cpus,
-                                      OpenRISCCPU *cpus[], int irq_pin)
- {
-+    void *fdt = state->fdt;
-+    char *nodename;
-     qemu_irq serial_irq;
-     int i;
- 
-@@ -158,29 +259,45 @@ static void openrisc_sim_serial_init(hwaddr base, int num_cpus,
-     }
-     serial_mm_init(get_system_memory(), base, 0, serial_irq, 115200,
-                    serial_hd(0), DEVICE_NATIVE_ENDIAN);
--}
- 
-+    /* Add device tree node for serial. */
-+    nodename = g_strdup_printf("/serial@%" HWADDR_PRIx, base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "ns16550a");
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg", base, size);
-+    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", irq_pin);
-+    qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency", OR1KSIM_CLK_MHZ);
-+    qemu_fdt_setprop(fdt, nodename, "big-endian", NULL, 0);
-+
-+    /* The /chosen node is created during fdt creation. */
-+    qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", nodename);
-+    qemu_fdt_setprop_string(fdt, "/aliases", "uart0", nodename);
-+    g_free(nodename);
-+}
- 
--static void openrisc_load_kernel(ram_addr_t ram_size,
--                                 const char *kernel_filename)
-+static hwaddr openrisc_load_kernel(ram_addr_t ram_size,
-+                                   const char *kernel_filename)
- {
-     long kernel_size;
-     uint64_t elf_entry;
-+    uint64_t high_addr;
-     hwaddr entry;
- 
-     if (kernel_filename && !qtest_enabled()) {
-         kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
--                               &elf_entry, NULL, NULL, NULL, 1, EM_OPENRISC,
--                               1, 0);
-+                               &elf_entry, NULL, &high_addr, NULL, 1,
-+                               EM_OPENRISC, 1, 0);
-         entry = elf_entry;
-         if (kernel_size < 0) {
-             kernel_size = load_uimage(kernel_filename,
-                                       &entry, NULL, NULL, NULL, NULL);
-+            high_addr = entry + kernel_size;
-         }
-         if (kernel_size < 0) {
-             kernel_size = load_image_targphys(kernel_filename,
-                                               KERNEL_LOAD_ADDR,
-                                               ram_size - KERNEL_LOAD_ADDR);
-+            high_addr = KERNEL_LOAD_ADDR + kernel_size;
-         }
- 
-         if (entry <= 0) {
-@@ -192,7 +309,38 @@ static void openrisc_load_kernel(ram_addr_t ram_size,
-             exit(1);
-         }
-         boot_info.bootstrap_pc = entry;
-+
-+        return high_addr;
-     }
-+    return 0;
-+}
-+
-+static uint32_t openrisc_load_fdt(Or1ksimState *state, hwaddr load_start,
-+                                  uint64_t mem_size)
++static hwaddr openrisc_load_initrd(Or1ksimState *state, const char *filename,
++                                   hwaddr load_start, uint64_t mem_size)
 +{
 +    void *fdt = state->fdt;
-+    uint32_t fdt_addr;
-+    int ret;
-+    int fdtsize = fdt_totalsize(fdt);
++    int size;
++    hwaddr start;
 +
-+    if (fdtsize <= 0) {
-+        error_report("invalid device-tree");
-+        exit(1);
++    /* We put the initrd right after the kernel; page aligned. */
++    start = TARGET_PAGE_ALIGN(load_start);
++
++    size = load_ramdisk(filename, start, mem_size - start);
++    if (size < 0) {
++        size = load_image_targphys(filename, start, mem_size - start);
++        if (size < 0) {
++            error_report("could not load ramdisk '%s'", filename);
++            exit(1);
++        }
 +    }
 +
-+    /* We put fdt right after the kernel and/or initrd. */
-+    fdt_addr = ROUND_UP(load_start, 4);
++    qemu_fdt_setprop_cell(fdt, "/chosen",
++                          "linux,initrd-start", start);
++    qemu_fdt_setprop_cell(fdt, "/chosen",
++                          "linux,initrd-end", start + size);
 +
-+    ret = fdt_pack(fdt);
-+    /* Should only fail if we've built a corrupted tree */
-+    g_assert(ret == 0);
-+    /* copy in the device tree */
-+    qemu_fdt_dumpdtb(fdt, fdtsize);
++    return start + size;
++}
 +
-+    rom_add_blob_fixed_as("fdt", fdt, fdtsize, fdt_addr,
-+                          &address_space_memory);
-+
-+    return fdt_addr;
- }
+ static uint32_t openrisc_load_fdt(Or1ksimState *state, hwaddr load_start,
+                                   uint64_t mem_size)
+ {
+@@ -393,6 +420,10 @@ static void openrisc_sim_init(MachineState *machine)
  
- static void openrisc_sim_init(MachineState *machine)
-@@ -200,7 +348,9 @@ static void openrisc_sim_init(MachineState *machine)
-     ram_addr_t ram_size = machine->ram_size;
-     const char *kernel_filename = machine->kernel_filename;
-     OpenRISCCPU *cpus[OR1KSIM_CPUS_MAX] = {};
-+    Or1ksimState *state = OR1KSIM_MACHINE(machine);
-     MemoryRegion *ram;
-+    hwaddr load_addr;
-     int n;
-     unsigned int smp_cpus = machine->smp.cpus;
- 
-@@ -221,22 +371,31 @@ static void openrisc_sim_init(MachineState *machine)
-     memory_region_init_ram(ram, NULL, "openrisc.ram", ram_size, &error_fatal);
-     memory_region_add_subregion(get_system_memory(), 0, ram);
- 
-+    openrisc_create_fdt(state, or1ksim_memmap, smp_cpus, machine->ram_size,
-+                        machine->kernel_cmdline);
-+
-     if (nd_table[0].used) {
--        openrisc_sim_net_init(or1ksim_memmap[OR1KSIM_ETHOC].base,
--                              or1ksim_memmap[OR1KSIM_ETHOC].base + 0x400,
-+        openrisc_sim_net_init(state, or1ksim_memmap[OR1KSIM_ETHOC].base,
-+                              or1ksim_memmap[OR1KSIM_ETHOC].size,
-                               smp_cpus, cpus,
-                               OR1KSIM_ETHOC_IRQ, nd_table);
+     load_addr = openrisc_load_kernel(ram_size, kernel_filename);
+     if (load_addr > 0) {
++        if (machine->initrd_filename) {
++            load_addr = openrisc_load_initrd(state, machine->initrd_filename,
++                                             load_addr, machine->ram_size);
++        }
+         boot_info.fdt_addr = openrisc_load_fdt(state, load_addr,
+                                                machine->ram_size);
      }
- 
-     if (smp_cpus > 1) {
--        openrisc_sim_ompic_init(or1ksim_memmap[OR1KSIM_OMPIC].base, smp_cpus,
--                                cpus, OR1KSIM_OMPIC_IRQ);
-+        openrisc_sim_ompic_init(state, or1ksim_memmap[OR1KSIM_OMPIC].base,
-+                                or1ksim_memmap[OR1KSIM_UART].size,
-+                                smp_cpus, cpus, OR1KSIM_OMPIC_IRQ);
-     }
- 
--    openrisc_sim_serial_init(or1ksim_memmap[OR1KSIM_UART].base, smp_cpus, cpus,
-+    openrisc_sim_serial_init(state, or1ksim_memmap[OR1KSIM_UART].base,
-+                             or1ksim_memmap[OR1KSIM_UART].size, smp_cpus, cpus,
-                              OR1KSIM_UART_IRQ);
- 
--    openrisc_load_kernel(ram_size, kernel_filename);
-+    load_addr = openrisc_load_kernel(ram_size, kernel_filename);
-+    if (load_addr > 0) {
-+        boot_info.fdt_addr = openrisc_load_fdt(state, load_addr,
-+                                               machine->ram_size);
-+    }
- }
- 
- static void openrisc_sim_machine_init(ObjectClass *oc, void *data)
 -- 
 2.31.1
 
