@@ -2,95 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE814C456C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 14:09:01 +0100 (CET)
-Received: from localhost ([::1]:38084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E114C4669
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 14:32:55 +0100 (CET)
+Received: from localhost ([::1]:58400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNaLE-00029S-BO
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 08:09:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58494)
+	id 1nNaiL-0000IN-Uc
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 08:32:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nNa2o-00083r-Ub
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:49:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33208)
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1nNa5p-0000ii-QS
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:53:06 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:53422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nNa2M-00084m-J8
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:49:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645793367;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NwjxohUAdJYRfjSawZJsZ7hKjEoWTH+ZeZOEUSR9U0M=;
- b=K96v60wfehP6yBEN009q2jWWfnUxzGcF6OhDW8h+wMTxUspv8flhHkHz64oxaJ/f8qbUH0
- 0R3ocnut+kbnP2fAhVCLUDdOoMxVKWYiV5LlWmDZ5XVrRojBjObfu+Sipc96JaM+LUEjBc
- MbIBmUItlK00R4t5FsJ91R3r6Gnbjhc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-dUA-HEWYPNWEwTzpLab6pA-1; Fri, 25 Feb 2022 07:49:26 -0500
-X-MC-Unique: dUA-HEWYPNWEwTzpLab6pA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- o9-20020adfca09000000b001ea79f7edf8so850851wrh.16
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 04:49:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NwjxohUAdJYRfjSawZJsZ7hKjEoWTH+ZeZOEUSR9U0M=;
- b=VJ6K4MWUDXF9Ifupp4YH0RE21qLC5bcYjfYtEJBqGfM8ptVkDJidX4GnDlJuu6ZhKa
- 4CQGRaXDTCxUEmD24D+U3ASLJcaW3HB5PnDyHVcn5CxNELhJxCb/6/ARgDxbxbVurw2g
- KVmJ5S/T6sl62vSI1JJuF9+kPrxwUdfjwdkeER3LThNhT7wqRDQdy7Mo9pPqW1SWdUBI
- Hoy8SMQWLlQtKMcSTqZ0BjmRaQ9UzLjYKQJ0l+Y0NqTswWj9xENAmAdIHshdSDn1aSN7
- mpYtGCoWotxo/TMFPPwH8wpQWOUmClp6bAvso1kzj0SVIg0oZniyh3tldTFm4DgeUUQN
- xUzg==
-X-Gm-Message-State: AOAM532UK3EKtuTkBTPFgJ0jIDygt0FWelkpZcLLJTCbPqycJ1fR3Cgd
- znKSXnFGIopuGOB39Qv+cTSr8aEqI3uwefYWT8ZqgLXVZ+KIETAgU2Xd+vvsES/aLQ0wn+XJijC
- bC10NOg5ouBn4Rqk=
-X-Received: by 2002:a7b:c141:0:b0:381:8a:21e5 with SMTP id
- z1-20020a7bc141000000b00381008a21e5mr2511806wmi.155.1645793365317; 
- Fri, 25 Feb 2022 04:49:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvCHRVBZttgK5pmMo+HKujJro93s0eLZBqLAwKuxazOBtnbMeBr/cbwJbhGl4xKNSJWfJUOQ==
-X-Received: by 2002:a7b:c141:0:b0:381:8a:21e5 with SMTP id
- z1-20020a7bc141000000b00381008a21e5mr2511782wmi.155.1645793365022; 
- Fri, 25 Feb 2022 04:49:25 -0800 (PST)
-Received: from redhat.com ([2.55.145.157]) by smtp.gmail.com with ESMTPSA id
- q11-20020adfcd8b000000b001e320028660sm2096836wrj.92.2022.02.25.04.49.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 04:49:24 -0800 (PST)
-Date: Fri, 25 Feb 2022 07:49:20 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v3 4/6] i386/pc: relocate 4g start to 1T where applicable
-Message-ID: <20220225074024-mutt-send-email-mst@kernel.org>
-References: <20220224122146-mutt-send-email-mst@kernel.org>
- <7afb8caf-5c98-d6db-d3e5-6e08b2832d57@oracle.com>
- <20220224131607-mutt-send-email-mst@kernel.org>
- <f19dd8be-f923-fd7d-c54d-a54fd775dcc5@oracle.com>
- <20220224144800-mutt-send-email-mst@kernel.org>
- <37df5f3a-283a-a016-311f-8281bbacda19@oracle.com>
- <20220224150626-mutt-send-email-mst@kernel.org>
- <5cae0afc-df3e-5dc6-d11b-2f7d931ba5e6@oracle.com>
- <20220224144053.3fbe234d.alex.williamson@redhat.com>
- <eb699dff-09d3-e9ba-2c35-3c91966efa13@oracle.com>
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1nNa5k-0000DT-LF
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:53:02 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5D52E61B87;
+ Fri, 25 Feb 2022 12:52:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A22AEC340E7;
+ Fri, 25 Feb 2022 12:52:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1645793568;
+ bh=k70Mm1upOxGWmsfQxSUf0akmkVM2raW07xRde9JsJKM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=T5TGdmUfWYwiM40dkWqh42IVnuCj4XBrMYt/8xkHE3INhGb0RcLcrKgWBpasl5Jco
+ ODZYMZ03HmZ6KUnRGTpiSiCixKNgP/lHMkBCJUVWX/denDe4MKXhQws+z9fo7YJHTA
+ UqqeN6ei8Wvh5P86Uw9+qrv80O1PbBQjyQEB09TA=
+Date: Fri, 25 Feb 2022 13:52:45 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH v4] virt: vmgenid: introduce driver for reinitializing
+ RNG on VM fork
+Message-ID: <YhjRHW0t/sxjb7Hi@kroah.com>
+References: <CAHmME9pJ3wb=EbUErJrCRC=VYGhFZqj2ar_AkVPsUvAnqGtwwg@mail.gmail.com>
+ <20220225124848.909093-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-In-Reply-To: <eb699dff-09d3-e9ba-2c35-3c91966efa13@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220225124848.909093-1-Jason@zx2c4.com>
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=gregkh@linuxfoundation.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,44 +67,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org, mst@redhat.com,
+ raduweis@amazon.com, qemu-devel@nongnu.org, linux@dominikbrodowski.net,
+ kys@microsoft.com, ardb@kernel.org, wei.liu@kernel.org, sthemmin@microsoft.com,
+ ben@skyportsystems.com, decui@microsoft.com, ebiggers@kernel.org,
+ lersek@redhat.com, ehabkost@redhat.com, adrian@parity.io, jannh@google.com,
+ haiyangz@microsoft.com, graf@amazon.com, tytso@mit.edu, colmmacc@amazon.com,
+ berrange@redhat.com, linux-kernel@vger.kernel.org,
+ linux-crypto@vger.kernel.org, imammedo@redhat.com, dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 25, 2022 at 12:36:24PM +0000, Joao Martins wrote:
-> I am trying to approach this iteratively and starting by fixing AMD 1T+ guests
-> with something that hopefully is less painful to bear and unbreaks users doing
-> multi-TB guests on kernels >= 5.4. While for < 5.4 it would not wrongly be
-> DMA mapping bad IOVAs that may lead guests own spurious failures.
-> For the longterm, qemu would need some sort of handling of configurable a sparse
-> map of all guest RAM which currently does not exist (and it's stuffed inside on a
-> per-machine basis as you're aware). What I am unsure is the churn associated
-> with it (compat, migration, mem-hotplug, nvdimms, memory-backends) versus benefit
-> if it's "just" one class of x86 platforms (Intel not affected) -- which is what I find
-> attractive with the past 2 revisions via smaller change.
+On Fri, Feb 25, 2022 at 01:48:48PM +0100, Jason A. Donenfeld wrote:
+> VM Generation ID is a feature from Microsoft, described at
+> <https://go.microsoft.com/fwlink/?LinkId=260709>, and supported by
+> Hyper-V and QEMU. Its usage is described in Microsoft's RNG whitepaper,
+> <https://aka.ms/win10rng>, as:
+> 
+>     If the OS is running in a VM, there is a problem that most
+>     hypervisors can snapshot the state of the machine and later rewind
+>     the VM state to the saved state. This results in the machine running
+>     a second time with the exact same RNG state, which leads to serious
+>     security problems.  To reduce the window of vulnerability, Windows
+>     10 on a Hyper-V VM will detect when the VM state is reset, retrieve
+>     a unique (not random) value from the hypervisor, and reseed the root
+>     RNG with that unique value.  This does not eliminate the
+>     vulnerability, but it greatly reduces the time during which the RNG
+>     system will produce the same outputs as it did during a previous
+>     instantiation of the same VM state.
+> 
+> Linux has the same issue, and given that vmgenid is supported already by
+> multiple hypervisors, we can implement more or less the same solution.
+> So this commit wires up the vmgenid ACPI notification to the RNG's newly
+> added add_vmfork_randomness() function.
+> 
+> It can be used from qemu via the `-device vmgenid,guid=auto` parameter.
+> After setting that, use `savevm` in the monitor to save the VM state,
+> then quit QEMU, start it again, and use `loadvm`. That will trigger this
+> driver's notify function, which hands the new UUID to the RNG. This is
+> described in <https://git.qemu.org/?p=qemu.git;a=blob;f=docs/specs/vmgenid.txt>.
+> And there are hooks for this in libvirt as well, described in
+> <https://libvirt.org/formatdomain.html#general-metadata>.
+> 
+> Note, however, that the treatment of this as a UUID is considered to be
+> an accidental QEMU nuance, per
+> <https://github.com/libguestfs/virt-v2v/blob/master/docs/vm-generation-id-across-hypervisors.txt>,
+> so this driver simply treats these bytes as an opaque 128-bit binary
+> blob, as per the spec. This doesn't really make a difference anyway,
+> considering that's how it ends up when handed to the RNG in the end.
+> 
+> Cc: Adrian Catangiu <adrian@parity.io>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-Right. I pondered this for a while and I wonder whether you considered
-making this depend on the guest cpu vendor and max phys bits.  Things
-are easier to debug if the memory map is the same whatever the host. The
-guest vendor typically matches the host cpu vendor after all, and there
-just could be guests avoiding the reserved memory ranges on principle.
 
-We'll need a bunch of code comments explaining all this hackery, as well
-as machine type compat things, but that is par for the course.
-
-Additionally, we could have a host check and then fail to init vdpa and
-vfio devices if the memory map will make some memory inaccessible.
-
-Does this sound reasonable to others? Alex? Joao?
-
--- 
-MST
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
