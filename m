@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B604C4328
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 12:13:10 +0100 (CET)
-Received: from localhost ([::1]:57168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1CA4C43AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 12:31:03 +0100 (CET)
+Received: from localhost ([::1]:35678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNYX6-0007Xj-KG
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 06:13:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59758)
+	id 1nNYoP-0004uG-Pc
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 06:31:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nNYTA-0006Rt-B8
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 06:09:04 -0500
-Received: from [2001:738:2001:2001::2001] (port=29839 helo=zero.eik.bme.hu)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1nNYi8-0002yX-EQ
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 06:24:32 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:38788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nNYSz-00038P-OT
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 06:08:59 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id EFC4674632B;
- Fri, 25 Feb 2022 12:08:19 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C67C47462D3; Fri, 25 Feb 2022 12:08:19 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id C4A5E7456FE;
- Fri, 25 Feb 2022 12:08:19 +0100 (CET)
-Date: Fri, 25 Feb 2022 12:08:19 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 0/5] Misc OHCI clean ups
-In-Reply-To: <228c70c7-11bf-8d94-607b-4eacdcaddd93@eik.bme.hu>
-Message-ID: <41fdb23c-8d12-1ffa-f08-601f15ffc7d6@eik.bme.hu>
-References: <cover.1643117600.git.balaton@eik.bme.hu>
- <1b24997-8dba-d640-1ce6-896fc346ae9@eik.bme.hu>
- <228c70c7-11bf-8d94-607b-4eacdcaddd93@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1nNYi5-0001P3-02
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 06:24:32 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 15F7C618FE
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 11:24:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAAEAC340F4
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 11:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645788257;
+ bh=VaOu742RP2LwocmJ1+01sMqse3h6LbgsBGSrCtIR6go=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ZZNZ2aZL70TaNtyfu0Ky4f6LUrvdiGgRXrTa443ElHp/neB5aZgF9NU2XaiLY4nGt
+ idW2b8I39c1RaLIUipBtHOvkik4yH1sJDjAsopuBrbj5i/C8farejpFP+BraBVM+Iw
+ N8iy5P0mXSgQv3puBwVPQf9uZn98qardEZO+HuZGCjew/07/9OIhwSeWRf7MpMRK4T
+ 5KVX9PbSb2EvGkwcbWZSJfZKtwWmNWwTnsL+F8vgLHj4OpPwtGbu2JK9hDjXBP+Njb
+ Add7ER5WXynk2tNJTmjePGA4AEmTIV9wZrf4Bbk+8GHYPUKsBgw2ePqFO1oOe/71B/
+ 8IaitSZp3A1aw==
+Received: by mail-yb1-f170.google.com with SMTP id bt13so5219093ybb.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 03:24:17 -0800 (PST)
+X-Gm-Message-State: AOAM5325E6qiPhVCsAIGPI9pElqfBe0Gt0/9oZRhZCj5+bE485pR0IEl
+ QIplWYu/SIvjeBcJEK/EeYbfr5pQ68AWKZmwj48=
+X-Google-Smtp-Source: ABdhPJzyFAUvIiZAqOt8HiVgBGCdAtJM1r7J/8UreBhPGyHq4pDRXSw8PE6pk1tdeCiGUzabUotuUODSW972fXPAcz0=
+X-Received: by 2002:a25:4214:0:b0:624:6215:4823 with SMTP id
+ p20-20020a254214000000b0062462154823mr6653602yba.432.1645788256940; Fri, 25
+ Feb 2022 03:24:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
- (failed)
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220224133906.751587-1-Jason@zx2c4.com>
+ <20220224133906.751587-3-Jason@zx2c4.com>
+In-Reply-To: <20220224133906.751587-3-Jason@zx2c4.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 25 Feb 2022 12:24:05 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXE-2sknZD7o72G-ZARpfm4Q0m+im1pTLuPhPu6TkqKOPQ@mail.gmail.com>
+Message-ID: <CAMj1kXE-2sknZD7o72G-ZARpfm4Q0m+im1pTLuPhPu6TkqKOPQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] virt: vmgenid: introduce driver for reinitializing
+ RNG on VM fork
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=ardb@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,54 +76,279 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, raduweis@amazon.com,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ KY Srinivasan <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, ben@skyportsystems.com,
+ Dexuan Cui <decui@microsoft.com>, Eric Biggers <ebiggers@kernel.org>,
+ Laszlo Ersek <lersek@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ adrian@parity.io, Jann Horn <jannh@google.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Alexander Graf <graf@amazon.com>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>, colmmacc@amazon.com, berrange@redhat.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Igor Mammedov <imammedo@redhat.com>, dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Feb 2022, BALATON Zoltan wrote:
-> On Tue, 8 Feb 2022, BALATON Zoltan wrote:
->> On Tue, 25 Jan 2022, BALATON Zoltan wrote:
->>> v2 - Fixed checkpatch errors
->>> 
->>> Hello,
->> 
->> Ping?
+On Thu, 24 Feb 2022 at 14:39, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 >
-> Ping^2
+> VM Generation ID is a feature from Microsoft, described at
+> <https://go.microsoft.com/fwlink/?LinkId=3D260709>, and supported by
+> Hyper-V and QEMU. Its usage is described in Microsoft's RNG whitepaper,
+> <https://aka.ms/win10rng>, as:
+>
+>     If the OS is running in a VM, there is a problem that most
+>     hypervisors can snapshot the state of the machine and later rewind
+>     the VM state to the saved state. This results in the machine running
+>     a second time with the exact same RNG state, which leads to serious
+>     security problems.  To reduce the window of vulnerability, Windows
+>     10 on a Hyper-V VM will detect when the VM state is reset, retrieve
+>     a unique (not random) value from the hypervisor, and reseed the root
+>     RNG with that unique value.  This does not eliminate the
+>     vulnerability, but it greatly reduces the time during which the RNG
+>     system will produce the same outputs as it did during a previous
+>     instantiation of the same VM state.
+>
+> Linux has the same issue, and given that vmgenid is supported already by
+> multiple hypervisors, we can implement more or less the same solution.
+> So this commit wires up the vmgenid ACPI notification to the RNG's newly
+> added add_vmfork_randomness() function.
+>
+> It can be used from qemu via the `-device vmgenid,guid=3Dauto` parameter.
+> After setting that, use `savevm` in the monitor to save the VM state,
+> then quit QEMU, start it again, and use `loadvm`. That will trigger this
+> driver's notify function, which hands the new UUID to the RNG. This is
+> described in <https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Ddocs/specs/=
+vmgenid.txt>.
+> And there are hooks for this in libvirt as well, described in
+> <https://libvirt.org/formatdomain.html#general-metadata>.
+>
+> Note, however, that the treatment of this as a UUID is considered to be
+> an accidental QEMU nuance, per
+> <https://github.com/libguestfs/virt-v2v/blob/master/docs/vm-generation-id=
+-across-hypervisors.txt>,
+> so this driver simply treats these bytes as an opaque 128-bit binary
+> blob, as per the spec. This doesn't really make a difference anyway,
+> considering that's how it ends up when handed to the RNG in the end.
+>
+> This driver builds on prior work from Adrian Catangiu at Amazon, and it
+> is my hope that that team can resume maintenance of this driver.
+>
+> Cc: Adrian Catangiu <adrian@parity.io>
+> Cc: Laszlo Ersek <lersek@redhat.com>
+> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>  drivers/virt/Kconfig   |   9 +++
+>  drivers/virt/Makefile  |   1 +
+>  drivers/virt/vmgenid.c | 121 +++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 131 insertions(+)
+>  create mode 100644 drivers/virt/vmgenid.c
+>
+> diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
+> index 8061e8ef449f..d3276dc2095c 100644
+> --- a/drivers/virt/Kconfig
+> +++ b/drivers/virt/Kconfig
 
-Ping^3
+drivers/virt does not have a maintainer and this code needs one.
 
-> https://patchew.org/QEMU/cover.1643117600.git.balaton@eik.bme.hu/
+> @@ -13,6 +13,15 @@ menuconfig VIRT_DRIVERS
 >
-> Regards,
-> BALATON Zoltan
+>  if VIRT_DRIVERS
 >
->>> I have these patches from last October when we've looked at what
->>> causes problems with mac99 and USB. We've found the main problem is
->>> likely not allowing pending packets per endpoint which we did not fix
->>> but these patches came out of debugging that and trying to improve the
->>> device model so eventually the real problem could be fixed more
->>> easily. So these are just clean ups and fixing one potential issue
->>> with isochronous transfers breaking pending async packet but it does
->>> not solve all problems OHCI currently has. I'm sending it anyway as I
->>> don't plan to work further on this so this series could be taken as is
->>> for now.
->>> 
->>> Regards,
->>> 
->>> BALATON Zoltan (5):
->>>  usb/ohci: Move trace point and log ep number to help debugging
->>>  usb/ohci: Move cancelling async packet to ohci_stop_endpoints()
->>>  usb/ohci: Move USBPortOps related functions together
->>>  usb/ohci: Merge ohci_async_cancel_device() into ohci_child_detach()
->>>  usb/ohci: Don't use packet from OHCIState for isochronous transfers
->>> 
->>> hw/usb/hcd-ohci.c   | 297 +++++++++++++++++++++-----------------------
->>> hw/usb/trace-events |   2 +-
->>> 2 files changed, 146 insertions(+), 153 deletions(-)
->>> 
->>> 
->> 
+> +config VMGENID
+> +       tristate "Virtual Machine Generation ID driver"
+> +       default y
+
+Please make this default m - this code can run as a module and the
+feature it relies on is discoverable by udev
+
+> +       depends on ACPI
+> +       help
+> +         Say Y here to use the hypervisor-provided Virtual Machine Gener=
+ation ID
+> +         to reseed the RNG when the VM is cloned. This is highly recomme=
+nded if
+> +         you intend to do any rollback / cloning / snapshotting of VMs.
+> +
+>  config FSL_HV_MANAGER
+>         tristate "Freescale hypervisor management driver"
+>         depends on FSL_SOC
+> diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
+> index 3e272ea60cd9..108d0ffcc9aa 100644
+> --- a/drivers/virt/Makefile
+> +++ b/drivers/virt/Makefile
+> @@ -4,6 +4,7 @@
+>  #
 >
+>  obj-$(CONFIG_FSL_HV_MANAGER)   +=3D fsl_hypervisor.o
+> +obj-$(CONFIG_VMGENID)          +=3D vmgenid.o
+>  obj-y                          +=3D vboxguest/
+>
+>  obj-$(CONFIG_NITRO_ENCLAVES)   +=3D nitro_enclaves/
+> diff --git a/drivers/virt/vmgenid.c b/drivers/virt/vmgenid.c
+> new file mode 100644
+> index 000000000000..5da4dc8f25e3
+> --- /dev/null
+> +++ b/drivers/virt/vmgenid.c
+> @@ -0,0 +1,121 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Virtual Machine Generation ID driver
+> + *
+> + * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights R=
+eserved.
+> + * Copyright (C) 2020 Amazon. All rights reserved.
+> + * Copyright (C) 2018 Red Hat Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/acpi.h>
+> +#include <linux/random.h>
+> +
+> +ACPI_MODULE_NAME("vmgenid");
+> +
+> +enum { VMGENID_SIZE =3D 16 };
+> +
+> +static struct {
+> +       u8 this_id[VMGENID_SIZE];
+> +       u8 *next_id;
+> +} state;
+> +
+
+This state is singular
+
+
+> +static int vmgenid_acpi_add(struct acpi_device *device)
+> +{
+
+... whereas this may be called for multiple instances of the device.
+This likely makes no sense, so it is better to reject it here.
+
+Otherwise, the state should be allocated dynamically.
+
+> +       struct acpi_buffer buffer =3D { ACPI_ALLOCATE_BUFFER };
+> +       union acpi_object *pss;
+> +       phys_addr_t phys_addr;
+> +       acpi_status status;
+> +       int ret =3D 0;
+> +
+> +       if (!device)
+> +               return -EINVAL;
+> +
+> +       status =3D acpi_evaluate_object(device->handle, "ADDR", NULL, &bu=
+ffer);
+> +       if (ACPI_FAILURE(status)) {
+> +               ACPI_EXCEPTION((AE_INFO, status, "Evaluating ADDR"));
+> +               return -ENODEV;
+> +       }
+> +       pss =3D buffer.pointer;
+> +       if (!pss || pss->type !=3D ACPI_TYPE_PACKAGE || pss->package.coun=
+t !=3D 2 ||
+> +           pss->package.elements[0].type !=3D ACPI_TYPE_INTEGER ||
+> +           pss->package.elements[1].type !=3D ACPI_TYPE_INTEGER) {
+> +               ret =3D -EINVAL;
+> +               goto out;
+> +       }
+> +
+> +       phys_addr =3D (pss->package.elements[0].integer.value << 0) |
+> +                   (pss->package.elements[1].integer.value << 32);
+> +       state.next_id =3D acpi_os_map_memory(phys_addr, VMGENID_SIZE);
+
+No need to use acpi_os_map_memory() here, plain memremap() should be fine.
+
+> +       if (!state.next_id) {
+> +               ret =3D -ENOMEM;
+> +               goto out;
+> +       }
+> +       device->driver_data =3D &state;
+> +
+> +       memcpy(state.this_id, state.next_id, sizeof(state.this_id));
+> +       add_device_randomness(state.this_id, sizeof(state.this_id));
+> +
+> +out:
+> +       ACPI_FREE(buffer.pointer);
+> +       return ret;
+> +}
+> +
+> +static int vmgenid_acpi_remove(struct acpi_device *device)
+> +{
+> +       if (!device || acpi_driver_data(device) !=3D &state)
+> +               return -EINVAL;
+> +       device->driver_data =3D NULL;
+> +       if (state.next_id)
+> +               acpi_os_unmap_memory(state.next_id, VMGENID_SIZE);
+
+memunmap() here
+
+> +       state.next_id =3D NULL;
+> +       return 0;
+> +}
+> +
+> +static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
+> +{
+> +       u8 old_id[VMGENID_SIZE];
+> +
+> +       if (!device || acpi_driver_data(device) !=3D &state)
+> +               return;
+> +       memcpy(old_id, state.this_id, sizeof(old_id));
+> +       memcpy(state.this_id, state.next_id, sizeof(state.this_id));
+> +       if (!memcmp(old_id, state.this_id, sizeof(old_id)))
+> +               return;
+
+Is this little dance really necessary? I.e., can we just do
+
+add_vmfork_randomness(state.next_id, VMGENID_SIZE)
+
+and be done with it?
+
+And if we cannot, is it ok to just return without some kind of
+diagnostic message?
+
+> +       add_vmfork_randomness(state.this_id, sizeof(state.this_id));
+> +}
+> +
+> +static const struct acpi_device_id vmgenid_ids[] =3D {
+> +       {"VMGENID", 0},
+> +       {"QEMUVGID", 0},
+> +       { },
+> +};
+> +
+> +static struct acpi_driver acpi_driver =3D {
+> +       .name =3D "vm_generation_id",
+> +       .ids =3D vmgenid_ids,
+> +       .owner =3D THIS_MODULE,
+> +       .ops =3D {
+> +               .add =3D vmgenid_acpi_add,
+> +               .remove =3D vmgenid_acpi_remove,
+> +               .notify =3D vmgenid_acpi_notify,
+> +       }
+> +};
+> +
+> +static int __init vmgenid_init(void)
+> +{
+> +       return acpi_bus_register_driver(&acpi_driver);
+> +}
+> +
+> +static void __exit vmgenid_exit(void)
+> +{
+> +       acpi_bus_unregister_driver(&acpi_driver);
+> +}
+> +
+> +module_init(vmgenid_init);
+> +module_exit(vmgenid_exit);
+> +
+> +MODULE_DEVICE_TABLE(acpi, vmgenid_ids);
+> +MODULE_DESCRIPTION("Virtual Machine Generation ID");
+> +MODULE_LICENSE("GPL v2");
+> --
+> 2.35.1
 >
 
