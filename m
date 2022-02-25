@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6EDC4C51B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:47:33 +0100 (CET)
-Received: from localhost ([::1]:40898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BBEB4C51CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:57:45 +0100 (CET)
+Received: from localhost ([::1]:33370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNjN6-0007Oy-PV
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:47:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42522)
+	id 1nNjWx-0005Pk-St
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:57:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNiWn-00007S-QS
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:53:29 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=44634
- helo=mail-pl1-x62a.google.com)
+ id 1nNid3-0007A9-EZ
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:59:59 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=47100
+ helo=mail-pj1-x1031.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNiWm-0004f7-DJ
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:53:29 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id q11so5875815pln.11
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 13:53:27 -0800 (PST)
+ id 1nNid1-0007o7-AC
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:59:56 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ j10-20020a17090a94ca00b001bc2a9596f6so6010704pjw.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 13:59:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=hpRnt69voxFVO5vI+Dxv/d+3566lhscbWS/ONKF5myU=;
- b=H7Ndrd0octNwgf7iAOvCignB7DM/LsvVrsijDMO/dUCWOm2PPcp1giWA37HrA4ro/j
- ReRHYvGx5LD8lbNTAB5Y/vvAKzROy5dtgAVmgqP4P1UXPc1hmCl+JX8MmFFODwMRgqe4
- Hp11s9eCjbSRlMNZF4M5Ww3YwtW+tBmqV6DX60cZ/iV5tlDZ5GcJVHbMu5Cw06izX/UD
- KjGn/xmL3QuTeeEbm0iS2vPFrEvEYKYnbeT7NnQSIuUUKX/Q+kkp9Jf0/T8OJHm0zAbc
- 6y7uWoWL7x3dEN5e6xISaOPPLydysBKyLLb+r3i8U1Tu7Q6ZnAiPpN/xO2LIbDHWTEwC
- AugA==
+ bh=WbZR7w8c2/1lV3w0UuerPHOpD72BimlftG8OCXGdpq4=;
+ b=ZOmbYVt4uPryv7fL7mh8OwdjUy3Tp0sV8jXRN8K9B230m/0/1K5JBabr88Aa3f0w/k
+ yrawgCcfZGadXl2u3+HbzZIrINbUcv7Y/YtSzQ6ks4wSBfZV37TGgBpYEXPAKPjfyAQV
+ i5T3XFKvOPFlDA1e+qFEkCx6gzpMuQEphZ6zqJ03uExRQ4mpmeF0nwIkmbphBmaghGET
+ JeidNXvFc6xsCKoypryQvO9HZL9ANhrm/ZETrmTWB/34l99jWDbgAhHRnp34HpLipgvN
+ LK2Yw5paFT9TCwtOfCD8YQP1kg+/eUmUFkIm5nx1Fe0QADDJjs5AAicSYq0qoeUY2Xmy
+ KY9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hpRnt69voxFVO5vI+Dxv/d+3566lhscbWS/ONKF5myU=;
- b=i6+XI/SGrhHFcCssorvppo/mZURuwaye+BsJQOruZtSqKdaveOuN3mWLhyjxZW3WuH
- UvnDxJJBSRVYQ93AEPvhq3b0fZ5sAWqLVmHptuuaVuXBessMGUvxFHoPrz/R6hSRkxKh
- 4Ku6M3Mi7kX4JGpcp0Sn6Zo3zdjEaIZ+VqIZO6fWdxeCle/35FzEgCb694QIbmglPb7d
- IJu/ZzFXdEoZ623Sjs6BRGUajeGQhlUEaO015IRNEt46qxHheP7iAa/4Gw7OXpCgkNdy
- xaC+UBtk2XwSE/ThVYBXzbmSxrExfqGm1xbgLZcmuSsgUmnZoPlLl8iIrnbMwV49Nrct
- QSmg==
-X-Gm-Message-State: AOAM533HPlTSq8GL2h9jbhgWuHEPBktyuSKwUHtpEViwmYRq2+dNwBWm
- pbZA0FmG8Ph1WdmV35tL97M44Q==
-X-Google-Smtp-Source: ABdhPJzFQJzNRS9yyG2DS+OmQpV+B7FEBnCNL3jDyzuj0q0ey3WMBFGyhrwGLnHIQ38OtVXRH19/sg==
-X-Received: by 2002:a17:90a:d314:b0:1bc:d942:2606 with SMTP id
- p20-20020a17090ad31400b001bcd9422606mr5127050pju.169.1645826006909; 
- Fri, 25 Feb 2022 13:53:26 -0800 (PST)
+ bh=WbZR7w8c2/1lV3w0UuerPHOpD72BimlftG8OCXGdpq4=;
+ b=oEUfFimdkIBfCZ7H7nE+7E9tJbRod7++IuPd6hSpIZJmB2xcrH9wS6M57gJK3Bz09r
+ Ord4/F2s80uoaBlxuAr9S/kziVdaOtNjHtyPCcMBSZ8DRa9GrHrOTD/Gs6yuMi7rPZsB
+ AaGJt5ff4a1WoGsJeUTB9RyopxHikHafph0qBQATF2MMwJypw7G8eft7opHpQjjiHY7T
+ jU/dheT934tMV4BSG8RLZIB1wkw53yOH0u3cxonZGz8q/N07LMqPNG6lehuJM0UJBELV
+ gS8pHq49KJ9G++PNxRrvSKHceyS+l7d6/auyXwjS1Z9/2LOHkCWJzovhmafqOr1K2Zly
+ 0oAw==
+X-Gm-Message-State: AOAM532AT2cyiGYentJ97QCXlIl1JKpUEGnZEkPHLLMMzs/gxR7lWtGY
+ oOHObWgNtZBpWFckxkCMSB0eBw==
+X-Google-Smtp-Source: ABdhPJzmpw18rIZffrotryZ0amsNJjJASsvIJ4nBTboosHt+Vd+e87oU/5ijMykMyzMyck20BCmqmQ==
+X-Received: by 2002:a17:90a:7107:b0:1bc:89df:f6ce with SMTP id
+ h7-20020a17090a710700b001bc89dff6cemr5136765pjk.69.1645826393206; 
+ Fri, 25 Feb 2022 13:59:53 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- m17-20020a17090a859100b001bc20ddcc67sm10146133pjn.34.2022.02.25.13.53.25
+ h7-20020a056a00218700b004e0314bc83csm4333937pfi.139.2022.02.25.13.59.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 13:53:26 -0800 (PST)
-Message-ID: <bfe0b459-2e1c-2a78-dec7-8e33aee02fcf@linaro.org>
-Date: Fri, 25 Feb 2022 11:53:23 -1000
+ Fri, 25 Feb 2022 13:59:52 -0800 (PST)
+Message-ID: <65fc5273-6cf0-5f22-a11a-6a7c080b5931@linaro.org>
+Date: Fri, 25 Feb 2022 11:59:49 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
@@ -69,10 +70,10 @@ From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20220225210936.1749575-36-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,20 +100,76 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/25/22 11:09, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> 
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> ---
-> v5:
->   - One helper for each IMM value.
-> ---
->   target/ppc/helper.h                 | 16 +++++
->   target/ppc/insn32.decode            | 10 ++++
->   target/ppc/int_helper.c             | 91 +++++++++++++++++++++++++++++
->   target/ppc/translate/vsx-impl.c.inc | 43 ++++++++++++++
->   4 files changed, 160 insertions(+)
+>   
+> +#define XXGENPCV(NAME) \
+> +static bool trans_##NAME(DisasContext *ctx, arg_X_imm5 *a)  \
+> +{                                                           \
+> +    TCGv_ptr xt, vrb;                                       \
+> +                                                            \
+> +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);                      \
+> +    REQUIRE_VSX(ctx);                                       \
+> +                                                            \
+> +    if (a->imm & ~0x3) {                                    \
+> +        gen_invalid(ctx);                                   \
+> +        return true;                                        \
+> +    }                                                       \
+> +                                                            \
+> +    xt = gen_vsr_ptr(a->xt);                                \
+> +    vrb = gen_avr_ptr(a->vrb);                              \
+> +                                                            \
+> +    switch (a->imm) {                                       \
+> +    case 0b00000: /* Big-Endian expansion */                \
+> +        glue(gen_helper_, glue(NAME, _be_exp))(xt, vrb);    \
+> +        break;                                              \
+> +    case 0b00001: /* Big-Endian compression */              \
+> +        glue(gen_helper_, glue(NAME, _be_comp))(xt, vrb);   \
+> +        break;                                              \
+> +    case 0b00010: /* Little-Endian expansion */             \
+> +        glue(gen_helper_, glue(NAME, _le_exp))(xt, vrb);    \
+> +        break;                                              \
+> +    case 0b00011: /* Little-Endian compression */           \
+> +        glue(gen_helper_, glue(NAME, _le_comp))(xt, vrb);   \
+> +        break;                                              \
+> +    }                                                       \
+> +                                                            \
+> +    tcg_temp_free_ptr(xt);                                  \
+> +    tcg_temp_free_ptr(vrb);                                 \
+> +                                                            \
+> +    return true;                                            \
+> +}
+> +
+> +XXGENPCV(XXGENPCVBM)
+> +XXGENPCV(XXGENPCVHM)
+> +XXGENPCV(XXGENPCVWM)
+> +XXGENPCV(XXGENPCVDM)
+> +#undef XXGENPCV
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Suggestion:
+
+typedef void (*xxgenpcv_genfn)(TCGv_ptr, TCGv_ptr);
+
+static bool do_xxgenpcv(DisasContext *ctx, arg_X_imm5 *a,
+                         xxgenpcv_genfn fn[4])
+{
+    ...
+    fn[a->imm](xt, vrb);
+    ...
+}
+
+#define XXGENPCV(NAME) \
+     static bool trans_##NAME(...)
+     {
+         static const xxgenpcv_genfn fn[4] = {
+             gen_helper_##NAME##_be_exp,
+             gen_helper_##NAME##_be_comp,
+             gen_helper_##NAME##_le_exp,
+             gen_helper_##NAME##_le_comp,
+         };
+         return do_xxgenpcv(ctx, a, fn);
+     }
+
+For debugging purposes, prefer to put as little within giant macro expansion as possible.
+
 
 r~
 
