@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD874C46D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 14:45:45 +0100 (CET)
-Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3C94C45AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 14:16:06 +0100 (CET)
+Received: from localhost ([::1]:43644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNaul-0006fv-Ot
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 08:45:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59628)
+	id 1nNaS1-0006ZJ-HU
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 08:16:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nNa7y-0001X5-H4
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:55:18 -0500
-Received: from [2607:f8b0:4864:20::534] (port=40828
- helo=mail-pg1-x534.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nNa8r-0002JA-0I
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:56:14 -0500
+Received: from [2607:f8b0:4864:20::b2b] (port=33662
+ helo=mail-yb1-xb2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1nNa7v-0000Yy-Da
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:55:18 -0500
-Received: by mail-pg1-x534.google.com with SMTP id w37so4584762pga.7
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 04:55:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nNa8n-0000kA-E0
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:56:12 -0500
+Received: by mail-yb1-xb2b.google.com with SMTP id j2so5783017ybu.0
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 04:56:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gIPLQIBAtfhj/PZ2de8eGc+4Cx/G/kGBx8Jr9LqiBb0=;
- b=fDAP+Nwn9ciayx9KZfqwqui1pYhSQpGSJlSxvgT1Yzb3tLAl4sMb9trsQ6OqwCUnFx
- RrDmtLtj4uvzuqE01e7MEXa/2kD0tObOPHSzpE5z89pDd9DDypKUCny+9/LJi9g+kTHr
- vcBIw/hN7hbgrRhtG+vacrPzeGn9racfx6pgy0RLowrgQq+jgzMp9P3sywd4KTaA7XY2
- dWQzDkfvVvRnBB2jwWg87y/9dYTJ3+WUQzhmuThLT/YyDNK1qWqI1bE3vDaJInCdG+8c
- 5d1yGzMKqMl8FNaJdls3hBivGrbIf8mBxsfzq/0cGFK8WUWTO6ueKZ8kLKREupt2YRiK
- TO5A==
+ :cc:content-transfer-encoding;
+ bh=S5ibQE5YsoAV9Hk7A0sBJlrtaY8slmsUqz0JqJ2qUns=;
+ b=hAy+LIKbUtKxGkoyY5Gqjc5GGPU6fxB/i0zR3VFiKA97Ur0yKGW1tyNOKiXbfEmNAE
+ MCmmVUYvVBfd6CX6FFvuobN9psxuhWur9h0S7Nd4cz12yTLvdPuTR6X24EPgJORA9apt
+ BIfH+mhqfk92Od+qApr/qZgFzs2xDHkYJhp3iHaEwQD09spAjmEbXg5Pbb9oxqob5bRg
+ 37+bNNOndGxJdRB7Z5mayz9K6jx9KgzP7l2ha6IOBIFmclNtkn6av8hFXQuQ25el1QOS
+ 787j30FOnFa4WZRNKQsLa45aAd/+NMDQM0PwCS6Fn0xpABXz5W8EI+HwhNWlZAZ8XoQV
+ O2qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gIPLQIBAtfhj/PZ2de8eGc+4Cx/G/kGBx8Jr9LqiBb0=;
- b=Vve3YnwZHhgvm+5tDUmaWId/2NLMSX+oCb6iDmvTot/pJb/mOvrKPkOfUp0uqB708z
- +9xgB5+oDGvb1DseeE4qQOy3h2KJUf6FILE6ap59hBFXA4zr9dTw8008lq4R5WTLrxgk
- tNP+y4QvPq8cmsSaUis1ZmFlP8VKN+Hfb0lD8YjOZ0OF9uda6rovWrS/n6qw6nOC6dc4
- EeboRtzUVVM6pgDKbG4jcnHgllr7u8mm59gFdc3Fnuxsr6ntYBYcYTDCd4u3xX8kv9RD
- W2K1tRB6dwUiD9WCT6WFqzVDmC3aPnes4t/7GM4cNDnkHrYkf5D+4vPR9Lhglj6AbUdS
- XlFQ==
-X-Gm-Message-State: AOAM531rku1TNieKufPSN506PPezA1/NuIg0RDQAV5Br93wsbEX15Smh
- aXM6IGihh9yT9JGn3qkQWjLWlh05GKwhnS7M+24=
-X-Google-Smtp-Source: ABdhPJytViQsMNRFajL/A67mJyN7GKsWPE3xuJF8dakK0vzIBlv9S1hHUNGamdEqiOi+6exCZoyGDLhLZyy9qUVz4yA=
-X-Received: by 2002:a63:a84f:0:b0:374:3bb7:6d7d with SMTP id
- i15-20020a63a84f000000b003743bb76d7dmr6145096pgp.608.1645793712110; Fri, 25
- Feb 2022 04:55:12 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=S5ibQE5YsoAV9Hk7A0sBJlrtaY8slmsUqz0JqJ2qUns=;
+ b=AQwx1pJpRgrI+W0+DA3Wzo0GbjzBDHU/P+xVvss04MDQsTkHew68VIoqGJERRL+MpT
+ qO5DP3VCkZtGNgPwpC2ydi8awZ0CjwoigzYppmU0W00cfXuQH9UTAoRT6Sfji+aCwAIP
+ Ins0HEJ5kIQHBGQQ/DW6VO8Fv4uUnKFVtl0Kc/izYHymQG1PtzgmltYobrQtZzIKyxWb
+ WfXZEJ4bNPHeuMjD8B3vE1clM/7frZGBjWCmFdcqHro3vm8SwAz5GfoDaZYPp5m850WW
+ WhAUd511VfOxuWP6Cczq3yR61/4MZfAmTI5ezl0aG26GnnQgllwzRvOs5ztaPuLaedo4
+ BgxQ==
+X-Gm-Message-State: AOAM5336eo2lSXqPmCRcmm6uWa7JF6rqDouVn3U50rouAQoeYBjY082T
+ Gotp4CqGtcRnOybaXL08vz2dQnm2mSE1w6qPf69kHA==
+X-Google-Smtp-Source: ABdhPJx+lNilzW/pjELS6u7Kb4IkncAvxL3TeD+jpd+dUgctoLc5syQKRIkGmSMnqQK3dobKy+Vh9UE+siR45BNx42A=
+X-Received: by 2002:a25:8084:0:b0:5fe:cadd:2532 with SMTP id
+ n4-20020a258084000000b005fecadd2532mr7064249ybk.193.1645793768607; Fri, 25
+ Feb 2022 04:56:08 -0800 (PST)
 MIME-Version: 1.0
-References: <CAJSP0QX7O_auRgTKFjHkBbkBK=B3Z-59S6ZZi10tzFTv1_1hkQ@mail.gmail.com>
- <54dddcf5-85d7-5170-899e-589dd79a34fb@amazon.com>
-In-Reply-To: <54dddcf5-85d7-5170-899e-589dd79a34fb@amazon.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 25 Feb 2022 12:55:01 +0000
-Message-ID: <CAJSP0QXknCnbF-NmPM-dqKfs7M15L8S+ejTrWfe+9c4pVznaSA@mail.gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2022
-To: Andreea Florescu <fandree@amazon.com>
+References: <20220214185605.28087-1-f4bug@amsat.org>
+ <20220214185605.28087-16-f4bug@amsat.org>
+In-Reply-To: <20220214185605.28087-16-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Feb 2022 12:55:57 +0000
+Message-ID: <CAFEAcA-jDpukrey8mpbA+5MJ9kzT5nJ+LJCWybf9aPkN_G=6Sw@mail.gmail.com>
+Subject: Re: [PATCH v5 15/16] lcitool: refresh
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=stefanha@gmail.com; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -82,47 +84,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Le Moal <Damien.LeMoal@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sergio Lopez <slp@redhat.com>, kvm <kvm@vger.kernel.org>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, John Snow <jsnow@redhat.com>,
- Hannes Reinecke <hare@suse.de>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Alex Agache <aagch@amazon.com>,
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- Paolo Bonzini <pbonzini@redhat.com>, gsserge@amazon.com,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Li Zhang <lizhang@suse.de>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Feb 2022 at 08:48, Andreea Florescu <fandree@amazon.com> wrote:
-> On 1/28/22 17:47, Stefan Hajnoczi wrote:
-> > CAUTION: This email originated from outside of the organization. Do not click links or open attachments unless you can confirm the sender and know the content is safe.
-> >
-> >
-> >
-> > Dear QEMU, KVM, and rust-vmm communities,
-> > QEMU will apply for Google Summer of Code 2022
-> > (https://summerofcode.withgoogle.com/) and has been accepted into
-> > Outreachy May-August 2022 (https://www.outreachy.org/). You can now
-> > submit internship project ideas for QEMU, KVM, and rust-vmm!
-> >
-> > If you have experience contributing to QEMU, KVM, or rust-vmm you can
-> > be a mentor. It's a great way to give back and you get to work with
-> > people who are just starting out in open source.
-> >
-> > Please reply to this email by February 21st with your project ideas.
-> Hey, I am a bit late here, but in case it is still possible, I would
-> like to also propose a project.
+On Mon, 14 Feb 2022 at 18:58, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> Title: Extend the aarch64 support for rust-vmm/vmm-reference
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  tests/docker/dockerfiles/ubuntu1804.docker | 2 --
+>  tests/docker/dockerfiles/ubuntu2004.docker | 2 --
+>  2 files changed, 4 deletions(-)
 
-Great project idea. I have added it to the list!
+What's happening here? The commit message only has a very brief
+subject and the patch changes don't seem to match up with it.
 
-Please take a look and let me know if you want to change anything:
-https://wiki.qemu.org/Google_Summer_of_Code_2022#Extend_aarch64_support_in_rust-vmm.2Fvmm-reference
+> diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/do=
+ckerfiles/ubuntu1804.docker
+> index 699f2dfc6a..040938277a 100644
+> --- a/tests/docker/dockerfiles/ubuntu1804.docker
+> +++ b/tests/docker/dockerfiles/ubuntu1804.docker
+> @@ -65,7 +65,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libpam0g-dev \
+>              libpcre2-dev \
+>              libpixman-1-dev \
+> -            libpmem-dev \
+>              libpng-dev \
+>              libpulse-dev \
+>              librbd-dev \
+> @@ -89,7 +88,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libvdeplug-dev \
+>              libvirglrenderer-dev \
+>              libvte-2.91-dev \
+> -            libxen-dev \
+>              libzstd-dev \
+>              llvm \
+>              locales \
+> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/do=
+ckerfiles/ubuntu2004.docker
+> index 87513125b8..159e7f60c9 100644
+> --- a/tests/docker/dockerfiles/ubuntu2004.docker
+> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
+> @@ -66,7 +66,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libpam0g-dev \
+>              libpcre2-dev \
+>              libpixman-1-dev \
+> -            libpmem-dev \
+>              libpng-dev \
+>              libpulse-dev \
+>              librbd-dev \
+> @@ -91,7 +90,6 @@ RUN export DEBIAN_FRONTEND=3Dnoninteractive && \
+>              libvdeplug-dev \
+>              libvirglrenderer-dev \
+>              libvte-2.91-dev \
+> -            libxen-dev \
+>              libzstd-dev \
+>              llvm \
+>              locales \
+> --
+> 2.34.1
 
-Stefan
+thanks
+-- PMM
 
