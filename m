@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B56E4C4186
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:35:28 +0100 (CET)
-Received: from localhost ([::1]:44510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93BB34C422D
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:20:38 +0100 (CET)
+Received: from localhost ([::1]:36660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNX0W-0005ZU-ON
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:35:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59020)
+	id 1nNXiH-00070f-Mo
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:20:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nNWTr-0006b2-FU
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 04:01:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53466)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nNWcZ-0005sp-Gj
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 04:10:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nNWTn-0003jC-Mn
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 04:01:37 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nNWcV-0005vP-9Y
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 04:10:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645779694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1645780233;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SjLh2rZOgMBL++HdErhOOfPy8L67IMmyYdNVylUwZGk=;
- b=Yi1rQD17CI8dMusc/Z7WoYrOASxFlGokDmNe8R/TlHG4nRibkexCqYYvz9IULXn53xwztu
- C4GzFPIZwtbKm9zJS4222nztJnJgN9QNvJf8RlGJoFixjOeVTnOpF3YUzi5fMhM51x8odk
- kMPgsFTbB2Qk41wnL8VTcRJrA+gN8kM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MAV2GiKKZo+vOGOunNIe3p0wrqEwwak5oWbEaidkMfI=;
+ b=UrRFRtZeupI81ANTydJVaqT5PQzbEjJUGKknOFvnzyvGdfF5o7RH4Tlk26aR/v4DeNmC77
+ yT1YBPxE/T8L8xKd/aP2qJEVIu0j6+WbOdsbaeHXeKGtYyNIQ4lzs+rE1PTmfEDrZapHXk
+ EFPiTZ7UYZ2zmrLVOhx6ZKuKvVn3QJw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-568-ak2g7TXzMvuGWelkYI3uBA-1; Fri, 25 Feb 2022 04:01:30 -0500
-X-MC-Unique: ak2g7TXzMvuGWelkYI3uBA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- v2-20020a170906292200b006a94a27f903so2365305ejd.8
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 01:01:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SjLh2rZOgMBL++HdErhOOfPy8L67IMmyYdNVylUwZGk=;
- b=sOiKVL9R8o4YApLca8JZHwrcU0E+I2G65ckWOV2ev12Ua1YLxRZeeK9iDkvNVMppNm
- tTCqu0VWgFIu0fo4mQkgsVzA+xlAo/QBOZvks8ccCiSWjeqABmfzecl+EFuQuY/9V5Et
- +XbApwE7vLjkPYZpzrpbHfBrvgrSAFmOPL6E8vmJ7rvR51wHhTppbxCwQQEjMtLctWyA
- e+q84WaBrSOpuHpvokt2xIJ/XzMV+DA9thsuzG6yQZocJ5RvDTS/Bwk975ySGPtT0W+e
- hNvLpBsCXIfsE82p5WWqPiVcv0waYIh/NSCUM15VhomMtnkcMDJ7fLFxeXTpTk5W4aDq
- McaQ==
-X-Gm-Message-State: AOAM530n4q1rVvq9gItRZe4mphE3ge7z+viHpATJL3UKLucZUmkgD/6/
- c8tXsUuITPqDNvnVRj2nwDVrwt4jpAtTEJoYHf+sm88IKaikEawUD+z0aoMGdmev/6/o7c0sPTe
- 25fobO55X6PGlfkQ=
-X-Received: by 2002:a17:906:8244:b0:6ce:7070:b485 with SMTP id
- f4-20020a170906824400b006ce7070b485mr5330891ejx.347.1645779689331; 
- Fri, 25 Feb 2022 01:01:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyzpcaNEDa6xxfJhY5xGSzuKEy/DLQ4a9LKbT0FRTzvOhg+v5wtBRVJpSHlzep10bvx2YwZbg==
-X-Received: by 2002:a17:906:8244:b0:6ce:7070:b485 with SMTP id
- f4-20020a170906824400b006ce7070b485mr5330876ejx.347.1645779689004; 
- Fri, 25 Feb 2022 01:01:29 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- o21-20020a170906289500b006d144662b24sm745649ejd.152.2022.02.25.01.01.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 01:01:28 -0800 (PST)
-Date: Fri, 25 Feb 2022 10:01:27 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 0/4] Fix broken PCIe device after migration
-Message-ID: <20220225100127.78974d71@redhat.com>
-In-Reply-To: <20220224130708-mutt-send-email-mst@kernel.org>
-References: <20220224174411.3296848-1-imammedo@redhat.com>
- <20220224130708-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ us-mta-633-j7BjiIPJPpmuats1mRt_ag-1; Fri, 25 Feb 2022 04:10:24 -0500
+X-MC-Unique: j7BjiIPJPpmuats1mRt_ag-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 407E11006AA5;
+ Fri, 25 Feb 2022 09:10:23 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7967623760;
+ Fri, 25 Feb 2022 09:10:17 +0000 (UTC)
+Date: Fri, 25 Feb 2022 09:10:14 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kshitij Suri <kshitij.suri@nutanix.com>
+Subject: Re: [PATCH v2] Added parameter to take screenshot with screendump as
+ PNG
+Message-ID: <Yhic9rkSKDfg6f3P@redhat.com>
+References: <20220224115908.102285-1-kshitij.suri@nutanix.com>
+ <YhevxnLUi5BHWJ9G@redhat.com>
+ <8dad1e54-1118-54c2-baea-7a8c6daee286@nutanix.com>
 MIME-Version: 1.0
+In-Reply-To: <8dad1e54-1118-54c2-baea-7a8c6daee286@nutanix.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,78 +86,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: soham.ghosh@nutanix.com, thuth@redhat.com, prerna.saxena@nutanix.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ prachatos.mitra@nutanix.com, eblake@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Feb 2022 13:08:11 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-
-> On Thu, Feb 24, 2022 at 12:44:07PM -0500, Igor Mammedov wrote:
-> > Currently ACPI PCI hotplug is enabled by default for Q35 machine
-> > type and overrides native PCIe hotplug. It works as expected when
-> > a PCIe device is hotplugged into slot, however the device becomes
-> > in-operational after migration. Which is caused by BARs being
-> > disabled on target due to powered off status of the slot.
-> > 
-> > Proposed fix disables power control on PCIe slot when ACPI pcihp
-> > takes over hotplug control and makes PCIe slot check if power
-> > control is enabled before trying to change slot's power. Which
-> > leaves slot always powered on and that makes PCI core keep BARs
-> > enabled.
-> > 
-> > PS:
-> > it's still hacky approach as all ACPI PCI hotplug is, but it's
-> > the least intrusive one. Alternative, I've considered, could be
-> > chaining hotplug callbacks and making pcihp ones call overriden
-> > native callbacks while inhibiting hotplug event in native callbacks
-> > somehow. But that were a bit more intrusive and spills over to SHPC
-> > if implemented systematically, so I ditched that for now. It could
-> > be resurrected later on if current approach turns out to be
-> > insufficient.  
+On Fri, Feb 25, 2022 at 11:26:20AM +0530, Kshitij Suri wrote:
 > 
-> Yes, I am wondering about this myself. Replace callbacks with
-> some kind of notifier, so instead of overrides we add things?
-> I will ponder this over the weekend.
-
-Callback overrides with optional chaining worked fine so far,
-Chaining is just a bit more complicated as often one need to
-refactor old code on pre and plug stages and think about how
-to partition job between involved components.
-But they are very explicit about what's supposed to call what
-and in what order and graceful error handling.
-And I dislike notifiers exactly for the lack of those properties
-and more difficult from review pov.
-
-I think [ATM] for this issue chaining callbacks is overkill,
-but maybe in future it can be done if an idea of having PCI
-slots described in ACPI + native hotplug proves to be a viable.
-
-> > RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
-> > CC: mst@redhat.com
-> > CC: kraxel@redhat.com
+> On 24/02/22 9:48 pm, Daniel P. Berrangé wrote:
+> > On Thu, Feb 24, 2022 at 11:59:08AM +0000, Kshitij Suri wrote:
+> > > Currently screendump only supports PPM format, which is un-compressed and not
+> > > standard. Added a "format" parameter to qemu monitor screendump capabilites
+> > > to support PNG image capture using libpng. The param was added in QAPI schema
+> > > of screendump present in ui.json along with png_save() function which converts
+> > > pixman_image to PNG. HMP command equivalent was also modified to support the
+> > > feature.
+> > > 
+> > > Example usage:
+> > > { "execute": "screendump", "arguments": { "filename": "/tmp/image", "format":"png" } }
+> > > 
+> > > Resolves:https://urldefense.proofpoint.com/v2/url?u=https-3A__gitlab.com_qemu-2Dproject_qemu_-2D_issues_718&d=DwIBaQ&c=s883GpUCOChKOHiocYtGcg&r=utjv19Ej9Fb0TB7_DX0o3faQ-OAm2ypPniPyqVSoj_w&m=Hu1QTP-aSF7FeXYQcdODcxg2wW1sBEpxaD4jWHYF5kxD2Z6ihhXkxRFOkovubo-f&s=YwpDKYWnYlYBM7aE1jNrISGXxP9nKm5f9Kfotxm5rZ4&e=
+> > > 
+> > > Signed-off-by: Kshitij Suri<kshitij.suri@nutanix.com>
+> > > ---
+> > > diff to v1:
+> > >    - Removed repeated alpha conversion operation.
+> > >    - Modified logic to mirror png conversion in vnc-enc-tight.c file.
+> > >    - Added a new CONFIG_PNG parameter for libpng support.
+> > >    - Changed input format to enum instead of string.
+> > > 
+> > >   hmp-commands.hx    | 11 +++---
+> > >   meson.build        | 13 +++++--
+> > >   meson_options.txt  |  2 +
+> > >   monitor/hmp-cmds.c |  8 +++-
+> > >   qapi/ui.json       | 24 ++++++++++--
+> > >   ui/console.c       | 97 ++++++++++++++++++++++++++++++++++++++++++++--
+> > >   6 files changed, 139 insertions(+), 16 deletions(-)
+> > > 
+> > > diff --git a/hmp-commands.hx b/hmp-commands.hx
+> > > index 70a9136ac2..e43c9954b5 100644
+> > > --- a/hmp-commands.hx
+> > > +++ b/hmp-commands.hx
+> > > @@ -244,17 +244,18 @@ ERST
+> > >       {
+> > >           .name       = "screendump",
+> > > -        .args_type  = "filename:F,device:s?,head:i?",
+> > > -        .params     = "filename [device [head]]",
+> > > -        .help       = "save screen from head 'head' of display device 'device' "
+> > > -                      "into PPM image 'filename'",
+> > > +        .args_type  = "filename:F,device:s?,head:i?,format:f?",
+> > > +        .params     = "filename [device [head]] [format]",
+> > > +        .help       = "save screen from head 'head' of display device 'device'"
+> > > +                      "in specified format 'format' as image 'filename'."
+> > > +                      "Currently only 'png' and 'ppm' formats are supported.",
+> > >           .cmd        = hmp_screendump,
+> > >           .coroutine  = true,
+> > >       },
+> > >   SRST
+> > >   ``screendump`` *filename*
+> > > -  Save screen into PPM image *filename*.
+> > > +  Save screen as an image *filename*.
+> > >   ERST
+> > >       {
+> > > diff --git a/meson.build b/meson.build
+> > > index 8df40bfac4..fd550c01ec 100644
+> > > --- a/meson.build
+> > > +++ b/meson.build
+> > > @@ -1112,13 +1112,16 @@ if gtkx11.found()
+> > >     x11 = dependency('x11', method: 'pkg-config', required: gtkx11.found(),
+> > >                      kwargs: static_kwargs)
+> > >   endif
+> > > -vnc = not_found
+> > >   png = not_found
+> > > +png = dependency('libpng', required: get_option('png'),
+> > > +                   method: 'pkg-config', kwargs: static_kwargs)
+> > > +vnc = not_found
+> > > +vnc_png = not_found
+> > >   jpeg = not_found
+> > >   sasl = not_found
+> > >   if get_option('vnc').allowed() and have_system
+> > >     vnc = declare_dependency() # dummy dependency
+> > > -  png = dependency('libpng', required: get_option('vnc_png'),
+> > > +  vnc_png = dependency('libpng', required: get_option('vnc_png'),
+> > >                      method: 'pkg-config', kwargs: static_kwargs)
+> > >     jpeg = dependency('libjpeg', required: get_option('vnc_jpeg'),
+> > >                       method: 'pkg-config', kwargs: static_kwargs)
+> > > @@ -1537,9 +1540,10 @@ config_host_data.set('CONFIG_TPM', have_tpm)
+> > >   config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+> > >   config_host_data.set('CONFIG_VDE', vde.found())
+> > >   config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
+> > > +config_host_data.set('CONFIG_PNG', png.found())
+> > >   config_host_data.set('CONFIG_VNC', vnc.found())
+> > >   config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+> > > -config_host_data.set('CONFIG_VNC_PNG', png.found())
+> > > +config_host_data.set('CONFIG_VNC_PNG', vnc_png.found())
 > > 
-> > Igor Mammedov (4):
-> >   pci: expose TYPE_XIO3130_DOWNSTREAM name
-> >   pcie: update slot power status only is power control is enabled
-> >   acpi: pcihp: disable power control on PCIe slot
-> >   q35: compat: keep hotplugged PCIe device broken after migration for
-> >     6.2-older machine types
+> > I think we should be removing  CONFIG_VNC_PNG entirely - the VNC
+> > code should just use  CONFIG_PNG.
 > > 
-> >  include/hw/acpi/pcihp.h                    |  4 +++-
-> >  include/hw/pci-bridge/xio3130_downstream.h | 15 +++++++++++++++
-> >  hw/acpi/acpi-pci-hotplug-stub.c            |  3 ++-
-> >  hw/acpi/ich9.c                             | 21 ++++++++++++++++++++-
-> >  hw/acpi/pcihp.c                            | 16 +++++++++++++++-
-> >  hw/acpi/piix4.c                            |  3 ++-
-> >  hw/core/machine.c                          |  4 +++-
-> >  hw/pci-bridge/xio3130_downstream.c         |  3 ++-
-> >  hw/pci/pcie.c                              |  5 ++---
-> >  9 files changed, 64 insertions(+), 10 deletions(-)
-> >  create mode 100644 include/hw/pci-bridge/xio3130_downstream.h
-> > 
-> > -- 
-> > 2.31.1  
+> > I'd suggest splitting ths into two patches.  The first patch
+> > updates meson.build to look for libpng unconditionally and
+> > rename to CONFIG_PNG.  The second patch introduces the PNG
+> > support for screendump.
+> Yes can remove entirely with a combination of CONFIG_VNC and CONFIG_PNG as
+> follows
 > 
+> #ifdef CONFIG_VNC_PNG -> #if defined(CONFIG_VNC) && defined(CONFIG_PNG)
+> 
+> But won't removing the vnc_png option cause problems in the build scripts of
+> users with the current
+> version? Instead, can we use the new png meson-option to denote PNG format
+> for VNC as well while maintaining backward compatibility? The change would
+> look like
+
+Configure arguments / meson options are not a stable interface
+from QEMU. We can change them at any time.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
