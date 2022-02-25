@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A49554C4CD4
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 18:45:32 +0100 (CET)
-Received: from localhost ([::1]:50644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D024C4CD1
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 18:44:15 +0100 (CET)
+Received: from localhost ([::1]:47890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNeep-0004Bb-F7
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 12:45:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39852)
+	id 1nNeda-0002N9-Ap
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 12:44:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nNeGz-00044B-JC
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:53 -0500
-Received: from [2a00:1450:4864:20::534] (port=35685
- helo=mail-ed1-x534.google.com)
+ id 1nNeH1-00048f-44
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:55 -0500
+Received: from [2a00:1450:4864:20::631] (port=44777
+ helo=mail-ej1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nNeGg-0002Lj-6l
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:44 -0500
-Received: by mail-ed1-x534.google.com with SMTP id bq11so8374794edb.2
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 09:20:33 -0800 (PST)
+ id 1nNeGo-0002Ot-NH
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:54 -0500
+Received: by mail-ej1-x631.google.com with SMTP id p14so12122680ejf.11
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 09:20:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ns+fYWljoLwi6Vr9txF+6QpXpSI1wN1Odp6zKAkN3xM=;
- b=mElp9feFVLRiU8AnVqG5imkSHn/hXUNVoCNeTyBFOUP/OnAaYY8i9DLqfMvypQPnIH
- MKgoeWz3Zj2wn3GCqS2U5pi5WWb7ve4Te1XIy2SmFRNlUTplQ1MHdLC+Y6Ad+1yOpsnl
- y0TJ7my6Rmr+S9X9RRhnLvwX1JVChZj+jW0JSfre0OAn2SajtwHzIoGKIp4z72oS/2TG
- /WIzXTvX14jfxOfnxdS/G5CCkC/TsEbizepv4exNOy8wnV/YkxnxtCIKL7bu+VZyaTKh
- 7//auBYyNKWeYQZJgQohzUyvJIquZ9jXid+I7LBC/fGb25sn2WE0R9B2O7H7YxLeMlYw
- dTPg==
+ bh=RH/EQPouYDfawCxme5y1a0aybgkGhiPJQumRKhl1sDc=;
+ b=RgmrFtsNjlZnnNbsMz01CcHo9UzVo9UIupk3b3Ci/v095ajCccKzAJ+0LP1wWCNUkE
+ K+KLbKc8ymH4/2hFiT4UsvD8VteHABA5Xroa6l6WVK3/fB1ABdCVvcaYiDNrdksWGAAd
+ OXON7/ljzbJ1K106FSCHxcZmVmizDDW3fcOumw9Mkm3/Zd2HAMaL5tOGJTjUgnENwBQS
+ SjF/iLOXbWKJIrIaEwiPGhvbHoJGBbCjOH7/BN6L8JXqgnsofmujVYecfZb8xp5dSXK0
+ bQvq3CumqRjm8Dy5TJCVSRM4fDnr+YxpNB6FVNU2H5T2aDNDWjSdurYPSMxULja0NjyI
+ jfGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ns+fYWljoLwi6Vr9txF+6QpXpSI1wN1Odp6zKAkN3xM=;
- b=xGyPV45PUnS+6/TIQJ2TBMI9EuVP7PJ5ZuNnwWnbI7yIeMTiC8w3UMedrnpcF56l5I
- uDn49QP+YUg581LypzBY4VD3VfYJfyJLvOVSQsKzG1nCbqlXrpxFQGHNO0hKTs7IftI4
- NnEm24FIunHhy+EShEsfBm5B19sQZaS+ozPZmuVY6Ef7TNXYrcwuFYJVlIIdjEljyVgL
- 5wzKhcNAq3sZAvrbjIFVTVyCptGoDpkyZzQlX/1KgkFIy8mfVRVeSqBiKII+qwT7N+KB
- gegfRgwjrVHPD5mM1kDCG5do1cYHUqkvEjoXgWmFWgTnQE0p+djEu2ma/YrAxXA/8dik
- QgiA==
-X-Gm-Message-State: AOAM531Gwq/ufT5UmOOhf+1WgVpl3wmz966dF25JmxzXSWqkKdH4WaeL
- uYYohw+I2+Lq1M7HmSF7Sp0wew==
-X-Google-Smtp-Source: ABdhPJx8FAP6F8AOH0xapCoWbOy6K5jD7XciJgJ20BJpxMUkH4IfWMS4Fet1VM0FfCcyXzGryfxqCw==
-X-Received: by 2002:a05:6402:40c1:b0:412:b240:dfeb with SMTP id
- z1-20020a05640240c100b00412b240dfebmr7809739edb.239.1645809632251; 
- Fri, 25 Feb 2022 09:20:32 -0800 (PST)
+ bh=RH/EQPouYDfawCxme5y1a0aybgkGhiPJQumRKhl1sDc=;
+ b=U3xbv93bF6DOPAANXzAJaLMMwwvLSkSgM8YgVoBWB5TvzxamACmyVtc67cUJ+924kO
+ Gus+vXw/La9GvsaWSd8u9d8AyEdo7UZpuIvrV9NyYMBFzvTrZQ0BtyV/lLjBwzRH9ClG
+ 91rwqgxeNf0bJLkuB1eYsnpIiyuq/8fnaWgXc2z+QHoKQVHIxELRRmaAqUpXRawzH2hw
+ 7OH2MEbsCjSK1aI8X/3vIri6wQuCPsoqIkzl1Fe/y5lwv19y/cVGDnUpeK3SenlEBRsE
+ F67wmkuSLgXdolaSctkd/TGRDqrtnTsnu8c0+YbpSs07yjw5yL7VghzvUScSrXRPnrrc
+ QqZg==
+X-Gm-Message-State: AOAM530Q/g3TZdigH4MsppHeujAeLq0fMy/9FUQB0iulU4Zi7GqBpfrM
+ IxRZbhjyKJ8jSQj+O+BOzDBfSw==
+X-Google-Smtp-Source: ABdhPJxugY40w7saZDeQMeKapHwXLU4+A5RZr0Bv2a1Y14PUV6fel42hP3kOQYvmf0i1eKeubZIMTA==
+X-Received: by 2002:a17:906:4a09:b0:6d0:7f19:d738 with SMTP id
+ w9-20020a1709064a0900b006d07f19d738mr6824090eju.76.1645809641386; 
+ Fri, 25 Feb 2022 09:20:41 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- 17-20020a170906059100b006cee1bceddasm1202190ejn.130.2022.02.25.09.20.27
+ d25-20020aa7d699000000b004128cfcc228sm1655504edr.5.2022.02.25.09.20.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 09:20:32 -0800 (PST)
+ Fri, 25 Feb 2022 09:20:38 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 055B51FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id 12DFA1FFC3;
  Fri, 25 Feb 2022 17:20:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 10/18] tests/tcg/ppc64: clean-up handling of byte-reverse
-Date: Fri, 25 Feb 2022 17:20:13 +0000
-Message-Id: <20220225172021.3493923-11-alex.bennee@linaro.org>
+Subject: [PATCH  v2 11/18] tests/tcg: build sha1-vector with O3 and compare
+Date: Fri, 25 Feb 2022 17:20:14 +0000
+Message-Id: <20220225172021.3493923-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220225172021.3493923-1-alex.bennee@linaro.org>
 References: <20220225172021.3493923-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,50 +92,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, sw@weilnetz.de,
- richard.henderson@linaro.org, f4bug@amsat.org, qemu-arm@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, sw@weilnetz.de, richard.henderson@linaro.org,
+ f4bug@amsat.org, qemu-arm@nongnu.org, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than having an else leg for the missing compiler case we can
-simply just not add the test - the same way as is done for ppc64le.
-Also while we are at it fix up the compiler invocation.
+The aim of this is to test code generation for vectorised operations.
+Unfortunately gcc struggles to do much with the messy sha1 code (try
+-fopt-info-vec-missed to see why). However it's better than nothing.
+
+We assume the non-vectorised output is gold and baring compiler bugs
+the outputs should match.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220202191242.652607-3-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220211160309.335014-10-alex.bennee@linaro.org>
 ---
- tests/tcg/ppc64/Makefile.target | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ tests/tcg/aarch64/Makefile.target | 10 ++++++++++
+ tests/tcg/arm/Makefile.target     |  9 +++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
-index 0368007028..9d6dfc1e26 100644
---- a/tests/tcg/ppc64/Makefile.target
-+++ b/tests/tcg/ppc64/Makefile.target
-@@ -10,19 +10,14 @@ PPC64_TESTS=bcdsub non_signalling_xscv
- endif
- $(PPC64_TESTS): CFLAGS += -mpower8-vector
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 1d967901bd..df3f8e9438 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -50,6 +50,16 @@ sysregs: CFLAGS+=-march=armv8.1-a+sve
+ AARCH64_TESTS += sve-ioctls
+ sve-ioctls: CFLAGS+=-march=armv8.1-a+sve
  
--PPC64_TESTS += byte_reverse
- PPC64_TESTS += mtfsf
++# Vector SHA1
++sha1-vector: CFLAGS=-O3
++sha1-vector: sha1.c
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
++run-sha1-vector: sha1-vector run-sha1
++	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
++	$(call diff-out, sha1-vector, sha1.out)
 +
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
-+PPC64_TESTS += byte_reverse
-+endif
-+byte_reverse: CFLAGS += -mcpu=power10
- run-byte_reverse: QEMU_OPTS+=-cpu POWER10
- run-plugin-byte_reverse-with-%: QEMU_OPTS+=-cpu POWER10
--else
--byte_reverse:
--	$(call skip-test, "BUILD of $@", "missing compiler support")
--run-byte_reverse:
--	$(call skip-test, "RUN of byte_reverse", "not built")
--run-plugin-byte_reverse-with-%:
--	$(call skip-test, "RUN of byte_reverse ($*)", "not built")
--endif
++TESTS += sha1-vector
++
+ ifneq ($(HAVE_GDB_BIN),)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
  
- PPC64_TESTS += signal_save_restore_xer
+diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
+index f509d823d4..2dc94931c3 100644
+--- a/tests/tcg/arm/Makefile.target
++++ b/tests/tcg/arm/Makefile.target
+@@ -70,6 +70,15 @@ endif
  
+ ARM_TESTS += commpage
+ 
++# Vector SHA1
++sha1-vector: CFLAGS=-O3
++sha1-vector: sha1.c
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
++run-sha1-vector: sha1-vector run-sha1
++	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
++	$(call diff-out, sha1-vector, sha1.out)
++
++ARM_TESTS += sha1-vector
+ TESTS += $(ARM_TESTS)
+ 
+ # On ARM Linux only supports 4k pages
 -- 
 2.30.2
 
