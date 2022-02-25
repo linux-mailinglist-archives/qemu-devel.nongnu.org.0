@@ -2,87 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597794C4AAE
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 17:27:01 +0100 (CET)
-Received: from localhost ([::1]:48186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2EB4C4AC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 17:32:57 +0100 (CET)
+Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNdQp-0003cl-Sm
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 11:26:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50918)
+	id 1nNdWZ-000055-T0
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 11:32:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nNdDv-0007WD-Mj; Fri, 25 Feb 2022 11:13:41 -0500
-Received: from [2607:f8b0:4864:20::334] (port=40952
- helo=mail-ot1-x334.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nNdDt-00060R-17; Fri, 25 Feb 2022 11:13:39 -0500
-Received: by mail-ot1-x334.google.com with SMTP id
- k9-20020a056830242900b005ad25f8ebfdso3915412ots.7; 
- Fri, 25 Feb 2022 08:13:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=dNKLvxpoNJ7AIrjm+OTCX0taqiK4hMw4sRRzIAM5vbI=;
- b=ZAWeN/wZ2b44AhJoPTdiJFCE3hQ8PyWdYN44ZveZC5hyirRe86KyfiGO9m1svdQjuV
- gmjL1H8TPvZQ5P131EHBOttf/tAnV0j1IKO6+1mgVA7fFb5o7/DBVUzAgNmK8MHBqbo1
- X6KE24xFG5Q7URsR0wxa8R0wrEUSzt0lX8frHSdOPSbN0e7x8Gps9Lrj+Qv3xYK6Z7ve
- d8jEDcREmH22GzTOrhp2yLMFpEMpn2PN/orjDnm1khzbel3ei+FF4Ekd2LNKhb3e2x8m
- sVlvNKawsp9r2VDBjRrOxGPFv6lojKrnVTRm7rwtivPWNREKRw7GMNWTq8T4Dt0/+0Dl
- xMXg==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nNdFp-00023c-0p
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 11:15:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nNdFk-0006Yi-TZ
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 11:15:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645805729;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Etqldj/4s/fIb10KgVa4JK1z/x+HxbGkpKDrNg4Xpbg=;
+ b=hSbgmFb9Uy1jfLSSGw7EUZwERzBvUplRjoz/DdJwEF5g2xwghoyUuepD98k8dZqoTeq60G
+ GQQNvRPXUJL58oUe1PZeazbAMal6ae3b8QrCrAIqFvSkDYwJ0EidYfTu2WumitsS3oTt5U
+ /XB2d0ccAmX81RENNvpOG2cn4SbbV50=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-154-RzvxcziPNRO33hikJ-Edlg-1; Fri, 25 Feb 2022 11:15:26 -0500
+X-MC-Unique: RzvxcziPNRO33hikJ-Edlg-1
+Received: by mail-il1-f199.google.com with SMTP id
+ x6-20020a923006000000b002bea39c3974so3748930ile.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 08:15:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dNKLvxpoNJ7AIrjm+OTCX0taqiK4hMw4sRRzIAM5vbI=;
- b=fYRSWuoAjhP5MGeOXegAQIMaGZBTmsZ3F3PR3afgilowIZSX6aIR0SVeXOty9o7Fus
- xQ9WumkZ1x9Tc1pFF8QxDg/mEM4M86HJJVKUrLrOFFYVFw5EtPYj5c2AA71UMXEySZTm
- 5mTVmyiLK5IMlEMBe6z3KRGXXIuk0zo+qpTbGVpAyUsA80xDS/oNeN4uRuv5A6Ri9Y5R
- QbA2XfzJ5E3Dz5yfMIhQj6IHtgLj/Yy7B2P4aWgpYmiIuGZ3ZYn+A+MERoH1HAtOnfh0
- aKR6Ji4C6eKRiqhXGcRFMGjPQd1QrHaY8cU/yy9DEVmtyjF1Y3y0RMP5+uONptBgvvZE
- +Nfw==
-X-Gm-Message-State: AOAM531mXx+/PxJpXr4tBZB/ngWajxrvcmbZu1SWFdzvx4g/tac3YBs2
- Qu/LexmFQn4YdxYB7uMDLy8=
-X-Google-Smtp-Source: ABdhPJyny66gWedQTmSUF7yDJb3IhgbhCTn7p3y0otADdvNGWZahSP0G2PEIUzMv/iCjslO4FiM4LQ==
-X-Received: by 2002:a05:6830:44a8:b0:5af:1534:4c85 with SMTP id
- r40-20020a05683044a800b005af15344c85mr890676otv.92.1645805615258; 
- Fri, 25 Feb 2022 08:13:35 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377?
- ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
- by smtp.gmail.com with ESMTPSA id
- q14-20020a4a330e000000b002e89ed90006sm1265189ooq.44.2022.02.25.08.13.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 08:13:35 -0800 (PST)
-Message-ID: <f3b49249-1018-53f6-7e91-e922989fa87d@gmail.com>
-Date: Fri, 25 Feb 2022 13:13:31 -0300
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=Etqldj/4s/fIb10KgVa4JK1z/x+HxbGkpKDrNg4Xpbg=;
+ b=asHuGOLHFC8CIvhKEh5n7Uib0iwZbiJ3cSGSTPzZge0grFV8BLYJeQkyK0OoXRU/Te
+ qNysHqx43q/RlZtg5C/O4lUlMCskg6kurJxCmVUoiNeujKo+sDQEaeLtW2X5srjVvAoY
+ eNRrusxpJHIm94lodU45z/2LhDnQ5V7U4/CFpJKK2xfaEXUVrsJ/XFGW42MB5Ubuq/F2
+ Omlhwxia+dHL/ilkqUvq06dBNw9z0+leAE7LvxxtmmPr64/YrhiwBH7uCBnCMEx5GHI9
+ ROE5yMZJO8J0dooFKqAw6LRI1ZelBNYXWVf/GBkxBAoH+4JfPaRda0SW4exTUf67YEve
+ Rclw==
+X-Gm-Message-State: AOAM531ooT2Nseg+OgrtDKcZqlF1PLk31C1rUnvFzV0TsJgICJjmVcfc
+ KtLI24uYSMJ1Pk4sWMUvxKCIvJR+/z0Cb4hFR0P/jh1+wzy2AY6CAdxOWHjJ6UqjJOK1dvs6jzx
+ 0+qdKqNhpJDFJiTI=
+X-Received: by 2002:a92:cccb:0:b0:2c2:7641:ed49 with SMTP id
+ u11-20020a92cccb000000b002c27641ed49mr7155889ilq.271.1645805725911; 
+ Fri, 25 Feb 2022 08:15:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzFb3zKLpvyu7TMzyQEk2EiYkwKZUrpkYmSnnQaRUBmAW+2R1x4P0f3lmzuwbBHPQJgmyN/Mg==
+X-Received: by 2002:a92:cccb:0:b0:2c2:7641:ed49 with SMTP id
+ u11-20020a92cccb000000b002c27641ed49mr7155848ilq.271.1645805725574; 
+ Fri, 25 Feb 2022 08:15:25 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ q7-20020a92d407000000b002c23918fa80sm1749324ilm.60.2022.02.25.08.15.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Feb 2022 08:15:25 -0800 (PST)
+Date: Fri, 25 Feb 2022 09:15:23 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v3 4/6] i386/pc: relocate 4g start to 1T where applicable
+Message-ID: <20220225091523.66b3b2c5.alex.williamson@redhat.com>
+In-Reply-To: <eb699dff-09d3-e9ba-2c35-3c91966efa13@oracle.com>
+References: <20220223184455.9057-5-joao.m.martins@oracle.com>
+ <20220223161744-mutt-send-email-mst@kernel.org>
+ <5fee0e05-e4d1-712b-9ad1-f009aba431ea@oracle.com>
+ <c28ade30-fbea-4d3a-3b11-356c02abaabb@oracle.com>
+ <20220224122146-mutt-send-email-mst@kernel.org>
+ <7afb8caf-5c98-d6db-d3e5-6e08b2832d57@oracle.com>
+ <20220224131607-mutt-send-email-mst@kernel.org>
+ <f19dd8be-f923-fd7d-c54d-a54fd775dcc5@oracle.com>
+ <20220224144800-mutt-send-email-mst@kernel.org>
+ <37df5f3a-283a-a016-311f-8281bbacda19@oracle.com>
+ <20220224150626-mutt-send-email-mst@kernel.org>
+ <5cae0afc-df3e-5dc6-d11b-2f7d931ba5e6@oracle.com>
+ <20220224144053.3fbe234d.alex.williamson@redhat.com>
+ <eb699dff-09d3-e9ba-2c35-3c91966efa13@oracle.com>
+Organization: Red Hat
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 13/18] pnv/xive2: Introduce new capability bits
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211126115349.2737605-1-clg@kaod.org>
- <20211126115349.2737605-14-clg@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211126115349.2737605-14-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::334
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x334.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,64 +113,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Daniel Jordan <daniel.m.jordan@oracle.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 25 Feb 2022 12:36:24 +0000
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-
-On 11/26/21 08:53, Cédric Le Goater wrote:
-> These bits control the availability of interrupt features : StoreEOI,
-> PHB PQ_disable, PHB Address-Based Trigger and the overall XIVE
-> exploitation mode. These bits can be set at early boot time of the
-> system to activate/deactivate a feature for testing purposes. The
-> default value should be '1'.
+> On 2/24/22 21:40, Alex Williamson wrote:
+> > On Thu, 24 Feb 2022 20:34:40 +0000
+> > Joao Martins <joao.m.martins@oracle.com> wrote:
+> >> Of all those cases I would feel the machine-property is better,
+> >> and more flexible than having VFIO/VDPA deal with a bad memory-layout and
+> >> discovering late stage that the user is doing something wrong (and thus
+> >> fail the DMA_MAP operation for those who do check invalid iovas)  
+> > 
+> > The trouble is that anything we can glean from the host system where we
+> > instantiate the VM is mostly meaningless relative to data center
+> > orchestration.  We're relatively insulated from these sorts of issues
+> > on x86 (apparently aside from this case), AIUI ARM is even worse about
+> > having arbitrary reserved ranges within their IOVA space.
+> >   
+> In the multi-socket servers we have for ARM I haven't seen much
+> issues /yet/ with VFIO. I only have this reserved region:
 > 
-> The 'XIVE exploitation mode' bit is a software bit that skiboot could
-> use to disable the XIVE OS interface and propose a P8 style XICS
-> interface instead. There are no plans for that for the moment.
+> 0x0000000008000000 0x00000000080fffff msi
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   hw/intc/pnv_xive2_regs.h | 5 +++++
->   hw/intc/pnv_xive2.c      | 4 ++--
->   2 files changed, 7 insertions(+), 2 deletions(-)
+> But of course ARM servers aren't very good representatives of the
+> shifting nature of other ARM machine models. ISTR some thread about GIC ITS ranges
+> being reserved by IOMMU in some hardware. Perhaps that's what you might
+> be referring to about:
 > 
-> diff --git a/hw/intc/pnv_xive2_regs.h b/hw/intc/pnv_xive2_regs.h
-> index 084fccc8d3e9..46d4fb378135 100644
-> --- a/hw/intc/pnv_xive2_regs.h
-> +++ b/hw/intc/pnv_xive2_regs.h
-> @@ -31,6 +31,11 @@
->   #define       CQ_XIVE_CAP_VP_INT_PRIO_8         3
->   #define    CQ_XIVE_CAP_BLOCK_ID_WIDTH           PPC_BITMASK(12, 13)
->   
-> +#define    CQ_XIVE_CAP_PHB_PQ_DISABLE           PPC_BIT(56)
-> +#define    CQ_XIVE_CAP_PHB_ABT                  PPC_BIT(57)
-> +#define    CQ_XIVE_CAP_EXPLOITATION_MODE        PPC_BIT(58)
-> +#define    CQ_XIVE_CAP_STORE_EOI                PPC_BIT(59)
-> +
->   /* XIVE2 Configuration */
->   #define X_CQ_XIVE_CFG                           0x03
->   #define CQ_XIVE_CFG                             0x018
-> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
-> index 186ab66e105d..cb12cea14fc6 100644
-> --- a/hw/intc/pnv_xive2.c
-> +++ b/hw/intc/pnv_xive2.c
-> @@ -1708,9 +1708,9 @@ static const MemoryRegionOps pnv_xive2_nvpg_ops = {
->   };
->   
->   /*
-> - * POWER10 default capabilities: 0x2000120076f00000
-> + * POWER10 default capabilities: 0x2000120076f000FC
->    */
-> -#define PNV_XIVE2_CAPABILITIES  0x2000120076f00000
-> +#define PNV_XIVE2_CAPABILITIES  0x2000120076f000FC
->   
->   /*
->    * POWER10 default configuration: 0x0030000033000000
+> https://lore.kernel.org/qemu-devel/1510622154-17224-1-git-send-email-zhuyijun@huawei.com/
+
+
+Right, and notice there also that the msi range is different.  On x86
+the msi block is defined by the processor, not the platform and we have
+commonality between Intel and AMD on that range.  We emulate the same
+range in the guest, so for any x86 guest running on an x86 host, the
+msi range is a non-issue because they overlap due to the architectural
+standards.
+
+How do you create an ARM guest that reserves a block at both 0x8000000
+for your host and 0xc6000000 for the host in the above link?  Whatever
+solution we develop to resolve that issue should equally apply to the
+AMD reserved block:
+
+0x000000fd00000000 0x000000ffffffffff reserved
+
+> > For a comprehensive solution, it's not a machine accelerator property
+> > or enable such-and-such functionality flag, it's the ability to specify
+> > a VM memory map on the QEMU command line and data center orchestration
+> > tools gaining insight across all their systems to specify a memory
+> > layout that can work regardless of how a VM might be migrated. 
+> > Maybe
+> > there's a "host" option to that memory map command line option that
+> > would take into account the common case of a static host or at least
+> > homogeneous set of hosts.  Overall, it's not unlike specifying CPU flags
+> > to generate a least common denominator set such that the VM is
+> > compatible to any host in the cluster.
+> >   
+> 
+> I remember you iterated over the initial RFC over such idea. I do like that
+> option of adjusting memory map... should any new restrictions appear in the
+> IOVA space appear as opposed to have to change the machine code everytime
+> that happens.
+> 
+> 
+> I am trying to approach this iteratively and starting by fixing AMD 1T+ guests
+> with something that hopefully is less painful to bear and unbreaks users doing
+> multi-TB guests on kernels >= 5.4. While for < 5.4 it would not wrongly be
+> DMA mapping bad IOVAs that may lead guests own spurious failures.
+> For the longterm, qemu would need some sort of handling of configurable a sparse
+> map of all guest RAM which currently does not exist (and it's stuffed inside on a
+> per-machine basis as you're aware). What I am unsure is the churn associated
+> with it (compat, migration, mem-hotplug, nvdimms, memory-backends) versus benefit
+> if it's "just" one class of x86 platforms (Intel not affected) -- which is what I find
+> attractive with the past 2 revisions via smaller change.
+> 
+> > On the device end, I really would prefer not to see device driver
+> > specific enables and we simply cannot hot-add a device of the given
+> > type without a pre-enabled VM.  Give the user visibility and
+> > configurability to the issue and simply fail the device add (ideally
+> > with a useful error message) if the device IOVA space cannot support
+> > the VM memory layout (this is what vfio already does afaik).
+> > 
+> > When we have iommufd support common for vfio and vdpa, hopefully we'll
+> > also be able to recommend a common means for learning about system and
+> > IOMMU restrictions to IOVA spaces.   
+> 
+> Perhaps even advertising platform-wide regions (without a domain allocated) that
+> are common in any protection domain (for example on x86 this is one
+> such case where MSI/HT ranges are hardcoded in Intel/AMD).
+> 
+> > For now we have reserved_regions
+> > reported in sysfs per IOMMU group:
+> > 
+> >  $ grep -h . /sys/kernel/iommu_groups/*/reserved_regions | sort -u | grep -v direct-relaxable  
+> 
+> And hopefully iommufd might not want to allow iommu_map() on those reserved
+> IOVA regions as opposed to letting that go through. Essentially what VFIO does. Unless of
+> course there's actually a case where this is required to iommu_map reserved regions (which
+> I don't know).
+
+iommufd is being designed to support a direct replacement for the vfio
+specific type1 IOMMU backend, so it will need to have this feature.
+Allowing userspace to create invalid mappings would be irresponsible.
+
+I'd tend to agree with MST's recommendation for a more piece-wise
+solution, tie the memory map to the vCPU vendor rather than to some
+property of the host to account for this reserved range on AMD.  Thanks,
+
+Alex
+
 
