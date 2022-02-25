@@ -2,48 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FEA4C4102
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:12:56 +0100 (CET)
-Received: from localhost ([::1]:48544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3B04C4124
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:18:19 +0100 (CET)
+Received: from localhost ([::1]:55358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNWel-0005Bu-5Y
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:12:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47382)
+	id 1nNWjy-0001Rq-Kr
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:18:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nNVaD-0008BK-G3
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:12 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:42142 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVZt-0002T2-6C
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:09 -0500
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S30; 
- Fri, 25 Feb 2022 16:03:25 +0800 (CST)
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v6 28/29] hw/loongarch: Add fdt support.
-Date: Fri, 25 Feb 2022 03:03:07 -0500
-Message-Id: <20220225080308.1405-29-yangxiaojuan@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
-References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nNVoI-0000N8-Mp
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:18:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56734)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nNVoD-00007D-Nk
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:18:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645777116;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f2DdWXMnv49Pfp74VbFLTeX2kBQDDMR+vGozzPCIx/g=;
+ b=UdRtD7TBz8Ztd+oYUvJTz4ToYV7s82qTfsJMlDtDPsAEuzm1beyYlq0EaAOoxg8ct9O6yh
+ 28iNp1xL+E24i6BsxNO7AmhJxk7uMXRWT0Z9/Pbx2mOA6oUSCc+HW66+OsWvhJlDlSQ356
+ vBNfovZMLrXWQ30NW6lc7XLBaDPFKJI=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-5hEKVPnjNkaa2PLBh_Gv0Q-1; Fri, 25 Feb 2022 03:18:34 -0500
+X-MC-Unique: 5hEKVPnjNkaa2PLBh_Gv0Q-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ mp5-20020a1709071b0500b0069f2ba47b20so2268930ejc.19
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 00:18:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=f2DdWXMnv49Pfp74VbFLTeX2kBQDDMR+vGozzPCIx/g=;
+ b=InW7Z4W4Mz4WQnAZjs3+UtCBgACwXQaIafAQOKrBiOJIh+PPDpraeR4S5UXOf8epv7
+ NsxyNWoawh4FRgk1/PtFPq+eHgUKTZAlcTDHfvbmTumCqP6ZTBVSFRKO7b4CVDsC0GDW
+ qKsonjx4LkTzQrM8yEnvBTOt/FM3rCvuJZjyQoznztKTyTzTg4VDfu8bSy2LhITfaZTI
+ t8MwlaNIHw6JfqXyxYZ8ETE8/gv8uamkwUaswGUTETEui+EsjEceqsRVKWW+/CsjxubS
+ Pqr8rGoDO1HpTuj9eKfAVyYDLwXhvt2cMKrJ0uJ8DGeg66tJBGcJLbvlrWm3R5RHxzkc
+ 6F0w==
+X-Gm-Message-State: AOAM5304hjrgpth/TbxMUKWeyPtMBusg0mT5jXmaEr9mHxAyR4kF8II2
+ DAvRxvMPIvICTFTBgleE2g7D5B7XRLR5d9JmS68pB5vYNc+pxfjhnVYWdecTmC7HrJZzxoyxxIo
+ j7P5IH71+zwsGjMs=
+X-Received: by 2002:a17:906:a057:b0:6cf:2736:ba65 with SMTP id
+ bg23-20020a170906a05700b006cf2736ba65mr5222287ejb.171.1645777113621; 
+ Fri, 25 Feb 2022 00:18:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxdUxtropKIZwXJg6VjVgw071PgfdfV0VvqBhTt/0sqPxUNyd5jngWNVg/8XjiWbrukA0Uw2w==
+X-Received: by 2002:a17:906:a057:b0:6cf:2736:ba65 with SMTP id
+ bg23-20020a170906a05700b006cf2736ba65mr5222273ejb.171.1645777113347; 
+ Fri, 25 Feb 2022 00:18:33 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ dt24-20020a170906b79800b006d57e9289f2sm718142ejb.49.2022.02.25.00.18.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Feb 2022 00:18:32 -0800 (PST)
+Date: Fri, 25 Feb 2022 09:18:30 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 2/4] pcie: update slot power status only is power
+ control is enabled
+Message-ID: <20220225091830.2f684997@redhat.com>
+In-Reply-To: <20220224125928-mutt-send-email-mst@kernel.org>
+References: <20220224174411.3296848-1-imammedo@redhat.com>
+ <20220224174411.3296848-3-imammedo@redhat.com>
+ <20220224125928-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S30
-X-Coremail-Antispam: 1UD129KBjvJXoW3Ar1kZw4xGryxJw1xtFy5Arb_yoW3uF4xpF
- W7AFWDWrW8Xrs3urs2g345uwn3Jr18GFW7Xa12grWFkayDWw18Zay8Aa9ayF15J34FqFyY
- vFZ5JrySg3WIgr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,261 +103,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
- Song Gao <gaosong@loongson.cn>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add tree nodes for 3A5000 device tree.
-- cpu nodes;
-- fw_cfg nodes;
-- pcie nodes.
+On Thu, 24 Feb 2022 13:05:07 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-The lastest loongarch bios have supported fdt.
-- https://github.com/loongson/edk2
-- https://github.com/loongson/edk2-platforms
+> On Thu, Feb 24, 2022 at 12:44:09PM -0500, Igor Mammedov wrote:
+> > on creation a PCIDevice has power turned on at the end of pci_qdev_realize()
+> > however later on if PCIe slot isn't populated with any children
+> > it's power is turned off. It's fine if native hotplug is used
+> > as plug callback will power slot on among other things.
+> > However when ACPI hotplug is enabled it replaces native PCIe plug
+> > callbacks with ACPI specific ones (acpi_pcihp_device_*plug_cb) and
+> > as result slot stays powered off. It works fine as ACPI hotplug
+> > on guest side takes care of enumerating/initializing hotplugged
+> > device. But when later guest is migrated, call chain introduced by [1]
+> > 
+> >    pcie_cap_slot_post_load()  
+> >        -> pcie_cap_update_power()
+> >            -> pcie_set_power_device()
+> >                -> pci_set_power()
+> >                    -> pci_update_mappings()  
+> > 
+> > will disable earlier initialized BARs for the hotplugged device
+> > in powered off slot due to commit [2] which disables BARs if
+> > power is off. As result guest OS after migration will be very
+> > much confused [3], still thinking that it has working device,
+> > which isn't true anymore due to disabled BARs.
+> > 
+> > Fix it by honoring PCI_EXP_SLTCAP_PCP and updating power status
+> > only if capability is enabled. Follow up patch will disable
+> > PCI_EXP_SLTCAP_PCP overriding COMPAT_PROP_PCP property when
+> > PCIe slot is under ACPI PCI hotplug control.
+> > 
+> > See [3] for reproducer.
+> > 
+> > 1)
+> > Fixes: commit d5daff7d312 (pcie: implement slot power control for pcie root ports)
+> > 2)
+> >        commit 23786d13441 (pci: implement power state)
+> > 3)
+> > Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
+> >   
+> 
+> 
+> Correct format for the last paragraph:
+> 
+> 
+> Fixes: d5daff7d312 ("pcie: implement slot power control for pcie root ports")
+> Fixes: 23786d13441 ("pci: implement power state")
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- hw/loongarch/loongson3.c         | 136 +++++++++++++++++++++++++++++++
- include/hw/loongarch/loongarch.h |   5 ++
- target/loongarch/cpu.c           |   2 +
- target/loongarch/cpu.h           |   3 +
- 4 files changed, 146 insertions(+)
+ok, will fix it up on respin like this to have references:
 
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 5f0dcfa419..0ae6075a3e 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -34,6 +34,9 @@
- #include "hw/firmware/smbios.h"
- #include "hw/acpi/aml-build.h"
- #include "qapi/qapi-visit-common.h"
-+#include "sysemu/device_tree.h"
-+
-+#include <libfdt.h>
+1)
+Fixes: d5daff7d312 ("pcie: implement slot power control for pcie root ports")
+2)
+Fixes: 23786d13441 ("pci: implement power state")
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
+
+> 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >  hw/pci/pcie.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> > index d7d73a31e4..2339729a7c 100644
+> > --- a/hw/pci/pcie.c
+> > +++ b/hw/pci/pcie.c
+> > @@ -383,10 +383,9 @@ static void pcie_cap_update_power(PCIDevice *hotplug_dev)
+> >  
+> >      if (sltcap & PCI_EXP_SLTCAP_PCP) {
+> >          power = (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON;
+> > +        pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> > +                            pcie_set_power_device, &power);
+> >      }
+> > -
+> > -    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> > -                        pcie_set_power_device, &power);  
+> 
+> I think this is correct. However, I wonder whether for 6.2 compatiblity
+> as a hack we should sometimes skip the power update even when
+> PCI_EXP_SLTCAP_PCP exists. Will that not work around the issue for
+> these machine types?
+
+pc-q35-6.2 is broken utterly.
+With pc-q35-6.1, it's a mess. Here is a ping-pong migration matrix for it
+            
+      v6.1   |  v6.2   | Fix
+v6.1   ok    | broken  | ok (#1)
+v6.2         | broken  | broken (#2)
+
+[1] has PCI_EXP_SLTCAP_PCP due to x-pcihp-enable-pcie-pcp-cap=on
+    i.e. pci_config is exactly the same as in qemu-v6.1
+[2] PCI_EXP_SLTCAP_PCP is enabled + empty slot is powered off
+    (+ state is migrated)
+
+there are some invariants that might work in one direction,
+but it won't survive ping-pong migration. And more importantly
+for upstream we care mostly care for old -> new working,
+and it's direction that is broken in v6.2.
+
+> And assuming we want bug for bug compat anyway, why not just put
+> it here? It seems easier to reason about frankly ...
+
+It should be possible hack PCI core to fixup broken power state
+on incoming migration at (at postload time), but that would just
+create more confusion, where in some cases migration would work
+and in some would not (depending on used qemu versions).
+
+Lets just declare v6.2 qemu broken, with upgrade/downgrade to
+(7.0/6.1) as suggested solution.
+
+PS:
+I'd very much prefer avoid adding hacks for ACPI pcihp sake to
+PCI core, and let PCI code behave as it's supposed to per spec.
+It's already bad enough with pcihp layered on top of PCI,
+making PCI code depend on pcihp will just make it more fragile.
  
- #include "target/loongarch/cpu.h"
- 
-@@ -447,6 +450,126 @@ static void loongarch_irq_init(LoongArchMachineState *lams,
-     loongarch_devices_init(pch_pic);
- }
- 
-+static void create_fdt(LoongArchMachineState *lams)
-+{
-+    MachineState *ms = MACHINE(lams);
-+
-+    ms->fdt = create_device_tree(&lams->fdt_size);
-+    if (!ms->fdt) {
-+        error_report("create_device_tree() failed");
-+        exit(1);
-+    }
-+
-+    /* Header */
-+    qemu_fdt_setprop_string(ms->fdt, "/", "compatible",
-+                            "linux,dummy-loongson3");
-+    qemu_fdt_setprop_cell(ms->fdt, "/", "#address-cells", 0x2);
-+    qemu_fdt_setprop_cell(ms->fdt, "/", "#size-cells", 0x2);
-+}
-+
-+static void fdt_add_cpu_nodes(const LoongArchMachineState *lams)
-+{
-+    int num;
-+    const MachineState *ms = MACHINE(lams);
-+    int smp_cpus = ms->smp.cpus;
-+
-+    qemu_fdt_add_subnode(ms->fdt, "/cpus");
-+    qemu_fdt_setprop_cell(ms->fdt, "/cpus", "#address-cells", 0x1);
-+    qemu_fdt_setprop_cell(ms->fdt, "/cpus", "#size-cells", 0x0);
-+
-+    /* cpu nodes */
-+    for (num = smp_cpus - 1; num >= 0; num--) {
-+        char *nodename = g_strdup_printf("/cpus/cpu@%d", num);
-+        LoongArchCPU *cpu = LOONGARCH_CPU(qemu_get_cpu(num));
-+
-+        qemu_fdt_add_subnode(ms->fdt, nodename);
-+        qemu_fdt_setprop_string(ms->fdt, nodename, "device_type", "cpu");
-+        qemu_fdt_setprop_string(ms->fdt, nodename, "compatible",
-+                                cpu->dtb_compatible);
-+        qemu_fdt_setprop_cell(ms->fdt, nodename, "reg", num);
-+        qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle",
-+                              qemu_fdt_alloc_phandle(ms->fdt));
-+        g_free(nodename);
-+    }
-+
-+    /*cpu map */
-+    qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
-+
-+    for (num = smp_cpus - 1; num >= 0; num--) {
-+        char *cpu_path = g_strdup_printf("/cpus/cpu@%d", num);
-+        char *map_path;
-+
-+        if (ms->smp.threads > 1) {
-+            map_path = g_strdup_printf(
-+                "/cpus/cpu-map/socket%d/core%d/thread%d",
-+                num / (ms->smp.cores * ms->smp.threads),
-+                (num / ms->smp.threads) % ms->smp.cores,
-+                num % ms->smp.threads);
-+        } else {
-+            map_path = g_strdup_printf(
-+                "/cpus/cpu-map/socket%d/core%d",
-+                num / ms->smp.cores,
-+                num % ms->smp.cores);
-+        }
-+        qemu_fdt_add_path(ms->fdt, map_path);
-+        qemu_fdt_setprop_phandle(ms->fdt, map_path, "cpu", cpu_path);
-+
-+        g_free(map_path);
-+        g_free(cpu_path);
-+    }
-+}
-+
-+static void fdt_add_fw_cfg_node(const LoongArchMachineState *lams)
-+{
-+    char *nodename;
-+    hwaddr base = FW_CFG_ADDR;
-+    const MachineState *ms = MACHINE(lams);
-+
-+    nodename = g_strdup_printf("/fw_cfg@%" PRIx64, base);
-+    qemu_fdt_add_subnode(ms->fdt, nodename);
-+    qemu_fdt_setprop_string(ms->fdt, nodename,
-+                            "compatible", "qemu,fw-cfg-mmio");
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-+                                 2, base, 2, 0x8);
-+    qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-+    g_free(nodename);
-+}
-+
-+static void fdt_add_pcie_node(const LoongArchMachineState *lams)
-+{
-+    char *nodename;
-+    hwaddr base_mmio = LS7A_PCI_MEM_BASE;
-+    hwaddr size_mmio = LS7A_PCI_MEM_SIZE;
-+    hwaddr base_pio = LS7A_PCI_IO_BASE;
-+    hwaddr size_pio = LS7A_PCI_IO_SIZE;
-+    hwaddr base_pcie = LS_PCIECFG_BASE;
-+    hwaddr size_pcie = LS_PCIECFG_SIZE;
-+    hwaddr base = base_pcie;
-+
-+    const MachineState *ms = MACHINE(lams);
-+
-+    nodename = g_strdup_printf("/pcie@%" PRIx64, base);
-+    qemu_fdt_add_subnode(ms->fdt, nodename);
-+    qemu_fdt_setprop_string(ms->fdt, nodename,
-+                            "compatible", "pci-host-ecam-generic");
-+    qemu_fdt_setprop_string(ms->fdt, nodename, "device_type", "pci");
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "#address-cells", 3);
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "#size-cells", 2);
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "linux,pci-domain", 0);
-+    qemu_fdt_setprop_cells(ms->fdt, nodename, "bus-range", 0,
-+                           PCIE_MMCFG_BUS(LS_PCIECFG_SIZE - 1));
-+    qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-+                                 2, base_pcie, 2, size_pcie);
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "ranges",
-+                                 1, FDT_PCI_RANGE_IOPORT, 2, LS7A_PCI_IO_OFFSET,
-+                                 2, base_pio, 2, size_pio,
-+                                 1, FDT_PCI_RANGE_MMIO, 2, base_mmio,
-+                                 2, base_mmio, 2, size_mmio);
-+    g_free(nodename);
-+    qemu_fdt_dumpdtb(ms->fdt, lams->fdt_size);
-+}
-+
- static void loongarch_init(MachineState *machine)
- {
-     const char *cpu_model = machine->cpu_type;
-@@ -474,12 +597,16 @@ static void loongarch_init(MachineState *machine)
-         exit(1);
-     }
- 
-+    create_fdt(lams);
-+
-     /* Init CPUs */
-     for (i = 0; i < machine->smp.cpus; i++) {
-         la_cpu = LOONGARCH_CPU(cpu_create(machine->cpu_type));
-         loongarch_cpu_init(la_cpu, i);
-     }
- 
-+    fdt_add_cpu_nodes(lams);
-+
-     if (ram_size < 1 * GiB) {
-         error_report("ram_size must be greater than 1G.");
-         exit(1);
-@@ -519,6 +646,8 @@ static void loongarch_init(MachineState *machine)
-         exit(1);
-     }
- 
-+    fdt_add_fw_cfg_node(lams);
-+
-     if (kernel_filename) {
-         loaderparams.ram_size = ram_size;
-         loaderparams.kernel_filename = kernel_filename;
-@@ -543,6 +672,13 @@ static void loongarch_init(MachineState *machine)
-     lams->machine_done.notify = loongarch_machine_done;
-     qemu_add_machine_init_done_notifier(&lams->machine_done);
- 
-+    fdt_add_pcie_node(lams);
-+
-+    /* load fdt */
-+    MemoryRegion *fdt_rom = g_new(MemoryRegion, 1);
-+    memory_region_init_rom(fdt_rom, NULL, "fdt", LA_FDT_SIZE, &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), LA_FDT_BASE, fdt_rom);
-+    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, LA_FDT_BASE);
- }
- 
- bool loongarch_is_acpi_enabled(LoongArchMachineState *lams)
-diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
-index 4df62b958d..1ae7824e2d 100644
---- a/include/hw/loongarch/loongarch.h
-+++ b/include/hw/loongarch/loongarch.h
-@@ -41,6 +41,9 @@
- #define LA_BIOS_BASE            0x1c000000
- #define LA_BIOS_SIZE            (4 * 1024 * 1024)
- 
-+#define LA_FDT_BASE             0x1c400000
-+#define LA_FDT_SIZE             0x100000
-+
- /* Kernels can be configured with 64KB pages */
- #define INITRD_PAGE_SIZE        (64 * KiB)
- #define INITRD_BASE             0x04000000
-@@ -61,6 +64,8 @@ typedef struct LoongArchMachineState {
-     OnOffAuto   acpi;
-     char        *oem_id;
-     char        *oem_table_id;
-+
-+    int fdt_size;
- } LoongArchMachineState;
- 
- #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index e31fbe935d..def084400a 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -335,6 +335,8 @@ static void loongarch_3a5000_initfn(Object *obj)
-         env->cpucfg[i] = 0x0;
-     }
- 
-+    cpu->dtb_compatible = "loongarch,Loongson-3A5000";
-+
-     env->cpucfg[0] = 0x14c010;  /* PRID */
- 
-     uint32_t data = 0;
-diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index 883c7c05b2..424e9d64f0 100644
---- a/target/loongarch/cpu.h
-+++ b/target/loongarch/cpu.h
-@@ -361,6 +361,9 @@ struct LoongArchCPU {
-     CPUNegativeOffsetState neg;
-     CPULoongArchState env;
-     QEMUTimer timer;
-+
-+    /* 'compatible' string for this CPU for Linux device trees */
-+    const char *dtb_compatible;
- };
- 
- #define TYPE_LOONGARCH_CPU "loongarch-cpu"
--- 
-2.27.0
+> >  }
+> >  
+> >  /*
+> > -- 
+> > 2.31.1  
+> 
 
 
