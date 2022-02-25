@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637684C4F5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 21:14:50 +0100 (CET)
-Received: from localhost ([::1]:48900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6B14C4F66
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 21:17:14 +0100 (CET)
+Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNgzJ-0004d8-7a
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 15:14:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50034)
+	id 1nNh1d-0006h8-P3
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 15:17:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNgwq-0002VO-A7
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:12:17 -0500
-Received: from [2607:f8b0:4864:20::102e] (port=36658
- helo=mail-pj1-x102e.google.com)
+ id 1nNh01-0005Yk-NO
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:15:33 -0500
+Received: from [2607:f8b0:4864:20::62d] (port=42698
+ helo=mail-pl1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNgwo-0006zU-Um
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:12:16 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- g7-20020a17090a708700b001bb78857ccdso9394368pjk.1
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 12:12:14 -0800 (PST)
+ id 1nNgzz-0008J0-C8
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:15:32 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id p17so5702129plo.9
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 12:15:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=DnXXwaFk0gEeQXm2Jxr/MUdYzTep0jWPfKu2GkCYtqs=;
- b=RUGUbSwzxPHBhLtyfRsf4L8GAQeGZAPaVGKVOtU2rgQfYI9fdnh3T2vvq8UDZ3SC+b
- SDvCiweN8QIUt5wwb9yAWRp0H8XuqTV18HE40cFoY1EZtOve25nijvTE5Qudc9t+k/C1
- /Sig2Nxdrhe9t0lA99jBOh55r64mrsI0X0LgOfugaEMlHklFNtPyop5LDBw7exdyLmAv
- W5h9ALnKU4FcQ21jvqnBmEaYWqt1RLPT721imGXszX+/jGom6VL98Pnhfur43ORC0446
- 3OvyghOeiggVvwW+YYcmxQMhYvkQ6YyCmylbPNJW06Ry/U2gE9ipzseiS9t+Dfmsymlo
- +6ww==
+ bh=D0MHdxULwpDMn/wHVgTX66hXwZZfJQR/xxxu/Jb0cnU=;
+ b=gytodPZy9BCNOVgG0mTw1ZqldD6zuj1hwxDz24xg1HW7r17wDYPV4BNkBzHrHuUJB9
+ 0z934+TxkD4FsJJW8eppAyn71SVOr6g4wiIsau39ZokxFDkBAmSRRKNsLhutlOzGVRw0
+ MvE7dVKxpM6gftscdaTauSShhhFHXgDuqzydjVgJlCHIwl/k26Xz4F989jEe4fckl163
+ 5Ua9udjULGuxq8ALZvDt7rRu32YJkYluG7RSQipGFlKsU0UJSVdUw2cbpQ2M21bEFGMB
+ ibD8lGIhIVm9nmS6+zWPpdU2J1tTHRZBo2rY5VpP/Uh6j34C2daRyxVJWmfw19/p+jeS
+ p0Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=DnXXwaFk0gEeQXm2Jxr/MUdYzTep0jWPfKu2GkCYtqs=;
- b=xlbRNz+gdOTZfgKPurz1fXWRiKBFNHBzJxPMko1ZIm8nm85Z6/SU2uKefxCeLAVstD
- BXB6vJMyAx5WfpvGmTzleGL98pd+2kKhxrBevsav/Q81jST2e14vNW0pbp7lE+1caLwy
- zaJ/jXzoEOV9vRdYPvnokG89KMVNRbnjFqPU+vHgP/IRasVWRDD4CzGom04WpsN+zujF
- f69WwOzhBYHXrtGTmYTaKDpR3FN6pN8sKtVwEctsjCDBXM70Jqb0IdQlJerkzAAaznIA
- AaeWYFyjLYIg1pb31/PQbWBriMNghmisUAe1EJv4AkokTQtxXG1psT/uBAXrViPl34bA
- PRug==
-X-Gm-Message-State: AOAM5301B/lm6/k51qlPz+Klr4RITiU/UdkebZpM9D3YvkEQa2FHSqYp
- 8cN4uITR7SLUFwwqJNlfPt/j0g==
-X-Google-Smtp-Source: ABdhPJxGEZGUwjiQ71sE6Fl1wEO2BrHnLis3eobkl43EHOb9rPUOk1x11QBF3sPVTumtrCMPqcE0uQ==
-X-Received: by 2002:a17:90a:10c8:b0:1bc:e369:1f2c with SMTP id
- b8-20020a17090a10c800b001bce3691f2cmr4715378pje.193.1645819933566; 
- Fri, 25 Feb 2022 12:12:13 -0800 (PST)
+ bh=D0MHdxULwpDMn/wHVgTX66hXwZZfJQR/xxxu/Jb0cnU=;
+ b=OcQeBzD46amRn7uM/0tj9eYDnqJ/JfmbN0gvktaZiM/y2A4W0j+a07y2cxVYIvq0xY
+ eyl+PcgBYjA0TlViQxgkH/KDalW0zZIevtWO6y34bIWhdJ4NsO/CgOK85QTfatIBl7NB
+ ADdza2x0Qg0QCWKR1NJh+0xju8f5W1btPKnS2nDV5dpsgItvaT+DlqZ1figVnJQu9nd/
+ nuhR83urPs602nrWxvBnlCz368X4AjT5QB+m6tGj94VgmYJS3Lypdi+ggle9t/xw+afn
+ +rEtu1Od/JOBVZAs5MjrhDDHCss35WHLAfAKcJjGIYL+458fNd5pluqULmfAxhlTyEhF
+ 0sfw==
+X-Gm-Message-State: AOAM530ftyqpmPr1eErH/ixBMZCk1sKKGwK4jakdKgc78t3Y/qYaaE9b
+ SL2e/D60mOjo98J5T+yAbGLDQjoxNPMkHw==
+X-Google-Smtp-Source: ABdhPJy90BmGL7BDtTTkF9UD+mF5A8/2aIwLzdCkvojaMYmvtBZ6d19pu+mmEane8xVNgXn2+M/hJA==
+X-Received: by 2002:a17:902:ed93:b0:14f:c84d:2448 with SMTP id
+ e19-20020a170902ed9300b0014fc84d2448mr9348644plj.64.1645820128358; 
+ Fri, 25 Feb 2022 12:15:28 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- s3-20020a17090a5d0300b001bc2b469051sm9890018pji.29.2022.02.25.12.12.12
+ k12-20020a635a4c000000b0037852b86236sm1336749pgm.75.2022.02.25.12.15.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 12:12:13 -0800 (PST)
-Message-ID: <7d8b2267-7cdd-1faf-21f2-e933d3885fe6@linaro.org>
-Date: Fri, 25 Feb 2022 10:12:10 -1000
+ Fri, 25 Feb 2022 12:15:27 -0800 (PST)
+Message-ID: <b90dd1f3-b2c1-4b1b-ebfc-b81c15d0caab@linaro.org>
+Date: Fri, 25 Feb 2022 10:15:24 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 02/18] tests/docker: add NOUSER for alpine image
+Subject: Re: [PATCH v2 05/18] tests/docker: update debian-s390x-cross with
+ lcitool
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20220225172021.3493923-1-alex.bennee@linaro.org>
- <20220225172021.3493923-3-alex.bennee@linaro.org>
+ <20220225172021.3493923-6-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220225172021.3493923-3-alex.bennee@linaro.org>
+In-Reply-To: <20220225172021.3493923-6-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,15 +99,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/25/22 07:20, Alex Bennée wrote:
-> The alpine image doesn't have a standard useradd binary so disable
-> this convenience feature for it.
+> A later compiler is needed for some upcomming tests so we might as
+> well migrate to an lcitool generated docker file.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Reviewed-by: Daniel P. Berrangé<berrange@redhat.com>
-> Message-Id:<20220211160309.335014-3-alex.bennee@linaro.org>
+> Cc: David Hildenbrand<david@redhat.com>
 > ---
->   tests/docker/Makefile.include | 3 +++
->   1 file changed, 3 insertions(+)
+>   .gitlab-ci.d/container-cross.yml              |   3 +-
+>   tests/docker/Makefile.include                 |   1 -
+>   .../dockerfiles/debian-s390x-cross.docker     | 181 +++++++++++++++---
+>   tests/lcitool/refresh                         |   5 +
+>   4 files changed, 162 insertions(+), 28 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
