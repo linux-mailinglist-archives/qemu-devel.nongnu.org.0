@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00EF84C4D1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 19:01:10 +0100 (CET)
-Received: from localhost ([::1]:60094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09364C4D75
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 19:16:33 +0100 (CET)
+Received: from localhost ([::1]:36872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNetw-0004zb-Vg
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 13:01:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40066)
+	id 1nNf8p-0002oE-2R
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 13:16:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nNeH7-0004ML-BO
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:21:01 -0500
-Received: from [2a00:1450:4864:20::635] (port=33665
- helo=mail-ej1-x635.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nNeGz-0002Ph-68
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:21:01 -0500
-Received: by mail-ej1-x635.google.com with SMTP id vz16so12272807ejb.0
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 09:20:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JR//9KiItwNd050+o2fTFYSPa/InsS8zg93yxzEMbvU=;
- b=MIR9fjQGObmfYVyPs8RiTn1Gyn9PhdLYqKP9mjQ0tWCU60JtVv/OPe9COr5aNqlT8n
- N2b3AsAmKY4Pb1qXDiahycL+UB25K4w2C018tf+BSaPvBaOLL8bg9s4TYolwBrgjVEYE
- SaqC8UyUW2blolstwkuHd8n6FRa6jzAlUa20jnTQtSAYsCiotc2UX9gaJTvOn9O6aJoa
- hJoQCgqlBD5gnr+RT7Mr97hoqOMBbkYEFSGR8tHD5IuA1i5F4BrHV45L/4Yu1PQE/MtI
- Gx+tzyKAKIzyC7lCW+8/dc0lVNaEFjUvONo0BO5K+KYAaIE8m++u5kUKXExkOKCfWFRt
- wXvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JR//9KiItwNd050+o2fTFYSPa/InsS8zg93yxzEMbvU=;
- b=J+snzyW8OUJYSIelNPdxH9EyiN1FqSnzaC6dNfaTpRdcnMB2C9QQLe/AJMzmnqVpok
- zmrnWk8ijSpZz706hqIalVA7DQJ2Wze7h5hjcyr0kN6xqrJkJQYYqoFRvA/VzZtY3wo1
- mAdkebLwAeR0YzFB+sFd66YpWNsvQBwjDX64oPZXUpqpxAO1VyW8m4brdolGTXH6OY9H
- PnF9nxBUfDcuTDvXuzu/X5o0tdQ2XJFZik8o/fK7FZZHEBAzvfwncsuPsdWuJtyEXxnM
- sa79Kir+LmSynWYWszO79KUMF9SQBQ2fzPWlKd2Bt1bu8ix6qTsbH+w6gKaoU8u0ZSkA
- 6t1Q==
-X-Gm-Message-State: AOAM532iCop/bd2Bdz4j/I8NoZ7L/kbTvJwuBQDXBaKKTiRnFR6TVw1s
- uTgDPUBfUb8rUYkTLNeXRsuYzg==
-X-Google-Smtp-Source: ABdhPJykZyo7T22luFno0e5zA86EPLd9uVFnFfgmS569EYzqY8PXe+FebRsZv+6u9dbHiS4ojEW6UQ==
-X-Received: by 2002:a17:906:3803:b0:6cf:56b9:60a9 with SMTP id
- v3-20020a170906380300b006cf56b960a9mr6613981ejc.716.1645809643944; 
- Fri, 25 Feb 2022 09:20:43 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- r3-20020aa7cb83000000b0040decce18bdsm1571180edt.99.2022.02.25.09.20.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 09:20:39 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D2AA61FFCA;
- Fri, 25 Feb 2022 17:20:23 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 18/18] tests/tcg: port SYS_HEAPINFO to a system test
-Date: Fri, 25 Feb 2022 17:20:21 +0000
-Message-Id: <20220225172021.3493923-19-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220225172021.3493923-1-alex.bennee@linaro.org>
-References: <20220225172021.3493923-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nNeKv-0001c9-No
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:25:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nNeKp-0003vQ-Kt
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:24:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645809889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sWUJB5z7ugr7h8RAttfLagLHJvMSDXB6r0Gt3qPPz2I=;
+ b=JBwjMorj5EXD7BS41tUpR8jg59tAnZsGdxSmWdN5xtfKNNNIPAijl1izXJCZ9dsHeRXh2Q
+ K9eARLBDxweY/4h9PxpaO3V2nrCqvtN15xBts9SrF+VPb8FGHsrt/2MKiikCmfx28LypX0
+ n+X5bCAzCc6/Qd/vRrMqYbx8v2EQAQg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-342-EMVm_by1Ma-YL6NfgNZC6Q-1; Fri, 25 Feb 2022 12:24:45 -0500
+X-MC-Unique: EMVm_by1Ma-YL6NfgNZC6Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86A021854E21;
+ Fri, 25 Feb 2022 17:24:44 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DAAB286B8C;
+ Fri, 25 Feb 2022 17:24:42 +0000 (UTC)
+Date: Fri, 25 Feb 2022 11:24:40 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] qapi: Belatedly adjust limitations documentation
+Message-ID: <20220225172440.q2fsxvjvnvy6hsyv@redhat.com>
+References: <20220225084538.218876-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220225084538.218876-1-armbru@redhat.com>
+User-Agent: NeoMutt/20211029-364-42e4ad
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,138 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- berrange@redhat.com, sw@weilnetz.de, richard.henderson@linaro.org,
- f4bug@amsat.org, qemu-arm@nongnu.org, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+Cc: michael.roth@amd.com, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows us to check our new SYS_HEAPINFO implementation generates
-sane values.
+On Fri, Feb 25, 2022 at 09:45:38AM +0100, Markus Armbruster wrote:
+> Commit 57df0dff1a "qapi: Extend -compat to set policy for unstable
+> interfaces" (v6.2.0) took care of covering experimental features, but
+> neglected to adjust a comment suggesting to cover it.  Adjust it now.
+> 
+> Fixes: 57df0dff1a1f4c846aa74a082bfd595a8a990015
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  qapi/compat.json | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220210113021.3799514-3-alex.bennee@linaro.org>
----
- tests/tcg/aarch64/system/semiheap.c | 93 +++++++++++++++++++++++++++++
- MAINTAINERS                         |  1 +
- 2 files changed, 94 insertions(+)
- create mode 100644 tests/tcg/aarch64/system/semiheap.c
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/tests/tcg/aarch64/system/semiheap.c b/tests/tcg/aarch64/system/semiheap.c
-new file mode 100644
-index 0000000000..4ed258476d
---- /dev/null
-+++ b/tests/tcg/aarch64/system/semiheap.c
-@@ -0,0 +1,93 @@
-+/*
-+ * Semihosting System HEAPINFO Test
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include <inttypes.h>
-+#include <stddef.h>
-+#include <minilib.h>
-+
-+#define SYS_HEAPINFO    0x16
-+
-+uintptr_t __semi_call(uintptr_t type, uintptr_t arg0)
-+{
-+    register uintptr_t t asm("x0") = type;
-+    register uintptr_t a0 asm("x1") = arg0;
-+    asm("hlt 0xf000"
-+        : "=r" (t)
-+        : "r" (t), "r" (a0)
-+        : "memory" );
-+
-+    return t;
-+}
-+
-+int main(int argc, char *argv[argc])
-+{
-+    struct {
-+        void *heap_base;
-+        void *heap_limit;
-+        void *stack_base;
-+        void *stack_limit;
-+    } info = { };
-+    void *ptr_to_info = (void *) &info;
-+    uint32_t *ptr_to_heap;
-+    int i;
-+
-+    ml_printf("Semihosting Heap Info Test\n");
-+
-+    __semi_call(SYS_HEAPINFO, (uintptr_t) &ptr_to_info);
-+
-+    if (info.heap_base == NULL || info.heap_limit == NULL) {
-+        ml_printf("null heap: %p -> %p\n", info.heap_base, info.heap_limit);
-+        return -1;
-+    }
-+
-+    /* Error if heap base is above limit */
-+    if ((uintptr_t) info.heap_base >= (uintptr_t) info.heap_limit) {
-+        ml_printf("heap base %p >= heap_limit %p\n",
-+               info.heap_base, info.heap_limit);
-+        return -2;
-+    }
-+
-+    if (info.stack_base == NULL) {
-+        ml_printf("null stack: %p -> %p\n", info.stack_base, info.stack_limit);
-+        return -3;
-+    }
-+
-+    /*
-+     * boot.S put our stack somewhere inside the data segment of the
-+     * ELF file, and we know that SYS_HEAPINFO won't pick a range
-+     * that overlaps with part of a loaded ELF file. So the info
-+     * struct (on the stack) should not be inside the reported heap.
-+     */
-+    if (ptr_to_info > info.heap_base && ptr_to_info < info.heap_limit) {
-+        ml_printf("info appears to be inside the heap: %p in %p:%p\n",
-+               ptr_to_info, info.heap_base, info.heap_limit);
-+        return -4;
-+    }
-+
-+    ml_printf("heap: %p -> %p\n", info.heap_base, info.heap_limit);
-+    ml_printf("stack: %p <- %p\n", info.stack_limit, info.stack_base);
-+
-+    /* finally can we read/write the heap */
-+    ptr_to_heap = (uint32_t *) info.heap_base;
-+    for (i = 0; i < 512; i++) {
-+        *ptr_to_heap++ = i;
-+    }
-+    ptr_to_heap = (uint32_t *) info.heap_base;
-+    for (i = 0; i < 512; i++) {
-+        uint32_t tmp = *ptr_to_heap;
-+        if (tmp != i) {
-+            ml_printf("unexpected value in heap: %d @ %p", tmp, ptr_to_heap);
-+            return -5;
-+        }
-+        ptr_to_heap++;
-+    }
-+    ml_printf("r/w to heap upto %p\n", ptr_to_heap);
-+
-+    ml_printf("Passed HeapInfo checks\n");
-+    return 0;
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fa8adc2618..68adaac373 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3549,6 +3549,7 @@ S: Maintained
- F: semihosting/
- F: include/semihosting/
- F: tests/tcg/multiarch/arm-compat-semi/
-+F: tests/tcg/aarch64/system/semiheap.c
- 
- Multi-process QEMU
- M: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> 
+> diff --git a/qapi/compat.json b/qapi/compat.json
+> index c53b69fe3f..39b52872d5 100644
+> --- a/qapi/compat.json
+> +++ b/qapi/compat.json
+> @@ -41,7 +41,7 @@
+>  #
+>  # Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
+>  # with feature 'deprecated'.  We may want to extend it to cover
+> -# semantic aspects, CLI, and experimental features.
+> +# semantic aspects and CLI.
+>  #
+>  # Limitation: deprecated-output policy @hide is not implemented for
+>  # enumeration values.  They behave the same as with policy @accept.
+> -- 
+> 2.35.1
+> 
+
 -- 
-2.30.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
