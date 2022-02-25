@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6834C3FDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 09:15:09 +0100 (CET)
-Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55374C4058
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 09:43:25 +0100 (CET)
+Received: from localhost ([::1]:48794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNVkp-0002zn-AO
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 03:15:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47352)
+	id 1nNWCC-00022U-HS
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 03:43:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nNVaC-0008BB-78
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:12 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:42100 helo=loongson.cn)
+ id 1nNVa9-0008AW-WA
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:08 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:42248 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVZt-0002Sm-6D
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:06 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVZs-0002Ta-Vi
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:05 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S28; 
- Fri, 25 Feb 2022 16:03:24 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S31; 
+ Fri, 25 Feb 2022 16:03:25 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v6 26/29] hw/loongarch: Add LoongArch smbios support
-Date: Fri, 25 Feb 2022 03:03:05 -0500
-Message-Id: <20220225080308.1405-27-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v6 29/29] tests/tcg/loongarch64: Add hello/memory test in
+ loongarch64 system
+Date: Fri, 25 Feb 2022 03:03:08 -0500
+Message-Id: <20220225080308.1405-30-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S28
-X-Coremail-Antispam: 1UD129KBjvJXoWxGry8tw1fXrW5Ar48JryrWFg_yoW5ZFyUpF
- y7uFn5Crs5Xrn3KrZxt343WFn5Zrs3GrnFqFWIyw40kFZxAr1UXa1kA34qyFyUJ3ykG34j
- qFn5K3W3Xa1UJ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S31
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jw43Kw4fAF48KrWxJr43KFg_yoWxGryDpw
+ 4akFyrKrs7JFZrGw1xKF1rGF13Jry8CF1UuFyaqr40vFs7Ww1vqw1FgrW5JFy2qws5GrWI
+ v3ZYyw1Y9F97Ja7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -61,106 +62,265 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+- We write a very minimal softmmu harness.
+- This is a very simple smoke test with no need to run a full Linux/kernel.
+- The Makefile.softmmu-target record the rule to run.
+
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/loongarch/Kconfig             |  1 +
- hw/loongarch/loongson3.c         | 43 ++++++++++++++++++++++++++++++++
- include/hw/loongarch/loongarch.h |  1 +
- 3 files changed, 45 insertions(+)
+ MAINTAINERS                                   |  1 +
+ tests/tcg/loongarch64/Makefile.softmmu-target | 33 +++++++
+ tests/tcg/loongarch64/system/boot.S           | 56 ++++++++++++
+ tests/tcg/loongarch64/system/kernel.ld        | 30 +++++++
+ tests/tcg/loongarch64/system/regdef.h         | 86 +++++++++++++++++++
+ 5 files changed, 206 insertions(+)
+ create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
+ create mode 100644 tests/tcg/loongarch64/system/boot.S
+ create mode 100644 tests/tcg/loongarch64/system/kernel.ld
+ create mode 100644 tests/tcg/loongarch64/system/regdef.h
 
-diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index 33a9066586..26690dee48 100644
---- a/hw/loongarch/Kconfig
-+++ b/hw/loongarch/Kconfig
-@@ -15,6 +15,7 @@ config LOONGARCH_VIRT
-     select LOONGARCH_EXTIOI
-     select LS7A_RTC
-     select FW_CFG_LOONGARCH
-+    select SMBIOS
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 64bc09146b..1993e3e748 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -217,6 +217,7 @@ LoongArch TCG CPUs
+ M: Song Gao <gaosong@loongson.cn>
+ S: Maintained
+ F: target/loongarch/
++F: tests/tcg/loongarch64/
  
- config FW_CFG_LOONGARCH
-     bool
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 9533057110..4189ffc34d 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -29,6 +29,9 @@
- #include "hw/pci-host/gpex.h"
- #include "hw/misc/unimp.h"
- #include "hw/loongarch/fw_cfg.h"
-+#include "hw/misc/unimp.h"
-+#include "hw/loongarch/fw_cfg.h"
-+#include "hw/firmware/smbios.h"
- 
- #include "target/loongarch/cpu.h"
- 
-@@ -159,6 +162,42 @@ static void fw_cfg_add_kernel_info(FWCfgState *fw_cfg)
-     fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, (const char *)cmdline_buf);
- }
- 
-+static void loongarch_build_smbios(LoongArchMachineState *lams)
+ M68K TCG CPUs
+ M: Laurent Vivier <laurent@vivier.eu>
+diff --git a/tests/tcg/loongarch64/Makefile.softmmu-target b/tests/tcg/loongarch64/Makefile.softmmu-target
+new file mode 100644
+index 0000000000..908f3a8c0f
+--- /dev/null
++++ b/tests/tcg/loongarch64/Makefile.softmmu-target
+@@ -0,0 +1,33 @@
++#
++# Loongarch64 system tests
++#
++
++LOONGARCH64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/loongarch64/system
++VPATH+=$(LOONGARCH64_SYSTEM_SRC)
++
++# These objects provide the basic boot code and helper functions for all tests
++CRT_OBJS=boot.o
++
++LOONGARCH64_TEST_SRCS=$(wildcard $(LOONGARCH64_SYSTEM_SRC)/*.c)
++LOONGARCH64_TESTS = $(patsubst $(LOONGARCH64_SYSTEM_SRC)/%.c, %, $(LOONGARCH64_TEST_SRCS))
++
++CRT_PATH=$(LOONGARCH64_SYSTEM_SRC)
++LINK_SCRIPT=$(LOONGARCH64_SYSTEM_SRC)/kernel.ld
++LDFLAGS=-Wl,-T$(LINK_SCRIPT)
++TESTS+=$(LOONGARCH64_TESTS) $(MULTIARCH_TESTS)
++CFLAGS+=-nostdlib -g -O1 -march=loongarch64 -mabi=lp64d $(MINILIB_INC)
++LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
++
++# building head blobs
++.PRECIOUS: $(CRT_OBJS)
++
++%.o: $(CRT_PATH)/%.S
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
++
++# Build and link the tests
++%: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
++
++memory: CFLAGS+=-DCHECK_UNALIGNED=0
++# Running
++QEMU_OPTS+=-serial chardev:output -kernel
+diff --git a/tests/tcg/loongarch64/system/boot.S b/tests/tcg/loongarch64/system/boot.S
+new file mode 100644
+index 0000000000..bf3622ed67
+--- /dev/null
++++ b/tests/tcg/loongarch64/system/boot.S
+@@ -0,0 +1,56 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Minimal LoongArch system boot code.
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++
++#include "regdef.h"
++
++	.global _start
++	.align 16
++_start:
++	bl main
++
++	.type _start 2
++	.size _start, .-_start
++
++	.global _exit
++	.align 16
++_exit:
++2:      /* QEMU ACPI poweroff */
++	li.w  t0, 0x3c00
++	li.w  t1, 0x100d0014
++	st.w  t0, t1, 0
++	idle  0
++	bl    2b
++
++	.type _exit 2
++	.size _exit, .-_exit
++
++	.global __sys_outc
++__sys_outc:
++	li.d t1, 1000000
++loop:
++	lu12i.w	t2, 0x1fe00
++	ori	t0, t2, 0x1e5
++	ld.bu	t0, t0, 0
++	andi	t0, t0, 0x20
++	ext.w.b	t0, t0
++	bnez	t0, in
++	addi.w	t1, t1, -1
++	bnez	t1, loop
++in:
++	ext.w.b	a0, a0
++	lu12i.w	t0, 0x1fe00
++	ori	t0, t0, 0x1e0
++	st.b	a0, t0, 0
++	jirl	$r0, ra, 0
++
++	.data
++	.align 4
++stack:
++	.skip	65536
++$stack_end:
++	.type	stack,@object
++	.size	stack, . - stack
+diff --git a/tests/tcg/loongarch64/system/kernel.ld b/tests/tcg/loongarch64/system/kernel.ld
+new file mode 100644
+index 0000000000..f1a7c0168c
+--- /dev/null
++++ b/tests/tcg/loongarch64/system/kernel.ld
+@@ -0,0 +1,30 @@
++ENTRY(_start)
++
++SECTIONS
 +{
-+    MachineState *ms = MACHINE(lams);
-+    MachineClass *mc = MACHINE_GET_CLASS(lams);
-+    uint8_t *smbios_tables, *smbios_anchor;
-+    size_t smbios_tables_len, smbios_anchor_len;
-+    const char *product = "QEMU Virtual Machine";
-+
-+    if (!lams->fw_cfg) {
-+        return;
++    /* Linux kernel legacy start address.  */
++    . = 0x9000000000200000;
++    _text = .;
++    .text : {
++        *(.text)
 +    }
-+
-+    product = "Loongson-3A5000-7A1000-TCG";
-+
-+    smbios_set_defaults("QEMU", product, mc->name, false,
-+                        true, SMBIOS_ENTRY_POINT_TYPE_64);
-+
-+    smbios_get_tables(ms, NULL, 0, &smbios_tables, &smbios_tables_len,
-+                      &smbios_anchor, &smbios_anchor_len, &error_fatal);
-+
-+    if (smbios_anchor) {
-+        fw_cfg_add_file(lams->fw_cfg, "etc/smbios/smbios-tables",
-+                        smbios_tables, smbios_tables_len);
-+        fw_cfg_add_file(lams->fw_cfg, "etc/smbios/smbios-anchor",
-+                        smbios_anchor, smbios_anchor_len);
++    .rodata : {
++        *(.rodata)
 +    }
++    _etext = .;
++
++    . = ALIGN(8192);
++    _data = .;
++    .got : {
++        *(.got)
++    }
++    .data : {
++	*(.sdata)
++        *(.data)
++    }
++    _edata = .;
++    .bss : {
++        *(.bss)
++    }
++    _end = .;
 +}
+diff --git a/tests/tcg/loongarch64/system/regdef.h b/tests/tcg/loongarch64/system/regdef.h
+new file mode 100644
+index 0000000000..faa09b2377
+--- /dev/null
++++ b/tests/tcg/loongarch64/system/regdef.h
+@@ -0,0 +1,86 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++#ifndef _ASM_REGDEF_H
++#define _ASM_REGDEF_H
 +
-+static
-+void loongarch_machine_done(Notifier *notifier, void *data)
-+{
-+    LoongArchMachineState *lams = container_of(notifier,
-+                                        LoongArchMachineState, machine_done);
-+    loongarch_build_smbios(lams);
-+}
++#define zero    $r0     /* wired zero */
++#define ra      $r1     /* return address */
++#define tp      $r2
++#define sp      $r3     /* stack pointer */
++#define v0      $r4     /* return value - caller saved */
++#define v1      $r5
++#define a0      $r4     /* argument registers */
++#define a1      $r5
++#define a2      $r6
++#define a3      $r7
++#define a4      $r8
++#define a5      $r9
++#define a6      $r10
++#define a7      $r11
++#define t0      $r12    /* caller saved */
++#define t1      $r13
++#define t2      $r14
++#define t3      $r15
++#define t4      $r16
++#define t5      $r17
++#define t6      $r18
++#define t7      $r19
++#define t8      $r20
++                        /* $r21: Temporarily reserved */
++#define fp      $r22    /* frame pointer */
++#define s0      $r23    /* callee saved */
++#define s1      $r24
++#define s2      $r25
++#define s3      $r26
++#define s4      $r27
++#define s5      $r28
++#define s6      $r29
++#define s7      $r30
++#define s8      $r31
 +
- static void loongarch_cpu_reset(void *opaque)
- {
-     LoongArchCPU *cpu = opaque;
-@@ -484,6 +523,10 @@ static void loongarch_init(MachineState *machine)
- 
-     /* Initialize the IO interrupt subsystem */
-     loongarch_irq_init(lams, ipi, extioi);
++#define gr0     $r0
++#define gr1     $r1
++#define gr2     $r2
++#define gr3     $r3
++#define gr4     $r4
++#define gr5     $r5
++#define gr6     $r6
++#define gr7     $r7
++#define gr8     $r8
++#define gr9     $r9
++#define gr10    $r10
++#define gr11    $r11
++#define gr12    $r12
++#define gr13    $r13
++#define gr14    $r14
++#define gr15    $r15
++#define gr16    $r16
++#define gr17    $r17
++#define gr18    $r18
++#define gr19    $r19
++#define gr20    $r20
++#define gr21    $r21
++#define gr22    $r22
++#define gr23    $r23
++#define gr24    $r24
++#define gr25    $r25
++#define gr26    $r26
++#define gr27    $r27
++#define gr28    $r28
++#define gr29    $r29
++#define gr30    $r30
++#define gr31    $r31
 +
-+    lams->machine_done.notify = loongarch_machine_done;
-+    qemu_add_machine_init_done_notifier(&lams->machine_done);
++#define STT_NOTYPE  0
++#define STT_OBJECT  1
++#define STT_FUNC    2
++#define STT_SECTION 3
++#define STT_FILE    4
++#define STT_COMMON  5
++#define STT_TLS     6
 +
- }
- 
- static void loongarch_class_init(ObjectClass *oc, void *data)
-diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
-index adb1ecd042..26e62a50bf 100644
---- a/include/hw/loongarch/loongarch.h
-+++ b/include/hw/loongarch/loongarch.h
-@@ -56,6 +56,7 @@ typedef struct LoongArchMachineState {
-     MemoryRegion bios;
- 
-     /* State for other subsystems/APIs: */
-+    Notifier machine_done;
-     FWCfgState  *fw_cfg;
- } LoongArchMachineState;
- 
++#define ASM_NL           ;
++
++#endif /* _ASM_REGDEF_H */
 -- 
 2.27.0
 
