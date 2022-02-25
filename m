@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754EC4C3A02
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 00:57:56 +0100 (CET)
-Received: from localhost ([::1]:45258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D9B4C3A19
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 01:07:47 +0100 (CET)
+Received: from localhost ([::1]:49476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNNzf-0002Sk-21
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 18:57:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40440)
+	id 1nNO9C-0005pQ-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 19:07:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNNyO-0001lp-R9
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 18:56:36 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=36421
- helo=mail-pj1-x1035.google.com)
+ id 1nNO6V-0004jq-MY
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 19:04:59 -0500
+Received: from [2607:f8b0:4864:20::534] (port=36420
+ helo=mail-pg1-x534.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNNyK-0007CX-1h
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 18:56:34 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- g7-20020a17090a708700b001bb78857ccdso7025242pjk.1
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 15:56:30 -0800 (PST)
+ id 1nNO6T-00085D-JH
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 19:04:58 -0500
+Received: by mail-pg1-x534.google.com with SMTP id t14so189847pgr.3
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 16:04:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=g9nRoZjIUu8SfWbwQVYepMFbNFe8F3fJd478UpCi+C8=;
- b=oPLhGVZGzczjPRCh7KWXD4Q7L1FqvzonIqmlF4EhuLXKuMmyQqvvAh6y9Lep+WXaRq
- xT3v6P8WbKixpZ0VzTTcGZs5AH5ZtNZHWkW78OyYTGQJSKR/M+QPoIyLEwlDKqmHiGDG
- e4V8qKPkW8niFI+Nv/tP+QFy/iE3XgiApUqydZEcPPpDrTi6G8snOUzmdYE0oWqehPi4
- FjFuUuOCl3MuY2vWY42VzPc2Ow8Op9zerbuvXEE408wt9uaoDnBK+/sDjNKbAs/6Kbbq
- d5qj+yGx2CMscgm9Jp1mmsMGWysbsMa0gQJ8vRWtmdFiC+iHZ5dMYPeCzrDXabvsjyor
- oPXw==
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=25M3W1HFrGME+DxeJQnyj3R1yS8pC8dcZB3aH1tY9IQ=;
+ b=xe9GQefMkI/WH7xu7H+4qePJa9b4g5ycJKG8DVdzE7nbpU41XFV7heToAnd6NtfrKi
+ OrMtAXmZj0al9YQlqXzI/nJ13byWbCC+OcNQUuQv8cDgcc8GxBltcZBqBJgR7FOYr6zI
+ 7Q1ponaHB05tp9IpA6Vig44M0L1R5ARjZQctJu77kMI2tcoD120CiUHdvtQbFlcHLVYq
+ gTvR5XDyP2UWDdENuLNhKaNiJhjL1Fhdy6+6EPMp3qv4feEqCsOsMa7FBDl42ZOR1IAT
+ UmPD4vvhSggh7K1ZG2mBHYc8KD7NCPdCjgsftGl15YqU1VNOSOysfwvuo3ADLrzQZYZT
+ lrrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=g9nRoZjIUu8SfWbwQVYepMFbNFe8F3fJd478UpCi+C8=;
- b=svfFS1O/WNZPMk50XSPhZr6y7sMPLk+bt6SPTPf5RySxEXXxzMD4ai2ZETxCk6g9g8
- ASDNLEi1Kkj77IkPySmJzGlLLloCo2iAXwCKIlaIeHgHea52gzFLqV/uhgQC6ipDxUey
- CIHceVDW/vKKhsLJ8P5s5NWbUZA+h8tCPfcSRFEYSapU54SufVw1Mooau1OUsZCaEjKw
- dzStMYUubQGUKybRTh+I7sEg6WIXSeRJoXUMRLGh12GBrfeNwugfqDmpKIfo4RK7/e/m
- lEvSei9yyr8YJEwGhWK6QCRhVOnnAYUs2wl1Rl3hyGo9iLm5vD5R5BmtvvEZSGN/4zgh
- Anqw==
-X-Gm-Message-State: AOAM5327AHYA9r2gOGhwAAMbIxQimqPXc1QinOlTXqQWp0rucrXOsVsG
- TcRQdjvVrFroDTtzIIuF75ahqw==
-X-Google-Smtp-Source: ABdhPJxL6QS5GPBmazjALHYnM4xdvNh0o02VaeZGOu7HVmLd/hIzI6I35CQFOKltbdj+f3Qj+ash5A==
-X-Received: by 2002:a17:902:f78d:b0:14f:ce61:eaf2 with SMTP id
- q13-20020a170902f78d00b0014fce61eaf2mr5079811pln.124.1645746989138; 
- Thu, 24 Feb 2022 15:56:29 -0800 (PST)
+ bh=25M3W1HFrGME+DxeJQnyj3R1yS8pC8dcZB3aH1tY9IQ=;
+ b=b1ihwag9hDMdSbK7cqPpSr1KqdrFDgWY4otf7p7W3qNHvmLruUBl61bq80H+6uPbhf
+ a+VefB1FrHAxAAcamNjVFfun/NlAnTs40venxLQzsHXUuPyZ3w9eD9ho5tzTYfpBRf2g
+ vYfktYbpJM/oOVeIuJFfRBgPIxoMVpioi2y0hMMuBFk2H7SCt2rHdkemeKlnyVCQ1fef
+ WXLSokUt8aP0OLbY2g3z0bkh0Zg0IBZMmKByNYNQq3qbJ6BQ1TQyPjQqP/8x+9YZrKP9
+ HDBXvti4wMsiK5WCESiVIBJBw39VZNlJ4fJsYXxPG1t+98+qEymVqDUV6KyAPgpM6nHr
+ ktww==
+X-Gm-Message-State: AOAM532H+2gzbnZsolI5sk+ocxK9WosN2aIBY5gC75zWLZETs268XF2z
+ L6cak6UYOK9CY1F+mIrkuHqMsA==
+X-Google-Smtp-Source: ABdhPJyOBcEuCykKRwQ1tISGpl5YGfKtAv9TMxpjemWPxnPOEKCEIqSrp+SD7pfiRdTm158pD4C97w==
+X-Received: by 2002:a62:7617:0:b0:4e1:5f3b:2643 with SMTP id
+ r23-20020a627617000000b004e15f3b2643mr5092223pfc.13.1645747495832; 
+ Thu, 24 Feb 2022 16:04:55 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- u6-20020a056a00098600b004e1ca129e1csm590755pfg.196.2022.02.24.15.56.27
+ q24-20020aa79618000000b004e0e89985eesm588433pfg.156.2022.02.24.16.04.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 15:56:28 -0800 (PST)
-Message-ID: <bc2f558f-ae52-34ef-6901-3192f1d2fc45@linaro.org>
-Date: Thu, 24 Feb 2022 13:56:25 -1000
+ Thu, 24 Feb 2022 16:04:55 -0800 (PST)
+Message-ID: <75519d95-7c55-63d4-513b-9e8c499f22f9@linaro.org>
+Date: Thu, 24 Feb 2022 14:04:52 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/4] target/nios2: Exteral Interrupt Controller (EIC)
+Subject: Re: [PATCH v2 10/14] target/hexagon: Add missing 'hw/core/cpu.h'
+ include
 Content-Language: en-US
-To: Amir Gonnen <amir.gonnen@neuroblade.ai>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- Marek Vasut <marex@denx.de>
-References: <20220224134901.500007-1-amir.gonnen@neuroblade.ai>
- <20220224134901.500007-3-amir.gonnen@neuroblade.ai>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220214183144.27402-1-f4bug@amsat.org>
+ <20220214183144.27402-11-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220224134901.500007-3-amir.gonnen@neuroblade.ai>
+In-Reply-To: <20220214183144.27402-11-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,56 +95,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/22 03:48, Amir Gonnen wrote:
-> +static void nios2_cpu_set_eic_irq(Nios2CPU *cpu, int level)
-> +{
-> +    CPUNios2State *env = &cpu->env;
-> +    CPUState *cs = CPU(cpu);
-> +
-> +    env->irq_pending = level;
-> +
-> +    if (env->irq_pending && nios2_take_eic_irq(cpu)) {
-> +        env->irq_pending = 0;
-> +        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-> +    } else if (!env->irq_pending) {
-> +        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-> +    }
-> +}
+On 2/14/22 08:31, Philippe Mathieu-Daudé wrote:
+> HexagonCPU field parent_class is of type CPUClass, which
+> is declared in "hw/core/cpu.h".
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   target/hexagon/cpu.h | 1 +
+>   1 file changed, 1 insertion(+)
 
-This looks wrong.  Of course, so does nios2_cpu_set_irq, from which you've cribbed this.
-
-(1) The unset of irq_pending looks wrong, though come to think of it, it's existence also 
-looks wrong.  I think that it's completely redundant with cpu->interrupt_request, and that 
-you should only use cpu_interrupt/cpu_reset_interrupt from this level.
-
-Which also means that nios2_check_interrupts and callers all the way back up are also 
-incorrect.  All that should be required from wrctl status is the return to the main loop 
-that you get from DISAS_UPDATE and tcg_gen_exit_tb.
-
-Which also means that ipending is implemented incorrectly.  The current manipulation of 
-CR_IPENDING in nios2_cpu_set_irc should instead be manipulating an internal "external hw 
-request", per Figure 3-2 in NII51003.
-
-For our purposes, I think simply re-using env->regs[CR_IPENDING] as the external hw 
-request word is the right thing to do.   But we need to update RDCTL to compute the 
-correct value from CR_IPENDING & CR_IENABLE, and update WRCTL to ignore writes.
-
-
-(2) Checking nios2_take_eic_irq here, or CR_STATUS_PIE in nios2_cpu_set_irq is incorrect. 
-  If you check this here, then you'll miss the interrupt when the interrupt enable bit is 
-reset.  These checks belong in nios2_cpu_exec_interrupt.
-
-> +    if (cpu->rnmi) {
-> +        return !(env->regs[CR_STATUS] & CR_STATUS_NMI);
-> +    }
-
-I think this should be a separate
-
-     #define CPU_INTERRUPT_NMI  CPU_INTERRUPT_TGT_EXT_0
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
