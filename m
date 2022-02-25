@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5CAE4C424C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:30:03 +0100 (CET)
-Received: from localhost ([::1]:49662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1524C426E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:37:36 +0100 (CET)
+Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNXrO-0007rJ-K9
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:30:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46274)
+	id 1nNXyh-0003kt-AD
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:37:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nNXb5-0000Ay-Vd
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:13:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nNXay-0004fR-Pm
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:13:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645783983;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=N/SR7TstRQTgLV3hc2cH4fIGNcvr3KPhGh3Q3ixHjIw=;
- b=hV/i674TinzPFG64qYYyCY0Rgw+5v9oEYJetQO4piAAD7VtFL/PtJpeuazaNqfh9eLdvG4
- drtgeX8QU9t5YoDvLE8lXJzwLhsrA8xu4CLgRPaqJtOzXbAECLJAzc2jAEH7gum85qFnNu
- PtP39dX8xnaxWs/xu5x+xCz0myD3uKE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-194-jXluLHuWMRaVuV2xqx41iA-1; Fri, 25 Feb 2022 05:13:02 -0500
-X-MC-Unique: jXluLHuWMRaVuV2xqx41iA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E01F1091DA1
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 10:13:01 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.195.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 401898319E;
- Fri, 25 Feb 2022 10:13:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 350CA18003BE; Fri, 25 Feb 2022 11:12:59 +0100 (CET)
-Date: Fri, 25 Feb 2022 11:12:59 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 2/4] pcie: update slot power status only is power control
- is enabled
-Message-ID: <20220225101259.begp7wy5o3jlafcf@sirius.home.kraxel.org>
-References: <20220224174411.3296848-1-imammedo@redhat.com>
- <20220224174411.3296848-3-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nNXuS-00023t-Aa
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:33:12 -0500
+Received: from [2607:f8b0:4864:20::b31] (port=38800
+ helo=mail-yb1-xb31.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nNXuO-0007ys-3v
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:33:09 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id u3so4938089ybh.5
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 02:33:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8herOfVKtBtPhTsBTysdihp5QCceqjnQTgQe9hlXIF8=;
+ b=Bx15dkHIXlvji8f2rgMP/p9TW5zupzGIWtmINUHqd4ZqlJjoxTqzT0pl+5btL2oUvc
+ JOEz8IPZCoFYrHxvtklZdS60zlxBe4WM4LLxaCew9sg8a3j9KZQz8FoJXCwHKEg0CAoe
+ NycFPFRlBTMcuoM5N75F4hS4bU9rcNck5z0qhlLNwgCLO2tMrwzmDuOyVfoqU1+6AADu
+ 76uneU4Br4Gsn8rGaf53zfbnnz9hbaEKqT8ogYwX6D6e8AvKGRwNF+e2xnkqTetrV2Xs
+ eTxoggyAD5AoIXZEcGGjLcHsSZT2uw0LJ4N02VCKgTi+1mFj0PLGHf4PWdrsxXmZ5UXh
+ IhFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8herOfVKtBtPhTsBTysdihp5QCceqjnQTgQe9hlXIF8=;
+ b=fKnpXWb1FzjdUz8MINbOo1d3ewcdRyiZBtGufC148pTqkfjeDl3F1kwyaTrkaHbzuo
+ KPt6W5EwsH5/OkL+H9yqCi1U2lH/R89NH+MA2KxUXBzoq1MrLpW3M6D7YWZEunoTWyRz
+ dTe3vx8ofB2h+hTA8lxrtwSpw7XHzujnVXLRxJVzJr5MKMUQE+Lg0tuan48444WioZ6k
+ 9kO+7uUcuzDe1bW2tKT55uHiG06jeOA/w1EFwVXMb4tG92xctsTCJozUu+OLt4+brLwM
+ cnw4cvPfg0fFC33QZqt+tTSP3ULpWXv0elNWBEKXF2ge9behFZQjSZU6Jw8aiupKWHIo
+ t0vw==
+X-Gm-Message-State: AOAM532bPijlaxgYsfsSXkQHzZv4lXOt6kHdVu/OfN8NTyjJKs6Q4Hc+
+ LUP9mtwq03bbsjbB6i+YR+uBqal48lxsXiNttmZS4Q==
+X-Google-Smtp-Source: ABdhPJxC8vgHKHUq6qYQHBsblqKq2rhXwWTHs9pD7uuJrDSWvkZwlaWh04jhTHrCGhW5GYYF+h4mgAhZGGYEpRNsvhQ=
+X-Received: by 2002:a25:8084:0:b0:5fe:cadd:2532 with SMTP id
+ n4-20020a258084000000b005fecadd2532mr6538033ybk.193.1645785186907; Fri, 25
+ Feb 2022 02:33:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220224174411.3296848-3-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220213035753.34577-1-akihiko.odaki@gmail.com>
+ <CAFEAcA9eXpxC7R_qcDsBh4C9Aur5417kTzAhs4c7p2YRCFQUKQ@mail.gmail.com>
+ <9223d640-3f50-1258-1bdb-e3ca5d635981@gmail.com>
+In-Reply-To: <9223d640-3f50-1258-1bdb-e3ca5d635981@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Feb 2022 10:32:55 +0000
+Message-ID: <CAFEAcA9D6T5kb03_THBVyUuCM7e88Xp-QzscQHyseSXj=SAGUQ@mail.gmail.com>
+Subject: Re: [PATCH v2] target/arm: Support PSCI 1.1 and SMCCC 1.0
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b31
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,46 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Fri, 25 Feb 2022 at 03:36, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+>
+> On 2022/02/24 21:53, Peter Maydell wrote:
+> > On Sun, 13 Feb 2022 at 03:58, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+> >>
+> >> Support the latest PSCI on TCG and HVF. A 64-bit function called from
+> >> AArch32 now returns NOT_SUPPORTED, which is necessary to adhere to SMC
+> >> Calling Convention 1.0. It is still not compliant with SMCCC 1.3 since
+> >> they do not implement mandatory functions.
+> >>
+> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> >> ---
+> >
+> > Applied, thanks.
+> >
+> > Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+> > for any user-visible changes.
+> >
+> > (I noticed while reviewing this that we report KVM's PSCI via
+> > the DTB as only 0.2 even if KVM's actually implementing better
+> > than that; I'll write a patch to clean that up.)
 
->    pcie_cap_slot_post_load()
->        -> pcie_cap_update_power()
->            -> pcie_set_power_device()
->                -> pci_set_power()
->                    -> pci_update_mappings()
+> I don't have an account on https://wiki.qemu.org/ so can you create one?
+> I'll update the changelog once I get access to the account.
 
-> Fix it by honoring PCI_EXP_SLTCAP_PCP and updating power status
-> only if capability is enabled.
+Oops, I accidentally used my canned-email-reply for "applied a
+pull request" when I meant to use "applied a patch to target-arm.next".
+You don't need to update the changelog -- I'll do that when I
+next send a pull request for the arm tree and it gets merged.
 
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index d7d73a31e4..2339729a7c 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -383,10 +383,9 @@ static void pcie_cap_update_power(PCIDevice *hotplug_dev)
->  
->      if (sltcap & PCI_EXP_SLTCAP_PCP) {
->          power = (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON;
-> +        pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
-> +                            pcie_set_power_device, &power);
->      }
-> -
-> -    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
-> -                        pcie_set_power_device, &power);
->  }
+Sorry for the confusion.
 
-The change makes sense, although I don't see how that changes qemu
-behavior.
-
-'power' defaults to true, so when SLTCAP_PCP is off it should never
-ever try to power off the devices.  And pci_set_power() should figure
-the state didn't change and instantly return without touching the
-device.
-
-take care,
-  Gerd
-
+-- PMM
 
