@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6654C4C5148
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:12:49 +0100 (CET)
-Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95994C5114
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 22:56:14 +0100 (CET)
+Received: from localhost ([::1]:44798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNipU-0000wI-87
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:12:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34268)
+	id 1nNiZR-00010k-Nz
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 16:56:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhsL-0001OR-BH; Fri, 25 Feb 2022 16:11:43 -0500
-Received: from [187.72.171.209] (port=42332 helo=outlook.eldorado.org.br)
+ id 1nNhsN-0001Or-Vc; Fri, 25 Feb 2022 16:11:44 -0500
+Received: from [187.72.171.209] (port=2714 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhsJ-0003wL-Dk; Fri, 25 Feb 2022 16:11:41 -0500
+ id 1nNhsL-0003wK-Qi; Fri, 25 Feb 2022 16:11:43 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Fri, 25 Feb 2022 18:09:51 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id BFBF68006BB;
- Fri, 25 Feb 2022 18:09:50 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 159E38001D1;
+ Fri, 25 Feb 2022 18:09:51 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v5 14/49] target/ppc: implement vstri[bh][lr]
-Date: Fri, 25 Feb 2022 18:09:01 -0300
-Message-Id: <20220225210936.1749575-15-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v5 15/49] target/ppc: implement vclrlb
+Date: Fri, 25 Feb 2022 18:09:02 -0300
+Message-Id: <20220225210936.1749575-16-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 References: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Feb 2022 21:09:51.0149 (UTC)
- FILETIME=[072B35D0:01D82A8C]
+X-OriginalArrivalTime: 25 Feb 2022 21:09:51.0430 (UTC)
+ FILETIME=[07561660:01D82A8C]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -68,131 +68,70 @@ From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/helper.h                 |  4 ++++
- target/ppc/insn32.decode            | 10 ++++++++++
- target/ppc/int_helper.c             | 28 +++++++++++++++++++++++++++
- target/ppc/translate/vmx-impl.c.inc | 30 +++++++++++++++++++++++++++++
- 4 files changed, 72 insertions(+)
+ target/ppc/insn32.decode            |  2 ++
+ target/ppc/translate/vmx-impl.c.inc | 40 +++++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 3257203791..e763093dbb 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -207,6 +207,10 @@ DEF_HELPER_4(VINSBLX, void, env, avr, i64, tl)
- DEF_HELPER_4(VINSHLX, void, env, avr, i64, tl)
- DEF_HELPER_4(VINSWLX, void, env, avr, i64, tl)
- DEF_HELPER_4(VINSDLX, void, env, avr, i64, tl)
-+DEF_HELPER_FLAGS_2(VSTRIBL, TCG_CALL_NO_RWG, i32, avr, avr)
-+DEF_HELPER_FLAGS_2(VSTRIBR, TCG_CALL_NO_RWG, i32, avr, avr)
-+DEF_HELPER_FLAGS_2(VSTRIHL, TCG_CALL_NO_RWG, i32, avr, avr)
-+DEF_HELPER_FLAGS_2(VSTRIHR, TCG_CALL_NO_RWG, i32, avr, avr)
- DEF_HELPER_2(vnegw, void, avr, avr)
- DEF_HELPER_2(vnegd, void, avr, avr)
- DEF_HELPER_2(vupkhpx, void, avr, avr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index f0cb6602e2..d844d86829 100644
+index d844d86829..31cdbba86b 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -63,6 +63,9 @@
- &VX_bf          bf vra vrb
- @VX_bf          ...... bf:3 .. vra:5 vrb:5 ...........          &VX_bf
+@@ -529,6 +529,8 @@ VSTRIBR         000100 ..... 00001 ..... . 0000001101   @VX_tb_rc
+ VSTRIHL         000100 ..... 00010 ..... . 0000001101   @VX_tb_rc
+ VSTRIHR         000100 ..... 00011 ..... . 0000001101   @VX_tb_rc
  
-+&VX_tb_rc       vrt vrb rc:bool
-+@VX_tb_rc       ...... vrt:5 ..... vrb:5 rc:1 ..........        &VX_tb_rc
-+
- &VX_uim4        vrt uim vrb
- @VX_uim4        ...... vrt:5 . uim:4 vrb:5 ...........  &VX_uim4
- 
-@@ -519,6 +522,13 @@ VMULLD          000100 ..... ..... ..... 00111001001    @VX
- VMSUMCUD        000100 ..... ..... ..... ..... 010111   @VA
- VMSUMUDM        000100 ..... ..... ..... ..... 100011   @VA
- 
-+## Vector String Instructions
-+
-+VSTRIBL         000100 ..... 00000 ..... . 0000001101   @VX_tb_rc
-+VSTRIBR         000100 ..... 00001 ..... . 0000001101   @VX_tb_rc
-+VSTRIHL         000100 ..... 00010 ..... . 0000001101   @VX_tb_rc
-+VSTRIHR         000100 ..... 00011 ..... . 0000001101   @VX_tb_rc
++VCLRLB          000100 ..... ..... ..... 00110001101    @VX
 +
  # VSX Load/Store Instructions
  
  LXV             111101 ..... ..... ............ . 001   @DQ_TSX
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index f31dba9469..71b31fbd89 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1502,6 +1502,34 @@ VEXTRACT(uw, u32)
- VEXTRACT(d, u64)
- #undef VEXTRACT
- 
-+#define VSTRI(NAME, ELEM, NUM_ELEMS, LEFT) \
-+uint32_t helper_##NAME(ppc_avr_t *t, ppc_avr_t *b) \
-+{                                                   \
-+    int i, idx, crf = 0;                            \
-+                                                    \
-+    for (i = 0; i < NUM_ELEMS; i++) {               \
-+        idx = LEFT ? i : NUM_ELEMS - i - 1;         \
-+        if (b->Vsr##ELEM(idx)) {                    \
-+            t->Vsr##ELEM(idx) = b->Vsr##ELEM(idx);  \
-+        } else {                                    \
-+            crf = 0b0010;                           \
-+            break;                                  \
-+        }                                           \
-+    }                                               \
-+                                                    \
-+    for (; i < NUM_ELEMS; i++) {                    \
-+        idx = LEFT ? i : NUM_ELEMS - i - 1;         \
-+        t->Vsr##ELEM(idx) = 0;                      \
-+    }                                               \
-+                                                    \
-+    return crf;                                     \
-+}
-+VSTRI(VSTRIBL, B, 16, true)
-+VSTRI(VSTRIBR, B, 16, false)
-+VSTRI(VSTRIHL, H, 8, true)
-+VSTRI(VSTRIHR, H, 8, false)
-+#undef VSTRI
-+
- void helper_xxextractuw(CPUPPCState *env, ppc_vsr_t *xt,
-                         ppc_vsr_t *xb, uint32_t index)
- {
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index ba2106dc7c..6962929826 100644
+index 6962929826..d43fba00ed 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1910,6 +1910,36 @@ static bool trans_MTVSRBMI(DisasContext *ctx, arg_DX_b *a)
-     return true;
- }
+@@ -1940,6 +1940,46 @@ TRANS(VSTRIBR, do_vstri, gen_helper_VSTRIBR)
+ TRANS(VSTRIHL, do_vstri, gen_helper_VSTRIHL)
+ TRANS(VSTRIHR, do_vstri, gen_helper_VSTRIHR)
  
-+static bool do_vstri(DisasContext *ctx, arg_VX_tb_rc *a,
-+                     void (*gen_helper)(TCGv_i32, TCGv_ptr, TCGv_ptr))
++static bool trans_VCLRLB(DisasContext *ctx, arg_VX *a)
 +{
-+    TCGv_ptr vrt, vrb;
++    TCGv_i64 rb, mh, ml, tmp,
++             ones = tcg_constant_i64(-1),
++             zero = tcg_constant_i64(0);
 +
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VECTOR(ctx);
++    rb = tcg_temp_new_i64();
++    mh = tcg_temp_new_i64();
++    ml = tcg_temp_new_i64();
++    tmp = tcg_temp_new_i64();
 +
-+    vrt = gen_avr_ptr(a->vrt);
-+    vrb = gen_avr_ptr(a->vrb);
++    tcg_gen_extu_tl_i64(rb, cpu_gpr[a->vrb]);
++    tcg_gen_andi_i64(tmp, rb, 7);
++    tcg_gen_shli_i64(tmp, tmp, 3);
++    tcg_gen_shl_i64(tmp, ones, tmp);
++    tcg_gen_not_i64(tmp, tmp);
 +
-+    if (a->rc) {
-+        gen_helper(cpu_crf[6], vrt, vrb);
-+    } else {
-+        TCGv_i32 discard = tcg_temp_new_i32();
-+        gen_helper(discard, vrt, vrb);
-+        tcg_temp_free_i32(discard);
-+    }
++    tcg_gen_movcond_i64(TCG_COND_LTU, ml, rb, tcg_constant_i64(8),
++                        tmp, ones);
++    tcg_gen_movcond_i64(TCG_COND_LTU, mh, rb, tcg_constant_i64(8),
++                        zero, tmp);
++    tcg_gen_movcond_i64(TCG_COND_LTU, mh, rb, tcg_constant_i64(16),
++                        mh, ones);
 +
-+    tcg_temp_free_ptr(vrt);
-+    tcg_temp_free_ptr(vrb);
++    get_avr64(tmp, a->vra, true);
++    tcg_gen_and_i64(tmp, tmp, mh);
++    set_avr64(a->vrt, tmp, true);
++
++    get_avr64(tmp, a->vra, false);
++    tcg_gen_and_i64(tmp, tmp, ml);
++    set_avr64(a->vrt, tmp, false);
++
++    tcg_temp_free_i64(rb);
++    tcg_temp_free_i64(mh);
++    tcg_temp_free_i64(ml);
++    tcg_temp_free_i64(tmp);
 +
 +    return true;
 +}
-+
-+TRANS(VSTRIBL, do_vstri, gen_helper_VSTRIBL)
-+TRANS(VSTRIBR, do_vstri, gen_helper_VSTRIBR)
-+TRANS(VSTRIHL, do_vstri, gen_helper_VSTRIHL)
-+TRANS(VSTRIHR, do_vstri, gen_helper_VSTRIHR)
 +
  #define GEN_VAFORM_PAIRED(name0, name1, opc2)                           \
  static void glue(gen_, name0##_##name1)(DisasContext *ctx)              \
