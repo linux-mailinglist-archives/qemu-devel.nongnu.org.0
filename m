@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D73B4C4CF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 18:54:19 +0100 (CET)
-Received: from localhost ([::1]:41958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004844C4CDB
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 18:49:34 +0100 (CET)
+Received: from localhost ([::1]:59216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNenK-0000q6-Fg
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 12:54:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39896)
+	id 1nNeij-0001ft-Hx
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 12:49:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nNeH0-00046p-IU
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:54 -0500
-Received: from [2a00:1450:4864:20::62c] (port=44770
- helo=mail-ej1-x62c.google.com)
+ id 1nNeGz-00044I-MZ
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:53 -0500
+Received: from [2a00:1450:4864:20::631] (port=41919
+ helo=mail-ej1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nNeGj-0002MF-9i
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:47 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id p14so12122149ejf.11
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 09:20:36 -0800 (PST)
+ id 1nNeGm-0002O4-H9
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:53 -0500
+Received: by mail-ej1-x631.google.com with SMTP id a8so12149689ejc.8
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 09:20:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bovqz69HZL8x82kdasie6FxG/SZJtaBt+I+NMEJJYbg=;
- b=vZn3y/nfIpArkRlP1Ne9nD2mwj2rR+w2V+psBUBqS6izex5Qgms3sRLboGAY9FNk6T
- +w7ggtF7IkJMtPg5qJ1fvif4P2YSIRK5Wx4GhQp+7s70z7QiJOJVoRnLxTskeRX/Cfu7
- kHLy9JGXVSiibP4S4xOr3eGlm69SdYNpUkjc7njZIyuMYa+8blwkO1qio3dw42u/9xde
- NTaoAdOjo4EO4gAQohzPuJRnsLdxZpQw/CPDqGHegqL36gqU3kzt+/+odaSHoVYzsx7h
- O6GicMTy7Rc8HtgWxpZ3dTY8mbzyDOj8JWpDmqDYPZAfVKYjupUya4SJJRe5qUwTgt/f
- qEBQ==
+ bh=eyq1RnOytaQPpyyRqATZ3JPobYbhQdtwSJ1ZuN+nJzk=;
+ b=wVB7UuJGzmCFKqFPsFyfVUJ77fB0uBRgbDgD8WJpSkLhf78zEEmj/SD7xhyNMlUSlE
+ m1HPUKUSmMrsc3HtkhDW4Jsnq0foQeIoG2Y0tdharkPNjniqVJwvNKO4ZQ5VAVyRqzqX
+ P8x7BA86ndyF2Q6CTegSK+sm1M78XO4mYJnADdpcsEUqLVVR5H9Btt1p8UGjVnr+j78s
+ WCdgmYOGGRjStbjDLLOqxzJx5/urFsvVUReIro38QIfGsFyF8MP/QWe13eSc7uL51Le6
+ xU/6/mCCjR1aOKvcsbmOxySYYypubtjVJLLVnQWt/NuCzYwH/VrpmDOzsiB0T386qMPl
+ Q4cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bovqz69HZL8x82kdasie6FxG/SZJtaBt+I+NMEJJYbg=;
- b=zr3b/J7a2cfokHMkG44fX9vpj0VsF95rULHOqTWkSESAcdfwNdYDKcGou+xMzCp4Zm
- XPBJciq11Fo7yuxkb7ho+COgtopZdYA1sGAdeQqjfpjccNAix5yp18LugnI7vuPz80Iu
- osjFoYFSz0L2pyg/kaDFiFtIqOqo4/aVUfFBtypp1H5C8vh2XFTQUWJqPWtKz6DPW2PL
- 8CIfA+PZJI9R/U+XXM18AURkML3Cmk29K/dC8Lr1PUs3+s8I6IePw0JUOIbBLbhN68Ox
- jnHDkeOWTlGJSedz2cwIwWArzjqqVYu7FEz6xxpjoGLUBtvnk6OCao338S41lYB1U/lv
- AFyA==
-X-Gm-Message-State: AOAM532nPEIUr9ixPKQ57VMfl3wY28vvKJRUuUmJ/BxxJ+KvVVOb/sDT
- RKgmEeY+rslc+B44E8wcST+bXw==
-X-Google-Smtp-Source: ABdhPJyaOAR9bLneTcMkr6shORIM1sEIBNHokvhmZp5o04fuqJa1mPDaKa5dB50FlgwNFRd3YDjmfw==
-X-Received: by 2002:a17:906:8505:b0:6cf:2767:f447 with SMTP id
- i5-20020a170906850500b006cf2767f447mr6811169ejx.321.1645809634343; 
- Fri, 25 Feb 2022 09:20:34 -0800 (PST)
+ bh=eyq1RnOytaQPpyyRqATZ3JPobYbhQdtwSJ1ZuN+nJzk=;
+ b=ohtI7HTNHznjzAek0uoi4awqFlAj032+pfuoneFUaMzUytsOyzRDrAVOGxVwvONc9h
+ pZU/VzXn6rTFmIJpEu/xM0nqBPKcSv8SEPla9Fejb9jeN+oSKDfQlEtJ6npEdjlCeS5f
+ /MwMkyZSKq14Mpu2s82TUs2/lsUnNOGTjSsiYI1tMFuxliH29Gadus2mfptclxDWxZ4M
+ dM7atv3sv5ox7j3sT/SAE+JIEwPnQ3PwWJpkNn2NufzsVdJl7noVjj1ZyUfqXB5IdUa8
+ N3Ni4tZVDPJf+qz2PHrr+KzEy8bYQeEjVtUU+2UOyX5t1IReu68xD5Qamg9nOpAl0c7I
+ qtgQ==
+X-Gm-Message-State: AOAM530Beved7nVdyzVcUXeE9gbu7YesLzp2G+xPnQBNqIPu/RXjW5FE
+ BVJg0ZnLZXAv7hdWQrFBJjUi6A==
+X-Google-Smtp-Source: ABdhPJxoN9j66r1pRC4YUBnG0bTZKTO0EjCXA8ejEd5JWm/ZorswnOsGX7gZ+/FiQZqqCmqi8qa1zg==
+X-Received: by 2002:a17:906:4116:b0:6cd:1980:5ad0 with SMTP id
+ j22-20020a170906411600b006cd19805ad0mr7344807ejk.595.1645809639221; 
+ Fri, 25 Feb 2022 09:20:39 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- u24-20020a50a418000000b00412b67facd1sm1566599edb.91.2022.02.25.09.20.26
+ b14-20020a1709063f8e00b006ae0a666c02sm1234540ejj.96.2022.02.25.09.20.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 09:20:29 -0800 (PST)
+ Fri, 25 Feb 2022 09:20:32 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C529C1FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id DFF731FFC1;
  Fri, 25 Feb 2022 17:20:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 08/18] scripts/ci: allow for a secondary runner
-Date: Fri, 25 Feb 2022 17:20:11 +0000
-Message-Id: <20220225172021.3493923-9-alex.bennee@linaro.org>
+Subject: [PATCH  v2 09/18] gitlab: add a new aarch32 custom runner definition
+Date: Fri, 25 Feb 2022 17:20:12 +0000
+Message-Id: <20220225172021.3493923-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220225172021.3493923-1-alex.bennee@linaro.org>
 References: <20220225172021.3493923-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,61 +101,80 @@ Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some HW can run multiple architecture profiles so we can install a
-secondary runner to build and run tests for those profiles. This
-allows setting up secondary service.
-
-[AJB: this is a fairly ugly hack, I'm sure this could be expressed in
-a neater way]
+Although running on aarch64 hardware we can still target 32bit builds
+with a cross compiler and run the resulting binaries.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220211160309.335014-8-alex.bennee@linaro.org>
+Message-Id: <20220211160309.335014-9-alex.bennee@linaro.org>
 ---
- scripts/ci/setup/gitlab-runner.yml | 34 ++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ docs/devel/ci-jobs.rst.inc                    |  7 ++++++
+ .../custom-runners/ubuntu-20.40-aarch32.yml   | 23 +++++++++++++++++++
+ scripts/ci/setup/gitlab-runner.yml            |  4 ++++
+ 3 files changed, 34 insertions(+)
+ create mode 100644 .gitlab-ci.d/custom-runners/ubuntu-20.40-aarch32.yml
 
+diff --git a/docs/devel/ci-jobs.rst.inc b/docs/devel/ci-jobs.rst.inc
+index db3f571d5f..92e25872aa 100644
+--- a/docs/devel/ci-jobs.rst.inc
++++ b/docs/devel/ci-jobs.rst.inc
+@@ -44,6 +44,13 @@ If you've got access to an aarch64 host that can be used as a gitlab-CI
+ runner, you can set this variable to enable the tests that require this
+ kind of host. The runner should be tagged with "aarch64".
+ 
++AARCH32_RUNNER_AVAILABLE
++~~~~~~~~~~~~~~~~~~~~~~~~
++If you've got access to an armhf host or an arch64 host that can run
++aarch32 EL0 code to be used as a gitlab-CI runner, you can set this
++variable to enable the tests that require this kind of host. The
++runner should be tagged with "aarch32".
++
+ S390X_RUNNER_AVAILABLE
+ ~~~~~~~~~~~~~~~~~~~~~~
+ If you've got access to an IBM Z host that can be used as a gitlab-CI
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.40-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.40-aarch32.yml
+new file mode 100644
+index 0000000000..9c589bc4cf
+--- /dev/null
++++ b/.gitlab-ci.d/custom-runners/ubuntu-20.40-aarch32.yml
+@@ -0,0 +1,23 @@
++# All ubuntu-20.04 jobs should run successfully in an environment
++# setup by the scripts/ci/setup/qemu/build-environment.yml task
++# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
++
++ubuntu-20.04-aarch32-all:
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_20.04
++ - aarch32
++ rules:
++ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
++   when: manual
++   allow_failure: true
++ - if: "$AARCH32_RUNNER_AVAILABLE"
++   when: manual
++   allow_failure: true
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --cross-prefix=arm-linux-gnueabihf-
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
 diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
-index 1127db516f..19bfd68f7e 100644
+index 19bfd68f7e..33128be85d 100644
 --- a/scripts/ci/setup/gitlab-runner.yml
 +++ b/scripts/ci/setup/gitlab-runner.yml
-@@ -69,3 +69,37 @@
-         name: gitlab-runner
-         state: started
-         enabled: yes
-+
-+    - name: Download secondary gitlab-runner
-+      get_url:
-+        dest: /usr/local/bin/gitlab-runner-arm
-+        url: "https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-{{ gitlab_runner_os }}-arm"
-+        owner: gitlab-runner
-+        group: gitlab-runner
-+        mode: u=rwx,g=rwx,o=rx
+@@ -84,6 +84,10 @@
+ 
+     - name: Register secondary gitlab-runner
+       command: "/usr/local/bin/gitlab-runner-arm register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list aarch32,{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
 +      when:
 +        - ansible_facts['distribution'] == 'Ubuntu'
 +        - ansible_facts['architecture'] == 'aarch64'
 +        - ansible_facts['distribution_version'] == '20.04'
-+
-+    - name: Register secondary gitlab-runner
-+      command: "/usr/local/bin/gitlab-runner-arm register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list aarch32,{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
-+
-+    - name: Install the secondary gitlab-runner service using its own functionality
-+      command: /usr/local/bin/gitlab-runner-arm install --user gitlab-runner --working-directory /home/gitlab-runner/arm -n gitlab-runner-arm
-+      register: gitlab_runner_install_service_result
-+      failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
-+      when:
-+        - ansible_facts['distribution'] == 'Ubuntu'
-+        - ansible_facts['architecture'] == 'aarch64'
-+        - ansible_facts['distribution_version'] == '20.04'
-+
-+    - name: Enable the secondary gitlab-runner service
-+      service:
-+        name: gitlab-runner-arm
-+        state: started
-+        enabled: yes
-+      when:
-+        - ansible_facts['distribution'] == 'Ubuntu'
-+        - ansible_facts['architecture'] == 'aarch64'
-+        - ansible_facts['distribution_version'] == '20.04'
+ 
+     - name: Install the secondary gitlab-runner service using its own functionality
+       command: /usr/local/bin/gitlab-runner-arm install --user gitlab-runner --working-directory /home/gitlab-runner/arm -n gitlab-runner-arm
 -- 
 2.30.2
 
