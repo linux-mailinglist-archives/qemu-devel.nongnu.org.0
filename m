@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0994C5200
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 00:22:16 +0100 (CET)
-Received: from localhost ([::1]:57624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93724C520D
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 00:26:16 +0100 (CET)
+Received: from localhost ([::1]:34690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNjuh-0006kK-H7
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 18:22:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35802)
+	id 1nNjyZ-0002Bx-10
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 18:26:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhxn-0000tW-T1; Fri, 25 Feb 2022 16:17:19 -0500
-Received: from [187.72.171.209] (port=58124 helo=outlook.eldorado.org.br)
+ id 1nNhzX-0003FB-KD; Fri, 25 Feb 2022 16:19:07 -0500
+Received: from [187.72.171.209] (port=45484 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhxm-0004qx-CW; Fri, 25 Feb 2022 16:17:19 -0500
+ id 1nNhzU-00054b-UE; Fri, 25 Feb 2022 16:19:07 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 25 Feb 2022 18:10:00 -0300
+ Fri, 25 Feb 2022 18:10:01 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 210588006BB;
- Fri, 25 Feb 2022 18:10:00 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 6DED98006BB;
+ Fri, 25 Feb 2022 18:10:01 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v5 44/49] target/ppc: Refactor VSX_MAX_MINC helper
-Date: Fri, 25 Feb 2022 18:09:31 -0300
-Message-Id: <20220225210936.1749575-45-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v5 48/49] target/ppc: implement plxssp/pstxssp
+Date: Fri, 25 Feb 2022 18:09:35 -0300
+Message-Id: <20220225210936.1749575-49-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 References: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Feb 2022 21:10:00.0516 (UTC)
- FILETIME=[0CC08040:01D82A8C]
+X-OriginalArrivalTime: 25 Feb 2022 21:10:01.0876 (UTC)
+ FILETIME=[0D900540:01D82A8C]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -58,89 +57,235 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
- clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: Leandro Lupori <leandro.lupori@eldorado.org.br>, danielhb413@gmail.com,
+ richard.henderson@linaro.org, groug@kaod.org, clg@kaod.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Víctor Colombo <victor.colombo@eldorado.org.br>
+From: Leandro Lupori <leandro.lupori@eldorado.org.br>
 
-Refactor xs{max,min}cdp VSX_MAX_MINC helper to prepare for
-xs{max,min}cqp implementation.
+Implement instructions plxssp/pstxssp and port lxssp/stxssp to
+decode tree.
 
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
-changes for v5:
-- use float_flag_invalid_snan as suggested by Richard Henderson
----
- target/ppc/fpu_helper.c | 41 +++++++++++++++++------------------------
- 1 file changed, 17 insertions(+), 24 deletions(-)
+ target/ppc/insn32.decode            |  2 +
+ target/ppc/insn64.decode            |  6 ++
+ target/ppc/translate.c              | 29 +++------
+ target/ppc/translate/vsx-impl.c.inc | 93 +++++++++++++++--------------
+ 4 files changed, 62 insertions(+), 68 deletions(-)
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 4bfa1c4283..0aaf529ac8 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2533,40 +2533,33 @@ VSX_MAX_MIN(xsmindp, minnum, 1, float64, VsrD(0))
- VSX_MAX_MIN(xvmindp, minnum, 2, float64, VsrD(i))
- VSX_MAX_MIN(xvminsp, minnum, 4, float32, VsrW(i))
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 37b6470503..1641a31894 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -604,6 +604,8 @@ VCLRRB          000100 ..... ..... ..... 00111001101    @VX
  
--#define VSX_MAX_MINC(name, max)                                               \
-+#define VSX_MAX_MINC(name, max, tp, fld)                                      \
- void helper_##name(CPUPPCState *env,                                          \
-                    ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)               \
- {                                                                             \
-     ppc_vsr_t t = { };                                                        \
--    bool vxsnan_flag = false, vex_flag = false;                               \
-+    bool first;                                                               \
-                                                                               \
--    if (unlikely(float64_is_any_nan(xa->VsrD(0)) ||                           \
--                 float64_is_any_nan(xb->VsrD(0)))) {                          \
--        if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||         \
--            float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {         \
--            vxsnan_flag = true;                                               \
--        }                                                                     \
--        t.VsrD(0) = xb->VsrD(0);                                              \
--    } else if ((max &&                                                        \
--               !float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) ||     \
--               (!max &&                                                       \
--               float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status))) {      \
--        t.VsrD(0) = xa->VsrD(0);                                              \
-+    if (max) {                                                                \
-+        first = tp##_le_quiet(xb->fld, xa->fld, &env->fp_status);             \
-     } else {                                                                  \
--        t.VsrD(0) = xb->VsrD(0);                                              \
-+        first = tp##_lt_quiet(xa->fld, xb->fld, &env->fp_status);             \
-     }                                                                         \
-                                                                               \
--    vex_flag = fpscr_ve & vxsnan_flag;                                        \
--    if (vxsnan_flag) {                                                        \
--        float_invalid_op_vxsnan(env, GETPC());                                \
-+    if (first) {                                                              \
-+        t.fld = xa->fld;                                                      \
-+    } else {                                                                  \
-+        t.fld = xb->fld;                                                      \
-+        if (env->fp_status.float_exception_flags & float_flag_invalid_snan) { \
-+            float_invalid_op_vxsnan(env, GETPC());                            \
-+        }                                                                     \
-     }                                                                         \
--    if (!vex_flag) {                                                          \
--        *xt = t;                                                              \
--    }                                                                         \
--}                                                                             \
-+                                                                              \
-+    *xt = t;                                                                  \
+ LXSD            111001 ..... ..... .............. 10    @DS
+ STXSD           111101 ..... ..... .............. 10    @DS
++LXSSP           111001 ..... ..... .............. 11    @DS
++STXSSP          111101 ..... ..... .............. 11    @DS
+ LXV             111101 ..... ..... ............ . 001   @DQ_TSX
+ STXV            111101 ..... ..... ............ . 101   @DQ_TSX
+ LXVP            000110 ..... ..... ............ 0000    @DQ_TSXP
+diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
+index b7426f5b24..691e8fe6c0 100644
+--- a/target/ppc/insn64.decode
++++ b/target/ppc/insn64.decode
+@@ -190,6 +190,12 @@ PLXSD           000001 00 0--.-- .................. \
+ PSTXSD          000001 00 0--.-- .................. \
+                 101110 ..... ..... ................     @8LS_D
+ 
++PLXSSP          000001 00 0--.-- .................. \
++                101011 ..... ..... ................     @8LS_D
++
++PSTXSSP         000001 00 0--.-- .................. \
++                101111 ..... ..... ................     @8LS_D
++
+ PLXV            000001 00 0--.-- .................. \
+                 11001 ...... ..... ................     @8LS_D_TSX
+ PSTXV           000001 00 0--.-- .................. \
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 1ef2eeeead..408ae26173 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -6668,39 +6668,24 @@ static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
+ 
+ #include "translate/branch-impl.c.inc"
+ 
+-/* Handles lfdp, lxssp */
++/* Handles lfdp */
+ static void gen_dform39(DisasContext *ctx)
+ {
+-    switch (ctx->opcode & 0x3) {
+-    case 0: /* lfdp */
++    if ((ctx->opcode & 0x3) == 0) {
+         if (ctx->insns_flags2 & PPC2_ISA205) {
+             return gen_lfdp(ctx);
+         }
+-        break;
+-    case 3: /* lxssp */
+-        if (ctx->insns_flags2 & PPC2_ISA300) {
+-            return gen_lxssp(ctx);
+-        }
+-        break;
+     }
+     return gen_invalid(ctx);
+ }
+ 
+-/* handles stfdp, lxv, stxssp lxvx */
++/* Handles stfdp */
+ static void gen_dform3D(DisasContext *ctx)
+ {
+-    if ((ctx->opcode & 3) != 1) { /* DS-FORM */
+-        switch (ctx->opcode & 0x3) {
+-        case 0: /* stfdp */
+-            if (ctx->insns_flags2 & PPC2_ISA205) {
+-                return gen_stfdp(ctx);
+-            }
+-            break;
+-        case 3: /* stxssp */
+-            if (ctx->insns_flags2 & PPC2_ISA300) {
+-                return gen_stxssp(ctx);
+-            }
+-            break;
++    if ((ctx->opcode & 3) == 0) { /* DS-FORM */
++        /* stfdp */
++        if (ctx->insns_flags2 & PPC2_ISA205) {
++            return gen_stfdp(ctx);
+         }
+     }
+     return gen_invalid(ctx);
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index a6e9417f2d..a980a79b78 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -288,29 +288,6 @@ VSX_VECTOR_LOAD_STORE_LENGTH(stxvl)
+ VSX_VECTOR_LOAD_STORE_LENGTH(stxvll)
+ #endif
+ 
+-#define VSX_LOAD_SCALAR_DS(name, operation)                       \
+-static void gen_##name(DisasContext *ctx)                         \
+-{                                                                 \
+-    TCGv EA;                                                      \
+-    TCGv_i64 xth;                                                 \
+-                                                                  \
+-    if (unlikely(!ctx->altivec_enabled)) {                        \
+-        gen_exception(ctx, POWERPC_EXCP_VPU);                     \
+-        return;                                                   \
+-    }                                                             \
+-    xth = tcg_temp_new_i64();                                     \
+-    gen_set_access_type(ctx, ACCESS_INT);                         \
+-    EA = tcg_temp_new();                                          \
+-    gen_addr_imm_index(ctx, EA, 0x03);                            \
+-    gen_qemu_##operation(ctx, xth, EA);                           \
+-    set_cpu_vsr(rD(ctx->opcode) + 32, xth, true);                 \
+-    /* NOTE: cpu_vsrl is undefined */                             \
+-    tcg_temp_free(EA);                                            \
+-    tcg_temp_free_i64(xth);                                       \
+-}
+-
+-VSX_LOAD_SCALAR_DS(lxssp, ld32fs)
+-
+ #define VSX_STORE_SCALAR(name, operation)                     \
+ static void gen_##name(DisasContext *ctx)                     \
+ {                                                             \
+@@ -460,29 +437,6 @@ static void gen_stxvb16x(DisasContext *ctx)
+     tcg_temp_free_i64(xsl);
+ }
+ 
+-#define VSX_STORE_SCALAR_DS(name, operation)                      \
+-static void gen_##name(DisasContext *ctx)                         \
+-{                                                                 \
+-    TCGv EA;                                                      \
+-    TCGv_i64 xth;                                                 \
+-                                                                  \
+-    if (unlikely(!ctx->altivec_enabled)) {                        \
+-        gen_exception(ctx, POWERPC_EXCP_VPU);                     \
+-        return;                                                   \
+-    }                                                             \
+-    xth = tcg_temp_new_i64();                                     \
+-    get_cpu_vsr(xth, rD(ctx->opcode) + 32, true);                 \
+-    gen_set_access_type(ctx, ACCESS_INT);                         \
+-    EA = tcg_temp_new();                                          \
+-    gen_addr_imm_index(ctx, EA, 0x03);                            \
+-    gen_qemu_##operation(ctx, xth, EA);                           \
+-    /* NOTE: cpu_vsrl is undefined */                             \
+-    tcg_temp_free(EA);                                            \
+-    tcg_temp_free_i64(xth);                                       \
+-}
+-
+-VSX_STORE_SCALAR_DS(stxssp, st32fs)
+-
+ static void gen_mfvsrwz(DisasContext *ctx)
+ {
+     if (xS(ctx->opcode) < 32) {
+@@ -2345,8 +2299,53 @@ static bool do_plstxsd_PLS_D(DisasContext *ctx, arg_PLS_D *a, bool store)
+     return do_lstxsd(ctx, d.rt, d.ra, tcg_constant_tl(d.si), store);
+ }
+ 
++static bool do_lstxssp(DisasContext *ctx, int rt, int ra, TCGv displ, bool store)
++{
++    TCGv ea;
++    TCGv_i64 xt;
++
++    REQUIRE_VECTOR(ctx);
++
++    xt = tcg_temp_new_i64();
++
++    gen_set_access_type(ctx, ACCESS_INT);
++    ea = do_ea_calc(ctx, ra, displ);
++
++    if (store) {
++        get_cpu_vsr(xt, rt + 32, true);
++        gen_qemu_st32fs(ctx, xt, ea);
++    } else {
++        gen_qemu_ld32fs(ctx, xt, ea);
++        set_cpu_vsr(rt + 32, xt, true);
++        set_cpu_vsr(rt + 32, tcg_constant_i64(0), false);
++    }
++
++    tcg_temp_free(ea);
++    tcg_temp_free_i64(xt);
++
++    return true;
 +}
- 
--VSX_MAX_MINC(XSMAXCDP, 1);
--VSX_MAX_MINC(XSMINCDP, 0);
-+VSX_MAX_MINC(XSMAXCDP, true, float64, VsrD(0));
-+VSX_MAX_MINC(XSMINCDP, false, float64, VsrD(0));
- 
- #define VSX_MAX_MINJ(name, max)                                               \
- void helper_##name(CPUPPCState *env,                                          \
++
++static bool do_lstxssp_DS(DisasContext *ctx, arg_D *a, bool store)
++{
++    return do_lstxssp(ctx, a->rt, a->ra, tcg_constant_tl(a->si), store);
++}
++
++static bool do_plstxssp_PLS_D(DisasContext *ctx, arg_PLS_D *a, bool store)
++{
++    arg_D d;
++
++    if (!resolve_PLS_D(ctx, &d, a)) {
++        return true;
++    }
++
++    return do_lstxssp(ctx, d.rt, d.ra, tcg_constant_tl(d.si), store);
++}
++
+ TRANS_FLAGS2(ISA300, LXSD, do_lstxsd_DS, false)
+ TRANS_FLAGS2(ISA300, STXSD, do_lstxsd_DS, true)
++TRANS_FLAGS2(ISA300, LXSSP, do_lstxssp_DS, false)
++TRANS_FLAGS2(ISA300, STXSSP, do_lstxssp_DS, true)
+ TRANS_FLAGS2(ISA300, STXV, do_lstxv_D, true, false)
+ TRANS_FLAGS2(ISA300, LXV, do_lstxv_D, false, false)
+ TRANS_FLAGS2(ISA310, STXVP, do_lstxv_D, true, true)
+@@ -2357,6 +2356,8 @@ TRANS_FLAGS2(ISA310, STXVPX, do_lstxv_X, true, true)
+ TRANS_FLAGS2(ISA310, LXVPX, do_lstxv_X, false, true)
+ TRANS64_FLAGS2(ISA310, PLXSD, do_plstxsd_PLS_D, false)
+ TRANS64_FLAGS2(ISA310, PSTXSD, do_plstxsd_PLS_D, true)
++TRANS64_FLAGS2(ISA310, PLXSSP, do_plstxssp_PLS_D, false)
++TRANS64_FLAGS2(ISA310, PSTXSSP, do_plstxssp_PLS_D, true)
+ TRANS64_FLAGS2(ISA310, PSTXV, do_lstxv_PLS_D, true, false)
+ TRANS64_FLAGS2(ISA310, PLXV, do_lstxv_PLS_D, false, false)
+ TRANS64_FLAGS2(ISA310, PSTXVP, do_lstxv_PLS_D, true, true)
 -- 
 2.25.1
 
