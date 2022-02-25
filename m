@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3AC4C519C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:36:14 +0100 (CET)
-Received: from localhost ([::1]:48966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7614C51AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:42:44 +0100 (CET)
+Received: from localhost ([::1]:59346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNjC8-0001k9-QR
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:36:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35826)
+	id 1nNjIR-0000TC-Ah
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:42:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhxq-00013V-Js; Fri, 25 Feb 2022 16:17:26 -0500
+ id 1nNhy6-0001M4-OG; Fri, 25 Feb 2022 16:17:41 -0500
 Received: from [187.72.171.209] (port=58124 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhxo-0004qx-Qv; Fri, 25 Feb 2022 16:17:22 -0500
+ id 1nNhxr-0004qx-FG; Fri, 25 Feb 2022 16:17:38 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 25 Feb 2022 18:10:00 -0300
+ Fri, 25 Feb 2022 18:10:01 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 704968001D1;
+ by p9ibm (Postfix) with ESMTP id C65F58006BB;
  Fri, 25 Feb 2022 18:10:00 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v5 45/49] target/ppc: Implement xs{max,min}cqp
-Date: Fri, 25 Feb 2022 18:09:32 -0300
-Message-Id: <20220225210936.1749575-46-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v5 46/49] target/ppc: Implement xvcvbf16spn and xvcvspbf16
+ instructions
+Date: Fri, 25 Feb 2022 18:09:33 -0300
+Message-Id: <20220225210936.1749575-47-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 References: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Feb 2022 21:10:00.0907 (UTC)
- FILETIME=[0CFC29B0:01D82A8C]
+X-OriginalArrivalTime: 25 Feb 2022 21:10:01.0219 (UTC)
+ FILETIME=[0D2BC530:01D82A8C]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -70,69 +71,138 @@ From: Víctor Colombo <victor.colombo@eldorado.org.br>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
-changes for v5:
-- Update the helper macro call with the new parameters added to
-  VSX_MAX_MINC
----
- target/ppc/fpu_helper.c             | 2 ++
- target/ppc/helper.h                 | 2 ++
- target/ppc/insn32.decode            | 3 +++
- target/ppc/translate/vsx-impl.c.inc | 2 ++
- 4 files changed, 9 insertions(+)
+ target/ppc/fpu_helper.c             | 18 +++++++++++++++++
+ target/ppc/helper.h                 |  1 +
+ target/ppc/insn32.decode            | 11 +++++++---
+ target/ppc/translate/vsx-impl.c.inc | 31 ++++++++++++++++++++++++++++-
+ 4 files changed, 57 insertions(+), 4 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 0aaf529ac8..7144007316 100644
+index 7144007316..8f970288f5 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -2560,6 +2560,8 @@ void helper_##name(CPUPPCState *env,                                          \
+@@ -2785,6 +2785,24 @@ VSX_CVT_FP_TO_FP_HP(xscvhpdp, 1, float16, float64, VsrH(3), VsrD(0), 1)
+ VSX_CVT_FP_TO_FP_HP(xvcvsphp, 4, float32, float16, VsrW(i), VsrH(2 * i  + 1), 0)
+ VSX_CVT_FP_TO_FP_HP(xvcvhpsp, 4, float16, float32, VsrH(2 * i + 1), VsrW(i), 0)
  
- VSX_MAX_MINC(XSMAXCDP, true, float64, VsrD(0));
- VSX_MAX_MINC(XSMINCDP, false, float64, VsrD(0));
-+VSX_MAX_MINC(XSMAXCQP, true, float128, f128);
-+VSX_MAX_MINC(XSMINCQP, false, float128, f128);
- 
- #define VSX_MAX_MINJ(name, max)                                               \
- void helper_##name(CPUPPCState *env,                                          \
++void helper_XVCVSPBF16(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)
++{
++    ppc_vsr_t t = { };
++    int i, status;
++
++    for (i = 0; i < 4; i++) {
++        t.VsrH(2 * i + 1) = float32_to_bfloat16(xb->VsrW(i), &env->fp_status);
++    }
++
++    status = get_float_exception_flags(&env->fp_status);
++    if (unlikely(status & float_flag_invalid_snan)) {
++        float_invalid_op_vxsnan(env, GETPC());
++    }
++
++    *xt = t;
++    do_float_check_status(env, GETPC());
++}
++
+ void helper_XSCVQPDP(CPUPPCState *env, uint32_t ro, ppc_vsr_t *xt,
+                      ppc_vsr_t *xb)
+ {
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index b8033e2f58..025da6271a 100644
+index 025da6271a..d06e573a9b 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -375,6 +375,8 @@ DEF_HELPER_4(XSMAXCDP, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(XSMINCDP, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(XSMAXJDP, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(XSMINJDP, void, env, vsr, vsr, vsr)
-+DEF_HELPER_4(XSMAXCQP, void, env, vsr, vsr, vsr)
-+DEF_HELPER_4(XSMINCQP, void, env, vsr, vsr, vsr)
- DEF_HELPER_3(xscvdphp, void, env, vsr, vsr)
- DEF_HELPER_4(xscvdpqp, void, env, i32, vsr, vsr)
- DEF_HELPER_3(xscvdpsp, void, env, vsr, vsr)
+@@ -490,6 +490,7 @@ DEF_HELPER_FLAGS_4(xvcmpnesp, TCG_CALL_NO_RWG, i32, env, vsr, vsr, vsr)
+ DEF_HELPER_3(xvcvspdp, void, env, vsr, vsr)
+ DEF_HELPER_3(xvcvsphp, void, env, vsr, vsr)
+ DEF_HELPER_3(xvcvhpsp, void, env, vsr, vsr)
++DEF_HELPER_3(XVCVSPBF16, void, env, vsr, vsr)
+ DEF_HELPER_3(xvcvspsxds, void, env, vsr, vsr)
+ DEF_HELPER_3(xvcvspsxws, void, env, vsr, vsr)
+ DEF_HELPER_3(xvcvspuxds, void, env, vsr, vsr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 6fbb2d188f..126cadadb8 100644
+index 126cadadb8..fede42f5ce 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -664,6 +664,9 @@ XSMAXCDP        111100 ..... ..... ..... 10000000 ...   @XX3
- XSMINCDP        111100 ..... ..... ..... 10001000 ...   @XX3
- XSMAXJDP        111100 ..... ..... ..... 10010000 ...   @XX3
- XSMINJDP        111100 ..... ..... ..... 10011000 ...   @XX3
-+XSMAXCQP        111111 ..... ..... ..... 1010100100 -   @X
-+XSMINCQP        111111 ..... ..... ..... 1011100100 -   @X
+@@ -152,8 +152,11 @@
+ %xx_xb          1:1 11:5
+ %xx_xa          2:1 16:5
+ %xx_xc          3:1 6:5
+-&XX2            xt xb uim:uint8_t
+-@XX2            ...... ..... ... uim:2 ..... ......... ..       &XX2 xt=%xx_xt xb=%xx_xb
++&XX2            xt xb
++@XX2            ...... ..... ..... ..... ......... ..           &XX2 xt=%xx_xt xb=%xx_xb
 +
- XSCMPEQDP       111100 ..... ..... ..... 00000011 ...   @XX3
- XSCMPGEDP       111100 ..... ..... ..... 00010011 ...   @XX3
- XSCMPGTDP       111100 ..... ..... ..... 00001011 ...   @XX3
++&XX2_uim2       xt xb uim:uint8_t
++@XX2_uim2       ...... ..... ... uim:2 ..... ......... ..       &XX2_uim2 xt=%xx_xt xb=%xx_xb
+ 
+ &XX2_bf_xb      bf xb
+ @XX2_bf_xb      ...... bf:3 .. ..... ..... ......... . .        &XX2_bf_xb xb=%xx_xb
+@@ -637,7 +640,7 @@ XSNMSUBQP       111111 ..... ..... ..... 0111100100 .   @X_rc
+ ## VSX splat instruction
+ 
+ XXSPLTIB        111100 ..... 00 ........ 0101101000 .   @X_imm8
+-XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2
++XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2_uim2
+ 
+ ## VSX Permute Instructions
+ 
+@@ -677,6 +680,8 @@ XSCMPGTQP       111111 ..... ..... ..... 0011100100 -   @X
+ ## VSX Binary Floating-Point Convert Instructions
+ 
+ XSCVQPDP        111111 ..... 10100 ..... 1101000100 .   @X_tb_rc
++XVCVBF16SPN     111100 ..... 10000 ..... 111011011 ..   @XX2
++XVCVSPBF16      111100 ..... 10001 ..... 111011011 ..   @XX2
+ 
+ ## VSX Vector Test Least-Significant Bit by Byte Instruction
+ 
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 5273452d13..3b0c8bf3ca 100644
+index 3b0c8bf3ca..0344c47eed 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -2645,6 +2645,8 @@ static bool do_xscmpqp(DisasContext *ctx, arg_X *a,
- TRANS(XSCMPEQQP, do_xscmpqp, gen_helper_XSCMPEQQP)
- TRANS(XSCMPGEQP, do_xscmpqp, gen_helper_XSCMPGEQP)
- TRANS(XSCMPGTQP, do_xscmpqp, gen_helper_XSCMPGTQP)
-+TRANS(XSMAXCQP, do_xscmpqp, gen_helper_XSMAXCQP)
-+TRANS(XSMINCQP, do_xscmpqp, gen_helper_XSMINCQP)
+@@ -1590,7 +1590,7 @@ static bool trans_XXSEL(DisasContext *ctx, arg_XX4 *a)
+     return true;
+ }
  
+-static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2 *a)
++static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2_uim2 *a)
+ {
+     int tofs, bofs;
+ 
+@@ -2648,6 +2648,35 @@ TRANS(XSCMPGTQP, do_xscmpqp, gen_helper_XSCMPGTQP)
+ TRANS(XSMAXCQP, do_xscmpqp, gen_helper_XSMAXCQP)
+ TRANS(XSMINCQP, do_xscmpqp, gen_helper_XSMINCQP)
+ 
++static bool trans_XVCVSPBF16(DisasContext *ctx, arg_XX2 *a)
++{
++    TCGv_ptr xt, xb;
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VSX(ctx);
++
++    xt = gen_vsr_ptr(a->xt);
++    xb = gen_vsr_ptr(a->xb);
++
++    gen_helper_XVCVSPBF16(cpu_env, xt, xb);
++
++    tcg_temp_free_ptr(xt);
++    tcg_temp_free_ptr(xb);
++
++    return true;
++}
++
++static bool trans_XVCVBF16SPN(DisasContext *ctx, arg_XX2 *a)
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VSX(ctx);
++
++    tcg_gen_gvec_shli(MO_32, vsr_full_offset(a->xt), vsr_full_offset(a->xb),
++                      16, 16, 16);
++
++    return true;
++}
++
  #undef GEN_XX2FORM
  #undef GEN_XX3FORM
+ #undef GEN_XX2IFORM
 -- 
 2.25.1
 
