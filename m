@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9194C518D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:31:45 +0100 (CET)
-Received: from localhost ([::1]:41900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01594C51AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:41:59 +0100 (CET)
+Received: from localhost ([::1]:57730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNj7o-0005K2-Rf
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:31:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35908)
+	id 1nNjHi-0007nL-OD
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:41:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhyB-0001PL-8P; Fri, 25 Feb 2022 16:17:43 -0500
-Received: from [187.72.171.209] (port=58124 helo=outlook.eldorado.org.br)
+ id 1nNhza-0003N7-Hx; Fri, 25 Feb 2022 16:19:10 -0500
+Received: from [187.72.171.209] (port=45484 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhy7-0004qx-Nu; Fri, 25 Feb 2022 16:17:41 -0500
+ id 1nNhzY-00054b-JD; Fri, 25 Feb 2022 16:19:10 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 25 Feb 2022 18:10:01 -0300
+ Fri, 25 Feb 2022 18:10:02 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 206E58001D1;
+ by p9ibm (Postfix) with ESMTP id BDA2E8001D1;
  Fri, 25 Feb 2022 18:10:01 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v5 47/49] target/ppc: implement plxsd/pstxsd
-Date: Fri, 25 Feb 2022 18:09:34 -0300
-Message-Id: <20220225210936.1749575-48-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v5 49/49] target/ppc: implement lxvr[bhwd]/stxvr[bhwd]x
+Date: Fri, 25 Feb 2022 18:09:36 -0300
+Message-Id: <20220225210936.1749575-50-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 References: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Feb 2022 21:10:01.0516 (UTC)
- FILETIME=[0D5916C0:01D82A8C]
+X-OriginalArrivalTime: 25 Feb 2022 21:10:02.0173 (UTC)
+ FILETIME=[0DBD56D0:01D82A8C]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,201 +57,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leandro Lupori <leandro.lupori@eldorado.org.br>, danielhb413@gmail.com,
- richard.henderson@linaro.org, groug@kaod.org, clg@kaod.org,
- Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ Lucas Coutinho <lucas.coutinho@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leandro Lupori <leandro.lupori@eldorado.org.br>
+From: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
 
-Implement instructions plxsd/pstxsd and port lxsd/stxsd to decode
-tree.
+Implement the following PowerISA v3.1 instuctions:
+lxvrbx: Load VSX Vector Rightmost Byte Indexed X-form
+lxvrhx: Load VSX Vector Rightmost Halfword Indexed X-form
+lxvrwx: Load VSX Vector Rightmost Word Indexed X-form
+lxvrdx: Load VSX Vector Rightmost Doubleword Indexed X-form
+
+stxvrbx: Store VSX Vector Rightmost Byte Indexed X-form
+stxvrhx: Store VSX Vector Rightmost Halfword Indexed X-form
+stxvrwx: Store VSX Vector Rightmost Word Indexed X-form
+stxvrdx: Store VSX Vector Rightmost Doubleword Indexed X-form
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Signed-off-by: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode            |  2 ++
- target/ppc/insn64.decode            | 10 ++++++
- target/ppc/translate.c              | 14 ++------
- target/ppc/translate/vsx-impl.c.inc | 55 +++++++++++++++++++++++++++--
- 4 files changed, 67 insertions(+), 14 deletions(-)
+ target/ppc/insn32.decode            |  8 +++++++
+ target/ppc/translate/vsx-impl.c.inc | 35 +++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index fede42f5ce..37b6470503 100644
+index 1641a31894..ac2d3da9a7 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -602,6 +602,8 @@ VCLRRB          000100 ..... ..... ..... 00111001101    @VX
+@@ -614,6 +614,14 @@ LXVX            011111 ..... ..... ..... 0100 - 01100 . @X_TSX
+ STXVX           011111 ..... ..... ..... 0110001100 .   @X_TSX
+ LXVPX           011111 ..... ..... ..... 0101001101 -   @X_TSXP
+ STXVPX          011111 ..... ..... ..... 0111001101 -   @X_TSXP
++LXVRBX          011111 ..... ..... ..... 0000001101 .   @X_TSX
++LXVRHX          011111 ..... ..... ..... 0000101101 .   @X_TSX
++LXVRWX          011111 ..... ..... ..... 0001001101 .   @X_TSX
++LXVRDX          011111 ..... ..... ..... 0001101101 .   @X_TSX
++STXVRBX         011111 ..... ..... ..... 0010001101 .   @X_TSX
++STXVRHX         011111 ..... ..... ..... 0010101101 .   @X_TSX
++STXVRWX         011111 ..... ..... ..... 0011001101 .   @X_TSX
++STXVRDX         011111 ..... ..... ..... 0011101101 .   @X_TSX
  
- # VSX Load/Store Instructions
+ ## VSX Scalar Multiply-Add Instructions
  
-+LXSD            111001 ..... ..... .............. 10    @DS
-+STXSD           111101 ..... ..... .............. 10    @DS
- LXV             111101 ..... ..... ............ . 001   @DQ_TSX
- STXV            111101 ..... ..... ............ . 101   @DQ_TSX
- LXVP            000110 ..... ..... ............ 0000    @DQ_TSXP
-diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index fdb859f62d..b7426f5b24 100644
---- a/target/ppc/insn64.decode
-+++ b/target/ppc/insn64.decode
-@@ -32,6 +32,10 @@
-                 ...... ..... ra:5 ................       \
-                 &PLS_D si=%pls_si rt=%rt_tsxp
- 
-+@8LS_D          ...... .. . .. r:1 .. .................. \
-+                ...... rt:5 ra:5 ................        \
-+                &PLS_D si=%pls_si
-+
- # Format 8RR:D
- %8rr_si         32:s16 0:16
- %8rr_xt         16:1 21:5
-@@ -180,6 +184,12 @@ PSTFD           000001 10 0--.-- .................. \
- 
- ### VSX instructions
- 
-+PLXSD           000001 00 0--.-- .................. \
-+                101010 ..... ..... ................     @8LS_D
-+
-+PSTXSD          000001 00 0--.-- .................. \
-+                101110 ..... ..... ................     @8LS_D
-+
- PLXV            000001 00 0--.-- .................. \
-                 11001 ...... ..... ................     @8LS_D_TSX
- PSTXV           000001 00 0--.-- .................. \
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index b46a11386e..1ef2eeeead 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -6668,7 +6668,7 @@ static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
- 
- #include "translate/branch-impl.c.inc"
- 
--/* Handles lfdp, lxsd, lxssp */
-+/* Handles lfdp, lxssp */
- static void gen_dform39(DisasContext *ctx)
- {
-     switch (ctx->opcode & 0x3) {
-@@ -6677,11 +6677,6 @@ static void gen_dform39(DisasContext *ctx)
-             return gen_lfdp(ctx);
-         }
-         break;
--    case 2: /* lxsd */
--        if (ctx->insns_flags2 & PPC2_ISA300) {
--            return gen_lxsd(ctx);
--        }
--        break;
-     case 3: /* lxssp */
-         if (ctx->insns_flags2 & PPC2_ISA300) {
-             return gen_lxssp(ctx);
-@@ -6691,7 +6686,7 @@ static void gen_dform39(DisasContext *ctx)
-     return gen_invalid(ctx);
- }
- 
--/* handles stfdp, lxv, stxsd, stxssp lxvx */
-+/* handles stfdp, lxv, stxssp lxvx */
- static void gen_dform3D(DisasContext *ctx)
- {
-     if ((ctx->opcode & 3) != 1) { /* DS-FORM */
-@@ -6701,11 +6696,6 @@ static void gen_dform3D(DisasContext *ctx)
-                 return gen_stfdp(ctx);
-             }
-             break;
--        case 2: /* stxsd */
--            if (ctx->insns_flags2 & PPC2_ISA300) {
--                return gen_stxsd(ctx);
--            }
--            break;
-         case 3: /* stxssp */
-             if (ctx->insns_flags2 & PPC2_ISA300) {
-                 return gen_stxssp(ctx);
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 0344c47eed..a6e9417f2d 100644
+index a980a79b78..2ffeab5287 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -309,7 +309,6 @@ static void gen_##name(DisasContext *ctx)                         \
-     tcg_temp_free_i64(xth);                                       \
- }
+@@ -2363,6 +2363,41 @@ TRANS64_FLAGS2(ISA310, PLXV, do_lstxv_PLS_D, false, false)
+ TRANS64_FLAGS2(ISA310, PSTXVP, do_lstxv_PLS_D, true, true)
+ TRANS64_FLAGS2(ISA310, PLXVP, do_lstxv_PLS_D, false, true)
  
--VSX_LOAD_SCALAR_DS(lxsd, ld64_i64)
- VSX_LOAD_SCALAR_DS(lxssp, ld32fs)
- 
- #define VSX_STORE_SCALAR(name, operation)                     \
-@@ -482,7 +481,6 @@ static void gen_##name(DisasContext *ctx)                         \
-     tcg_temp_free_i64(xth);                                       \
- }
- 
--VSX_STORE_SCALAR_DS(stxsd, st64_i64)
- VSX_STORE_SCALAR_DS(stxssp, st32fs)
- 
- static void gen_mfvsrwz(DisasContext *ctx)
-@@ -2298,6 +2296,57 @@ static bool do_lstxv_X(DisasContext *ctx, arg_X *a, bool store, bool paired)
-     return do_lstxv(ctx, a->ra, cpu_gpr[a->rb], a->rt, store, paired);
- }
- 
-+static bool do_lstxsd(DisasContext *ctx, int rt, int ra, TCGv displ, bool store)
++static bool do_lstrm(DisasContext *ctx, arg_X *a, MemOp mop, bool store)
 +{
 +    TCGv ea;
 +    TCGv_i64 xt;
-+    MemOp mop;
 +
-+    if (store) {
-+        REQUIRE_VECTOR(ctx);
-+    } else {
-+        REQUIRE_VSX(ctx);
-+    }
++    REQUIRE_VSX(ctx);
 +
 +    xt = tcg_temp_new_i64();
-+    mop = DEF_MEMOP(MO_UQ);
 +
 +    gen_set_access_type(ctx, ACCESS_INT);
-+    ea = do_ea_calc(ctx, ra, displ);
++    ea = do_ea_calc(ctx, a->ra , cpu_gpr[a->rb]);
 +
 +    if (store) {
-+        get_cpu_vsr(xt, rt + 32, true);
++        get_cpu_vsr(xt, a->rt, false);
 +        tcg_gen_qemu_st_i64(xt, ea, ctx->mem_idx, mop);
 +    } else {
 +        tcg_gen_qemu_ld_i64(xt, ea, ctx->mem_idx, mop);
-+        set_cpu_vsr(rt + 32, xt, true);
-+        set_cpu_vsr(rt + 32, tcg_constant_i64(0), false);
++        set_cpu_vsr(a->rt, xt, false);
++        set_cpu_vsr(a->rt, tcg_constant_i64(0), true);
 +    }
 +
 +    tcg_temp_free(ea);
 +    tcg_temp_free_i64(xt);
-+
 +    return true;
 +}
 +
-+static bool do_lstxsd_DS(DisasContext *ctx, arg_D *a, bool store)
-+{
-+    return do_lstxsd(ctx, a->rt, a->ra, tcg_constant_tl(a->si), store);
-+}
++TRANS_FLAGS2(ISA310, LXVRBX, do_lstrm, DEF_MEMOP(MO_UB), false)
++TRANS_FLAGS2(ISA310, LXVRHX, do_lstrm, DEF_MEMOP(MO_UW), false)
++TRANS_FLAGS2(ISA310, LXVRWX, do_lstrm, DEF_MEMOP(MO_UL), false)
++TRANS_FLAGS2(ISA310, LXVRDX, do_lstrm, DEF_MEMOP(MO_UQ), false)
++TRANS_FLAGS2(ISA310, STXVRBX, do_lstrm, DEF_MEMOP(MO_UB), true)
++TRANS_FLAGS2(ISA310, STXVRHX, do_lstrm, DEF_MEMOP(MO_UW), true)
++TRANS_FLAGS2(ISA310, STXVRWX, do_lstrm, DEF_MEMOP(MO_UL), true)
++TRANS_FLAGS2(ISA310, STXVRDX, do_lstrm, DEF_MEMOP(MO_UQ), true)
 +
-+static bool do_plstxsd_PLS_D(DisasContext *ctx, arg_PLS_D *a, bool store)
-+{
-+    arg_D d;
-+
-+    if (!resolve_PLS_D(ctx, &d, a)) {
-+        return true;
-+    }
-+
-+    return do_lstxsd(ctx, d.rt, d.ra, tcg_constant_tl(d.si), store);
-+}
-+
-+TRANS_FLAGS2(ISA300, LXSD, do_lstxsd_DS, false)
-+TRANS_FLAGS2(ISA300, STXSD, do_lstxsd_DS, true)
- TRANS_FLAGS2(ISA300, STXV, do_lstxv_D, true, false)
- TRANS_FLAGS2(ISA300, LXV, do_lstxv_D, false, false)
- TRANS_FLAGS2(ISA310, STXVP, do_lstxv_D, true, true)
-@@ -2306,6 +2355,8 @@ TRANS_FLAGS2(ISA300, STXVX, do_lstxv_X, true, false)
- TRANS_FLAGS2(ISA300, LXVX, do_lstxv_X, false, false)
- TRANS_FLAGS2(ISA310, STXVPX, do_lstxv_X, true, true)
- TRANS_FLAGS2(ISA310, LXVPX, do_lstxv_X, false, true)
-+TRANS64_FLAGS2(ISA310, PLXSD, do_plstxsd_PLS_D, false)
-+TRANS64_FLAGS2(ISA310, PSTXSD, do_plstxsd_PLS_D, true)
- TRANS64_FLAGS2(ISA310, PSTXV, do_lstxv_PLS_D, true, false)
- TRANS64_FLAGS2(ISA310, PLXV, do_lstxv_PLS_D, false, false)
- TRANS64_FLAGS2(ISA310, PSTXVP, do_lstxv_PLS_D, true, true)
+ static void gen_xxeval_i64(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b, TCGv_i64 c,
+                            int64_t imm)
+ {
 -- 
 2.25.1
 
