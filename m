@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795354C5243
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 00:48:34 +0100 (CET)
-Received: from localhost ([::1]:57748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E728B4C524E
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 00:54:43 +0100 (CET)
+Received: from localhost ([::1]:44382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNkK9-00022P-Iy
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 18:48:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35128)
+	id 1nNkQ6-0003hB-Gv
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 18:54:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nNkFZ-0006sC-9x; Fri, 25 Feb 2022 18:43:49 -0500
+ id 1nNkFb-0006xo-Il; Fri, 25 Feb 2022 18:43:51 -0500
 Received: from [2a01:111:f400:fe0e::72e] (port=3086
  helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nNkFX-0005gS-Az; Fri, 25 Feb 2022 18:43:48 -0500
+ id 1nNkFZ-0005gS-Sf; Fri, 25 Feb 2022 18:43:51 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PSI9V++zplX03HFl8nZxJ7TOd47tnVP8D5O2CIKzU8xYCgCrzcVolHNrk+0GvViKSCUJ8BBHlGgNZwb21YtA7CNl2stqLU0/XxnYjr76Gcultfo7L1GsRCys5lWeOlot80L6vveUGaKM2xYnnQbOnmxpRJJ+8hLX+RjWKOd57bQ9hYheHeSoTCn6k5g69Le055/E/3Pfzfb3hTNn/E6FPx9Rhs9OWwawruVsHgG4/GJrJ3AHdoT7RlLJ8cLWWDUmgj6PaDRXG4gejYmIS0s2SWyheJuMTxFSGKAdc1OMv8C+r6iQtQEedTCG9tzACJM2XFsKh6UKVMvDE+dOZag3Rg==
+ b=hJ1YsyF9FV71hm1MrcIjlQ4Cv2fzvOhMVkuamXgF33iO50iFgnGmUT6zBUFVSVQd464nDp2R0kK5q/FNY5pdZ3zvT0n+w7ZRZsFka16jorG7F0kYVawhaHC7jP+aIpy0H64coIQC3g0UPYzdFHb/jt24lL5ts+0ZELetGmccXOqwrSQCekri9mr/I/aTmS+WJSngANvOk9PkzkcOIo8VS6oz6PLjfZ1IfcmXIhvF1m5I7D2VOHY1gsEsx7CGRNekMP8hMNC4YWR4hsRmeRK1Fq8RUYBHQ4SlEBjOXX4G7YoJ52/MgeNeqiDK5s/y9TDRgoEIyvGjdwZagoiOC2z/pA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uAmHzuvr7cTAck8HY5ku8maRymxvp5VpmeTXxb2WcIA=;
- b=QImI78cQ/XpcdqtdxgzWr9xnb5Ec3m0DrHNyrxdqLwFS96y7Zc5ng/uqLn7czzYPwQ4gEP1SddlbiwgmgQQcvmNjM0VRp4spjsnrfyHjnLdUMzVFkUsBhlp2/Wk9Y/XHzejPNyjSXn0vNGj1eeYXleEp3/Noy3g+hzhTIMzziLYRN9Oop0hsNEI0TMR1I3hEiLeQLeBeZjm+sz2SHMLx1iI0D9ZijvuRM1l+Ulbz2jQ7ZQhsevavVmjucrG0hbhxLVnLT9ALPPRbHCmIfrZXPTVt6G6wK3AsvKmXP2x9KrM7Boz7+hvvaColYL5s6hxWYRE7euQADcP4Ps/jLz3rVQ==
+ bh=Ahq4V2kJuB7Tb+C7mjrhPOk6UIZtItyx7XF2k96Y4Xc=;
+ b=aCe1P/hCp6GtDpNDLB6a6/qtGrLCWimdPgg93V458FoyMqwYMW30pWFSEPokPLoWbvsmBofIyV9KAHv3xehoPhIflVGQ6eXJXl6euAFlwI0gojRIeIizMGsfMgnBz9kSYFT9VH6t6zINhLP2c+okBBcX337EJn54teNVcn/rznOYr3GQLOEcEEbwXVc3qAC/8lF8nvDBdMug2ALaTBpo6uuWugHmMmoZqMF9vb+D2D3jU3oLivEijMt72+gjDUUNLdkssnh1XzJhpLC1+nZX/wwspBoswqhV9JB8wA46p9OnAw/TwCMexkA3pbbXZ3DY+Fo5y3RrkkODrR2SukFzlA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uAmHzuvr7cTAck8HY5ku8maRymxvp5VpmeTXxb2WcIA=;
- b=DdwG4i1I9pVX3M8LPasMhEIX6drdEDusicHrErvD5/QNR9tb3LDxNhFS7Voj/jFYgkAtaFR7+pmROhVJ6+d3OZWtJEwrPH33vofzR6MKWmYtRwofZjvIthIPJOXFq5D08/N7OMGIyxJWO0G6y8gbeTCpC8aS4lwGPYsldsUOSx8=
+ bh=Ahq4V2kJuB7Tb+C7mjrhPOk6UIZtItyx7XF2k96Y4Xc=;
+ b=ucwilAzD8GJ65ovxsUIZ3LmOwpNH/SVptrJQ1MFQy4EhHgmnFbhF3hgWDCGKCCwZd6W80KOodcWq5ju0snDS9WLz0tqAMZYLyVP007fBU9hiDEpUNIY9Ry7pdc2tlqhj2CBo+Xa80kUvNsZRtIWq4gij1jXd74Vsn+a/soa0fa8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by DB8PR08MB4172.eurprd08.prod.outlook.com (2603:10a6:10:af::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Fri, 25 Feb
- 2022 23:43:41 +0000
+ 2022 23:43:42 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.5017.021; Fri, 25 Feb 2022
- 23:43:41 +0000
+ 23:43:42 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, eblake@redhat.com,
@@ -51,9 +51,9 @@ Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, eblake@redhat.com,
  vsementsov@virtuozzo.com, den@openvz.org, nshirokovskiy@virtuozzo.com,
  yur@virtuozzo.com, dim@virtuozzo.com, igor@virtuozzo.com,
  pkrempa@redhat.com, libvir-list@redhat.com, stefanha@redhat.com
-Subject: [PATCH v3 06/11] qapi: add x-blockdev-replace transaction action
-Date: Sat, 26 Feb 2022 00:43:03 +0100
-Message-Id: <20220225234308.1754763-7-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 07/11] block: bdrv_get_xdbg_block_graph(): report export ids
+Date: Sat, 26 Feb 2022 00:43:04 +0100
+Message-Id: <20220225234308.1754763-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220225234308.1754763-1-vsementsov@virtuozzo.com>
 References: <20220225234308.1754763-1-vsementsov@virtuozzo.com>
@@ -64,56 +64,56 @@ X-ClientProxiedBy: VE1PR03CA0006.eurprd03.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cee00592-6548-446c-74cd-08d9f8b8a733
+X-MS-Office365-Filtering-Correlation-Id: 2f131334-be87-423b-d3f9-08d9f8b8a7ef
 X-MS-TrafficTypeDiagnostic: DB8PR08MB4172:EE_
-X-Microsoft-Antispam-PRVS: <DB8PR08MB417245EEAEC97E9EA68EC80FC13E9@DB8PR08MB4172.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DB8PR08MB417254C92592EE643AFD05A1C13E9@DB8PR08MB4172.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WO6fAP8VrfijoWZc+i67vFSH+hvuyd/0dn2tYM+vDjJHSB5BA2C5gEag5EA1+EPOhBJGTv0O+lSChXOGZioerd6wTHDc4ISn3NhmmQ9M+z/1ezrX67UPIFwPL1Cq75UbEqK7EuEUHVhL7U4oaj4goB/mek7MdDr1xua6VFL1jPRL5YQiyszG+yfo1qzJpEfv3XZSvF772cCd2Z9pY5pIe3Wnp7bMPzK4ptu2+o93ka5//IOfsHrbGoioypFj9cyoi9r8Vq+4lT2dVpdfeWq7VHjro4uSyDRn7bUMG5ir/KEBPONNfhbEQDSJcq8VSFG9h+E6EFZ/6kRS8DqAUVujZhWasy9CmokOYfReFCUYzOHYBfiOExBCdiuJOZxSQZeD0G5rUz8cQLgxh8RUleZ0ujc7zlQjj+HHzHc6rAOf2lB5wd0F96LDJv890/gm8Ht4bqf+sckXd/Lj+9hF4toE4tJFz2UNGoS6SePyCjehbrc8j0FXjwU4diJ3VzLtP4z/2m9/BaJLIuD6SGzl1zYXA/34HXVapMAyjMu/tZo6NOeribdGDPaUMrykLQukGErX/idTsQMV0rwad2sdMgZGRYXshnMUSBI0xxv8QEL0JYsTdLetITxNQ6wAxvTtYn3FCn9RsG/8t1YUBxR+fNP6KyH3ENTdrsPCdPIUfWCxTWsuo5V10mZEsOWkCl5fDrgOLt+nWiQkfz8ILgPkGLXgsw==
+X-Microsoft-Antispam-Message-Info: FlSptU962G33QTUfRDTdCR0TxKQV7cJ0A7rmgvT5pt2zE6aATsSYFbg189PYnJ6GFwiDN97YaswLBFlFvR6cljOIz7+Zm7ezRA2iKArH7b9VinLOk/mNAmZfb80Eqk0HIf5Ga+31A/3jk5frSCgu+e1Xl6J2s+jkxQPPwY1gFcrFKxgMtUDfDDJwMrD+KA38kUg6aOjlYfjdjF91OiH573sv1d9fxlV0uYeuNMHf21ApaWiahIz4bC/SHMuBuf8UhO2gw4QQ90CSMwvseK/QyLTLtjTt1lApoL8DLHrvQq5dQGPa9hH6h3s3yhdfOaL48jxx3oBKJAkYf/6/uQddT13B4hRrBfWmKbwcd3KwVUOH/EwGi/GRNV8t7gRUGuRcKnKLsLxTeN+VdFZm7EqAbMAemrSP0VoGMeIJHJ6RlItq81Q8gUXKbmtm59QU1hC4HXTLfWaR/wk9b02g18fkeBFJq14HskMwHqiu8YQRUdMCaVubcaE02p8Dbi7o4w0JJDG8lignxl5/pXpzlXjnTT+KcJ1Zjzu+Ok9X1jo6ioUXkctwQTTHI90mG0XCAUh9O72nghNMaDzjFUN6cckikaUI7VIocFP5aAho8kXq7GZK9piTDS3DF8AAgumyVvBpFfXNiZm2uL/JDYxt9dof4CyrMv+pMA37BxBQzObrlw8BfyOVsMiW01czAflfSsHF9sB/Lyp1tP28m/t6ZFC7AQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(4636009)(366004)(6916009)(6506007)(8676002)(66556008)(5660300002)(83380400001)(6666004)(7416002)(8936002)(52116002)(508600001)(6486002)(6512007)(2616005)(26005)(316002)(36756003)(38350700002)(1076003)(38100700002)(2906002)(86362001)(4326008)(186003)(66946007)(66476007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PAzmZr6IrNyjGYk1mS0Y3vnuTpkzDvP/sX+9ogFsf6EeVsk0ArvKD7WWjQQ8?=
- =?us-ascii?Q?5Np4E3r+FFA79tSaedExHqPQUIX/q9LMk4fY2IKfxfgg+1lKs2b/b2zxl4x4?=
- =?us-ascii?Q?KQ3mbR2AkA888s2DQ2Tz3c0VYOtTlnTP1NX7yuHC4p2EA6RoGJsmuEXFfw6x?=
- =?us-ascii?Q?HlJ5ABtpbe6VlqN/jGCd0t97xXdCvpdOal5Htc1nBux2N85LJC8xZU6eDl3J?=
- =?us-ascii?Q?pGV29Ua6h5fPpZ4qR9ibG8cBCJlwePgAvxBb7xlToFlXH3VesMWc0ELM6PS/?=
- =?us-ascii?Q?LVAWeM31Ra+e1lXAQdYUZ52M5PJQTctyPntgleIi1B/CVRwt9AGDP95cUYmN?=
- =?us-ascii?Q?j96xsTrf9ts/KCWtgEoT+00Jta2EFTiemhBJEDTLNcUiq9EGKwZviRo8+cNs?=
- =?us-ascii?Q?xFsTevVti1lgSka1INz80zmrTeG3yVIvr0P3hqhmmbsmQLaAVC1UNdNvDcEI?=
- =?us-ascii?Q?AgZcqlViUwCcXmgJ45oLNXshJlwf4m2F+kvE1JAmV3s2I8QSFGZW7zolgtsK?=
- =?us-ascii?Q?5PJAtdtNdE2CzjrVm/qT5l/DLO15WGdFhj2PyL1E9J1GYLa+AnqB1KVj0xXN?=
- =?us-ascii?Q?fEvi1+ytULzKmrBW/whJ6EvJE+AtqvSI9IPmr2fAGApKcy++3/DT9NN/ybl7?=
- =?us-ascii?Q?h3b1Gg0WX9voa3hoqzJGD/PrGMLuTGvoxcrZJGu+rWieljGHWumB4MSaxKmr?=
- =?us-ascii?Q?1hSE30PiXv022nrfBUdmkS0afmCVvvaWF6OxVt7cQjSVx4tRnrlsY5l1/Cgf?=
- =?us-ascii?Q?Q63u3x97l2GEDiZ26UjO+Rzr7XyPhl1LNuGVXcpuL7xsjJhwUwETYFuSIGVH?=
- =?us-ascii?Q?miJ5y3fO7CIix/UQQOFq9WJMS8P/8jchGjD3nAmsPd4O2u6+SnD3IguPCUmp?=
- =?us-ascii?Q?+kQqfPMGMRSkzaGanUMOnAhKeEmDvB4lYtJ8P4Rv2BIf/O5/bYpr+RjHVmdN?=
- =?us-ascii?Q?nysjJYa/+WrBlJASe8DdMlfOXlJaWf62yktIPsRU7Xg1eD9Th1P8Ubc8M4yD?=
- =?us-ascii?Q?NDzYsO2I3wV6bY6TTW1ZiTaSn0Le0/cSECR+2ecW7vdTkP+IFo9JGMX0jxY/?=
- =?us-ascii?Q?VPltxCl4seGq0wkdd2F7Ufc1Ta3nh2SJjDQOGDce5hbrwk35TwsgzUyv1EBC?=
- =?us-ascii?Q?pg5iXsKq06HIjyDgZJkHgf9Ij/MrkZCd7/rvzS97n4ENyDmIU5KNjAj8uFp3?=
- =?us-ascii?Q?BZq9cyId8J2DiN+aNPtoPGeFky4sS7qGxCMxgtbz9ECYpnyZZ3EgbtyaOt8i?=
- =?us-ascii?Q?nly5t8vQUwNh2bXdJjtEoH0YSK/u1hoM4dCMP8N/aG5hxoxRzuJIUfgdF4Bs?=
- =?us-ascii?Q?3cujU11w1Bkklrfp7q620K9y6boN2T9crcj6IvjudQ0IKlxPVoufpnOBYAl2?=
- =?us-ascii?Q?+HqezjvNrgPLFtUBc7toYdBD+QBeqtVEXl5svQLUIBaY37fD06kgbzcchh7Z?=
- =?us-ascii?Q?PwXpvIWCV0ao++1tguy+CLoTKcvWLVHkZgKCKMwDQXzDGwPz17zxwFmqu9m6?=
- =?us-ascii?Q?S7Nd+MJ53dZyVWP7j5FKe0Z4MW2+JCOQqZobkTdw6RMbKAvQGFVuEU8mGx4Y?=
- =?us-ascii?Q?7pKe/0L4P8hIYFERIxxlIIzvCgZO4UrnmOLk4C5HCKeZSbrHsy5CYxU/5WZR?=
- =?us-ascii?Q?xpkpM61wD0AkDAXtf3X8Pyz5jB8rswn7Le+lksQLH79lagIa9K5jKgc6MNui?=
- =?us-ascii?Q?Fsd5iw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wieumjv8nKsWCNuDRCkNcpjULKg9KmA30GqwPKWwSYiRLgQT8WfISM/G3eyE?=
+ =?us-ascii?Q?xH7E1a904f9qZqhzM2Ee4ERzscGW3V/o2Uv+Y5mbvUY4xHKisMNFZ+AZ0dob?=
+ =?us-ascii?Q?IlXWrd/SpP/4rOMyqQBXsFiqDm3IiLW0XJSBdNeeN3zVl0/IUOlUvSr0cEhM?=
+ =?us-ascii?Q?Mp5kJfNJwxNUSy+EdN7/+wji0pZubFbf6nvZxDw6guGjJZ8UZUBmeCzaQmXU?=
+ =?us-ascii?Q?bDhOxJVOH+Q6UCTn+F5+RczOJtuHVfXOqi+b7BhDLuUaBJ2Dfm/1VjSq+8kb?=
+ =?us-ascii?Q?E79rHaGASkiFuaMIcgiTvQsxkmX31oBAP47qqpk1W1gdicEQG4AiAyc4kShh?=
+ =?us-ascii?Q?R8YvInph5VkRirH3Qk7xwIX3lRQauza0HjdpFY1DbTi0ma+NnReGDlLVsC4y?=
+ =?us-ascii?Q?fV6bsqMC0EBeIFnjUXpqFlbvj7v67u/2xQy7pdGfbQB427C35idVE9HFsO2Z?=
+ =?us-ascii?Q?NfIJDp6s8fCW7Hd/KztRKZ7a52AMN2QYPC9doCBViDVnszKVoTOBhCfxxdw0?=
+ =?us-ascii?Q?CTpZ1r5N7tM/E+h5wizxKTqxNUsQ5OyJhYMyyFl2xm2XaISQUGJAwwvWiuqC?=
+ =?us-ascii?Q?nfKYScudqNrv4Lg8DbMNj57u3TX2DQlQEnMvhIW8FbHM6vYPmieibkIdr8fF?=
+ =?us-ascii?Q?iEprun3LH9M4nGtwYWpMwb27hEK3gO0MaDUHXiRzu8/LbZ5FrFHXJpr+MVTv?=
+ =?us-ascii?Q?F9KEnzfb4+rer/YbeXOLQxR22w/AdsGrWjYZILYXehNWGhHYmj3yBAUH3T94?=
+ =?us-ascii?Q?BiXfxquImXK+XIj7naZQnbZQ0jHXjiZQpvIMgjlIPNoF06oYvI+r8Dt6EWSz?=
+ =?us-ascii?Q?25muaGVl/W9I+dyz0OSF3MdKIj3NqIKOAStrl8IrwWtHiyhbUkO393AR0Ld7?=
+ =?us-ascii?Q?ljKIFW39xFreB7SaDHzJYfQhovw7LWPnf2kb+YPVK9tLFC0B6jI1PATgI/bX?=
+ =?us-ascii?Q?aHY0SuRVdQ+gER3PMdDpz/0/G9bp7oc/VmuYMcM00upcfj4sfnUPP19maWDA?=
+ =?us-ascii?Q?zWavfW0ExCiZOAcsbjPb561cOd1GXCQ5PILXBAwDFfzGNqQES0QQ72L1Lz1p?=
+ =?us-ascii?Q?1A1/xbSLDyG0Atq5sUmpA9hlnt1S1XJuXNftm8eRjzFtrJbJt7LQ/ZB+Edan?=
+ =?us-ascii?Q?4WMQE9EohM2A0KzaHfDooHqrrYITPNnZul4j1z2tsMixSXXtJF6e3sKY5YCH?=
+ =?us-ascii?Q?z6b6i98GjAQVsPs8dSR7LGGsHucuWaS6srpgTu7JWxST/1qqsoBTFVW0WBcu?=
+ =?us-ascii?Q?b+8BJGDQpabwmHm3+SBy5SRSv30J5nNOImAjkYpfzoV69ch6sfj9LQOZZgv5?=
+ =?us-ascii?Q?KuoeCQ6MSoFMYEutCEdGwxn313DU9NLCCyEXUe6QhnqK4iWndALJdYwUJFWV?=
+ =?us-ascii?Q?yn3byPr/z6GgptFfP2EPQzmxX9bRu9bW4k2T9heyniBH0jKzCogWncEtVr6Y?=
+ =?us-ascii?Q?30VZ7fpiBOLfTJRujcxG20SsGgRRqVuPzNQV2YxIHO8Fx2Yyy9NThBnrudQR?=
+ =?us-ascii?Q?GM8kmFKT0IlneCftNp5xeJr6oWqkSdvWyfGBNo5fq7Lq4QLin3O27Wbvv2GS?=
+ =?us-ascii?Q?5n6nloVmoNq9rI8Qlh0Pq7dC6OjPMSLgsmkvTBFQtj2yBIRDVZ91aBiLD8Ry?=
+ =?us-ascii?Q?iKrZkhL4CzfOvxkZuDviYPoGMcNaSWvEqLfQZvaTwQlZbjaYA4Qo7co/sbps?=
+ =?us-ascii?Q?recc5Q=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cee00592-6548-446c-74cd-08d9f8b8a733
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f131334-be87-423b-d3f9-08d9f8b8a7ef
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2022 23:43:41.5914 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2022 23:43:42.6693 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CGdplenZhS757+r7l0lR8qI8vIIszG7C0aPK6+9sV1HIwVbHrRBKd6UCsxaOT1pJf+xqF7ZrQNrkoNt9k7fLT3OJNne/QicVt2b5eNVFNFA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: MMaraHuV+8AfvQnrvJIfqa3G6dd/Q93z+NBmjA122ffx5rWs1tqa91F8Kulmxi10TCWozQ/Ep7f+F8LfTXxbqh4mN6wirF2eWzshdEgv6Lo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4172
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe0e::72e
  (failed)
@@ -143,116 +143,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support blockdev-replace in a transaction.
+Currently for block exports we report empty blk names. That's not good.
+Let's try to find corresponding block export and report its id.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qapi/transaction.json | 14 +++++++++++++-
- blockdev.c            | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+), 1 deletion(-)
+ include/block/export.h      |  1 +
+ block.c                     |  4 ++++
+ block/export/export.c       | 13 +++++++++++++
+ stubs/blk-exp-find-by-blk.c |  9 +++++++++
+ stubs/meson.build           |  1 +
+ 5 files changed, 28 insertions(+)
+ create mode 100644 stubs/blk-exp-find-by-blk.c
 
-diff --git a/qapi/transaction.json b/qapi/transaction.json
-index a938dc7d10..48dd2db1ed 100644
---- a/qapi/transaction.json
-+++ b/qapi/transaction.json
-@@ -54,10 +54,12 @@
- # @blockdev-snapshot-sync: since 1.1
- # @drive-backup: Since 1.6
- # @blockdev-add: since 7.0
-+# @x-blockdev-replace: since 7.0
- #
- # Features:
- # @deprecated: Member @drive-backup is deprecated.  Use member
- #              @blockdev-backup instead.
-+# @unstable: Member @x-blockdev-replace is experimental
- #
- # Since: 1.1
- ##
-@@ -68,6 +70,7 @@
-             'blockdev-backup', 'blockdev-snapshot',
-             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
-             'blockdev-add',
-+            { 'name': 'x-blockdev-replace', 'features': [ 'unstable' ] },
-             { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
+diff --git a/include/block/export.h b/include/block/export.h
+index 7feb02e10d..172c180819 100644
+--- a/include/block/export.h
++++ b/include/block/export.h
+@@ -80,6 +80,7 @@ struct BlockExport {
  
- ##
-@@ -150,6 +153,14 @@
- { 'struct': 'BlockdevAddWrapper',
-   'data': { 'data': 'BlockdevOptions' } }
+ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp);
+ BlockExport *blk_exp_find(const char *id);
++BlockExport *blk_exp_find_by_blk(BlockBackend *blk);
+ void blk_exp_ref(BlockExport *exp);
+ void blk_exp_unref(BlockExport *exp);
+ void blk_exp_request_shutdown(BlockExport *exp);
+diff --git a/block.c b/block.c
+index b2f55ff872..24baf58e80 100644
+--- a/block.c
++++ b/block.c
+@@ -5979,7 +5979,11 @@ XDbgBlockGraph *bdrv_get_xdbg_block_graph(Error **errp)
+     for (blk = blk_all_next(NULL); blk; blk = blk_all_next(blk)) {
+         char *allocated_name = NULL;
+         const char *name = blk_name(blk);
++        BlockExport *exp = blk_exp_find_by_blk(blk);
  
-+##
-+# @BlockdevReplaceWrapper:
-+#
-+# Since: 7.0
-+##
-+{ 'struct': 'BlockdevReplaceWrapper',
-+  'data': { 'data': 'BlockdevReplace' } }
-+
- ##
- # @TransactionAction:
- #
-@@ -174,7 +185,8 @@
-        'blockdev-snapshot-internal-sync': 'BlockdevSnapshotInternalWrapper',
-        'blockdev-snapshot-sync': 'BlockdevSnapshotSyncWrapper',
-        'blockdev-add': 'BlockdevAddWrapper',
--       'drive-backup': 'DriveBackupWrapper'
-+       'drive-backup': 'DriveBackupWrapper',
-+       'x-blockdev-replace': 'BlockdevReplaceWrapper'
-    } }
- 
- ##
-diff --git a/blockdev.c b/blockdev.c
-index 9fd1783be2..8ff0e2afe8 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2294,6 +2294,34 @@ void qmp_x_blockdev_replace(BlockdevReplace *repl, Error **errp)
-     tran_finalize(tran, ret);
++        if (!*name && exp) {
++            name = exp->id;
++        }
+         if (!*name) {
+             name = allocated_name = blk_get_attached_dev_id(blk);
+         }
+diff --git a/block/export/export.c b/block/export/export.c
+index 613b5bc1d5..ca6c8969ca 100644
+--- a/block/export/export.c
++++ b/block/export/export.c
+@@ -54,6 +54,19 @@ BlockExport *blk_exp_find(const char *id)
+     return NULL;
  }
  
-+typedef struct TranObjState {
-+    BlkActionState common;
-+    Transaction *tran;
-+} TranObjState;
-+
-+static void tran_obj_commit(BlkActionState *common)
++BlockExport *blk_exp_find_by_blk(BlockBackend *blk)
 +{
-+    TranObjState *s = DO_UPCAST(TranObjState, common, common);
++    BlockExport *exp;
 +
-+    tran_commit(s->tran);
++    QLIST_FOREACH(exp, &block_exports, next) {
++        if (exp->blk == blk) {
++            return exp;
++        }
++    }
++
++    return NULL;
 +}
 +
-+static void tran_obj_abort(BlkActionState *common)
-+{
-+    TranObjState *s = DO_UPCAST(TranObjState, common, common);
+ static const BlockExportDriver *blk_exp_find_driver(BlockExportType type)
+ {
+     int i;
+diff --git a/stubs/blk-exp-find-by-blk.c b/stubs/blk-exp-find-by-blk.c
+new file mode 100644
+index 0000000000..2fc1da953b
+--- /dev/null
++++ b/stubs/blk-exp-find-by-blk.c
+@@ -0,0 +1,9 @@
++#include "qemu/osdep.h"
++#include "sysemu/block-backend.h"
++#include "block/export.h"
 +
-+    tran_abort(s->tran);
++BlockExport *blk_exp_find_by_blk(BlockBackend *blk)
++{
++    return NULL;
 +}
 +
-+static void blockdev_replace_prepare(BlkActionState *common, Error **errp)
-+{
-+    TranObjState *s = DO_UPCAST(TranObjState, common, common);
-+
-+    s->tran = tran_new();
-+
-+    blockdev_replace(common->action->u.x_blockdev_replace.data, s->tran, errp);
-+}
-+
- static const BlkActionOps actions[] = {
-     [TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT] = {
-         .instance_size = sizeof(ExternalSnapshotState),
-@@ -2372,6 +2400,12 @@ static const BlkActionOps actions[] = {
-         .prepare = blockdev_add_prepare,
-         .abort = blockdev_add_abort,
-     },
-+    [TRANSACTION_ACTION_KIND_X_BLOCKDEV_REPLACE] = {
-+        .instance_size = sizeof(TranObjState),
-+        .prepare = blockdev_replace_prepare,
-+        .commit = tran_obj_commit,
-+        .abort = tran_obj_abort,
-+    },
-     /* Where are transactions for MIRROR, COMMIT and STREAM?
-      * Although these blockjobs use transaction callbacks like the backup job,
-      * these jobs do not necessarily adhere to transaction semantics.
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 90358823fc..92e362a45e 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -2,6 +2,7 @@ stub_ss.add(files('bdrv-next-monitor-owned.c'))
+ stub_ss.add(files('blk-commit-all.c'))
+ stub_ss.add(files('blk-exp-close-all.c'))
+ stub_ss.add(files('blk-by-qdev-id.c'))
++stub_ss.add(files('blk-exp-find-by-blk.c'))
+ stub_ss.add(files('blockdev-close-all-bdrv-states.c'))
+ stub_ss.add(files('change-state-handler.c'))
+ stub_ss.add(files('cmos.c'))
 -- 
 2.31.1
 
