@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E984C505D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 22:09:27 +0100 (CET)
-Received: from localhost ([::1]:50950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0A14C5066
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 22:13:08 +0100 (CET)
+Received: from localhost ([::1]:59570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNhqA-000475-7e
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 16:09:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60128)
+	id 1nNhtj-0001kg-Bc
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 16:13:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nNhkL-0006xF-2y
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:03:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54408)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nNhkO-00070X-OV
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:03:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nNhk8-0005Ol-9Z
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:03:22 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nNhkI-0005Pf-PK
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:03:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645822991;
+ s=mimecast20190719; t=1645822996;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f1B/ExmGCc3kNjbey2HtHUXNy2IapyW5A0JVDq6/Ncg=;
- b=ijd6ydhbyEzKGrU2nC9JFdm7ib3foluBkX8MDHeswyhgdqK57q0f3VEoqzrqa6ZRm9YmIC
- sotIkDy3NM+gj81wxLc1l32Xb5VofzywZ7ahFAAQ41UR0n4olffyg3JL3RB3QftwSg57dd
- j84veIKod22OHXKQwGel2b1qCpDfcxc=
+ bh=0aodK9aG97P8KUU55S4+p+lKKbpYAdCciia2KsOdnVc=;
+ b=fbq7NKeaJMoh/CrW23/kNJmIWWkGwcOrnxdj8+ewTcBT2vq1M2pdslF0QPcpKeQqL9L1s+
+ G+WqAwUKlJw7/iGFl1FpscVZONEuPX6DVAyWTsoKYDubHqrhr3dfyOFfAXIVnctWgueAku
+ bBW0CQlI0ya6GBn3734tsYFn8Df3Jm4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-483-9IINanKgObSAFai1K7GrWg-1; Fri, 25 Feb 2022 16:03:08 -0500
-X-MC-Unique: 9IINanKgObSAFai1K7GrWg-1
+ us-mta-147-LepH11EMN1aZlYQQYS4jqw-1; Fri, 25 Feb 2022 16:03:11 -0500
+X-MC-Unique: LepH11EMN1aZlYQQYS4jqw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0603D801AAD;
- Fri, 25 Feb 2022 21:03:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AB1D1006AA5;
+ Fri, 25 Feb 2022 21:03:08 +0000 (UTC)
 Received: from p50.localhost.localdomain.com (unknown [10.22.16.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C9592ED8A;
- Fri, 25 Feb 2022 21:02:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D0D12ED84;
+ Fri, 25 Feb 2022 21:03:05 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 1/9] Avocado GitLab CI jobs: don't reset TARGETS and simplify
- commands
-Date: Fri, 25 Feb 2022 16:01:48 -0500
-Message-Id: <20220225210156.2032055-2-crosa@redhat.com>
+Subject: [PATCH 2/9] Avocado tests: use logging namespace that is preserved in
+ test logs
+Date: Fri, 25 Feb 2022 16:01:49 -0500
+Message-Id: <20220225210156.2032055-3-crosa@redhat.com>
 In-Reply-To: <20220225210156.2032055-1-crosa@redhat.com>
 References: <20220225210156.2032055-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -107,116 +107,257 @@ Cc: Huacai Chen <chenhuacai@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Avocado tests rely on the TARGETS variable, which is computed
-based on the built targets.  The current set of commands on the
-inherited scripts section will reset those, leaving TARGETS empty and
-consequently the AVOCADO_CMDLINE_TAGS empty too.
+Since Avocado 92.0[1], there's no universal preservation of logged
+content via Python's "logging" APIs into the test log files.  This
+changes were motivated by the fact that doing so is intrusive as it
+touches on Python's root logger.
 
-This is causing the list of tests to have no filtering by tags, which
-can be seen by the large number of CANCEL/SKIP statuses (because of
-the lack of a matching qemu-system-$(ARCH) binary).
+Test writers are now expected to use "avocado." as a namespace prefix
+for everything that Avocado should collect/preserve, and other
+prefixes for logged content that should be handled differently.
 
-With this change, the TARGETS variable is properly computed, and so is
-the AVOCADO_CMDLINE_TAGS.  This causes a reduction in the number of
-tests attempted to be run on each job, and less noise on the test
-results.
+[1] - https://avocado-framework.readthedocs.io/en/94.0/releases/92_0.html#users-test-writers
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- .gitlab-ci.d/buildtest-template.yml | 3 +++
- .gitlab-ci.d/buildtest.yml          | 9 ---------
- 2 files changed, 3 insertions(+), 9 deletions(-)
+ tests/avocado/avocado_qemu/__init__.py    | 5 ++---
+ tests/avocado/linux_initrd.py             | 3 +--
+ tests/avocado/machine_arm_integratorcp.py | 3 +--
+ tests/avocado/machine_mips_malta.py       | 3 +--
+ tests/avocado/replay_kernel.py            | 5 ++---
+ tests/avocado/replay_linux.py             | 5 ++---
+ tests/avocado/reverse_debugging.py        | 5 ++---
+ tests/avocado/tesseract_utils.py          | 6 +++---
+ tests/avocado/virtio_check_params.py      | 3 +--
+ 9 files changed, 15 insertions(+), 23 deletions(-)
 
-diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-index 2c7980a4f6..c038a0910f 100644
---- a/.gitlab-ci.d/buildtest-template.yml
-+++ b/.gitlab-ci.d/buildtest-template.yml
-@@ -64,6 +64,9 @@
-         du -chs ${CI_PROJECT_DIR}/avocado-cache ;
-       fi
-     - export AVOCADO_ALLOW_UNTRUSTED_CODE=1
-+  script:
-+    - cd build
-+    - make check-avocado
-   after_script:
-     - cd build
-     - du -chs ${CI_PROJECT_DIR}/avocado-cache
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 0aa70213fb..d0bed9c382 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -33,7 +33,6 @@ avocado-system-alpine:
-       artifacts: true
-   variables:
-     IMAGE: alpine
--    MAKE_CHECK_ARGS: check-avocado
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index 75063c0c30..88cec83e5c 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -8,7 +8,6 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or
+ # later.  See the COPYING file in the top-level directory.
  
- build-system-ubuntu:
-   extends: .native_build_job_template
-@@ -66,7 +65,6 @@ avocado-system-ubuntu:
-       artifacts: true
-   variables:
-     IMAGE: ubuntu2004
--    MAKE_CHECK_ARGS: check-avocado
+-import logging
+ import os
+ import shutil
+ import subprocess
+@@ -138,7 +137,7 @@ def _console_interaction(test, success_message, failure_message,
+     if vm is None:
+         vm = test.vm
+     console = vm.console_socket.makefile(mode='rb', encoding='utf-8')
+-    console_logger = logging.getLogger('console')
++    console_logger = test.log.getChild('console')
+     while True:
+         if send_string:
+             vm.console_socket.sendall(send_string.encode())
+@@ -370,7 +369,7 @@ class LinuxSSHMixIn:
+     """Contains utility methods for interacting with a guest via SSH."""
  
- build-system-debian:
-   extends: .native_build_job_template
-@@ -98,7 +96,6 @@ avocado-system-debian:
-       artifacts: true
-   variables:
-     IMAGE: debian-amd64
--    MAKE_CHECK_ARGS: check-avocado
+     def ssh_connect(self, username, credential, credential_is_key=True):
+-        self.ssh_logger = logging.getLogger('ssh')
++        self.ssh_logger = self.log.getChild('ssh')
+         res = self.vm.command('human-monitor-command',
+                               command_line='info usernet')
+         port = get_info_usernet_hostfwd_port(res)
+diff --git a/tests/avocado/linux_initrd.py b/tests/avocado/linux_initrd.py
+index ba02e5a563..6ebf299cd4 100644
+--- a/tests/avocado/linux_initrd.py
++++ b/tests/avocado/linux_initrd.py
+@@ -9,7 +9,6 @@
+ # later.  See the COPYING file in the top-level directory.
  
- crash-test-debian:
-   extends: .native_test_job_template
-@@ -143,7 +140,6 @@ avocado-system-fedora:
-       artifacts: true
-   variables:
-     IMAGE: fedora
--    MAKE_CHECK_ARGS: check-avocado
+ import os
+-import logging
+ import tempfile
  
- crash-test-fedora:
-   extends: .native_test_job_template
-@@ -189,7 +185,6 @@ avocado-system-centos:
-       artifacts: true
-   variables:
-     IMAGE: centos8
--    MAKE_CHECK_ARGS: check-avocado
+ from avocado_qemu import QemuSystemTest
+@@ -79,7 +78,7 @@ def test_with_2gib_file_should_work_with_linux_v4_16(self):
+                              '-m', '5120')
+             self.vm.launch()
+             console = self.vm.console_socket.makefile()
+-            console_logger = logging.getLogger('console')
++            console_logger = self.log.getChild('console')
+             while True:
+                 msg = console.readline()
+                 console_logger.debug(msg.strip())
+diff --git a/tests/avocado/machine_arm_integratorcp.py b/tests/avocado/machine_arm_integratorcp.py
+index 1ffe1073ef..697ee76f6c 100644
+--- a/tests/avocado/machine_arm_integratorcp.py
++++ b/tests/avocado/machine_arm_integratorcp.py
+@@ -9,7 +9,6 @@
+ # later.  See the COPYING file in the top-level directory.
  
- build-system-opensuse:
-   extends: .native_build_job_template
-@@ -221,7 +216,6 @@ avocado-system-opensuse:
-       artifacts: true
-   variables:
-     IMAGE: opensuse-leap
--    MAKE_CHECK_ARGS: check-avocado
+ import os
+-import logging
+ 
+ from avocado import skipUnless
+ from avocado_qemu import QemuSystemTest
+@@ -84,7 +83,7 @@ def test_framebuffer_tux_logo(self):
+         self.vm.command('human-monitor-command', command_line='stop')
+         self.vm.command('human-monitor-command',
+                         command_line='screendump %s' % screendump_path)
+-        logger = logging.getLogger('framebuffer')
++        logger = self.log.getChild('framebuffer')
+ 
+         cpu_count = 1
+         match_threshold = 0.92
+diff --git a/tests/avocado/machine_mips_malta.py b/tests/avocado/machine_mips_malta.py
+index f1895d59f3..5f98ba1620 100644
+--- a/tests/avocado/machine_mips_malta.py
++++ b/tests/avocado/machine_mips_malta.py
+@@ -9,7 +9,6 @@
+ 
+ import os
+ import gzip
+-import logging
+ 
+ from avocado import skipUnless
+ from avocado_qemu import QemuSystemTest
+@@ -72,7 +71,7 @@ def do_test_i6400_framebuffer_logo(self, cpu_cores_count):
+         self.vm.command('human-monitor-command', command_line='stop')
+         self.vm.command('human-monitor-command',
+                         command_line='screendump %s' % screendump_path)
+-        logger = logging.getLogger('framebuffer')
++        logger = self.log.getChild('framebuffer')
+ 
+         match_threshold = 0.95
+         screendump_bgr = cv2.imread(screendump_path, cv2.IMREAD_COLOR)
+diff --git a/tests/avocado/replay_kernel.py b/tests/avocado/replay_kernel.py
+index c68a953730..40f52b3913 100644
+--- a/tests/avocado/replay_kernel.py
++++ b/tests/avocado/replay_kernel.py
+@@ -11,7 +11,6 @@
+ import os
+ import lzma
+ import shutil
+-import logging
+ import time
+ 
+ from avocado import skip
+@@ -36,7 +35,7 @@ class ReplayKernelBase(LinuxKernelTest):
+ 
+     def run_vm(self, kernel_path, kernel_command_line, console_pattern,
+                record, shift, args, replay_path):
+-        logger = logging.getLogger('replay')
++        logger = self.log.getChild('replay')
+         start_time = time.time()
+         vm = self.get_vm()
+         vm.set_console()
+@@ -74,7 +73,7 @@ def run_rr(self, kernel_path, kernel_command_line, console_pattern,
+                          True, shift, args, replay_path)
+         t2 = self.run_vm(kernel_path, kernel_command_line, console_pattern,
+                          False, shift, args, replay_path)
+-        logger = logging.getLogger('replay')
++        logger = self.log.getChild('replay')
+         logger.info('replay overhead {:.2%}'.format(t2 / t1 - 1))
+ 
+ class ReplayKernelNormal(ReplayKernelBase):
+diff --git a/tests/avocado/replay_linux.py b/tests/avocado/replay_linux.py
+index 15953f9e49..b56eeccfdd 100644
+--- a/tests/avocado/replay_linux.py
++++ b/tests/avocado/replay_linux.py
+@@ -9,7 +9,6 @@
+ # later.  See the COPYING file in the top-level directory.
+ 
+ import os
+-import logging
+ import time
+ 
+ from avocado import skipUnless
+@@ -55,7 +54,7 @@ def launch_and_wait(self, record, args, shift):
+             vm.add_args(*args)
+         self.vm_add_disk(vm, self.boot_path, 0, self.hdd)
+         self.vm_add_disk(vm, self.cloudinit_path, 1, self.cd)
+-        logger = logging.getLogger('replay')
++        logger = self.log.getChild('replay')
+         if record:
+             logger.info('recording the execution...')
+             mode = 'record'
+@@ -91,7 +90,7 @@ def launch_and_wait(self, record, args, shift):
+     def run_rr(self, args=None, shift=7):
+         t1 = self.launch_and_wait(True, args, shift)
+         t2 = self.launch_and_wait(False, args, shift)
+-        logger = logging.getLogger('replay')
++        logger = self.log.getChild('replay')
+         logger.info('replay overhead {:.2%}'.format(t2 / t1 - 1))
+ 
+ @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
+diff --git a/tests/avocado/reverse_debugging.py b/tests/avocado/reverse_debugging.py
+index d2921e70c3..2cb39f3e59 100644
+--- a/tests/avocado/reverse_debugging.py
++++ b/tests/avocado/reverse_debugging.py
+@@ -8,7 +8,6 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or
+ # later.  See the COPYING file in the top-level directory.
+ import os
+-import logging
+ 
+ from avocado import skipIf
+ from avocado_qemu import BUILD_DIR
+@@ -35,7 +34,7 @@ class ReverseDebugging(LinuxKernelTest):
+     endian_is_le = True
+ 
+     def run_vm(self, record, shift, args, replay_path, image_path, port):
+-        logger = logging.getLogger('replay')
++        logger = self.log.getChild('replay')
+         vm = self.get_vm()
+         vm.set_console()
+         if record:
+@@ -95,7 +94,7 @@ def vm_get_icount(vm):
+         return vm.qmp('query-replay')['return']['icount']
+ 
+     def reverse_debugging(self, shift=7, args=None):
+-        logger = logging.getLogger('replay')
++        logger = self.log.getChild('replay')
+ 
+         # create qcow2 for snapshots
+         logger.info('creating qcow2 image for VM snapshots')
+diff --git a/tests/avocado/tesseract_utils.py b/tests/avocado/tesseract_utils.py
+index 72cd9ab798..e0c5a6a454 100644
+--- a/tests/avocado/tesseract_utils.py
++++ b/tests/avocado/tesseract_utils.py
+@@ -31,8 +31,8 @@ def tesseract_available(expected_version):
  
  
- # This jobs explicitly disable TCG (--disable-tcg), KVM is detected by
-@@ -382,7 +376,6 @@ avocado-cfi-aarch64:
-       artifacts: true
-   variables:
-     IMAGE: fedora
--    MAKE_CHECK_ARGS: check-avocado
+ def tesseract_ocr(image_path, tesseract_args='', tesseract_version=3):
+-    console_logger = logging.getLogger('tesseract')
+-    console_logger.debug(image_path)
++    logger = logging.getLogger('avocado.test.tesseract')
++    logger.debug(image_path)
+     if tesseract_version == 4:
+         tesseract_args += ' --oem 1'
+     proc = process.run("tesseract {} {} stdout".format(tesseract_args,
+@@ -41,6 +41,6 @@ def tesseract_ocr(image_path, tesseract_args='', tesseract_version=3):
+     for line in proc.stdout_text.split('\n'):
+         sline = line.strip()
+         if len(sline):
+-            console_logger.debug(sline)
++            logger.debug(sline)
+             lines += [sline]
+     return lines
+diff --git a/tests/avocado/virtio_check_params.py b/tests/avocado/virtio_check_params.py
+index e869690473..fa19e9dbcb 100644
+--- a/tests/avocado/virtio_check_params.py
++++ b/tests/avocado/virtio_check_params.py
+@@ -20,7 +20,6 @@
+ import sys
+ import os
+ import re
+-import logging
  
- build-cfi-ppc64-s390x:
-   extends: .native_build_job_template
-@@ -424,7 +417,6 @@ avocado-cfi-ppc64-s390x:
-       artifacts: true
-   variables:
-     IMAGE: fedora
--    MAKE_CHECK_ARGS: check-avocado
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ from qemu.machine import QEMUMachine
+@@ -75,7 +74,7 @@ def query_virtqueue(self, vm, dev_type_name):
  
- build-cfi-x86_64:
-   extends: .native_build_job_template
-@@ -460,7 +452,6 @@ avocado-cfi-x86_64:
-       artifacts: true
-   variables:
-     IMAGE: fedora
--    MAKE_CHECK_ARGS: check-avocado
- 
- tsan-build:
-   extends: .native_build_job_template
+     def check_mt(self, mt, dev_type_name):
+         mt['device'] = dev_type_name # Only for the debug() call.
+-        logger = logging.getLogger('machine')
++        logger = self.log.getChild('machine')
+         logger.debug(mt)
+         with QEMUMachine(self.qemu_bin) as vm:
+             vm.set_machine(mt["name"])
 -- 
 2.35.1
 
