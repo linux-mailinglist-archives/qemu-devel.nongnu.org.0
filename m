@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCDF34C3F07
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 08:29:53 +0100 (CET)
-Received: from localhost ([::1]:57070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D96924C3F57
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 08:52:16 +0100 (CET)
+Received: from localhost ([::1]:33956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNV32-0007nM-C6
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 02:29:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38268)
+	id 1nNVOg-0004AU-Fx
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 02:52:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nNUzk-00075T-7O
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 02:26:28 -0500
-Received: from mga02.intel.com ([134.134.136.20]:41024)
+ id 1nNVLh-0003Dr-3J
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 02:49:09 -0500
+Received: from mga02.intel.com ([134.134.136.20]:42369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nNUzg-0000RE-U6
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 02:26:27 -0500
+ id 1nNVLd-0008CZ-Ie
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 02:49:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1645773984; x=1677309984;
+ t=1645775345; x=1677311345;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=QHsa4uaejrutjYvmvTfpBlym5OoUXHxaaWb7xEyH0gM=;
- b=HjMD+RZrRSBFFPp2u3EyY9tHVR209vqJkKhh5qXZ+mr9MdH+LvFG36aC
- 93UReS5FcgCCRWrM90IOWbQBjAbJxhwvlwlpUmO5Os/bbODyViYoRc9Ja
- MazOrKvCC575WLtjOEg4EbssOGS3PP0PgPx0vlWh1R5yqqQymT/at+D1p
- icwus0mgHh6Aq14EmSfXviyJrATzP83A+9Yz+J/A4xuLe8GdGUc/XkPqs
- gICn2ahTic76MFLl6nCDE53TFwk98kFt6l4uBC3AeMFCvKRcjresOfJX5
- RUwcWsIneMuloMq8pcOPCnr/n/ui5PvbT05vmhWK1UXgkOddk/rz5tAj8 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="239843243"
-X-IronPort-AV: E=Sophos;i="5.90,135,1643702400"; d="scan'208";a="239843243"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ bh=kGAIdOvXzCC9nJnmWDtLLRhy35UwAbZL+8PEaqJ8BhQ=;
+ b=D0//It1qSMOTmD7p0IoQ+o+N2A5qcbsTtW6Hsec06M5soqz7B9y2vVkd
+ pKq81xSVOQlG0rX6ckf+z8V/CiVb/vg9S5RGuV35RCMhqIJaTB9UrUIvs
+ rJc91UmtIT5tiXa6sbqE7RASKyU3D+DBUruQ9R9LiPbpk6XY+Xrxpd5OX
+ na8g0iKAwSbtIpQRzOiYu8uFMZ/sulQ0BTWHYUD0SpxYNwJHkzbGZNpC3
+ qxyQsV4bvPX1CuWG8ARysNF+Wx7uYrXgkPBHgdfFkut3N5xbKCcbCL6U3
+ 1p07LOAKZug5hYtVfy77Blhf+VspzLxiXuJFwxdLfRcl+KkgJYOvnHN2B A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="239846106"
+X-IronPort-AV: E=Sophos;i="5.90,135,1643702400"; d="scan'208";a="239846106"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2022 23:26:09 -0800
-X-IronPort-AV: E=Sophos;i="5.90,135,1643702400"; d="scan'208";a="628762414"
+ 24 Feb 2022 23:48:56 -0800
+X-IronPort-AV: E=Sophos;i="5.90,135,1643702400"; d="scan'208";a="574520937"
 Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
  ([10.238.145.56])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 24 Feb 2022 23:26:07 -0800
-Date: Fri, 25 Feb 2022 15:10:25 +0800
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 24 Feb 2022 23:48:54 -0800
+Date: Fri, 25 Feb 2022 15:33:12 +0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: David Edmondson <david.edmondson@oracle.com>
-Subject: Re: [PATCH v2 4/8] x86: Add XFD faulting bit for state components
-Message-ID: <20220225071025.GA24485@yangzhon-Virtual>
+Subject: Re: [PATCH v2 6/8] x86: add support for KVM_CAP_XSAVE2 and AMX state
+ migration
+Message-ID: <20220225073312.GB24485@yangzhon-Virtual>
 References: <20220217060434.52460-1-yang.zhong@intel.com>
- <20220217060434.52460-5-yang.zhong@intel.com>
- <cun1qzwpe6e.fsf@oracle.com>
+ <20220217060434.52460-7-yang.zhong@intel.com>
+ <cunv8x8nyfy.fsf@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cun1qzwpe6e.fsf@oracle.com>
+In-Reply-To: <cunv8x8nyfy.fsf@oracle.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Received-SPF: pass client-ip=134.134.136.20; envelope-from=yang.zhong@intel.com;
  helo=mga02.intel.com
@@ -82,73 +83,44 @@ Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 21, 2022 at 01:00:41PM +0000, David Edmondson wrote:
-> On Wednesday, 2022-02-16 at 22:04:30 -08, Yang Zhong wrote:
+On Mon, Feb 21, 2022 at 01:25:53PM +0000, David Edmondson wrote:
+> On Wednesday, 2022-02-16 at 22:04:32 -08, Yang Zhong wrote:
 > 
 > > From: Jing Liu <jing2.liu@intel.com>
 > >
-> > Intel introduces XFD faulting mechanism for extended
-> > XSAVE features to dynamically enable the features in
-> > runtime. If CPUID (EAX=0Dh, ECX=n, n>1).ECX[2] is set
-> > as 1, it indicates support for XFD faulting of this
-> > state component.
+> > When dynamic xfeatures (e.g. AMX) are used by the guest, the xsave
+> > area would be larger than 4KB. KVM_GET_XSAVE2 and KVM_SET_XSAVE
+> > under KVM_CAP_XSAVE2 works with a xsave buffer larger than 4KB.
+> > Always use the new ioctls under KVM_CAP_XSAVE2 when KVM supports it.
 > >
 > > Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> > Signed-off-by: Zeng Guang <guang.zeng@intel.com>
+> > Signed-off-by: Wei Wang <wei.w.wang@intel.com>
 > > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> 
-> Small comment below...
-> 
-> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-> 
 > > ---
-> >  target/i386/cpu.h | 2 ++
-> >  target/i386/cpu.c | 3 ++-
-> >  2 files changed, 4 insertions(+), 1 deletion(-)
+> >  target/i386/cpu.h          |  4 ++++
+> >  target/i386/kvm/kvm.c      | 42 ++++++++++++++++++++++++--------------
+> >  target/i386/xsave_helper.c | 33 ++++++++++++++++++++++++++++++
+> >  3 files changed, 64 insertions(+), 15 deletions(-)
 > >
 > > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> > index d4ad0f56bd..f7fc2e97a6 100644
+> > index f7fc2e97a6..de9da38e42 100644
 > > --- a/target/i386/cpu.h
 > > +++ b/target/i386/cpu.h
-> > @@ -558,8 +558,10 @@ typedef enum X86Seg {
-> >  #define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
-> >
-> >  #define ESA_FEATURE_ALIGN64_BIT         1
-> > +#define ESA_FEATURE_XFD_BIT             2
-> >
-> >  #define ESA_FEATURE_ALIGN64_MASK        (1U << ESA_FEATURE_ALIGN64_BIT)
-> > +#define ESA_FEATURE_XFD_MASK            (1U << ESA_FEATURE_XFD_BIT)
-> >
-> >  /* CPUID feature words */
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index 377d993438..5a7ee8c7e1 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -5497,7 +5497,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >                  const ExtSaveArea *esa = &x86_ext_save_areas[count];
-> >                  *eax = esa->size;
-> >                  *ebx = esa->offset;
-> > -                *ecx = esa->ecx & ESA_FEATURE_ALIGN64_MASK;
-> > +                *ecx = (esa->ecx & ESA_FEATURE_ALIGN64_MASK) |
-> > +                       (esa->ecx & ESA_FEATURE_XFD_MASK);
+> > @@ -1528,6 +1528,10 @@ typedef struct CPUX86State {
+> >      uint64_t opmask_regs[NB_OPMASK_REGS];
+> >      YMMReg zmmh_regs[CPU_NB_REGS];
+> >      ZMMReg hi16_zmm_regs[CPU_NB_REGS];
+> > +#ifdef TARGET_X86_64
+> > +    uint8_t xtilecfg[64];
+> > +    uint8_t xtiledata[8192];
+> > +#endif
 > 
-> Is:
-> 
->                 *ecx = esa->ecx &
->                        (ESA_FEATURE_ALIGN64_MASK | ESA_FEATURE_XFD_MASK);
-> 
-> not more usual?
+> Can we have defined constants for these sizes? They also appear in patch
+> 2.
 
-
-  Thanks David, I will update this in next version.
+  David, the constants we used here are mainly consistent with other members
+  in this struct and file.  thanks!
 
   Yang
-
-> 
-> >              }
-> >          }
-> >          break;
-> 
-> dme.
-> -- 
-> All of us, we're going out tonight. We're gonna walk all over your cars.
 
