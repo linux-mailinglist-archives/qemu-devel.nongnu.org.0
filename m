@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152BA4C43F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 12:52:04 +0100 (CET)
-Received: from localhost ([::1]:57284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECEFA4C43CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 12:43:20 +0100 (CET)
+Received: from localhost ([::1]:45620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNZ8k-0003hc-QX
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 06:52:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38946)
+	id 1nNZ0J-0003rv-57
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 06:43:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nNYsw-0000Fs-Ti
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 06:35:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58565)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nNYsr-0003ok-Gm
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 06:35:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645788935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HAuMYW95YXuzO/3z5Qwh0pT6uiwnmw52NHgLtkXA6p8=;
- b=GRN6sWn2gMpEFM1JwJBTVQb4L9tx3Kp0bVj3k2GtmmxVhXIH+stxlqRmX35NDvGrSs5mIA
- rmRrlX+uPIQn9mgR8nKvKcHqaeECaorTS8mkhJj0Fs0MdU28bGJyPuJkauw7/dODSwlakY
- qA1z6qXMOEzljeLriHQZIxkpPto96lA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-144-Vc5mMe0rNCCLJn8PNhLZtg-1; Fri, 25 Feb 2022 06:35:32 -0500
-X-MC-Unique: Vc5mMe0rNCCLJn8PNhLZtg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F77B804B83;
- Fri, 25 Feb 2022 11:35:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C5217B5F6;
- Fri, 25 Feb 2022 11:34:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D047E21E6A00; Fri, 25 Feb 2022 12:34:52 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Fabian Ebner <f.ebner@proxmox.com>
-Subject: Re: [PATCH v9 3/3] qapi/monitor: allow VNC display id in
- set/expire_password
-References: <20220225084949.35746-1-f.ebner@proxmox.com>
- <20220225084949.35746-4-f.ebner@proxmox.com>
-Date: Fri, 25 Feb 2022 12:34:52 +0100
-In-Reply-To: <20220225084949.35746-4-f.ebner@proxmox.com> (Fabian Ebner's
- message of "Fri, 25 Feb 2022 09:49:49 +0100")
-Message-ID: <874k4nkwmb.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nNYv5-0001if-JS
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 06:37:57 -0500
+Received: from [2607:f8b0:4864:20::b2a] (port=44974
+ helo=mail-yb1-xb2a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nNYv1-0004qT-61
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 06:37:55 -0500
+Received: by mail-yb1-xb2a.google.com with SMTP id d21so5247470yba.11
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 03:37:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DmhgVvnCMnZIjps3V3WQn53oDpB24LI5SX2Y8agVHZg=;
+ b=O2VQ1nikIixdAWpKeTekVPLdCoJSy+B5R5UO1Ti3uV9BMyE2gTVAq7Pft/ZgH7dsjC
+ /L+cMPHDp+iYVMju1oS/3ZQObfhDRgi43BRBbQ7KL8IvpwqJx2+IAafaQSL6iDappSLB
+ h7zjuhn/rIlX7WCz0jJP9PuY4+ognngTKht5MkQlXOFXNU9y8yjte7XwiLjLkA/K7cCh
+ Ecrbh1/a2me7QzBBBBhjMC2h9+ky/55pProuN+1PgPPtqzQ+NqrzhnHqjEyE8ECmQKxD
+ XZNhUDijnp9BXoKJ7L9dKBU4N8K6NvEkigHMzVENx4kJsYL1KFYlHV7ZTcCgFSjyRnO3
+ psmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DmhgVvnCMnZIjps3V3WQn53oDpB24LI5SX2Y8agVHZg=;
+ b=lytuE//mCWYVmrxFrkhNG+I5jhMvqTo5RqhA+i2Biprih43FgZ9Y59oj1O+Xmc10j8
+ xfXq1q6BDLvwlBJZX4Jjz94UHTI6YAUL0MZaVP1V44sifWsywALYjIbwerRY/LjmhlMk
+ XOuGZ3mtBPs38hXCXzjD9tdviWVQRv6QB/GcNGVVjR0hdUZp/42qy+quQfv/wFwY2CeJ
+ IXfTTPoanx9cIJ9eoc3iugFFMB4KJ2XVVd1pZKX0BCoam3t6GQZzDPflqMl22msWUFbI
+ OdGfTupdK/uiGtTc+3wSSNKVWHDSQprQw3FRCDoq+wNwRC2zcBdjZrr54Sx4KABKt7cE
+ E8oA==
+X-Gm-Message-State: AOAM533pBRMNPuCY0+d+MemE0K5iv/4kg9V+HztXpvkZwlPUrjvB2oBL
+ 3qYb5IXXOBg0R8etoBJaYcKVGVTLfOvEkYhhrN5JfA==
+X-Google-Smtp-Source: ABdhPJzzwLKSStQvKMjSgb7PaRePqLNm0iqK0kKWbDxyaDsSm8F8tiGm9r0VUzOFg/v3D3ncaDV3N0BC2Y/vVUt8KXU=
+X-Received: by 2002:a25:5011:0:b0:61d:853e:ef96 with SMTP id
+ e17-20020a255011000000b0061d853eef96mr6866747ybb.288.1645789069789; Fri, 25
+ Feb 2022 03:37:49 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <6e7748f1.25d8.17f2705c420.Coremail.wliang@stu.xidian.edu.cn>
+ <c91392a4-f75b-4e5d-9e6c-04777fb7ca79@gmail.com>
+ <ae217469-9f0f-5f1e-f01b-4a6f525f1ff2@kaod.org>
+ <74d28271.93a.17f2eee79db.Coremail.wliang@stu.xidian.edu.cn>
+In-Reply-To: <74d28271.93a.17f2eee79db.Coremail.wliang@stu.xidian.edu.cn>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Feb 2022 11:37:38 +0000
+Message-ID: <CAFEAcA_8eRLK0eD9aHg65LeNa24+A9Z2D6cFdtUSSEJguOz_uQ@mail.gmail.com>
+Subject: Re: Fix a potential memory leak bug in write_boot_rom() (v6.2.0).
+To: wliang@stu.xidian.edu.cn
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,194 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: w.bumiller@proxmox.com, berrange@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, marcandre.lureau@gmail.com, kraxel@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, eblake@redhat.com,
- t.lamprecht@proxmox.com, dgilbert@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fabian Ebner <f.ebner@proxmox.com> writes:
-
-> From: Stefan Reiter <s.reiter@proxmox.com>
+On Fri, 25 Feb 2022 at 03:33, <wliang@stu.xidian.edu.cn> wrote:
 >
-> It is possible to specify more than one VNC server on the command line,
-> either with an explicit ID or the auto-generated ones =C3=A0 la "default"=
-,
-> "vnc2", "vnc3", ...
 >
-> It is not possible to change the password on one of these extra VNC
-> displays though. Fix this by adding a "display" parameter to the
-> "set_password" and "expire_password" QMP and HMP commands.
+> >
+> > yes. Could you please send a patch using  g_autofree ?
+> >
+> > Thanks,
+> >
+> > C.
 >
-> For HMP, the display is specified using the "-d" value flag.
 >
-> For QMP, the schema is updated to explicitly express the supported
-> variants of the commands with protocol-discriminated unions.
->
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-> [FE: update "Since: " from 6.2 to 7.0
->      make @connected a common member of @SetPasswordOptions]
-> Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+> Here is the new patch.
 
-[...]
+Hi; that patch doesn't seem to be using g_autofree. Did you attach the
+wrong version of it?
 
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index e112409211..4a13f883a3 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -38,20 +38,47 @@
->    'data': [ 'keep', 'fail', 'disconnect' ] }
-> =20
->  ##
-> -# @set_password:
-> +# @SetPasswordOptions:
->  #
-> -# Sets the password of a remote display session.
-> +# Options for set_password.
->  #
->  # @protocol: - 'vnc' to modify the VNC server password
->  #            - 'spice' to modify the Spice server password
->  #
->  # @password: the new password
->  #
-> -# @connected: how to handle existing clients when changing the
-> -#             password.  If nothing is specified, defaults to 'keep'
-> -#             'fail' to fail the command if clients are connected
-> -#             'disconnect' to disconnect existing clients
-> -#             'keep' to maintain existing clients
-> +# @connected: How to handle existing clients when changing the
-> +#             password. If nothing is specified, defaults to 'keep'.
-> +#             For VNC, only 'keep' is currently implemented.
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +{ 'union': 'SetPasswordOptions',
-> +  'base': { 'protocol': 'DisplayProtocol',
-> +            'password': 'str',
-> +            '*connected': 'SetPasswordAction' },
-> +  'discriminator': 'protocol',
-> +  'data': { 'vnc': 'SetPasswordOptionsVnc' } }
-> +
-> +##
-> +# @SetPasswordOptionsVnc:
-> +#
-> +# Options for set_password specific to the VNC procotol.
-> +#
-> +# @display: The id of the display where the password should be changed.
-> +#           Defaults to the first.
+You've sent a few patches recently, and they're all attachments
+to the email. This is a bit awkward as our automatic tooling doesn't
+handle attached patches -- it wants them inline in the email. For
+a few one-off patches we can handle that at our end, but if you're
+planning to send many more patches in future it might be worth trying
+to sort out how to send them as non-attachments.
 
-Is this default equivalent to any value?  "The first" suggests it's not.
+https://www.qemu.org/docs/master/devel/submitting-a-patch.html
+has the details, including notes on using either git send-email
+or the sourcehut service.
 
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +{ 'struct': 'SetPasswordOptionsVnc',
-> +  'data': { '*display': 'str' } }
-> +
-> +##
-> +# @set_password:
-> +#
-> +# Set the password of a remote display server.
->  #
->  # Returns: - Nothing on success
->  #          - If Spice is not enabled, DeviceNotFound
-> @@ -65,17 +92,15 @@
->  # <- { "return": {} }
->  #
->  ##
-> -{ 'command': 'set_password',
-> -  'data': { 'protocol': 'DisplayProtocol',
-> -            'password': 'str',
-> -            '*connected': 'SetPasswordAction' } }
-> +{ 'command': 'set_password', 'boxed': true, 'data': 'SetPasswordOptions'=
- }
-> =20
->  ##
-> -# @expire_password:
-> +# @ExpirePasswordOptions:
->  #
-> -# Expire the password of a remote display server.
-> +# General options for expire_password.
->  #
-> -# @protocol: the name of the remote display protocol 'vnc' or 'spice'
-> +# @protocol: - 'vnc' to modify the VNC server expiration
-> +#            - 'spice' to modify the Spice server expiration
->  #
->  # @time: when to expire the password.
->  #
-> @@ -84,16 +109,45 @@
->  #        - '+INT' where INT is the number of seconds from now (integer)
->  #        - 'INT' where INT is the absolute time in seconds
->  #
-> -# Returns: - Nothing on success
-> -#          - If @protocol is 'spice' and Spice is not active, DeviceNotF=
-ound
-> -#
-> -# Since: 0.14
-> -#
->  # Notes: Time is relative to the server and currently there is no way to
->  #        coordinate server time with client time.  It is not recommended=
- to
->  #        use the absolute time version of the @time parameter unless you=
-'re
->  #        sure you are on the same machine as the QEMU instance.
->  #
-> +# Since: 7.0
-> +#
-> +##
-> +{ 'union': 'ExpirePasswordOptions',
-> +  'base': { 'protocol': 'DisplayProtocol',
-> +            'time': 'str' },
-> +  'discriminator': 'protocol',
-> +  'data': { 'vnc': 'ExpirePasswordOptionsVnc' } }
-> +
-> +##
-> +# @ExpirePasswordOptionsVnc:
-> +#
-> +# Options for expire_password specific to the VNC procotol.
-> +#
-> +# @display: The id of the display where the expiration should be changed=
-.
-> +#           Defaults to the first.
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +
-> +{ 'struct': 'ExpirePasswordOptionsVnc',
-> +  'data': { '*display': 'str' } }
-> +
-> +##
-> +# @expire_password:
-> +#
-> +# Expire the password of a remote display server.
-> +#
-> +# Returns: - Nothing on success
-> +#          - If @protocol is 'spice' and Spice is not active, DeviceNotF=
-ound
-> +#
-> +# Since: 0.14
-> +#
->  # Example:
->  #
->  # -> { "execute": "expire_password", "arguments": { "protocol": "vnc",
-> @@ -101,9 +155,7 @@
->  # <- { "return": {} }
->  #
->  ##
-> -{ 'command': 'expire_password',
-> -  'data': { 'protocol': 'DisplayProtocol',
-> -            'time': 'str' } }
-> +{ 'command': 'expire_password', 'boxed': true, 'data': 'ExpirePasswordOp=
-tions' }
-> =20
->  ##
->  # @screendump:
+A couple more housekeeping type suggestions:
 
-QAPI schema
-Acked-by: Markus Armbruster <armbru@redhat.com>
+ * please don't send new versions of patches as followups to
+   the email thread of the first patch; start a new thread
+ * subject lines should start with a prefix indicating what
+   part of the tree they apply to: in this case "hw/arm/aspeed".
+   This helps people scanning the email list to pick out patches
+   which they care about: from the function name alone it's
+   often hard to figure out which part of QEMU is involved
 
+thanks
+-- PMM
 
