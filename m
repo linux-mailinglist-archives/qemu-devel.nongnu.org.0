@@ -2,84 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164564C521C
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 00:35:31 +0100 (CET)
-Received: from localhost ([::1]:46020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEFE4C5240
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 00:47:30 +0100 (CET)
+Received: from localhost ([::1]:56390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNk7V-00022U-Jj
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 18:35:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45802)
+	id 1nNkJ7-00011w-4I
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 18:47:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNinS-0008VT-A6
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 17:10:42 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=39757
- helo=mail-pf1-x42d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNinO-0005NR-Qn
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 17:10:41 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id y11so5863268pfa.6
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 14:10:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=yD+4WyRFT2NIkfZgNALBF7TysjbpgXn3DO0cpT5wgO4=;
- b=j/RgyS5Cet3loPjdpQlGrM1mmNcsCG32gmRWndWD4DhEwifhso3dxuqLEXt9wSER7y
- vEoBOExPW6yJ0Ra4SqvYf1eiSwJ9//couWvFRHbdQrvoZrDAlcPhH5Rpb7O+e39J4321
- i9UiYEicqnFqAT8dTShv2gWbO8DaHMrFUBjWSc+q69hfzITJCD+dXHRD2bt/Wxt0+Kz5
- ZxHs+UMfh4MiI8eUWwPa4ZOHdUGZqwO6pmNnan8CJN/5sNqWe9gl6qEVoL/3qia2uhmd
- LOAJa5/hiPYnpBLeDZXpPbCS0FQ1AjB2NHmMz4ksczhUQ2BqROH44cNTVmT6U10BoTpa
- 4CgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=yD+4WyRFT2NIkfZgNALBF7TysjbpgXn3DO0cpT5wgO4=;
- b=Y8lUZnSRR3yN/oiuwjMvgM2gQW/K6/J+4osAGbM+qC07m1lI6gc2ATvT5LOhBCo8Gx
- xppIqQQ+DFEpcwmDXKmyrHk783kglixsRmMi3tfJZ9swm8CVdFKSkf/3mTTRQo8hk8JO
- auurc2z2MxuvZHnzsFZyaVMT/vDXjabCZW1g9OW14ZD0/LNbIgXn+0gmpzRn68LZ3NGe
- cRR5CmJpS5OQESp09bjqiQX+AvOHmeul0tbmHikPy8aCwGPRonQ4VS4NkiXUNG/PrI9j
- KFMOVqB4VD0oES0CWzam7lb++IE+PRdLsas0Bmb2509+Fn8H4EQj907sKz1iCCaidSQ/
- f06g==
-X-Gm-Message-State: AOAM531Ej8Xrjep2PJzvA1U4vdOSfxKcOnEIt2DepQ4mR64rLDBF/SYz
- 73OaciFl56lXssTJ66UYMpx7ig==
-X-Google-Smtp-Source: ABdhPJzcun23zMaCk789kArmEMSYMiFt62Xq1qbedYauFuheKGGvCFhp8dr85Pws2+SvrPINutyunQ==
-X-Received: by 2002:a63:1456:0:b0:373:c08c:124d with SMTP id
- 22-20020a631456000000b00373c08c124dmr7877317pgu.363.1645827036392; 
- Fri, 25 Feb 2022 14:10:36 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- q13-20020aa7982d000000b004cb98a2ca35sm4667232pfl.211.2022.02.25.14.10.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 14:10:36 -0800 (PST)
-Message-ID: <dcad7f45-098d-edaf-c061-970aa0353603@linaro.org>
-Date: Fri, 25 Feb 2022 12:10:31 -1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 44/49] target/ppc: Refactor VSX_MAX_MINC helper
-Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
- <20220225210936.1749575-45-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220225210936.1749575-45-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nNkFO-0006e4-On; Fri, 25 Feb 2022 18:43:39 -0500
+Received: from [2a01:111:f400:fe0e::72e] (port=3086
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nNkFL-0005gS-Mi; Fri, 25 Feb 2022 18:43:37 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PC8Ufl/bGkDsaiIxALaL3+UsSF2aKNW9kOl0/AaVnuvPLnyNA0m9kYp3cAW9ru2DIbMBD+oiakCu+nTIwqBGTPx8iKQGSI32oyWF0+Sv7S23jhFNXN5Cun1hvLNCVvfWgHS1vKNYRKjJ93pMZdP5RYZ66fY1USjdqwFL5TOP08HK0zGlNVbI4J7xSA5Z3UMknJ7Xw0UgfPnElazosPk3uYKS1mFEEEDh6vDUAUh7IRQcq2l/4q6QSHZorAFU1eaJNxdJN/uujO05IylsW6bwmmgVnfkzlNWVi7N9IpgIy30SIB2+26Hup+yNsKAAmeGZDbDGHDbza9zxJLu+yKfchQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UIq6smhBLV8TvvdhMg8SK33Iof++5Ez5QacipaOu5kg=;
+ b=BRzOlRerc0J3KcNCy9mAltTVwbbBFiBrtb6VUyhto8Hbca56/JZTCfI9+Pco5aRPIztnNpltEqIVVjRB3beXXJakcmGun68P7NwCBawg6R/Hya91lPAs7siQzxf7PTo/cx5aV3SB/QIassxXBNU21ohLZeBzDl9xNP3l0rsmF1WERk3DqDjiXsBT6YR6HehhKEDfEeITB+KGs8aDKtNtJ7lPbTFEWbfSd5Wl9BAR7BFGTWQn2ter3wTb6EVGUlP9kE42hyeTpbqtT+OFlwrMP5I2iTgMZOqSppkRfy3mzW6JGzNVwVgSeO8uWElBi+j5Mm0VoTXWaLDuRwaQh2eXYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UIq6smhBLV8TvvdhMg8SK33Iof++5Ez5QacipaOu5kg=;
+ b=YFKTD/bZnQs2nvvjcU+xhhYH9R7q6+01uhf8ZG75IUCckxHWvXv8H4uOpbjCST5ny7Qt6hoT3cUR22KPMO4AiEkIMTsvhDv6TgqHiYgbD2YAdE37l1NnOdaTtcbn4KIf2Im1zn2LP6v3eLqzp5Glv3invxSm3EBlAs38x3HH5AM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by DB8PR08MB4172.eurprd08.prod.outlook.com (2603:10a6:10:af::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Fri, 25 Feb
+ 2022 23:43:30 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.5017.021; Fri, 25 Feb 2022
+ 23:43:30 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, eblake@redhat.com,
+ armbru@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
+ vsementsov@virtuozzo.com, den@openvz.org, nshirokovskiy@virtuozzo.com,
+ yur@virtuozzo.com, dim@virtuozzo.com, igor@virtuozzo.com,
+ pkrempa@redhat.com, libvir-list@redhat.com, stefanha@redhat.com
+Subject: [PATCH v3 00/11] blockdev-replace
+Date: Sat, 26 Feb 2022 00:42:57 +0100
+Message-Id: <20220225234308.1754763-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+Content-Type: text/plain
+X-ClientProxiedBy: VE1PR03CA0006.eurprd03.prod.outlook.com
+ (2603:10a6:802:a0::18) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 435d6eaa-9f93-4524-6746-08d9f8b89f9b
+X-MS-TrafficTypeDiagnostic: DB8PR08MB4172:EE_
+X-Microsoft-Antispam-PRVS: <DB8PR08MB41726C25A522A76B555AAA6FC13E9@DB8PR08MB4172.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: D3HYVim9Wb+DCjBKHDY1K9evWVIfr44NxXFz2aZdYdIZK35axAX3KrFE5cvmZMBovFStd9ClHBDnDJgk48PXKeL2LQyiHkiCdX/udfmyWIqrUifYah3vCSP+OF+mZm19Z8GKHQu4IrT0Qi/4F13K6Q4LiK0TvRq7ifAEDA3RQCOd8+8kvelc2aiucg0gYct7YUz6lcz7OToUtdFv/KJb3bNyVA5Z2QVdFl3YbrVPpoqA1xdQe9gQT0izi9FRnCIbY5ayUttZyLHLBM/wb+VvWC2SMi6Omiaks6l7Bw/Eansmyo8XDOUzRiwAAWd8aCnbx14Oetdw6TecxUeN6873CZScvpug9eG4aYcJIZClGU+EhJe84JoF8Yao+iI/HFl4U1LSp1h23EaMIFPYXrEqBCoKHcwlm0JgnOZ1RTWbCmCDjGEGYnoOSUGwgX4KfeFmzYIMbUrCa1K4t3co2V6R1QCLCSnE7LlcQQMK6B9vHar+Nn6xwdQ1fgbwjyRDxpDjnMBUApvjV0bfJPsWFYDBTSuPCTKLc7tuW3FZBzoL/0a8j4mbSXl628e2Cev0/Gn0MP1Ti+v402MiUPEGcZ3JHyzlB8lUyEi3O1J9hTVshCZemleFAlae52ujJ/jyMivU/BkUToGbif0uFPsPxkYuJXjLd7tlW0i3cCzWPTEyqkMpbpsdOQa3nbvw+btIkILDFXj9MAPIoSSJs64E6K+Dqw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6916009)(6506007)(8676002)(66556008)(5660300002)(83380400001)(6666004)(7416002)(8936002)(52116002)(508600001)(6486002)(6512007)(2616005)(26005)(316002)(36756003)(38350700002)(1076003)(38100700002)(2906002)(86362001)(4326008)(186003)(66946007)(66476007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M6bFibnzMqkrEPHyNd7nVIXvZDdtHYSr9MX7y7zkXio8durzkcH04/+FEs3t?=
+ =?us-ascii?Q?N1H5xmzSfuADS7R1LvbziRWkkpqvpRwl2jfo9VufH1y7XhD5o2j3hNDoQUmu?=
+ =?us-ascii?Q?aBBdvQOVhxl2uM98orhPZ1ZlZmu/LB2D385wbNUWvFvJ0vOlC+wh4MR/SyyZ?=
+ =?us-ascii?Q?CE0p9cUs2iMTQYMjWu+QLB3TfiahcuXRz+W8V5TrSqQL1ZxeYyEdVQdS5nv+?=
+ =?us-ascii?Q?luyNvGLczM8UekgGDxcpgsNuTrZ8WmrMh9IJT6GEL9KMZPvagev/xQH3HqEy?=
+ =?us-ascii?Q?W+aqFfEDyao0sGGMmYhVMIK20deHFquyBEDOiX8Yk7mTlyih4tl1XZEKWl7i?=
+ =?us-ascii?Q?jj8SBXh3zMrYRfo4kifh0yeZzAICE+GurDYkTS1dOrQMF4MIijaKRQ+2ZdfZ?=
+ =?us-ascii?Q?JquqygqYwTcmFlYp3EoZgw3kWOVL6XpZWrS/pvenUTnO17YDBg3otM2KboV8?=
+ =?us-ascii?Q?kedMuTRIZpOuhpcMmjqU/3up8EOKbUGmkM6nhXdDSrWKXjb7Eh+mzLkLCyhp?=
+ =?us-ascii?Q?Y5JUduN09fZayH5w18d2GgPvwIttXw5ACXy5lyeXxgV0W2Lv6MMOKKfEUKvQ?=
+ =?us-ascii?Q?QIh37bn5mvkswA9nc4bfkAmlhhk10b39AnhsjFB9pcHFCrQbaTEfxMWJExGz?=
+ =?us-ascii?Q?ubBjrfZodTrIt7JPvr2DRtn2RbrjsnmegcRlM3tPkSUb9LjwPAjwyloG2S/I?=
+ =?us-ascii?Q?b9yruCjPJ7VSqXKy2+Zf5jHyzoB5L7mQ4gkfsagXDfNgI8A1+PkSNhhWEA+P?=
+ =?us-ascii?Q?1XcBKyKzcHO72LUYltH2ssl1yDzemYO2FF57/83a/kiOZCy1KRKlnON/0970?=
+ =?us-ascii?Q?I2hogjJMVUyY9+3MKBXOLBeU299xuYJrwdW8uezguAjknrx3s46PYcrWAqgW?=
+ =?us-ascii?Q?1vz9xjhlhLOD05yTHh+eZwig5gD81Y38BEQyMPxItVzl5oYOl69Y0WJVw0IC?=
+ =?us-ascii?Q?VxJXJpGdDGkSF4RUYvOAd0RAzor2O8ab8mh5wd25fjIM6qTju8ARXJt69p+8?=
+ =?us-ascii?Q?/b8LnM9EJpEVw/KtCcyMI8pdnnQ1U4vz4M24M4HxHhed6S48+AF4OjRMCuKI?=
+ =?us-ascii?Q?X3XOX76skA1bqP9G11B2nyBwXyHKK4aiUY5Q2G46KqZc8eVTj4HYV9cWqO9F?=
+ =?us-ascii?Q?8EOcL7XuZ+7h0UYl4KGuczWu9VrZq9YI6phcswymxAxOcr5eSf9/LdbAnIm3?=
+ =?us-ascii?Q?jGKONhYDg5hWE+apJZxa5QnugONWfnv8GSWsVSimEdBTIVReVImER4lJyBxj?=
+ =?us-ascii?Q?OHExdJd+K1LWL7DvzBVqKDTnJLL8egnUW1aFx7wRNLUm8aMwFc8rM/2cOPm3?=
+ =?us-ascii?Q?pys4a1vQLXtNzPByppYkyqkx64GmWyW7mvOIWHG9hEBYSUwBaKuF90bwV5Q1?=
+ =?us-ascii?Q?iYKf3qqEXZpLI5EEEmeUp7WVj/FzuE9dB0X/iPWBrW+cOxFHL34pymB+Mqte?=
+ =?us-ascii?Q?AaPXDCh3FIMY/4aIicGQamLWzs5zTg9L+qY94Sg6Vh1o/Flrdkk0dhqLs1Lm?=
+ =?us-ascii?Q?jtOoT/IsIqcLa+lkSDBXP59jtI59z3tjhGZG+mDmKPyf+prYRG2BZVdQAd21?=
+ =?us-ascii?Q?rXOuJSj2kJfoWJ6a5aezf9ivQwCo/Nb6WNc/J5o4IuKfc4ZoaDKUu0jZwY1P?=
+ =?us-ascii?Q?Ec5a6gSZ8WBmMHLBVgPyCTOeHToDKCOVH7xJQ6QhgKk45FjGlkQhDeZzirvS?=
+ =?us-ascii?Q?xy1ONw=3D=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 435d6eaa-9f93-4524-6746-08d9f8b89f9b
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2022 23:43:30.2422 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JdWja6jM6JzqitplVgMMxLzCXaM5CS5wuDDUZO/ugkr3dMIAgkw7zwr6MgMkOvP+HQWLRKDy6F5BI0BNi4yMMKcFBedt0pCYLns8OB9F8VQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4172
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe0e::72e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2a01:111:f400:fe0e::72e;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,89 +138,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/22 11:09, matheus.ferst@eldorado.org.br wrote:
-> From: Víctor Colombo <victor.colombo@eldorado.org.br>
-> 
-> Refactor xs{max,min}cdp VSX_MAX_MINC helper to prepare for
-> xs{max,min}cqp implementation.
-> 
-> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
-> changes for v5:
-> - use float_flag_invalid_snan as suggested by Richard Henderson
-> ---
->   target/ppc/fpu_helper.c | 41 +++++++++++++++++------------------------
->   1 file changed, 17 insertions(+), 24 deletions(-)
-> 
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index 4bfa1c4283..0aaf529ac8 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -2533,40 +2533,33 @@ VSX_MAX_MIN(xsmindp, minnum, 1, float64, VsrD(0))
->   VSX_MAX_MIN(xvmindp, minnum, 2, float64, VsrD(i))
->   VSX_MAX_MIN(xvminsp, minnum, 4, float32, VsrW(i))
->   
-> -#define VSX_MAX_MINC(name, max)                                               \
-> +#define VSX_MAX_MINC(name, max, tp, fld)                                      \
->   void helper_##name(CPUPPCState *env,                                          \
->                      ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)               \
->   {                                                                             \
->       ppc_vsr_t t = { };                                                        \
-> -    bool vxsnan_flag = false, vex_flag = false;                               \
-> +    bool first;                                                               \
->                                                                                 \
-> -    if (unlikely(float64_is_any_nan(xa->VsrD(0)) ||                           \
-> -                 float64_is_any_nan(xb->VsrD(0)))) {                          \
-> -        if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||         \
-> -            float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {         \
-> -            vxsnan_flag = true;                                               \
-> -        }                                                                     \
-> -        t.VsrD(0) = xb->VsrD(0);                                              \
-> -    } else if ((max &&                                                        \
-> -               !float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) ||     \
-> -               (!max &&                                                       \
-> -               float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status))) {      \
-> -        t.VsrD(0) = xa->VsrD(0);                                              \
-> +    if (max) {                                                                \
-> +        first = tp##_le_quiet(xb->fld, xa->fld, &env->fp_status);             \
->       } else {                                                                  \
-> -        t.VsrD(0) = xb->VsrD(0);                                              \
-> +        first = tp##_lt_quiet(xa->fld, xb->fld, &env->fp_status);             \
->       }                                                                         \
->                                                                                 \
-> -    vex_flag = fpscr_ve & vxsnan_flag;                                        \
-> -    if (vxsnan_flag) {                                                        \
-> -        float_invalid_op_vxsnan(env, GETPC());                                \
-> +    if (first) {                                                              \
-> +        t.fld = xa->fld;                                                      \
-> +    } else {                                                                  \
-> +        t.fld = xb->fld;                                                      \
-> +        if (env->fp_status.float_exception_flags & float_flag_invalid_snan) { \
-> +            float_invalid_op_vxsnan(env, GETPC());                            \
-> +        }                                                                     \
->       }                                                                         \
-> -    if (!vex_flag) {                                                          \
-> -        *xt = t;                                                              \
-> -    }                                                                         \
-> -}                                                                             \
-> +                                                                              \
-> +    *xt = t;                                                                  \
-> +}
+Hi all!
 
-I just noticed that we're missing reset_fpstatus at the beginning here.
-Since invalid via snan is the only possible exception for min/max, we do not need 
-do_float_check_status at the end.
+Finally, that's a proposal for new interface for filter insertion, which
+provides generic way for inserting between different block graph nodes,
+like BDS nodes, block exports and block devices.
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+v3: - add transaction support
+    - add test, that shows transactional filter insertion in different
+      cases
+    - drop RFC mark. I think it's now close to be a good solution. And
+      anyway, no comments on "RFC v2" version :) Still, I want to keep
+      x- prefix for now, just because there were too many different
+      ideas on this topic.
 
+Vladimir Sementsov-Ogievskiy (11):
+  block-backend: blk_root(): drop const specifier on return type
+  block/export: add blk_by_export_id()
+  block: make bdrv_find_child() function public
+  block: bdrv_replace_child_bs(): move to external transaction
+  qapi: add x-blockdev-replace command
+  qapi: add x-blockdev-replace transaction action
+  block: bdrv_get_xdbg_block_graph(): report export ids
+  iotests.py: qemu_img_create: use imgfmt by default
+  iotests.py: introduce VM.assert_edges_list() method
+  iotests.py: add VM.qmp_check() helper
+  iotests: add filter-insertion
 
-r~
+ qapi/block-core.json                          |  62 +++++
+ qapi/transaction.json                         |  14 +-
+ include/block/block.h                         |   2 +-
+ include/block/block_int.h                     |   1 +
+ include/block/export.h                        |   1 +
+ include/sysemu/block-backend.h                |   3 +-
+ block.c                                       |  59 ++--
+ block/block-backend.c                         |  10 +-
+ block/export/export.c                         |  31 +++
+ blockdev.c                                    | 113 +++++++-
+ stubs/blk-by-qdev-id.c                        |   9 +
+ stubs/blk-exp-find-by-blk.c                   |   9 +
+ stubs/meson.build                             |   2 +
+ tests/qemu-iotests/iotests.py                 |  23 ++
+ tests/qemu-iotests/tests/filter-insertion     | 253 ++++++++++++++++++
+ tests/qemu-iotests/tests/filter-insertion.out |   5 +
+ 16 files changed, 563 insertions(+), 34 deletions(-)
+ create mode 100644 stubs/blk-by-qdev-id.c
+ create mode 100644 stubs/blk-exp-find-by-blk.c
+ create mode 100755 tests/qemu-iotests/tests/filter-insertion
+ create mode 100644 tests/qemu-iotests/tests/filter-insertion.out
+
+-- 
+2.31.1
+
 
