@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0336A4C40C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 09:58:03 +0100 (CET)
-Received: from localhost ([::1]:59976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC994C40A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 09:53:25 +0100 (CET)
+Received: from localhost ([::1]:57336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNWQH-0001aw-Lx
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 03:58:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49250)
+	id 1nNWLr-00085F-KD
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 03:53:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nNVhf-0003u6-Kv
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:11:52 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:44662 helo=loongson.cn)
+ id 1nNVaD-0008BM-Hc
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:12 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:42208 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVha-0004gj-Rt
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:11:51 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVZt-0002TE-EI
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:09 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S8;
- Fri, 25 Feb 2022 16:03:13 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S10; 
+ Fri, 25 Feb 2022 16:03:14 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v6 06/29] target/loongarch: Add MMU support for LoongArch
- CPU.
-Date: Fri, 25 Feb 2022 03:02:45 -0500
-Message-Id: <20220225080308.1405-7-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v6 08/29] target/loongarch: Add LoongArch IOCSR instruction
+Date: Fri, 25 Feb 2022 03:02:47 -0500
+Message-Id: <20220225080308.1405-9-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S8
-X-Coremail-Antispam: 1UD129KBjvAXoWfJry8KrWUKr18XF45Ww45KFg_yoW8AF13Jo
- W3ZF45Ja1xGr4F9Fn5Cr9IqFW2qFyDCF48C3s7Zr45Wa1xAryUKFyxKa4Yy3W7Gr1kXF4k
- Aay2gFnxJFZrZry3n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
+X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S10
+X-Coremail-Antispam: 1UD129KBjvJXoW3CF17Jw1fKFW3Ww4DXFWfGrg_yoWDZr4rpr
+ 17Cr1jkrW8G393AasYgw13WFn8ZFs7ua17XaySyw1F9w47XF9rZrW8t34agFWUJrykXrW8
+ XF4rA3yjqFW5XaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -62,586 +61,367 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This includes:
+- IOCSR{RD/WR}.{B/H/W/D}
+
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/cpu-param.h  |   2 +-
- target/loongarch/cpu.c        |  30 ++++
- target/loongarch/cpu.h        |  42 ++++-
- target/loongarch/internals.h  |   9 +
- target/loongarch/machine.c    |  17 ++
- target/loongarch/meson.build  |   1 +
- target/loongarch/op_helper.c  |   8 +
- target/loongarch/tlb_helper.c | 316 ++++++++++++++++++++++++++++++++++
- 8 files changed, 423 insertions(+), 2 deletions(-)
- create mode 100644 target/loongarch/tlb_helper.c
+ target/loongarch/cpu.h                        |   4 +
+ target/loongarch/disas.c                      |   8 +
+ target/loongarch/helper.h                     |   2 +
+ .../insn_trans/trans_privileged.c.inc         | 103 +++++++++++++
+ target/loongarch/insns.decode                 |   9 ++
+ target/loongarch/iocsr_helper.c               | 139 ++++++++++++++++++
+ target/loongarch/meson.build                  |   1 +
+ 7 files changed, 266 insertions(+)
+ create mode 100644 target/loongarch/iocsr_helper.c
 
-diff --git a/target/loongarch/cpu-param.h b/target/loongarch/cpu-param.h
-index 9a769b67e0..414d8fff46 100644
---- a/target/loongarch/cpu-param.h
-+++ b/target/loongarch/cpu-param.h
-@@ -13,6 +13,6 @@
- #define TARGET_VIRT_ADDR_SPACE_BITS 48
- 
- #define TARGET_PAGE_BITS 14
--#define NB_MMU_MODES 4
-+#define NB_MMU_MODES 5
- 
- #endif
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index d89fa3cc6b..880801fa51 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -294,6 +294,23 @@ void loongarch_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-         }
-     }
- 
-+#ifndef CONFIG_USER_ONLY
-+    qemu_fprintf(f, "CRMD=%016" PRIx64 "\n", env->CSR_CRMD);
-+    qemu_fprintf(f, "PRMD=%016" PRIx64 "\n", env->CSR_PRMD);
-+    qemu_fprintf(f, "EUEN=%016" PRIx64 "\n", env->CSR_EUEN);
-+    qemu_fprintf(f, "ESTAT=%016" PRIx64 "\n", env->CSR_ESTAT);
-+    qemu_fprintf(f, "ERA=%016" PRIx64 "\n", env->CSR_ERA);
-+    qemu_fprintf(f, "BADV=%016" PRIx64 "\n", env->CSR_BADV);
-+    qemu_fprintf(f, "BADI=%016" PRIx64 "\n", env->CSR_BADI);
-+    qemu_fprintf(f, "EENTRY=%016" PRIx64 "\n", env->CSR_EENTRY);
-+    qemu_fprintf(f, "PRCFG1=%016" PRIx64 ", PRCFG2=%016" PRIx64 ","
-+                 " PRCFG3=%016" PRIx64 "\n",
-+                 env->CSR_PRCFG1, env->CSR_PRCFG3, env->CSR_PRCFG3);
-+    qemu_fprintf(f, "TLBRENTRY=%016" PRIx64 "\n", env->CSR_TLBRENTRY);
-+    qemu_fprintf(f, "TLBRBADV=%016" PRIx64 "\n", env->CSR_TLBRBADV);
-+    qemu_fprintf(f, "TLBRERA=%016" PRIx64 "\n", env->CSR_TLBRERA);
-+#endif
-+
-     /* fpr */
-     if (flags & CPU_DUMP_FPU) {
-         for (i = 0; i < 32; i++) {
-@@ -311,9 +328,21 @@ void loongarch_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- static struct TCGCPUOps loongarch_tcg_ops = {
-     .initialize = loongarch_translate_init,
-     .synchronize_from_tb = loongarch_cpu_synchronize_from_tb,
-+
-+#if !defined(CONFIG_USER_ONLY)
-+    .tlb_fill = loongarch_cpu_tlb_fill,
-+#endif /* !CONFIG_USER_ONLY */
- };
- #endif /* CONFIG_TCG */
- 
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/core/sysemu-cpu-ops.h"
-+
-+static const struct SysemuCPUOps loongarch_sysemu_ops = {
-+    .get_phys_page_debug = loongarch_cpu_get_phys_page_debug,
-+};
-+#endif
-+
- static void loongarch_cpu_class_init(ObjectClass *c, void *data)
- {
-     LoongArchCPUClass *lacc = LOONGARCH_CPU_CLASS(c);
-@@ -330,6 +359,7 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
-     cc->set_pc = loongarch_cpu_set_pc;
- #ifndef CONFIG_USER_ONLY
-     dc->vmsd = &vmstate_loongarch_cpu;
-+    cc->sysemu_ops = &loongarch_sysemu_ops;
- #endif
-     cc->disas_set_info = loongarch_cpu_disas_set_info;
- #ifdef CONFIG_TCG
 diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index 95955bd8df..bbc7fedde6 100644
+index 9a8306ecbb..581da7b423 100644
 --- a/target/loongarch/cpu.h
 +++ b/target/loongarch/cpu.h
-@@ -152,6 +152,26 @@ extern const char * const fregnames[32];
+@@ -151,6 +151,7 @@ extern const char * const fregnames[32];
+ 
  #define N_IRQS      14
  #define IRQ_TIMER   11
++#define IRQ_IPI     12
  
-+#define LOONGARCH_STLB         2048 /* 2048 STLB */
-+#define LOONGARCH_MTLB         64   /* 64 MTLB */
-+#define LOONGARCH_TLB_MAX      (LOONGARCH_STLB + LOONGARCH_MTLB)
-+
-+/*
-+ * define the ASID PS E VPPN field of TLB
-+ */
-+FIELD(TLB_MISC, E, 0, 1)
-+FIELD(TLB_MISC, ASID, 1, 10)
-+FIELD(TLB_MISC, VPPN, 13, 35)
-+FIELD(TLB_MISC, PS, 48, 6)
-+
-+struct LoongArchTLB {
-+    uint64_t tlb_misc;
-+    /* Fields corresponding to CSR_TLBELO0/1 */
-+    uint64_t tlb_entry0;
-+    uint64_t tlb_entry1;
-+};
-+typedef struct LoongArchTLB LoongArchTLB;
-+
- typedef struct CPULoongArchState CPULoongArchState;
- struct CPULoongArchState {
-     uint64_t gpr[32];
-@@ -226,6 +246,10 @@ struct CPULoongArchState {
-     uint64_t CSR_DBG;
-     uint64_t CSR_DERA;
-     uint64_t CSR_DSAVE;
-+
-+#ifndef CONFIG_USER_ONLY
-+    LoongArchTLB  tlb[LOONGARCH_TLB_MAX];
-+#endif
- };
- 
- /**
-@@ -265,11 +289,27 @@ struct LoongArchCPUClass {
-     DeviceReset parent_reset;
- };
- 
--#define MMU_USER_IDX 3
-+/*
-+ * LoongArch CPUs has 4 privilege levels.
-+ * 0 for kernel mode, 3 for user mode.
-+ * Define an extra index for DA(direct addressing) mode.
-+ */
-+#define MMU_KERNEL_IDX   0
-+#define MMU_USER_IDX     3
-+#define MMU_DA_IDX       4
- 
- static inline int cpu_mmu_index(CPULoongArchState *env, bool ifetch)
- {
-+#ifdef CONFIG_USER_ONLY
-     return MMU_USER_IDX;
-+#else
-+    uint8_t pg = FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PG);
-+
-+    if (!pg) {
-+        return MMU_DA_IDX;
-+    }
-+    return FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PLV);
-+#endif
- }
- 
- static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
-diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
-index c8e6f7012c..5fc1a4bb07 100644
---- a/target/loongarch/internals.h
-+++ b/target/loongarch/internals.h
-@@ -13,6 +13,9 @@
- #define FCMP_UN   0b0100  /* unordered */
- #define FCMP_GT   0b1000  /* fp0 > fp1 */
- 
-+#define TARGET_PHYS_MASK MAKE_64BIT_MASK(0, TARGET_PHYS_ADDR_SPACE_BITS)
-+#define TARGET_VIRT_MASK MAKE_64BIT_MASK(0, TARGET_VIRT_ADDR_SPACE_BITS)
-+
- void loongarch_translate_init(void);
- 
- void loongarch_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
-@@ -27,6 +30,12 @@ void restore_fp_status(CPULoongArchState *env);
+ #define LOONGARCH_STLB         2048 /* 2048 STLB */
+ #define LOONGARCH_MTLB         64   /* 64 MTLB */
+@@ -249,6 +250,9 @@ struct CPULoongArchState {
  
  #ifndef CONFIG_USER_ONLY
- extern const VMStateDescription vmstate_loongarch_cpu;
+     LoongArchTLB  tlb[LOONGARCH_TLB_MAX];
 +
-+bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                            MMUAccessType access_type, int mmu_idx,
-+                            bool probe, uintptr_t retaddr);
-+
-+hwaddr loongarch_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
++    AddressSpace address_space_iocsr;
++    MemoryRegion system_iocsr;
  #endif
+ };
  
- #endif
-diff --git a/target/loongarch/machine.c b/target/loongarch/machine.c
-index d738c9c6f0..e710f3480e 100644
---- a/target/loongarch/machine.c
-+++ b/target/loongarch/machine.c
-@@ -8,6 +8,20 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "migration/cpu.h"
-+#include "internals.h"
+diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
+index b83022468e..90f469bdc0 100644
+--- a/target/loongarch/disas.c
++++ b/target/loongarch/disas.c
+@@ -532,6 +532,14 @@ INSN(bgeu,         rr_offs)
+ INSN(csrrd,        r_csr)
+ INSN(csrwr,        r_csr)
+ INSN(csrxchg,      rr_csr)
++INSN(iocsrrd_b,    rr)
++INSN(iocsrrd_h,    rr)
++INSN(iocsrrd_w,    rr)
++INSN(iocsrrd_d,    rr)
++INSN(iocsrwr_b,    rr)
++INSN(iocsrwr_h,    rr)
++INSN(iocsrwr_w,    rr)
++INSN(iocsrwr_d,    rr)
+ 
+ #define output_fcmp(C, PREFIX, SUFFIX)                                         \
+ {                                                                              \
+diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
+index 036dbf31f8..1bcd082858 100644
+--- a/target/loongarch/helper.h
++++ b/target/loongarch/helper.h
+@@ -98,4 +98,6 @@ DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_RWG, void, env, i32)
+ DEF_HELPER_2(csr_rdq, i64, env, i64)
+ DEF_HELPER_3(csr_wrq, i64, env, tl, i64)
+ DEF_HELPER_4(csr_xchgq, i64, env, tl, tl, i64)
++DEF_HELPER_3(iocsr_read, i64, env, tl, i32)
++DEF_HELPER_4(iocsr_write, void, env, tl, tl, i32)
+ #endif /* !CONFIG_USER_ONLY */
+diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
+index 9354697894..30f1e688e8 100644
+--- a/target/loongarch/insn_trans/trans_privileged.c.inc
++++ b/target/loongarch/insn_trans/trans_privileged.c.inc
+@@ -18,6 +18,14 @@ static bool trans_##name(DisasContext *ctx, arg_##name * a)  \
+ GEN_FALSE_TRANS(csrrd)
+ GEN_FALSE_TRANS(csrwr)
+ GEN_FALSE_TRANS(csrxchg)
++GEN_FALSE_TRANS(iocsrrd_b)
++GEN_FALSE_TRANS(iocsrrd_h)
++GEN_FALSE_TRANS(iocsrrd_w)
++GEN_FALSE_TRANS(iocsrrd_d)
++GEN_FALSE_TRANS(iocsrwr_b)
++GEN_FALSE_TRANS(iocsrwr_h)
++GEN_FALSE_TRANS(iocsrwr_w)
++GEN_FALSE_TRANS(iocsrwr_d)
+ 
+ #else
+ 
+@@ -122,4 +130,99 @@ static bool trans_csrxchg(DisasContext *ctx, arg_csrxchg *a)
+     return true;
+ }
+ 
++static bool trans_iocsrrd_b(DisasContext *ctx, arg_iocsrrd_b *a)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
 +
-+/* TLB state */
-+const VMStateDescription vmstate_tlb = {
-+    .name = "cpu/tlb",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(tlb_misc, LoongArchTLB),
-+        VMSTATE_UINT64(tlb_entry0, LoongArchTLB),
-+        VMSTATE_UINT64(tlb_entry1, LoongArchTLB),
-+        VMSTATE_END_OF_LIST()
++    if (check_plv(ctx)) {
++        return false;
 +    }
-+};
- 
- /* LoongArch CPU state */
- 
-@@ -79,6 +93,9 @@ const VMStateDescription vmstate_loongarch_cpu = {
-         VMSTATE_UINT64(env.CSR_DBG, LoongArchCPU),
-         VMSTATE_UINT64(env.CSR_DERA, LoongArchCPU),
-         VMSTATE_UINT64(env.CSR_DSAVE, LoongArchCPU),
-+        /* TLB */
-+        VMSTATE_STRUCT_ARRAY(env.tlb, LoongArchCPU, LOONGARCH_TLB_MAX,
-+                             0, vmstate_tlb, LoongArchTLB),
- 
-         VMSTATE_END_OF_LIST()
-     },
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-index 6168e910a0..6bf2d88104 100644
---- a/target/loongarch/meson.build
-+++ b/target/loongarch/meson.build
-@@ -18,6 +18,7 @@ loongarch_softmmu_ss = ss.source_set()
- loongarch_softmmu_ss.add(files(
-   'machine.c',
-   'constant_timer.c',
-+  'tlb_helper.c',
- ))
- 
- loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
-index 1083e39b7f..48c25e5a9b 100644
---- a/target/loongarch/op_helper.c
-+++ b/target/loongarch/op_helper.c
-@@ -47,16 +47,24 @@ target_ulong helper_bitswap(target_ulong v)
- void helper_asrtle_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
- {
-     if (rj > rk) {
-+#ifdef CONFIG_USER_ONLY
-         cpu_loop_exit_sigsegv(env_cpu(env), GETPC(),
-                               MMU_DATA_LOAD, true, GETPC());
-+#else
-+        do_raise_exception(env, EXCCODE_ADEM, GETPC());
-+#endif
-     }
++    gen_helper_iocsr_read(dest, cpu_env, src1, tcg_constant_i32(1));
++    return true;
++}
++
++static bool trans_iocsrrd_h(DisasContext *ctx, arg_iocsrrd_h *a)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++
++    if (check_plv(ctx)) {
++        return false;
++    }
++    gen_helper_iocsr_read(dest, cpu_env, src1, tcg_constant_i32(2));
++    return true;
++}
++
++static bool trans_iocsrrd_w(DisasContext *ctx, arg_iocsrrd_w *a)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++
++    if (check_plv(ctx)) {
++        return false;
++    }
++    gen_helper_iocsr_read(dest, cpu_env, src1, tcg_constant_i32(4));
++    return true;
++}
++
++static bool trans_iocsrrd_d(DisasContext *ctx, arg_iocsrrd_d *a)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++
++    if (check_plv(ctx)) {
++        return false;
++    }
++    gen_helper_iocsr_read(dest, cpu_env, src1, tcg_constant_i32(8));
++    return true;
++}
++
++static bool trans_iocsrwr_b(DisasContext *ctx, arg_iocsrwr_b *a)
++{
++    TCGv val = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++
++    if (check_plv(ctx)) {
++        return false;
++    }
++    gen_helper_iocsr_write(cpu_env, addr, val, tcg_constant_i32(1));
++    return true;
++}
++
++static bool trans_iocsrwr_h(DisasContext *ctx, arg_iocsrwr_h *a)
++{
++    TCGv val = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++
++    if (check_plv(ctx)) {
++        return false;
++    }
++    gen_helper_iocsr_write(cpu_env, addr, val, tcg_constant_i32(2));
++    return true;
++}
++
++static bool trans_iocsrwr_w(DisasContext *ctx, arg_iocsrwr_w *a)
++{
++    TCGv val = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++
++    if (check_plv(ctx)) {
++        return false;
++    }
++    gen_helper_iocsr_write(cpu_env, addr, val, tcg_constant_i32(4));
++    return true;
++}
++
++static bool trans_iocsrwr_d(DisasContext *ctx, arg_iocsrwr_d *a)
++{
++    TCGv val = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++
++    if (check_plv(ctx)) {
++        return false;
++    }
++    gen_helper_iocsr_write(cpu_env, addr, val, tcg_constant_i32(8));
++    return true;
++}
+ #endif
+diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
+index 647fcb9def..9a43f288c3 100644
+--- a/target/loongarch/insns.decode
++++ b/target/loongarch/insns.decode
+@@ -453,3 +453,12 @@ bgeu            0110 11 ................ ..... .....     @rr_offs16
+   csrwr             0000 0100 .............. 00001 .....     @r_csr
+   csrxchg           0000 0100 .............. ..... .....     @rr_csr
  }
- 
- void helper_asrtgt_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
- {
-     if (rj <= rk) {
-+#ifdef CONFIG_USER_ONLY
-         cpu_loop_exit_sigsegv(env_cpu(env), GETPC(),
-                               MMU_DATA_LOAD, true, GETPC());
-+#else
-+        do_raise_exception(env, EXCCODE_ADEM, GETPC());
-+#endif
-     }
- }
- 
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
++
++iocsrrd_b        0000 01100100 10000 00000 ..... .....    @rr
++iocsrrd_h        0000 01100100 10000 00001 ..... .....    @rr
++iocsrrd_w        0000 01100100 10000 00010 ..... .....    @rr
++iocsrrd_d        0000 01100100 10000 00011 ..... .....    @rr
++iocsrwr_b        0000 01100100 10000 00100 ..... .....    @rr
++iocsrwr_h        0000 01100100 10000 00101 ..... .....    @rr
++iocsrwr_w        0000 01100100 10000 00110 ..... .....    @rr
++iocsrwr_d        0000 01100100 10000 00111 ..... .....    @rr
+diff --git a/target/loongarch/iocsr_helper.c b/target/loongarch/iocsr_helper.c
 new file mode 100644
-index 0000000000..992d87493a
+index 0000000000..72ac3806b6
 --- /dev/null
-+++ b/target/loongarch/tlb_helper.c
-@@ -0,0 +1,316 @@
++++ b/target/loongarch/iocsr_helper.c
+@@ -0,0 +1,139 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * QEMU LoongArch TLB helpers
-+ *
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + *
++ * Helpers for IOCSR reads/writes
 + */
 +
 +#include "qemu/osdep.h"
-+
++#include "qemu/main-loop.h"
 +#include "cpu.h"
 +#include "internals.h"
++#include "qemu/host-utils.h"
++#include "exec/helper-proto.h"
 +#include "exec/exec-all.h"
 +#include "exec/cpu_ldst.h"
-+#include "exec/log.h"
++#include "hw/irq.h"
 +#include "cpu-csr.h"
++#include "hw/loongarch/loongarch.h"
++#include "tcg/tcg-ldst.h"
 +
-+enum {
-+    TLBRET_MATCH = 0,
-+    TLBRET_BADADDR = 1,
-+    TLBRET_NOMATCH = 2,
-+    TLBRET_INVALID = 3,
-+    TLBRET_DIRTY = 4,
-+    TLBRET_RI = 5,
-+    TLBRET_XI = 6,
-+    TLBRET_PE = 7,
-+};
-+
-+static int loongarch_map_tlb_entry(CPULoongArchState *env, hwaddr *physical,
-+                                   int *prot, target_ulong address,
-+                                   int access_type, int index, int mmu_idx)
++uint64_t helper_iocsr_read(CPULoongArchState *env, target_ulong r_addr,
++                           uint32_t size)
 +{
-+    LoongArchTLB *tlb = &env->tlb[index];
-+    uint64_t plv = mmu_idx;
-+    uint64_t tlb_entry, tlb_ppn;
-+    uint8_t tlb_ps, n, tlb_v, tlb_d, tlb_plv, tlb_nx, tlb_nr, tlb_rplv;
-+
-+    if (index >= LOONGARCH_STLB) {
-+        tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
-+    } else {
-+        tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+    }
-+    n = (address >> tlb_ps) & 0x1;/* Odd or even */
-+
-+    tlb_entry = n ? tlb->tlb_entry1 : tlb->tlb_entry0;
-+    tlb_v = FIELD_EX64(tlb_entry, TLBENTRY, V);
-+    tlb_d = FIELD_EX64(tlb_entry, TLBENTRY, D);
-+    tlb_plv = FIELD_EX64(tlb_entry, TLBENTRY, PLV);
-+    tlb_ppn = FIELD_EX64(tlb_entry, TLBENTRY, PPN);
-+    tlb_nx = FIELD_EX64(tlb_entry, TLBENTRY, NX);
-+    tlb_nr = FIELD_EX64(tlb_entry, TLBENTRY, NR);
-+    tlb_rplv = FIELD_EX64(tlb_entry, TLBENTRY, RPLV);
-+
-+    /* Check access rights */
-+    if (!tlb_v) {
-+        return TLBRET_INVALID;
-+    }
-+
-+    if (access_type == MMU_INST_FETCH && tlb_nx) {
-+        return TLBRET_XI;
-+    }
-+
-+    if (access_type == MMU_DATA_LOAD && tlb_nr) {
-+        return TLBRET_RI;
-+    }
-+
-+    if (((tlb_rplv == 0) && (plv > tlb_plv)) ||
-+        ((tlb_rplv == 1) && (plv != tlb_plv))) {
-+        return TLBRET_PE;
-+    }
-+
-+    if ((access_type == MMU_DATA_STORE) && !tlb_d) {
-+        return TLBRET_DIRTY;
-+    }
++    int cpuid = env_cpu(env)->cpu_index;
++    CPUState  *cs = qemu_get_cpu(cpuid);
++    env = cs->env_ptr;
++    uint64_t ret;
 +
 +    /*
-+     * tlb_entry contains ppn[47:12] while 16KiB ppn is [47:15]
-+     * need adjust.
++     * Adjust the per core address such as 0x10xx(IPI)/0x18xx(EXTIOI)
 +     */
-+    *physical = (tlb_ppn << R_TLBENTRY_PPN_SHIFT) |
-+                (address & MAKE_64BIT_MASK(0, tlb_ps));
-+    *prot = PAGE_READ;
-+    if (tlb_d) {
-+        *prot |= PAGE_WRITE;
-+    }
-+    if (!tlb_nx) {
-+        *prot |= PAGE_EXEC;
-+    }
-+    return TLBRET_MATCH;
-+}
-+
-+/*
-+ * One tlb entry holds an adjacent odd/even pair, the vpn is the
-+ * content of the virtual page number divided by 2. So the
-+ * compare vpn is bit[47:15] for 16KiB page. while the vppn
-+ * field in tlb entry contains bit[47:13], so need adjust.
-+ * virt_vpn = vaddr[47:13]
-+ */
-+static bool loongarch_tlb_search(CPULoongArchState *env, target_ulong vaddr,
-+                                 int *index)
-+{
-+    LoongArchTLB *tlb;
-+    uint16_t csr_asid, tlb_asid, stlb_idx;
-+    uint8_t tlb_e, tlb_ps, tlb_g, stlb_ps;
-+    int i, compare_shift;
-+    uint64_t vpn, tlb_vppn;
-+
-+    csr_asid = FIELD_EX64(env->CSR_ASID, CSR_ASID, ASID);
-+    stlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-+    vpn = (vaddr & TARGET_VIRT_MASK) >> (stlb_ps + 1);
-+    stlb_idx = vpn & 0xff; /* VA[25:15] <==> TLBIDX.index for 16KiB Page */
-+    compare_shift = stlb_ps + 1 - R_TLB_MISC_VPPN_SHIFT;
-+
-+    /* Search STLB */
-+    for (i = 0; i < 8; ++i) {
-+        tlb = &env->tlb[i * 256 + stlb_idx];
-+        tlb_e = FIELD_EX64(tlb->tlb_misc, TLB_MISC, E);
-+        if (tlb_e) {
-+            tlb_vppn = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN);
-+            tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+            tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+
-+            if ((tlb_g == 1 || tlb_asid == csr_asid) &&
-+                (vpn == (tlb_vppn >> compare_shift))) {
-+                *index = i * 256 + stlb_idx;
-+                return true;
-+            }
-+        }
++    if (((r_addr & 0xff00) == 0x1000) || ((r_addr & 0xff00) == 0x1800)) {
++        r_addr = r_addr + ((target_ulong)(cpuid & 0x3) << 8);
 +    }
 +
-+    /* Search MTLB */
-+    for (i = LOONGARCH_STLB; i < LOONGARCH_TLB_MAX; ++i) {
-+        tlb = &env->tlb[i];
-+        tlb_e = FIELD_EX64(tlb->tlb_misc, TLB_MISC, E);
-+        if (tlb_e) {
-+            tlb_vppn = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN);
-+            tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
-+            tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
-+            tlb_g = FIELD_EX64(tlb->tlb_entry0, TLBENTRY, G);
-+            compare_shift = tlb_ps + 1 - R_TLB_MISC_VPPN_SHIFT;
-+            vpn = (vaddr & TARGET_VIRT_MASK) >> (tlb_ps + 1);
-+            if ((tlb_g == 1 || tlb_asid == csr_asid) &&
-+                (vpn == (tlb_vppn >> compare_shift))) {
-+                *index = i;
-+                return true;
-+            }
-+        }
-+    }
-+    return false;
-+}
-+
-+static int loongarch_map_address(CPULoongArchState *env, hwaddr *physical,
-+                                 int *prot, target_ulong address,
-+                                 MMUAccessType access_type, int mmu_idx)
-+{
-+    int index, match;
-+
-+    match = loongarch_tlb_search(env, address, &index);
-+    if (match) {
-+        return loongarch_map_tlb_entry(env, physical, prot,
-+                                       address, access_type, index, mmu_idx);
-+    }
-+
-+    return TLBRET_NOMATCH;
-+}
-+
-+static int get_physical_address(CPULoongArchState *env, hwaddr *physical,
-+                                int *prot, target_ulong address,
-+                                MMUAccessType access_type, int mmu_idx)
-+{
-+    int user_mode = mmu_idx == MMU_USER_IDX;
-+    int kernel_mode = mmu_idx == MMU_KERNEL_IDX;
-+    uint32_t plv, base_c, base_v;
-+    int64_t addr_high;
-+    uint8_t da = FIELD_EX64(env->CSR_CRMD, CSR_CRMD, DA);
-+    uint8_t pg = FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PG);
-+
-+    /* Check PG and DA */
-+    if (da & !pg) {
-+        *physical = address & TARGET_PHYS_MASK;
-+        *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+        return TLBRET_MATCH;
-+    }
-+
-+    plv = kernel_mode | (user_mode << R_CSR_DMW_PLV3_SHIFT);
-+    base_v = address >> TARGET_VIRT_ADDR_SPACE_BITS;
-+    /* Check direct map window */
-+    for (int i = 0; i < 4; i++) {
-+        base_c = env->CSR_DMW[i] >> TARGET_VIRT_ADDR_SPACE_BITS;
-+        if ((plv & env->CSR_DMW[i]) && (base_c == base_v)) {
-+            *physical = dmw_va2pa(address);
-+            *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+            return TLBRET_MATCH;
-+        }
-+    }
-+
-+    /* Check valid extension */
-+    addr_high = sextract64(address, TARGET_VIRT_ADDR_SPACE_BITS, 16);
-+    if (!(addr_high == 0 || addr_high == -1)) {
-+        return TLBRET_BADADDR;
-+    }
-+
-+    /* Mapped address */
-+    return loongarch_map_address(env, physical, prot, address,
-+                                 access_type, mmu_idx);
-+}
-+
-+hwaddr loongarch_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-+{
-+    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    CPULoongArchState *env = &cpu->env;
-+    hwaddr phys_addr;
-+    int prot;
-+
-+    if (get_physical_address(env, &phys_addr, &prot, addr, MMU_DATA_LOAD,
-+                             cpu_mmu_index(env, false)) != 0) {
-+        return -1;
-+    }
-+    return phys_addr;
-+}
-+
-+static void raise_mmu_exception(CPULoongArchState *env, target_ulong address,
-+                                MMUAccessType access_type, int tlb_error)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    switch (tlb_error) {
++    switch (size) {
++    case 1:
++        ret = address_space_ldub(&env->address_space_iocsr, r_addr,
++                                 MEMTXATTRS_UNSPECIFIED, NULL);
++        break;
++    case 2:
++        ret = address_space_lduw(&env->address_space_iocsr, r_addr,
++                                 MEMTXATTRS_UNSPECIFIED, NULL);
++        break;
++    case 4:
++        ret = address_space_ldl(&env->address_space_iocsr, r_addr,
++                                MEMTXATTRS_UNSPECIFIED, NULL);
++        break;
++    case 8:
++        ret = address_space_ldq(&env->address_space_iocsr, r_addr,
++                                MEMTXATTRS_UNSPECIFIED, NULL);
++        break;
 +    default:
-+    case TLBRET_BADADDR:
-+        cs->exception_index = EXCCODE_ADEM;
-+        break;
-+    case TLBRET_NOMATCH:
-+        /* No TLB match for a mapped address */
-+        if (access_type == MMU_DATA_LOAD) {
-+            cs->exception_index = EXCCODE_PIL;
-+        } else if (access_type == MMU_DATA_STORE) {
-+            cs->exception_index = EXCCODE_PIS;
-+        } else if (access_type == MMU_INST_FETCH) {
-+            cs->exception_index = EXCCODE_PIF;
-+        }
-+        env->CSR_TLBRERA = FIELD_DP64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR, 1);
-+        break;
-+    case TLBRET_INVALID:
-+        /* TLB match with no valid bit */
-+        if (access_type == MMU_DATA_LOAD) {
-+            cs->exception_index = EXCCODE_PIL;
-+        } else if (access_type == MMU_DATA_STORE) {
-+            cs->exception_index = EXCCODE_PIS;
-+        } else if (access_type == MMU_INST_FETCH) {
-+            cs->exception_index = EXCCODE_PIF;
-+        }
-+        break;
-+    case TLBRET_DIRTY:
-+        /* TLB match but 'D' bit is cleared */
-+        cs->exception_index = EXCCODE_PME;
-+        break;
-+    case TLBRET_XI:
-+        /* Execute-Inhibit Exception */
-+        cs->exception_index = EXCCODE_PNX;
-+        break;
-+    case TLBRET_RI:
-+        /* Read-Inhibit Exception */
-+        cs->exception_index = EXCCODE_PNR;
-+        break;
-+    case TLBRET_PE:
-+        /* Privileged Exception */
-+        cs->exception_index = EXCCODE_PPI;
 +        break;
 +    }
 +
-+    if (tlb_error == TLBRET_NOMATCH) {
-+        env->CSR_TLBRBADV = address;
-+        env->CSR_TLBREHI = FIELD_DP64(env->CSR_TLBREHI, CSR_TLBREHI, VPPN,
-+                                      extract64(address, 13, 35));
-+    } else {
-+        if (!FIELD_EX64(env->CSR_DBG, CSR_DBG, DST)) {
-+            env->CSR_BADV = address;
-+        }
-+        env->CSR_TLBEHI = address & (TARGET_PAGE_MASK << 1);
-+   }
++    return ret;
 +}
 +
-+bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                            MMUAccessType access_type, int mmu_idx,
-+                            bool probe, uintptr_t retaddr)
++void helper_iocsr_write(CPULoongArchState *env, target_ulong w_addr,
++                        target_ulong val, uint32_t size)
 +{
-+    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    CPULoongArchState *env = &cpu->env;
-+    hwaddr physical;
-+    int prot;
-+    int ret = TLBRET_BADADDR;
++    int cpuid = env_cpu(env)->cpu_index;
++    CPUState *cs = qemu_get_cpu(cpuid);
++    int mask, i;
++    env = cs->env_ptr;
 +
-+    /* Data access */
-+    ret = get_physical_address(env, &physical, &prot, address,
-+                               access_type, mmu_idx);
++    /*
++     * For IPI send, Mailbox send and ANY send, adjust the addr and
++     * val accordingly. The IOCSR writes are turned to different
++     * MMIO writes respectively
++     */
++    switch (w_addr) {
++    case 0x1040: /* IPI send */
++        cpuid = (val >> 16) & 0x3ff;
++        val = 1UL << (val & 0x1f);
++        if (val) {
++            qemu_mutex_lock_iothread();
++            cs = qemu_get_cpu(cpuid);
++            env = cs->env_ptr;
++            env->CSR_ESTAT |= 1 << IRQ_IPI;
++            cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++            qemu_mutex_unlock_iothread();
++        }
++        break;
++    case 0x1048: /* Mail Send */
++        cpuid = (val >> 16) & 0x3ff;
++        w_addr = 0x1020 + (val & 0x1c);
++        val = val >> 32;
++        mask = (val >> 27) & 0xf;
++        size = 4;
++        env = (qemu_get_cpu(cpuid))->env_ptr;
++        break;
++    case 0x1158: /* ANY send */
++        cpuid = (val >> 16) & 0x3ff;
++        w_addr = val & 0xffff;
++        val = val >> 32;
++        mask = (val >> 27) & 0xf;
++        size = 1;
++        env = (qemu_get_cpu(cpuid))->env_ptr;
 +
-+    if (ret == TLBRET_MATCH) {
-+        tlb_set_page(cs, address & TARGET_PAGE_MASK,
-+                     physical & TARGET_PAGE_MASK, prot,
-+                     mmu_idx, TARGET_PAGE_SIZE);
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "%s address=%" VADDR_PRIx " physical " TARGET_FMT_plx
-+                      " prot %d\n", __func__, address, physical, prot);
-+        return true;
-+    } else {
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "%s address=%" VADDR_PRIx " ret %d\n", __func__, address,
-+                      ret);
++        for (i = 0; i < 4; i++) {
++            if (!((mask >> i) & 1)) {
++                address_space_stb(&env->address_space_iocsr, w_addr,
++                                  val, MEMTXATTRS_UNSPECIFIED, NULL);
++            }
++            w_addr = w_addr + 1;
++            val = val >> 8;
++        }
++        return;
++    default:
++       break;
 +    }
-+    if (probe) {
-+        return false;
-+    } else {
-+        raise_mmu_exception(env, address, access_type, ret);
-+        do_raise_exception(env, cs->exception_index, retaddr);
++
++    if (((w_addr & 0xff00) == 0x1000) || ((w_addr & 0xff00) == 0x1800)) {
++        w_addr = w_addr + ((target_ulong)(cpuid & 0x3) << 8);
++    }
++
++    switch (size) {
++    case 1:
++        address_space_stb(&env->address_space_iocsr, w_addr,
++                          val, MEMTXATTRS_UNSPECIFIED, NULL);
++        break;
++    case 2:
++        address_space_stw(&env->address_space_iocsr, w_addr,
++                          val, MEMTXATTRS_UNSPECIFIED, NULL);
++        break;
++    case 4:
++        address_space_stl(&env->address_space_iocsr, w_addr,
++                          val, MEMTXATTRS_UNSPECIFIED, NULL);
++        break;
++    case 8:
++        address_space_stq(&env->address_space_iocsr, w_addr,
++                          val, MEMTXATTRS_UNSPECIFIED, NULL);
++        break;
++    default:
++        break;
 +    }
 +}
+diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+index 5fb7542e88..072684ca6d 100644
+--- a/target/loongarch/meson.build
++++ b/target/loongarch/meson.build
+@@ -20,6 +20,7 @@ loongarch_softmmu_ss.add(files(
+   'constant_timer.c',
+   'tlb_helper.c',
+   'csr_helper.c',
++  'iocsr_helper.c',
+ ))
+ 
+ loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
 -- 
 2.27.0
 
