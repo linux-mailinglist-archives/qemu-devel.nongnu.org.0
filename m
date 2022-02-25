@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788744C42DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:56:01 +0100 (CET)
-Received: from localhost ([::1]:46656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB8E4C42F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:58:35 +0100 (CET)
+Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNYGW-00082w-3o
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:56:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51160)
+	id 1nNYJ1-0001lA-0O
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:58:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nNXxH-0003Zb-Hy
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:36:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50554)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1nNXzz-0005ce-RY
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:38:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nNXxE-0008RA-HV
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:36:07 -0500
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1nNXzw-0001DN-H1
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:38:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645785358;
+ s=mimecast20190719; t=1645785520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B8J/neq0roGBkjVZCzDQlwf7iVDZ4qNu20x/5d4pkVk=;
- b=MnKaD3CJ2qYRLKzX7EUO8w7VmszzRll5Lh0vxC1Y5o672DMflltvSCFRvBlouvwqE4q7CL
- DFzqkh56HoTBnwye9XMHeMFGw/8WeEJaXXlCHS+G8SBbOyVoi4ki6F4BhxjZLdDIHv8bTa
- 0Rxa3pxKRQEidsjqctdE7PpiGQS2wx8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ait68bCLPZgU08GUtkMsgL4AE3KFDcmnrVIdep4pyvw=;
+ b=gtMiEhf7dBm1sBYjLvg8jPe4huFHlOe8W24/k4ZCX6rtY5bBB1AuZ3sjJcO8lWB6X2T36U
+ 9oOZOXZlrs+uh7+oaU8bg9bPDiVmKywi92CWpHCv3jOPul/bfrORhaTPrFiPLV7rOUEiMo
+ ZGcU2yEwtl4eXUU5a8A8CHHnLMcTvtc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-674-SHlbiyOyPba0y56p_fhSHQ-1; Fri, 25 Feb 2022 05:35:57 -0500
-X-MC-Unique: SHlbiyOyPba0y56p_fhSHQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- ay7-20020a05600c1e0700b003813d7a7d03so334298wmb.1
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 02:35:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=B8J/neq0roGBkjVZCzDQlwf7iVDZ4qNu20x/5d4pkVk=;
- b=7jBSNO7Ke7jvaJzTZ7GSZx4JSzHUsBaYwsOVpbfrm9xu7LaAuyho3sLSFX3nkhoZWC
- aaoBLdxWCRLwyvrSW4oDFYHL5yMogIW6Eh7wnoYcawoJoZYkDfz0M+tENBFl7MkxclT6
- hXkoHghb0UdLEg0vtJVCajbKxWwooer8RE4Tw1NvOb7MluRh4BVYlTjcoSctmuajIZsX
- fAMdRv5FFNH/lNMk0zcBnU+xryB69Dfb/82QzkDa+GWawvK82/+53vT2k+MgJH5q6/eB
- 1UxXNBgGqlwutZiro8qEpYwGz065DkCILX1Z3v5IRrDQj7U0gJYUooDnccUsNX9cIaWe
- sxvA==
-X-Gm-Message-State: AOAM532/ulp90aOeer99Fmd+UPX+0ATdYgdXdjerwlfI6V5H/OUsA7Ya
- 287jCJEWEzSJfPi56hDB+4QQ+eYbN5gvu/6EcDdJNjQ8mqgHNU1w68v+SM0XAyIdzNKars3QbQS
- v4YnxK/8WwuWnzz0=
-X-Received: by 2002:a7b:c347:0:b0:37e:68e6:d85c with SMTP id
- l7-20020a7bc347000000b0037e68e6d85cmr2106863wmj.176.1645785356028; 
- Fri, 25 Feb 2022 02:35:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJys+hLjOqd/e6Zzs9W0Ypl59LVBTnRfFqLAMEj0OMklT6CFLBiCFT7jznP0+OxJnqUvMiLm/A==
-X-Received: by 2002:a7b:c347:0:b0:37e:68e6:d85c with SMTP id
- l7-20020a7bc347000000b0037e68e6d85cmr2106849wmj.176.1645785355795; 
- Fri, 25 Feb 2022 02:35:55 -0800 (PST)
-Received: from redhat.com ([2.55.165.55]) by smtp.gmail.com with ESMTPSA id
- g17-20020a5d5411000000b001e688b4ee6asm2117267wrv.35.2022.02.25.02.35.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 02:35:55 -0800 (PST)
-Date: Fri, 25 Feb 2022 05:35:51 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 2/4] pcie: update slot power status only is power control
- is enabled
-Message-ID: <20220225051940-mutt-send-email-mst@kernel.org>
-References: <20220224174411.3296848-1-imammedo@redhat.com>
- <20220224174411.3296848-3-imammedo@redhat.com>
- <20220225101259.begp7wy5o3jlafcf@sirius.home.kraxel.org>
+ us-mta-79-7gF6m_XaN0CepHs2oHvxdg-1; Fri, 25 Feb 2022 05:38:36 -0500
+X-MC-Unique: 7gF6m_XaN0CepHs2oHvxdg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71716180FD73;
+ Fri, 25 Feb 2022 10:38:33 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.39.193.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FD841053B16;
+ Fri, 25 Feb 2022 10:37:52 +0000 (UTC)
+Subject: Re: [PATCH v3 2/2] virt: vmgenid: introduce driver for reinitializing
+ RNG on VM fork
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-hyperv@vger.kernel.org,
+ kvm@vger.kernel.org, linux-crypto@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kernel@vger.kernel.org
+References: <20220224133906.751587-1-Jason@zx2c4.com>
+ <20220224133906.751587-3-Jason@zx2c4.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <aedd310b-4583-37b3-3dde-c00a6d73ee4d@redhat.com>
+Date: Fri, 25 Feb 2022 11:37:51 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220225101259.begp7wy5o3jlafcf@sirius.home.kraxel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20220224133906.751587-3-Jason@zx2c4.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lersek@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,53 +79,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+Cc: wei.liu@kernel.org, kys@microsoft.com, berrange@redhat.com,
+ ehabkost@redhat.com, adrian@parity.io, mst@redhat.com, decui@microsoft.com,
+ haiyangz@microsoft.com, ben@skyportsystems.com, raduweis@amazon.com,
+ jannh@google.com, linux@dominikbrodowski.net, ebiggers@kernel.org,
+ graf@amazon.com, tytso@mit.edu, gregkh@linuxfoundation.org,
+ imammedo@redhat.com, colmmacc@amazon.com, sthemmin@microsoft.com,
+ ardb@kernel.org, dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 25, 2022 at 11:12:59AM +0100, Gerd Hoffmann wrote:
->   Hi,
+On 02/24/22 14:39, Jason A. Donenfeld wrote:
+> VM Generation ID is a feature from Microsoft, described at
+> <https://go.microsoft.com/fwlink/?LinkId=260709>, and supported by
+> Hyper-V and QEMU. Its usage is described in Microsoft's RNG whitepaper,
+> <https://aka.ms/win10rng>, as:
 > 
-> >    pcie_cap_slot_post_load()
-> >        -> pcie_cap_update_power()
-> >            -> pcie_set_power_device()
-> >                -> pci_set_power()
-> >                    -> pci_update_mappings()
+>     If the OS is running in a VM, there is a problem that most
+>     hypervisors can snapshot the state of the machine and later rewind
+>     the VM state to the saved state. This results in the machine running
+>     a second time with the exact same RNG state, which leads to serious
+>     security problems.  To reduce the window of vulnerability, Windows
+>     10 on a Hyper-V VM will detect when the VM state is reset, retrieve
+>     a unique (not random) value from the hypervisor, and reseed the root
+>     RNG with that unique value.  This does not eliminate the
+>     vulnerability, but it greatly reduces the time during which the RNG
+>     system will produce the same outputs as it did during a previous
+>     instantiation of the same VM state.
 > 
-> > Fix it by honoring PCI_EXP_SLTCAP_PCP and updating power status
-> > only if capability is enabled.
+> Linux has the same issue, and given that vmgenid is supported already by
+> multiple hypervisors, we can implement more or less the same solution.
+> So this commit wires up the vmgenid ACPI notification to the RNG's newly
+> added add_vmfork_randomness() function.
 > 
-> > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> > index d7d73a31e4..2339729a7c 100644
-> > --- a/hw/pci/pcie.c
-> > +++ b/hw/pci/pcie.c
-> > @@ -383,10 +383,9 @@ static void pcie_cap_update_power(PCIDevice *hotplug_dev)
-> >  
-> >      if (sltcap & PCI_EXP_SLTCAP_PCP) {
-> >          power = (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON;
-> > +        pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
-> > +                            pcie_set_power_device, &power);
-> >      }
-> > -
-> > -    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
-> > -                        pcie_set_power_device, &power);
-> >  }
+> It can be used from qemu via the `-device vmgenid,guid=auto` parameter.
+> After setting that, use `savevm` in the monitor to save the VM state,
+> then quit QEMU, start it again, and use `loadvm`. That will trigger this
+> driver's notify function, which hands the new UUID to the RNG. This is
+> described in <https://git.qemu.org/?p=qemu.git;a=blob;f=docs/specs/vmgenid.txt>.
+> And there are hooks for this in libvirt as well, described in
+> <https://libvirt.org/formatdomain.html#general-metadata>.
 > 
-> The change makes sense, although I don't see how that changes qemu
-> behavior.
+> Note, however, that the treatment of this as a UUID is considered to be
+> an accidental QEMU nuance, per
+> <https://github.com/libguestfs/virt-v2v/blob/master/docs/vm-generation-id-across-hypervisors.txt>,
+> so this driver simply treats these bytes as an opaque 128-bit binary
+> blob, as per the spec. This doesn't really make a difference anyway,
+> considering that's how it ends up when handed to the RNG in the end.
 > 
-> 'power' defaults to true, so when SLTCAP_PCP is off it should never
-> ever try to power off the devices.  And pci_set_power() should figure
-> the state didn't change and instantly return without touching the
-> device.
+> This driver builds on prior work from Adrian Catangiu at Amazon, and it
+> is my hope that that team can resume maintenance of this driver.
 > 
-> take care,
->   Gerd
+> Cc: Adrian Catangiu <adrian@parity.io>
+> Cc: Laszlo Ersek <lersek@redhat.com>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>  drivers/virt/Kconfig   |   9 +++
+>  drivers/virt/Makefile  |   1 +
+>  drivers/virt/vmgenid.c | 121 +++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 131 insertions(+)
+>  create mode 100644 drivers/virt/vmgenid.c
+> 
+> diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
+> index 8061e8ef449f..d3276dc2095c 100644
+> --- a/drivers/virt/Kconfig
+> +++ b/drivers/virt/Kconfig
+> @@ -13,6 +13,15 @@ menuconfig VIRT_DRIVERS
+>  
+>  if VIRT_DRIVERS
+>  
+> +config VMGENID
+> +	tristate "Virtual Machine Generation ID driver"
+> +	default y
+> +	depends on ACPI
+> +	help
+> +	  Say Y here to use the hypervisor-provided Virtual Machine Generation ID
+> +	  to reseed the RNG when the VM is cloned. This is highly recommended if
+> +	  you intend to do any rollback / cloning / snapshotting of VMs.
+> +
+>  config FSL_HV_MANAGER
+>  	tristate "Freescale hypervisor management driver"
+>  	depends on FSL_SOC
+> diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
+> index 3e272ea60cd9..108d0ffcc9aa 100644
+> --- a/drivers/virt/Makefile
+> +++ b/drivers/virt/Makefile
+> @@ -4,6 +4,7 @@
+>  #
+>  
+>  obj-$(CONFIG_FSL_HV_MANAGER)	+= fsl_hypervisor.o
+> +obj-$(CONFIG_VMGENID)		+= vmgenid.o
+>  obj-y				+= vboxguest/
+>  
+>  obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
+> diff --git a/drivers/virt/vmgenid.c b/drivers/virt/vmgenid.c
+> new file mode 100644
+> index 000000000000..5da4dc8f25e3
+> --- /dev/null
+> +++ b/drivers/virt/vmgenid.c
+> @@ -0,0 +1,121 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Virtual Machine Generation ID driver
+> + *
+> + * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+> + * Copyright (C) 2020 Amazon. All rights reserved.
+> + * Copyright (C) 2018 Red Hat Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/acpi.h>
+> +#include <linux/random.h>
+> +
+> +ACPI_MODULE_NAME("vmgenid");
+> +
+> +enum { VMGENID_SIZE = 16 };
+> +
+> +static struct {
+> +	u8 this_id[VMGENID_SIZE];
+> +	u8 *next_id;
+> +} state;
+> +
+> +static int vmgenid_acpi_add(struct acpi_device *device)
+> +{
+> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER };
+> +	union acpi_object *pss;
+> +	phys_addr_t phys_addr;
+> +	acpi_status status;
+> +	int ret = 0;
+> +
+> +	if (!device)
+> +		return -EINVAL;
+> +
+> +	status = acpi_evaluate_object(device->handle, "ADDR", NULL, &buffer);
+> +	if (ACPI_FAILURE(status)) {
+> +		ACPI_EXCEPTION((AE_INFO, status, "Evaluating ADDR"));
+> +		return -ENODEV;
+> +	}
+> +	pss = buffer.pointer;
+> +	if (!pss || pss->type != ACPI_TYPE_PACKAGE || pss->package.count != 2 ||
+> +	    pss->package.elements[0].type != ACPI_TYPE_INTEGER ||
+> +	    pss->package.elements[1].type != ACPI_TYPE_INTEGER) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	phys_addr = (pss->package.elements[0].integer.value << 0) |
+> +		    (pss->package.elements[1].integer.value << 32);
+> +	state.next_id = acpi_os_map_memory(phys_addr, VMGENID_SIZE);
+> +	if (!state.next_id) {
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +	device->driver_data = &state;
+> +
+> +	memcpy(state.this_id, state.next_id, sizeof(state.this_id));
+> +	add_device_randomness(state.this_id, sizeof(state.this_id));
+> +
+> +out:
+> +	ACPI_FREE(buffer.pointer);
+> +	return ret;
+> +}
+> +
+> +static int vmgenid_acpi_remove(struct acpi_device *device)
+> +{
+> +	if (!device || acpi_driver_data(device) != &state)
+> +		return -EINVAL;
+> +	device->driver_data = NULL;
+> +	if (state.next_id)
+> +		acpi_os_unmap_memory(state.next_id, VMGENID_SIZE);
+> +	state.next_id = NULL;
+> +	return 0;
+> +}
+> +
+> +static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
+> +{
+> +	u8 old_id[VMGENID_SIZE];
+> +
+> +	if (!device || acpi_driver_data(device) != &state)
+> +		return;
+> +	memcpy(old_id, state.this_id, sizeof(old_id));
+> +	memcpy(state.this_id, state.next_id, sizeof(state.this_id));
+> +	if (!memcmp(old_id, state.this_id, sizeof(old_id)))
+> +		return;
+> +	add_vmfork_randomness(state.this_id, sizeof(state.this_id));
+> +}
+> +
+> +static const struct acpi_device_id vmgenid_ids[] = {
+> +	{"VMGENID", 0},
+> +	{"QEMUVGID", 0},
+> +	{ },
+> +};
+> +
+> +static struct acpi_driver acpi_driver = {
+> +	.name = "vm_generation_id",
+> +	.ids = vmgenid_ids,
+> +	.owner = THIS_MODULE,
+> +	.ops = {
+> +		.add = vmgenid_acpi_add,
+> +		.remove = vmgenid_acpi_remove,
+> +		.notify = vmgenid_acpi_notify,
+> +	}
+> +};
+> +
+> +static int __init vmgenid_init(void)
+> +{
+> +	return acpi_bus_register_driver(&acpi_driver);
+> +}
+> +
+> +static void __exit vmgenid_exit(void)
+> +{
+> +	acpi_bus_unregister_driver(&acpi_driver);
+> +}
+> +
+> +module_init(vmgenid_init);
+> +module_exit(vmgenid_exit);
+> +
+> +MODULE_DEVICE_TABLE(acpi, vmgenid_ids);
+> +MODULE_DESCRIPTION("Virtual Machine Generation ID");
+> +MODULE_LICENSE("GPL v2");
+> 
 
-And making sure power is actually up might be a bit cleaner just in
-case down the road we start plugging devices in a powered off state.
+I'm not an experienced reviewer for the kernel.
 
--- 
-MST
+I've made an effort to check several -- although not all -- aspects of
+this patch, and it looks OK to me.
+
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+
+Thanks
+Laszlo
 
 
