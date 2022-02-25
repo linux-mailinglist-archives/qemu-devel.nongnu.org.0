@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FAB4C51FA
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 00:17:04 +0100 (CET)
-Received: from localhost ([::1]:53752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0994C5200
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 00:22:16 +0100 (CET)
+Received: from localhost ([::1]:57624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNjpf-00038Q-7d
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 18:17:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35742)
+	id 1nNjuh-0006kK-H7
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 18:22:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhxh-0000ap-VS; Fri, 25 Feb 2022 16:17:15 -0500
+ id 1nNhxn-0000tW-T1; Fri, 25 Feb 2022 16:17:19 -0500
 Received: from [187.72.171.209] (port=58124 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhxc-0004qx-Tb; Fri, 25 Feb 2022 16:17:10 -0500
+ id 1nNhxm-0004qx-CW; Fri, 25 Feb 2022 16:17:19 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 25 Feb 2022 18:09:59 -0300
+ Fri, 25 Feb 2022 18:10:00 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 79A568006BB;
- Fri, 25 Feb 2022 18:09:59 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 210588006BB;
+ Fri, 25 Feb 2022 18:10:00 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v5 42/49] target/ppc: Move xscmp{eq,ge,gt}dp to decodetree
-Date: Fri, 25 Feb 2022 18:09:29 -0300
-Message-Id: <20220225210936.1749575-43-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v5 44/49] target/ppc: Refactor VSX_MAX_MINC helper
+Date: Fri, 25 Feb 2022 18:09:31 -0300
+Message-Id: <20220225210936.1749575-45-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 References: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Feb 2022 21:09:59.0873 (UTC)
- FILETIME=[0C5E6310:01D82A8C]
+X-OriginalArrivalTime: 25 Feb 2022 21:10:00.0516 (UTC)
+ FILETIME=[0CC08040:01D82A8C]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,125 +67,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Refactor xs{max,min}cdp VSX_MAX_MINC helper to prepare for
+xs{max,min}cqp implementation.
+
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/fpu_helper.c             |  6 +++---
- target/ppc/helper.h                 |  6 +++---
- target/ppc/insn32.decode            |  3 +++
- target/ppc/translate/vsx-impl.c.inc | 28 +++++++++++++++++++++++++---
- target/ppc/translate/vsx-ops.c.inc  |  3 ---
- 5 files changed, 34 insertions(+), 12 deletions(-)
+changes for v5:
+- use float_flag_invalid_snan as suggested by Richard Henderson
+---
+ target/ppc/fpu_helper.c | 41 +++++++++++++++++------------------------
+ 1 file changed, 17 insertions(+), 24 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index a589e6b7a5..4d67180bec 100644
+index 4bfa1c4283..0aaf529ac8 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -2304,9 +2304,9 @@ VSX_MADDQ(XSNMSUBQPO, NMSUB_FLGS, 0)
-     do_float_check_status(env, GETPC());                                      \
- }
+@@ -2533,40 +2533,33 @@ VSX_MAX_MIN(xsmindp, minnum, 1, float64, VsrD(0))
+ VSX_MAX_MIN(xvmindp, minnum, 2, float64, VsrD(i))
+ VSX_MAX_MIN(xvminsp, minnum, 4, float32, VsrW(i))
  
--VSX_SCALAR_CMP(xscmpeqdp, float64, eq, VsrD(0), 0)
--VSX_SCALAR_CMP(xscmpgedp, float64, le, VsrD(0), 1)
--VSX_SCALAR_CMP(xscmpgtdp, float64, lt, VsrD(0), 1)
-+VSX_SCALAR_CMP(XSCMPEQDP, float64, eq, VsrD(0), 0)
-+VSX_SCALAR_CMP(XSCMPGEDP, float64, le, VsrD(0), 1)
-+VSX_SCALAR_CMP(XSCMPGTDP, float64, lt, VsrD(0), 1)
- VSX_SCALAR_CMP(XSCMPEQQP, float128, eq, f128, 0)
- VSX_SCALAR_CMP(XSCMPGEQP, float128, le, f128, 1)
- VSX_SCALAR_CMP(XSCMPGTQP, float128, lt, f128, 1)
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index b9c5c0dd48..8a3db7c13f 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -357,9 +357,9 @@ DEF_HELPER_5(XSMADDDP, void, env, vsr, vsr, vsr, vsr)
- DEF_HELPER_5(XSMSUBDP, void, env, vsr, vsr, vsr, vsr)
- DEF_HELPER_5(XSNMADDDP, void, env, vsr, vsr, vsr, vsr)
- DEF_HELPER_5(XSNMSUBDP, void, env, vsr, vsr, vsr, vsr)
--DEF_HELPER_4(xscmpeqdp, void, env, vsr, vsr, vsr)
--DEF_HELPER_4(xscmpgtdp, void, env, vsr, vsr, vsr)
--DEF_HELPER_4(xscmpgedp, void, env, vsr, vsr, vsr)
-+DEF_HELPER_4(XSCMPEQDP, void, env, vsr, vsr, vsr)
-+DEF_HELPER_4(XSCMPGTDP, void, env, vsr, vsr, vsr)
-+DEF_HELPER_4(XSCMPGEDP, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(XSCMPEQQP, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(XSCMPGTQP, void, env, vsr, vsr, vsr)
- DEF_HELPER_4(XSCMPGEQP, void, env, vsr, vsr, vsr)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 92327a0a71..6fbb2d188f 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -664,6 +664,9 @@ XSMAXCDP        111100 ..... ..... ..... 10000000 ...   @XX3
- XSMINCDP        111100 ..... ..... ..... 10001000 ...   @XX3
- XSMAXJDP        111100 ..... ..... ..... 10010000 ...   @XX3
- XSMINJDP        111100 ..... ..... ..... 10011000 ...   @XX3
-+XSCMPEQDP       111100 ..... ..... ..... 00000011 ...   @XX3
-+XSCMPGEDP       111100 ..... ..... ..... 00010011 ...   @XX3
-+XSCMPGTDP       111100 ..... ..... ..... 00001011 ...   @XX3
- XSCMPEQQP       111111 ..... ..... ..... 0001000100 -   @X
- XSCMPGEQP       111111 ..... ..... ..... 0011000100 -   @X
- XSCMPGTQP       111111 ..... ..... ..... 0011100100 -   @X
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 6dd20b0309..fca25c267b 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1052,9 +1052,6 @@ GEN_VSX_HELPER_X2(xssqrtdp, 0x16, 0x04, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2(xsrsqrtedp, 0x14, 0x04, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2_AB(xstdivdp, 0x14, 0x07, 0, PPC2_VSX)
- GEN_VSX_HELPER_X1(xstsqrtdp, 0x14, 0x06, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xscmpeqdp, 0x0C, 0x00, 0, PPC2_ISA300)
--GEN_VSX_HELPER_X3(xscmpgtdp, 0x0C, 0x01, 0, PPC2_ISA300)
--GEN_VSX_HELPER_X3(xscmpgedp, 0x0C, 0x02, 0, PPC2_ISA300)
- GEN_VSX_HELPER_X2_AB(xscmpexpdp, 0x0C, 0x07, 0, PPC2_ISA300)
- GEN_VSX_HELPER_R2_AB(xscmpexpqp, 0x04, 0x05, 0, PPC2_ISA300)
- GEN_VSX_HELPER_X2_AB(xscmpodp, 0x0C, 0x05, 0, PPC2_VSX)
-@@ -2589,6 +2586,31 @@ TRANS(XXBLENDVH, do_xxblendv, MO_16)
- TRANS(XXBLENDVW, do_xxblendv, MO_32)
- TRANS(XXBLENDVD, do_xxblendv, MO_64)
- 
-+static bool do_helper_XX3(DisasContext *ctx, arg_XX3 *a,
-+    void (*helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr))
-+{
-+    TCGv_ptr xt, xa, xb;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_VSX(ctx);
-+
-+    xt = gen_vsr_ptr(a->xt);
-+    xa = gen_vsr_ptr(a->xa);
-+    xb = gen_vsr_ptr(a->xb);
-+
-+    helper(cpu_env, xt, xa, xb);
-+
-+    tcg_temp_free_ptr(xt);
-+    tcg_temp_free_ptr(xa);
-+    tcg_temp_free_ptr(xb);
-+
-+    return true;
+-#define VSX_MAX_MINC(name, max)                                               \
++#define VSX_MAX_MINC(name, max, tp, fld)                                      \
+ void helper_##name(CPUPPCState *env,                                          \
+                    ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)               \
+ {                                                                             \
+     ppc_vsr_t t = { };                                                        \
+-    bool vxsnan_flag = false, vex_flag = false;                               \
++    bool first;                                                               \
+                                                                               \
+-    if (unlikely(float64_is_any_nan(xa->VsrD(0)) ||                           \
+-                 float64_is_any_nan(xb->VsrD(0)))) {                          \
+-        if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||         \
+-            float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {         \
+-            vxsnan_flag = true;                                               \
+-        }                                                                     \
+-        t.VsrD(0) = xb->VsrD(0);                                              \
+-    } else if ((max &&                                                        \
+-               !float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) ||     \
+-               (!max &&                                                       \
+-               float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status))) {      \
+-        t.VsrD(0) = xa->VsrD(0);                                              \
++    if (max) {                                                                \
++        first = tp##_le_quiet(xb->fld, xa->fld, &env->fp_status);             \
+     } else {                                                                  \
+-        t.VsrD(0) = xb->VsrD(0);                                              \
++        first = tp##_lt_quiet(xa->fld, xb->fld, &env->fp_status);             \
+     }                                                                         \
+                                                                               \
+-    vex_flag = fpscr_ve & vxsnan_flag;                                        \
+-    if (vxsnan_flag) {                                                        \
+-        float_invalid_op_vxsnan(env, GETPC());                                \
++    if (first) {                                                              \
++        t.fld = xa->fld;                                                      \
++    } else {                                                                  \
++        t.fld = xb->fld;                                                      \
++        if (env->fp_status.float_exception_flags & float_flag_invalid_snan) { \
++            float_invalid_op_vxsnan(env, GETPC());                            \
++        }                                                                     \
+     }                                                                         \
+-    if (!vex_flag) {                                                          \
+-        *xt = t;                                                              \
+-    }                                                                         \
+-}                                                                             \
++                                                                              \
++    *xt = t;                                                                  \
 +}
-+
-+TRANS(XSCMPEQDP, do_helper_XX3, gen_helper_XSCMPEQDP)
-+TRANS(XSCMPGEDP, do_helper_XX3, gen_helper_XSCMPGEDP)
-+TRANS(XSCMPGTDP, do_helper_XX3, gen_helper_XSCMPGTDP)
-+
- static bool do_xsmaxmincjdp(DisasContext *ctx, arg_XX3 *a,
-                             void (*helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr))
- {
-diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
-index 34310c1fb5..b8fd116728 100644
---- a/target/ppc/translate/vsx-ops.c.inc
-+++ b/target/ppc/translate/vsx-ops.c.inc
-@@ -186,9 +186,6 @@ GEN_XX2FORM(xssqrtdp,  0x16, 0x04, PPC2_VSX),
- GEN_XX2FORM(xsrsqrtedp,  0x14, 0x04, PPC2_VSX),
- GEN_XX3FORM(xstdivdp,  0x14, 0x07, PPC2_VSX),
- GEN_XX2FORM(xstsqrtdp,  0x14, 0x06, PPC2_VSX),
--GEN_XX3FORM(xscmpeqdp, 0x0C, 0x00, PPC2_ISA300),
--GEN_XX3FORM(xscmpgtdp, 0x0C, 0x01, PPC2_ISA300),
--GEN_XX3FORM(xscmpgedp, 0x0C, 0x02, PPC2_ISA300),
- GEN_XX3FORM(xscmpexpdp, 0x0C, 0x07, PPC2_ISA300),
- GEN_VSX_XFORM_300(xscmpexpqp, 0x04, 0x05, 0x00600001),
- GEN_XX2IFORM(xscmpodp,  0x0C, 0x05, PPC2_VSX),
+ 
+-VSX_MAX_MINC(XSMAXCDP, 1);
+-VSX_MAX_MINC(XSMINCDP, 0);
++VSX_MAX_MINC(XSMAXCDP, true, float64, VsrD(0));
++VSX_MAX_MINC(XSMINCDP, false, float64, VsrD(0));
+ 
+ #define VSX_MAX_MINJ(name, max)                                               \
+ void helper_##name(CPUPPCState *env,                                          \
 -- 
 2.25.1
 
