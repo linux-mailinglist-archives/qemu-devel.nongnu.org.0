@@ -2,69 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 993124C4122
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:18:18 +0100 (CET)
-Received: from localhost ([::1]:55452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED6F4C41F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:08:43 +0100 (CET)
+Received: from localhost ([::1]:47220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNWjw-0001VE-PC
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:18:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54780)
+	id 1nNXWk-0002kz-1h
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:08:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nNWEY-0005x3-R4
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:45:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56256)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1nNWIa-0008Qj-W4
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:50:01 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:58856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nNWEW-0006kD-P8
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:45:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645778742;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EELnjaMXJ8efMo1WB48cMJUpFaVoX+PokUKPHTPXX7Y=;
- b=GTvE7lmAikW29Tl5V60ttdngLk2UNi6P54oZ87vIvqbjTDy0PeXjGPt2xlzcqpAWKkktXc
- bkssdtht6XEYw4lKG4ZngSzDvQH3yPJeo6X5tzG7vZ8FEvnJefdvp/qIJ1PPMTLRTqh1s+
- LbNTaffxW1P1KCONJdzWAfYEbPFQSnQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-440-nxDKQgIVPQS-H_kZ0gcafw-1; Fri, 25 Feb 2022 03:45:40 -0500
-X-MC-Unique: nxDKQgIVPQS-H_kZ0gcafw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D64F951A9;
- Fri, 25 Feb 2022 08:45:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 857F923088;
- Fri, 25 Feb 2022 08:45:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 10B8E21E6A00; Fri, 25 Feb 2022 09:45:38 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1nNWIY-0007aP-7C
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:50:00 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id ABB3F46E2F;
+ Fri, 25 Feb 2022 09:49:55 +0100 (CET)
+From: Fabian Ebner <f.ebner@proxmox.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] qapi: Belatedly adjust limitations documentation
-Date: Fri, 25 Feb 2022 09:45:38 +0100
-Message-Id: <20220225084538.218876-1-armbru@redhat.com>
+Subject: [PATCH v9 0/3] VNC-related HMP/QMP fixes
+Date: Fri, 25 Feb 2022 09:49:46 +0100
+Message-Id: <20220225084949.35746-1-f.ebner@proxmox.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,34 +50,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eblake@redhat.com, jsnow@redhat.com, michael.roth@amd.com
+Cc: w.bumiller@proxmox.com, berrange@redhat.com, dgilbert@redhat.com,
+ armbru@redhat.com, marcandre.lureau@gmail.com, kraxel@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, eblake@redhat.com,
+ t.lamprecht@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 57df0dff1a "qapi: Extend -compat to set policy for unstable
-interfaces" (v6.2.0) took care of covering experimental features, but
-neglected to adjust a comment suggesting to cover it.  Adjust it now.
+Original cover letter by Stefan R.:
 
-Fixes: 57df0dff1a1f4c846aa74a082bfd595a8a990015
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/compat.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Since the removal of the generic 'qmp_change' command, one can no
+longer replace the 'default' VNC display listen address at runtime
+(AFAIK). For our users who need to set up a secondary VNC access port,
+this means configuring a second VNC display (in addition to our
+standard one for web-access), but it turns out one cannot set a
+password on this second display at the moment, as the 'set_password'
+call only operates on the 'default' display.
 
-diff --git a/qapi/compat.json b/qapi/compat.json
-index c53b69fe3f..39b52872d5 100644
---- a/qapi/compat.json
-+++ b/qapi/compat.json
-@@ -41,7 +41,7 @@
- #
- # Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
- # with feature 'deprecated'.  We may want to extend it to cover
--# semantic aspects, CLI, and experimental features.
-+# semantic aspects and CLI.
- #
- # Limitation: deprecated-output policy @hide is not implemented for
- # enumeration values.  They behave the same as with policy @accept.
+Additionally, using secret objects, the password is only read once at
+startup. This could be considered a bug too, but is not touched in
+this series and left for a later date.
+
+v8 -> v9:
+* use s instead of V to indicate when a flag takes a string parameter
+* make @connected a common member of @SetPasswordOptions
+
+v7 -> v8:
+* drop last patch deprecating SetPasswordAction values besides 'keep'
+  for VNC (unfortunately, I don't have enough time to try implementing
+  'disconnect' and 'fail' for VNC in the near future)
+* drop if conditionals for DisplayProtocol enum to make compilation
+  with --disable-spice and/or --disable-vnc work
+* order 'keep' first in enum, to fix how patch #3 uses it as an
+  implicit default
+* also set connected and has_connected for the VNC options in
+  hmp_set_password
+* fix typo in patch #1
+* add missing '#' for description in patch #3
+
+v6 -> v7:
+* remove g_strdup and g_free, use strings directly
+* squash in last patch
+
+v5 -> v6:
+* consider feedback from Markus' review, mainly:
+  * fix crash bug in patch 1 (sorry, artifact of patch-splitting)
+  * rely on '!has_param => param == NULL' to shorten code
+  * add note to 'docs/about/deprecated.rst' and touch up comments a bit
+* go back to g_free instead of qapi_free_* since the latter apparently tries to
+  free the passed in pointer which lives on the stack...
+* fix bug in HMP parsing (see patch 1)
+
+v4 -> v5:
+* add comment to patch 1 in "monitor-internal.h"
+* use qapi_free_SetPasswordOptions and friends, don't leak strdups
+* split QAPI change into 3 seperate patches
+
+v3 -> v4:
+* drop previously patch 1, this was fixed here instead:
+  https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02529.html
+* patch 1: add Eric's R-b
+* patch 2: remove if-assignment, use 'deprecated' feature in schema
+
+v2 -> v3:
+* refactor QMP schema for set/expire_password as suggested by Eric Blake and
+  Markus Armbruster
+
+v1 -> v2:
+* add Marc-André's R-b on patch 1
+* use '-d' flag as suggested by Eric Blake and Gerd Hoffmann
+  * I didn't see a way to do this yet, so I added a "flags with values" arg type
+
+Stefan Reiter (3):
+  monitor/hmp: add support for flag argument with value
+  qapi/monitor: refactor set/expire_password with enums
+  qapi/monitor: allow VNC display id in set/expire_password
+
+ hmp-commands.hx            |  24 ++++----
+ monitor/hmp-cmds.c         |  47 ++++++++++++++-
+ monitor/hmp.c              |  19 +++++-
+ monitor/monitor-internal.h |   3 +-
+ monitor/qmp-cmds.c         |  49 +++++----------
+ qapi/ui.json               | 120 +++++++++++++++++++++++++++++++------
+ 6 files changed, 194 insertions(+), 68 deletions(-)
+
 -- 
-2.35.1
+2.30.2
+
 
 
