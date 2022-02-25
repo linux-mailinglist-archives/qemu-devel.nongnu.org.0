@@ -2,96 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978434C3CE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 05:09:09 +0100 (CET)
-Received: from localhost ([::1]:40868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFED4C3D09
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 05:23:34 +0100 (CET)
+Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNRum-0003DA-E2
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 23:09:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58228)
+	id 1nNS8j-0007hV-7I
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 23:23:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nNRsp-00019R-2Q
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 23:07:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34313)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nNRsk-0003WZ-Vo
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 23:07:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645762022;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OQXwnk+mqVacu6EKzF5eXWl27E6g/z/GL3bmgaFrdOA=;
- b=KU+6YLbmXXR3vxr6pDJbegU8Ggld1VnM8n0rk0YUiISMp+4r7VPfTE5P7DUmY1T8SjEHS7
- 0wzCLLMCg51Gyga00iR7w/JFslphcqU462RDn64IBysay/0bgSePxeH2cGGQHr+ep8tZf4
- Q+EzeFqYx488iVUe5pGSZysyE+xmTQ0=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-viDgdA5KOtKza60KxqyLfQ-1; Thu, 24 Feb 2022 23:07:00 -0500
-X-MC-Unique: viDgdA5KOtKza60KxqyLfQ-1
-Received: by mail-pj1-f70.google.com with SMTP id
- b9-20020a17090aa58900b001b8b14b4aabso2559097pjq.9
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 20:07:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OQXwnk+mqVacu6EKzF5eXWl27E6g/z/GL3bmgaFrdOA=;
- b=4hzKALoizPzj7/guY2R15ASsmFtAtAtUREIDCCjdcselGrIzoWTnVul1Eno5rkbRwl
- Gw9xYuVqxeqWZHbCAQ0BLV38bLkfwMdOHtcvwh9v45A6/UDsJxXsrjCI05jfH1EsmK1b
- UXPecEe3VkzG9bhTxW6i6z1xTA+C4vhwv+ZyZLs+V6Y7fTV/IVObDCZvDq8m/Yu8LGec
- wYTgkvYMY/yhjCOiuWCuPGppU7U9N+lM+D1vzTWqh8y9jNhK9J6DDksMS+kSZ3PrWUgN
- 1q1SkGEqq37eGJ/Wux2+jiu6zp6jnz+c8Ar3d4tyzExKczVk0VKxY3ryWcb4G5dOF7rV
- 1J2A==
-X-Gm-Message-State: AOAM530OjMdGYv62hI3+oCSxQksreNjHisGQdnxxiWseFpyFc55acG2v
- ULGeGE3DSXA6Z5OpLI1N/dmkIw8aiJv9AfNl85r6YeConWsQuFkKBSmi37iFNSnOFCIcuOrV1kB
- 25o4/Inqy76J565M=
-X-Received: by 2002:a17:902:8509:b0:14f:1b7e:4c23 with SMTP id
- bj9-20020a170902850900b0014f1b7e4c23mr5545052plb.102.1645762019672; 
- Thu, 24 Feb 2022 20:06:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzp4Yb3BPJfcCGBeh3gIIi9FweD/9Juh6i8YaA5+d8nvloDlI3CtBt1v1/C5g2mvtN05EQQ8g==
-X-Received: by 2002:a17:902:8509:b0:14f:1b7e:4c23 with SMTP id
- bj9-20020a170902850900b0014f1b7e4c23mr5545034plb.102.1645762019283; 
- Thu, 24 Feb 2022 20:06:59 -0800 (PST)
-Received: from [10.72.13.160] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- 142-20020a621894000000b004dfc714b076sm1150629pfy.11.2022.02.24.20.06.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 20:06:58 -0800 (PST)
-Message-ID: <e6e8564a-7739-cd6b-13a3-a6c0ba4c2890@redhat.com>
-Date: Fri, 25 Feb 2022 12:06:51 +0800
+ (Exim 4.90_1) (envelope-from <wliang@stu.xidian.edu.cn>)
+ id 1nNS6p-0006zX-JG
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 23:21:35 -0500
+Received: from zg8tmty3ljk5ljewns4xndka.icoremail.net ([167.99.105.149]:59969)
+ by eggs.gnu.org with smtp (Exim 4.90_1)
+ (envelope-from <wliang@stu.xidian.edu.cn>) id 1nNS6m-0008Ao-BU
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 23:21:34 -0500
+Received: by ajax-webmail-sr0414.icoremail.net (Coremail) ; Fri, 25 Feb 2022
+ 12:21:24 +0800 (GMT+08:00)
+X-Originating-IP: [39.128.6.55]
+Date: Fri, 25 Feb 2022 12:21:24 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: wliang@stu.xidian.edu.cn
+To: thuth@redhat.com
+Subject: Fix a potential Use-after-free in test_blockjob_common_drain_node()
+ (v6.2.0).
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210401(fdb522e2)
+ Copyright (c) 2002-2022 www.mailtech.cn
+ mispb-ac60dc67-ddbe-4478-9127-1d3314495f10-icoremail.net
+In-Reply-To: <21fd23f8.25ce.17f2703f0f8.Coremail.wliang@stu.xidian.edu.cn>
+References: <21fd23f8.25ce.17f2703f0f8.Coremail.wliang@stu.xidian.edu.cn>
+Content-Type: multipart/mixed; 
+ boundary="----=_Part_11230_2049670943.1645762884783"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.0
-Subject: Re: [PATCH] aio-posix: fix spurious ->poll_ready() callbacks in main
- loop
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20220223155703.136833-1-stefanha@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220223155703.136833-1-stefanha@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Message-ID: <22f80063.bd7.17f2f1cb4c2.Coremail.wliang@stu.xidian.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: AQAAfwAXVJFEWRhikd0EAA--.608W
+X-CM-SenderInfo: pzolt0vj6v33wo0lvxldqovvfxof0/1tbiAQAOA1wR-vcLKQAAsq
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+Received-SPF: pass client-ip=167.99.105.149;
+ envelope-from=wliang@stu.xidian.edu.cn;
+ helo=zg8tmty3ljk5ljewns4xndka.icoremail.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,165 +64,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+------=_Part_11230_2049670943.1645762884783
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_11232_262339245.1645762884783"
 
-在 2022/2/23 下午11:57, Stefan Hajnoczi 写道:
-> When ->poll() succeeds the AioHandler is placed on the ready list with
-> revents set to the magic value 0. This magic value causes
-> aio_dispatch_handler() to invoke ->poll_ready() instead of ->io_read()
-> for G_IO_IN or ->io_write() for G_IO_OUT.
->
-> This magic value 0 hack works for the IOThread where AioHandlers are
-> placed on ->ready_list and processed by aio_dispatch_ready_handlers().
-> It does not work for the main loop where all AioHandlers are processed
-> by aio_dispatch_handlers(), even those that are not ready and have a
-> revents value of 0.
->
-> As a result the main loop invokes ->poll_ready() on AioHandlers that are
-> not ready. These spurious ->poll_ready() calls waste CPU cycles and
-> could lead to crashes if the code assumes ->poll() must have succeeded
-> before ->poll_ready() is called (a reasonable asumption but I haven't
-> seen it in practice).
->
-> Stop using revents to track whether ->poll_ready() will be called on an
-> AioHandler. Introduce a separate AioHandler->poll_ready field instead.
-> This eliminates spurious ->poll_ready() calls in the main loop.
->
-> Fixes: 826cc32423db2a99d184dbf4f507c737d7e7a4ae ("aio-posix: split poll check from ready handler")
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+------=_Part_11232_262339245.1645762884783
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
+CkhpIGFsbCwKCkkgZmluZCBhIHBvdGVudGlhbCBVc2UtYWZ0ZXItZnJlZSBpbiBRRU1VIDYuMi4w
+LCB3aGljaCBpcyBpbiB0ZXN0X2Jsb2Nram9iX2NvbW1vbl9kcmFpbl9ub2RlKCkgKC4vdGVzdHMv
+dW5pdC90ZXN0LWJkcnYtZHJhaW4uYykuCgpTcGVjaWZpY2FsbHksIGF0IGxpbmUgODgwLCB0aGUg
+dmFyaWFibGUgJ3NjcicgaXMgcmVsZWFzZWQgYnkgdGhlIGJkcnZfdW5yZWYoKS4gSG93ZXZlciwg
+YXQgbGluZSA4ODEsIGl0IGlzIHN1YnNlcXVlbnRseSB1c2VkIGFzIHRoZSAxc3QgcGFyYW1ldGVy
+IG9mIHRoZSBmdW5jdGlvbiBiZHJ2X3NldF9iYWNraW5nX2hkKCkuIEFzIGEgcmVzdWx0LCBhbiBV
+QUYgYnVnIG1heSBiZSB0cmlnZ2VyZWQuCgoKCgoKODgwICAgIGJkcnZfdW5yZWYoc3JjKTsKCgo4
+ODEgICAgYmRydl9zZXRfYmFja2luZ19oZChzcmMsIHNyY19iYWNraW5nLCAmZXJyb3JfYWJvcnQp
+OwoKCgoKCkkgYmVsaWV2ZSB0aGF0IHRoZSBwcm9ibGVtIGNhbiBiZSBmaXhlZCBieSBpbnZva2lu
+ZyBiZHJ2X3VucmVmKCkgYWZ0ZXIgdGhlIGNhbGwgb2YgYmRydl9zZXRfYmFja2luZ19oZCgpIHJh
+dGhlciB0aGFuIGJlZm9yZSBpdC4KCgotLS0gICAgYmRydl91bnJlZihzcmMpOwo4ODEgICAgYmRy
+dl9zZXRfYmFja2luZ19oZChzcmMsIHNyY19iYWNraW5nLCAmZXJyb3JfYWJvcnQpOworKytiZHJ2
+X3VucmVmKHNyYyk7CgoKSXQgaXMgYSB0ZXN0IHByb2dyYW0sIHNvIEkgY291bGQndCBnZXQgYSBt
+YWlsLWxpc3QgdG8gc2VuZC4gU28gSSBzZW5kIGl0IHRvIHlvdS4gSG9wZSB5b3UgY2FuIGhlbHAg
+bWUuCkknbSBsb29raW5nIGZvcndhcmQgdG8geW91ciBjb25maXJtYXRpb24uCgpTaW5jZXJlbHkg
+VGhhbmtzLApXZW50YW8KCg==
+------=_Part_11232_262339245.1645762884783
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Reported-by: Jason Wang <jasowang@redhat.com>
+PGJsb2NrcXVvdGUgbmFtZT0icmVwbHlDb250ZW50IiBjbGFzcz0iUmVmZXJlbmNlUXVvdGUiIHN0
+eWxlPSJmb250LWZhbWlseTpTaW1TdW47cGFkZGluZy1sZWZ0OjVweDttYXJnaW4tbGVmdDo1cHg7
+Ym9yZGVyLWxlZnQ6MnB4IHNvbGlkICNCNkI2QjY7bWFyZ2luLXJpZ2h0OjBweDsiPgoJPGJyPgo8
+c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQt
+c2l6ZToxNnB4OyI+SGkgYWxsLDwvc3Bhbj48YnI+CjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTpT
+aW1TdW47Ij48L3NwYW4+PGJyPgo8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMg
+TmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+SSBmaW5kIGEgcG90ZW50aWFsIFVzZS1h
+ZnRlci1mcmVlIGluIFFFTVUgNi4yLjAsIHdoaWNoIGlzIGluIHRlc3RfYmxvY2tqb2JfY29tbW9u
+X2RyYWluX25vZGUoKSAoLi90ZXN0cy91bml0L3Rlc3QtYmRydi1kcmFpbi5jKS48L3NwYW4+PGJy
+Pgo8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6U2ltU3VuOyI+PC9zcGFuPjxicj4KPHNwYW4gc3R5
+bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZw
+eDsiPlNwZWNpZmljYWxseSwgYXQgbGluZSA4ODAsIHRoZSB2YXJpYWJsZSAnc2NyJyBpcyByZWxl
+YXNlZCBieSB0aGUgYmRydl91bnJlZigpLiBIb3dldmVyLCBhdCBsaW5lIDg4MSwgaXQgaXMgc3Vi
+c2VxdWVudGx5IHVzZWQgYXMgdGhlIDFzdCBwYXJhbWV0ZXIgb2YgdGhlIGZ1bmN0aW9uIGJkcnZf
+c2V0X2JhY2tpbmdfaGQoKS4gQXMgYSByZXN1bHQsIGFuIFVBRiBidWcgbWF5IGJlIHRyaWdnZXJl
+ZC48L3NwYW4+PGJyPgoJPHA+CgkJPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OlNpbVN1bjsiPjwv
+c3Bhbj4gCgk8L3A+Cgk8cD4KCQk8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6U2ltU3VuOyI+PGJy
+Pgo8L3NwYW4+IAoJPC9wPgo8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6U2ltU3VuOyI+PHNwYW4g
+c3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6
+MTZweDsiPjg4MDwvc3Bhbj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlOyI+IDwvc3Bhbj48
+c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQt
+c2l6ZToxNnB4OyI+Jm5ic3A7ICZuYnNwOyBiZHJ2X3VucmVmKHNyYyk7PC9zcGFuPjwvc3Bhbj48
+YnI+Cgk8cD4KCQk8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6U2ltU3VuOyI+PHNwYW4gc3R5bGU9
+ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZweDsi
+Pjg4MTwvc3Bhbj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlOyI+IDwvc3Bhbj48c3BhbiBz
+dHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6ZTox
+NnB4OyI+Jm5ic3A7ICZuYnNwOyBiZHJ2X3NldF9iYWNraW5nX2hkKHNyYywgc3JjX2JhY2tpbmcs
+ICZhbXA7ZXJyb3JfYWJvcnQpOzwvc3Bhbj48L3NwYW4+IAoJPC9wPgoJPHA+CgkJPHNwYW4gc3R5
+bGU9ImZvbnQtZmFtaWx5OlNpbVN1bjsiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtU
+aW1lcyBOZXcgUm9tYW4mcXVvdDs7Zm9udC1zaXplOjE2cHg7Ij48YnI+Cjwvc3Bhbj48L3NwYW4+
+IAoJPC9wPgo8YnI+CjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtUaW1lcyBOZXcgUm9t
+YW4mcXVvdDs7Zm9udC1zaXplOjE2cHg7Ij5JIGJlbGlldmUgdGhhdCB0aGUgcHJvYmxlbSBjYW4g
+YmUgZml4ZWQgYnkgaW52b2tpbmcgYmRydl91bnJlZigpIGFmdGVyIHRoZSBjYWxsIG9mIGJkcnZf
+c2V0X2JhY2tpbmdfaGQoKSByYXRoZXIgdGhhbiBiZWZvcmUgaXQuPC9zcGFuPjxicj4KPHNwYW4g
+c3R5bGU9ImZvbnQtZmFtaWx5OlNpbVN1bjsiPjxicj4KPC9zcGFuPjxicj4KPHNwYW4gc3R5bGU9
+ImZvbnQtZmFtaWx5OlNpbVN1bjsiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtUaW1l
+cyBOZXcgUm9tYW4mcXVvdDs7Zm9udC1zaXplOjE2cHg7Ij4tLS08L3NwYW4+PHNwYW4gc3R5bGU9
+IndoaXRlLXNwYWNlOnByZTsiPiA8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90
+O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPiZuYnNwOyAmbmJzcDsgYmRy
+dl91bnJlZihzcmMpOzwvc3Bhbj48L3NwYW4+PGJyPgo8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6
+U2ltU3VuOyI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZx
+dW90Oztmb250LXNpemU6MTZweDsiPjg4MTwvc3Bhbj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6
+cHJlOyI+IDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJv
+bWFuJnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+Jm5ic3A7ICZuYnNwOyBiZHJ2X3NldF9iYWNraW5n
+X2hkKHNyYywgc3JjX2JhY2tpbmcsICZhbXA7ZXJyb3JfYWJvcnQpOzwvc3Bhbj48L3NwYW4+PGJy
+Pgo8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6U2ltU3VuOyI+PHNwYW4gc3R5bGU9ImZvbnQtZmFt
+aWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPisrKzwvc3Bh
+bj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlOyI+IDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9u
+dC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+YmRy
+dl91bnJlZihzcmMpOzwvc3Bhbj48L3NwYW4+PGJyPgo8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6
+U2ltU3VuOyI+PGJyPgo8L3NwYW4+PGJyPgo8c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7
+VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+SXQgaXMgYSB0ZXN0IHByb2dy
+YW0sIHNvIEkgY291bGQndCBnZXQgYSBtYWlsLWxpc3QgdG8gc2VuZC4gU28gSSBzZW5kIGl0IHRv
+IHlvdS4gSG9wZSB5b3UgY2FuIGhlbHAgbWUuPC9zcGFuPgo8L2Jsb2NrcXVvdGU+CjxibG9ja3F1
+b3RlIG5hbWU9InJlcGx5Q29udGVudCIgY2xhc3M9IlJlZmVyZW5jZVF1b3RlIiBzdHlsZT0iZm9u
+dC1mYW1pbHk6U2ltU3VuO3BhZGRpbmctbGVmdDo1cHg7bWFyZ2luLWxlZnQ6NXB4O2JvcmRlci1s
+ZWZ0OjJweCBzb2xpZCAjQjZCNkI2O21hcmdpbi1yaWdodDowcHg7Ij4KCTxicj4KPHNwYW4gc3R5
+bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6MTZw
+eDsiPkknbSBsb29raW5nIGZvcndhcmQgdG8geW91ciBjb25maXJtYXRpb24uPC9zcGFuPjxzcGFu
+IHN0eWxlPSJmb250LWZhbWlseTpTaW1TdW47Ij48YnI+Cjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9u
+dC1mYW1pbHk6JnF1b3Q7VGltZXMgTmV3IFJvbWFuJnF1b3Q7O2ZvbnQtc2l6ZToxNnB4OyI+PGJy
+Pgo8L3NwYW4+CjwvYmxvY2txdW90ZT4KPGJsb2NrcXVvdGUgbmFtZT0icmVwbHlDb250ZW50IiBj
+bGFzcz0iUmVmZXJlbmNlUXVvdGUiIHN0eWxlPSJmb250LWZhbWlseTpTaW1TdW47cGFkZGluZy1s
+ZWZ0OjVweDttYXJnaW4tbGVmdDo1cHg7Ym9yZGVyLWxlZnQ6MnB4IHNvbGlkICNCNkI2QjY7bWFy
+Z2luLXJpZ2h0OjBweDsiPgoJPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5l
+dyBSb21hbiZxdW90Oztmb250LXNpemU6MTZweDsiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTom
+cXVvdDtUaW1lcyBOZXcgUm9tYW4mcXVvdDs7Ij5TaW5jZXJlbHk8L3NwYW4+PHNwYW4gc3R5bGU9
+ImZvbnQtZmFtaWx5OlRpbWVzIE5ldyBSb21hbjsiPiBUaGFua3M8L3NwYW4+PHNwYW4gc3R5bGU9
+ImZvbnQtZmFtaWx5OlRpbWVzIE5ldyBSb21hbjsiPiw8L3NwYW4+PC9zcGFuPjxicj4KPHNwYW4g
+c3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O1RpbWVzIE5ldyBSb21hbiZxdW90Oztmb250LXNpemU6
+MTZweDsiPldlbnRhbzwvc3Bhbj4KPC9ibG9ja3F1b3RlPgo8YmxvY2txdW90ZSBuYW1lPSJyZXBs
+eUNvbnRlbnQiIGNsYXNzPSJSZWZlcmVuY2VRdW90ZSIgc3R5bGU9ImZvbnQtZmFtaWx5OlNpbVN1
+bjtwYWRkaW5nLWxlZnQ6NXB4O21hcmdpbi1sZWZ0OjVweDtib3JkZXItbGVmdDoycHggc29saWQg
+I0I2QjZCNjttYXJnaW4tcmlnaHQ6MHB4OyI+Cgk8YnI+CjwvYmxvY2txdW90ZT4KPGJsb2NrcXVv
+dGUgbmFtZT0icmVwbHlDb250ZW50IiBjbGFzcz0iUmVmZXJlbmNlUXVvdGUiIHN0eWxlPSJmb250
+LWZhbWlseTpTaW1TdW47cGFkZGluZy1sZWZ0OjVweDttYXJnaW4tbGVmdDo1cHg7Ym9yZGVyLWxl
+ZnQ6MnB4IHNvbGlkICNCNkI2QjY7bWFyZ2luLXJpZ2h0OjBweDsiPgoJPGJyPgo8L2Jsb2NrcXVv
+dGU+
+------=_Part_11232_262339245.1645762884783--
 
-Tested-by: Jason Wang <jasowang@redhat.com>
+------=_Part_11230_2049670943.1645762884783
+Content-Type: text/x-patch; 
+	name=0001-Fix-a-potential-Use-after-free-in-test_blockjob_comm.patch
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-Fix-a-potential-Use-after-free-in-test_blockjob_comm.patch"
 
-Thanks
-
-
-> ---
->   util/aio-posix.h |  1 +
->   util/aio-posix.c | 32 ++++++++++++++++++--------------
->   2 files changed, 19 insertions(+), 14 deletions(-)
->
-> diff --git a/util/aio-posix.h b/util/aio-posix.h
-> index 7f2c37a684..80b927c7f4 100644
-> --- a/util/aio-posix.h
-> +++ b/util/aio-posix.h
-> @@ -37,6 +37,7 @@ struct AioHandler {
->       unsigned flags; /* see fdmon-io_uring.c */
->   #endif
->       int64_t poll_idle_timeout; /* when to stop userspace polling */
-> +    bool poll_ready; /* has polling detected an event? */
->       bool is_external;
->   };
->   
-> diff --git a/util/aio-posix.c b/util/aio-posix.c
-> index 7b9f629218..be0182a3c6 100644
-> --- a/util/aio-posix.c
-> +++ b/util/aio-posix.c
-> @@ -23,15 +23,6 @@
->   #include "trace.h"
->   #include "aio-posix.h"
->   
-> -/*
-> - * G_IO_IN and G_IO_OUT are not appropriate revents values for polling, since
-> - * the handler may not need to access the file descriptor. For example, the
-> - * handler doesn't need to read from an EventNotifier if it polled a memory
-> - * location and a read syscall would be slow. Define our own unique revents
-> - * value to indicate that polling determined this AioHandler is ready.
-> - */
-> -#define REVENTS_POLL_READY 0
-> -
->   /* Stop userspace polling on a handler if it isn't active for some time */
->   #define POLL_IDLE_INTERVAL_NS (7 * NANOSECONDS_PER_SECOND)
->   
-> @@ -49,6 +40,14 @@ void aio_add_ready_handler(AioHandlerList *ready_list,
->       QLIST_INSERT_HEAD(ready_list, node, node_ready);
->   }
->   
-> +static void aio_add_poll_ready_handler(AioHandlerList *ready_list,
-> +                                       AioHandler *node)
-> +{
-> +    QLIST_SAFE_REMOVE(node, node_ready); /* remove from nested parent's list */
-> +    node->poll_ready = true;
-> +    QLIST_INSERT_HEAD(ready_list, node, node_ready);
-> +}
-> +
->   static AioHandler *find_aio_handler(AioContext *ctx, int fd)
->   {
->       AioHandler *node;
-> @@ -76,6 +75,7 @@ static bool aio_remove_fd_handler(AioContext *ctx, AioHandler *node)
->       }
->   
->       node->pfd.revents = 0;
-> +    node->poll_ready = false;
->   
->       /* If the fd monitor has already marked it deleted, leave it alone */
->       if (QLIST_IS_INSERTED(node, node_deleted)) {
-> @@ -247,7 +247,7 @@ static bool poll_set_started(AioContext *ctx, AioHandlerList *ready_list,
->   
->           /* Poll one last time in case ->io_poll_end() raced with the event */
->           if (!started && node->io_poll(node->opaque)) {
-> -            aio_add_ready_handler(ready_list, node, REVENTS_POLL_READY);
-> +            aio_add_poll_ready_handler(ready_list, node);
->               progress = true;
->           }
->       }
-> @@ -282,6 +282,7 @@ bool aio_pending(AioContext *ctx)
->       QLIST_FOREACH_RCU(node, &ctx->aio_handlers, node) {
->           int revents;
->   
-> +        /* TODO should this check poll ready? */
->           revents = node->pfd.revents & node->pfd.events;
->           if (revents & (G_IO_IN | G_IO_HUP | G_IO_ERR) && node->io_read &&
->               aio_node_check(ctx, node->is_external)) {
-> @@ -323,11 +324,15 @@ static void aio_free_deleted_handlers(AioContext *ctx)
->   static bool aio_dispatch_handler(AioContext *ctx, AioHandler *node)
->   {
->       bool progress = false;
-> +    bool poll_ready;
->       int revents;
->   
->       revents = node->pfd.revents & node->pfd.events;
->       node->pfd.revents = 0;
->   
-> +    poll_ready = node->poll_ready;
-> +    node->poll_ready = false;
-> +
->       /*
->        * Start polling AioHandlers when they become ready because activity is
->        * likely to continue.  Note that starvation is theoretically possible when
-> @@ -344,7 +349,7 @@ static bool aio_dispatch_handler(AioContext *ctx, AioHandler *node)
->           QLIST_INSERT_HEAD(&ctx->poll_aio_handlers, node, node_poll);
->       }
->       if (!QLIST_IS_INSERTED(node, node_deleted) &&
-> -        revents == 0 &&
-> +        poll_ready && revents == 0 &&
->           aio_node_check(ctx, node->is_external) &&
->           node->io_poll_ready) {
->           node->io_poll_ready(node->opaque);
-> @@ -432,7 +437,7 @@ static bool run_poll_handlers_once(AioContext *ctx,
->       QLIST_FOREACH_SAFE(node, &ctx->poll_aio_handlers, node_poll, tmp) {
->           if (aio_node_check(ctx, node->is_external) &&
->               node->io_poll(node->opaque)) {
-> -            aio_add_ready_handler(ready_list, node, REVENTS_POLL_READY);
-> +            aio_add_poll_ready_handler(ready_list, node);
->   
->               node->poll_idle_timeout = now + POLL_IDLE_INTERVAL_NS;
->   
-> @@ -491,8 +496,7 @@ static bool remove_idle_poll_handlers(AioContext *ctx,
->                    * this causes progress.
->                    */
->                   if (node->io_poll(node->opaque)) {
-> -                    aio_add_ready_handler(ready_list, node,
-> -                                          REVENTS_POLL_READY);
-> +                    aio_add_poll_ready_handler(ready_list, node);
->                       progress = true;
->                   }
->               }
+RnJvbSAwZDYzMWM2NjQ0MWJlNzM2NjZmNGNlOTU5ZmEwMDc1NDgyMGNkNGVhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBXZW50YW9fTGlhbmcgPFdlbnRhb19MaWFuZ19nQDE2My5jb20+
+CkRhdGU6IEZyaSwgMjUgRmViIDIwMjIgMTI6MTI6MTYgKzA4MDAKU3ViamVjdDogW1BBVENIXSBG
+aXggYSBwb3RlbnRpYWwgVXNlLWFmdGVyLWZyZWUgaW4KIHRlc3RfYmxvY2tqb2JfY29tbW9uX2Ry
+YWluX25vZGUoKQoKU2lnbmVkLW9mZi1ieTogV2VudGFvX0xpYW5nIDxXZW50YW9fTGlhbmdfZ0Ax
+NjMuY29tPgotLS0KIHRlc3RzL3VuaXQvdGVzdC1iZHJ2LWRyYWluLmMgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS90ZXN0
+cy91bml0L3Rlc3QtYmRydi1kcmFpbi5jIGIvdGVzdHMvdW5pdC90ZXN0LWJkcnYtZHJhaW4uYwpp
+bmRleCAzNmJlODRhZTU1Li4wZTk4OGJhZGMxIDEwMDY0NAotLS0gYS90ZXN0cy91bml0L3Rlc3Qt
+YmRydi1kcmFpbi5jCisrKyBiL3Rlc3RzL3VuaXQvdGVzdC1iZHJ2LWRyYWluLmMKQEAgLTg3Nyw4
+ICs4NzcsOCBAQCBzdGF0aWMgdm9pZCB0ZXN0X2Jsb2Nram9iX2NvbW1vbl9kcmFpbl9ub2RlKGVu
+dW0gZHJhaW5fdHlwZSBkcmFpbl90eXBlLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgQkRSVl9PX1JEV1IsICZlcnJvcl9hYm9ydCk7CiAKICAgICBiZHJ2X3NldF9iYWNr
+aW5nX2hkKHNyY19vdmVybGF5LCBzcmMsICZlcnJvcl9hYm9ydCk7Ci0gICAgYmRydl91bnJlZihz
+cmMpOwogICAgIGJkcnZfc2V0X2JhY2tpbmdfaGQoc3JjLCBzcmNfYmFja2luZywgJmVycm9yX2Fi
+b3J0KTsKKyAgICBiZHJ2X3VucmVmKHNyYyk7CiAgICAgYmRydl91bnJlZihzcmNfYmFja2luZyk7
+CiAKICAgICBibGtfc3JjID0gYmxrX25ldyhxZW11X2dldF9haW9fY29udGV4dCgpLCBCTEtfUEVS
+TV9BTEwsIEJMS19QRVJNX0FMTCk7Ci0tIAoyLjI1LjEKCg==
+------=_Part_11230_2049670943.1645762884783--
 
 
