@@ -2,99 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C0F4C495B
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 16:42:55 +0100 (CET)
-Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5D54C4999
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 16:51:18 +0100 (CET)
+Received: from localhost ([::1]:33930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNckA-0006Fe-Er
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 10:42:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41386)
+	id 1nNcsH-0006jE-F6
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 10:51:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=048cb90a0=graf@amazon.de>)
- id 1nNcfb-0003JU-JK
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 10:38:11 -0500
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:23882)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nNcgr-0004hI-Cn
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 10:39:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=048cb90a0=graf@amazon.de>)
- id 1nNcfY-0008RO-GF
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 10:38:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1645803488; x=1677339488;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=zufo2VqoW12ZsZWjP7rvFxXLnq5dHqI9qda+WDGbeVc=;
- b=ZhR4WqTGI1s6ATBL0Gay05vSRfm+v6RQe5fXOwnl0+2BstbtCkVFT6fH
- K0qN8uWQ74qcv5bRl1WtDHLiiUtw4+0Fh5W/pdDf2syfIlUeMsRPoD7uL
- jtgzz9Mm7RxeDXLg2c6jieEvqtLSg5Q/nLrkseeNYtP9KZ+w0lJXv+sUB 0=;
-X-IronPort-AV: E=Sophos;i="5.90,136,1643673600"; d="scan'208";a="197753896"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO
- email-inbound-relay-pdx-2a-6435a935.us-west-2.amazon.com) ([10.25.36.214])
- by smtp-border-fw-9102.sea19.amazon.com with ESMTP; 25 Feb 2022 15:37:52 +0000
-Received: from EX13MTAUWC002.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
- by email-inbound-relay-pdx-2a-6435a935.us-west-2.amazon.com (Postfix) with
- ESMTPS id DD055418D1; Fri, 25 Feb 2022 15:37:51 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
- id 15.0.1497.28; Fri, 25 Feb 2022 15:37:51 +0000
-Received: from [0.0.0.0] (10.43.161.217) by EX13D20UWC001.ant.amazon.com
- (10.43.162.244) with Microsoft SMTP Server (TLS) id 15.0.1497.28; Fri, 25 Feb
- 2022 15:37:45 +0000
-Message-ID: <b6c5c4d4-88a5-1ac5-a4d4-2f6895065834@amazon.com>
-Date: Fri, 25 Feb 2022 16:37:43 +0100
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nNcgm-00008H-Ni
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 10:39:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1645803563;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=udROPMp/CwWexCxMk3un6vYAJpDii8Zhi6Qiis4PHQ4=;
+ b=H6804mJ/ANjO52XtPTYRbJzhbBR5sf8xtOzE4EhR10GO9Ug9jU9wuK895sL8kJMJHXNiBl
+ kF+GImRKZBAI0JF9nRXdtbieuRmBOBX49egg/cLVpgizdwsO3Q96QjIpRphTZul9Ar0PxX
+ XA89Y1k0wzabWPG3a0A1XUSbOaPupHo=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-371-m2TnoACOPnuhoKUMoNFU3g-1; Fri, 25 Feb 2022 10:39:20 -0500
+X-MC-Unique: m2TnoACOPnuhoKUMoNFU3g-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ bq19-20020a056402215300b0040f276105a4so2500417edb.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 07:39:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=udROPMp/CwWexCxMk3un6vYAJpDii8Zhi6Qiis4PHQ4=;
+ b=VJI5HQlxXa880g9EXLtDCKhNxgVH8vFlYBcE7AMNQGBJXpYhhaUnuWxA5BqfA2D1dj
+ eI0E3fWReinRtL9z2fk4bj1jRLv9V7zDG/2iKZsmpa3WSmeLHo5VaW4OoY4M+ExUqMPi
+ FMwQgaU9sMrUV+Vlx3yuzD69WwrDJbfLvaGKSJCLvw0ZIGhtQTjlctpI3erLNn7QQ5Zi
+ cuRf4d93/FuszSHawn4jQgDq5KXpNd2MH7jdzbZyiNuPyJy9eVIBYNOwSxFKq/Mp2UXR
+ 4NRJIpJ6JNFJvyW5eawt5EZUnz1a/yuD2NP60qVMxP5BI3xSADz6F4/rkhART9ZmSPeK
+ xveQ==
+X-Gm-Message-State: AOAM532oHlOWJ6kk2RPv86zg5EouNu4QQvKTbK/9EIksso6ZT16MPAwk
+ hb1xA8Nb8MQfA10MIXRJtRCm+okUm02C6Wwd3nAe3xsKVPfHQeQWXtK0SLuX4BRzTrZ7yGxvHyI
+ vN8c4fktAKuNx0Pw=
+X-Received: by 2002:a05:6402:3549:b0:412:b31c:5509 with SMTP id
+ f9-20020a056402354900b00412b31c5509mr7836426edd.224.1645803559350; 
+ Fri, 25 Feb 2022 07:39:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwmL3GiZS8cy9wn8xsZluF8ayhi4dhB3g8nMcMtC0Av4+O8r1UBukQxPPvya7htKjAGVpyt0A==
+X-Received: by 2002:a05:6402:3549:b0:412:b31c:5509 with SMTP id
+ f9-20020a056402354900b00412b31c5509mr7836404edd.224.1645803559070; 
+ Fri, 25 Feb 2022 07:39:19 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ gj7-20020a170907740700b006cf57a6648esm1111549ejc.90.2022.02.25.07.39.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Feb 2022 07:39:18 -0800 (PST)
+Date: Fri, 25 Feb 2022 16:39:17 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 2/4] pcie: update slot power status only is power
+ control is enabled
+Message-ID: <20220225163917.7519454f@redhat.com>
+In-Reply-To: <20220225084140-mutt-send-email-mst@kernel.org>
+References: <20220224174411.3296848-1-imammedo@redhat.com>
+ <20220224174411.3296848-3-imammedo@redhat.com>
+ <20220225101259.begp7wy5o3jlafcf@sirius.home.kraxel.org>
+ <20220225140231.16c13306@redhat.com>
+ <20220225080628-mutt-send-email-mst@kernel.org>
+ <20220225143528.3510dc98@redhat.com>
+ <20220225084140-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v4] virt: vmgenid: introduce driver for reinitializing RNG
- on VM fork
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>, Ard Biesheuvel <ardb@kernel.org>, 
- <adrian@parity.io>
-CC: KVM list <kvm@vger.kernel.org>, Linux Crypto Mailing List
- <linux-crypto@vger.kernel.org>, <linux-hyperv@vger.kernel.org>, "Linux Kernel
- Mailing List" <linux-kernel@vger.kernel.org>, <ben@skyportsystems.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, "Colm
- MacCarthaigh" <colmmacc@amazon.com>, Dexuan Cui <decui@microsoft.com>,
- "Woodhouse, David" <dwmw@amazon.co.uk>, Eric Biggers <ebiggers@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Haiyang Zhang <haiyangz@microsoft.com>, "Igor
- Mammedov" <imammedo@redhat.com>, Jann Horn <jannh@google.com>, KY Srinivasan
- <kys@microsoft.com>, Laszlo Ersek <lersek@redhat.com>, Dominik Brodowski
- <linux@dominikbrodowski.net>, "Michael S. Tsirkin" <mst@redhat.com>, "QEMU
- Developers" <qemu-devel@nongnu.org>, "Weiss, Radu" <raduweis@amazon.com>,
- Stephen Hemminger <sthemmin@microsoft.com>, "Theodore Y. Ts'o"
- <tytso@mit.edu>, Wei Liu <wei.liu@kernel.org>
-References: <CAHmME9pJ3wb=EbUErJrCRC=VYGhFZqj2ar_AkVPsUvAnqGtwwg@mail.gmail.com>
- <20220225124848.909093-1-Jason@zx2c4.com>
- <05c9f2a9-accb-e0de-aac7-b212adac7eb2@amazon.com>
- <YhjjuMOeV7+T7thS@zx2c4.com>
- <88ebdc32-2e94-ef28-37ed-1c927c12af43@amazon.com>
- <YhjoyIUv2+18BwiR@zx2c4.com>
- <9ac68552-c1fc-22c8-13e6-4f344f85a4fb@amazon.com>
- <CAMj1kXEue6cDCSG0N7WGTVF=JYZx3jwE7EK4tCdhO-HzMtWwVw@mail.gmail.com>
- <Yhj288aE5rW15Qpj@zx2c4.com>
-From: Alexander Graf <graf@amazon.com>
-In-Reply-To: <Yhj288aE5rW15Qpj@zx2c4.com>
-X-Originating-IP: [10.43.161.217]
-X-ClientProxiedBy: EX13D15UWA003.ant.amazon.com (10.43.160.182) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
-Precedence: Bulk
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.171.184.29;
- envelope-from=prvs=048cb90a0=graf@amazon.de; helo=smtp-fw-9102.amazon.com
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,55 +107,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ck9uIDI1LjAyLjIyIDE2OjM0LCBKYXNvbiBBLiBEb25lbmZlbGQgd3JvdGU6Cj4gT24gRnJpLCBG
-ZWIgMjUsIDIwMjIgYXQgMDQ6MTY6MjdQTSArMDEwMCwgQXJkIEJpZXNoZXV2ZWwgd3JvdGU6Cj4+
-Pj4gSSBqdXN0IGJvb3RlZCB1cCBhIFdpbmRvd3MgVk0sIGFuZCBpdCBsb29rcyBsaWtlIEh5cGVy
-LVYgdXNlcwo+Pj4+ICJIeXBlcl9WX0dlbl9Db3VudGVyX1YxIiwgd2hpY2ggaXMgYWxzbyBxdWl0
-ZSBsb25nLCBzbyB3ZSBjYW4ndCByZWFsbHkKPj4+PiBISUQgbWF0Y2ggb24gdGhhdCBlaXRoZXIu
-Cj4+Pgo+Pj4gWWVzLCBkdWUgdG8gdGhlIHNhbWUgcHJvYmxlbS4gSSdkIHJlYWxseSBwcmVmZXIg
-d2Ugc29ydCBvdXQgdGhlIEFDUEkKPj4+IG1hdGNoaW5nIGJlZm9yZSB0aGlzIGdvZXMgbWFpbmxp
-bmUuIE1hdGNoaW5nIG9uIF9ISUQgaXMgZXhwbGljaXRseQo+Pj4gZGlzY291cmFnZWQgaW4gdGhl
-IFZNR2VuSUQgc3BlYy4KPj4+Cj4+IE9LLCB0aGlzIHJlYWxseSBzdWNrcy4gUXVvdGluZyB0aGUg
-QUNQSSBzcGVjOgo+Pgo+PiAiIiIKPj4gQSBfSElEIG9iamVjdCBldmFsdWF0ZXMgdG8gZWl0aGVy
-IGEgbnVtZXJpYyAzMi1iaXQgY29tcHJlc3NlZCBFSVNBCj4+IHR5cGUgSUQgb3IgYSBzdHJpbmcu
-IElmIGEgc3RyaW5nLCB0aGUgZm9ybWF0IG11c3QgYmUgYW4gYWxwaGFudW1lcmljCj4+IFBOUCBv
-ciBBQ1BJIElEIHdpdGggbm8gYXN0ZXJpc2sgb3Igb3RoZXIgbGVhZGluZyBjaGFyYWN0ZXJzLgo+
-PiBBIHZhbGlkIFBOUCBJRCBtdXN0IGJlIG9mIHRoZSBmb3JtICJBQUEjIyMjIiB3aGVyZSBBIGlz
-IGFuIHVwcGVyY2FzZQo+PiBsZXR0ZXIgYW5kICMgaXMgYSBoZXggZGlnaXQuCj4+IEEgdmFsaWQg
-QUNQSSBJRCBtdXN0IGJlIG9mIHRoZSBmb3JtICJOTk5OIyMjIyIgd2hlcmUgTiBpcyBhbiB1cHBl
-cmNhc2UKPj4gbGV0dGVyIG9yIGEgZGlnaXQgKCcwJy0nOScpIGFuZCAjIGlzIGEgaGV4IGRpZ2l0
-LiBUaGlzIHNwZWNpZmljYXRpb24KPj4gcmVzZXJ2ZXMgdGhlIHN0cmluZyAiQUNQSSIgZm9yIHVz
-ZSBvbmx5IHdpdGggZGV2aWNlcyBkZWZpbmVkIGhlcmVpbi4KPj4gSXQgZnVydGhlciByZXNlcnZl
-cyBhbGwgc3RyaW5ncyByZXByZXNlbnRpbmcgNCBIRVggZGlnaXRzIGZvcgo+PiBleGNsdXNpdmUg
-dXNlIHdpdGggUENJLWFzc2lnbmVkIFZlbmRvciBJRHMuCj4+ICIiIgo+Pgo+PiBTbyBub3cgd2Ug
-aGF2ZSB0byBpbXBsZW1lbnQgTWljcm9zb2Z0J3MgZm9yayBvZiBBQ1BJIHRvIGJlIGFibGUgdG8g
-dXNlCj4+IHRoaXMgZGV2aWNlLCBldmVuIGlmIHdlIGV4cG9zZSBpdCBmcm9tIFFFTVUgaW5zdGVh
-ZCBvZiBIeXBlci1WPyBJCj4+IHN0cm9uZ2x5IG9iamVjdCB0byB0aGF0Lgo+Pgo+PiBJbnN0ZWFk
-LCB3ZSBjYW4gbWF0Y2ggb24gX0hJRCBleHBvc2VkIGJ5IFFFTVUsIGFuZCBjb3JkaWFsbHkgaW52
-aXRlCj4+IE1pY3Jvc29mdCB0byBhbGlnbiB0aGVpciBzcGVjIHdpdGggdGhlIEFDUEkgc3BlYy4K
-PiBJIGRvbid0IGtub3cgYWJvdXQgdGhhdC4uLiBTZWVtcyBhIGJpdCBleHRyZW1lLiBIb3BlZnVs
-bHkgQWxleCB3aWxsIGJlCj4gYWJsZSB0byBzb3J0IHNvbWV0aGluZyBvdXQgd2l0aCB0aGUgQUNQ
-SSBwZW9wbGUsIGFuZCB0aGlzIGRyaXZlciB3aWxsCj4gd29yayBpbnNpZGUgb2YgSHlwZXItVi4K
-Pgo+IEhlcmUncyB3aGF0IHdlIGN1cnJlbnRseSBoYXZlOgo+Cj4gICAgc3RhdGljIGNvbnN0IHN0
-cnVjdCBhY3BpX2RldmljZV9pZCB2bWdlbmlkX2lkc1tdID0gewo+ICAgICAgeyAiVk1HRU5JRCIs
-IDAgfSwgIDwtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gPz8/Cj4gICAgICB7
-ICJRRU1VVkdJRCIsIDAgfSwgPC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBR
-RU1VCj4gICAgICB7IH0sCj4gICAgfTsKPgo+IEFkcmlhbiBhZGRlZCAiVk1HRU5JRCIgaW4gbGFz
-dCB5ZWFyJ3MgdjQsIHNvIEkgY29waWVkIHRoYXQgZm9yIHRoaXMgbmV3Cj4gZHJpdmVyIGhlcmUu
-IEJ1dCBkb2VzIGFueWJvZHkga25vdyB3aGljaCBoeXBlcnZpc29yIGl0IGlzIGZvcj8gU29tZQo+
-IGludGVybmFsIEFtYXpvbiB0aGluZz8gRmlyZWNyYWNrZXI/IFZNd2FyZT8gSW4gY2FzZSBBbGV4
-IGRvZXMgbm90Cj4gc3VjY2VlZCB3aXRoIHRoZSBBQ1BJIGNoYW5nZXMsIGl0J2QgYmUgbmljZSB0
-byBrbm93IHdoaWNoIEhJRHMgZm9yCj4gd2hpY2ggaHlwZXJ2aXNvcnMgd2UgZG8gYW5kIGRvIG5v
-dCBzdXBwb3J0LgoKCkkgYmVsaWV2ZSAiVk1HRU5JRCIgd2FzIGZvciB0aGUgZmlyZWNyYWNrZXIg
-cHJvdG90eXBlIHRoYXQgQWRyaWFuIGJ1aWx0IApiYWNrIHRoZW4sIHllYWguIE1hdGNoaW5nIG9u
-IF9ISUQgZm9yIHRoaXMgaXMgYSByYXQgaG9sZSB1bmZvcnR1bmF0ZWx5LCAKc28gbGV0J3Mgc2Vl
-IHdoYXQgdGhlIEFDUEkgcGF0Y2ggZ2V0cyB1cyA6KS4KCgpBbGV4CgoKCgoKQW1hem9uIERldmVs
-b3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKS3JhdXNlbnN0ci4gMzgKMTAxMTcgQmVybGluCkdl
-c2NoYWVmdHNmdWVocnVuZzogQ2hyaXN0aWFuIFNjaGxhZWdlciwgSm9uYXRoYW4gV2Vpc3MKRWlu
-Z2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIgSFJCIDE0OTE3MyBC
-ClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDI4OSAyMzcgODc5CgoK
+On Fri, 25 Feb 2022 08:48:13 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
+
+> On Fri, Feb 25, 2022 at 02:35:28PM +0100, Igor Mammedov wrote:
+> > On Fri, 25 Feb 2022 08:08:57 -0500
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >   
+> > > On Fri, Feb 25, 2022 at 02:02:31PM +0100, Igor Mammedov wrote:  
+> > > > On Fri, 25 Feb 2022 11:12:59 +0100
+> > > > Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > > >     
+> > > > >   Hi,
+> > > > >     
+> > > > > >    pcie_cap_slot_post_load()      
+> > > > > >        -> pcie_cap_update_power()
+> > > > > >            -> pcie_set_power_device()
+> > > > > >                -> pci_set_power()
+> > > > > >                    -> pci_update_mappings()      
+> > > > >     
+> > > > > > Fix it by honoring PCI_EXP_SLTCAP_PCP and updating power status
+> > > > > > only if capability is enabled.      
+> > > > >     
+> > > > > > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> > > > > > index d7d73a31e4..2339729a7c 100644
+> > > > > > --- a/hw/pci/pcie.c
+> > > > > > +++ b/hw/pci/pcie.c
+> > > > > > @@ -383,10 +383,9 @@ static void pcie_cap_update_power(PCIDevice *hotplug_dev)
+> > > > > >  
+> > > > > >      if (sltcap & PCI_EXP_SLTCAP_PCP) {
+> > > > > >          power = (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON;
+> > > > > > +        pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> > > > > > +                            pcie_set_power_device, &power);
+> > > > > >      }
+> > > > > > -
+> > > > > > -    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> > > > > > -                        pcie_set_power_device, &power);
+> > > > > >  }      
+> > > > > 
+> > > > > The change makes sense, although I don't see how that changes qemu
+> > > > > behavior.    
+> > > > 
+> > > > looks like I need to fix commit message
+> > > >     
+> > > > > 
+> > > > > 'power' defaults to true, so when SLTCAP_PCP is off it should never
+> > > > > ever try to power off the devices.  And pci_set_power() should figure
+> > > > > the state didn't change and instantly return without touching the
+> > > > > device.    
+> > > > 
+> > > > 
+> > > > SLTCAP_PCP is on by default as well, so empty slot ends up with
+> > > > power disabled PCC state [1]:
+> > > > 
+> > > >   sltctl & SLTCTL_PCC == 0x400
+> > > > 
+> > > > by the time machine is initialized.
+> > > > 
+> > > > Then ACPI pcihp callbacks override native hotplug ones
+> > > > so PCC remains stuck in this state since all power control
+> > > > is out of picture in case of ACPI based hotplug. Guest OS
+> > > > doesn't use/or ignore native PCC.    
+> > > 
+> > > So how about when ACPI pcihp overrides native with its callbacks we also
+> > > set PCC power to on?  
+> > 
+> > with some reworks it should work (i.e. adding an extra knob that will tell
+> > PCI core not to power off when it should, looks fragile and very hacky).
+> > It has the same migration implications as this patch, so I'd rather go
+> > after disabling whole SLTCAP_PCP thing to be correct and keeping PCI
+> > code free from ACPI hacks.  
+> 
+> Hmm I don't get it.  I literally mean this:
+
+I was thinking about the time when we do override native callbacks.
+which happens for every root port at its realize time. Start up sequence on src:
+
+acpi_pcihp_device_pre_plug_cb(dev: extra_root0)                     
+pci_qdev_realize(extra_root0)
+pci_set_power: extra_root0, d->has_power: 0,  new power state: 1
+pci_set_power: extra_root0, set has_power to: 1
+
+acpi_pcihp_device_plug_cb(dev: extra_root0)    <== lets assume we call pcie_cap_enable_power(dev) here
+                                                   it's all good wrt layering as we are rewiring being
+                                                   initialized root port to another hp controller from
+                                                   context of its parent device
+
+pcie_cap_slot_reset        <== then here we hit "if (populated) {} else {}"
+                               which kills whatever above has done since slot is not populated
+                               and a knob would be needed to prevent reset
+                               (i.e. don't touch power state as it's 'managed' by ACPI)
+
+   pcie_cap_update_power(extra_root0): sltcap & PCI_EXP_SLTCAP_PCP: 2,  sltctl & SLTCTL_PCC: 400
+   pcie_cap_update_power(extra_root0): updated power: 0
+
+
+Though I haven't thought about end-device hotplug time:
+
+(qemu) device_add e1000e,bus=extra_root0,id=nic
+acpi_pcihp_device_pre_plug_cb(dev: nic)
+pci_qdev_realize(nic)
+pci_set_power: nic, d->has_power: 0,  new power state: 1
+pci_set_power: nic, set has_power to: 1
+acpi_pcihp_device_plug_cb(dev: nic)                         <== here we have a chance to power on
+                                                                no longer empty slot pcie_cap_enable_power(hotplug_dev)
+                                                                then when target loads state it will see SLTCTL_PCC: 0
+                                                                and keep slot powered on.
+pci_set_power: nic, d->has_power: 1,  new power state: 1
+
+This where I wasn't comfortable with idea of calling random PCIe code
+chunks and thought about chaining callbacks so that
+pcie_cap_slot_[pre_]plug_cb() would do necessary PCIe steps
+and acpi_pcihp_device_[pre_]plug_cb() do ACPI specific things not
+intruding on each other, but that requires telling PCIe code that
+it should not issue native hotplug event to guest.
+
+
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index d7d73a31e4..72de72ce7a 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -389,6 +389,17 @@ static void pcie_cap_update_power(PCIDevice *hotplug_dev)
+>                          pcie_set_power_device, &power);
+>  }
+>  
+> +void pcie_cap_enable_power(PCIDevice *hotplug_dev)
+> +{
+> +    uint8_t *exp_cap = hotplug_dev->config + hotplug_dev->exp.exp_cap;
+> +    uint32_t sltcap = pci_get_long(exp_cap + PCI_EXP_SLTCAP);
+> +
+> +    if (sltcap & PCI_EXP_SLTCAP_PCP) {
+> +        pci_set_word_by_mask(exp_cap + PCI_EXP_SLTCTL,
+> +                             PCI_EXP_SLTCTL_PCC, PCI_EXP_SLTCTL_PWR_ON);
+> +    }
+> +}
+> +
+>  /*
+>   * A PCI Express Hot-Plug Event has occurred, so update slot status register
+>   * and notify OS of the event if necessary.
+> 
+> Then call this from ACPI.  How would this have any migration
+> implications at all?  And why do we need a knob not to power off then?
+> Power will just stay on since there's nothing turning it off.
+
+It still changes pci_config, the similar to disabling SLTCAP_PCP,
+so I think we still need migration compat knob to have the same
+device state in cross version migration case.
 
 
