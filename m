@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2394C4D3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 19:06:13 +0100 (CET)
-Received: from localhost ([::1]:42154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A03F4C4D8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 19:21:54 +0100 (CET)
+Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNeyq-0003og-K9
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 13:06:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46642)
+	id 1nNfE1-0008JJ-O5
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 13:21:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nNefY-0007L0-Pw
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:46:17 -0500
-Received: from [2607:f8b0:4864:20::1029] (port=52054
- helo=mail-pj1-x1029.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nNehl-0002WA-Bk
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:48:33 -0500
+Received: from [2607:f8b0:4864:20::b34] (port=45994
+ helo=mail-yb1-xb34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nNefV-0004z1-Rj
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:46:16 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id d15so2056546pjg.1
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 09:46:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=F27l6p+76CT+6Q8orfOf9bN4zrk23sbGMhZB+tCWNOg=;
- b=hP9E70GDHPHb5WwmhlxNipFbWgglrNXf1fD81DUZekeQzWw9BTcavP76GBHEyvnSbi
- 0sc+1Ma35FzCsby0rV42XKmjUowjWBVT8lcaF1q4HHaGpaMgm8H2sOumwf2Qb8FW2qe5
- 3uETkxnK0Tf1uUjI5sPZQ9aSCsPkuqN6U05xLALbRAcisYV1Zg2p8uhyFGGqibAbZ5t3
- WA9Vi/dwe2t1PAPx06Yk2B7XxCdDAohNI0vYJWPc46Cj8peSgOcBSew92A9R0jI/3B8s
- pvuXGYmyLCEvAQVdt9JxiHJRlgB6RfL9tC9n/aHPx/vBLnSRmbjRNhpQ0oLXCIRtm/dF
- Pu5w==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nNehi-00079p-H5
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:48:32 -0500
+Received: by mail-yb1-xb34.google.com with SMTP id g6so7286818ybe.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 09:48:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bGbzWYMV0oGeM1177pkWtZddZ68Pp3RzbrUo2NZW9Gw=;
+ b=ilTxfsJASMv6RtZp03bOWhC/aX5it1aW+afIlHtUvWTkFdNSJWuB94ybK8nq+QFpCN
+ cr+skq4XJnXCHwUy5yZRA6DyUq7RPgLljvawNxfYcUhNmsYQfQFsIvPHZgMFlxBfDTXl
+ 3GW1aeCR3wnz9/zm3UkIbGNQh/+Pr4hS/GkKry17T7zBzuv6WFQdLxVCvTG6ejHRENVY
+ BcAQWoPYU6g/N8GIoB2Mmj3hsmEXByhyiWNGU+5jQewztyvRogp0dprJRHmmYN7Q+o3x
+ LZ39wX2Wf42vKaaqyVk9b5ytk8NDr8omgU4pFOzqLcLhBnRYaVV5UFOQcalneqhULiZs
+ d2MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=F27l6p+76CT+6Q8orfOf9bN4zrk23sbGMhZB+tCWNOg=;
- b=JYs3x2x+UBbWZwm5H0kRwQl6MnP1NgllZIxsoS0XTXOA9ZjVDCNBPhXy3oMINgslYp
- 0ZA6KCAcjCvjbN4Gnca1GegG96LT1Ek5DOsZr10I0CMKafOA57v2N5ScA4PmJPFgX2gQ
- Z73DwVGckGMbhQmFebCRCPj2La4P1Io+yvDwjlvEIlWC17aYx7X6SahJXuyVB4WIRv4c
- GDiz+FNMFJ9HTA1/VYIX8fmFcvBKbBMZXRTd5ullfqIOogA6lXhcBk+nc6cZgWwO/giW
- xGrI6ok6ul0VVruIDLJ3AqMmhTr+vyB7Lj3WAOcutif2Wu1nq60D4V0FT3xkRGulSdD4
- BZrQ==
-X-Gm-Message-State: AOAM530Oq710eHBZHTjV6Vn04P/BkitcxEc1qwgnq0krbKwoPzLr5d1z
- lv1Nxg6n1Ac048RLW6q9JMI=
-X-Google-Smtp-Source: ABdhPJw5Shfo4pwW6YC8V7rOLoYlAkJhsRKDLJdKZzdoEqebWAwydIBjLU8tDXMXjzB5TBfcmFTzdA==
-X-Received: by 2002:a17:90a:5291:b0:1bb:ef4d:947d with SMTP id
- w17-20020a17090a529100b001bbef4d947dmr4191549pjh.243.1645811172195; 
- Fri, 25 Feb 2022 09:46:12 -0800 (PST)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- s11-20020a056a00194b00b004e1131f86d2sm4159682pfk.8.2022.02.25.09.46.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 09:46:11 -0800 (PST)
-Message-ID: <50a27646-ce9c-c702-965f-46b602be9220@gmail.com>
-Date: Sat, 26 Feb 2022 02:46:06 +0900
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bGbzWYMV0oGeM1177pkWtZddZ68Pp3RzbrUo2NZW9Gw=;
+ b=z0+6KRvRlwdkVMCKpWQeUK820LUn5PDPdH3E3Qc4IJcaBoqEOjfCkbSWq9F/pT9FLf
+ 8FfyD9ij1XyH+MpfCQJauAjkywhNkWEf3WKZSoWSL5696eYkl98Igo5aaI9xtizdfkZO
+ huO6A2GTrx3it3liBwpaSXh8H5wXhp9WUKenO9WFEc7Rml7/CRo9sohLRQfOXDSS5e06
+ FcqiZz2lXVxc0or6juMWQ62GQb/qXn2t1O2OGzcSn0klgQX+4ZKvZjwNEKgpdkLFbG5M
+ KmhvjiowvH6d8V/RIk3y0MxKQ/kvvYr5Tw8xl4GwZ97yxIuYgOQp2gVc9DLzvxpo75k/
+ Q0YA==
+X-Gm-Message-State: AOAM533mLyi9DClWi+rjesMMIyeUybxv6yirZ5d2sKsTBWfhYGCNCm15
+ 1AnotU9aJOqtaX5NtznImFegALFLli+ZZboeKhRjFw==
+X-Google-Smtp-Source: ABdhPJwRKE/9LvHeaSkBtP/BTkjSMzJm1WEKdc45kk9ZT5sLkfs6ShLfM80pg1gns6i3ADeTJ5dQJ/2/4GkbRtRabM8=
+X-Received: by 2002:a25:497:0:b0:624:8ba2:fc8e with SMTP id
+ 145-20020a250497000000b006248ba2fc8emr8364046ybe.39.1645811309075; Fri, 25
+ Feb 2022 09:48:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v15 3/8] net/vmnet: implement shared mode (vmnet-shared)
-Content-Language: en-US
-To: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>,
- qemu-devel@nongnu.org
-References: <20220225171402.64861-1-Vladislav.Yaroshchuk@jetbrains.com>
- <20220225171402.64861-4-Vladislav.Yaroshchuk@jetbrains.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20220225171402.64861-4-Vladislav.Yaroshchuk@jetbrains.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+References: <20220224134901.500007-1-amir.gonnen@neuroblade.ai>
+ <20220224134901.500007-4-amir.gonnen@neuroblade.ai>
+In-Reply-To: <20220224134901.500007-4-amir.gonnen@neuroblade.ai>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 25 Feb 2022 17:48:17 +0000
+Message-ID: <CAFEAcA-6ctDBrewZEtAMKh1yjhaDdLuB7QqSVm9gwaSVTRw=yA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] hw/intc: Vectored Interrupt Controller (VIC)
+To: Amir Gonnen <amir.gonnen@neuroblade.ai>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,574 +84,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, jasowang@redhat.com,
- phillip.ennen@gmail.com, armbru@redhat.com, dirty@apple.com, f4bug@amsat.org,
- r.bolshakov@yadro.com, agraf@csgraf.de, phillip@axleos.com, roman@roolebo.dev,
- hsp.cat7@gmail.com, hello@adns.io, qemu_oss@crudebyte.com, eblake@redhat.com,
- kraxel@redhat.com
+Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/02/26 2:13, Vladislav Yaroshchuk wrote:
-> Interaction with vmnet.framework in different modes
-> differs only on configuration stage, so we can create
-> common `send`, `receive`, etc. procedures and reuse them.
-> 
-> vmnet.framework supports iov, but writing more than
-> one iov into vmnet interface fails with
-> 'VMNET_INVALID_ARGUMENT'. Collecting provided iovs into
-> one and passing it to vmnet works fine. That's the
-> reason why receive_iov() left unimplemented. But it still
-> works with good enough performance having .receive()
-> net/vmnet: implement shared mode (vmnet-shared)
-> 
-> Interaction with vmnet.framework in different modes
-> differs only on configuration stage, so we can create
-> common `send`, `receive`, etc. procedures and reuse them.
-> 
-> vmnet.framework supports iov, but writing more than
-> one iov into vmnet interface fails with
-> 'VMNET_INVALID_ARGUMENT'. Collecting provided iovs into
-> one and passing it to vmnet works fine. That's the
-> reason why receive_iov() left unimplemented. But it still
-> works with good enough performance having .receive()
-> implemented only.
-> 
-> Also, there is no way to unsubscribe from vmnet packages
-> receiving except registering and unregistering event
-> callback or simply drop packages just ignoring and
-> not processing them when related flag is set. Here we do
-> using the second way.
-> 
-> Signed-off-by: Phillip Tennen <phillip@axleos.com>
-> Signed-off-by: Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
+On Thu, 24 Feb 2022 at 13:49, Amir Gonnen <amir.gonnen@neuroblade.ai> wrote=
+:
+>
+> Implement nios2 Vectored Interrupt Controller (VIC).
+> VIC is connected to EIC. It needs to update rha, ril, rrs and rnmi
+> fields on Nios2CPU before raising an IRQ.
+> For that purpose, VIC has a "cpu" property which should refer to the
+> nios2 cpu and set by the board that connects VIC.
 
-Thank you for persistently working on this.
+This device code looks pretty good to me. I have some comments
+below, but they're fairly minor items.
 
+> Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
 > ---
->   net/vmnet-common.m | 302 +++++++++++++++++++++++++++++++++++++++++++++
->   net/vmnet-shared.c |  94 +++++++++++++-
->   net/vmnet_int.h    |  39 +++++-
->   3 files changed, 430 insertions(+), 5 deletions(-)
-> 
-> diff --git a/net/vmnet-common.m b/net/vmnet-common.m
-> index 56612c72ce..2f70921cae 100644
-> --- a/net/vmnet-common.m
-> +++ b/net/vmnet-common.m
-> @@ -10,6 +10,8 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include "qemu/main-loop.h"
-> +#include "qemu/log.h"
->   #include "qapi/qapi-types-net.h"
->   #include "vmnet_int.h"
->   #include "clients.h"
-> @@ -17,4 +19,304 @@
->   #include "qapi/error.h"
->   
->   #include <vmnet/vmnet.h>
-> +#include <dispatch/dispatch.h>
->   
+>  hw/intc/Kconfig     |   4 +
+>  hw/intc/meson.build |   1 +
+>  hw/intc/nios2_vic.c | 327 ++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 332 insertions(+)
+>  create mode 100644 hw/intc/nios2_vic.c
+>
+> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> index 528e77b4a6..8000241428 100644
+> --- a/hw/intc/Kconfig
+> +++ b/hw/intc/Kconfig
+> @@ -81,3 +81,7 @@ config GOLDFISH_PIC
+>
+>  config M68K_IRQC
+>      bool
 > +
-> +static inline void vmnet_set_send_bh_scheduled(VmnetCommonState *s,
-> +                                               bool enable)
+> +config NIOS2_VIC
+> +    default y
+> +    depends on NIOS2 && TCG
+
+You don't need these default and depends lines -- you want
+
+config NIOS2_VIC
+    bool
+
+and then in patch 4 when you add the machine model support
+you edit the "config NIOS2_10M50" section to add a line
+    select NIOS2_VIC
+
+> +/*
+> + * Vectored Interrupt Controller for nios2 processor
+> + *
+> + * Copyright (c) 2022 Neuroblade
+> + *
+> + * Interface:
+> + * QOM property "cpu": link to the Nios2 CPU (must be set)
+> + * Unnamed GPIO inputs 0..NIOS2_VIC_MAX_IRQ-1: input IRQ lines
+> + * IRQ should be connected to nios2 IRQ0.
+> + *
+> + * Reference: "Embedded Peripherals IP User Guide
+> + *             for Intel=C2=AE Quartus=C2=AE Prime Design Suite: 21.4"
+> + * Chapter 38 "Vectored Interrupt Controller Core"
+
+Since Intel helpfully provide this document online we can give a URL
+here, which will be useful for later readers:
+  https://www.intel.com/content/www/us/en/docs/programmable/683130/
+
+> +#define LOG_VIC(...) qemu_log_mask(CPU_LOG_INT, ##__VA_ARGS__)
+
+You only use this macro once, so I think it hides more than it
+helps. I would just drop it. In any case CPU_LOG_INT is really
+intended for logging by the cpu proper, not for devices. Modern
+QEMU device code would use tracepoints.
+
+> +static void vic_update_irq(Nios2Vic *vic)
 > +{
-> +    qatomic_set(&s->send_scheduled, enable);
-> +}
-> +
-> +
-> +static inline bool vmnet_is_send_bh_scheduled(VmnetCommonState *s)
-> +{
-> +    return qatomic_load_acquire(&s->send_scheduled);
-> +}
-> +
-> +
-> +static inline void vmnet_set_send_enabled(VmnetCommonState *s,
-> +                                          bool enable)
-> +{
-> +    if (enable) {
-> +        vmnet_interface_set_event_callback(
-> +            s->vmnet_if,
-> +            VMNET_INTERFACE_PACKETS_AVAILABLE,
-> +            s->if_queue,
-> +            ^(interface_event_t event_id, xpc_object_t event) {
-> +                assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
-> +                /*
-> +                 * This function is being called from a non qemu thread, so
-> +                 * we only schedule a BH, and do the rest of the io completion
-> +                 * handling from vmnet_send_bh() which runs in a qemu context.
-> +                 *
-> +                 * Avoid scheduling multiple bottom halves
-> +                 */
-> +                if (!vmnet_is_send_bh_scheduled(s)) {
-> +                    vmnet_set_send_bh_scheduled(s, true);
+> +    Nios2CPU *cpu =3D NIOS2_CPU(vic->cpu);
+> +    uint32_t pending =3D vic_int_pending(vic);
+> +    int irq =3D -1;
+> +    int max_ril =3D 0;
 
-It can be interrupted between vmnet_is_send_bh_scheduled and 
-vmnet_set_send_bh_scheduled, which leads to data race.
+This initial value of max_ril correctly implements the behaviour
+that setting RIL to 0 disables the interrupt, but it does so
+without it being obvious that it's deliberate. A comment might help:
 
-> +                    qemu_bh_schedule(s->send_bh);
-> +                }
-> +            });
-> +    } else {
-> +        vmnet_interface_set_event_callback(
-> +            s->vmnet_if,
-> +            VMNET_INTERFACE_PACKETS_AVAILABLE,
-> +            NULL,
-> +            NULL);
-> +    }
-> +}
-> +
-> +
-> +static void vmnet_send_completed(NetClientState *nc, ssize_t len)
-> +{
-> +    VmnetCommonState *s = DO_UPCAST(VmnetCommonState, nc, nc);
-> +    vmnet_set_send_enabled(s, true);
-> +}
-> +
-> +
-> +static void vmnet_send_bh(void *opaque)
-> +{
-> +    NetClientState *nc = (NetClientState *) opaque;
-> +    VmnetCommonState *s = DO_UPCAST(VmnetCommonState, nc, nc);
-> +
-> +    struct iovec *iov = s->iov_buf;
-> +    struct vmpktdesc *packets = s->packets_buf;
-> +    int pkt_cnt;
-> +    int i;
-> +
-> +    vmnet_return_t status;
-> +    ssize_t size;
-> +
-> +    /* read as many packets as present */
-> +    pkt_cnt = VMNET_PACKETS_LIMIT;
+/* Note that if RIL is 0 for an interrupt it is effectively disabled */
 
-There could be more than VMNET_PACKETS_LIMIT. You may call vmnet_read in 
-a loop.
-
-> +    for (i = 0; i < pkt_cnt; ++i) {
-> +        packets[i].vm_pkt_size = s->max_packet_size;
-> +        packets[i].vm_pkt_iovcnt = 1;
-> +        packets[i].vm_flags = 0;
-> +    }
 > +
-> +    status = vmnet_read(s->vmnet_if, packets, &pkt_cnt);
-> +    if (status != VMNET_SUCCESS) {
-> +        error_printf("vmnet: read failed: %s\n",
-> +                     vmnet_status_map_str(status));
-> +        goto done;
-> +    }
+> +    vic->vec_tbl_addr =3D 0;
+> +    vic->vic_status =3D 0;
 > +
-> +    for (i = 0; i < pkt_cnt; ++i) {
-> +        size = qemu_send_packet_async(nc,
-> +                                      iov[i].iov_base,
-> +                                      packets[i].vm_pkt_size,
-> +                                      vmnet_send_completed);
-> +        if (size == 0) {
-> +            vmnet_set_send_enabled(s, false);
-> +            goto done;
-> +        } else if (size < 0) {
-> +            break;
-> +        }
-
-goto is not needed here. "break" when size <= 0.
-
-> +    }
-> +
-> +done:
-> +    vmnet_set_send_bh_scheduled(s, false);
-> +}
-> +
-> +
-> +static void vmnet_bufs_init(VmnetCommonState *s)
-> +{
-> +    struct vmpktdesc *packets = s->packets_buf;
-> +    struct iovec *iov = s->iov_buf;
-> +    int i;
-> +
-> +    for (i = 0; i < VMNET_PACKETS_LIMIT; ++i) {
-> +        iov[i].iov_len = s->max_packet_size;
-> +        iov[i].iov_base = g_malloc0(iov[i].iov_len);
-> +        packets[i].vm_pkt_iov = iov + i;
-> +    }
-> +}
-> +
-> +
-> +const char *vmnet_status_map_str(vmnet_return_t status)
-> +{
-> +    switch (status) {
-> +    case VMNET_SUCCESS:
-> +        return "success";
-> +    case VMNET_FAILURE:
-> +        return "general failure (possibly not enough privileges)";
-> +    case VMNET_MEM_FAILURE:
-> +        return "memory allocation failure";
-> +    case VMNET_INVALID_ARGUMENT:
-> +        return "invalid argument specified";
-> +    case VMNET_SETUP_INCOMPLETE:
-> +        return "interface setup is not complete";
-> +    case VMNET_INVALID_ACCESS:
-> +        return "invalid access, permission denied";
-> +    case VMNET_PACKET_TOO_BIG:
-> +        return "packet size is larger than MTU";
-> +    case VMNET_BUFFER_EXHAUSTED:
-> +        return "buffers exhausted in kernel";
-> +    case VMNET_TOO_MANY_PACKETS:
-> +        return "packet count exceeds limit";
-> +#if defined(MAC_OS_VERSION_11_0) && \
-> +    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
-> +    case VMNET_SHARING_SERVICE_BUSY:
-> +        return "conflict, sharing service is in use";
-> +#endif
-> +    default:
-> +        return "unknown vmnet error";
-> +    }
-> +}
-> +
-> +
-> +int vmnet_if_create(NetClientState *nc,
-> +                    xpc_object_t if_desc,
-> +                    Error **errp)
-> +{
-> +    VmnetCommonState *s = DO_UPCAST(VmnetCommonState, nc, nc);;
-
-Duplicate semicolons.
-
-> +    dispatch_semaphore_t if_created_sem = dispatch_semaphore_create(0);
-
-if_created_sem leaks.
-
-> +    __block vmnet_return_t if_status;
-> +
-> +    s->if_queue = dispatch_queue_create(
-> +        "org.qemu.vmnet.if_queue",
-> +        DISPATCH_QUEUE_SERIAL
-> +    );
-> +
-> +    xpc_dictionary_set_bool(
-> +        if_desc,
-> +        vmnet_allocate_mac_address_key,
-> +        false
-> +    );
-> +#ifdef DEBUG
-> +    qemu_log("vmnet.start.interface_desc:\n");
-> +    xpc_dictionary_apply(if_desc,
-> +                         ^bool(const char *k, xpc_object_t v) {
-> +                             char *desc = xpc_copy_description(v);
-> +                             qemu_log("  %s=%s\n", k, desc);
-> +                             free(desc);
-> +                             return true;
-> +                         });
-> +#endif /* DEBUG */
-> +
-> +    s->vmnet_if = vmnet_start_interface(
-> +        if_desc,
-> +        s->if_queue,
-> +        ^(vmnet_return_t status, xpc_object_t interface_param) {
-> +            if_status = status;
-> +            if (status != VMNET_SUCCESS || !interface_param) {
-> +                dispatch_semaphore_signal(if_created_sem);
-> +                return;
-> +            }
-> +
-> +#ifdef DEBUG
-> +            qemu_log("vmnet.start.interface_param:\n");
-> +            xpc_dictionary_apply(interface_param,
-> +                                 ^bool(const char *k, xpc_object_t v) {
-> +                                     char *desc = xpc_copy_description(v);
-> +                                     qemu_log("  %s=%s\n", k, desc);
-> +                                     free(desc);
-> +                                     return true;
-> +                                 });
-> +#endif /* DEBUG */
-> +
-> +            s->mtu = xpc_dictionary_get_uint64(
-> +                interface_param,
-> +                vmnet_mtu_key);
-> +            s->max_packet_size = xpc_dictionary_get_uint64(
-> +                interface_param,
-> +                vmnet_max_packet_size_key);
-> +
-> +            dispatch_semaphore_signal(if_created_sem);
-> +        });
-> +
-> +    if (s->vmnet_if == NULL) {
-> +        error_setg(errp,
-> +                   "unable to create interface "
-> +                   "with requested params");
-
-You don't need line breaks here. Breaking a string into a few would also 
-makes it a bit hard to grep.
-
-> +        return -1;
-
-s->if_queue leaks.
-
-> +    }
-> +
-> +    dispatch_semaphore_wait(if_created_sem, DISPATCH_TIME_FOREVER);
-> +
-> +    if (if_status != VMNET_SUCCESS) {
-> +        error_setg(errp,
-> +                   "cannot create vmnet interface: %s",
-> +                   vmnet_status_map_str(if_status));
-> +        return -1;
-> +    }
-> +
-> +    s->send_bh = aio_bh_new(qemu_get_aio_context(), vmnet_send_bh, nc);
-> +    vmnet_bufs_init(s);
-> +    vmnet_set_send_bh_scheduled(s, false);
-> +    vmnet_set_send_enabled(s, true);
-> +    return 0;
-> +}
-> +
-> +
-> +ssize_t vmnet_receive_common(NetClientState *nc,
-> +                             const uint8_t *buf,
-> +                             size_t size)
-> +{
-> +    VmnetCommonState *s = DO_UPCAST(VmnetCommonState, nc, nc);
-> +    struct vmpktdesc packet;
-> +    struct iovec iov;
-> +    int pkt_cnt;
-> +    vmnet_return_t if_status;
-> +
-> +    if (size > s->max_packet_size) {
-> +        warn_report("vmnet: packet is too big, %zu > %llu\n",
-
-Use PRIu64.
-
-> +                    packet.vm_pkt_size,
-> +                    s->max_packet_size);
-> +        return -1;
-> +    }
-> +
-> +    iov.iov_base = (char *) buf;
-> +    iov.iov_len = size;
-> +
-> +    packet.vm_pkt_iovcnt = 1;
-> +    packet.vm_flags = 0;
-> +    packet.vm_pkt_size = size;
-> +    packet.vm_pkt_iov = &iov;
-> +    pkt_cnt = 1;
-> +
-> +    if_status = vmnet_write(s->vmnet_if, &packet, &pkt_cnt);
-> +    if (if_status != VMNET_SUCCESS) {
-> +        error_report("vmnet: write error: %s\n",
-> +                     vmnet_status_map_str(if_status));
-
-Why don't return -1?
-
-> +    }
-> +
-> +    if (if_status == VMNET_SUCCESS && pkt_cnt) {
-> +        return size;
-> +    }
-> +    return 0;
-> +}
-> +
-> +
-> +void vmnet_cleanup_common(NetClientState *nc)
-> +{
-> +    VmnetCommonState *s = DO_UPCAST(VmnetCommonState, nc, nc);;
-
-Duplicate semicolons.
-
-> +    dispatch_semaphore_t if_created_sem;
-> +
-> +    qemu_purge_queued_packets(nc); > +    vmnet_set_send_bh_scheduled(s, true);
-> +    vmnet_set_send_enabled(s, false);
-> +
-> +    if (s->vmnet_if == NULL) {
+> +    if (pending =3D=3D 0) {
+> +        qemu_irq_lower(vic->output_int);
 > +        return;
 > +    }
 > +
-> +    if_created_sem = dispatch_semaphore_create(0);
-> +    vmnet_stop_interface(
-> +        s->vmnet_if,
-> +        s->if_queue,
-> +        ^(vmnet_return_t status) {
-> +            assert(status == VMNET_SUCCESS);
-> +            dispatch_semaphore_signal(if_created_sem);
-> +        });
-> +    dispatch_semaphore_wait(if_created_sem, DISPATCH_TIME_FOREVER);
-> +
-> +    qemu_bh_delete(s->send_bh);
-> +    dispatch_release(if_created_sem);
-> +    dispatch_release(s->if_queue);
-> +
-> +    for (int i = 0; i < VMNET_PACKETS_LIMIT; ++i) {
-> +        g_free(s->iov_buf[i].iov_base);
+> +    for (int i =3D 0; i < NIOS2_VIC_MAX_IRQ; i++) {
+> +        if (pending & BIT(i)) {
+> +            int ril =3D vic_int_config_ril(vic, i);
+> +            if (ril > max_ril) {
+> +                irq =3D i;
+> +                max_ril =3D ril;
+> +            }
+> +        }
 > +    }
+> +
+> +    if (irq < 0) {
+> +        qemu_irq_lower(vic->output_int);
+> +        return;
+> +    }
+> +
+> +    vic->vec_tbl_addr =3D irq * vic_config_vec_size(vic) + vic->vec_tbl_=
+base;
+> +    vic->vic_status =3D deposit32(vic->vic_status, 0, 6, irq) | BIT(31);
+
+You might as well just write
+   vic->vic_status =3D irq | BIT(31);
+here I think.
+
+> +
+> +    cpu->rha =3D vic->vec_tbl_addr;
+> +    cpu->ril =3D max_ril;
+> +    cpu->rrs =3D vic_int_config_rrs(vic, irq);
+> +    cpu->rnmi =3D vic_int_config_rnmi(vic, irq);
+> +
+> +    qemu_irq_raise(vic->output_int);
+
+I think a comment here would be helpful since this is reaching
+into the CPU object. Something like:
+
+/*
+ * In hardware, the interface between the VIC and the CPU is via the
+ * External Interrupt Controller interface, where the interrupt controller
+ * presents the CPU with a packet of data containing:
+ *  - Requested Handler Address (RHA): 32 bits
+ *  - Requested Register Set (RRS) : 6 bits
+ *  - Requested Interrupt Level (RIL) : 6 bits
+ *  - Requested NMI flag (RNMI) : 1 bit
+ * In our emulation, we implement this by writing the data directly to
+ * fields in the CPU object and then raising the IRQ line to tell
+ * the CPU that we've done so.
+ */
+
+(There are more encapsulated ways one could write this communication
+between the VIC device object and the CPU, but I think what you have
+here is fine, as long as we have the comment to document that this is
+a well-defined interaction and not just the device messing with
+some other object's internal state in an arbitrary way.)
+
 > +}
-> diff --git a/net/vmnet-shared.c b/net/vmnet-shared.c
-> index f07afaaf21..66f66c034b 100644
-> --- a/net/vmnet-shared.c
-> +++ b/net/vmnet-shared.c
-> @@ -10,16 +10,102 @@
->   
->   #include "qemu/osdep.h"
->   #include "qapi/qapi-types-net.h"
-> +#include "qapi/error.h"
->   #include "vmnet_int.h"
->   #include "clients.h"
-> -#include "qemu/error-report.h"
-> -#include "qapi/error.h"
->   
->   #include <vmnet/vmnet.h>
->   
-> +typedef struct VmnetSharedState {
-> +    VmnetCommonState cs;
-> +} VmnetSharedState;
 > +
-> +
-> +static bool validate_options(const Netdev *netdev, Error **errp)
+
+> +static void nios2_vic_csr_write(void *opaque, hwaddr offset, uint64_t va=
+lue,
+> +                                unsigned size)
 > +{
-> +    const NetdevVmnetSharedOptions *options = &(netdev->u.vmnet_shared);
+> +    Nios2Vic *vic =3D opaque;
+> +    int index =3D offset / 4;
 > +
-> +#if !defined(MAC_OS_VERSION_11_0) || \
-> +    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_11_0
-> +    if (options->has_isolated) {
-> +        error_setg(errp,
-> +                   "vmnet-shared.isolated feature is "
-> +                   "unavailable: outdated vmnet.framework API");
-> +        return false;
+> +    switch (index) {
+> +    case INT_CONFIG0 ... INT_CONFIG31:
+> +        vic->int_config[index - INT_CONFIG0] =3D value;
+> +        break;
+> +    case INT_ENABLE:
+> +        vic->int_enable =3D value;
+> +        break;
+> +    case INT_ENABLE_SET:
+> +        vic->int_enable |=3D value;
+> +        break;
+> +    case INT_ENABLE_CLR:
+> +        vic->int_enable &=3D ~value;
+> +        break;
+> +    case SW_INTERRUPT:
+> +        vic->sw_int =3D value;
+> +        break;
+> +    case SW_INTERRUPT_SET:
+> +        vic->sw_int |=3D value;
+> +        break;
+> +    case SW_INTERRUPT_CLR:
+> +        vic->sw_int &=3D ~value;
+> +        break;
+> +    case VIC_CONFIG:
+> +        vic->vic_config =3D value;
+> +        break;
+> +    case VEC_TBL_BASE:
+> +        vic->vec_tbl_base =3D value;
+> +        break;
+> +    default:
+> +        ;
+
+Write 'break;' rather than just a ';'.
+Or use qemu_log_mask(LOG_GUEST_ERROR, ...) to report that
+the guest did something wrong (wrote to a read-only or invalid
+register offset, in this case), if you like.
+
 > +    }
-> +#endif
 > +
-> +    if ((options->has_start_address ||
-> +         options->has_end_address ||
-> +         options->has_subnet_mask) &&
-> +        !(options->has_start_address &&
-> +          options->has_end_address &&
-> +          options->has_subnet_mask)) {
-> +        error_setg(errp,
-> +                   "'start-address', 'end-address', 'subnet-mask' "
-> +                   "should be provided together"
-> +        );
-> +        return false;
-> +    }
-> +
-> +    return true;
+> +    vic_update_irq(vic);
 > +}
-> +
-> +static xpc_object_t build_if_desc(const Netdev *netdev)
-> +{
-> +    const NetdevVmnetSharedOptions *options = &(netdev->u.vmnet_shared);
-> +    xpc_object_t if_desc = xpc_dictionary_create(NULL, NULL, 0);
-> +
-> +    xpc_dictionary_set_uint64(
-> +        if_desc,
-> +        vmnet_operation_mode_key,
-> +        VMNET_SHARED_MODE
-> +    );
-> +
-> +    if (options->has_nat66_prefix) {
-> +        xpc_dictionary_set_string(if_desc,
-> +                                  vmnet_nat66_prefix_key,
-> +                                  options->nat66_prefix);
-> +    }
-> +
-> +    if (options->has_start_address) {
-> +        xpc_dictionary_set_string(if_desc,
-> +                                  vmnet_start_address_key,
-> +                                  options->start_address);
-> +        xpc_dictionary_set_string(if_desc,
-> +                                  vmnet_end_address_key,
-> +                                  options->end_address);
-> +        xpc_dictionary_set_string(if_desc,
-> +                                  vmnet_subnet_mask_key,
-> +                                  options->subnet_mask);
-> +    }
-> +
-> +#if defined(MAC_OS_VERSION_11_0) && \
-> +    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
-> +    xpc_dictionary_set_bool(
-> +        if_desc,
-> +        vmnet_enable_isolation_key,
-> +        options->isolated
-> +    );
-> +#endif
-> +
-> +    return if_desc;
-> +}
-> +
-> +static NetClientInfo net_vmnet_shared_info = {
-> +    .type = NET_CLIENT_DRIVER_VMNET_SHARED,
-> +    .size = sizeof(VmnetSharedState),
-> +    .receive = vmnet_receive_common,
-> +    .cleanup = vmnet_cleanup_common,
+
+> +static const VMStateDescription nios2_vic_vmstate =3D {
+> +    .name =3D "nios2-vic",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .fields =3D (VMStateField[]){ VMSTATE_UINT32_ARRAY(int_config, Nios2=
+Vic, 32),
+> +                                VMSTATE_UINT32(vic_config, Nios2Vic),
+> +                                VMSTATE_UINT32(int_raw_status, Nios2Vic)=
+,
+> +                                VMSTATE_UINT32(int_enable, Nios2Vic),
+> +                                VMSTATE_UINT32(sw_int, Nios2Vic),
+> +                                VMSTATE_UINT32(vic_status, Nios2Vic),
+> +                                VMSTATE_UINT32(vec_tbl_base, Nios2Vic),
+> +                                VMSTATE_UINT32(vec_tbl_addr, Nios2Vic),
+> +                                VMSTATE_END_OF_LIST() },
+
+This is weirdly laid out; can you format it more like the way
+other files do it, please?
+
+    .fields =3D (VMStateField[]){
+        VMSTATE_UINT32_ARRAY(int_config, Nios2Vic, 32),
+        VMSTATE_UINT32(vic_config, Nios2Vic),
+        [ etc ]
+        VMSTATE_END_OF_LIST()
+    },
+
 > +};
-> +
->   int net_init_vmnet_shared(const Netdev *netdev, const char *name,
->                             NetClientState *peer, Error **errp)
->   {
-> -  error_setg(errp, "vmnet-shared is not implemented yet");
-> -  return -1;
-> +    NetClientState *nc = qemu_new_net_client(&net_vmnet_shared_info,
-> +                                             peer, "vmnet-shared", name);
-> +    if (!validate_options(netdev, errp)) {
-> +        g_assert_not_reached();
 
-g_assert_not_reached is for debugging purpose and may be dropped 
-depending on the build option.
-
-> +    }
-> +    return vmnet_if_create(nc, build_if_desc(netdev), errp);
->   }
-> diff --git a/net/vmnet_int.h b/net/vmnet_int.h
-> index aac4d5af64..acfe3a88c0 100644
-> --- a/net/vmnet_int.h
-> +++ b/net/vmnet_int.h
-> @@ -15,11 +15,48 @@
->   #include "clients.h"
->   
->   #include <vmnet/vmnet.h>
-> +#include <dispatch/dispatch.h>
-> +
-> +/**
-> + *  From vmnet.framework documentation
-> + *
-> + *  Each read/write call allows up to 200 packets to be
-> + *  read or written for a maximum of 256KB.
-> + *
-> + *  Each packet written should be a complete
-> + *  ethernet frame.
-> + *
-> + *  https://developer.apple.com/documentation/vmnet
-> + */
-> +#define VMNET_PACKETS_LIMIT 200
->   
->   typedef struct VmnetCommonState {
-> -  NetClientState nc;
-> +    NetClientState nc;
-> +    interface_ref vmnet_if;
-> +
-> +    bool send_scheduled;
->   
-> +    uint64_t mtu;
-> +    uint64_t max_packet_size;
-> +
-> +    struct vmpktdesc packets_buf[VMNET_PACKETS_LIMIT];
-> +    struct iovec iov_buf[VMNET_PACKETS_LIMIT];
-> +
-> +    dispatch_queue_t if_queue;
-> +
-> +    QEMUBH *send_bh;
->   } VmnetCommonState;
->   
-> +const char *vmnet_status_map_str(vmnet_return_t status);
-> +
-> +int vmnet_if_create(NetClientState *nc,
-> +                    xpc_object_t if_desc,
-> +                    Error **errp);
-> +
-> +ssize_t vmnet_receive_common(NetClientState *nc,
-> +                             const uint8_t *buf,
-> +                             size_t size);
-> +
-> +void vmnet_cleanup_common(NetClientState *nc);
->   
->   #endif /* VMNET_INT_H */
-
+thanks
+-- PMM
 
