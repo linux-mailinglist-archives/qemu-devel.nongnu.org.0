@@ -2,105 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2EB4C4AC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 17:32:57 +0100 (CET)
-Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD17E4C4AF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 17:38:04 +0100 (CET)
+Received: from localhost ([::1]:34632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNdWZ-000055-T0
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 11:32:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51334)
+	id 1nNdbX-0005Yi-E2
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 11:38:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nNdFp-00023c-0p
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 11:15:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56226)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nNdFk-0006Yi-TZ
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 11:15:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645805729;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Etqldj/4s/fIb10KgVa4JK1z/x+HxbGkpKDrNg4Xpbg=;
- b=hSbgmFb9Uy1jfLSSGw7EUZwERzBvUplRjoz/DdJwEF5g2xwghoyUuepD98k8dZqoTeq60G
- GQQNvRPXUJL58oUe1PZeazbAMal6ae3b8QrCrAIqFvSkDYwJ0EidYfTu2WumitsS3oTt5U
- /XB2d0ccAmX81RENNvpOG2cn4SbbV50=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-154-RzvxcziPNRO33hikJ-Edlg-1; Fri, 25 Feb 2022 11:15:26 -0500
-X-MC-Unique: RzvxcziPNRO33hikJ-Edlg-1
-Received: by mail-il1-f199.google.com with SMTP id
- x6-20020a923006000000b002bea39c3974so3748930ile.12
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 08:15:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nNdQ1-0004WC-Vx; Fri, 25 Feb 2022 11:26:10 -0500
+Received: from [2607:f8b0:4864:20::331] (port=44606
+ helo=mail-ot1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nNdPz-0002M4-NL; Fri, 25 Feb 2022 11:26:09 -0500
+Received: by mail-ot1-x331.google.com with SMTP id
+ u17-20020a056830231100b005ad13358af9so3929750ote.11; 
+ Fri, 25 Feb 2022 08:26:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=F87/3br0nyYDz8d1WzPEN8OqVye3+O9CRY4BqyUnkWY=;
+ b=GiJcSZijPbgyolH5Dz1hjZBE4DQDpbJGJR4tGdDXkawKdvcdvrMfXDetNvmhGHiAL3
+ ifIfJuTeWBwspnQ8kDUoduEbjLGuLuOxnZO4NisOusjNzxOOAi36XeiEMyhXZ5ruzSKt
+ OSGdBJZ8hIt0rpHTA1IghTtVMZ+X0ELG8UmgiiaxnU8ekwhW356+yhtXQ3uKZ7qht09b
+ lzGhM8hx8/O6NiRzOdc5KfrMSVbVAPhEt8k4fe62GvPUx0L9/YsM5txa9VLJsAgKuDGQ
+ 5MKsk7SJDJWYF0r/r1Tcp66bMDrKqowWe485rz5jTrrZ9iOtPd4LxXYJvEZOJgCSqCZq
+ F9jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=Etqldj/4s/fIb10KgVa4JK1z/x+HxbGkpKDrNg4Xpbg=;
- b=asHuGOLHFC8CIvhKEh5n7Uib0iwZbiJ3cSGSTPzZge0grFV8BLYJeQkyK0OoXRU/Te
- qNysHqx43q/RlZtg5C/O4lUlMCskg6kurJxCmVUoiNeujKo+sDQEaeLtW2X5srjVvAoY
- eNRrusxpJHIm94lodU45z/2LhDnQ5V7U4/CFpJKK2xfaEXUVrsJ/XFGW42MB5Ubuq/F2
- Omlhwxia+dHL/ilkqUvq06dBNw9z0+leAE7LvxxtmmPr64/YrhiwBH7uCBnCMEx5GHI9
- ROE5yMZJO8J0dooFKqAw6LRI1ZelBNYXWVf/GBkxBAoH+4JfPaRda0SW4exTUf67YEve
- Rclw==
-X-Gm-Message-State: AOAM531ooT2Nseg+OgrtDKcZqlF1PLk31C1rUnvFzV0TsJgICJjmVcfc
- KtLI24uYSMJ1Pk4sWMUvxKCIvJR+/z0Cb4hFR0P/jh1+wzy2AY6CAdxOWHjJ6UqjJOK1dvs6jzx
- 0+qdKqNhpJDFJiTI=
-X-Received: by 2002:a92:cccb:0:b0:2c2:7641:ed49 with SMTP id
- u11-20020a92cccb000000b002c27641ed49mr7155889ilq.271.1645805725911; 
- Fri, 25 Feb 2022 08:15:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzFb3zKLpvyu7TMzyQEk2EiYkwKZUrpkYmSnnQaRUBmAW+2R1x4P0f3lmzuwbBHPQJgmyN/Mg==
-X-Received: by 2002:a92:cccb:0:b0:2c2:7641:ed49 with SMTP id
- u11-20020a92cccb000000b002c27641ed49mr7155848ilq.271.1645805725574; 
- Fri, 25 Feb 2022 08:15:25 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- q7-20020a92d407000000b002c23918fa80sm1749324ilm.60.2022.02.25.08.15.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 08:15:25 -0800 (PST)
-Date: Fri, 25 Feb 2022 09:15:23 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v3 4/6] i386/pc: relocate 4g start to 1T where applicable
-Message-ID: <20220225091523.66b3b2c5.alex.williamson@redhat.com>
-In-Reply-To: <eb699dff-09d3-e9ba-2c35-3c91966efa13@oracle.com>
-References: <20220223184455.9057-5-joao.m.martins@oracle.com>
- <20220223161744-mutt-send-email-mst@kernel.org>
- <5fee0e05-e4d1-712b-9ad1-f009aba431ea@oracle.com>
- <c28ade30-fbea-4d3a-3b11-356c02abaabb@oracle.com>
- <20220224122146-mutt-send-email-mst@kernel.org>
- <7afb8caf-5c98-d6db-d3e5-6e08b2832d57@oracle.com>
- <20220224131607-mutt-send-email-mst@kernel.org>
- <f19dd8be-f923-fd7d-c54d-a54fd775dcc5@oracle.com>
- <20220224144800-mutt-send-email-mst@kernel.org>
- <37df5f3a-283a-a016-311f-8281bbacda19@oracle.com>
- <20220224150626-mutt-send-email-mst@kernel.org>
- <5cae0afc-df3e-5dc6-d11b-2f7d931ba5e6@oracle.com>
- <20220224144053.3fbe234d.alex.williamson@redhat.com>
- <eb699dff-09d3-e9ba-2c35-3c91966efa13@oracle.com>
-Organization: Red Hat
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=F87/3br0nyYDz8d1WzPEN8OqVye3+O9CRY4BqyUnkWY=;
+ b=HKycm/VWJVzD5wT6xgZnlkq3VG23okXeRhb84azvlxVojyiBBCcoZQOfUBw8jNfl9Z
+ WugdqZl47EehBudgqQmgMjyggEEye6/3j2pzYepaF35ahUrsiuzlJQAKqxy/poD0FbMf
+ Tq9vG8zLT2pMfbLXY4nokbL60lK5F6D3Ut4qIkV4xhmYbQHG1lf/pPIuzdfCtqUlNfTC
+ zZH60Y/ZBaUjFLgLgltMJMy7bLv6FoB13ztBu3B0fzgcMgLINsV2egIvJrGsPWi8/NrJ
+ QGjyXQFLeOHHNnVzKSBsgjeeTtnkjVuD2oNyo4cfb6be87++zZnPejkW8ERJrhGfCd/8
+ XWEQ==
+X-Gm-Message-State: AOAM533QGVhzlScNjxZ080b+7OLBmn6aOPTqG8FpRJ6wjq6BdXkWvKdp
+ msPMS2xmMQbAr0ZMr0X8lTo=
+X-Google-Smtp-Source: ABdhPJx6Pe7KOb7SyuhK0sljf60IJijAEA5zLzZDvnGpBwfMeyi94sqRmUEHeiL+fWbnbxV3kVobtg==
+X-Received: by 2002:a9d:a31:0:b0:5af:244f:266 with SMTP id
+ 46-20020a9d0a31000000b005af244f0266mr3143400otg.252.1645806366111; 
+ Fri, 25 Feb 2022 08:26:06 -0800 (PST)
+Received: from ?IPV6:2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377?
+ ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
+ by smtp.gmail.com with ESMTPSA id
+ w5-20020a4a5d05000000b0031c67a9b54bsm1271469ooa.45.2022.02.25.08.26.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Feb 2022 08:26:05 -0800 (PST)
+Message-ID: <e559eaca-4b46-0b0a-1b4d-cbf0f881d9ad@gmail.com>
+Date: Fri, 25 Feb 2022 13:26:02 -0300
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 14/18] ppc/pnv: add XIVE Gen2 TIMA support
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211126115349.2737605-1-clg@kaod.org>
+ <20211126115349.2737605-15-clg@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20211126115349.2737605-15-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x331.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,124 +95,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Feb 2022 12:36:24 +0000
-Joao Martins <joao.m.martins@oracle.com> wrote:
-
-> On 2/24/22 21:40, Alex Williamson wrote:
-> > On Thu, 24 Feb 2022 20:34:40 +0000
-> > Joao Martins <joao.m.martins@oracle.com> wrote:
-> >> Of all those cases I would feel the machine-property is better,
-> >> and more flexible than having VFIO/VDPA deal with a bad memory-layout and
-> >> discovering late stage that the user is doing something wrong (and thus
-> >> fail the DMA_MAP operation for those who do check invalid iovas)  
-> > 
-> > The trouble is that anything we can glean from the host system where we
-> > instantiate the VM is mostly meaningless relative to data center
-> > orchestration.  We're relatively insulated from these sorts of issues
-> > on x86 (apparently aside from this case), AIUI ARM is even worse about
-> > having arbitrary reserved ranges within their IOVA space.
-> >   
-> In the multi-socket servers we have for ARM I haven't seen much
-> issues /yet/ with VFIO. I only have this reserved region:
-> 
-> 0x0000000008000000 0x00000000080fffff msi
-> 
-> But of course ARM servers aren't very good representatives of the
-> shifting nature of other ARM machine models. ISTR some thread about GIC ITS ranges
-> being reserved by IOMMU in some hardware. Perhaps that's what you might
-> be referring to about:
-> 
-> https://lore.kernel.org/qemu-devel/1510622154-17224-1-git-send-email-zhuyijun@huawei.com/
 
 
-Right, and notice there also that the msi range is different.  On x86
-the msi block is defined by the processor, not the platform and we have
-commonality between Intel and AMD on that range.  We emulate the same
-range in the guest, so for any x86 guest running on an x86 host, the
-msi range is a non-issue because they overlap due to the architectural
-standards.
-
-How do you create an ARM guest that reserves a block at both 0x8000000
-for your host and 0xc6000000 for the host in the above link?  Whatever
-solution we develop to resolve that issue should equally apply to the
-AMD reserved block:
-
-0x000000fd00000000 0x000000ffffffffff reserved
-
-> > For a comprehensive solution, it's not a machine accelerator property
-> > or enable such-and-such functionality flag, it's the ability to specify
-> > a VM memory map on the QEMU command line and data center orchestration
-> > tools gaining insight across all their systems to specify a memory
-> > layout that can work regardless of how a VM might be migrated. 
-> > Maybe
-> > there's a "host" option to that memory map command line option that
-> > would take into account the common case of a static host or at least
-> > homogeneous set of hosts.  Overall, it's not unlike specifying CPU flags
-> > to generate a least common denominator set such that the VM is
-> > compatible to any host in the cluster.
-> >   
+On 11/26/21 08:53, Cédric Le Goater wrote:
+> Only the CAM line updates done by the hypervisor are specific to
+> POWER10. Instead of duplicating the TM ops table, we handle these
+> commands locally under the PowerNV XIVE2 model.
 > 
-> I remember you iterated over the initial RFC over such idea. I do like that
-> option of adjusting memory map... should any new restrictions appear in the
-> IOVA space appear as opposed to have to change the machine code everytime
-> that happens.
-> 
-> 
-> I am trying to approach this iteratively and starting by fixing AMD 1T+ guests
-> with something that hopefully is less painful to bear and unbreaks users doing
-> multi-TB guests on kernels >= 5.4. While for < 5.4 it would not wrongly be
-> DMA mapping bad IOVAs that may lead guests own spurious failures.
-> For the longterm, qemu would need some sort of handling of configurable a sparse
-> map of all guest RAM which currently does not exist (and it's stuffed inside on a
-> per-machine basis as you're aware). What I am unsure is the churn associated
-> with it (compat, migration, mem-hotplug, nvdimms, memory-backends) versus benefit
-> if it's "just" one class of x86 platforms (Intel not affected) -- which is what I find
-> attractive with the past 2 revisions via smaller change.
-> 
-> > On the device end, I really would prefer not to see device driver
-> > specific enables and we simply cannot hot-add a device of the given
-> > type without a pre-enabled VM.  Give the user visibility and
-> > configurability to the issue and simply fail the device add (ideally
-> > with a useful error message) if the device IOVA space cannot support
-> > the VM memory layout (this is what vfio already does afaik).
-> > 
-> > When we have iommufd support common for vfio and vdpa, hopefully we'll
-> > also be able to recommend a common means for learning about system and
-> > IOMMU restrictions to IOVA spaces.   
-> 
-> Perhaps even advertising platform-wide regions (without a domain allocated) that
-> are common in any protection domain (for example on x86 this is one
-> such case where MSI/HT ranges are hardcoded in Intel/AMD).
-> 
-> > For now we have reserved_regions
-> > reported in sysfs per IOMMU group:
-> > 
-> >  $ grep -h . /sys/kernel/iommu_groups/*/reserved_regions | sort -u | grep -v direct-relaxable  
-> 
-> And hopefully iommufd might not want to allow iommu_map() on those reserved
-> IOVA regions as opposed to letting that go through. Essentially what VFIO does. Unless of
-> course there's actually a case where this is required to iommu_map reserved regions (which
-> I don't know).
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
 
-iommufd is being designed to support a direct replacement for the vfio
-specific type1 IOMMU backend, so it will need to have this feature.
-Allowing userspace to create invalid mappings would be irresponsible.
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-I'd tend to agree with MST's recommendation for a more piece-wise
-solution, tie the memory map to the vCPU vendor rather than to some
-property of the host to account for this reserved range on AMD.  Thanks,
-
-Alex
-
+>   include/hw/ppc/xive2.h |  8 ++++
+>   hw/intc/pnv_xive2.c    | 27 +++++++++++-
+>   hw/intc/xive2.c        | 95 ++++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 128 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/hw/ppc/xive2.h b/include/hw/ppc/xive2.h
+> index 9222b5b36979..cf6211a0ecb9 100644
+> --- a/include/hw/ppc/xive2.h
+> +++ b/include/hw/ppc/xive2.h
+> @@ -87,5 +87,13 @@ typedef struct Xive2EndSource {
+>       Xive2Router     *xrtr;
+>   } Xive2EndSource;
+>   
+> +/*
+> + * XIVE2 Thread Interrupt Management Area (POWER10)
+> + */
+> +
+> +void xive2_tm_push_os_ctx(XivePresenter *xptr, XiveTCTX *tctx, hwaddr offset,
+> +                           uint64_t value, unsigned size);
+> +uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+> +                               hwaddr offset, unsigned size);
+>   
+>   #endif /* PPC_XIVE2_H */
+> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+> index cb12cea14fc6..4a2649893232 100644
+> --- a/hw/intc/pnv_xive2.c
+> +++ b/hw/intc/pnv_xive2.c
+> @@ -1610,15 +1610,32 @@ static const MemoryRegionOps pnv_xive2_ic_tm_indirect_ops = {
+>    * TIMA ops
+>    */
+>   
+> +/*
+> + * Special TIMA offsets to handle accesses in a POWER10 way.
+> + *
+> + * Only the CAM line updates done by the hypervisor should be handled
+> + * specifically.
+> + */
+> +#define HV_PAGE_OFFSET         (XIVE_TM_HV_PAGE << TM_SHIFT)
+> +#define HV_PUSH_OS_CTX_OFFSET  (HV_PAGE_OFFSET | (TM_QW1_OS + TM_WORD2))
+> +#define HV_PULL_OS_CTX_OFFSET  (HV_PAGE_OFFSET | TM_SPC_PULL_OS_CTX)
+> +
+>   static void pnv_xive2_tm_write(void *opaque, hwaddr offset,
+>                                  uint64_t value, unsigned size)
+>   {
+>       PowerPCCPU *cpu = POWERPC_CPU(current_cpu);
+>       PnvXive2 *xive = pnv_xive2_tm_get_xive(cpu);
+>       XiveTCTX *tctx = XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+> +    XivePresenter *xptr = XIVE_PRESENTER(xive);
+> +
+> +    /* TODO: should we switch the TM ops table instead ? */
+> +    if (offset == HV_PUSH_OS_CTX_OFFSET) {
+> +        xive2_tm_push_os_ctx(xptr, tctx, offset, value, size);
+> +        return;
+> +    }
+>   
+>       /* Other TM ops are the same as XIVE1 */
+> -    xive_tctx_tm_write(XIVE_PRESENTER(xive), tctx, offset, value, size);
+> +    xive_tctx_tm_write(xptr, tctx, offset, value, size);
+>   }
+>   
+>   static uint64_t pnv_xive2_tm_read(void *opaque, hwaddr offset, unsigned size)
+> @@ -1626,9 +1643,15 @@ static uint64_t pnv_xive2_tm_read(void *opaque, hwaddr offset, unsigned size)
+>       PowerPCCPU *cpu = POWERPC_CPU(current_cpu);
+>       PnvXive2 *xive = pnv_xive2_tm_get_xive(cpu);
+>       XiveTCTX *tctx = XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+> +    XivePresenter *xptr = XIVE_PRESENTER(xive);
+> +
+> +    /* TODO: should we switch the TM ops table instead ? */
+> +    if (offset == HV_PULL_OS_CTX_OFFSET) {
+> +        return xive2_tm_pull_os_ctx(xptr, tctx, offset, size);
+> +    }
+>   
+>       /* Other TM ops are the same as XIVE1 */
+> -    return xive_tctx_tm_read(XIVE_PRESENTER(xive), tctx, offset, size);
+> +    return xive_tctx_tm_read(xptr, tctx, offset, size);
+>   }
+>   
+>   static const MemoryRegionOps pnv_xive2_tm_ops = {
+> diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
+> index 26af08a5de07..e31037e1f030 100644
+> --- a/hw/intc/xive2.c
+> +++ b/hw/intc/xive2.c
+> @@ -158,6 +158,101 @@ static void xive2_end_enqueue(Xive2End *end, uint32_t data)
+>       }
+>       end->w1 = xive_set_field32(END2_W1_PAGE_OFF, end->w1, qindex);
+>   }
+> +
+> +/*
+> + * XIVE Thread Interrupt Management Area (TIMA) - Gen2 mode
+> + */
+> +
+> +static void xive2_os_cam_decode(uint32_t cam, uint8_t *nvp_blk,
+> +                                uint32_t *nvp_idx, bool *vo)
+> +{
+> +    *nvp_blk = xive2_nvp_blk(cam);
+> +    *nvp_idx = xive2_nvp_idx(cam);
+> +    *vo = !!(cam & TM2_QW1W2_VO);
+> +}
+> +
+> +uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+> +                              hwaddr offset, unsigned size)
+> +{
+> +    uint32_t qw1w2 = xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
+> +    uint32_t qw1w2_new;
+> +    uint32_t cam = be32_to_cpu(qw1w2);
+> +    uint8_t nvp_blk;
+> +    uint32_t nvp_idx;
+> +    bool vo;
+> +
+> +    xive2_os_cam_decode(cam, &nvp_blk, &nvp_idx, &vo);
+> +
+> +    if (!vo) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: pulling invalid NVP %x/%x !?\n",
+> +                      nvp_blk, nvp_idx);
+> +    }
+> +
+> +    /* Invalidate CAM line */
+> +    qw1w2_new = xive_set_field32(TM2_QW1W2_VO, qw1w2, 0);
+> +    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2_new, 4);
+> +
+> +    return qw1w2;
+> +}
+> +
+> +static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
+> +                                   uint8_t nvp_blk, uint32_t nvp_idx)
+> +{
+> +    Xive2Nvp nvp;
+> +    uint8_t ipb;
+> +    uint8_t cppr = 0;
+> +
+> +    /*
+> +     * Grab the associated thread interrupt context registers in the
+> +     * associated NVP
+> +     */
+> +    if (xive2_router_get_nvp(xrtr, nvp_blk, nvp_idx, &nvp)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: No NVP %x/%x\n",
+> +                      nvp_blk, nvp_idx);
+> +        return;
+> +    }
+> +
+> +    if (!xive2_nvp_is_valid(&nvp)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid NVP %x/%x\n",
+> +                      nvp_blk, nvp_idx);
+> +        return;
+> +    }
+> +
+> +    ipb = xive_get_field32(NVP2_W2_IPB, nvp.w2);
+> +    if (ipb) {
+> +        nvp.w2 = xive_set_field32(NVP2_W2_IPB, nvp.w2, 0);
+> +        xive2_router_write_nvp(xrtr, nvp_blk, nvp_idx, &nvp, 2);
+> +    }
+> +
+> +    /* An IPB or CPPR change can trigger a resend */
+> +    if (ipb || cppr) {
+> +        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+> +    }
+> +}
+> +
+> +/*
+> + * Updating the OS CAM line can trigger a resend of interrupt
+> + */
+> +void xive2_tm_push_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+> +                          hwaddr offset, uint64_t value, unsigned size)
+> +{
+> +    uint32_t cam = value;
+> +    uint32_t qw1w2 = cpu_to_be32(cam);
+> +    uint8_t nvp_blk;
+> +    uint32_t nvp_idx;
+> +    bool vo;
+> +
+> +    xive2_os_cam_decode(cam, &nvp_blk, &nvp_idx, &vo);
+> +
+> +    /* First update the thead context */
+> +    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
+> +
+> +    /* Check the interrupt pending bits */
+> +    if (vo) {
+> +        xive2_tctx_need_resend(XIVE2_ROUTER(xptr), tctx, nvp_blk, nvp_idx);
+> +    }
+> +}
+> +
+>   /*
+>    * XIVE Router (aka. Virtualization Controller or IVRE)
+>    */
 
