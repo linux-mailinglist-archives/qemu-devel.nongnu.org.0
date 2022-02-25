@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55374C4058
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 09:43:25 +0100 (CET)
-Received: from localhost ([::1]:48794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4048B4C41AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:42:36 +0100 (CET)
+Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNWCC-00022U-HS
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 03:43:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47310)
+	id 1nNX7T-0002jy-BT
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:42:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nNVa9-0008AW-WA
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:08 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:42248 helo=loongson.cn)
+ id 1nNVhk-0003we-Ik
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:11:58 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:44732 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVZs-0002Ta-Vi
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:05 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVhg-0004i2-Qp
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:11:56 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S31; 
- Fri, 25 Feb 2022 16:03:25 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S9;
+ Fri, 25 Feb 2022 16:03:13 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v6 29/29] tests/tcg/loongarch64: Add hello/memory test in
- loongarch64 system
-Date: Fri, 25 Feb 2022 03:03:08 -0500
-Message-Id: <20220225080308.1405-30-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v6 07/29] target/loongarch: Add LoongArch CSR instruction
+Date: Fri, 25 Feb 2022 03:02:46 -0500
+Message-Id: <20220225080308.1405-8-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S31
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jw43Kw4fAF48KrWxJr43KFg_yoWxGryDpw
- 4akFyrKrs7JFZrGw1xKF1rGF13Jry8CF1UuFyaqr40vFs7Ww1vqw1FgrW5JFy2qws5GrWI
- v3ZYyw1Y9F97Ja7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S9
+X-Coremail-Antispam: 1UD129KBjvAXoW3Zr4DKw45XFWkWr4rCFykXwb_yoW8Jw4kZo
+ W8AFW5Jw48GryFvr9I9wnIqayUXr18Cws5A3s5u3WrC3WxAr1agrWrWws5Z3yfXr1jgryr
+ ua42gFn8GFZ3Ar98n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -62,265 +61,499 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- We write a very minimal softmmu harness.
-- This is a very simple smoke test with no need to run a full Linux/kernel.
-- The Makefile.softmmu-target record the rule to run.
+This includes:
+- CSRRD
+- CSRWR
+- CSRXCHG
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- MAINTAINERS                                   |  1 +
- tests/tcg/loongarch64/Makefile.softmmu-target | 33 +++++++
- tests/tcg/loongarch64/system/boot.S           | 56 ++++++++++++
- tests/tcg/loongarch64/system/kernel.ld        | 30 +++++++
- tests/tcg/loongarch64/system/regdef.h         | 86 +++++++++++++++++++
- 5 files changed, 206 insertions(+)
- create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
- create mode 100644 tests/tcg/loongarch64/system/boot.S
- create mode 100644 tests/tcg/loongarch64/system/kernel.ld
- create mode 100644 tests/tcg/loongarch64/system/regdef.h
+ target/loongarch/cpu.h                        |  88 ++++++++++++
+ target/loongarch/csr_helper.c                 | 112 ++++++++++++++++
+ target/loongarch/disas.c                      |  15 +++
+ target/loongarch/helper.h                     |   7 +
+ .../insn_trans/trans_privileged.c.inc         | 125 ++++++++++++++++++
+ target/loongarch/insns.decode                 |  13 ++
+ target/loongarch/meson.build                  |   1 +
+ target/loongarch/translate.c                  |   5 +
+ 8 files changed, 366 insertions(+)
+ create mode 100644 target/loongarch/csr_helper.c
+ create mode 100644 target/loongarch/insn_trans/trans_privileged.c.inc
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 64bc09146b..1993e3e748 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -217,6 +217,7 @@ LoongArch TCG CPUs
- M: Song Gao <gaosong@loongson.cn>
- S: Maintained
- F: target/loongarch/
-+F: tests/tcg/loongarch64/
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index bbc7fedde6..9a8306ecbb 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -252,6 +252,94 @@ struct CPULoongArchState {
+ #endif
+ };
  
- M68K TCG CPUs
- M: Laurent Vivier <laurent@vivier.eu>
-diff --git a/tests/tcg/loongarch64/Makefile.softmmu-target b/tests/tcg/loongarch64/Makefile.softmmu-target
++#define CSR_OFF(X)  \
++           [LOONGARCH_CSR_##X] = offsetof(CPULoongArchState, CSR_##X)
++#define CSR_OFF_ARRAY(X, N)  \
++           [LOONGARCH_CSR_##X(N)] = offsetof(CPULoongArchState, CSR_##X[N])
++
++static const int csr_offsets[] = {
++     CSR_OFF(CRMD),
++     CSR_OFF(PRMD),
++     CSR_OFF(EUEN),
++     CSR_OFF(MISC),
++     CSR_OFF(ECFG),
++     CSR_OFF(ESTAT),
++     CSR_OFF(ERA),
++     CSR_OFF(BADV),
++     CSR_OFF(BADI),
++     CSR_OFF(EENTRY),
++     CSR_OFF(TLBIDX),
++     CSR_OFF(TLBEHI),
++     CSR_OFF(TLBELO0),
++     CSR_OFF(TLBELO1),
++     CSR_OFF(ASID),
++     CSR_OFF(PGDL),
++     CSR_OFF(PGDH),
++     CSR_OFF(PGD),
++     CSR_OFF(PWCL),
++     CSR_OFF(PWCH),
++     CSR_OFF(STLBPS),
++     CSR_OFF(RVACFG),
++     CSR_OFF(CPUID),
++     CSR_OFF(PRCFG1),
++     CSR_OFF(PRCFG2),
++     CSR_OFF(PRCFG3),
++     CSR_OFF_ARRAY(SAVE, 0),
++     CSR_OFF_ARRAY(SAVE, 1),
++     CSR_OFF_ARRAY(SAVE, 2),
++     CSR_OFF_ARRAY(SAVE, 3),
++     CSR_OFF_ARRAY(SAVE, 4),
++     CSR_OFF_ARRAY(SAVE, 5),
++     CSR_OFF_ARRAY(SAVE, 6),
++     CSR_OFF_ARRAY(SAVE, 7),
++     CSR_OFF_ARRAY(SAVE, 8),
++     CSR_OFF_ARRAY(SAVE, 9),
++     CSR_OFF_ARRAY(SAVE, 10),
++     CSR_OFF_ARRAY(SAVE, 11),
++     CSR_OFF_ARRAY(SAVE, 12),
++     CSR_OFF_ARRAY(SAVE, 13),
++     CSR_OFF_ARRAY(SAVE, 14),
++     CSR_OFF_ARRAY(SAVE, 15),
++     CSR_OFF(TID),
++     CSR_OFF(TCFG),
++     CSR_OFF(TVAL),
++     CSR_OFF(CNTC),
++     CSR_OFF(TICLR),
++     CSR_OFF(LLBCTL),
++     CSR_OFF(IMPCTL1),
++     CSR_OFF(IMPCTL2),
++     CSR_OFF(TLBRENTRY),
++     CSR_OFF(TLBRBADV),
++     CSR_OFF(TLBRERA),
++     CSR_OFF(TLBRSAVE),
++     CSR_OFF(TLBRELO0),
++     CSR_OFF(TLBRELO1),
++     CSR_OFF(TLBREHI),
++     CSR_OFF(TLBRPRMD),
++     CSR_OFF(MERRCTL),
++     CSR_OFF(MERRINFO1),
++     CSR_OFF(MERRINFO2),
++     CSR_OFF(MERRENTRY),
++     CSR_OFF(MERRERA),
++     CSR_OFF(MERRSAVE),
++     CSR_OFF(CTAG),
++     CSR_OFF_ARRAY(DMW, 0),
++     CSR_OFF_ARRAY(DMW, 1),
++     CSR_OFF_ARRAY(DMW, 2),
++     CSR_OFF_ARRAY(DMW, 3),
++     CSR_OFF(DBG),
++     CSR_OFF(DERA),
++     CSR_OFF(DSAVE),
++};
++
++static inline int cpu_csr_offset(unsigned csr_num)
++{
++    if (csr_num < ARRAY_SIZE(csr_offsets)) {
++        return csr_offsets[csr_num];
++    }
++    return 0;
++}
++
+ /**
+  * LoongArchCPU:
+  * @env: #CPULoongArchState
+diff --git a/target/loongarch/csr_helper.c b/target/loongarch/csr_helper.c
 new file mode 100644
-index 0000000000..908f3a8c0f
+index 0000000000..8bbc56bda0
 --- /dev/null
-+++ b/tests/tcg/loongarch64/Makefile.softmmu-target
-@@ -0,0 +1,33 @@
-+#
-+# Loongarch64 system tests
-+#
-+
-+LOONGARCH64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/loongarch64/system
-+VPATH+=$(LOONGARCH64_SYSTEM_SRC)
-+
-+# These objects provide the basic boot code and helper functions for all tests
-+CRT_OBJS=boot.o
-+
-+LOONGARCH64_TEST_SRCS=$(wildcard $(LOONGARCH64_SYSTEM_SRC)/*.c)
-+LOONGARCH64_TESTS = $(patsubst $(LOONGARCH64_SYSTEM_SRC)/%.c, %, $(LOONGARCH64_TEST_SRCS))
-+
-+CRT_PATH=$(LOONGARCH64_SYSTEM_SRC)
-+LINK_SCRIPT=$(LOONGARCH64_SYSTEM_SRC)/kernel.ld
-+LDFLAGS=-Wl,-T$(LINK_SCRIPT)
-+TESTS+=$(LOONGARCH64_TESTS) $(MULTIARCH_TESTS)
-+CFLAGS+=-nostdlib -g -O1 -march=loongarch64 -mabi=lp64d $(MINILIB_INC)
-+LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
-+
-+# building head blobs
-+.PRECIOUS: $(CRT_OBJS)
-+
-+%.o: $(CRT_PATH)/%.S
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
-+
-+# Build and link the tests
-+%: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+memory: CFLAGS+=-DCHECK_UNALIGNED=0
-+# Running
-+QEMU_OPTS+=-serial chardev:output -kernel
-diff --git a/tests/tcg/loongarch64/system/boot.S b/tests/tcg/loongarch64/system/boot.S
-new file mode 100644
-index 0000000000..bf3622ed67
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/boot.S
-@@ -0,0 +1,56 @@
++++ b/target/loongarch/csr_helper.c
+@@ -0,0 +1,112 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * Minimal LoongArch system boot code.
++ * LoongArch emulation helpers for CSRs
 + *
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+#include "regdef.h"
++#include "qemu/osdep.h"
++#include "qemu/main-loop.h"
++#include "cpu.h"
++#include "internals.h"
++#include "qemu/host-utils.h"
++#include "exec/helper-proto.h"
++#include "exec/exec-all.h"
++#include "exec/cpu_ldst.h"
++#include "hw/irq.h"
++#include "cpu-csr.h"
++#include "hw/loongarch/loongarch.h"
++#include "tcg/tcg-ldst.h"
 +
-+	.global _start
-+	.align 16
-+_start:
-+	bl main
-+
-+	.type _start 2
-+	.size _start, .-_start
-+
-+	.global _exit
-+	.align 16
-+_exit:
-+2:      /* QEMU ACPI poweroff */
-+	li.w  t0, 0x3c00
-+	li.w  t1, 0x100d0014
-+	st.w  t0, t1, 0
-+	idle  0
-+	bl    2b
-+
-+	.type _exit 2
-+	.size _exit, .-_exit
-+
-+	.global __sys_outc
-+__sys_outc:
-+	li.d t1, 1000000
-+loop:
-+	lu12i.w	t2, 0x1fe00
-+	ori	t0, t2, 0x1e5
-+	ld.bu	t0, t0, 0
-+	andi	t0, t0, 0x20
-+	ext.w.b	t0, t0
-+	bnez	t0, in
-+	addi.w	t1, t1, -1
-+	bnez	t1, loop
-+in:
-+	ext.w.b	a0, a0
-+	lu12i.w	t0, 0x1fe00
-+	ori	t0, t0, 0x1e0
-+	st.b	a0, t0, 0
-+	jirl	$r0, ra, 0
-+
-+	.data
-+	.align 4
-+stack:
-+	.skip	65536
-+$stack_end:
-+	.type	stack,@object
-+	.size	stack, . - stack
-diff --git a/tests/tcg/loongarch64/system/kernel.ld b/tests/tcg/loongarch64/system/kernel.ld
-new file mode 100644
-index 0000000000..f1a7c0168c
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/kernel.ld
-@@ -0,0 +1,30 @@
-+ENTRY(_start)
-+
-+SECTIONS
++target_ulong helper_csr_rdq(CPULoongArchState *env, uint64_t csr)
 +{
-+    /* Linux kernel legacy start address.  */
-+    . = 0x9000000000200000;
-+    _text = .;
-+    .text : {
-+        *(.text)
-+    }
-+    .rodata : {
-+        *(.rodata)
-+    }
-+    _etext = .;
++    LoongArchCPU *cpu;
++    int64_t v;
 +
-+    . = ALIGN(8192);
-+    _data = .;
-+    .got : {
-+        *(.got)
++    switch (csr) {
++    case LOONGARCH_CSR_PGD:
++        if (env->CSR_TLBRERA & 0x1) {
++            v = env->CSR_TLBRBADV;
++        } else {
++            v = env->CSR_BADV;
++        }
++
++        if ((v >> 63) & 0x1) {
++            v = env->CSR_PGDH;
++        } else {
++            v = env->CSR_PGDL;
++        }
++        break;
++    case LOONGARCH_CSR_CPUID:
++        v = (env_cpu(env))->cpu_index;
++        break;
++    case LOONGARCH_CSR_TVAL:
++        cpu = LOONGARCH_CPU(env_cpu(env));
++        v = cpu_loongarch_get_constant_timer_ticks(cpu);
++        break;
++    default:
++        break;
 +    }
-+    .data : {
-+	*(.sdata)
-+        *(.data)
-+    }
-+    _edata = .;
-+    .bss : {
-+        *(.bss)
-+    }
-+    _end = .;
++
++    return v;
 +}
-diff --git a/tests/tcg/loongarch64/system/regdef.h b/tests/tcg/loongarch64/system/regdef.h
++
++target_ulong helper_csr_wrq(CPULoongArchState *env, target_ulong val,
++                            uint64_t csr)
++{
++    LoongArchCPU *cpu;
++    int64_t old_v = -1;
++
++    switch (csr) {
++    case LOONGARCH_CSR_ESTAT:
++        /* Only IS[1:0] can be write */
++        env->CSR_ESTAT = FIELD_DP64(env->CSR_ESTAT, CSR_ESTAT, IS, val & 0x3);
++        break;
++    case LOONGARCH_CSR_ASID:
++        old_v = env->CSR_ASID;
++        /* Only ASID filed of CSR_ASID can be write. */
++        env->CSR_ASID = FIELD_DP64(env->CSR_ASID, CSR_ASID, ASID,
++                                   val & R_CSR_ASID_ASID_MASK);
++        if (old_v != val) {
++            tlb_flush(env_cpu(env));
++        }
++        break;
++    case LOONGARCH_CSR_TCFG:
++        cpu = LOONGARCH_CPU(env_cpu(env));
++        old_v = env->CSR_TCFG;
++        cpu_loongarch_store_constant_timer_config(cpu, val);
++        break;
++    case LOONGARCH_CSR_TICLR:
++        old_v = 0;
++        env->CSR_ESTAT &= ~(1 << IRQ_TIMER);
++        cpu_reset_interrupt(env_cpu(env), CPU_INTERRUPT_HARD);
++        break;
++    default:
++        break;
++    }
++
++    return old_v;
++}
++
++target_ulong helper_csr_xchgq(CPULoongArchState *env, target_ulong new_val,
++                              target_ulong mask, uint64_t csr_num)
++{
++    unsigned csr_offset = cpu_csr_offset(csr_num);
++    if (csr_offset == 0) {
++        /* Undefined CSR: read as 0, writes are ignored. */
++        return 0;
++    }
++
++    uint64_t *csr = (void *)env + csr_offset;
++    uint64_t old_val = *csr;
++
++    new_val = (new_val & mask) | (old_val & ~mask);
++
++    if (csr_num == LOONGARCH_CSR_TCFG) {
++        LoongArchCPU *cpu = LOONGARCH_CPU(env_cpu(env));
++        cpu_loongarch_store_constant_timer_config(cpu, new_val);
++    } else {
++        *csr = new_val;
++    }
++    return old_val;
++}
+diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
+index d441dd42dc..b83022468e 100644
+--- a/target/loongarch/disas.c
++++ b/target/loongarch/disas.c
+@@ -205,6 +205,18 @@ static void output_rr_offs(DisasContext *ctx, arg_rr_offs *a,
+            a->rd, a->offs, ctx->pc + a->offs);
+ }
+ 
++static void output_r_csr(DisasContext *ctx, arg_r_csr *a,
++                         const char *mnemonic)
++{
++    output(ctx, mnemonic, "r%d, %d", a->rd, a->csr);
++}
++
++static void output_rr_csr(DisasContext *ctx, arg_rr_csr *a,
++                          const char *mnemonic)
++{
++    output(ctx, mnemonic, "r%d, r%d, %d", a->rd, a->rj, a->csr);
++}
++
+ #define INSN(insn, type)                                    \
+ static bool trans_##insn(DisasContext *ctx, arg_##type * a) \
+ {                                                           \
+@@ -517,6 +529,9 @@ INSN(blt,          rr_offs)
+ INSN(bge,          rr_offs)
+ INSN(bltu,         rr_offs)
+ INSN(bgeu,         rr_offs)
++INSN(csrrd,        r_csr)
++INSN(csrwr,        r_csr)
++INSN(csrxchg,      rr_csr)
+ 
+ #define output_fcmp(C, PREFIX, SUFFIX)                                         \
+ {                                                                              \
+diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
+index da1a2bced7..036dbf31f8 100644
+--- a/target/loongarch/helper.h
++++ b/target/loongarch/helper.h
+@@ -92,3 +92,10 @@ DEF_HELPER_2(frint_s, i64, env, i64)
+ DEF_HELPER_2(frint_d, i64, env, i64)
+ 
+ DEF_HELPER_FLAGS_2(set_rounding_mode, TCG_CALL_NO_RWG, void, env, i32)
++
++/*Core functions */
++#ifndef CONFIG_USER_ONLY
++DEF_HELPER_2(csr_rdq, i64, env, i64)
++DEF_HELPER_3(csr_wrq, i64, env, tl, i64)
++DEF_HELPER_4(csr_xchgq, i64, env, tl, tl, i64)
++#endif /* !CONFIG_USER_ONLY */
+diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
 new file mode 100644
-index 0000000000..faa09b2377
+index 0000000000..9354697894
 --- /dev/null
-+++ b/tests/tcg/loongarch64/system/regdef.h
-@@ -0,0 +1,86 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++++ b/target/loongarch/insn_trans/trans_privileged.c.inc
+@@ -0,0 +1,125 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * LoongArch translation routines for the privileged instructions.
 + */
-+#ifndef _ASM_REGDEF_H
-+#define _ASM_REGDEF_H
 +
-+#define zero    $r0     /* wired zero */
-+#define ra      $r1     /* return address */
-+#define tp      $r2
-+#define sp      $r3     /* stack pointer */
-+#define v0      $r4     /* return value - caller saved */
-+#define v1      $r5
-+#define a0      $r4     /* argument registers */
-+#define a1      $r5
-+#define a2      $r6
-+#define a3      $r7
-+#define a4      $r8
-+#define a5      $r9
-+#define a6      $r10
-+#define a7      $r11
-+#define t0      $r12    /* caller saved */
-+#define t1      $r13
-+#define t2      $r14
-+#define t3      $r15
-+#define t4      $r16
-+#define t5      $r17
-+#define t6      $r18
-+#define t7      $r19
-+#define t8      $r20
-+                        /* $r21: Temporarily reserved */
-+#define fp      $r22    /* frame pointer */
-+#define s0      $r23    /* callee saved */
-+#define s1      $r24
-+#define s2      $r25
-+#define s3      $r26
-+#define s4      $r27
-+#define s5      $r28
-+#define s6      $r29
-+#define s7      $r30
-+#define s8      $r31
++#include "cpu-csr.h"
 +
-+#define gr0     $r0
-+#define gr1     $r1
-+#define gr2     $r2
-+#define gr3     $r3
-+#define gr4     $r4
-+#define gr5     $r5
-+#define gr6     $r6
-+#define gr7     $r7
-+#define gr8     $r8
-+#define gr9     $r9
-+#define gr10    $r10
-+#define gr11    $r11
-+#define gr12    $r12
-+#define gr13    $r13
-+#define gr14    $r14
-+#define gr15    $r15
-+#define gr16    $r16
-+#define gr17    $r17
-+#define gr18    $r18
-+#define gr19    $r19
-+#define gr20    $r20
-+#define gr21    $r21
-+#define gr22    $r22
-+#define gr23    $r23
-+#define gr24    $r24
-+#define gr25    $r25
-+#define gr26    $r26
-+#define gr27    $r27
-+#define gr28    $r28
-+#define gr29    $r29
-+#define gr30    $r30
-+#define gr31    $r31
++#ifdef CONFIG_USER_ONLY
 +
-+#define STT_NOTYPE  0
-+#define STT_OBJECT  1
-+#define STT_FUNC    2
-+#define STT_SECTION 3
-+#define STT_FILE    4
-+#define STT_COMMON  5
-+#define STT_TLS     6
++#define GEN_FALSE_TRANS(name)   \
++static bool trans_##name(DisasContext *ctx, arg_##name * a)  \
++{   \
++    return false;   \
++}
 +
-+#define ASM_NL           ;
++GEN_FALSE_TRANS(csrrd)
++GEN_FALSE_TRANS(csrwr)
++GEN_FALSE_TRANS(csrxchg)
 +
-+#endif /* _ASM_REGDEF_H */
++#else
++
++static bool check_plv(DisasContext *ctx)
++{
++    if (ctx->base.tb->flags == MMU_USER_IDX) {
++        generate_exception(ctx, EXCCODE_IPE);
++        return true;
++    }
++    return false;
++}
++
++static bool ro_csr(int csr_num)
++{
++    /*
++     * For now qemu does not support any features of the MISC
++     * bits yet treat as a RO CSR.
++     */
++    if ((csr_num == LOONGARCH_CSR_BADI) ||
++        (csr_num == LOONGARCH_CSR_CPUID) ||
++        (csr_num == LOONGARCH_CSR_PRCFG1) ||
++        (csr_num == LOONGARCH_CSR_PRCFG2) ||
++        (csr_num == LOONGARCH_CSR_PRCFG3) ||
++        (csr_num == LOONGARCH_CSR_PGD) ||
++        (csr_num == LOONGARCH_CSR_TVAL) ||
++        (csr_num == LOONGARCH_CSR_MISC)) {
++        return true;
++    }
++
++    return false;
++}
++
++static bool trans_csrrd(DisasContext *ctx, arg_csrrd *a)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++
++    if (check_plv(ctx)) {
++        return false;
++    }
++
++    unsigned csr_offset = cpu_csr_offset(a->csr);
++    if (csr_offset == 0) {
++        /* CSR is undefined: read as 0 */
++        dest = tcg_constant_tl(0);
++        return true;
++    }
++
++    if ((a->csr == LOONGARCH_CSR_PGD) || (a->csr == LOONGARCH_CSR_CPUID) ||
++        (a->csr == LOONGARCH_CSR_TVAL)) {
++        gen_helper_csr_rdq(dest, cpu_env, tcg_constant_i64(a->csr));
++    } else {
++        tcg_gen_ld_tl(dest, cpu_env, csr_offset);
++    }
++    return true;
++}
++
++static bool trans_csrwr(DisasContext *ctx, arg_csrwr *a)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rd, EXT_NONE);
++
++    if (check_plv(ctx) || ro_csr(a->csr)) {
++        return false;
++    }
++
++    unsigned csr_offset = cpu_csr_offset(a->csr);
++    if (csr_offset == 0) {
++        /* CSR is undefined: write ignored. */
++        return true;
++    }
++
++    if ((a->csr == LOONGARCH_CSR_ASID) || (a->csr == LOONGARCH_CSR_TCFG) ||
++        (a->csr == LOONGARCH_CSR_TICLR) || (a->csr == LOONGARCH_CSR_ESTAT)) {
++        gen_helper_csr_wrq(dest, cpu_env, src1, tcg_constant_i64(a->csr));
++    } else {
++        TCGv temp = tcg_temp_new();
++        tcg_gen_ld_tl(temp, cpu_env, csr_offset);
++        tcg_gen_st_tl(src1, cpu_env, csr_offset);
++        tcg_gen_mov_tl(dest, temp);
++        tcg_temp_free(temp);
++
++        /* Cpu state may be changed, need exit */
++        if ((a->csr == LOONGARCH_CSR_CRMD) || (a->csr == LOONGARCH_CSR_EUEN)) {
++            tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
++            ctx->base.is_jmp = DISAS_EXIT;
++        }
++    }
++
++    return true;
++}
++
++static bool trans_csrxchg(DisasContext *ctx, arg_csrxchg *a)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv src2 = gpr_src(ctx, a->rj, EXT_NONE);
++
++    if (check_plv(ctx) || ro_csr(a->csr)) {
++        return false;
++    }
++    gen_helper_csr_xchgq(dest, cpu_env, src1, src2, tcg_constant_i64(a->csr));
++    return true;
++}
++
++#endif
+diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
+index 3379d22979..647fcb9def 100644
+--- a/target/loongarch/insns.decode
++++ b/target/loongarch/insns.decode
+@@ -45,6 +45,8 @@
+ &c_offs       cj offs
+ &offs         offs
+ &rr_offs      rj rd offs
++&r_csr        rd csr
++&rr_csr       rd rj csr
+ 
+ #
+ # Formats
+@@ -85,6 +87,8 @@
+ @c_offs21      .... .. ................ .. cj:3 .....    &c_offs      offs=%offs21
+ @offs26            .... .. ..........................    &offs        offs=%offs26
+ @rr_offs16         .... .. ................ rj:5 rd:5    &rr_offs     offs=%offs16
++@r_csr                    .... .... csr:14 ..... rd:5    &r_csr
++@rr_csr                    .... .... csr:14 rj:5 rd:5    &rr_csr
+ 
+ #
+ # Fixed point arithmetic operation instruction
+@@ -440,3 +444,12 @@ blt             0110 00 ................ ..... .....     @rr_offs16
+ bge             0110 01 ................ ..... .....     @rr_offs16
+ bltu            0110 10 ................ ..... .....     @rr_offs16
+ bgeu            0110 11 ................ ..... .....     @rr_offs16
++
++#
++# Core instructions
++#
++{
++  csrrd             0000 0100 .............. 00000 .....     @r_csr
++  csrwr             0000 0100 .............. 00001 .....     @r_csr
++  csrxchg           0000 0100 .............. ..... .....     @rr_csr
++}
+diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+index 6bf2d88104..5fb7542e88 100644
+--- a/target/loongarch/meson.build
++++ b/target/loongarch/meson.build
+@@ -19,6 +19,7 @@ loongarch_softmmu_ss.add(files(
+   'machine.c',
+   'constant_timer.c',
+   'tlb_helper.c',
++  'csr_helper.c',
+ ))
+ 
+ loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
+diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
+index 79fd95e787..438a3cb515 100644
+--- a/target/loongarch/translate.c
++++ b/target/loongarch/translate.c
+@@ -26,6 +26,7 @@ TCGv_i32 cpu_fcsr0;
+ TCGv_i64 cpu_fpr[32];
+ 
+ #define DISAS_STOP       DISAS_TARGET_0
++#define DISAS_EXIT       DISAS_TARGET_1
+ 
+ static inline int plus_1(DisasContext *ctx, int x)
+ {
+@@ -172,6 +173,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
+ #include "insn_trans/trans_fmov.c.inc"
+ #include "insn_trans/trans_fmemory.c.inc"
+ #include "insn_trans/trans_branch.c.inc"
++#include "insn_trans/trans_privileged.c.inc"
+ 
+ static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+ {
+@@ -209,6 +211,9 @@ static void loongarch_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+         break;
+     case DISAS_NORETURN:
+         break;
++    case DISAS_EXIT:
++        tcg_gen_exit_tb(NULL, 0);
++        break;
+     default:
+         g_assert_not_reached();
+     }
 -- 
 2.27.0
 
