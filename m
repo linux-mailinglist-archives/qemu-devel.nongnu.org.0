@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2633C4C50D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 22:44:45 +0100 (CET)
-Received: from localhost ([::1]:54374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408B64C50BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 22:32:20 +0100 (CET)
+Received: from localhost ([::1]:34638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNiOJ-0004g0-O9
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 16:44:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33764)
+	id 1nNiCI-0007ce-Rf
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 16:32:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhqh-0007qU-Iy; Fri, 25 Feb 2022 16:10:01 -0500
-Received: from [187.72.171.209] (port=39685 helo=outlook.eldorado.org.br)
+ id 1nNhqk-0007sm-Pv; Fri, 25 Feb 2022 16:10:04 -0500
+Received: from [187.72.171.209] (port=25884 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nNhqe-0002Z7-AX; Fri, 25 Feb 2022 16:09:58 -0500
+ id 1nNhqg-0003De-PQ; Fri, 25 Feb 2022 16:10:01 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 25 Feb 2022 18:09:46 -0300
+ Fri, 25 Feb 2022 18:09:47 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 89ACF8006BB;
+ by p9ibm (Postfix) with ESMTP id D9EA28001D1;
  Fri, 25 Feb 2022 18:09:46 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v5 01/49] target/ppc: Introduce TRANS*FLAGS macros
-Date: Fri, 25 Feb 2022 18:08:48 -0300
-Message-Id: <20220225210936.1749575-2-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v5 02/49] target/ppc: moved vector even and odd multiplication
+ to decodetree
+Date: Fri, 25 Feb 2022 18:08:49 -0300
+Message-Id: <20220225210936.1749575-3-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 References: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Feb 2022 21:09:46.0910 (UTC)
- FILETIME=[04A463E0:01D82A8C]
+X-OriginalArrivalTime: 25 Feb 2022 21:09:47.0300 (UTC)
+ FILETIME=[04DFE640:01D82A8C]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,130 +58,287 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- Luis Pires <luis.pires@eldorado.org.br>, clg@kaod.org,
+Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.castro@eldorado.org.br>,
+ danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ Lucas Mateus Castro <lucas.araujo@eldorado.org.br>, clg@kaod.org,
  Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Luis Pires <luis.pires@eldorado.org.br>
+From: "Lucas Mateus Castro (alqotel)" <lucas.castro@eldorado.org.br>
 
-New macros that add FLAGS and FLAGS2 checking were added for
-both TRANS and TRANS64.
+Moved the instructions vmulesb, vmulosb, vmuleub, vmuloub,
+vmulesh, vmulosh, vmuleuh, vmulouh, vmulesw, vmulosw,
+muleuw and vmulouw from legacy to decodetree. Implemented
+the instructions vmulesd, vmulosd, vmuleud, vmuloud.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-[ferst: - TRANS_FLAGS2 instead of TRANS_FLAGS_E
-        - Use the new macros in load/store vector insns ]
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/translate.c              | 19 +++++++++++++++
- target/ppc/translate/vsx-impl.c.inc | 37 ++++++++++-------------------
- 2 files changed, 31 insertions(+), 25 deletions(-)
+ target/ppc/helper.h                 | 24 ++++-----
+ target/ppc/insn32.decode            | 22 +++++++++
+ target/ppc/int_helper.c             | 20 ++++----
+ target/ppc/translate/vmx-impl.c.inc | 77 ++++++++++++++++++++++-------
+ target/ppc/translate/vmx-ops.c.inc  | 15 ++----
+ tcg/ppc/tcg-target.c.inc            |  6 +++
+ 6 files changed, 112 insertions(+), 52 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index ecc5a104e0..b46a11386e 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -6604,10 +6604,29 @@ static int times_16(DisasContext *ctx, int x)
- #define TRANS(NAME, FUNC, ...) \
-     static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-     { return FUNC(ctx, a, __VA_ARGS__); }
-+#define TRANS_FLAGS(FLAGS, NAME, FUNC, ...) \
-+    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-+    {                                                          \
-+        REQUIRE_INSNS_FLAGS(ctx, FLAGS);                       \
-+        return FUNC(ctx, a, __VA_ARGS__);                      \
-+    }
-+#define TRANS_FLAGS2(FLAGS2, NAME, FUNC, ...) \
-+    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-+    {                                                          \
-+        REQUIRE_INSNS_FLAGS2(ctx, FLAGS2);                     \
-+        return FUNC(ctx, a, __VA_ARGS__);                      \
-+    }
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index ab008c9d4e..07433b6f79 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -190,18 +190,18 @@ DEF_HELPER_3(vmrglw, void, avr, avr, avr)
+ DEF_HELPER_3(vmrghb, void, avr, avr, avr)
+ DEF_HELPER_3(vmrghh, void, avr, avr, avr)
+ DEF_HELPER_3(vmrghw, void, avr, avr, avr)
+-DEF_HELPER_3(vmulesb, void, avr, avr, avr)
+-DEF_HELPER_3(vmulesh, void, avr, avr, avr)
+-DEF_HELPER_3(vmulesw, void, avr, avr, avr)
+-DEF_HELPER_3(vmuleub, void, avr, avr, avr)
+-DEF_HELPER_3(vmuleuh, void, avr, avr, avr)
+-DEF_HELPER_3(vmuleuw, void, avr, avr, avr)
+-DEF_HELPER_3(vmulosb, void, avr, avr, avr)
+-DEF_HELPER_3(vmulosh, void, avr, avr, avr)
+-DEF_HELPER_3(vmulosw, void, avr, avr, avr)
+-DEF_HELPER_3(vmuloub, void, avr, avr, avr)
+-DEF_HELPER_3(vmulouh, void, avr, avr, avr)
+-DEF_HELPER_3(vmulouw, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULESB, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULESH, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULESW, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULEUB, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULEUH, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULEUW, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULOSB, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULOSH, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULOSW, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULOUB, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULOUH, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VMULOUW, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_3(vmulhsw, void, avr, avr, avr)
+ DEF_HELPER_3(vmulhuw, void, avr, avr, avr)
+ DEF_HELPER_3(vmulhsd, void, avr, avr, avr)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 2a9c91a423..092ea79618 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -440,6 +440,28 @@ VEXTRACTWM      000100 ..... 01010 ..... 11001000010    @VX_tb
+ VEXTRACTDM      000100 ..... 01011 ..... 11001000010    @VX_tb
+ VEXTRACTQM      000100 ..... 01100 ..... 11001000010    @VX_tb
  
- #define TRANS64(NAME, FUNC, ...) \
-     static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-     { REQUIRE_64BIT(ctx); return FUNC(ctx, a, __VA_ARGS__); }
-+#define TRANS64_FLAGS2(FLAGS2, NAME, FUNC, ...) \
-+    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-+    {                                                          \
-+        REQUIRE_64BIT(ctx);                                    \
-+        REQUIRE_INSNS_FLAGS2(ctx, FLAGS2);                     \
-+        return FUNC(ctx, a, __VA_ARGS__);                      \
-+    }
++## Vector Multiply Instruction
++
++VMULESB         000100 ..... ..... ..... 01100001000    @VX
++VMULOSB         000100 ..... ..... ..... 00100001000    @VX
++VMULEUB         000100 ..... ..... ..... 01000001000    @VX
++VMULOUB         000100 ..... ..... ..... 00000001000    @VX
++
++VMULESH         000100 ..... ..... ..... 01101001000    @VX
++VMULOSH         000100 ..... ..... ..... 00101001000    @VX
++VMULEUH         000100 ..... ..... ..... 01001001000    @VX
++VMULOUH         000100 ..... ..... ..... 00001001000    @VX
++
++VMULESW         000100 ..... ..... ..... 01110001000    @VX
++VMULOSW         000100 ..... ..... ..... 00110001000    @VX
++VMULEUW         000100 ..... ..... ..... 01010001000    @VX
++VMULOUW         000100 ..... ..... ..... 00010001000    @VX
++
++VMULESD         000100 ..... ..... ..... 01111001000    @VX
++VMULOSD         000100 ..... ..... ..... 00111001000    @VX
++VMULEUD         000100 ..... ..... ..... 01011001000    @VX
++VMULOUD         000100 ..... ..... ..... 00011001000    @VX
++
+ # VSX Load/Store Instructions
  
- /* TODO: More TRANS* helpers for extra insn_flags checks. */
- 
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 128968b5e7..e8a4ba0cfa 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -2072,12 +2072,6 @@ static bool do_lstxv(DisasContext *ctx, int ra, TCGv displ,
- 
- static bool do_lstxv_D(DisasContext *ctx, arg_D *a, bool store, bool paired)
- {
--    if (paired) {
--        REQUIRE_INSNS_FLAGS2(ctx, ISA310);
--    } else {
--        REQUIRE_INSNS_FLAGS2(ctx, ISA300);
--    }
--
-     if (paired || a->rt >= 32) {
-         REQUIRE_VSX(ctx);
-     } else {
-@@ -2091,7 +2085,6 @@ static bool do_lstxv_PLS_D(DisasContext *ctx, arg_PLS_D *a,
-                            bool store, bool paired)
- {
-     arg_D d;
--    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-     REQUIRE_VSX(ctx);
- 
-     if (!resolve_PLS_D(ctx, &d, a)) {
-@@ -2103,12 +2096,6 @@ static bool do_lstxv_PLS_D(DisasContext *ctx, arg_PLS_D *a,
- 
- static bool do_lstxv_X(DisasContext *ctx, arg_X *a, bool store, bool paired)
- {
--    if (paired) {
--        REQUIRE_INSNS_FLAGS2(ctx, ISA310);
--    } else {
--        REQUIRE_INSNS_FLAGS2(ctx, ISA300);
--    }
--
-     if (paired || a->rt >= 32) {
-         REQUIRE_VSX(ctx);
-     } else {
-@@ -2118,18 +2105,18 @@ static bool do_lstxv_X(DisasContext *ctx, arg_X *a, bool store, bool paired)
-     return do_lstxv(ctx, a->ra, cpu_gpr[a->rb], a->rt, store, paired);
+ LXV             111101 ..... ..... ............ . 001   @DQ_TSX
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index d1b12788b2..c9f34ce3ca 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1063,7 +1063,7 @@ void helper_vmsumuhs(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
  }
  
--TRANS(STXV, do_lstxv_D, true, false)
--TRANS(LXV, do_lstxv_D, false, false)
--TRANS(STXVP, do_lstxv_D, true, true)
--TRANS(LXVP, do_lstxv_D, false, true)
--TRANS(STXVX, do_lstxv_X, true, false)
--TRANS(LXVX, do_lstxv_X, false, false)
--TRANS(STXVPX, do_lstxv_X, true, true)
--TRANS(LXVPX, do_lstxv_X, false, true)
--TRANS64(PSTXV, do_lstxv_PLS_D, true, false)
--TRANS64(PLXV, do_lstxv_PLS_D, false, false)
--TRANS64(PSTXVP, do_lstxv_PLS_D, true, true)
--TRANS64(PLXVP, do_lstxv_PLS_D, false, true)
-+TRANS_FLAGS2(ISA300, STXV, do_lstxv_D, true, false)
-+TRANS_FLAGS2(ISA300, LXV, do_lstxv_D, false, false)
-+TRANS_FLAGS2(ISA310, STXVP, do_lstxv_D, true, true)
-+TRANS_FLAGS2(ISA310, LXVP, do_lstxv_D, false, true)
-+TRANS_FLAGS2(ISA300, STXVX, do_lstxv_X, true, false)
-+TRANS_FLAGS2(ISA300, LXVX, do_lstxv_X, false, false)
-+TRANS_FLAGS2(ISA310, STXVPX, do_lstxv_X, true, true)
-+TRANS_FLAGS2(ISA310, LXVPX, do_lstxv_X, false, true)
-+TRANS64_FLAGS2(ISA310, PSTXV, do_lstxv_PLS_D, true, false)
-+TRANS64_FLAGS2(ISA310, PLXV, do_lstxv_PLS_D, false, false)
-+TRANS64_FLAGS2(ISA310, PSTXVP, do_lstxv_PLS_D, true, true)
-+TRANS64_FLAGS2(ISA310, PLXVP, do_lstxv_PLS_D, false, true)
+ #define VMUL_DO_EVN(name, mul_element, mul_access, prod_access, cast)   \
+-    void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
++    void helper_V##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
+     {                                                                   \
+         int i;                                                          \
+                                                                         \
+@@ -1074,7 +1074,7 @@ void helper_vmsumuhs(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
+     }
  
- static void gen_xxblendv_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b,
-                              TCGv_vec c)
+ #define VMUL_DO_ODD(name, mul_element, mul_access, prod_access, cast)   \
+-    void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
++    void helper_V##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
+     {                                                                   \
+         int i;                                                          \
+                                                                         \
+@@ -1085,14 +1085,14 @@ void helper_vmsumuhs(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
+     }
+ 
+ #define VMUL(suffix, mul_element, mul_access, prod_access, cast)       \
+-    VMUL_DO_EVN(mule##suffix, mul_element, mul_access, prod_access, cast)  \
+-    VMUL_DO_ODD(mulo##suffix, mul_element, mul_access, prod_access, cast)
+-VMUL(sb, s8, VsrSB, VsrSH, int16_t)
+-VMUL(sh, s16, VsrSH, VsrSW, int32_t)
+-VMUL(sw, s32, VsrSW, VsrSD, int64_t)
+-VMUL(ub, u8, VsrB, VsrH, uint16_t)
+-VMUL(uh, u16, VsrH, VsrW, uint32_t)
+-VMUL(uw, u32, VsrW, VsrD, uint64_t)
++    VMUL_DO_EVN(MULE##suffix, mul_element, mul_access, prod_access, cast)  \
++    VMUL_DO_ODD(MULO##suffix, mul_element, mul_access, prod_access, cast)
++VMUL(SB, s8, VsrSB, VsrSH, int16_t)
++VMUL(SH, s16, VsrSH, VsrSW, int32_t)
++VMUL(SW, s32, VsrSW, VsrSD, int64_t)
++VMUL(UB, u8, VsrB, VsrH, uint16_t)
++VMUL(UH, u16, VsrH, VsrW, uint32_t)
++VMUL(UW, u32, VsrW, VsrD, uint64_t)
+ #undef VMUL_DO_EVN
+ #undef VMUL_DO_ODD
+ #undef VMUL
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index d5e02fd7f2..a34a080e83 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -798,29 +798,11 @@ static void trans_vclzd(DisasContext *ctx)
+     tcg_temp_free_i64(avr);
+ }
+ 
+-GEN_VXFORM(vmuloub, 4, 0);
+-GEN_VXFORM(vmulouh, 4, 1);
+-GEN_VXFORM(vmulouw, 4, 2);
+ GEN_VXFORM_V(vmuluwm, MO_32, tcg_gen_gvec_mul, 4, 2);
+-GEN_VXFORM_DUAL(vmulouw, PPC_ALTIVEC, PPC_NONE,
+-                vmuluwm, PPC_NONE, PPC2_ALTIVEC_207)
+-GEN_VXFORM(vmulosb, 4, 4);
+-GEN_VXFORM(vmulosh, 4, 5);
+-GEN_VXFORM(vmulosw, 4, 6);
+ GEN_VXFORM_V(vmulld, MO_64, tcg_gen_gvec_mul, 4, 7);
+-GEN_VXFORM(vmuleub, 4, 8);
+-GEN_VXFORM(vmuleuh, 4, 9);
+-GEN_VXFORM(vmuleuw, 4, 10);
+ GEN_VXFORM(vmulhuw, 4, 10);
+ GEN_VXFORM(vmulhud, 4, 11);
+-GEN_VXFORM_DUAL(vmuleuw, PPC_ALTIVEC, PPC_NONE,
+-                vmulhuw, PPC_NONE, PPC2_ISA310);
+-GEN_VXFORM(vmulesb, 4, 12);
+-GEN_VXFORM(vmulesh, 4, 13);
+-GEN_VXFORM(vmulesw, 4, 14);
+ GEN_VXFORM(vmulhsw, 4, 14);
+-GEN_VXFORM_DUAL(vmulesw, PPC_ALTIVEC, PPC_NONE,
+-                vmulhsw, PPC_NONE, PPC2_ISA310);
+ GEN_VXFORM(vmulhsd, 4, 15);
+ GEN_VXFORM_V(vslb, MO_8, tcg_gen_gvec_shlv, 2, 4);
+ GEN_VXFORM_V(vslh, MO_16, tcg_gen_gvec_shlv, 2, 5);
+@@ -2104,6 +2086,65 @@ static bool trans_VPEXTD(DisasContext *ctx, arg_VX *a)
+     return true;
+ }
+ 
++static bool do_vx_helper(DisasContext *ctx, arg_VX *a,
++                         void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr))
++{
++    TCGv_ptr ra, rb, rd;
++    REQUIRE_VECTOR(ctx);
++
++    ra = gen_avr_ptr(a->vra);
++    rb = gen_avr_ptr(a->vrb);
++    rd = gen_avr_ptr(a->vrt);
++    gen_helper(rd, ra, rb);
++    tcg_temp_free_ptr(ra);
++    tcg_temp_free_ptr(rb);
++    tcg_temp_free_ptr(rd);
++
++    return true;
++}
++
++static bool do_vx_vmuleo(DisasContext *ctx, arg_VX *a, bool even,
++                         void (*gen_mul)(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_i64))
++{
++    TCGv_i64 vra, vrb, vrt0, vrt1;
++    REQUIRE_VECTOR(ctx);
++
++    vra = tcg_temp_new_i64();
++    vrb = tcg_temp_new_i64();
++    vrt0 = tcg_temp_new_i64();
++    vrt1 = tcg_temp_new_i64();
++
++    get_avr64(vra, a->vra, even);
++    get_avr64(vrb, a->vrb, even);
++    gen_mul(vrt0, vrt1, vra, vrb);
++    set_avr64(a->vrt, vrt0, false);
++    set_avr64(a->vrt, vrt1, true);
++
++    tcg_temp_free_i64(vra);
++    tcg_temp_free_i64(vrb);
++    tcg_temp_free_i64(vrt0);
++    tcg_temp_free_i64(vrt1);
++
++    return true;
++}
++
++TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
++TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
++TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
++TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
++TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
++TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
++TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
++TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
++TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
++TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
++TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
++TRANS_FLAGS2(ALTIVEC_207, VMULOUW, do_vx_helper, gen_helper_VMULOUW)
++TRANS_FLAGS2(ISA310, VMULESD, do_vx_vmuleo, true , tcg_gen_muls2_i64)
++TRANS_FLAGS2(ISA310, VMULOSD, do_vx_vmuleo, false, tcg_gen_muls2_i64)
++TRANS_FLAGS2(ISA310, VMULEUD, do_vx_vmuleo, true , tcg_gen_mulu2_i64)
++TRANS_FLAGS2(ISA310, VMULOUD, do_vx_vmuleo, false, tcg_gen_mulu2_i64)
++
+ #undef GEN_VR_LDX
+ #undef GEN_VR_STX
+ #undef GEN_VR_LVE
+diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
+index 25ee715b43..f310b2fbde 100644
+--- a/target/ppc/translate/vmx-ops.c.inc
++++ b/target/ppc/translate/vmx-ops.c.inc
+@@ -101,20 +101,11 @@ GEN_VXFORM_DUAL(vmrgow, vextuwlx, 6, 26, PPC_NONE, PPC2_ALTIVEC_207),
+ GEN_VXFORM_300(vextubrx, 6, 28),
+ GEN_VXFORM_300(vextuhrx, 6, 29),
+ GEN_VXFORM_DUAL(vmrgew, vextuwrx, 6, 30, PPC_NONE, PPC2_ALTIVEC_207),
+-GEN_VXFORM(vmuloub, 4, 0),
+-GEN_VXFORM(vmulouh, 4, 1),
+-GEN_VXFORM_DUAL(vmulouw, vmuluwm, 4, 2, PPC_ALTIVEC, PPC_NONE),
+-GEN_VXFORM(vmulosb, 4, 4),
+-GEN_VXFORM(vmulosh, 4, 5),
+-GEN_VXFORM_207(vmulosw, 4, 6),
++GEN_VXFORM_207(vmuluwm, 4, 2),
+ GEN_VXFORM_310(vmulld, 4, 7),
+-GEN_VXFORM(vmuleub, 4, 8),
+-GEN_VXFORM(vmuleuh, 4, 9),
+-GEN_VXFORM_DUAL(vmuleuw, vmulhuw, 4, 10, PPC_ALTIVEC, PPC_NONE),
++GEN_VXFORM_310(vmulhuw, 4, 10),
+ GEN_VXFORM_310(vmulhud, 4, 11),
+-GEN_VXFORM(vmulesb, 4, 12),
+-GEN_VXFORM(vmulesh, 4, 13),
+-GEN_VXFORM_DUAL(vmulesw, vmulhsw, 4, 14, PPC_ALTIVEC, PPC_NONE),
++GEN_VXFORM_310(vmulhsw, 4, 14),
+ GEN_VXFORM_310(vmulhsd, 4, 15),
+ GEN_VXFORM(vslb, 2, 4),
+ GEN_VXFORM(vslh, 2, 5),
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index dea24f23c4..69d22e08cb 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -3987,3 +3987,9 @@ void tcg_register_jit(const void *buf, size_t buf_size)
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
+ #endif /* __ELF__ */
++#undef VMULEUB
++#undef VMULEUH
++#undef VMULEUW
++#undef VMULOUB
++#undef VMULOUH
++#undef VMULOUW
 -- 
 2.25.1
 
