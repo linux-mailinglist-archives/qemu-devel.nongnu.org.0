@@ -2,63 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50204C4B00
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 17:39:36 +0100 (CET)
-Received: from localhost ([::1]:37456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BE24C4B48
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 17:48:31 +0100 (CET)
+Received: from localhost ([::1]:47572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNdd1-0007TA-Ow
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 11:39:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54974)
+	id 1nNdld-000686-Vh
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 11:48:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nNdVG-0000iq-D1
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 11:31:36 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:51675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nNdVD-0003C4-5t
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 11:31:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=O0JHICHXqr+Bf+e1uWV/JB1UqLibTOpQvLXG8RTp6Zk=; b=tMDn97Jskr8Zjuk9dkKwqfNpxN
- 18/Nz/vfUmAbYolKIvyKG0WNAO/CTAM4vFffPtyldNXy+05A61zXLtpo/pq5m9ljm7LFuWvXwjlag
- V5yHLQveJJlqZsXrCLEeUBMlQ7neWK3qS1D5oRAWMHA9Si5cCAAaW1xB4ugv3H4i89LxCL8JmiCLO
- mUJLXzrt93pBI8dCHuecbMIp6aWtA1Agf1Vp6YQnsfD0BoxEKRA1OEkJxhYOEYH7Gri7R8tOy3V8u
- feLP3U2H0XoILg4Kl9FDzLUslQnXurW1YL8vZxFt/lwr8WEHXl90wYPvqjIAKqMeQ452S6KT4HiNN
- NmYxfuORSH/BHu8iLs4N+TjycVBzKK9DaabYeHnEXI15H+SpSCAdhMNJCAX6xwSr0Afv4HDHMlAPt
- WnAyd7bwPz37MLo9PnmXk6NquHb0zV0pgmXzPUXUTl7nqbDQTAyJVOgrmejifDydY8j3wyERzujwm
- fAlzjx74drxKrLAvHdYDIJqfuKIoHKdZXIbT3yoh9/TxinNpeK00Io9WipDCZyvDZo0QYc2hRs9wo
- l2LkG0i/qgwjYX7tzxub1F4WNDTnGcukZH6Tq8dshR9QMO/LXgxghVC0zJJ4WTr2j2vubzbKO7Gg5
- ZvPCk/jZzgLFS+Fwiid+kGVFx84RTR+Cr2tXexYhA=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Will Cohen <wwcohen@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v8 09/11] 9p: darwin: Implement compatibility for mknodat
-Date: Fri, 25 Feb 2022 17:31:25 +0100
-Message-ID: <2843831.zseRdOWLSh@silver>
-In-Reply-To: <CAB26zV2ePB=1ZHogaWndR5cc1Hru9BXRk88cbnN4LahLSFxCmQ@mail.gmail.com>
-References: <20220220165056.72289-1-wwcohen@gmail.com>
- <8571874.GWnKUVsiaS@silver>
- <CAB26zV2ePB=1ZHogaWndR5cc1Hru9BXRk88cbnN4LahLSFxCmQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nNdX8-0002Y6-P3; Fri, 25 Feb 2022 11:33:31 -0500
+Received: from [2607:f8b0:4864:20::32f] (port=39891
+ helo=mail-ot1-x32f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nNdX6-0003T7-K4; Fri, 25 Feb 2022 11:33:30 -0500
+Received: by mail-ot1-x32f.google.com with SMTP id
+ j3-20020a9d7683000000b005aeed94f4e9so3973584otl.6; 
+ Fri, 25 Feb 2022 08:33:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=1S6Ff9KVuOeNjHDwTZvOF6RSydeudgvJ2L29Axg6ZYY=;
+ b=Y3ACmPUgN2enc1Zz6V1bUzTQ6Y2/7JAG0pexB3HTwCDZ4055koJpkf589aNWO3shW4
+ eSZpjkwABJu5uSozqkI2ZVI8g18e6t1GoikvIpTbkOrO1G980XJBmNfQOU3y9uZiDkkc
+ wTjFpZPMs5AFDZQEb4mxUnqpB1IcNBkH0zOtMp3nwtJLU/uYzGgizd/RYOG5wBLdlzLQ
+ v6Z+th7cdiT0KWzR7v9PseA5xLgIfbUOjViyRokC/n/r+Suo5aW4iOdtuJjvMTNR0s44
+ IR4d4032x+KooV6rEaC1Aa+T5nxPCj0WkAUN1VqAGCCWBb4+d7txSTC6mV9YgV8xWB/M
+ 1UkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1S6Ff9KVuOeNjHDwTZvOF6RSydeudgvJ2L29Axg6ZYY=;
+ b=wKqYqf+LQAJxcyGwcYrFoGdqJRhD1OvATWTTAzh+oAH4QMhw2mQria1GcWOwYQlGy9
+ WBAT8+ukUf+E4BiGmmCRpbm2tyqK1JMsS+i2LooVILfYPldzuyDDXHOLA4QYK5WtIain
+ M32TGEU+XyDbVuT8Uuf8P/Js/PuUN0sYyuYz4AALmlC61sm4G1G//92OYo0f8BDJvjDP
+ VOBv3IC4cVIe66liNR58pKfifFXmc1V/6hX9EQSvE6HcU1OlmlIVoWb4Iu1cReDtgvhv
+ mAIxRn3U4ZGIiKUuu9OsSZrR4OKvwarASyaFPS9cIgxWFVj6qbGwXoLHNBM51KLPdoo1
+ CGbQ==
+X-Gm-Message-State: AOAM530hKbfNTeWtVQH5iilczpbgFb/MA+f1As+dSDYvFYc7bC0e/F5t
+ Ijjv07M4zYDMFLx8nBThlBY=
+X-Google-Smtp-Source: ABdhPJz4RsgmFMeU08zYBX/+jiDcPdBA7z5hNe4lwVdf+3p4J4zS2aLYOcyDDIcDK9CBDvYIWaTNOQ==
+X-Received: by 2002:a05:6830:1ac3:b0:5ad:2ede:bd14 with SMTP id
+ r3-20020a0568301ac300b005ad2edebd14mr3073318otc.130.1645806807004; 
+ Fri, 25 Feb 2022 08:33:27 -0800 (PST)
+Received: from ?IPV6:2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377?
+ ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
+ by smtp.gmail.com with ESMTPSA id
+ 67-20020aca0546000000b002d46e151b9bsm1457330oif.18.2022.02.25.08.33.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Feb 2022 08:33:26 -0800 (PST)
+Message-ID: <fa154a10-6a99-343c-c43d-aa0aa4d7d5d6@gmail.com>
+Date: Fri, 25 Feb 2022 13:33:23 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 17/18] pnv/xive2: Add support for automatic save&restore
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211126115349.2737605-1-clg@kaod.org>
+ <20211126115349.2737605-18-clg@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20211126115349.2737605-18-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32f.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,228 +95,335 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 25. Februar 2022 15:00:40 CET Will Cohen wrote:
-> On Tue, Feb 22, 2022 at 9:27 AM Christian Schoenebeck <
+
+
+On 11/26/21 08:53, Cédric Le Goater wrote:
+> The XIVE interrupt controller on P10 can automatically save and
+> restore the state of the interrupt registers under the internal NVP
+> structure representing the VCPU. This saves a costly store/load in
+> guest entries and exits.
 > 
-> qemu_oss@crudebyte.com> wrote:
-> > On Sonntag, 20. Februar 2022 17:50:54 CET Will Cohen wrote:
-> > > From: Keno Fischer <keno@juliacomputing.com>
-> > > 
-> > > Darwin does not support mknodat. However, to avoid race conditions
-> > > with later setting the permissions, we must avoid using mknod on
-> > > the full path instead. We could try to fchdir, but that would cause
-> > > problems if multiple threads try to call mknodat at the same time.
-> > > However, luckily there is a solution: Darwin includes a function
-> > > that sets the cwd for the current thread only.
-> > > This should suffice to use mknod safely.
-> > > 
-> > > This function (pthread_fchdir_np) is protected by a check in
-> > > meson in a patch later in this series.
-> > > 
-> > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-> > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-> > > [Will Cohen: - Adjust coding style
-> > > 
-> > >              - Replace clang references with gcc
-> > >              - Note radar filed with Apple for missing syscall
-> > >              - Replace direct syscall with pthread_fchdir_np and
-> > >              
-> > >                adjust patch notes accordingly
-> > >              
-> > >              - Move qemu_mknodat from 9p-util to osdep and os-posix
-> > >              - Move pthread_fchdir_np declaration only to osdep
-> > >              - Declare pthread_fchdir_np with
-> > >              - __attribute__((weak_import)) to allow checking for
-> > >              
-> > >                its presence before usage
-> > >              
-> > >              - Move declarations above cplusplus guard
-> > >              - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
-> > >              
-> > >                presence in osdep.h and os-posix.c
-> > >              
-> > >              - Rebase to apply cleanly on top of the 2022-02-10
-> > >              
-> > >                changes to 9pfs]
-> > > 
-> > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
-> > > ---
-> > > 
-> > >  hw/9pfs/9p-local.c   |  4 ++--
-> > >  include/qemu/osdep.h | 12 ++++++++++++
-> > >  meson.build          |  1 +
-> > >  os-posix.c           | 35 +++++++++++++++++++++++++++++++++++
-> > >  4 files changed, 50 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> > > index a0d08e5216..d42ce6d8b8 100644
-> > > --- a/hw/9pfs/9p-local.c
-> > > +++ b/hw/9pfs/9p-local.c
-> > > @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> > > *dir_path,
-> > > 
-> > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
-> > >      
-> > >          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-> > > 
-> > > -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-> > > +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-> > > 
-> > >          if (err == -1) {
-> > >          
-> > >              goto out;
-> > >          
-> > >          }
-> > > 
-> > > @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
-> > > *dir_path, }
-> > > 
-> > >      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
-> > >      
-> > >                 fs_ctx->export_flags & V9FS_SM_NONE) {
-> > > 
-> > > -        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
-> > > +        err = qemu_mknodat(dirfd, name, credp->fc_mode,
-> > > credp->fc_rdev);
-> > > 
-> > >          if (err == -1) {
-> > >          
-> > >              goto out;
-> > >          
-> > >          }
-> > > 
-> > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > > index ce12f64853..c0f442d791 100644
-> > > --- a/include/qemu/osdep.h
-> > > +++ b/include/qemu/osdep.h
-> > > @@ -818,6 +818,18 @@ static inline int
-> > > platform_does_not_support_system(const char *command) */
-> > > 
-> > >  struct dirent *qemu_dirent_dup(struct dirent *dent);
-> > > 
-> > > +/*
-> > > + * As long as mknodat is not available on macOS, this workaround
-> > > + * using pthread_fchdir_np is needed. qemu_mknodat is defined in
-> > > + * os-posix.c. pthread_fchdir_np is weakly linked here as a guard
-> > > + * in case it disappears in future macOS versions, because it is
-> > > + * is a private API.
-> > > + */
-> > > +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
-> > > +int pthread_fchdir_np(int fd) __attribute__((weak_import));
-> > > +#endif
-> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> > 
-> > dev);
-> > 
-> > > +
-> > > 
-> > >  #ifdef __cplusplus
-> > >  }
-> > >  #endif
-> > 
-> > Peter just informed me that osdep.h is not the right place to add
-> > something
-> > like this:
-> > 
-> > https://lore.kernel.org/qemu-devel/CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKL
-> > WUDjk7v6Khmg@mail.gmail.com/
-> > 
-> > So this should be moved into a different header file.
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+>   hw/intc/pnv_xive2_regs.h    |   3 +
+>   include/hw/ppc/xive2.h      |   1 +
+>   include/hw/ppc/xive2_regs.h |  12 ++++
+>   hw/intc/pnv_xive2.c         |  18 +++++-
+>   hw/intc/xive2.c             | 126 ++++++++++++++++++++++++++++++++++--
+>   5 files changed, 154 insertions(+), 6 deletions(-)
 > 
-> Does that logic apply here too? In some ways I'd say that mknodat falls
-> into the category of "things without which code would work on most
-> platforms but fail to compile or misbehave on a minority of host OSes." If
-> osdep.h is the wrong place, should it go back to 9p-util, where it lived
-> before it moved to osdep?
-
-The other function Peter wanted out from osdep.h would fall into that category 
-as well. I understand it like "only put things into osdep.h as very last 
-resort". CCing Peter on this. If he doesn't give you green light, or on doubt, 
-then yes please move it from osdep -> 9p-util.
-
-Will, are you planning to send a v9 of this series soon? Next week I need to 
-add changes that would collide with these here. So if you intend to send it 
-soon, then I just wait so that we can finally queue these macOS patches here 
-for QEMU 7.0, before I would go along with my changes.
-
-Best regards,
-Christian Schoenebeck
-
-> > > diff --git a/meson.build b/meson.build
-> > > index ae5f7eec6e..6fdc0281ad 100644
-> > > --- a/meson.build
-> > > +++ b/meson.build
-> > > @@ -1557,6 +1557,7 @@ config_host_data.set('CONFIG_POSIX_FALLOCATE',
-> > > cc.has_function('posix_fallocate'
-> > > config_host_data.set('CONFIG_POSIX_MEMALIGN',
-> > > cc.has_function('posix_memalign')) config_host_data.set('CONFIG_PPOLL',
-> > > cc.has_function('ppoll'))
-> > > 
-> > >  config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix:
-> > > '#include <sys/uio.h>'))
-> > 
-> > +config_host_data.set('CONFIG_PTHREAD_FCHDIR_NP',
-> > 
-> > > cc.has_function('pthread_fchdir_np'))
-> > > config_host_data.set('CONFIG_SEM_TIMEDWAIT',
-> > > cc.has_function('sem_timedwait', dependencies: threads))
-> > > config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
-> > > config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and
-> > > cc.has_function('unshare')) diff --git a/os-posix.c b/os-posix.c
-> > > index ae6c9f2a5e..ccc3d1e9d3 100644
-> > > --- a/os-posix.c
-> > > +++ b/os-posix.c
-> > > @@ -332,3 +332,38 @@ int os_mlock(void)
-> > > 
-> > >      return -ENOSYS;
-> > >  
-> > >  #endif
-> > >  }
-> > > 
-> > > +
-> > > +/*
-> > > + * As long as mknodat is not available on macOS, this workaround
-> > > + * using pthread_fchdir_np is needed.
-> > > + *
-> > > + * Radar filed with Apple for implementing mknodat:
-> > > + * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
-> > > + */
-> > > +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
-> > > +
-> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> > 
-> > dev)
-> > 
-> > > +{
-> > > +    int preserved_errno, err;
-> > > +    if (!pthread_fchdir_np) {
-> > > +        error_report_once("pthread_fchdir_np() is not available on this
-> > > version of macOS"); +        return -ENOTSUP;
-> > > +    }
-> > > +    if (pthread_fchdir_np(dirfd) < 0) {
-> > > +        return -1;
-> > > +    }
-> > > +    err = mknod(filename, mode, dev);
-> > > +    preserved_errno = errno;
-> > > +    /* Stop using the thread-local cwd */
-> > > +    pthread_fchdir_np(-1);
-> > > +    if (err < 0) {
-> > > +        errno = preserved_errno;
-> > > +    }
-> > > +    return err;
-> > > +}
-> > > +#else
-> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> > 
-> > dev)
-> > 
-> > > +{
-> > > +    return mknodat(dirfd, filename, mode, dev);
-> > > +}
-> > > +#endif
-
-
+> diff --git a/hw/intc/pnv_xive2_regs.h b/hw/intc/pnv_xive2_regs.h
+> index 902220e6be69..3488ae188938 100644
+> --- a/hw/intc/pnv_xive2_regs.h
+> +++ b/hw/intc/pnv_xive2_regs.h
+> @@ -30,6 +30,7 @@
+>   #define       CQ_XIVE_CAP_VP_INT_PRIO_4_8       2
+>   #define       CQ_XIVE_CAP_VP_INT_PRIO_8         3
+>   #define    CQ_XIVE_CAP_BLOCK_ID_WIDTH           PPC_BITMASK(12, 13)
+> +#define    CQ_XIVE_CAP_VP_SAVE_RESTORE          PPC_BIT(38)
+>   
+>   #define    CQ_XIVE_CAP_PHB_PQ_DISABLE           PPC_BIT(56)
+>   #define    CQ_XIVE_CAP_PHB_ABT                  PPC_BIT(57)
+> @@ -65,6 +66,8 @@
+>   #define    CQ_XIVE_CFG_GEN1_TIMA_HYP_BLK0       PPC_BIT(26) /* 0 if bit[25]=0 */
+>   #define    CQ_XIVE_CFG_GEN1_TIMA_CROWD_DIS      PPC_BIT(27) /* 0 if bit[25]=0 */
+>   #define    CQ_XIVE_CFG_GEN1_END_ESX             PPC_BIT(28)
+> +#define    CQ_XIVE_CFG_EN_VP_SAVE_RESTORE       PPC_BIT(38) /* 0 if bit[25]=1 */
+> +#define    CQ_XIVE_CFG_EN_VP_SAVE_REST_STRICT   PPC_BIT(39) /* 0 if bit[25]=1 */
+>   
+>   /* Interrupt Controller Base Address Register - 512 pages (32M) */
+>   #define X_CQ_IC_BAR                             0x08
+> diff --git a/include/hw/ppc/xive2.h b/include/hw/ppc/xive2.h
+> index b08600cbd5ee..88c3e393162d 100644
+> --- a/include/hw/ppc/xive2.h
+> +++ b/include/hw/ppc/xive2.h
+> @@ -30,6 +30,7 @@ OBJECT_DECLARE_TYPE(Xive2Router, Xive2RouterClass, XIVE2_ROUTER);
+>    */
+>   
+>   #define XIVE2_GEN1_TIMA_OS      0x00000001
+> +#define XIVE2_VP_SAVE_RESTORE   0x00000002
+>   
+>   typedef struct Xive2RouterClass {
+>       SysBusDeviceClass parent;
+> diff --git a/include/hw/ppc/xive2_regs.h b/include/hw/ppc/xive2_regs.h
+> index f4827f4c6d54..d214b49bef75 100644
+> --- a/include/hw/ppc/xive2_regs.h
+> +++ b/include/hw/ppc/xive2_regs.h
+> @@ -20,10 +20,13 @@
+>   #define   TM2_QW0W2_VU           PPC_BIT32(0)
+>   #define   TM2_QW0W2_LOGIC_SERV   PPC_BITMASK32(4, 31)
+>   #define   TM2_QW1W2_VO           PPC_BIT32(0)
+> +#define   TM2_QW1W2_HO           PPC_BIT32(1)
+>   #define   TM2_QW1W2_OS_CAM       PPC_BITMASK32(4, 31)
+>   #define   TM2_QW2W2_VP           PPC_BIT32(0)
+> +#define   TM2_QW2W2_HP           PPC_BIT32(1)
+>   #define   TM2_QW2W2_POOL_CAM     PPC_BITMASK32(4, 31)
+>   #define   TM2_QW3W2_VT           PPC_BIT32(0)
+> +#define   TM2_QW3W2_HT           PPC_BIT32(1)
+>   #define   TM2_QW3W2_LP           PPC_BIT32(6)
+>   #define   TM2_QW3W2_LE           PPC_BIT32(7)
+>   
+> @@ -137,10 +140,17 @@ void xive2_end_eas_pic_print_info(Xive2End *end, uint32_t end_idx,
+>   typedef struct Xive2Nvp {
+>           uint32_t       w0;
+>   #define NVP2_W0_VALID              PPC_BIT32(0)
+> +#define NVP2_W0_HW                 PPC_BIT32(7)
+>   #define NVP2_W0_ESC_END            PPC_BIT32(25) /* 'N' bit 0:ESB  1:END */
+>           uint32_t       w1;
+> +#define NVP2_W1_CO                 PPC_BIT32(13)
+> +#define NVP2_W1_CO_PRIV            PPC_BITMASK32(14, 15)
+> +#define NVP2_W1_CO_THRID_VALID     PPC_BIT32(16)
+> +#define NVP2_W1_CO_THRID           PPC_BITMASK32(17, 31)
+>           uint32_t       w2;
+> +#define NVP2_W2_CPPR               PPC_BITMASK32(0, 7)
+>   #define NVP2_W2_IPB                PPC_BITMASK32(8, 15)
+> +#define NVP2_W2_LSMFB              PPC_BITMASK32(16, 23)
+>           uint32_t       w3;
+>           uint32_t       w4;
+>   #define NVP2_W4_ESC_ESB_BLOCK      PPC_BITMASK32(0, 3)  /* N:0 */
+> @@ -156,6 +166,8 @@ typedef struct Xive2Nvp {
+>   } Xive2Nvp;
+>   
+>   #define xive2_nvp_is_valid(nvp)    (be32_to_cpu((nvp)->w0) & NVP2_W0_VALID)
+> +#define xive2_nvp_is_hw(nvp)       (be32_to_cpu((nvp)->w0) & NVP2_W0_HW)
+> +#define xive2_nvp_is_co(nvp)       (be32_to_cpu((nvp)->w1) & NVP2_W1_CO)
+>   
+>   /*
+>    * The VP number space in a block is defined by the END2_W6_VP_OFFSET
+> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+> index 2b7d6ccbd097..6f0a63cd3d2f 100644
+> --- a/hw/intc/pnv_xive2.c
+> +++ b/hw/intc/pnv_xive2.c
+> @@ -434,6 +434,10 @@ static uint32_t pnv_xive2_get_config(Xive2Router *xrtr)
+>           cfg |= XIVE2_GEN1_TIMA_OS;
+>       }
+>   
+> +    if (xive->cq_regs[CQ_XIVE_CFG >> 3] & CQ_XIVE_CFG_EN_VP_SAVE_RESTORE) {
+> +        cfg |= XIVE2_VP_SAVE_RESTORE;
+> +    }
+> +
+>       return cfg;
+>   }
+>   
+> @@ -1999,9 +2003,21 @@ static void xive2_nvp_pic_print_info(Xive2Nvp *nvp, uint32_t nvp_idx,
+>           return;
+>       }
+>   
+> -    monitor_printf(mon, "  %08x end:%02x/%04x IPB:%02x\n",
+> +    monitor_printf(mon, "  %08x end:%02x/%04x IPB:%02x",
+>                      nvp_idx, eq_blk, eq_idx,
+>                      xive_get_field32(NVP2_W2_IPB, nvp->w2));
+> +    /*
+> +     * When the NVP is HW controlled, more fields are updated
+> +     */
+> +    if (xive2_nvp_is_hw(nvp)) {
+> +        monitor_printf(mon, " CPPR:%02x",
+> +                       xive_get_field32(NVP2_W2_CPPR, nvp->w2));
+> +        if (xive2_nvp_is_co(nvp)) {
+> +            monitor_printf(mon, " CO:%04x",
+> +                           xive_get_field32(NVP2_W1_CO_THRID, nvp->w1));
+> +        }
+> +    }
+> +    monitor_printf(mon, "\n");
+>   }
+>   
+>   /*
+> diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
+> index 71086c7fbd01..978a0e3972e1 100644
+> --- a/hw/intc/xive2.c
+> +++ b/hw/intc/xive2.c
+> @@ -168,27 +168,92 @@ static void xive2_end_enqueue(Xive2End *end, uint32_t data)
+>   
+>   /*
+>    * XIVE Thread Interrupt Management Area (TIMA) - Gen2 mode
+> + *
+> + * TIMA Gen2 VP “save & restore” (S&R) indicated by H bit next to V bit
+> + *
+> + *   - if a context is enabled with the H bit set, the VP context
+> + *     information is retrieved from the NVP structure (“check out”)
+> + *     and stored back on a context pull (“check in”), the SW receives
+> + *     the same context pull information as on P9
+> + *
+> + *   - the H bit cannot be changed while the V bit is set, i.e. a
+> + *     context cannot be set up in the TIMA and then be “pushed” into
+> + *     the NVP by changing the H bit while the context is enabled
+>    */
+>   
+> +static void xive2_tctx_save_os_ctx(Xive2Router *xrtr, XiveTCTX *tctx,
+> +                                   uint8_t nvp_blk, uint32_t nvp_idx)
+> +{
+> +    CPUPPCState *env = &POWERPC_CPU(tctx->cs)->env;
+> +    uint32_t pir = env->spr_cb[SPR_PIR].default_value;
+> +    Xive2Nvp nvp;
+> +    uint8_t *regs = &tctx->regs[TM_QW1_OS];
+> +
+> +    if (xive2_router_get_nvp(xrtr, nvp_blk, nvp_idx, &nvp)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: No NVP %x/%x\n",
+> +                          nvp_blk, nvp_idx);
+> +        return;
+> +    }
+> +
+> +    if (!xive2_nvp_is_valid(&nvp)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid NVP %x/%x\n",
+> +                      nvp_blk, nvp_idx);
+> +        return;
+> +    }
+> +
+> +    if (!xive2_nvp_is_hw(&nvp)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVP %x/%x is not HW owned\n",
+> +                      nvp_blk, nvp_idx);
+> +        return;
+> +    }
+> +
+> +    if (!xive2_nvp_is_co(&nvp)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVP %x/%x is not checkout\n",
+> +                      nvp_blk, nvp_idx);
+> +        return;
+> +    }
+> +
+> +    if (xive_get_field32(NVP2_W1_CO_THRID_VALID, nvp.w1) &&
+> +        xive_get_field32(NVP2_W1_CO_THRID, nvp.w1) != pir) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "XIVE: NVP %x/%x invalid checkout Thread %x\n",
+> +                      nvp_blk, nvp_idx, pir);
+> +        return;
+> +    }
+> +
+> +    nvp.w2 = xive_set_field32(NVP2_W2_IPB, nvp.w2, regs[TM_IPB]);
+> +    nvp.w2 = xive_set_field32(NVP2_W2_CPPR, nvp.w2, regs[TM_CPPR]);
+> +    nvp.w2 = xive_set_field32(NVP2_W2_LSMFB, nvp.w2, regs[TM_LSMFB]);
+> +    xive2_router_write_nvp(xrtr, nvp_blk, nvp_idx, &nvp, 2);
+> +
+> +    nvp.w1 = xive_set_field32(NVP2_W1_CO, nvp.w1, 0);
+> +    /* NVP2_W1_CO_THRID_VALID only set once */
+> +    nvp.w1 = xive_set_field32(NVP2_W1_CO_THRID, nvp.w1, 0xFFFF);
+> +    xive2_router_write_nvp(xrtr, nvp_blk, nvp_idx, &nvp, 1);
+> +}
+> +
+>   static void xive2_os_cam_decode(uint32_t cam, uint8_t *nvp_blk,
+> -                                uint32_t *nvp_idx, bool *vo)
+> +                                uint32_t *nvp_idx, bool *vo, bool *ho)
+>   {
+>       *nvp_blk = xive2_nvp_blk(cam);
+>       *nvp_idx = xive2_nvp_idx(cam);
+>       *vo = !!(cam & TM2_QW1W2_VO);
+> +    *ho = !!(cam & TM2_QW1W2_HO);
+>   }
+>   
+>   uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+>                                 hwaddr offset, unsigned size)
+>   {
+> +    Xive2Router *xrtr = XIVE2_ROUTER(xptr);
+>       uint32_t qw1w2 = xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
+>       uint32_t qw1w2_new;
+>       uint32_t cam = be32_to_cpu(qw1w2);
+>       uint8_t nvp_blk;
+>       uint32_t nvp_idx;
+>       bool vo;
+> +    bool do_save;
+>   
+> -    xive2_os_cam_decode(cam, &nvp_blk, &nvp_idx, &vo);
+> +    xive2_os_cam_decode(cam, &nvp_blk, &nvp_idx, &vo, &do_save);
+>   
+>       if (!vo) {
+>           qemu_log_mask(LOG_GUEST_ERROR, "XIVE: pulling invalid NVP %x/%x !?\n",
+> @@ -199,11 +264,54 @@ uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+>       qw1w2_new = xive_set_field32(TM2_QW1W2_VO, qw1w2, 0);
+>       memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2_new, 4);
+>   
+> +    if (xive2_router_get_config(xrtr) & XIVE2_VP_SAVE_RESTORE && do_save) {
+> +        xive2_tctx_save_os_ctx(xrtr, tctx, nvp_blk, nvp_idx);
+> +    }
+> +
+>       return qw1w2;
+>   }
+>   
+> +static uint8_t xive2_tctx_restore_os_ctx(Xive2Router *xrtr, XiveTCTX *tctx,
+> +                                        uint8_t nvp_blk, uint32_t nvp_idx,
+> +                                        Xive2Nvp *nvp)
+> +{
+> +    CPUPPCState *env = &POWERPC_CPU(tctx->cs)->env;
+> +    uint32_t pir = env->spr_cb[SPR_PIR].default_value;
+> +    uint8_t cppr;
+> +
+> +    if (!xive2_nvp_is_hw(nvp)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVP %x/%x is not HW owned\n",
+> +                      nvp_blk, nvp_idx);
+> +        return 0;
+> +    }
+> +
+> +    cppr = xive_get_field32(NVP2_W2_CPPR, nvp->w2);
+> +    nvp->w2 = xive_set_field32(NVP2_W2_CPPR, nvp->w2, 0);
+> +    xive2_router_write_nvp(xrtr, nvp_blk, nvp_idx, nvp, 2);
+> +
+> +    tctx->regs[TM_QW1_OS + TM_CPPR] = cppr;
+> +    /* we don't model LSMFB */
+> +
+> +    nvp->w1 = xive_set_field32(NVP2_W1_CO, nvp->w1, 1);
+> +    nvp->w1 = xive_set_field32(NVP2_W1_CO_THRID_VALID, nvp->w1, 1);
+> +    nvp->w1 = xive_set_field32(NVP2_W1_CO_THRID, nvp->w1, pir);
+> +
+> +    /*
+> +     * Checkout privilege: 0:OS, 1:Pool, 2:Hard
+> +     *
+> +     * TODO: we only support OS push/pull
+> +     */
+> +    nvp->w1 = xive_set_field32(NVP2_W1_CO_PRIV, nvp->w1, 0);
+> +
+> +    xive2_router_write_nvp(xrtr, nvp_blk, nvp_idx, nvp, 1);
+> +
+> +    /* return restored CPPR to generate a CPU exception if needed */
+> +    return cppr;
+> +}
+> +
+>   static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
+> -                                   uint8_t nvp_blk, uint32_t nvp_idx)
+> +                                   uint8_t nvp_blk, uint32_t nvp_idx,
+> +                                   bool do_restore)
+>   {
+>       Xive2Nvp nvp;
+>       uint8_t ipb;
+> @@ -225,6 +333,12 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
+>           return;
+>       }
+>   
+> +    /* Automatically restore thread context registers */
+> +    if (xive2_router_get_config(xrtr) & XIVE2_VP_SAVE_RESTORE &&
+> +        do_restore) {
+> +        cppr = xive2_tctx_restore_os_ctx(xrtr, tctx, nvp_blk, nvp_idx, &nvp);
+> +    }
+> +
+>       ipb = xive_get_field32(NVP2_W2_IPB, nvp.w2);
+>       if (ipb) {
+>           nvp.w2 = xive_set_field32(NVP2_W2_IPB, nvp.w2, 0);
+> @@ -248,15 +362,17 @@ void xive2_tm_push_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+>       uint8_t nvp_blk;
+>       uint32_t nvp_idx;
+>       bool vo;
+> +    bool do_restore;
+>   
+> -    xive2_os_cam_decode(cam, &nvp_blk, &nvp_idx, &vo);
+> +    xive2_os_cam_decode(cam, &nvp_blk, &nvp_idx, &vo, &do_restore);
+>   
+>       /* First update the thead context */
+>       memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
+>   
+>       /* Check the interrupt pending bits */
+>       if (vo) {
+> -        xive2_tctx_need_resend(XIVE2_ROUTER(xptr), tctx, nvp_blk, nvp_idx);
+> +        xive2_tctx_need_resend(XIVE2_ROUTER(xptr), tctx, nvp_blk, nvp_idx,
+> +                               do_restore);
+>       }
+>   }
+>   
 
