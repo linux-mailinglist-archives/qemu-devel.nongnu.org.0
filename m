@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF36D4C4059
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 09:43:39 +0100 (CET)
-Received: from localhost ([::1]:49336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4794C400F
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 09:27:25 +0100 (CET)
+Received: from localhost ([::1]:60058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNWCR-0002QV-1u
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 03:43:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49318)
+	id 1nNVwh-0006cC-Rt
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 03:27:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nNVhj-0003wE-0L
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:11:56 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:44664 helo=loongson.cn)
+ id 1nNVZn-00081g-Eq
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:03:43 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:42012 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVhb-0004gh-9D
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:11:54 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVZi-0002S9-TY
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:03:43 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S19; 
- Fri, 25 Feb 2022 16:03:20 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S20; 
+ Fri, 25 Feb 2022 16:03:21 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v6 17/29] hw/intc: Add LoongArch ls7a interrupt controller
- support(PCH-PIC)
-Date: Fri, 25 Feb 2022 03:02:56 -0500
-Message-Id: <20220225080308.1405-18-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v6 18/29] hw/intc: Add LoongArch ls7a msi interrupt
+ controller support(PCH-MSI)
+Date: Fri, 25 Feb 2022 03:02:57 -0500
+Message-Id: <20220225080308.1405-19-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S19
-X-Coremail-Antispam: 1UD129KBjvAXoWfGw47Gr15Cr4ruFyfAFyfCrg_yoW8CFW5Ko
- WYyF13Z3W0kr1xArWkKrn8XF12kr4IkFZ8Aa92vay5CF4rCr90gF9Ik34YyF43Jws5tr15
- XasaqrZaya9rJryxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
+X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S20
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jr47tFy7tF1xJw15XF4UXFb_yoW7try7pr
+ sru343Kr4ktw47WFZ3J34rAF95JFn7ury2vF4a9ryxCr4DAr95XF1ktry7WFyUK3ykGryq
+ va95Ca12qa1UGaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -62,649 +62,171 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch realize the PCH-PIC interrupt controller.
+This patch realize PCH-MSI interrupt controller.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/intc/Kconfig                     |   4 +
- hw/intc/loongarch_pch_pic.c         | 488 ++++++++++++++++++++++++++++
- hw/intc/meson.build                 |   1 +
- hw/intc/trace-events                |   9 +
- hw/loongarch/Kconfig                |   1 +
- include/hw/intc/loongarch_pch_pic.h |  81 +++++
- 6 files changed, 584 insertions(+)
- create mode 100644 hw/intc/loongarch_pch_pic.c
- create mode 100644 include/hw/intc/loongarch_pch_pic.h
+ hw/intc/Kconfig                     |  5 ++
+ hw/intc/loongarch_pch_msi.c         | 75 +++++++++++++++++++++++++++++
+ hw/intc/meson.build                 |  1 +
+ hw/intc/trace-events                |  3 ++
+ hw/loongarch/Kconfig                |  1 +
+ include/hw/intc/loongarch_pch_msi.h | 21 ++++++++
+ 6 files changed, 106 insertions(+)
+ create mode 100644 hw/intc/loongarch_pch_msi.c
+ create mode 100644 include/hw/intc/loongarch_pch_msi.h
 
 diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index d67ce57496..4f7776d8ac 100644
+index 4f7776d8ac..1514810297 100644
 --- a/hw/intc/Kconfig
 +++ b/hw/intc/Kconfig
-@@ -84,3 +84,7 @@ config M68K_IRQC
- 
- config LOONGARCH_IPI
+@@ -88,3 +88,8 @@ config LOONGARCH_IPI
+ config LOONGARCH_PCH_PIC
      bool
+     select UNIMP
 +
-+config LOONGARCH_PCH_PIC
++config LOONGARCH_PCH_MSI
++    select MSI_NONBROKEN
 +    bool
 +    select UNIMP
-diff --git a/hw/intc/loongarch_pch_pic.c b/hw/intc/loongarch_pch_pic.c
+diff --git a/hw/intc/loongarch_pch_msi.c b/hw/intc/loongarch_pch_msi.c
 new file mode 100644
-index 0000000000..04b9bdce36
+index 0000000000..57a894f3e5
 --- /dev/null
-+++ b/hw/intc/loongarch_pch_pic.c
-@@ -0,0 +1,488 @@
++++ b/hw/intc/loongarch_pch_msi.c
+@@ -0,0 +1,75 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * QEMU Loongson 7A1000 I/O interrupt controller.
++ * QEMU Loongson 7A1000 msi interrupt controller.
 + *
 + * Copyright (C) 2021 Loongson Technology Corporation Limited
 + */
 +
 +#include "qemu/osdep.h"
 +#include "hw/sysbus.h"
-+#include "hw/loongarch/loongarch.h"
 +#include "hw/irq.h"
++#include "hw/intc/loongarch_pch_msi.h"
 +#include "hw/intc/loongarch_pch_pic.h"
++#include "hw/pci/msi.h"
++#include "hw/misc/unimp.h"
 +#include "migration/vmstate.h"
 +#include "trace.h"
 +
-+static void pch_pic_update_irq(LoongArchPCHPIC *s, uint32_t mask,
-+                               int level, int hi)
++static uint64_t loongarch_msi_mem_read(void *opaque, hwaddr addr, unsigned size)
 +{
-+    uint32_t val, irq;
-+
-+    if (level == 1) {
-+        if (hi) {
-+            val = mask & s->intirr_hi & (~s->int_mask_hi);
-+            irq = find_first_bit((void *)&val, 32);
-+            if (irq != 32) {
-+                s->intisr_hi |= 1ULL << irq;
-+                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq + 32]], 1);
-+            }
-+        } else {
-+            val = mask & s->intirr_lo & (~s->int_mask_lo);
-+            irq = find_first_bit((void *)&val, 32);
-+            if (irq != 32) {
-+                s->intisr_lo |= 1ULL << irq;
-+                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 1);
-+            }
-+        }
-+    } else {
-+        if (hi) {
-+            val = mask & s->intisr_hi;
-+            irq = find_first_bit((void *)&val, 32);
-+            if (irq != 32) {
-+                s->intisr_hi &= ~(0x1ULL << irq);
-+                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq + 32]], 0);
-+            }
-+        } else {
-+            val = mask & s->intisr_lo;
-+            irq = find_first_bit((void *)&val, 32);
-+            if (irq != 32) {
-+                s->intisr_lo &= ~(0x1ULL << irq);
-+                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 0);
-+            }
-+        }
-+    }
++    return 0;
 +}
 +
-+static void pch_pic_irq_handler(void *opaque, int irq, int level)
++static void loongarch_msi_mem_write(void *opaque, hwaddr addr,
++                                    uint64_t val, unsigned size)
 +{
-+    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-+    int hi = 0;
-+    uint32_t mask;
++    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
++    int irq_num = val & 0xff;
 +
-+    assert(irq < PCH_PIC_IRQ_NUM);
-+    trace_pch_pic_irq_handler(irq, level);
-+
-+    hi = (irq >= 32) ? 1 : 0;
-+    if (hi) {
-+        irq = irq - 32;
-+    }
-+
-+    mask = 1ULL << irq;
-+
-+    if (hi) {
-+        if (s->intedge_hi & mask) {
-+            /* Edge triggered */
-+            if (level) {
-+                if ((s->last_intirr_hi & mask) == 0) {
-+                    s->intirr_hi |= mask;
-+                }
-+                s->last_intirr_hi |= mask;
-+            } else {
-+                s->last_intirr_hi &= ~mask;
-+            }
-+        } else {
-+            /* Level triggered */
-+            if (level) {
-+                s->intirr_hi |= mask;
-+                s->last_intirr_hi |= mask;
-+            } else {
-+                s->intirr_hi &= ~mask;
-+                s->last_intirr_hi &= ~mask;
-+            }
-+        }
-+    } else {
-+        if (s->intedge_lo & mask) {
-+            /* Edge triggered */
-+            if (level) {
-+                if ((s->last_intirr_lo & mask) == 0) {
-+                    s->intirr_lo |= mask;
-+                }
-+                s->last_intirr_lo |= mask;
-+            } else {
-+                s->last_intirr_lo &= ~mask;
-+            }
-+        } else {
-+            /* Level triggered */
-+            if (level) {
-+                s->intirr_lo |= mask;
-+                s->last_intirr_lo |= mask;
-+            } else {
-+                s->intirr_lo &= ~mask;
-+                s->last_intirr_lo &= ~mask;
-+            }
-+
-+        }
-+    }
-+    pch_pic_update_irq(s, mask, level, hi);
++    trace_loongarch_msi_set_irq(irq_num);
++    qemu_set_irq(s->pch_msi_irq[irq_num - PCH_PIC_IRQ_NUM], 1);
 +}
 +
-+static uint64_t loongarch_pch_pic_low_readw(void *opaque, hwaddr addr,
-+                                            unsigned size)
-+{
-+    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-+    uint64_t val = 0;
-+    uint32_t offset = addr & 0xfff;
-+
-+    switch (offset) {
-+    case PCH_PIC_INT_ID_LO:
-+        val = PCH_PIC_INT_ID_VAL;
-+        break;
-+    case PCH_PIC_INT_ID_HI:
-+        val = PCH_PIC_INT_ID_NUM;
-+        break;
-+    case PCH_PIC_INT_MASK_LO:
-+        val = s->int_mask_lo;
-+        break;
-+    case PCH_PIC_INT_MASK_HI:
-+        val = s->int_mask_hi;
-+        break;
-+    case PCH_PIC_INT_EDGE_LO:
-+        val = s->intedge_lo;
-+        break;
-+    case PCH_PIC_INT_EDGE_HI:
-+        val = s->intedge_hi;
-+        break;
-+    case PCH_PIC_HTMSI_EN_LO:
-+        val = s->htmsi_en_lo;
-+        break;
-+    case PCH_PIC_HTMSI_EN_HI:
-+        val = s->htmsi_en_hi;
-+        break;
-+    case PCH_PIC_AUTO_CTRL0_LO:
-+    case PCH_PIC_AUTO_CTRL0_HI:
-+    case PCH_PIC_AUTO_CTRL1_LO:
-+    case PCH_PIC_AUTO_CTRL1_HI:
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    trace_loongarch_pch_pic_low_readw(size, (uint32_t)addr, val);
-+    return val;
-+}
-+
-+static void loongarch_pch_pic_low_writew(void *opaque, hwaddr addr,
-+                                         uint64_t data, unsigned size)
-+{
-+    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-+    uint32_t offset, old;
-+    offset = addr & 0xfff;
-+
-+    trace_loongarch_pch_pic_low_writew(size, (uint32_t)addr, data);
-+
-+    switch (offset) {
-+    case PCH_PIC_INT_MASK_LO:
-+        old = s->int_mask_lo;
-+        s->int_mask_lo = data;
-+        if (old & ~data) {
-+            pch_pic_update_irq(s, (old & ~data), 1, 0);
-+        } else if (~old & data) {
-+            pch_pic_update_irq(s, (~old & data), 0, 0);
-+        }
-+        break;
-+    case PCH_PIC_INT_MASK_HI:
-+        old = s->int_mask_hi;
-+        s->int_mask_hi = data;
-+        if (old & ~data) {
-+            pch_pic_update_irq(s, (old & ~data), 1, 1);
-+        } else if (~old & data) {
-+            pch_pic_update_irq(s, (~old & data), 0, 1);
-+        }
-+        break;
-+    case PCH_PIC_INT_EDGE_LO:
-+        s->intedge_lo = data;
-+        break;
-+    case PCH_PIC_INT_EDGE_HI:
-+        s->intedge_hi = data;
-+        break;
-+    case PCH_PIC_INT_CLEAR_LO:
-+        if (s->intedge_lo & data) {
-+            s->intirr_lo &= (~data);
-+            pch_pic_update_irq(s, data, 0, 0);
-+            s->intisr_lo &= (~data);
-+        }
-+        break;
-+    case PCH_PIC_INT_CLEAR_HI:
-+        if (s->intedge_hi & data) {
-+            s->intirr_hi &= (~data);
-+            pch_pic_update_irq(s, data, 0, 1);
-+            s->intisr_hi &= (~data);
-+        }
-+        break;
-+    case PCH_PIC_HTMSI_EN_LO:
-+        s->htmsi_en_lo = data;
-+        break;
-+    case PCH_PIC_HTMSI_EN_HI:
-+        s->htmsi_en_hi = data;
-+        break;
-+    case PCH_PIC_AUTO_CTRL0_LO:
-+    case PCH_PIC_AUTO_CTRL0_HI:
-+    case PCH_PIC_AUTO_CTRL1_LO:
-+    case PCH_PIC_AUTO_CTRL1_HI:
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
-+static uint64_t loongarch_pch_pic_high_readw(void *opaque, hwaddr addr,
-+                                        unsigned size)
-+{
-+    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-+    uint64_t val = 0;
-+    uint32_t offset = addr & 0xfff;
-+
-+    switch (offset) {
-+    case STATUS_LO_START:
-+        val = s->intisr_lo & (~s->int_mask_lo);
-+        break;
-+    case STATUS_HI_START:
-+        val = s->intisr_hi & (~s->int_mask_hi);
-+        break;
-+    case POL_LO_START:
-+        val = s->int_polarity_lo;
-+        break;
-+    case POL_HI_START:
-+        val = s->int_polarity_hi;
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    trace_loongarch_pch_pic_high_readw(size, (uint32_t)addr, val);
-+    return val;
-+}
-+
-+static void loongarch_pch_pic_high_writew(void *opaque, hwaddr addr,
-+                                     uint64_t data, unsigned size)
-+{
-+    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-+    uint32_t offset;
-+    offset = addr & 0xfff;
-+
-+    trace_loongarch_pch_pic_high_writew(size, (uint32_t)addr, data);
-+
-+    switch (offset) {
-+    case STATUS_LO_START:
-+        s->intisr_lo = data;
-+        break;
-+    case STATUS_HI_START:
-+        s->intisr_hi = data;
-+        break;
-+    case POL_LO_START:
-+        s->int_polarity_lo = data;
-+        break;
-+    case POL_HI_START:
-+        s->int_polarity_hi = data;
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
-+static uint64_t loongarch_pch_pic_readb(void *opaque, hwaddr addr,
-+                                        unsigned size)
-+{
-+    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-+    uint64_t val = 0;
-+    uint32_t offset = (addr & 0xfff) + PCH_PIC_ROUTE_ENTRY_OFFSET;
-+    int64_t offset_tmp;
-+
-+    switch (offset) {
-+    case PCH_PIC_HTMSI_VEC_OFFSET ... PCH_PIC_HTMSI_VEC_END:
-+        offset_tmp = offset - PCH_PIC_HTMSI_VEC_OFFSET;
-+        if (offset_tmp >= 0 && offset_tmp < 64) {
-+            val = s->htmsi_vector[offset_tmp];
-+        }
-+        break;
-+    case PCH_PIC_ROUTE_ENTRY_OFFSET ... PCH_PIC_ROUTE_ENTRY_END:
-+        offset_tmp = offset - PCH_PIC_ROUTE_ENTRY_OFFSET;
-+        if (offset_tmp >= 0 && offset_tmp < 64) {
-+            val = s->route_entry[offset_tmp];
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    trace_loongarch_pch_pic_readb(size, (uint32_t)addr, val);
-+    return val;
-+}
-+
-+static void loongarch_pch_pic_writeb(void *opaque, hwaddr addr,
-+                                     uint64_t data, unsigned size)
-+{
-+    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
-+    int32_t offset_tmp;
-+    uint32_t offset = (addr & 0xfff) + PCH_PIC_ROUTE_ENTRY_OFFSET;
-+
-+    trace_loongarch_pch_pic_writeb(size, (uint32_t)addr, data);
-+
-+    switch (offset) {
-+    case PCH_PIC_HTMSI_VEC_OFFSET ... PCH_PIC_HTMSI_VEC_END:
-+        offset_tmp = offset - PCH_PIC_HTMSI_VEC_OFFSET;
-+        if (offset_tmp >= 0 && offset_tmp < 64) {
-+            s->htmsi_vector[offset_tmp] = (uint8_t)(data & 0xff);
-+        }
-+        break;
-+    case PCH_PIC_ROUTE_ENTRY_OFFSET ... PCH_PIC_ROUTE_ENTRY_END:
-+        offset_tmp = offset - PCH_PIC_ROUTE_ENTRY_OFFSET;
-+        if (offset_tmp >= 0 && offset_tmp < 64) {
-+            s->route_entry[offset_tmp] = (uint8_t)(data & 0xff);
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
-+static const MemoryRegionOps loongarch_pch_pic_reg32_low_ops = {
-+    .read = loongarch_pch_pic_low_readw,
-+    .write = loongarch_pch_pic_low_writew,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 8,
-+    },
-+    .impl = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
++static const MemoryRegionOps loongarch_pch_msi_ops = {
++    .read  = loongarch_msi_mem_read,
++    .write = loongarch_msi_mem_write,
 +    .endianness = DEVICE_LITTLE_ENDIAN,
 +};
 +
-+static const MemoryRegionOps loongarch_pch_pic_reg32_high_ops = {
-+    .read = loongarch_pch_pic_high_readw,
-+    .write = loongarch_pch_pic_high_writew,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 8,
-+    },
-+    .impl = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static const MemoryRegionOps loongarch_pch_pic_reg8_ops = {
-+    .read = loongarch_pch_pic_readb,
-+    .write = loongarch_pch_pic_writeb,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static void loongarch_pch_pic_reset(DeviceState *d)
++static void pch_msi_irq_handler(void *opaque, int irq, int level)
 +{
-+    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(d);
-+    int i;
++    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
 +
-+    s->int_mask_lo = -1;
-+    s->int_mask_hi = -1;
-+    s->htmsi_en_lo = 0x0;
-+    s->htmsi_en_hi = 0x0;
-+    s->intedge_lo  = 0x0;
-+    s->intedge_hi  = 0x0;
-+    s->intclr_lo   = 0x0;
-+    s->intclr_hi   = 0x0;
-+    s->auto_crtl0_lo = 0x0;
-+    s->auto_crtl0_hi = 0x0;
-+    s->auto_crtl1_lo = 0x0;
-+    s->auto_crtl1_hi = 0x0;
-+    for (i = 0; i < 64; i++) {
-+        s->route_entry[i] = 0x1;
-+        s->htmsi_vector[i] = 0x0;
-+    }
-+    s->intirr_lo = 0x0;
-+    s->intirr_hi = 0x0;
-+    s->intisr_lo = 0x0;
-+    s->intisr_hi = 0x0;
-+    s->last_intirr_lo = 0x0;
-+    s->last_intirr_hi = 0x0;
-+    s->int_polarity_lo = 0x0;
-+    s->int_polarity_hi = 0x0;
++    qemu_set_irq(s->pch_msi_irq[irq], level);
 +}
 +
-+static void loongarch_pch_pic_init(Object *obj)
++static void loongarch_pch_msi_init(Object *obj)
 +{
-+    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(obj);
++    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(obj);
 +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
 +    int i;
 +
-+    memory_region_init_io(&s->iomem32_low, obj,
-+                          &loongarch_pch_pic_reg32_low_ops,
-+                          s, PCH_PIC_NAME(.reg32_part1), 0x100);
-+    memory_region_init_io(&s->iomem8, obj, &loongarch_pch_pic_reg8_ops,
-+                          s, PCH_PIC_NAME(.reg8), 0x2a0);
-+    memory_region_init_io(&s->iomem32_high, obj,
-+                          &loongarch_pch_pic_reg32_high_ops,
-+                          s, PCH_PIC_NAME(.reg32_part2), 0xc60);
-+    sysbus_init_mmio(sbd, &s->iomem32_low);
-+    sysbus_init_mmio(sbd, &s->iomem8);
-+    sysbus_init_mmio(sbd, &s->iomem32_high);
++    memory_region_init_io(&s->msi_mmio, obj, &loongarch_pch_msi_ops,
++                          s, TYPE_LOONGARCH_PCH_MSI, 0x8);
++    sysbus_init_mmio(sbd, &s->msi_mmio);
++    msi_nonbroken = true;
 +
-+    for (i = 0; i < PCH_PIC_IRQ_NUM; i++) {
-+        sysbus_init_irq(sbd, &s->parent_irq[i]);
++    for (i = 0; i < PCH_MSI_IRQ_NUM; i++) {
++        sysbus_init_irq(sbd, &s->pch_msi_irq[i]);
 +    }
-+    qdev_init_gpio_in(DEVICE(obj), pch_pic_irq_handler, PCH_PIC_IRQ_NUM);
++    qdev_init_gpio_in(DEVICE(obj), pch_msi_irq_handler, PCH_MSI_IRQ_NUM);
 +}
 +
-+static const VMStateDescription vmstate_loongarch_pch_pic = {
-+    .name = TYPE_LOONGARCH_PCH_PIC,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(int_mask_lo, LoongArchPCHPIC),
-+        VMSTATE_UINT32(int_mask_hi, LoongArchPCHPIC),
-+        VMSTATE_UINT32(htmsi_en_lo, LoongArchPCHPIC),
-+        VMSTATE_UINT32(htmsi_en_hi, LoongArchPCHPIC),
-+        VMSTATE_UINT32(intedge_lo, LoongArchPCHPIC),
-+        VMSTATE_UINT32(intedge_hi, LoongArchPCHPIC),
-+        VMSTATE_UINT32(intclr_lo, LoongArchPCHPIC),
-+        VMSTATE_UINT32(intclr_hi, LoongArchPCHPIC),
-+        VMSTATE_UINT32(auto_crtl0_lo, LoongArchPCHPIC),
-+        VMSTATE_UINT32(auto_crtl0_hi, LoongArchPCHPIC),
-+        VMSTATE_UINT32(auto_crtl1_lo, LoongArchPCHPIC),
-+        VMSTATE_UINT32(auto_crtl1_hi, LoongArchPCHPIC),
-+        VMSTATE_UINT8_ARRAY(route_entry, LoongArchPCHPIC, 64),
-+        VMSTATE_UINT8_ARRAY(htmsi_vector, LoongArchPCHPIC, 64),
-+        VMSTATE_UINT32(last_intirr_lo, LoongArchPCHPIC),
-+        VMSTATE_UINT32(last_intirr_hi, LoongArchPCHPIC),
-+        VMSTATE_UINT32(intirr_lo, LoongArchPCHPIC),
-+        VMSTATE_UINT32(intirr_hi, LoongArchPCHPIC),
-+        VMSTATE_UINT32(intisr_lo, LoongArchPCHPIC),
-+        VMSTATE_UINT32(intisr_hi, LoongArchPCHPIC),
-+        VMSTATE_UINT32(int_polarity_lo, LoongArchPCHPIC),
-+        VMSTATE_UINT32(int_polarity_hi, LoongArchPCHPIC),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void loongarch_pch_pic_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->reset = loongarch_pch_pic_reset;
-+    dc->vmsd = &vmstate_loongarch_pch_pic;
-+}
-+
-+static const TypeInfo loongarch_pch_pic_info = {
-+    .name          = TYPE_LOONGARCH_PCH_PIC,
++static const TypeInfo loongarch_pch_msi_info = {
++    .name          = TYPE_LOONGARCH_PCH_MSI,
 +    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(LoongArchPCHPIC),
-+    .instance_init = loongarch_pch_pic_init,
-+    .class_init    = loongarch_pch_pic_class_init,
++    .instance_size = sizeof(LoongArchPCHMSI),
++    .instance_init = loongarch_pch_msi_init,
 +};
 +
-+static void loongarch_pch_pic_register_types(void)
++static void loongarch_pch_msi_register_types(void)
 +{
-+    type_register_static(&loongarch_pch_pic_info);
++    type_register_static(&loongarch_pch_msi_info);
 +}
 +
-+type_init(loongarch_pch_pic_register_types)
++type_init(loongarch_pch_msi_register_types)
 diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index c50a18aab0..0e4343b806 100644
+index 0e4343b806..308f4e2364 100644
 --- a/hw/intc/meson.build
 +++ b/hw/intc/meson.build
-@@ -62,3 +62,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
- specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+@@ -63,3 +63,4 @@ specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
  specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
  specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
-+specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_pch_pic.c'))
+ specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_pch_pic.c'))
++specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_MSI', if_true: files('loongarch_pch_msi.c'))
 diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index b9666d965a..9bb6e5f2f9 100644
+index 9bb6e5f2f9..56d6a01e79 100644
 --- a/hw/intc/trace-events
 +++ b/hw/intc/trace-events
-@@ -258,3 +258,12 @@ sh_intc_set(int id, int enable) "setting interrupt group %d to %d"
- # loongarch_ipi.c
- loongarch_ipi_read(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
- loongarch_ipi_write(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
+@@ -267,3 +267,6 @@ loongarch_pch_pic_high_readw(unsigned size, uint32_t addr, unsigned long val) "s
+ loongarch_pch_pic_high_writew(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+ loongarch_pch_pic_readb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+ loongarch_pch_pic_writeb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
 +
-+# loongarch_pch_pic.c
-+pch_pic_irq_handler(int irq, int level) "irq %d level %d"
-+loongarch_pch_pic_low_readw(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-+loongarch_pch_pic_low_writew(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-+loongarch_pch_pic_high_readw(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-+loongarch_pch_pic_high_writew(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-+loongarch_pch_pic_readb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
-+loongarch_pch_pic_writeb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
++# loongarch_pch_msi.c
++loongarch_msi_set_irq(int irq_num) "set msi irq %d"
 diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index f0dad3329a..2df45f7e8f 100644
+index 2df45f7e8f..d814fc6103 100644
 --- a/hw/loongarch/Kconfig
 +++ b/hw/loongarch/Kconfig
-@@ -3,3 +3,4 @@ config LOONGARCH_VIRT
-     select PCI
+@@ -4,3 +4,4 @@ config LOONGARCH_VIRT
      select PCI_EXPRESS_GENERIC_BRIDGE
      select LOONGARCH_IPI
-+    select LOONGARCH_PCH_PIC
-diff --git a/include/hw/intc/loongarch_pch_pic.h b/include/hw/intc/loongarch_pch_pic.h
+     select LOONGARCH_PCH_PIC
++    select LOONGARCH_PCH_MSI
+diff --git a/include/hw/intc/loongarch_pch_msi.h b/include/hw/intc/loongarch_pch_msi.h
 new file mode 100644
-index 0000000000..45207e5291
+index 0000000000..68009d4b4a
 --- /dev/null
-+++ b/include/hw/intc/loongarch_pch_pic.h
-@@ -0,0 +1,81 @@
++++ b/include/hw/intc/loongarch_pch_msi.h
+@@ -0,0 +1,21 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * LoongArch 7A1000 I/O interrupt controller definitions
 + *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
 + */
 +
-+#define TYPE_LOONGARCH_PCH_PIC "loongarch_pch_pic"
-+#define PCH_PIC_NAME(name) TYPE_LOONGARCH_PCH_PIC#name
-+DECLARE_INSTANCE_CHECKER(struct LoongArchPCHPIC, LOONGARCH_PCH_PIC,
-+                         TYPE_LOONGARCH_PCH_PIC)
++#define TYPE_LOONGARCH_PCH_MSI "loongarch_pch_msi"
++DECLARE_INSTANCE_CHECKER(struct LoongArchPCHMSI, LOONGARCH_PCH_MSI,
++                         TYPE_LOONGARCH_PCH_MSI)
 +
-+#define PCH_PIC_IRQ_START               0
-+#define PCH_PIC_IRQ_END                 63
-+#define PCH_PIC_IRQ_NUM                 64
-+#define PCH_PIC_INT_ID_VAL              0x7000000UL
-+#define PCH_PIC_INT_ID_NUM              0x3f0001UL
++/* Msi irq start start from 64 to 255 */
++#define PCH_MSI_IRQ_START   64
++#define PCH_MSI_IRQ_END     255
++#define PCH_MSI_IRQ_NUM     192
 +
-+#define PCH_PIC_INT_ID_LO               0x00
-+#define PCH_PIC_INT_ID_HI               0x04
-+#define PCH_PIC_INT_MASK_LO             0x20
-+#define PCH_PIC_INT_MASK_HI             0x24
-+#define PCH_PIC_HTMSI_EN_LO             0x40
-+#define PCH_PIC_HTMSI_EN_HI             0x44
-+#define PCH_PIC_INT_EDGE_LO             0x60
-+#define PCH_PIC_INT_EDGE_HI             0x64
-+#define PCH_PIC_INT_CLEAR_LO            0x80
-+#define PCH_PIC_INT_CLEAR_HI            0x84
-+#define PCH_PIC_AUTO_CTRL0_LO           0xc0
-+#define PCH_PIC_AUTO_CTRL0_HI           0xc4
-+#define PCH_PIC_AUTO_CTRL1_LO           0xe0
-+#define PCH_PIC_AUTO_CTRL1_HI           0xe4
-+#define PCH_PIC_ROUTE_ENTRY_OFFSET      0x100
-+#define PCH_PIC_ROUTE_ENTRY_END         0x13f
-+#define PCH_PIC_HTMSI_VEC_OFFSET        0x200
-+#define PCH_PIC_HTMSI_VEC_END           0x23f
-+#define PCH_PIC_INT_STATUS_LO           0x3a0
-+#define PCH_PIC_INT_STATUS_HI           0x3a4
-+#define PCH_PIC_INT_POL_LO              0x3e0
-+#define PCH_PIC_INT_POL_HI              0x3e4
-+
-+#define STATUS_LO_START                 0
-+#define STATUS_HI_START                 0x4
-+#define POL_LO_START                    0x40
-+#define POL_HI_START                    0x44
-+
-+typedef struct LoongArchPCHPIC {
++typedef struct LoongArchPCHMSI {
 +    SysBusDevice parent_obj;
-+    qemu_irq parent_irq[64];
-+    uint32_t int_mask_lo; /*0x020 interrupt mask register*/
-+    uint32_t int_mask_hi;
-+    uint32_t htmsi_en_lo; /*0x040 1=msi*/
-+    uint32_t htmsi_en_hi;
-+    uint32_t intedge_lo; /*0x060 edge=1 level  =0*/
-+    uint32_t intedge_hi; /*0x060 edge=1 level  =0*/
-+    uint32_t intclr_lo; /*0x080 for clean edge int,set 1 clean,set 0 is noused*/
-+    uint32_t intclr_hi; /*0x080 for clean edge int,set 1 clean,set 0 is noused*/
-+    uint32_t auto_crtl0_lo; /*0x0c0*/
-+    uint32_t auto_crtl0_hi; /*0x0c0*/
-+    uint32_t auto_crtl1_lo; /*0x0e0*/
-+    uint32_t auto_crtl1_hi; /*0x0e0*/
-+    uint32_t last_intirr_lo;    /* edge detection */
-+    uint32_t last_intirr_hi;    /* edge detection */
-+    uint32_t intirr_lo; /* 0x380 interrupt request register */
-+    uint32_t intirr_hi; /* 0x380 interrupt request register */
-+    uint32_t intisr_lo; /* 0x3a0 interrupt service register */
-+    uint32_t intisr_hi; /* 0x3a0 interrupt service register */
-+    /*
-+     * 0x3e0 interrupt level polarity selection
-+     * register 0 for high level trigger
-+     */
-+    uint32_t int_polarity_lo;
-+    uint32_t int_polarity_hi;
-+
-+    uint8_t route_entry[64]; /*0x100 - 0x138*/
-+    uint8_t htmsi_vector[64]; /*0x200 - 0x238*/
-+
-+    MemoryRegion iomem32_low;
-+    MemoryRegion iomem32_high;
-+    MemoryRegion iomem8;
-+} LoongArchPCHPIC;
++    qemu_irq pch_msi_irq[PCH_MSI_IRQ_NUM];
++    MemoryRegion msi_mmio;
++} LoongArchPCHMSI;
 -- 
 2.27.0
 
