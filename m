@@ -2,79 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72644C4448
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 13:07:50 +0100 (CET)
-Received: from localhost ([::1]:47698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D025D4C449B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 13:28:39 +0100 (CET)
+Received: from localhost ([::1]:38628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNZO2-0000mW-1T
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 07:07:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47154)
+	id 1nNZiA-0006t2-DN
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 07:28:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=hxd0=TI=zx2c4.com=Jason@kernel.org>)
- id 1nNZIP-0005uL-0C
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:02:01 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:55166)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1nNZeT-0005A6-8l
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:24:50 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:15302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=hxd0=TI=zx2c4.com=Jason@kernel.org>)
- id 1nNZIM-00056D-77
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:02:00 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C7F09B82F5B
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 12:01:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF52CC340F3
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 12:01:54 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="e7rrjGXJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1645790511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GohLlxwoxaOoPO6gq3rFNZF19DV6zVVxobKNLJM1ook=;
- b=e7rrjGXJDtydRXPyIDoT+OPUxWBEJJ/zwifDOp42UT7q9C8lkd+zFHiTU84mPsBAI3EV5Y
- 28KvaAl1O1o5rk7b1n/OIQ8ndKsSRhOUPf3zrtRqIFP3wahS0gQDt+we92jeyUFXKppdi3
- XuWwjFDhN6+/UrfFY5Z7ZWkuMrLsDeQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 764e6367
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Fri, 25 Feb 2022 12:01:51 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-2d625082ae2so31049597b3.1
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 04:01:51 -0800 (PST)
-X-Gm-Message-State: AOAM530KAUyx6IoXTJ9QReGMIFlfkPVf4fYMx8i0UrXYDc6/Q+Ys3UXd
- N5k14CGAYa+HW0P9vAVyl6YZCOwTV0UAdqOIKhA=
-X-Google-Smtp-Source: ABdhPJxCQEzCbIKLSycXajwp41qtjzUjR23a2R6uPz1/UKSpnSCt39obJbUOj0pGZOb3yMkzR1pQyesGew6EIssKfhc=
-X-Received: by 2002:a81:1413:0:b0:2d9:d452:9c6a with SMTP id
- 19-20020a811413000000b002d9d4529c6amr1051547ywu.231.1645790508130; Fri, 25
- Feb 2022 04:01:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1nNZeR-0006u4-14
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 07:24:48 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 877B046115;
+ Fri, 25 Feb 2022 13:24:35 +0100 (CET)
+Message-ID: <39e1b9b4-d82b-4efc-2a5d-9ce904ecbffe@proxmox.com>
+Date: Fri, 25 Feb 2022 13:23:00 +0100
 MIME-Version: 1.0
-References: <20220224133906.751587-1-Jason@zx2c4.com>
- <20220224133906.751587-3-Jason@zx2c4.com>
- <CAMj1kXE-2sknZD7o72G-ZARpfm4Q0m+im1pTLuPhPu6TkqKOPQ@mail.gmail.com>
- <20220225064445-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220225064445-mutt-send-email-mst@kernel.org>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Fri, 25 Feb 2022 13:01:37 +0100
-X-Gmail-Original-Message-ID: <CAHmME9omqUy51EnUMNccewQ2UH69h2-uAR0r_B5u=RH9W+AEvw@mail.gmail.com>
-Message-ID: <CAHmME9omqUy51EnUMNccewQ2UH69h2-uAR0r_B5u=RH9W+AEvw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] virt: vmgenid: introduce driver for reinitializing
- RNG on VM fork
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=hxd0=TI=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v9 3/3] qapi/monitor: allow VNC display id in
+ set/expire_password
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+References: <20220225084949.35746-1-f.ebner@proxmox.com>
+ <20220225084949.35746-4-f.ebner@proxmox.com> <874k4nkwmb.fsf@pond.sub.org>
+From: Fabian Ebner <f.ebner@proxmox.com>
+In-Reply-To: <874k4nkwmb.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,37 +57,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, KVM list <kvm@vger.kernel.org>, "Weiss,
- Radu" <raduweis@amazon.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- KY Srinivasan <kys@microsoft.com>, Ard Biesheuvel <ardb@kernel.org>,
- Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- ben@skyportsystems.com, Dexuan Cui <decui@microsoft.com>,
- Eric Biggers <ebiggers@kernel.org>, Laszlo Ersek <lersek@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, adrian@parity.io,
- Jann Horn <jannh@google.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Alexander Graf <graf@amazon.com>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- Colm MacCarthaigh <colmmacc@amazon.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Igor Mammedov <imammedo@redhat.com>, "Woodhouse, David" <dwmw@amazon.co.uk>
+Cc: w.bumiller@proxmox.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, marcandre.lureau@gmail.com, kraxel@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, eblake@redhat.com,
+ t.lamprecht@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 25, 2022 at 12:52 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >  if VIRT_DRIVERS
-> > >
-> > > +config VMGENID
-> > > +       tristate "Virtual Machine Generation ID driver"
-> > > +       default y
-> >
-> > Please make this default m - this code can run as a module and the
-> > feature it relies on is discoverable by udev
->
-> Or don't supply a default - I don't see why this has any preference.
+Am 25.02.22 um 12:34 schrieb Markus Armbruster:
+> Fabian Ebner <f.ebner@proxmox.com> writes:
+> 
+>> From: Stefan Reiter <s.reiter@proxmox.com>
+>>
+>> It is possible to specify more than one VNC server on the command line,
+>> either with an explicit ID or the auto-generated ones à la "default",
+>> "vnc2", "vnc3", ...
+>>
+>> It is not possible to change the password on one of these extra VNC
+>> displays though. Fix this by adding a "display" parameter to the
+>> "set_password" and "expire_password" QMP and HMP commands.
+>>
+>> For HMP, the display is specified using the "-d" value flag.
+>>
+>> For QMP, the schema is updated to explicitly express the supported
+>> variants of the commands with protocol-discriminated unions.
+>>
+>> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+>> [FE: update "Since: " from 6.2 to 7.0
+>>      make @connected a common member of @SetPasswordOptions]
+>> Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+> 
+> [...]
+> 
+>> diff --git a/qapi/ui.json b/qapi/ui.json
+>> index e112409211..4a13f883a3 100644
+>> --- a/qapi/ui.json
+>> +++ b/qapi/ui.json
+>> @@ -38,20 +38,47 @@
+>>    'data': [ 'keep', 'fail', 'disconnect' ] }
+>>  
+>>  ##
+>> -# @set_password:
+>> +# @SetPasswordOptions:
+>>  #
+>> -# Sets the password of a remote display session.
+>> +# Options for set_password.
+>>  #
+>>  # @protocol: - 'vnc' to modify the VNC server password
+>>  #            - 'spice' to modify the Spice server password
+>>  #
+>>  # @password: the new password
+>>  #
+>> -# @connected: how to handle existing clients when changing the
+>> -#             password.  If nothing is specified, defaults to 'keep'
+>> -#             'fail' to fail the command if clients are connected
+>> -#             'disconnect' to disconnect existing clients
+>> -#             'keep' to maintain existing clients
+>> +# @connected: How to handle existing clients when changing the
+>> +#             password. If nothing is specified, defaults to 'keep'.
+>> +#             For VNC, only 'keep' is currently implemented.
+>> +#
+>> +# Since: 7.0
+>> +#
+>> +##
+>> +{ 'union': 'SetPasswordOptions',
+>> +  'base': { 'protocol': 'DisplayProtocol',
+>> +            'password': 'str',
+>> +            '*connected': 'SetPasswordAction' },
+>> +  'discriminator': 'protocol',
+>> +  'data': { 'vnc': 'SetPasswordOptionsVnc' } }
+>> +
+>> +##
+>> +# @SetPasswordOptionsVnc:
+>> +#
+>> +# Options for set_password specific to the VNC procotol.
+>> +#
+>> +# @display: The id of the display where the password should be changed.
+>> +#           Defaults to the first.
+> 
+> Is this default equivalent to any value?  "The first" suggests it's not.
+> 
 
-It's inside of VIRT_DRIVERS. If you enabled VIRT_DRIVERS, you more
-than likely want and need this.
+The value will be NULL and QTAILQ_FIRST(&vnc_displays) is picked, which
+means the display defaults to the first display. But yeah, the value
+doesn't actually default to the id of the first display, it just behaves
+as if it did.
+
 
