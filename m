@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A5E4C40EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:06:45 +0100 (CET)
-Received: from localhost ([::1]:40112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE2F4C4194
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 10:37:50 +0100 (CET)
+Received: from localhost ([::1]:46416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNWYm-0007jG-U7
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:06:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47354)
+	id 1nNX2n-0006r8-Jb
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 04:37:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nNVaC-0008BC-6N
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:11 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:41984 helo=loongson.cn)
+ id 1nNVhi-0003vB-5Y
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:11:54 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:44670 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVZt-0002S4-6z
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:04:07 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nNVha-0004gk-Ps
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 03:11:53 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S12; 
- Fri, 25 Feb 2022 16:03:16 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxqMg8jRhiw9UGAA--.8228S16; 
+ Fri, 25 Feb 2022 16:03:19 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v6 10/29] target/loongarch: Add other core instructions
- support
-Date: Fri, 25 Feb 2022 03:02:49 -0500
-Message-Id: <20220225080308.1405-11-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v6 14/29] hw/loongarch: Add support loongson3 virt machine
+ type.
+Date: Fri, 25 Feb 2022 03:02:53 -0500
+Message-Id: <20220225080308.1405-15-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 References: <20220225080308.1405-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S12
-X-Coremail-Antispam: 1UD129KBjvJXoW3tFWrZw15Wr1Dtr4fCw17ZFb_yoWktw1xpF
- s2krWjkr48trZ7Aw1fKw1Yyrn8Xw4Ika1Iqas3t34Fvr43XFykXr4ktrZxKFWUJwn8ZrWU
- ZFnxAryj9FyxXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9DxqMg8jRhiw9UGAA--.8228S16
+X-Coremail-Antispam: 1UD129KBjvAXoWfGw1UCrW3KrW5Aw1DKF15Jwb_yoW8JFWrAo
+ WavFyUKr48Gr1YvF1rtrsxWrW7Krn2kF45AayfZ3Z5GanYkF15JFyDKwn0yFyfJFn5tr45
+ ua4YgFsrJ34xtrykn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -62,384 +62,427 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes:
--CACOP
--LDDIR
--LDPTE
--ERTN
--DBCL
--IDLE
+Emulate a 3A5000 board use the new loongarch instruction.
+3A5000 belongs to the Loongson3 series processors.
+The board consists of a 3A5000 cpu model and the virt
+bridge. The host 3A5000 board is really complicated and
+contains many functions.Now for the tcg softmmu mode
+only part functions are emulated.
+
+More detailed info you can see
+https://github.com/loongson/LoongArch-Documentation
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/cpu.h                        |  2 +
- target/loongarch/disas.c                      | 17 ++++
- target/loongarch/helper.h                     |  4 +
- .../insn_trans/trans_privileged.c.inc         | 70 ++++++++++++++
- target/loongarch/insns.decode                 | 11 +++
- target/loongarch/internals.h                  |  5 +
- target/loongarch/op_helper.c                  | 38 ++++++++
- target/loongarch/tlb_helper.c                 | 93 +++++++++++++++++++
- 8 files changed, 240 insertions(+)
+ MAINTAINERS                                   |   3 +
+ .../devices/loongarch64-softmmu/default.mak   |   3 +
+ configs/targets/loongarch64-softmmu.mak       |   3 +
+ hw/Kconfig                                    |   1 +
+ hw/loongarch/Kconfig                          |   4 +
+ hw/loongarch/loongson3.c                      | 158 ++++++++++++++++++
+ hw/loongarch/meson.build                      |   4 +
+ hw/meson.build                                |   1 +
+ include/exec/poison.h                         |   2 +
+ include/hw/loongarch/loongarch.h              |  52 ++++++
+ include/sysemu/arch_init.h                    |   1 +
+ qapi/machine.json                             |   2 +-
+ target/Kconfig                                |   1 +
+ target/loongarch/Kconfig                      |   2 +
+ target/loongarch/cpu.h                        |   3 +
+ 15 files changed, 239 insertions(+), 1 deletion(-)
+ create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+ create mode 100644 hw/loongarch/Kconfig
+ create mode 100644 hw/loongarch/loongson3.c
+ create mode 100644 hw/loongarch/meson.build
+ create mode 100644 include/hw/loongarch/loongarch.h
+ create mode 100644 target/loongarch/Kconfig
 
-diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index 581da7b423..4442a8a776 100644
---- a/target/loongarch/cpu.h
-+++ b/target/loongarch/cpu.h
-@@ -434,6 +434,8 @@ enum {
-     EXCP_LAST = EXCP_FPE,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9812f148ac..20632528f7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1123,7 +1123,10 @@ M: Song Gao <gaosong@loongson.cn>
+ S: Maintained
+ F: docs/system/loongarch/loongson3.rst
+ F: configs/targets/loongarch64-softmmu.mak
++F: configs/devices/loongarch64-softmmu/default.mak
+ F: gdb-xml/loongarch*.xml
++F: hw/loongarch/
++F: include/hw/loongarch/loongarch.h
+ 
+ M68K Machines
+ -------------
+diff --git a/configs/devices/loongarch64-softmmu/default.mak b/configs/devices/loongarch64-softmmu/default.mak
+new file mode 100644
+index 0000000000..928bc117ef
+--- /dev/null
++++ b/configs/devices/loongarch64-softmmu/default.mak
+@@ -0,0 +1,3 @@
++# Default configuration for loongarch64-softmmu
++
++CONFIG_LOONGARCH_VIRT=y
+diff --git a/configs/targets/loongarch64-softmmu.mak b/configs/targets/loongarch64-softmmu.mak
+index f33fa1590b..7bc06c850c 100644
+--- a/configs/targets/loongarch64-softmmu.mak
++++ b/configs/targets/loongarch64-softmmu.mak
+@@ -1 +1,4 @@
++TARGET_ARCH=loongarch64
++TARGET_BASE_ARCH=loongarch
++TARGET_SUPPORTS_MTTCG=y
+ TARGET_XML_FILES= gdb-xml/loongarch-base64.xml gdb-xml/loongarch-fpu64.xml
+diff --git a/hw/Kconfig b/hw/Kconfig
+index ad20cce0a9..f71b2155ed 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -49,6 +49,7 @@ source avr/Kconfig
+ source cris/Kconfig
+ source hppa/Kconfig
+ source i386/Kconfig
++source loongarch/Kconfig
+ source m68k/Kconfig
+ source microblaze/Kconfig
+ source mips/Kconfig
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+new file mode 100644
+index 0000000000..13e8501897
+--- /dev/null
++++ b/hw/loongarch/Kconfig
+@@ -0,0 +1,4 @@
++config LOONGARCH_VIRT
++    bool
++    select PCI
++    select PCI_EXPRESS_GENERIC_BRIDGE
+diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+new file mode 100644
+index 0000000000..1cb7bf057c
+--- /dev/null
++++ b/hw/loongarch/loongson3.c
+@@ -0,0 +1,158 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * QEMU loongson 3a5000 develop board emulation
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qemu/units.h"
++#include "qemu/datadir.h"
++#include "qapi/error.h"
++#include "hw/boards.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/qtest.h"
++#include "sysemu/runstate.h"
++#include "sysemu/reset.h"
++#include "sysemu/rtc.h"
++#include "hw/loongarch/loongarch.h"
++
++#include "target/loongarch/cpu.h"
++
++static void loongarch_cpu_reset(void *opaque)
++{
++    LoongArchCPU *cpu = opaque;
++
++    cpu_reset(CPU(cpu));
++}
++
++static void loongarch_qemu_write(void *opaque, hwaddr addr,
++                                 uint64_t val, unsigned size)
++{
++}
++
++static uint64_t loongarch_qemu_read(void *opaque, hwaddr addr, unsigned size)
++{
++    uint64_t feature = 0UL;
++
++    switch (addr) {
++    case FEATURE_REG:
++        feature |= 1UL << IOCSRF_MSI | 1UL << IOCSRF_EXTIOI |
++                   1UL << IOCSRF_CSRIPI;
++        return feature ;
++    case VENDOR_REG:
++        return *(uint64_t *)"Loongson";
++    case CPUNAME_REG:
++        return *(uint64_t *)"3A5000";
++    case MISC_FUNC_REG:
++        return 1UL << IOCSRM_EXTIOI_EN;
++    }
++    return 0;
++}
++
++static const MemoryRegionOps loongarch_qemu_ops = {
++    .read = loongarch_qemu_read,
++    .write = loongarch_qemu_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 8,
++    },
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 8,
++    },
++};
++
++static void loongarch_cpu_init(LoongArchCPU *la_cpu, int cpu_num)
++{
++    CPULoongArchState *env;
++    env = &la_cpu->env;
++
++    memory_region_init_io(&env->system_iocsr, OBJECT(la_cpu), NULL,
++                      env, "iocsr", UINT64_MAX);
++    address_space_init(&env->address_space_iocsr, &env->system_iocsr, "IOCSR");
++
++    timer_init_ns(&la_cpu->timer, QEMU_CLOCK_VIRTUAL,
++                  &loongarch_constant_timer_cb, la_cpu);
++
++    qemu_register_reset(loongarch_cpu_reset, la_cpu);
++
++    memory_region_init_io(&env->iocsr_mem, OBJECT(la_cpu), &loongarch_qemu_ops,
++                          NULL, "iocsr_misc", IOCSR_MEM_SIZE);
++
++    memory_region_add_subregion(&env->system_iocsr, 0, &env->iocsr_mem);
++}
++
++static void loongarch_init(MachineState *machine)
++{
++    const char *cpu_model = machine->cpu_type;
++    LoongArchCPU *la_cpu;
++    ram_addr_t offset = 0;
++    ram_addr_t ram_size = machine->ram_size;
++    uint64_t highram_size = 0;
++    MemoryRegion *address_space_mem = get_system_memory();
++    LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
++    int i;
++
++    if (!cpu_model) {
++        cpu_model = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
++    }
++
++    if (!strstr(cpu_model, "Loongson-3A5000")) {
++        error_report("LoongArch/TCG needs cpu type Loongson-3A5000");
++        exit(1);
++    }
++
++    /* Init CPUs */
++    for (i = 0; i < machine->smp.cpus; i++) {
++        la_cpu = LOONGARCH_CPU(cpu_create(machine->cpu_type));
++        loongarch_cpu_init(la_cpu, i);
++    }
++
++    /* Add memory region */
++    memory_region_init_alias(&lams->lowmem, NULL, "loongarch.lowram",
++                             machine->ram, 0, 256 * MiB);
++    memory_region_add_subregion(address_space_mem, offset, &lams->lowmem);
++    offset += 256 * MiB;
++
++    highram_size = ram_size - 256 * MiB;
++    memory_region_init_alias(&lams->highmem, NULL, "loongarch.highmem",
++                             machine->ram, offset, highram_size);
++    memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
++    offset += highram_size;
++
++    /* Add isa io region */
++    memory_region_init_alias(&lams->isa_io, NULL, "isa-io",
++                             get_system_io(), 0, LOONGARCH_ISA_IO_SIZE);
++    memory_region_add_subregion(address_space_mem, LOONGARCH_ISA_IO_BASE,
++                                &lams->isa_io);
++}
++
++static void loongarch_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    mc->desc = "Loongson-3A5000 LS7A1000 machine";
++    mc->init = loongarch_init;
++    mc->default_ram_size = 1 * GiB;
++    mc->default_cpu_type = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
++    mc->default_ram_id = "loongarch.ram";
++    mc->max_cpus = LOONGARCH_MAX_VCPUS;
++    mc->is_default = 1;
++    mc->default_kernel_irqchip_split = false;
++    mc->block_default_type = IF_VIRTIO;
++    mc->default_boot_order = "c";
++    mc->no_cdrom = 1;
++}
++
++static const TypeInfo loongarch_machine_types[] = {
++    {
++        .name           = TYPE_LOONGARCH_MACHINE,
++        .parent         = TYPE_MACHINE,
++        .instance_size  = sizeof(LoongArchMachineState),
++        .class_init     = loongarch_class_init,
++    }
++};
++
++DEFINE_TYPES(loongarch_machine_types)
+diff --git a/hw/loongarch/meson.build b/hw/loongarch/meson.build
+new file mode 100644
+index 0000000000..cecb1a5d65
+--- /dev/null
++++ b/hw/loongarch/meson.build
+@@ -0,0 +1,4 @@
++loongarch_ss = ss.source_set()
++loongarch_ss.add(when: 'CONFIG_LOONGARCH_VIRT', if_true: files('loongson3.c'))
++
++hw_arch += {'loongarch': loongarch_ss}
+diff --git a/hw/meson.build b/hw/meson.build
+index b3366c888e..95202649b7 100644
+--- a/hw/meson.build
++++ b/hw/meson.build
+@@ -49,6 +49,7 @@ subdir('avr')
+ subdir('cris')
+ subdir('hppa')
+ subdir('i386')
++subdir('loongarch')
+ subdir('m68k')
+ subdir('microblaze')
+ subdir('mips')
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index 7ad4ad18e8..590bc305c7 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -14,6 +14,7 @@
+ #pragma GCC poison TARGET_CRIS
+ #pragma GCC poison TARGET_HEXAGON
+ #pragma GCC poison TARGET_HPPA
++#pragma GCC poison TARGET_LOONGARCH64
+ #pragma GCC poison TARGET_M68K
+ #pragma GCC poison TARGET_MICROBLAZE
+ #pragma GCC poison TARGET_MIPS
+@@ -73,6 +74,7 @@
+ #pragma GCC poison CONFIG_HPPA_DIS
+ #pragma GCC poison CONFIG_I386_DIS
+ #pragma GCC poison CONFIG_HEXAGON_DIS
++#pragma GCC poison CONFIG_LOONGARCH_DIS
+ #pragma GCC poison CONFIG_M68K_DIS
+ #pragma GCC poison CONFIG_MICROBLAZE_DIS
+ #pragma GCC poison CONFIG_MIPS_DIS
+diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
+new file mode 100644
+index 0000000000..21a9aa40c1
+--- /dev/null
++++ b/include/hw/loongarch/loongarch.h
+@@ -0,0 +1,52 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Definitions for loongarch board emulation.
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef HW_LOONGARCH_H
++#define HW_LOONGARCH_H
++
++#include "target/loongarch/cpu.h"
++#include "qemu-common.h"
++#include "hw/boards.h"
++#include "qemu/queue.h"
++
++#define LOONGARCH_MAX_VCPUS     4
++
++#define FEATURE_REG             0x8
++#define IOCSRF_TEMP             0
++#define IOCSRF_NODECNT          1
++#define IOCSRF_MSI              2
++#define IOCSRF_EXTIOI           3
++#define IOCSRF_CSRIPI           4
++#define IOCSRF_FREQCSR          5
++#define IOCSRF_FREQSCALE        6
++#define IOCSRF_DVFSV1           7
++#define IOCSRF_GMOD             9
++#define IOCSRF_VM               11
++
++#define IOCSR_MEM_SIZE          0x428
++
++#define VENDOR_REG              0x10
++#define CPUNAME_REG             0x20
++#define MISC_FUNC_REG           0x420
++#define IOCSRM_EXTIOI_EN        48
++
++#define LOONGARCH_ISA_IO_BASE   0x18000000UL
++#define LOONGARCH_ISA_IO_SIZE   0x0004000
++
++typedef struct LoongArchMachineState {
++    /*< private >*/
++    MachineState parent_obj;
++
++    MemoryRegion lowmem;
++    MemoryRegion highmem;
++    MemoryRegion isa_io;
++} LoongArchMachineState;
++
++#define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
++DECLARE_INSTANCE_CHECKER(LoongArchMachineState, LOONGARCH_MACHINE,
++                         TYPE_LOONGARCH_MACHINE)
++#endif
+diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
+index 70c579560a..3ac3634bbb 100644
+--- a/include/sysemu/arch_init.h
++++ b/include/sysemu/arch_init.h
+@@ -24,6 +24,7 @@ enum {
+     QEMU_ARCH_RX = (1 << 20),
+     QEMU_ARCH_AVR = (1 << 21),
+     QEMU_ARCH_HEXAGON = (1 << 22),
++    QEMU_ARCH_LOONGARCH = (1 << 23),
  };
  
-+#define CPU_INTERRUPT_WAKE CPU_INTERRUPT_TGT_INT_0
-+
- #define LOONGARCH_CPU_TYPE_SUFFIX "-" TYPE_LOONGARCH_CPU
- #define LOONGARCH_CPU_TYPE_NAME(model) model LOONGARCH_CPU_TYPE_SUFFIX
- #define CPU_RESOLVING_TYPE TYPE_LOONGARCH_CPU
-diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 9b13554904..da005ec1c6 100644
---- a/target/loongarch/disas.c
-+++ b/target/loongarch/disas.c
-@@ -227,6 +227,17 @@ static void output_i_rr(DisasContext *ctx, arg_i_rr *a, const char *mnemonic)
-     output(ctx, mnemonic, "%d, r%d, r%d", a->imm, a->rj, a->rk);
- }
+ extern const uint32_t arch_type;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 42fc68403d..52a6b08ebe 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -30,7 +30,7 @@
+ ##
+ { 'enum' : 'SysEmuTarget',
+   'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386',
+-             'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
++             'loongarch64', 'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+              'mips64el', 'mipsel', 'nios2', 'or1k', 'ppc',
+              'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+              'sh4eb', 'sparc', 'sparc64', 'tricore',
+diff --git a/target/Kconfig b/target/Kconfig
+index ae7f24fc66..83da0bd293 100644
+--- a/target/Kconfig
++++ b/target/Kconfig
+@@ -4,6 +4,7 @@ source avr/Kconfig
+ source cris/Kconfig
+ source hppa/Kconfig
+ source i386/Kconfig
++source loongarch/Kconfig
+ source m68k/Kconfig
+ source microblaze/Kconfig
+ source mips/Kconfig
+diff --git a/target/loongarch/Kconfig b/target/loongarch/Kconfig
+new file mode 100644
+index 0000000000..46b26b1a85
+--- /dev/null
++++ b/target/loongarch/Kconfig
+@@ -0,0 +1,2 @@
++config LOONGARCH64
++    bool
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index 01453e1192..883c7c05b2 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -13,6 +13,8 @@
+ #include "hw/registerfields.h"
+ #include "cpu-csr.h"
+ #include "qemu/timer.h"
++#include "exec/memory.h"
++#include "hw/sysbus.h"
  
-+static void output_cop_r_i(DisasContext *ctx, arg_cop_r_i *a,
-+                           const char *mnemonic)
-+{
-+    output(ctx, mnemonic, "%d, r%d, %d", a->cop, a->rj, a->imm);
-+}
-+
-+static void output_j_i(DisasContext *ctx, arg_j_i *a, const char *mnemonic)
-+{
-+    output(ctx, mnemonic, "r%d, %d", a->rj, a->imm);
-+}
-+
- #define INSN(insn, type)                                    \
- static bool trans_##insn(DisasContext *ctx, arg_##type * a) \
- {                                                           \
-@@ -557,6 +568,12 @@ INSN(tlbfill,      empty)
- INSN(tlbclr,       empty)
- INSN(tlbflush,     empty)
- INSN(invtlb,       i_rr)
-+INSN(cacop,        cop_r_i)
-+INSN(lddir,        rr_i)
-+INSN(ldpte,        j_i)
-+INSN(ertn,         empty)
-+INSN(idle,         i)
-+INSN(dbcl,         i)
+ #define TCG_GUEST_DEFAULT_MO (0)
  
- #define output_fcmp(C, PREFIX, SUFFIX)                                         \
- {                                                                              \
-diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 97af7ac8aa..c916f2650b 100644
---- a/target/loongarch/helper.h
-+++ b/target/loongarch/helper.h
-@@ -112,4 +112,8 @@ DEF_HELPER_2(invtlb_all_g, void, env, i32)
- DEF_HELPER_2(invtlb_all_asid, void, env, tl)
- DEF_HELPER_3(invtlb_page_asid, void, env, tl, tl)
- DEF_HELPER_3(invtlb_page_asid_or_g, void, env, tl, tl)
-+DEF_HELPER_4(lddir, tl, env, tl, tl, i32)
-+DEF_HELPER_4(ldpte, void, env, tl, tl, i32)
-+DEF_HELPER_1(ertn, void, env)
-+DEF_HELPER_1(idle, void, env)
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
-index 8bc6dd6e51..1bd3c8e985 100644
---- a/target/loongarch/insn_trans/trans_privileged.c.inc
-+++ b/target/loongarch/insn_trans/trans_privileged.c.inc
-@@ -33,6 +33,12 @@ GEN_FALSE_TRANS(tlbfill)
- GEN_FALSE_TRANS(tlbclr)
- GEN_FALSE_TRANS(tlbflush)
- GEN_FALSE_TRANS(invtlb)
-+GEN_FALSE_TRANS(cacop)
-+GEN_FALSE_TRANS(ldpte)
-+GEN_FALSE_TRANS(lddir)
-+GEN_FALSE_TRANS(ertn)
-+GEN_FALSE_TRANS(dbcl)
-+GEN_FALSE_TRANS(idle)
+@@ -253,6 +255,7 @@ struct CPULoongArchState {
  
- #else
- 
-@@ -337,4 +343,68 @@ static bool trans_invtlb(DisasContext *ctx, arg_invtlb *a)
-     return true;
- }
- 
-+static bool trans_cacop(DisasContext *ctx, arg_cacop *a)
-+{
-+    /* Treat the cacop as a nop */
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static bool trans_ldpte(DisasContext *ctx, arg_ldpte *a)
-+{
-+    TCGv_i32 mem_idx = tcg_constant_i32(ctx->mem_idx);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_ldpte(cpu_env, src1, tcg_constant_tl(a->imm), mem_idx);
-+    return true;
-+}
-+
-+static bool trans_lddir(DisasContext *ctx, arg_lddir *a)
-+{
-+    TCGv_i32 mem_idx = tcg_constant_i32(ctx->mem_idx);
-+    TCGv src = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_lddir(dest, cpu_env, src, tcg_constant_tl(a->imm), mem_idx);
-+    return true;
-+}
-+
-+static bool trans_ertn(DisasContext *ctx, arg_ertn *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_ertn(cpu_env);
-+    ctx->base.is_jmp = DISAS_EXIT;
-+    return true;
-+}
-+
-+static bool trans_dbcl(DisasContext *ctx, arg_dbcl *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    generate_exception(ctx, EXCCODE_DBP);
-+    return true;
-+}
-+
-+static bool trans_idle(DisasContext *ctx, arg_idle *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+
-+    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
-+    gen_helper_idle(cpu_env);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+    return true;
-+}
+     AddressSpace address_space_iocsr;
+     MemoryRegion system_iocsr;
++    MemoryRegion iocsr_mem;
  #endif
-diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 6f2a814195..3fdc6e148c 100644
---- a/target/loongarch/insns.decode
-+++ b/target/loongarch/insns.decode
-@@ -49,6 +49,8 @@
- &rr_csr       rd rj csr
- &empty
- &i_rr         imm rj rk
-+&cop_r_i      cop rj imm
-+&j_i          rj imm
+ };
  
- #
- # Formats
-@@ -60,6 +62,7 @@
- @r_i20                          .... ... imm:s20 rd:5    &r_i
- @rr_ui5           .... ........ ..... imm:5 rj:5 rd:5    &rr_i
- @rr_ui6            .... ........ .... imm:6 rj:5 rd:5    &rr_i
-+@rr_ui8              .. ........ .... imm:8 rj:5 rd:5    &rr_i
- @rr_i12                 .... ...... imm:s12 rj:5 rd:5    &rr_i
- @rr_ui12                 .... ...... imm:12 rj:5 rd:5    &rr_i
- @rr_i14s2         .... ....  .............. rj:5 rd:5    &rr_i imm=%i14s2
-@@ -93,6 +96,8 @@
- @rr_csr                    .... .... csr:14 rj:5 rd:5    &rr_csr
- @empty          .... ........ ..... ..... ..... .....    &empty
- @i_rr             ...... ...... ..... rk:5 rj:5 imm:5    &i_rr
-+@cop_r_i              .... ......  imm:s12 rj:5 cop:5    &cop_r_i
-+@j_i               .... ........ .. imm:8 rj:5 .....    &j_i
- 
- #
- # Fixed point arithmetic operation instruction
-@@ -473,3 +478,9 @@ tlbfill          0000 01100100 10000 01101 00000 00000    @empty
- tlbclr           0000 01100100 10000 01000 00000 00000    @empty
- tlbflush         0000 01100100 10000 01001 00000 00000    @empty
- invtlb           0000 01100100 10011 ..... ..... .....    @i_rr
-+cacop            0000 011000 ............ ..... .....     @cop_r_i
-+lddir            0000 01100100 00 ........ ..... .....    @rr_ui8
-+ldpte            0000 01100100 01 ........ ..... 00000    @j_i
-+ertn             0000 01100100 10000 01110 00000 00000    @empty
-+idle             0000 01100100 10001 ...............      @i15
-+dbcl             0000 00000010 10101 ...............      @i15
-diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
-index 5fc1a4bb07..92f0a9aa5b 100644
---- a/target/loongarch/internals.h
-+++ b/target/loongarch/internals.h
-@@ -16,6 +16,11 @@
- #define TARGET_PHYS_MASK MAKE_64BIT_MASK(0, TARGET_PHYS_ADDR_SPACE_BITS)
- #define TARGET_VIRT_MASK MAKE_64BIT_MASK(0, TARGET_VIRT_ADDR_SPACE_BITS)
- 
-+/* Global bit used for lddir/ldpte */
-+#define LOONGARCH_PAGE_HUGE_SHIFT   6
-+/* Global bit for huge page */
-+#define LOONGARCH_HGLOBAL_SHIFT     12
-+
- void loongarch_translate_init(void);
- 
- void loongarch_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
-index 48c25e5a9b..84175fbdcd 100644
---- a/target/loongarch/op_helper.c
-+++ b/target/loongarch/op_helper.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "qemu/main-loop.h"
- #include "cpu.h"
- #include "qemu/host-utils.h"
-@@ -91,3 +92,40 @@ target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
- {
-     return rj > 21 ? 0 : env->cpucfg[rj];
- }
-+
-+#ifndef CONFIG_USER_ONLY
-+void helper_ertn(CPULoongArchState *env)
-+{
-+    uint64_t csr_pplv, csr_pie;
-+    if (FIELD_EX64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR)) {
-+        csr_pplv = FIELD_EX64(env->CSR_TLBRPRMD, CSR_TLBRPRMD, PPLV);
-+        csr_pie = FIELD_EX64(env->CSR_TLBRPRMD, CSR_TLBRPRMD, PIE);
-+
-+        env->CSR_TLBRERA = FIELD_DP64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR, 0);
-+        env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, DA, 0);
-+        env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, PG, 1);
-+        env->pc = env->CSR_TLBRERA;
-+        qemu_log_mask(CPU_LOG_INT, "%s: TLBRERA 0x%lx\n",
-+                      __func__, env->CSR_TLBRERA);
-+    } else {
-+        csr_pplv = FIELD_EX64(env->CSR_PRMD, CSR_PRMD, PPLV);
-+        csr_pie = FIELD_EX64(env->CSR_PRMD, CSR_PRMD, PIE);
-+
-+        env->pc = env->CSR_ERA;
-+        qemu_log_mask(CPU_LOG_INT, "%s: ERA 0x%lx\n", __func__, env->CSR_ERA);
-+    }
-+    env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, PLV, csr_pplv);
-+    env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, IE, csr_pie);
-+
-+    env->lladdr = 1;
-+}
-+
-+void helper_idle(CPULoongArchState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    cs->halted = 1;
-+    cpu_reset_interrupt(cs, CPU_INTERRUPT_WAKE);
-+    do_raise_exception(env, EXCP_HLT, 0);
-+}
-+#endif /* !CONFIG_USER_ONLY */
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-index 899b4d700c..7d5503b28d 100644
---- a/target/loongarch/tlb_helper.c
-+++ b/target/loongarch/tlb_helper.c
-@@ -672,3 +672,96 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         do_raise_exception(env, cs->exception_index, retaddr);
-     }
- }
-+
-+target_ulong helper_lddir(CPULoongArchState *env, target_ulong base,
-+                          target_ulong level, uint32_t mem_idx)
-+{
-+    CPUState *cs = env_cpu(env);
-+    target_ulong badvaddr, index, phys, ret;
-+    int shift;
-+    uint64_t dir_base, dir_width;
-+    bool huge = (base >> LOONGARCH_PAGE_HUGE_SHIFT) & 0x1;
-+
-+    badvaddr = env->CSR_TLBRBADV;
-+    base = base & TARGET_PHYS_MASK;
-+
-+    /* 0:64bit, 1:128bit, 2:192bit, 3:256bit */
-+    shift = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTEWIDTH);
-+    shift = (shift + 1) * 3;
-+
-+    if (huge) {
-+        return base;
-+    }
-+    switch (level) {
-+    case 1:
-+        dir_base = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR1_BASE);
-+        dir_width = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR1_WIDTH);
-+        break;
-+    case 2:
-+        dir_base = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR2_BASE);
-+        dir_width = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR2_WIDTH);
-+        break;
-+    case 3:
-+        dir_base = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR3_BASE);
-+        dir_width = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR3_WIDTH);
-+        break;
-+    case 4:
-+        dir_base = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR4_BASE);
-+        dir_width = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR4_WIDTH);
-+        break;
-+    default:
-+        do_raise_exception(env, EXCCODE_INE, GETPC());
-+        return 0;
-+    }
-+    index = (badvaddr >> dir_base) & ((1 << dir_width) - 1);
-+    phys = base | index << shift;
-+    ret = ldq_phys(cs->as, phys) & TARGET_PHYS_MASK;
-+    return ret;
-+}
-+
-+void helper_ldpte(CPULoongArchState *env, target_ulong base, target_ulong odd,
-+                  uint32_t mem_idx)
-+{
-+    CPUState *cs = env_cpu(env);
-+    target_ulong phys, tmp0, ptindex, ptoffset0, ptoffset1, ps, badv;
-+    int shift;
-+    bool huge = (base >> LOONGARCH_PAGE_HUGE_SHIFT) & 0x1;
-+    uint64_t ptbase = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTBASE);
-+    uint64_t ptwidth = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTWIDTH);
-+
-+    base = base & TARGET_PHYS_MASK;
-+
-+    if (huge) {
-+        /* Huge Page. base is paddr */
-+        tmp0 = base ^ (1 << LOONGARCH_PAGE_HUGE_SHIFT);
-+        /* Move Global bit */
-+        tmp0 = ((tmp0 & (1 << LOONGARCH_HGLOBAL_SHIFT))  >>
-+                LOONGARCH_HGLOBAL_SHIFT) << R_TLBENTRY_G_SHIFT |
-+                (tmp0 & (~(1 << R_TLBENTRY_G_SHIFT)));
-+        ps = ptbase + ptwidth - 1;
-+        if (odd) {
-+            tmp0 += (1 << ps);
-+        }
-+    } else {
-+        /* 0:64bit, 1:128bit, 2:192bit, 3:256bit */
-+        shift = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTEWIDTH);
-+        shift = (shift + 1) * 3;
-+        badv = env->CSR_TLBRBADV;
-+
-+        ptindex = (badv >> ptbase) & ((1 << ptwidth) - 1);
-+        ptindex = ptindex & ~0x1;   /* clear bit 0 */
-+        ptoffset0 = ptindex << shift;
-+        ptoffset1 = (ptindex + 1) << shift;
-+
-+        phys = base | (odd ? ptoffset1 : ptoffset0);
-+        tmp0 = ldq_phys(cs->as, phys) & TARGET_PHYS_MASK;
-+        ps = ptbase;
-+    }
-+
-+    if (odd) {
-+        env->CSR_TLBRELO1 = tmp0;
-+    } else {
-+        env->CSR_TLBRELO0 = tmp0;
-+    }
-+    env->CSR_TLBREHI = FIELD_DP64(env->CSR_TLBREHI, CSR_TLBREHI, PS, ps);
-+}
 -- 
 2.27.0
 
