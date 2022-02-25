@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73444C4CAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 18:39:22 +0100 (CET)
-Received: from localhost ([::1]:33184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D41F4C4D61
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 19:12:58 +0100 (CET)
+Received: from localhost ([::1]:57814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNeYr-0000rL-PC
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 12:39:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39560)
+	id 1nNf5N-0006A3-NF
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 13:12:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nNeGk-0003mZ-FT
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:38 -0500
-Received: from [2a00:1450:4864:20::62b] (port=44767
- helo=mail-ej1-x62b.google.com)
+ id 1nNeH0-00047D-O5
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:54 -0500
+Received: from [2a00:1450:4864:20::52a] (port=45990
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nNeGf-0002L0-TX
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:38 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id p14so12121403ejf.11
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 09:20:26 -0800 (PST)
+ id 1nNeGg-0002LF-66
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 12:20:54 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id c6so8306475edk.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 09:20:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QXNfbz2XZ5OFaFMg/qr31EDMsEF38U9zMgzcWghwuX0=;
- b=H/sJvpOL/kAoUA7Zl1wwzIXkuE783dJyMDoxbnrowZ327VzL0a4HDj8tofCbzc/9vS
- MbzBhZGJDL/HtwT6Xnj9lWi2H5Wl6wP8VbOyIj3y9GkhFJ5uNZi+mQSwgj2lrGdSCN1Z
- dlxGIli3kk/SZ0Kk45FM9q2WDbklExzLC22uRLCel47tNvHBxtyadYjwznrPVicImoIh
- UJpJi5E+m/oTkPkFVn+QMGxGuc4wCczzKXwoi6D4f8YSA0V25yL09+voYoNM6hspP8B9
- QssG5QHGprHrqM94v+uSe4/RQvpV2q9b2lgJYRlRZtyiOqdrenrhbrkHz55SxZRk3R3e
- gomg==
+ bh=xtrexeoEJVm2dGaopXDo69WQ4Zzi4WQEocMvz+dIqSU=;
+ b=AVzGVmX4CuLohMIoFyj7XnVR5CQNfxXsA8ZgBimISvdK9NGR2ugYIwqnuWlOeH7N6P
+ jT1JTtBKJr1GIlCFkHVG3iNN9yOzLHVElKHYjLftUr06n47VwLOY3gD99dr8eTNuTkAG
+ QWDHww2vp6IPi5d00k4+w+xyHirtLMq71WNsA7sIw0EIefjd3xiuoTg3uLFQ3QKUiC1R
+ mZI1flhx3Tmdk7HwVEGOy4rHoODVcag4PQHiZYxN5rAs6BnZkDfAzlIowdFGE0+l8tCV
+ 2QKW06GV67A8xr1Q3pvrUBsziVu/aZ3RzJLoHBLDGhq0hccUMbE2qvKHqPzhxCXJvgNh
+ qKFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QXNfbz2XZ5OFaFMg/qr31EDMsEF38U9zMgzcWghwuX0=;
- b=NBTdp4H4z1Z4PDzEtbvMB4eCPdBnMQ2/o+fy6NTQt0tXp+e/0auq65llKqBvL5dJtU
- CzS+jSjom7v5vZv/8+MzgOXOI8lpxuAnUDADphBSPNJsrPVTUSSHwIFQneg7vs4/GP+M
- 5OUzbRzuHDJd+7gEXc7wLAZGY4F1GtUTZVazhJqMikr/3Wtw1Qxt316xGvvPs3YcWNfN
- ygFNFu6On79DFiaQCH5BBMPWuDd/EA0pK5qZPR0UCphOVyI360UI0xKjUCKeQPEF7+vH
- j3dfCMhY6u3zm6Q6gtpZVbjqKW4RJknj913kpAfHLn/RT07ojZ/9iQDX1fkxgNcybHvb
- dNrg==
-X-Gm-Message-State: AOAM5334oeWHonfCNMgNtNDgY9FoXwtmJqnld+iKOaiP0aF0LPrIiPxA
- lUt1vD8sk/sLUF3YRuSGoJhh/Q==
-X-Google-Smtp-Source: ABdhPJxbr3sF0T4VYNpge4Im8REsXi55SiPWSZ94wNVfkMW/lkGk0bB+slcFiUIegww2hdqWUGBuQg==
-X-Received: by 2002:a17:906:181a:b0:6d0:ebf5:c064 with SMTP id
- v26-20020a170906181a00b006d0ebf5c064mr6662884eje.82.1645809625489; 
- Fri, 25 Feb 2022 09:20:25 -0800 (PST)
+ bh=xtrexeoEJVm2dGaopXDo69WQ4Zzi4WQEocMvz+dIqSU=;
+ b=Q37dWAjzg9KS1okRhguThxHy5nTlblPN7CfSo5S6vwkVdXKeyUlTGm7wE3M9lxntwG
+ KhJJHMBb5ECuRi7ggNjAPqJfvL0xWnkFNnRN/XqL+DVKx5abR2KrirHRBQdBDYL/8Cuf
+ MnKy9dKtHgAQKt4Q8AvL8ODLTgSWKmlqSk31LeBH8MAKu+I4fpfJ+871QVxf6xSJZ7TY
+ /orbtN9JweTgE7IcVcFwTitlnHbm4Djm8b4DGEuK3CKyYaWqFxvN5pU/+y/5+eMQAtzs
+ jN55EF5D3FBmNPteAjcmwFfht26rpzbE6H7K1bTKp15eP+VQMWiXGULf4Oz1yeqryALK
+ Tf9Q==
+X-Gm-Message-State: AOAM532s7kNyJqk1xmRdJzwfAwNOPFbxjIDzFL0+51++lnOpDNOt7iDp
+ 2Fr4aEKLRcoT8js9NXF3+C9EAA==
+X-Google-Smtp-Source: ABdhPJwFTv78bRZWxYC29Qsam3riax9z17rn5/+M+CHCCnwmvu2nwCTbaldzv8rn8Xq7zAnh4TR/ew==
+X-Received: by 2002:a05:6402:13cb:b0:410:820f:4e8 with SMTP id
+ a11-20020a05640213cb00b00410820f04e8mr7907671edx.352.1645809627255; 
+ Fri, 25 Feb 2022 09:20:27 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- l21-20020a056402231500b0041327b58030sm1669973eda.2.2022.02.25.09.20.22
+ u1-20020aa7d0c1000000b004132c0a9ee3sm1596730edo.84.2022.02.25.09.20.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 25 Feb 2022 09:20:22 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2ADCF1FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id 3CACA1FFBB;
  Fri, 25 Feb 2022 17:20:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 02/18] tests/docker: add NOUSER for alpine image
-Date: Fri, 25 Feb 2022 17:20:05 +0000
-Message-Id: <20220225172021.3493923-3-alex.bennee@linaro.org>
+Subject: [PATCH  v2 03/18] tests/lcitool: update to latest version
+Date: Fri, 25 Feb 2022 17:20:06 +0000
+Message-Id: <20220225172021.3493923-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220225172021.3493923-1-alex.bennee@linaro.org>
 References: <20220225172021.3493923-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,30 +100,66 @@ Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The alpine image doesn't have a standard useradd binary so disable
-this convenience feature for it.
+We will need an update shortly for some new images.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220211160309.335014-3-alex.bennee@linaro.org>
+Message-Id: <20220211160309.335014-4-alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/docker/dockerfiles/opensuse-leap.docker | 3 +--
+ tests/docker/dockerfiles/ubuntu1804.docker    | 3 +--
+ tests/docker/dockerfiles/ubuntu2004.docker    | 3 +--
+ tests/lcitool/libvirt-ci                      | 2 +-
+ 4 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 0ec59b2193..286f0ac5b5 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -158,6 +158,9 @@ docker-image-debian-native: DOCKER_REGISTRY=
- docker-image-debian10: NOUSER=1
- docker-image-debian11: NOUSER=1
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 1b78d8369a..e1ad9434a3 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -127,8 +127,7 @@ RUN zypper update -y && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
  
-+# alpine has no adduser
-+docker-image-alpine: NOUSER=1
-+
- #
- # The build rule for hexagon-cross is special in so far for most of
- # the time we don't want to build it. While dockers caching does avoid
+-RUN pip3 install \
+-         meson==0.56.0
++RUN pip3 install meson==0.56.0
+ 
+ ENV LANG "en_US.UTF-8"
+ ENV MAKE "/usr/bin/make"
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 699f2dfc6a..0a622b467c 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -134,8 +134,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+ 
+-RUN pip3 install \
+-         meson==0.56.0
++RUN pip3 install meson==0.56.0
+ 
+ ENV LANG "en_US.UTF-8"
+ ENV MAKE "/usr/bin/make"
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 87513125b8..b9d06cb040 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -136,8 +136,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
+     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+ 
+-RUN pip3 install \
+-         meson==0.56.0
++RUN pip3 install meson==0.56.0
+ 
+ ENV LANG "en_US.UTF-8"
+ ENV MAKE "/usr/bin/make"
+diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
+index 6dd9b6fab1..f83b916d5e 160000
+--- a/tests/lcitool/libvirt-ci
++++ b/tests/lcitool/libvirt-ci
+@@ -1 +1 @@
+-Subproject commit 6dd9b6fab1fe081b16bc975485d7a02c81ba5fbe
++Subproject commit f83b916d5efa4bd33fbf4b7ea41bf6d535cc63fb
 -- 
 2.30.2
 
