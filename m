@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93BB34C422D
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:20:38 +0100 (CET)
-Received: from localhost ([::1]:36660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A005E4C4237
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:25:40 +0100 (CET)
+Received: from localhost ([::1]:44950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNXiH-00070f-Mo
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:20:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60608)
+	id 1nNXn8-0004Sb-UD
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:25:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nNWcZ-0005sp-Gj
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 04:10:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59359)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nNWcV-0005vP-9Y
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 04:10:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645780233;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MAV2GiKKZo+vOGOunNIe3p0wrqEwwak5oWbEaidkMfI=;
- b=UrRFRtZeupI81ANTydJVaqT5PQzbEjJUGKknOFvnzyvGdfF5o7RH4Tlk26aR/v4DeNmC77
- yT1YBPxE/T8L8xKd/aP2qJEVIu0j6+WbOdsbaeHXeKGtYyNIQ4lzs+rE1PTmfEDrZapHXk
- EFPiTZ7UYZ2zmrLVOhx6ZKuKvVn3QJw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-j7BjiIPJPpmuats1mRt_ag-1; Fri, 25 Feb 2022 04:10:24 -0500
-X-MC-Unique: j7BjiIPJPpmuats1mRt_ag-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 407E11006AA5;
- Fri, 25 Feb 2022 09:10:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7967623760;
- Fri, 25 Feb 2022 09:10:17 +0000 (UTC)
-Date: Fri, 25 Feb 2022 09:10:14 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kshitij Suri <kshitij.suri@nutanix.com>
-Subject: Re: [PATCH v2] Added parameter to take screenshot with screendump as
- PNG
-Message-ID: <Yhic9rkSKDfg6f3P@redhat.com>
-References: <20220224115908.102285-1-kshitij.suri@nutanix.com>
- <YhevxnLUi5BHWJ9G@redhat.com>
- <8dad1e54-1118-54c2-baea-7a8c6daee286@nutanix.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nNWs3-0001y5-MT; Fri, 25 Feb 2022 04:26:45 -0500
+Received: from [2a00:1450:4864:20::435] (port=40498
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nNWs0-0003w9-4F; Fri, 25 Feb 2022 04:26:39 -0500
+Received: by mail-wr1-x435.google.com with SMTP id n14so3471718wrq.7;
+ Fri, 25 Feb 2022 01:26:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=E9VYwlJr7ripGYZz6jv0kEsEo81EPhFZ7XIDa/ZKyI8=;
+ b=J+DsCr7On3tEDSDomADA7YVgHHxqsAlq43SoDhKywNoZGjDFMcmqohZE0AzgHunigD
+ b/gbyuJ8sauzEiou6bb3XBaAbRAc0ZXtP9Jk49wCLiNXChcyXe5OyCyaXdCLAYeE2Ro/
+ xzv2gJhIhBKNm/leBCXKyS0+iPah86acr3pTW2swQYvMnwCihAkKCeZ8Npe1gUNpdqJD
+ JLM+1EF6z+3OGb8aCi5j7ijodZEY8p2xpCHP7/WFQ+YPPTfAS06Sd4oHpg76wrVbTcj5
+ hXWq+sXUVAgtJq4gSsjPjV+ffEZUtnc34IGbr+5Ac5o+2x1I33M6lOb2lrK67451o6KU
+ 9ejg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=E9VYwlJr7ripGYZz6jv0kEsEo81EPhFZ7XIDa/ZKyI8=;
+ b=XmRXCCvDyUgANUTth+FVPE1KP7RWRWySCHeX/O/4s1y2S0ScHlQvuTdU98TuW8uMOH
+ RNI8AsTe6iW1ejnmf0jlkFQrzUkw2YYQxZg46B/WQ1WGp1spY/955xHRecn7ekhwqa5T
+ yqHW0Wt7ZGp5G0ipPM/6y5fjdb2x6DZTJ4eCU9fM7to9FI5TAdu5lvdKaxmdMn+XMMvB
+ 22oEso6PzJ4b0DzMgAB7wneGIxFNURWqkBei9TAp3P0ooinwTrmBAtMyIxoF7SCjSRkG
+ yhWGvwd8KmXeCYXJB+CYs04SHgm/WuXYWbKAJtQeF1CGDOxqpXd/wuK450IbAOEl+f/T
+ zVbQ==
+X-Gm-Message-State: AOAM533NJAROdO0EDtDNwrZKSLKcTEiS3jrYRDbdmaitXvdF+ZtX5IC9
+ ElakkQf39DQmGy9hxPxnqYc=
+X-Google-Smtp-Source: ABdhPJz6AHMdFAqnR2/Qn+HCIEwmXiGP6Wxzn8xSbJS8HNFyNFJnigk140DqnTPqynQRSZ0HUeABsw==
+X-Received: by 2002:adf:e54e:0:b0:1ea:9746:16d5 with SMTP id
+ z14-20020adfe54e000000b001ea974616d5mr5355124wrm.186.1645781194078; 
+ Fri, 25 Feb 2022 01:26:34 -0800 (PST)
+Received: from [192.168.237.175] (21.red-88-28-25.dynamicip.rima-tde.net.
+ [88.28.25.21]) by smtp.gmail.com with ESMTPSA id
+ q17-20020adfea11000000b001e308004bffsm1776840wrm.8.2022.02.25.01.26.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Feb 2022 01:26:33 -0800 (PST)
+Message-ID: <976be1ee-0aff-8097-5390-7a6e4c286d9e@gmail.com>
+Date: Fri, 25 Feb 2022 10:26:31 +0100
 MIME-Version: 1.0
-In-Reply-To: <8dad1e54-1118-54c2-baea-7a8c6daee286@nutanix.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH v5 00/16] host: Support macOS 12
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220214185605.28087-1-f4bug@amsat.org>
+ <CAFEAcA9MpiwF4m5tBfDfnq=QubHA=Ej=XvEodBbVcBbi-MriCw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <CAFEAcA9MpiwF4m5tBfDfnq=QubHA=Ej=XvEodBbVcBbi-MriCw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,129 +92,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: soham.ghosh@nutanix.com, thuth@redhat.com, prerna.saxena@nutanix.com,
- armbru@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- prachatos.mitra@nutanix.com, eblake@redhat.com, dgilbert@redhat.com
+Cc: Li Zhang <lizhang@suse.de>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 25, 2022 at 11:26:20AM +0530, Kshitij Suri wrote:
+On 18/2/22 16:26, Peter Maydell wrote:
+> On Mon, 14 Feb 2022 at 18:56, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> Few patches to be able to build QEMU on macOS 12 (Monterey).
+>>
+>> This basically consists of adapting deprecated APIs.
+>>
+>> CI job added to avoid bitrotting.
 > 
-> On 24/02/22 9:48 pm, Daniel P. Berrangé wrote:
-> > On Thu, Feb 24, 2022 at 11:59:08AM +0000, Kshitij Suri wrote:
-> > > Currently screendump only supports PPM format, which is un-compressed and not
-> > > standard. Added a "format" parameter to qemu monitor screendump capabilites
-> > > to support PNG image capture using libpng. The param was added in QAPI schema
-> > > of screendump present in ui.json along with png_save() function which converts
-> > > pixman_image to PNG. HMP command equivalent was also modified to support the
-> > > feature.
-> > > 
-> > > Example usage:
-> > > { "execute": "screendump", "arguments": { "filename": "/tmp/image", "format":"png" } }
-> > > 
-> > > Resolves:https://urldefense.proofpoint.com/v2/url?u=https-3A__gitlab.com_qemu-2Dproject_qemu_-2D_issues_718&d=DwIBaQ&c=s883GpUCOChKOHiocYtGcg&r=utjv19Ej9Fb0TB7_DX0o3faQ-OAm2ypPniPyqVSoj_w&m=Hu1QTP-aSF7FeXYQcdODcxg2wW1sBEpxaD4jWHYF5kxD2Z6ihhXkxRFOkovubo-f&s=YwpDKYWnYlYBM7aE1jNrISGXxP9nKm5f9Kfotxm5rZ4&e=
-> > > 
-> > > Signed-off-by: Kshitij Suri<kshitij.suri@nutanix.com>
-> > > ---
-> > > diff to v1:
-> > >    - Removed repeated alpha conversion operation.
-> > >    - Modified logic to mirror png conversion in vnc-enc-tight.c file.
-> > >    - Added a new CONFIG_PNG parameter for libpng support.
-> > >    - Changed input format to enum instead of string.
-> > > 
-> > >   hmp-commands.hx    | 11 +++---
-> > >   meson.build        | 13 +++++--
-> > >   meson_options.txt  |  2 +
-> > >   monitor/hmp-cmds.c |  8 +++-
-> > >   qapi/ui.json       | 24 ++++++++++--
-> > >   ui/console.c       | 97 ++++++++++++++++++++++++++++++++++++++++++++--
-> > >   6 files changed, 139 insertions(+), 16 deletions(-)
-> > > 
-> > > diff --git a/hmp-commands.hx b/hmp-commands.hx
-> > > index 70a9136ac2..e43c9954b5 100644
-> > > --- a/hmp-commands.hx
-> > > +++ b/hmp-commands.hx
-> > > @@ -244,17 +244,18 @@ ERST
-> > >       {
-> > >           .name       = "screendump",
-> > > -        .args_type  = "filename:F,device:s?,head:i?",
-> > > -        .params     = "filename [device [head]]",
-> > > -        .help       = "save screen from head 'head' of display device 'device' "
-> > > -                      "into PPM image 'filename'",
-> > > +        .args_type  = "filename:F,device:s?,head:i?,format:f?",
-> > > +        .params     = "filename [device [head]] [format]",
-> > > +        .help       = "save screen from head 'head' of display device 'device'"
-> > > +                      "in specified format 'format' as image 'filename'."
-> > > +                      "Currently only 'png' and 'ppm' formats are supported.",
-> > >           .cmd        = hmp_screendump,
-> > >           .coroutine  = true,
-> > >       },
-> > >   SRST
-> > >   ``screendump`` *filename*
-> > > -  Save screen into PPM image *filename*.
-> > > +  Save screen as an image *filename*.
-> > >   ERST
-> > >       {
-> > > diff --git a/meson.build b/meson.build
-> > > index 8df40bfac4..fd550c01ec 100644
-> > > --- a/meson.build
-> > > +++ b/meson.build
-> > > @@ -1112,13 +1112,16 @@ if gtkx11.found()
-> > >     x11 = dependency('x11', method: 'pkg-config', required: gtkx11.found(),
-> > >                      kwargs: static_kwargs)
-> > >   endif
-> > > -vnc = not_found
-> > >   png = not_found
-> > > +png = dependency('libpng', required: get_option('png'),
-> > > +                   method: 'pkg-config', kwargs: static_kwargs)
-> > > +vnc = not_found
-> > > +vnc_png = not_found
-> > >   jpeg = not_found
-> > >   sasl = not_found
-> > >   if get_option('vnc').allowed() and have_system
-> > >     vnc = declare_dependency() # dummy dependency
-> > > -  png = dependency('libpng', required: get_option('vnc_png'),
-> > > +  vnc_png = dependency('libpng', required: get_option('vnc_png'),
-> > >                      method: 'pkg-config', kwargs: static_kwargs)
-> > >     jpeg = dependency('libjpeg', required: get_option('vnc_jpeg'),
-> > >                       method: 'pkg-config', kwargs: static_kwargs)
-> > > @@ -1537,9 +1540,10 @@ config_host_data.set('CONFIG_TPM', have_tpm)
-> > >   config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
-> > >   config_host_data.set('CONFIG_VDE', vde.found())
-> > >   config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
-> > > +config_host_data.set('CONFIG_PNG', png.found())
-> > >   config_host_data.set('CONFIG_VNC', vnc.found())
-> > >   config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
-> > > -config_host_data.set('CONFIG_VNC_PNG', png.found())
-> > > +config_host_data.set('CONFIG_VNC_PNG', vnc_png.found())
-> > 
-> > I think we should be removing  CONFIG_VNC_PNG entirely - the VNC
-> > code should just use  CONFIG_PNG.
-> > 
-> > I'd suggest splitting ths into two patches.  The first patch
-> > updates meson.build to look for libpng unconditionally and
-> > rename to CONFIG_PNG.  The second patch introduces the PNG
-> > support for screendump.
-> Yes can remove entirely with a combination of CONFIG_VNC and CONFIG_PNG as
-> follows
+> Hi; I'm going to take the "obviously correct (to me)" cocoa
+> patches from here via target-arm.next:
+>   * MAINTAINERS patch
+>   * ui/cocoa: Remove allowedFileTypes restriction in SavePanel
+>   * ui/cocoa: Do not alert even without block devices
+>   * ui/cocoa: Fix the leak of qemu_console_get_label
 > 
-> #ifdef CONFIG_VNC_PNG -> #if defined(CONFIG_VNC) && defined(CONFIG_PNG)
-> 
-> But won't removing the vnc_png option cause problems in the build scripts of
-> users with the current
-> version? Instead, can we use the new png meson-option to denote PNG format
-> for VNC as well while maintaining backward compatibility? The change would
-> look like
+> Let me know if that's awkward for you and you'd rather I
+> dropped them.
 
-Configure arguments / meson options are not a stable interface
-from QEMU. We can change them at any time.
+Sure, thank you for the help here. (Sorry for replying that late,
+the amsat.org domain is delivering mails go Google infra with huge
+delay - and way out of order - but this is being worked out).
+
+If there is no objections I'll send a PR with the non-cocoa macOS
+fixes for 7.0, so Monterey users can build QEMU without having to
+disable failing features and flooded by hundreds of warnings.
 
 Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
+Phil.
 
