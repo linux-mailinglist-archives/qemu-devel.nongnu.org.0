@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D9B4C3A19
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 01:07:47 +0100 (CET)
-Received: from localhost ([::1]:49476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9774C3A2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 01:11:15 +0100 (CET)
+Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNO9C-0005pQ-Ix
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 19:07:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41382)
+	id 1nNOCY-0007ys-FY
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 19:11:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNO6V-0004jq-MY
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 19:04:59 -0500
-Received: from [2607:f8b0:4864:20::534] (port=36420
- helo=mail-pg1-x534.google.com)
+ id 1nNO9s-00070N-Bn
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 19:08:28 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=53171
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNO6T-00085D-JH
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 19:04:58 -0500
-Received: by mail-pg1-x534.google.com with SMTP id t14so189847pgr.3
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 16:04:56 -0800 (PST)
+ id 1nNO9q-0000Jx-DI
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 19:08:27 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id v4so3375807pjh.2
+ for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 16:08:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=25M3W1HFrGME+DxeJQnyj3R1yS8pC8dcZB3aH1tY9IQ=;
- b=xe9GQefMkI/WH7xu7H+4qePJa9b4g5ycJKG8DVdzE7nbpU41XFV7heToAnd6NtfrKi
- OrMtAXmZj0al9YQlqXzI/nJ13byWbCC+OcNQUuQv8cDgcc8GxBltcZBqBJgR7FOYr6zI
- 7Q1ponaHB05tp9IpA6Vig44M0L1R5ARjZQctJu77kMI2tcoD120CiUHdvtQbFlcHLVYq
- gTvR5XDyP2UWDdENuLNhKaNiJhjL1Fhdy6+6EPMp3qv4feEqCsOsMa7FBDl42ZOR1IAT
- UmPD4vvhSggh7K1ZG2mBHYc8KD7NCPdCjgsftGl15YqU1VNOSOysfwvuo3ADLrzQZYZT
- lrrg==
+ bh=6fqxRFd86SkBcHfIQeedKchfeGcI9vclF0x2w5j6kQY=;
+ b=u5RymHHOSAWv9OSDQzHow1ClEbY5eycKOwvP2ZB5QAFM9lA8DfafW/vOpUtFcKHbS/
+ UwHGRGEnkaqbAUppq7jbM2Uqxn3HpYiwfrl1S4+IZuY4I5YevqC4yM12YY1Ed8KzYlh+
+ OJZpVoTMdGRVapzdH0WDymKd6/H+1bZAh623PVADA2x92hwoSmKA9VuBH9rk4Hqo3m4D
+ D0TV+9NcVfsTVcDCuZjwz9+1EeI5ew6RvUTSHXlipRI4wpVWNgKzTzY/JhOtkXSs0DOo
+ YlMZzRwoohuzoGugP66afMlt2vs7rbs955RtBsuMyG+rzxfx6nms+wsI9KNRxx8KKTWz
+ miMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=25M3W1HFrGME+DxeJQnyj3R1yS8pC8dcZB3aH1tY9IQ=;
- b=b1ihwag9hDMdSbK7cqPpSr1KqdrFDgWY4otf7p7W3qNHvmLruUBl61bq80H+6uPbhf
- a+VefB1FrHAxAAcamNjVFfun/NlAnTs40venxLQzsHXUuPyZ3w9eD9ho5tzTYfpBRf2g
- vYfktYbpJM/oOVeIuJFfRBgPIxoMVpioi2y0hMMuBFk2H7SCt2rHdkemeKlnyVCQ1fef
- WXLSokUt8aP0OLbY2g3z0bkh0Zg0IBZMmKByNYNQq3qbJ6BQ1TQyPjQqP/8x+9YZrKP9
- HDBXvti4wMsiK5WCESiVIBJBw39VZNlJ4fJsYXxPG1t+98+qEymVqDUV6KyAPgpM6nHr
- ktww==
-X-Gm-Message-State: AOAM532H+2gzbnZsolI5sk+ocxK9WosN2aIBY5gC75zWLZETs268XF2z
- L6cak6UYOK9CY1F+mIrkuHqMsA==
-X-Google-Smtp-Source: ABdhPJyOBcEuCykKRwQ1tISGpl5YGfKtAv9TMxpjemWPxnPOEKCEIqSrp+SD7pfiRdTm158pD4C97w==
-X-Received: by 2002:a62:7617:0:b0:4e1:5f3b:2643 with SMTP id
- r23-20020a627617000000b004e15f3b2643mr5092223pfc.13.1645747495832; 
- Thu, 24 Feb 2022 16:04:55 -0800 (PST)
+ bh=6fqxRFd86SkBcHfIQeedKchfeGcI9vclF0x2w5j6kQY=;
+ b=S5PVo6cctVPUbi0fQt5jKfCGZynm7l9XFZqswhnsb6z+FUuWboVCnoAQrHnVq9+3BY
+ wQoRbh+8G86WpUEwMkMY55rXK03S/xeAHUSVg+mJiYcmMEGDwIZIIzeZnDpnuHgxfT/A
+ EoueKtFvXEo7PYoRPzPIm1n/+ObbHeZ9Ux+7mRc3C7sz/KDNOqtdnUPrNQzkJwjXQ3mN
+ GXcO1fDm8GVsNNOFLk0/GkFirtPQqeksMWuC61p7YmXUHYRD77r/V06u5QhS5/tkz4zo
+ FGNecn9wZK/K/2+bIlj7SSzoL5DhQTkvs77/ClHpTnyXQXDzL9RlmErZd5ysfNSgrBpv
+ oPWw==
+X-Gm-Message-State: AOAM533OTvbZ8mBbSC9RkeTRvkGEECycpH8+CuD6F999Js8hfb3ry2Ec
+ IsNdlXqJmMA6b6NX23to6ry+0g==
+X-Google-Smtp-Source: ABdhPJyxT47/t7HAELrWnP0Wq3Hd1gQeFmEprr/9s6/UcvnZjZ7EvPHDPq4dal22FpGlEQZxLUgu2g==
+X-Received: by 2002:a17:902:aa86:b0:150:25f4:f43d with SMTP id
+ d6-20020a170902aa8600b0015025f4f43dmr1302560plr.141.1645747705030; 
+ Thu, 24 Feb 2022 16:08:25 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- q24-20020aa79618000000b004e0e89985eesm588433pfg.156.2022.02.24.16.04.54
+ q22-20020a056a00085600b004f397d1f3b5sm624910pfk.171.2022.02.24.16.08.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 16:04:55 -0800 (PST)
-Message-ID: <75519d95-7c55-63d4-513b-9e8c499f22f9@linaro.org>
-Date: Thu, 24 Feb 2022 14:04:52 -1000
+ Thu, 24 Feb 2022 16:08:24 -0800 (PST)
+Message-ID: <86877266-d727-c471-6160-439d25e0289d@linaro.org>
+Date: Thu, 24 Feb 2022 14:08:20 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 10/14] target/hexagon: Add missing 'hw/core/cpu.h'
- include
+Subject: Re: [PATCH v2 13/14] target: Introduce and use
+ OBJECT_DECLARE_CPU_TYPE() macro
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220214183144.27402-1-f4bug@amsat.org>
- <20220214183144.27402-11-f4bug@amsat.org>
+ <20220214183144.27402-14-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220214183144.27402-11-f4bug@amsat.org>
+In-Reply-To: <20220214183144.27402-14-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,13 +101,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/14/22 08:31, Philippe Mathieu-Daudé wrote:
-> HexagonCPU field parent_class is of type CPUClass, which
-> is declared in "hw/core/cpu.h".
+> Replace the boilerplate code to declare CPU QOM types
+> and macros, and forward-declare the CPU instance type.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/hexagon/cpu.h | 1 +
->   1 file changed, 1 insertion(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
