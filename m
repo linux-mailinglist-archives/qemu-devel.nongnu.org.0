@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E374C4768
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 15:27:25 +0100 (CET)
-Received: from localhost ([::1]:60520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4544C4760
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 15:25:46 +0100 (CET)
+Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNbZ6-0001XJ-Mc
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 09:27:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45090)
+	id 1nNbXV-0007K3-3n
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 09:25:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=048cb90a0=graf@amazon.de>)
- id 1nNb6z-0007N8-6r
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 08:58:21 -0500
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:64867)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=048cb90a0=graf@amazon.de>)
- id 1nNb6r-0005Iw-HC
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 08:58:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1645797494; x=1677333494;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=8kGZS1WN7G6CFiOLfo0q+xlIMR7pw0Iyc1llFmruEA4=;
- b=JImH8fEBzaTlWoE/+ujTJGil/jcc0ZlvfO6Pf5zDzkNdOxgPGcS2Yzey
- rQlEtfZcDyMl+NNU/0J577mzCkpY0HupuBGtJWtIcwfZUZK4HyeMu7SR2
- bdbD7Br45TGJqoc09c6iowecmwSmZ84GhVyik3ajmqzmu8ZmcLezZt7Fc I=;
-X-IronPort-AV: E=Sophos;i="5.90,136,1643673600"; d="scan'208";a="181239800"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
- email-inbound-relay-pdx-2b-05e8af15.us-west-2.amazon.com) ([10.43.8.6])
- by smtp-border-fw-6001.iad6.amazon.com with ESMTP; 25 Feb 2022 13:57:49 +0000
-Received: from EX13MTAUWC002.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
- by email-inbound-relay-pdx-2b-05e8af15.us-west-2.amazon.com (Postfix) with
- ESMTPS id A5E6FA28F4; Fri, 25 Feb 2022 13:57:47 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
- id 15.0.1497.28; Fri, 25 Feb 2022 13:57:46 +0000
-Received: from [0.0.0.0] (10.43.161.219) by EX13D20UWC001.ant.amazon.com
- (10.43.162.244) with Microsoft SMTP Server (TLS) id 15.0.1497.28; Fri, 25 Feb
- 2022 13:57:40 +0000
-Message-ID: <05c9f2a9-accb-e0de-aac7-b212adac7eb2@amazon.com>
-Date: Fri, 25 Feb 2022 14:57:38 +0100
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nNb9a-0001Ln-Dh
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 09:01:03 -0500
+Received: from [2a00:1450:4864:20::131] (port=45885
+ helo=mail-lf1-x131.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nNb9V-000663-SD
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 09:01:02 -0500
+Received: by mail-lf1-x131.google.com with SMTP id b11so9563037lfb.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 06:00:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xrB4ioyTKTegza4B50iy6gJBVXVMjam/ZnOay3pEV/k=;
+ b=GmSHJU4RoY5cYeFd09GHN57yH1mDhQurq0skvUeEk5oo85b+6XIYQVJMLmFDCasRfF
+ 2Oo2SIRACYv0qNzGPkYVvK97ocV7drzTROb7DdR4MgHkfz5ZrEL4bjkotQIiVD5cfXy+
+ DOurvp4/T5y/aFcekFIifqH/LNUT8UMIQOvny7jNlG0UwlVe0eKop0bG+S/Bi2b9TB+s
+ kOqfs9/Nf9JjmhxDTXMwXqVFCLoechkkq1aM87dpDIrD96rQA+TamJ0QqliyJrNcQD6U
+ UTFFO7m1mP9LP7/m7h0b8v/HlR8OFyQNkG3hOmxhG28Q/3Fz7MgVr3chSCv27SJjKN3f
+ Wd4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xrB4ioyTKTegza4B50iy6gJBVXVMjam/ZnOay3pEV/k=;
+ b=kNcRAcEp4WGcyjVWAsyBHynvddHi0pUxnJ0BFKcsGGr01XKHZUt90fiwSsfHisEosB
+ NPv3ad+Ht0nUd6EgtIDMveeF9fYfQoAog/hRyLIYySLn/moBS6TLK9rmW/ni0CVmPDwO
+ VQZy/5+Z+r2FgBAxJlmQp9wZ8mlpV8HYiYqqvHtrRO4odXooOWO0zYD7iFa9qrPGm1Wc
+ 4V7hDpTGa+o76h/FJVb4LCmRsnpMMkk34iZGTvefwJb8mFK/IvPf71zV80hB/Q7tOewJ
+ kVkc2yyinhDQQDAV8edFDUXmz7hsLxUk7s11itRL/kIVuOe/gsaHpid16q7tpi14/Sqn
+ CKuw==
+X-Gm-Message-State: AOAM533lrn8flRfbqOEI7zkUdeQung5b3QFV8jlWvTYpBY6ZBcZ+cqwV
+ Ad7jbRGW1/u8RZKMESVg4/BaErn24CxKHb95CCQ=
+X-Google-Smtp-Source: ABdhPJyrbxEeHmwP9aZax/glyGh0BXFLyu8WhpSvP3c6ntHoU5Fmh/pEWdLBQCO9RBXhyrqkFaaL4zvqsjy4BmTBwac=
+X-Received: by 2002:a05:6512:3619:b0:443:1597:8293 with SMTP id
+ f25-20020a056512361900b0044315978293mr5013347lfs.439.1645797654799; Fri, 25
+ Feb 2022 06:00:54 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v4] virt: vmgenid: introduce driver for reinitializing RNG
- on VM fork
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>, <kvm@vger.kernel.org>,
- <linux-crypto@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-CC: <adrian@parity.io>, <ardb@kernel.org>, <ben@skyportsystems.com>,
- <berrange@redhat.com>, <colmmacc@amazon.com>, <decui@microsoft.com>,
- <dwmw@amazon.co.uk>, <ebiggers@kernel.org>, <ehabkost@redhat.com>,
- <gregkh@linuxfoundation.org>, <haiyangz@microsoft.com>,
- <imammedo@redhat.com>, <jannh@google.com>, <kys@microsoft.com>,
- <lersek@redhat.com>, <linux@dominikbrodowski.net>, <mst@redhat.com>,
- <qemu-devel@nongnu.org>, <raduweis@amazon.com>, <sthemmin@microsoft.com>,
- <tytso@mit.edu>, <wei.liu@kernel.org>
-References: <CAHmME9pJ3wb=EbUErJrCRC=VYGhFZqj2ar_AkVPsUvAnqGtwwg@mail.gmail.com>
- <20220225124848.909093-1-Jason@zx2c4.com>
-From: Alexander Graf <graf@amazon.com>
-In-Reply-To: <20220225124848.909093-1-Jason@zx2c4.com>
-X-Originating-IP: [10.43.161.219]
-X-ClientProxiedBy: EX13D19UWA001.ant.amazon.com (10.43.160.169) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
-Precedence: Bulk
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=52.95.48.154;
- envelope-from=prvs=048cb90a0=graf@amazon.de; helo=smtp-fw-6001.amazon.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220220165056.72289-1-wwcohen@gmail.com>
+ <20220220165056.72289-10-wwcohen@gmail.com>
+ <8571874.GWnKUVsiaS@silver>
+In-Reply-To: <8571874.GWnKUVsiaS@silver>
+From: Will Cohen <wwcohen@gmail.com>
+Date: Fri, 25 Feb 2022 09:00:40 -0500
+Message-ID: <CAB26zV2ePB=1ZHogaWndR5cc1Hru9BXRk88cbnN4LahLSFxCmQ@mail.gmail.com>
+Subject: Re: [PATCH v8 09/11] 9p: darwin: Implement compatibility for mknodat
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="000000000000962a6505d8d82058"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::131
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=wwcohen@gmail.com; helo=mail-lf1-x131.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,189 +81,408 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Greg Kurz <groug@kaod.org>, qemu Developers <qemu-devel@nongnu.org>,
+ hi@alyssa.is, Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ck9uIDI1LjAyLjIyIDEzOjQ4LCBKYXNvbiBBLiBEb25lbmZlbGQgd3JvdGU6Cj4KPiBWTSBHZW5l
-cmF0aW9uIElEIGlzIGEgZmVhdHVyZSBmcm9tIE1pY3Jvc29mdCwgZGVzY3JpYmVkIGF0Cj4gPGh0
-dHBzOi8vZ28ubWljcm9zb2Z0LmNvbS9md2xpbmsvP0xpbmtJZD0yNjA3MDk+LCBhbmQgc3VwcG9y
-dGVkIGJ5Cj4gSHlwZXItViBhbmQgUUVNVS4gSXRzIHVzYWdlIGlzIGRlc2NyaWJlZCBpbiBNaWNy
-b3NvZnQncyBSTkcgd2hpdGVwYXBlciwKPiA8aHR0cHM6Ly9ha2EubXMvd2luMTBybmc+LCBhczoK
-Pgo+ICAgICAgSWYgdGhlIE9TIGlzIHJ1bm5pbmcgaW4gYSBWTSwgdGhlcmUgaXMgYSBwcm9ibGVt
-IHRoYXQgbW9zdAo+ICAgICAgaHlwZXJ2aXNvcnMgY2FuIHNuYXBzaG90IHRoZSBzdGF0ZSBvZiB0
-aGUgbWFjaGluZSBhbmQgbGF0ZXIgcmV3aW5kCj4gICAgICB0aGUgVk0gc3RhdGUgdG8gdGhlIHNh
-dmVkIHN0YXRlLiBUaGlzIHJlc3VsdHMgaW4gdGhlIG1hY2hpbmUgcnVubmluZwo+ICAgICAgYSBz
-ZWNvbmQgdGltZSB3aXRoIHRoZSBleGFjdCBzYW1lIFJORyBzdGF0ZSwgd2hpY2ggbGVhZHMgdG8g
-c2VyaW91cwo+ICAgICAgc2VjdXJpdHkgcHJvYmxlbXMuICBUbyByZWR1Y2UgdGhlIHdpbmRvdyBv
-ZiB2dWxuZXJhYmlsaXR5LCBXaW5kb3dzCj4gICAgICAxMCBvbiBhIEh5cGVyLVYgVk0gd2lsbCBk
-ZXRlY3Qgd2hlbiB0aGUgVk0gc3RhdGUgaXMgcmVzZXQsIHJldHJpZXZlCj4gICAgICBhIHVuaXF1
-ZSAobm90IHJhbmRvbSkgdmFsdWUgZnJvbSB0aGUgaHlwZXJ2aXNvciwgYW5kIHJlc2VlZCB0aGUg
-cm9vdAo+ICAgICAgUk5HIHdpdGggdGhhdCB1bmlxdWUgdmFsdWUuICBUaGlzIGRvZXMgbm90IGVs
-aW1pbmF0ZSB0aGUKPiAgICAgIHZ1bG5lcmFiaWxpdHksIGJ1dCBpdCBncmVhdGx5IHJlZHVjZXMg
-dGhlIHRpbWUgZHVyaW5nIHdoaWNoIHRoZSBSTkcKPiAgICAgIHN5c3RlbSB3aWxsIHByb2R1Y2Ug
-dGhlIHNhbWUgb3V0cHV0cyBhcyBpdCBkaWQgZHVyaW5nIGEgcHJldmlvdXMKPiAgICAgIGluc3Rh
-bnRpYXRpb24gb2YgdGhlIHNhbWUgVk0gc3RhdGUuCj4KPiBMaW51eCBoYXMgdGhlIHNhbWUgaXNz
-dWUsIGFuZCBnaXZlbiB0aGF0IHZtZ2VuaWQgaXMgc3VwcG9ydGVkIGFscmVhZHkgYnkKPiBtdWx0
-aXBsZSBoeXBlcnZpc29ycywgd2UgY2FuIGltcGxlbWVudCBtb3JlIG9yIGxlc3MgdGhlIHNhbWUg
-c29sdXRpb24uCj4gU28gdGhpcyBjb21taXQgd2lyZXMgdXAgdGhlIHZtZ2VuaWQgQUNQSSBub3Rp
-ZmljYXRpb24gdG8gdGhlIFJORydzIG5ld2x5Cj4gYWRkZWQgYWRkX3ZtZm9ya19yYW5kb21uZXNz
-KCkgZnVuY3Rpb24uCj4KPiBJdCBjYW4gYmUgdXNlZCBmcm9tIHFlbXUgdmlhIHRoZSBgLWRldmlj
-ZSB2bWdlbmlkLGd1aWQ9YXV0b2AgcGFyYW1ldGVyLgo+IEFmdGVyIHNldHRpbmcgdGhhdCwgdXNl
-IGBzYXZldm1gIGluIHRoZSBtb25pdG9yIHRvIHNhdmUgdGhlIFZNIHN0YXRlLAo+IHRoZW4gcXVp
-dCBRRU1VLCBzdGFydCBpdCBhZ2FpbiwgYW5kIHVzZSBgbG9hZHZtYC4gVGhhdCB3aWxsIHRyaWdn
-ZXIgdGhpcwo+IGRyaXZlcidzIG5vdGlmeSBmdW5jdGlvbiwgd2hpY2ggaGFuZHMgdGhlIG5ldyBV
-VUlEIHRvIHRoZSBSTkcuIFRoaXMgaXMKPiBkZXNjcmliZWQgaW4gPGh0dHBzOi8vZ2l0LnFlbXUu
-b3JnLz9wPXFlbXUuZ2l0O2E9YmxvYjtmPWRvY3Mvc3BlY3Mvdm1nZW5pZC50eHQ+Lgo+IEFuZCB0
-aGVyZSBhcmUgaG9va3MgZm9yIHRoaXMgaW4gbGlidmlydCBhcyB3ZWxsLCBkZXNjcmliZWQgaW4K
-PiA8aHR0cHM6Ly9saWJ2aXJ0Lm9yZy9mb3JtYXRkb21haW4uaHRtbCNnZW5lcmFsLW1ldGFkYXRh
-Pi4KPgo+IE5vdGUsIGhvd2V2ZXIsIHRoYXQgdGhlIHRyZWF0bWVudCBvZiB0aGlzIGFzIGEgVVVJ
-RCBpcyBjb25zaWRlcmVkIHRvIGJlCj4gYW4gYWNjaWRlbnRhbCBRRU1VIG51YW5jZSwgcGVyCj4g
-PGh0dHBzOi8vZ2l0aHViLmNvbS9saWJndWVzdGZzL3ZpcnQtdjJ2L2Jsb2IvbWFzdGVyL2RvY3Mv
-dm0tZ2VuZXJhdGlvbi1pZC1hY3Jvc3MtaHlwZXJ2aXNvcnMudHh0PiwKPiBzbyB0aGlzIGRyaXZl
-ciBzaW1wbHkgdHJlYXRzIHRoZXNlIGJ5dGVzIGFzIGFuIG9wYXF1ZSAxMjgtYml0IGJpbmFyeQo+
-IGJsb2IsIGFzIHBlciB0aGUgc3BlYy4gVGhpcyBkb2Vzbid0IHJlYWxseSBtYWtlIGEgZGlmZmVy
-ZW5jZSBhbnl3YXksCj4gY29uc2lkZXJpbmcgdGhhdCdzIGhvdyBpdCBlbmRzIHVwIHdoZW4gaGFu
-ZGVkIHRvIHRoZSBSTkcgaW4gdGhlIGVuZC4KPgo+IENjOiBBZHJpYW4gQ2F0YW5naXUgPGFkcmlh
-bkBwYXJpdHkuaW8+Cj4gQ2M6IERhbmllbCBQLiBCZXJyYW5nw6kgPGJlcnJhbmdlQHJlZGhhdC5j
-b20+Cj4gQ2M6IERvbWluaWsgQnJvZG93c2tpIDxsaW51eEBkb21pbmlrYnJvZG93c2tpLm5ldD4K
-PiBDYzogQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2VybmVsLm9yZz4KPiBDYzogR3JlZyBLcm9haC1I
-YXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPiBSZXZpZXdlZC1ieTogTGFzemxv
-IEVyc2VrIDxsZXJzZWtAcmVkaGF0LmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBKYXNvbiBBLiBEb25l
-bmZlbGQgPEphc29uQHp4MmM0LmNvbT4KPiAtLS0KPiBDaGFuZ2VzIHYzLT52NDoKPiAtIEFkZCB0
-aGlzIGRyaXZlciB0byBNQUlOVEFJTkVSUywgcGVyIEFyZCdzIHJlcXVlc3QuCj4gICAgTm90ZTog
-SSBkaWRuJ3QgcmVhbGx5IHdhbnQgdG8gZG8gdGhpcyBhdCBmaXJzdCwgYmVjYXVzZSBJIHdhcyBo
-b3BpbmcgdGhlCj4gICAgb3JpZ2luYWwgQW1hem9uIHRlYW0gbG9va2luZyBpbnRvIHRoaXMgbGFz
-dCB5ZWFyIHdvdWxkIHN0ZXAgdXAuIEJ1dCBpdCBzZWVtcwo+ICAgIGxpa2UgdGhhdCB0ZWFtIGhh
-cyBtb3ZlZCBvbiwgYW5kIGFueXdheSBJJ3ZlIGJhc2ljYWxseSByZXdyaXR0ZW4gdGhlIGRyaXZl
-cgo+ICAgIGZyb20gc2NyYXRjaCBhdCB0aGlzIHBvaW50IC0tIG5vdCBhIHNpbmdsZSBsaW5lIG9m
-IHRoZSBvcmlnaW5hbCBleGlzdHMgLS0KPiAgICBhbmQgc28gSSBndWVzcyBJJ2xsIG1haW50YWlu
-IGl0IG15c2VsZi4gQWRkaW5nIEdyZWcgdG8gdGhlIENDIGZvciBoaXMgYWNrIG9uCj4gICAgdGhp
-cy4KPiAtIERvbid0IHVzZSBhIHN0YXRpYyBnbG9iYWwgc3RhdGUgaW4gY2FzZSB0aGVyZSBhcmUg
-bXVsdGlwbGUgaW5zdGFuY2VzLgo+IC0gVXNlIGRldm1fbWVtcmVtYXAgaW5zdGVhZCBvZiB0aGUg
-YWNwaSBpbnRlcm5hbCBmdW5jdGlvbnMuCj4gLSBEZWZhdWx0IHRvIGJlaW5nIG1vZHVsYXIgaW5z
-dGVhZCBvZiBhIGJ1aWx0LWluLCBhcyBhcHBhcmVudGx5IHRoaXMgaXMKPiAgICB1ZGV2LWFibGUu
-Cj4KPiAgIE1BSU5UQUlORVJTICAgICAgICAgICAgfCAgIDEgKwo+ICAgZHJpdmVycy92aXJ0L0tj
-b25maWcgICB8ICAgOSArKysrCj4gICBkcml2ZXJzL3ZpcnQvTWFrZWZpbGUgIHwgICAxICsKPiAg
-IGRyaXZlcnMvdmlydC92bWdlbmlkLmMgfCAxMTIgKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysKPiAgIDQgZmlsZXMgY2hhbmdlZCwgMTIzIGluc2VydGlvbnMoKykKPiAg
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL3ZpcnQvdm1nZW5pZC5jCj4KPiBkaWZmIC0tZ2l0
-IGEvTUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVSUwo+IGluZGV4IDc3N2NkNmZhMmIzZC4uYTEwOTk3
-ZTE1MTQ2IDEwMDY0NAo+IC0tLSBhL01BSU5UQUlORVJTCj4gKysrIGIvTUFJTlRBSU5FUlMKPiBA
-QCAtMTYyMTEsNiArMTYyMTEsNyBAQCBNOiAgICAgIEphc29uIEEuIERvbmVuZmVsZCA8SmFzb25A
-engyYzQuY29tPgo+ICAgVDogICAgIGdpdCBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20v
-bGludXgva2VybmVsL2dpdC9jcm5nL3JhbmRvbS5naXQKPiAgIFM6ICAgICBNYWludGFpbmVkCj4g
-ICBGOiAgICAgZHJpdmVycy9jaGFyL3JhbmRvbS5jCj4gK0Y6ICAgICBkcml2ZXJzL3ZpcnQvdm1n
-ZW5pZC5jCj4KPiAgIFJBUElESU8gU1VCU1lTVEVNCj4gICBNOiAgICAgTWF0dCBQb3J0ZXIgPG1w
-b3J0ZXJAa2VybmVsLmNyYXNoaW5nLm9yZz4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aXJ0L0tj
-b25maWcgYi9kcml2ZXJzL3ZpcnQvS2NvbmZpZwo+IGluZGV4IDgwNjFlOGVmNDQ5Zi4uNTU5NmM3
-MzEzZjU5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdmlydC9LY29uZmlnCj4gKysrIGIvZHJpdmVy
-cy92aXJ0L0tjb25maWcKPiBAQCAtMTMsNiArMTMsMTUgQEAgbWVudWNvbmZpZyBWSVJUX0RSSVZF
-UlMKPgo+ICAgaWYgVklSVF9EUklWRVJTCj4KPiArY29uZmlnIFZNR0VOSUQKPiArICAgICAgIHRy
-aXN0YXRlICJWaXJ0dWFsIE1hY2hpbmUgR2VuZXJhdGlvbiBJRCBkcml2ZXIiCj4gKyAgICAgICBk
-ZWZhdWx0IG0KPiArICAgICAgIGRlcGVuZHMgb24gQUNQSQo+ICsgICAgICAgaGVscAo+ICsgICAg
-ICAgICBTYXkgWSBoZXJlIHRvIHVzZSB0aGUgaHlwZXJ2aXNvci1wcm92aWRlZCBWaXJ0dWFsIE1h
-Y2hpbmUgR2VuZXJhdGlvbiBJRAo+ICsgICAgICAgICB0byByZXNlZWQgdGhlIFJORyB3aGVuIHRo
-ZSBWTSBpcyBjbG9uZWQuIFRoaXMgaXMgaGlnaGx5IHJlY29tbWVuZGVkIGlmCj4gKyAgICAgICAg
-IHlvdSBpbnRlbmQgdG8gZG8gYW55IHJvbGxiYWNrIC8gY2xvbmluZyAvIHNuYXBzaG90dGluZyBv
-ZiBWTXMuCj4gKwo+ICAgY29uZmlnIEZTTF9IVl9NQU5BR0VSCj4gICAgICAgICAgdHJpc3RhdGUg
-IkZyZWVzY2FsZSBoeXBlcnZpc29yIG1hbmFnZW1lbnQgZHJpdmVyIgo+ICAgICAgICAgIGRlcGVu
-ZHMgb24gRlNMX1NPQwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpcnQvTWFrZWZpbGUgYi9kcml2
-ZXJzL3ZpcnQvTWFrZWZpbGUKPiBpbmRleCAzZTI3MmVhNjBjZDkuLjEwOGQwZmZjYzlhYSAxMDA2
-NDQKPiAtLS0gYS9kcml2ZXJzL3ZpcnQvTWFrZWZpbGUKPiArKysgYi9kcml2ZXJzL3ZpcnQvTWFr
-ZWZpbGUKPiBAQCAtNCw2ICs0LDcgQEAKPiAgICMKPgo+ICAgb2JqLSQoQ09ORklHX0ZTTF9IVl9N
-QU5BR0VSKSAgICs9IGZzbF9oeXBlcnZpc29yLm8KPiArb2JqLSQoQ09ORklHX1ZNR0VOSUQpICAg
-ICAgICAgICs9IHZtZ2VuaWQubwo+ICAgb2JqLXkgICAgICAgICAgICAgICAgICAgICAgICAgICs9
-IHZib3hndWVzdC8KPgo+ICAgb2JqLSQoQ09ORklHX05JVFJPX0VOQ0xBVkVTKSAgICs9IG5pdHJv
-X2VuY2xhdmVzLwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpcnQvdm1nZW5pZC5jIGIvZHJpdmVy
-cy92aXJ0L3ZtZ2VuaWQuYwo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAw
-MDAwLi5lM2RkNGFmYjMzYzYKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvZHJpdmVycy92aXJ0L3Zt
-Z2VuaWQuYwo+IEBAIC0wLDAgKzEsMTEyIEBACj4gKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVy
-OiBHUEwtMi4wCj4gKy8qCj4gKyAqIENvcHlyaWdodCAoQykgMjAyMiBKYXNvbiBBLiBEb25lbmZl
-bGQgPEphc29uQHp4MmM0LmNvbT4uIEFsbCBSaWdodHMgUmVzZXJ2ZWQuCj4gKyAqCj4gKyAqIFRo
-ZSAiVmlydHVhbCBNYWNoaW5lIEdlbmVyYXRpb24gSUQiIGlzIGV4cG9zZWQgdmlhIEFDUEkgYW5k
-IGNoYW5nZXMgd2hlbiBhCj4gKyAqIHZpcnR1YWwgbWFjaGluZSBmb3JrcyBvciBpcyBjbG9uZWQu
-IFRoaXMgZHJpdmVyIGV4aXN0cyBmb3Igc2hlcGhlcmRpbmcgdGhhdAo+ICsgKiBpbmZvcm1hdGlv
-biB0byByYW5kb20uYy4KPiArICovCj4gKwo+ICsjaW5jbHVkZSA8bGludXgva2VybmVsLmg+Cj4g
-KyNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2FjcGkuaD4KPiAr
-I2luY2x1ZGUgPGxpbnV4L3JhbmRvbS5oPgo+ICsKPiArQUNQSV9NT0RVTEVfTkFNRSgidm1nZW5p
-ZCIpOwo+ICsKPiArZW51bSB7IFZNR0VOSURfU0laRSA9IDE2IH07Cj4gKwo+ICtzdHJ1Y3Qgdm1n
-ZW5pZF9zdGF0ZSB7Cj4gKyAgICAgICB1OCAqbmV4dF9pZDsKPiArICAgICAgIHU4IHRoaXNfaWRb
-Vk1HRU5JRF9TSVpFXTsKPiArfTsKPiArCj4gK3N0YXRpYyBpbnQgdm1nZW5pZF9hY3BpX2FkZChz
-dHJ1Y3QgYWNwaV9kZXZpY2UgKmRldmljZSkKPiArewo+ICsgICAgICAgc3RydWN0IGFjcGlfYnVm
-ZmVyIHBhcnNlZCA9IHsgQUNQSV9BTExPQ0FURV9CVUZGRVIgfTsKPiArICAgICAgIHN0cnVjdCB2
-bWdlbmlkX3N0YXRlICpzdGF0ZTsKPiArICAgICAgIHVuaW9uIGFjcGlfb2JqZWN0ICpvYmo7Cj4g
-KyAgICAgICBwaHlzX2FkZHJfdCBwaHlzX2FkZHI7Cj4gKyAgICAgICBhY3BpX3N0YXR1cyBzdGF0
-dXM7Cj4gKyAgICAgICBpbnQgcmV0ID0gMDsKPiArCj4gKyAgICAgICBzdGF0ZSA9IGRldm1fa21h
-bGxvYygmZGV2aWNlLT5kZXYsIHNpemVvZigqc3RhdGUpLCBHRlBfS0VSTkVMKTsKPiArICAgICAg
-IGlmICghc3RhdGUpCj4gKyAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVNOwo+ICsKPiArICAg
-ICAgIHN0YXR1cyA9IGFjcGlfZXZhbHVhdGVfb2JqZWN0KGRldmljZS0+aGFuZGxlLCAiQUREUiIs
-IE5VTEwsICZwYXJzZWQpOwo+ICsgICAgICAgaWYgKEFDUElfRkFJTFVSRShzdGF0dXMpKSB7Cj4g
-KyAgICAgICAgICAgICAgIEFDUElfRVhDRVBUSU9OKChBRV9JTkZPLCBzdGF0dXMsICJFdmFsdWF0
-aW5nIEFERFIiKSk7Cj4gKyAgICAgICAgICAgICAgIHJldHVybiAtRU5PREVWOwo+ICsgICAgICAg
-fQo+ICsgICAgICAgb2JqID0gcGFyc2VkLnBvaW50ZXI7Cj4gKyAgICAgICBpZiAoIW9iaiB8fCBv
-YmotPnR5cGUgIT0gQUNQSV9UWVBFX1BBQ0tBR0UgfHwgb2JqLT5wYWNrYWdlLmNvdW50ICE9IDIg
-fHwKPiArICAgICAgICAgICBvYmotPnBhY2thZ2UuZWxlbWVudHNbMF0udHlwZSAhPSBBQ1BJX1RZ
-UEVfSU5URUdFUiB8fAo+ICsgICAgICAgICAgIG9iai0+cGFja2FnZS5lbGVtZW50c1sxXS50eXBl
-ICE9IEFDUElfVFlQRV9JTlRFR0VSKSB7Cj4gKyAgICAgICAgICAgICAgIHJldCA9IC1FSU5WQUw7
-Cj4gKyAgICAgICAgICAgICAgIGdvdG8gb3V0Owo+ICsgICAgICAgfQo+ICsKPiArICAgICAgIHBo
-eXNfYWRkciA9IChvYmotPnBhY2thZ2UuZWxlbWVudHNbMF0uaW50ZWdlci52YWx1ZSA8PCAwKSB8
-Cj4gKyAgICAgICAgICAgICAgICAgICAob2JqLT5wYWNrYWdlLmVsZW1lbnRzWzFdLmludGVnZXIu
-dmFsdWUgPDwgMzIpOwo+ICsgICAgICAgc3RhdGUtPm5leHRfaWQgPSBkZXZtX21lbXJlbWFwKCZk
-ZXZpY2UtPmRldiwgcGh5c19hZGRyLCBWTUdFTklEX1NJWkUsIE1FTVJFTUFQX1dCKTsKPiArICAg
-ICAgIGlmICghc3RhdGUtPm5leHRfaWQpIHsKPiArICAgICAgICAgICAgICAgcmV0ID0gLUVOT01F
-TTsKPiArICAgICAgICAgICAgICAgZ290byBvdXQ7Cj4gKyAgICAgICB9Cj4gKwo+ICsgICAgICAg
-bWVtY3B5KHN0YXRlLT50aGlzX2lkLCBzdGF0ZS0+bmV4dF9pZCwgc2l6ZW9mKHN0YXRlLT50aGlz
-X2lkKSk7Cj4gKyAgICAgICBhZGRfZGV2aWNlX3JhbmRvbW5lc3Moc3RhdGUtPnRoaXNfaWQsIHNp
-emVvZihzdGF0ZS0+dGhpc19pZCkpOwoKClBsZWFzZSBleHBvc2UgdGhlIHZtZ2VuaWQgdmlhIC9z
-eXNmcyBzbyB0aGF0IHVzZXIgc3BhY2UgZXZlbiByZW1vdGVseSAKaGFzIGEgY2hhbmNlIHRvIGNo
-ZWNrIGlmIGl0J3MgYmVlbiBjbG9uZWQuCgoKPiArCj4gKyAgICAgICBkZXZpY2UtPmRyaXZlcl9k
-YXRhID0gc3RhdGU7Cj4gKwo+ICtvdXQ6Cj4gKyAgICAgICBBQ1BJX0ZSRUUocGFyc2VkLnBvaW50
-ZXIpOwo+ICsgICAgICAgcmV0dXJuIHJldDsKPiArfQo+ICsKPiArc3RhdGljIHZvaWQgdm1nZW5p
-ZF9hY3BpX25vdGlmeShzdHJ1Y3QgYWNwaV9kZXZpY2UgKmRldmljZSwgdTMyIGV2ZW50KQo+ICt7
-Cj4gKyAgICAgICBzdHJ1Y3Qgdm1nZW5pZF9zdGF0ZSAqc3RhdGUgPSBhY3BpX2RyaXZlcl9kYXRh
-KGRldmljZSk7Cj4gKyAgICAgICB1OCBvbGRfaWRbVk1HRU5JRF9TSVpFXTsKPiArCj4gKyAgICAg
-ICBtZW1jcHkob2xkX2lkLCBzdGF0ZS0+dGhpc19pZCwgc2l6ZW9mKG9sZF9pZCkpOwo+ICsgICAg
-ICAgbWVtY3B5KHN0YXRlLT50aGlzX2lkLCBzdGF0ZS0+bmV4dF9pZCwgc2l6ZW9mKHN0YXRlLT50
-aGlzX2lkKSk7Cj4gKyAgICAgICBpZiAoIW1lbWNtcChvbGRfaWQsIHN0YXRlLT50aGlzX2lkLCBz
-aXplb2Yob2xkX2lkKSkpCj4gKyAgICAgICAgICAgICAgIHJldHVybjsKPiArICAgICAgIGFkZF92
-bWZvcmtfcmFuZG9tbmVzcyhzdGF0ZS0+dGhpc19pZCwgc2l6ZW9mKHN0YXRlLT50aGlzX2lkKSk7
-Cj4gK30KPiArCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgYWNwaV9kZXZpY2VfaWQgdm1nZW5pZF9p
-ZHNbXSA9IHsKPiArICAgICAgIHsgIlZNR0VOSUQiLCAwIH0sCj4gKyAgICAgICB7ICJRRU1VVkdJ
-RCIsIDAgfSwKCgpBY2NvcmRpbmcgdG8gdGhlIFZNR2VuSUQgc3BlY1sxXSwgeW91IGNhbiBvbmx5
-IHJlbHkgb24gX0NJRCBhbmQgX0RETiBmb3IgCm1hdGNoaW5nLiBUaGV5IGJvdGggY29udGFpbiAi
-Vk1fR2VuX0NvdW50ZXIiLiBUaGUgbGlzdCBhYm92ZSBjb250YWlucyAKX0hJRCB2YWx1ZXMgd2hp
-Y2ggYXJlIG5vdCBhbiBvZmZpY2lhbCBpZGVudGlmaWVyIGZvciB0aGUgVk1HZW5JRCBkZXZpY2Uu
-CgpJSVJDIHRoZSBBQ1BJIGRldmljZSBtYXRjaCBsb2dpYyBkb2VzIG1hdGNoIF9DSUQgaW4gYWRk
-aXRpb24gdG8gX0hJRC4gCkhvd2V2ZXIsIGl0IGlzIGxpbWl0ZWQgdG8gOCBjaGFyYWN0ZXJzLiBM
-ZXQgbWUgcGFzdGUgYW4gZXhwZXJpbWVudGFsIApoYWNrIEkgZGlkIGJhY2sgdGhlbiB0byBkbyB0
-aGUgX0NJRCBtYXRjaGluZyBpbnN0ZWFkLgoKWzFdIApodHRwczovL2Rvd25sb2FkLm1pY3Jvc29m
-dC5jb20vZG93bmxvYWQvMy8xL0MvMzFDRkMzMDctOThDQS00Q0E1LTkxNEMtRDk3NzI2OTFFMjE0
-L1ZpcnR1YWxNYWNoaW5lR2VuZXJhdGlvbklELmRvY3gKCgpBbGV4CgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9hY3BpL2J1cy5jIGIvZHJpdmVycy9hY3BpL2J1cy5jCmluZGV4IDE2ODJmOGI0NTRhMi4u
-NDUyNDQzZDc5ZDg3IDEwMDY0NAotLS0gYS9kcml2ZXJzL2FjcGkvYnVzLmMKKysrIGIvZHJpdmVy
-cy9hY3BpL2J1cy5jCkBAIC03NDgsNyArNzQ4LDcgQEAgc3RhdGljIGJvb2wgX19hY3BpX21hdGNo
-X2RldmljZShzdHJ1Y3QgYWNwaV9kZXZpY2UgCipkZXZpY2UsCiDCoMKgwqDCoCDCoMKgwqAgLyog
-Rmlyc3QsIGNoZWNrIHRoZSBBQ1BJL1BOUCBJRHMgcHJvdmlkZWQgYnkgdGhlIGNhbGxlci4gKi8K
-IMKgwqDCoMKgIMKgwqDCoCBpZiAoYWNwaV9pZHMpIHsKIMKgwqDCoMKgIMKgwqDCoCDCoMKgwqAg
-Zm9yIChpZCA9IGFjcGlfaWRzOyBpZC0+aWRbMF0gfHwgaWQtPmNsczsgaWQrKykgewotwqDCoMKg
-IMKgwqDCoCDCoMKgwqAgwqDCoMKgIGlmIChpZC0+aWRbMF0gJiYgIXN0cmNtcCgoY2hhciAqKWlk
-LT5pZCwgaHdpZC0+aWQpKQorwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIGlmIChpZC0+aWRb
-MF0gJiYgIXN0cm5jbXAoKGNoYXIgKilpZC0+aWQsIGh3aWQtPmlkLCAKQUNQSV9JRF9MRU4gLSAx
-KSkKIMKgwqDCoMKgIMKgwqDCoCDCoMKgwqAgwqDCoMKgIMKgwqDCoCBnb3RvIG91dF9hY3BpX21h
-dGNoOwogwqDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKgwqAgaWYgKGlkLT5jbHMgJiYgX19hY3Bp
-X21hdGNoX2RldmljZV9jbHMoaWQsIGh3aWQpKQogwqDCoMKgwqAgwqDCoMKgIMKgwqDCoCDCoMKg
-wqAgwqDCoMKgIGdvdG8gb3V0X2FjcGlfbWF0Y2g7CmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpcnQv
-dm1nZW5pZC5jIGIvZHJpdmVycy92aXJ0L3ZtZ2VuaWQuYwppbmRleCA3NWE3ODdkYThhYWQuLjBi
-ZmE0MjJjZjA5NCAxMDA2NDQKLS0tIGEvZHJpdmVycy92aXJ0L3ZtZ2VuaWQuYworKysgYi9kcml2
-ZXJzL3ZpcnQvdm1nZW5pZC5jCkBAIC0zNTYsNyArMzU2LDggQEAgc3RhdGljIHZvaWQgdm1nZW5p
-ZF9hY3BpX25vdGlmeShzdHJ1Y3QgYWNwaV9kZXZpY2UgCipkZXZpY2UsIHUzMiBldmVudCkKIMKg
-fQoKIMKgc3RhdGljIGNvbnN0IHN0cnVjdCBhY3BpX2RldmljZV9pZCB2bWdlbmlkX2lkc1tdID0g
-ewotwqDCoMKgIHsiUUVNVVZHSUQiLCAwfSwKK8KgwqDCoCAvKiBUaGlzIHJlYWxseSBpcyBWTV9H
-ZW5fQ291bnRlciwgYnV0IHdlIGNhbiBvbmx5IG1hdGNoIDggY2hhcmFjdGVycyAqLworwqDCoMKg
-IHsiVk1fR0VOX0MiLCAwfSwKIMKgwqDCoMKgIHsiIiwgMH0sCiDCoH07CgoKCgpBbWF6b24gRGV2
-ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApLcmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4K
-R2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RpYW4gU2NobGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpF
-aW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFybG90dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTcz
-IEIKU2l0ejogQmVybGluClVzdC1JRDogREUgMjg5IDIzNyA4NzkKCgo=
+--000000000000962a6505d8d82058
+Content-Type: text/plain; charset="UTF-8"
 
+On Tue, Feb 22, 2022 at 9:27 AM Christian Schoenebeck <
+qemu_oss@crudebyte.com> wrote:
+
+> On Sonntag, 20. Februar 2022 17:50:54 CET Will Cohen wrote:
+> > From: Keno Fischer <keno@juliacomputing.com>
+> >
+> > Darwin does not support mknodat. However, to avoid race conditions
+> > with later setting the permissions, we must avoid using mknod on
+> > the full path instead. We could try to fchdir, but that would cause
+> > problems if multiple threads try to call mknodat at the same time.
+> > However, luckily there is a solution: Darwin includes a function
+> > that sets the cwd for the current thread only.
+> > This should suffice to use mknod safely.
+> >
+> > This function (pthread_fchdir_np) is protected by a check in
+> > meson in a patch later in this series.
+> >
+> > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> > [Will Cohen: - Adjust coding style
+> >              - Replace clang references with gcc
+> >              - Note radar filed with Apple for missing syscall
+> >              - Replace direct syscall with pthread_fchdir_np and
+> >                adjust patch notes accordingly
+> >              - Move qemu_mknodat from 9p-util to osdep and os-posix
+> >              - Move pthread_fchdir_np declaration only to osdep
+> >              - Declare pthread_fchdir_np with
+> >              - __attribute__((weak_import)) to allow checking for
+> >                its presence before usage
+> >              - Move declarations above cplusplus guard
+> >              - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
+> >                presence in osdep.h and os-posix.c
+> >              - Rebase to apply cleanly on top of the 2022-02-10
+> >                changes to 9pfs]
+> > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > ---
+> >  hw/9pfs/9p-local.c   |  4 ++--
+> >  include/qemu/osdep.h | 12 ++++++++++++
+> >  meson.build          |  1 +
+> >  os-posix.c           | 35 +++++++++++++++++++++++++++++++++++
+> >  4 files changed, 50 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> > index a0d08e5216..d42ce6d8b8 100644
+> > --- a/hw/9pfs/9p-local.c
+> > +++ b/hw/9pfs/9p-local.c
+> > @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> > *dir_path,
+> >
+> >      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+> >          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> > -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+> > +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+> >          if (err == -1) {
+> >              goto out;
+> >          }
+> > @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> > *dir_path, }
+> >      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+> >                 fs_ctx->export_flags & V9FS_SM_NONE) {
+> > -        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+> > +        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+> >          if (err == -1) {
+> >              goto out;
+> >          }
+> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > index ce12f64853..c0f442d791 100644
+> > --- a/include/qemu/osdep.h
+> > +++ b/include/qemu/osdep.h
+> > @@ -818,6 +818,18 @@ static inline int
+> > platform_does_not_support_system(const char *command) */
+> >  struct dirent *qemu_dirent_dup(struct dirent *dent);
+> >
+> > +/*
+> > + * As long as mknodat is not available on macOS, this workaround
+> > + * using pthread_fchdir_np is needed. qemu_mknodat is defined in
+> > + * os-posix.c. pthread_fchdir_np is weakly linked here as a guard
+> > + * in case it disappears in future macOS versions, because it is
+> > + * is a private API.
+> > + */
+> > +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
+> > +int pthread_fchdir_np(int fd) __attribute__((weak_import));
+> > +#endif
+> > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
+> dev);
+> > +
+> >  #ifdef __cplusplus
+> >  }
+> >  #endif
+>
+> Peter just informed me that osdep.h is not the right place to add something
+> like this:
+>
+> https://lore.kernel.org/qemu-devel/CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com/
+>
+> So this should be moved into a different header file.
+>
+
+Does that logic apply here too? In some ways I'd say that mknodat falls
+into the category of "things without which code would work on most
+platforms but fail to compile or misbehave on a minority of host OSes." If
+osdep.h is the wrong place, should it go back to 9p-util, where it lived
+before it moved to osdep?
+
+
+> > diff --git a/meson.build b/meson.build
+> > index ae5f7eec6e..6fdc0281ad 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -1557,6 +1557,7 @@ config_host_data.set('CONFIG_POSIX_FALLOCATE',
+> > cc.has_function('posix_fallocate'
+> > config_host_data.set('CONFIG_POSIX_MEMALIGN',
+> > cc.has_function('posix_memalign')) config_host_data.set('CONFIG_PPOLL',
+> > cc.has_function('ppoll'))
+> >  config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix:
+> > '#include <sys/uio.h>'))
+> +config_host_data.set('CONFIG_PTHREAD_FCHDIR_NP',
+> > cc.has_function('pthread_fchdir_np'))
+> > config_host_data.set('CONFIG_SEM_TIMEDWAIT',
+> > cc.has_function('sem_timedwait', dependencies: threads))
+> > config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
+> > config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and
+> > cc.has_function('unshare')) diff --git a/os-posix.c b/os-posix.c
+> > index ae6c9f2a5e..ccc3d1e9d3 100644
+> > --- a/os-posix.c
+> > +++ b/os-posix.c
+> > @@ -332,3 +332,38 @@ int os_mlock(void)
+> >      return -ENOSYS;
+> >  #endif
+> >  }
+> > +
+> > +/*
+> > + * As long as mknodat is not available on macOS, this workaround
+> > + * using pthread_fchdir_np is needed.
+> > + *
+> > + * Radar filed with Apple for implementing mknodat:
+> > + * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
+> > + */
+> > +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
+> > +
+> > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
+> dev)
+> > +{
+> > +    int preserved_errno, err;
+> > +    if (!pthread_fchdir_np) {
+> > +        error_report_once("pthread_fchdir_np() is not available on this
+> > version of macOS"); +        return -ENOTSUP;
+> > +    }
+> > +    if (pthread_fchdir_np(dirfd) < 0) {
+> > +        return -1;
+> > +    }
+> > +    err = mknod(filename, mode, dev);
+> > +    preserved_errno = errno;
+> > +    /* Stop using the thread-local cwd */
+> > +    pthread_fchdir_np(-1);
+> > +    if (err < 0) {
+> > +        errno = preserved_errno;
+> > +    }
+> > +    return err;
+> > +}
+> > +#else
+> > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
+> dev)
+> > +{
+> > +    return mknodat(dirfd, filename, mode, dev);
+> > +}
+> > +#endif
+>
+>
+>
+
+--000000000000962a6505d8d82058
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Feb 22, 2022 at 9:27 AM Christian=
+ Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com" target=3D"_blank=
+">qemu_oss@crudebyte.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">On Sonntag, 20. Februar =
+2022 17:50:54 CET Will Cohen wrote:<br>
+&gt; From: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing.com" targ=
+et=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
+&gt; <br>
+&gt; Darwin does not support mknodat. However, to avoid race conditions<br>
+&gt; with later setting the permissions, we must avoid using mknod on<br>
+&gt; the full path instead. We could try to fchdir, but that would cause<br=
+>
+&gt; problems if multiple threads try to call mknodat at the same time.<br>
+&gt; However, luckily there is a solution: Darwin includes a function<br>
+&gt; that sets the cwd for the current thread only.<br>
+&gt; This should suffice to use mknod safely.<br>
+&gt; <br>
+&gt; This function (pthread_fchdir_np) is protected by a check in<br>
+&gt; meson in a patch later in this series.<br>
+&gt; <br>
+&gt; Signed-off-by: Keno Fischer &lt;<a href=3D"mailto:keno@juliacomputing.=
+com" target=3D"_blank">keno@juliacomputing.com</a>&gt;<br>
+&gt; Signed-off-by: Michael Roitzsch &lt;<a href=3D"mailto:reactorcontrol@i=
+cloud.com" target=3D"_blank">reactorcontrol@icloud.com</a>&gt;<br>
+&gt; [Will Cohen: - Adjust coding style<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Replace clang refere=
+nces with gcc<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Note radar filed wit=
+h Apple for missing syscall<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Replace direct sysca=
+ll with pthread_fchdir_np and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adjust patch no=
+tes accordingly<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Move qemu_mknodat fr=
+om 9p-util to osdep and os-posix<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Move pthread_fchdir_=
+np declaration only to osdep<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Declare pthread_fchd=
+ir_np with<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - __attribute__((weak_=
+import)) to allow checking for<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 its presence be=
+fore usage<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Move declarations ab=
+ove cplusplus guard<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Add CONFIG_PTHREAD_F=
+CHDIR_NP to meson and check for<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 presence in osd=
+ep.h and os-posix.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 - Rebase to apply clea=
+nly on top of the 2022-02-10<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 changes to 9pfs=
+]<br>
+&gt; Signed-off-by: Will Cohen &lt;<a href=3D"mailto:wwcohen@gmail.com" tar=
+get=3D"_blank">wwcohen@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/9pfs/9p-local.c=C2=A0 =C2=A0|=C2=A0 4 ++--<br>
+&gt;=C2=A0 include/qemu/osdep.h | 12 ++++++++++++<br>
+&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+&gt;=C2=A0 os-posix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 35 ++++++++=
++++++++++++++++++++++++++++<br>
+&gt;=C2=A0 4 files changed, 50 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c<br>
+&gt; index a0d08e5216..d42ce6d8b8 100644<br>
+&gt; --- a/hw/9pfs/9p-local.c<br>
+&gt; +++ b/hw/9pfs/9p-local.c<br>
+&gt; @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath=
+<br>
+&gt; *dir_path,<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (fs_ctx-&gt;export_flags &amp; V9FS_SM_MAPPED |=
+|<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fs_ctx-&gt;export_flags &amp; V9FS_S=
+M_MAPPED_FILE) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D mknodat(dirfd, name, fs_ctx-&gt;f=
+mode | S_IFREG, 0);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D qemu_mknodat(dirfd, name, fs_ctx-=
+&gt;fmode | S_IFREG, 0);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err =3D=3D -1) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath=
+<br>
+&gt; *dir_path, }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 } else if (fs_ctx-&gt;export_flags &amp; V9FS_SM_P=
+ASSTHROUGH ||<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fs_ctx-&g=
+t;export_flags &amp; V9FS_SM_NONE) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D mknodat(dirfd, name, credp-&gt;fc=
+_mode, credp-&gt;fc_rdev);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D qemu_mknodat(dirfd, name, credp-&=
+gt;fc_mode, credp-&gt;fc_rdev);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err =3D=3D -1) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h<br>
+&gt; index ce12f64853..c0f442d791 100644<br>
+&gt; --- a/include/qemu/osdep.h<br>
+&gt; +++ b/include/qemu/osdep.h<br>
+&gt; @@ -818,6 +818,18 @@ static inline int<br>
+&gt; platform_does_not_support_system(const char *command) */<br>
+&gt;=C2=A0 struct dirent *qemu_dirent_dup(struct dirent *dent);<br>
+&gt; <br>
+&gt; +/*<br>
+&gt; + * As long as mknodat is not available on macOS, this workaround<br>
+&gt; + * using pthread_fchdir_np is needed. qemu_mknodat is defined in<br>
+&gt; + * os-posix.c. pthread_fchdir_np is weakly linked here as a guard<br>
+&gt; + * in case it disappears in future macOS versions, because it is<br>
+&gt; + * is a private API.<br>
+&gt; + */<br>
+&gt; +#if defined CONFIG_DARWIN &amp;&amp; defined CONFIG_PTHREAD_FCHDIR_NP=
+<br>
+&gt; +int pthread_fchdir_np(int fd) __attribute__((weak_import));<br>
+&gt; +#endif<br>
+&gt; +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t =
+dev);<br>
+&gt; +<br>
+&gt;=C2=A0 #ifdef __cplusplus<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 #endif<br>
+<br>
+Peter just informed me that osdep.h is not the right place to add something=
+<br>
+like this:<br>
+<a href=3D"https://lore.kernel.org/qemu-devel/CAFEAcA_=3DHAUNomKD2wurSVaAHa=
+5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com/" rel=3D"noreferrer" target=3D"_bla=
+nk">https://lore.kernel.org/qemu-devel/CAFEAcA_=3DHAUNomKD2wurSVaAHa5mrk22A=
+1oHKLWUDjk7v6Khmg@mail.gmail.com/</a><br>
+<br>
+So this should be moved into a different header file.<br></blockquote><div>=
+<br></div><div>Does that logic apply here too? In some ways I&#39;d say tha=
+t mknodat falls into the category of &quot;things without which code would =
+work on most platforms but fail to compile or misbehave on a minority of ho=
+st OSes.&quot; If osdep.h is the wrong place, should it go back to 9p-util,=
+ where it lived before it moved to osdep?<br></div><div><br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; diff --git a/meson.build b/meson.build<br>
+&gt; index ae5f7eec6e..6fdc0281ad 100644<br>
+&gt; --- a/meson.build<br>
+&gt; +++ b/meson.build<br>
+&gt; @@ -1557,6 +1557,7 @@ config_host_data.set(&#39;CONFIG_POSIX_FALLOCATE=
+&#39;,<br>
+&gt; cc.has_function(&#39;posix_fallocate&#39;<br>
+&gt; config_host_data.set(&#39;CONFIG_POSIX_MEMALIGN&#39;,<br>
+&gt; cc.has_function(&#39;posix_memalign&#39;)) config_host_data.set(&#39;C=
+ONFIG_PPOLL&#39;,<br>
+&gt; cc.has_function(&#39;ppoll&#39;))<br>
+&gt;=C2=A0 config_host_data.set(&#39;CONFIG_PREADV&#39;, cc.has_function(&#=
+39;preadv&#39;, prefix:<br>
+&gt; &#39;#include &lt;sys/uio.h&gt;&#39;)) +config_host_data.set(&#39;CONF=
+IG_PTHREAD_FCHDIR_NP&#39;,<br>
+&gt; cc.has_function(&#39;pthread_fchdir_np&#39;))<br>
+&gt; config_host_data.set(&#39;CONFIG_SEM_TIMEDWAIT&#39;,<br>
+&gt; cc.has_function(&#39;sem_timedwait&#39;, dependencies: threads))<br>
+&gt; config_host_data.set(&#39;CONFIG_SENDFILE&#39;, cc.has_function(&#39;s=
+endfile&#39;))<br>
+&gt; config_host_data.set(&#39;CONFIG_SETNS&#39;, cc.has_function(&#39;setn=
+s&#39;) and<br>
+&gt; cc.has_function(&#39;unshare&#39;)) diff --git a/os-posix.c b/os-posix=
+.c<br>
+&gt; index ae6c9f2a5e..ccc3d1e9d3 100644<br>
+&gt; --- a/os-posix.c<br>
+&gt; +++ b/os-posix.c<br>
+&gt; @@ -332,3 +332,38 @@ int os_mlock(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return -ENOSYS;<br>
+&gt;=C2=A0 #endif<br>
+&gt;=C2=A0 }<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * As long as mknodat is not available on macOS, this workaround<br>
+&gt; + * using pthread_fchdir_np is needed.<br>
+&gt; + *<br>
+&gt; + * Radar filed with Apple for implementing mknodat:<br>
+&gt; + * rdar://FB9862426 (<a href=3D"https://openradar.appspot.com/FB98624=
+26" rel=3D"noreferrer" target=3D"_blank">https://openradar.appspot.com/FB98=
+62426</a>)<br>
+&gt; + */<br>
+&gt; +#if defined CONFIG_DARWIN &amp;&amp; defined CONFIG_PTHREAD_FCHDIR_NP=
+<br>
+&gt; +<br>
+&gt; +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t =
+dev)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 int preserved_errno, err;<br>
+&gt; +=C2=A0 =C2=A0 if (!pthread_fchdir_np) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report_once(&quot;pthread_fchdir_np=
+() is not available on this<br>
+&gt; version of macOS&quot;); +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ENOTSUP;=
+<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 if (pthread_fchdir_np(dirfd) &lt; 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 err =3D mknod(filename, mode, dev);<br>
+&gt; +=C2=A0 =C2=A0 preserved_errno =3D errno;<br>
+&gt; +=C2=A0 =C2=A0 /* Stop using the thread-local cwd */<br>
+&gt; +=C2=A0 =C2=A0 pthread_fchdir_np(-1);<br>
+&gt; +=C2=A0 =C2=A0 if (err &lt; 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 errno =3D preserved_errno;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 return err;<br>
+&gt; +}<br>
+&gt; +#else<br>
+&gt; +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t =
+dev)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 return mknodat(dirfd, filename, mode, dev);<br>
+&gt; +}<br>
+&gt; +#endif<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000962a6505d8d82058--
 
