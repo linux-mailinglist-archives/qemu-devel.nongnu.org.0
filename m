@@ -2,51 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2856B4C3CE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 05:06:53 +0100 (CET)
-Received: from localhost ([::1]:34092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CF14C3CDF
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 05:04:40 +0100 (CET)
+Received: from localhost ([::1]:32788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNRsa-0006ua-7Z
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 23:06:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56322)
+	id 1nNRqR-000605-Mo
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 23:04:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nNRhO-0007ry-Jt; Thu, 24 Feb 2022 22:55:20 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:59783)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nNRhF-0001PS-HQ; Thu, 24 Feb 2022 22:55:17 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4K4bWm24vTz4xmt; Fri, 25 Feb 2022 14:55:00 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1645761300;
- bh=qziZTGEs7zpqhi+LBqP82n4pXYqZRPtvbL4grJX9PIM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Hzqw406FKQBxAgTwolYCnc6+/QeZFEn7uh1vEbA99EiUubmnYrPNj0RaYiD7rXWhD
- XOxQ70Mv75x0d24/tzmWGafY7J1AiCLt1oHAf5Fi0ckhVWafqmqGCG/REmi3v8ZAnX
- +PkRsGic1uPkopBgDMzsXWSGbyvjKrQtNAolDazY=
-Date: Fri, 25 Feb 2022 14:54:47 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [RFC PATCH 0/4] ppc: nested TCG migration (KVM-on-TCG)
-Message-ID: <YhhTB3rXbC9fH2x5@yekko>
-References: <20220224185817.2207228-1-farosas@linux.ibm.com>
- <7a64b078-a11e-0e5a-e7ae-104052442d88@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <wliang@stu.xidian.edu.cn>)
+ id 1nNRkt-0002Hf-UK
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 22:58:55 -0500
+Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net ([209.97.182.222]:59783)
+ by eggs.gnu.org with smtp (Exim 4.90_1)
+ (envelope-from <wliang@stu.xidian.edu.cn>) id 1nNRkq-000265-O2
+ for qemu-devel@nongnu.org; Thu, 24 Feb 2022 22:58:54 -0500
+Received: by ajax-webmail-sr0414.icoremail.net (Coremail) ; Fri, 25 Feb 2022
+ 11:58:43 +0800 (GMT+08:00)
+X-Originating-IP: [39.128.6.55]
+Date: Fri, 25 Feb 2022 11:58:43 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: wliang@stu.xidian.edu.cn
+To: eric.auger@redhat.com
+Subject: Re: Fix a potential Use-after-free in virtio_iommu_handle_command()
+ (v6.2.0).
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210401(fdb522e2)
+ Copyright (c) 2002-2022 www.mailtech.cn
+ mispb-ac60dc67-ddbe-4478-9127-1d3314495f10-icoremail.net
+In-Reply-To: <a300d2f3-e545-7793-2601-fec1cbbd601a@redhat.com>
+References: <1b79118e.25c5.17f2702b9d5.Coremail.wliang@stu.xidian.edu.cn>
+ <3ce08bdb-fecd-549a-5c09-0b5fa65de4ba@redhat.com>
+ <a300d2f3-e545-7793-2601-fec1cbbd601a@redhat.com>
+Content-Type: multipart/mixed; 
+ boundary="----=_Part_10078_1773841531.1645761523882"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="p2fPJfH32lkoYFpv"
-Content-Disposition: inline
-In-Reply-To: <7a64b078-a11e-0e5a-e7ae-104052442d88@ilande.co.uk>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Message-ID: <26faef1d.aa6.17f2f07f0b4.Coremail.wliang@stu.xidian.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: AQAAfwDXGJbzUxhif6cEAA--.1264W
+X-CM-SenderInfo: pzolt0vj6v33wo0lvxldqovvfxof0/1tbiAQEOA1wR-vcG2AAEsT
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWUJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+Received-SPF: pass client-ip=209.97.182.222;
+ envelope-from=wliang@stu.xidian.edu.cn;
+ helo=zg8tmja5ljk3lje4mi4ymjia.icoremail.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,115 +65,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fabiano Rosas <farosas@linux.ibm.com>, danielhb413@gmail.com,
- qemu-devel@nongnu.org, npiggin@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+------=_Part_10078_1773841531.1645761523882
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
---p2fPJfH32lkoYFpv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+SGkgYWxsLAoKSGVyZSBpcyBhIG5ldyBwYXRjaCB3aXRoIFNpZ25lZC1vZmYtYnkgdGFncy4KVGhl
+IG9sZCBvbmUgaXMgd3JvbmcgZm9yIGl0IGRpZCd0IGhhdmUgU2lnbmVkLW9mZi1ieSB0YWdzLgpJ
+IGFtIGxvb2tpbmcgZm9yd2FyZCB0byB5b3VyIGNvbmZpcm1hdGlvbi4KClRoYW5rcywKV2VudGFv
+Cg==
+------=_Part_10078_1773841531.1645761523882
+Content-Type: text/x-patch; 
+	name=0001-Fix-a-potential-Use-after-free-in-virtio_iommu_handl.patch
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-Fix-a-potential-Use-after-free-in-virtio_iommu_handl.patch"
 
-On Thu, Feb 24, 2022 at 09:00:24PM +0000, Mark Cave-Ayland wrote:
-> On 24/02/2022 18:58, Fabiano Rosas wrote:
->=20
-> > This series implements the migration for a TCG pseries guest running a
-> > nested KVM guest. This is just like migrating a pseries TCG guest, but
-> > with some extra state to allow a nested guest to continue to run on
-> > the destination.
-> >=20
-> > Unfortunately the regular TCG migration scenario (not nested) is not
-> > fully working so I cannot be entirely sure the nested migration is
-> > correct. I have included a couple of patches for the general migration
-> > case that (I think?) improve the situation a bit, but I'm still seeing
-> > hard lockups and other issues with more than 1 vcpu.
-> >=20
-> > This is more of an early RFC to see if anyone spots something right
-> > away. I haven't made much progress in debugging the general TCG
-> > migration case so if anyone has any input there as well I'd appreciate
-> > it.
-> >=20
-> > Thanks
-> >=20
-> > Fabiano Rosas (4):
-> >    target/ppc: TCG: Migrate tb_offset and decr
-> >    spapr: TCG: Migrate spapr_cpu->prod
-> >    hw/ppc: Take nested guest into account when saving timebase
-> >    spapr: Add KVM-on-TCG migration support
-> >=20
-> >   hw/ppc/ppc.c                    | 17 +++++++-
-> >   hw/ppc/spapr.c                  | 19 ++++++++
-> >   hw/ppc/spapr_cpu_core.c         | 77 +++++++++++++++++++++++++++++++++
-> >   include/hw/ppc/spapr_cpu_core.h |  2 +-
-> >   target/ppc/machine.c            | 61 ++++++++++++++++++++++++++
-> >   5 files changed, 174 insertions(+), 2 deletions(-)
->=20
-> FWIW I noticed there were some issues with migrating the decrementer on M=
-ac
-> machines a while ago which causes a hang on the destination with TCG (for
-> MacOS on a x86 host in my case). Have a look at the following threads for
-> reference:
->=20
-> https://lists.gnu.org/archive/html/qemu-devel/2016-01/msg00546.html
-> https://lists.gnu.org/archive/html/qemu-devel/2016-01/msg04622.html
->=20
-> IIRC there is code that assumes any migration in PPC is being done live, =
-and
-> so adjusts the timebase on the destination to reflect wall clock time by
-> recalculating tb_offset. I haven't looked at the code for a while but I
-> think the outcome was that there needs to be 2 phases in migration: the
-> first is to migrate the timebase as-is for guests that are paused during
-> migration, whilst the second is to notify hypervisor-aware guest OSs such=
- as
-> Linux to make the timebase adjustment if required if the guest is running.
+RnJvbSA4ZWNlNDJiZGExMDk5YTlhMGRmNTg0Y2FjMjQ3OGVjNWE2ZTgzOTI0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBXZW50YW9fTGlhbmcgPFdlbnRhb19MaWFuZ19nQDE2My5jb20+
+CkRhdGU6IEZyaSwgMjUgRmViIDIwMjIgMTE6NDk6NTQgKzA4MDAKU3ViamVjdDogW1BBVENIXSBG
+aXggYSBwb3RlbnRpYWwgVXNlLWFmdGVyLWZyZWUgaW4KIHZpcnRpb19pb21tdV9oYW5kbGVfY29t
+bWFuZCgpICh2Ni4yLjApLgoKU2lnbmVkLW9mZi1ieTogV2VudGFvX0xpYW5nIDxXZW50YW9fTGlh
+bmdfZ0AxNjMuY29tPgotLS0KIGh3L3ZpcnRpby92aXJ0aW8taW9tbXUuYyB8IDEgKwogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvaHcvdmlydGlvL3ZpcnRpby1p
+b21tdS5jIGIvaHcvdmlydGlvL3ZpcnRpby1pb21tdS5jCmluZGV4IGFhOWMxNmExN2IuLmEzOTQ5
+MDEzNDcgMTAwNjQ0Ci0tLSBhL2h3L3ZpcnRpby92aXJ0aW8taW9tbXUuYworKysgYi9ody92aXJ0
+aW8vdmlydGlvLWlvbW11LmMKQEAgLTY1Nyw2ICs2NTcsNyBAQCBvdXQ6CiAgICAgICAgIHZpcnRp
+b19ub3RpZnkodmRldiwgdnEpOwogICAgICAgICBnX2ZyZWUoZWxlbSk7CiAgICAgICAgIGdfZnJl
+ZShidWYpOworICAgICAgICBidWYgPSBOVUxMOwogICAgIH0KIH0KIAotLSAKMi4yNS4xCgo=
+------=_Part_10078_1773841531.1645761523882--
 
-Whether the timebase is adjusted for the migration downtime depends
-whether the guest clock is pinned to wall clock time or not.  Usually
-it should be (because you don't want your clocks to go wrong on
-migration of a production system).  However in neither case should be
-the guest be involved.
-
-There may be guest side code related to this in Linux, but that's
-probably for migration under pHyp, which is a guest aware migration
-system.  That's essentially unrelated to migration under qemu/kvm,
-which is a guest unaware system.
-
-Guest aware migration has some nice-sounding advantages; in particular
-itcan allow migrations across a heterogenous cluster with differences
-between hosts that the hypervisor can't hide, or can't efficiently
-hide.  However, it is IMO, a deeply broken approach, because it can
-allow an un-cooperative guest to indefinitely block migration, and for
-it to be reliably correct it requires *much* more pinning down of
-exactly what host system changes the guest can and can't be expected
-to cope with than PAPR has ever bothered to do.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---p2fPJfH32lkoYFpv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIYUwAACgkQgypY4gEw
-YSIRBBAAzHUXt6jN9Z8FBtvxFmCJ0OMgQ/Vu1OvDpNk5ozlVkSrLY1aDUU+wPtG8
-GKgczg3VdFI7ux44tNump+M7iTBaSpQ0WekJl5oOpFl4BHAtGyLupGrZ7mRcI0Nz
-iyPtF9x7qOydsqNOaB6FTGqYIrW6X4wy1LX/p8lSTuWwAYTF/cSOfpoz0oRhtRZz
-zCcTN9eCy9WUmFTadcPjuBnqHoKo8UTqlL04bjVOmGNDhBcAriCCiYCT533kvMK+
-lTdtVi2fnVFnLJpzAqlgfEcAMmz/+u077YRG4l/K/W8fkwewsN2asd7NvZyPv+gX
-l2MrvKIbcLpiV04Q+8GC9BNDap20PxYjYuur3gEsK36InaxnBhgARbGb7/U8oY0Z
-jv5fhMLC3VpQoxhMFwpKZj5PuDfEtk2HVk8BquDiRuDHfB680ecekKwLr5udbIRs
-Hkm7AxfMXpHDb3HqbjfA4ooK8VtSX0UPMHOARpPq0A9rj2k/PjPXc8JDaLQfTPuW
-TPc4Lh2RE46P27za5HcMN3hqxF7TWOTfxe5I17bF/IpSmczHaVJKFSdSrKwh58Q/
-uO5/RGy43kLLCg1YVrqRwnHPNxERefv4OWnU8xaPFqu4IubpipfCeC8BodygRTg3
-Kmlaw6delr81QhMXiaRv+wFPZ1WV3waoWGwED1riPuHNUtyztO8=
-=4D5U
------END PGP SIGNATURE-----
-
---p2fPJfH32lkoYFpv--
 
