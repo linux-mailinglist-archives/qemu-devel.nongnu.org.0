@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52AB44C51B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:46:31 +0100 (CET)
-Received: from localhost ([::1]:38856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6EDC4C51B8
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 23:47:33 +0100 (CET)
+Received: from localhost ([::1]:40898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNjM5-0005wd-Sd
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:46:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40842)
+	id 1nNjN6-0007Oy-PV
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 17:47:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNiOB-0006qY-3E
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:44:37 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=36515
- helo=mail-pj1-x1031.google.com)
+ id 1nNiWn-00007S-QS
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:53:29 -0500
+Received: from [2607:f8b0:4864:20::62a] (port=44634
+ helo=mail-pl1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNiO9-0001jw-0y
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:44:34 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- g7-20020a17090a708700b001bb78857ccdso9571403pjk.1
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 13:44:32 -0800 (PST)
+ id 1nNiWm-0004f7-DJ
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 16:53:29 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id q11so5875815pln.11
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 13:53:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=YK4Jm/rJ+wa0E2Q/y/x8h1qMdDF0FPx2UMJFldij6Q8=;
- b=jXJEIroHddGsOA/PWwAzC7p/9UIwV0oxMANY7hqMmzBndBsg13tHa5zrx2jDa0OmL9
- GuDA8MhXs4Dh+MRdSAewhFesxpg5NatfUlaDcV4N8WNhHB1NxQhKc0dNLl96QXAGMLI7
- Z4aeOZjGEDwDxKIO0TWcSh+rX99+vXPRTGbtAWNV6VsJNHehW8SnYc03tMxZa5gzXN+x
- h70l3Udyry//F30yyfHnfLfEGb3NkO2Adu5v9YPrsssm+R3zhACp0OGqjxuYDWpTG4ID
- AjygDt831zr9fS6gI1kOG7wBAFPFtjiBM6ykj1WhKUHNemRJxlhOn06rmuLSMxly6JmQ
- x9PA==
+ bh=hpRnt69voxFVO5vI+Dxv/d+3566lhscbWS/ONKF5myU=;
+ b=H7Ndrd0octNwgf7iAOvCignB7DM/LsvVrsijDMO/dUCWOm2PPcp1giWA37HrA4ro/j
+ ReRHYvGx5LD8lbNTAB5Y/vvAKzROy5dtgAVmgqP4P1UXPc1hmCl+JX8MmFFODwMRgqe4
+ Hp11s9eCjbSRlMNZF4M5Ww3YwtW+tBmqV6DX60cZ/iV5tlDZ5GcJVHbMu5Cw06izX/UD
+ KjGn/xmL3QuTeeEbm0iS2vPFrEvEYKYnbeT7NnQSIuUUKX/Q+kkp9Jf0/T8OJHm0zAbc
+ 6y7uWoWL7x3dEN5e6xISaOPPLydysBKyLLb+r3i8U1Tu7Q6ZnAiPpN/xO2LIbDHWTEwC
+ AugA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=YK4Jm/rJ+wa0E2Q/y/x8h1qMdDF0FPx2UMJFldij6Q8=;
- b=jZOzqqPycGRSCWdhzLXuQ1+EK21I8epVe0bdQ+KBfSU30sYX2EqpNC7+NLcuYj6xK9
- NPhtugDM88JOymYs0tcbGCu4q5J49NkQvKT+KRzILkYnZrFAvd6NCL1AbTatjaQWkSJ7
- EUY5+BvgxJWQert/NNAIiGRj0ZCt6idmR8DDI2F8fPVFjnTKAYtYImTFTSivoFFPE2H0
- 9QwJ6lkl0VTyT42Us0yoV4omBAsrFVDib4luONt/6Ro99PLKHgg1NjuMCfEGbGePQe4V
- 1UYHr67zf/Kc2l1v78sFXPnY7gAyPbmd8mB5qekD2y8I2OyEsZzjANqFqrj0AVgUHbIK
- 5NUA==
-X-Gm-Message-State: AOAM533FHipANA5y9P5qi3qsykMXLRKTT1AkvkjaDkDPWZH/U2uvngFz
- rqOcrdbHhB4HQza/CVielRBeMg==
-X-Google-Smtp-Source: ABdhPJwOo9E8BggXS11kMRvkCf1sbksUYb7ZaroaWDcbufDT/EFczVBfBzsWMLLGSwWi4oXAIrLqnQ==
-X-Received: by 2002:a17:90a:d30f:b0:1bc:2cb4:bef6 with SMTP id
- p15-20020a17090ad30f00b001bc2cb4bef6mr5060626pju.186.1645825471749; 
- Fri, 25 Feb 2022 13:44:31 -0800 (PST)
+ bh=hpRnt69voxFVO5vI+Dxv/d+3566lhscbWS/ONKF5myU=;
+ b=i6+XI/SGrhHFcCssorvppo/mZURuwaye+BsJQOruZtSqKdaveOuN3mWLhyjxZW3WuH
+ UvnDxJJBSRVYQ93AEPvhq3b0fZ5sAWqLVmHptuuaVuXBessMGUvxFHoPrz/R6hSRkxKh
+ 4Ku6M3Mi7kX4JGpcp0Sn6Zo3zdjEaIZ+VqIZO6fWdxeCle/35FzEgCb694QIbmglPb7d
+ IJu/ZzFXdEoZ623Sjs6BRGUajeGQhlUEaO015IRNEt46qxHheP7iAa/4Gw7OXpCgkNdy
+ xaC+UBtk2XwSE/ThVYBXzbmSxrExfqGm1xbgLZcmuSsgUmnZoPlLl8iIrnbMwV49Nrct
+ QSmg==
+X-Gm-Message-State: AOAM533HPlTSq8GL2h9jbhgWuHEPBktyuSKwUHtpEViwmYRq2+dNwBWm
+ pbZA0FmG8Ph1WdmV35tL97M44Q==
+X-Google-Smtp-Source: ABdhPJzFQJzNRS9yyG2DS+OmQpV+B7FEBnCNL3jDyzuj0q0ey3WMBFGyhrwGLnHIQ38OtVXRH19/sg==
+X-Received: by 2002:a17:90a:d314:b0:1bc:d942:2606 with SMTP id
+ p20-20020a17090ad31400b001bcd9422606mr5127050pju.169.1645826006909; 
+ Fri, 25 Feb 2022 13:53:26 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- be6-20020a656e46000000b0036c7c63e915sm3370387pgb.48.2022.02.25.13.44.30
+ m17-20020a17090a859100b001bc20ddcc67sm10146133pjn.34.2022.02.25.13.53.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 13:44:31 -0800 (PST)
-Message-ID: <8b50da84-5c9d-31f1-f877-3e6621531c18@linaro.org>
-Date: Fri, 25 Feb 2022 11:44:28 -1000
+ Fri, 25 Feb 2022 13:53:26 -0800 (PST)
+Message-ID: <bfe0b459-2e1c-2a78-dec7-8e33aee02fcf@linaro.org>
+Date: Fri, 25 Feb 2022 11:53:23 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v5 27/49] target/ppc: implement vrlqmi
+Subject: Re: [PATCH v5 35/49] target/ppc: Implement xxgenpcv[bhwd]m instruction
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220225210936.1749575-1-matheus.ferst@eldorado.org.br>
- <20220225210936.1749575-28-matheus.ferst@eldorado.org.br>
+ <20220225210936.1749575-36-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220225210936.1749575-28-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220225210936.1749575-36-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,19 +99,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/25/22 11:09, matheus.ferst@eldorado.org.br wrote:
-> +        if (insert) {
-> +            get_avr64(n, a->vrt, true);
-> +            get_avr64(vrb, a->vrt, false);
-> +            tcg_gen_not_i64(ah, ah);
-> +            tcg_gen_not_i64(al, al);
-> +            tcg_gen_and_i64(n, n, ah);
-> +            tcg_gen_and_i64(vrb, vrb, al);
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> 
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> ---
+> v5:
+>   - One helper for each IMM value.
+> ---
+>   target/ppc/helper.h                 | 16 +++++
+>   target/ppc/insn32.decode            | 10 ++++
+>   target/ppc/int_helper.c             | 91 +++++++++++++++++++++++++++++
+>   target/ppc/translate/vsx-impl.c.inc | 43 ++++++++++++++
+>   4 files changed, 160 insertions(+)
 
-Two tcg_gen_andc_i64.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
