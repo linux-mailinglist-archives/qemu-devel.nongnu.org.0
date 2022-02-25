@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249174C3A4C
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 01:26:07 +0100 (CET)
-Received: from localhost ([::1]:58390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0EF4C3A8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 01:54:13 +0100 (CET)
+Received: from localhost ([::1]:38282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNOQv-0004Cg-OA
-	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 19:26:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44864)
+	id 1nNOs8-0002gT-D5
+	for lists+qemu-devel@lfdr.de; Thu, 24 Feb 2022 19:54:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNOOx-0003Ui-Az
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 19:24:05 -0500
-Received: from [2607:f8b0:4864:20::433] (port=43829
- helo=mail-pf1-x433.google.com)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nNOpi-0000lW-BQ; Thu, 24 Feb 2022 19:51:43 -0500
+Received: from [2607:f8b0:4864:20::530] (port=40569
+ helo=mail-pg1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNOOu-0002YQ-TW
- for qemu-devel@nongnu.org; Thu, 24 Feb 2022 19:24:02 -0500
-Received: by mail-pf1-x433.google.com with SMTP id d187so3274818pfa.10
- for <qemu-devel@nongnu.org>; Thu, 24 Feb 2022 16:24:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5xId7IbM/cQB2Q3JBSdNWNKaMW8yFuKHfh7lAP2GaRI=;
- b=jl/A9P4ELXtSEUgCwqVRLToDpxRg/BmkYVL4PhQTHEncZOld7PlawxEc3sseQbfs2g
- 59MUqrwebtWgmpzCahotuzhRQHyZvry3bybR2zRQKPf8+mIEG2Xoj2HZXHQjvofes8Mr
- XVHUkt2l5KlJIa9GdK9CPU00p85o++z2O0KFINV4RGuX3xk1L4FCL5/s2MgX0iigbJqL
- S61UaqoNwPuIODjotpz9kbmj4WXG4K2w1pcGBSpjNrmlFDdQBQHbHSFfLK2sz4LEL/z2
- 3U7cd+uHkrbRN9stJmwtht+C5Znv9js4fqqIFspyc+Z9kyb+ZyX0vjrLn23cmGIuaYjC
- iU9g==
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1nNOpf-0006tR-4I; Thu, 24 Feb 2022 19:51:41 -0500
+Received: by mail-pg1-x530.google.com with SMTP id w37so3195205pga.7;
+ Thu, 24 Feb 2022 16:51:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:subject:to:cc:references:in-reply-to:mime-version
+ :message-id:content-transfer-encoding;
+ bh=zAuuBc2ZbUyljlMI3LJblRI5IJJbC0XbnDjdJchfCyU=;
+ b=UnTBhDLghf7iAlWchm7Uuy+wDzsPWJngz5Lh+K1F+QJeZVxqL0/VaKTxIuL9VBfLOX
+ zNi7S5MPDuQnJPMUUmAIeN4m5vyByJ2CWU1Gs7cVekTN+K+LjFpzT0Zgh3z6oNLWxBYv
+ 8PTfEKxrah+iOsPbMpsxneC6PIlzLhLICMBiJs2fhlZuijvi2LbZbVzYXtlLv0ou3TL1
+ ksPZKdrCqfUYv2uTYMa3+KqGK8JItICowR9XbKnqKB/3mhNBhc+31c/6JDsYXXM1anV9
+ r/K329VXHh7q8ecjxXQT1Car0tToJhl/dt8JD5QGXVX67twos5QNx1dJvyWO2dqJTgmQ
+ kgfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5xId7IbM/cQB2Q3JBSdNWNKaMW8yFuKHfh7lAP2GaRI=;
- b=N1ZGQSnT9GZxlYhtaL+NlqN8K2YrEZUDV2WAb8fl7piLf73DNLUwhod2MxaBs92ho1
- yb7dsLu2KbgtjV8iIpi6TfrGBPEcOfwJz3v2sCb98YM6bZyatqOVEmk/jjNMXrbuAK9R
- u8IA20L/KiPibMQgT6hmh4zh4LioJKHiqgNTd96xvupM2fNczyrQwFlmyTQYTwl9WxE4
- 3byboO1Hw8wCukh4VhChayWX5+ld84T5fpsxaLM6F+ONjdHJfvaMRyvpt3fOIbi0xZ/A
- tpiLxOVr4gSH9Z3NAYx0ZRZBSgbC/34Rp4qdYTgxWrKs+KLO/pRgJf03jHLnRAuUxeEL
- 4Byg==
-X-Gm-Message-State: AOAM530CQAeJC74+N9qwxFvx6ZF1Mly0JO6hKvZG1b27LgZqPW24PgcV
- iHlklu3sE17933gPcMDKIpjmeA==
-X-Google-Smtp-Source: ABdhPJzNE2uNzx99RUu3PfKM0Iwlw604HvdZuznoYaualrQOoYNVXQUf0VUZgVupMf2pxlRbtVZ41g==
-X-Received: by 2002:a62:1881:0:b0:4e0:1b4c:36f8 with SMTP id
- 123-20020a621881000000b004e01b4c36f8mr5212970pfy.26.1645748639317; 
- Thu, 24 Feb 2022 16:23:59 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- s11-20020a056a00194b00b004e1131f86d2sm690114pfk.8.2022.02.24.16.23.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Feb 2022 16:23:58 -0800 (PST)
-Message-ID: <cf2e9636-5824-d96d-9a4f-60c677edbbbe@linaro.org>
-Date: Thu, 24 Feb 2022 14:23:55 -1000
+ h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+ :mime-version:message-id:content-transfer-encoding;
+ bh=zAuuBc2ZbUyljlMI3LJblRI5IJJbC0XbnDjdJchfCyU=;
+ b=a0fCUJ3ZWHZbThCd/FK0zMR0qH8FUuuA9Se+z9XhHoH1fMU3U1RI0tDQ6JauE27cGX
+ eKxJz0nYJdZ5TuGZrWpiSKBABKxpYtuWsZVjA3h5AfTFs7T8bPQCHFuLkXMsP9Lt7jOP
+ UIH2hmTTBbtrGt17NiqdAyB0hfIk7CH/wHGYeG9CJlnq6OHdKqksJlDa2VZdABOxrGEG
+ UfGzWbdtmL+A4lqoGpHoxhbXtF4U6wOXb6TJHSZZbnY1ghlqhx02fhnDn7BYXW6m8DMI
+ sGM+deoG8bkTpUUOCx9I6m0fvSkyK9dKMvJSa33oy/ieDj14zFKR5e9pUT3pxYXd8176
+ c5hw==
+X-Gm-Message-State: AOAM533o4+e1G7xNT0WzSzFa0z8aUFqAghPEb3sjk5d5UhScktwtTyoI
+ FoDceAe8qRmaninFRr322/Q=
+X-Google-Smtp-Source: ABdhPJyPhL835rRAsZaFZjbh7l9SS32CpQXY9tgDS6h4YyGeViBn92m9bVQZbhLyxNbjyr3liwwiPg==
+X-Received: by 2002:a63:ba5e:0:b0:372:9bb2:c12d with SMTP id
+ l30-20020a63ba5e000000b003729bb2c12dmr4229158pgu.380.1645750297254; 
+ Thu, 24 Feb 2022 16:51:37 -0800 (PST)
+Received: from localhost (115-64-212-59.static.tpgi.com.au. [115.64.212.59])
+ by smtp.gmail.com with ESMTPSA id
+ p30-20020a635b1e000000b0037572b4b9f5sm635465pgb.39.2022.02.24.16.51.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Feb 2022 16:51:36 -0800 (PST)
+Date: Fri, 25 Feb 2022 10:51:31 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [RFC PATCH 4/4] spapr: Add KVM-on-TCG migration support
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20220224185817.2207228-1-farosas@linux.ibm.com>
+ <20220224185817.2207228-5-farosas@linux.ibm.com>
+In-Reply-To: <20220224185817.2207228-5-farosas@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] accel/tcg/cpu-exec: fix precise single-stepping after
- interrupt
-Content-Language: en-US
-To: Luc Michel <lmichel@kalray.eu>, qemu-devel@nongnu.org
-References: <20220214132656.11397-1-lmichel@kalray.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220214132656.11397-1-lmichel@kalray.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
+Message-Id: <1645749518.dllm9jbas4.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=npiggin@gmail.com; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -93,60 +87,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: aik@ozlabs.ru, danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/14/22 03:26, Luc Michel wrote:
-> In some cases, cpu->exit_request can be false after handling the
-> interrupt, leading to another TB being executed instead of returning
-> to the main loop.
-> 
-> Fix this by returning true unconditionally when in single-step mode.
-> 
-> Fixes: ba3c35d9c4026361fd380b269dc6def9510b7166
-> 
-> Signed-off-by: Luc Michel <lmichel@kalray.eu>
-> ---
-> Coming back on this issue I worked on with Richard in 2020. The issue is
-> that when debugging the guest with GDB, the first instruction of the IRQ
-> handler is missed by GDB (it's still executed though).
-> 
-> It happened to me again in TCG RR mode (but not in MTTCG). It seems that
-> cpu->exit_request can be false in RR mode when returning from
-> cc->tcg_ops->cpu_exec_interrupt, leading to cpu_handle_interrupt
-> returning false and the next TB being executed, instead of the EXCP_DEBUG
-> being handled.
-> ---
->   accel/tcg/cpu-exec.c | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 8b4cd6c59d..74d7f83f34 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -796,13 +796,17 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
->                   /*
->                    * After processing the interrupt, ensure an EXCP_DEBUG is
->                    * raised when single-stepping so that GDB doesn't miss the
->                    * next instruction.
->                    */
-> -                cpu->exception_index =
-> -                    (cpu->singlestep_enabled ? EXCP_DEBUG : -1);
-> -                *last_tb = NULL;
-> +                if (unlikely(cpu->singlestep_enabled)) {
-> +                    cpu->exception_index = EXCP_DEBUG;
-> +                    return true;
+Excerpts from Fabiano Rosas's message of February 25, 2022 4:58 am:
+> This adds migration support for TCG pseries machines running a KVM-HV
+> guest.
+>=20
+> The state that needs to be migrated is:
+>=20
+> - the nested PTCR value;
+> - the in_nested flag;
+> - the nested_tb_offset.
+> - the saved host CPUPPCState structure;
+>=20
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-By returning here, you also need to qemu_mutex_unlock_iothread().
+The series generally looks good to me, I guess patches 1 and 2 are
+fixes that could go ahead.
 
-> +                } else {
+Main thing about this is I was thinking of cutting down the CPUPPCState
+structure for saving the host state when in the L2, and making a
+specific structure for that that only contains what is required.
 
-You can remove the else after the return.
-Otherwise this looks good; sorry for the delay.
+This patch could easily switch to that so it's no big deal AFAIKS.
 
+> diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+> index 7ee1984500..ae09b1bcfe 100644
+> --- a/target/ppc/machine.c
+> +++ b/target/ppc/machine.c
+> @@ -10,6 +10,7 @@
+>  #include "kvm_ppc.h"
+>  #include "power8-pmu.h"
+>  #include "hw/ppc/ppc.h"
+> +#include "hw/ppc/spapr_cpu_core.h"
+> =20
+>  static void post_load_update_msr(CPUPPCState *env)
+>  {
+> @@ -679,6 +680,48 @@ static const VMStateDescription vmstate_tb_env =3D {
+>      }
+>  };
+> =20
+> +static const VMStateDescription vmstate_hdecr =3D {
+> +    .name =3D "cpu/hdecr",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_UINT64(hdecr_next, ppc_tb_t),
+> +        VMSTATE_TIMER_PTR(hdecr_timer, ppc_tb_t),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static bool nested_needed(void *opaque)
+> +{
+> +    PowerPCCPU *cpu =3D opaque;
+> +    SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+> +
+> +    return spapr_cpu->in_nested;
+> +}
 
-r~
+I don't know the migration code -- are you assured of having a
+spapr CPU here?
+
+Maybe this could call a helper function located near the spapr/nested
+code like 'return ppc_cpu_need_hdec_migrate(cpu)' ?
+
+Thanks,
+Nick
 
