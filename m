@@ -2,88 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840404C4AE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 17:35:44 +0100 (CET)
-Received: from localhost ([::1]:58442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50204C4B00
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 17:39:36 +0100 (CET)
+Received: from localhost ([::1]:37456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNdZH-0002PA-KV
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 11:35:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54304)
+	id 1nNdd1-0007TA-Ow
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 11:39:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nNdSu-0007Jd-8q; Fri, 25 Feb 2022 11:29:08 -0500
-Received: from [2607:f8b0:4864:20::c31] (port=41803
- helo=mail-oo1-xc31.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nNdSs-0002h0-3B; Fri, 25 Feb 2022 11:29:07 -0500
-Received: by mail-oo1-xc31.google.com with SMTP id
- d134-20020a4a528c000000b00319244f4b04so6852360oob.8; 
- Fri, 25 Feb 2022 08:29:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=HhnQQvG0hFVLooNAaYiw0FdTxhefJ2zMUU1zUanTSaM=;
- b=YoAuWHgK2oW13gJs0CfPsc6hKIRJP8eExVjVviIY3hlOPNRQ9c0HG7UjBJBTfmUylU
- dJL5z4W2SjLZlD5p6i1GMVNyH6Jw2xmJOl5Fi9+RfsSF2u6yyqpNm0xYlFiSoYoERhpB
- wzPi8+V5hFnRszFCu5hYNgtZlB+zxoP8UKN0QcIgBGnZWHX6e5B21c7rQ6bQwLVsRFaO
- co45VOoOlbO0SiwfeffeA/tZSQwWmfa2QkEeqojE2Zwg2fNSaM9oc/e2zYPncV+v0Yot
- Q54dfZFGC0jB+fFtrVhxo0F7Kart49cGP3WOkcPdjX53oZUPGoNEhFZmQMiREAwUHzPS
- h9+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HhnQQvG0hFVLooNAaYiw0FdTxhefJ2zMUU1zUanTSaM=;
- b=CO+ENQlQnC03y0f0rs9apPMDgussPIohI+FOB4qSbueatOg7VqvA3WIka6YReivMyF
- GkkiJjassRlxi9lIlCP3XvM0RRJutcJxJkaucrj2mFqypllN8bwiY5A8oZlaSaRXiRMY
- nzfttTIZS4J6MjhtyVvPmOtjqI6Sjq+LrkL0F7OlRUGZQ3VOC8dkRqV37PAksRlzFpbm
- tI+D3MG0D5rAsg+O3/PpyJ8uZ/EXYw2CLW+xV6556l1nwtFod3IXmIRAXR/gDMWktcbI
- FxRoV4aFa2tD7zjdAijyS0o6+W00r/ATD2cdmof1G8Gc+odOaMDMILm89cdJIdiLdp3y
- Bw3A==
-X-Gm-Message-State: AOAM531ECj+WJFdvOMNsgyt8d93dGGahLvfcMeYWgm3GMLieh+kHh31J
- 0sURZJNFzF8p/Pj4gFVg7Sw=
-X-Google-Smtp-Source: ABdhPJyl9sRWER64uVA6scFPdHE9YGMg6Kv0s1e0QjzXt+Jazl/JVkj0BR/qoI57/bMXcDzmyZOVAw==
-X-Received: by 2002:a05:6870:d291:b0:d6:8c27:ea16 with SMTP id
- d17-20020a056870d29100b000d68c27ea16mr1577767oae.205.1645806544915; 
- Fri, 25 Feb 2022 08:29:04 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377?
- ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
- by smtp.gmail.com with ESMTPSA id
- i28-20020a056808055c00b002d51e377248sm1470292oig.33.2022.02.25.08.29.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 08:29:04 -0800 (PST)
-Message-ID: <7fb82ebc-3dc2-cad0-71b3-724f3f556647@gmail.com>
-Date: Fri, 25 Feb 2022 13:29:00 -0300
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nNdVG-0000iq-D1
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 11:31:36 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:51675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nNdVD-0003C4-5t
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 11:31:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=O0JHICHXqr+Bf+e1uWV/JB1UqLibTOpQvLXG8RTp6Zk=; b=tMDn97Jskr8Zjuk9dkKwqfNpxN
+ 18/Nz/vfUmAbYolKIvyKG0WNAO/CTAM4vFffPtyldNXy+05A61zXLtpo/pq5m9ljm7LFuWvXwjlag
+ V5yHLQveJJlqZsXrCLEeUBMlQ7neWK3qS1D5oRAWMHA9Si5cCAAaW1xB4ugv3H4i89LxCL8JmiCLO
+ mUJLXzrt93pBI8dCHuecbMIp6aWtA1Agf1Vp6YQnsfD0BoxEKRA1OEkJxhYOEYH7Gri7R8tOy3V8u
+ feLP3U2H0XoILg4Kl9FDzLUslQnXurW1YL8vZxFt/lwr8WEHXl90wYPvqjIAKqMeQ452S6KT4HiNN
+ NmYxfuORSH/BHu8iLs4N+TjycVBzKK9DaabYeHnEXI15H+SpSCAdhMNJCAX6xwSr0Afv4HDHMlAPt
+ WnAyd7bwPz37MLo9PnmXk6NquHb0zV0pgmXzPUXUTl7nqbDQTAyJVOgrmejifDydY8j3wyERzujwm
+ fAlzjx74drxKrLAvHdYDIJqfuKIoHKdZXIbT3yoh9/TxinNpeK00Io9WipDCZyvDZo0QYc2hRs9wo
+ l2LkG0i/qgwjYX7tzxub1F4WNDTnGcukZH6Tq8dshR9QMO/LXgxghVC0zJJ4WTr2j2vubzbKO7Gg5
+ ZvPCk/jZzgLFS+Fwiid+kGVFx84RTR+Cr2tXexYhA=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v8 09/11] 9p: darwin: Implement compatibility for mknodat
+Date: Fri, 25 Feb 2022 17:31:25 +0100
+Message-ID: <2843831.zseRdOWLSh@silver>
+In-Reply-To: <CAB26zV2ePB=1ZHogaWndR5cc1Hru9BXRk88cbnN4LahLSFxCmQ@mail.gmail.com>
+References: <20220220165056.72289-1-wwcohen@gmail.com>
+ <8571874.GWnKUVsiaS@silver>
+ <CAB26zV2ePB=1ZHogaWndR5cc1Hru9BXRk88cbnN4LahLSFxCmQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 16/18] xive2: Add a get_config() handler for the router
- configuration
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211126115349.2737605-1-clg@kaod.org>
- <20211126115349.2737605-17-clg@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211126115349.2737605-17-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c31
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c31;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc31.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,107 +71,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 11/26/21 08:53, Cédric Le Goater wrote:
-> Add GEN1 config even if we don't use it yet in the core framework.
+On Freitag, 25. Februar 2022 15:00:40 CET Will Cohen wrote:
+> On Tue, Feb 22, 2022 at 9:27 AM Christian Schoenebeck <
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   include/hw/ppc/xive2.h |  8 ++++++++
->   hw/intc/pnv_xive2.c    | 13 +++++++++++++
->   hw/intc/xive2.c        |  7 +++++++
->   3 files changed, 28 insertions(+)
+> qemu_oss@crudebyte.com> wrote:
+> > On Sonntag, 20. Februar 2022 17:50:54 CET Will Cohen wrote:
+> > > From: Keno Fischer <keno@juliacomputing.com>
+> > > 
+> > > Darwin does not support mknodat. However, to avoid race conditions
+> > > with later setting the permissions, we must avoid using mknod on
+> > > the full path instead. We could try to fchdir, but that would cause
+> > > problems if multiple threads try to call mknodat at the same time.
+> > > However, luckily there is a solution: Darwin includes a function
+> > > that sets the cwd for the current thread only.
+> > > This should suffice to use mknod safely.
+> > > 
+> > > This function (pthread_fchdir_np) is protected by a check in
+> > > meson in a patch later in this series.
+> > > 
+> > > Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+> > > Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+> > > [Will Cohen: - Adjust coding style
+> > > 
+> > >              - Replace clang references with gcc
+> > >              - Note radar filed with Apple for missing syscall
+> > >              - Replace direct syscall with pthread_fchdir_np and
+> > >              
+> > >                adjust patch notes accordingly
+> > >              
+> > >              - Move qemu_mknodat from 9p-util to osdep and os-posix
+> > >              - Move pthread_fchdir_np declaration only to osdep
+> > >              - Declare pthread_fchdir_np with
+> > >              - __attribute__((weak_import)) to allow checking for
+> > >              
+> > >                its presence before usage
+> > >              
+> > >              - Move declarations above cplusplus guard
+> > >              - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
+> > >              
+> > >                presence in osdep.h and os-posix.c
+> > >              
+> > >              - Rebase to apply cleanly on top of the 2022-02-10
+> > >              
+> > >                changes to 9pfs]
+> > > 
+> > > Signed-off-by: Will Cohen <wwcohen@gmail.com>
+> > > ---
+> > > 
+> > >  hw/9pfs/9p-local.c   |  4 ++--
+> > >  include/qemu/osdep.h | 12 ++++++++++++
+> > >  meson.build          |  1 +
+> > >  os-posix.c           | 35 +++++++++++++++++++++++++++++++++++
+> > >  4 files changed, 50 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> > > index a0d08e5216..d42ce6d8b8 100644
+> > > --- a/hw/9pfs/9p-local.c
+> > > +++ b/hw/9pfs/9p-local.c
+> > > @@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> > > *dir_path,
+> > > 
+> > >      if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+> > >      
+> > >          fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+> > > 
+> > > -        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+> > > +        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+> > > 
+> > >          if (err == -1) {
+> > >          
+> > >              goto out;
+> > >          
+> > >          }
+> > > 
+> > > @@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath
+> > > *dir_path, }
+> > > 
+> > >      } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+> > >      
+> > >                 fs_ctx->export_flags & V9FS_SM_NONE) {
+> > > 
+> > > -        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+> > > +        err = qemu_mknodat(dirfd, name, credp->fc_mode,
+> > > credp->fc_rdev);
+> > > 
+> > >          if (err == -1) {
+> > >          
+> > >              goto out;
+> > >          
+> > >          }
+> > > 
+> > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > > index ce12f64853..c0f442d791 100644
+> > > --- a/include/qemu/osdep.h
+> > > +++ b/include/qemu/osdep.h
+> > > @@ -818,6 +818,18 @@ static inline int
+> > > platform_does_not_support_system(const char *command) */
+> > > 
+> > >  struct dirent *qemu_dirent_dup(struct dirent *dent);
+> > > 
+> > > +/*
+> > > + * As long as mknodat is not available on macOS, this workaround
+> > > + * using pthread_fchdir_np is needed. qemu_mknodat is defined in
+> > > + * os-posix.c. pthread_fchdir_np is weakly linked here as a guard
+> > > + * in case it disappears in future macOS versions, because it is
+> > > + * is a private API.
+> > > + */
+> > > +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
+> > > +int pthread_fchdir_np(int fd) __attribute__((weak_import));
+> > > +#endif
+> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
+> > 
+> > dev);
+> > 
+> > > +
+> > > 
+> > >  #ifdef __cplusplus
+> > >  }
+> > >  #endif
+> > 
+> > Peter just informed me that osdep.h is not the right place to add
+> > something
+> > like this:
+> > 
+> > https://lore.kernel.org/qemu-devel/CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKL
+> > WUDjk7v6Khmg@mail.gmail.com/
+> > 
+> > So this should be moved into a different header file.
 > 
-> diff --git a/include/hw/ppc/xive2.h b/include/hw/ppc/xive2.h
-> index cf6211a0ecb9..b08600cbd5ee 100644
-> --- a/include/hw/ppc/xive2.h
-> +++ b/include/hw/ppc/xive2.h
-> @@ -25,6 +25,12 @@ typedef struct Xive2Router {
->   #define TYPE_XIVE2_ROUTER "xive2-router"
->   OBJECT_DECLARE_TYPE(Xive2Router, Xive2RouterClass, XIVE2_ROUTER);
->   
-> +/*
-> + * Configuration flags
-> + */
-> +
-> +#define XIVE2_GEN1_TIMA_OS      0x00000001
-> +
->   typedef struct Xive2RouterClass {
->       SysBusDeviceClass parent;
->   
-> @@ -44,6 +50,7 @@ typedef struct Xive2RouterClass {
->       int (*write_nvp)(Xive2Router *xrtr, uint8_t nvp_blk, uint32_t nvp_idx,
->                        Xive2Nvp *nvp, uint8_t word_number);
->       uint8_t (*get_block_id)(Xive2Router *xrtr);
-> +    uint32_t (*get_config)(Xive2Router *xrtr);
->   } Xive2RouterClass;
->   
->   int xive2_router_get_eas(Xive2Router *xrtr, uint8_t eas_blk, uint32_t eas_idx,
-> @@ -56,6 +63,7 @@ int xive2_router_get_nvp(Xive2Router *xrtr, uint8_t nvp_blk, uint32_t nvp_idx,
->                           Xive2Nvp *nvp);
->   int xive2_router_write_nvp(Xive2Router *xrtr, uint8_t nvp_blk, uint32_t nvp_idx,
->                             Xive2Nvp *nvp, uint8_t word_number);
-> +uint32_t xive2_router_get_config(Xive2Router *xrtr);
->   
->   void xive2_router_notify(XiveNotifier *xn, uint32_t lisn, bool pq_checked);
->   
-> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
-> index b364ee3b306b..2b7d6ccbd097 100644
-> --- a/hw/intc/pnv_xive2.c
-> +++ b/hw/intc/pnv_xive2.c
-> @@ -425,6 +425,18 @@ static int pnv_xive2_get_eas(Xive2Router *xrtr, uint8_t blk, uint32_t idx,
->       return pnv_xive2_vst_read(xive, VST_EAS, blk, idx, eas);
->   }
->   
-> +static uint32_t pnv_xive2_get_config(Xive2Router *xrtr)
-> +{
-> +    PnvXive2 *xive = PNV_XIVE2(xrtr);
-> +    uint32_t cfg = 0;
-> +
-> +    if (xive->cq_regs[CQ_XIVE_CFG >> 3] & CQ_XIVE_CFG_GEN1_TIMA_OS) {
-> +        cfg |= XIVE2_GEN1_TIMA_OS;
-> +    }
-> +
-> +    return cfg;
-> +}
-> +
->   static bool pnv_xive2_is_cpu_enabled(PnvXive2 *xive, PowerPCCPU *cpu)
->   {
->       int pir = ppc_cpu_pir(cpu);
-> @@ -1949,6 +1961,7 @@ static void pnv_xive2_class_init(ObjectClass *klass, void *data)
->       xrc->write_end = pnv_xive2_write_end;
->       xrc->get_nvp   = pnv_xive2_get_nvp;
->       xrc->write_nvp = pnv_xive2_write_nvp;
-> +    xrc->get_config  = pnv_xive2_get_config;
->       xrc->get_block_id = pnv_xive2_get_block_id;
->   
->       xnc->notify    = pnv_xive2_notify;
-> diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-> index e31037e1f030..71086c7fbd01 100644
-> --- a/hw/intc/xive2.c
-> +++ b/hw/intc/xive2.c
-> @@ -20,6 +20,13 @@
->   #include "hw/ppc/xive2.h"
->   #include "hw/ppc/xive2_regs.h"
->   
-> +uint32_t xive2_router_get_config(Xive2Router *xrtr)
-> +{
-> +    Xive2RouterClass *xrc = XIVE2_ROUTER_GET_CLASS(xrtr);
-> +
-> +    return xrc->get_config(xrtr);
-> +}
-> +
->   void xive2_eas_pic_print_info(Xive2Eas *eas, uint32_t lisn, Monitor *mon)
->   {
->       if (!xive2_eas_is_valid(eas)) {
+> Does that logic apply here too? In some ways I'd say that mknodat falls
+> into the category of "things without which code would work on most
+> platforms but fail to compile or misbehave on a minority of host OSes." If
+> osdep.h is the wrong place, should it go back to 9p-util, where it lived
+> before it moved to osdep?
+
+The other function Peter wanted out from osdep.h would fall into that category 
+as well. I understand it like "only put things into osdep.h as very last 
+resort". CCing Peter on this. If he doesn't give you green light, or on doubt, 
+then yes please move it from osdep -> 9p-util.
+
+Will, are you planning to send a v9 of this series soon? Next week I need to 
+add changes that would collide with these here. So if you intend to send it 
+soon, then I just wait so that we can finally queue these macOS patches here 
+for QEMU 7.0, before I would go along with my changes.
+
+Best regards,
+Christian Schoenebeck
+
+> > > diff --git a/meson.build b/meson.build
+> > > index ae5f7eec6e..6fdc0281ad 100644
+> > > --- a/meson.build
+> > > +++ b/meson.build
+> > > @@ -1557,6 +1557,7 @@ config_host_data.set('CONFIG_POSIX_FALLOCATE',
+> > > cc.has_function('posix_fallocate'
+> > > config_host_data.set('CONFIG_POSIX_MEMALIGN',
+> > > cc.has_function('posix_memalign')) config_host_data.set('CONFIG_PPOLL',
+> > > cc.has_function('ppoll'))
+> > > 
+> > >  config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix:
+> > > '#include <sys/uio.h>'))
+> > 
+> > +config_host_data.set('CONFIG_PTHREAD_FCHDIR_NP',
+> > 
+> > > cc.has_function('pthread_fchdir_np'))
+> > > config_host_data.set('CONFIG_SEM_TIMEDWAIT',
+> > > cc.has_function('sem_timedwait', dependencies: threads))
+> > > config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
+> > > config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and
+> > > cc.has_function('unshare')) diff --git a/os-posix.c b/os-posix.c
+> > > index ae6c9f2a5e..ccc3d1e9d3 100644
+> > > --- a/os-posix.c
+> > > +++ b/os-posix.c
+> > > @@ -332,3 +332,38 @@ int os_mlock(void)
+> > > 
+> > >      return -ENOSYS;
+> > >  
+> > >  #endif
+> > >  }
+> > > 
+> > > +
+> > > +/*
+> > > + * As long as mknodat is not available on macOS, this workaround
+> > > + * using pthread_fchdir_np is needed.
+> > > + *
+> > > + * Radar filed with Apple for implementing mknodat:
+> > > + * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
+> > > + */
+> > > +#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
+> > > +
+> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
+> > 
+> > dev)
+> > 
+> > > +{
+> > > +    int preserved_errno, err;
+> > > +    if (!pthread_fchdir_np) {
+> > > +        error_report_once("pthread_fchdir_np() is not available on this
+> > > version of macOS"); +        return -ENOTSUP;
+> > > +    }
+> > > +    if (pthread_fchdir_np(dirfd) < 0) {
+> > > +        return -1;
+> > > +    }
+> > > +    err = mknod(filename, mode, dev);
+> > > +    preserved_errno = errno;
+> > > +    /* Stop using the thread-local cwd */
+> > > +    pthread_fchdir_np(-1);
+> > > +    if (err < 0) {
+> > > +        errno = preserved_errno;
+> > > +    }
+> > > +    return err;
+> > > +}
+> > > +#else
+> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
+> > 
+> > dev)
+> > 
+> > > +{
+> > > +    return mknodat(dirfd, filename, mode, dev);
+> > > +}
+> > > +#endif
+
+
 
