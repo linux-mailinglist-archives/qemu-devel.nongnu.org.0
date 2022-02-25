@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1524C426E
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:37:36 +0100 (CET)
-Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4865F4C428B
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 11:39:37 +0100 (CET)
+Received: from localhost ([::1]:58242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNXyh-0003kt-AD
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:37:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50346)
+	id 1nNY0d-0005Fd-3F
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 05:39:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNXuS-00023t-Aa
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:33:12 -0500
-Received: from [2607:f8b0:4864:20::b31] (port=38800
- helo=mail-yb1-xb31.google.com)
+ id 1nNXx6-0003Wq-If
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:35:57 -0500
+Received: from [2607:f8b0:4864:20::1129] (port=34266
+ helo=mail-yw1-x1129.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nNXuO-0007ys-3v
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:33:09 -0500
-Received: by mail-yb1-xb31.google.com with SMTP id u3so4938089ybh.5
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 02:33:07 -0800 (PST)
+ id 1nNXwn-0008PJ-4E
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 05:35:55 -0500
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2d625082ae2so28712627b3.1
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 02:35:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8herOfVKtBtPhTsBTysdihp5QCceqjnQTgQe9hlXIF8=;
- b=Bx15dkHIXlvji8f2rgMP/p9TW5zupzGIWtmINUHqd4ZqlJjoxTqzT0pl+5btL2oUvc
- JOEz8IPZCoFYrHxvtklZdS60zlxBe4WM4LLxaCew9sg8a3j9KZQz8FoJXCwHKEg0CAoe
- NycFPFRlBTMcuoM5N75F4hS4bU9rcNck5z0qhlLNwgCLO2tMrwzmDuOyVfoqU1+6AADu
- 76uneU4Br4Gsn8rGaf53zfbnnz9hbaEKqT8ogYwX6D6e8AvKGRwNF+e2xnkqTetrV2Xs
- eTxoggyAD5AoIXZEcGGjLcHsSZT2uw0LJ4N02VCKgTi+1mFj0PLGHf4PWdrsxXmZ5UXh
- IhFQ==
+ :cc:content-transfer-encoding;
+ bh=nZvJnv4RAYguQJVq9bBZZ4WbyD/Wih8AxiX28JQVvBg=;
+ b=aNhSNu7e4uM3jZ6ajy5Rx+i6HBo17MkvegOJHnIMWEZWeMXgVlkoR0p5g7uupe/cgt
+ ftBb8oSvLF/Y6105Kbz/cXky2YmRfq5GwM7MzCgh7xHpfFTkQ08wtUJ8hLiCWgBknn1d
+ XZoE1SLMih9nkOxFc4oeN/WFJW44O4ezyEDpoGv/wbnKbvvU8QGQ2X8pbUP3LXnyMuVI
+ gol4yztu5+ddEP6DKOYtinnY3jOzRY8d9HJrrqug73wrRUboAnBzh5wxwgg4cyhIbUGs
+ goxUQHNh1XlkliNdboQCeYA9Nvnp1a3QXVSycAZCMHjWjkcdVZ+bL5upT1EUwCPROvjj
+ Pezw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8herOfVKtBtPhTsBTysdihp5QCceqjnQTgQe9hlXIF8=;
- b=fKnpXWb1FzjdUz8MINbOo1d3ewcdRyiZBtGufC148pTqkfjeDl3F1kwyaTrkaHbzuo
- KPt6W5EwsH5/OkL+H9yqCi1U2lH/R89NH+MA2KxUXBzoq1MrLpW3M6D7YWZEunoTWyRz
- dTe3vx8ofB2h+hTA8lxrtwSpw7XHzujnVXLRxJVzJr5MKMUQE+Lg0tuan48444WioZ6k
- 9kO+7uUcuzDe1bW2tKT55uHiG06jeOA/w1EFwVXMb4tG92xctsTCJozUu+OLt4+brLwM
- cnw4cvPfg0fFC33QZqt+tTSP3ULpWXv0elNWBEKXF2ge9behFZQjSZU6Jw8aiupKWHIo
- t0vw==
-X-Gm-Message-State: AOAM532bPijlaxgYsfsSXkQHzZv4lXOt6kHdVu/OfN8NTyjJKs6Q4Hc+
- LUP9mtwq03bbsjbB6i+YR+uBqal48lxsXiNttmZS4Q==
-X-Google-Smtp-Source: ABdhPJxC8vgHKHUq6qYQHBsblqKq2rhXwWTHs9pD7uuJrDSWvkZwlaWh04jhTHrCGhW5GYYF+h4mgAhZGGYEpRNsvhQ=
-X-Received: by 2002:a25:8084:0:b0:5fe:cadd:2532 with SMTP id
- n4-20020a258084000000b005fecadd2532mr6538033ybk.193.1645785186907; Fri, 25
- Feb 2022 02:33:06 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nZvJnv4RAYguQJVq9bBZZ4WbyD/Wih8AxiX28JQVvBg=;
+ b=cn4rzgnJgOP/mC4iBGHl0mzQi15yqOL0lQugRH6SRjvtLNXOQ4SdHZ4lHMRSHdNRbv
+ 9Ceusd/TTIq54r9iR2oKg8x8ct/OkSp+HKBSLZ75vbwipMN9UhDRMmL3k8jhSCvcoeiM
+ u8AYuKXK89rfeB1F4I8ufUV0Ix8D5AVPQ8Th2nOlvw1UPQpDCgfIaNZrBDJ9r2VdyTK6
+ OqLigxpG6ZRVYB1YKFcPLCwiUTyP7fA3rT6q+ZI1nXW+l1m2o2/7ubKRxF3bTf5YaIRb
+ fxAc9aSmrnWiMVyMFehkJoTCtr3LfI2TixeBYKzhjqyp0vC1xWovXBP+tG4ety1g4Od8
+ G14w==
+X-Gm-Message-State: AOAM530JBT1VK6NRsU94OINZ1vNQy6zxko6oDeeI9s0RGhZAZK7qIzcj
+ X6xWSZ86EHzXnEIrc1yzboSwnGEha8xld6jRack3eA==
+X-Google-Smtp-Source: ABdhPJzBRfW8W/IU48uboCfUUJnr3qbIRIk77HtJkvSojwSR2fkuNcybOIBydWwjutjH97YrLxn9O3ZlPu6jNkujp7I=
+X-Received: by 2002:a81:8c9:0:b0:2d7:6801:3fcc with SMTP id
+ 192-20020a8108c9000000b002d768013fccmr6913228ywi.347.1645785328055; Fri, 25
+ Feb 2022 02:35:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20220213035753.34577-1-akihiko.odaki@gmail.com>
- <CAFEAcA9eXpxC7R_qcDsBh4C9Aur5417kTzAhs4c7p2YRCFQUKQ@mail.gmail.com>
- <9223d640-3f50-1258-1bdb-e3ca5d635981@gmail.com>
-In-Reply-To: <9223d640-3f50-1258-1bdb-e3ca5d635981@gmail.com>
+References: <20220214185605.28087-1-f4bug@amsat.org>
+ <CAFEAcA9MpiwF4m5tBfDfnq=QubHA=Ej=XvEodBbVcBbi-MriCw@mail.gmail.com>
+ <976be1ee-0aff-8097-5390-7a6e4c286d9e@gmail.com>
+In-Reply-To: <976be1ee-0aff-8097-5390-7a6e4c286d9e@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 25 Feb 2022 10:32:55 +0000
-Message-ID: <CAFEAcA9D6T5kb03_THBVyUuCM7e88Xp-QzscQHyseSXj=SAGUQ@mail.gmail.com>
-Subject: Re: [PATCH v2] target/arm: Support PSCI 1.1 and SMCCC 1.0
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Fri, 25 Feb 2022 10:35:17 +0000
+Message-ID: <CAFEAcA9HE2Qrh3YcqV=LVZEUQEfRxtXQK3Pd4xV5s1Z8JHa8ig@mail.gmail.com>
+Subject: Re: [PATCH v5 00/16] host: Support macOS 12
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b31
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -83,42 +87,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: Li Zhang <lizhang@suse.de>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Feb 2022 at 03:36, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->
-> On 2022/02/24 21:53, Peter Maydell wrote:
-> > On Sun, 13 Feb 2022 at 03:58, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
-> >>
-> >> Support the latest PSCI on TCG and HVF. A 64-bit function called from
-> >> AArch32 now returns NOT_SUPPORTED, which is necessary to adhere to SMC
-> >> Calling Convention 1.0. It is still not compliant with SMCCC 1.3 since
-> >> they do not implement mandatory functions.
-> >>
-> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> >> ---
-> >
-> > Applied, thanks.
-> >
-> > Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-> > for any user-visible changes.
-> >
-> > (I noticed while reviewing this that we report KVM's PSCI via
-> > the DTB as only 0.2 even if KVM's actually implementing better
-> > than that; I'll write a patch to clean that up.)
+On Fri, 25 Feb 2022 at 09:26, Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
+> If there is no objections I'll send a PR with the non-cocoa macOS
+> fixes for 7.0, so Monterey users can build QEMU without having to
+> disable failing features and flooded by hundreds of warnings.
 
-> I don't have an account on https://wiki.qemu.org/ so can you create one?
-> I'll update the changelog once I get access to the account.
+We should definitely get this in for 7.0, but I had the
+impression there were some review issues in this version
+of the series, so I'd appreciate seeing a v6 first. I'll
+try to get to it and review the rest of it quickly.
 
-Oops, I accidentally used my canned-email-reply for "applied a
-pull request" when I meant to use "applied a patch to target-arm.next".
-You don't need to update the changelog -- I'll do that when I
-next send a pull request for the arm tree and it gets merged.
-
-Sorry for the confusion.
-
+thanks
 -- PMM
 
