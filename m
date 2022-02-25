@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE4B4C4FAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 21:29:19 +0100 (CET)
-Received: from localhost ([::1]:38100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FCA4C4FAE
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Feb 2022 21:30:56 +0100 (CET)
+Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNhDK-00005y-L8
-	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 15:29:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53138)
+	id 1nNhEt-0001rh-H4
+	for lists+qemu-devel@lfdr.de; Fri, 25 Feb 2022 15:30:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNhC8-0006eC-4M
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:28:04 -0500
-Received: from [2607:f8b0:4864:20::633] (port=45582
- helo=mail-pl1-x633.google.com)
+ id 1nNhCq-0000Bo-Bo
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:28:48 -0500
+Received: from [2607:f8b0:4864:20::431] (port=33662
+ helo=mail-pf1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nNhC6-00031C-0R
- for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:28:03 -0500
-Received: by mail-pl1-x633.google.com with SMTP id s1so5705484plg.12
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 12:28:01 -0800 (PST)
+ id 1nNhCo-00034D-7w
+ for qemu-devel@nongnu.org; Fri, 25 Feb 2022 15:28:47 -0500
+Received: by mail-pf1-x431.google.com with SMTP id d17so5695532pfl.0
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 12:28:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=GkOwne6EzDiiprEPEKBwgVDfylP/Ozn+J2L4sKIGZEI=;
- b=LCxVT0Y8QIQwcVe8ids1pwZ0zdISEdp7E5u1Ukjmp57IK7U+ZbDcehQC4+MNjFjUBT
- Il/ma2IJO6CSP4hMDFf9tP/Ir3G5WBKrnDlNWwqBfZ+U+kFubU0PaTnz28+SOFvSQ274
- FdKrst4aWftsJIxwH8/Bl7BGOmEhXSgKSZcKdWUGUtOO/JXzp+AveDXR3tFjdrz2lOMa
- Zn+eXADtUWOXBoxgvd1unL+RzErtgAcueu+7rFppPww5H7ymdgL8z9EPTRJVHGCTr59s
- Cw/SoS6w+NocbUL7msl0kv2HNSm8sSnj2eR9gQeNrpvuZda1KQYO8wuqs7u+yJ+C/Qz0
- EZjA==
+ bh=NChnn+4Amo1qgFZ+aQxhrrmRPNlhrd57+HF0SmLbSRw=;
+ b=ws7VnXjEaXv9dNjls9OOfC4XV890D7Z1Wh9AhccRY9Z1fqMKD5HtQ2efpgsR6rP2KP
+ eYD1XuaeaEa8upy4f7G8zB29z3wEqsGhijnK8ZwfaPIkXBimN481EobGl7xTHW6jFmZY
+ fHiMALlxGPxNZFZiTRdbVAOsHmGNjd4y8ZRES/mtjuIMlf4Z57bwiDYU71SsVG7dBVU5
+ NRQ8xOW+Elmmkv45b5kGpMDBbXxPvdd/wGsyg9gGynK29IfeAanGjxNYM3U+HooSmhRw
+ vN4He5mBGb71aJuzyTD1zMTXo2BRlCCYZ5ylVhVmyRZlkNIX5ol6WS9jnAwbvSMZ+DGn
+ jBPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=GkOwne6EzDiiprEPEKBwgVDfylP/Ozn+J2L4sKIGZEI=;
- b=fXCU9vnGsShuqsk8Gw4Qkh6eqPCqZIlKGBXnp0dIMGjhq6KJMstXVcLq6D3reqmBKw
- V4obSpFaPC+i2FSHTEPgcfyIYU5RPi3DDpVqSsZr5Hngaux3h+Jg1LlWBLBqYciGbfoH
- gRkJj6ysSer/Y9tK3qu5M8hzZwooBhZYBIYOBc/48OKGyw/c78RAbwgXB+XTd15ThnvK
- chHCzwR+ROod5iEmsXT++90L1GGIItq1vofeXgtdZNlJF0AhlrX0wnve5Jrxr7qHbc5P
- BQhbj2xxcfm25/umH08wUOLxawh5hPh0zpr5ml7xm/2Jfjf29iR6FOR/MPSa7fdiRmDK
- 9shQ==
-X-Gm-Message-State: AOAM532J67e0bkIASmHcma7WqUCVc2SGlXWzJ7ku+HrWR0/EYogqRYJ7
- 1awOmlbWeWyW88mO7SS5toMk+OwyF8eRPg==
-X-Google-Smtp-Source: ABdhPJwOYV94eCZ9jLJjQXRbTgSyNa2wqAlrZ3ZmuTTVULyU1BAvH61yaK1uto/ZP5AvjGkU9M54Cw==
-X-Received: by 2002:a17:90a:6704:b0:1bc:6b66:b3db with SMTP id
- n4-20020a17090a670400b001bc6b66b3dbmr4794077pjj.90.1645820880167; 
- Fri, 25 Feb 2022 12:28:00 -0800 (PST)
+ bh=NChnn+4Amo1qgFZ+aQxhrrmRPNlhrd57+HF0SmLbSRw=;
+ b=QZBcH1NoN3qF0Al9Vsm6a+nMF512Jr1JX/BQACdoxVQLes9sGmjknpqxWVIyf8JQ5V
+ Eu/ofUiyuD98TdeaGhCLg1Z6JE8TrGa0RV+HtjfM49yvezkf/X+Lps5ken757q1VqAk/
+ 7P0UiqOHofWqb2OKMrq9ohU4f6uxkOewbz9iUGUTsNnKrRHL+IIpSWD+abFWy3xNh4mV
+ E5uA+qcV11niiYp8zYOWEqrj2oPaWHpISUf+jkNsK4OE8Q18GNCOfPUgPd50cUwQU4I8
+ zcs0Y5VVMHlXa7o1c5ayNBFwkdIJjo8B7Cr2b9SpvqWiwA8EOjr90DJMp4VWfNxNeovU
+ ukbQ==
+X-Gm-Message-State: AOAM531LijY89Fb6nP83JIp+U77XuY82ZBUNRoI4scLwlVlmp87HiA/c
+ i5B63hGnvfnywAvr1+8nCCthJrHLOr2D+w==
+X-Google-Smtp-Source: ABdhPJwEb3gsrCH2SM/ER+hmp4evpR/NUDAr7Y/S0oV8iltuV21A+IScGFG5eEaRtplS+VAzY8MMYA==
+X-Received: by 2002:a05:6a00:2348:b0:4f3:bfcd:8365 with SMTP id
+ j8-20020a056a00234800b004f3bfcd8365mr8743452pfj.38.1645820924674; 
+ Fri, 25 Feb 2022 12:28:44 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- q22-20020a17090a2e1600b001b9c387d0f5sm10223697pjd.28.2022.02.25.12.27.58
+ c18-20020a056a000ad200b004cdccd3da08sm4123676pfl.44.2022.02.25.12.28.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 12:27:59 -0800 (PST)
-Message-ID: <ba16531c-0274-5022-9cfb-0e4fe94c2b43@linaro.org>
-Date: Fri, 25 Feb 2022 10:27:55 -1000
+ Fri, 25 Feb 2022 12:28:44 -0800 (PST)
+Message-ID: <5254e7a4-c95b-86eb-103d-3c46f5364185@linaro.org>
+Date: Fri, 25 Feb 2022 10:28:41 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 14/18] travis.yml: Update the s390x jobs to Ubuntu Focal
+Subject: Re: [PATCH v2 15/18] gitlab: upgrade the job definition for s390x to
+ 20.04
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20220225172021.3493923-1-alex.bennee@linaro.org>
- <20220225172021.3493923-15-alex.bennee@linaro.org>
+ <20220225172021.3493923-16-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220225172021.3493923-15-alex.bennee@linaro.org>
+In-Reply-To: <20220225172021.3493923-16-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,20 +99,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/25/22 07:20, Alex Bennée wrote:
-> From: Thomas Huth<thuth@redhat.com>
+> The new s390x machine has more of everything including the OS. As
+> 18.04 will soon be going we might as well get onto something moderately
+> modern.
 > 
-> QEMU will soon drop the support for Ubuntu 18.04, so let's update
-> the Travis jobs that were still using this version to 20.04 instead.
-> 
-> While we're at it, also remove an obsolete comment about Ubuntu
-> Xenial being the default for our Travis jobs.
-> 
-> Signed-off-by: Thomas Huth<thuth@redhat.com>
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Message-Id:<20220221153423.1028465-1-thuth@redhat.com>
+> Acked-by: Christian Borntraeger<borntraeger@de.ibm.com>
+> Reviewed-by: Thomas Huth<thuth@redhat.com>
+> Acked-by: Cornelia Huck<cohuck@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> Cc: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   .travis.yml | 12 +++++-------
->   1 file changed, 5 insertions(+), 7 deletions(-)
+>   .gitlab-ci.d/custom-runners.yml               |  2 +-
+>   ...18.04-s390x.yml => ubuntu-20.04-s390x.yml} | 28 +++++++++----------
+>   2 files changed, 15 insertions(+), 15 deletions(-)
+>   rename .gitlab-ci.d/custom-runners/{ubuntu-18.04-s390x.yml => ubuntu-20.04-s390x.yml} (87%)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
