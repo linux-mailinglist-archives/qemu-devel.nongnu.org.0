@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023854C55F9
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 13:56:58 +0100 (CET)
-Received: from localhost ([::1]:38994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2944C55FC
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 13:59:12 +0100 (CET)
+Received: from localhost ([::1]:44708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNwd6-0007DW-K6
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 07:56:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41432)
+	id 1nNwfH-0002fi-5l
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 07:59:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nNwSP-0001Pm-37
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:45:55 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=42809
- helo=mail-pj1-x1035.google.com)
+ id 1nNwSS-0001Pn-3O
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:45:57 -0500
+Received: from [2607:f8b0:4864:20::52b] (port=37556
+ helo=mail-pg1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nNwSM-0003KZ-Rs
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:45:52 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- q8-20020a17090a178800b001bc299b8de1so7263178pja.1
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 04:45:50 -0800 (PST)
+ id 1nNwSO-0003Kk-SO
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:45:54 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id 75so7218795pgb.4
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 04:45:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/9mK1xO4TByeuzuYFvQ7V+Fn6OHDRjXWjpXpK7eIeg4=;
- b=Z9LabU0D8yS8qzmk6hdDXBWI39wAFMRoAbtFejBa1qi1VBGyDuCOADdtGiOY7qnqA2
- DGPWvK76EQZQkHO2+Q5/C4K0Ne0u4m8yAZ82Cm189nmvuqJAWV0AF0Ck+VJH4hb8MCVX
- sajVVkof+DtEJl5IESAJYqzGJDowYuExLoCsMPj8oNUC5lTW3xjR0vF2Vuvcg/g1eMcT
- bnzB3nbZXwXF42ezlLlgOSky/vlc93M6Cvk25JIEOyhu18SXKxTSvp7ZeoLrzkdzHOQW
- rjCK2PrbfdFKMz0/07jw7eFWBH1cfPyKOd97l99FC+AvqRV19EdgN2Av1wI40oObxmvc
- zV4A==
+ bh=dPuzGEBcEqdlsA6JeaKEgUYjkg87ycyuZGvU6x1HEk4=;
+ b=mWe5MLSC4VGeBzNy9WiMp6e6+eXir4Z8lxuHUM5L0NFRP5rg9c33TAVmJzXUVc+ZN8
+ XzMH0eJ160TS0TqTOw3OvmTjF+12aO/dzD9BC0PSCH24rKyBwYX6yEWuPn6HCwQu6T+3
+ Ept/yLXwG6WIzb5ZQOa2Xk4S3mdbOPVIaRL94gBr4rMS0xwHwBeh8mzqYrqnTMIs95t2
+ pRysxKowcfAtfN7EVUL9xRde66ztEONLgFvj21ZSJhx51mYi6MwK5Ddk+S25SImehrpQ
+ RT5xsYsjMnpKmWhA7OO1qHoO4g1TXI8xtDJu2Sh/mF/lqkrNNUXvyQ1X30YTVZnqXGyl
+ YBSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/9mK1xO4TByeuzuYFvQ7V+Fn6OHDRjXWjpXpK7eIeg4=;
- b=ST9RjWf2fZPsCnbr14txTTzS8wwa1RqQVOoa9l9VXadiK8jbqepPmni3gBCe7u9M6R
- wwU61z0eaXoMjZafcxzooJ0m7qOup4rMPwBf1Io/SBxwZnGk0Q/XClS+/AmrxYPmAeXy
- MIcU8xPmAsVnYTbpqlJE215fKJKsFx1VYFIAIw/gyd6ml9AaFiOqelTCgGI+gsRc/OCW
- U/y1B9cjIV76wY0nFREs36ELt66qkkmxWega1KJ1J67wS2UVlKAPUJkwHH1HvsJWE5zV
- 2ZJs/Qe7UPA0lpVnvMAdnfSOzdivmrn8Ipo948CBmfhxszwDHtRyldeM+VOZ4XWHqWo8
- NKaQ==
-X-Gm-Message-State: AOAM530LzBzeBZPFaadTEWObKVYRDzNIbeTJrPOhuc5+uxVIeoKs9FSy
- sEP0o3f5v+OIzvbFKejuxt0U/sNTdfE=
-X-Google-Smtp-Source: ABdhPJxe/hIR0oH5w8sHOP709Z74sanIrfdUiZ2TWDSs6i2P8T/L6Dyg5G/Ab5RF6fa2MzwzboUqOw==
-X-Received: by 2002:a17:902:ccce:b0:14e:ed3f:e3a1 with SMTP id
- z14-20020a170902ccce00b0014eed3fe3a1mr12021451ple.12.1645879549277; 
- Sat, 26 Feb 2022 04:45:49 -0800 (PST)
+ bh=dPuzGEBcEqdlsA6JeaKEgUYjkg87ycyuZGvU6x1HEk4=;
+ b=SkuLzJsVdYbQwrGpzjREyVOZqQEj3ZqkhDHrFQYOzGVsekrOm9Q7IXWIfNKN9dHvN4
+ gKsq5FPJMPnlpNKFvHQXZ5gkKgwd4WSgFGtyx+DW3lCK3C0PNQHCj8y2G0XsIn+kPM1x
+ KeAJlKS92p23jjQHtIuml/La5rJI8YHv5Ja+6RR7H7+KEI2EhCpgg4YxsmaKe81iCEoC
+ wso1hdqkfS3M3qfVuDN8MIuRekMvdsoV4PDwGE66smTs05951mvZ91vAHoEz1Jg3twTi
+ Yw5eMcDTLyq5cqWLXPH6i9e211Urx0DwsM12HaLSx9HXEa4ARX5uIkAQv+l0QPx1Ra+2
+ /E6w==
+X-Gm-Message-State: AOAM5337eruiAqxpG3Fi63Q4teay+yMitm+AWrgPkQBADyK+lCc96z+U
+ 81FEq6LIe9hXTMROUPRF2rPSkP4YunM=
+X-Google-Smtp-Source: ABdhPJzeydso1j03mr5yIkRSakuJIKhU2TXzNx5Yb0tOwlWa1ifyA05b4QFL+RHkRtimYhM4P7ZviQ==
+X-Received: by 2002:a05:6a00:24c4:b0:4cb:7324:bfd with SMTP id
+ d4-20020a056a0024c400b004cb73240bfdmr12656895pfv.60.1645879551513; 
+ Sat, 26 Feb 2022 04:45:51 -0800 (PST)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:4c8a:825a:fb9a:12f3])
  by smtp.gmail.com with ESMTPSA id
- r4-20020a17090a438400b001bc6d52de70sm11725653pjg.24.2022.02.26.04.45.47
+ r4-20020a17090a438400b001bc6d52de70sm11725653pjg.24.2022.02.26.04.45.49
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 26 Feb 2022 04:45:49 -0800 (PST)
+ Sat, 26 Feb 2022 04:45:51 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH v2 2/4] datadir: Use bundle mechanism
-Date: Sat, 26 Feb 2022 21:45:33 +0900
-Message-Id: <20220226124535.76885-3-akihiko.odaki@gmail.com>
+Subject: [PATCH v2 3/4] ui/icons: Use bundle mechanism
+Date: Sat, 26 Feb 2022 21:45:34 +0900
+Message-Id: <20220226124535.76885-4-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 In-Reply-To: <20220226124535.76885-1-akihiko.odaki@gmail.com>
 References: <20220226124535.76885-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,115 +95,131 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bundle mechanism and softmmu/datadir.c provides some overlapped
-functionality. Use bundle mechanism in softmmu/datadir.c to remove the
-redundancy.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- configure         |  2 ++
- meson.build       |  2 +-
- softmmu/datadir.c | 35 ++++++++++++-----------------------
- 3 files changed, 15 insertions(+), 24 deletions(-)
+ configure   | 10 ++++++++++
+ meson.build |  3 +--
+ ui/cocoa.m  | 20 +++++++++++---------
+ ui/gtk.c    |  8 +++++---
+ ui/sdl2.c   | 18 +++++++++++-------
+ 5 files changed, 38 insertions(+), 21 deletions(-)
 
 diff --git a/configure b/configure
-index c56ed53ee36..fda1a35cbc0 100755
+index fda1a35cbc0..80d36a85bc5 100755
 --- a/configure
 +++ b/configure
-@@ -3089,6 +3089,8 @@ for f in $LINKS ; do
+@@ -3089,6 +3089,16 @@ for f in $LINKS ; do
      fi
  done
  
-+symlink ../../pc-bios qemu-bundle/share/qemu
++for icon_extension in bmp png ; do
++  for icon_file in $source_path/ui/icons/qemu_*.$icon_extension ; do
++    icon_basename=${icon_file%.$icon_extension}
++    icon_name=${icon_basename#$source_path/ui/icons/qemu_}
++    icon_dir=qemu-bundle/share/icons/hicolor/$icon_name/apps
++    symlink $icon_file $icon_dir/qemu.$icon_extension
++  done
++done
 +
++symlink $source_path/ui/icons/qemu.svg qemu-bundle/share/icons/hicolor/scalable/apps/qemu.svg
+ symlink ../../pc-bios qemu-bundle/share/qemu
+ 
  (for i in $cross_cc_vars; do
-   export $i
- done
 diff --git a/meson.build b/meson.build
-index 8df40bfac4d..a2c987b41d6 100644
+index a2c987b41d6..f7e64a74545 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1469,7 +1469,7 @@ endif
- config_host_data.set_quoted('CONFIG_BINDIR', get_option('prefix') / get_option('bindir'))
- config_host_data.set_quoted('CONFIG_PREFIX', get_option('prefix'))
- config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_confdir)
--config_host_data.set_quoted('CONFIG_QEMU_DATADIR', get_option('prefix') / qemu_datadir)
-+config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_DATADIR', qemu_datadir)
+@@ -1472,8 +1472,7 @@ config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_c
+ config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_DATADIR', qemu_datadir)
  config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR', get_option('prefix') / qemu_desktopdir)
  config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('qemu_firmwarepath'))
- config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix') / get_option('libexecdir'))
-diff --git a/softmmu/datadir.c b/softmmu/datadir.c
-index 504c4665bed..2d8366039d9 100644
---- a/softmmu/datadir.c
-+++ b/softmmu/datadir.c
-@@ -36,6 +36,7 @@ char *qemu_find_file(int type, const char *name)
-     int i;
-     const char *subdir;
-     char *buf;
-+    char *bundle;
+-config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix') / get_option('libexecdir'))
+-config_host_data.set_quoted('CONFIG_QEMU_ICONDIR', get_option('prefix') / qemu_icondir)
++config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_ICONDIR', qemu_icondir)
+ config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix') / get_option('localedir'))
+ config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') / get_option('localstatedir'))
+ config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index a8f1cdaf926..e5e49c50fbb 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1477,15 +1477,17 @@ - (void)make_about_window
+     NSRect picture_rect = NSMakeRect(x, y, picture_width, picture_height);
  
-     /* Try the name as a straight path first */
-     if (access(name, R_OK) == 0) {
-@@ -62,6 +63,16 @@ char *qemu_find_file(int type, const char *name)
-         }
-         g_free(buf);
-     }
-+
-+    bundle = g_strdup_printf("%s/%s%s",
-+                             CONFIG_QEMU_BUNDLE_DATADIR, subdir, name);
-+    buf = find_bundle(bundle);
-+    g_free(bundle);
-+    if (buf) {
-+        trace_load_file(name, buf);
-+        return buf;
+     /* Make the picture of QEMU */
+-    NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
+-                                                     picture_rect];
+-    char *qemu_image_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
+-    NSString *qemu_image_path = [NSString stringWithUTF8String:qemu_image_path_c];
+-    g_free(qemu_image_path_c);
+-    NSImage *qemu_image = [[NSImage alloc] initWithContentsOfFile:qemu_image_path];
+-    [picture_view setImage: qemu_image];
+-    [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
+-    [superView addSubview: picture_view];
++    char *qemu_image_path_c = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/512x512/apps/qemu.png");
++    if (qemu_image_path_c) {
++        NSString *qemu_image_path = [NSString stringWithUTF8String:qemu_image_path_c];
++        g_free(qemu_image_path_c);
++        NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
++                                                         picture_rect];
++        NSImage *qemu_image = [[NSImage alloc] initWithContentsOfFile:qemu_image_path];
++        [picture_view setImage: qemu_image];
++        [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
++        [superView addSubview: picture_view];
 +    }
-+
-     return NULL;
- }
  
-@@ -84,26 +95,6 @@ void qemu_add_data_dir(char *path)
-     data_dir[data_dir_idx++] = path;
- }
+     /* Make the name label */
+     NSBundle *bundle = [NSBundle mainBundle];
+diff --git a/ui/gtk.c b/ui/gtk.c
+index a8567b9ddc8..a86d1c126f0 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -2296,9 +2296,11 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+     s->opts = opts;
  
--/*
-- * Find a likely location for support files using the location of the binary.
-- * When running from the build tree this will be "$bindir/pc-bios".
-- * Otherwise, this is CONFIG_QEMU_DATADIR (possibly relocated).
-- *
-- * The caller must use g_free() to free the returned data when it is
-- * no longer required.
-- */
--static char *find_datadir(void)
--{
--    g_autofree char *dir = NULL;
--
--    dir = g_build_filename(qemu_get_exec_dir(), "pc-bios", NULL);
--    if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
--        return g_steal_pointer(&dir);
--    }
--
--    return get_relocated_path(CONFIG_QEMU_DATADIR);
--}
--
- void qemu_add_default_firmwarepath(void)
- {
-     char **dirs;
-@@ -115,9 +106,6 @@ void qemu_add_default_firmwarepath(void)
-         qemu_add_data_dir(get_relocated_path(dirs[i]));
+     theme = gtk_icon_theme_get_default();
+-    dir = get_relocated_path(CONFIG_QEMU_ICONDIR);
+-    gtk_icon_theme_prepend_search_path(theme, dir);
+-    g_free(dir);
++    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR);
++    if (dir) {
++        gtk_icon_theme_prepend_search_path(theme, dir);
++        g_free(dir);
++    }
+     g_set_prgname("qemu");
+ 
+     s->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index 46a252d7d9d..9d1f6e74cb5 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -893,15 +893,19 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
      }
-     g_strfreev(dirs);
--
--    /* try to find datadir relative to the executable path */
--    qemu_add_data_dir(find_datadir());
- }
  
- void qemu_list_data_dirs(void)
-@@ -126,4 +114,5 @@ void qemu_list_data_dirs(void)
-     for (i = 0; i < data_dir_idx; i++) {
-         printf("%s\n", data_dir[i]);
+ #ifdef CONFIG_SDL_IMAGE
+-    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/128x128/apps/qemu.png");
+-    icon = IMG_Load(dir);
++    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/128x128/apps/qemu.png");
++    if (dir) {
++        icon = IMG_Load(dir);
++    }
+ #else
+     /* Load a 32x32x4 image. White pixels are transparent. */
+-    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
+-    icon = SDL_LoadBMP(dir);
+-    if (icon) {
+-        uint32_t colorkey = SDL_MapRGB(icon->format, 255, 255, 255);
+-        SDL_SetColorKey(icon, SDL_TRUE, colorkey);
++    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
++    if (dir) {
++        icon = SDL_LoadBMP(dir);
++        if (icon) {
++            uint32_t colorkey = SDL_MapRGB(icon->format, 255, 255, 255);
++            SDL_SetColorKey(icon, SDL_TRUE, colorkey);
++        }
      }
-+    list_bundle_candidates(CONFIG_QEMU_BUNDLE_DATADIR);
- }
+ #endif
+     g_free(dir);
 -- 
 2.32.0 (Apple Git-132)
 
