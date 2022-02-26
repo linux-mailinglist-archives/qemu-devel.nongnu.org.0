@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8ED4C543A
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 07:33:16 +0100 (CET)
-Received: from localhost ([::1]:55546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCEC4C543B
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 07:33:21 +0100 (CET)
+Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNqdn-0003zN-FZ
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 01:33:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33510)
+	id 1nNqdr-000428-L4
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 01:33:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nNqbi-000228-9z
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 01:31:06 -0500
-Received: from [2a00:1450:4864:20::333] (port=53015
- helo=mail-wm1-x333.google.com)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nNqbm-000246-PE
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 01:31:10 -0500
+Received: from [2a00:1450:4864:20::435] (port=39633
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nNqbg-0006SQ-B6
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 01:31:05 -0500
-Received: by mail-wm1-x333.google.com with SMTP id r10so2816164wma.2
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 22:31:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nNqbj-0006Sp-TZ
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 01:31:10 -0500
+Received: by mail-wr1-x435.google.com with SMTP id s13so7461583wrb.6
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 22:31:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sRklAQ1Ju7cYZbErAtZyBSr7+sotL/2wBJeZZyoftys=;
- b=lYJiTLhyLeXtNXDs+VWCTGO5T+DLtAPBzQ15//jJYEeVpGXTXi1wFAPJWNHzQ2cCLt
- YfWOHdUUry8svz+lOTCBQSMB8J9QwtgV3fZhDvG/PwA5wnimH/uIJrmfmHJIp+uZ1Ouq
- o88RTqL6ZH5lznx856j+xpKpwqaJU3QEK85q0CN8hEWxebt1NQ8cq8sjYre2jMeM7IOR
- OTUxi97XAciG1D1IitRWhSqL/OH2VItGcVwPVHVJWdi9chtx1IP+11eaBHEJuGRSc7Kx
- eFW1ZZYgexBSDBBmdT31CiX1vF3xBbBrCQLAIWIZ89TMpofZvu5FVmtwV/AyNe6FaG11
- MXJQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=q+4euos2X2sE9Kn//yFjNOTsm9gej+U7wgc1A9eCeFA=;
+ b=Q8ExgdlIxdQ7LeBFkgx+h4/UGen8kOezHThSfVgvHqKCx2c4o4dF8nRRPaU266eiTs
+ gKcyXcaLbDYD23n1eAANzfGSJdoStKDAvYN8nMAuhd6Yj+CKYo06MsK8hbZ85FulhaZP
+ sPuqORxAvhZS5VruqYHU9Ko/SlH3K1MJJYoFPPQa1mgFnWKlLHfs7UenEk2lYNUwmsxC
+ J2dD+2P93joG4NUC14zNhUMXeSK+5ZYf9psod6+9DqruVnB86mFrhNBN/Tr3OT3Jxdvs
+ 5FHnkRhMsULmCOzeegzXPslkJC8Q/Av6tYEKVLZ73+roF9eetuYo0UnxVzTJQXqkUjnU
+ uWiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sRklAQ1Ju7cYZbErAtZyBSr7+sotL/2wBJeZZyoftys=;
- b=RmGRAR6sJ/MLrUX0NhpRTDlrdWTtX6W1HNscQgfdYlLvGtOfU/r7UzDfnNntqxC701
- gogjxIgNnOumgSa8nqYgfl7cMgTe3hw6VbsKqhaGYaGyi7x8sLbZVEUQFq21ZEKABNl0
- jDnu1z1JIPV1UlVmjfLOmfMN/jnIDcW0pdxNxXgkRIfyzoiUWwwSj+c4Nn3lUAXev50G
- ICIrQ/H4IcWQ1nw+dukLkCglz+g2Kr0a2zwjAXxxFpX7eRbNBpisl5SyqEwDNw7rW8D0
- xvbHzg62ZAGwBMBjnPwqFmxR1NZim5aTn+E5db1HVYQUcLaa3GwNUT1Tuw3G5YO85MVF
- cL0g==
-X-Gm-Message-State: AOAM533YaRjYaXHSB37cCQTpFPTedLlOBPf1tyYpOMp6GygMR70x8fU5
- xfb1QjBIhzXygxDU8MjqICAL4IQ9MLQ=
-X-Google-Smtp-Source: ABdhPJwTsxE3ffEvdeHEme7sKTjJVOTZqKNu7FCblePwm3AYEMzG0k7cOu+WiKEhZbpA8GJmWPZDbA==
-X-Received: by 2002:a1c:2bc3:0:b0:381:3dd5:5707 with SMTP id
- r186-20020a1c2bc3000000b003813dd55707mr3877517wmr.31.1645857061349; 
- Fri, 25 Feb 2022 22:31:01 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=q+4euos2X2sE9Kn//yFjNOTsm9gej+U7wgc1A9eCeFA=;
+ b=K2VzjUoML1VQsMOFA/9UB4eOnp2OWiy7zFBoPuyCQunA09gX4VpNvWkYSjU8caWodO
+ spIO04OEAu3THn64c9sCj+ED1sOwCsvj8s1ZlOa8EKdwvCVGLmAgcTxcq2u0ycXJDL1/
+ +TCJMdhxz/trzt9h0VQtvrVaFWLaybLDNk2ZSRfo+w6QE65/tv5Y+gZ8uruempGML3E5
+ RcUPdtqLhLrjVmyTEv0Kqk0/rYUGm4qc/3veVY93NxuW0mmYm0/SoODE21NEvDdf/qOH
+ HQtI8ue+T/jczNVGM0Yw61fBFlpTmHaoojK0ZjOt/KFxUG+fr9ioXxZ7zZ3TwJ65lTFD
+ omRg==
+X-Gm-Message-State: AOAM532EPzJpjLOtUiK6MePkvQnR7mbVaZGzZhR7/LutCZ1xYdvcUJQq
+ nSa2qIKpO890rplHlN9hT8OBJgAmpzk=
+X-Google-Smtp-Source: ABdhPJyfWy9mzXPOyvCf9uDQsI4iFCmPYbh8A3p4YFc+FwW4PfMyM0lIG9cj2ApgR8v1WaXI4smFwQ==
+X-Received: by 2002:a5d:4a08:0:b0:1ed:b997:46d8 with SMTP id
+ m8-20020a5d4a08000000b001edb99746d8mr8406958wrq.440.1645857065892; 
+ Fri, 25 Feb 2022 22:31:05 -0800 (PST)
 Received: from liavpc.localdomain ([2a10:800b:ea29:1:266:a58e:9f87:7014])
  by smtp.gmail.com with ESMTPSA id
- q7-20020adfcd87000000b001e8a4f58a8csm3933407wrj.66.2022.02.25.22.31.00
+ q7-20020adfcd87000000b001e8a4f58a8csm3933407wrj.66.2022.02.25.22.31.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Feb 2022 22:31:00 -0800 (PST)
+ Fri, 25 Feb 2022 22:31:05 -0800 (PST)
 From: Liav Albani <liavalb@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/4] hw/acpi: add indication for i8042 in IA-PC boot flags
- of the FADT table
-Date: Sat, 26 Feb 2022 08:30:15 +0200
-Message-Id: <20220226063019.1112654-1-liavalb@gmail.com>
+Subject: [PATCH v3 1/4] hw/isa: add function to check for existence of device
+ by its type
+Date: Sat, 26 Feb 2022 08:30:16 +0200
+Message-Id: <20220226063019.1112654-2-liavalb@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220226063019.1112654-1-liavalb@gmail.com>
+References: <20220226063019.1112654-1-liavalb@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=liavalb@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=liavalb@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,50 +92,63 @@ Cc: ani@anisinha.ca, imammedo@redhat.com, Liav Albani <liavalb@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This can allow the guest OS to determine more easily if i8042 controller
-is present in the system or not, so it doesn't need to do probing of the
-controller, but just initialize it immediately, before enumerating the
-ACPI AML namespace.
+This function enumerates all attached ISA devices in the machine, and
+tries to compare a given device type name to the enumerated devices.
+For example, this can help other code to determine if a i8042 controller
+exists in the machine.
 
-To allow "flexible" indication, I don't hardcode the bit at location 1
-as on in the IA-PC boot flags, but try to search for i8042 on the ISA
-bus to verify it exists in the system.
+Signed-off-by: Liav Albani <liavalb@gmail.com>
+---
+ hw/isa/isa-bus.c     | 23 +++++++++++++++++++++++
+ include/hw/isa/isa.h |  1 +
+ 2 files changed, 24 insertions(+)
 
-Why this is useful you might ask - this patch allows the guest OS to
-probe and use the i8042 controller without decoding the ACPI AML blob
-at all. For example, as a developer of the SerenityOS kernel, I might
-want to allow people to not try to decode the ACPI AML namespace (for
-now, we still don't support ACPI AML as it's a work in progress), but
-still to not probe for the i8042 but just use it after looking in the
-IA-PC boot flags in the ACPI FADT table.
-
-A note about this version of the patch series: I changed the assertion
-checking if the ISA bus exists to a if statement, because I can see how
-in the future someone might want to run a x86 machine without an ISA bus
-so we should not assert if someone calls the ISA check device existence
-function but return FALSE gracefully.
-If someone thinks this is wrong, I'm more than happy to discuss and fix
-the code :)
-
-Liav Albani (4):
-  hw/isa: add function to check for existence of device by its type
-  tests/acpi: i386: allow FACP acpi table changes
-  hw/acpi: add indication for i8042 in IA-PC boot flags of the FADT
-    table
-  tests/acpi: i386: update FACP table differences
-
- hw/acpi/aml-build.c            |   7 ++++++-
- hw/i386/acpi-build.c           |   8 ++++++++
- hw/i386/acpi-microvm.c         |   9 +++++++++
- hw/isa/isa-bus.c               |  23 +++++++++++++++++++++++
- include/hw/acpi/acpi-defs.h    |   1 +
- include/hw/isa/isa.h           |   1 +
- tests/data/acpi/q35/FACP       | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.nosmm | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.slic  | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.xapic | Bin 244 -> 244 bytes
- 10 files changed, 48 insertions(+), 1 deletion(-)
-
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 6c31398dda..663aa36d29 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -222,6 +222,29 @@ void isa_build_aml(ISABus *bus, Aml *scope)
+     }
+ }
+ 
++bool isa_check_device_existence(const char *typename)
++{
++    /*
++     * If there's no ISA bus, we know for sure that the checked ISA device type
++     * doesn't exist in the machine.
++     */
++    if (isabus == NULL) {
++        return false;
++    }
++
++    BusChild *kid;
++    ISADevice *dev;
++
++    QTAILQ_FOREACH(kid, &isabus->parent_obj.children, sibling) {
++        dev = ISA_DEVICE(kid->child);
++        const char *object_type = object_get_typename(OBJECT(dev));
++        if (object_type && strcmp(object_type, typename) == 0) {
++            return true;
++        }
++    }
++    return false;
++}
++
+ static void isabus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+ {
+     ISADevice *d = ISA_DEVICE(dev);
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index d4417b34b6..65f0c7e28c 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -99,6 +99,7 @@ IsaDma *isa_get_dma(ISABus *bus, int nchan);
+ MemoryRegion *isa_address_space(ISADevice *dev);
+ MemoryRegion *isa_address_space_io(ISADevice *dev);
+ ISADevice *isa_new(const char *name);
++bool isa_check_device_existence(const char *typename);
+ ISADevice *isa_try_new(const char *name);
+ bool isa_realize_and_unref(ISADevice *dev, ISABus *bus, Error **errp);
+ ISADevice *isa_create_simple(ISABus *bus, const char *name);
 -- 
 2.35.1
 
