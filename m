@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E009B4C5475
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 08:42:20 +0100 (CET)
-Received: from localhost ([::1]:50422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0CC4C5484
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 08:48:57 +0100 (CET)
+Received: from localhost ([::1]:54718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNrie-000611-0a
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 02:42:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42482)
+	id 1nNrp2-0000n2-9H
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 02:48:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nNrf6-0003sC-RQ
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 02:38:40 -0500
-Received: from [2a00:1450:4864:20::336] (port=55196
- helo=mail-wm1-x336.google.com)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nNrm1-0007Ox-RM
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 02:45:49 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=53105
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nNrf5-0007uN-EC
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 02:38:40 -0500
-Received: by mail-wm1-x336.google.com with SMTP id c192so2855727wma.4
- for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 23:38:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fRdDn6DMBJy8gHy3i/Yr3lfgeWLzNOVIlMzNNs216Eo=;
- b=flvnT2yiJ4KfdjjxifAAi6agUwwVs5tG40yyZZOAMOicNgH3reDuy1YJnsLkz1HR9z
- wHSz/P8fLHBRmytu8s7LLCodS3hFB/v7U1akvPi2ruVdLcAN3scubBFUNEAKB2wAcD9P
- tOKg7MqRVGUI7oFtjw/820yylwaARo8L0b3Hj5i0qI0gwYl+H/s96JwQQzKOyZU4zoEp
- GE28MXI43Z5+X+ePMlAlV2MqYqrmMJG7eYCBvw5KMxheQ3We/HlY/JzoMrYH8iJzAMyN
- AFuAZ4eT615JxBLg+z6yP6/gNEN78tXDCBdvgMVi1JjFCsJKAHVHEsCy+9twoNOQoRtQ
- rhDQ==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nNrlz-0000Uz-Iu
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 02:45:49 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id v4so6709091pjh.2
+ for <qemu-devel@nongnu.org>; Fri, 25 Feb 2022 23:45:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WlOMpwar8H3IaqpUsxB8sOF+rxb+lUqLquixj1IQ8rg=;
+ b=Xv5VtPFW3rIy4buy/8f6hLXNkOf1dmkmuXMudqm3wD7fgOcQw7HxyAKJFuQm9RrJY+
+ BlpSQlFBKhPX06uSBjMr2MDOgRMmJXI5hU3CevE1xLdQCDiTDC255wjEsszwai+L0/XI
+ +af/n6IvqBByvsw9ioYu58mqzvQwFvS8LK6mwZZ6qatW7qKo1LvQxFEveNtiakQMNHKA
+ ZHZ/TPxCV0ZFR6pFn8Blt1/5bLuBkXVa9hD3dtmS20JXQIgUL0bylaTwxeHcBTGiXHlU
+ 2PalDoreXk8/ewHHEKNysJ6q9ZDg0SMNy0FFmk25YdcdkRHOPTZVNShjqYjSzMFuK7Cg
+ fmlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fRdDn6DMBJy8gHy3i/Yr3lfgeWLzNOVIlMzNNs216Eo=;
- b=x1ykkBXHlc3KgYXlAYeZ5s9383AiQdyaPBt+dXG9nDa4Klrw72iXkjLbDd6V0nbrWc
- Oc2WD4mrNpjzvHK/7k5CbvkgIM3KVF3HGgnTkWzAqj0TA3J6ZwyC6KdCqa+qJeADY6la
- ZEXkxHmMdWLJBce28aZTt9xVv1Owsp8ZYv7GwhirQcq6kW8lxy+m8dcc1I3maMFxBtZ2
- VP5n2y2SKrpHgo72mgDMa3KKnz122zXsWVmKkbPm3U00X4Fg/MhdmDrZrw64aKIROzqF
- VWKa7MXjR15UcYMUY6IRzidfpt2lY05ySYmvejoUPu6zsHvl5ry4Eg0koEw/1YcLDMeS
- H2Fg==
-X-Gm-Message-State: AOAM533ALfabL8xEQD0OHmIP742MiA4Ve5/Pje/bXND9iBzy4Sg7+LJS
- 5yUtsa491hlZO9qn/2PbqRs=
-X-Google-Smtp-Source: ABdhPJzUX4IKuX3fvIUekGU2Jc4MG8sGlaT7HBq8Ns+2mmGhkBM6j2BxcZqb40Flyb700ulLQl9Q3A==
-X-Received: by 2002:a05:600c:4ed0:b0:37b:e983:287b with SMTP id
- g16-20020a05600c4ed000b0037be983287bmr5605288wmq.156.1645861117727; 
- Fri, 25 Feb 2022 23:38:37 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.googlemail.com with ESMTPSA id
- k25-20020a05600c1c9900b00381481059a3sm660226wms.2.2022.02.25.23.38.25
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WlOMpwar8H3IaqpUsxB8sOF+rxb+lUqLquixj1IQ8rg=;
+ b=pAxynosiWNTjJl0vmuRw+KyzZ/wez+qR8857RsDWFE1J0begNCyy+OohGau/Sm7meU
+ 7CojoGJ1izOhuPsj9fQEtiWPcX/ZAUnxyjGRmfGcYuh7XFexY0Pw7ZLm7EpRWhmY4klA
+ nRwF5GK5LxPmhJZLyRume4tpVc06nRaFJFSffkKF3L+H6MQsxFwTCACCIniICra1u0MR
+ LoUFHtFeSlwZCMIrPih0l8sZ9g8QrwTfDSZrSk4ytRcCHgqMGXNfTk9TD2oG3i/iXWOy
+ +MFO+FMPLIoZB9C+qdxJojv4h/taZw0Z24gvB0gN41jJyaaLlc8twAKOwOCv39pFXfY1
+ xtdw==
+X-Gm-Message-State: AOAM530j2drQ0upBwKpAVMXNmTC4DG43vl7wQuZywgUl7HO5a9DIvYfD
+ qZdTOsJP033uBncbGO7YPPFKUtSKrmbAmw==
+X-Google-Smtp-Source: ABdhPJzrmTYLO/l8CAU1zM+HEMyoOClLG6CpMFItLGg4JH2SFdgqZSLyRf7QBx8b39/nQtW2QKkCOA==
+X-Received: by 2002:a17:902:7483:b0:14f:9a94:8493 with SMTP id
+ h3-20020a170902748300b0014f9a948493mr11306015pll.4.1645861545456; 
+ Fri, 25 Feb 2022 23:45:45 -0800 (PST)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com.
+ [209.85.216.50]) by smtp.gmail.com with ESMTPSA id
+ b4-20020a17090a9bc400b001bc2e7e51f3sm4793987pjw.21.2022.02.25.23.45.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Feb 2022 23:38:37 -0800 (PST)
-Message-ID: <8d5b4245-56e7-8384-4104-33d3ab1adf42@redhat.com>
-Date: Sat, 26 Feb 2022 08:38:15 +0100
+ Fri, 25 Feb 2022 23:45:44 -0800 (PST)
+Received: by mail-pj1-f50.google.com with SMTP id
+ em10-20020a17090b014a00b001bc3071f921so10357984pjb.5; 
+ Fri, 25 Feb 2022 23:45:43 -0800 (PST)
+X-Received: by 2002:a17:903:1cc:b0:151:3e13:e2a1 with SMTP id
+ e12-20020a17090301cc00b001513e13e2a1mr4495703plh.52.1645861542856; Fri, 25
+ Feb 2022 23:45:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 6/8] char: move qemu_openpty_raw from util/ to char/
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>
-References: <20220222194008.610377-1-marcandre.lureau@redhat.com>
- <20220222194008.610377-7-marcandre.lureau@redhat.com>
- <CAJ+F1C+QOAcjAiAY=7jcYgjJTQ79PTUDBRoJ3fzyHha2Syw4tA@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAJ+F1C+QOAcjAiAY=7jcYgjJTQ79PTUDBRoJ3fzyHha2Syw4tA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+References: <20220222223830.2319856-1-atishp@rivosinc.com>
+In-Reply-To: <20220222223830.2319856-1-atishp@rivosinc.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Sat, 26 Feb 2022 15:45:31 +0800
+X-Gmail-Original-Message-ID: <CANzO1D05q8_-PSs5KJsnO+MPWVWLrFoYsvhPXGK2eUC8rwBqDw@mail.gmail.com>
+Message-ID: <CANzO1D05q8_-PSs5KJsnO+MPWVWLrFoYsvhPXGK2eUC8rwBqDw@mail.gmail.com>
+Subject: Re: [PATCH v3] target/riscv: Add isa extenstion strings to the device
+ tree
+To: Atish Patra <atishp@rivosinc.com>
+Content-Type: multipart/alternative; boundary="0000000000009c8d4905d8e7008e"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -98,26 +94,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stubner <heiko@sntech.de>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/22 18:04, Marc-André Lureau wrote:
-> Paolo,
-> 
-> This patch is ok, but in some (new?) circumstances it fails with freebsd 
-> and reveals that -lutil was missing for kinfo_getproc() in 
-> util/oslib-posix.c. Please add:
-> 
-> -util_ss.add(when: 'CONFIG_POSIX', if_true: files('oslib-posix.c'))
-> +util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), util])
-> 
-> (even better if we made this specific to freebsd I guess, but not 
-> strictly necessary)
+--0000000000009c8d4905d8e7008e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Looking again at the patch (because indeed it broke CI :)), I'm not sure 
-it's a good idea.  The code seems to be partly taken from other projects 
-and doesn't follow the QEMU coding standards.
+Atish Patra <atishp@rivosinc.com> =E6=96=BC 2022=E5=B9=B42=E6=9C=8823=E6=97=
+=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=886:39=E5=AF=AB=E9=81=93=EF=BC=9A
 
-Paolo
+> The Linux kernel parses the ISA extensions from "riscv,isa" DT
+> property. It used to parse only the single letter base extensions
+> until now. A generic ISA extension parsing framework was proposed[1]
+> recently that can parse multi-letter ISA extensions as well.
+>
+> Generate the extended ISA string by appending  the available ISA extensio=
+ns
+> to the "riscv,isa" string if it is enabled so that kernel can process it.
+>
+> [1] https://lkml.org/lkml/2022/2/15/263
+>
+> Suggested-by: Heiko Stubner <heiko@sntech.de>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+> Changes from v2->v3:
+> 1. Used g_strconcat to replace snprintf & a max isa string length as
+> suggested by Anup.
+> 2. I have not included the Tested-by Tag from Heiko because the
+> implementation changed from v2 to v3.
+>
+> Changes from v1->v2:
+> 1. Improved the code redability by using arrays instead of individual che=
+ck
+> ---
+>  target/riscv/cpu.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index b0a40b83e7a8..2c7ff6ef555a 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -34,6 +34,12 @@
+>
+>  /* RISC-V CPU definitions */
+>
+> +/* This includes the null terminated character '\0' */
+> +struct isa_ext_data {
+> +        const char *name;
+> +        bool enabled;
+> +};
+> +
+>  static const char riscv_exts[26] =3D "IEMAFDQCLBJTPVNSUHKORWXYZG";
+>
+>  const char * const riscv_int_regnames[] =3D {
+> @@ -881,6 +887,28 @@ static void riscv_cpu_class_init(ObjectClass *c, voi=
+d
+> *data)
+>      device_class_set_props(dc, riscv_cpu_properties);
+>  }
+>
+> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int
+> max_str_len)
+> +{
+> +    char *old =3D *isa_str;
+> +    char *new =3D *isa_str;
+> +    int i;
+> +    struct isa_ext_data isa_edata_arr[] =3D {
+> +        { "svpbmt", cpu->cfg.ext_svpbmt   },
+> +        { "svinval", cpu->cfg.ext_svinval },
+> +        { "svnapot", cpu->cfg.ext_svnapot },
+>
+
+We still have other sub-extensions, e.g. Zfh, Zba, Zbb, Zbc, Zbs... etc.
+Do you mind adding them as well?
+
+Also, I think the order of ISA strings should be alphabetical as described:
+https://github.com/riscv/riscv-isa-manual/blob/master/src/naming.tex#L96
+
+Regards,
+Frank Chang
+
+
+> +    };
+> +
+> +    for (i =3D 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+> +        if (isa_edata_arr[i].enabled) {
+> +            new =3D g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+> +            g_free(old);
+> +            old =3D new;
+> +        }
+> +    }
+> +
+> +    *isa_str =3D new;
+> +}
+> +
+>  char *riscv_isa_string(RISCVCPU *cpu)
+>  {
+>      int i;
+> @@ -893,6 +921,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
+>          }
+>      }
+>      *p =3D '\0';
+> +    riscv_isa_string_ext(cpu, &isa_str, maxlen);
+>      return isa_str;
+>  }
+>
+> --
+> 2.30.2
+>
+>
+
+--0000000000009c8d4905d8e7008e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Atish Patra &lt;<a href=3D"mailto:ati=
+shp@rivosinc.com">atishp@rivosinc.com</a>&gt; =E6=96=BC 2022=E5=B9=B42=E6=
+=9C=8823=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=886:39=E5=AF=AB=E9=81=
+=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The=
+ Linux kernel parses the ISA extensions from &quot;riscv,isa&quot; DT<br>
+property. It used to parse only the single letter base extensions<br>
+until now. A generic ISA extension parsing framework was proposed[1]<br>
+recently that can parse multi-letter ISA extensions as well.<br>
+<br>
+Generate the extended ISA string by appending=C2=A0 the available ISA exten=
+sions<br>
+to the &quot;riscv,isa&quot; string if it is enabled so that kernel can pro=
+cess it.<br>
+<br>
+[1] <a href=3D"https://lkml.org/lkml/2022/2/15/263" rel=3D"noreferrer" targ=
+et=3D"_blank">https://lkml.org/lkml/2022/2/15/263</a><br>
+<br>
+Suggested-by: Heiko Stubner &lt;<a href=3D"mailto:heiko@sntech.de" target=
+=3D"_blank">heiko@sntech.de</a>&gt;<br>
+Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" targe=
+t=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+---<br>
+Changes from v2-&gt;v3:<br>
+1. Used g_strconcat to replace snprintf &amp; a max isa string length as<br=
+>
+suggested by Anup.<br>
+2. I have not included the Tested-by Tag from Heiko because the<br>
+implementation changed from v2 to v3.<br>
+<br>
+Changes from v1-&gt;v2:<br>
+1. Improved the code redability by using arrays instead of individual check=
+<br>
+---<br>
+=C2=A0target/riscv/cpu.c | 29 +++++++++++++++++++++++++++++<br>
+=C2=A01 file changed, 29 insertions(+)<br>
+<br>
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+index b0a40b83e7a8..2c7ff6ef555a 100644<br>
+--- a/target/riscv/cpu.c<br>
++++ b/target/riscv/cpu.c<br>
+@@ -34,6 +34,12 @@<br>
+<br>
+=C2=A0/* RISC-V CPU definitions */<br>
+<br>
++/* This includes the null terminated character &#39;\0&#39; */<br>
++struct isa_ext_data {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *name;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool enabled;<br>
++};<br>
++<br>
+=C2=A0static const char riscv_exts[26] =3D &quot;IEMAFDQCLBJTPVNSUHKORWXYZG=
+&quot;;<br>
+<br>
+=C2=A0const char * const riscv_int_regnames[] =3D {<br>
+@@ -881,6 +887,28 @@ static void riscv_cpu_class_init(ObjectClass *c, void =
+*data)<br>
+=C2=A0 =C2=A0 =C2=A0device_class_set_props(dc, riscv_cpu_properties);<br>
+=C2=A0}<br>
+<br>
++static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_st=
+r_len)<br>
++{<br>
++=C2=A0 =C2=A0 char *old =3D *isa_str;<br>
++=C2=A0 =C2=A0 char *new =3D *isa_str;<br>
++=C2=A0 =C2=A0 int i;<br>
++=C2=A0 =C2=A0 struct isa_ext_data isa_edata_arr[] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 { &quot;svpbmt&quot;, cpu-&gt;cfg.ext_svpbmt=
+=C2=A0 =C2=A0},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 { &quot;svinval&quot;, cpu-&gt;cfg.ext_svinval=
+ },<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 { &quot;svnapot&quot;, cpu-&gt;cfg.ext_svnapot=
+ },<br></blockquote><div><br></div><div>We still have other sub-extensions,=
+ e.g. Zfh, Zba, Zbb, Zbc, Zbs... etc.</div><div>Do you mind adding them as =
+well?</div><div><br></div><div>Also, I think the order of ISA strings shoul=
+d be alphabetical as described:</div><div><a href=3D"https://github.com/ris=
+cv/riscv-isa-manual/blob/master/src/naming.tex#L96">https://github.com/risc=
+v/riscv-isa-manual/blob/master/src/naming.tex#L96</a><br></div><div><br></d=
+iv><div>Regards,</div><div>Frank Chang</div><div>=C2=A0</div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 };<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(isa_edata_arr); i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (isa_edata_arr[i].enabled) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 new =3D g_strconcat(old, &quot;_=
+&quot;, isa_edata_arr[i].name, NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(old);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 old =3D new;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 *isa_str =3D new;<br>
++}<br>
++<br>
+=C2=A0char *riscv_isa_string(RISCVCPU *cpu)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
+@@ -893,6 +921,7 @@ char *riscv_isa_string(RISCVCPU *cpu)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0*p =3D &#39;\0&#39;;<br>
++=C2=A0 =C2=A0 riscv_isa_string_ext(cpu, &amp;isa_str, maxlen);<br>
+=C2=A0 =C2=A0 =C2=A0return isa_str;<br>
+=C2=A0}<br>
+<br>
+-- <br>
+2.30.2<br>
+<br></blockquote></div></div>
+
+--0000000000009c8d4905d8e7008e--
 
