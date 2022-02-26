@@ -2,49 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8C64C5718
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 18:19:44 +0100 (CET)
-Received: from localhost ([::1]:34458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B1B4C5743
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 19:09:44 +0100 (CET)
+Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nO0jP-0005GA-6U
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 12:19:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34616)
+	id 1nO1Vn-0008N0-F1
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 13:09:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nO0i6-0003G0-N1
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 12:18:22 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:36119)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nO0i3-00026g-AS
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 12:18:22 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1A8AE745958;
- Sat, 26 Feb 2022 18:18:15 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D675D745708; Sat, 26 Feb 2022 18:18:14 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id D49BB7456FE;
- Sat, 26 Feb 2022 18:18:14 +0100 (CET)
-Date: Sat, 26 Feb 2022 18:18:14 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v2] ui/cocoa: Use the standard about panel
-In-Reply-To: <20220226125630.92909-1-akihiko.odaki@gmail.com>
-Message-ID: <15732fa4-8db3-bcc5-10a2-82c6d2e035e3@eik.bme.hu>
-References: <20220226125630.92909-1-akihiko.odaki@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nO1Th-0005Yc-Pr
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 13:07:34 -0500
+Received: from [2a00:1450:4864:20::335] (port=42499
+ helo=mail-wm1-x335.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nO1Tc-0004N9-C9
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 13:07:31 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ r187-20020a1c2bc4000000b003810e6b192aso3610381wmr.1
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 10:07:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uLHa+nT92JeIejSVDLTnljZQl9EsZLPID9y2RXR7+Tw=;
+ b=i5uCqHcuyI+LJh5ABnitxpWpbbCRzk6cuRL2fgASvz+GBc6L1TYmSbUNaKaW0neZUL
+ env3gc/5nzpEi3kQ9hQatWYGLkEoBbP/b2HDqY7q4zyw4Dmup0hFTl7w0kraISvWfktK
+ yDs3BLty7s8MP68iSf5fK7UFzBt+KgdZIA4CCRoU3g4N3yCiVKV4p8nKNoJuTMMqmage
+ 7OYNyCR8B1g9Ln1+SU27jN0BFH0kVrmAeL8mxdu53pSQfAjfkMZOhFB8wgS8oWJkrXVb
+ UW513miT+hZ1YDuLXjB6spa14ZaPyRI3WrY0twQhUeUBEWb2E/9ukpTqRyvGT+gISKDh
+ jY7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uLHa+nT92JeIejSVDLTnljZQl9EsZLPID9y2RXR7+Tw=;
+ b=LjLz+evL/FyOe2FeXm3xJ2D1ynneFe1C2cOqm8JP/7kK29F9cEMXU6MO/wL36vE0oj
+ 9GEkA/KQ+ppIAhSAc/8Veo7Ay/C6cjzp7VKI6MPtjWsfpScdleLc1YtEEuioiiUit7Jr
+ BMhrPVAt0LUce8zaKlpbyWGydNOM1FirrUo4WBD2WQYo1cEmFK+PdwvF/EnwX8F2blmM
+ dZvNmDXPDcpByBlKL3hplgTZQgjlFHgiXCSPA7fWLnbQcM1y7pc3+V+4rzNGKptK7CWW
+ jwagqUXKJ8PhiN+Myk37MTDSC0q2McYw8E53Q9zcasmS9bFOwAE+eKM/7+WMrFVRmAY2
+ 922A==
+X-Gm-Message-State: AOAM532BFvkUpCoOiK87z/K25kZhkGIALdZ2BjaFVizW8i/Ev3XNaRGf
+ nG3eJyUnPf1BN6hUkyy5jNuslzt4xAq8Zw==
+X-Google-Smtp-Source: ABdhPJzh4X3C7AX2iRE9Ld13mtEFKd0BL+e4PmUMhp3nIaNNVoMx58TdlucG+3eNA1zwyborJj9v9g==
+X-Received: by 2002:a7b:c8d1:0:b0:381:4eb9:8084 with SMTP id
+ f17-20020a7bc8d1000000b003814eb98084mr1878112wml.120.1645898846341; 
+ Sat, 26 Feb 2022 10:07:26 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ b15-20020adfe64f000000b001e60965a5d4sm5622409wrn.44.2022.02.26.10.07.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Feb 2022 10:07:25 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/9] Cleanup of qemu_oom_check() and qemu_memalign()
+Date: Sat, 26 Feb 2022 18:07:14 +0000
+Message-Id: <20220226180723.1706285-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,176 +87,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 26 Feb 2022, Akihiko Odaki wrote:
-> This provides standard look and feel for the about panel and reduces
-> code.
->
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
-> ui/cocoa.m | 112 +++++++++++------------------------------------------
-> 1 file changed, 23 insertions(+), 89 deletions(-)
->
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index a8f1cdaf926..9c27b9f5aa7 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -83,7 +83,7 @@ static void cocoa_switch(DisplayChangeListener *dcl,
->
-> static void cocoa_refresh(DisplayChangeListener *dcl);
->
-> -static NSWindow *normalWindow, *about_window;
-> +static NSWindow *normalWindow;
-> static const DisplayChangeListenerOps dcl_ops = {
->     .dpy_name          = "cocoa",
->     .dpy_gfx_update = cocoa_update,
-> @@ -1120,7 +1120,6 @@ - (void)changeDeviceMedia:(id)sender;
-> - (BOOL)verifyQuit;
-> - (void)openDocumentation:(NSString *)filename;
-> - (IBAction) do_about_menu_item: (id) sender;
-> -- (void)make_about_window;
-> - (void)adjustSpeed:(id)sender;
-> @end
->
-> @@ -1166,8 +1165,6 @@ - (id) init
->         [pauseLabel setFont: [NSFont fontWithName: @"Helvetica" size: 90]];
->         [pauseLabel setTextColor: [NSColor blackColor]];
->         [pauseLabel sizeToFit];
-> -
-> -        [self make_about_window];
->     }
->     return self;
-> }
-> @@ -1451,92 +1448,29 @@ - (BOOL)verifyQuit
-> /* The action method for the About menu item */
-> - (IBAction) do_about_menu_item: (id) sender
-> {
-> -    [about_window makeKeyAndOrderFront: nil];
-> -}
-> -
-> -/* Create and display the about dialog */
-> -- (void)make_about_window
-> -{
-> -    /* Make the window */
-> -    int x = 0, y = 0, about_width = 400, about_height = 200;
-> -    NSRect window_rect = NSMakeRect(x, y, about_width, about_height);
-> -    about_window = [[NSWindow alloc] initWithContentRect:window_rect
-> -                    styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
-> -                    NSWindowStyleMaskMiniaturizable
-> -                    backing:NSBackingStoreBuffered
-> -                    defer:NO];
-> -    [about_window setTitle: @"About"];
-> -    [about_window setReleasedWhenClosed: NO];
-> -    [about_window center];
-> -    NSView *superView = [about_window contentView];
-> -
-> -    /* Create the dimensions of the picture */
-> -    int picture_width = 80, picture_height = 80;
-> -    x = (about_width - picture_width)/2;
-> -    y = about_height - picture_height - 10;
-> -    NSRect picture_rect = NSMakeRect(x, y, picture_width, picture_height);
-> -
-> -    /* Make the picture of QEMU */
-> -    NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
-> -                                                     picture_rect];
-> -    char *qemu_image_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
-> -    NSString *qemu_image_path = [NSString stringWithUTF8String:qemu_image_path_c];
-> -    g_free(qemu_image_path_c);
-> -    NSImage *qemu_image = [[NSImage alloc] initWithContentsOfFile:qemu_image_path];
-> -    [picture_view setImage: qemu_image];
-> -    [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
-> -    [superView addSubview: picture_view];
-> -
-> -    /* Make the name label */
-> -    NSBundle *bundle = [NSBundle mainBundle];
-> -    if (bundle) {
-> -        x = 0;
-> -        y = y - 25;
-> -        int name_width = about_width, name_height = 20;
-> -        NSRect name_rect = NSMakeRect(x, y, name_width, name_height);
-> -        NSTextField *name_label = [[NSTextField alloc] initWithFrame: name_rect];
-> -        [name_label setEditable: NO];
-> -        [name_label setBezeled: NO];
-> -        [name_label setDrawsBackground: NO];
-> -        [name_label setAlignment: NSTextAlignmentCenter];
-> -        NSString *qemu_name = [[bundle executablePath] lastPathComponent];
-> -        [name_label setStringValue: qemu_name];
-> -        [superView addSubview: name_label];
-> +    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+This series does some cleanup of the qemu_oom_check() and
+qemu_memalign() functions; I started looking at the first of these and
+found myself wanting to tidy some stuff relating to the second in the
+process. The TLDR is that this series removes qemu_oom_check() (which
+was mostly being misused), unifies the POSIX and Win32 versions of
+qemu_memalign() and qemu_try_memalign(), and moves the prototypes out
+of osdep.h.
 
-Extra space between * and pool?
+qemu_oom_check() is a function which essentially says "if you pass me
+a NULL pointer then print a message and abort()".  On POSIX systems
+the message includes strerror(errno); on Windows it includes the
+GetLastError() error value printed as an integer.  Other than in the
+implementation of qemu_memalign(), we use this function only in
+hw/usb/redirect.c, for three checks:
+ * on a call to usbredirparser_create()
+ * on a call to usberedirparser_serialize()
+ * on a call to malloc()
 
-> +    char *icon_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
-> +    NSString *icon_path = [NSString stringWithUTF8String:icon_path_c];
-> +    g_free(icon_path_c);
-> +    NSImage *icon = [[NSImage alloc] initWithContentsOfFile:icon_path];
-> +    NSString *version = @"QEMU emulator version " QEMU_FULL_VERSION;
-> +    NSString *copyright = @QEMU_COPYRIGHT;
-> +    NSDictionary *options;
-> +    if (icon) {
-> +        options = @{
-> +            NSAboutPanelOptionApplicationIcon : icon,
-> +            NSAboutPanelOptionApplicationVersion : version,
-> +            @"Copyright" : copyright,
-> +        };
-> +        [icon release];
-> +    } else {
-> +        options = @{
-> +            NSAboutPanelOptionApplicationVersion : version,
-> +            @"Copyright" : copyright,
-> +        };
+The usbredir library API functions make no guarantees that they will
+set errno on errors, let alone that they might set the
+Windows-specific GetLastError string. So in 2/3 of the cases using
+qemu_oom_check() is definitely wrong, and in the third it's dubious
+given that Windows malloc() doesn't set GetLastError (more on that
+later). So we start by switching these 3 calls to simple in-line error
+checking code, which means we can make qemu_oom_check() not a public
+global function.
 
-It may be less redundant to init the oprions dict only with version and 
-copyright first then have an if adding the icon key if exists but for that 
-an NSMutableDictionary may be needed so not sure about that. It might 
-still have less duplication that way.
+So now we have a qemu_oom_check() which is used only in
+qemu_memalign() and whose major difference between the Windows and
+POSIX versions is that the former prints the GetLastError error number
+value. This is actually a bug -- in commit dfbd0b873a85021 in 2020 we
+changed the implementation of qemu_try_memalign() from using
+VirtualAlloc() without noticing that this also should imply changing
+what we print in the error case. So we can switch to a single
+shared qemu_memalign() which does the error check directly itself
+and always prints errno (and the requested size and alignment,
+which seem more useful if anybody needs to diagnose the problem).
 
-Regards,
-BALATON Zoltan
+qemu_try_memalign() also is very similar between POSIX and Windows
+versions (it used to be less so, but we have gradually ended up
+with the two versions quite similar). The POSIX version already
+has an ifdef ladder for different kinds of "allocate aligned
+memory" host functions, so it seems neater to just have Windows'
+_aligned_malloc() be another ladder in that ifdef rather than
+a totally separate function.
 
->     }
-> -
-> -    /* Set the version label's attributes */
-> -    x = 0;
-> -    y = 50;
-> -    int version_width = about_width, version_height = 20;
-> -    NSRect version_rect = NSMakeRect(x, y, version_width, version_height);
-> -    NSTextField *version_label = [[NSTextField alloc] initWithFrame:
-> -                                                      version_rect];
-> -    [version_label setEditable: NO];
-> -    [version_label setBezeled: NO];
-> -    [version_label setAlignment: NSTextAlignmentCenter];
-> -    [version_label setDrawsBackground: NO];
-> -
-> -    /* Create the version string*/
-> -    NSString *version_string;
-> -    version_string = [[NSString alloc] initWithFormat:
-> -    @"QEMU emulator version %s", QEMU_FULL_VERSION];
-> -    [version_label setStringValue: version_string];
-> -    [superView addSubview: version_label];
-> -
-> -    /* Make copyright label */
-> -    x = 0;
-> -    y = 35;
-> -    int copyright_width = about_width, copyright_height = 20;
-> -    NSRect copyright_rect = NSMakeRect(x, y, copyright_width, copyright_height);
-> -    NSTextField *copyright_label = [[NSTextField alloc] initWithFrame:
-> -                                                        copyright_rect];
-> -    [copyright_label setEditable: NO];
-> -    [copyright_label setBezeled: NO];
-> -    [copyright_label setDrawsBackground: NO];
-> -    [copyright_label setAlignment: NSTextAlignmentCenter];
-> -    [copyright_label setStringValue: [NSString stringWithFormat: @"%s",
-> -                                     QEMU_COPYRIGHT]];
-> -    [superView addSubview: copyright_label];
-> +    [NSApp orderFrontStandardAboutPanelWithOptions:options];
-> +    [pool release];
-> }
->
-> /* Used by the Speed menu items */
->
+Finally, I put the qemu_memalign() and related function prototypes
+into a new memalign.h header, because that gets them out of osdep.h
+and into somewhere that only the files that care about these functions
+need to include.
+
+thanks
+--PMM
+
+Peter Maydell (9):
+  hw/usb/redirect.c: Stop using qemu_oom_check()
+  util: Make qemu_oom_check() a static function
+  util: Unify implementations of qemu_memalign()
+  util/oslib-win32: Return NULL on qemu_try_memalign() with zero size
+  meson.build: Don't misdetect posix_memalign() on Windows
+  util: Share qemu_try_memalign() implementation between POSIX and
+    Windows
+  util: Use meson checks for valloc() and memalign() presence
+  util: Put qemu_vfree() in memalign.c
+  osdep: Move memalign-related functions to their own header
+
+ meson.build                    |  7 ++-
+ include/qemu-common.h          |  2 -
+ include/qemu/memalign.h        | 61 +++++++++++++++++++++++
+ include/qemu/osdep.h           | 18 -------
+ block/blkverify.c              |  1 +
+ block/block-copy.c             |  1 +
+ block/commit.c                 |  1 +
+ block/crypto.c                 |  1 +
+ block/dmg.c                    |  1 +
+ block/export/fuse.c            |  1 +
+ block/file-posix.c             |  1 +
+ block/io.c                     |  1 +
+ block/mirror.c                 |  1 +
+ block/nvme.c                   |  1 +
+ block/parallels-ext.c          |  1 +
+ block/parallels.c              |  1 +
+ block/qcow.c                   |  1 +
+ block/qcow2-cache.c            |  1 +
+ block/qcow2-cluster.c          |  1 +
+ block/qcow2-refcount.c         |  1 +
+ block/qcow2-snapshot.c         |  1 +
+ block/qcow2.c                  |  1 +
+ block/qed-l2-cache.c           |  1 +
+ block/qed-table.c              |  1 +
+ block/qed.c                    |  1 +
+ block/quorum.c                 |  1 +
+ block/raw-format.c             |  1 +
+ block/vdi.c                    |  1 +
+ block/vhdx-log.c               |  1 +
+ block/vhdx.c                   |  1 +
+ block/vmdk.c                   |  1 +
+ block/vpc.c                    |  1 +
+ block/win32-aio.c              |  1 +
+ hw/block/dataplane/xen-block.c |  1 +
+ hw/block/fdc.c                 |  1 +
+ hw/ide/core.c                  |  1 +
+ hw/ppc/spapr.c                 |  1 +
+ hw/ppc/spapr_softmmu.c         |  1 +
+ hw/scsi/scsi-disk.c            |  1 +
+ hw/tpm/tpm_ppi.c               |  2 +-
+ hw/usb/redirect.c              | 17 +++++--
+ nbd/server.c                   |  1 +
+ net/l2tpv3.c                   |  2 +-
+ plugins/loader.c               |  1 +
+ qemu-img.c                     |  1 +
+ qemu-io-cmds.c                 |  1 +
+ qom/object.c                   |  1 +
+ softmmu/physmem.c              |  1 +
+ target/i386/hvf/hvf.c          |  1 +
+ target/i386/kvm/kvm.c          |  1 +
+ tcg/region.c                   |  1 +
+ tests/bench/atomic_add-bench.c |  1 +
+ tests/bench/qht-bench.c        |  1 +
+ util/atomic64.c                |  1 +
+ util/memalign.c                | 88 ++++++++++++++++++++++++++++++++++
+ util/oslib-posix.c             | 46 ------------------
+ util/oslib-win32.c             | 35 --------------
+ util/qht.c                     |  1 +
+ util/meson.build               |  1 +
+ 59 files changed, 220 insertions(+), 107 deletions(-)
+ create mode 100644 include/qemu/memalign.h
+ create mode 100644 util/memalign.c
+
+-- 
+2.25.1
+
 
