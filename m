@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2944C55FC
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 13:59:12 +0100 (CET)
-Received: from localhost ([::1]:44708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4408F4C55FB
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 13:58:58 +0100 (CET)
+Received: from localhost ([::1]:44000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNwfH-0002fi-5l
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 07:59:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41446)
+	id 1nNwf3-0002Az-BZ
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 07:58:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nNwSS-0001Pn-3O
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:45:57 -0500
-Received: from [2607:f8b0:4864:20::52b] (port=37556
- helo=mail-pg1-x52b.google.com)
+ id 1nNwcv-0008V7-0c
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:56:45 -0500
+Received: from [2607:f8b0:4864:20::52a] (port=33646
+ helo=mail-pg1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nNwSO-0003Kk-SO
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:45:54 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id 75so7218795pgb.4
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 04:45:52 -0800 (PST)
+ id 1nNwcr-0001l4-QY
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:56:44 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id 12so7261121pgd.0
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 04:56:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dPuzGEBcEqdlsA6JeaKEgUYjkg87ycyuZGvU6x1HEk4=;
- b=mWe5MLSC4VGeBzNy9WiMp6e6+eXir4Z8lxuHUM5L0NFRP5rg9c33TAVmJzXUVc+ZN8
- XzMH0eJ160TS0TqTOw3OvmTjF+12aO/dzD9BC0PSCH24rKyBwYX6yEWuPn6HCwQu6T+3
- Ept/yLXwG6WIzb5ZQOa2Xk4S3mdbOPVIaRL94gBr4rMS0xwHwBeh8mzqYrqnTMIs95t2
- pRysxKowcfAtfN7EVUL9xRde66ztEONLgFvj21ZSJhx51mYi6MwK5Ddk+S25SImehrpQ
- RT5xsYsjMnpKmWhA7OO1qHoO4g1TXI8xtDJu2Sh/mF/lqkrNNUXvyQ1X30YTVZnqXGyl
- YBSQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kKWwkgxIyEYB2qpQDr7sxRO5wcvNtX45lh0bWqGVTO4=;
+ b=d3b4bzuKuTYO3Dy60Nz10FQgsdmnhSGbwrUPB6cBX91iLbtSmulo6olEZyTBE+n7vo
+ uT+0Z0VwDytxESqffQBaAsym4Gg+RA6BsT/TemFlUrA39IU2P10x/zHY3l/AcdhcCy2d
+ GPo6md8aOZfaes2JOd5kvBGm4983hgE2o5fs42DwZA+9Wljmccy1JJByVa5QHRm2wKrs
+ 3AcMg9I7wHYR/MvzG8Y8dDZwMF9AwoKdHW3LSJ8AoQ0hCI6pkO1Gq0F24mUs+r0/CD9M
+ IvgIAqRlTG92HKVwcaP2LTveBZsvIg7696R+2Ah8C2Xdmx2aFHZtPja/WUDTRpkGJiqE
+ uRNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dPuzGEBcEqdlsA6JeaKEgUYjkg87ycyuZGvU6x1HEk4=;
- b=SkuLzJsVdYbQwrGpzjREyVOZqQEj3ZqkhDHrFQYOzGVsekrOm9Q7IXWIfNKN9dHvN4
- gKsq5FPJMPnlpNKFvHQXZ5gkKgwd4WSgFGtyx+DW3lCK3C0PNQHCj8y2G0XsIn+kPM1x
- KeAJlKS92p23jjQHtIuml/La5rJI8YHv5Ja+6RR7H7+KEI2EhCpgg4YxsmaKe81iCEoC
- wso1hdqkfS3M3qfVuDN8MIuRekMvdsoV4PDwGE66smTs05951mvZ91vAHoEz1Jg3twTi
- Yw5eMcDTLyq5cqWLXPH6i9e211Urx0DwsM12HaLSx9HXEa4ARX5uIkAQv+l0QPx1Ra+2
- /E6w==
-X-Gm-Message-State: AOAM5337eruiAqxpG3Fi63Q4teay+yMitm+AWrgPkQBADyK+lCc96z+U
- 81FEq6LIe9hXTMROUPRF2rPSkP4YunM=
-X-Google-Smtp-Source: ABdhPJzeydso1j03mr5yIkRSakuJIKhU2TXzNx5Yb0tOwlWa1ifyA05b4QFL+RHkRtimYhM4P7ZviQ==
-X-Received: by 2002:a05:6a00:24c4:b0:4cb:7324:bfd with SMTP id
- d4-20020a056a0024c400b004cb73240bfdmr12656895pfv.60.1645879551513; 
- Sat, 26 Feb 2022 04:45:51 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kKWwkgxIyEYB2qpQDr7sxRO5wcvNtX45lh0bWqGVTO4=;
+ b=f++FaJDysxdFvqk+1P1z+bARTZ+ocyoHuXpxxnIvc8GJW5f96CDz14qvY5iGiESzq8
+ tNtvCLBuY/q0rlAACdjIp95kZsJCD/tCHnGFRVw5jR6S1CUdBeuFk5Pag1oqoNTUQ8bH
+ XkL1IymbKODfdzvHggXtpyNOnoTgG/qUoVOuLefigKs6lWv2Wh8QVXw7iUeXq6478PyT
+ UxzbHSC3gAk28YNJLZvZ4dZLoGFFSZcLSolUdNxyxrBeh6Gh2cgs5W6HJoVOEyS17vUj
+ 7sQ3uBv0ZdPckJasyIS/0hmHNwo2Y5+2kuqwhPoPOCd1bU7Vcos3f2h2pY53U7/7V4je
+ ES5A==
+X-Gm-Message-State: AOAM531sT+fx3GV9IHl/VRC8HrZAYeo4JGeEmZnO1jqHI4HA+WrnLiE7
+ jZ+GNbQ0y2yD3UE9MhgXY9+lsnwNy5Y=
+X-Google-Smtp-Source: ABdhPJzDpo5/xhRcci8K8GKP8TP91McytgUBcIS/Ljgys7ZmRGhSV+f2hzJ8ObSUHyWfKLExaBWeIw==
+X-Received: by 2002:a63:534d:0:b0:374:da8c:ad53 with SMTP id
+ t13-20020a63534d000000b00374da8cad53mr10070878pgl.100.1645880200123; 
+ Sat, 26 Feb 2022 04:56:40 -0800 (PST)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:4c8a:825a:fb9a:12f3])
  by smtp.gmail.com with ESMTPSA id
- r4-20020a17090a438400b001bc6d52de70sm11725653pjg.24.2022.02.26.04.45.49
+ q20-20020a056a00151400b004f3cd061d33sm7190706pfu.204.2022.02.26.04.56.38
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 26 Feb 2022 04:45:51 -0800 (PST)
+ Sat, 26 Feb 2022 04:56:39 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH v2 3/4] ui/icons: Use bundle mechanism
-Date: Sat, 26 Feb 2022 21:45:34 +0900
-Message-Id: <20220226124535.76885-4-akihiko.odaki@gmail.com>
+Subject: [PATCH v2] ui/cocoa: Use the standard about panel
+Date: Sat, 26 Feb 2022 21:56:30 +0900
+Message-Id: <20220226125630.92909-1-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20220226124535.76885-1-akihiko.odaki@gmail.com>
-References: <20220226124535.76885-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,64 +87,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Programmingkid <programmingkidx@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This provides standard look and feel for the about panel and reduces
+code.
+
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- configure   | 10 ++++++++++
- meson.build |  3 +--
- ui/cocoa.m  | 20 +++++++++++---------
- ui/gtk.c    |  8 +++++---
- ui/sdl2.c   | 18 +++++++++++-------
- 5 files changed, 38 insertions(+), 21 deletions(-)
+ ui/cocoa.m | 112 +++++++++++------------------------------------------
+ 1 file changed, 23 insertions(+), 89 deletions(-)
 
-diff --git a/configure b/configure
-index fda1a35cbc0..80d36a85bc5 100755
---- a/configure
-+++ b/configure
-@@ -3089,6 +3089,16 @@ for f in $LINKS ; do
-     fi
- done
- 
-+for icon_extension in bmp png ; do
-+  for icon_file in $source_path/ui/icons/qemu_*.$icon_extension ; do
-+    icon_basename=${icon_file%.$icon_extension}
-+    icon_name=${icon_basename#$source_path/ui/icons/qemu_}
-+    icon_dir=qemu-bundle/share/icons/hicolor/$icon_name/apps
-+    symlink $icon_file $icon_dir/qemu.$icon_extension
-+  done
-+done
-+
-+symlink $source_path/ui/icons/qemu.svg qemu-bundle/share/icons/hicolor/scalable/apps/qemu.svg
- symlink ../../pc-bios qemu-bundle/share/qemu
- 
- (for i in $cross_cc_vars; do
-diff --git a/meson.build b/meson.build
-index a2c987b41d6..f7e64a74545 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1472,8 +1472,7 @@ config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_c
- config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_DATADIR', qemu_datadir)
- config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR', get_option('prefix') / qemu_desktopdir)
- config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('qemu_firmwarepath'))
--config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix') / get_option('libexecdir'))
--config_host_data.set_quoted('CONFIG_QEMU_ICONDIR', get_option('prefix') / qemu_icondir)
-+config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_ICONDIR', qemu_icondir)
- config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix') / get_option('localedir'))
- config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') / get_option('localstatedir'))
- config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
 diff --git a/ui/cocoa.m b/ui/cocoa.m
-index a8f1cdaf926..e5e49c50fbb 100644
+index a8f1cdaf926..9c27b9f5aa7 100644
 --- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -1477,15 +1477,17 @@ - (void)make_about_window
-     NSRect picture_rect = NSMakeRect(x, y, picture_width, picture_height);
+@@ -83,7 +83,7 @@ static void cocoa_switch(DisplayChangeListener *dcl,
  
-     /* Make the picture of QEMU */
+ static void cocoa_refresh(DisplayChangeListener *dcl);
+ 
+-static NSWindow *normalWindow, *about_window;
++static NSWindow *normalWindow;
+ static const DisplayChangeListenerOps dcl_ops = {
+     .dpy_name          = "cocoa",
+     .dpy_gfx_update = cocoa_update,
+@@ -1120,7 +1120,6 @@ - (void)changeDeviceMedia:(id)sender;
+ - (BOOL)verifyQuit;
+ - (void)openDocumentation:(NSString *)filename;
+ - (IBAction) do_about_menu_item: (id) sender;
+-- (void)make_about_window;
+ - (void)adjustSpeed:(id)sender;
+ @end
+ 
+@@ -1166,8 +1165,6 @@ - (id) init
+         [pauseLabel setFont: [NSFont fontWithName: @"Helvetica" size: 90]];
+         [pauseLabel setTextColor: [NSColor blackColor]];
+         [pauseLabel sizeToFit];
+-
+-        [self make_about_window];
+     }
+     return self;
+ }
+@@ -1451,92 +1448,29 @@ - (BOOL)verifyQuit
+ /* The action method for the About menu item */
+ - (IBAction) do_about_menu_item: (id) sender
+ {
+-    [about_window makeKeyAndOrderFront: nil];
+-}
+-
+-/* Create and display the about dialog */
+-- (void)make_about_window
+-{
+-    /* Make the window */
+-    int x = 0, y = 0, about_width = 400, about_height = 200;
+-    NSRect window_rect = NSMakeRect(x, y, about_width, about_height);
+-    about_window = [[NSWindow alloc] initWithContentRect:window_rect
+-                    styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
+-                    NSWindowStyleMaskMiniaturizable
+-                    backing:NSBackingStoreBuffered
+-                    defer:NO];
+-    [about_window setTitle: @"About"];
+-    [about_window setReleasedWhenClosed: NO];
+-    [about_window center];
+-    NSView *superView = [about_window contentView];
+-
+-    /* Create the dimensions of the picture */
+-    int picture_width = 80, picture_height = 80;
+-    x = (about_width - picture_width)/2;
+-    y = about_height - picture_height - 10;
+-    NSRect picture_rect = NSMakeRect(x, y, picture_width, picture_height);
+-
+-    /* Make the picture of QEMU */
 -    NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
 -                                                     picture_rect];
 -    char *qemu_image_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
@@ -156,70 +169,82 @@ index a8f1cdaf926..e5e49c50fbb 100644
 -    [picture_view setImage: qemu_image];
 -    [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
 -    [superView addSubview: picture_view];
-+    char *qemu_image_path_c = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/512x512/apps/qemu.png");
-+    if (qemu_image_path_c) {
-+        NSString *qemu_image_path = [NSString stringWithUTF8String:qemu_image_path_c];
-+        g_free(qemu_image_path_c);
-+        NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
-+                                                         picture_rect];
-+        NSImage *qemu_image = [[NSImage alloc] initWithContentsOfFile:qemu_image_path];
-+        [picture_view setImage: qemu_image];
-+        [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
-+        [superView addSubview: picture_view];
-+    }
- 
-     /* Make the name label */
-     NSBundle *bundle = [NSBundle mainBundle];
-diff --git a/ui/gtk.c b/ui/gtk.c
-index a8567b9ddc8..a86d1c126f0 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2296,9 +2296,11 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-     s->opts = opts;
- 
-     theme = gtk_icon_theme_get_default();
--    dir = get_relocated_path(CONFIG_QEMU_ICONDIR);
--    gtk_icon_theme_prepend_search_path(theme, dir);
--    g_free(dir);
-+    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR);
-+    if (dir) {
-+        gtk_icon_theme_prepend_search_path(theme, dir);
-+        g_free(dir);
-+    }
-     g_set_prgname("qemu");
- 
-     s->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index 46a252d7d9d..9d1f6e74cb5 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -893,15 +893,19 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
+-
+-    /* Make the name label */
+-    NSBundle *bundle = [NSBundle mainBundle];
+-    if (bundle) {
+-        x = 0;
+-        y = y - 25;
+-        int name_width = about_width, name_height = 20;
+-        NSRect name_rect = NSMakeRect(x, y, name_width, name_height);
+-        NSTextField *name_label = [[NSTextField alloc] initWithFrame: name_rect];
+-        [name_label setEditable: NO];
+-        [name_label setBezeled: NO];
+-        [name_label setDrawsBackground: NO];
+-        [name_label setAlignment: NSTextAlignmentCenter];
+-        NSString *qemu_name = [[bundle executablePath] lastPathComponent];
+-        [name_label setStringValue: qemu_name];
+-        [superView addSubview: name_label];
++    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
++    char *icon_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
++    NSString *icon_path = [NSString stringWithUTF8String:icon_path_c];
++    g_free(icon_path_c);
++    NSImage *icon = [[NSImage alloc] initWithContentsOfFile:icon_path];
++    NSString *version = @"QEMU emulator version " QEMU_FULL_VERSION;
++    NSString *copyright = @QEMU_COPYRIGHT;
++    NSDictionary *options;
++    if (icon) {
++        options = @{
++            NSAboutPanelOptionApplicationIcon : icon,
++            NSAboutPanelOptionApplicationVersion : version,
++            @"Copyright" : copyright,
++        };
++        [icon release];
++    } else {
++        options = @{
++            NSAboutPanelOptionApplicationVersion : version,
++            @"Copyright" : copyright,
++        };
      }
+-
+-    /* Set the version label's attributes */
+-    x = 0;
+-    y = 50;
+-    int version_width = about_width, version_height = 20;
+-    NSRect version_rect = NSMakeRect(x, y, version_width, version_height);
+-    NSTextField *version_label = [[NSTextField alloc] initWithFrame:
+-                                                      version_rect];
+-    [version_label setEditable: NO];
+-    [version_label setBezeled: NO];
+-    [version_label setAlignment: NSTextAlignmentCenter];
+-    [version_label setDrawsBackground: NO];
+-
+-    /* Create the version string*/
+-    NSString *version_string;
+-    version_string = [[NSString alloc] initWithFormat:
+-    @"QEMU emulator version %s", QEMU_FULL_VERSION];
+-    [version_label setStringValue: version_string];
+-    [superView addSubview: version_label];
+-
+-    /* Make copyright label */
+-    x = 0;
+-    y = 35;
+-    int copyright_width = about_width, copyright_height = 20;
+-    NSRect copyright_rect = NSMakeRect(x, y, copyright_width, copyright_height);
+-    NSTextField *copyright_label = [[NSTextField alloc] initWithFrame:
+-                                                        copyright_rect];
+-    [copyright_label setEditable: NO];
+-    [copyright_label setBezeled: NO];
+-    [copyright_label setDrawsBackground: NO];
+-    [copyright_label setAlignment: NSTextAlignmentCenter];
+-    [copyright_label setStringValue: [NSString stringWithFormat: @"%s",
+-                                     QEMU_COPYRIGHT]];
+-    [superView addSubview: copyright_label];
++    [NSApp orderFrontStandardAboutPanelWithOptions:options];
++    [pool release];
+ }
  
- #ifdef CONFIG_SDL_IMAGE
--    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/128x128/apps/qemu.png");
--    icon = IMG_Load(dir);
-+    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/128x128/apps/qemu.png");
-+    if (dir) {
-+        icon = IMG_Load(dir);
-+    }
- #else
-     /* Load a 32x32x4 image. White pixels are transparent. */
--    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
--    icon = SDL_LoadBMP(dir);
--    if (icon) {
--        uint32_t colorkey = SDL_MapRGB(icon->format, 255, 255, 255);
--        SDL_SetColorKey(icon, SDL_TRUE, colorkey);
-+    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
-+    if (dir) {
-+        icon = SDL_LoadBMP(dir);
-+        if (icon) {
-+            uint32_t colorkey = SDL_MapRGB(icon->format, 255, 255, 255);
-+            SDL_SetColorKey(icon, SDL_TRUE, colorkey);
-+        }
-     }
- #endif
-     g_free(dir);
+ /* Used by the Speed menu items */
 -- 
 2.32.0 (Apple Git-132)
 
