@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80AB4C55EF
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C1D4C55EE
 	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 13:53:42 +0100 (CET)
-Received: from localhost ([::1]:32988 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:32982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nNwZw-0002tn-QD
+	id 1nNwZw-0002td-Gw
 	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 07:53:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41400)
+Received: from eggs.gnu.org ([209.51.188.92]:41414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nNwSK-0001PF-Ls
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:45:48 -0500
-Received: from [2607:f8b0:4864:20::530] (port=46785
- helo=mail-pg1-x530.google.com)
+ id 1nNwSM-0001Pa-SW
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:45:50 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=39581
+ helo=mail-pj1-x1034.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nNwSI-0003KB-JV
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:45:48 -0500
-Received: by mail-pg1-x530.google.com with SMTP id o23so7180951pgk.13
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 04:45:46 -0800 (PST)
+ id 1nNwSK-0003KN-IT
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 07:45:50 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ h17-20020a17090acf1100b001bc68ecce4aso10754175pju.4
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 04:45:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u6MwX5z7NybpukrNpGl4mrjA47MR716bNMiO0PwnR+I=;
- b=QmFH3vAUmQSj2nvlyxsg9jJSkqQi1rBntC9Idt4bAl3ubzwF0AE5gVATqWvDeKx91n
- 8dsVlahb1k74j9ReHHu7FMNJ9qE6miFoaP7GevMKogEagBpChYLvt/MoH+lgoOUwGgNC
- u6Maa8zX5JiSUQoiDir5+fOlsFRAZfEmkjFFoyYG8WwkEkfpkCkCcKq2TBDpE8QppU+S
- sBBXk69j91ATCztFyy4HW2o7avpPTX2TLxunW3/ewD3dFoktQUclcPCslWTHqq/q8s3Q
- Rq5w87fg4Uus1PNW/7WUU2ZVgFMif25DlbVvtlTaMmlZGYksmw5+C1ltY8pmymYRaP5L
- 9rFA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2TxLC9fYa4dsSXt2w85XmJ89x3QqEVRdv+e2nZt/7lg=;
+ b=olesjjnq4KZlzXPtT9YV486okFXbJ0rqGS2v1SlFea6rrOQQ/OrUbOewPZM8Eo8inY
+ Yt38iEjxGBwbGZ1Pc+dFJ5F6lO0fEHqcwevL2qsKeazsV3xnT0jAFQLuX1QXO0p2C7cu
+ V+W+UERDX5xpcCjfu4u3Yc1Mdl75m9ijE/ci3UXQqCFcvUQkgtQub2plVNRcvzFvbMTc
+ wYuFQ6CYla5ex0kr6Y5AsC9Y+lG1LuWdUNhgZOBBL6QGZaOP3suLqhDToVWcb8SnVbDA
+ yqe6MM6eu9SUe/D3tALj+yfdih0mRENyRpxxlGQ1yEZvqbwQRRflD6f+hfyuyejPnP32
+ F6Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u6MwX5z7NybpukrNpGl4mrjA47MR716bNMiO0PwnR+I=;
- b=WZU4w0WlDKHZzJ+zFPSg9J/U/Bk8S7kheE8LbVzO4Z4fSpcNzO3yOS2zbxhng1CP9n
- NpZO7jRuGd8S6x4n0UqEleFk9evldSCy0mNkWSyOoX4qx1t1BVbbHffLXT0qL1q2i7SP
- B9u6SZnUrjTyfHM1bA5W56W1Cz4zwW5hxokl9XwVym7Qvl1OKhya2jVCDNGSVp8EVKJD
- sqaH8jwcgIVc1HLuc2d2/aodxeN7qsnw775a76bh31KXe+OcnKkN+jeKHoIjBKmJnU0D
- asFlmd3ndNX4rqH2v0syPh9AkCCDYuVmkLLrRVUnGxZpy69YA+cvqrk92XYbBJgr0hmb
- r/WQ==
-X-Gm-Message-State: AOAM531QUR9kMUiwJR1G2LOidCMFB77Kf4RC1wcDJ618QDJ0DWhjaGDO
- 40vuWC5urZSGW8CTdkaXuXJSfv1kSYg=
-X-Google-Smtp-Source: ABdhPJzU4YqC0ghtyKkFG++9rjOw/dI8lPN21KwMTr8VeJvEVRAC3GBFaeyQ+JVaLKouFYPMx8le2g==
-X-Received: by 2002:a65:6251:0:b0:374:6621:9fe8 with SMTP id
- q17-20020a656251000000b0037466219fe8mr10303084pgv.254.1645879544972; 
- Sat, 26 Feb 2022 04:45:44 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2TxLC9fYa4dsSXt2w85XmJ89x3QqEVRdv+e2nZt/7lg=;
+ b=LjwOl1CvFE6kzLQdki3fVC7oZsj7mBcIsM9fKgF65uI3uyZ3zvCmVc9naFYhzuVa2Q
+ ocAQLMwUOQVOPzILXSpgGhjdW61Na/PJ2KhH3A5hsT3ecxG5MXRw1OyZTk1qcp5K056m
+ UtH0wst5B6WgOQ4wnDqvEHqdWbXCoWuVtdTJnxhWkH4+FazGVjzz4xvVJuD8cCSRlLH/
+ 6ilfKNDGBUrGSE+7BUpR/Mb9WLQKAqyW25DbSxAybWDuDBPjCpHiu52WD8a+hltPmROJ
+ POD89vJBPAvGZKV2QauLzdN3t7wh+ZxXCiYERJ/BpSumIZOKr7paQBK5iuATPN3kBZG/
+ QjAg==
+X-Gm-Message-State: AOAM531Ir8H7syD1sznuwvWyn9ooqlDmSC3S8YfNRiLu3z2eRNJCbFhk
+ W2CqK6hXv9VhXNyz0eeYGhAyt4nokQY=
+X-Google-Smtp-Source: ABdhPJwtExKSg7KSKyVetcc9qanIXCKb/54ATwpcP90OF/lzAVNZg9eyMt6KgHaKKzZLQS//IyINNw==
+X-Received: by 2002:a17:902:d4c6:b0:150:15ed:3cd9 with SMTP id
+ o6-20020a170902d4c600b0015015ed3cd9mr11358404plg.2.1645879547009; 
+ Sat, 26 Feb 2022 04:45:47 -0800 (PST)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:4c8a:825a:fb9a:12f3])
  by smtp.gmail.com with ESMTPSA id
- r4-20020a17090a438400b001bc6d52de70sm11725653pjg.24.2022.02.26.04.45.42
+ r4-20020a17090a438400b001bc6d52de70sm11725653pjg.24.2022.02.26.04.45.45
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 26 Feb 2022 04:45:44 -0800 (PST)
+ Sat, 26 Feb 2022 04:45:46 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH v2 0/4] cutils: Introduce bundle mechanism
-Date: Sat, 26 Feb 2022 21:45:31 +0900
-Message-Id: <20220226124535.76885-1-akihiko.odaki@gmail.com>
+Subject: [PATCH v2 1/4] cutils: Introduce bundle mechanism
+Date: Sat, 26 Feb 2022 21:45:32 +0900
+Message-Id: <20220226124535.76885-2-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+In-Reply-To: <20220226124535.76885-1-akihiko.odaki@gmail.com>
+References: <20220226124535.76885-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::530
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,27 +100,83 @@ Developers often run QEMU without installing. The bundle mechanism
 allows to look up files which should be present in installation even in
 such a situation.
 
-v2: Rebased to the latest QEMU.
-
-Akihiko Odaki (4):
-  cutils: Introduce bundle mechanism
-  datadir: Use bundle mechanism
-  ui/icons: Use bundle mechanism
-  net: Use bundle mechanism
-
- configure             | 13 +++++++++++++
- include/net/net.h     |  2 +-
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
  include/qemu/cutils.h | 19 +++++++++++++++++++
- meson.build           |  6 +++---
- net/tap.c             |  6 +++++-
- qemu-options.hx       |  4 ++--
- softmmu/datadir.c     | 35 ++++++++++++-----------------------
- ui/cocoa.m            | 20 +++++++++++---------
- ui/gtk.c              |  8 +++++---
- ui/sdl2.c             | 18 +++++++++++-------
  util/cutils.c         | 33 +++++++++++++++++++++++++++++++++
- 11 files changed, 115 insertions(+), 49 deletions(-)
+ 2 files changed, 52 insertions(+)
 
+diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
+index 320543950c4..98ff59e38e3 100644
+--- a/include/qemu/cutils.h
++++ b/include/qemu/cutils.h
+@@ -209,6 +209,25 @@ int qemu_pstrcmp0(const char **str1, const char **str2);
+  */
+ char *get_relocated_path(const char *dir);
+ 
++/**
++ * find_bundle:
++ * @path: Relative path
++ *
++ * Returns a path for the specified directory or file bundled in QEMU. It uses
++ * the directory of the running executable as the prefix first. See
++ * get_relocated_path() for the details. The next candidate is "qemu-bundle"
++ * directory in the directory of the running executable. "qemu-bundle"
++ * directory is typically present in the build tree.
++ *
++ * The returned string should be freed by the caller.
++ *
++ * Returns: a path that can access the bundle, or NULL if no matching bundle
++ * exists.
++ */
++char *find_bundle(const char *path);
++
++void list_bundle_candidates(const char *path);
++
+ static inline const char *yes_no(bool b)
+ {
+      return b ? "yes" : "no";
+diff --git a/util/cutils.c b/util/cutils.c
+index c9b91e7535a..b4e4cda71c8 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -1057,3 +1057,36 @@ char *get_relocated_path(const char *dir)
+     }
+     return g_string_free(result, false);
+ }
++
++static const char * const bundle_formats[] = {
++    "%s" G_DIR_SEPARATOR_S ".." G_DIR_SEPARATOR_S "%s",
++    "%s" G_DIR_SEPARATOR_S "qemu-bundle" G_DIR_SEPARATOR_S "%s"
++};
++
++char *find_bundle(const char *path)
++{
++    const char *dir = qemu_get_exec_dir();
++    char *candidate;
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(bundle_formats); i++) {
++        candidate = g_strdup_printf(bundle_formats[i], dir, path);
++        if (access(candidate, R_OK) == 0) {
++            return candidate;
++        }
++        g_free(candidate);
++    }
++
++    return NULL;
++}
++
++void list_bundle_candidates(const char *path)
++{
++    const char *dir = qemu_get_exec_dir();
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(bundle_formats); i++) {
++        printf(bundle_formats[i], dir, path);
++        putc('\n', stdout);
++    }
++}
 -- 
 2.32.0 (Apple Git-132)
 
