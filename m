@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC3D4C57BA
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 19:45:55 +0100 (CET)
-Received: from localhost ([::1]:57558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B874C57F9
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Feb 2022 21:17:55 +0100 (CET)
+Received: from localhost ([::1]:43216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nO24l-0001aV-5p
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 13:45:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48206)
+	id 1nO3Vq-0005c1-0D
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 15:17:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nO20s-0000W1-1K
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 13:41:50 -0500
-Received: from [2607:f8b0:4864:20::b2b] (port=42968
- helo=mail-yb1-xb2b.google.com)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1nO3Uj-0004qe-T7
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 15:16:45 -0500
+Received: from [2607:f8b0:4864:20::736] (port=42653
+ helo=mail-qk1-x736.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nO20q-0002jW-Eg
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 13:41:49 -0500
-Received: by mail-yb1-xb2b.google.com with SMTP id e140so12335912ybh.9
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 10:41:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lpiPDWCuLrwmixto/pMK+GRlyl2/MKjTBd02vGYqurI=;
- b=Ktd8dHpnclNe9rXRhCu7MTblhnpFsX0oYwtpWRt8y45MtZ3dKk9naLzChq4YTbtfTT
- OBed9ajF5Z+e0yZ+k76uOfg3Qh6qUE3xIvaQZ/E+nvQwqtD9RlPvD3ZoTvNxN/Sx2fmq
- 2koVhtrnvrgLrh4kuF3xwAJ5Ww+sZh93HwsAZJdEHa+WebwPR+g+MGeBjitNcCHr0DSm
- R4HNd7yeZlyaIwC1GaYwDZidpV5DoNJk6YcoQ9W3qXgZgk3xJB1qoSSbTCz0mYTjk5SL
- dozb0mkyv8dXvfnuNUTrSy16mHhQ4r0REgFuvY5t0sjXInXreUyRzNxyQ+EmpSat/BqT
- esUw==
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1nO3Uh-0004Qr-Vg
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 15:16:45 -0500
+Received: by mail-qk1-x736.google.com with SMTP id b20so52689qkn.9
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 12:16:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OdDnyTFIzEN5R0UCrB1549FPesJeRH6VW/4VQbmKRps=;
+ b=CoOpm3C6nm2jZuEUxpLcviasK+GTWIO68Use8qGiEdx9t3UsqJfj6pOP2u3nRqk0y7
+ rE8Bw6mpg5EpomJSS3zrRExqYovalSKs4S7mHfCu77Tgd+3nVgpDz6JCLGcQM92zM1X5
+ mCgmXFCk5zkvtBGs/tlv+hZSklZZLVdKTQ5xgHPOvtanFhQOO84R7hw+GTejfdmvzYUu
+ NcpAjGDs6+l55+zUk8Fwe6LCYK+5SmMcptYIpkapf/R+loOa3toe//XUAKZbqbfQTSOD
+ e44yNXBCE14XAOeK5YwK7Dlh8OQWSfiJO+ndebPlX0UMmJfFYAQ9nVgRfUmsJAo5naVz
+ lJDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lpiPDWCuLrwmixto/pMK+GRlyl2/MKjTBd02vGYqurI=;
- b=FMKkB7RLCFet5fA3noH+RHjRsfAopi5ylLua3NmZevvh/AW5bZCxA4cdvaxDl+wP+0
- ttaLuP3r3/f6dJ3p/TIAPb4OICCTpp+gLOzdBuzGMV4a8KQj/+ZOw84TZ+euaFHjBlEo
- j3vLLIUAIo4kmuln0GzCnV73N+IMGx2BLckA/pi0dOyrywM5m8XzeHy/Gb3AlonVQgKP
- lfzfKTY6DfnyQQSYMb8ltTcVwTM7zqpzP2S1qeFgXjckfcZ7qeOkAcmAyuG6+kN2oDg8
- N+LEUeLav4W/9mzz+vWJpS24yF7a4D7pVi/er2o79bBBHjmJ5dy2wToBUA1dDKn5s3MZ
- /chg==
-X-Gm-Message-State: AOAM533RCnAeHoNJJ0yfZaRY9k5ZdR5D2EA/JauHejrBjRWvyQt4j1+j
- EN3Ib4A2R/yj2B18CRzcHtOrqMyJ2s7i9qraUp2Cyhy6SCs=
-X-Google-Smtp-Source: ABdhPJznlZDc3ItGspxS+wqESJefm01YkCLtgnaW1/2beh4zQ37azV1/hsMsOLA0x7gscNE2lgcsO40F/xi6XlBuTAg=
-X-Received: by 2002:a25:dc87:0:b0:624:4104:a331 with SMTP id
- y129-20020a25dc87000000b006244104a331mr12691596ybe.67.1645900905789; Sat, 26
- Feb 2022 10:41:45 -0800 (PST)
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to;
+ bh=OdDnyTFIzEN5R0UCrB1549FPesJeRH6VW/4VQbmKRps=;
+ b=jJiVGxpmSsoS+eY8Nso6QbjOBGvR6iD0EqrX8ok5Tr0KwUud6+N7NwSxU0upYlgCde
+ RF3rOcIPbnpBI3k2bfexgGZTNOp//Yd/s8iwEbswbtwKxCJ5XV8UggLPilH2xgDPjmqZ
+ /xWhEX/csQLGalaX94yW0nYZxTZw8ju2gM/UrpXVSUdOTGMDSE/sk/+JmL249vLock14
+ r8Ad6IHlwd9u2mj5KvVngKelkKjuQO/cA4FNPo1pEf9RtNfOXM+clfObXwVZZPo3h3Lp
+ NUaL91QY2AeH54vgMUrNmerypUgzR7hVKwJMSW7H7R3ilwcUOEaScPUc/jMfx4zJ5Ne+
+ 0tCA==
+X-Gm-Message-State: AOAM53309CNt8t7GISVfWeuZ0BUiW4b54/N9b7HmvJVXumsvgeo6ZrSp
+ w4bE78qtUUu/tBzJ3l3epX8tVr2yRw==
+X-Google-Smtp-Source: ABdhPJwqTFBAx+TZ6TlIOMhHQjUwI51dtyY0WXjGTIjzbzRRBOglZ5bpBBo9b1xMToqUEIE/+6H/hQ==
+X-Received: by 2002:ae9:e307:0:b0:649:113a:818 with SMTP id
+ v7-20020ae9e307000000b00649113a0818mr7754214qkf.590.1645906602579; 
+ Sat, 26 Feb 2022 12:16:42 -0800 (PST)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id
+ w13-20020a05620a128d00b006493a9c7c46sm2881801qki.14.2022.02.26.12.16.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Feb 2022 12:16:42 -0800 (PST)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:6588:6e71:6ba8:df0e])
+ by serve.minyard.net (Postfix) with ESMTPSA id 33C8E1800BC;
+ Sat, 26 Feb 2022 20:16:41 +0000 (UTC)
+Date: Sat, 26 Feb 2022 14:16:40 -0600
+From: Corey Minyard <minyard@acm.org>
+To: Bernhard Beschow <shentey@gmail.com>
+Subject: Re: [PATCH v2 15/22] hw/ipmi/isa_ipmi_bt: Disuse isa_init_irq()
+Message-ID: <20220226201640.GB3457@minyard.net>
+References: <20220222193446.156717-1-shentey@gmail.com>
+ <20220222193446.156717-16-shentey@gmail.com>
 MIME-Version: 1.0
-References: <20220226180723.1706285-1-peter.maydell@linaro.org>
- <20220226180723.1706285-2-peter.maydell@linaro.org>
-In-Reply-To: <20220226180723.1706285-2-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 26 Feb 2022 18:41:34 +0000
-Message-ID: <CAFEAcA9ercN8AcJXVHK1Lm4OdvnGdUbM2S83304fN5F-yj0Mxg@mail.gmail.com>
-Subject: Re: [PATCH 1/9] hw/usb/redirect.c: Stop using qemu_oom_check()
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220222193446.156717-16-shentey@gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::736
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=tcminyard@gmail.com; helo=mail-qk1-x736.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -82,88 +94,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-block@nongnu.org
+Reply-To: minyard@acm.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 26 Feb 2022 at 18:07, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, Feb 22, 2022 at 08:34:39PM +0100, Bernhard Beschow wrote:
+> isa_init_irq() has become a trivial one-line wrapper for isa_get_irq().
+> Use the original instead such that isa_init_irq() can be removed
+> eventually.
 
-Forgot to cc Gerd on this one as USB maintainer. Sorry..
+Looking at the rest of the patch series, this looks lik a good idea.
+This is obviously trivial here, but:
 
-> qemu_oom_check() is a function which essentially says "if you pass me
-> a NULL pointer then print a message then abort()".  On POSIX systems
-> the message includes strerror(errno); on Windows it includes the
-> GetLastError() error value printed as an integer.
->
-> Other than in the implementation of qemu_memalign(), we use this
-> function only in hw/usb/redirect.c, for three checks:
->
->  * on a call to usbredirparser_create()
->  * on a call to usberedirparser_serialize()
->  * on a call to malloc()
->
-> The usbredir library API functions make no guarantees that they will
-> set errno on errors, let alone that they might set the
-> Windows-specific GetLastError string.  malloc() is documented as
-> setting errno, not GetLastError -- and in any case the only thing it
-> might set errno to is ENOMEM.  So qemu_oom_check() isn't the right
-> thing for any of these.  Replace them with straightforward
-> error-checking code.  This will allow us to get rid of
-> qemu_oom_check().
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Acked-by: Corey Minyard <cminyard@mvista.com>
+
+For this and the KCS patch.
+
+-corey
+
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
-> I have left all of these errors as fatal, since that's what they
-> were previously. Possibly somebody with a better understanding
-> of the usbredir code might be able to make them theoretically
-> non-fatal, but we make malloc failures generally fatal anyway.
-> ---
->  hw/usb/redirect.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-> index 5f0ef9cb3b0..8692ea25610 100644
-> --- a/hw/usb/redirect.c
-> +++ b/hw/usb/redirect.c
-> @@ -1239,7 +1239,11 @@ static void usbredir_create_parser(USBRedirDevice *dev)
->
->      DPRINTF("creating usbredirparser\n");
->
-> -    dev->parser = qemu_oom_check(usbredirparser_create());
-> +    dev->parser = usbredirparser_create();
-> +    if (!dev->parser) {
-> +        error_report("usbredirparser_create() failed");
-> +        exit(1);
-> +    }
->      dev->parser->priv = dev;
->      dev->parser->log_func = usbredir_log;
->      dev->parser->read_func = usbredir_read;
-> @@ -2239,7 +2243,10 @@ static int usbredir_put_parser(QEMUFile *f, void *priv, size_t unused,
+>  hw/ipmi/isa_ipmi_bt.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/ipmi/isa_ipmi_bt.c b/hw/ipmi/isa_ipmi_bt.c
+> index 02625eb94e..88aa734e9e 100644
+> --- a/hw/ipmi/isa_ipmi_bt.c
+> +++ b/hw/ipmi/isa_ipmi_bt.c
+> @@ -92,7 +92,7 @@ static void isa_ipmi_bt_realize(DeviceState *dev, Error **errp)
 >      }
->
->      usbredirparser_serialize(dev->parser, &data, &len);
-> -    qemu_oom_check(data);
-> +    if (!data) {
-> +        error_report("usbredirparser_serialize failed");
-> +        exit(1);
-> +    }
->
->      qemu_put_be32(f, len);
->      qemu_put_buffer(f, data, len);
-> @@ -2330,7 +2337,11 @@ static int usbredir_get_bufpq(QEMUFile *f, void *priv, size_t unused,
->          bufp->len = qemu_get_be32(f);
->          bufp->status = qemu_get_be32(f);
->          bufp->offset = 0;
-> -        bufp->data = qemu_oom_check(malloc(bufp->len)); /* regular malloc! */
-> +        bufp->data = malloc(bufp->len); /* regular malloc! */
-> +        if (!bufp->data) {
-> +            error_report("usbredir_get_bufpq: out of memory");
-> +            exit(1);
-> +        }
->          bufp->free_on_destroy = bufp->data;
->          qemu_get_buffer(f, bufp->data, bufp->len);
->          QTAILQ_INSERT_TAIL(&endp->bufpq, bufp, next);
-> --
-> 2.25.1
+>  
+>      if (iib->isairq > 0) {
+> -        isa_init_irq(isadev, &iib->irq, iib->isairq);
+> +        iib->irq = isa_get_irq(isadev, iib->isairq);
+>          iib->bt.use_irq = 1;
+>          iib->bt.raise_irq = isa_ipmi_bt_raise_irq;
+>          iib->bt.lower_irq = isa_ipmi_bt_lower_irq;
+> -- 
+> 2.35.1
+> 
 
