@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC144C5E4D
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 19:53:24 +0100 (CET)
-Received: from localhost ([::1]:55058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133C24C5E4E
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 19:53:43 +0100 (CET)
+Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOOfY-0000OO-7V
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 13:53:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38084)
+	id 1nOOfu-0001Pv-68
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 13:53:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOOaG-0005r2-6E; Sun, 27 Feb 2022 13:47:52 -0500
-Received: from [2607:f8b0:4864:20::1029] (port=44692
- helo=mail-pj1-x1029.google.com)
+ id 1nOObX-0006mP-0u; Sun, 27 Feb 2022 13:49:11 -0500
+Received: from [2607:f8b0:4864:20::42f] (port=37837
+ helo=mail-pf1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOOaE-00089L-C8; Sun, 27 Feb 2022 13:47:51 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- cp23-20020a17090afb9700b001bbfe0fbe94so9405814pjb.3; 
- Sun, 27 Feb 2022 10:47:48 -0800 (PST)
+ id 1nOObU-0001O4-8H; Sun, 27 Feb 2022 13:49:10 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id t5so56490pfg.4;
+ Sun, 27 Feb 2022 10:49:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OY3pfGWUsLZBu/ETt+n7ibzfe4YwlbmuZ4OlQ6KUiNo=;
- b=TlQecfmVe1+eeE8ORifZZuvB1A4uKk2ZclNe2INRq26XXZqRPVuwUOhWS/H0Qy++FZ
- Wkc/QuV24s+bysk/l9aL2VGsBGVztqUflv5AsqvUoKysFiWCi6BgachvrYJxdqhfxw6b
- OZRNJIAEUoU5wfChY0xgsJ7y9imYfPanMsDg3U+yJSjSf4jaE4HmmOFBHjDnPhPdjfL9
- DE23+SLD37WGoAexvx2jldPsMkAB6kXEJcEnWITxXSlazM6H2HKr8t2WtLwEt7qe+wHJ
- moTQuzDXgtbc3xcQTBDWZojLi0cdN+j/B6LOHG5lwplHxjvkzLYxQqqyBtbhDxPD2Qq0
- SEgA==
+ bh=jYXhyWM0shnA7Wjj+qkIfo23VyLboSH5PH0Du6KNrOo=;
+ b=Qx3Zh4l3GlZzlQp/rjLjjhR4gBYIn+zu0RWfaUVIQL8RyRdfIkpFPbuO3DyOL/ApD5
+ XmmiFNJZYIIlXxCTTtn3XxU5w19jYQpbiZbp7jYjXqQBWwlS1K8gWTnOmEEMQcfZYtg0
+ 7jL5aSttj+PvYSdyElxVDjuU3KmlR1uS3X4x44sHH6jtzAmWJWToBcxk7Rpb0/OdJq40
+ I26YCzz/eXuF0wRQCdrJVveYbJzPF22ofDpxWS5A7tFi8eSKS2KFiWjxVvFPM0roBtBz
+ 9pHazS8aEyuI1EQ3bgt/KwEUhPqcwuNL3uvt0eQh+OPp6LQVfkmw0M4J52/NouvMU0k2
+ ISXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=OY3pfGWUsLZBu/ETt+n7ibzfe4YwlbmuZ4OlQ6KUiNo=;
- b=G8zz4ReR+HKrd1umSIy0UPKVNXODyBSpEfK+l/aOhz4qDmqD+D+3Ma3wdx3kyn5o1K
- 1EzVf4mFb/+EWtEceg40fa2iboatbIjoCmA1UH0dmu5BTDDHOza+V1e8SjVpcY2k9yvO
- fOI26iFGaTnuL0956GyrgsCqp9yH1FezNnOJtvYmeWACpbLYf/Szbg7LH4qCP+GoMXRM
- vhpo0+nv800obc5QR6qMi5yWKAjKgKvGej4TnvpYzVbpXyxWogO+g1rIzLv3oIJ3WiHg
- lDq0XINIYrfns/Y8W/nzqZSdaw6Vdnrl1hJ1WTDpHTOcvBUQ/f8pGmkctIu1f9P9zNVa
- LsRQ==
-X-Gm-Message-State: AOAM5338l6on7lLOq5Sd9WBM4kGzKwYEWOsd3BJged7xk0MY/U4rJfAM
- Gv71fwbQApDKGuVPTS3NB0k=
-X-Google-Smtp-Source: ABdhPJxCkMIGGOts1Pdm1oYByYn9N9VfJoWODhxqEwujtpTdFKQwsiPrNfHW7WWrwmhA3/3drhEteA==
-X-Received: by 2002:a17:902:c1c4:b0:14f:b5fa:f945 with SMTP id
- c4-20020a170902c1c400b0014fb5faf945mr17283993plc.169.1645987667289; 
- Sun, 27 Feb 2022 10:47:47 -0800 (PST)
+ bh=jYXhyWM0shnA7Wjj+qkIfo23VyLboSH5PH0Du6KNrOo=;
+ b=borCeGKy3XzrRy34T0WVkXkS6WcQWb+0EPpmbkwEamNy9ueR5EgBYu6coOLjbWIA6s
+ CFGgh8F7Ik5UZcKVj2vdZh82w47iVec3nVkmo0IfjLfuYfZ9BYzNJEUiEYS9YD9QJjNK
+ 0sa01m0qiXQbAU/Rcuv6TvZUbiYzlmQmT5erg1sKiwE43pe4F+45xz+X+QwNu16xMAOE
+ PoTP7XE11t7tkwHdhtKBnVioi3dkv+QhLRm2ASQBVMOEduvtGcsebT0ZQXc4pI4BpjIW
+ Nm/7hcbGbeUjhTBt1CW1qazpZfZnVH5z7HJtuZKDv0fTqqGxKtlU/NWwuH6n+DmwoNmN
+ vBPg==
+X-Gm-Message-State: AOAM530p2T/N/Cq1DfpL2ukqEYrwaorxT5rVNVwCoyu14XrCyOQRnN0O
+ BXzn58yCtQdkLich0U36NuQ=
+X-Google-Smtp-Source: ABdhPJyi3EjpODP/s0PJqWJBzQX+ZI1bWUXIfr6wLzhDedh2CezUajj5IJPXu5+kvLksdYlyFnVeTw==
+X-Received: by 2002:a63:d74f:0:b0:374:5bda:909d with SMTP id
+ w15-20020a63d74f000000b003745bda909dmr14142244pgi.215.1645987745965; 
+ Sun, 27 Feb 2022 10:49:05 -0800 (PST)
 Received: from [192.168.1.115] (32.red-88-28-25.dynamicip.rima-tde.net.
  [88.28.25.32]) by smtp.gmail.com with ESMTPSA id
- h22-20020a056a00231600b004e1784925e5sm10565165pfh.97.2022.02.27.10.47.35
+ pj12-20020a17090b4f4c00b001bc97c5b255sm8303283pjb.44.2022.02.27.10.48.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 10:47:46 -0800 (PST)
-Message-ID: <aa0e1eb4-ef43-b386-e7a3-c034f666181b@gmail.com>
-Date: Sun, 27 Feb 2022 19:47:31 +0100
+ Sun, 27 Feb 2022 10:49:05 -0800 (PST)
+Message-ID: <9e7b9bf5-abe9-0203-29e1-4c618a345a1e@gmail.com>
+Date: Sun, 27 Feb 2022 19:48:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 5/9] tests/avocado/linux_ssh_mips_malta.py: add missing
- accel (tcg) tag
+Subject: Re: [PATCH 3/9] Avocado migration test: adapt to "utils.network" API
+ namespace change
 Content-Language: en-US
 To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
 References: <20220225210156.2032055-1-crosa@redhat.com>
- <20220225210156.2032055-6-crosa@redhat.com>
+ <20220225210156.2032055-4-crosa@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220225210156.2032055-6-crosa@redhat.com>
+In-Reply-To: <20220225210156.2032055-4-crosa@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -123,31 +122,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 25/2/22 22:01, Cleber Rosa wrote:
-> Being explicit about the accelerator used on these tests is a good
-> thing in itself, but it will also be used in the filtering rules
-> applied on "make check-avocado".
+> Since Avocado 94.0[1], the "avocado.utils.network" dropped a lot of
+> previously deprecated API names, having the new names into a finer
+> grained structure.
+> 
+> This simply uses the new API names for the network port utility
+> module.
+> 
+> [1] - https://avocado-framework.readthedocs.io/en/latest/releases/94_0.html#utility-apis
 > 
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->   tests/avocado/linux_ssh_mips_malta.py | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/tests/avocado/linux_ssh_mips_malta.py b/tests/avocado/linux_ssh_mips_malta.py
-> index c0f0be5ade..0179d8a6ca 100644
-> --- a/tests/avocado/linux_ssh_mips_malta.py
-> +++ b/tests/avocado/linux_ssh_mips_malta.py
-> @@ -23,6 +23,9 @@
->   @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
+>   tests/avocado/avocado_qemu/__init__.py | 5 +++--
+>   tests/avocado/migration.py             | 4 ++--
+>   2 files changed, 5 insertions(+), 4 deletions(-)
 
-Should we remove this line then? ^^^
-
->   @skipUnless(ssh.SSH_CLIENT_BINARY, 'No SSH client available')
->   class LinuxSSH(QemuSystemTest, LinuxSSHMixIn):
-> +    """
-> +    :avocado: tags=accel:tcg
-> +    """
->   
->       timeout = 150 # Not for 'configure --enable-debug --enable-debug-tcg'
->   
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
