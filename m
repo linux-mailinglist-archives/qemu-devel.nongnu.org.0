@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFB14C5942
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 05:25:13 +0100 (CET)
-Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5B94C59D4
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 07:58:54 +0100 (CET)
+Received: from localhost ([::1]:33256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOB7Q-0007y9-26
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 23:25:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55346)
+	id 1nODW6-0005OB-AK
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 01:58:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nOB58-0006EY-5x
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 23:22:50 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=40853
- helo=mail-pj1-x102f.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nODU5-0003xc-Aq
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 01:56:45 -0500
+Received: from [2607:f8b0:4864:20::629] (port=38527
+ helo=mail-pl1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nOB56-00077E-Cj
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 23:22:49 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- em10-20020a17090b014a00b001bc3071f921so11865385pjb.5
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 20:22:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IM6VwbNeSlgOErfo82BYeQWh1KPCm7vngBaTl/7ROWk=;
- b=gJFaXzG64qnZDFmuGTiVXCDa+yn2KQg0FfbTNcFw+SCKYLLhhhSfm5AzoXKRcWIrww
- G0NHNQ7m0JUDEfsr/r4gTSXabmZfIP60/KIGBRxxwlcr2MPcPn+723p15sk8IZIyBC+Z
- LmKPXmT8Qtvhk/krReKoOP3qfINOqRMlpZ4c3lm268Axj4vtsSF9ZtZQb13fWVNwylvn
- ICAHbnlUOCyzdyfh6sqZp+0tDsYMl/7Zd3/6BYLSFDWd5dL8uAVpd1KqtT/ZYbuqb7r3
- DP/ZuUZ+JQQYFjYb8nm5fkZGJOk4F8hvpsyzFOXcZHvE1RnqeFTPa8X85ClgSZAYingu
- KwhQ==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nODU2-0002Ep-NM
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 01:56:44 -0500
+Received: by mail-pl1-x629.google.com with SMTP id h17so2612422plc.5
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 22:56:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=F5djDTyBGY2DWHsG9oTEZyyMNbcEzItLnFUrsv3IRIk=;
+ b=rv0bYpstzA9IZS7IiZlWjr1HpBQN2jbU09H4wsKEVCF1vHPvMjQkGjjZzmmQ8w6R2r
+ weUXY/Eww6hWS6IdzJvio6RKHmXl8yYIyWolzDTC0Lp06/8iR5X0DUbiRyEBJpIgybzU
+ jnojsVJOcGUHl0PKOk/yxwc2I94KPWl8rEUue+dRjnG/wdTpjf0ioaBw55CFpstK2Wdt
+ 9xYGib7HoV4TAfDA/jnw0QU0Y2sneIoK6mhsTbShW5CaazEaBhwD3hoQn1+s2FZddaP8
+ H+mplU4eEJHLONua2OQE8Eu3pUopy0Oyk+bDelesCGkyRf5hpEKFANw1PfhwgQ1lIHeW
+ 4MjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IM6VwbNeSlgOErfo82BYeQWh1KPCm7vngBaTl/7ROWk=;
- b=b1pOcpjG4Krw1nnaGnvuSQxTikVJPpExgU0WLlBopJKcoHIJ2LHkdKIavfP/SF/LPN
- 0awAyvWSA1t/AdjmuhuUhj90aqsMKpN47Ynxy4feGMyEMEV4B+OpmxkNaLLPPoEGiXCM
- pkYM82HxsXtGmBhZk04B7q87Z5uX/EW9sQPp9+UgceLIDs2eN4MUZHc7kWEaMjJ10VDh
- nonfF3NeSdk68RhEV62+tqWQwg9M4QSgr9lQiH3p3k1aYXxTn+WIv9mD39aZz3xW6cCo
- 3amyBE3vshUOCnvdzJtcNMiYJv01bgXCZD1aHWhoetkYvX9Cpa0KqrPjSFEFSqRAWRDy
- 0x4Q==
-X-Gm-Message-State: AOAM533ng+nC89HNF4LRG6Zw8w08GDXc7NPIlPY88YR5vDBszdKuwsne
- UhiA5TT0APuZ0Z9b8hSWJhMQZblka3A=
-X-Google-Smtp-Source: ABdhPJw1gwTPvufH2r9y16XDH0wjn+cMUL5R2hnHR1fdKWpI6ghqSbh4/TQlXZBqX+vv1mxvoNPiKg==
-X-Received: by 2002:a17:90a:ca16:b0:1bc:16a7:e840 with SMTP id
- x22-20020a17090aca1600b001bc16a7e840mr10515282pjt.225.1645935766829; 
- Sat, 26 Feb 2022 20:22:46 -0800 (PST)
-Received: from localhost.localdomain ([2400:4050:c360:8200:6839:3c6:46aa:5d85])
- by smtp.gmail.com with ESMTPSA id
- w14-20020a63af0e000000b003732348b995sm6488134pge.12.2022.02.26.20.22.44
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 26 Feb 2022 20:22:46 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH v3] ui/cocoa: Use the standard about panel
-Date: Sun, 27 Feb 2022 13:22:41 +0900
-Message-Id: <20220227042241.1543-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=F5djDTyBGY2DWHsG9oTEZyyMNbcEzItLnFUrsv3IRIk=;
+ b=vvjMy39rWWvPduPcYAnESTbO1mr991vc5evK304kWDHQ4np2KT4W2pK0QsLLbGBuqr
+ zGgWM3gMWlYOOPMxpfTonSBZjhJ80kWwIGAXoKmBMvswvauUDR7ivsT378vaRNPnV39E
+ g73WlgFeOkq0HzITrRDnNgWC/JNDqAFyfRnHzzosLJq2/5EazFT2Ci6qsg2eppums3ou
+ psDBPpoG0SJDeLtzwLmAsdUQvBIOCdP8zIE/M07u+bnAivQLZU9zcoDZ38IS9+khCom9
+ yoTSFcR9G9GiaE1iU6e+nk5crN0FPw3jbvUbLh07fmU3WDNp8e/anMYbdN03uwdyFqnk
+ XP4g==
+X-Gm-Message-State: AOAM532O08XM6bZxPG8zQg9jbdWDMstRdQ/CNgRB2ZnhUB/5kgjeKG78
+ aijyBal4baLJfNQdhQnMwayGww==
+X-Google-Smtp-Source: ABdhPJw6giP9D5RAH3u1xlQ+UWDqJgqVhjXPXDjep1RiBzXQFvbhuXgimPLIxhl2gV2FE8oraaWx+Q==
+X-Received: by 2002:a17:902:b945:b0:14e:e5c4:7bcd with SMTP id
+ h5-20020a170902b94500b0014ee5c47bcdmr15100768pls.48.1645944999177; 
+ Sat, 26 Feb 2022 22:56:39 -0800 (PST)
+Received: from anisinha-lenovo ([115.96.134.68])
+ by smtp.googlemail.com with ESMTPSA id
+ m6-20020a62f206000000b004e152bc0527sm8805130pfh.153.2022.02.26.22.56.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Feb 2022 22:56:38 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Sun, 27 Feb 2022 12:26:33 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Liav Albani <liavalb@gmail.com>
+Subject: Re: [PATCH v3 3/4] hw/acpi: add indication for i8042 in IA-PC boot
+ flags of the FADT table
+In-Reply-To: <20220226063019.1112654-4-liavalb@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2202271222230.1249418@anisinha-lenovo>
+References: <20220226063019.1112654-1-liavalb@gmail.com>
+ <20220226063019.1112654-4-liavalb@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: 8
-X-Spam_score: 0.8
+Received-SPF: none client-ip=2607:f8b0:4864:20::629;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_FMBLA_NEWDOM=1.498, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,165 +90,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: ani@anisinha.ca, imammedo@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This provides standard look and feel for the about panel and reduces
-code.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- ui/cocoa.m | 112 +++++++++++------------------------------------------
- 1 file changed, 23 insertions(+), 89 deletions(-)
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index a8f1cdaf926..59672fee775 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -83,7 +83,7 @@ static void cocoa_switch(DisplayChangeListener *dcl,
- 
- static void cocoa_refresh(DisplayChangeListener *dcl);
- 
--static NSWindow *normalWindow, *about_window;
-+static NSWindow *normalWindow;
- static const DisplayChangeListenerOps dcl_ops = {
-     .dpy_name          = "cocoa",
-     .dpy_gfx_update = cocoa_update,
-@@ -1120,7 +1120,6 @@ - (void)changeDeviceMedia:(id)sender;
- - (BOOL)verifyQuit;
- - (void)openDocumentation:(NSString *)filename;
- - (IBAction) do_about_menu_item: (id) sender;
--- (void)make_about_window;
- - (void)adjustSpeed:(id)sender;
- @end
- 
-@@ -1166,8 +1165,6 @@ - (id) init
-         [pauseLabel setFont: [NSFont fontWithName: @"Helvetica" size: 90]];
-         [pauseLabel setTextColor: [NSColor blackColor]];
-         [pauseLabel sizeToFit];
--
--        [self make_about_window];
-     }
-     return self;
- }
-@@ -1451,92 +1448,29 @@ - (BOOL)verifyQuit
- /* The action method for the About menu item */
- - (IBAction) do_about_menu_item: (id) sender
- {
--    [about_window makeKeyAndOrderFront: nil];
--}
--
--/* Create and display the about dialog */
--- (void)make_about_window
--{
--    /* Make the window */
--    int x = 0, y = 0, about_width = 400, about_height = 200;
--    NSRect window_rect = NSMakeRect(x, y, about_width, about_height);
--    about_window = [[NSWindow alloc] initWithContentRect:window_rect
--                    styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
--                    NSWindowStyleMaskMiniaturizable
--                    backing:NSBackingStoreBuffered
--                    defer:NO];
--    [about_window setTitle: @"About"];
--    [about_window setReleasedWhenClosed: NO];
--    [about_window center];
--    NSView *superView = [about_window contentView];
--
--    /* Create the dimensions of the picture */
--    int picture_width = 80, picture_height = 80;
--    x = (about_width - picture_width)/2;
--    y = about_height - picture_height - 10;
--    NSRect picture_rect = NSMakeRect(x, y, picture_width, picture_height);
--
--    /* Make the picture of QEMU */
--    NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
--                                                     picture_rect];
--    char *qemu_image_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
--    NSString *qemu_image_path = [NSString stringWithUTF8String:qemu_image_path_c];
--    g_free(qemu_image_path_c);
--    NSImage *qemu_image = [[NSImage alloc] initWithContentsOfFile:qemu_image_path];
--    [picture_view setImage: qemu_image];
--    [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
--    [superView addSubview: picture_view];
--
--    /* Make the name label */
--    NSBundle *bundle = [NSBundle mainBundle];
--    if (bundle) {
--        x = 0;
--        y = y - 25;
--        int name_width = about_width, name_height = 20;
--        NSRect name_rect = NSMakeRect(x, y, name_width, name_height);
--        NSTextField *name_label = [[NSTextField alloc] initWithFrame: name_rect];
--        [name_label setEditable: NO];
--        [name_label setBezeled: NO];
--        [name_label setDrawsBackground: NO];
--        [name_label setAlignment: NSTextAlignmentCenter];
--        NSString *qemu_name = [[bundle executablePath] lastPathComponent];
--        [name_label setStringValue: qemu_name];
--        [superView addSubview: name_label];
-+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-+    char *icon_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
-+    NSString *icon_path = [NSString stringWithUTF8String:icon_path_c];
-+    g_free(icon_path_c);
-+    NSImage *icon = [[NSImage alloc] initWithContentsOfFile:icon_path];
-+    NSString *version = @"QEMU emulator version " QEMU_FULL_VERSION;
-+    NSString *copyright = @QEMU_COPYRIGHT;
-+    NSDictionary *options;
-+    if (icon) {
-+        options = @{
-+            NSAboutPanelOptionApplicationIcon : icon,
-+            NSAboutPanelOptionApplicationVersion : version,
-+            @"Copyright" : copyright,
-+        };
-+        [icon release];
-+    } else {
-+        options = @{
-+            NSAboutPanelOptionApplicationVersion : version,
-+            @"Copyright" : copyright,
-+        };
-     }
--
--    /* Set the version label's attributes */
--    x = 0;
--    y = 50;
--    int version_width = about_width, version_height = 20;
--    NSRect version_rect = NSMakeRect(x, y, version_width, version_height);
--    NSTextField *version_label = [[NSTextField alloc] initWithFrame:
--                                                      version_rect];
--    [version_label setEditable: NO];
--    [version_label setBezeled: NO];
--    [version_label setAlignment: NSTextAlignmentCenter];
--    [version_label setDrawsBackground: NO];
--
--    /* Create the version string*/
--    NSString *version_string;
--    version_string = [[NSString alloc] initWithFormat:
--    @"QEMU emulator version %s", QEMU_FULL_VERSION];
--    [version_label setStringValue: version_string];
--    [superView addSubview: version_label];
--
--    /* Make copyright label */
--    x = 0;
--    y = 35;
--    int copyright_width = about_width, copyright_height = 20;
--    NSRect copyright_rect = NSMakeRect(x, y, copyright_width, copyright_height);
--    NSTextField *copyright_label = [[NSTextField alloc] initWithFrame:
--                                                        copyright_rect];
--    [copyright_label setEditable: NO];
--    [copyright_label setBezeled: NO];
--    [copyright_label setDrawsBackground: NO];
--    [copyright_label setAlignment: NSTextAlignmentCenter];
--    [copyright_label setStringValue: [NSString stringWithFormat: @"%s",
--                                     QEMU_COPYRIGHT]];
--    [superView addSubview: copyright_label];
-+    [NSApp orderFrontStandardAboutPanelWithOptions:options];
-+    [pool release];
- }
- 
- /* Used by the Speed menu items */
--- 
-2.32.0 (Apple Git-132)
+On Sat, 26 Feb 2022, Liav Albani wrote:
 
+> This can allow the guest OS to determine more easily if i8042 controller
+> is present in the system or not, so it doesn't need to do probing of the
+> controller, but just initialize it immediately, before enumerating the
+> ACPI AML namespace.
+>
+> Signed-off-by: Liav Albani <liavalb@gmail.com>
+> ---
+>  hw/acpi/aml-build.c         | 7 ++++++-
+>  hw/i386/acpi-build.c        | 8 ++++++++
+>  hw/i386/acpi-microvm.c      | 9 +++++++++
+>  include/hw/acpi/acpi-defs.h | 1 +
+>  4 files changed, 24 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index 8966e16320..ef5f4cad87 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -2152,7 +2152,12 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>      build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
+>      build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
+>      build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
+> -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
+> +    /* IAPC_BOOT_ARCH */
+> +    if (f->rev == 1) {
+> +        build_append_int_noprefix(tbl, 0, 2);
+> +    } else {
+> +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
+> +    }
+
+Like a suggested in the previous iteration, please add a comment here to
+specify why you are adding this only for rev !=1 . Also please mention
+that your change only affects q35 machines since i440fx uses rev 1 (ref to
+acpi_get_pm_info()).
+
+
+>      build_append_int_noprefix(tbl, 0, 1); /* Reserved */
+>      build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
+>
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index ebd47aa26f..65dbc1ec36 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -192,6 +192,14 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+>              .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
+>          },
+>      };
+> +    /*
+> +     * second bit of 16 but
+
+wow, you even retained my typo here! :-)
+
+
+>IAPC_BOOT_ARCH indicates presence of 8042 or
+> +     * equivalent micro controller. See table 5-10 of APCI spec version 2.0
+> +     * (the earliest acpi revision that supports this).
+> +     */
+> +
+> +    fadt.iapc_boot_arch = isa_check_device_existence("i8042") ? 0x0002 : 0x0000;
+> +
+>      *data = fadt;
+>  }
+>
+> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+> index 68ca7e7fc2..e5f89164be 100644
+> --- a/hw/i386/acpi-microvm.c
+> +++ b/hw/i386/acpi-microvm.c
+> @@ -189,6 +189,15 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
+>          .reset_val = ACPI_GED_RESET_VALUE,
+>      };
+>
+> +    /*
+> +     * second bit of 16 but IAPC_BOOT_ARCH indicates presence of 8042 or
+>
+
+ditto as above.
+
+ +     * equivalent micro controller. See table 5-10 of APCI spec version 2.0
+> +     * (the earliest acpi revision that supports this).
+> +     */
+> +
+> +    pmfadt.iapc_boot_arch = isa_check_device_existence("i8042") ? 0x0002
+> +                            : 0x0000;
+> +
+>      table_offsets = g_array_new(false, true /* clear */,
+>                                          sizeof(uint32_t));
+>      bios_linker_loader_alloc(tables->linker,
+> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> index c97e8633ad..2b42e4192b 100644
+> --- a/include/hw/acpi/acpi-defs.h
+> +++ b/include/hw/acpi/acpi-defs.h
+> @@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
+>      uint16_t plvl2_lat;        /* P_LVL2_LAT */
+>      uint16_t plvl3_lat;        /* P_LVL3_LAT */
+>      uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
+> +    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
+>      uint8_t minor_ver;         /* FADT Minor Version */
+>
+>      /*
+> --
+> 2.35.1
+>
+>
 
