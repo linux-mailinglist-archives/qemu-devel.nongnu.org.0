@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3877D4C59DA
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 08:07:47 +0100 (CET)
-Received: from localhost ([::1]:39488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89944C59E3
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 08:30:27 +0100 (CET)
+Received: from localhost ([::1]:45880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nODeh-0001cG-Od
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 02:07:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42226)
+	id 1nOE0e-00072e-Rv
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 02:30:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nODcm-0000sj-Pq
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 02:05:45 -0500
-Received: from [2607:f8b0:4864:20::536] (port=33337
- helo=mail-pg1-x536.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nODyQ-0006GO-BY
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 02:28:06 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=46676
+ helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nODck-0003dh-0M
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 02:05:43 -0500
-Received: by mail-pg1-x536.google.com with SMTP id 12so8741081pgd.0
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 23:05:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nODyO-0000Q8-Kj
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 02:28:06 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ j10-20020a17090a94ca00b001bc2a9596f6so8609862pjw.5
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 23:27:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=from:date:to:cc:subject:in-reply-to:message-id:references
  :user-agent:mime-version;
- bh=ZiVlwT4hkUl+rbbmb/RwanAfImBFmqZQ6+lCAMBlnJE=;
- b=Ukgf7a05DB/ryKNYL2RqF6+qL8tcmle9HbBgzhNLChwE7gYWKGQbMCOKkSEf/SLUYk
- 5/dcLuT5Cr4d+xiVreejp4mZ1ARMAxUC+nrHKMpeOvReTXHqnirJyqfDlNHotzMPMsR/
- F5YMwIqfTvR7jNh2bzSELSyTBemchRLXq1KzOZJk1jbHlnHMO04jP8pLGSArUfqZkx56
- aR7mhrRYLEBfJzg6r2Wr0WUS4MblmoLFZaA31QrKsacmBp1OisVmmvyiL4Le+6TwRCnd
- oerqI+s/Ga90ROnqEGGuyRbZK4FhqeMG1MmryWXpKw7oJ2TKfRx3TbhJ08NB6Duf+U/c
- Tx9g==
+ bh=G50btztooWhTvAehOYk+wL4yjhDTLneDiz3Zeko1HXA=;
+ b=uoeBEImL5+z5e/tVg20pUYcEaLsFlVELuf9IiWX5YXmzovRXnqJs0x3L4ebjeKv40h
+ csqXr0cC228/+MYGiF2PZuVpXA5ke7V2EFoinon1bvA8005VHvKzk99V0rWeiOTB2Yi0
+ 0YutJiBYPq3m1TfJdl8bHahF6ZGaWqwzm7GzbYXtR50/n238e2Jpv9YUYvSwoH6lOkjg
+ k84x6vXRGSTqIrKjlI7NTduzwTAyDON1eKx9NFMAHFgEsAPp8+ZB1uerukrK9bk3Z52n
+ nos8fvK7h46fy/xnGACO87r/4WUGRkGwiPL7BI+8wbmDv83vFw98dUujMfugjfja4xa9
+ i4sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
  :references:user-agent:mime-version;
- bh=ZiVlwT4hkUl+rbbmb/RwanAfImBFmqZQ6+lCAMBlnJE=;
- b=jN75A/x1c+2mmj+jZzQKte+ao0X8j37tkj1ydy2RRmrB6KvPvI6qq2Vg7W48pX30+X
- a+zMncD+JixfxvWq9lUIMXSiaV5hotgKdJ75vD65DDHeHLT8oNY8bXFQa8RsD8HrFNM2
- DaD+Ib578Me9hf3wFC5vwMg6EPVQ3EMQowdPsPlPKvTeBl9IT/rDf7jA8Xxhg0HhYe1T
- rS0X6100GPdmZE0qM91LFmHPYXQ/JuHnLWAZQr72JIkbUVz1PQ8B4MjhdpC0bHnUls0z
- SbopJ59wAYXZkbU/zYBPywbEnWmU9C/qzIsMNaH++sAogE7xL+r2+rDCUdkMQGrhliUK
- Wi3Q==
-X-Gm-Message-State: AOAM531zJh45VktKoVEWpPTetHPiLfEyPIVefNGMmwdHb2mL3Q27ynWO
- AOobxa0uO/M8M6dNp5z6sFOj0g==
-X-Google-Smtp-Source: ABdhPJzuUCiFWFgiG8ZUp3TuZLyr6cR91bOQ1RUwU+iOh0lL0rj5hfXji6reXaaegzcM5ih+qzIRAw==
-X-Received: by 2002:a63:950a:0:b0:375:64a3:f98c with SMTP id
- p10-20020a63950a000000b0037564a3f98cmr13080727pgd.22.1645945539444; 
- Sat, 26 Feb 2022 23:05:39 -0800 (PST)
+ bh=G50btztooWhTvAehOYk+wL4yjhDTLneDiz3Zeko1HXA=;
+ b=l/efzeDrowUszFmXTySo8Rl/ehx5ff2Y2FHNAaI9YZoTbCsQ5kZepo2N8YOFVbYZYZ
+ O9n1PaUSwPvLihYZVmWSUCWx9Pat7X0seyx//CiyVuYHh6HEK3K0xpPHxNCDpOy2sfPS
+ gmGhtRq9n9kzTYYsrXyA7upv1WzK5AMB9pBkWGthdYEptzzioZ+IDrBCuZ7u1rwMGcCk
+ ai1MKRg9Aj+5z6kCRGGfGJarXkhY06ZgYH/S2Ed12SbNhuEPCzHK5UlCPzHuNVb27cE8
+ E27zz/B5gzaVpuUAmgWnxs1cXFCk45vcyFszyVy1P0HNmeW2y0MLtmZH556E/+T80fwD
+ SlHg==
+X-Gm-Message-State: AOAM533kbsXbUZQ3VlIH2GnwHEQSyPfPpUSMGzzeRf2/yqFYH4+VR3LH
+ UIbC+AIqachfoYisvHbZGlISVA==
+X-Google-Smtp-Source: ABdhPJzRdtD+Imlyuo3rI/QNHpI1pItT0K4d6FtqU3NyMf1nNz1/C1lB8Gtx6H48ZDkmKz7nI9jejQ==
+X-Received: by 2002:a17:903:18d:b0:150:b6d:64cd with SMTP id
+ z13-20020a170903018d00b001500b6d64cdmr15132707plg.123.1645946874217; 
+ Sat, 26 Feb 2022 23:27:54 -0800 (PST)
 Received: from anisinha-lenovo ([115.96.134.68])
  by smtp.googlemail.com with ESMTPSA id
- b13-20020a056a00114d00b004c122b90703sm8542644pfm.27.2022.02.26.23.05.37
+ x11-20020a056a00188b00b004e1c075c6fbsm8855398pfh.52.2022.02.26.23.27.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Feb 2022 23:05:39 -0800 (PST)
+ Sat, 26 Feb 2022 23:27:53 -0800 (PST)
 From: Ani Sinha <ani@anisinha.ca>
 X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Sun, 27 Feb 2022 12:35:34 +0530 (IST)
+Date: Sun, 27 Feb 2022 12:57:48 +0530 (IST)
 X-X-Sender: anisinha@anisinha-lenovo
 To: Liav Albani <liavalb@gmail.com>
-Subject: Re: [PATCH v3 4/4] tests/acpi: i386: update FACP table differences
-In-Reply-To: <20220226063019.1112654-5-liavalb@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2202271235040.1249418@anisinha-lenovo>
+Subject: Re: [PATCH v3 1/4] hw/isa: add function to check for existence of
+ device by its type
+In-Reply-To: <20220226063019.1112654-2-liavalb@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2202271254280.1249418@anisinha-lenovo>
 References: <20220226063019.1112654-1-liavalb@gmail.com>
- <20220226063019.1112654-5-liavalb@gmail.com>
+ <20220226063019.1112654-2-liavalb@gmail.com>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::536;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x536.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -97,128 +99,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sat, 26 Feb 2022, Liav Albani wrote:
 
-> After changing the IAPC boot flags register to indicate support of i8042
-> in the machine chipset to help the guest OS to determine its existence
-> "faster", we need to have the updated FACP ACPI binary images in tree.
->
-> @@ -1,32 +1,32 @@
->  /*
->   * Intel ACPI Component Architecture
->   * AML/ASL+ Disassembler version 20211217 (64-bit version)
->   * Copyright (c) 2000 - 2021 Intel Corporation
->   *
-> - * Disassembly of tests/data/acpi/q35/FACP, Wed Feb 23 22:37:39 2022
-> + * Disassembly of /tmp/aml-BBFBI1, Wed Feb 23 22:37:39 2022
->   *
->   * ACPI Data Table [FACP]
->   *
->   * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue (in hex)
->   */
->
->  [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
->  [004h 0004   4]                 Table Length : 000000F4
->  [008h 0008   1]                     Revision : 03
-> -[009h 0009   1]                     Checksum : B9
-> +[009h 0009   1]                     Checksum : B7
->  [00Ah 0010   6]                       Oem ID : "BOCHS "
->  [010h 0016   8]                 Oem Table ID : "BXPC    "
->  [018h 0024   4]                 Oem Revision : 00000001
->  [01Ch 0028   4]              Asl Compiler ID : "BXPC"
->  [020h 0032   4]        Asl Compiler Revision : 00000001
->
->  [024h 0036   4]                 FACS Address : 00000000
->  [028h 0040   4]                 DSDT Address : 00000000
->  [02Ch 0044   1]                        Model : 01
->  [02Dh 0045   1]                   PM Profile : 00 [Unspecified]
->  [02Eh 0046   2]                SCI Interrupt : 0009
->  [030h 0048   4]             SMI Command Port : 000000B2
->  [034h 0052   1]            ACPI Enable Value : 02
->  [035h 0053   1]           ACPI Disable Value : 03
->  [036h 0054   1]               S4BIOS Command : 00
->  [037h 0055   1]              P-State Control : 00
-> @@ -42,35 +42,35 @@
->  [059h 0089   1]     PM1 Control Block Length : 02
->  [05Ah 0090   1]     PM2 Control Block Length : 00
->  [05Bh 0091   1]        PM Timer Block Length : 04
->  [05Ch 0092   1]            GPE0 Block Length : 10
->  [05Dh 0093   1]            GPE1 Block Length : 00
->  [05Eh 0094   1]             GPE1 Base Offset : 00
->  [05Fh 0095   1]                 _CST Support : 00
->  [060h 0096   2]                   C2 Latency : 0FFF
->  [062h 0098   2]                   C3 Latency : 0FFF
->  [064h 0100   2]               CPU Cache Size : 0000
->  [066h 0102   2]           Cache Flush Stride : 0000
->  [068h 0104   1]            Duty Cycle Offset : 00
->  [069h 0105   1]             Duty Cycle Width : 00
->  [06Ah 0106   1]          RTC Day Alarm Index : 00
->  [06Bh 0107   1]        RTC Month Alarm Index : 00
->  [06Ch 0108   1]            RTC Century Index : 32
-> -[06Dh 0109   2]   Boot Flags (decoded below) : 0000
-> +[06Dh 0109   2]   Boot Flags (decoded below) : 0002
->                 Legacy Devices Supported (V2) : 0
-> -            8042 Present on ports 60/64 (V2) : 0
-> +            8042 Present on ports 60/64 (V2) : 1
->                          VGA Not Present (V4) : 0
->                        MSI Not Supported (V4) : 0
->                  PCIe ASPM Not Supported (V4) : 0
->                     CMOS RTC Not Present (V5) : 0
->  [06Fh 0111   1]                     Reserved : 00
->  [070h 0112   4]        Flags (decoded below) : 000084A5
->        WBINVD instruction is operational (V1) : 1
->                WBINVD flushes all caches (V1) : 0
->                      All CPUs support C1 (V1) : 1
->                    C2 works on MP system (V1) : 0
->              Control Method Power Button (V1) : 0
->              Control Method Sleep Button (V1) : 1
->          RTC wake not in fixed reg space (V1) : 0
->              RTC can wake system from S4 (V1) : 1
->                          32-bit PM Timer (V1) : 0
->                        Docking Supported (V1) : 0
-> @@ -148,32 +148,32 @@
->  [0DCh 0220   1]                     Space ID : 01 [SystemIO]
->  [0DDh 0221   1]                    Bit Width : 80
->  [0DEh 0222   1]                   Bit Offset : 00
->  [0DFh 0223   1]         Encoded Access Width : 00 [Undefined/Legacy]
->  [0E0h 0224   8]                      Address : 0000000000000620
->
->  [0E8h 0232  12]                   GPE1 Block : [Generic Address Structure]
->  [0E8h 0232   1]                     Space ID : 00 [SystemMemory]
->  [0E9h 0233   1]                    Bit Width : 00
->  [0EAh 0234   1]                   Bit Offset : 00
->  [0EBh 0235   1]         Encoded Access Width : 00 [Undefined/Legacy]
->  [0ECh 0236   8]                      Address : 0000000000000000
->
->  Raw Table Data: Length 244 (0xF4)
->
-> -    0000: 46 41 43 50 F4 00 00 00 03 B9 42 4F 43 48 53 20  // FACP......BOCHS
-> +    0000: 46 41 43 50 F4 00 00 00 03 B7 42 4F 43 48 53 20  // FACP......BOCHS
->      0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
->      0020: 01 00 00 00 00 00 00 00 00 00 00 00 01 00 09 00  // ................
->      0030: B2 00 00 00 02 03 00 00 00 06 00 00 00 00 00 00  // ................
->      0040: 04 06 00 00 00 00 00 00 00 00 00 00 08 06 00 00  // ................
->      0050: 20 06 00 00 00 00 00 00 04 02 00 04 10 00 00 00  //  ...............
-> -    0060: FF 0F FF 0F 00 00 00 00 00 00 00 00 32 00 00 00  // ............2...
-> +    0060: FF 0F FF 0F 00 00 00 00 00 00 00 00 32 02 00 00  // ............2...
->      0070: A5 84 00 00 01 08 00 00 F9 0C 00 00 00 00 00 00  // ................
->      0080: 0F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
->      0090: 00 00 00 00 01 20 00 00 00 06 00 00 00 00 00 00  // ..... ..........
->      00A0: 00 00 00 00 00 00 00 00 00 00 00 00 01 10 00 00  // ................
->      00B0: 04 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
->      00C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
->      00D0: 01 20 00 00 08 06 00 00 00 00 00 00 01 80 00 00  // . ..............
->      00E0: 20 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00  //  ...............
->      00F0: 00 00 00 00                                      // ....
-> **
+> This function enumerates all attached ISA devices in the machine, and
+> tries to compare a given device type name to the enumerated devices.
+> For example, this can help other code to determine if a i8042 controller
+> exists in the machine.
 >
 > Signed-off-by: Liav Albani <liavalb@gmail.com>
-
-Acked-by: Ani Sinha <ani@anisinha.ca>
-
 > ---
->  tests/data/acpi/q35/FACP                    | Bin 244 -> 244 bytes
->  tests/data/acpi/q35/FACP.nosmm              | Bin 244 -> 244 bytes
->  tests/data/acpi/q35/FACP.slic               | Bin 244 -> 244 bytes
->  tests/data/acpi/q35/FACP.xapic              | Bin 244 -> 244 bytes
->  tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
->  5 files changed, 4 deletions(-)
+>  hw/isa/isa-bus.c     | 23 +++++++++++++++++++++++
+>  include/hw/isa/isa.h |  1 +
+>  2 files changed, 24 insertions(+)
+>
+> diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+> index 6c31398dda..663aa36d29 100644
+> --- a/hw/isa/isa-bus.c
+> +++ b/hw/isa/isa-bus.c
+> @@ -222,6 +222,29 @@ void isa_build_aml(ISABus *bus, Aml *scope)
+>      }
+>  }
+>
+> +bool isa_check_device_existence(const char *typename)
+> +{
+> +    /*
+> +     * If there's no ISA bus, we know for sure that the checked ISA device type
+> +     * doesn't exist in the machine.
+> +     */
+> +    if (isabus == NULL) {
+
+nit: I would do if (!isabus) instead to keep uniformity with other parts
+of the code.
+
+> +        return false;
+> +    }
+> +
+> +    BusChild *kid;
+> +    ISADevice *dev;
+> +
+> +    QTAILQ_FOREACH(kid, &isabus->parent_obj.children, sibling) {
+> +        dev = ISA_DEVICE(kid->child);
+> +        const char *object_type = object_get_typename(OBJECT(dev));
+> +        if (object_type && strcmp(object_type, typename) == 0) {
+
+nit: I would do !strcmp() instead.
+
+> +            return true;
+> +        }
+> +    }
+> +    return false;
+> +}
+> +
+>  static void isabus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+>  {
+>      ISADevice *d = ISA_DEVICE(dev);
+> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+> index d4417b34b6..65f0c7e28c 100644
+> --- a/include/hw/isa/isa.h
+> +++ b/include/hw/isa/isa.h
+> @@ -99,6 +99,7 @@ IsaDma *isa_get_dma(ISABus *bus, int nchan);
+>  MemoryRegion *isa_address_space(ISADevice *dev);
+>  MemoryRegion *isa_address_space_io(ISADevice *dev);
+>  ISADevice *isa_new(const char *name);
+> +bool isa_check_device_existence(const char *typename);
+
+Please provide documentation for this function in line with other
+functions like isa_register_ioport() and isa_register_portio_list()  in
+the same header.
 
