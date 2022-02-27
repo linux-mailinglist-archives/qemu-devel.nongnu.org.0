@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD0D4C5F5F
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:15:01 +0100 (CET)
-Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700434C5F64
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:16:40 +0100 (CET)
+Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nORoi-0002ZE-9Z
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:15:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48640)
+	id 1nORqJ-0004Bn-I7
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:16:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nORnK-0001jT-QS; Sun, 27 Feb 2022 17:13:36 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=54176
- helo=mail-pj1-x1035.google.com)
+ id 1nORoB-0002ee-AL
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:14:27 -0500
+Received: from [2607:f8b0:4864:20::536] (port=44645
+ helo=mail-pg1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nORnJ-0001dp-GQ; Sun, 27 Feb 2022 17:13:34 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id bx5so9484202pjb.3;
- Sun, 27 Feb 2022 14:13:32 -0800 (PST)
+ id 1nORo9-0001hr-JO
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:14:26 -0500
+Received: by mail-pg1-x536.google.com with SMTP id c1so9815765pgk.11
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 14:14:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=1IoOd9yofovtjDOIWEwqS/Ke/b7fyLX/0KT4/3ZgScA=;
- b=ARP+XC6nI3WF3U0CNdcjrhLLr99LE2E9Qzncvxrs/TSdX58ragh3OJPsPV7+9bKonf
- 4Q7idIsaYbMAChFe3LeuaiO07tLjkSaeMKkyuQuOTj77TBCGaVUvDJnVBH5fPkOP3i1a
- Haw4we4iFAA48Zj6cMCCMY1mA4VUy95s3NIzphuqAPjvLZY+/TFqLyjMQ2K9LdMrcgOI
- b7DFhXvObBuJ6BpAe2v5FOilyZcbsBbS5/632H463qxtKRUr8NpRmKvJFkc584Elmotf
- o2skUvq3A/RAJb/AW82jFoTow7+T2WzCm5dvz3SdoMfu0mNZ1Rb/+q6L5JRKB0wMk9OT
- kuKQ==
+ bh=VC3N2OjoAQ40n1zOnBvflqhENnRzXb6AqHnScQcHkfQ=;
+ b=SKkYpDsyOk9wzR3uiO4WPoLYu++LtSwv/WGLhAp4VfpPyzS21lU85JZUYOJOe4qKRS
+ rK+TZY41pWvLgwXIbm6Jn9T8YCKjgbfan+RfmmvcWMNfm+aGNviGPXLqopkUb1RqBtEs
+ hL5loBwwW63iCgPIiDdVCF5lvwMMujgd/s5NFAVc4iaOtfrs4j79gyrnDKe8gy4Lca2X
+ JSLLtZh7BD4h3Bci3cmVNy2XyENRHHm59Mqb/HkMx9Nw99KwIm+lCrLoQWOMduGBuLoF
+ 7iT9aoEYJIHBZqiF8gd1+HE8QFWY4FqCylrKonHWUKVWyhJy+XUSpQjyR7dMzTm7QG1E
+ N0dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=1IoOd9yofovtjDOIWEwqS/Ke/b7fyLX/0KT4/3ZgScA=;
- b=TcwjFoUevxQpPWdqexzV8HQ2E8dGfWd3UT6G6TlgfmSm6jQnJNDI5g10T+x1lVRX2R
- Z0eAgp4Ix0fnXY4sHdEGcjAg1tdyEoRRx+6WSELdeBrFKU7d3JcaJo6lW/9/HY9qMZ2R
- J2j6UMxIyXHas6DDFw0eWz9IZcD5L0pLzFwZbp4PtkvXNra3n39D/4FedM56IrNbgZ+U
- W863ObonfBtlj1YLmkH2RAADGzoSxEVkrWdiWN1WsD4WKeRFjlMX6UKSYHZjo/bd8NJj
- ZxByDU+VzFa00FzISXnYcmBod+CsN8vnFqr2UB30V3iJO19HO+Ipmyh4+wkKfk8zQ5Ci
- Bgsg==
-X-Gm-Message-State: AOAM531IjhGhDEAZCYMxCUpDQ9o5wFLBqbS+1K+sQwwKnWFwRvm2+SV/
- BEryQwxpSsrujMxbbBsM1iU=
-X-Google-Smtp-Source: ABdhPJz/H4mQDxkYO3IqLc3zHEJkzwzqNgRp5DxG1A7WYwncrBYNCxHnsmQngpzlegO/4Bf2MKOhfw==
-X-Received: by 2002:a17:902:f687:b0:14f:dff9:6a3c with SMTP id
- l7-20020a170902f68700b0014fdff96a3cmr17628045plg.163.1646000011436; 
- Sun, 27 Feb 2022 14:13:31 -0800 (PST)
+ bh=VC3N2OjoAQ40n1zOnBvflqhENnRzXb6AqHnScQcHkfQ=;
+ b=okhFhNqmAPU/2DKsD1PGE7skkoutNmDioNhpoZBEWgXDgkaktrg6mSyjK1deIppcXG
+ e7yIU/iLdxT1VFgtQbWRJvfQeUVX6gSxaPeOPVjjclr3AXNIjlucMbq91OS6IOdCIjG0
+ Ebg6cITF0OKsHHol2B+58/A+8SzwcgRUd/ro3xdU/nrgyeG473j+j8Rh3Qogc/7mSdaP
+ AcGba5hrwRsg7fiC+P4bvb2qvvPXTklXO97sC9nFjLI5t6iirGPNuFKWuyWVH/ZyM7r+
+ 0xH15MKnJJZxBOAeMAD58MNUR5UVVh14Ow7Tg6L9JcX1rkEbXWxmcKyrXe7Ex3o/1a0u
+ B1/A==
+X-Gm-Message-State: AOAM533LpQAEBSjgSayifC3FelkmFT8oBRgQyCAy+BG6Fd82e1KFsyuR
+ Hq9HGh/s+VbGim4dbHZTeYGqr35JyXc=
+X-Google-Smtp-Source: ABdhPJzF4Wl+W0lWgwWHRdxZylW7JlGtjAvSeYifVlNbdx/O7a2CWOvqVsYTNFk++ZTuIpk8AleB2g==
+X-Received: by 2002:a05:6a00:1c9c:b0:4c0:3e77:22ea with SMTP id
+ y28-20020a056a001c9c00b004c03e7722eamr18560855pfw.74.1646000063461; 
+ Sun, 27 Feb 2022 14:14:23 -0800 (PST)
 Received: from [192.168.1.115] (32.red-88-28-25.dynamicip.rima-tde.net.
  [88.28.25.32]) by smtp.gmail.com with ESMTPSA id
- k17-20020a056a00135100b004f3a9a477d0sm10561564pfu.110.2022.02.27.14.13.29
+ y12-20020a056a00190c00b004f39e28fb87sm11227403pfi.98.2022.02.27.14.14.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 14:13:31 -0800 (PST)
-Message-ID: <12a3bd53-cfb4-cecf-1d75-aa941eaa9663@gmail.com>
-Date: Sun, 27 Feb 2022 23:13:27 +0100
+ Sun, 27 Feb 2022 14:14:23 -0800 (PST)
+Message-ID: <cb19b6e2-46f2-7e81-3e3e-2bc06b9cd6bc@gmail.com>
+Date: Sun, 27 Feb 2022 23:14:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2 02/22] hw/rtc/m48t59-isa: QOM'ify IRQ number
+Subject: Re: [PATCH v2 03/22] hw/input/pckbd: QOM'ify IRQ numbers
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 References: <20220222193446.156717-1-shentey@gmail.com>
- <20220222193446.156717-3-shentey@gmail.com>
+ <20220222193446.156717-4-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220222193446.156717-3-shentey@gmail.com>
+In-Reply-To: <20220222193446.156717-4-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,34 +94,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- "open list:PReP" <qemu-ppc@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 22/2/22 20:34, Bernhard Beschow wrote:
-> Exposing the IRQ number as a QOM property not only allows it to be
+> Exposing the IRQ numbers as a QOM properties not only allows them to be
 > configurable but also to be printed by standard QOM mechanisms. This allows
 > isabus_dev_print() to be retired eventually.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/rtc/m48t59-isa.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
+>   hw/input/pckbd.c | 26 ++++++++++++++++++++++----
+>   1 file changed, 22 insertions(+), 4 deletions(-)
 
-> @@ -97,9 +99,14 @@ static void m48t59_isa_realize(DeviceState *dev, Error **errp)
->       M48txxISAState *d = M48TXX_ISA(dev);
->       M48t59State *s = &d->state;
->   
-> +    if (d->isairq >= ISA_NUM_IRQS) {
-> +        error_setg(errp, "Maximum value for \"irq\" is: %d", ISA_NUM_IRQS - 1);
-
-Format is "%u".
-
-> +        return;
-> +    }
-
-Similarly to patch #1, ISA_NUM_IRQS fits in uint8_t. Otherwise:
+Using uint8_t and "%u" format:
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
