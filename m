@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700434C5F64
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:16:40 +0100 (CET)
-Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB60B4C5F66
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:18:51 +0100 (CET)
+Received: from localhost ([::1]:59604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nORqJ-0004Bn-I7
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:16:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48762)
+	id 1nORsQ-0006PX-RV
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:18:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nORoB-0002ee-AL
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:14:27 -0500
-Received: from [2607:f8b0:4864:20::536] (port=44645
- helo=mail-pg1-x536.google.com)
+ id 1nORqm-0005Tu-4L; Sun, 27 Feb 2022 17:17:08 -0500
+Received: from [2607:f8b0:4864:20::532] (port=46919
+ helo=mail-pg1-x532.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nORo9-0001hr-JO
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:14:26 -0500
-Received: by mail-pg1-x536.google.com with SMTP id c1so9815765pgk.11
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 14:14:24 -0800 (PST)
+ id 1nORqk-0002KG-CT; Sun, 27 Feb 2022 17:17:07 -0500
+Received: by mail-pg1-x532.google.com with SMTP id o23so9813252pgk.13;
+ Sun, 27 Feb 2022 14:17:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VC3N2OjoAQ40n1zOnBvflqhENnRzXb6AqHnScQcHkfQ=;
- b=SKkYpDsyOk9wzR3uiO4WPoLYu++LtSwv/WGLhAp4VfpPyzS21lU85JZUYOJOe4qKRS
- rK+TZY41pWvLgwXIbm6Jn9T8YCKjgbfan+RfmmvcWMNfm+aGNviGPXLqopkUb1RqBtEs
- hL5loBwwW63iCgPIiDdVCF5lvwMMujgd/s5NFAVc4iaOtfrs4j79gyrnDKe8gy4Lca2X
- JSLLtZh7BD4h3Bci3cmVNy2XyENRHHm59Mqb/HkMx9Nw99KwIm+lCrLoQWOMduGBuLoF
- 7iT9aoEYJIHBZqiF8gd1+HE8QFWY4FqCylrKonHWUKVWyhJy+XUSpQjyR7dMzTm7QG1E
- N0dg==
+ bh=esVmBGsfpVcKz9KNWkdtHiCgwbI6OpnZo4iqoMKrLNY=;
+ b=Kjq47I7bvvYBOn+Z+8YuqJRFoI6ncszVL/VuvF4fYcMB4rjVvSyGea0FjmCZcZUuRe
+ 0IgAWJTXULfelMioVGeDxyXnXs0IB81rviKCXWiyoK+1KWfCKaiUq3Dn+FzA1zuTtX5Q
+ acOUdNl7Kvp73l2Y3KIGwLHP3PXHMzgDUAZ/jOkNsP/Im0lhgUEJ5ad4FX3rq64fJMDZ
+ 2LE9TmzkTBKOL0JqrvuJ22yX210xy/NpbE862yEc5+SWyjjSOamaHVZekgGz1Ox+zcyb
+ Z/WKPA+Nnm6lVgW5y+xaksO+pvwAkjthcucvXZJAA+o/xfq7/fRiokY5xkyzrToiSxHX
+ 84vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=VC3N2OjoAQ40n1zOnBvflqhENnRzXb6AqHnScQcHkfQ=;
- b=okhFhNqmAPU/2DKsD1PGE7skkoutNmDioNhpoZBEWgXDgkaktrg6mSyjK1deIppcXG
- e7yIU/iLdxT1VFgtQbWRJvfQeUVX6gSxaPeOPVjjclr3AXNIjlucMbq91OS6IOdCIjG0
- Ebg6cITF0OKsHHol2B+58/A+8SzwcgRUd/ro3xdU/nrgyeG473j+j8Rh3Qogc/7mSdaP
- AcGba5hrwRsg7fiC+P4bvb2qvvPXTklXO97sC9nFjLI5t6iirGPNuFKWuyWVH/ZyM7r+
- 0xH15MKnJJZxBOAeMAD58MNUR5UVVh14Ow7Tg6L9JcX1rkEbXWxmcKyrXe7Ex3o/1a0u
- B1/A==
-X-Gm-Message-State: AOAM533LpQAEBSjgSayifC3FelkmFT8oBRgQyCAy+BG6Fd82e1KFsyuR
- Hq9HGh/s+VbGim4dbHZTeYGqr35JyXc=
-X-Google-Smtp-Source: ABdhPJzF4Wl+W0lWgwWHRdxZylW7JlGtjAvSeYifVlNbdx/O7a2CWOvqVsYTNFk++ZTuIpk8AleB2g==
-X-Received: by 2002:a05:6a00:1c9c:b0:4c0:3e77:22ea with SMTP id
- y28-20020a056a001c9c00b004c03e7722eamr18560855pfw.74.1646000063461; 
- Sun, 27 Feb 2022 14:14:23 -0800 (PST)
+ bh=esVmBGsfpVcKz9KNWkdtHiCgwbI6OpnZo4iqoMKrLNY=;
+ b=jSVG4rR2DwImJIB2UeCD4vhKUP4DnW2Ftljm6btkmam6vYEZ7+rdFaY0Cn+MK0v72c
+ Wis4v6E6RwPc6++IfyFQvIWop819CYENRUUNEt20eaNqCEBL5dhAIuhOoiRop8Bp4pQm
+ sQfphaCB7R6+Yb5ifJDdpwLdPg8kSxlq52EJ99ucKclmpm4GbToHwQBprYSf1KrZT0cN
+ BTCa7yTBFnNG1TRUHQ6HwHyT6FkO3NW7Ma1okjb6M7zwL04tEdgDEDUJ2JH90e91QadI
+ HPBID+MROzIWpNtU7ZSJUFazp5bOsoShAoI7qvT5yGPr0ltx9GXpKew7RIe/wV0pC8V5
+ PUgQ==
+X-Gm-Message-State: AOAM533nP+hSpPMTYZgeWnieZeF/d0MX1A6lyXFSFANTQCUYbO9laXCe
+ +P8DmNvizOaHsieqFCRDYo8=
+X-Google-Smtp-Source: ABdhPJzrGw5J8xkLVDdT0CyaZN6pJKtKS/damjSONYUv0VBupFYWpepoalrreN94e0Lw0wB0hmKi5A==
+X-Received: by 2002:a63:9351:0:b0:375:8d1a:4766 with SMTP id
+ w17-20020a639351000000b003758d1a4766mr14158945pgm.102.1646000224711; 
+ Sun, 27 Feb 2022 14:17:04 -0800 (PST)
 Received: from [192.168.1.115] (32.red-88-28-25.dynamicip.rima-tde.net.
  [88.28.25.32]) by smtp.gmail.com with ESMTPSA id
- y12-20020a056a00190c00b004f39e28fb87sm11227403pfi.98.2022.02.27.14.14.21
+ g21-20020a17090a7d1500b001b968e82819sm14800852pjl.10.2022.02.27.14.17.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 14:14:23 -0800 (PST)
-Message-ID: <cb19b6e2-46f2-7e81-3e3e-2bc06b9cd6bc@gmail.com>
-Date: Sun, 27 Feb 2022 23:14:19 +0100
+ Sun, 27 Feb 2022 14:17:04 -0800 (PST)
+Message-ID: <5c0787e4-7271-93d4-1a82-d2ad1f29aaca@gmail.com>
+Date: Sun, 27 Feb 2022 23:17:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2 03/22] hw/input/pckbd: QOM'ify IRQ numbers
+Subject: Re: [PATCH v2 05/22] hw/ppc/pnv: Determine ns16550's IRQ number from
+ QOM property
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 References: <20220222193446.156717-1-shentey@gmail.com>
- <20220222193446.156717-4-shentey@gmail.com>
+ <20220222193446.156717-6-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220222193446.156717-4-shentey@gmail.com>
+In-Reply-To: <20220222193446.156717-6-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,22 +93,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "open list:PowerNV Non-Virt..." <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 22/2/22 20:34, Bernhard Beschow wrote:
-> Exposing the IRQ numbers as a QOM properties not only allows them to be
-> configurable but also to be printed by standard QOM mechanisms. This allows
-> isabus_dev_print() to be retired eventually.
+> Determine the IRQ number in the same way as for isa-ipmi-bt. This resolves
+> the last usage of ISADevice::isairq[] which allows it to be removed.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/input/pckbd.c | 26 ++++++++++++++++++++++----
->   1 file changed, 22 insertions(+), 4 deletions(-)
+>   hw/ppc/pnv.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 837146a2fb..1e9f6b0690 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -380,9 +380,12 @@ static void pnv_dt_serial(ISADevice *d, void *fdt, int lpc_off)
+>           cpu_to_be32(io_base),
+>           cpu_to_be32(8)
+>       };
+> +    uint32_t irq;
+>       char *name;
+>       int node;
+>   
+> +    irq = object_property_get_int(OBJECT(d), "irq", &error_fatal);
 
-Using uint8_t and "%u" format:
+object_property_get_[u]int(), otherwise:
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+>       name = g_strdup_printf("%s@i%x", qdev_fw_name(DEVICE(d)), io_base);
+>       node = fdt_add_subnode(fdt, lpc_off, name);
+>       _FDT(node);
+> @@ -394,7 +397,7 @@ static void pnv_dt_serial(ISADevice *d, void *fdt, int lpc_off)
+>   
+>       _FDT((fdt_setprop_cell(fdt, node, "clock-frequency", 1843200)));
+>       _FDT((fdt_setprop_cell(fdt, node, "current-speed", 115200)));
+> -    _FDT((fdt_setprop_cell(fdt, node, "interrupts", d->isairq[0])));
+> +    _FDT((fdt_setprop_cell(fdt, node, "interrupts", irq)));
+>       _FDT((fdt_setprop_cell(fdt, node, "interrupt-parent",
+>                              fdt_get_phandle(fdt, lpc_off))));
+>   
 
 
