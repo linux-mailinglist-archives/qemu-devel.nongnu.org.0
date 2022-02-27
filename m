@@ -2,88 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2864C5E54
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 19:56:22 +0100 (CET)
-Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2D04C5E56
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 19:59:15 +0100 (CET)
+Received: from localhost ([::1]:39552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOOiT-00078H-MC
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 13:56:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38784)
+	id 1nOOlG-0000jB-T4
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 13:59:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOOdk-0008SX-Gc
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 13:51:30 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=43915
- helo=mail-pf1-x42d.google.com)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOOkS-0008QV-VE
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 13:58:24 -0500
+Received: from [2a00:1450:4864:20::42b] (port=44642
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOOdi-00060m-Vs
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 13:51:28 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id d187so9108272pfa.10
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 10:51:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOOkQ-00084s-W2
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 13:58:24 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id u1so12188553wrg.11
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 10:58:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=RLHBL3JagmCoUGNMMJMHaIspdw14OW7z5m0+E5Qi16c=;
- b=FlxtHcq9sNQcAGxYGRZY4wdeSI8cnqqDSjOR2KXaZOIsHyhdpZzi4fupWoJ6PMB/CJ
- ESsgE0pYt0oKELH5c1sSkOX4j9bmubfi5v9lxSztb4gtYlkypeI163b7WkrUOOKNUN9N
- 7WuGl/J7gT02ZCvBg9x3uTvO1TeN2jdrj5XFOPbps2U8OfQpA3VDeZ7Z+e1RzYiUARvd
- kW9z3a4fDuGLTz8/R3p8AtmbM40ql1SOoZiU/5ZcVlKcQJfBc+taCD2KZAeth3t4z5Gl
- GywHGmWHzfpKYLNuMmRxwpuCQ99xP6aEAaBA87Wvf9JggyHDUA7yL4TT5pEx6jW5X+gI
- NUaw==
+ bh=6K8ypfGgWPmqX+cfImPvkNlnPHjqgamCAu3qXDIxm5g=;
+ b=UU5OCQYFNCqdXaJ09osGdS8fZ2i5SVTOXhTl8BQnXR6ouS0lvCloVobDEYyFBdCEWs
+ JQEcMZ0kv1aEgj6XQL7yfmrFh60sr62263GFHM1+VItkcW19gBJUOdfdqgyGkcL8TNtq
+ CX57w3B4nWkuodTMThN4zchI+LiZmpecRGgMcjr4qRQM84gBkeYxkxFke7ToGYIMTmIC
+ 3eKlhxSVdXR2Ix1GUJ+KBfNV96wVoQANdkKi5ucjNyYPvhXuQlRO3uhYfQR4MWCDJxLc
+ 2iNIUlkH3ZLbKB3kSiZTn4KIViLxYyJ49C6RXqSVFy06ZQAyq7Or8125z6ECn2WbSuEs
+ 1enA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=RLHBL3JagmCoUGNMMJMHaIspdw14OW7z5m0+E5Qi16c=;
- b=bkB0Z1vZfl03o4JQpr9YWC7MSz9tJJM6qGtNcLRBFBQLRr3JZNOzzSz9AczSKZ2hau
- sV8lImpDCVt4oY+i+ycjCYfyIIBm6lqgJruEUDnRkRcXlS9ia02XZxfmgjaDeVqQsH9J
- e+SdwzcYFJkN6yjmVn5aOsupeW9Rl/uF6SCh7mkatpGchWlsg0EgWzqv2RKiijPxNbkI
- SEvk4KMi9XRJbimLYGxf+J/NYJNSKPSRZ/13LNY/t0lnYhklNOZ4+y6B5OB4qef8GUhR
- xUR0bAGRhWQHUMi6i9mfqO507tI0l9DZxcM6BFJSR/4vTtRNYn0TQd4OxLZqGuq7eABI
- XSsw==
-X-Gm-Message-State: AOAM533tcz1lMp0a2p9/tdb7zs8hqvh3qFYBqNZIGfK1WH/L0zFctQ2O
- XJ36V1TeIK1u17flt7EMMVUv6Q==
-X-Google-Smtp-Source: ABdhPJy9KO6El2UJpOULHa56a6cmdSNQ3FM8J/Nvo2ezb3P7b7iUYx8GdPQuKbhZO+rlt/bmn2Y2yQ==
-X-Received: by 2002:a05:6a00:140c:b0:4e1:530c:edc0 with SMTP id
- l12-20020a056a00140c00b004e1530cedc0mr17998720pfu.18.1645987885531; 
- Sun, 27 Feb 2022 10:51:25 -0800 (PST)
-Received: from ?IPV6:2603:800c:1201:c600:23be:43d9:7006:705a?
- (2603-800c-1201-c600-23be-43d9-7006-705a.res6.spectrum.com.
- [2603:800c:1201:c600:23be:43d9:7006:705a])
+ bh=6K8ypfGgWPmqX+cfImPvkNlnPHjqgamCAu3qXDIxm5g=;
+ b=YT7c5161le4tVQv4pyumGnHGJbYCemPHhLe8QbL4VOeMdwhm+2Bo6lM5kg1SE7sIZe
+ DTkDHDgSizwX4TegbjgbYruMaVC5dbP6+5GaSkTzIfG9FwNXeYHIefB+JaDjDlRJTdqK
+ yHZuEDiecNDlzsqUZeWoPEr+r7hG/UxIBykGhj3dcDHpt/sQYjt05w9kkhJLgcQ2JwPO
+ /kmq6w9jSNViqu/pvDHJayZieV5BEX2cPAClIITrFqATKI35Se4i3Cz3grsxat+5rG57
+ Y96+xst6lIky0/1isjZS2dBRc/4EmyI1IL6zSONChxGvV6M6zpJTBdNHbK3GgKAFMbBl
+ ZtuA==
+X-Gm-Message-State: AOAM5338wFoCHnczeIU1pIwJFJNYMn4KJykTv57bP1pVna7ugheFfDDC
+ 5gT3ag1gbK/D2lEm8rI27f4=
+X-Google-Smtp-Source: ABdhPJwMvUIuDSDluJOJA0aFTwGy6yoK2lc6Y74svN5rllPDg1ZgPwOL98LtzkUBMYAPwX7zLJ25fA==
+X-Received: by 2002:a5d:5709:0:b0:1ea:95eb:9e09 with SMTP id
+ a9-20020a5d5709000000b001ea95eb9e09mr13759015wrv.188.1645988300772; 
+ Sun, 27 Feb 2022 10:58:20 -0800 (PST)
+Received: from ?IPV6:2a10:800b:ea29:1:266:a58e:9f87:7014?
+ ([2a10:800b:ea29:1:266:a58e:9f87:7014])
  by smtp.gmail.com with ESMTPSA id
- q13-20020a056a00088d00b004e1bea9c582sm10593006pfj.43.2022.02.27.10.51.23
+ e6-20020a5d5006000000b001e75916a7c2sm8409497wrt.84.2022.02.27.10.58.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 10:51:25 -0800 (PST)
-Message-ID: <9f65cc93-49bf-2514-9d92-02d13212e288@linaro.org>
-Date: Sun, 27 Feb 2022 08:51:21 -1000
+ Sun, 27 Feb 2022 10:58:20 -0800 (PST)
+Message-ID: <6e598f82-e68e-548d-7f72-ea7bcbca0e63@gmail.com>
+Date: Sun, 27 Feb 2022 20:58:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v6 05/14] crypto: move sm4_sbox from target/arm
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v3 3/4] hw/acpi: add indication for i8042 in IA-PC boot
+ flags of the FADT table
 Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220227142553.25815-1-liweiwei@iscas.ac.cn>
- <20220227142553.25815-6-liweiwei@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220227142553.25815-6-liweiwei@iscas.ac.cn>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+References: <20220226063019.1112654-1-liavalb@gmail.com>
+ <20220226063019.1112654-4-liavalb@gmail.com>
+ <BE89AC1C-6ED9-4F1E-9DE6-EB1E2CC863E7@gmail.com>
+From: Liav Albani <liavalb@gmail.com>
+In-Reply-To: <BE89AC1C-6ED9-4F1E-9DE6-EB1E2CC863E7@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=liavalb@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,28 +94,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
- lustrew@foxmail.com
+Cc: ani@anisinha.ca, imammedo@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/27/22 04:25, Weiwei Li wrote:
->     - share it between target/arm and target/riscv
-> 
-> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
-> Reviewed-by: Philippe Mathieu-Daudé<philmd@redhat.com>
-> Reviewed-by: Alistair Francis<alistair.francis@wdc.com>
-> ---
->   crypto/meson.build         |  1 +
->   crypto/sm4.c               | 49 ++++++++++++++++++++++++++++++++++++++
->   include/crypto/sm4.h       |  6 +++++
->   target/arm/crypto_helper.c | 36 +---------------------------
->   4 files changed, 57 insertions(+), 35 deletions(-)
->   create mode 100644 crypto/sm4.c
->   create mode 100644 include/crypto/sm4.h
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 2/27/22 12:48, Bernhard Beschow wrote:
+> Am 26. Februar 2022 06:30:18 UTC schrieb Liav Albani <liavalb@gmail.com>:
+>> This can allow the guest OS to determine more easily if i8042 controller
+>> is present in the system or not, so it doesn't need to do probing of the
+>> controller, but just initialize it immediately, before enumerating the
+>> ACPI AML namespace.
+>>
+>> Signed-off-by: Liav Albani <liavalb@gmail.com>
+>> ---
+>> hw/acpi/aml-build.c         | 7 ++++++-
+>> hw/i386/acpi-build.c        | 8 ++++++++
+>> hw/i386/acpi-microvm.c      | 9 +++++++++
+>> include/hw/acpi/acpi-defs.h | 1 +
+>> 4 files changed, 24 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+>> index 8966e16320..ef5f4cad87 100644
+>> --- a/hw/acpi/aml-build.c
+>> +++ b/hw/acpi/aml-build.c
+>> @@ -2152,7 +2152,12 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>>      build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
+>>      build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
+>>      build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
+>> -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
+>> +    /* IAPC_BOOT_ARCH */
+>> +    if (f->rev == 1) {
+>> +        build_append_int_noprefix(tbl, 0, 2);
+>> +    } else {
+>> +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
+>> +    }
+>>      build_append_int_noprefix(tbl, 0, 1); /* Reserved */
+>>      build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
+>>
+>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+>> index ebd47aa26f..65dbc1ec36 100644
+>> --- a/hw/i386/acpi-build.c
+>> +++ b/hw/i386/acpi-build.c
+>> @@ -192,6 +192,14 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+>>              .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
+>>          },
+>>      };
+>> +    /*
+>> +     * second bit of 16 but IAPC_BOOT_ARCH indicates presence of 8042 or
+>> +     * equivalent micro controller. See table 5-10 of APCI spec version 2.0
+>> +     * (the earliest acpi revision that supports this).
+>> +     */
+>> +
+>> +    fadt.iapc_boot_arch = isa_check_device_existence("i8042") ? 0x0002 : 0x0000;
+> Couldn't qdev_find_recursive() be used here instead? This would also make patch 1 unneccessary. Same below.
+>
+> Best regards
+> Bernhard
 
-r~
+I tried it first, but because it tries to find the ID of a device 
+instead of a type (I look for i8042 type which is a string of the device 
+type), it didn't work as expected. We don't compare DeviceState id, but 
+ObjectClass type->name here :)
+
+With my patch we could just find the device without any problem whatsoever.
+
+Best regards,
+Liav
+
 
