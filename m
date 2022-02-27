@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A054C5E5F
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 20:15:19 +0100 (CET)
-Received: from localhost ([::1]:55024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7954C5E68
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 20:23:08 +0100 (CET)
+Received: from localhost ([::1]:34096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOP0l-0003vv-5X
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 14:15:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43376)
+	id 1nOP8K-00012u-Ca
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 14:23:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOOzW-0003EU-EL
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 14:13:58 -0500
-Received: from [2607:f8b0:4864:20::431] (port=37413
- helo=mail-pf1-x431.google.com)
+ id 1nOP6r-0000A5-Nq
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 14:21:34 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=52075
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOOzU-0002Eg-PS
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 14:13:58 -0500
-Received: by mail-pf1-x431.google.com with SMTP id t5so86042pfg.4
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 11:13:56 -0800 (PST)
+ id 1nOP6p-0003by-N6
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 14:21:33 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id d15so5940248pjg.1
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 11:21:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=J9XL3HfMJdeUWgEbOUz+unwr/MNeOgMTuI8TYIt9nLI=;
- b=y9UGG3OTogczvdj4VPYdn6EaeZQJzLEjkMChi1DGpGaTrRNCQAk4WyXPupdPRGoRfM
- M7OTn/d3MmCPy5J6FV3NIQA0ewXy5jdGc/r20hjdRfuke+1/ny9zHI+KlWcsvqCjEJC7
- VAUqpdU+HyRuWVc2VxqW4oZDnkRq2PXMReAGhULjMqi/9f3kgVVEtmxNb7tyqZYDQ/sL
- MytjsmzbzaUvFYAafxkb0yJXCvDTUeTkwy5ejbUiyZJNrSR7xFuCDSMMoAE0fq0+cIqd
- bvc2nfqn7tlIxCJ8L4A5SNIY0x+Pkj3qgPYH8VUTVrK8BroTTjrfB8rmeAQLgE0T4h3I
- rDvA==
+ bh=iFBMvSLR10D7V9EA0PEk/vCbFBJI6Tq4kaLL70CEjic=;
+ b=rgp238+M5QOCSLQLE+WRGOhyd3e6sLy14bZj57g03xXGRA5Ww2TBjGWBZ2eK2x5IaY
+ Y2hJVD3w0OiukjqK8mnIPYc28a5NOJZeXxb8MSCJS5215tqi72/tN4PeYz3saWAHGs7i
+ WNdiE29HPjh0oqvmekI5KfIU2BV4F/BBEsXbBsqmzadssmjkLsqxSu2uicYKa9VkyhHg
+ klOK9/LxI1OVP4wiP7xfaPDcfJqjG5tZ2R5lSehyCnxkklUm6PerYIzp+MkLZktYnmct
+ jfqvDWpEIo8lbyWTDRTIz/IR1FuFBoT7WNb1r7bjvcWjbbcJwKecfzglFUrjInYD+ljm
+ tg+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=J9XL3HfMJdeUWgEbOUz+unwr/MNeOgMTuI8TYIt9nLI=;
- b=kNkF+yDR7gUSF3EApbHeYIZfNGZGERQ/nQKlpGSFE5vMWsXQPx7ZJw3x/C8wtM0mhe
- fwHbbxmOVm9pWBQpvu/BANSp8SbISAqO+C5lSylzN3z/fjzTJPHCpSyrJnZiY6WW3yg8
- A/SdDr9Qh6fz/niw3p/unYowiemuTAmkN3lZ+I41RxMC74ZYaUB28+bxUDglIV9IVex6
- 70E8YEpoc/UEtWBHfDMy//eW5UV0EcqWsJ60UgVL9J7X73Rx3d2Ex7uvWNb/eCS/ls3m
- 2zOyTXGi7OycconeY70xd0Wssr06W89cbSrRfD6BvzByXcSGvGTzE4qQNAvYIatd0OfN
- ZNZw==
-X-Gm-Message-State: AOAM532BwpanDznKToJK8BxmhrFToXNLUaA3OWA+BaKrdNV3eElp46Fx
- NLYspS4b+pIffWW5QElP7v2L6Q==
-X-Google-Smtp-Source: ABdhPJzNQo0x0cCGpXpaNY9qcBJyl9rH1JIVlTsVPHeP7Bpr1Ha8ItZhTguMwdrOb52GPoA5T9XAvw==
-X-Received: by 2002:a63:e42:0:b0:374:7dae:aa98 with SMTP id
- 2-20020a630e42000000b003747daeaa98mr14127167pgo.586.1645989235328; 
- Sun, 27 Feb 2022 11:13:55 -0800 (PST)
+ bh=iFBMvSLR10D7V9EA0PEk/vCbFBJI6Tq4kaLL70CEjic=;
+ b=6JicVH97R1RBvCxKQ0Zp6x3/HEOeyp7NB2iCE5RGE1YKvGBSjCPvMqXnaj6d2TsA6E
+ UULY83r+6rAqb8ai/Yg1vE2fQ3EIqgoie8wI3j/jrpn8nHH7Yjm9w0F6naOlpVKnlUMI
+ ntRaUxlfirm0eDB63YHhqhhfHnr1hMk4mC4okCO2kVwxoC1VMBw2ZSDQD9gb5CRI3qTN
+ GItxKba273ohOlkPsjlZ0b1u0Zn9+GaabOuTOZ35vhCK+vIZ4LRKuQjsfjmavJrdhqKq
+ 5g7pMOh/2oau7iDVR3St2PsOL+1w5XdsjPoa3GJYk6XqEwsVFAgIVVolCtiPRB7Rc+N8
+ Sxpw==
+X-Gm-Message-State: AOAM532rnzcG2eCOrIY074KHVRgP0e2kRVgI5OhFvkJJT1Ei+KjWorPa
+ 6zGF1RaFuG0S2nFYtHG8ttr+Cg==
+X-Google-Smtp-Source: ABdhPJw7TI4AgBmTsFdo3vKYW+oM09RWZp+44yxcP7EJfrCTZ4YD+HTiQVhpAZsWhtT3ALl66GmkMQ==
+X-Received: by 2002:a17:90b:1a81:b0:1bc:ec26:40a6 with SMTP id
+ ng1-20020a17090b1a8100b001bcec2640a6mr13308501pjb.0.1645989690123; 
+ Sun, 27 Feb 2022 11:21:30 -0800 (PST)
 Received: from ?IPV6:2603:800c:1201:c600:23be:43d9:7006:705a?
  (2603-800c-1201-c600-23be-43d9-7006-705a.res6.spectrum.com.
  [2603:800c:1201:c600:23be:43d9:7006:705a])
  by smtp.gmail.com with ESMTPSA id
- l13-20020a056a00140d00b004e13da93eaasm10993140pfu.62.2022.02.27.11.13.53
+ f18-20020a056a001ad200b004bf321765dfsm10845322pfv.95.2022.02.27.11.21.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 11:13:54 -0800 (PST)
-Message-ID: <7dcdb5fc-b440-e3f8-36d0-774865b7bf01@linaro.org>
-Date: Sun, 27 Feb 2022 09:13:51 -1000
+ Sun, 27 Feb 2022 11:21:29 -0800 (PST)
+Message-ID: <91b397ee-7b68-653c-8b73-4b0a91b057e0@linaro.org>
+Date: Sun, 27 Feb 2022 09:21:26 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v6 07/14] target/riscv: rvk: add support for zkne/zknd
- extension in RV64
+Subject: Re: [PATCH v6 08/14] target/riscv: rvk: add support for sha256
+ related instructions in zknh extension
 Content-Language: en-US
 To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
  alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220227142553.25815-1-liweiwei@iscas.ac.cn>
- <20220227142553.25815-8-liweiwei@iscas.ac.cn>
+ <20220227142553.25815-9-liweiwei@iscas.ac.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220227142553.25815-8-liweiwei@iscas.ac.cn>
+In-Reply-To: <20220227142553.25815-9-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -104,150 +104,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/27/22 04:25, Weiwei Li wrote:
->   - add aes64dsm, aes64ds, aes64im, aes64es, aes64esm, aes64ks2, aes64ks1i instructions
+>   - add sha256sig0, sha256sig1, sha256sum0 and sha256sum1 instructions
 > 
-> Co-authored-by: Ruibo Lu <luruibo2000@163.com>
 > Co-authored-by: Zewen Ye <lustrew@foxmail.com>
 > Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 > Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 > ---
->   target/riscv/crypto_helper.c            | 136 ++++++++++++++++++++++++
->   target/riscv/helper.h                   |   8 ++
->   target/riscv/insn32.decode              |  11 ++
->   target/riscv/insn_trans/trans_rvk.c.inc | 102 ++++++++++++++++++
->   4 files changed, 257 insertions(+)
+>   target/riscv/crypto_helper.c            | 31 +++++++++++++
+>   target/riscv/helper.h                   |  5 +++
+>   target/riscv/insn32.decode              |  5 +++
+>   target/riscv/insn_trans/trans_rvk.c.inc | 58 +++++++++++++++++++++++++
+>   4 files changed, 99 insertions(+)
 > 
 > diff --git a/target/riscv/crypto_helper.c b/target/riscv/crypto_helper.c
-> index f5a5909538..9e56668627 100644
+> index 9e56668627..f5ffc262f2 100644
 > --- a/target/riscv/crypto_helper.c
 > +++ b/target/riscv/crypto_helper.c
-> @@ -136,4 +136,140 @@ target_ulong HELPER(aes32dsi)(target_ulong rs1, target_ulong rs2,
->   {
->       return aes32_operation(bs, rs1, rs2, false, false);
+> @@ -272,4 +272,35 @@ target_ulong HELPER(aes64im)(target_ulong rs1)
+>   
+>       return result;
 >   }
 > +
-> +static inline target_ulong aes64_operation(target_ulong rs1, target_ulong rs2,
-> +                                           bool enc, bool mix)
+> +#define ROR32(a, amt) ((a << (-amt & 31)) | (a >> (amt & 31)))
+
+We already have a ror32 function.  However...
+
+> +target_ulong HELPER(sha256sig0)(target_ulong rs1)
 > +{
-> +    uint64_t RS1 = rs1;
-> +    uint64_t RS2 = rs2;
-> +    uint64_t result;
-> +    uint64_t temp;
-> +    uint32_t col_0;
-> +    uint32_t col_1;
+> +    uint32_t a = rs1;
 > +
-> +    if (enc) {
-> +        temp = AES_SHIFROWS_LO(RS1, RS2);
-
-Ah, those unused macros get used, and with the right type.
-
-> +target_ulong HELPER(aes64ks1i)(target_ulong rs1, target_ulong rnum)
-> +{
-> +    uint64_t RS1 = rs1;
-> +    uint8_t round_consts[10] = {
-> +        0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36
-> +    };
-
-static const.
-
-> +        temp = (temp >> 8) | (temp << 24); /* Rotate right by 8 */
-
-rol32
-
-> +DEF_HELPER_2(aes64esm, tl, tl, tl)
-> +DEF_HELPER_2(aes64es, tl, tl, tl)
-> +DEF_HELPER_2(aes64ds, tl, tl, tl)
-> +DEF_HELPER_2(aes64dsm, tl, tl, tl)
-> +DEF_HELPER_2(aes64ks2, tl, tl, tl)
-> +DEF_HELPER_2(aes64ks1i, tl, tl, tl)
-> +DEF_HELPER_1(aes64im, tl, tl)
-
-DEF_HELPER_FLAGS.
-
-> +%rnum      20:4
-...
-> +aes64ks1i   00 11000 1.... ..... 001 ..... 0010011 %rnum %rs1 %rd
-
-It is much better to put the field where it belongs,
-especially for a one-off like this.
-
-aes64ks1i   00 11000 1 rnum:4 rs1:5 001 rd:5 0010011
-
-The whole of riscv needs a cleanup on this point.
-
-
-> +static bool trans_aes64esm(DisasContext *ctx, arg_aes64esm *a)
-> +{
-> +    REQUIRE_ZKNE(ctx);
-> +
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-> +
-> +    gen_helper_aes64esm(dest, src1, src2);
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +
-> +    return true;
+> +    return sext_xlen(ROR32(a, 7) ^ ROR32(a, 18) ^ (a >> 3));
 > +}
-...
-> +static bool trans_aes64es(DisasContext *ctx, arg_aes64es *a)
+> +
+> +target_ulong HELPER(sha256sig1)(target_ulong rs1)
 > +{
-> +    REQUIRE_ZKNE(ctx);
+> +    uint32_t a = rs1;
+> +
+> +    return sext_xlen(ROR32(a, 17) ^ ROR32(a, 19) ^ (a >> 10));
+> +}
+> +
+> +target_ulong HELPER(sha256sum0)(target_ulong rs1)
+> +{
+> +    uint32_t a = rs1;
+> +
+> +    return sext_xlen(ROR32(a, 2) ^ ROR32(a, 13) ^ ROR32(a, 22));
+> +}
+> +
+> +target_ulong HELPER(sha256sum1)(target_ulong rs1)
+> +{
+> +    uint32_t a = rs1;
+> +
+> +    return sext_xlen(ROR32(a, 6) ^ ROR32(a, 11) ^ ROR32(a, 25));
+> +}
+
+All of these functions are quite small, and could easily be generated inline.
+
+     tcg_gen_trunc_tl_i32(a, reg);
+     tcg_gen_rotri_i32(t1, a, 7);
+     tcg_gen_rotri_i32(t2, a, 18);
+     tcg_gen_xor_i32(t1, t1, t2);
+     tcg_gen_shri_i32(t2, a, 3);
+     tcg_gen_xor_i32(t1, t1, t2);
+     tcg_gen_ext_i32_tl(reg, t1);
+
+> +static bool trans_sha256sig0(DisasContext *ctx, arg_sha256sig0 *a)
+> +{
+> +    REQUIRE_ZKNH(ctx);
 > +
 > +    TCGv dest = dest_gpr(ctx, a->rd);
 > +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
 > +
-> +    gen_helper_aes64es(dest, src1, src2);
+> +    gen_helper_sha256sig0(dest, src1);
 > +    gen_set_gpr(ctx, a->rd, dest);
 > +
 > +    return true;
 > +}
 
-gen_arith.
-
-> +static bool trans_aes64dsm(DisasContext *ctx, arg_aes64dsm *a)
-> +static bool trans_aes64ks2(DisasContext *ctx, arg_aes64ks2 *a)
-> +static bool trans_aes64ds(DisasContext *ctx, arg_aes64ds *a)
-
-Likewise.
-
-> +static bool trans_aes64ks1i(DisasContext *ctx, arg_aes64ks1i *a)
-> +{
-> +    REQUIRE_EITHER_EXT(ctx, zknd, zkne);
-> +
-> +    if (a->rnum > 0xA) {
-> +        return false;
-> +    }
-> +
-> +    TCGv rnum = tcg_const_tl(a->rnum);
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +
-> +    gen_helper_aes64ks1i(dest, src1, rnum);
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +
-> +    tcg_temp_free(rnum);
-> +    return true;
-> +}
-
-tcg_constant_tl.
-
-> +
-> +static bool trans_aes64im(DisasContext *ctx, arg_aes64im *a)
-> +{
-> +    REQUIRE_ZKND(ctx);
-> +
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +
-> +    gen_helper_aes64im(dest, src1);
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +
-> +    return true;
-> +}
-
-gen_unary.
+gen_unary, etc.
 
 
 r~
