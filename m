@@ -2,89 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061924C5A7B
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 11:26:39 +0100 (CET)
-Received: from localhost ([::1]:50084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E936B4C5A84
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 11:52:29 +0100 (CET)
+Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOGlC-0007Pv-4Y
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 05:26:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39794)
+	id 1nOHAB-0007PZ-IS
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 05:52:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nOGiY-0006Ee-KS
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 05:23:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37571)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nOGiV-0002rh-Fh
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 05:23:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645957430;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eLtG/WtQQwV/a64ZTrc7RdWpsT7d+riLeRJYSimhsEo=;
- b=T3n5zZLOyPdNYwndwP8tIg+cXr10CgU9Lns6w4GRlSKfPmzhvwVGdSVZBHFtKHGzNG8mfr
- uNBxyOi6iry3w1fBQEoAFQzFLND1hv78IGab40DHXuCue0LVlx/sghxCKAU7C49GNbHeXJ
- SSzlQAymQ6JTy+HhOMFqYEfSUETI8rI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-20-twiaIyrGPMi2geZXcvQb7g-1; Sun, 27 Feb 2022 05:23:47 -0500
-X-MC-Unique: twiaIyrGPMi2geZXcvQb7g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i131-20020a1c3b89000000b0037bb9f6feeeso4675526wma.5
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 02:23:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nOH6p-0005y1-NU
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 05:48:59 -0500
+Received: from [2a00:1450:4864:20::632] (port=42564
+ helo=mail-ej1-x632.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nOH6o-0008WQ-49
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 05:48:59 -0500
+Received: by mail-ej1-x632.google.com with SMTP id hw13so19341683ejc.9
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 02:48:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:in-reply-to:references:message-id
+ :mime-version:content-transfer-encoding;
+ bh=gN82mZzp0EGBKR+Us/xKE1aJZOl/SVuuyVypTlmUp9w=;
+ b=iThQrElsdgVrI9iGsei5OOxtLjYlxMgD7iQiI+X02g2jOmHN1aZWXOFjMmABickb+m
+ p5RH+bYi5sl0m0m0EGih4IDya+WUINqK2z64944gTrWc5R3A05BjBzFcsdmaWch9gw5S
+ Nar8Mlgu+OC0wBsSnsrjhOzFsVvdVpUyKU6JGyQ+57YoIQizFiLZOhdcdLpqEtADEtdf
+ s4jfbaj0DUysJxNxtYUQfHPgq3M6aagzX8lx6U43YvMQdY1Ckt2j+RM+7d99xgyAPZhL
+ LtUx/FWtWg0kPPwVDsOYQRkK9mnJA+F+H87SdvuxyHPXX3HffE1DfzfveR8On59t0aIT
+ fpOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eLtG/WtQQwV/a64ZTrc7RdWpsT7d+riLeRJYSimhsEo=;
- b=CTgXAn8bw2aL7GcLy1jSRPPE31cyyrml7BdkI56m9zznQDS4Zw02AVJdeJuFaHUleA
- Bpn/4lnsqHcOg5KRI8nBj/v8GsPRoRPAElPBP/ZdPfz53QQtoAg53U70UtEkR8pfLi3e
- XYjx+ExecF9Sq9IIW5Xla/CUCIc/OKJ2hfGIT7YDylxbdMzjQhBhWsbrsKwtPYIfsdCJ
- beOJ5x+GD8T8OSuBkwXlQ332csfMKcZpFK8OtFe59VEsFfFVBLNgBEne68U5xR+IlqOt
- +zQasvyTypQTuVdT7yoZXmqbQSoBoYWTYefNJDLCbGNQT6rl9EKPth2bYOxLVlmJYnR+
- s48g==
-X-Gm-Message-State: AOAM533MZzXPLtsBh1uEDPUBpuLR6UtmBlj6Gq8fqcXUiSuHLrQG6rsB
- dT01M42SWgn7OInUOyD9w4baayAdgHIt0A2pToxHqOP4jLp8K77EO8kMKBcvFqYCCVGg/1/K986
- qdrNWZDsBgEcZy8E=
-X-Received: by 2002:a5d:4e0e:0:b0:1ed:f5f5:89a0 with SMTP id
- p14-20020a5d4e0e000000b001edf5f589a0mr11897439wrt.525.1645957426209; 
- Sun, 27 Feb 2022 02:23:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzx6hHChKePiPjVh1l0ftUQDrloMGHMFokmfL90NEjr0MpWAQOkumvyZqe9V7BdC7ZxJN5/lw==
-X-Received: by 2002:a5d:4e0e:0:b0:1ed:f5f5:89a0 with SMTP id
- p14-20020a5d4e0e000000b001edf5f589a0mr11897426wrt.525.1645957426022; 
- Sun, 27 Feb 2022 02:23:46 -0800 (PST)
-Received: from redhat.com ([2.53.153.125]) by smtp.gmail.com with ESMTPSA id
- x3-20020adfdd83000000b001e58c8de11bsm7397244wrl.39.2022.02.27.02.23.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Feb 2022 02:23:45 -0800 (PST)
-Date: Sun, 27 Feb 2022 05:23:42 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH] virtio/virtio-balloon: Prefer Object* over void* parameter
-Message-ID: <20220227052311-mutt-send-email-mst@kernel.org>
-References: <20220217225351.140095-1-shentey@gmail.com>
- <20220217225351.140095-3-shentey@gmail.com>
- <A0141B14-70D7-4176-BD6E-B0FE5B6AC14A@gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gN82mZzp0EGBKR+Us/xKE1aJZOl/SVuuyVypTlmUp9w=;
+ b=vRQd+gO7JgMs6eGq12CZQDGwfro5QClcKYSn8xjoEFbx74tr5YAMjd3MC0Xck0bhI4
+ yT37RHza5113WyLK++jKao9/9YeJF/tmDDTjN+tmxGC5YY2W0VxoTHpwUgdsTJSLNgsJ
+ UUUYhi2iN/qFWIem1dpzNMCg0Wga6Kztlpq2fM4fNv+NcRVXdkpWO+AVrP42ZQB/UWsm
+ 2K9dSHLbBSh78sRdKQ16yVxfey1niz6RosokKi6QiLLN8fB1mJjOujzSjbEykjKtwb1O
+ VQ4cVZnblhpWNWRtIOkxBt4O0Jx3NJmZTo7FdP+AM1TJSSw0OabzUo41tgIRw5Qw0YFc
+ PiLA==
+X-Gm-Message-State: AOAM530YqUt4MmeCebi4196v5vpjX06pss5EQXQrvgPm0R6j+7WO5Ke1
+ IzJ7PxgCAmGIoZmxk0epat7le8HEoY0=
+X-Google-Smtp-Source: ABdhPJxRBW6hZ6dWLgaKiXfbi85NEIezeBNfrAReAAwu851Pkk9br6rQtlwY0GnCnyT4dIfl0T+VQA==
+X-Received: by 2002:a17:906:3905:b0:6cf:7ef5:fee0 with SMTP id
+ f5-20020a170906390500b006cf7ef5fee0mr11547764eje.307.1645958935762; 
+ Sun, 27 Feb 2022 02:48:55 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-078-054-173-033.78.54.pool.telefonica.de.
+ [78.54.173.33]) by smtp.gmail.com with ESMTPSA id
+ i5-20020aa7dd05000000b00410d26d170bsm4408799edv.4.2022.02.27.02.48.55
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 27 Feb 2022 02:48:55 -0800 (PST)
+Date: Sun, 27 Feb 2022 10:48:52 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org, Liav Albani <liavalb@gmail.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_3/4=5D_hw/acpi=3A_add_indication_fo?=
+ =?US-ASCII?Q?r_i8042_in_IA-PC_boot_flags_of_the_FADT_table?=
+In-Reply-To: <20220226063019.1112654-4-liavalb@gmail.com>
+References: <20220226063019.1112654-1-liavalb@gmail.com>
+ <20220226063019.1112654-4-liavalb@gmail.com>
+Message-ID: <BE89AC1C-6ED9-4F1E-9DE6-EB1E2CC863E7@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <A0141B14-70D7-4176-BD6E-B0FE5B6AC14A@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,71 +89,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
+Cc: ani@anisinha.ca, imammedo@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 25, 2022 at 08:40:00PM +0000, Bernhard Beschow wrote:
-> Am 17. Februar 2022 22:53:50 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
-> >*opaque is an alias to *obj. Using the ladder makes the code consistent with
-> >with other devices, e.g. accel/kvm/kvm-all and accel/tcg/tcg-all. It also
-> >makes the cast more typesafe.
-> >
-> >Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Am 26=2E Februar 2022 06:30:18 UTC schrieb Liav Albani <liavalb@gmail=2Ecom=
+>:
+>This can allow the guest OS to determine more easily if i8042 controller
+>is present in the system or not, so it doesn't need to do probing of the
+>controller, but just initialize it immediately, before enumerating the
+>ACPI AML namespace=2E
+>
+>Signed-off-by: Liav Albani <liavalb@gmail=2Ecom>
+>---
+> hw/acpi/aml-build=2Ec         | 7 ++++++-
+> hw/i386/acpi-build=2Ec        | 8 ++++++++
+> hw/i386/acpi-microvm=2Ec      | 9 +++++++++
+> include/hw/acpi/acpi-defs=2Eh | 1 +
+> 4 files changed, 24 insertions(+), 1 deletion(-)
+>
+>diff --git a/hw/acpi/aml-build=2Ec b/hw/acpi/aml-build=2Ec
+>index 8966e16320=2E=2Eef5f4cad87 100644
+>--- a/hw/acpi/aml-build=2Ec
+>+++ b/hw/acpi/aml-build=2Ec
+>@@ -2152,7 +2152,12 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, c=
+onst AcpiFadtData *f,
+>     build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
+>     build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
+>     build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
+>-    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
+>+    /* IAPC_BOOT_ARCH */
+>+    if (f->rev =3D=3D 1) {
+>+        build_append_int_noprefix(tbl, 0, 2);
+>+    } else {
+>+        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
+>+    }
+>     build_append_int_noprefix(tbl, 0, 1); /* Reserved */
+>     build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
+>=20
+>diff --git a/hw/i386/acpi-build=2Ec b/hw/i386/acpi-build=2Ec
+>index ebd47aa26f=2E=2E65dbc1ec36 100644
+>--- a/hw/i386/acpi-build=2Ec
+>+++ b/hw/i386/acpi-build=2Ec
+>@@ -192,6 +192,14 @@ static void init_common_fadt_data(MachineState *ms, =
+Object *o,
+>             =2Eaddress =3D object_property_get_uint(o, ACPI_PM_PROP_GPE0=
+_BLK, NULL)
+>         },
+>     };
+>+    /*
+>+     * second bit of 16 but IAPC_BOOT_ARCH indicates presence of 8042 or
+>+     * equivalent micro controller=2E See table 5-10 of APCI spec versio=
+n 2=2E0
+>+     * (the earliest acpi revision that supports this)=2E
+>+     */
+>+
+>+    fadt=2Eiapc_boot_arch =3D isa_check_device_existence("i8042") ? 0x00=
+02 : 0x0000;
 
-Send this kind of thing to qemu-trivial pls.
+Couldn't qdev_find_recursive() be used here instead? This would also make =
+patch 1 unneccessary=2E Same below=2E
 
-> >---
-> > hw/virtio/virtio-balloon.c | 10 +++++-----
-> > 1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> >diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> >index 9a4f491b54..38732d4118 100644
-> >--- a/hw/virtio/virtio-balloon.c
-> >+++ b/hw/virtio/virtio-balloon.c
-> >@@ -241,7 +241,7 @@ static void balloon_stats_get_all(Object *obj, Visitor *v, const char *name,
-> >                                   void *opaque, Error **errp)
-> > {
-> >     Error *err = NULL;
-> >-    VirtIOBalloon *s = opaque;
-> >+    VirtIOBalloon *s = VIRTIO_BALLOON(obj);
-> >     int i;
-> > 
-> >     if (!visit_start_struct(v, name, NULL, 0, &err)) {
-> >@@ -276,7 +276,7 @@ static void balloon_stats_get_poll_interval(Object *obj, Visitor *v,
-> >                                             const char *name, void *opaque,
-> >                                             Error **errp)
-> > {
-> >-    VirtIOBalloon *s = opaque;
-> >+    VirtIOBalloon *s = VIRTIO_BALLOON(obj);
-> >     visit_type_int(v, name, &s->stats_poll_interval, errp);
-> > }
-> > 
-> >@@ -284,7 +284,7 @@ static void balloon_stats_set_poll_interval(Object *obj, Visitor *v,
-> >                                             const char *name, void *opaque,
-> >                                             Error **errp)
-> > {
-> >-    VirtIOBalloon *s = opaque;
-> >+    VirtIOBalloon *s = VIRTIO_BALLOON(obj);
-> >     int64_t value;
-> > 
-> >     if (!visit_type_int(v, name, &value, errp)) {
-> >@@ -1014,12 +1014,12 @@ static void virtio_balloon_instance_init(Object *obj)
-> >     s->free_page_hint_notify.notify = virtio_balloon_free_page_hint_notify;
-> > 
-> >     object_property_add(obj, "guest-stats", "guest statistics",
-> >-                        balloon_stats_get_all, NULL, NULL, s);
-> >+                        balloon_stats_get_all, NULL, NULL, NULL);
-> > 
-> >     object_property_add(obj, "guest-stats-polling-interval", "int",
-> >                         balloon_stats_get_poll_interval,
-> >                         balloon_stats_set_poll_interval,
-> >-                        NULL, s);
-> >+                        NULL, NULL);
-> > }
-> > 
-> > static const VMStateDescription vmstate_virtio_balloon = {
-> 
-> Ping
+Best regards
+Bernhard
+
+>+
+>     *data =3D fadt;
+> }
+>=20
+>diff --git a/hw/i386/acpi-microvm=2Ec b/hw/i386/acpi-microvm=2Ec
+>index 68ca7e7fc2=2E=2Ee5f89164be 100644
+>--- a/hw/i386/acpi-microvm=2Ec
+>+++ b/hw/i386/acpi-microvm=2Ec
+>@@ -189,6 +189,15 @@ static void acpi_build_microvm(AcpiBuildTables *tabl=
+es,
+>         =2Ereset_val =3D ACPI_GED_RESET_VALUE,
+>     };
+>=20
+>+    /*
+>+     * second bit of 16 but IAPC_BOOT_ARCH indicates presence of 8042 or
+>+     * equivalent micro controller=2E See table 5-10 of APCI spec versio=
+n 2=2E0
+>+     * (the earliest acpi revision that supports this)=2E
+>+     */
+>+
+>+    pmfadt=2Eiapc_boot_arch =3D isa_check_device_existence("i8042") ? 0x=
+0002
+>+                            : 0x0000;
+>+
+>     table_offsets =3D g_array_new(false, true /* clear */,
+>                                         sizeof(uint32_t));
+>     bios_linker_loader_alloc(tables->linker,
+>diff --git a/include/hw/acpi/acpi-defs=2Eh b/include/hw/acpi/acpi-defs=2E=
+h
+>index c97e8633ad=2E=2E2b42e4192b 100644
+>--- a/include/hw/acpi/acpi-defs=2Eh
+>+++ b/include/hw/acpi/acpi-defs=2Eh
+>@@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
+>     uint16_t plvl2_lat;        /* P_LVL2_LAT */
+>     uint16_t plvl3_lat;        /* P_LVL3_LAT */
+>     uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
+>+    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
+>     uint8_t minor_ver;         /* FADT Minor Version */
+>=20
+>     /*
 
 
