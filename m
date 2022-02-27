@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6A64C5C57
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 15:36:58 +0100 (CET)
-Received: from localhost ([::1]:60950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1594C5C75
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 15:55:38 +0100 (CET)
+Received: from localhost ([::1]:46458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOKfR-0003xq-Ff
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 09:36:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59980)
+	id 1nOKxR-0005b2-5E
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 09:55:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nOKdv-0000pE-Di; Sun, 27 Feb 2022 09:35:23 -0500
-Received: from smtp21.cstnet.cn ([159.226.251.21]:36626 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nOKdr-0007fw-OZ; Sun, 27 Feb 2022 09:35:22 -0500
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowACX3sZLihti7HLGAQ--.65305S16;
- Sun, 27 Feb 2022 22:27:38 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v6 14/14] target/riscv: rvk: expose zbk* and zk* properties
-Date: Sun, 27 Feb 2022 22:25:53 +0800
-Message-Id: <20220227142553.25815-15-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220227142553.25815-1-liweiwei@iscas.ac.cn>
-References: <20220227142553.25815-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: qwCowACX3sZLihti7HLGAQ--.65305S16
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF1kXrWUCw4rtw17GFg_yoW8Ar1fpr
- y5JFW7KwnxJry3Cay8tw1DJ3ykCa1rA39Fq3yxZws7Ar4fGr43GF1DGanYkr47Xr48Za1f
- uF13ur1F9390ya7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
- 4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4U
- JVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7V
- C0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j
- 6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x0262
- 8vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
- F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
- ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7Cj
- xVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI
- 0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x
- 0JUQSdkUUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nOKwI-0004nT-2z
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 09:54:22 -0500
+Received: from [2607:f8b0:4864:20::1132] (port=33547
+ helo=mail-yw1-x1132.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nOKwG-0005La-0p
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 09:54:21 -0500
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-2d66f95f1d1so82563407b3.0
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 06:54:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YES1o/SHQ/DUVdAllyan+tQ4cQOmF9CmG4oSpQCE0MA=;
+ b=H8qecvJiweDna1OiczL2Uoo+j3TLzQmHFlvKnpLOUAiU/filB2j1AxxqedHN7bGL0r
+ XVqqEue8mfCNUJy70ktqNJgGJbNpPaOUgWwvzASLQQYoXLC8amkJgkE4rdFMf0a29XdN
+ loxEY9hj0+NSJ8VVzA3/vFthoc3VURBpcNs4Td+/qJqCy7FNe7ehz4VudPfOPuCxMA7r
+ bBS9ECxdqWppCx58H2DQ/+n2LOdZBBZVZtts/XG8FojLxrbTNnhKBlSlHP4e4vcDRZTJ
+ d/WlcK8L1q62gnrIhhUyxdlD/oWXp+F0FPo5BvFOME82lpyRZoB4rQGe9B7HrOx9VPw+
+ oaeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YES1o/SHQ/DUVdAllyan+tQ4cQOmF9CmG4oSpQCE0MA=;
+ b=z3xd1L4kDUs83mRRAZxBU1DGGtYaFdeGHpX5diQucvJnv6B+6YRb8fSEsSJ2iksShk
+ 5Dirt+YSIpsNcCJ9R9xvNqACUo+bubnzamBSGhCu3EqUddPZzScVXnO/ZunhJn2ReVrx
+ UxUtBDlIqm+8ArIBhZ6EAgbx58pELFDtMMWG7KxubZTFhMsfVmy2KddKW2AvcK3XF3Rn
+ jjyDziPEE/dbAy+N4GuySptlJ91IIPIb/xyux93db0ibtS9thbj1VsmklBSwOGcDy5Nm
+ 7Rdr+9brT1br2B8LTYzHoT6EfElan559uqvX29jIXU0WHImNQ8VHZZ3D+jqKFYtkePFd
+ Z3Xw==
+X-Gm-Message-State: AOAM5326ApVovkeOk+sVyqQCORX88sGF1sczdqqhCu8bIHp9JSF4Mk3M
+ p1VD9DFo/q4WeECYNXN2elLncbEOcmAfqZjnQ+SpJg==
+X-Google-Smtp-Source: ABdhPJyXwhr0adGpBKs5jPx/6E/+s9+BK9Xgv0aprQlwDkA2CS1CPwGSFFV/ewTMCIIgvUxwvYMW16mLffEidGCQNz4=
+X-Received: by 2002:a05:690c:314:b0:2d6:b95b:bf41 with SMTP id
+ bg20-20020a05690c031400b002d6b95bbf41mr15895319ywb.64.1645973658576; Sun, 27
+ Feb 2022 06:54:18 -0800 (PST)
+MIME-Version: 1.0
+References: <20220225174451.192304-1-wuhaotsh@google.com>
+In-Reply-To: <20220225174451.192304-1-wuhaotsh@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 27 Feb 2022 14:54:07 +0000
+Message-ID: <CAFEAcA-4W+EOkS0RnXuok4hM=Ng813eSHcaafByuc+9kC0jweQ@mail.gmail.com>
+Subject: Re: [PATCH v5] tests/qtest: add qtests for npcm7xx sdhci
+To: Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1132
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,44 +82,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
- lazyparser@gmail.com, luruibo2000@163.com, lustrew@foxmail.com
+Cc: lvivier@redhat.com, thuth@redhat.com, qemu-block@nongnu.org,
+ venture@google.com, Shengtan Mao <stmao@google.com>, bin.meng@windriver.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, hskinnemoen@google.com,
+ kfting@nuvoton.com, qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com,
+ pbonzini@redhat.com, maoshengtan2011@gmail.com,
+ Chris Rauer <crauer@google.com>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+On Fri, 25 Feb 2022 at 17:45, Hao Wu <wuhaotsh@google.com> wrote:
+>
+> From: Shengtan Mao <stmao@google.com>
+>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Chris Rauer <crauer@google.com>
+> Signed-off-by: Shengtan Mao <stmao@google.com>
+> Signed-off-by: Patrick Venture <venture@google.com>
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d30534ead5..64bc776072 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -804,7 +804,20 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
-     DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
-     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-+    DEFINE_PROP_BOOL("zbkb", RISCVCPU, cfg.ext_zbkb, false),
-+    DEFINE_PROP_BOOL("zbkc", RISCVCPU, cfg.ext_zbkc, false),
-+    DEFINE_PROP_BOOL("zbkx", RISCVCPU, cfg.ext_zbkx, false),
-     DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-+    DEFINE_PROP_BOOL("zk", RISCVCPU, cfg.ext_zk, false),
-+    DEFINE_PROP_BOOL("zkn", RISCVCPU, cfg.ext_zkn, false),
-+    DEFINE_PROP_BOOL("zknd", RISCVCPU, cfg.ext_zknd, false),
-+    DEFINE_PROP_BOOL("zkne", RISCVCPU, cfg.ext_zkne, false),
-+    DEFINE_PROP_BOOL("zknh", RISCVCPU, cfg.ext_zknh, false),
-+    DEFINE_PROP_BOOL("zkr", RISCVCPU, cfg.ext_zkr, false),
-+    DEFINE_PROP_BOOL("zks", RISCVCPU, cfg.ext_zks, false),
-+    DEFINE_PROP_BOOL("zksed", RISCVCPU, cfg.ext_zksed, false),
-+    DEFINE_PROP_BOOL("zksh", RISCVCPU, cfg.ext_zksh, false),
-+    DEFINE_PROP_BOOL("zkt", RISCVCPU, cfg.ext_zkt, false),
- 
-     /* Vendor-specific custom extensions */
-     DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
--- 
-2.17.1
 
+
+Applied to target-arm.next, thanks.
+
+-- PMM
 
