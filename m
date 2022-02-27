@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F8B4C5E08
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E824C5E09
 	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 19:23:32 +0100 (CET)
-Received: from localhost ([::1]:54740 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOOCc-0004yN-Tv
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 13:23:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60682)
+	id 1nOOCh-0005CU-FT
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 13:23:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOOAn-0002Xi-93
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 13:21:33 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=41601
- helo=mail-pj1-x1036.google.com)
+ id 1nOOAo-0002Xq-5U
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 13:21:34 -0500
+Received: from [2607:f8b0:4864:20::62d] (port=42729
+ helo=mail-pl1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOOAl-0007lu-Q5
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 13:21:32 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- ev16-20020a17090aead000b001bc3835fea8so9436784pjb.0
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 10:21:31 -0800 (PST)
+ id 1nOOAm-0007mY-J0
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 13:21:33 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id p17so8873012plo.9
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 10:21:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lmvSTlRwfQRV5lemLOZaAJQ5k47lKUkX2PmvnCoa19o=;
- b=S/n6+AGKV+rtjBIGIqTxmtFlKIHFthz5nFGIg8fgXdbR64bR7ftCUZBmIqjHkhvc1L
- RV0TxpsEjHXLswJe+T5o2L2fRY4vFzcMGOCGDittYZFG13meMZ8VghIqqlGIYOAgDJbY
- 59TF4JiOua+hgbnJx5iqrzrqVFkb/iQlTP5fy3lJALlSm8wVuF5WnSbfq1GWoDZ0iUkH
- +AilJwKeGFOqBzj7ff1rmsqKegvnSl4JdJ2ydQaqcFAu97ho0+A3JEMnCgc0DHZUX84U
- XZg9jDmvcZazzggA8bfiCflfK8JQwU432BgCeKz8udVSMEgBCSpyq5Asar7V+Bf/F2re
- oKBw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=JiLG8jrCqG2LmLZgkf4Aw8DjJEHnI6zkIpqp//BmyXY=;
+ b=xEcX1c9FbjCwUu7YP+dvRzw4Q0NMLeAbx6ksgUendKQ0bRgTXNFRM21uVV4vw8okx7
+ yk/7cBQ9bqKXhQF/gnOkUchEHdA0RYTJTavPY6N89SJFkJVoL3aMdEmxLu5cAL4m2GOn
+ P3DQ0nahXeSRHTjsLlvN0OUJgsGZVPhExZCGw0tC8JlCuGpJGk/EJsVNYjjJkMrLniVv
+ SY7eCOYMOodDJuh0QvQQLK4aq8s1uQxAxdQIBjhTISWjvP55It7mEE9OIijAMloHy7g7
+ wrg+FeuJfQK0FbqCI5sC3NseG2ge1LAn/FO/1kOuq6srVLhQFtp8wd2Gt5v+9UgeLWF7
+ 9klw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lmvSTlRwfQRV5lemLOZaAJQ5k47lKUkX2PmvnCoa19o=;
- b=EK4O+6rIXxYWGTphEy9DZNM9Efji41LiWijtXh8a+7y/Z2KkgnwAMb6L4ebJQMHpuk
- dIP3KwzVeSsMqtpD9MUkjcxVCJmaMmdXHK8aQINl23n+1bla90F39/WXxUMhuvXB03dH
- nPLhj/tJ/tVbP0mDDfO8IAEai/uRaGAcZDboU8B5ro6KZlJWJ5xydmPoOWtvukCwtp8X
- yccct/9yM+1SYv/5E82UvyYS8IDh6BLgTYIl9WbVUxOqvjKOcF8cO0Fn/Y0chpjsQwp3
- /mSKYmctBTSpW/WXB7NrwnV0HPATV4sW0ZvZTY9GJEiaAEziO4Zdq5VLDbRmNW1rlXrv
- r41w==
-X-Gm-Message-State: AOAM530uYP2jw9EdXeCH8IikLUZ5Srch4IrRMq/PoOymNmv3jG6dEnsG
- hKjzI4po9y7TNe6+rmSYQcwiP1wy8fNbyQ==
-X-Google-Smtp-Source: ABdhPJwYoTfOSa7oxE7naiCffSJTuXEplbYHfqxnY4KoV17EU/uqDvbUevMydAWIcUd4YPg+4J5yag==
-X-Received: by 2002:a17:903:32c8:b0:150:1189:c862 with SMTP id
- i8-20020a17090332c800b001501189c862mr17274672plr.134.1645986090037; 
- Sun, 27 Feb 2022 10:21:30 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=JiLG8jrCqG2LmLZgkf4Aw8DjJEHnI6zkIpqp//BmyXY=;
+ b=dW3f5lwxO6CzL/gZLl/VonAvbaQ1x1XmJOskQYRv3KkX9+vUwgOaHITt7A5EK8jj62
+ BIJ7vRbL9dduiJAlgZT8JNStWU5aVMCwr7hCTI2bwlvkxRdVxWkdkLnp9xL/lQhPaL5U
+ PYbRHLUOqic0yE8QuJwZl/c8ff2SvOeHs4Niy29NI9b4V/jg9fqbPTV/junjL/naoqOX
+ Dm9dlAAa0y2arNZjjP8qMT+YJiv3B1ftjh/xtA4drN5/+3aDEw++syQWyQXcx7NiueTz
+ 2uz0X+cslLPRroitvG+zdRR/0ib09BJ2D67oHivifjUk3rZBTuYebyNYdHG++eSoxpxs
+ qN9g==
+X-Gm-Message-State: AOAM5309e/15bxqBJWAn+YcDq8tD0wdM1S/0/mB9+AFtEHfcTr914s2q
+ jxMVOW9Qr4c1aLP6orISVr2ydOykmonWSQ==
+X-Google-Smtp-Source: ABdhPJxjzEF6mrZOf5tDW28QtzGR8QMVeC/HfA9qaUqWxaEqeCaUNfZ0kFqRTGDvthZv063VSMCmMw==
+X-Received: by 2002:a17:902:b204:b0:14f:26a7:9f61 with SMTP id
+ t4-20020a170902b20400b0014f26a79f61mr17025043plr.97.1645986091364; 
+ Sun, 27 Feb 2022 10:21:31 -0800 (PST)
 Received: from localhost.localdomain
  (2603-800c-1201-c600-23be-43d9-7006-705a.res6.spectrum.com.
  [2603:800c:1201:c600:23be:43d9:7006:705a])
  by smtp.gmail.com with ESMTPSA id
- t41-20020a056a0013a900b004e167af0c0dsm10776252pfg.89.2022.02.27.10.21.28
+ t41-20020a056a0013a900b004e167af0c0dsm10776252pfg.89.2022.02.27.10.21.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Feb 2022 10:21:29 -0800 (PST)
+ Sun, 27 Feb 2022 10:21:30 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] target/nios2: Rewrite interrupt handling
-Date: Sun, 27 Feb 2022 08:21:18 -1000
-Message-Id: <20220227182125.21809-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/7] target/nios2: Remove mmu_read_debug
+Date: Sun, 27 Feb 2022 08:21:19 -1000
+Message-Id: <20220227182125.21809-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220227182125.21809-1-richard.henderson@linaro.org>
+References: <20220227182125.21809-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,37 +94,117 @@ Cc: amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes the problems that I pointed out with respect to the
-existing Internal Interrupt Controller, and a few cleanups on the way.
-It passes check-avocado, which is the only nios2 test I know of,
-so more testing would be appreciated.
+This functionality can be had via plugins, if desired.
+In the meantime, it is unused code.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/nios2/helper.h    |  1 -
+ target/nios2/mmu.h       |  1 -
+ target/nios2/mmu.c       | 20 --------------------
+ target/nios2/op_helper.c |  5 -----
+ target/nios2/translate.c | 17 -----------------
+ 5 files changed, 44 deletions(-)
 
-r~
-
-
-Richard Henderson (7):
-  target/nios2: Remove mmu_read_debug
-  target/nios2: Replace MMU_LOG with tracepoints
-  target/nios2: Only build mmu.c for system mode
-  target/nios2: Hoist R_ZERO check in rdctl
-  target/nios2: Split mmu_write
-  target/nios2: Special case ipending in rdctl and wrctl
-  target/nios2: Rewrite interrupt handling
-
- meson.build               |   1 +
- target/nios2/cpu.h        |   1 -
- target/nios2/helper.h     |   6 +-
- target/nios2/mmu.h        |   1 -
- target/nios2/cpu.c        |  10 +-
- target/nios2/mmu.c        | 265 ++++++++++++++------------------------
- target/nios2/op_helper.c  |  29 -----
- target/nios2/translate.c  |  71 +++++-----
- target/nios2/meson.build  |   3 +-
- target/nios2/trace-events |  10 ++
- 10 files changed, 150 insertions(+), 247 deletions(-)
- create mode 100644 target/nios2/trace-events
-
+diff --git a/target/nios2/helper.h b/target/nios2/helper.h
+index 6c8f0b5b35..6d8eec1814 100644
+--- a/target/nios2/helper.h
++++ b/target/nios2/helper.h
+@@ -21,7 +21,6 @@
+ DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
+ 
+ #if !defined(CONFIG_USER_ONLY)
+-DEF_HELPER_2(mmu_read_debug, void, env, i32)
+ DEF_HELPER_3(mmu_write, void, env, i32, i32)
+ DEF_HELPER_1(check_interrupts, void, env)
+ #endif
+diff --git a/target/nios2/mmu.h b/target/nios2/mmu.h
+index 4f46fbb82e..b7785b46c0 100644
+--- a/target/nios2/mmu.h
++++ b/target/nios2/mmu.h
+@@ -44,7 +44,6 @@ void mmu_flip_um(CPUNios2State *env, unsigned int um);
+ unsigned int mmu_translate(CPUNios2State *env,
+                            Nios2MMULookup *lu,
+                            target_ulong vaddr, int rw, int mmu_idx);
+-void mmu_read_debug(CPUNios2State *env, uint32_t rn);
+ void mmu_write(CPUNios2State *env, uint32_t rn, uint32_t v);
+ void mmu_init(CPUNios2State *env);
+ 
+diff --git a/target/nios2/mmu.c b/target/nios2/mmu.c
+index 2545c06761..5616c39d54 100644
+--- a/target/nios2/mmu.c
++++ b/target/nios2/mmu.c
+@@ -35,26 +35,6 @@
+ #define MMU_LOG(x)
+ #endif
+ 
+-void mmu_read_debug(CPUNios2State *env, uint32_t rn)
+-{
+-    switch (rn) {
+-    case CR_TLBACC:
+-        MMU_LOG(qemu_log("TLBACC READ %08X\n", env->regs[rn]));
+-        break;
+-
+-    case CR_TLBMISC:
+-        MMU_LOG(qemu_log("TLBMISC READ %08X\n", env->regs[rn]));
+-        break;
+-
+-    case CR_PTEADDR:
+-        MMU_LOG(qemu_log("PTEADDR READ %08X\n", env->regs[rn]));
+-        break;
+-
+-    default:
+-        break;
+-    }
+-}
+-
+ /* rw - 0 = read, 1 = write, 2 = fetch.  */
+ unsigned int mmu_translate(CPUNios2State *env,
+                            Nios2MMULookup *lu,
+diff --git a/target/nios2/op_helper.c b/target/nios2/op_helper.c
+index a59003855a..61fc4dc903 100644
+--- a/target/nios2/op_helper.c
++++ b/target/nios2/op_helper.c
+@@ -26,11 +26,6 @@
+ #include "qemu/main-loop.h"
+ 
+ #if !defined(CONFIG_USER_ONLY)
+-void helper_mmu_read_debug(CPUNios2State *env, uint32_t rn)
+-{
+-    mmu_read_debug(env, rn);
+-}
+-
+ void helper_mmu_write(CPUNios2State *env, uint32_t rn, uint32_t v)
+ {
+     mmu_write(env, rn, v);
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index f9abc2fdd2..194c8ebafd 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -448,23 +448,6 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
+     gen_check_supervisor(dc);
+ 
+     switch (instr.imm5 + CR_BASE) {
+-    case CR_PTEADDR:
+-    case CR_TLBACC:
+-    case CR_TLBMISC:
+-    {
+-#if !defined(CONFIG_USER_ONLY)
+-        if (likely(instr.c != R_ZERO)) {
+-            tcg_gen_mov_tl(cpu_R[instr.c], cpu_R[instr.imm5 + CR_BASE]);
+-#ifdef DEBUG_MMU
+-            TCGv_i32 tmp = tcg_const_i32(instr.imm5 + CR_BASE);
+-            gen_helper_mmu_read_debug(cpu_R[instr.c], cpu_env, tmp);
+-            tcg_temp_free_i32(tmp);
+-#endif
+-        }
+-#endif
+-        break;
+-    }
+-
+     default:
+         if (likely(instr.c != R_ZERO)) {
+             tcg_gen_mov_tl(cpu_R[instr.c], cpu_R[instr.imm5 + CR_BASE]);
 -- 
 2.25.1
 
