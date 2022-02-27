@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9068C4C5A75
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 11:24:04 +0100 (CET)
-Received: from localhost ([::1]:47872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 061924C5A7B
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 11:26:39 +0100 (CET)
+Received: from localhost ([::1]:50084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOGig-0005v3-8o
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 05:24:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39602)
+	id 1nOGlC-0007Pv-4Y
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 05:26:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nOGhS-0004eG-1f
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 05:22:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31613)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nOGiY-0006Ee-KS
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 05:23:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nOGhN-0002kg-RX
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 05:22:43 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nOGiV-0002rh-Fh
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 05:23:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1645957360;
+ s=mimecast20190719; t=1645957430;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3+OhuR1PRtOnYLRIs2xQzfGO24KNk9oYSuu9TNOsg6E=;
- b=BjCmYyXGvLidGif5Rzn29HoS3A3NpV5UBne/eUT4jGwnwXM+y/8G0GzIZ65HUS0bXCFgoj
- Z+qDyFZY2DxHnr/RdMtZsZ3PB2S1QvCxGOg5Ug879ZneVo+Z0g9ExvC5bsjMnJOuw+3TEb
- FLWBDOG3ROdJNUAGDWE/o94ImZZHv74=
+ bh=eLtG/WtQQwV/a64ZTrc7RdWpsT7d+riLeRJYSimhsEo=;
+ b=T3n5zZLOyPdNYwndwP8tIg+cXr10CgU9Lns6w4GRlSKfPmzhvwVGdSVZBHFtKHGzNG8mfr
+ uNBxyOi6iry3w1fBQEoAFQzFLND1hv78IGab40DHXuCue0LVlx/sghxCKAU7C49GNbHeXJ
+ SSzlQAymQ6JTy+HhOMFqYEfSUETI8rI=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-375-sgVanlhDPuG76uWx9uV5cQ-1; Sun, 27 Feb 2022 05:22:39 -0500
-X-MC-Unique: sgVanlhDPuG76uWx9uV5cQ-1
+ us-mta-20-twiaIyrGPMi2geZXcvQb7g-1; Sun, 27 Feb 2022 05:23:47 -0500
+X-MC-Unique: twiaIyrGPMi2geZXcvQb7g-1
 Received: by mail-wm1-f71.google.com with SMTP id
- l31-20020a05600c1d1f00b00380e3425ba7so4317897wms.9
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 02:22:38 -0800 (PST)
+ i131-20020a1c3b89000000b0037bb9f6feeeso4675526wma.5
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 02:23:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=3+OhuR1PRtOnYLRIs2xQzfGO24KNk9oYSuu9TNOsg6E=;
- b=xON0nd2v97XNwMqOXaYp2Vhb/B5CXwS1aSHcvrZpl91B48WKiU/NG13v5tUzupmbxf
- gNtF1gvdFjcbE19vsWZo+rcSYrB1DXU6qL3OVkdiEd6JLF2gB5aRLlBB++FMyFxT5N8f
- faXN1f9VHqbkO4xlNCUZj5t9QFAZwXqSjBOPhnBYTZ2JIJeCDGvSftYfRYClQyF+arXl
- xvscrQ1VUXClFBiWFcmdaTaj3G2qo5PzgSsYKT2VL81e8Oz3YGJXOGg9vwIB6G0v+dFe
- FGhJGmKW7N4Oyz6Qf4H49gQMgt9hTc5FG9WY143ud8bhrmDUZAjAMOOcbmfAp3Ph4TFc
- x8ig==
-X-Gm-Message-State: AOAM533khZzZpQgEyjRZrZ+BBo+gBZGkMi8hc+JlpiIgmXs8BfxGk7LP
- gyj9t346xiMZuhXkkIbE7XlYNG/jpzXh8+y2n5f5pWL+rshLo3orjP2SQPxbsDFG/Ev/iLhiaLN
- VM6Nt0KwvFNLSLYo=
-X-Received: by 2002:adf:f84c:0:b0:1ee:b696:4ae9 with SMTP id
- d12-20020adff84c000000b001eeb6964ae9mr10831616wrq.651.1645957357820; 
- Sun, 27 Feb 2022 02:22:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyNDzBDDlmESiFJmEYczUOPqqQ6HmHQpWjrCS38ywMqxOn/L3AXgweST/1Sl3+dhjnPD6IT5Q==
-X-Received: by 2002:adf:f84c:0:b0:1ee:b696:4ae9 with SMTP id
- d12-20020adff84c000000b001eeb6964ae9mr10831604wrq.651.1645957357566; 
- Sun, 27 Feb 2022 02:22:37 -0800 (PST)
+ bh=eLtG/WtQQwV/a64ZTrc7RdWpsT7d+riLeRJYSimhsEo=;
+ b=CTgXAn8bw2aL7GcLy1jSRPPE31cyyrml7BdkI56m9zznQDS4Zw02AVJdeJuFaHUleA
+ Bpn/4lnsqHcOg5KRI8nBj/v8GsPRoRPAElPBP/ZdPfz53QQtoAg53U70UtEkR8pfLi3e
+ XYjx+ExecF9Sq9IIW5Xla/CUCIc/OKJ2hfGIT7YDylxbdMzjQhBhWsbrsKwtPYIfsdCJ
+ beOJ5x+GD8T8OSuBkwXlQ332csfMKcZpFK8OtFe59VEsFfFVBLNgBEne68U5xR+IlqOt
+ +zQasvyTypQTuVdT7yoZXmqbQSoBoYWTYefNJDLCbGNQT6rl9EKPth2bYOxLVlmJYnR+
+ s48g==
+X-Gm-Message-State: AOAM533MZzXPLtsBh1uEDPUBpuLR6UtmBlj6Gq8fqcXUiSuHLrQG6rsB
+ dT01M42SWgn7OInUOyD9w4baayAdgHIt0A2pToxHqOP4jLp8K77EO8kMKBcvFqYCCVGg/1/K986
+ qdrNWZDsBgEcZy8E=
+X-Received: by 2002:a5d:4e0e:0:b0:1ed:f5f5:89a0 with SMTP id
+ p14-20020a5d4e0e000000b001edf5f589a0mr11897439wrt.525.1645957426209; 
+ Sun, 27 Feb 2022 02:23:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzx6hHChKePiPjVh1l0ftUQDrloMGHMFokmfL90NEjr0MpWAQOkumvyZqe9V7BdC7ZxJN5/lw==
+X-Received: by 2002:a5d:4e0e:0:b0:1ed:f5f5:89a0 with SMTP id
+ p14-20020a5d4e0e000000b001edf5f589a0mr11897426wrt.525.1645957426022; 
+ Sun, 27 Feb 2022 02:23:46 -0800 (PST)
 Received: from redhat.com ([2.53.153.125]) by smtp.gmail.com with ESMTPSA id
- l5-20020adff485000000b001d54142b02bsm7240040wro.85.2022.02.27.02.22.35
+ x3-20020adfdd83000000b001e58c8de11bsm7397244wrl.39.2022.02.27.02.23.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Feb 2022 02:22:36 -0800 (PST)
-Date: Sun, 27 Feb 2022 05:22:33 -0500
+ Sun, 27 Feb 2022 02:23:45 -0800 (PST)
+Date: Sun, 27 Feb 2022 05:23:42 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 0/4] Fix broken PCIe device after migration
-Message-ID: <20220227050634-mutt-send-email-mst@kernel.org>
-References: <20220224174411.3296848-1-imammedo@redhat.com>
- <20220225045327-mutt-send-email-mst@kernel.org>
- <20220225141823.5ee12954@redhat.com>
- <20220225084957-mutt-send-email-mst@kernel.org>
- <20220225165054.184b1a3c@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>
+Subject: Re: [PATCH] virtio/virtio-balloon: Prefer Object* over void* parameter
+Message-ID: <20220227052311-mutt-send-email-mst@kernel.org>
+References: <20220217225351.140095-1-shentey@gmail.com>
+ <20220217225351.140095-3-shentey@gmail.com>
+ <A0141B14-70D7-4176-BD6E-B0FE5B6AC14A@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220225165054.184b1a3c@redhat.com>
+In-Reply-To: <A0141B14-70D7-4176-BD6E-B0FE5B6AC14A@gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -99,116 +97,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 25, 2022 at 04:50:54PM +0100, Igor Mammedov wrote:
-> On Fri, 25 Feb 2022 08:50:43 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Fri, Feb 25, 2022 at 08:40:00PM +0000, Bernhard Beschow wrote:
+> Am 17. Februar 2022 22:53:50 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
+> >*opaque is an alias to *obj. Using the ladder makes the code consistent with
+> >with other devices, e.g. accel/kvm/kvm-all and accel/tcg/tcg-all. It also
+> >makes the cast more typesafe.
+> >
+> >Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+
+Send this kind of thing to qemu-trivial pls.
+
+> >---
+> > hw/virtio/virtio-balloon.c | 10 +++++-----
+> > 1 file changed, 5 insertions(+), 5 deletions(-)
+> >
+> >diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> >index 9a4f491b54..38732d4118 100644
+> >--- a/hw/virtio/virtio-balloon.c
+> >+++ b/hw/virtio/virtio-balloon.c
+> >@@ -241,7 +241,7 @@ static void balloon_stats_get_all(Object *obj, Visitor *v, const char *name,
+> >                                   void *opaque, Error **errp)
+> > {
+> >     Error *err = NULL;
+> >-    VirtIOBalloon *s = opaque;
+> >+    VirtIOBalloon *s = VIRTIO_BALLOON(obj);
+> >     int i;
+> > 
+> >     if (!visit_start_struct(v, name, NULL, 0, &err)) {
+> >@@ -276,7 +276,7 @@ static void balloon_stats_get_poll_interval(Object *obj, Visitor *v,
+> >                                             const char *name, void *opaque,
+> >                                             Error **errp)
+> > {
+> >-    VirtIOBalloon *s = opaque;
+> >+    VirtIOBalloon *s = VIRTIO_BALLOON(obj);
+> >     visit_type_int(v, name, &s->stats_poll_interval, errp);
+> > }
+> > 
+> >@@ -284,7 +284,7 @@ static void balloon_stats_set_poll_interval(Object *obj, Visitor *v,
+> >                                             const char *name, void *opaque,
+> >                                             Error **errp)
+> > {
+> >-    VirtIOBalloon *s = opaque;
+> >+    VirtIOBalloon *s = VIRTIO_BALLOON(obj);
+> >     int64_t value;
+> > 
+> >     if (!visit_type_int(v, name, &value, errp)) {
+> >@@ -1014,12 +1014,12 @@ static void virtio_balloon_instance_init(Object *obj)
+> >     s->free_page_hint_notify.notify = virtio_balloon_free_page_hint_notify;
+> > 
+> >     object_property_add(obj, "guest-stats", "guest statistics",
+> >-                        balloon_stats_get_all, NULL, NULL, s);
+> >+                        balloon_stats_get_all, NULL, NULL, NULL);
+> > 
+> >     object_property_add(obj, "guest-stats-polling-interval", "int",
+> >                         balloon_stats_get_poll_interval,
+> >                         balloon_stats_set_poll_interval,
+> >-                        NULL, s);
+> >+                        NULL, NULL);
+> > }
+> > 
+> > static const VMStateDescription vmstate_virtio_balloon = {
 > 
-> > On Fri, Feb 25, 2022 at 02:18:23PM +0100, Igor Mammedov wrote:
-> > > On Fri, 25 Feb 2022 04:58:46 -0500
-> > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > >   
-> > > > On Thu, Feb 24, 2022 at 12:44:07PM -0500, Igor Mammedov wrote:  
-> > > > > Currently ACPI PCI hotplug is enabled by default for Q35 machine
-> > > > > type and overrides native PCIe hotplug. It works as expected when
-> > > > > a PCIe device is hotplugged into slot, however the device becomes
-> > > > > in-operational after migration. Which is caused by BARs being
-> > > > > disabled on target due to powered off status of the slot.
-> > > > > 
-> > > > > Proposed fix disables power control on PCIe slot when ACPI pcihp
-> > > > > takes over hotplug control and makes PCIe slot check if power
-> > > > > control is enabled before trying to change slot's power. Which
-> > > > > leaves slot always powered on and that makes PCI core keep BARs
-> > > > > enabled.    
-> > > > 
-> > > > 
-> > > > I thought some more about this. One of the reasons we
-> > > > did not remove the hotplug capability is really so
-> > > > it's easier to layer acpi on top of pcihp if we
-> > > > want to do it down the road. And it would be quite annoying
-> > > > if we had to add more hack to go back to having capability.
-> > > > 
-> > > > How about instead of patch 3 we call pci_set_power(dev, true) for all
-> > > > devices where ACPI is managing hotplug immediately on plug?  This will
-> > > > fix the bug avoiding headache with migration.  
-> > > 
-> > > true it would be more migration friendly (v6.2 still broken
-> > > but that can't be helped), since we won't alter pci_config at all.
-> > > Although it's still more hackish compared to disabling SLTCAP_PCP
-> > > (though it seems guest OSes have no issues with SLTCAP_PCP being
-> > > present but not really operational, at least for ~6months the thing
-> > > was released (6.1-6.2-now)).
-> > > 
-> > > Let me play with this idea and see if it works and at what cost,
-> > > though I still prefer cleaner SLTCAP_PCP disabling to make sure
-> > > guest OS won't get wrong idea about power control being present
-> > > when it's not actually not.  
-> > 
-> > Well the control is present, isn't it? Can be used to e.g. reset the
-> > device behind the bridge.
-> 
-> can you point to how reset is supposed to work?
-
-Well, I am alluding to this code in linux
-
-static const struct pci_reset_fn_method pci_reset_fn_methods[] = {
-        { },
-        { pci_dev_specific_reset, .name = "device_specific" },
-        { pci_dev_acpi_reset, .name = "acpi" },
-        { pcie_reset_flr, .name = "flr" },
-        { pci_af_flr, .name = "af_flr" },
-        { pci_pm_reset, .name = "pm" },
-        { pci_reset_bus_function, .name = "bus" },
-};
-
-Thinkably down the road linux could add a method powering the secondary bus
-off then back on as a way to reset devices behind it.
-There are plenty of other ways so it's not that I can say why that
-specific way of doing it is useful.
-
-> > 
-> > >   
-> > > > Patch 2 does seem like a good idea.
-> > > >   
-> > > > > PS:
-> > > > > it's still hacky approach as all ACPI PCI hotplug is, but it's
-> > > > > the least intrusive one. Alternative, I've considered, could be
-> > > > > chaining hotplug callbacks and making pcihp ones call overriden
-> > > > > native callbacks while inhibiting hotplug event in native callbacks
-> > > > > somehow. But that were a bit more intrusive and spills over to SHPC
-> > > > > if implemented systematically, so I ditched that for now. It could
-> > > > > be resurrected later on if current approach turns out to be
-> > > > > insufficient.
-> > > > > 
-> > > > > RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
-> > > > > CC: mst@redhat.com
-> > > > > CC: kraxel@redhat.com
-> > > > > 
-> > > > > Igor Mammedov (4):
-> > > > >   pci: expose TYPE_XIO3130_DOWNSTREAM name
-> > > > >   pcie: update slot power status only is power control is enabled
-> > > > >   acpi: pcihp: disable power control on PCIe slot
-> > > > >   q35: compat: keep hotplugged PCIe device broken after migration for
-> > > > >     6.2-older machine types
-> > > > > 
-> > > > >  include/hw/acpi/pcihp.h                    |  4 +++-
-> > > > >  include/hw/pci-bridge/xio3130_downstream.h | 15 +++++++++++++++
-> > > > >  hw/acpi/acpi-pci-hotplug-stub.c            |  3 ++-
-> > > > >  hw/acpi/ich9.c                             | 21 ++++++++++++++++++++-
-> > > > >  hw/acpi/pcihp.c                            | 16 +++++++++++++++-
-> > > > >  hw/acpi/piix4.c                            |  3 ++-
-> > > > >  hw/core/machine.c                          |  4 +++-
-> > > > >  hw/pci-bridge/xio3130_downstream.c         |  3 ++-
-> > > > >  hw/pci/pcie.c                              |  5 ++---
-> > > > >  9 files changed, 64 insertions(+), 10 deletions(-)
-> > > > >  create mode 100644 include/hw/pci-bridge/xio3130_downstream.h
-> > > > > 
-> > > > > -- 
-> > > > > 2.31.1    
-> > > >   
-> > 
+> Ping
 
 
