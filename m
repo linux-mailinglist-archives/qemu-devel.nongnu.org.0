@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB864C5F71
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:34:03 +0100 (CET)
-Received: from localhost ([::1]:39442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC4D4C5F76
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:37:26 +0100 (CET)
+Received: from localhost ([::1]:44686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOS78-0004RH-BE
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:34:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51614)
+	id 1nOSAP-0008Aw-7F
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:37:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOS63-0003h4-L1
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:32:55 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=43554
- helo=mail-pl1-x62a.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nOS8j-0005rD-EE
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:35:41 -0500
+Received: from [2607:f8b0:4864:20::82e] (port=41831
+ helo=mail-qt1-x82e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOS62-0002aY-6J
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:32:55 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id u2so1588418ple.10
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 14:32:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nOS8h-00031V-Ph
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:35:41 -0500
+Received: by mail-qt1-x82e.google.com with SMTP id n11so7502687qtk.8
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 14:35:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=V8Co7ZaowyOqNHgraNjQuwCOYWvVT4qgGGJR3uqy7Hg=;
- b=Nvn1O562mrB03FDGavWSvmb2MLmWT+VvtxGUDoW+jyZ1Ee1VoQYURxgCBXxr1lyORO
- xMTjJpFe4xbFj6ztKkWleYt4o3JhyZXsY/F+FIhkZjed55UnNj9s8pxCy3+E7eDfAoTh
- 1iwhYZ762kiwY8rN3W/YFfpEnYYC/od7sB59BtRc2emXXoOulfRg0ZmwV09IOQb6wXV3
- EQwiSTRngpEbyWj4W6ksVx6Ose6GNnlfnhJdc0iZgeD+OIYPEycdHeEM40l0C+jQrm8L
- 44DBtZwGvnSEBpBI3h1bH6PWpmYaFgVWpdDJgwVeym2ZXjBK+Zg5gpOKxmnJGmVfZPJA
- xRbg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rb3++N3dF+OdnksyIIGgvJDHilnQS1LnqJnYELNslrI=;
+ b=NAuG7mO79WvcfHQZ96yCob8lQ+B+tbm+thDrI+b3pQT0wKlUbIHve2PTr3ZqjLQuzA
+ /xiXc2loVo3axMtsh+bOUb0KB49O7V3jLIimitqJxhS63KWaoPmaUMg4yOXh1cW0TiLZ
+ b6k6fRomQDGiOrOmf6kp6YvWBsKX0wCi2Isw/2KmE6bRJq9plkxs6Y1IhL45DzvYBKND
+ arMlzUinzdcvYrmadOegNyX/GAaWTvjI6KisEucpjbhQOc+pFP76sUtvG+RxkiSmflRY
+ UiZ/C9QYJ6B3a2JSaVFJt6vH5W7vkxBoRmzOB0KT82ukAEy0pG9XA1mR6TzvHhxHLqms
+ QH2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=V8Co7ZaowyOqNHgraNjQuwCOYWvVT4qgGGJR3uqy7Hg=;
- b=TVTLk2eWuR7i14j6iyArqvVI1Owdfygtho6FhTVLbyKIXNe4WgjC9yH6XQSVsT5geG
- 32+H5JM4El4F7Mye0FimOSRRPipu2mPLSnjl/Qi4B8Cv0UPJ1q1iQ+BePySYwLdDd0rr
- PduXRGjArl9N/SJXmBFBqyghjmCGBj3zs5JQIty4YksPU97ZcD4tp6xKeTHJOq8Ta4de
- bof3vEmjd093fYvl+XFTQnMI8WYpzojA/Y7aB6/tSTRzHKqYn42QM+Wq2qQ3LlSaMkCJ
- HEJcCyvurszKFRA0GIA6c86ohAnD8Lx24AcZXJdH3O2vRfDOJjnuhmY18kLoaL0AN51I
- 4M7w==
-X-Gm-Message-State: AOAM533/5pkUyT+mv4kUPWD7XgHv0uppkc+dgRa6NyH0KBwX3d3bTo7q
- FcKPE/WnyafOfzuzeWgGrfk=
-X-Google-Smtp-Source: ABdhPJzFo3Tf1U0j5oEBK2gUQz/XgG+uxQxTd/TmipR1kYG9A6/ld5rOCYg0V8uK/CaHzXwoxmEWFg==
-X-Received: by 2002:a17:903:2406:b0:14d:6447:990c with SMTP id
- e6-20020a170903240600b0014d6447990cmr17815879plo.22.1646001171804; 
- Sun, 27 Feb 2022 14:32:51 -0800 (PST)
-Received: from [192.168.1.115] (32.red-88-28-25.dynamicip.rima-tde.net.
- [88.28.25.32]) by smtp.gmail.com with ESMTPSA id
- k17-20020aa788d1000000b004f359a0a896sm10539599pff.169.2022.02.27.14.32.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 14:32:51 -0800 (PST)
-Message-ID: <02291ebd-a1e1-a670-0ba4-8e3d98c42b83@gmail.com>
-Date: Sun, 27 Feb 2022 23:32:47 +0100
+ bh=rb3++N3dF+OdnksyIIGgvJDHilnQS1LnqJnYELNslrI=;
+ b=JTlS0O9cAvgMnoelGI5H/8rkKR10E+2rNUJDU3yqSF7PaVQZvshXVxGMVeSKAPupHo
+ 3egNAlcgkNV73CjS3TCcHGwWz6iEg51+OJclH0uMaMUaltIATZikeHxUB2etncRCDSd8
+ BjEgi9x9wwYvY1eogzAXqm/h1Sw0RCH/Lsmy10wD4cW9jVb9elqsUCbdpzyS7l3inpO8
+ rvW5TDQJheALECAFN9jET0P5dp43NTndJ5DII9jm0a5rQTFR0xssr8Db9UkONaeppe9s
+ WJMuT9+uk/GfNOzQ+jYQYg+BUo526+rrqsVKcAOR+PUQPi9aUQTA8/D2av5s8HKClJBX
+ L4Sw==
+X-Gm-Message-State: AOAM533SCxTSRHNqlo3tSCiz82vylW+kSinqgXfr8pOZubfRMBEDIMH2
+ w7Xz0hAwSTQx4pbxssWT3V26LUFvSHQaLw==
+X-Google-Smtp-Source: ABdhPJxCxp5mOmEaskhBUZnFaowPtVCDJNNyTt1r7K6JwOjqqpyNa8xVodDYcDCjxYDDcZ/7wrVJDw==
+X-Received: by 2002:ac8:5756:0:b0:2de:1ce6:bef7 with SMTP id
+ 22-20020ac85756000000b002de1ce6bef7mr14338659qtx.461.1646001337934; 
+ Sun, 27 Feb 2022 14:35:37 -0800 (PST)
+Received: from localhost.localdomain
+ (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
+ [209.6.248.219]) by smtp.gmail.com with ESMTPSA id
+ 85-20020a370758000000b00648b7e3b8a4sm4206485qkh.111.2022.02.27.14.35.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 27 Feb 2022 14:35:37 -0800 (PST)
+From: Will Cohen <wwcohen@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 00/11] 9p: Add support for darwin
+Date: Sun, 27 Feb 2022 17:35:11 -0500
+Message-Id: <20220227223522.91937-1-wwcohen@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2 3/9] accel/tcg: Support TCG_TARGET_SIGNED_ADDR32 for
- softmmu
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220227020413.11741-1-richard.henderson@linaro.org>
- <20220227020413.11741-4-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220227020413.11741-4-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
+ envelope-from=wwcohen@gmail.com; helo=mail-qt1-x82e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,22 +86,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, hi@alyssa.is,
+ Will Cohen <wwcohen@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/2/22 03:04, Richard Henderson wrote:
-> When TCG_TARGET_SIGNED_ADDR32 is set, adjust the tlb addend to
-> allow the 32-bit guest address to be sign extended within the
-> 64-bit host register instead of zero extended.
-> 
-> This will simplify tcg hosts like MIPS, RISC-V, and LoongArch,
-> which naturally sign-extend 32-bit values, in contrast to x86_64
-> and AArch64 which zero-extend them.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   accel/tcg/cputlb.c | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
+This is a followup to https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg04391.html,
+adding 9p server support for Darwin.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Since v8, the following changes have been made:
+
+Patch 4/11 (9p: darwin: Handle struct dirent differences)
+- Declare qemu_dirent_off as static to prevent linker error
+- Move qemu_dirent_off above the end-of-file endif to fix compilation
+
+Patch 9/11 (9p: darwin: Implement compatibility for mknodat)
+- Fix line over 90 characters formatting error
+- Move qemu_mknodat back from osdep to 9p-util and adjust patch notes accordingly
+
+Patch 11/11 (9p: darwin: meson: Allow VirtFS on Darwin)
+- Rebase to master
+
+With these changes, this patch set builds and passes 9p synth tests on both linux and darwin.
+
+Keno Fischer (10):
+  9p: linux: Fix a couple Linux assumptions
+  9p: Rename 9p-util -> 9p-util-linux
+  9p: darwin: Handle struct stat(fs) differences
+  9p: darwin: Handle struct dirent differences
+  9p: darwin: Ignore O_{NOATIME, DIRECT}
+  9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
+  9p: darwin: *xattr_nofollow implementations
+  9p: darwin: Compatibility for f/l*xattr
+  9p: darwin: Implement compatibility for mknodat
+  9p: darwin: meson: Allow VirtFS on Darwin
+
+Will Cohen (1):
+  9p: darwin: Adjust assumption on virtio-9p-test
+
+ fsdev/file-op-9p.h                     |  9 ++-
+ fsdev/meson.build                      |  1 +
+ hw/9pfs/9p-local.c                     | 27 +++++--
+ hw/9pfs/9p-proxy.c                     | 38 +++++++++-
+ hw/9pfs/9p-synth.c                     |  6 ++
+ hw/9pfs/9p-util-darwin.c               | 97 ++++++++++++++++++++++++++
+ hw/9pfs/{9p-util.c => 9p-util-linux.c} |  8 ++-
+ hw/9pfs/9p-util.h                      | 46 ++++++++++++
+ hw/9pfs/9p.c                           | 42 +++++++++--
+ hw/9pfs/9p.h                           | 18 +++++
+ hw/9pfs/codir.c                        |  4 +-
+ hw/9pfs/meson.build                    |  3 +-
+ include/qemu/xattr.h                   |  4 +-
+ meson.build                            | 13 ++--
+ tests/qtest/virtio-9p-test.c           |  2 +-
+ 15 files changed, 292 insertions(+), 26 deletions(-)
+ create mode 100644 hw/9pfs/9p-util-darwin.c
+ rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (90%)
+
+-- 
+2.35.1
+
 
