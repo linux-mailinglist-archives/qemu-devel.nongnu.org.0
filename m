@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26444C5F9B
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:53:38 +0100 (CET)
-Received: from localhost ([::1]:49356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF93A4C5F9C
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:55:11 +0100 (CET)
+Received: from localhost ([::1]:52326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOSQ4-0005Qi-Iw
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:53:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54784)
+	id 1nOSRa-0007Sp-Pl
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:55:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOSP1-00044K-MD
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:52:31 -0500
-Received: from [2607:f8b0:4864:20::531] (port=43733
- helo=mail-pg1-x531.google.com)
+ id 1nOSQR-0006Gm-Hq
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:53:59 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=38502
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOSOz-0006tl-ED
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:52:30 -0500
-Received: by mail-pg1-x531.google.com with SMTP id 27so9867708pgk.10
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 14:52:27 -0800 (PST)
+ id 1nOSQQ-00008d-9J
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:53:59 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ ge19-20020a17090b0e1300b001bcca16e2e7so8775030pjb.3
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 14:53:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=+VFvlmFHV7QICwgLUnWWdwwYgDuJ0npNJ7BTubu5ptg=;
- b=QCuKcMnKgA86rv2AYLoTwmeNCKvwQZFW/gNfHqyH3qBVyfegNa6iniTz5h8/fgqEsl
- 8l3Tdhbce69M20ut9TWcucfAijsBOVyU75+b25BUFtIyoAjxS2EzMYZKZwzwWb5vwnNk
- dIjOhxqiv7geifLV/sJu9zPYxDrMiaRPUrrd+jjOovTC3o9O6wqkAq2exzAql6OOh0hH
- NOiV4C7fqR6ZUWzP/t33b1YB1TIcKwPyA/u/gvp0Z0/eiOTGHok519HJDidtXi+PYgMC
- QqWxWTV4xqjxcgP50ywSj8Pn/y9q5g7l2PQvLZ2lBO86Y2o9FPoVXOQ93KZb6ARhsow3
- z6Uw==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=BqYOnVw0i6wFwdM0qKXfOWQuhWlwLLPAxf0nPcMYoAo=;
+ b=AeP9hBF8o35cIF98klGkVg+4uT29Lkcp3xMsouWS1r3CdmjdikNqcjjBFWznFiC4js
+ DXM1cdpJQu8BSEOHqV1Bx5i5LoHrXsFIDLBVqZ3qXkNk34k1JopChR6wnk0S2AXlUeqX
+ lDC6kVYHpXoEWBBc7vta69vergMnz7jzMgZTWaQBAq80bj3LCcOkF00RyhLuDZZ8DTMz
+ F4rxMfLwwuT4FtTy4rziTCVitcMbI2wEbaCCRJ5ZHuYqZiYiR7y9SZg/ia5HzS04DJuG
+ oJNiXeh56+K2iPGlpfF8cEdFVVO3g49FF2Lb22fTsq7+prBH5xeJD2PWeYtWw8RTOHee
+ 92xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+VFvlmFHV7QICwgLUnWWdwwYgDuJ0npNJ7BTubu5ptg=;
- b=hYhLi7DSN156d6IGPEMwFUeNM2Kx8A9wYAgWqpKXqbsdWOZaawlm81HWK9bng053ow
- U4i7RnfnQ+uBZQH3+uK1EIL3nGqoz8BZlT4l/EwtStKc9P59mlWNl89lqHNnwffPdVH3
- 7IwdE77B/t+7fH8IDR8v22srSvAWRolAZH+5BGkXfjpNcS6Trrgq76npZ6awlaFoHGl/
- AkJ0J5mTOdIpdD5g00lFhfGeNKeyFCyidFphhuFsNru1Emq9Kc7GnkyYjjxMnrIwf6q8
- pnRHLsthD7feyBCMyyjHTIRHGYqRGZM3nEnEUbPweR+9zZjYC1QrKMTQvZy/ESrLswbQ
- JwUA==
-X-Gm-Message-State: AOAM5315W79ccWjPQUp2owPAlMW2o1ONrq+/EVkyQjptePpwEU266Aep
- we2qSKPm9YWFsyaEnXMqGrU1F+Ms/5U=
-X-Google-Smtp-Source: ABdhPJyqPBXHSstcbQk1+Y4jGZvn3GKxmlDuhAlYiVkxNI7+6YNAavJykRlDIzJAeYoGF2osfqp5Zg==
-X-Received: by 2002:a63:e59:0:b0:374:a169:d558 with SMTP id
- 25-20020a630e59000000b00374a169d558mr14708906pgo.304.1646002346834; 
- Sun, 27 Feb 2022 14:52:26 -0800 (PST)
+ bh=BqYOnVw0i6wFwdM0qKXfOWQuhWlwLLPAxf0nPcMYoAo=;
+ b=arY7cm1GxN4ryn48uouTGDI81UqTZZ0ra5Yh1NXKWeFKRjWDC31A+/It52ogyW3JEh
+ i2fQUTWNBJNxtqOKL2ote65kHQ9H2wGOo5+yRwTzNc3t+2IERLD7ySBrAmTSZyiNt6BO
+ t0pSSJ3wbcHKMNxbFFaTx6iFj2y8xeMwSW42Bcnso4eRuVCBinAWuslJqLGaBLoivuDY
+ +om4+ylzoGwRiGfqzBomusEQmUkNiC26t3mEcBFHQJNIW9DuzMMDTDfmuum4rZ9v5zkI
+ CsJvB7oT2JZP2I2olaUF6tPNKJpd/PDzOWJAk5fDMPFQPo0a8PLYoqpZ219VaxXRAxpY
+ FFig==
+X-Gm-Message-State: AOAM530zNfSQOHEoxOkEe3lKp69Asevqg+8b3Cx3ULwGwK9EHEdLn61t
+ sXEZbYXBfOJRPezC9DKqggQ=
+X-Google-Smtp-Source: ABdhPJxHZREqLhyWjo5iTMyBP255y4uBiEaqW49/11jVW9W1r0B/D8xp5TjhPQt0d1JGOTmBXl/DrQ==
+X-Received: by 2002:a17:90a:8911:b0:1bd:395e:40e5 with SMTP id
+ u17-20020a17090a891100b001bd395e40e5mr4243676pjn.121.1646002436705; 
+ Sun, 27 Feb 2022 14:53:56 -0800 (PST)
 Received: from [192.168.1.115] (32.red-88-28-25.dynamicip.rima-tde.net.
  [88.28.25.32]) by smtp.gmail.com with ESMTPSA id
- q91-20020a17090a1b6400b001bc8d59a02fsm8566766pjq.35.2022.02.27.14.52.25
+ q13-20020aa7960d000000b004f13804c100sm10077050pfg.165.2022.02.27.14.53.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 14:52:26 -0800 (PST)
-Message-ID: <604738d8-8f6a-9f32-b314-aa97da6d6970@gmail.com>
-Date: Sun, 27 Feb 2022 23:52:23 +0100
+ Sun, 27 Feb 2022 14:53:56 -0800 (PST)
+Message-ID: <edc0490d-5746-bcb8-cf41-b5f3275c7236@gmail.com>
+Date: Sun, 27 Feb 2022 23:53:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2 9/9] tcg/loongarch64: Support TCG_TARGET_SIGNED_ADDR32
+Subject: Re: [PATCH] tcg/tci: Use tcg_out_ldst in tcg_out_st
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220227020413.11741-1-richard.henderson@linaro.org>
- <20220227020413.11741-10-richard.henderson@linaro.org>
+References: <20220226015502.534801-1-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220227020413.11741-10-richard.henderson@linaro.org>
+In-Reply-To: <20220226015502.534801-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,20 +94,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/2/22 03:04, Richard Henderson wrote:
-> All 32-bit LoongArch operations sign-extend the output, so we are easily
-> able to keep TCG_TYPE_I32 values sign-extended in host registers.
+On 26/2/22 02:55, Richard Henderson wrote:
+> The tcg_out_ldst helper will handle out-of-range offsets.
+> We haven't actually encountered any, since we haven't run
+> across the assert within tcg_out_op_rrs, but an out-of-range
+> offset would not be impossible in future.
 > 
-> Cc: WANG Xuerui <git@xen0n.name>
+> Fixes: 65089889183 ("tcg/tci: Change encoding to uint32_t units")
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tcg/loongarch64/tcg-target-sa32.h |  2 +-
->   tcg/loongarch64/tcg-target.c.inc  | 15 ++++++---------
->   2 files changed, 7 insertions(+), 10 deletions(-)
+>   tcg/tci/tcg-target.c.inc | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
