@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31BB4C58ED
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 03:07:59 +0100 (CET)
-Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DCC54C58F3
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 03:11:54 +0100 (CET)
+Received: from localhost ([::1]:55180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nO8yc-0005OT-Pd
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 21:07:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38388)
+	id 1nO92P-0005Xm-Lv
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 21:11:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nO8vA-0002SR-J0
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 21:04:24 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=40475
- helo=mail-pj1-x1032.google.com)
+ id 1nO8vB-0002VC-LR
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 21:04:25 -0500
+Received: from [2607:f8b0:4864:20::631] (port=36510
+ helo=mail-pl1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nO8v9-0007SN-1F
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 21:04:24 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- em10-20020a17090b014a00b001bc3071f921so11708614pjb.5
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 18:04:22 -0800 (PST)
+ id 1nO8vA-0007SZ-1k
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 21:04:25 -0500
+Received: by mail-pl1-x631.google.com with SMTP id e13so7909386plh.3
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 18:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YMeVqoit7tAu+rAEKby5Z5DLjeBrKYE/OoQi3dZWbyk=;
- b=oLbuldUDIXNM/3BUYhGdnmzANKuY72GQzTjDnuFzXiBEFQVIEdLqv4tRlK++Rl/rO5
- Tm4NJPXSoxhpra0CjbEPgHT7+V5FWqKnlqTjGsJRUdYrx+CR7Lj1YEfTWquoVJpHKbaS
- 8oV+fc9+4RcVLb9RSqIZZu82vNo9JerWSenZGNl0HJ9bBc7XPAY3ctuwvTfa0Y4dULyA
- PguRpzbEafUusVio07qxhhvU/NUlAO0yu+YqS3wUSZXjSGSQrMjRZ7nK+1aQtv8Km8k3
- Gm9IW8bjkfvPMZ7ARNmQumbqksaP9t5o4XCj4/brBknqMS5/dg2/wd/ChyUiwJhHN1L9
- UHmg==
+ bh=nYpHk91d8Z1upIT+R8AUAaAp7pb2ZR3ZZpIaqxd5Msg=;
+ b=wmBYbCVtP3bXwQZAJYlJ67OFnnT++tnSlCYYDiP9iM5jah/qSztzle044ZOvHR7Ex5
+ B/6UkCc/JoNxRClME4ejmzwS4DuB3NJufQQ9ecJLkCNXmaDif//OdDXqj0TWqzqFBZdF
+ lvHcG1VyyjYDsiw8HNpEvcAd84OIZYjLct34VOZZql3gzABw7RrgYKzIGwDs/RfPzs73
+ d3ZwhwdKu+e67aVtcreSCMZ7LpHCfZFtyD3N1HkSFaGyCuW3ooY/vvWLQIwFE0k4/elw
+ CoaE+qRmhyqilBQiFGwAsooQ/mUvBF7HcOCJptaBu+K//6q4Hijd0V7n55iFHYItTUVv
+ Jq8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YMeVqoit7tAu+rAEKby5Z5DLjeBrKYE/OoQi3dZWbyk=;
- b=rJ5NS+rGOeSQFVlQqTiOaloCm1c7F2+6pNChhMQZBvHLykMlAwPrLuCaRtZO0NzaIY
- U38qHnH8xii/l7sVyNK12pvDjoE+KsC623p6bW8gUVoAvMECy5o/qkjhh+ddKzfnMpg1
- c7xp2HvrUDMVBXsq84SGT8hyl+u+SpSU5dlbKb4VCvsWIwOnO+5KrkvOCIAZcNIduXzO
- 4sP2wBtjaI3AHPNzh24gzmdVGFqsMQUbesnJkhVF7xViquJXsPt7W7xH/i7MP+xySLcd
- HChDd2HnxK1HZ4hG5QPRqXDHWLUT0PjT7vAOcurTSVPbhgdviNcaEE2t3seK84LkFFT0
- Vphw==
-X-Gm-Message-State: AOAM533OsrOcPJx6lgTRXDJhhNnbYqPaVWo0Kg9aNS1xxqA9j/zm5vPI
- DGLzeRZ8uL0K1V/RUPs907pc5fYf3k8VKu09
-X-Google-Smtp-Source: ABdhPJxJPnqEssU+YRG8wsWYdw3M9diCY+RblT7QpG4/d0fK84uKG47elnQB/JGL6AdMyBRtdTA1SQ==
-X-Received: by 2002:a17:90b:d91:b0:1bc:ade1:54e3 with SMTP id
- bg17-20020a17090b0d9100b001bcade154e3mr10220393pjb.8.1645927461415; 
- Sat, 26 Feb 2022 18:04:21 -0800 (PST)
+ bh=nYpHk91d8Z1upIT+R8AUAaAp7pb2ZR3ZZpIaqxd5Msg=;
+ b=jMSsZweSnI3Z4opjUs2fjcb9p7LGPkiinKQYaJvlBkva7zpcv7kHA5c9L+2BnmDU6b
+ +lD3pFcqPEo47N4AArVIx0GWFTvFadl7iUPuc5dBC7ZMWHpsF68dAcjAFAh3dt0cPQMa
+ pGeHZPsLzsZgH5aFbJmaMs+AbWV7iwrSln/1JEloEJW41OT6rdRjEdx5uU84cijKoLIL
+ bVKXzkH/P07NgkWvVBFSnQiJIcwkZStosFm2fodTwBz8WQ8Wyj8CNxsc/i9cwyX8WkRH
+ 4eq6cINhlnvmm7s/h3/ChyJKHhGzYaYur3i4OvETmJSwCG0yrRZtcoz53iZhwasRmtZZ
+ bg1g==
+X-Gm-Message-State: AOAM5301Yk7EPe4zVrVOxtotSQqLFoXpgHwmQlLzINvkEjvTMD/UvY+e
+ jjUENUgYDW+t0uUUxFWykbKoAxPM01ckAhqU
+X-Google-Smtp-Source: ABdhPJw4fkxF3Qd7K/fR3SIQ3dtzOemokkIaTo8wbu5RBJSAhf0p6ajTBH2CF7QewVudvpFTXK88qg==
+X-Received: by 2002:a17:90a:d498:b0:1bc:9269:e46b with SMTP id
+ s24-20020a17090ad49800b001bc9269e46bmr10015295pju.95.1645927462739; 
+ Sat, 26 Feb 2022 18:04:22 -0800 (PST)
 Received: from localhost.localdomain
  (2603-800c-1201-c600-9001-d56a-9ee0-0246.res6.spectrum.com.
  [2603:800c:1201:c600:9001:d56a:9ee0:246])
  by smtp.gmail.com with ESMTPSA id
- q13-20020a056a00088d00b004e1bea9c582sm8304021pfj.43.2022.02.26.18.04.20
+ q13-20020a056a00088d00b004e1bea9c582sm8304021pfj.43.2022.02.26.18.04.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Feb 2022 18:04:21 -0800 (PST)
+ Sat, 26 Feb 2022 18:04:22 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/9] accel/tcg: Add guest_base_signed_addr32 for user-only
-Date: Sat, 26 Feb 2022 16:04:08 -1000
-Message-Id: <20220227020413.11741-5-richard.henderson@linaro.org>
+Subject: [PATCH v2 5/9] linux-user: Support TCG_TARGET_SIGNED_ADDR32
+Date: Sat, 26 Feb 2022 16:04:09 -1000
+Message-Id: <20220227020413.11741-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220227020413.11741-1-richard.henderson@linaro.org>
 References: <20220227020413.11741-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,105 +91,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While the host may prefer to treat 32-bit addresses as signed,
-there are edge cases of guests that cannot be implemented with
-addresses 0x7fff_ffff and 0x8000_0000 being non-consecutive.
+When using reserved_va, which is the default for a 64-bit host
+and a 32-bit guest, set guest_base_signed_addr32 if requested
+by TCG_TARGET_SIGNED_ADDR32, and the executable layout allows.
 
-Therefore, default to guest_base_signed_addr32 false, and allow
-probe_guest_base to determine whether it is possible to set it
-to true.  A tcg backend which sets TCG_TARGET_SIGNED_ADDR32 will
-have to cope with either setting for user-only.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h  | 16 ++++++++++++++++
- include/exec/cpu_ldst.h |  3 ++-
- bsd-user/main.c         |  4 ++++
- linux-user/main.c       |  3 +++
- 4 files changed, 25 insertions(+), 1 deletion(-)
+ include/exec/cpu-all.h |  4 ---
+ linux-user/elfload.c   | 62 ++++++++++++++++++++++++++++++++++--------
+ 2 files changed, 50 insertions(+), 16 deletions(-)
 
 diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 84caf5c3d9..26ecd3c886 100644
+index 26ecd3c886..8bea0e069e 100644
 --- a/include/exec/cpu-all.h
 +++ b/include/exec/cpu-all.h
-@@ -146,6 +146,7 @@ static inline void tswap64s(uint64_t *s)
- 
- #if defined(CONFIG_USER_ONLY)
- #include "exec/user/abitypes.h"
-+#include "tcg-target-sa32.h"
- 
- /* On some host systems the guest address space is reserved on the host.
-  * This allows the guest address space to be offset to a convenient location.
-@@ -154,6 +155,21 @@ extern uintptr_t guest_base;
- extern bool have_guest_base;
- extern unsigned long reserved_va;
- 
-+#if TCG_TARGET_SIGNED_ADDR32 && TARGET_LONG_BITS == 32
-+extern bool guest_base_signed_addr32;
-+#else
-+#define guest_base_signed_addr32  false
-+#endif
-+
-+static inline void set_guest_base_signed_addr32(void)
-+{
-+#ifdef guest_base_signed_addr32
-+    qemu_build_not_reached();
-+#else
-+    guest_base_signed_addr32 = true;
-+#endif
-+}
-+
- /*
-  * Limit the guest addresses as best we can.
-  *
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index da987fe8ad..add45499ee 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -87,7 +87,8 @@ static inline abi_ptr cpu_untagged_addr(CPUState *cs, abi_ptr x)
- /* All direct uses of g2h and h2g need to go away for usermode softmmu.  */
- static inline void *g2h_untagged(abi_ptr x)
+@@ -269,11 +269,7 @@ extern const TargetPageBits target_page;
+ #define PAGE_RESET     0x0040
+ /* For linux-user, indicates that the page is MAP_ANON. */
+ #define PAGE_ANON      0x0080
+-
+-#if defined(CONFIG_BSD) && defined(CONFIG_USER_ONLY)
+-/* FIXME: Code that sets/uses this is broken and needs to go away.  */
+ #define PAGE_RESERVED  0x0100
+-#endif
+ /* Target-specific bits that will be used via page_get_flags().  */
+ #define PAGE_TARGET_1  0x0200
+ #define PAGE_TARGET_2  0x0400
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 9628a38361..5522f9e721 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2482,34 +2482,72 @@ static void pgb_dynamic(const char *image_name, long align)
+ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
+                             abi_ulong guest_hiaddr, long align)
  {
--    return (void *)((uintptr_t)(x) + guest_base);
-+    uintptr_t hx = guest_base_signed_addr32 ? (int32_t)x : (uintptr_t)x;
-+    return (void *)(guest_base + hx);
- }
+-    int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE;
++    int flags = (MAP_ANONYMOUS | MAP_PRIVATE |
++                 MAP_NORESERVE | MAP_FIXED_NOREPLACE);
++    unsigned long local_rva = reserved_va;
++    bool protect_wrap = false;
+     void *addr, *test;
  
- static inline void *g2h(CPUState *cs, abi_ptr x)
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index f1d58e905e..cca4b9a502 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -54,6 +54,10 @@
- int singlestep;
- uintptr_t guest_base;
- bool have_guest_base;
-+#ifndef guest_base_signed_addr32
-+bool guest_base_signed_addr32;
-+#endif
+-    if (guest_hiaddr > reserved_va) {
++    if (guest_hiaddr > local_rva) {
+         error_report("%s: requires more than reserved virtual "
+                      "address space (0x%" PRIx64 " > 0x%lx)",
+-                     image_name, (uint64_t)guest_hiaddr, reserved_va);
++                     image_name, (uint64_t)guest_hiaddr, local_rva);
+         exit(EXIT_FAILURE);
+     }
+ 
+-    /* Widen the "image" to the entire reserved address space. */
+-    pgb_static(image_name, 0, reserved_va, align);
++    if (TCG_TARGET_SIGNED_ADDR32 && TARGET_LONG_BITS == 32) {
++        if (guest_loaddr < 0x80000000u && guest_hiaddr > 0x80000000u) {
++            /*
++             * The executable itself wraps on signed addresses.
++             * Without per-page translation, we must keep the
++             * guest address 0x7fff_ffff adjacent to 0x8000_0000
++             * consecutive in host memory: unsigned addresses.
++             */
++        } else {
++            set_guest_base_signed_addr32();
++            if (local_rva <= 0x80000000u) {
++                /* No guest addresses are "negative": win! */
++            } else {
++                /* Begin by allocating the entire address space. */
++                local_rva = 0xfffffffful + 1;
++                protect_wrap = true;
++            }
++        }
++    }
+ 
+-    /* osdep.h defines this as 0 if it's missing */
+-    flags |= MAP_FIXED_NOREPLACE;
++    /* Widen the "image" to the entire reserved address space. */
++    pgb_static(image_name, 0, local_rva, align);
++    assert(guest_base != 0);
+ 
+     /* Reserve the memory on the host. */
+-    assert(guest_base != 0);
+     test = g2h_untagged(0);
+-    addr = mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
++    addr = mmap(test, local_rva, PROT_NONE, flags, -1, 0);
+     if (addr == MAP_FAILED || addr != test) {
++        /*
++         * If protect_wrap, we could try again with the original reserved_va
++         * setting, but the edge case of low ulimit vm setting on a 64-bit
++         * host is probably useless.
++         */
+         error_report("Unable to reserve 0x%lx bytes of virtual address "
+-                     "space at %p (%s) for use as guest address space (check your"
+-                     "virtual memory ulimit setting, min_mmap_addr or reserve less "
+-                     "using -R option)", reserved_va, test, strerror(errno));
++                     "space at %p (%s) for use as guest address space "
++                     "(check your virtual memory ulimit setting, "
++                     "min_mmap_addr or reserve less using -R option)",
++                     local_rva, test, strerror(errno));
+         exit(EXIT_FAILURE);
+     }
+ 
++    if (protect_wrap) {
++        /*
++         * Prevent the page just before 0x80000000 from being allocated.
++         * This prevents a single guest object/allocation from crossing
++         * the signed wrap, and thus being discontiguous in host memory.
++         */
++        page_set_flags(0x7fffffff & TARGET_PAGE_MASK, 0x80000000u,
++                       PAGE_RESERVED);
++        /* Adjust guest_base so that 0 is in the middle of the reservation. */
++        guest_base += 0x80000000ul;
++    }
 +
- /*
-  * When running 32-on-64 we should make sure we can fit all of the possible
-  * guest address space into a contiguous chunk of virtual host memory.
-diff --git a/linux-user/main.c b/linux-user/main.c
-index fbc9bcfd5f..5d963ddb64 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -72,6 +72,9 @@ static const char *seed_optarg;
- unsigned long mmap_min_addr;
- uintptr_t guest_base;
- bool have_guest_base;
-+#ifndef guest_base_signed_addr32
-+bool guest_base_signed_addr32;
-+#endif
- 
- /*
-  * Used to implement backwards-compatibility for the `-strace`, and
+     qemu_log_mask(CPU_LOG_PAGE, "%s: base @ %p for %lu bytes\n",
+                   __func__, addr, reserved_va);
+ }
 -- 
 2.25.1
 
