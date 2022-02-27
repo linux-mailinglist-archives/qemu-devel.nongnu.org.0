@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FD54C58D3
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 01:53:34 +0100 (CET)
-Received: from localhost ([::1]:36260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA864C58D4
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 01:57:52 +0100 (CET)
+Received: from localhost ([::1]:40322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nO7oa-0003FD-UD
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 19:53:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45938)
+	id 1nO7sl-000674-Eg
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 19:57:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nO7ne-0002RL-Le
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 19:52:34 -0500
-Received: from [2607:f8b0:4864:20::630] (port=46026
- helo=mail-pl1-x630.google.com)
+ id 1nO7rf-0004nR-H0
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 19:56:43 -0500
+Received: from [2607:f8b0:4864:20::531] (port=45995
+ helo=mail-pg1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nO7nc-0003UO-Hi
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 19:52:34 -0500
-Received: by mail-pl1-x630.google.com with SMTP id s1so7799210plg.12
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 16:52:31 -0800 (PST)
+ id 1nO7rd-0005kS-Nj
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 19:56:43 -0500
+Received: by mail-pg1-x531.google.com with SMTP id z4so8244569pgh.12
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 16:56:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=s+WvMh5tNQNASSkSkpt1t/55e0p94/L4KaAsp8jpFLA=;
- b=Ll6kuRXZzylwosrlhL8ZR1KAsoIqENy/eYP5qP+mE7KYyi2GEAXy7TItXn8s2SyaRR
- GR3FBqgVwyXdouDMcv7HM/tbPyf+BTnDC0BD5Leef3Ouw5lEInlXEtpF9u7Ld/HJvuye
- yRFtxPiuBQbPVWwSs9r0QAUBUyir5n8Gqn6GPEEOwBdspjUPsec5FtE49aODl13bNof1
- +1WJut8UChfUQuLh5QnB+Lw/HOUiNr3z1fcPip3kzJfHUrwMrqWuNU94s5Yplhz8QVtW
- 30IyTRSAlrHNHlm8aNUTi5I5lldj9JLORxm3TQfvviBqPAcn9Ltu5ZY1/f3Av4oNP0WE
- P6tQ==
+ bh=OiX6nhExOdyKL5bsqa+cYLiT53LIbh4asWMub34TuAU=;
+ b=CHkg8btX64kUAyhR8CSGEnlHo1ZH9J20YYPMvq13xuwro37u7nOn2eB1A/PIC+yvXX
+ sKiUrrRzxTINffbfqco3SPF6n6ruFV9qLnsBaPts0Ru5zitD2Mi0bf7IgaUFXyzqNNVx
+ j+kcdbxSuAlasF5ecGMcHyUBtlOndPzkbDtwSqUBjbw5hZP0tlQzpu3NfbrnGUr05UBR
+ DDhLgGUccHjVTmqJAi90tJWUcIgl44Ig82TMgRryEtnPB/efwYj5SA95SVQ6QoDHNFs5
+ rL1yR/koRIMpBaIc35oLpH7B41tqcire99dnxUq2qUzgCPqamFmZKUFomUki2DZEMtH2
+ otjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=s+WvMh5tNQNASSkSkpt1t/55e0p94/L4KaAsp8jpFLA=;
- b=rnbWMZOb/dwUWw9hSQ9klRFmIQv8fNuUHciOjKZ92gYx9isdH3Gs31AJO2lKQ5lNJQ
- vggYmSKKUpxuxKqqJeIqAxoj2e2sO3898uRsVnc5pSQ6hw3GXu0wZaVLfy80YBwx0lqx
- WJhqG6iAlvw3jNMl4rDpRfkdtje5famR3CCq5ibk3Qu0hN4heZd3BnkWvF2L/25wP2Eh
- 26a/+vA1zNCLZnCwXFwoDzCwMgqUMGzezxxMFwRGpbDqnixp8xSRtFTN0s4Rf7gt+Hhm
- YB+7v3wars8JVsxUW+bShl4uS8pYNo3Nh9DUZEOqNo9CggCpyo0Cfev++u3ngzy4djFH
- SLCw==
-X-Gm-Message-State: AOAM533l8VkOaxR604ZyB3WRF6CpIfuwEMbnMy3gyBvOIXjoESsGUFMQ
- aUvL4hN5nCXf8ELYze4tX/s01g==
-X-Google-Smtp-Source: ABdhPJyyruBDicx+ktjbQEirEaLPaUVyw65Zq6ac42IxHW6JCs4+jmezD/UFRAyJtgcZF5YksE/Pyw==
-X-Received: by 2002:a17:90a:1b04:b0:1b9:92e1:6264 with SMTP id
- q4-20020a17090a1b0400b001b992e16264mr9900535pjq.116.1645923150692; 
- Sat, 26 Feb 2022 16:52:30 -0800 (PST)
+ bh=OiX6nhExOdyKL5bsqa+cYLiT53LIbh4asWMub34TuAU=;
+ b=pJ9/R6Aw2OfmW27XpJxPfRoHOt3kNerBZ4Fg8piTE0oKzPWQlJwrKwcHZI0iTpZpur
+ rdPK3/OJK2Unt9X+q3dh/hTclfae+H1CzAqy+mDgM9WnTPFxHBc7QqsB3C/D7IsyYrCG
+ tzT9TyAh8ZBhSZc0je0MSWcVJsXh6UHEAl1QkxCBOdtOcRyuKo+haGhRAanITVZB4wH1
+ hMd6cYKCVpvbOPJE/ef6mxzh1tcUF1qX6ILM7KdsFXN24BYkHbDigGFFHaf9X/fs4yNT
+ h0sJ/NDbcJl/PwzMCQiHrjFh4J4tvCigPB9rmQdV1uTEwtqeZfBsZDTdRpEhzuk5ISAe
+ mmBQ==
+X-Gm-Message-State: AOAM532QNBxRplb3fAmTU8ESqVwInhylq4KZOd2POrn2ATtSlRaUxcJB
+ XFessN81+5poKvUfvFg0scHJyQ==
+X-Google-Smtp-Source: ABdhPJyd2Ih51tZP6vXQoPOAbxHUeUJmcdN4zlxf1SrrNF77y9MrEK3KwPjYL1Oq5qHHUlzyHN4svQ==
+X-Received: by 2002:a05:6a00:124a:b0:4e1:7cfb:634c with SMTP id
+ u10-20020a056a00124a00b004e17cfb634cmr14766912pfi.12.1645923400330; 
+ Sat, 26 Feb 2022 16:56:40 -0800 (PST)
 Received: from ?IPV6:2603:800c:1201:c600:9001:d56a:9ee0:246?
  (2603-800c-1201-c600-9001-d56a-9ee0-0246.res6.spectrum.com.
  [2603:800c:1201:c600:9001:d56a:9ee0:246])
  by smtp.gmail.com with ESMTPSA id
- k17-20020a056a00169100b004f3c2ac6600sm8151618pfc.116.2022.02.26.16.52.29
+ n22-20020a056a0007d600b004f3ba7c23e2sm8100947pfu.37.2022.02.26.16.56.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 26 Feb 2022 16:52:30 -0800 (PST)
-Message-ID: <dc8c7a21-7244-1baa-bc64-5c4d1c015c25@linaro.org>
-Date: Sat, 26 Feb 2022 14:52:26 -1000
+ Sat, 26 Feb 2022 16:56:39 -0800 (PST)
+Message-ID: <71304530-f1d7-13a9-c80e-f41a68a344c8@linaro.org>
+Date: Sat, 26 Feb 2022 14:56:36 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 5/9] meson.build: Don't misdetect posix_memalign() on
- Windows
+Subject: Re: [PATCH 4/9] util/oslib-win32: Return NULL on qemu_try_memalign()
+ with zero size
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20220226180723.1706285-1-peter.maydell@linaro.org>
- <20220226180723.1706285-6-peter.maydell@linaro.org>
+ <20220226180723.1706285-5-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220226180723.1706285-6-peter.maydell@linaro.org>
+In-Reply-To: <20220226180723.1706285-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,30 +101,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/26/22 08:07, Peter Maydell wrote:
-> Currently we incorrectly think that posix_memalign() exists on
-> Windows.  This is because of a combination of:
+> Currently if qemu_try_memalign() is asked to allocate 0 bytes, we assert.
+> Instead return NULL; this is in line with the posix_memalign() API,
+> and is valid to pass to _aligned_free() (which will do nothing).
 > 
->   * the msys2/mingw toolchain/libc claim to have a
->     __builtin_posix_memalign when there isn't a builtin of that name
->   * meson will assume that if you have a __builtin_foo that
->     counts for has_function('foo')
+> This change is a preparation for sharing the qemu_try_memalign()
+> code between Windows and POSIX -- at the moment only the Windows
+> version has the assert that size != 0.
 > 
-> Specifying a specific include file via prefix: causes meson to not
-> treat builtins as sufficient and actually look for the function
-> itself; see this meson pull request which added that as the official
-> way to get the right answer:
->    https://github.com/mesonbuild/meson/pull/1150
-> 
-> Currently this misdectection doesn't cause problems because we only
-> use CONFIG_POSIX_MEMALIGN in oslib-posix.c; however that will change
-> in a following commit.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   meson.build | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>   util/oslib-win32.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> index 05857414695..8c1c64719d7 100644
+> --- a/util/oslib-win32.c
+> +++ b/util/oslib-win32.c
+> @@ -48,13 +48,16 @@ void *qemu_try_memalign(size_t alignment, size_t size)
+>   {
+>       void *ptr;
+>   
+> -    g_assert(size != 0);
+>       if (alignment < sizeof(void *)) {
+>           alignment = sizeof(void *);
+>       } else {
+>           g_assert(is_power_of_2(alignment));
+>       }
+> -    ptr = _aligned_malloc(size, alignment);
+> +    if (size) {
+> +        ptr = _aligned_malloc(size, alignment);
+> +    } else {
+> +        ptr = NULL;
+> +    }
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Oh, should we set errno to something here?
+Otherwise a random value will be used by qemu_memalign.
+
 
 r~
+
+>       trace_qemu_memalign(alignment, size, ptr);
+>       return ptr;
+>   }
+
 
