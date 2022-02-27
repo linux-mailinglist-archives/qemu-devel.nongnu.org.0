@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8ED4C5DA2
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 18:02:12 +0100 (CET)
-Received: from localhost ([::1]:40968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F8B4C5E08
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 19:23:32 +0100 (CET)
+Received: from localhost ([::1]:54740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOMvx-0005tc-Nf
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 12:02:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44156)
+	id 1nOOCc-0004yN-Tv
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 13:23:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nOMtI-0005Bi-8y
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 11:59:24 -0500
-Received: from [2607:f8b0:4864:20::1136] (port=32809
- helo=mail-yw1-x1136.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nOOAn-0002Xi-93
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 13:21:33 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=41601
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nOMtG-0003Dn-BX
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 11:59:23 -0500
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-2d66f95f1d1so84375847b3.0
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 08:59:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nOOAl-0007lu-Q5
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 13:21:32 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ ev16-20020a17090aead000b001bc3835fea8so9436784pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 10:21:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dNx3ilKGUiRjqfxCCgvHI3RUZNFraWy3BRm4uFFg8oc=;
- b=vmKoYugFirxjoMwLtH3zTgHn+qqnTPrFVUVs5djcV7Y7xSR/b5ClmYKJgh7jzSVkdj
- dbyXBWhL6pwl9o5n3bw9LalzHgiVEXs21T2KTQU32TNdKBZabNVg9ebvudrwR5ZDs4Gv
- Jy7w4yTZCPmgGp5v2rX2vuTaA+MBQJFH1ohQCPeN/Gcvqy6Blt+LGTL2ztfkAQMR/pda
- yuzKVceWEleIdWtDUlt34PL/LqSlJPsyOVUhZEpMy26SdyCqQAUlRD5TH6N2GQgB47rZ
- 7TRaOQopT7uApBsHKpgc5gC3wHK1pDbknAWfxJ6hapcrrZX2FHOj90/HvIUj5WwWaIQB
- KoVw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lmvSTlRwfQRV5lemLOZaAJQ5k47lKUkX2PmvnCoa19o=;
+ b=S/n6+AGKV+rtjBIGIqTxmtFlKIHFthz5nFGIg8fgXdbR64bR7ftCUZBmIqjHkhvc1L
+ RV0TxpsEjHXLswJe+T5o2L2fRY4vFzcMGOCGDittYZFG13meMZ8VghIqqlGIYOAgDJbY
+ 59TF4JiOua+hgbnJx5iqrzrqVFkb/iQlTP5fy3lJALlSm8wVuF5WnSbfq1GWoDZ0iUkH
+ +AilJwKeGFOqBzj7ff1rmsqKegvnSl4JdJ2ydQaqcFAu97ho0+A3JEMnCgc0DHZUX84U
+ XZg9jDmvcZazzggA8bfiCflfK8JQwU432BgCeKz8udVSMEgBCSpyq5Asar7V+Bf/F2re
+ oKBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dNx3ilKGUiRjqfxCCgvHI3RUZNFraWy3BRm4uFFg8oc=;
- b=yFMxNtuXfp/2DxzJw3qey7U4cmkgiBvQ7V14ZTVYjqd9BDQbNpqF9n+NV52ocg1aS+
- 1ZtPtEvIE1Vf1Zds/1jEHMZPHOOB0uad5hTyFX6g7Y/6qUcbAxn/xJ32dJahW3tY8tfs
- +VbE0VS6CIhDlggKDp/JkkDdahf2E3F5L+mhmgkLf4AOJY86Tt8TYyj11ODUcBKV1BiG
- Im39lfV/Bd0F7v8i1q1LNX3SRKgvsjMqm1epLdI6gs4nejuntPqwrxXwEMPhX1xB2nsN
- sp2aCjH9mkPnR5W12KiAYdbLRgC+iWLrrZ7imBsBa9f9JVa8J0zxFnSh52DuYLji68oP
- X/oQ==
-X-Gm-Message-State: AOAM532ugaQGbW2dfNPtlZdVPwWKp9AE0LoGCi64zMFud8baTphyb7YU
- tQA/QLnFgVYfXX4tLvpANTEdKYYqFp6DBVYWZK8kBg==
-X-Google-Smtp-Source: ABdhPJxix7WGb6ZXqR8Axs3jDFjfyeLMdtrOZoji16IjbjPo9GkU/COCUpjOkhrudAGj3nr9r08XPwcDg+qPwE0XMeA=
-X-Received: by 2002:a0d:d5c8:0:b0:2d5:e0a:56c0 with SMTP id
- x191-20020a0dd5c8000000b002d50e0a56c0mr16509375ywd.10.1645981161232; Sun, 27
- Feb 2022 08:59:21 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lmvSTlRwfQRV5lemLOZaAJQ5k47lKUkX2PmvnCoa19o=;
+ b=EK4O+6rIXxYWGTphEy9DZNM9Efji41LiWijtXh8a+7y/Z2KkgnwAMb6L4ebJQMHpuk
+ dIP3KwzVeSsMqtpD9MUkjcxVCJmaMmdXHK8aQINl23n+1bla90F39/WXxUMhuvXB03dH
+ nPLhj/tJ/tVbP0mDDfO8IAEai/uRaGAcZDboU8B5ro6KZlJWJ5xydmPoOWtvukCwtp8X
+ yccct/9yM+1SYv/5E82UvyYS8IDh6BLgTYIl9WbVUxOqvjKOcF8cO0Fn/Y0chpjsQwp3
+ /mSKYmctBTSpW/WXB7NrwnV0HPATV4sW0ZvZTY9GJEiaAEziO4Zdq5VLDbRmNW1rlXrv
+ r41w==
+X-Gm-Message-State: AOAM530uYP2jw9EdXeCH8IikLUZ5Srch4IrRMq/PoOymNmv3jG6dEnsG
+ hKjzI4po9y7TNe6+rmSYQcwiP1wy8fNbyQ==
+X-Google-Smtp-Source: ABdhPJwYoTfOSa7oxE7naiCffSJTuXEplbYHfqxnY4KoV17EU/uqDvbUevMydAWIcUd4YPg+4J5yag==
+X-Received: by 2002:a17:903:32c8:b0:150:1189:c862 with SMTP id
+ i8-20020a17090332c800b001501189c862mr17274672plr.134.1645986090037; 
+ Sun, 27 Feb 2022 10:21:30 -0800 (PST)
+Received: from localhost.localdomain
+ (2603-800c-1201-c600-23be-43d9-7006-705a.res6.spectrum.com.
+ [2603:800c:1201:c600:23be:43d9:7006:705a])
+ by smtp.gmail.com with ESMTPSA id
+ t41-20020a056a0013a900b004e167af0c0dsm10776252pfg.89.2022.02.27.10.21.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 27 Feb 2022 10:21:29 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] target/nios2: Rewrite interrupt handling
+Date: Sun, 27 Feb 2022 08:21:18 -1000
+Message-Id: <20220227182125.21809-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220224134901.500007-1-amir.gonnen@neuroblade.ai>
- <20220224134901.500007-2-amir.gonnen@neuroblade.ai>
- <60ce1408-c219-7a02-e993-442bb254fe7c@linaro.org>
- <PA4PR09MB48804DD783E42A73B9F59AB1EB009@PA4PR09MB4880.eurprd09.prod.outlook.com>
-In-Reply-To: <PA4PR09MB48804DD783E42A73B9F59AB1EB009@PA4PR09MB4880.eurprd09.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 27 Feb 2022 16:59:10 +0000
-Message-ID: <CAFEAcA_KwkFdtWGM8YsixHmmKORN0_E6i8r38+1wWk45PuWSAQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] target/nios2: Shadow register set
-To: Amir Gonnen <amir.gonnen@neuroblade.ai>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1136
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -85,43 +89,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 27 Feb 2022 at 16:16, Amir Gonnen <amir.gonnen@neuroblade.ai> wrote:
-> There's something I don't understand about gen_check_supervisor -
-> it looks like it checks CR_STATUS_U when generating code instead
-> of generating code that checks CR_STATUS_U.
+This fixes the problems that I pointed out with respect to the
+existing Internal Interrupt Controller, and a few cleanups on the way.
+It passes check-avocado, which is the only nios2 test I know of,
+so more testing would be appreciated.
 
-This is OK because it is checking the value of CR_STATUS_U in
-the tbflags, not the one in the CPU state. Basically, when QEMU
-looks for a pre-existing TB it does so by looking up in a hash
-table where the key is (program counter, flags, cs_base). (cs_base
-here is named what it is for historical reasons, but it can be
-used for any data the target likes.) So the target code can
-put some parts of its CPU state into the TB flags word, and then
-at code-generation time it can generate code that assumes the
-value of that state. If we ever run the same bit of code both in
-supervisor and non-supervisor mode, we generate two separate
-TBs for it. (You can see what nios2 is putting in the flags if
-you look at cpu_get_tb_cpu_state() in cpu.h -- currently it
-just keeps the U and EH status bits there.)
 
-> > As an existing bug to be fixed by a separate patch, eret should also check for supervisor.
->
-> Do you suggest I shouldn't fix this here? Why not fix this anyway?
+r~
 
-It should go in a separate patch (but you can put that patch in
-a v3 of this series), because it's a separate bug
-fix -- it is not related to support of shadow registers.
-We like to keep distinct changes in distinct patches (and thus
-git commits, because it makes things easier to code review and
-also means we have more information if we need to track down
-the reason for a change or diagnose a regression in future.
 
-thanks
--- PMM
+Richard Henderson (7):
+  target/nios2: Remove mmu_read_debug
+  target/nios2: Replace MMU_LOG with tracepoints
+  target/nios2: Only build mmu.c for system mode
+  target/nios2: Hoist R_ZERO check in rdctl
+  target/nios2: Split mmu_write
+  target/nios2: Special case ipending in rdctl and wrctl
+  target/nios2: Rewrite interrupt handling
+
+ meson.build               |   1 +
+ target/nios2/cpu.h        |   1 -
+ target/nios2/helper.h     |   6 +-
+ target/nios2/mmu.h        |   1 -
+ target/nios2/cpu.c        |  10 +-
+ target/nios2/mmu.c        | 265 ++++++++++++++------------------------
+ target/nios2/op_helper.c  |  29 -----
+ target/nios2/translate.c  |  71 +++++-----
+ target/nios2/meson.build  |   3 +-
+ target/nios2/trace-events |  10 ++
+ 10 files changed, 150 insertions(+), 247 deletions(-)
+ create mode 100644 target/nios2/trace-events
+
+-- 
+2.25.1
+
 
