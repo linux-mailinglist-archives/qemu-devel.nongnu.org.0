@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCC54C58F3
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 03:11:54 +0100 (CET)
-Received: from localhost ([::1]:55180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1204C58F1
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 03:09:56 +0100 (CET)
+Received: from localhost ([::1]:49792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nO92P-0005Xm-Lv
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 21:11:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38404)
+	id 1nO90V-0001x6-UT
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 21:09:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nO8vB-0002VC-LR
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 21:04:25 -0500
-Received: from [2607:f8b0:4864:20::631] (port=36510
- helo=mail-pl1-x631.google.com)
+ id 1nO8vD-0002aT-EG
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 21:04:27 -0500
+Received: from [2607:f8b0:4864:20::42c] (port=38869
+ helo=mail-pf1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nO8vA-0007SZ-1k
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 21:04:25 -0500
-Received: by mail-pl1-x631.google.com with SMTP id e13so7909386plh.3
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 18:04:23 -0800 (PST)
+ id 1nO8vB-0007So-DA
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 21:04:26 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id x18so7974202pfh.5
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 18:04:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nYpHk91d8Z1upIT+R8AUAaAp7pb2ZR3ZZpIaqxd5Msg=;
- b=wmBYbCVtP3bXwQZAJYlJ67OFnnT++tnSlCYYDiP9iM5jah/qSztzle044ZOvHR7Ex5
- B/6UkCc/JoNxRClME4ejmzwS4DuB3NJufQQ9ecJLkCNXmaDif//OdDXqj0TWqzqFBZdF
- lvHcG1VyyjYDsiw8HNpEvcAd84OIZYjLct34VOZZql3gzABw7RrgYKzIGwDs/RfPzs73
- d3ZwhwdKu+e67aVtcreSCMZ7LpHCfZFtyD3N1HkSFaGyCuW3ooY/vvWLQIwFE0k4/elw
- CoaE+qRmhyqilBQiFGwAsooQ/mUvBF7HcOCJptaBu+K//6q4Hijd0V7n55iFHYItTUVv
- Jq8g==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=8vH0fMEcymRft7GXIj1tzbSVVNyhzNV6JRuTvLxvGxk=;
+ b=zNT8LlnWcj2SCNxy7M8QMzyc4szPXfSzyRya+GoPU5YccFJB1IDGeUoMh9SyWiK7XX
+ 3NJ65ji6cm8OI0IEKR/2g8My4/Rf5OrVM3CIbeT6cKNtkilwF+82zeR/InyN1T1bQnMC
+ pR+Xrl4mZyqA7MkpvRWAxAapRuDydJ9aJK6HuiUA/cszht6FxT74c/cE96gTEdU/hi6i
+ 0NjP5M0d4+83nQObc7RxThLyLZwBGYCHjuN3Eyaq5zjE1isQ2I0tDu8M7F4AD2Eg3jWP
+ L35BlBNrXuQFg9J2H7z3MsYeVv2/FeaJYlYRIQmXoVucsdh5PsYe9kCnXIMiXHkirmC+
+ lcBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nYpHk91d8Z1upIT+R8AUAaAp7pb2ZR3ZZpIaqxd5Msg=;
- b=jMSsZweSnI3Z4opjUs2fjcb9p7LGPkiinKQYaJvlBkva7zpcv7kHA5c9L+2BnmDU6b
- +lD3pFcqPEo47N4AArVIx0GWFTvFadl7iUPuc5dBC7ZMWHpsF68dAcjAFAh3dt0cPQMa
- pGeHZPsLzsZgH5aFbJmaMs+AbWV7iwrSln/1JEloEJW41OT6rdRjEdx5uU84cijKoLIL
- bVKXzkH/P07NgkWvVBFSnQiJIcwkZStosFm2fodTwBz8WQ8Wyj8CNxsc/i9cwyX8WkRH
- 4eq6cINhlnvmm7s/h3/ChyJKHhGzYaYur3i4OvETmJSwCG0yrRZtcoz53iZhwasRmtZZ
- bg1g==
-X-Gm-Message-State: AOAM5301Yk7EPe4zVrVOxtotSQqLFoXpgHwmQlLzINvkEjvTMD/UvY+e
- jjUENUgYDW+t0uUUxFWykbKoAxPM01ckAhqU
-X-Google-Smtp-Source: ABdhPJw4fkxF3Qd7K/fR3SIQ3dtzOemokkIaTo8wbu5RBJSAhf0p6ajTBH2CF7QewVudvpFTXK88qg==
-X-Received: by 2002:a17:90a:d498:b0:1bc:9269:e46b with SMTP id
- s24-20020a17090ad49800b001bc9269e46bmr10015295pju.95.1645927462739; 
- Sat, 26 Feb 2022 18:04:22 -0800 (PST)
+ bh=8vH0fMEcymRft7GXIj1tzbSVVNyhzNV6JRuTvLxvGxk=;
+ b=cP19inkZIEb/MsRhRe+EAHZW5iAx6T6YEK9FoaqZ8lG905Ivb2C4tPwb4F82eqoY5O
+ +0c3zSQNHQ5BCpI8gFF9HvTP4I51w33TF5SJ/LHSJjmHTH7T3I9aTBuHnyrT99UUTPHO
+ VIVVF3JwjN2rdh2JRfmN7vdQyYucIvhjFcvyL/dTZsnMiARa4PqlqfR9O7+8OU9+i4p3
+ mFLBqZ3mOJgNucOAuyZuXNjpS9xw7KrzXo93R9fZY86Tqi4/xJE0ploJSZVMac/VRjsk
+ SJnAMNhwNrnU/EgwykUQUrPv3/ZICTDIp4Ub4vhCyr2OSCGPQOkMovFxBTY24ETuXxSo
+ FWIA==
+X-Gm-Message-State: AOAM532xu/ELyrqtNKIA3vo5tdWJvKS//ksASMOhcofIRW1m4cMgP9Iq
+ x893Gz+HAngnBhLO2hykrgWa0vPMS48DEGBV
+X-Google-Smtp-Source: ABdhPJxStXHhUIGJVgP2WS6syd+T8iM7bxDvcrl87n/xI2VmOrdhP7VWTt9BSrsaMyXznYE4BUQTtg==
+X-Received: by 2002:a65:5bce:0:b0:372:cada:865d with SMTP id
+ o14-20020a655bce000000b00372cada865dmr11844734pgr.199.1645927463989; 
+ Sat, 26 Feb 2022 18:04:23 -0800 (PST)
 Received: from localhost.localdomain
  (2603-800c-1201-c600-9001-d56a-9ee0-0246.res6.spectrum.com.
  [2603:800c:1201:c600:9001:d56a:9ee0:246])
  by smtp.gmail.com with ESMTPSA id
- q13-20020a056a00088d00b004e1bea9c582sm8304021pfj.43.2022.02.26.18.04.21
+ q13-20020a056a00088d00b004e1bea9c582sm8304021pfj.43.2022.02.26.18.04.23
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Feb 2022 18:04:22 -0800 (PST)
+ Sat, 26 Feb 2022 18:04:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/9] linux-user: Support TCG_TARGET_SIGNED_ADDR32
-Date: Sat, 26 Feb 2022 16:04:09 -1000
-Message-Id: <20220227020413.11741-6-richard.henderson@linaro.org>
+Subject: [PATCH v2 6/9] tcg/aarch64: Support TCG_TARGET_SIGNED_ADDR32
+Date: Sat, 26 Feb 2022 16:04:10 -1000
+Message-Id: <20220227020413.11741-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220227020413.11741-1-richard.henderson@linaro.org>
 References: <20220227020413.11741-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,125 +91,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using reserved_va, which is the default for a 64-bit host
-and a 32-bit guest, set guest_base_signed_addr32 if requested
-by TCG_TARGET_SIGNED_ADDR32, and the executable layout allows.
+AArch64 has both sign and zero-extending addressing modes, which
+means that either treatment of guest addresses is equally efficient.
+Enabling this for AArch64 gives us testing of the feature in CI.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h |  4 ---
- linux-user/elfload.c   | 62 ++++++++++++++++++++++++++++++++++--------
- 2 files changed, 50 insertions(+), 16 deletions(-)
+ tcg/aarch64/tcg-target-sa32.h |  8 +++-
+ tcg/aarch64/tcg-target.c.inc  | 69 +++++++++++++++++++++++------------
+ 2 files changed, 52 insertions(+), 25 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 26ecd3c886..8bea0e069e 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -269,11 +269,7 @@ extern const TargetPageBits target_page;
- #define PAGE_RESET     0x0040
- /* For linux-user, indicates that the page is MAP_ANON. */
- #define PAGE_ANON      0x0080
--
--#if defined(CONFIG_BSD) && defined(CONFIG_USER_ONLY)
--/* FIXME: Code that sets/uses this is broken and needs to go away.  */
- #define PAGE_RESERVED  0x0100
--#endif
- /* Target-specific bits that will be used via page_get_flags().  */
- #define PAGE_TARGET_1  0x0200
- #define PAGE_TARGET_2  0x0400
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 9628a38361..5522f9e721 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2482,34 +2482,72 @@ static void pgb_dynamic(const char *image_name, long align)
- static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
-                             abi_ulong guest_hiaddr, long align)
+diff --git a/tcg/aarch64/tcg-target-sa32.h b/tcg/aarch64/tcg-target-sa32.h
+index cb185b1526..c99e502e4c 100644
+--- a/tcg/aarch64/tcg-target-sa32.h
++++ b/tcg/aarch64/tcg-target-sa32.h
+@@ -1 +1,7 @@
+-#define TCG_TARGET_SIGNED_ADDR32 0
++/*
++ * AArch64 has both SXTW and UXTW addressing modes, which means that
++ * it is agnostic to how guest addresses should be represented.
++ * Because aarch64 is more common than the other hosts that will
++ * want to use this feature, enable it for continuous testing.
++ */
++#define TCG_TARGET_SIGNED_ADDR32 1
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 077fc51401..65cab73ea0 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -806,12 +806,12 @@ static void tcg_out_insn_3617(TCGContext *s, AArch64Insn insn, bool q,
+ }
+ 
+ static void tcg_out_insn_3310(TCGContext *s, AArch64Insn insn,
+-                              TCGReg rd, TCGReg base, TCGType ext,
++                              TCGReg rd, TCGReg base, int option,
+                               TCGReg regoff)
  {
--    int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE;
-+    int flags = (MAP_ANONYMOUS | MAP_PRIVATE |
-+                 MAP_NORESERVE | MAP_FIXED_NOREPLACE);
-+    unsigned long local_rva = reserved_va;
-+    bool protect_wrap = false;
-     void *addr, *test;
+     /* Note the AArch64Insn constants above are for C3.3.12.  Adjust.  */
+     tcg_out32(s, insn | I3312_TO_I3310 | regoff << 16 |
+-              0x4000 | ext << 13 | base << 5 | (rd & 0x1f));
++              option << 13 | base << 5 | (rd & 0x1f));
+ }
  
--    if (guest_hiaddr > reserved_va) {
-+    if (guest_hiaddr > local_rva) {
-         error_report("%s: requires more than reserved virtual "
-                      "address space (0x%" PRIx64 " > 0x%lx)",
--                     image_name, (uint64_t)guest_hiaddr, reserved_va);
-+                     image_name, (uint64_t)guest_hiaddr, local_rva);
-         exit(EXIT_FAILURE);
+ static void tcg_out_insn_3312(TCGContext *s, AArch64Insn insn,
+@@ -1126,7 +1126,7 @@ static void tcg_out_ldst(TCGContext *s, AArch64Insn insn, TCGReg rd,
+ 
+     /* Worst-case scenario, move offset to temp register, use reg offset.  */
+     tcg_out_movi(s, TCG_TYPE_I64, TCG_REG_TMP, offset);
+-    tcg_out_ldst_r(s, insn, rd, rn, TCG_TYPE_I64, TCG_REG_TMP);
++    tcg_out_ldst_r(s, insn, rd, rn, 3 /* LSL #0 */, TCG_REG_TMP);
+ }
+ 
+ static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
+@@ -1765,31 +1765,31 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
+ 
+ static void tcg_out_qemu_ld_direct(TCGContext *s, MemOp memop, TCGType ext,
+                                    TCGReg data_r, TCGReg addr_r,
+-                                   TCGType otype, TCGReg off_r)
++                                   int option, TCGReg off_r)
+ {
+     switch (memop & MO_SSIZE) {
+     case MO_UB:
+-        tcg_out_ldst_r(s, I3312_LDRB, data_r, addr_r, otype, off_r);
++        tcg_out_ldst_r(s, I3312_LDRB, data_r, addr_r, option, off_r);
+         break;
+     case MO_SB:
+         tcg_out_ldst_r(s, ext ? I3312_LDRSBX : I3312_LDRSBW,
+-                       data_r, addr_r, otype, off_r);
++                       data_r, addr_r, option, off_r);
+         break;
+     case MO_UW:
+-        tcg_out_ldst_r(s, I3312_LDRH, data_r, addr_r, otype, off_r);
++        tcg_out_ldst_r(s, I3312_LDRH, data_r, addr_r, option, off_r);
+         break;
+     case MO_SW:
+         tcg_out_ldst_r(s, (ext ? I3312_LDRSHX : I3312_LDRSHW),
+-                       data_r, addr_r, otype, off_r);
++                       data_r, addr_r, option, off_r);
+         break;
+     case MO_UL:
+-        tcg_out_ldst_r(s, I3312_LDRW, data_r, addr_r, otype, off_r);
++        tcg_out_ldst_r(s, I3312_LDRW, data_r, addr_r, option, off_r);
+         break;
+     case MO_SL:
+-        tcg_out_ldst_r(s, I3312_LDRSWX, data_r, addr_r, otype, off_r);
++        tcg_out_ldst_r(s, I3312_LDRSWX, data_r, addr_r, option, off_r);
+         break;
+     case MO_UQ:
+-        tcg_out_ldst_r(s, I3312_LDRX, data_r, addr_r, otype, off_r);
++        tcg_out_ldst_r(s, I3312_LDRX, data_r, addr_r, option, off_r);
+         break;
+     default:
+         tcg_abort();
+@@ -1798,31 +1798,52 @@ static void tcg_out_qemu_ld_direct(TCGContext *s, MemOp memop, TCGType ext,
+ 
+ static void tcg_out_qemu_st_direct(TCGContext *s, MemOp memop,
+                                    TCGReg data_r, TCGReg addr_r,
+-                                   TCGType otype, TCGReg off_r)
++                                   int option, TCGReg off_r)
+ {
+     switch (memop & MO_SIZE) {
+     case MO_8:
+-        tcg_out_ldst_r(s, I3312_STRB, data_r, addr_r, otype, off_r);
++        tcg_out_ldst_r(s, I3312_STRB, data_r, addr_r, option, off_r);
+         break;
+     case MO_16:
+-        tcg_out_ldst_r(s, I3312_STRH, data_r, addr_r, otype, off_r);
++        tcg_out_ldst_r(s, I3312_STRH, data_r, addr_r, option, off_r);
+         break;
+     case MO_32:
+-        tcg_out_ldst_r(s, I3312_STRW, data_r, addr_r, otype, off_r);
++        tcg_out_ldst_r(s, I3312_STRW, data_r, addr_r, option, off_r);
+         break;
+     case MO_64:
+-        tcg_out_ldst_r(s, I3312_STRX, data_r, addr_r, otype, off_r);
++        tcg_out_ldst_r(s, I3312_STRX, data_r, addr_r, option, off_r);
+         break;
+     default:
+         tcg_abort();
      }
+ }
  
--    /* Widen the "image" to the entire reserved address space. */
--    pgb_static(image_name, 0, reserved_va, align);
-+    if (TCG_TARGET_SIGNED_ADDR32 && TARGET_LONG_BITS == 32) {
-+        if (guest_loaddr < 0x80000000u && guest_hiaddr > 0x80000000u) {
-+            /*
-+             * The executable itself wraps on signed addresses.
-+             * Without per-page translation, we must keep the
-+             * guest address 0x7fff_ffff adjacent to 0x8000_0000
-+             * consecutive in host memory: unsigned addresses.
-+             */
-+        } else {
-+            set_guest_base_signed_addr32();
-+            if (local_rva <= 0x80000000u) {
-+                /* No guest addresses are "negative": win! */
-+            } else {
-+                /* Begin by allocating the entire address space. */
-+                local_rva = 0xfffffffful + 1;
-+                protect_wrap = true;
-+            }
-+        }
-+    }
- 
--    /* osdep.h defines this as 0 if it's missing */
--    flags |= MAP_FIXED_NOREPLACE;
-+    /* Widen the "image" to the entire reserved address space. */
-+    pgb_static(image_name, 0, local_rva, align);
-+    assert(guest_base != 0);
- 
-     /* Reserve the memory on the host. */
--    assert(guest_base != 0);
-     test = g2h_untagged(0);
--    addr = mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
-+    addr = mmap(test, local_rva, PROT_NONE, flags, -1, 0);
-     if (addr == MAP_FAILED || addr != test) {
-+        /*
-+         * If protect_wrap, we could try again with the original reserved_va
-+         * setting, but the edge case of low ulimit vm setting on a 64-bit
-+         * host is probably useless.
-+         */
-         error_report("Unable to reserve 0x%lx bytes of virtual address "
--                     "space at %p (%s) for use as guest address space (check your"
--                     "virtual memory ulimit setting, min_mmap_addr or reserve less "
--                     "using -R option)", reserved_va, test, strerror(errno));
-+                     "space at %p (%s) for use as guest address space "
-+                     "(check your virtual memory ulimit setting, "
-+                     "min_mmap_addr or reserve less using -R option)",
-+                     local_rva, test, strerror(errno));
-         exit(EXIT_FAILURE);
-     }
- 
-+    if (protect_wrap) {
-+        /*
-+         * Prevent the page just before 0x80000000 from being allocated.
-+         * This prevents a single guest object/allocation from crossing
-+         * the signed wrap, and thus being discontiguous in host memory.
-+         */
-+        page_set_flags(0x7fffffff & TARGET_PAGE_MASK, 0x80000000u,
-+                       PAGE_RESERVED);
-+        /* Adjust guest_base so that 0 is in the middle of the reservation. */
-+        guest_base += 0x80000000ul;
-+    }
++/*
++ * Bits for the option field of LDR/STR (register),
++ * for application to a guest address.
++ */
++static int ldst_ext_option(void)
++{
++#ifdef CONFIG_USER_ONLY
++    bool signed_addr32 = guest_base_signed_addr32;
++#else
++    bool signed_addr32 = TCG_TARGET_SIGNED_ADDR32;
++#endif
 +
-     qemu_log_mask(CPU_LOG_PAGE, "%s: base @ %p for %lu bytes\n",
-                   __func__, addr, reserved_va);
++    if (TARGET_LONG_BITS == 64) {
++        return 3; /* LSL #0 */
++    } else if (signed_addr32) {
++        return 6; /* SXTW */
++    } else {
++        return 2; /* UXTW */
++    }
++}
++
+ static void tcg_out_qemu_ld(TCGContext *s, TCGReg data_reg, TCGReg addr_reg,
+                             MemOpIdx oi, TCGType ext)
+ {
+     MemOp memop = get_memop(oi);
+-    const TCGType otype = TARGET_LONG_BITS == 64 ? TCG_TYPE_I64 : TCG_TYPE_I32;
++    int option = ldst_ext_option();
+ 
+     /* Byte swapping is left to middle-end expansion. */
+     tcg_debug_assert((memop & MO_BSWAP) == 0);
+@@ -1833,7 +1854,7 @@ static void tcg_out_qemu_ld(TCGContext *s, TCGReg data_reg, TCGReg addr_reg,
+ 
+     tcg_out_tlb_read(s, addr_reg, memop, &label_ptr, mem_index, 1);
+     tcg_out_qemu_ld_direct(s, memop, ext, data_reg,
+-                           TCG_REG_X1, otype, addr_reg);
++                           TCG_REG_X1, option, addr_reg);
+     add_qemu_ldst_label(s, true, oi, ext, data_reg, addr_reg,
+                         s->code_ptr, label_ptr);
+ #else /* !CONFIG_SOFTMMU */
+@@ -1843,10 +1864,10 @@ static void tcg_out_qemu_ld(TCGContext *s, TCGReg data_reg, TCGReg addr_reg,
+     }
+     if (USE_GUEST_BASE) {
+         tcg_out_qemu_ld_direct(s, memop, ext, data_reg,
+-                               TCG_REG_GUEST_BASE, otype, addr_reg);
++                               TCG_REG_GUEST_BASE, option, addr_reg);
+     } else {
+         tcg_out_qemu_ld_direct(s, memop, ext, data_reg,
+-                               addr_reg, TCG_TYPE_I64, TCG_REG_XZR);
++                               addr_reg, option, TCG_REG_XZR);
+     }
+ #endif /* CONFIG_SOFTMMU */
+ }
+@@ -1855,7 +1876,7 @@ static void tcg_out_qemu_st(TCGContext *s, TCGReg data_reg, TCGReg addr_reg,
+                             MemOpIdx oi)
+ {
+     MemOp memop = get_memop(oi);
+-    const TCGType otype = TARGET_LONG_BITS == 64 ? TCG_TYPE_I64 : TCG_TYPE_I32;
++    int option = ldst_ext_option();
+ 
+     /* Byte swapping is left to middle-end expansion. */
+     tcg_debug_assert((memop & MO_BSWAP) == 0);
+@@ -1866,7 +1887,7 @@ static void tcg_out_qemu_st(TCGContext *s, TCGReg data_reg, TCGReg addr_reg,
+ 
+     tcg_out_tlb_read(s, addr_reg, memop, &label_ptr, mem_index, 0);
+     tcg_out_qemu_st_direct(s, memop, data_reg,
+-                           TCG_REG_X1, otype, addr_reg);
++                           TCG_REG_X1, option, addr_reg);
+     add_qemu_ldst_label(s, false, oi, (memop & MO_SIZE)== MO_64,
+                         data_reg, addr_reg, s->code_ptr, label_ptr);
+ #else /* !CONFIG_SOFTMMU */
+@@ -1876,10 +1897,10 @@ static void tcg_out_qemu_st(TCGContext *s, TCGReg data_reg, TCGReg addr_reg,
+     }
+     if (USE_GUEST_BASE) {
+         tcg_out_qemu_st_direct(s, memop, data_reg,
+-                               TCG_REG_GUEST_BASE, otype, addr_reg);
++                               TCG_REG_GUEST_BASE, option, addr_reg);
+     } else {
+         tcg_out_qemu_st_direct(s, memop, data_reg,
+-                               addr_reg, TCG_TYPE_I64, TCG_REG_XZR);
++                               addr_reg, option, TCG_REG_XZR);
+     }
+ #endif /* CONFIG_SOFTMMU */
  }
 -- 
 2.25.1
