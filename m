@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46794C58E1
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 02:15:19 +0100 (CET)
-Received: from localhost ([::1]:54182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248F74C58EA
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 03:07:58 +0100 (CET)
+Received: from localhost ([::1]:42020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nO89e-0007kp-47
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 20:15:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49576)
+	id 1nO8ya-0005Df-P6
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 21:07:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nO88R-0006xA-GD
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 20:14:03 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=36502
- helo=mail-pf1-x42d.google.com)
+ id 1nO8v6-0002P0-Rd
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 21:04:20 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=37691
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nO88P-0006ZW-MK
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 20:14:03 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id z16so7934955pfh.3
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 17:14:01 -0800 (PST)
+ id 1nO8v4-0007RQ-KE
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 21:04:20 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ p3-20020a17090a680300b001bbfb9d760eso11730154pjj.2
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 18:04:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vTnpuKgk2kNzE+UjHMxEUC7iOJDjUOTUS8Ug7nEhLeg=;
- b=DOwWCGL9xicP5tsysn9gNX8L6s8RFm+XF9mc5ZrjI8Bl6l3tMllpquPqJeqZOWlnck
- Tte9e2+41bznfyjnjjVMDTgqd1tu7sZh30E3cXDhl7szh8ZKkbURo626R1Q0jrEzXyCK
- MFEydfWJQ0VXHFLDqlmXeKQjNcRjJ0S4mlyVnUaMiacnL+DAv2o3F68so6SdFJyR952C
- ckxi/jRMcexQBdCDyfAyBx5ngHdurSHihAZZVRPcQxa2YrG7S2PrWEp+L9Y+uNL+0HkF
- PQtBSmeJcTdci4CmbYkDiLXySuq5dmp+UvMV+5AO4s+XMflTR+qVeEAqeRw+hNyl7EBV
- v5jQ==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B2X/VQDQ/Z+V8X2ty31v3CkWXgkAxTr9eBx28nguWVw=;
+ b=foeyTieHiG1h7ui8QtSzs8Ls0V6/Puf/ssSaYHW8HEWwdzp0ho0UVU6S52DTnanSab
+ KeLTI5apIaDOfWZ/yumZevRQpvOXXA/gsPujuVWv7GZGGohyoCP46aza8KJa68zMh+0C
+ He7XC9XqdezjryLMwZvSMbQ96+pG5lbuRNkprPCZ4X3UXAfBki0NIf3caPEsO2cgOqLa
+ 1jJUffNJ8M/6494xz0RgpPKSP03ShK5YKjsVH/14s+3jDdW/tZC4mcHMdqeGiLU9z/+A
+ jFjTO2kNL5Liu+G7P+8VxToaLCQTp0e0KkkhqOBggZO9Sqswv+wtB3plAzyioujZxnhC
+ CHIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=vTnpuKgk2kNzE+UjHMxEUC7iOJDjUOTUS8Ug7nEhLeg=;
- b=DI4vREaTcDUdAIb5gGIFzLPXBXTUHrxLN6006wefz6c+b9psUI5Z2TjlVzbWE5L1Z/
- Nds4dDErRRH943rhNcxN6GhXrOKCu2YuQ/8m6OSwGR8t0FVVwRnogxjlYeAZdyjxI1AL
- VLoQGMK18g61aU0Q4RBYMSVEuTDiSAQSFG+7HHQC3AeRtGC0sjes00b7qtCkVBd5koW9
- Y7+hRHhMFyBKpyWqjYXQiH96k1wM3jW769oMKNIYdbJy90lZm0HcS5RBzmREYFC9iPfF
- xTa/Fzi6BexnNWqvEPiCuI/cWjDNuEZD//1MTc827FbghSnbVWgfuCZ8KJwKpb3JbAD2
- UxKw==
-X-Gm-Message-State: AOAM531eHjqzHhhLp2GnA2j83VWsUwMLp4mGv1Mn5Ov1y6YLHLRF6Tmm
- v+dNc2cVKcnT7sGyovjm0ZppXA==
-X-Google-Smtp-Source: ABdhPJzMfXqaaNOkxxw4qbGiuSHZ2dDaZM6G0SNSJmWlVD3hcSwa8PkNgcEllsienHUGFBIMkOBH+A==
-X-Received: by 2002:a62:1d42:0:b0:4c7:f78d:6f62 with SMTP id
- d63-20020a621d42000000b004c7f78d6f62mr14479763pfd.33.1645924440145; 
- Sat, 26 Feb 2022 17:14:00 -0800 (PST)
-Received: from ?IPV6:2603:800c:1201:c600:9001:d56a:9ee0:246?
+ bh=B2X/VQDQ/Z+V8X2ty31v3CkWXgkAxTr9eBx28nguWVw=;
+ b=lkZRB6LM0vLng3TsSZHZiMg5vcJj+jtngr+sEXr8KWtZLnF2G21FovPECn94zHJXGe
+ t2tJbQrOwR0gnZnCTh/fUV22DiBJdkY31qLVhVDNvhxwi7YOh1CtPe0YK6tcZ5NsHFXA
+ xc/+hmLNx26SgFtk6+RmkRYL4aXjhhCm4mpZAqeF51T4M/EYItPcgSRNkz+sB0XV1zZi
+ Fzc7gEDlqe4pEjQr0Qa6tiis3NecltECJV53VVwA3CNybIJr6F9nwfeQoKg55mJ1o++m
+ qX4ZK63QK2vGtyHWjo72rWABbW+Qlao7dHD9uegh6bNaKvMPBcmOUvJdsW2+UtrqdZ0a
+ j0rQ==
+X-Gm-Message-State: AOAM532Ewt3URmuzqZgQjios6aE/mrYnhEx6sq5OGeiaJ0R1N6K+LG7d
+ Dw6G0CHgLp7r5ztDm3MDYm1TE8IMmaMaZA==
+X-Google-Smtp-Source: ABdhPJyEi/mhoRvqlPwLHXDhUCFaGFJZm1KjuX++hJCd9xLFo288UqVlal0cMbKFylAOxr73F3SJWg==
+X-Received: by 2002:a17:903:2d0:b0:14d:8a8d:cb1 with SMTP id
+ s16-20020a17090302d000b0014d8a8d0cb1mr14320001plk.50.1645927455813; 
+ Sat, 26 Feb 2022 18:04:15 -0800 (PST)
+Received: from localhost.localdomain
  (2603-800c-1201-c600-9001-d56a-9ee0-0246.res6.spectrum.com.
  [2603:800c:1201:c600:9001:d56a:9ee0:246])
  by smtp.gmail.com with ESMTPSA id
- f4-20020a63f744000000b00373855b7cf2sm6402331pgk.22.2022.02.26.17.13.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 26 Feb 2022 17:13:59 -0800 (PST)
-Message-ID: <21812666-c9de-7c8a-d46c-4af286e69af0@linaro.org>
-Date: Sat, 26 Feb 2022 15:13:56 -1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 9/9] osdep: Move memalign-related functions to their own
- header
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220226180723.1706285-1-peter.maydell@linaro.org>
- <20220226180723.1706285-10-peter.maydell@linaro.org>
+ q13-20020a056a00088d00b004e1bea9c582sm8304021pfj.43.2022.02.26.18.04.14
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Feb 2022 18:04:15 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220226180723.1706285-10-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/9] tcg: support 32-bit guest addresses as signed
+Date: Sat, 26 Feb 2022 16:04:04 -1000
+Message-Id: <20220227020413.11741-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -96,19 +91,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/26/22 08:07, Peter Maydell wrote:
-> Move the various memalign-related functions out of osdep.h and into
-> their own header, which we include only where they are used.
-> While we're doing this, add some brief documentation comments.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+We have 3 hosts that naturally produce sign-extended values,
+and have to work extra hard (with 1 or 2 insns) to produce
+the zero-extended address that we expect today.
+
+However, it's a simple matter of arithmetic for the middle-end
+to require sign-extended addresses instead.  For user-only, we
+do have to be careful not to allow a guest object to wrap around
+the signed boundary, but that's fairly easily done.
+
+Tested with aarch64, as that's the best hw currently available.
+
+Patches lacking review:
+  03-accel-tcg-Support-TCG_TARGET_SIGNED_ADDR32-for-so.patch
+  06-tcg-aarch64-Support-TCG_TARGET_SIGNED_ADDR32.patch
+  07-tcg-mips-Support-TCG_TARGET_SIGNED_ADDR32.patch
+  09-tcg-loongarch64-Support-TCG_TARGET_SIGNED_ADDR32.patch (new)
+
 
 r~
+
+Version 1: https://lore.kernel.org/qemu-devel/20211010174401.141339-1-richard.henderson@linaro.org/
+
+
+Richard Henderson (9):
+  tcg: Add TCG_TARGET_SIGNED_ADDR32
+  accel/tcg: Split out g2h_tlbe
+  accel/tcg: Support TCG_TARGET_SIGNED_ADDR32 for softmmu
+  accel/tcg: Add guest_base_signed_addr32 for user-only
+  linux-user: Support TCG_TARGET_SIGNED_ADDR32
+  tcg/aarch64: Support TCG_TARGET_SIGNED_ADDR32
+  tcg/mips: Support TCG_TARGET_SIGNED_ADDR32
+  tcg/riscv: Support TCG_TARGET_SIGNED_ADDR32
+  tcg/loongarch64: Support TCG_TARGET_SIGNED_ADDR32
+
+ include/exec/cpu-all.h            | 20 +++++++--
+ include/exec/cpu_ldst.h           |  3 +-
+ tcg/aarch64/tcg-target-sa32.h     |  7 ++++
+ tcg/arm/tcg-target-sa32.h         |  1 +
+ tcg/i386/tcg-target-sa32.h        |  1 +
+ tcg/loongarch64/tcg-target-sa32.h |  1 +
+ tcg/mips/tcg-target-sa32.h        |  9 ++++
+ tcg/ppc/tcg-target-sa32.h         |  1 +
+ tcg/riscv/tcg-target-sa32.h       |  5 +++
+ tcg/s390x/tcg-target-sa32.h       |  1 +
+ tcg/sparc/tcg-target-sa32.h       |  1 +
+ tcg/tci/tcg-target-sa32.h         |  1 +
+ accel/tcg/cputlb.c                | 36 +++++++++++-----
+ bsd-user/main.c                   |  4 ++
+ linux-user/elfload.c              | 62 +++++++++++++++++++++------
+ linux-user/main.c                 |  3 ++
+ tcg/tcg.c                         |  4 ++
+ tcg/aarch64/tcg-target.c.inc      | 69 ++++++++++++++++++++-----------
+ tcg/loongarch64/tcg-target.c.inc  | 15 +++----
+ tcg/mips/tcg-target.c.inc         | 10 +----
+ tcg/riscv/tcg-target.c.inc        |  8 +---
+ 21 files changed, 187 insertions(+), 75 deletions(-)
+ create mode 100644 tcg/aarch64/tcg-target-sa32.h
+ create mode 100644 tcg/arm/tcg-target-sa32.h
+ create mode 100644 tcg/i386/tcg-target-sa32.h
+ create mode 100644 tcg/loongarch64/tcg-target-sa32.h
+ create mode 100644 tcg/mips/tcg-target-sa32.h
+ create mode 100644 tcg/ppc/tcg-target-sa32.h
+ create mode 100644 tcg/riscv/tcg-target-sa32.h
+ create mode 100644 tcg/s390x/tcg-target-sa32.h
+ create mode 100644 tcg/sparc/tcg-target-sa32.h
+ create mode 100644 tcg/tci/tcg-target-sa32.h
+
+-- 
+2.25.1
+
 
