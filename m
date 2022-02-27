@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71734C5F79
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:37:51 +0100 (CET)
-Received: from localhost ([::1]:45624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CBE4C5F7C
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:40:33 +0100 (CET)
+Received: from localhost ([::1]:53640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOSAm-0000OA-Mq
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:37:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52066)
+	id 1nOSDQ-0005iv-SK
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:40:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nOS8s-00064K-JZ
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nOS8s-000648-C2
  for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:35:50 -0500
-Received: from [2607:f8b0:4864:20::82c] (port=45587
- helo=mail-qt1-x82c.google.com)
+Received: from [2607:f8b0:4864:20::832] (port=37524
+ helo=mail-qt1-x832.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nOS8n-00032P-2E
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nOS8o-00032T-RQ
  for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:35:50 -0500
-Received: by mail-qt1-x82c.google.com with SMTP id e2so7498045qte.12
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 14:35:44 -0800 (PST)
+Received: by mail-qt1-x832.google.com with SMTP id q10so7498802qtw.4
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 14:35:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/9yV7bRN6OBkNxsaJNqx6IRx9uWTGL8PDPo9dIDyd0E=;
- b=JbitSNDJL99E+aCcHHBxiJap3bb4/1eINwQZY4crboGJREola+ZLqJvH1wecYZIEBk
- cMZiFawwiByy9ZdjHfuUf1Jxpb/DBUCe4s2cZYKKmn4MFVXvqvLGy8ll4JgAgnS3Nw49
- fAwcf9U1Oy/E1n26VJ66UMIB5W3vb4uJnbv/dSY/EehWKIDi4BTQp/UG96OicKAWqxCY
- RIsCur9qhd67N25gKXIMh2HW2Nx8o2/qKvHGXxVpHDc3jHJeJ0U5RQUSaEwFrPL6dTkf
- sFqOHuB1VHXm9tB2mV2K7CdJ1sGtDCOfwg6RDds3iS4UoV+jrwKp3YUDM1f3cUc9Yx3B
- xd0g==
+ bh=tA46xifQb/Ew3SN4Orf7Q7oKzCRYfHaaqw12116qxJA=;
+ b=JPIyqyeJlK7F5z6CJQ0kHxfKuUGr5rZDcnbehVVrK+Dg/v/+VdoOD7I88kQpD8ER/W
+ q/DPHo7M1tjRpgksCEpUHd9HZEZ7MEgMcc+GniY4iuWzdjbKbXe5tBJmQlKvibwvEyVp
+ VRlSOS1zOOgt4JZsHEzqkdhw1W2uSvLu3iJdfjnlKCQCpvOjouVFyYnOjt3huKZT/sg4
+ BCSAxOlgX/k4v9ia8moLksnLShk0Pw6qcR98ahB2OslAQwOxOJ8H5snuFBMzMKpzj00X
+ vKlN58+oioDWeHodVS/3u2DSaGQdC2VRp2zziP7A1zDUAijszCGTqx49sLRSdcX0ZDVd
+ iMWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/9yV7bRN6OBkNxsaJNqx6IRx9uWTGL8PDPo9dIDyd0E=;
- b=441Ue2H2a6ZjKE+1wcpiEhp1WutSUVbMsxWir7XE6+DlQWYtKAILcnwV5mYsbWmJOV
- PMwXHMZwuuoo0rfm19DrLmNbd7v1NOS3iVsVa1O8ZDLQQ70D46xsZJNMrdz+v/sMjEn8
- mD1dMFoJ9PixTqHFs9wI50xmZ45rVlXRJe5owTgO71WdYLc21l3IbOHLMLe/pyJoWvpb
- XfRvt2U1fTvGrVVXifeQquip2UyPjx7874G0uTA4bgH8ONDieI3Qz7/ZJVPGdq+6KbsC
- qR0QgiwbzsvCOosr69dtgrD4LGPJz7CLm9BvgliMkMFr18pPXr5CkhWUy4wqe49u6TZ2
- 48nA==
-X-Gm-Message-State: AOAM5332Pm2v2hXk7ssXRmWCc4c9CODJDVTEXGEB6sycO/986QijDD29
- d+de+H4WEm4y249rOQFVQ9HZfTvK1MMhGg==
-X-Google-Smtp-Source: ABdhPJxR2QBN3+smjeOveVagEr2SX1XUcvTfcwNsW29QFvQknAeP7Y8PpI29SKbcQe31BjobmD/zlw==
-X-Received: by 2002:a05:622a:11d6:b0:2dd:da66:b064 with SMTP id
- n22-20020a05622a11d600b002ddda66b064mr14701644qtk.8.1646001343639; 
- Sun, 27 Feb 2022 14:35:43 -0800 (PST)
+ bh=tA46xifQb/Ew3SN4Orf7Q7oKzCRYfHaaqw12116qxJA=;
+ b=djg1c4VYPldTNE27dlTstDha1XMN5g3xsY/r6oe5emtIZGCfns7AzuNNIXyqHgE3aV
+ poCSmQWiNYBFz/tlw0JviXyWLFWb9RCWzjAbXU6E/8hNoZ9gar6FlO/tt78jb9g61ksV
+ wgpeXUN//H0FuJI1W7ALYpb51gh1F1Nagp+Y/y325KzScbNo3KvcrZIVw05jtBEbBsYc
+ b9XkZttJjYz7fGgXmpBuN3Z1MsVBPB0asadPqVSO7VszJZjfdvB6xPCO01T4PN1ILxlb
+ U1c4jQ8PnJVUdvUKFQn1kxuk+rPkfBMYCczPiwHlbu5y9eTlFPEDo2PfF7gknOomyLiE
+ AdaA==
+X-Gm-Message-State: AOAM533pNuWX13QLtfIg4z9MUEgLwthy+3rfZiG1159e7teJBN7USsT+
+ zHkwZUzVU66tysHcstzv+Zx7etoGgGUvlA==
+X-Google-Smtp-Source: ABdhPJyVqQUgmkQsIb6gM+Xjbo4HwJodbmfCjM4KUj8wdWqTiFJys8XFwNT+SKHbkdzCjI59GrWEMg==
+X-Received: by 2002:a05:622a:1a22:b0:2dd:e0ff:f5e6 with SMTP id
+ f34-20020a05622a1a2200b002dde0fff5e6mr14255732qtb.371.1646001345542; 
+ Sun, 27 Feb 2022 14:35:45 -0800 (PST)
 Received: from localhost.localdomain
  (209-6-248-219.s2265.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com.
  [209.6.248.219]) by smtp.gmail.com with ESMTPSA id
- 85-20020a370758000000b00648b7e3b8a4sm4206485qkh.111.2022.02.27.14.35.41
+ 85-20020a370758000000b00648b7e3b8a4sm4206485qkh.111.2022.02.27.14.35.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Feb 2022 14:35:43 -0800 (PST)
+ Sun, 27 Feb 2022 14:35:45 -0800 (PST)
 From: Will Cohen <wwcohen@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 03/11] 9p: darwin: Handle struct stat(fs) differences
-Date: Sun, 27 Feb 2022 17:35:14 -0500
-Message-Id: <20220227223522.91937-4-wwcohen@gmail.com>
+Subject: [PATCH v9 04/11] 9p: darwin: Handle struct dirent differences
+Date: Sun, 27 Feb 2022 17:35:15 -0500
+Message-Id: <20220227223522.91937-5-wwcohen@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220227223522.91937-1-wwcohen@gmail.com>
 References: <20220227223522.91937-1-wwcohen@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::832
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=wwcohen@gmail.com; helo=mail-qt1-x82c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=wwcohen@gmail.com; helo=mail-qt1-x832.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,6 +88,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Fabian Franz <fabianfranz.oss@gmail.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, hi@alyssa.is,
  Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
@@ -97,120 +98,195 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
+On darwin d_seekoff exists, but is optional and does not seem to
+be commonly used by file systems. Use `telldir` instead to obtain
+the seek offset and inject it into d_seekoff, and create a
+qemu_dirent_off helper to call it appropriately when appropriate.
+
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+[Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-[Will Cohen: - Note lack of f_namelen and f_frsize on Darwin
-             - Ensure that tv_sec and tv_nsec are both
-               initialized for Darwin and non-Darwin]
+[Will Cohen: - Adjust to pass testing
+             - Ensure that d_seekoff is filled using telldir
+               on darwin, and create qemu_dirent_off helper
+               to decide which to access]
+[Fabian Franz: - Add telldir error handling for darwin]
+Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
+[Will Cohen: - Ensure that telldir error handling uses
+               signed int
+             - Cleanup of telldir error handling
+             - Remove superfluous error handling for
+               qemu_dirent_off
+             - Adjust formatting
+             - Use qemu_dirent_off in codir.c
+             - Declare qemu_dirent_off as static to prevent
+               linker error
+             - Move qemu_dirent_off above the end-of-file
+               endif to fix compilation]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
 ---
- hw/9pfs/9p-proxy.c | 22 ++++++++++++++++++++--
- hw/9pfs/9p-synth.c |  2 ++
- hw/9pfs/9p.c       | 16 ++++++++++++++--
- 3 files changed, 36 insertions(+), 4 deletions(-)
+ hw/9pfs/9p-local.c |  9 +++++++++
+ hw/9pfs/9p-proxy.c | 16 +++++++++++++++-
+ hw/9pfs/9p-synth.c |  4 ++++
+ hw/9pfs/9p-util.h  | 16 ++++++++++++++++
+ hw/9pfs/9p.c       |  7 +++++--
+ hw/9pfs/codir.c    |  4 +++-
+ 6 files changed, 52 insertions(+), 4 deletions(-)
 
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 1a5e3eed73..f3272f0b43 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -562,6 +562,15 @@ again:
+     if (!entry) {
+         return NULL;
+     }
++#ifdef CONFIG_DARWIN
++    int off;
++    off = telldir(fs->dir.stream);
++    /* If telldir fails, fail the entire readdir call */
++    if (off < 0) {
++        return NULL;
++    }
++    entry->d_seekoff = off;
++#endif
+ 
+     if (ctx->export_flags & V9FS_SM_MAPPED) {
+         entry->d_type = DT_UNKNOWN;
 diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-index 09bd9f1464..b1664080d8 100644
+index b1664080d8..8b4b5cf7dc 100644
 --- a/hw/9pfs/9p-proxy.c
 +++ b/hw/9pfs/9p-proxy.c
-@@ -123,10 +123,16 @@ static void prstatfs_to_statfs(struct statfs *stfs, ProxyStatFS *prstfs)
-     stfs->f_bavail = prstfs->f_bavail;
-     stfs->f_files = prstfs->f_files;
-     stfs->f_ffree = prstfs->f_ffree;
+@@ -706,7 +706,21 @@ static off_t proxy_telldir(FsContext *ctx, V9fsFidOpenState *fs)
+ 
+ static struct dirent *proxy_readdir(FsContext *ctx, V9fsFidOpenState *fs)
+ {
+-    return readdir(fs->dir.stream);
++    struct dirent *entry;
++    entry = readdir(fs->dir.stream);
 +#ifdef CONFIG_DARWIN
-+    /* f_namelen and f_frsize do not exist on Darwin */
-+    stfs->f_fsid.val[0] = prstfs->f_fsid[0] & 0xFFFFFFFFU;
-+    stfs->f_fsid.val[1] = prstfs->f_fsid[1] >> 32 & 0xFFFFFFFFU;
-+#else
-     stfs->f_fsid.__val[0] = prstfs->f_fsid[0] & 0xFFFFFFFFU;
-     stfs->f_fsid.__val[1] = prstfs->f_fsid[1] >> 32 & 0xFFFFFFFFU;
-     stfs->f_namelen = prstfs->f_namelen;
-     stfs->f_frsize = prstfs->f_frsize;
++    if (!entry) {
++        return NULL;
++    }
++    int td;
++    td = telldir(fs->dir.stream);
++    /* If telldir fails, fail the entire readdir call */
++    if (td < 0) {
++        return NULL;
++    }
++    entry->d_seekoff = td;
 +#endif
++    return entry;
  }
  
- /* Converts proxy_stat structure to VFS stat structure */
-@@ -143,12 +149,24 @@ static void prstat_to_stat(struct stat *stbuf, ProxyStat *prstat)
-    stbuf->st_size = prstat->st_size;
-    stbuf->st_blksize = prstat->st_blksize;
-    stbuf->st_blocks = prstat->st_blocks;
-+   stbuf->st_atime = prstat->st_atim_sec;
-+   stbuf->st_mtime = prstat->st_mtim_sec;
-+   stbuf->st_ctime = prstat->st_ctim_sec;
-+#ifdef CONFIG_DARWIN
-+   stbuf->st_atimespec.tv_sec = prstat->st_atim_sec;
-+   stbuf->st_mtimespec.tv_sec = prstat->st_mtim_sec;
-+   stbuf->st_ctimespec.tv_sec = prstat->st_ctim_sec;
-+   stbuf->st_atimespec.tv_nsec = prstat->st_atim_nsec;
-+   stbuf->st_mtimespec.tv_nsec = prstat->st_mtim_nsec;
-+   stbuf->st_ctimespec.tv_nsec = prstat->st_ctim_nsec;
-+#else
-    stbuf->st_atim.tv_sec = prstat->st_atim_sec;
-+   stbuf->st_mtim.tv_sec = prstat->st_mtim_sec;
-+   stbuf->st_ctim.tv_sec = prstat->st_ctim_sec;
-    stbuf->st_atim.tv_nsec = prstat->st_atim_nsec;
--   stbuf->st_mtime = prstat->st_mtim_sec;
-    stbuf->st_mtim.tv_nsec = prstat->st_mtim_nsec;
--   stbuf->st_ctime = prstat->st_ctim_sec;
-    stbuf->st_ctim.tv_nsec = prstat->st_ctim_nsec;
-+#endif
- }
- 
- /*
+ static void proxy_seekdir(FsContext *ctx, V9fsFidOpenState *fs, off_t off)
 diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-index 7a7cd5c5ba..bf9b0c5ddd 100644
+index bf9b0c5ddd..b3080e415b 100644
 --- a/hw/9pfs/9p-synth.c
 +++ b/hw/9pfs/9p-synth.c
-@@ -439,7 +439,9 @@ static int synth_statfs(FsContext *s, V9fsPath *fs_path,
-     stbuf->f_bsize = 512;
-     stbuf->f_blocks = 0;
-     stbuf->f_files = synth_node_count;
-+#ifndef CONFIG_DARWIN
-     stbuf->f_namelen = NAME_MAX;
+@@ -234,7 +234,11 @@ static void synth_direntry(V9fsSynthNode *node,
+              offsetof(struct dirent, d_name) + sz);
+     memcpy(entry->d_name, node->name, sz);
+     entry->d_ino = node->attr->inode;
++#ifdef CONFIG_DARWIN
++    entry->d_seekoff = off + 1;
++#else
+     entry->d_off = off + 1;
 +#endif
-     return 0;
  }
  
+ static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 546f46dc7d..7449733c15 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -78,4 +78,20 @@ ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
+ ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
+                                 const char *name);
+ 
++/**
++ * Darwin has d_seekoff, which appears to function similarly to d_off.
++ * However, it does not appear to be supported on all file systems,
++ * so ensure it is manually injected earlier and call here when
++ * needed.
++ */
++static inline off_t qemu_dirent_off(struct dirent *dent)
++{
++#ifdef CONFIG_DARWIN
++    return dent->d_seekoff;
++#else
++    return dent->d_off;
++#endif
++}
++
++
+ #endif
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 9c63e14b28..1563d7b7c6 100644
+index 1563d7b7c6..caf3b240fe 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -1313,11 +1313,17 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
-     v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
-     v9lstat->st_blocks = stbuf->st_blocks;
-     v9lstat->st_atime_sec = stbuf->st_atime;
--    v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
-     v9lstat->st_mtime_sec = stbuf->st_mtime;
--    v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
-     v9lstat->st_ctime_sec = stbuf->st_ctime;
-+#ifdef CONFIG_DARWIN
-+    v9lstat->st_atime_nsec = stbuf->st_atimespec.tv_nsec;
-+    v9lstat->st_mtime_nsec = stbuf->st_mtimespec.tv_nsec;
-+    v9lstat->st_ctime_nsec = stbuf->st_ctimespec.tv_nsec;
-+#else
-+    v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
-+    v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
-     v9lstat->st_ctime_nsec = stbuf->st_ctim.tv_nsec;
-+#endif
-     /* Currently we only support BASIC fields in stat */
-     v9lstat->st_result_mask = P9_STATS_BASIC;
+@@ -27,6 +27,7 @@
+ #include "virtio-9p.h"
+ #include "fsdev/qemu-fsdev.h"
+ #include "9p-xattr.h"
++#include "9p-util.h"
+ #include "coth.h"
+ #include "trace.h"
+ #include "migration/blocker.h"
+@@ -2281,7 +2282,7 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
+         count += len;
+         v9fs_stat_free(&v9stat);
+         v9fs_path_free(&path);
+-        saved_dir_pos = dent->d_off;
++        saved_dir_pos = qemu_dirent_off(dent);
+     }
  
-@@ -3519,9 +3525,15 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
-     f_bavail = stbuf->f_bavail / bsize_factor;
-     f_files  = stbuf->f_files;
-     f_ffree  = stbuf->f_ffree;
-+#ifdef CONFIG_DARWIN
-+    fsid_val = (unsigned int)stbuf->f_fsid.val[0] |
-+               (unsigned long long)stbuf->f_fsid.val[1] << 32;
-+    f_namelen = NAME_MAX;
-+#else
-     fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
-                (unsigned long long)stbuf->f_fsid.__val[1] << 32;
-     f_namelen = stbuf->f_namelen;
-+#endif
+     v9fs_readdir_unlock(&fidp->fs.dir);
+@@ -2420,6 +2421,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+     V9fsString name;
+     int len, err = 0;
+     int32_t count = 0;
++    off_t off;
+     struct dirent *dent;
+     struct stat *st;
+     struct V9fsDirEnt *entries = NULL;
+@@ -2480,12 +2482,13 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+             qid.version = 0;
+         }
  
-     return pdu_marshal(pdu, offset, "ddqqqqqqd",
-                        f_type, f_bsize, f_blocks, f_bfree,
++        off = qemu_dirent_off(dent);
+         v9fs_string_init(&name);
+         v9fs_string_sprintf(&name, "%s", dent->d_name);
+ 
+         /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
+         len = pdu_marshal(pdu, 11 + count, "Qqbs",
+-                          &qid, dent->d_off,
++                          &qid, off,
+                           dent->d_type, &name);
+ 
+         v9fs_string_free(&name);
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index c0873bde16..f96d8ac4e6 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -22,6 +22,8 @@
+ #include "qemu/coroutine.h"
+ #include "qemu/main-loop.h"
+ #include "coth.h"
++#include "9p-xattr.h"
++#include "9p-util.h"
+ 
+ /*
+  * Intended to be called from bottom-half (e.g. background I/O thread)
+@@ -166,7 +168,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+         }
+ 
+         size += len;
+-        saved_dir_pos = dent->d_off;
++        saved_dir_pos = qemu_dirent_off(dent);
+     }
+ 
+     /* restore (last) saved position */
 -- 
 2.35.1
 
