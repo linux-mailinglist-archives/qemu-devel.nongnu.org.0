@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6484C5BEE
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 15:29:51 +0100 (CET)
-Received: from localhost ([::1]:38396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 793B34C5C52
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 15:35:56 +0100 (CET)
+Received: from localhost ([::1]:55652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOKYX-0005cZ-JJ
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 09:29:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58780)
+	id 1nOKeR-0000NZ-Ir
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 09:35:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nOKWU-0002wq-4V; Sun, 27 Feb 2022 09:27:42 -0500
-Received: from smtp21.cstnet.cn ([159.226.251.21]:35362 helo=cstnet.cn)
+ id 1nOKWh-0003Te-VW; Sun, 27 Feb 2022 09:27:55 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21]:35340 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nOKWR-0003iJ-3d; Sun, 27 Feb 2022 09:27:41 -0500
+ id 1nOKWR-0003i7-Fs; Sun, 27 Feb 2022 09:27:55 -0500
 Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowACX3sZLihti7HLGAQ--.65305S2;
- Sun, 27 Feb 2022 22:27:25 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowACX3sZLihti7HLGAQ--.65305S3;
+ Sun, 27 Feb 2022 22:27:27 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
  bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v6 00/14] support subsets of scalar crypto extension
-Date: Sun, 27 Feb 2022 22:25:39 +0800
-Message-Id: <20220227142553.25815-1-liweiwei@iscas.ac.cn>
+Subject: [PATCH v6 01/14] target/riscv: rvk: add cfg properties for zbk* and
+ zk*
+Date: Sun, 27 Feb 2022 22:25:40 +0800
+Message-Id: <20220227142553.25815-2-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACX3sZLihti7HLGAQ--.65305S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAFy7KrW8Aw47CryDGr45ZFb_yoW5Ar47pr
- 4rG3yakrZ8J39rJryft3W8Ar45Xr4rWr4fJwn3tw1kJ3y3JrWrJrZaka43CF1UJF18Wry2
- 93WUCr13uw4UJFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUv214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
- 628vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
- 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
- GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
- CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
- wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
- 7VUbXdbUUUUUU==
+In-Reply-To: <20220227142553.25815-1-liweiwei@iscas.ac.cn>
+References: <20220227142553.25815-1-liweiwei@iscas.ac.cn>
+X-CM-TRANSID: qwCowACX3sZLihti7HLGAQ--.65305S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF4rXr1DXF1xKrW3ZFb_yoW8Ar45pr
+ WUGa1YyryDXF9rCw4fJFyjgF1rWwn3Ca4Iga9Fvrn3WrW7GrW3JF1qkw1UuF4Yga1rJF1a
+ gF1qkFyjkF47Ja7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUP014x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+ x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+ ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+ M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
+ v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+ F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
+ IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+ wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
+ 0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+ xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+ 1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjeWlDUU
+ UUU==
 X-Originating-IP: [180.156.147.178]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
@@ -74,83 +75,73 @@ Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset implements RISC-V scalar crypto extension v1.0.0 version instructions. 
-Partial instructions are reused from B-extension.
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu.c | 23 +++++++++++++++++++++++
+ target/riscv/cpu.h | 13 +++++++++++++
+ 2 files changed, 36 insertions(+)
 
-Specification:
-https://github.com/riscv/riscv-crypto
-
-The port is available here:
-https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v6
-
-To test rvk implementation,  specify cpu argument with 'zks=true,zkn=true'  
-or 
-"zbkb=true,zbkc=true,zbkx=true,zknd=true,zkne=true,zknh=true,zksed=true,zksh=true,zkr=true" to enable  K-extension support.  This implementation can pass the ACT tests 
-for K with our extended act support for qemu (available at 
-https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v6-with-act)
-
-v6:
-* add reviewed-by tags
-* rebase on riscv-to-apply.next
-
-v5:
-* split the big patches
-
-v4:
-* drop "x-" in exposed properties
-* delete unrelated changes
-
-v3:
-* add extension check for SEED csr access
-
-v2:
-* optimize implementation for brev8, xperm, zip, unzip
-* use aes related sbox array from crypto/aes.h
-* move sm4_sbox to crypto/sm4.c, and share it with target/arm
-
-Weiwei Li (14):
-  target/riscv: rvk: add cfg properties for zbk* and zk*
-  target/riscv: rvk: add support for zbkb extension
-  target/riscv: rvk: add support for zbkc extension
-  target/riscv: rvk: add support for zbkx extension
-  crypto: move sm4_sbox from target/arm
-  target/riscv: rvk: add support for zknd/zkne extension in RV32
-  target/riscv: rvk: add support for zkne/zknd extension in RV64
-  target/riscv: rvk: add support for sha256 related instructions in zknh
-    extension
-  target/riscv: rvk: add support for sha512 related instructions for
-    RV32 in zknh extension
-  target/riscv: rvk: add support for sha512 related instructions for
-    RV64 in zknh extension
-  target/riscv: rvk: add support for zksed/zksh extension
-  target/riscv: rvk: add CSR support for Zkr
-  disas/riscv.c: rvk: add disas support for Zbk* and Zk* instructions
-  target/riscv: rvk: expose zbk* and zk* properties
-
- crypto/meson.build                      |   1 +
- crypto/sm4.c                            |  49 +++
- disas/riscv.c                           | 170 +++++++++
- include/crypto/sm4.h                    |   6 +
- target/arm/crypto_helper.c              |  36 +-
- target/riscv/bitmanip_helper.c          |  80 ++++
- target/riscv/cpu.c                      |  36 ++
- target/riscv/cpu.h                      |  13 +
- target/riscv/cpu_bits.h                 |   9 +
- target/riscv/crypto_helper.c            | 443 ++++++++++++++++++++++
- target/riscv/csr.c                      |  64 ++++
- target/riscv/helper.h                   |  42 +++
- target/riscv/insn32.decode              |  94 ++++-
- target/riscv/insn_trans/trans_rvb.c.inc | 137 ++++++-
- target/riscv/insn_trans/trans_rvk.c.inc | 472 ++++++++++++++++++++++++
- target/riscv/meson.build                |   3 +-
- target/riscv/pmp.h                      |   8 +-
- target/riscv/translate.c                |   8 +
- 18 files changed, 1601 insertions(+), 70 deletions(-)
- create mode 100644 crypto/sm4.c
- create mode 100644 include/crypto/sm4.h
- create mode 100644 target/riscv/crypto_helper.c
- create mode 100644 target/riscv/insn_trans/trans_rvk.c.inc
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index b0a40b83e7..d30534ead5 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -587,6 +587,29 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             cpu->cfg.ext_d = true;
+         }
+ 
++        if (cpu->cfg.ext_zk) {
++            cpu->cfg.ext_zkn = true;
++            cpu->cfg.ext_zkr = true;
++            cpu->cfg.ext_zkt = true;
++        }
++
++        if (cpu->cfg.ext_zkn) {
++            cpu->cfg.ext_zbkb = true;
++            cpu->cfg.ext_zbkc = true;
++            cpu->cfg.ext_zbkx = true;
++            cpu->cfg.ext_zkne = true;
++            cpu->cfg.ext_zknd = true;
++            cpu->cfg.ext_zknh = true;
++        }
++
++        if (cpu->cfg.ext_zks) {
++            cpu->cfg.ext_zbkb = true;
++            cpu->cfg.ext_zbkc = true;
++            cpu->cfg.ext_zbkx = true;
++            cpu->cfg.ext_zksed = true;
++            cpu->cfg.ext_zksh = true;
++        }
++
+         /* Set the ISA extensions, checks should have happened above */
+         if (cpu->cfg.ext_i) {
+             ext |= RVI;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 8183fb86d5..a78d396f8c 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -355,7 +355,20 @@ struct RISCVCPUConfig {
+     bool ext_zba;
+     bool ext_zbb;
+     bool ext_zbc;
++    bool ext_zbkb;
++    bool ext_zbkc;
++    bool ext_zbkx;
+     bool ext_zbs;
++    bool ext_zk;
++    bool ext_zkn;
++    bool ext_zknd;
++    bool ext_zkne;
++    bool ext_zknh;
++    bool ext_zkr;
++    bool ext_zks;
++    bool ext_zksed;
++    bool ext_zksh;
++    bool ext_zkt;
+     bool ext_counters;
+     bool ext_ifencei;
+     bool ext_icsr;
 -- 
 2.17.1
 
