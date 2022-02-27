@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E936B4C5A84
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 11:52:29 +0100 (CET)
-Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B484C5A9A
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 12:14:04 +0100 (CET)
+Received: from localhost ([::1]:46286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOHAB-0007PZ-IS
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 05:52:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43604)
+	id 1nOHV4-0001u4-Ia
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 06:14:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nOH6p-0005y1-NU
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 05:48:59 -0500
-Received: from [2a00:1450:4864:20::632] (port=42564
- helo=mail-ej1-x632.google.com)
+ (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
+ id 1nOHSj-00019j-Ce
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 06:11:37 -0500
+Received: from [2a00:1450:4864:20::335] (port=32853
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nOH6o-0008WQ-49
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 05:48:59 -0500
-Received: by mail-ej1-x632.google.com with SMTP id hw13so19341683ejc.9
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 02:48:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
+ id 1nOHSg-0002gW-Vu
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 06:11:37 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ 6-20020a05600c024600b0038125fa8e43so2294369wmj.0
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 03:11:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:in-reply-to:references:message-id
- :mime-version:content-transfer-encoding;
- bh=gN82mZzp0EGBKR+Us/xKE1aJZOl/SVuuyVypTlmUp9w=;
- b=iThQrElsdgVrI9iGsei5OOxtLjYlxMgD7iQiI+X02g2jOmHN1aZWXOFjMmABickb+m
- p5RH+bYi5sl0m0m0EGih4IDya+WUINqK2z64944gTrWc5R3A05BjBzFcsdmaWch9gw5S
- Nar8Mlgu+OC0wBsSnsrjhOzFsVvdVpUyKU6JGyQ+57YoIQizFiLZOhdcdLpqEtADEtdf
- s4jfbaj0DUysJxNxtYUQfHPgq3M6aagzX8lx6U43YvMQdY1Ckt2j+RM+7d99xgyAPZhL
- LtUx/FWtWg0kPPwVDsOYQRkK9mnJA+F+H87SdvuxyHPXX3HffE1DfzfveR8On59t0aIT
- fpOg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Le5LxFUT5H5vzv4X4jcGdhI7S6MzB0j0cc6NF3sw2IY=;
+ b=Nf4vgtYFLrbI2pwfn7oZcaVtoeBb2RljgonZxqA25E+wyXXxscMwiUv4C+MsdKq2rd
+ P2jJ0q0sktS3nl10FgKhRt1apODqwJ+GViqMukvH7EyqPB8etlUeIy858X0tuzRcbQjj
+ WTgsiyKwGEDaN7bNN4YP2VSZv2q7y9aLCCocY6jICHwqo4bNJTKE3v/rt7uPPrF9hSOG
+ S2G3NKmXjDHRmnmAX0d6m7tisWBHLg0Zn7i0bHA8hoZA3kL+wYWWweZ4YgmkFQyzFAjG
+ yi068uaSrwROznm0DU3ozYbQZUH9B+dNJSiXKHsOwu+3gZOCLkGc6mR/we50nMESFQLV
+ A8MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=gN82mZzp0EGBKR+Us/xKE1aJZOl/SVuuyVypTlmUp9w=;
- b=vRQd+gO7JgMs6eGq12CZQDGwfro5QClcKYSn8xjoEFbx74tr5YAMjd3MC0Xck0bhI4
- yT37RHza5113WyLK++jKao9/9YeJF/tmDDTjN+tmxGC5YY2W0VxoTHpwUgdsTJSLNgsJ
- UUUYhi2iN/qFWIem1dpzNMCg0Wga6Kztlpq2fM4fNv+NcRVXdkpWO+AVrP42ZQB/UWsm
- 2K9dSHLbBSh78sRdKQ16yVxfey1niz6RosokKi6QiLLN8fB1mJjOujzSjbEykjKtwb1O
- VQ4cVZnblhpWNWRtIOkxBt4O0Jx3NJmZTo7FdP+AM1TJSSw0OabzUo41tgIRw5Qw0YFc
- PiLA==
-X-Gm-Message-State: AOAM530YqUt4MmeCebi4196v5vpjX06pss5EQXQrvgPm0R6j+7WO5Ke1
- IzJ7PxgCAmGIoZmxk0epat7le8HEoY0=
-X-Google-Smtp-Source: ABdhPJxRBW6hZ6dWLgaKiXfbi85NEIezeBNfrAReAAwu851Pkk9br6rQtlwY0GnCnyT4dIfl0T+VQA==
-X-Received: by 2002:a17:906:3905:b0:6cf:7ef5:fee0 with SMTP id
- f5-20020a170906390500b006cf7ef5fee0mr11547764eje.307.1645958935762; 
- Sun, 27 Feb 2022 02:48:55 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-078-054-173-033.78.54.pool.telefonica.de.
- [78.54.173.33]) by smtp.gmail.com with ESMTPSA id
- i5-20020aa7dd05000000b00410d26d170bsm4408799edv.4.2022.02.27.02.48.55
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 27 Feb 2022 02:48:55 -0800 (PST)
-Date: Sun, 27 Feb 2022 10:48:52 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org, Liav Albani <liavalb@gmail.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_3/4=5D_hw/acpi=3A_add_indication_fo?=
- =?US-ASCII?Q?r_i8042_in_IA-PC_boot_flags_of_the_FADT_table?=
-In-Reply-To: <20220226063019.1112654-4-liavalb@gmail.com>
-References: <20220226063019.1112654-1-liavalb@gmail.com>
- <20220226063019.1112654-4-liavalb@gmail.com>
-Message-ID: <BE89AC1C-6ED9-4F1E-9DE6-EB1E2CC863E7@gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Le5LxFUT5H5vzv4X4jcGdhI7S6MzB0j0cc6NF3sw2IY=;
+ b=LqsyGevVKBLPRvbLQhKwKB86JyKOBD2DOMkAlOMutgJlovpsxIYWf5MXhXV5ZJ8Ea6
+ 46pG9loOZ0zP/h76ow/9N3VryE0k42CPT3FudmZlP2ZzAvfFOGC9h8HtztxTyTB630cR
+ fOSbM27jcbNtBwHjyPAi9vxWmT2UTtcVhOriwFW16VJFSAqnixzv1fjKOxuQ2SPUmmIV
+ 5L98DulLPbKNoRDjaA30NCsHovYzM1wMSAdsWDAKeo8AS8hUbYxvT+JJi74zgoLEzJcA
+ r9o+gY2UQBD2D2ncrHbmecP4zKoHeI/X0E1HR7O3P0TxDFOtiabFKQwMvDvsWwX0QV1z
+ JA1Q==
+X-Gm-Message-State: AOAM53264c1b01nfGJsTvfr+MWTuVh3WAn3oMfASIKBGGrDxrpVNHjVR
+ oy1pxbo8rkbIUtC4hi1HD3Mqsjv07h1ElWvh
+X-Google-Smtp-Source: ABdhPJwclZWO/0l4B58B7GrgSSsaJNT8ysBs15wMzWb533rCm2dPtFE8LNj8veM1gtO6OhGKcw4+1Q==
+X-Received: by 2002:a05:600c:a4b:b0:37b:ea2b:5583 with SMTP id
+ c11-20020a05600c0a4b00b0037bea2b5583mr9804648wmq.139.1645960292484; 
+ Sun, 27 Feb 2022 03:11:32 -0800 (PST)
+Received: from station.lan ([46.140.159.18]) by smtp.gmail.com with ESMTPSA id
+ o16-20020a05600c511000b0038141b4a4edsm5651105wms.38.2022.02.27.03.11.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 27 Feb 2022 03:11:32 -0800 (PST)
+From: Ziqiao Kong <ziqiaokong@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] Fix MAX_OPC_PARAM_IARGS accordingly
+Date: Sun, 27 Feb 2022 12:09:30 +0100
+Message-Id: <20220227110927.402764-1-ziqiaokong@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=ziqiaokong@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,109 +86,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca, imammedo@redhat.com, mst@redhat.com
+Cc: sw@weilnetz.de, tsimpson@quicinc.com, richard.henderson@linaro.org,
+ Ziqiao Kong <ziqiaokong@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 26=2E Februar 2022 06:30:18 UTC schrieb Liav Albani <liavalb@gmail=2Ecom=
->:
->This can allow the guest OS to determine more easily if i8042 controller
->is present in the system or not, so it doesn't need to do probing of the
->controller, but just initialize it immediately, before enumerating the
->ACPI AML namespace=2E
->
->Signed-off-by: Liav Albani <liavalb@gmail=2Ecom>
->---
-> hw/acpi/aml-build=2Ec         | 7 ++++++-
-> hw/i386/acpi-build=2Ec        | 8 ++++++++
-> hw/i386/acpi-microvm=2Ec      | 9 +++++++++
-> include/hw/acpi/acpi-defs=2Eh | 1 +
-> 4 files changed, 24 insertions(+), 1 deletion(-)
->
->diff --git a/hw/acpi/aml-build=2Ec b/hw/acpi/aml-build=2Ec
->index 8966e16320=2E=2Eef5f4cad87 100644
->--- a/hw/acpi/aml-build=2Ec
->+++ b/hw/acpi/aml-build=2Ec
->@@ -2152,7 +2152,12 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, c=
-onst AcpiFadtData *f,
->     build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
->     build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
->     build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
->-    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
->+    /* IAPC_BOOT_ARCH */
->+    if (f->rev =3D=3D 1) {
->+        build_append_int_noprefix(tbl, 0, 2);
->+    } else {
->+        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
->+    }
->     build_append_int_noprefix(tbl, 0, 1); /* Reserved */
->     build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
->=20
->diff --git a/hw/i386/acpi-build=2Ec b/hw/i386/acpi-build=2Ec
->index ebd47aa26f=2E=2E65dbc1ec36 100644
->--- a/hw/i386/acpi-build=2Ec
->+++ b/hw/i386/acpi-build=2Ec
->@@ -192,6 +192,14 @@ static void init_common_fadt_data(MachineState *ms, =
-Object *o,
->             =2Eaddress =3D object_property_get_uint(o, ACPI_PM_PROP_GPE0=
-_BLK, NULL)
->         },
->     };
->+    /*
->+     * second bit of 16 but IAPC_BOOT_ARCH indicates presence of 8042 or
->+     * equivalent micro controller=2E See table 5-10 of APCI spec versio=
-n 2=2E0
->+     * (the earliest acpi revision that supports this)=2E
->+     */
->+
->+    fadt=2Eiapc_boot_arch =3D isa_check_device_existence("i8042") ? 0x00=
-02 : 0x0000;
+I notice that in the patch here:
 
-Couldn't qdev_find_recursive() be used here instead? This would also make =
-patch 1 unneccessary=2E Same below=2E
+https://gitlab.com/qemu-project/qemu/-/commit/5d6542bea780ad443c4f7f1496e64706101f525
 
-Best regards
-Bernhard
+The MAX_OPC_PARAM_IARGS was not updated as this path did:
 
->+
->     *data =3D fadt;
-> }
->=20
->diff --git a/hw/i386/acpi-microvm=2Ec b/hw/i386/acpi-microvm=2Ec
->index 68ca7e7fc2=2E=2Ee5f89164be 100644
->--- a/hw/i386/acpi-microvm=2Ec
->+++ b/hw/i386/acpi-microvm=2Ec
->@@ -189,6 +189,15 @@ static void acpi_build_microvm(AcpiBuildTables *tabl=
-es,
->         =2Ereset_val =3D ACPI_GED_RESET_VALUE,
->     };
->=20
->+    /*
->+     * second bit of 16 but IAPC_BOOT_ARCH indicates presence of 8042 or
->+     * equivalent micro controller=2E See table 5-10 of APCI spec versio=
-n 2=2E0
->+     * (the earliest acpi revision that supports this)=2E
->+     */
->+
->+    pmfadt=2Eiapc_boot_arch =3D isa_check_device_existence("i8042") ? 0x=
-0002
->+                            : 0x0000;
->+
->     table_offsets =3D g_array_new(false, true /* clear */,
->                                         sizeof(uint32_t));
->     bios_linker_loader_alloc(tables->linker,
->diff --git a/include/hw/acpi/acpi-defs=2Eh b/include/hw/acpi/acpi-defs=2E=
-h
->index c97e8633ad=2E=2E2b42e4192b 100644
->--- a/include/hw/acpi/acpi-defs=2Eh
->+++ b/include/hw/acpi/acpi-defs=2Eh
->@@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
->     uint16_t plvl2_lat;        /* P_LVL2_LAT */
->     uint16_t plvl3_lat;        /* P_LVL3_LAT */
->     uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
->+    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
->     uint8_t minor_ver;         /* FADT Minor Version */
->=20
->     /*
+https://gitlab.com/qemu-project/qemu/-/commit/1df3caa946e08b387511dfba3a37d78910e51796
+
+And thus this patch fixes it accordingly.
+
+Ziqiao Kong (1):
+  tcg: Set MAX_OPC_PARAM_IARGS to 7
+
+ include/tcg/tcg.h        | 2 +-
+ tcg/tci/tcg-target.c.inc | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.32.0
+
+From d6fbd846dfed5c645e503bc9d0bd9bbb2fc44c7b Mon Sep 17 00:00:00 2001
+From: Ziqiao Kong <ziqiaokong@gmail.com>
+Date: Sun, 27 Feb 2022 11:39:18 +0100
+Subject: [PATCH 1/1] tcg: Set MAX_OPC_PARAM_IARGS to 7
+
+The last entry of DEF_HELPERS_FLAGS_n is DEF_HELPER_FLAGS_7 and
+thus the MAX_OPC_PARAM_IARGS should be 7.
+
+Signed-off-by: Ziqiao Kong <ziqiaokong@gmail.com>
+---
+ include/tcg/tcg.h        | 2 +-
+ tcg/tci/tcg-target.c.inc | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 42f5b500ed..939041103e 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -43,7 +43,7 @@
+ #else
+ #define MAX_OPC_PARAM_PER_ARG 1
+ #endif
+-#define MAX_OPC_PARAM_IARGS 6
++#define MAX_OPC_PARAM_IARGS 7
+ #define MAX_OPC_PARAM_OARGS 1
+ #define MAX_OPC_PARAM_ARGS (MAX_OPC_PARAM_IARGS + MAX_OPC_PARAM_OARGS)
+ 
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 0cb16aaa81..3e17c0080b 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -197,7 +197,7 @@ static const int tcg_target_reg_alloc_order[] = {
+     TCG_REG_R0,
+ };
+ 
+-#if MAX_OPC_PARAM_IARGS != 6
++#if MAX_OPC_PARAM_IARGS != 7
+ # error Fix needed, number of supported input arguments changed!
+ #endif
+ 
+-- 
+2.32.0
 
 
