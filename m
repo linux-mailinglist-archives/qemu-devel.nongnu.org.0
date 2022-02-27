@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B8CC4C58CB
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 01:28:12 +0100 (CET)
-Received: from localhost ([::1]:51544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3C64C58CC
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 01:28:25 +0100 (CET)
+Received: from localhost ([::1]:52238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nO7Q3-0001wb-8c
-	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 19:28:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43578)
+	id 1nO7QF-0002Ph-Sy
+	for lists+qemu-devel@lfdr.de; Sat, 26 Feb 2022 19:28:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nO7Or-0000EJ-W7
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 19:26:58 -0500
-Received: from [2607:f8b0:4864:20::634] (port=43839
- helo=mail-pl1-x634.google.com)
+ id 1nO7PA-0000i9-Jw
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 19:27:16 -0500
+Received: from [2607:f8b0:4864:20::631] (port=45966
+ helo=mail-pl1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nO7Oq-0007dR-Ca
- for qemu-devel@nongnu.org; Sat, 26 Feb 2022 19:26:57 -0500
-Received: by mail-pl1-x634.google.com with SMTP id u2so238084ple.10
- for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 16:26:55 -0800 (PST)
+ id 1nO7P8-0007fv-SF
+ for qemu-devel@nongnu.org; Sat, 26 Feb 2022 19:27:16 -0500
+Received: by mail-pl1-x631.google.com with SMTP id s1so7775824plg.12
+ for <qemu-devel@nongnu.org>; Sat, 26 Feb 2022 16:27:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=9tHc9tmHQdqSLjVSfLh1C7o19/wP/F/L074wapeMIgE=;
- b=eEs5fGLPLzp3T9CErGusv7GTna+f4asrK97QE0hDnyeSUpOkEfb7Mwlt1ETNpSkwh3
- Kx0CfbZOuT7iVJg/+gPJ3JCgWXsxILZoOLsGmAccbC5Aj8oK6me/DTOeP1EG5bafA6IM
- HX72Yrvg6Fpi04pCpknMS8BQD6I36idI0I+SdgO15EopKBrz9v7ie0UwijX1VepFwyDT
- dcuxMvHmfGTjI/QG8zzOV/bWbQOr2NIPhY3Qe46gxwp+JWsPSLYhn6bXOV1GXF1GWSAA
- k2a65fAsBRzyxVhY5oSecKPCYSC2Wux7ZILhodD03Hi64GzdJzRUsse8Pz/n4h0o4m4G
- L1fw==
+ bh=9erXbZRotPTQDKXCSOOL3Z9dF+sIUYBlCPaAq2JVLLc=;
+ b=BOmV6ZrHjzZhq3ALzPG+DBVjChaxpCcZ4+xeRLWFG6wNCwJ9hIujSUwlLQP81dmvLo
+ GzukuhHn1+4TReJOer9Vec3xS+mVV0rmOrZ+zPl9D8XsH4rWwWTBZie5KofhS8z5mLlJ
+ 3S4Wyoyaujs3fPxvCrthOkppDkJ1Vuu/q7jZGvUCMr6JKnBgHXxjUgngvtux0ghSXqel
+ nRjRLIlTGe5p6RPxfVbnHJ6YgHiLwRTD6/JmTFU3P+ZAZlxDQCeJhAdW/j+DLu/6yavV
+ 5MzOoDR5G01K8jUzSM1jGRM4wtbp1R8JCG9SY2l/z7reS4cGjtLXh0TmtuJp6pz4nz3N
+ 6b8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9tHc9tmHQdqSLjVSfLh1C7o19/wP/F/L074wapeMIgE=;
- b=uLla6Wp2TQmTsifJV3vevnCpY++vOVGE8hqXVk4d09MgkZj89IDG2HX1PQGJOJWtH+
- qF/O9fHdopbnyQBel0yzeZcqxzgQpoCXaP+bV0yEimcBBbhOUkWnG3O708j20sP9kKqG
- dvRALcqA0lR3DBel/3pb2CLpSdR4fiPGEMeKZlgFy+ONDdMTZTojOuTCI9VZnktXvonY
- RScE8qyKCEK8MWCBg87L4mdWmLhiq1LlaRgnXW9lyT24eqt+k5UHYTcS0LjTyOYNR0lb
- Mbk5u6Z0yhpiO6gagkr1UE1ZJ0T04ziMWJ0RsYCTywuxtx+JhsIPUFei9Ubj2CkLT2ir
- aUvg==
-X-Gm-Message-State: AOAM530fWu3RfLv6r4RVgdC1rGwnKlho7/zqxB2N1jt9LiEGWnjBxNyq
- syWfajTn3Js3mFhAsvhu8t0TrA==
-X-Google-Smtp-Source: ABdhPJz7GSbbyfAi7ssoH8L1KhwC9m8j4Ow6Ghugf98TizanA1wgy8E0dZA/knn37P0nSAFvykt9Ig==
-X-Received: by 2002:a17:902:f549:b0:14f:a0c5:ced3 with SMTP id
- h9-20020a170902f54900b0014fa0c5ced3mr14046857plf.57.1645921614349; 
- Sat, 26 Feb 2022 16:26:54 -0800 (PST)
+ bh=9erXbZRotPTQDKXCSOOL3Z9dF+sIUYBlCPaAq2JVLLc=;
+ b=EhBQ3VxKQUR8oYZ1ouyKUE9u496Pzmp0ia/3mpJHub4WRVmbcrywQJi8aIAcXDgbRs
+ 9kYroA+YYyVCUoeQFnIVrtcNsYqKRwJHDp/ZH+JM4hnT+de+jWKbvkTcgMSBeBjQuFH3
+ 9FsFf5D09JZSgTqsdlbHg+UEERTPGBWVxaoyO7nyvah5haMumHrqIkbmUG2Ohs6zG/pC
+ ysxSfBkkK4o85I3H9cZele5GNa4LGk31kdnuRkwAPj2fdi4x978hDAtQb+ZkmJ2MNJl3
+ q54XeoXZ50AomcQPYr/mlb9DZcTQyq4B1xT+i9ywDo73JQCi9FL4IqO6qxGDkYCvfLze
+ uZaQ==
+X-Gm-Message-State: AOAM533PfzqBa98e2TSZ6Uk++biLUbgQXKV7pHmo66OCd/uCJlyr47zI
+ m9GdhztZN5AeVF9dYKZFqip/fQ==
+X-Google-Smtp-Source: ABdhPJyCoixzCQCYjAzFXfCLDrgqueXKB7WXLWyz2+Dvujmc9gYfbqEq6eaVx+95hKWXH4aHCnLI1Q==
+X-Received: by 2002:a17:902:cf02:b0:14f:e0c2:1514 with SMTP id
+ i2-20020a170902cf0200b0014fe0c21514mr14140728plg.90.1645921633605; 
+ Sat, 26 Feb 2022 16:27:13 -0800 (PST)
 Received: from ?IPV6:2603:800c:1201:c600:9001:d56a:9ee0:246?
  (2603-800c-1201-c600-9001-d56a-9ee0-0246.res6.spectrum.com.
  [2603:800c:1201:c600:9001:d56a:9ee0:246])
  by smtp.gmail.com with ESMTPSA id
- 67-20020a630846000000b00372782a65d0sm6836515pgi.60.2022.02.26.16.26.52
+ e13-20020a056a001a8d00b004f0f28910cdsm7742222pfv.42.2022.02.26.16.27.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 26 Feb 2022 16:26:53 -0800 (PST)
-Message-ID: <c35cdae9-b0ce-c417-a85d-5fe632bca89f@linaro.org>
-Date: Sat, 26 Feb 2022 14:26:49 -1000
+ Sat, 26 Feb 2022 16:27:13 -0800 (PST)
+Message-ID: <34ec9c1a-77be-ad61-a67b-48dcee294408@linaro.org>
+Date: Sat, 26 Feb 2022 14:27:09 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/9] hw/usb/redirect.c: Stop using qemu_oom_check()
+Subject: Re: [PATCH 2/9] util: Make qemu_oom_check() a static function
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20220226180723.1706285-1-peter.maydell@linaro.org>
- <20220226180723.1706285-2-peter.maydell@linaro.org>
+ <20220226180723.1706285-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220226180723.1706285-2-peter.maydell@linaro.org>
+In-Reply-To: <20220226180723.1706285-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,36 +100,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/26/22 08:07, Peter Maydell wrote:
-> qemu_oom_check() is a function which essentially says "if you pass me
-> a NULL pointer then print a message then abort()".  On POSIX systems
-> the message includes strerror(errno); on Windows it includes the
-> GetLastError() error value printed as an integer.
-> 
-> Other than in the implementation of qemu_memalign(), we use this
-> function only in hw/usb/redirect.c, for three checks:
-> 
->   * on a call to usbredirparser_create()
->   * on a call to usberedirparser_serialize()
->   * on a call to malloc()
-> 
-> The usbredir library API functions make no guarantees that they will
-> set errno on errors, let alone that they might set the
-> Windows-specific GetLastError string.  malloc() is documented as
-> setting errno, not GetLastError -- and in any case the only thing it
-> might set errno to is ENOMEM.  So qemu_oom_check() isn't the right
-> thing for any of these.  Replace them with straightforward
-> error-checking code.  This will allow us to get rid of
-> qemu_oom_check().
+> The qemu_oom_check() function, which we define in both oslib-posix.c
+> and oslib-win32.c, is now used only locally in that file; make it
+> static.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
-> I have left all of these errors as fatal, since that's what they
-> were previously. Possibly somebody with a better understanding
-> of the usbredir code might be able to make them theoretically
-> non-fatal, but we make malloc failures generally fatal anyway.
-> ---
->   hw/usb/redirect.c | 17 ++++++++++++++---
->   1 file changed, 14 insertions(+), 3 deletions(-)
+>   include/qemu-common.h | 2 --
+>   util/oslib-posix.c    | 2 +-
+>   util/oslib-win32.c    | 2 +-
+>   3 files changed, 2 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
