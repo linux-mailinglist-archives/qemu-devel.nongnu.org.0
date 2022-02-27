@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5408F4C5E58
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 20:01:58 +0100 (CET)
-Received: from localhost ([::1]:42934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7359D4C5E5C
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 20:05:21 +0100 (CET)
+Received: from localhost ([::1]:47694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOOns-00038Q-Ur
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 14:01:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40246)
+	id 1nOOr8-0006Yi-7u
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 14:05:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOOm3-0001a2-5K
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 14:00:03 -0500
-Received: from [2a00:1450:4864:20::42c] (port=45987
- helo=mail-wr1-x42c.google.com)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOOp3-0005DO-IS
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 14:03:12 -0500
+Received: from [2a00:1450:4864:20::335] (port=43743
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOOm0-0008Cn-VZ
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 14:00:02 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id p9so12190746wra.12
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 11:00:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOOp1-0000TG-VF
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 14:03:09 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ n25-20020a05600c3b9900b00380f41e51e6so4791201wms.2
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 11:03:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=xHZblY6rOonyYNhNFv7zF7XSCrhBHtqGf5hrF3tgUoU=;
- b=kigE93R2X171G2FCf7xdtMELS0gSP3W8qqYvGczWy+eJxMSvQpBywKLW6OTCjZMsiZ
- Lx/0o9AyZ4VzNtyDZeb8eCDN8bC1FvX8Z1YzQvVs+pWxiOKe5WOy6QixscHPbFHxax0x
- RWZhWaa2TKgkgl+U08vqg9Q8u+uig0lIJdbQ8h5MucW9wkh978Ul6m4fYVpG69pA0JrM
- vuN4dbZ1zHr8WpE6fSpb9p4rCFu44GxtCwlfefInqVenDKDpqW8sfpcdwY2Vb+++ta+c
- IFZuIpJNXks+JszLFZ44D55lhSy17vAGTTq1DcZYdrOHZpEFWolYvpNxo0JevagTtnin
- JX5g==
+ bh=euShGLtU+7qWFs0dKyalClSbAvPs4f8uI1NnW2/YRPU=;
+ b=HR79SFhKJy3DFfucLe5Hpy/LybTksYi1gX4pUOl+UbldXNu7NcohFSSP/JUWzgrhml
+ RTwPueHMSD7a0UZ7goYycjEQvr4g7q0MZF0v/7D/RKFCyb/W9Dpht8kb51OCRN7yYkuy
+ 1ECTBezWXHpqTAjRH74zl6MlRn4Ucz+TkA1yuJklgTjHDUAeX4guwQtyv2dgVJyu8Jij
+ IHubQt2zuteI5FPoHkJck4cRTlI2OIamSUeLDoRC6s8tUcJTgUw59Yn6M1M+13mKzzxH
+ QwWTB0R27iP6aOMKQRJLBYQXvb0BInRS/fA2rNNa8/xI2aM270DaYVK8M4Gtkm7/mwDE
+ Pvdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=xHZblY6rOonyYNhNFv7zF7XSCrhBHtqGf5hrF3tgUoU=;
- b=HI9/DNwwi7R6Ty5AmeZ2NxOSxFZ4NkZ5rgztdWzTYds4UvqRibhNa27h1eHpPGxGN7
- tw27US5juRC7s+P6VcQixiwCevy1Fg59mtGeK81F+auoxpHCdSZnr+ik5Vzfsg0ox2WJ
- tWez3c25qOg13RHQt8wp55E59SH6TGgQiB7SM4hpe1mLvRRf81/2ILHlG/ACrWpFPnHR
- i6iblb6F4M17rzeQpDAmAaQvdFSpoKYfK6AXitXOal6IIJOaa8As0liJ0raRin6VO6P1
- LpoPnRv+nbl89bnnX8+FQRAkWb0L6d4oyNl2ibqAIah2wHF9Z01R1r/+NqdfsRTGlwPm
- d+pg==
-X-Gm-Message-State: AOAM531Tb6kbaSKL4wvWh8NraLNv6oGNxXA3qstdKFgXjfkFPS8Y34E5
- /FGdgPV82cib/6Lg2+KpEgw=
-X-Google-Smtp-Source: ABdhPJyAeuHpYpRhKQLkPWrg1UKqKWdTgNBAP7e8Onz42BG2yaPr58/mvp8BcqyiAAJOOZ7Sz1ZAaw==
-X-Received: by 2002:a5d:6205:0:b0:1e4:b3fd:9ba8 with SMTP id
- y5-20020a5d6205000000b001e4b3fd9ba8mr12886671wru.426.1645988399596; 
- Sun, 27 Feb 2022 10:59:59 -0800 (PST)
+ bh=euShGLtU+7qWFs0dKyalClSbAvPs4f8uI1NnW2/YRPU=;
+ b=bnllmHQkHTnkGuCPYTbfvlU1VR3iN0Zs61AQ5J65ALqSLUGEFtcXbVaSBrznbV9qE6
+ sDTa0P3is3LExFavh8Uc9QlV/uyLoSceOpNHKpPdkO1dKGeWcHttCLXOqXTTClLH1qSS
+ 9jIngGlBFVnTpzwuMS568xvXUScVTku5uDEfo1eTFiz3qT7B72UtMWFUrT/bPOCIu6aN
+ FlbSPEskxdl2ImfaMCK6F+OrXY9nYQ1AqnTMpVaWeGMgrilJhD55fY/4n35R0XV6sZ/M
+ /SO2NXus3/N9ZW4AY4j2E+T4HZ/JoTIUuVR9RKY/bUO5yJuEn//iIcDCitzM2hrurIHH
+ iemQ==
+X-Gm-Message-State: AOAM53225q5AgCE+1eovVNi8NjV2LeikMpLvn6Jj0t2zA/2uFMqqkGXG
+ 92UA+63vqDDk86OIldCcRqk=
+X-Google-Smtp-Source: ABdhPJyHM0XGbZOEdtDq9AOSJmOqm/1n+VCtcOgpEAeDYRrls09wstFlcaZY0pfiP8wrhiGOMcihLg==
+X-Received: by 2002:a1c:6a01:0:b0:37f:1b18:6b17 with SMTP id
+ f1-20020a1c6a01000000b0037f1b186b17mr10721493wmc.146.1645988586043; 
+ Sun, 27 Feb 2022 11:03:06 -0800 (PST)
 Received: from ?IPV6:2a10:800b:ea29:1:266:a58e:9f87:7014?
  ([2a10:800b:ea29:1:266:a58e:9f87:7014])
  by smtp.gmail.com with ESMTPSA id
- e6-20020a056000120600b001ea9414f2c3sm8217114wrx.12.2022.02.27.10.59.58
+ o22-20020a05600c4fd600b0038133076dcesm9598290wmq.16.2022.02.27.11.03.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 10:59:59 -0800 (PST)
-Message-ID: <2f8036a3-5ed7-9e16-3e9d-82dbcd4a96da@gmail.com>
-Date: Sun, 27 Feb 2022 20:59:57 +0200
+ Sun, 27 Feb 2022 11:03:05 -0800 (PST)
+Message-ID: <76ebfc46-444e-d145-7f6f-020e04dace9c@gmail.com>
+Date: Sun, 27 Feb 2022 21:03:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
-Subject: Re: [PATCH v3 3/4] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
+Subject: Re: [PATCH v3 1/4] hw/isa: add function to check for existence of
+ device by its type
 Content-Language: en-US
 To: Ani Sinha <ani@anisinha.ca>
 References: <20220226063019.1112654-1-liavalb@gmail.com>
- <20220226063019.1112654-4-liavalb@gmail.com>
- <alpine.DEB.2.22.394.2202271222230.1249418@anisinha-lenovo>
+ <20220226063019.1112654-2-liavalb@gmail.com>
+ <alpine.DEB.2.22.394.2202271254280.1249418@anisinha-lenovo>
 From: Liav Albani <liavalb@gmail.com>
-In-Reply-To: <alpine.DEB.2.22.394.2202271222230.1249418@anisinha-lenovo>
+In-Reply-To: <alpine.DEB.2.22.394.2202271254280.1249418@anisinha-lenovo>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=liavalb@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=liavalb@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,110 +100,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2/27/22 08:56, Ani Sinha wrote:
+On 2/27/22 09:27, Ani Sinha wrote:
 >
 > On Sat, 26 Feb 2022, Liav Albani wrote:
 >
->> This can allow the guest OS to determine more easily if i8042 controller
->> is present in the system or not, so it doesn't need to do probing of the
->> controller, but just initialize it immediately, before enumerating the
->> ACPI AML namespace.
+>> This function enumerates all attached ISA devices in the machine, and
+>> tries to compare a given device type name to the enumerated devices.
+>> For example, this can help other code to determine if a i8042 controller
+>> exists in the machine.
 >>
 >> Signed-off-by: Liav Albani <liavalb@gmail.com>
 >> ---
->>   hw/acpi/aml-build.c         | 7 ++++++-
->>   hw/i386/acpi-build.c        | 8 ++++++++
->>   hw/i386/acpi-microvm.c      | 9 +++++++++
->>   include/hw/acpi/acpi-defs.h | 1 +
->>   4 files changed, 24 insertions(+), 1 deletion(-)
+>>   hw/isa/isa-bus.c     | 23 +++++++++++++++++++++++
+>>   include/hw/isa/isa.h |  1 +
+>>   2 files changed, 24 insertions(+)
 >>
->> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
->> index 8966e16320..ef5f4cad87 100644
->> --- a/hw/acpi/aml-build.c
->> +++ b/hw/acpi/aml-build.c
->> @@ -2152,7 +2152,12 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->>       build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
->>       build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
->>       build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
->> -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
->> +    /* IAPC_BOOT_ARCH */
->> +    if (f->rev == 1) {
->> +        build_append_int_noprefix(tbl, 0, 2);
->> +    } else {
->> +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
->> +    }
-> Like a suggested in the previous iteration, please add a comment here to
-> specify why you are adding this only for rev !=1 . Also please mention
-> that your change only affects q35 machines since i440fx uses rev 1 (ref to
-> acpi_get_pm_info()).
->
->
->>       build_append_int_noprefix(tbl, 0, 1); /* Reserved */
->>       build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
->>
->> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
->> index ebd47aa26f..65dbc1ec36 100644
->> --- a/hw/i386/acpi-build.c
->> +++ b/hw/i386/acpi-build.c
->> @@ -192,6 +192,14 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
->>               .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
->>           },
->>       };
->> +    /*
->> +     * second bit of 16 but
-> wow, you even retained my typo here! :-)
-
-Yeah, I figured this after I sent the patch series, sorry for that mistake!
-
->
->> IAPC_BOOT_ARCH indicates presence of 8042 or
->> +     * equivalent micro controller. See table 5-10 of APCI spec version 2.0
->> +     * (the earliest acpi revision that supports this).
->> +     */
->> +
->> +    fadt.iapc_boot_arch = isa_check_device_existence("i8042") ? 0x0002 : 0x0000;
->> +
->>       *data = fadt;
+>> diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+>> index 6c31398dda..663aa36d29 100644
+>> --- a/hw/isa/isa-bus.c
+>> +++ b/hw/isa/isa-bus.c
+>> @@ -222,6 +222,29 @@ void isa_build_aml(ISABus *bus, Aml *scope)
+>>       }
 >>   }
 >>
->> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
->> index 68ca7e7fc2..e5f89164be 100644
->> --- a/hw/i386/acpi-microvm.c
->> +++ b/hw/i386/acpi-microvm.c
->> @@ -189,6 +189,15 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
->>           .reset_val = ACPI_GED_RESET_VALUE,
->>       };
->>
+>> +bool isa_check_device_existence(const char *typename)
+>> +{
 >> +    /*
->> +     * second bit of 16 but IAPC_BOOT_ARCH indicates presence of 8042 or
->>
-> ditto as above.
-No problem, I'll send a v4 soon :)
->
->   +     * equivalent micro controller. See table 5-10 of APCI spec version 2.0
->> +     * (the earliest acpi revision that supports this).
+>> +     * If there's no ISA bus, we know for sure that the checked ISA device type
+>> +     * doesn't exist in the machine.
 >> +     */
+>> +    if (isabus == NULL) {
+> nit: I would do if (!isabus) instead to keep uniformity with other parts
+> of the code.
+Hmm, OK, I'll change it because it seems really fine to do that this way 
+too :)
+>
+>> +        return false;
+>> +    }
 >> +
->> +    pmfadt.iapc_boot_arch = isa_check_device_existence("i8042") ? 0x0002
->> +                            : 0x0000;
+>> +    BusChild *kid;
+>> +    ISADevice *dev;
 >> +
->>       table_offsets = g_array_new(false, true /* clear */,
->>                                           sizeof(uint32_t));
->>       bios_linker_loader_alloc(tables->linker,
->> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
->> index c97e8633ad..2b42e4192b 100644
->> --- a/include/hw/acpi/acpi-defs.h
->> +++ b/include/hw/acpi/acpi-defs.h
->> @@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
->>       uint16_t plvl2_lat;        /* P_LVL2_LAT */
->>       uint16_t plvl3_lat;        /* P_LVL3_LAT */
->>       uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
->> +    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
->>       uint8_t minor_ver;         /* FADT Minor Version */
->>
->>       /*
->> --
->> 2.35.1
->>
->>
+>> +    QTAILQ_FOREACH(kid, &isabus->parent_obj.children, sibling) {
+>> +        dev = ISA_DEVICE(kid->child);
+>> +        const char *object_type = object_get_typename(OBJECT(dev));
+>> +        if (object_type && strcmp(object_type, typename) == 0) {
+> nit: I would do !strcmp() instead.
+>
+Hmm, OK, I'll change it because it seems really fine to do that this way 
+too :)
+>> +            return true;
+>> +        }
+>> +    }
+>> +    return false;
+>> +}
+>> +
+>>   static void isabus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+>>   {
+>>       ISADevice *d = ISA_DEVICE(dev);
+>> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+>> index d4417b34b6..65f0c7e28c 100644
+>> --- a/include/hw/isa/isa.h
+>> +++ b/include/hw/isa/isa.h
+>> @@ -99,6 +99,7 @@ IsaDma *isa_get_dma(ISABus *bus, int nchan);
+>>   MemoryRegion *isa_address_space(ISADevice *dev);
+>>   MemoryRegion *isa_address_space_io(ISADevice *dev);
+>>   ISADevice *isa_new(const char *name);
+>> +bool isa_check_device_existence(const char *typename);
+> Please provide documentation for this function in line with other
+> functions like isa_register_ioport() and isa_register_portio_list()  in
+> the same header.
+
+Ah, I see what you mean - I'll write short descriptive documentation 
+like what there's for other functions :)
+
+Thanks for the suggestions!
+
+Best regards,
+Liav
+
 
