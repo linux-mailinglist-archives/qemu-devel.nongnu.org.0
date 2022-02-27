@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 518804C5F67
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:20:19 +0100 (CET)
-Received: from localhost ([::1]:33962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6B94C5F6D
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Feb 2022 23:28:43 +0100 (CET)
+Received: from localhost ([::1]:37034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nORtq-0008Dg-FM
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:20:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49506)
+	id 1nOS1y-0002Ql-5U
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 17:28:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nORsp-0007UC-8C
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:19:15 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=54191
- helo=mail-pj1-x1034.google.com)
+ id 1nOS0W-0001ip-K5
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:27:12 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=50776
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nORsn-0003nD-MG
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:19:14 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id bx5so9490871pjb.3
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 14:19:12 -0800 (PST)
+ id 1nOS0U-0001mP-RD
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 17:27:12 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id m22so9545394pja.0
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 14:27:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=ulh40nCFG8/w2I6xbf1Pi8Ouq8dUFv9Ch4dX3HYHWs8=;
- b=JmKeb0kOflGt1DPRXBq9yKOBRY/LPxyCMkJdt3hzmLmWZy3fghEuOTmbxzWEFZmL27
- BusKkUFfbBBkC2NYQ3Kzk162fT25/lrKOtmDh3B4hxHz+u2ZU0S0RaLHsYUcgKgTYqle
- U29541kOlERolgSFDKVmfGvvmIk//K1SVMII5HTDrCIjFLTHv5GNMJTDpxr/gamqhT0M
- W24aO26UBk0gXTnOU2W+dJWP0ypC51GS/clolLtLWagQ44cbNSczK1aS/FKB+U/tFfS5
- t0S9j+sI2NMEREvHfqyga9jyvvsSnVo0ksHine/zn5oNxIvIqaHLDAzuoqt+RBgR8Cc2
- uv5A==
+ bh=vAG7VNzP+2PmivOohqNytxAUevvkvUIE1zXipqpbrHo=;
+ b=jc8oroV8MN2mG9F9KYuQpg7vHX/j8vw/SSmun5fqCQOK6h/8ZBC5TRcf8HRzfpfqmO
+ 2Q55v4ZIsozKdum2TGqk4CGMBsE0YeD+K9nKUbolSSGtwTzh5D/IXU2W5u2eyrx0MLdH
+ QGPDSnXWQZhm7tdWLEs/zZrPbn0pfgj2LB+TClzgCzJLeFhhbEBrO5/gs82bAGPYFfWZ
+ 9Yh6O16XcrYKvpDb8CXIG/aFQ2VPeRodhfmG5kzksDi/c/prKoAulGnZ/yfolHo6VKMB
+ Bj8JRajooiYwGWXO0tGWAK769L7BdbRNIvkkE/8XKQxP1K9p9Sfkg4Rdz0zddDCAMVgw
+ YknQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ulh40nCFG8/w2I6xbf1Pi8Ouq8dUFv9Ch4dX3HYHWs8=;
- b=igl1E/dgkMBzzNmXB6JZz6IWQeM3kVqmX858GklLdJtKsLEgOpYdXYz4X6vNXkJUxg
- FGcFvGYNjmaGfuYPCny4rhP5mZql3QiTJhYl7jkZUCxD5w3l9iSqO+yKqsp0cS7TOv/w
- 87rgQfV8FGTHIDLY4GkvGpoPiPseIab9g1VxjfnvFHmJgxMHlNEB/LY6Y2Z8vM4VKOCH
- zxNPzQXSusN+3W1CPfQAd5ZoZixCrEchC4wAx9FAS3gIg7owNAsePt0aKUjhJEyhukzc
- OaomWRagI5XNWyjmVD1/JfBKCM8mCG3YxZp84oUbAe345MqE5lwel52Bfr8l27ePLN87
- a45Q==
-X-Gm-Message-State: AOAM531po7wsICYC60TGrVAONPBZgVcQIretkG97/nysWgO3HB9OqOw2
- 9e6IjgDtwSYOk+lngdliIA4=
-X-Google-Smtp-Source: ABdhPJy1bgPYUKw3oCBOFpfmq+my5ZHgo4Dsv9Pz8tlXTXP2Ag0ctFyKH9BQvlG42bEQ0qDqz20uXQ==
-X-Received: by 2002:a17:902:704b:b0:14d:2c86:387 with SMTP id
- h11-20020a170902704b00b0014d2c860387mr17858362plt.1.1646000351941; 
- Sun, 27 Feb 2022 14:19:11 -0800 (PST)
+ bh=vAG7VNzP+2PmivOohqNytxAUevvkvUIE1zXipqpbrHo=;
+ b=rlYRMp/4Bvqvyyh4UNKVbs9lQolMjS12FYC6V+ccv1jfsVua9K4lH2S6h8B5hbbQBv
+ Ma4qY0TRBIH961UoAnw82+bvaY9SX6lSVwon7I4EZrJsK3u6it2SjAxsn1GHM45FGSHv
+ aT42XRPuRxLbJrloA8NvInnJ75oeO1PRVW4b8Xc/hiVN9Y3GlhzcVXRlWl/3ObGOsgIn
+ nOivSz5fhkaeltdw+hjC3TOhTiqnIIMnRrq57pPaLprAEJ2t5ovso3BBzxh8J0V2KjQy
+ XjF9yF/H+e8oXjffdfQ/6YDa5tDjxBWxpkvrDNiD2PFbgWnjD0GB5BhSRtQD7mXF0zRT
+ dVKg==
+X-Gm-Message-State: AOAM533RU41Akf+GUO7aDomaSRXWJr/3faw6JlnOmnt2NdlMigXKrfIt
+ 4ubFs300hK1j+4csJVnUolo=
+X-Google-Smtp-Source: ABdhPJxuDdzWE3GTZ+QVJnUqn0Vby2X/d9FORpjWk/K5g/lUfQ2ZFltw7sHxYZulsquaC3ywtOtQCQ==
+X-Received: by 2002:a17:902:cf05:b0:14d:5249:3b1f with SMTP id
+ i5-20020a170902cf0500b0014d52493b1fmr17586971plg.135.1646000828530; 
+ Sun, 27 Feb 2022 14:27:08 -0800 (PST)
 Received: from [192.168.1.115] (32.red-88-28-25.dynamicip.rima-tde.net.
  [88.28.25.32]) by smtp.gmail.com with ESMTPSA id
- j67-20020a636e46000000b003740d689ca9sm8217046pgc.62.2022.02.27.14.19.10
+ a11-20020a056a001d0b00b004f4057fafe2sm1868847pfx.94.2022.02.27.14.27.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 14:19:11 -0800 (PST)
-Message-ID: <f324047d-8156-6c6f-f5a4-db1c771907fa@gmail.com>
-Date: Sun, 27 Feb 2022 23:19:08 +0100
+ Sun, 27 Feb 2022 14:27:08 -0800 (PST)
+Message-ID: <86f664c7-343e-8de3-3d21-787b7eaf65ac@gmail.com>
+Date: Sun, 27 Feb 2022 23:27:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2 06/22] isa: Drop unused attributes from ISADevice
+Subject: Re: [PATCH v2 22/22] isa: Remove unused isa_init_irq()
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 References: <20220222193446.156717-1-shentey@gmail.com>
- <20220222193446.156717-7-shentey@gmail.com>
+ <20220222193446.156717-23-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220222193446.156717-7-shentey@gmail.com>
+In-Reply-To: <20220222193446.156717-23-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,16 +98,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 22/2/22 20:34, Bernhard Beschow wrote:
-> Now that the last users of ISADevice::isairq[] have been resolved during the
-> previous commits, it can be removed for good.
+> isa_init_irq() had become a trivial one-line wrapper for isa_get_irq().
+> The previous commits resolved all usages in favor of isa_get_irq().
+> isa_init_irq() can therefore be removed.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/isa/isa-bus.c     | 13 -------------
->   include/hw/isa/isa.h |  2 --
->   2 files changed, 15 deletions(-)
+>   hw/isa/isa-bus.c     | 5 -----
+>   include/hw/isa/isa.h | 1 -
+>   2 files changed, 6 deletions(-)
+> 
+> diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+> index 1e8c102177..0ad1c5fd65 100644
+> --- a/hw/isa/isa-bus.c
+> +++ b/hw/isa/isa-bus.c
+> @@ -85,11 +85,6 @@ qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
+>       return isabus->irqs[isairq];
+>   }
+>   
+> -void isa_init_irq(ISADevice *dev, qemu_irq *p, unsigned isairq)
+> -{
+> -    *p = isa_get_irq(dev, isairq);
+> -}
+> -
+>   void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
+>   {
+>       qemu_irq irq = isa_get_irq(isadev, isairq);
+> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+> index d80cab5b79..034d706ba1 100644
+> --- a/include/hw/isa/isa.h
+> +++ b/include/hw/isa/isa.h
+> @@ -90,7 +90,6 @@ ISABus *isa_bus_new(DeviceState *dev, MemoryRegion *address_space,
+>                       MemoryRegion *address_space_io, Error **errp);
+>   void isa_bus_irqs(ISABus *bus, qemu_irq *irqs);
+>   qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq);
+> -void isa_init_irq(ISADevice *dev, qemu_irq *p, unsigned isairq);
+>   void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq);
+>   void isa_bus_dma(ISABus *bus, IsaDma *dma8, IsaDma *dma16);
+>   IsaDma *isa_get_dma(ISABus *bus, int nchan);
 
-Nice :)
+I'd merge patches 7-22 as "Inline and remove one-line isa_init_irq()".
 
+Either merged or for each 7-22 patch:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
