@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89604C6EDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 15:08:28 +0100 (CET)
-Received: from localhost ([::1]:52966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBDE14C6F78
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 15:29:36 +0100 (CET)
+Received: from localhost ([::1]:40428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOghP-0007tA-2L
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 09:08:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43984)
+	id 1nOh1r-0005Gr-A5
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 09:29:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nOgfN-0005Uj-SF
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 09:06:21 -0500
-Received: from [2607:f8b0:4864:20::1132] (port=46070
- helo=mail-yw1-x1132.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nOgfL-0007Mz-E9
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 09:06:21 -0500
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-2db569555d6so52845357b3.12
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 06:06:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K0bM+dWR7tbe704qBIA2/hcp/8N9RqO24XV0/d0I2+M=;
- b=x2Yri2YLAXqzDUX+XPQkB443Nixt0q/9gTdoJTR3wwoxIk9XtVfEtpgU2zNGBYk97y
- XFWnxxtxu9qPMWuD4Uu+lU1LujYIPxJSyDQlpmGVmN+v80qp52Q0gB6ff7M9E5L/GGjL
- lRVL0YYpnIWkg7fRAr8Xvlwt2VzAAoG05xErfIiYiBqmDnsJcxAGhUyv3xioGrN3sujM
- brr+jRjztcbaXR+UVxhCLAe90EtFQAf3+mJBSc2MXY8BLKZIu13jhBNWC2RpL1WgJURc
- f7+RQnOyGpZh5CWq/RIkmYBvm06aOsfuXI7TjAZdN2+Gsuox03PxKlbYeay7mmg2CiNm
- zf0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=K0bM+dWR7tbe704qBIA2/hcp/8N9RqO24XV0/d0I2+M=;
- b=wAv1XBs+hXWUWeQPB7lK+m8wbmvp7GTY3iHBXUcen2di0vQaNXaHiARPvbUxZEYNu/
- V58W6zDeqqTARkXWjVAdrStfAcQxBa0zoRw7yNILybTvGzIUn+Ls8OKI+hQZU58GM3RG
- DgLDoWqG/Z3eSTqnPXZajGdm63grlcrFRUZ8yLIdGapp32nrUiGZmsusuLxdFD7Lzx77
- bWy7JsUcA6lPrhQMNFBE+lnxicYkNOi8j1uH99unV/EEuSXbE+wVirrBpFpObU9g1jcJ
- cZofL9EfyKj3f246EHZYagPtxFyogYtwCex1u4rPRcNYXHG08i2Mb6ygxITIh/zllqr7
- i71Q==
-X-Gm-Message-State: AOAM532wZUq3i9FxXYxW2nRTWX6FwddeHqK9oxj1FI/aqbNowbfuquan
- N35uD+3RIR9YnlCSJlg88tlxOpUHCdbOFRXBXX9Bog==
-X-Google-Smtp-Source: ABdhPJzxAJYPhUGmC9LiU7ZS9/DAo30586XCmD6KPBA1aiZC6uPtCPwad52udhTmJ6BLn9Udfm5SOxL/eJkipZdf8QA=
-X-Received: by 2002:a0d:f603:0:b0:2d1:57e5:234 with SMTP id
- g3-20020a0df603000000b002d157e50234mr20867149ywf.469.1646057178178; Mon, 28
- Feb 2022 06:06:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nOgiL-0003ba-PH
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 09:09:26 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:60375)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nOgiK-0007oR-3C
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 09:09:25 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.118])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3A4C6E454B31;
+ Mon, 28 Feb 2022 15:09:19 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 28 Feb
+ 2022 15:09:19 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G00160def291-c4e7-478e-a797-39b1c7d63c3b,
+ 252894939833E8233A028C6995915A29C4CB1534) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <a5c7be8b-0f55-a671-651f-b8072ad1fbce@kaod.org>
+Date: Mon, 28 Feb 2022 15:09:18 +0100
 MIME-Version: 1.0
-References: <20220227223522.91937-1-wwcohen@gmail.com>
- <5277572.8N0aQqchxN@silver>
- <493ea7b6-4e62-5c6e-682b-d5a787ae9299@redhat.com> <1808194.U6vU4amhyU@silver>
-In-Reply-To: <1808194.U6vU4amhyU@silver>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 28 Feb 2022 14:06:07 +0000
-Message-ID: <CAFEAcA_1-xK9u3jsZ0MyCEsQOsr3Dp0bHRtyXYDj7CDWw4-D8Q@mail.gmail.com>
-Subject: Re: [PATCH v9 09/11] 9p: darwin: Implement compatibility for mknodat
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1132
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 2/3] spapr: Add SPAPR_CAP_AIL_MODE_3 for AIL mode 3
+ support for H_SET_MODE hcall
+Content-Language: en-US
+To: David Gibson <david@gibson.dropbear.id.au>, Nicholas Piggin
+ <npiggin@gmail.com>
+References: <20220216063903.1782281-1-npiggin@gmail.com>
+ <20220216063903.1782281-2-npiggin@gmail.com> <Yg2UBtTXneXhDdHz@yekko>
+ <1645601745.av9rgobn2v.astroid@bobo.none> <Yhwuwp+eAkiu6fnY@yekko>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <Yhwuwp+eAkiu6fnY@yekko>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: d308a60b-e0e2-4a9a-a39b-33db687ff7b5
+X-Ovh-Tracer-Id: 15532633640614726563
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddttddgheelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,40 +73,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
- Greg Kurz <groug@kaod.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Feb 2022 at 13:58, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
->
-> On Montag, 28. Februar 2022 14:36:30 CET Thomas Huth wrote:
-> > For lines less than 90 characters, it's just a warning, and I think it's ok
-> > in such cases to keep it longer than 80 characters, if the result of
-> > breaking it up would look more awkward otherwise.
-> >
-> >   Thomas
->
-> This doesn't look awkward to me:
->
->         error_report_once(
->             "pthread_fchdir_np() is not available on this version of macOS"
->         );
+>>>> +    /* These tests match the CPU_FTR_P9_RADIX_PREFETCH_BUG flag in Linux */
+>>>> +    if (((pcc->pvr & 0xffffff00) == CPU_POWERPC_POWER9_DD1) ||
+>>>> +        ((pcc->pvr & 0xffffff00) == CPU_POWERPC_POWER9_DD20) ||
+>>>> +        ((pcc->pvr & 0xffffff00) == CPU_POWERPC_POWER9_DD21)) {
+>>>> +        return 0;
+>>>> +    }
+>>>
+>>> Deducing what KVM supports rather than getting it to tell us
+>>> explicitly with a cap is usually frowned upon.  However, given the
+>>> earlier discussion, I'm satisfied that this is the least bad available
+>>> option, at least for now.
+>>
+>> BTW this particular test doesn't work as I hoped because we only have
+>> a power9 dd2.0 model.
+> 
+> Oh.. yes... IIRC dd2.0 is barely present in the wild, since it doesn't
+> have vital Spectre mitigations....
+> 
+>> Adding a 2.2 or 2.3 would be possible. Maybe overkill.  I'll change
+>> the test just to catch all POWER9 for now.
+> 
+> ... no, given the above, I think we should definitely add the newer
+> models.  Maybe even remove dd2.0 and replace it with the newer ones.
 
-I think that looks pretty strange, though "git grep -A3 -- '($'" does show
-other examples of doing it that way. I'd favour leaving it as a single
-line, which the style guide allows ("better to have an 85 character line
-than one which is awkwardly wrapped").
+yes. It's really not a big effort.
 
-Personally I would favour just not warning at all about the more-than-80
-less-than-90 lines case: it mostly tends to produce discussions like this
-one and people preferring to break lines that would be better unbroken.
-I know not everybody agrees with that, though.
+Thanks,
 
--- PMM
+C.
 
