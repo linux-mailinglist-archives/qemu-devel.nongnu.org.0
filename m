@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC804C6FC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 15:44:18 +0100 (CET)
-Received: from localhost ([::1]:51596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1D34C7011
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 15:52:06 +0100 (CET)
+Received: from localhost ([::1]:33046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOhG5-0005Eg-PQ
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 09:44:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52818)
+	id 1nOhNc-0004Fl-7m
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 09:52:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nOhEK-0003fk-W7
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 09:42:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30174)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nOhEI-0001JR-2W
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 09:42:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646059345;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q8PgohTvrpOImxs3+xQ6CeZdyCijarZodP1FwKkJtNE=;
- b=YZHmVe0qTLGM335DI6dUXt92ldkT2f1QeaVuxYFYUIQMgO3GF4hmdnh9PegPTDi4D2InPX
- I28ITpdW4hQqmuNQPDpbfozEj77S6TV9FY7VdqJm6CwoQoYIPCX9tjYS7Lm0i2uhkax5lz
- vhjlPfHWBEmb8N3qtr3pfOmD/0kIQJE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-411-tRZ_iXkDO4iGQHqGOamw7g-1; Mon, 28 Feb 2022 09:42:21 -0500
-X-MC-Unique: tRZ_iXkDO4iGQHqGOamw7g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA5D8835DE0;
- Mon, 28 Feb 2022 14:42:20 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5AA677B8E4;
- Mon, 28 Feb 2022 14:42:16 +0000 (UTC)
-Date: Mon, 28 Feb 2022 14:42:07 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v2 0/3] block: Make bdrv_refresh_limits() non-recursive
-Message-ID: <YhzfPwpigXDAi/02@stefanha-x1.localdomain>
-References: <20220216105355.30729-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nOhL2-0001DQ-Ob; Mon, 28 Feb 2022 09:49:24 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21]:58176 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nOhKz-0002Tm-L7; Mon, 28 Feb 2022 09:49:24 -0500
+Received: from localhost.localdomain (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowADHzfHl4BxirdTdAQ--.5182S2;
+ Mon, 28 Feb 2022 22:49:11 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v7 00/14] support subsets of scalar crypto extension
+Date: Mon, 28 Feb 2022 22:47:56 +0800
+Message-Id: <20220228144810.7284-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eIgT3tq14oCsHWK1"
-Content-Disposition: inline
-In-Reply-To: <20220216105355.30729-1-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowADHzfHl4BxirdTdAQ--.5182S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAFy7KrW8trW7uF4xXw4fXwb_yoW5uFWUpr
+ 4rG3yakrZ8J39rGrWSq3W8Ar15Jr4rWr4fJwn3tw1kJ3y3ArWrJrZak3W5CF17JF18Wry2
+ 93WUCr13uw4UJFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_
+ Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
+ XdbUUUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,88 +69,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
+ lazyparser@gmail.com, luruibo2000@163.com, lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patchset implements RISC-V scalar crypto extension v1.0.0 version instructions. 
+Partial instructions are reused from B-extension.
 
---eIgT3tq14oCsHWK1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Specification:
+https://github.com/riscv/riscv-crypto
 
-On Wed, Feb 16, 2022 at 11:53:52AM +0100, Hanna Reitz wrote:
-> Hi,
->=20
-> v1 with detailed reasoning:
-> https://lists.nongnu.org/archive/html/qemu-block/2022-02/msg00508.html
->=20
-> This series makes bdrv_refresh_limits() non-recursive so that it is
-> sufficient for callers to ensure that the node on which they call it
-> will not receive concurrent I/O requests (instead of ensuring the same
-> for the whole subtree).
->=20
-> We need to ensure such I/O does not happen because bdrv_refresh_limits()
-> is not atomic and will produce intermediate invalid values, which will
-> break concurrent I/O requests that read these values.
->=20
->=20
-> v2:
-> - Use separate `try` block to clean up in patch 2 instead of putting the
->   `os.remove()` in the existing one (which would cause the second
->   `os.remove()` to be skipped if the first one failed)
->=20
->=20
-> git-backport-diff against v1:
->=20
-> Key:
-> [----] : patches are identical
-> [####] : number of functional differences between upstream/downstream pat=
-ch
-> [down] : patch is downstream-only
-> The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
-tively
->=20
-> 001/3:[----] [--] 'block: Make bdrv_refresh_limits() non-recursive'
-> 002/3:[0005] [FC] 'iotests: Allow using QMP with the QSD'
-> 003/3:[----] [--] 'iotests/graph-changes-while-io: New test'
->=20
->=20
-> Hanna Reitz (3):
->   block: Make bdrv_refresh_limits() non-recursive
->   iotests: Allow using QMP with the QSD
->   iotests/graph-changes-while-io: New test
->=20
->  block/io.c                                    |  4 -
->  tests/qemu-iotests/iotests.py                 | 32 ++++++-
->  .../qemu-iotests/tests/graph-changes-while-io | 91 +++++++++++++++++++
->  .../tests/graph-changes-while-io.out          |  5 +
->  4 files changed, 127 insertions(+), 5 deletions(-)
->  create mode 100755 tests/qemu-iotests/tests/graph-changes-while-io
->  create mode 100644 tests/qemu-iotests/tests/graph-changes-while-io.out
->=20
-> --=20
-> 2.34.1
->=20
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v7
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+To test rvk implementation,  specify cpu argument with 'zks=true,zkn=true'  
+or 
+"zbkb=true,zbkc=true,zbkx=true,zknd=true,zkne=true,zknh=true,zksed=true,zksh=true,zkr=true" to enable  K-extension support.  This implementation can pass the ACT tests 
+for K with our extended act support for qemu (available at 
+https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v7-with-act)
 
---eIgT3tq14oCsHWK1
-Content-Type: application/pgp-signature; name="signature.asc"
+v7:
+* simplify trans_* functions by using gen_arith* and gen_unary
+* replace DEF_HELPER_* with DEF_HEPER_FLAG_*
+* move aes64 related macros from patch 6 to patch 7
+* create common helper gen_aes32_sm4 for aes32 and sm4 related instructions
+* replace bs with shamt (bs << 3)
+* modify trans function for sha256, sha512 and sm4 instructions to be generated inline
+* add reviewed-by tags and rebase on riscv-to-apply.next
 
------BEGIN PGP SIGNATURE-----
+v6:
+* add reviewed-by tags
+* rebase on upstream
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIc3z8ACgkQnKSrs4Gr
-c8iHNQf9H/0Go3H5n9usKflfhdpNfNxDkPXBpsN04mqWvSjrQS0FcZYsCkstLt2k
-l7vq4QfbhlNsYkA6n7089t7PoU5dbkHugzj7w0r2WgU+oV+SqfQw3BmwyGIOdivt
-qXQT7IrzemexdZv1VEr9vyGl/U0oNS4+Rzr+dTon0bisiQYT68JDT8r53bRlqieg
-Yp1nOCmDScj70wMB8Nq1kO8EY7H+E1Yx+i/2dZMNvi2jrblpW6k/8UGH9KH4NU0q
-h+lt/GZRoY9EgkChkqsQ6CbqJdtseXRULHZlGMbVd5aTlyJ1z0dbR+9xxMn6XUJ3
-k+YV2lWhm04Nzow4C0dwkhg4LM31tg==
-=YlLT
------END PGP SIGNATURE-----
+v5:
+* split the big patches
 
---eIgT3tq14oCsHWK1--
+v4:
+* drop "x-" in exposed properties
+* delete unrelated changes
+
+v3:
+* add extension check for SEED csr access
+
+v2:
+* optimize implementation for brev8, xperm, zip, unzip
+* use aes related sbox array from crypto/aes.h
+* move sm4_sbox to crypto/sm4.c, and share it with target/arm
+
+Weiwei Li (14):
+  target/riscv: rvk: add cfg properties for zbk* and zk*
+  target/riscv: rvk: add support for zbkb extension
+  target/riscv: rvk: add support for zbkc extension
+  target/riscv: rvk: add support for zbkx extension
+  crypto: move sm4_sbox from target/arm
+  target/riscv: rvk: add support for zknd/zkne extension in RV32
+  target/riscv: rvk: add support for zkne/zknd extension in RV64
+  target/riscv: rvk: add support for sha256 related instructions in zknh
+    extension
+  target/riscv: rvk: add support for sha512 related instructions for
+    RV32 in zknh extension
+  target/riscv: rvk: add support for sha512 related instructions for
+    RV64 in zknh extension
+  target/riscv: rvk: add support for zksed/zksh extension
+  target/riscv: rvk: add CSR support for Zkr
+  disas/riscv.c: rvk: add disas support for Zbk* and Zk* instructions
+  target/riscv: rvk: expose zbk* and zk* properties
+
+ crypto/meson.build                      |   1 +
+ crypto/sm4.c                            |  49 ++++
+ disas/riscv.c                           | 170 +++++++++++++
+ include/crypto/sm4.h                    |   6 +
+ target/arm/crypto_helper.c              |  36 +--
+ target/riscv/bitmanip_helper.c          |  80 +++++++
+ target/riscv/cpu.c                      |  36 +++
+ target/riscv/cpu.h                      |  13 +
+ target/riscv/cpu_bits.h                 |   9 +
+ target/riscv/crypto_helper.c            | 302 +++++++++++++++++++++++
+ target/riscv/csr.c                      |  64 +++++
+ target/riscv/helper.h                   |  22 ++
+ target/riscv/insn32.decode              |  97 ++++++--
+ target/riscv/insn_trans/trans_rvb.c.inc | 116 +++++++--
+ target/riscv/insn_trans/trans_rvk.c.inc | 304 ++++++++++++++++++++++++
+ target/riscv/meson.build                |   3 +-
+ target/riscv/pmp.h                      |   8 +-
+ target/riscv/translate.c                |   8 +
+ 18 files changed, 1254 insertions(+), 70 deletions(-)
+ create mode 100644 crypto/sm4.c
+ create mode 100644 include/crypto/sm4.h
+ create mode 100644 target/riscv/crypto_helper.c
+ create mode 100644 target/riscv/insn_trans/trans_rvk.c.inc
+
+-- 
+2.17.1
 
 
