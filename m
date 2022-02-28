@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9BB4C7964
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 21:03:40 +0100 (CET)
-Received: from localhost ([::1]:33960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BDAD4C7965
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 21:03:45 +0100 (CET)
+Received: from localhost ([::1]:34064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOmF9-0006t1-JK
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 15:03:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45640)
+	id 1nOmFE-0006wy-8s
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 15:03:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nOmCX-0005Fy-QK
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:00:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29317)
+ id 1nOmCi-0005Jg-5V
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:01:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nOmCU-0005Zd-12
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:00:55 -0500
+ id 1nOmCc-0005a8-Jc
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:01:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646078453;
+ s=mimecast20190719; t=1646078461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZuJI3Q1wyuijrkUsEX7atInEVosIwcqKiDwHpeJ4KGM=;
- b=EMHYQLSQYgBlFuqa+W3ea8JhDsK8zp0fND8EvafGBxA0bCuEQg9i+lleznLPyoysTYKihE
- BVou4XOrJYSLfQVQ8l8/7gbUlbfCdp7qaP74aIEbil/JHSL9Qd025Fwi2FY6KWNU4ghBBf
- TSu80ELAXRc16Ihs3FBjo5VByZ/dNWw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I5tmd38qLRKdvoDxr+NdKSupTk7rboHdgEQVtWNOLMY=;
+ b=CDD4I0Kl/IQSSdsWtaAKO8N8/SqnMRp/2raiIKct+cV1dbE3YbO7mzub+5GraKO2d2rtnG
+ Rmb+l0/aRnXPpaQkoc5xTs0jtzh6DKFs6Y3M61ihjY47w0pe9BKiEL/tyTh7BKnqWF6NBM
+ 4EEsqJvcR2FpMdkrJ0+CDGHwuqa6NyY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-321-waahqM4zNZmRtPT0JmVBug-1; Mon, 28 Feb 2022 15:00:49 -0500
-X-MC-Unique: waahqM4zNZmRtPT0JmVBug-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-75-bMmXRW1kPm2gsvKNDsijXw-1; Mon, 28 Feb 2022 15:00:57 -0500
+X-MC-Unique: bMmXRW1kPm2gsvKNDsijXw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 995BB180A08F;
- Mon, 28 Feb 2022 20:00:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4F7351DC;
+ Mon, 28 Feb 2022 20:00:56 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1EF0330590;
- Mon, 28 Feb 2022 20:00:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2E465F70B;
+ Mon, 28 Feb 2022 20:00:52 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] meson: move int128 checks from configure
-Date: Tue,  1 Mar 2022 00:00:31 +0400
-Message-Id: <20220228200032.777433-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 2/2] meson: fix CONFIG_ATOMIC128 check
+Date: Tue,  1 Mar 2022 00:00:32 +0400
+Message-Id: <20220228200032.777433-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20220228200032.777433-1-marcandre.lureau@redhat.com>
+References: <20220228200032.777433-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,129 +90,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-(note: the test isn't working as intended, the next patches fixes it)
+The current testing code isn't correct and matching QEMU usage:
+
+testfile.c: In function 'main':
+testfile.c:5:11: error: incorrect number of arguments to function '__atomic_load'
+    5 |       y = __atomic_load(&x, 0);
+      |           ^~~~~~~~~~~~~
+testfile.c:6:7: error: argument 2 of '__atomic_store' must be a pointer type
+    6 |       __atomic_store(&x, y, 0);
+      |       ^~~~~~~~~~~~~~
+testfile.c:7:7: error: argument 3 of '__atomic_compare_exchange' must be a pointer type
+    7 |       __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+Replace the test with common atomics test for u64 and u128 that matches
+better QEMU needs.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- configure   | 47 -----------------------------------------------
- meson.build | 39 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+), 47 deletions(-)
+ meson.build | 27 ++++++++++++---------------
+ 1 file changed, 12 insertions(+), 15 deletions(-)
 
-diff --git a/configure b/configure
-index c56ed53ee365..66315835a663 100755
---- a/configure
-+++ b/configure
-@@ -2452,41 +2452,6 @@ if compile_prog "" "" ; then
-     int128=yes
- fi
- 
--#########################################
--# See if 128-bit atomic operations are supported.
--
--atomic128=no
--if test "$int128" = "yes"; then
--  cat > $TMPC << EOF
--int main(void)
--{
--  unsigned __int128 x = 0, y = 0;
--  y = __atomic_load(&x, 0);
--  __atomic_store(&x, y, 0);
--  __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
--  return 0;
--}
--EOF
--  if compile_prog "" "" ; then
--    atomic128=yes
--  fi
--fi
--
--cmpxchg128=no
--if test "$int128" = yes && test "$atomic128" = no; then
--  cat > $TMPC << EOF
--int main(void)
--{
--  unsigned __int128 x = 0, y = 0;
--  __sync_val_compare_and_swap_16(&x, y, x);
--  return 0;
--}
--EOF
--  if compile_prog "" "" ; then
--    cmpxchg128=yes
--  fi
--fi
--
- ########################################
- # check if ccache is interfering with
- # semantic analysis of macros
-@@ -2930,18 +2895,6 @@ if test "$have_tsan" = "yes" && test "$have_tsan_iface_fiber" = "yes" ; then
-     echo "CONFIG_TSAN=y" >> $config_host_mak
- fi
- 
--if test "$int128" = "yes" ; then
--  echo "CONFIG_INT128=y" >> $config_host_mak
--fi
--
--if test "$atomic128" = "yes" ; then
--  echo "CONFIG_ATOMIC128=y" >> $config_host_mak
--fi
--
--if test "$cmpxchg128" = "yes" ; then
--  echo "CONFIG_CMPXCHG128=y" >> $config_host_mak
--fi
--
- if test "$rdma" = "yes" ; then
-   echo "CONFIG_RDMA=y" >> $config_host_mak
-   echo "RDMA_LIBS=$rdma_libs" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index 2ed1d97c97ab..a9ec3974bc67 100644
+index a9ec3974bc67..893eaa8ff971 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1824,6 +1824,45 @@ config_host_data.set('CONFIG_ATOMIC64', cc.links('''
-     return 0;
-   }'''))
+@@ -1808,21 +1808,23 @@ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
+         return printf("%zu", SIZE_MAX);
+     }''', args: ['-Werror']))
  
-+has_int128 = cc.links('''
-+  __int128_t a;
-+  __uint128_t b;
-+  int main (void) {
-+    a = a + b;
-+    b = a * b;
-+    a = a * a;
-+    return 0;
-+  }''')
+-# See if 64-bit atomic operations are supported.
+-# Note that without __atomic builtins, we can only
+-# assume atomic loads/stores max at pointer size.
+-config_host_data.set('CONFIG_ATOMIC64', cc.links('''
++atomic_test = '''
+   #include <stdint.h>
+   int main(void)
+   {
+-    uint64_t x = 0, y = 0;
++    @0@ x = 0, y = 0;
+     y = __atomic_load_n(&x, __ATOMIC_RELAXED);
+     __atomic_store_n(&x, y, __ATOMIC_RELAXED);
+     __atomic_compare_exchange_n(&x, &y, x, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
+     __atomic_exchange_n(&x, y, __ATOMIC_RELAXED);
+     __atomic_fetch_add(&x, y, __ATOMIC_RELAXED);
+     return 0;
+-  }'''))
++  }'''
 +
-+config_host_data.set('CONFIG_INT128', has_int128)
-+
-+if has_int128
-+  has_atomic128 = cc.links('''
-+    int main(void)
-+    {
-+      unsigned __int128 x = 0, y = 0;
-+      y = __atomic_load(&x, 0);
-+      __atomic_store(&x, y, 0);
-+      __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
-+      return 0;
-+    }''')
-+
-+  config_host_data.set('CONFIG_ATOMIC128', has_atomic128)
-+
-+  if not has_atomic128
-+    has_cmpxchg128 = cc.links('''
-+      int main(void)
-+      {
-+        unsigned __int128 x = 0, y = 0;
-+        __sync_val_compare_and_swap_16(&x, y, x);
-+        return 0;
-+      }
-+    ''')
-+
-+    config_host_data.set('CONFIG_CMPXCHG128', has_cmpxchg128)
-+  endif
-+endif
-+
- config_host_data.set('CONFIG_GETAUXVAL', cc.links(gnu_source_prefix + '''
-   #include <sys/auxv.h>
-   int main(void) {
++# See if 64-bit atomic operations are supported.
++# Note that without __atomic builtins, we can only
++# assume atomic loads/stores max at pointer size.
++config_host_data.set('CONFIG_ATOMIC64', cc.links(atomic_test.format('uint64_t')))
+ 
+ has_int128 = cc.links('''
+   __int128_t a;
+@@ -1837,15 +1839,10 @@ has_int128 = cc.links('''
+ config_host_data.set('CONFIG_INT128', has_int128)
+ 
+ if has_int128
+-  has_atomic128 = cc.links('''
+-    int main(void)
+-    {
+-      unsigned __int128 x = 0, y = 0;
+-      y = __atomic_load(&x, 0);
+-      __atomic_store(&x, y, 0);
+-      __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
+-      return 0;
+-    }''')
++  # "do we have 128-bit atomics which are handled inline and specifically not
++  # via libatomic". The reason we can't use libatomic is documented in the
++  # comment starting "GCC is a house divided" in include/qemu/atomic128.h.
++  has_atomic128 = cc.links(atomic_test.format('unsigned __int128'))
+ 
+   config_host_data.set('CONFIG_ATOMIC128', has_atomic128)
+ 
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
