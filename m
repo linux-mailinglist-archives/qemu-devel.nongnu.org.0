@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7DF4C6F2B
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 15:18:33 +0100 (CET)
-Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA25C4C6F26
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 15:18:05 +0100 (CET)
+Received: from localhost ([::1]:49910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOgrA-0001AP-Ep
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 09:18:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47804)
+	id 1nOgqi-0000EZ-U6
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 09:18:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nOZn6-0001Yc-2z; Mon, 28 Feb 2022 01:45:52 -0500
-Received: from mail-b.sr.ht ([173.195.146.151]:58192)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1nOaVH-00021I-Mh
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 02:31:31 -0500
+Received: from mail-b.sr.ht ([173.195.146.151]:58208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nOZn2-0003IL-Iv; Mon, 28 Feb 2022 01:45:51 -0500
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1nOaVF-0003pM-D3
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 02:31:31 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id A8B8311EEDB;
- Mon, 28 Feb 2022 06:45:45 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 8C9CC11EE9A;
+ Mon, 28 Feb 2022 07:31:26 +0000 (UTC)
 From: ~ubzeme <ubzeme@git.sr.ht>
-Date: Mon, 28 Feb 2022 06:45:45 +0000
-Subject: [PATCH qemu 0/7] Many improvements to HVF memory-related codes
-MIME-Version: 1.0
-Message-ID: <164603074537.20094.1732342403585879912-0@git.sr.ht>
+Date: Mon, 28 Feb 2022 15:22:41 +0800
+Subject: [PATCH qemu-web] move 'clear: both;' in #footer from
+ 'style-desktop.css' to 'style.css'
+Message-ID: <164603348631.2878.220047881399749656-0@git.sr.ht>
 X-Mailer: git.sr.ht
 To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
  helo=mail-b.sr.ht
 X-Spam_score_int: 2
@@ -52,53 +53,59 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: ~ubzeme <ubzeme@gmail.com>
-Cc: Yan-Jie Wang <ubzeme@gmail.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, qemu-arm@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I recently bought a Mac with M1 Pro chip, and use QEMU to setup a Linux
-virtual machine.  QEMU crashed when I started a VM with HVF accelerator
-enabled and with the device, bochs-display, added.
+From: Yan-Jie Wang <ubzeme@gmail.com>
 
-After digging into the source code, I found that dirty-tracking in HVF
-did not work properly, which made QEMU crashed. Therefore I made this
-series of patches to fix the problem.
+This fixes the mobile version of the website.
 
-Followings are the summary of the changes that these patches make:
- 1. Move HVF memory-related functions and codes into a new file
-    hvf-mem.c
- 2. Simplify the logics of adding and removing memory regions in HVF
-    memory listener
- 3. Fix HVF dirty-tracking logics for both Intel and Apple Silicon Macs
- 4. Use GTree and dynamically-allocated structures to store HVF memory
-    slots instead of fixed-size arrays. This makes memory slots more
-    scalable. It is inspired by the recent changes in Linux kernel
-    (v5.17) that use red-black trees instead of arrays to store
-    in-kernel KVM memory slots.
- 5. Add a lock to protect the data structures of HVF memory slots
+Resolves: https://gitlab.com/qemu-project/qemu-web/-/issues/5
+Signed-off-by: Yan-Jie Wang <ubzeme@gmail.com>
+---
+ assets/css/style-desktop.css | 9 ---------
+ assets/css/style.css         | 1 +
+ 2 files changed, 1 insertion(+), 9 deletions(-)
 
-Patches have been tested on Apple Silicon Macs and Intel Macs.
-
-Yan-Jie Wang (7):
-  hvf: move memory related functions from hvf-accel-ops.c to hvf-mem.c
-  hvf: simplify data structures and codes of memory related functions
-  hvf: use correct data types for addresses in memory related functions
-  hvf: rename struct hvf_slot to HVFSlot
-  hvf: fix memory dirty-tracking
-  hvf: add a lock for memory related functions
-  hvf: use GTree to store memory slots instead of fixed-size array
-
- accel/hvf/hvf-accel-ops.c | 221 +-------------------------
- accel/hvf/hvf-mem.c       | 318 ++++++++++++++++++++++++++++++++++++++
- accel/hvf/meson.build     |   1 +
- include/sysemu/hvf_int.h  |  18 +--
- target/arm/hvf/hvf.c      |   5 +
- target/i386/hvf/hvf.c     |  25 +--
- 6 files changed, 334 insertions(+), 254 deletions(-)
- create mode 100644 accel/hvf/hvf-mem.c
-
--- 
+diff --git a/assets/css/style-desktop.css b/assets/css/style-desktop.css
+index 90a154d..241d835 100644
+--- a/assets/css/style-desktop.css
++++ b/assets/css/style-desktop.css
+@@ -98,15 +98,6 @@
+ 		margin-top: -0.2em;
+ 	}
+=20
+-/***************************************************************************=
+******/
+-/* Footer                                                                   =
+     */
+-/***************************************************************************=
+******/
+-
+-	#footer
+-	{
+-		clear: both;
+-	}
+-
+ /***************************************************************************=
+******/
+ /* Featured                                                                 =
+     */
+ /***************************************************************************=
+******/
+diff --git a/assets/css/style.css b/assets/css/style.css
+index aede79a..779b111 100644
+--- a/assets/css/style.css
++++ b/assets/css/style.css
+@@ -504,6 +504,7 @@
+ 	#footer
+ 	{
+ 		position: relative;
++		clear: both;
+ 	}
+=20
+ 	#footer a
+--=20
 2.34.1
 
