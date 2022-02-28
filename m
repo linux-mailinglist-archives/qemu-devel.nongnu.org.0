@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105374C64B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:17:16 +0100 (CET)
-Received: from localhost ([::1]:46094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C594C64C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:22:48 +0100 (CET)
+Received: from localhost ([::1]:55698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nObDR-00032t-P4
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:17:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60512)
+	id 1nObIs-0001NS-RF
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:22:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nOb2C-0008IZ-S1
+ id 1nOb2B-0008IX-0Y
  for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:33 -0500
-Received: from mga14.intel.com ([192.55.52.115]:50059)
+Received: from mga14.intel.com ([192.55.52.115]:50056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nOb28-0005a2-5p
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:31 -0500
+ id 1nOb28-0005ZR-3I
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1646035528; x=1677571528;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hRD+yjUUUZjvfyx59uh+M/o6AEXqfzg9f9pmaQvETkw=;
- b=JBo1k/qGSwmuSZmqPyb5kHbjb0FEBNNnqSJSl+/V1wOxv1R7fwbQoCu+
- KwW9QF04xDuvGsnE0cDGnHUNcankGcr0t01q2SOjGcKvdje/e3fzE8i3H
- 61iW6BnlHlDnA+Y31lFVT/wDwRl4ZeLK4+NXmBb5RUqxDg42mdvl4JPnh
- HKIfrRhjW2oqvvT1D6GyzQeAZ0AuITA+BojgBdA0XCGSUFEsCZUPDbKjE
- KCKGeYuLIUcdn9hgFSH8e7YzrSF1UK5ihbVdhFfjfupIYxKB644fECGl7
- Fn5WwwO88GQ1rOvqPNCkHqQxfvzczP0HIgKOi8VczSR8hLW2FMFnRdlMv A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="253021643"
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="253021643"
+ bh=BAAvwZdr13iEb9qbADEFk6OPtOwkPxXkS9CUFa5jGlM=;
+ b=TpwkvJsTei1S5ECFF+6WNBJmHjI/gX7nTQktL/UpXWa6t7lS3uf7Dxi6
+ +2xrxFbMkJ0QJRqv//uDW+XN8tj/dwsUmsU6SUu3tZgxFTx6c/srSoNuh
+ CeEymhnzPOsFcF1CUBRsRwtVCuchcLQxMUP+qrfPz5zzFoVJmmmluXEky
+ ZGQNWncRHV9MR25SmmQJj6/QHoJW8MlWHj6xYK/bQ3i+zwzzX8zDOj2uq
+ lUyhCGN1kKzNkk2rqeYqNz2XgnFOhMIKLWnCCsCx6OY0jKnLnP5JBr81V
+ fXrDnPdy6hj6Jdbf1szXut3C5Ycwlwppuuq8H8tJ/M3QEkuHVY7Rl7EsT w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="253021645"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="253021645"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 00:05:17 -0800
+ 28 Feb 2022 00:05:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="778014585"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="778014590"
 Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
  by fmsmga006.fm.intel.com with ESMTP; 28 Feb 2022 00:05:17 -0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/8] x86: Add XFD faulting bit for state components
-Date: Mon, 28 Feb 2022 00:05:11 -0800
-Message-Id: <20220228080515.42357-5-yang.zhong@intel.com>
+Subject: [PATCH v3 5/8] x86: Add AMX CPUIDs enumeration
+Date: Mon, 28 Feb 2022 00:05:12 -0800
+Message-Id: <20220228080515.42357-6-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220228080515.42357-1-yang.zhong@intel.com>
 References: <20220228080515.42357-1-yang.zhong@intel.com>
@@ -79,47 +79,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jing Liu <jing2.liu@intel.com>
 
-Intel introduces XFD faulting mechanism for extended
-XSAVE features to dynamically enable the features in
-runtime. If CPUID (EAX=0Dh, ECX=n, n>1).ECX[2] is set
-as 1, it indicates support for XFD faulting of this
-state component.
+Add AMX primary feature bits XFD and AMX_TILE to
+enumerate the CPU's AMX capability. Meanwhile, add
+AMX TILE and TMUL CPUID leaf and subleaves which
+exist when AMX TILE is present to provide the maximum
+capability of TILE and TMUL.
 
 Signed-off-by: Jing Liu <jing2.liu@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 ---
- target/i386/cpu.h | 2 ++
- target/i386/cpu.c | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ target/i386/cpu.c     | 55 ++++++++++++++++++++++++++++++++++++++++---
+ target/i386/kvm/kvm.c |  4 +++-
+ 2 files changed, 55 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 9630f4712a..925d0129e2 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -557,8 +557,10 @@ typedef enum X86Seg {
- #define XSTATE_DYNAMIC_MASK             (XSTATE_XTILE_DATA_MASK)
- 
- #define ESA_FEATURE_ALIGN64_BIT         1
-+#define ESA_FEATURE_XFD_BIT             2
- 
- #define ESA_FEATURE_ALIGN64_MASK        (1U << ESA_FEATURE_ALIGN64_BIT)
-+#define ESA_FEATURE_XFD_MASK            (1U << ESA_FEATURE_XFD_BIT)
- 
- 
- /* CPUID feature words */
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 505ee289bc..79e24bb23f 100644
+index 79e24bb23f..351a1e4f2a 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5496,7 +5496,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                 const ExtSaveArea *esa = &x86_ext_save_areas[count];
-                 *eax = esa->size;
-                 *ebx = esa->offset;
--                *ecx = esa->ecx & ESA_FEATURE_ALIGN64_MASK;
-+                *ecx = esa->ecx &
-+                       (ESA_FEATURE_ALIGN64_MASK | ESA_FEATURE_XFD_MASK);
-             }
+@@ -575,6 +575,18 @@ static CPUCacheInfo legacy_l3_cache = {
+ #define INTEL_PT_CYCLE_BITMAP    0x1fff         /* Support 0,2^(0~11) */
+ #define INTEL_PT_PSB_BITMAP      (0x003f << 16) /* Support 2K,4K,8K,16K,32K,64K */
+ 
++/* CPUID Leaf 0x1D constants: */
++#define INTEL_AMX_TILE_MAX_SUBLEAF     0x1
++#define INTEL_AMX_TOTAL_TILE_BYTES     0x2000
++#define INTEL_AMX_BYTES_PER_TILE       0x400
++#define INTEL_AMX_BYTES_PER_ROW        0x40
++#define INTEL_AMX_TILE_MAX_NAMES       0x8
++#define INTEL_AMX_TILE_MAX_ROWS        0x10
++
++/* CPUID Leaf 0x1E constants: */
++#define INTEL_AMX_TMUL_MAX_K           0x10
++#define INTEL_AMX_TMUL_MAX_N           0x40
++
+ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+                               uint32_t vendor2, uint32_t vendor3)
+ {
+@@ -844,8 +856,8 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "avx512-vp2intersect", NULL, "md-clear", NULL,
+             NULL, NULL, "serialize", NULL,
+             "tsx-ldtrk", NULL, NULL /* pconfig */, NULL,
+-            NULL, NULL, NULL, "avx512-fp16",
+-            NULL, NULL, "spec-ctrl", "stibp",
++            NULL, NULL, "amx-bf16", "avx512-fp16",
++            "amx-tile", "amx-int8", "spec-ctrl", "stibp",
+             NULL, "arch-capabilities", "core-capability", "ssbd",
+         },
+         .cpuid = {
+@@ -910,7 +922,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .type = CPUID_FEATURE_WORD,
+         .feat_names = {
+             "xsaveopt", "xsavec", "xgetbv1", "xsaves",
+-            NULL, NULL, NULL, NULL,
++            "xfd", NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+@@ -5586,6 +5598,43 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
          }
          break;
+     }
++    case 0x1D: {
++        /* AMX TILE */
++        *eax = 0;
++        *ebx = 0;
++        *ecx = 0;
++        *edx = 0;
++        if (!(env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_AMX_TILE)) {
++            break;
++        }
++
++        if (count == 0) {
++            /* Highest numbered palette subleaf */
++            *eax = INTEL_AMX_TILE_MAX_SUBLEAF;
++        } else if (count == 1) {
++            *eax = INTEL_AMX_TOTAL_TILE_BYTES |
++                   (INTEL_AMX_BYTES_PER_TILE << 16);
++            *ebx = INTEL_AMX_BYTES_PER_ROW | (INTEL_AMX_TILE_MAX_NAMES << 16);
++            *ecx = INTEL_AMX_TILE_MAX_ROWS;
++        }
++        break;
++    }
++    case 0x1E: {
++        /* AMX TMUL */
++        *eax = 0;
++        *ebx = 0;
++        *ecx = 0;
++        *edx = 0;
++        if (!(env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_AMX_TILE)) {
++            break;
++        }
++
++        if (count == 0) {
++            /* Highest numbered palette subleaf */
++            *ebx = INTEL_AMX_TMUL_MAX_K | (INTEL_AMX_TMUL_MAX_N << 8);
++        }
++        break;
++    }
+     case 0x40000000:
+         /*
+          * CPUID code in kvm_arch_init_vcpu() ignores stuff
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 742f0eac4a..b786d6da96 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -1780,7 +1780,9 @@ int kvm_arch_init_vcpu(CPUState *cs)
+                 c = &cpuid_data.entries[cpuid_i++];
+             }
+             break;
+-        case 0x14: {
++        case 0x14:
++        case 0x1d:
++        case 0x1e: {
+             uint32_t times;
+ 
+             c->function = i;
 
