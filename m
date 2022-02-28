@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0D34C71E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 17:46:08 +0100 (CET)
-Received: from localhost ([::1]:43278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D924C71EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 17:48:50 +0100 (CET)
+Received: from localhost ([::1]:48682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOj9y-0002vn-LG
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 11:46:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55072)
+	id 1nOjCb-0006gJ-M2
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 11:48:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nOj82-0002EF-7c
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 11:44:06 -0500
-Received: from [2a00:1450:4864:20::62d] (port=33729
- helo=mail-ej1-x62d.google.com)
+ id 1nOjAB-0004WB-Vj
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 11:46:20 -0500
+Received: from [2a00:1450:4864:20::630] (port=44696
+ helo=mail-ej1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nOj80-0005G0-JN
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 11:44:05 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id vz16so26098155ejb.0
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 08:44:04 -0800 (PST)
+ id 1nOjAA-0005p4-Im
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 11:46:19 -0500
+Received: by mail-ej1-x630.google.com with SMTP id p14so25968700ejf.11
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 08:46:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=IsqpI/8o3x3RcYaFpVbHpVbyYeLvHnsuZnqh4I0Ms5Q=;
- b=a+cVYZGvTSMpZtyvMvvnfruyCfyi2K1JjZhBMLbUvsi6N7JEnO4mUc5w/8PG2051wQ
- kTLrKSw7/9HICnu2/r4WU+pICE/z9G32v5Tp4qgVzmLwpVl0pW5d1h/6D8tRx2kOyhpF
- QyTv+XNPa70V/34eyajYM2IV6B7S2CK4asj2I7g47iyZkvMo5g7ArLi0+WpQRWCrpArw
- 19Evw8gBkSVNd0GF59xMcMhQHhxmvOrdWVNLz/baNOSiuPA8Fimfy8kcSAb3nemSciDg
- fTgbMSQIfD0eSy/Wb8D3Qsqn4mS/4tgz0R+bO3uGnECGkp+mihfxgBJrYBhmz6rMYhOj
- +aSA==
+ bh=7qbkXR+cUfAjbilG4AhLazVNFMVJzoXKO8CDF3QbXFM=;
+ b=p8c91yfZahKomaovyFLhJd+jPYOPl2b696GWSL3L8WJ0LjubqM27Y80aZ8kRQDaKRa
+ TZRPVSsGQFOHk8PpuS1K9hRkipj9YqA30g0SbuJ7dizkUad3ckLPI7Gp1mFZtwgXrQNv
+ wLXde6ppvBt3kyAZn9ETR4JVkV27jDlCrThUUuGPE3YzK/1cySLrN6+veQzw9tmqgPa9
+ RzI8QEXVqjY8/yctTaGRH10wIvtB+XKlXB2RbzS25nRLo2OfHBz1llfEtjlF8yCosUcr
+ YvSZzenRZKxp32VXVtLbiIgRTdjko62rgdFDjldnZKjUnTQxANJPUu7ZEt+vcCKgvP9l
+ y0Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=IsqpI/8o3x3RcYaFpVbHpVbyYeLvHnsuZnqh4I0Ms5Q=;
- b=WNHPXYSJTiqgcPN4XF63JN26RdR9XAeFgWsIakLFeuDFG/j7ovEOVp96OFkX21mgf0
- 0EF02GnVlMwY7zb8IQ5A+ELqNooLpHG/7z3IjrgqIuu2big61hxn1nyrGAHLBSIHwUuS
- M15tUDWjLx9oOUBwjraO8LN5xenFn4sTU4IaNX0HwIJLmCLsLqrtrUSmdQIs/95ZUnSi
- gbqkwP+ZAFD81Pq72aJF0j39JGV8b+rLPD8iQxHY/B0pHN5hJ4XbEJL+6TjPxNtHLAtF
- TIB8WYppa3z45UvmUqq+J/NmSfJ2o1NqOGv3a1AuQpK/w3FrUABBwZ8o3WEKFLvk27tS
- utMA==
-X-Gm-Message-State: AOAM533JvsJDn9h8NK9yQWiKQ4aoYz7XREqYOpHQU3sYb6ku2auF3wh9
- PNDijkm8PkjugRqUPQF82qyHXg==
-X-Google-Smtp-Source: ABdhPJy2GUBxr7dOJcOsfd8NSMyOd4Pqm5Pm+npT0gDQBIisBaV6Oeh+ulTjPGe66rGX98AV8aeTbg==
-X-Received: by 2002:a17:906:9be0:b0:6d6:da70:df7 with SMTP id
- de32-20020a1709069be000b006d6da700df7mr1361369ejc.580.1646066642735; 
- Mon, 28 Feb 2022 08:44:02 -0800 (PST)
+ bh=7qbkXR+cUfAjbilG4AhLazVNFMVJzoXKO8CDF3QbXFM=;
+ b=ENKSR/iJyNUf3fTeJwbDvmJADHtGFU4IWvU0HWVmo1v1NJrXT9l2V59RIFB3uV8xPT
+ Vmnm+46y+EePTNQBjSNiWnQwLVLPuzZka7+qP5Mt3i2TAKh02+VkrKRRKafd55MSvt8C
+ GrXxgaugfBQErVfkOQlQAaA50WHnI6fhtnA84avx6gbmVtaBkKrUvKe/Q3etxnJeR3VB
+ MxsReOcmiCEejPdW9l/AsaYLn0Te4iP3Ho3Odhetc2/8nTe62KHdMD4tDqtpwceeI516
+ ZIj0unQtGt2T7kk8F2TGhCj+ZXEU2+xE1lSlQffK+RciyC5tULXpgobSnnXcZDmIoyCi
+ 3Wrw==
+X-Gm-Message-State: AOAM533JOp6s80lyQ1SfrLKpFxXlsqanbkK8Y3kFWC/ea1SUX+1HAkpe
+ S3EfVqK7oi2Bh6EOC10P0cjhhQ==
+X-Google-Smtp-Source: ABdhPJyST89K+DnLYPeJctrtG6SoGRIsj191ia+PK7mpDDMMUYbgGTCcWBaFonnbjT3GyCrEP/xRZQ==
+X-Received: by 2002:a17:907:3f95:b0:6d3:feb2:ef88 with SMTP id
+ hr21-20020a1709073f9500b006d3feb2ef88mr15756723ejc.480.1646066777133; 
+ Mon, 28 Feb 2022 08:46:17 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- s5-20020a170906284500b006cc551d6cabsm4513860ejc.63.2022.02.28.08.44.01
+ ee21-20020a056402291500b00410d4261313sm6150000edb.24.2022.02.28.08.46.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 08:44:01 -0800 (PST)
+ Mon, 28 Feb 2022 08:46:16 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 36CD51FFB7;
- Mon, 28 Feb 2022 16:44:01 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 9C3291FFB7;
+ Mon, 28 Feb 2022 16:46:15 +0000 (GMT)
 References: <20220225172021.3493923-1-alex.bennee@linaro.org>
- <20220225172021.3493923-14-alex.bennee@linaro.org>
- <61d197db-c44e-3354-f1e5-bea48019bb1e@linaro.org>
- <87zgmbm6os.fsf@linaro.org>
+ <20220225172021.3493923-4-alex.bennee@linaro.org>
+ <CAFEAcA_xh58hX-bXPOQzkjUEuWsfXYc9K27HRCQ+tH3+Xt85PA@mail.gmail.com>
 User-agent: mu4e 1.7.9; emacs 28.0.91
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 13/18] tests/tcg: add vectorised sha512 versions
-Date: Mon, 28 Feb 2022 16:43:28 +0000
-In-reply-to: <87zgmbm6os.fsf@linaro.org>
-Message-ID: <87ilszlz5a.fsf@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 03/18] tests/lcitool: update to latest version
+Date: Mon, 28 Feb 2022 16:44:19 +0000
+In-reply-to: <CAFEAcA_xh58hX-bXPOQzkjUEuWsfXYc9K27HRCQ+tH3+Xt85PA@mail.gmail.com>
+Message-ID: <87ee3nlz1k.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,54 +94,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Beraldo Leal <bleal@redhat.com>, sw@weilnetz.de, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ f4bug@amsat.org, qemu-arm@nongnu.org, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> Richard Henderson <richard.henderson@linaro.org> writes:
->
->> On 2/25/22 07:20, Alex Benn=C3=A9e wrote:
->>> +++ b/tests/tcg/i386/Makefile.target
->>> @@ -71,3 +71,9 @@ TESTS=3D$(MULTIARCH_TESTS) $(I386_TESTS)
->>>     # On i386 and x86_64 Linux only supports 4k pages (large pages
->>> are a different hack)
->>>   EXTRA_RUNS+=3Drun-test-mmap-4096
->>> +
->>> +sha512-sse: CFLAGS=3D-msse4.1 -O3
->>> +sha512-sse: sha512.c
->>> +	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
->>> +
->>> +TESTS+=3Dsha512-sse
+> On Fri, 25 Feb 2022 at 17:36, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >>
->> The default cpu, qemu32, only implements sse3, not sse4.1, so we get a
->> guest SIGILL.  We can execute this with -cpu max, or we could limit
->> the vectorization.
->
-> OK I'll add:
->
-> run-sha512-vector: QEMU_OPTS+=3D-cpu max
->
-> TESTS+=3Dsha512-sse
-
-Or you know something that will actually work :-/
-
-  sha512-sse: CFLAGS=3D-msse4.1 -O3
-  sha512-sse: sha512.c
-          $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-
-  run-sha512-sse: QEMU_OPTS+=3D-cpu max
-  run-plugin-sha512-sse-with-%: QEMU_OPTS+=3D-cpu max
-
-  TESTS+=3Dsha512-sse
-
->
+>> We will need an update shortly for some new images.
 >>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Message-Id: <20220211160309.335014-4-alex.bennee@linaro.org>
+>> ---
+>>  tests/docker/dockerfiles/opensuse-leap.docker | 3 +--
+>>  tests/docker/dockerfiles/ubuntu1804.docker    | 3 +--
+>>  tests/docker/dockerfiles/ubuntu2004.docker    | 3 +--
+>>  tests/lcitool/libvirt-ci                      | 2 +-
+>>  4 files changed, 4 insertions(+), 7 deletions(-)
 >>
->> r~
+>> diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docke=
+r/dockerfiles/opensuse-leap.docker
+>> index 1b78d8369a..e1ad9434a3 100644
+>> --- a/tests/docker/dockerfiles/opensuse-leap.docker
+>> +++ b/tests/docker/dockerfiles/opensuse-leap.docker
+>> @@ -127,8 +127,7 @@ RUN zypper update -y && \
+>>      ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
+>>      ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+>>
+>> -RUN pip3 install \
+>> -         meson=3D=3D0.56.0
+>> +RUN pip3 install meson=3D=3D0.56.0
+>
+> Why are these formatting changes to the dockerfiles in this commit ?
 
+The latest lcitool I assume didn't see the need for the continuation
+line. I ran:
+
+  make lcitool-refresh
+
+when I updated.
 
 --=20
 Alex Benn=C3=A9e
