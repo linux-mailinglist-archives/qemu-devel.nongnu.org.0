@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A584E4C7864
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 19:58:23 +0100 (CET)
-Received: from localhost ([::1]:37390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2BC4C7870
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 20:02:19 +0100 (CET)
+Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOlDy-0001I1-Po
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 13:58:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59584)
+	id 1nOlHm-0003cO-3f
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 14:02:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOlCw-0000On-Fr
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 13:57:18 -0500
-Received: from [2607:f8b0:4864:20::631] (port=38646
- helo=mail-pl1-x631.google.com)
+ id 1nOlGh-0002gD-Un
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 14:01:11 -0500
+Received: from [2607:f8b0:4864:20::62c] (port=42575
+ helo=mail-pl1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOlCu-0004rU-Vu
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 13:57:18 -0500
-Received: by mail-pl1-x631.google.com with SMTP id h17so5973241plc.5
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 10:57:16 -0800 (PST)
+ id 1nOlGg-0005pE-Dc
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 14:01:11 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id p17so11543010plo.9
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 11:01:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=TyWSMpcvhDtgeem0JinnQJBidkXWX12ywBTQFruibz8=;
- b=A0VYOqtizwiGFx3sNK91IPfVgkRIf5HDkFEj5BmXqhkCwvRCJn9zhqpl7YcxiLJvuh
- OR9PG3DM7o5U/pLufVn7y/PyUoDpnsJZVdUEXVSo8wR+sszvx7qAhSt5DvCHiZUH6hss
- As3zBMrck7BFuWchwv47s58VL4EyVGl0LTq5rqsvrQAxVuogU7E3RlYokFbnz8GgmvMI
- zHSV3RvFrMDvZWnM1yVP5reb+OtL57tf1rRn62Fo2d6bR2zeobLKDg2ti+9Jn1pM5PoY
- 5wHkL+JdDmckUnWEFCPsSec8rFJ8zQ/F2zDFgnIsRRASCQ+5h3aM+tEkN2udqz7Anujc
- SlMg==
+ bh=2zzHocgKy1f/ROtjSScnz+V3WB0xI99V5VDrcNXoEDw=;
+ b=o0Hjvr9Z2jF4sMIN7NjEP+NAE2KuuaK/GETo6n1mzG1I660XMhiBOWy3uCWdy9+LAd
+ zAzJXrcxoV91vkpnexkNuhPdzl8ZMa9Au2RwNuc55nbdpnDXB5xUUkunfYltctVvrPQU
+ zIRE0lQo/zwi+i908U90AefqJQdrfXdh3zLeqqpS6PJGppdhpJpISw5lc8Jb/kpLJWSE
+ 2tuAwxskpghrG0huSX3mTU64fGeYS2M20oH9cdeyJr3JRqdBzB0ybZwfg8F3jLd46T04
+ uqkifTySRsliG2qimAVkbnsRo9LsMkWQmbkOkM2f+Rppx+b10glhN1whG+Ul3Sw/ZkBl
+ beDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=TyWSMpcvhDtgeem0JinnQJBidkXWX12ywBTQFruibz8=;
- b=NtC+wrcHdYbYnB7b3kZJ4UA9vAOA4dNXKVq6Zi4xqPZvVm+4LCjeSwf2+bdt0MZmEo
- PJPqGd3ZJncgGHdEWFfXyE87cA+2ZiRAm0injrHGpHIF+dZg2MYeUxLeSi5Om8tTxg18
- RNxj/cwehqSJpWmiAOnwVWpP7vJI+9izP4utgNIHM+JWyR1lsZqzi0rdr8nsAY4ThK4N
- r5vjeb2Kn1GoXM8MFSvWu1oEoCCAW/ugeDjYdTsGjRtGsCCYuaGJZQiXunjyijpTre7L
- SwXEFWjFg7TLETsHV70McyZnCDn75FMHg49GnA3bAMaMqoCJV7NsBLWkHgBSXZrXm/f+
- UBPw==
-X-Gm-Message-State: AOAM530CGRjEJ/wWUTVrF3rbDtnKckADCiCaIrI7ceVPfX6ivSTSHXVS
- aNoR39N+XmZHfHvPAhgFSOnvdQ==
-X-Google-Smtp-Source: ABdhPJx+Cmd6p7w6AmFMiRftaTun7QfwrUY7va66mYyOSDAJvFU/kSKcTYf9xhjGoNkEg5H0WbcV0w==
-X-Received: by 2002:a17:902:e289:b0:14f:ffd3:29bc with SMTP id
- o9-20020a170902e28900b0014fffd329bcmr22214568plc.35.1646074634228; 
- Mon, 28 Feb 2022 10:57:14 -0800 (PST)
+ bh=2zzHocgKy1f/ROtjSScnz+V3WB0xI99V5VDrcNXoEDw=;
+ b=GsXHlxD2aDI7zi15RAsygTmpLqNhsCcjW5R4qLNkXvebxdXsTTlRWW8x8QyMDUw1sq
+ T6D+GGNOt5DIGWxC+CC9bQayhgXXi1PqG6ANfOwm3Hs3cjdg6QZxJH/4R4HX0FxcANXv
+ C4R+1TMzrWhBjrsjxZH+7yo0uwdKX/yqAU/qCXaDj4velLLvX21q8OaV9PNYKjWVSnG7
+ F4NKDB2eqpCRew7JfoyL8Ug18xXIjpxeGP/1hkGhocq+Joytqey2U7Y8KbqSze0/A0Jx
+ LY6Cwls1bilNF7V/WNb/CUTfsoCnHuAZXF7egmteV2YevRxTV8xqstYgNRDXaDtKXPsl
+ Agug==
+X-Gm-Message-State: AOAM530YhXFfef4VPl5GQGsMeM6KjKhfDM8SqRZMM+YFegcsp8pr4GUp
+ yurZprKLjgXa3pBcpmGAdcTW6g==
+X-Google-Smtp-Source: ABdhPJyWc35aqCQw4rJvBMVOUqAr/Kca8wN//WzGae0uROET8uUO0jyLY9nfdFrPmCSYQj3UeimtYw==
+X-Received: by 2002:a17:902:da88:b0:150:f47:24ac with SMTP id
+ j8-20020a170902da8800b001500f4724acmr21925178plx.73.1646074868655; 
+ Mon, 28 Feb 2022 11:01:08 -0800 (PST)
 Received: from ?IPV6:2603:800c:1201:c600:483f:d486:138f:7868?
  (2603-800c-1201-c600-483f-d486-138f-7868.res6.spectrum.com.
  [2603:800c:1201:c600:483f:d486:138f:7868])
  by smtp.gmail.com with ESMTPSA id
- np11-20020a17090b4c4b00b001bd4aa67bafsm502948pjb.3.2022.02.28.10.57.12
+ o3-20020a056a0015c300b004e17afd9af9sm14976706pfu.92.2022.02.28.11.01.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 10:57:13 -0800 (PST)
-Message-ID: <5ad38d4c-2f5a-49fb-f1a2-c4993e19e38d@linaro.org>
-Date: Mon, 28 Feb 2022 08:57:10 -1000
+ Mon, 28 Feb 2022 11:01:08 -0800 (PST)
+Message-ID: <173dac88-5972-8f96-0363-e2268f0a7815@linaro.org>
+Date: Mon, 28 Feb 2022 09:01:05 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v7 06/14] target/riscv: rvk: add support for zknd/zkne
- extension in RV32
+Subject: Re: [PATCH v7 07/14] target/riscv: rvk: add support for zkne/zknd
+ extension in RV64
 Content-Language: en-US
 To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
  alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220228144810.7284-1-liweiwei@iscas.ac.cn>
- <20220228144810.7284-7-liweiwei@iscas.ac.cn>
+ <20220228144810.7284-8-liweiwei@iscas.ac.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220228144810.7284-7-liweiwei@iscas.ac.cn>
+In-Reply-To: <20220228144810.7284-8-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -104,16 +104,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/28/22 04:48, Weiwei Li wrote:
-> +static bool gen_aes32_sm4(DisasContext *ctx, arg_k_aes *a,
-> +                          void (*func)(TCGv, TCGv, TCGv, TCGv))
-> +{
-> +    TCGv shamt = tcg_const_tl(a->shamt);
+>   - add aes64dsm, aes64ds, aes64im, aes64es, aes64esm, aes64ks2, aes64ks1i instructions
+> 
+> Co-authored-by: Ruibo Lu<luruibo2000@163.com>
+> Co-authored-by: Zewen Ye<lustrew@foxmail.com>
+> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
+> ---
+>   target/riscv/crypto_helper.c            | 169 ++++++++++++++++++++++++
+>   target/riscv/helper.h                   |   8 ++
+>   target/riscv/insn32.decode              |  12 ++
+>   target/riscv/insn_trans/trans_rvk.c.inc |  47 +++++++
+>   4 files changed, 236 insertions(+)
 
-tcg_constant_tl
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
