@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B544C7AD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 21:46:09 +0100 (CET)
-Received: from localhost ([::1]:33272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D28504C7B29
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 21:58:03 +0100 (CET)
+Received: from localhost ([::1]:39142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOmuG-0002e2-By
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 15:46:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55102)
+	id 1nOn5m-0007i8-DB
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 15:58:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOmss-0001wz-O9
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:44:42 -0500
-Received: from [2607:f8b0:4864:20::536] (port=42604
- helo=mail-pg1-x536.google.com)
+ id 1nOn4J-0006tw-58
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:56:31 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=43670
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOmsr-0008Kj-AD
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:44:42 -0500
-Received: by mail-pg1-x536.google.com with SMTP id o8so12562208pgf.9
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 12:44:40 -0800 (PST)
+ id 1nOn4H-0004L8-He
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:56:30 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ iq13-20020a17090afb4d00b001bc4437df2cso293288pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 12:56:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=cbMoq/hIlom4rUY7aLSWKJvj0icBfNpm0MvfWse71HU=;
- b=ZX0zAEqfOLFspggJFIa6f4eycrjVIv7fnJUXjdKCGEnk0oE1n5Aoncfmac0ZG5UnWF
- 0UzojKRqiZC2pqj3JeDfTT0v0bqF4qZpbV0PX0x9xK7ZA7GpKhQdcJN3C+PWnVnOtRxL
- aZ+uQfgpFht0NVDPUJq5DwAcSelE/ukjTStl0XafeEOKyTmfPd93nTCY6ftcU97xR/n1
- Q5rFFL2JKZ69Pck2QvN6k3FdOx4Y3iT9wHHQESBR9oyaL60e/hspz9+QSL+81PpS41vH
- ikNVkHNoGS/SkbyAYArpjYiduVO7X5AvPnf7pH7WoALSlnjaCNjGkzG9J1UTlDRKLlCP
- zTng==
+ bh=hq4i24p4/G5A3MmY4uXgHldckPE3a+qNT4jJs4UR96c=;
+ b=Wm8AW9HG0FH9+C/TU8KpcUUhOwWQFk16gwhiDvR2sqASIA7TE2kEi+UxiiOIjamh1d
+ Z1r9+TG5ERA1938uJYoN1hrQteLJHo6kRD9Yc3Npg+BKQt/wGxMX4WNQbHRRXnhC9yiR
+ K39C/sqVvK72FV0kWcYOCHr7Q4dUNRePSG9CQCw6GxJv/HpHSDd3tyNm6Uxeps6sq+bw
+ bAwVDH3gDil7a3pYSm9cIhFwx6waLKCbRhd5Ji4iN11sWnrJrYywhW+gocThZZIdrW7s
+ 0kq2c92AFFp0UzBJ4PN1lfG7o79QGpMnwp3WnnGA5c7s74NYCJxryQSTNH+3N3S2r3Y7
+ ULfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cbMoq/hIlom4rUY7aLSWKJvj0icBfNpm0MvfWse71HU=;
- b=HhQUpFucXn7B07lLUE6etm/SM3IHNS14ATMEtz4PDST55HYAdnPcIC/uVbIZBxx/6u
- CdKaaENZ2Rjbj6KtH6TMNYFvr9av1RCGBJGquEusz8LxaZV4ykx+3xhgFBd+TLzgnUt0
- O12wXSJ5GlVr5rNc0z3F1q7RHCJNk6aorp9/BXvz0r7fNkiMdHujUTCD71+tOJ3iZPs/
- oN93peYdO7XsQyZY6xUl1cx02JuJfhgf09ow/u53TFG9PIlnVmvcmcxGa1WnmEdkeveU
- 3aagjhi8fMzkPLvjK8CgZhVrrWAdRDfBYdDDst/7j4Pl+oyjYcyNhljzqyYO6nbcx1Op
- cFWA==
-X-Gm-Message-State: AOAM533VLjMsM6SSb6oybo4mHSdYMulVaLZvKJSyVH48hTK4/7O7ddkn
- 3McaPuGmEBDrgf8uPe8eXX6vNg==
-X-Google-Smtp-Source: ABdhPJxN6gy22azBc7pitfB2ToehSJfo4Jl3enkkgdBhpaKSsvRZltsKuSsyYj0yetfQCILyLUMOYw==
-X-Received: by 2002:a63:be0e:0:b0:363:e0be:613f with SMTP id
- l14-20020a63be0e000000b00363e0be613fmr18630811pgf.448.1646081079879; 
- Mon, 28 Feb 2022 12:44:39 -0800 (PST)
+ bh=hq4i24p4/G5A3MmY4uXgHldckPE3a+qNT4jJs4UR96c=;
+ b=ZbgTK0r6rieiMLVHNDv2ZydBj9XDfiT2fwbbb+Wo9Y/52IiK5F/lgFlYbxbgEncdhs
+ 1o5xorADSHYcttmchT8iMPgG3g3mL1twJ6buEOOZxT3JCSpTbJmWqlveNVU3ymg48egq
+ ljGYy+nW1iuUFdayOWTztO2IsAnXVx3AckHcGmODL20uCMriLqLkMpQCpgqRBVhb3Oih
+ qtOmmKQVSqXQK8j/x2m/q6U+7+pWR+lMpIrzME/Lg9BcKdN8gTW20thCASK+HbsLXK8A
+ sUoXxShxoquCzqJXEGVKHYbplEiv05blhFN2R4rri4SyXZMsOr6GPninEzpnPqqiiuSJ
+ KTnQ==
+X-Gm-Message-State: AOAM530v6GzUy8iUNIQl57yk/0oQB+nQmferDX69JpyeeQAEN2eRZPBb
+ MESeUGFQCgM+arSpD1DVOSeiBA==
+X-Google-Smtp-Source: ABdhPJxXqIOheBGFXKXapw6O1j0hepIP2DtwGT0ZVuQSaNR9AO++diun2gj24HjSaRsbpysPQb4B1Q==
+X-Received: by 2002:a17:902:7d83:b0:14e:f2f4:743 with SMTP id
+ a3-20020a1709027d8300b0014ef2f40743mr22229751plm.107.1646081787776; 
+ Mon, 28 Feb 2022 12:56:27 -0800 (PST)
 Received: from ?IPV6:2603:800c:1201:c600:483f:d486:138f:7868?
  (2603-800c-1201-c600-483f-d486-138f-7868.res6.spectrum.com.
  [2603:800c:1201:c600:483f:d486:138f:7868])
  by smtp.gmail.com with ESMTPSA id
- u16-20020a056a00125000b004e1e36d4428sm14020623pfi.104.2022.02.28.12.44.38
+ 6-20020a630006000000b0036d11540db8sm11238125pga.76.2022.02.28.12.56.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 12:44:39 -0800 (PST)
-Message-ID: <9b40e3ff-a7d9-b738-336e-ac552dd40243@linaro.org>
-Date: Mon, 28 Feb 2022 10:44:36 -1000
+ Mon, 28 Feb 2022 12:56:27 -0800 (PST)
+Message-ID: <5e5c7f40-3b58-4ce1-146b-63f925a7df2f@linaro.org>
+Date: Mon, 28 Feb 2022 10:56:24 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [RFC PATCH] tcg/optimize: only read val after const check
+Subject: Re: [PATCH v2 13/18] tests/tcg: add vectorised sha512 versions
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-References: <20220209112142.3367525-1-alex.bennee@linaro.org>
+References: <20220225172021.3493923-1-alex.bennee@linaro.org>
+ <20220225172021.3493923-14-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220209112142.3367525-1-alex.bennee@linaro.org>
+In-Reply-To: <20220225172021.3493923-14-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,49 +100,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/9/22 01:21, Alex Bennée wrote:
-> valgrind pointed out that arg_info()->val can be undefined which will
-> be the case if the arguments are not constant. The ordering of the
-> checks will have ensured we never relied on an undefined value but for
-> the sake of completeness re-order the code to be clear.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tcg/optimize.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+On 2/25/22 07:20, Alex Bennée wrote:
+> +# TCG does not yet support all SSE (SIGILL on pshufb)
+> +# sha512-sse: CFLAGS=-march=core2 -O3
+> +# sha512-sse: sha512.c
+> +# 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+> +
 
-Thanks for this.  Just missed today's pull, but applied, finally.
+Given
+
+ops_sse.h:void glue(helper_pshufb, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+ops_sse_header.h:DEF_HELPER_3(glue(pshufb, SUFFIX), void, env, Reg, Reg)
+tcg/translate.c:    [0x00] = SSSE3_OP(pshufb),
+
+I'm inclined to think -cpu max might work here as well.  Yep:
+
+static const X86CPUDefinition builtin_x86_defs[] = {
+     {
+         .name = "qemu64",
+...
+         .features[FEAT_1_ECX] =
+             CPUID_EXT_SSE3 | CPUID_EXT_CX16,
+
+does not include SSE4.
 
 
 r~
-
-> 
-> diff --git a/tcg/optimize.c b/tcg/optimize.c
-> index e573000951..06213fd434 100644
-> --- a/tcg/optimize.c
-> +++ b/tcg/optimize.c
-> @@ -552,10 +552,10 @@ static bool do_constant_folding_cond_eq(TCGCond c)
->   static int do_constant_folding_cond(TCGType type, TCGArg x,
->                                       TCGArg y, TCGCond c)
->   {
-> -    uint64_t xv = arg_info(x)->val;
-> -    uint64_t yv = arg_info(y)->val;
-> -
->       if (arg_is_const(x) && arg_is_const(y)) {
-> +        uint64_t xv = arg_info(x)->val;
-> +        uint64_t yv = arg_info(y)->val;
-> +
->           switch (type) {
->           case TCG_TYPE_I32:
->               return do_constant_folding_cond_32(xv, yv, c);
-> @@ -567,7 +567,7 @@ static int do_constant_folding_cond(TCGType type, TCGArg x,
->           }
->       } else if (args_are_copies(x, y)) {
->           return do_constant_folding_cond_eq(c);
-> -    } else if (arg_is_const(y) && yv == 0) {
-> +    } else if (arg_is_const(y) && arg_info(y)->val == 0) {
->           switch (c) {
->           case TCG_COND_LTU:
->               return 0;
-
 
