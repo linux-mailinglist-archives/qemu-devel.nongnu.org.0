@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5E54C6A95
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 12:34:56 +0100 (CET)
-Received: from localhost ([::1]:52260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35AF74C6A84
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 12:31:06 +0100 (CET)
+Received: from localhost ([::1]:43662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOeIq-0004VA-1U
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 06:34:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54862)
+	id 1nOeF1-0006wc-Vu
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 06:31:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nOeAe-00046u-5N
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 06:26:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28322)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nOeAc-00078Z-0g
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nOeAc-000469-B6
  for qemu-devel@nongnu.org; Mon, 28 Feb 2022 06:26:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58185)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nOeAX-00077k-M9
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 06:26:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646047581;
+ s=mimecast20190719; t=1646047579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=psz23OrkzxiAg3EB6X3YAJh0pdGPcSRLBO/K5ZteKqo=;
- b=hbEPVIydoeXlo2naLk/afPNner6vxWtTSTtrPlLr7eNVqiTTVowuUZPZCllV0rmXXlgTUO
- aYgEVso//Pu7EZ86NL25FndBXDU5qXlR9SZaAf2ROFbGdg4n7+AFJOMmolJ7342Os1ZSwl
- aIjKP0WmhOX3uShPg+1lMyn+8qtSlNg=
+ bh=u+KdPj4nunu7sAqKxdo+/X7MP94GLUYj9/RHqP/oWvw=;
+ b=SBVOpq80KYjaOyntXTljaQ2LU8ezV7HpczZOnHyB6gKi1MWV02+KA8lf6kooRsEWV+DQuL
+ 7wiqCL1QCDo/FAoXlkV+EcF1HwPpLsC17suxlFBMqG7JXGGziAiCt8LxKC1KrwabwEv3j2
+ uRO9ub7tkcXHEsdWNeaAjtYCO66S5ME=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-_tp0FujbP5qWUBj-I5sbdQ-1; Mon, 28 Feb 2022 06:26:18 -0500
-X-MC-Unique: _tp0FujbP5qWUBj-I5sbdQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-562-vjC3JttvOay1oGa6B31YMg-1; Mon, 28 Feb 2022 06:26:18 -0500
+X-MC-Unique: vjC3JttvOay1oGa6B31YMg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6221B180FD71;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2675F824FA7;
  Mon, 28 Feb 2022 11:26:17 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 342084E2C7;
- Mon, 28 Feb 2022 11:26:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D04DD2B3DC;
+ Mon, 28 Feb 2022 11:26:16 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D14CB21E691D; Mon, 28 Feb 2022 12:26:13 +0100 (CET)
+ id D36FC21E691F; Mon, 28 Feb 2022 12:26:13 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/9] qapi: Document some missing details of RTC_CHANGE event
-Date: Mon, 28 Feb 2022 12:26:10 +0100
-Message-Id: <20220228112613.520040-7-armbru@redhat.com>
+Subject: [PULL 7/9] hw/rtc: Compile pl031 once-only
+Date: Mon, 28 Feb 2022 12:26:11 +0100
+Message-Id: <20220228112613.520040-8-armbru@redhat.com>
 In-Reply-To: <20220228112613.520040-1-armbru@redhat.com>
 References: <20220228112613.520040-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,38 +87,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The RTC_CHANGE event's documentation is missing some details:
- * the offset argument is in units of seconds
- * it isn't guaranteed that the RTC will implement the event
+Now that the RTC_CHANGE event is no longer target-specific,
+we can move the pl031 back to a compile-once source file
+rather than a compile-per-target one.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220221192123.749970-3-peter.maydell@linaro.org>
+Message-Id: <20220221192123.749970-4-peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/misc.json | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/rtc/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 7a70eaa3ff..0ab235e41f 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -533,10 +533,12 @@
- #
- # Emitted when the guest changes the RTC time.
- #
--# @offset: offset between base RTC clock (as specified by -rtc base), and
--#          new RTC clock value
-+# @offset: offset in seconds between base RTC clock (as specified
-+#          by -rtc base), and new RTC clock value
- #
- # Note: This event is rate-limited.
-+#       It is not guaranteed that the RTC in the system implements
-+#       this event, or even that the system has an RTC at all.
- #
- # Since: 0.13
- #
+diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
+index 8fd8d8f9a7..7cecdee5dd 100644
+--- a/hw/rtc/meson.build
++++ b/hw/rtc/meson.build
+@@ -2,7 +2,7 @@
+ softmmu_ss.add(when: 'CONFIG_DS1338', if_true: files('ds1338.c'))
+ softmmu_ss.add(when: 'CONFIG_M41T80', if_true: files('m41t80.c'))
+ softmmu_ss.add(when: 'CONFIG_M48T59', if_true: files('m48t59.c'))
+-specific_ss.add(when: 'CONFIG_PL031', if_true: files('pl031.c'))
++softmmu_ss.add(when: 'CONFIG_PL031', if_true: files('pl031.c'))
+ softmmu_ss.add(when: 'CONFIG_TWL92230', if_true: files('twl92230.c'))
+ softmmu_ss.add(when: ['CONFIG_ISA_BUS', 'CONFIG_M48T59'], if_true: files('m48t59-isa.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-rtc.c'))
 -- 
 2.35.1
 
