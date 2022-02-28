@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14424C72DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:29:23 +0100 (CET)
-Received: from localhost ([::1]:54900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EE14C75FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:58:12 +0100 (CET)
+Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOjpq-0006ah-KB
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:29:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37330)
+	id 1nOkHj-0008Ap-AJ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:58:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOjoo-0005aX-1n; Mon, 28 Feb 2022 12:28:18 -0500
-Received: from [2607:f8b0:4864:20::634] (port=40522
- helo=mail-pl1-x634.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nOkAN-0002MC-0s; Mon, 28 Feb 2022 12:50:35 -0500
+Received: from [2607:f8b0:4864:20::230] (port=43528
+ helo=mail-oi1-x230.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOjom-00039h-HY; Mon, 28 Feb 2022 12:28:17 -0500
-Received: by mail-pl1-x634.google.com with SMTP id z11so2940473pla.7;
- Mon, 28 Feb 2022 09:28:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nOkA8-0007pJ-0d; Mon, 28 Feb 2022 12:50:34 -0500
+Received: by mail-oi1-x230.google.com with SMTP id s5so13901685oic.10;
+ Mon, 28 Feb 2022 09:50:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5kn3699G+V9W9USVWa4FVtQc5cxH/buPsSCUjtTz5NA=;
- b=nrWXdHZC/BTh9jl4R7HYn51V+gkM+Ux4/EQzBrYdVDXNZkRqszHxRAg8X6jK6XYKhL
- +xCfPftgdMQ7S6/C2Cr4QJecMVTfk3deQU9NN9ebMvvBV1q3+UZr1/sPdbYzNk7IP7A6
- N7AAXIWe6nJZxfBv5BZ2KX23Bbf36vUUGkI4/IWWvFXiYagGj42ONjMqu5dE428LY7zP
- PYlFJVRlppFw9aHwG8bzjAaMPVrq10OdaJ0pxjrY4DDEL2A5fnQW2U+MjdTSBB4R5R7S
- FDTeENFdZ8tyjr41iE7RXQ8SA1TQArAikKq6L852ygETM31iVkRmkBJ8jQyX7GhfSkQC
- 4YyA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EG5W6v7O8+ytzQCLlXSXY+Hj9MWxDL7HvA2iof/Ges8=;
+ b=AkFej0GrNjSSVZZkxGv0Z4rgiRzDW35nl2d/33KGE+2vTFwf6VQfZ4Uje2KgpsewlI
+ u4HM1kwZzzUGiZJS4IJYz5rdP3SxHCTCqGS9XS0X5pQSgCNeSV8dcNebnw2Hjd7AjtkW
+ lPiI9muMCJ5A37oa+f7CeRSKNLu7U76q0ol6iUs6NSjjMwYApKUMMd+4kcda1EVwb1QE
+ sAmXd81hz682tIhadtzh/GcrlkSKSKUZLP1uXuIFqajt2TdWnf1bJhj/jIeihKDf3NKI
+ JeqjhAlLnHIPeeV/dOmvJJ4BDVtZPgy0BWTVM69KBGPAVIZZ/Kn6o3fW8k+1DrMuhqDO
+ b2dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=5kn3699G+V9W9USVWa4FVtQc5cxH/buPsSCUjtTz5NA=;
- b=yg93+C5wwpPskBlWDA6D/gRwyKsfbq2HW4bfjLq1Ih86qYAQAywyoDAKDGEO9Sb/CZ
- hdmO4lEkYO94PAZ8xoJIpDa8iXeBwSrsyCbr9hNzYM8huKIlIzVsi962FKIwv/H9TO6X
- K7TLHaj5wuyAsZQEcB1Hv/27SGZiK/UrRA02htKbD4xRXadwI0p0iAZSYTtMad0QUKAH
- QFa8/pT8lgN9iFM8XBztPnAP6NBrpJUXRSQAWxo9ds12te5N+CtLgGo32Vcyew7ohvrd
- 95kftwp9LBKtGlnmVXxC4hjVGbmSq1/vm1OKdtXWSCS7sA0vtnKlBVQ7jNCkSWF4M5zg
- NLig==
-X-Gm-Message-State: AOAM533tNDOqFC3Oy2A/rpHMhMFj6uGLveWLyw5YjsdAWMOwS+f3rZrE
- ezZwvyad9MywKthXbuHRsOQ=
-X-Google-Smtp-Source: ABdhPJwo5gZqSA+Gy6WVVf7y7BXFEKMkE2Qx8NtRF5+cANjGYhiI87HY36VMXKzIyHvagrytMlUNXg==
-X-Received: by 2002:a17:903:1cc:b0:151:3e13:e2a1 with SMTP id
- e12-20020a17090301cc00b001513e13e2a1mr15044274plh.52.1646069294462; 
- Mon, 28 Feb 2022 09:28:14 -0800 (PST)
-Received: from [192.168.74.175] (133.red-95-127-186.staticip.rima-tde.net.
- [95.127.186.133]) by smtp.gmail.com with ESMTPSA id
- on18-20020a17090b1d1200b001b9cfbfbf00sm10922598pjb.40.2022.02.28.09.28.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 09:28:13 -0800 (PST)
-Message-ID: <45d6fe24-4a72-36b6-079b-6279e4e079ad@gmail.com>
-Date: Mon, 28 Feb 2022 18:28:09 +0100
+ bh=EG5W6v7O8+ytzQCLlXSXY+Hj9MWxDL7HvA2iof/Ges8=;
+ b=qrQVXgkD1qbZK0doKqJnJ8fFyquZCIxXfkWsNDTxPv8YQyGbST+RIDxOdIv+wwj8yr
+ V7vo0tJ4MhBmemA5P4m1DODsQ0esIzCn+S9zchT5A+LHraKuehJnPTnqwKH6AYa1m74l
+ W2Wt89OjP3YbEqDu7cdzkEcXN8vOFnetxpWHAL9lYROhL4crHLvGlwmvUsFi0NnfA+Zv
+ B9alQ80cMMN8rso2aYfabL9kk/O2t3etH/b7Btkz9GAbFAwqCEFSntMMqPt/KVaF7iG1
+ bWVKiwra5wyGHm3RHfV93CV1x8ZMBeoICqjsiTa7bYa2SH1Ws2fVZtfEildmKKVVP85T
+ Mtig==
+X-Gm-Message-State: AOAM530C+f8Vw38egVlho/J1+jHTjPNahf7U6kXnUe7O01ZTRXgCjyQU
+ 3dMBi5iOCgMi/FgvzqCJbRslSXuThfU=
+X-Google-Smtp-Source: ABdhPJyUGPQDmt2MCIFLuMG7u6UqVxcGR+9CVIfKOpzAy3OdJwLRKcO+1crL+hcsi+zR2/U5zV/Wlw==
+X-Received: by 2002:a05:6808:f8e:b0:2d7:d06:1ba9 with SMTP id
+ o14-20020a0568080f8e00b002d70d061ba9mr11944957oiw.64.1646070618177; 
+ Mon, 28 Feb 2022 09:50:18 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
+ by smtp.gmail.com with ESMTPSA id
+ a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Feb 2022 09:50:17 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/14] simple cleanups in spapr files
+Date: Mon, 28 Feb 2022 14:49:50 -0300
+Message-Id: <20220228175004.8862-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH] allow disabling tests
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, Simeon Schaub <schaub@mit.edu>
-References: <a8bdb3e7-a877-070c-3ef5-6d14086a7f9b@mit.edu>
- <CAFEAcA_jsunyeYOqu0aPtC3XrdD30b1Fk-6QsiDCTs=AJcvYVQ@mail.gmail.com>
- <006d618a-07d5-f58c-fdce-18914c7c7625@mit.edu>
- <CAFEAcA_ps901W=Cwu0ev39B2+6YyWZtERfuGjCsDTz=G=iA9fQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <CAFEAcA_ps901W=Cwu0ev39B2+6YyWZtERfuGjCsDTz=G=iA9fQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -94,21 +84,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/2/22 17:25, Peter Maydell wrote:
-> On Mon, 28 Feb 2022 at 16:22, Simeon Schaub <schaub@mit.edu> wrote:
->>
->> Ah, yes, sorry, I didn't check whether the tests were actually run. I
->> can rename this to something more like `build-tests` if you think that's
->> more informative.
-> 
-> What problem are you trying to solve here ? It shouldn't
-> matter whether we build the test binaries or not...
+Hi,
 
-Maybe speeding up the build by restricting to compiling what is required
-(and saving energy), similar to 
-https://lore.kernel.org/qemu-devel/20220204152924.6253-3-f4bug@amsat.org/ ?
+These are some cleanups in spapr files I decided to make after seeing
+Greg adding g_auto* in virtio-9p files.
+
+I also took the opportunity to simplify the logic in some places where I
+found it to be more complex than needed.
+
+Aside from patch 02, no functional change was made in this series.
+
+Daniel Henrique Barboza (14):
+  hw/ppc/spapr.c: use g_autofree in spapr_dt_chosen()
+  hw/ppc/spapr.c: fail early if no firmware found in machine_init()
+  hw/ppc/spapr_caps.c: use g_autofree in spapr_cap_set_string()
+  hw/ppc/spapr_caps.c: use g_autofree in spapr_cap_get_string()
+  hw/ppc/spapr_caps.c: use g_autofree in spapr_caps_add_properties()
+  hw/ppc/spapr_drc.c: use g_auto in spapr_dt_drc()
+  hw/ppc/spapr_drc.c: use g_autofree in drc_realize()
+  hw/ppc/spapr_drc.c: use g_autofree in drc_unrealize()
+  hw/ppc/spapr_drc.c: use g_autofree in spapr_dr_connector_new()
+  hw/ppc/spapr_drc.c: use g_autofree in spapr_drc_by_index()
+  hw/ppc/spapr_numa.c: simplify spapr_numa_write_assoc_lookup_arrays()
+  spapr_pci_nvlink2.c: use g_autofree in
+    spapr_phb_nvgpu_ram_populate_dt()
+  hw/ppc/spapr_rtas.c: use g_autofree in rtas_ibm_get_system_parameter()
+  hw/ppc/spapr_vio.c: use g_autofree in spapr_dt_vdevice()
+
+ hw/ppc/spapr.c             | 31 +++++++++++--------------
+ hw/ppc/spapr_caps.c        | 22 +++++++-----------
+ hw/ppc/spapr_drc.c         | 47 ++++++++++++++------------------------
+ hw/ppc/spapr_numa.c        | 16 ++++++-------
+ hw/ppc/spapr_pci_nvlink2.c | 10 ++++----
+ hw/ppc/spapr_rtas.c        | 25 ++++++++++----------
+ hw/ppc/spapr_vio.c         |  6 ++---
+ 7 files changed, 64 insertions(+), 93 deletions(-)
+
+-- 
+2.35.1
+
 
