@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CA34C6439
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 08:58:53 +0100 (CET)
-Received: from localhost ([::1]:37584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90BD4C64BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:18:12 +0100 (CET)
+Received: from localhost ([::1]:47616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOavj-0004zf-SM
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 02:58:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58004)
+	id 1nObER-0004BL-Uh
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:18:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nOaqm-0002ba-52
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 02:53:44 -0500
-Received: from [2a00:1450:4864:20::432] (port=44740
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nOaqk-0003cH-Ih
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 02:53:43 -0500
-Received: by mail-wr1-x432.google.com with SMTP id u1so13933857wrg.11
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 23:53:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ng3OvYR81BaMuGtUUSzQ1wTsXDJO3QLcmSHJXksNNMw=;
- b=aRQ4h+gjusvngeKezJGMWNMXCEfbVytGeuCJFVgIUr++G4d0odm3Q+XUqQ+9Ywy5Qz
- qZ1+I2sZxwjKqsU16JlQ4pXTspQOPbYzdM9uckS0dTQWDGjh192Fr5FL4tD6/ZiGQTjf
- oWCfAFIzgUk6jYwcbVCK7iJfGFFfyFobL5h04bAGWu4fWn1KDcIV5YFT2mNdLxldS9WJ
- s7nAEZt/3O70yLAl86hCws/vTe825pYHC7KIsgPo5HsOdsPhLdOkCzlQw8n4pGGIAppX
- Gl1USpNxhjz1f6QEoDgENxfkT/IO6kBRM8rV8UPSD4yZnKVT5TYGP9DFYYWlnkoYLFkY
- 6D+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ng3OvYR81BaMuGtUUSzQ1wTsXDJO3QLcmSHJXksNNMw=;
- b=HF62BMlHBeQBMGt7FW/eagq4woRMkzMAkbQAQ9mrphdK+mZI9Y24qxeb0AbRGYUr58
- CJr9qwgrcqgS5uB0nKVIT1djoXUJdiNPAd5Y2/Lhn9BMD4+1l3/g4R8nYvapi51lZnuS
- cur3iOoAIWNHIRVPTmJrW+2CFXelLb3ii77bMW3WTUL2V5HCJxR2FPOQqGGsqOgzSsH/
- g9l7/Cf1PLsA40qGtGJzD9He9lwzoBGCot+0PvcO2gwgHK3rdi0fvAx/DknLouJ3ME1m
- T12GWBwhBmE3F8thi57bP1i2zsCPyi5CEPw3EIKrDkPqbUFDEb2Y2OFatZl8lV5mAlWp
- ZDfg==
-X-Gm-Message-State: AOAM5322LMzIPC5WMheVahVCguk23su8tbM+n0xSTIjGVd4iBzuxY558
- bgAhl7IwlkmjAHdk+RqdZilvtf5Jwm2v5dF2lzg=
-X-Google-Smtp-Source: ABdhPJwLkna4I7el8sa1T5Ifu6afjvDkYHqAz1z5yCvrwihEVRjPZQQq4Ccwi7kjoWF8vIVe+8MiF22VY4p1Eko/CAA=
-X-Received: by 2002:adf:f086:0:b0:1ef:6265:a9a9 with SMTP id
- n6-20020adff086000000b001ef6265a9a9mr11080123wro.562.1646034815890; Sun, 27
- Feb 2022 23:53:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nOb25-0008IL-19
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:30 -0500
+Received: from mga14.intel.com ([192.55.52.115]:50047)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1nOb21-0005Ys-MD
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646035521; x=1677571521;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kp6WvaEMGgeUpBp77p3+St1EhX1h2hjvMm63UoFW3/g=;
+ b=mpluMz0stx9ITqZNJXXj4razSf4zArZ+Lted17t8kNkTxt8FYIeIVsIC
+ 9ih5UhhaOF/cVlhIolmVb5wWKR70/J14vohdf08Jv2RrvdNcFvNRYycxn
+ 5p85SFtbNuweiBndTeKKpaERP14ml43/bZIrcEUEoDxptnVQjvEC4D782
+ KShJnfDfmEfb4hOJ6PBPheE7Dx413cojUSqfudlETGNPg1p11wArcOBQw
+ ljp09+mAxkSVkmsukPL5WE2Wo95zlAa/66SfDqZNBC85Djisp8mHgx4na
+ BITl4XHF6ivqzt9KwOdc78kyagQ4aLg6grFMhQ9z5MeCNY+xPY/in8n/K g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="253021627"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="253021627"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 00:05:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="778014571"
+Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
+ by fmsmga006.fm.intel.com with ESMTP; 28 Feb 2022 00:05:15 -0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/8] AMX support in Qemu
+Date: Mon, 28 Feb 2022 00:05:07 -0800
+Message-Id: <20220228080515.42357-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220222194008.610377-1-marcandre.lureau@redhat.com>
- <20220222194008.610377-7-marcandre.lureau@redhat.com>
- <CAJ+F1C+QOAcjAiAY=7jcYgjJTQ79PTUDBRoJ3fzyHha2Syw4tA@mail.gmail.com>
- <8d5b4245-56e7-8384-4104-33d3ab1adf42@redhat.com>
-In-Reply-To: <8d5b4245-56e7-8384-4104-33d3ab1adf42@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 28 Feb 2022 11:53:23 +0400
-Message-ID: <CAJ+F1CK5U1agzbDztrWBavmoiAfmwW3AHcWBKRwGh9f0LRan0A@mail.gmail.com>
-Subject: Re: [PATCH 6/8] char: move qemu_openpty_raw from util/ to char/
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007d3a6705d90f58da"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=yang.zhong@intel.com;
+ helo=mga14.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,96 +69,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU <qemu-devel@nongnu.org>
+Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
+ jing2.liu@linux.intel.com, wei.w.wang@intel.com, guang.zeng@intel.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007d3a6705d90f58da
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Intel introduces Advanced Matrix Extensions (AMX) [1] feature that
+consists of configurable two-dimensional "TILE" registers and new
+accelerator instructions that operate on them. TMUL (Tile matrix
+MULtiply) is the first accelerator instruction set to use the new
+registers.
 
-Hi Paolo
+Since AMX KVM patches have been merged into Linux release, this series
+is based on latest Linux release(5.17-rc4).
 
-On Sat, Feb 26, 2022 at 11:38 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+According to the KVM design, the userspace VMM (e.g. Qemu) is expected
+to request guest permission for the dynamically-enabled XSAVE features
+only once when the first vCPU is created, and KVM checks guest permission
+in KVM_SET_CPUID2.
 
-> On 2/24/22 18:04, Marc-Andr=C3=A9 Lureau wrote:
-> > Paolo,
-> >
-> > This patch is ok, but in some (new?) circumstances it fails with freebs=
-d
-> > and reveals that -lutil was missing for kinfo_getproc() in
-> > util/oslib-posix.c. Please add:
-> >
-> > -util_ss.add(when: 'CONFIG_POSIX', if_true: files('oslib-posix.c'))
-> > +util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'),
-> util])
-> >
-> > (even better if we made this specific to freebsd I guess, but not
-> > strictly necessary)
->
-> Looking again at the patch (because indeed it broke CI :)), I'm not sure
-> it's a good idea.  The code seems to be partly taken from other projects
-> and doesn't follow the QEMU coding standards.
->
+Intel AMX is XSAVE supported and XSAVE enabled. Those extended features
+has large state while current kvm_xsave only allows 4KB. The AMX KVM has
+extended struct kvm_xsave to meet this requirenment and added one extra
+KVM_GET_XSAVE2 ioctl to handle extended features. From our test, the AMX
+live migration work well.
 
-One more reason imho to not have this in the common qemuutil library.
+Notice: This version still includes some definitions in the linux-headers,
+once Qemu sync those linux-headers, please directly remove patch 8. So
+ignore patch 8 changes.
 
-Apparently, the helper was added in 2008, commit 64b7b7334b ("Put
-Pseudo-TTY in rawmode for char devices") and it is not necessary since
-Solaris 11.4 (see commit 9df8b20d1). I am not sure we need to maintain
-compatibility with Solaris <11.4 (released on Aug 2018) tbh. According to
-wikipedia page, 11.3 is maintained until January 2024. Maybe wait until
-that and drop it?
+[1] Intel Architecture Instruction Set Extension Programming Reference
+    https://software.intel.com/content/dam/develop/external/us/en/documents/\
+    architecture-instruction-set-extensions-programming-reference.pdf
 
-Do you have a branch where you have queued the accepted patches? I can
-rebase, fix the linking on freebsd, fix style and resend.
+Thanks,
+Yang
+----
 
-thanks
+Change history
+--------------
+v2->v3:
+   - Patch 4, misc cleanup(David).
+   - Patch 3, updated the kvm_request_xsave_components()(Paolo).
+   - Patch 8, rebased the Linux-header on latest Qemu.
 
---=20
-Marc-Andr=C3=A9 Lureau
+v1->v2:
+   - Patch 1 moved "esa->ecx" into the "if{}"(Paolo).
+   - Patch 3, the requiremnets from Paoalo,
+     - Moved "esa->ecx" into the "if{}".
+     - Used the "mask" as parameter to replace xtiledata bits in
+       kvm_request_xsave_components()
+     - Used the new defined KVM_X86_XCOMP_GUEST_SUPP from KVM to get
+       supported_xcr0 from kvm_arch_get_supported_cpuid().
+     - Updated the kvm_request_xsave_components() for future usage.
+   - Patch 5 added "case 0x1e:" in kvm_arch_init_vcpu()(Paolo).
+   - Patch 6 replaced "if (e->size && e->offset)" with
+     "if (e->size && e->offset && buflen >= e->size + e->offset)"
+     for xsave and xrstor(Paolo).
+   - Patch 8, which is new added patch and is only for linux-headers.
+     This patch can be directly dropped once Qemu sync linux-headers.
 
---0000000000007d3a6705d90f58da
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+rfc v1->v1:
+   - Patch 1 changed commit message(Kevin and Paolo).
+   - Patch 2 changed commit message(Kevin and Paolo).
+   - Patch 3, below requirements from Paolo,
+     - Called ARCH_REQ_XCOMP_GUEST_PERM from x86_cpu_enable_xsave_components.
+       Used kvm_request_xsave_components() to replace x86_xsave_req_perm().
+       Replaced syscall(ARCH_GET_XCOMP_GUEST_PERM) with kvm_arch_get_supported_cpuid()
+       in kvm_request_xsave_components().
+     - Changed kvm_cpu_xsave_init() to use host_cpuid() instead of
+       kvm_arch_get_supported_cpuid().
+     - Added the "function == 0xd" handle in kvm_arch_get_supported_cpuid().
+   - Patch 4, used "uint32_t ecx" to replace "uint32_t need_align, support_xfd".
+   - Patch 6, below changes,
+     - Changed the commit message(Kevin) and Used the new function
+     - kvm_init_xsave() to replace some pieces of code(Wei).
+     - Moved KVM_CAP_XSAVE2 extension check to kvm_arch_init_vcpu() to
+       make the request permission before KVM_CAP_XSAVE2 extension check(Paolo).
+   - Removed RFC prefix.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Paolo<br></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 26, 2022 at 11:38=
- AM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redha=
-t.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">On 2/24/22 18:04, Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt; Paolo,<br>
-&gt; <br>
-&gt; This patch is ok, but in some (new?) circumstances it fails with freeb=
-sd <br>
-&gt; and reveals that -lutil was missing for kinfo_getproc() in <br>
-&gt; util/oslib-posix.c. Please add:<br>
-&gt; <br>
-&gt; -util_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(&#39;oslib-p=
-osix.c&#39;))<br>
-&gt; +util_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: [files(&#39;oslib-=
-posix.c&#39;), util])<br>
-&gt; <br>
-&gt; (even better if we made this specific to freebsd I guess, but not <br>
-&gt; strictly necessary)<br>
-<br>
-Looking again at the patch (because indeed it broke CI :)), I&#39;m not sur=
-e <br>
-it&#39;s a good idea.=C2=A0 The code seems to be partly taken from other pr=
-ojects <br>
-and doesn&#39;t follow the QEMU coding standards.<br></blockquote><div><br>=
-</div><div>One more reason imho to not have this in the common qemuutil lib=
-rary.</div><div><br></div><div>Apparently, the helper was added in 2008, co=
-mmit 64b7b7334b (&quot;Put Pseudo-TTY in rawmode for char devices&quot;) an=
-d it is not necessary since Solaris 11.4 (see commit 9df8b20d1). I am not s=
-ure we need to maintain compatibility with Solaris &lt;11.4 (released on Au=
-g 2018) tbh. According to wikipedia page, 11.3 is maintained until January =
-2024. Maybe wait until that and drop it?<br></div><div><br></div><div>Do yo=
-u have a branch where you have queued the accepted patches? I can rebase, f=
-ix the linking on freebsd, fix style and resend.<br></div><br clear=3D"all"=
-></div><div>thanks</div><div><br></div><div>-- <br><div dir=3D"ltr" class=
-=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div></div>
 
---0000000000007d3a6705d90f58da--
+Jing Liu (5):
+  x86: Fix the 64-byte boundary enumeration for extended state
+  x86: Add AMX XTILECFG and XTILEDATA components
+  x86: Add XFD faulting bit for state components
+  x86: Add AMX CPUIDs enumeration
+  x86: Add support for KVM_CAP_XSAVE2 and AMX state migration
+
+Yang Zhong (2):
+  x86: Grant AMX permission for guest
+  linux-header: Sync the linux headers
+
+Zeng Guang (1):
+  x86: Support XFD and AMX xsave data migration
+
+ linux-headers/asm-x86/kvm.h |   3 +
+ linux-headers/linux/kvm.h   |   1 +
+ target/i386/cpu.h           |  43 ++++++++++++-
+ target/i386/kvm/kvm_i386.h  |   1 +
+ target/i386/cpu.c           |  72 ++++++++++++++++++++-
+ target/i386/kvm/kvm-cpu.c   |  11 ++--
+ target/i386/kvm/kvm.c       | 121 +++++++++++++++++++++++++++++++-----
+ target/i386/machine.c       |  42 +++++++++++++
+ target/i386/xsave_helper.c  |  33 ++++++++++
+ 9 files changed, 302 insertions(+), 25 deletions(-)
+
 
