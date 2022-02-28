@@ -2,79 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEDA4C7691
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 19:04:55 +0100 (CET)
-Received: from localhost ([::1]:40930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 043F24C7658
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 19:03:27 +0100 (CET)
+Received: from localhost ([::1]:36050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOkOE-00032D-TC
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 13:04:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42802)
+	id 1nOkMo-0008AN-Rj
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 13:03:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAc-0002uJ-If; Mon, 28 Feb 2022 12:50:50 -0500
-Received: from [2607:f8b0:4864:20::329] (port=43883
- helo=mail-ot1-x329.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nOkJ4-00050Q-3f
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 12:59:34 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=35717
+ helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAa-00080w-TE; Mon, 28 Feb 2022 12:50:49 -0500
-Received: by mail-ot1-x329.google.com with SMTP id
- j9-20020a9d7d89000000b005ad5525ba09so10075550otn.10; 
- Mon, 28 Feb 2022 09:50:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HWQSY6AW0ufVgup1Eft5QjjEIsECY/xMODO8cltOgnQ=;
- b=W78UuLO8f8eLcL0FNiORhlNX+c/GCBgVy97tmNpgg+HgAm+Hra1G0HIeajSXhztA+E
- F/EkDg1C+8pGv6COPRwQ15PdFbeSXRp0bLPHdnhDjlFjbPd7Wtsih6CLI8ItIHmJ1Bhv
- E30vq3+1VdexrXR+ZEfyhMbPjgpM0ewv/HS6obZgH2Dc7F+wOywaebednQbD3A5akfKh
- 1SjVspIhzSPp7SQTarGhft0M3oMytqSsE9VMA1p64CG4aiCGG7TDz4MaIQDvC64lM/YS
- jHFDiI+ZMH6nHulvR7HatlbhYJIlzidN71KrsLmxT+a6F4lylkA+rnD/n++d9XCM4T0a
- ewUA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nOkIz-0001eo-4b
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 12:59:32 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ v5-20020a17090ac90500b001bc40b548f9so15472454pjt.0
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 09:59:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=BwkfpREBgcJ8nAOb6SaelF1nE5To/hhoMMt6nUoajTw=;
+ b=So8Y/osn6qJXZyOjpRl33BURiKYlu/zluMTqmR/C08Y40m32A4x3lOyGuSkZlKpSBI
+ zbHbzU+qp14w/VGBcDI9OtmfwpXT0zJu9jXCtcepMbikoEPB3b/o35IrBJksPY+0oXvP
+ +brCTih2OTCUWSArkZ9qoJ9+WMw8QeGWe0TnWE1z2wpwTvHGLBa59sEgl5zomTaVO+fW
+ mfXPESxz4CAyBRAbDEkssTKtFNImVwFfDIrHVDRqlLZRNVG15wWO9moYIHJ+1aYu8szZ
+ Y+p7xfm6ult0EDTHpsRzfwPZOLfSdG934WEZGRVn+5mur8eE2riW9tPuXMTS+BIjdPL5
+ knpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HWQSY6AW0ufVgup1Eft5QjjEIsECY/xMODO8cltOgnQ=;
- b=B9RggYhP/sRnowIQPMbDQEo/E1NbsqZVTbodXWNkR0IEq51DaG1JVS7CNhW0O2v16V
- OOJTPTtqsSTy4Ekx4pymk7vF269HDLFtq0lMCURHZwzsKiBhEI8bN4xQctXlM1ni1g1c
- dDlx4e9k8IRh4B6Z05LxyPA4HDHzyD/HeIQuUK2YojHhwaIpAU6rNnWYsGT5dcWYuX4S
- LPivHaKpc064xqZRX/zvkWx8TwHDWYnF+pPtyZ17lTXlZgSqGdYQH0Oi8QR363Uql2iJ
- OUNgdt2vvDHXjBwTwXVHxl0qGFY6XnhQd6D+aLg8UCOuph/VDm98R+csHhPsLJjH5uKb
- iO1w==
-X-Gm-Message-State: AOAM531MN0ijTwDB9GPERHTF1OlGmFsYcSUGlEWER0GQhF3rFiExSYub
- sKoAiVaMIdrfJ0lGUJ9Cr6lvJMlZoUU=
-X-Google-Smtp-Source: ABdhPJzK3MZxsfj2LwNQBmCmjs8cq0jsuIEdSzIJY78L0w80BqBTc1O48RZmkP/3WGHzCrK0EK0Law==
-X-Received: by 2002:a9d:714a:0:b0:5ad:f8f9:b50d with SMTP id
- y10-20020a9d714a000000b005adf8f9b50dmr9893011otj.47.1646070647456; 
- Mon, 28 Feb 2022 09:50:47 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BwkfpREBgcJ8nAOb6SaelF1nE5To/hhoMMt6nUoajTw=;
+ b=cemJPF6Dpv1JlU+TVn5IIu7d87y04INoEAtl6fH8701B2Z/KPG8VU/6tB0/ME+wBye
+ R6OYQf+6Fr1WFkZSHb7sDh/guNdE3sbftBek5QrDMURVWJKdY3/dSkbGmleuPqYH4jZ2
+ 9khL38aEQP+fV0gka1TS3yRxoHkh8d+vnCErSi4lCUdgdbm5UmRDffiMkA675FhiK3XY
+ 8GHPH82KcM4woWlN/Mud3/ERbPuBgWTpxHZgBEGdLCowfyv+1dNEIe8Rl0m3l/zSgkpz
+ cp2WFYj1fqeRW/Zbx1UhVSwOaVCCm3PS+2lEdHkRAsQunbGbTg33UuhJ3VasCnSMCEU8
+ qp7A==
+X-Gm-Message-State: AOAM533tHF7KissQ0MIFJ/dPkWLEiG+iLpk5lAeKxZvaytncvPOuK486
+ x1VOrBnC/9QgpUgLb5Ck7KREEw==
+X-Google-Smtp-Source: ABdhPJyfvpxD8TGHYUMv8AD2hcmpPrqF8+vTIdjY3Wdwr7G30Gb/7nJ7SCnVLGwaNcUSEEgmRyIjVg==
+X-Received: by 2002:a17:902:7204:b0:14f:b325:7658 with SMTP id
+ ba4-20020a170902720400b0014fb3257658mr21505558plb.110.1646071165334; 
+ Mon, 28 Feb 2022 09:59:25 -0800 (PST)
+Received: from ?IPV6:2603:800c:1201:c600:483f:d486:138f:7868?
+ (2603-800c-1201-c600-483f-d486-138f-7868.res6.spectrum.com.
+ [2603:800c:1201:c600:483f:d486:138f:7868])
  by smtp.gmail.com with ESMTPSA id
- a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 09:50:47 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 14/14] hw/ppc/spapr_vio.c: use g_autofree in spapr_dt_vdevice()
-Date: Mon, 28 Feb 2022 14:50:04 -0300
-Message-Id: <20220228175004.8862-15-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220228175004.8862-1-danielhb413@gmail.com>
-References: <20220228175004.8862-1-danielhb413@gmail.com>
+ y12-20020a62640c000000b004f104f0ee75sm13230351pfb.185.2022.02.28.09.59.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Feb 2022 09:59:24 -0800 (PST)
+Message-ID: <9aeda35f-1bce-d8eb-9dba-4993dc6a605d@linaro.org>
+Date: Mon, 28 Feb 2022 07:59:20 -1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::329
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v7 3/4] tests/tcg/s390x: Tests for
+ Miscellaneous-Instruction-Extensions Facility 3
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, David Miller <dmiller423@gmail.com>,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+References: <20220223223117.66660-1-dmiller423@gmail.com>
+ <20220223223117.66660-4-dmiller423@gmail.com>
+ <382e2a24-6483-ba0d-08d3-ced00173dc1a@linaro.org>
+ <3853fa79-4578-be7b-4a2f-5b31cdd5c4c7@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <3853fa79-4578-be7b-4a2f-5b31cdd5c4c7@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x329.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,43 +100,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: pasic@linux.ibm.com, borntraeger@linux.ibm.com, farman@linux.ibm.com,
+ cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And return the result of g_strdup_printf() directly instead of using the
-'path' var.
+On 2/28/22 00:14, Thomas Huth wrote:
+> Full patch can be seen here:
+> 
+> https://gitlab.com/thuth/qemu/-/commit/38af118ea2fef0c473
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr_vio.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-index b975ed29ca..9d4fec2c04 100644
---- a/hw/ppc/spapr_vio.c
-+++ b/hw/ppc/spapr_vio.c
-@@ -726,7 +726,7 @@ void spapr_dt_vdevice(SpaprVioBus *bus, void *fdt)
- gchar *spapr_vio_stdout_path(SpaprVioBus *bus)
- {
-     SpaprVioDevice *dev;
--    char *name, *path;
-+    g_autofree char *name = NULL;
- 
-     dev = spapr_vty_get_default(bus);
-     if (!dev) {
-@@ -734,8 +734,6 @@ gchar *spapr_vio_stdout_path(SpaprVioBus *bus)
-     }
- 
-     name = spapr_vio_get_dev_name(DEVICE(dev));
--    path = g_strdup_printf("/vdevice/%s", name);
- 
--    g_free(name);
--    return path;
-+    return g_strdup_printf("/vdevice/%s", name);
- }
--- 
-2.35.1
+> static inline void mvcrl_8(const char *dst, const char *src)
+> {
+>     asm volatile (
+>     "llill %%r0, 8\n"
+>     ".insn sse, 0xE50A00000000, 0(%[dst]), 0(%[src])"
+>     : : [dst] "d" (dst), [src] "d" (src)
+>     : "memory");
+> }
 
+Need clobber of r0 here.
+
+> #define Fi3(S, ASM) uint64_t S(uint64_t a, uint64_t b, uint64_t c) \
+> {                            \
+>     uint64_t res = 0;        \
+>     asm (                    \
+>          "lg %%r2, %[a]\n"   \
+>          "lg %%r3, %[b]\n"   \
+>          "lg %%r0, %[c]\n"   \
+>          "ltgr %%r0, %%r0\n" \
+>          ASM                 \
+>          "stg %%r0, %[res] " \
+>          : [res] "=m" (res)  \
+>          : [a] "m" (a),      \
+>            [b] "m" (b),      \
+>            [c] "m" (c)       \
+>          : "r0", "r2",       \
+>            "r3", "r4"        \
+>     );                       \
+>     return res;              \
+> }
+> 
+> Fi3 (_selre,     ".insn rrf, 0xB9F00000, %%r0, %%r3, %%r2, 8\n")
+> Fi3 (_selgrz,    ".insn rrf, 0xB9E30000, %%r0, %%r3, %%r2, 8\n")
+> Fi3 (_selfhrnz,  ".insn rrf, 0xB9C00000, %%r0, %%r3, %%r2, 7\n")
+
+This isn't actively broken, but could use the same treatment as NCRK et al:
+
+#define Fi3(S, ASM) uint64_t S(uint64_t a, uint64_t b, uint64_t c) \
+{                            \
+     uint64_t res;            \
+     asm("ltgr %[c], %[c]\n\t" ASM
+         : [res] "=&r" (res)
+         : [a] "r" (a), [b] "r" (b), [c] "r" (c)
+         : "cc");
+     return res;
+}
+
+Fi3(_selre,   ".insn rrf, 0xB9F00000, %[res], %[a], %[b], 8")
+
+etc.
+
+
+r~
 
