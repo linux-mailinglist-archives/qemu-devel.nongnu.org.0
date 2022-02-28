@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DCC4C63BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 08:21:26 +0100 (CET)
-Received: from localhost ([::1]:43772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523E44C63E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 08:42:41 +0100 (CET)
+Received: from localhost ([::1]:52260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOaLV-0005BD-Tl
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 02:21:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51764)
+	id 1nOag0-0003TE-My
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 02:42:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nOaDX-0004Lf-W6; Mon, 28 Feb 2022 02:13:12 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50580
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nOaas-0002P4-Bq
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 02:37:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nOaDW-0004JB-HU; Mon, 28 Feb 2022 02:13:11 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21S5BbOl006581; 
- Mon, 28 Feb 2022 07:12:53 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3egr1btwgt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Feb 2022 07:12:53 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21S77JPx026629;
- Mon, 28 Feb 2022 07:12:51 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03ams.nl.ibm.com with ESMTP id 3efbu96j86-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Feb 2022 07:12:51 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21S7CnEK45613546
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 28 Feb 2022 07:12:49 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3A47FAE053;
- Mon, 28 Feb 2022 07:12:49 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E6B37AE045;
- Mon, 28 Feb 2022 07:12:48 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Mon, 28 Feb 2022 07:12:48 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.85.32])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 2CB5E2203EC;
- Mon, 28 Feb 2022 08:12:48 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 7/7] aspeed/sdmc: Add trace events
-Date: Mon, 28 Feb 2022 08:12:39 +0100
-Message-Id: <20220228071239.404171-8-clg@kaod.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220228071239.404171-1-clg@kaod.org>
-References: <20220228071239.404171-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nOaan-0004Zd-PS
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 02:37:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646033832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/wPlcS5YmMniWkS1onT344ymXCZHXBP6WG1+ZfWE4vU=;
+ b=ZsvsF51yAzz9TmqtPJ3BjsZ6nQBUXpMl9QV6yObTCsThhgbJxmy1nEc7M6xP9/uhYjYq17
+ cvkkE7rOOSnSMjo8rt2VMG3K6MIQMc04hQsaGEhC3kPadROiIL3DrlEza/s4ojHT/PyzPT
+ PtzIa2B+uZCY+4W4LDtp7osU9K6wYZM=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-vsWsYhtIPYCKX9tfktVWhw-1; Mon, 28 Feb 2022 02:37:09 -0500
+X-MC-Unique: vsWsYhtIPYCKX9tfktVWhw-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ 2-20020aa79202000000b004cef2fc59f0so7324579pfo.12
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 23:37:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/wPlcS5YmMniWkS1onT344ymXCZHXBP6WG1+ZfWE4vU=;
+ b=iOvzYGX6GmJRRMT7qJRf8I84Krm6y2KfpiV7njrIUBuCyz+76V/hyPeLaCmPPclnla
+ mkZboCbinlkf+8UgGvY+ygbMFJf4Tb38kKKtkyRdM+WAbmdheLEIPq6Bg3aVI6ryH2HL
+ cioe3XIooyvZFE+oPuTW0AA+ij3c7JxsEjnSUq5SqO3lfh5oZJsKgPugb40TeYEq7Qw/
+ 3B6AcEBMnSse1DOUMTnpl7m2r0arcJx+4iO5PSBnJCmxQ8hiu5zdFoh+mpN2HxsQmQFJ
+ 0xNlTrwEpJtGDK5dhiyO/3ZqXBfFc847WXwzLyhVo2QlKgA/z4vh/k9KJMtVlh0/UrW6
+ z5ng==
+X-Gm-Message-State: AOAM532iJMRqaLG+Vci/elx3Cc7lfjlssfiX52OttGwPq5OJ7lWAQwMJ
+ fitW4mm59558sx3b/e+YESu95CIF0cjSYJk38IAmF8bqn5EbM/zlZoqhYdiagsvc7Mv5thHS7NX
+ CYBkRE3qB0qLx9u8=
+X-Received: by 2002:a17:902:7c91:b0:14f:973e:188d with SMTP id
+ y17-20020a1709027c9100b0014f973e188dmr1601897pll.61.1646033828148; 
+ Sun, 27 Feb 2022 23:37:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwer2LD5LjiHVKL4Phzk+LeAh1/3r8mEzZlODL63ofDPIE6NjCQgogm9vRdVQKFNTYEl9ByLg==
+X-Received: by 2002:a17:902:7c91:b0:14f:973e:188d with SMTP id
+ y17-20020a1709027c9100b0014f973e188dmr1601848pll.61.1646033827689; 
+ Sun, 27 Feb 2022 23:37:07 -0800 (PST)
+Received: from [10.72.13.215] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ f15-20020a056a001acf00b004f0ed8dc8d7sm11842013pfv.108.2022.02.27.23.37.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 27 Feb 2022 23:37:07 -0800 (PST)
+Message-ID: <af6d14b3-6bdf-8717-90b5-bc685896cc8a@redhat.com>
+Date: Mon, 28 Feb 2022 15:36:58 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 2BduKJUlPLJcQRYCOu3j5qjg6AKDMomZ
-X-Proofpoint-ORIG-GUID: 2BduKJUlPLJcQRYCOu3j5qjg6AKDMomZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-02-28_02,2022-02-26_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 clxscore=1034 adultscore=0 impostorscore=0 bulkscore=0
- suspectscore=0 mlxscore=0 malwarescore=0 spamscore=0 mlxlogscore=663
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202280040
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.187,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH v2 10/14] vdpa: Add custom IOTLB translations to SVQ
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+References: <20220227134111.3254066-1-eperezma@redhat.com>
+ <20220227134111.3254066-11-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220227134111.3254066-11-eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,67 +104,450 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>,
+ virtualization@lists.linux-foundation.org, Eli Cohen <eli@mellanox.com>,
+ Eric Blake <eblake@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is useful to analyze changes in the U-Boot RAM driver when SDRAM
-training is performed.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/misc/aspeed_sdmc.c | 2 ++
- hw/misc/trace-events  | 4 ++++
- 2 files changed, 6 insertions(+)
+在 2022/2/27 下午9:41, Eugenio Pérez 写道:
+> Use translations added in VhostIOVATree in SVQ.
+>
+> Only introduce usage here, not allocation and deallocation. As with
+> previous patches, we use the dead code paths of shadow_vqs_enabled to
+> avoid commiting too many changes at once. These are impossible to take
+> at the moment.
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> ---
+>   hw/virtio/vhost-shadow-virtqueue.h |   6 +-
+>   include/hw/virtio/vhost-vdpa.h     |   3 +
+>   hw/virtio/vhost-shadow-virtqueue.c |  76 ++++++++++++++++-
+>   hw/virtio/vhost-vdpa.c             | 128 ++++++++++++++++++++++++-----
+>   4 files changed, 187 insertions(+), 26 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
+> index 04c67685fd..b2f722d101 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.h
+> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> @@ -13,6 +13,7 @@
+>   #include "qemu/event_notifier.h"
+>   #include "hw/virtio/virtio.h"
+>   #include "standard-headers/linux/vhost_types.h"
+> +#include "hw/virtio/vhost-iova-tree.h"
+>   
+>   /* Shadow virtqueue to relay notifications */
+>   typedef struct VhostShadowVirtqueue {
+> @@ -43,6 +44,9 @@ typedef struct VhostShadowVirtqueue {
+>       /* Virtio device */
+>       VirtIODevice *vdev;
+>   
+> +    /* IOVA mapping */
+> +    VhostIOVATree *iova_tree;
+> +
+>       /* Map for use the guest's descriptors */
+>       VirtQueueElement **ring_id_maps;
+>   
+> @@ -78,7 +82,7 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
+>                        VirtQueue *vq);
+>   void vhost_svq_stop(VhostShadowVirtqueue *svq);
+>   
+> -VhostShadowVirtqueue *vhost_svq_new(void);
+> +VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree);
+>   
+>   void vhost_svq_free(gpointer vq);
+>   G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostShadowVirtqueue, vhost_svq_free);
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+> index 009a9f3b6b..ee8e939ad0 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -14,6 +14,7 @@
+>   
+>   #include <gmodule.h>
+>   
+> +#include "hw/virtio/vhost-iova-tree.h"
+>   #include "hw/virtio/virtio.h"
+>   #include "standard-headers/linux/vhost_types.h"
+>   
+> @@ -30,6 +31,8 @@ typedef struct vhost_vdpa {
+>       MemoryListener listener;
+>       struct vhost_vdpa_iova_range iova_range;
+>       bool shadow_vqs_enabled;
+> +    /* IOVA mapping used by the Shadow Virtqueue */
+> +    VhostIOVATree *iova_tree;
+>       GPtrArray *shadow_vqs;
+>       struct vhost_dev *dev;
+>       VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+> index a38d313755..7e073773d1 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -11,6 +11,7 @@
+>   #include "hw/virtio/vhost-shadow-virtqueue.h"
+>   
+>   #include "qemu/error-report.h"
+> +#include "qemu/log.h"
+>   #include "qemu/main-loop.h"
+>   #include "qemu/log.h"
+>   #include "linux-headers/linux/vhost.h"
+> @@ -84,7 +85,58 @@ static void vhost_svq_set_notification(VhostShadowVirtqueue *svq, bool enable)
+>       }
+>   }
+>   
+> +/**
+> + * Translate addresses between the qemu's virtual address and the SVQ IOVA
+> + *
+> + * @svq    Shadow VirtQueue
+> + * @vaddr  Translated IOVA addresses
+> + * @iovec  Source qemu's VA addresses
+> + * @num    Length of iovec and minimum length of vaddr
+> + */
+> +static bool vhost_svq_translate_addr(const VhostShadowVirtqueue *svq,
+> +                                     void **addrs, const struct iovec *iovec,
+> +                                     size_t num)
+> +{
+> +    if (num == 0) {
+> +        return true;
+> +    }
+> +
+> +    for (size_t i = 0; i < num; ++i) {
+> +        DMAMap needle = {
+> +            .translated_addr = (hwaddr)iovec[i].iov_base,
+> +            .size = iovec[i].iov_len,
+> +        };
+> +        size_t off;
+> +
+> +        const DMAMap *map = vhost_iova_tree_find_iova(svq->iova_tree, &needle);
+> +        /*
+> +         * Map cannot be NULL since iova map contains all guest space and
+> +         * qemu already has a physical address mapped
+> +         */
+> +        if (unlikely(!map)) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "Invalid address 0x%"HWADDR_PRIx" given by guest",
+> +                          needle.translated_addr);
+> +            return false;
+> +        }
+> +
+> +        off = needle.translated_addr - map->translated_addr;
+> +        addrs[i] = (void *)(map->iova + off);
+> +
+> +        if (unlikely(int128_gt(int128_add(needle.translated_addr,
+> +                                          iovec[i].iov_len),
+> +                               map->translated_addr + map->size))) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "Guest buffer expands over iova range");
+> +            return false;
+> +        }
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>   static void vhost_vring_write_descs(VhostShadowVirtqueue *svq,
+> +                                    void * const *vaddr_sg,
 
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index 08f856cbda7e..d2a3931033b3 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -130,6 +130,7 @@ static uint64_t aspeed_sdmc_read(void *opaque, hwaddr=
- addr, unsigned size)
-         return 0;
-     }
-=20
-+    trace_aspeed_sdmc_read(addr, s->regs[addr]);
-     return s->regs[addr];
- }
-=20
-@@ -148,6 +149,7 @@ static void aspeed_sdmc_write(void *opaque, hwaddr ad=
-dr, uint64_t data,
-         return;
-     }
-=20
-+    trace_aspeed_sdmc_write(addr, data);
-     asc->write(s, addr, data);
- }
-=20
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 1c373dd0a4c5..fb5a3897807f 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -205,6 +205,10 @@ aspeed_i3c_write(uint64_t offset, uint64_t data) "I3=
-C write: offset 0x%" PRIx64
- aspeed_i3c_device_read(uint32_t deviceid, uint64_t offset, uint64_t data=
-) "I3C Dev[%u] read: offset 0x%" PRIx64 " data 0x%" PRIx64
- aspeed_i3c_device_write(uint32_t deviceid, uint64_t offset, uint64_t dat=
-a) "I3C Dev[%u] write: offset 0x%" PRIx64 " data 0x%" PRIx64
-=20
-+# aspeed_sdmc.c
-+aspeed_sdmc_write(uint64_t reg, uint64_t data) "reg @0x%" PRIx64 " data:=
- 0x%" PRIx64
-+aspeed_sdmc_read(uint64_t reg, uint64_t data) "reg @0x%" PRIx64 " data: =
-0x%" PRIx64
-+
- # bcm2835_property.c
- bcm2835_mbox_property(uint32_t tag, uint32_t bufsize, size_t resplen) "m=
-box property tag:0x%08x in_sz:%u out_sz:%zu"
-=20
---=20
-2.34.1
+
+Nit: it looks to me we are not passing vaddr but iova here, so it might 
+be better to use "sg"?
+
+
+>                                       const struct iovec *iovec,
+>                                       size_t num, bool more_descs, bool write)
+>   {
+> @@ -103,7 +155,7 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq,
+>           } else {
+>               descs[i].flags = flags;
+>           }
+> -        descs[i].addr = cpu_to_le64((hwaddr)iovec[n].iov_base);
+> +        descs[i].addr = cpu_to_le64((hwaddr)vaddr_sg[n]);
+>           descs[i].len = cpu_to_le32(iovec[n].iov_len);
+>   
+>           last = i;
+> @@ -119,6 +171,8 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+>   {
+>       unsigned avail_idx;
+>       vring_avail_t *avail = svq->vring.avail;
+> +    bool ok;
+> +    g_autofree void **sgs = g_new(void *, MAX(elem->out_num, elem->in_num));
+>   
+>       *head = svq->free_head;
+>   
+> @@ -129,9 +183,20 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+>           return false;
+>       }
+>   
+> -    vhost_vring_write_descs(svq, elem->out_sg, elem->out_num,
+> +    ok = vhost_svq_translate_addr(svq, sgs, elem->out_sg, elem->out_num);
+> +    if (unlikely(!ok)) {
+> +        return false;
+> +    }
+> +    vhost_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
+>                               elem->in_num > 0, false);
+> -    vhost_vring_write_descs(svq, elem->in_sg, elem->in_num, false, true);
+> +
+> +
+> +    ok = vhost_svq_translate_addr(svq, sgs, elem->in_sg, elem->in_num);
+> +    if (unlikely(!ok)) {
+> +        return false;
+> +    }
+> +
+> +    vhost_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false, true);
+>   
+>       /*
+>        * Put the entry in the available array (but don't update avail->idx until
+> @@ -514,11 +579,13 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
+>    * Creates vhost shadow virtqueue, and instructs the vhost device to use the
+>    * shadow methods and file descriptors.
+>    *
+> + * @iova_tree Tree to perform descriptors translations
+> + *
+>    * Returns the new virtqueue or NULL.
+>    *
+>    * In case of error, reason is reported through error_report.
+>    */
+> -VhostShadowVirtqueue *vhost_svq_new(void)
+> +VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree)
+>   {
+>       g_autofree VhostShadowVirtqueue *svq = g_new0(VhostShadowVirtqueue, 1);
+>       int r;
+> @@ -539,6 +606,7 @@ VhostShadowVirtqueue *vhost_svq_new(void)
+>   
+>       event_notifier_init_fd(&svq->svq_kick, VHOST_FILE_UNBIND);
+>       event_notifier_set_handler(&svq->hdev_call, vhost_svq_handle_call);
+> +    svq->iova_tree = iova_tree;
+>       return g_steal_pointer(&svq);
+>   
+>   err_init_hdev_call:
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 435b9c2e9e..56f9f125cd 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -209,6 +209,21 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>                                            vaddr, section->readonly);
+>   
+>       llsize = int128_sub(llend, int128_make64(iova));
+> +    if (v->shadow_vqs_enabled) {
+> +        DMAMap mem_region = {
+> +            .translated_addr = (hwaddr)vaddr,
+> +            .size = int128_get64(llsize) - 1,
+> +            .perm = IOMMU_ACCESS_FLAG(true, section->readonly),
+> +        };
+> +
+> +        int r = vhost_iova_tree_map_alloc(v->iova_tree, &mem_region);
+> +        if (unlikely(r != IOVA_OK)) {
+> +            error_report("Can't allocate a mapping (%d)", r);
+> +            goto fail;
+> +        }
+> +
+> +        iova = mem_region.iova;
+> +    }
+>   
+>       vhost_vdpa_iotlb_batch_begin_once(v);
+>       ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
+> @@ -261,6 +276,20 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+>   
+>       llsize = int128_sub(llend, int128_make64(iova));
+>   
+> +    if (v->shadow_vqs_enabled) {
+> +        const DMAMap *result;
+> +        const void *vaddr = memory_region_get_ram_ptr(section->mr) +
+> +            section->offset_within_region +
+> +            (iova - section->offset_within_address_space);
+> +        DMAMap mem_region = {
+> +            .translated_addr = (hwaddr)vaddr,
+> +            .size = int128_get64(llsize) - 1,
+> +        };
+> +
+> +        result = vhost_iova_tree_find_iova(v->iova_tree, &mem_region);
+> +        iova = result->iova;
+> +        vhost_iova_tree_remove(v->iova_tree, &mem_region);
+> +    }
+>       vhost_vdpa_iotlb_batch_begin_once(v);
+>       ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+>       if (ret) {
+> @@ -383,7 +412,7 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
+>   
+>       shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
+>       for (unsigned n = 0; n < hdev->nvqs; ++n) {
+> -        g_autoptr(VhostShadowVirtqueue) svq = vhost_svq_new();
+> +        g_autoptr(VhostShadowVirtqueue) svq = vhost_svq_new(v->iova_tree);
+>   
+>           if (unlikely(!svq)) {
+>               error_setg(errp, "Cannot create svq %u", n);
+> @@ -834,37 +863,78 @@ static int vhost_vdpa_svq_set_fds(struct vhost_dev *dev,
+>   /**
+>    * Unmap a SVQ area in the device
+>    */
+> -static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v, hwaddr iova,
+> -                                      hwaddr size)
+> +static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
+> +                                      const DMAMap *needle)
+>   {
+> +    const DMAMap *result = vhost_iova_tree_find_iova(v->iova_tree, needle);
+> +    hwaddr size;
+>       int r;
+>   
+> -    size = ROUND_UP(size, qemu_real_host_page_size);
+> -    r = vhost_vdpa_dma_unmap(v, iova, size);
+> +    if (unlikely(!result)) {
+> +        error_report("Unable to find SVQ address to unmap");
+> +        return false;
+> +    }
+> +
+> +    size = ROUND_UP(result->size, qemu_real_host_page_size);
+> +    r = vhost_vdpa_dma_unmap(v, result->iova, size);
+>       return r == 0;
+>   }
+>   
+>   static bool vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
+>                                          const VhostShadowVirtqueue *svq)
+>   {
+> +    DMAMap needle;
+>       struct vhost_vdpa *v = dev->opaque;
+>       struct vhost_vring_addr svq_addr;
+> -    size_t device_size = vhost_svq_device_area_size(svq);
+> -    size_t driver_size = vhost_svq_driver_area_size(svq);
+>       bool ok;
+>   
+>       vhost_svq_get_vring_addr(svq, &svq_addr);
+>   
+> -    ok = vhost_vdpa_svq_unmap_ring(v, svq_addr.desc_user_addr, driver_size);
+> +    needle = (DMAMap) {
+> +        .translated_addr = svq_addr.desc_user_addr,
+> +    };
+
+
+Let's simply initialize the member to zero during start of this function 
+then we can use needle->transalted_addr = XXX here.
+
+
+> +    ok = vhost_vdpa_svq_unmap_ring(v, &needle);
+>       if (unlikely(!ok)) {
+>           return false;
+>       }
+>   
+> -    return vhost_vdpa_svq_unmap_ring(v, svq_addr.used_user_addr, device_size);
+> +    needle = (DMAMap) {
+> +        .translated_addr = svq_addr.used_user_addr,
+> +    };
+> +    return vhost_vdpa_svq_unmap_ring(v, &needle);
+> +}
+> +
+> +/**
+> + * Map the SVQ area in the device
+> + *
+> + * @v          Vhost-vdpa device
+> + * @needle     The area to search iova
+> + * @errorp     Error pointer
+> + */
+> +static bool vhost_vdpa_svq_map_ring(struct vhost_vdpa *v, DMAMap *needle,
+> +                                    Error **errp)
+> +{
+> +    int r;
+> +
+> +    r = vhost_iova_tree_map_alloc(v->iova_tree, needle);
+> +    if (unlikely(r != IOVA_OK)) {
+> +        error_setg(errp, "Cannot allocate iova (%d)", r);
+> +        return false;
+> +    }
+> +
+> +    r = vhost_vdpa_dma_map(v, needle->iova, needle->size,
+> +                           (void *)needle->translated_addr,
+> +                           !(needle->perm & IOMMU_ACCESS_FLAG(0, 1)));
+
+
+Let's simply use needle->perm == IOMMU_RO here?
+
+
+> +    if (unlikely(r != 0)) {
+> +        error_setg_errno(errp, -r, "Cannot map region to device");
+> +        vhost_iova_tree_remove(v->iova_tree, needle);
+> +    }
+> +
+> +    return r == 0;
+>   }
+>   
+>   /**
+> - * Map shadow virtqueue rings in device
+> + * Map the shadow virtqueue rings in the device
+>    *
+>    * @dev   The vhost device
+>    * @svq   The shadow virtqueue
+> @@ -876,28 +946,44 @@ static bool vhost_vdpa_svq_map_rings(struct vhost_dev *dev,
+>                                        struct vhost_vring_addr *addr,
+>                                        Error **errp)
+>   {
+> +    DMAMap device_region, driver_region;
+> +    struct vhost_vring_addr svq_addr;
+>       struct vhost_vdpa *v = dev->opaque;
+>       size_t device_size = vhost_svq_device_area_size(svq);
+>       size_t driver_size = vhost_svq_driver_area_size(svq);
+> -    int r;
+> +    size_t avail_offset;
+> +    bool ok;
+>   
+>       ERRP_GUARD();
+> -    vhost_svq_get_vring_addr(svq, addr);
+> +    vhost_svq_get_vring_addr(svq, &svq_addr);
+>   
+> -    r = vhost_vdpa_dma_map(v, addr->desc_user_addr, driver_size,
+> -                           (void *)addr->desc_user_addr, true);
+> -    if (unlikely(r != 0)) {
+> -        error_setg_errno(errp, -r, "Cannot create vq driver region: ");
+> +    driver_region = (DMAMap) {
+> +        .translated_addr = svq_addr.desc_user_addr,
+> +        .size = driver_size - 1,
+
+
+Any reason for the "-1" here? I see several places do things like that, 
+it's probably hint of wrong API somehwere.
+
+Thanks
+
+
+> +        .perm = IOMMU_RO,
+> +    };
+> +    ok = vhost_vdpa_svq_map_ring(v, &driver_region, errp);
+> +    if (unlikely(!ok)) {
+> +        error_prepend(errp, "Cannot create vq driver region: ");
+>           return false;
+>       }
+> +    addr->desc_user_addr = driver_region.iova;
+> +    avail_offset = svq_addr.avail_user_addr - svq_addr.desc_user_addr;
+> +    addr->avail_user_addr = driver_region.iova + avail_offset;
+>   
+> -    r = vhost_vdpa_dma_map(v, addr->used_user_addr, device_size,
+> -                           (void *)addr->used_user_addr, false);
+> -    if (unlikely(r != 0)) {
+> -        error_setg_errno(errp, -r, "Cannot create vq device region: ");
+> +    device_region = (DMAMap) {
+> +        .translated_addr = svq_addr.used_user_addr,
+> +        .size = device_size - 1,
+> +        .perm = IOMMU_RW,
+> +    };
+> +    ok = vhost_vdpa_svq_map_ring(v, &device_region, errp);
+> +    if (unlikely(!ok)) {
+> +        error_prepend(errp, "Cannot create vq device region: ");
+> +        vhost_vdpa_svq_unmap_ring(v, &driver_region);
+>       }
+> +    addr->used_user_addr = device_region.iova;
+>   
+> -    return r == 0;
+> +    return ok;
+>   }
+>   
+>   static bool vhost_vdpa_svq_setup(struct vhost_dev *dev,
 
 
