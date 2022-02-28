@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 916364C6BDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 13:10:35 +0100 (CET)
-Received: from localhost ([::1]:58158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15EF64C6BF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 13:19:37 +0100 (CET)
+Received: from localhost ([::1]:43936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOerJ-0007FO-JW
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 07:10:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37802)
+	id 1nOf03-0000yF-Jh
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 07:19:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nOeoZ-00057v-Bs
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 07:07:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37067)
+ id 1nOeoj-0005Dl-Kh
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 07:07:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nOeoW-0004zZ-3h
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 07:07:41 -0500
+ id 1nOeoi-00051O-3p
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 07:07:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646050059;
+ s=mimecast20190719; t=1646050071;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=u+kh2I2FTkOs9CMR8gLr7rxqDgXaYKBv1bVipFJ1fr4=;
- b=CJCjPImr4rfZOl5JlteLAgZa/s2laLXem5DhqgpRSgJqH8+ZfqTdWgYKG+HKrytzDUaN4c
- 7HZRHuUYgziUliVAmDB06W/yOTAZCVnEiHLgjzmjqpJwVYyhwBPrsJzNC3zX2hBSEVIiVH
- 3MKiR4ayrZGSpGDJAboxpmls0GjQYDw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f3b2uimjXAVTPAoqIZYxGYu9kRa0KLxOyHa019XEA9I=;
+ b=ADE5VcvhW1opgTGDKy2dfTj8OC2SQChcSTxQWXzHW6NrXxvq4mUpaDVIQfUjl4lTlcSukG
+ MT9flponvO9eocA51boECRIZ2ssNs8OGekUiOcAAPi9NFhmV4id5hHft3VClAqZPXfsjiz
+ iHeK8fvVhRFcOzdqvbqGmgyAwg9FYoM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-275-qQwfURejMJae0QrYpAgqRw-1; Mon, 28 Feb 2022 07:07:35 -0500
-X-MC-Unique: qQwfURejMJae0QrYpAgqRw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-358-TJCGVG47Piq1AkE-RvVRTA-1; Mon, 28 Feb 2022 07:07:48 -0500
+X-MC-Unique: TJCGVG47Piq1AkE-RvVRTA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C36F180A08B
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 12:07:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 353D51006AA7
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 12:07:47 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 029952B6FD;
- Mon, 28 Feb 2022 12:07:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C25C78AA6;
+ Mon, 28 Feb 2022 12:07:37 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] meson: move int128 checks from configure
-Date: Mon, 28 Feb 2022 16:07:19 +0400
-Message-Id: <20220228120720.722632-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 2/2] meson: fix CONFIG_ATOMIC128 check
+Date: Mon, 28 Feb 2022 16:07:20 +0400
+Message-Id: <20220228120720.722632-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20220228120720.722632-1-marcandre.lureau@redhat.com>
+References: <20220228120720.722632-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -85,127 +88,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+testfile.c: In function 'main':
+testfile.c:5:11: error: incorrect number of arguments to function '__atomic_load'
+    5 |       y = __atomic_load(&x, 0);
+      |           ^~~~~~~~~~~~~
+testfile.c:6:7: error: argument 2 of '__atomic_store' must be a pointer type
+    6 |       __atomic_store(&x, y, 0);
+      |       ^~~~~~~~~~~~~~
+testfile.c:7:7: error: argument 3 of '__atomic_compare_exchange' must be a pointer type
+    7 |       __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+And it must be linked with -latomic.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- configure   | 47 -----------------------------------------------
- meson.build | 39 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+), 47 deletions(-)
+ meson.build | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/configure b/configure
-index c56ed53ee365..66315835a663 100755
---- a/configure
-+++ b/configure
-@@ -2452,41 +2452,6 @@ if compile_prog "" "" ; then
-     int128=yes
- fi
- 
--#########################################
--# See if 128-bit atomic operations are supported.
--
--atomic128=no
--if test "$int128" = "yes"; then
--  cat > $TMPC << EOF
--int main(void)
--{
--  unsigned __int128 x = 0, y = 0;
--  y = __atomic_load(&x, 0);
--  __atomic_store(&x, y, 0);
--  __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
--  return 0;
--}
--EOF
--  if compile_prog "" "" ; then
--    atomic128=yes
--  fi
--fi
--
--cmpxchg128=no
--if test "$int128" = yes && test "$atomic128" = no; then
--  cat > $TMPC << EOF
--int main(void)
--{
--  unsigned __int128 x = 0, y = 0;
--  __sync_val_compare_and_swap_16(&x, y, x);
--  return 0;
--}
--EOF
--  if compile_prog "" "" ; then
--    cmpxchg128=yes
--  fi
--fi
--
- ########################################
- # check if ccache is interfering with
- # semantic analysis of macros
-@@ -2930,18 +2895,6 @@ if test "$have_tsan" = "yes" && test "$have_tsan_iface_fiber" = "yes" ; then
-     echo "CONFIG_TSAN=y" >> $config_host_mak
- fi
- 
--if test "$int128" = "yes" ; then
--  echo "CONFIG_INT128=y" >> $config_host_mak
--fi
--
--if test "$atomic128" = "yes" ; then
--  echo "CONFIG_ATOMIC128=y" >> $config_host_mak
--fi
--
--if test "$cmpxchg128" = "yes" ; then
--  echo "CONFIG_CMPXCHG128=y" >> $config_host_mak
--fi
--
- if test "$rdma" = "yes" ; then
-   echo "CONFIG_RDMA=y" >> $config_host_mak
-   echo "RDMA_LIBS=$rdma_libs" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index 2ed1d97c97ab..a9ec3974bc67 100644
+index a9ec3974bc67..a3d8af7a501b 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1824,6 +1824,45 @@ config_host_data.set('CONFIG_ATOMIC64', cc.links('''
-     return 0;
-   }'''))
+@@ -1841,13 +1841,17 @@ if has_int128
+     int main(void)
+     {
+       unsigned __int128 x = 0, y = 0;
+-      y = __atomic_load(&x, 0);
+-      __atomic_store(&x, y, 0);
+-      __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
++      __atomic_load(&x, &y, 0);
++      __atomic_store(&x, &y, 0);
++      __atomic_compare_exchange(&x, &y, &x, 0, 0, 0);
+       return 0;
+-    }''')
++    }''', args: ['-latomic'])
  
-+has_int128 = cc.links('''
-+  __int128_t a;
-+  __uint128_t b;
-+  int main (void) {
-+    a = a + b;
-+    b = a * b;
-+    a = a * a;
-+    return 0;
-+  }''')
-+
-+config_host_data.set('CONFIG_INT128', has_int128)
-+
-+if has_int128
-+  has_atomic128 = cc.links('''
-+    int main(void)
-+    {
-+      unsigned __int128 x = 0, y = 0;
-+      y = __atomic_load(&x, 0);
-+      __atomic_store(&x, y, 0);
-+      __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
-+      return 0;
-+    }''')
-+
-+  config_host_data.set('CONFIG_ATOMIC128', has_atomic128)
-+
-+  if not has_atomic128
-+    has_cmpxchg128 = cc.links('''
-+      int main(void)
-+      {
-+        unsigned __int128 x = 0, y = 0;
-+        __sync_val_compare_and_swap_16(&x, y, x);
-+        return 0;
-+      }
-+    ''')
-+
-+    config_host_data.set('CONFIG_CMPXCHG128', has_cmpxchg128)
+   config_host_data.set('CONFIG_ATOMIC128', has_atomic128)
++  if has_atomic128
++    add_global_link_arguments('-latomic',
++                              native: false, language: ['c', 'cpp', 'objc'])
 +  endif
-+endif
-+
- config_host_data.set('CONFIG_GETAUXVAL', cc.links(gnu_source_prefix + '''
-   #include <sys/auxv.h>
-   int main(void) {
+ 
+   if not has_atomic128
+     has_cmpxchg128 = cc.links('''
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
