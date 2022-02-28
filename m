@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878D24C6B54
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 12:52:49 +0100 (CET)
-Received: from localhost ([::1]:54930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6924C6B77
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 13:01:35 +0100 (CET)
+Received: from localhost ([::1]:47122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOea8-0001UI-K8
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 06:52:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58548)
+	id 1nOeiY-0006zm-LO
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 07:01:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nOeNi-00024S-DV; Mon, 28 Feb 2022 06:39:58 -0500
+ id 1nOeNo-0002Lk-LS; Mon, 28 Feb 2022 06:40:04 -0500
 Received: from [2a01:111:f400:7e1a::731] (port=24768
  helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nOeNg-0002Kz-Lx; Mon, 28 Feb 2022 06:39:58 -0500
+ id 1nOeNj-0002Kz-1o; Mon, 28 Feb 2022 06:40:04 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iTBNUxy8EIeYuypH4XCoKa9sSdhzu4BK1vGEIaRr6nnTx7DmRKVzb+sxkH4OdpfSY5/Pv/5rVRkjcHl7i7tYALxXdajMpI8kHfFKmRjhyN/+v7GPPM2IQvxC81eGJeU0QwYmIzOW7351M1wrys3L/rVR5ywcEM+xXibIuXG88fqSkRq2boEVhytwBoD4MYEl3N3hMrYuiRzmr5UGM7b5deMT6b/c8Qa7C2Jup9kodb5n2DgyFjQf2pHI9MPmRI0bRimmBSYt1JnsYB9LRT49qhjfCvC61FP2TGYl85JEEe3noh06dPuhju+mqdw9q3PAiSgfBCW0uD65p5mZmg1c0A==
+ b=mMr/EUl4ZznhWh86hpAroa8mcydmOufmZZkg+8XboE6im3maSKd/I+H+6FUyY++f0BL7lWEKCszFDRyGS+3qz1JjuJZJS7jQbGlXu8FFIXpK7/NmOkGjrFo/zRmAlsAmu70Krd8r9rcpflf1uz9SQ6m4GbCf0WI40vzsZamrkrhNtKUvfg0yXficR54TGRMXIZdimND4JVrvLHKdRCicW4f7W+8dsvrZrTYQulwW6d8JL8HjpJsQFUpYuDLyJneLDF9ayQwVi8LHECHs+r+9T6DyhMei5UPLM+tDYA3w0afyfwKFM2CSbOW/ZO2oRi4u+SPxiRTCr3lbbyxwJPRrgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rYCkIsx9+bhwl6XDNZ+n+3c2V2cwQDr4V3HIXM5vypM=;
- b=Hv4BBkigFvwabzQuEw81rtE1cELuo4qPlNtWu0z9K64T6rfGmfQuDcbw+4bcxr7AaHEM8v34hJETQRELpl8GvMJrCUSnRgoYvGhAXvRlNaJGZk9BhcpqzyToR2//Kegyk+/Dk2RMANxt/aUxeiioKOV+5c+oMIwtRBTvZWf4WMpZO4wojGjtvuXOiYMNXy6rgQVRd6frQ0HFD2vZ+qmRG8VdRN7ADn4jFj2c8vJNQC+pGRWqDgP1gd6NG3iWhsipWkAL1n3RzSgpZguL+2C7Q+ukECmlyGuyPoCu3kzXs2X5nVXlCuErD/7gCzY/xVSLaCfI000/p5fGagvcjaMJIg==
+ bh=NmMZWPsXy6sCn/KTx0rcRRhgXC50lQ65Ci4s+q4S0Dk=;
+ b=KrtSlCs0vy3fMIyNj0pij72fNSFMRORX4xh9Oj8unO43O+EiMDyVicLqL+4uX0gs/dtAivcY472qsDR54OpYtyqFpqPBEnThuqVSIJOUndzYH+M0VrkrjIhrv3uHF4hKYobWrB4XHaC1WFkYC9nBQOZ/UvlZNpYZJvE+rFKrlGp7WU4W1wFHcfe9BsiaBIoL6g+NBw7MXaZaqJIyGmspWcaX7WeRSn+xiBKx4WvA54jmOLiR+/jFVGjau4FLw7+AUWURHCB7LyZBtz+9Y17xPtPz7pVebiYFNtKVvczyb3lcjcCjyypMjDyxUevzKP05SIoGElWPALURv7Lz5PfEuw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rYCkIsx9+bhwl6XDNZ+n+3c2V2cwQDr4V3HIXM5vypM=;
- b=f3PQ+cdKwRAGMb729XzMsxyvYZMigSZ/2A2aXUg6Es/QOVLiqlweaW91qU73Rz6dsjAtvfL+ne5IMM1zn++/B+IRzD8lsOUo/dtz7Pkv6KmewIxpU38VUyWKlCdlfQKzNNlyX/yFA5BBbkDNwbLqscNlpTvBZA4vyqSg/n95HMc=
+ bh=NmMZWPsXy6sCn/KTx0rcRRhgXC50lQ65Ci4s+q4S0Dk=;
+ b=Uy5RNvFNRpCfdO/hGKCexhbOrODAI5LCgmjqdD/tBo33aDg5sqazkciIZknN/ck3MOkelTju9VIp4ZMstd4v5spPml5nwdpO6aaFCn5xSnqA1PRkMno0THVaJRfxRkwcRMxiNJobmWj8mY27S56/icN/jlIyCGWifpB1RPgu6lg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by DB8PR08MB4172.eurprd08.prod.outlook.com (2603:10a6:10:af::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Mon, 28 Feb
- 2022 11:39:46 +0000
+ 2022 11:39:47 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.5017.027; Mon, 28 Feb 2022
- 11:39:46 +0000
+ 11:39:47 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, fam@euphon.net,
  stefanha@redhat.com, eblake@redhat.com, hreitz@redhat.com,
  kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  nikita.lapshin@virtuozzo.com
-Subject: [PATCH v5 02/16] block/dirty-bitmap: bdrv_merge_dirty_bitmap(): add
- return value
-Date: Mon, 28 Feb 2022 12:39:13 +0100
-Message-Id: <20220228113927.1852146-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v5 03/16] block/block-copy: block_copy_state_new(): add bitmap
+ parameter
+Date: Mon, 28 Feb 2022 12:39:14 +0100
+Message-Id: <20220228113927.1852146-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220228113927.1852146-1-vsementsov@virtuozzo.com>
 References: <20220228113927.1852146-1-vsementsov@virtuozzo.com>
@@ -64,70 +64,70 @@ X-ClientProxiedBy: VI1PR09CA0135.eurprd09.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d7c14683-3e4d-4005-44c4-08d9faaf0510
+X-MS-Office365-Filtering-Correlation-Id: e089cad3-ec8b-428b-da4b-08d9faaf058e
 X-MS-TrafficTypeDiagnostic: DB8PR08MB4172:EE_
-X-Microsoft-Antispam-PRVS: <DB8PR08MB4172AB2DFAF140800B785FA3C1019@DB8PR08MB4172.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DB8PR08MB4172B63B4CD60108CA5A8F88C1019@DB8PR08MB4172.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RNGVXi7x1HT+Ac1+r5gSPd+4z8r/VA4v7f0wQFAAXFdr/Ta2CLEUTqU5k+zVfsgjUXbi9z2lb1NWAy/6E6bW4MCzVCw26w9tmdBMteknI8YzyYLfro9c9ecMOI1fwB4c8E1K1dNZuwXcPbLognQNppaoV+xoESPUUydooPCuc4lb1zZQOD7PHLubyXEtn6+vvzCpvguglkwdxBJlEb7ALhKNCmTvNSRw8YkcRgQ851sILotdkoTbOlkXR6isRN53Cl+asCqdYmldVpTeDhDyqSDTlWrgAzItoEB6Ye7yp9H7pqSLUAHQfiK8f/0/SVSWytWdVMiLj6gpIx9T2Rm7dE2AevySSj/awkt6jrIcSLrn9vsAhBrRFZdoQz10oHX21fdOEmsmDHHGn7Z3Pnim1dW1kHzIwsgXmgUUtAoYOiQLHL559Igw9XGo3bJPiEh+l3EVwJ4V9OYxRma3julTXYkqaQTVouK/V7nGtfgMp3Nwa47zrOhRGRfyldjHfxQveC3ytYnvdzaM/TJgfnEo/w6N1lbu4TXVEqk5QounfciRYGNzr0q/mey99jiH85j5EnqrjrXqVvIJQKfN/b6fbN1cNAiXV4hccQdNwxhg2o25WQZXeeEaiiSv47mHmDkiegcMFrbtu4zQ4sUh8TtGQt3ox3ZRJvp8Z3WlAF8TnC7FIcTqT7iaxMpfvxb0xuWHi24b9HMjNFCm+GYcMb2o0cZaMJwow+peHkhuJBrgvbE=
+X-Microsoft-Antispam-Message-Info: HN8w0OgEQToIC6qUO6NJeh/Zr4Z9xkb8jgANFQF+c3KE2aPRHazrGMPeJl1dTNXV809mA2kKB2h2QAzYQSRkWnIMQi47TzBQhSb+OzwEoOYUChMAqBx3EzLgsCKwIqUXBEWcrVjxad1CHkaM7ItmvEEPC4ur1Fg7V72NoHqpvZoutup3VKDuOPRekiGOlfqEp8OeLSk6rPBKvsjzU/GBajHBdpdYEHaxhmy+NMxDAUJQs+RYd3Ie1H5YjMFApE/Y73umWSw3qtSzcXEmsgYkLH9XqrOJZL935uPF67sOzlBXzph+0vqOc9p8vuPy2wvA899DVyRZlYzxlXn+KUfSK/+fvoosKuy5nRB7udM1x1z2JLrg0D94JWPkxkgEtua2Ghk/2AP9SlT4brx87/Ohc1XRMg8mzuf+lfwuvZAiWyE5hTIGjFPOXlWwWGr9qmWjyredBfda0qjKaCwTl8SOfrvddgfM3VTc8TgdvM5A91n1oyabM5f5Y5ZzP1M0aWJ2iS9Gr4kzcR7YqDtF/GRqe/SHfwZW5OApmFKICbnrknTLVIF2xXxtfFXy43eZOHDWeWVzRdbCnapAXSAwEwjyGoo6Vzr85Rc/L/L3dhq3kd2tLeH2dY/oT12Xms7NfjocBHXXVQSaGQvK43ck70pDr6VUsuM7Ksx+Dhn6FxGmN4EiUdLN0a0O930EwcNQAvIf+Q4qi3gItbnzn8CO5z0Czw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(1076003)(38100700002)(26005)(107886003)(38350700002)(36756003)(2906002)(316002)(8676002)(66556008)(2616005)(186003)(86362001)(66946007)(66476007)(52116002)(6666004)(83380400001)(6916009)(5660300002)(6506007)(508600001)(6486002)(6512007)(8936002)(4326008)(14143004);
+ SFS:(13230001)(4636009)(366004)(1076003)(38100700002)(26005)(107886003)(38350700002)(36756003)(2906002)(316002)(8676002)(66556008)(2616005)(186003)(86362001)(66946007)(66476007)(52116002)(6666004)(83380400001)(6916009)(5660300002)(6506007)(508600001)(6486002)(6512007)(8936002)(4326008);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?a42maJQq53IK4GVmDzKS1sjVJJ/3GDhAhmybituwpBE1CyMHNufgYyOqA19t?=
- =?us-ascii?Q?vnjZA7YE2u1+Sfl/3e4ZMXVlMhnvZ6bj5cRQy+k/gXl5CJW9vBXB4yS3JSuq?=
- =?us-ascii?Q?hqABI/Cu+ysxhHmMc2rUHP4dg//RGmiNzKWyHxJleDQT0aqvw5DvQ0Jn85Ky?=
- =?us-ascii?Q?D/G/YHSELrAg5Lry+AL3h/euG2mZ1xqR29ahoU2HpJdgP1WN9L7NneJFkqET?=
- =?us-ascii?Q?vB/9j0nSlcYvQt+QSQ8S4OrAy5EDMFvxx4JhfFZ7luE1fsQY5N7ZIcc06ayl?=
- =?us-ascii?Q?zJgyY3VbAChFimJkWT1eJZsKEiySBN92izDYsP1LZHSLn4E9uIUeh9jn8kLb?=
- =?us-ascii?Q?CSsbiv+7IuUXXCkXDkHqLBp42dufmVDtZ8aTj6obJ1q87j7e13jKjszoS/Zc?=
- =?us-ascii?Q?bKhOxoSxlHUXlXTvX1m72oCVuJkDrUx1aSzDsZSCJCIDSh1Rf8dF9ZGMB9jK?=
- =?us-ascii?Q?6qM7TLIGsNUyH9HprXo3gUFi9MTIveE1G5kaR3QuKLeDgGxmCrpDRn/Y9LAe?=
- =?us-ascii?Q?K2DvScRpOGFoUfOGLiY3LeK2cWjmQKnNsxJq0je8Q4QdhHp4mtQlj4UPn0M2?=
- =?us-ascii?Q?C/lhq9vti+KX9UbuBeyPzOCnigMNqdYKLLWu+4pqvMsHGB0LCRdv8v/Fm6QM?=
- =?us-ascii?Q?64IR1a87FJiPoWpPr6CJeWso0//XX7Zxtl0mlgGi4dhTyixpIz1rK4k7GRQG?=
- =?us-ascii?Q?b8h2M6YwT6msf5yRXqONB5q86Bl8hCskpgvqu9EqsSfmhLtOFMmJptsYNBGu?=
- =?us-ascii?Q?TNm/RMXx6I0tggh9qngrM5yth2pQkZlU+6Dk9TyqsX/rlERoxW2CV5kxM6wt?=
- =?us-ascii?Q?JwhzjknmZiJ5w2pcmM0OBw5duFursfyipesHw7GM4TB/yuHcOUWniGfjiK00?=
- =?us-ascii?Q?8t6tThj2+Vw3V5uGdHEauvEXh3ouxMGBgXQpVwBgDXuGUDpQ4wO5ijLDNdBI?=
- =?us-ascii?Q?o+O3tcDmb4orJXCiW9wB60UwrVF0BkuUaDM4tllF8yZuH5yCTgFbrN8upJgL?=
- =?us-ascii?Q?IjWPee0F7I0LvjGfMgEKUQwLoqwHfySWl844vHAnmh/Zp6mJYVtpezNyiAFr?=
- =?us-ascii?Q?5/4ubRnZ69y+ONiTgVVVvYTSk6blau5q26UtnWCk6dmtieQd7Cl0lA4ehnPh?=
- =?us-ascii?Q?6bOcMMi2Pve/GO/W7g9Zo2yuFdMosDTxHA/ZHwjT7+OSen9D0p9UgPyCXBRX?=
- =?us-ascii?Q?Rxm8+1PVtICQWitFBg7xfVjAZ4AaPoJqPpyZFr4fy7WSLb3xe1mqlD2ioCde?=
- =?us-ascii?Q?z8gfjFClohQUTDFYH+U8iFiGJeD+YjF5AYkP6Ty51va7yJMtpmz3NemDQPai?=
- =?us-ascii?Q?E1zShaIWPzKk0LWUEy8KzrhQcpsE6veadwp+qpduXyJtcKVyUAQRkTLt0eqG?=
- =?us-ascii?Q?oXJn2qMOcTeHqVUQuPpd1BrtnULUpTPaJXzg+mX4fftn68nm/1IBbK3nZ3a8?=
- =?us-ascii?Q?q8axU3JsrFjMD60S8CtSrIG+63UizJucNyWfw01JS1c/nWagU2+0gEAjrleK?=
- =?us-ascii?Q?Wuo92h4fpvdRyf5EygHIm+ZPLoEOrWYjgD2mdQXC4Wiu9JBDH32790vlH2Av?=
- =?us-ascii?Q?09wikJsjghOvlK0f7nh93aJ0fHxZZrS08R0O6tXh5F1vCAZJAQhelmJUutcW?=
- =?us-ascii?Q?ZshSD4vKFfY6pq6SO10thNdR5Lfl4UvDSuNXNs7Nkuash9Duz2BrM5TT1p78?=
- =?us-ascii?Q?UHgfxQgcLYBVvWAGiZHmEnoqkO4=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lKr+Zt6QyfoXQXxtn8tPJrWaR8EQhTK9i7tz6pn65CiZI4mIKNlt05TWSGCp?=
+ =?us-ascii?Q?/yy29NuDyFiM95fQOYce/ZJlJiN23Bm/DAkAmFSMtiz56Rjo+RE8v7IGzgjI?=
+ =?us-ascii?Q?cLsgb3y1CgdOzIPArJ0lJ0v6wOtympvqwriYGFiPA8uWy0q/B0UG1IytABFf?=
+ =?us-ascii?Q?GjuHzuM/Pbobd01+GvSXK4aIjuyVCqZ+F8IRhCmzM1vUgfwymR9qPensA/rb?=
+ =?us-ascii?Q?GVYqpfLfxa3kWENOKccYD6FcpeDvjBWL8n9654eEyRqal4Z2U1rjg0X+aqWq?=
+ =?us-ascii?Q?My2WsG6NsK4PDc399kr7oh3Wl466hNjucPOR8eiMMJPM7/Mg5oHeEHqHHhZS?=
+ =?us-ascii?Q?VSfLG4rrIC8N1VskzpouKz3bTdpl4U6m0S0+tKkxmcITkcBJmqft/f8bSh9H?=
+ =?us-ascii?Q?uwOdd9O14WQqLxUkas/YdSnJHKCWvT+1r7BDngC3GwPjcfTfyhCKh0E2/YDV?=
+ =?us-ascii?Q?A1eU44WEBlrIbkm9U/Rh0/ONDXAnIXNW3p7VGmKE8I99jdVoMZJnsYMFmMJs?=
+ =?us-ascii?Q?cbBIwa593vJKDKJLlrX5SI/OeUHOYCpKckzX2tXLWoVl98nTzBbvak7Rvjaw?=
+ =?us-ascii?Q?Jd3tWEMGX8jX4Wb/SlfXZEwW4tS2woBCbviqaghhWTSBdQqWmsFevfIm6UNL?=
+ =?us-ascii?Q?IszryixP/VPfA268q8L4LIBkllAo8UZuy2PSkbI6PZET7tnulPf8a36dz0W7?=
+ =?us-ascii?Q?5emkZ6mVBmMgmd252Ipf/HpQch63/P7GD+JNgRbKeCY9MM1ctjwQctUq6ISY?=
+ =?us-ascii?Q?9Q0y947LIOmlc5RgZG3RTdoSDkwWgCxjznsEIysJLTHganGk73N1GVFQZ0bb?=
+ =?us-ascii?Q?TrT6voUL8FnsXDRVB1wl0Guxp7CoRmS2dya/iOCHGNieXjGfsFkK+Xa9ZNnr?=
+ =?us-ascii?Q?W/BQFT6shXrkekWP3Ub94iRw+JqVsxstNv2h3AoUY8H7thldhqvQQsvjV2JY?=
+ =?us-ascii?Q?MSLK9G9JeUY03Sbv4ade08a0hCYoxW+tzsVenx1AIbqU2jDfyy67ttDRFgRf?=
+ =?us-ascii?Q?FgY5b1VCBB3tqRthaeYY8plmT9ot70wj9UPmyPBw5xokY5qXNF/HXA5wv7if?=
+ =?us-ascii?Q?8vuINKSIVX77ZPweXhXI6Jp5OIZwGb6tCZSb37qS6nmK/d8XuiToc3gw5M9k?=
+ =?us-ascii?Q?1OgJYiuMpTp981TsAscwUTqKv4qAF3hd34BCK0uF9TqKTQKNM194RuEOmkxk?=
+ =?us-ascii?Q?7/QX7IIilwaVWKrrGhzT2fxguDXiBhe/5zgwlFjBqNLSP+JBhqwbJWq5vdfB?=
+ =?us-ascii?Q?ViT/ZMC+QiJWmRbgv3Hv5CXX2E4kWlWtbOyaPTatIYaH8PcPPORzW3ZYJNNf?=
+ =?us-ascii?Q?Jfesfcu5YPEdkyULUpazsZQNmKIAbj5bExw7hnXW1l1tkeXQxWVYxazYvcD0?=
+ =?us-ascii?Q?fm5WtR/WZyanhB5aPqvtTV9J3LCZfMoPap0+CDlQj+nYbwzOOtBEMH4DcX9p?=
+ =?us-ascii?Q?8MnsGKS8ywVzOGOV5yOOk1GtR4FmVRUaAeLXLcYAttucmagAjRZ32QyMh0IM?=
+ =?us-ascii?Q?PK//xwMwcj/Uv+eonXSrjfa6XIlhbdFZuF18kC2g93iCwQHaCEX+OWuQk7hS?=
+ =?us-ascii?Q?WqodJbznzOanW57VxE6RL19vDHpTad07dmIE63AAn6t/FV3ayRsZTEuL4lKU?=
+ =?us-ascii?Q?hzdj9LgEHQQNOlwgguN4MZixI39KCy/Gis7DQMu3k2jAZs2QNbqKVZCj7a7q?=
+ =?us-ascii?Q?SHaIxVyVw+st7Q5dR3iRj6WI/rw=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7c14683-3e4d-4005-44c4-08d9faaf0510
+X-MS-Exchange-CrossTenant-Network-Message-Id: e089cad3-ec8b-428b-da4b-08d9faaf058e
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 11:39:46.1746 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 11:39:47.1448 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DYYChV2i8wAtYkla0jRFOWG6CiL3PL733NNmSeqXLO+stnHfEJp6WQdXFWgtY+MiKDu9I1LZV9tIIv4s0nWLqpPe39Qbre+ybm6SmMis1vA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: hO/v7la3xeJyP6QePWECEfcwVjvmDzF/wnhe3g4ei5ClQZWY5zx7cQg6RKrny5cMWBt3cG1bnIIZ3RRvTn0348MA9ICE2HHTvAwUwqYPosI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4172
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e1a::731
  (failed)
 Received-SPF: pass client-ip=2a01:111:f400:7e1a::731;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+X-Spam_score_int: -5
+X-Spam_score: -0.6
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -143,83 +143,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-That simplifies handling failure in existing code and in further new
-usage of bdrv_merge_dirty_bitmap().
+This will be used in the following commit to bring "incremental" mode
+to copy-before-write filter.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- include/block/dirty-bitmap.h    | 2 +-
- block/dirty-bitmap.c            | 9 +++++++--
- block/monitor/bitmap-qmp-cmds.c | 5 +----
- 3 files changed, 9 insertions(+), 7 deletions(-)
+ include/block/block-copy.h |  1 +
+ block/block-copy.c         | 14 +++++++++++++-
+ block/copy-before-write.c  |  2 +-
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index 40950ae3d5..f95d350b70 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -77,7 +77,7 @@ void bdrv_dirty_bitmap_set_persistence(BdrvDirtyBitmap *bitmap,
-                                        bool persistent);
- void bdrv_dirty_bitmap_set_inconsistent(BdrvDirtyBitmap *bitmap);
- void bdrv_dirty_bitmap_set_busy(BdrvDirtyBitmap *bitmap, bool busy);
--void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-+bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-                              HBitmap **backup, Error **errp);
- void bdrv_dirty_bitmap_skip_store(BdrvDirtyBitmap *bitmap, bool skip);
- bool bdrv_dirty_bitmap_get(BdrvDirtyBitmap *bitmap, int64_t offset);
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 0ef46163e3..94a0276833 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -880,11 +880,14 @@ bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
-  * Ensures permissions on bitmaps are reasonable; use for public API.
-  *
-  * @backup: If provided, make a copy of dest here prior to merge.
-+ *
-+ * Returns true on success, false on failure. In case of failure bitmaps are
-+ * untouched.
-  */
--void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-+bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-                              HBitmap **backup, Error **errp)
- {
--    bool ret;
-+    bool ret = false;
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index 99370fa38b..b80ad02299 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -25,6 +25,7 @@ typedef struct BlockCopyState BlockCopyState;
+ typedef struct BlockCopyCallState BlockCopyCallState;
  
-     bdrv_dirty_bitmaps_lock(dest->bs);
-     if (src->bs != dest->bs) {
-@@ -912,6 +915,8 @@ out:
-     if (src->bs != dest->bs) {
-         bdrv_dirty_bitmaps_unlock(src->bs);
-     }
-+
-+    return ret;
+ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
++                                     const BdrvDirtyBitmap *bitmap,
+                                      Error **errp);
+ 
+ /* Function should be called prior any actual copy request */
+diff --git a/block/block-copy.c b/block/block-copy.c
+index abda7a80bd..8aa6ee6a5c 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -384,8 +384,10 @@ static int64_t block_copy_calculate_cluster_size(BlockDriverState *target,
  }
  
- /**
-diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
-index 9f11deec64..83970b22fa 100644
---- a/block/monitor/bitmap-qmp-cmds.c
-+++ b/block/monitor/bitmap-qmp-cmds.c
-@@ -259,7 +259,6 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
-     BlockDriverState *bs;
-     BdrvDirtyBitmap *dst, *src, *anon;
-     BlockDirtyBitmapMergeSourceList *lst;
--    Error *local_err = NULL;
+ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
++                                     const BdrvDirtyBitmap *bitmap,
+                                      Error **errp)
+ {
++    ERRP_GUARD();
+     BlockCopyState *s;
+     int64_t cluster_size;
+     BdrvDirtyBitmap *copy_bitmap;
+@@ -402,7 +404,17 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+         return NULL;
+     }
+     bdrv_disable_dirty_bitmap(copy_bitmap);
+-    bdrv_set_dirty_bitmap(copy_bitmap, 0, bdrv_dirty_bitmap_size(copy_bitmap));
++    if (bitmap) {
++        if (!bdrv_merge_dirty_bitmap(copy_bitmap, bitmap, NULL, errp)) {
++            error_prepend(errp, "Failed to merge bitmap '%s' to internal "
++                          "copy-bitmap: ", bdrv_dirty_bitmap_name(bitmap));
++            bdrv_release_dirty_bitmap(copy_bitmap);
++            return NULL;
++        }
++    } else {
++        bdrv_set_dirty_bitmap(copy_bitmap, 0,
++                              bdrv_dirty_bitmap_size(copy_bitmap));
++    }
  
-     dst = block_dirty_bitmap_lookup(node, target, &bs, errp);
-     if (!dst) {
-@@ -297,9 +296,7 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
-             abort();
-         }
+     /*
+      * If source is in backing chain of target assume that target is going to be
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index 5bdaf0a9d9..799223e3fb 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -170,7 +170,7 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+             ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
+              bs->file->bs->supported_zero_flags);
  
--        bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (!bdrv_merge_dirty_bitmap(anon, src, NULL, errp)) {
-             dst = NULL;
-             goto out;
-         }
+-    s->bcs = block_copy_state_new(bs->file, s->target, errp);
++    s->bcs = block_copy_state_new(bs->file, s->target, NULL, errp);
+     if (!s->bcs) {
+         error_prepend(errp, "Cannot create block-copy-state: ");
+         return -EINVAL;
 -- 
 2.31.1
 
