@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B495C4C7539
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:52:44 +0100 (CET)
-Received: from localhost ([::1]:34514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B6A4C757A
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:54:56 +0100 (CET)
+Received: from localhost ([::1]:43114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOkCR-0004sY-CE
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:52:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42496)
+	id 1nOkEZ-000299-Pt
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:54:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAB-00020R-MC; Mon, 28 Feb 2022 12:50:23 -0500
-Received: from [2607:f8b0:4864:20::332] (port=46594
- helo=mail-ot1-x332.google.com)
+ id 1nOkAG-00025F-84; Mon, 28 Feb 2022 12:50:28 -0500
+Received: from [2607:f8b0:4864:20::336] (port=46027
+ helo=mail-ot1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAA-0007pi-7l; Mon, 28 Feb 2022 12:50:23 -0500
-Received: by mail-ot1-x332.google.com with SMTP id
- p12-20020a05683019cc00b005af1442c9e9so10086690otp.13; 
- Mon, 28 Feb 2022 09:50:21 -0800 (PST)
+ id 1nOkAD-0007q9-Av; Mon, 28 Feb 2022 12:50:26 -0500
+Received: by mail-ot1-x336.google.com with SMTP id
+ g6-20020a9d6486000000b005acf9a0b644so10091335otl.12; 
+ Mon, 28 Feb 2022 09:50:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xrwLekCaz1dVcDl6Q8AHFt/pNZ/bdVatNhyZ7TCu4uQ=;
- b=VsVhuZACDTigZYeYOSLyHNHmO8s4OKClBHZNvL2YEZXHdB30IaiSkY3fnarpcazrgJ
- nQ+pqBIh9EjwTghu5BYMQdm3qoIXADvwDWyf87Gn5uN5oR/d9Mbsfk0yrTFSqQmPbcYl
- yVtQ6Q39zRMFLDdG2FZzxwWSQpFDkdlYgMJ+MU5wcogiCeIv/7q0MLZTaF8bque9lOpi
- Cz9fAYk4mkvxOAzXyo8S0TpqvpnHd19Yh8cfkVhbZVRwivhTF9c/spMTDzLp1DeF9Ihq
- chTuDvbHawl7+hn5re02bltlyV3zaYge90OKQCmJcmRAve4vGZ/L0LM2qB7pAXjkyGsI
- gxXQ==
+ bh=9mxy1cshybqQSvMZopsk6bW7FYYsX3Wy2RNzLNjGm4I=;
+ b=k1O7CVYKVXVqivDeDQkTSh9xEecimui/OIwv5R1zC0cHd6iK1o3xBH5ZAfNVvk/mAj
+ EPuO0MV9E5uBvbz5YjLjqg0qeCikAzzLQxjDbmJF9nR47+SD/+oKDQv+aDYdJ7tHw5Vv
+ bJPZBGtaWDEZRRxhzPfUjFk8JQ0OOi3kiF58SL3tMgd8PN1uXdiPDIcg+KYChJ/w6C8b
+ VWGBckmUeuyxDq2vPPUYR8NgWlovn8xjztRU9rDzbBPJMgqcIbvjaHKfHdTB8HyMzumc
+ v98gADhjNg6s1MxFhCE5X1nYslMrRit0uPfQQZqO4enQZqkdhRA6aH07GpfsNtv2+UEH
+ Osyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xrwLekCaz1dVcDl6Q8AHFt/pNZ/bdVatNhyZ7TCu4uQ=;
- b=zrk02wvLClHTIDAAxmLK/bgeTbdAvAnvx7xR5qE20hVMCq+8dJkdx9scEdRGFXqc8c
- EKjI9hd8wAcwJGx5/4Czj9EvQYXU+l2TFP08qwP8QaZaVJ7mae0N25RbbQpgtidUZ4A9
- 37UfGUQ6WTKmyxfJsU+bQ6k7/1b8xZh1duWpCyfac3y5FtyD67oCtG38cdwWQrgyq3L+
- T5oTEmWryvWm65rtaubOi1qI42ftm3MY53sCscxLkIrZVjeW0xferJrBTp/5QALrJ19i
- 8PqRYkzjndHb4hTKcIsGwFMBV43s76sG/+1NIVhhZOjDGkLF0hT8FOD17yRyKvovGhJS
- NMRQ==
-X-Gm-Message-State: AOAM532bcvXQPT3QG7luKN7KGBojsu8lcM08daVwRBkAOQjhEGQufWQJ
- on8RdgHD737fdpyO2eUdGPb/3IhWT5o=
-X-Google-Smtp-Source: ABdhPJwlxJt//BA5s95xAAbl7qOPSqpU3ly7PwpPjfRUtoTAE7y3ba9gAM3ZCUyuU4dalEWmzikjPg==
-X-Received: by 2002:a9d:8b5:0:b0:5a4:9db6:92b4 with SMTP id
- 50-20020a9d08b5000000b005a49db692b4mr9764289otf.14.1646070620618; 
- Mon, 28 Feb 2022 09:50:20 -0800 (PST)
+ bh=9mxy1cshybqQSvMZopsk6bW7FYYsX3Wy2RNzLNjGm4I=;
+ b=OlAaAbf/QVV7SP8ilHYfqR3PO5qvVY5bXcQ1WjUUo3MlOSb14BoE3U1kxwQXD6aomm
+ SQy8Gi+ygSercU58AEY5wNEoeRB8udvGWXpvfMPl+Q7SQAnx0WQzLslPtvio6d4fuvki
+ lIS3Dn8q/4DchoincKbbdMw/3mPix/EMac+aNrXqDt2VP1lG+ZnqpXaK958D3/LGe4wv
+ PZg3jIs+uwB00MAGOZQOkAfJ1unGaTauoms5s77iwEyNEALOLXn5zFzK7kbWh6CJ8P+l
+ eHREpTOOESUjSPgWkrKtK9KO+H1nqQHylvbhYgy9+YoFpqZixinSNvmdV8Oj2al9h7rN
+ 3+Zg==
+X-Gm-Message-State: AOAM531k82M+dRfgCnKyc3qoSfDUPeu5oYb7aSoqtN2z8Px7zATWOHgV
+ uhIpIPngTF8dw6T3+Z1UuknUpQC433c=
+X-Google-Smtp-Source: ABdhPJw4/kfNfzj5qumFkmCE1SxN+OkCgec6zzV95OrK4mgC5aeusEnsZGnVYFxGRk56E0dS7gdUkQ==
+X-Received: by 2002:a9d:22c8:0:b0:599:bcf4:1b57 with SMTP id
+ y66-20020a9d22c8000000b00599bcf41b57mr9671173ota.247.1646070623211; 
+ Mon, 28 Feb 2022 09:50:23 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
  by smtp.gmail.com with ESMTPSA id
- a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.18
+ a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 09:50:20 -0800 (PST)
+ Mon, 28 Feb 2022 09:50:23 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/14] hw/ppc/spapr.c: use g_autofree in spapr_dt_chosen()
-Date: Mon, 28 Feb 2022 14:49:51 -0300
-Message-Id: <20220228175004.8862-2-danielhb413@gmail.com>
+Subject: [PATCH 02/14] hw/ppc/spapr.c: fail early if no firmware found in
+ machine_init()
+Date: Mon, 28 Feb 2022 14:49:52 -0300
+Message-Id: <20220228175004.8862-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220228175004.8862-1-danielhb413@gmail.com>
 References: <20220228175004.8862-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::332
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -92,37 +93,71 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The firmware check consists on a file search (qemu_find_file) and load
+it via load_imag_targphys(). This validation is not dependent on any
+other machine state but it currently being done at the end of
+spapr_machine_init(). This means that we can do a lot of stuff and end
+up failing at the end for something that we can verify right out of the
+gate.
+
+Move this validation to the start of spapr_machine_init() to fail
+earlier.  While we're at it, use g_autofree in the 'filename' pointer.
+
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ hw/ppc/spapr.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index f0b75b22bb..c74543ace3 100644
+index c74543ace3..4cc204f90d 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -1018,9 +1018,9 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
+@@ -2707,15 +2707,25 @@ static void spapr_machine_init(MachineState *machine)
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     const char *bios_default = spapr->vof ? FW_FILE_NAME_VOF : FW_FILE_NAME;
+     const char *bios_name = machine->firmware ?: bios_default;
++    g_autofree char *filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+     const char *kernel_filename = machine->kernel_filename;
+     const char *initrd_filename = machine->initrd_filename;
+     PCIHostState *phb;
+     int i;
+     MemoryRegion *sysmem = get_system_memory();
+     long load_limit, fw_size;
+-    char *filename;
+     Error *resize_hpt_err = NULL;
  
-     if (reset) {
-         const char *boot_device = spapr->boot_device;
--        char *stdout_path = spapr_vio_stdout_path(spapr->vio_bus);
-+        g_autofree char *stdout_path = spapr_vio_stdout_path(spapr->vio_bus);
-         size_t cb = 0;
--        char *bootlist = get_boot_devices_list(&cb);
-+        g_autofree char *bootlist = get_boot_devices_list(&cb);
- 
-         if (machine->kernel_cmdline && machine->kernel_cmdline[0]) {
-             _FDT(fdt_setprop_string(fdt, chosen, "bootargs",
-@@ -1087,9 +1087,6 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
++    if (!filename) {
++        error_report("Could not find LPAR firmware '%s'", bios_name);
++        exit(1);
++    }
++    fw_size = load_image_targphys(filename, 0, FW_MAX_SIZE);
++    if (fw_size <= 0) {
++        error_report("Could not load LPAR firmware '%s'", filename);
++        exit(1);
++    }
++
+     /*
+      * if Secure VM (PEF) support is configured, then initialize it
+      */
+@@ -2996,18 +3006,6 @@ static void spapr_machine_init(MachineState *machine)
          }
- 
-         spapr_dt_ov5_platform_support(spapr, fdt, chosen);
--
--        g_free(stdout_path);
--        g_free(bootlist);
      }
  
-     _FDT(spapr_dt_ovec(fdt, chosen, spapr->ov5_cas, "ibm,architecture-vec-5"));
+-    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+-    if (!filename) {
+-        error_report("Could not find LPAR firmware '%s'", bios_name);
+-        exit(1);
+-    }
+-    fw_size = load_image_targphys(filename, 0, FW_MAX_SIZE);
+-    if (fw_size <= 0) {
+-        error_report("Could not load LPAR firmware '%s'", filename);
+-        exit(1);
+-    }
+-    g_free(filename);
+-
+     /* FIXME: Should register things through the MachineState's qdev
+      * interface, this is a legacy from the sPAPREnvironment structure
+      * which predated MachineState but had a similar function */
 -- 
 2.35.1
 
