@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0964C79E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 21:19:59 +0100 (CET)
-Received: from localhost ([::1]:45828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50104C79E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 21:20:07 +0100 (CET)
+Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOmUw-0007Jy-LS
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 15:19:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49108)
+	id 1nOmV2-0007lQ-If
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 15:20:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOmT3-0005DQ-Qe
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:18:01 -0500
-Received: from [2a00:1450:4864:20::430] (port=42760
- helo=mail-wr1-x430.google.com)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOmT8-0005H7-RK
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:18:06 -0500
+Received: from [2a00:1450:4864:20::334] (port=44824
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOmT2-0000g8-Eg
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:18:01 -0500
-Received: by mail-wr1-x430.google.com with SMTP id d17so17192813wrc.9
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 12:17:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOmT7-0000go-DI
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:18:06 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ bg31-20020a05600c3c9f00b00381590dbb33so142840wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 12:18:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wy7vAjQz+aehx8JFxbNKXDV4lbR0Lw2ZyRkBNNQ/rm8=;
- b=dY6aM3P+K+4mHM6n24RYRieRqOy7+YaK/82WRBeR1DlQI4sb/PNgHoZMguYRShXIID
- 8bvE/lth+axHmveteoWJpPNZnOPC/1hUeuJp3oMr7Q2AsH5UVjFBEQCJusj1noF1H61O
- HDlmbl035YvBFQ/5jn6+QUfaq7s01heYXVGbQp/C6Bke6Srzf/XXdBDRu8MMO4+9zqY3
- BVu8GGQUficAgEPVXsd8Lz18yr89OvhCROEXwtlxK1YBGapxo/aO6jNqk1GA3v35EBxE
- CjAv1/7KPklQFiP7sTDxNhxv308rqqazWj6yaYCeyGNoS9ZYTEpLG889udYfE2D/LtAR
- b6VQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KnYql3OH7CHGuzhamKtAe9R5fsZj0EkHsVE9D5HsbSY=;
+ b=OfA69AiPk7AtRn3oZMc2lISYGZlek+3oHgzJL//zjLR2Jm1CCBrUz+sIAPX3CE09I1
+ A7bnOZEsW+jCaH19GYUZNekC/ALNJfg10ldmiy0U3gGuEhlA+v4flJIN6ovGN52MsDFQ
+ KST0pLOaUxDHYblp+Mq7ZZwJOf2oONC2F/eQpedfJllF8bxAKxRVE+J1tr7vBM5xEYLs
+ UUehRZ5ItQ5CaQnQmk1V3WCyOKzYuaVJIwR2kxNX1fWkigrjOeaMgCgBnibpZyAPB6wI
+ f1AjpfDbe/MpaIb7XEonh0bkbav4KMNYN1as4ZSJV/meRJJODkZ+La1znWMIfhUk0gFa
+ Y9kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wy7vAjQz+aehx8JFxbNKXDV4lbR0Lw2ZyRkBNNQ/rm8=;
- b=JaDV9ioygai0wSg/fGoiYgZ1C3jsFqiyE+xMtRSjzhNNbVr7i0RBjsqo7uyEviUNjy
- UplBRWAT5oMaVmjRBaeEyysF0gA4bajxmPWKNTzYiW5SMS9is0NtygENQwTT+O+E7NwT
- 8yyG33ty0bp2Vp8x1SykunnlItnANqrBftP6L39Bu5yJln7tkeOewJl7hOXn3lGVIWOb
- u/YQX6yes2Sm1hA7st6KtjoHM04HwGbdtHYHjxMfljX5aU93w3NhVL0U408sGi33kVMC
- rucbWVVaC6htsD0LubG7IvyWAGDxb50pIZUFudc/+64CtjgaqcHFUGdgBKgfzO/vfTFU
- 5Bmg==
-X-Gm-Message-State: AOAM531X1U5qY/+TGT0h9KNQZQBNV3kZydVSMs7EEvn+MDoCe1d+wqzt
- 2bZ8DIaWUsKbaqfVEsdGdWJIEKArcT3sWA==
-X-Google-Smtp-Source: ABdhPJxWcLUvaF2fAPCrICDZs6NWDmCBFaiaMOAQ278afqc88KBY19Wn14Yp+a4foVMYzu9zypE0dg==
-X-Received: by 2002:a5d:550d:0:b0:1ed:c155:6c2a with SMTP id
- b13-20020a5d550d000000b001edc1556c2amr16941193wrv.470.1646079478030; 
- Mon, 28 Feb 2022 12:17:58 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KnYql3OH7CHGuzhamKtAe9R5fsZj0EkHsVE9D5HsbSY=;
+ b=RrEm3qc2TyBPtYToQEhnD7ZCu1QyZ6YukJ8rW0b2g0MVRj5S+sE65m/rIXxeIarZSz
+ QCtvbBAAdGfqvwVaf02EO/00tJgaaSrXZTXCWuoiuIEQ8J7gsykUwsyvhSllDrvqhI+h
+ /K57jVVCl96gpmRHfaB0+TvLlNcXgwhxlhRRsGQrKRzwScvXhjjtjTAkc6GdrRTt6B/U
+ 03ENIJmRmirNihTUf7aQLCgEViJWX4OmR+CBPjrPOBrCbIvrsfh3TkFF/kAEhS0Y5uqo
+ ZATSTEscGPiUCe5UCyIDAWkoxS7wRB65wDmpP03H+pnrZD8DolB50OpTEfnmA8ByPn1U
+ QJNw==
+X-Gm-Message-State: AOAM532rhWTnnCOqAS6y/z/NT/sWt3ip1eJ0rgDVNVqUfBYeEQD3I2DJ
+ EEt4Ats9iORH5CRKKK/Ig1b0m4U8sVcVaA==
+X-Google-Smtp-Source: ABdhPJw+mxDi2QhrK/dMCVyi/Uy1U0frDayy5gTskOaeQCbAYlfCb5H0L6hfM5O8aZo1s3CKsN1NSA==
+X-Received: by 2002:a1c:7311:0:b0:37c:3ceb:71c3 with SMTP id
+ d17-20020a1c7311000000b0037c3ceb71c3mr14353024wmb.154.1646079483479; 
+ Mon, 28 Feb 2022 12:18:03 -0800 (PST)
 Received: from liavpc.localdomain ([2a10:800b:ea29:1:266:a58e:9f87:7014])
  by smtp.gmail.com with ESMTPSA id
- p2-20020a05600c418200b00380e4fa28b8sm355259wmh.23.2022.02.28.12.17.56
+ p2-20020a05600c418200b00380e4fa28b8sm355259wmh.23.2022.02.28.12.18.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 12:17:57 -0800 (PST)
+ Mon, 28 Feb 2022 12:18:03 -0800 (PST)
 From: Liav Albani <liavalb@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/3] hw/acpi: add indication for i8042 in IA-PC boot flags
- of the FADT table
-Date: Mon, 28 Feb 2022 22:17:30 +0200
-Message-Id: <20220228201733.714580-1-liavalb@gmail.com>
+Subject: [PATCH v4 1/3] tests/acpi: i386: allow FACP acpi table changes
+Date: Mon, 28 Feb 2022 22:17:31 +0200
+Message-Id: <20220228201733.714580-2-liavalb@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220228201733.714580-1-liavalb@gmail.com>
+References: <20220228201733.714580-1-liavalb@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=liavalb@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=liavalb@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,39 +92,26 @@ Cc: ani@anisinha.ca, imammedo@redhat.com, shentey@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This can allow the guest OS to determine more easily if i8042 controller
-is present in the system or not, so it doesn't need to do probing of the
-controller, but just initialize it immediately, before enumerating the
-ACPI AML namespace.
+The FACP table is going to be changed for x86/q35 machines. To be sure
+the following changes are not breaking any QEMU test this change follows
+step 2 from the bios-tables-test.c guide on changes that affect ACPI
+tables.
 
-To allow "flexible" indication, I don't hardcode the bit at location 1
-as on in the IA-PC boot flags, but try to search for i8042 on the ISA
-bus to verify it exists in the system.
+Signed-off-by: Liav Albani <liavalb@gmail.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Why this is useful you might ask - this patch allows the guest OS to
-probe and use the i8042 controller without decoding the ACPI AML blob
-at all. For example, as a developer of the SerenityOS kernel, I might
-want to allow people to not try to decode the ACPI AML namespace (for
-now, we still don't support ACPI AML as it's a work in progress), but
-still to not probe for the i8042 but just use it after looking in the
-IA-PC boot flags in the ACPI FADT table.
-
-Liav Albani (3):
-  tests/acpi: i386: allow FACP acpi table changes
-  hw/acpi: add indication for i8042 in IA-PC boot flags of the FADT
-    table
-  tests/acpi: i386: update FACP table differences
-
- hw/acpi/aml-build.c            |  11 ++++++++++-
- hw/i386/acpi-build.c           |   9 +++++++++
- hw/i386/acpi-microvm.c         |   9 +++++++++
- include/hw/acpi/acpi-defs.h    |   1 +
- tests/data/acpi/q35/FACP       | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.nosmm | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.slic  | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.xapic | Bin 244 -> 244 bytes
- 8 files changed, 29 insertions(+), 1 deletion(-)
-
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..7570e39369 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,5 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/FACP",
++"tests/data/acpi/q35/FACP.nosmm",
++"tests/data/acpi/q35/FACP.slic",
++"tests/data/acpi/q35/FACP.xapic",
 -- 
 2.35.1
 
