@@ -2,54 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9044C7D67
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 23:32:38 +0100 (CET)
-Received: from localhost ([::1]:36444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643C34C7E1E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 00:08:22 +0100 (CET)
+Received: from localhost ([::1]:50416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOoZJ-0006sH-SW
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 17:32:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48068)
+	id 1nOp7s-0001w0-Tz
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 18:08:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nOoT7-0004Km-PB
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 17:26:14 -0500
-Received: from [2001:41c9:1:41f::167] (port=51182
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nOoT5-0003RW-TI
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 17:26:13 -0500
-Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nOoST-0004GN-7V; Mon, 28 Feb 2022 22:25:33 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: laurent@vivier.eu, pbonzini@redhat.com, fam@euphon.net,
- qemu-devel@nongnu.org
-Date: Mon, 28 Feb 2022 22:25:27 +0000
-Message-Id: <20220228222527.8234-11-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220228222527.8234-1-mark.cave-ayland@ilande.co.uk>
-References: <20220228222527.8234-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nOp6B-0000kB-57
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 18:06:35 -0500
+Received: from [2607:f8b0:4864:20::102b] (port=37585
+ helo=mail-pj1-x102b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nOp69-0005Ku-PX
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 18:06:34 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ p3-20020a17090a680300b001bbfb9d760eso513353pjj.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 15:06:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=IH91JpTTc96Z5EATs+gV+MuUZUfLcVqOyF5gW2eB/AU=;
+ b=l1qrldSsZDY95OjLYT3l1gyYAom8du/U3Ia46IsgK3LKXJls9HuY0VrsO5BV1gvit1
+ k79T2muU+L9ktZoEdpQqlKPE25DvToDjEip86Auza9Vc1Y9mhOEq6gITmbESgTkZso2P
+ 6gBSVjvkd4DWz+Pgl2cidlIFdrg2g//IEm4XkKEvJaEziGDH+xhB8nNR8DBUatDaFC5q
+ WMLC/nOQLMt2LGXD/T9BdK2CHXR+LqKa0U2awZiF3/0N6aJeuMdOARfMTOMg/fnNgMyf
+ e32nTg06DErxTsCvCkpHX/Gx/buUHs1GAaJBuPv1l/tpIjhZOcZPKDosXTbZhTMB/qOK
+ MTOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IH91JpTTc96Z5EATs+gV+MuUZUfLcVqOyF5gW2eB/AU=;
+ b=VwQI4muWzQVDveJtlGfwV0ouzD7YUIiWDZ/mfs0Z2JpOEusEKs3xxzygSzLRjj5/WM
+ PKX5PKO5fP0zCM4Z92WXc2oLMrkBi+TqooZiMtuiSjDigtlXIUOW6lE35jsXCjOAloau
+ n4UXV88zaW9XQv++qp56Mcwxi9K94fFsdvtYpPx7d9Y7tAC9k1W/8iHzyGxtNgJtcLJW
+ vUDA3QUhiLclV0Gk64WE9wLu0sVcJvKO1Eaju1/KuJ2Zo3joA4ZcAPiFFlhThInYHNdK
+ 6FUEhB0PbxDLNtLSPQxLHKhWGsuuSzwPELAvqV0sn35rE14SBQq89Ct+bh2vf0w3VMNq
+ EUdw==
+X-Gm-Message-State: AOAM531tc7AvHLdzGleDvT60pmXGp+p5XUay1JIjD3ez3LebdEGorBi0
+ o78S5zAZ+CTjx5zEgfYtQB0=
+X-Google-Smtp-Source: ABdhPJxgj9L/P7vR8Zdh+CCTY3WUSdtxMPAY69tmzhHPzXhyoKxrnG4OLK9SN38ih/DZgQ98xHM/LA==
+X-Received: by 2002:a17:90a:a78d:b0:1bc:d11c:ad40 with SMTP id
+ f13-20020a17090aa78d00b001bcd11cad40mr18970486pjq.246.1646089592210; 
+ Mon, 28 Feb 2022 15:06:32 -0800 (PST)
+Received: from [192.168.1.115] (133.red-95-127-186.staticip.rima-tde.net.
+ [95.127.186.133]) by smtp.gmail.com with ESMTPSA id
+ o10-20020a056a0015ca00b004e0ff94313esm16013089pfu.91.2022.02.28.15.06.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Feb 2022 15:06:31 -0800 (PST)
+Message-ID: <3ac2cc78-2177-6434-7328-3b1d0b42ecb7@gmail.com>
+Date: Tue, 1 Mar 2022 00:06:27 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH 06/10] esp: introduce esp_set_pdma_cb() function
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
+ pbonzini@redhat.com, fam@euphon.net, qemu-devel@nongnu.org
+References: <20220228222527.8234-1-mark.cave-ayland@ilande.co.uk>
+ <20220228222527.8234-7-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220228222527.8234-7-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 10/10] esp: recreate ESPState current_req after migration
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
  (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,50 +99,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since PDMA reads/writes are driven by the guest, it is possible that migration
-can occur whilst a SCSIRequest is still active. Fortunately active SCSIRequests
-are already included in the migration stream and restarted post migration but
-this still leaves the reference in ESPState uninitialised.
+On 28/2/22 23:25, Mark Cave-Ayland wrote:
+> This function is to be used to set the current PDMA callback rather than
+> accessing the ESPState pdma_cb function pointer directly.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>   hw/scsi/esp.c | 19 ++++++++++++-------
+>   1 file changed, 12 insertions(+), 7 deletions(-)
 
-Implement the SCSIBusInfo .load_request callback to obtain a reference to the
-currently active SCSIRequest and use it to recreate ESPState current_req
-after migration.
-
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- hw/scsi/esp.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 7998dcfb97..b232af4224 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -1342,6 +1342,15 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
-     return val;
- }
- 
-+static void *esp_load_request(QEMUFile *f, SCSIRequest *req)
-+{
-+    ESPState *s = container_of(req->bus, ESPState, bus);
-+
-+    scsi_req_ref(req);
-+    s->current_req = req;
-+    return s;
-+}
-+
- static const MemoryRegionOps sysbus_esp_pdma_ops = {
-     .read = sysbus_esp_pdma_read,
-     .write = sysbus_esp_pdma_write,
-@@ -1357,6 +1366,7 @@ static const struct SCSIBusInfo esp_scsi_info = {
-     .max_target = ESP_MAX_DEVS,
-     .max_lun = 7,
- 
-+    .load_request = esp_load_request,
-     .transfer_data = esp_transfer_data,
-     .complete = esp_command_complete,
-     .cancel = esp_request_cancelled
--- 
-2.20.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
