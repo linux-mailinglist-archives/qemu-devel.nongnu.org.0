@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342E64C6B73
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 13:01:01 +0100 (CET)
-Received: from localhost ([::1]:46298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9D44C6B64
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 12:57:13 +0100 (CET)
+Received: from localhost ([::1]:38718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOehy-0006Ns-Fy
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 07:00:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58768)
+	id 1nOeeM-0000yD-QP
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 06:57:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nOeNr-0002U3-A8; Mon, 28 Feb 2022 06:40:07 -0500
-Received: from [2a01:111:f400:fe02::721] (port=57446
+ id 1nOeNs-0002Wl-3m; Mon, 28 Feb 2022 06:40:08 -0500
+Received: from [2a01:111:f400:fe02::714] (port=28447
  helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nOeNo-0002MY-Sa; Mon, 28 Feb 2022 06:40:06 -0500
+ id 1nOeNp-0002NC-Gm; Mon, 28 Feb 2022 06:40:07 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KshGxiIaPCV/2tU9mSH4LqhF0CSzCqkuqLxZv/lYAPkTQGbAr5JRHj8QA8NyCPqW/AxbnakqvuWdGkYeVGDZ/ZyQp0Nlrj1o33V7vvsWanyWSdZ6MRo6KaRcVCBrimxr3xPlDR4y7jYhnO01E0cdKch4I5h8mY/G0ccKXU8if8NSzFlPXK5IIN4J/Fy03ADj4wSBcX5Bu+eZVw1SbUzzUpFNdPPNXU38wWPq2Sz6LuswQ1ix2wf8VEUryqPuKr6w0/buYfTNAmuLwqdekeBDr+x5in67dSIAFuTxQRsMaHNeV8QlQ72aAot9JciGhGpi6iPaRzw4f1mg+oM7+Xo2tA==
+ b=IPTnBdVeG36ZzsJnAwDj42QSc7lw+XG8lZDmKFdwmsh+k4BsGg5gmbq9D5jH4sN8OjM6IyH1+10BmtFUWCsIzfGx+cGlfPaVd+FjnZKWzPP+VgYXZxjTTGyOCsgW+iCvOIcTzxK6Q9AMeez9PawvsTIIgQOyAaTPIgCR9u7yiXsIglnyyt1oEB03dJJKWEJY2YCW7L8yyHa8+8LW6iQYiN4AQMumFATL3clIbDm0UYWtQagGoAD3KWQe3uNzZ4uast3EKa00ICcpT6AAqXLQWglJ8mV5w6F/8k503+P39n6nEOd84fnwKC6G87FrVY0DIaH3nl5XMv+ECbtjyH9bDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HLVC4Eo4TWKZdYpq1VLkSOCIIOwMWgRVTe6/fcTJTWc=;
- b=ZReLr1j3EBptg32meJnt3eqLM/0Pozl/altp8xO1vb1cSrr9Ukyi6tI4uQJyrlnuhAI6BUHNOutife6Kmklnwy0yTWhUcJDwjkBPmNUKLUuTcNXvlU5se6Pem1n7Rd6DC34Zfqd4QfdxqU7o5WmeEDFBHjBI5qowtY1HvcLphg3AO9z1CP5TZjjzrZsFmrxjF16I/Jt1RUEonmu8qaaABmRxD9L/BB9NCVIONWzX+gKXkkfgEpRljhwLuXq8TUswFr3qD+NW0onwgAL4/DwSoT92HJhcYhwFlUpYKZKLl18FxPqZHFujmMCa4h7/pn8/4lJAl18UkLdxe0KqMM82/A==
+ bh=a8qT6l4df7zH8Odw5sbvg5lpWLiA1hTk9zOAAnhZZLA=;
+ b=hz4QN96ZbzFEWo3HXcrPzL8eHmAYHn9CqClmPIs/8+wQPcKeMlw3AZlbu9KimquWuZw9yakp1ys/IXgnRMGIdE3sMv9w09i0VQE5PUGc3i5XEY/OdORDiksGjtDATSdV+y2cYqW7eFzGhg6xxX9s0TIZuKT1TWFrQV18EPBkeZMynTgTcEIw+PYFyOszouEeekT1nopZOCa9wBOs1nQsmL6gr93a/RmT94bEQje/7KwXG5vJMrmr8l+M5XMfLMDIltD857uXJQt/bkOI21xYUpw6vrFEOwW2WSrfPfmtcAPISTPACp5nb29f86J1Z16D73IduoKxDI5Crl6DjFyn6A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HLVC4Eo4TWKZdYpq1VLkSOCIIOwMWgRVTe6/fcTJTWc=;
- b=gG1pDxTxZxgFAWu4TUyNOtVWajynJNlpDwy5RubLKyqz8hDNZnheMDl83xpD266CR/fV4QE7DD5kcuCUkqLqeRsALsRBTR9Wo4ScYagj9Ji9Z/bPzjnwGeiLk9vsMLr3glUj99Xnq4BUEUeGARheDoiRjsMfeoasJ57lcEVq+QQ=
+ bh=a8qT6l4df7zH8Odw5sbvg5lpWLiA1hTk9zOAAnhZZLA=;
+ b=pOQI/RwhdOhsrbHtfcoLCLSyURv5usej9my0PssDVXtf03P/Pdl3n0DAu/nL6VaDCmHE/Hf6oReAMCvn6BfaJ4M1+B3H+UAjEy7AdRLbMPfylD5kAnda44cy0se1GNM5LvPI1xX0l1E2cteqBr+bZfLSNipekhfl55GAMgb77oo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by VI1PR0802MB2272.eurprd08.prod.outlook.com (2603:10a6:800:9d::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Mon, 28 Feb
- 2022 11:39:54 +0000
+ 2022 11:39:55 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.5017.027; Mon, 28 Feb 2022
- 11:39:54 +0000
+ 11:39:55 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, fam@euphon.net,
  stefanha@redhat.com, eblake@redhat.com, hreitz@redhat.com,
  kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  nikita.lapshin@virtuozzo.com
-Subject: [PATCH v5 11/16] block: introduce snapshot-access block driver
-Date: Mon, 28 Feb 2022 12:39:22 +0100
-Message-Id: <20220228113927.1852146-12-vsementsov@virtuozzo.com>
+Subject: [PATCH v5 12/16] block: copy-before-write: realize snapshot-access API
+Date: Mon, 28 Feb 2022 12:39:23 +0100
+Message-Id: <20220228113927.1852146-13-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220228113927.1852146-1-vsementsov@virtuozzo.com>
 References: <20220228113927.1852146-1-vsementsov@virtuozzo.com>
@@ -63,60 +63,60 @@ X-ClientProxiedBy: VI1PR09CA0135.eurprd09.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 31104fc8-1691-4b04-6b9b-08d9faaf0a0c
+X-MS-Office365-Filtering-Correlation-Id: 992809bb-4c56-4168-f51a-08d9faaf0a91
 X-MS-TrafficTypeDiagnostic: VI1PR0802MB2272:EE_
-X-Microsoft-Antispam-PRVS: <VI1PR0802MB22720EEC34931DF9F644E564C1019@VI1PR0802MB2272.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <VI1PR0802MB227231284D025109566A7CB9C1019@VI1PR0802MB2272.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: C7AyyC1VeTXvT1fb57h6TzIfsHoe+TpiQiGNZVfEiXUzJMJKLFIJEhz1EjHtj8K8+63EsV4myQYrgBJmffEMXyxYVYODvwki1x+TX1b7ReUhAcTO2OrGCjWmGuk3uWRsdmty8uTCnTLYoAPBINf04ayhYEff/tGptIqsspN/GsHnoQJM6F3w6wGIFIP8QSseyhcFE5op2qYMRqf4bKjlgdlyzDkC9/e3t1qeOkY/Fi4IHXUkZ/52rVptBjws4CpvZUeEYPNDU+bLFRm+u/WUsfpE8FYLv9YrS8f5U7uk2yV+VDeHxrOOr4Iy97HICl+rZSufd8OKHnELlsbav97VhNR6KEfhXsvOo7RkQfbBQkUaacOPdHq3l4zCoAtsCJgMFDeFgeVLVeHh4hBE4qCEzVnJSD6+h59k8RPd2Cml0rqNAGoR5i8sktf549TWDT99kJhZFPflJK9NOz6ofLbJWGs/KLj3UNXFkt/WxkTlsqXGRP/WUXjL7N6RY15Na9uwHHlEBnPFti/bhcEZnmIESiA9pSjVQBSi8S4elrRjQX/VJEta7NYvHVl1G8SGiuKr4mmblLyHdHgLTU/oSX1XHfKDKaqSXOUPYVXcTP3yWb5584TO9SwjX8CVhPb7yCENp9T4qPXS9aSnh4SUjr+qSrswiGHL0RcPRgQdAeggt6masiLkZFef6dM0FU/DTuqCLCrLAA42LL5Pl4XeOz2kK5P0N3aSPsb9zvyYsaQhfg2sSOu5elfr959mugA7XzwhQfd/n+8ynWesy6ovBt4c6VIIukn1MjyRoxXlkP9WBKXzpqiykT8N5hvs/+PPD9Xd
+X-Microsoft-Antispam-Message-Info: PZC6kq+OEZG5ZvdqMKK8eqJAFYwbSP1f7vZtWrP0l0Y1Gj+kAX4JJwsfN0uUWr2Olig4kMTz2Ytwm/A0yNPX2gDGtoYY8ADBf5IXz6XyCbc68CX5ntnKw3ePNwz01G24W4D6IXA8BB/Gu3IJUw+4PmvcGcgl2Y6HGGTUo7goKv3JLRrEdkx6Q4Tv7vD59kJ9eOsjPkWE/ErgV3NpyAYzFBHCQ9Fe/zVlDjco7ugKl/k8u4CncDP1XR9+oV0BRxE+jGLet60Sjal7QfpCp7M6QdZ36XqtcM8MEe/5223kTytGMUvEmLRoLIZSMKQ29yhVtlGq8YJasbnA60F3LRdWkatq2IQtlXrhaK4XWI1TYTmN60qsvxPlW/c/2Bp65xMuJF2fJBd3QU/SC4t2TNRqO+ORsaSAhoepYDKV2ZHutkpSzsyiFSWfH3u2uYHSW6JNz0GC0QeeDbJb0ulRy19e2GCxq7Mp9j2DBIIa6KYOqWeW7A3XkRyIg6CwFAcjKGbli90zLceUmsj8KdaiTC+5X3JzHCG0X8IrKgA9/chIftJMBoaOKDSHrEAUixSXh/dN/Gu0hF6QWDoF9rUVn5qcVT5V3/BbrTx/YyToi389odE2WU5zOzEvFEjfv9dIU912pCTWlEhMczFQvvucaK8jOyjQx633IYEyEbTeuopYFrMDk4ffMShbbkldsq8BieYPXGqeQ48TeVp+rQrmgT4aaw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(8936002)(4326008)(2906002)(66946007)(66556008)(66476007)(8676002)(86362001)(36756003)(38350700002)(38100700002)(316002)(83380400001)(1076003)(186003)(26005)(107886003)(6486002)(508600001)(6916009)(52116002)(6506007)(6512007)(6666004)(2616005)(2004002);
+ SFS:(13230001)(4636009)(366004)(5660300002)(30864003)(8936002)(4326008)(2906002)(66946007)(66556008)(66476007)(8676002)(86362001)(36756003)(38350700002)(38100700002)(316002)(83380400001)(1076003)(186003)(26005)(107886003)(6486002)(508600001)(6916009)(52116002)(6506007)(6512007)(6666004)(2616005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xzhZRkb/cP7rq9JdzwK7rJBdSBSOuUGn4MDbjlmh5mUmT/rQms4wjK6dzOJo?=
- =?us-ascii?Q?EXT9+hUxowZ8mfPw2CPtG/gYG+bLxVlrrndZLhtpRbMv8/7H4gQ8QkrJdjt7?=
- =?us-ascii?Q?fPOR70ceELPZPUOvDJ1nur3H3nF8jhrMO/Z3LhpJTJMrJPHGasr17XTraoBe?=
- =?us-ascii?Q?8GyAbu0ULcbIQn0b/8WE6OzHvTv6PrQqScsPac4iw4DLU5Xfey3tYIafk2om?=
- =?us-ascii?Q?xPuHtUnCeLt2QpgSoYsYbps5EUOUVBH0UoDBC76SIZgrpNBOdQXvtsmVWqin?=
- =?us-ascii?Q?evIZfFa4HNLH59dlK4VwY7JP8R7y6fq+Kdawvp64XZERMqtyhFzd5w33MtOZ?=
- =?us-ascii?Q?7v3Cwllf067Ku0OUkRbCZi9aHlt7Mxj08U2WKKkcA9BBk6aZ4b9CsQikPDBJ?=
- =?us-ascii?Q?8SNfhyyMV7AhosFBbPrxz7hS6pohxZp3hkfCXR9uXAeAVDnR44qI7XdgaaLs?=
- =?us-ascii?Q?sJgDZF5rW1/vd0nwu/nHotKLEU7MfHonxE9mmOnCg3dMzR4C+2WAspi3sEbW?=
- =?us-ascii?Q?487+BTwoF+Elm8VvP9aaCPJClea7knCfkq5SYd3wMOUAJVTOJ48idUbP9iC0?=
- =?us-ascii?Q?7FKmY0b1cJbtzAxuI0kqqD4g9n9Vga7dkPTpD7dROq6/KsVyg+l8RHk8Ui9Z?=
- =?us-ascii?Q?8RnVaUE6m1N8Pie6f7QetoNZgyEGzEpRldbGDrr8b9NCCOgPn2Ms87Wilga2?=
- =?us-ascii?Q?S8dSLmiClPTJGMMgc/+JBWMO6WgE6gAnyR92YwtVmM7I8cEA5iSBXavshoW9?=
- =?us-ascii?Q?rJ7NxBvC8ThqBb866lpS73Dxcr1TEpY6OdYGu2yRoByQzDe9BN9/jAQBN9Dv?=
- =?us-ascii?Q?USYFjHWoqwpS35yT74alQxJUYTOfEaSP6TcZID0+U4vf70D0b5LmRt4Fl5A9?=
- =?us-ascii?Q?4KCrivMVjXy8DvDtG5W9flptlOF6bX4ayvUKF4Q87dWGSR008i4IGnzncqo/?=
- =?us-ascii?Q?qNYsoSfRoY9YmTBhCRjZWHpy0pA2VCZLxjxf6Rpn8lqP6N+aFAvzVvsWbwEA?=
- =?us-ascii?Q?CFsM9CaZ0EiyrVp2rUO6isnU3ZldG2LbdywogAnhy0p7qjf9PjFYdBezx4vK?=
- =?us-ascii?Q?Rn8bqUqYoUKx4NbMAzJ2KfQpuLpUeVbQ6QClSb55tixXZXeOe7V8TGg5IhhU?=
- =?us-ascii?Q?XXmNL1PbGEmt3lXhJUroQRetJRjg5rM6ylqrN6Eb/9SaE/YuYRNV08zGOIdj?=
- =?us-ascii?Q?Bcol95xDflda3wx/66MjojqSoufQQoUseDXnLFgx6gO52S51z2XZfQMl22yK?=
- =?us-ascii?Q?DDnfwNT5R4u6rzs2qm7IzJvCjmbnctOLfJ15T9wyY06W++sf/+leMClsyVxj?=
- =?us-ascii?Q?erVkTvyc0kyCIiblOGOLyv5OpyjLdl1ppyzZuEaTUWJ1R2bhCvm99Mj7BPen?=
- =?us-ascii?Q?dCcctIdNjyFoNaXQ/2tJT9T92m8stqecECJdg4X/8g9eup9yedAQRKMdw9Tg?=
- =?us-ascii?Q?Qe8aeXAi7lcAgg7dfpyvs7zuJ3e+UFHPOzMFSI4BrjRrHTY1mIUoULrzPyuA?=
- =?us-ascii?Q?P0NiXRihvDqk57bViW+GzsJ0rDI97jmVzCOPv4FJA7PBHH3AcXWq5EWPxzkU?=
- =?us-ascii?Q?pgmoyYg/Fs8zXMJPVoyj7YnDxZcFDn8viUTcRvJVRff1qkMwG/GSxxvS145l?=
- =?us-ascii?Q?pQtXznnytLZICg5U3ngEVY1lfnlq48dSQIlMCEkHwmyPibKA42MbU0ra5BVs?=
- =?us-ascii?Q?kUt/qQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zIevEbmq6chHakG41rDS/UHgsqRFVAk9K0KmDaIz3g3n7PlUP7da9hYgYrJV?=
+ =?us-ascii?Q?RN9enUk45jc6msolYVT42PFBnuUdWCn3wtLWNTHuT3UWiSfK8j3CnZgjnvz7?=
+ =?us-ascii?Q?l4dLRQULZcKCy8yeg1aCPt+9DULMCkLbHJwRi5FyoI5GSqd+pGaxcDgRy7/c?=
+ =?us-ascii?Q?v/CDu+kktvV/5mVcGgjBr1ei6/sj8MNcXe5tnhdh97dDzNnYLf/TgvQfa2vS?=
+ =?us-ascii?Q?Z0atgIQoQxH4lbhPMqkrEWF9TOjofc/AJH7VrKJ0jY2OPUXLr8Ir6aVmRNc0?=
+ =?us-ascii?Q?LzO64d61fICwz1kI3eaXL1uRL2LchhfgsedJbI1/mXwkP8PqDJGIddPciCxg?=
+ =?us-ascii?Q?HwiXx6rU48rCnPujW+Qus/sKMWUsV2uHRJlWz+z7pNWEugaWDvsBFxIwX31t?=
+ =?us-ascii?Q?rG9awAvNpFM0bQywkGyiauF2nJiH42A5aJVnfqqxzpaVoNsmtu4Do+K240rc?=
+ =?us-ascii?Q?qzlNumasM/ahMlLY3g76aAI7LN7i7V8SVfSka28+hjoIW4qyPWZnhh1oy5eO?=
+ =?us-ascii?Q?RuZ8p1IuET+DzIdYOyvf5Z7A1vQB+keAFC5fIAhjgF28taKqAhQul9IXOSBw?=
+ =?us-ascii?Q?3/wcWZNd6kCiAnE06RoCX+fgITsJ2niEjUzjEIX6FUJ3mOJyjhS56+YKlrKu?=
+ =?us-ascii?Q?izt3hlMFj4DG80U3g3yiqDlgAJwOZh1UCcjpTYTtmyBiWLxdnvSAojOXT+eW?=
+ =?us-ascii?Q?0MLaqbhnsWfnEBD60CHz8cOGhvU3TnzU1V5W+gZCqI7ixBrXikvIjG93Ihxr?=
+ =?us-ascii?Q?jKPvJluS8o2/iPfFrZ4AZBSk2PR4kl07MMcPuKvxvWX74ctwMZHPDe8oGfP6?=
+ =?us-ascii?Q?tyx0CoKXlp1rZo9c4wMhHQ/mzEBgU4KDr/SXyM6bzRI30xZPmLpsowqy1gjn?=
+ =?us-ascii?Q?+GnHmMWs5FRRZMwXyNGvhs/hlE3Zor2IMoiUIdoeRHY3vuS+6wsXGZK5S6ee?=
+ =?us-ascii?Q?8EFfo59ZtjjYcBjzdaUF6WjLzol/igv4GpPysqCZyows7/BvODUhZvdiC6+R?=
+ =?us-ascii?Q?dNWonNauf4pZKemnA19P4KBPurhfF26m9fmDXvfY6NAuZx1WdOG2HJ19eUBx?=
+ =?us-ascii?Q?XOKqHJ9KHL2vdDRHkB5wwV06PoGtEvztJAVCkyingu9a/iDBB4mzm8I9lGdu?=
+ =?us-ascii?Q?BOiI4zgmtevkdfH7Ua0mlZS7Z3bHK93AN2xdEJ68fJWUGpSESe4htLzQny36?=
+ =?us-ascii?Q?EHNL8zHRp5vrM25X+Oj7+eNaLhNsoqavyzkDgE8NQ4p4u3Rq82D0mRmo+Zuq?=
+ =?us-ascii?Q?QeiA9RjD6tVFAmWY8TuldyduRvjEyxrEyEEP4IoeZM3zDgH9sGxJTpkx2uTq?=
+ =?us-ascii?Q?ENKVB0Twm9Qk0Sy046lnHRWafPNz1BQyCWatDqz2/D5BBqNQAnPZe1mPJObQ?=
+ =?us-ascii?Q?bO6kStXQntQC4KQd9mGnhXyy5aXmd39Hjzw4nkU47dMQEVJrgOWqaAzfVelg?=
+ =?us-ascii?Q?BGAk5mbB8jPNtlGIdS4C+ouKsEFEMPLuOASCNB9HExmIZabgQOcoj1cLZF/+?=
+ =?us-ascii?Q?oAnGgubVjgjdBZ7yBLkiTTTUp5bJ5FUlKKv94bqeNIXsBoWT9oWncTg9j7R2?=
+ =?us-ascii?Q?SDe3IzLRm6fg9ye7Os87PgJPNONeWMiz12aLrv5dEVAHCzb7+k1Btl7B3Xcg?=
+ =?us-ascii?Q?QqWpEpPS7iQbKaxbEWQV1nrkVSoNtZch77XEMq1MXhBSP9BfYnMS13UkAdXi?=
+ =?us-ascii?Q?yTUONA=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31104fc8-1691-4b04-6b9b-08d9faaf0a0c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 992809bb-4c56-4168-f51a-08d9faaf0a91
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 11:39:54.5863 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 11:39:55.4287 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9LDTktC6pfr8Xus6eXc3quhuALpW0Isa5ZyNfwtl0CtaOpjfrUfpqDSrOWLl+zUNssGqzaDmUcfWzbRJ8L1LpEIrX21Bon/mY1eZjAmu+wA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: XJgdaE6gTHO8nqP8hgZQkR226HRnzkEkznkommRLjlCHRmzVibjsMgeWKC4bzJfsPIGNXTRzeRrmLGsBi9wo0Kxd+ODOJ79pDV+Eh4WwxVk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2272
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe02::721
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe02::714
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:fe02::721;
+Received-SPF: pass client-ip=2a01:111:f400:fe02::714;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR01-DB5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -6
@@ -141,10 +141,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new block driver simply utilizes snapshot-access API of underlying
-block node.
+Current scheme of image fleecing looks like this:
 
-In further patches we want to use it like this:
+[guest]                    [NBD export]
+  |                              |
+  |root                          | root
+  v                              v
+[copy-before-write] -----> [temp.qcow2]
+  |                 target  |
+  |file                     |backing
+  v                         |
+[active disk] <-------------+
+
+ - On guest writes copy-before-write filter copies old data from active
+   disk to temp.qcow2. So fleecing client (NBD export) when reads
+   changed regions from temp.qcow2 image and unchanged from active disk
+   through backing link.
+
+This patch makes possible new image fleecing scheme:
 
 [guest]                   [NBD export]
    |                            |
@@ -156,227 +170,672 @@ In further patches we want to use it like this:
    v           v
 [active-disk] [temp.img]
 
-This way, NBD client will be able to read snapshotted state of active
-disk, when active disk is continued to be written by guest. This is
-known as "fleecing", and currently uses another scheme based on qcow2
-temporary image which backing file is active-disk. New scheme comes
-with benefits - see next commit.
+ - copy-before-write does CBW operations and also provides
+   snapshot-access API. The API may be accessed through
+   snapshot-access driver.
 
-The other possible application is exporting internal snapshots of
-qcow2, like this:
+Benefits of new scheme:
 
-[guest]          [NBD export]
-   |                  |
-   | root             | root
-   v       file       v
-[qcow2]<---------[snapshot-access]
+1. Access control: if remote client try to read data that not covered
+   by original dirty bitmap used on copy-before-write open, client gets
+   -EACCES.
 
-For this, we'll need to implement snapshot-access API handlers in
-qcow2 driver, and improve snapshot-access block driver (and API) to
-make it possible to select snapshot by name. Another thing to improve
-is size of snapshot. Now for simplicity we just use size of bs->file,
-which is OK for backup, but for qcow2 snapshots export we'll need to
-imporve snapshot-access API to get size of snapshot.
+2. Discard support: if remote client do DISCARD, this additionally to
+   discarding data in temp.img informs block-copy process to not copy
+   these clusters. Next read from discarded area will return -EACCES.
+   This is significant thing: when fleecing user reads data that was
+   not yet copied to temp.img, we can avoid copying it on further guest
+   write.
+
+3. Synchronisation between client reads and block-copy write is more
+   efficient. In old scheme we just rely on BDRV_REQ_SERIALISING flag
+   used for writes to temp.qcow2. New scheme is less blocking:
+     - fleecing reads are never blocked: if data region is untouched or
+       in-flight, we just read from active-disk, otherwise we read from
+       temp.img
+     - writes to temp.img are not blocked by fleecing reads
+     - still, guest writes of-course are blocked by in-flight fleecing
+       reads, that currently read from active-disk - it's the minimum
+       necessary blocking
+
+4. Temporary image may be of any format, as we don't rely on backing
+   feature.
+
+5. Permission relation are simplified. With old scheme we have to share
+   write permission on target child of copy-before-write, otherwise
+   backing link conflicts with copy-before-write file child write
+   permissions. With new scheme we don't have backing link, and
+   copy-before-write node may have unshared access to temporary node.
+   (Not realized in this commit, will be in future).
+
+6. Having control on fleecing reads we'll be able to implement
+   alternative behavior on failed copy-before-write operations.
+   Currently we just break guest request (that's a historical behavior
+   of backup). But in some scenarios it's a bad behavior: better
+   is to drop the backup as failed but don't break guest request.
+   With new scheme we can simply unset some bits in a bitmap on CBW
+   failure and further fleecing reads will -EACCES, or something like
+   this. (Not implemented in this commit, will be in future)
+   Additional application for this is implementing timeout for CBW
+   operations.
+
+Iotest 257 output is updated, as two more bitmaps now live in
+copy-before-write filter.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qapi/block-core.json    |   4 +-
- block/snapshot-access.c | 132 ++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS             |   1 +
- block/meson.build       |   1 +
- 4 files changed, 137 insertions(+), 1 deletion(-)
- create mode 100644 block/snapshot-access.c
+ block/copy-before-write.c  | 212 ++++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/257.out | 224 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 435 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index ffb7aea2a5..f13b5ff942 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2914,13 +2914,14 @@
- # @blkreplay: Since 4.2
- # @compress: Since 5.0
- # @copy-before-write: Since 6.2
-+# @snapshot-access: Since 7.0
- #
- # Since: 2.9
- ##
- { 'enum': 'BlockdevDriver',
-   'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
-             'cloop', 'compress', 'copy-before-write', 'copy-on-read', 'dmg',
--            'file', 'ftp', 'ftps', 'gluster',
-+            'file', 'snapshot-access', 'ftp', 'ftps', 'gluster',
-             {'name': 'host_cdrom', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
-             {'name': 'host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
-             'http', 'https', 'iscsi',
-@@ -4267,6 +4268,7 @@
-       'rbd':        'BlockdevOptionsRbd',
-       'replication': { 'type': 'BlockdevOptionsReplication',
-                        'if': 'CONFIG_REPLICATION' },
-+      'snapshot-access': 'BlockdevOptionsGenericFormat',
-       'ssh':        'BlockdevOptionsSsh',
-       'throttle':   'BlockdevOptionsThrottle',
-       'vdi':        'BlockdevOptionsGenericFormat',
-diff --git a/block/snapshot-access.c b/block/snapshot-access.c
-new file mode 100644
-index 0000000000..77b87c1946
---- /dev/null
-+++ b/block/snapshot-access.c
-@@ -0,0 +1,132 @@
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index 91a2288b66..0b6d26605c 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -33,12 +33,37 @@
+ #include "block/block-copy.h"
+ 
+ #include "block/copy-before-write.h"
++#include "block/reqlist.h"
+ 
+ #include "qapi/qapi-visit-block-core.h"
+ 
+ typedef struct BDRVCopyBeforeWriteState {
+     BlockCopyState *bcs;
+     BdrvChild *target;
++
++    /*
++     * @lock: protects access to @access_bitmap, @done_bitmap and
++     * @frozen_read_reqs
++     */
++    CoMutex lock;
++
++    /*
++     * @access_bitmap: represents areas allowed for reading by fleecing user.
++     * Reading from non-dirty areas leads to -EACCES.
++     */
++    BdrvDirtyBitmap *access_bitmap;
++
++    /*
++     * @done_bitmap: represents areas that was successfully copied to @target by
++     * copy-before-write operations.
++     */
++    BdrvDirtyBitmap *done_bitmap;
++
++    /*
++     * @frozen_read_reqs: current read requests for fleecing user in bs->file
++     * node. These areas must not be rewritten by guest.
++     */
++    BlockReqList frozen_read_reqs;
+ } BDRVCopyBeforeWriteState;
+ 
+ static coroutine_fn int cbw_co_preadv(
+@@ -48,10 +73,20 @@ static coroutine_fn int cbw_co_preadv(
+     return bdrv_co_preadv(bs->file, offset, bytes, qiov, flags);
+ }
+ 
 +/*
-+ * snapshot_access block driver
++ * Do copy-before-write operation.
 + *
-+ * Copyright (c) 2022 Virtuozzo International GmbH.
++ * On failure guest request must be failed too.
 + *
-+ * Author:
-+ *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
++ * On success, we also wait for all in-flight fleecing read requests in source
++ * node, and it's guaranteed that after cbw_do_copy_before_write() successful
++ * return there are no such requests and they will never appear.
 + */
-+
-+#include "qemu/osdep.h"
-+
-+#include "sysemu/block-backend.h"
-+#include "qemu/cutils.h"
-+#include "block/block_int.h"
-+
-+static coroutine_fn int
-+snapshot_access_co_preadv_part(BlockDriverState *bs,
-+                               int64_t offset, int64_t bytes,
-+                               QEMUIOVector *qiov, size_t qiov_offset,
-+                               BdrvRequestFlags flags)
-+{
-+    if (flags) {
-+        return -ENOTSUP;
+ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
+         uint64_t offset, uint64_t bytes, BdrvRequestFlags flags)
+ {
+     BDRVCopyBeforeWriteState *s = bs->opaque;
++    int ret;
+     uint64_t off, end;
+     int64_t cluster_size = block_copy_cluster_size(s->bcs);
+ 
+@@ -62,7 +97,17 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
+     off = QEMU_ALIGN_DOWN(offset, cluster_size);
+     end = QEMU_ALIGN_UP(offset + bytes, cluster_size);
+ 
+-    return block_copy(s->bcs, off, end - off, true);
++    ret = block_copy(s->bcs, off, end - off, true);
++    if (ret < 0) {
++        return ret;
 +    }
 +
-+    return bdrv_co_preadv_snapshot(bs->file, offset, bytes, qiov, qiov_offset);
++    WITH_QEMU_LOCK_GUARD(&s->lock) {
++        bdrv_set_dirty_bitmap(s->done_bitmap, off, end - off);
++        reqlist_wait_all(&s->frozen_read_reqs, off, end - off, &s->lock);
++    }
++
++    return 0;
+ }
+ 
+ static int coroutine_fn cbw_co_pdiscard(BlockDriverState *bs,
+@@ -110,6 +155,142 @@ static int coroutine_fn cbw_co_flush(BlockDriverState *bs)
+     return bdrv_co_flush(bs->file->bs);
+ }
+ 
++/*
++ * If @offset not accessible - return NULL.
++ *
++ * Otherwise, set @pnum to some bytes that accessible from @file (@file is set
++ * to bs->file or to s->target). Return newly allocated BlockReq object that
++ * should be than passed to cbw_snapshot_read_unlock().
++ *
++ * It's guaranteed that guest writes will not interact in the region until
++ * cbw_snapshot_read_unlock() called.
++ */
++static BlockReq *cbw_snapshot_read_lock(BlockDriverState *bs,
++                                        int64_t offset, int64_t bytes,
++                                        int64_t *pnum, BdrvChild **file)
++{
++    BDRVCopyBeforeWriteState *s = bs->opaque;
++    BlockReq *req = g_new(BlockReq, 1);
++    bool done;
++
++    QEMU_LOCK_GUARD(&s->lock);
++
++    if (bdrv_dirty_bitmap_next_zero(s->access_bitmap, offset, bytes) != -1) {
++        g_free(req);
++        return NULL;
++    }
++
++    done = bdrv_dirty_bitmap_status(s->done_bitmap, offset, bytes, pnum);
++    if (done) {
++        /*
++         * Special invalid BlockReq, that is handled in
++         * cbw_snapshot_read_unlock(). We don't need to lock something to read
++         * from s->target.
++         */
++        *req = (BlockReq) {.offset = -1, .bytes = -1};
++        *file = s->target;
++    } else {
++        reqlist_init_req(&s->frozen_read_reqs, req, offset, bytes);
++        *file = bs->file;
++    }
++
++    return req;
 +}
 +
-+static int coroutine_fn
-+snapshot_access_co_block_status(BlockDriverState *bs,
-+                                bool want_zero, int64_t offset,
-+                                int64_t bytes, int64_t *pnum,
-+                                int64_t *map, BlockDriverState **file)
++static void cbw_snapshot_read_unlock(BlockDriverState *bs, BlockReq *req)
 +{
-+    return bdrv_co_snapshot_block_status(bs->file->bs, want_zero, offset,
-+                                         bytes, pnum, map, file);
-+}
++    BDRVCopyBeforeWriteState *s = bs->opaque;
 +
-+static int coroutine_fn snapshot_access_co_pdiscard(BlockDriverState *bs,
-+                                             int64_t offset, int64_t bytes)
-+{
-+    return bdrv_co_pdiscard_snapshot(bs->file->bs, offset, bytes);
-+}
++    if (req->offset == -1 && req->bytes == -1) {
++        g_free(req);
++        return;
++    }
 +
-+static int coroutine_fn
-+snapshot_access_co_pwrite_zeroes(BlockDriverState *bs,
-+                                 int64_t offset, int64_t bytes,
-+                                 BdrvRequestFlags flags)
-+{
-+    return -ENOTSUP;
++    QEMU_LOCK_GUARD(&s->lock);
++
++    reqlist_remove_req(req);
++    g_free(req);
 +}
 +
 +static coroutine_fn int
-+snapshot_access_co_pwritev_part(BlockDriverState *bs,
-+                                int64_t offset, int64_t bytes,
-+                                QEMUIOVector *qiov, size_t qiov_offset,
-+                                BdrvRequestFlags flags)
++cbw_co_preadv_snapshot(BlockDriverState *bs, int64_t offset, int64_t bytes,
++                       QEMUIOVector *qiov, size_t qiov_offset)
 +{
-+    return -ENOTSUP;
-+}
++    BlockReq *req;
++    BdrvChild *file;
++    int ret;
 +
++    /* TODO: upgrade to async loop using AioTask */
++    while (bytes) {
++        int64_t cur_bytes;
 +
-+static void snapshot_access_refresh_filename(BlockDriverState *bs)
-+{
-+    pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
-+            bs->file->bs->filename);
-+}
++        req = cbw_snapshot_read_lock(bs, offset, bytes, &cur_bytes, &file);
++        if (!req) {
++            return -EACCES;
++        }
 +
-+static int snapshot_access_open(BlockDriverState *bs, QDict *options, int flags,
-+                                Error **errp)
-+{
-+    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-+                               BDRV_CHILD_DATA | BDRV_CHILD_PRIMARY,
-+                               false, errp);
-+    if (!bs->file) {
-+        return -EINVAL;
++        ret = bdrv_co_preadv_part(file, offset, cur_bytes,
++                                  qiov, qiov_offset, 0);
++        cbw_snapshot_read_unlock(bs, req);
++        if (ret < 0) {
++            return ret;
++        }
++
++        bytes -= cur_bytes;
++        offset += cur_bytes;
++        qiov_offset += cur_bytes;
 +    }
-+
-+    bs->total_sectors = bs->file->bs->total_sectors;
 +
 +    return 0;
 +}
 +
-+static void snapshot_access_child_perm(BlockDriverState *bs, BdrvChild *c,
-+                                BdrvChildRole role,
-+                                BlockReopenQueue *reopen_queue,
-+                                uint64_t perm, uint64_t shared,
-+                                uint64_t *nperm, uint64_t *nshared)
++static int coroutine_fn
++cbw_co_snapshot_block_status(BlockDriverState *bs,
++                             bool want_zero, int64_t offset, int64_t bytes,
++                             int64_t *pnum, int64_t *map,
++                             BlockDriverState **file)
 +{
-+    /*
-+     * Currently, we don't need any permissions. If bs->file provides
-+     * snapshot-access API, we can use it.
-+     */
-+    *nperm = 0;
-+    *nshared = BLK_PERM_ALL;
++    BDRVCopyBeforeWriteState *s = bs->opaque;
++    BlockReq *req;
++    int ret;
++    int64_t cur_bytes;
++    BdrvChild *child;
++
++    req = cbw_snapshot_read_lock(bs, offset, bytes, &cur_bytes, &child);
++    if (!req) {
++        return -EACCES;
++    }
++
++    ret = bdrv_block_status(child->bs, offset, cur_bytes, pnum, map, file);
++    if (child == s->target) {
++        /*
++         * We refer to s->target only for areas that we've written to it.
++         * And we can not report unallocated blocks in s->target: this will
++         * break generic block-status-above logic, that will go to
++         * copy-before-write filtered child in this case.
++         */
++        assert(ret & BDRV_BLOCK_ALLOCATED);
++    }
++
++    cbw_snapshot_read_unlock(bs, req);
++
++    return ret;
 +}
 +
-+BlockDriver bdrv_snapshot_access_drv = {
-+    .format_name = "snapshot-access",
-+
-+    .bdrv_open                  = snapshot_access_open,
-+
-+    .bdrv_co_preadv_part        = snapshot_access_co_preadv_part,
-+    .bdrv_co_pwritev_part       = snapshot_access_co_pwritev_part,
-+    .bdrv_co_pwrite_zeroes      = snapshot_access_co_pwrite_zeroes,
-+    .bdrv_co_pdiscard           = snapshot_access_co_pdiscard,
-+    .bdrv_co_block_status       = snapshot_access_co_block_status,
-+
-+    .bdrv_refresh_filename      = snapshot_access_refresh_filename,
-+
-+    .bdrv_child_perm            = snapshot_access_child_perm,
-+};
-+
-+static void snapshot_access_init(void)
++static int coroutine_fn cbw_co_pdiscard_snapshot(BlockDriverState *bs,
++                                                 int64_t offset, int64_t bytes)
 +{
-+    bdrv_register(&bdrv_snapshot_access_drv);
++    BDRVCopyBeforeWriteState *s = bs->opaque;
++
++    WITH_QEMU_LOCK_GUARD(&s->lock) {
++        bdrv_reset_dirty_bitmap(s->access_bitmap, offset, bytes);
++    }
++
++    block_copy_reset(s->bcs, offset, bytes);
++
++    return bdrv_co_pdiscard(s->target, offset, bytes);
 +}
 +
-+block_init(snapshot_access_init);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 34a36affff..1ccc546cc6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2520,6 +2520,7 @@ F: block/reqlist.c
- F: include/block/reqlist.h
- F: block/copy-before-write.h
- F: block/copy-before-write.c
-+F: block/snapshot-access.c
- F: include/block/aio_task.h
- F: block/aio_task.c
- F: util/qemu-co-shared-resource.c
-diff --git a/block/meson.build b/block/meson.build
-index 41e9cc5dc3..038a95689b 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -34,6 +34,7 @@ block_ss.add(files(
-   'raw-format.c',
-   'reqlist.c',
-   'snapshot.c',
-+  'snapshot-access.c',
-   'throttle-groups.c',
-   'throttle.c',
-   'vhdx-endian.c',
+ static void cbw_refresh_filename(BlockDriverState *bs)
+ {
+     pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
+@@ -194,6 +375,7 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+ {
+     BDRVCopyBeforeWriteState *s = bs->opaque;
+     BdrvDirtyBitmap *bitmap = NULL;
++    int64_t cluster_size;
+ 
+     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+@@ -225,6 +407,27 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+         return -EINVAL;
+     }
+ 
++    cluster_size = block_copy_cluster_size(s->bcs);
++
++    s->done_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
++    if (!s->done_bitmap) {
++        return -EINVAL;
++    }
++    bdrv_disable_dirty_bitmap(s->done_bitmap);
++
++    /* s->access_bitmap starts equal to bcs bitmap */
++    s->access_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
++    if (!s->access_bitmap) {
++        return -EINVAL;
++    }
++    bdrv_disable_dirty_bitmap(s->access_bitmap);
++    bdrv_dirty_bitmap_merge_internal(s->access_bitmap,
++                                     block_copy_dirty_bitmap(s->bcs), NULL,
++                                     true);
++
++    qemu_co_mutex_init(&s->lock);
++    QLIST_INIT(&s->frozen_read_reqs);
++
+     return 0;
+ }
+ 
+@@ -232,6 +435,9 @@ static void cbw_close(BlockDriverState *bs)
+ {
+     BDRVCopyBeforeWriteState *s = bs->opaque;
+ 
++    bdrv_release_dirty_bitmap(s->access_bitmap);
++    bdrv_release_dirty_bitmap(s->done_bitmap);
++
+     block_copy_state_free(s->bcs);
+     s->bcs = NULL;
+ }
+@@ -249,6 +455,10 @@ BlockDriver bdrv_cbw_filter = {
+     .bdrv_co_pdiscard           = cbw_co_pdiscard,
+     .bdrv_co_flush              = cbw_co_flush,
+ 
++    .bdrv_co_preadv_snapshot       = cbw_co_preadv_snapshot,
++    .bdrv_co_pdiscard_snapshot     = cbw_co_pdiscard_snapshot,
++    .bdrv_co_snapshot_block_status = cbw_co_snapshot_block_status,
++
+     .bdrv_refresh_filename      = cbw_refresh_filename,
+ 
+     .bdrv_child_perm            = cbw_child_perm,
+diff --git a/tests/qemu-iotests/257.out b/tests/qemu-iotests/257.out
+index 50cbd8e882..aa76131ca9 100644
+--- a/tests/qemu-iotests/257.out
++++ b/tests/qemu-iotests/257.out
+@@ -106,6 +106,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -566,6 +582,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -819,6 +851,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -1279,6 +1327,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -1532,6 +1596,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -1992,6 +2072,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -2245,6 +2341,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -2705,6 +2817,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -2958,6 +3086,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -3418,6 +3562,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -3671,6 +3831,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -4131,6 +4307,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -4384,6 +4576,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
+@@ -4844,6 +5052,22 @@ write -P0x67 0x3fe0000 0x20000
+ {"return": ""}
+ {
+   "bitmaps": {
++    "backup-top": [
++      {
++        "busy": false,
++        "count": 67108864,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      },
++      {
++        "busy": false,
++        "count": 458752,
++        "granularity": 65536,
++        "persistent": false,
++        "recording": false
++      }
++    ],
+     "drive0": [
+       {
+         "busy": false,
 -- 
 2.31.1
 
