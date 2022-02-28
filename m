@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDE14C6F78
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 15:29:36 +0100 (CET)
-Received: from localhost ([::1]:40428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E7F4C6F12
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 15:14:19 +0100 (CET)
+Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOh1r-0005Gr-A5
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 09:29:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44736)
+	id 1nOgn3-0001ZY-PK
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 09:14:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nOgiL-0003ba-PH
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 09:09:26 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:60375)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nOgiK-0007oR-3C
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 09:09:25 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.118])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3A4C6E454B31;
- Mon, 28 Feb 2022 15:09:19 +0100 (CET)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 28 Feb
- 2022 15:09:19 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G00160def291-c4e7-478e-a797-39b1c7d63c3b,
- 252894939833E8233A028C6995915A29C4CB1534) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <a5c7be8b-0f55-a671-651f-b8072ad1fbce@kaod.org>
-Date: Mon, 28 Feb 2022 15:09:18 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nOgkH-0007CN-SZ
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 09:11:25 -0500
+Received: from [2607:f8b0:4864:20::b2b] (port=38565
+ helo=mail-yb1-xb2b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nOgkG-0008CV-1s
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 09:11:25 -0500
+Received: by mail-yb1-xb2b.google.com with SMTP id u3so20743568ybh.5
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 06:11:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B5d5msIFGx1HjfhBhxyVTL5iGoQDzjnp43Drgtpwj6I=;
+ b=ALEMk5M6NVPo7o6CdTOdn5+shEkJzZ43/5YC7O5yzFx6uSfeW60IAFPZmKRVUnEHcb
+ xn93IfX6yuPbf0ah6n7dPUpOzyoYv/hb5d7/NUBoKugU938ag1ESe+MUgThMX2my2+Vz
+ iRVkyt4gwxiIWJ0MEZ+8tfAYGA6LAGuVx4W0VBClh4DpLBXy8PwNuXvTgUqxHDSlSb0F
+ EN6TQgj1I4xn0874+CIFqeOefjZkkogsf4lSRGWho8LDYNxrG5/VlDqQUMPtEEPCw2Z7
+ FWFmtbLnUVbp8GFFjuYf604Jym/DdpbpeyXr9dJjwraQeMxVVs1H+vxIMwlXuly51xvp
+ /iZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B5d5msIFGx1HjfhBhxyVTL5iGoQDzjnp43Drgtpwj6I=;
+ b=cNnt0DtWxVKbE2xNfBilLH/Qwenuq4s7Hx35G8EKNB1x8+3vnXtHXG0dyU2bfkXu2R
+ 92bJil8LMEBrl0Djxbs02zPs5NS8xP6jw56CnZANvxaGjTFIe1FJZQ8odb6JM0k/vluJ
+ q2GIQmSo0JenBNJihtFmdIuCeweU0A7ctajFgu7xnV7hjcVZdnURrFGeD+iUEqnhS3MX
+ V+ZwpiJvKA52enzMVjlJ17tAVpuTeZNwC9UsaUGFOV0dZ33iVEgNhWXqkcFKg4dCmCa2
+ 67W7IasDQWBIfaPtBKmureize5IydxTeSZo0go9KM+Vd865QqEHkMA8koFiGLUHiFwYZ
+ V88g==
+X-Gm-Message-State: AOAM531PIoBDxMpYdHDOovQ2xeyGpIgjOAHKJRU4GKWkGy+1f6IAupoB
+ rKAjX1YNEUcEICvmBBwwcdMmGz4yNBhtl9nx3d7krw==
+X-Google-Smtp-Source: ABdhPJyMqxsbaUPIQ0wJOgIveAzZaM/9YGTbe++6g6Qz8+WH5hmx8kaf20G3x6zy8gAr8vGjGYGwujYMnLi2iU4/2VA=
+X-Received: by 2002:a25:8084:0:b0:5fe:cadd:2532 with SMTP id
+ n4-20020a258084000000b005fecadd2532mr19148766ybk.193.1646057483040; Mon, 28
+ Feb 2022 06:11:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/3] spapr: Add SPAPR_CAP_AIL_MODE_3 for AIL mode 3
- support for H_SET_MODE hcall
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>, Nicholas Piggin
- <npiggin@gmail.com>
-References: <20220216063903.1782281-1-npiggin@gmail.com>
- <20220216063903.1782281-2-npiggin@gmail.com> <Yg2UBtTXneXhDdHz@yekko>
- <1645601745.av9rgobn2v.astroid@bobo.none> <Yhwuwp+eAkiu6fnY@yekko>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <Yhwuwp+eAkiu6fnY@yekko>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: d308a60b-e0e2-4a9a-a39b-33db687ff7b5
-X-Ovh-Tracer-Id: 15532633640614726563
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddttddgheelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <164603074537.20094.1732342403585879912-0@git.sr.ht>
+In-Reply-To: <164603074537.20094.1732342403585879912-0@git.sr.ht>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 28 Feb 2022 14:11:11 +0000
+Message-ID: <CAFEAcA8hWy3rfGtYkyQjJSGgsX448_t01xmM4cwyCO0op4h1xw@mail.gmail.com>
+Subject: Re: [PATCH qemu 0/7] Many improvements to HVF memory-related codes
+To: "~ubzeme" <ubzeme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,38 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Fabiano Rosas <farosas@linux.ibm.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>>> +    /* These tests match the CPU_FTR_P9_RADIX_PREFETCH_BUG flag in Linux */
->>>> +    if (((pcc->pvr & 0xffffff00) == CPU_POWERPC_POWER9_DD1) ||
->>>> +        ((pcc->pvr & 0xffffff00) == CPU_POWERPC_POWER9_DD20) ||
->>>> +        ((pcc->pvr & 0xffffff00) == CPU_POWERPC_POWER9_DD21)) {
->>>> +        return 0;
->>>> +    }
->>>
->>> Deducing what KVM supports rather than getting it to tell us
->>> explicitly with a cap is usually frowned upon.  However, given the
->>> earlier discussion, I'm satisfied that this is the least bad available
->>> option, at least for now.
->>
->> BTW this particular test doesn't work as I hoped because we only have
->> a power9 dd2.0 model.
-> 
-> Oh.. yes... IIRC dd2.0 is barely present in the wild, since it doesn't
-> have vital Spectre mitigations....
-> 
->> Adding a 2.2 or 2.3 would be possible. Maybe overkill.  I'll change
->> the test just to catch all POWER9 for now.
-> 
-> ... no, given the above, I think we should definitely add the newer
-> models.  Maybe even remove dd2.0 and replace it with the newer ones.
+On Mon, 28 Feb 2022 at 14:07, ~ubzeme <ubzeme@git.sr.ht> wrote:
+>
+> I recently bought a Mac with M1 Pro chip, and use QEMU to setup a Linux
+> virtual machine.  QEMU crashed when I started a VM with HVF accelerator
+> enabled and with the device, bochs-display, added.
+>
+> After digging into the source code, I found that dirty-tracking in HVF
+> did not work properly, which made QEMU crashed. Therefore I made this
+> series of patches to fix the problem.
 
-yes. It's really not a big effort.
+How does this series compare with Alex's patch to enable
+hvf dirty tracking for target/arm/hvf ?
+https://patchew.org/QEMU/20220203142320.33022-1-agraf@csgraf.de/
 
-Thanks,
-
-C.
+thanks
+-- PMM
 
