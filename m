@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006794C6529
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 10:01:30 +0100 (CET)
-Received: from localhost ([::1]:33104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6D04C6576
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 10:11:00 +0100 (CET)
+Received: from localhost ([::1]:37088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nObuJ-00018j-U7
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 04:01:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42828)
+	id 1nOc3S-0004KO-T8
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 04:10:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nOboa-00079T-Uf
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:55:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48208)
+ id 1nOc18-0003QR-A6
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:08:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nOboZ-0005DV-HR
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:55:32 -0500
+ id 1nOc13-0000Ny-U8
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:08:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646038530;
+ s=mimecast20190719; t=1646039304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b4sFbRhPOSygIlLzUo6FpdkMLIkUBt1LOjLofznyHJs=;
- b=E+jV/t4ChFlOyQLMqk03Sq52/kbHeV8Hs3DTGKgxY+3zpAPiq6BuBRIWkXVlCDHFL341mq
- Av3IEgb4PNoJ0kgIwjho/WLJiWzrsOfETlTjpmiH7O3llaFf7HStE2LZubJBhZ1b/n91yG
- UttoTlD0LLx0TCVacl8I45NBp+cN2LU=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=l8Fbj1wN8eX17xPIqPyKUR0w+Qgtq8Ssi1l7S6KmJXk=;
+ b=cR8uZUn/z0QjGaO5FZIbU0n/9HvzbHvMXDOquczaHPcf+qmg8MbwPWq+WC06FBvJB0xMb/
+ XXLQWgjdbg2ngLHjZpkY/N8MXmSuJuj1B7oFlVS0XrtAvJScxvxk/4XFkpXf6Hc9svjy9c
+ pbHw5kAq7pOqOtp2U4onwiiOzRWH1yM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-487-_8NGF6wIPym0Rpur1R8-eQ-1; Mon, 28 Feb 2022 03:55:29 -0500
-X-MC-Unique: _8NGF6wIPym0Rpur1R8-eQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- i20-20020a17090671d400b006d0ed9c68c1so4843136ejk.14
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 00:55:29 -0800 (PST)
+ us-mta-133-YoS2OJVuP0izNd2IX5mPyA-1; Mon, 28 Feb 2022 04:08:23 -0500
+X-MC-Unique: YoS2OJVuP0izNd2IX5mPyA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ s7-20020a508dc7000000b0040f29ccd65aso5498752edh.1
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 01:08:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b4sFbRhPOSygIlLzUo6FpdkMLIkUBt1LOjLofznyHJs=;
- b=abUSWA8FV68IS8WYIZDZoxtTIl57MpQLNKO2rNOpQvffsiTH7g1QKcmJ4i0FARQo1u
- wfnZfK6RwzwEBxMJJ8MMc3h8d9awbc2E9cn7aSICJdZlE2Wy9sJIZ1JZGH+ixp+UFC0s
- 5quE9ImQpoKMpbiPDNUpTve7vHdN+hvMjYW7r5bBFK2P5dAPPm/1cLz7WFHYHKEDiiY7
- AFPX06iwlVV739kYaQaOgeH3mrvLEGInma60hQTjShFdrmQvXGJ+aYbhFit/L5gPByix
- KF2MMbphhCjprbsjL0XrD6O/iKFNkekVUjnQ3oB9NC5kqdgYWgexz4uMpvZN0MCNJp2v
- Uaeg==
-X-Gm-Message-State: AOAM5309bpEfYT4+/esAfff2J0JOck7SX5Uq+mOfIbOV2Vw0/KvIn2u2
- 9vsOKrO7qjZPvQfrN46yQDyFxWm9oC7HAeC2FupU+qIaPWMwA9x4Icm7ciFv4T/+BaXK0kyVDqP
- 5cMksEsPPAapXEPg=
-X-Received: by 2002:a17:907:766a:b0:6cf:bb20:70c with SMTP id
- kk10-20020a170907766a00b006cfbb20070cmr14226586ejc.94.1646038528106; 
- Mon, 28 Feb 2022 00:55:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxF4s9P3pA/TFZSjKOch4FnpcyZMSM4gHMjg0bwUth589nua6G/x1EiBkhHaZh/NYNIuv+PBg==
-X-Received: by 2002:a17:907:766a:b0:6cf:bb20:70c with SMTP id
- kk10-20020a170907766a00b006cfbb20070cmr14226578ejc.94.1646038527943; 
- Mon, 28 Feb 2022 00:55:27 -0800 (PST)
+ bh=l8Fbj1wN8eX17xPIqPyKUR0w+Qgtq8Ssi1l7S6KmJXk=;
+ b=DOIcQyJNG2eOTGNEobml6mUaBUvYlQtYawiNXFie5zR1YLf+mz016uHQYt/vL152tb
+ eDH7H73VttEUgf219w99PG2YMCSJZeHmLMz6+yJ+jzLXyB2da1aCZsFO01jVsJt4ccHM
+ kcXuqORvOYkk7DOK9yHx/+b10cah3UyWbMlW+qXsqHSVzmxTcGOBqpT8dUMdKW/Xn0+O
+ yavs4JB3ZHtaq/pDcuR4a31riRr5Vm+RRCBkhbMWwR4Yp0OUU4DAJYZctn76zhvwKgHc
+ ZnybouGWYITYYvazqaMN7qUlp9fgtLxEmrKGX5ByVxBzHvoQJY4NerYlLd4HeM0VKHJ6
+ 8QqA==
+X-Gm-Message-State: AOAM530I+Sl8d3795J8hnOO+k/M1/SYkj7mcetbHKz6qO8IilHwMW9o8
+ +NcuHpXZ74hE6Pi7runDfMI1ACnlHdbPWigZ5ENaAQ0LbEQ+3GDDjbFz7aGXG70r5fIJPRRPnI8
+ dMsdtJs6GZqAWsgs=
+X-Received: by 2002:a05:6402:424b:b0:410:92aa:30b1 with SMTP id
+ g11-20020a056402424b00b0041092aa30b1mr18063790edb.297.1646039302402; 
+ Mon, 28 Feb 2022 01:08:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz4yjNIhK5hQfb5Tqey+68/pC0+xDUrD8tkQXqGO8nBxkBE4xZJZADHUiGeMAjKsYdAoUZR8A==
+X-Received: by 2002:a05:6402:424b:b0:410:92aa:30b1 with SMTP id
+ g11-20020a056402424b00b0041092aa30b1mr18063757edb.297.1646039302093; 
+ Mon, 28 Feb 2022 01:08:22 -0800 (PST)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- m7-20020aa7c487000000b00413a99bf3a3sm2355043edq.56.2022.02.28.00.55.27
+ ev18-20020a17090729d200b006ce7917fe37sm4165567ejc.85.2022.02.28.01.08.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 00:55:27 -0800 (PST)
-Date: Mon, 28 Feb 2022 09:55:26 +0100
+ Mon, 28 Feb 2022 01:08:21 -0800 (PST)
+Date: Mon, 28 Feb 2022 10:08:20 +0100
 From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 2/4] pcie: update slot power status only is power
- control is enabled
-Message-ID: <20220228095526.0b4f030d@redhat.com>
-In-Reply-To: <20220228073957.e7izpppvu4in6fr4@sirius.home.kraxel.org>
-References: <20220224174411.3296848-1-imammedo@redhat.com>
- <20220224174411.3296848-3-imammedo@redhat.com>
- <20220225101259.begp7wy5o3jlafcf@sirius.home.kraxel.org>
- <20220225140231.16c13306@redhat.com>
- <20220225080628-mutt-send-email-mst@kernel.org>
- <20220225143528.3510dc98@redhat.com>
- <20220225084140-mutt-send-email-mst@kernel.org>
- <20220225163917.7519454f@redhat.com>
- <20220228073957.e7izpppvu4in6fr4@sirius.home.kraxel.org>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH] hw/arm/virt: Validate memory size on the first NUMA node
+Message-ID: <20220228100820.477e2311@redhat.com>
+In-Reply-To: <20220228075203.60064-1-gshan@redhat.com>
+References: <20220228075203.60064-1-gshan@redhat.com>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -96,7 +87,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,40 +100,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Feb 2022 08:39:57 +0100
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Mon, 28 Feb 2022 15:52:03 +0800
+Gavin Shan <gshan@redhat.com> wrote:
 
->   Hi,
+> When the memory size on the first NUMA node is less than 128MB, the
+> guest hangs inside EDK2 as the following logs show.
+> 
+>   /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64         \
+>   -accel kvm -machine virt,gic-version=host                       \
+>   -cpu host -smp 8,sockets=2,cores=2,threads=2                    \
+>   -m 1024M,slots=16,maxmem=64G                                    \
+>   -object memory-backend-ram,id=mem0,size=127M                    \
+>   -object memory-backend-ram,id=mem1,size=897M                    \
+>   -numa node,nodeid=0,memdev=mem0                                 \
+>   -numa node,nodeid=1,memdev=mem1                                 \
+>   -L /home/gavin/sandbox/qemu.main/build/pc-bios                  \
+>    :
+>   QemuVirtMemInfoPeiLibConstructor: System RAM @ 0x47F00000 - 0x7FFFFFFF
+>   QemuVirtMemInfoPeiLibConstructor: System RAM @ 0x40000000 - 0x47EFFFFF
+>   ASSERT [MemoryInit] /home/lacos/src/upstream/qemu/roms/edk2/ArmVirtPkg/Library/QemuVirtMemInfoLib/QemuVirtMemInfoPeiLibConstructor.c(93): NewSize >= 0x08000000
+> 
+> This adds MachineClass::validate_numa_nodes() to validate the memory
+> size on the first NUMA node. The guest is stopped from booting and
+> the reason is given for this specific case.
+
+Unless it architecturally wrong thing i.e. (node size less than 128Mb)
+,in which case limiting it in QEMU would be justified, I'd prefer
+firmware being fixed or it reporting more useful for user error message.
+ 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  hw/arm/virt.c       | 9 +++++++++
+>  hw/core/numa.c      | 5 +++++
+>  include/hw/boards.h | 1 +
+>  3 files changed, 15 insertions(+)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 46bf7ceddf..234e7fca28 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2491,6 +2491,14 @@ static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
+>      return idx % ms->numa_state->num_nodes;
+>  }
 >  
-> > This where I wasn't comfortable with idea of calling random PCIe code
-> > chunks and thought about chaining callbacks so that
-> > pcie_cap_slot_[pre_]plug_cb() would do necessary PCIe steps
-> > and acpi_pcihp_device_[pre_]plug_cb() do ACPI specific things not
-> > intruding on each other, but that requires telling PCIe code that
-> > it should not issue native hotplug event to guest.  
-> 
-> I think with both acpi and pcie hotplug being active it surely makes
-> sense that both are in sync when it comes to device state.  So acpihp
-> updating pcie slot state (power control, maybe also device presence)
-> looks sane to me.
-> 
-> Not sure whenever it would be better to call into pcie code or just
-> update the pci config space bits directly to make sure pcie doesn't
-> take unwanted actions like sending out events.
+> +static void virt_validate_numa_nodes(MachineState *ms)
+> +{
+> +    if (ms->numa_state->nodes[0].node_mem < 128 * MiB) {
+> +        error_report("The first NUMA node should have at least 128MB memory");
+> +        exit(1);
 
-If changing power state is preferred over disabling power control,
-I can respin series with what Michael has suggested earlier and drop 2/4
-as not necessary.
+perhaps error_fatal() would be better
 
-I'll wait for a day to see if there would more ideas/suggestions
-
-
-> take care,
->   Gerd
-> 
+> +    }
+> +}
+> +
+>  static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>  {
+>      int n;
+> @@ -2836,6 +2844,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+>      mc->cpu_index_to_instance_props = virt_cpu_index_to_props;
+>      mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a15");
+>      mc->get_default_cpu_node_id = virt_get_default_cpu_node_id;
+> +    mc->validate_numa_nodes = virt_validate_numa_nodes;
+>      mc->kvm_type = virt_kvm_type;
+>      assert(!mc->get_hotplug_handler);
+>      mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
+> diff --git a/hw/core/numa.c b/hw/core/numa.c
+> index 1aa05dcf42..543a2eaf11 100644
+> --- a/hw/core/numa.c
+> +++ b/hw/core/numa.c
+> @@ -724,6 +724,11 @@ void numa_complete_configuration(MachineState *ms)
+>              /* Validation succeeded, now fill in any missing distances. */
+>              complete_init_numa_distance(ms);
+>          }
+> +
+> +        /* Validate NUMA nodes for the individual machine */
+> +        if (mc->validate_numa_nodes) {
+> +            mc->validate_numa_nodes(ms);
+> +        }
+>      }
+>  }
+>  
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index c92ac8815c..9709a35eeb 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -282,6 +282,7 @@ struct MachineClass {
+>                                                           unsigned cpu_index);
+>      const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machine);
+>      int64_t (*get_default_cpu_node_id)(const MachineState *ms, int idx);
+> +    void (*validate_numa_nodes)(MachineState *ms);
+>      ram_addr_t (*fixup_ram_size)(ram_addr_t size);
+>  };
+>  
 
 
