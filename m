@@ -2,95 +2,163 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F774C787E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 20:08:14 +0100 (CET)
-Received: from localhost ([::1]:45788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BECEB4C7881
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 20:12:52 +0100 (CET)
+Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOlNV-0007mz-70
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 14:08:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33702)
+	id 1nOlRz-0001Iy-9I
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 14:12:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1nOlLS-0006w8-RE
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 14:06:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57318)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nOlQi-0000bs-W3
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 14:11:33 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:44512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1nOlLN-0007BE-LP
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 14:06:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646075156;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2JLqrxW3naEU4KqjPH8Ma5Wxik5fbmoI7F3Xd4tigNc=;
- b=W2eUrmmhv53e8MnJ8K6kNd5FS7zmuiOpQw2VIC13Uxa9V6DG2RGrjcxDcVLjEGgKJnzsFi
- f/2Jle7sxX7xmvedMh24Rfkt3B4bnAZ6rHg1Emtc9leACTurwKYO+KAeL44RtDpyVLp7dD
- etAY+MDM67rKPAjwtgWa/wuGc2DcYqs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-CdHf-cQ7O-i9DVwn5-etVg-1; Mon, 28 Feb 2022 14:05:55 -0500
-X-MC-Unique: CdHf-cQ7O-i9DVwn5-etVg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- w3-20020a7bc743000000b0037c5168b3c4so6858617wmk.7
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 11:05:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=2JLqrxW3naEU4KqjPH8Ma5Wxik5fbmoI7F3Xd4tigNc=;
- b=rAHzAOX292DKeqqbIUvWwieUnUQqYmg3LRLMjKghT6m4Hh/wG8R41OTehUJS835dBG
- 8t4l8Hp03yCSh3mZ2dyezpYV3RGtIlp0KrleYybpBzf4MHLjB9GfQaxFU7mj7MuRS8MS
- BUEZWcj7xwCVhwAjAa2poFJW4W3TwHl1BPl065p3Mn2aO3KRJ68AJjy4XIFCnNPk719N
- 01N2o6FPviN7yuC2EXO00YaHW8M3zOizxF1Q9+b2Q6VZdrzIgYkorruZayThrB3ecx2u
- +/Wzpbsf6gHE/DzKS+iegPC9jncfw8uJPprO7gGF1JIc7yh6PD5tCrf6c5i1oREl/1Ny
- wmSw==
-X-Gm-Message-State: AOAM533X58RJA0eJAO8Kk4e4htFynU1MGuPrKqoga7gttNT/rjuP3q2/
- ILPSiMwSfQjdzjXki+zT9dmw3+ISn7eKeltNksxy3pULEH2mG8+iuDwfnB2D9dR9hEWdCDf6S/M
- K2zmHbj9227w7U+M=
-X-Received: by 2002:a05:6000:1c1c:b0:1ef:e989:260 with SMTP id
- ba28-20020a0560001c1c00b001efe9890260mr3046253wrb.668.1646075154158; 
- Mon, 28 Feb 2022 11:05:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxsG8Z8mujpBolCia5Wa4nqExuyPTSsGj1J06fTsQ9rewDvYO7VbuVYT8pPiSFk2WbAvwLX2w==
-X-Received: by 2002:a05:6000:1c1c:b0:1ef:e989:260 with SMTP id
- ba28-20020a0560001c1c00b001efe9890260mr3046224wrb.668.1646075153849; 
- Mon, 28 Feb 2022 11:05:53 -0800 (PST)
-Received: from ?IPv6:2a0c:5a80:1b14:b500:abb:f9d1:7bc2:3db8?
- ([2a0c:5a80:1b14:b500:abb:f9d1:7bc2:3db8])
- by smtp.gmail.com with ESMTPSA id
- j12-20020a05600c190c00b00380ead5bc65sm304329wmq.29.2022.02.28.11.05.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 11:05:53 -0800 (PST)
-Message-ID: <b5f5ab5d9d5216a8df08715a9b18ba448a42fe75.camel@redhat.com>
-Subject: Re: [PATCH 1/3] util & iothread: Introduce event-loop abstract class
-From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nOlQf-00082D-Lw
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 14:11:31 -0500
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21SIJ3PE025510; 
+ Mon, 28 Feb 2022 19:11:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=61cKqVeLy3k7wEnGCB8SlnT0OWIy3GxD63ESY6zAhzc=;
+ b=dGebJ2LT5yXI+Uk3GlBkFka+uyaFeoxO359nWakweIlqAPO/N3AI61hxasO4iujABkNB
+ qMaTORRv9q/QljAiyJdezt6kSY2pyzHpYoimy27/tlB7V4zYtH14dKUEswmaRdg1pHRI
+ 0VtZVi6hoKN0xAAO7McYUo3S3Npg2KwDj710aNxPZgf0Db6SyEn/0LcF80EL9pAWd8UN
+ cHMYwN1PqP/amk8u74Qn9KsiTzDTjD69204lC2gI8ffKy/rIrYhZcA6BOwL7b8sqlB9Q
+ iyKON9nDi8aML4JO/NzLZnzARJlS3fa7X4P0ZTZJyzLbg/LBQB1ZCvaWzI5kRPiHagjw 3A== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3efb02nbmb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 28 Feb 2022 19:11:23 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21SIjEBY146614;
+ Mon, 28 Feb 2022 19:11:22 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2172.outbound.protection.outlook.com [104.47.56.172])
+ by aserp3030.oracle.com with ESMTP id 3efa8cwvux-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 28 Feb 2022 19:11:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iCJhAxW/avnp7n4MoNxSFxBGsr0lU2m6y2pjPY8r53hAEhzZUI4KL3yNDLRj9fhNQT1r+1UhDWvJwrlSJnxg4BK1d6mP7eRpb+iKAvIPd/mofafcuUnQJhxXYLKf51+Fs5uCM3zUcFsj6U1PLv/tffOH60US+QgmcV8fZOAna2guWQgNLVOgbxEUj1XThNo8N+3Bao+USJIARTX1PRVR+gGJjf03InH50niAuqzfrTe+FrAyolDueXlUyDiOzVsNIONp2UwPhCjo5Ksa5kcS/Fnu/2JyS6/977rJlBp1aUwDKDamNURxgb1KOc73isJqkdcR9r0FSPiWeLyAmmGLqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=61cKqVeLy3k7wEnGCB8SlnT0OWIy3GxD63ESY6zAhzc=;
+ b=B90tYT0r1A0asKhE/VZtHxFasIKQAWVWVMQf3RSEzpJwAJtxfgJgIqZFFHF1Vac48DRccv6dNGjp20Ha1d6w8PF2Lfk9a8/D0PtoDqHfXVr+rXkRHNtsN7NdbQz+yeChDe3U5bhEFuKGG0/R9W15IXsNsKLMeazztbDJIOGfzBU37fTbmsCt2PiG0eUQ338TCxtkKlWyrl3QaonGU9HD83ogDfGttT5ciQS5a6F0p/TnM8vvqKrBe6Oyu72HCgbivjQAfDVFcjZY3rMlyY7/ovSWl0JUP85rbRN4c0pxVwlTlPno4A2zuOleeEu+IDICKcDZ09fm/L6g8fMehVkxtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=61cKqVeLy3k7wEnGCB8SlnT0OWIy3GxD63ESY6zAhzc=;
+ b=FpQd1OvthKi8MSlJ1Je1LEmw9mNToOrhQN0voTkTVkzjjv/NbLhjNXt4ywa/NNx5xQDOdmDC3b/JvkHJm2etGkeOZvNbJVLZCEG+s1JmpN6M5yqI9vNxC81zD5IGCknrCwoeMGyr1SPSGJUJg/zFleRJBcTPQAw1dTlyOvcmU7U=
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
+ by DM5PR10MB1612.namprd10.prod.outlook.com (2603:10b6:4:5::17) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5017.26; Mon, 28 Feb 2022 19:11:19 +0000
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::508e:7f79:394:563a]) by MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::508e:7f79:394:563a%4]) with mapi id 15.20.5017.027; Mon, 28 Feb 2022
+ 19:11:18 +0000
+From: Jag Raman <jag.raman@oracle.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>
-Date: Mon, 28 Feb 2022 20:05:52 +0100
-In-Reply-To: <YhdUcRNi95PY0X98@stefanha-x1.localdomain>
-References: <20220221170843.849084-1-nsaenzju@redhat.com>
- <20220221170843.849084-2-nsaenzju@redhat.com>
- <YhdUcRNi95PY0X98@stefanha-x1.localdomain>
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35)
+Subject: Re: [PATCH v6 03/19] qdev: unplug blocker for devices
+Thread-Topic: [PATCH v6 03/19] qdev: unplug blocker for devices
+Thread-Index: AQHYI8rlxaVvdL/3Hk+KEC3FbT8qX6yeKFkAgAs9/AA=
+Date: Mon, 28 Feb 2022 19:11:18 +0000
+Message-ID: <BA4A579F-F53B-491C-8512-46B4C8913B9F@oracle.com>
+References: <cover.1645079934.git.jag.raman@oracle.com>
+ <5acc81b16d52949a47cbcbfcc2eacc0e4f3a5687.1645079934.git.jag.raman@oracle.com>
+ <YhOwGkAa7uYdS2r/@stefanha-x1.localdomain>
+In-Reply-To: <YhOwGkAa7uYdS2r/@stefanha-x1.localdomain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3693.60.0.1.1)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fcf0ad61-9708-4300-069a-08d9faee1979
+x-ms-traffictypediagnostic: DM5PR10MB1612:EE_
+x-microsoft-antispam-prvs: <DM5PR10MB161222817CC0FB739391A87990019@DM5PR10MB1612.namprd10.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: +YFv40UeFq8G6/3YWY2bZQs8zHCcehPBoQKMpDpcm275F8bPG4ga1ii7w1BSXvjAUSbYu0UGmXfXXE6msIi4V8wvxdiLLLGFZWnvx99D8r/Rb9gQqssKEzYBdsAgg8ZP2F0FwI9SwFGQlvOrbRdoeCQxyc7akRaUBVpGZw1fol+pGAcA4RuANMgMvaYgJVzpoQA1YL69Buvc6Qc14P1ahoI4b5fzD46CYVELdiqaFQoKcRj6BACqJMMXtWsoiH75RRstBG6keEhNeEZI5UVP/tuN9+Rc7Nd+77yc/K58CPviFwFHJTcDSSl3w6cpBGODrL7Z1sfSsDXVVqqR1dMgheokTYeiOYZK42lXlMGnYGtsuGsS2Q8yoy4fSHsVvennuPuUUyZH3KsHiO9Ky5SRWUJn6BIz5YW32QtaAB7hbhZcT7JNmuLnwrBoRvdN8HP+boWizXqHGrPyFuJzypVU+YHEA2PaDkAjEUPNS1W/ZBv+1hZcKaO8eEvqAVAp4kuN83l1Mx0dulAbdeX7J0ECyIaVm2xVDUslxuM+1LVbmIB8Gx1O1ebopU82ow/4MeYL+G3gDuAPzwNZDsZJ3DDXDAx92zdkLdounFyLFmy812MyzdrbWfBZdLSUFcbkmuIMyHaHeE5LM/LPdCKXKimhUiqGpWHlopFRxCPj0rCJXhyRiIGNnZhkfD/+8SaFBlqUcV9yjqBWaiCdazassqlpkq2xaq+i0ypJlC5keRAdbHyV50QObHA2eZVHmEgWisbB
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(33656002)(66946007)(38100700002)(76116006)(107886003)(6512007)(4326008)(8676002)(64756008)(66446008)(66476007)(66556008)(4744005)(8936002)(2906002)(2616005)(7416002)(86362001)(5660300002)(83380400001)(186003)(44832011)(38070700005)(36756003)(71200400001)(6486002)(508600001)(316002)(54906003)(6916009)(91956017)(122000001)(6506007)(53546011)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LwZoLNWMHkzgix89+x2SuGOhMXs552HqfAfEKOgRzqo11Jf1gye9ajCzWdbH?=
+ =?us-ascii?Q?bvPJc6enhzCvK9sDtmHVeNoM8j5R0Tn8uABPL5XsIO9IJ0RmA4e0gx9+ordp?=
+ =?us-ascii?Q?vHGQoYkbXd2903+S6bC9IMEa9LnF4fsdJm6fu5D6td+cyo5NmqqBClaSrvWv?=
+ =?us-ascii?Q?yZIlI9XQWqovGSIXbcbIRqQggUyXfK1qzB5dzq3jF2Gr3A8DdC4tJH2psczj?=
+ =?us-ascii?Q?aORJ6TsNaj3+02mc31Rj7FdnQMkHKb7Bq1Egs4Zadz7FCeQKlN7b04NSjlxE?=
+ =?us-ascii?Q?jcg25fT/pos+gp58U4qLIKz/anBRnX2m4jmOLNzWcKtk1ObDkSWp075hml3P?=
+ =?us-ascii?Q?djAoKHLIltt6uCs7TbSI3pQ7tmjHfhSFRhQ40427tX4y1mTO2jO7S6HC5Orc?=
+ =?us-ascii?Q?nAzyqH3OfMEXxIRG1hd5uEOY4bd21NC7BuO0j59r3cKO4g9jPQKPs1daoiu0?=
+ =?us-ascii?Q?Vf6z2NroHEO6Np/CqOqr3mjAT8zEnQR6QfWTDDBvWwbGvwZCYqV5zqUvZAzX?=
+ =?us-ascii?Q?45XC5YQdVBVvaK6VyK+fhNto4+masRCc2t+2mLbtmtAqcXvYMmlFmmSHbd/T?=
+ =?us-ascii?Q?xgZWv7IEiwcPWlqfSpdxogS9sk/e/6tlDa1HgAFSnwIMhZBQWkKYCifANo33?=
+ =?us-ascii?Q?nxVL7Bizg1iiJT2GhRAFE5VAIPWeKJv3IAZqiIRtDaBewpGwf8taII32PxYq?=
+ =?us-ascii?Q?mRImI/G7p1FLr4TBGnQB02uKv07N8OxFNT49wPd/PtV2HwtcsJBPgUvSNjSK?=
+ =?us-ascii?Q?xoEqAwWTLfADbJ8xJjNkenMa9S4eXKnYFAuOXZCDdGd2+IEcJLryeEuMuqRU?=
+ =?us-ascii?Q?BmPahPnoTT67m07LCMAilr6kDB5R2wxxSh91T6ZhrmwFo7cUu1xx3UfNpSz0?=
+ =?us-ascii?Q?05YEWCQgM9k4JUFXylk452fLHgZ4hhs4l4GRq2XjA9ggn8x8T9D3+w0DP7SL?=
+ =?us-ascii?Q?tCk4Dsbr4OqD/sugoLFsbNHsVTiFpymQcSE+FpxYqiBhuJ+9bty+9SnqRVns?=
+ =?us-ascii?Q?wDpx7w2XH8/iFGyGihKdVg1+CIw1S62NOsj3waZ5BTP2ViNfQXAG3Q9h23K6?=
+ =?us-ascii?Q?3Id+WgqhZ6G2aYEH71MiaC+wyziYrzWj3nIp0txAO6+U+ijGcBN+zZ/huBsR?=
+ =?us-ascii?Q?UM71R6udkv0CS84TvU67/l5vn8+3w4Rtb3/mnXHY3q3KhEDi9hLy0yNo4A7U?=
+ =?us-ascii?Q?VvJke3izqSl2PptfelFzW/ucKwH+QhX0ttjFMeNFDm6bPovu/jH5DWTHNnk3?=
+ =?us-ascii?Q?gfSkn84lzyKYMhpvp7/B3Rlx19lUsyAHl/e9Yea1UYdqiuJriDx3faDMx3mB?=
+ =?us-ascii?Q?/sXo3omDjbtHBSMNbmJ7HkitmO4hg3VLO/DgaW2LAsSElsgLBOs3qhNHC+Rq?=
+ =?us-ascii?Q?cCYv3BLDIbrABaOtTVmJAYBuPodreFKR2ufqR6X8BpPNoQ9eHN4jQAQ0oMML?=
+ =?us-ascii?Q?jTobVECWuF82u2QHtcZeDOz5SzpOzbGwAk7D8n115Zbeel+8fVTHl0Pa9CNc?=
+ =?us-ascii?Q?KxU5lPrJsduZ1RSOXaEnKCy4w5UfF1sVyRlKeMH6bbD/GMAH/w681//Ovdp9?=
+ =?us-ascii?Q?/B99RRON24Sqf2o4CynMzIbgf+aLIHTw8rjLpBcs/wtD6JgrAnbbahAu1vbB?=
+ =?us-ascii?Q?vAupP5dNWBISRFWV961SrK2Y6xslmv4V3oESJmrZKmjSLk4rrEFOAK5BVuS+?=
+ =?us-ascii?Q?aeKQ4g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <82771496B7D6B041A63FB4F3D9AE8A81@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsaenzju@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsaenzju@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcf0ad61-9708-4300-069a-08d9faee1979
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2022 19:11:18.5064 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /l0CBtIElhNuyJw/Xhz0snFUBlx27iZrKNKzbYOq25N0nbHF3411LecWVtAbkj2g1bIafH029uBnVxn5jtiLbQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1612
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10272
+ signatures=684655
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ bulkscore=0 phishscore=0
+ malwarescore=0 mlxscore=0 suspectscore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202280094
+X-Proofpoint-GUID: snG5wrS8GUz87axFpkvbtHAjAvtSUZS3
+X-Proofpoint-ORIG-GUID: snG5wrS8GUz87axFpkvbtHAjAvtSUZS3
+Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,94 +171,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com,
- qemu-block@nongnu.org, michael.roth@amd.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, eduardo@habkost.net,
- hreitz@redhat.com, pbonzini@redhat.com, eblake@redhat.com
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "f4bug@amsat.org" <f4bug@amsat.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "eblake@redhat.com" <eblake@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan, thanks for the review.
 
-On Thu, 2022-02-24 at 09:48 +0000, Stefan Hajnoczi wrote:
-> On Mon, Feb 21, 2022 at 06:08:43PM +0100, Nicolas Saenz Julienne wrote:
-> > diff --git a/qom/meson.build b/qom/meson.build
-> > index 062a3789d8..c20e5dd1cb 100644
-> > --- a/qom/meson.build
-> > +++ b/qom/meson.build
-> > @@ -4,6 +4,7 @@ qom_ss.add(files(
-> >    'object.c',
-> >    'object_interfaces.c',
-> >    'qom-qobject.c',
-> > +  '../util/event-loop.c',
-> 
-> This looks strange. I expected util/event-loop.c to be in
-> util/meson.build and added to the util_ss SourceSet instead of qom_ss.
-> 
-> What is the reason for this?
 
-Sorry I meant to move it into the qom directory while cleaning up the series
-but forgot about it.
+> On Feb 21, 2022, at 10:30 AM, Stefan Hajnoczi <stefanha@redhat.com> wrote=
+:
+>=20
+> On Thu, Feb 17, 2022 at 02:48:50AM -0500, Jagannathan Raman wrote:
+>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+>> index 01f3834db5..69d9cf3f25 100644
+>> --- a/softmmu/qdev-monitor.c
+>> +++ b/softmmu/qdev-monitor.c
+>> @@ -945,10 +945,36 @@ void qmp_device_del(const char *id, Error **errp)
+>>             return;
+>>         }
+>>=20
+>> +        if (qdev_unplug_blocked(dev, errp)) {
+>> +            return;
+>> +        }
+>> +
+>>         qdev_unplug(dev, errp);
+>=20
+> Can qdev_unplug() check this internally?
 
-That said, I can see how moving 'event-loop-backend' in qom_ss isn't the
-cleanest.
+Yes, I think qdev_unplug() could check this internally. Will move it there.
 
-So I tried moving it into util_ss, but for some reason nobody is calling
-'type_init(even_loop_register_type)'. My guess is there's some compilation
-quirk I'm missing.
-
-Any suggestions? I wonder if util_ss is the right spot for 'event-loop-backend'
-anyway, but I don't have a better idea.
-
-> >  ))
-> >  
-> >  qmp_ss.add(files('qom-qmp-cmds.c'))
-> > diff --git a/util/event-loop.c b/util/event-loop.c
-> > new file mode 100644
-> > index 0000000000..f3e50909a0
-> > --- /dev/null
-> > +++ b/util/event-loop.c
-> 
-> The naming is a little inconsistent. The filename "event-loop.c" does
-> match the QOM type or typedef name event-loop-backend/EventLoopBackend.
-> 
-> I suggest calling the source file event-loop-base.c and the QOM type
-> "event-loop-base".
-
-Agree.
-
-> > @@ -0,0 +1,142 @@
-> > +/*
-> > + * QEMU event-loop backend
-> > + *
-> > + * Copyright (C) 2022 Red Hat Inc
-> > + *
-> > + * Authors:
-> > + *  Nicolas Saenz Julienne <nsaenzju@redhat.com>
-> 
-> Most of the code is cut and pasted. It would be nice to carry over the
-> authorship information too.
-
-Yes, of course.
-
-> > +struct EventLoopBackend {
-> > +    Object parent;
-> > +
-> > +    /* AioContext poll parameters */
-> > +    int64_t poll_max_ns;
-> > +    int64_t poll_grow;
-> > +    int64_t poll_shrink;
-> 
-> These parameters do not affect the main loop because it cannot poll. If
-> you decide to keep them in the base class, please document that they
-> have no effect on the main loop so users aren't confused. I would keep
-> them unique to IOThread for now.
-
-OK, I'll keep them unique then.
-
-Thanks!
-
--- 
-Nicolás Sáenz
+Thank you!
+--
+Jag
 
 
