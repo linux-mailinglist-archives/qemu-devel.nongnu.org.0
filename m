@@ -2,63 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACC94C64D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:27:36 +0100 (CET)
-Received: from localhost ([::1]:33090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD594C64DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:32:38 +0100 (CET)
+Received: from localhost ([::1]:41182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nObNW-0005Rz-5w
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:27:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60572)
+	id 1nObSO-0002mz-41
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:32:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nOb2H-0008JK-9v
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:44 -0500
-Received: from mga14.intel.com ([192.55.52.115]:50059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nOb2E-0005a2-Ax
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646035534; x=1677571534;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=lygLHfFpKkNOpm8ULz7Ml4gu1/xM9RWbAxVPpfHcP1M=;
- b=Xgq4uPvLevh6NxdNyX13tABX3SVBIhcbLjoRk4aGKM9oqGaQLilzx8Qd
- KQ/minb9Pjo1Gawi6o0yZp6xJBF5041FOxLCelApDcnd0VG5bsx4sBPIC
- Cs6naRgAfsXUwqWLD4qU+TZDArHs8wHJRs14qFi4+qb4aYWnqirdexfui
- FMAmz9n7mjkO7yXKA0Thkt2RAxeecORzcUGN/yzWLWQcr9wOrC0D0Dcl/
- uM8jdViVwJfVm6OvBODia20S7vvpVGfTfZMNfM3ZN0QQzV1ZxnErLYNHI
- kpfjpK6oM/ukPMh85YSspkbJRpZHFE5Pw1nASBC7ayAX4dmOVy7XXxMRJ w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="253021654"
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="253021654"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 00:05:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="778014605"
-Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
- by fmsmga006.fm.intel.com with ESMTP; 28 Feb 2022 00:05:18 -0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 8/8] linux-header: Sync the linux headers
-Date: Mon, 28 Feb 2022 00:05:15 -0800
-Message-Id: <20220228080515.42357-9-yang.zhong@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220228080515.42357-1-yang.zhong@intel.com>
-References: <20220228080515.42357-1-yang.zhong@intel.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nObNr-0008Ha-FP; Mon, 28 Feb 2022 03:27:55 -0500
+Received: from [2607:f8b0:4864:20::12a] (port=45646
+ helo=mail-il1-x12a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nObNp-0001Zv-MM; Mon, 28 Feb 2022 03:27:55 -0500
+Received: by mail-il1-x12a.google.com with SMTP id x14so4276514ill.12;
+ Mon, 28 Feb 2022 00:27:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cAIxYvnV6osTfOFYhB385fapGTbc3BLSgWF8ELo1vU4=;
+ b=QLDtmxThOrxefFnkvDMFG4gNC+mEb+Y3a1uzrqp9Teo1ir3MLMkuAvm8iLAuy4ZJLC
+ ZXv5gQFRFE2z0AHgUXdheYLZI5cZihfUCitCL8uaymBb7PrIR5NsaGfh1bkTaPgHkJBt
+ mrcQPwmdXGiII8D7kNJVhNHDDF205gSWUHhzyyfcQ7BEo4wbLPvbW3/JezZ5pUiNLjhH
+ M2ijYYYN8viKoH2mLpNX5E8uZt3WtfmYJ+ECQ5LdxCOfmCQTb1ZDQ521aJ3oCqzAMPtc
+ lOHESkXv5/mD1m1CPrp0X0NGURpENmOMvPS78S6VOe/tN4hg4/N/d0LfsKD2lfu3VA6p
+ NfwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cAIxYvnV6osTfOFYhB385fapGTbc3BLSgWF8ELo1vU4=;
+ b=b2WTuSuQX8T88Ws7H5jhg8bwBAyXpT75eltID0DZ7EG2n6OUjTjVelVbEmfhdGdqZ2
+ /QOX7u9vloj+VSJ3HJCCt/ov5GhKgZ90Q71eg3NkGRnGOmb9laJTK5LFnqnzvwbnSNua
+ htF9gMwNlntefgcZ7nEzLNxBrsYQ/eZ/D5602DltQyKj3qJC/2nSFU1Qf6LACxMcLd5Y
+ IORDaHgigHGDg93pAhq2C3uX9CEsnifPkFgqHT6Xs7l/qRNn3iLvTXUG+RvOAeVkIvLV
+ gx/BeFTju3XezCeE+f9k8OQWWUJ6jBsXKrrKHcklPhtijgwjyLlshNeW730hExEaFL+R
+ 8Qwg==
+X-Gm-Message-State: AOAM533gvNHf1O4GNufpcOyZigFMYAE+Jg6To594klTwQ2PzYuQyY4vL
+ ZkrEuaN0a3b0haBcX4Z36R05xm/bPJi9OvTTVyc=
+X-Google-Smtp-Source: ABdhPJwPRkLcGB/XI/Gtsof/ySHkH+k8Bt3r6TEG36yJnhkRlaaxMIzogK8hE0fbyco5+r2kTxotRWcmwdQemrI/V9c=
+X-Received: by 2002:a92:d80c:0:b0:2c2:c40c:7bd4 with SMTP id
+ y12-20020a92d80c000000b002c2c40c7bd4mr9471759ilm.310.1646036872303; Mon, 28
+ Feb 2022 00:27:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=yang.zhong@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220211043920.28981-1-liweiwei@iscas.ac.cn>
+In-Reply-To: <20220211043920.28981-1-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 28 Feb 2022 18:27:25 +1000
+Message-ID: <CAKmqyKOAwdwcCMqAYZ+EjZmLaHg8mVOxf+_MYxx05rVLSzBUjA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] support subsets of Float-Point in Integer
+ Registers extensions
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,46 +80,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
- jing2.liu@linux.intel.com, wei.w.wang@intel.com, guang.zeng@intel.com,
- pbonzini@redhat.com
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, ardxwe@gmail.com,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch will be dropped once Qemu sync linux 5.17 header.
-Making all linux-headers changes here are only for maintainers
-to easily remove those changes once those patches are queued.
+On Fri, Feb 11, 2022 at 2:49 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>
+> This patchset implements RISC-V Float-Point in Integer Registers extensions(Version 1.0), which includes Zfinx, Zdinx, Zhinx and Zhinxmin extension.
+>
+> Specification:
+> https://github.com/riscv/riscv-zfinx/blob/main/zfinx-1.0.0.pdf
+>
+> The port is available here:
+> https://github.com/plctlab/plct-qemu/tree/plct-zfinx-upstream-v6
+>
+> To test this implementation, specify cpu argument with 'zfinx =true,zdinx=true,zhinx=true,zhinxmin=true' with 'g=false,f=false,d=false,Zfh=false,Zfhmin=false'
+> This implementation can pass gcc tests, ci result can be found in https://ci.rvperf.org/job/plct-qemu-zfinx-upstream/.
+>
+> v6:
+> * rename flags Z*inx to z*inx
+> * rebase on apply-to-riscv.next
+>
+> v5:
+> * put definition of ftemp and nftemp together, add comments for them
+> * sperate the declare of variable i from loop
+>
+> v4:
+> * combine register pair check for rv32 zdinx
+> * clear mstatus.FS when RVF is disabled by write_misa
+>
+> v3:
+> * delete unused reset for mstatus.FS
+> * use positive test for RVF instead of negative test for ZFINX
+> * replace get_ol with get_xl
+> * use tcg_gen_concat_tl_i64 to unify tcg_gen_concat_i32_i64 and tcg_gen_deposit_i64
+>
+> v2:
+> * hardwire mstatus.FS to zero when enable zfinx
+> * do register-pair check at the begin of translation
+> * optimize partial implemention as suggested
+>
+> Weiwei Li (6):
+>   target/riscv: add cfg properties for zfinx, zdinx and zhinx{min}
+>   target/riscv: hardwire mstatus.FS to zero when enable zfinx
+>   target/riscv: add support for zfinx
+>   target/riscv: add support for zdinx
+>   target/riscv: add support for zhinx/zhinxmin
+>   target/riscv: expose zfinx, zdinx, zhinx{min} properties
 
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
----
- linux-headers/asm-x86/kvm.h | 3 +++
- linux-headers/linux/kvm.h   | 1 +
- 2 files changed, 4 insertions(+)
+Thanks!
 
-diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
-index 2da3316bb5..8224d0dda2 100644
---- a/linux-headers/asm-x86/kvm.h
-+++ b/linux-headers/asm-x86/kvm.h
-@@ -452,6 +452,9 @@ struct kvm_sync_regs {
- 
- #define KVM_STATE_VMX_PREEMPTION_TIMER_DEADLINE	0x00000001
- 
-+/* attributes for system fd (group 0) */
-+#define KVM_X86_XCOMP_GUEST_SUPP       0
-+
- struct kvm_vmx_nested_state_data {
- 	__u8 vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
- 	__u8 shadow_vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 00af3bc333..002503dc8b 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1133,6 +1133,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_VM_MOVE_ENC_CONTEXT_FROM 206
- #define KVM_CAP_VM_GPA_BITS 207
- #define KVM_CAP_XSAVE2 208
-+#define KVM_CAP_SYS_ATTRIBUTES 209
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
+Applied to riscv-to-apply.next
+
+Alistair
+
+>
+>  target/riscv/cpu.c                        |  17 ++
+>  target/riscv/cpu.h                        |   4 +
+>  target/riscv/cpu_helper.c                 |   6 +-
+>  target/riscv/csr.c                        |  25 +-
+>  target/riscv/fpu_helper.c                 | 178 ++++++------
+>  target/riscv/helper.h                     |   4 +-
+>  target/riscv/insn_trans/trans_rvd.c.inc   | 285 ++++++++++++++-----
+>  target/riscv/insn_trans/trans_rvf.c.inc   | 314 +++++++++++++-------
+>  target/riscv/insn_trans/trans_rvzfh.c.inc | 332 +++++++++++++++-------
+>  target/riscv/internals.h                  |  32 ++-
+>  target/riscv/translate.c                  | 149 +++++++++-
+>  11 files changed, 974 insertions(+), 372 deletions(-)
+>
+> --
+> 2.17.1
+>
+>
 
