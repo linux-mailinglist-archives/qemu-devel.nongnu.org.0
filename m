@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA594C760C
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:58:58 +0100 (CET)
-Received: from localhost ([::1]:53612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB604C75A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:55:23 +0100 (CET)
+Received: from localhost ([::1]:45154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOkIT-0000ye-OE
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:58:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42618)
+	id 1nOkF0-0003TQ-CV
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:55:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAM-0002L6-Ou; Mon, 28 Feb 2022 12:50:34 -0500
-Received: from [2607:f8b0:4864:20::229] (port=39868
- helo=mail-oi1-x229.google.com)
+ id 1nOkAO-0002PW-9N; Mon, 28 Feb 2022 12:50:36 -0500
+Received: from [2607:f8b0:4864:20::22d] (port=43527
+ helo=mail-oi1-x22d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAL-0007vv-7p; Mon, 28 Feb 2022 12:50:34 -0500
-Received: by mail-oi1-x229.google.com with SMTP id q5so13916914oij.6;
- Mon, 28 Feb 2022 09:50:32 -0800 (PST)
+ id 1nOkAM-0007x7-RZ; Mon, 28 Feb 2022 12:50:35 -0500
+Received: by mail-oi1-x22d.google.com with SMTP id s5so13902425oic.10;
+ Mon, 28 Feb 2022 09:50:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cKCiBrKTpz0FpPLTRoThOF+LwZQzRV6UTVC7peKxeeQ=;
- b=jsRNjT/gueV+der7gW9FbvOeiLSJlOcbiwDEQuGaLJbNrixB4M7oBbkWBtIexb8GaV
- cA8uQcFJIPSIfAsCuwc/25B/1SK6YJjkpYNyKOEPBxUY2Yvod7QwgKkv9bUDuPvcgXGY
- ua+ue5Axyn+n5Gjo6/vYmZ/oEfArNYEr5urqA41JB4dJDui2q36tF8gs/fno9NRQIHJl
- /pbUjbw2uircknOaA2wZ/ooR8W1sMoXFtKkYqNwySTA6/1UU/0wpTdlwM4wR92a+IHRy
- GVjXExKAU2QONK08a6XHiJK8VE/lcNEW4KyMI91polT0Ysu7ZZGKWcD/OXhJyowalwvp
- 7q/w==
+ bh=JbJ9Jy11cDYW/fcjCdWMlx85wNlNZDPtHScmitgTyE0=;
+ b=U/t8oyEtXHt5l7QZwUadX5cEP+exsVAiknjC2aTH3ol2NPSLnVqL3pFYQa5Ps5PX3F
+ VjhT3SG0g31/MMqhmaBgn/Qv8I0vFUIMebMvWQ1Lkhb1PoNwYVeBtBjvuQjygeXBUYJO
+ nD4XlZFsjjkMtkP5msI6OWDcM7YcombnSiZsECMAF8gaVX8+3/gxjUmciuh2f5eaWrmx
+ 6tsa7kyNi0DyoPrlpTMjs0tUm0FGFKjO89mlCykNNyiTEw5gV8/x+snEccd5XDYGHqUN
+ yL4zmyKnXeGHYXNbQEndgDJ5maRGtuleYokWFhDDXGBgXjVeUMOO7w0sWQcx1cxWXLy3
+ gCbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cKCiBrKTpz0FpPLTRoThOF+LwZQzRV6UTVC7peKxeeQ=;
- b=pqFB2v1YtLkRfIiNfYoaglKcuuS/96S+RIQbLGEMWKslEBNUVPbCcE3zDbgEh5ccLL
- cI59htUV2uNv3cZ0zEq602X8pZkFOLI26GDdRqq2WlC5dh/oGrSR9C4qL++Gtp3yrcWX
- Lj4h3jIJBxpDi7ryI+6QXBII/XFSMJOxz72GZyITiYdse80tO+KZzFYVHO+Rdo04BpIL
- 3/YMjMo/JfWjZrCj3db4VeXAZ/FAEpHGeJtVZl9dZZXHp0IDK9Tlm1G6aT0nStz+mB4R
- HC9DADV8QVF3bkP1KlfV24t9PeEx9H05913PFE3s91NaS+gODcBQC/oV2fbL/OeYlKxf
- /8XQ==
-X-Gm-Message-State: AOAM533k/q9lF+KU7zlr3fRCTzM7o3m7nS+9YSoWFyD5KRuT15r74nav
- dM5YdUUu9OrliNlrSwlqfwNUAJeMg38=
-X-Google-Smtp-Source: ABdhPJyYX2RXsxKt3TFBuwQWu9Y4SbpKrD2kCFrgPC1IwRWCSSvT+oGyMjI/JbwTdXrB5g/o3K/f5w==
-X-Received: by 2002:a05:6808:13d6:b0:2d6:7f1a:9390 with SMTP id
- d22-20020a05680813d600b002d67f1a9390mr9592351oiw.159.1646070631649; 
- Mon, 28 Feb 2022 09:50:31 -0800 (PST)
+ bh=JbJ9Jy11cDYW/fcjCdWMlx85wNlNZDPtHScmitgTyE0=;
+ b=TXzTtfKKU5QkhzgzNAtFq5J2vosmlOkZRpRFhExR98QWV6un3NfseOL66WCaP2CoYY
+ niUsjdKrJuRv37cK3+DQvk58DcxwxLjPZm5wxa1oMPBH1FzX1uzin/GTGPdeKmYN8uU+
+ KwjcIjL6g0k+mmbixG6M0OAWfdCT23nxWKkRb5a3qfxKcRmWZcPKoxnE4K+2K/v1R6gq
+ jEXSrRoZAdkPSTIV0IHqNY8PiE0ys/lIfYJgGCPa4rHOPl6PHcSUpPhGYJFJsEligtND
+ 6i28mK5hrWd4lxllQwHhl+oW/zqSyJdn2pE52Du00kdKLb72gUhMOZABZ4IOp7hpMwKP
+ /cog==
+X-Gm-Message-State: AOAM533YoMbliJ0SOUu+9RaZbppSEOpwKif6IywAEMYnxKLJO6w8eA3W
+ kOm94wxAb1l1VHlT0GcsU6o5kxhLWqo=
+X-Google-Smtp-Source: ABdhPJz6mi76U1O51/0s0vvnKcvstEpQC0HazupyNtZzyC3LPx/xmfktbYx6eL8+gaYIhcPhKoMmEQ==
+X-Received: by 2002:a05:6808:138b:b0:2d5:1fc2:b718 with SMTP id
+ c11-20020a056808138b00b002d51fc2b718mr11384086oiw.119.1646070633449; 
+ Mon, 28 Feb 2022 09:50:33 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
  by smtp.gmail.com with ESMTPSA id
- a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.29
+ a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 09:50:31 -0800 (PST)
+ Mon, 28 Feb 2022 09:50:33 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/14] hw/ppc/spapr_drc.c: use g_auto in spapr_dt_drc()
-Date: Mon, 28 Feb 2022 14:49:56 -0300
-Message-Id: <20220228175004.8862-7-danielhb413@gmail.com>
+Subject: [PATCH 07/14] hw/ppc/spapr_drc.c: use g_autofree in drc_realize()
+Date: Mon, 28 Feb 2022 14:49:57 -0300
+Message-Id: <20220228175004.8862-8-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220228175004.8862-1-danielhb413@gmail.com>
 References: <20220228175004.8862-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::229
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22d.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -91,109 +91,38 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use g_autoptr() with GArray* and GString* pointers to avoid calling
-g_free() and the need for the 'out' label.
-
-'drc_name' can also be g_autofreed to avoid a g_free() call at the end
-of the while() loop.
-
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_drc.c | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
+ hw/ppc/spapr_drc.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index f8ac0a10df..0ba84063aa 100644
+index 0ba84063aa..251201fab3 100644
 --- a/hw/ppc/spapr_drc.c
 +++ b/hw/ppc/spapr_drc.c
-@@ -841,8 +841,14 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask)
-     ObjectProperty *prop;
-     ObjectPropertyIterator iter;
-     uint32_t drc_count = 0;
--    GArray *drc_indexes, *drc_power_domains;
--    GString *drc_names, *drc_types;
-+    g_autoptr(GArray) drc_indexes = g_array_new(false, true,
-+                                                sizeof(uint32_t));
-+    g_autoptr(GArray) drc_power_domains = g_array_new(false, true,
-+                                                      sizeof(uint32_t));
-+    g_autoptr(GString) drc_names = g_string_set_size(g_string_new(NULL),
-+                                                     sizeof(uint32_t));
-+    g_autoptr(GString) drc_types = g_string_set_size(g_string_new(NULL),
-+                                                     sizeof(uint32_t));
-     int ret;
+@@ -519,8 +519,8 @@ static const VMStateDescription vmstate_spapr_drc = {
+ static void drc_realize(DeviceState *d, Error **errp)
+ {
+     SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
++    g_autofree gchar *link_name = g_strdup_printf("%x", spapr_drc_index(drc));
+     Object *root_container;
+-    gchar *link_name;
+     const char *child_name;
  
-     /*
-@@ -857,12 +863,8 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask)
-      * reserve the space now and set the offsets accordingly so we
-      * can fill them in later.
+     trace_spapr_drc_realize(spapr_drc_index(drc));
+@@ -532,12 +532,10 @@ static void drc_realize(DeviceState *d, Error **errp)
+      * existing in the composition tree
       */
--    drc_indexes = g_array_new(false, true, sizeof(uint32_t));
-     drc_indexes = g_array_set_size(drc_indexes, 1);
--    drc_power_domains = g_array_new(false, true, sizeof(uint32_t));
-     drc_power_domains = g_array_set_size(drc_power_domains, 1);
--    drc_names = g_string_set_size(g_string_new(NULL), sizeof(uint32_t));
--    drc_types = g_string_set_size(g_string_new(NULL), sizeof(uint32_t));
- 
-     /* aliases for all DRConnector objects will be rooted in QOM
-      * composition tree at DRC_CONTAINER_PATH
-@@ -874,7 +876,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask)
-         Object *obj;
-         SpaprDrc *drc;
-         SpaprDrcClass *drck;
--        char *drc_name = NULL;
-+        g_autofree char *drc_name = NULL;
-         uint32_t drc_index, drc_power_domain;
- 
-         if (!strstart(prop->type, "link<", NULL)) {
-@@ -908,7 +910,6 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask)
-         drc_name = spapr_drc_name(drc);
-         drc_names = g_string_append(drc_names, drc_name);
-         drc_names = g_string_insert_len(drc_names, -1, "\0", 1);
--        g_free(drc_name);
- 
-         /* ibm,drc-types */
-         drc_types = g_string_append(drc_types, drck->typename);
-@@ -928,7 +929,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask)
-                       drc_indexes->len * sizeof(uint32_t));
-     if (ret) {
-         error_report("Couldn't create ibm,drc-indexes property");
--        goto out;
-+        return ret;
-     }
- 
-     ret = fdt_setprop(fdt, offset, "ibm,drc-power-domains",
-@@ -936,29 +937,22 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask)
-                       drc_power_domains->len * sizeof(uint32_t));
-     if (ret) {
-         error_report("Couldn't finalize ibm,drc-power-domains property");
--        goto out;
-+        return ret;
-     }
- 
-     ret = fdt_setprop(fdt, offset, "ibm,drc-names",
-                       drc_names->str, drc_names->len);
-     if (ret) {
-         error_report("Couldn't finalize ibm,drc-names property");
--        goto out;
-+        return ret;
-     }
- 
-     ret = fdt_setprop(fdt, offset, "ibm,drc-types",
-                       drc_types->str, drc_types->len);
-     if (ret) {
-         error_report("Couldn't finalize ibm,drc-types property");
--        goto out;
-     }
- 
--out:
--    g_array_free(drc_indexes, true);
--    g_array_free(drc_power_domains, true);
--    g_string_free(drc_names, true);
--    g_string_free(drc_types, true);
--
-     return ret;
- }
- 
+     root_container = container_get(object_get_root(), DRC_CONTAINER_PATH);
+-    link_name = g_strdup_printf("%x", spapr_drc_index(drc));
+     child_name = object_get_canonical_path_component(OBJECT(drc));
+     trace_spapr_drc_realize_child(spapr_drc_index(drc), child_name);
+     object_property_add_alias(root_container, link_name,
+                               drc->owner, child_name);
+-    g_free(link_name);
+     vmstate_register(VMSTATE_IF(drc), spapr_drc_index(drc), &vmstate_spapr_drc,
+                      drc);
+     trace_spapr_drc_realize_complete(spapr_drc_index(drc));
 -- 
 2.35.1
 
