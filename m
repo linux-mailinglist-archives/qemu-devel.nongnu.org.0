@@ -2,78 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101C14C650D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:50:05 +0100 (CET)
-Received: from localhost ([::1]:53448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5C04C651A
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:56:43 +0100 (CET)
+Received: from localhost ([::1]:57358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nObjH-0003io-RT
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:50:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40440)
+	id 1nObph-0006bT-Rv
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:56:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nObgs-0001Zw-CX
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:47:34 -0500
-Received: from [2a00:1450:4864:20::62c] (port=33384
- helo=mail-ej1-x62c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nObgq-0000QH-KL
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:47:34 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id vz16so23348550ejb.0
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 00:47:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5X5ByGxjtaNXVq7XNb5noOEKk29kf2d737RHA1duNjo=;
- b=lxzqpR/ZhGXyACK/I/M8LiqvijwkWE3k2qMySd2sZWhDCL/sz7d5k3GDdICBbUcp3A
- h0MB6D+0z56o2yFH88M9S8qatBxyFuCBLiL8yv5t2YD4DR8qZb+Op15g5qQ3UwpYTXh0
- CXfDeregRpzoe9hcwOy8xdciAKmlZSIG4ecK61oNG4A4sX27ZRDhqy63l2PFMxU+Gab9
- SVHUFNZDAVBrb3qzYgAWo+DM+tACuuqS973vYJAY6Hz6yMxFZz0wSZ8rLJ7VBqjnyvFg
- /8C6/aHU/XC5wS5Oq+k4u1ayxxEOQERXit/ySYnq7Y3HjE+6gPxQEkQvCDEp6TqHAIy1
- uK2A==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nObmt-0005Fo-ED
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:53:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33132)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nObmr-0004fm-71
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:53:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646038424;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yrPBLLmqE3ZJlzuEc9XKtGK9mWmEFgj/mKxDGkU5gbQ=;
+ b=GDD2HRLmGwhLdX46x7Zc4chF1lY6k4rdsC5v5hSxnF4xYXC58zkosruZhplpMp4MgCUzBW
+ T+uk+xT3/8gi4LTQoBZVEh0FAN9UKvpCq8ITqLbPOFsSDepbhnfkxuh5ALynX3K7sORR4M
+ 1Oc27Rll2krKzwJojzPoJLAe9emCxZE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-6-8CROl-8PNzWB-Ocss1Z66g-1; Mon, 28 Feb 2022 03:53:42 -0500
+X-MC-Unique: 8CROl-8PNzWB-Ocss1Z66g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ b7-20020a05600003c700b001efac398af7so455639wrg.22
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 00:53:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5X5ByGxjtaNXVq7XNb5noOEKk29kf2d737RHA1duNjo=;
- b=xR6IXbadFPgqydCd+1fNkYey/GgXdm3Kf6JD2G1ienAlzJS+HcQSt2uQ5OQfIiTm5T
- JusrHFeJ+uNr/0Zt6rrG4hehRXhTG5D/NJ0zfocONVYb/aIOqz4beLSIILHwIrPH7mWT
- s9J5rt68rGaS2goIcV6jEHaDJ8QnBTG5ANw97JrYwqF2iMVtd0/PTzu/xEeyLzgLIV/H
- A1YrceBA3roLvJ3ZzBTWfzDK6giTl8caMOcbknhRmibzEubR3/QxARLbtKzjVgXmTZew
- AIMPcO5LPRLAm4PsocUaK4XHdGWEyipJtiblBpxnMVcDrYtPru0tZAC8Qu0vF9BBeslv
- Fxyw==
-X-Gm-Message-State: AOAM531qTvlKh34xaVDKBIgwmd4WMlx7Ozpuv9CtO/yXuqterdrsA0hg
- 1F59Re8oKi0CbkXKXagy2PrC9bZE4BLBlZ+H0/dPBg==
-X-Google-Smtp-Source: ABdhPJxTxDxXk+Z2DpME6KliuGmFURyo4Qv0MHIe7NM+gjdbWLsnjXX08sUQxpuRpKg9ieeg4kRfChLiXCZXlvp8XGA=
-X-Received: by 2002:a17:906:abd4:b0:6bb:8aee:92c5 with SMTP id
- kq20-20020a170906abd400b006bb8aee92c5mr14654643ejb.660.1646038050192; Mon, 28
- Feb 2022 00:47:30 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=yrPBLLmqE3ZJlzuEc9XKtGK9mWmEFgj/mKxDGkU5gbQ=;
+ b=BlpChfRdpNPHc/6BKtjKHckE/xcSxUJSfO6Ek6vanzmaRoNeQZEtgNXszAPdjiv7VO
+ GRR8uf2eTiX7z3NvTE918zFJHvVsOCQJdnjhXx/ZmZ49YK5XKR6JBlBIarzn7ee3+n6B
+ rpIldESObq1qqtQj4zmd0c7M2lJuCWrS2fJ+sOaLOvcb6Qxc+FzSnc+Z2hS9OA0hBhf6
+ iETVnIKmpYJdMRtt6yMfYUjaO15ZYSulxrV7CBMJ7QfRgHCt3zSh70Tdls8I7dPbO4B8
+ deuBLkPVmBCOIPlaVXnM8TXMqp2zrNVpQdA4FFjgjooxwwAsfm450L2FMNBcRDLUr6SK
+ beLw==
+X-Gm-Message-State: AOAM532KTZZWk1o2VoaH1J4tU6N7udnu5c58nDamcKXlgcdNwAP3OVMM
+ ScCCM2Rkr90PhgNSJt3R/tUwM/wyytvHBC9tHMjJEdjocXvX//wjtQTBpSXdQJ47yCJJPwHKDgD
+ f0CaV+sBDVfWy4Vs=
+X-Received: by 2002:a05:600c:2285:b0:381:431f:cdbd with SMTP id
+ 5-20020a05600c228500b00381431fcdbdmr8388299wmf.7.1646038421152; 
+ Mon, 28 Feb 2022 00:53:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwF8MlXj5HFg5iqmj3GARrnA/DvfuOZTrUO5fo2M3ofnSZQpGxJqiT2VncuImMsn+t+KL8dVg==
+X-Received: by 2002:a05:600c:2285:b0:381:431f:cdbd with SMTP id
+ 5-20020a05600c228500b00381431fcdbdmr8388283wmf.7.1646038420890; 
+ Mon, 28 Feb 2022 00:53:40 -0800 (PST)
+Received: from ?IPV6:2003:cb:c702:9700:f1d:e242:33b4:67f?
+ (p200300cbc70297000f1de24233b4067f.dip0.t-ipconnect.de.
+ [2003:cb:c702:9700:f1d:e242:33b4:67f])
+ by smtp.gmail.com with ESMTPSA id
+ m62-20020a1c2641000000b00380d0cff5f3sm14421918wmm.8.2022.02.28.00.53.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Feb 2022 00:53:40 -0800 (PST)
+Message-ID: <7ae8a0aa-5633-221a-a47f-9b720d457ff8@redhat.com>
+Date: Mon, 28 Feb 2022 09:53:39 +0100
 MIME-Version: 1.0
-References: <20220226063019.1112654-1-liavalb@gmail.com>
- <20220226063019.1112654-4-liavalb@gmail.com>
- <BE89AC1C-6ED9-4F1E-9DE6-EB1E2CC863E7@gmail.com>
- <6e598f82-e68e-548d-7f72-ea7bcbca0e63@gmail.com>
- <A73557B9-3656-4143-984E-F074EFB8ADBD@gmail.com>
- <CAARzgwzNKcjsHib=J5i+UWLTXgxGDdkz4VG-qq+6qAaFmt8gOQ@mail.gmail.com>
- <alpine.DEB.2.22.394.2202281224450.1302049@anisinha-lenovo>
-In-Reply-To: <alpine.DEB.2.22.394.2202281224450.1302049@anisinha-lenovo>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 28 Feb 2022 14:17:19 +0530
-Message-ID: <CAARzgwx8o3t0KZKzEBgQtUwZ24x9u0_Y5Ti-jwq9rpf6DAzK1Q@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-To: Ani Sinha <ani@anisinha.ca>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::62c;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] tests/tcg/s390x: Build tests with debian11
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20220216115102.206129-1-david@redhat.com>
+ <87wnhuc14w.fsf@linaro.org> <cf847c44-f60b-041c-9350-c51d1e73027f@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <cf847c44-f60b-041c-9350-c51d1e73027f@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,55 +106,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, mst@redhat.com, Bernhard Beschow <shentey@gmail.com>,
- Liav Albani <liavalb@gmail.com>, qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-s390x@nongnu.org, David Miller <dmiller423@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 28, 2022 at 12:26 PM Ani Sinha <ani@anisinha.ca> wrote:
->
->
->
-> > > >ObjectClass type->name here :)
-> > >
-> > > I see. What about object_resolve_path_type()? It takes a typename parameter. It even tells you if the match is ambiguous if you care.
-> >
-> > Yes this is a good suggestion and it will likely work.
-> > You can get rid of your first patch and only make the following change:
-> >
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 65dbc1ec36..d82c39490c 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -38,6 +38,7 @@
-> >  #include "hw/nvram/fw_cfg.h"
-> >  #include "hw/acpi/bios-linker-loader.h"
-> >  #include "hw/isa/isa.h"
-> > +#include "hw/input/i8042.h"
-> >  #include "hw/block/fdc.h"
-> >  #include "hw/acpi/memory_hotplug.h"
-> >  #include "sysemu/tpm.h"
-> > @@ -198,7 +199,7 @@ static void init_common_fadt_data(MachineState
-> > *ms, Object *o,
-> >       * (the earliest acpi revision that supports this).
-> >       */
-> >
-> > -    fadt.iapc_boot_arch = isa_check_device_existence("i8042") ?
-> > 0x0002 : 0x0000;
-> > +    fadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042,
-> > NULL) ? 0x0002 : 0x0000;
->
->
-> This might be incorrect if there are more than one device of that type.
-> You need to check for ambiguity as well.
+On 28.02.22 09:45, Thomas Huth wrote:
+> On 16/02/2022 15.54, Alex Bennée wrote:
+>>
+>> David Hildenbrand <david@redhat.com> writes:
+>>
+>>> We need a newer compiler to build upcoming tests that test for z15
+>>> features with -march=z15. So let's do it similar to arm64 and powerpc,
+>>> using an environment based on debian11 to build tests only.
+>>>
+>>> Cc: Thomas Huth <thuth@redhat.com>
+>>> Cc: Cornelia Huck <cohuck@redhat.com>
+>>> Cc: Richard Henderson <richard.henderson@linaro.org>
+>>> Cc: "Alex Bennée" <alex.bennee@linaro.org>
+>>> Cc: "Philippe Mathieu-Daudé" <f4bug@amsat.org>
+>>> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>>> Cc: Beraldo Leal <bleal@redhat.com>
+>>> Cc: David Miller <dmiller423@gmail.com>
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>
+>> Acked-by: Alex Bennée <alex.bennee@linaro.org>
+>>
+>> for now... I'll update the s390x image on my next posting.
+> 
+> Ok, I saw that Alex now posted a patch "tests/docker: update 
+> debian-s390x-cross with lcitool", so I'll skip this one here for my next 
+> s390x pull request.
 
-exactly one is added by default, the ISA bus with or without -nodefaults:
+Yes, makes sense!
 
-~/workspace/qemu/build$ echo -e "info qtree\r\nquit\r\n" |
-./qemu-system-x86_64 -monitor stdio 2>/dev/null | grep 8042
-          dev: i8042, id ""
-~/workspace/qemu/build$ echo -e "info qtree\r\nquit\r\n" |
-./qemu-system-x86_64 -nodefaults -monitor stdio 2>/dev/null | grep
-8042
-          dev: i8042, id ""
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
