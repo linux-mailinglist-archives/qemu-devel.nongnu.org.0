@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D784C6A8C
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 12:32:01 +0100 (CET)
-Received: from localhost ([::1]:45198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637634C6A94
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 12:34:46 +0100 (CET)
+Received: from localhost ([::1]:51586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOeG0-0007xF-MM
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 06:32:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54872)
+	id 1nOeIe-000437-H8
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 06:34:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nOeAe-00046x-96
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nOeAe-00046C-70
  for qemu-devel@nongnu.org; Mon, 28 Feb 2022 06:26:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45645)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nOeAX-00077q-OJ
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 06:26:27 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nOeAX-000782-P6
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 06:26:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646047579;
+ s=mimecast20190719; t=1646047580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=v1CRg0OPxHxqMAgJXBCWt3VizN8zkqgfoGB3MDw+HBE=;
- b=AqcB5vccqkgPxQ0mn6czNCR3PGk2PaPK7AD+oRPTPUzssosx25TunbpYf/5Z4zb5kmsVsU
- 8VzR1TLmouu8QgrP6w6If3TzovyJBJOyshy6+wY4aXawnoH54qpKhoGTxvyRh1sk5jeG9m
- gQ376Hi31KCxRIqrGrcsxI1XQ5tYhiw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AEciAsrZFCKw7eCLaL1HoVu8avXfMjhDXlSqnUIkgmU=;
+ b=WjPBaZv9yTxd1+c8BJ+n6wL3JrpTlmLR245hs/Q4ZwmiRvT26Rekb/4oXGAj24YRNSFRYq
+ dOwUBhaDM4vFjnInJ0YFBm8KWcVGCUjXmPe+V0ZCoiry8mhOYHrZPSUgyVqL78FZnp+7NC
+ HmBI48c83QVqlKpY3HWUVvk0ZPCG7EQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-417-KPresSQyMTCijY527vD7Vw-1; Mon, 28 Feb 2022 06:26:16 -0500
-X-MC-Unique: KPresSQyMTCijY527vD7Vw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-556-xDlJxPlzMsWFlenC_MhOzg-1; Mon, 28 Feb 2022 06:26:17 -0500
+X-MC-Unique: xDlJxPlzMsWFlenC_MhOzg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E7085200;
- Mon, 28 Feb 2022 11:26:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B33E801DDB;
+ Mon, 28 Feb 2022 11:26:16 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C42A7B6EF;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BAE07554E;
  Mon, 28 Feb 2022 11:26:15 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C572221E6A00; Mon, 28 Feb 2022 12:26:13 +0100 (CET)
+ id C6B0421E6A01; Mon, 28 Feb 2022 12:26:13 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/9] QAPI patches patches for 2022-02-28
-Date: Mon, 28 Feb 2022 12:26:04 +0100
-Message-Id: <20220228112613.520040-1-armbru@redhat.com>
+Subject: [PULL 1/9] scripts/qapi: minor delinting
+Date: Mon, 28 Feb 2022 12:26:05 +0100
+Message-Id: <20220228112613.520040-2-armbru@redhat.com>
+In-Reply-To: <20220228112613.520040-1-armbru@redhat.com>
+References: <20220228112613.520040-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,59 +80,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit fa435db8ce1dff3b15e3f59a12f55f7b3a347b08:
+From: John Snow <jsnow@redhat.com>
 
-  Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-request' into staging (2022-02-24 12:48:14 +0000)
+Get isort and pylint tools passing again.
 
-are available in the Git repository at:
-
-  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2022-02-28
-
-for you to fetch changes up to 1428502c8c0c0cfbb04212558144fef970042cf3:
-
-  qapi: Belatedly adjust limitations documentation (2022-02-28 11:39:35 +0100)
-
-----------------------------------------------------------------
-QAPI patches patches for 2022-02-28
-
-----------------------------------------------------------------
-Fabian Holler (1):
-      qapi/migration: Fix examples document wrong field name for arguments
-
-John Snow (1):
-      scripts/qapi: minor delinting
-
-Markus Armbruster (4):
-      keyval: Fix grammar comment to cover downstream prefix
-      qapi: Fix stale reference to scripts/qapi.py in a comment
-      rtc: Have event RTC_CHANGE identify the RTC by QOM path
-      qapi: Belatedly adjust limitations documentation
-
-Peter Maydell (3):
-      qapi: Move RTC_CHANGE back out of target schema
-      qapi: Document some missing details of RTC_CHANGE event
-      hw/rtc: Compile pl031 once-only
-
- qapi/compat.json         |  2 +-
- qapi/migration.json      | 10 +++++-----
- qapi/misc-target.json    | 33 ---------------------------------
- qapi/misc.json           | 26 ++++++++++++++++++++++++++
- hw/ppc/spapr_rtc.c       |  6 ++++--
- hw/rtc/mc146818rtc.c     |  5 +++--
- hw/rtc/pl031.c           |  5 +++--
- qapi/qapi-util.c         |  2 +-
- util/keyval.c            |  4 +++-
- hw/rtc/meson.build       |  2 +-
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20220211183650.2946895-1-jsnow@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+[Comment explaining good-names-rgxs tweaked]
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
  scripts/qapi/commands.py |  2 +-
  scripts/qapi/pylintrc    | 16 ++++++----------
  scripts/qapi/types.py    |  6 +++++-
  scripts/qapi/visit.py    |  6 +++++-
- 14 files changed, 64 insertions(+), 61 deletions(-)
+ 4 files changed, 17 insertions(+), 13 deletions(-)
 
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 869d799ed2..38ca38a7b9 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -25,8 +25,8 @@
+     QAPIGenC,
+     QAPISchemaModularCVisitor,
+     build_params,
+-    ifcontext,
+     gen_special_features,
++    ifcontext,
+ )
+ from .schema import (
+     QAPISchema,
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index b259531a72..a724628203 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -34,16 +34,12 @@ disable=fixme,
+ 
+ [BASIC]
+ 
+-# Good variable names which should always be accepted, separated by a comma.
+-good-names=i,
+-           j,
+-           k,
+-           ex,
+-           Run,
+-           _,
+-           fp,  # fp = open(...)
+-           fd,  # fd = os.open(...)
+-           ch,
++# Good variable names regexes, separated by a comma. If names match any regex,
++# they will always be accepted.
++#
++# Suppress complaints about short names.  PEP-8 is cool with them,
++# and so are we.
++good-names-rgxs=^[_a-z][_a-z0-9]?$
+ 
+ [VARIABLES]
+ 
+diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+index 3013329c24..477d027001 100644
+--- a/scripts/qapi/types.py
++++ b/scripts/qapi/types.py
+@@ -16,7 +16,11 @@
+ from typing import List, Optional
+ 
+ from .common import c_enum_const, c_name, mcgen
+-from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
++from .gen import (
++    QAPISchemaModularCVisitor,
++    gen_special_features,
++    ifcontext,
++)
+ from .schema import (
+     QAPISchema,
+     QAPISchemaEnumMember,
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index e13bbe4292..380fa197f5 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -21,7 +21,11 @@
+     indent,
+     mcgen,
+ )
+-from .gen import QAPISchemaModularCVisitor, gen_special_features, ifcontext
++from .gen import (
++    QAPISchemaModularCVisitor,
++    gen_special_features,
++    ifcontext,
++)
+ from .schema import (
+     QAPISchema,
+     QAPISchemaEnumMember,
 -- 
 2.35.1
 
