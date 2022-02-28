@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF9C4C7E29
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 00:15:55 +0100 (CET)
-Received: from localhost ([::1]:58338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484D54C7F12
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 01:19:14 +0100 (CET)
+Received: from localhost ([::1]:39178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOpFC-0007ak-1Q
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 18:15:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57662)
+	id 1nOqES-0000s5-Py
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 19:19:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOpC0-0005We-69
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 18:12:37 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=38573
- helo=mail-pj1-x1034.google.com)
+ id 1nOqAI-0006Nr-SL; Mon, 28 Feb 2022 19:14:54 -0500
+Received: from [2a00:1450:4864:20::42e] (port=38785
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOpBy-0006Ku-PZ
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 18:12:35 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- ge19-20020a17090b0e1300b001bcca16e2e7so511659pjb.3
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 15:12:34 -0800 (PST)
+ id 1nOqAH-0005JV-8v; Mon, 28 Feb 2022 19:14:54 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id v21so17905356wrv.5;
+ Mon, 28 Feb 2022 16:14:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=v+CnBF2Oo8IophJS8C4FpsI2iALlCqY5kAv1EJksDIs=;
- b=N6WHWW6adAYUZM/SceOyJve2YMeO5l0QoqSE4o5J4yO1NweEfCyKIYe7H2na7gGkP8
- 73tE0SbhTgnODdfxosqxOhF3kaOoZwtQKQtvXaZiyZUP7MllB+dIt/N7nvTlyzhTAXI7
- RnujTYVWH1RSYAIvUIoQ9tiAttrJU0IMvvwUuI8Eh/1cILj99A7MGFQnlu2swL6zLqJm
- Gg7kVjYPGm7T1NiSuYadwasbqY7D548nZNbCp+cS4TBI/ac9ZQRTAc8rqUDJre6EhX2E
- 7bzrrIJ4m+FKWbTZFnwhV7hIqmCxzYiPLRRs7VCHn0D17QOPpyuEpuFBEYpuQ7r6Tumq
- +89w==
+ bh=vYk6CQqV9TgryNjiL4o/ztuD6B5ePpM/3OKhf2ProGM=;
+ b=ff27V9gPHrWFbUb47A9f5sMeeT2DeLp0ixGrT6jvEppvJF1mEFq5XOk68Yiy/Ekyfs
+ /tuPJ5hmDII/F3rLr8iksI3DZOPT47Mzi45/aCWDULSiqcQanh3KXckbo+TaOEFvQ/KF
+ lwhlhjaDqUON5X53hwax0MuGPPpLmOMcyGZjZQ3GpDA2sJRDE59BlBIOZD5/dtZ5+H7Q
+ zKM2ez9B/ij5pKkXSpHy+hSECDQyOWKk6rV4K364elcfx9ugiAYpmBp7svWGwnQfXYDI
+ RJpv7+raWb8lx8QSs1gxY03UMzsFcnIirnUFV1fD8mG/voZtVBckJc8TP/dp6NkhuPDJ
+ uthw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=v+CnBF2Oo8IophJS8C4FpsI2iALlCqY5kAv1EJksDIs=;
- b=KOebFZ3djDcpx7RI4QAsfxQjEarck1YHNJxjL1uetHzE7AjTZePgO34nvF96wD2T+z
- UfkSIDVggmCPiB/RCpzUhiXcept8CQ+ImSi7LQHwF3b/ArHYwo3qIDZncDeFOrK4VOyf
- 4/yVdPYLsUL/Kf49INqMuwmAasjbqmOEOfz9tqKbI/zENRQJRVAL8B8IUED/oyYpSPWu
- i/jshvBRNavnQjvpJIG0mEX/qN29dnE7Sd9DLsWxWwdtZ5d0//dd6cZqw2aITaab+m3o
- Kf6qGhsDNkuHgTBzJa1IhV2wvDBBns/RXQ6v1VWdR3W363EQScOY+tYHJhRsbmkv3SjC
- UOsA==
-X-Gm-Message-State: AOAM530e30kaC56BocmpCAz4hpj2BPcsUDkATawqePwiLcil8RDi/K58
- /IvKVLK4cHaSRkPGDLQzal8gV6V/yLE=
-X-Google-Smtp-Source: ABdhPJz65RO89j0TBP7fQuoNH+Y889EmDQVv3WSA+Xxl76MA/U1IVaPVLj4FHVJoELGeQe1A9GPbaQ==
-X-Received: by 2002:a17:902:ed83:b0:14f:c969:7669 with SMTP id
- e3-20020a170902ed8300b0014fc9697669mr23172423plj.96.1646089953498; 
- Mon, 28 Feb 2022 15:12:33 -0800 (PST)
-Received: from [192.168.1.115] (133.red-95-127-186.staticip.rima-tde.net.
- [95.127.186.133]) by smtp.gmail.com with ESMTPSA id
- k12-20020a056a00168c00b004e15818cda3sm15770201pfc.114.2022.02.28.15.12.31
+ bh=vYk6CQqV9TgryNjiL4o/ztuD6B5ePpM/3OKhf2ProGM=;
+ b=dLTJHIbAj6iaIECSwIkI7MHS0Ej9FMkReIX3kEHb+uV4tNBJ++X92zIHjhhaM3endi
+ raEEOWHNpAQydV9CT+SBByUCC8nBVm+zweRV5z+jhK9SdLwMFDrqE5gHFuDbUg5PRGSY
+ 7DvdQB8PJF5VCwLT9MzDbQb8+F7RKVgCB73+En75MRtC3K1MzlqxDiZcg8Q4vLYhZfdN
+ YqdwYgSKSJivaVe5XUkQ4i+AVj1LMa3ZCN7XrhqF6/BmuAXTvYynLqnRRv3ViXH6bj/U
+ sFIohzocgIj+rh92wd1zgUgv0CFXhMHl8PON7Y2rgAVDfyms9hbO3PVCdCty0RjzmplN
+ Ja5Q==
+X-Gm-Message-State: AOAM530me3eQ71XcNFt5Dr+dgyr7S0dseJtk/6XI4HfDAQLzwl1Gud1Q
+ wfX5iZGCZ877PSEu7WpYQ5k=
+X-Google-Smtp-Source: ABdhPJxocwAr/3z1RKdy9/AKrJ0f280NLFjXgLlI1/zSiNp4i99Z+4qvV653nWQUZ+WWnfbnLM4FEg==
+X-Received: by 2002:adf:fbcf:0:b0:1ef:d5f2:23a5 with SMTP id
+ d15-20020adffbcf000000b001efd5f223a5mr5142184wrs.567.1646093691022; 
+ Mon, 28 Feb 2022 16:14:51 -0800 (PST)
+Received: from [192.168.131.175] (62.red-95-127-166.staticip.rima-tde.net.
+ [95.127.166.62]) by smtp.gmail.com with ESMTPSA id
+ z5-20020a05600c0a0500b0037fa93193a8sm1088490wmp.44.2022.02.28.16.14.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 15:12:33 -0800 (PST)
-Message-ID: <0aade174-de41-0e96-134e-4c924d05ac03@gmail.com>
-Date: Tue, 1 Mar 2022 00:12:29 +0100
+ Mon, 28 Feb 2022 16:14:50 -0800 (PST)
+Message-ID: <0215dda2-9b9f-f0cf-32a9-3c64340aab79@gmail.com>
+Date: Tue, 1 Mar 2022 00:44:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2 2/2] meson: fix CONFIG_ATOMIC128 check
+Subject: Re: [PATCH v2 2/2] riscv: opentitan: Connect opentitan SPI Host
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220228200032.777433-1-marcandre.lureau@redhat.com>
- <20220228200032.777433-2-marcandre.lureau@redhat.com>
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20220228034047.34612-1-alistair.francis@opensource.wdc.com>
+ <20220228034047.34612-2-alistair.francis@opensource.wdc.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220228200032.777433-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20220228034047.34612-2-alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,33 +93,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org
+Cc: wilfred.mallawa@wdc.com, alistair.francis@wdc.com, bmeng.cn@gmail.com,
+ palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/2/22 21:00, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 28/2/22 04:40, Alistair Francis wrote:
+> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 > 
-> The current testing code isn't correct and matching QEMU usage:
-> 
-> testfile.c: In function 'main':
-> testfile.c:5:11: error: incorrect number of arguments to function '__atomic_load'
->      5 |       y = __atomic_load(&x, 0);
->        |           ^~~~~~~~~~~~~
-> testfile.c:6:7: error: argument 2 of '__atomic_store' must be a pointer type
->      6 |       __atomic_store(&x, y, 0);
->        |       ^~~~~~~~~~~~~~
-> testfile.c:7:7: error: argument 3 of '__atomic_compare_exchange' must be a pointer type
->      7 |       __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
->        |       ^~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Replace the test with common atomics test for u64 and u128 that matches
-> better QEMU needs.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Conenct spi host[1/0] to opentitan.
+
+Typo "Connect".
+
+> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 > ---
->   meson.build | 27 ++++++++++++---------------
->   1 file changed, 12 insertions(+), 15 deletions(-)
+>   hw/riscv/opentitan.c         | 36 ++++++++++++++++++++++++++++++++----
+>   include/hw/riscv/opentitan.h | 12 +++++++++++-
+>   2 files changed, 43 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 833624d66c..2d401dcb23 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -120,11 +120,18 @@ static void lowrisc_ibex_soc_init(Object *obj)
+>       object_initialize_child(obj, "uart", &s->uart, TYPE_IBEX_UART);
+>   
+>       object_initialize_child(obj, "timer", &s->timer, TYPE_IBEX_TIMER);
+> +
+> +    for (int i = 0; i < OPENTITAN_NUM_SPI_HOSTS; i++) {
+> +        object_initialize_child(obj, "spi_host[*]", &s->spi_host[i],
+> +                                TYPE_IBEX_SPI_HOST);
+> +    }
+>   }
+>   
+>   static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+>   {
+>       const MemMapEntry *memmap = ibex_memmap;
+> +    DeviceState *dev;
+> +    SysBusDevice *busdev;
+>       MachineState *ms = MACHINE(qdev_get_machine());
+>       LowRISCIbexSoCState *s = RISCV_IBEX_SOC(dev_soc);
+>       MemoryRegion *sys_mem = get_system_memory();
+> @@ -209,14 +216,35 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+>                             qdev_get_gpio_in(DEVICE(qemu_get_cpu(0)),
+>                                              IRQ_M_TIMER));
+>   
+> +    /* SPI-Hosts */
+> +    for (int i = 0; i < OPENTITAN_NUM_SPI_HOSTS; ++i) {
+> +        dev = DEVICE(&(s->spi_host[i]));
+> +        if (!sysbus_realize(SYS_BUS_DEVICE(&s->spi_host[i]), errp)) {
+
+FYI if this fails for i=1, spi_host[0] is not deallocated. Not sure how
+to improve this.
+
+> +            return;
+> +        }
+> +        busdev = SYS_BUS_DEVICE(dev);
+> +        sysbus_mmio_map(busdev, 0, memmap[IBEX_DEV_SPI_HOST0 + i].base);
+
+> diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+> index 00da9ded43..3a3f412ef8 100644
+> --- a/include/hw/riscv/opentitan.h
+> +++ b/include/hw/riscv/opentitan.h
+> @@ -1,7 +1,7 @@
+
+> +#define OPENTITAN_NUM_SPI_HOSTS 2
+> +#define OPENTITAN_SPI_HOST0 0
+> +#define OPENTITAN_SPI_HOST1 1
+
+Eventuallt enum.
+
+>   enum {
+>       IBEX_TIMER_TIMEREXPIRED0_0 = 126,
+> +    IBEX_SPI_HOST1_SPI_EVENT_IRQ = 153,
+> +    IBEX_SPI_HOST1_ERR_IRQ = 152,
+> +    IBEX_SPI_HOST0_SPI_EVENT_IRQ = 151,
+> +    IBEX_SPI_HOST0_ERR_IRQ = 150,
+>       IBEX_UART0_RX_PARITY_ERR_IRQ = 8,
+>       IBEX_UART0_RX_TIMEOUT_IRQ = 7,
+>       IBEX_UART0_RX_BREAK_ERR_IRQ = 6,
+
+It would be nice to get this enum somehow sorted.
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
