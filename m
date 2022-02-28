@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA2A4C64DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:28:53 +0100 (CET)
-Received: from localhost ([::1]:34578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACC94C64D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:27:36 +0100 (CET)
+Received: from localhost ([::1]:33090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nObOm-0006Z5-Oy
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:28:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60540)
+	id 1nObNW-0005Rz-5w
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:27:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nOb2E-0008J3-Qf
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:39 -0500
-Received: from mga14.intel.com ([192.55.52.115]:50056)
+ id 1nOb2H-0008JK-9v
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:44 -0500
+Received: from mga14.intel.com ([192.55.52.115]:50059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nOb2C-0005ZR-Mh
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:34 -0500
+ id 1nOb2E-0005a2-Ax
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646035532; x=1677571532;
+ t=1646035534; x=1677571534;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5UX6bc6F75Y+jyQEf0pgvwOcIDrka3TrwKDsfRKtcvk=;
- b=ZvOEqqhlKPPeosS25iDhU2sLwAsZx706hJHIJdDR2XJpd/IBR9PNQOID
- 62pzgyxTv5LaVwYC+fH6hImlxbp7xJXJQZFGdxpP/McrFP69v1Dt3qEQX
- Wo/y0edlRJho78P3cxYLAHhXS/3HuRKfaJMWCQMxW8BwIJhkCdfH6byNS
- N+UhGKJrq5c6Adgh4XJEKrA1JaPuDKZmjh8t9cuuISD7tK2r2FEw2+dwV
- G/trkdfg/KU3fyFNx4pw6o/X+GqsD9qqh38a1JpXUrDVBdqGdVOXPIgRP
- zy+F6t7eBeDAjETtKRA/C3aXqrCWWibcsi2LlXIL8NLLFN3RSn45VSEzg g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="253021650"
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="253021650"
+ bh=lygLHfFpKkNOpm8ULz7Ml4gu1/xM9RWbAxVPpfHcP1M=;
+ b=Xgq4uPvLevh6NxdNyX13tABX3SVBIhcbLjoRk4aGKM9oqGaQLilzx8Qd
+ KQ/minb9Pjo1Gawi6o0yZp6xJBF5041FOxLCelApDcnd0VG5bsx4sBPIC
+ Cs6naRgAfsXUwqWLD4qU+TZDArHs8wHJRs14qFi4+qb4aYWnqirdexfui
+ FMAmz9n7mjkO7yXKA0Thkt2RAxeecORzcUGN/yzWLWQcr9wOrC0D0Dcl/
+ uM8jdViVwJfVm6OvBODia20S7vvpVGfTfZMNfM3ZN0QQzV1ZxnErLYNHI
+ kpfjpK6oM/ukPMh85YSspkbJRpZHFE5Pw1nASBC7ayAX4dmOVy7XXxMRJ w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="253021654"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="253021654"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 00:05:18 -0800
+ 28 Feb 2022 00:05:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="778014599"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="778014605"
 Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
  by fmsmga006.fm.intel.com with ESMTP; 28 Feb 2022 00:05:18 -0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/8] x86: Support XFD and AMX xsave data migration
-Date: Mon, 28 Feb 2022 00:05:14 -0800
-Message-Id: <20220228080515.42357-8-yang.zhong@intel.com>
+Subject: [PATCH v3 8/8] linux-header: Sync the linux headers
+Date: Mon, 28 Feb 2022 00:05:15 -0800
+Message-Id: <20220228080515.42357-9-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220228080515.42357-1-yang.zhong@intel.com>
 References: <20220228080515.42357-1-yang.zhong@intel.com>
@@ -77,161 +77,40 @@ Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zeng Guang <guang.zeng@intel.com>
+This patch will be dropped once Qemu sync linux 5.17 header.
+Making all linux-headers changes here are only for maintainers
+to easily remove those changes once those patches are queued.
 
-XFD(eXtended Feature Disable) allows to enable a
-feature on xsave state while preventing specific
-user threads from using the feature.
-
-Support save and restore XFD MSRs if CPUID.D.1.EAX[4]
-enumerate to be valid. Likewise migrate the MSRs and
-related xsave state necessarily.
-
-Signed-off-by: Zeng Guang <guang.zeng@intel.com>
-Signed-off-by: Wei Wang <wei.w.wang@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 ---
- target/i386/cpu.h     |  9 +++++++++
- target/i386/kvm/kvm.c | 18 ++++++++++++++++++
- target/i386/machine.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 69 insertions(+)
+ linux-headers/asm-x86/kvm.h | 3 +++
+ linux-headers/linux/kvm.h   | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 8c850e74b8..efea2c78ec 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -507,6 +507,9 @@ typedef enum X86Seg {
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 2da3316bb5..8224d0dda2 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -452,6 +452,9 @@ struct kvm_sync_regs {
  
- #define MSR_VM_HSAVE_PA                 0xc0010117
+ #define KVM_STATE_VMX_PREEMPTION_TIMER_DEADLINE	0x00000001
  
-+#define MSR_IA32_XFD                    0x000001c4
-+#define MSR_IA32_XFD_ERR                0x000001c5
++/* attributes for system fd (group 0) */
++#define KVM_X86_XCOMP_GUEST_SUPP       0
 +
- #define MSR_IA32_BNDCFGS                0x00000d90
- #define MSR_IA32_XSS                    0x00000da0
- #define MSR_IA32_UMWAIT_CONTROL         0xe1
-@@ -872,6 +875,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_1_EAX_AVX_VNNI          (1U << 4)
- /* AVX512 BFloat16 Instruction */
- #define CPUID_7_1_EAX_AVX512_BF16       (1U << 5)
-+/* XFD Extend Feature Disabled */
-+#define CPUID_D_1_EAX_XFD               (1U << 4)
+ struct kvm_vmx_nested_state_data {
+ 	__u8 vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
+ 	__u8 shadow_vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 00af3bc333..002503dc8b 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1133,6 +1133,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_VM_MOVE_ENC_CONTEXT_FROM 206
+ #define KVM_CAP_VM_GPA_BITS 207
+ #define KVM_CAP_XSAVE2 208
++#define KVM_CAP_SYS_ATTRIBUTES 209
  
- /* Packets which contain IP payload have LIP values */
- #define CPUID_14_0_ECX_LIP              (1U << 31)
-@@ -1616,6 +1621,10 @@ typedef struct CPUX86State {
-     uint64_t msr_rtit_cr3_match;
-     uint64_t msr_rtit_addrs[MAX_RTIT_ADDRS];
+ #ifdef KVM_CAP_IRQ_ROUTING
  
-+    /* Per-VCPU XFD MSRs */
-+    uint64_t msr_xfd;
-+    uint64_t msr_xfd_err;
-+
-     /* exception/interrupt handling */
-     int error_code;
-     int exception_is_int;
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index e64c06d358..fe8e924846 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -3276,6 +3276,13 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-                               env->msr_ia32_sgxlepubkeyhash[3]);
-         }
- 
-+        if (env->features[FEAT_XSAVE] & CPUID_D_1_EAX_XFD) {
-+            kvm_msr_entry_add(cpu, MSR_IA32_XFD,
-+                              env->msr_xfd);
-+            kvm_msr_entry_add(cpu, MSR_IA32_XFD_ERR,
-+                              env->msr_xfd_err);
-+        }
-+
-         /* Note: MSR_IA32_FEATURE_CONTROL is written separately, see
-          *       kvm_put_msr_feature_control. */
-     }
-@@ -3668,6 +3675,11 @@ static int kvm_get_msrs(X86CPU *cpu)
-         kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH3, 0);
-     }
- 
-+    if (env->features[FEAT_XSAVE] & CPUID_D_1_EAX_XFD) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_XFD, 0);
-+        kvm_msr_entry_add(cpu, MSR_IA32_XFD_ERR, 0);
-+    }
-+
-     ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, cpu->kvm_msr_buf);
-     if (ret < 0) {
-         return ret;
-@@ -3964,6 +3976,12 @@ static int kvm_get_msrs(X86CPU *cpu)
-             env->msr_ia32_sgxlepubkeyhash[index - MSR_IA32_SGXLEPUBKEYHASH0] =
-                            msrs[i].data;
-             break;
-+        case MSR_IA32_XFD:
-+            env->msr_xfd = msrs[i].data;
-+            break;
-+        case MSR_IA32_XFD_ERR:
-+            env->msr_xfd_err = msrs[i].data;
-+            break;
-         }
-     }
- 
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 6202f47793..1f9d0c46f1 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -1483,6 +1483,46 @@ static const VMStateDescription vmstate_pdptrs = {
-     }
- };
- 
-+static bool xfd_msrs_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return !!(env->features[FEAT_XSAVE] & CPUID_D_1_EAX_XFD);
-+}
-+
-+static const VMStateDescription vmstate_msr_xfd = {
-+    .name = "cpu/msr_xfd",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = xfd_msrs_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.msr_xfd, X86CPU),
-+        VMSTATE_UINT64(env.msr_xfd_err, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static bool amx_xtile_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return !!(env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_AMX_TILE);
-+}
-+
-+static const VMStateDescription vmstate_amx_xtile = {
-+    .name = "cpu/intel_amx_xtile",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = amx_xtile_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8_ARRAY(env.xtilecfg, X86CPU, 64),
-+        VMSTATE_UINT8_ARRAY(env.xtiledata, X86CPU, 8192),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- const VMStateDescription vmstate_x86_cpu = {
-     .name = "cpu",
-     .version_id = 12,
-@@ -1622,6 +1662,8 @@ const VMStateDescription vmstate_x86_cpu = {
-         &vmstate_msr_tsx_ctrl,
-         &vmstate_msr_intel_sgx,
-         &vmstate_pdptrs,
-+        &vmstate_msr_xfd,
-+        &vmstate_amx_xtile,
-         NULL
-     }
- };
 
