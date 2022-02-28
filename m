@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D024C7D43
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 23:28:05 +0100 (CET)
-Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E03A24C7D5E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 23:30:11 +0100 (CET)
+Received: from localhost ([::1]:58104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOoUu-0006TA-QD
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 17:28:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47874)
+	id 1nOoWx-0002ME-0U
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 17:30:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nOoSl-0003rz-U9
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 17:25:52 -0500
-Received: from [2001:41c9:1:41f::167] (port=51104
+ id 1nOoSq-0003yO-OU
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 17:25:56 -0500
+Received: from [2001:41c9:1:41f::167] (port=51120
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nOoSk-0003LO-E9
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 17:25:51 -0500
+ id 1nOoSo-0003Oa-AG
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 17:25:55 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nOoS3-0004GN-Bj; Mon, 28 Feb 2022 22:25:11 +0000
+ id 1nOoS7-0004GN-J7; Mon, 28 Feb 2022 22:25:15 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu, pbonzini@redhat.com, fam@euphon.net,
  qemu-devel@nongnu.org
-Date: Mon, 28 Feb 2022 22:25:19 +0000
-Message-Id: <20220228222527.8234-3-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 28 Feb 2022 22:25:20 +0000
+Message-Id: <20220228222527.8234-4-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220228222527.8234-1-mark.cave-ayland@ilande.co.uk>
 References: <20220228222527.8234-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 02/10] macfb: don't use special irq_state and irq_mask
- variables in MacfbState
+Subject: [PATCH 03/10] macfb: increase number of registers saved in MacfbState
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -67,88 +66,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current IRQ state and IRQ mask are handled exactly the same as standard
-register accesses, so store these values directly in the regs array rather
-than having separate variables for them.
+The MacOS toolbox ROM accesses a number of addresses between 0x0 and 0x200 during
+initialisation and resolution changes. Whilst the function of many of these
+registers is unknown, it is worth the minimal cost of saving these extra values as
+part of migration to help future-proof the migration stream for the q800 machine
+as it starts to stabilise.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/display/macfb.c         | 15 +++++++--------
- include/hw/display/macfb.h |  2 --
- 2 files changed, 7 insertions(+), 10 deletions(-)
+ include/hw/display/macfb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 66ceacf1ae..fb54b460c1 100644
---- a/hw/display/macfb.c
-+++ b/hw/display/macfb.c
-@@ -476,7 +476,8 @@ static void macfb_update_display(void *opaque)
- 
- static void macfb_update_irq(MacfbState *s)
- {
--    uint32_t irq_state = s->irq_state & s->irq_mask;
-+    uint32_t irq_state = s->regs[DAFB_INTR_STAT >> 2] &
-+                         s->regs[DAFB_INTR_MASK >> 2];
- 
-     if (irq_state) {
-         qemu_irq_raise(s->irq);
-@@ -496,7 +497,7 @@ static void macfb_vbl_timer(void *opaque)
-     MacfbState *s = opaque;
-     int64_t next_vbl;
- 
--    s->irq_state |= DAFB_INTR_VBL;
-+    s->regs[DAFB_INTR_STAT >> 2] |= DAFB_INTR_VBL;
-     macfb_update_irq(s);
- 
-     /* 60 Hz irq */
-@@ -530,10 +531,8 @@ static uint64_t macfb_ctrl_read(void *opaque,
-     case DAFB_MODE_VADDR2:
-     case DAFB_MODE_CTRL1:
-     case DAFB_MODE_CTRL2:
--        val = s->regs[addr >> 2];
--        break;
-     case DAFB_INTR_STAT:
--        val = s->irq_state;
-+        val = s->regs[addr >> 2];
-         break;
-     case DAFB_MODE_SENSE:
-         val = macfb_sense_read(s);
-@@ -568,7 +567,7 @@ static void macfb_ctrl_write(void *opaque,
-         macfb_sense_write(s, val);
-         break;
-     case DAFB_INTR_MASK:
--        s->irq_mask = val;
-+        s->regs[addr >> 2] = val;
-         if (val & DAFB_INTR_VBL) {
-             next_vbl = macfb_next_vbl();
-             timer_mod(s->vbl_timer, next_vbl);
-@@ -577,12 +576,12 @@ static void macfb_ctrl_write(void *opaque,
-         }
-         break;
-     case DAFB_INTR_CLEAR:
--        s->irq_state &= ~DAFB_INTR_VBL;
-+        s->regs[DAFB_INTR_STAT >> 2] &= ~DAFB_INTR_VBL;
-         macfb_update_irq(s);
-         break;
-     case DAFB_RESET:
-         s->palette_current = 0;
--        s->irq_state &= ~DAFB_INTR_VBL;
-+        s->regs[DAFB_INTR_STAT >> 2] &= ~DAFB_INTR_VBL;
-         macfb_update_irq(s);
-         break;
-     case DAFB_LUT:
 diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-index e52775aa21..6d9f0f7869 100644
+index 6d9f0f7869..c0e2df8dc6 100644
 --- a/include/hw/display/macfb.h
 +++ b/include/hw/display/macfb.h
-@@ -66,8 +66,6 @@ typedef struct MacfbState {
-     uint32_t regs[MACFB_NUM_REGS];
-     MacFbMode *mode;
+@@ -48,7 +48,7 @@ typedef struct MacFbMode {
+     uint32_t offset;
+ } MacFbMode;
  
--    uint32_t irq_state;
--    uint32_t irq_mask;
-     QEMUTimer *vbl_timer;
-     qemu_irq irq;
- } MacfbState;
+-#define MACFB_NUM_REGS      8
++#define MACFB_NUM_REGS      (0x200 / sizeof(uint32_t))
+ 
+ typedef struct MacfbState {
+     MemoryRegion mem_vram;
 -- 
 2.20.1
 
