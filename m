@@ -2,87 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F464C7BD6
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 22:23:38 +0100 (CET)
-Received: from localhost ([::1]:57904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52EB64C7C19
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 22:34:56 +0100 (CET)
+Received: from localhost ([::1]:35252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOnUX-0004Am-BD
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 16:23:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34760)
+	id 1nOnfS-00009X-VL
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 16:34:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOnRi-000220-DX
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 16:20:42 -0500
-Received: from [2607:f8b0:4864:20::636] (port=41901
- helo=mail-pl1-x636.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nOnRg-0001fm-Ne
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 16:20:41 -0500
-Received: by mail-pl1-x636.google.com with SMTP id z2so11808707plg.8
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 13:20:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=7PG8JV8kzo1glm3HMl+x9//M3Yxb+DdHJwnM7XhVOYM=;
- b=Hjs3NQq65flEwLaNOWhMtpeWXX9mYWTQ4CmrnLpC5/+Gf8D/412S87AsFqjCRkz3lH
- Ek4wp5ix4aYTnwkuG5DfBmMRRGYotwNzksaZIc6SNWRDpsIoRsuIM3ItEQeGeqfOallS
- OoGxZI12fBmpHZGbdDRokR4Q5ELwFy5rZSfVO+5cvwsBx1jjJ/wL0x88/37cjer7Xne6
- 5beZpH+EEtF+CXpeh4hgHUW9l69VPEn/yZkk3i26bYeBvXPXA3y5gOd+s+TfxgxdYwgm
- XP/0fedb2mSwejjHby2D1nVuFWFB+ZzAgNM1YkkHVHxP7FNSmx5NO0NTnzCfHdR8vI7j
- W2Wg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nOnec-0007vI-JW
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 16:34:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37326)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nOneY-00059h-Of
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 16:34:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646084036;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lris+w6mtpHMhsW/KKX813wfEfvPFKvc0m9HJOx1G3k=;
+ b=Vt51/xYKDfvhfYuA5BdShdt1Wt9B3pnD5YOOS66bf0ItOTonmRgAb2zFkJS/jGw6H1Vh05
+ JttvJRt2yhHmryuBfcQRis75M56i4vlv2OYRVa7/Z6vI5APqwtNMnzo72HIB8uErL+sQAP
+ LuFTQ9qbDSp+64FQn5YnXIn1VVu3xus=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-206--KkB1KKiOr6vfqwbt065xA-1; Mon, 28 Feb 2022 16:33:54 -0500
+X-MC-Unique: -KkB1KKiOr6vfqwbt065xA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z15-20020a1c4c0f000000b00380d331325aso214413wmf.6
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 13:33:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7PG8JV8kzo1glm3HMl+x9//M3Yxb+DdHJwnM7XhVOYM=;
- b=qyY2BiXYLxBkEyRH3cPTnM7/Gy3cEqg7FzCv7jwD05KDZ+jBXBZBgvwPmh7UCq1NTu
- ukp4/DodRrH8L48JvOcBmWbqRXoR8REwSoQ9cwLk6EybFXRyn/AeFK/LTGcrIaeRR2+t
- row7NriT9hSsMEGW8pr81I42WoRKnySKtCnNeZL3VBiRC8frS+1Em4AmNbI0UJx520S9
- +E4vWcSUpsFfZNhWuOrcPhMgIGPsI3B62cagG3f8KZiAAftGJSKl5JGycqrB39uj47H4
- LcVNHAJ8DhooVfxVksqEtSPGHz0fiOQixlPD+lBrAtqY2XOrJSzS1O7t8fdO7k+q363G
- uGcw==
-X-Gm-Message-State: AOAM533XsGEqE5ske0WXtNBIzY14Mcq8eqEOiSjIXZ48exm8bp+L3Q4H
- VJOLokY2CGecFA0fVnx4M73hnQ==
-X-Google-Smtp-Source: ABdhPJzbtFzTxAgR3YU86OkMimg8lkYTfXcheXlHsZ5htQX6b5FpjKDAuteVnPosEY+PKmogjrww3Q==
-X-Received: by 2002:a17:90a:9408:b0:1b5:3908:d3d1 with SMTP id
- r8-20020a17090a940800b001b53908d3d1mr18565113pjo.188.1646083239478; 
- Mon, 28 Feb 2022 13:20:39 -0800 (PST)
-Received: from ?IPV6:2603:800c:1201:c600:483f:d486:138f:7868?
- (2603-800c-1201-c600-483f-d486-138f-7868.res6.spectrum.com.
- [2603:800c:1201:c600:483f:d486:138f:7868])
- by smtp.gmail.com with ESMTPSA id
- w17-20020a056a0014d100b004f1063290basm14512598pfu.15.2022.02.28.13.20.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 13:20:39 -0800 (PST)
-Message-ID: <b5c0c9bc-2a93-96cf-5f4a-d50da912aca8@linaro.org>
-Date: Mon, 28 Feb 2022 11:20:36 -1000
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=lris+w6mtpHMhsW/KKX813wfEfvPFKvc0m9HJOx1G3k=;
+ b=6Arab6+dUHgz429aUHIB3wsRdYH279NIVCTmiKGrte/I79GO1c/iJGLQSz3dJmxvd9
+ iAoBbN/mutnn4BnxCVbhATPqUuumwt5hCobkiJbmjxZJnSNvad2ynHBiKC5Y46AAfcEM
+ Vn8iqRLglYvaQO5eNVByT253lF7zfNzIQur7Hl6MvFNTGZ1VeT2RsZAE0ybDFaktn+4M
+ qYmajbksM5tionzrtO8q4dLXr6X5qXS+rzWp8R6TfIVzqhQk/NnHF7H8eDHwiFaBmtAL
+ u0C/l7NWsPPl3+r4RqhkQR13ZWt47irN4ZDqLABF4JT0lb98Rs34iAypn9lUptWPdP7L
+ salg==
+X-Gm-Message-State: AOAM5300CBBLVKE2V9hGs4/WiLR2j0aq7DFZwKRnm0SyC8ESs+H9yivR
+ rc1MURgGdpvcuzryeONf+9pWRD9MNWS+COWOSygMeeeIrPDh6N2J7eIYnjGDGWPmpzPRph+K15g
+ /LJTOzGanadM+bbA=
+X-Received: by 2002:adf:f389:0:b0:1ef:5f0f:cb83 with SMTP id
+ m9-20020adff389000000b001ef5f0fcb83mr13322463wro.26.1646084033681; 
+ Mon, 28 Feb 2022 13:33:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy3WuUYR4hpy3u40hpEsw9YU8CNKwPrp4GXF+QU91jC/eWsLREF4AtxoNloLaYJ4pm/EkdIHw==
+X-Received: by 2002:adf:f389:0:b0:1ef:5f0f:cb83 with SMTP id
+ m9-20020adff389000000b001ef5f0fcb83mr13322448wro.26.1646084033425; 
+ Mon, 28 Feb 2022 13:33:53 -0800 (PST)
+Received: from redhat.com ([2.52.2.9]) by smtp.gmail.com with ESMTPSA id
+ g5-20020a5d5545000000b001ed9d3f521csm11564653wrw.113.2022.02.28.13.33.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Feb 2022 13:33:52 -0800 (PST)
+Date: Mon, 28 Feb 2022 16:33:49 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH] hw/virtio: vdpa: Fix leak of host-notifier memory-region
+Message-ID: <20220228163335-mutt-send-email-mst@kernel.org>
+References: <20220211170259.1388734-1-lvivier@redhat.com>
+ <bef192f5-70b0-8412-388d-e4278ca35747@redhat.com>
+ <f269cb2f-1be3-4b98-0ba9-02f908ae9d63@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/2] meson: fix CONFIG_ATOMIC128 check
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220228200032.777433-1-marcandre.lureau@redhat.com>
- <20220228200032.777433-2-marcandre.lureau@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220228200032.777433-2-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <f269cb2f-1be3-4b98-0ba9-02f908ae9d63@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,60 +100,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, philippe.mathieu.daude@gmail.com,
- peter.maydell@linaro.org
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/28/22 10:00, marcandre.lureau@redhat.com wrote:
-> -# See if 64-bit atomic operations are supported.
-> -# Note that without __atomic builtins, we can only
-> -# assume atomic loads/stores max at pointer size.
-> -config_host_data.set('CONFIG_ATOMIC64', cc.links('''
-> +atomic_test = '''
->     #include <stdint.h>
->     int main(void)
->     {
-> -    uint64_t x = 0, y = 0;
-> +    @0@ x = 0, y = 0;
->       y = __atomic_load_n(&x, __ATOMIC_RELAXED);
->       __atomic_store_n(&x, y, __ATOMIC_RELAXED);
->       __atomic_compare_exchange_n(&x, &y, x, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
->       __atomic_exchange_n(&x, y, __ATOMIC_RELAXED);
->       __atomic_fetch_add(&x, y, __ATOMIC_RELAXED);
->       return 0;
-> -  }'''))
-> +  }'''
-> +
-> +# See if 64-bit atomic operations are supported.
-> +# Note that without __atomic builtins, we can only
-> +# assume atomic loads/stores max at pointer size.
-> +config_host_data.set('CONFIG_ATOMIC64', cc.links(atomic_test.format('uint64_t')))
->   
->   has_int128 = cc.links('''
->     __int128_t a;
-> @@ -1837,15 +1839,10 @@ has_int128 = cc.links('''
->   config_host_data.set('CONFIG_INT128', has_int128)
->   
->   if has_int128
-> -  has_atomic128 = cc.links('''
-> -    int main(void)
-> -    {
-> -      unsigned __int128 x = 0, y = 0;
-> -      y = __atomic_load(&x, 0);
-> -      __atomic_store(&x, y, 0);
-> -      __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
-> -      return 0;
-> -    }''')
-> +  # "do we have 128-bit atomics which are handled inline and specifically not
-> +  # via libatomic". The reason we can't use libatomic is documented in the
-> +  # comment starting "GCC is a house divided" in include/qemu/atomic128.h.
-> +  has_atomic128 = cc.links(atomic_test.format('unsigned __int128'))
+yes - in the next pull, thanks!
 
-Nice fix.
+On Mon, Feb 28, 2022 at 07:27:34PM +0100, Laurent Vivier wrote:
+> Ping?
+> 
+> Thanks,
+> Laurent
+> 
+> On 22/02/2022 09:53, Laurent Vivier wrote:
+> > Michael,
+> > 
+> > do you plan to merge this soon?
+> > 
+> > This is a bugfix for a QEMU coredump.
+> > 
+> > Thanks,
+> > Laurent
+> > 
+> > On 11/02/2022 18:02, Laurent Vivier wrote:
+> > > If call virtio_queue_set_host_notifier_mr fails, should free
+> > > host-notifier memory-region.
+> > > 
+> > > This problem can trigger a coredump with some vDPA drivers (mlx5,
+> > > but not with the vdpasim), if we unplug the virtio-net card from
+> > > the guest after a stop/start.
+> > > 
+> > > The same fix has been done for vhost-user:
+> > >    1f89d3b91e3e ("hw/virtio: Fix leak of host-notifier memory-region")
+> > > 
+> > > Fixes: d0416d487bd5 ("vhost-vdpa: map virtqueue notification area if possible")
+> > > Cc: jasowang@redhat.com
+> > > Resolves: https://bugzilla.redhat.com/2027208
+> > > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> > > ---
+> > >   hw/virtio/vhost-vdpa.c | 1 +
+> > >   1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > > index 04ea43704f5d..11f696468dc1 100644
+> > > --- a/hw/virtio/vhost-vdpa.c
+> > > +++ b/hw/virtio/vhost-vdpa.c
+> > > @@ -431,6 +431,7 @@ static int vhost_vdpa_host_notifier_init(struct
+> > > vhost_dev *dev, int queue_index)
+> > >       g_free(name);
+> > >       if (virtio_queue_set_host_notifier_mr(vdev, queue_index, &n->mr, true)) {
+> > > +        object_unparent(OBJECT(&n->mr));
+> > >           munmap(addr, page_size);
+> > >           goto err;
+> > >       }
+> > 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
 
