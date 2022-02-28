@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627C74C759F
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:55:22 +0100 (CET)
-Received: from localhost ([::1]:44916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEDA4C7691
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 19:04:55 +0100 (CET)
+Received: from localhost ([::1]:40930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOkEz-0003Jj-EF
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:55:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42776)
+	id 1nOkOE-00032D-TC
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 13:04:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAa-0002sd-AT; Mon, 28 Feb 2022 12:50:48 -0500
-Received: from [2607:f8b0:4864:20::c2e] (port=42581
- helo=mail-oo1-xc2e.google.com)
+ id 1nOkAc-0002uJ-If; Mon, 28 Feb 2022 12:50:50 -0500
+Received: from [2607:f8b0:4864:20::329] (port=43883
+ helo=mail-ot1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAY-00080D-Q0; Mon, 28 Feb 2022 12:50:48 -0500
-Received: by mail-oo1-xc2e.google.com with SMTP id
- s203-20020a4a3bd4000000b003191c2dcbe8so19637331oos.9; 
- Mon, 28 Feb 2022 09:50:46 -0800 (PST)
+ id 1nOkAa-00080w-TE; Mon, 28 Feb 2022 12:50:49 -0500
+Received: by mail-ot1-x329.google.com with SMTP id
+ j9-20020a9d7d89000000b005ad5525ba09so10075550otn.10; 
+ Mon, 28 Feb 2022 09:50:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hhvHRAqMDp+f6RDeOM0Xwma/ZY8DYhuGMgeOoiLgxxc=;
- b=lSDU8pmalQnOcA6grWM02tRVh0XVJ6aaM6omRifkhh5BCx/NrFwofC6W7IQHIpazUz
- dERN7Yb1k8Ih/pmuxpT97wziY3UwCzN45Y/CetxYdIxXn/cD4HzIZDbWK8PPrarUMUN9
- /BG2fkdwN3JVhivuG7nY7+WpCqByZZC3LGpYxMRHX/19jL00hmw/b6e44SBnkaFngwnJ
- lmuhJLrsQtheyNw9yYxQj0lwx9soJOqiAeqMhDukZnBd1dNiO3AnO1cKtV0aovIxF+IT
- P9pnh2mdxoZvptn+RDhhWvEZO2GUb23CAXeTD8p6PK0XL4gzMzCmEoacqRTtczJOl0aX
- TqCQ==
+ bh=HWQSY6AW0ufVgup1Eft5QjjEIsECY/xMODO8cltOgnQ=;
+ b=W78UuLO8f8eLcL0FNiORhlNX+c/GCBgVy97tmNpgg+HgAm+Hra1G0HIeajSXhztA+E
+ F/EkDg1C+8pGv6COPRwQ15PdFbeSXRp0bLPHdnhDjlFjbPd7Wtsih6CLI8ItIHmJ1Bhv
+ E30vq3+1VdexrXR+ZEfyhMbPjgpM0ewv/HS6obZgH2Dc7F+wOywaebednQbD3A5akfKh
+ 1SjVspIhzSPp7SQTarGhft0M3oMytqSsE9VMA1p64CG4aiCGG7TDz4MaIQDvC64lM/YS
+ jHFDiI+ZMH6nHulvR7HatlbhYJIlzidN71KrsLmxT+a6F4lylkA+rnD/n++d9XCM4T0a
+ ewUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hhvHRAqMDp+f6RDeOM0Xwma/ZY8DYhuGMgeOoiLgxxc=;
- b=iWrWt9qvPhQq2H4jyFHDXmmEdgebPhSNUbcMNcs26EHBiTuWiRwnDP6+ZUbqR3dLQi
- Pfz5xNo4zixwE2UgLLM+WkE2JuZIp4B+yCVJE4LGRbVgrvDngMrA0hSEXTj5emHtiaFR
- uRPVIAp8TxGZAPTt6HT6JnzxU8XvZfBSOVlDe2/I6YgkVFEw0Oo+TL8e+S+0UyWd8VoA
- DNsZ/99Uws6WNBD+0S6Mm892+gx/rWNTl40NoZYBuYv3+4izW7dUxTDum0rxyhkxmjQm
- 3e7S3lzhqIJdLKwsR8RGP5p1hnO8bxXniKBhm/Jva/+CTECZCKLLlzdyqbqipJ/V1tu8
- I3tw==
-X-Gm-Message-State: AOAM531zNWnEUPhwnIuthUDYHN0mu1zOqGrxvqxp9C3Sg/K36J9l1r45
- O7rAX/Oa5dJG4RbZABWHHCLevQB1E3c=
-X-Google-Smtp-Source: ABdhPJxE1H4RFLsZS5KCXKhPnyjl5OXY2yVVBQyMTUpQNzg/Rsd592NttmBaRhLHnydde0G1xMui8Q==
-X-Received: by 2002:a05:6870:311:b0:d2:c4c0:942a with SMTP id
- m17-20020a056870031100b000d2c4c0942amr8923121oaf.92.1646070645375; 
- Mon, 28 Feb 2022 09:50:45 -0800 (PST)
+ bh=HWQSY6AW0ufVgup1Eft5QjjEIsECY/xMODO8cltOgnQ=;
+ b=B9RggYhP/sRnowIQPMbDQEo/E1NbsqZVTbodXWNkR0IEq51DaG1JVS7CNhW0O2v16V
+ OOJTPTtqsSTy4Ekx4pymk7vF269HDLFtq0lMCURHZwzsKiBhEI8bN4xQctXlM1ni1g1c
+ dDlx4e9k8IRh4B6Z05LxyPA4HDHzyD/HeIQuUK2YojHhwaIpAU6rNnWYsGT5dcWYuX4S
+ LPivHaKpc064xqZRX/zvkWx8TwHDWYnF+pPtyZ17lTXlZgSqGdYQH0Oi8QR363Uql2iJ
+ OUNgdt2vvDHXjBwTwXVHxl0qGFY6XnhQd6D+aLg8UCOuph/VDm98R+csHhPsLJjH5uKb
+ iO1w==
+X-Gm-Message-State: AOAM531MN0ijTwDB9GPERHTF1OlGmFsYcSUGlEWER0GQhF3rFiExSYub
+ sKoAiVaMIdrfJ0lGUJ9Cr6lvJMlZoUU=
+X-Google-Smtp-Source: ABdhPJzK3MZxsfj2LwNQBmCmjs8cq0jsuIEdSzIJY78L0w80BqBTc1O48RZmkP/3WGHzCrK0EK0Law==
+X-Received: by 2002:a9d:714a:0:b0:5ad:f8f9:b50d with SMTP id
+ y10-20020a9d714a000000b005adf8f9b50dmr9893011otj.47.1646070647456; 
+ Mon, 28 Feb 2022 09:50:47 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
  by smtp.gmail.com with ESMTPSA id
- a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.43
+ a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 09:50:45 -0800 (PST)
+ Mon, 28 Feb 2022 09:50:47 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/14] hw/ppc/spapr_rtas.c: use g_autofree in
- rtas_ibm_get_system_parameter()
-Date: Mon, 28 Feb 2022 14:50:03 -0300
-Message-Id: <20220228175004.8862-14-danielhb413@gmail.com>
+Subject: [PATCH 14/14] hw/ppc/spapr_vio.c: use g_autofree in spapr_dt_vdevice()
+Date: Mon, 28 Feb 2022 14:50:04 -0300
+Message-Id: <20220228175004.8862-15-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220228175004.8862-1-danielhb413@gmail.com>
 References: <20220228175004.8862-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x329.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -93,58 +92,37 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+And return the result of g_strdup_printf() directly instead of using the
+'path' var.
+
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_rtas.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ hw/ppc/spapr_vio.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index b476382ae6..d7c04237fe 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -279,30 +279,29 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
+diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
+index b975ed29ca..9d4fec2c04 100644
+--- a/hw/ppc/spapr_vio.c
++++ b/hw/ppc/spapr_vio.c
+@@ -726,7 +726,7 @@ void spapr_dt_vdevice(SpaprVioBus *bus, void *fdt)
+ gchar *spapr_vio_stdout_path(SpaprVioBus *bus)
+ {
+     SpaprVioDevice *dev;
+-    char *name, *path;
++    g_autofree char *name = NULL;
  
-     switch (parameter) {
-     case RTAS_SYSPARM_SPLPAR_CHARACTERISTICS: {
--        char *param_val = g_strdup_printf("MaxEntCap=%d,"
--                                          "DesMem=%" PRIu64 ","
--                                          "DesProcs=%d,"
--                                          "MaxPlatProcs=%d",
--                                          ms->smp.max_cpus,
--                                          ms->ram_size / MiB,
--                                          ms->smp.cpus,
--                                          ms->smp.max_cpus);
-+        g_autofree char *param_val = g_strdup_printf("MaxEntCap=%d,"
-+                                                     "DesMem=%" PRIu64 ","
-+                                                     "DesProcs=%d,"
-+                                                     "MaxPlatProcs=%d",
-+                                                     ms->smp.max_cpus,
-+                                                     ms->ram_size / MiB,
-+                                                     ms->smp.cpus,
-+                                                     ms->smp.max_cpus);
-         if (pcc->n_host_threads > 0) {
--            char *hostthr_val, *old = param_val;
--
-             /*
-              * Add HostThrs property. This property is not present in PAPR but
-              * is expected by some guests to communicate the number of physical
-              * host threads per core on the system so that they can scale
-              * information which varies based on the thread configuration.
-              */
--            hostthr_val = g_strdup_printf(",HostThrs=%d", pcc->n_host_threads);
-+            g_autofree char *hostthr_val = g_strdup_printf(",HostThrs=%d",
-+                                                           pcc->n_host_threads);
-+            char *old = param_val;
-+
-             param_val = g_strconcat(param_val, hostthr_val, NULL);
--            g_free(hostthr_val);
-             g_free(old);
-         }
-         ret = sysparm_st(buffer, length, param_val, strlen(param_val) + 1);
--        g_free(param_val);
-         break;
+     dev = spapr_vty_get_default(bus);
+     if (!dev) {
+@@ -734,8 +734,6 @@ gchar *spapr_vio_stdout_path(SpaprVioBus *bus)
      }
-     case RTAS_SYSPARM_DIAGNOSTICS_RUN_MODE: {
+ 
+     name = spapr_vio_get_dev_name(DEVICE(dev));
+-    path = g_strdup_printf("/vdevice/%s", name);
+ 
+-    g_free(name);
+-    return path;
++    return g_strdup_printf("/vdevice/%s", name);
+ }
 -- 
 2.35.1
 
