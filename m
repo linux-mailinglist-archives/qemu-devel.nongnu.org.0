@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03A24C7D5E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 23:30:11 +0100 (CET)
-Received: from localhost ([::1]:58104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CBD4C7D60
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 23:30:15 +0100 (CET)
+Received: from localhost ([::1]:58344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOoWx-0002ME-0U
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 17:30:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47908)
+	id 1nOoX0-0002Vt-Nw
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 17:30:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nOoSq-0003yO-OU
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 17:25:56 -0500
-Received: from [2001:41c9:1:41f::167] (port=51120
+ id 1nOoSr-00040j-S4
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 17:25:57 -0500
+Received: from [2001:41c9:1:41f::167] (port=51124
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nOoSo-0003Oa-AG
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 17:25:55 -0500
+ id 1nOoSq-0003Pi-Gu
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 17:25:57 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nOoS7-0004GN-J7; Mon, 28 Feb 2022 22:25:15 +0000
+ id 1nOoSB-0004GN-Px; Mon, 28 Feb 2022 22:25:16 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu, pbonzini@redhat.com, fam@euphon.net,
  qemu-devel@nongnu.org
-Date: Mon, 28 Feb 2022 22:25:20 +0000
-Message-Id: <20220228222527.8234-4-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 28 Feb 2022 22:25:21 +0000
+Message-Id: <20220228222527.8234-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220228222527.8234-1-mark.cave-ayland@ilande.co.uk>
 References: <20220228222527.8234-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 03/10] macfb: increase number of registers saved in MacfbState
+Subject: [PATCH 04/10] macfb: add VMStateDescription fields for display type
+ and VBL timer
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -66,30 +67,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MacOS toolbox ROM accesses a number of addresses between 0x0 and 0x200 during
-initialisation and resolution changes. Whilst the function of many of these
-registers is unknown, it is worth the minimal cost of saving these extra values as
-part of migration to help future-proof the migration stream for the q800 machine
-as it starts to stabilise.
+These fields are required in the migration stream to restore macfb state
+correctly.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- include/hw/display/macfb.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/display/macfb.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-index 6d9f0f7869..c0e2df8dc6 100644
---- a/include/hw/display/macfb.h
-+++ b/include/hw/display/macfb.h
-@@ -48,7 +48,7 @@ typedef struct MacFbMode {
-     uint32_t offset;
- } MacFbMode;
- 
--#define MACFB_NUM_REGS      8
-+#define MACFB_NUM_REGS      (0x200 / sizeof(uint32_t))
- 
- typedef struct MacfbState {
-     MemoryRegion mem_vram;
+diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+index fb54b460c1..f9ceea532e 100644
+--- a/hw/display/macfb.c
++++ b/hw/display/macfb.c
+@@ -617,9 +617,11 @@ static const VMStateDescription vmstate_macfb = {
+     .minimum_version_id = 1,
+     .post_load = macfb_post_load,
+     .fields = (VMStateField[]) {
++        VMSTATE_UINT8(type, MacfbState),
+         VMSTATE_UINT8_ARRAY(color_palette, MacfbState, 256 * 3),
+         VMSTATE_UINT32(palette_current, MacfbState),
+         VMSTATE_UINT32_ARRAY(regs, MacfbState, MACFB_NUM_REGS),
++        VMSTATE_TIMER_PTR(vbl_timer, MacfbState),
+         VMSTATE_END_OF_LIST()
+     }
+ };
 -- 
 2.20.1
 
