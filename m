@@ -2,62 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42FA4C658E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 10:19:02 +0100 (CET)
-Received: from localhost ([::1]:46290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F704C6593
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 10:22:31 +0100 (CET)
+Received: from localhost ([::1]:48992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOcBJ-0002Qh-Rt
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 04:19:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47628)
+	id 1nOcEh-0004Mm-1w
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 04:22:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luofei@unicloud.com>)
- id 1nOcA3-0001Uu-07
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:17:45 -0500
-Received: from gw.haihefund.cn ([220.194.70.58]:32352 helo=spam.unicloud.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nOcD7-0003Py-Kb
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:20:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luofei@unicloud.com>)
- id 1nOc9y-0001zJ-3H
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:17:41 -0500
-Received: from eage.unicloud.com ([220.194.70.35])
- by spam.unicloud.com with ESMTP id 21S9HI4t050430;
- Mon, 28 Feb 2022 17:17:18 +0800 (GMT-8)
- (envelope-from luofei@unicloud.com)
-Received: from zgys-ex-mb09.Unicloud.com (10.10.0.24) by
- zgys-ex-mb11.Unicloud.com (10.10.0.28) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.17; Mon, 28 Feb 2022 17:17:17 +0800
-Received: from zgys-ex-mb09.Unicloud.com ([fe80::eda0:6815:ca71:5aa]) by
- zgys-ex-mb09.Unicloud.com ([fe80::eda0:6815:ca71:5aa%16]) with mapi id
- 15.01.2375.017; Mon, 28 Feb 2022 17:17:17 +0800
-From: =?gb2312?B?wt63yQ==?= <luofei@unicloud.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: =?gb2312?B?tPC4tDogW1BBVENIXSBpMzg2OiBTZXQgTUNHX1NUQVRVU19SSVBWIGJpdCBm?=
- =?gb2312?Q?or_mce_SRAR_error?=
-Thread-Topic: [PATCH] i386: Set MCG_STATUS_RIPV bit for mce SRAR error
-Thread-Index: AQHYDdpiM0Sj+cD120OyD4W4YWbm6ayo7CVD
-Date: Mon, 28 Feb 2022 09:17:17 +0000
-Message-ID: <4e86fc594ede4b029d0f82d9d1ca0142@unicloud.com>
-References: <20220120084634.131450-1-luofei@unicloud.com>
-In-Reply-To: <20220120084634.131450-1-luofei@unicloud.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.1.7]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nOcD2-0003nX-W7
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:20:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646040040;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mV00cQFeAzEdf1MAOS8mMi+Z50cMsM1e1rQywXdIkwo=;
+ b=R4woqxjHaPCmuLEh5HMXiuk554PCo2CMd300bifMtTcBR1XNE/GuGMLg8+Eb1zJr2srOYP
+ dZUGdP6k3WL7u4tH6FLI1SXz6IR3FiCC/HuI02dBt8xzYE37Ozmoc334itXPFHpuK0rN7t
+ GkvQ+++wlFiHnAKNJ1fClpZPzp9i2PU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-85-hKpaEPh7PaWP6OFwy1nYqg-1; Mon, 28 Feb 2022 04:20:35 -0500
+X-MC-Unique: hKpaEPh7PaWP6OFwy1nYqg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 932251854E2A;
+ Mon, 28 Feb 2022 09:20:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BAEF7AB7D;
+ Mon, 28 Feb 2022 09:20:20 +0000 (UTC)
+Date: Mon, 28 Feb 2022 09:20:17 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 04/18] tests/docker: update debian-arm64-cross with
+ lci-tool
+Message-ID: <YhyT0aOAF34FtEFR@redhat.com>
+References: <20220225172021.3493923-1-alex.bennee@linaro.org>
+ <20220225172021.3493923-5-alex.bennee@linaro.org>
+ <38a14acc-ffbe-e61a-3186-44a57273427a@redhat.com>
 MIME-Version: 1.0
-X-DNSRBL: 
-X-MAIL: spam.unicloud.com 21S9HI4t050430
-Received-SPF: pass client-ip=220.194.70.58; envelope-from=luofei@unicloud.com;
- helo=spam.unicloud.com
-X-Spam_score_int: 37
-X-Spam_score: 3.7
-X-Spam_bar: +++
-X-Spam_report: (3.7 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
- MIME_CHARSET_FARAWAY=2.45, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <38a14acc-ffbe-e61a-3186-44a57273427a@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,35 +86,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: fam@euphon.net, Beraldo Leal <bleal@redhat.com>, sw@weilnetz.de,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, f4bug@amsat.org,
+ qemu-arm@nongnu.org, David Hildenbrand <dhildenb@redhat.com>,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cGluZw0KaHR0cHM6Ly9wYXRjaGV3Lm9yZy9RRU1VLzIwMjIwMTIwMDg0NjM0LjEzMTQ1MC0xLWx1
-b2ZlaUB1bmljbG91ZC5jb20vDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fDQq3orz+yMs6IMLet8kNCreiy83KsbzkOiAyMDIyxOox1MIyMMjVIDE2OjQ2DQrK1bz+yMs6
-IHFlbXUtZGV2ZWwNCrOty806IFBhb2xvIEJvbnppbmk7IE1hcmNlbG8gVG9zYXR0aTsga3ZtQHZn
-ZXIua2VybmVsLm9yZzsgwt63yQ0K1vfM4jogW1BBVENIXSBpMzg2OiBTZXQgTUNHX1NUQVRVU19S
-SVBWIGJpdCBmb3IgbWNlIFNSQVIgZXJyb3INCg0KSW4gdGhlIHBoeXNpY2FsIG1hY2hpbmUgZW52
-aXJvbm1lbnQsIHdoZW4gYSBTUkFSIGVycm9yIG9jY3VycywNCnRoZSBJQTMyX01DR19TVEFUVVMg
-UklQViBiaXQgaXMgc2V0LCBidXQgcWVtdSBkb2VzIG5vdCBzZXQgdGhpcw0KYml0LiBXaGVuIHFl
-bXUgaW5qZWN0cyBhbiBTUkFSIGVycm9yIGludG8gdmlydHVhbCBtYWNoaW5lLCB0aGUNCnZpcnR1
-YWwgbWFjaGluZSBrZXJuZWwganVzdCBjYWxsIGRvX21hY2hpbmVfY2hlY2soKSB0byBraWxsIHRo
-ZQ0KY3VycmVudCB0YXNrLCBidXQgbm90IGNhbGwgbWVtb3J5X2ZhaWx1cmUoKSB0byBpc29sYXRl
-IHRoZSBmYXVsdHkNCnBhZ2UsIHdoaWNoIHdpbGwgY2F1c2UgdGhlIGZhdWx0eSBwYWdlIHRvIGJl
-IGFsbG9jYXRlZCBhbmQgdXNlZA0KcmVwZWF0ZWRseS4gSWYgdXNlZCBieSB0aGUgdmlydHVhbCBt
-YWNoaW5lIGtlcm5lbCwgaXQgd2lsbCBjYXVzZQ0KdGhlIHZpcnR1YWwgbWFjaGluZSB0byBjcmFz
-aA0KDQpTaWduZWQtb2ZmLWJ5OiBsdW9mZWkgPGx1b2ZlaUB1bmljbG91ZC5jb20+DQotLS0NCiB0
-YXJnZXQvaTM4Ni9rdm0va3ZtLmMgfCAyICstDQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pDQoNCmRpZmYgLS1naXQgYS90YXJnZXQvaTM4Ni9rdm0va3ZtLmMg
-Yi90YXJnZXQvaTM4Ni9rdm0va3ZtLmMNCmluZGV4IDJjOGZlYjRhNmYuLjE0NjU1NTc3ZjAgMTAw
-NjQ0DQotLS0gYS90YXJnZXQvaTM4Ni9rdm0va3ZtLmMNCisrKyBiL3RhcmdldC9pMzg2L2t2bS9r
-dm0uYw0KQEAgLTUzNyw3ICs1MzcsNyBAQCBzdGF0aWMgdm9pZCBrdm1fbWNlX2luamVjdChYODZD
-UFUgKmNwdSwgaHdhZGRyIHBhZGRyLCBpbnQgY29kZSkNCg0KICAgICBpZiAoY29kZSA9PSBCVVNf
-TUNFRVJSX0FSKSB7DQogICAgICAgICBzdGF0dXMgfD0gTUNJX1NUQVRVU19BUiB8IDB4MTM0Ow0K
-LSAgICAgICAgbWNnX3N0YXR1cyB8PSBNQ0dfU1RBVFVTX0VJUFY7DQorICAgICAgICBtY2dfc3Rh
-dHVzIHw9IE1DR19TVEFUVVNfUklQViB8IE1DR19TVEFUVVNfRUlQVjsNCiAgICAgfSBlbHNlIHsN
-CiAgICAgICAgIHN0YXR1cyB8PSAweGMwOw0KICAgICAgICAgbWNnX3N0YXR1cyB8PSBNQ0dfU1RB
-VFVTX1JJUFY7DQotLQ0KMi4yNy4wDQoNCg==
+On Mon, Feb 28, 2022 at 09:39:29AM +0100, Thomas Huth wrote:
+> On 25/02/2022 18.20, Alex Bennée wrote:
+> > Using lci-tool update debian-arm64-cross to a Debian 11 based system.
+> > As a result we can drop debian-arm64-test-cross just for building
+> > tests.
+> 
+> Good idea!
+> 
+> One comment below...
+> 
+> [...]
+> > diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
+> > index 166e24df13..589510a7be 100644
+> > --- a/tests/docker/dockerfiles/debian-arm64-cross.docker
+> > +++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
+> > @@ -1,32 +1,166 @@
+> > +# THIS FILE WAS AUTO-GENERATED
+> >   #
+> > -# Docker arm64 cross-compiler target
+> > +#  $ lcitool dockerfile --layers all --cross aarch64 debian-11 qemu
+> >   #
+> > -# This docker target builds on the debian Buster base image.
+> > -#
+> > -FROM qemu/debian10
+> > +# https://gitlab.com/libvirt/libvirt-ci
+> > -# Add the foreign architecture we want and install dependencies
+> > -RUN dpkg --add-architecture arm64
+> > -RUN apt update && \
+> > -    DEBIAN_FRONTEND=noninteractive eatmydata \
+> > -    apt install -y --no-install-recommends \
+> > -        crossbuild-essential-arm64
+> > -RUN apt update && \
+> > -    DEBIAN_FRONTEND=noninteractive eatmydata \
+> > -    apt build-dep -yy -a arm64 --arch-only qemu
+> > +FROM docker.io/library/debian:11-slim
+> > -# Specify the cross prefix for this image (see tests/docker/common.rc)
+> > -ENV QEMU_CONFIGURE_OPTS --cross-prefix=aarch64-linux-gnu-
+> > -ENV DEF_TARGET_LIST aarch64-softmmu,aarch64-linux-user
+> > +RUN export DEBIAN_FRONTEND=noninteractive && \
+> > +    apt-get update && \
+> > +    apt-get install -y eatmydata && \
+> > +    eatmydata apt-get dist-upgrade -y && \
+> > +    eatmydata apt-get install --no-install-recommends -y \
+> > +            bash \
+> > +            bc \
+> > +            bsdextrautils \
+> > +            bzip2 \
+> > +            ca-certificates \
+> > +            ccache \
+> > +            dbus \
+> > +            debianutils \
+> > +            diffutils \
+> > +            exuberant-ctags \
+> > +            findutils \
+> > +            gcovr \
+> > +            genisoimage \
+> > +            gettext \
+> > +            git \
+> > +            hostname \
+> > +            libpcre2-dev \
+> > +            libspice-protocol-dev \
+> > +            libtest-harness-perl \
+> > +            llvm \
+> > +            locales \
+> > +            make \
+> > +            meson \
+> > +            ncat \
+> > +            ninja-build \
+> > +            openssh-client \
+> > +            perl-base \
+> > +            pkgconf \
+> > +            python3 \
+> > +            python3-numpy \
+> > +            python3-opencv \
+> > +            python3-pillow \
+> > +            python3-pip \
+> > +            python3-sphinx \
+> > +            python3-sphinx-rtd-theme \
+> > +            python3-venv \
+> > +            python3-yaml \
+> > +            rpm2cpio \
+> > +            sed \
+> > +            sparse \
+> > +            tar \
+> > +            tesseract-ocr \
+> > +            tesseract-ocr-eng \
+> > +            texinfo && \
+> > +    eatmydata apt-get autoremove -y && \
+> > +    eatmydata apt-get autoclean -y && \
+> > +    sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
+> > +    dpkg-reconfigure locales
+> > -RUN apt update && \
+> > -    DEBIAN_FRONTEND=noninteractive eatmydata \
+> > -    apt install -y --no-install-recommends \
+> > -        libbz2-dev:arm64 \
+> > -        liblzo2-dev:arm64 \
+> > -        librdmacm-dev:arm64 \
+> > -        libsnappy-dev:arm64 \
+> > -        libxen-dev:arm64
+> > +ENV LANG "en_US.UTF-8"
+> > +ENV MAKE "/usr/bin/make"
+> > +ENV NINJA "/usr/bin/ninja"
+> > +ENV PYTHON "/usr/bin/python3"
+> > +ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
+> > -# nettle
+> > -ENV QEMU_CONFIGURE_OPTS $QEMU_CONFIGURE_OPTS --enable-nettle
+> > +RUN export DEBIAN_FRONTEND=noninteractive && \
+> > +    dpkg --add-architecture arm64 && \
+> > +    eatmydata apt-get update && \
+> > +    eatmydata apt-get dist-upgrade -y && \
+> > +    eatmydata apt-get install --no-install-recommends -y dpkg-dev && \
+> > +    eatmydata apt-get install --no-install-recommends -y \
+> > +            g++-aarch64-linux-gnu \
+> > +            gcc-aarch64-linux-gnu \
+> > +            libaio-dev:arm64 \
+> > +            libasan5:arm64 \
+> > +            libasound2-dev:arm64 \
+> > +            libattr1-dev:arm64 \
+> > +            libbpf-dev:arm64 \
+> > +            libbrlapi-dev:arm64 \
+> > +            libbz2-dev:arm64 \
+> > +            libc6-dev:arm64 \
+> > +            libcacard-dev:arm64 \
+> > +            libcap-ng-dev:arm64 \
+> > +            libcapstone-dev:arm64 \
+> > +            libcurl4-gnutls-dev:arm64 \
+> > +            libdaxctl-dev:arm64 \
+> > +            libdrm-dev:arm64 \
+> > +            libepoxy-dev:arm64 \
+> > +            libfdt-dev:arm64 \
+> > +            libffi-dev:arm64 \
+> > +            libfuse3-dev:arm64 \
+> > +            libgbm-dev:arm64 \
+> > +            libgcrypt20-dev:arm64 \
+> > +            libglib2.0-dev:arm64 \
+> > +            libglusterfs-dev:arm64 \
+> > +            libgnutls28-dev:arm64 \
+> > +            libgtk-3-dev:arm64 \
+> > +            libibumad-dev:arm64 \
+> > +            libibverbs-dev:arm64 \
+> > +            libiscsi-dev:arm64 \
+> > +            libjemalloc-dev:arm64 \
+> > +            libjpeg62-turbo-dev:arm64 \
+> > +            liblttng-ust-dev:arm64 \
+> > +            liblzo2-dev:arm64 \
+> > +            libncursesw5-dev:arm64 \
+> > +            libnfs-dev:arm64 \
+> > +            libnuma-dev:arm64 \
+> > +            libpam0g-dev:arm64 \
+> > +            libpixman-1-dev:arm64 \
+> > +            libpng-dev:arm64 \
+> > +            libpulse-dev:arm64 \
+> > +            librbd-dev:arm64 \
+> > +            librdmacm-dev:arm64 \
+> > +            libsasl2-dev:arm64 \
+> > +            libsdl2-dev:arm64 \
+> > +            libsdl2-image-dev:arm64 \
+> > +            libseccomp-dev:arm64 \
+> > +            libselinux1-dev:arm64 \
+> > +            libslirp-dev:arm64 \
+> > +            libsnappy-dev:arm64 \
+> > +            libspice-server-dev:arm64 \
+> > +            libssh-gcrypt-dev:arm64 \
+> > +            libsystemd-dev:arm64 \
+> > +            libtasn1-6-dev:arm64 \
+> > +            libubsan1:arm64 \
+> > +            libudev-dev:arm64 \
+> > +            liburing-dev:arm64 \
+> > +            libusb-1.0-0-dev:arm64 \
+> > +            libusbredirhost-dev:arm64 \
+> > +            libvdeplug-dev:arm64 \
+> > +            libvirglrenderer-dev:arm64 \
+> > +            libvte-2.91-dev:arm64 \
+> > +            libxen-dev:arm64 \
+> > +            libzstd-dev:arm64 \
+> > +            nettle-dev:arm64 \
+> > +            systemtap-sdt-dev:arm64 \
+> > +            xfslibs-dev:arm64 \
+> > +            zlib1g-dev:arm64 && \
+> > +    eatmydata apt-get autoremove -y && \
+> > +    eatmydata apt-get autoclean -y && \
+> > +    mkdir -p /usr/local/share/meson/cross && \
+> > +    echo "[binaries]\n\
+> > +c = '/usr/bin/aarch64-linux-gnu-gcc'\n\
+> 
+> Is it really just "c =" or should this be "cc =" ?
+
+I believe this really does want to be 'c', as in this is the path
+for the 'c' programming language  in Meson.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
