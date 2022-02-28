@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8035C4C6021
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 01:34:12 +0100 (CET)
-Received: from localhost ([::1]:42218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23324C607A
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 01:59:01 +0100 (CET)
+Received: from localhost ([::1]:47336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOTzM-0001ZC-Ei
-	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 19:34:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41324)
+	id 1nOUNO-0006nf-Ey
+	for lists+qemu-devel@lfdr.de; Sun, 27 Feb 2022 19:58:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nOTxh-0000pe-4X
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 19:32:25 -0500
-Received: from [2607:f8b0:4864:20::42c] (port=41553
+ id 1nOULy-0004zV-5S
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 19:57:30 -0500
+Received: from [2607:f8b0:4864:20::42c] (port=42505
  helo=mail-pf1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nOTxf-0003Hb-N7
- for qemu-devel@nongnu.org; Sun, 27 Feb 2022 19:32:24 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id p8so9537680pfh.8
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 16:32:23 -0800 (PST)
+ id 1nOULw-0004cS-9V
+ for qemu-devel@nongnu.org; Sun, 27 Feb 2022 19:57:29 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id a5so8735644pfv.9
+ for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 16:57:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Zip19zpffkFHbuemM8Uk+lGKqMMsP0qVcZksbgzR9fI=;
- b=pj88QjspUebiQ5frO2qN684iHll4pqqr43cxInG8wel9MqRHi6RuqM0q9GCOQPvolm
- 2uJYblzDqVUh2j0G89IZ7DkuGsKEy3M/9iU5c4J3BXAVVszk8ZYnp4t8zI7q5M/JpfM0
- 61gtNgaPL0vrHoJguQgOQxP8AlUk0euEeFS3zJzxxd1ro5r1SMaM3FGw/NLO0/HT5C1p
- JvKC/m2l/jwgg0DfsWgSE31GHw80ocvla8LP4fRNdb6x1RMFoisKHr7FaTwJy14jUD8m
- fGAI96lMxMDtTMw4RcawhNyXvY+t60MGGBvnkeMXMTrgULaGzkktA85mZyz/sTIYHdo9
- ucwQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rLqVpLbIl0a852/Rl89zbvE8hCK5ORwN2nBheEOdDl8=;
+ b=RLiMHQ7m9kI7aspl1fEWxzSsBuT39F4hWCxGxMoKAdM0/gNld8dldDI3wDH5T+Kz7G
+ +3/zt1B9cO2j0Ntr48uaKvY8kCA7f1c7xMVj939es9vNk7fyQZfDqrwlLby48+IsPMdg
+ FmWU454ndIIrmbcMP4z6G4Nurv7UBUCqZ9rUaFRlGCrsjYcaWtmC4dAWscLrla/BgkXT
+ YCSEBhGIGFlWGBpZ6e+WEJmz2s9qACQXyA+XVL73827LOlOo5MhUbYFARaBLk07h1bmX
+ tL9n7rtUMMlOEUSY8r0p/wEmGM2Y9hD15T4IJ5oZegNna1D3QzC+xoORknQNjWxn1YqK
+ v+CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Zip19zpffkFHbuemM8Uk+lGKqMMsP0qVcZksbgzR9fI=;
- b=Z34dMNWZwAm+HLrgqPVDJPRloHoV47yUGxhMt4kM2GYHHwaOhtQs7mvBq7kxkL/Op2
- mZnajN4/CmwPhMUJ4T6+4dx8AzVNWxrqNp6m/l8X0A85+kbgYO+5diD+k+Wbid/yj9VZ
- LR63X7jPkZvpBcXfDvRzhZaM6gtH407DXT84u9McWmu3pLECL45Tkbeu+l8hcttvkqV6
- 7JrN1zuMI/o1OTtCIZ/4H/vyTDnUD7TCpusIfBASWTsmsMHu6jyjPPIiy3YOXyyXKQK8
- nhtrVrxzm00dE+xptDSKl75YZDtxtObOOeARIwm+BmOl4VVuVIkcFfEh+Z4eM+UCsSS/
- Qm8A==
-X-Gm-Message-State: AOAM530eWdiurLivO5hL51gj1F/6JdvVOxu65gAq8GlaDyy4tbCtryOo
- k4Xj6rQ5t9bfddu616QoD/8=
-X-Google-Smtp-Source: ABdhPJzwmUwB85AfHA9P001S7TJgI4YTIWoFFou3xcB3PdYUTrxDHYATQT0RHVxG9PPE7YjdT3gHMA==
-X-Received: by 2002:a63:3111:0:b0:373:a1fa:8998 with SMTP id
- x17-20020a633111000000b00373a1fa8998mr14771478pgx.415.1646008342436; 
- Sun, 27 Feb 2022 16:32:22 -0800 (PST)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ bh=rLqVpLbIl0a852/Rl89zbvE8hCK5ORwN2nBheEOdDl8=;
+ b=7ziShJq5ThXByhfxZ/pTE7+42gXIYWqxuOJRKFVQz1f3P+6sSxEjACiHefX3+EnOqT
+ HJSSgV6+QafPRXQxjGGX4W+Btuc1986P3FE8J7Lxy/nSqDi3elY1Qt6DrBYKE+YHRfpa
+ v+9xBbyoWts+XCuw4rkpGyr9ytdAaW0UgOphkKEynkQccs8k6pzZZRqqNtuUC7+yuizx
+ n1G3rLhOawpY2/n75Nj3TQv0UQufMYZqL8HAaPDDVZF+UtqUr02pA75vv0eWgdlspN0g
+ gevnJ/3BjhH9VMSl5sVXsffhP7Cfbi9Om2nC5tCWczhNL1CY5/27WncUeJz2oymQdDtx
+ 15EA==
+X-Gm-Message-State: AOAM530ScGxNSIhatCaOcTQ5tdc3+mx2g6DL8yMv/K1Ln15YDtLi04j/
+ DddZuZpflVq4ywAmM21/HFrqyJ11tUo=
+X-Google-Smtp-Source: ABdhPJzDUiILn3rWyvizfg4JJ4U8slL7wEGGL0qnwoDiOqGRJy3FJpZDWgzKqeAhSr4U6blAP2hXFQ==
+X-Received: by 2002:a63:500e:0:b0:36c:3697:7aab with SMTP id
+ e14-20020a63500e000000b0036c36977aabmr15083612pgb.98.1646009846809; 
+ Sun, 27 Feb 2022 16:57:26 -0800 (PST)
+Received: from localhost.localdomain ([2400:4050:c360:8200:6839:3c6:46aa:5d85])
  by smtp.gmail.com with ESMTPSA id
- p10-20020a056a0026ca00b004f38e426e3csm10944080pfw.201.2022.02.27.16.32.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Feb 2022 16:32:22 -0800 (PST)
-Message-ID: <a8877602-f3d6-11e7-b2e9-068c76bf8d94@gmail.com>
-Date: Mon, 28 Feb 2022 09:32:19 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4] ui/cocoa: Use NSWindow's ability to resize
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20220226104054.43538-1-akihiko.odaki@gmail.com>
- <CAFEAcA_OprFX4ub6dYzTNmwP7y2D31AmhknQ0xjQ11jYw8Nxig@mail.gmail.com>
+ j1-20020a056a00130100b004df82ad0498sm10634610pfu.82.2022.02.27.16.57.24
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sun, 27 Feb 2022 16:57:26 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <CAFEAcA_OprFX4ub6dYzTNmwP7y2D31AmhknQ0xjQ11jYw8Nxig@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: 
+Subject: [PATCH v3 0/4] cutils: Introduce bundle mechanism
+Date: Mon, 28 Feb 2022 09:57:05 +0900
+Message-Id: <20220228005710.10442-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
  (failed)
 Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
@@ -78,8 +72,8 @@ X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,37 +87,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Programmingkid <programmingkidx@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/02/27 23:56, Peter Maydell wrote:
-> On Sat, 26 Feb 2022 at 10:41, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->>
->> This change brings two new features:
->> - The window will be resizable if "Zoom To Fit" is eanbled
->> - The window can be made full screen by clicking full screen button
->>    provided by the platform. (The left-top green button.)
->>
->> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
->> ---
->>   ui/cocoa.m | 543 +++++++++++++++++++++++++----------------------------
->>   1 file changed, 252 insertions(+), 291 deletions(-)
-> 
-> This is making too many changes in a single patch to be
-> reviewable -- can you break it down into more digestible
-> chunks, please?
-> 
-> thanks
-> -- PMM
+Developers often run QEMU without installing. The bundle mechanism
+allows to look up files which should be present in installation even in
+such a situation.
 
-Unfortunately it is not possible. The most of the change is caused by 
-the convergence of two windows (full screen window and normal window) 
-into one. ui/cocoa depends on them for coordinate calculations and event 
-handling, which happens basically everywhere in QemuCocoaView. The old 
-implementation with two distinct windows and the new one with a unified 
-window are essentially incompatible and cannot be mixed.
+It is a general mechanism and can find any files located relative
+to the installation tree. The build tree must have a new directory,
+qemu-bundle, to represent what files the installation tree would
+have for reference by the executables.
 
-Regards,
-Akihiko Odaki
+v3:
+* Note that the bundle mechanism is for any files located relative to the
+  installation tree including but not limited to datadir. (Peter Maydell)
+* Fix "bridge" typo (Philippe Mathieu-Daudé)
+
+v2: Rebased to the latest QEMU.
+
+Akihiko Odaki (4):
+  cutils: Introduce bundle mechanism
+  datadir: Use bundle mechanism
+  ui/icons: Use bundle mechanism
+  net: Use bundle mechanism
+
+ configure             | 13 +++++++++++++
+ include/net/net.h     |  2 +-
+ include/qemu/cutils.h | 19 +++++++++++++++++++
+ meson.build           |  6 +++---
+ net/tap.c             |  6 +++++-
+ qemu-options.hx       |  4 ++--
+ softmmu/datadir.c     | 35 ++++++++++++-----------------------
+ ui/cocoa.m            | 20 +++++++++++---------
+ ui/gtk.c              |  8 +++++---
+ ui/sdl2.c             | 18 +++++++++++-------
+ util/cutils.c         | 33 +++++++++++++++++++++++++++++++++
+ 11 files changed, 115 insertions(+), 49 deletions(-)
+
+-- 
+2.32.0 (Apple Git-132)
+
 
