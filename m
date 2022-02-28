@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C154C753B
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:53:09 +0100 (CET)
-Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623864C757B
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:54:57 +0100 (CET)
+Received: from localhost ([::1]:43378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOkCq-0005ia-Ph
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:53:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42568)
+	id 1nOkEa-0002JM-Eh
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:54:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAI-0002AP-O5; Mon, 28 Feb 2022 12:50:31 -0500
-Received: from [2607:f8b0:4864:20::32e] (port=34536
- helo=mail-ot1-x32e.google.com)
+ id 1nOkAK-0002Er-DV; Mon, 28 Feb 2022 12:50:32 -0500
+Received: from [2607:f8b0:4864:20::233] (port=43532
+ helo=mail-oi1-x233.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAH-0007tH-CK; Mon, 28 Feb 2022 12:50:30 -0500
-Received: by mail-ot1-x32e.google.com with SMTP id
- 40-20020a9d032b000000b005b02923e2e6so808141otv.1; 
- Mon, 28 Feb 2022 09:50:28 -0800 (PST)
+ id 1nOkAJ-0007v4-1K; Mon, 28 Feb 2022 12:50:32 -0500
+Received: by mail-oi1-x233.google.com with SMTP id s5so13902234oic.10;
+ Mon, 28 Feb 2022 09:50:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sv6PV5zO6SxCyrgKDKbOdeQ/0Zn4Tq3YRWmr8mzA1H0=;
- b=EbaT4gR7540h+wYcWGIjhIYq5QjnL30VrNQPt1DxLfZFaJFY2XkK1UsGCnjDJglkcH
- Am3ZX2RcX2+JUKZctVLKFN1Uqw6r57dXbr4hDueOBRCd/tNE4yjPA2KQYRA0kpivriPD
- MZ937w0zwyEKKp8vSCsSrfE4eeD2xExAZg6lRN7M/OH1uyEr2G1mBZAcM04P+g3nK7kx
- 725wwBlHhQZP4oVdfiD+uAkgnx+CtuiyHoo4+vngcvhZEOAlB+7UXPIeQeu/yP2Xlq7S
- egDhAQp2pXhcyv/yjYxzTie4T6TTtHdziA4ql/ShqyEUKpaQV6Wwi6XdnPQ63ouAMvUN
- BcTw==
+ bh=rzmueRPm0t5lahZZ3XOoI/QZfiygf1QukvIl5O1pQwQ=;
+ b=LQqjIwXpeibOeUpJPmLmbkt5ioXQu+8Y1Wjjm+eAiLK5o5oSRMqahH0OJjoLguqaa5
+ Nq8i77dvFlhnjd+LqqWu7gQgpXNf+dQ8UTzr//fkovcJnC3ckVqQEwd0gfwN9SnDtswZ
+ 3cGC868BVYJ+CiEVnWnQeHLd4F+WUk6ORER1IkrJI5R81KW3E9nXICdCclfFeX99dKs3
+ VEZEHsOPw6YVca525jPpm9P8PzwROvxPnIGM9sodt+r8Yj3cxmtYCdxg5nMH+rdygfq2
+ taWDS90rpBHAxcSAjislP2PhZkZS0g7ohpRjB2bxHPc5Edpra4JFTiyS8HhMksWFfw+Z
+ V7HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sv6PV5zO6SxCyrgKDKbOdeQ/0Zn4Tq3YRWmr8mzA1H0=;
- b=ARtTWnTyG8TYf9EWxoWpnFRHjwxWNPuoP7CP1KVIaFyOGd8dQRs3Xsll8PM/zQeEgi
- kvrnvRrG15bbYMJxzoV63D+EEAFe0dap5az4wheU9fbyGFiwoqC9MisxrLkZzCXpJqRw
- V422/fPIsh+q8CJuKgJ/urN99NJ2GL3VWH+QgGjrFqM71uMYQcEzr/LL/MzPzsRVAXlB
- oELEz/1MlZmj9bpU/tFcr51AyXVJSa9+uY5iAGZSsxeNOtt8svwZ9Cpf9GUjVDAXEvdr
- +CyR4w8ehQ4/sYTHyqdRzATvNQ2qUEeEgHdSs1sUdCGS7mmkd7yg0sOYy8hxLaLCMY1h
- MPfw==
-X-Gm-Message-State: AOAM530nSfQzcZKLGzDJrX5AyrLeG/ga/Yn3S1kuXqBDLXoBBQajRjdA
- KGxoQ5Jil2yg82ICoUKslwYCpQgeJhU=
-X-Google-Smtp-Source: ABdhPJycV4ghV1QDOgD1Rhxaou6RvOhcPC4ZMYu1id6/ZroHuW1fyX8Y9y3QsGYSP5FJ2cWswna7Pg==
-X-Received: by 2002:a9d:6f82:0:b0:5af:1555:5a9b with SMTP id
- h2-20020a9d6f82000000b005af15555a9bmr10434721otq.289.1646070627362; 
- Mon, 28 Feb 2022 09:50:27 -0800 (PST)
+ bh=rzmueRPm0t5lahZZ3XOoI/QZfiygf1QukvIl5O1pQwQ=;
+ b=BWGqtBqAWBNRzUnKl+XdVg6XUJLbaD3odP2u/rfDVOMr59GDIEtw1Oc9nVManTDhEh
+ arD9w/kn48b7PKIVvjUkU+f+hHJxRh7GyTubHUCj1wJqyjYgEnvHiFCbuQsqCcmuh7rs
+ YggqBqTexvtApmyeJ3uK4bsBOelB2tzF3PTbqwlrueM68QpzTxB1M0jQIr5zee45t1x4
+ AP7kxxeMWrH2vvn1rfc1oJJ/SlsJ77Mg/Gpz//Fql8bc2ebN/N2X+kTrnXYUcU+j88np
+ R3IZyBZxaQcgD4M764v1+TXTSN38ab8hR1oR295+TmzHAUqejpbVEAVJPfMeszLj31kz
+ dLDA==
+X-Gm-Message-State: AOAM532dlygPIGJbMEJOMEFiKh6UW6lY39v6QLro4RqnuJV2M4paoRna
+ cEtwAiDTcsXIfeV0PI6iwZLtFrncFtU=
+X-Google-Smtp-Source: ABdhPJzYP5SNRKq5Cgwc/7QpDTm4LXnGS4b9tHCUWMnYL8d3EjGPty/OaQXOxXp7wZx7/x5BNj+mHQ==
+X-Received: by 2002:aca:ba83:0:b0:2d4:13f1:8530 with SMTP id
+ k125-20020acaba83000000b002d413f18530mr9471998oif.169.1646070629547; 
+ Mon, 28 Feb 2022 09:50:29 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
  by smtp.gmail.com with ESMTPSA id
- a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.25
+ a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 09:50:27 -0800 (PST)
+ Mon, 28 Feb 2022 09:50:29 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/14] hw/ppc/spapr_caps.c: use g_autofree in
- spapr_cap_get_string()
-Date: Mon, 28 Feb 2022 14:49:54 -0300
-Message-Id: <20220228175004.8862-5-danielhb413@gmail.com>
+Subject: [PATCH 05/14] hw/ppc/spapr_caps.c: use g_autofree in
+ spapr_caps_add_properties()
+Date: Mon, 28 Feb 2022 14:49:55 -0300
+Message-Id: <20220228175004.8862-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220228175004.8862-1-danielhb413@gmail.com>
 References: <20220228175004.8862-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::233
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x233.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -95,37 +94,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_caps.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/ppc/spapr_caps.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index aab313ffb1..2773f9db9e 100644
+index 2773f9db9e..655ab856a0 100644
 --- a/hw/ppc/spapr_caps.c
 +++ b/hw/ppc/spapr_caps.c
-@@ -95,12 +95,12 @@ static void spapr_cap_set_bool(Object *obj, Visitor *v, const char *name,
+@@ -930,16 +930,13 @@ void spapr_caps_add_properties(SpaprMachineClass *smc)
+ 
+     for (i = 0; i < ARRAY_SIZE(capability_table); i++) {
+         SpaprCapabilityInfo *cap = &capability_table[i];
+-        char *name = g_strdup_printf("cap-%s", cap->name);
+-        char *desc;
++        g_autofree char *name = g_strdup_printf("cap-%s", cap->name);
++        g_autofree char *desc = g_strdup_printf("%s", cap->description);
+ 
+         object_class_property_add(klass, name, cap->type,
+                                   cap->get, cap->set,
+                                   NULL, cap);
+ 
+-        desc = g_strdup_printf("%s", cap->description);
+         object_class_property_set_description(klass, name, desc);
+-        g_free(name);
+-        g_free(desc);
+     }
  }
- 
- 
--static void  spapr_cap_get_string(Object *obj, Visitor *v, const char *name,
--                                  void *opaque, Error **errp)
-+static void spapr_cap_get_string(Object *obj, Visitor *v, const char *name,
-+                                 void *opaque, Error **errp)
- {
-     SpaprCapabilityInfo *cap = opaque;
-     SpaprMachineState *spapr = SPAPR_MACHINE(obj);
--    char *val = NULL;
-+    g_autofree char *val = NULL;
-     uint8_t value = spapr_get_cap(spapr, cap->index);
- 
-     if (value >= cap->possible->num) {
-@@ -111,7 +111,6 @@ static void  spapr_cap_get_string(Object *obj, Visitor *v, const char *name,
-     val = g_strdup(cap->possible->vals[value]);
- 
-     visit_type_str(v, name, &val, errp);
--    g_free(val);
- }
- 
- static void spapr_cap_set_string(Object *obj, Visitor *v, const char *name,
 -- 
 2.35.1
 
