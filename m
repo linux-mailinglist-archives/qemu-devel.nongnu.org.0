@@ -2,124 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EE04C6388
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 08:04:21 +0100 (CET)
-Received: from localhost ([::1]:52162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB5D4C6387
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 08:03:41 +0100 (CET)
+Received: from localhost ([::1]:51240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOa4y-0007dO-5x
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 02:04:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49878)
+	id 1nOa4I-00071O-9d
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 02:03:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eugeneh@nvidia.com>)
- id 1nOa2H-0005Vy-GO
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 02:01:33 -0500
-Received: from mail-dm6nam10on2051.outbound.protection.outlook.com
- ([40.107.93.51]:26464 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eugeneh@nvidia.com>)
- id 1nOa2B-0002Wg-Ed
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 02:01:32 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lw1UIfeCZ5dAZ/SVNh/k+JOEs01YxsRaNTuIPhrChEk3krLGKQLJrTYy8M33ECoYX2a/sxfq7dfgdwgzjzurrgXOC3fUR8koKRUc5uIZagF4Slul4lw5XRiXm6e+VUMJBfyJaTNBUWcO3UC6ySRO9GVk9YuFaOs4ptGOOUimtmcGXrpsqa4L6y/9yYJU/bzHXautDrSsHiv1hl0hn4n/aDtPUls4d+b4iwOEIk7QanlGegoc6kLHRTfr6QnAl83yf6upgfYlgAMEeVFmFkR1j2vcrXxRrDKvW2X5p2MYsZdILYS3NIZctdItTog+NpP+JBY7KvKiOW9kfx/vLJCAjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kPrNqKl5oLE0EcOu+xtbL+7AyIjEQEKN1OWygfjNtQ4=;
- b=impIPo+tkYBBq50AwDXAUOsGkdXDBTFid2pz5CS9nakJExty9hNkJpFegovOChGAu3DCxumwxTWxk096W2PUFa6xmyozdDIe7syhCltm3XVTiBK7ZdNtyMrj6lgDM8MqbmVS7DfjDxMUaTfizYF3/M8+joZsTFyFoAfC5xlUCR3/KRG0k2dIT49NpoyTKL2CgnTAhUiqcHhcsDBtc35BHtl1OlRD4qPcUhNUBJ64+5T3sux756A4XIasdshwKluNJ9S4juQobgeku1fV9cVhinQfB14sQN8KgpG+L5O0r2M2dmNAh14uGdDV4E1StFF9H2dt0nIdIKasp95ShlqwaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kPrNqKl5oLE0EcOu+xtbL+7AyIjEQEKN1OWygfjNtQ4=;
- b=UEGew4SYyCNd8xRMCCUrvOglvySI3Q6C0NztkzZJNzbN/Z2nOLajf9x2SsjwkdmFtqLNdMCEu4fjBXVXIAxvwLDviIN9+QIbKmxFEtDFaz35txEIMYzv0hgFZQdsVaoHDY+5f31GHaetVYM0c+bNfWFsADEHAN0luL6NKtyvjrrbEtWdMz2aYG4wZCQ1Q64t4tBUX0tlT24W+z1ZZJSCjHDcZ39MTn0tFCjcaTfUSfyisyqa9BJPvq3kNLAVmVI/MbTIepPYWFjHLS5DfpU/vw4bFpy6QVkn/0VwycQ4Z7oAhOZCJ7XdRRFEAiQS31Ic6NwYCSTWyWpVGo/I9ip87w==
-Received: from BYAPR12MB3192.namprd12.prod.outlook.com (2603:10b6:a03:139::14)
- by BN6PR12MB1682.namprd12.prod.outlook.com (2603:10b6:405:4::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Mon, 28 Feb
- 2022 06:22:35 +0000
-Received: from BYAPR12MB3192.namprd12.prod.outlook.com
- ([fe80::fdf5:3159:a592:7d32]) by BYAPR12MB3192.namprd12.prod.outlook.com
- ([fe80::fdf5:3159:a592:7d32%4]) with mapi id 15.20.5017.026; Mon, 28 Feb 2022
- 06:22:35 +0000
-From: Eugene Huang <eugeneh@nvidia.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Timer delays in VM
-Thread-Topic: Timer delays in VM
-Thread-Index: Adgsa5CaeBeekv16QLaiwwpCMOnvXw==
-Date: Mon, 28 Feb 2022 06:22:35 +0000
-Message-ID: <BYAPR12MB3192248D73D9C8AF64076A62D9019@BYAPR12MB3192.namprd12.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6862a138-2bed-4b51-62f1-08d9fa82b608
-x-ms-traffictypediagnostic: BN6PR12MB1682:EE_
-x-microsoft-antispam-prvs: <BN6PR12MB16821D3F84D55CEC10C9BCE9D9019@BN6PR12MB1682.namprd12.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6oatD1OzkLubttr6no9RUB20uH22kFAi8lN8wfQlLxWuQbSw2VeOQrk7q6ZVgr1xECGgCsnCpBGy7PiAvjPa/tL653jRw6dkMNLj5zVOLOTYISj7sLk6Em4/k3StU9CLs0NfaJrwntOXQ3/FvdbAK7jzoP2YoaIhQwEghiswf58Fezi9tDlKlB+1UeDDOyXCOeUeX+TReK0pe4MUgUrq3CZZfyA/5BAqtZqR+2X6k3oVyIrulC2DHTOGufBISby37lAYKXfBbqhbkk6NNGbj1/Tk/WTYXcN1Sms1LDWUidssbNJMDJFE28hsBPOzHJ4JxdqO7ZxwHDGC3UKDumBvrjJF+RxJ7grYzDdRe5oQl2boVgG7AvDmv7HtDX79k7nz0HPTKEKfyOfJaDAjelWzoH4ITX7talJSzLbBw6nd176b64wE2pQsTNBddnDBJ5ZWd3ikzRGtkt0VGmUN/JikF17cioJHqzk+hdy7mjem24s2NAKFW03mv1BIN9qYTLBi8yDARTrD3mpYkSheLOMhBK7FjzTbkICqzLHGIpe7xPc+3z7oGlnnUOL5BNqiuMsQ+a0Ed0G9RiSUJ4/7PP2ot2WJODboZzRHsxpwdvngk0gL13hPXJ0dVRgJYpOe9qzCazkQW+wg8se71mUWznfsQC2pLAm/zYlUzifQfGthl5vK+MTz1GNZoPCZUT6zJW2ZFQAJTnqV2VBa3J7Rv9t22w==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(66946007)(66556008)(76116006)(64756008)(66446008)(66476007)(83380400001)(38100700002)(33656002)(55016003)(4744005)(9326002)(38070700005)(71200400001)(316002)(2906002)(6916009)(186003)(5660300002)(508600001)(52536014)(26005)(7696005)(8936002)(3480700007)(86362001)(6506007)(8676002)(9686003)(122000001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?afEDxZUwiijzVCeMZonMAUSa0wLSrLPy7eI2zOU+mJ+0qAsxTyQRBCAS/6hQ?=
- =?us-ascii?Q?Qu2ftw2U3alVDRsyROyKvpDqLSsQIrSlwEaTkZZLHjxNQBKbQ7a894eyyLJy?=
- =?us-ascii?Q?D8EhvMIJZni2j8E1axq1YpvuQyHD/+0divQwkBMofeCGYVUbIFuFROov1+UY?=
- =?us-ascii?Q?ow8thkIe5DvhiKaVHD386LVBWyZhNMQjY0tdoqzykG/xpDmhefzF6JLbeD7i?=
- =?us-ascii?Q?enfCJjK04W77UmeFc2DgEQYcrn5ZiDH17KbMt7qvJTeObrazhEOgahsrQ1dO?=
- =?us-ascii?Q?PF6aMF6VfwOvDOOmqJCOHCD5CggX2tyOlWQlJO23YpdvgXBA/8yrW2PwmZ2H?=
- =?us-ascii?Q?4MHFzMW7E+0nC3I0Q6M/2mHx9rNkoM/8GC0yVtZkJ5xKKwbBA+Q6a8juU7j3?=
- =?us-ascii?Q?eCnb0qC7CsGDsyEDXHUt9itEVslyQ/k24mxih1mljA5KjhINtaYZA+4vF2Nf?=
- =?us-ascii?Q?Cf5f6tBAmgFUsyejhRd8qcxqd3N+arpiYFQ1NR5oZK+qf6RT7VFgSiG00/Y8?=
- =?us-ascii?Q?5TEw1tQYus8Jpo+PZ+WjLd4I1JpfOj5ok1sFKu6nlR+clNOzCO0lTSiZTGzs?=
- =?us-ascii?Q?QDT3xUGgEDPMHp0V5AdjOlw6p/cqmLaKm/4OWf/fAkfCnJfZ3T/T/Uy0cp11?=
- =?us-ascii?Q?fec5KtVkb3SuN2xIGjfcgcUasKECdHg0aDWE7xlJrNaPtOC8ygaYKxzWq3Y4?=
- =?us-ascii?Q?FSI8ieqXXamf7qif8L+QqzPIIdFXA/acXhD02zez7BVg6tsFIcSOHFl8ROXI?=
- =?us-ascii?Q?u+6ytmqy57pe0K9rfuz87+DmnM2PBJLSTLNsOSAoVrph0cQ6N/49o9F3vQDj?=
- =?us-ascii?Q?D0wfpWcf9TmnYyS14uwAUkasPG/3VEkRauF7r2h7/yX9EM7StInvmYZPtKzw?=
- =?us-ascii?Q?DC+RctSNwQeH9pzfDE3r3UhJDMgzD4rdh/OMWckK94xnZgBkbeLzDndQ8ZTi?=
- =?us-ascii?Q?r+bbw7Paux9PS0ZoNKnBpvqZ/0KR7SAfHu3LzwDq5vFCcXNIT2GKr4/xuTaJ?=
- =?us-ascii?Q?JVIAXLxKdFJgPZcu7Spwd67sVvtwusKm7/U1SNkd7Q8050Af41aeQh8NsksH?=
- =?us-ascii?Q?4QGebDk6CTeM578r0i2AsrDOasI7p48yFu+moRbPEfkhwe+dyFs9kT60tTvJ?=
- =?us-ascii?Q?3+heC8GWHjj7kS4f4AFsBLhiThy9n7PJ41aPUS1ejmpB2+U8NIx7mSWGEmyJ?=
- =?us-ascii?Q?rUYHoKJZDXS998B9gvhOsCQwqcqdyzB9Zyk6TfTQe3H81WRLGkxlP65Wjchl?=
- =?us-ascii?Q?4QkzT9hezlpp+lZO5F0XAWTYh2c0X9DmuJXog2dXFRNGhaPaFjHGHWiqaa9s?=
- =?us-ascii?Q?pFrPCrRl61sjNchWgrzKJEWl93x1NPUwRhD2yo2L+F6ernHUKsK+EqMCMyCV?=
- =?us-ascii?Q?acMFtbLplrGJuMKT4/mSBh2L8hkGURrzylzEyNQrmyLOLfP+1nYDPvdVx+Kw?=
- =?us-ascii?Q?lwHkdVUwCc3H6vJPPvR4BAJ60jxRQ4IdJqBZk2nnoJZQNEUTa5tLKGfOejGJ?=
- =?us-ascii?Q?+78DFLhRC3Co7rUIlXik0znJ5vtlTN0a6XjmCY4a7wUkgcSvGqpT+IiKbOB8?=
- =?us-ascii?Q?jhw8vQUYilhF8y+Hd6zOU6f+rWwX9rU1pFGBuXNdxXj4Qj2akyxI8naFTyPa?=
- =?us-ascii?Q?5r+mTYYd59aSNq9F1QmIKM4=3D?=
-Content-Type: multipart/alternative;
- boundary="_000_BYAPR12MB3192248D73D9C8AF64076A62D9019BYAPR12MB3192namp_"
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1nOa1e-0004s2-Gu; Mon, 28 Feb 2022 02:00:55 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:37078)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1nOa1S-0002Rq-R2; Mon, 28 Feb 2022 02:00:54 -0500
+Received: from [10.12.102.111] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id EDCE54010159;
+ Mon, 28 Feb 2022 07:00:33 +0000 (UTC)
+Message-ID: <03c089bc-f2fc-b60b-3cfb-eab99e7ae2ee@ispras.ru>
+Date: Mon, 28 Feb 2022 10:00:33 +0300
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6862a138-2bed-4b51-62f1-08d9fa82b608
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2022 06:22:35.5393 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: x47mfzGgqH3h/P+zbVC/jR1QgLFLL6hIV5ZZHz+uW+DSZg+5sSPAbdRXl920sRCxp9Ob6VJLu8kec0cGONBpAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1682
-Received-SPF: softfail client-ip=40.107.93.51; envelope-from=eugeneh@nvidia.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 8/9] Avocado tests: classify tests based on what it's
+ booted
+Content-Language: en-US
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20220225210156.2032055-1-crosa@redhat.com>
+ <20220225210156.2032055-9-crosa@redhat.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+In-Reply-To: <20220225210156.2032055-9-crosa@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -133,252 +58,1162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Eric Farman <farman@linux.ibm.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alexandre Iooss <erdnaxe@crans.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ David Gibson <david@gibson.dropbear.id.au>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_BYAPR12MB3192248D73D9C8AF64076A62D9019BYAPR12MB3192namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 
-Hi,
+On 26.02.2022 00:01, Cleber Rosa wrote:
+> This adds some classification to the existing tests, based on the
+> mechanism (and a lot more loosely) on the content of the binary blob.
+> 
+> The proposal is to use the "boots" tag, and so far the following
+> values have been defined with the following meaning:
+> 
+>   - bios:   the "-bios" option is used to select the BIOS file to be
+>             loaded.  Because default bios are used in many QEMU runs,
+>             only tests that change the default are tagged.
+>   - kernel: means that the direct kernel boot mechanism (-kernel) is
+>             used.  Most of the time it means that a Linux kernel is
+>             booted, although there are occurrences of uboot usage.
+>   - initrd: means that an initial ram disk (-initrd) is used in
+>             addition to the kernel boot.
+>   - rootfs: means that a root filesystem is booted, in addition to a
+>             kernel and optionally an initrd.  This is usually done with
+>             a "-drive" command line option.
+>   - distro: means that a full blown distro image is booted, which may
+>             or may not include a kernel and initrd.  This is also
+>             usually done with a "-drive" command line option.
+> 
+> As with any other Avocado tags, it's possible to use them to select a
+> subset of tests.  For instance, if one wants to run tests that boots a
+> bios:
+> 
+>    $ avocado run -t boots:bios tests/avocado/
+> 
+> If one want to run tests that boots a kernel and an initrd:
+> 
+>    $ avocado run -t boots:kernel,boots:initrd tests/avocado/
+> 
+> It's possible, if deemed valuable, to further evolve this
+> classification into one with a clear separation between mechanism and
+> content.
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>   tests/avocado/boot_linux.py               |  4 ++
+>   tests/avocado/boot_linux_console.py       | 54 +++++++++++++++++++++++
+>   tests/avocado/boot_xen.py                 |  3 ++
+>   tests/avocado/hotplug_cpu.py              |  1 +
+>   tests/avocado/intel_iommu.py              |  1 +
+>   tests/avocado/linux_initrd.py             |  2 +
+>   tests/avocado/linux_ssh_mips_malta.py     |  2 +
+>   tests/avocado/machine_arm_canona1100.py   |  1 +
+>   tests/avocado/machine_arm_integratorcp.py |  4 ++
+>   tests/avocado/machine_arm_n8x0.py         |  2 +
+>   tests/avocado/machine_avr6.py             |  1 +
+>   tests/avocado/machine_m68k_nextcube.py    |  1 +
+>   tests/avocado/machine_microblaze.py       |  1 +
+>   tests/avocado/machine_mips_fuloong2e.py   |  1 +
+>   tests/avocado/machine_mips_loongson3v.py  |  1 +
+>   tests/avocado/machine_mips_malta.py       |  3 ++
+>   tests/avocado/machine_rx_gdbsim.py        |  2 +
+>   tests/avocado/machine_s390_ccw_virtio.py  |  4 ++
+>   tests/avocado/machine_sparc64_sun4u.py    |  1 +
+>   tests/avocado/machine_sparc_leon3.py      |  1 +
+>   tests/avocado/multiprocess.py             |  4 ++
+>   tests/avocado/ppc_405.py                  |  2 +
+>   tests/avocado/ppc_bamboo.py               |  2 +
+>   tests/avocado/ppc_mpc8544ds.py            |  1 +
+>   tests/avocado/ppc_prep_40p.py             |  1 +
+>   tests/avocado/ppc_pseries.py              |  1 +
+>   tests/avocado/ppc_virtex_ml507.py         |  1 +
+>   tests/avocado/replay_kernel.py            | 28 ++++++++++++
+>   tests/avocado/replay_linux.py             |  1 +
+>   tests/avocado/reverse_debugging.py        |  1 +
+>   tests/avocado/smmu.py                     |  1 +
+>   tests/avocado/tcg_plugins.py              |  3 ++
+>   tests/avocado/virtio-gpu.py               |  2 +
+>   tests/avocado/virtiofs_submounts.py       |  1 +
+>   34 files changed, 139 insertions(+)
+> 
+> diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+> index ab19146d1e..c4172f11e3 100644
+> --- a/tests/avocado/boot_linux.py
+> +++ b/tests/avocado/boot_linux.py
+> @@ -18,6 +18,7 @@
+>   class BootLinuxX8664(LinuxTest):
+>       """
+>       :avocado: tags=arch:x86_64
+> +    :avocado: tags=boots:distro
+>       """
+>   
+>       def test_pc_i440fx_tcg(self):
+> @@ -62,6 +63,7 @@ class BootLinuxAarch64(LinuxTest):
+>       :avocado: tags=arch:aarch64
+>       :avocado: tags=machine:virt
+>       :avocado: tags=machine:gic-version=2
+> +    :avocado: tags=boots:distro
+>       """
+>   
+>       def add_common_args(self):
+> @@ -110,6 +112,7 @@ def test_virt_kvm(self):
+>   class BootLinuxPPC64(LinuxTest):
+>       """
+>       :avocado: tags=arch:ppc64
+> +    :avocado: tags=boots:distro
+>       """
+>   
+>       def test_pseries_tcg(self):
+> @@ -125,6 +128,7 @@ def test_pseries_tcg(self):
+>   class BootLinuxS390X(LinuxTest):
+>       """
+>       :avocado: tags=arch:s390x
+> +    :avocado: tags=boots:distro
+>       """
+>   
+>       @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+> diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+> index 9c618d4809..0a8980953f 100644
+> --- a/tests/avocado/boot_linux_console.py
+> +++ b/tests/avocado/boot_linux_console.py
+> @@ -95,6 +95,7 @@ def test_x86_64_pc(self):
+>           """
+>           :avocado: tags=arch:x86_64
+>           :avocado: tags=machine:pc
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>                         '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
+> @@ -115,6 +116,7 @@ def test_mips_malta(self):
+>           :avocado: tags=arch:mips
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:big
+> +        :avocado: tags=boots:kernel
+>           """
+>           deb_url = ('http://snapshot.debian.org/archive/debian/'
+>                      '20130217T032700Z/pool/main/l/linux-2.6/'
+> @@ -147,6 +149,7 @@ def test_mips64el_malta(self):
+>   
+>           :avocado: tags=arch:mips64el
+>           :avocado: tags=machine:malta
+> +        :avocado: tags=boots:kernel
+>           """
+>           deb_url = ('http://snapshot.debian.org/archive/debian/'
+>                      '20130217T032700Z/pool/main/l/linux-2.6/'
+> @@ -169,6 +172,7 @@ def test_mips64el_fuloong2e(self):
+>           :avocado: tags=arch:mips64el
+>           :avocado: tags=machine:fuloong2e
+>           :avocado: tags=endian:little
+> +        :avocado: tags=boots:kernel
+>           """
+>           deb_url = ('http://archive.debian.org/debian/pool/main/l/linux/'
+>                      'linux-image-3.16.0-6-loongson-2e_3.16.56-1+deb8u1_mipsel.deb')
+> @@ -190,6 +194,8 @@ def test_mips_malta_cpio(self):
+>           :avocado: tags=arch:mips
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:big
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           deb_url = ('http://snapshot.debian.org/archive/debian/'
+>                      '20160601T041800Z/pool/main/l/linux/'
+> @@ -233,6 +239,8 @@ def test_mips64el_malta_5KEc_cpio(self):
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:little
+>           :avocado: tags=cpu:5KEc
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
+>                         'raw/9ad2df38/mips/malta/mips64el/'
+> @@ -292,6 +300,7 @@ def test_mips_malta32el_nanomips_4k(self):
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:little
+>           :avocado: tags=cpu:I7200
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+>                         'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+> @@ -305,6 +314,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:little
+>           :avocado: tags=cpu:I7200
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+>                         'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+> @@ -318,6 +328,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:little
+>           :avocado: tags=cpu:I7200
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+>                         'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+> @@ -331,6 +342,7 @@ def test_aarch64_virt(self):
+>           :avocado: tags=machine:virt
+>           :avocado: tags=accel:tcg
+>           :avocado: tags=cpu:cortex-a53
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>                         '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+> @@ -357,6 +369,8 @@ def test_aarch64_xlnx_versal_virt(self):
+>           :avocado: tags=device:pl011
+>           :avocado: tags=device:arm_gicv3
+>           :avocado: tags=accel:tcg
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           images_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
+>                         'bionic-updates/main/installer-arm64/'
+> @@ -382,6 +396,7 @@ def test_arm_virt(self):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:virt
+>           :avocado: tags=accel:tcg
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>                         '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
+> @@ -405,6 +420,8 @@ def test_arm_emcraft_sf2(self):
+>           :avocado: tags=endian:little
+>           :avocado: tags=u-boot
+>           :avocado: tags=accel:tcg
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:rootfs
+>           """
+>           uboot_url = ('https://raw.githubusercontent.com/'
+>                        'Subbaraya-Sundeep/qemu-test-binaries/'
+> @@ -471,6 +488,7 @@ def test_arm_raspi2_uart0(self):
+>           :avocado: tags=machine:raspi2b
+>           :avocado: tags=device:pl011
+>           :avocado: tags=accel:tcg
+> +        :avocado: tags=boots:kernel
+>           """
+>           self.do_test_arm_raspi2(0)
+>   
+> @@ -478,6 +496,8 @@ def test_arm_raspi2_initrd(self):
+>           """
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:raspi2b
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           deb_url = ('http://archive.raspberrypi.org/debian/'
+>                      'pool/main/r/raspberrypi-firmware/'
+> @@ -521,6 +541,8 @@ def test_arm_exynos4210_initrd(self):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:smdkc210
+>           :avocado: tags=accel:tcg
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           deb_url = ('https://snapshot.debian.org/archive/debian/'
+>                      '20190928T224601Z/pool/main/l/linux/'
+> @@ -562,6 +584,8 @@ def test_arm_cubieboard_initrd(self):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:cubieboard
+>           :avocado: tags=accel:tcg
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           deb_url = ('https://apt.armbian.com/pool/main/l/'
+>                      'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
+> @@ -603,6 +627,8 @@ def test_arm_cubieboard_sata(self):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:cubieboard
+>           :avocado: tags=accel:tcg
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:rootfs
+>           """
+>           deb_url = ('https://apt.armbian.com/pool/main/l/'
+>                      'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
+> @@ -648,6 +674,7 @@ def test_arm_quanta_gsj(self):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:quanta-gsj
+>           :avocado: tags=accel:tcg
+> +        :avocado: tags=boots:rootfs
+>           """
+>           # 25 MiB compressed, 32 MiB uncompressed.
+>           image_url = (
+> @@ -696,6 +723,8 @@ def test_arm_quanta_gsj_initrd(self):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:quanta-gsj
+>           :avocado: tags=accel:tcg
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           initrd_url = (
+>                   'https://github.com/hskinnemoen/openbmc/releases/download/'
+> @@ -733,6 +762,7 @@ def test_arm_orangepi(self):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:orangepi-pc
+>           :avocado: tags=accel:tcg
+> +        :avocado: tags=boots:kernel
+>           """
+>           deb_url = ('https://apt.armbian.com/pool/main/l/'
+>                      'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
+> @@ -759,6 +789,8 @@ def test_arm_orangepi_initrd(self):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=accel:tcg
+>           :avocado: tags=machine:orangepi-pc
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           deb_url = ('https://apt.armbian.com/pool/main/l/'
+>                      'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
+> @@ -803,6 +835,8 @@ def test_arm_orangepi_sd(self):
+>           :avocado: tags=accel:tcg
+>           :avocado: tags=machine:orangepi-pc
+>           :avocado: tags=device:sd
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:rootfs
+>           """
+>           deb_url = ('https://apt.armbian.com/pool/main/l/'
+>                      'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
+> @@ -855,6 +889,7 @@ def test_arm_orangepi_bionic_20_08(self):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:orangepi-pc
+>           :avocado: tags=device:sd
+> +        :avocado: tags=boots:distro
+>           """
+>   
+>           # This test download a 275 MiB compressed image and expand it
+> @@ -902,6 +937,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
+>           :avocado: tags=machine:orangepi-pc
+>           :avocado: tags=device:sd
+>           :avocado: tags=os:netbsd
+> +        :avocado: tags=boots:distro
+>           """
+>           # This test download a 304MB compressed image and expand it to 2GB
+>           deb_url = ('http://snapshot.debian.org/archive/debian/'
+> @@ -987,6 +1023,7 @@ def test_s390x_s390_ccw_virtio(self):
+>           """
+>           :avocado: tags=arch:s390x
+>           :avocado: tags=machine:s390-ccw-virtio
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+>                         '/fedora-secondary/releases/29/Everything/s390x/os/images'
+> @@ -1007,6 +1044,7 @@ def test_alpha_clipper(self):
+>           """
+>           :avocado: tags=arch:alpha
+>           :avocado: tags=machine:clipper
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('http://archive.debian.org/debian/dists/lenny/main/'
+>                         'installer-alpha/20090123lenny10/images/cdrom/vmlinuz')
+> @@ -1028,6 +1066,7 @@ def test_m68k_q800(self):
+>           """
+>           :avocado: tags=arch:m68k
+>           :avocado: tags=machine:q800
+> +        :avocado: tags=boots:kernel
+>           """
+>           deb_url = ('https://snapshot.debian.org/archive/debian-ports'
+>                      '/20191021T083923Z/pool-m68k/main'
+> @@ -1063,6 +1102,7 @@ def test_arm_vexpressa9(self):
+>           """
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:vexpress-a9
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = '32b7677ce8b6f1471fb0059865f451169934245b'
+>           self.vm.add_args('-dtb', self.workdir + '/day16/vexpress-v2p-ca9.dtb')
+> @@ -1072,6 +1112,7 @@ def test_arm_ast2400_palmetto_openbmc_v2_9_0(self):
+>           """
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:palmetto-bmc
+> +        :avocado: tags=boots:rootfs
+>           """
+>   
+>           image_url = ('https://github.com/openbmc/openbmc/releases/download/2.9.0/'
+> @@ -1086,6 +1127,7 @@ def test_arm_ast2500_romulus_openbmc_v2_9_0(self):
+>           """
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:romulus-bmc
+> +        :avocado: tags=boots:rootfs
+>           """
+>   
+>           image_url = ('https://github.com/openbmc/openbmc/releases/download/2.9.0/'
+> @@ -1115,6 +1157,7 @@ def test_arm_ast2600_debian(self):
+>           """
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:tacoma-bmc
+> +        :avocado: tags=boots:kernel
+>           """
+>           deb_url = ('http://snapshot.debian.org/archive/debian/'
+>                      '20210302T203551Z/'
+> @@ -1140,6 +1183,7 @@ def test_m68k_mcf5208evb(self):
+>           """
+>           :avocado: tags=arch:m68k
+>           :avocado: tags=machine:mcf5208evb
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
+>           self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
+> @@ -1148,6 +1192,7 @@ def test_or1k_sim(self):
+>           """
+>           :avocado: tags=arch:or1k
+>           :avocado: tags=machine:or1k-sim
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = '20334cdaf386108c530ff0badaecc955693027dd'
+>           self.do_test_advcal_2018('20', tar_hash, 'vmlinux')
+> @@ -1156,6 +1201,7 @@ def test_nios2_10m50(self):
+>           """
+>           :avocado: tags=arch:nios2
+>           :avocado: tags=machine:10m50-ghrd
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'e4251141726c412ac0407c5a6bceefbbff018918'
+>           self.do_test_advcal_2018('14', tar_hash, 'vmlinux.elf')
+> @@ -1165,6 +1211,7 @@ def test_ppc64_e500(self):
+>           :avocado: tags=arch:ppc64
+>           :avocado: tags=machine:ppce500
+>           :avocado: tags=cpu:e5500
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
+>           self.do_test_advcal_2018('19', tar_hash, 'uImage')
+> @@ -1194,6 +1241,7 @@ def test_ppc_powernv8(self):
+>           """
+>           :avocado: tags=arch:ppc64
+>           :avocado: tags=machine:powernv8
+> +        :avocado: tags=boots:kernel
+>           """
+>           self.do_test_ppc64_powernv('P8')
+>   
+> @@ -1201,6 +1249,7 @@ def test_ppc_powernv9(self):
+>           """
+>           :avocado: tags=arch:ppc64
+>           :avocado: tags=machine:powernv9
+> +        :avocado: tags=boots:kernel
+>           """
+>           self.do_test_ppc64_powernv('P9')
+>   
+> @@ -1208,6 +1257,7 @@ def test_ppc_g3beige(self):
+>           """
+>           :avocado: tags=arch:ppc
+>           :avocado: tags=machine:g3beige
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
+>           self.vm.add_args('-M', 'graphics=off')
+> @@ -1217,6 +1267,7 @@ def test_ppc_mac99(self):
+>           """
+>           :avocado: tags=arch:ppc
+>           :avocado: tags=machine:mac99
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
+>           self.vm.add_args('-M', 'graphics=off')
+> @@ -1226,6 +1277,7 @@ def test_sh4_r2d(self):
+>           """
+>           :avocado: tags=arch:sh4
+>           :avocado: tags=machine:r2d
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'fe06a4fd8ccbf2e27928d64472939d47829d4c7e'
+>           self.vm.add_args('-append', 'console=ttySC1')
+> @@ -1235,6 +1287,7 @@ def test_sparc_ss20(self):
+>           """
+>           :avocado: tags=arch:sparc
+>           :avocado: tags=machine:SS-20
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'b18550d5d61c7615d989a06edace051017726a9f'
+>           self.do_test_advcal_2018('11', tar_hash, 'zImage.elf')
+> @@ -1244,6 +1297,7 @@ def test_xtensa_lx60(self):
+>           :avocado: tags=arch:xtensa
+>           :avocado: tags=machine:lx60
+>           :avocado: tags=cpu:dc233c
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = '49e88d9933742f0164b60839886c9739cb7a0d34'
+>           self.do_test_advcal_2018('02', tar_hash, 'santas-sleigh-ride.elf')
+> diff --git a/tests/avocado/boot_xen.py b/tests/avocado/boot_xen.py
+> index fc2faeedb5..6cc5216a57 100644
+> --- a/tests/avocado/boot_xen.py
+> +++ b/tests/avocado/boot_xen.py
+> @@ -61,6 +61,9 @@ def launch_xen(self, xen_path):
+>   
+>   
+>   class BootXen(BootXenBase):
+> +    """
+> +    :avocado: tags=boots:kernel
+> +    """
+>   
+>       def test_arm64_xen_411_and_dom0(self):
+>           """
+> diff --git a/tests/avocado/hotplug_cpu.py b/tests/avocado/hotplug_cpu.py
+> index 6374bf1b54..bb296020af 100644
+> --- a/tests/avocado/hotplug_cpu.py
+> +++ b/tests/avocado/hotplug_cpu.py
+> @@ -18,6 +18,7 @@ def test(self):
+>           :avocado: tags=arch:x86_64
+>           :avocado: tags=machine:q35
+>           :avocado: tags=accel:kvm
+> +        :avocado: tags=boots:distro
+>           """
+>           self.require_accelerator('kvm')
+>           self.vm.add_args('-accel', 'kvm')
+> diff --git a/tests/avocado/intel_iommu.py b/tests/avocado/intel_iommu.py
+> index 474d62f6bf..d308dcccc5 100644
+> --- a/tests/avocado/intel_iommu.py
+> +++ b/tests/avocado/intel_iommu.py
+> @@ -20,6 +20,7 @@ class IntelIOMMU(LinuxTest):
+>       :avocado: tags=distro_version:31
+>       :avocado: tags=machine:q35
+>       :avocado: tags=accel:kvm
+> +    :avocado: tags=boots:distro
+>       :avocado: tags=intel_iommu
+>       """
+>   
+> diff --git a/tests/avocado/linux_initrd.py b/tests/avocado/linux_initrd.py
+> index 6ebf299cd4..07582f5247 100644
+> --- a/tests/avocado/linux_initrd.py
+> +++ b/tests/avocado/linux_initrd.py
+> @@ -21,6 +21,8 @@ class LinuxInitrd(QemuSystemTest):
+>   
+>       :avocado: tags=arch:x86_64
+>       :avocado: tags=machine:pc
+> +    :avocado: tags=boots:kernel
+> +    :avocado: tags=boots:initrd
+>       """
+>   
+>       timeout = 300
+> diff --git a/tests/avocado/linux_ssh_mips_malta.py b/tests/avocado/linux_ssh_mips_malta.py
+> index 0179d8a6ca..2cd986c6b2 100644
+> --- a/tests/avocado/linux_ssh_mips_malta.py
+> +++ b/tests/avocado/linux_ssh_mips_malta.py
+> @@ -25,6 +25,8 @@
+>   class LinuxSSH(QemuSystemTest, LinuxSSHMixIn):
+>       """
+>       :avocado: tags=accel:tcg
+> +    :avocado: tags=boots:kernel
+> +    :avocado: tags=boots:distro
+>       """
+>   
+>       timeout = 150 # Not for 'configure --enable-debug --enable-debug-tcg'
+> diff --git a/tests/avocado/machine_arm_canona1100.py b/tests/avocado/machine_arm_canona1100.py
+> index 182a0b0513..0cfb9b873d 100644
+> --- a/tests/avocado/machine_arm_canona1100.py
+> +++ b/tests/avocado/machine_arm_canona1100.py
+> @@ -22,6 +22,7 @@ def test_arm_canona1100(self):
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:canon-a1100
+>           :avocado: tags=device:pflash_cfi02
+> +        :avocado: tags=boots:bios
+>           """
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+>                      '/2018/download/day18.tar.xz')
+> diff --git a/tests/avocado/machine_arm_integratorcp.py b/tests/avocado/machine_arm_integratorcp.py
+> index 697ee76f6c..3049aff037 100644
+> --- a/tests/avocado/machine_arm_integratorcp.py
+> +++ b/tests/avocado/machine_arm_integratorcp.py
+> @@ -29,6 +29,10 @@
+>   
+>   
+>   class IntegratorMachine(QemuSystemTest):
+> +    """
+> +    :avocado: tags=boots:kernel
+> +    :avocado: tags=boots:initrd
+> +    """
+>   
+>       timeout = 90
+>   
+> diff --git a/tests/avocado/machine_arm_n8x0.py b/tests/avocado/machine_arm_n8x0.py
+> index 12e9a6803b..78c65863b6 100644
+> --- a/tests/avocado/machine_arm_n8x0.py
+> +++ b/tests/avocado/machine_arm_n8x0.py
+> @@ -37,6 +37,7 @@ def test_n800(self):
+>           """
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:n800
+> +        :avocado: tags=boots:kernel
+>           """
+>           self.__do_test_n8x0()
+>   
+> @@ -45,5 +46,6 @@ def test_n810(self):
+>           """
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:n810
+> +        :avocado: tags=boots:kernel
+>           """
+>           self.__do_test_n8x0()
+> diff --git a/tests/avocado/machine_avr6.py b/tests/avocado/machine_avr6.py
+> index 5485db79c6..0837d4dd6b 100644
+> --- a/tests/avocado/machine_avr6.py
+> +++ b/tests/avocado/machine_avr6.py
+> @@ -28,6 +28,7 @@ def test_freertos(self):
+>           """
+>           :avocado: tags=arch:avr
+>           :avocado: tags=machine:arduino-mega-2560-v3
+> +        :avocado: tags=boots:bios
+>           """
+>           """
+>           https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
+> diff --git a/tests/avocado/machine_m68k_nextcube.py b/tests/avocado/machine_m68k_nextcube.py
+> index 6790e7d9cd..26df7f89c4 100644
+> --- a/tests/avocado/machine_m68k_nextcube.py
+> +++ b/tests/avocado/machine_m68k_nextcube.py
+> @@ -25,6 +25,7 @@ class NextCubeMachine(QemuSystemTest):
+>       :avocado: tags=arch:m68k
+>       :avocado: tags=machine:next-cube
+>       :avocado: tags=device:framebuffer
+> +    :avocado: tags=boots:bios
+>       """
+>   
+>       timeout = 15
+> diff --git a/tests/avocado/machine_microblaze.py b/tests/avocado/machine_microblaze.py
+> index 4928920f96..9035c2ef3d 100644
+> --- a/tests/avocado/machine_microblaze.py
+> +++ b/tests/avocado/machine_microblaze.py
+> @@ -17,6 +17,7 @@ def test_microblaze_s3adsp1800(self):
+>           """
+>           :avocado: tags=arch:microblaze
+>           :avocado: tags=machine:petalogix-s3adsp1800
+> +        :avocado: tags=boots:kernel
+>           """
+>   
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> diff --git a/tests/avocado/machine_mips_fuloong2e.py b/tests/avocado/machine_mips_fuloong2e.py
+> index 89291f47b2..f1da0bbb75 100644
+> --- a/tests/avocado/machine_mips_fuloong2e.py
+> +++ b/tests/avocado/machine_mips_fuloong2e.py
+> @@ -26,6 +26,7 @@ def test_linux_kernel_isa_serial(self):
+>           :avocado: tags=endian:little
+>           :avocado: tags=device:bonito64
+>           :avocado: tags=device:via686b
+> +        :avocado: tags=boots:kernel
+>           """
+>           # Recovery system for the Yeeloong laptop
+>           # (enough to test the fuloong2e southbridge, accessing its ISA bus)
+> diff --git a/tests/avocado/machine_mips_loongson3v.py b/tests/avocado/machine_mips_loongson3v.py
+> index 5194cf18c9..5680fc6892 100644
+> --- a/tests/avocado/machine_mips_loongson3v.py
+> +++ b/tests/avocado/machine_mips_loongson3v.py
+> @@ -26,6 +26,7 @@ def test_pmon_serial_console(self):
+>           :avocado: tags=cpu:Loongson-3A1000
+>           :avocado: tags=device:liointc
+>           :avocado: tags=device:goldfish_rtc
+> +        :avocado: tags=boots:bios
+>           """
+>   
+>           pmon_hash = '7c8b45dd81ccfc55ff28f5aa267a41c3'
+> diff --git a/tests/avocado/machine_mips_malta.py b/tests/avocado/machine_mips_malta.py
+> index 5f98ba1620..e0b015b871 100644
+> --- a/tests/avocado/machine_mips_malta.py
+> +++ b/tests/avocado/machine_mips_malta.py
+> @@ -95,6 +95,7 @@ def test_mips_malta_i6400_framebuffer_logo_1core(self):
+>           :avocado: tags=arch:mips64el
+>           :avocado: tags=machine:malta
+>           :avocado: tags=cpu:I6400
+> +        :avocado: tags=boots:kernel
+>           """
+>           self.do_test_i6400_framebuffer_logo(1)
+>   
+> @@ -105,6 +106,7 @@ def test_mips_malta_i6400_framebuffer_logo_7cores(self):
+>           :avocado: tags=machine:malta
+>           :avocado: tags=cpu:I6400
+>           :avocado: tags=mips:smp
+> +        :avocado: tags=boots:kernel
+>           """
+>           self.do_test_i6400_framebuffer_logo(7)
+>   
+> @@ -115,5 +117,6 @@ def test_mips_malta_i6400_framebuffer_logo_8cores(self):
+>           :avocado: tags=machine:malta
+>           :avocado: tags=cpu:I6400
+>           :avocado: tags=mips:smp
+> +        :avocado: tags=boots:kernel
+>           """
+>           self.do_test_i6400_framebuffer_logo(8)
+> diff --git a/tests/avocado/machine_rx_gdbsim.py b/tests/avocado/machine_rx_gdbsim.py
+> index 6cd8704b01..bb3263d982 100644
+> --- a/tests/avocado/machine_rx_gdbsim.py
+> +++ b/tests/avocado/machine_rx_gdbsim.py
+> @@ -30,6 +30,7 @@ def test_uboot(self):
+>           :avocado: tags=arch:rx
+>           :avocado: tags=machine:gdbsim-r5f562n8
+>           :avocado: tags=endian:little
+> +        :avocado: tags=boots:bios
+>           """
+>           uboot_url = ('https://acc.dl.osdn.jp/users/23/23888/u-boot.bin.gz')
+>           uboot_hash = '9b78dbd43b40b2526848c0b1ce9de02c24f4dcdb'
+> @@ -54,6 +55,7 @@ def test_linux_sash(self):
+>           :avocado: tags=arch:rx
+>           :avocado: tags=machine:gdbsim-r5f562n7
+>           :avocado: tags=endian:little
+> +        :avocado: tags=boots:kernel
+>           """
+>           dtb_url = ('https://acc.dl.osdn.jp/users/23/23887/rx-virt.dtb')
+>           dtb_hash = '7b4e4e2c71905da44e86ce47adee2210b026ac18'
+> diff --git a/tests/avocado/machine_s390_ccw_virtio.py b/tests/avocado/machine_s390_ccw_virtio.py
+> index bd03d7160b..0e24372240 100644
+> --- a/tests/avocado/machine_s390_ccw_virtio.py
+> +++ b/tests/avocado/machine_s390_ccw_virtio.py
+> @@ -45,6 +45,8 @@ def test_s390x_devices(self):
+>           """
+>           :avocado: tags=arch:s390x
+>           :avocado: tags=machine:s390-ccw-virtio
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>   
+>           kernel_url = ('https://snapshot.debian.org/archive/debian/'
+> @@ -167,6 +169,8 @@ def test_s390x_fedora(self):
+>           :avocado: tags=device:virtio-gpu
+>           :avocado: tags=device:virtio-crypto
+>           :avocado: tags=device:virtio-net
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>   
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+> diff --git a/tests/avocado/machine_sparc64_sun4u.py b/tests/avocado/machine_sparc64_sun4u.py
+> index 458165500e..18fcb92fcd 100644
+> --- a/tests/avocado/machine_sparc64_sun4u.py
+> +++ b/tests/avocado/machine_sparc64_sun4u.py
+> @@ -23,6 +23,7 @@ def test_sparc64_sun4u(self):
+>           """
+>           :avocado: tags=arch:sparc64
+>           :avocado: tags=machine:sun4u
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+>                      '/2018/download/day23.tar.xz')
+> diff --git a/tests/avocado/machine_sparc_leon3.py b/tests/avocado/machine_sparc_leon3.py
+> index e61b223185..c7f941a525 100644
+> --- a/tests/avocado/machine_sparc_leon3.py
+> +++ b/tests/avocado/machine_sparc_leon3.py
+> @@ -22,6 +22,7 @@ def test_leon3_helenos_uimage(self):
+>           :avocado: tags=arch:sparc
+>           :avocado: tags=machine:leon3_generic
+>           :avocado: tags=binfmt:uimage
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('http://www.helenos.org/releases/'
+>                         'HelenOS-0.6.0-sparc32-leon3.bin')
+> diff --git a/tests/avocado/multiprocess.py b/tests/avocado/multiprocess.py
+> index 80a3b8f442..9415e6d00c 100644
+> --- a/tests/avocado/multiprocess.py
+> +++ b/tests/avocado/multiprocess.py
+> @@ -67,6 +67,8 @@ def do_test(self, kernel_url, initrd_url, kernel_command_line,
+>       def test_multiprocess_x86_64(self):
+>           """
+>           :avocado: tags=arch:x86_64
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>                         '/linux/releases/31/Everything/x86_64/os/images'
+> @@ -82,6 +84,8 @@ def test_multiprocess_x86_64(self):
+>       def test_multiprocess_aarch64(self):
+>           """
+>           :avocado: tags=arch:aarch64
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>                         '/linux/releases/31/Everything/aarch64/os/images'
+> diff --git a/tests/avocado/ppc_405.py b/tests/avocado/ppc_405.py
+> index a47f89b934..f767ca17c7 100644
+> --- a/tests/avocado/ppc_405.py
+> +++ b/tests/avocado/ppc_405.py
+> @@ -30,6 +30,7 @@ def test_ppc_taihu(self):
+>           :avocado: tags=arch:ppc
+>           :avocado: tags=machine:taihu
+>           :avocado: tags=cpu:405ep
+> +        :avocado: tags=boots:bios
+>           """
+>           self.do_test_ppc405()
+>   
+> @@ -38,5 +39,6 @@ def test_ppc_ref405ep(self):
+>           :avocado: tags=arch:ppc
+>           :avocado: tags=machine:ref405ep
+>           :avocado: tags=cpu:405ep
+> +        :avocado: tags=boots:bios
+>           """
+>           self.do_test_ppc405()
+> diff --git a/tests/avocado/ppc_bamboo.py b/tests/avocado/ppc_bamboo.py
+> index 40629e3478..7568ab2b6f 100644
+> --- a/tests/avocado/ppc_bamboo.py
+> +++ b/tests/avocado/ppc_bamboo.py
+> @@ -20,6 +20,8 @@ def test_ppc_bamboo(self):
+>           :avocado: tags=machine:bamboo
+>           :avocado: tags=cpu:440epb
+>           :avocado: tags=device:rtl8139
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           tar_url = ('http://landley.net/aboriginal/downloads/binaries/'
+>                      'system-image-powerpc-440fp.tar.gz')
+> diff --git a/tests/avocado/ppc_mpc8544ds.py b/tests/avocado/ppc_mpc8544ds.py
+> index 886f967b15..12efb52ea7 100644
+> --- a/tests/avocado/ppc_mpc8544ds.py
+> +++ b/tests/avocado/ppc_mpc8544ds.py
+> @@ -19,6 +19,7 @@ def test_ppc_mpc8544ds(self):
+>           """
+>           :avocado: tags=arch:ppc
+>           :avocado: tags=machine:mpc8544ds
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+>                      '/2020/download/day17.tar.gz')
+> diff --git a/tests/avocado/ppc_prep_40p.py b/tests/avocado/ppc_prep_40p.py
+> index 4bd956584d..fde18ac42c 100644
+> --- a/tests/avocado/ppc_prep_40p.py
+> +++ b/tests/avocado/ppc_prep_40p.py
+> @@ -28,6 +28,7 @@ def test_factory_firmware_and_netbsd(self):
+>           :avocado: tags=machine:40p
+>           :avocado: tags=os:netbsd
+>           :avocado: tags=slowness:high
+> +        :avocado: tags=boots:bios
+>           """
+>           bios_url = ('http://ftpmirror.your.org/pub/misc/'
+>                       'ftp.software.ibm.com/rs6000/firmware/'
+> diff --git a/tests/avocado/ppc_pseries.py b/tests/avocado/ppc_pseries.py
+> index d8b04dc3ea..388dfe5487 100644
+> --- a/tests/avocado/ppc_pseries.py
+> +++ b/tests/avocado/ppc_pseries.py
+> @@ -19,6 +19,7 @@ def test_ppc64_pseries(self):
+>           """
+>           :avocado: tags=arch:ppc64
+>           :avocado: tags=machine:pseries
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+>                         '/fedora-secondary/releases/29/Everything/ppc64le/os'
+> diff --git a/tests/avocado/ppc_virtex_ml507.py b/tests/avocado/ppc_virtex_ml507.py
+> index a6912ee579..d9afe2cb83 100644
+> --- a/tests/avocado/ppc_virtex_ml507.py
+> +++ b/tests/avocado/ppc_virtex_ml507.py
+> @@ -19,6 +19,7 @@ def test_ppc_virtex_ml507(self):
+>           """
+>           :avocado: tags=arch:ppc
+>           :avocado: tags=machine:virtex-ml507
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+>                      '/2020/download/hippo.tar.gz')
+> diff --git a/tests/avocado/replay_kernel.py b/tests/avocado/replay_kernel.py
+> index 40f52b3913..368c6b41c8 100644
+> --- a/tests/avocado/replay_kernel.py
+> +++ b/tests/avocado/replay_kernel.py
+> @@ -82,6 +82,7 @@ def test_x86_64_pc(self):
+>           """
+>           :avocado: tags=arch:x86_64
+>           :avocado: tags=machine:pc
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>                         '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
+> @@ -99,6 +100,7 @@ def test_mips_malta(self):
+>           :avocado: tags=arch:mips
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:big
+> +        :avocado: tags=boots:kernel
+>           """
+>           deb_url = ('http://snapshot.debian.org/archive/debian/'
+>                      '20130217T032700Z/pool/main/l/linux-2.6/'
+> @@ -127,6 +129,7 @@ def test_mips64el_malta(self):
+>   
+>           :avocado: tags=arch:mips64el
+>           :avocado: tags=machine:malta
+> +        :avocado: tags=boots:kernel
+>           """
+>           deb_url = ('http://snapshot.debian.org/archive/debian/'
+>                      '20130217T032700Z/pool/main/l/linux-2.6/'
+> @@ -144,6 +147,7 @@ def test_aarch64_virt(self):
+>           :avocado: tags=arch:aarch64
+>           :avocado: tags=machine:virt
+>           :avocado: tags=cpu:cortex-a53
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>                         '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+> @@ -161,6 +165,7 @@ def test_arm_virt(self):
+>           """
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:virt
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>                         '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
+> @@ -179,6 +184,8 @@ def test_arm_cubieboard_initrd(self):
+>           """
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:cubieboard
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           deb_url = ('https://apt.armbian.com/pool/main/l/'
+>                      'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
+> @@ -210,6 +217,7 @@ def test_s390x_s390_ccw_virtio(self):
+>           """
+>           :avocado: tags=arch:s390x
+>           :avocado: tags=machine:s390-ccw-virtio
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+>                         '/fedora-secondary/releases/29/Everything/s390x/os/images'
+> @@ -225,6 +233,7 @@ def test_alpha_clipper(self):
+>           """
+>           :avocado: tags=arch:alpha
+>           :avocado: tags=machine:clipper
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('http://archive.debian.org/debian/dists/lenny/main/'
+>                         'installer-alpha/20090123lenny10/images/cdrom/vmlinuz')
+> @@ -242,6 +251,7 @@ def test_ppc64_pseries(self):
+>           """
+>           :avocado: tags=arch:ppc64
+>           :avocado: tags=machine:pseries
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+>                         '/fedora-secondary/releases/29/Everything/ppc64le/os'
+> @@ -258,6 +268,7 @@ def test_m68k_q800(self):
+>           """
+>           :avocado: tags=arch:m68k
+>           :avocado: tags=machine:q800
+> +        :avocado: tags=boots:kernel
+>           """
+>           deb_url = ('https://snapshot.debian.org/archive/debian-ports'
+>                      '/20191021T083923Z/pool-m68k/main'
+> @@ -289,6 +300,7 @@ def test_arm_vexpressa9(self):
+>           """
+>           :avocado: tags=arch:arm
+>           :avocado: tags=machine:vexpress-a9
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = '32b7677ce8b6f1471fb0059865f451169934245b'
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> @@ -302,6 +314,7 @@ def test_m68k_mcf5208evb(self):
+>           """
+>           :avocado: tags=arch:m68k
+>           :avocado: tags=machine:mcf5208evb
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> @@ -314,6 +327,7 @@ def test_microblaze_s3adsp1800(self):
+>           """
+>           :avocado: tags=arch:microblaze
+>           :avocado: tags=machine:petalogix-s3adsp1800
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> @@ -326,6 +340,7 @@ def test_ppc64_e500(self):
+>           :avocado: tags=arch:ppc64
+>           :avocado: tags=machine:ppce500
+>           :avocado: tags=cpu:e5500
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> @@ -337,6 +352,7 @@ def test_or1k_sim(self):
+>           """
+>           :avocado: tags=arch:or1k
+>           :avocado: tags=machine:or1k-sim
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = '20334cdaf386108c530ff0badaecc955693027dd'
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> @@ -348,6 +364,7 @@ def test_nios2_10m50(self):
+>           """
+>           :avocado: tags=arch:nios2
+>           :avocado: tags=machine:10m50-ghrd
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'e4251141726c412ac0407c5a6bceefbbff018918'
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> @@ -359,6 +376,7 @@ def test_ppc_g3beige(self):
+>           """
+>           :avocado: tags=arch:ppc
+>           :avocado: tags=machine:g3beige
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> @@ -371,6 +389,7 @@ def test_ppc_mac99(self):
+>           """
+>           :avocado: tags=arch:ppc
+>           :avocado: tags=machine:mac99
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> @@ -383,6 +402,7 @@ def test_sparc_ss20(self):
+>           """
+>           :avocado: tags=arch:sparc
+>           :avocado: tags=machine:SS-20
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = 'b18550d5d61c7615d989a06edace051017726a9f'
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> @@ -395,6 +415,7 @@ def test_xtensa_lx60(self):
+>           :avocado: tags=arch:xtensa
+>           :avocado: tags=machine:lx60
+>           :avocado: tags=cpu:dc233c
+> +        :avocado: tags=boots:kernel
+>           """
+>           tar_hash = '49e88d9933742f0164b60839886c9739cb7a0d34'
+>           tar_url = ('https://www.qemu-advent-calendar.org'
+> @@ -415,6 +436,8 @@ def test_mips_malta_cpio(self):
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:big
+>           :avocado: tags=slowness:high
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           deb_url = ('http://snapshot.debian.org/archive/debian/'
+>                      '20160601T041800Z/pool/main/l/linux/'
+> @@ -446,6 +469,8 @@ def test_mips64el_malta_5KEc_cpio(self):
+>           :avocado: tags=endian:little
+>           :avocado: tags=slowness:high
+>           :avocado: tags=cpu:5KEc
+> +        :avocado: tags=boots:kernel
+> +        :avocado: tags=boots:initrd
+>           """
+>           kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
+>                         'raw/9ad2df38/mips/malta/mips64el/'
+> @@ -486,6 +511,7 @@ def test_mips_malta32el_nanomips_4k(self):
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:little
+>           :avocado: tags=cpu:I7200
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+>                         'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+> @@ -500,6 +526,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:little
+>           :avocado: tags=cpu:I7200
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+>                         'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+> @@ -514,6 +541,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
+>           :avocado: tags=machine:malta
+>           :avocado: tags=endian:little
+>           :avocado: tags=cpu:I7200
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+>                         'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+> diff --git a/tests/avocado/replay_linux.py b/tests/avocado/replay_linux.py
+> index b56eeccfdd..b2c02c07f6 100644
+> --- a/tests/avocado/replay_linux.py
+> +++ b/tests/avocado/replay_linux.py
+> @@ -98,6 +98,7 @@ class ReplayLinuxX8664(ReplayLinux):
+>       """
+>       :avocado: tags=arch:x86_64
+>       :avocado: tags=accel:tcg
+> +    :avocado: tags=boots:distro
+>       """
+>   
+>       chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
+> diff --git a/tests/avocado/reverse_debugging.py b/tests/avocado/reverse_debugging.py
+> index 2cb39f3e59..f198173bf7 100644
+> --- a/tests/avocado/reverse_debugging.py
+> +++ b/tests/avocado/reverse_debugging.py
+> @@ -198,6 +198,7 @@ def test_aarch64_virt(self):
+>           :avocado: tags=arch:aarch64
+>           :avocado: tags=machine:virt
+>           :avocado: tags=cpu:cortex-a53
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>                         '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+> diff --git a/tests/avocado/smmu.py b/tests/avocado/smmu.py
+> index b3c4de6bf4..dcc7402beb 100644
+> --- a/tests/avocado/smmu.py
+> +++ b/tests/avocado/smmu.py
+> @@ -19,6 +19,7 @@ class SMMU(LinuxTest):
+>       :avocado: tags=cpu:host
+>       :avocado: tags=arch:aarch64
+>       :avocado: tags=machine:virt
+> +    :avocado: tags=boots:distro
+>       :avocado: tags=distro:fedora
+>       :avocado: tags=smmu
+>       """
+> diff --git a/tests/avocado/tcg_plugins.py b/tests/avocado/tcg_plugins.py
+> index 642d2e49e3..296e663152 100644
+> --- a/tests/avocado/tcg_plugins.py
+> +++ b/tests/avocado/tcg_plugins.py
+> @@ -69,6 +69,7 @@ def test_aarch64_virt_insn(self):
+>           :avocado: tags=arch:aarch64
+>           :avocado: tags=machine:virt
+>           :avocado: tags=cpu:cortex-a53
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_path = self._grab_aarch64_kernel()
+>           kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+> @@ -95,6 +96,7 @@ def test_aarch64_virt_insn_icount(self):
+>           :avocado: tags=arch:aarch64
+>           :avocado: tags=machine:virt
+>           :avocado: tags=cpu:cortex-a53
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_path = self._grab_aarch64_kernel()
+>           kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+> @@ -121,6 +123,7 @@ def test_aarch64_virt_mem_icount(self):
+>           :avocado: tags=arch:aarch64
+>           :avocado: tags=machine:virt
+>           :avocado: tags=cpu:cortex-a53
+> +        :avocado: tags=boots:kernel
+>           """
+>           kernel_path = self._grab_aarch64_kernel()
+>           kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+> diff --git a/tests/avocado/virtio-gpu.py b/tests/avocado/virtio-gpu.py
+> index 2a249a3a2c..e91efac8ea 100644
+> --- a/tests/avocado/virtio-gpu.py
+> +++ b/tests/avocado/virtio-gpu.py
+> @@ -32,6 +32,8 @@ class VirtioGPUx86(QemuSystemTest):
+>       :avocado: tags=virtio-gpu
+>       :avocado: tags=arch:x86_64
+>       :avocado: tags=cpu:host
+> +    :avocado: tags=boots:kernel
+> +    :avocado: tags=boots:initrd
+>       """
+>   
+>       KERNEL_COMMAND_LINE = "printk.time=0 console=ttyS0 rdinit=/bin/bash"
+> diff --git a/tests/avocado/virtiofs_submounts.py b/tests/avocado/virtiofs_submounts.py
+> index d9c2c9d9ef..3848f351fb 100644
+> --- a/tests/avocado/virtiofs_submounts.py
+> +++ b/tests/avocado/virtiofs_submounts.py
+> @@ -16,6 +16,7 @@ class VirtiofsSubmountsTest(LinuxTest):
+>       """
+>       :avocado: tags=arch:x86_64
+>       :avocado: tags=accel:kvm
+> +    :avocado: tags=boots:distro
+>       """
+>   
+>       def run(self, args, ignore_error=False):
 
-I am running qemu on an arm64 CentOS host. Inside a ubuntu VM, a process ru=
-ns a timer created using timer_t:
-ev.sigev_notify_function =3D m_callback;
-...
-timer_create(CLOCK_MONOTONIC, &ev, &m_timer_t);
-
-This timer sometimes has significant delays. For example, the 50 ms timer c=
-an have a callback delay of 100ms.
-
-I did a host kernel trace and see a lot of WFx kvm_exits, and  the followin=
-g events between kvm_exit and kvm_entry:
-kvm_exit
-kvm_wfx_arm64
-kvm_get_timer_map
-sched_switch
-kvm_timer_save_state
-kvm_timer_update_irq
-vgic_update_irq_pending
-kvm_timer_restore_state
-kvm_vcpu_wakeup
-kvm_arm_setup_debug
-kvm_arm_set_dreg32
-kvm_entry
-
-I have the following questions:
-
-1.       Why there are a lot WFx exits? Is the timer dependent on it?
-
-2.       Does this timer rely on kvm timer irq injection?
-
-3.       What can be any possible causes for the timer delay? Are there som=
-e locking mechanisms which can cause the delay?
-
-4.       What parameters can tune this timer?
-
-Thanks.
-
---_000_BYAPR12MB3192248D73D9C8AF64076A62D9019BYAPR12MB3192namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"\@DengXian";
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
-	{mso-style-priority:34;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:0in;
-	margin-left:.5in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:1164781690;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-1218272158 67698703 67698713 67698715 67698703 6769=
-8713 67698715 67698703 67698713 67698715;}
-@list l0:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l0:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l0:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I am running qemu on an arm64 CentOS host. Inside a =
-ubuntu VM, a process runs a timer created using timer_t:<o:p></o:p></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;">ev.sigev_notify_function =3D m_c=
-allback;<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;">&#8230;<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;">timer_create(CLOCK_MONOTONIC, &a=
-mp;ev, &amp;m_timer_t);<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">This timer sometimes has significant delays. For exa=
-mple, the 50 ms timer can have a callback delay of 100ms.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I did a host kernel trace and see a lot of WFx kvm_e=
-xits, and &nbsp;the following events between kvm_exit and kvm_entry:<o:p></=
-o:p></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">kvm_exit<o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">kvm_wfx_arm64<o:p></=
-o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">kvm_get_timer_map<o:=
-p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">sched_switch<o:p></o=
-:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">kvm_timer_save_state=
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">kvm_timer_update_irq=
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">vgic_update_irq_pend=
-ing<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">kvm_timer_restore_st=
-ate<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">kvm_vcpu_wakeup<o:p>=
-</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">kvm_arm_setup_debug<=
-o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">kvm_arm_set_dreg32<o=
-:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-size:=
-9.0pt;font-family:&quot;Courier New&quot;;color:black">kvm_entry<o:p></o:p>=
-</span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Co=
-urier New&quot;;color:black"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal">I have the following questions:<o:p></o:p></p>
-<p class=3D"MsoListParagraph" style=3D"text-indent:-.25in;mso-list:l0 level=
-1 lfo1"><![if !supportLists]><span style=3D"mso-list:Ignore">1.<span style=
-=3D"font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;
-</span></span><![endif]>Why there are a lot WFx exits? Is the timer depende=
-nt on it?<o:p></o:p></p>
-<p class=3D"MsoListParagraph" style=3D"text-indent:-.25in;mso-list:l0 level=
-1 lfo1"><![if !supportLists]><span style=3D"mso-list:Ignore">2.<span style=
-=3D"font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;
-</span></span><![endif]>Does this timer rely on kvm timer irq injection?<o:=
-p></o:p></p>
-<p class=3D"MsoListParagraph" style=3D"text-indent:-.25in;mso-list:l0 level=
-1 lfo1"><![if !supportLists]><span style=3D"mso-list:Ignore">3.<span style=
-=3D"font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;
-</span></span><![endif]>What can be any possible causes for the timer delay=
-? Are there some locking mechanisms which can cause the delay?<o:p></o:p></=
-p>
-<p class=3D"MsoListParagraph" style=3D"text-indent:-.25in;mso-list:l0 level=
-1 lfo1"><![if !supportLists]><span style=3D"mso-list:Ignore">4.<span style=
-=3D"font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;
-</span></span><![endif]>What parameters can tune this timer?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks.<o:p></o:p></p>
-</div>
-</body>
-</html>
-
---_000_BYAPR12MB3192248D73D9C8AF64076A62D9019BYAPR12MB3192namp_--
 
