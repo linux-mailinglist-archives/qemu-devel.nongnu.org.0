@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4794C7793
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 19:24:05 +0100 (CET)
-Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE81F4C77A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 19:25:53 +0100 (CET)
+Received: from localhost ([::1]:58478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOkgm-0004ur-Lf
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 13:24:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48472)
+	id 1nOkiW-0001BK-SS
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 13:25:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOkWi-00047C-Fg; Mon, 28 Feb 2022 13:13:40 -0500
-Received: from [2607:f8b0:4864:20::534] (port=33736
- helo=mail-pg1-x534.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nOkZg-00023D-3c
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 13:16:44 -0500
+Received: from [2607:f8b0:4864:20::42d] (port=46797
+ helo=mail-pf1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOkWh-0006lY-0W; Mon, 28 Feb 2022 13:13:40 -0500
-Received: by mail-pg1-x534.google.com with SMTP id 12so12276457pgd.0;
- Mon, 28 Feb 2022 10:13:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nOkZe-0007Nx-IM
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 13:16:43 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id s11so1378236pfu.13
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 10:16:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=rw5147ORwxXGRACCFyL08N7frWJP++/ZzM2vVxllktU=;
- b=RzNnwPAVFE7Ets/2EVBMBjr1rtiB+XaV01IjKrHEAhz/hL1zhfONncZ3IDMMCIMco8
- OfWKWhZImJawrirq4P9duVIqzM/HG+CXNouy40fX1oYKvdFmubcgWa7dBOMowxu6i219
- wrc7VUnQMCOZ/j9MNd1x8UV47mG1dqSFZUqWdleYE4qZgMncudnxNS0s8Yo5eY3hqRh4
- Rcg6EN7YbNz6YWL6Q+QFNoouJUQntfFX4T+fDLpsAQT+hjr488py0tZ0kXE53Da973CO
- LPDhHTpod5dypWHEGZq1IcxE0njLl72Y2mopH8COQ6IDjZmfJxipYVoe7Z0A4Hsb5zft
- 6yRw==
+ bh=lHb8c6LRbXXl25tHeKYdiH5QYvEN0XowB0OR5dnP3eQ=;
+ b=YGMK3lvDQYwbASKX7k7PK2/Han+H5JaaJWb+td+mIOhlfeiLcUj/vbIf1O6qbjJiQo
+ SU0MiPLOqBatfoBoLm6em5+zToF3uIdFKm+MRDWiNFMqI/MC7pWlixGscRWyEYADnv2L
+ IUzZdfT3xuqx+vFcEMM9Gxoa1X2ZMeIQdruSIZG1m7IOa92YWxDGS5MV/scuRRKSFHos
+ 0XxNsSO+jt873uozZFHLIltFiLE3sNNWcVQ3eKepZShkGpM7ok+WQeQ4TI1K6icYfPji
+ 2gkNBINY7gImn5rDyO9YzFl9zlg8wE7IUsREBFjsuAFtKjxvY+ZCxkAepYu1SjP6zxil
+ vR7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rw5147ORwxXGRACCFyL08N7frWJP++/ZzM2vVxllktU=;
- b=ptMh0Yl1zXldCneN135ZkkY6x/1zpIU7jFrFsFOcXhdgK7ptcaRvT6RFF6V59ZmMDx
- KvEhOqa4/zOsQLVvBj25n0jVzk1aLjzkrvpi5nj9nx8GoPMV8+6cv9jnFWeE0/Peufds
- TSns0TbMK4oij3ZskOkH3q7C2An4hbvf9keOcB5N5SjQq6sbobQpQobk9vr6EJagUILF
- 9O6c4u4ZtDtRLRDHUyIfGrPbeRiJy4MQVfT60zluxr5Bv1g93+I58CJFAdjzX5/J2H9c
- y+ixRcvbqL8xYno25S8NpZc+5xn7Z5J7ex8CKoOD+F51XX4eU3+VlGVgD4rkLCt3Zr2H
- qgFw==
-X-Gm-Message-State: AOAM530yny5U9W8U8Ww1KYTnFWtrfkvxTmhCn1uxp1iDVDhgHiU8Bplg
- FFYvh6MZ6k3/thG0jqOBsVnYcrTeMDI=
-X-Google-Smtp-Source: ABdhPJyIgUWxKZCJvFiI0wR7gtN3jkO25tEiUoqM6mmblSu70aBGKDasqGzVkNhQCIfhEDSPit0p4w==
-X-Received: by 2002:a63:2a43:0:b0:376:4b9:f7e0 with SMTP id
- q64-20020a632a43000000b0037604b9f7e0mr16022239pgq.437.1646072017239; 
- Mon, 28 Feb 2022 10:13:37 -0800 (PST)
-Received: from [192.168.74.175] (133.red-95-127-186.staticip.rima-tde.net.
- [95.127.186.133]) by smtp.gmail.com with ESMTPSA id
- m6-20020a62f206000000b004e152bc0527sm14102142pfh.153.2022.02.28.10.13.35
+ bh=lHb8c6LRbXXl25tHeKYdiH5QYvEN0XowB0OR5dnP3eQ=;
+ b=VoUP2YoIK80+tOgL2dPWhhI3KeZ/vu+iOfyHuTwu4zbL+uNT0O0T+kfsBumRqSzj+0
+ OcIxI+bzIPpTxsu7Jb1qyQ0NR4WoeIzatDsl0aefvM4PcJP9jC90Wbj4RClwf3uGIQAU
+ O9w/jTiCQQAwSdc+1GG4JKMbptS8Md+lwQTXMdpgIErRSeWy70zJPUMNDVlmzpnwK+67
+ HqJtcP1tUEv67XPzyWtoY9RPy2X7U/pPT+odrF/NjQxqlp5B2QZEtFlL2Dq9YqDw9hDx
+ rSydnnhd6ngSB9FA/zjJGmNV6Ku7agDeGtnkccINctm7rRL2BefNi7uB8gjV2IYaf6yv
+ OZLA==
+X-Gm-Message-State: AOAM531yjEJehqXyUVpBRHMaJ5w0LyVwhu0o2MsPwq+zMTzFsfez9lLd
+ +TD4tIjHTrnm07DEXNzx8B2Hrg==
+X-Google-Smtp-Source: ABdhPJzF5eBgAUaYT2s9lu7b8ZbXL0sL6ES5zRIDNNZxAkgzV9ci/Rxi86mZyBna8uhZHkZIJKLMAA==
+X-Received: by 2002:a63:4425:0:b0:378:8512:559 with SMTP id
+ r37-20020a634425000000b0037885120559mr7326113pga.464.1646072201211; 
+ Mon, 28 Feb 2022 10:16:41 -0800 (PST)
+Received: from ?IPV6:2603:800c:1201:c600:483f:d486:138f:7868?
+ (2603-800c-1201-c600-483f-d486-138f-7868.res6.spectrum.com.
+ [2603:800c:1201:c600:483f:d486:138f:7868])
+ by smtp.gmail.com with ESMTPSA id
+ t1-20020a634441000000b00372cb183243sm10983999pgk.1.2022.02.28.10.16.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 10:13:36 -0800 (PST)
-Message-ID: <6493275b-4d4a-e825-d8df-4b758e9b33ec@gmail.com>
-Date: Mon, 28 Feb 2022 19:13:32 +0100
+ Mon, 28 Feb 2022 10:16:40 -0800 (PST)
+Message-ID: <3fa7cc33-995b-a6cc-0e95-ad70c2f9ec4e@linaro.org>
+Date: Mon, 28 Feb 2022 08:16:37 -1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 00/14] simple cleanups in spapr files
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 02/14] target/riscv: rvk: add support for zbkb extension
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20220228175004.8862-1-danielhb413@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220228175004.8862-1-danielhb413@gmail.com>
+To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220227142553.25815-1-liweiwei@iscas.ac.cn>
+ <20220227142553.25815-3-liweiwei@iscas.ac.cn>
+ <e6a2401d-5ce2-c2cb-7ee2-fefe99818533@linaro.org>
+ <68883535-a085-169a-044f-04349ad4cc9f@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <68883535-a085-169a-044f-04349ad4cc9f@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,39 +99,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, lustrew@foxmail.com,
+ luruibo2000@163.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/2/22 18:49, Daniel Henrique Barboza wrote:
-> Hi,
+On 2/27/22 17:02, Weiwei Li wrote:
+> Thanks for your comments.
 > 
-> These are some cleanups in spapr files I decided to make after seeing
-> Greg adding g_auto* in virtio-9p files.
-> 
-> I also took the opportunity to simplify the logic in some places where I
-> found it to be more complex than needed.
-> 
-> Aside from patch 02, no functional change was made in this series.
-> 
-> Daniel Henrique Barboza (14):
->    hw/ppc/spapr.c: use g_autofree in spapr_dt_chosen()
->    hw/ppc/spapr.c: fail early if no firmware found in machine_init()
->    hw/ppc/spapr_caps.c: use g_autofree in spapr_cap_set_string()
->    hw/ppc/spapr_caps.c: use g_autofree in spapr_cap_get_string()
->    hw/ppc/spapr_caps.c: use g_autofree in spapr_caps_add_properties()
->    hw/ppc/spapr_drc.c: use g_auto in spapr_dt_drc()
->    hw/ppc/spapr_drc.c: use g_autofree in drc_realize()
->    hw/ppc/spapr_drc.c: use g_autofree in drc_unrealize()
->    hw/ppc/spapr_drc.c: use g_autofree in spapr_dr_connector_new()
->    hw/ppc/spapr_drc.c: use g_autofree in spapr_drc_by_index()
->    hw/ppc/spapr_numa.c: simplify spapr_numa_write_assoc_lookup_arrays()
->    spapr_pci_nvlink2.c: use g_autofree in
->      spapr_phb_nvgpu_ram_populate_dt()
->    hw/ppc/spapr_rtas.c: use g_autofree in rtas_ibm_get_system_parameter()
->    hw/ppc/spapr_vio.c: use g_autofree in spapr_dt_vdevice()
+> 在 2022/2/28 上午2:47, Richard Henderson 写道:
+>> On 2/27/22 04:25, Weiwei Li wrote:
+>>> +static void gen_packh(TCGv ret, TCGv src1, TCGv src2)
+>>> +{
+>>> +    TCGv t = tcg_temp_new();
+>>> +
+>>> +    tcg_gen_ext8u_tl(t, src2);
+>>> +    tcg_gen_deposit_tl(ret, src1, t, 8, TARGET_LONG_BITS - 8);
+>>> +    tcg_temp_free(t);
+>>> +}
+>>> +
+>>> +static void gen_packw(TCGv ret, TCGv src1, TCGv src2)
+>>> +{
+>>> +    TCGv t = tcg_temp_new();
+>>> +
+>>> +    tcg_gen_ext16s_tl(t, src2);
+>>> +    tcg_gen_deposit_tl(ret, src1, t, 16, 48);
+>>> +    tcg_temp_free(t);
+>>> +}
+>>
+>> Missing TARGET_LONG_BITS here; would break on RV32.
+> packw is RV64-only instruction. Is it necessary to use TARGET_LONG_BITS here?
 
-Series:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Ah, I see.  So it's not buggy, as-is, but it certainly looks odd next to the previous, and 
+it wouldn't be buggy to use TARGET_LONG_BITS either.
 
+This points out that it would be a good idea to keep these generator functions next to the 
+trans function that uses them, for context.
+
+
+r~
 
