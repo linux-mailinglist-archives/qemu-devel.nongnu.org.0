@@ -2,76 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB1E4C65C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 10:37:27 +0100 (CET)
-Received: from localhost ([::1]:57736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D1764C65D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 10:42:44 +0100 (CET)
+Received: from localhost ([::1]:32974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOcT8-0002ZN-7m
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 04:37:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51118)
+	id 1nOcYE-00059L-BR
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 04:42:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nOcO4-00079Z-Fk
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:32:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59686)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1nOcVk-0004HS-8T
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:40:08 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nOcNz-0000rK-Cc
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:32:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646040718;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kyrehEW0OV+pKrtw95OvYaWAvLmmxHVz/S7qrXP3ttA=;
- b=Kntf3skvrW5Yi2q9iCLcpimPLmx3NME6Agvz5tHoOo5oOMJEq9zVqQwEIOH/WtdxR0D2xL
- I71KyFVv4b850gqCXAhUgW53ayAGtf/IJGItM8QdGSen2bovd1YcQN0KKfOHCbhVcbV2rX
- 9UuxtywU56EBJlK2Oz7aV3KSaE70tq4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-JSnKrbRjMu--lqu_RWDMxg-1; Mon, 28 Feb 2022 04:31:56 -0500
-X-MC-Unique: JSnKrbRjMu--lqu_RWDMxg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 506961854E21;
- Mon, 28 Feb 2022 09:31:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F0437519DE;
- Mon, 28 Feb 2022 09:31:49 +0000 (UTC)
-Date: Mon, 28 Feb 2022 09:31:47 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Dov Murik <dovmurik@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1nOcVi-0002D4-8A
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:40:07 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21S8i2jP027412; 
+ Mon, 28 Feb 2022 09:40:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=XiPL9MQP5llScqSXk7BGe+Q3nsSCHMxZ1bNta8sKPEE=;
+ b=QBnUwcpqZrRQz3Yp0T8QQTTOXSPHpniJDL+MXfOVuyDXQqMt13ltgVo4Wb+ehOY63BXV
+ xc8UTwPMKgM99snMQaca0DpYB5ibf7RCv4oSHujqTUCfWHQhkh+5ek5+V/JmOYzQNQVr
+ evBCjwlO1KTsuiVAEyodcrxWLyXcH/UQGXNKIEo93VljoK3AZDDIOBPtCL/8IjqvVTyl
+ ZzS8N1gdpGsMeZdwmV2830e3pKZ8W6yDSog3idPakt6jmMymW/I8hxtsKfYs6DuoRweE
+ NbES0MIvIzy8uK+VX24rvuDC5j3AUj9EbzeXX6fd9ELWG+u/kfNPf0EGRLX4vf+hy69/ HQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3egu53s86h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Feb 2022 09:40:01 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21S8jaIE002302;
+ Mon, 28 Feb 2022 09:40:01 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3egu53s85v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Feb 2022 09:40:01 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21S9XIsV008326;
+ Mon, 28 Feb 2022 09:40:00 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma01dal.us.ibm.com with ESMTP id 3efbu9yefm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Feb 2022 09:40:00 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 21S9dwuv33882622
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 28 Feb 2022 09:39:58 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 834EB7806A;
+ Mon, 28 Feb 2022 09:39:58 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2B6147806D;
+ Mon, 28 Feb 2022 09:39:56 +0000 (GMT)
+Received: from [9.148.12.169] (unknown [9.148.12.169])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 28 Feb 2022 09:39:55 +0000 (GMT)
+Message-ID: <982bd5bf-a3a8-f75c-73bd-2722f72cc476@linux.ibm.com>
+Date: Mon, 28 Feb 2022 11:39:55 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
 Subject: Re: [PATCH v3] qapi, target/i386/sev: Add cpu0-id to
  query-sev-capabilities
-Message-ID: <YhyWg1UaOPMIkODz@redhat.com>
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20220228093014.882288-1-dovmurik@linux.ibm.com>
-MIME-Version: 1.0
-In-Reply-To: <20220228093014.882288-1-dovmurik@linux.ibm.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ <YhyWg1UaOPMIkODz@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <YhyWg1UaOPMIkODz@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: c0rUXSNiQU6U_KLyahQyEJ6U2kWjZNMV
+X-Proofpoint-GUID: IiyxQnRImK0U7pUadtWl5-Bfx5IMhbcX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-02-28_03,2022-02-26_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ adultscore=0 suspectscore=0 malwarescore=0 mlxscore=0 clxscore=1015
+ impostorscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202280053
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,32 +115,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
  Brijesh Singh <brijesh.singh@amd.com>, Markus Armbruster <armbru@redhat.com>,
  James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
  Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 28, 2022 at 09:30:14AM +0000, Dov Murik wrote:
-> Add a new field 'cpu0-id' to the response of query-sev-capabilities QMP
-> command.  The value of the field is the base64-encoded unique ID of CPU0
-> (socket 0), which can be used to retrieve the signed CEK of the CPU from
-> AMD's Key Distribution Service (KDS).
+
+
+On 28/02/2022 11:31, Daniel P. Berrangé wrote:
+> On Mon, Feb 28, 2022 at 09:30:14AM +0000, Dov Murik wrote:
+>> Add a new field 'cpu0-id' to the response of query-sev-capabilities QMP
+>> command.  The value of the field is the base64-encoded unique ID of CPU0
+>> (socket 0), which can be used to retrieve the signed CEK of the CPU from
+>> AMD's Key Distribution Service (KDS).
+>>
+>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
 > 
-> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> 
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Thanks Daniel for reviewing.
 
+Next: libvirt patch to add this field to response of virNodeGetSEVInfo().
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-Dov
 
