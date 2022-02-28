@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A36B4C69FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 12:16:42 +0100 (CET)
-Received: from localhost ([::1]:60594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D784C6A8C
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 12:32:01 +0100 (CET)
+Received: from localhost ([::1]:45198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOe17-0006XA-Px
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 06:16:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51598)
+	id 1nOeG0-0007xF-MM
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 06:32:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nOdz3-0005hw-1V
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 06:14:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38598)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nOeAe-00046x-96
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 06:26:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nOdyz-000149-Hu
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 06:14:27 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nOeAX-00077q-OJ
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 06:26:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646046863;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x3uLmPMcXIAaO9mLQtiD653p40eRZex5GZ+o/osAa1o=;
- b=Lvy+16GWVASXzSBJjmbqAQtLtCqYIlAcaozmFrjdLZqwYr3qjPfdQGTK/qQN9yhWNkODtf
- gvNIcQJibiklRJ3Rsaoa6NYw36IqYjF5ZnLGjfHn80hvZzmaFPb3PoPFXrDRT1HfXQH+rg
- RoKsvL65wIyu2akrgNid2OxG13ll4qE=
+ s=mimecast20190719; t=1646047579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=v1CRg0OPxHxqMAgJXBCWt3VizN8zkqgfoGB3MDw+HBE=;
+ b=AqcB5vccqkgPxQ0mn6czNCR3PGk2PaPK7AD+oRPTPUzssosx25TunbpYf/5Z4zb5kmsVsU
+ 8VzR1TLmouu8QgrP6w6If3TzovyJBJOyshy6+wY4aXawnoH54qpKhoGTxvyRh1sk5jeG9m
+ gQ376Hi31KCxRIqrGrcsxI1XQ5tYhiw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-WK4SjbLiM1m-umK_Wr13eg-1; Mon, 28 Feb 2022 06:14:16 -0500
-X-MC-Unique: WK4SjbLiM1m-umK_Wr13eg-1
+ us-mta-417-KPresSQyMTCijY527vD7Vw-1; Mon, 28 Feb 2022 06:26:16 -0500
+X-MC-Unique: KPresSQyMTCijY527vD7Vw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B6D0814600;
- Mon, 28 Feb 2022 11:14:15 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 70CD87B6F2;
- Mon, 28 Feb 2022 11:14:07 +0000 (UTC)
-Date: Mon, 28 Feb 2022 11:14:04 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 6/8] char: move qemu_openpty_raw from util/ to char/
-Message-ID: <YhyufAWVPGSiDSQY@redhat.com>
-References: <20220222194008.610377-1-marcandre.lureau@redhat.com>
- <20220222194008.610377-7-marcandre.lureau@redhat.com>
- <CAJ+F1C+QOAcjAiAY=7jcYgjJTQ79PTUDBRoJ3fzyHha2Syw4tA@mail.gmail.com>
- <8d5b4245-56e7-8384-4104-33d3ab1adf42@redhat.com>
- <CAJ+F1CK5U1agzbDztrWBavmoiAfmwW3AHcWBKRwGh9f0LRan0A@mail.gmail.com>
- <YhySJepNwSuv/zP5@redhat.com>
- <CAFEAcA-MrYMhYDiwvAV8zgtFrbQTR6m5pOkwWuWOtX3fcrdNSQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E7085200;
+ Mon, 28 Feb 2022 11:26:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C42A7B6EF;
+ Mon, 28 Feb 2022 11:26:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C572221E6A00; Mon, 28 Feb 2022 12:26:13 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] QAPI patches patches for 2022-02-28
+Date: Mon, 28 Feb 2022 12:26:04 +0100
+Message-Id: <20220228112613.520040-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-MrYMhYDiwvAV8zgtFrbQTR6m5pOkwWuWOtX3fcrdNSQ@mail.gmail.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -89,50 +77,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 28, 2022 at 11:07:19AM +0000, Peter Maydell wrote:
-> On Mon, 28 Feb 2022 at 09:13, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > We only support the current major release, and thue previous major
-> > release for 2 years overlap. If we consider 11.x releases as major,
-> > then 11.3 went out of scope from QEMU's POV in Aug 2020, and thus
-> > we don't need to care about this code.
-> >
-> > More generally though, Solaris isn't even a platform we try to
-> > support at all is it ?
-> >
-> > We've never had any formal testing on it. Have we seen people filing
-> > bugs mentioning solaris in the last 5 years ? If QEMU works at all,
-> > I suspect it is merely by luck.
-> 
-> This last came up in June 2020:
-> https://lore.kernel.org/qemu-devel/CAEgYsbE7s5hD+5ARj_Xt1D0ALDPDQx7uvocd5zRF6P=EzwxTZQ@mail.gmail.com/
-> 
-> where somebody pointed out that illumos also doesn't (didn't?)
-> support openpty(). So we do have at least one or two people
-> who have tried to compile on Solaris and been enthusiastic
-> enough to post to the mailing list about it.
+The following changes since commit fa435db8ce1dff3b15e3f59a12f55f7b3a347b08:
 
-Ah yes, and we even updated the comment to say we're keeping this for
-Illumos, not for Solaris
+  Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-request' into staging (2022-02-24 12:48:14 +0000)
 
-  commit 9df8b20d1632d108da316134d4d86a00b4028803
-  Author: Thomas Huth <thuth@redhat.com>
-  Date:   Mon Jun 29 14:13:24 2020 +0200
+are available in the Git repository at:
 
-    configure / util: Auto-detect the availability of openpty()
+  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2022-02-28
 
+for you to fetch changes up to 1428502c8c0c0cfbb04212558144fef970042cf3:
 
-Regards,
-Daniel
+  qapi: Belatedly adjust limitations documentation (2022-02-28 11:39:35 +0100)
+
+----------------------------------------------------------------
+QAPI patches patches for 2022-02-28
+
+----------------------------------------------------------------
+Fabian Holler (1):
+      qapi/migration: Fix examples document wrong field name for arguments
+
+John Snow (1):
+      scripts/qapi: minor delinting
+
+Markus Armbruster (4):
+      keyval: Fix grammar comment to cover downstream prefix
+      qapi: Fix stale reference to scripts/qapi.py in a comment
+      rtc: Have event RTC_CHANGE identify the RTC by QOM path
+      qapi: Belatedly adjust limitations documentation
+
+Peter Maydell (3):
+      qapi: Move RTC_CHANGE back out of target schema
+      qapi: Document some missing details of RTC_CHANGE event
+      hw/rtc: Compile pl031 once-only
+
+ qapi/compat.json         |  2 +-
+ qapi/migration.json      | 10 +++++-----
+ qapi/misc-target.json    | 33 ---------------------------------
+ qapi/misc.json           | 26 ++++++++++++++++++++++++++
+ hw/ppc/spapr_rtc.c       |  6 ++++--
+ hw/rtc/mc146818rtc.c     |  5 +++--
+ hw/rtc/pl031.c           |  5 +++--
+ qapi/qapi-util.c         |  2 +-
+ util/keyval.c            |  4 +++-
+ hw/rtc/meson.build       |  2 +-
+ scripts/qapi/commands.py |  2 +-
+ scripts/qapi/pylintrc    | 16 ++++++----------
+ scripts/qapi/types.py    |  6 +++++-
+ scripts/qapi/visit.py    |  6 +++++-
+ 14 files changed, 64 insertions(+), 61 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.35.1
 
 
