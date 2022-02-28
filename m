@@ -2,35 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A42B4C6F1B
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 15:15:48 +0100 (CET)
-Received: from localhost ([::1]:43162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7314C6F1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 15:16:05 +0100 (CET)
+Received: from localhost ([::1]:43838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOgoU-0003d8-Qu
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 09:15:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47806)
+	id 1nOgol-00044a-Rq
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 09:16:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nOZn6-0001Yd-B4; Mon, 28 Feb 2022 01:45:52 -0500
-Received: from mail-b.sr.ht ([173.195.146.151]:58198)
+ id 1nOZn6-0001Ye-Ks; Mon, 28 Feb 2022 01:45:52 -0500
+Received: from mail-b.sr.ht ([173.195.146.151]:58200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nOZn2-0003IO-LJ; Mon, 28 Feb 2022 01:45:51 -0500
+ id 1nOZn2-0003IP-Lm; Mon, 28 Feb 2022 01:45:51 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 1120D11EF38;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 37CDE11EF41;
  Mon, 28 Feb 2022 06:45:46 +0000 (UTC)
 From: ~ubzeme <ubzeme@git.sr.ht>
-Date: Mon, 28 Feb 2022 09:12:14 +0800
-Subject: [PATCH qemu 3/7] hvf: use correct data types for addresses in memory
- related functions
-Message-ID: <164603074537.20094.1732342403585879912-3@git.sr.ht>
+Date: Mon, 28 Feb 2022 09:15:36 +0800
+Subject: [PATCH qemu 4/7] hvf: rename struct hvf_slot to HVFSlot
+Message-ID: <164603074537.20094.1732342403585879912-4@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <164603074537.20094.1732342403585879912-0@git.sr.ht>
 To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
  helo=mail-b.sr.ht
@@ -62,54 +61,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yan-Jie Wang <ubzeme@gmail.com>
 
-Follow the QEMU coding style. Use hwaddr for guest physical address.
+Follow the QEMU coding style. Structured type names are in CamelCase.
 
 Signed-off-by: Yan-Jie Wang <ubzeme@gmail.com>
 ---
- accel/hvf/hvf-mem.c      | 2 +-
- include/sysemu/hvf_int.h | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ accel/hvf/hvf-mem.c      | 14 +++++++-------
+ include/sysemu/hvf_int.h |  8 ++++----
+ target/i386/hvf/hvf.c    |  4 ++--
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/accel/hvf/hvf-mem.c b/accel/hvf/hvf-mem.c
-index c60303c84e..e8cd6b9251 100644
+index e8cd6b9251..36ae1abc06 100644
 --- a/accel/hvf/hvf-mem.c
 +++ b/accel/hvf/hvf-mem.c
-@@ -32,7 +32,7 @@
- 
- static hvf_slot memslots[HVF_NUM_SLOTS];
- 
--hvf_slot *hvf_find_overlap_slot(uint64_t start, uint64_t size)
-+hvf_slot *hvf_find_overlap_slot(hwaddr start, hwaddr size)
+@@ -30,11 +30,11 @@
+=20
+ #define HVF_NUM_SLOTS 32
+=20
+-static hvf_slot memslots[HVF_NUM_SLOTS];
++static HVFSlot memslots[HVF_NUM_SLOTS];
+=20
+-hvf_slot *hvf_find_overlap_slot(hwaddr start, hwaddr size)
++HVFSlot *hvf_find_overlap_slot(hwaddr start, hwaddr size)
  {
-     hvf_slot *slot;
+-    hvf_slot *slot;
++    HVFSlot *slot;
      int x;
+     for (x =3D 0; x < HVF_NUM_SLOTS; ++x) {
+         slot =3D &memslots[x];
+@@ -46,9 +46,9 @@ hvf_slot *hvf_find_overlap_slot(hwaddr start, hwaddr size)
+     return NULL;
+ }
+=20
+-static hvf_slot *hvf_find_free_slot(void)
++static HVFSlot *hvf_find_free_slot(void)
+ {
+-    hvf_slot *slot;
++    HVFSlot *slot;
+     int x;
+     for (x =3D 0; x < HVF_NUM_SLOTS; x++) {
+         slot =3D &memslots[x];
+@@ -91,7 +91,7 @@ static hwaddr hvf_align_section(MemoryRegionSection *sectio=
+n,
+=20
+ static void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+ {
+-    hvf_slot *slot;
++    HVFSlot *slot;
+     hwaddr start, size, offset, delta;
+     uint8_t *host_addr;
+     MemoryRegion *area =3D section->mr;
+@@ -172,7 +172,7 @@ static void hvf_set_phys_mem(MemoryRegionSection *section=
+, bool add)
+=20
+ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
+ {
+-    hvf_slot *slot;
++    HVFSlot *slot;
+=20
+     slot =3D hvf_find_overlap_slot(
+             section->offset_within_address_space,
 diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
-index 8ee31a16ac..2c4a97debe 100644
+index 2c4a97debe..0aafbc9357 100644
 --- a/include/sysemu/hvf_int.h
 +++ b/include/sysemu/hvf_int.h
-@@ -22,9 +22,9 @@
+@@ -17,17 +17,17 @@
+ #include <Hypervisor/hv.h>
+ #endif
+=20
+-/* hvf_slot flags */
++/* HVFSlot flags */
+ #define HVF_SLOT_LOG (1 << 0)
  #define HVF_SLOT_READONLY (1 << 1)
- 
- typedef struct hvf_slot {
--    uint64_t start;
--    uint64_t size;  /* 0 if the slot is free */
--    uint64_t offset;  /* offset within memory region */
-+    hwaddr start;
-+    hwaddr size;  /* 0 if the slot is free */
-+    hwaddr offset;  /* offset within memory region */
+=20
+-typedef struct hvf_slot {
++typedef struct HVFSlot {
+     hwaddr start;
+     hwaddr size;  /* 0 if the slot is free */
+     hwaddr offset;  /* offset within memory region */
      uint32_t flags;
      MemoryRegion *region;
- } hvf_slot;
+-} hvf_slot;
++} HVFSlot;
+=20
+ typedef struct hvf_vcpu_caps {
+     uint64_t vmx_cap_pinbased;
 @@ -58,7 +58,7 @@ int hvf_arch_init(void);
  int hvf_arch_init_vcpu(CPUState *cpu);
  void hvf_arch_vcpu_destroy(CPUState *cpu);
  int hvf_vcpu_exec(CPUState *);
--hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
-+hvf_slot *hvf_find_overlap_slot(hwaddr, hwaddr);
+-hvf_slot *hvf_find_overlap_slot(hwaddr, hwaddr);
++HVFSlot *hvf_find_overlap_slot(hwaddr, hwaddr);
  int hvf_put_registers(CPUState *);
  int hvf_get_registers(CPUState *);
  void hvf_kick_vcpu_thread(CPUState *cpu);
--- 
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index 4ba6e82fab..2ddb4fc825 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -113,7 +113,7 @@ void hvf_handle_io(CPUArchState *env, uint16_t port, void=
+ *buffer,
+     }
+ }
+=20
+-static bool ept_emulation_fault(hvf_slot *slot, uint64_t gpa, uint64_t ept_q=
+ual)
++static bool ept_emulation_fault(HVFSlot *slot, uint64_t gpa, uint64_t ept_qu=
+al)
+ {
+     int read, write;
+=20
+@@ -469,7 +469,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+         /* Need to check if MMIO or unmapped fault */
+         case EXIT_REASON_EPT_FAULT:
+         {
+-            hvf_slot *slot;
++            HVFSlot *slot;
+             uint64_t gpa =3D rvmcs(cpu->hvf->fd, VMCS_GUEST_PHYSICAL_ADDRESS=
+);
+=20
+             if (((idtvec_info & VMCS_IDT_VEC_VALID) =3D=3D 0) &&
+--=20
 2.34.1
 
 
