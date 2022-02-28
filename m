@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B424C6B55
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 12:53:17 +0100 (CET)
-Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF8F44C6B56
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 12:53:30 +0100 (CET)
+Received: from localhost ([::1]:57158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOeaa-0002YH-VI
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 06:53:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58668)
+	id 1nOean-0003AA-Pt
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 06:53:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nOeNm-0002Eq-99; Mon, 28 Feb 2022 06:40:02 -0500
-Received: from [2a01:111:f400:fe02::714] (port=28447
+ id 1nOeNo-0002KV-44; Mon, 28 Feb 2022 06:40:04 -0500
+Received: from [2a01:111:f400:fe02::721] (port=57446
  helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nOeNk-0002NC-JB; Mon, 28 Feb 2022 06:40:01 -0500
+ id 1nOeNm-0002MY-CY; Mon, 28 Feb 2022 06:40:03 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IsgLPV7rhnXwXAGO3rrRqIAtboJylEcQBaE0ZLt0Xi9ot94KzmeZlltuqi2zhyVqEzoEkalvWlYYAF8Q1N8TN4VvjZiKfxRyNuRXl2DGTSK6uWwGMIzKXNDoinGszA5GR79yMxKYW3IpgQVGSvX0BIdFoM45b6n76i4ETStmTz/KrQkdog8rDxT0+v46ZIT/ZYTwYIMiI8IbgiFgb0r8zKtZShRqRaI2j5s2k6NdGY8iBrENboJfRUPD6wcKHC38JfmYk7Msr0KjWdyKGLC2DbdnGlB92udnefBDmf+3q7kkpfngJQQbKgTc9PZwJJlDUmkRVyODKKOhMqzrMVodCw==
+ b=heJzbB+mRSGAkiaPTvwCF1zL+VBqABwzy7E0euZ4KQia8196TAe3E7ntvbR6VoYtEVWq9HiDTMmsddnulPedqRKe2bh7VoYnIPqyB1qdm8dxqK5NgXedrX9GL/qiq4l1uADhHtAnPAw6AUHFslx4o7Ug3s/PWtAqHQGjSXduGVqWNec7YyKDXEVDuZqv3Ip5ZZ9i6JCwDGfEoKJ02t5QQPX3kYWd/hzDAnol/+caA294orgaFlmY79wWjwY7nlXdT3Lj+VE9cIXmIhMletI5kgLNBN9KzJB4qUmcBzQu7wBlNpOGFesgfIxTvniSE6PbH4/j2mRbCsto4Hp+U9PGMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZwcI7D71CBJ848rjRlKBiBn8VxIYRQiF2qTE9/or4IU=;
- b=JULzdapytfomco5L3KLyXLgFPyLTb96HBcngzt+qbsVlJjC3+EWNaRJ50jNwg4kJpPWD7Tyy+MD8QOhwz9+fjGaAGYxDID0zy7h6pqr8lglWgr4alXYvXx5xu4IFdzvL2kb7C7T/ydcH9b8s5srtOMPQIvnJKN4vaZW83dIF/2RVJwo9/iBcpx/mkkr0/g2zTuyKc4EV6zmgwDj3aP+JqVv6LqCI7f1uUd26r0n2U3D9U8AMepZqC4xFit8p9Z3fDLZdtBe1y0KYf0eHNPxSZU6NrTks2VGhgJeMjTawBdIkjkGOXb9mSZZukYfaLvyNKNIbN0iAS7WPZkBPdFnpJQ==
+ bh=HwtkRFZsupCHj5xg46xDbUv6v3iJOt4sHv5qvsVGsLU=;
+ b=JtdGXZTZCA55Otqpi8aIcXhU/xj7DtABBHugWYHl43pjc3NtOR/2LgwNfbnnOs8LIxL2+cp1SyctW85fCDGHXazDDA6wnLKnpU0Xo+gFE4Ecicdjnou1ft8gBm6ajCu7/i3kOUEbwLJ/remqRpRjKHDAAdtB2eyKrjvNJgxNg+0uFCSQJdAeHCslUx6B/WcjMUBqIBHK9J5jN6T+UPcp4sJPXDl4R/HBgZILPP3Zx4GNgBaG3Ailh1JN/269HyKHezuPDnvcEBIi3EouAl2NcXsVOY7tCLBUxSqz1OKtu2kncFT+isrPJobtiDy7Cj2X+3Gz/Apu74J6nIHgskQIIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZwcI7D71CBJ848rjRlKBiBn8VxIYRQiF2qTE9/or4IU=;
- b=k80KU00FXtXtAyxKejH37abjy8iey96xKi21wAwqXug9/IojrTF8x4OLxSN6H5377RPB/0lnHGAx1y1wDeqFHCImgZw7aB7jsrmYkIykl34HLAQcjus+iBZzlxWCULhExXSxU9AvdajMwcqei5VmiWjPcIXDRXaj5cIqJH3BbMU=
+ bh=HwtkRFZsupCHj5xg46xDbUv6v3iJOt4sHv5qvsVGsLU=;
+ b=dfB2NrXrQMq5sxRFK5vMIa/QoUrGGAMWa2FLBn4H2ysIgqV/wgbVqXW2XUz+I/FDEe+9LPkSG1zcODwbXeFV+Ltyjjb2QP7XJWVKHkzinvi0rLcJwxJ+wQ/l82HdWSgHogA+Srhdhple+ZPa7p76angDCSMgbbSAl/o3UaT1IdI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by VI1PR0802MB2272.eurprd08.prod.outlook.com (2603:10a6:800:9d::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Mon, 28 Feb
- 2022 11:39:51 +0000
+ 2022 11:39:53 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::49c:67e9:3e24:8714%3]) with mapi id 15.20.5017.027; Mon, 28 Feb 2022
- 11:39:51 +0000
+ 11:39:53 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, fam@euphon.net,
  stefanha@redhat.com, eblake@redhat.com, hreitz@redhat.com,
  kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  nikita.lapshin@virtuozzo.com
-Subject: [PATCH v5 08/16] block/dirty-bitmap: introduce
- bdrv_dirty_bitmap_status()
-Date: Mon, 28 Feb 2022 12:39:19 +0100
-Message-Id: <20220228113927.1852146-9-vsementsov@virtuozzo.com>
+Subject: [PATCH v5 09/16] block/reqlist: add reqlist_wait_all()
+Date: Mon, 28 Feb 2022 12:39:20 +0100
+Message-Id: <20220228113927.1852146-10-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220228113927.1852146-1-vsementsov@virtuozzo.com>
 References: <20220228113927.1852146-1-vsementsov@virtuozzo.com>
@@ -64,60 +63,60 @@ X-ClientProxiedBy: VI1PR09CA0135.eurprd09.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 095d741e-5bc4-4e2f-4d5c-08d9faaf0866
+X-MS-Office365-Filtering-Correlation-Id: 93d713d5-79f8-4cd1-a40e-08d9faaf08e4
 X-MS-TrafficTypeDiagnostic: VI1PR0802MB2272:EE_
-X-Microsoft-Antispam-PRVS: <VI1PR0802MB2272136CB0A94A13AF9A44A2C1019@VI1PR0802MB2272.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <VI1PR0802MB22725BEBF4362A8CB2BF0C7CC1019@VI1PR0802MB2272.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +RgocFW0285UvTeHGUyEbL+pJbw6KRgNT73Y+BZxoDLAIvbaq+QkUfg8W75NwL4ZK0bBeJqkmT45GAJwlbnsyuRbA/lfX7BE1o5WHY+oyheuiXrVQ5DF43uVk2yhbyLkpNK/3489dTTNFu+JLcglEwYfiy/cCtUhLCxpzzdSYX7tGnjHb3OYdNU11SSo5VbuSRw3wHJb0YT13wGBSO4+GpjVWI6DaBSINsJNq4rt2HSm2ZdrsDLI1pb5bNZbuTIgxyrbkYs4TwlMXciUqO7qkOnO2PojtsRulToMOvH0kM7vOjneM+IgPyRrGvWmdgXrENV5+VLg9aifYpHYf6H+dGxhpJg1/ZnHGoKMSpTAY+sqA2r17KowOB80ETlcbO96vCpX/SxQkzsXZ8kfoXEJnAG5C17xnb0oERyXQDvCrWsdAsKmKglwirY6o/+H1eC6JVMVSJ1Uv6yzDi0UzZWNPkk4lzIdheadDUnolduEBJkYCqoRxnEr+Zv4cop9SwrHAOYtG0s3JaDOqptIuXZ+Mimk13OqmoAf6NY/sFWgi3KGcfP4OxPB1zZZLBPe7IgpFonD7LJbY2tVxpGpqfDpyjibfU7gzCHn0WZxb33XQDPpPJjK5gSa6vWuXSXgmTgmoeBV41cvjMWPEwZ8ViVr7UKNzmidabrbL0tHHZKXtVnVm3HkGU/HCDAtzH6i1ue7izVVaQrsD/YqWNg5/ZVFogFiOi0eGW6Cf5/yuvi6N1s=
+X-Microsoft-Antispam-Message-Info: 0iAdgcytaN99XSRbfnCSz9hE+hLvH39FDUomewL9dh9rOfxbg+as/K7NXwzFwh8p8DE7F0H5BxkdZT3cOfpZmwCg2MpwX0PT05nDqHX4WyPcpvUsHlvOi3IHyI7ucRrI0SXUoa/c6xmrUTKiR5KAlfFiHV0Rx3MGXs3bTSyfns+Qaz9wG1iFDMYX8byei13wMX3/NdkR8OAvrglvD4DZfLNwvmZUUpKtYHFJX4iZXIyWLHLCn4yTfisUsOJOJsRTtZRJLrd8jb1I907k+6TWo48vWMBcipjXG2Ju6yWkMp/Bf4Q5rvaGN1jgXnupZlpFnXl7RYp3DBJpbNdU8dLpjwrGQ2es0oZOJMsCPyeWPgSXs0GGgG1NWE1ge9yDITn+mxxcovFBtMPh2i9la//cx9AvzdMmooYzIxgNnOY3a1QjtYzUnwUNEZsxhs2pk1gjmEk4LiFahcc0qUvsarkZishAucyNnGZwzzlb4i6RMTH94s3AvifowblFNslf4MNXTE6KPgT6ADIAzrzutdofnqOXWN/EBXnZ/wAWNrwydv6TltIWEhH8/AQwRLVPRPijqVGqNz5XulR+CV5dUlPwWFpnORW9sx4jrqzV6BG23cdBEMZoX83y2gCg3tpGY006n6LEqtg7JhSBf9u+V9wUV0mb82SenArKVYCsQ/cPNtois6Kn3JzK/IBOv0UKIeVJGeafSpNnH0jVoLhqoDR1ng==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(8936002)(4326008)(2906002)(66946007)(66556008)(66476007)(8676002)(86362001)(36756003)(38350700002)(38100700002)(316002)(83380400001)(1076003)(186003)(26005)(107886003)(6486002)(508600001)(6916009)(52116002)(6506007)(6512007)(6666004)(2616005)(14143004);
+ SFS:(13230001)(4636009)(366004)(5660300002)(8936002)(4326008)(2906002)(66946007)(66556008)(66476007)(8676002)(86362001)(36756003)(38350700002)(38100700002)(316002)(83380400001)(1076003)(186003)(26005)(107886003)(6486002)(508600001)(6916009)(52116002)(6506007)(6512007)(6666004)(2616005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ct+U/EziSe/eXXHkEUsvPtusyPPzmxiNSfE+uPzdpOey2RsA2rucehhtlPG0?=
- =?us-ascii?Q?t89mvdhbne17aB9vc+XN9MqWUqc944wJkuGVwgI8no9rRIfW7ec7eXl8szUG?=
- =?us-ascii?Q?GTtmOcOlo41uPTprGYBgTqZ2wEYuKLnN4CffY27LYMPqpNnFEpERkMUbVhhl?=
- =?us-ascii?Q?0shG01Ue/AScuz/aD63y1vfjfC+gE3ckj+uBmOGgmTBxTnu1UiZ9XEuYjo72?=
- =?us-ascii?Q?GhSpJD83hudlfmVCErqpgZo2mfEWWOvHDWpPy1LLaDt8yJbAPc1gr/4ATxUO?=
- =?us-ascii?Q?vFNfg1hPO4QFCDzhIJOlHm8uTr9JYX/KWEewiG+8rFSWN3ojJefWH0az5B7U?=
- =?us-ascii?Q?klvGtBeft3Efb4LiJ6aXSay9LW0tmsWx2yGHHZjhnzqC7SuIyQxTWsIQQHFv?=
- =?us-ascii?Q?dyWfsGXaY8JKX4zqdjRkLlDOO2lQg01GNCWYEyaQfnL+gAbz6+cwjPeNkGMJ?=
- =?us-ascii?Q?CZ13N5Ulmm3jvpAyRk16QFTSJ888lTHk2k+GdKJeIwz4g94SKXPu477vqha0?=
- =?us-ascii?Q?EDfbKBux5RNZpeyEZFHxbY4gY8S+RUyS7qADCc+AEmSxWfNSg4mS7BOro1CS?=
- =?us-ascii?Q?7kxK55NdOi0zwpuARdtfx+Ss1CHK4UqBSvSEbaWPxPhhubUFXQxRL0/NPUSC?=
- =?us-ascii?Q?wh2a4p5jT63iAdWBN0rPpGRv7xDM7zIabTestGPBlxjGWVKCnbaEt/crafj2?=
- =?us-ascii?Q?Ww9TYcOWrnXtgb87u4gDDrfPcQfj4EnwWdP4H/1wCk/YEYbh+Z4SXtvEcQ28?=
- =?us-ascii?Q?SrDh5u2hHqJOQrkmFPWnpIuMLsKPgAbIFNxVRCpFJPn835DgAmWnqPsj99AQ?=
- =?us-ascii?Q?Hm8vOAQeyv9Lf8/zUiLoOJhM4OGRXLvZNJ7gvSIeOEvZxzo9WeKrOQ17zYbT?=
- =?us-ascii?Q?2fuQGbtP/cdSHH8NHmzyaCJ4m7t/HMV8hxpFYpLOJ+mYXJMc9kXLZUC3R34u?=
- =?us-ascii?Q?gTUfl6RYCiijWmwUOcaGATyrBhUO1MaRhhF/iTOTl2/xk7TZaMe+2/NK3J4U?=
- =?us-ascii?Q?ifUlY4BS+ptDWK9104h6SWedgnJrw086a200ME6hNd16beiTCSwA+drwdIKh?=
- =?us-ascii?Q?RJbfZ9oIERNq4U7VOebJe46efer/N3SANyvFFb1+gehoW2MEkUfxugOPR6JM?=
- =?us-ascii?Q?uD/dsObD+r14/yf1dj8yH8iQJWJpHPYmaojIh4ONRaeTcvRTHB7FiDGNGLEk?=
- =?us-ascii?Q?4Z1BpfSsQo9yujo80NtdpfcBCPUJ6kVlyF1H8wGSu8Dj31+3wO8no/JutrqY?=
- =?us-ascii?Q?sb1RaJ5N6qiDhWO7s65EEe8a5OYZ2DcjxBm6XIX8RQdFGReT5HAz7jXBLYhR?=
- =?us-ascii?Q?pt/tSyuTvZvfUPkl9QibakRcL0gJIiSvh1ec+Z1tlA26exQW5/p8EPvMRo7P?=
- =?us-ascii?Q?2KUgc9UZMIGjcYUk9R2lNJ/FFXGpSFmqIOY80syzJBH+3l7TBlUGopTpndZv?=
- =?us-ascii?Q?+/gmri00qDBFEyQ+jJ7UcfErxsPWjnOW63W+UWkElEogBPN/QVMyqjpsYJ6q?=
- =?us-ascii?Q?kyhU+yEqz6yZcNJjAomkGMHMWYVECpfq77Cutv/n7fYt2cf6U4tgG7OcEFYi?=
- =?us-ascii?Q?VRFBTakiAQpaeqg+I960Yw/0X+Vfcft5O7vqnFl2TBNASXuB/LeXFsgKxoNA?=
- =?us-ascii?Q?wUUit7aLDCCw26MNsRTwhe1xySXglIIZ+vPlGVRc+c8Hi+I2coMRwljrebHR?=
- =?us-ascii?Q?64M2mA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LnezNUYFWhtvCmYRwv9PkNzexXVhxP+iGDOqZXb09nvuUVOpdXpgk4csJCa7?=
+ =?us-ascii?Q?0xvcOGGDVWFj44N1Oh46mZde4fKEG7Hd6f290nZ3yWL9J/tRT0T5JlFU8QQ7?=
+ =?us-ascii?Q?gE7EOmFpJpuhqglL0bhzrI+6yCHKpIfrLeeyfc9KRCJylgLMmCuPg30W2iJi?=
+ =?us-ascii?Q?J3YB7xhWaD45T9RyqZEmYTARzZb4vbvOhkelWNmDnw1SKU+yZwxCAC6TZYO8?=
+ =?us-ascii?Q?DFDnFLAvSRPlHCTXEYrnqwhybGI0ys4IoB/KviXJWJ5JFD0z+9tKwyojTd2L?=
+ =?us-ascii?Q?DAftB66yjPckxOWxMa2Hiz+7kJEr7QY8qNvffxSHFGdiB4qPm9hKVgA4hkYK?=
+ =?us-ascii?Q?ryslTor8UMJy0KjvKjYk+XSMby8RK7ChuKDAWcuSoeYWRkW9v3G7z73IAhHf?=
+ =?us-ascii?Q?oC6Q787bO4XfKfdPPCrsNW5YyXieIKMC9TB4uu0u8na9v7uYCFnMW9MdujIh?=
+ =?us-ascii?Q?wY50jSJouhVgggYmmCt/9U2wtrxKBGgBet4FuYUqno3/+GBpU9hQRKDlDmOW?=
+ =?us-ascii?Q?FnKhcdXEt75ucpZivk2YP4BuKpcpJmJl3uX48NKhefucwqCNFdu6Al74PLUp?=
+ =?us-ascii?Q?X/SFWoDAGKQi6jO3tK85OiGT38bmu+sUm9sA3wq8bucQ8besSkQELpRmiXNA?=
+ =?us-ascii?Q?vhsoyUkNzfPhbyDL6QNvXpPuMguxLXXmdba2osdhkRectjsIsH/DJo50PCAE?=
+ =?us-ascii?Q?khzgWh9ECrRmNmkYvahvFoP+foS51a2Jckfu8AYZYDXwmNTLYGUfA37nvsqP?=
+ =?us-ascii?Q?jqTCnCN2YdOsjBacsmeKFuItLz3jpRK5FTTqkPJXxSbhA+T2fo0IHZdSOvJs?=
+ =?us-ascii?Q?mywdvLXwgcEYO9WKukRKPXbHNx3OAvwCkkcqOV+eVHEMyLxjPxgbit3llxvY?=
+ =?us-ascii?Q?wT1lwA/UAyyAVERKvwAtVC1Hkh6xGvDJU0UppCAKaKWE3mv2Y/5zblL7xAoE?=
+ =?us-ascii?Q?YXvOte2+oGZXvXp0oarXWGghMUrc1eSP6DtkYU1GAo048fmIzZFW+mRxNcqS?=
+ =?us-ascii?Q?WB//VtR4CIYdlDjcc5SG1qH4qWG0x6EY0ldci2GjzQS6Cq0vTv27uBYpYUlu?=
+ =?us-ascii?Q?tDCJ0RkaewZlyDcmGUhg3tugdanC2cMg4m9CBJXCzOKS3P76PJ1X9T4nb9fH?=
+ =?us-ascii?Q?R80tZXqhxLq8ZdqwBjK5oHjjRmPow8trOCEoxCOsS8SQpx6FWsTYvz10xXTS?=
+ =?us-ascii?Q?ATLXufBOL1jTX/V+XGH9oYSBbRE1vWm85cgotYhVZETue6GLn09mXKTwTp6G?=
+ =?us-ascii?Q?m5/4oqfKATaadrUfcVnikN9i73oNDjytQTWqErv5SnViVKMqk482Ec3ZT7Cv?=
+ =?us-ascii?Q?bOVpuvyU47S+q+/BH58oG8G6fd2b0g4Zg4IlgEeDqhtv7Vj3a6L1E+Gixqxl?=
+ =?us-ascii?Q?cfZCN98QP3IauSVQzT2bN1bSdiUEng6uhZVIVeWO4lpoSgjyFzgifCTr5FB/?=
+ =?us-ascii?Q?BDlMTNXbVJkpItDf4Clgmqem/QghB101I1Q4/IE3vFI214GyIifhqKLxXYRN?=
+ =?us-ascii?Q?P5mLTjBTTJBtdhwDCadIgF9pBOsaZe28TusEbR0xv8twPGHhNEDPiyg2GKpn?=
+ =?us-ascii?Q?gJ/uxFEnT4B3NWE6P7cknQ0LPtVsmtoj3WV+mj2XB4yc784AHyH8YsJSFPBG?=
+ =?us-ascii?Q?RQnUx8wMlVNQiBNIFLOGJvf97JLivA0hithZbpFRWhKoVSN22B3ctB+KNF7A?=
+ =?us-ascii?Q?35DM3A=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 095d741e-5bc4-4e2f-4d5c-08d9faaf0866
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93d713d5-79f8-4cd1-a40e-08d9faaf08e4
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 11:39:51.7559 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 11:39:52.7102 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vKx0n1VMypi1LsOI4UbP/9/am0qJh94VERxnEnGA/L1A62+RHC1ltIabHPErxhhVS47u0vy9cPZm3jAj5N609Vd7YSrKXojfKIl3Ov2udNY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: qQYVxH+w4etiVkSK3wMlffz1MqrW+GLFAUDSvhIlGVBBynIpJcRJ1VrRH0E1+txwzTskMbzWZCCKWbxwwE9uiv8eHxXzoIxppCgEVxWuSro=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2272
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe02::714
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe02::721
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:fe02::714;
+Received-SPF: pass client-ip=2a01:111:f400:fe02::721;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR01-DB5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -6
@@ -142,115 +141,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a convenient function similar with bdrv_block_status() to get
-status of dirty bitmap.
+Add function to wait for all intersecting requests.
+To be used in the further commit.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- include/block/dirty-bitmap.h |  2 ++
- include/qemu/hbitmap.h       | 12 ++++++++++++
- block/dirty-bitmap.c         |  6 ++++++
- util/hbitmap.c               | 33 +++++++++++++++++++++++++++++++++
- 4 files changed, 53 insertions(+)
+ include/block/reqlist.h | 8 ++++++++
+ block/reqlist.c         | 8 ++++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index f95d350b70..6528336c4c 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -115,6 +115,8 @@ int64_t bdrv_dirty_bitmap_next_zero(BdrvDirtyBitmap *bitmap, int64_t offset,
- bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
-         int64_t start, int64_t end, int64_t max_dirty_count,
-         int64_t *dirty_start, int64_t *dirty_count);
-+bool bdrv_dirty_bitmap_status(BdrvDirtyBitmap *bitmap, int64_t offset,
-+                              int64_t bytes, int64_t *count);
- BdrvDirtyBitmap *bdrv_reclaim_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap,
-                                                   Error **errp);
- 
-diff --git a/include/qemu/hbitmap.h b/include/qemu/hbitmap.h
-index 5e71b6d6f7..5bd986aa44 100644
---- a/include/qemu/hbitmap.h
-+++ b/include/qemu/hbitmap.h
-@@ -340,6 +340,18 @@ bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t start, int64_t end,
-                              int64_t max_dirty_count,
-                              int64_t *dirty_start, int64_t *dirty_count);
+diff --git a/include/block/reqlist.h b/include/block/reqlist.h
+index 0fa1eef259..5253497bae 100644
+--- a/include/block/reqlist.h
++++ b/include/block/reqlist.h
+@@ -53,6 +53,14 @@ BlockReq *reqlist_find_conflict(BlockReqList *reqs, int64_t offset,
+ bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
+                                    int64_t bytes, CoMutex *lock);
  
 +/*
-+ * bdrv_dirty_bitmap_status:
-+ * @hb: The HBitmap to operate on
-+ * @start: The bit to start from
-+ * @count: Number of bits to proceed
-+ * @pnum: Out-parameter. How many bits has same value starting from @start
-+ *
-+ * Returns true if bitmap is dirty at @start, false otherwise.
++ * Wait for all intersecting requests. It just calls reqlist_wait_one() in a
++ * loop, caller is responsible to stop producing new requests in this region
++ * in parallel, otherwise reqlist_wait_all() may never return.
 + */
-+bool hbitmap_status(const HBitmap *hb, int64_t start, int64_t count,
-+                    int64_t *pnum);
++void coroutine_fn reqlist_wait_all(BlockReqList *reqs, int64_t offset,
++                                   int64_t bytes, CoMutex *lock);
 +
- /**
-  * hbitmap_iter_next:
-  * @hbi: HBitmapIter to operate on.
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 94a0276833..08d56845ad 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -875,6 +875,12 @@ bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
-                                    dirty_start, dirty_count);
- }
- 
-+bool bdrv_dirty_bitmap_status(BdrvDirtyBitmap *bitmap, int64_t offset,
-+                              int64_t bytes, int64_t *count)
-+{
-+    return hbitmap_status(bitmap->bitmap, offset, bytes, count);
-+}
-+
- /**
-  * bdrv_merge_dirty_bitmap: merge src into dest.
-  * Ensures permissions on bitmaps are reasonable; use for public API.
-diff --git a/util/hbitmap.c b/util/hbitmap.c
-index 305b894a63..dd0501d9a7 100644
---- a/util/hbitmap.c
-+++ b/util/hbitmap.c
-@@ -301,6 +301,39 @@ bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t start, int64_t end,
+ /*
+  * Shrink request and wake all waiting coroutines (maybe some of them are not
+  * intersecting with shrunk request).
+diff --git a/block/reqlist.c b/block/reqlist.c
+index 09fecbd48c..08cb57cfa4 100644
+--- a/block/reqlist.c
++++ b/block/reqlist.c
+@@ -58,6 +58,14 @@ bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
      return true;
  }
  
-+bool hbitmap_status(const HBitmap *hb, int64_t start, int64_t count,
-+                    int64_t *pnum)
++void coroutine_fn reqlist_wait_all(BlockReqList *reqs, int64_t offset,
++                                   int64_t bytes, CoMutex *lock)
 +{
-+    int64_t next_dirty, next_zero;
-+
-+    assert(start >= 0);
-+    assert(count > 0);
-+    assert(start + count <= hb->orig_size);
-+
-+    next_dirty = hbitmap_next_dirty(hb, start, count);
-+    if (next_dirty == -1) {
-+        *pnum = count;
-+        return false;
++    while (reqlist_wait_one(reqs, offset, bytes, lock)) {
++        /* continue */
 +    }
-+
-+    if (next_dirty > start) {
-+        *pnum = next_dirty - start;
-+        return false;
-+    }
-+
-+    assert(next_dirty == start);
-+
-+    next_zero = hbitmap_next_zero(hb, start, count);
-+    if (next_zero == -1) {
-+        *pnum = count;
-+        return true;
-+    }
-+
-+    assert(next_zero > start);
-+    *pnum = next_zero - start;
-+    return false;
 +}
 +
- bool hbitmap_empty(const HBitmap *hb)
+ void coroutine_fn reqlist_shrink_req(BlockReq *req, int64_t new_bytes)
  {
-     return hb->count == 0;
+     if (new_bytes == req->bytes) {
 -- 
 2.31.1
 
