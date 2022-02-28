@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A984C7E24
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 00:14:41 +0100 (CET)
-Received: from localhost ([::1]:56334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF9C4C7E29
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 00:15:55 +0100 (CET)
+Received: from localhost ([::1]:58338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOpE0-0006B2-3v
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 18:14:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57596)
+	id 1nOpFC-0007ak-1Q
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 18:15:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOpBG-0004mI-0p
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 18:11:50 -0500
-Received: from [2607:f8b0:4864:20::636] (port=35585
- helo=mail-pl1-x636.google.com)
+ id 1nOpC0-0005We-69
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 18:12:37 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=38573
+ helo=mail-pj1-x1034.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOpBE-0006G7-IV
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 18:11:49 -0500
-Received: by mail-pl1-x636.google.com with SMTP id i1so11998222plr.2
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 15:11:48 -0800 (PST)
+ id 1nOpBy-0006Ku-PZ
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 18:12:35 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ ge19-20020a17090b0e1300b001bcca16e2e7so511659pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 15:12:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=X960JhOB+xNNlDyiGEI3W4W2r84WehBPfi7PuMEl6fs=;
- b=WIReuTokY2a7zYGk6b/VdwQLHK83Opq+O+Rl+pKnRr30NoyxnjY4ornbqJy5sKABPW
- 2IxE9MY9HShgIQIO2yER56QdBGanDs1ZVOPudugIK/uIC2Ru5ZDGtMObQA19J4EXk5qm
- AiiQu3pc9OdmzU9p01AT31DKx+/3S8HFlmUlO3y/YymxFeT34TjlfMaESMbzAPsHb/1E
- Rb+SpaCc+k9CADVzA7GKdAbHwnL4b5ZV0CQesT1uqKEfky+qI32YPVpYo7AS8763/Tdd
- C4WnY5X4jz4rBw5ZPqYSopiCyySuffSvQrRVdAZLlNHbwYR74QASfTACi/ifRwPmnD/G
- tFOw==
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=v+CnBF2Oo8IophJS8C4FpsI2iALlCqY5kAv1EJksDIs=;
+ b=N6WHWW6adAYUZM/SceOyJve2YMeO5l0QoqSE4o5J4yO1NweEfCyKIYe7H2na7gGkP8
+ 73tE0SbhTgnODdfxosqxOhF3kaOoZwtQKQtvXaZiyZUP7MllB+dIt/N7nvTlyzhTAXI7
+ RnujTYVWH1RSYAIvUIoQ9tiAttrJU0IMvvwUuI8Eh/1cILj99A7MGFQnlu2swL6zLqJm
+ Gg7kVjYPGm7T1NiSuYadwasbqY7D548nZNbCp+cS4TBI/ac9ZQRTAc8rqUDJre6EhX2E
+ 7bzrrIJ4m+FKWbTZFnwhV7hIqmCxzYiPLRRs7VCHn0D17QOPpyuEpuFBEYpuQ7r6Tumq
+ +89w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=X960JhOB+xNNlDyiGEI3W4W2r84WehBPfi7PuMEl6fs=;
- b=ioF2oCgypmv1GQWA8LFn2gjPmPUfgFdUtjRDO/cVUjKh9n8SOXki/v5EZnOIUFKvWz
- RaUye6sqg4tu+4rfHs9Uuh7Cr7Z+LuUZkTNW+qEzMbPG8wZDxmmEbnv7uDDDtC/3NP+d
- DyQpjTpvU+FRzHf4ydDgademecRUG2n221kW7jLXvCBkgOYVEjaweZNMlBgcxoixaV5v
- lBcRUM6ru2zGBQzOlUKPxFtrJyDqg/w0xRMj1NjFeOBrLyWQBTy/5mAxuAX86CRWv8K+
- UvFaij/7JKaAgbpdLVy7FJ7miZq7zab3hMTGMjIT0141Li+lIulok5CqZko3d9f7gTCB
- m8xQ==
-X-Gm-Message-State: AOAM532X70Q+SwQZLAjijB9TJBoWDet/DZzHoGQTwVVMpCKwrMI1Ilv2
- VxdR+j+TxuabE8cZkvNCKgo=
-X-Google-Smtp-Source: ABdhPJwswwvVoM5K0PBaAimQQumaNARL3hPuSRwYSlpeUOwQq9OjKDWDxrae8L2suP67npWuHs3kvQ==
-X-Received: by 2002:a17:902:db0f:b0:151:5fbb:5f4b with SMTP id
- m15-20020a170902db0f00b001515fbb5f4bmr9325878plx.36.1646089907020; 
- Mon, 28 Feb 2022 15:11:47 -0800 (PST)
+ bh=v+CnBF2Oo8IophJS8C4FpsI2iALlCqY5kAv1EJksDIs=;
+ b=KOebFZ3djDcpx7RI4QAsfxQjEarck1YHNJxjL1uetHzE7AjTZePgO34nvF96wD2T+z
+ UfkSIDVggmCPiB/RCpzUhiXcept8CQ+ImSi7LQHwF3b/ArHYwo3qIDZncDeFOrK4VOyf
+ 4/yVdPYLsUL/Kf49INqMuwmAasjbqmOEOfz9tqKbI/zENRQJRVAL8B8IUED/oyYpSPWu
+ i/jshvBRNavnQjvpJIG0mEX/qN29dnE7Sd9DLsWxWwdtZ5d0//dd6cZqw2aITaab+m3o
+ Kf6qGhsDNkuHgTBzJa1IhV2wvDBBns/RXQ6v1VWdR3W363EQScOY+tYHJhRsbmkv3SjC
+ UOsA==
+X-Gm-Message-State: AOAM530e30kaC56BocmpCAz4hpj2BPcsUDkATawqePwiLcil8RDi/K58
+ /IvKVLK4cHaSRkPGDLQzal8gV6V/yLE=
+X-Google-Smtp-Source: ABdhPJz65RO89j0TBP7fQuoNH+Y889EmDQVv3WSA+Xxl76MA/U1IVaPVLj4FHVJoELGeQe1A9GPbaQ==
+X-Received: by 2002:a17:902:ed83:b0:14f:c969:7669 with SMTP id
+ e3-20020a170902ed8300b0014fc9697669mr23172423plj.96.1646089953498; 
+ Mon, 28 Feb 2022 15:12:33 -0800 (PST)
 Received: from [192.168.1.115] (133.red-95-127-186.staticip.rima-tde.net.
  [95.127.186.133]) by smtp.gmail.com with ESMTPSA id
- k22-20020aa788d6000000b004f1335c8889sm14782227pff.7.2022.02.28.15.11.44
+ k12-20020a056a00168c00b004e15818cda3sm15770201pfc.114.2022.02.28.15.12.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 15:11:46 -0800 (PST)
-Message-ID: <c1ffcf43-d4a9-4c56-a9c2-1cc09c5b6433@gmail.com>
-Date: Tue, 1 Mar 2022 00:11:42 +0100
+ Mon, 28 Feb 2022 15:12:33 -0800 (PST)
+Message-ID: <0aade174-de41-0e96-134e-4c924d05ac03@gmail.com>
+Date: Tue, 1 Mar 2022 00:12:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 02/10] macfb: don't use special irq_state and irq_mask
- variables in MacfbState
+Subject: Re: [PATCH v2 2/2] meson: fix CONFIG_ATOMIC128 check
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
- pbonzini@redhat.com, fam@euphon.net, qemu-devel@nongnu.org
-References: <20220228222527.8234-1-mark.cave-ayland@ilande.co.uk>
- <20220228222527.8234-3-mark.cave-ayland@ilande.co.uk>
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20220228200032.777433-1-marcandre.lureau@redhat.com>
+ <20220228200032.777433-2-marcandre.lureau@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220228222527.8234-3-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220228200032.777433-2-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,19 +95,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/2/22 23:25, Mark Cave-Ayland wrote:
-> The current IRQ state and IRQ mask are handled exactly the same as standard
-> register accesses, so store these values directly in the regs array rather
-> than having separate variables for them.
+On 28/2/22 21:00, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> The current testing code isn't correct and matching QEMU usage:
+> 
+> testfile.c: In function 'main':
+> testfile.c:5:11: error: incorrect number of arguments to function '__atomic_load'
+>      5 |       y = __atomic_load(&x, 0);
+>        |           ^~~~~~~~~~~~~
+> testfile.c:6:7: error: argument 2 of '__atomic_store' must be a pointer type
+>      6 |       __atomic_store(&x, y, 0);
+>        |       ^~~~~~~~~~~~~~
+> testfile.c:7:7: error: argument 3 of '__atomic_compare_exchange' must be a pointer type
+>      7 |       __atomic_compare_exchange(&x, &y, x, 0, 0, 0);
+>        |       ^~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Replace the test with common atomics test for u64 and u128 that matches
+> better QEMU needs.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   hw/display/macfb.c         | 15 +++++++--------
->   include/hw/display/macfb.h |  2 --
->   2 files changed, 7 insertions(+), 10 deletions(-)
+>   meson.build | 27 ++++++++++++---------------
+>   1 file changed, 12 insertions(+), 15 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
