@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352FB4C796D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 21:05:49 +0100 (CET)
-Received: from localhost ([::1]:38852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159D94C79DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 21:14:32 +0100 (CET)
+Received: from localhost ([::1]:41484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOmHE-0001nS-Av
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 15:05:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46238)
+	id 1nOmPe-0003zv-Ot
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 15:14:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1nOmFP-0008To-HI
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:03:55 -0500
-Received: from [2a00:1450:4864:20::132] (port=44971
- helo=mail-lf1-x132.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nOmN0-0003AT-To
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:11:47 -0500
+Received: from [2607:f8b0:4864:20::632] (port=35449
+ helo=mail-pl1-x632.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1nOmFN-0006qQ-Mb
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:03:54 -0500
-Received: by mail-lf1-x132.google.com with SMTP id j15so23246754lfe.11
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 12:03:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qVQekP/xafOY04rl3YcTXc+HfZnsFwU6PJ2KdsJMuD0=;
- b=C96yvYjVhmQ8NqdZjbnbtrAsXEP8pT3FHQr5zykIXzy86lD6nsn5iOj3MDfr7V/C1I
- Gkrs/D4LSC0UtKpwfdRG3wNV9AWJ0vypSQV+PAWhNITWuv2fgsoeU5HEh6D56xt9HPuX
- 2ubX55OEYtcQIFgV0PkLDta+IVUTcocG2MDNzzvSu5eITiBm6e2/PIdfJOVgA//87jAd
- +WfXKjFZ3pmyZezMiSB1DarZNRYaDYSuqsPYQyPOzT8sZuJzTi6QABCW294SylZRCWoP
- 48efj1BpPB5zMuY/JMhSWX5UDvwq6cNrh06ZYXW+dU/wCoj3MC85oG1QHjddPlvbrkzs
- GcXg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nOmMw-00088S-1p
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:11:46 -0500
+Received: by mail-pl1-x632.google.com with SMTP id i1so11686473plr.2
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 12:11:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=xGY1h93/vrGr/3qdZeI/t/ZI4Sg1/ji3bU+Hgd02Kos=;
+ b=xaLsYBIpPDO8Jl7BVBSqMdAacAWUMAZ9E5Raqsc++hjBbqauGvWt77J2pU6QUnJ0Zq
+ 4LbGTeeN/goCKD5AoC7V5rb785JHN/ck7LoEC8wURhfkhcL3g4mB87T2TYIlfzoVPt0R
+ m2hCkVwOOjQK4pJ9EJ1sP/CNXzCiEZE2yRZcA8jNXVqgrIWHFckf2rfh39rNHz98IOS4
+ Mruua7Xujcf6J7lFxmic4IsgSCpJORyp2ECJdbI1VoszUFgLMzXSOqGBDWZgeOOVn56G
+ vyCLJ1yAAr86HKvl5RqqmbA9rrp1YI5tBSAj21vbCOluhyOCi8giScz1GqhgsDLv/bQ0
+ mQnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qVQekP/xafOY04rl3YcTXc+HfZnsFwU6PJ2KdsJMuD0=;
- b=oT4xpLjYsPzZLJUHqTTDzxiVDyyDsPPRRLU7kQQw+rfPqb+uHzMgVWcx5h0Cy0ADNe
- 6DI2I4AfzBVzlNn+18M7/Mrqm5h68uXF1w6je9V2UJ53NDfUCIRtMF/YKgHRO2dKsN1Z
- dnwqYyc4ep/ogN5fu5XGExYdDRA/b0f3jz90v01xoAEUdkSBS2Q5JncP6F8bVeGywdFm
- qMaqDgJpl/PcACh9UvERVVsx1ye40BKF/v4u/Jei2tZgBr6FlSnxeJiquyuzDccBDZKN
- bdmrhlR6AxqlfiNmHJZ4evwtA60CQTIGn6WihBQHtE5R+BYxCYvYhhJVVYrb5A3C1inz
- j45g==
-X-Gm-Message-State: AOAM531q5Av3OIzdBbNS3214H8D2duZpB9kAaMw+exv3xB3SlUHenC+k
- ZxqxWGXYmJwg4VFcOM2JLXM6RFg9PG/4Y6HSdcU=
-X-Google-Smtp-Source: ABdhPJyiC3/tMCqjEjmgRH1f+gdvOFbvxwqQyX0bHWALv0q4j5lwCafw3z8DPpW9x/PONj6yjp7IEbcO6524ZvW6eg0=
-X-Received: by 2002:a05:6512:32cf:b0:441:67e0:7d92 with SMTP id
- f15-20020a05651232cf00b0044167e07d92mr13903717lfg.150.1646078631337; Mon, 28
- Feb 2022 12:03:51 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xGY1h93/vrGr/3qdZeI/t/ZI4Sg1/ji3bU+Hgd02Kos=;
+ b=ypVyHQH9Om225NnRQNcp9+CP2SZwWQIkaLW82tMaVnggBfOAEg7J76rn1oHZ3er95J
+ TK4sUI3zr8MSGOBQYA51v/jlH74JIeQc1MQCrTjqnQ4eLsrJwByuMqZvofZE2drH8VOK
+ W4sD2TJv2QJ+voDMWAwzC9sd3j02exv+gORzMOdj19eqeMyuYW5qdDIBxy+S8FoRGa6I
+ FkAN4Qr0Wmz0HOVEYJ39jmfSbtk8SjyWKnFAVmmOoGSG5FrNe4hL8k8uxT188bHxtTF6
+ N6z/LZiy/2+w7mcDlYE+BZ9PSsawB2g5AQC8yWMmJDR0SgEe3llGvT9pqt/iq2FieyvF
+ MdXg==
+X-Gm-Message-State: AOAM531CV5vEvaw6CAxeFN2wlKbfPuSmIRH/5GrEloEuvVQr3OtsQCJE
+ rBUzoBACv81KYjDy1f+S3viVrg==
+X-Google-Smtp-Source: ABdhPJwUyxOxbbHtYNDn37K+otBaWEBuA4FWc+1klGCtSY3Zo7drn5FTuF92E6mFegXsy7G8e90u+A==
+X-Received: by 2002:a17:902:f684:b0:150:887:a16c with SMTP id
+ l4-20020a170902f68400b001500887a16cmr21915391plg.31.1646079100626; 
+ Mon, 28 Feb 2022 12:11:40 -0800 (PST)
+Received: from ?IPV6:2603:800c:1201:c600:483f:d486:138f:7868?
+ (2603-800c-1201-c600-483f-d486-138f-7868.res6.spectrum.com.
+ [2603:800c:1201:c600:483f:d486:138f:7868])
+ by smtp.gmail.com with ESMTPSA id
+ q14-20020a056a00150e00b004f1252a21casm14381295pfu.161.2022.02.28.12.11.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Feb 2022 12:11:40 -0800 (PST)
+Message-ID: <0879f52c-165b-75f2-82e1-761013816f03@linaro.org>
+Date: Mon, 28 Feb 2022 10:11:36 -1000
 MIME-Version: 1.0
-References: <20220201100940.47788-1-david@redhat.com>
- <18ed54d6-c4e2-404a-f68b-002a67546445@redhat.com>
-In-Reply-To: <18ed54d6-c4e2-404a-f68b-002a67546445@redhat.com>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Mon, 28 Feb 2022 21:03:39 +0100
-Message-ID: <CAPan3WqFr1wtiZbmtiE8FUqPtW3tGcYRK648MVOzf1m+L_795g@mail.gmail.com>
-Subject: Re: [PATCH] memory: Make memory_region_readd_subregion() properly
- handle mapped aliases
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000017e14505d9198cdb"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::132
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v7 12/14] target/riscv: rvk: add CSR support for Zkr
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220228144810.7284-1-liweiwei@iscas.ac.cn>
+ <20220228144810.7284-13-liweiwei@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220228144810.7284-13-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::132;
- envelope-from=nieklinnenbank@gmail.com; helo=mail-lf1-x132.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,147 +97,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
+ lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000017e14505d9198cdb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2/28/22 04:48, Weiwei Li wrote:
+> +/* Crypto Extension */
+> +static RISCVException rmw_seed(CPURISCVState *env, int csrno,
+> +                              target_ulong *ret_value,
+> +                              target_ulong new_value, target_ulong write_mask)
+> +{
+> +    if (!write_mask) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
 
-Hi Paolo,
+This is incorrect.  The error should only be with a write-mask of the actual x0 register, 
+not another register which happens to contain 0.  There is in fact no way to diagnose 
+exactly what you want here, which IIRC has an existing fixme comment somewhere.
 
-Thanks for queing this patch. I did not yet see it appear in master. Do you
-know when we can expect to see it?
+> +    uint32_t return_status =  SEED_OPST_ES16;
+> +
+> +    *ret_value = return_status;
+> +    if (return_status == SEED_OPST_ES16) {
+> +        uint16_t random_number;
+> +        qemu_guest_getrandom_nofail(&random_number, sizeof(random_number));
+> +        *ret_value = (*ret_value) | random_number;
+> +    } else if (return_status == SEED_OPST_BIST) {
+> +        /* Do nothing */
+> +    } else if (return_status == SEED_OPST_WAIT) {
+> +        /* Do nothing */
+> +    } else if (return_status == SEED_OPST_DEAD) {
+> +        /* Do nothing */
+> +    }
 
-Regards,
-Niek
+This is also incorrect.  This should be
 
-On Tue, Feb 1, 2022 at 11:51 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+     uint32_t result;
+     uint16_t random_v;
+     Error *random_e = NULL;
+     int random_r;
 
-> On 2/1/22 11:09, David Hildenbrand wrote:
-> > memory_region_readd_subregion() wants to readd a region by first
-> > removing it and then readding it. For readding, it doesn't use one of
-> > the memory_region_add_*() variants, which is why fail to re-increment t=
-he
-> > mr->mapped_via_alias counters, resulting in the
-> > assert(alias->mapped_via_alias >=3D 0) in memory_region_del_subregion()
-> > triggering the next time we call memory_region_readd_subregion().
-> >
-> > Fix it by using memory_region_add_subregion_common() for readding the
-> > region.
-> >
-> > Reported-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> > Fixes: 5ead62185d23 ("memory: Make memory_region_is_mapped() succeed
-> when mapped via an alias")
-> > Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Peter Xu <peterx@redhat.com>
-> > Cc: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
-> > Signed-off-by: David Hildenbrand <david@redhat.com>
-> > ---
-> >   softmmu/memory.c | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/softmmu/memory.c b/softmmu/memory.c
-> > index 678dc62f06..76bb1677fe 100644
-> > --- a/softmmu/memory.c
-> > +++ b/softmmu/memory.c
-> > @@ -2626,8 +2626,7 @@ static void
-> memory_region_readd_subregion(MemoryRegion *mr)
-> >           memory_region_transaction_begin();
-> >           memory_region_ref(mr);
-> >           memory_region_del_subregion(container, mr);
-> > -        mr->container =3D container;
-> > -        memory_region_update_container_subregions(mr);
-> > +        memory_region_add_subregion_common(container, mr->addr, mr);
-> >           memory_region_unref(mr);
-> >           memory_region_transaction_commit();
-> >       }
->
-> Queued, thanks.
->
-> Paolo
->
+     random_r = guest_getrandom(&random_v, 2, &random_e);
+     if (unlikely(random_r < 0)) {
+         /*
+          * Failed, for unknown reasons in the crypto subsystem.
+          * The best we can do is log the reason and return a
+          * failure indication to the guest.  There is no reason
+          * we know to expect the failure to be transitory, so
+          * indicate DEAD to avoid having the guest spin on WAIT.
+          */
+         qemu_log_mask(LOG_UNIMP, "%s: Crypto failure: %s",
+                       __func__, error_get_pretty(random_e));
+         error_free(random_e);
+         result = SEED_OPST_DEAD;
+     } else {
+         result = random_v | SEED_OPST_ES16;
+     }
+
+C.f. target/arm/helper.c, rndr_readfn.
 
 
---=20
-Niek Linnenbank
-
---00000000000017e14505d9198cdb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Paolo,</div><div><br></div><div>Thanks for queing =
-this patch. I did not yet see it appear in master. Do you know when we can =
-expect to see it?</div><div><br></div><div>Regards,</div><div>Niek<br></div=
-></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Tue, Feb 1, 2022 at 11:51 AM Paolo Bonzini &lt;<a href=3D"mailto:pbonzi=
-ni@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">On 2/1/22 11:09, David Hildenbrand wrote:=
-<br>
-&gt; memory_region_readd_subregion() wants to readd a region by first<br>
-&gt; removing it and then readding it. For readding, it doesn&#39;t use one=
- of<br>
-&gt; the memory_region_add_*() variants, which is why fail to re-increment =
-the<br>
-&gt; mr-&gt;mapped_via_alias counters, resulting in the<br>
-&gt; assert(alias-&gt;mapped_via_alias &gt;=3D 0) in memory_region_del_subr=
-egion()<br>
-&gt; triggering the next time we call memory_region_readd_subregion().<br>
-&gt; <br>
-&gt; Fix it by using memory_region_add_subregion_common() for readding the<=
-br>
-&gt; region.<br>
-&gt; <br>
-&gt; Reported-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmai=
-l.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
-&gt; Fixes: 5ead62185d23 (&quot;memory: Make memory_region_is_mapped() succ=
-eed when mapped via an alias&quot;)<br>
-&gt; Tested-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.=
-com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
-&gt; Cc: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D=
-"_blank">pbonzini@redhat.com</a>&gt;<br>
-&gt; Cc: Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" target=3D"_blank=
-">peterx@redhat.com</a>&gt;<br>
-&gt; Cc: &quot;Philippe Mathieu-Daud=C3=A9&quot; &lt;<a href=3D"mailto:f4bu=
-g@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-&gt; Signed-off-by: David Hildenbrand &lt;<a href=3D"mailto:david@redhat.co=
-m" target=3D"_blank">david@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0softmmu/memory.c | 3 +--<br>
-&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/softmmu/memory.c b/softmmu/memory.c<br>
-&gt; index 678dc62f06..76bb1677fe 100644<br>
-&gt; --- a/softmmu/memory.c<br>
-&gt; +++ b/softmmu/memory.c<br>
-&gt; @@ -2626,8 +2626,7 @@ static void memory_region_readd_subregion(Memory=
-Region *mr)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_transaction_begi=
-n();<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_ref(mr);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_del_subregion(co=
-ntainer, mr);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 mr-&gt;container =3D container;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_region_update_container_subregions=
-(mr);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_region_add_subregion_common(contai=
-ner, mr-&gt;addr, mr);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_unref(mr);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_transaction_comm=
-it();<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-Queued, thanks.<br>
-<br>
-Paolo<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div>
-
---00000000000017e14505d9198cdb--
+r~
 
