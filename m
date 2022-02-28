@@ -2,107 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1764C65D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 10:42:44 +0100 (CET)
-Received: from localhost ([::1]:32974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B034C65E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 10:44:45 +0100 (CET)
+Received: from localhost ([::1]:37108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOcYE-00059L-BR
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 04:42:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53312)
+	id 1nOcaC-00081K-Qu
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 04:44:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1nOcVk-0004HS-8T
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:40:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32484)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nOcYT-0006Ex-Jq
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:42:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1nOcVi-0002D4-8A
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:40:07 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21S8i2jP027412; 
- Mon, 28 Feb 2022 09:40:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=XiPL9MQP5llScqSXk7BGe+Q3nsSCHMxZ1bNta8sKPEE=;
- b=QBnUwcpqZrRQz3Yp0T8QQTTOXSPHpniJDL+MXfOVuyDXQqMt13ltgVo4Wb+ehOY63BXV
- xc8UTwPMKgM99snMQaca0DpYB5ibf7RCv4oSHujqTUCfWHQhkh+5ek5+V/JmOYzQNQVr
- evBCjwlO1KTsuiVAEyodcrxWLyXcH/UQGXNKIEo93VljoK3AZDDIOBPtCL/8IjqvVTyl
- ZzS8N1gdpGsMeZdwmV2830e3pKZ8W6yDSog3idPakt6jmMymW/I8hxtsKfYs6DuoRweE
- NbES0MIvIzy8uK+VX24rvuDC5j3AUj9EbzeXX6fd9ELWG+u/kfNPf0EGRLX4vf+hy69/ HQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3egu53s86h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Feb 2022 09:40:01 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 21S8jaIE002302;
- Mon, 28 Feb 2022 09:40:01 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3egu53s85v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Feb 2022 09:40:01 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21S9XIsV008326;
- Mon, 28 Feb 2022 09:40:00 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01dal.us.ibm.com with ESMTP id 3efbu9yefm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 28 Feb 2022 09:40:00 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 21S9dwuv33882622
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 28 Feb 2022 09:39:58 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 834EB7806A;
- Mon, 28 Feb 2022 09:39:58 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2B6147806D;
- Mon, 28 Feb 2022 09:39:56 +0000 (GMT)
-Received: from [9.148.12.169] (unknown [9.148.12.169])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 28 Feb 2022 09:39:55 +0000 (GMT)
-Message-ID: <982bd5bf-a3a8-f75c-73bd-2722f72cc476@linux.ibm.com>
-Date: Mon, 28 Feb 2022 11:39:55 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nOcYP-0002kl-8v
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 04:42:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646041365;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=zj4ORi+r6+QcDfeZvD6rIiq7dCuAx8mcjLOA14axWms=;
+ b=QEijR9b7LYwCFQT5ofJOlTntT9MaEkoZ15ocYeaAYV6P9Bp92XOKHlwan1sVnfI+yITLKD
+ Dn/hrvoREAV1UJ6xLcC67XwAM487dnBh1LAwHoNZsqpG3wD0t+Evp1zpBcX8zTjZYh6GTe
+ WDV1d9YKezS4mQZtkVefKgMA+2WGztg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-372-cckYyu2GMi2AVlN5pBCsrw-1; Mon, 28 Feb 2022 04:42:42 -0500
+X-MC-Unique: cckYyu2GMi2AVlN5pBCsrw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFA47801DDB;
+ Mon, 28 Feb 2022 09:42:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CBBC827AC;
+ Mon, 28 Feb 2022 09:42:30 +0000 (UTC)
+Date: Mon, 28 Feb 2022 09:42:27 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH 1/9] Avocado GitLab CI jobs: don't reset TARGETS and
+ simplify commands
+Message-ID: <YhyZA2augINEEdr1@redhat.com>
+References: <20220225210156.2032055-1-crosa@redhat.com>
+ <20220225210156.2032055-2-crosa@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v3] qapi, target/i386/sev: Add cpu0-id to
- query-sev-capabilities
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220228093014.882288-1-dovmurik@linux.ibm.com>
- <YhyWg1UaOPMIkODz@redhat.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <YhyWg1UaOPMIkODz@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: c0rUXSNiQU6U_KLyahQyEJ6U2kWjZNMV
-X-Proofpoint-GUID: IiyxQnRImK0U7pUadtWl5-Bfx5IMhbcX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-02-28_03,2022-02-26_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 suspectscore=0 malwarescore=0 mlxscore=0 clxscore=1015
- impostorscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202280053
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <20220225210156.2032055-2-crosa@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,33 +82,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Markus Armbruster <armbru@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Eric Farman <farman@linux.ibm.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alexandre Iooss <erdnaxe@crans.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Beraldo Leal <bleal@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 28/02/2022 11:31, Daniel P. Berrangé wrote:
-> On Mon, Feb 28, 2022 at 09:30:14AM +0000, Dov Murik wrote:
->> Add a new field 'cpu0-id' to the response of query-sev-capabilities QMP
->> command.  The value of the field is the base64-encoded unique ID of CPU0
->> (socket 0), which can be used to retrieve the signed CEK of the CPU from
->> AMD's Key Distribution Service (KDS).
->>
->> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+On Fri, Feb 25, 2022 at 04:01:48PM -0500, Cleber Rosa wrote:
+> The Avocado tests rely on the TARGETS variable, which is computed
+> based on the built targets.  The current set of commands on the
+> inherited scripts section will reset those, leaving TARGETS empty and
+> consequently the AVOCADO_CMDLINE_TAGS empty too.
 > 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> This is causing the list of tests to have no filtering by tags, which
+> can be seen by the large number of CANCEL/SKIP statuses (because of
+> the lack of a matching qemu-system-$(ARCH) binary).
 > 
+> With this change, the TARGETS variable is properly computed, and so is
+> the AVOCADO_CMDLINE_TAGS.  This causes a reduction in the number of
+> tests attempted to be run on each job, and less noise on the test
+> results.
 
-Thanks Daniel for reviewing.
+This description isn't making sense to me.
 
-Next: libvirt patch to add this field to response of virNodeGetSEVInfo().
+AFAICT, none of the avocado-system-$DISTRO  jobs in buildtest.yml
+are setting the $TARGETS variable before/after this change.
 
--Dov
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  .gitlab-ci.d/buildtest-template.yml | 3 +++
+>  .gitlab-ci.d/buildtest.yml          | 9 ---------
+>  2 files changed, 3 insertions(+), 9 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+> index 2c7980a4f6..c038a0910f 100644
+> --- a/.gitlab-ci.d/buildtest-template.yml
+> +++ b/.gitlab-ci.d/buildtest-template.yml
+> @@ -64,6 +64,9 @@
+>          du -chs ${CI_PROJECT_DIR}/avocado-cache ;
+>        fi
+>      - export AVOCADO_ALLOW_UNTRUSTED_CODE=1
+> +  script:
+> +    - cd build
+> +    - make check-avocado
+
+The parent template has a 'script:' block we currently inherit 
+
+    - scripts/git-submodule.sh update
+        $(sed -n '/GIT_SUBMODULES=/ s/.*=// p' build/config-host.mak)
+    - cd build
+    - find . -type f -exec touch {} +
+    # Avoid recompiling by hiding ninja with NINJA=":"
+    - make NINJA=":" $MAKE_CHECK_ARGS
+
+so replacing this is loosing the potential git submodule update
+and looses the protection against recompilation.
+
+I'm not seeing what in this old inherited is breaking the $TARGETS
+variable, not least because it was never set before/after AFAICT.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
