@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74EB4C64C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:21:56 +0100 (CET)
-Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA2A4C64DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 09:28:53 +0100 (CET)
+Received: from localhost ([::1]:34578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nObI3-0000nX-VO
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:21:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60542)
+	id 1nObOm-0006Z5-Oy
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 03:28:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nOb2E-0008J4-Qd
+ id 1nOb2E-0008J3-Qf
  for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:39 -0500
-Received: from mga14.intel.com ([192.55.52.115]:50047)
+Received: from mga14.intel.com ([192.55.52.115]:50056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1nOb2C-0005Ys-HL
+ id 1nOb2C-0005ZR-Mh
  for qemu-devel@nongnu.org; Mon, 28 Feb 2022 03:05:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1646035532; x=1677571532;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BILWfpgxBFc/XZYvl0Hta8UqRo/VrmPpnYbpvNPD+LM=;
- b=Zhi7Hkw+RZi9VMm6iUJVmado/IhqSUDFRNVGe+py5D6QmliEnbAp2fBi
- rf5jJsE2RjrRpCYQW5x5FZMwRqMhIIpe9D4UkKv2crwhGyV/4ZLxIrKj8
- D7Ct2LYJ0hj577l+0B1K+9Jnih/h2A5fI5SDrMoIfyoaO520tX1w+/Ii3
- 4IrweanWx3+jomETE3SnnatpQ3NgXUS1Slrh8VKbtmNRHyqb71wtkhsRd
- Pgzz3fXhcywOjR6unhOmYwaJhT58e26YbtMmuarLZchFELkpjqYOF/ck5
- FT016ag79HM8M4ZF+/wttw9Q2aIKYfONupHXsoIscTszPQQa2OXYv98qV g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="253021647"
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="253021647"
+ bh=5UX6bc6F75Y+jyQEf0pgvwOcIDrka3TrwKDsfRKtcvk=;
+ b=ZvOEqqhlKPPeosS25iDhU2sLwAsZx706hJHIJdDR2XJpd/IBR9PNQOID
+ 62pzgyxTv5LaVwYC+fH6hImlxbp7xJXJQZFGdxpP/McrFP69v1Dt3qEQX
+ Wo/y0edlRJho78P3cxYLAHhXS/3HuRKfaJMWCQMxW8BwIJhkCdfH6byNS
+ N+UhGKJrq5c6Adgh4XJEKrA1JaPuDKZmjh8t9cuuISD7tK2r2FEw2+dwV
+ G/trkdfg/KU3fyFNx4pw6o/X+GqsD9qqh38a1JpXUrDVBdqGdVOXPIgRP
+ zy+F6t7eBeDAjETtKRA/C3aXqrCWWibcsi2LlXIL8NLLFN3RSn45VSEzg g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="253021650"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="253021650"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  28 Feb 2022 00:05:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="778014594"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400"; d="scan'208";a="778014599"
 Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
  by fmsmga006.fm.intel.com with ESMTP; 28 Feb 2022 00:05:18 -0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/8] x86: Add support for KVM_CAP_XSAVE2 and AMX state
- migration
-Date: Mon, 28 Feb 2022 00:05:13 -0800
-Message-Id: <20220228080515.42357-7-yang.zhong@intel.com>
+Subject: [PATCH v3 7/8] x86: Support XFD and AMX xsave data migration
+Date: Mon, 28 Feb 2022 00:05:14 -0800
+Message-Id: <20220228080515.42357-8-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220228080515.42357-1-yang.zhong@intel.com>
 References: <20220228080515.42357-1-yang.zhong@intel.com>
@@ -78,179 +77,161 @@ Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jing Liu <jing2.liu@intel.com>
+From: Zeng Guang <guang.zeng@intel.com>
 
-When dynamic xfeatures (e.g. AMX) are used by the guest, the xsave
-area would be larger than 4KB. KVM_GET_XSAVE2 and KVM_SET_XSAVE
-under KVM_CAP_XSAVE2 works with a xsave buffer larger than 4KB.
-Always use the new ioctls under KVM_CAP_XSAVE2 when KVM supports it.
+XFD(eXtended Feature Disable) allows to enable a
+feature on xsave state while preventing specific
+user threads from using the feature.
 
-Signed-off-by: Jing Liu <jing2.liu@intel.com>
+Support save and restore XFD MSRs if CPUID.D.1.EAX[4]
+enumerate to be valid. Likewise migrate the MSRs and
+related xsave state necessarily.
+
 Signed-off-by: Zeng Guang <guang.zeng@intel.com>
 Signed-off-by: Wei Wang <wei.w.wang@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 ---
- target/i386/cpu.h          |  4 ++++
- target/i386/kvm/kvm.c      | 42 ++++++++++++++++++++++++--------------
- target/i386/xsave_helper.c | 33 ++++++++++++++++++++++++++++++
- 3 files changed, 64 insertions(+), 15 deletions(-)
+ target/i386/cpu.h     |  9 +++++++++
+ target/i386/kvm/kvm.c | 18 ++++++++++++++++++
+ target/i386/machine.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 69 insertions(+)
 
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 925d0129e2..8c850e74b8 100644
+index 8c850e74b8..efea2c78ec 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -1527,6 +1527,10 @@ typedef struct CPUX86State {
-     uint64_t opmask_regs[NB_OPMASK_REGS];
-     YMMReg zmmh_regs[CPU_NB_REGS];
-     ZMMReg hi16_zmm_regs[CPU_NB_REGS];
-+#ifdef TARGET_X86_64
-+    uint8_t xtilecfg[64];
-+    uint8_t xtiledata[8192];
-+#endif
+@@ -507,6 +507,9 @@ typedef enum X86Seg {
  
-     /* sysenter registers */
-     uint32_t sysenter_cs;
+ #define MSR_VM_HSAVE_PA                 0xc0010117
+ 
++#define MSR_IA32_XFD                    0x000001c4
++#define MSR_IA32_XFD_ERR                0x000001c5
++
+ #define MSR_IA32_BNDCFGS                0x00000d90
+ #define MSR_IA32_XSS                    0x00000da0
+ #define MSR_IA32_UMWAIT_CONTROL         0xe1
+@@ -872,6 +875,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_7_1_EAX_AVX_VNNI          (1U << 4)
+ /* AVX512 BFloat16 Instruction */
+ #define CPUID_7_1_EAX_AVX512_BF16       (1U << 5)
++/* XFD Extend Feature Disabled */
++#define CPUID_D_1_EAX_XFD               (1U << 4)
+ 
+ /* Packets which contain IP payload have LIP values */
+ #define CPUID_14_0_ECX_LIP              (1U << 31)
+@@ -1616,6 +1621,10 @@ typedef struct CPUX86State {
+     uint64_t msr_rtit_cr3_match;
+     uint64_t msr_rtit_addrs[MAX_RTIT_ADDRS];
+ 
++    /* Per-VCPU XFD MSRs */
++    uint64_t msr_xfd;
++    uint64_t msr_xfd_err;
++
+     /* exception/interrupt handling */
+     int error_code;
+     int exception_is_int;
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index b786d6da96..e64c06d358 100644
+index e64c06d358..fe8e924846 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -123,6 +123,7 @@ static uint32_t num_architectural_pmu_gp_counters;
- static uint32_t num_architectural_pmu_fixed_counters;
+@@ -3276,6 +3276,13 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+                               env->msr_ia32_sgxlepubkeyhash[3]);
+         }
  
- static int has_xsave;
-+static int has_xsave2;
- static int has_xcrs;
- static int has_pit_state2;
- static int has_sregs2;
-@@ -1586,6 +1587,26 @@ static Error *invtsc_mig_blocker;
++        if (env->features[FEAT_XSAVE] & CPUID_D_1_EAX_XFD) {
++            kvm_msr_entry_add(cpu, MSR_IA32_XFD,
++                              env->msr_xfd);
++            kvm_msr_entry_add(cpu, MSR_IA32_XFD_ERR,
++                              env->msr_xfd_err);
++        }
++
+         /* Note: MSR_IA32_FEATURE_CONTROL is written separately, see
+          *       kvm_put_msr_feature_control. */
+     }
+@@ -3668,6 +3675,11 @@ static int kvm_get_msrs(X86CPU *cpu)
+         kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH3, 0);
+     }
  
- #define KVM_MAX_CPUID_ENTRIES  100
- 
-+static void kvm_init_xsave(CPUX86State *env)
-+{
-+    if (has_xsave2) {
-+        env->xsave_buf_len = QEMU_ALIGN_UP(has_xsave2, 4096);
-+    } else if (has_xsave) {
-+        env->xsave_buf_len = sizeof(struct kvm_xsave);
-+    } else {
-+        return;
++    if (env->features[FEAT_XSAVE] & CPUID_D_1_EAX_XFD) {
++        kvm_msr_entry_add(cpu, MSR_IA32_XFD, 0);
++        kvm_msr_entry_add(cpu, MSR_IA32_XFD_ERR, 0);
 +    }
 +
-+    env->xsave_buf = qemu_memalign(4096, env->xsave_buf_len);
-+    memset(env->xsave_buf, 0, env->xsave_buf_len);
-+    /*
-+     * The allocated storage must be large enough for all of the
-+     * possible XSAVE state components.
-+     */
-+    assert(kvm_arch_get_supported_cpuid(kvm_state, 0xd, 0, R_ECX) <=
-+           env->xsave_buf_len);
-+}
-+
- int kvm_arch_init_vcpu(CPUState *cs)
- {
-     struct {
-@@ -1615,6 +1636,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
- 
-     cpuid_i = 0;
- 
-+    has_xsave2 = kvm_check_extension(cs->kvm_state, KVM_CAP_XSAVE2);
-+
-     r = kvm_arch_set_tsc_khz(cs);
-     if (r < 0) {
-         return r;
-@@ -2004,19 +2027,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     if (r) {
-         goto fail;
-     }
--
--    if (has_xsave) {
--        env->xsave_buf_len = sizeof(struct kvm_xsave);
--        env->xsave_buf = qemu_memalign(4096, env->xsave_buf_len);
--        memset(env->xsave_buf, 0, env->xsave_buf_len);
--
--        /*
--         * The allocated storage must be large enough for all of the
--         * possible XSAVE state components.
--         */
--        assert(kvm_arch_get_supported_cpuid(kvm_state, 0xd, 0, R_ECX)
--               <= env->xsave_buf_len);
--    }
-+    kvm_init_xsave(env);
- 
-     max_nested_state_len = kvm_max_nested_state_length();
-     if (max_nested_state_len > 0) {
-@@ -3320,13 +3331,14 @@ static int kvm_get_xsave(X86CPU *cpu)
- {
-     CPUX86State *env = &cpu->env;
-     void *xsave = env->xsave_buf;
--    int ret;
-+    int type, ret;
- 
-     if (!has_xsave) {
-         return kvm_get_fpu(cpu);
-     }
- 
--    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_XSAVE, xsave);
-+    type = has_xsave2 ? KVM_GET_XSAVE2 : KVM_GET_XSAVE;
-+    ret = kvm_vcpu_ioctl(CPU(cpu), type, xsave);
+     ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, cpu->kvm_msr_buf);
      if (ret < 0) {
          return ret;
+@@ -3964,6 +3976,12 @@ static int kvm_get_msrs(X86CPU *cpu)
+             env->msr_ia32_sgxlepubkeyhash[index - MSR_IA32_SGXLEPUBKEYHASH0] =
+                            msrs[i].data;
+             break;
++        case MSR_IA32_XFD:
++            env->msr_xfd = msrs[i].data;
++            break;
++        case MSR_IA32_XFD_ERR:
++            env->msr_xfd_err = msrs[i].data;
++            break;
+         }
      }
-diff --git a/target/i386/xsave_helper.c b/target/i386/xsave_helper.c
-index ac61a96344..b6a004505f 100644
---- a/target/i386/xsave_helper.c
-+++ b/target/i386/xsave_helper.c
-@@ -5,6 +5,7 @@
- #include "qemu/osdep.h"
  
- #include "cpu.h"
-+#include <asm/kvm.h>
- 
- void x86_cpu_xsave_all_areas(X86CPU *cpu, void *buf, uint32_t buflen)
- {
-@@ -126,6 +127,22 @@ void x86_cpu_xsave_all_areas(X86CPU *cpu, void *buf, uint32_t buflen)
- 
-         memcpy(pkru, &env->pkru, sizeof(env->pkru));
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 6202f47793..1f9d0c46f1 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -1483,6 +1483,46 @@ static const VMStateDescription vmstate_pdptrs = {
      }
-+
-+    e = &x86_ext_save_areas[XSTATE_XTILE_CFG_BIT];
-+    if (e->size && e->offset) {
-+        XSaveXTILECFG *tilecfg = buf + e->offset;
-+
-+        memcpy(tilecfg, &env->xtilecfg, sizeof(env->xtilecfg));
-+    }
-+
-+    if (buflen > sizeof(struct kvm_xsave)) {
-+        e = &x86_ext_save_areas[XSTATE_XTILE_DATA_BIT];
-+        if (e->size && e->offset && buflen >= e->size + e->offset) {
-+            XSaveXTILEDATA *tiledata = buf + e->offset;
-+
-+            memcpy(tiledata, &env->xtiledata, sizeof(env->xtiledata));
-+        }
-+    }
- #endif
- }
+ };
  
-@@ -247,5 +264,21 @@ void x86_cpu_xrstor_all_areas(X86CPU *cpu, const void *buf, uint32_t buflen)
-         pkru = buf + e->offset;
-         memcpy(&env->pkru, pkru, sizeof(env->pkru));
++static bool xfd_msrs_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return !!(env->features[FEAT_XSAVE] & CPUID_D_1_EAX_XFD);
++}
++
++static const VMStateDescription vmstate_msr_xfd = {
++    .name = "cpu/msr_xfd",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = xfd_msrs_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.msr_xfd, X86CPU),
++        VMSTATE_UINT64(env.msr_xfd_err, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool amx_xtile_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return !!(env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_AMX_TILE);
++}
++
++static const VMStateDescription vmstate_amx_xtile = {
++    .name = "cpu/intel_amx_xtile",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = amx_xtile_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT8_ARRAY(env.xtilecfg, X86CPU, 64),
++        VMSTATE_UINT8_ARRAY(env.xtiledata, X86CPU, 8192),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_x86_cpu = {
+     .name = "cpu",
+     .version_id = 12,
+@@ -1622,6 +1662,8 @@ const VMStateDescription vmstate_x86_cpu = {
+         &vmstate_msr_tsx_ctrl,
+         &vmstate_msr_intel_sgx,
+         &vmstate_pdptrs,
++        &vmstate_msr_xfd,
++        &vmstate_amx_xtile,
+         NULL
      }
-+
-+    e = &x86_ext_save_areas[XSTATE_XTILE_CFG_BIT];
-+    if (e->size && e->offset) {
-+        const XSaveXTILECFG *tilecfg = buf + e->offset;
-+
-+        memcpy(&env->xtilecfg, tilecfg, sizeof(env->xtilecfg));
-+    }
-+
-+    if (buflen > sizeof(struct kvm_xsave)) {
-+        e = &x86_ext_save_areas[XSTATE_XTILE_DATA_BIT];
-+        if (e->size && e->offset && buflen >= e->size + e->offset) {
-+            const XSaveXTILEDATA *tiledata = buf + e->offset;
-+
-+            memcpy(&env->xtiledata, tiledata, sizeof(env->xtiledata));
-+        }
-+    }
- #endif
- }
+ };
 
