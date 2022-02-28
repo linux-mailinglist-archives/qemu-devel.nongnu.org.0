@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB604C75A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:55:23 +0100 (CET)
-Received: from localhost ([::1]:45154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9134C7640
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 19:01:44 +0100 (CET)
+Received: from localhost ([::1]:60394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOkF0-0003TQ-CV
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:55:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42634)
+	id 1nOkL9-0005Ts-Ot
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 13:01:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAO-0002PW-9N; Mon, 28 Feb 2022 12:50:36 -0500
-Received: from [2607:f8b0:4864:20::22d] (port=43527
- helo=mail-oi1-x22d.google.com)
+ id 1nOkAQ-0002Xp-9h; Mon, 28 Feb 2022 12:50:38 -0500
+Received: from [2607:f8b0:4864:20::22a] (port=40790
+ helo=mail-oi1-x22a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAM-0007x7-RZ; Mon, 28 Feb 2022 12:50:35 -0500
-Received: by mail-oi1-x22d.google.com with SMTP id s5so13902425oic.10;
- Mon, 28 Feb 2022 09:50:34 -0800 (PST)
+ id 1nOkAO-0007xU-Rb; Mon, 28 Feb 2022 12:50:37 -0500
+Received: by mail-oi1-x22a.google.com with SMTP id j2so13889194oie.7;
+ Mon, 28 Feb 2022 09:50:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JbJ9Jy11cDYW/fcjCdWMlx85wNlNZDPtHScmitgTyE0=;
- b=U/t8oyEtXHt5l7QZwUadX5cEP+exsVAiknjC2aTH3ol2NPSLnVqL3pFYQa5Ps5PX3F
- VjhT3SG0g31/MMqhmaBgn/Qv8I0vFUIMebMvWQ1Lkhb1PoNwYVeBtBjvuQjygeXBUYJO
- nD4XlZFsjjkMtkP5msI6OWDcM7YcombnSiZsECMAF8gaVX8+3/gxjUmciuh2f5eaWrmx
- 6tsa7kyNi0DyoPrlpTMjs0tUm0FGFKjO89mlCykNNyiTEw5gV8/x+snEccd5XDYGHqUN
- yL4zmyKnXeGHYXNbQEndgDJ5maRGtuleYokWFhDDXGBgXjVeUMOO7w0sWQcx1cxWXLy3
- gCbw==
+ bh=ff+w9iWXeiR1/IzEOsrDIWGlDl1RPZPJn7h1o/fwJG0=;
+ b=FxDyPzaKQZ2HSryrJ/Tl+lV42z78KJGfikTsVC3yZTO75B4xUHRMv7jKCAHxP8G2UR
+ 8UisTTaZi6Mt+gnt1uuLal5Usb1jIFzsVeaYhEMuevl6RxXeus6MIk/sIVKEQ1kx3GvD
+ LI02cbu+pzL6FXjQIjLbXUoTC9xswkWR0yKhFE5+9hB59dP6wWdR4c1n1zEoH/KSgTYx
+ 49iSofAycrJYQ0vq7PP91EIwvViIZ7MQ1GipqrJWpDFuWK+GrUeqMhCuxNOFO5NgdIL7
+ wEclOmCyxyM32k/e0zIE89tNuZGwshHTgXpTCFzmCjbMcMfzPPctPtnTb78NqkD7Vmkx
+ cXeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JbJ9Jy11cDYW/fcjCdWMlx85wNlNZDPtHScmitgTyE0=;
- b=TXzTtfKKU5QkhzgzNAtFq5J2vosmlOkZRpRFhExR98QWV6un3NfseOL66WCaP2CoYY
- niUsjdKrJuRv37cK3+DQvk58DcxwxLjPZm5wxa1oMPBH1FzX1uzin/GTGPdeKmYN8uU+
- KwjcIjL6g0k+mmbixG6M0OAWfdCT23nxWKkRb5a3qfxKcRmWZcPKoxnE4K+2K/v1R6gq
- jEXSrRoZAdkPSTIV0IHqNY8PiE0ys/lIfYJgGCPa4rHOPl6PHcSUpPhGYJFJsEligtND
- 6i28mK5hrWd4lxllQwHhl+oW/zqSyJdn2pE52Du00kdKLb72gUhMOZABZ4IOp7hpMwKP
- /cog==
-X-Gm-Message-State: AOAM533YoMbliJ0SOUu+9RaZbppSEOpwKif6IywAEMYnxKLJO6w8eA3W
- kOm94wxAb1l1VHlT0GcsU6o5kxhLWqo=
-X-Google-Smtp-Source: ABdhPJz6mi76U1O51/0s0vvnKcvstEpQC0HazupyNtZzyC3LPx/xmfktbYx6eL8+gaYIhcPhKoMmEQ==
-X-Received: by 2002:a05:6808:138b:b0:2d5:1fc2:b718 with SMTP id
- c11-20020a056808138b00b002d51fc2b718mr11384086oiw.119.1646070633449; 
- Mon, 28 Feb 2022 09:50:33 -0800 (PST)
+ bh=ff+w9iWXeiR1/IzEOsrDIWGlDl1RPZPJn7h1o/fwJG0=;
+ b=hpfubbv7ICvThaGfQTSqK3zql6MeeDwakbEH48OKjg6VcrsHFsuhzIb9Mn0oX7kH0b
+ OvT/jDC3UyOgdwEM84W2r31x95exBeHxWoadWQB/ntZ8163ne9t59AQqg9YOHGH4q2JF
+ hz8akSFJ0wMtLDzo9KXOAjGpRZyaz11QQD9wErYLoprbeCSufhd3lJ9DeushMyWHvmZP
+ AgRFj27cWTkhFOa19B3doHPk+nVpmN+3UBK+GaUGb9mzHPOkiliEnUH/BJNQUoZpqS8r
+ y5T9/+ad7dJYiMcUqI64T8wvHWTFPgMfCpa5oJkaKigHanLqvRv3OQSbrNckbDkAmoGa
+ wdXQ==
+X-Gm-Message-State: AOAM533plhKEWziEByw+8mXo/w197d647nCatHJoE2SZwgThfAKKdytO
+ +3KBBRbTvAhZPJUpE4BJ924aXnIOsVY=
+X-Google-Smtp-Source: ABdhPJxSEw5JCXga24qkcaRH7VbDCTw5jbpHF1b2PV9Ygg4OY9TsZDCL45ytRpRURQJFAjhB8b3ktg==
+X-Received: by 2002:a05:6808:1884:b0:2d5:1d96:deed with SMTP id
+ bi4-20020a056808188400b002d51d96deedmr9551651oib.95.1646070635479; 
+ Mon, 28 Feb 2022 09:50:35 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
  by smtp.gmail.com with ESMTPSA id
- a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.31
+ a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 09:50:33 -0800 (PST)
+ Mon, 28 Feb 2022 09:50:35 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/14] hw/ppc/spapr_drc.c: use g_autofree in drc_realize()
-Date: Mon, 28 Feb 2022 14:49:57 -0300
-Message-Id: <20220228175004.8862-8-danielhb413@gmail.com>
+Subject: [PATCH 08/14] hw/ppc/spapr_drc.c: use g_autofree in drc_unrealize()
+Date: Mon, 28 Feb 2022 14:49:58 -0300
+Message-Id: <20220228175004.8862-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220228175004.8862-1-danielhb413@gmail.com>
 References: <20220228175004.8862-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22a.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -97,32 +97,26 @@ Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
  1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 0ba84063aa..251201fab3 100644
+index 251201fab3..b2a365baf1 100644
 --- a/hw/ppc/spapr_drc.c
 +++ b/hw/ppc/spapr_drc.c
-@@ -519,8 +519,8 @@ static const VMStateDescription vmstate_spapr_drc = {
- static void drc_realize(DeviceState *d, Error **errp)
+@@ -544,15 +544,13 @@ static void drc_realize(DeviceState *d, Error **errp)
+ static void drc_unrealize(DeviceState *d)
  {
      SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
-+    g_autofree gchar *link_name = g_strdup_printf("%x", spapr_drc_index(drc));
++    g_autofree gchar *name = g_strdup_printf("%x", spapr_drc_index(drc));
      Object *root_container;
--    gchar *link_name;
-     const char *child_name;
+-    gchar *name;
  
-     trace_spapr_drc_realize(spapr_drc_index(drc));
-@@ -532,12 +532,10 @@ static void drc_realize(DeviceState *d, Error **errp)
-      * existing in the composition tree
-      */
+     trace_spapr_drc_unrealize(spapr_drc_index(drc));
+     vmstate_unregister(VMSTATE_IF(drc), &vmstate_spapr_drc, drc);
      root_container = container_get(object_get_root(), DRC_CONTAINER_PATH);
--    link_name = g_strdup_printf("%x", spapr_drc_index(drc));
-     child_name = object_get_canonical_path_component(OBJECT(drc));
-     trace_spapr_drc_realize_child(spapr_drc_index(drc), child_name);
-     object_property_add_alias(root_container, link_name,
-                               drc->owner, child_name);
--    g_free(link_name);
-     vmstate_register(VMSTATE_IF(drc), spapr_drc_index(drc), &vmstate_spapr_drc,
-                      drc);
-     trace_spapr_drc_realize_complete(spapr_drc_index(drc));
+-    name = g_strdup_printf("%x", spapr_drc_index(drc));
+     object_property_del(root_container, name);
+-    g_free(name);
+ }
+ 
+ SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
 -- 
 2.35.1
 
