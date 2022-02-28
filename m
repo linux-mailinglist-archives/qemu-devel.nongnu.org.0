@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771604C79E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 21:20:03 +0100 (CET)
-Received: from localhost ([::1]:46388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25ABC4C79EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 21:20:25 +0100 (CET)
+Received: from localhost ([::1]:48234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOmV0-0007gn-H6
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 15:20:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49142)
+	id 1nOmVM-0000Vm-74
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 15:20:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOmTC-0005LI-8B
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:18:10 -0500
-Received: from [2a00:1450:4864:20::32a] (port=40927
- helo=mail-wm1-x32a.google.com)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOmTS-0005yz-7K
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:18:26 -0500
+Received: from [2a00:1450:4864:20::334] (port=54177
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOmTA-0000h4-Mz
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:18:09 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- c18-20020a7bc852000000b003806ce86c6dso101470wml.5
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 12:18:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1nOmTQ-0000iH-Fw
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 15:18:25 -0500
+Received: by mail-wm1-x334.google.com with SMTP id i20so6361427wmc.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 12:18:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NUzv+IHDhVLFgcx8AE4guxfAr0aZwYyF9eC1iTnuQ0U=;
- b=YMTn06AnFYjwevZr8HBSb+k2RNym3jAU2Hh1rVWx7uWep3fQbJqSvZ+dw2oUdjeI7y
- zLoCEo2C664q5gfhUFdjuZ9BCoJA58ic3thBBCusz5a0MdoYa5SfX+1p+zKcCkCF5ac2
- QoDXO/4ZVrhHlKeAhso60G1aYo7OIgawEsN5FSBBIN94eKaPwiK7NX+EqA8f6jQ75Tus
- 1LeGmDmV7I+fppB1/ceuY/Q4VWYZz65kDOnWWYloWiZplFczIqMfWDYLkW/9/mezi3Bn
- 5n6HMp3KEFVc/qcLKZt0PCEMKqZKUNe5QEr+BNTJtoV2z2L/R/5A6Hhpvf3a2Igsue8U
- d8Lw==
+ bh=hxfE5h3bb/WP60r0i6D76woopRIFuaqNsVGweGdXlfc=;
+ b=O5QsnYXWlMsrZ1M3Px9p9JY8Xwnn8dRFNY0cnYPmBG2VcHRlDCaBpvG8CgHRuFZuYG
+ pqsinr4/3Dl84q+N4vJktrUwnN9HqD38flmUXG82hO/MTnsjPVRINBnb7bKpWAF2Fpv1
+ PHamZ6ZwsHz/e7Z423AGTEAUKqoRlXXjjs9W/tT23Erwj9QS3fOxyip3sk274tdXkox2
+ 7GEmt+ElPCCTKMi/Zy+DfPhiyLGOHfJWGX7u0wmPBRww3MeZy2qdGpafEnfF6KnUnK0m
+ qbolet5bh9QL3lI80RF6Dbs5/pFV3gOFAPXRdZeM1rj6+TKO7AH6Aj6GxH14cxA2NBlH
+ 4K5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NUzv+IHDhVLFgcx8AE4guxfAr0aZwYyF9eC1iTnuQ0U=;
- b=WEU2Mjyf2QZW0ZBA3EdlN15JYMR9kexgZ6JqOCd6WkdJebcZsZcwhkQALsgMpg09I/
- gkzAczomqFTGErYDqh85Idtaw/2ookD4cepJJKHsqjNw+mu+OV/HKugMhjtzPgFTM2z0
- Q3dBra7XsPKr+n9HUtTmopK1p97z0iBXrPjNZWTkXrx8m3mNnU+wtiu+wwz+BHb13qpB
- KWRlgQ5Tax5f9Tm2bk2+tgtiC8+tpt3uHWlnsA3cOAKhMDmNXSnJM8eVnKfg/MpgFKtO
- pwojKFNpidyHbGGue3j0ELRJk63j5dbOZQH2lQF/1PV0yIiol3l7ESF2qyHxbsVN+1C3
- KbvA==
-X-Gm-Message-State: AOAM532xcZCU5bphWH4LZmO2xqJUDynhvDjxrdw8nm0ThK8QVwPjeCtM
- P2kdo6lVyU1iQMNpdzzVWr5D2CpRCVo+Ew==
-X-Google-Smtp-Source: ABdhPJwwJruSO6L1w8s4HuB4BGZBBZhngBIK0XnUJdZazvqUmmpfYjx9BswBh4NiaHoudYgpXt5erg==
-X-Received: by 2002:a05:600c:35d1:b0:37c:d45c:af57 with SMTP id
- r17-20020a05600c35d100b0037cd45caf57mr14650739wmq.149.1646079487181; 
- Mon, 28 Feb 2022 12:18:07 -0800 (PST)
+ bh=hxfE5h3bb/WP60r0i6D76woopRIFuaqNsVGweGdXlfc=;
+ b=NMwCmbGLvImps1xG5dLqYK5zqcS0eSMVk7JJJfJkX18s8rh0WIgUM9qRjGlEzWd91G
+ ZopDr9NES1PHa1HAdgIVVSWRVCQCPcETQIm7DiqPldkCluAKzkD5M0iL2EM2gk7C6Sao
+ MoukfssUzbu2i7plYNiOrkBAn72y5Xx1SlfMVAy4DI9MjBqyyWWXXcILZmEeCbtsl0b9
+ y9fjKdgrawYFmemnYllSrcpEcLvmdykrDdyiw0crSD2EJV6fRBIQCC1pHtwnvOKZ7ChZ
+ S5+D7AhqM9TWWQTh8MwIxOu48RVkcQ2JLbq1PSzDRfJ9ExGtTdoFgrq487Ldm4Wj95j3
+ Cxyg==
+X-Gm-Message-State: AOAM530VDln1I97FLQfS2giuAWrX/NeXGy7DAdduhX6HXFxh3Grlt8UR
+ z0quGgRItHfnWuTZs4yXcpay59PrLZcZdQ==
+X-Google-Smtp-Source: ABdhPJw64wdyQCtM64ScmNIWRxLZ5CJ+WAyUaXbT904xN/4V/GuimysPZSBzpWokFvkd5MIJEe0xuA==
+X-Received: by 2002:a05:600c:68b:b0:380:d3e3:5bac with SMTP id
+ a11-20020a05600c068b00b00380d3e35bacmr14853939wmn.127.1646079502970; 
+ Mon, 28 Feb 2022 12:18:22 -0800 (PST)
 Received: from liavpc.localdomain ([2a10:800b:ea29:1:266:a58e:9f87:7014])
  by smtp.gmail.com with ESMTPSA id
- p2-20020a05600c418200b00380e4fa28b8sm355259wmh.23.2022.02.28.12.18.06
+ p2-20020a05600c418200b00380e4fa28b8sm355259wmh.23.2022.02.28.12.18.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 12:18:06 -0800 (PST)
+ Mon, 28 Feb 2022 12:18:22 -0800 (PST)
 From: Liav Albani <liavalb@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/3] hw/acpi: add indication for i8042 in IA-PC boot flags
- of the FADT table
-Date: Mon, 28 Feb 2022 22:17:32 +0200
-Message-Id: <20220228201733.714580-3-liavalb@gmail.com>
+Subject: [PATCH v4 3/3] tests/acpi: i386: update FACP table differences
+Date: Mon, 28 Feb 2022 22:17:33 +0200
+Message-Id: <20220228201733.714580-4-liavalb@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220228201733.714580-1-liavalb@gmail.com>
 References: <20220228201733.714580-1-liavalb@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=liavalb@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=liavalb@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,112 +91,174 @@ Cc: ani@anisinha.ca, imammedo@redhat.com, shentey@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This can allow the guest OS to determine more easily if i8042 controller
-is present in the system or not, so it doesn't need to do probing of the
-controller, but just initialize it immediately, before enumerating the
-ACPI AML namespace.
+After changing the IAPC boot flags register to indicate support of i8042
+in the machine chipset to help the guest OS to determine its existence
+"faster", we need to have the updated FACP ACPI binary images in tree.
 
-This change only applies to the x86/q35 machine type, as it uses FACP
-ACPI table with revision higher than 1, which should implement at least
-ACPI 2.0 features within the table, hence it can also set the IA-PC boot
-flags register according to the ACPI 2.0 specification.
+@@ -1,32 +1,32 @@
+ /*
+  * Intel ACPI Component Architecture
+  * AML/ASL+ Disassembler version 20211217 (64-bit version)
+  * Copyright (c) 2000 - 2021 Intel Corporation
+  *
+- * Disassembly of tests/data/acpi/q35/FACP, Wed Feb 23 22:37:39 2022
++ * Disassembly of /tmp/aml-BBFBI1, Wed Feb 23 22:37:39 2022
+  *
+  * ACPI Data Table [FACP]
+  *
+  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue (in hex)
+  */
+
+ [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
+ [004h 0004   4]                 Table Length : 000000F4
+ [008h 0008   1]                     Revision : 03
+-[009h 0009   1]                     Checksum : B9
++[009h 0009   1]                     Checksum : B7
+ [00Ah 0010   6]                       Oem ID : "BOCHS "
+ [010h 0016   8]                 Oem Table ID : "BXPC    "
+ [018h 0024   4]                 Oem Revision : 00000001
+ [01Ch 0028   4]              Asl Compiler ID : "BXPC"
+ [020h 0032   4]        Asl Compiler Revision : 00000001
+
+ [024h 0036   4]                 FACS Address : 00000000
+ [028h 0040   4]                 DSDT Address : 00000000
+ [02Ch 0044   1]                        Model : 01
+ [02Dh 0045   1]                   PM Profile : 00 [Unspecified]
+ [02Eh 0046   2]                SCI Interrupt : 0009
+ [030h 0048   4]             SMI Command Port : 000000B2
+ [034h 0052   1]            ACPI Enable Value : 02
+ [035h 0053   1]           ACPI Disable Value : 03
+ [036h 0054   1]               S4BIOS Command : 00
+ [037h 0055   1]              P-State Control : 00
+@@ -42,35 +42,35 @@
+ [059h 0089   1]     PM1 Control Block Length : 02
+ [05Ah 0090   1]     PM2 Control Block Length : 00
+ [05Bh 0091   1]        PM Timer Block Length : 04
+ [05Ch 0092   1]            GPE0 Block Length : 10
+ [05Dh 0093   1]            GPE1 Block Length : 00
+ [05Eh 0094   1]             GPE1 Base Offset : 00
+ [05Fh 0095   1]                 _CST Support : 00
+ [060h 0096   2]                   C2 Latency : 0FFF
+ [062h 0098   2]                   C3 Latency : 0FFF
+ [064h 0100   2]               CPU Cache Size : 0000
+ [066h 0102   2]           Cache Flush Stride : 0000
+ [068h 0104   1]            Duty Cycle Offset : 00
+ [069h 0105   1]             Duty Cycle Width : 00
+ [06Ah 0106   1]          RTC Day Alarm Index : 00
+ [06Bh 0107   1]        RTC Month Alarm Index : 00
+ [06Ch 0108   1]            RTC Century Index : 32
+-[06Dh 0109   2]   Boot Flags (decoded below) : 0000
++[06Dh 0109   2]   Boot Flags (decoded below) : 0002
+                Legacy Devices Supported (V2) : 0
+-            8042 Present on ports 60/64 (V2) : 0
++            8042 Present on ports 60/64 (V2) : 1
+                         VGA Not Present (V4) : 0
+                       MSI Not Supported (V4) : 0
+                 PCIe ASPM Not Supported (V4) : 0
+                    CMOS RTC Not Present (V5) : 0
+ [06Fh 0111   1]                     Reserved : 00
+ [070h 0112   4]        Flags (decoded below) : 000084A5
+       WBINVD instruction is operational (V1) : 1
+               WBINVD flushes all caches (V1) : 0
+                     All CPUs support C1 (V1) : 1
+                   C2 works on MP system (V1) : 0
+             Control Method Power Button (V1) : 0
+             Control Method Sleep Button (V1) : 1
+         RTC wake not in fixed reg space (V1) : 0
+             RTC can wake system from S4 (V1) : 1
+                         32-bit PM Timer (V1) : 0
+                       Docking Supported (V1) : 0
+@@ -148,32 +148,32 @@
+ [0DCh 0220   1]                     Space ID : 01 [SystemIO]
+ [0DDh 0221   1]                    Bit Width : 80
+ [0DEh 0222   1]                   Bit Offset : 00
+ [0DFh 0223   1]         Encoded Access Width : 00 [Undefined/Legacy]
+ [0E0h 0224   8]                      Address : 0000000000000620
+
+ [0E8h 0232  12]                   GPE1 Block : [Generic Address Structure]
+ [0E8h 0232   1]                     Space ID : 00 [SystemMemory]
+ [0E9h 0233   1]                    Bit Width : 00
+ [0EAh 0234   1]                   Bit Offset : 00
+ [0EBh 0235   1]         Encoded Access Width : 00 [Undefined/Legacy]
+ [0ECh 0236   8]                      Address : 0000000000000000
+
+ Raw Table Data: Length 244 (0xF4)
+
+-    0000: 46 41 43 50 F4 00 00 00 03 B9 42 4F 43 48 53 20  // FACP......BOCHS
++    0000: 46 41 43 50 F4 00 00 00 03 B7 42 4F 43 48 53 20  // FACP......BOCHS
+     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
+     0020: 01 00 00 00 00 00 00 00 00 00 00 00 01 00 09 00  // ................
+     0030: B2 00 00 00 02 03 00 00 00 06 00 00 00 00 00 00  // ................
+     0040: 04 06 00 00 00 00 00 00 00 00 00 00 08 06 00 00  // ................
+     0050: 20 06 00 00 00 00 00 00 04 02 00 04 10 00 00 00  //  ...............
+-    0060: FF 0F FF 0F 00 00 00 00 00 00 00 00 32 00 00 00  // ............2...
++    0060: FF 0F FF 0F 00 00 00 00 00 00 00 00 32 02 00 00  // ............2...
+     0070: A5 84 00 00 01 08 00 00 F9 0C 00 00 00 00 00 00  // ................
+     0080: 0F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+     0090: 00 00 00 00 01 20 00 00 00 06 00 00 00 00 00 00  // ..... ..........
+     00A0: 00 00 00 00 00 00 00 00 00 00 00 00 01 10 00 00  // ................
+     00B0: 04 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+     00C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+     00D0: 01 20 00 00 08 06 00 00 00 00 00 00 01 80 00 00  // . ..............
+     00E0: 20 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00  //  ...............
+     00F0: 00 00 00 00                                      // ....
+**
 
 Signed-off-by: Liav Albani <liavalb@gmail.com>
 ---
- hw/acpi/aml-build.c         | 11 ++++++++++-
- hw/i386/acpi-build.c        |  9 +++++++++
- hw/i386/acpi-microvm.c      |  9 +++++++++
- include/hw/acpi/acpi-defs.h |  1 +
- 4 files changed, 29 insertions(+), 1 deletion(-)
+ tests/data/acpi/q35/FACP                    | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/FACP.nosmm              | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/FACP.slic               | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/FACP.xapic              | Bin 244 -> 244 bytes
+ tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
+ 5 files changed, 4 deletions(-)
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 8966e16320..2085905b83 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -2152,7 +2152,16 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-     build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
-     build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
-     build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
--    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
-+    /* IAPC_BOOT_ARCH */
-+    /*
-+     * This register is not defined in ACPI spec version 1.0, where the FACP
-+     * revision == 1 also applies. Therefore, just ignore setting this register.
-+     */
-+    if (f->rev == 1) {
-+        build_append_int_noprefix(tbl, 0, 2);
-+    } else {
-+        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
-+    }
-     build_append_int_noprefix(tbl, 0, 1); /* Reserved */
-     build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
- 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index ebd47aa26f..c72c7bb9bb 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -38,6 +38,7 @@
- #include "hw/nvram/fw_cfg.h"
- #include "hw/acpi/bios-linker-loader.h"
- #include "hw/isa/isa.h"
-+#include "hw/input/i8042.h"
- #include "hw/block/fdc.h"
- #include "hw/acpi/memory_hotplug.h"
- #include "sysemu/tpm.h"
-@@ -192,6 +193,14 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
-             .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
-         },
-     };
-+    /*
-+     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
-+     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
-+     * (the earliest acpi revision that supports this).
-+     */
-+    fadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
-+                            0x0002 : 0x0000;
-+
-     *data = fadt;
- }
- 
-diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-index 68ca7e7fc2..4bc72b1672 100644
---- a/hw/i386/acpi-microvm.c
-+++ b/hw/i386/acpi-microvm.c
-@@ -31,6 +31,7 @@
- #include "hw/acpi/generic_event_device.h"
- #include "hw/acpi/utils.h"
- #include "hw/acpi/erst.h"
-+#include "hw/input/i8042.h"
- #include "hw/i386/fw_cfg.h"
- #include "hw/i386/microvm.h"
- #include "hw/pci/pci.h"
-@@ -189,6 +190,14 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
-         .reset_val = ACPI_GED_RESET_VALUE,
-     };
- 
-+    /*
-+     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
-+     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
-+     * (the earliest acpi revision that supports this).
-+     */
-+    pmfadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
-+                            0x0002 : 0x0000;
-+
-     table_offsets = g_array_new(false, true /* clear */,
-                                         sizeof(uint32_t));
-     bios_linker_loader_alloc(tables->linker,
-diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index c97e8633ad..2b42e4192b 100644
---- a/include/hw/acpi/acpi-defs.h
-+++ b/include/hw/acpi/acpi-defs.h
-@@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
-     uint16_t plvl2_lat;        /* P_LVL2_LAT */
-     uint16_t plvl3_lat;        /* P_LVL3_LAT */
-     uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
-+    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
-     uint8_t minor_ver;         /* FADT Minor Version */
- 
-     /*
+diff --git a/tests/data/acpi/q35/FACP b/tests/data/acpi/q35/FACP
+index f6a864cc863c7763f6c09d3814ad184a658fa0a0..a8f6a8961109d01059aceef9f1869cde09a2f10c 100644
+GIT binary patch
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^Y)2c$&5@B^V$GgGY3Ne
+
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^UjG}$&3sW^V$GgJqJSo
+
+diff --git a/tests/data/acpi/q35/FACP.nosmm b/tests/data/acpi/q35/FACP.nosmm
+index 6a9aa5f370eb9af6a03dc739d8a159be58fdee01..c4e6d18ee5fc64159160d4589aa96b4d648c913a 100644
+GIT binary patch
+delta 23
+ecmeyu_=S<n&CxmF3j+fKbKXR*WJacmd2Ik#q6Yc^
+
+delta 23
+ecmeyu_=S<n&CxmF3j+fKbHPNeWJZRGd2Ik#tOoi3
+
+diff --git a/tests/data/acpi/q35/FACP.slic b/tests/data/acpi/q35/FACP.slic
+index 15986e095cf2db7ee92f7ce113c1d46d54018c62..48bbb1cf5ad0ceda1d2f6d56edf5c1e207bd1a04 100644
+GIT binary patch
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^M#3A$&5@B^V$Gh6bD=Y
+
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^QDPg$&3sW^V$Gh9tT_i
+
+diff --git a/tests/data/acpi/q35/FACP.xapic b/tests/data/acpi/q35/FACP.xapic
+index 2d3659c9c6753d07c3d48742343cb8e8cc034de7..31fa5dd19c213034eef4eeefa6a04e61dadd8a2a 100644
+GIT binary patch
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^X7?M$&5@B^V$Gg4+lR0
+
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^VW%6$&3sW^V$Gg83#WA
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 7570e39369..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,5 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/q35/FACP",
+-"tests/data/acpi/q35/FACP.nosmm",
+-"tests/data/acpi/q35/FACP.slic",
+-"tests/data/acpi/q35/FACP.xapic",
 -- 
 2.35.1
 
