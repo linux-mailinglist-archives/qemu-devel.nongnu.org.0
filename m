@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EE14C75FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:58:12 +0100 (CET)
-Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B495C4C7539
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 18:52:44 +0100 (CET)
+Received: from localhost ([::1]:34514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOkHj-0008Ap-AJ
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:58:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42624)
+	id 1nOkCR-0004sY-CE
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 12:52:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkAN-0002MC-0s; Mon, 28 Feb 2022 12:50:35 -0500
-Received: from [2607:f8b0:4864:20::230] (port=43528
- helo=mail-oi1-x230.google.com)
+ id 1nOkAB-00020R-MC; Mon, 28 Feb 2022 12:50:23 -0500
+Received: from [2607:f8b0:4864:20::332] (port=46594
+ helo=mail-ot1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nOkA8-0007pJ-0d; Mon, 28 Feb 2022 12:50:34 -0500
-Received: by mail-oi1-x230.google.com with SMTP id s5so13901685oic.10;
- Mon, 28 Feb 2022 09:50:19 -0800 (PST)
+ id 1nOkAA-0007pi-7l; Mon, 28 Feb 2022 12:50:23 -0500
+Received: by mail-ot1-x332.google.com with SMTP id
+ p12-20020a05683019cc00b005af1442c9e9so10086690otp.13; 
+ Mon, 28 Feb 2022 09:50:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EG5W6v7O8+ytzQCLlXSXY+Hj9MWxDL7HvA2iof/Ges8=;
- b=AkFej0GrNjSSVZZkxGv0Z4rgiRzDW35nl2d/33KGE+2vTFwf6VQfZ4Uje2KgpsewlI
- u4HM1kwZzzUGiZJS4IJYz5rdP3SxHCTCqGS9XS0X5pQSgCNeSV8dcNebnw2Hjd7AjtkW
- lPiI9muMCJ5A37oa+f7CeRSKNLu7U76q0ol6iUs6NSjjMwYApKUMMd+4kcda1EVwb1QE
- sAmXd81hz682tIhadtzh/GcrlkSKSKUZLP1uXuIFqajt2TdWnf1bJhj/jIeihKDf3NKI
- JeqjhAlLnHIPeeV/dOmvJJ4BDVtZPgy0BWTVM69KBGPAVIZZ/Kn6o3fW8k+1DrMuhqDO
- b2dg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xrwLekCaz1dVcDl6Q8AHFt/pNZ/bdVatNhyZ7TCu4uQ=;
+ b=VsVhuZACDTigZYeYOSLyHNHmO8s4OKClBHZNvL2YEZXHdB30IaiSkY3fnarpcazrgJ
+ nQ+pqBIh9EjwTghu5BYMQdm3qoIXADvwDWyf87Gn5uN5oR/d9Mbsfk0yrTFSqQmPbcYl
+ yVtQ6Q39zRMFLDdG2FZzxwWSQpFDkdlYgMJ+MU5wcogiCeIv/7q0MLZTaF8bque9lOpi
+ Cz9fAYk4mkvxOAzXyo8S0TpqvpnHd19Yh8cfkVhbZVRwivhTF9c/spMTDzLp1DeF9Ihq
+ chTuDvbHawl7+hn5re02bltlyV3zaYge90OKQCmJcmRAve4vGZ/L0LM2qB7pAXjkyGsI
+ gxXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EG5W6v7O8+ytzQCLlXSXY+Hj9MWxDL7HvA2iof/Ges8=;
- b=qrQVXgkD1qbZK0doKqJnJ8fFyquZCIxXfkWsNDTxPv8YQyGbST+RIDxOdIv+wwj8yr
- V7vo0tJ4MhBmemA5P4m1DODsQ0esIzCn+S9zchT5A+LHraKuehJnPTnqwKH6AYa1m74l
- W2Wt89OjP3YbEqDu7cdzkEcXN8vOFnetxpWHAL9lYROhL4crHLvGlwmvUsFi0NnfA+Zv
- B9alQ80cMMN8rso2aYfabL9kk/O2t3etH/b7Btkz9GAbFAwqCEFSntMMqPt/KVaF7iG1
- bWVKiwra5wyGHm3RHfV93CV1x8ZMBeoICqjsiTa7bYa2SH1Ws2fVZtfEildmKKVVP85T
- Mtig==
-X-Gm-Message-State: AOAM530C+f8Vw38egVlho/J1+jHTjPNahf7U6kXnUe7O01ZTRXgCjyQU
- 3dMBi5iOCgMi/FgvzqCJbRslSXuThfU=
-X-Google-Smtp-Source: ABdhPJyUGPQDmt2MCIFLuMG7u6UqVxcGR+9CVIfKOpzAy3OdJwLRKcO+1crL+hcsi+zR2/U5zV/Wlw==
-X-Received: by 2002:a05:6808:f8e:b0:2d7:d06:1ba9 with SMTP id
- o14-20020a0568080f8e00b002d70d061ba9mr11944957oiw.64.1646070618177; 
- Mon, 28 Feb 2022 09:50:18 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xrwLekCaz1dVcDl6Q8AHFt/pNZ/bdVatNhyZ7TCu4uQ=;
+ b=zrk02wvLClHTIDAAxmLK/bgeTbdAvAnvx7xR5qE20hVMCq+8dJkdx9scEdRGFXqc8c
+ EKjI9hd8wAcwJGx5/4Czj9EvQYXU+l2TFP08qwP8QaZaVJ7mae0N25RbbQpgtidUZ4A9
+ 37UfGUQ6WTKmyxfJsU+bQ6k7/1b8xZh1duWpCyfac3y5FtyD67oCtG38cdwWQrgyq3L+
+ T5oTEmWryvWm65rtaubOi1qI42ftm3MY53sCscxLkIrZVjeW0xferJrBTp/5QALrJ19i
+ 8PqRYkzjndHb4hTKcIsGwFMBV43s76sG/+1NIVhhZOjDGkLF0hT8FOD17yRyKvovGhJS
+ NMRQ==
+X-Gm-Message-State: AOAM532bcvXQPT3QG7luKN7KGBojsu8lcM08daVwRBkAOQjhEGQufWQJ
+ on8RdgHD737fdpyO2eUdGPb/3IhWT5o=
+X-Google-Smtp-Source: ABdhPJwlxJt//BA5s95xAAbl7qOPSqpU3ly7PwpPjfRUtoTAE7y3ba9gAM3ZCUyuU4dalEWmzikjPg==
+X-Received: by 2002:a9d:8b5:0:b0:5a4:9db6:92b4 with SMTP id
+ 50-20020a9d08b5000000b005a49db692b4mr9764289otf.14.1646070620618; 
+ Mon, 28 Feb 2022 09:50:20 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:bec1:d9bb:8ce0:5ce7:a377])
  by smtp.gmail.com with ESMTPSA id
- a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.16
+ a12-20020a9d5c8c000000b005ad51592bd8sm5368481oti.49.2022.02.28.09.50.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 09:50:17 -0800 (PST)
+ Mon, 28 Feb 2022 09:50:20 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/14] simple cleanups in spapr files
-Date: Mon, 28 Feb 2022 14:49:50 -0300
-Message-Id: <20220228175004.8862-1-danielhb413@gmail.com>
+Subject: [PATCH 01/14] hw/ppc/spapr.c: use g_autofree in spapr_dt_chosen()
+Date: Mon, 28 Feb 2022 14:49:51 -0300
+Message-Id: <20220228175004.8862-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220228175004.8862-1-danielhb413@gmail.com>
+References: <20220228175004.8862-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x332.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
 X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,42 +92,37 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-These are some cleanups in spapr files I decided to make after seeing
-Greg adding g_auto* in virtio-9p files.
-
-I also took the opportunity to simplify the logic in some places where I
-found it to be more complex than needed.
-
-Aside from patch 02, no functional change was made in this series.
-
-Daniel Henrique Barboza (14):
-  hw/ppc/spapr.c: use g_autofree in spapr_dt_chosen()
-  hw/ppc/spapr.c: fail early if no firmware found in machine_init()
-  hw/ppc/spapr_caps.c: use g_autofree in spapr_cap_set_string()
-  hw/ppc/spapr_caps.c: use g_autofree in spapr_cap_get_string()
-  hw/ppc/spapr_caps.c: use g_autofree in spapr_caps_add_properties()
-  hw/ppc/spapr_drc.c: use g_auto in spapr_dt_drc()
-  hw/ppc/spapr_drc.c: use g_autofree in drc_realize()
-  hw/ppc/spapr_drc.c: use g_autofree in drc_unrealize()
-  hw/ppc/spapr_drc.c: use g_autofree in spapr_dr_connector_new()
-  hw/ppc/spapr_drc.c: use g_autofree in spapr_drc_by_index()
-  hw/ppc/spapr_numa.c: simplify spapr_numa_write_assoc_lookup_arrays()
-  spapr_pci_nvlink2.c: use g_autofree in
-    spapr_phb_nvgpu_ram_populate_dt()
-  hw/ppc/spapr_rtas.c: use g_autofree in rtas_ibm_get_system_parameter()
-  hw/ppc/spapr_vio.c: use g_autofree in spapr_dt_vdevice()
-
- hw/ppc/spapr.c             | 31 +++++++++++--------------
- hw/ppc/spapr_caps.c        | 22 +++++++-----------
- hw/ppc/spapr_drc.c         | 47 ++++++++++++++------------------------
- hw/ppc/spapr_numa.c        | 16 ++++++-------
- hw/ppc/spapr_pci_nvlink2.c | 10 ++++----
- hw/ppc/spapr_rtas.c        | 25 ++++++++++----------
- hw/ppc/spapr_vio.c         |  6 ++---
- 7 files changed, 64 insertions(+), 93 deletions(-)
-
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index f0b75b22bb..c74543ace3 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1018,9 +1018,9 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
+ 
+     if (reset) {
+         const char *boot_device = spapr->boot_device;
+-        char *stdout_path = spapr_vio_stdout_path(spapr->vio_bus);
++        g_autofree char *stdout_path = spapr_vio_stdout_path(spapr->vio_bus);
+         size_t cb = 0;
+-        char *bootlist = get_boot_devices_list(&cb);
++        g_autofree char *bootlist = get_boot_devices_list(&cb);
+ 
+         if (machine->kernel_cmdline && machine->kernel_cmdline[0]) {
+             _FDT(fdt_setprop_string(fdt, chosen, "bootargs",
+@@ -1087,9 +1087,6 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
+         }
+ 
+         spapr_dt_ov5_platform_support(spapr, fdt, chosen);
+-
+-        g_free(stdout_path);
+-        g_free(bootlist);
+     }
+ 
+     _FDT(spapr_dt_ovec(fdt, chosen, spapr->ov5_cas, "ibm,architecture-vec-5"));
 -- 
 2.35.1
 
