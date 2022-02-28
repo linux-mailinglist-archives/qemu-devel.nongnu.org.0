@@ -2,76 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF044C6258
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 06:07:22 +0100 (CET)
-Received: from localhost ([::1]:51596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9294C629F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Feb 2022 06:27:19 +0100 (CET)
+Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOYFk-0006MO-Am
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 00:07:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58376)
+	id 1nOYZ3-0003EA-Kn
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 00:27:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nOYAA-000526-9u
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 00:01:34 -0500
-Received: from [2a00:1450:4864:20::62a] (port=38656
- helo=mail-ej1-x62a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nOYA6-0004hd-1X
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 00:01:33 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id r13so22378558ejd.5
- for <qemu-devel@nongnu.org>; Sun, 27 Feb 2022 21:01:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5F3rdpsCHk+32nxuR31FLnFccuObuocTvrK2/nbyfNA=;
- b=Ybi1Cpp8uOX4cKPnuZJVcKexKgQHKLB+d31dKoE9w4SKwFXt+yiN2l5TjPugbW7giz
- Lb10xX0GlbfuRt65OcGRoVsdI+Vm+NwtKWAp2ex8q1+XLedWP5xZ+eCUXcIrY497IWBI
- cT6w9vhW1L49GqtoILLkjACbdXIKmWrRUIOZbyPkynjknjGEX2Dm+Svm5mmD8Ge/up2t
- HbgyyQszf3u6GBwcx6bMDrynVyFXuAF/HJUV0ztU3Mos0lgzPxxZoI5zTXhidPb8vrGo
- B1UUMyghMePwS8k1qSk9VjptJVLaXKBVTipAYpsb247ueKKRmUuBJ5/ZObnFL3EhmBl7
- 4Etg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5F3rdpsCHk+32nxuR31FLnFccuObuocTvrK2/nbyfNA=;
- b=aVaWDD4ig2t7zuw8ym+ZGGPm6atZism8uGLNO7lHYivY0+3Mu6nchGHh78eCAF8IEG
- wMlX2HVfeJKfjiFYzoPI7BcuUKMjDSo/L0mjDqSZsOvFbNzNuOSZFjD4nnZFY9lunCl1
- jLCIy241m72HSyEQfi6KN9geHMCSLLGpb8e5eU8H7UG0CWmTnPdsj9cxMBWTWpDaKaQO
- uSrctG18UR53yz3NtsD7vtB2FXCHa0P9EdCx3x4zUrQlvyxKerRTTuLTUbSCMm5PEFn2
- bS8kVHit7escNOsySVZpvmLx5q2VEQwUShb36X/nTnbvuEIJdDCzUo3iiJ1bsiCI6V8P
- aAkw==
-X-Gm-Message-State: AOAM533qfSYZ++Mpe+z3Khb4y6DM5wNd5z0Q2grQuVUOCk9qachNvGNL
- IxSN7V5C05vyBN95QFiBhRXeEi8ZWJQ3vFlawuLwVA==
-X-Google-Smtp-Source: ABdhPJwToQLo5LS4lUMcdz+V7DOTqHpFkxL/iqLCIbZ1Q5nbkF+cHLKDMGtPzKtiMYgUhnvAfvHhf8JPQlRKTPlxHXw=
-X-Received: by 2002:a17:906:d49:b0:6b6:1f07:fb76 with SMTP id
- r9-20020a1709060d4900b006b61f07fb76mr13459488ejh.704.1646024472715; Sun, 27
- Feb 2022 21:01:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
+ id 1nOYUZ-00010o-B6
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 00:22:39 -0500
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:20272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
+ id 1nOYUV-00050M-Je
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 00:22:39 -0500
+Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21REL14V030157;
+ Sun, 27 Feb 2022 21:22:30 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=proofpoint20171006;
+ bh=YOoT02RmQAxH1gKcoDiQreWuUbtq4gAK60KoJzrBPzM=;
+ b=bIvUCLMgGdO0UL+yuFSPIh8801w7mlFeA0HaxQC6BbK9+JTZaBl0vcJuFWrmBgzygTZw
+ /KWM1SEMIu6hCXRyTz07Y/40F9qDqNNL8CBZRJW/HwHa5FF/LNoChC0c0BewqVjktfh6
+ YJOt9TQy/9uExJkhpl+uHjJ9Bs++O3eFPj9kDmwqpxqRPnLE2PN9zlyoX0sAetwnYYPB
+ 10rysCmL5uuoxpGElr3Kra1ZyDQmpxIMCVGttzL0jtR9Z9UCQ6b1C8euUMigdbeThkJM
+ 8Q8atbEf+LQnYjRysOqeXp15NJ7H92pJEPCg8H5m88lhqojs+M8VbhCgQAmoBygBxkmb ZQ== 
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02lp2045.outbound.protection.outlook.com [104.47.57.45])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3efjmd2sna-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 27 Feb 2022 21:22:30 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aSAx7urepU2rBlSUa3uDo1dMRzpPZnsc/N6rEM3AhTcgRGoA+gmR6rJhEbJuRLHcXjBLSo/caxi2szG7p/5Uysbep9rpE8WAf7gQmjegNmkqR4K2cXYkRRUB1mfFzEkduCiW4mnBxg7Srvi3Q2FMgAvvM1CWc06TjIcyWLSgClvIkeQLD1JK+5uvG9LY/ankdDJpGMIspSimRMB2Q1a+9XQtmpjnk54fmWq+N2bDCUvdnLk4W8yxNLYlrNeS0oi7O2zA0PXE6FWqO7yJVFHkji412NH2mw1utBoSywLhjwE5GKQ28VpHgn1KBJNyPxw0ZsFV5e+t37ZrErwRalewBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YOoT02RmQAxH1gKcoDiQreWuUbtq4gAK60KoJzrBPzM=;
+ b=nebAIk1Op/YE/s0JX7Gm1Q6/sJ77dkz5UKAeitTgqtNbbMpwIZUSARptDXNnlP9Zu2e7SxHQoKbaN1FFQJcUPwquwmu1Ysf48ZiH2ImsdbuUVqP8rwqO4BAwtkKHweYzrNBNxNJ7nWZZS2BtcQ1DlVj9vMyp3gRRzgMaqhjPFu/18JxFJhVOgM/BySXhxcWZHIJpDKL2dTyrNhZXG8Ld6qtiiNAts8nXl9Ltb0X3lbk1U/Ly8IW8AHETS//Wc1TLzRwBSKTN8pe/JjDfOY7fm4xda4wMkjX1YjMdnyr7X6AN2miuB68DWqiZ66pSk8NHwcn8HZu1NWrFkJnxo/1q+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BN7PR02MB4033.namprd02.prod.outlook.com (2603:10b6:406:f9::16)
+ by DM6PR02MB5707.namprd02.prod.outlook.com (2603:10b6:5:7e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.24; Mon, 28 Feb
+ 2022 05:22:27 +0000
+Received: from BN7PR02MB4033.namprd02.prod.outlook.com
+ ([fe80::ade5:1204:b102:bfab]) by BN7PR02MB4033.namprd02.prod.outlook.com
+ ([fe80::ade5:1204:b102:bfab%5]) with mapi id 15.20.5017.026; Mon, 28 Feb 2022
+ 05:22:27 +0000
+From: Kshitij Suri <kshitij.suri@nutanix.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/2] Replacing CONFIG_VNC_PNG with CONFIG_PNG
+Date: Mon, 28 Feb 2022 05:22:21 +0000
+Message-Id: <20220228052222.138890-1-kshitij.suri@nutanix.com>
+X-Mailer: git-send-email 2.22.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0024.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::29) To BN7PR02MB4033.namprd02.prod.outlook.com
+ (2603:10b6:406:f9::16)
 MIME-Version: 1.0
-References: <20220226063019.1112654-1-liavalb@gmail.com>
- <20220226063019.1112654-4-liavalb@gmail.com>
- <BE89AC1C-6ED9-4F1E-9DE6-EB1E2CC863E7@gmail.com>
- <6e598f82-e68e-548d-7f72-ea7bcbca0e63@gmail.com>
- <A73557B9-3656-4143-984E-F074EFB8ADBD@gmail.com>
-In-Reply-To: <A73557B9-3656-4143-984E-F074EFB8ADBD@gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 28 Feb 2022 10:31:01 +0530
-Message-ID: <CAARzgwzNKcjsHib=J5i+UWLTXgxGDdkz4VG-qq+6qAaFmt8gOQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-To: Bernhard Beschow <shentey@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::62a;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 091d3c32-eb0a-45da-00b5-08d9fa7a4f03
+X-MS-TrafficTypeDiagnostic: DM6PR02MB5707:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR02MB5707F7491FE75ED0BDA55E1599019@DM6PR02MB5707.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eEl8B2IjsCHXCqO1Sd+E8yzIKpY7CGmou/jXa4srTcGFp2pxmnXBWyNBaBGUGeUwHTR/ruYKPKtlbe7ClMy0RzAzh4VA5F2mE6pxjKCT24IY1yMYSiDgMcRnjXS0+axtDFaueB3ao1w9bCEt+jVpbe1X+YW03LQN3zvoZPrgdzID1cqhcG0+Tb4qrma/iujyk3l2MybFTh7wQbqBP8cqqvuO1IG4QjAQ1Uq1cTIlZtL6OBnPQxoFayz0326ZTeQvBMO6DqkG+ZAUZC0Ca0JERx6nY0osiSCWOGTfbq3eX4tzc0MurtMoPQNzrQzxXB6f5HGcMO+3S3HfY8cMmSqMduib6cgZiMh+QO/aFX3r19hhoM+pKueAXMNBPMim3OTrNiJH4Rw1lj7JuTiYWJMOu/8UN0HsxkpC3M4j6I8+zDhLRGign/G1ajSlNCDT16ODjOvoeYplKdrWInxUgsJy7fUu7HGeBFUS43d70e1OuC7KR4TLrDqqt2tDCEaXk0QNFs1eKdbVXEuVrHv4sk3dBDvNeakqrS4w01NXgILOGY6Ko+wEjw+73B3QJfWDeAQqlajBvuSXPZzgaWMXtijExGao5yDA6p/wLCol8KiTbFe4/qeDlJzLI8/Kmq4KoWk8gIGrOcSKuHQ6Hld31pjwUvaQ3Er9sl6vKMNpT+eceQ0rCAKGebU2PyCdOQtUV+pyVd6sh2HuOhW3jG0prevX9Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN7PR02MB4033.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(52116002)(66556008)(66476007)(66946007)(36756003)(5660300002)(8936002)(107886003)(83380400001)(2906002)(8676002)(4326008)(186003)(26005)(2616005)(1076003)(38100700002)(38350700002)(6486002)(86362001)(316002)(6916009)(6506007)(6512007)(6666004)(508600001)(44832011);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fMI+1OsWWwUyRcCWXhSx97pz2pKqyQDgo3oiAtq6ekoITjEPvdE+mELacg5s?=
+ =?us-ascii?Q?vJF7jvKztx1K8atsdMjDyHWcvFTFlSKGUqE0iFn08e5TUeJwerqzehk7bbDw?=
+ =?us-ascii?Q?gNzsCqnxiWYOOx1FX27m3XpvX3UBM2+BVV5ACPGOMSqFziCFyCN0hG4g3IG0?=
+ =?us-ascii?Q?ls5ROOyztr6daO4Dv/xAdHnCXR0IP3jkhaIPNYFRR0MuMgSwq+flSwUitJtt?=
+ =?us-ascii?Q?aBv2i6NNIaW7vqlAujYOwrnfjtcfQUcM052E9NQ10klpQKzB2Sjv4bIR+F7p?=
+ =?us-ascii?Q?yfgVFe8GNT34KZFp5Z+whO88BSB8n+2077knpu5Og5KxVW/vfjhS9DHFbkqG?=
+ =?us-ascii?Q?KGzM9dOZz5+yw+i+vy4I/e5xcChA8ZnylVW5LNHYURFWmZPI09BZNcuYZlmo?=
+ =?us-ascii?Q?33BSJfjxfSS9wffTSrP7WoNn5px7YHZpecWq9GFHo+UKKeXORnneMUY8bytj?=
+ =?us-ascii?Q?esKY36yQhNcVvB2154GsXVM+IpJagmEIZObERNjrd0DR5bYURqWuto4AG7vW?=
+ =?us-ascii?Q?mBxfeA/oI79cDnXnf7mXva1jtYFMby6jZK/NVsJSp97WLAduAfBJq3RO47GN?=
+ =?us-ascii?Q?/mmDwxP0pRXWY+M4QkelgvW9OCZXpJEgt81vEY3LzbKFDoKC8JjnoLdV/SPi?=
+ =?us-ascii?Q?t25kVplMsSvOxvReBn+JMTBK5/fPT4Yi9Tf6JIPsBFOgbzHve4P/jcDLSaPK?=
+ =?us-ascii?Q?J93D/BG/M7GABbnsXWDGOc/hYcbIgCmIwjWHRwwFzKqHB2Qi/RKa87ePlWOg?=
+ =?us-ascii?Q?/ocU8J9B4uwibQUy/vN9XTc7Dil8wUYSFxuGNAtJ2f7NzFyKJiGfES351qpF?=
+ =?us-ascii?Q?Y/DAV4TQ+fIFc3pKcPj08miJoJ/orIIMYbpYXtnGmKSj166gLI+oP7uZ0Hi4?=
+ =?us-ascii?Q?6QYi+mNMWF0ujzOWXlQtjvoWQDcF81yjFv8KRJ4RH5uu7pK8JVl7eFEuGY0M?=
+ =?us-ascii?Q?D9vzBYJfg/NKpXvwlKrwrBUhFiA8o8UT3RQ2rkc+fxnvbGH+ouvFNtBWiuFo?=
+ =?us-ascii?Q?fKd6Ni4h5W3b3QQ8qK1sR1MC7shMe12DXKGQKZ4hqNVcx0opAMA0BpLy9mV+?=
+ =?us-ascii?Q?O2e6NLHnMAfvw0LoaLKatGXJK+7JCYAE7YYGy6mUlqbwepvTJPjARukQYaMz?=
+ =?us-ascii?Q?BSnKXzEHSV2/yh8wiqf0cD4ivcH8fzprgQF1Ekw6kapbjPF7dDQhrMONDRkw?=
+ =?us-ascii?Q?9asBH5HLemSs0SEBGaAXs2+pVMN5MI7phuI3WIAH7+msRerge3oSX7nuP3HW?=
+ =?us-ascii?Q?O55egFMmw57ZXQu5pTfoMJEgpxzTWzkpBVAX8Pv85vihlu5yetjMmh/Hy1kU?=
+ =?us-ascii?Q?pLzRvMu7ynQ0LzFOdpdGYVbuWJCNrRpqxQN64U/kl1gQcWyMcON+Jl9vRKns?=
+ =?us-ascii?Q?Yuw2Ml1T3aDD433V5o9eeRLhiAmWmZHruOXwQ8EXZ6HvGv0JwQdLmipTJ2nh?=
+ =?us-ascii?Q?e3nha+cl0IZwrQIc7CXY6xOqDyKFbuz67oupyfXE7Iy9k2+QBh5a+9Kyt5+2?=
+ =?us-ascii?Q?o7sfI5Yyfxrh0uUG1CebY9FC0Wgc1k8a7RYTCxvMt7cj/ZWx+uBATW8yhTkS?=
+ =?us-ascii?Q?14QngmDhQ3oMa0XB9rSWjkawXXB+xpl8+t28Snt++NvBERYA0Pd6D1VC92i3?=
+ =?us-ascii?Q?NR+Z7rptT2HmqFrQ9Sjd1eIiu1bDLJLZphVz1nl1KEidNEmaUdx33pP28Gjm?=
+ =?us-ascii?Q?v/lGetCamRGkzrIicpnuo/LdzSc=3D?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 091d3c32-eb0a-45da-00b5-08d9fa7a4f03
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4033.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 05:22:26.9436 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oIUVQV3kPTTfSYgR48wl6coA8pBOivDhX+MtJwZM2rSp2izHwIFxjPst/Wb1XAJ9W34hUyhhQHjE5PqlizE3VCak8cWHinjmU3WvW6STg0A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5707
+X-Proofpoint-GUID: hy1o6dMJ-a6eT8xTvje80Jxf83dqAkik
+X-Proofpoint-ORIG-GUID: hy1o6dMJ-a6eT8xTvje80Jxf83dqAkik
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-02-28_01,2022-02-26_01,2022-02-23_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=kshitij.suri@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,124 +148,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, mst@redhat.com, Liav Albani <liavalb@gmail.com>,
- qemu-devel@nongnu.org
+Cc: soham.ghosh@nutanix.com, thuth@redhat.com, prerna.saxena@nutanix.com,
+ dgilbert@redhat.com, armbru@redhat.com,
+ Kshitij Suri <kshitij.suri@nutanix.com>, kraxel@redhat.com,
+ prachatos.mitra@nutanix.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 28, 2022 at 3:03 AM Bernhard Beschow <shentey@gmail.com> wrote:
->
-> Am 27. Februar 2022 18:58:18 UTC schrieb Liav Albani <liavalb@gmail.com>:
-> >
-> >On 2/27/22 12:48, Bernhard Beschow wrote:
-> >> Am 26. Februar 2022 06:30:18 UTC schrieb Liav Albani <liavalb@gmail.com>:
-> >>> This can allow the guest OS to determine more easily if i8042 controller
-> >>> is present in the system or not, so it doesn't need to do probing of the
-> >>> controller, but just initialize it immediately, before enumerating the
-> >>> ACPI AML namespace.
-> >>>
-> >>> Signed-off-by: Liav Albani <liavalb@gmail.com>
-> >>> ---
-> >>> hw/acpi/aml-build.c         | 7 ++++++-
-> >>> hw/i386/acpi-build.c        | 8 ++++++++
-> >>> hw/i386/acpi-microvm.c      | 9 +++++++++
-> >>> include/hw/acpi/acpi-defs.h | 1 +
-> >>> 4 files changed, 24 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> >>> index 8966e16320..ef5f4cad87 100644
-> >>> --- a/hw/acpi/aml-build.c
-> >>> +++ b/hw/acpi/aml-build.c
-> >>> @@ -2152,7 +2152,12 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-> >>>      build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
-> >>>      build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
-> >>>      build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
-> >>> -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
-> >>> +    /* IAPC_BOOT_ARCH */
-> >>> +    if (f->rev == 1) {
-> >>> +        build_append_int_noprefix(tbl, 0, 2);
-> >>> +    } else {
-> >>> +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
-> >>> +    }
-> >>>      build_append_int_noprefix(tbl, 0, 1); /* Reserved */
-> >>>      build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
-> >>>
-> >>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> >>> index ebd47aa26f..65dbc1ec36 100644
-> >>> --- a/hw/i386/acpi-build.c
-> >>> +++ b/hw/i386/acpi-build.c
-> >>> @@ -192,6 +192,14 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
-> >>>              .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
-> >>>          },
-> >>>      };
-> >>> +    /*
-> >>> +     * second bit of 16 but IAPC_BOOT_ARCH indicates presence of 8042 or
-> >>> +     * equivalent micro controller. See table 5-10 of APCI spec version 2.0
-> >>> +     * (the earliest acpi revision that supports this).
-> >>> +     */
-> >>> +
-> >>> +    fadt.iapc_boot_arch = isa_check_device_existence("i8042") ? 0x0002 : 0x0000;
-> >> Couldn't qdev_find_recursive() be used here instead? This would also make patch 1 unneccessary. Same below.
-> >>
-> >> Best regards
-> >> Bernhard
-> >
-> >I tried it first, but because it tries to find the ID of a device
-> >instead of a type (I look for i8042 type which is a string of the device
-> >type), it didn't work as expected. We don't compare DeviceState id, but
-> >ObjectClass type->name here :)
->
-> I see. What about object_resolve_path_type()? It takes a typename parameter. It even tells you if the match is ambiguous if you care.
+Libpng is only detected if VNC is enabled currently. This patch adds a
+generalised png option in the meson build which is aimed to replace use of
+CONFIG_VNC_PNG with CONFIG_PNG.
 
-Yes this is a good suggestion and it will likely work.
-You can get rid of your first patch and only make the following change:
+Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
+---
+ meson.build        | 10 +++++-----
+ meson_options.txt  |  4 ++--
+ ui/vnc-enc-tight.c | 18 +++++++++---------
+ ui/vnc.c           |  4 ++--
+ ui/vnc.h           |  2 +-
+ 5 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 65dbc1ec36..d82c39490c 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -38,6 +38,7 @@
- #include "hw/nvram/fw_cfg.h"
- #include "hw/acpi/bios-linker-loader.h"
- #include "hw/isa/isa.h"
-+#include "hw/input/i8042.h"
- #include "hw/block/fdc.h"
- #include "hw/acpi/memory_hotplug.h"
- #include "sysemu/tpm.h"
-@@ -198,7 +199,7 @@ static void init_common_fadt_data(MachineState
-*ms, Object *o,
-      * (the earliest acpi revision that supports this).
-      */
-
--    fadt.iapc_boot_arch = isa_check_device_existence("i8042") ?
-0x0002 : 0x0000;
-+    fadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042,
-NULL) ? 0x0002 : 0x0000;
-
-     *data = fadt;
+diff --git a/meson.build b/meson.build
+index 8df40bfac4..3638957fc5 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1112,14 +1112,14 @@ if gtkx11.found()
+   x11 = dependency('x11', method: 'pkg-config', required: gtkx11.found(),
+                    kwargs: static_kwargs)
+ endif
+-vnc = not_found
+ png = not_found
++png = dependency('libpng', required: get_option('png'),
++                 method: 'pkg-config', kwargs: static_kwargs)
++vnc = not_found
+ jpeg = not_found
+ sasl = not_found
+ if get_option('vnc').allowed() and have_system
+   vnc = declare_dependency() # dummy dependency
+-  png = dependency('libpng', required: get_option('vnc_png'),
+-                   method: 'pkg-config', kwargs: static_kwargs)
+   jpeg = dependency('libjpeg', required: get_option('vnc_jpeg'),
+                     method: 'pkg-config', kwargs: static_kwargs)
+   sasl = cc.find_library('sasl2', has_headers: ['sasl/sasl.h'],
+@@ -1537,9 +1537,9 @@ config_host_data.set('CONFIG_TPM', have_tpm)
+ config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+ config_host_data.set('CONFIG_VDE', vde.found())
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
++config_host_data.set('CONFIG_PNG', png.found())
+ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+-config_host_data.set('CONFIG_VNC_PNG', png.found())
+ config_host_data.set('CONFIG_VNC_SASL', sasl.found())
+ config_host_data.set('CONFIG_VIRTFS', have_virtfs)
+ config_host_data.set('CONFIG_VTE', vte.found())
+@@ -3579,11 +3579,11 @@ summary_info += {'curses support':    curses}
+ summary_info += {'virgl support':     virgl}
+ summary_info += {'curl support':      curl}
+ summary_info += {'Multipath support': mpathpersist}
++summary_info += {'PNG support':       png}
+ summary_info += {'VNC support':       vnc}
+ if vnc.found()
+   summary_info += {'VNC SASL support':  sasl}
+   summary_info += {'VNC JPEG support':  jpeg}
+-  summary_info += {'VNC PNG support':   png}
+ endif
+ if targetos not in ['darwin', 'haiku', 'windows']
+   summary_info += {'OSS support':     oss}
+diff --git a/meson_options.txt b/meson_options.txt
+index 52b11cead4..d85734f8e6 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -177,12 +177,12 @@ option('vde', type : 'feature', value : 'auto',
+        description: 'vde network backend support')
+ option('virglrenderer', type : 'feature', value : 'auto',
+        description: 'virgl rendering support')
++option('png', type : 'feature', value : 'auto',
++       description: 'PNG support with libpng')
+ option('vnc', type : 'feature', value : 'auto',
+        description: 'VNC server')
+ option('vnc_jpeg', type : 'feature', value : 'auto',
+        description: 'JPEG lossy compression for VNC server')
+-option('vnc_png', type : 'feature', value : 'auto',
+-       description: 'PNG compression for VNC server')
+ option('vnc_sasl', type : 'feature', value : 'auto',
+        description: 'SASL authentication for VNC server')
+ option('vte', type : 'feature', value : 'auto',
+diff --git a/ui/vnc-enc-tight.c b/ui/vnc-enc-tight.c
+index cebd35841a..a23ad712eb 100644
+--- a/ui/vnc-enc-tight.c
++++ b/ui/vnc-enc-tight.c
+@@ -32,7 +32,7 @@
+    INT32 definitions between jmorecfg.h (included by jpeglib.h) and
+    Win32 basetsd.h (included by windows.h). */
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ /* The following define is needed by pngconf.h. Otherwise it won't compile,
+    because setjmp.h was already included by qemu-common.h. */
+ #define PNG_SKIP_SETJMP_CHECK
+@@ -95,7 +95,7 @@ static const struct {
+ };
+ #endif
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ static const struct {
+     int png_zlib_level, png_filters;
+ } tight_png_conf[] = {
+@@ -919,7 +919,7 @@ static int send_full_color_rect(VncState *vs, int x, int y, int w, int h)
+     int stream = 0;
+     ssize_t bytes;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         return send_png_rect(vs, x, y, w, h, NULL);
+     }
+@@ -966,7 +966,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
+     int stream = 1;
+     int level = tight_conf[vs->tight->compression].mono_zlib_level;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         int ret;
+         int bpp = vs->client_pf.bytes_per_pixel * 8;
+@@ -1020,7 +1020,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
+ struct palette_cb_priv {
+     VncState *vs;
+     uint8_t *header;
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     png_colorp png_palette;
+ #endif
+ };
+@@ -1082,7 +1082,7 @@ static int send_palette_rect(VncState *vs, int x, int y,
+     int colors;
+     ssize_t bytes;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         return send_png_rect(vs, x, y, w, h, palette);
+     }
+@@ -1233,7 +1233,7 @@ static int send_jpeg_rect(VncState *vs, int x, int y, int w, int h, int quality)
+ /*
+  * PNG compression stuff.
+  */
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ static void write_png_palette(int idx, uint32_t pix, void *opaque)
+ {
+     struct palette_cb_priv *priv = opaque;
+@@ -1379,7 +1379,7 @@ static int send_png_rect(VncState *vs, int x, int y, int w, int h,
+     buffer_reset(&vs->tight->png);
+     return 1;
  }
-diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-index e5f89164be..502ae61a17 100644
---- a/hw/i386/acpi-microvm.c
-+++ b/hw/i386/acpi-microvm.c
-@@ -33,6 +33,7 @@
- #include "hw/acpi/erst.h"
- #include "hw/i386/fw_cfg.h"
- #include "hw/i386/microvm.h"
-+#include "hw/input/i8042.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pcie_host.h"
- #include "hw/usb/xhci.h"
-@@ -195,7 +196,7 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
-      * (the earliest acpi revision that supports this).
-      */
+-#endif /* CONFIG_VNC_PNG */
++#endif /* CONFIG_PNG */
+ 
+ static void vnc_tight_start(VncState *vs)
+ {
+@@ -1706,7 +1706,7 @@ void vnc_tight_clear(VncState *vs)
+ #ifdef CONFIG_VNC_JPEG
+     buffer_free(&vs->tight->jpeg);
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     buffer_free(&vs->tight->png);
+ #endif
+ }
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 3ccd33dedc..a588ddff1c 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -2165,7 +2165,7 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
+             vs->features |= VNC_FEATURE_TIGHT_MASK;
+             vs->vnc_encoding = enc;
+             break;
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+         case VNC_ENCODING_TIGHT_PNG:
+             vs->features |= VNC_FEATURE_TIGHT_PNG_MASK;
+             vs->vnc_encoding = enc;
+@@ -3248,7 +3248,7 @@ static void vnc_connect(VncDisplay *vd, QIOChannelSocket *sioc,
+ #ifdef CONFIG_VNC_JPEG
+     buffer_init(&vs->tight->jpeg,     "vnc-tight-jpeg/%p", sioc);
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     buffer_init(&vs->tight->png,      "vnc-tight-png/%p", sioc);
+ #endif
+     buffer_init(&vs->zlib.zlib,      "vnc-zlib/%p", sioc);
+diff --git a/ui/vnc.h b/ui/vnc.h
+index a7149831f9..a60fb13115 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -201,7 +201,7 @@ typedef struct VncTight {
+ #ifdef CONFIG_VNC_JPEG
+     Buffer jpeg;
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     Buffer png;
+ #endif
+     int levels[4];
+-- 
+2.22.3
 
--    pmfadt.iapc_boot_arch = isa_check_device_existence("i8042") ? 0x0002
-+    pmfadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042,
-NULL) ? 0x0002
-                             : 0x0000;
-
-     table_offsets = g_array_new(false, true /* clear */,
-
-Please re-test your change.
 
