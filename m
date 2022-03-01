@@ -2,63 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C144C8096
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 02:57:41 +0100 (CET)
-Received: from localhost ([::1]:49390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAEB4C805B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 02:32:04 +0100 (CET)
+Received: from localhost ([::1]:39434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOrlk-0006sV-CM
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 20:57:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55336)
+	id 1nOrMx-00077B-3C
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 20:32:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vineet.gupta@linux.dev>)
- id 1nOrJJ-0005kf-9O
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 20:28:17 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:48002)
+ (Exim 4.90_1) (envelope-from <gceq-qemu-devel2@m.gmane-mx.org>)
+ id 1nOrJO-0005lC-LG
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 20:28:24 -0500
+Received: from ciao.gmane.io ([116.202.254.214]:49354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vineet.gupta@linux.dev>)
- id 1nOrJH-0007h6-Cw
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 20:28:16 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id F06BD61565;
- Tue,  1 Mar 2022 01:28:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2709CC340EE;
- Tue,  1 Mar 2022 01:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
- t=1646098092; bh=nBpKn2l4/jL9/oP1jNHX31dDFgP/8N2Rhj+vUx+tWak=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GUG2iIMU6VojsYohPRJJIJqyZ2IV7QbwzG3HI+q6ppr4bCprFLOZYvwHAFOoYaGUY
- f7OHhT1qSyS+votuPT70bhu6xYM5SzlT/nWv4JGIQ1pRjA3Ho7tH/nmEjfySbYdMeK
- wjyBMAEBDnkVgK1T5d0m1OW6T0y9kEO80BxK9dWc=
-Message-ID: <b7676252-781d-a7c6-6172-09dd319ef744@linux.dev>
-Date: Mon, 28 Feb 2022 17:28:09 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
+ (Exim 4.90_1) (envelope-from <gceq-qemu-devel2@m.gmane-mx.org>)
+ id 1nOrJN-0007hX-9b
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 20:28:22 -0500
+Received: from list by ciao.gmane.io with local (Exim 4.92)
+ (envelope-from <gceq-qemu-devel2@m.gmane-mx.org>) id 1nOrJJ-0004u6-U4
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 02:28:17 +0100
+X-Injected-Via-Gmane: http://gmane.org/
+To: qemu-devel@nongnu.org
+From: Vineet Gupta <vineet.gupta@linux.dev>
 Subject: Re: [PATCH] target/riscv: fix inverted checks for ext_zb[abcs]
-Content-Language: en-US
-To: Alistair Francis <alistair23@gmail.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
-Newsgroups: gmane.comp.emulators.qemu
+Date: Mon, 28 Feb 2022 17:28:09 -0800
+Message-ID: <b7676252-781d-a7c6-6172-09dd319ef744@linux.dev>
 References: <20220203153946.2676353-1-philipp.tomsich@vrull.eu>
  <CAKmqyKOLO7VdSPsXmeqQN-z3a2bKZQ3yeQqCmjt-SBpT9MfcgA@mail.gmail.com>
-From: Vineet Gupta <vineet.gupta@linux.dev>
-In-Reply-To: <CAKmqyKOLO7VdSPsXmeqQN-z3a2bKZQ3yeQqCmjt-SBpT9MfcgA@mail.gmail.com>
+Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=vineet.gupta@linux.dev; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+In-Reply-To: <CAKmqyKOLO7VdSPsXmeqQN-z3a2bKZQ3yeQqCmjt-SBpT9MfcgA@mail.gmail.com>
+Received-SPF: pass client-ip=116.202.254.214;
+ envelope-from=gceq-qemu-devel2@m.gmane-mx.org; helo=ciao.gmane.io
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 28 Feb 2022 20:56:11 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,5 +146,6 @@ Thx,
 >>
 > 
 > 
+
 
 
