@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59114C8BAB
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 13:33:24 +0100 (CET)
-Received: from localhost ([::1]:54074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A5B4C8BBC
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 13:36:26 +0100 (CET)
+Received: from localhost ([::1]:55898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP1gx-0007cv-Rz
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 07:33:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37046)
+	id 1nP1js-0000fz-Vr
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 07:36:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nP1WT-00020b-QZ; Tue, 01 Mar 2022 07:22:34 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:49925)
+ id 1nP1XJ-0002qv-Pz; Tue, 01 Mar 2022 07:23:25 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:44857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nP1WQ-0004RI-Hj; Tue, 01 Mar 2022 07:22:33 -0500
+ id 1nP1XG-0004dB-Qj; Tue, 01 Mar 2022 07:23:24 -0500
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id EBFA35C016A;
- Tue,  1 Mar 2022 07:22:28 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 062785C017C;
+ Tue,  1 Mar 2022 07:23:22 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 01 Mar 2022 07:22:28 -0500
+ by compute3.internal (MEProxy); Tue, 01 Mar 2022 07:23:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=GYonGP97K1OPVe6Rx0izlTsRGfQ9+e
- FM4pvVsMA6UXo=; b=QcRqAiSREIzz1hXVQDpVULo/+jGHblsbWdb/Ohij+lFVHV
- DFgCyXLWkjGnmPAQCsIdH+xa6YvAHrbWIulOz5zO0hfv0htiVEkX0t3N7WPlBPfo
- m7+yFdB8YJK5Wrg8ztwsYfwGMplvwg1k9FBgF4ZP6OHPT3x+PMyeVrUnaovkq1ba
- QbNzk6owovxQLEiN6pUylRTGf9et9fxuKBxzsNgKRRPKIZyf+hPI89BPZlPK6R70
- Soy6RGRt6qb6meNCmHURvDP4tycfIXnHbxyEdd4Nsl1BStPoQwqdLqJmX6wTZjSI
- Wd5LcpW7J8Wuqbfjsz2VJHYiZvnvBPFWbSQ6/ooQ==
+ :subject:subject:to:to; s=fm2; bh=+3soqPys/wPoX6h+1SmI7CtRFP4GvF
+ wFQueSQWws4aQ=; b=RIuudcCqQUiWOfOmuRmaP56sd3WXzwAfmgNxJN8UjDZNw/
+ hBnzNPXjvWOKloP0EqO09maorbqB3hZICLrt6SOyFUVB0T67dnAtnb2nDA/gsx34
+ KCjF8SRZCVXBjgjy9S2lHja5yn+jXEif8xznGPGU1dg7St5PnGGinrn8PLO+k34l
+ NtJKQlVvrVP4NIOkewzGWkjv7czy4u2IZJ2H4PGSpz/tOfsu8P4M/txxdETMNKi+
+ j0KTT2AwVJ1i6TYIpz/Sg4t4TG7yU2nBnRgEuIAm5bKSfTvHedThQrLUb4Qtf99u
+ 00oLlsd3tV+Gntb6LMRwIteXDVVD5LtDNMBe+5NA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GYonGP97K1OPVe6Rx
- 0izlTsRGfQ9+eFM4pvVsMA6UXo=; b=DHUThrmejlviHeyNxFMdMFTghvm9VFR+p
- wd6ahdmDU+u+DUYrTavWisqJfuqjuRyQp5im0//kv71DstLlzF5TvVcTJNJquR4i
- NX2NPWzHpk9n+rYHkw1QJmRaQh8sBGs+lJNFwPsgL4pZHAJ9Yji80aFaW6BrvAB2
- /Bv5reI0xit+zh8xA0aoxLdHEN3vzHoUMVp981vxXJbr8MTW2iU5f7dmL6TlDO4e
- Q2sq4uYmbrusHxmc88f0PgzzOEFMMD17rRRl9MmlfnOFuVdAK3/m/Gwq3ZktZjrj
- IjXGG8HL/aC0neaSuJ/SYaLs+onAxTFA/NpMlLESRQTGvKA+euJTw==
-X-ME-Sender: <xms:BBAeYjl5ezikETNKDeEpHyvK9pfaNsex6m8ApjeQSBLq4zQv4MZ_bw>
- <xme:BBAeYm3v_XE_6wAEfolP2ZvQRhb_eJiTK-7t-h25WWeVqO-ZaXbjZyiWydi5fHeSK
- Zg4w7Yg4BnKpO0qmgQ>
-X-ME-Received: <xmr:BBAeYpo3F-T7cDtw0gqzM1Kci4xMJxvcvNpQixhKKYDBItLoogKX_U06LSW5EgfobI4XPeCSwRp2wpBmJ40>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=+3soqPys/wPoX6h+1
+ SmI7CtRFP4GvFwFQueSQWws4aQ=; b=OlBGy/eJ9v/0daWZzQfvwXDd59WvbgaBt
+ FqCe8GiRlxCip8N56t2uLQFysXGlqWL8xUf9WqAjPpnTVUc0Bn4zdKpnnnSj/7n0
+ Uiee/aC/FjTKzjFzsxc1jIz4cv4Sz8RjVWC5w0rDn293t16+ZdP4P9QvQJSdxEDI
+ M1fSXmtHn1BzRfo2xU/Enf4iDf9jcPx4C96nNIgJziCANu9htND2di5Qx19pJ0mu
+ b/CK+L1z7xNc7AVcGQoRHChaXPAsihrXCCV0vUrftUWjKx1Td/q1UGo6oUOtcPEU
+ /K2f9kdUwowYo40gqts3iQCtJ0GXmyr0IZZ8jApmry5xWfQqYP8Jw==
+X-ME-Sender: <xms:ORAeYn3pZtmCZfL9jycHmubrV95tewYUexkAB1OEUmndbC6fGqLqZg>
+ <xme:ORAeYmHUyfMyE15lWDKU1XQ3_s1fvK5y1VFUWz9djkru8luz-2pADAiJPZ5gOn5OO
+ mXBvFP_4jtvqE1Yh4c>
+X-ME-Received: <xmr:ORAeYn7rigA88lBktK77eeshe2AE7wCLEoOiQSwZBMuDwxmaAyvHDzK2m4vLOTDjMKHnkZJHneTCruGTgUY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtvddgfeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:BBAeYrl0sgytzuVPX5z5VEhOc5Y8C15W4FnUlfxbS3Qfcl3OG5PEjw>
- <xmx:BBAeYh2tqQHt_SJptVc8VLt-9dulWpgRSUe_jdR7T99blDEJbGgaEA>
- <xmx:BBAeYqtfaWQqnqQsOtqUqFz3jubvSv0vDMd41rOnv255cNqiq8wtTw>
- <xmx:BBAeYsQzUTd_5dl6e23GpjZAcsfkbGuSAwnyzXrw_W7jEZZpw1GKfA>
+X-ME-Proxy: <xmx:ORAeYs3kxKtCaDV75mXu_QJdCUboUvtTib34D1VhFvAc_JLydg3leQ>
+ <xmx:ORAeYqFdpffhmhoTO4b_cXPDeUkFfxX9iuhbvFpa9H7z6_YWSWh5ug>
+ <xmx:ORAeYt8f2nIC2a79Zs6Vo_yboCi0qeD2DDvhcL0I3ySfeGL2dDdCgQ>
+ <xmx:OhAeYoav42U0x2Gn-a6o1VxRcO02xKoUY1DO1GequbFQQew0zyAv_g>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 1 Mar 2022 07:22:27 -0500 (EST)
-Date: Tue, 1 Mar 2022 13:22:25 +0100
+ 1 Mar 2022 07:23:20 -0500 (EST)
+Date: Tue, 1 Mar 2022 13:23:18 +0100
 From: Klaus Jensen <its@irrelevant.dk>
 To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Subject: Re: [PATCH v5 09/15] hw/nvme: Make max_ioqpairs and msix_qsize
- configurable in runtime
-Message-ID: <Yh4QAUMRwS/FQEAX@apples>
+Subject: Re: [PATCH v5 14/15] docs: Add documentation for SR-IOV and
+ Virtualization Enhancements
+Message-ID: <Yh4QNqgQ+jl+sZCC@apples>
 References: <20220217174504.1051716-1-lukasz.maniak@linux.intel.com>
- <20220217174504.1051716-10-lukasz.maniak@linux.intel.com>
+ <20220217174504.1051716-15-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="n6Cbr8/L31bQIer9"
+ protocol="application/pgp-signature"; boundary="V6IWJgBnCeO4k4T7"
 Content-Disposition: inline
-In-Reply-To: <20220217174504.1051716-10-lukasz.maniak@linux.intel.com>
+In-Reply-To: <20220217174504.1051716-15-lukasz.maniak@linux.intel.com>
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -95,233 +95,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>,
+Cc: qemu-block@nongnu.org,
  =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---n6Cbr8/L31bQIer9
+--V6IWJgBnCeO4k4T7
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Feb 17 18:44, Lukasz Maniak wrote:
-> From: =C5=81ukasz Gieryk <lukasz.gieryk@linux.intel.com>
->=20
-> The NVMe device defines two properties: max_ioqpairs, msix_qsize. Having
-> them as constants is problematic for SR-IOV support.
->=20
-> SR-IOV introduces virtual resources (queues, interrupts) that can be
-> assigned to PF and its dependent VFs. Each device, following a reset,
-> should work with the configured number of queues. A single constant is
-> no longer sufficient to hold the whole state.
->=20
-> This patch tries to solve the problem by introducing additional
-> variables in NvmeCtrl=E2=80=99s state. The variables for, e.g., managing =
-queues
-> are therefore organized as:
->  - n->params.max_ioqpairs =E2=80=93 no changes, constant set by the user
->  - n->(mutable_state) =E2=80=93 (not a part of this patch) user-configura=
-ble,
->                         specifies number of queues available _after_
->                         reset
->  - n->conf_ioqpairs - (new) used in all the places instead of the =E2=80=
-=98old=E2=80=99
->                       n->params.max_ioqpairs; initialized in realize()
->                       and updated during reset() to reflect user=E2=80=99s
->                       changes to the mutable state
->=20
-> Since the number of available i/o queues and interrupts can change in
-> runtime, buffers for sq/cqs and the MSIX-related structures are
-> allocated big enough to handle the limits, to completely avoid the
-> complicated reallocation. A helper function (nvme_update_msixcap_ts)
-> updates the corresponding capability register, to signal configuration
-> changes.
->=20
-> Signed-off-by: =C5=81ukasz Gieryk <lukasz.gieryk@linux.intel.com>
+On Feb 17 18:45, Lukasz Maniak wrote:
+> Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 
-LGTM.
+Please add a short commit description as well. Otherwise,
 
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
 > ---
->  hw/nvme/ctrl.c | 52 ++++++++++++++++++++++++++++++++++----------------
->  hw/nvme/nvme.h |  2 ++
->  2 files changed, 38 insertions(+), 16 deletions(-)
+>  docs/system/devices/nvme.rst | 82 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 82 insertions(+)
 >=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 7c1dd80f21d..f1b4026e4f8 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -445,12 +445,12 @@ static bool nvme_nsid_valid(NvmeCtrl *n, uint32_t n=
-sid)
-> =20
->  static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
->  {
-> -    return sqid < n->params.max_ioqpairs + 1 && n->sq[sqid] !=3D NULL ? =
-0 : -1;
-> +    return sqid < n->conf_ioqpairs + 1 && n->sq[sqid] !=3D NULL ? 0 : -1;
->  }
-> =20
->  static int nvme_check_cqid(NvmeCtrl *n, uint16_t cqid)
->  {
-> -    return cqid < n->params.max_ioqpairs + 1 && n->cq[cqid] !=3D NULL ? =
-0 : -1;
-> +    return cqid < n->conf_ioqpairs + 1 && n->cq[cqid] !=3D NULL ? 0 : -1;
->  }
-> =20
->  static void nvme_inc_cq_tail(NvmeCQueue *cq)
-> @@ -4188,8 +4188,7 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeReq=
-uest *req)
->          trace_pci_nvme_err_invalid_create_sq_cqid(cqid);
->          return NVME_INVALID_CQID | NVME_DNR;
->      }
-> -    if (unlikely(!sqid || sqid > n->params.max_ioqpairs ||
-> -        n->sq[sqid] !=3D NULL)) {
-> +    if (unlikely(!sqid || sqid > n->conf_ioqpairs || n->sq[sqid] !=3D NU=
-LL)) {
->          trace_pci_nvme_err_invalid_create_sq_sqid(sqid);
->          return NVME_INVALID_QID | NVME_DNR;
->      }
-> @@ -4541,8 +4540,7 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeReq=
-uest *req)
->      trace_pci_nvme_create_cq(prp1, cqid, vector, qsize, qflags,
->                               NVME_CQ_FLAGS_IEN(qflags) !=3D 0);
-> =20
-> -    if (unlikely(!cqid || cqid > n->params.max_ioqpairs ||
-> -        n->cq[cqid] !=3D NULL)) {
-> +    if (unlikely(!cqid || cqid > n->conf_ioqpairs || n->cq[cqid] !=3D NU=
-LL)) {
->          trace_pci_nvme_err_invalid_create_cq_cqid(cqid);
->          return NVME_INVALID_QID | NVME_DNR;
->      }
-> @@ -4558,7 +4556,7 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeReq=
-uest *req)
->          trace_pci_nvme_err_invalid_create_cq_vector(vector);
->          return NVME_INVALID_IRQ_VECTOR | NVME_DNR;
->      }
-> -    if (unlikely(vector >=3D n->params.msix_qsize)) {
-> +    if (unlikely(vector >=3D n->conf_msix_qsize)) {
->          trace_pci_nvme_err_invalid_create_cq_vector(vector);
->          return NVME_INVALID_IRQ_VECTOR | NVME_DNR;
->      }
-> @@ -5155,13 +5153,12 @@ defaults:
-> =20
->          break;
->      case NVME_NUMBER_OF_QUEUES:
-> -        result =3D (n->params.max_ioqpairs - 1) |
-> -            ((n->params.max_ioqpairs - 1) << 16);
-> +        result =3D (n->conf_ioqpairs - 1) | ((n->conf_ioqpairs - 1) << 1=
-6);
->          trace_pci_nvme_getfeat_numq(result);
->          break;
->      case NVME_INTERRUPT_VECTOR_CONF:
->          iv =3D dw11 & 0xffff;
-> -        if (iv >=3D n->params.max_ioqpairs + 1) {
-> +        if (iv >=3D n->conf_ioqpairs + 1) {
->              return NVME_INVALID_FIELD | NVME_DNR;
->          }
-> =20
-> @@ -5316,10 +5313,10 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, Nvm=
-eRequest *req)
-> =20
->          trace_pci_nvme_setfeat_numq((dw11 & 0xffff) + 1,
->                                      ((dw11 >> 16) & 0xffff) + 1,
-> -                                    n->params.max_ioqpairs,
-> -                                    n->params.max_ioqpairs);
-> -        req->cqe.result =3D cpu_to_le32((n->params.max_ioqpairs - 1) |
-> -                                      ((n->params.max_ioqpairs - 1) << 1=
-6));
-> +                                    n->conf_ioqpairs,
-> +                                    n->conf_ioqpairs);
-> +        req->cqe.result =3D cpu_to_le32((n->conf_ioqpairs - 1) |
-> +                                      ((n->conf_ioqpairs - 1) << 16));
->          break;
->      case NVME_ASYNCHRONOUS_EVENT_CONF:
->          n->features.async_config =3D dw11;
-> @@ -5757,8 +5754,24 @@ static void nvme_process_sq(void *opaque)
->      }
->  }
-> =20
-> +static void nvme_update_msixcap_ts(PCIDevice *pci_dev, uint32_t table_si=
-ze)
-> +{
-> +    uint8_t *config;
+> diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
+> index b5acb2a9c19..aba253304e4 100644
+> --- a/docs/system/devices/nvme.rst
+> +++ b/docs/system/devices/nvme.rst
+> @@ -239,3 +239,85 @@ The virtual namespace device supports DIF- and DIX-b=
+ased protection information
+>    to ``1`` to transfer protection information as the first eight bytes of
+>    metadata. Otherwise, the protection information is transferred as the =
+last
+>    eight bytes.
 > +
-> +    if (!msix_present(pci_dev)) {
-> +        return;
-> +    }
+> +Virtualization Enhancements and SR-IOV (Experimental Support)
+> +-------------------------------------------------------------
 > +
-> +    assert(table_size > 0 && table_size <=3D pci_dev->msix_entries_nr);
+> +The ``nvme`` device supports Single Root I/O Virtualization and Sharing
+> +along with Virtualization Enhancements. The controller has to be linked =
+to
+> +an NVM Subsystem device (``nvme-subsys``) for use with SR-IOV.
 > +
-> +    config =3D pci_dev->config + pci_dev->msix_cap;
-> +    pci_set_word_by_mask(config + PCI_MSIX_FLAGS, PCI_MSIX_FLAGS_QSIZE,
-> +                         table_size - 1);
-> +}
+> +A number of parameters are present (**please note, that they may be
+> +subject to change**):
 > +
->  static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst)
->  {
-> +    PCIDevice *pci_dev =3D &n->parent_obj;
->      NvmeNamespace *ns;
->      int i;
-> =20
-> @@ -5788,15 +5801,17 @@ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeRese=
-tType rst)
->          g_free(event);
->      }
-> =20
-> -    if (!pci_is_vf(&n->parent_obj) && n->params.sriov_max_vfs) {
-> +    if (!pci_is_vf(pci_dev) && n->params.sriov_max_vfs) {
->          if (rst !=3D NVME_RESET_CONTROLLER) {
-> -            pcie_sriov_pf_disable_vfs(&n->parent_obj);
-> +            pcie_sriov_pf_disable_vfs(pci_dev);
->          }
->      }
-> =20
->      n->aer_queued =3D 0;
->      n->outstanding_aers =3D 0;
->      n->qs_created =3D false;
+> +``sriov_max_vfs`` (default: ``0``)
+> +  Indicates the maximum number of PCIe virtual functions supported
+> +  by the controller. Specifying a non-zero value enables reporting of bo=
+th
+> +  SR-IOV and ARI (Alternative Routing-ID Interpretation) capabilities
+> +  by the NVMe device. Virtual function controllers will not report SR-IO=
+V.
 > +
-> +    nvme_update_msixcap_ts(pci_dev, n->conf_msix_qsize);
->  }
-> =20
->  static void nvme_ctrl_shutdown(NvmeCtrl *n)
-> @@ -6507,6 +6522,9 @@ static void nvme_init_state(NvmeCtrl *n)
->      NvmeSecCtrlEntry *sctrl;
->      int i;
-> =20
-> +    n->conf_ioqpairs =3D n->params.max_ioqpairs;
-> +    n->conf_msix_qsize =3D n->params.msix_qsize;
+> +``sriov_vq_flexible``
+> +  Indicates the total number of flexible queue resources assignable to a=
+ll
+> +  the secondary controllers. Implicitly sets the number of primary
+> +  controller's private resources to ``(max_ioqpairs - sriov_vq_flexible)=
+``.
 > +
->      /* add one to max_ioqpairs to account for the admin queue pair */
->      n->reg_size =3D pow2ceil(sizeof(NvmeBar) +
->                             2 * (n->params.max_ioqpairs + 1) * NVME_DB_SI=
-ZE);
-> @@ -6668,6 +6686,8 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pc=
-i_dev, Error **errp)
->          }
->      }
-> =20
-> +    nvme_update_msixcap_ts(pci_dev, n->conf_msix_qsize);
+> +``sriov_vi_flexible``
+> +  Indicates the total number of flexible interrupt resources assignable =
+to
+> +  all the secondary controllers. Implicitly sets the number of primary
+> +  controller's private resources to ``(msix_qsize - sriov_vi_flexible)``.
 > +
->      if (n->params.cmb_size_mb) {
->          nvme_init_cmb(n, pci_dev);
->      }
-> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-> index 5ba07b62dff..314a2894759 100644
-> --- a/hw/nvme/nvme.h
-> +++ b/hw/nvme/nvme.h
-> @@ -434,6 +434,8 @@ typedef struct NvmeCtrl {
->      uint64_t    starttime_ms;
->      uint16_t    temperature;
->      uint8_t     smart_critical_warning;
-> +    uint32_t    conf_msix_qsize;
-> +    uint32_t    conf_ioqpairs;
-> =20
->      struct {
->          MemoryRegion mem;
+> +``sriov_max_vi_per_vf`` (default: ``0``)
+> +  Indicates the maximum number of virtual interrupt resources assignable
+> +  to a secondary controller. The default ``0`` resolves to
+> +  ``(sriov_vi_flexible / sriov_max_vfs)``
+> +
+> +``sriov_max_vq_per_vf`` (default: ``0``)
+> +  Indicates the maximum number of virtual queue resources assignable to
+> +  a secondary controller. The default ``0`` resolves to
+> +  ``(sriov_vq_flexible / sriov_max_vfs)``
+> +
+> +The simplest possible invocation enables the capability to set up one VF
+> +controller and assign an admin queue, an IO queue, and a MSI-X interrupt.
+> +
+> +.. code-block:: console
+> +
+> +   -device nvme-subsys,id=3Dsubsys0
+> +   -device nvme,serial=3Ddeadbeef,subsys=3Dsubsys0,sriov_max_vfs=3D1,
+> +    sriov_vq_flexible=3D2,sriov_vi_flexible=3D1
+> +
+> +The minimum steps required to configure a functional NVMe secondary
+> +controller are:
+> +
+> +  * unbind flexible resources from the primary controller
+> +
+> +.. code-block:: console
+> +
+> +   nvme virt-mgmt /dev/nvme0 -c 0 -r 1 -a 1 -n 0
+> +   nvme virt-mgmt /dev/nvme0 -c 0 -r 0 -a 1 -n 0
+> +
+> +  * perform a Function Level Reset on the primary controller to actually
+> +    release the resources
+> +
+> +.. code-block:: console
+> +
+> +   echo 1 > /sys/bus/pci/devices/0000:01:00.0/reset
+> +
+> +  * enable VF
+> +
+> +.. code-block:: console
+> +
+> +   echo 1 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+> +
+> +  * assign the flexible resources to the VF and set it ONLINE
+> +
+> +.. code-block:: console
+> +
+> +   nvme virt-mgmt /dev/nvme0 -c 1 -r 1 -a 8 -n 1
+> +   nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 8 -n 2
+> +   nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 9 -n 0
+> +
+> +  * bind the NVMe driver to the VF
+> +
+> +.. code-block:: console
+> +
+> +   echo 0000:01:00.1 > /sys/bus/pci/drivers/nvme/bind
+> \ No newline at end of file
 > --=20
 > 2.25.1
 >=20
@@ -329,20 +228,20 @@ i_dev, Error **errp)
 --=20
 One of us - No more doubt, silence or taboo about mental illness.
 
---n6Cbr8/L31bQIer9
+--V6IWJgBnCeO4k4T7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmIeD/0ACgkQTeGvMW1P
-DenvIggAwqjSEn72oFYC/i5JYtnkTufQVF71DeQGtdiJlQjk5HyAsCd95iwXiqEC
-jU1OXx7IFaZzWigC9wzZcIdBm4YHg7UN7Uqp0U8hgLUHVQ0k/8o0EOwhc4d/530F
-ULR/wJsY5Jn6eazN2LUR5Qnf1YpJLUz+55Z4SX5WVeH8MnQ0aW5+FLjp8prEPte/
-Otdnz3LFvBV9JoqgZtKBcFl3TR6ldEqiLwDgG0/AJuS72bG4KC4HW9xrhehfxeHg
-0lO8g8jz4RSk2GcC7lCvaNfPAvpRT/X6/L2Y2Nw3UqRwFV5tQP+S5yy9mmNH2tXG
-Jd8Bswsy25GAn9yjb3f9cltkBZl2Sw==
-=91TG
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmIeEDQACgkQTeGvMW1P
+Denh8wf/WcwsJWwXOShyLqegnLHfk9CHdvUMOqfiW3ewhxAmgTZXtfXjwx6QANPa
+1Rg0Vp8jmG6GkBbixN7NX5GwhdAoLOgJmoP7jxgUkSbL+hpZabV+DimxRhJlqYZ1
+qc8RdrUtrXxfjU0dOltihVeWb4a8U+RP3R5Pqn7lBR17q/S94XNWkFdQ00CEj1Eg
+BVucHWPTdDf7rrxyiJLlVjie2FFAjKzSvllPiK+HoSq/QM7YJY8hsZ5jfjsUm3jF
+cSh7gRVBY2PPNtSVbGrTSYGspAdGAoBEAHR5Hz2qeQyBnW0wHTs1VJ/KjPfQO/ku
+XsD8JrRAEjXPMB0lzAM41orp1OFafQ==
+=dpux
 -----END PGP SIGNATURE-----
 
---n6Cbr8/L31bQIer9--
+--V6IWJgBnCeO4k4T7--
 
