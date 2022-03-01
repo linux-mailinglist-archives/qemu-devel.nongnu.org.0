@@ -2,171 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148655237F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 17:59:36 +0200 (CEST)
-Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571ED523B25
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 19:10:12 +0200 (CEST)
+Received: from localhost ([::1]:60674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nookR-0002bK-6k
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 11:59:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37524)
+	id 1nopql-0000Vn-8k
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 13:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=21306e30f9=guohuai.shi@windriver.com>)
- id 1nooid-0001HG-4D
- for qemu-devel@nongnu.org; Wed, 11 May 2022 11:57:43 -0400
-Received: from mx0b-0064b401.pphosted.com ([205.220.178.238]:12294)
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1nopk7-0007tR-9d; Wed, 11 May 2022 13:03:20 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:45134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=21306e30f9=guohuai.shi@windriver.com>)
- id 1nooiZ-0004Am-LX
- for qemu-devel@nongnu.org; Wed, 11 May 2022 11:57:42 -0400
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
- by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24BBeoCS009429;
- Wed, 11 May 2022 15:57:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=q1ykvlXCkvwq7ITXgNo1ZOL4Rk9otrYHKDxWNeLUfPE=;
- b=rbaRUGQA6YH+ZbmpLLRiMhofAgtJFv0LbQQ9hw5zXd9349nWoQGNxmOyXHt5x5jc8oVf
- bReNr2z6TQASse77DPKrTFYgPhW9VNDFkWHUCwkJ9g0PZ9EYrKf/YUn+nn9B9uEsrfHb
- NlnXc3KEa3xvBXuag+/h2HpcrSvLhvMq7ljF9V1tLvMkBXoV76xqpsmo/HBr6ADgU0vG
- V0o8BXEGUm+Se/9YiJ5i7Oxg7syQ7peBd39pf2xM8HDw4NFxFGdhS9q3U5cLBVsAI84Q
- G2zznEa+C3rITs2Pwqw4B0D9cpkusD6VVN6g878c+/m4HJaubu0kGCxcR+m7huTfETlT BQ== 
-Received: from nam04-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam08lp2047.outbound.protection.outlook.com [104.47.74.47])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3fwdyyu8fd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 May 2022 15:57:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W94vMTbvlMNK3BRmxLQXpcawRVE5lNE+DOZNc3i9OCPMRQ5MGrwy/bxAx0+52Tc7ohfTkt1DcaaYxwQLDgA2oKGwxhWQdUtWO30Z139ErMgg567C3nMcaK8VBrccTasWvPneECSUeisYpOdXXbRP5nUWjV5P+LrtPJ9hw99Gx5ou/z4csKysZNRrbp+sNutdfqy2yeGHQ0fg4YH9MAJvT1ejSX9jwBdUgVGmpk4AcdM3qCFgUYYi3wtKcdIqdXqlBXDGihhD3QNUo3/CmpquXpSJCbf3Cg51UtDoVb3vxZL2G3+Vd/c8I4OSJfCy1gEsV7gOT+dZ1sG/r7v3NaWCYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q1ykvlXCkvwq7ITXgNo1ZOL4Rk9otrYHKDxWNeLUfPE=;
- b=YM1XbiqaAHzhfq+Fk5eiz/XsaZqrmDb/eYj1HTcecg6ccIe++Nc/NIdhsxfs30/ZiDO1iv0mW4xi+gmL274okvTskIL1R1SvMjpnduaSFPwF2R48mpkVFpM3s7wktaYAJsRQZq6p0VwivxxXoxy8t5NrbNp+iWAJOqLFJJ3Uha1Y/YdZyHkK2i1AwRB86Ui0dmq8AKrdpWebAZmryU3/dBsI+A4JUL9SA8nwVe0KPObVKDsmvCHlKSz3Qg86wszE0rAJ3q1qyhaCyc4v3/9Jos0/PB/BlYM/TVShyumvkrOgSI9itVzyddNu9MWFKHU+NabJ6LV5UxjZUUxi7NhSlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from MN2PR11MB4173.namprd11.prod.outlook.com (2603:10b6:208:137::20)
- by DM4PR11MB6527.namprd11.prod.outlook.com (2603:10b6:8:8e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.23; Wed, 11 May
- 2022 15:57:09 +0000
-Received: from MN2PR11MB4173.namprd11.prod.outlook.com
- ([fe80::bd41:bd4b:f230:3725]) by MN2PR11MB4173.namprd11.prod.outlook.com
- ([fe80::bd41:bd4b:f230:3725%6]) with mapi id 15.20.5227.023; Wed, 11 May 2022
- 15:57:08 +0000
-From: "Shi, Guohuai" <Guohuai.Shi@windriver.com>
-To: Greg Kurz <groug@kaod.org>
-CC: Christian Schoenebeck <qemu_oss@crudebyte.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "Meng, Bin" <Bin.Meng@windriver.com>, Bin Meng
- <bmeng.cn@gmail.com>
-Subject: RE: [PATCH 5/9] hw/9pfs: Add a 'local' file system backend driver for
- Windows
-Thread-Topic: [PATCH 5/9] hw/9pfs: Add a 'local' file system backend driver
- for Windows
-Thread-Index: AQHYWLCcWsfI4/Y1i0icMWaeEyy3Ca0WsPoAgAAF9MCAABkNAIAAnX7AgAAJSRCAAIZ3gIAAGuIAgAAdbgCAAAbPAIAACGQAgAAPjmCAAVzjgIAAOj0Q
-Date: Wed, 11 May 2022 15:57:08 +0000
-Message-ID: <MN2PR11MB4173AA315105D173BC930E20EFC89@MN2PR11MB4173.namprd11.prod.outlook.com>
-References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
- <2718865.3NRaeQn5QO@silver>	<20220510154006.63c2ed23@bahia>
- <2077078.oMYteGReol@silver>	<20220510163430.410536f5@bahia>
- <MN2PR11MB4173011DDC017F9A414382BEEFC99@MN2PR11MB4173.namprd11.prod.outlook.com>
- <20220511141853.7a53106c@bahia>
-In-Reply-To: <20220511141853.7a53106c@bahia>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 32408440-96c1-41fe-fd78-08da3366e75d
-x-ms-traffictypediagnostic: DM4PR11MB6527:EE_
-x-microsoft-antispam-prvs: <DM4PR11MB65278184F64D92D8841B4A0DEFC89@DM4PR11MB6527.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: aH7nkfbiJh0DfoG0F5r1fQPZ9cEPfijpM2AIStIRLNQSar/pOPXcC8U6H6lqNvwxnDhft9w8OTWoonoAkyvSkaff4t87mgTOLpKNHiiwH9QkTtko59B1qP0JseVO2rjYhMdsr30W9L4Cp6lMLphU5P3fn4Z+9r/B6atSTpps+w2TRfjUTaYz9FzddFyuMEhZzcS451zRyr4prDmxUV2i5fKnJcqKd1+zyscqRc8zvq8J5RQhIxaFK+PRoSFevQObE24tTxJY5FKhYawBQJ/MLZ5lEpsEAgYAMOBU+Q256mZ2vAyFd4ceDAow3sQCAQgkYrFP1tX0mEzplCmjtOys7fPIpwf/P/XF+piCMk853XNoZKUkyqPr6TOEOQoqArKz7k0vCylKFUtOv5lEkNUU65Zwm1L5hSyqc88erKN4DcSnkNiV1HBNbhYZpQ5w5DDf1aIiWMUT9/m+rNN+4VOg31UglNcU8UGOQcwLhk87fKbyEw4Z+UrM9gpVRsqk7I33xEz3IdcwATfG6RK8THuav7wBGh21CzR4JCoA9QH+LDRgmikSuq81D/nUAvliqdqOeIjxkcKhlctC0KMNIVGNUv8FxJDcx9FU9hABI1BrRUb9kJVa7Y0nWkpMbSoTRUeUrl7sXKJ4i5CQcvmOu+XOm8PEGsHpvsrS4K3caIOB7/o+md4a4LrUMBZzfjJGMOHZcAsATYlFybhl3fSLNoHgJkoHJqHiVtwJXhEe734txPX4iQ+gH686BPPNJ9qfUIEYUyJtCGkcFoXiEgY0G7f4JegYMCykQFp5Gx5vMNedJ1dN0BN5CzZ6rq/c0cz0yo7N76JXu1dRObozC0/b9oKXOA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR11MB4173.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(9686003)(53546011)(2906002)(6506007)(122000001)(26005)(4326008)(66946007)(66476007)(38100700002)(8676002)(66556008)(76116006)(66446008)(54906003)(64756008)(186003)(316002)(6916009)(55016003)(7696005)(52536014)(966005)(30864003)(71200400001)(86362001)(83380400001)(38070700005)(33656002)(508600001)(8936002)(5660300002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MnJ2akRkSzQ2RllxQXpLZ05jc3U0QUxlOEpDUEFySFRHRWIydFN5ZFFyTkd0?=
- =?utf-8?B?aHR2eEtPRVVGMUJab0d5U1MxUlNZZ1dhL1R1ZkN4dkdXbFBLVnRFVEVrcFRW?=
- =?utf-8?B?ZUo0di96V3FzTE40cEJ3RXJHS1MyR2dXSVFGOWc0Q0k0WXVIcmtCWnV3VHFT?=
- =?utf-8?B?elAyZTcwNnZvWWRtcXRrWTBRMngxRS9KWDFQbzFWRnF5dmdQeEh6dUh5V3dk?=
- =?utf-8?B?T3RicEVwTlZMSXE0Q2xDeVNMTStvelFqN2d1OExhd2t3czl6bW1MNDdsVVZ5?=
- =?utf-8?B?ZEhhdlZRTlFxVS9qdkZSVFdRMXRVU3VNZ2hKekh0UHhOVHVmbDBXVk5KWXRq?=
- =?utf-8?B?OXZ2UkE3SVNWZkNacmgyY1NhdWNXUTlxaU9LRVkrUElvSkx1NXRNdnlnNC9y?=
- =?utf-8?B?VnFubCszR2c1bUZvUCt3cDhxUXkwWS9aNkhCZHJ6NzFoYTVnN25SWTAvdFc4?=
- =?utf-8?B?MDVvWEF2Ykt3MUJlQlpzWTF5UTEzakhicFU4aXVaODJlNmxVc3F3T0FRZW0y?=
- =?utf-8?B?TWdrL1U2TDBhY0tJR09mSzZyYzFmZXpRUko3QzRFUFh1d0RVWFhNNjMrclUx?=
- =?utf-8?B?TzRvaDNMZlBwSXdNS0o2bDFTaThqbG0vZy9CaFRtbWs3L0VKT2dOUEMzRStH?=
- =?utf-8?B?TlNDRHNTWDhQekFUSmhSUFhpajRkbFpOaStlZkdoUEo4aWVuZ2ZhQ3owUloy?=
- =?utf-8?B?WndidHhmM3VtK2VwS3dmODN0b2d3TVFlTVJ0cGN0UDkyQW1TQk8wS3dGaXlC?=
- =?utf-8?B?ejlkQVY4WmloeFErZ01XY3NQVTVYYlBQNkFMK2RNb2h1RlZQbTZJc3RIMmdX?=
- =?utf-8?B?U2NNK0ZkY2pwZi9sQmJFdWJySVBHNlRkNXdmZUJRanFnME9ZU1d5Z0RZc2JR?=
- =?utf-8?B?ZjJZZnJBM0F6L1VDTE1TUVJuV0J1dDlkYTljWFRQS1NUUEp1R0FzeEpWUXc2?=
- =?utf-8?B?SUNLZ1J6dXhMbTVrc1ZKTVZzL3hFcjRVYkg3Zkcvb3ppLy9aUSt1TzBIMkJY?=
- =?utf-8?B?a3k4akZDb0l6TkY3dVVka00yaGFObmhVUjdWWVRLaGwweCtZNG5ncW04ejJI?=
- =?utf-8?B?d3BPeFhrL1lZTVplRnpDY2FpbDlvWGtpYmFpUGpFcFQ1WkxDbm54VWE0VmYy?=
- =?utf-8?B?a2Jmd05ROVdnT2VkSHFRL3ZxRU93S295UjBCeDRCb0NsUm96Z21PNktIZ3dK?=
- =?utf-8?B?aHlsSisxYUs5b2xxc282UkNQUjRlQmJEZHcyaVN1SlEwbHNpNkw0dTBCNTRh?=
- =?utf-8?B?ck5jSWE3YnU2S3NxdUZyZVpQVFZ0d0g1bzFnRVRNUjdaaXRoOTFncXgyQUcw?=
- =?utf-8?B?Y3lVUEx5aDJZU3BUR3dDS3c5UzFTVmNpMjZaWExIejhYWlZ3WHhkN2ZyMUVy?=
- =?utf-8?B?bjZUZi9VYXNFWXlNOG1TU2xMaTlHMFhxcm1kWUtXMnkyQndiSzBGRFd1Ny8y?=
- =?utf-8?B?czdCY1FVZWRwTEc3T2d5d2RyQW9LQUE5Q2ZpTXdNWWx6ZVVGa0R1OHdhb01w?=
- =?utf-8?B?dFhCc1I0dldnaitYTytvdmI2blNnZU80VERQZmg0cTFxZlRXRHFnWG9LRU5M?=
- =?utf-8?B?MzFKenFYdTVpN1VqbStHWEVvRFFDeE9ObGRQU1loZmo1YTdDZTBZTCthMkhm?=
- =?utf-8?B?cklnRDlDZjQwOVdNTTN4NW85emVOMmlRbSs0MHRoNVlOQ1Voblk5bXBJYXVF?=
- =?utf-8?B?N2Qrd09JUDZuOFFBcXJzdmRtK05ldFZPUjBvVDVlRGJBZ3NGdFBWNTNyZTFF?=
- =?utf-8?B?K09KU001cXpmaGR3cEY1Qk05VFB4MHAybzMreTVxZThBR2NkNlhFQ1VJZi9H?=
- =?utf-8?B?azR6Rjhlay8rc1l0QisrVlQyM0pPL3A4aUUzS2pDUkQ4TWt6MVYvQlltNnFy?=
- =?utf-8?B?TWltTzZsL0lOQmVPd3BsaTFRR293K0t3RkJTaHBQQ0ZFZWNzWHpDaExnRXZa?=
- =?utf-8?B?SWhnVjZod0hSdmxzN1JqMWNGUVRSUTZXOXZ6Z0VjUTFDTnlzejJWbkR0eEJS?=
- =?utf-8?B?dldhQUVnYmhkbEpTL2hLb3I3VzM5ekR0V1I1ZzFDeTJ5eTVxU1hDcVpPR1hw?=
- =?utf-8?B?cGlPYlpCZzhENkdBaEhGT1hxdkd5WkZ5SldPWklQTTc0Ym93U29rWUZtUW9Y?=
- =?utf-8?B?OVBRS2d4WmFvS0NkeUkzZjVoMVF6SjhTT3RaZFVyNE82NEl1S2FZaXZ6SzZl?=
- =?utf-8?B?dE01TGx6UlkyUGpOMmFaa1hRRGtQdDNqT0d3V0YwNWR2clpRYUFwY0RPMWhO?=
- =?utf-8?B?dEQ5RG5VZFJSR2Qxb1djQzFVbDNmN2xtSUlrYUtMNU0vVU5pc2lDUXV6V0VL?=
- =?utf-8?B?UlVHRG83K2F6ZmdQNVhVNTZvSXA3bVlzRzNDRDhZTzZ2WjI1WjVYYTByUG1R?=
- =?utf-8?Q?9yt2c2hGUuU7wnHM=3D?=
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
+ id 1nopk3-0005dW-PK; Wed, 11 May 2022 13:03:18 -0400
+Authentication-Results: mail-b.sr.ht; dkim=none 
+Received: from git.sr.ht (unknown [173.195.146.142])
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 9A52711F09A;
+ Wed, 11 May 2022 17:03:14 +0000 (UTC)
+From: ~eopxd <eopxd@git.sr.ht>
+Date: Tue, 01 Mar 2022 01:07:38 -0800
+Subject: [PATCH qemu v16 04/15] target/riscv: rvv: Add tail agnostic for vv
+ instructions
+Message-ID: <165228859378.22204.7336259119424019499-4@git.sr.ht>
+X-Mailer: git.sr.ht
+In-Reply-To: <165228859378.22204.7336259119424019499-0@git.sr.ht>
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4173.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32408440-96c1-41fe-fd78-08da3366e75d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2022 15:57:08.7098 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hRoY2Bb9Lgqj9lzQKSAM1hEPPrZT/GqmoC1ZOaOj84BeXupOXVmapsmiauNY6/BepeWsLAWrjgPRrVdyAcqCJ3GjMeNcJwyow64O4kUrv9Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6527
-X-Proofpoint-GUID: 8BwnM0kyMO3E-rOViIQnK2OZGhrU4Lh_
-X-Proofpoint-ORIG-GUID: 8BwnM0kyMO3E-rOViIQnK2OZGhrU4Lh_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-05-11_07,2022-05-11_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- phishscore=0 mlxscore=0 spamscore=0 impostorscore=0 clxscore=1015
- mlxlogscore=649 adultscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205110074
-Received-SPF: pass client-ip=205.220.178.238;
- envelope-from=prvs=21306e30f9=guohuai.shi@windriver.com;
- helo=mx0b-0064b401.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
+ helo=mail-b.sr.ht
+X-Spam_score_int: 36
+X-Spam_score: 3.6
+X-Spam_bar: +++
+X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -179,239 +56,559 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: ~eopxd <yueh.ting.chen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogR3JlZyBLdXJ6IDxncm91
-Z0BrYW9kLm9yZz4NCj4gU2VudDogMjAyMuW5tDXmnIgxMeaXpSAyMDoxOQ0KPiBUbzogU2hpLCBH
-dW9odWFpIDxHdW9odWFpLlNoaUB3aW5kcml2ZXIuY29tPg0KPiBDYzogQ2hyaXN0aWFuIFNjaG9l
-bmViZWNrIDxxZW11X29zc0BjcnVkZWJ5dGUuY29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnOyBN
-ZW5nLA0KPiBCaW4gPEJpbi5NZW5nQHdpbmRyaXZlci5jb20+OyBCaW4gTWVuZyA8Ym1lbmcuY25A
-Z21haWwuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDUvOV0gaHcvOXBmczogQWRkIGEgJ2xv
-Y2FsJyBmaWxlIHN5c3RlbSBiYWNrZW5kIGRyaXZlciBmb3INCj4gV2luZG93cw0KPiANCj4gW1Bs
-ZWFzZSBub3RlOiBUaGlzIGUtbWFpbCBpcyBmcm9tIGFuIEVYVEVSTkFMIGUtbWFpbCBhZGRyZXNz
-XQ0KPiANCj4gT24gVHVlLCAxMCBNYXkgMjAyMiAxNTozNToxMCArMDAwMA0KPiAiU2hpLCBHdW9o
-dWFpIiA8R3VvaHVhaS5TaGlAd2luZHJpdmVyLmNvbT4gd3JvdGU6DQo+IA0KPiA+IExldCdzIGZv
-cmNlIG9uIHRoZSBzZWN1cml0eSBpc3N1ZToNCj4gPg0KPiANCj4gUGxlYXNlIGRvbid0IHRvcCBw
-b3N0LCBlc3BlY2lhbGx5IHdoZW4gYWxsIHByZXZpb3VzIGNvbW1lbnRzIHdlcmUgbWFkZSBpbmxp
-bmUsDQo+IHNvIHRoYXQgc29tZW9uZSB3aG8gc3RlcHMgaW4gdGhpcyB0aHJlYWQgbm93IGhhcyBh
-IGNoYW5jZSB0byBjYXRjaC11cC4NCj4gDQo+ID4gRmlyc3RseSwgdGhpcyBhbnN3ZXINCj4gKCBo
-dHRwczovL3N0YWNrb3ZlcmZsb3cuY29tL3F1ZXN0aW9ucy8zMjEzODUyNC9pcy10aGVyZS1hLXdp
-bmRvd3MtZXF1aXZhbGVudC0NCj4gb2Ytb3BlbmF0ICkgaXMgdXNlbGVzcyBmb3IgUUVNVS4NCj4g
-PiBJdCB1c2VzIFdpbmRvd3MgbmF0aXZlIEFQSSBOdENyZWF0ZUZpbGUoKSBhbmQgYWNjZXNzZXMg
-ZmlsZXMgYnkgV2luZG93cyBoYW5kbGUuDQo+ID4gQnV0IDlQRlMgaXMgdXNpbmcgV2luZG93cyBQ
-T1NJWCBpbnRlcmZhY2UsIGhhbmRsZSBjYW4gbm90IGJlIHVzZWQgaW4gUE9TSVgNCj4gaW50ZXJm
-YWNlLg0KPiA+IEFjdHVhbGx5LCBXaW5kb3dzIHByb3ZpZGUgc2ltaWxhciBBUElzIGxpa2UNCj4g
-R2V0RmluYWxQYXRoTmFtZUJ5SGFuZGxlKCkvR2V0RmlsZUluZm9ybWF0aW9uQnlIYW5kbGUoKS4N
-Cj4gPiBJdCBjYW4gYWxzbyBnZXQgZmlsZSBpbmZvcm1hdGlvbiBieSBXaW5kb3dzIGhhbmRsZS4N
-Cj4gPg0KPiA+IFdpbmRvd3MgUE9TSVggaW50ZXJmYWNlIGRvIG5vdCBzdXBwb3J0IE5PX0ZPTExP
-VyBmbGFncywgdGhhdCBtZWFucywgV2luZG93cyBQT1NJWA0KPiBvcGVuKCkgYWx3YXlzIHRyYW5z
-bGF0ZSBzeW1ib2xpYyBsaW5rLg0KPiA+DQo+IA0KPiBUaGlzIHByZWNsdWRlcyBhbnkgdGVudGF0
-aXZlIHRvIGZpeCB0aGUgaXNzdWUgYXQgdGhlIFFFTVUgbGV2ZWwgdGhlbi4NCj4gTWF5YmUgdGhl
-cmUgYXJlIHNvbWUga25vYnMgdG8gY29udHJvbCBzeW1saW5rIGJlaGF2aW9yIGF0IHRoZSBmcyBs
-ZXZlbCBidXQgdGhpcw0KPiBjZXJ0YWlubHkgcmVxdWlyZXMgd2luZG93cyBrbm93bGVkZ2UgdGhh
-dCBJIGRvbid0IGhhdmUuDQo+IA0KPiA+IFNvIGV2ZXJ5dGhpbmcgYXJlIGZpbmFsbHkgcG9pbnQg
-dG8gb25lIGxpbWl0YXRpb246IFdpbmRvd3MgUE9TSVggaW50ZXJmYWNlcyBkbw0KPiBub3Qgc3Vw
-cG9ydCBzeW1ib2xpYyBsaW5rIGFuZCBhbHdheXMgdHJhbnNsYXRlIGxpbmsuDQo+ID4NCj4gPiBG
-b3IgdGhlIHNlY3VyaXR5IHJlYXNvbiwgSSB0aGluayBpdCBpcyByZWFzb25hYmxlIHRvIGRpc2Fi
-bGUgc3ltYm9saWMgbGluayBzdXBwb3J0DQo+IG9uIFdpbmRvd3MgaG9zdCBmb3IgOVBGUy4NCj4g
-PiBJIGNhbiByZS13b3JrIHRoaXMgcGF0Y2ggdG8gYWRkaW5nIGEgc3ltYm9saWMgbGluayBjaGVj
-ayBkdXJpbmcgcGF0aC13YWxrIG9wZXJhdGlvbg0KPiBhbmQgc3RvcCBpdCB3aGVuIGdldCBhIHN5
-bWJvbGljIGxpbmsuDQo+ID4NCj4gDQo+IFRoaXMgd291bGQgYmUgdXNlbGVzcyBiZWNhdXNlIG9m
-IFRPQ1RPVSA6IGEgZGlyZWN0b3J5IGNvdWxkIGJlIHJlcGxhY2VkIGJ5IGEgc3ltbGluaw0KPiBi
-ZXR3ZWVuIHRoZSBjaGVjayBhbmQgdGhlIGFjdHVhbCB1c2Ugb2YgdGhlIGZpbGUuIE9fTk9GT0xM
-T1cgcHJvdmlkZXMgdGhlIGF0b21pY2l0eQ0KPiBuZWVkZWQgdG8gc2FmZWx5IGVycm9yIG91dCBv
-biBzeW1saW5rcy4gU2luY2UgT19OT0ZPTExPVyBvbmx5IG1ha2VzIHNlbnNlIGZvciB0aGUNCj4g
-cmlnaHRtb3N0IHBhdGggZWxlbWVudCwgcGF0aHMgZnJvbSB0aGUgY2xpZW50IGhhdmUgdG8gYmUg
-YnJva2VuIGRvd24gaW50byBhDQo+IHN1Y2Nlc3Npb24gb2YgKmF0KCkgc3lzY2FsbHMsIG9uZSBm
-b3IgZWFjaCBlbGVtZW50Lg0KDQpGb3IgV2luZG93cyBmaWxlIHN5c3RlbSwgaXQgd291bGQgYmUg
-T0suDQpXaW5kb3dzIGNhbiBub3QgZGVsZXRlIGEgb3BlbmluZyBmaWxlICh0aGlzIGlzIGRpZmZl
-cmVudCBiZWhhdmlvciBiZXR3ZWVuIFdpbmRvd3MgZmlsZSBzeXN0ZW0gZHJpdmVyIGFuZCBVTklY
-LWxpa2UtaW5vZGUtYmFzZWQgZmlsZSBzeXN0ZW0pLg0KU28gd2hlbiA5UEZTIHRyeSB0byBvcGVu
-IHRoZSBmaW5hbCBmaWxlLCB0aGUgZm9sbG93aW5nIHN0ZXBzIHdpbGwga2VlcCBpdCBzYWZlOg0K
-DQoxLiBvcGVuIHRoZSBmaW5hbCBmaWxlIGJ5IFdpbmRvd3MgTlQgQVBJcyBhbmQga2VlcCB0aGUg
-b3BlbiBoYW5kbGUuDQoyLiBvcGVuIHRoZSBmaW5hbCBmaWxlIGJ5IE1pbkdXIG9wZW4oKS4NCjMu
-IGNsb3NlIE5UIGhhbmRsZS4NCg0KV2luZG93cyBmaWxlIHN5c3RlbSBkb2VzIG5vdCBhbGxvdyBk
-ZWxldGUvcmVuYW1lL21vdmUgYSBvcGVuaW5nIGZpbGUuDQpFdmVuIFdpbmRvd3MgcHJvdmlkZSAi
-RklMRV9TSEFSRV9ERUxFVEUiIGZsYWcgaW4gaXRzIE5UIEFQSSBDcmVhdGVGaWxlKCkuDQpXaW5k
-b3dzIGFsbG93IHRvIGRlbGV0ZSB0aGUgb3BlbmluZyBmaWxlLCBidXQgY2FuIG5vdCByZS1jcmVh
-dGUgc2FtZSBuYW1lLg0KVGhlIGZvbGxvd2luZyBzdGVwcyB3aWxsIGJlIGZhaWx1cmUgb24gV2lu
-ZG93czoNCg0KMS4gT3BlbiBhIGRpcmVjdG9yeSBieSBDcmVhdGVGaWxlKCkgd2l0aCAiRklMRV9T
-SEFSRV9ERUxFVEUiIGZsYWcgYW5kIGtlZXAgdGhlIGhhbmRsZSBvcGVuLg0KMi4gUmVtb3ZlIHRo
-ZSBkaXJlY3RvcnkuDQozLiBSZS1jcmVhdGUgc2FtZSBuYW1lIGRpcmVjdG9yeS9maWxlL2xpbmtz
-Lg0KDQpXaW5kb3dzIHdpbGwgZ2V0IGZhaWx1cmUgb24gc3RlcCAjMy4NCg0KU28gSSB0aGluayBj
-aGVja2luZyBpZiB0aGVyZSBpcyBhIGxpbmsgaW4gZmlsZW5hbWUgd291bGQgYmUgc2FmZXR5IG9u
-IFdpbmRvdyBob3N0Lg0KDQpCZXN0IFJlZ2FyZHMsDQpHdW9odWFpDQoNCj4gDQo+ID4gQmVzdCBS
-ZWdhcmRzLA0KPiA+IEd1b2h1YWkNCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
-LS0NCj4gPiA+IEZyb206IEdyZWcgS3VyeiA8Z3JvdWdAa2FvZC5vcmc+DQo+ID4gPiBTZW50OiAy
-MDIy5bm0NeaciDEw5pelIDIyOjM1DQo+ID4gPiBUbzogQ2hyaXN0aWFuIFNjaG9lbmViZWNrIDxx
-ZW11X29zc0BjcnVkZWJ5dGUuY29tPg0KPiA+ID4gQ2M6IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsg
-TWVuZywgQmluIDxCaW4uTWVuZ0B3aW5kcml2ZXIuY29tPjsgQmluDQo+ID4gPiBNZW5nIDxibWVu
-Zy5jbkBnbWFpbC5jb20+OyBTaGksIEd1b2h1YWkgPEd1b2h1YWkuU2hpQHdpbmRyaXZlci5jb20+
-DQo+ID4gPiBTdWJqZWN0OiBSZTogW1BBVENIIDUvOV0gaHcvOXBmczogQWRkIGEgJ2xvY2FsJyBm
-aWxlIHN5c3RlbSBiYWNrZW5kDQo+ID4gPiBkcml2ZXIgZm9yIFdpbmRvd3MNCj4gPiA+DQo+ID4g
-PiBbUGxlYXNlIG5vdGU6IFRoaXMgZS1tYWlsIGlzIGZyb20gYW4gRVhURVJOQUwgZS1tYWlsIGFk
-ZHJlc3NdDQo+ID4gPg0KPiA+ID4gT24gVHVlLCAxMCBNYXkgMjAyMiAxNjowNDoyOCArMDIwMA0K
-PiA+ID4gQ2hyaXN0aWFuIFNjaG9lbmViZWNrIDxxZW11X29zc0BjcnVkZWJ5dGUuY29tPiB3cm90
-ZToNCj4gPiA+DQo+ID4gPiA+IE9uIERpZW5zdGFnLCAxMC4gTWFpIDIwMjIgMTU6NDA6MDYgQ0VT
-VCBHcmVnIEt1cnogd3JvdGU6DQo+ID4gPiA+ID4gT24gVHVlLCAxMCBNYXkgMjAyMiAxMzo1NDo0
-NiArMDIwMA0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gQ2hyaXN0aWFuIFNjaG9lbmViZWNrIDxxZW11
-X29zc0BjcnVkZWJ5dGUuY29tPiB3cm90ZToNCj4gPiA+ID4gPiA+IE9uIERpZW5zdGFnLCAxMC4g
-TWFpIDIwMjIgMTI6MTg6MzMgQ0VTVCBDaHJpc3RpYW4gU2Nob2VuZWJlY2sgd3JvdGU6DQo+ID4g
-PiA+ID4gPiA+IE9uIERpZW5zdGFnLCAxMC4gTWFpIDIwMjIgMDQ6MTc6NDQgQ0VTVCBTaGksIEd1
-b2h1YWkgd3JvdGU6DQo+ID4gPiA+ID4gPiA+IFsuLi5dDQo+ID4gPiA+ID4gPiA+DQo+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiBJIHRlbmQgdG8gYWdyZWUgd2l0aCBDaHJpc3RpYW4ncyByZW1hcmtz
-IHRoYXQgdGhpcw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gcGF0Y2ggaXMgdG9vIGJpZyBhbmQg
-dGhhdCB0aGUgY2hvaWNlIG9mDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBpbnRyb2R1Y2luZyBy
-aWdodCBhd2F5IGEgbmV3IGltcGxlbWVudGF0aW9uIG9mDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA5cC1sb2NhbCBmb3Igd2luZG93cyBob3N0cyBpcyB0b28gYm9sZCB0byBzdGFydA0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gd2l0aC4gV2UgbmVlZCB0byBjbGVhcmx5IHVuZGVyc3RhbmQgd2hh
-dCdzDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBkaXZlcmdpbmcgYmV0d2VlbiB3aW5kb3dzIGFu
-ZCBsaW51eCBpbiBvcmRlciB0bw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gbWFrZSBzdWNoIGEg
-ZGVjaXNpb24uIFlvdSBzaG91bGQgZmlyc3QgdHJ5IHRvDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiBpbnRyb2R1Y2UgdGhlIHJlcXVpcmVkIGFic3RyYWN0aW9ucyB0byBjb3BlIHdpdGggdGhlc2Ug
-ZGlmZmVyZW5jZXMsDQo+IHNvIHRoYXQgd2UgY2FuIHJldmlldy4NCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IEhlcmUgaXMgdGhlIGJhc2ljIGludHJvZHVjdGlv
-bnMgb2YgOVBGUyBmb3IgV2luZG93cyBkZXZlbG9wbWVudDoNCj4gPiA+ID4gPiA+ID4gPiA+ID4g
-Pg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4NCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiBXaW5kb3dzIGFsd2F5cyByZXR1cm5zIC0xIHdoZW4gdHJ5IHRvIGNhbGwg
-b3BlbigpDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gZm9yIGEgZGlyZWN0b3J5Lg0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+IFdpbmRvd3MgKGFjdHVhbGx5IE1pbkdXIGxpYnJhcnkpIG9ubHkgYWxsb3dz
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gb3BlbmRpcigpIGZvciBhIGRpcmVjdG9yeS4NCj4gPiA+
-ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gVGhhdCBtaXNzaW5nIGJlaGF2aW91ciBjb3VsZCBiZSBp
-bXBsZW1lbnRlZCBpbg0KPiA+ID4gPiA+ID4gPiA5cC11dGlsLXdpbi5jLCBzaW1pbGFyIHRvIHRo
-ZSBtaXNzaW5nIGJlaGF2aW91cnMgb2YNCj4gPiA+ID4gPiA+ID4gbWtub2RhdCgpIGZvciBtYWNP
-UyB3aGljaCBkaWQgbm90IHN1cHBvcnQgYSBidW5jaCBvZiB0aGluZ3MNCj4gPiA+ID4gPiA+ID4g
-bGlrZSBjcmVhdGluZyBhIFVOSVggc29ja2V0IGZpbGUgYW5kDQo+ID4gPiBtb3JlOg0KPiA+ID4g
-PiA+ID4gPg0KPiA+ID4gPiA+ID4gPiBodHRwczovL2dpdGh1Yi5jb20vcWVtdS9xZW11L2NvbW1p
-dC8wNTVhYjg5MzI3YmFiODNmMWJkMDdlOWQNCj4gPiA+ID4gPiA+ID4gZTA3Zg0KPiA+ID4gPiA+
-ID4gPiA3NjI4NjQzZA0KPiA+ID4gPiA+ID4gPiAzZDhkPiA+DQo+ID4gPiA+ID4gPiA+ID4gPiA+
-IERvZXMgTWluR1cgaGF2ZSBkaXJmZCgpID8NCj4gPiA+ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4g
-PiA+ID4gPiBOby4NCj4gPiA+ID4gPiA+ID4gPiA+IE1pbkdXIGRvZXMgbm90IG9wZW4gYW55IGRp
-cmVjdG9yeS4NCj4gPiA+ID4gPiA+ID4gPiA+IEhlcmUgaXMgb3BlbmRpcigpIHNvdXJjZSBjb2Rl
-IG9mIE1pbkdXOg0KPiA+ID4gPiA+ID4gPiA+ID4gaHR0cHM6Ly9naXRodWIuY29tL21pcnJvci9t
-aW5ndy13NjQvYmxvYi9tYXN0ZXIvbWluZ3ctdzYNCj4gPiA+ID4gPiA+ID4gPiA+IDQtY3INCj4g
-PiA+ID4gPiA+ID4gPiA+IHQvbWlzYy9kDQo+ID4gPiA+ID4gPiA+ID4gPiBpcmVuDQo+ID4gPiA+
-ID4gPiA+ID4gPiB0Lg0KPiA+ID4gPiA+ID4gPiA+ID4gYyNMNDINCj4gPiA+ID4gPiA+ID4gPiA+
-DQo+ID4gPiA+ID4gPiA+ID4gPiBTbyBNaW5HVyBkbyBub3QgaGF2ZSBhIGZkIGFzc29jaWF0ZWQg
-dG8gYSBkaXJlY3RvcnkuDQo+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-IFdpbmRvd3MgZG9lcyBub3Qgc3VwcG9ydCBBUElzIGxpa2UgIiphdCIgKG9wZW5hdCgpLA0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+IHJlbmFtZWF0KCksDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gZXRj
-LikNCj4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gTGlrZSBhbHJlYWR5IHN1Z2dlc3RlZCBi
-ZWZvcmUgb24geW91ciBwcmV2aW91cyBSRkMgdmVyc2lvbiwNCj4gPiA+ID4gPiA+ID4gaXQgaXMg
-cG9zc2libGUgdG8gdXNlIHRoZSBzYW1lIHdvcmthcm91bmQgYXMgd2UgYXJlIHVzaW5nDQo+ID4g
-PiA+ID4gPiA+IGZvciBtYWNPUyBob3N0cyBhbHJlYWR5ICh3aGljaA0KPiA+ID4gPiA+ID4gPg0K
-PiA+ID4gPiA+ID4gPiB3YXMgbWlzc2luZyBta25vZGF0KCkpOg0KPiA+ID4gPiA+ID4gPiAgIHB0
-aHJlYWRfZmNoZGlyX25wKC4uLikNCj4gPiA+ID4gPiA+ID4gICBta25vZCguLi4pDQo+ID4gPiA+
-ID4gPiA+DQo+ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+IGh0dHBzOi8vZ2l0aHViLmNvbS9x
-ZW11L3FlbXUvYmxvYi9tYXN0ZXIvaHcvOXBmcy85cC11dGlsLWRhcndpbi4NCj4gPiA+ID4gPiA+
-ID4gYyNMODQNCj4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gU28gb24gV2luZG93cyBpdCB3
-b3VsZCBiZSB2aWFibGUgdG86DQo+ID4gPiA+ID4gPiA+ICAgY2hkaXIoLi4uKQ0KPiA+ID4gPiA+
-ID4gPiAgIG9wZW4oLi4uKQ0KPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiBUaGUgc2FtZSBh
-cHByb2FjaCBjb3VsZCBiZSB1c2VkIGZvciBhbnkgbWlzc2luZyAqYXQoKQ0KPiA+ID4gPiA+ID4g
-PiBmdW5jdGlvbiBmb3IgV2luZG93cy4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBQcm9ibGVt
-IHRob3VnaCBpcyB0aGF0IHRoZSBjaGRpcigpIGZ1bmN0aW9ucyBvbiBXaW5kb3dzIGFsbA0KPiA+
-ID4gPiA+ID4gc2VlbSB0byBoYXZlIHByb2Nlc3Mtd2lkZSBlZmZlY3QsIHdlIHdvdWxkIG5lZWQg
-dG8gY2hhbmdlIHRoZQ0KPiA+ID4gPiA+ID4gY3VycmVudCBkaXJlY3Rvcnkgb25seSBmb3IgdGhl
-IGN1cnJlbnQgdGhyZWFkLCBiZWNhdXNlDQo+ID4gPiA+ID4gPiBmaWxlc3lzdGVtIGFjY2VzcyBv
-ZiA5cCBzZXJ2ZXIgaXMgbXVsdGktdGhyZWFkZWQuDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4g
-UHJvdGVjdGluZyB0aGUgY2hkaXIoKTsgZm9vKCk7IGNhbGxzIGJ5IGEgcHJvY2VzcyB3aWRlIGds
-b2JhbA0KPiA+ID4gPiA+ID4gbXV0ZXggaXNuJ3QgdmVyeSBhcHBlYWxpbmcgZWl0aGVyLiA6Lw0K
-PiA+ID4gPiA+DQo+ID4gPiA+ID4gQW5kIGl0IHdvdWxkbid0IGJlIHNhZmUgYW55d2F5IGJlY2F1
-c2UgSSdtIHByZXR0eSBzdXJlIHRoYXQgdGhlDQo+ID4gPiA+ID4gcmVzdCBvZiB0aGUgUUVNVSBj
-b2RlIGFzc3VtZXMgdGhhdCB0aGUgY3VycmVudCBkaXJlY3RvcnkgaXMgaW52YXJpYW50LA0KPiBl
-LmcuDQo+ID4gPiA+ID4gdXNlciBjb3VsZCBiZSB2ZXJ5IGNvbmZ1c2VkIGJ5ICdkcml2ZV9hZGQg
-ZmlsZT0uL2Zvby5pbWcnIG5vdCB3b3JraW5nLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gQlRXIGR1
-Y2tkdWNrZ28gZ2l2ZXM6DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBodHRwczovL3N0YWNrb3ZlcmZs
-b3cuY29tL3F1ZXN0aW9ucy8zMjEzODUyNC9pcy10aGVyZS1hLXdpbmRvd3MtDQo+ID4gPiA+ID4g
-ZXF1aQ0KPiA+ID4gPiA+IHZhbGVudC1vDQo+ID4gPiA+ID4gZi1vcGVuYXQNCj4gPiA+ID4gPg0K
-PiA+ID4gPiA+IFNvIHllcyBpdCBzZWVtcyB0byBiZSB0ZWNobmljYWxseSBwb3NzaWJsZSB0byBp
-bXBsZW1lbnQgKmF0KCkNCj4gPiA+ID4gPiBmdW5jdGlvbnMgb24gd2luZG93cy4gVGhpcyBpcyB0
-aGUgb25seSB3YXkgdG8gYXZvaWQNCj4gPiA+ID4gPiBDVkUtMjAxNi05NjAyIGluIHRoZSBRRU1V
-IHByb2Nlc3MuDQo+ID4gPiA+DQo+ID4gPiA+ICsxDQo+ID4gPiA+DQo+ID4gPiA+ID4gQW5vdGhl
-ciBvcHRpb24gaXMgdG8gdXNlIHRoZSBwcm94eSBiYWNrZW5kIDogdGhpcyBvZmZsb2FkcyBhbGwN
-Cj4gPiA+ID4gPiBmcyB2aXNpdCBhY2Nlc3NlcyB0byBhbiBleHRlcm5hbCBwcm9jZXNzIHJ1bm5p
-bmcNCj4gPiA+ID4gPiB2aXJ0ZnMtcHJveHktaGVscGVyLCB0aGF0IHJ1bnMgcHJpdmlsZWdlZCBh
-bmQgY2hyb290KCkgaW50byB0aGUNCj4gPiA+ID4gPiBzaGFyZWQgZGlyZWN0b3J5IHNvIHRoYXQg
-aXQgY2FuIHNhZmVseSB1c2UgcGF0aCBiYXNlZCBzeXNjYWxscy4NCj4gPiA+ID4NCj4gPiA+ID4g
-QXMgYSB2ZXJ5IGxhc3QgcmVzb3J0LCBtYXliZS4gQnV0IGp1c3QgZm9yIHRoZSBvdGhlciB0d28g
-Z3V5cyB0byBrbm93IHVwZnJvbnQ6DQo+ID4gPiA+IHRoZSBwcm94eSBiYWNrZW5kIGlzIHZlcnkg
-c2xvdyBhbmQgbm90IGluIGdvb2Qgc2hhcGUuIFRoZXJlIHdlcmUNCj4gPiA+ID4gcGxhbnMgdG8g
-ZGVwcmVjYXRlIHRoZSBwcm94eSBiYWNrZW5kIHRoZXJlZm9yZSwgYXMgaXQncyBtb3JlIG9yIGxl
-c3MgZGVhZC4NCj4gPiA+ID4NCj4gPiA+DQo+ID4gPiBZZWFoIGFzIG1lbnRpb25lZCBiZWZvcmUs
-IHRoZSB3YXkgdG8gZ28gbm93IHdvdWxkIGJlIHRvIGNvbWUgd2l0aCBhDQo+ID4gPiB2aG9zdC11
-c2VyIGltcGxlbWVudGF0aW9uIGxpa2UgdmlydGlvZnNkLiBUaGlzIHdvdWxkIGFkZHJlc3MgYWxs
-DQo+ID4gPiBwZXJmIHByb2JsZW1zIHdlIGhhdmUgd2l0aCBwcm94eSBzaW5jZSB0aGUgY2xpZW50
-IHdvdWxkIGRpcmVjdGx5DQo+ID4gPiB0YWxrIHRvIHRoZSBleHRlcm5hbCBwcm9jZXNzLiBUaGlz
-IHNob3VsZCBhbHNvIHByb3ZpZGUgYmV0dGVyIHBlcmYNCj4gPiA+IHRoYW4gdGhlIGxvY2FsIGJh
-Y2tlbmQgc2luY2UgaXQgd291bGRuJ3QgaGF2ZSB0byBkbyBkbyB0aGUgImF0KigpIg0KPiA+ID4g
-ZGFuY2UgdGhhbmtzIHRvIGNocm9vdCgpLg0KPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gT3Vj
-aC4uLg0KPiA+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IFNvIDlQRlMg
-Y2FuIG5vdCB1c2UgYW55IG9wZW5hdCgpIGZvciBvcGVuaW5nIGEgc3ViDQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gZmlsZSBvciBkaXJlY3RvcnkgaW4gOVANCj4gPiA+ID4gPiA+ID4gPiA+DQo+ID4g
-PiA+ID4gPiA+ID4gPiBtb3VudA0KPiA+ID4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gZGlyZWN0b3J5Lg0KPiA+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-IFRoaXMgY29tbWl0IHVzZSBtZXJnZV9mc19wYXRoKCkgdG8gYnVpbGQgdXAgZnVsbA0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+IHZpc2l0IGZpbGVuYW1lIGJ5IHN0cmluZw0KPiA+ID4gPiA+ID4gPiA+
-ID4NCj4gPiA+ID4gPiA+ID4gPiA+IGNvbmNhdGVuYXRpb24uDQo+ID4gPiA+ID4gPiA+ID4gPg0K
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+IEkga25vdyB0aGF0IG1heSBoYXZlIGEgcmlzayBvZiBzZWN1
-cml0eSwgYnV0IFdpbmRvd3MNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBkb2VzIGZ1bGx5IHN1cHBv
-cnQgUE9TSVgNCj4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gWW91IHdpbGwgbm90IGZpbmQg
-YW55Ym9keSBtZXJnaW5nIGNvZGUgdGhhdCdzIGluaGVyZW50bHkgaW5zZWN1cmUuDQo+ID4gPiA+
-ID4gPiA+DQo+ID4gPiA+ID4gPiA+ID4gPiA+IEkgdW5kZXJzdGFuZCBmcm9tIHlvdXIgdmFyaW91
-cyBhbnN3ZXJzIHRoYXQgc3ltbGlua3MNCj4gPiA+ID4gPiA+ID4gPiA+ID4gYXJlbid0IGN1cnJl
-bnRseSBzdXBwb3J0ZWQgYnkgd2luZG93J3MgUE9TSVggQVBJLiBJcyB0aGlzIGZvcmV2ZXIgPw0K
-PiA+ID4gPiA+ID4gPiA+ID4gPiBHb29nbGUgZG8gbWVudGlvbnMgc3ltbGlua3MgaW4gd2luZG93
-cyAxMC4gV2hhdCdzIHRoZQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiBzdG9yeSB0aGVyZSA/IEhvdyBk
-byB0aGV5IGJlaGF2ZSA/IEhvdyB3b3VsZCB0aGV5IGJlDQo+ID4gPiA+ID4gPiA+ID4gPiA+IGV4
-cG9zZWQgdG8gdGhlIGNsaWVudCA/IEJlIGF3YXJlIHRoYXQsIGV2ZW4gaWYgdGhlDQo+ID4gPiA+
-ID4gPiA+ID4gPiA+IGNsaWVudCBjYW5ub3QgY3JlYXRlIHN5bWxpbmtzLCBhbiBleGlzdGluZyBz
-eW1saW5rDQo+ID4gPiA+ID4gPiA+ID4gPiA+IGNvdWxkIGJlIHVzZWQgdG8gZXNjYXBlDQo+ID4g
-PiB3aXRoIHJlbmFtZSgpLg0KPiA+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4g
-Pg0KPiA+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gPiBJZiB0aGUgY29kZSAi
-bWF5IGhhdmUgYSByaXNrIG9mIHNlY3VyaXR5IiB0aGVuIGl0IG11c3QNCj4gPiA+ID4gPiA+ID4g
-PiA+ID4gYmUgZml4ZWQgb3IgYXZvaWRlZCBpbiBzb21lIHdheSBiZWZvcmUgYmVpbmcgbWVyZ2Vk
-IHVwc3RyZWFtLg0KPiA+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gPg0KPiA+
-ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gPiBPdGhlciB0aGluZyB0aGF0IGNv
-bWVzIHRvIG1pbmQgaXMgdGhhdCB3aW5kb3dzIGhvc3RzDQo+ID4gPiA+ID4gPiA+ID4gPiA+IHNo
-b3VsZCBtYXliZSB1c2UgdGhlIG1hcHBlZCBvciBtYXBwZWQtZmlsZSBzZWN1cml0eQ0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiBtb2RlcyB2aXNpdCB2aXNpdCBzaW5jZSB0aGV5IGVtdWxhdGUgc3ltbGlu
-a3Mgd2l0aCBhDQo+ID4gPiA+ID4gPiA+ID4gPiA+IHNpbXBsZSBmaWxlIGhpZGRlbiBpbiB0aGUg
-VklSVEZTX01FVEFfRElSIGRpcmVjdG9yeS4NCj4gPiA+ID4gPiA+ID4gPiA+ID4NCj4gPiA+ID4g
-PiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gQ2hl
-ZXJzLA0KPiA+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+
-ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gPiAtLQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiBH
-cmVnDQo+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gV2luZG93cyBuYXRpdmUg
-QVBJIHN1cHBvcnQgc3ltYm9saWMgbGluayBmaWxlIHN0YXJ0IGZyb20NCj4gPiA+ID4gPiA+ID4g
-PiA+IFdpbmRvd3MNCj4gPiA+ID4gPiA+ID4gPiA+IFZpc3RhOg0KPiA+ID4gPiA+ID4gPiA+ID4g
-aHR0cHM6Ly9kb2NzLm1pY3Jvc29mdC5jb20vZW4tdXMvd2luZG93cy93aW4zMi9hcGkvd2luYmEN
-Cj4gPiA+ID4gPiA+ID4gPiA+IHNlL24NCj4gPiA+ID4gPiA+ID4gPiA+IGYtd2luYmFzDQo+ID4g
-PiA+ID4gPiA+ID4gPiBlLWNyDQo+ID4gPiA+ID4gPiA+ID4gPiBlYQ0KPiA+ID4gPiA+ID4gPiA+
-ID4gdGVzIHltYm9saWNsaW5rYQ0KPiA+ID4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+
-IEkgbWVhbiBXaW5kb3dzIFBPU0lYIEFQSXMgZG8gbm90IHN1cHBvcnQgc3ltYm9saWMgbGluaw0K
-PiA+ID4gPiA+ID4gPiA+ID4gKE1pbkdXIHVzZQ0KPiA+ID4gPiA+ID4gPiA+ID4gV2luMzINCj4g
-PiA+ID4gPiA+ID4gPiA+IFBPU0lYIEFQSXMpIFNvIHdlIGNhbiBub3QgY3JlYXRlIHN5bWJvbGlj
-IGxpbmsgYnkgTWluR1cuDQo+ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+IEEgZnVuY3Rpb24g
-d2l0aCBQT1NJWCBzaWduYXR1cmUgY291bGQgYmUgYWRkZWQgdG8NCj4gPiA+ID4gPiA+ID4gOXAt
-dXRpbC13aW4uYyB3aGljaCB3b3VsZCBjYWxsIHRoZSBuYXRpdmUgV2luZG93cyBmdW5jdGlvbiB0
-byBjcmVhdGUNCj4gc3ltbGlua3MuDQo+ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+ID4gPiBB
-bnl3YXksIHRoZXJlIGlzIGFub3RoZXIgc29sdXRpb246IHJlLXdvcmsgd2hvbGUgOVBGUyBjb2Rl
-Og0KPiA+ID4gPiA+ID4gPiA+ID4gbm90IG9ubHkgOXAtbG9jYWwuYywgYnV0IGFsc28gZXZlcnkg
-ZmlsZSBpbiA5cCBkcml2ZXIuDQo+ID4gPiA+ID4gPiA+ID4gPiBSZXBsYWNlIGV2ZXJ5IE1pbkdX
-L1BPU0lYIEFQSXMgKGUuZy4gb3BlbiwgbHNlZWssIHJlYWQsDQo+ID4gPiA+ID4gPiA+ID4gPiB3
-cml0ZSwgY2xvc2UpLCBieSBXaW5kb3dzIE5hdGl2ZSBBUElzIChlLmcuIG9wZW4gLT4NCj4gPiA+
-ID4gPiA+ID4gPiA+IENyZWF0ZUZpbGUsIGxzZWVrIC0+IFNldEZpbGVQb2ludGVyLCByZWFkIC0+
-IFJlYWRGaWxlLA0KPiA+ID4gPiA+ID4gPiA+ID4gd3JpdGUNCj4gPiA+ID4gPiA+ID4gPiA+IC0+
-IFdyaXRlRmlsZSwgY2xvc2UgLT4gQ2xvc2VIYW5kbGUsIGV0Yy4pIFRoZW4gOVAgY2FuDQo+ID4g
-PiA+ID4gPiA+ID4gPiAtPiB1c2UNCj4gPiA+ID4gPiA+ID4gPiA+IFdpbmRvd3Mgc3ltYm9saWMg
-bGluayBmZWF0dXJlLg0KPiA+ID4gPiA+ID4gPiA+ID4gSG93ZXZlciwgSSBkbyB0aGluayBpdCBp
-cyBhIGdvb2QgaWRlYSB0byByZXBsYWNlIGV2ZXJ5dGhpbmcuDQo+ID4gPiA+ID4gPiA+ID4NCj4g
-PiA+ID4gPiA+ID4gPiBUWVBPOiBpdCBOT1QgaXMgYSBnb29kIGlkZWEgdG8gcmVwbGFjZSBldmVy
-eXRoaW5nLg0KPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiBSaWdodCwgdGhhdCBkb2VzIG5v
-dCBtYWtlIHNlbnNlLiBUaGUgd2F5IHRvIGdvIGlzIGFkZGluZyBhbmQNCj4gPiA+ID4gPiA+ID4g
-aW1wbGVtZW50aW5nIG1pc3Npbmcgc3lzdGVtIGZ1bmN0aW9ucyB3aXRoIFBPU0lYIHNpZ25hdHVy
-ZXMNCj4gPiA+ID4gPiA+ID4gYW5kIFBPU0lYIGJlaGF2aW91ciBmb3IgV2luZG93cy4gTm90IHR1
-cm5pbmcgdGhlIGVudGlyZSBjb2RlDQo+ID4gPiA+ID4gPiA+IGJhc2UgdXBzaWRlIGRvd24uDQo+
-ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+IEJlc3QgcmVnYXJkcywNCj4gPiA+ID4gPiA+ID4g
-Q2hyaXN0aWFuIFNjaG9lbmViZWNrDQo+ID4gPiA+DQo+ID4gPiA+DQo+ID4NCg0K
+From: eopXD <eop.chen@sifive.com>
+
+According to v-spec, tail agnostic behavior can be either kept as
+undisturbed or set elements' bits to all 1s. To distinguish the
+difference of tail policies, QEMU should be able to simulate the tail
+agnostic behavior as "set tail elements' bits to all 1s".
+
+There are multiple possibility for agnostic elements according to
+v-spec. The main intent of this patch-set tries to add option that
+can distinguish between tail policies. Setting agnostic elements to
+all 1s allows QEMU to express this.
+
+This is the first commit regarding the optional tail agnostic
+behavior. Follow-up commits will add this optional behavior
+for all rvv instructions.
+
+Signed-off-by: eop Chen <eop.chen@sifive.com>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu.h                      |   2 +
+ target/riscv/cpu_helper.c               |   2 +
+ target/riscv/insn_trans/trans_rvv.c.inc |   3 +-
+ target/riscv/internals.h                |   5 +-
+ target/riscv/translate.c                |   2 +
+ target/riscv/vector_helper.c            | 295 +++++++++++++-----------
+ 6 files changed, 177 insertions(+), 132 deletions(-)
+
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index fe6c9a2c92..61552408b5 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -405,6 +405,7 @@ struct RISCVCPUConfig {
+     bool ext_zhinxmin;
+     bool ext_zve32f;
+     bool ext_zve64f;
++    bool rvv_ta_all_1s;
+=20
+     uint32_t mvendorid;
+     uint64_t marchid;
+@@ -557,6 +558,7 @@ FIELD(TB_FLAGS, XL, 20, 2)
+ /* If PointerMasking should be applied */
+ FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
+ FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
++FIELD(TB_FLAGS, VTA, 24, 1)
+=20
+ #ifdef TARGET_RISCV32
+ #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index e1aa4f2097..c0641b63cc 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -65,6 +65,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong =
+*pc,
+         flags =3D FIELD_DP32(flags, TB_FLAGS, LMUL,
+                     FIELD_EX64(env->vtype, VTYPE, VLMUL));
+         flags =3D FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
++        flags =3D FIELD_DP32(flags, TB_FLAGS, VTA,
++                    FIELD_EX64(env->vtype, VTYPE, VTA));
+     } else {
+         flags =3D FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+     }
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_tran=
+s/trans_rvv.c.inc
+index 4d5dfa794a..efdf5d6d81 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -1227,7 +1227,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn =
+*gvec_fn,
+     tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+     tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+=20
+-    if (a->vm && s->vl_eq_vlmax) {
++    if (a->vm && s->vl_eq_vlmax && !(s->vta && s->lmul < 0)) {
+         gvec_fn(s->sew, vreg_ofs(s, a->rd),
+                 vreg_ofs(s, a->rs2), vreg_ofs(s, a->rs1),
+                 MAXSZ(s), MAXSZ(s));
+@@ -1236,6 +1236,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn =
+*gvec_fn,
+=20
+         data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
++        data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),
+                            cpu_env, s->cfg_ptr->vlen / 8,
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+index dbb322bfa7..512c6c30cf 100644
+--- a/target/riscv/internals.h
++++ b/target/riscv/internals.h
+@@ -24,8 +24,9 @@
+ /* share data between vector helpers and decode code */
+ FIELD(VDATA, VM, 0, 1)
+ FIELD(VDATA, LMUL, 1, 3)
+-FIELD(VDATA, NF, 4, 4)
+-FIELD(VDATA, WD, 4, 1)
++FIELD(VDATA, VTA, 4, 1)
++FIELD(VDATA, NF, 5, 4)
++FIELD(VDATA, WD, 5, 1)
+=20
+ /* float point classify helpers */
+ target_ulong fclass_h(uint64_t frs1);
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 0cd1d9ee94..832353be54 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -94,6 +94,7 @@ typedef struct DisasContext {
+      */
+     int8_t lmul;
+     uint8_t sew;
++    uint8_t vta;
+     target_ulong vstart;
+     bool vl_eq_vlmax;
+     uint8_t ntemp;
+@@ -1091,6 +1092,7 @@ static void riscv_tr_init_disas_context(DisasContextBas=
+e *dcbase, CPUState *cs)
+     ctx->vill =3D FIELD_EX32(tb_flags, TB_FLAGS, VILL);
+     ctx->sew =3D FIELD_EX32(tb_flags, TB_FLAGS, SEW);
+     ctx->lmul =3D sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
++    ctx->vta =3D FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_=
+1s;
+     ctx->vstart =3D env->vstart;
+     ctx->vl_eq_vlmax =3D FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+     ctx->misa_mxl_max =3D env->misa_mxl_max;
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index dce7e60be0..61c7074f6a 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -122,6 +122,11 @@ static inline int32_t vext_lmul(uint32_t desc)
+     return sextract32(FIELD_EX32(simd_data(desc), VDATA, LMUL), 0, 3);
+ }
+=20
++static inline uint32_t vext_vta(uint32_t desc)
++{
++    return FIELD_EX32(simd_data(desc), VDATA, VTA);
++}
++
+ /*
+  * Get the maximum number of elements can be operated.
+  *
+@@ -140,6 +145,20 @@ static inline uint32_t vext_max_elems(uint32_t desc, uin=
+t32_t log2_esz)
+     return scale < 0 ? vlenb >> -scale : vlenb << scale;
+ }
+=20
++/*
++ * Get number of total elements, including prestart, body and tail elements.
++ * Note that when LMUL < 1, the tail includes the elements past VLMAX that
++ * are held in the same vector register.
++ */
++static inline uint32_t vext_get_total_elems(CPURISCVState *env, uint32_t des=
+c, uint32_t esz)
++{
++    uint32_t vlenb =3D simd_maxsz(desc);
++    uint32_t sew =3D 1 << FIELD_EX64(env->vtype, VTYPE, VSEW);
++    int8_t emul =3D ctzl(esz) - ctzl(sew) + vext_lmul(desc) < 0 ? 0 :
++                  ctzl(esz) - ctzl(sew) + vext_lmul(desc);
++    return (vlenb << emul) / esz;
++}
++
+ static inline target_ulong adjust_addr(CPURISCVState *env, target_ulong addr)
+ {
+     return (addr & env->cur_pmmask) | env->cur_pmbase;
+@@ -172,6 +191,20 @@ static void probe_pages(CPURISCVState *env, target_ulong=
+ addr,
+     }
+ }
+=20
++/* set agnostic elements to 1s */
++static void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
++                              uint32_t tot)
++{
++    if (is_agnostic =3D=3D 0) {
++        /* policy undisturbed */
++        return;
++    }
++    if (tot - cnt =3D=3D 0) {
++        return ;
++    }
++    memset(base + cnt, -1, tot - cnt);
++}
++
+ static inline void vext_set_elem_mask(void *v0, int index,
+                                       uint8_t value)
+ {
+@@ -710,10 +743,12 @@ RVVCALL(OPIVV2, vsub_vv_d, OP_SSS_D, H8, H8, H8, DO_SUB)
+=20
+ static void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
+                        CPURISCVState *env, uint32_t desc,
+-                       opivv2_fn *fn)
++                       opivv2_fn *fn, uint32_t esz)
+ {
+     uint32_t vm =3D vext_vm(desc);
+     uint32_t vl =3D env->vl;
++    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);
++    uint32_t vta =3D vext_vta(desc);
+     uint32_t i;
+=20
+     for (i =3D env->vstart; i < vl; i++) {
+@@ -723,26 +758,28 @@ static void do_vext_vv(void *vd, void *v0, void *vs1, v=
+oid *vs2,
+         fn(vd, vs1, vs2, i);
+     }
+     env->vstart =3D 0;
++    /* set tail elements to 1s */
++    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);
+ }
+=20
+ /* generate the helpers for OPIVV */
+-#define GEN_VEXT_VV(NAME)                                 \
++#define GEN_VEXT_VV(NAME, ESZ)                            \
+ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+                   void *vs2, CPURISCVState *env,          \
+                   uint32_t desc)                          \
+ {                                                         \
+     do_vext_vv(vd, v0, vs1, vs2, env, desc,               \
+-               do_##NAME);                                \
++               do_##NAME, ESZ);                           \
+ }
+=20
+-GEN_VEXT_VV(vadd_vv_b)
+-GEN_VEXT_VV(vadd_vv_h)
+-GEN_VEXT_VV(vadd_vv_w)
+-GEN_VEXT_VV(vadd_vv_d)
+-GEN_VEXT_VV(vsub_vv_b)
+-GEN_VEXT_VV(vsub_vv_h)
+-GEN_VEXT_VV(vsub_vv_w)
+-GEN_VEXT_VV(vsub_vv_d)
++GEN_VEXT_VV(vadd_vv_b, 1)
++GEN_VEXT_VV(vadd_vv_h, 2)
++GEN_VEXT_VV(vadd_vv_w, 4)
++GEN_VEXT_VV(vadd_vv_d, 8)
++GEN_VEXT_VV(vsub_vv_b, 1)
++GEN_VEXT_VV(vsub_vv_h, 2)
++GEN_VEXT_VV(vsub_vv_w, 4)
++GEN_VEXT_VV(vsub_vv_d, 8)
+=20
+ typedef void opivx2_fn(void *vd, target_long s1, void *vs2, int i);
+=20
+@@ -887,30 +924,30 @@ RVVCALL(OPIVV2, vwadd_wv_w, WOP_WSSS_W, H8, H4, H4, DO_=
+ADD)
+ RVVCALL(OPIVV2, vwsub_wv_b, WOP_WSSS_B, H2, H1, H1, DO_SUB)
+ RVVCALL(OPIVV2, vwsub_wv_h, WOP_WSSS_H, H4, H2, H2, DO_SUB)
+ RVVCALL(OPIVV2, vwsub_wv_w, WOP_WSSS_W, H8, H4, H4, DO_SUB)
+-GEN_VEXT_VV(vwaddu_vv_b)
+-GEN_VEXT_VV(vwaddu_vv_h)
+-GEN_VEXT_VV(vwaddu_vv_w)
+-GEN_VEXT_VV(vwsubu_vv_b)
+-GEN_VEXT_VV(vwsubu_vv_h)
+-GEN_VEXT_VV(vwsubu_vv_w)
+-GEN_VEXT_VV(vwadd_vv_b)
+-GEN_VEXT_VV(vwadd_vv_h)
+-GEN_VEXT_VV(vwadd_vv_w)
+-GEN_VEXT_VV(vwsub_vv_b)
+-GEN_VEXT_VV(vwsub_vv_h)
+-GEN_VEXT_VV(vwsub_vv_w)
+-GEN_VEXT_VV(vwaddu_wv_b)
+-GEN_VEXT_VV(vwaddu_wv_h)
+-GEN_VEXT_VV(vwaddu_wv_w)
+-GEN_VEXT_VV(vwsubu_wv_b)
+-GEN_VEXT_VV(vwsubu_wv_h)
+-GEN_VEXT_VV(vwsubu_wv_w)
+-GEN_VEXT_VV(vwadd_wv_b)
+-GEN_VEXT_VV(vwadd_wv_h)
+-GEN_VEXT_VV(vwadd_wv_w)
+-GEN_VEXT_VV(vwsub_wv_b)
+-GEN_VEXT_VV(vwsub_wv_h)
+-GEN_VEXT_VV(vwsub_wv_w)
++GEN_VEXT_VV(vwaddu_vv_b, 2)
++GEN_VEXT_VV(vwaddu_vv_h, 4)
++GEN_VEXT_VV(vwaddu_vv_w, 8)
++GEN_VEXT_VV(vwsubu_vv_b, 2)
++GEN_VEXT_VV(vwsubu_vv_h, 4)
++GEN_VEXT_VV(vwsubu_vv_w, 8)
++GEN_VEXT_VV(vwadd_vv_b, 2)
++GEN_VEXT_VV(vwadd_vv_h, 4)
++GEN_VEXT_VV(vwadd_vv_w, 8)
++GEN_VEXT_VV(vwsub_vv_b, 2)
++GEN_VEXT_VV(vwsub_vv_h, 4)
++GEN_VEXT_VV(vwsub_vv_w, 8)
++GEN_VEXT_VV(vwaddu_wv_b, 2)
++GEN_VEXT_VV(vwaddu_wv_h, 4)
++GEN_VEXT_VV(vwaddu_wv_w, 8)
++GEN_VEXT_VV(vwsubu_wv_b, 2)
++GEN_VEXT_VV(vwsubu_wv_h, 4)
++GEN_VEXT_VV(vwsubu_wv_w, 8)
++GEN_VEXT_VV(vwadd_wv_b, 2)
++GEN_VEXT_VV(vwadd_wv_h, 4)
++GEN_VEXT_VV(vwadd_wv_w, 8)
++GEN_VEXT_VV(vwsub_wv_b, 2)
++GEN_VEXT_VV(vwsub_wv_h, 4)
++GEN_VEXT_VV(vwsub_wv_w, 8)
+=20
+ RVVCALL(OPIVX2, vwaddu_vx_b, WOP_UUU_B, H2, H1, DO_ADD)
+ RVVCALL(OPIVX2, vwaddu_vx_h, WOP_UUU_H, H4, H2, DO_ADD)
+@@ -1089,18 +1126,18 @@ RVVCALL(OPIVV2, vxor_vv_b, OP_SSS_B, H1, H1, H1, DO_X=
+OR)
+ RVVCALL(OPIVV2, vxor_vv_h, OP_SSS_H, H2, H2, H2, DO_XOR)
+ RVVCALL(OPIVV2, vxor_vv_w, OP_SSS_W, H4, H4, H4, DO_XOR)
+ RVVCALL(OPIVV2, vxor_vv_d, OP_SSS_D, H8, H8, H8, DO_XOR)
+-GEN_VEXT_VV(vand_vv_b)
+-GEN_VEXT_VV(vand_vv_h)
+-GEN_VEXT_VV(vand_vv_w)
+-GEN_VEXT_VV(vand_vv_d)
+-GEN_VEXT_VV(vor_vv_b)
+-GEN_VEXT_VV(vor_vv_h)
+-GEN_VEXT_VV(vor_vv_w)
+-GEN_VEXT_VV(vor_vv_d)
+-GEN_VEXT_VV(vxor_vv_b)
+-GEN_VEXT_VV(vxor_vv_h)
+-GEN_VEXT_VV(vxor_vv_w)
+-GEN_VEXT_VV(vxor_vv_d)
++GEN_VEXT_VV(vand_vv_b, 1)
++GEN_VEXT_VV(vand_vv_h, 2)
++GEN_VEXT_VV(vand_vv_w, 4)
++GEN_VEXT_VV(vand_vv_d, 8)
++GEN_VEXT_VV(vor_vv_b, 1)
++GEN_VEXT_VV(vor_vv_h, 2)
++GEN_VEXT_VV(vor_vv_w, 4)
++GEN_VEXT_VV(vor_vv_d, 8)
++GEN_VEXT_VV(vxor_vv_b, 1)
++GEN_VEXT_VV(vxor_vv_h, 2)
++GEN_VEXT_VV(vxor_vv_w, 4)
++GEN_VEXT_VV(vxor_vv_d, 8)
+=20
+ RVVCALL(OPIVX2, vand_vx_b, OP_SSS_B, H1, H1, DO_AND)
+ RVVCALL(OPIVX2, vand_vx_h, OP_SSS_H, H2, H2, DO_AND)
+@@ -1346,22 +1383,22 @@ RVVCALL(OPIVV2, vmax_vv_b, OP_SSS_B, H1, H1, H1, DO_M=
+AX)
+ RVVCALL(OPIVV2, vmax_vv_h, OP_SSS_H, H2, H2, H2, DO_MAX)
+ RVVCALL(OPIVV2, vmax_vv_w, OP_SSS_W, H4, H4, H4, DO_MAX)
+ RVVCALL(OPIVV2, vmax_vv_d, OP_SSS_D, H8, H8, H8, DO_MAX)
+-GEN_VEXT_VV(vminu_vv_b)
+-GEN_VEXT_VV(vminu_vv_h)
+-GEN_VEXT_VV(vminu_vv_w)
+-GEN_VEXT_VV(vminu_vv_d)
+-GEN_VEXT_VV(vmin_vv_b)
+-GEN_VEXT_VV(vmin_vv_h)
+-GEN_VEXT_VV(vmin_vv_w)
+-GEN_VEXT_VV(vmin_vv_d)
+-GEN_VEXT_VV(vmaxu_vv_b)
+-GEN_VEXT_VV(vmaxu_vv_h)
+-GEN_VEXT_VV(vmaxu_vv_w)
+-GEN_VEXT_VV(vmaxu_vv_d)
+-GEN_VEXT_VV(vmax_vv_b)
+-GEN_VEXT_VV(vmax_vv_h)
+-GEN_VEXT_VV(vmax_vv_w)
+-GEN_VEXT_VV(vmax_vv_d)
++GEN_VEXT_VV(vminu_vv_b, 1)
++GEN_VEXT_VV(vminu_vv_h, 2)
++GEN_VEXT_VV(vminu_vv_w, 4)
++GEN_VEXT_VV(vminu_vv_d, 8)
++GEN_VEXT_VV(vmin_vv_b, 1)
++GEN_VEXT_VV(vmin_vv_h, 2)
++GEN_VEXT_VV(vmin_vv_w, 4)
++GEN_VEXT_VV(vmin_vv_d, 8)
++GEN_VEXT_VV(vmaxu_vv_b, 1)
++GEN_VEXT_VV(vmaxu_vv_h, 2)
++GEN_VEXT_VV(vmaxu_vv_w, 4)
++GEN_VEXT_VV(vmaxu_vv_d, 8)
++GEN_VEXT_VV(vmax_vv_b, 1)
++GEN_VEXT_VV(vmax_vv_h, 2)
++GEN_VEXT_VV(vmax_vv_w, 4)
++GEN_VEXT_VV(vmax_vv_d, 8)
+=20
+ RVVCALL(OPIVX2, vminu_vx_b, OP_UUU_B, H1, H1, DO_MIN)
+ RVVCALL(OPIVX2, vminu_vx_h, OP_UUU_H, H2, H2, DO_MIN)
+@@ -1402,10 +1439,10 @@ RVVCALL(OPIVV2, vmul_vv_b, OP_SSS_B, H1, H1, H1, DO_M=
+UL)
+ RVVCALL(OPIVV2, vmul_vv_h, OP_SSS_H, H2, H2, H2, DO_MUL)
+ RVVCALL(OPIVV2, vmul_vv_w, OP_SSS_W, H4, H4, H4, DO_MUL)
+ RVVCALL(OPIVV2, vmul_vv_d, OP_SSS_D, H8, H8, H8, DO_MUL)
+-GEN_VEXT_VV(vmul_vv_b)
+-GEN_VEXT_VV(vmul_vv_h)
+-GEN_VEXT_VV(vmul_vv_w)
+-GEN_VEXT_VV(vmul_vv_d)
++GEN_VEXT_VV(vmul_vv_b, 1)
++GEN_VEXT_VV(vmul_vv_h, 2)
++GEN_VEXT_VV(vmul_vv_w, 4)
++GEN_VEXT_VV(vmul_vv_d, 8)
+=20
+ static int8_t do_mulh_b(int8_t s2, int8_t s1)
+ {
+@@ -1509,18 +1546,18 @@ RVVCALL(OPIVV2, vmulhsu_vv_b, OP_SUS_B, H1, H1, H1, d=
+o_mulhsu_b)
+ RVVCALL(OPIVV2, vmulhsu_vv_h, OP_SUS_H, H2, H2, H2, do_mulhsu_h)
+ RVVCALL(OPIVV2, vmulhsu_vv_w, OP_SUS_W, H4, H4, H4, do_mulhsu_w)
+ RVVCALL(OPIVV2, vmulhsu_vv_d, OP_SUS_D, H8, H8, H8, do_mulhsu_d)
+-GEN_VEXT_VV(vmulh_vv_b)
+-GEN_VEXT_VV(vmulh_vv_h)
+-GEN_VEXT_VV(vmulh_vv_w)
+-GEN_VEXT_VV(vmulh_vv_d)
+-GEN_VEXT_VV(vmulhu_vv_b)
+-GEN_VEXT_VV(vmulhu_vv_h)
+-GEN_VEXT_VV(vmulhu_vv_w)
+-GEN_VEXT_VV(vmulhu_vv_d)
+-GEN_VEXT_VV(vmulhsu_vv_b)
+-GEN_VEXT_VV(vmulhsu_vv_h)
+-GEN_VEXT_VV(vmulhsu_vv_w)
+-GEN_VEXT_VV(vmulhsu_vv_d)
++GEN_VEXT_VV(vmulh_vv_b, 1)
++GEN_VEXT_VV(vmulh_vv_h, 2)
++GEN_VEXT_VV(vmulh_vv_w, 4)
++GEN_VEXT_VV(vmulh_vv_d, 8)
++GEN_VEXT_VV(vmulhu_vv_b, 1)
++GEN_VEXT_VV(vmulhu_vv_h, 2)
++GEN_VEXT_VV(vmulhu_vv_w, 4)
++GEN_VEXT_VV(vmulhu_vv_d, 8)
++GEN_VEXT_VV(vmulhsu_vv_b, 1)
++GEN_VEXT_VV(vmulhsu_vv_h, 2)
++GEN_VEXT_VV(vmulhsu_vv_w, 4)
++GEN_VEXT_VV(vmulhsu_vv_d, 8)
+=20
+ RVVCALL(OPIVX2, vmul_vx_b, OP_SSS_B, H1, H1, DO_MUL)
+ RVVCALL(OPIVX2, vmul_vx_h, OP_SSS_H, H2, H2, DO_MUL)
+@@ -1579,22 +1616,22 @@ RVVCALL(OPIVV2, vrem_vv_b, OP_SSS_B, H1, H1, H1, DO_R=
+EM)
+ RVVCALL(OPIVV2, vrem_vv_h, OP_SSS_H, H2, H2, H2, DO_REM)
+ RVVCALL(OPIVV2, vrem_vv_w, OP_SSS_W, H4, H4, H4, DO_REM)
+ RVVCALL(OPIVV2, vrem_vv_d, OP_SSS_D, H8, H8, H8, DO_REM)
+-GEN_VEXT_VV(vdivu_vv_b)
+-GEN_VEXT_VV(vdivu_vv_h)
+-GEN_VEXT_VV(vdivu_vv_w)
+-GEN_VEXT_VV(vdivu_vv_d)
+-GEN_VEXT_VV(vdiv_vv_b)
+-GEN_VEXT_VV(vdiv_vv_h)
+-GEN_VEXT_VV(vdiv_vv_w)
+-GEN_VEXT_VV(vdiv_vv_d)
+-GEN_VEXT_VV(vremu_vv_b)
+-GEN_VEXT_VV(vremu_vv_h)
+-GEN_VEXT_VV(vremu_vv_w)
+-GEN_VEXT_VV(vremu_vv_d)
+-GEN_VEXT_VV(vrem_vv_b)
+-GEN_VEXT_VV(vrem_vv_h)
+-GEN_VEXT_VV(vrem_vv_w)
+-GEN_VEXT_VV(vrem_vv_d)
++GEN_VEXT_VV(vdivu_vv_b, 1)
++GEN_VEXT_VV(vdivu_vv_h, 2)
++GEN_VEXT_VV(vdivu_vv_w, 4)
++GEN_VEXT_VV(vdivu_vv_d, 8)
++GEN_VEXT_VV(vdiv_vv_b, 1)
++GEN_VEXT_VV(vdiv_vv_h, 2)
++GEN_VEXT_VV(vdiv_vv_w, 4)
++GEN_VEXT_VV(vdiv_vv_d, 8)
++GEN_VEXT_VV(vremu_vv_b, 1)
++GEN_VEXT_VV(vremu_vv_h, 2)
++GEN_VEXT_VV(vremu_vv_w, 4)
++GEN_VEXT_VV(vremu_vv_d, 8)
++GEN_VEXT_VV(vrem_vv_b, 1)
++GEN_VEXT_VV(vrem_vv_h, 2)
++GEN_VEXT_VV(vrem_vv_w, 4)
++GEN_VEXT_VV(vrem_vv_d, 8)
+=20
+ RVVCALL(OPIVX2, vdivu_vx_b, OP_UUU_B, H1, H1, DO_DIVU)
+ RVVCALL(OPIVX2, vdivu_vx_h, OP_UUU_H, H2, H2, DO_DIVU)
+@@ -1639,15 +1676,15 @@ RVVCALL(OPIVV2, vwmulu_vv_w, WOP_UUU_W, H8, H4, H4, D=
+O_MUL)
+ RVVCALL(OPIVV2, vwmulsu_vv_b, WOP_SUS_B, H2, H1, H1, DO_MUL)
+ RVVCALL(OPIVV2, vwmulsu_vv_h, WOP_SUS_H, H4, H2, H2, DO_MUL)
+ RVVCALL(OPIVV2, vwmulsu_vv_w, WOP_SUS_W, H8, H4, H4, DO_MUL)
+-GEN_VEXT_VV(vwmul_vv_b)
+-GEN_VEXT_VV(vwmul_vv_h)
+-GEN_VEXT_VV(vwmul_vv_w)
+-GEN_VEXT_VV(vwmulu_vv_b)
+-GEN_VEXT_VV(vwmulu_vv_h)
+-GEN_VEXT_VV(vwmulu_vv_w)
+-GEN_VEXT_VV(vwmulsu_vv_b)
+-GEN_VEXT_VV(vwmulsu_vv_h)
+-GEN_VEXT_VV(vwmulsu_vv_w)
++GEN_VEXT_VV(vwmul_vv_b, 2)
++GEN_VEXT_VV(vwmul_vv_h, 4)
++GEN_VEXT_VV(vwmul_vv_w, 8)
++GEN_VEXT_VV(vwmulu_vv_b, 2)
++GEN_VEXT_VV(vwmulu_vv_h, 4)
++GEN_VEXT_VV(vwmulu_vv_w, 8)
++GEN_VEXT_VV(vwmulsu_vv_b, 2)
++GEN_VEXT_VV(vwmulsu_vv_h, 4)
++GEN_VEXT_VV(vwmulsu_vv_w, 8)
+=20
+ RVVCALL(OPIVX2, vwmul_vx_b, WOP_SSS_B, H2, H1, DO_MUL)
+ RVVCALL(OPIVX2, vwmul_vx_h, WOP_SSS_H, H4, H2, DO_MUL)
+@@ -1698,22 +1735,22 @@ RVVCALL(OPIVV3, vnmsub_vv_b, OP_SSS_B, H1, H1, H1, DO=
+_NMSUB)
+ RVVCALL(OPIVV3, vnmsub_vv_h, OP_SSS_H, H2, H2, H2, DO_NMSUB)
+ RVVCALL(OPIVV3, vnmsub_vv_w, OP_SSS_W, H4, H4, H4, DO_NMSUB)
+ RVVCALL(OPIVV3, vnmsub_vv_d, OP_SSS_D, H8, H8, H8, DO_NMSUB)
+-GEN_VEXT_VV(vmacc_vv_b)
+-GEN_VEXT_VV(vmacc_vv_h)
+-GEN_VEXT_VV(vmacc_vv_w)
+-GEN_VEXT_VV(vmacc_vv_d)
+-GEN_VEXT_VV(vnmsac_vv_b)
+-GEN_VEXT_VV(vnmsac_vv_h)
+-GEN_VEXT_VV(vnmsac_vv_w)
+-GEN_VEXT_VV(vnmsac_vv_d)
+-GEN_VEXT_VV(vmadd_vv_b)
+-GEN_VEXT_VV(vmadd_vv_h)
+-GEN_VEXT_VV(vmadd_vv_w)
+-GEN_VEXT_VV(vmadd_vv_d)
+-GEN_VEXT_VV(vnmsub_vv_b)
+-GEN_VEXT_VV(vnmsub_vv_h)
+-GEN_VEXT_VV(vnmsub_vv_w)
+-GEN_VEXT_VV(vnmsub_vv_d)
++GEN_VEXT_VV(vmacc_vv_b, 1)
++GEN_VEXT_VV(vmacc_vv_h, 2)
++GEN_VEXT_VV(vmacc_vv_w, 4)
++GEN_VEXT_VV(vmacc_vv_d, 8)
++GEN_VEXT_VV(vnmsac_vv_b, 1)
++GEN_VEXT_VV(vnmsac_vv_h, 2)
++GEN_VEXT_VV(vnmsac_vv_w, 4)
++GEN_VEXT_VV(vnmsac_vv_d, 8)
++GEN_VEXT_VV(vmadd_vv_b, 1)
++GEN_VEXT_VV(vmadd_vv_h, 2)
++GEN_VEXT_VV(vmadd_vv_w, 4)
++GEN_VEXT_VV(vmadd_vv_d, 8)
++GEN_VEXT_VV(vnmsub_vv_b, 1)
++GEN_VEXT_VV(vnmsub_vv_h, 2)
++GEN_VEXT_VV(vnmsub_vv_w, 4)
++GEN_VEXT_VV(vnmsub_vv_d, 8)
+=20
+ #define OPIVX3(NAME, TD, T1, T2, TX1, TX2, HD, HS2, OP)             \
+ static void do_##NAME(void *vd, target_long s1, void *vs2, int i)   \
+@@ -1766,15 +1803,15 @@ RVVCALL(OPIVV3, vwmacc_vv_w, WOP_SSS_W, H8, H4, H4, D=
+O_MACC)
+ RVVCALL(OPIVV3, vwmaccsu_vv_b, WOP_SSU_B, H2, H1, H1, DO_MACC)
+ RVVCALL(OPIVV3, vwmaccsu_vv_h, WOP_SSU_H, H4, H2, H2, DO_MACC)
+ RVVCALL(OPIVV3, vwmaccsu_vv_w, WOP_SSU_W, H8, H4, H4, DO_MACC)
+-GEN_VEXT_VV(vwmaccu_vv_b)
+-GEN_VEXT_VV(vwmaccu_vv_h)
+-GEN_VEXT_VV(vwmaccu_vv_w)
+-GEN_VEXT_VV(vwmacc_vv_b)
+-GEN_VEXT_VV(vwmacc_vv_h)
+-GEN_VEXT_VV(vwmacc_vv_w)
+-GEN_VEXT_VV(vwmaccsu_vv_b)
+-GEN_VEXT_VV(vwmaccsu_vv_h)
+-GEN_VEXT_VV(vwmaccsu_vv_w)
++GEN_VEXT_VV(vwmaccu_vv_b, 2)
++GEN_VEXT_VV(vwmaccu_vv_h, 4)
++GEN_VEXT_VV(vwmaccu_vv_w, 8)
++GEN_VEXT_VV(vwmacc_vv_b, 2)
++GEN_VEXT_VV(vwmacc_vv_h, 4)
++GEN_VEXT_VV(vwmacc_vv_w, 8)
++GEN_VEXT_VV(vwmaccsu_vv_b, 2)
++GEN_VEXT_VV(vwmaccsu_vv_h, 4)
++GEN_VEXT_VV(vwmaccsu_vv_w, 8)
+=20
+ RVVCALL(OPIVX3, vwmaccu_vx_b, WOP_UUU_B, H2, H1, DO_MACC)
+ RVVCALL(OPIVX3, vwmaccu_vx_h, WOP_UUU_H, H4, H2, DO_MACC)
+--=20
+2.34.2
+
 
