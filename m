@@ -2,75 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F6C4C87C2
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:22:15 +0100 (CET)
-Received: from localhost ([::1]:33638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806F04C888D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:52:22 +0100 (CET)
+Received: from localhost ([::1]:52258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOyhy-0008VQ-EF
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:22:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56296)
+	id 1nOzB7-0008ON-JF
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:52:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nOy9D-0002sr-A6
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:46:19 -0500
-Received: from [2a00:1450:4864:20::429] (port=35401
- helo=mail-wr1-x429.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1nOy97-0000nu-7h
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:46:18 -0500
-Received: by mail-wr1-x429.google.com with SMTP id b5so19300988wrr.2
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:46:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PzcaGox3UqCygkt+mR5hkso+/7bFnXjHu8TgRtf1/ug=;
- b=J85wfmVptpaHw3z/8RqqoJV5AuZMityDnE2U+nClzsNi7oMfC7tZ6Ylr2FV+7m6mtJ
- Pa0BXVYYi9xWKeB2Y7MUAKNoPbm8WDcH+6fvF/GNJ2giX3PsEwvmOpd1rsMk7GdLqYsF
- TDz0PKdQedIq5S1My5JKxU3cpTTefYDQLJt5Iqg9SZQVqC6GZlMw19LStsOBp4JiEXQV
- YHOv6hkQsrTfv8MPLsSYrw8aC0bMsD1wtuvCEMjqUu9+KYM3EI8Z9tidapCnBgcFCwAX
- ZmHG6/T3WK9I5xzL+uSWaYYCubUgwCeoSSxmmC7EAqvyeStv4gZYGYYrUOE/HwC6IA/w
- w9yg==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nOyBT-00042a-OW
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:48:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56062)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nOyBR-00018H-UT
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:48:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646124516;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iZBtVG+He+pAKQ1/ihZjMS1AEjgfPM1DvhfSKGjW6MA=;
+ b=AlRbt6zU8PPtRrAN/gxF/FAS4E8RcUbOnqncfIjVdTcu3tUBQNPflyIAqas1oBwUd9odFz
+ h0lbrfdbio3j6SsLE0zY0IzhsKMbDm/2fDxRU6vt+9b/D3LWxwwOLFJTo3laHyAgcaEbhI
+ /pSRu7i0AdpA+svXr5gQppNdPsRuo4E=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-483-rzJoSP0uM9agobsdZ0RHYg-1; Tue, 01 Mar 2022 03:48:35 -0500
+X-MC-Unique: rzJoSP0uM9agobsdZ0RHYg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ o5-20020a50c905000000b00410effbf65dso7391159edh.17
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:48:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PzcaGox3UqCygkt+mR5hkso+/7bFnXjHu8TgRtf1/ug=;
- b=4UyfBlVEp7sJ1I26qPcl+8mM/u4q93zJ8rRuSgEIawq0M2z6ONiij0AuJKTIpM4pvA
- 0emY1hGogQCqwFWLWEhTk1JitxD+jdcLdndnic6AUnTYUcb3z/aFBT0KhH6mQO1xHAl0
- xd+kApyep40Ek5khgU07Ss7Wj+wQnQSVk7wRQJUF6OOKv0ZhFOMHoIiQMq5/oPLHnQRT
- tNMJ7H0HZ2HG/VsfFCeZHFWijI/YsvRy0gZUJeG+aZpLB1by3VUGy4LjMmtGsdynWQET
- JhgsowglnvAIsgfGbXzpMeg3BuLh8htw1TL+Ecy7xACeWcBGA6Hq0AvTl+6Gn3Is6/kV
- jFog==
-X-Gm-Message-State: AOAM532DmFTRxt21aOegYv5awSgxIPzCE9p9h6R/UEW241qB9sIcAyan
- S/0Re0dn/4/RD40kYePE0k3/hwkl1CUadVp+Pf+GCQ==
-X-Google-Smtp-Source: ABdhPJwvS7Pt4VhSoRs7+tVdDmDx3DrWBtO2rvsSZFshmBwXNCWUWDhyHgHFuhs4vaMkVhIVlKjXpXPE59drjewlTuk=
-X-Received: by 2002:a5d:6d86:0:b0:1ef:fe9e:7a5f with SMTP id
- l6-20020a5d6d86000000b001effe9e7a5fmr2927188wrs.312.1646124364845; Tue, 01
- Mar 2022 00:46:04 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=iZBtVG+He+pAKQ1/ihZjMS1AEjgfPM1DvhfSKGjW6MA=;
+ b=ewd5Yo+nd2XnbA3uyvaof4S3biZHhzKwHq8sA/iwRATyjQVdo0on8GpOtZkX98KTQv
+ DOQC+dRea9YN5C5eBgl2HKOVBaw98Ne4kwSmGQQi8k7r0qCrBIYtte1bVNheJrOtnef2
+ P4jzNrRUXhH2wn/xInY6Ir/MrN+UuKx6TDpoa+i3ReYj9CnhwjyiNN1xL/ICqmeZ7I42
+ 488fm2S8HXgeu0Yx8S9BrESBIgz7T7sb1Qns2/C8VqsndbggZK0hGINSZrjkpgJ5Bxa9
+ pct3viCbqcZAGAFDDW/zqP6bkTE1s6tk7Q+HkjpU+hBDgvP7/6aKPSbQlCRJXr5tt7/x
+ uv7g==
+X-Gm-Message-State: AOAM532piSfCd+Apyy3UNt/a8BqhAMwVg7pSQ8Yer0rpSXoam1oyAcFF
+ la3AmFcClG5Axlm8Sr/0jMcWvRcBr8M1IbyYqvs+T3u6462eU+gC6i3UZFo5yYqBUy09hPZ23OR
+ lx9GCyNGHx4vxvos=
+X-Received: by 2002:a17:906:3587:b0:6d1:5043:9c1 with SMTP id
+ o7-20020a170906358700b006d1504309c1mr18194327ejb.673.1646124513840; 
+ Tue, 01 Mar 2022 00:48:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzgfI0TQ+WE1WQALNO4jbYA4i2h0EmwAT/BuWWBw+vufdUo0b53bRizNjGZ0KOExdT+a08kJQ==
+X-Received: by 2002:a17:906:3587:b0:6d1:5043:9c1 with SMTP id
+ o7-20020a170906358700b006d1504309c1mr18194314ejb.673.1646124513604; 
+ Tue, 01 Mar 2022 00:48:33 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ ho12-20020a1709070e8c00b006ce3f158e87sm5100331ejc.2.2022.03.01.00.48.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 00:48:33 -0800 (PST)
+Date: Tue, 1 Mar 2022 09:48:32 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v4 2/3] hw/acpi: add indication for i8042 in IA-PC boot
+ flags of the FADT table
+Message-ID: <20220301094832.59fe2772@redhat.com>
+In-Reply-To: <alpine.DEB.2.22.394.2203010826360.1505325@anisinha-lenovo>
+References: <20220228201733.714580-1-liavalb@gmail.com>
+ <20220228201733.714580-3-liavalb@gmail.com>
+ <alpine.DEB.2.22.394.2203010826360.1505325@anisinha-lenovo>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220203153946.2676353-1-philipp.tomsich@vrull.eu>
- <CAKmqyKOLO7VdSPsXmeqQN-z3a2bKZQ3yeQqCmjt-SBpT9MfcgA@mail.gmail.com>
- <b7676252-781d-a7c6-6172-09dd319ef744@linux.dev>
-In-Reply-To: <b7676252-781d-a7c6-6172-09dd319ef744@linux.dev>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Tue, 1 Mar 2022 09:45:54 +0100
-Message-ID: <CAAeLtUC6=kQzYXpheSG9_rLo51iNz0nHbbgh+5SyKreKNKz6gw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: fix inverted checks for ext_zb[abcs]
-To: Vineet Gupta <vineet.gupta@linux.dev>
-Content-Type: multipart/alternative; boundary="00000000000005e5d805d9243240"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,257 +103,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- gnu-toolchain <gnu-toolchain@rivosinc.com>
+Cc: mst@redhat.com, shentey@gmail.com, Liav Albani <liavalb@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000005e5d805d9243240
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 1 Mar 2022 08:29:05 +0530 (IST)
+Ani Sinha <ani@anisinha.ca> wrote:
 
-On Tue, 1 Mar 2022 at 02:28, Vineet Gupta <vineet.gupta@linux.dev> wrote:
-
-> Hi Alistair,
->
-> On 2/3/22 16:59, Alistair Francis wrote:
-> > On Fri, Feb 4, 2022 at 1:42 AM Philipp Tomsich <philipp.tomsich@vrull.eu>
-> wrote:
-> >>
-> >> While changing to the use of cfg_ptr, the conditions for
-> REQUIRE_ZB[ABCS]
-> >> inadvertently became inverted and slipped through the initial testing
-> (which
-> >> used RV64GC_XVentanaCondOps as a target).
-> >> This fixes the regression.
-> >>
-> >> Tested against SPEC2017 w/ GCC 12 (prerelease) for
-> RV64GC_zba_zbb_zbc_zbs.
-> >>
-> >> Fixes: 718143c126 ("target/riscv: add a MAINTAINERS entry for
-> XVentanaCondOps")
-> >>
-> >> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> On Mon, 28 Feb 2022, Liav Albani wrote:
+> 
+> > This can allow the guest OS to determine more easily if i8042 controller
+> > is present in the system or not, so it doesn't need to do probing of the
+> > controller, but just initialize it immediately, before enumerating the
+> > ACPI AML namespace.
 > >
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > This change only applies to the x86/q35 machine type, as it uses FACP
+> > ACPI table with revision higher than 1, which should implement at least
+> > ACPI 2.0 features within the table, hence it can also set the IA-PC boot
+> > flags register according to the ACPI 2.0 specification.
 > >
-> >>
-> >> ---
-> >> We may want to squash this onto the affected commit, if it hasn't made
-> >> it beyond the next-tree, yet.
+> > Signed-off-by: Liav Albani <liavalb@gmail.com>
+> > ---
+> >  hw/acpi/aml-build.c         | 11 ++++++++++-
+> >  hw/i386/acpi-build.c        |  9 +++++++++
+> >  hw/i386/acpi-microvm.c      |  9 +++++++++
+> >  include/hw/acpi/acpi-defs.h |  1 +
+> >  4 files changed, 29 insertions(+), 1 deletion(-)
 > >
-> > Yeah, agreed. I'll squash it in
+> > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> > index 8966e16320..2085905b83 100644
+> > --- a/hw/acpi/aml-build.c
+> > +++ b/hw/acpi/aml-build.c
+> > @@ -2152,7 +2152,16 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+> >      build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
+> >      build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
+> >      build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
+> > -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
+> > +    /* IAPC_BOOT_ARCH */
+> > +    /*
+> > +     * This register is not defined in ACPI spec version 1.0, where the FACP  
+> 
+> I'd say "this IAPC_BOOT_ARCH register" to be more specific.
+> 
+> > +     * revision == 1 also applies. Therefore, just ignore setting this register.
+> > +     */
+
+I'd drop this comment altogether, like it's done with the rest of the fields  in this function
+
+> > +    if (f->rev == 1) {
+> > +        build_append_int_noprefix(tbl, 0, 2);
+> > +    } else {
+maybe add here
+/* Since ACPI 2.0 */
+
+> > +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
+> > +    }
+> >      build_append_int_noprefix(tbl, 0, 1); /* Reserved */
+> >      build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
 > >
-> > Alistair
->
-> Has this already been committed upstream. I was running into weird issue
-> related to bitmanip and seems this was missing in my local tree.
->
-
-After checking master now, this has not made it onto master yet.
-Note that rc0 is planned for 2 weeks from now, so I am not overly concerned
-yet.
-
-Philipp.
-
-
-> Also the "Fixes: " entry in changelog doesn't seem OK; the issue seems
-> to have been introduced in f2a32bec8f0da99 ("target/riscv: access cfg
-> structure through DisasContext")
->
-> Thx,
-> -Vineet
->
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index ebd47aa26f..c72c7bb9bb 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -38,6 +38,7 @@
+> >  #include "hw/nvram/fw_cfg.h"
+> >  #include "hw/acpi/bios-linker-loader.h"
+> >  #include "hw/isa/isa.h"
+> > +#include "hw/input/i8042.h"
+> >  #include "hw/block/fdc.h"
+> >  #include "hw/acpi/memory_hotplug.h"
+> >  #include "sysemu/tpm.h"
+> > @@ -192,6 +193,14 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+> >              .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
+> >          },
+> >      };
+> > +    /*
+> > +     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence  
+> 
+> again typo here.
+> 
+> > +     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
+> > +     * (the earliest acpi revision that supports this).
+> > +     */
+> > +    fadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
+> > +                            0x0002 : 0x0000;  
+> 
+> I thought I said we need to make sure the logic still applied when there
+> are more than one device of this type. Please fix this.
+> 
+> > +
+> >      *data = fadt;
+> >  }
 > >
-> >>
-> >>   target/riscv/insn_trans/trans_rvb.c.inc | 8 ++++----
-> >>   1 file changed, 4 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc
-> b/target/riscv/insn_trans/trans_rvb.c.inc
-> >> index f9bd3b7ec4..e3c6b459d6 100644
-> >> --- a/target/riscv/insn_trans/trans_rvb.c.inc
-> >> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-> >> @@ -19,25 +19,25 @@
-> >>    */
-> >>
-> >>   #define REQUIRE_ZBA(ctx) do {                    \
-> >> -    if (ctx->cfg_ptr->ext_zba) {                 \
-> >> +    if (!ctx->cfg_ptr->ext_zba) {                 \
-> >>           return false;                            \
-> >>       }                                            \
-> >>   } while (0)
-> >>
-> >>   #define REQUIRE_ZBB(ctx) do {                    \
-> >> -    if (ctx->cfg_ptr->ext_zbb) {                 \
-> >> +    if (!ctx->cfg_ptr->ext_zbb) {                 \
-> >>           return false;                            \
-> >>       }                                            \
-> >>   } while (0)
-> >>
-> >>   #define REQUIRE_ZBC(ctx) do {                    \
-> >> -    if (ctx->cfg_ptr->ext_zbc) {                 \
-> >> +    if (!ctx->cfg_ptr->ext_zbc) {                 \
-> >>           return false;                            \
-> >>       }                                            \
-> >>   } while (0)
-> >>
-> >>   #define REQUIRE_ZBS(ctx) do {                    \
-> >> -    if (ctx->cfg_ptr->ext_zbs) {                 \
-> >> +    if (!ctx->cfg_ptr->ext_zbs) {                 \
-> >>           return false;                            \
-> >>       }                                            \
-> >>   } while (0)
-> >> --
-> >> 2.34.1
-> >>
-> >>
+> > diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+> > index 68ca7e7fc2..4bc72b1672 100644
+> > --- a/hw/i386/acpi-microvm.c
+> > +++ b/hw/i386/acpi-microvm.c
+> > @@ -31,6 +31,7 @@
+> >  #include "hw/acpi/generic_event_device.h"
+> >  #include "hw/acpi/utils.h"
+> >  #include "hw/acpi/erst.h"
+> > +#include "hw/input/i8042.h"
+> >  #include "hw/i386/fw_cfg.h"
+> >  #include "hw/i386/microvm.h"
+> >  #include "hw/pci/pci.h"
+> > @@ -189,6 +190,14 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
+> >          .reset_val = ACPI_GED_RESET_VALUE,
+> >      };
 > >
+> > +    /*
+> > +     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
+> > +     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
+> > +     * (the earliest acpi revision that supports this).
+> > +     */
+> > +    pmfadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
+> > +                            0x0002 : 0x0000;  
+> 
+> 
+> Ditto.
+> 
+> > +
+> >      table_offsets = g_array_new(false, true /* clear */,
+> >                                          sizeof(uint32_t));
+> >      bios_linker_loader_alloc(tables->linker,
+> > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> > index c97e8633ad..2b42e4192b 100644
+> > --- a/include/hw/acpi/acpi-defs.h
+> > +++ b/include/hw/acpi/acpi-defs.h
+> > @@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
+> >      uint16_t plvl2_lat;        /* P_LVL2_LAT */
+> >      uint16_t plvl3_lat;        /* P_LVL3_LAT */
+> >      uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
+> > +    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
+> >      uint8_t minor_ver;         /* FADT Minor Version */
 > >
->
->
+> >      /*
+> > --
+> > 2.35.1
+> >
+> >  
+> 
 
---00000000000005e5d805d9243240
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, 1 Mar 2022 at 02:28, Vineet G=
-upta &lt;<a href=3D"mailto:vineet.gupta@linux.dev">vineet.gupta@linux.dev</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi=
- Alistair,<br>
-<br>
-On 2/3/22 16:59, Alistair Francis wrote:<br>
-&gt; On Fri, Feb 4, 2022 at 1:42 AM Philipp Tomsich &lt;<a href=3D"mailto:p=
-hilipp.tomsich@vrull.eu" target=3D"_blank">philipp.tomsich@vrull.eu</a>&gt;=
- wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; While changing to the use of cfg_ptr, the conditions for REQUIRE_Z=
-B[ABCS]<br>
-&gt;&gt; inadvertently became inverted and slipped through the initial test=
-ing (which<br>
-&gt;&gt; used RV64GC_XVentanaCondOps as a target).<br>
-&gt;&gt; This fixes the regression.<br>
-&gt;&gt;<br>
-&gt;&gt; Tested against SPEC2017 w/ GCC 12 (prerelease) for RV64GC_zba_zbb_=
-zbc_zbs.<br>
-&gt;&gt;<br>
-&gt;&gt; Fixes: 718143c126 (&quot;target/riscv: add a MAINTAINERS entry for=
- XVentanaCondOps&quot;)<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Philipp Tomsich &lt;<a href=3D"mailto:philipp.tomsi=
-ch@vrull.eu" target=3D"_blank">philipp.tomsich@vrull.eu</a>&gt;<br>
-&gt; <br>
-&gt; Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@w=
-dc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
-&gt; <br>
-&gt;&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; We may want to squash this onto the affected commit, if it hasn&#3=
-9;t made<br>
-&gt;&gt; it beyond the next-tree, yet.<br>
-&gt; <br>
-&gt; Yeah, agreed. I&#39;ll squash it in<br>
-&gt; <br>
-&gt; Alistair<br>
-<br>
-Has this already been committed upstream. I was running into weird issue <b=
-r>
-related to bitmanip and seems this was missing in my local tree.<br></block=
-quote><div><br></div><div>After checking master now, this has not made it o=
-nto master yet.</div><div>Note that rc0 is planned for 2 weeks from now, so=
- I am not overly concerned yet.</div><div><br></div><div>Philipp.</div><div=
->=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Also the &quot;Fixes: &quot; entry in changelog doesn&#39;t seem OK; the is=
-sue seems <br>
-to have been introduced in f2a32bec8f0da99 (&quot;target/riscv: access cfg =
-<br>
-structure through DisasContext&quot;)<br>
-<br>
-Thx,<br>
--Vineet<br>
-<br>
-&gt; <br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0target/riscv/insn_trans/trans_rvb.c.inc | 8 ++++----<b=
-r>
-&gt;&gt;=C2=A0 =C2=A01 file changed, 4 insertions(+), 4 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/risc=
-v/insn_trans/trans_rvb.c.inc<br>
-&gt;&gt; index f9bd3b7ec4..e3c6b459d6 100644<br>
-&gt;&gt; --- a/target/riscv/insn_trans/trans_rvb.c.inc<br>
-&gt;&gt; +++ b/target/riscv/insn_trans/trans_rvb.c.inc<br>
-&gt;&gt; @@ -19,25 +19,25 @@<br>
-&gt;&gt;=C2=A0 =C2=A0 */<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0#define REQUIRE_ZBA(ctx) do {=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt;&gt; -=C2=A0 =C2=A0 if (ctx-&gt;cfg_ptr-&gt;ext_zba) {=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt; +=C2=A0 =C2=A0 if (!ctx-&gt;cfg_ptr-&gt;ext_zba) {=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt;&gt;=C2=A0 =C2=A0} while (0)<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0#define REQUIRE_ZBB(ctx) do {=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt;&gt; -=C2=A0 =C2=A0 if (ctx-&gt;cfg_ptr-&gt;ext_zbb) {=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt; +=C2=A0 =C2=A0 if (!ctx-&gt;cfg_ptr-&gt;ext_zbb) {=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt;&gt;=C2=A0 =C2=A0} while (0)<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0#define REQUIRE_ZBC(ctx) do {=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt;&gt; -=C2=A0 =C2=A0 if (ctx-&gt;cfg_ptr-&gt;ext_zbc) {=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt; +=C2=A0 =C2=A0 if (!ctx-&gt;cfg_ptr-&gt;ext_zbc) {=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt;&gt;=C2=A0 =C2=A0} while (0)<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0#define REQUIRE_ZBS(ctx) do {=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt;&gt; -=C2=A0 =C2=A0 if (ctx-&gt;cfg_ptr-&gt;ext_zbs) {=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt; +=C2=A0 =C2=A0 if (!ctx-&gt;cfg_ptr-&gt;ext_zbs) {=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-&gt;&gt;=C2=A0 =C2=A0} while (0)<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.34.1<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; <br>
-&gt; <br>
-<br>
-</blockquote></div></div>
-
---00000000000005e5d805d9243240--
 
