@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0133E4C8D54
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 15:08:26 +0100 (CET)
-Received: from localhost ([::1]:40912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748734C8D4A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 15:06:54 +0100 (CET)
+Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP3Av-0004Zh-2W
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 09:08:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33344)
+	id 1nP39R-0001I7-Io
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 09:06:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nP2zq-00066q-AL; Tue, 01 Mar 2022 08:56:58 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52900)
+ id 1nP2zv-0006Hy-2P; Tue, 01 Mar 2022 08:57:03 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17768
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nP2zm-00024W-Qb; Tue, 01 Mar 2022 08:56:57 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 221CHOCx019258; 
- Tue, 1 Mar 2022 13:56:49 GMT
+ id 1nP2zt-00025l-8a; Tue, 01 Mar 2022 08:57:02 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 221DgYdp003461; 
+ Tue, 1 Mar 2022 13:56:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=SC44WGDgEBd+Ke9HzuDNUzlS/puduvghWm/om/7ac7w=;
- b=fCFhb1+3dkLyrFSJTB454Hu1izcpCXpTXFbn1HcOMJI2lgC8hyCJN+9bRieg/wmEQPDX
- fmHmrVzW+vsV+gPqLSmugjW1YFg7k4ikssJlCEVhG3YBZvZ9TqT5xemOCfPIz6dVNWps
- AGVz2EECq6IuRDggewKvMXrsqAhVWHJnefBJEXRH2BUt8CDhNidhi7ou9Pz26oCkpo71
- vqvG95kBulxlSUyNSW8g5z7+Z27EyWjS9zzRmpJoM2i1vYf9fFFUhu2waEcdGcAzEVkm
- 4tqEK3nRMm4OwsdhUln9fOvr81EMhRFSq0HzpQ1QGcuHYfeHTjU+aIFC5okqHjS77e5x 6Q== 
+ bh=GXSuQCow1IOeQZcKuP+cHB7qsqoqywsNO2XyyIhEDaA=;
+ b=lL55UhNuZMs1QVrZnlfm2cRSxcMmFDq4zFDPGyxsNIPgx5c5oe9zOHsKb4bnt/Nq4yCc
+ 72DRu+vwZutUQWTx9BGf9M4QH8FaZ25nUWo7DC7SXJH/vk8Xh352Y8c57dYpL2JyYwY3
+ yitsJdOzBsuKkCS2IORbEgo0JsqUEUWC4iARUwsHCv9Seddcd9kHtCBeWFObeu6feJAk
+ viW8me337sJbGpRfNl428y5jlJyv94iDl3bMftGYks1A6PT1JBniiufopJmv/SZeNCpk
+ +CUrCM4wjIfuIbQ3tX9m5ECVSg47MGMMqaVWdjwD08XCcEQ1oFiMPFQnI7U1dJKELa4e 1A== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ehfrufnyr-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ehmku09vu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Mar 2022 13:56:50 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 221Djbd2010723;
+ Tue, 1 Mar 2022 13:56:49 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ehmku09vb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 01 Mar 2022 13:56:49 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 221DaMx3019532;
- Tue, 1 Mar 2022 13:56:48 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ehfrufnxw-1
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 221DtRZT030873;
+ Tue, 1 Mar 2022 13:56:49 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma03wdc.us.ibm.com with ESMTP id 3efbu9w13j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Mar 2022 13:56:48 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 221DtjCI030087;
- Tue, 1 Mar 2022 13:56:47 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma02wdc.us.ibm.com with ESMTP id 3efbu9w0vk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Mar 2022 13:56:47 +0000
+ Tue, 01 Mar 2022 13:56:49 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 221DukDS18743624
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 221DulSq40698354
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Mar 2022 13:56:46 GMT
+ Tue, 1 Mar 2022 13:56:48 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E89C5BE058;
- Tue,  1 Mar 2022 13:56:45 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id DB8DCBE054;
+ Tue,  1 Mar 2022 13:56:47 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 696D8BE054;
- Tue,  1 Mar 2022 13:56:44 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 58146BE04F;
+ Tue,  1 Mar 2022 13:56:46 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.51.129])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  1 Mar 2022 13:56:44 +0000 (GMT)
+ Tue,  1 Mar 2022 13:56:46 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/17] target/ppc: Remove leftover comments from cpu_init
-Date: Tue,  1 Mar 2022 10:56:12 -0300
-Message-Id: <20220301135620.2411952-10-farosas@linux.ibm.com>
+Subject: [PATCH 10/17] target/ppc: Expose some excp_helper functions
+Date: Tue,  1 Mar 2022 10:56:13 -0300
+Message-Id: <20220301135620.2411952-11-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220301135620.2411952-1-farosas@linux.ibm.com>
 References: <20220301135620.2411952-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: xoteiXXT3jnuslSNaW61191p6in_lBi9
-X-Proofpoint-GUID: _UEDQ5XCOxZ8S2nAYMCrR4ybJkbwFZKm
+X-Proofpoint-GUID: LfqsVomC7w6OGaM8lKjG175aiYmqYC1X
+X-Proofpoint-ORIG-GUID: dXlkHLpYtjTGUg4EQ3VMH9Qq-H8Abw0b
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-01_07,2022-02-26_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- phishscore=0 clxscore=1015 impostorscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=999 lowpriorityscore=0 spamscore=0
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2203010074
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ malwarescore=0 adultscore=0
+ spamscore=0 clxscore=1015 impostorscore=0 mlxscore=0 priorityscore=1501
+ bulkscore=0 phishscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2203010074
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -113,59 +114,65 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The defines are not in use and the comment seems to have lost its
-purpose, whatever it was.
+The next patches will move the powerpc_excp_foo functions into the
+proper cpu_foo.c files. This patch makes visible some functions that
+are common to all of them.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 ---
- target/ppc/cpu_init.c | 34 ----------------------------------
- 1 file changed, 34 deletions(-)
+ target/ppc/cpu.h         | 5 +++++
+ target/ppc/excp_helper.c | 8 ++++----
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index f1ddd5a739..7753dfecd3 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -46,40 +46,6 @@
- #include "spr_common.h"
- #include "power8-pmu.h"
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 1b687521c7..c7bb10b0bf 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -175,6 +175,11 @@ enum {
+     POWERPC_EXCP_TRAP          = 0x40,
+ };
  
--/* #define PPC_DEBUG_SPR */
--/* #define USE_APPLE_GDB */
--
--/*
-- * AMR     => SPR 29 (Power 2.04)
-- * CTRL    => SPR 136 (Power 2.04)
-- * CTRL    => SPR 152 (Power 2.04)
-- * SCOMC   => SPR 276 (64 bits ?)
-- * SCOMD   => SPR 277 (64 bits ?)
-- * TBU40   => SPR 286 (Power 2.04 hypv)
-- * HSPRG0  => SPR 304 (Power 2.04 hypv)
-- * HSPRG1  => SPR 305 (Power 2.04 hypv)
-- * HDSISR  => SPR 306 (Power 2.04 hypv)
-- * HDAR    => SPR 307 (Power 2.04 hypv)
-- * PURR    => SPR 309 (Power 2.04 hypv)
-- * HDEC    => SPR 310 (Power 2.04 hypv)
-- * HIOR    => SPR 311 (hypv)
-- * RMOR    => SPR 312 (970)
-- * HRMOR   => SPR 313 (Power 2.04 hypv)
-- * HSRR0   => SPR 314 (Power 2.04 hypv)
-- * HSRR1   => SPR 315 (Power 2.04 hypv)
-- * LPIDR   => SPR 317 (970)
-- * EPR     => SPR 702 (Power 2.04 emb)
-- * perf    => 768-783 (Power 2.04)
-- * perf    => 784-799 (Power 2.04)
-- * PPR     => SPR 896 (Power 2.04)
-- * DABRX   => 1015    (Power 2.04 hypv)
-- * FPECR   => SPR 1022 (?)
-- * ... and more (thermal management, performance counters, ...)
-- */
--
--/*****************************************************************************/
--/* Exception vectors models                                                  */
--
++const char *powerpc_excp_name(int excp);
++void powerpc_set_excp_state(PowerPCCPU *cpu,
++                            target_ulong vector, target_ulong msr);
++void powerpc_reset_excp_state(PowerPCCPU *cpu);
++
+ #define PPC_INPUT(env) ((env)->bus_model)
+ 
+ /*****************************************************************************/
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 2b5b1e00d8..07190d785a 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -36,7 +36,7 @@
+ /* Exception processing */
  #if !defined(CONFIG_USER_ONLY)
- void cpu_ppc_set_vhyp(PowerPCCPU *cpu, PPCVirtualHypervisor *vhyp)
+ 
+-static const char *powerpc_excp_name(int excp)
++const char *powerpc_excp_name(int excp)
  {
+     switch (excp) {
+     case POWERPC_EXCP_CRITICAL: return "CRITICAL";
+@@ -335,7 +335,7 @@ static void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp, target_ulong msr,
+ }
+ #endif
+ 
+-static void powerpc_reset_excp_state(PowerPCCPU *cpu)
++void powerpc_reset_excp_state(PowerPCCPU *cpu)
+ {
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+@@ -345,8 +345,8 @@ static void powerpc_reset_excp_state(PowerPCCPU *cpu)
+     env->error_code = 0;
+ }
+ 
+-static void powerpc_set_excp_state(PowerPCCPU *cpu, target_ulong vector,
+-                                   target_ulong msr)
++void powerpc_set_excp_state(PowerPCCPU *cpu, target_ulong vector,
++                            target_ulong msr)
+ {
+     CPUPPCState *env = &cpu->env;
+ 
 -- 
 2.34.1
 
