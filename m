@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D449C4C9439
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 20:28:21 +0100 (CET)
-Received: from localhost ([::1]:60938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FE54C9464
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 20:35:18 +0100 (CET)
+Received: from localhost ([::1]:41106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP8AW-0001h0-UR
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 14:28:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43448)
+	id 1nP8HF-0007bY-Jc
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 14:35:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1nP7wS-0005hn-Pn
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:13:49 -0500
-Received: from mailout09.t-online.de ([194.25.134.84]:39562)
+ id 1nP7xN-0006WV-0E
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:14:45 -0500
+Received: from mailout03.t-online.de ([194.25.134.81]:54384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1nP7wR-0001tO-CS
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:13:48 -0500
-Received: from fwd86.dcpf.telekom.de (fwd86.aul.t-online.de [10.223.144.112])
- by mailout09.t-online.de (Postfix) with SMTP id 1F4E3F94D;
- Tue,  1 Mar 2022 20:13:46 +0100 (CET)
-Received: from linpower.localnet ([46.86.48.20]) by fwd86.t-online.de
+ id 1nP7xL-0001z6-K1
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:14:44 -0500
+Received: from fwd73.dcpf.telekom.de (fwd73.aul.t-online.de [10.223.144.99])
+ by mailout03.t-online.de (Postfix) with SMTP id 5242EE8B;
+ Tue,  1 Mar 2022 20:13:50 +0100 (CET)
+Received: from linpower.localnet ([46.86.48.20]) by fwd73.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1nP7wP-1vdvKD0; Tue, 1 Mar 2022 20:13:45 +0100
+ esmtp id 1nP7wR-29vdr70; Tue, 1 Mar 2022 20:13:47 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 18E7D20062A; Tue,  1 Mar 2022 20:13:12 +0100 (CET)
+ id 1BFF320062F; Tue,  1 Mar 2022 20:13:12 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v3 14/15] paaudio: fix samples vs. frames mix-up
-Date: Tue,  1 Mar 2022 20:13:10 +0100
-Message-Id: <20220301191311.26695-14-vr_qemu@t-online.de>
+Subject: [PATCH v3 15/15] sdlaudio: fix samples vs. frames mix-up
+Date: Tue,  1 Mar 2022 20:13:11 +0100
+Message-Id: <20220301191311.26695-15-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <3d0bd2ac-e5b9-9cf6-c98f-c047390a3ec5@t-online.de>
 References: <3d0bd2ac-e5b9-9cf6-c98f-c047390a3ec5@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1646162025-000116DC-73836D0D/0/0 CLEAN NORMAL
-X-TOI-MSGID: dd8b434b-3562-4d89-a823-90542305d01a
-Received-SPF: none client-ip=194.25.134.84;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout09.t-online.de
+X-TOI-EXPURGATEID: 150726::1646162027-0000C4DD-92F82289/0/0 CLEAN NORMAL
+X-TOI-MSGID: 21b4baa9-c86b-4092-9178-eaebf6ec45b5
+Received-SPF: none client-ip=194.25.134.81;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout03.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -61,52 +61,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <huth@tuxfamily.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the mixing buffer size no longer adds to playback
-latency, fix the samples vs. frames mix-up in the mixing buffer
-size calculation. This change will go largely unnoticed as long
-as the user doesn't use a buffer-size smaller than timer-period.
+Fix the same samples vs. frames mix-up that the previous commit
+fixed for the PulseAudio backend.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/paaudio.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ audio/sdlaudio.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index d94f858ec7..a53ed85e0b 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -549,11 +549,8 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
-     }
- 
-     audio_pcm_init_info (&hw->info, &obt_as);
+diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
+index e605c787ba..797b47bbdd 100644
+--- a/audio/sdlaudio.c
++++ b/audio/sdlaudio.c
+@@ -347,11 +347,8 @@ static int sdl_init_out(HWVoiceOut *hw, struct audsettings *as,
+     req.freq = as->freq;
+     req.format = aud_to_sdlfmt (as->fmt);
+     req.channels = as->nchannels;
 -    /*
--     * This is wrong. hw->samples counts in frames. hw->samples will be
--     * number of channels times larger than expected.
+-     * This is wrong. SDL samples are QEMU frames. The buffer size will be
+-     * the requested buffer size multiplied by the number of channels.
 -     */
--    hw->samples = audio_buffer_samples(
-+    /* hw->samples counts in frames */
-+    hw->samples = audio_buffer_frames(
-         qapi_AudiodevPaPerDirectionOptions_base(ppdo), &obt_as, 46440);
- 
-     return 0;
-@@ -601,11 +598,8 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
-     }
- 
-     audio_pcm_init_info (&hw->info, &obt_as);
--    /*
--     * This is wrong. hw->samples counts in frames. hw->samples will be
--     * number of channels times larger than expected.
--     */
--    hw->samples = audio_buffer_samples(
-+    /* hw->samples counts in frames */
-+    hw->samples = audio_buffer_frames(
-         qapi_AudiodevPaPerDirectionOptions_base(ppdo), &obt_as, 46440);
- 
-     return 0;
+-    req.samples = audio_buffer_samples(
++    /* SDL samples are QEMU frames */
++    req.samples = audio_buffer_frames(
+         qapi_AudiodevSdlPerDirectionOptions_base(spdo), as, 11610);
+     req.callback = sdl_callback_out;
+     req.userdata = sdl;
 -- 
 2.34.1
 
