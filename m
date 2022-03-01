@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6BCC4C9568
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 21:07:51 +0100 (CET)
-Received: from localhost ([::1]:60028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F6F4C9579
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 21:11:41 +0100 (CET)
+Received: from localhost ([::1]:38216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP8mk-0007SR-8X
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 15:07:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54738)
+	id 1nP8qS-0003bx-Cj
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 15:11:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nP8fm-0003TZ-3N; Tue, 01 Mar 2022 15:00:38 -0500
-Received: from [2607:f8b0:4864:20::22c] (port=38450
- helo=mail-oi1-x22c.google.com)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nP8oa-00025a-AZ
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 15:09:44 -0500
+Received: from [2a00:1450:4864:20::230] (port=41804
+ helo=mail-lj1-x230.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nP8fk-0008I1-1Z; Tue, 01 Mar 2022 15:00:37 -0500
-Received: by mail-oi1-x22c.google.com with SMTP id y7so17237328oih.5;
- Tue, 01 Mar 2022 12:00:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nP8oY-0001eC-Dy
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 15:09:43 -0500
+Received: by mail-lj1-x230.google.com with SMTP id t14so23345451ljh.8
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 12:09:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eTRP/daqyh9S74mqHflAExilQIEqgmi7ARYl88Dwtfw=;
- b=PRdl7xraZYtkpLO/5NBSLFpSqxSkeFLZNnrxucYJx8qOBQELCD9NPfUWk7aVNBlt7A
- 3PhawtmJkVHJ8tElrHpDeDJEx2VrEgQBqSnUAg/YrEzbauHaKZ6Qmj38UYVCvtBTGlFN
- Pr3GKGLN0Yk50OCG+cpzF+4f8l45lvQuRSOVOEOKOHGbMrhs5hEH1GJ4yAFN8WeZbo+q
- gUn1wXWDuxryNltsTir7Ab84BZM+gEKtaD/HQ4rKBEFVBuKtRBqYWg52AqMyXr5yS8+r
- SWSzeYjJKctD/X8RZH6WAKabMpwuLSGX+Q39Ej/50DeWBHqRJoC9KSdMBAAsT1nK5zIJ
- HkLQ==
+ :cc; bh=2ynMw+3e1U8JTEzu/7ZMI77zGvHFo9ZP4OU/nTOxceA=;
+ b=VjkMMZtvOv1Ze4oZiWdLsGXzgQ5DvtcrWQ0Qh38NLVliKw2aAwyMWXBSutToESLngN
+ a2xi9n42yO+dreP+XDIGYh0Kr19AalcSvr5MsyK/EUFsL3udH1jzutBnCZneusSIwYgY
+ lCP9ceMovgrhSqS4gBr08SLQHCJ98pJtkbgfFw8po++7R7MbeMWFdwzByBvaSk3PDifN
+ 23aZvrVRNTw4SRvIm/FgOvSGQiE1+6tJKsA+nDtcdgbjpOh9o3ya1t48A5ROxdDE66js
+ MzSDQAGKjslWT/XIQBU/Cbe8pbcTQIr80DmViJ+ZwlHrnGgRzVL8rkyckZhJFIHmUmoQ
+ 9R1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eTRP/daqyh9S74mqHflAExilQIEqgmi7ARYl88Dwtfw=;
- b=kFoN+5Mhkh1K36Mx3fckRYw+Seo8ZJwZiK/x7MofBojQj81TjEWsk/Fgt2Po4a60AC
- cJv+G16mSHfVNbmtqAothLhVr3kygR7ixz+cpk1aChvI19CbG/Pq1sFILH53EaHd9/9H
- FAvBulTY5r0HGd7PLpRrB/pq8g6bxZ/77+F5t4JqhRbyHRrG1tIc1XRBaVtKkOTHQk4a
- gM0wS5VBH2xoBW3hdhhPghv4THw8Qgn3XVjxgxpuGfc4Y9sY0IYTJXKPAMMBXKslOmMY
- iEPnt9F/1Pd6FcFqwxdQimkIdJ+4RNQr3NUWC4C+qi8aNtRzgfs7cbG5Z6kev2uHeP+Q
- hjHA==
-X-Gm-Message-State: AOAM530oG2XC19Kcu/eqUmurcteJURA+h9r1TGbUmVejRhKZsFaNK032
- 0j2Uk9fAx2/dgNMrjC8fRDUKldLEGWxMIFvHW0kDDaJsfWJVw2lf
-X-Google-Smtp-Source: ABdhPJwCVkQgNN9qgkDXiL2HpLStnfGAFpgMIFQwP8kx214EigcLSLpecOfrwkRBH+L1K0wkSpjPgQto9ArPs2oAhqs=
-X-Received: by 2002:aca:6187:0:b0:2d5:427b:50fd with SMTP id
- v129-20020aca6187000000b002d5427b50fdmr14486167oib.153.1646164834181; Tue, 01
- Mar 2022 12:00:34 -0800 (PST)
+ bh=2ynMw+3e1U8JTEzu/7ZMI77zGvHFo9ZP4OU/nTOxceA=;
+ b=sNxjgNYgRjJYkKzyzZzI5/gNFuYCYQabs5acOkL2UhBz5wQbpao7dRR/QLAfYym76B
+ SvnABx4LvzCNL67vPrlh05tsf9OvjD5DIfiqhLfg5WlcH2TImchhh1FzlfQaiguh8/WG
+ 2V/CL5XYdEpoiUH/ujVSAaijEgr7+0kWsqlDDsQkp9OZx8DKg2xHlSOxVDA5GgOSEuRZ
+ 1Zyawxh2v05WB2geiCjqJvEdX04XN9td2ZhbxbkNNUPgo8gOejtqZt7gOuK2y03GlpBT
+ 9EwnlQvsuPzB/kknFw6jZphG6J6/5+qbnXlX+yNqgLaR3ArvI+zaJ65ZQP8CBidDtqRP
+ kYgw==
+X-Gm-Message-State: AOAM530rw8hLTi6Xlxk3kZ+9HgtyDBbD9D3tEDd74IRWCBzHlLU6l6z9
+ aEWpT7n4Sw3LMsqcFwGysWnzx1XFabfP5fVhSqk=
+X-Google-Smtp-Source: ABdhPJxvwNxtar6LlhV56IqJqZQ9IFCybkGpTwXVLZrBDJNoZ04P5eNBAQHxFW3MA0+DWa4zpE6GjZPN+QV7ggmxXZc=
+X-Received: by 2002:a2e:7a15:0:b0:244:c714:310b with SMTP id
+ v21-20020a2e7a15000000b00244c714310bmr18167954ljc.268.1646165379753; Tue, 01
+ Mar 2022 12:09:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20220301191455.19004-1-dmiller423@gmail.com>
-In-Reply-To: <20220301191455.19004-1-dmiller423@gmail.com>
-From: David Miller <dmiller423@gmail.com>
-Date: Tue, 1 Mar 2022 15:00:22 -0500
-Message-ID: <CAEgyohXXAsNnXasD+UzE8xWCFTdtKBNyHa5o5jkpXYeshKX-Fw@mail.gmail.com>
-Subject: Re: [PATCH] tests/tcg/s390x: Cleanup of mie3 tests.
-To: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000002ee78a05d92d9e91"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22c
+References: <20220227223522.91937-1-wwcohen@gmail.com>
+ <3049778.kzlV3qucMN@silver>
+In-Reply-To: <3049778.kzlV3qucMN@silver>
+From: Will Cohen <wwcohen@gmail.com>
+Date: Tue, 1 Mar 2022 15:09:27 -0500
+Message-ID: <CAB26zV12OjbDv7uUHqar6-j4cLqD2Mz3yR28qy-N3v2pu96Nyg@mail.gmail.com>
+Subject: Re: [PATCH v9 00/11] 9p: Add support for darwin
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="000000000000b3abb605d92dbe83"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::230
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=dmiller423@gmail.com; helo=mail-oi1-x22c.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+ envelope-from=wwcohen@gmail.com; helo=mail-lj1-x230.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,429 +80,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- cohuck@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- farman@linux.ibm.com, pasic@linux.ibm.com,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu Developers <qemu-devel@nongnu.org>, hi@alyssa.is,
+ Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002ee78a05d92d9e91
+--000000000000b3abb605d92dbe83
 Content-Type: text/plain; charset="UTF-8"
 
-Please disregard,  v2 sent.
+On Tue, Mar 1, 2022 at 2:25 PM Christian Schoenebeck <qemu_oss@crudebyte.com>
+wrote:
 
-On Tue, Mar 1, 2022 at 2:15 PM David Miller <dmiller423@gmail.com> wrote:
+> On Sonntag, 27. Februar 2022 23:35:11 CET Will Cohen wrote:
+> > This is a followup to
+> > https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg04391.html,
+> adding
+> > 9p server support for Darwin.
+> >
+> > Since v8, the following changes have been made:
+> >
+> > Patch 4/11 (9p: darwin: Handle struct dirent differences)
+> > - Declare qemu_dirent_off as static to prevent linker error
+> > - Move qemu_dirent_off above the end-of-file endif to fix compilation
+> >
+> > Patch 9/11 (9p: darwin: Implement compatibility for mknodat)
+> > - Fix line over 90 characters formatting error
+> > - Move qemu_mknodat back from osdep to 9p-util and adjust patch notes
+> > accordingly
+> >
+> > Patch 11/11 (9p: darwin: meson: Allow VirtFS on Darwin)
+> > - Rebase to master
+> >
+> > With these changes, this patch set builds and passes 9p synth tests on
+> both
+> > linux and darwin.
+> >
+> > Keno Fischer (10):
+> >   9p: linux: Fix a couple Linux assumptions
+> >   9p: Rename 9p-util -> 9p-util-linux
+> >   9p: darwin: Handle struct stat(fs) differences
+> >   9p: darwin: Handle struct dirent differences
+> >   9p: darwin: Ignore O_{NOATIME, DIRECT}
+> >   9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
+> >   9p: darwin: *xattr_nofollow implementations
+> >   9p: darwin: Compatibility for f/l*xattr
+> >   9p: darwin: Implement compatibility for mknodat
+> >   9p: darwin: meson: Allow VirtFS on Darwin
+> >
+> > Will Cohen (1):
+> >   9p: darwin: Adjust assumption on virtio-9p-test
+> >
+> >  fsdev/file-op-9p.h                     |  9 ++-
+> >  fsdev/meson.build                      |  1 +
+> >  hw/9pfs/9p-local.c                     | 27 +++++--
+> >  hw/9pfs/9p-proxy.c                     | 38 +++++++++-
+> >  hw/9pfs/9p-synth.c                     |  6 ++
+> >  hw/9pfs/9p-util-darwin.c               | 97 ++++++++++++++++++++++++++
+> >  hw/9pfs/{9p-util.c => 9p-util-linux.c} |  8 ++-
+> >  hw/9pfs/9p-util.h                      | 46 ++++++++++++
+> >  hw/9pfs/9p.c                           | 42 +++++++++--
+> >  hw/9pfs/9p.h                           | 18 +++++
+> >  hw/9pfs/codir.c                        |  4 +-
+> >  hw/9pfs/meson.build                    |  3 +-
+> >  include/qemu/xattr.h                   |  4 +-
+> >  meson.build                            | 13 ++--
+> >  tests/qtest/virtio-9p-test.c           |  2 +-
+> >  15 files changed, 292 insertions(+), 26 deletions(-)
+> >  create mode 100644 hw/9pfs/9p-util-darwin.c
+> >  rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (90%)
+>
+> Queued on 9p.next:
+> https://github.com/cschoenebeck/qemu/commits/9p.next
+>
+> Thanks!
+>
+>
+This is very exciting. Many, many thanks for helping guide this through the
+process!
 
-> Adds clobbers and merges remaining separate asm statements.
+
+> Best regards,
+> Christian Schoenebeck
 >
-> Signed-off-by: David Miller <dmiller423@gmail.com>
-> ---
->  tests/tcg/s390x/mie3-compl.c | 42 +++++++++++++++++++++++-------------
->  tests/tcg/s390x/mie3-mvcrl.c | 12 +++++++----
->  tests/tcg/s390x/mie3-sel.c   | 40 ++++++++++++++++++----------------
->  3 files changed, 57 insertions(+), 37 deletions(-)
->
-> diff --git a/tests/tcg/s390x/mie3-compl.c b/tests/tcg/s390x/mie3-compl.c
-> index 35649f3b02..85b23a9b7a 100644
-> --- a/tests/tcg/s390x/mie3-compl.c
-> +++ b/tests/tcg/s390x/mie3-compl.c
-> @@ -1,32 +1,44 @@
->  #include <stdint.h>
->
-> +
->  #define FbinOp(S, ASM) uint64_t S(uint64_t a, uint64_t b) \
-> -{ \
-> -    uint64_t res = 0; \
-> -    asm ("llihf %[res],801\n" ASM \
-> -         : [res]"=&r"(res) : [a]"r"(a), [b]"r"(b) : "cc"); \
-> -    return res; \
-> +{                       \
-> +    uint64_t res = 0;   \
-> +asm volatile (          \
-> +    "llihf %%r0,801\n"  \
-> +    "lg %%r2, %[a]\n"   \
-> +    "lg %%r3, %[b]\n"   \
-> +    ASM                 \
-> +    "stg %%r0, %[res] " \
-> +    : [res] "=m" (res)  \
-> +    : [a] "m" (a)       \
-> +    , [b] "m" (b)       \
-> +    : "r0", "r2", "r3"  \
-> +);                      \
-> +    return res;         \
->  }
->
-> +
->  /* AND WITH COMPLEMENT */
-> -FbinOp(_ncrk,  ".insn rrf, 0xB9F50000, %[res], %[b], %[a], 0\n")
-> -FbinOp(_ncgrk, ".insn rrf, 0xB9E50000, %[res], %[b], %[a], 0\n")
-> +FbinOp(_ncrk,  ".insn rrf, 0xB9F50000, %%r0, %%r3, %%r2, 0\n")
-> +FbinOp(_ncgrk, ".insn rrf, 0xB9E50000, %%r0, %%r3, %%r2, 0\n")
->
->  /* NAND */
-> -FbinOp(_nnrk,  ".insn rrf, 0xB9740000, %[res], %[b], %[a], 0\n")
-> -FbinOp(_nngrk, ".insn rrf, 0xB9640000, %[res], %[b], %[a], 0\n")
-> +FbinOp(_nnrk,  ".insn rrf, 0xB9740000, %%r0, %%r3, %%r2, 0\n")
-> +FbinOp(_nngrk, ".insn rrf, 0xB9640000, %%r0, %%r3, %%r2, 0\n")
->
->  /* NOT XOR */
-> -FbinOp(_nxrk,  ".insn rrf, 0xB9770000, %[res], %[b], %[a], 0\n")
-> -FbinOp(_nxgrk, ".insn rrf, 0xB9670000, %[res], %[b], %[a], 0\n")
-> +FbinOp(_nxrk,  ".insn rrf, 0xB9770000, %%r0, %%r3, %%r2, 0\n")
-> +FbinOp(_nxgrk, ".insn rrf, 0xB9670000, %%r0, %%r3, %%r2, 0\n")
->
->  /* NOR */
-> -FbinOp(_nork,  ".insn rrf, 0xB9760000, %[res], %[b], %[a], 0\n")
-> -FbinOp(_nogrk, ".insn rrf, 0xB9660000, %[res], %[b], %[a], 0\n")
-> +FbinOp(_nork,  ".insn rrf, 0xB9760000, %%r0, %%r3, %%r2, 0\n")
-> +FbinOp(_nogrk, ".insn rrf, 0xB9660000, %%r0, %%r3, %%r2, 0\n")
->
->  /* OR WITH COMPLEMENT */
-> -FbinOp(_ocrk,  ".insn rrf, 0xB9750000, %[res], %[b], %[a], 0\n")
-> -FbinOp(_ocgrk, ".insn rrf, 0xB9650000, %[res], %[b], %[a], 0\n")
-> +FbinOp(_ocrk,  ".insn rrf, 0xB9750000, %%r0, %%r3, %%r2, 0\n")
-> +FbinOp(_ocgrk, ".insn rrf, 0xB9650000, %%r0, %%r3, %%r2, 0\n")
-> +
->
->  int main(int argc, char *argv[])
->  {
-> diff --git a/tests/tcg/s390x/mie3-mvcrl.c b/tests/tcg/s390x/mie3-mvcrl.c
-> index 57b08e48d0..f749dad9c2 100644
-> --- a/tests/tcg/s390x/mie3-mvcrl.c
-> +++ b/tests/tcg/s390x/mie3-mvcrl.c
-> @@ -1,15 +1,17 @@
->  #include <stdint.h>
->  #include <string.h>
->
-> +
->  static inline void mvcrl_8(const char *dst, const char *src)
->  {
->      asm volatile (
-> -    "llill %%r0, 8\n"
-> -    ".insn sse, 0xE50A00000000, 0(%[dst]), 0(%[src])"
-> -    : : [dst] "d" (dst), [src] "d" (src)
-> -    : "memory");
-> +        "llill %%r0, 8\n"
-> +        ".insn sse, 0xE50A00000000, 0(%[dst]), 0(%[src])"
-> +        : : [dst] "d" (dst), [src] "d" (src)
-> +        : "r0", "memory");
->  }
->
-> +
->  int main(int argc, char *argv[])
->  {
->      const char *alpha = "abcdefghijklmnop";
-> @@ -25,3 +27,5 @@ int main(int argc, char *argv[])
->
->      return strncmp(alpha, tstr, 16ul);
->  }
-> +
-> +
-> diff --git a/tests/tcg/s390x/mie3-sel.c b/tests/tcg/s390x/mie3-sel.c
-> index b0c5c9857d..98cf4d40f5 100644
-> --- a/tests/tcg/s390x/mie3-sel.c
-> +++ b/tests/tcg/s390x/mie3-sel.c
-> @@ -1,29 +1,32 @@
->  #include <stdint.h>
->
-> +
->  #define Fi3(S, ASM) uint64_t S(uint64_t a, uint64_t b, uint64_t c) \
-> -{                            \
-> -    uint64_t res = 0;        \
-> -    asm (                    \
-> -         "lg %%r2, %[a]\n"   \
-> -         "lg %%r3, %[b]\n"   \
-> -         "lg %%r0, %[c]\n"   \
-> -         "ltgr %%r0, %%r0\n" \
-> -         ASM                 \
-> -         "stg %%r0, %[res] " \
-> -         : [res] "=m" (res)  \
-> -         : [a] "m" (a),      \
-> -           [b] "m" (b),      \
-> -           [c] "m" (c)       \
-> -         : "r0", "r2",       \
-> -           "r3", "r4"        \
-> -    );                       \
-> -    return res;              \
-> +{                       \
-> +    uint64_t res = 0;   \
-> +asm volatile (          \
-> +    "lg %%r2, %[a]\n"   \
-> +    "lg %%r3, %[b]\n"   \
-> +    "lg %%r0, %[c]\n"   \
-> +    "ltgr %%r0, %%r0\n" \
-> +    ASM                 \
-> +    "stg %%r0, %[res] " \
-> +    : [res] "=m" (res)  \
-> +    : [a] "m" (a),      \
-> +      [b] "m" (b),      \
-> +      [c] "m" (c)       \
-> +    : "r0", "r2",       \
-> +      "r3", "r4"        \
-> +);                      \
-> +    return res;         \
->  }
->
-> +
->  Fi3 (_selre,     ".insn rrf, 0xB9F00000, %%r0, %%r3, %%r2, 8\n")
->  Fi3 (_selgrz,    ".insn rrf, 0xB9E30000, %%r0, %%r3, %%r2, 8\n")
->  Fi3 (_selfhrnz,  ".insn rrf, 0xB9C00000, %%r0, %%r3, %%r2, 7\n")
->
-> +
->  int main(int argc, char *argv[])
->  {
->      uint64_t a = ~0, b = ~0, c = ~0;
-> @@ -34,5 +37,6 @@ int main(int argc, char *argv[])
->      return (int) (
->          (0xFFFFFFFF00000066ull != a) ||
->          (0x0000F00D00000005ull != b) ||
-> -        (0x00000654FFFFFFFFull != c));
-> +        (0x00000654FFFFFFFFull != c) );
->  }
-> +
-> --
-> 2.34.1
 >
 >
 
---0000000000002ee78a05d92d9e91
+--000000000000b3abb605d92dbe83
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:georgia,=
-serif;font-size:small;color:#073763">Please disregard,=C2=A0 v2 sent.</div>=
-</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
-On Tue, Mar 1, 2022 at 2:15 PM David Miller &lt;<a href=3D"mailto:dmiller42=
-3@gmail.com">dmiller423@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Mar 1, 2022 at 2:25 PM Christian =
+Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crudebyt=
+e.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
 =3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">Adds clobbers and merges remaining separat=
-e asm statements.<br>
-<br>
-Signed-off-by: David Miller &lt;<a href=3D"mailto:dmiller423@gmail.com" tar=
-get=3D"_blank">dmiller423@gmail.com</a>&gt;<br>
----<br>
-=C2=A0tests/tcg/s390x/mie3-compl.c | 42 +++++++++++++++++++++++------------=
--<br>
-=C2=A0tests/tcg/s390x/mie3-mvcrl.c | 12 +++++++----<br>
-=C2=A0tests/tcg/s390x/mie3-sel.c=C2=A0 =C2=A0| 40 ++++++++++++++++++-------=
----------<br>
-=C2=A03 files changed, 57 insertions(+), 37 deletions(-)<br>
-<br>
-diff --git a/tests/tcg/s390x/mie3-compl.c b/tests/tcg/s390x/mie3-compl.c<br=
->
-index 35649f3b02..85b23a9b7a 100644<br>
---- a/tests/tcg/s390x/mie3-compl.c<br>
-+++ b/tests/tcg/s390x/mie3-compl.c<br>
-@@ -1,32 +1,44 @@<br>
-=C2=A0#include &lt;stdint.h&gt;<br>
-<br>
-+<br>
-=C2=A0#define FbinOp(S, ASM) uint64_t S(uint64_t a, uint64_t b) \<br>
--{ \<br>
--=C2=A0 =C2=A0 uint64_t res =3D 0; \<br>
--=C2=A0 =C2=A0 asm (&quot;llihf %[res],801\n&quot; ASM \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: [res]&quot;=3D&amp;r&quot;(res) : [a]&=
-quot;r&quot;(a), [b]&quot;r&quot;(b) : &quot;cc&quot;); \<br>
--=C2=A0 =C2=A0 return res; \<br>
-+{=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 uint64_t res =3D 0;=C2=A0 =C2=A0\<br>
-+asm volatile (=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-+=C2=A0 =C2=A0 &quot;llihf %%r0,801\n&quot;=C2=A0 \<br>
-+=C2=A0 =C2=A0 &quot;lg %%r2, %[a]\n&quot;=C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 &quot;lg %%r3, %[b]\n&quot;=C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 ASM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0\<br>
-+=C2=A0 =C2=A0 &quot;stg %%r0, %[res] &quot; \<br>
-+=C2=A0 =C2=A0 : [res] &quot;=3Dm&quot; (res)=C2=A0 \<br>
-+=C2=A0 =C2=A0 : [a] &quot;m&quot; (a)=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 , [b] &quot;m&quot; (b)=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 : &quot;r0&quot;, &quot;r2&quot;, &quot;r3&quot;=C2=A0 \<br>
-+);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 \<br>
-+=C2=A0 =C2=A0 return res;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-=C2=A0}<br>
-<br>
-+<br>
-=C2=A0/* AND WITH COMPLEMENT */<br>
--FbinOp(_ncrk,=C2=A0 &quot;.insn rrf, 0xB9F50000, %[res], %[b], %[a], 0\n&q=
-uot;)<br>
--FbinOp(_ncgrk, &quot;.insn rrf, 0xB9E50000, %[res], %[b], %[a], 0\n&quot;)=
-<br>
-+FbinOp(_ncrk,=C2=A0 &quot;.insn rrf, 0xB9F50000, %%r0, %%r3, %%r2, 0\n&quo=
-t;)<br>
-+FbinOp(_ncgrk, &quot;.insn rrf, 0xB9E50000, %%r0, %%r3, %%r2, 0\n&quot;)<b=
-r>
-<br>
-=C2=A0/* NAND */<br>
--FbinOp(_nnrk,=C2=A0 &quot;.insn rrf, 0xB9740000, %[res], %[b], %[a], 0\n&q=
-uot;)<br>
--FbinOp(_nngrk, &quot;.insn rrf, 0xB9640000, %[res], %[b], %[a], 0\n&quot;)=
-<br>
-+FbinOp(_nnrk,=C2=A0 &quot;.insn rrf, 0xB9740000, %%r0, %%r3, %%r2, 0\n&quo=
-t;)<br>
-+FbinOp(_nngrk, &quot;.insn rrf, 0xB9640000, %%r0, %%r3, %%r2, 0\n&quot;)<b=
-r>
-<br>
-=C2=A0/* NOT XOR */<br>
--FbinOp(_nxrk,=C2=A0 &quot;.insn rrf, 0xB9770000, %[res], %[b], %[a], 0\n&q=
-uot;)<br>
--FbinOp(_nxgrk, &quot;.insn rrf, 0xB9670000, %[res], %[b], %[a], 0\n&quot;)=
-<br>
-+FbinOp(_nxrk,=C2=A0 &quot;.insn rrf, 0xB9770000, %%r0, %%r3, %%r2, 0\n&quo=
-t;)<br>
-+FbinOp(_nxgrk, &quot;.insn rrf, 0xB9670000, %%r0, %%r3, %%r2, 0\n&quot;)<b=
-r>
-<br>
-=C2=A0/* NOR */<br>
--FbinOp(_nork,=C2=A0 &quot;.insn rrf, 0xB9760000, %[res], %[b], %[a], 0\n&q=
-uot;)<br>
--FbinOp(_nogrk, &quot;.insn rrf, 0xB9660000, %[res], %[b], %[a], 0\n&quot;)=
-<br>
-+FbinOp(_nork,=C2=A0 &quot;.insn rrf, 0xB9760000, %%r0, %%r3, %%r2, 0\n&quo=
-t;)<br>
-+FbinOp(_nogrk, &quot;.insn rrf, 0xB9660000, %%r0, %%r3, %%r2, 0\n&quot;)<b=
-r>
-<br>
-=C2=A0/* OR WITH COMPLEMENT */<br>
--FbinOp(_ocrk,=C2=A0 &quot;.insn rrf, 0xB9750000, %[res], %[b], %[a], 0\n&q=
-uot;)<br>
--FbinOp(_ocgrk, &quot;.insn rrf, 0xB9650000, %[res], %[b], %[a], 0\n&quot;)=
-<br>
-+FbinOp(_ocrk,=C2=A0 &quot;.insn rrf, 0xB9750000, %%r0, %%r3, %%r2, 0\n&quo=
-t;)<br>
-+FbinOp(_ocgrk, &quot;.insn rrf, 0xB9650000, %%r0, %%r3, %%r2, 0\n&quot;)<b=
-r>
-+<br>
-<br>
-=C2=A0int main(int argc, char *argv[])<br>
-=C2=A0{<br>
-diff --git a/tests/tcg/s390x/mie3-mvcrl.c b/tests/tcg/s390x/mie3-mvcrl.c<br=
->
-index 57b08e48d0..f749dad9c2 100644<br>
---- a/tests/tcg/s390x/mie3-mvcrl.c<br>
-+++ b/tests/tcg/s390x/mie3-mvcrl.c<br>
-@@ -1,15 +1,17 @@<br>
-=C2=A0#include &lt;stdint.h&gt;<br>
-=C2=A0#include &lt;string.h&gt;<br>
-<br>
-+<br>
-=C2=A0static inline void mvcrl_8(const char *dst, const char *src)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0asm volatile (<br>
--=C2=A0 =C2=A0 &quot;llill %%r0, 8\n&quot;<br>
--=C2=A0 =C2=A0 &quot;.insn sse, 0xE50A00000000, 0(%[dst]), 0(%[src])&quot;<=
+b(204,204,204);padding-left:1ex">On Sonntag, 27. Februar 2022 23:35:11 CET =
+Will Cohen wrote:<br>
+&gt; This is a followup to<br>
+&gt; <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg04=
+391.html" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archiv=
+e/html/qemu-devel/2022-02/msg04391.html</a>, adding<br>
+&gt; 9p server support for Darwin.<br>
+&gt; <br>
+&gt; Since v8, the following changes have been made:<br>
+&gt; <br>
+&gt; Patch 4/11 (9p: darwin: Handle struct dirent differences)<br>
+&gt; - Declare qemu_dirent_off as static to prevent linker error<br>
+&gt; - Move qemu_dirent_off above the end-of-file endif to fix compilation<=
 br>
--=C2=A0 =C2=A0 : : [dst] &quot;d&quot; (dst), [src] &quot;d&quot; (src)<br>
--=C2=A0 =C2=A0 : &quot;memory&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;llill %%r0, 8\n&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;.insn sse, 0xE50A00000000, 0(%[dst]), 0(=
-%[src])&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 : : [dst] &quot;d&quot; (dst), [src] &quot;d&q=
-uot; (src)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 : &quot;r0&quot;, &quot;memory&quot;);<br>
-=C2=A0}<br>
-<br>
-+<br>
-=C2=A0int main(int argc, char *argv[])<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0const char *alpha =3D &quot;abcdefghijklmnop&quot;;<br>
-@@ -25,3 +27,5 @@ int main(int argc, char *argv[])<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return strncmp(alpha, tstr, 16ul);<br>
-=C2=A0}<br>
-+<br>
-+<br>
-diff --git a/tests/tcg/s390x/mie3-sel.c b/tests/tcg/s390x/mie3-sel.c<br>
-index b0c5c9857d..98cf4d40f5 100644<br>
---- a/tests/tcg/s390x/mie3-sel.c<br>
-+++ b/tests/tcg/s390x/mie3-sel.c<br>
-@@ -1,29 +1,32 @@<br>
-=C2=A0#include &lt;stdint.h&gt;<br>
-<br>
-+<br>
-=C2=A0#define Fi3(S, ASM) uint64_t S(uint64_t a, uint64_t b, uint64_t c) \<=
+&gt; <br>
+&gt; Patch 9/11 (9p: darwin: Implement compatibility for mknodat)<br>
+&gt; - Fix line over 90 characters formatting error<br>
+&gt; - Move qemu_mknodat back from osdep to 9p-util and adjust patch notes<=
 br>
--{=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 uint64_t res =3D 0;=C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 asm (=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;lg %%r2, %[a]\n&quot;=C2=A0 =C2=A0=
-\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;lg %%r3, %[b]\n&quot;=C2=A0 =C2=A0=
-\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;lg %%r0, %[c]\n&quot;=C2=A0 =C2=A0=
-\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;ltgr %%r0, %%r0\n&quot; \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ASM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;stg %%r0, %[res] &quot; \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: [res] &quot;=3Dm&quot; (res)=C2=A0 \<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: [a] &quot;m&quot; (a),=C2=A0 =C2=A0 =
-=C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[b] &quot;m&quot; (b),=C2=A0 =C2=
-=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[c] &quot;m&quot; (c)=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: &quot;r0&quot;, &quot;r2&quot;,=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;r3&quot;, &quot;r4&quot;=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
--=C2=A0 =C2=A0 );=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
--=C2=A0 =C2=A0 return res;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-\<br>
-+{=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 uint64_t res =3D 0;=C2=A0 =C2=A0\<br>
-+asm volatile (=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-+=C2=A0 =C2=A0 &quot;lg %%r2, %[a]\n&quot;=C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 &quot;lg %%r3, %[b]\n&quot;=C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 &quot;lg %%r0, %[c]\n&quot;=C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 &quot;ltgr %%r0, %%r0\n&quot; \<br>
-+=C2=A0 =C2=A0 ASM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0\<br>
-+=C2=A0 =C2=A0 &quot;stg %%r0, %[res] &quot; \<br>
-+=C2=A0 =C2=A0 : [res] &quot;=3Dm&quot; (res)=C2=A0 \<br>
-+=C2=A0 =C2=A0 : [a] &quot;m&quot; (a),=C2=A0 =C2=A0 =C2=A0 \<br>
-+=C2=A0 =C2=A0 =C2=A0 [b] &quot;m&quot; (b),=C2=A0 =C2=A0 =C2=A0 \<br>
-+=C2=A0 =C2=A0 =C2=A0 [c] &quot;m&quot; (c)=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 : &quot;r0&quot;, &quot;r2&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0=
-\<br>
-+=C2=A0 =C2=A0 =C2=A0 &quot;r3&quot;, &quot;r4&quot;=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 \<br>
-+);=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 \<br>
-+=C2=A0 =C2=A0 return res;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-=C2=A0}<br>
+&gt; accordingly<br>
+&gt; <br>
+&gt; Patch 11/11 (9p: darwin: meson: Allow VirtFS on Darwin)<br>
+&gt; - Rebase to master<br>
+&gt; <br>
+&gt; With these changes, this patch set builds and passes 9p synth tests on=
+ both<br>
+&gt; linux and darwin.<br>
+&gt; <br>
+&gt; Keno Fischer (10):<br>
+&gt;=C2=A0 =C2=A09p: linux: Fix a couple Linux assumptions<br>
+&gt;=C2=A0 =C2=A09p: Rename 9p-util -&gt; 9p-util-linux<br>
+&gt;=C2=A0 =C2=A09p: darwin: Handle struct stat(fs) differences<br>
+&gt;=C2=A0 =C2=A09p: darwin: Handle struct dirent differences<br>
+&gt;=C2=A0 =C2=A09p: darwin: Ignore O_{NOATIME, DIRECT}<br>
+&gt;=C2=A0 =C2=A09p: darwin: Move XATTR_SIZE_MAX-&gt;P9_XATTR_SIZE_MAX<br>
+&gt;=C2=A0 =C2=A09p: darwin: *xattr_nofollow implementations<br>
+&gt;=C2=A0 =C2=A09p: darwin: Compatibility for f/l*xattr<br>
+&gt;=C2=A0 =C2=A09p: darwin: Implement compatibility for mknodat<br>
+&gt;=C2=A0 =C2=A09p: darwin: meson: Allow VirtFS on Darwin<br>
+&gt; <br>
+&gt; Will Cohen (1):<br>
+&gt;=C2=A0 =C2=A09p: darwin: Adjust assumption on virtio-9p-test<br>
+&gt; <br>
+&gt;=C2=A0 fsdev/file-op-9p.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 9 ++-<br>
+&gt;=C2=A0 fsdev/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+&gt;=C2=A0 hw/9pfs/9p-local.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 27 +++++--<br>
+&gt;=C2=A0 hw/9pfs/9p-proxy.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 38 +++++++++-<br>
+&gt;=C2=A0 hw/9pfs/9p-synth.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 ++<br>
+&gt;=C2=A0 hw/9pfs/9p-util-darwin.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 97 ++++++++++++++++++++++++++<br>
+&gt;=C2=A0 hw/9pfs/{9p-util.c =3D&gt; 9p-util-linux.c} |=C2=A0 8 ++-<br>
+&gt;=C2=A0 hw/9pfs/9p-util.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 46 ++++++++++++<br>
+&gt;=C2=A0 hw/9pfs/9p.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 42 +++++++++--<br>
+&gt;=C2=A0 hw/9pfs/9p.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 18 +++++<br>
+&gt;=C2=A0 hw/9pfs/codir.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 +-<br>
+&gt;=C2=A0 hw/9pfs/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +-<br>
+&gt;=C2=A0 include/qemu/xattr.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +-<br>
+&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 13 ++--<br>
+&gt;=C2=A0 tests/qtest/virtio-9p-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 2 +-<br>
+&gt;=C2=A0 15 files changed, 292 insertions(+), 26 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 hw/9pfs/9p-util-darwin.c<br>
+&gt;=C2=A0 rename hw/9pfs/{9p-util.c =3D&gt; 9p-util-linux.c} (90%)<br>
 <br>
-+<br>
-=C2=A0Fi3 (_selre,=C2=A0 =C2=A0 =C2=A0&quot;.insn rrf, 0xB9F00000, %%r0, %%=
-r3, %%r2, 8\n&quot;)<br>
-=C2=A0Fi3 (_selgrz,=C2=A0 =C2=A0 &quot;.insn rrf, 0xB9E30000, %%r0, %%r3, %=
-%r2, 8\n&quot;)<br>
-=C2=A0Fi3 (_selfhrnz,=C2=A0 &quot;.insn rrf, 0xB9C00000, %%r0, %%r3, %%r2, =
-7\n&quot;)<br>
+Queued on 9p.next:<br>
+<a href=3D"https://github.com/cschoenebeck/qemu/commits/9p.next" rel=3D"nor=
+eferrer" target=3D"_blank">https://github.com/cschoenebeck/qemu/commits/9p.=
+next</a><br>
 <br>
-+<br>
-=C2=A0int main(int argc, char *argv[])<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0uint64_t a =3D ~0, b =3D ~0, c =3D ~0;<br>
-@@ -34,5 +37,6 @@ int main(int argc, char *argv[])<br>
-=C2=A0 =C2=A0 =C2=A0return (int) (<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(0xFFFFFFFF00000066ull !=3D a) ||<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(0x0000F00D00000005ull !=3D b) ||<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 (0x00000654FFFFFFFFull !=3D c));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (0x00000654FFFFFFFFull !=3D c) );<br>
-=C2=A0}<br>
-+<br>
--- <br>
-2.34.1<br>
+Thanks!<br>
+<br></blockquote><div><br></div><div>This is very exciting. Many, many than=
+ks for helping guide this through the process!<br></div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+Best regards,<br>
+Christian Schoenebeck<br>
 <br>
-</blockquote></div>
+<br>
+</blockquote></div></div>
 
---0000000000002ee78a05d92d9e91--
+--000000000000b3abb605d92dbe83--
 
