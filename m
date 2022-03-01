@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893674C8720
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 09:51:55 +0100 (CET)
-Received: from localhost ([::1]:49948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AAA4C8735
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 09:57:29 +0100 (CET)
+Received: from localhost ([::1]:58540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOyEc-0005N6-Bv
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 03:51:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54582)
+	id 1nOyK0-0002uR-5T
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 03:57:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3H-0004EZ-PV
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24225)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3N-0004FJ-Pn
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3G-0008Aj-9Y
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:11 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3M-0008DC-6w
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646124009;
+ s=mimecast20190719; t=1646124015;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h8U+0chEqOoO2WXEq/PMFQNiVpucDS0U2rAdxkt/8Jg=;
- b=C6VnYjD+V9cvsPY7KJcd3+CfWQNlsSbyCZiDaAe8itns22sjstbZfCxBnJJlHdGzVqp76E
- OGYe1l1NPyRsOOmEBkYE0ZnbjfEotpAMb4TQGoTPedfxaL0wlHqhHTjIYXCHKlRaQHNlDO
- a79zUii51JHNlEx9Xqb/vi4KG8mouvs=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mmPTCZCZTk49wlE2CkFHTKouE1bMT/b1++uEYojsNak=;
+ b=bH3O+K10jLOvGBVyqDk8mmaW16mGAwzxHEVzQcmgZsOkV4LejjOFgRWrcNujXxmsZ9l81O
+ UhmyHpln8KVo0pSg5NhbANxyv8N7X8mA7VF5khIJf9qazavQPdB4tqDVjo1VsRkYPwy6Wj
+ 9Gl11eYfknPDjCq6IoJUpuHvYIZ+470=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-_5nI2PkZOYeEUtEaX5faiw-1; Tue, 01 Mar 2022 03:40:09 -0500
-X-MC-Unique: _5nI2PkZOYeEUtEaX5faiw-1
-Received: by mail-pg1-f200.google.com with SMTP id
- a12-20020a65640c000000b003756296df5cso8168127pgv.19
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:40:08 -0800 (PST)
+ us-mta-393-GsDzzPyvM8GwGBifPta5bA-1; Tue, 01 Mar 2022 03:40:14 -0500
+X-MC-Unique: GsDzzPyvM8GwGBifPta5bA-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ m3-20020a17090a3f8300b001bd33af55f2so1211714pjc.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:40:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h8U+0chEqOoO2WXEq/PMFQNiVpucDS0U2rAdxkt/8Jg=;
- b=ETavxuMsUzaev9+xt5pjQfCbULN6oUme8Nb7ibpXvvVz+PgznLE5zlmwbJrEJfJD2Y
- 1PVLtYIbdY9rhOVN8Z9VAyeH/mVuPaJ3lkjdbjWFpylnicyyT6t1viAxVa6LLebu4AM/
- TMgwidUrAuaACmmsQJieWe06N384rWPb2e7jXegOsGRpVkeB2KuSz5rqZbqOLzpl96vU
- AONcSi7m8IcAb2saw5B3w4PmHdmN+nqU5AgR05iZHfuvJyakivqbC/FhKZKEhCjgJgCU
- ncaCuFh7dDh6HUkNBFaWv73CEz1ztHShOW0eWUz3CwVSxqJL+3ctE9qpN9DMNGkwyj4/
- wpIg==
-X-Gm-Message-State: AOAM532sl82N/vMNGCrlnZUXw8V2FR12zjxwGEgM1S8hhuAAv/roGGBa
- 40yJplKPFJQtmUGvzUoiDODEIEGiO6Loe7Ej8OgHgYZSgqvOE5YNcUtO/WzZZ++YWnJXxqJbkf4
- 1TP/M1JVPjguogu7fiXOyZUYJ6e2FehJv1KTm5hCfGK8U5kuIi4YHlIu4CJlA/Wvx
-X-Received: by 2002:a63:e758:0:b0:378:8511:cfe7 with SMTP id
- j24-20020a63e758000000b003788511cfe7mr9866199pgk.126.1646124007843; 
- Tue, 01 Mar 2022 00:40:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxL9H0eXhDUAcQ89AwZExrMzUTGCge2rDoPYg2aJzMRHrZLzLSjVcLiUedxXc879M2IDaOt0A==
-X-Received: by 2002:a63:e758:0:b0:378:8511:cfe7 with SMTP id
- j24-20020a63e758000000b003788511cfe7mr9866180pgk.126.1646124007560; 
- Tue, 01 Mar 2022 00:40:07 -0800 (PST)
+ bh=mmPTCZCZTk49wlE2CkFHTKouE1bMT/b1++uEYojsNak=;
+ b=mw9l5ERFkd36h7v7L4Zw70sq5rlTzkkLcltx1mgdejQkqreeDYZPe4n2pk8UjRUqO5
+ DPTMHXb2dMcEA2HTHMnsgz0XYjWZm7sTeXRYmI6Yts+a4xX8Z/fgVT29PI0NULZ+oVF2
+ R3YttlAFm/yzXXYLVmAj7PG/k0X1dO9bOjXq+ZOtiEwTB4DqOo6/7cKDihnGn84KxJ5q
+ +iB97MnHUPbwuzOcpfelxAf7DQvMPhlu2Dw0KIREd3CZXGg13LR91J+aS43xprKgF3CD
+ fMt+ICW+kLODoxBQDwy8KD41BP8nA6SfTJTfPo32PMt9krRwWzG7wflJ6C887Xyd6EAm
+ /LRw==
+X-Gm-Message-State: AOAM5332VJOxnzeaErNr+hr6uQ+0M2kaamhrj4RspaDmREMFfxFnovVg
+ qLKxM/P50vse4YL6tLWTW+bNs0q5LWu38BUFjW7Xt/8RLTBn2nbOwXTL5cuUEvGpzccHEZQHKaA
+ gOJ+7FGa9KC3te4jZUQ/62VuWv/wgxKycpRS0zvRHpz9VQVlxtdGT8vaLhnI41rCA
+X-Received: by 2002:a05:6a00:1d13:b0:4e1:7958:b59d with SMTP id
+ a19-20020a056a001d1300b004e17958b59dmr25986876pfx.68.1646124013457; 
+ Tue, 01 Mar 2022 00:40:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwBNmb33fvj6d3x2ezOtTmnihBhAqBjq6Lffxsm8aN5WvajnQbMc/fYql+orqFlPVFBqtBzbQ==
+X-Received: by 2002:a05:6a00:1d13:b0:4e1:7958:b59d with SMTP id
+ a19-20020a056a001d1300b004e17958b59dmr25986851pfx.68.1646124013048; 
+ Tue, 01 Mar 2022 00:40:13 -0800 (PST)
 Received: from localhost.localdomain ([94.177.118.144])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.40.05
+ l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.40.10
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 01 Mar 2022 00:40:07 -0800 (PST)
+ Tue, 01 Mar 2022 00:40:12 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/25] migration: Export ram_load_postcopy()
-Date: Tue,  1 Mar 2022 16:39:12 +0800
-Message-Id: <20220301083925.33483-13-peterx@redhat.com>
+Subject: [PATCH v2 14/25] migration: Add migration_incoming_transport_cleanup()
+Date: Tue,  1 Mar 2022 16:39:14 +0800
+Message-Id: <20220301083925.33483-15-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220301083925.33483-1-peterx@redhat.com>
 References: <20220301083925.33483-1-peterx@redhat.com>
@@ -104,40 +104,85 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Will be reused in postcopy fast load thread.
+Add a helper to cleanup the transport listener.
+
+When do it, we should also null-ify the cleanup hook and the data, then it's
+even safe to call it multiple times.
+
+Move the socket_address_list cleanup altogether, because that's a mirror of the
+listener channels and only for the purpose of query-migrate.  Hence when
+someone wants to cleanup the listener transport, it should also want to cleanup
+the socket list too, always.
+
+No functional change intended.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/ram.c | 2 +-
- migration/ram.h | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ migration/migration.c | 22 ++++++++++++++--------
+ migration/migration.h |  1 +
+ 2 files changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index f1de1a06e4..5cb5dfc2cc 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3645,7 +3645,7 @@ int ram_postcopy_incoming_init(MigrationIncomingState *mis)
-  *
-  * @f: QEMUFile where to send the data
-  */
--static int ram_load_postcopy(QEMUFile *f)
-+int ram_load_postcopy(QEMUFile *f)
+diff --git a/migration/migration.c b/migration/migration.c
+index b2e6446457..6bb321cdd3 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -279,6 +279,19 @@ MigrationIncomingState *migration_incoming_get_current(void)
+     return current_incoming;
+ }
+ 
++void migration_incoming_transport_cleanup(MigrationIncomingState *mis)
++{
++    if (mis->socket_address_list) {
++        qapi_free_SocketAddressList(mis->socket_address_list);
++        mis->socket_address_list = NULL;
++    }
++
++    if (mis->transport_cleanup) {
++        mis->transport_cleanup(mis->transport_data);
++        mis->transport_data = mis->transport_cleanup = NULL;
++    }
++}
++
+ void migration_incoming_state_destroy(void)
  {
-     int flags = 0, ret = 0;
-     bool place_needed = false;
-diff --git a/migration/ram.h b/migration/ram.h
-index 2c6dc3675d..ded0a3a086 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -61,6 +61,7 @@ void ram_postcopy_send_discard_bitmap(MigrationState *ms);
- /* For incoming postcopy discard */
- int ram_discard_range(const char *block_name, uint64_t start, size_t length);
- int ram_postcopy_incoming_init(MigrationIncomingState *mis);
-+int ram_load_postcopy(QEMUFile *f);
+     struct MigrationIncomingState *mis = migration_incoming_get_current();
+@@ -299,10 +312,8 @@ void migration_incoming_state_destroy(void)
+         g_array_free(mis->postcopy_remote_fds, TRUE);
+         mis->postcopy_remote_fds = NULL;
+     }
+-    if (mis->transport_cleanup) {
+-        mis->transport_cleanup(mis->transport_data);
+-    }
  
- void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
++    migration_incoming_transport_cleanup(mis);
+     qemu_event_reset(&mis->main_thread_load_event);
  
+     if (mis->page_requested) {
+@@ -310,11 +321,6 @@ void migration_incoming_state_destroy(void)
+         mis->page_requested = NULL;
+     }
+ 
+-    if (mis->socket_address_list) {
+-        qapi_free_SocketAddressList(mis->socket_address_list);
+-        mis->socket_address_list = NULL;
+-    }
+-
+     yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+ }
+ 
+diff --git a/migration/migration.h b/migration/migration.h
+index d677a750c9..f17ccc657c 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -166,6 +166,7 @@ struct MigrationIncomingState {
+ 
+ MigrationIncomingState *migration_incoming_get_current(void);
+ void migration_incoming_state_destroy(void);
++void migration_incoming_transport_cleanup(MigrationIncomingState *mis);
+ /*
+  * Functions to work with blocktime context
+  */
 -- 
 2.32.0
 
