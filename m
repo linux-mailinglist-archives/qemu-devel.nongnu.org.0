@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11024C871C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 09:51:11 +0100 (CET)
-Received: from localhost ([::1]:48170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C06344C871B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 09:51:09 +0100 (CET)
+Received: from localhost ([::1]:48104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOyDu-00048e-O5
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 03:51:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54210)
+	id 1nOyDr-000469-23
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 03:51:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy2y-0003fM-D7
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:39:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45148)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy31-0003py-O0
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:39:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy2w-0007uU-Ua
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:39:52 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy2z-0007vN-W8
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:39:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646123990;
+ s=mimecast20190719; t=1646123993;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WVAvZ0HPGkUtqiJCQBEwgvy+s0e8LwsA8UQ0Uhpgy1E=;
- b=UsZi9F+VdpjdKwL3Tgg6uyQyC6kXLPGutL8nWiAzre9oHhBX9diu+MUrPi+YU/1GDovqdH
- TlSt6BX3/YlfF3kuVxX5Rx+Ac4Kjvzso1xPu4TZnqqbg3PTJcDoXAlWdjThsHDxZyEXgM9
- IcAewFED5STffrja55Bp8PkuDIeId8M=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=w9F784ao0L88QQQR4mfL5Wnon20EdN8YOIdXyuzL9XE=;
+ b=Tub/SKtS8hh2/2s9c6YxIKEcihLdQ+sUxJLPaxL+3iBny3Pc3YQLSQCqom3xVD8U+Xk0lE
+ 5DHyI+sPbltcMLpfCqTthAi86PEJ5ljjBisnppzeQQw6SzcEXj9flHYA8jQs9IIsXkIPr0
+ cjyT0wv/zo4nxTapmQIkQSbKHn9dAG0=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-60-Eq6wgeT9MtmSnpr-siMsUw-1; Tue, 01 Mar 2022 03:39:49 -0500
-X-MC-Unique: Eq6wgeT9MtmSnpr-siMsUw-1
-Received: by mail-pf1-f197.google.com with SMTP id
- t134-20020a62788c000000b004e1367caccaso9357265pfc.14
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:39:49 -0800 (PST)
+ us-mta-571-0t_lI46vO2CzZR-SBY86ng-1; Tue, 01 Mar 2022 03:39:52 -0500
+X-MC-Unique: 0t_lI46vO2CzZR-SBY86ng-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ bh9-20020a056a02020900b0036c0d29eb3eso8182014pgb.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:39:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WVAvZ0HPGkUtqiJCQBEwgvy+s0e8LwsA8UQ0Uhpgy1E=;
- b=AGDgiASlQxQYXx3lojUdR498sm2nZePme3VojcVsninNJfBCCSMUUW1Ks3RfKw42Nd
- s7GCqxu4KM02J+lP0T0cttEPLatOxTsfgfh023Y89iir1eHoqki/RaCa/DSWgD/u6uxv
- InQZgQ0lH6gnSbDRboXv6euNHi0EzcOdikpDTc+WCwXCkU9PDQB27zt/ih2GgYOojmG5
- tjKTiX5qfMLqnoCK9MNLM3X0z2R2+oZlFT0AQUlwNLPQNdTiJ1j+Umfi+tMoCZobS/4y
- GYl/XjyTLQK2fhp3sXXUipWErI776T8PmGst18aOOCCuaCz/SdydZFTs2hgKl6oPy1kG
- LxKw==
-X-Gm-Message-State: AOAM532tMfwbYTnZA028/V4R+Dr545O926usk/i5pPINkPARWS0/jx9T
- vCQgOwNoxAHGZnrtPXWeeBS478fBk/QplrHDSFVgLOGaOVL5p7a5bUwhX8tXULfrLnmwpWwagke
- CpDCJAg63LFE9D8SYpw1yHrMqrm72ntVjctCEW7vyAZbWlz0/NdE7ddRK9f+9A2tN
-X-Received: by 2002:a17:90a:10c8:b0:1bc:e369:1f2c with SMTP id
- b8-20020a17090a10c800b001bce3691f2cmr20578054pje.193.1646123988241; 
- Tue, 01 Mar 2022 00:39:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx7eqSKl/oQ6mo67/dudsiE71eArMnnsBCW2n7s9UWCoR8g1COgRU1nVEswURLgYHaV9x12xQ==
-X-Received: by 2002:a17:90a:10c8:b0:1bc:e369:1f2c with SMTP id
- b8-20020a17090a10c800b001bce3691f2cmr20578038pje.193.1646123987883; 
- Tue, 01 Mar 2022 00:39:47 -0800 (PST)
+ bh=w9F784ao0L88QQQR4mfL5Wnon20EdN8YOIdXyuzL9XE=;
+ b=690Prr2Qnu12CfEqmEvhSUS2Ll3P7qxGOhBTYb8A3c1MeZN1PDTG8AUFBWTpKMorFK
+ F6f7ZijqBEJvFdSH4v/5wmGBbBHgkKXq7SohJf5hZtelJb1y5KaTXoPgUWmDB17oG8En
+ yLyedJ6ALRSFZxTnRlF1950RLtpI3rQO6f/rA5VNHplym5EUulZ2u2JTSBuTeGQPX/XD
+ XAyl1HPxCdORT1XMIwm/CDzhDoCbMJrDVPh8Sb29kvqUGNpTpFV7fysS/qz1xAdqhbOK
+ yiJFZc9yIc7aUWuCwgJGTSSmb6SUhn/Cycklbq/s9XcWDUi5i+UTm0SPd9quLKNLEmd+
+ YvDw==
+X-Gm-Message-State: AOAM530LfGKaM6X7qveK3VqTvu0wk1/LdAXYMHouq0wOr9rBq+yr4T9G
+ HP0Fz0nucUihzWPcDggzrz67aRLP81ZWtfswxO4RIq5uubcafCtPN4L0ppebfEBV08Z4vpY6ftn
+ Xf37QvN5F1IHUlF/+cVuZ/foazAoorKvRDcdleCC8CZgZtzwWRSsGAXP4hhddZT34
+X-Received: by 2002:a05:6a00:b92:b0:4f1:4b2:737f with SMTP id
+ g18-20020a056a000b9200b004f104b2737fmr26259938pfj.31.1646123991285; 
+ Tue, 01 Mar 2022 00:39:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJykQZwtUeAkLAf628SqiYQIL4pyL/IKYKn0IjQOnd0cA7Y95U9NeILoiGXIwHNriew3eushWA==
+X-Received: by 2002:a05:6a00:b92:b0:4f1:4b2:737f with SMTP id
+ g18-20020a056a000b9200b004f104b2737fmr26259906pfj.31.1646123990852; 
+ Tue, 01 Mar 2022 00:39:50 -0800 (PST)
 Received: from localhost.localdomain ([94.177.118.144])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.39.45
+ l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.39.48
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 01 Mar 2022 00:39:47 -0800 (PST)
+ Tue, 01 Mar 2022 00:39:50 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/25] migration: Dump ramblock and offset too when
- non-same-page detected
-Date: Tue,  1 Mar 2022 16:39:05 +0800
-Message-Id: <20220301083925.33483-6-peterx@redhat.com>
+Subject: [PATCH v2 06/25] migration: Add postcopy_thread_create()
+Date: Tue,  1 Mar 2022 16:39:06 +0800
+Message-Id: <20220301083925.33483-7-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220301083925.33483-1-peterx@redhat.com>
 References: <20220301083925.33483-1-peterx@redhat.com>
@@ -77,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -105,35 +104,145 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In ram_load_postcopy() we'll try to detect non-same-page case and dump error.
-This error is very helpful for debugging.  Adding ramblock & offset into the
-error log too.
+Postcopy create threads. A common manner is we init a sem and use it to sync
+with the thread.  Namely, we have fault_thread_sem and listen_thread_sem and
+they're only used for this.
+
+Make it a shared infrastructure so it's easier to create yet another thread.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/ram.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ migration/migration.h    |  8 +++++---
+ migration/postcopy-ram.c | 23 +++++++++++++++++------
+ migration/postcopy-ram.h |  4 ++++
+ migration/savevm.c       | 12 +++---------
+ 4 files changed, 29 insertions(+), 18 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 0fc6b8e349..3a216c2340 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3707,8 +3707,12 @@ static int ram_load_postcopy(QEMUFile *f)
-             } else if (tmp_page->host_addr !=
-                        host_page_from_ram_block_offset(block, addr)) {
-                 /* not the 1st TP within the HP */
--                error_report("Non-same host page %p/%p", tmp_page->host_addr,
--                             host_page_from_ram_block_offset(block, addr));
-+                error_report("Non-same host page detected.  Target host page %p, "
-+                             "received host page %p "
-+                             "(rb %s offset 0x"RAM_ADDR_FMT" target_pages %d)",
-+                             tmp_page->host_addr,
-+                             host_page_from_ram_block_offset(block, addr),
-+                             block->idstr, addr, tmp_page->target_pages);
-                 ret = -EINVAL;
-                 break;
-             }
+diff --git a/migration/migration.h b/migration/migration.h
+index 42c7395094..8445e1d14a 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -70,7 +70,11 @@ struct MigrationIncomingState {
+     /* A hook to allow cleanup at the end of incoming migration */
+     void *transport_data;
+     void (*transport_cleanup)(void *data);
+-
++    /*
++     * Used to sync thread creations.  Note that we can't create threads in
++     * parallel with this sem.
++     */
++    QemuSemaphore  thread_sync_sem;
+     /*
+      * Free at the start of the main state load, set as the main thread finishes
+      * loading state.
+@@ -83,13 +87,11 @@ struct MigrationIncomingState {
+     size_t         largest_page_size;
+     bool           have_fault_thread;
+     QemuThread     fault_thread;
+-    QemuSemaphore  fault_thread_sem;
+     /* Set this when we want the fault thread to quit */
+     bool           fault_thread_quit;
+ 
+     bool           have_listen_thread;
+     QemuThread     listen_thread;
+-    QemuSemaphore  listen_thread_sem;
+ 
+     /* For the kernel to send us notifications */
+     int       userfault_fd;
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 30c3508f44..d08d396c63 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -78,6 +78,20 @@ int postcopy_notify(enum PostcopyNotifyReason reason, Error **errp)
+                                             &pnd);
+ }
+ 
++/*
++ * NOTE: this routine is not thread safe, we can't call it concurrently. But it
++ * should be good enough for migration's purposes.
++ */
++void postcopy_thread_create(MigrationIncomingState *mis,
++                            QemuThread *thread, const char *name,
++                            void *(*fn)(void *), int joinable)
++{
++    qemu_sem_init(&mis->thread_sync_sem, 0);
++    qemu_thread_create(thread, name, fn, mis, joinable);
++    qemu_sem_wait(&mis->thread_sync_sem);
++    qemu_sem_destroy(&mis->thread_sync_sem);
++}
++
+ /* Postcopy needs to detect accesses to pages that haven't yet been copied
+  * across, and efficiently map new pages in, the techniques for doing this
+  * are target OS specific.
+@@ -902,7 +916,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
+     trace_postcopy_ram_fault_thread_entry();
+     rcu_register_thread();
+     mis->last_rb = NULL; /* last RAMBlock we sent part of */
+-    qemu_sem_post(&mis->fault_thread_sem);
++    qemu_sem_post(&mis->thread_sync_sem);
+ 
+     struct pollfd *pfd;
+     size_t pfd_len = 2 + mis->postcopy_remote_fds->len;
+@@ -1173,11 +1187,8 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
+         return -1;
+     }
+ 
+-    qemu_sem_init(&mis->fault_thread_sem, 0);
+-    qemu_thread_create(&mis->fault_thread, "postcopy/fault",
+-                       postcopy_ram_fault_thread, mis, QEMU_THREAD_JOINABLE);
+-    qemu_sem_wait(&mis->fault_thread_sem);
+-    qemu_sem_destroy(&mis->fault_thread_sem);
++    postcopy_thread_create(mis, &mis->fault_thread, "postcopy/fault",
++                           postcopy_ram_fault_thread, QEMU_THREAD_JOINABLE);
+     mis->have_fault_thread = true;
+ 
+     /* Mark so that we get notified of accesses to unwritten areas */
+diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
+index 6d2b3cf124..07684c0e1d 100644
+--- a/migration/postcopy-ram.h
++++ b/migration/postcopy-ram.h
+@@ -135,6 +135,10 @@ void postcopy_remove_notifier(NotifierWithReturn *n);
+ /* Call the notifier list set by postcopy_add_start_notifier */
+ int postcopy_notify(enum PostcopyNotifyReason reason, Error **errp);
+ 
++void postcopy_thread_create(MigrationIncomingState *mis,
++                            QemuThread *thread, const char *name,
++                            void *(*fn)(void *), int joinable);
++
+ struct PostCopyFD;
+ 
+ /* ufd is a pointer to the struct uffd_msg *TODO: more Portable! */
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 0ccd7e5e3f..967ff80547 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1863,7 +1863,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
+ 
+     migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
+                                    MIGRATION_STATUS_POSTCOPY_ACTIVE);
+-    qemu_sem_post(&mis->listen_thread_sem);
++    qemu_sem_post(&mis->thread_sync_sem);
+     trace_postcopy_ram_listen_thread_start();
+ 
+     rcu_register_thread();
+@@ -1988,14 +1988,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+     }
+ 
+     mis->have_listen_thread = true;
+-    /* Start up the listening thread and wait for it to signal ready */
+-    qemu_sem_init(&mis->listen_thread_sem, 0);
+-    qemu_thread_create(&mis->listen_thread, "postcopy/listen",
+-                       postcopy_ram_listen_thread, NULL,
+-                       QEMU_THREAD_DETACHED);
+-    qemu_sem_wait(&mis->listen_thread_sem);
+-    qemu_sem_destroy(&mis->listen_thread_sem);
+-
++    postcopy_thread_create(mis, &mis->listen_thread, "postcopy/listen",
++                           postcopy_ram_listen_thread, QEMU_THREAD_DETACHED);
+     trace_loadvm_postcopy_handle_listen("return");
+ 
+     return 0;
 -- 
 2.32.0
 
