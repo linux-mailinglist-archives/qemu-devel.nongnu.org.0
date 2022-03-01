@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1104C989A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:58:19 +0100 (CET)
-Received: from localhost ([::1]:46834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C1C4C98FA
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 00:14:01 +0100 (CET)
+Received: from localhost ([::1]:51258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPBRi-0004Yi-KL
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:58:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44316)
+	id 1nPBgt-0008JX-Tq
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 18:13:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nPBMD-0007Xo-62; Tue, 01 Mar 2022 17:52:37 -0500
-Received: from [2a00:1450:4864:20::530] (port=33438
- helo=mail-ed1-x530.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nPBMB-0002ll-KS; Tue, 01 Mar 2022 17:52:36 -0500
-Received: by mail-ed1-x530.google.com with SMTP id s14so24039805edw.0;
- Tue, 01 Mar 2022 14:52:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=g7adXm54wD7xIz42X7XYXXv1NjIfr4eAjQzcG7izHJQ=;
- b=LF5nEsIdzxea+jW4sM+coRcUOOn4Q84+vcLjns5xder00nMHm9IIwSxPkIXO3NFXTE
- DUmE+E3nkpJgtJmWp2Ux21O4I2BCMogv76+x1W4CdffHL5FDpmYMU5DYseCYbx9JMQjU
- 4mWEG0BpSTAuoqm9WuHKavaDl0wtb0g3IqpWeJyFreFYfSu+Dyg7XatYFjP9PSzGYAYw
- NDmgl4eD/gw0+nqKvcIM348QNHlrMP0HFMAv6rpO+lPu2/QeA7EWcuf7GaEfR8CnXzVA
- 1DZhjxUYEwhXi3IzsxKFqp//Hq+iZjwLmvrFtq/TIuSTMQC+BYkWRomSNeFlqpKjpj30
- QYcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=g7adXm54wD7xIz42X7XYXXv1NjIfr4eAjQzcG7izHJQ=;
- b=ZzUN7pPaE/dGizBS59BASBNqcLkA0D6lQH1dntStCFUf8gFWZX6ABI2z4FaRs0AG9N
- sew+WH8ZK1cSdcYNdkEpDyNaRBDDNU3+vQHf57ZU0DoG2TCaGWrQYJjghWZdUYqKtKLv
- 1l6l/p+x4QEjRf4emA8yF31FUbwEd7J3JYqBxiUL/LSR5XRI6z9iU/LrfE8zNyvHTr0Y
- VXmzAovCiAUFTEQCP7UbBBA1hHgvWWHJ1rDmlpXxU7fN/FJa04Aa//nXddsInnGoszlw
- agAVEBYM70E0nP3DTak4r8a237JVKFEXrHkXjJzpaHwD+/xAWEr5Mp84EtElimmDcpHt
- cWcg==
-X-Gm-Message-State: AOAM531Ue3GyismZjXLp3RvIe4QoYZ6GFPsWPw56ldAMYW+1liFZMiCy
- /DwAWVoKa58Ta29/TrCnXygHRiyolq4=
-X-Google-Smtp-Source: ABdhPJz9qVkhoSI3kTJhQ8WjlKyXOBu4SdkmXISQXTSqRH85T9rNOusljAAihO8/oo+pNb+1tMZOxg==
-X-Received: by 2002:a05:6402:1756:b0:410:be91:cd5b with SMTP id
- v22-20020a056402175600b00410be91cd5bmr26746265edx.375.1646175153510; 
- Tue, 01 Mar 2022 14:52:33 -0800 (PST)
-Received: from Provence.localdomain
- (dynamic-078-055-004-046.78.55.pool.telefonica.de. [78.55.4.46])
- by smtp.gmail.com with ESMTPSA id
- y18-20020a056402271200b0041110d6b80asm7806711edd.39.2022.03.01.14.52.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 14:52:33 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND 2/2] hw/riscv/sifive_u: Resolve redundant property
- accessors
-Date: Tue,  1 Mar 2022 23:52:20 +0100
-Message-Id: <20220301225220.239065-3-shentey@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220301225220.239065-1-shentey@gmail.com>
-References: <20220301225220.239065-1-shentey@gmail.com>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org>)
+ id 1nPBfI-0007FR-T0
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 18:12:21 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:34750)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org>)
+ id 1nPBfG-0002ia-W9
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 18:12:20 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 56A1561482
+ for <qemu-devel@nongnu.org>; Tue,  1 Mar 2022 23:12:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B37BC340F1
+ for <qemu-devel@nongnu.org>; Tue,  1 Mar 2022 23:12:16 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="HGfxvj7+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1646176332;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QVWwDfP6vCdKSXIrReokkbeYI07Avo5/7iLxJ3qVrMM=;
+ b=HGfxvj7+VzxINY1Yi+tcbZLrWeAlGcyZm6PJfGtkl/IKhfcK1PcxnKFUd7YHlvI3N/xszj
+ b3ETebNOtKo/6UbFNEAXq0iSdDd25lufP6oEFJ4H94Y/0rynsQkgTEtHgCgatDggeAiVHw
+ KBwvcdvL891pKLoKH4OQ04PIsz4yJpU=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b658068d
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Tue, 1 Mar 2022 23:12:12 +0000 (UTC)
+Received: by mail-yb1-f174.google.com with SMTP id bt13so30398953ybb.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 15:12:12 -0800 (PST)
+X-Gm-Message-State: AOAM531Ej8MLhhaVhEBRn2lVHvD3Ia9YvfDdfVlIO2dVn6XSMTxLBPOG
+ T+m5VgmZpsy6xYHzMC1Sm4TN7IfsQGTrlpZfOlY=
+X-Google-Smtp-Source: ABdhPJxG1EP2z5Lx925intNmaJt+8bpR2v0QoOtdNwKnXQnbrqMvRmDH6t8H149eZ3tCCAwnI0z6h3junDyhTjBtpjE=
+X-Received: by 2002:a05:6902:693:b0:613:7f4f:2e63 with SMTP id
+ i19-20020a056902069300b006137f4f2e63mr26499795ybt.271.1646176331461; Tue, 01
+ Mar 2022 15:12:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <Yh4+9+UpanJWAIyZ@zx2c4.com> <Yh5fbe71BTT6xc8h@kroah.com>
+ <CAHmME9oGcp7HNLeieptMKztgg7Fq4MnOuAEsiFJxsLbmjSuFCw@mail.gmail.com>
+ <Yh528WPZrQn5s7vO@kroah.com>
+In-Reply-To: <Yh528WPZrQn5s7vO@kroah.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Wed, 2 Mar 2022 00:12:00 +0100
+X-Gmail-Original-Message-ID: <CAHmME9oxEWK6Nvra9eZBZnHKGNnWyeEzvE8d4HGy3NRPkajrvA@mail.gmail.com>
+Message-ID: <CAHmME9oxEWK6Nvra9eZBZnHKGNnWyeEzvE8d4HGy3NRPkajrvA@mail.gmail.com>
+Subject: Re: propagating vmgenid outward and upward
+To: Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,68 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:SiFive Machines" <qemu-riscv@nongnu.org>,
- qemu-trivial@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bernhard Beschow <shentey@gmail.com>
+Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
+ Colm MacCarthaigh <colmmacc@amazon.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, adrian@parity.io,
+ KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
+ Linux PM <linux-pm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Theodore Ts'o <tytso@mit.edu>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QOM API already provides accessors for uint32 values, so reuse them.
+On Tue, Mar 1, 2022 at 8:41 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Mar 01, 2022 at 07:24:11PM +0100, Jason A. Donenfeld wrote:
+> > Hi Greg,
+> >
+> > On Tue, Mar 1, 2022 at 7:01 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > A notifier block like this makes sense, but why tie onto the PM_ stuff?
+> > > This isn't power management issues, it's a system-wide change that I am
+> > > sure others will want to know about that doesn't reflect any power
+> > > changes.
+> > >
+> > > As much as I hate adding new notifiers in the kernel, that might be all
+> > > you need here.
+> >
+> > You might indeed be right. I guess I was thinking that "resuming from
+> > suspend" and "resuming from a VM fork" are kind of the same thing.
+> > There _is_ a certain kind of similarity between the two. I was hoping
+> > if the similarity was a strong enough one, maybe it'd make sense to do
+> > them together rather than adding another notifier. But I suppose you
+> > disagree, and it sounds like Rafael might too --
+> > <https://lore.kernel.org/lkml/CAJZ5v0g+GihH_b9YvwuHzdrUVNGXOeabOznDC1vK6qLi8gtSTQ@mail.gmail.com/>.
+>
+> Hey, nice, we agree!  :)
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/riscv/sifive_u.c | 24 ++++--------------------
- 1 file changed, 4 insertions(+), 20 deletions(-)
+It is now done and posted here:
+https://lore.kernel.org/lkml/20220301231038.530897-1-Jason@zx2c4.com/
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 7fbc7dea42..747eb4ee89 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -713,36 +713,20 @@ static void sifive_u_machine_set_start_in_flash(Object *obj, bool value, Error *
-     s->start_in_flash = value;
- }
- 
--static void sifive_u_machine_get_uint32_prop(Object *obj, Visitor *v,
--                                             const char *name, void *opaque,
--                                             Error **errp)
--{
--    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
--}
--
--static void sifive_u_machine_set_uint32_prop(Object *obj, Visitor *v,
--                                             const char *name, void *opaque,
--                                             Error **errp)
--{
--    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
--}
--
- static void sifive_u_machine_instance_init(Object *obj)
- {
-     SiFiveUState *s = RISCV_U_MACHINE(obj);
- 
-     s->start_in_flash = false;
-     s->msel = 0;
--    object_property_add(obj, "msel", "uint32",
--                        sifive_u_machine_get_uint32_prop,
--                        sifive_u_machine_set_uint32_prop, NULL, &s->msel);
-+    object_property_add_uint32_ptr(obj, "msel", &s->msel,
-+                                   OBJ_PROP_FLAG_READWRITE);
-     object_property_set_description(obj, "msel",
-                                     "Mode Select (MSEL[3:0]) pin state");
- 
-     s->serial = OTP_SERIAL;
--    object_property_add(obj, "serial", "uint32",
--                        sifive_u_machine_get_uint32_prop,
--                        sifive_u_machine_set_uint32_prop, NULL, &s->serial);
-+    object_property_add_uint32_ptr(obj, "serial", &s->serial,
-+                                   OBJ_PROP_FLAG_READWRITE);
-     object_property_set_description(obj, "serial", "Board serial number");
- }
- 
--- 
-2.35.1
-
+Jason
 
