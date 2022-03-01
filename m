@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72FEA4C872F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 09:56:24 +0100 (CET)
-Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B434C872D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 09:56:13 +0100 (CET)
+Received: from localhost ([::1]:56500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOyIx-0001jd-IJ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 03:56:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54328)
+	id 1nOyIm-0001Vf-L0
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 03:56:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy34-0003yF-Fc
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:39:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33875)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy37-00045i-Hl
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy32-0007wE-Ok
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:39:58 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy35-0007ww-Tv
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646123996;
+ s=mimecast20190719; t=1646123999;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PhXk+S58P3eb4DnKsbjdNHFaBnOZp2LgpOZHkR2wIBo=;
- b=FhBqOMPrNNHzj19hJPvezOK1vEfSVCyfmLBvgPNEObivPUup2pLyUButci4BZQ6KgbB7dI
- 7cIbyNJ0VbSOBlA5DpNSfwLT8wUGXXSm7q0q9mlp752ladSACsKCsZTObz9+lJpS+g6Bx+
- mtMu+4/cHO1m7Cc9s0IXV8qQIFMhM6M=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xEwh2yYCSs1yyakfukGjUpFviOTSZCevdwq6ZVOn9N8=;
+ b=XI7v3sG9dmONhHqmkzQ3CW/vmawtgD90nlxg4NKON5TocOHbd0G5TfAlDgfayaYv4b1b1Y
+ 6MdSbvbaCbW9tikGvPKUbyg8CyOTHztIh2W1h5Y726AP4uXD7YX3jvqt+dUeNml8i+i/RI
+ 7jjvxEJyKXEDshXpJ5tUDzbydopeJnE=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-384-NeL7EI1hMNiA6l6GwRmFZw-1; Tue, 01 Mar 2022 03:39:55 -0500
-X-MC-Unique: NeL7EI1hMNiA6l6GwRmFZw-1
-Received: by mail-pf1-f197.google.com with SMTP id
- d132-20020a621d8a000000b004f41f34db96so1930322pfd.2
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:39:55 -0800 (PST)
+ us-mta-643-kpQYKNC0MIqnop3hHCszqA-1; Tue, 01 Mar 2022 03:39:58 -0500
+X-MC-Unique: kpQYKNC0MIqnop3hHCszqA-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ m3-20020a17090a3f8300b001bd33af55f2so1211265pjc.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:39:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PhXk+S58P3eb4DnKsbjdNHFaBnOZp2LgpOZHkR2wIBo=;
- b=PAhXrSL6ALGY0OiQwOwR2u4WzKL8K4fusRVN2geakwa/AQT5iB3DLtoNtvcLUZ+f/p
- EqJwJlAjpgBFXK1loQY+xmQtA3MjjHfHn5VF0hyxPzD9YvxCMip29771YkGGNlz5QhwD
- ChMnnOqfpGZUvOHzgGyyPYrwW1VsxSsdllrbT9sIDIQx/awSnhhstBCduvQAWIWa4CP4
- +PzodyUlX+qQu0lSaHkNxEEok/25nV8oSPrR1+GGmoPm4JSCerizLk8RqMMGII1Gtbtr
- maLSiR5nWlQmMCX0RIL9HikLTMhn7+KyIyOGoOzdfN882asNe5nWsrMzLsPCVTmh1q2W
- n7Og==
-X-Gm-Message-State: AOAM53099vdVxMp1oLgNb9eqJjFQSZAwBg2i3S95+Cc9UKPxawBk8LCi
- qzIYtclXcRMef7exqShcAoyX8TJkbax4nkj5kBM/vroQg3HjmiqU+b6CoZidptOhGZfIaWGI69w
- DD0D0k19jTWzqFdL+gMqQAcC4o2CuO8KSTzFsmKtl0/NkMkJrwqYh5WLIrPbhA6Kk
-X-Received: by 2002:a05:6a02:193:b0:375:65a5:2fcd with SMTP id
- bj19-20020a056a02019300b0037565a52fcdmr20706691pgb.288.1646123994068; 
- Tue, 01 Mar 2022 00:39:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzxh7+8QOo8K0IW9pJbtjcnZJHfhEmUCQcY1DEwwQPvMX7J5tHVt0vFLGqCaBOHsfgTM0eGxg==
-X-Received: by 2002:a05:6a02:193:b0:375:65a5:2fcd with SMTP id
- bj19-20020a056a02019300b0037565a52fcdmr20706663pgb.288.1646123993652; 
- Tue, 01 Mar 2022 00:39:53 -0800 (PST)
+ bh=xEwh2yYCSs1yyakfukGjUpFviOTSZCevdwq6ZVOn9N8=;
+ b=nMdl2hflZiofUVZNiTxDvSp2pW4blF0YFllaeb1lw1+aL0NQ2eRwU65zE1Jgur84KA
+ 3xUncNjCQaVs9Yi50g/BTQdu1zHgtSx35V8mLlJS479YGehVwABYpocj/YgfYjASoIfI
+ jmIAORvQS5bvxoy8/ufcIIsTtrrNopo2vZe//k4E6OiLAjUfLE7n8saWXIKrDxX+/7AZ
+ u/mHln/QEDujoe0jqydYaGodh+dDkP6h/epuyYviFErhs4qx9mNkq5VuM8vRIU1praJV
+ TDuYsGF/t9QB9K7QP6ub2H3mxK2xy+hVhAHwXuFdMXEZOaeDUDobrXhCqmmrF9xDHanL
+ FgOg==
+X-Gm-Message-State: AOAM531SCklrmhWUHat/dSUvtQbKOhvtVTxkFFbtrONyRPhd9Ys2HmAO
+ mlWtNLeowm3xT9Pddz3Lai1IEGEVatTvQO3g9FgU6zWI8mF1gxqI5s5ih1rZ6IVeoVHFjl+aoyY
+ eBY4f59AA3pxWEq31nUJKrXUV6W/5JglcLAOv9F2i0Qsj8O/D2N5mH4NtOInc18zw
+X-Received: by 2002:a63:4a4c:0:b0:375:6898:f6b6 with SMTP id
+ j12-20020a634a4c000000b003756898f6b6mr20667064pgl.83.1646123996990; 
+ Tue, 01 Mar 2022 00:39:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw0LsGwMw8m9Ye9HNg7Y3Bg/woKeQ5x+KXV2boYQSCebqy7FPqNkOfU1zZvIcPig/PJ+mSHGw==
+X-Received: by 2002:a63:4a4c:0:b0:375:6898:f6b6 with SMTP id
+ j12-20020a634a4c000000b003756898f6b6mr20667040pgl.83.1646123996595; 
+ Tue, 01 Mar 2022 00:39:56 -0800 (PST)
 Received: from localhost.localdomain ([94.177.118.144])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.39.51
+ l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.39.54
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 01 Mar 2022 00:39:53 -0800 (PST)
+ Tue, 01 Mar 2022 00:39:56 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/25] migration: Move static var in
- ram_block_from_stream() into global
-Date: Tue,  1 Mar 2022 16:39:07 +0800
-Message-Id: <20220301083925.33483-8-peterx@redhat.com>
+Subject: [PATCH v2 08/25] migration: Add pss.postcopy_requested status
+Date: Tue,  1 Mar 2022 16:39:08 +0800
+Message-Id: <20220301083925.33483-9-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220301083925.33483-1-peterx@redhat.com>
 References: <20220301083925.33483-1-peterx@redhat.com>
@@ -77,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -105,89 +104,47 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Static variable is very unfriendly to threading of ram_block_from_stream().
-Move it into MigrationIncomingState.
-
-Make the incoming state pointer to be passed over to ram_block_from_stream() on
-both caller sites.
+This boolean flag shows whether the current page during migration is triggered
+by postcopy or not.  Then in ram_save_host_page() and deeper stack we'll be
+able to have a reference on the priority of this page.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.h |  3 ++-
- migration/ram.c       | 13 +++++++++----
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ migration/ram.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/migration/migration.h b/migration/migration.h
-index 8445e1d14a..d8b9850eae 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -66,7 +66,8 @@ typedef struct {
- /* State for the incoming migration */
- struct MigrationIncomingState {
-     QEMUFile *from_src_file;
--
-+    /* Previously received RAM's RAMBlock pointer */
-+    RAMBlock *last_recv_block;
-     /* A hook to allow cleanup at the end of incoming migration */
-     void *transport_data;
-     void (*transport_cleanup)(void *data);
 diff --git a/migration/ram.c b/migration/ram.c
-index 3a216c2340..9516dd655a 100644
+index 9516dd655a..f1de1a06e4 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -3185,12 +3185,14 @@ static int load_xbzrle(QEMUFile *f, ram_addr_t addr, void *host)
-  *
-  * Returns a pointer from within the RCU-protected ram_list.
-  *
-+ * @mis: the migration incoming state pointer
-  * @f: QEMUFile where to read the data from
-  * @flags: Page flags (mostly to see if it's a continuation of previous block)
-  */
--static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
-+static inline RAMBlock *ram_block_from_stream(MigrationIncomingState *mis,
-+                                              QEMUFile *f, int flags)
- {
--    static RAMBlock *block;
-+    RAMBlock *block = mis->last_recv_block;
-     char id[256];
-     uint8_t len;
+@@ -414,6 +414,8 @@ struct PageSearchStatus {
+     unsigned long page;
+     /* Set once we wrap around */
+     bool         complete_round;
++    /* Whether current page is explicitly requested by postcopy */
++    bool         postcopy_requested;
+ };
+ typedef struct PageSearchStatus PageSearchStatus;
  
-@@ -3217,6 +3219,8 @@ static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
-         return NULL;
+@@ -1487,6 +1489,9 @@ retry:
+  */
+ static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
+ {
++    /* This is not a postcopy requested page */
++    pss->postcopy_requested = false;
++
+     pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
+     if (pss->complete_round && pss->block == rs->last_seen_block &&
+         pss->page >= rs->last_page) {
+@@ -1981,6 +1986,7 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
+          * really rare.
+          */
+         pss->complete_round = false;
++        pss->postcopy_requested = true;
      }
  
-+    mis->last_recv_block = block;
-+
-     return block;
- }
- 
-@@ -3669,7 +3673,7 @@ static int ram_load_postcopy(QEMUFile *f)
-         trace_ram_load_postcopy_loop((uint64_t)addr, flags);
-         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
-                      RAM_SAVE_FLAG_COMPRESS_PAGE)) {
--            block = ram_block_from_stream(f, flags);
-+            block = ram_block_from_stream(mis, f, flags);
-             if (!block) {
-                 ret = -EINVAL;
-                 break;
-@@ -3881,6 +3885,7 @@ void colo_flush_ram_cache(void)
-  */
- static int ram_load_precopy(QEMUFile *f)
- {
-+    MigrationIncomingState *mis = migration_incoming_get_current();
-     int flags = 0, ret = 0, invalid_flags = 0, len = 0, i = 0;
-     /* ADVISE is earlier, it shows the source has the postcopy capability on */
-     bool postcopy_advised = postcopy_is_advised();
-@@ -3919,7 +3924,7 @@ static int ram_load_precopy(QEMUFile *f)
- 
-         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
-                      RAM_SAVE_FLAG_COMPRESS_PAGE | RAM_SAVE_FLAG_XBZRLE)) {
--            RAMBlock *block = ram_block_from_stream(f, flags);
-+            RAMBlock *block = ram_block_from_stream(mis, f, flags);
- 
-             host = host_from_ram_block_offset(block, addr);
-             /*
+     return !!block;
 -- 
 2.32.0
 
