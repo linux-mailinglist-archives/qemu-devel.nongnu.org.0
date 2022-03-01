@@ -2,93 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA834C8D87
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 15:18:18 +0100 (CET)
-Received: from localhost ([::1]:36386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5C94C8D79
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 15:15:05 +0100 (CET)
+Received: from localhost ([::1]:56748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP3KT-0004F5-8B
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 09:18:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35002)
+	id 1nP3HM-00079K-At
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 09:15:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nP34t-0005xN-KR; Tue, 01 Mar 2022 09:02:11 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11230
- helo=mx0a-001b2d01.pphosted.com)
+ id 1nP2zw-0006KA-Sc; Tue, 01 Mar 2022 08:57:04 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nP34r-0003NL-6Q; Tue, 01 Mar 2022 09:02:11 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 221DDTMb013599; 
- Tue, 1 Mar 2022 13:56:55 GMT
+ id 1nP2zu-00025x-BN; Tue, 01 Mar 2022 08:57:04 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 221DlX9l002459; 
+ Tue, 1 Mar 2022 13:56:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=PdUNWxrJWezfPBQxww7zx5EdB5hqXx8jt1rI1u68aCY=;
- b=DwPvRX86y3CQtHHnov4fDhcWDnVjgxLxOWBM3McNm/86ci9OeL2B0WMG8xIMKI4ed6/s
- YKWFdwhbli2aMNffVFVyNkuSdxQk36nFpvdAPpJLy5gvcokNNrKY3aIpprF7IzKzNmie
- g3cEVqOX60kUx0HoZhJ3InfDcG6/rBi09/U6sCAEmCqo3SpErneyq0QwixerKOjwlCn0
- SrSv5HlzSSrUp/wV/gyZC/VzT62Kf7DTbFZyFcpg4FscFLo6udKu9+DcMockR+jrsgSy
- Nnlm20m2a8izYgzLHQzUo0+y8fi8yD2JZL1vhi2CXSBihJstQyo9A96+PUNKxe+xiDvp HQ== 
+ bh=neJTrP27U39KKV3x/kRwWVk2u76aQVFbMe2ZcFg9wyk=;
+ b=HWZRa39woKai8zI52b325PqffIh1XotnaaQR7GoZvAbhOs30kXGBKhJZfQn9+RWOTUXm
+ oyzDw0pObu+szjr+e0hYvEIR8RLkVH/Sz1cR6s/gKxcWqXVmreKWRR9nFPPhSnlBOcBY
+ uXVrMJ8WHtyutAa1wTQB9m6BmSuqTrs9Nd8E6futh+6iYZNjRXeC9Ua5CLQeCv3M6cwU
+ DxTEMLRfKFrFVPInVoIIU5B0oRMm+UyBM+Ix+rKHCSdbxfXKnd2ahNNH4Qzw6Bd/a5GL
+ Z5Tyk+wAS511F0oM/SxVmK5VawDcardHXeKHtQH8MlHhAZhUxMC5MtBaZiGulSzUvUXF ug== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ehm6e0xx9-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ehgc6phkq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Mar 2022 13:56:54 +0000
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 221DFOSK017582;
+ Tue, 01 Mar 2022 13:56:56 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 221DJmb7025741;
+ Tue, 1 Mar 2022 13:56:56 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ehgc6phk6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Mar 2022 13:56:56 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 221Du5XE010415;
  Tue, 1 Mar 2022 13:56:54 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ehm6e0xww-1
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma05wdc.us.ibm.com with ESMTP id 3efbua50rh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 01 Mar 2022 13:56:54 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 221DtTr8024028;
- Tue, 1 Mar 2022 13:56:53 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01dal.us.ibm.com with ESMTP id 3efbuac6ns-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Mar 2022 13:56:53 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 221DupCv25821538
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 221DurxT17040002
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Mar 2022 13:56:51 GMT
+ Tue, 1 Mar 2022 13:56:53 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CA313BE04F;
- Tue,  1 Mar 2022 13:56:51 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id BD431BE053;
+ Tue,  1 Mar 2022 13:56:53 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3D65FBE056;
- Tue,  1 Mar 2022 13:56:50 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 304DDBE056;
+ Tue,  1 Mar 2022 13:56:52 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.51.129])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  1 Mar 2022 13:56:49 +0000 (GMT)
+ Tue,  1 Mar 2022 13:56:51 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/17] target/ppc: Move powerpc_excp_6xx into cpu_6xx.c
-Date: Tue,  1 Mar 2022 10:56:15 -0300
-Message-Id: <20220301135620.2411952-13-farosas@linux.ibm.com>
+Subject: [PATCH 13/17] target/ppc: Move powerpc_excp_7xx into cpu_7xx.c
+Date: Tue,  1 Mar 2022 10:56:16 -0300
+Message-Id: <20220301135620.2411952-14-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220301135620.2411952-1-farosas@linux.ibm.com>
 References: <20220301135620.2411952-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: G9HWk6-YEnS4Tcbn0TVEkP6yY-IOKgP3
-X-Proofpoint-ORIG-GUID: 6Jxh3lTHCj2LlCs2xemdSuNJ9S7jqnWj
+X-Proofpoint-GUID: Txk4oWsPROBP6t-IfVToxB_CO8RiaRdm
+X-Proofpoint-ORIG-GUID: HKfBFqVWbpcIhhN9eB3oh2E8FWen5HUJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-01_07,2022-02-26_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- mlxscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 adultscore=0
- mlxlogscore=637 impostorscore=0 phishscore=0 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 mlxlogscore=906
+ spamscore=0 malwarescore=0 impostorscore=0 adultscore=0 suspectscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2203010074
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -116,37 +115,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 ---
- target/ppc/cpu.h         |   2 +
- target/ppc/cpu_6xx.c     | 188 ++++++++++++++++++++++++++++++++++++++-
- target/ppc/excp_helper.c | 177 +-----------------------------------
- 3 files changed, 190 insertions(+), 177 deletions(-)
+ target/ppc/cpu.h         |   1 +
+ target/ppc/cpu_7xx.c     | 193 ++++++++++++++++++++++++++++++++++++++-
+ target/ppc/excp_helper.c | 181 ------------------------------------
+ 3 files changed, 193 insertions(+), 182 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index ba3740ea92..1a5150f712 100644
+index 1a5150f712..10920464ad 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -179,7 +179,9 @@ const char *powerpc_excp_name(int excp);
- void powerpc_set_excp_state(PowerPCCPU *cpu,
-                             target_ulong vector, target_ulong msr);
- void powerpc_reset_excp_state(PowerPCCPU *cpu);
-+void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp);
+@@ -182,6 +182,7 @@ void powerpc_reset_excp_state(PowerPCCPU *cpu);
+ void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp);
  void powerpc_excp_40x(PowerPCCPU *cpu, int excp);
-+void powerpc_excp_6xx(PowerPCCPU *cpu, int excp);
+ void powerpc_excp_6xx(PowerPCCPU *cpu, int excp);
++void powerpc_excp_7xx(PowerPCCPU *cpu, int excp);
  
  #define PPC_INPUT(env) ((env)->bus_model)
  
-diff --git a/target/ppc/cpu_6xx.c b/target/ppc/cpu_6xx.c
-index a909f79e87..b6a4909dbf 100644
---- a/target/ppc/cpu_6xx.c
-+++ b/target/ppc/cpu_6xx.c
+diff --git a/target/ppc/cpu_7xx.c b/target/ppc/cpu_7xx.c
+index 423f4cb97a..6f99521aba 100644
+--- a/target/ppc/cpu_7xx.c
++++ b/target/ppc/cpu_7xx.c
 @@ -1,5 +1,5 @@
  /*
-- * CPU initialization for PowerPC 6xx CPUs
-+ * CPU initialization and exception dispatching for PowerPC 6xx CPUs
+- * CPU initialization for PowerPC 7xx CPUs
++ * CPU initialization and exception dispatching for PowerPC 7xx CPUs
   *
   *  Copyright IBM Corp. 2022
   *
-@@ -8,10 +8,14 @@
+@@ -8,10 +8,201 @@
   */
  
  #include "qemu/osdep.h"
@@ -158,15 +155,8 @@ index a909f79e87..b6a4909dbf 100644
 +#include "trace.h"
 +#include "helper_regs.h"
 +
- 
- static int check_pow_hid0(CPUPPCState *env)
- {
-@@ -22,6 +26,188 @@ static int check_pow_hid0(CPUPPCState *env)
-     return 0;
- }
- 
 +#if !defined(CONFIG_USER_ONLY)
-+void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
++void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
 +{
 +    CPUState *cs = CPU(cpu);
 +    CPUPPCState *env = &cpu->env;
@@ -198,8 +188,6 @@ index a909f79e87..b6a4909dbf 100644
 +    vector |= env->excp_prefix;
 +
 +    switch (excp) {
-+    case POWERPC_EXCP_CRITICAL:    /* Critical input                         */
-+        break;
 +    case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
 +        if (msr_me == 0) {
 +            /*
@@ -272,19 +260,34 @@ index a909f79e87..b6a4909dbf 100644
 +        }
 +        break;
 +    case POWERPC_EXCP_SYSCALL:   /* System call exception                    */
-+        trace_ppc_syscall(env, 0);
++    {
++        int lev = env->error_code;
++
++        trace_ppc_syscall(env, lev);
 +
 +        /*
 +         * We need to correct the NIP which in this case is supposed
 +         * to point to the next instruction
 +         */
 +        env->nip += 4;
++
++        /*
++         * The Virtual Open Firmware (VOF) relies on the 'sc 1'
++         * instruction to communicate with QEMU. The pegasos2 machine
++         * uses VOF and the 7xx CPUs, so although the 7xx don't have
++         * HV mode, we need to keep hypercall support.
++         */
++        if (lev == 1 && cpu->vhyp) {
++            PPCVirtualHypervisorClass *vhc =
++                PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
++            vhc->hypercall(cpu->vhyp, cpu);
++            return;
++        }
++
 +        break;
++    }
 +    case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception     */
 +    case POWERPC_EXCP_DECR:      /* Decrementer exception                    */
-+        break;
-+    case POWERPC_EXCP_DTLB:      /* Data TLB error                           */
-+    case POWERPC_EXCP_ITLB:      /* Instruction TLB error                    */
 +        break;
 +    case POWERPC_EXCP_RESET:     /* System reset exception                   */
 +        if (msr_pow) {
@@ -297,25 +300,18 @@ index a909f79e87..b6a4909dbf 100644
 +    case POWERPC_EXCP_IFTLB:     /* Instruction fetch TLB error              */
 +    case POWERPC_EXCP_DLTLB:     /* Data load TLB miss                       */
 +    case POWERPC_EXCP_DSTLB:     /* Data store TLB miss                      */
-+        /* Swap temporary saved registers with GPRs */
-+        if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
-+            new_msr |= (target_ulong)1 << MSR_TGPR;
-+            hreg_swap_gpr_tgpr(env);
-+        }
-+
 +        ppc_excp_debug_sw_tlb(env, excp);
 +
 +        msr |= env->crf[0] << 28;
 +        msr |= env->error_code; /* key, D/I, S/L bits */
 +        /* Set way using a LRU mechanism */
 +        msr |= ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
++
 +        break;
-+    case POWERPC_EXCP_FPA:       /* Floating-point assist exception          */
-+    case POWERPC_EXCP_DABR:      /* Data address breakpoint                  */
 +    case POWERPC_EXCP_IABR:      /* Instruction address breakpoint           */
 +    case POWERPC_EXCP_SMI:       /* System management interrupt              */
-+    case POWERPC_EXCP_MEXTBR:    /* Maskable external breakpoint             */
-+    case POWERPC_EXCP_NMEXTBR:   /* Non maskable external breakpoint         */
++    case POWERPC_EXCP_THERM:     /* Thermal interrupt                        */
++    case POWERPC_EXCP_PERFM:     /* Embedded performance monitor interrupt   */
 +        cpu_abort(cs, "%s exception not implemented\n",
 +                  powerpc_excp_name(excp));
 +        break;
@@ -341,33 +337,23 @@ index a909f79e87..b6a4909dbf 100644
 +    powerpc_set_excp_state(cpu, vector, new_msr);
 +}
 +#else
-+void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
++void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
 +{
 +    g_assert_not_reached();
 +}
 +#endif
-+
- static void register_5xx_8xx_sprs(CPUPPCState *env)
+ 
+ static int check_pow_hid0(CPUPPCState *env)
  {
-     /* Exception processing */
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 3ae3f4cc45..2cbd7be499 100644
+index 2cbd7be499..1306dcedcf 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -106,7 +106,7 @@ const char *powerpc_excp_name(int excp)
-     }
- }
- 
--static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
-+void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
- {
-     const char *es;
-     target_ulong *miss, *cmp;
-@@ -376,181 +376,6 @@ void powerpc_set_excp_state(PowerPCCPU *cpu, target_ulong vector,
+@@ -376,187 +376,6 @@ void powerpc_set_excp_state(PowerPCCPU *cpu, target_ulong vector,
      env->reserve_addr = -1;
  }
  
--static void powerpc_excp_6xx(PowerPCCPU *cpu, int excp)
+-static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
 -{
 -    CPUState *cs = CPU(cpu);
 -    CPUPPCState *env = &cpu->env;
@@ -399,8 +385,6 @@ index 3ae3f4cc45..2cbd7be499 100644
 -    vector |= env->excp_prefix;
 -
 -    switch (excp) {
--    case POWERPC_EXCP_CRITICAL:    /* Critical input                         */
--        break;
 -    case POWERPC_EXCP_MCHECK:    /* Machine check exception                  */
 -        if (msr_me == 0) {
 -            /*
@@ -473,19 +457,34 @@ index 3ae3f4cc45..2cbd7be499 100644
 -        }
 -        break;
 -    case POWERPC_EXCP_SYSCALL:   /* System call exception                    */
--        trace_ppc_syscall(env, 0);
+-    {
+-        int lev = env->error_code;
+-
+-        trace_ppc_syscall(env, lev);
 -
 -        /*
 -         * We need to correct the NIP which in this case is supposed
 -         * to point to the next instruction
 -         */
 -        env->nip += 4;
+-
+-        /*
+-         * The Virtual Open Firmware (VOF) relies on the 'sc 1'
+-         * instruction to communicate with QEMU. The pegasos2 machine
+-         * uses VOF and the 7xx CPUs, so although the 7xx don't have
+-         * HV mode, we need to keep hypercall support.
+-         */
+-        if (lev == 1 && cpu->vhyp) {
+-            PPCVirtualHypervisorClass *vhc =
+-                PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+-            vhc->hypercall(cpu->vhyp, cpu);
+-            return;
+-        }
+-
 -        break;
+-    }
 -    case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception     */
 -    case POWERPC_EXCP_DECR:      /* Decrementer exception                    */
--        break;
--    case POWERPC_EXCP_DTLB:      /* Data TLB error                           */
--    case POWERPC_EXCP_ITLB:      /* Instruction TLB error                    */
 -        break;
 -    case POWERPC_EXCP_RESET:     /* System reset exception                   */
 -        if (msr_pow) {
@@ -498,25 +497,18 @@ index 3ae3f4cc45..2cbd7be499 100644
 -    case POWERPC_EXCP_IFTLB:     /* Instruction fetch TLB error              */
 -    case POWERPC_EXCP_DLTLB:     /* Data load TLB miss                       */
 -    case POWERPC_EXCP_DSTLB:     /* Data store TLB miss                      */
--        /* Swap temporary saved registers with GPRs */
--        if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
--            new_msr |= (target_ulong)1 << MSR_TGPR;
--            hreg_swap_gpr_tgpr(env);
--        }
--
 -        ppc_excp_debug_sw_tlb(env, excp);
 -
 -        msr |= env->crf[0] << 28;
 -        msr |= env->error_code; /* key, D/I, S/L bits */
 -        /* Set way using a LRU mechanism */
 -        msr |= ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
+-
 -        break;
--    case POWERPC_EXCP_FPA:       /* Floating-point assist exception          */
--    case POWERPC_EXCP_DABR:      /* Data address breakpoint                  */
 -    case POWERPC_EXCP_IABR:      /* Instruction address breakpoint           */
 -    case POWERPC_EXCP_SMI:       /* System management interrupt              */
--    case POWERPC_EXCP_MEXTBR:    /* Maskable external breakpoint             */
--    case POWERPC_EXCP_NMEXTBR:   /* Non maskable external breakpoint         */
+-    case POWERPC_EXCP_THERM:     /* Thermal interrupt                        */
+-    case POWERPC_EXCP_PERFM:     /* Embedded performance monitor interrupt   */
 -        cpu_abort(cs, "%s exception not implemented\n",
 -                  powerpc_excp_name(excp));
 -        break;
@@ -542,7 +534,7 @@ index 3ae3f4cc45..2cbd7be499 100644
 -    powerpc_set_excp_state(cpu, vector, new_msr);
 -}
 -
- static void powerpc_excp_7xx(PowerPCCPU *cpu, int excp)
+ static void powerpc_excp_74xx(PowerPCCPU *cpu, int excp)
  {
      CPUState *cs = CPU(cpu);
 -- 
