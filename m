@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F054C876D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:09:37 +0100 (CET)
-Received: from localhost ([::1]:45458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BCB4C8749
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:03:19 +0100 (CET)
+Received: from localhost ([::1]:37122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOyVi-0005Ju-Ro
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:09:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54566)
+	id 1nOyPe-0007g7-4l
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:03:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3G-0004Ae-6I
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58924)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3L-0004F6-RG
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3D-0008AG-Vj
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:09 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3J-0008Ca-GV
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646124007;
+ s=mimecast20190719; t=1646124012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pXE1AeYTmM/PzAdQpdkXZXkqq6LdQ92xhjUt8UsD2ME=;
- b=WCtfTuiFWm0ir+oa+Ahl9PnDAFW1Zb+NMmctwQhysP3rpDc/7bgVBzJUR4CiCiLNlCOS1H
- FDFncYByInRsWgjozn9snJI3InDqsukJ9D2YrEEEFx7HUlgjs6JMlW3JXznKcl4puItcPP
- FePsYYvg5/t8xD76h92UAKtC0MNP+Gg=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ioPo/zq9TaQigYCLhmNX8dwsBWn+7+sCdTwob7NMCP8=;
+ b=W68wJ0Qpuo/8gROwekATurEcwYRe4WOkwyCEtLk0RF9s+eBp8WQmTWn16xJMIoOTPrJsrt
+ zkoBahw039jpwt5Yz4RaoItzB0vj0hHPe75uWvWu4554/+cTa4xcUa6qT4tQV4qRNzkomY
+ 331KxjgUrdPletpTvZ26k96bkIliHwo=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-R8dhXbwnPwGi-q_PXqkDKg-1; Tue, 01 Mar 2022 03:40:06 -0500
-X-MC-Unique: R8dhXbwnPwGi-q_PXqkDKg-1
-Received: by mail-pf1-f199.google.com with SMTP id
- y28-20020aa793dc000000b004e160274e3eso9354935pff.18
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:40:06 -0800 (PST)
+ us-mta-669-O-MkCPZqP82XlNnBU6e33w-1; Tue, 01 Mar 2022 03:40:12 -0500
+X-MC-Unique: O-MkCPZqP82XlNnBU6e33w-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ j22-20020a17090aeb1600b001bc32977e07so1055439pjz.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:40:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pXE1AeYTmM/PzAdQpdkXZXkqq6LdQ92xhjUt8UsD2ME=;
- b=yI0kml3YMWFb0iuOyk02yXmiGw/Uerlleuc4IHaH/yLbjyyxniIgpgMEWjPrekAJdr
- H9NIPmUzxmyIs8jnsqE5qgIsXQAjBFY2SfHQx485pHt8VMIkjoqmq0gMNdCXPh3OErk6
- RLVqtjC4wxXBHGSumraP1fwLdZ8Ce3mk00ua8pYZ9/zU5TC3XHyRKY6SlAdAyZdSIr4e
- cRUOztp0B/YalccLTbA7Oztl2fCT33Qhzhu0J1U89i2E0bloazIJipNCFiAwBAUE7Pwu
- KLEWUio8mXNjD8PxiAB2ydutjTb+oEpU3jSHiWDxKALWRrvxSyBpEunQ4mSkdTDlq+7F
- ADQw==
-X-Gm-Message-State: AOAM531PMcl2a91J9WoXZOB/2davws8EUzLVyC9qJiMllhMFYz56ObPU
- 2/VPGrzmkCeiUrbcxYNQxn0sPr3Ue81E3x8T0N77xi2c6Ga8ZeVE+Fc9wI/ynseZgVKBHkZEWhX
- JwgWI2wD7/KHKM/KdaPybrdoeUwEWdfNl7owGY8aMWlK4XkOZjDvqZiEz+DC7Qq64
-X-Received: by 2002:a17:90b:3145:b0:1bc:5855:f94d with SMTP id
- ip5-20020a17090b314500b001bc5855f94dmr20785248pjb.55.1646124005359; 
- Tue, 01 Mar 2022 00:40:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwXKBaLRpHuO7IDwdNyjtOJiibux/w8EtgqGs5ICi3m7nAgLrgdvlVs0F2pQvm7FqJXkx1Qng==
-X-Received: by 2002:a17:90b:3145:b0:1bc:5855:f94d with SMTP id
- ip5-20020a17090b314500b001bc5855f94dmr20785219pjb.55.1646124004994; 
- Tue, 01 Mar 2022 00:40:04 -0800 (PST)
+ bh=ioPo/zq9TaQigYCLhmNX8dwsBWn+7+sCdTwob7NMCP8=;
+ b=h8lJs4GZxZGyUds6xPXK8SjRmguFxj338ADcqNxtLABmHGI7AneJFqlQ39R2nZqCUn
+ aG7JJBzLEoLI55bycqTKiw6NDOpT2kIronC0apHyJUnc3ws1Ax47zQ9gEyznv4s5/LO4
+ SKPr6En9ComdpzwqfUnT4BzFv5tmh2S1K8PvgtKdtWaYO6EyKhgShw+JwZoXtu1MuLtP
+ znnXSf06Hw4BTelSSneKIBgs7QdEuXfUBVOdd3j9j9YS+XOx/uJrlcc6b1fglExi7rwa
+ KYyQ/85SMlaxKmUccqBPVaWHsAqoAt8Gz7vjoY1xC3jebgKgLWQFavJSAovDCDpPn8mr
+ qnXA==
+X-Gm-Message-State: AOAM532q9Po+kovQ0a3JdXawA3TKaxUQZxe2WK83J8LhhMQYzZeYjJRe
+ wGdVZ/l+Nrpzzu5cyyIkTjOG8NcL0I1KOW74a+ztHz2Eni/GJqbj+tqR2kASAW9O3v9FqJnc6rW
+ SZ/c0GdSeHu3VDHY20oeyQManCOEaCHBaqs9bLMLiGA3Q3elYoXwoAWRvlhiML6Hz
+X-Received: by 2002:a63:1f42:0:b0:378:7fb4:6491 with SMTP id
+ q2-20020a631f42000000b003787fb46491mr10427700pgm.478.1646124010791; 
+ Tue, 01 Mar 2022 00:40:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJweRKUqjGDhbe/G2rxVkYPgXhmbGz7fWkMIEfMZa9DCDEBHwlWrbYgiHg7clUi4JBr0BDxzgQ==
+X-Received: by 2002:a63:1f42:0:b0:378:7fb4:6491 with SMTP id
+ q2-20020a631f42000000b003787fb46491mr10427678pgm.478.1646124010425; 
+ Tue, 01 Mar 2022 00:40:10 -0800 (PST)
 Received: from localhost.localdomain ([94.177.118.144])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.40.02
+ l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.40.07
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 01 Mar 2022 00:40:04 -0800 (PST)
+ Tue, 01 Mar 2022 00:40:10 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/25] migration: postcopy_pause_fault_thread() never fails
-Date: Tue,  1 Mar 2022 16:39:11 +0800
-Message-Id: <20220301083925.33483-12-peterx@redhat.com>
+Subject: [PATCH v2 13/25] migration: Move channel setup out of
+ postcopy_try_recover()
+Date: Tue,  1 Mar 2022 16:39:13 +0800
+Message-Id: <20220301083925.33483-14-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220301083925.33483-1-peterx@redhat.com>
 References: <20220301083925.33483-1-peterx@redhat.com>
@@ -76,7 +77,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,69 +105,92 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the title, remove the return code and simplify the callers as the errors
-will never be triggered.  No functional change intended.
+We used to use postcopy_try_recover() to replace migration_incoming_setup() to
+setup incoming channels.  That's fine for the old world, but in the new world
+there can be more than one channels that need setup.  Better move the channel
+setup out of it so that postcopy_try_recover() only handles the last phase of
+switching to the recovery phase.
+
+To do that in migration_fd_process_incoming(), move the postcopy_try_recover()
+call to be after migration_incoming_setup(), which will setup the channels.
+While in migration_ioc_process_incoming(), postpone the recover() routine right
+before we'll jump into migration_incoming_process().
+
+A side benefit is we don't need to pass in QEMUFile* to postcopy_try_recover()
+anymore.  Remove it.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/postcopy-ram.c | 25 ++++---------------------
- 1 file changed, 4 insertions(+), 21 deletions(-)
+ migration/migration.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index b0d12d5053..32c52f4b1d 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -891,15 +891,11 @@ static void mark_postcopy_blocktime_end(uintptr_t addr)
-                                       affected_cpu);
+diff --git a/migration/migration.c b/migration/migration.c
+index 67520d3105..b2e6446457 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -665,19 +665,20 @@ void migration_incoming_process(void)
  }
  
--static bool postcopy_pause_fault_thread(MigrationIncomingState *mis)
-+static void postcopy_pause_fault_thread(MigrationIncomingState *mis)
+ /* Returns true if recovered from a paused migration, otherwise false */
+-static bool postcopy_try_recover(QEMUFile *f)
++static bool postcopy_try_recover(void)
  {
-     trace_postcopy_pause_fault_thread();
+     MigrationIncomingState *mis = migration_incoming_get_current();
+ 
+     if (mis->state == MIGRATION_STATUS_POSTCOPY_PAUSED) {
+         /* Resumed from a paused postcopy migration */
+ 
+-        mis->from_src_file = f;
++        /* This should be set already in migration_incoming_setup() */
++        assert(mis->from_src_file);
+         /* Postcopy has standalone thread to do vm load */
+-        qemu_file_set_blocking(f, true);
++        qemu_file_set_blocking(mis->from_src_file, true);
+ 
+         /* Re-configure the return path */
+-        mis->to_src_file = qemu_file_get_return_path(f);
++        mis->to_src_file = qemu_file_get_return_path(mis->from_src_file);
+ 
+         migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_PAUSED,
+                           MIGRATION_STATUS_POSTCOPY_RECOVER);
+@@ -698,11 +699,10 @@ static bool postcopy_try_recover(QEMUFile *f)
+ 
+ void migration_fd_process_incoming(QEMUFile *f, Error **errp)
+ {
+-    if (postcopy_try_recover(f)) {
++    if (!migration_incoming_setup(f, errp)) {
+         return;
+     }
 -
-     qemu_sem_wait(&mis->postcopy_pause_sem_fault);
+-    if (!migration_incoming_setup(f, errp)) {
++    if (postcopy_try_recover()) {
+         return;
+     }
+     migration_incoming_process();
+@@ -718,11 +718,6 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+         /* The first connection (multifd may have multiple) */
+         QEMUFile *f = qemu_fopen_channel_input(ioc);
+ 
+-        /* If it's a recovery, we're done */
+-        if (postcopy_try_recover(f)) {
+-            return;
+-        }
 -
-     trace_postcopy_pause_fault_thread_continued();
--
--    return true;
+         if (!migration_incoming_setup(f, errp)) {
+             return;
+         }
+@@ -743,6 +738,10 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+     }
+ 
+     if (start_migration) {
++        /* If it's a recovery, we're done */
++        if (postcopy_try_recover()) {
++            return;
++        }
+         migration_incoming_process();
+     }
  }
- 
- /*
-@@ -959,13 +955,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
-              * broken already using the event. We should hold until
-              * the channel is rebuilt.
-              */
--            if (postcopy_pause_fault_thread(mis)) {
--                /* Continue to read the userfaultfd */
--            } else {
--                error_report("%s: paused but don't allow to continue",
--                             __func__);
--                break;
--            }
-+            postcopy_pause_fault_thread(mis);
-         }
- 
-         if (pfd[1].revents) {
-@@ -1039,15 +1029,8 @@ retry:
-                                         msg.arg.pagefault.address);
-             if (ret) {
-                 /* May be network failure, try to wait for recovery */
--                if (postcopy_pause_fault_thread(mis)) {
--                    /* We got reconnected somehow, try to continue */
--                    goto retry;
--                } else {
--                    /* This is a unavoidable fault */
--                    error_report("%s: postcopy_request_page() get %d",
--                                 __func__, ret);
--                    break;
--                }
-+                postcopy_pause_fault_thread(mis);
-+                goto retry;
-             }
-         }
- 
 -- 
 2.32.0
 
