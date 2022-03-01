@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0ECD4C92ED
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 19:21:51 +0100 (CET)
-Received: from localhost ([::1]:35248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B04F4C9303
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 19:27:06 +0100 (CET)
+Received: from localhost ([::1]:38850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP78A-0003qL-P3
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 13:21:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55434)
+	id 1nP7DF-0006Vv-7S
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 13:27:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nP75x-0002zx-MX
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:19:36 -0500
-Received: from [2607:f8b0:4864:20::62e] (port=39676
- helo=mail-pl1-x62e.google.com)
+ id 1nP7AQ-000551-Qo
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:24:10 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=43811
+ helo=mail-pj1-x102a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nP75v-0003IJ-Qm
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:19:32 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id l9so13685535pls.6
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 10:19:31 -0800 (PST)
+ id 1nP7AP-0004nt-Ad
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:24:10 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ iq13-20020a17090afb4d00b001bc4437df2cso2961670pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 10:24:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=BAazOSlHODn/RLqyRZFDRSz7qBNym5lMq4crWCGPcmA=;
- b=ueEWTnl74WWdcxoBlA+irbcWRsJMyqL1l6PYs/FQfa/Br7QWM+z8q00qWEi2qm9e9+
- QtUBWjbelTsXF9UzEUczSR5pczWrzeUp68TlfbPiAXcgaKTqh5lmZW/Wj2CZfxTYugwD
- nkvcekMETgwhY75+qzBsr/8cUZVoFX5aMOmXsm5HApBnoKti6pUrhKBWsxWzsqWZWSeZ
- jzIjpO8tE7hv3SquCZnVhnd9yeG2seCK3hoWzqE07jIb5b1g1R8O1MSc2rRbQDPUTTjx
- LNMSSVwdm2Wa7uRDE6OpEY7FXS5cn0Y7VnrE7K6d5EoPH5trFNAavYXV88KuACEN/hDu
- Xxqg==
+ bh=DSheRycdDeRG7OKdDtLwk2sF/5q29jDrs7ZK5nn8ngg=;
+ b=A48FGflbDJEr8OSeg7gx9c2h2a9bUkfsDhTTlxls8Swa2gxesahblPTsSJLgTiCMbU
+ QR+PO4vQqZWR678S4IQxUCWvP7qzUrUhu7/01D4c9hjBgsQHbyThMMDFSK1NOZIUZA8p
+ cbdyQdLnC+oQny8bJFxRJbSEM3d+m6z9SSbpzZc698YKNK1SX/oavM4dVvIGDzfFxvSp
+ 6+HGE460Ch7KfFFB5iS5CgA3n+NZ3WtwBJW6/iwJ6Awrzyav72uprn0rY5TjNTe9RJEn
+ r9tjGFNzkYNL5HxojF4PMMJ5CxwGkg1ZVz+YvR2E+dnV+BEn0LUiHnPJHM4hb/o2UPeh
+ qq/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BAazOSlHODn/RLqyRZFDRSz7qBNym5lMq4crWCGPcmA=;
- b=Qi6Gq7MKTzLlejdAyAxN4kxG9WI9+0Ai16VhJpJb+EZTM9dQGV/Fm1bVKXDCooJqoA
- zfLL8PXrCcEGG0DQpF6S3/U9bp+u7lFaX3JSuCxZ5jdxby98Kdnwb8JMrymonGnPLZf5
- Ggf+qjQ9DdVnW5fcABmuRVeJIxI6MtAFlvGZELLjthUK6wEbDOqZJibA4OLH6Df1Pc5B
- 3FiSjQKm6v5lTcScBTGNiJtvgBlwGRdhZQImn18QRc5DDnuAaTPk9BbFA6bM9t9E8Iam
- 81ZlQKrv69Bhv8hVCCIFElRgDFMjqXzfdkveQzQ+K51siouLa60PSkWhvsF/FWPsLpDb
- FJXg==
-X-Gm-Message-State: AOAM532ccxnyoNEaPxiGrAlA7Kdkb9z+eOgugTVWRA1supOgRIoA8846
- MCvLDT2zuK+69rd1Ue9Ri93FqQ==
-X-Google-Smtp-Source: ABdhPJwnNM4TO5M4jWkP0ixkVTdSshTaeA6l9DACLHZadKuQTze2Iqgn6jiM0BHhCl60BrVQnONnEg==
-X-Received: by 2002:a17:902:d2d1:b0:14f:cd2d:743d with SMTP id
- n17-20020a170902d2d100b0014fcd2d743dmr26655840plc.73.1646158770360; 
- Tue, 01 Mar 2022 10:19:30 -0800 (PST)
+ bh=DSheRycdDeRG7OKdDtLwk2sF/5q29jDrs7ZK5nn8ngg=;
+ b=KOy+4FIxpatkibqpGhFuImKc9zy5zvVgNxqfvfaGjBCoN1+FMU5q10TeO6qX/JQPW4
+ onnhDFV4fX7AINr695wPE5T4ijVIbIHoyuIHtFK1abjGZNY80gAAj+aqLyHrj4GxeNFl
+ HhcPgjpdytgzypNEjZ7U8kEoSVEhV9pcuhMnxI6uHcodwCfr2Aje38qkRSRQ94XPs00Z
+ PD71OPPYQo3J70bpfS/Nx2NQJFIMSOoPWnb5wjXLg1Fsz1B6lIoOLDUliuyAvgQocvLN
+ PF3dkxRD7THm6FNUg36SSG6U5X0j5weaEPYhtMda49iYkZwPBv/rwuDcd769xVs3YMBV
+ Zv0Q==
+X-Gm-Message-State: AOAM530/+LPKPACQHYrYZPDdZy6rwyicqmZ2jjHv0w0JdGPK90QNIavP
+ 9Ji6IPHfIrPoa3jc/s+BqjsduQ==
+X-Google-Smtp-Source: ABdhPJzxnJbHSKop8cwoPzBggGTB3phrpzBfcAvgu/0pclzRcM4oHdA+002sOZdXq30WBo6Li7yRxA==
+X-Received: by 2002:a17:90a:ab08:b0:1b9:c59:82c3 with SMTP id
+ m8-20020a17090aab0800b001b90c5982c3mr22891161pjq.95.1646159047833; 
+ Tue, 01 Mar 2022 10:24:07 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- q194-20020a6275cb000000b004f396541cecsm16882322pfc.155.2022.03.01.10.19.28
+ s33-20020a056a0017a100b004bf85a94ef2sm18900019pfg.183.2022.03.01.10.24.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 10:19:29 -0800 (PST)
-Message-ID: <ff3811be-4be7-e4e0-d269-ee5a7db0e997@linaro.org>
-Date: Tue, 1 Mar 2022 08:19:26 -1000
+ Tue, 01 Mar 2022 10:24:07 -0800 (PST)
+Message-ID: <4b3307ab-0d90-6bdd-e5eb-84df496da01a@linaro.org>
+Date: Tue, 1 Mar 2022 08:24:03 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH] tests/tcg/s390x: Fix the exrl-trt* tests with Clang
+Subject: Re: [PATCH v8 09/14] target/riscv: rvk: add support for sha512
+ related instructions for RV32 in zknh extension
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- David Hildenbrand <david@redhat.com>
-References: <20220301092431.1448419-1-thuth@redhat.com>
+To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220301115828.355-1-liweiwei@iscas.ac.cn>
+ <20220301115828.355-10-liweiwei@iscas.ac.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220301092431.1448419-1-thuth@redhat.com>
+In-Reply-To: <20220301115828.355-10-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,46 +97,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Zbitskiy <pavel.zbitskiy@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
+ lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/28/22 23:24, Thomas Huth wrote:
-> The exrl-trt* tests use two pre-initialized variables for the
-> results of the assembly code:
+On 3/1/22 01:58, Weiwei Li wrote:
+>   - add sha512sum0r, sha512sig0l, sha512sum1r, sha512sig1l, sha512sig0h and sha512sig1h instructions
 > 
->      uint64_t r1 = 0xffffffffffffffffull;
->      uint64_t r2 = 0xffffffffffffffffull;
-> 
-> But then the assembly code copies over the full contents
-> of the register into the output variable, without taking
-> care of this pre-initialized values:
-> 
->          "    lgr %[r1],%%r1\n"
->          "    lgr %[r2],%%r2\n"
-> 
-> The code then finally compares the register contents to
-> a value that apparently depends on the pre-initialized values:
-> 
->      if (r2 != 0xffffffffffffffaaull) {
->          write(1, "bad r2\n", 7);
->          return 1;
->      }
-> 
-> This all works with GCC, since the 0xffffffffffffffff got into
-> the r2 register there by accident, but it fails completely with
-> Clang.
-> 
-> Let's fix this by declaring the r1 and r2 variables as proper
-> register variables instead, so the pre-initialized values get
-> correctly passed into the inline assembly code.
-> 
-> Signed-off-by: Thomas Huth<thuth@redhat.com>
+> Co-authored-by: Zewen Ye <lustrew@foxmail.com>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 > ---
->   tests/tcg/s390x/exrl-trt.c  | 8 +++-----
->   tests/tcg/s390x/exrl-trtr.c | 8 +++-----
->   2 files changed, 6 insertions(+), 10 deletions(-)
+>   target/riscv/insn32.decode              |   6 ++
+>   target/riscv/insn_trans/trans_rvk.c.inc | 100 ++++++++++++++++++++++++
+>   2 files changed, 106 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
