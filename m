@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F014C898B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:41:00 +0100 (CET)
-Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820114C8998
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:45:41 +0100 (CET)
+Received: from localhost ([::1]:33780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOzwB-0002L8-4l
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:40:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36532)
+	id 1nP00i-0005yz-AB
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:45:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nOzqI-0003b8-4t
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:34:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nOzqE-0002Kf-5F
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:34:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646130888;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V6BSICI2oBgejmXmIK75eyKGYemM60XNS79TXhC3uS4=;
- b=BSSfBH59/BwvkTLQgjS48NFpcX91NOWZJhqgCVM2s6NviGKe/FRVgbih4B0FOYQMUm3BJJ
- NOi5tvnWyNJD7GtGVkBc+sIG+Hva4Xn6NmztK4zP3+7o5HT5Y7jrI5g8FMwk/cPltY3lLK
- Ej6ZhtHpkuyq39o1ZAdhqiqU41Xms70=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-385-9naSYXYyNz2_89sKpVR7MQ-1; Tue, 01 Mar 2022 05:34:45 -0500
-X-MC-Unique: 9naSYXYyNz2_89sKpVR7MQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F6511091DA0;
- Tue,  1 Mar 2022 10:34:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D2CB7BB5E;
- Tue,  1 Mar 2022 10:34:33 +0000 (UTC)
-Date: Tue, 1 Mar 2022 11:34:32 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 0/5] block layer: permission API refactoring in preparation
-Message-ID: <Yh32uG9y0csYGxeO@redhat.com>
-References: <20220209105452.1694545-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nOzyl-0004yz-KH
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:43:39 -0500
+Received: from [2607:f8b0:4864:20::1135] (port=39359
+ helo=mail-yw1-x1135.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nOzyj-0005Ys-NA
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:43:39 -0500
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2d07ae0b1bfso139548177b3.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 02:43:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=34jaHwAsn1GS4jiZzitztpzhzuRyuPyDxEqyib98OVc=;
+ b=uuy6ZnTcCF2SiSE71N3OcYKnZ2VTs8AwDtzgUeSdAUuyf4ssB4a9SmH9NIyRE7HH4D
+ HRlLBAFc0sBPtFr2fv5qVzplI5R0i7giL92OxTncgbJ6ZDQ7dHZvEOLwqkR8KIs45rAq
+ 6ezzIMm1TUDhZCNy6IqT8glDoVt6NCXWVyQhqEHRkDHNhBiNHqVzxwv2i0h5AY4fH5mR
+ h/xRr/JfydfmWb1bGauBn/GeD3+hbEHLPoYWTJwMnAu58g9ugqxizGSvChWq1NUqoYf7
+ mRqmpG+vsMoET0Scq/eHHzmQ6ovxCKwNhUhKHtSPgmctmh/lTPqKNAoKdOJ0Sj0YA5dA
+ 3m3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=34jaHwAsn1GS4jiZzitztpzhzuRyuPyDxEqyib98OVc=;
+ b=IvnYHKgw8iuYgiOtgRVmrX5BURi/8OGR7RJvC4MgVO52K/IwAHeDoYkUucAx6yK0rU
+ AP5TrGz9JFKQTweJys1mItNxPvmWdPqytl/j5uARr1CZyMIzuRLOCP9b6+SwDjWX9T1K
+ KhdwKrVokvetBI3UFAudGvyvWTr4V2/C3UlPdk+bCR5j7OGf1NqQtxvG8PTjZD6fUpgx
+ vk5CXgSUSC9czmAPo1nXFeeMadc+kpzR3OKxZKl8WUvD9rnOriA9T5Cxq44g3P6OyxMo
+ RDQMs9vXsWxMInpzhOcnQ1z8I0BTRKop+saawD3bM5LJazxram5EnWLXqNrYlv8aJfFr
+ q6MA==
+X-Gm-Message-State: AOAM530KMBtBHjJvWoXnMw3ww3tUcTj1LRRjHDmvrj/N082QeS3qr5Ry
+ ihrFkNYQOkRL7ivXy05J0AerOFQTAvdr7BAitC3Mwg==
+X-Google-Smtp-Source: ABdhPJwrywELiR+/An1J21AytfCPQfw9tVG6YYo2R1kBYrdgWwpIgab0TCD58w0nfSV2q/qXjSh1ZGe88Xga4EtwUq4=
+X-Received: by 2002:a81:b49:0:b0:2db:f472:dfca with SMTP id
+ 70-20020a810b49000000b002dbf472dfcamr573650ywl.455.1646131416589; Tue, 01 Mar
+ 2022 02:43:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220209105452.1694545-1-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220228071239.404171-1-clg@kaod.org>
+In-Reply-To: <20220228071239.404171-1-clg@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 1 Mar 2022 10:43:25 +0000
+Message-ID: <CAFEAcA8Lj9yUdmWGMme0-wuMD0BWLCKzWPfdfo069W276Z5Rpg@mail.gmail.com>
+Subject: Re: [PULL 0/7] aspeed queue
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1135
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,39 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Greg Kurz <groug@kaod.org>, Hanna Reitz <hreitz@redhat.com>,
- qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.02.2022 um 11:54 hat Emanuele Giuseppe Esposito geschrieben:
-> This serie aims to refactoring and fixing permission API related bugs that came
-> up in the serie "block layer: split block APIs in global state and I/O".
-> In that serie, we are splitting all block layer headers in
-> Global State (GS) APIs, holding always the BQL and running in the
-> main loop, and I/O running in iothreads.
-> 
-> The patches in this serie are taken from v6 of the API split,
-> to reduce its size and apply these fixes independently.
-> 
-> Patches 1 and 2 take care of crypto and amend jobs, since they
-> incorrectly use the permission API also in iothreads.
-> Patches 3-4-5 take care of bdrv_invalidate_cache and callers,
-> since this function checks too for permisisons while being
-> called by an iothread.
+On Mon, 28 Feb 2022 at 07:12, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> The following changes since commit c13b8e9973635f34f3ce4356af27a311c99372=
+9c:
+>
+>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply=
+-20220216' into staging (2022-02-16 09:57:11 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/legoater/qemu/ tags/pull-aspeed-20220227
+>
+> for you to fetch changes up to 3671342a38f21316a2bda62e7d607bbaedd60fd8:
+>
+>   aspeed/sdmc: Add trace events (2022-02-26 18:40:51 +0100)
+>
+> ----------------------------------------------------------------
+> aspeed queue:
+>
+> * Removal of the swift-bmc machine
+> * New Secure Boot Controller model
+> * Improvements on the rainier machine
+> * Various small cleanups
+>
 
-Thanks, applied to the block branch.
 
-Kevin
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
