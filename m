@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3554C983C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:18:05 +0100 (CET)
-Received: from localhost ([::1]:41304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE904C986C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:37:40 +0100 (CET)
+Received: from localhost ([::1]:50972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPAom-0003SO-SL
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:18:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59048)
+	id 1nPB7j-0004Ci-5l
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:37:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nPAYA-00028k-88; Tue, 01 Mar 2022 17:00:55 -0500
-Received: from [2a00:1450:4864:20::62e] (port=41709
- helo=mail-ej1-x62e.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nPAYB-000296-Le
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:59 -0500
+Received: from [2a00:1450:4864:20::634] (port=46606
+ helo=mail-ej1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1nPAY8-0005Cg-1N; Tue, 01 Mar 2022 17:00:53 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id a8so34276639ejc.8;
- Tue, 01 Mar 2022 14:00:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nPAY9-0005D2-AX
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:54 -0500
+Received: by mail-ej1-x634.google.com with SMTP id qx21so34212798ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:00:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=avhaKv0OePo1BmfKI7VpTNy8hAfHuZrWFlrW2+mi2p0=;
- b=E5rqKahHI03rGYMPsXPex5WGFHLy3rmIxI0KE7RioNRvORijHchcN8FwxaPmvEB0jU
- zZE+nimiyeSxgxsM+l1ZnK6J8dz0B3b98sdhvnXj8K8k+aaDN+hZvSJsqRFNKNAHT1uD
- jim/yO6eP49lMynfTPECKXNZ2zpGUBDD5yf1oDE7ocqv9DqCFWzxPK6+J1HEn8aLJvZu
- gcT+VatQMhQDnJGd1mRWVGnr5+ODY1ya4gleUiXwgRLmZpW/3xKuOU3nC/uNaSkwQh+R
- 135k+jAHN3jFlz8tbgi0MmhHRit3fZp3kkHvYNrNAGUGOS2DzS4lAaIGMGo+ef75zJ12
- FUSQ==
+ bh=zlP9T1mK2I5fRBtiH7xTlDH5I9+xSh3L2bt71qh1bZc=;
+ b=gdf+hU/VKOg6C8KHn9/6sIZSWMbNWFthg6hnhYiAZsq8ykdEnSvwmtObrwf3A7mosV
+ RwtmXgX+KfIZT3lRpKv1pOZlGAEDKFNHvVELCYp03IcVozPl+U9pO2ulwVbyWO2zZYAw
+ gjJ9JAFnof/1a75DMOecO8bDeact2MdikXctvjkIDogLJf0vkYFrmVqUF0CLfpi5/9IC
+ UXPGaH7N+05HSknwTL1AXalWUp0e4BBICLho6QWIgotruJ514XLfQxXPAg6BS/WZUVU9
+ YkdwXBR50g4gb90BmVKQzWYOBakQv20viE4Pjg9oYQ265g3+RvSJu6Hg01F/hXuNqa7s
+ VVcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=avhaKv0OePo1BmfKI7VpTNy8hAfHuZrWFlrW2+mi2p0=;
- b=4ALHJeaVDUVFtRVLqB+wlI86loz9n9/dJfVQLr7pvo8ptZyRArWwAWSbAb/OhsTjR0
- 21V87rhcaHkxat1TxbRUQ/kjE3qQEOexcPI6lscqGQvsRpJldEUt9upICi7kY15vA9kI
- sS+3riYUYkigFUgNx2yQRubEjFz0lGP7EEWLADR3g2dI9Bpy6YTdinFlKBt43VErEVRp
- XStY3bAy3bWFU/r6LIenLlgLq4HFvXAaAZq765KlMr4uOp63Bc0nL9CXAOc+MjhzUOLD
- 7PG4AjZHxDU1DO+x15oIQse7l7y+FixTH8YE5ghH9a+7de5BHKU3vnmOeeOD/DIytzUk
- 3/JA==
-X-Gm-Message-State: AOAM530PqS1WOCBbNpnf+FGXWNY3E1uIGa1aQNYdtXOZzOYtPsTs5ErG
- 9QjkykytI4oM7EBmi0tAxyaxNTFuBAc=
-X-Google-Smtp-Source: ABdhPJzBP/vmW+a2unZGRDVKBc5JF+8WS8KA6HgA6XPqXJyrdBY1tBuTtdmnO+8E8hWVn4f/Kf7+3g==
-X-Received: by 2002:a17:906:3a4f:b0:6cf:86e0:586c with SMTP id
- a15-20020a1709063a4f00b006cf86e0586cmr20577932ejf.626.1646172050340; 
- Tue, 01 Mar 2022 14:00:50 -0800 (PST)
+ bh=zlP9T1mK2I5fRBtiH7xTlDH5I9+xSh3L2bt71qh1bZc=;
+ b=TTDtEfH7ghl3SkX286jvOJjV8eH9Eh0UcjWPSgiaWQJ/uw+45+ng7U8nyhsekFJ7af
+ v8+HmorEBudcm3rEgpPphs8yOnX/cAqbR70bvvAg5PxXHfYkKYcmCmOGe9M93IV465Ig
+ eogSSW2xBe2EWBErKDXSW/s1HuGEc/VLfck/IYwunHTGbUym2Z2/LfNFl7CLTq/mMFIQ
+ XkNBozHeMBtbXqTHZPlXIwNnxKq+eBKUj7sf9jL+JMEdu+gKKUdWaTQ9sp+JDcXDk3zD
+ L5pvUvhRUYxA0hioKykuEtvaIyxPiAX22fhOFWhkL2V41C/XYdsRFZFQ39TExw0ttX5k
+ nmeQ==
+X-Gm-Message-State: AOAM531SSueC5/9mgQceSNcoU64wEXMgkKP1u9i8PIue6O/26C+RkvQ3
+ JByVxFcCe4yC1A5XMX3kKfNqUOm9/Jk=
+X-Google-Smtp-Source: ABdhPJyXDFZ25MQuZoDbmUcyczes+LnLr4acQIVIJwoIMwtm7GcEN7WFO8fm+xfrcWvsD8RT1v05Mw==
+X-Received: by 2002:a17:907:9719:b0:6d1:8c46:678d with SMTP id
+ jg25-20020a170907971900b006d18c46678dmr20560611ejc.168.1646172051244; 
+ Tue, 01 Mar 2022 14:00:51 -0800 (PST)
 Received: from Provence.localdomain
  (dynamic-078-055-004-046.78.55.pool.telefonica.de. [78.55.4.46])
  by smtp.gmail.com with ESMTPSA id
- v7-20020a056402348700b00415b38e920bsm182731edc.95.2022.03.01.14.00.49
+ v7-20020a056402348700b00415b38e920bsm182731edc.95.2022.03.01.14.00.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 14:00:49 -0800 (PST)
+ Tue, 01 Mar 2022 14:00:50 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/7] hw/ppc/pnv: Determine ns16550's IRQ number from QOM
- property
-Date: Tue,  1 Mar 2022 23:00:35 +0100
-Message-Id: <20220301220037.76555-6-shentey@gmail.com>
+Subject: [PATCH v3 6/7] isa: Drop unused attributes from ISADevice
+Date: Tue,  1 Mar 2022 23:00:36 +0100
+Message-Id: <20220301220037.76555-7-shentey@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220301220037.76555-1-shentey@gmail.com>
 References: <20220301220037.76555-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,49 +88,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:PowerNV Non-Virt..." <qemu-ppc@nongnu.org>,
- Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+Cc: Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Determine the IRQ number in the same way as for pnv_dt_ipmi_bt(). This
-resolves one usage of ISADevice::isairq[] which allows it to be removed
-eventually.
+Now that the last users of ISADevice::isairq[] have been resolved during the
+previous commits, it can be removed for good.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ppc/pnv.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/isa/isa-bus.c     | 13 -------------
+ include/hw/isa/isa.h |  2 --
+ 2 files changed, 15 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 837146a2fb..441bf958ca 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -380,9 +380,12 @@ static void pnv_dt_serial(ISADevice *d, void *fdt, int lpc_off)
-         cpu_to_be32(io_base),
-         cpu_to_be32(8)
-     };
-+    uint32_t irq;
-     char *name;
-     int node;
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index af5add6a26..c64a14120b 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -87,11 +87,7 @@ qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
  
-+    irq = object_property_get_uint(OBJECT(d), "irq", &error_fatal);
-+
-     name = g_strdup_printf("%s@i%x", qdev_fw_name(DEVICE(d)), io_base);
-     node = fdt_add_subnode(fdt, lpc_off, name);
-     _FDT(node);
-@@ -394,7 +397,7 @@ static void pnv_dt_serial(ISADevice *d, void *fdt, int lpc_off)
+ void isa_init_irq(ISADevice *dev, qemu_irq *p, unsigned isairq)
+ {
+-    assert(dev->nirqs < ARRAY_SIZE(dev->isairq));
+-    assert(isairq < ISA_NUM_IRQS);
+-    dev->isairq[dev->nirqs] = isairq;
+     *p = isa_get_irq(dev, isairq);
+-    dev->nirqs++;
+ }
  
-     _FDT((fdt_setprop_cell(fdt, node, "clock-frequency", 1843200)));
-     _FDT((fdt_setprop_cell(fdt, node, "current-speed", 115200)));
--    _FDT((fdt_setprop_cell(fdt, node, "interrupts", d->isairq[0])));
-+    _FDT((fdt_setprop_cell(fdt, node, "interrupts", irq)));
-     _FDT((fdt_setprop_cell(fdt, node, "interrupt-parent",
-                            fdt_get_phandle(fdt, lpc_off))));
+ void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
+@@ -150,14 +146,6 @@ int isa_register_portio_list(ISADevice *dev,
+     return 0;
+ }
+ 
+-static void isa_device_init(Object *obj)
+-{
+-    ISADevice *dev = ISA_DEVICE(obj);
+-
+-    dev->isairq[0] = -1;
+-    dev->isairq[1] = -1;
+-}
+-
+ ISADevice *isa_new(const char *name)
+ {
+     return ISA_DEVICE(qdev_new(name));
+@@ -244,7 +232,6 @@ static const TypeInfo isa_device_type_info = {
+     .name = TYPE_ISA_DEVICE,
+     .parent = TYPE_DEVICE,
+     .instance_size = sizeof(ISADevice),
+-    .instance_init = isa_device_init,
+     .abstract = true,
+     .class_size = sizeof(ISADeviceClass),
+     .class_init = isa_device_class_init,
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index d4417b34b6..d80cab5b79 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -83,8 +83,6 @@ struct ISADevice {
+     DeviceState parent_obj;
+     /*< public >*/
+ 
+-    int8_t isairq[2];      /* -1 = unassigned */
+-    int nirqs;
+     int ioport_id;
+ };
  
 -- 
 2.35.1
