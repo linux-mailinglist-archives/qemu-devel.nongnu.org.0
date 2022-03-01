@@ -2,96 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6524C8886
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:50:04 +0100 (CET)
-Received: from localhost ([::1]:46592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9156A4C888F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:53:58 +0100 (CET)
+Received: from localhost ([::1]:55382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOz8r-0004EV-KP
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:50:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45040)
+	id 1nOzCf-00025b-Kw
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:53:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nOz3e-0000AG-Cd
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:44:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nOz3c-0006Ls-Lm
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:44:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646127875;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GXjdvJQCImOKXPlyTJCucaD9ryEizrjRsEkxbSDfhkI=;
- b=fGT3i/j4fah3bWgbmeFyG6cLS63k4a7jdySBxxIIjdnpcAr2INulCtmkFud4zn4VRXfgDr
- s3QcNRlZdR4w+Yj5Yfy7dhAJM5JeZfjRF6vzp/f1lyf0HefasHaCrUU3nFhfL/dJyz0PGC
- RoNZZcARMQls34hrbiFUkxnsdr33Mjw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-JUh7jnn5M6aCssfZ3Me7Vg-1; Tue, 01 Mar 2022 04:44:34 -0500
-X-MC-Unique: JUh7jnn5M6aCssfZ3Me7Vg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- a11-20020adffb8b000000b001efe754a488so1556865wrr.13
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 01:44:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nOz6H-00037D-Rx
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:47:21 -0500
+Received: from [2a00:1450:4864:20::42e] (port=39467
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nOz6F-00073w-7y
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:47:20 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id ay10so1678070wrb.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 01:47:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xcy8VuOQjM1nhko7FmPI8zEveI85lF1x53IVlFyhRok=;
+ b=AJ2iVu+FuHY1VLArHCYLeZCM+kyS75/d3Mpu5VayGCdQGv0sA97/m3wib/eFD7p8EX
+ GtBQh7IqGoBOCHzmjpWSOfoaPCmCeJo5Z2hhXXdEQbPt7xIgvWGULt75dU79zJD/wZzU
+ mZH58LEQUewutn6DZNWkZXcPVhWFzahHnZoCxnpkKPJgzfkAuqUIfq1fH6vpmSHFt2FT
+ gcanOFIrN2qEm3RgBNyx+mso6X3WpejrtiUTDyqV9PsGvO0Cd0RIAJ/RiApdRoq8tozp
+ fz29aUA9F1DRjrFShl03yT9XpQH2vvCkb3mgFko30DfGIdvrO44iFldJ2DiHYzNZT1I0
+ g9Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=GXjdvJQCImOKXPlyTJCucaD9ryEizrjRsEkxbSDfhkI=;
- b=F8RuhEjdaMPY6bdPIOdJ52fvGGhetwwsVM12xkbRvwFKHY7lRlbUS34CotDeGM+/aZ
- T/WNlI9kF68vvG6UfgBzWoOaTbVPmGXCjRz5Y5MNhTvkn2RCepg4Jre1SPO6/UGP4nnK
- 9eNDXNvMV+TXM7+GeBc1186r/4P5WfRxPSF/4TcSTDQJs1ois3MuJidxAs8iGwUc180h
- K2SyCWQl4m8rVFDzOnXrlDk+t1efliUnCcZAoJy2kgNo6KmTnp1nyd2OAi/WKzVZTqfD
- zZw3s5HMurBf9EUrYFIkhv1tf9FIzAXOVQa+mQAZYZq2adMuWMDbZGQMETS7Bg6l+MIN
- zv9w==
-X-Gm-Message-State: AOAM530VlLfff6KsLjaaEC5mrneDlh5Fq1PfpWBKMjbylIH44d2N5Ozc
- E4NnNiY35gvN+M5pPCFxWxJGYeYAJp/znQp3JpE4rJhSNTca7E8k3MBI+0CLC+ayRUA0BKYBRyW
- ejZhp9DaAiFiNlsI=
-X-Received: by 2002:a05:600c:1c25:b0:380:d306:1058 with SMTP id
- j37-20020a05600c1c2500b00380d3061058mr16460778wms.150.1646127873692; 
- Tue, 01 Mar 2022 01:44:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwc0BSPcXt0ZlOB13KbXWH16AbZ2WXQM4xPrx57xxB2dv4VbbR0keQP08xW4YcNBfK4RtgPQA==
-X-Received: by 2002:a05:600c:1c25:b0:380:d306:1058 with SMTP id
- j37-20020a05600c1c2500b00380d3061058mr16460759wms.150.1646127873403; 
- Tue, 01 Mar 2022 01:44:33 -0800 (PST)
-Received: from ?IPV6:2a09:80c0:192:0:20af:34be:985b:b6c8?
- ([2a09:80c0:192:0:20af:34be:985b:b6c8])
+ bh=xcy8VuOQjM1nhko7FmPI8zEveI85lF1x53IVlFyhRok=;
+ b=pEfVJugzNjPf7WBbY77CbeoAsv7uJ3iSDJlmV9VCzV8e5Q6MDVP4a0IHGELT+qXMf0
+ 6zv33wYI7k++AgvM70CzWURVM4sMA4R/HxVh6GfqEPVrMXRoq2U00WaeZvLzacdf1OGa
+ 8KVMVFFwZu1ZaTZtsv43kAsRIdBfjL2r7use3OVa3BEz4cqFNYloXQJyBNaYslleGypW
+ LAK+dlNU97qH5zA0QUJwFaie0izKxk//GGpOWEr5AqC6pLeGf0Es49avPVkOHL7J/J++
+ ImeKz0ARf/hcYsMraFOnG1j5bfuAYpoHePxSXBo6psNQwUTbg4zoCLUL/wnI0+zswOq/
+ jOqg==
+X-Gm-Message-State: AOAM532AlhB9P9/ZVD/ip2+NevLqAXTs1d47HOKmkXwdN+aAUMw4I7zs
+ v+uLu4iLfXqx7a70ShtOfgbyNA==
+X-Google-Smtp-Source: ABdhPJx6l6lC73ayot2V5/pFBRZAYdirJab0o2mPExKR6JEX2vBt4dkyt9v23ozm/nM4PQw4VBNyCg==
+X-Received: by 2002:adf:f782:0:b0:1ef:8cf0:4560 with SMTP id
+ q2-20020adff782000000b001ef8cf04560mr10705245wrp.512.1646128037852; 
+ Tue, 01 Mar 2022 01:47:17 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- k15-20020adff28f000000b001f018230b86sm1130132wro.44.2022.03.01.01.44.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 01:44:33 -0800 (PST)
-Message-ID: <67347f43-b4f4-f73a-9f16-6eb9642349e6@redhat.com>
-Date: Tue, 1 Mar 2022 10:44:32 +0100
+ 17-20020a05600c021100b00381501414absm1915103wmi.24.2022.03.01.01.47.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 01:47:16 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 529A71FFB7;
+ Tue,  1 Mar 2022 09:47:15 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/18] testing and semihosting updates
+Date: Tue,  1 Mar 2022 09:46:57 +0000
+Message-Id: <20220301094715.550871-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] tests/tcg/s390x: Fix the exrl-trt* tests with Clang
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220301092431.1448419-1-thuth@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220301092431.1448419-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,119 +90,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Zbitskiy <pavel.zbitskiy@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.03.22 10:24, Thomas Huth wrote:
-> The exrl-trt* tests use two pre-initialized variables for the
-> results of the assembly code:
-> 
->     uint64_t r1 = 0xffffffffffffffffull;
->     uint64_t r2 = 0xffffffffffffffffull;
-> 
-> But then the assembly code copies over the full contents
-> of the register into the output variable, without taking
-> care of this pre-initialized values:
-> 
->         "    lgr %[r1],%%r1\n"
->         "    lgr %[r2],%%r2\n"
-> 
-> The code then finally compares the register contents to
-> a value that apparently depends on the pre-initialized values:
-> 
->     if (r2 != 0xffffffffffffffaaull) {
->         write(1, "bad r2\n", 7);
->         return 1;
->     }
-> 
-> This all works with GCC, since the 0xffffffffffffffff got into
-> the r2 register there by accident, but it fails completely with
-> Clang.
-> 
-> Let's fix this by declaring the r1 and r2 variables as proper
-> register variables instead, so the pre-initialized values get
-> correctly passed into the inline assembly code.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/tcg/s390x/exrl-trt.c  | 8 +++-----
->  tests/tcg/s390x/exrl-trtr.c | 8 +++-----
->  2 files changed, 6 insertions(+), 10 deletions(-)
-> 
-> diff --git a/tests/tcg/s390x/exrl-trt.c b/tests/tcg/s390x/exrl-trt.c
-> index 16711a3181..451f777b9d 100644
-> --- a/tests/tcg/s390x/exrl-trt.c
-> +++ b/tests/tcg/s390x/exrl-trt.c
-> @@ -5,8 +5,8 @@ int main(void)
->  {
->      char op1[] = "hello";
->      char op2[256];
-> -    uint64_t r1 = 0xffffffffffffffffull;
-> -    uint64_t r2 = 0xffffffffffffffffull;
-> +    register uint64_t r1 asm("r1") = 0xffffffffffffffffull;
-> +    register uint64_t r2 asm("r2") = 0xffffffffffffffffull;
->      uint64_t cc;
->      int i;
->  
-> @@ -21,8 +21,6 @@ int main(void)
->          "    j 2f\n"
->          "1:  trt 0(1,%[op1]),%[op2]\n"
->          "2:  exrl %[op1_len],1b\n"
-> -        "    lgr %[r1],%%r1\n"
-> -        "    lgr %[r2],%%r2\n"
->          "    ipm %[cc]\n"
->          : [r1] "+r" (r1),
->            [r2] "+r" (r2),
-> @@ -30,7 +28,7 @@ int main(void)
->          : [op1] "a" (&op1),
->            [op1_len] "a" (5),
->            [op2] "Q" (op2)
-> -        : "r1", "r2", "cc");
-> +        : "cc");
->      cc = (cc >> 28) & 3;
->      if (cc != 2) {
->          write(1, "bad cc\n", 7);
-> diff --git a/tests/tcg/s390x/exrl-trtr.c b/tests/tcg/s390x/exrl-trtr.c
-> index 5f30cda6bd..422f7f385a 100644
-> --- a/tests/tcg/s390x/exrl-trtr.c
-> +++ b/tests/tcg/s390x/exrl-trtr.c
-> @@ -5,8 +5,8 @@ int main(void)
->  {
->      char op1[] = {0, 1, 2, 3};
->      char op2[256];
-> -    uint64_t r1 = 0xffffffffffffffffull;
-> -    uint64_t r2 = 0xffffffffffffffffull;
-> +    register uint64_t r1 asm("r1") = 0xffffffffffffffffull;
-> +    register uint64_t r2 asm("r2") = 0xffffffffffffffffull;
->      uint64_t cc;
->      int i;
->  
-> @@ -21,8 +21,6 @@ int main(void)
->          "    j 2f\n"
->          "1:  trtr 3(1,%[op1]),%[op2]\n"
->          "2:  exrl %[op1_len],1b\n"
-> -        "    lgr %[r1],%%r1\n"
-> -        "    lgr %[r2],%%r2\n"
->          "    ipm %[cc]\n"
->          : [r1] "+r" (r1),
->            [r2] "+r" (r2),
-> @@ -30,7 +28,7 @@ int main(void)
->          : [op1] "a" (&op1),
->            [op1_len] "a" (3),
->            [op2] "Q" (op2)
-> -        : "r1", "r2", "cc");
-> +        : "cc");
->      cc = (cc >> 28) & 3;
->      if (cc != 1) {
->          write(1, "bad cc\n", 7);
+The following changes since commit fa435db8ce1dff3b15e3f59a12f55f7b3a347b08:
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+  Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-request' into staging (2022-02-24 12:48:14 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-semihosting-280222-1
+
+for you to fetch changes up to b904a9096f112795e47986448c145f5970d33c33:
+
+  tests/tcg: port SYS_HEAPINFO to a system test (2022-02-28 16:42:42 +0000)
+
+----------------------------------------------------------------
+Testing and semihosting updates:
+
+  - restore TESTS/IMAGES filtering to docker tests
+  - add NOUSER to alpine image
+  - bump lcitool version
+  - move arm64/s390x cross build images to lcitool
+  - add aarch32 runner CI scripts
+  - expand testing to more vectors
+  - update s390x jobs to focal for gitlab/travis
+  - disable threadcount for all sh4
+  - fix semihosting SYS_HEAPINFO and test
+
+----------------------------------------------------------------
+Alex Bennée (17):
+      tests/docker: restore TESTS/IMAGES filtering
+      tests/docker: add NOUSER for alpine image
+      tests/lcitool: update to latest version
+      tests/docker: update debian-arm64-cross with lcitool
+      tests/docker: update debian-s390x-cross with lcitool
+      tests/docker: introduce debian-riscv64-test-cross
+      scripts/ci: add build env rules for aarch32 on aarch64
+      scripts/ci: allow for a secondary runner
+      gitlab: add a new aarch32 custom runner definition
+      tests/tcg/ppc64: clean-up handling of byte-reverse
+      tests/tcg: build sha1-vector with O3 and compare
+      tests/tcg: add sha512 test
+      tests/tcg: add vectorised sha512 versions
+      gitlab: upgrade the job definition for s390x to 20.04
+      tests/tcg: completely disable threadcount for sh4
+      semihosting/arm-compat: replace heuristic for softmmu SYS_HEAPINFO
+      tests/tcg: port SYS_HEAPINFO to a system test
+
+Thomas Huth (1):
+      travis.yml: Update the s390x jobs to Ubuntu Focal
+
+ docs/devel/ci-jobs.rst.inc                         |   7 +
+ include/hw/loader.h                                |  14 +
+ hw/core/loader.c                                   |  86 ++
+ semihosting/arm-compat-semi.c                      | 124 +--
+ tests/tcg/aarch64/system/semiheap.c                |  93 ++
+ tests/tcg/multiarch/sha512.c                       | 990 +++++++++++++++++++++
+ .gitlab-ci.d/container-cross.yml                   |  20 +-
+ .gitlab-ci.d/custom-runners.yml                    |   2 +-
+ ...untu-18.04-s390x.yml => ubuntu-20.04-s390x.yml} |  28 +-
+ .../custom-runners/ubuntu-20.40-aarch32.yml        |  23 +
+ .travis.yml                                        |  12 +-
+ MAINTAINERS                                        |   1 +
+ scripts/ci/setup/build-environment.yml             |  25 +
+ scripts/ci/setup/gitlab-runner.yml                 |  38 +
+ tests/docker/Makefile.include                      |  29 +-
+ tests/docker/dockerfiles/debian-arm64-cross.docker | 186 +++-
+ .../dockerfiles/debian-arm64-test-cross.docker     |  13 -
+ .../dockerfiles/debian-riscv64-test-cross.docker   |  12 +
+ tests/docker/dockerfiles/debian-s390x-cross.docker | 181 +++-
+ tests/docker/dockerfiles/opensuse-leap.docker      |   3 +-
+ tests/docker/dockerfiles/ubuntu1804.docker         |   3 +-
+ tests/docker/dockerfiles/ubuntu2004.docker         |   3 +-
+ tests/lcitool/libvirt-ci                           |   2 +-
+ tests/lcitool/refresh                              |  16 +
+ tests/tcg/aarch64/Makefile.target                  |  17 +
+ tests/tcg/arm/Makefile.target                      |  17 +
+ tests/tcg/configure.sh                             |   4 +-
+ tests/tcg/i386/Makefile.target                     |   9 +
+ tests/tcg/ppc64/Makefile.target                    |  20 +-
+ tests/tcg/ppc64le/Makefile.target                  |   9 +-
+ tests/tcg/s390x/Makefile.target                    |   9 +
+ tests/tcg/sh4/Makefile.target                      |   2 +
+ tests/tcg/x86_64/Makefile.target                   |   7 +
+ 33 files changed, 1816 insertions(+), 189 deletions(-)
+ create mode 100644 tests/tcg/aarch64/system/semiheap.c
+ create mode 100644 tests/tcg/multiarch/sha512.c
+ rename .gitlab-ci.d/custom-runners/{ubuntu-18.04-s390x.yml => ubuntu-20.04-s390x.yml} (87%)
+ create mode 100644 .gitlab-ci.d/custom-runners/ubuntu-20.40-aarch32.yml
+ delete mode 100644 tests/docker/dockerfiles/debian-arm64-test-cross.docker
+ create mode 100644 tests/docker/dockerfiles/debian-riscv64-test-cross.docker
 
 -- 
-Thanks,
-
-David / dhildenb
+2.30.2
 
 
