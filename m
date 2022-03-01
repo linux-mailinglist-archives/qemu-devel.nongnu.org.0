@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8DC4C86C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 09:43:12 +0100 (CET)
-Received: from localhost ([::1]:39698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF134C871A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 09:50:56 +0100 (CET)
+Received: from localhost ([::1]:47948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOy6A-0006TX-5r
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 03:43:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54004)
+	id 1nOyDf-0003zn-SB
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 03:50:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy2s-0003QT-55
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy2t-0003RG-93
  for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:39:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41694)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy2p-0007rT-79
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:39:44 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy2r-0007s7-7b
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:39:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646123981;
+ s=mimecast20190719; t=1646123984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0fllUttO/wJ4RRPewl/b4FdObxc5ST7EKpTLC+RNJ4I=;
- b=YnvoegB6yllM6D3CfEeeCiAwWLV+OCsDgSHfLKLlwkYJsZaCh1nq5diGnIqTPeVYPcZPBO
- MjGskTMgYg0Uo1AwDVdspAu/4uiF+rhv4KPLbGKtVTDOOGvhvWUTegQtxg31cT/WFVo33u
- RmlIjecwWJSIUH17jEMlJRxNt6ub+vU=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OWAN/28atpuNSo2Qw825H0Y0k4mf5B5fhGEWjBM5WYE=;
+ b=h3yL+bcQUF9h9qvvSiZvr9zNWYJ+GiS2KhO0XyIErCCdsqGr55hLnVKbXGKwQzsOsALYH3
+ XWoc1D2ecIfwvJVIG3NWYlUYWeO1Dphp2sKdlNeHdlDI1dGbpxrqxxQKRePdhj+pUOyRYk
+ b8gJ6D1Kflcux3mUyJ/rIM7x+yLUR6s=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-448-gWaJIurOOtCPgKzOpdy5Fg-1; Tue, 01 Mar 2022 03:39:40 -0500
-X-MC-Unique: gWaJIurOOtCPgKzOpdy5Fg-1
-Received: by mail-pf1-f197.google.com with SMTP id
- t184-20020a6281c1000000b004e103c5f726so880850pfd.8
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:39:40 -0800 (PST)
+ us-mta-203-7ozWoVi0N9KLb_oet4chWg-1; Tue, 01 Mar 2022 03:39:43 -0500
+X-MC-Unique: 7ozWoVi0N9KLb_oet4chWg-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ x27-20020aa79a5b000000b004f3f7c2981eso4677990pfj.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:39:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0fllUttO/wJ4RRPewl/b4FdObxc5ST7EKpTLC+RNJ4I=;
- b=f53WlxQ/+SHUWJCj58YmQ9IBzbqNoZYdiiCankDp8D6a90By9dWIYcO6Q+4gwQfyQl
- spmDZTVTsuQ4RabR5aZdhWXge5U/7QR998an6LCiR/h+TaF8H76PrFOXron0v0r9HDWg
- pc6HXQcajKP7d414fET8hOBcfEcR7JKBqQjL5GC8c41ZoRZLM8q7ullLA6NPQlwfXesv
- 2zUhBMmoLvMPEerbMShBeYi9U9ZwUjk8kQgpn16Wr2hdv72huOjAylwU5ekj/SO/MoCV
- utHYEAYrXXL4WUYqENU4ymT56P5To1Z8NwBteggD2ZL+/RxMb7ss7z9/4k6+k8K4zwPh
- osvQ==
-X-Gm-Message-State: AOAM530t7Ky9eX+v8FZ/mR6u+5PjP3+ZhwqyuPJO4fTw24IoqsK9qGJF
- rh2Yos2o8r1+mDz+m/ShNhjWI3msHBg0P9X/SM7WHxT2vFombJTj2ywqFLwTb+FBd4WpF/Qxcaf
- CSVidFVvFUDJlc0BA22nGcQyFKuUTuWng1Hhmg84eB2srYQg7auWTZ4uMesMUoQ4X
-X-Received: by 2002:a17:902:ccca:b0:150:406:6236 with SMTP id
- z10-20020a170902ccca00b0015004066236mr24732461ple.67.1646123979276; 
- Tue, 01 Mar 2022 00:39:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvOklBL3FPFWExxD+jwXY5ryVCuHSg7F28gu7zBhUiKmi7DQSJf/OAXkr209UnfZD4mb4rRQ==
-X-Received: by 2002:a17:902:ccca:b0:150:406:6236 with SMTP id
- z10-20020a170902ccca00b0015004066236mr24732444ple.67.1646123978874; 
- Tue, 01 Mar 2022 00:39:38 -0800 (PST)
+ bh=OWAN/28atpuNSo2Qw825H0Y0k4mf5B5fhGEWjBM5WYE=;
+ b=p0TuRfcInITfhXsavoVtabBE62pJqxmj3ew3zrF62u/1QkYFHDRlZizBXmcSJrit5l
+ mrJLOs32RqSfk/d4yCsfm1XjSfq5gJKt6dkRnEbCDMc5wbDu9Bq7dxzRbJiI03Z8sPVL
+ gWCnDjZcyhxHhllYZOcZ2RYDKAGfs5wzjbsOZcvbt5ABkIpRgYWJLw5Pmgnro16xSi7J
+ Ua+vZyR3EwX1GlhwW2jHfbfxw1zpQ4Zm0/y1pgOnc3qjfMqAmFB8wSMoovvIks0Gc1jQ
+ /T9zul0X+aiA81tWwqrUIq8E639MDb9xR3+p7bieFtnp0mAFFj0vehJZm8wcb3T0++yt
+ aNsw==
+X-Gm-Message-State: AOAM5307VoB5+ddiDnDSYSsCVvB/zy0cawGRa7av1+qgyYggw5kuBoBr
+ i9t4esROzV216A2LrJVDBhip047YDe9u9ND256KsVVhy+/pHjRubpRGUy3eYOuFFBhDKbwGiNS4
+ UqbF2RCNk6F900ZubwIyBwFrUUymKsy74zhLTvFFRV8PwPuacAjDF3bqZzToGevzf
+X-Received: by 2002:a63:d348:0:b0:342:3bc2:9b29 with SMTP id
+ u8-20020a63d348000000b003423bc29b29mr20393179pgi.584.1646123982423; 
+ Tue, 01 Mar 2022 00:39:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyfJy4x3ZRzVa55RwrNDta9vJX/y9u21R8cKsqr4r8H1DAsw0v/rCh4KXl1eWIRdlRpGLUK0Q==
+X-Received: by 2002:a63:d348:0:b0:342:3bc2:9b29 with SMTP id
+ u8-20020a63d348000000b003423bc29b29mr20393153pgi.584.1646123981865; 
+ Tue, 01 Mar 2022 00:39:41 -0800 (PST)
 Received: from localhost.localdomain ([94.177.118.144])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.39.36
+ l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.39.39
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 01 Mar 2022 00:39:38 -0800 (PST)
+ Tue, 01 Mar 2022 00:39:41 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/25] migration: Finer grained tracepoints for
- POSTCOPY_LISTEN
-Date: Tue,  1 Mar 2022 16:39:02 +0800
-Message-Id: <20220301083925.33483-3-peterx@redhat.com>
+Subject: [PATCH v2 03/25] migration: Tracepoint change in postcopy-run bottom
+ half
+Date: Tue,  1 Mar 2022 16:39:03 +0800
+Message-Id: <20220301083925.33483-4-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220301083925.33483-1-peterx@redhat.com>
 References: <20220301083925.33483-1-peterx@redhat.com>
@@ -77,7 +77,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -105,72 +105,78 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The enablement of postcopy listening has a few steps, add a few tracepoints to
-be there ready for some basic measurements for them.
+Remove the old two tracepoints and they're even near each other:
+
+    trace_loadvm_postcopy_handle_run_cpu_sync()
+    trace_loadvm_postcopy_handle_run_vmstart()
+
+Add trace_loadvm_postcopy_handle_run_bh() with a finer granule trace.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/savevm.c     | 9 ++++++++-
- migration/trace-events | 2 +-
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ migration/savevm.c     | 12 +++++++++---
+ migration/trace-events |  3 +--
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/migration/savevm.c b/migration/savevm.c
-index 7bb65e1d61..190cc5fc42 100644
+index 190cc5fc42..41e3238798 100644
 --- a/migration/savevm.c
 +++ b/migration/savevm.c
-@@ -1948,9 +1948,10 @@ static void *postcopy_ram_listen_thread(void *opaque)
- static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
- {
-     PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING);
--    trace_loadvm_postcopy_handle_listen();
+@@ -2006,13 +2006,19 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
      Error *local_err = NULL;
+     MigrationIncomingState *mis = opaque;
  
-+    trace_loadvm_postcopy_handle_listen("enter");
++    trace_loadvm_postcopy_handle_run_bh("enter");
 +
-     if (ps != POSTCOPY_INCOMING_ADVISE && ps != POSTCOPY_INCOMING_DISCARD) {
-         error_report("CMD_POSTCOPY_LISTEN in wrong postcopy state (%d)", ps);
-         return -1;
-@@ -1965,6 +1966,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-         }
+     /* TODO we should move all of this lot into postcopy_ram.c or a shared code
+      * in migration.c
+      */
+     cpu_synchronize_all_post_init();
+ 
++    trace_loadvm_postcopy_handle_run_bh("after cpu sync");
++
+     qemu_announce_self(&mis->announce_timer, migrate_announce_params());
+ 
++    trace_loadvm_postcopy_handle_run_bh("after announce");
++
+     /* Make sure all file formats flush their mutable metadata.
+      * If we get an error here, just don't restart the VM yet. */
+     bdrv_invalidate_cache_all(&local_err);
+@@ -2022,9 +2028,7 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
+         autostart = false;
      }
  
-+    trace_loadvm_postcopy_handle_listen("after discard");
-+
-     /*
-      * Sensitise RAM - can now generate requests for blocks that don't exist
-      * However, at this point the CPU shouldn't be running, and the IO
-@@ -1977,6 +1980,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-         }
+-    trace_loadvm_postcopy_handle_run_cpu_sync();
+-
+-    trace_loadvm_postcopy_handle_run_vmstart();
++    trace_loadvm_postcopy_handle_run_bh("after invalidate cache");
+ 
+     dirty_bitmap_mig_before_vm_start();
+ 
+@@ -2037,6 +2041,8 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
      }
  
-+    trace_loadvm_postcopy_handle_listen("after uffd");
+     qemu_bh_delete(mis->bh);
 +
-     if (postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN, &local_err)) {
-         error_report_err(local_err);
-         return -1;
-@@ -1991,6 +1996,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-     qemu_sem_wait(&mis->listen_thread_sem);
-     qemu_sem_destroy(&mis->listen_thread_sem);
- 
-+    trace_loadvm_postcopy_handle_listen("return");
-+
-     return 0;
++    trace_loadvm_postcopy_handle_run_bh("return");
  }
  
+ /* After all discards we can start running and asking for pages */
 diff --git a/migration/trace-events b/migration/trace-events
-index 123cfe79d7..92596c00d8 100644
+index 92596c00d8..1aec580e92 100644
 --- a/migration/trace-events
 +++ b/migration/trace-events
-@@ -14,7 +14,7 @@ loadvm_handle_cmd_packaged_main(int ret) "%d"
- loadvm_handle_cmd_packaged_received(int ret) "%d"
- loadvm_handle_recv_bitmap(char *s) "%s"
+@@ -16,8 +16,7 @@ loadvm_handle_recv_bitmap(char *s) "%s"
  loadvm_postcopy_handle_advise(void) ""
--loadvm_postcopy_handle_listen(void) ""
-+loadvm_postcopy_handle_listen(const char *str) "%s"
+ loadvm_postcopy_handle_listen(const char *str) "%s"
  loadvm_postcopy_handle_run(void) ""
- loadvm_postcopy_handle_run_cpu_sync(void) ""
- loadvm_postcopy_handle_run_vmstart(void) ""
+-loadvm_postcopy_handle_run_cpu_sync(void) ""
+-loadvm_postcopy_handle_run_vmstart(void) ""
++loadvm_postcopy_handle_run_bh(const char *str) "%s"
+ loadvm_postcopy_handle_resume(void) ""
+ loadvm_postcopy_ram_handle_discard(void) ""
+ loadvm_postcopy_ram_handle_discard_end(void) ""
 -- 
 2.32.0
 
