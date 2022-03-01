@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DC64C982B
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:10:18 +0100 (CET)
-Received: from localhost ([::1]:50508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7D64C9829
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:08:52 +0100 (CET)
+Received: from localhost ([::1]:46484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPAhE-00074q-U8
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:10:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58634)
+	id 1nPAfr-0004NI-Gc
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:08:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPAXf-0001L2-G2
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:24 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=41898
- helo=mail-pj1-x1035.google.com)
+ id 1nPAXh-0001Lz-6F
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:25 -0500
+Received: from [2607:f8b0:4864:20::429] (port=41596
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPAXc-00052q-4Q
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:21 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- ev16-20020a17090aead000b001bc3835fea8so95823pjb.0
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:00:19 -0800 (PST)
+ id 1nPAXf-00053n-4v
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:24 -0500
+Received: by mail-pf1-x429.google.com with SMTP id p8so55332pfh.8
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:00:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DRWkLoJkIekxooE0yM1xnliLnzzt/ozTUB9sEE/E5Ow=;
- b=IryxSYgzvytR7FRsQVNzuNYlY/deavUtGw1IYXrAIs20xnEu3XANK+/DImGGSb8W3b
- 5O8+e0c38RaC/Z7gkYERy5kO90B3bmgp6SE2NlFttHkF8sD9w2tabO6EJW4Fa6FZvkJg
- CDl/nPR4KmNCoCKIrEPlBodxlrJ6lf2e9l74gGFoilatyqYraLMbJxmO6XG/f0Ecv65a
- JSJYOWhGePz9g6JN4bRGdmqMGysSNCLUx/OxDhmFczyw8NMF1DKAAd0ho33sY2nsxbHa
- dWzTA42YCknlw3/Py1kVV5zbhffpl+ZrX/YMP0ikNFnU4BFuCS8+eNos0+qktwqf31AT
- RU9A==
+ bh=LEHpSJT8J9ebqqTQjfyKLCxLV+2FFN9FnOSHNM/yVQA=;
+ b=eae7XyHXBL9mKPwMEeDJvp2ibsiKf2ZNiUp90oXmnM4cwMTIo8y6XgGqjz+TsXrIym
+ zlLeh5/D7eVCXXHYhL70zq5126nT/rQdpXoRazhAa2YxjDniT/0LOSQ6lQk+jtNOvb2t
+ 7yGSVPwc9ebB3oKqEMGpUXAhFIyaIbWeLhVpoGxDjx8TjowyK/eeZ93h7YGi3GtnIZP1
+ D8WZmsXhgnFROtPO1vHOPdKeD5XJc+ClOuedH0wpV+MRchzaiGZfmBgUCF9/2NhmrSBR
+ iTHJOQ6dtE+3jLK5276NHpS9d/Pv+PcinCtQcUDpAFSeD4I/xm40azQjq1UbmwjXpQLR
+ 9b5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DRWkLoJkIekxooE0yM1xnliLnzzt/ozTUB9sEE/E5Ow=;
- b=gd1a1oyFcTpU+krqHQoYxVvw1wA8otDNhlb6eHWO6nh3vFXsGlJOfyUOy4ys9nOxxU
- i2K3rxqBqkgrN5ffZCTQzuu+Czia68vzjOptFfGOK4j8uKln3X5OEtOpQAk/lCG4znV1
- Ff0vZ2zkUuCIVOGJIGmSMbjBhJ3zKSmr9WoB7FDWw3AdkurteY2aqaz6oKM0eN9syAfm
- Qcl9icYFXtrZhJihvcfdTBKKd/qCmE2yiP5n2WEugohW/tEqVF6RtSRD4CKduYwjMs6J
- VINW3b8Asv20YUICykPfwRTlVxr5apWU7wAa4CVd6AkFzaM3B76DrkBAq6G9fPYz4gqV
- o29Q==
-X-Gm-Message-State: AOAM5308xcuMX0lQSxZMsu47800M1X2RK1wdVhBb+H0Q5qJtYZZUZJ57
- HKHjl2/krbm9fC5TrnmjeHaFXCTWRsPqKw==
-X-Google-Smtp-Source: ABdhPJwUF0u8CwMIDf7E4gEL+acX5Ww/fu7EsQuetQQ1iTTTUordjRBKChjcrU6aQiSy0W/HtyOuPQ==
-X-Received: by 2002:a17:90a:de96:b0:1be:e427:8745 with SMTP id
- n22-20020a17090ade9600b001bee4278745mr3782373pjv.175.1646172018732; 
- Tue, 01 Mar 2022 14:00:18 -0800 (PST)
+ bh=LEHpSJT8J9ebqqTQjfyKLCxLV+2FFN9FnOSHNM/yVQA=;
+ b=NbyyB+swsbQauZ78ZRHV/npXhQg5ewjaMBOTXf31RSRP0fiAMcPoKvwVLaUm83EbOq
+ Scs218JnvPM2dp57Oo0YKGJMgQt7DKhKDmgpFLaXz9Gf6FSkBimK7/bLAnVk+LAuzgvq
+ 7RmbjQM23gbzDtmaMqi32CkUmwmVEjqwrgpelh7qh1PzzRYHz1USsfsTCmiJ0dH4lO3Z
+ ECAnPVsDJyBLG06jSEKIKBT0HnkIiHz2WFNeS1+9yOVLC10Q63XCpSH/am30XQd4BT2+
+ uq/8c5og3YhwQj29H8OT81rVJAdWY8qHBcGncnSNchA0hlruZdiLhWj59vkpekymuQ9q
+ AApA==
+X-Gm-Message-State: AOAM531+YUhVuMBGPJDhFjfd3KTDgfsjf5dCGkdz8jDppimSaSpHtJvz
+ wek2+vTB/wKiyueVMn51gUJMmwVw+K4DHw==
+X-Google-Smtp-Source: ABdhPJwLniKbATL9r/QdTvrer38MfKczOjcSqJqAE2eJ6RSxsq9pMj1nEJ6w+Sp9gMX/myTT5xpBtA==
+X-Received: by 2002:a05:6a00:1354:b0:4c9:1e96:d15c with SMTP id
+ k20-20020a056a00135400b004c91e96d15cmr29714068pfu.30.1646172020158; 
+ Tue, 01 Mar 2022 14:00:20 -0800 (PST)
 Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- m4-20020a17090a7f8400b001bef3fc3938sm284392pjl.49.2022.03.01.14.00.17
+ m4-20020a17090a7f8400b001bef3fc3938sm284392pjl.49.2022.03.01.14.00.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 14:00:18 -0800 (PST)
+ Tue, 01 Mar 2022 14:00:19 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/18] target/arm: Implement FEAT_LPA
-Date: Tue,  1 Mar 2022 11:59:50 -1000
-Message-Id: <20220301215958.157011-11-richard.henderson@linaro.org>
+Subject: [PATCH v4 11/18] target/arm: Extend arm_fi_to_lfsc to level -1
+Date: Tue,  1 Mar 2022 11:59:51 -1000
+Message-Id: <20220301215958.157011-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220301215958.157011-1-richard.henderson@linaro.org>
 References: <20220301215958.157011-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,109 +92,82 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This feature widens physical addresses (and intermediate physical
-addresses for 2-stage translation) from 48 to 52 bits, when using
-64k pages.  The only thing left at this point is to handle the
-extra bits in the TTBR and in the table descriptors.
+With FEAT_LPA2, rather than introducing translation level 4,
+we introduce level -1, below the current level 0.  Extend
+arm_fi_to_lfsc to handle these faults.
 
-Note that PAR_EL1 and HPFAR_EL2 are nominally extended, but we don't
-mask out the high bits when writing to those registers, so no changes
-are required there.
+Assert that this new translation level does not leak into
+fault types for which it is not defined, which allows some
+masking of fi->level to be removed.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- docs/system/arm/emulation.rst |  1 +
- target/arm/cpu-param.h        |  2 +-
- target/arm/cpu64.c            |  2 +-
- target/arm/helper.c           | 19 ++++++++++++++++---
- 4 files changed, 19 insertions(+), 5 deletions(-)
+ target/arm/internals.h | 35 +++++++++++++++++++++++++++++------
+ 1 file changed, 29 insertions(+), 6 deletions(-)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index f3eabddfb5..0053ddce20 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -24,6 +24,7 @@ the following architecture extensions:
- - FEAT_I8MM (AArch64 Int8 matrix multiplication instructions)
- - FEAT_JSCVT (JavaScript conversion instructions)
- - FEAT_LOR (Limited ordering regions)
-+- FEAT_LPA (Large Physical Address space)
- - FEAT_LRCPC (Load-acquire RCpc instructions)
- - FEAT_LRCPC2 (Load-acquire RCpc instructions v2)
- - FEAT_LSE (Large System Extensions)
-diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
-index 5f9c288b1a..b59d505761 100644
---- a/target/arm/cpu-param.h
-+++ b/target/arm/cpu-param.h
-@@ -10,7 +10,7 @@
- 
- #ifdef TARGET_AARCH64
- # define TARGET_LONG_BITS             64
--# define TARGET_PHYS_ADDR_SPACE_BITS  48
-+# define TARGET_PHYS_ADDR_SPACE_BITS  52
- # define TARGET_VIRT_ADDR_SPACE_BITS  52
- #else
- # define TARGET_LONG_BITS             32
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 1de31ffb40..d88662cef6 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -795,7 +795,7 @@ static void aarch64_max_initfn(Object *obj)
-     cpu->isar.id_aa64pfr1 = t;
- 
-     t = cpu->isar.id_aa64mmfr0;
--    t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 5); /* PARange: 48 bits */
-+    t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 6); /* FEAT_LPA: 52 bits */
-     cpu->isar.id_aa64mmfr0 = t;
- 
-     t = cpu->isar.id_aa64mmfr1;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 28b4347213..950f56599e 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11173,6 +11173,7 @@ static const uint8_t pamax_map[] = {
-     [3] = 42,
-     [4] = 44,
-     [5] = 48,
-+    [6] = 52,
- };
- 
- /* The cpu-specific constant value of PAMax; also used by hw/arm/virt. */
-@@ -11564,11 +11565,15 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-     descaddr = extract64(ttbr, 0, 48);
- 
-     /*
--     * If the base address is out of range, raise AddressSizeFault.
-+     * For FEAT_LPA and PS=6, bits [51:48] of descaddr are in [5:2] of TTBR.
-+     *
-+     * Otherwise, if the base address is out of range, raise AddressSizeFault.
-      * In the pseudocode, this is !IsZero(baseregister<47:outputsize>),
-      * but we've just cleared the bits above 47, so simplify the test.
-      */
--    if (descaddr >> outputsize) {
-+    if (outputsize > 48) {
-+        descaddr |= extract64(ttbr, 2, 4) << 48;
-+    } else if (descaddr >> outputsize) {
-         level = 0;
-         fault_type = ARMFault_AddressSize;
-         goto do_fault;
-@@ -11620,7 +11625,15 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-         }
- 
-         descaddr = descriptor & descaddrmask;
--        if (descaddr >> outputsize) {
-+
-+        /*
-+         * For FEAT_LPA and PS=6, bits [51:48] of descaddr are in [15:12]
-+         * of descriptor.  Otherwise, if descaddr is out of range, raise
-+         * AddressSizeFault.
-+         */
-+        if (outputsize > 48) {
-+            descaddr |= extract64(descriptor, 12, 4) << 48;
-+        } else if (descaddr >> outputsize) {
-             fault_type = ARMFault_AddressSize;
-             goto do_fault;
-         }
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 3d3d41ba2b..00af41d792 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -462,28 +462,51 @@ static inline uint32_t arm_fi_to_lfsc(ARMMMUFaultInfo *fi)
+     case ARMFault_None:
+         return 0;
+     case ARMFault_AddressSize:
+-        fsc = fi->level & 3;
++        assert(fi->level >= -1 && fi->level <= 3);
++        if (fi->level < 0) {
++            fsc = 0b101001;
++        } else {
++            fsc = fi->level;
++        }
+         break;
+     case ARMFault_AccessFlag:
+-        fsc = (fi->level & 3) | (0x2 << 2);
++        assert(fi->level >= 0 && fi->level <= 3);
++        fsc = 0b001000 | fi->level;
+         break;
+     case ARMFault_Permission:
+-        fsc = (fi->level & 3) | (0x3 << 2);
++        assert(fi->level >= 0 && fi->level <= 3);
++        fsc = 0b001100 | fi->level;
+         break;
+     case ARMFault_Translation:
+-        fsc = (fi->level & 3) | (0x1 << 2);
++        assert(fi->level >= -1 && fi->level <= 3);
++        if (fi->level < 0) {
++            fsc = 0b101011;
++        } else {
++            fsc = 0b000100 | fi->level;
++        }
+         break;
+     case ARMFault_SyncExternal:
+         fsc = 0x10 | (fi->ea << 12);
+         break;
+     case ARMFault_SyncExternalOnWalk:
+-        fsc = (fi->level & 3) | (0x5 << 2) | (fi->ea << 12);
++        assert(fi->level >= -1 && fi->level <= 3);
++        if (fi->level < 0) {
++            fsc = 0b010011;
++        } else {
++            fsc = 0b010100 | fi->level;
++        }
++        fsc |= fi->ea << 12;
+         break;
+     case ARMFault_SyncParity:
+         fsc = 0x18;
+         break;
+     case ARMFault_SyncParityOnWalk:
+-        fsc = (fi->level & 3) | (0x7 << 2);
++        assert(fi->level >= -1 && fi->level <= 3);
++        if (fi->level < 0) {
++            fsc = 0b011011;
++        } else {
++            fsc = 0b011100 | fi->level;
++        }
+         break;
+     case ARMFault_AsyncParity:
+         fsc = 0x19;
 -- 
 2.25.1
 
