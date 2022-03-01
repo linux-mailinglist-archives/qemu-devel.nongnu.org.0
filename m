@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120824C8A8F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 12:20:58 +0100 (CET)
-Received: from localhost ([::1]:35418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B509D4C8A94
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 12:22:05 +0100 (CET)
+Received: from localhost ([::1]:37700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP0Yp-0002kM-OP
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 06:20:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50354)
+	id 1nP0Zw-0004L4-LW
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 06:22:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nP0XO-00021F-0B
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 06:19:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25520)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nP0Xw-0002hJ-CT
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 06:20:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nP0XK-0005qR-KO
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 06:19:24 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nP0Xu-0005tf-IT
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 06:20:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646133561;
+ s=mimecast20190719; t=1646133597;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t/er5w7Eh0x3LUj4N0VWhR9gIt+XlOgyMuRFjmvBpHo=;
- b=evAT3dKYuVJObYLwnfqR/xbzq5zbtt5oW4vOwuwqOlfYioXO5NIoWHd9Er3wowkDNJmgiH
- PyZpj4udoZUsdoYoHRmcA31MCF8Uy6yiph/qfveoJvzLckLPHzfMBBunnbvh3MH3LmB/y7
- llQr2GUzittnHzd+5Nydk/8AF+5RhdE=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=C0xZEgSyxoa6DZr9AfES/P3EmpLDX5D3m7Ny2nczw+w=;
+ b=O2RYt6lkduymSeP11JnNtr8uLVPvqb3qMPJdgY3MstAGNkmvNHxPCGUIvUsyPsL1TaAubK
+ pJveZKoQcONi8Djh14RPMEK3nEnpAbmUF5EUvZ9E5lRpSs0fd08vYSYofDMSxJI8tmrQA+
+ zdZ1u2PGBDEO8R6eKBG7eFK+F/VoQgs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-103-wzvCwrGtN06Nxo9AtA6X1g-1; Tue, 01 Mar 2022 06:19:16 -0500
-X-MC-Unique: wzvCwrGtN06Nxo9AtA6X1g-1
-Received: by mail-qv1-f72.google.com with SMTP id
- t18-20020a0cb712000000b004350812c194so985414qvd.9
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 03:19:16 -0800 (PST)
+ us-mta-630-tqYGwFEvO16uuaFFawC1-Q-1; Tue, 01 Mar 2022 06:19:56 -0500
+X-MC-Unique: tqYGwFEvO16uuaFFawC1-Q-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h206-20020a1c21d7000000b003552c13626cso842249wmh.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 03:19:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=t/er5w7Eh0x3LUj4N0VWhR9gIt+XlOgyMuRFjmvBpHo=;
- b=sCwwj+cLq6Fd5+EokGJd7eINXR74QpMIqdgV9HV8+uMZOrA6cYeo8ko5UK4rWiWccX
- s8YUeg6lNh70MKWSGyi/AJjQj40HRnncDB6nQ6AaTgQoU9N01Ywf2pLwhEn2Ssp52TtL
- GHaxZySC4kLDYt5wUtr+unWtfjiiLq+N0WxX2M9abb7sWiYiOHkny6aqVNorIW9iwrbw
- /R9ybzvP5gZJxSdevaT4c53HJ5nqUV2fvEmySCvRNiMxaWInUWX26OHH8Vc3k9DY0SYS
- z3LOYbc6EUV6uGOlaWsIR0q4sdE5Mx5UVjhKKcEnUZiIBbwdBR06nAWNnSZcZlGc8jQ9
- yJ5Q==
-X-Gm-Message-State: AOAM532oXhlBjREqc2qb+FEQG+EetQQdZ1ZEeQGUxFFE7ALiCj2aWjgp
- dyTuOKT9UURHaOVrishHk7ztFOIK/9TWa/R4YWSkvIUY5l5sVIRXNHeTpx8+d1DeiteqSuH0G9w
- dEL6HzWt62/bZv3h/JTpPt9fvF/NhEpo=
-X-Received: by 2002:a05:6214:19cd:b0:433:2eca:f77a with SMTP id
- j13-20020a05621419cd00b004332ecaf77amr4317767qvc.26.1646133556335; 
- Tue, 01 Mar 2022 03:19:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwWyDNHt8wNpzzrINQydlRdoZxSRgujvgSLSLQk9z/dBFLlsyScVjG0S+nrbR+jdodTdS4bn6hQXNnkGTNJL9Y=
-X-Received: by 2002:a05:6214:19cd:b0:433:2eca:f77a with SMTP id
- j13-20020a05621419cd00b004332ecaf77amr4317688qvc.26.1646133555063; Tue, 01
- Mar 2022 03:19:15 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=C0xZEgSyxoa6DZr9AfES/P3EmpLDX5D3m7Ny2nczw+w=;
+ b=HwszX1rN+bBFYExwRn2eoMfPItMaTRpBnIjQ2Ctzy96Ao1zcvIdV7QXl2toycQMGvX
+ ubTbzqrF52mW2yTB1Bhv6BNCEGCuUccMgxF63f12ilxODzcydxMOGbFHNKvDnP98l67I
+ PFAoFi/VaLiqJF/LgU62Tdzw7zZeNXrQTbzJffEIatGVkA/PJwYK1UYDY+uJKhRIXpoe
+ vvcjceuxURei9kFF2+sGv4Ll6XL5FZVYkgo9UXOWH2XBq6kHSlcmpPNDhWyekkpjcB0O
+ I4awDFWziQZySCxuo8kHu7a6D1N4H+0taGSQSbDPeodZ/dR/ftxxWntvNGm9LEKM+D4Z
+ /E3g==
+X-Gm-Message-State: AOAM533JDRDcbCZErym7MEY0hqJpdHz/0qsIvES73mWebjJikGzNQ/aQ
+ on5/0YFXwTtciQYgnn3owtQzZerO3QiGllXv3RJENECfdDKvlAmGAsOUGC+Lt/JI5x7DPgSahs3
+ DfFmQRXJXgl9olhQ=
+X-Received: by 2002:a5d:5302:0:b0:1ed:e1d2:f0fd with SMTP id
+ e2-20020a5d5302000000b001ede1d2f0fdmr19580105wrv.585.1646133595261; 
+ Tue, 01 Mar 2022 03:19:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzqUv/xEeyXwK/XrvfMvj8DLMgSlvWU7MkbaWAsss5HgG+eS+SuO23/+iHPbGRqOtkDmWDfMw==
+X-Received: by 2002:a5d:5302:0:b0:1ed:e1d2:f0fd with SMTP id
+ e2-20020a5d5302000000b001ede1d2f0fdmr19580082wrv.585.1646133594913; 
+ Tue, 01 Mar 2022 03:19:54 -0800 (PST)
+Received: from redhat.com ([2.53.2.184]) by smtp.gmail.com with ESMTPSA id
+ f17-20020adffcd1000000b001edbf438d83sm13342287wrs.32.2022.03.01.03.19.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 03:19:54 -0800 (PST)
+Date: Tue, 1 Mar 2022 06:19:51 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v4 2/3] hw/acpi: add indication for i8042 in IA-PC boot
+ flags of the FADT table
+Message-ID: <20220301061131-mutt-send-email-mst@kernel.org>
+References: <20220228201733.714580-1-liavalb@gmail.com>
+ <20220228201733.714580-3-liavalb@gmail.com>
+ <20220301094354.1d37f470@redhat.com>
 MIME-Version: 1.0
-References: <20220227134111.3254066-1-eperezma@redhat.com>
- <20220227134111.3254066-4-eperezma@redhat.com>
- <627893d5-9976-8cfb-7e2c-edb55ad54254@redhat.com>
-In-Reply-To: <627893d5-9976-8cfb-7e2c-edb55ad54254@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 1 Mar 2022 12:18:39 +0100
-Message-ID: <CAJaqyWcY8+9xCFbH9qfHbtsqukeuXgwU9FmjhooL-_m_PLuecA@mail.gmail.com>
-Subject: Re: [PATCH v2 03/14] vhost: Add Shadow VirtQueue call forwarding
- capabilities
-To: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220301094354.1d37f470@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,142 +98,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Lingshan <lingshan.zhu@intel.com>
+Cc: ani@anisinha.ca, shentey@gmail.com, Liav Albani <liavalb@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 28, 2022 at 4:18 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/2/27 =E4=B8=8B=E5=8D=889:41, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > This will make qemu aware of the device used buffers, allowing it to
-> > write the guest memory with its contents if needed.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+On Tue, Mar 01, 2022 at 09:43:54AM +0100, Igor Mammedov wrote:
+> On Mon, 28 Feb 2022 22:17:32 +0200
+> Liav Albani <liavalb@gmail.com> wrote:
+> 
+> > This can allow the guest OS to determine more easily if i8042 controller
+> > is present in the system or not, so it doesn't need to do probing of the
+> > controller, but just initialize it immediately, before enumerating the
+> > ACPI AML namespace.
+> > 
+> > This change only applies to the x86/q35 machine type, as it uses FACP
+> > ACPI table with revision higher than 1, which should implement at least
+> > ACPI 2.0 features within the table, hence it can also set the IA-PC boot
+> > flags register according to the ACPI 2.0 specification.
+> > 
+> > Signed-off-by: Liav Albani <liavalb@gmail.com>
 > > ---
-> >   hw/virtio/vhost-shadow-virtqueue.h |  4 ++++
-> >   hw/virtio/vhost-shadow-virtqueue.c | 34 +++++++++++++++++++++++++++++=
-+
-> >   hw/virtio/vhost-vdpa.c             | 31 +++++++++++++++++++++++++--
-> >   3 files changed, 67 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
-w-virtqueue.h
-> > index 1cbc87d5d8..1d4c160d0a 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > @@ -28,9 +28,13 @@ typedef struct VhostShadowVirtqueue {
-> >        * So shadow virtqueue must not clean it, or we would lose VirtQu=
-eue one.
-> >        */
-> >       EventNotifier svq_kick;
+> >  hw/acpi/aml-build.c         | 11 ++++++++++-
+> >  hw/i386/acpi-build.c        |  9 +++++++++
+> >  hw/i386/acpi-microvm.c      |  9 +++++++++
+> commit message says it's q35 specific, so wy it touched microvm anc piix4?
+> 
+> >  include/hw/acpi/acpi-defs.h |  1 +
+> >  4 files changed, 29 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> > index 8966e16320..2085905b83 100644
+> > --- a/hw/acpi/aml-build.c
+> > +++ b/hw/acpi/aml-build.c
+> > @@ -2152,7 +2152,16 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+> >      build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
+> >      build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
+> >      build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
+> > -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
+> > +    /* IAPC_BOOT_ARCH */
+> > +    /*
+> > +     * This register is not defined in ACPI spec version 1.0, where the FACP
+> > +     * revision == 1 also applies. Therefore, just ignore setting this register.
+> > +     */
+> > +    if (f->rev == 1) {
+> > +        build_append_int_noprefix(tbl, 0, 2);
+> > +    } else {
+> > +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
+> > +    }
+> >      build_append_int_noprefix(tbl, 0, 1); /* Reserved */
+> >      build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
+> >  
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index ebd47aa26f..c72c7bb9bb 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -38,6 +38,7 @@
+> >  #include "hw/nvram/fw_cfg.h"
+> >  #include "hw/acpi/bios-linker-loader.h"
+> >  #include "hw/isa/isa.h"
+> > +#include "hw/input/i8042.h"
+> >  #include "hw/block/fdc.h"
+> >  #include "hw/acpi/memory_hotplug.h"
+> >  #include "sysemu/tpm.h"
+> > @@ -192,6 +193,14 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+> >              .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
+> >          },
+> >      };
+> > +    /*
+> > +     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
+> > +     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
+> > +     * (the earliest acpi revision that supports this).
+> 
+>  /* APCI spec version 2.0, Table 5-10 */
+> 
+> is sufficient, the rest could be read from spec/
+
+ACPI though, not APCI.
+The comment can be shorter and more clearer, but I feel quoting spec
+and including table name is a good idea actually, but pls quote verbatim:
+
+/* ACPI spec version 2.0, Table 5-10: Fixed ACPI Description Table Boot Architecture Flags */
+/* Bit offset 1 -  port 60 and 64 based keyboard controller, usually implemented as an 8042 or equivalent micro-controller. */
+
+> 
+> > +     */
+> > +    fadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
+> > +                            0x0002 : 0x0000;
+
+and make it 0x1 << 1 - clearer that this is bit 1. Leading zeroes are
+not helpful since compiler does not check there's a correct number of
+these.
+
 > > +
-> > +    /* Guest's call notifier, where the SVQ calls guest. */
-> > +    EventNotifier svq_call;
-> >   } VhostShadowVirtqueue;
-> >
-> >   void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kic=
-k_fd);
-> > +void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int =
-call_fd);
-> >
-> >   void vhost_svq_stop(VhostShadowVirtqueue *svq);
-> >
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
-w-virtqueue.c
-> > index a5d0659f86..54c701a196 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > @@ -23,6 +23,38 @@ static void vhost_handle_guest_kick(EventNotifier *n=
-)
-> >       event_notifier_set(&svq->hdev_kick);
-> >   }
-> >
-> > +/* Forward vhost notifications */
-> > +static void vhost_svq_handle_call(EventNotifier *n)
-> > +{
-> > +    VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtqueue=
-,
-> > +                                             hdev_call);
-> > +    event_notifier_test_and_clear(n);
-> > +    event_notifier_set(&svq->svq_call);
-> > +}
+> >      *data = fadt;
+> >  }
+> >  
+> > diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+> > index 68ca7e7fc2..4bc72b1672 100644
+> > --- a/hw/i386/acpi-microvm.c
+> > +++ b/hw/i386/acpi-microvm.c
+> > @@ -31,6 +31,7 @@
+> >  #include "hw/acpi/generic_event_device.h"
+> >  #include "hw/acpi/utils.h"
+> >  #include "hw/acpi/erst.h"
+> > +#include "hw/input/i8042.h"
+> >  #include "hw/i386/fw_cfg.h"
+> >  #include "hw/i386/microvm.h"
+> >  #include "hw/pci/pci.h"
+> > @@ -189,6 +190,14 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
+> >          .reset_val = ACPI_GED_RESET_VALUE,
+> >      };
+> >  
+> > +    /*
+> > +     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
+> > +     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
+> > +     * (the earliest acpi revision that supports this).
+> > +     */
+> > +    pmfadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
+> > +                            0x0002 : 0x0000;
 > > +
-> > +/**
-> > + * Set the call notifier for the SVQ to call the guest
-> > + *
-> > + * @svq Shadow virtqueue
-> > + * @call_fd call notifier
-> > + *
-> > + * Called on BQL context.
-> > + */
-> > +void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int =
-call_fd)
->
->
-> I think we need to have consistent naming for both kick and call. Note
-> that in patch 2 we had
->
-> vhost_svq_set_svq_kick_fd
->
-> Maybe it's better to use vhost_svq_set_guest_call_fd() here.
->
 
-I think the same, I will replace it for the next version.
+let's avoid code duplication pls.
 
->
-> > +{
-> > +    if (call_fd =3D=3D VHOST_FILE_UNBIND) {
-> > +        /*
-> > +         * Fail event_notifier_set if called handling device call.
-> > +         *
-> > +         * SVQ still needs device notifications, since it needs to kee=
-p
-> > +         * forwarding used buffers even with the unbind.
-> > +         */
-> > +        memset(&svq->svq_call, 0, sizeof(svq->svq_call));
->
->
-> I may miss something but shouldn't we stop polling svq_call here like
->
-> event_notifier_set_handle(&svq->svq_call, false);
->
-
-SVQ never polls that descriptor: It uses that descriptor to call (as
-notify) the guest at vhost_svq_flush when SVQ uses descriptors.
-
-svq_kick, svq_call: Descriptors that the guest send to SVQ
-hdev_kick, hdev_call: Descriptors that qemu/SVQ send to the device.
-
-I admit it is confusing when reading the code but I cannot come up
-with a better naming. Maybe it helps to add a diagram at the top of
-the file like:
-
-+-------+-> svq_kick_fd ->+-----+-> hdev_kick ->+-----+
-| Guest |                 | SVQ |               | Dev |
-+-------+<- svq_call_fd <-+-----+<- hdev_call <-+-----+
-
-Thanks!
-
-> ?
->
-> Thanks
->
->
+> >      table_offsets = g_array_new(false, true /* clear */,
+> >                                          sizeof(uint32_t));
+> >      bios_linker_loader_alloc(tables->linker,
+> > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> > index c97e8633ad..2b42e4192b 100644
+> > --- a/include/hw/acpi/acpi-defs.h
+> > +++ b/include/hw/acpi/acpi-defs.h
+> > @@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
+> >      uint16_t plvl2_lat;        /* P_LVL2_LAT */
+> >      uint16_t plvl3_lat;        /* P_LVL3_LAT */
+> >      uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
+> > +    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
+> >      uint8_t minor_ver;         /* FADT Minor Version */
+> >  
+> >      /*
 
 
