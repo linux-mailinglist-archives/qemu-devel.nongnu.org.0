@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF5A4C7F2C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 01:27:47 +0100 (CET)
-Received: from localhost ([::1]:51278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44CA4C7F17
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 01:20:01 +0100 (CET)
+Received: from localhost ([::1]:40740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOqMk-00015l-I4
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 19:27:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40534)
+	id 1nOqFF-0001uv-13
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 19:20:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOqAb-0006WY-8v; Mon, 28 Feb 2022 19:15:19 -0500
-Received: from [2a00:1450:4864:20::42d] (port=45697
- helo=mail-wr1-x42d.google.com)
+ id 1nOqAd-0006Wi-77
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 19:15:19 -0500
+Received: from [2a00:1450:4864:20::32b] (port=40575
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nOqAX-0005NM-Jr; Mon, 28 Feb 2022 19:15:12 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id p9so17882125wra.12;
- Mon, 28 Feb 2022 16:15:06 -0800 (PST)
+ id 1nOqAb-0005O6-1X
+ for qemu-devel@nongnu.org; Mon, 28 Feb 2022 19:15:14 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ c18-20020a7bc852000000b003806ce86c6dso355839wml.5
+ for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 16:15:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=UI8hpLZ7bki1qr4wTAFcF+JrzJC7Pzz8gjiU9O+K8vk=;
- b=qOSFu74HKsruLDbZpHMetRVxOvAcqgHfG7KSFx9EKazOh+BWO+IjkP0eN9+AftjGWs
- 5Y5nkhDrJaifCtwShDqC5WZG9+/bkSRZZbamYAB/gNOnKEO0n9dpVAvnT4+uSmWnzAsP
- R2R5IrmvlAi7NCjBYyEwnBI/qI1mlEsiRZmEiJ82tcY5AqRrcVqcPEn2prrRaPUHvT0E
- /4GnhXLBwBftfh5N2uD9ucWRPdggtZI8wkiETp72hTrOW1zFg5XDVZAHbxC2lsnU0ZvL
- ySi9knE9ZQVIPJlEnh9p16IamzOz3bmTcX3QzDWpikKrC+uQUl3Ik66azlFJVU6NKjM1
- LWGw==
+ bh=WaH85arFQPiiVZkKECp8IroqqxXvRwwy1H7CScGxH0M=;
+ b=h3pZmCqBNJzzA/sZhyqfcP+SCBooCARfPwpAY4od2OLm5tuF6CEJ/RJ+T0OA5/7F4U
+ NpC6lcG1WmLEK7Y75Ui8pvuIl7DrtzmptMumEsj59MRL2gSxwYKqp96wwLnL68wV8ngg
+ 3c8kypn03Q/EtB9VVFTteIBw6rYGDcPt2yF6iH88q1NopK/O1N3qCRrxUlPL1scXB4f0
+ w+uuZWbvxz3LPfxJB46FcIrT4wPgi+8SSaRFkK76/8vnHnVWKUmY367iyqeoyOqFIeRY
+ fqUnMe2XYo1TMvjwD1O+H9EW2GGyg1U2uq06im4nTN3kS59rjR6fY9sFmhQL592awFjV
+ 7kBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UI8hpLZ7bki1qr4wTAFcF+JrzJC7Pzz8gjiU9O+K8vk=;
- b=X/AzNOEc3pYj+La6e4kRLJHZYBPOuSbw0oCmfx78h1CxESx1qrsgwlGBdSXsT7xEep
- PiXQhTQpbMFJS9M5/aZaYrR4k0Bc1Jd6l8yVuEM5R/bthWB1CTlZTEesYFOclOWoqRl8
- 3c5t5Gjrms0wL0SSJ0cVrp86OKauaM7R8KmPf1JABYHTnxpGs3DnrjtScMBFBiUSESzE
- pLSGDJ3ep56pygTunvzA98to3ya6z0v/EJSebV3aInArBwuz+7qEXm1HEGMAiAL2CMhk
- EyOfQ1ncOsiVvRFZtV2pAihmEInYjYiC3AJI/TxTRHchD6NPtXNdLIm9VI7FFM+gZrft
- QfCg==
-X-Gm-Message-State: AOAM533MpCky/KB6AyuaYL49uU5HQaYvUH4dhERzrpLG0IwlUUikmINi
- OV+mNeb9GfobxoETA2pOkrQ=
-X-Google-Smtp-Source: ABdhPJw7KEXjtYCStD7oDqdEeltaBgR3gmT8F5W0qoxjiFbeRlqn4yr12hog7tf3vIRK8G9iM7LtKQ==
-X-Received: by 2002:a5d:5850:0:b0:1ea:7d9c:4397 with SMTP id
- i16-20020a5d5850000000b001ea7d9c4397mr17555155wrf.225.1646093706097; 
- Mon, 28 Feb 2022 16:15:06 -0800 (PST)
+ bh=WaH85arFQPiiVZkKECp8IroqqxXvRwwy1H7CScGxH0M=;
+ b=gTINKI2FcKkChQC3Md1bUCY5SFkGhaEyTuIPG9jE5iyaK34CMBdN4JNL/B68/6wqy3
+ AyeenADWePWBjgeQyID2Opy07wYX0rAbycgOY75aiinWnVOxf3Aj2h4czx2x54eee6Td
+ zKrVCraejK40YJbNiZxKVx5byMn5jmbQqLW1u/yCvzEw+E9vvn/I85BJlyqqudU+I6V9
+ jSKFQHH4PKoplwIqOUWOj5yl5O+xnZKs9yr2oK7ZIzi6EiQCF7/hl7TxDvircbczW2S3
+ u8fLCh5muD9jqK7kV3JhU1RgPj8Hp+VYW6M/pAWc4UPp8MX4670rqUfjWEgAcZARYmJ3
+ uBhA==
+X-Gm-Message-State: AOAM5321TzWg/znEenF9DAjr39PgoOHUZRR4DfkSsBuoyBQ9ReoBBOWH
+ sZSJU91uE8PoJplcRcqpc4U=
+X-Google-Smtp-Source: ABdhPJz6X0LgoPXC8wd+eo62V3hgRuLBxsDQeT52FYbG7q5exY40x868nMv4Bm/qYNIcHhFRxJ1MCA==
+X-Received: by 2002:a05:600c:42d6:b0:380:ed47:43e8 with SMTP id
+ j22-20020a05600c42d600b00380ed4743e8mr15036684wme.61.1646093710730; 
+ Mon, 28 Feb 2022 16:15:10 -0800 (PST)
 Received: from [192.168.131.175] (62.red-95-127-166.staticip.rima-tde.net.
  [95.127.166.62]) by smtp.gmail.com with ESMTPSA id
- a17-20020a5d5091000000b001edb61b2687sm16736535wrt.63.2022.02.28.16.15.05
+ y7-20020adff147000000b001dbd1b9812fsm16769657wro.45.2022.02.28.16.15.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Feb 2022 16:15:05 -0800 (PST)
-Message-ID: <07e8a36f-c58e-b800-4feb-2c2af6d5b4c0@gmail.com>
-Date: Tue, 1 Mar 2022 01:00:18 +0100
+ Mon, 28 Feb 2022 16:15:10 -0800 (PST)
+Message-ID: <cfcb3f54-09b2-2cdd-6f00-5710567a28f7@gmail.com>
+Date: Tue, 1 Mar 2022 01:00:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 2/9] util: Make qemu_oom_check() a static function
+Subject: Re: [PATCH v2] coreaudio: Notify error in coreaudio_init_out
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220226180723.1706285-1-peter.maydell@linaro.org>
- <20220226180723.1706285-3-peter.maydell@linaro.org>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+References: <20220226115953.60335-1-akihiko.odaki@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220226180723.1706285-3-peter.maydell@linaro.org>
+In-Reply-To: <20220226115953.60335-1-akihiko.odaki@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,21 +94,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/2/22 19:07, Peter Maydell wrote:
-> The qemu_oom_check() function, which we define in both oslib-posix.c
-> and oslib-win32.c, is now used only locally in that file; make it
-> static.
+On 26/2/22 12:59, Akihiko Odaki wrote:
+> Otherwise, the audio subsystem tries to use the voice and
+> eventually aborts due to the maximum number of samples in the
+> buffer is not set.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > ---
->   include/qemu-common.h | 2 --
->   util/oslib-posix.c    | 2 +-
->   util/oslib-win32.c    | 2 +-
->   3 files changed, 2 insertions(+), 4 deletions(-)
+>   audio/coreaudio.c | 2 ++
+>   1 file changed, 2 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
