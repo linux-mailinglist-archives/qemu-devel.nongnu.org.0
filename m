@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D5F4C954E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 20:59:27 +0100 (CET)
-Received: from localhost ([::1]:51668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3EC4C956B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 21:08:01 +0100 (CET)
+Received: from localhost ([::1]:60506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP8eb-0001Rb-CW
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 14:59:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53230)
+	id 1nP8mu-0007oY-PK
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 15:08:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nP8a7-0006zK-NE
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:54:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59196)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nP8a3-0006Us-JO
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:54:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646164480;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bZcWr8XihpBFMzPBxFKduDnAtqN5CRTrJOWdeIqiSiw=;
- b=h97rfK04kdFhjKhNFXvRDP+VlAiGKv1K6xIks+E1rrcD/8HkYlAMYEZs7DHC5TWk3UIjxm
- e4Xjp8n7rPEA6BvLXuPQT9BCqund6tfusBZfpkyeYlBcvV91jvXl0Jj4YzV9+SRqdvw9i8
- ZqKv0I3CJtUEPof3tHcfBmp6IY5V9iU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-386-aMUNscayOhqCqEiDKfCamQ-1; Tue, 01 Mar 2022 14:54:39 -0500
-X-MC-Unique: aMUNscayOhqCqEiDKfCamQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E59391854E26;
- Tue,  1 Mar 2022 19:54:38 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.39.192.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E76C60CC9;
- Tue,  1 Mar 2022 19:54:37 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, thuth@redhat.com, kraxel@redhat.com,
- berrange@redhat.com, eduardo@habkost.net, libvir-list@redhat.com
-Subject: [PATCH] deprecation: x86 default machine types
-Date: Tue,  1 Mar 2022 19:54:32 +0000
-Message-Id: <20220301195432.114252-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nP8eu-0002o7-VF; Tue, 01 Mar 2022 14:59:48 -0500
+Received: from [2607:f8b0:4864:20::830] (port=42898
+ helo=mail-qt1-x830.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nP8et-0007tB-9Y; Tue, 01 Mar 2022 14:59:44 -0500
+Received: by mail-qt1-x830.google.com with SMTP id 11so10959354qtt.9;
+ Tue, 01 Mar 2022 11:59:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lQcyY9seI0jzbnW0sDztw/nODtmYIpcS6UHhCh/ZaV0=;
+ b=QJuZoRRbpvky1jhYwhrCJo9m2K4MVCMH4OAhrWzNSdzUjOKFZFY8QP4CmshMJisPTN
+ uTvJQl3l5kW2QuF+ieWdNS9oHpMNhZhY9CU0dcT/OGDOd1oWVBJA7oKq53/Vkdya/bT2
+ JnF4ZZgKs0xHN+6xaib6D5u2YmjnRdkyazCw7eJcBYw++QTSZrnxuneOne3JO2iPcWqz
+ UYBfcMdIiBUuwsuid7OVRUrlkBLW/fnvKXW/OnHwL0fiHA5hMDpYYPHVz1RUSFcv2CK2
+ kj5DkZNd2vk2htitqoprm3+4KBOQ+Ap6qBOkucyLQdJVc6hShvHxZ0S79lszYu1n1363
+ uS/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lQcyY9seI0jzbnW0sDztw/nODtmYIpcS6UHhCh/ZaV0=;
+ b=6NPm2NX81YekH1ocXFWkIOO7Ca/1zeykiT41IsfVCdvuGYkqBSgA0VAdM0MWMv1bKl
+ Jfzt/9h9BPy7PwoWKMbAcDxBOra4H+OgYev5VDu3h/AtOiCzmW1LoK0vDz6jmGCITwTf
+ l0GC8mwB4jJx+2foMBnpMkmhJZLyoeVtEkA4AF4ZxLMprp5ZgTXmAaq6Bp2B6gG2xcmZ
+ yYSi/hKCFtMVhPZSIkFQMezfrOsei5u62gG4JVOZnyAnwn544g70L4eCivULCIgZJTRE
+ Jv/hZy+fQeUB8rLleENwviJdXZFRIWZEanw1el932gshFJn379Bzkn3Sy3V+mW54sXcT
+ RT7Q==
+X-Gm-Message-State: AOAM531sESESfnZmBg7QV8LWgr3rNdX/PhI7hVlzFzKUVLQ8F6cRZGKT
+ ZfhJbWFxsyw1YEr/5ykOI4a9nSEiVr2VZdacN8c=
+X-Google-Smtp-Source: ABdhPJzjsOewnvGsMeOQ4aHYZ7mTcME7g/HV7voRdnpa9qJ4KH8lKchmiuP2/PAoWTNfY90Dds4qhw==
+X-Received: by 2002:ac8:5753:0:b0:2dc:ed41:5abe with SMTP id
+ 19-20020ac85753000000b002dced415abemr20917772qtx.222.1646164781783; 
+ Tue, 01 Mar 2022 11:59:41 -0800 (PST)
+Received: from localhost.localdomain (mont-dyn-147-183.pwrtc.com.
+ [205.174.147.183]) by smtp.gmail.com with ESMTPSA id
+ y16-20020a05622a121000b002deaa0af9e2sm9670100qtx.49.2022.03.01.11.59.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 11:59:41 -0800 (PST)
+From: David Miller <dmiller423@gmail.com>
+To: qemu-s390x@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2] tests/tcg/s390x: Cleanup of mie3 tests.
+Date: Tue,  1 Mar 2022 14:59:33 -0500
+Message-Id: <20220301195933.1500-1-dmiller423@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::830
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
+ envelope-from=dmiller423@gmail.com; helo=mail-qt1-x830.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,39 +85,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, farman@linux.ibm.com,
+ David Miller <dmiller423@gmail.com>, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Adds clobbers and merges remaining separate asm statements.
 
-Declare the intent to require a machine type to be specified on x86
-system emulation.
+v1 -> v2:
+* Corrected side in rebase conflict, removing older code.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+Signed-off-by: David Miller <dmiller423@gmail.com>
 ---
- docs/about/deprecated.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ tests/tcg/s390x/mie3-compl.c | 18 +++++++++++-----
+ tests/tcg/s390x/mie3-mvcrl.c | 12 +++++++----
+ tests/tcg/s390x/mie3-sel.c   | 41 ++++++++++++++++++------------------
+ 3 files changed, 41 insertions(+), 30 deletions(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 85773db631..143c60d105 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -324,6 +324,14 @@ machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
- been implemented), so there is not much value added by this board. Use the
- ``ref405ep`` machine instead.
+diff --git a/tests/tcg/s390x/mie3-compl.c b/tests/tcg/s390x/mie3-compl.c
+index 35649f3b02..938938df9e 100644
+--- a/tests/tcg/s390x/mie3-compl.c
++++ b/tests/tcg/s390x/mie3-compl.c
+@@ -1,13 +1,20 @@
+ #include <stdint.h>
  
-+x86 default machine type
-+''''''''''''''''''''''''
 +
-+x86 currently defaults to the ```pc``` machine type which is based on the very
-+old ```i440fx``` chipset.  This default will be removed and the user will be
-+required to specify a machine type explicitly using -M; users are encouraged to
-+switch to the not quite as old ```q35``` machine types.
-+
- Backend options
- ---------------
+ #define FbinOp(S, ASM) uint64_t S(uint64_t a, uint64_t b) \
+-{ \
+-    uint64_t res = 0; \
+-    asm ("llihf %[res],801\n" ASM \
+-         : [res]"=&r"(res) : [a]"r"(a), [b]"r"(b) : "cc"); \
+-    return res; \
++{                       \
++    uint64_t res = 0;   \
++asm volatile (          \
++    "llihf %[res],801\n"\
++    ASM                 \
++    : [res] "=&r" (res)  \
++    : [a] "r" (a)       \
++    , [b] "r" (b)       \
++);                      \
++    return res;         \
+ }
  
++
+ /* AND WITH COMPLEMENT */
+ FbinOp(_ncrk,  ".insn rrf, 0xB9F50000, %[res], %[b], %[a], 0\n")
+ FbinOp(_ncgrk, ".insn rrf, 0xB9E50000, %[res], %[b], %[a], 0\n")
+@@ -28,6 +35,7 @@ FbinOp(_nogrk, ".insn rrf, 0xB9660000, %[res], %[b], %[a], 0\n")
+ FbinOp(_ocrk,  ".insn rrf, 0xB9750000, %[res], %[b], %[a], 0\n")
+ FbinOp(_ocgrk, ".insn rrf, 0xB9650000, %[res], %[b], %[a], 0\n")
+ 
++
+ int main(int argc, char *argv[])
+ {
+     if (_ncrk(0xFF88, 0xAA11)  != 0x0000032100000011ull ||
+diff --git a/tests/tcg/s390x/mie3-mvcrl.c b/tests/tcg/s390x/mie3-mvcrl.c
+index 57b08e48d0..f749dad9c2 100644
+--- a/tests/tcg/s390x/mie3-mvcrl.c
++++ b/tests/tcg/s390x/mie3-mvcrl.c
+@@ -1,15 +1,17 @@
+ #include <stdint.h>
+ #include <string.h>
+ 
++
+ static inline void mvcrl_8(const char *dst, const char *src)
+ {
+     asm volatile (
+-    "llill %%r0, 8\n"
+-    ".insn sse, 0xE50A00000000, 0(%[dst]), 0(%[src])"
+-    : : [dst] "d" (dst), [src] "d" (src)
+-    : "memory");
++        "llill %%r0, 8\n"
++        ".insn sse, 0xE50A00000000, 0(%[dst]), 0(%[src])"
++        : : [dst] "d" (dst), [src] "d" (src)
++        : "r0", "memory");
+ }
+ 
++
+ int main(int argc, char *argv[])
+ {
+     const char *alpha = "abcdefghijklmnop";
+@@ -25,3 +27,5 @@ int main(int argc, char *argv[])
+ 
+     return strncmp(alpha, tstr, 16ul);
+ }
++
++
+diff --git a/tests/tcg/s390x/mie3-sel.c b/tests/tcg/s390x/mie3-sel.c
+index b0c5c9857d..ca6043251b 100644
+--- a/tests/tcg/s390x/mie3-sel.c
++++ b/tests/tcg/s390x/mie3-sel.c
+@@ -1,28 +1,26 @@
+ #include <stdint.h>
+ 
+ #define Fi3(S, ASM) uint64_t S(uint64_t a, uint64_t b, uint64_t c) \
+-{                            \
+-    uint64_t res = 0;        \
+-    asm (                    \
+-         "lg %%r2, %[a]\n"   \
+-         "lg %%r3, %[b]\n"   \
+-         "lg %%r0, %[c]\n"   \
+-         "ltgr %%r0, %%r0\n" \
+-         ASM                 \
+-         "stg %%r0, %[res] " \
+-         : [res] "=m" (res)  \
+-         : [a] "m" (a),      \
+-           [b] "m" (b),      \
+-           [c] "m" (c)       \
+-         : "r0", "r2",       \
+-           "r3", "r4"        \
+-    );                       \
+-    return res;              \
++{                       \
++    uint64_t res = 0;   \
++asm volatile (          \
++    "lg %%r0, %[c]\n"   \
++    "ltgr %%r0, %%r0\n" \
++    ASM                 \
++    "stg %%r0, %[res] " \
++    : [res] "=m" (res)  \
++    : [a] "r" (a),      \
++      [b] "r" (b),      \
++      [c] "m" (c)       \
++    : "r0", "memory"    \
++);                      \
++    return res;         \
+ }
+ 
+-Fi3 (_selre,     ".insn rrf, 0xB9F00000, %%r0, %%r3, %%r2, 8\n")
+-Fi3 (_selgrz,    ".insn rrf, 0xB9E30000, %%r0, %%r3, %%r2, 8\n")
+-Fi3 (_selfhrnz,  ".insn rrf, 0xB9C00000, %%r0, %%r3, %%r2, 7\n")
++Fi3 (_selre,     ".insn rrf, 0xB9F00000, %%r0, %[b], %[a], 8\n")
++Fi3 (_selgrz,    ".insn rrf, 0xB9E30000, %%r0, %[b], %[a], 8\n")
++Fi3 (_selfhrnz,  ".insn rrf, 0xB9C00000, %%r0, %[b], %[a], 7\n")
++
+ 
+ int main(int argc, char *argv[])
+ {
+@@ -34,5 +32,6 @@ int main(int argc, char *argv[])
+     return (int) (
+         (0xFFFFFFFF00000066ull != a) ||
+         (0x0000F00D00000005ull != b) ||
+-        (0x00000654FFFFFFFFull != c));
++        (0x00000654FFFFFFFFull != c) );
+ }
++
 -- 
-2.35.1
+2.34.1
 
 
