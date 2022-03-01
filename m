@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857194C9833
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:14:25 +0100 (CET)
-Received: from localhost ([::1]:32842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C944C982D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:11:53 +0100 (CET)
+Received: from localhost ([::1]:52488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPAlE-0005sE-IV
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:14:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58454)
+	id 1nPAim-0008Q2-9r
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:11:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPAXY-0001Hb-Sy
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:16 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=38906
- helo=mail-pj1-x102f.google.com)
+ id 1nPAXX-0001Fv-9A
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:15 -0500
+Received: from [2607:f8b0:4864:20::434] (port=43728
+ helo=mail-pf1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPAXW-0004xE-B8
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:16 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- ge19-20020a17090b0e1300b001bcca16e2e7so3041953pjb.3
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:00:13 -0800 (PST)
+ id 1nPAXT-0004wg-Qu
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:15 -0500
+Received: by mail-pf1-x434.google.com with SMTP id d187so46239pfa.10
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:00:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8FniAxzNq9R5C3PUa8crK2rtgbWJQ/YT25+L7bxil2U=;
- b=xH/MpwwsEx7tCCiXBux6CW1bncqLIT+/ndlXh6/VUdnO9JDYCi49WGBcxCb4Ff9cg9
- cGQVTbgkSMc0iGGhcaS67Z9aFwS049ZkYHV00jdjYMFHGgM3QSQRhWEGsWlYWvg/MIcj
- 4KMNYt0VjSomcKespNRQxGPBwMdYR0veGZsk9DhkvLyigPTL3HRLVJDwt7uAIT6Axb9C
- VHg/4VbbbjKV+oEDi22MbAYs7hB4ND1bf82TXZtVPzOB8WRen0bdEEHJWKdAo65tQvcD
- IVNaNOlXPn9UUza3tSVBfiwaTgLDqty63Dg5D1oz/n/ecayciiC7eztu7JTiDrOpLQ/k
- I2KQ==
+ bh=+DAMlpqsE9DmBwY1s+cP0r+gi8rLuchADVNtgdDMW7U=;
+ b=mq2ltQuvsaGII0nw21LCdZQ9vRhu+28qEW5tjEtWd8kZKUrGy9SKf9m7hDdbGyU/py
+ WVbzzG7efFmDHTqilAKCt5F773MS4MiGulnOX/29f8woFmOx8WsUT6MGpFrYeLSlR1yM
+ I0qYQtmfcy6GY4X8U1yKCXzS2o38Jy03HBkzo5/xkI1qXqYAXmDRZK29hEcQ8iWEOzuR
+ bus8SOvOtG25OzocVXY/94RKHNZZWNsjWDCZyhEK3rTGmwi/pfBOsDLVCUKoxr3rqtFe
+ bgbHU027H9GdDmx65hLDgqAo8bITJedZYib/G4aO3sBKT1VOUZRH1S67tc5E4vdQBBNx
+ 1bRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8FniAxzNq9R5C3PUa8crK2rtgbWJQ/YT25+L7bxil2U=;
- b=VMhMjvpvq4sMwS1h709vSMcOMGgm6LC+95rtp3rmQKtnInfkVmzquxRkvpWZo0wqUf
- Kbtu0oBzUkwfhENjJfpa1sLVMagSBMxw4mQtgM84uDTUUVR9Ydsn2aiRjFlUw3KPWQgG
- x26R91AM0gYR3xEV5rcnRzPS4BKSYaoclRCKKk4xnidtmcKCXpI5GLqCGHw+Bi2k8uMY
- 1mGXrSERLsACHCNo6Igs7jDo8lHDCr0DKMcvq0IT2j33z+9uh9UeFNcd0wQUuAq+KbYI
- FgyF7vNhS6I+0XoiyJ0U6AZnj5VIHmerVTF7EvTnJB36mifrBREcE3ESJEGgqF/LnS2p
- xxgw==
-X-Gm-Message-State: AOAM532skKqvaC+9tsZwJYMm4mbyENTT5zaAQvvAepaj97/zYiZoJuxs
- QNHgJ/GV4SWHW9VPF1vZ7U1exKOAdy+hzQ==
-X-Google-Smtp-Source: ABdhPJz1hB3YNJDKth1KuNTqtMV+kDRRoc9OVW6y+XDQNOPf/xXqE7rjPLWiYrT5ekrgRLO3vvv8QQ==
-X-Received: by 2002:a17:903:24f:b0:14f:73fa:2b30 with SMTP id
- j15-20020a170903024f00b0014f73fa2b30mr27698588plh.174.1646172007947; 
- Tue, 01 Mar 2022 14:00:07 -0800 (PST)
+ bh=+DAMlpqsE9DmBwY1s+cP0r+gi8rLuchADVNtgdDMW7U=;
+ b=xIZ3iHKiUdsW7gSCsBmHHBmaS9SHOkBwE2DCfQTL2tFA4RgngLMpcp9wNtirYN3UzI
+ PJrLZEjRazRAmFohlf7c3Jvyf9rxmdNerkLwtu6n7IK+Tqcbg/Qkg7yQxA8Hg9loX0vR
+ aZp78AObCGOygcLHd+ZNmzKP+Lf4FgaV3PTLvnGfHme+1SwQVYhUTIakrvnWqN0dvTtp
+ /HT5oU+SXrCwobQ/JuXlOC10Mnc0lTdAivgMbu1dWhx9Zi+yQCgYXG5a7KXNQXRqfuSA
+ QXB1w9fXaIwdZ+C0S2UBfmx9EVy1dvRPkONrcj7jPkdt6vNlzW3pr4p4ouzqsATi11Dy
+ 9NMA==
+X-Gm-Message-State: AOAM531OQrlX6QRkJg2+AxG7nFnSeqsmbTs+I9Qnq8xywZK8CSwAi9+/
+ ubm1EO6xTUUx1pf1nyGY/o6VBljXpoYnGQ==
+X-Google-Smtp-Source: ABdhPJxjvJKUJ+gOLQNlE8UvJ++/e3NjvvE9mSqCFx/G8Z24shQmr/GiejIN7xvL9WxkTeYsa8wjFw==
+X-Received: by 2002:a65:4d0c:0:b0:379:3df:eac8 with SMTP id
+ i12-20020a654d0c000000b0037903dfeac8mr1793340pgt.166.1646172009529; 
+ Tue, 01 Mar 2022 14:00:09 -0800 (PST)
 Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- m4-20020a17090a7f8400b001bef3fc3938sm284392pjl.49.2022.03.01.14.00.06
+ m4-20020a17090a7f8400b001bef3fc3938sm284392pjl.49.2022.03.01.14.00.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 14:00:07 -0800 (PST)
+ Tue, 01 Mar 2022 14:00:09 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/18] target/arm: Fault on invalid TCR_ELx.TxSZ
-Date: Tue,  1 Mar 2022 11:59:43 -1000
-Message-Id: <20220301215958.157011-4-richard.henderson@linaro.org>
+Subject: [PATCH v4 04/18] target/arm: Move arm_pamax out of line
+Date: Tue,  1 Mar 2022 11:59:44 -1000
+Message-Id: <20220301215958.157011-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220301215958.157011-1-richard.henderson@linaro.org>
 References: <20220301215958.157011-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,104 +89,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without FEAT_LVA, the behaviour of programming an invalid value
-is IMPLEMENTATION DEFINED.  With FEAT_LVA, programming an invalid
-minimum value requires a Translation fault.
-
-It is most self-consistent to choose to generate the fault always.
+We will shortly share parts of this function with other portions
+of address translation.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Continue to bound in aa64_va_parameters, so that PAuth gets
-    something it can use, but provide a flag for get_phys_addr_lpae
-    to raise a fault.
----
- target/arm/internals.h |  1 +
- target/arm/helper.c    | 32 ++++++++++++++++++++++++++++----
- 2 files changed, 29 insertions(+), 4 deletions(-)
+ target/arm/internals.h | 19 +------------------
+ target/arm/helper.c    | 22 ++++++++++++++++++++++
+ 2 files changed, 23 insertions(+), 18 deletions(-)
 
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 3f05748ea4..ef6c25d8cb 100644
+index ef6c25d8cb..fefd1fb8d8 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -1055,6 +1055,7 @@ typedef struct ARMVAParameters {
-     bool hpd        : 1;
-     bool using16k   : 1;
-     bool using64k   : 1;
-+    bool tsz_oob    : 1;  /* tsz has been clamped to legal range */
- } ARMVAParameters;
+@@ -243,24 +243,7 @@ static inline void update_spsel(CPUARMState *env, uint32_t imm)
+  * Returns the implementation defined bit-width of physical addresses.
+  * The ARMv8 reference manuals refer to this as PAMax().
+  */
+-static inline unsigned int arm_pamax(ARMCPU *cpu)
+-{
+-    static const unsigned int pamax_map[] = {
+-        [0] = 32,
+-        [1] = 36,
+-        [2] = 40,
+-        [3] = 42,
+-        [4] = 44,
+-        [5] = 48,
+-    };
+-    unsigned int parange =
+-        FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
+-
+-    /* id_aa64mmfr0 is a read-only register so values outside of the
+-     * supported mappings can be considered an implementation error.  */
+-    assert(parange < ARRAY_SIZE(pamax_map));
+-    return pamax_map[parange];
+-}
++unsigned int arm_pamax(ARMCPU *cpu);
  
- ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+ /* Return true if extended addresses are enabled.
+  * This is always the case if our translation regime is 64 bit,
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 7bf50fdd76..dd4d95bda2 100644
+index dd4d95bda2..71e575f352 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11190,8 +11190,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-                                    ARMMMUIdx mmu_idx, bool data)
- {
-     uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
--    bool epd, hpd, using16k, using64k;
--    int select, tsz, tbi, max_tsz;
-+    bool epd, hpd, using16k, using64k, tsz_oob;
-+    int select, tsz, tbi, max_tsz, min_tsz;
- 
-     if (!regime_has_2_ranges(mmu_idx)) {
-         select = 0;
-@@ -11232,9 +11232,17 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-     } else {
-         max_tsz = 39;
-     }
-+    min_tsz = 16;  /* TODO: ARMv8.2-LVA  */
- 
--    tsz = MIN(tsz, max_tsz);
--    tsz = MAX(tsz, 16);  /* TODO: ARMv8.2-LVA  */
-+    if (tsz > max_tsz) {
-+        tsz = max_tsz;
-+        tsz_oob = true;
-+    } else if (tsz < min_tsz) {
-+        tsz = min_tsz;
-+        tsz_oob = true;
-+    } else {
-+        tsz_oob = false;
-+    }
- 
-     /* Present TBI as a composite with TBID.  */
-     tbi = aa64_va_parameter_tbi(tcr, mmu_idx);
-@@ -11251,6 +11259,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         .hpd = hpd,
-         .using16k = using16k,
-         .using64k = using64k,
-+        .tsz_oob = tsz_oob,
-     };
+@@ -11152,6 +11152,28 @@ static uint8_t convert_stage2_attrs(CPUARMState *env, uint8_t s2attrs)
  }
+ #endif /* !CONFIG_USER_ONLY */
  
-@@ -11374,6 +11383,21 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-         param = aa64_va_parameters(env, address, mmu_idx,
-                                    access_type != MMU_INST_FETCH);
-         level = 0;
++/* The cpu-specific constant value of PAMax; also used by hw/arm/virt. */
++unsigned int arm_pamax(ARMCPU *cpu)
++{
++    static const unsigned int pamax_map[] = {
++        [0] = 32,
++        [1] = 36,
++        [2] = 40,
++        [3] = 42,
++        [4] = 44,
++        [5] = 48,
++    };
++    unsigned int parange =
++        FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
 +
-+        /*
-+         * If TxSZ is programmed to a value larger than the maximum,
-+         * or smaller than the effective minimum, it is IMPLEMENTATION
-+         * DEFINED whether we behave as if the field were programmed
-+         * within bounds, or if a level 0 Translation fault is generated.
-+         *
-+         * With FEAT_LVA, fault on less than minimum becomes required,
-+         * so our choice is to always raise the fault.
-+         */
-+        if (param.tsz_oob) {
-+            fault_type = ARMFault_Translation;
-+            goto do_fault;
-+        }
++    /*
++     * id_aa64mmfr0 is a read-only register so values outside of the
++     * supported mappings can be considered an implementation error.
++     */
++    assert(parange < ARRAY_SIZE(pamax_map));
++    return pamax_map[parange];
++}
 +
-         addrsize = 64 - 8 * param.tbi;
-         inputsize = 64 - param.tsz;
-     } else {
+ static int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx)
+ {
+     if (regime_has_2_ranges(mmu_idx)) {
 -- 
 2.25.1
 
