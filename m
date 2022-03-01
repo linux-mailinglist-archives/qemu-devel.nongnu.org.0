@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385904C8933
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:24:38 +0100 (CET)
-Received: from localhost ([::1]:53124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4444C892A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:22:59 +0100 (CET)
+Received: from localhost ([::1]:49530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOzgL-0006R0-8g
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:24:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49566)
+	id 1nOzek-0003gq-Ge
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:22:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nOzEz-0007yk-UQ
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:56:22 -0500
-Received: from [2a00:1450:4864:20::62f] (port=33567
- helo=mail-ej1-x62f.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nOzBD-0002OF-BE
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:52:27 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=35616
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nOzEx-0001xO-9j
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:56:21 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id kt27so1247039ejb.0
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 01:56:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9R6z4B4mLQw367uaJ4iZig/x1Xw1bFRMsLiBv+G2ki8=;
- b=TQq3gcfzRziqDVVKW7ML8jejLp+dF63fMJ5uHLXDBMSjq4cnh9EfLlUUrHpYbyR4sL
- eJm1zKwqV3WVd/crcfaZzXop9okmDtyWNRcYwRpwTHXXtg8y0sERTFGBTiaELNRqgxLw
- 6/2nPpWnB6zpa+rH4H+z1D0Xik/Ez4VIzTrXfnpzSR0+2nOb+cYJBgf/XNpAGK6O/UR/
- xzTBmZQEZCxzYWeix4g8+OzBpk6XJhsEzl4nT1MCo61ExCKxxIL9pfazKjGTar9PJf57
- RfkBplejo2pVv93GWBM1U5VFDHTewAkImz2FUmbVUzXM+VMROBGmBQHune7PcTedYk1c
- /ZDw==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nOzBB-0000Mu-Qq
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:52:27 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ v5-20020a17090ac90500b001bc40b548f9so1638228pjt.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 01:52:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=Rwhii/S/L36Potljjq3DGclFv43p2b3+ac2o4cWKOcE=;
+ b=Dbt/6+W4hZY55WjGydFBpBLaEjkt2eyx/qagNRoyqMFYvMDpXClPUWSDtRjzn7qQOI
+ SP+PQ5tcdEOr3i9F6Un2r4o2nvsdI8Y+dTu8bLQqCDa9BscL9ldpR4rNUT/3p2EPxEf2
+ utYR/8wlb/n8Bxfqt/R8u0MCpDy9RcklsRm8sZvBjMRhN2D0KLAEpDALuTxBD4OIysI+
+ LzqZQgtcmFLLJtNSAwbI7s30rbtv9ZoU2tMOM1/YBUKfrg3H8hcY4qoDYRb8dKFK0lJM
+ mZ5Nno+CFlvpGwSi4gHMBEMQQkChJrJGImIg9XzY/f5yNZwmuGSa+5taPn0rkyiUFYfG
+ jlVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9R6z4B4mLQw367uaJ4iZig/x1Xw1bFRMsLiBv+G2ki8=;
- b=lMauhKCerAD38y0KRIWsOg6gC510k+KO+FOg5XPYCiZZJ4XSvp8+cehbFBIx6bJ920
- N3dyNWTSofH+/y/svQl8BcMHMZMbzw3Fbmw6XPwCL/rxn6tHg+MHWG1u+SxemBf2PXhr
- uztOAd/JUIiotj5UiQOHent2800lYsg4qYdoEG6TID+w0ddgS5Ny6E+ZcwAn/bcA0u+6
- XdBlDbPbu4pxj2qsqiJGFZMWBZ26fbcCSa1FgeXUDGR5gDdMCBTD0oIMCKP3/vBeC67u
- B/3wN+o96IQh+0e05BI1tnsVRh3KyEzAN8qQ41LzrGtXhYE7DkSRXRc7JA6lT/C5sHBu
- /thQ==
-X-Gm-Message-State: AOAM532f3OB2MZeMpprxxkGvIv55iF/MUyIlKoktYe8E3VoZQNJHrcrd
- nhCaNHOYgl+l2jDjlqZr3of8lQ==
-X-Google-Smtp-Source: ABdhPJwquB41a7eyZ2UkUA/Sn6/kd7cTCLvVZ3wV6D0lYCaC/nEnLHnrT9aXRJe+C3bZ0lABQgGLQA==
-X-Received: by 2002:a17:906:743:b0:6d0:7f19:d737 with SMTP id
- z3-20020a170906074300b006d07f19d737mr18550517ejb.11.1646128576865; 
- Tue, 01 Mar 2022 01:56:16 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- ov6-20020a170906fc0600b006cf54ef58ddsm5256400ejb.149.2022.03.01.01.56.15
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=Rwhii/S/L36Potljjq3DGclFv43p2b3+ac2o4cWKOcE=;
+ b=N61N8GXHJFOLfwJncSV/2C69cRprJ9+SEP9B2Po0F28FE7sz9LvKEQXn32nEcDoWUd
+ b+R9eOC9xzkcu08E18dcHzbVeBSRt8vHJ0YG3DbJcWpskUsa8w6vNgQ5LPYAsVEJS4IG
+ vBdxxFkuZnHFp5vT6iVh/et2W+wUjn5ebNRwmjOlfFRcRQSWUpPHaE3iKVjRv/NsNrsd
+ OERgSGhVUFqqhgOLLwv2PZkklTOtvILXieiyQckoDnMEuIszFRkT2alj1FnsrHiva2BT
+ i+xJSWJmzK2XYXGn1CLe/bfx7+HxtiLYYmed1ke54zZs9+b5gNcGH3b2XL0aMh8F8cXm
+ YkWw==
+X-Gm-Message-State: AOAM531rWFcHPc+e92n/ZzcoUThbln4Byb0Upoe8+7L8heGTIEz/h744
+ Imp5PJJNULKVnlyBhr8XNoMh4g==
+X-Google-Smtp-Source: ABdhPJyska7xYI7m0BhF7D/AlloZY3H/xB9MAkJ8eTJ8X0utYYbYFEoqpNPmAUzUTFJiAJRqLK0tfg==
+X-Received: by 2002:a17:902:f552:b0:150:11a5:5e01 with SMTP id
+ h18-20020a170902f55200b0015011a55e01mr24290769plf.114.1646128343927; 
+ Tue, 01 Mar 2022 01:52:23 -0800 (PST)
+Received: from anisinha-lenovo ([203.212.247.124])
+ by smtp.googlemail.com with ESMTPSA id
+ u19-20020a056a00159300b004e1590f88c1sm17170910pfk.220.2022.03.01.01.52.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 01:56:16 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 04F4E1FFCA;
- Tue,  1 Mar 2022 09:47:17 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 18/18] tests/tcg: port SYS_HEAPINFO to a system test
-Date: Tue,  1 Mar 2022 09:47:15 +0000
-Message-Id: <20220301094715.550871-19-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220301094715.550871-1-alex.bennee@linaro.org>
-References: <20220301094715.550871-1-alex.bennee@linaro.org>
+ Tue, 01 Mar 2022 01:52:23 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Tue, 1 Mar 2022 15:22:17 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v4 2/3] hw/acpi: add indication for i8042 in IA-PC boot
+ flags of the FADT table
+In-Reply-To: <20220301094354.1d37f470@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2203011514030.1522204@anisinha-lenovo>
+References: <20220228201733.714580-1-liavalb@gmail.com>
+ <20220228201733.714580-3-liavalb@gmail.com>
+ <20220301094354.1d37f470@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,130 +92,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: ani@anisinha.ca, mst@redhat.com, shentey@gmail.com,
+ Liav Albani <liavalb@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows us to check our new SYS_HEAPINFO implementation generates
-sane values.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220225172021.3493923-19-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/aarch64/system/semiheap.c b/tests/tcg/aarch64/system/semiheap.c
-new file mode 100644
-index 0000000000..4ed258476d
---- /dev/null
-+++ b/tests/tcg/aarch64/system/semiheap.c
-@@ -0,0 +1,93 @@
-+/*
-+ * Semihosting System HEAPINFO Test
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include <inttypes.h>
-+#include <stddef.h>
-+#include <minilib.h>
-+
-+#define SYS_HEAPINFO    0x16
-+
-+uintptr_t __semi_call(uintptr_t type, uintptr_t arg0)
-+{
-+    register uintptr_t t asm("x0") = type;
-+    register uintptr_t a0 asm("x1") = arg0;
-+    asm("hlt 0xf000"
-+        : "=r" (t)
-+        : "r" (t), "r" (a0)
-+        : "memory" );
-+
-+    return t;
-+}
-+
-+int main(int argc, char *argv[argc])
-+{
-+    struct {
-+        void *heap_base;
-+        void *heap_limit;
-+        void *stack_base;
-+        void *stack_limit;
-+    } info = { };
-+    void *ptr_to_info = (void *) &info;
-+    uint32_t *ptr_to_heap;
-+    int i;
-+
-+    ml_printf("Semihosting Heap Info Test\n");
-+
-+    __semi_call(SYS_HEAPINFO, (uintptr_t) &ptr_to_info);
-+
-+    if (info.heap_base == NULL || info.heap_limit == NULL) {
-+        ml_printf("null heap: %p -> %p\n", info.heap_base, info.heap_limit);
-+        return -1;
-+    }
-+
-+    /* Error if heap base is above limit */
-+    if ((uintptr_t) info.heap_base >= (uintptr_t) info.heap_limit) {
-+        ml_printf("heap base %p >= heap_limit %p\n",
-+               info.heap_base, info.heap_limit);
-+        return -2;
-+    }
-+
-+    if (info.stack_base == NULL) {
-+        ml_printf("null stack: %p -> %p\n", info.stack_base, info.stack_limit);
-+        return -3;
-+    }
-+
-+    /*
-+     * boot.S put our stack somewhere inside the data segment of the
-+     * ELF file, and we know that SYS_HEAPINFO won't pick a range
-+     * that overlaps with part of a loaded ELF file. So the info
-+     * struct (on the stack) should not be inside the reported heap.
-+     */
-+    if (ptr_to_info > info.heap_base && ptr_to_info < info.heap_limit) {
-+        ml_printf("info appears to be inside the heap: %p in %p:%p\n",
-+               ptr_to_info, info.heap_base, info.heap_limit);
-+        return -4;
-+    }
-+
-+    ml_printf("heap: %p -> %p\n", info.heap_base, info.heap_limit);
-+    ml_printf("stack: %p <- %p\n", info.stack_limit, info.stack_base);
-+
-+    /* finally can we read/write the heap */
-+    ptr_to_heap = (uint32_t *) info.heap_base;
-+    for (i = 0; i < 512; i++) {
-+        *ptr_to_heap++ = i;
-+    }
-+    ptr_to_heap = (uint32_t *) info.heap_base;
-+    for (i = 0; i < 512; i++) {
-+        uint32_t tmp = *ptr_to_heap;
-+        if (tmp != i) {
-+            ml_printf("unexpected value in heap: %d @ %p", tmp, ptr_to_heap);
-+            return -5;
-+        }
-+        ptr_to_heap++;
-+    }
-+    ml_printf("r/w to heap upto %p\n", ptr_to_heap);
-+
-+    ml_printf("Passed HeapInfo checks\n");
-+    return 0;
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fa8adc2618..68adaac373 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3549,6 +3549,7 @@ S: Maintained
- F: semihosting/
- F: include/semihosting/
- F: tests/tcg/multiarch/arm-compat-semi/
-+F: tests/tcg/aarch64/system/semiheap.c
- 
- Multi-process QEMU
- M: Elena Ufimtseva <elena.ufimtseva@oracle.com>
--- 
-2.30.2
+On Tue, 1 Mar 2022, Igor Mammedov wrote:
+
+> On Mon, 28 Feb 2022 22:17:32 +0200
+> Liav Albani <liavalb@gmail.com> wrote:
+>
+> > This can allow the guest OS to determine more easily if i8042 controller
+> > is present in the system or not, so it doesn't need to do probing of the
+> > controller, but just initialize it immediately, before enumerating the
+> > ACPI AML namespace.
+> >
+> > This change only applies to the x86/q35 machine type, as it uses FACP
+> > ACPI table with revision higher than 1, which should implement at least
+> > ACPI 2.0 features within the table, hence it can also set the IA-PC boot
+> > flags register according to the ACPI 2.0 specification.
+> >
+> > Signed-off-by: Liav Albani <liavalb@gmail.com>
+> > ---
+> >  hw/acpi/aml-build.c         | 11 ++++++++++-
+> >  hw/i386/acpi-build.c        |  9 +++++++++
+> >  hw/i386/acpi-microvm.c      |  9 +++++++++
+> commit message says it's q35 specific, so wy it touched microvm anc piix4?
+
+Igor is correct. Although I see that currently there are no 8042 devices
+for microvms, maybe we should be conservative and add the code to detect
+the device anyway. In that case, the change could affect microvms too when
+such devices get added in the future.
+
+
+echo -e "info qtree\r\nquit\r\n" | ./qemu-system-x86_64 -machine microvm
+-monitor stdio 2>/dev/null | grep 8042
+
+<empty>
 
 
