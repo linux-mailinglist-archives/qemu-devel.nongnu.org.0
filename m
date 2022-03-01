@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6424C8A2C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:59:16 +0100 (CET)
-Received: from localhost ([::1]:47180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 092484C8A34
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 12:00:55 +0100 (CET)
+Received: from localhost ([::1]:47984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP0Dq-00079B-2O
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:59:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41256)
+	id 1nP0FR-0007nx-T5
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 06:00:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nOzzk-0006JL-RM; Tue, 01 Mar 2022 05:44:41 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:55973)
+ id 1nOzzl-0006Jp-Kq; Tue, 01 Mar 2022 05:44:41 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:44215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nOzzi-0005hO-2O; Tue, 01 Mar 2022 05:44:40 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 502025802FE;
- Tue,  1 Mar 2022 05:44:37 -0500 (EST)
+ id 1nOzzk-0005ht-24; Tue, 01 Mar 2022 05:44:41 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4E5DF580305;
+ Tue,  1 Mar 2022 05:44:39 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Tue, 01 Mar 2022 05:44:37 -0500
+ by compute5.internal (MEProxy); Tue, 01 Mar 2022 05:44:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; bh=6jQMn5vjkzbK22
- ZNGwwziED82xhmn61hEzAmt3+NbxI=; b=Mr7qVRQM0toeGFT7Ocmu5rEnrq+hd3
- KlOVxkLzUST8d6VJRfBAmSMRodhxjmosjtkm+vNHZJBlM9R4IO1OEvF3F/9J+21Q
- 8XcWA3oxFiKxnUDBwO9Q0oWLo+Mjrj0PLdcccOyM5BDR2bGZUxTvVKsyW2DGuoAO
- E5IEhGnUgJI0xCPxFO77pvJBrjdHhTlGWnTNRAjMwQ5xQTdVwSrEdhiHJVyDMDob
- DWHk/fJjkbZ85RnPfRoXciuOsXdeb2vJbwy+1SPVOXczySM3279gcExRhR2Jgjt+
- /yAbzKH15+gBlI7v6R55Lq78aaqhFQl9/Gmmmr2frpAtaBd5/ZtHyxCQ==
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=eD3Z//acc0TvIT
+ txQb1V0sCgfRK79UyKYNr/ltUVJfY=; b=MTXxVFQnfKRlIC3lI6iWAYLo2S2doj
+ okepOZbcM/eZ4oOK5nZjzpSh7SUE9J1DSPRROuDtmU+QUYUAEksC49ViuyUqVZo9
+ 5XILVdOo0gdwCFmTH/koF9WVFRwRPby1h37/94VgMjR+1ZJtMBQ18ZV99zW2u5Dp
+ kPktlQMewcJwsts8l+f6nOO0J9vyTliLDIADuCqXwRTq9nrolzHbebdQv99lu7oL
+ 75V1dMDPo3X/cSWi4GpPNB7QGK4cgTKK3bdY5ctHKtPTlKm6BCNt3VpDhA6aT+CJ
+ M1TlwqFg2F42FWodK90AHqHkOuvh/XNeuSAeQZ3/9930p3Xmt4K12nEg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=6jQMn5
- vjkzbK22ZNGwwziED82xhmn61hEzAmt3+NbxI=; b=KNj0Fm/NaT4pXFb/LZ1QqW
- vaTpX6MzOrKLrYkY22pr+Fs4caET8fWbGDt/CK+OARLAAg1kpWiUX+0Ny84WQqzL
- 57FDnL4APU03aQxvsSkQNYRUUJcEwW7lMiTkEekHVBKqXDbcPcrvlSQQWWihrDXO
- JenvVBxb1SOBuLRbfr9vpZsGx9H7jBB+Yk/Q5/nEdRVUbArRIe4LH8ErFls+kT6q
- w2cM0/3LwrDBqnOxPsjHj+V3qauIEC6u+VKyXJ4VlAPR9EVx4xTbJxhgwbX7xNfE
- J3SHE9EGEA6GHZ6dmFYsI7J505DTuEMpLQNWRseajprcls4fvSQlKkhJDJ1J/LjQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eD3Z//
+ acc0TvITtxQb1V0sCgfRK79UyKYNr/ltUVJfY=; b=NsOFMw5sArBSZjK8ltE/L3
+ o3vkpC5rTvq0drcg3VpgCB5SVbxicLZHmVH/7syI4lEBXNL153oycQSiYa1aZw72
+ xgvJGQJCUdYDARx0MIgJ3jGYKTKLQ0xsIwkuUfRTXAkUMzA1wwvmk+cYf2guvUnB
+ cu2k5M2Weu3gFh1RvM889crP7MXzf2UzXkSErJ5HZTC6mlxlfLA+KJ+/kvEF9HXn
+ YD13qgMHafOx2AloezhidnqcDY4Znth5nFPBjwW2QrQbReFebKLU3NL9v2kQKBZT
+ aOrIcGd8OFKNmdpWBnu8RCV6pXIFDbBRte7VEoJBynSUV0GJHJ6xig+WHdpwvEWQ
  ==
-X-ME-Sender: <xms:FfkdYjOTWU-IRz9KtbchIXZawjQmxiDWI2K2vqcvlmSGms7nLsnGPg>
- <xme:FfkdYt-aXXiWatutxIrV-aNy1NAr08cN58GDDALzLpL3tQqiVNNcaGuFhHKFQuomw
- HlmxIP2m9wump68EIw>
-X-ME-Received: <xmr:FfkdYiSj83cWxShV7mdk3qfbSRqiUvX_zUzawDwRrUFYcjZlrGtwW9DE-QN2y6724qbxRx432A5pVHumTM6qWA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtvddgudekucetufdoteggodetrfdotf
+X-ME-Sender: <xms:F_kdYiCPfUVIoOxlH8KxjUIlcN6_3hTMPiXkzsP8E7jwRO9DAAfj7w>
+ <xme:F_kdYsjMgl7Hdf86e4Cf9Jxs3GTotrJXKFkqAua2da9K-mUfZWvln7y_w6Lp4V9hQ
+ 5VE9O7kr-rnJbHk1Lk>
+X-ME-Received: <xmr:F_kdYlk5bfH4JmIgzB8MnF61L2Q8X2MPEBe3PxadcWWXN6xaTjT1kZvBI7adQ1-nJ7AMDVhypHYyVaKn_8U-BA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtvddgudejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
@@ -56,18 +56,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtvddgudekucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:FfkdYns6YtnvSYJRI90mJUkYwTPg5lAcd7ymZPO_7n5WnSkfDiwZ0w>
- <xmx:FfkdYrcsBZ_0f0xwJs2GbcAq6R7PoQ__zjREuzOy7__cXWGpj_SmlA>
- <xmx:FfkdYj0Q-8ZHCCXbUXCqmjLHwZbsvdWyouoK1VX-AEU-1rtCRIxxng>
- <xmx:FfkdYv7vNrM14fgld9BtyVPZeH97glVuc0Ze3AgXbZEvBH4AGqHRYA>
+X-ME-Proxy: <xmx:F_kdYgzN9j3urXCJ7esuwg_OOk5zo4BvfTPgdOqwIhBun2A2RQT9WA>
+ <xmx:F_kdYnTaocnhQOmfbB6zfc9sU8I5BT2R4fKM8etLhyuU0xddHrFgxQ>
+ <xmx:F_kdYrbXBMAE5KBrj0Wk2tpZB8QAoblV9qbmsOIj5CZXHR98Nl4egg>
+ <xmx:F_kdYs9IyS-Hy78bT6FP1zIL1euQLndlHOJwS0NoKTvCwFKGmW2IzQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 1 Mar 2022 05:44:35 -0500 (EST)
+ 1 Mar 2022 05:44:37 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Keith Busch <kbusch@kernel.org>
-Subject: [PATCH v2 2/6] hw/nvme: add host behavior support feature
-Date: Tue,  1 Mar 2022 11:44:24 +0100
-Message-Id: <20220301104428.160017-3-its@irrelevant.dk>
+Subject: [PATCH v2 3/6] hw/nvme: move format parameter parsing
+Date: Tue,  1 Mar 2022 11:44:25 +0100
+Message-Id: <20220301104428.160017-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220301104428.160017-1-its@irrelevant.dk>
 References: <20220301104428.160017-1-its@irrelevant.dk>
@@ -103,108 +103,109 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Naveen Nagar <naveen.n1@samsung.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Add support for getting and setting the Host Behavior Support feature.
+There is no need to extract the format command parameters for each
+namespace. Move it to the entry point.
 
 Reviewed-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Naveen Nagar <naveen.n1@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c       | 8 ++++++++
- hw/nvme/nvme.h       | 4 +++-
- include/block/nvme.h | 9 +++++++++
- 3 files changed, 20 insertions(+), 1 deletion(-)
+ hw/nvme/ctrl.c | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index d08af3bdc1a2..71c60482c75f 100644
+index 71c60482c75f..d8701ebf2fa8 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -196,6 +196,7 @@ static const bool nvme_feature_support[NVME_FID_MAX] = {
-     [NVME_WRITE_ATOMICITY]          = true,
-     [NVME_ASYNCHRONOUS_EVENT_CONF]  = true,
-     [NVME_TIMESTAMP]                = true,
-+    [NVME_HOST_BEHAVIOR_SUPPORT]    = true,
-     [NVME_COMMAND_SET_PROFILE]      = true,
+@@ -5452,6 +5452,11 @@ typedef struct NvmeFormatAIOCB {
+     uint32_t nsid;
+     bool broadcast;
+     int64_t offset;
++
++    uint8_t lbaf;
++    uint8_t mset;
++    uint8_t pi;
++    uint8_t pil;
+ } NvmeFormatAIOCB;
+ 
+ static void nvme_format_bh(void *opaque);
+@@ -5471,14 +5476,9 @@ static const AIOCBInfo nvme_format_aiocb_info = {
+     .get_aio_context = nvme_get_aio_context,
  };
  
-@@ -206,6 +207,7 @@ static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
-     [NVME_NUMBER_OF_QUEUES]         = NVME_FEAT_CAP_CHANGE,
-     [NVME_ASYNCHRONOUS_EVENT_CONF]  = NVME_FEAT_CAP_CHANGE,
-     [NVME_TIMESTAMP]                = NVME_FEAT_CAP_CHANGE,
-+    [NVME_HOST_BEHAVIOR_SUPPORT]    = NVME_FEAT_CAP_CHANGE,
-     [NVME_COMMAND_SET_PROFILE]      = NVME_FEAT_CAP_CHANGE,
- };
+-static void nvme_format_set(NvmeNamespace *ns, NvmeCmd *cmd)
++static void nvme_format_set(NvmeNamespace *ns, uint8_t lbaf, uint8_t mset,
++                            uint8_t pi, uint8_t pil)
+ {
+-    uint32_t dw10 = le32_to_cpu(cmd->cdw10);
+-    uint8_t lbaf = dw10 & 0xf;
+-    uint8_t pi = (dw10 >> 5) & 0x7;
+-    uint8_t mset = (dw10 >> 4) & 0x1;
+-    uint8_t pil = (dw10 >> 8) & 0x1;
+-
+     trace_pci_nvme_format_set(ns->params.nsid, lbaf, mset, pi, pil);
  
-@@ -5091,6 +5093,9 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
-         goto out;
-     case NVME_TIMESTAMP:
-         return nvme_get_feature_timestamp(n, req);
-+    case NVME_HOST_BEHAVIOR_SUPPORT:
-+        return nvme_c2h(n, (uint8_t *)&n->features.hbs,
-+                        sizeof(n->features.hbs), req);
-     default:
-         break;
+     ns->id_ns.dps = (pil << 3) | pi;
+@@ -5490,7 +5490,6 @@ static void nvme_format_set(NvmeNamespace *ns, NvmeCmd *cmd)
+ static void nvme_format_ns_cb(void *opaque, int ret)
+ {
+     NvmeFormatAIOCB *iocb = opaque;
+-    NvmeRequest *req = iocb->req;
+     NvmeNamespace *ns = iocb->ns;
+     int bytes;
+ 
+@@ -5512,7 +5511,7 @@ static void nvme_format_ns_cb(void *opaque, int ret)
+         return;
      }
-@@ -5281,6 +5286,9 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
-         break;
-     case NVME_TIMESTAMP:
-         return nvme_set_feature_timestamp(n, req);
-+    case NVME_HOST_BEHAVIOR_SUPPORT:
-+        return nvme_h2c(n, (uint8_t *)&n->features.hbs,
-+                        sizeof(n->features.hbs), req);
-     case NVME_COMMAND_SET_PROFILE:
-         if (dw11 & 0x1ff) {
-             trace_pci_nvme_err_invalid_iocsci(dw11 & 0x1ff);
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 801176a2bd5e..103407038e74 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -468,7 +468,9 @@ typedef struct NvmeCtrl {
-             uint16_t temp_thresh_hi;
-             uint16_t temp_thresh_low;
-         };
--        uint32_t    async_config;
-+
-+        uint32_t                async_config;
-+        NvmeHostBehaviorSupport hbs;
-     } features;
- } NvmeCtrl;
  
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index cd068ac89142..e527c728f975 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -1216,6 +1216,7 @@ enum NvmeFeatureIds {
-     NVME_WRITE_ATOMICITY            = 0xa,
-     NVME_ASYNCHRONOUS_EVENT_CONF    = 0xb,
-     NVME_TIMESTAMP                  = 0xe,
-+    NVME_HOST_BEHAVIOR_SUPPORT      = 0x16,
-     NVME_COMMAND_SET_PROFILE        = 0x19,
-     NVME_SOFTWARE_PROGRESS_MARKER   = 0x80,
-     NVME_FID_MAX                    = 0x100,
-@@ -1257,6 +1258,13 @@ typedef struct QEMU_PACKED NvmeRangeType {
-     uint8_t     rsvd48[16];
- } NvmeRangeType;
+-    nvme_format_set(ns, &req->cmd);
++    nvme_format_set(ns, iocb->lbaf, iocb->mset, iocb->pi, iocb->pil);
+     ns->status = 0x0;
+     iocb->ns = NULL;
+     iocb->offset = 0;
+@@ -5548,9 +5547,6 @@ static void nvme_format_bh(void *opaque)
+     NvmeFormatAIOCB *iocb = opaque;
+     NvmeRequest *req = iocb->req;
+     NvmeCtrl *n = nvme_ctrl(req);
+-    uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
+-    uint8_t lbaf = dw10 & 0xf;
+-    uint8_t pi = (dw10 >> 5) & 0x7;
+     uint16_t status;
+     int i;
  
-+typedef struct NvmeHostBehaviorSupport {
-+    uint8_t     acre;
-+    uint8_t     etdas;
-+    uint8_t     lbafee;
-+    uint8_t     rsvd3[509];
-+} NvmeHostBehaviorSupport;
-+
- typedef struct QEMU_PACKED NvmeLBAF {
-     uint16_t    ms;
-     uint8_t     ds;
-@@ -1520,6 +1528,7 @@ static inline void _nvme_check_size(void)
-     QEMU_BUILD_BUG_ON(sizeof(NvmeDsmCmd) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeCopyCmd) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeRangeType) != 64);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeHostBehaviorSupport) != 512);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeErrorLog) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeFwSlotInfoLog) != 512);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeSmartLog) != 512);
+@@ -5572,7 +5568,7 @@ static void nvme_format_bh(void *opaque)
+         goto done;
+     }
+ 
+-    status = nvme_format_check(iocb->ns, lbaf, pi);
++    status = nvme_format_check(iocb->ns, iocb->lbaf, iocb->pi);
+     if (status) {
+         req->status = status;
+         goto done;
+@@ -5595,6 +5591,11 @@ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeFormatAIOCB *iocb;
+     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
++    uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
++    uint8_t lbaf = dw10 & 0xf;
++    uint8_t mset = (dw10 >> 4) & 0x1;
++    uint8_t pi = (dw10 >> 5) & 0x7;
++    uint8_t pil = (dw10 >> 8) & 0x1;
+     uint16_t status;
+ 
+     iocb = qemu_aio_get(&nvme_format_aiocb_info, NULL, nvme_misc_cb, req);
+@@ -5604,6 +5605,10 @@ static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
+     iocb->ret = 0;
+     iocb->ns = NULL;
+     iocb->nsid = 0;
++    iocb->lbaf = lbaf;
++    iocb->mset = mset;
++    iocb->pi = pi;
++    iocb->pil = pil;
+     iocb->broadcast = (nsid == NVME_NSID_BROADCAST);
+     iocb->offset = 0;
+ 
 -- 
 2.35.1
 
