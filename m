@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7524C8F48
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 16:40:20 +0100 (CET)
-Received: from localhost ([::1]:37458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA2D4C8F59
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 16:44:34 +0100 (CET)
+Received: from localhost ([::1]:42596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP4br-0002qc-Bb
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 10:40:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41174)
+	id 1nP4fx-0006YN-AN
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 10:44:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nP4as-0002AI-I1
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 10:39:18 -0500
-Received: from [2a00:1450:4864:20::636] (port=41930
- helo=mail-ej1-x636.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nP4ap-0001jA-Vp
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 10:39:18 -0500
-Received: by mail-ej1-x636.google.com with SMTP id a8so32293480ejc.8
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 07:39:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=1OgfZBbfcd8/dIVnMsFtUIvyfxzABQWiRzcPHI3u6O4=;
- b=IdDuF1BqBNFEqSrmFkCYqY057MlXcI9YJULGtC8UGhcdO4eht/6MqEbhXduRkOFeBe
- ssEG7NvwLtBJ/7lgy/A9GHFXB23A+EFNsFSTOz/rRG37jF8zblfATaiWgLyGz/nop+s8
- z//SQWK/krBs0MYkdPRynDOKr7eP2x8OzPPRof8riNZ7OtVLeuXBTxpX+uVql/S+4c97
- JoTBpriJabJBzlqrRJT+0jzTx36w2As5JpqtTMROuwjOxKdKZoOWr72RKR6hqiqkgyR7
- 9oIHqfSV/Km+B3gQvNhlczYOcEpcxPA9HM8W4UYpUMCNR/7bAYKiQ4g3SXIGBSRcauP9
- fAIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=1OgfZBbfcd8/dIVnMsFtUIvyfxzABQWiRzcPHI3u6O4=;
- b=cHwGkjEScuW7M5dQHvxm77+txH4JDGTUuIEncbff/Ci4GdmatsR2JgrICAIng4CS2L
- 9nqSKA6bkmzN3ogG+FihgQuWfYSrsJhcDiPSG6ir7z8JD7zYL5Cw3+VQv3syStjTYoJH
- HZDD1EDY1mEa28+nc/EpEDWbh3T8Nm4Q1kDOcOVcC2ywMrX0tNaAnvXXN7usud6KHbS1
- 2HHthT4c1NKaihNLzaxPa26AYrFUVv380k88pnXAQjfMJ8g5XoWKsGRq+QKXC6k2Z23/
- UPny0bLdJ8MC3LUeeCWcka8PcIkTSX1RSPoYtNFw9+q16l6GkjHcG3TemrV4QSqnNmZR
- Z3Pw==
-X-Gm-Message-State: AOAM5334Hk4DB92ezylgaQ1BxEpyTX4ZCUCvVVOGMpHDXzLSdElfoATy
- O9cHO3xub3otVpXY6VrranHbYw==
-X-Google-Smtp-Source: ABdhPJyvnIQdlbP61WDNRKChwJdyLiL1itVNQP02s3lVVyKH5e84Kmuf/KIELcMQ8O39gFMsaznkEA==
-X-Received: by 2002:a17:906:c259:b0:6ce:a165:cd0d with SMTP id
- bl25-20020a170906c25900b006cea165cd0dmr18911834ejb.270.1646149153866; 
- Tue, 01 Mar 2022 07:39:13 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- h7-20020a1709066d8700b006d4b4d137fbsm5428681ejt.50.2022.03.01.07.39.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 07:39:12 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2DAB01FFB7;
- Tue,  1 Mar 2022 15:39:08 +0000 (GMT)
-References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
- <20220211120747.3074-7-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.9; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v6 06/43] hw/cxl/device: Implement basic mailbox (8.2.8.4)
-Date: Tue, 01 Mar 2022 15:32:02 +0000
-In-reply-to: <20220211120747.3074-7-Jonathan.Cameron@huawei.com>
-Message-ID: <877d9dn0mb.fsf@linaro.org>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org>)
+ id 1nP4eY-0004w9-AB
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 10:43:06 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:59738)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org>)
+ id 1nP4eV-0002Qq-Q6
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 10:43:05 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B0C12B81986;
+ Tue,  1 Mar 2022 15:42:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29085C340EE;
+ Tue,  1 Mar 2022 15:42:55 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="Kac+Ghbs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1646149373;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=JLiE20ERfAkQFV80+EpmUJ32l4pWt7u7GFd3/Smjljc=;
+ b=Kac+Ghbs0J+S7FgJnGjfLHTzX3vnHgJEAB0OxfoQbxx04yySDohXAMM2HRfEeyUEK2OqK/
+ pmZCqrjaD2690aWP1GxnDzgjg7GPEdvD3QdFZ3AFITYG1z3LFxNjADK6jlyoY+y3i54pu0
+ CjjzcBGVb2Fze1SPHfZMLuDTnBcZhtc=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id bf755614
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Tue, 1 Mar 2022 15:42:53 +0000 (UTC)
+Date: Tue, 1 Mar 2022 16:42:47 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org, linux-hyperv@vger.kernel.org,
+ linux-crypto@vger.kernel.org, graf@amazon.com,
+ mikelley@microsoft.com, gregkh@linuxfoundation.org,
+ adrian@parity.io, lersek@redhat.com, berrange@redhat.com,
+ linux@dominikbrodowski.net, jannh@google.com, mst@redhat.com,
+ rafael@kernel.org, len.brown@intel.com, pavel@ucw.cz,
+ linux-pm@vger.kernel.org, colmmacc@amazon.com, tytso@mit.edu, arnd@arndb.de
+Subject: propagating vmgenid outward and upward
+Message-ID: <Yh4+9+UpanJWAIyZ@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,525 +79,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- .  Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hey folks,
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+Having finally wrapped up development of the initial vmgenid driver, I
+thought I'd pull together some thoughts on vmgenid, notification, and
+propagating, from disjointed conversations I've had with a few of you
+over the last several weeks.
 
-> From: Ben Widawsky <ben.widawsky@intel.com>
->
-> This is the beginning of implementing mailbox support for CXL 2.0
-> devices. The implementation recognizes when the doorbell is rung,
-> handles the command/payload, clears the doorbell while returning error
-> codes and data.
->
-> Generally the mailbox mechanism is designed to permit communication
-> between the host OS and the firmware running on the device. For our
-> purposes, we emulate both the firmware, implemented primarily in
-> cxl-mailbox-utils.c, and the hardware.
->
-> No commands are implemented yet.
->
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  hw/cxl/cxl-device-utils.c   | 128 ++++++++++++++++++++++++++-
->  hw/cxl/cxl-mailbox-utils.c  | 171 ++++++++++++++++++++++++++++++++++++
->  hw/cxl/meson.build          |   1 +
->  include/hw/cxl/cxl.h        |   3 +
->  include/hw/cxl/cxl_device.h |  19 +++-
->  5 files changed, 320 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> index 0895b9d78b..39011468ef 100644
-> --- a/hw/cxl/cxl-device-utils.c
-> +++ b/hw/cxl/cxl-device-utils.c
-> @@ -44,6 +44,114 @@ static uint64_t dev_reg_read(void *opaque, hwaddr off=
-set, unsigned size)
->      return 0;
->  }
->=20=20
-> +static uint64_t mailbox_reg_read(void *opaque, hwaddr offset, unsigned s=
-ize)
-> +{
-> +    CXLDeviceState *cxl_dstate =3D opaque;
-> +
-> +    switch (size) {
-> +    case 1:
-> +        return cxl_dstate->mbox_reg_state[offset];
-> +    case 2:
-> +        return cxl_dstate->mbox_reg_state16[offset / 2];
-> +    case 4:
-> +        return cxl_dstate->mbox_reg_state32[offset / 4];
-> +    case 8:
-> +        return cxl_dstate->mbox_reg_state64[offset / 8];
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +}
-> +
-> +static void mailbox_mem_writel(uint32_t *reg_state, hwaddr offset,
-> +                               uint64_t value)
-> +{
-> +    switch (offset) {
-> +    case A_CXL_DEV_MAILBOX_CTRL:
-> +        /* fallthrough */
-> +    case A_CXL_DEV_MAILBOX_CAP:
-> +        /* RO register */
-> +        break;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "%s Unexpected 32-bit access to 0x%" PRIx64 " (WI)=
-\n",
-> +                      __func__, offset);
-> +        return;
-> +    }
-> +
-> +    reg_state[offset / 4] =3D value;
-> +}
-> +
-> +static void mailbox_mem_writeq(uint64_t *reg_state, hwaddr offset,
-> +                               uint64_t value)
-> +{
-> +    switch (offset) {
-> +    case A_CXL_DEV_MAILBOX_CMD:
-> +        break;
-> +    case A_CXL_DEV_BG_CMD_STS:
-> +        /* BG not supported */
-> +        /* fallthrough */
-> +    case A_CXL_DEV_MAILBOX_STS:
-> +        /* Read only register, will get updated by the state machine */
-> +        return;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "%s Unexpected 64-bit access to 0x%" PRIx64 " (WI)=
-\n",
-> +                      __func__, offset);
-> +        return;
-> +    }
-> +
-> +
-> +    reg_state[offset / 8] =3D value;
-> +}
-> +
-> +static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t valu=
-e,
-> +                              unsigned size)
-> +{
-> +    CXLDeviceState *cxl_dstate =3D opaque;
-> +
-> +    if (offset >=3D A_CXL_DEV_CMD_PAYLOAD) {
-> +        memcpy(cxl_dstate->mbox_reg_state + offset, &value, size);
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * Lock is needed to prevent concurrent writes as well as to
-> +     * prevent writes coming in while the firmware is processing.
-> +     * Until background commands or the second mailbox are implemented
-> +     * memory access is synchronized at a higher level (per memory regio=
-n).
-> +     */
+The basic problem is: VMs can be cloned, forked, rewound, or
+snapshotted, and when this happens, a) the RNG needs to reseed itself,
+and b) cryptographic algorithms that are not reuse resistant need to
+reinitialize in one way or another. For 5.18, we're handling (a) via the
+new vmgenid driver, which implements a spec from Microsoft, whereby the
+driver receives ACPI notifications when a 16 byte unique value changes.
 
-What lock?
+The vmgenid driver basically works, though it is racy, because that ACPI
+notification can arrive after the system is already running again. This
+race is even worse on Windows, where they kick the notification into a
+worker thread, which then publishes it upward elsewhere to another async
+mechanism, and eventually it hits the RNG and various userspace apps.
+On Linux it's not that bad -- we reseed immediately upon receiving the
+notification -- but it still inherits this same "push"-model deficiency,
+which a "pull"-model would not have.
 
-That said you probably don't need one as all access to IO space should
-already be serialised by the BQL so even multiple vCPUs will serialise
-their access.
+If we had a "pull" model, rather than just expose a 16-byte unique
+identifier, the vmgenid virtual hardware would _also_ expose a
+word-sized generation counter, which would be incremented every time the
+unique ID changed. Then, every time we would touch the RNG, we'd simply
+do an inexpensive check of this memremap()'d integer, and reinitialize
+with the unique ID if the integer changed. In this way, the race would
+be entirely eliminated. We would then be able to propagate this outwards
+to other drivers, by just exporting an extern symbol, in the manner of
+`jiffies`, and propagate it upwards to userspace, by putting it in the
+vDSO, in the manner of gettimeofday. And like that, there'd be no
+terrible async thing and things would work pretty easily.
 
-> +
-> +    switch (size) {
-> +    case 4:
-> +        mailbox_mem_writel(cxl_dstate->mbox_reg_state32, offset, value);
-> +        break;
-> +    case 8:
-> +        mailbox_mem_writeq(cxl_dstate->mbox_reg_state64, offset, value);
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +
-> +    if (ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_C=
-TRL,
-> +                         DOORBELL))
-> +        cxl_process_mailbox(cxl_dstate);
+But that's not what we have, because Microsoft didn't collaborate with
+anybody on this, and now it's implemented in several hypervisors. Given
+that I'm already spending considerable time working on the RNG, entirely
+without funding, somehow I'm not super motivated to lead a
+cross-industry political effort to change Microsoft's vmgenid spec.
+Maybe somebody else has an appetite for this, but either way, those
+changes would be several years off at best.
 
-You want some braces in there to meet coding standards.
+So given we have a "push"-model mechanism, there are two problems to
+tackle, perhaps in the same way, perhaps in a different way:
 
-> +}
-> +
-> +static const MemoryRegionOps mailbox_ops =3D {
-> +    .read =3D mailbox_reg_read,
-> +    .write =3D mailbox_reg_write,
-> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
-> +    .valid =3D {
-> +        .min_access_size =3D 1,
-> +        .max_access_size =3D 8,
-> +        .unaligned =3D false,
-> +    },
-> +    .impl =3D {
-> +        .min_access_size =3D 1,
-> +        .max_access_size =3D 8,
-> +    },
-> +};
-> +
->  static const MemoryRegionOps dev_ops =3D {
->      .read =3D dev_reg_read,
->      .write =3D NULL, /* status register is read only */
-> @@ -84,20 +192,33 @@ void cxl_device_register_block_init(Object *obj, CXL=
-DeviceState *cxl_dstate)
->                            "cap-array", CXL_CAPS_SIZE);
->      memory_region_init_io(&cxl_dstate->device, obj, &dev_ops, cxl_dstate,
->                            "device-status", CXL_DEVICE_REGISTERS_LENGTH);
-> +    memory_region_init_io(&cxl_dstate->mailbox, obj, &mailbox_ops, cxl_d=
-state,
-> +                          "mailbox", CXL_MAILBOX_REGISTERS_LENGTH);
->=20=20
->      memory_region_add_subregion(&cxl_dstate->device_registers, 0,
->                                  &cxl_dstate->caps);
->      memory_region_add_subregion(&cxl_dstate->device_registers,
->                                  CXL_DEVICE_REGISTERS_OFFSET,
->                                  &cxl_dstate->device);
-> +    memory_region_add_subregion(&cxl_dstate->device_registers,
-> +                                CXL_MAILBOX_REGISTERS_OFFSET,
-> +                                &cxl_dstate->mailbox);
->  }
->=20=20
->  static void device_reg_init_common(CXLDeviceState *cxl_dstate) { }
->=20=20
-> +static void mailbox_reg_init_common(CXLDeviceState *cxl_dstate)
-> +{
-> +    /* 2048 payload size, with no interrupt or background support */
-> +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CAP,
-> +                     PAYLOAD_SIZE, CXL_MAILBOX_PAYLOAD_SHIFT);
-> +    cxl_dstate->payload_size =3D CXL_MAILBOX_MAX_PAYLOAD_SIZE;
-> +}
-> +
->  void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
->  {
->      uint64_t *cap_hdrs =3D cxl_dstate->caps_reg_state64;
-> -    const int cap_count =3D 1;
-> +    const int cap_count =3D 2;
->=20=20
->      /* CXL Device Capabilities Array Register */
->      ARRAY_FIELD_DP64(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
-> @@ -106,4 +227,9 @@ void cxl_device_register_init_common(CXLDeviceState *=
-cxl_dstate)
->=20=20
->      cxl_device_cap_init(cxl_dstate, DEVICE, 1);
->      device_reg_init_common(cxl_dstate);
-> +
-> +    cxl_device_cap_init(cxl_dstate, MAILBOX, 2);
-> +    mailbox_reg_init_common(cxl_dstate);
-> +
-> +    assert(cxl_initialize_mailbox(cxl_dstate) =3D=3D 0);
->  }
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> new file mode 100644
-> index 0000000000..d497ec50a6
-> --- /dev/null
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -0,0 +1,171 @@
-> +/*
-> + * CXL Utility library for mailbox interface
-> + *
-> + * Copyright(C) 2020 Intel Corporation.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2. See =
-the
-> + * COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/cxl/cxl.h"
-> +#include "hw/pci/pci.h"
-> +#include "qemu/log.h"
-> +#include "qemu/uuid.h"
-> +
-> +/*
-> + * How to add a new command, example. The command set FOO, with cmd BAR.
-> + *  1. Add the command set and cmd to the enum.
-> + *     FOO    =3D 0x7f,
-> + *          #define BAR 0
-> + *  2. Implement the handler
-> + *    static ret_code cmd_foo_bar(struct cxl_cmd *cmd,
-> + *                                  CXLDeviceState *cxl_dstate, uint16_t=
- *len)
-> + *  3. Add the command to the cxl_cmd_set[][]
-> + *    [FOO][BAR] =3D { "FOO_BAR", cmd_foo_bar, x, y },
-> + *  4. Implement your handler
-> + *     define_mailbox_handler(FOO_BAR) { ... return CXL_MBOX_SUCCESS; }
-> + *
-> + *
-> + *  Writing the handler:
-> + *    The handler will provide the &struct cxl_cmd, the &CXLDeviceState,=
- and the
-> + *    in/out length of the payload. The handler is responsible for consu=
-ming the
-> + *    payload from cmd->payload and operating upon it as necessary. It m=
-ust then
-> + *    fill the output data into cmd->payload (overwriting what was there=
-),
-> + *    setting the length, and returning a valid return code.
-> + *
-> + *  XXX: The handler need not worry about endianess. The payload is read=
- out of
-> + *  a register interface that already deals with it.
-> + */
-> +
-> +/* 8.2.8.4.5.1 Command Return Codes */
-> +typedef enum {
-> +    CXL_MBOX_SUCCESS =3D 0x0,
-> +    CXL_MBOX_BG_STARTED =3D 0x1,
-> +    CXL_MBOX_INVALID_INPUT =3D 0x2,
-> +    CXL_MBOX_UNSUPPORTED =3D 0x3,
-> +    CXL_MBOX_INTERNAL_ERROR =3D 0x4,
-> +    CXL_MBOX_RETRY_REQUIRED =3D 0x5,
-> +    CXL_MBOX_BUSY =3D 0x6,
-> +    CXL_MBOX_MEDIA_DISABLED =3D 0x7,
-> +    CXL_MBOX_FW_XFER_IN_PROGRESS =3D 0x8,
-> +    CXL_MBOX_FW_XFER_OUT_OF_ORDER =3D 0x9,
-> +    CXL_MBOX_FW_AUTH_FAILED =3D 0xa,
-> +    CXL_MBOX_FW_INVALID_SLOT =3D 0xb,
-> +    CXL_MBOX_FW_ROLLEDBACK =3D 0xc,
-> +    CXL_MBOX_FW_REST_REQD =3D 0xd,
-> +    CXL_MBOX_INVALID_HANDLE =3D 0xe,
-> +    CXL_MBOX_INVALID_PA =3D 0xf,
-> +    CXL_MBOX_INJECT_POISON_LIMIT =3D 0x10,
-> +    CXL_MBOX_PERMANENT_MEDIA_FAILURE =3D 0x11,
-> +    CXL_MBOX_ABORTED =3D 0x12,
-> +    CXL_MBOX_INVALID_SECURITY_STATE =3D 0x13,
-> +    CXL_MBOX_INCORRECT_PASSPHRASE =3D 0x14,
-> +    CXL_MBOX_UNSUPPORTED_MAILBOX =3D 0x15,
-> +    CXL_MBOX_INVALID_PAYLOAD_LENGTH =3D 0x16,
-> +    CXL_MBOX_MAX =3D 0x17
-> +} ret_code;
-> +
-> +struct cxl_cmd;
-> +typedef ret_code (*opcode_handler)(struct cxl_cmd *cmd,
-> +                                   CXLDeviceState *cxl_dstate, uint16_t =
-*len);
-> +struct cxl_cmd {
-> +    const char *name;
-> +    opcode_handler handler;
-> +    ssize_t in;
-> +    uint16_t effect; /* Reported in CEL */
-> +    uint8_t *payload;
-> +};
-> +
-> +#define DEFINE_MAILBOX_HANDLER_ZEROED(name, size)                       =
-  \
-> +    uint16_t __zero##name =3D size;                                     =
-    \
-> +    static ret_code cmd_##name(struct cxl_cmd *cmd,                     =
-  \
-> +                               CXLDeviceState *cxl_dstate, uint16_t *len=
-) \
-> +    {                                                                   =
-  \
-> +        *len =3D __zero##name;                                          =
-    \
-> +        memset(cmd->payload, 0, *len);                                  =
-  \
-> +        return CXL_MBOX_SUCCESS;                                        =
-  \
-> +    }
-> +#define DEFINE_MAILBOX_HANDLER_NOP(name)                                =
-  \
-> +    static ret_code cmd_##name(struct cxl_cmd *cmd,                     =
-  \
-> +                               CXLDeviceState *cxl_dstate, uint16_t *len=
-) \
-> +    {                                                                   =
-  \
-> +        return CXL_MBOX_SUCCESS;                                        =
-  \
-> +    }
-> +
-> +static QemuUUID cel_uuid;
-> +
-> +static struct cxl_cmd cxl_cmd_set[256][256] =3D {};
-> +
-> +void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-> +{
-> +    uint16_t ret =3D CXL_MBOX_SUCCESS;
-> +    struct cxl_cmd *cxl_cmd;
-> +    uint64_t status_reg;
-> +    opcode_handler h;
-> +
-> +    /*
-> +     * current state of mailbox interface
-> +     *  mbox_cap_reg =3D cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CAP];
-> +     *  mbox_ctrl_reg =3D cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CTRL=
-];
-> +     *  status_reg =3D *(uint64_t *)&cxl_dstate->reg_state[A_CXL_DEV_MAI=
-LBOX_STS];
-> +     */
-> +    uint64_t command_reg =3D cxl_dstate->mbox_reg_state64[R_CXL_DEV_MAIL=
-BOX_CMD];
-> +
-> +    uint8_t set =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
-_SET);
-> +    uint8_t cmd =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
-);
-> +    uint16_t len =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, LENGTH=
-);
-> +    cxl_cmd =3D &cxl_cmd_set[set][cmd];
-> +    h =3D cxl_cmd->handler;
-> +    if (!h) {
-> +        qemu_log_mask(LOG_UNIMP, "Command %04xh not implemented\n",
-> +                                 set << 8 | cmd);
+A) Outwards propagation toward other kernel drivers: in this case, I
+   have in mind WireGuard, naturally, which very much needs to clear its
+   existing sessions when VMs are forked.
 
-is ret of CXL_MBOX_SUCCESS still ok for an unimplemented command?
+B) Upwards propagation to userspace: in this case, we handle the
+   concerns of the Amazon engineers on this thread who broached this
+   topic a few years ago, in which s2n, their TLS library, wants to
+   reinitialize its userspace RNG (a silly thing, but I digress) and
+   probably clear session keys too, for the same good reason as
+   WireGuard.
 
-> +        goto handled;
-> +    }
-> +
-> +    if (len !=3D cxl_cmd->in) {
-> +        ret =3D CXL_MBOX_INVALID_PAYLOAD_LENGTH;
-> +    }
-> +
-> +    cxl_cmd->payload =3D cxl_dstate->mbox_reg_state + A_CXL_DEV_CMD_PAYL=
-OAD;
-> +    ret =3D (*h)(cxl_cmd, cxl_dstate, &len);
-> +    assert(len <=3D cxl_dstate->payload_size);
-> +
+For (A), at least wearing my WireGuard-maintainer hat, there is an easy
+way and there is a "race-free" way. I use scare quotes there because
+we're still in a "push"-model, which means it's still racy no matter
+what.
 
-Not super keen on the goto, it seems to me the you could trivially
-re-arrange this to avoid it as it is not a super deep implementation.
+The faux "race-free" way involves having `extern u32 rng_vm_generation;`
+or similar in random.h, and then everything that generates a session key
+would snapshot this value, and every time a session key is used, a
+comparison would be made. This works, but given that we're going to be
+racy no matter what, I think I'd prefer avoiding the extra code in the
+hot path and extra per-session storage. It seems like that'd involve a
+lot of fiddly engineering for no real world benefit.
 
-if (h) {
-  if (len =3D=3D cxl_cmd->in) {
-    /* do the thing */
-  } else {
-    ret =3D CXL_MBOX_INVALID_PAYLOAD_LENGTH;
-} else {
-  qemu_log_mask(LOG_UNIMP, "Command %04xh not implemented\n",
-                set << 8 | cmd);
-}
-/* process the result */
+The easy way, and the way that I think I prefer, would be to just have a
+sync notifier_block for this, just like we have with
+register_pm_notifier(). From my perspective, it'd be simplest to just
+piggy back on the already existing PM notifier with an extra event,
+PM_POST_VMFORK, which would join the existing set of 7, following
+PM_POST_RESTORE. I think that'd be coherent. However, if the PM people
+don't want to play ball, we could always come up with our own
+notifier_block. But I don't see the need. Plus, WireGuard *already*
+uses the PM notifier for clearing keys, so code-wise for my use case,
+that'd amount adding another case for PM_POST_VMFORK, in addition to the
+currently existing PM_HIBERNATION_PREPARE and PM_SUSPEND_PREPARE cases,
+which all would be treated the same way. Ezpz. So if that sounds like an
+interesting thing to the PM people, I think I'd like to propose a patch
+for that, possibly even for 5.18, given that it'd be very straight-
+forward.
 
-> +handled:
-> +    /* Set the return code */
-> +    status_reg =3D FIELD_DP64(0, CXL_DEV_MAILBOX_STS, ERRNO, ret);
-> +
-> +    /* Set the return length */
-> +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
-_SET, 0);
-> +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND=
-, 0);
-> +    command_reg =3D FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, LENGTH,=
- len);
-> +
-> +    cxl_dstate->mbox_reg_state64[R_CXL_DEV_MAILBOX_CMD] =3D command_reg;
-> +    cxl_dstate->mbox_reg_state64[R_CXL_DEV_MAILBOX_STS] =3D status_reg;
-> +
-> +    /* Tell the host we're done */
-> +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL,
-> +                     DOORBELL, 0);
-> +}
-> +
-> +int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
-> +{
-> +    /* CXL 2.0: Table 169 Get Supported Logs Log Entry */
-> +    const char *cel_uuidstr =3D "0da9c0b5-bf41-4b78-8f79-96b1623b3f17";
-> +
-> +    for (int set =3D 0; set < 256; set++) {
-> +        for (int cmd =3D 0; cmd < 256; cmd++) {
-> +            if (cxl_cmd_set[set][cmd].handler) {
-> +                struct cxl_cmd *c =3D &cxl_cmd_set[set][cmd];
-> +                struct cel_log *log =3D
-> +                    &cxl_dstate->cel_log[cxl_dstate->cel_size];
-> +
-> +                log->opcode =3D (set << 8) | cmd;
-> +                log->effect =3D c->effect;
-> +                cxl_dstate->cel_size++;
-> +            }
-> +        }
-> +    }
-> +
-> +    return qemu_uuid_parse(cel_uuidstr, &cel_uuid);
-> +}
-> diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
-> index dd7c6f8e5a..e68eea2358 100644
-> --- a/hw/cxl/meson.build
-> +++ b/hw/cxl/meson.build
-> @@ -2,4 +2,5 @@ softmmu_ss.add(when: 'CONFIG_CXL',
->                 if_true: files(
->                     'cxl-component-utils.c',
->                     'cxl-device-utils.c',
-> +                   'cxl-mailbox-utils.c',
->                 ))
-> diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> index b9d1ac3fad..554ad93b6b 100644
-> --- a/include/hw/cxl/cxl.h
-> +++ b/include/hw/cxl/cxl.h
-> @@ -14,4 +14,7 @@
->  #include "cxl_component.h"
->  #include "cxl_device.h"
->=20=20
-> +#define CXL_COMPONENT_REG_BAR_IDX 0
-> +#define CXL_DEVICE_REG_BAR_IDX 2
-> +
->  #endif
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> index 1ac0dcd97e..49dcca7e44 100644
-> --- a/include/hw/cxl/cxl_device.h
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -95,7 +95,21 @@ typedef struct cxl_device_state {
->      };
->=20=20
->      /* mmio for the mailbox registers 8.2.8.4 */
-> -    MemoryRegion mailbox;
-> +    struct {
-> +        MemoryRegion mailbox;
-> +        uint16_t payload_size;
-> +        union {
-> +            uint8_t mbox_reg_state[CXL_MAILBOX_REGISTERS_LENGTH];
-> +            uint16_t mbox_reg_state16[CXL_MAILBOX_REGISTERS_LENGTH / 2];
-> +            uint32_t mbox_reg_state32[CXL_MAILBOX_REGISTERS_LENGTH / 4];
-> +            uint64_t mbox_reg_state64[CXL_MAILBOX_REGISTERS_LENGTH / 8];
-> +        };
-> +        struct cel_log {
-> +            uint16_t opcode;
-> +            uint16_t effect;
-> +        } cel_log[1 << 16];
-> +        size_t cel_size;
-> +    };
->=20=20
->      /* memory region for persistent memory, HDM */
->      uint64_t pmem_size;
-> @@ -145,6 +159,9 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEV=
-ICE_CAP_HDR1_OFFSET)
->  CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSE=
-T + \
->                                                 CXL_DEVICE_CAP_REG_SIZE)
->=20=20
-> +int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
-> +void cxl_process_mailbox(CXLDeviceState *cxl_dstate);
-> +
->  #define cxl_device_cap_init(dstate, reg, cap_id)                        =
-   \
->      do {                                                                =
-   \
->          uint32_t *cap_hdrs =3D dstate->caps_reg_state32;                =
-     \
+For (B), it's a little bit trickier. But I think our options follow the
+same rubric. We can expose a generation counter in the vDSO, with
+semantics akin to the extern integer I described above. Or we could
+expose that counter in a file that userspace could poll() on and receive
+notifications that way. Or perhaps a third way. I'm all ears here.
+Alex's team from Amazon last year proposed something similar to the vDSO
+idea, except using mmap on a sysfs file, though from what I can tell,
+that wound up being kind of complicated. Due to the fact that we're
+_already_ racy, I think I'm most inclined at this point toward the
+poll() approach for the same reasons as I prefer a notifier_block. But
+on userspace I could be convinced otherwise, and I'd be interested in
+totally different ideas here too.
 
-Otherwise:
+Another thing I should note is that, while I'm not currently leaning
+toward it, the vDSO approach also ties into interesting discussions
+about userspace RNGs (generally a silly idea), and their need for things
+like fork detection and also learning when the kernel RNG was last
+reseeded. So cracking open the vDSO book might invite all sorts of other
+interesting questions and discussions, which may be productive or may be
+a humongous distraction. (Also, again, I'm not super enthusiastic about
+userspace RNGs.)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Also, there is an interesting question to decide with regards to
+userspace, which is whether the vmgenid driver should expose its unique
+ID to userspace, as Alex requested on an earlier thread. I am actually
+sort of opposed to this. That unique ID may or may not be secret and
+entropic; if it isn't, the crypto is designed to not be impacted
+negatively, but if it is, we should keep it secret. So, rather, I think
+the correct flow is that userspace simply calls getrandom() upon
+learning that the VM forked, which is guaranteed to have been
+reinitialized already by add_vmfork_randomness(), and that will
+guarantee a value that is unique to the VM, without having to actually
+expose that value.
 
---=20
-Alex Benn=C3=A9e
+So, anyway, this is more or less where my thinking on this matter is.
+Would be happy to hear some fresh ideas here too.
+
+Regards,
+Jason
 
