@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107D64C88CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:04:00 +0100 (CET)
-Received: from localhost ([::1]:46176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BCA4C880C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:33:44 +0100 (CET)
+Received: from localhost ([::1]:49828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOzML-0007Iy-Ec
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:03:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36226)
+	id 1nOyt5-00038V-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:33:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nOyd9-00046E-Eg
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:17:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47587)
+ id 1nOyfn-0007hg-2s
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:19:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nOyd7-0007rG-U0
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:17:15 -0500
+ id 1nOyfl-0000Sr-JC
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:19:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646126233;
+ s=mimecast20190719; t=1646126395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=q/F/HqYnpJPC3TKTUNlph1CtKqhuNScm6tNL4w/jB9E=;
- b=FgbobRzioTO0yUEXKrmmssnot2o1br3EzqpXsMlxdeEH5l+qdIftV79fomnLqZ3Ma/55R0
- UX0JJnn6w02fVIpTOX0R11T1vOWCTp63nYyA+UOWHOnjJ6iJ1WZgEgcDIwiHNc41UNR/dr
- LszwJGNuZSkLijQ7T3T1sJa8QgyY3lE=
+ bh=bxUd7EwihLEmRaKwTZiiml116y2xnB0+yCwu4V8SLgc=;
+ b=TE8prRu7tRdB0pVrXZh4LEht1W0v+g3jlbgntdp68OoUA3xdCePJR/wZcV4ZtBtA0n4xaU
+ g40ovR1Vl22Ku0PVOY2BD28Mkm06Bq67areDbCUIpvfUPkpICQkWW6+mE47kbEMsadyHtX
+ 5JzcXwC3f/CY69fS44kvRIMnnR3I7zs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387-6Es0_xZzMzmVPWf5ZWR2sQ-1; Tue, 01 Mar 2022 04:17:10 -0500
-X-MC-Unique: 6Es0_xZzMzmVPWf5ZWR2sQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-176-Gldr1pRONMCwIMC4fjECtQ-1; Tue, 01 Mar 2022 04:19:52 -0500
+X-MC-Unique: Gldr1pRONMCwIMC4fjECtQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6C5D801AB2;
- Tue,  1 Mar 2022 09:17:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4D291006AA6;
+ Tue,  1 Mar 2022 09:19:50 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D2F11038AC6;
- Tue,  1 Mar 2022 09:17:01 +0000 (UTC)
-Date: Tue, 1 Mar 2022 09:17:00 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5760283187;
+ Tue,  1 Mar 2022 09:19:20 +0000 (UTC)
+Date: Tue, 1 Mar 2022 09:19:19 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Subject: Re: [PATCH 1/3] util & iothread: Introduce event-loop abstract class
-Message-ID: <Yh3kjE6DsU/PcbuQ@stefanha-x1.localdomain>
-References: <20220221170843.849084-1-nsaenzju@redhat.com>
- <20220221170843.849084-2-nsaenzju@redhat.com>
- <YhdUcRNi95PY0X98@stefanha-x1.localdomain>
- <b5f5ab5d9d5216a8df08715a9b18ba448a42fe75.camel@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: What is the correct way to handle the VirtIO config space in
+ vhost-user?
+Message-ID: <Yh3lF4HZ0CMnoXsC@stefanha-x1.localdomain>
+References: <87ee3q3mos.fsf@linaro.org> <87a6ee3l5e.fsf@linaro.org>
+ <YhzWMMLTZY1e24Uh@stefanha-x1.localdomain>
+ <87mtiblzsc.fsf@linaro.org>
+ <CAFEAcA8UzTJ7tze8mWdK_aO_vrnnXeUu6YjLDiiBJj-9v3_huw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8ra9p1uzZmxQ64/u"
+ protocol="application/pgp-signature"; boundary="QfY97QAp+9vhmUSk"
 Content-Disposition: inline
-In-Reply-To: <b5f5ab5d9d5216a8df08715a9b18ba448a42fe75.camel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <CAFEAcA8UzTJ7tze8mWdK_aO_vrnnXeUu6YjLDiiBJj-9v3_huw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,82 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com,
- qemu-block@nongnu.org, michael.roth@amd.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, eduardo@habkost.net,
- hreitz@redhat.com, pbonzini@redhat.com, eblake@redhat.com
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---8ra9p1uzZmxQ64/u
-Content-Type: text/plain; charset=us-ascii
+--QfY97QAp+9vhmUSk
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 28, 2022 at 08:05:52PM +0100, Nicolas Saenz Julienne wrote:
-> On Thu, 2022-02-24 at 09:48 +0000, Stefan Hajnoczi wrote:
-> > On Mon, Feb 21, 2022 at 06:08:43PM +0100, Nicolas Saenz Julienne wrote:
-> > > diff --git a/qom/meson.build b/qom/meson.build
-> > > index 062a3789d8..c20e5dd1cb 100644
-> > > --- a/qom/meson.build
-> > > +++ b/qom/meson.build
-> > > @@ -4,6 +4,7 @@ qom_ss.add(files(
-> > >    'object.c',
-> > >    'object_interfaces.c',
-> > >    'qom-qobject.c',
-> > > +  '../util/event-loop.c',
-> >=20
-> > This looks strange. I expected util/event-loop.c to be in
-> > util/meson.build and added to the util_ss SourceSet instead of qom_ss.
-> >=20
-> > What is the reason for this?
+On Mon, Feb 28, 2022 at 04:44:47PM +0000, Peter Maydell wrote:
+> On Mon, 28 Feb 2022 at 16:32, Alex Benn=E9e <alex.bennee@linaro.org> wrot=
+e:
+> > Stefan Hajnoczi <stefanha@redhat.com> writes:
+> > > On Fri, Feb 25, 2022 at 05:32:43PM +0000, Alex Benn=E9e wrote:
+> > >> (aside: this continues my QOM confusion about when things should be =
+in a
+> > >> class or instance init, up until this point I hadn't needed it in my
+> > >> stub).
+> > >
+> > > Class init is a one-time per-class initializer function. It is mostly
+> > > used for setting up callbacks/overridden methods from the base class.
+> > >
+> > > Instance init is like an object constructor in object-oriented
+> > > programming.
+> >
+> > I phrased my statement poorly. What I meant to say is I sometimes find
+> > QEMUs approach to using class over instance initialisation inconsistent.
+> > I think I understand the "policy" as use class init until there is a
+> > case where you can't (e.g. having individual control of each instance of
+> > a device).
 >=20
-> Sorry I meant to move it into the qom directory while cleaning up the ser=
-ies
-> but forgot about it.
->=20
-> That said, I can see how moving 'event-loop-backend' in qom_ss isn't the
-> cleanest.
+> Do you have examples of inconsistency? (I'm sure there are some,
+> we're inconsistent about almost everything...)
 
-Yes, qom/ is meant for the QEMU Object Model infrastructure itself, not
-for all the QOM classes that rely on it.
-
-> So I tried moving it into util_ss, but for some reason nobody is calling
-> 'type_init(even_loop_register_type)'. My guess is there's some compilation
-> quirk I'm missing.
-
-Maybe the issue is that libqemuutil.a (util_ss) object files are linked
-on demand. If there are no symbol dependencies in the main QEMU code to
-event-loop.o then it won't be linked into the executable. That may be
-why event_loop_register_type() isn't being called (it's set up by an
-__attribute__((constructor)) function in event-loop.o so it doesn't help
-create a symbol dependency).
-
-> Any suggestions? I wonder if util_ss is the right spot for 'event-loop-ba=
-ckend'
-> anyway, but I don't have a better idea.
-
-What Paolo suggested sounds good: move event-loop.c next to iothread.c
-in the top-level source directory.
+Phew, at least we're inconsistent about being inconsistent. If we were
+inconsistent about absolutely everything that just wouldn't do!
 
 Stefan
 
---8ra9p1uzZmxQ64/u
+--QfY97QAp+9vhmUSk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmId5IwACgkQnKSrs4Gr
-c8gW8wgAuB/QEiGlJ1bcBJYCTHHFTMv4C1DdO+YXb/bfQmP8tkMxpkuf+5Tccte+
-8jGF4k9Gt4tHBYPs9u8tVngzSf7V1crRfnKPhQl3YJuQ30dDXxdaQsjkbMPuewuO
-Els5TXooqI5OrGfPGJoJimTaUt3lOFdFV9Fn/0C/xRbQc1o3P+2TlB0G/QD5zOrv
-2tR/z1uKvSZWCge1Ia/GC1sVrCqHoTLoJqQ6rNRIcFUHP2sWG067cWQyDQDB6U8G
-IQowsrfk/vNGZfuEqvHa9z90Evo4nTEI3aDY5Y6bII7zWq9qR5ShmefvPIJwTxbG
-EFJt6yt1X2adDshOajoo6evUYg23iA==
-=mnQ6
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmId5RcACgkQnKSrs4Gr
+c8geoAf9EAWATg3KKfE8+JK9Phfp09QStlZK+BRGFYalN/YNEeMsvmNheLyL2vnS
+swpr8jaTnoCnjimPEVjVFSktBEHle3O2DFtZrzc1px6n1H7VkT8Rgv5BqpKtx2+2
+yJcn+hGMks7pXfEIWOEK+IPdcbelKdgTqydh0QYD/nzPnL54Cg18dxL14VVmDlM0
+OhuYi1vB+es3fy9BR4YGi69DANMLKQbKPWtccRc+e60fxN1VxJ95FtUD7tp2YtoF
+ZrpED5lyy1e/yC8g42cLsHgYlVHVI2+409k+FWmI5mnqfmgljAM+fP4Huuv+uVGG
+9XLcJrBE7ePqk6gP2glfidXhjHtkfw==
+=MA4A
 -----END PGP SIGNATURE-----
 
---8ra9p1uzZmxQ64/u--
+--QfY97QAp+9vhmUSk--
 
 
