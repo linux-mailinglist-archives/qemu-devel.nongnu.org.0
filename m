@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820114C8998
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:45:41 +0100 (CET)
-Received: from localhost ([::1]:33780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED25F4C89AA
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:51:39 +0100 (CET)
+Received: from localhost ([::1]:38868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP00i-0005yz-AB
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:45:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40848)
+	id 1nP06U-0001EP-TF
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:51:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nOzyl-0004yz-KH
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:43:39 -0500
-Received: from [2607:f8b0:4864:20::1135] (port=39359
- helo=mail-yw1-x1135.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nOzyj-0005Ys-NA
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:43:39 -0500
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-2d07ae0b1bfso139548177b3.6
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 02:43:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=34jaHwAsn1GS4jiZzitztpzhzuRyuPyDxEqyib98OVc=;
- b=uuy6ZnTcCF2SiSE71N3OcYKnZ2VTs8AwDtzgUeSdAUuyf4ssB4a9SmH9NIyRE7HH4D
- HRlLBAFc0sBPtFr2fv5qVzplI5R0i7giL92OxTncgbJ6ZDQ7dHZvEOLwqkR8KIs45rAq
- 6ezzIMm1TUDhZCNy6IqT8glDoVt6NCXWVyQhqEHRkDHNhBiNHqVzxwv2i0h5AY4fH5mR
- h/xRr/JfydfmWb1bGauBn/GeD3+hbEHLPoYWTJwMnAu58g9ugqxizGSvChWq1NUqoYf7
- mRqmpG+vsMoET0Scq/eHHzmQ6ovxCKwNhUhKHtSPgmctmh/lTPqKNAoKdOJ0Sj0YA5dA
- 3m3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=34jaHwAsn1GS4jiZzitztpzhzuRyuPyDxEqyib98OVc=;
- b=IvnYHKgw8iuYgiOtgRVmrX5BURi/8OGR7RJvC4MgVO52K/IwAHeDoYkUucAx6yK0rU
- AP5TrGz9JFKQTweJys1mItNxPvmWdPqytl/j5uARr1CZyMIzuRLOCP9b6+SwDjWX9T1K
- KhdwKrVokvetBI3UFAudGvyvWTr4V2/C3UlPdk+bCR5j7OGf1NqQtxvG8PTjZD6fUpgx
- vk5CXgSUSC9czmAPo1nXFeeMadc+kpzR3OKxZKl8WUvD9rnOriA9T5Cxq44g3P6OyxMo
- RDQMs9vXsWxMInpzhOcnQ1z8I0BTRKop+saawD3bM5LJazxram5EnWLXqNrYlv8aJfFr
- q6MA==
-X-Gm-Message-State: AOAM530KMBtBHjJvWoXnMw3ww3tUcTj1LRRjHDmvrj/N082QeS3qr5Ry
- ihrFkNYQOkRL7ivXy05J0AerOFQTAvdr7BAitC3Mwg==
-X-Google-Smtp-Source: ABdhPJwrywELiR+/An1J21AytfCPQfw9tVG6YYo2R1kBYrdgWwpIgab0TCD58w0nfSV2q/qXjSh1ZGe88Xga4EtwUq4=
-X-Received: by 2002:a81:b49:0:b0:2db:f472:dfca with SMTP id
- 70-20020a810b49000000b002dbf472dfcamr573650ywl.455.1646131416589; Tue, 01 Mar
- 2022 02:43:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nOzzi-0006IA-HY; Tue, 01 Mar 2022 05:44:39 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:55693)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nOzzg-0005gx-Dq; Tue, 01 Mar 2022 05:44:38 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 175F25801FA;
+ Tue,  1 Mar 2022 05:44:33 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Tue, 01 Mar 2022 05:44:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm2; bh=Q1pLH+qS4YeFYxht4Y2tah7Kn/9h2U
+ l8BOSoMEiPsgc=; b=a5siqCpGIJ+srhPklbUPHXFD+A9NGA+HqIjEdIvvwDk6GM
+ 6rL/lo2t44pkbMHj76xa4XGvPjWCtaxPrhFQ3SYUAfSeVrqR82TtFgdlygTcyWhU
+ imKbNl2HaqzPhG3xPuUr8ZP52ZtuPFYaR66Mrqe2OFlncZCMZ5uuVKh/FmHnA0ew
+ AWFNk3htfqjiON4OS0eJniajKqONGJxzS8sIHnzS5r2y2a3T5SOTAp2tIF+xTXH1
+ LpbnrpmNzUz85IuI5EABF7QuDnGI22s6LBYIj+z/Hhf+Uw0LPjrWTjRBM7TrbvCU
+ ewvYqvTYenbDr09diQL0LdunWkbfuU2HWP6/xx2Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Q1pLH+
+ qS4YeFYxht4Y2tah7Kn/9h2Ul8BOSoMEiPsgc=; b=XnGSO5a6AGVeTZZwS6YFlP
+ ph7PQdRi2118sUxtbcKl9TN2R0OOFVxhFDjgwFb0VAzsnhDHCmYVKJtew64kxG5I
+ BVibl9yvqjWvDN82piTT1upPeFbqTTbCNHLm3T7FAkevdOgIiWmLaVS+cDj7RzKr
+ rNm9sfuBirgpHH1t5twi+dhJOSL7EhXDf7Q6ZTWfKZJt8gQAsNGqLhHrJwkwQ7da
+ Yw3B/gwmILGUgoYXb1AQ33+8tatxD8pdXuqLyZ17izM6NSJl81RxcziTAiVELq13
+ 90PmJqAhEH4SEnmgzJ3UHYSFAG3z6P+faL/sija5ltKEfhMr2NmMNVfJSZR70g4g
+ ==
+X-ME-Sender: <xms:D_kdYvOBUTB4IuuAwK-aRTd22F7TzkW5pULw-Zk4o9CDFbfVaYCiaA>
+ <xme:D_kdYp_CbpsCJqnmlG5TjoRD2D_h8iFrHd0a2_NKWKlw_ux1gTyJF1SI2uK5Y1Bb9
+ VFxjQPGEDyjqZ9QVIM>
+X-ME-Received: <xmr:D_kdYuQP-PQMV5oDkhzEOJz64FedZb5PtrGlXE1vz1_zs3uhh57GALQK9f1no9VfIYX6KE6n6cQYCfGVK9LsGQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtvddgudejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepveetleefgeekhfelkedvffduleefvdefgeejjeehfeevtdeulefhudetgffgtdfg
+ necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:D_kdYjsI-c5ygo7OGGGyLEQUJhnucqcgaeG32lTFEe09hqyXrR1aww>
+ <xmx:D_kdYndHFdqFrZz_ow56CCR3HHf1tRmmOFoDGjbgcKTzsv3aRlkU9g>
+ <xmx:D_kdYv3z3o3dddo0Ul7iDb2AR1IR0hz9zZugulTk7-dBQDa4v5nO9g>
+ <xmx:EfkdYr6tHHfcUJJK26GLfATKuQtQkMuEwi0vVGbSor_Rh0ZlygN2WQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 1 Mar 2022 05:44:30 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org,
+	Keith Busch <kbusch@kernel.org>
+Subject: [PATCH v2 0/6] hw/nvme: enhanced protection information (64-bit guard)
+Date: Tue,  1 Mar 2022 11:44:22 +0100
+Message-Id: <20220301104428.160017-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.35.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220228071239.404171-1-clg@kaod.org>
-In-Reply-To: <20220228071239.404171-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Mar 2022 10:43:25 +0000
-Message-ID: <CAFEAcA8Lj9yUdmWGMme0-wuMD0BWLCKzWPfdfo069W276Z5Rpg@mail.gmail.com>
-Subject: Re: [PULL 0/7] aspeed queue
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1135
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,41 +93,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Naveen Nagar <naveen.n1@samsung.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Feb 2022 at 07:12, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> The following changes since commit c13b8e9973635f34f3ce4356af27a311c99372=
-9c:
->
->   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply=
--20220216' into staging (2022-02-16 09:57:11 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/legoater/qemu/ tags/pull-aspeed-20220227
->
-> for you to fetch changes up to 3671342a38f21316a2bda62e7d607bbaedd60fd8:
->
->   aspeed/sdmc: Add trace events (2022-02-26 18:40:51 +0100)
->
-> ----------------------------------------------------------------
-> aspeed queue:
->
-> * Removal of the swift-bmc machine
-> * New Secure Boot Controller model
-> * Improvements on the rainier machine
-> * Various small cleanups
->
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
--- PMM
+This adds support for one possible new protection information format=0D
+introduced in TP4068 (and integrated in NVMe 2.0): the 64-bit CRC guard=0D
+and 48-bit reference tag. This version does not support storage tags.=0D
+=0D
+Like the CRC16 support already present, this uses a software=0D
+implementation of CRC64 (so it is naturally pretty slow). But its good=0D
+enough for verification purposes.=0D
+=0D
+This goes hand-in-hand with the support that Keith submitted for the=0D
+Linux kernel[1].=0D
+=0D
+  [1]: https://lore.kernel.org/linux-nvme/20220201190128.3075065-1-kbusch@k=
+ernel.org/=0D
+=0D
+Changes since v1=0D
+~~~~~~~~~~~~~~~~=0D
+- Check metadata size depending on pi guard type selected. (Keith)=0D
+=0D
+Klaus Jensen (3):=0D
+  hw/nvme: move dif/pi prototypes into dif.h=0D
+  hw/nvme: move format parameter parsing=0D
+  hw/nvme: add pi tuple size helper=0D
+=0D
+Naveen Nagar (3):=0D
+  hw/nvme: add host behavior support feature=0D
+  hw/nvme: add support for the lbafee hbs feature=0D
+  hw/nvme: 64-bit pi support=0D
+=0D
+ hw/nvme/ctrl.c       | 235 +++++++++++++++++++++------=0D
+ hw/nvme/dif.c        | 378 +++++++++++++++++++++++++++++++++----------=0D
+ hw/nvme/dif.h        | 191 ++++++++++++++++++++++=0D
+ hw/nvme/ns.c         |  50 ++++--=0D
+ hw/nvme/nvme.h       |  58 +------=0D
+ hw/nvme/trace-events |  12 +-=0D
+ include/block/nvme.h |  81 ++++++++--=0D
+ 7 files changed, 793 insertions(+), 212 deletions(-)=0D
+ create mode 100644 hw/nvme/dif.h=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
 
