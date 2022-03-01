@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4444C892A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:22:59 +0100 (CET)
-Received: from localhost ([::1]:49530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149F64C895A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:33:45 +0100 (CET)
+Received: from localhost ([::1]:39980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOzek-0003gq-Ge
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:22:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48396)
+	id 1nOzpA-0007IL-3U
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:33:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nOzBD-0002OF-BE
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:52:27 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=35616
- helo=mail-pj1-x1032.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nOzBB-0000Mu-Qq
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:52:27 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- v5-20020a17090ac90500b001bc40b548f9so1638228pjt.0
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 01:52:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=Rwhii/S/L36Potljjq3DGclFv43p2b3+ac2o4cWKOcE=;
- b=Dbt/6+W4hZY55WjGydFBpBLaEjkt2eyx/qagNRoyqMFYvMDpXClPUWSDtRjzn7qQOI
- SP+PQ5tcdEOr3i9F6Un2r4o2nvsdI8Y+dTu8bLQqCDa9BscL9ldpR4rNUT/3p2EPxEf2
- utYR/8wlb/n8Bxfqt/R8u0MCpDy9RcklsRm8sZvBjMRhN2D0KLAEpDALuTxBD4OIysI+
- LzqZQgtcmFLLJtNSAwbI7s30rbtv9ZoU2tMOM1/YBUKfrg3H8hcY4qoDYRb8dKFK0lJM
- mZ5Nno+CFlvpGwSi4gHMBEMQQkChJrJGImIg9XzY/f5yNZwmuGSa+5taPn0rkyiUFYfG
- jlVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=Rwhii/S/L36Potljjq3DGclFv43p2b3+ac2o4cWKOcE=;
- b=N61N8GXHJFOLfwJncSV/2C69cRprJ9+SEP9B2Po0F28FE7sz9LvKEQXn32nEcDoWUd
- b+R9eOC9xzkcu08E18dcHzbVeBSRt8vHJ0YG3DbJcWpskUsa8w6vNgQ5LPYAsVEJS4IG
- vBdxxFkuZnHFp5vT6iVh/et2W+wUjn5ebNRwmjOlfFRcRQSWUpPHaE3iKVjRv/NsNrsd
- OERgSGhVUFqqhgOLLwv2PZkklTOtvILXieiyQckoDnMEuIszFRkT2alj1FnsrHiva2BT
- i+xJSWJmzK2XYXGn1CLe/bfx7+HxtiLYYmed1ke54zZs9+b5gNcGH3b2XL0aMh8F8cXm
- YkWw==
-X-Gm-Message-State: AOAM531rWFcHPc+e92n/ZzcoUThbln4Byb0Upoe8+7L8heGTIEz/h744
- Imp5PJJNULKVnlyBhr8XNoMh4g==
-X-Google-Smtp-Source: ABdhPJyska7xYI7m0BhF7D/AlloZY3H/xB9MAkJ8eTJ8X0utYYbYFEoqpNPmAUzUTFJiAJRqLK0tfg==
-X-Received: by 2002:a17:902:f552:b0:150:11a5:5e01 with SMTP id
- h18-20020a170902f55200b0015011a55e01mr24290769plf.114.1646128343927; 
- Tue, 01 Mar 2022 01:52:23 -0800 (PST)
-Received: from anisinha-lenovo ([203.212.247.124])
- by smtp.googlemail.com with ESMTPSA id
- u19-20020a056a00159300b004e1590f88c1sm17170910pfk.220.2022.03.01.01.52.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 01:52:23 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Tue, 1 Mar 2022 15:22:17 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v4 2/3] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-In-Reply-To: <20220301094354.1d37f470@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2203011514030.1522204@anisinha-lenovo>
-References: <20220228201733.714580-1-liavalb@gmail.com>
- <20220228201733.714580-3-liavalb@gmail.com>
- <20220301094354.1d37f470@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nOzOE-0003au-5q
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:05:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33153)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nOzOA-0003uQ-PL
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:05:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646129150;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Up+PjZdkxU3TAAZHOOnEpizRqrEqSyoQ5fEdAFgzruI=;
+ b=dQwK8lCRisWB5RIQI+7IiMxVUuCroy0kvh8Az9lC2pdMdcc3ORfjGiNsgVdKX+KF7afmS1
+ ZLdh1HDi2FLm4judT1HDPUTxHK2VrzSi/l9h9OzEoSpry2ehh48iAfmovrW6L9E7Hm0kga
+ jSQe3VayEBQ3ky45a1YwWt69NXXvEjY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-456-2O_8UufiNmaAgvsxyQbt-Q-1; Tue, 01 Mar 2022 05:05:33 -0500
+X-MC-Unique: 2O_8UufiNmaAgvsxyQbt-Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B1A2425CF;
+ Tue,  1 Mar 2022 10:05:32 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EAE9573DA5;
+ Tue,  1 Mar 2022 10:04:02 +0000 (UTC)
+Date: Tue, 1 Mar 2022 10:03:59 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH  v2 04/18] tests/docker: update debian-arm64-cross with
+ lci-tool
+Message-ID: <Yh3vj/otYYIuLUIz@redhat.com>
+References: <20220225172021.3493923-1-alex.bennee@linaro.org>
+ <20220225172021.3493923-5-alex.bennee@linaro.org>
+ <YhyVvAv0M8WwiK2A@redhat.com> <87r17nm2au.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <87r17nm2au.fsf@linaro.org>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,44 +86,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca, mst@redhat.com, shentey@gmail.com,
- Liav Albani <liavalb@gmail.com>, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, sw@weilnetz.de, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ f4bug@amsat.org, qemu-arm@nongnu.org, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On Tue, 1 Mar 2022, Igor Mammedov wrote:
-
-> On Mon, 28 Feb 2022 22:17:32 +0200
-> Liav Albani <liavalb@gmail.com> wrote:
->
-> > This can allow the guest OS to determine more easily if i8042 controller
-> > is present in the system or not, so it doesn't need to do probing of the
-> > controller, but just initialize it immediately, before enumerating the
-> > ACPI AML namespace.
+On Mon, Feb 28, 2022 at 02:39:17PM +0000, Alex Bennée wrote:
+> 
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+> > $SUBJECT  =~ s/lci-tool/lcitool/
 > >
-> > This change only applies to the x86/q35 machine type, as it uses FACP
-> > ACPI table with revision higher than 1, which should implement at least
-> > ACPI 2.0 features within the table, hence it can also set the IA-PC boot
-> > flags register according to the ACPI 2.0 specification.
+> > On Fri, Feb 25, 2022 at 05:20:07PM +0000, Alex Bennée wrote:
+> >> Using lci-tool update debian-arm64-cross to a Debian 11 based system.
 > >
-> > Signed-off-by: Liav Albani <liavalb@gmail.com>
-> > ---
-> >  hw/acpi/aml-build.c         | 11 ++++++++++-
-> >  hw/i386/acpi-build.c        |  9 +++++++++
-> >  hw/i386/acpi-microvm.c      |  9 +++++++++
-> commit message says it's q35 specific, so wy it touched microvm anc piix4?
+> > Likewise
+> >
+> >> As a result we can drop debian-arm64-test-cross just for building
+> >> tests.
+> >> 
+> >> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> >> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> >> Message-Id: <20220211160309.335014-5-alex.bennee@linaro.org>
+> >> ---
+> >>  .gitlab-ci.d/container-cross.yml              |  10 +-
+> >>  tests/docker/Makefile.include                 |   3 -
+> >>  .../dockerfiles/debian-arm64-cross.docker     | 186 +++++++++++++++---
+> >>  .../debian-arm64-test-cross.docker            |  13 --
+> >>  tests/lcitool/refresh                         |  11 ++
+> >>  tests/tcg/configure.sh                        |   2 +-
+> >>  6 files changed, 173 insertions(+), 52 deletions(-)
+> >>  delete mode 100644 tests/docker/dockerfiles/debian-arm64-test-cross.docker
+> >> 
 
-Igor is correct. Although I see that currently there are no 8042 devices
-for microvms, maybe we should be conservative and add the code to detect
-the device anyway. In that case, the change could affect microvms too when
-such devices get added in the future.
 
+> > This cross dockerfile is a fully self-contained image.
+> >
+> > Traditionally QEMU has had a split image for Debian cross targets,
+> > where there is a base with common native packages, and then a
+> > layer for the cross packages.
+> >
+> > lcitool is capable of generating the image in this split format
+> > using the arg
+> >
+> >    --layers {all,native,foreign}
+> >
+> > Personally I think it is simpler to just use the fully self
+> > contained image, as it would simplify our gitlab pipeline
+> > to only need 1 build stage for containers.  The cost is that
+> > we'll not be sharing layers for native packages and more wall
+> > clock time building since we're installing the same native
+> > packages over & over.
+> >
+> > I'm not saying to change your patch, I just wanted to point
+> > out the possibility in case someone cares strongly about
+> > keeping a split layer model for cross containers.
+> 
+> My thinking on our layered approach has evolved over the years. One of
+> the problems is when the two layers get out of sync and you run into
+> build issues due to different states of cached layers.
 
-echo -e "info qtree\r\nquit\r\n" | ./qemu-system-x86_64 -machine microvm
--monitor stdio 2>/dev/null | grep 8042
+Oh, I'd not even thought about that possibility but yes, it makes
+sense. We could have cached the base layer and when we do an
+'apt-get update' in the cross layer we'll end up pulling in new
+copies of packages otherwise present in the base layer, partly
+defeating the point of having two layers.
 
-<empty>
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
