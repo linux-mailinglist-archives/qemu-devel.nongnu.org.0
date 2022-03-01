@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D805A4C905A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 17:31:02 +0100 (CET)
-Received: from localhost ([::1]:52148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782284C905B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 17:31:10 +0100 (CET)
+Received: from localhost ([::1]:52494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP5Ou-0000hz-SY
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 11:31:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55450)
+	id 1nP5P3-0000vb-Fd
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 11:31:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nP5Mm-0007ri-4d
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 11:28:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21178)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org>)
+ id 1nP5N1-0007w5-Hz
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 11:29:03 -0500
+Received: from [2604:1380:4601:e00::1] (port=35294 helo=ams.source.kernel.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nP5Mi-0003ST-Bg
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 11:28:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646152122;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=pjWwgvf8aTavc/p6yP3cyc9HRK8Y5ifOEO3mHfn6LZQ=;
- b=S1lzy2rDpcjOGfh7E+8FSeZakj5+Tx/rzERf3N0UnBMGy+PyqWfHEoqmiqjOnOads5+dVC
- 2DoGNKYNKkymeP1OvO2wme9YLrbXJ3dB8747BURQg/yQttYmEnYkc8Hh67Q8bHPehBiwbr
- Q6rbwUa2PeQgFOWj7YF7YJI4IhYFGoE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-202-_zlMASDNOoibrvPt1A0ONQ-1; Tue, 01 Mar 2022 11:28:32 -0500
-X-MC-Unique: _zlMASDNOoibrvPt1A0ONQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1)
+ (envelope-from <SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org>)
+ id 1nP5Mz-0003TM-K9
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 11:29:03 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34B28180FD73;
- Tue,  1 Mar 2022 16:28:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA7D37A536;
- Tue,  1 Mar 2022 16:28:29 +0000 (UTC)
-Date: Tue, 1 Mar 2022 16:28:26 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 00/17] target/arm: Implement LVA, LPA, LPA2 features
-Message-ID: <Yh5Jqg8oDDfPZ2c9@redhat.com>
-References: <20220223223137.114264-1-richard.henderson@linaro.org>
- <CAFEAcA84cFnF9EygS6Xun3VorjeGKf+Lw7zRdkBbcRp6YT_OeQ@mail.gmail.com>
- <CAFEAcA_+70hkNaRhbT=ZT457x+cgD-qSad5QoJY8VAEds5UKeA@mail.gmail.com>
+ by ams.source.kernel.org (Postfix) with ESMTPS id 95470B8185A;
+ Tue,  1 Mar 2022 16:28:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C10FC340EE;
+ Tue,  1 Mar 2022 16:28:56 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="D7UrjJ4m"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1646152134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=azUn2ki7Mj00I4cZyGYyVEVMYgwAwBTMCuqvy/VXMbE=;
+ b=D7UrjJ4maBEi4nEme98+YCPJVmJo8lVsaJoNewrcfQObk6P6YpRz+3CgWVQ+gGINDw/ivF
+ ES5me9CToU/6hwtUO3skAMWGsSGQWTzhLNI/0Mc6pEtAN2qew//z0nGtg2BwltGPhDDtcM
+ V4zLgBtAlAw4iOeKha7WaVAvWwGJTkA=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6fec32bc
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Tue, 1 Mar 2022 16:28:53 +0000 (UTC)
+Date: Tue, 1 Mar 2022 17:28:48 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Subject: Re: propagating vmgenid outward and upward
+Message-ID: <Yh5JwK6toc/zBNL7@zx2c4.com>
+References: <Yh4+9+UpanJWAIyZ@zx2c4.com>
+ <223f858c-34c5-3ccd-b9e8-7585a976364d@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_+70hkNaRhbT=ZT457x+cgD-qSad5QoJY8VAEds5UKeA@mail.gmail.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <223f858c-34c5-3ccd-b9e8-7585a976364d@redhat.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4601:e00::1
+ (failed)
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -59
+X-Spam_score: -6.0
+X-Spam_bar: ------
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,48 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: alex.bennee@linaro.org, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: len.brown@intel.com, linux-hyperv@vger.kernel.org, colmmacc@amazon.com,
+ berrange@redhat.com, adrian@parity.io, kvm@vger.kernel.org, jannh@google.com,
+ gregkh@linuxfoundation.org, linux-pm@vger.kernel.org, mst@redhat.com,
+ linux-kernel@vger.kernel.org, linux@dominikbrodowski.net,
+ qemu-devel@nongnu.org, graf@amazon.com, linux-crypto@vger.kernel.org,
+ pavel@ucw.cz, rafael@kernel.org, tytso@mit.edu, mikelley@microsoft.com,
+ arnd@arndb.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 01, 2022 at 04:16:25PM +0000, Peter Maydell wrote:
-> On Tue, 1 Mar 2022 at 16:08, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Wed, 23 Feb 2022 at 22:31, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> > >
-> > > Changes for v3:
-> > >   * Update emulation.rst.
-> > >   * Split out separate update to ID_AA64MMFR0.
-> > >   * Hack for avocado.
-> > >
-> > > If the avocado hack isn't acceptable, perhaps just drop the
-> > > last two patches for now?
-> >
-> > I think that given that there are Linux kernels out there
-> > that won't boot if LPA2 is enabled, we should probably have
-> > a -cpu command line option to disable it. Otherwise we might
-> > get a bunch of "why did my kernel stop booting" bug reports.
+Hi Laszlo,
+
+On Tue, Mar 01, 2022 at 05:15:21PM +0100, Laszlo Ersek wrote:
+> > If we had a "pull" model, rather than just expose a 16-byte unique
+> > identifier, the vmgenid virtual hardware would _also_ expose a
+> > word-sized generation counter, which would be incremented every time the
+> > unique ID changed. Then, every time we would touch the RNG, we'd simply
+> > do an inexpensive check of this memremap()'d integer, and reinitialize
+> > with the unique ID if the integer changed.
 > 
-> ...and should using a versioned machine type also default
-> -cpu max to not enabling that? Not sure what x86 or other
-> precedent is there.
+> Does the vmgenid spec (as-is) preclude the use of the 16-byte identifier
+> like this?
+> 
+> After all, once you locate the identifier via the ADDR object, you could
+> perhaps consult it every time you were about to touch the RNG.
 
-I don't recall us coming across an important scenario where a guest
-would fail to boot when we /enable/ a given CPU feature on x86,
-requiring us to hide it from -cpu max/host.
+No, you could in fact do this, and there'd be nothing wrong with that
+from a spec perspective. You could even vDSO it all the way through
+onward to userspace. However, doing a 16-byte atomic memcmp on
+each-and-every packet is really a non-starter. For that kind of "check
+it in the hot path" thing to be viable, you really want it to be a
+counter that is word-sized. The "pull"-model involves pulling on every
+single packet in order to be better than the "push"-model. Anyway, even
+with a word-sized counter, it's unclear whether the costs of checking on
+every packet would be worth it to everyone, but at least it's more
+tenable than a 16-byte whammy.
 
-Assuming the QEMU/KVM implementation of a CPU feature is correct
-per the relevant spec, then artificially hiding it by default from
--cpu max feels questionable, as that penalizes non-buggy guest OS.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Jason
 
