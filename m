@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F1A4C90E9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 17:52:56 +0100 (CET)
-Received: from localhost ([::1]:41372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650754C9117
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 18:06:50 +0100 (CET)
+Received: from localhost ([::1]:50980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP5k7-0004x1-GX
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 11:52:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60818)
+	id 1nP5xY-0003Fi-W7
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 12:06:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nP5ia-0004GU-EG
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 11:51:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58529)
+ id 1nP5rO-0006a8-IE
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 12:00:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nP5iW-00081V-NY
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 11:51:18 -0500
+ id 1nP5rK-0001ig-V1
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 12:00:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646153475;
+ s=mimecast20190719; t=1646154021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q9RjwGMNZNktBZLjzLd5uGge8ZZfe0vvjzCn2cGEHjE=;
- b=ZIKZZdxExaJzmmZoc31YolGd5NGSyR3Gg66+wM6gMCKuw2tt44M3Cf+ToTmpHNLMPX4eJh
- n6YhWn1X3h5AyIjvrM6dTltal2RovAotP+jUuSFWJ3DH5TtaAkJ9PMriT5UZMDpA2wPm5T
- C0wjl4Q8SRcPJp3wIL/5al3GBGooXBk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1Q4QBEJECmtLzlyWi3/qhdZ8KXxiFCidZ+HF/oWuP/M=;
+ b=ey90n3aQcp9ieLoOCw3aIs03KznESeB5Q+Z2XYXNVxZOrF2omBHWJyYgT1apjrdtfJkH3u
+ vFLWUD7GMu/jC3Z14YHzNsX1rPeOHShFODnTajp+lB+FYituKsPDBRjvKR/rCSk8sND9yb
+ +vJJtFxa/m1u4A4kIZ6JQOK4NEc6jPo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-150-aWvuLW47MpinyGm8DEfUmg-1; Tue, 01 Mar 2022 11:51:14 -0500
-X-MC-Unique: aWvuLW47MpinyGm8DEfUmg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- t15-20020adfdc0f000000b001ef93643476so2268340wri.2
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 08:51:14 -0800 (PST)
+ us-mta-583-Zal8cMASMNubYOeBPm3qUQ-1; Tue, 01 Mar 2022 12:00:20 -0500
+X-MC-Unique: Zal8cMASMNubYOeBPm3qUQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ f9-20020a5d58e9000000b001f0247e5e96so214591wrd.15
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 09:00:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=q9RjwGMNZNktBZLjzLd5uGge8ZZfe0vvjzCn2cGEHjE=;
- b=Kj6iUrPpI4to3QkL4ako52NclcyFOwPvCpvInlA/BWWHUbmQREAM/PlTTFf4UyvNuV
- pn4MdfBVEwDb+qwAUDzAa5OKf30N+pvR9kLPnfcPSbTZWBvXNTsjbz4ouExhJ74FzOgO
- vdhJ4014KDVPQvmZa3BAgzSX8Lvmmw0CRDUuNIF4Ybfe7hZm5OgDiopPhMGsAJTh5QSW
- ivUZr8l7GLQp7U0zsnvlRVl4o4gXSQFeb501+RE4CLADNn4UUmw1Vk8Mr1IN/Ayd2rF1
- A1IOKpZUF8suXXmJJDysktqfUVEjyyUIbtovgdjDzxwn+uCAgqrrDvkv+wI+IDqG+qSS
- tUKQ==
-X-Gm-Message-State: AOAM533sF/Tm8mOVyLBjxBHj9og+7yxuCPgOsq8pkPYMhHnSBqQNmo5m
- L6X8BVvrBP3/StcfCTGDa6sOfqQ2pO4lqZOtrin4MteSuZrBIWyCPW6rNF4AJBmXtlJBSb1rFZu
- clZMHPKYYl2Ocyag=
-X-Received: by 2002:a5d:68cc:0:b0:1ef:8263:c3c1 with SMTP id
- p12-20020a5d68cc000000b001ef8263c3c1mr13154171wrw.103.1646153473271; 
- Tue, 01 Mar 2022 08:51:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvJ9aXOICoUcRUU6agDWKFu491kOhWIPKRCOHGEgsdKD0DGHWw/nZCfOb7xKVy3cp4/5AckQ==
-X-Received: by 2002:a5d:68cc:0:b0:1ef:8263:c3c1 with SMTP id
- p12-20020a5d68cc000000b001ef8263c3c1mr13154150wrw.103.1646153472942; 
- Tue, 01 Mar 2022 08:51:12 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=1Q4QBEJECmtLzlyWi3/qhdZ8KXxiFCidZ+HF/oWuP/M=;
+ b=AuVckYVKYdLsam8Xgji02h4Ec33LQJqumrz9XV4Q3guAX6yqg/32klwDoV3b9VdRrs
+ AMkXnblTFg8JE7k9Z5YYEpqJqWV7yw3ZFODjicFIUH6ymvCuMVuEWyfniw5ikwpJ60d8
+ wiEof5Ei475Tap9LAP5v7p59wSsyCyCFhXRVSkebAkokZfplIMcSZovc4CYX22ESY++M
+ Q3SrBUW3iy3YW2zgxsP995SAGKkoG8ymtla974qq4v4wetHIKhRU5K6NhqIIxRoNWQLd
+ 9IUHaQh034rA2AKwxzZo5Db9gEQMjefhRBm7kJVyz0uxjnWgrCrPCnecpxvY2FCMyiXc
+ RyOQ==
+X-Gm-Message-State: AOAM533aeNfq7yLvX4FEDAPUGXEcG/73vrxbeXhZdrfsxyHY0NvTQtep
+ Jcr5Fu31IZcCifQsiUuzdMQZ1FhM5xB+GbaSz1ymUTOp5K8gm0O6pAVzf5tKzIok0e2vtpvqllI
+ 32RW0b9l563BzSPQ=
+X-Received: by 2002:a5d:6d87:0:b0:1ef:fbb2:6f66 with SMTP id
+ l7-20020a5d6d87000000b001effbb26f66mr4967540wrs.630.1646154018899; 
+ Tue, 01 Mar 2022 09:00:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxW52hDbF7L+2CBMmbZE5gpkwPYCC/W6zBbm4/tRV/v1QOIXMhTKHbHWleKN80F62wuIG25Uw==
+X-Received: by 2002:a5d:6d87:0:b0:1ef:fbb2:6f66 with SMTP id
+ l7-20020a5d6d87000000b001effbb26f66mr4967521wrs.630.1646154018670; 
+ Tue, 01 Mar 2022 09:00:18 -0800 (PST)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- t8-20020a5d6908000000b001e3169cc6afsm14356179wru.94.2022.03.01.08.51.11
+ i15-20020a05600c354f00b00381753c67a8sm3406422wmq.26.2022.03.01.09.00.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 08:51:12 -0800 (PST)
-Date: Tue, 1 Mar 2022 16:51:09 +0000
+ Tue, 01 Mar 2022 09:00:17 -0800 (PST)
+Date: Tue, 1 Mar 2022 17:00:15 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v2 00/25] migration: Postcopy Preemption
-Message-ID: <Yh5O/eq4If4MYpTq@work-vm>
-References: <20220301083925.33483-1-peterx@redhat.com>
- <Yh3mo5VFQ3gT1Gd7@redhat.com> <Yh3yzbmOqAVV9iM9@xz-m1.local>
- <Yh30/nPtWyvqp8xo@redhat.com> <Yh37hLn5Dlffm13P@xz-m1.local>
+Subject: Re: [PATCH 20/20] tests: Add postcopy preempt test
+Message-ID: <Yh5RHyQ9Oy8zZki1@work-vm>
+References: <20220216062809.57179-1-peterx@redhat.com>
+ <20220216062809.57179-21-peterx@redhat.com>
+ <YhTcb9o1d1gCQ3rm@work-vm> <YhXnQLY4/b3V2+VL@xz-m1.local>
+ <Yh2wdswUis7TSspK@xz-m1.local>
 MIME-Version: 1.0
-In-Reply-To: <Yh37hLn5Dlffm13P@xz-m1.local>
+In-Reply-To: <Yh2wdswUis7TSspK@xz-m1.local>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,101 +102,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Peter Xu (peterx@redhat.com) wrote:
-> On Tue, Mar 01, 2022 at 10:27:10AM +0000, Daniel P. Berrangé wrote:
-> > > I also didn't know whether there's other limitations of it.  For example,
-> > > will a new socket pair be a problem for any VM environment (either a
-> > > limitation from the management app, container, and so on)?  I think it's
-> > > the same to multifd in that aspect, but I never explored.
+> On Wed, Feb 23, 2022 at 03:50:24PM +0800, Peter Xu wrote:
+> > On Tue, Feb 22, 2022 at 12:51:59PM +0000, Dr. David Alan Gilbert wrote:
+> > > * Peter Xu (peterx@redhat.com) wrote:
+> > > > Two tests are added: a normal postcopy preempt test, and a recovery test.
+> > > 
+> > > Yes, this is difficult; without hugepages the tests are limited; did you
+> > > see if this test actually causes pages to go down the fast path?
 > > 
-> > If it needs extra sockets that is something apps will need to be aware
-> > of unfortunately and explicitly opt-in to :-( Migration is often
-> > tunnelled/proxied over other channels, so whatever does that needs to
-> > be aware of possibility of seeing extra sockets.
-> 
-> Ah, then probably it can never be the default.  But for sure it could be
-> nice that higher level can opt-in and make it a default at some point as
-> long as it knows the network topology is safe to do so.
-> 
+> > I didn't observe the test case explicitly, but I did observe in my own test
+> > that I ran that it goes with the fast path, or I can't get a huge speed up.
 > > 
-> > > > > TODO List
-> > > > > =========
-> > > > > 
-> > > > > TLS support
-> > > > > -----------
-> > > > > 
-> > > > > I only noticed its missing very recently.  Since soft freeze is coming, and
-> > > > > obviously I'm still growing this series, so I tend to have the existing
-> > > > > material discussed. Let's see if it can still catch the train for QEMU 7.0
-> > > > > release (soft freeze on 2022-03-08)..
-> > > > 
-> > > > I don't like the idea of shipping something that is only half finished.
-> > > > It means that when apps probe for the feature, they'll see preempt
-> > > > capability present, but have no idea whether they're using a QEMU that
-> > > > is broken when combined with TLS or not. We shouldn't merge something
-> > > > just to meet the soft freeze deadline if we know key features are broken.
-> > > 
-> > > IMHO merging and declaring support are two problems.
-> > > 
-> > > To me, it's always fine to merge the code that implemented the fundation of a
-> > > feature.  The feature can be worked upon in the future.
-> > > 
-> > > Requiring a feature to be "complete" sometimes can cause burden to not only
-> > > the author of the series but also reviewers.  It's IMHO not necessary to
-> > > bind these two ideas.
-> > > 
-> > > It's sometimes also hard to define "complete": take the TLS as example, no
-> > > one probably even noticed that it won't work with TLS and I just noticed it
-> > > merely these two days..  We obviously can't merge partial patchset, but if
-> > > the patchset is well isolated, then it's not a blocker for merging, imho.
-> > > 
-> > > Per my understanding, what you worried is when we declare it supported but
-> > > later we never know when TLS will be ready for it.  One solution is I can
-> > > rename the capability as x-, then after the TLS side ready I drop the x-
-> > > prefix.  Then Libvirt or any mgmt software doesn't need to support this
-> > > until we drop the x-, so there's no risk of compatibility.
-> > > 
-> > > Would that sound okay to you?
+> > Meanwhile my own test is only using 2M huge pages, and I can observe
+> > interruptions of huge page sendings frequently.
 > > 
-> > If it has an x- prefix then we can basically ignore it from a mgmt app
-> > POV until it is actually finished.
-> > 
-> > > I can always step back and work on TLS first before it's merged, but again
-> > > I don't think it's required.
-> > 
-> > Apps increasingly consider use of TLS to be a mandatory feature for
-> > migration, so until that works, this preempt has to be considered
-> > unsupported & unfinished IMHO. So either TLS should be ready when
-> > it merges, or it should be clearly marked unsupported at the QAPI
-> > level.
+> > But yeah let me try to capture something in this test too, at least to make
+> > sure the standalone socket is being used.  Covering of huge pages might be
+> > doable but obviously requires host privileges, so I'll leave that for later.
 > 
-> Yes, I fully agree with it, and for huge vm migrations I think TLS is in
-> many cases mandatory.
+> When I tried to observe the test case today, I found that the preempt new
+> tests are all running with the new channels, however funnily I found the
+> original vanilla test is using it too!
 > 
-> I do plan to work on it right afterwards if this series land, but as the
-> series grows I just noticed maybe we should start landing some codes that's
-> already solid.  Landing the code as another benefit that I want to make
-> sure the code merged at least won't affect the existing features.
+> Looked into it, that's because the MigrateStart* pointer is freed in
+> test_migrate_start() but the test referenced it after that... so it's a
+> use-after-free bug in the test code.  I need to squash this:
 > 
-> So what I'm curious is why TLS is getting quite some attentions in the past
-> few years but I didn't even see any selftests included in migration-test on
-> tls.  That's something I wanted to look into, maybe even before adding the
-> preempt+tls support. But maybe I just missed something, as I didn't use tls
-> a lot in the past.
+> ---8<---
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 5053b40589..09a9ce4401 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -664,6 +664,8 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>                                      MigrateStart *args)
+>  {
+>      g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    /* NOTE: args will be freed in test_migrate_start(), cache it */
+> +    bool postcopy_preempt = args->postcopy_preempt;
+>      QTestState *from, *to;
+>  
+>      if (test_migrate_start(&from, &to, uri, args)) {
+> @@ -674,7 +676,7 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>      migrate_set_capability(to, "postcopy-ram", true);
+>      migrate_set_capability(to, "postcopy-blocktime", true);
+>  
+> -    if (args->postcopy_preempt) {
+> +    if (postcopy_preempt) {
+>          migrate_set_capability(from, "postcopy-preempt", true);
+>          migrate_set_capability(to, "postcopy-preempt", true);
+>      }
+> ---8<---
 
-Hmm, I think it's worth getting TLS working before putting the full
-series in, because it might impact the way you wire the channels up -
-it's going to take some care; but lets see which parts we can/should
-take.
+Ah OK, yes I guess that's needed.
+
+> That's tricky, and we could have done something better.. E.g., we could
+> pass in the MigrateStart** into test_migrate_start() so it can clear it
+> when free, that's not silent use-after-free but crashing, which is better
+> in this case.
+> 
+> I feel lucky I tried..
+
+It could at least do with a comment on test_migrate_start?
 
 Dave
-> Thanks,
+
 > 
 > -- 
 > Peter Xu
