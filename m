@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F02B4C8AD8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 12:33:30 +0100 (CET)
-Received: from localhost ([::1]:45180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EBD04C8AF3
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 12:38:45 +0100 (CET)
+Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP0kz-0001km-95
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 06:33:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52978)
+	id 1nP0q4-0004xg-BN
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 06:38:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nP0hK-0008Sl-Kr
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 06:29:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24491)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nP0oM-0004Gc-Sf
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 06:37:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nP0hI-0000GL-9S
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 06:29:42 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nP0oK-0001jo-KH
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 06:36:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646134179;
+ s=mimecast20190719; t=1646134616;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KoKsEmbKRNdb3GB+quHMrJte3m4mRGlce7uiCCXoW3w=;
- b=OOic1HbWkkCtoG1+K3cHHwg3tpckxce1/c3B/UV1x25mrqxKLyhCcFUglyfZ4RzPatRBhM
- gD/5UKhiNorne2/NFdhZIPPusgrr6EUo+AojDRFXVTO7cDJFA1BiyxafOe7BeOzpiVflsq
- te2x+t+VpPIoDCHt+zaeWsmUtLGPnE8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UOcRxKoUn+Ko3hm5evdH8Ohvbs2Tjun/tS2OKHY9PtA=;
+ b=Zcjjl+QZ551sTKyR8wp4Ec3OI46khlG9qNfQGTZyz3HJpRaFjjUWyzdLNJ8lOjfXFe37SS
+ CaO/dBbQC1T6pmGVWnmFKtIv8jM7GEaDx3Yu8RUV/DwmCePb6D8gf9S/GLpNFp/4OjqWUB
+ 47KTEkhNIB2wRStS8JP+BkKfb6CeJxU=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-70-M5jnSqP2Nz6FzWEkYJ9F9Q-1; Tue, 01 Mar 2022 06:29:38 -0500
-X-MC-Unique: M5jnSqP2Nz6FzWEkYJ9F9Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r206-20020a1c44d7000000b00380e36c6d34so843069wma.4
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 03:29:38 -0800 (PST)
+ us-mta-630-X88PdguYNMqZiyCgXMj6lA-1; Tue, 01 Mar 2022 06:36:52 -0500
+X-MC-Unique: X88PdguYNMqZiyCgXMj6lA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ hu9-20020a056214234900b0042c4017aeb3so14952021qvb.14
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 03:36:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=KoKsEmbKRNdb3GB+quHMrJte3m4mRGlce7uiCCXoW3w=;
- b=e4wJyJi+mcAz3e14PadbWghDW8dlzh3KVobif66Fxt1AdTRt3nm8r+NGsCTs14pegc
- foZXM+hTWcJKjCLElBcTkXUIT1l4vxW+AhdsqPCgP2lnX82n/Y5RbeMVK3S38nerntmG
- QCdbW6HiAumuvRNn0S8kGiyVet7cp/sS7gXgln0HVox9Ivs85kDqexKSVIo+P24sQfa5
- 4+egemvmbhLT9l5ENTmAhybrDYwb5pIP2FThSP+7Z1N9aZQZgdXdwgWsAjBEhBU0lkAS
- NAwRWpOPSeNKh/LmLxbavqe4LgelkExpM1adVx8peral6q7QURtxgLkRFf1EMIa4YgJx
- Jmfg==
-X-Gm-Message-State: AOAM531KPVDgQ3OQg6lo6II8fH89S/u6mViVfc049N7zU16mlolDCHJo
- wSAEIAZ1cVD+R8Z7HjzrHKBtcOFX6dO8mKmaaeIY0viwT3v8+asZX0v9Rx0XaZd1MAoORv8Ax9x
- bBlR9Sb5dxf3tM7g=
-X-Received: by 2002:a05:600c:a03:b0:37b:daff:6146 with SMTP id
- z3-20020a05600c0a0300b0037bdaff6146mr16833971wmp.85.1646134176928; 
- Tue, 01 Mar 2022 03:29:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz9AzYlIMLtBeN+8TXjXB55juvRMH2ZwIvB6w/YoJ44HZkNPDJw9XZ3YyfaayvrMr92Mr8a7w==
-X-Received: by 2002:a05:600c:a03:b0:37b:daff:6146 with SMTP id
- z3-20020a05600c0a0300b0037bdaff6146mr16833945wmp.85.1646134176566; 
- Tue, 01 Mar 2022 03:29:36 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- k13-20020a05600c1c8d00b0038181dcd083sm2360337wms.36.2022.03.01.03.29.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 03:29:35 -0800 (PST)
-Date: Tue, 1 Mar 2022 11:29:33 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Fabian Ebner <f.ebner@proxmox.com>
-Subject: Re: [PATCH v9 3/3] qapi/monitor: allow VNC display id in
- set/expire_password
-Message-ID: <Yh4DnamfMVzGQM8s@work-vm>
-References: <20220225084949.35746-1-f.ebner@proxmox.com>
- <20220225084949.35746-4-f.ebner@proxmox.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=UOcRxKoUn+Ko3hm5evdH8Ohvbs2Tjun/tS2OKHY9PtA=;
+ b=Q4cYVAEgunOkIW6byP25cUN+m0/bGefu8vtVvU+kelG1HKHv/WDcXqXhFfoCfLTWox
+ Y+SuVq0XPIqXnFF9Uc48wxYMynJXV1MH4Z74B74VzjDOmPYMICUoNEM9yePQT52I496I
+ endReKw5giaPfMNXXWI33lB+GqaNeBJsZRpElYRaGHQ6H2D2fCMalzsW/aSmAWMAuFkY
+ eRaz2uWgEZI69RnYEZ79fq5clwLZ3ScFCnPBg+flRdSZCVUTN4T0CcpY/TWt7AEDubdQ
+ Fo0iCoQ09WPKGqQwRhJx1BAD9FiSnVX+yTTmj5wrt6Hc6iY0R/HO+WP1le9DuEXqmMGJ
+ vSFg==
+X-Gm-Message-State: AOAM532EBAMce9QGCnmCrtcVJl/jug0XkkNUwQvMNWFIfMUrO6jFZcoo
+ Bf+aDY3IBhWvDKELlMDsU1QWEiiWqU3sHSHjZhtXJzhl64Tms11o0vc8brm7VkYcjqZMQuy2L7T
+ GHa+gGZynlpYHb7/wTmRPYY6ZhJ1rkTc=
+X-Received: by 2002:a05:622a:1190:b0:2dc:915a:9ce4 with SMTP id
+ m16-20020a05622a119000b002dc915a9ce4mr18918746qtk.221.1646134612127; 
+ Tue, 01 Mar 2022 03:36:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwW0n9N7lUZwAzRMZWobuvRtfM2mO+yKRVm5ype/Re+y6lAfcSufTYJUndtrT0WMs/CZ8T2UTfwGYB42tScbMg=
+X-Received: by 2002:a05:622a:1190:b0:2dc:915a:9ce4 with SMTP id
+ m16-20020a05622a119000b002dc915a9ce4mr18918710qtk.221.1646134611761; Tue, 01
+ Mar 2022 03:36:51 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220225084949.35746-4-f.ebner@proxmox.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+References: <20220227134111.3254066-1-eperezma@redhat.com>
+ <CACGkMEvjE7H4HUtxuJ7ntfO9a7xwT4cQav-24bV5we3WD+Gzww@mail.gmail.com>
+In-Reply-To: <CACGkMEvjE7H4HUtxuJ7ntfO9a7xwT4cQav-24bV5we3WD+Gzww@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 1 Mar 2022 12:36:15 +0100
+Message-ID: <CAJaqyWfXHE0C54R_-OiwJzjC0gPpkE3eX0L8BeeZXGm1ERYPtA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/14] vDPA shadow virtqueue
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,403 +95,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: w.bumiller@proxmox.com, berrange@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, marcandre.lureau@gmail.com, kraxel@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, eblake@redhat.com,
- t.lamprecht@proxmox.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
+ "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Fabian Ebner (f.ebner@proxmox.com) wrote:
-> From: Stefan Reiter <s.reiter@proxmox.com>
-> 
-> It is possible to specify more than one VNC server on the command line,
-> either with an explicit ID or the auto-generated ones à la "default",
-> "vnc2", "vnc3", ...
-> 
-> It is not possible to change the password on one of these extra VNC
-> displays though. Fix this by adding a "display" parameter to the
-> "set_password" and "expire_password" QMP and HMP commands.
-> 
-> For HMP, the display is specified using the "-d" value flag.
-> 
-> For QMP, the schema is updated to explicitly express the supported
-> variants of the commands with protocol-discriminated unions.
-> 
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-> [FE: update "Since: " from 6.2 to 7.0
->      make @connected a common member of @SetPasswordOptions]
-> Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
+On Mon, Feb 28, 2022 at 3:32 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Sun, Feb 27, 2022 at 9:42 PM Eugenio P=C3=A9rez <eperezma@redhat.com> =
+wrote:
+> >
+> > This series enable shadow virtqueue (SVQ) for vhost-vdpa devices. This
+> > is intended as a new method of tracking the memory the devices touch
+> > during a migration process: Instead of relay on vhost device's dirty
+> > logging capability, SVQ intercepts the VQ dataplane forwarding the
+> > descriptors between VM and device. This way qemu is the effective
+> > writer of guests memory, like in qemu's virtio device operation.
+> >
+> > When SVQ is enabled qemu offers a new virtual address space to the
+> > device to read and write into, and it maps new vrings and the guest
+> > memory in it. SVQ also intercepts kicks and calls between the device
+> > and the guest. Used buffers relay would cause dirty memory being
+> > tracked.
+> >
+> > This effectively means that vDPA device passthrough is intercepted by
+> > qemu. While SVQ should only be enabled at migration time, the switching
+> > from regular mode to SVQ mode is left for a future series.
+> >
+> > It is based on the ideas of DPDK SW assisted LM, in the series of
+> > DPDK's https://patchwork.dpdk.org/cover/48370/ . However, these does
+> > not map the shadow vq in guest's VA, but in qemu's.
+> >
+> > For qemu to use shadow virtqueues the guest virtio driver must not use
+> > features like event_idx, indirect descriptors, packed and in_order.
+> > These features are easy to implement on top of this base, but is left
+> > for a future series for simplicity.
+> >
+> > SVQ needs to be enabled at qemu start time with vdpa cmdline parameter:
+> >
+> > -netdev type=3Dvhost-vdpa,vhostdev=3Dvhost-vdpa-0,id=3Dvhost-vdpa0,x-sv=
+q=3Doff
+> >
+> > The first three patches enables notifications forwarding with
+> > assistance of qemu. It's easy to enable only this if the relevant
+> > cmdline part of the last patch is applied on top of these.
+> >
+> > Next four patches implement the actual buffer forwarding. However,
+> > address are not translated from HVA so they will need a host device wit=
+h
+> > an iommu allowing them to access all of the HVA range.
+> >
+> > The last part of the series uses properly the host iommu, so qemu
+> > creates a new iova address space in the device's range and translates
+> > the buffers in it. Finally, it adds the cmdline parameter.
+> >
+> > Some simple performance tests with netperf were done. They used a neste=
+d
+> > guest with vp_vdpa, vhost-kernel at L0 host. Starting with no svq and a
+> > baseline average of ~9980.13Mbps:
+> > Recv   Send    Send
+> > Socket Socket  Message  Elapsed
+> > Size   Size    Size     Time     Throughput
+> > bytes  bytes   bytes    secs.    10^6bits/sec
+> >
+> > 131072  16384  16384    30.01    9910.61
+> > 131072  16384  16384    30.00    10030.94
+> > 131072  16384  16384    30.01    9998.84
+> >
+> > To enable the notifications interception reduced performance to an
+> > average of ~9577.73Mbit/s:
+> > Recv   Send    Send
+> > Socket Socket  Message  Elapsed
+> > Size   Size    Size     Time     Throughput
+> > bytes  bytes   bytes    secs.    10^6bits/sec
+> >
+> > 131072  16384  16384    30.00    9563.03
+> > 131072  16384  16384    30.01    9626.65
+> > 131072  16384  16384    30.01    9543.51
+> >
+> > Finally, to enable buffers forwarding reduced the throughput again to
+> > ~8902.92Mbit/s:
+> > Recv   Send    Send
+> > Socket Socket  Message  Elapsed
+> > Size   Size    Size     Time     Throughput
+> > bytes  bytes   bytes    secs.    10^6bits/sec
+> >
+> > 131072  16384  16384    30.01    8643.19
+> > 131072  16384  16384    30.01    9033.56
+> > 131072  16384  16384    30.01    9032.02
+> >
+> > However, many performance improvements were left out of this series for
+> > simplicity, so difference if performance should shrink in the future.
+>
+> I think the performance should be acceptable as a start.
+>
+> >
+> > Comments are welcome.
+> >
+> > TODO in future series:
+> > * Event, indirect, packed, and others features of virtio.
+> > * To support different set of features between the device<->SVQ and the
+> >   SVQ<->guest communication.
+> > * Support of device host notifier memory regions.
+> > * To sepparate buffers forwarding in its own AIO context, so we can
+> >   throw more threads to that task and we don't need to stop the main
+> >   event loop.
+> > * Support multiqueue virtio-net vdpa.
+> > * Proper documentation.
+> >
+> > Changes from v1:
+> > * Feature set at device->SVQ is now the same as SVQ->guest.
+> > * Size of SVQ is not max available device size anymore, but guest's
+> >   negotiated.
+> > * Add VHOST_FILE_UNBIND kick and call fd treatment.
+> > * Make SVQ a public struct
+> > * Come back to previous approach to iova-tree
+> > * Some assertions are now fail paths. Some errors are now log_guest.
+> > * Only mask _F_LOG feature at vdpa_set_features svq enable path.
+> > * Refactor some errors and messages. Add missing error unwindings.
+> > * Add memory barrier at _F_NO_NOTIFY set.
+> > * Stop checking for features flags out of transport range.
+> > v1 link:
+> > https://lore.kernel.org/virtualization/7d86c715-6d71-8a27-91f5-8d47b71e=
+3201@redhat.com/
+> >
+> > Changes from v4 RFC:
+> > * Support of allocating / freeing iova ranges in IOVA tree. Extending
+> >   already present iova-tree for that.
+> > * Proper validation of guest features. Now SVQ can negotiate a
+> >   different set of features with the device when enabled.
+> > * Support of host notifiers memory regions
+> > * Handling of SVQ full queue in case guest's descriptors span to
+> >   different memory regions (qemu's VA chunks).
+> > * Flush pending used buffers at end of SVQ operation.
+> > * QMP command now looks by NetClientState name. Other devices will need
+> >   to implement it's way to enable vdpa.
+> > * Rename QMP command to set, so it looks more like a way of working
+> > * Better use of qemu error system
+> > * Make a few assertions proper error-handling paths.
+> > * Add more documentation
+> > * Less coupling of virtio / vhost, that could cause friction on changes
+> > * Addressed many other small comments and small fixes.
+> >
+> > Changes from v3 RFC:
+> >   * Move everything to vhost-vdpa backend. A big change, this allowed
+> >     some cleanup but more code has been added in other places.
+> >   * More use of glib utilities, especially to manage memory.
+> > v3 link:
+> > https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06032.html
+> >
+> > Changes from v2 RFC:
+> >   * Adding vhost-vdpa devices support
+> >   * Fixed some memory leaks pointed by different comments
+> > v2 link:
+> > https://lists.nongnu.org/archive/html/qemu-devel/2021-03/msg05600.html
+> >
+> > Changes from v1 RFC:
+> >   * Use QMP instead of migration to start SVQ mode.
+> >   * Only accepting IOMMU devices, closer behavior with target devices
+> >     (vDPA)
+> >   * Fix invalid masking/unmasking of vhost call fd.
+> >   * Use of proper methods for synchronization.
+> >   * No need to modify VirtIO device code, all of the changes are
+> >     contained in vhost code.
+> >   * Delete superfluous code.
+> >   * An intermediate RFC was sent with only the notifications forwarding
+> >     changes. It can be seen in
+> >     https://patchew.org/QEMU/20210129205415.876290-1-eperezma@redhat.co=
+m/
+> > v1 link:
+> > https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05372.html
+> >
+> > Eugenio P=C3=A9rez (20):
+> >       virtio: Add VIRTIO_F_QUEUE_STATE
+> >       virtio-net: Honor VIRTIO_CONFIG_S_DEVICE_STOPPED
+> >       virtio: Add virtio_queue_is_host_notifier_enabled
+> >       vhost: Make vhost_virtqueue_{start,stop} public
+> >       vhost: Add x-vhost-enable-shadow-vq qmp
+> >       vhost: Add VhostShadowVirtqueue
+> >       vdpa: Register vdpa devices in a list
+> >       vhost: Route guest->host notification through shadow virtqueue
+> >       Add vhost_svq_get_svq_call_notifier
+> >       Add vhost_svq_set_guest_call_notifier
+> >       vdpa: Save call_fd in vhost-vdpa
+> >       vhost-vdpa: Take into account SVQ in vhost_vdpa_set_vring_call
+> >       vhost: Route host->guest notification through shadow virtqueue
+> >       virtio: Add vhost_shadow_vq_get_vring_addr
+> >       vdpa: Save host and guest features
+> >       vhost: Add vhost_svq_valid_device_features to shadow vq
+> >       vhost: Shadow virtqueue buffers forwarding
+> >       vhost: Add VhostIOVATree
+> >       vhost: Use a tree to store memory mappings
+> >       vdpa: Add custom IOTLB translations to SVQ
+>
+> This list seems wrong btw :)
+>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Yes, I uncommented that part by mistake in git-publish and I'm still
+paying the consequences.
 
-> ---
-> 
-> v8 -> v9:
-> * Make @connected a common member of @SetPasswordOptions.
-> * Use s rather than V to indicate that the flag takes a string value.
-> 
->  hmp-commands.hx    | 24 ++++++------
->  monitor/hmp-cmds.c | 40 +++++++++++++------
->  monitor/qmp-cmds.c | 34 +++++++---------
->  qapi/ui.json       | 96 +++++++++++++++++++++++++++++++++++-----------
->  4 files changed, 129 insertions(+), 65 deletions(-)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index 70a9136ac2..8476277aa9 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1514,33 +1514,35 @@ ERST
->  
->      {
->          .name       = "set_password",
-> -        .args_type  = "protocol:s,password:s,connected:s?",
-> -        .params     = "protocol password action-if-connected",
-> +        .args_type  = "protocol:s,password:s,display:-ds,connected:s?",
-> +        .params     = "protocol password [-d display] [action-if-connected]",
->          .help       = "set spice/vnc password",
->          .cmd        = hmp_set_password,
->      },
->  
->  SRST
-> -``set_password [ vnc | spice ] password [ action-if-connected ]``
-> -  Change spice/vnc password.  *action-if-connected* specifies what
-> -  should happen in case a connection is established: *fail* makes the
-> -  password change fail.  *disconnect* changes the password and
-> +``set_password [ vnc | spice ] password [ -d display ] [ action-if-connected ]``
-> +  Change spice/vnc password.  *display* can be used with 'vnc' to specify
-> +  which display to set the password on.  *action-if-connected* specifies
-> +  what should happen in case a connection is established: *fail* makes
-> +  the password change fail.  *disconnect* changes the password and
->    disconnects the client.  *keep* changes the password and keeps the
->    connection up.  *keep* is the default.
->  ERST
->  
->      {
->          .name       = "expire_password",
-> -        .args_type  = "protocol:s,time:s",
-> -        .params     = "protocol time",
-> +        .args_type  = "protocol:s,time:s,display:-ds",
-> +        .params     = "protocol time [-d display]",
->          .help       = "set spice/vnc password expire-time",
->          .cmd        = hmp_expire_password,
->      },
->  
->  SRST
-> -``expire_password [ vnc | spice ]`` *expire-time*
-> -  Specify when a password for spice/vnc becomes
-> -  invalid. *expire-time* accepts:
-> +``expire_password [ vnc | spice ] expire-time [ -d display ]``
-> +  Specify when a password for spice/vnc becomes invalid.
-> +  *display* behaves the same as in ``set_password``.
-> +  *expire-time* accepts:
->  
->    ``now``
->      Invalidate password instantly.
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index ff78741b75..634968498b 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1396,24 +1396,33 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
->  {
->      const char *protocol  = qdict_get_str(qdict, "protocol");
->      const char *password  = qdict_get_str(qdict, "password");
-> +    const char *display = qdict_get_try_str(qdict, "display");
->      const char *connected = qdict_get_try_str(qdict, "connected");
->      Error *err = NULL;
-> -    DisplayProtocol proto;
-> -    SetPasswordAction conn;
->  
-> -    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> -                            DISPLAY_PROTOCOL_VNC, &err);
-> +    SetPasswordOptions opts = {
-> +        .password = (char *)password,
-> +        .has_connected = !!connected,
-> +    };
-> +
-> +    opts.connected = qapi_enum_parse(&SetPasswordAction_lookup, connected,
-> +                                     SET_PASSWORD_ACTION_KEEP, &err);
->      if (err) {
->          goto out;
->      }
->  
-> -    conn = qapi_enum_parse(&SetPasswordAction_lookup, connected,
-> -                           SET_PASSWORD_ACTION_KEEP, &err);
-> +    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> +                                    DISPLAY_PROTOCOL_VNC, &err);
->      if (err) {
->          goto out;
->      }
->  
-> -    qmp_set_password(proto, password, !!connected, conn, &err);
-> +    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
-> +        opts.u.vnc.has_display = !!display;
-> +        opts.u.vnc.display = (char *)display;
-> +    }
-> +
-> +    qmp_set_password(&opts, &err);
->  
->  out:
->      hmp_handle_error(mon, err);
-> @@ -1423,16 +1432,25 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
->  {
->      const char *protocol  = qdict_get_str(qdict, "protocol");
->      const char *whenstr = qdict_get_str(qdict, "time");
-> +    const char *display = qdict_get_try_str(qdict, "display");
->      Error *err = NULL;
-> -    DisplayProtocol proto;
->  
-> -    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> -                            DISPLAY_PROTOCOL_VNC, &err);
-> +    ExpirePasswordOptions opts = {
-> +        .time = (char *)whenstr,
-> +    };
-> +
-> +    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> +                                    DISPLAY_PROTOCOL_VNC, &err);
->      if (err) {
->          goto out;
->      }
->  
-> -    qmp_expire_password(proto, whenstr, &err);
-> +    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
-> +        opts.u.vnc.has_display = !!display;
-> +        opts.u.vnc.display = (char *)display;
-> +    }
-> +
-> +    qmp_expire_password(&opts, &err);
->  
->  out:
->      hmp_handle_error(mon, err);
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index b6e8b57fcc..df97582dd4 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -168,35 +168,27 @@ void qmp_system_wakeup(Error **errp)
->      qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, errp);
->  }
->  
-> -void qmp_set_password(DisplayProtocol protocol, const char *password,
-> -                      bool has_connected, SetPasswordAction connected,
-> -                      Error **errp)
-> +void qmp_set_password(SetPasswordOptions *opts, Error **errp)
->  {
-> -    int disconnect_if_connected = 0;
-> -    int fail_if_connected = 0;
->      int rc;
->  
-> -    if (has_connected) {
-> -        fail_if_connected = connected == SET_PASSWORD_ACTION_FAIL;
-> -        disconnect_if_connected = connected == SET_PASSWORD_ACTION_DISCONNECT;
-> -    }
-> -
-> -    if (protocol == DISPLAY_PROTOCOL_SPICE) {
-> +    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
->          if (!qemu_using_spice(errp)) {
->              return;
->          }
-> -        rc = qemu_spice.set_passwd(password, fail_if_connected,
-> -                                   disconnect_if_connected);
-> +        rc = qemu_spice.set_passwd(opts->password,
-> +                opts->connected == SET_PASSWORD_ACTION_FAIL,
-> +                opts->connected == SET_PASSWORD_ACTION_DISCONNECT);
->      } else {
-> -        assert(protocol == DISPLAY_PROTOCOL_VNC);
-> -        if (fail_if_connected || disconnect_if_connected) {
-> +        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
-> +        if (opts->connected != SET_PASSWORD_ACTION_KEEP) {
->              /* vnc supports "connected=keep" only */
->              error_setg(errp, QERR_INVALID_PARAMETER, "connected");
->              return;
->          }
->          /* Note that setting an empty password will not disable login through
->           * this interface. */
-> -        rc = vnc_display_password(NULL, password);
-> +        rc = vnc_display_password(opts->u.vnc.display, opts->password);
->      }
->  
->      if (rc != 0) {
-> @@ -204,11 +196,11 @@ void qmp_set_password(DisplayProtocol protocol, const char *password,
->      }
->  }
->  
-> -void qmp_expire_password(DisplayProtocol protocol, const char *whenstr,
-> -                         Error **errp)
-> +void qmp_expire_password(ExpirePasswordOptions *opts, Error **errp)
->  {
->      time_t when;
->      int rc;
-> +    const char *whenstr = opts->time;
->  
->      if (strcmp(whenstr, "now") == 0) {
->          when = 0;
-> @@ -220,14 +212,14 @@ void qmp_expire_password(DisplayProtocol protocol, const char *whenstr,
->          when = strtoull(whenstr, NULL, 10);
->      }
->  
-> -    if (protocol == DISPLAY_PROTOCOL_SPICE) {
-> +    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
->          if (!qemu_using_spice(errp)) {
->              return;
->          }
->          rc = qemu_spice.set_pw_expire(when);
->      } else {
-> -        assert(protocol == DISPLAY_PROTOCOL_VNC);
-> -        rc = vnc_display_pw_expire(NULL, when);
-> +        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
-> +        rc = vnc_display_pw_expire(opts->u.vnc.display, when);
->      }
->  
->      if (rc != 0) {
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index e112409211..4a13f883a3 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -38,20 +38,47 @@
->    'data': [ 'keep', 'fail', 'disconnect' ] }
->  
->  ##
-> -# @set_password:
-> +# @SetPasswordOptions:
->  #
-> -# Sets the password of a remote display session.
-> +# Options for set_password.
->  #
->  # @protocol: - 'vnc' to modify the VNC server password
->  #            - 'spice' to modify the Spice server password
->  #
->  # @password: the new password
->  #
-> -# @connected: how to handle existing clients when changing the
-> -#             password.  If nothing is specified, defaults to 'keep'
-> -#             'fail' to fail the command if clients are connected
-> -#             'disconnect' to disconnect existing clients
-> -#             'keep' to maintain existing clients
-> +# @connected: How to handle existing clients when changing the
-> +#             password. If nothing is specified, defaults to 'keep'.
-> +#             For VNC, only 'keep' is currently implemented.
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +{ 'union': 'SetPasswordOptions',
-> +  'base': { 'protocol': 'DisplayProtocol',
-> +            'password': 'str',
-> +            '*connected': 'SetPasswordAction' },
-> +  'discriminator': 'protocol',
-> +  'data': { 'vnc': 'SetPasswordOptionsVnc' } }
-> +
-> +##
-> +# @SetPasswordOptionsVnc:
-> +#
-> +# Options for set_password specific to the VNC procotol.
-> +#
-> +# @display: The id of the display where the password should be changed.
-> +#           Defaults to the first.
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +{ 'struct': 'SetPasswordOptionsVnc',
-> +  'data': { '*display': 'str' } }
-> +
-> +##
-> +# @set_password:
-> +#
-> +# Set the password of a remote display server.
->  #
->  # Returns: - Nothing on success
->  #          - If Spice is not enabled, DeviceNotFound
-> @@ -65,17 +92,15 @@
->  # <- { "return": {} }
->  #
->  ##
-> -{ 'command': 'set_password',
-> -  'data': { 'protocol': 'DisplayProtocol',
-> -            'password': 'str',
-> -            '*connected': 'SetPasswordAction' } }
-> +{ 'command': 'set_password', 'boxed': true, 'data': 'SetPasswordOptions' }
->  
->  ##
-> -# @expire_password:
-> +# @ExpirePasswordOptions:
->  #
-> -# Expire the password of a remote display server.
-> +# General options for expire_password.
->  #
-> -# @protocol: the name of the remote display protocol 'vnc' or 'spice'
-> +# @protocol: - 'vnc' to modify the VNC server expiration
-> +#            - 'spice' to modify the Spice server expiration
->  #
->  # @time: when to expire the password.
->  #
-> @@ -84,16 +109,45 @@
->  #        - '+INT' where INT is the number of seconds from now (integer)
->  #        - 'INT' where INT is the absolute time in seconds
->  #
-> -# Returns: - Nothing on success
-> -#          - If @protocol is 'spice' and Spice is not active, DeviceNotFound
-> -#
-> -# Since: 0.14
-> -#
->  # Notes: Time is relative to the server and currently there is no way to
->  #        coordinate server time with client time.  It is not recommended to
->  #        use the absolute time version of the @time parameter unless you're
->  #        sure you are on the same machine as the QEMU instance.
->  #
-> +# Since: 7.0
-> +#
-> +##
-> +{ 'union': 'ExpirePasswordOptions',
-> +  'base': { 'protocol': 'DisplayProtocol',
-> +            'time': 'str' },
-> +  'discriminator': 'protocol',
-> +  'data': { 'vnc': 'ExpirePasswordOptionsVnc' } }
-> +
-> +##
-> +# @ExpirePasswordOptionsVnc:
-> +#
-> +# Options for expire_password specific to the VNC procotol.
-> +#
-> +# @display: The id of the display where the expiration should be changed.
-> +#           Defaults to the first.
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +
-> +{ 'struct': 'ExpirePasswordOptionsVnc',
-> +  'data': { '*display': 'str' } }
-> +
-> +##
-> +# @expire_password:
-> +#
-> +# Expire the password of a remote display server.
-> +#
-> +# Returns: - Nothing on success
-> +#          - If @protocol is 'spice' and Spice is not active, DeviceNotFound
-> +#
-> +# Since: 0.14
-> +#
->  # Example:
->  #
->  # -> { "execute": "expire_password", "arguments": { "protocol": "vnc",
-> @@ -101,9 +155,7 @@
->  # <- { "return": {} }
->  #
->  ##
-> -{ 'command': 'expire_password',
-> -  'data': { 'protocol': 'DisplayProtocol',
-> -            'time': 'str' } }
-> +{ 'command': 'expire_password', 'boxed': true, 'data': 'ExpirePasswordOptions' }
->  
->  ##
->  # @screendump:
-> -- 
-> 2.30.2
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Deleting right now so I don't forget anymore.
+
+Thanks!
+
+> Thanks
+>
+> >
+> > Eugenio P=C3=A9rez (14):
+> >   vhost: Add VhostShadowVirtqueue
+> >   vhost: Add Shadow VirtQueue kick forwarding capabilities
+> >   vhost: Add Shadow VirtQueue call forwarding capabilities
+> >   vhost: Add vhost_svq_valid_features to shadow vq
+> >   virtio: Add vhost_shadow_vq_get_vring_addr
+> >   vdpa: adapt vhost_ops callbacks to svq
+> >   vhost: Shadow virtqueue buffers forwarding
+> >   util: Add iova_tree_alloc
+> >   vhost: Add VhostIOVATree
+> >   vdpa: Add custom IOTLB translations to SVQ
+> >   vdpa: Adapt vhost_vdpa_get_vring_base to SVQ
+> >   vdpa: Never set log_base addr if SVQ is enabled
+> >   vdpa: Expose VHOST_F_LOG_ALL on SVQ
+> >   vdpa: Add x-svq to NetdevVhostVDPAOptions
+> >
+> >  qapi/net.json                      |   5 +-
+> >  hw/virtio/vhost-iova-tree.h        |  27 ++
+> >  hw/virtio/vhost-shadow-virtqueue.h |  90 ++++
+> >  include/hw/virtio/vhost-vdpa.h     |   8 +
+> >  include/qemu/iova-tree.h           |  18 +
+> >  hw/virtio/vhost-iova-tree.c        | 155 +++++++
+> >  hw/virtio/vhost-shadow-virtqueue.c | 632 +++++++++++++++++++++++++++++
+> >  hw/virtio/vhost-vdpa.c             | 551 ++++++++++++++++++++++++-
+> >  net/vhost-vdpa.c                   |  48 ++-
+> >  util/iova-tree.c                   | 133 ++++++
+> >  hw/virtio/meson.build              |   2 +-
+> >  11 files changed, 1644 insertions(+), 25 deletions(-)
+> >  create mode 100644 hw/virtio/vhost-iova-tree.h
+> >  create mode 100644 hw/virtio/vhost-shadow-virtqueue.h
+> >  create mode 100644 hw/virtio/vhost-iova-tree.c
+> >  create mode 100644 hw/virtio/vhost-shadow-virtqueue.c
+> >
+> > --
+> > 2.27.0
+> >
+> >
+>
 
 
