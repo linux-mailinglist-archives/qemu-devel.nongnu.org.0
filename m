@@ -2,74 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721724C8DB0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 15:28:50 +0100 (CET)
-Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BDD14C8DCC
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 15:32:53 +0100 (CET)
+Received: from localhost ([::1]:38972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP3Ue-0002q2-1L
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 09:28:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40316)
+	id 1nP3Ya-0000Qz-Ei
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 09:32:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nP3Na-0000W9-Fp
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 09:21:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53914)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1nP3OZ-0002ia-3O
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 09:22:32 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10320
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nP3NX-00075O-Hq
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 09:21:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646144487;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9QgVm+oCHZA9oU7a3UvJSa+DGlQIWb6nrdHnhsz1KTM=;
- b=Mxu12pkaRNAnZLbxIZ7pqdx/XsSKErKYF5SFuKoia+LLV8gonSv3LxVV1uysCxfALIdb4D
- g3vJedM07GDmSBeNdk4lsMz9yn+Ly/9nznEMZKgjN4BWRl7ijGAw5VVC0Q2WeICw1fS523
- InkPd9S8fKLB4nzE7Ks+O8jSxcQZrRw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-RvqFfhtcMeqJUfrk6f5a8Q-1; Tue, 01 Mar 2022 09:21:24 -0500
-X-MC-Unique: RvqFfhtcMeqJUfrk6f5a8Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB43A1854E27;
- Tue,  1 Mar 2022 14:21:22 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 224FD866CC;
- Tue,  1 Mar 2022 14:21:22 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [RFC PATCH 5/5] test-bdrv-drain: ensure draining from main loop stops
- iothreads
-Date: Tue,  1 Mar 2022 09:21:13 -0500
-Message-Id: <20220301142113.163174-6-eesposit@redhat.com>
-In-Reply-To: <20220301142113.163174-1-eesposit@redhat.com>
-References: <20220301142113.163174-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1nP3OX-0007H5-Ca
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 09:22:30 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 221DhB5w007998
+ for <qemu-devel@nongnu.org>; Tue, 1 Mar 2022 14:22:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=JQqW8uaYW4lIPNKfqbp5W5STiI2QNl/9uE69xi/qM6Y=;
+ b=GQ4lXxfJL64B3m85RubQrbxUHdaYz84SAgV9PxntBVDW5+vTbc7iLHnup294yLGuK9Bo
+ zzgFJbj2NHBnwPlC7K1apDZA3salqYvWyAnYtrw9xryLJLAjZ2WCNe6K9hYVfqW1fVjz
+ 7Agmepy6LN2H6YOHFsRi6ikVpon4mJvAg8nS+U2/Svq/OpD0pNZcBPPLsXtoRfvu1JBy
+ DZ6qIAJNPVw1LyCtL4ULGwR8dl1nYkFp5DeqYkX/K1pmyw09877BwWccL8X3hH18YQ/8
+ cou8pBXFrnPKEr1xuHOf3RNjx8iAg2P4DSsh3Nu9sJAmmsdhwqG+bI+A2KXGoc2hH3lB yA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ehmmbh06q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:22:26 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 221DhVSU008496
+ for <qemu-devel@nongnu.org>; Tue, 1 Mar 2022 14:22:26 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ehmmbh060-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Mar 2022 14:22:25 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 221EJYPJ011252;
+ Tue, 1 Mar 2022 14:22:24 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04ams.nl.ibm.com with ESMTP id 3egbj171f7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Mar 2022 14:22:24 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 221EMLTZ48431456
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 1 Mar 2022 14:22:21 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B6BB311C050;
+ Tue,  1 Mar 2022 14:22:21 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D18F711C052;
+ Tue,  1 Mar 2022 14:22:20 +0000 (GMT)
+Received: from linux6.. (unknown [9.114.12.104])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  1 Mar 2022 14:22:20 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] dump: Cleanup and consolidation
+Date: Tue,  1 Mar 2022 14:22:06 +0000
+Message-Id: <20220301142213.28568-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: lLvZiVE9neDMW_s_JbudQLtUZEWBBvQy
+X-Proofpoint-ORIG-GUID: 2Gd7XQEPE2I2reGnb__kJBpEm9VYciaX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-01_07,2022-02-26_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ malwarescore=0 suspectscore=0 priorityscore=1501 mlxlogscore=428
+ impostorscore=0 spamscore=0 bulkscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2203010077
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,266 +108,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add 2 tests: test_main_and_then_iothread_drain ensures that if the
-main thread drains, the iothread cannot drain (and thus read
-the graph). test_main_and_iothread_drain instead lets main loop
-and iothread to drain together, and makes sure that no drain
-happens in parallel.
+The dump/dump.c file has lots of duplicated code for handling 64 and
+32 bit elf files. Additionally there are many instances where code can
+be improved by adding a variable to avoid having to specify the same
+calculation or check over and over.
 
-Note that we are using bdrv_subtree_drained_{begin/end}_unlocked
-to try avoid using the aiocontext lock as much as possible, since
-it will eventually go away.
+This series is the cleanup step onto which my series that adds custom
+section support and finally the series that introduces PV dump support
+are based on.
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- tests/unit/test-bdrv-drain.c | 218 +++++++++++++++++++++++++++++++++++
- 1 file changed, 218 insertions(+)
+Personal comments:
+I'd be happy if someone looks at the error handling.
 
-diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-index 36be84ae55..bf7fdcb568 100644
---- a/tests/unit/test-bdrv-drain.c
-+++ b/tests/unit/test-bdrv-drain.c
-@@ -1534,6 +1534,219 @@ static void test_set_aio_context(void)
-     iothread_join(b);
- }
- 
-+typedef struct ParallelDrainJob {
-+    BlockJob common;
-+    BlockBackend *blk;
-+    BlockDriverState *bs;
-+    IOThread *a;
-+    bool should_fail;
-+    bool allowed_to_run;
-+    bool conclude_test;
-+    bool job_started;
-+} ParallelDrainJob;
-+
-+typedef struct BDRVParallelTestState {
-+    ParallelDrainJob *job;
-+} BDRVParallelTestState;
-+
-+static void coroutine_fn bdrv_test_par_co_drain(BlockDriverState *bs)
-+{
-+    BDRVParallelTestState *s = bs->opaque;
-+    ParallelDrainJob *job = s->job;
-+    assert(!qatomic_read(&job->should_fail));
-+}
-+
-+static int parallel_run_test(Job *job, Error **errp)
-+{
-+    ParallelDrainJob *s = container_of(job, ParallelDrainJob, common.job);
-+    s->job_started = true;
-+
-+    while (!s->conclude_test) {
-+        if (s->allowed_to_run) {
-+            bdrv_subtree_drained_begin_unlocked(s->bs);
-+            bdrv_subtree_drained_end_unlocked(s->bs);
-+        }
-+        job_pause_point(&s->common.job);
-+    }
-+    s->job_started = false;
-+
-+    return 0;
-+}
-+
-+static BlockDriver bdrv_test_parallel = {
-+    .format_name            = "test",
-+    .instance_size          = sizeof(BDRVParallelTestState),
-+    .supports_backing       = true,
-+
-+    .bdrv_co_drain_begin    = bdrv_test_par_co_drain,
-+    .bdrv_co_drain_end      = bdrv_test_par_co_drain,
-+
-+    .bdrv_child_perm        = bdrv_default_perms,
-+};
-+
-+static bool parallel_drained_poll(BlockJob *job)
-+{
-+    /* need to return false otherwise a drain in coroutine deadlocks */
-+    return false;
-+}
-+
-+static const BlockJobDriver test_block_job_driver_parallel = {
-+    .job_driver = {
-+        .instance_size = sizeof(ParallelDrainJob),
-+        .run           = parallel_run_test,
-+        .user_resume   = block_job_user_resume,
-+        .free          = block_job_free,
-+    },
-+    .drained_poll      = parallel_drained_poll,
-+};
-+
-+static ParallelDrainJob *setup_job_test(void)
-+{
-+    BlockBackend *blk;
-+    BlockDriverState *bs;
-+    Error *err = NULL;
-+    IOThread *a = iothread_new();
-+    AioContext *ctx_a = iothread_get_aio_context(a);
-+    ParallelDrainJob *s;
-+    BDRVParallelTestState *p;
-+    int ret;
-+
-+    blk = blk_new(qemu_get_aio_context(),
-+                         BLK_PERM_CONSISTENT_READ, BLK_PERM_ALL);
-+    blk_set_allow_aio_context_change(blk, true);
-+
-+    bs = bdrv_new_open_driver(&bdrv_test_parallel, "parent", 0,
-+                                     &error_abort);
-+    p = bs->opaque;
-+
-+    ret = blk_insert_bs(blk, bs, &error_abort);
-+    assert(ret == 0);
-+
-+    s = block_job_create("job1", &test_block_job_driver_parallel,
-+                         NULL, blk_bs(blk), 0, BLK_PERM_ALL, 0, JOB_DEFAULT,
-+                         NULL, NULL, &err);
-+    s->bs = bs;
-+    s->a = a;
-+    s->blk = blk;
-+    p->job = s;
-+
-+    ret = bdrv_try_set_aio_context(bs, ctx_a, &error_abort);
-+    assert(ret == 0);
-+    assert(blk_get_aio_context(blk) == ctx_a);
-+    assert(s->common.job.aio_context == ctx_a);
-+
-+    return s;
-+}
-+
-+static void stop_and_tear_down_test(ParallelDrainJob *s)
-+{
-+    AioContext *ctx = iothread_get_aio_context(s->a);
-+
-+    /* stop iothread */
-+    s->conclude_test = true;
-+
-+    /* wait that it's stopped */
-+    while (s->job_started) {
-+        aio_poll(qemu_get_current_aio_context(), false);
-+    }
-+
-+    aio_context_acquire(ctx);
-+    bdrv_unref(s->bs);
-+    blk_unref(s->blk);
-+    aio_context_release(ctx);
-+    iothread_join(s->a);
-+}
-+
-+/**
-+ * test_main_and_then_iothread_drain: test that if the main
-+ * loop drains, iothread cannot possibly drain.
-+ *
-+ * In this test, make sure that the main loop has firstly
-+ * drained, and then allow the iothread to try and drain.
-+ *
-+ * Therefore, if the main loop drains, there is no way that
-+ * the graph can be read or written by the iothread.
-+ */
-+static void test_main_and_then_iothread_drain(void)
-+{
-+    ParallelDrainJob *s = setup_job_test();
-+
-+    s->allowed_to_run = false;
-+    job_start(&s->common.job);
-+
-+    /*
-+     * Wait that the iothread starts, even though it just
-+     * loops without doing anything (allowed_to_run is false)
-+     */
-+    while (!s->job_started) {
-+        aio_poll(qemu_get_current_aio_context(), false);
-+    }
-+
-+    /*
-+     * Drain in the main loop and ensure that no drain
-+     * is performed by the iothread.
-+     */
-+    bdrv_subtree_drained_begin_unlocked(s->bs);
-+    /* iothread should be put */
-+    qatomic_set(&s->should_fail, true);
-+    /* let the iothread do drains */
-+    s->allowed_to_run = true;
-+
-+    /* [perform graph modifications here], as iothread is stopped */
-+    sleep(3);
-+
-+    /* done with modifications, let the iothread drain once it resumes */
-+    qatomic_set(&s->should_fail, false);
-+
-+    /* drained_end should resume the iothread */
-+    bdrv_subtree_drained_end_unlocked(s->bs);
-+
-+    stop_and_tear_down_test(s);
-+}
-+
-+/**
-+ * test_main_and_iothread_drain: test that if the main
-+ * loop drains, iothread cannot possibly drain.
-+ *
-+ * In this test, simply let iothread and main loop concurrenly
-+ * loop and drain together, making sure that iothread never
-+ * reads the graph while main loop is draining.
-+ *
-+ * Therefore, if the main loop drains, there is no way that
-+ * the graph can be read or written by the iothread.
-+ */
-+static void test_main_and_iothread_drain(void)
-+{
-+    ParallelDrainJob *s = setup_job_test();
-+    int i;
-+
-+    /* let the iothread do drains from beginning */
-+    s->allowed_to_run = true;
-+    job_start(&s->common.job);
-+
-+    /* wait that the iothread starts and begins with drains. */
-+    while (!s->job_started) {
-+        aio_poll(qemu_get_current_aio_context(), false);
-+    }
-+
-+    /* at the same time, also main loop performs drains */
-+    for (i = 0; i < 1000; i++) {
-+        bdrv_subtree_drained_begin_unlocked(s->bs);
-+        /* iothread should be put, regardless of when it drained */
-+        qatomic_set(&s->should_fail, true);
-+
-+        /* [perform graph modifications here] */
-+
-+        /* done with modifications, let the iothread drain once it resumes */
-+        qatomic_set(&s->should_fail, false);
-+
-+        /* drained_end should resume the iothread */
-+        bdrv_subtree_drained_end_unlocked(s->bs);
-+    }
-+
-+    stop_and_tear_down_test(s);
-+}
-+
- 
- typedef struct TestDropBackingBlockJob {
-     BlockJob common;
-@@ -2185,6 +2398,11 @@ int main(int argc, char **argv)
-     g_test_add_func("/bdrv-drain/iothread/drain_subtree",
-                     test_iothread_drain_subtree);
- 
-+    g_test_add_func("/bdrv-drain/iothread/drain_main_and_then_iothread",
-+                    test_main_and_then_iothread_drain);
-+    g_test_add_func("/bdrv-drain/iothread/drain_parallel",
-+                    test_main_and_iothread_drain);
-+
-     g_test_add_func("/bdrv-drain/blockjob/drain_all", test_blockjob_drain_all);
-     g_test_add_func("/bdrv-drain/blockjob/drain", test_blockjob_drain);
-     g_test_add_func("/bdrv-drain/blockjob/drain_subtree",
+It's taken me quite a while to understand how the code works and I
+expect that this patch might improve that but it won't fix every
+issue. Going forward it might make sense to split kdump and elf dump
+code into separate files and also cleanup the kdump code.
+
+Janosch Frank (7):
+  dump: Introduce shdr_num to decrease complexity
+  dump: Remove the sh_info variable
+  dump: Add more offset variables
+  dump: Introduce dump_is_64bit() helper function
+  dump: Consolidate phdr note writes
+  dump: Cleanup dump_begin write functions
+  dump: Consolidate elf note function
+
+ dump/dump.c           | 256 +++++++++++++++++++-----------------------
+ include/sysemu/dump.h |  15 ++-
+ 2 files changed, 125 insertions(+), 146 deletions(-)
+
 -- 
-2.31.1
+2.32.0
 
 
