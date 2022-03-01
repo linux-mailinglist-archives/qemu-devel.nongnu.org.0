@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31944C8F7C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 16:56:31 +0100 (CET)
-Received: from localhost ([::1]:49892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850644C8F94
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 17:01:57 +0100 (CET)
+Received: from localhost ([::1]:54672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP4rW-0003vx-8U
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 10:56:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45438)
+	id 1nP4wm-0007Lt-Kl
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 11:01:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nP4qb-0003CC-SX
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 10:55:33 -0500
-Received: from [2607:f8b0:4864:20::1134] (port=38884
- helo=mail-yw1-x1134.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nP4uB-00061E-P2
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 10:59:15 -0500
+Received: from [2607:f8b0:4864:20::62f] (port=33681
+ helo=mail-pl1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nP4qZ-0005jw-Qt
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 10:55:33 -0500
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-2dbc48104beso47142507b3.5
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 07:55:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nP4uA-0006Cq-66
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 10:59:15 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id c9so13828883pll.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 07:59:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sK8z3p5NLyUEcuP5zD6vAWKLpnRyv4z/75RUuT3pFWg=;
- b=h8pTU3OZ0KW9tPiDOph9FtdxBt75xmKoSvva8lhGpCOGAamZt777+UA3ewLA+ndI7T
- 1aFvfv4hgBQouOp3EcGpD/h4I6by7o+gUYX433N0Jh4xveJfKuxWZUb4wRhjB8F+5pyk
- emhu5qTm3yZjBUe4K7PCG9OtkrNT+zECJ+/D3GuQp7Lcipk3YFSSndBRF3aw9rM8tlRC
- T4ZcVuup56RraeXoiLAqjlSQf1H64piUeQxkLPdefgleM6Zt+xDiagTIqU63Ko8n2O7k
- /hVjF30MCRo69VAmn4zxu7OhQK6snXPoCy9/JhaMONe0dJc486nodllPOZg2N5+Ss/d4
- 0VaQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=pF8fDBchuhFDlb6WqZU1DNnSnzpChrDmx4dAZAP6tJQ=;
+ b=W/vKp5F48XIAziPZjlmeQgfWUmCZZAMG63h0dX2FxTCkZSwPHoxbXXixAWXWaV0j+n
+ fb0PH8mmf5kpAKE1KD2TgdrD0v1Y9i8gJB1nJb0rCVKOLav94pNcEprjN0d8Q7b7Su8K
+ OtuC/j6nFAhmiyNWjoN0rHgxi3/5hD+0XTrNg+iqTzUo2bi/+6LiTh0Gc9+mFX0f67R3
+ qiu/Yg9koR1t/jZXFloPJUznhbM4gEffsx7W/IfYlE4phZYt0+lN9C4wLZ6fHM1Z5ZOC
+ MK8yY/DQQTUs6LepbHfP+xT2y8UpI6kMNGehrlMe/qjvZSP7NFB11Iv8ajOSF6+SSOW/
+ bggA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sK8z3p5NLyUEcuP5zD6vAWKLpnRyv4z/75RUuT3pFWg=;
- b=q/AXW1VaiydH16GnWq2/KhFIb1aLfafve08053ixu9bcdfvmpFwTOEgSSIjy27PzPn
- Yux1ifWvGtNtN41OAsjoIDzCN5io7clOuB4KGAqiQXP3qeJw+XqL0FCKTfOHuT9v3GWx
- qytYO6eLjkMBy3XwK6j5QFBqpkaCYxfvi1dcg9QNH8Oj5adWiE7hfeR8jB5RKFFYiV9E
- EHsQCXefwyWHomRvtha1yW8tJvfb8rYVVMbmE8h+FA2g1v6N7R3sy6mYJlUsSiRq7ZYO
- oMEpphti2XLDy53biqTu57wK8a5q3sO/EUkP52/U45Wzt9dVd87TRt7FN60Bz1S8oGNC
- XRcA==
-X-Gm-Message-State: AOAM5303PHJsRULLEBTGqaDd7EJB/ys5CCt9hinaA5fKLTmDmNcrqkGA
- 7KZSN4xSxcmBBtkmtEkspZSDpzcG40kIqVGyqUFEIg==
-X-Google-Smtp-Source: ABdhPJxMCWS7Y9DJbSqZlmVNGOo5DcnrA7+PIkdZvIulIpUaX4kQq6smMfbkjC1wbZmqyr9zqDUXZHQLud3z8ROHd8c=
-X-Received: by 2002:a0d:d5c8:0:b0:2d5:e0a:56c0 with SMTP id
- x191-20020a0dd5c8000000b002d50e0a56c0mr25482310ywd.10.1646150128732; Tue, 01
- Mar 2022 07:55:28 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pF8fDBchuhFDlb6WqZU1DNnSnzpChrDmx4dAZAP6tJQ=;
+ b=0nAZ4qPXMdfOkDnVQZqhb5uTBtq344UJHNcy7IdX5B3y+TvsP+LMVijcq4ngMTGgP/
+ QxVnlk/LcQITNIRDqvQ3mR3LlTBvfU151fedalSIi4gANtXXS0hIDHKKHPNFsrkbm7gL
+ rQ83SdWgAM7o9E1roHWp94Yx/OMQCliTvRDR7/n/BxFCfVgBbsYEQGGN1mGPquwj9aUc
+ 11utH8vRi2MsvDCbKTwAvS+LywcDh17wgyv39PECKUUWkGZq3VVpBNXTMSc3JNQHibLK
+ f6B8ppWivlVgUjBga8nWpPO13B+TYi6x1eTMC9x3Wq5KEXwpzPxecoRPuE/hfmcMvz7p
+ 7RBQ==
+X-Gm-Message-State: AOAM5316F2bAuoM9sD/r8LGRrWqX3bXtTVYufIFz8GwMycuFPxb1T+cH
+ f0zYACZasedQ5QQXE/e73FbyHA==
+X-Google-Smtp-Source: ABdhPJx+1jpwUJ7npLq47DNDqiS7ITaihLLQXdrvTmr2ZyJdd54SmggueOu9ghyMi3pv6quy7J7cOQ==
+X-Received: by 2002:a17:90a:2e0a:b0:1be:d5a0:cc5a with SMTP id
+ q10-20020a17090a2e0a00b001bed5a0cc5amr4886543pjd.120.1646150352515; 
+ Tue, 01 Mar 2022 07:59:12 -0800 (PST)
+Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
+ [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
+ h33-20020a631221000000b00374982ad51fsm13668515pgl.59.2022.03.01.07.59.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Mar 2022 07:59:12 -0800 (PST)
+Message-ID: <8b6ff05f-7246-940e-be90-44ede1a6a3ba@linaro.org>
+Date: Tue, 1 Mar 2022 05:59:07 -1000
 MIME-Version: 1.0
-References: <20220228132936.1411176-1-thuth@redhat.com>
-In-Reply-To: <20220228132936.1411176-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Mar 2022 15:55:17 +0000
-Message-ID: <CAFEAcA-6D22k6_sJFOO-Cvx5aPiK_fwEMq=Pch89cQeKN2zPLw@mail.gmail.com>
-Subject: Re: [PULL 0/6] s390x patches
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1134
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v7 12/14] target/riscv: rvk: add CSR support for Zkr
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220228144810.7284-1-liweiwei@iscas.ac.cn>
+ <20220228144810.7284-13-liweiwei@iscas.ac.cn>
+ <0879f52c-165b-75f2-82e1-761013816f03@linaro.org>
+ <72840ca4-9dde-e496-da85-75547f37a096@iscas.ac.cn>
+ <07c003f8-b34b-0da0-2298-ff3be5fd7655@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <07c003f8-b34b-0da0-2298-ff3be5fd7655@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -82,38 +98,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
+ lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Feb 2022 at 13:29, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi!
->
-> The following changes since commit fa435db8ce1dff3b15e3f59a12f55f7b3a347b08:
->
->   Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-request' into staging (2022-02-24 12:48:14 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/thuth/qemu.git tags/pull-request-2022-02-28
->
-> for you to fetch changes up to e2c3fb069994858fea9aca9a4e64fa5afd34021a:
->
->   tests/tcg/s390x: Tests for Miscellaneous-Instruction-Extensions Facility 3 (2022-02-28 11:29:15 +0100)
->
-> ----------------------------------------------------------------
-> * Fix emulation of the SET CLOCK instruction
-> * Fix the s390x avocado test with Fedora
-> * Update the s390x Travis jobs to Focal (instead of Bionic)
-> * Implement the z15 Misc Instruction Extension 3 Facility
->
+On 2/28/22 16:27, Weiwei Li wrote:
+> 
+> 在 2022/3/1 上午9:44, Weiwei Li 写道:
+>>
+>> 在 2022/3/1 上午4:11, Richard Henderson 写道:
+>>> On 2/28/22 04:48, Weiwei Li wrote:
+>>>> +/* Crypto Extension */
+>>>> +static RISCVException rmw_seed(CPURISCVState *env, int csrno,
+>>>> +                              target_ulong *ret_value,
+>>>> +                              target_ulong new_value, target_ulong write_mask)
+>>>> +{
+>>>> +    if (!write_mask) {
+>>>> +        return RISCV_EXCP_ILLEGAL_INST;
+>>>> +    }
+>>>
+>>> This is incorrect.  The error should only be with a write-mask of the actual x0 
+>>> register, not another register which happens to contain 0.  There is in fact no way to 
+>>> diagnose exactly what you want here, which IIRC has an existing fixme comment somewhere.
+>> Yeah. write_mask is also used in riscv_csrrw_check to check whether the read-only csr is 
+>> written. We cannot distinguish x0 and reg which contains 0  here without changing total 
+>> progress of csr read/write.
+>>>
+> I seems misunderstand the code for csr read/write:  write_mask will be set zero only for 
+> read-only operation (CSRRS/CSRRC with rs1=x0 or CSRRSI/CSRRCI with uimm=0) via do_csrr --> 
+> helper_csrr -> riscv_csrrw call-chain.
+> 
+> The write_mask for do_csrw and do_csrrw will not be zero.
+> 
+> As said in the spec :
+> 
+> "TheseedCSR must be accessed with a read-write instruction. A read-only instruction such 
+> asCSRRS/CSRRC
+> withrs1=x0orCSRRSI/CSRRCIwithuimm=0will raise an illegal instruction exception. "
+> 
+> So it's suitable to check write_mask here.
+
+Consider CSRRS with rs1=x31.  In that case mask will be the value in x31.  Even if the 
+value is 0, this is still considered a read-write instruction.
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
--- PMM
+r~
 
