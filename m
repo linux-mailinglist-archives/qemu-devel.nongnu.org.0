@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A308C4C94C6
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 20:46:53 +0100 (CET)
-Received: from localhost ([::1]:34388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D5F4C954E
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 20:59:27 +0100 (CET)
+Received: from localhost ([::1]:51668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP8SS-0005tO-MX
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 14:46:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49944)
+	id 1nP8eb-0001Rb-CW
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 14:59:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nP8PE-00038r-Vw
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:43:33 -0500
-Received: from [2607:f8b0:4864:20::b31] (port=38686
- helo=mail-yb1-xb31.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nP8PD-0001Yd-D2
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:43:32 -0500
-Received: by mail-yb1-xb31.google.com with SMTP id u3so29365578ybh.5
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 11:43:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QY+1iTTgDHIvzQq2DN6TOBzuFUXRQPNYzvKTrnY7F3Y=;
- b=VcrdhZ0eUpCYDwWHA4grOLHfmTfO96B0xf3+7ithV0/qgkuTH82Gc2gD3yBCPhASKs
- yahuR6QYf2wZu+1VW2Eh2jzlED35JNNeTVFJI3yFvwyYrXML4mbTe3Glofnhi4OB24Cs
- Ul9j+gMgVwSWECT01V0BvKx+QnzDUQP5OpPTUMRgTd4HCST3O4bYTIhQFou8Rgy1Km3C
- saBHCYs0hRDV8c2HsgZspzpbUGnyyULkfSGtfJkvrkHjopAZwS6DG/sOqqBx1pzNWqax
- 4iVeLj5n3GyXQi+0DEcEcTzmQ4YqqVESOpds5sVXycb+0jPbKokad6UBpSdXuomogwhn
- Ux2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QY+1iTTgDHIvzQq2DN6TOBzuFUXRQPNYzvKTrnY7F3Y=;
- b=nKRLXlX8AdeNxWpXJ5ra/Zj1atY/veVuARoFv2Fbj48nS1FtcxmpVAEZrIuS6eFclS
- Z7xOMJTAdrceZjYHA1zYp4NQOiBsSfLt9GhwqdX9pxR2/OaxDvwd78DbZz/jL5hlRdId
- /kDdu9RXC2NdT53mZV8zqeLK0gofU8hDRCl2Xu/jmANAhis5p44IxKFl5PngaqaXObaM
- rgsnwpRIx2XG90L7f3XxQfvTVXzwJYqt08mYZSP8doI8R9+RKGvR0xIpTXZUv9A5wZzi
- 9HkYP+/X+57zFIFOGATA9HDCknDuBJQK8CVkqB4lo9FE0Vpodi34n5hSiVQoloCoQQxN
- PcSA==
-X-Gm-Message-State: AOAM533Sz5zNFMmzZWTrxnp+mnnG1BjD3Y5Xehm5RuY/5K03Z3UQmji1
- JOVI5wMGms+fZV6Fx2tE2+QsR1bWA/+5X+6ZoZCwhg==
-X-Google-Smtp-Source: ABdhPJwWLnK450EqZYLR06taVJYapcrF7vtUFLV5tf5Wbrre9Iym0wg0T/klfxezNQ5BI6HS1eGnYcRzXgPRyJOs4dY=
-X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
- q16-20020a5b0350000000b0062886b86e09mr2943902ybp.39.1646163810231; Tue, 01
- Mar 2022 11:43:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nP8a7-0006zK-NE
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:54:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59196)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nP8a3-0006Us-JO
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:54:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646164480;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bZcWr8XihpBFMzPBxFKduDnAtqN5CRTrJOWdeIqiSiw=;
+ b=h97rfK04kdFhjKhNFXvRDP+VlAiGKv1K6xIks+E1rrcD/8HkYlAMYEZs7DHC5TWk3UIjxm
+ e4Xjp8n7rPEA6BvLXuPQT9BCqund6tfusBZfpkyeYlBcvV91jvXl0Jj4YzV9+SRqdvw9i8
+ ZqKv0I3CJtUEPof3tHcfBmp6IY5V9iU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-386-aMUNscayOhqCqEiDKfCamQ-1; Tue, 01 Mar 2022 14:54:39 -0500
+X-MC-Unique: aMUNscayOhqCqEiDKfCamQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E59391854E26;
+ Tue,  1 Mar 2022 19:54:38 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.39.192.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E76C60CC9;
+ Tue,  1 Mar 2022 19:54:37 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, thuth@redhat.com, kraxel@redhat.com,
+ berrange@redhat.com, eduardo@habkost.net, libvir-list@redhat.com
+Subject: [PATCH] deprecation: x86 default machine types
+Date: Tue,  1 Mar 2022 19:54:32 +0000
+Message-Id: <20220301195432.114252-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20220228180918.38188-1-richard.henderson@linaro.org>
-In-Reply-To: <20220228180918.38188-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Mar 2022 19:43:19 +0000
-Message-ID: <CAFEAcA_vAEwKTvY3Q4WwoH0PYvK_XbSi1yAzG4M_Bs7seFpxww@mail.gmail.com>
-Subject: Re: [PULL 0/3] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b31
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,37 +78,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Feb 2022 at 18:09, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The following changes since commit 00483d386901173e84c7965f9f0d678791a75e01:
->
->   Merge remote-tracking branch 'remotes/shorne/tags/or1k-pull-request' into staging (2022-02-28 11:27:16 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20220228
->
-> for you to fetch changes up to 2ccf40f00e3f29d85d4ff48a9a98870059002290:
->
->   tcg/tci: Use tcg_out_ldst in tcg_out_st (2022-02-28 08:04:10 -1000)
->
-> ----------------------------------------------------------------
-> Fix typecode generation for tcg helpers
-> Fix single stepping into interrupt handlers
-> Fix out-of-range offsets for stores in TCI
->
-> ----------------------------------------------------------------
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
+Declare the intent to require a machine type to be specified on x86
+system emulation.
 
-Applied, thanks.
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ docs/about/deprecated.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 85773db631..143c60d105 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -324,6 +324,14 @@ machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
+ been implemented), so there is not much value added by this board. Use the
+ ``ref405ep`` machine instead.
+ 
++x86 default machine type
++''''''''''''''''''''''''
++
++x86 currently defaults to the ```pc``` machine type which is based on the very
++old ```i440fx``` chipset.  This default will be removed and the user will be
++required to specify a machine type explicitly using -M; users are encouraged to
++switch to the not quite as old ```q35``` machine types.
++
+ Backend options
+ ---------------
+ 
+-- 
+2.35.1
 
--- PMM
 
